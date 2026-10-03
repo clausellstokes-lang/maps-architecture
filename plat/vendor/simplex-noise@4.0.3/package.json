@@ -1,0 +1,43 @@
+{
+  "name": "simplex-noise",
+  "version": "4.0.3",
+  "description": "simplex-noise is a fast simplex noise implementation in Javascript. Works in node and in the browser.",
+  "homepage": "https://github.com/jwagner/simplex-noise.js",
+  "author": "Jonas Wagner <jonas@29a.ch> (http://29a.ch/)",
+  "main": "dist/cjs/simplex-noise.js",
+  "module": "dist/esm/simplex-noise.js",
+  "types": "./dist/esm/simplex-noise.d.ts",
+  "exports": {
+    "require": "./dist/cjs/simplex-noise.js",
+    "import": "./dist/esm/simplex-noise.js"
+  },
+  "sideEffects": false,
+  "files": [
+    "dist/esm/package.json",
+    "dist/esm/simplex-noise.js",
+    "dist/esm/simplex-noise.js.map",
+    "dist/esm/simplex-noise.d.ts",
+    "dist/cjs/simplex-noise.js",
+    "dist/cjs/simplex-noise.js.map",
+    "dist/cjs/simplex-noise.d.ts",
+    "simplex-noise.ts"
+  ],
+  "bugs": {
+    "url": "https://github.com/jwagner/simplex-noise.js/issues"
+  },
+  "keywords": [
+    "noise",
+    "random",
+    "simplex",
+    "plasma",
+    "procedural",
+    "generation",
+    "gfx",
+    "generative"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jwagner/simplex-noise.js.git"
+  }
+}

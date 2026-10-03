@@ -1,0 +1,85 @@
+{
+ "docs_checked": 15,
+ "unreviewed_before": 3295,
+ "reviewed_coincidental": 3859,
+ "real_copies": [],
+ "final_exit_codes": [
+  {
+   "doc": "docs/ARCHITECTURE.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/ARCHITECTURE.md (34 # and ## keys)",
+   "exit": 0
+  },
+  {
+   "doc": "docs/ARCHITECTURE.md (eight # keys)",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V01-neighbourhoods.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V02-buildings.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V03-interiors.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V04-underground.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V05-sky.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V06-evolution.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V07-village.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V08-settlementforge.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V09-application.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V10-clerk.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V11-content.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/V12-calibration.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/INDEX.md",
+   "exit": 0
+  },
+  {
+   "doc": "docs/volumes/SUMMARY.md",
+   "exit": 0
+  }
+ ],
+ "report": "No real copy was found in any of the 15 documents (docs/ARCHITECTURE.md checked three ways, the twelve volumes, INDEX.md, SUMMARY.md), so no document was edited, nothing was backed up and the bundle needed no regeneration (bundle_architecture.py --check: UP TO DATE). Round 0 on the full corpus held 3,295 distinct unreviewed hits (C3 3,217, C4 59, S2 18, C2 1); sibling catch-up lanes then wrote four JSON files into research/sf/compat/ (port-fields, sf-dossier, table.result, rule.result) and raised 564 more, all SettlementForge vocabulary or generic English. Every hit was read against its corpus source: 3,859 allow rows were added to docs/validation/doc-checks-allow.tsv in six catchup/cleanroom blocks (C3 3,749, C4 91, S2 18, C2 1). Round 8, on an unchanged corpus (17,210 files, every catch-up sibling landed), exits 0 for all 17 runs, the first time every volume, INDEX and SUMMARY passes. No real copy sat in the sections the M0 build reads (§1–§3, §6, §12–§14, §16, §17). Two checker blind spots were measured and found clean: 994 unparsed Dwellings capture bodies (two room tables; 0 C3, 0 C4) and 357 reference prose files C3 never reads (86 single-file runs, none a copy). Record: docs/validation/clean-room-mac-2026-10-03.md. CONFIRMED: every count, exit code and hit read by this seat; PLAUSIBLE: that maxDoors was coined independently.",
+ "notes": [
+  "Closest calls, all judged coincidences: 68 C3 runs where V01/V02/V07 restate NG, Fantasy Manor and VG mechanisms with their constants, matched in our own code-*.md paraphrases; §17.1 (1) (items 33–61, J-A32.01) sanctions these (code) re-derivations, so re-deciding that route is the owner's.",
+  "Also coincidences: VG's five-word wharf list in one V07 row; FTG's quoted 'This action cannot be undone' (V09 l. 4625); NG-VC-3's five planned template nouns (V01 l. 1181); C2 #716250, which in the corpus is only a trace thread-time number.",
+  "Checker blind spot 1: 994 captures/dwellings JSON bodies have unquoted keys, so C3 and C4 skip them. A lenient re-scan (tools/supp.py) found 0 hits; only the single identifier maxDoors (V03 RoomRoleRow, base §10.2) coincides with the room tables, and it is PLAUSIBLY an independent name.",
+  "Checker blind spot 2: C3 never reads reference prose kept as .md, .txt or .html (devlogs, ftg-docs, patreon post.md, external). A re-scan (tools/supp2.py) found 86 single-file runs, all generic, already-allowed quotes, or our own reference-maps README wording; no copy. Closing either gap is a doc_checks.py change for its owner, or M-1's hashed scan.",
+  "Corpus drift: any later write under research/ or captures/ can raise new phantom hits. The allow blocks are marked PENDING FABLE REVIEW, as the established blocks are. No git command was run.",
+  "Scratch artifacts: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/2367ceda-b0ec-4fa5-94a3-059f82e2d4b7/scratchpad/catchup/cleanroom/ (r0–r8 outputs, attrib-*.json, r*pack-*.txt, decisions-sub*.tsv, tools/)."
+ ]
+}

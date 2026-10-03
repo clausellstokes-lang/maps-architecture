@@ -1,0 +1,24 @@
+{
+  "name": "@plat/site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "S1: terrain, hydrology, rivers, water faces (§4.2, §14)",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@plat/kernel": "workspace:*",
+    "@plat/model": "workspace:*",
+    "@plat/tables": "workspace:*"
+  }
+}

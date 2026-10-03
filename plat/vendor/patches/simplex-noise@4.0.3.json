@@ -1,0 +1,12 @@
+{
+  "library": "simplex-noise@4.0.3",
+  "choice": "C-0011",
+  "reason": "The determinism allowlist (§6.5 (3)) forbids Math.random; the createNoise2D/3D/4D defaults `random = Math.random` are removed, so a call without our seeded source throws, and the declarations make `random` required so the type checker refuses such a call.",
+  "edits": [
+    { "file": "dist/esm/simplex-noise.js", "find": "random = Math.random", "replace": "random", "count": 3 },
+    { "file": "dist/cjs/simplex-noise.js", "find": "random = Math.random", "replace": "random", "count": 3 },
+    { "file": "simplex-noise.ts", "find": "random: RandomFn = Math.random", "replace": "random: RandomFn", "count": 3 },
+    { "file": "dist/esm/simplex-noise.d.ts", "find": "random?: RandomFn", "replace": "random: RandomFn", "count": 3 },
+    { "file": "dist/cjs/simplex-noise.d.ts", "find": "random?: RandomFn", "replace": "random: RandomFn", "count": 3 }
+  ]
+}

@@ -1,0 +1,32 @@
+{
+  "name": "@plat/testkit",
+  "version": "0.0.0",
+  "private": true,
+  "description": "test kit: fuzz generators, the constructive set, oracles, invariant runners, metrics and the parity CLI, cross-host and determinism harnesses (§13, §14); never shipped",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "@plat/kernel": "workspace:*",
+    "@plat/layout": "workspace:*",
+    "@plat/model": "workspace:*",
+    "@plat/site": "workspace:*",
+    "@plat/tables": "workspace:*"
+  },
+  "devDependencies": {
+    "clipper2-wasm": "0.4.0",
+    "fast-check": "4.10.2",
+    "playwright-core": "1.60.0",
+    "polygon-clipping": "0.15.7"
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "name": "@plat/kernel",
+  "version": "0.0.0",
+  "private": true,
+  "description": "the geometry kernel: lattice, exact predicates, the arena, transactions, booleans, skeleton, dmath, rng, hashing (§3, §14)",
+  "license": "UNLICENSED",
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "plat-source": "./src/index.ts",
+      "types": "./dist/types/src/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "delaunator": "workspace:5.1.0",
+    "flatbush": "workspace:4.6.2",
+    "robust-predicates": "workspace:3.0.3",
+    "simplex-noise": "workspace:4.0.3"
+  }
+}

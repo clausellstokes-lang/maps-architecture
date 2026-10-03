@@ -1,0 +1,5301 @@
+{
+ "lane": "catchup/sf-dossier",
+ "written": "2026-10-03",
+ "status": "PENDING FABLE REVIEW (Opus-produced)",
+ "settlementforge": {
+  "checkout": "/Users/cstokes/Desktop/settlement-engine (read with git show / ls-tree / diff / archive only; no git status; working tree never read)",
+  "commit": "00b648c9df136cd0e4e861f996e56cbadad7ab6b",
+  "commitDate": "2026-10-02 19:14:39 -0400",
+  "commitSubject": "Merge pull request #59 (fp/batch-7-2026-10-02), origin/master",
+  "pinnedCommit": "5d699cc683a9748a15ea738d40e40c5e2bc61a70",
+  "pinnedDate": "2026-09-24 16:33:15 -0400",
+  "integrationTip": "d8fea989854f767b167d7dca4bfc45748480b4d5",
+  "ancestry": "CONFIRMED: 5d699cc68 and d8fea9898 are ancestors of 00b648c9d (git merge-base --is-ancestor); 154 commits between the pin and 00b648c9d; 92 src files changed (+6097 -4346); 20 of the commits touch the generators or the catalog"
+ },
+ "method": [
+  "Producer files extracted with git archive 00b648c9d into scratch; every one of the 81 cited files hash-equals its 00b648c9d blob (git hash-object vs git rev-parse 00b648c9d:<path>): CONFIRMED.",
+  "Whole-tree searches streamed git archive 00b648c9d src through a tar reader (no file written).",
+  "Diff: git diff 5d699cc68 00b648c9d -- <80 dossier-source files> (scratch diff-dossier.patch, 347 KB), scanned for added/removed object keys per file, then read by hand.",
+  "Catalog: both institutionalCatalog.js versions parsed textually (no SettlementForge code executed); the pinned parse reproduces Fable's verified 280 kinds and 19/37/59/85/90/26 tier rows.",
+  "No SettlementForge script or module was executed; no dossier was generated in this lane. Shape claims rest on the producers' source; presence/frequency claims cite the earlier executed lanes (research/sf/dossier-outputs.md, at 5d699cc68) where the producer did not change."
+ ],
+ "producer": {
+  "entry": "src/generators/generateSettlementPipeline.js:77 generateSettlementPipeline(config, importedNeighbour, {seed, customContent, contentProvenance, …})",
+  "steps": "resolveConfig, buildGenerationContext, resolveResources, resolveStress, resolveNeighbour, assembleInstitutions, subsumptionPass, cascadePass, isolationPass, stressConfirmPass, generateEconomy, generatePower, powerEconomyReconcilePass, neighbourFactions, factionCorrelationPass, economyReconcilePass, structuralValidationPass, generatePopulation, corruptionPass, coherenceRepairPass, generateNarratives, assembleSettlement (src/generators/steps/index.js)",
+  "assembly": "src/generators/steps/assembleSettlement.js:124-181 builds the flat object; :217-219 prose and defence; :282-287 generateCoherence; :301-307 structural NPCs; :314 receipt; :329 trace; :355 normalizeSettlement -> promoteStressorsToConditions -> reapplyEventConditions",
+  "postAssembly": "generateSettlementPipeline.js:146 _seed, :153 customContentProvenance (conditional), :190 customContentRoster (conditional)",
+  "normalize": "src/domain/normalizeSettlement.js:162-220 (stamps simulationVersion, generatorVersion, id; resolves FIELD_ALIASES; defaults activeConditions, simulationTrace, aiOverlays, userCanon; migrateSettlementToLatest)"
+ },
+ "schema": {
+  "file": "src/domain/settlement.schema.js (1850 lines; unchanged between the two commits)",
+  "SCHEMA_VERSION": 1,
+  "SIMULATION_VERSION": 1,
+  "GENERATOR_VERSION": "0.9.0",
+  "migrations": "src/domain/settlementMigrations.js: one entry 0 -> 1 (stamp only); a newer schemaVersion passes through unchanged with a warning",
+  "aliases": "FIELD_ALIASES {stressors: [stress, stresses]} (settlement.schema.js:56-65); economicState exports/imports aliases resolved at read time (canonicalAccessors.js)",
+  "recordRegister": "src/domain/edit/recordRegister.js: RECORD_CLASSES, GENERATED_KEYS (the 41), SAVED_ONLY_KEYS (7), KEYED_COLLECTIONS (per-collection identity keys) — SettlementForge's own measured register; the only change between the commits is generationCoherenceReceipt.repairs joining KEY_UNPROVEN_AT_LENGTH_ONE",
+  "fieldManifest": "src/domain/fieldManifest.js (frozen-vs-live rows; unchanged between the commits)"
+ },
+ "serializer": {
+  "cloud": "src/lib/saves.js:558 supabaseSave -> row.data = the whole settlement object (:594), neighbour_links = settlement.neighbourNetwork (:598); withNeighbourNetworkFromRelationship (:357) runs first; on read migrateSaveToV2 (:314) + normalizeSettlement (:388)",
+  "local": "src/lib/saves.js: localStorage key 'dnd_settlement_saves' holds the array of save envelopes (JSON.stringify)",
+  "envelope": "{id (save UUID), name, tier, timestamp, savedAt, settlement, config, toggles, seed, aiData, campaignState{phase, eventLog, systemState, locks, generatedAt, editedAt, canonizedAt, lastExportAt, narrativeDrift, exportState}, versionHistory, gallery/access fields} (saves.js:395-438)"
+ },
+ "exportPaths": [
+  {
+   "path": "account export",
+   "source": "src/lib/accountData.js:548 buildAccountExport / :609 downloadAccountExport",
+   "what": "save envelopes with the whole dossier minus dmLayer and decrees (accountData.js:191-196, also inside versionHistory and parked campaign snapshots)"
+  },
+  {
+   "path": "world export",
+   "source": "src/lib/worldExport.js:112 buildWorldExport (format 'settlementforge-world' v1)",
+   "what": "per member {id (save id first, else dossier id), name, tier, dossier: toPublicSafe(dossier, {full: variant==='dm'})}; not wired to an in-app control (consumed by the offline Foundry/MCP packages)"
+  },
+  {
+   "path": "public / gallery projection",
+   "source": "src/domain/display/publicSafe.js:253 toPublicSafe",
+   "what": "root allowlist PUBLIC_TOPLEVEL_KEYS (:52-60, 38 keys: drops _seed, _config, simulationTrace, aiOverlays, userCanon, generationCoherenceReceipt, culturalIdentity, culturalNotes, isolationSupport and every lived key not listed; keeps stress and stressors); deep denylist PRIVATE_KEY_RE (:110: secret, dm, hook, seed, _config, decrees, …); NPC allowlist (:122)"
+  }
+ ],
+ "requiredKeys": [
+  "_config",
+  "_seed",
+  "activeConditions",
+  "aiOverlays",
+  "arrivalScene",
+  "availableServices",
+  "coherenceNotes",
+  "config",
+  "conflicts",
+  "culturalIdentity",
+  "culturalNotes",
+  "defenseProfile",
+  "economicState",
+  "economicViability",
+  "factions",
+  "generationCoherenceReceipt",
+  "generatorVersion",
+  "history",
+  "id",
+  "institutions",
+  "isolationSupport",
+  "name",
+  "neighborRelationship",
+  "npcs",
+  "population",
+  "powerStructure",
+  "pressureSentence",
+  "prominentRelationship",
+  "relationships",
+  "resourceAnalysis",
+  "schemaVersion",
+  "settlementReason",
+  "simulationTrace",
+  "simulationVersion",
+  "spatialLayout",
+  "stress",
+  "stressors",
+  "structuralSuggestions",
+  "structuralViolations",
+  "tier",
+  "userCanon"
+ ],
+ "requiredKeysNote": "The 41 root keys every generated, normalized dossier carries (SettlementForge's own GENERATED_KEYS, recordRegister.js:52-60, each unconditional in the producer chain: CONFIRMED by reading). Values may be null/[]/{} (neighborRelationship null, stress null, coherenceNotes [], aiOverlays [], userCanon {}).",
+ "conditionalKeys": [
+  "customContentProvenance",
+  "customContentRoster"
+ ],
+ "savedOnlyKeys": [
+  "neighbourNetwork",
+  "interSettlementRelationships",
+  "crossSettlementConflicts (no writer)",
+  "populationHistory",
+  "dmLayer",
+  "decrees",
+  "peaceOffers",
+  "mapEdits (component-stamped {layoutLawVersion: 2})",
+  "_regenSeed"
+ ],
+ "livedKeys": [
+  "populationHistory",
+  "tierHistory",
+  "institutionHistory",
+  "resourceHistory",
+  "calamityHistory",
+  "urbanFabric",
+  "npcLadder",
+  "traditions",
+  "thievesGuildStrength",
+  "lifecycleStatus",
+  "lifecycleHistory",
+  "status/destroyedAt/destroyedByEventId/destroyedCause",
+  "parentRef",
+  "config.peakTier",
+  "config.eventConditions",
+  "config.primaryDeitySnapshot",
+  "config.cultDeitySnapshots",
+  "economicState.treasury",
+  "economicState.foodSecurity.stockpile",
+  "powerStructure.previousGovernments",
+  "powerStructure.factions[].controlledInstitutions/suppressedInstitutions/updatedByPulse/…",
+  "institutions[].id/status/impairments/foundedAt/worldPulseFate/…",
+  "npcs[].timesExposed/ousted/replacedNpc/whereabouts"
+ ],
+ "identityKeys": [
+  {
+   "record": "settlement",
+   "key": "id",
+   "form": "'s_' + 16 hex = FNV-1a mix of _seed (normalizeSettlement.js:63-79, :191)",
+   "stable": "reload, edits, same-seed regeneration; a new seed is a new id"
+  },
+  {
+   "record": "settlement (host storage)",
+   "key": "save envelope id (UUID)",
+   "form": "saves.js newSaveId :115",
+   "stable": "the realm/campaign/worldState key; worldExport memberKey prefers it (worldExport.js:76-81)"
+  },
+  {
+   "record": "settlement seed",
+   "key": "_seed",
+   "form": "string",
+   "stable": "WORLD class; secret on public projections"
+  },
+  {
+   "record": "institution",
+   "key": "name",
+   "form": "catalog row name",
+   "stable": "SettlementForge's join key (KEYED_COLLECTIONS institutions:'name'); renames via the governed cascade institutionRename.js"
+  },
+  {
+   "record": "institution kind",
+   "key": "catalogId",
+   "form": "slug of the name (institutionalCatalog.js:1788-1829)",
+   "stable": "a KIND key; unchanged for every pinned name"
+  },
+  {
+   "record": "custom institution",
+   "key": "localUid / customDefinitionId",
+   "form": "registry uid / exact definition identity",
+   "stable": "rename-proof"
+  },
+  {
+   "record": "institution (pulse/event minted)",
+   "key": "id",
+   "form": "'institution.<stablePart(name)>'",
+   "stable": "once minted"
+  },
+  {
+   "record": "npc",
+   "key": "id",
+   "form": "'npc_<n>' | 'npc.<faction>_<role>_<i>' | 'npc.successor_<n>'",
+   "stable": "reload and edits; not an NPC reroll or regeneration"
+  },
+  {
+   "record": "power faction",
+   "key": "faction",
+   "form": "name; optional authored id honoured",
+   "stable": "name-keyed; governed rename cascade factionRename.js"
+  },
+  {
+   "record": "social faction",
+   "key": "name",
+   "form": "group name",
+   "stable": "name only"
+  },
+  {
+   "record": "relationship",
+   "key": "(npc1Id, npc2Id, type)",
+   "form": "KEYED_COLLECTIONS",
+   "stable": "with the NPC ids"
+  },
+  {
+   "record": "conflict",
+   "key": "(parties, issue)",
+   "form": "KEYED_COLLECTIONS",
+   "stable": ""
+  },
+  {
+   "record": "active condition",
+   "key": "id",
+   "form": "'condition.<archetype>.<suffix>' (SF merges by archetype)",
+   "stable": "once stored"
+  },
+  {
+   "record": "supply chain",
+   "key": "needKey + chainId",
+   "form": "catalog keys (SF keyed merge uses label)",
+   "stable": "while the chain exists"
+  },
+  {
+   "record": "quarter",
+   "key": "name",
+   "form": "14 fixed names",
+   "stable": ""
+  },
+  {
+   "record": "service",
+   "key": "name within its bucket",
+   "form": "",
+   "stable": ""
+  },
+  {
+   "record": "historical event",
+   "key": "name; campaign-era campaignEventId",
+   "form": "'campaign.<id>.<resolvedAt|tick>'",
+   "stable": ""
+  },
+  {
+   "record": "resource condition / resource chain",
+   "key": "key / chainKey",
+   "form": "catalog keys",
+   "stable": ""
+  },
+  {
+   "record": "neighbour link",
+   "key": "neighbourNetwork[].id",
+   "form": "'generated_<name>' | 'link_*' | 'live_*'",
+   "stable": "once persisted"
+  },
+  {
+   "record": "trade link",
+   "key": "(direction, good, partner, goodId)",
+   "form": "dedupe key generateEconomy.js:254-262",
+   "stable": ""
+  },
+  {
+   "record": "receipt check / judgment / repair",
+   "key": "id / id / (type, subject, action)",
+   "form": "KEYED_COLLECTIONS",
+   "stable": ""
+  }
+ ],
+ "rows": [
+  {
+   "path": "name",
+   "type": "string",
+   "required": "required",
+   "domain": "culture-flavoured name; config.customName wins; a held name under Edit Mode pins",
+   "source": "src/generators/steps/assembleSettlement.js:125",
+   "layer": "generation",
+   "note": "identity by display only; renames go through the governed rename cascades"
+  },
+  {
+   "path": "tier",
+   "type": "string",
+   "required": "required",
+   "domain": "thorp|hamlet|village|town|city|metropolis (schema Tier typedef also lists capital, never emitted)",
+   "source": "src/generators/steps/assembleSettlement.js:126",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js:204); moves only by tierOutcomeApply"
+  },
+  {
+   "path": "population",
+   "type": "integer",
+   "required": "required",
+   "domain": "thorp 8-60, hamlet 61-400, village 401-900, town 901-5000, city 5001-25000, metropolis 25001-100000 (data/constants.js)",
+   "source": "src/generators/steps/assembleSettlement.js:127",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js:195)"
+  },
+  {
+   "path": "institutions",
+   "type": "array<Institution>",
+   "required": "required",
+   "domain": "7-65 records; see institutions[] rows",
+   "source": "src/generators/steps/assembleSettlement.js:128",
+   "layer": "generation",
+   "note": "keyed by name (KEYED_COLLECTIONS institutions:\"name\", recordRegister.js)"
+  },
+  {
+   "path": "structuralViolations",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "usually []; {type, reason, ...} rows from structuralValidator",
+   "source": "src/generators/steps/assembleSettlement.js:129",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js:252)"
+  },
+  {
+   "path": "structuralSuggestions",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "usually []",
+   "source": "src/generators/steps/assembleSettlement.js:130",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js:264)"
+  },
+  {
+   "path": "neighborRelationship",
+   "type": "object|null",
+   "required": "required",
+   "domain": "null unless generated against an imported neighbour",
+   "source": "src/generators/steps/assembleSettlement.js:131",
+   "layer": "generation",
+   "note": "key always present; value null at most births"
+  },
+  {
+   "path": "economicState",
+   "type": "object",
+   "required": "required",
+   "domain": "19 keys (+ optional custom/neighbour keys)",
+   "source": "src/generators/steps/assembleSettlement.js:138",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout",
+   "type": "object",
+   "required": "required",
+   "domain": "{layout, quarters[], tradeAccess}",
+   "source": "src/generators/steps/assembleSettlement.js:139",
+   "layer": "generation",
+   "note": "never rewritten by the world pulse"
+  },
+  {
+   "path": "availableServices",
+   "type": "object<bucket, array<Service>>",
+   "required": "required",
+   "domain": "11 buckets",
+   "source": "src/generators/steps/assembleSettlement.js:140",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure",
+   "type": "object",
+   "required": "required",
+   "domain": "10-11 keys incl. the dual-written conflicts",
+   "source": "src/generators/steps/assembleSettlement.js:145",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "settlementReason",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "prose lines",
+   "source": "src/generators/steps/assembleSettlement.js:146",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs",
+   "type": "array<NPC>",
+   "required": "required",
+   "domain": "2-22 notables",
+   "source": "src/generators/steps/assembleSettlement.js:147",
+   "layer": "generation",
+   "note": "replaced by generateCoherence (narrativeGenerator.js:1003) and appended by ensureFactionStructuralNpcs (assembleSettlement.js:302)"
+  },
+  {
+   "path": "relationships",
+   "type": "array<Relationship>",
+   "required": "required",
+   "domain": "NPC-NPC pairs",
+   "source": "src/generators/steps/assembleSettlement.js:148",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions",
+   "type": "array<SocialFaction>",
+   "required": "required",
+   "domain": "NPC social groups (NOT the power factions)",
+   "source": "src/generators/steps/assembleSettlement.js:149",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts",
+   "type": "array<Conflict>",
+   "required": "required",
+   "domain": "0-2 at birth",
+   "source": "src/generators/steps/assembleSettlement.js:150",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis",
+   "type": "object",
+   "required": "required",
+   "domain": "13 keys",
+   "source": "src/generators/steps/assembleSettlement.js:151",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability",
+   "type": "object",
+   "required": "required",
+   "domain": "8 keys",
+   "source": "src/generators/steps/assembleSettlement.js:152",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js:240)"
+  },
+  {
+   "path": "history",
+   "type": "object",
+   "required": "required",
+   "domain": "age, founding, historicalEvents, currentTensions, historicalCharacter, eventsTimeline, siegeNarrative (+legacyAnnotations, ancientRuin)",
+   "source": "src/generators/steps/assembleSettlement.js:153",
+   "layer": "generation",
+   "note": "rewritten by generateCoherence (narrativeGenerator.js:1011)"
+  },
+  {
+   "path": "isolationSupport",
+   "type": "object",
+   "required": "required",
+   "domain": "IsolationSupportReceipt v1; status connected for non-isolated",
+   "source": "src/generators/steps/assembleSettlement.js:154",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity",
+   "type": "object",
+   "required": "required",
+   "domain": "CulturalIdentity (11 profile keys + mixed)",
+   "source": "src/generators/steps/assembleSettlement.js:159",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalNotes",
+   "type": "string",
+   "required": "required",
+   "domain": "prose projection of culturalIdentity",
+   "source": "src/generators/steps/assembleSettlement.js:160",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "stress",
+   "type": "null|object|array<Stressor>",
+   "required": "required",
+   "domain": "null (no stressor), one object, or an array — three shapes",
+   "source": "src/generators/steps/assembleSettlement.js:166",
+   "layer": "generation",
+   "note": "same object reference as stressors"
+  },
+  {
+   "path": "stressors",
+   "type": "null|object|array<Stressor>",
+   "required": "required",
+   "domain": "alias of stress (FIELD_ALIASES stressors:[stress,stresses], settlement.schema.js:62)",
+   "source": "src/generators/steps/assembleSettlement.js:167",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config",
+   "type": "object",
+   "required": "required",
+   "domain": "RESOLVED generation config (~30 keys); open bag: raw config keys pass through",
+   "source": "src/generators/steps/assembleSettlement.js:174",
+   "layer": "generation",
+   "note": "never a generation input; _config is"
+  },
+  {
+   "path": "_config",
+   "type": "object",
+   "required": "required",
+   "domain": "RAW user config with sentinels (random, random_culture …)",
+   "source": "src/generators/steps/assembleSettlement.js:180",
+   "layer": "generation",
+   "note": "the regeneration input; SECRET on public projections (publicSafe.js:110)"
+  },
+  {
+   "path": "pressureSentence",
+   "type": "string",
+   "required": "required",
+   "domain": "one prose sentence",
+   "source": "src/generators/steps/assembleSettlement.js:217",
+   "layer": "generation",
+   "note": "drawn on child stream \"pressure-sentence\" since 2026-10-02",
+   "delta": "rng-substream (values move for a same seed)"
+  },
+  {
+   "path": "arrivalScene",
+   "type": "string",
+   "required": "required",
+   "domain": "prose scene",
+   "source": "src/generators/steps/assembleSettlement.js:218",
+   "layer": "generation",
+   "note": "drawn on child stream \"arrival-scene\"; producer rebuilt (narrative/arrivalScene.js + data/arrivalProse.js)",
+   "delta": "rng-substream + new prose pools (values move)"
+  },
+  {
+   "path": "defenseProfile",
+   "type": "object",
+   "required": "required",
+   "domain": "scores, readiness, institutions, magicDependency, traditions, chainModifiers, economicGates",
+   "source": "src/generators/steps/assembleSettlement.js:219",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "prominentRelationship",
+   "type": "object|null",
+   "required": "required",
+   "domain": "{npc1, npc2, type, phrasing, full, tension} or null",
+   "source": "src/generators/narrativeGenerator.js:1009",
+   "layer": "generation",
+   "note": "key always written by generateCoherence; null on many seeds"
+  },
+  {
+   "path": "coherenceNotes",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "usually []",
+   "source": "src/generators/narrativeGenerator.js:1010",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js:276)"
+  },
+  {
+   "path": "generationCoherenceReceipt",
+   "type": "object",
+   "required": "required",
+   "domain": "GenerationCoherenceReceipt v1",
+   "source": "src/generators/steps/assembleSettlement.js:314",
+   "layer": "generation",
+   "note": "carries the generation seed in .seed"
+  },
+  {
+   "path": "simulationTrace",
+   "type": "array<TraceEntry>",
+   "required": "required",
+   "domain": "19-118 entries; ~23% of the bytes",
+   "source": "src/generators/steps/assembleSettlement.js:329",
+   "layer": "generation",
+   "note": "written when non-empty; normalize defaults [] (normalizeSettlement.js:210)"
+  },
+  {
+   "path": "_seed",
+   "type": "string",
+   "required": "required",
+   "domain": "the generation seed (options.seed | config._seed | generateSeed())",
+   "source": "src/generators/generateSettlementPipeline.js:146",
+   "layer": "generation",
+   "note": "IDENTITY input; also stamped at assembleSettlement.js:338; SECRET on public projections"
+  },
+  {
+   "path": "simulationVersion",
+   "type": "integer",
+   "required": "required",
+   "domain": "1 (SIMULATION_VERSION, settlement.schema.js:48)",
+   "source": "src/domain/normalizeSettlement.js:186",
+   "layer": "generation",
+   "note": "stamped only when absent"
+  },
+  {
+   "path": "generatorVersion",
+   "type": "string",
+   "required": "required",
+   "domain": "'0.9.0' (GENERATOR_VERSION, settlement.schema.js:49)",
+   "source": "src/domain/normalizeSettlement.js:187",
+   "layer": "generation",
+   "note": "stamped only when absent; did not move between the two commits"
+  },
+  {
+   "path": "id",
+   "type": "string",
+   "required": "required",
+   "domain": "'s_' + 16 hex: FNV-1a of _seed (idFromSeed, normalizeSettlement.js:63-79); content hash when no seed",
+   "source": "src/domain/normalizeSettlement.js:191",
+   "layer": "generation",
+   "note": "IDENTITY KEY; stable across reload and same-seed regeneration; stamped only when absent"
+  },
+  {
+   "path": "activeConditions",
+   "type": "array<ActiveCondition>",
+   "required": "required",
+   "domain": "[] unless a crisis stressor or an authored event condition",
+   "source": "src/domain/normalizeSettlement.js:209",
+   "layer": "generation",
+   "note": "then promoteStressorsToConditions / reapplyEventConditions (assembleSettlement.js:355)"
+  },
+  {
+   "path": "aiOverlays",
+   "type": "array",
+   "required": "required",
+   "domain": "[] at birth",
+   "source": "src/domain/normalizeSettlement.js:211",
+   "layer": "generation",
+   "note": "AUTHORED class"
+  },
+  {
+   "path": "userCanon",
+   "type": "object",
+   "required": "required",
+   "domain": "{} at birth",
+   "source": "src/domain/normalizeSettlement.js:212",
+   "layer": "generation",
+   "note": "AUTHORED class"
+  },
+  {
+   "path": "schemaVersion",
+   "type": "integer",
+   "required": "required",
+   "domain": "1 (SCHEMA_VERSION, settlement.schema.js:47); migration chain 0->1 only",
+   "source": "src/domain/settlementMigrations.js:54",
+   "layer": "generation",
+   "note": "a save with schemaVersion > 1 passes through unchanged with a warning (settlementMigrations.js:101-108)"
+  },
+  {
+   "path": "customContentProvenance",
+   "type": "object",
+   "required": "conditional",
+   "domain": "present only when the run had a reviewed content environment, a binding hash or a materialized custom definition",
+   "source": "src/generators/generateSettlementPipeline.js:153",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentProvenance.schemaVersion",
+   "type": "integer",
+   "required": "required",
+   "domain": "1",
+   "source": "src/domain/content/settlementContentProvenance.js:383",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentProvenance.scope",
+   "type": "string",
+   "required": "required",
+   "domain": "campaign|standalone",
+   "source": "src/domain/content/settlementContentProvenance.js:384",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentProvenance.environment",
+   "type": "object|null",
+   "required": "required",
+   "domain": "{environmentId, environmentRevisionId, environmentHash, source}",
+   "source": "src/domain/content/settlementContentProvenance.js:385",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentProvenance.bindingHash",
+   "type": "string|null",
+   "required": "required",
+   "domain": "sha256 hex or null",
+   "source": "src/domain/content/settlementContentProvenance.js:386",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentProvenance.materializedDefinitions[]",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{category, definitionId, revisionId, contentHash, localUid, name, ..., surfaces[]}",
+   "source": "src/domain/content/settlementContentProvenance.js:336",
+   "layer": "generation",
+   "note": "definition identity only; the definition body is NOT carried"
+  },
+  {
+   "path": "customContentProvenance.receiptHash",
+   "type": "string",
+   "required": "required",
+   "domain": "fingerprint of the core",
+   "source": "src/domain/content/settlementContentProvenance.js:392",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentRoster",
+   "type": "object",
+   "required": "conditional",
+   "domain": "present only when config._livingContentLawVersion is 2 AND the run held a living-content definition",
+   "source": "src/generators/generateSettlementPipeline.js:190",
+   "layer": "generation",
+   "note": "recording, not adoption (generateSettlementPipeline.js:173-175)"
+  },
+  {
+   "path": "customContentRoster.schemaVersion",
+   "type": "integer",
+   "required": "required",
+   "domain": "1 (livingContentRoster.js:138)",
+   "source": "src/domain/content/livingContentRoster.js:267",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "customContentRoster.buckets",
+   "type": "object<bucket, array<row>>",
+   "required": "required",
+   "domain": "buckets only from deities, factions, stressors, traditions (livingContentLaw.js:151-156); row = {source custom, isCustom, customDefinitionCategory, localUid?, customDefinition* identity, + the category's declared fields}",
+   "source": "src/domain/content/livingContentRoster.js:268",
+   "layer": "generation",
+   "note": "NO institutions/services/resources/supply-chain buckets: a custom institution's definition fields are not on the dossier"
+  },
+  {
+   "path": "populationHistory",
+   "type": "array<object>",
+   "required": "saved/lived",
+   "domain": "last 12 entries {tick, delta, population, reason, outcomeId}",
+   "source": "src/domain/worldPulse/populationDynamics.js:599",
+   "layer": "lived",
+   "note": "SAVED_ONLY (recordRegister.js:62); tick = outcome.generatedAtTick||outcome.tick||null; reason = outcome headline (prose reworded 2026-10-02)",
+   "delta": "value: reason prose changed (herald voice)"
+  },
+  {
+   "path": "populationHistory[].tick",
+   "type": "integer|null",
+   "required": "required",
+   "domain": "world tick (week)",
+   "source": "src/domain/worldPulse/populationDynamics.js:602",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "populationHistory[].delta",
+   "type": "integer",
+   "required": "required",
+   "domain": "signed people",
+   "source": "src/domain/worldPulse/populationDynamics.js:603",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "populationHistory[].population",
+   "type": "integer",
+   "required": "required",
+   "domain": "population after",
+   "source": "src/domain/worldPulse/populationDynamics.js:604",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "populationHistory[].reason",
+   "type": "string",
+   "required": "required",
+   "domain": "outcome headline or candidateType",
+   "source": "src/domain/worldPulse/populationDynamics.js:605",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "populationHistory[].outcomeId",
+   "type": "string",
+   "required": "required",
+   "domain": "pulse outcome id",
+   "source": "src/domain/worldPulse/populationDynamics.js:606",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "tierHistory",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "last 12 {fromTier, toTier, direction, outcomeId, institutionFates[]} — NO tick",
+   "source": "src/domain/worldPulse/tierOutcomeApply.js:379",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutionHistory",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "last 24 {name, category, fate (built|reopened|closed …), tier, outcomeId, reason, + {year, tick} founding stamp when stamped}",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:972",
+   "layer": "lived",
+   "note": "appendInstitutionHistory institutionLifecycle.js:912-917"
+  },
+  {
+   "path": "resourceHistory",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "depletion/discovery entries with tick and state",
+   "source": "src/domain/worldPulse/tierResourceDynamics.js:732",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "calamityHistory",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "last 8 {type, name, year, tick, deaths, exodus, k, targets[], flavorText?}",
+   "source": "src/domain/worldPulse/calamityKernel.js:501",
+   "layer": "lived",
+   "note": "stamp literal calamityKernel.js:491-497; realistic_regional (disastersEnabled)"
+  },
+  {
+   "path": "urbanFabric",
+   "type": "object",
+   "required": "lived",
+   "domain": "{drift, stocks{districtClass:0-1}, scars[{kind,severity,week}], rebirths[{classes,type,week}]}",
+   "source": "src/domain/worldPulse/urbanFabricKernel.js:779",
+   "layer": "lived",
+   "note": "SF's own map memory; urbanFabricEnabled"
+  },
+  {
+   "path": "npcLadder",
+   "type": "object",
+   "required": "lived",
+   "domain": "faction rung ladder",
+   "source": "src/domain/worldPulse/npcLadderKernel.js:1016",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "traditions",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "festivals {id, name, type, window, staging, deity, ...}",
+   "source": "src/domain/worldPulse/traditionsKernel.js:843",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "thievesGuildStrength",
+   "type": "number",
+   "required": "lived",
+   "domain": "0-1",
+   "source": "src/domain/worldPulse/thievesGuild.js:108",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "lifecycleStatus",
+   "type": "string",
+   "required": "lived",
+   "domain": "settlement lifecycle (first-class lifecycle kernel)",
+   "source": "src/domain/worldPulse/settlementLifecycleFirstClass.js:642",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "lifecycleHistory",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "lifecycle transitions",
+   "source": "src/domain/worldPulse/settlementLifecycleFirstClass.js:653",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "status",
+   "type": "string",
+   "required": "lived",
+   "domain": "'destroyed' after DESTROY_SETTLEMENT",
+   "source": "src/domain/events/mutateEntities.js:69",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "destroyedAt",
+   "type": "string",
+   "required": "lived",
+   "domain": "event time (ISO)",
+   "source": "src/domain/events/mutateEntities.js:70",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "destroyedByEventId",
+   "type": "string",
+   "required": "lived",
+   "domain": "event uuid",
+   "source": "src/domain/events/mutateEntities.js:71",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "destroyedCause",
+   "type": "string|null",
+   "required": "lived",
+   "domain": "event target or payload cause",
+   "source": "src/domain/events/mutateEntities.js:72",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "parentRef",
+   "type": "object",
+   "required": "lived",
+   "domain": "SettlementParentRef v1 {parentId, sourceSatelliteId, birthId, liveEdgeId, foundedTick, graduatedTick, foundingTier, graduationTier, graduationPopulation, provenance, site?, resources?, provisioningRecord?, conveyed?}",
+   "source": "src/domain/settlementParentRef.js:88",
+   "layer": "lived",
+   "note": "typedef settlement.schema.js:196-220; members founded from a satellite"
+  },
+  {
+   "path": "neighbourNetwork",
+   "type": "array<object>",
+   "required": "saved",
+   "domain": "{id generated_*|link_*|live_*, name, neighbourName, neighbourTier, tier, relationshipType, description, fromGeneration, updatedByPulse?}",
+   "source": "src/lib/saves.js:365",
+   "layer": "save",
+   "note": "SAVED_ONLY; derived from neighborRelationship at save (withNeighbourNetworkFromRelationship saves.js:357); relationshipType LIVE (fieldManifest.js:172); pulse stamp applyWorldPulseRelationshipGraph.js:220"
+  },
+  {
+   "path": "interSettlementRelationships",
+   "type": "array<object>",
+   "required": "saved",
+   "domain": "reciprocal neighbour back-link records",
+   "source": "src/domain/relationships/neighbourBackLink.js:144",
+   "layer": "save",
+   "note": "SAVED_ONLY"
+  },
+  {
+   "path": "crossSettlementConflicts",
+   "type": "array",
+   "required": "saved",
+   "domain": "declared; NOT_YET_WRITTEN_KEYS (recordRegister.js:131)",
+   "source": "src/domain/edit/recordRegister.js:36",
+   "layer": "save",
+   "note": "no writer at 00b648c9d"
+  },
+  {
+   "path": "peaceOffers",
+   "type": "object",
+   "required": "saved",
+   "domain": "standing peace offers keyed by counterparty (EM-E4)",
+   "source": "src/domain/edit/recordRegister.js:40",
+   "layer": "save",
+   "note": "writers peaceTermsDrafting.js withPeaceOffer/withoutPeaceOffer"
+  },
+  {
+   "path": "dmLayer",
+   "type": "object",
+   "required": "editor",
+   "domain": "the DM's Edit-Mode layer",
+   "source": "src/store/editSlice.js:302",
+   "layer": "editor",
+   "note": "dropped from account export (accountData.js:191-196) and denied on every public projection (\\bdm token)"
+  },
+  {
+   "path": "decrees",
+   "type": "object",
+   "required": "editor",
+   "domain": "the decree registry",
+   "source": "src/domain/worldPulse/decreeHook.js:409",
+   "layer": "editor",
+   "note": "dropped from account export; denied on public projections (decrees token)"
+  },
+  {
+   "path": "_regenSeed",
+   "type": "string",
+   "required": "lived",
+   "domain": "seed of the LAST section reroll (NPC or history)",
+   "source": "src/generators/generateSettlementPipeline.js:613",
+   "layer": "save",
+   "note": "folded onto the root by the store; also :713"
+  },
+  {
+   "path": "mapEdits",
+   "type": "object",
+   "required": "saved",
+   "domain": "{layoutLawVersion: 2} stamped on every new save (+ legacy cosmetic keys on old saves)",
+   "source": "src/store/operationRegistry.js:326",
+   "layer": "save",
+   "note": "written by components at save (SaveToLibraryButton); ignored by the port"
+  },
+  {
+   "path": "institutions[].name",
+   "type": "string",
+   "required": "required",
+   "domain": "catalog row name (281 distinct at 00b648c9d) or custom name",
+   "source": "src/generators/steps/assembleInstitutions.js:503",
+   "layer": "generation",
+   "note": "IDENTITY KEY (KEYED_COLLECTIONS institutions:\"name\"); count ranges live in the name, e.g. \"Housing (180-1000 structures)\"",
+   "delta": "value domain: catalog rebuilt (281 kinds, 518 tier rows)"
+  },
+  {
+   "path": "institutions[].category",
+   "type": "string",
+   "required": "required",
+   "domain": "Economy|Crafts|Religious|Government|Infrastructure|Defense|Magic|Adventuring|Criminal|Entertainment|Exotic (SHELF_ORDER, institutionalCatalog.js:46); custom: free text",
+   "source": "src/generators/steps/assembleInstitutions.js:503",
+   "layer": "generation",
+   "note": "",
+   "delta": "value: 44 kinds changed shelf (category)"
+  },
+  {
+   "path": "institutions[].required",
+   "type": "boolean",
+   "required": "required",
+   "domain": "true for the tier core",
+   "source": "src/data/institutionalCatalog.js:1663",
+   "layer": "generation",
+   "note": "always written by deriveRow (institutionalCatalog.js:1665); cascade forces false (cascadeGenerator.js:211)",
+   "delta": "now always derived; per-tier required sets changed"
+  },
+  {
+   "path": "institutions[].baseChance",
+   "type": "number",
+   "required": "required",
+   "domain": "0-1; defaults 1 if required else 0",
+   "source": "src/data/institutionalCatalog.js:1664",
+   "layer": "generation",
+   "note": "always written by deriveRow (institutionalCatalog.js:1666)"
+  },
+  {
+   "path": "institutions[].desc",
+   "type": "string",
+   "required": "required",
+   "domain": "catalog text",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": "catalog rows: every row carries desc"
+  },
+  {
+   "path": "institutions[].tags",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "canonical tag vocabulary (data/entityTags.js)",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].priorityCategory",
+   "type": "string",
+   "required": "conditional",
+   "domain": "government|economy|military|religion|magic|criminal|infrastructure|…",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": "druid institutions re-stamped by coherenceRepairPass.js:519-525 (druidicFaithRole)",
+   "delta": "value: druidic rows may change priorityCategory"
+  },
+  {
+   "path": "institutions[].exclusiveGroup",
+   "type": "string",
+   "required": "conditional",
+   "domain": "e.g. government",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].exclusiveGroupCoexists",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].tradeRouteRequired",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "access keys",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].terrainAccess",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "terrain keys",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].terrainRequired",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "terrain keys",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].forbiddenTradeRoutes",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "access keys",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].forbiddenResources",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "deposit keys, e.g. marshlands, fertile_floodplain",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].exclusionConditions",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "institution names",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].magicLicense",
+   "type": "string",
+   "required": "conditional",
+   "domain": "e.g. high",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].serviceKeys",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "info_calibration|info_query|info_feed|info_plant|…",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].facets",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{clandestine?: \"clandestine\", subterranean?: \"subterranean\"}",
+   "source": "src/data/institutionalCatalog.js:52",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].minTier",
+   "type": "string",
+   "required": "removed",
+   "domain": "was on 10 pinned rows (city/village rows gated to a higher tier)",
+   "source": "src/data/institutionalCatalog.js:58",
+   "layer": "generation",
+   "note": "no catalog row declares it at 00b648c9d (ENTRY_KEYS institutionalCatalog.js:52-59); the guards minPopulation/requiresAny live in the registry and never ride onto a record (:1676-1683)",
+   "delta": "REMOVED from institution records"
+  },
+  {
+   "path": "institutions[].source",
+   "type": "string",
+   "required": "required",
+   "domain": "required|generated|forced|nearbyResources|cascade|faction_boost|coherence_repair|custom (+ authored/event values later)",
+   "source": "src/generators/steps/assembleInstitutions.js:503",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].catalogId",
+   "type": "string",
+   "required": "conditional",
+   "domain": "slug of the name (catalogIdForName, institutionalCatalog.js:1826); absent on custom and DM-added records",
+   "source": "src/generators/steps/assembleInstitutions.js:849",
+   "layer": "generation",
+   "note": "KIND KEY, not an instance key; unchanged for the 280 pinned names"
+  },
+  {
+   "path": "institutions[].forcedByToggle",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true on toggle-forced rows",
+   "source": "src/generators/steps/assembleInstitutions.js:656",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].outOfTier",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true on a forced row from another tier",
+   "source": "src/generators/steps/assembleInstitutions.js:659",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].nativeTier",
+   "type": "string",
+   "required": "conditional",
+   "domain": "tier key; on forced rows (assembleInstitutions.js:598, :660) and coherence-repair rows",
+   "source": "src/generators/steps/assembleInstitutions.js:660",
+   "layer": "generation",
+   "note": "coherence repairs of hard violations now draw only own-tier rows (coherenceRepairPass.js:60-80)",
+   "delta": "value: hard-violation repairs own-tier only"
+  },
+  {
+   "path": "institutions[].forcedByIsolation",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true on the isolated-settlement magic infrastructure",
+   "source": "src/generators/isolationGenerator.js:84",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].cascadeAdded",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true",
+   "source": "src/generators/cascadeGenerator.js:212",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].cascadeBoost",
+   "type": "number",
+   "required": "conditional",
+   "domain": "cascade weight",
+   "source": "src/generators/cascadeGenerator.js:212",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].tier",
+   "type": "string",
+   "required": "conditional",
+   "domain": "on faction-boost rows",
+   "source": "src/generators/factionCorrelation.js:219",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].factionSource",
+   "type": "string",
+   "required": "conditional",
+   "domain": "power faction name that pulled the row",
+   "source": "src/generators/factionCorrelation.js:221",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].coherenceRepair",
+   "type": "string",
+   "required": "conditional",
+   "domain": "repair requirement type (e.g. hard_dependency)",
+   "source": "src/generators/steps/assembleInstitutions.js:816",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].isCustom",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true on custom rows",
+   "source": "src/generators/steps/assembleInstitutions.js:707",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].description",
+   "type": "string",
+   "required": "conditional",
+   "domain": "custom row text",
+   "source": "src/generators/steps/assembleInstitutions.js:712",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].localUid",
+   "type": "string",
+   "required": "conditional",
+   "domain": "custom registry uid",
+   "source": "src/generators/steps/assembleInstitutions.js:713",
+   "layer": "generation",
+   "note": "IDENTITY KEY for custom rows"
+  },
+  {
+   "path": "institutions[].customDefinitionCategory",
+   "type": "string",
+   "required": "conditional",
+   "domain": "'institutions'",
+   "source": "src/generators/steps/assembleInstitutions.js:714",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].customDefinitionId|RevisionId|ContentHash|Version|Fingerprint",
+   "type": "string|number",
+   "required": "conditional",
+   "domain": "exact custom-definition identity (customDefinitionIdentityProjection.js:17-21)",
+   "source": "src/generators/steps/assembleInstitutions.js:715",
+   "layer": "generation",
+   "note": "rename-proof identity of a custom definition"
+  },
+  {
+   "path": "institutions[].sceneProfileId|landmarkLevel|materialFamily|glyph",
+   "type": "string",
+   "required": "conditional",
+   "domain": "registered presentation tokens (townScene/customBuildingPresentation.js:248-285)",
+   "source": "src/generators/steps/assembleInstitutions.js:719",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "institutions[].id",
+   "type": "string",
+   "required": "lived",
+   "domain": "'institution.<stablePart(name)>' on pulse/event-minted rows; generated rows carry none",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:983",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[].status",
+   "type": "string",
+   "required": "lived",
+   "domain": "active|impaired|removed|destroyed|vacant (entities/status.js:107) + ruined (calamity) + remnant (closure)",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:1020",
+   "layer": "lived",
+   "note": "absent at birth"
+  },
+  {
+   "path": "institutions[].impairments[]",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "{type capacity|legitimacy|influence|wealth|staffing|infrastructure|access|corruption|supply_starved, severity 0-1, causeEventId, description, appliedAt, covert?}",
+   "source": "src/domain/entities/status.js:124",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[].worldPulseFate",
+   "type": "string|null",
+   "required": "lived",
+   "domain": "e.g. destroyed_by_disaster, closure fates",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:1023",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[].remnantReason",
+   "type": "string",
+   "required": "lived",
+   "domain": "prose",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:1025",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[]._worldPulseInactive",
+   "type": "boolean",
+   "required": "lived",
+   "domain": "true when closed/ruined",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:1021",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[]._worldPulseEconomyClosed",
+   "type": "boolean",
+   "required": "lived",
+   "domain": "",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:1022",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[]._worldPulseEconomyBuilt",
+   "type": "boolean",
+   "required": "lived",
+   "domain": "true on pulse-built/reopened rows",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:990",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[].foundedAt",
+   "type": "object",
+   "required": "lived",
+   "domain": "{year, tick} — write-once on a NEW pulse institution",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:994",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "institutions[].createdByWorldPulseOutcomeId|reopenedBy…|closedBy…|builtReason",
+   "type": "string|null",
+   "required": "lived",
+   "domain": "provenance stamps (domain/provenance/rosterProvenance.js)",
+   "source": "src/domain/worldPulse/institutionLifecycle.js:991",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "economicState.tier",
+   "type": "string",
+   "required": "required",
+   "domain": "tier key",
+   "source": "src/generators/economy/economicState.js:865",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.prosperity",
+   "type": "string",
+   "required": "required",
+   "domain": "Subsistence|Struggling|Poor|Moderate|Comfortable|Prosperous|Wealthy",
+   "source": "src/generators/economy/economicState.js:866",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.situationDesc",
+   "type": "string",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/economy/economicState.js:867",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.incomeSources",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{source, percentage, desc, weight, priorityNote}; percentages sum to 100",
+   "source": "src/generators/economy/economicState.js:873",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.primaryExports",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "label strings (0-21)",
+   "source": "src/generators/economy/economicState.js:874",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.primaryImports",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "label strings (0-12)",
+   "source": "src/generators/economy/economicState.js:875",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.transit",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "transit labels",
+   "source": "src/generators/economy/economicState.js:877",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.isEntrepot",
+   "type": "boolean",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/economicState.js:878",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.localProduction",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "labels",
+   "source": "src/generators/economy/economicState.js:879",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.necessityImports",
+   "type": "array<string>",
+   "required": "required",
+   "domain": "labels",
+   "source": "src/generators/economy/economicState.js:880",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeAccess",
+   "type": "string",
+   "required": "required",
+   "domain": "echo of the access key",
+   "source": "src/generators/economy/economicState.js:881",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.priorities",
+   "type": "object",
+   "required": "required",
+   "domain": "{economy, military, religion, magic, criminal}",
+   "source": "src/generators/economy/economicState.js:882",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.compound",
+   "type": "object",
+   "required": "required",
+   "domain": "{criminalEffective, militaryEffective, economyOutput, religionInfluence, magicInfluence, raw, inst{has* flags, names}}",
+   "source": "src/generators/economy/economicState.js:883",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.safetyProfile",
+   "type": "object",
+   "required": "required",
+   "domain": "{safetyLabel, safetyDesc, guardEffectivenessDesc, crimeTypes[], criminalInstitutions[], economicDragDesc, blackMarketCapture, plotHooks[], safetyRatio, flags, compound}",
+   "source": "src/generators/economy/economicState.js:884",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeDependencies",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{institution, category, resource, detail, severity, impact, affectedServices[]}",
+   "source": "src/generators/economy/economicState.js:885",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.institutionalServices",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{type institutional_service, label, icon, color, output, exportLabel, exportable, institutions[], status}",
+   "source": "src/generators/economy/economicState.js:886",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains",
+   "type": "array<Chain>",
+   "required": "required",
+   "domain": "supply chains by kind",
+   "source": "src/generators/economy/economicState.js:887",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity",
+   "type": "object",
+   "required": "required",
+   "domain": "see foodSecurity rows",
+   "source": "src/generators/economy/economicState.js:888",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.economicComplexity",
+   "type": "string",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/economy/economicState.js:889",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.nativeTradeLabels",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{exports[], imports[]} — only with custom trade endpoints",
+   "source": "src/generators/economy/customTradeEndpointIntegration.js:203",
+   "layer": "generation",
+   "note": "spread in at economicState.js:872"
+  },
+  {
+   "path": "economicState.customTradeEndpoints",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{exports[], imports[]}",
+   "source": "src/generators/economy/customTradeEndpointIntegration.js:204",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.customTradeLabels",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{exports[], imports[]}",
+   "source": "src/generators/steps/generateEconomy.js:319",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.customCategoryExports|customCategoryImports",
+   "type": "object",
+   "required": "conditional",
+   "domain": "category -> member labels",
+   "source": "src/generators/steps/generateEconomy.js:306",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.customChains",
+   "type": "array",
+   "required": "conditional",
+   "domain": "confirmed reviewed custom chains",
+   "source": "src/generators/steps/economyReconcilePass.js:328",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks",
+   "type": "array<object>",
+   "required": "conditional",
+   "domain": "only with an imported neighbour",
+   "source": "src/generators/steps/generateEconomy.js:251",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].good",
+   "type": "string|boolean",
+   "required": "required",
+   "domain": "label",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].goodId",
+   "type": "string|boolean",
+   "required": "required",
+   "domain": "goods-catalog id or category.<cat>",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].direction",
+   "type": "string|boolean",
+   "required": "required",
+   "domain": "import|export (flow, not compass)",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].partner",
+   "type": "string|boolean",
+   "required": "required",
+   "domain": "neighbour NAME",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].viaNeighbour",
+   "type": "string|boolean",
+   "required": "required",
+   "domain": "true",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.tradeLinks[].viaCategory",
+   "type": "string|boolean",
+   "required": "conditional",
+   "domain": "true when matched by category",
+   "source": "src/domain/region/tradeLinks.js:59",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.treasury",
+   "type": "object",
+   "required": "lived",
+   "domain": "{coin (absolute integer state coin), openedTick, lastTick, coinFlows{taxed, upkeep, transferredIn, transferredOut, shortfall}}",
+   "source": "src/domain/worldPulse/treasury.js:1257",
+   "layer": "lived",
+   "note": "treasuryEnabled only; lastTick advances EVERY tick when lit (treasury.js:1169) — the only per-tick week stamp on a dossier"
+  },
+  {
+   "path": "economicState.activeChains[].needKey",
+   "type": "mixed",
+   "required": "required",
+   "domain": "arcane_magical|knowledge_information|trade_entrepot|defense_security|entertainment_culture|healing_medicine|manufacturing|religion_civic|food_security|raw_extraction|criminal_economy",
+   "source": "src/generators/computeActiveChains.js:373",
+   "layer": "generation",
+   "note": "IDENTITY: needKey+chainId (KEYED_COLLECTIONS uses label)"
+  },
+  {
+   "path": "economicState.activeChains[].needLabel",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:374",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].needIcon",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:375",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].needColor",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:376",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].chainId",
+   "type": "mixed",
+   "required": "required",
+   "domain": "catalog chain id",
+   "source": "src/generators/computeActiveChains.js:377",
+   "layer": "generation",
+   "note": "IDENTITY: needKey+chainId (KEYED_COLLECTIONS uses label)"
+  },
+  {
+   "path": "economicState.activeChains[].upstreamChains",
+   "type": "mixed",
+   "required": "required",
+   "domain": "chainIds",
+   "source": "src/generators/computeActiveChains.js:379",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceIcon",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:380",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resource",
+   "type": "mixed",
+   "required": "required",
+   "domain": "resource label|null",
+   "source": "src/generators/computeActiveChains.js:381",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceKey",
+   "type": "mixed",
+   "required": "required",
+   "domain": "deposit key|null",
+   "source": "src/generators/computeActiveChains.js:382",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceCondition",
+   "type": "mixed",
+   "required": "required",
+   "domain": "available|depleted|absent",
+   "source": "src/generators/computeActiveChains.js:383",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceActive",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:384",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceInputKey",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:385",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceInputCondition",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:386",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceInputAvailable",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:387",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].processingInstitutions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "institution NAMES",
+   "source": "src/generators/computeActiveChains.js:388",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].outputs",
+   "type": "mixed",
+   "required": "required",
+   "domain": "labels (<=4)",
+   "source": "src/generators/computeActiveChains.js:389",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].services",
+   "type": "mixed",
+   "required": "required",
+   "domain": "labels",
+   "source": "src/generators/computeActiveChains.js:390",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].exportable",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:391",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].entrepot",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:392",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].entrepotNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "string|null",
+   "source": "src/generators/computeActiveChains.js:393",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].externalMillNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/computeActiveChains.js:394",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].activatedByResource",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:395",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].substituteActive",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:396",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].resourceDepleted",
+   "type": "mixed",
+   "required": "required",
+   "domain": "boolean",
+   "source": "src/generators/computeActiveChains.js:397",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].label",
+   "type": "string",
+   "required": "required",
+   "domain": "chain label",
+   "source": "src/generators/computeActiveChains.js:378",
+   "layer": "generation",
+   "note": "SF's keyed-merge key for the collection"
+  },
+  {
+   "path": "economicState.activeChains[].dependency",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{institution, resource, severity, impact, affectedServices[]}",
+   "source": "src/generators/computeActiveChains.js:427",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.activeChains[].status",
+   "type": "string",
+   "required": "required",
+   "domain": "running|operational|vulnerable|impaired|entrepot",
+   "source": "src/generators/computeActiveChains.js:432",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.label",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:403",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.foodRatio",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:406",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.deficitPct",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:407",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.surplusPct",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:408",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.dailyNeed",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:409",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.dailyProduction",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:410",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.rawDeficit",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:422",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.importCoverage",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:423",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.magicOffset",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:424",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.deficit",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:425",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.effectiveAgriculture",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:432",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.chains",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:435",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.activeChains",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:436",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.activeChainsCount",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:437",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.diversityNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:438",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.storageMonths",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:441",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.storageNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:442",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.importPct",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:445",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.importDependency",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:446",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.importNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:447",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.magicTradeChannel",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:450",
+   "layer": "generation",
+   "note": "snapshot (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.magicSupplement",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:453",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.magicNote",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:454",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.hasFamine",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:458",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.hasSiege",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:459",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.prosperityMod",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:462",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.resilienceScore",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/foodGenerator.js:465",
+   "layer": "generation",
+   "note": "LIVE (fieldManifest.js)"
+  },
+  {
+   "path": "economicState.foodSecurity.isDeficit|isPressured|isSecure|isSurplus",
+   "type": "boolean",
+   "required": "required",
+   "domain": "flags",
+   "source": "src/generators/foodGenerator.js:457",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.customFoodImpact",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{producers, consumers, agricultureCapacityBonus, dailyNeedBonusPct}",
+   "source": "src/generators/foodGenerator.js:476",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicState.foodSecurity.stockpile",
+   "type": "object",
+   "required": "lived",
+   "domain": "{baseDeficitPct, baseSurplusPct, resilienceRest, capacityMonths, reliefPct, tithed, blockaded, blockadeBypass, famished, deployed, lastTick, + season, seasonWeek, seasonalSwingPct, seasonalEvent under seasonsEnabled}",
+   "source": "src/domain/worldPulse/foodStockpile.js:410",
+   "layer": "lived",
+   "note": "lastTick = tick of the stockpile's LAST CHANGE (record not rewritten on quiet ticks, foodStockpile.js:436-459); seasonWeek = week of year at that change"
+  },
+  {
+   "path": "powerStructure.factions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "power factions (2-10)",
+   "source": "src/generators/power/rulingStructure.js:782",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.governingName",
+   "type": "mixed",
+   "required": "required",
+   "domain": "name of the isGoverning faction",
+   "source": "src/generators/power/rulingStructure.js:787",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.government",
+   "type": "mixed",
+   "required": "required",
+   "domain": "government type = governing name at birth",
+   "source": "src/generators/power/rulingStructure.js:792",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.stability",
+   "type": "mixed",
+   "required": "required",
+   "domain": "band string",
+   "source": "src/generators/power/rulingStructure.js:793",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.recentConflict",
+   "type": "mixed",
+   "required": "required",
+   "domain": "prose|null",
+   "source": "src/generators/power/rulingStructure.js:794",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.publicLegitimacy",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{score 0-100, label, breakdown, govMultiplier, crimMultiplier, is* flags}",
+   "source": "src/generators/power/rulingStructure.js:795",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships",
+   "type": "mixed",
+   "required": "required",
+   "domain": "pairwise relations",
+   "source": "src/generators/power/rulingStructure.js:796",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.criminalCaptureState",
+   "type": "mixed",
+   "required": "required",
+   "domain": "none|adversarial|equilibrium|corrupted|capture",
+   "source": "src/generators/power/rulingStructure.js:797",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.powerProjectionVersion",
+   "type": "string|number",
+   "required": "required",
+   "domain": "POWER_PROJECTION_VERSION",
+   "source": "src/generators/power/economyReconciliation.js:160",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.economyInputFingerprint",
+   "type": "string",
+   "required": "required",
+   "domain": "e.g. 'power-economy-v1:c57b7e1d'",
+   "source": "src/generators/power/economyReconciliation.js:161",
+   "layer": "generation",
+   "note": "RECEIPT class (recordRegister.js:134)"
+  },
+  {
+   "path": "powerStructure.conflicts",
+   "type": "array<Conflict>",
+   "required": "required",
+   "domain": "dual-write of top-level conflicts",
+   "source": "src/generators/steps/assembleSettlement.js:145",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.previousGovernments",
+   "type": "array<object>",
+   "required": "lived",
+   "domain": "bounded {label, cause, tick}",
+   "source": "src/domain/rulingPower.js:637",
+   "layer": "lived",
+   "note": "typedef rulingPower.js:92"
+  },
+  {
+   "path": "powerStructure.factions[].faction",
+   "type": "mixed",
+   "required": "required",
+   "domain": "power faction NAME — the identity key",
+   "source": "src/generators/power/rulingStructure.js:457",
+   "layer": "generation",
+   "note": "IDENTITY KEY (no id at birth; faction.<snake> derived)"
+  },
+  {
+   "path": "powerStructure.factions[].power",
+   "type": "mixed",
+   "required": "required",
+   "domain": "integer share; roster sums to 100",
+   "source": "src/generators/power/rulingStructure.js:459",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].rawPower",
+   "type": "mixed",
+   "required": "required",
+   "domain": "pre-dynamics power",
+   "source": "src/generators/factionDynamics.js:549",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].powerLabel",
+   "type": "mixed",
+   "required": "required",
+   "domain": "Dominant|Strong|Significant|Minor|Suppressed",
+   "source": "src/generators/factionDynamics.js:564",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].desc",
+   "type": "mixed",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/power/rulingStructure.js:460",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].isGoverning",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "true on one",
+   "source": "src/generators/power/rulingStructure.js:461",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].category",
+   "type": "mixed",
+   "required": "required",
+   "domain": "government|military|economy|religious|noble|magic|criminal|…",
+   "source": "src/generators/power/rulingStructure.js:700",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].modifier",
+   "type": "string|null",
+   "required": "conditional",
+   "domain": "governing faction modifier",
+   "source": "src/generators/power/rulingStructure.js:458",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].captureState",
+   "type": "string",
+   "required": "conditional",
+   "domain": "stamped on the governing entry when born at equilibrium+",
+   "source": "src/generators/power/rulingStructure.js:766",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].source|neighbourName",
+   "type": "string",
+   "required": "conditional",
+   "domain": "'neighbour_mirror' + neighbour name",
+   "source": "src/generators/steps/neighbourFactions.js:89",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].id",
+   "type": "string",
+   "required": "lived",
+   "domain": "optional authored/event 'faction.<slug>' id, honoured as alias",
+   "source": "src/domain/factionRefs.js:5",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].controlledInstitutions",
+   "type": "array<string>",
+   "required": "lived",
+   "domain": "stablePart(entry.id||entry.name||…) of the first 12 roster rows (factionCompetition.js:155-166)",
+   "source": "src/domain/worldPulse/factionCompetition.js:907",
+   "layer": "lived",
+   "note": "the only faction->institution link in any output; two factions may hold one kind"
+  },
+  {
+   "path": "powerStructure.factions[].suppressedInstitutions",
+   "type": "array<string>",
+   "required": "lived",
+   "domain": "same id scheme",
+   "source": "src/domain/worldPulse/factionCompetition.js:908",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factions[].updatedByPulse",
+   "type": "integer",
+   "required": "lived",
+   "domain": "tick of the last pulse change to the entry",
+   "source": "src/domain/worldPulse/factionCompetition.js:655",
+   "layer": "lived",
+   "note": "LIVE (fieldManifest.js:162); with momentum, rivals[], momentumBand, legitimacy, controlStrength …"
+  },
+  {
+   "path": "powerStructure.factionRelationships[].pair",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[nameA, nameB] — the keyed-merge key",
+   "source": "src/generators/factionDynamics.js:312",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].type",
+   "type": "mixed",
+   "required": "required",
+   "domain": "symbiotic|subordinate|dependent|competitive|tense|…",
+   "source": "src/generators/factionDynamics.js:312",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].direction",
+   "type": "mixed",
+   "required": "required",
+   "domain": "stable|escalating|declining",
+   "source": "src/generators/factionDynamics.js:312",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].ratio",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "number",
+   "source": "src/generators/factionDynamics.js:312",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].narrative",
+   "type": "mixed",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/factionDynamics.js:312",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].dmNote",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "string|null",
+   "source": "src/generators/factionDynamics.js:313",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "powerStructure.factionRelationships[].captureState",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "on criminal pairs",
+   "source": "src/generators/factionDynamics.js:393",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].id",
+   "type": "string",
+   "required": "required",
+   "domain": "'npc_<n>' in generation order (npcGenerator.js:1631); structural 'npc.<faction>_<role>_<i>'; successor 'npc.successor_<n>'",
+   "source": "src/generators/npcGenerator.js:1631",
+   "layer": "generation",
+   "note": "IDENTITY KEY (KEYED_COLLECTIONS npcs:\"id\"); renumbered by an NPC reroll"
+  },
+  {
+   "path": "npcs[].name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:131",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].gender",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:132",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].role",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:133",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].title",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:134",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].category",
+   "type": "mixed",
+   "required": "required",
+   "domain": "government|military|economy|criminal|religious|magic|crafts|other",
+   "source": "src/generators/npcGenerator.js:135",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].personality",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{dominant, flaw, modifier, tell, speech}",
+   "source": "src/generators/npcGenerator.js:136",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].physical",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{age, build, feature, clothes}",
+   "source": "src/generators/npcGenerator.js:143",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].goal",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{short, long}",
+   "source": "src/generators/npcGenerator.js:149",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].secret",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{what, stakes}",
+   "source": "src/generators/npcGenerator.js:150",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].plotHooks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:151",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].influence",
+   "type": "mixed",
+   "required": "required",
+   "domain": "high|moderate|low",
+   "source": "src/generators/npcGenerator.js:152",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].power",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:153",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].presentation",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:154",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].factionAffiliation",
+   "type": "string",
+   "required": "required",
+   "domain": "power faction NAME",
+   "source": "src/generators/npcGenerator.js:1190",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].structuralPosition|activeConstraint|settlementCondition|structuralRank",
+   "type": "string",
+   "required": "conditional",
+   "domain": "structuralRank dominant|subordinate",
+   "source": "src/generators/npcStructure.js:437",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].institution",
+   "type": "string",
+   "required": "conditional",
+   "domain": "institution NAME",
+   "source": "src/generators/npcGenerator.js:295",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].secondaryAffiliation",
+   "type": "string",
+   "required": "conditional",
+   "domain": "criminal institution name",
+   "source": "src/generators/npcGenerator.js:1334",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].corrupt",
+   "type": "boolean",
+   "required": "required",
+   "domain": "generation verdict",
+   "source": "src/generators/steps/corruptionPass.js:69",
+   "layer": "generation",
+   "note": "mirrored from worldState.npcStates by the pulse (npcAgency.js:210-236)"
+  },
+  {
+   "path": "npcs[].corruptionVector",
+   "type": "string",
+   "required": "conditional",
+   "domain": "fear|greed|…",
+   "source": "src/generators/steps/corruptionPass.js:70",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].corruptTies",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{criminalInstitution, thievesGuild, leash?}",
+   "source": "src/generators/steps/corruptionPass.js:75",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].importance|status|linkedInstitutionIds|linkedFactionIds|legitimacyContribution|stabilityContribution|generatedAs",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "structural seats only: importance pillar|key|notable|minor, status active, linkedInstitutionIds (an institution id or NAME), linkedFactionIds (id-first handles), generatedAs 'faction_structural'",
+   "source": "src/generators/factionRoles.js:250",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "npcs[].timesExposed|ousted",
+   "type": "integer|boolean",
+   "required": "lived",
+   "domain": "mirrored from worldState.npcStates",
+   "source": "src/domain/worldPulse/npcAgency.js:231",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "npcs[].replacedNpc",
+   "type": "string|null",
+   "required": "lived",
+   "domain": "on a pulse successor: the old NPC's NAME",
+   "source": "src/domain/worldPulse/successorNpc.js:51",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "npcs[].whereabouts",
+   "type": "object",
+   "required": "lived",
+   "domain": "{state, placeId, purposeKind, sinceTick, expectedReturnTick, missionId} (SimNpc typedef settlement.schema.js:477)",
+   "source": "src/domain/settlement.schema.js:477",
+   "layer": "lived",
+   "note": "an individual NPC away from home (roads/envoy layers) — not a travelling group"
+  },
+  {
+   "path": "relationships[].type",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1688",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].typeName",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1689",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].description",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1690",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].tension",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1691",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].strength",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1692",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].npc1Id",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1693",
+   "layer": "generation",
+   "note": "keyed by (npc1Id, npc2Id, type)"
+  },
+  {
+   "path": "relationships[].npc2Id",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1694",
+   "layer": "generation",
+   "note": "keyed by (npc1Id, npc2Id, type)"
+  },
+  {
+   "path": "relationships[].npc1Name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1695",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].npc2Name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1696",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].npc1Role",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1697",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].npc2Role",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1698",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].archetypeKey",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1699",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "relationships[].flagDriven",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/npcGenerator.js:1700",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions[].name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "group name (keyed-merge key)",
+   "source": "src/generators/power/factionGrouping.js:67",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions[].members",
+   "type": "mixed",
+   "required": "required",
+   "domain": "full NPC copies (MIRROR class)",
+   "source": "src/generators/power/factionGrouping.js:67",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions[].dominantCategory",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/factionGrouping.js:67",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions[].powerFactionName|powerFactionPower|powerFactionCat",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "link to a power faction by NAME",
+   "source": "src/generators/steps/generatePopulation.js:82",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "factions[].powerFactionFallback",
+   "type": "boolean",
+   "required": "conditional",
+   "domain": "true on the scatter fallback",
+   "source": "src/generators/steps/generatePopulation.js:121",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].parties",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[social faction names] (keyed with issue)",
+   "source": "src/generators/power/conflicts.js:240",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].issue",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/conflicts.js:241",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].stakes",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/conflicts.js:242",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].intensity",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/conflicts.js:243",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].desc",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/conflicts.js:244",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "conflicts[].plotHooks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/power/conflicts.js:245",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.layout",
+   "type": "string",
+   "required": "required",
+   "domain": "one prose line by tier and terrain",
+   "source": "src/generators/spatialGenerator.js:331",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.quarters",
+   "type": "array<Quarter>",
+   "required": "required",
+   "domain": "0-8 from 14 fixed names",
+   "source": "src/generators/spatialGenerator.js:332",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.tradeAccess",
+   "type": "string",
+   "required": "required",
+   "domain": "prose of the access key",
+   "source": "src/generators/spatialGenerator.js:333",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.quarters[].name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "Market Quarter|Religious Quarter|Roadside Shrine|Noxious Trades Quarter|Waterfront District|Alehouse & Common|Fishing Landing|Woodcutters' Ground|Artisan Quarter|Government Quarter|Mages' Quarter|Shadows District|Wealthy Residential|Common Residential",
+   "source": "src/generators/spatialGenerator.js:64",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.quarters[].location",
+   "type": "mixed",
+   "required": "required",
+   "domain": "one fixed phrase per name (Waterfront: Along the coast|Along the river)",
+   "source": "src/generators/spatialGenerator.js:65",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.quarters[].desc",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/spatialGenerator.js:66",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "spatialLayout.quarters[].landmarks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "institution names or fixed strings",
+   "source": "src/generators/spatialGenerator.js:67",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "availableServices.<bucket>",
+   "type": "array<Service>",
+   "required": "required",
+   "domain": "buckets lodging, food, equipment, magic, information, healing, transport, legal, employment, entertainment, criminal",
+   "source": "src/generators/servicesGenerator.js:65",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "availableServices.<bucket>[].name",
+   "type": "string",
+   "required": "required",
+   "domain": "keyed-merge key",
+   "source": "src/generators/services/serviceRollMaterialization.js:70",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "availableServices.<bucket>[].desc",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/services/serviceRollMaterialization.js:71",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "availableServices.<bucket>[].institution",
+   "type": "string",
+   "required": "required",
+   "domain": "institution NAME or pseudo-name like (covert)",
+   "source": "src/generators/services/serviceRollMaterialization.js:72",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "availableServices.<bucket>[].custom|source|customDefinitionCategory|localUid|customDefinition*",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "custom service identity",
+   "source": "src/generators/services/serviceRollMaterialization.js:75",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.terrain",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:490",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.availableResources",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:491",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.resourceConditions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{key, label, type, condition, randomDepletionEligible, recoveryMode, conditionDescription}] (resourceSemantics.js:382-391)",
+   "source": "src/generators/resourceGenerator.js:492",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.conditionNotes",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:493",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.resourceChains",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{rawResource, processingTags, processingInstitutions, intermediateGoods, finalProducts, exportValue, dependsOn, chainKey}]",
+   "source": "src/generators/resourceGenerator.js:494",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.exploitation",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{fullyExploited, partiallyExploited, unexploited, warnings}",
+   "source": "src/generators/resourceGenerator.js:495",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.imports",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{critical, recommended, reasons}",
+   "source": "src/generators/resourceGenerator.js:496",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.exports",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{product, chain, value, reason?}]",
+   "source": "src/generators/resourceGenerator.js:497",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.gaps",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{chain, missing|institution, impact, severity}]",
+   "source": "src/generators/resourceGenerator.js:498",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.featureEffects",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:499",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.economicStrengths",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:500",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.strategicValue",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:501",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "resourceAnalysis.priorityNotes",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/resourceGenerator.js:502",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.viable",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:588",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.issues",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{severity, category, title, description, …}]",
+   "source": "src/generators/economy/viability.js:589",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.warnings",
+   "type": "mixed",
+   "required": "required",
+   "domain": "same shape",
+   "source": "src/generators/economy/viability.js:590",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.dependencies",
+   "type": "mixed",
+   "required": "required",
+   "domain": "same shape, severity dependency",
+   "source": "src/generators/economy/viability.js:591",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.suggestions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{category, title, description}]",
+   "source": "src/generators/economy/viability.js:592",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.plotHooks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{category, hook, severity}]",
+   "source": "src/generators/economy/viability.js:593",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.summary",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:598",
+   "layer": "generation",
+   "note": "summary text now built from dependencies (prose change)"
+  },
+  {
+   "path": "economicViability.metrics",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:605",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.tradeAccess",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:607",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.criticalIssueCount",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:608",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.dependencyCount",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:609",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.warningCount",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/viability.js:610",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.dailyNeed",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:499",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.dailyProduction",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:500",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.deficit",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:501",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.deficitPercent",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:502",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.surplus",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:503",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.agricultureModifier",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:516",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.stressModifier",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:519",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.importCoverage",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:520",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.rawDeficit",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:521",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.importChannel",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:525",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.magicFoodOffset",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:526",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "economicViability.metrics.foodBalance.magicFoodNote",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/economy/foodBalance.js:531",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.age",
+   "type": "integer",
+   "required": "required",
+   "domain": "years",
+   "source": "src/generators/historyGenerator.js:900",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.founding",
+   "type": "object",
+   "required": "required",
+   "domain": "{age, reason, foundedBy, initialChallenge, overcoming, stressNote}",
+   "source": "src/generators/historyGenerator.js:901",
+   "layer": "generation",
+   "note": "built by genArrivalDetail (narrativeGenerator.js:391-399)"
+  },
+  {
+   "path": "history.historicalEvents",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "0-16 generated events",
+   "source": "src/generators/historyGenerator.js:902",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].yearsAgo",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:289",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].type",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:290",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].name",
+   "type": "mixed",
+   "required": "required",
+   "domain": "name is the keyed-merge key",
+   "source": "src/generators/historyGenerator.js:291",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].description",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:292",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].severity",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:293",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].lastingEffects",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:294",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].plotHooks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:295",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].templateType|anchored",
+   "type": "string|boolean",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/historyGenerator.js:592",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalEvents[].campaignEventId|campaignEra|tick",
+   "type": "string|true|integer",
+   "required": "lived",
+   "domain": "campaign-era entries: campaignEventId 'campaign.<id>.<resolvedAt|tick>', campaignEra true, tick = world tick, yearsAgo 0",
+   "source": "src/domain/worldPulse/stressorAftermath.js:157",
+   "layer": "lived",
+   "note": "also factionCapture.js:267, settlementLifecycleFirstClass.js:532"
+  },
+  {
+   "path": "history.currentTensions",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{type, description, factions[], plotHooks[], severity[]} (data/historyData.js templates)",
+   "source": "src/generators/historyGenerator.js:903",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.historicalCharacter",
+   "type": "string",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/historyGenerator.js:904",
+   "layer": "generation",
+   "note": "overwritten by generateCoherence (narrativeGenerator.js:1013)"
+  },
+  {
+   "path": "history.ancientRuin",
+   "type": "object",
+   "required": "conditional",
+   "domain": "{name, yearsAgo} — only when config.ancientRuinsEnabled",
+   "source": "src/generators/historyGenerator.js:905",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.eventsTimeline",
+   "type": "array<object>",
+   "required": "required",
+   "domain": "{year, yearsAgo, name, type, anchored}",
+   "source": "src/generators/historyGenerator.js:906",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.legacyAnnotations",
+   "type": "array<object>",
+   "required": "conditional",
+   "domain": "{annotation, eventType, yearsAgo, severity, eventName}; written only when non-empty",
+   "source": "src/generators/steps/generateNarratives.js:77",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "history.siegeNarrative",
+   "type": "string|null",
+   "required": "required",
+   "domain": "prose",
+   "source": "src/generators/narrativeGenerator.js:1015",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.scores",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{military, monster, internal, economic, magical 0-100, disaster (LIVE), magicDependency, traditions}",
+   "source": "src/generators/defenseGenerator.js:639",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.readiness",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{score, label, color, background, border}",
+   "source": "src/generators/defenseGenerator.js:640",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.institutions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{walls, garrison, militia, watch, mercenary, charter, magicDef} (institution copies; domain/institutions/defenseInstitutionBuckets.js:84-101)",
+   "source": "src/generators/defenseGenerator.js:641",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.magicDependency",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/defenseGenerator.js:642",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.traditions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/defenseGenerator.js:643",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.chainModifiers",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/defenseGenerator.js:644",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "defenseProfile.economicGates",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{military?, monster, internal?, economic, disaster?}",
+   "source": "src/generators/defenseGenerator.js:650",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.version",
+   "type": "mixed",
+   "required": "required",
+   "domain": "1",
+   "source": "src/generators/isolationSupport.js:225",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.applicable",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:226",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.tier",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:227",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.requiredCapacity",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:228",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.capacity",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:229",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.deficit",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:230",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.status",
+   "type": "mixed",
+   "required": "required",
+   "domain": "connected|resilient|viable|precarious|untenable|magic_supported|magic_dependent",
+   "source": "src/generators/isolationSupport.js:231",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.paths",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{type local_foodshed|hinterland|reserves|seasonal_access|patronage|magical_transit, capacity, stability, evidence[]}]",
+   "source": "src/generators/isolationSupport.js:232",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "isolationSupport.magicDependent",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/isolationSupport.js:236",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.key",
+   "type": "string",
+   "required": "required",
+   "domain": "germanic|latin|celtic|arabic|norse|slavic|east_asian|mesoamerican|south_asian|steppe|greek|mixed (mediterranean -> latin)",
+   "source": "src/data/cultureProfiles.js:564",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.label",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:565",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.scope",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:566",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.builtForm",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:567",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.civicPattern",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:568",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.exchangePattern",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:569",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.foodways",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:570",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.sacredLife",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:571",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.defensePattern",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:572",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.socialTexture",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:573",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.architecturalDetail",
+   "type": "string",
+   "required": "required",
+   "domain": "",
+   "source": "src/data/cultureProfiles.js:574",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "culturalIdentity.sourceKeys",
+   "type": "array<string>",
+   "required": "conditional",
+   "domain": "mixed identity only",
+   "source": "src/data/cultureProfiles.js:600",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.version",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/generationCoherence.js:535",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.status",
+   "type": "mixed",
+   "required": "required",
+   "domain": "coherent|coherent_with_authored_tensions|needs_review",
+   "source": "src/generators/generationCoherence.js:536",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.seed",
+   "type": "mixed",
+   "required": "required",
+   "domain": "the generation seed (secret)",
+   "source": "src/generators/generationCoherence.js:537",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.worldLawVersion",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/generationCoherence.js:538",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.cultureProfile",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/generationCoherence.js:539",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.contentProfile",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/generationCoherence.js:540",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.checks",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{id, label, status pass|fail, findings[{path, detail, evidence?}]}] (generationCoherence.js:139-146)",
+   "source": "src/generators/generationCoherence.js:541",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.judgments",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{id, label, status, scope single_settlement, summary, findings, evidence}] (generationReceiptJudgments.js:696-706)",
+   "source": "src/generators/generationCoherence.js:542",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.repairs",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{id repair.<n>, type, action, subject, reason}]",
+   "source": "src/generators/generationCoherence.js:543",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "generationCoherenceReceipt.authoredTensions",
+   "type": "mixed",
+   "required": "required",
+   "domain": "[{type, subject, reason}]",
+   "source": "src/generators/generationCoherence.js:544",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "stressors[] (= stress)",
+   "type": "object",
+   "required": "required",
+   "domain": "{type, label, icon, colour, summary, crisisHook, viabilityNote, historyColour}",
+   "source": "src/generators/stressGenerator.js:57",
+   "layer": "generation",
+   "note": "type in famine|indebted|infiltrated|insurgency|mass_migration|monster_pressure|occupied|plague_onset|politically_fractured|recently_betrayed|religious_conversion|slave_revolt|succession_void|under_siege|wartime; summaryRoll deleted at assembly (assembleSettlement.js:206)"
+  },
+  {
+   "path": "stressors[].source|forcedByConfig",
+   "type": "string|boolean",
+   "required": "conditional",
+   "domain": "'forced' on config-intended stress",
+   "source": "src/generators/steps/resolveStress.js:65",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].id",
+   "type": "mixed",
+   "required": "required",
+   "domain": "'condition.<archetype>.<suffix>' — stable once stored",
+   "source": "src/domain/activeConditions.js:659",
+   "layer": "generation",
+   "note": "IDENTITY KEY; SF keys its merge by archetype (KEYED_COLLECTIONS)"
+  },
+  {
+   "path": "activeConditions[].archetype",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:660",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].label",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:661",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].description",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:662",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].severity",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:663",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].severityBand",
+   "type": "mixed",
+   "required": "required",
+   "domain": "low|medium|high|critical",
+   "source": "src/domain/activeConditions.js:664",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].status",
+   "type": "mixed",
+   "required": "required",
+   "domain": "worsening|stable|easing",
+   "source": "src/domain/activeConditions.js:665",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].triggeredAt",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{tick, sourceEventType, sourceEventTargetId}",
+   "source": "src/domain/activeConditions.js:666",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].duration",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{elapsedTicks, expiresAtTicks|null}",
+   "source": "src/domain/activeConditions.js:667",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].affectedSystems",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:668",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].causes",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/domain/activeConditions.js:671",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].triggeredAt.tick",
+   "type": "integer",
+   "required": "required",
+   "domain": "world tick; 0 at generation and on authored-event conditions (no writer stamps a tick there; deriveActiveCondition default activeConditions.js:630); the pulse writers stamp the tick (37 of the 51 triggeredAt literals carry it; the 14 without are the generation promotion, 10 authored-event mutators and 3 record-mode comparison probes that are never stored)",
+   "source": "src/domain/activeConditions.js:630",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "activeConditions[].duration.elapsedTicks|expiresAtTicks",
+   "type": "number",
+   "required": "required",
+   "domain": "interval-scaled (week 0.25, month 1, season 2.25, year 6)",
+   "source": "src/domain/activeConditions.js:636",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.eventConditions",
+   "type": "array",
+   "required": "lived",
+   "domain": "event-authored condition record re-promoted on regeneration",
+   "source": "src/domain/activeConditions.js:807",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "simulationTrace[]",
+   "type": "object",
+   "required": "required",
+   "domain": "{causes[{source, effect, reason}], downstreamEffects[{target, effect}], targetType, targetId, step, result, ts}",
+   "source": "src/domain/trace.js:242",
+   "layer": "generation",
+   "note": "ts = deterministic per-run counter (_traceClock)"
+  },
+  {
+   "path": "neighborRelationship.name",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:171",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.tier",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:172",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.relationshipType",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "neutral|trade_partner|allied|rival|cold_war|hostile|criminal_network|vassal|smuggling_partner",
+   "source": "src/generators/neighbourGenerator.js:173",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.primaryExports",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:174",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.primaryImports",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:175",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.activeChains",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:176",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.economicStrength",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:177",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.militaryStrength",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:178",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.governmentType",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:179",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.dominantFactionTypes",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:180",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.tradeRoute",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "the neighbour's access KEY, not a route",
+   "source": "src/generators/neighbourGenerator.js:181",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.dynamics",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:183",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.npcs",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "full NPC copies",
+   "source": "src/generators/neighbourGenerator.js:185",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "neighborRelationship.factions",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "",
+   "source": "src/generators/neighbourGenerator.js:186",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.priorityEconomy",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:190",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.priorityMilitary",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:191",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.priorityReligion",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:192",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.priorityCriminal",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:193",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.tier",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:196",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.priorityMagic",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:197",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.tradeRouteAccess",
+   "type": "mixed",
+   "required": "required",
+   "domain": "road|river|port|crossroads|isolated|mountain_pass|none (random_trade resolved)",
+   "source": "src/generators/steps/resolveConfig.js:198",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config._routeIntent",
+   "type": "mixed",
+   "required": "required",
+   "domain": "random|explicit",
+   "source": "src/generators/steps/resolveConfig.js:199",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.magicLevel",
+   "type": "mixed",
+   "required": "required",
+   "domain": "none|low|medium|high",
+   "source": "src/generators/steps/resolveConfig.js:200",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.monsterThreat",
+   "type": "mixed",
+   "required": "required",
+   "domain": "safe|civilized|frontier|plagued|heartland",
+   "source": "src/generators/steps/resolveConfig.js:201",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.culture",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:202",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.cultureProfileKey",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:203",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.contentProfile",
+   "type": "mixed",
+   "required": "required",
+   "domain": "heroic|grounded|grim|custom",
+   "source": "src/generators/steps/resolveConfig.js:204",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.contentBoundaries",
+   "type": "mixed",
+   "required": "required",
+   "domain": "{human_trafficking, slavery, torture, hard_drugs: bool}",
+   "source": "src/generators/steps/resolveConfig.js:205",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.terrainType",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:206",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.terrainOverride",
+   "type": "mixed",
+   "required": "required",
+   "domain": "",
+   "source": "src/generators/steps/resolveConfig.js:207",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.<raw keys>",
+   "type": "mixed",
+   "required": "conditional",
+   "domain": "every raw input key passes through (settType, customName, population, nearbyResourcesRandom, customTradeGoods, ancientRuinsEnabled, _livingContentLawVersion, …)",
+   "source": "src/generators/steps/resolveConfig.js:194",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResources",
+   "type": "array",
+   "required": "required",
+   "domain": "deposit keys / definitions",
+   "source": "src/generators/steps/resolveResources.js:537",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResourcesNative",
+   "type": "array",
+   "required": "required",
+   "domain": "deposit keys / definitions",
+   "source": "src/generators/steps/resolveResources.js:538",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResourcesDepleted",
+   "type": "array",
+   "required": "required",
+   "domain": "deposit keys / definitions",
+   "source": "src/generators/steps/resolveResources.js:539",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResourcesCustom",
+   "type": "array",
+   "required": "required",
+   "domain": "deposit keys / definitions",
+   "source": "src/generators/steps/resolveResources.js:542",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResourceDefinitions",
+   "type": "array",
+   "required": "required",
+   "domain": "deposit keys / definitions",
+   "source": "src/generators/steps/resolveResources.js:543",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.nearbyResourcesState",
+   "type": "object",
+   "required": "conditional",
+   "domain": "key -> available|depleted (raw input passes through; lived writers tierResourceDynamics.js:700, mutateWorld.js:203)",
+   "source": "src/generators/steps/resolveResources.js:224",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.stressType|stressTypes|intendedStressTypes",
+   "type": "string|array",
+   "required": "required",
+   "domain": "stress type keys",
+   "source": "src/generators/steps/resolveStress.js:37",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config._population",
+   "type": "integer",
+   "required": "required",
+   "domain": "rolled population",
+   "source": "src/generators/steps/resolveStress.js:48",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config._isolationSupport|_magicTradeOnly",
+   "type": "object|boolean",
+   "required": "required",
+   "domain": "isolation receipt copy / magic-trade flag",
+   "source": "src/generators/steps/coherenceRepairPass.js:514",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config._neighbourEconBias|_neighbourEconMode",
+   "type": "object|string",
+   "required": "conditional",
+   "domain": "with a neighbour",
+   "source": "src/generators/steps/generateEconomy.js:349",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.neighborRelationship",
+   "type": "object",
+   "required": "conditional",
+   "domain": "with a neighbour",
+   "source": "src/generators/steps/resolveNeighbour.js:55",
+   "layer": "generation",
+   "note": ""
+  },
+  {
+   "path": "config.peakTier",
+   "type": "string",
+   "required": "lived",
+   "domain": "high-water tier (also _config.peakTier)",
+   "source": "src/domain/worldPulse/settlementLifecycleKernel.js:721",
+   "layer": "lived",
+   "note": ""
+  },
+  {
+   "path": "config.primaryDeitySnapshot|cultDeitySnapshots",
+   "type": "object|array",
+   "required": "lived",
+   "domain": "bounded deity embed by assignment (deitySnapshot.js)",
+   "source": "src/domain/worldPulse/applyWorldPulse.js:242",
+   "layer": "lived",
+   "note": ""
+  }
+ ],
+ "deltas": [
+  {
+   "kind": "removed",
+   "path": "institutions[].minTier",
+   "detail": "10 pinned catalog rows carried minTier onto their records (Airship docking (high magic), Colosseum/arena, Dragon resident, Dream parlors (high magic), Gambling district, Message network (high magic), Multiple theaters, Opera house, Planar traders, Smuggling network); the rebuilt registry has no such key (ENTRY_KEYS institutionalCatalog.js:52-59) and those kinds now sit only at their own tier",
+   "source": "src/data/institutionalCatalog.js:52-59, :1656-1683",
+   "commit": "6efa6be61 (2026-09-30, THE URBAN BAND)"
+  },
+  {
+   "kind": "reshaped (tightened)",
+   "path": "institutions[].baseChance",
+   "detail": "now on every catalog-drawn record (deriveRow writes required and baseChance always); at the pin 5 kinds lacked baseChance (Inn (multiple), Taverns (5-20), Inns and taverns (district), Warehouse district, Garrison)",
+   "source": "src/data/institutionalCatalog.js:1663-1664"
+  },
+  {
+   "kind": "added (registry only, never on a record)",
+   "path": "catalog guards minPopulation / requiresAny",
+   "detail": "11 tier rows: Money changers, Wizard's tower, Mages' guild (town), Cathedral (10,000+ only), Enchanter's shop, Thieves' guild chapter, Bardic college (city) by population floor; Post relay station (town/city/metropolis) and Gates (if walled) by prerequisite",
+   "source": "src/data/institutionalCatalog.js:58, :1684-1786"
+  },
+  {
+   "kind": "value domain",
+   "path": "institutions[].name / catalogId",
+   "detail": "catalog rebuilt as one family per function: 281 distinct kinds (one new: Housing (5000+ structures)); tier rows 19/38/72/115/130/144 (pin 19/37/59/85/90/26, metropolis merged with city at roll time); every pinned name and therefore every pinned catalogId still exists",
+   "source": "src/data/institutionalCatalog.js",
+   "commit": "6efa6be61"
+  },
+  {
+   "kind": "value domain",
+   "path": "institutions[].category",
+   "detail": "44 kinds changed shelf (category), e.g. Mercenary quarter Adventuring->Defense, Merchant warehouses Adventuring->Economy, Palisade Infrastructure->Defense, Druid Circle Magic->Religious, Warden's Lodge Magic->Defense, Palace/government complex Government->Infrastructure (full list in catalogDelta.shelfMoves)",
+   "source": "src/data/institutionalCatalog.js"
+  },
+  {
+   "kind": "behaviour (rosters move for a same seed)",
+   "path": "institutions[]",
+   "detail": "metropolis no longer merges the city block (assembleInstitutions.js:265-270 vs pinned mergeCatalogs); one draw per exclusive group with proportional winner (assembleInstitutions.js:329-450); row guards honoured by assemble, cascade and faction correlation; coherence repairs of hard violations take own-tier rows only (coherenceRepairPass.js:60-80)",
+   "source": "src/generators/steps/assembleInstitutions.js, src/generators/steps/coherenceRepairPass.js"
+  },
+  {
+   "kind": "value",
+   "path": "institutions[].priorityCategory",
+   "detail": "druidic institutions re-stamped to their faith role by coherenceRepairPass.js:519-525 (J30 a druid is a priest where magic does not work)",
+   "source": "src/generators/steps/coherenceRepairPass.js:519-525",
+   "commit": "d04a2f63e"
+  },
+  {
+   "kind": "value",
+   "path": "defenseProfile.scores.monster / defenseProfile.traditions.hasDruid / economicState.foodSecurity.*",
+   "detail": "Warden's Lodge no longer counts as druid (defence, food); it adds +12 monster defence (defenseGenerator.js:213); magicOn now read from the world law",
+   "source": "src/generators/defenseGenerator.js:80-122, :213; src/generators/foodGenerator.js",
+   "commit": "e55d37331, a1841d417"
+  },
+  {
+   "kind": "value (rng)",
+   "path": "pressureSentence, arrivalScene",
+   "detail": "each drawn on its own child stream (assembleSettlement.js:217-218); arrivalScene recomposed from new pools (narrative/arrivalScene.js, data/arrivalProse.js); still a string",
+   "source": "src/generators/steps/assembleSettlement.js:213-218",
+   "commit": "ed3768dc1, d2dfd88b5, e76ea7f3c"
+  },
+  {
+   "kind": "value (prose)",
+   "path": "economicViability.summary, .issues[].description, .suggestions[].description",
+   "detail": "summary counts the published dependencies list; institution names go through institutionDisplayName",
+   "source": "src/generators/economy/viability.js:80-102, :577-612",
+   "commit": "4f4747a2b"
+  },
+  {
+   "kind": "value (prose)",
+   "path": "populationHistory[].reason, resourceHistory[].reason",
+   "detail": "pulse outcome headlines reworded (herald voice: under way / done); a new appliedHeadline field lives on the outcome, not on the dossier",
+   "source": "src/domain/worldPulse/populationDynamics.js, tierResourceDynamics.js, candidateEvents.js"
+  },
+  {
+   "kind": "unchanged",
+   "path": "root keys, schema, normalize, version stamps, save path, exports",
+   "detail": "GENERATED_KEYS identical; settlement.schema.js, normalizeSettlement.js, settlementMigrations.js, fieldManifest.js, conditionPromotion.js, activeConditions.js, saves.js, worldExport.js, accountData.js, publicSafe.js have no diff; SCHEMA_VERSION 1 and generatorVersion 0.9.0 did NOT move although outputs moved",
+   "source": "git diff --stat 5d699cc68 00b648c9d -- <those paths> (empty)"
+  }
+ ],
+ "catalogDelta": {
+  "shelfMoves": [
+   {
+    "name": "Access to external mill",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Adventurers' charter hall",
+    "pin": [
+     "Adventuring",
+     "Magic"
+    ],
+    "now": [
+     "Adventuring"
+    ]
+   },
+   {
+    "name": "Alchemist quarter",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Alchemist shop",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Apothecary district",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Beast trainers",
+    "pin": [
+     "Adventuring"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Beekeeper",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Cartographer's guild",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Cartographer's workshop",
+    "pin": [
+     "Crafts",
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Charcoal burner",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Charlatan fortune tellers",
+    "pin": [
+     "Adventuring"
+    ],
+    "now": [
+     "Entertainment"
+    ]
+   },
+   {
+    "name": "Communal root cellar",
+    "pin": [
+     "Infrastructure"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Craft guilds (30-80)",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Craft guilds (5-15)",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Dairy farmer",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Druid Circle",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Religious"
+    ]
+   },
+   {
+    "name": "Elder Grove Council",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Religious"
+    ]
+   },
+   {
+    "name": "Fisher's landing",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Fishmonger",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Great library",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Infrastructure"
+    ]
+   },
+   {
+    "name": "Hired blades",
+    "pin": [
+     "Entertainment"
+    ],
+    "now": [
+     "Adventuring"
+    ]
+   },
+   {
+    "name": "Household levy",
+    "pin": [
+     "Infrastructure"
+    ],
+    "now": [
+     "Defense"
+    ]
+   },
+   {
+    "name": "Hunter's lodge",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Jeweller",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Mercenary quarter",
+    "pin": [
+     "Adventuring"
+    ],
+    "now": [
+     "Defense"
+    ]
+   },
+   {
+    "name": "Merchant warehouses",
+    "pin": [
+     "Adventuring"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Mine",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Mine (open cast)",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Mint",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Multiple court buildings",
+    "pin": [
+     "Government"
+    ],
+    "now": [
+     "Infrastructure"
+    ]
+   },
+   {
+    "name": "Pack animal trader",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Palace/government complex",
+    "pin": [
+     "Government"
+    ],
+    "now": [
+     "Infrastructure"
+    ]
+   },
+   {
+    "name": "Palisade",
+    "pin": [
+     "Infrastructure"
+    ],
+    "now": [
+     "Defense"
+    ]
+   },
+   {
+    "name": "Peat cutter",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Salt works",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Shepherd",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Stable master",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Stable yard",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Stone quarry",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   },
+   {
+    "name": "Town crier",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Government"
+    ]
+   },
+   {
+    "name": "Village musician",
+    "pin": [
+     "Religious"
+    ],
+    "now": [
+     "Entertainment"
+    ]
+   },
+   {
+    "name": "Vintner",
+    "pin": [
+     "Economy"
+    ],
+    "now": [
+     "Crafts"
+    ]
+   },
+   {
+    "name": "Warden's Lodge",
+    "pin": [
+     "Magic"
+    ],
+    "now": [
+     "Defense"
+    ]
+   },
+   {
+    "name": "Wildfowler",
+    "pin": [
+     "Crafts"
+    ],
+    "now": [
+     "Economy"
+    ]
+   }
+  ],
+  "perTier": {
+   "thorp": {
+    "pinEffectiveRows": 19,
+    "nowRows": 19,
+    "pinRequired": 5,
+    "nowRequired": 5,
+    "added": [],
+    "dropped": [],
+    "requiredFlips": []
+   },
+   "hamlet": {
+    "pinEffectiveRows": 37,
+    "nowRows": 38,
+    "pinRequired": 7,
+    "nowRequired": 7,
+    "added": [
+     "Woodcutter's camp"
+    ],
+    "dropped": [],
+    "requiredFlips": []
+   },
+   "village": {
+    "pinEffectiveRows": 59,
+    "nowRows": 72,
+    "pinRequired": 7,
+    "nowRequired": 8,
+    "added": [
+     "Bandit affiliate",
+     "Carriers' hiring hall",
+     "Common grazing land",
+     "Fisher's landing",
+     "Informal elder consensus",
+     "Maltster",
+     "Pack animal trader",
+     "Pawnbroker",
+     "Peat cutter",
+     "Shepherd",
+     "Smuggling waypoint",
+     "Village headman",
+     "Wayside shrine",
+     "Woodcutter's camp"
+    ],
+    "dropped": [
+     "Smuggling network"
+    ],
+    "requiredFlips": []
+   },
+   "town": {
+    "pinEffectiveRows": 85,
+    "nowRows": 115,
+    "pinRequired": 13,
+    "nowRequired": 13,
+    "added": [
+     "Auction house",
+     "Barge and river transport company",
+     "Brickmaker",
+     "Caravanserai",
+     "Charcoal burner",
+     "Citadel",
+     "Cooper",
+     "Dyer",
+     "Fence (word of mouth)",
+     "Fighting pits",
+     "Fish market",
+     "Foundling home",
+     "Fuller",
+     "Harbour master's office",
+     "Hunter's lodge",
+     "Mages' guild",
+     "Merchant oligarchy",
+     "Midwife",
+     "Mine",
+     "Pawnbroker",
+     "Potter",
+     "Printing house",
+     "River boatyard",
+     "River ferry",
+     "Salt works",
+     "Scroll scribe",
+     "Stone quarry",
+     "Theaters",
+     "Toll bridge",
+     "Veteran's lodge",
+     "Woodcarver",
+     "Workhouse"
+    ],
+    "dropped": [
+     "Carriers' hiring hall",
+     "Citizen militia"
+    ],
+    "requiredFlips": []
+   },
+   "city": {
+    "pinEffectiveRows": 90,
+    "nowRows": 130,
+    "pinRequired": 14,
+    "nowRequired": 16,
+    "added": [
+     "Almshouse",
+     "Assay office",
+     "Bakers (5-15)",
+     "Beast trainers",
+     "Blacksmiths (3-10)",
+     "Bowyers & fletchers (guild)",
+     "Brewery",
+     "Brickmaker",
+     "Butchers (3-8)",
+     "Caravanserai",
+     "Carpenters (5-15)",
+     "Chandler",
+     "Charcoal burner",
+     "Charlatan fortune tellers",
+     "Coaching inn",
+     "Cobbler's guild",
+     "Cooper",
+     "Customs house",
+     "Dyer",
+     "Elder Grove Council",
+     "Fish market",
+     "Fuller",
+     "Gladiatorial school",
+     "Hired blades",
+     "Hireling hall",
+     "Midwife",
+     "Mills (2-5)",
+     "Mine",
+     "Pawnbroker",
+     "Post relay station",
+     "Potter",
+     "Public bathhouse",
+     "River boatyard",
+     "River ferry",
+     "Ropemaker",
+     "Salt works",
+     "Sawmill (commercial)",
+     "Smelter",
+     "Stable district",
+     "Stone quarry",
+     "Tailor's guild",
+     "Tanner (established)",
+     "Tanners",
+     "Toll bridge",
+     "Town crier",
+     "Veteran's lodge",
+     "Vintner",
+     "Weavers/Textile workers",
+     "Woodcarver"
+    ],
+    "dropped": [
+     "Airship docking (high magic)",
+     "Colosseum/arena",
+     "Dragon resident",
+     "Dream parlors (high magic)",
+     "Gambling district",
+     "Message network (high magic)",
+     "Multiple theaters",
+     "Opera house",
+     "Planar traders"
+    ],
+    "requiredFlips": [
+     {
+      "name": "Craft guilds (30-80)",
+      "pin": false,
+      "now": true
+     }
+    ]
+   },
+   "metropolis": {
+    "pinEffectiveRows": 115,
+    "nowRows": 144,
+    "pinRequired": 14,
+    "nowRequired": 16,
+    "added": [
+     "Almshouse",
+     "Assay office",
+     "Bakers (5-15)",
+     "Beast trainers",
+     "Blacksmiths (3-10)",
+     "Bowyers & fletchers (guild)",
+     "Brewery",
+     "Brickmaker",
+     "Butchers (3-8)",
+     "Caravanserai",
+     "Carpenters (5-15)",
+     "Chandler",
+     "Charcoal burner",
+     "Charlatan fortune tellers",
+     "Coaching inn",
+     "Cobbler's guild",
+     "Cooper",
+     "Customs house",
+     "Dyer",
+     "Elder Grove Council",
+     "Fish market",
+     "Fuller",
+     "Gladiatorial school",
+     "Hired blades",
+     "Hireling hall",
+     "Housing (5000+ structures)",
+     "Midwife",
+     "Mills (2-5)",
+     "Mine",
+     "Pawnbroker",
+     "Post relay station",
+     "Potter",
+     "Public bathhouse",
+     "River boatyard",
+     "River ferry",
+     "Ropemaker",
+     "Salt works",
+     "Sawmill (commercial)",
+     "Smelter",
+     "Stable district",
+     "Stone quarry",
+     "Tailor's guild",
+     "Tanner (established)",
+     "Tanners",
+     "Toll bridge",
+     "Town crier",
+     "Veteran's lodge",
+     "Vintner",
+     "Weavers/Textile workers",
+     "Woodcarver"
+    ],
+    "dropped": [
+     "Aqueduct or water system",
+     "Banking houses",
+     "Black market",
+     "Burial grounds and charnel house",
+     "Cathedral (10,000+ only)",
+     "City granaries",
+     "City walls and gates",
+     "Craft guilds (30-80)",
+     "Daily markets",
+     "Gambling halls",
+     "Garrison",
+     "Housing (1000-5000 structures)",
+     "Large prison",
+     "Mages' guild",
+     "Major hospital",
+     "Merchant guilds (15-40)",
+     "Multiple courthouses",
+     "Multiple monasteries",
+     "Parish churches (10-30)",
+     "Theaters",
+     "Thieves' guild chapter"
+    ],
+    "requiredFlips": [
+     {
+      "name": "Advanced water infrastructure",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "Craft guilds (100-150+)",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "District markets (5-10)",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "Massive walls and fortifications",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "Multiple court buildings",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "Multiple garrisons",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "Parish churches (50-100+)",
+      "pin": false,
+      "now": true
+     },
+     {
+      "name": "State granary complex",
+      "pin": false,
+      "now": true
+     }
+    ]
+   }
+  },
+  "pinRowsWithMinTier": [
+   "Airship docking (high magic)",
+   "Colosseum/arena",
+   "Dragon resident",
+   "Dream parlors (high magic)",
+   "Gambling district",
+   "Message network (high magic)",
+   "Multiple theaters",
+   "Opera house",
+   "Planar traders",
+   "Smuggling network"
+  ]
+ },
+ "inDevelopment": {
+  "forces": {
+   "onDossier": false,
+   "verdict": "CONFIRMED not carried",
+   "where": "campaign state: worldState.deployments[saveId] (stateful army record: targetId, sinceTick, role, maxStartStrength, currentEffectiveStrength on the 0-100 capacity axis — a strength, not a headcount; pulseShapes.js:44-51; warArmyRecord.js) and spatialLedgers.armyTransit (positions; dormant without spatial canon); worldState.occupations",
+   "dossierTrace": "only conditions: war_mobilization / war_pressure / siege archetypes with triggeredAt {tick, sourceEventType WAR_LAYER_*} and causes; no size field"
+  },
+  "coalitions": {
+   "onDossier": false,
+   "verdict": "CONFIRMED not carried",
+   "where": "worldState: one closed join anchor in a deployment's joinLedger, no membership list (warCoalitionLedger.js:1-6); gated by warLayerEnabled + warTerminationEnabled + peaceEngineEnabled + coalitionLedgerEnabled",
+   "dossierTrace": "peaceOffers (saved-only root key) is the one war-adjacent dossier key"
+  },
+  "travellingGroups": {
+   "onDossier": false,
+   "verdict": "CONFIRMED not carried",
+   "where": "migration columns in spatialLedgers.migration (migrationKernel.js, dormant without spatial canon); envoy errands in worldState envoy ledgers",
+   "dossierTrace": "a refugee flow raises regional_migration_pressure (flows.js:99-104) with no headcount; the count lands only as populationHistory[].delta on source and destination; an individual NPC away carries npcs[].whereabouts {state, placeId, purposeKind, sinceTick, expectedReturnTick, missionId}"
+  },
+  "currentWeekStamp": {
+   "onDossier": false,
+   "verdict": "CONFIRMED no root stamp",
+   "where": "worldState.tick and worldState.calendar.elapsedWeeks (campaign)",
+   "nearest": "economicState.treasury.lastTick (every tick, only under treasuryEnabled); economicState.foodSecurity.stockpile.lastTick (tick of the stockpile's last CHANGE; plus season and seasonWeek under seasonsEnabled); powerStructure.factions[].updatedByPulse and neighbourNetwork[].updatedByPulse (tick of last change)"
+  },
+  "conditionsTriggeredAt": {
+   "onDossier": true,
+   "verdict": "CONFIRMED carried on every condition",
+   "shape": "{tick, sourceEventType, sourceEventTargetId} (activeConditions.js:629-633)",
+   "tickValues": "world tick on pulse-raised conditions (37 of the 51 triggeredAt literals in src/ carry it); 0 at generation (sourceEventType GENERATION) and on authored-event conditions (the 10 literals in mutateWorld.js, mutateEntities.js and crisisLifecycle.js carry no tick, so deriveActiveCondition defaults it to 0, activeConditions.js:630); the other 3 tickless literals are record-mode comparison probes (mobilizationEffects.js:62, occupationRecordMode.js:94, warRecordMode.js:94) whose candidate is never stored"
+  },
+  "historyTicks": {
+   "onDossier": "partial",
+   "verdict": "CONFIRMED per array",
+   "withTick": [
+    "populationHistory[].tick (or null)",
+    "history.historicalEvents[].tick on campaign-era entries",
+    "calamityHistory[].tick (+year)",
+    "institutionHistory[] {year, tick} when stamped",
+    "institutions[].foundedAt {year, tick}",
+    "powerStructure.previousGovernments[].tick",
+    "lifecycleHistory[].tick",
+    "urbanFabric.scars[].week / rebirths[].week",
+    "parentRef.foundedTick / graduatedTick"
+   ],
+   "withoutTick": [
+    "resourceHistory[] {resource, state, outcomeId, reason} — both writers (tierResourceDynamics.js:732-740, resourceDynamicsKernel.js:875-878); SettlementForge says so itself (rosterProvenance.js:320-323)",
+    "tierHistory[] {fromTier, toTier, direction, outcomeId, institutionFates}"
+   ]
+  },
+  "customDefinitionFields": {
+   "onDossier": "partial",
+   "verdict": "CONFIRMED",
+   "detail": "customContentRoster carries definition fields only for deities, factions, stressors and traditions (livingContentLaw.js:151-156) and only in lit v2 worlds; a custom institution's record carries identity and presentation tokens but none of its definition fields; customContentProvenance carries definition identity, not bodies"
+  }
+ },
+ "forThePort": [
+  "resourceHistory[] carries no tick at 00b648c9d (and did not at the pin): a port row reading resourceHistory[].tick always takes its fallback.",
+  "tierHistory[] carries no tick.",
+  "generatorVersion stayed 0.9.0 and schemaVersion 1 across 154 commits that moved outputs: neither stamp can select an adapter line between 5d699cc68 and 00b648c9d.",
+  "44 institution kinds changed category (shelf); any kinds/zoning table keyed by (category, name) or reading category needs the new shelves; catalogIds are unchanged.",
+  "minTier no longer appears on institution records.",
+  "Metropolis rosters no longer inherit the city block; metropolis-scale successors replace the lesser city kinds (e.g. Housing (5000+ structures)).",
+  "No forces, coalitions, travelling groups or current-week stamp on the dossier: the item 125 (b) fallbacks stay in force."
+ ]
+}

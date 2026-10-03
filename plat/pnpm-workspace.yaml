@@ -1,0 +1,10 @@
+# The PLAT workspace (§1.7, §14; M0.md §4). Run every command as `corepack pnpm …` (C-0030).
+packages:
+  - "packages/*"
+  - "bench"
+  - "vendor/*"
+
+# No dependency runs an install script (C-0054). esbuild's postinstall only re-checks its platform binary, which pnpm
+# already installs as the optional package @esbuild/darwin-arm64.
+ignoredBuiltDependencies:
+  - esbuild
