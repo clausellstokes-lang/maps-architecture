@@ -1,0 +1,34 @@
+{
+ "slots": [
+  {
+   "slot": 3,
+   "verdict": "confirmed",
+   "problems": [
+    "Minor, carried over from the first verifier and still not fixed. It does not change the verdict. ftg_capture_post.py treats every request leaf under the raw-resource list as water-implied by prefix, so the requestDiff and vsSlot0 checks pass any resource change. The red test was re-run on a scratch copy of slot 5's request, with the resource LOGS replaced by IRON: exit 0, and both checks pass. The real requests were checked independently. For slots 3, 4 and 5, the resource list differs from day 1 only by the added fishing entry, and it equals the 2026-09-21 base exactly. Vetoable fix: pin the class to that one entry, as R-24 pinned the size class. The same applies to slots 4 and 5."
+   ]
+  },
+  {
+   "slot": 4,
+   "verdict": "confirmed",
+   "problems": [
+    "Minor: the same prefix-rule weakness as slot 3. The independent check is clean: against day 1, only the 2 water keys and the fishing entry differ."
+   ]
+  },
+  {
+   "slot": 5,
+   "verdict": "confirmed",
+   "problems": [
+    "Minor: the same prefix-rule weakness as slot 3; this capture's request carried the red test. The independent check is clean: against day 1, only the size key, the 2 water keys, the fishing entry and 14 named size-dependent values differ."
+   ]
+  }
+ ],
+ "privacy_ok": true,
+ "privacy_notes": [
+  "Scope. Seats' files outside captures/: E02-ftg-captures.md and .json; results W-02.json, W-02-slot1, -slot2, -slot3, -slot3b, -slot4b, -slot5b and W-02-signed-in-verify.json; research/baselines/ftg_capture_checklist.md, ftg_capture_post.py, ftg_text_summary.mjs, plan.json and metrics.m-1.json; docs/lane-events.log. Also scanned: every other project file changed since 18:35 outside captures/ and plat/ (17 files: docs/ACTIVE-RUN.json, HANDOFF.md, PROGRESS.md, lanes-snapshots.jsonl, the M-1 plan, rulings and work files, plan.py, workflows/). Inside captures/: the seats' chosen files for slots 3-5.",
+  "Method. Exact values were collected in memory from the six capture recordings and from the 19:32 sign-in check's recording: 14 analytics ids, 19 error-reporting ids, 7 settlement ids, 270 partner ids and 6 settlement names. The recordings hold no email, JWT, authorization value or cookie value: the recorder redacts the authorization header and keeps no cookie header. The display name was taken in memory by OCR: an 8-character non-dictionary word, the same in 10 settlements-view shots. Generic patterns were also scanned: email, 'eyJ', UUID, 32 or more hex, analytics-id shape, and 'Signed in as' followed by text. No value was printed or written.",
+  "Result. Every seat file outside captures/ has 0 hits of any collected value, 0 emails, 0 tokens, 0 cookie or authorization values, 0 account, user or analytics ids, 0 display-name hits, and no unredacted 'Signed in as'. lane-events.log: all 51 long hex runs sit on build and volume lanes' lines (file hashes), and none on the 63 m1/W-02 lines. Its 2 UUIDs are this Claude session's id inside scratchpad paths. Among the other files, only workflows/23-build-m0-waves.js has email shapes: the commit co-author address and a package-version false positive. Neither belongs to the owner.",
+  "Inside captures/ (git-ignored; noted only). create-request.json holds only the 45 partner ids. steps.jsonl holds the new settlement's id and the scratchpad folder name, as in slots 1 and 2. Every 'Signed in as' in slots 4 and 5 is '[name]' or redaction code, and slot 4's line-4 redaction holds (0 name hits). structure.md holds each settlement's own FTG-generated town name as a pb_raw sample (slots 1-5 alike). That name is not an account identifier, but W-02-slot5b.json's 'no account settlement names written' overlooks this generated file.",
+  "CONFIRMED: every count above (executed scans), and every check in the slot verdicts. pb_raw re-decode = structure.md (177/177/198 paths). Own walk counts are 3: 11121/8400/7342/40/4/4, 4: 4215/3571/1880/22/4/4 and 5: 10164/7984/7270/49/3/4 (edges/nodes/buildings/towers/water/districts), with borders of 2750/2000/2750 m. Every slot passes --check-only 10/10, and a scratch-root writing run gives byte-equal outputs (only the path differs). The PUT sha256 matches (0b64eaef3fe5, 2473a617654e, 101a10861aae). Each slot has one PUT and its list grows 3->4->5->6. plan.py --check reads SAME (524830f5), and replays from git 8010bfa and 83ddd74 equal disk; out-of-order and repeat binds are refused. PLAUSIBLE: that the OCR word is the display name.",
+  "Owner's question: no new sign-in is needed, as of 19:32 EDT. The read-only check by m1/W-02-slot3b has a shot whose OCR shows 'Signed in as' and 'Sign out', with no sign-in or Google prompt (CONFIRMED). That it is still signed in now is PLAUSIBLE: this lane touched no website."
+ ]
+}
