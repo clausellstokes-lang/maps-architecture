@@ -2017,3 +2017,4 @@
 2026-10-03 01:44 coherence/rewrite-V10 CHECKPOINT V11 setting names aligned (history.settings); writing report docs/validation/coherence/rewrite-V10.md
 2026-10-03 01:49 coherence/rewrite-V10 CHECKPOINT report written (docs/validation/coherence/rewrite-V10.md, 805-row mapping table); next: results JSON, LANDED
 2026-10-03 01:49 coherence/rewrite-V10 LANDED docs/validation/coherence/new/volumes/V10-clerk.md docs/validation/coherence/rewrite-V10.md docs/validation/coherence/results/coherence_rewrite-V10.json (84 658 -> 72 685 words, 526.0 -> 442.9 KB; 805/805 ids mapped; 18 conflicts; SIZE-1 marked)
+2026-10-03 01:51 coherence/assemble-r0 STARTED (cloud continuation; mechanical seat)
