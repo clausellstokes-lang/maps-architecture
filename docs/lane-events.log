@@ -2037,3 +2037,5 @@
 2026-10-03 02:16 coherence/verify-agree-time-r0 CHECKPOINT skeleton written (docs/validation/coherence/verify-agree-time-r0s.md); next: P1 base homes
 2026-10-03 02:18 coherence/verify-vol-V09-V10-r0 CHECKPOINT P1 inputs gathered (canon routing V09/V10, edges, cross-part notes) in scratch; report skeleton docs/validation/coherence/verify-vol-V09-V10-r0s.md; next: P2 mechanical checks
 2026-10-03 02:18 coherence/verify-edges-world-r0 CHECKPOINT P1 catalogue extracted (822 open edges, 222 owned combos); skeleton written; next: P2 edge sections
+2026-10-03 02:20 coherence/verify-edges-life-r0 CHECKPOINT P1 determinism (2 issues: EL-01 dossier vs lock, EL-02 epoch/salt u16 caps) and P2 scope (0) written; next: P3 V06
+2026-10-03 02:21 coherence/verify-agree-time-r0 CHECKPOINT P1 base §4.11/§6/§7.4 read; AT-01 (item 266 epoch-spread timing), AT-02 (history step list) written; next: V06 §3.11-§3.21, §4
