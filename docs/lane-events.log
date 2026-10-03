@@ -2034,3 +2034,4 @@
 2026-10-03 02:15 coherence/verify-edges-life-r0 STARTED (cloud continuation; first edge check after the rewrite; members determinism, scope, V06, V08, V09, V10, V11, V12)
 2026-10-03 02:15 coherence/verify-agree-proof-r0 STARTED (cloud continuation; first agreement check after the rewrite: proof and plan)
 2026-10-03 02:15 coherence/verify-scope-r0 STARTED docs/validation/coherence/verify-scope-r0s.md (cloud continuation; scope part verifier after assemble-r0; scratch scratchpad/coherence/vs0/)
+2026-10-03 02:16 coherence/verify-agree-time-r0 CHECKPOINT skeleton written (docs/validation/coherence/verify-agree-time-r0s.md); next: P1 base homes
