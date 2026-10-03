@@ -224,7 +224,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-10-03 19:20 EDT._
+_Disk state as of 2026-10-03 19:30 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -444,7 +444,6 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 ### Lane events reported by agents (last 40)
 
 ```
-2026-10-03 18:58 m1/W-02-slot4b CHECKPOINT read only so far: landing signed in, no consent notice (shot 001); Home clicked (1 of 2 hit-testable, elementFromPoint checked); settlements view lists 4 settlements (list read: BIG_TOWN 2, BIG_CITY 2 = the earlier settlement and slots 1-3; no slot-4 settlement), no counter (premium) (shot 002 --full); next: open the form, set BIG_TOWN, coastal, boxes
 2026-10-03 18:59 build/M0-d-02 CHECKPOINT choices C-0132, C-0133 and CLEAN-ROOM L-0032 / P-0001 appended; 15 runtime + 4 type mutants run in scratch (14 + 4 caught, 1 equivalent); hash tests 30/30, tsc -b kernel/test 0, lint 0; whole-tree build red on bench/src/timing (M0-f-01 WIP) and kernel test/num/orient2d (M0-a-01 WIP) — not mine; next: re-run gates when they settle, landed record
 2026-10-03 19:00 m1/W-02-slot4b CHECKPOINT form set and verified (Big town option, coastal, rivers/farms/forests/reserve/walled on, name blank; shots 004-013; every box click guarded by elementFromPoint); create button 1 of 1 hit-testable inside the dialog at 947,522; THE CREATE CLICK HAPPENS NOW (session 2026-10-03T22-57-34) - a resumed seat must not create again
 2026-10-03 19:00 build/M0-d-02 CHECKPOINT landed record written (11 created, 1 changed; appends L-0032, P-0001, C-0132, C-0133; landed:verify --item ok); build now 0; waiting for kernel project tests (M0-a-01's test/num WIP red) before the LANDED line
@@ -484,6 +483,7 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 2026-10-03 19:18 m1/W-02-slot5b CHECKPOINT E02: header update, section 15 (slot 5) written; next: E02 JSON entry, checklist slot-5 line, privacy grep, result
 2026-10-03 19:19 m1/W-02-slot5b CHECKPOINT E02 JSON (day 6 entry, slotsTaken 6, signedIn list 5 -> 6, next = programme 1 complete) and checklist slot-5 line written; next: privacy grep, result, LANDED
 2026-10-03 19:20 m1/W-02-slot5b LANDED docs/calibration/results/W-02-slot5b.json docs/calibration/E02-ftg-captures.md docs/calibration/E02-ftg-captures.json research/baselines/ftg_capture_checklist.md research/baselines/plan.json captures/ftg/2026-10-03T23-10-37/ — slot 5 (BIG_CITY, coast+river) created once in the owner's signed-in account, premium since J164 (list 5 -> 6 settlements); guarded clicks H12-H14; 10/10 post checks PASS (7270 buildings, 10164 edges, 7984 nodes, 49 towers, 3 water bodies, 4 districts, +-2750 m, ftg:2026-10-03+101a10861aae; 16/16 size-dependent equal slot 1's); request equals slot 3's apart from the 45 partner ids yet the city differs (server seed PLAUSIBLE); red tests exit 1 (as 3: exit 0, same cell); bound, plan.py --check SAME (plan 524830f5); programme 1 complete (slots 0-5 bound); session stopped, 11 GiB free; no plat/, no git
+2026-10-03 19:20 orchestrator NOTE PAUSED for the owner's account switch: runs wf_ac63cb22-a54, wf_59f4cd34-097, wf_207ee83e-370 stopped after FTG slot 5b LANDED and wave 2's builds LANDED; resume per docs/HANDOFF.md RESUME HERE
 ```
 
 ### Archives on disk
@@ -776,3 +776,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-10-03 18:42 EDT** — 18:55 EDT: launching workflows/25-ftg-signed-in.js (slots 3,4,5; keySuffix b; premium) and workflows/26-m1-rulings-2.js (J164).
 - **2026-10-03 18:58 EDT** — 19:00 EDT: FTG signed-in run 1 LANDED (wf_7cac3c9d-5cf): slots 1 and 2 confirmed by the independent verifier, privacy check clean (0 emails, tokens, ids outside captures/); minor: ftg_capture_post.py's water-implied prefix rule (routed to W-05b). Slot 3 retried as m1/W-02-slot3b in run wf_59f4cd34-097.
 - **2026-10-03 19:20 EDT** — 19:21 EDT PAUSE (owner: account switch): stopping all runs at a clean point — FTG slot 5b LANDED 19:20 (towns 1–6 recorded; no browser open); M0 wave 2's four builds LANDED, checks in flight (check/M0-a-01, check/M0-f-01, check/M0-d-03 restart by their RESUME/CONTINUE rules); rulings-2 mid-run (CONTINUE). Runs stopped: wf_ac63cb22-a54 (task wm7m5kpy0), wf_59f4cd34-097 (w3qzxt618), wf_207ee83e-370 (wdqs1xnuh). Resume per HANDOFF RESUME HERE.
+- **2026-10-03 19:30 EDT** — RESUMED after the owner's account switch (new session 35f80c37): relaunching fresh (no resumeFromRunId across sessions) workflows/23-build-m0-waves.js with waves 2, 3, 3v (the flatbush ** vendor patch, J162 N1, as its own mini-wave with build + check seats, script extended; backup 23-build-m0-waves.pre-vendor.js.bak), 4-18 (args workflows/lane-prompts/m0-waves-args.json; maxLanes 4, maxFixRounds 4, closingFrom 3; old wave scratch moved into the new scratchpad); workflows/25-ftg-signed-in.js slots 3,4,5 keySuffix b premium (slot seats RESUME from disk, then the verifier of 3b-5b; no website; args ftg-verify-b-args.json); workflows/26-m1-rulings-2.js (rulings-2 CONTINUES from its files: result file present without a LANDED line; then the Opus closing check; args m1-rulings-2-args.json). Seats on the machine at most 6 (J161 precedent up to 7). No lane-check cron (stale text; task notifications wake the session).
