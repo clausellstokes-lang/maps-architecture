@@ -1,9 +1,30 @@
 {
- "n": 1,
- "pc": "assemble",
+ "n": 2,
+ "pc": "verify",
  "round": 0,
  "sweep": true,
- "units": [],
+ "units": [
+  "model",
+  "kernel",
+  "pipeline",
+  "determinism",
+  "rendering",
+  "scope",
+  "vol-V01-V02",
+  "vol-V03-V04",
+  "vol-V05-V06",
+  "vol-V07-V08",
+  "vol-V09-V10",
+  "vol-V11-V12",
+  "agree-fabric",
+  "agree-layers",
+  "agree-time",
+  "agree-host",
+  "agree-tools",
+  "agree-proof",
+  "edges-world",
+  "edges-life"
+ ],
  "owners": [],
  "work": [],
  "history": [],
@@ -12,12 +33,35 @@
  "rulingsFile": "",
  "pendingRequests": 0,
  "vround": 0,
- "asm": null,
+ "asm": {
+  "file": "docs/validation/coherence/assemble-r0.md",
+  "old_kb": 9062,
+  "new_kb": 8227,
+  "broken_references": 25,
+  "doc_check_hits": 0,
+  "unplaced": [
+   "determinism §5.3: the Invariant type used by KernelTx.expect (§3.3) and StageDecl.invariants (§4.12) is declared nowhere (scope report's cross-part note)",
+   "rendering §8.2/§11.3: Role and BridgeMessage are cited by §14's type map but not declared as named types (scope report's note)",
+   "determinism §5.4: the warnings comment names 7 underground codes against V04 §1b.1's 12 (V04 note 1)",
+   "determinism §7.3 (base l. 10201): the closure reads V04's excavation reading `unexcavated` without `or lost` (V04 note 2)",
+   "pipeline II.6 (base l. 18243, 18245): the retired stored field `flowToward` still named; should read the wayFall reading, item 208 (V04 note 4)",
+   "one rank, two names: base UndercityRule.sourceRank (II.7.5) vs V04 RuinRule.sourceWeight (V11 note 1, addressed to the Assemble seat; a design term, not mechanical)",
+   "unresolved pointers: base PART III 'V07 §15' (l. 19211); V11 'V11 §3.17.3' (l. 745, 983); INDEX §8 'V6 §2.1', 'V9 §4.16' (l. 211, old G-cite form)",
+   "bare self-references against canon S7: V11 19 (§3.26 edges table l. 4154-4166, 4179; §9 rows l. 4593, 4601, 4604) plus 8 sibling pointers there that silently resolve to the base; V04 l. 3362 '§3.12 (9)' meaning V03 §3.12 (9)",
+   "ids defined only in records outside the set (principle (4)): J-S23.2 (base), J-S23.5 (V03), J-SS3.10 (V04), J-RF2.4 (V06, V11, V12, INDEX), J-M2/J-M11 (V08)",
+   "INDEX.md: the intro still says file f items 'not yet applied'; the head keeps the volumes/_finalize PROGRESS ledger (narration); §5 and §8 not rewritten",
+   "live copy vs source copy: the V04 l. 3365 re-point and the base §11.1 S1 pipe escape are in the live files only, not in new/volumes/V04-underground.md or new/base/rendering/03-s11-export-and-interop.md",
+   "size: base + volumes -7.8 % by words (base +13.3 % with files f and g applied, volumes -14.9 %), below the owner's 25-40 % band; §0 (-52.3 %) and the judgment index (-36.8 %) flagged for the nuance audit",
+   "doc checks provisional: the reference corpus (captures/, research/patreon, devlogs, ftg-docs, external) is absent in this checkout; the 408 allow rows' reviews must be re-run where the corpus is held"
+  ]
+ },
  "step": {
   "results": {},
   "attempt": 1,
   "planned": [
-   "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/step-001-a1-1.js"
+   "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/step-002-a1-1.js",
+   "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/step-002-a1-2.js",
+   "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/step-002-a1-3.js"
   ]
  }
 }

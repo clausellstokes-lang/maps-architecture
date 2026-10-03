@@ -2023,3 +2023,8 @@
 2026-10-03 01:52 coherence/assemble-r0 CHECKPOINT P2 base written (docs/ARCHITECTURE.md from 34 section files, every archived top-level heading matched once; 372 998 -> 422 674 words); next: volumes
 2026-10-03 01:53 coherence/assemble-r0 CHECKPOINT P3 volumes written (12 of 12 replaced from new/volumes); next: INDEX placement
 2026-10-03 01:53 coherence/assemble-r0 CHECKPOINT P4 INDEX.md written (§3, §4, §6, §7 from new/index; intro items 102–113); next: rationale changes
+2026-10-03 01:56 coherence/assemble-r0 CHECKPOINT P5 rationale written (Part A: 59 new rows in index order, 17 E-24 marks, J-A16.01 and J-A29.25 changed, J-A28.02 no-op); next: references
+2026-10-03 02:04 coherence/assemble-r0 CHECKPOINT P6 references checked (refcheck.py in scratch: 18 679 bare §, 15 122 Vnn §, 1 246 II., 278 D-, 5 942 J-, 5 052 T- refs); 1 mechanical fix (V04's V07 §1 (5) -> V07 §1's facts (1), per V07 report note 3); next: record broken list, doc_checks
+2026-10-03 02:09 coherence/assemble-r0 CHECKPOINT P7 doc_checks U/N/C run (provisional corpus); S1 fixed in the live base (two pipes escaped in §11.1's 3-D row code span); next: review rows for C2 1, C4 1, S2 21, C3 385, re-run
+2026-10-03 02:10 coherence/assemble-r0 CHECKPOINT P7 doc_checks exit 0 (N2, C2, U2; provisional corpus): 408 reviewed allow rows appended (C3 385, S2 21, C2 1, C4 1); next: bundle
+2026-10-03 02:13 coherence/assemble-r0 LANDED docs/ARCHITECTURE.md docs/ARCHITECTURE-RATIONALE.md docs/volumes/V01-V12 docs/volumes/INDEX.md docs/ARCHITECTURE-FULL.md docs/validation/doc-checks-allow.tsv docs/validation/coherence/assemble-r0.md docs/validation/coherence/results/coherence_assemble-r0.json (base+volumes 9062 -> 8227 KB; 25 broken refs listed; doc checks exit 0, provisional)

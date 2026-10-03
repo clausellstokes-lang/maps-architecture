@@ -3362,7 +3362,7 @@ own part, closed at its home:
 | V03 | `AccessHostRow`'s rows catacomb → crypt (the crypt join's head) and catacomb → nave (a cemetery chapel's head); the cathedral's largest-crypt bar; §3.12 (9) reads `gradeFaces(chamberId)` (V04 §3.5.4 (f)) and drops its fallback; T-V3-23 (g) closed by T-V4-50's elaboration-independence clause | V03 §3.7.2 (6), V03 §3.7.4, V03 §3.12 (9), V03 §13 |
 | V05 | the `ruin.node` report line read by its why (its node term reads no position) and the islands' exclusion from burial faces | V05 §3.3, V05 §3.5 (3), V05 §4.5 |
 | V06 | the scheduling of excavation, catacomb growth, ruin decay and the links over epochs; the four `under.*` participants (`stage: 'U-FADE'`); `HistoryRecord.buried` written from `BuriedFormer.lay`'s return; the households a lost void or a collapsed floor vacates re-homed (cause `void`) | V06 §2.1, V06 §3.2, V06 §3.18, the replay |
-| V07 | the village product's display of the layer; V07 FL-3 closed by the span rule's `country` reason (item 244; J-C4), V07's fallback dropped | V07 §1 (5), V07 §3.16 (1) |
+| V07 | the village product's display of the layer; V07 §13's FL-3 closed by the span rule's `country` reason (item 244; J-C4), V07's fallback dropped | V07 §1's facts (1), V07 §3.16 (1) |
 | V08 | the port side of the ruin, magic, mining, church, burial and calamity facts; the history reading item 113's buried former settlement reads | V08 §2.6a, V08 §3.6 |
 | V09 | the `showUnexcavated` and active-layer controls; the lost void's panel line ("once known"); the hit stack's arch-vault entry through its span | V09 §4.17 |
 | V10 | the explanations reading the providers of V04 §4.5 (`info.under.*`), the lost void's story and the buried former settlement's | V10 §3.9, V10 §3.9a |
