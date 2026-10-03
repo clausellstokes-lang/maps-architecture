@@ -41,3 +41,5 @@ kind the generator adds by its own rules that no dossier record binds (re-adding
 kind's current default, the stage that builds it and today's removal behaviour; then the per-unit changes of item 114's
 HOMES become operator findings (kind F-MISSING, one per unit, each with the exact required change), checked against the
 sweep's own findings so nothing is doubled. From round 1 on, every verifier reads item 114 in file g and checks it.
+
+Prepared 2026-10-03 ~05:10 UTC: `workflows/19-item114.js` (Find: nine readers over the base and the volumes as three runs, args `workflows/lane-prompts/item114-find-{a,b,c}.json`; then Settle as one run, `item114-settle.json`: catalogue, a completeness critic looping until it finds nothing new (cap 3), routing, and an adversarial per-unit check). Its final findings, plus the watch items no sweep seat raised, join the round-0 sweep through `coherence_driver.py ingest … --operator`. Outputs in `docs/validation/coherence/item114/`.

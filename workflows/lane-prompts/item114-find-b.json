@@ -1,0 +1,11 @@
+{
+ "phase": "find",
+ "slices": [
+  "base-rest",
+  "V09-V10",
+  "V03-V04"
+ ],
+ "root": "/home/user/maps-architecture",
+ "scratch": "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/item114",
+ "note": "CLOUD SESSION NOTE: the repository is checked out at /home/user/maps-architecture (/Users/cstokes/Desktop/Maps links to it, so older scripts that hard-code it still run). The reference corpus kept on the owner's Mac (captures/, research/patreon, research/devlogs, research/ftg-docs, research/external) is absent here; never try to fetch it. The coherence pass's assemble round 0 has replaced the live base and volumes with their rewritten text: read the LIVE files."
+}
