@@ -1,0 +1,79 @@
+INHERIT l294 V04 §2.3  gap='–' ctx="uinRule`, `DigRule`, `OpeningRow`, `CatacombRule`; V04 §2.2–§2.3);\nV11's c"
+INHERIT l346 V11 §2.9  gap=',\n' ctx='` naming a `v.` key and its compile check (SS-01; V11 §2.3,\n§2.9), `guildh'
+INHERIT l349 V06 §3.5.2  gap=', ' ctx='n` and `reopen` members and their issuers (TR-03; V06 §2.1, §3.5.2, §3.8.2 t'
+INHERIT l349 V06 §3.8.2  gap=', ' ctx='reopen` members and their issuers (TR-03; V06 §2.1, §3.5.2, §3.8.2 tier\n(5′)'
+INHERIT l352 V11 §3.2.1  gap=', ' ctx=' class invariants run over the `v.`\nrows (SR1-08; V11 §2.3, §3.2.1 step 6, T'
+CHECK-BASE l354 §3.5.1 ctx="count reading `v.parish_church` (SR1-24; V04 §3.5.1); V08 — §3.5.1 (b)'s ran"
+CHECK-BASE l361 §3.21.1 ctx='its\nfallback is withdrawn. V11 — landed: the sentence under §3.21.1 that a te'
+CHECK-BASE l362 §3.2.1 ctx="rritory rung reads the `villageSeat` column\nalone (SR3-03), §3.2.1's village"
+CHECK-BASE l364 §3.7.1 ctx='7 resolved on this side (J-V11.79, J-V7.120).\nV12 — landed: §3.7.1 (c) and §'
+CHECK-BASE l364 §3.7.2 ctx='his side (J-V11.79, J-V7.120).\nV12 — landed: §3.7.1 (c) and §3.7.2 (3) name\n'
+CHECK-BASE l384 §3.5.1 ctx='S8 lays at a village rung (reconcile-V11-r5). V08 — SR4-06:\n§3.5.1 (c) binds'
+CHECK-BASE l397 §3.5.1 ctx="51); no fallback. V08 — landed by reconcile-V08-r6 (14:12): §3.5.1 (c)'s thr"
+INHERIT l397 V11 §3.5.15  gap=', ' ctx="(14:25): the display cells on `BuildingClassRow` (V11 §2.3, §3.5.15; T-V11-4'"
+INHERIT l397 V06 §3.9.1  gap=', ' ctx="m-sized roster member's opening and the counts (V06 §3.9.6, §3.9.1, E4), a l"
+INHERIT l572 V06 §3.5.3  gap=', ' ctx=" and hinterland steps at this product's epochs (V06 §3.5.2, §3.5.3; §3.12) *"
+INHERIT l891 V11 §2.9  gap=' and ' ctx='\n(`v.hovel`, `v.smithy`, `v.parish_church`, …; V11 §2.3 and §2.9 as SS-01 '
+INHERIT l896 V11 §3.5.14  gap=', ' ctx='hese rows by the rules it applies to every class\n(V11 §3.2, §3.5.14) — the sa'
+INHERIT l2420 V06 §3.5.2  gap=', ' ctx=' per-epoch cap — through `ProductDeclEpoch.rows` (V06 §2.1, §3.5.2, §3.5.3;\n'
+INHERIT l2420 V06 §3.5.3  gap=', ' ctx='ch cap — through `ProductDeclEpoch.rows` (V06 §2.1, §3.5.2, §3.5.3;\n`Product'
+INHERIT l3407 V06 §3.9.1  gap=', ' ctx="m-sized roster member's opening and the counts (V06 §3.9.6, §3.9.1, E4), a l"
+INHERIT l3769 V11 §2.9  gap=' and ' ctx="ungs, always a `v.` key (V07 §2.4's namespace; V11\n§2.3 and §2.9 as SS-01 "
+CHECK-BASE l3988 §3.7.2 ctx="0.md`,\n  `seam-settlements-r0.md`); V11 §3.7.1's goods ids, §3.7.2's provide"
+CHECK-BASE l3988 §3.7.4 ctx="ements-r0.md`); V11 §3.7.1's goods ids, §3.7.2's providers, §3.7.4's `chainS"
+CHECK-BASE l3988 §3.6.1 ctx=".1's goods ids, §3.7.2's providers, §3.7.4's `chainStatus`, §3.6.1's `burial"
+CHECK-BASE l3989 §3.23.8 ctx="rial-ground`\n  family, §3.12's COUNT and GUILD rows, §3.22, §3.23.8, §3.24.1 "
+CHECK-BASE l3989 §3.24.1 ctx="nd`\n  family, §3.12's COUNT and GUILD rows, §3.22, §3.23.8, §3.24.1 and §3.24"
+CHECK-BASE l3989 §3.24.4 ctx=", §3.12's COUNT and GUILD rows, §3.22, §3.23.8, §3.24.1 and §3.24.4; V08 §2.6"
+CHECK-BASE l3990 §2.6b ctx="1 and §3.24.4; V08 §2.6's `threat` and `threats` rows and\n  §2.6b (3); V06 "
+INHERIT l3990 V06 §3.5.2  gap=', ' ctx=".6's `threat` and `threats` rows and\n  §2.6b (3); V06 §2.8, §3.5.2, §3.5.3, "
+INHERIT l3990 V06 §3.5.3  gap=', ' ctx='reat` and `threats` rows and\n  §2.6b (3); V06 §2.8, §3.5.2, §3.5.3, §3.19.2 '
+INHERIT l3990 V06 §3.19.2  gap=', ' ctx='d `threats` rows and\n  §2.6b (3); V06 §2.8, §3.5.2, §3.5.3, §3.19.2 (2), §3.1'
+INHERIT l3990 V06 §3.19.4  gap=' (2), ' ctx='ows and\n  §2.6b (3); V06 §2.8, §3.5.2, §3.5.3, §3.19.2 (2), §3.19.4, §3.19.5 '
+INHERIT l3990 V06 §3.19.5  gap=', ' ctx=' §2.6b (3); V06 §2.8, §3.5.2, §3.5.3, §3.19.2 (2), §3.19.4, §3.19.5 and BCR-V'
+CHECK-BASE l3997 §3.3.1 ctx="1 §2.3's `SitingProfile`, `CoverageSpec` and class columns, §3.3.1's family "
+CHECK-BASE l3997 §3.3.3 ctx=" `CoverageSpec` and class columns, §3.3.1's family rows and §3.3.3's\n  `to` "
+CHECK-BASE l3998 §3.5.1 ctx="and §3.3.3's\n  `to` vocabulary, §3.4's 45 profile families, §3.5.1's setting"
+CHECK-BASE l3998 §3.5.2 ctx="1's settings and derived columns (the `church-family` tag), §3.5.2's\n  notat"
+CHECK-BASE l3999 §3.5.3 ctx="amily` tag), §3.5.2's\n  notation and default reading rules, §3.5.3 – §3.5.10"
+CHECK-BASE l3999 §3.5.10 ctx="g), §3.5.2's\n  notation and default reading rules, §3.5.3 – §3.5.10's town ro"
+CHECK-BASE l3999 §3.6.1 ctx="lt reading rules, §3.5.3 – §3.5.10's town rows as the form, §3.6.1's templat"
+CHECK-BASE l4000 §3.7.1 ctx="s as the form, §3.6.1's template families and yard parts,\n  §3.7.1's goods ("
+CHECK-BASE l4000 §3.13.2 ctx="7.1's goods (their `maxDistanceM` and modes), §3.8's pairs, §3.13.2's keyword"
+CHECK-BASE l4001 §3.21.1 ctx=", §3.13.2's keyword families, §3.15's powers and sectors,\n  §3.21.1's governm"
+CHECK-BASE l4001 §3.23.1 ctx="ors,\n  §3.21.1's government kinds and `villageSeat`, §3.22, §3.23.1, §3.23.2,"
+CHECK-BASE l4001 §3.23.2 ctx=".21.1's government kinds and `villageSeat`, §3.22, §3.23.1, §3.23.2, §3.23.7 "
+CHECK-BASE l4001 §3.23.7 ctx='overnment kinds and `villageSeat`, §3.22, §3.23.1, §3.23.2, §3.23.7 and §3.24'
+CHECK-BASE l4001 §3.24.4 ctx="nds and `villageSeat`, §3.22, §3.23.1, §3.23.2, §3.23.7 and §3.24.4's `deckOk"
+CHECK-BASE l4002 §3.5.2 ctx="articipant`, §3.2's participant rows (orders 10 and 20) and §3.5.2's product"
+CHECK-BASE l4010 §3.5.4 ctx="ation-r2.md` SCC-62); V11 §3.4's `market`\n  family rows and §3.5.4 – §3.5.10"
+CHECK-BASE l4010 §3.5.10 ctx="md` SCC-62); V11 §3.4's `market`\n  family rows and §3.5.4 – §3.5.10's `market"
+CHECK-BASE l4011 §3.6.1 ctx="\n  `warehouse`, `ropewalk`, `granary` and `monastery` rows, §3.6.1's `market"
+CHECK-BASE l4012 §3.7.4 ctx="oister` and `church` families with\n  the `refuse` sentence, §3.7.4's `splitE"
+CHECK-BASE l4013 §3.13.2 ctx="§3.11's village-tier kind rows, §3.12's `town_watch` row,\n  §3.13.2's `villag"
+CHECK-BASE l4013 §3.13.4 ctx=" (`brewer`, `brewery`, `tavern`, `alehouse`, `butcher`) and §3.13.4's chain\n "
+CHECK-BASE l4025 §3.2.1 ctx=".1's `presetsRequired`, §2.2's preset entries and rule (a), §3.2.1 step\n  4,"
+CHECK-BASE l4026 §3.21.1 ctx="office` and `@pin`, §3.12's range sentence (SR2-06 landed), §3.21.1's governm"
+CHECK-BASE l4028 §3.7.1 ctx="5's `CalibrationRun`, §2.6's register entry and id grammar, §3.7.1 (c), §3.7"
+CHECK-BASE l4028 §3.7.2 ctx="tionRun`, §2.6's register entry and id grammar, §3.7.1 (c), §3.7.2 and the `"
+CHECK-BASE l4029 §3.9.5 ctx=".2 and the `vg.*` family; V06 §3.8.4's\n  `amalgamate` form, §3.9.5 (1) and §"
+CHECK-BASE l4029 §3.9.6 ctx="*` family; V06 §3.8.4's\n  `amalgamate` form, §3.9.5 (1) and §3.9.6's opening"
+CHECK-BASE l4033 §7.0 ctx='m-content-calibration-r2.md` §7.2 SCC-R2C-3, -12, -16, with §7.0 and §7.4)'
+CHECK-BASE l4034 §3.2.1 ctx="ntinuation, LANDED 10:31); V11 §3.1's *Readers* and row 61, §3.2.1\n  step 4,"
+CHECK-BASE l4043 §3.9.1 ctx='`uses`) and participant table (`afterGrowth` orders 10–50), §3.9.1\n  (2), §3'
+CHECK-BASE l4044 §3.9.6 ctx='rticipant table (`afterGrowth` orders 10–50), §3.9.1\n  (2), §3.9.6 with its '
+CHECK-BASE l4141 §3.9.11 ctx=" each with its fallback there. V06's SR5-04 and TW-05 (V6\n  §3.9.11, §3.9.6; "
+CHECK-BASE l4141 §3.9.6 ctx="h its fallback there. V06's SR5-04 and TW-05 (V6\n  §3.9.11, §3.9.6; J-V6.125"
+INHERIT l4152 V04 §3.5.1  gap=', ' ctx='ng the counted churches and the maintenance mode (V04 §2.2, §3.5.1, §3.10) |'
+INHERIT l4152 V04 §3.10  gap=', ' ctx='ounted churches and the maintenance mode (V04 §2.2, §3.5.1, §3.10) | — (clo'
+CHECK-BASE l4228 §3.19.4 ctx="atform's walls decay by V06 §3.19.4 (3) and are restored by §3.19.4 (6) (ST-1"
+INHERIT l4267 V11 §3.23.2  gap=', ' ctx=' without its numbers; §3.16 (1), (3), (4) cite V11 §3.23.1, §3.23.2 and §3.23'
+INHERIT l4267 V11 §3.23.7  gap=' and ' ctx=' numbers; §3.16 (1), (3), (4) cite V11 §3.23.1, §3.23.2 and §3.23.7 (and file'
+INHERIT l4318 V11 §3.22  gap=', ' ctx='\ncopied; S2 three new cross-volume pointers only (V11 §2.9, §3.22; V06 §3.1'
+CHECK-BASE l4350 §3.9.6 ctx="0) lists the round-4 companions with their fallbacks (V06's §3.9.6 reading o"
+INHERIT l4391 V06 §3.16  gap=', ' ctx=", W28, T-V7-14's clause; J-V7.122 — agreeing with V06 §2.1, §3.16 and X43 ("
+INHERIT l4402 V11 §3.2.1  gap=' – ' ctx="this volume's own §3.11 – §3.16 or to V06 §3.16, V11 §3.1 – §3.2.1, V12 §2.6"
+INHERIT l4402 V12 §4.2  gap=' – ' ctx='3.11 – §3.16 or to V06 §3.16, V11 §3.1 – §3.2.1, V12 §2.6 – §4.2 and the c'
+CHECK-BASE l4402 §7.0 ctx="3.16, V11 §3.1 – §3.2.1, V12 §2.6 – §4.2 and the critique's §7.0,\nnone mea"
+INHERIT l4430 V12 §3.11  gap=' and ' ctx=' and §3.12 in this note and to V11 §2.1 and V12 §3.10.1 and §3.11 in §8 and'
+CHECK-BASE l4444 §3.9.6 ctx="Epoch.records` and `EpochPlacement`, row 12, W75, BCR-V6-1, §3.9.6's sentenc"

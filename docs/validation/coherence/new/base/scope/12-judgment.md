@@ -3,7 +3,7 @@
 Every judgment call is vetoable. Its full text — the choice, the alternative rejected and the reason — is in
 `docs/ARCHITECTURE-RATIONALE.md` (Part A); this index names the choice and the section that states the rule it chose.
 J-1 – J-18 are the synthesis seat's; the area rows keep their prefixes — J-K (kernel), J-DET (determinism), J-P
-(pipeline), J-R (rendering), J-S (scope) — because the sections cite them by those ids; the J-I rows settle a
+(pipeline and model), J-R (rendering), J-S (scope) — because the sections cite them by those ids; the J-I rows settle a
 disagreement between two area drafts; the `J-F⟨lane⟩-⟨n⟩` rows are the Fable review seats' rulings
 (`docs/fable-review/`). In `J-A⟨item⟩.⟨n⟩`, ⟨item⟩ is the owner item or file-f item ruled on and the first digit of ⟨n⟩
 names the part whose seat ruled — 0 the scope part (§0, §1, §13–§17 and the lists), 2 the model (§2), 3 the kernel (§3),
@@ -762,8 +762,9 @@ one mark, *superseded by* or *amended by*, and the governing row keeps the reaso
 | J-A77.06 | `RealmBlock.mPerRealmUnit` dropped: the host client's `realmBlockFrom` turns the realm scale into each partner's `distanceM` | §14 |
 | J-A102.01 | the owner-item bars of items 102–113 numbered T⟨item⟩-⟨n⟩, each group naming the volume tests that take it over | §13.2 |
 | J-A110.01 | item 110's base bars T110-1 – T110-7, its tendency specs keeping volume 12's ids `T110b.*` | §13.2 |
-| J-A111.01 | item 111's base parts built at M1 (the oasis and spring at S0–S1), M2b (the water pull, the water term, wells by yield) and M3a (T2's spring flag) | §16 |
+| J-A111.01 | item 111's base parts built at M1 (the oasis and spring at S0–S1), M2b (the water pull, the water term, wells by yield) and M3a (T2 `ground`'s spring flag) | §16 |
 | J-A112.01 | the release gate: the public release inside SettlementForge, its timing SettlementForge's, requires T112-1 green and T112-2's report | §16, §13.4 |
+| J-A112.02 | the style check simulates each deficiency by Machado, Oliveira and Fernandes' model at full severity and fails a legend pair below ΔE2000 8 (`cvd.minDeltaE2000`, the contrast matrix's floor for two area fills that meet) | §13.2 |
 | J-A113.01 | item 113's replay built at M6-E (volume 6), the buried former settlement at M6-U (volume 4), the dossier's history read at M-SF (volume 8) | §16 |
 | J-A201.01 | the village rows in §1.1's rung table with their values, V07 §2.1 their households and dwellings | §1.1 |
 | J-A505.01 | the staged packages imported only by `@plat/api`'s worker host, which registers them; no ground package imports them | §14 |
@@ -778,3 +779,33 @@ one mark, *superseded by* or *amended by*, and the governing row keeps the reaso
 | J-A344.61 | `village.track` kept rerollable (file f item 344), its `rerollLayer` dry run a Re-derive from VS4 with the fate report | §6.1 |
 | J-A101.78 | plan-edit refusals, a `relet` above capacity, a passage below two storeys, a table cell out of range and a roster line the rules cannot honour are bends; capacity re-homing that cannot place its excess and a Works edit that strands a plot stay conflicts | §7.1 |
 | J-DET-56 | an empty edit appends nothing (the `ok` result, nothing changed) over appending a no-op event | §7.1 |
+| J-A110.21 | ground arena parts from 1, one per raised way's deck, numbered by `Document.nextGroundPart` (allocated once, never reused); a raised part's entities keep unprefixed addresses | §2.2, §2.9 |
+| J-A206.21 | `Outfall.into` maps an oxbow to `'lake'` | §2.3 |
+| J-P51 | `Block.depthClass` (`standard` or `deep`) kept — written by S8's deep-interior test, read by §13.5's deep-block court-share row — over dropping it | §2.5, §4.6 |
+| J-A111.21 | the oasis as `WaterBody.spring { at, flow }` with `grove` and `garden` faces naming their water in `fedBy`; the water pull weighted by `spring.flow`, which volume 6's failing spring lowers | §2.3, §2.7 |
+| J-A77.21 | a trade partner the slice no longer holds keeps its road, bearing and key, weighed 0 by `TradeFlow` (roads outlive their trade) | §2.4 |
+| J-P52 | a way without a name legal until S13a names it; a missing `slopeP95` written on load by S9's rule; `formerClass` equal to `class` read as absent | §2.4, §7.5 |
+| J-P53 | a residential building's capacity at least 1; a slot without houses a non-residential building of capacity 0; the capacity bounds stated once | §2.6 |
+| J-A106.21 | the barrier closure's arcs stored (by anchor ends and `BarrierKind`, written once by S5a's classification) with `stretchClass` a `full`/`parapet` step profile, over a derived reading | §2.7, §4.4 S5a |
+| J-A113.21 | one `HistoryRecord` per document in the model digest; `Provenance.symbolic` on a fact laid under a symbolic peak; the lost void one of volume 4's access states | §2.7, §2.8 |
+| J-A110.22 | at the frame: a raised part sized to the frame plus margin and growing with it; an aqueduct from beyond laid to the outer ring without a ramp; a declared course beyond it bent to the ring; a retaining wall ending on the ring; a deck slot crossing it left out, reported and re-offered by a frame growth | §2.7 |
+| J-P54 | `Recipe.presetId` kept as provenance, read by the report's recipe line and the reader's recipe panel (V09), over dropping it | §2.9, §5.4 |
+| J-K37 | the warning `W_STEINER` removed: no producer and no reader in the set | §3.1 |
+| J-P55 | the wealth-gradient driver `drivers.wealthGradient` 0.15 — 0 when the intent sets no bearing and in the parity presets | §4.5 |
+| J-A102.41 | the class mix's sunlit term `ClassMixRow.sun` 0.3 | §4.7 S10b, §10.2 |
+| J-P56 | the missing default cells: `wealthShift` cottage −0.2; the `lean_to_shelter` row's significance 0.05 | §10.2 |
+| J-A110.41 | no deck plots on a gate's moat deck: the gate's approach stays clear (the realism tiebreaker) | §4.7, §4.13 |
+| J-A110.42 | a raised part excludes the harbour basin and its mouth, a stroke across them bent to its last ground vertex; no support on a square, a reservation or an oasis's water; a river spanned within `viaduct.maxSpanM` | §4.3, §4.13 |
+| J-A110.43 | no retaining wall on a cliff bank or a `cliff` or `sheer` closure arc: the cliff holds the ground | §4.7, §4.13 |
+| J-A101.42 | a skeleton declaration a stage cannot honour bent at its dry run to the nearest lawful one; refused only against a dossier fact or a lock | §4.1 |
+| J-A26.45 | a hinterland with no land: its outside classes to F-SITING, its farm households housed as under `perimeter`, the demand reported as an import | §4.9 S12a, §4.13 |
+| J-A111.41 | the oasis sited on the best hollow or fault line in the frame's middle two thirds, else the lowest ground there | §4.2 S1 |
+| J-A109.41 | a catacomb source's age at generation from the history-scaled stage count | II.7.6 |
+| J-A64.45 | the basement-access age term 1 when the history has one stage (K = 1) | II.7.3 |
+| J-A12.48 | the underground institution's own depth `institutionDepthM` 8–15 m | II.7.3 |
+| J-A68.43 | the underground lights' fuel the rows the era row selects, the magic rows only where admitted | II.7.3, II.7.5 |
+| J-A15.43 | the island count `recipe.params['islands.count']`, each island holding its `SkyIsland.slot` | II.6 |
+| J-A58.44 | the ring factor `g` within [1, 2], 2 only when every uniform of the folded bell is 0 | II.2 |
+| J-R57 | the style family `graphic` removed: no family row, preset or reader | §8.2 |
+| J-R58 | the style sheet's `budgets` and `DetailBudget` removed: a band's detail is its programs and §8.10's rank thinning, the tier acting through the tile DPR and the light rung | §8.2, §8.5 |
+| J-R59 | `FieldRaster`'s `custom` meaning replaced by `daylightShare`, which `live.shade` produces | §8.1, §8.2 |

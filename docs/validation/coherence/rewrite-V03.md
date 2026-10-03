@@ -4,9 +4,9 @@
 
 PROGRESS (lane `coherence/rewrite-V03`, 2026-09-29)
 - P1 inputs gathered (canon unit V03, 6 conflicts, 3 elegance, 2 id rulings, 2 wiring gaps, 48 f items, 13 hand-offs, edges 29 U + 26 T + 6 combos, inventory 513 ids; no g 111+ part routed): done
-- P2 read the volume whole (3855 lines): pending
-- P3 new text §0–§1b: pending
-- P4 new text §2: pending
+- P2 read the volume whole (3855 lines): done (re-read per section in the cloud continuation, 2026-10-02)
+- P3 new text §0–§1b: done (parts 00, 01, 02)
+- P4 new text §2: done (parts 03, 04, 05)
 - P5 new text §3: pending
 - P6 new text §4–§6: pending
 - P7 new text §7–§8: pending

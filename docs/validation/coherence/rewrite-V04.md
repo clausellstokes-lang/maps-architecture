@@ -2,12 +2,12 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/rewrite-V04; covered by the whole-design retrovalidation (J84).
 
-PROGRESS (lane `coherence/rewrite-V04`, 2026-09-29)
+PROGRESS (lane `coherence/rewrite-V04`, 2026-09-29; cloud continuation 2026-10-02)
 - P1 inputs gathered (canon unit V04: 275 STATE, 40 REFERENCE, 46 BCR pointers, 12 conflicts, 59 f items, g 113, 6 wiring gaps, 4 elegance, 4 id rulings, 59 open findings, 31 hand-offs, 4 disagreements, 52 U + 62 T edges, 62 combinations; inventory 360 ids): done
 - P2 head, §0, §1: done (parts/00-head-s0-s1.md)
 - P3 §1b: done (parts/01-s1b.md)
 - P4 §2: done (parts/02-s2.md)
-- P5 §3.1–§3.4: pending
+- P5 §3.1–§3.4: done (parts/03-s3-1-4.md)
 - P6 §3.5: pending
 - P7 §3.6–§3.12 (edges table): pending
 - P8 §4–§6: pending
