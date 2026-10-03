@@ -139,3 +139,34 @@ is read only as V06 §3.7.3's stretch weight factor.
 **Required change (V06).** §1.1 (4) reads "the per-layer candidates of the base's strike pool (building, plot boundary,
 street, and item 110's raised, retaining and deck kinds), an enceinte's stretches stepping by the fortification phase's
 pathway (V06 §3.7)"; §3.19.2 (3) drops "as walls" and cites the dwell-band row as AT-07 words it.
+
+### AT-09 · MAJOR · DISAGREE · owner V06
+**Claim.** The catacomb primary's tie rule. V04 §3.5.1 (5) — the home of the primary reading — takes "the complex whose
+source serves the most burials — the greatest need `A` of (2) …, ties by rank … at every derivation; at an epoch, V06's
+derived primary, the same reading held by its hysteresis". V06 §3.18.2 (3a) breaks the tie "by source address". With two
+complexes of equal served burials the epoch and a regeneration pick different primaries, so the rank cap holds a
+different complex — the opposite of "the same reading".
+**Required change (V06 §3.18.2 (3a)).** "the primary is V04 §3.5.1 (5)'s reading — the complex whose source serves the
+most burials, ties by rank — held by `catacomb.primaryHysteresis` (10 %): another complex becomes the primary only when
+its served burials exceed the current primary's by that share".
+
+### AT-10 · MAJOR · DISAGREE · owner pipeline
+**Claim.** A burial source's age after epochs. Base II.7.6 (the age gate's home, `minAgeYears` 100) gives "a source's age
+is its own — at generation `(K − k + 1) × yearsPerStage` …, after the replay or epochs the log's years since its use
+opened", which for a source standing at generation drops its generation age once an epoch runs. V06 §3.18.2 (2) (the
+epoch's reader) adds them: "`(week − burialsBegan) ÷ 52 +` its generation age … the generation age II.7.6's stage age at
+creation or the port's `HistoryHint.ageYears`", and V04 §3.5.1 (3) reads "`minAgeYears` by the face's growth stage,
+`HistoryHint` or the log". A churchyard 150 years old at generation is 10 years old after a decade of epochs by the base,
+160 by V06 — the age gate opens or not by which text is built.
+**Required change (pipeline, II.7.6's age sentence).** "… at generation `(K − k + 1) × yearsPerStage` for a source built
+in growth stage k of K …; after the replay or epochs, that generation age (zero for a source opened after creation) plus
+the log's years since its use opened (V06 §3.18.2 (2))".
+
+### AT-11 · MAJOR · DISAGREE · owner V06
+**Claim.** The catacomb source draw's key. V06 §3.18.2 (1) says "Each candidate face takes V04's one uniform `u` keyed by
+(`catacomb`, the face's lineage) on `sewer`", the candidates including the quarry ossuary; V04 §3.12 keys a quarry
+ossuary's chance by its working ("the quarry ossuary's chance (`sewer`, the working)"; the fixed-key exceptions: "a
+quarry ossuary's by its working"). The restatement gives the ossuary a key no working has.
+**Required change (V06 §3.18.2 (1), *The source draw*).** Replace the restated key by the reference: "Each candidate takes
+V04's fixed-key source draw (V04 §3.5.1 (3), §3.12: a burial face's keyed by the face's lineage, a quarry ossuary's by
+its working) — fixed by its key, never re-drawn".

@@ -2046,3 +2046,4 @@
 2026-10-03 02:24 coherence/verify-edges-life-r0 CHECKPOINT P5 V09 written (EL-05 two tabs one town, EL-06 T-V9-74 scope); next: P6 V10
 2026-10-03 02:25 coherence/verify-vol-V09-V10-r0 CHECKPOINT P3 V09: §9 decision audit done (V09-DEC-1 blocker: reasons/alternatives thinned in ~110 rows); refs issue noted; next: V09 row diffs from rowdiff2 l.199, then §0-§8 prose alignment
 2026-10-03 02:25 coherence/verify-agree-time-r0 CHECKPOINT AT-07, AT-08 (slower dwell bands; pool membership) written; next: V06 §3.11-§3.21, §4
+2026-10-03 02:26 coherence/verify-agree-time-r0 CHECKPOINT AT-09..AT-11 (catacomb primary ties, source age, ossuary key) written; next: V06 §3.19, §3.20, §3.21, §4, §7
