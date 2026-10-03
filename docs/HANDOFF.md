@@ -1,5 +1,7 @@
 # HANDOFF — town-generator research program
 
+> **THE LIVE WORK IS NOT ON THIS BRANCH (pointer added 2026-10-03 ~06:30 UTC, with the owner's approval).** `main` stops at the 2026-09-29 pause. The program continued in cloud sessions on **`claude/ecstatic-gates-iyenrz`** (draft PR #2: the coherence pass's seven verify/repair rounds, owner rules to 126+, rulings to J151+). A new session must check that branch out and read ITS docs/HANDOFF.md — never resume from the RESUME HERE block below, which is stale. (`claude/gallant-dirac-w8i53u` is a superseded duplicate started from this stale `main`; `claude/great-heisenberg-rcagps` and `main-8c2bmp` are earlier cloud attempts.) Check `git branch -r` for anything newer before starting.
+
 ## RESUME HERE (kept current; last updated 2026-09-29 20:15 EDT)
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
