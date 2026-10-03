@@ -2018,3 +2018,8 @@
 2026-10-03 01:49 coherence/rewrite-V10 CHECKPOINT report written (docs/validation/coherence/rewrite-V10.md, 805-row mapping table); next: results JSON, LANDED
 2026-10-03 01:49 coherence/rewrite-V10 LANDED docs/validation/coherence/new/volumes/V10-clerk.md docs/validation/coherence/rewrite-V10.md docs/validation/coherence/results/coherence_rewrite-V10.json (84 658 -> 72 685 words, 526.0 -> 442.9 KB; 805/805 ids mapped; 18 conflicts; SIZE-1 marked)
 2026-10-03 01:51 coherence/assemble-r0 STARTED (cloud continuation; mechanical seat)
+2026-10-03 01:52 coherence/assemble-r0 CHECKPOINT report skeleton written (docs/validation/coherence/assemble-r0.md); next: archives
+2026-10-03 01:52 coherence/assemble-r0 CHECKPOINT P1 archives written (15 files copied, cmp identical, chmod a-w, sha256 in scratch archives.json); next: build the base
+2026-10-03 01:52 coherence/assemble-r0 CHECKPOINT P2 base written (docs/ARCHITECTURE.md from 34 section files, every archived top-level heading matched once; 372 998 -> 422 674 words); next: volumes
+2026-10-03 01:53 coherence/assemble-r0 CHECKPOINT P3 volumes written (12 of 12 replaced from new/volumes); next: INDEX placement
+2026-10-03 01:53 coherence/assemble-r0 CHECKPOINT P4 INDEX.md written (§3, §4, §6, §7 from new/index; intro items 102–113); next: rationale changes

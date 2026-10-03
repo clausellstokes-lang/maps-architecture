@@ -21,7 +21,7 @@ PROGRESS (lane `volumes/_finalize`, 2026-09-29)
 of its own — every fact below points at its home (single source) — and it is the second source of the generated bundle
 `docs/ARCHITECTURE-FULL.md` (`tools/bundle_architecture.py`; J89), read after the base and before the volumes. The base
 changes the volumes need are consolidated in `docs/AMENDMENTS-2026-09-28f.md` (file f, items 200–585, not yet applied);
-the owner rules of 2026-09-28 are `docs/AMENDMENTS-2026-09-28g.md` (file g, items 102–110). Both are applied to the base by
+the owner rules of 2026-09-28 are `docs/AMENDMENTS-2026-09-28g.md` (file g, items 102–113). Both are applied to the base by
 the coherence pass (`workflows/18-coherence.js`), file g first. The plain-language account for the owner is
 `docs/volumes/SUMMARY.md`.
 
@@ -87,18 +87,19 @@ flowchart LR
     M0["M-1 … M4b"] --> M5["M5 stage 2 (V01)"]
     M3c["M3c built-in clerk (V10) beside M3b"]
   end
-  M0 --> VM["village V-M0 … V-M4 (V07)"]
-  M0 --> ME["M6-E evolution (V06)"]
-  M0 --> MP0["M6-P P0, P1, P3 on base buildings (V03, Q1)"]
+  M0 --> VM0["V-M0 tracker spike (V07), right after M0"]
+  M0 --> VM["village V-M1 … V-M4 (V07), after M4"]
+  M0 --> ME["M6-E evolution (V06), after M4"]
+  M0 --> MP0["M6-P P0, P1, P3 on base buildings (V03), after M4"]
   M5 --> M6["M6 stage 3 (V02)"]
   M5 --> MU["M6-U underground (V04)"]
   M6 --> MP["M6-P rest (V03)"]
   MU --> MS["M6-sky (V05)"]
   MU --> VMu["V-M2u (V07)"]
   MU --> E8["M6-E's E8 (V06)"]
-  ME --> VM3["V-M3's epoch clauses (V07, TX-01)"]
-  M6 --> MCAL["M-CAL (V12)"]
-  M5 --> MCAL
+  ME --> VM3["V-M3's epoch clauses (V07)"]
+  MS --> MCAL["M-CAL (V12)"]
+  M6 --> MCAL
   VM --> MCAL
   MCAL --> MSF["M-SF, SF0 … SF7 (V08)"]
   VM --> VH["VH village hand-off (V08)"]
@@ -107,60 +108,30 @@ flowchart LR
 | milestone | may start after | runs beside | its hard dependencies inside (the volume's own §8) |
 |---|---|---|---|
 | M5 (V01) | M4 | the village, M6-E, M6-P's first rungs | W15's V04-reading parts land inert until M6-U |
-| village V-M0–V-M1 (V07) | M2b and M3a's tools | M5 | file g's barrier closure (fallback: VG's water cut) |
-| V-M2 (V07) | V-M1 | M5 | file f item 202's registration hooks (fallback: risk (9)) |
-| V-M3 (V07) | V-M2 | — | its epoch clauses exit with M6-E's E2–E4 (risk (10), TX-01) |
+| V-M0 (V07) | M0, on M0's kernel, M0 (b)'s tables and its own fixtures | M1 | none from M2b |
+| V-M1 (V07) | M4 | M5 | file g's barrier closure (fallback: VG's water cut) |
+| V-M2 (V07) | V-M1 | M5 | file f item 202's registration hooks (fallback: V07 risk (9)) |
+| V-M3 (V07) | V-M2 | — | its epoch clauses exit with M6-E's E2–E4 |
 | V-M2u (V07) | V04's tail (M6-U) | — | fallback: no cavern or ruin under a village until then |
 | M6-E (V06) | M4 | M5, the village | E4 after item 105's S10b changes land; E8 after V04's U5; E7 after E1–E6 |
 | M6 (V02) | M5 | M6-U | volume 4's access draw and M6-U before T-V2-36's crypt part |
-| M6-P (V03) | P0, P1, P3 after M4 on base buildings (Q1); the rest after M6 | M6 | P2 once V04's access records exist |
-| M6-U (V04) | M5 (or beside it with a second pair: U3's distinctness and U4's undercity parent wait on V01's W15) | M6 | U4 carries the crypt derivation (V02's ladder and lift, V03's stair-entered test; SLR6-01) |
-| M6-sky (V05) | M6-U (Q1); its P0 spike may run beside M5 | — | V01's unit run |
+| M6-P (V03) | P0, P1, P3 after M4 on base buildings; the rest after M6 | M6 | P2 once V04's access records exist |
+| M6-U (V04) | M5 (or beside it with a second pair: U3's distinctness and U4's undercity parent wait on V01's W15) | M6 | U4 carries the crypt derivation |
+| M6-sky (V05) | M6-U; its P0 spike may run beside M5 | — | V01's unit run |
 | M3c (V10) | M3a (C1 inside M3a) | M3b | V09's AP8 screens |
-| M-CAL (V12) | M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
-| M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (the owner's program) |
+| M-CAL (V12) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
+| M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (SettlementForge's program) |
 
 ## 4 The combined build order after M5, with estimates
 
-**The base first** (§16's order, unchanged: calibration and spikes, a viewable town, editing, parity, then stage 2). Its
-current price is **185.5–248.5 pw** (§16). The volumes add these deltas to the base's own milestone rows (file f items
-474, 525, 530–533 and 567; §16's totals are computed once by the coherence pass, item 568):
-
-| delta into the base's first total | pw | carried by |
-|---|---|---|
-| V01 — M5 at build depth (14–18 → 27.25–36.25) | +13.25 – 18.25 | item 474 (V01 BCR-19) |
-| V02 — item 110's building part at M3a | +2 – 2.75 | item 525 (BCR-V2-37) |
-| V03 — the eager plan facts (PE) in M2b and M3a | +0.75 – 1 | item 567 (BCR-V3-30) |
-| V09 — the application's line (8.5–12.5 → 16.75–24.75) | +8.25 – 12.25 | item 530 (BCR-V9-18) |
-| V10 — the oracle at depth and the second transcript (C1) in M3a | +3.25 – 4.75 | item 531 (BCR-V10-10) |
-| V11 — the content line with file g's rows (10.5–14.5 → 13–18.5) | +2.5 – 4 | item 532 (BCR-V11-11) |
-| V12 — the calibration rig (M-1 … M4, U3–U5's small share) | +6 – 9 | item 533 (BCR-V12-9) |
-| **the base with stage 2 (M-1 … M5)** | **221.5 – 300.5** | 185.5–248.5 + 36–52 |
-
-**Then the staged milestones, in the recommended order** (each the owner's to order, §6; the recommendations are
-mutually consistent, `_integrate.md` §6):
-
-| order | milestone (volume) | starts after | pw |
-|---|---|---|---|
-| 1 | the village, V-M0 – V-M4 (V07), beside M5 | M2b, M3a; V-M3's epoch clauses with M6-E | 26.5 – 36.5 |
-| 1 | M6-E, the evolution engine (V06), beside M5 | M4 | 25.25 – 35.75 |
-| 1 | M3c, the built-in clerk (V10), beside M3b | M3a | 10.25 – 13.75 |
-| 2 | M6, stage 3 buildings (V02, with its spikes) | M5 | 20.5 – 29.75 |
-| 2 | M6-U, the underground (V04; V-M2u after its tail) | M5 (beside it with a second pair) | 28.25 – 39.25 |
-| 3 | M6-P, the plan rung (V03; its first rungs may start after M4) | M6 | 17.75 – 24.25 |
-| 3 | M6-sky, the floating islands (V05) | M6-U | 17.25 – 23.25 |
-| — | the application's staged screens (V09's AP6, AP7, AP8, AP10), each with its layer | their layers | 2.75 – 4.25 |
-| — | the content's staged rows (V11's C8 at M6-U; the dossier rows at the SettlementForge stage) | their milestones | ≈ 1.75 – 2.5 |
-| 4 | M-CAL, the corpus reconciliation (V12) | M4, M5, M6, V-M4 | 4.75 – 8 |
-| 5 | M-SF, the SettlementForge connection (V08, map side; VH with the village) | M-CAL | 15.75 – 21.5 |
-| | **the staged milestones together** | | **170.75 – 238.75** |
-| | **the whole program (the base with stage 2, plus every staged milestone)** | | **392.25 – 539.25** |
-
-Outside those sums: each later corpus run (M-CAL/<layer>, 0.25–0.75 pw each), the optional command-line clerk (+0.5 pw),
-and SettlementForge's own side of the connection (1.5–2.5 pw, the owner's program). All figures are expert
-person-weeks, each volume's own estimate (PLAUSIBLE until the milestones run); the authoritative §16 totals are computed
-once by the coherence pass (file f item 568), which this table anticipates by the same rule. Staffing per the owner:
-architecture and rulings on Fable seats; build, verification and measurement on Opus seats (§16).
+The order is the owner's delegation's (J122: `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`) and is stated once, in
+§16's staged-milestones table: V-M0 right after M0; M3c beside M3b; after M4 four streams side by side — M5 (V01), the
+village V-M1 – V-M4 (V07), M6-E (V06) and the plan rung's P0, P1 and P3 on the base's buildings (V03); then M6 (V02)
+and M6-U (V04) after M5, M6-U beside M5 where a second pair is free; then M6-P's rest and M6-sky (V05); then M-CAL
+(V12); then M-SF (V08; VH with the village). Every milestone's price is its volume's own §8 estimate, and §16 computes
+the two totals once (file f item 568) — the base with stage 2, and the whole program — with the lines outside both
+(later corpus runs, the command-line clerk, SettlementForge's own side). Staffing per the owner: architecture and
+rulings on Fable seats; build, verification and measurement on Opus seats (§16).
 
 ## 5 Risks and spikes across volumes
 
@@ -187,97 +158,46 @@ aqueduct bench at C3b.
 
 ## 6 Owner questions with recommendations
 
-The volumes ask **twenty-five** questions, all of the kinds that are the owner's by rule (money, licence, a new
-capability across the SettlementForge boundary, product order, the product's defaults). Until the owner answers, each
-volume runs on its recommendation. Neither the integration nor this finalization adds a question.
+Every question the volumes put to the owner is answered: those that belong to SettlementForge follow its own decisions
+(J121: the map is a SettlementForge module), and every other is decided under the owner's delegation (J122:
+`docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md`), each vetoable. Each volume's §11 marks its questions answered and its
+body reads the decision.
 
-| volume | question | recommendation (the default until ruled) |
+| volume | question | answer |
 |---|---|---|
-| **Product order** | | |
-| V01 Q-V1-1 | Should the default map change at M5 to show its neighbourhoods? | **Yes** — the parity presets stay unchanged, so the comparisons stay honest |
-| V03 Q1 | May floor plans come before the manor-style buildings? | **Yes** — plans on the base's buildings after M4 (P0, P1, P3; P2 with the underground's access records), the composed wings added when V02 lands |
-| V04 Q1 | When to build the underground? | As **M6-U right after M5**, or beside M5 with a second pair (its ruin distinctness and undercity parent then waiting on V01's services) |
-| V05 Q1 | The sky before or after the underground? | **The underground first**, then M6-sky; the sky's cheap P0 spike may run beside M5 |
-| V06 Q1 | When is the evolution engine built? | **(a) right after M4** — without it a campaign map changes only by dossier events |
-| V07 Q1 | When is the village built? | **(a) as soon as M4 lands, beside M5** — until then the port refuses 75 of the 155 surveyed dossiers |
-| V08 Q4 | Where does M-SF sit? | **After M-CAL** (standalone, calibrated, then connected); SF0–SF3 may start earlier; the village hand-off whenever the village lands |
-| V10 Q4 | When to build the built-in clerk? | **C1 with M3a as priced; M3c beside M3b** |
-| **Money, hosting and the owner's time** | | |
-| V04 Q2 | The underground's price (28.25–39.25 pw) | **Approve** with Q1's order; the cheapest cuts, if wanted, are the fissure variant and the terraced ruin family (≈ 0.5–1 pw) |
-| V08 Q1 | Which web origin serves the map module? | **A subdomain of SettlementForge's own domain**, static files on the host it already uses (same-site, no server code) |
-| V08 Q2 | Plans, save limits, backups | **Every account that opens a settlement sees its map**; editing and exports follow the plan with custom content; a map is not a save; two backups at TOWN and CITY, one at METROPOLIS |
-| V09 Q1 | A private preview or a public release, on which host? | **A private preview** on a free static host for the testers and the owner from AP2; the public release decided after M4 with the name |
-| V09 Q2 | Finding and thanking the first-five-minutes participants | **Unpaid invitations** of five to eight casual game masters per session; a thank-you of about US$20–25 each only if fewer than five agree in two weeks |
-| V10 Q1 | How a standalone user reaches the model, and who pays | **The user's own key and the host connection only**; a relay only if the spike fails or casual users will not bring a key |
-| V10 Q5 | Paying for the clerk's own testing | **The owner's account, a separate key with a spending limit of about US$1 200 for M3c**; fortnightly runs if too much |
-| V12 Q-V12-1 | Buy one month of FTG's premium tier for a METROPOLIS capture? | **No** — one capture gives one sample; METROPOLIS stays compared with MFCG size 130 |
-| V12 Q-V12-2 | Will the owner sit the seven main sittings and four short ones? | **Yes**, with the rule that an unrated sitting never stops the build |
-| **Capabilities across the SettlementForge boundary, identity and defaults** | | |
-| V02 Q-V2-1 | May SettlementForge prescribe a building's shape? | **Not now** — shapes stay map-side; an optional typed slice later if SettlementForge describes buildings |
-| V08 Q3 | May SettlementForge's export bundle carry the map's scene files? | **Yes, for the user's export bundle only**, bytes passed unread; until ruled, no |
-| V08 Q5 | A live, explorable map for players? | **Pictures now**; the party copy later if players ask |
-| V09 Q3 | The editor's public name | **Keep "PLAT"** as the working name; choose the public name before any public release |
-| V10 Q2 | SettlementForge's assistant or ours? | **SettlementForge's**, which already holds the dossier; ours stays available to other hosts |
-| V10 Q3 | The model tier | **Keep the current model through C5**, then evaluate the cheaper one and switch only if every bar holds |
-| V11 Q-V11-1 | The sensitive SettlementForge kinds on the map | **Keep them as the dossier states**, the grimmer uses hidden by default and hideable from any public export |
-| V12 Q-V12-3 | Historical layers as the default look? | **Only where its before-and-after sitting passes**; otherwise a selectable choice beside today's default |
-
-**One pairing the owner should see together:** V05's answer presupposes V04's, and V08's presupposes V12's placement of
-M-CAL.
+| V01 | Q-V1-1 — the default map changes at M5 to show its neighbourhoods | yes, the parity presets unchanged (J122) |
+| V02 | Q-V2-1 — SettlementForge prescribing a building's shape | not now: one-way truth, and SettlementForge has no shape data (J122) |
+| V03 | Q1 — floor plans on the base's buildings right after M4 | yes: P0, P1 and P3 after M4, P2 with V04's access records (J122) |
+| V04 | Q1 — the underground as M6-U right after M5, beside it with a second pair | yes (J122) |
+| V04 | Q2 — the underground's cost, 28.25–39.25 pw | accepted (J122) |
+| V05 | Q1 — the underground before the sky | yes (J122) |
+| V06 | Q1 — when the evolution engine is built | (a) right after M4 (J122) |
+| V07 | Q1 — when the village is built | (a) right after M4, parallel with M5, its tracker spike V-M0 right after M0 (J122) |
+| V08 | Q1 — the module's web origin | follows SettlementForge (J121) |
+| V08 | Q2 — plans, save limits, backups | follows SettlementForge (J121) |
+| V08 | Q3 — scene files inside SettlementForge's export bundle | yes, from M-SF, the bytes passed unread; until then maps export on their own (J122) |
+| V08 | Q4 — M-SF after M-CAL | yes (J122) |
+| V08 | Q5 — a live party map | pictures and player views now; a live shared map after M-SF (J122) |
+| V09 | Q1 — a private preview host | follows SettlementForge's staging (J121) |
+| V09 | Q2 — first-five-minutes participants and any thank-you | five SettlementForge users per round from its community, thanked by credit and early access, no payments (J122) |
+| V09 | Q3 — the product's public name | follows SettlementForge (J121) |
+| V10 | Q1 — the user's own API key or a relay | follows SettlementForge's AI setup (J121) |
+| V10 | Q2 — SettlementForge's assistant or ours | SettlementForge's, driving our tool API (J121, J122) |
+| V10 | Q3 — the model tier | follows SettlementForge (J121); a cheaper tier evaluated before any switch |
+| V10 | Q4 — the built-in clerk as M3c beside M3b | yes (J122) |
+| V10 | Q5 — the clerk's live-evaluation spend | a budget cap of about US$790–1 190 through M3c, spent in stages — the smallest tier first, the full suite at M3c's exit — each spend shown to the owner first (J122) |
+| V11 | Q-V11-1 — the sensitive catalogue kinds | kept, concealed by default in player views, shown as SettlementForge's own settings show them (J122) |
+| V12 | Q-V12-1 — one month of FTG's premium tier | no (J122) |
+| V12 | Q-V12-2 — the owner's sittings | only at M1 (the look check), M2b, M4 and M5, batched, about an hour each; a staged milestone's panel joins the next of them when its build has landed, else stays *provisional — not rated* (J122; §13.6 (1)) |
+| V12 | Q-V12-3 — historical layers as defaults | only where the owner's sitting passes them (J122) |
 
 ## 7 How the volumes were reconciled, and the fix list
 
-**The rounds.** After the twelve volumes and their two revision rounds, the integration lane (`_integrate.md`) ran the
-cross-volume censuses and consolidated the base change requests into file f. Then six **seam checks** per round read the
-volumes pairwise along their seams (stage 2–3: V01–V03; layers: V04, V05 with V01; time: V06 with V01–V07; settlements:
-V07, V08, V11; surfaces: V09, V10, V08; content and calibration: V11, V12 with V02, V06), and thirteen **reconcile lanes**
-per round (one per volume and one for file f) fixed what they found. Seven seam rounds (r0–r6) and six reconciliation
-rounds ran; the counts below are the seam checks' own landing tallies:
-
-| seam round | blockers | majors | minors |
-|---|---|---|---|
-| r0 | 7 | 129 | 98 |
-| r1 | 1 | 44 | 82 |
-| r2 | 0 | 28 | 51 |
-| r3 | 0 | 24 | 36 |
-| r4 | 0 | 15 | 36 |
-| r5 | 0 | 19 | 35 |
-| r6 | 0 | 14 | 29 |
-
-The majors fell from 129 to 14 and no blocker survived round 1; what remained were residues on the paths each round's
-fixes opened (a crypt raised on wet ground under an annex; a village epoch before the evolution engine; one key after a
-promotion receipt), not new ground.
-
-**This finalization** fixed all **14 material issues** of round 6 in place, each by its seam's required change (details in
-each volume's dated *Finalization* note): S23R6-01, S23R6-03 (V03); S23R6-02 (V02); SLR6-01 (V04); TX-01, TX-02, TX-03 and
-SR6-01 of seam-settlements (V07), with TX-02's context split in V06 and its call points in file f item 202; SR6-02 of
-seam-settlements, SCC-108 (V06); SR6-03 of seam-settlements (V09, with V11's companion); SR6-01 of seam-surfaces (V10);
-SCC-110, SCC-112 (V12, with V06's `stateSnapCm` line). It also fixed, where they sat in the same passages, **eleven of the 29 round-6 minors in full** — S23R6-04, S23R6-05, S23R6-06, S23R6-08; TX-05, TX-06 (volume 6, file f and volume 7's mirrors); SCC-111, SCC-114; SR6-06 and SR6-07 of seam-settlements; SR6-07 of seam-surfaces — **and four in part**: SCC-109 (its volume-6 dating), SR6-04 (a) and (d), SR6-05 (a) (with X23 and X24 of V08 closed as well) and SR6-09 (b). The other fourteen, and the rest of the four, are the fix list below.
-
-**The fix list — deliberately left for the next amendment, and why each is immaterial.** None changes a mechanism a
-builder would build differently, and none leaves a piece unwired in a way that stops a build; each is wording, a stale
-status line, a pointer, or a test clause that restates what the mechanism already fixes. Per the owner's instruction
-("if we need to fix anything [we] just do it down the line"), they go to the next amendment round.
-
-| id (seam) | owner | what is left | why it is immaterial |
-|---|---|---|---|
-| S23R6-07 (stage2-3) | V01 | §0's plain-words line does not mention the annex temple's way into its crypt | plain-language §0 only; the mechanism is V03 §3.7.4's |
-| SLR6-02 (layers) | V04 | §6 prices no budget row for the underground switch's edit | the edit's cost is the ground-edit row V4 §4.3 already reads; a missing row, not a missing mechanism |
-| SLR6-03 (layers) | V04 | a stale hedge in §12 and J-V4.121's pointer to a §7.6 undo row that does not exist | a status line and a pointer |
-| SLR6-04 (layers) | V01 | cross-volume notes (36) and (39) worded open though answered | status wording |
-| TX-04 (time) | V07 (with V06's §6.2 row) | `village.density`'s cost at a base-product epoch (a superseded village plan's raster) is priced in no §6 row | a participant that returns no ops outside its scope; a budget row, not a mechanism |
-
-| SR6-04 (b)–(c) (settlements) | V07 | §12's and §13's round-6 sentences still read the V08 and V11 companions as pending | status lines; §1 (13) is corrected |
-| SR6-05 (b) (settlements) | V08 | §12's round-6 PLAUSIBLE sentence | a status line; X23–X25 are closed |
-| SR6-08 (settlements) | V07 | §2.4 names a script as the producer of the `v.` rows' `commonness`, where V11's compiler (step 5a) could compile it | the number is the same rule either way; one producer to pick |
-| SR6-09 (a), (c), (d) (settlements) | V11 | step 5a's `v.`-row case, a mis-attributed seam id, the `mages_guild` reading's words | a companion row, a citation, and a reading V08 §3.5.1 (c) already fixes |
-| SR6-02, SR6-03, SR6-06 (surfaces) | V09 | effect lines on the clerk's card, the indefinite-article argument form, T-V9-15/T-V9-27's scope and SR6-01's drawer companion | the clerk's data (V10 §2.6) now carries the actions; the drawer draws what the view model holds; V08's templates no longer need an article form (SR6-07) |
-| SR6-04 (surfaces) | V08 | a few frame words (§4.2's controls and dialogs, §5.1's strip, a notice) not yet keyed as `MsgRow`s | display words; the catalogue mechanism exists |
-| SR6-05 (surfaces) | V10 | the subject rule's wording against V9 §2.9, restated lists, two alternative keys, a status | wording and pointers |
-| SR6-08 (surfaces) | V11 | registry row 87 types every locale file as a full message row, where V09 types non-English files as key and text | a row type's narrowing; the loader reads the same files |
-| SCC-109's X-V12-18 clause (content-calibration) | V12 | X-V12-18 says V04's rows read as they stand | waits on SCC-113 below; the lint names the form |
-| SCC-113 (content-calibration) | V04 | J-V4.118's rows confirm at the first stage and name the span constants by prose keys | V12's span-rule line is the entry's home and now names the cells; the lint refuses the wrong order |
-| SCC-115 (content-calibration) | V09 | three provenance notes do not name their confirming test | application constants outside the register; a test name to add |
+The volumes were reconciled by the integration lane (`docs/volumes/_integrate.md`), seven seam rounds and six
+reconciliation rounds, and the coherence pass (`workflows/18-coherence.js`); their records — the seam checks, the
+reconciliation notes and every finding's disposition — are kept under `docs/validation/`. No item stays open: every
+entry of the round-6 fix list was routed by the coherence canon (`docs/validation/coherence/canon.md`) to the unit that
+owns it and fixed there.
 
 ## 8 CONFIRMED versus PLAUSIBLE
 
