@@ -1,6 +1,8 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-10-02 ~21:45 UTC)
+## RESUME HERE (kept current; last updated 2026-10-03 ~07:30 UTC)
+
+**CURRENT (2026-10-03) — THE COHERENCE PASS HAS ENDED; THE BUILD IS STARTING.** By the owner's ruling J153 the loop ended with family check run r7y (all six checks landed: 3 majors, 18 minors, no blocker). Everything still open is in `docs/validation/coherence/fix-list.md` (62 findings: 0 blockers, 27 major — 13 of them owner rule 127's pending changes — 35 minor; 25 builders' valid choices; 28 held notes; J150's two round-8 hand-offs), written by `tools/coherence_fixlist.py`; the M0 subset is `plat/docs/build/open-design-findings.md`. No further fix pass, compression pass, round 8 or full sweep runs now; findings are fixed as the build reaches them. Owner rulings of the day: item 127 / J152 (the "Built by the town" switch list; delete-for-now), J153 (end the loop, build), J154 (how to build: agent teams, `plat/` here, §17.1's clean room, §0's stack), J155 (the duplicate session that started from the stale `main`), J156 (a scope line until M1 — new ideas to `docs/BACKLOG.md`; tangled features staged; the design a reference, not a contract — builders' choices in `plat/docs/build/choices.md`; `main` is the truth, merged at each milestone). **Next:** `workflows/20-build-m0-spec.js` (the M0 build spec deciding every M0 finding, the `plat/` scaffold, an independent checker); then the M0 work items in waves. M-1 and M0 (b), (c) need the reference corpus on the owner's Mac. The Fable review and item 125 (d)'s SettlementForge compatibility check stay pending. The block below is the coherence pass's record.
 
 **Where things stand.** The coherence pass's Verify/Repair loop is run BY HAND from a cloud session (branch
 `claude/ecstatic-gates-iyenrz`, draft PR #2). Every seat is an opus seat. The tools are in
