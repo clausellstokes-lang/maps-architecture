@@ -3160,8 +3160,8 @@ takes this one at its hand-off.
   member districts, the union of its members; a city-cut node of one district is that district's target, never a second
   chip. An undercity neighbourhood joins the tree under its parent's quarter node (II.7.5 (2)), so a quarter may have a
   shape on Ground and one on Below.
-* **Regions** — each `RegionGroup` (item 101: an Upper, Lower or Outer City), the union of its quarters' districts,
-  named by its `region` label.
+* **Regions** — each `RegionGroup` (item 101: a region such as the Kiln Hill, the Saltings or the Far Bank), the union of
+  its quarters' districts, named by its `region` label.
 Nothing the document lacks is listed: a TOWN whose city cut stands every district alone lists no quarter. An area the key
 does not admit — on Below, a neighbourhood in a void the key withholds — is never listed, counted, lifted or pinned; a
 quarter or region whose member districts the key admits only in part takes those members' union, and is not listed

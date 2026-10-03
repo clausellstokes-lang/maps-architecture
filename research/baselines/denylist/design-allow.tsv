@@ -20,6 +20,7 @@ TOK	city_hall	SettlementForge's catalogue kind id quoted in V11 §3.11 (l. 2669)
 PHR	the wide	ordinary words in another sense: 'the wide-versus-elongated balance' (base l. 6569); not the map's name
 PHR	old city	ordinary words in another sense: 'a century-old CITY document' (V06 l. 3939); not the map's name
 PHR	counting house	ordinary room words of our merchant-house row ('counting house and store', V11 l. 1578)
+PHR	lower city	coincidence across a table-cell boundary: V12 l. 1534 ends a cell with `lower` (the chainSpread direction) and the next cell begins 'CITY and TOWN custom-chain fixtures'; not the map's name. The study-map uses of the phrase (V10 l. 37, 2347, 3200) were reworded by design/cleanroom-fix-1 (2026-10-03), so today this row clears only the coincidence; rows match on text alone, so a later real use would be cleared too (E16 sec. 7)
 SET	ground plank road sand tree	ordinary terrain role words in our render-role column (§8.2) sharing words with a VG asset-name list; our roles
 SET	building item name service time	ordinary nouns of our test sentence (T-V3-38) that are also among the FTG module's field words; no field list reproduced
 SET	armoury bedroom cellar chapel hall kitchen laboratory library room workshop	ordinary room names in our role column (V03 §2.4) sharing words with a Dwellings room-kind list (in our own critic export); our roles, not a copy

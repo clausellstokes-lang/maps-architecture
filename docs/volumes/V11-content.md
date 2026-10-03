@@ -1430,7 +1430,7 @@ underground allocation.
   `underground` families 0.3 at every band, before the concealment multiplier (§10.2's `accessMultiplier`); every other
   family 0.05. These rows are the defaults' one home; §10.2's *underground* paragraph cites them; `extension`.
 * `useRules`: no class states its own by default; V06 §3.9.9's clientele defaults apply (V06 §3.9.9 reads: V11 writes none by default; a class row may).
-* `subLocations` and `openingHours`: empty in the base's rows; `@plat/sim`'s M4b rows fill them (V11 §3.21.4).
+* `facilities` and `openingHours`: empty in the base's rows; `@plat/sim`'s M4b rows fill them (V11 §3.21.4).
 * `icon`: the class's profile family's `icon` (V11 §3.4), unless the row states one.
 * `commonness` (J-V11.94), for every town-and-city row, the row's **roster share at
   TOWN**: at P, the TOWN row's default target of §1.1's rung table (registry row 1), with no dossier and no pack, the
@@ -2425,7 +2425,7 @@ named class's `min` and per-capita demand to 0 at the settlement unless another 
 neighbour's mill or parish church; at a village rung, the `v.` class that plays each named class through its
 `villageForm`, V07 §3.11 step 1; one `class` string, `+` joining the classes), `@seat` (the
 government row's seat class, V11 §3.21.1, and at a village rung its `villageSeat` — the record binds to that building), `@office` (the record binds to its
-seat's existing building as a sub-location, never a second building — the town crier and the scribe to the town hall,
+seat's existing building as a facility, never a second building — the town crier and the scribe to the town hall,
 the resident priest to the church), `@landuse:<kind>` (a hinterland land use S12a sizes, §4.9), `@pin:<kind>` (the pins
 of §4.7's furniture step — wells, shrines — whose coverage rows hold, at the base rungs; at a village rung V07 §3.10's
 pin-record rule — in VS8 at generation, in `village.records` when the record arrives at a village epoch or an absorb, or
@@ -3207,7 +3207,7 @@ flow-order placement, the base's (item 104 (h)); `own`, `extension`, calibratabl
 | final seller | `finalSeller` | `nearMarket` within 150, beyond 600, weight 0.6; or its consumers' weighted centre (the supply web's reverse pull) when they are institutions | on a street feeding a market |
 | compatibility | `compatible` | two in-town nodes are compatible when neither emits a nuisance at ≥ 2 that the other is sensitive to at ≥ 2 | compatible: every link's `comfortM` plateau is the target (street scale); incompatible: the noxious nodes take `extramural` 0.5, the clean ones `intramural` 0.3, still flow-ordered |
 | quarter | — | never assigned (item 107 (e)); named a working quarter only past §4.5 (4)'s identity threshold or by a declaration | J-A72.46 holds |
-| services | `serviceSite` | a `providedBy` service is a `SubLocation` of its provider; when its template needs a plot, `adjacent` → the provider, hard | inside or beside its provider |
+| services | `serviceSite` | a `providedBy` service is a `Facility` of its provider; when its template needs a plot, `adjacent` → the provider, hard | inside or beside its provider |
 | subsumption | `subsumeGrowth` | the subsuming institution's plot budget × (1 + 0.5 × the subsumed count), one site | a larger compound, never a second site |
 | trade endpoints | `endpointStore` | the store is the nearest existing warehouse within 300 m of the gate or quay facing the partner's bearing (items 77, 85), else a new `warehouse` use placed there (`nearGate` or `nearHarbour` 300 hard); the importing consumer `near` → that store 0.5; at village rungs V07 §3.11's entry store (J-V7.29): a `store` use on the existing plot facing the partner (the inn at its entry, else the landing, else the nearest farmstead's barn), never a new warehouse use | imports and exports through a store at the facing gate or quay |
 | volume | `volume` | V11 §3.7.4's `volume` row | link strength by volume |

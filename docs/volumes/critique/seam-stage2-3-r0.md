@@ -295,10 +295,10 @@ a footprint the step already clears).
 ### S23-06 — major — owner V02 (BCR-V2-13) — the base's stale lists are not narrowed per rung
 
 **Claim.** V02 §3.11 (l. 1827–1838) and J-V2.52 make the `wings` rung's inputs exactly `wingsInputs` — "a relet, a
-household move, a use change, an access, a sub-location, a band drift, a Works stage … leaves the rung `current`"
+household move, a use change, an access, a facility, a band drift, a Works stage … leaves the rung `current`"
 (T-V2-21). BCR-V2-13 writes that rule into the `slices` comment of §2.8's `ElaborationRecord` only. The record's
 `inputs` comment ("for a building: its leaf digest (wings, heights, entrances, basement, class, use, assignment,
-sub-locations, the wings' spans) … the occupants' band … the accesses … its running Works' stage … the households")
+facilities, the wings' spans) … the occupants' band … the accesses … its running Works' stage … the households")
 (base l. 2033), §2.8's `stale` sentence (l. 2037–2040) and §4.1's list (l. 3835–3837) still stale every derived rung of
 the building on those inputs. An implementer following the base stales `wings` on every relet and fails T-V2-21.
 **Required change (V02).** BCR-V2-13 amends, besides the `slices` comment: the `inputs` comment — "for a building, per

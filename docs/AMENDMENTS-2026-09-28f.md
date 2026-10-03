@@ -103,7 +103,7 @@ with its exact text; it is not repeated here.
 **215.** BCR-V7-5 (V07 §10) — the green reservation. *Needed by:* V07. **STAGED (the village product, V-M0 to V-M4).**
 
 
-### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface
+### 2.6 Buildings, heights and ground datum, wings, materials, facilities, the stage-3 interface
 
 **216.** BCR-V2-01 (V02 §10) — wing roles and keys, from M1. *Needed by:* V01 (V1-5.1.3's stack ties by wing key; S23R1-18), V02, V03. **BASE (M1, fields carried so stage 3 needs no migration).**
 
@@ -689,7 +689,7 @@ with its exact text; it is not repeated here.
 **442.** BCR-V11-25 (V11 §10) — quarter identities (V11C-19 (2)). *Needed by:* V11. **BASE (M2b, V11 C2).**
 
 
-### 10.3 People, households, relations, sub-locations, schedules
+### 10.3 People, households, relations, facilities, schedules
 
 **443.** BCR-V6-10 (V06 §10) — lifespans and entry ages. *Needed by:* V06. **STAGED (M6-E, the evolution engine).**
 

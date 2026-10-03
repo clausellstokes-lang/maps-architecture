@@ -1311,7 +1311,7 @@ other yard parts, from M3a).
   `ringCentre` and `voidCorner` and their migration (a block without `content` reads `ordinary`; a stored square type
   `market` reads `trading`, §7.5) are V01 §2.7's lifecycle rows.
 
-### 2.6 Buildings, heights and ground datum, wings, materials, sub-locations, the stage-3 interface
+### 2.6 Buildings, heights and ground datum, wings, materials, facilities, the stage-3 interface
 
 ```ts
 interface Heights { baseCm: Cm /* ground datum: floor level in terrain cm (below) */; floors: number /* 0 on a solid wing */; floorsBelow?: number /* derived, never set on its own: on Building.heights the basement's Basement.floors (item 29), 0 or absent without one; absent from every other entity's heights */; eaveCm: Cm; ridgeCm: Cm; towerCm?: Cm /* eave, ridge, tower above baseCm */ }   // owner HEIGHT ruling: always populated
@@ -1366,7 +1366,7 @@ interface Building {
   knownTo: 'public'|'local'|'secret' /* item 30: defaults from its plot's exposure and knownTo; a dossier fact for a dossier-backed institution's buildings (§7.7); read by §9.2 and the reader, never by geometry */; predecessor?: Id /* item 8: the cleared trace or ruin this building was raised on (§4.11's reuse … build; the trace's address passes by succession, §6.3) */; reusedAs?: 'garden'|'orchard'|'field' /* item 8: what a reused trace became (existence reused, §2.8) — the trace keeps its L4 face and is drawn as that kind (§8.2); written only by §4.11's reuse conversion or its convert by hand (§7.1); absent on every other building (J-A8.22) */;
   works?: Id /* item 67: the Works (§2.7) running on it; its stage at a week is derived by §4.11, never stored; cleared when the Works finishes, is cancelled or is retired */;
   description?: TextRef; openingHours?: OpeningRow[];
-  subLocations: Id[] /* SubLocation records, from the class table */;
+  facilities: Id[] /* Facility records, from the class table */;
   declaredRooms?: { role: RoomRole; count: number; storey?: number }[] /* item 101's declaration — rooms the author declares this building must hold; setAttr path declaredRooms (T9 shape); read by the plan rung as hard programme rooms (V03 §3.2 A2 (7)); in the leaf digest */;
   composition?: Composition /* stage 3: lazily generated rung by rung (the elaboration record and cache, §2.8, §2.9), stored only when edited — the first composition or plan edit stores it (§7.1); its streams derive from the building's lineage with each rung's own reroll (§6.1) */;
   assignment?: AssignmentRef; drift?: DriftBounds; lifecycle: Lifecycle;   // no occupants list (J-A28.29): the housed are households (with a workplace's live-in dwelling), those who work there §10's Posting records
@@ -1390,7 +1390,7 @@ type RoofSpec = { kind: 'gable'|'hip'|'shed' /* one pitch (V02 §2.1) */|'flat'|
 interface MaterialRow { key: { era: string; stage?: number /* FTG's per-stage default: the growth stage of the building's plot */; districtKind?: string; cls?: string /* overrides, the most specific winning: class (temples and churches stone by row), then district kind, then the stage default */;
   band?: string /* only in the optional regional-shift rows below — absent from every default row, so the default never keys a material by wealth (item 19) */ }; walls: string; roof: string; weight: number; extension?: 'regionalShift' /* §7.6's marker: a row of our optional regional shift, off by default (items 19, 23) */ }   // a rule table (§7.6): its rows are volume 11's; the rule is "Materials" below
 interface OpeningRow { dayType: string; openH: number; closeH: number }
-interface SubLocation { id: Id; building: Id; name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … data-defined */;
+interface Facility { id: Id; building: Id; name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … data-defined */;
   capacities: { leisure: number; tempResidential: number; guestWorker: number; studying: number; working: number }; relax?: string[]; lifecycle: Lifecycle }   // from the class table; rooms at stage 3 refine, never replace
 interface Composition { lod: ('outline'|'wings'|'rooms'|'plan')[] /* the four rungs of the building ladder: outline → wings → rooms → plan (item 28) */;
   row?: string; grammar?: string /* the composition.json row and version (V02 §2.2) */; wings: Wing[]; towers: ComposedTower[]; courts: Polygon[] /* under stage 3 derived at read from the footprint face's holes */;
@@ -1416,7 +1416,7 @@ interface ComposedTower { base?: number /* the key of the massing's tower or tur
 interface Room { id: Id /* room:<building id>/<level>/<i> — an address carried by its anchor, the room's centroid within its wing (§6.3) */; ring: Polygon /* world lattice points inside its wing's extent at its storey (the passage room is a span ring): a value read back from the rung's transient arena, never a plat face (§3.4; J-A28.31) */;
   wing: number /* the key of its base wing (BaseWing.key), which under the base outline builder equals the wing's index; a tower's round room names its tower wing's key; the passage room names the wing that spans it; Composition.wings is looked up by its base key, never by position */; storey: number /* Storey.level */; role: RoomRole; scope: 'unit'|'shared'|'service'|'circulation' /* §10.2's RoomRuleRow.scope: a household's own room, one the households share, the use's or the staff's, or a corridor, stair hall, landing or passage */;
   unit?: Id /* item 28 (f): the Household whose dwelling unit the room belongs to — present exactly when scope is 'unit'; edited by setRoomUnit (§7.1) */; program?: number /* index into Plan.program; absent for a generic room */;
-  subLocation?: Id /* the SubLocation it hosts: rooms refine sub-locations, never replace them (below) */; hearth?: { wall: Id; at: Cm; chimney: Id }; lit: boolean /* a light at the room's spine summit (§8.5, §11.1; J-A28.32); corridors unlit */;
+  facility?: Id /* the Facility it hosts: rooms refine facilities, never replace them (below) */; hearth?: { wall: Id; at: Cm; chimney: Id }; lit: boolean /* a light at the room's spine summit (§8.5, §11.1; J-A28.32); corridors unlit */;
   concealed?: true /* item 63: a room of a concealed use's programme (steps 2 and 5): entered only by a service, yard or concealed door; drawn and read only for a viewer whose knowledge admits the concealed use (§9.2) */;
   nextFurniture: number /* the next free furniture ordinal (V03 §2.1) */; name?: string /* the author's name for the room; the role unchanged */ }
 interface Plan { storeys: Storey[]; program: ProgramRoom[] /* the programme as sized and allocated (steps 2–3): what the plan owed — read by the report, §13.2's bars and the re-cut */;
@@ -1441,7 +1441,7 @@ interface Storey { level: number /* −k … −1 the basement's storeys; 0 the 
   rooms: Room[]; walls: Wall[]; openings: Opening[]; windows: WindowRec[]; furniture: FurnitureItem[] /* in room order, then by ordinal (V03 §3.8) */ }
 interface ProgramRoom { rule: number /* index into the list `origin` names (§10.2 RoomRuleRow for the programme) */; role: RoomRole; scope: Room['scope']; unit?: Id /* scope unit: the household it is for */;
   areaM2: [number, number, number] /* the row's min, target and max × the interior ladder row's size factor, interpolated along the occupants' value (below) */; storey: number; wing: number /* a base wing key */; concealed?: true /* item 63: a concealed use's row (§10.2's RoomRuleRow.concealed) */;
-  origin: 'ladder'|'staff'|'sleepIn'|'programme'|'subLocation'|'concealed'|'declared'|'fill'|'vacant'|'access'|'sharedAccess'|'entrance'|'crypt'|'composer' /* which list of V03 §3.2 A2 made it */; subLocation?: Id /* the SubLocation it hosts; copied to Room.subLocation */;
+  origin: 'ladder'|'staff'|'sleepIn'|'programme'|'facility'|'concealed'|'declared'|'fill'|'vacant'|'access'|'sharedAccess'|'entrance'|'crypt'|'composer' /* which list of V03 §3.2 A2 made it */; facility?: Id /* the Facility it hosts; copied to Room.facility */;
   anchor?: { entrance: number /* an entrance's ordinal: its entrance room, one per entrance (step 3) */ } | 'core' | 'hearth' | 'passage' /* the passage room: the span ring (step 1) */ | { access: Id } /* the room holding an access head (V03 §3.7.2) */ }
 interface Wall { id: Id; a: PointCm; b: PointCm; kind: 'exterior'|'party'|'partition'|'court'; left: Id | 'outside'; right: Id | 'outside' }   // exterior and court walls lie on the edges of the storey's extents (wing rings, and a span ring: the passage room's walls, J-A30.23), a party wall on the plot's party-wall edge (the stage-3 contract's fourth rung, below)
 interface Opening { id: Id; wall: Id /* for a floor opening (`point` set): the host room's nearest wall, for ordering only */; at: Cm /* from a */; point?: PointCm /* a floor opening's centre — a trapdoor, a hatch, an access head's opening (V03 §3.7) */; widthCm: Cm;
@@ -1485,7 +1485,7 @@ interface BuildingInput { plot: Polygon /* the plot's ring */; access: Segment[]
   layer?: 'surface'|'underground' /* the plot's layer: II.7.3's sewer-front plots, II.7.5's undercity and item 109 (j) (4)'s cavern and ruin dwellings are 'underground'; absent: surface */; attached?: { key: string; count: number }[] /* stage 3: the template's attach-main structures and their drawn counts (V02) */;
   deck?: DeckContext /* the plot's deck; absent off a deck */;
   fixedWings?: BaseWing[] /* the row arrangement's clipped quads (§4.7 S11): outline() returns them with heights and roofs and never re-fits them */;
-  building?: Pick<Building, 'households'|'entrances'|'basement'|'subLocations'|'use'|'assignment'|'concealed'> /* the plan rung's content inputs (item 28), resolved at the call like the footprint ring */;
+  building?: Pick<Building, 'households'|'entrances'|'basement'|'facilities'|'use'|'assignment'|'concealed'> /* the plan rung's content inputs (item 28), resolved at the call like the footprint ring */;
   accesses?: Id[] /* every AccessPoint whose ground.host is this building or its basement, any source or cause — II.7.3's neighbourhood cellar stair and Basement accesses, a system's own entrance and the crypt join (II.7.6, V04), an undercity lifeline (II.7.5), an access edit (§7.3 item 9) and item 109 (j) (3)'s dug access — anchors of the plan (step 3; V03 §3.7.2) */;
   stage?: WorksStage /* item 67: its running build Works' stage at the drawn week (§4.11; a `decay` or `repair` Works is none, step 7), which the plan's drawing shows (below) */ }
 interface BuildingGenerator {   // the stage-3 hook, split by cost (SCL-13): the base implements outline() (the base outline builder, below); volume 2 implements outline() and compose() at stage 3; volume 3 implements plan() (M6-P)
@@ -1758,11 +1758,11 @@ class, its slot's `role` (§2.5) naming its part. Its readers: `ClassRules.pick`
 room programme (`RoomProgramRow.for`, §10.2), `MaterialRow`'s class key (*Materials*, below), §6.3's class family, the
 basement's `cellar` and `crypt` columns (*Basements*, below) and V03 §2.4's class rows.
 
-**Descriptions, opening hours, sub-locations (COV-FTG-F21, FTG-11).** A building's description is generated by the
+**Descriptions, opening hours, facilities (COV-FTG-F21, FTG-11).** A building's description is generated by the
 naming engine (§10.4) from its class, use, owner and district, persisted per entity and editable; opening hours come
-from the class table and are what the simulation module reads. `SubLocation` records (named parts of a building with
+from the class table and are what the simulation module reads. `Facility` records (named parts of a building with
 tags and capacities for leisure, temporary residence, guest workers, study and work) are filled from the class table
-when the building is created; stage-3 rooms refine them (a `Room` may host a sub-location) and never replace their ids.
+when the building is created; stage-3 rooms refine them (a `Room` may host a facility) and never replace their ids.
 
 **The stage-3 hook and its cost contract (owner-staged; DEF-17, SCL-13).** Stage 3 replaces `OutlineBuildingGenerator`
 with volume 2's generator — its massing and composer, the massing family rows in place of item 59's path-shape rows
@@ -1988,17 +1988,17 @@ adding the rung is a registration. It runs **function first** — the reverse of
    the ground storey, the spanned passage's span ring), each wing's `Heights.floors`, the basement (`Basement.ring`,
    `Basement.floors`, its crypt), the entrance set, the composed towers, courts and porch, the class and its designation
    template's `programme` row (§10.2, read at the occupants' band, Plot.fieldBand, J-A19.43), the use, assignment and
-   sub-locations (one room each), the declared rooms, the concealed uses (`Building.concealed`, item 63), the accesses the
+   facilities (one room each), the declared rooms, the concealed uses (`Building.concealed`, item 63), the accesses the
    building hosts (`BuildingInput.accesses`), the running build Works' stage (item 67; a `decay` or `repair` Works is
    none, step 7), the households housed (`Building.households`) and each spanned passage: at the ground storey its span
    ring is a seed ring and a fixed ring, the passage room (J-A30.23). A plan is therefore a pure function of the
    building's committed state and its own streams (§4.1's contract, §6.2).
 2. *Programme.* From the programme row and the interior ladder (below): a `ProgramRoom` list — each household's unit at
    its ladder row's form, the shared, service and staff rooms the row allows, the class's own rooms (a smithy's forge, an
-   inn's common room, a chapel's nave), one room per sub-location, each concealed use's programme rows (§10.2's
+   inn's common room, a chapel's nave), one room per facility, each concealed use's programme rows (§10.2's
    `RoomRuleRow.concealed`, flagged `concealed`; item 63) — each sized in m² (the row's triple × the ladder row's size
    factor, interpolated along the occupants' value) with its storey rule, exterior demand, opening kind, adjacencies,
-   hearth and priority; counts by the row's law (`const`, `perStorey`, `perHousehold`, `perCapacity`, `perSubLocation`; a
+   hearth and priority; counts by the row's law (`const`, `perStorey`, `perHousehold`, `perCapacity`, `perFacility`; a
    fractional count drawn on `plan.program`); the list each came from is its `origin` (V03 §3.2 A2).
 3. *Allocation and anchors.* Each storey's capacity is the area of the extents of the wings that reach it (the passage
    room excluded) less the row's circulation share; hard rooms go by their storey rule, soft rooms by priority until the
@@ -3680,7 +3680,7 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
 
   ```ts
   interface ElaborationRecord { entity: Id /* the building, or for closeup the district */; rung: 'closeup'|'wings'|'rooms'|'plan'; state: 'absent'|'current'|'stale'|'edited';
-    inputs: Hash64 /* the digest of the rung's recorded inputs, per rung. The plan rung's — and every rung's of a building before stage 3 registers —: its leaf digest (wings, heights, entrances, basement, class, use, assignment, sub-locations, declared rooms, the wings' spans), the leaf digest of each spanned Passage (its face's ring, which the span rings are cut from, §2.6), the occupants' band (Plot.fieldBand) and value (the value at §7.2's τ), the accesses it hosts, each with its kind, state and knowledge, the outside ground — the digest of the RetainingWalls within cellar.insetCm + door.mainCm of the footprint, of the surface samples V03 §3.6 W2 reads outside each exterior wall (the values levelledGroundCm returned there, and its deck, water and roof samples) and, for a building below ground, of its host chamber's ring and grade faces (V03 §3.12 (9)) —, its running build Works' stage at the drawn week (item 67 (j); a `decay` or `repair` Works is none, §2.6 step 7) and the households housed in address order (item 28 (f)), and the slices below. Under stage 3 the wings rung's: exactly volume 2's wingsInputs (V02 §3.11) and its slices; the rooms rung's: wingsInputs, the occupants' band and value, the household count, the class programme's hall row and its slices */;
+    inputs: Hash64 /* the digest of the rung's recorded inputs, per rung. The plan rung's — and every rung's of a building before stage 3 registers —: its leaf digest (wings, heights, entrances, basement, class, use, assignment, facilities, declared rooms, the wings' spans), the leaf digest of each spanned Passage (its face's ring, which the span rings are cut from, §2.6), the occupants' band (Plot.fieldBand) and value (the value at §7.2's τ), the accesses it hosts, each with its kind, state and knowledge, the outside ground — the digest of the RetainingWalls within cellar.insetCm + door.mainCm of the footprint, of the surface samples V03 §3.6 W2 reads outside each exterior wall (the values levelledGroundCm returned there, and its deck, water and roof samples) and, for a building below ground, of its host chamber's ring and grade faces (V03 §3.12 (9)) —, its running build Works' stage at the drawn week (item 67 (j); a `decay` or `repair` Works is none, §2.6 step 7) and the households housed in address order (item 28 (f)), and the slices below. Under stage 3 the wings rung's: exactly volume 2's wingsInputs (V02 §3.11) and its slices; the rooms rung's: wingsInputs, the occupants' band and value, the household count, the class programme's hall row and its slices */;
     slices: SliceRef[] /* the table slices the rung consulted — programme, pattern, furniture and interior-ladder rows, and for the wings and rooms rungs the composition.json rows (V02); §7.6 invalidates by slice */; epoch: number; since: { epoch: number; seq: number } }   // no reroll here: a rung's reroll count is what the log's regenerate events with rung give it (§6.1, §7.1)
   ```
 
@@ -3689,7 +3689,7 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
   rung before stage 3) a designation, an assignment, the band, the storeys, the wing rings or a spanned passage's face,
   the households, a concealed use, an access it hosts, its crypt, a retaining wall, the terrain or a levelled platform's
   datum, a deck or the host chamber beside it, its build Works' stage, a slice, a dossier event of items 18, 22 or 31;
-  for a building in a decay run (V06 §3.23 (1)) its occupant inputs — use, assignment, sub-locations, concealed use, the
+  for a building in a decay run (V06 §3.23 (1)) its occupant inputs — use, assignment, facilities, concealed use, the
   households housed and the occupants' band and value — are those of the week before its run began (V03 §3.11), so
   neither the leaving nor a later move of the field stales its plan; for the wings and rooms rungs only what their lists
   name — marked by the batch that changed it, with no derivation run (a retaining wall drawn beside a house stales its
@@ -7785,7 +7785,7 @@ class places nothing; a request with no item returns an empty result.
   is named a working quarter only past item 72's quarter-identity threshold or by a declaration (§4.5 (4)); an
   incompatible chain stretches along its road, the noxious steps at the edge, the clean steps in town, still in flow
   order. A custom node that requires or supplies a catalogue node is pulled by it the same way. A service `providedBy` an
-  institution sits inside it (a sub-location) or on an adjoining plot; an institution that subsumes others takes over their
+  institution sits inside it (a facility) or on an adjoining plot; an institution that subsumes others takes over their
   site needs (one larger compound where they would have stood), never a second site. An import feeds its first consumer
   through a store (a warehouse, a yard) at the gate or quay facing its partner's bearing (§7.7 layer 2's *Bearing*; items 77, 85),
   else the main gate or the harbour; an export leaves from its last node the same way; an `entrepot` chain's ends are these
@@ -7975,7 +7975,7 @@ for keeps and church towers), with the **ground datum** `baseCm` by §2.6's `der
 `levelledGroundCm` — carried although the top-down view never shows them. **Entrances** are §2.6's set (the main entrance
 facing the plot's frontage access edge, item 29), re-derived whenever the designation mutates; roof kind by class per
 wing (the style sheet chooses the construction, §8.2); **materials** from `MaterialRow` (COV-FTG-F20; §2.6);
-**description, opening hours and sub-locations** from the class table and the naming engine (COV-FTG-F21, FTG-11); yards
+**description, opening hours and facilities** from the class table and the naming engine (COV-FTG-F21, FTG-11); yards
 partitioned into typed parts.
 
 **The designation mutator (item 18).** A change of designation — an `assign` or `unassign`, a `setAttr` on a plot's use or
@@ -15530,7 +15530,7 @@ ruler are drawn on top; each can be moved, restyled or switched off.
     pinned?: PinnedPlacement /* a user placement: model data */; hidden?: boolean }
   interface QuarterNode { id: Id; members: Id[] /* districts */; children: [Id, Id] | null; name: NameRef; spine: Polyline;
     cityCut: boolean /* one of §4.5's city cut: the city band's area labels */ }   // built by S6 (§4.5) — a sky island's root node by S13a over the island's districts after its unit run (V05 §3.14) —; named by S13a; every node has its own LabelEntity (kind 'quarter')
-  interface RegionGroup { id: Id; name: NameRef /* set by its `group` event (§7.1), then like any name */; members: Id[] /* QuarterNode ids whose districts are disjoint: an Upper, Lower or Outer City */;
+  interface RegionGroup { id: Id; name: NameRef /* set by its `group` event (§7.1), then like any name */; members: Id[] /* QuarterNode ids whose districts are disjoint: a region such as the Kiln Hill, the Saltings or the Far Bank */;
     spine: Polyline /* S13a, by §9.3's area rule on the union of the members' faces; where the union has several components, on its largest by area: one label, no leader */ }   // item 101: a named region label group on the quarter tree; its LabelEntity has kind 'region'
   interface Placement {                    // a user placement, set by moveLabel (§7.1): model data (N-28)
     stop: number;                          // the zoom stop (§8.8) at which the user placed it
@@ -15955,7 +15955,7 @@ per-plot context vector, the eager allocation (S7b, S10a), the one placement sol
 rulebook and the supply web (S10b, §4.7), the designation templates and the designation mutator (S11, §4.7), the `Use`
 record with its hand relocation path (§2.7, §4.11), households and people derived lazily from their keys, typed open
 spaces, rule-placed landmarks and furniture, a gazetteer via `query`. **Base schema from M1, materialised by the module:**
-the relation store (family units, relations, memberships, postings), sub-locations, factions with roles and goals,
+the relation store (family units, relations, memberships, postings), facilities, factions with roles and goals,
 religions, the government's offices (§2.7), and the economy and personality schema stubs of D-32 (§10.3) — the supply
 edges that place a workshop near its suppliers are base placement data (item 16), while prices, stock and trade volumes
 remain the module's (D-32). **Optional module `@plat/sim`** (delivered at M4b, §16; never gating milestone 1, never in the
@@ -16010,7 +16010,7 @@ interface BuildingClassRow { id: string; use: string; perCapita: [number, number
   deckOk: ('bridge'|'pier'|'mole'|'quay')[] /* item 110 (d): compiled — the deck kinds a class may stand on; absent = [] (V11 §3.24.4) */;
   concealment?: ConcealmentRow[] /* item 63: the default-mode weights of a class our tables mark clandestine; absent: never concealed unless the dossier or an assignment says so */;
   distribution: 'district-defining'|'dispersed'|'singular'; significance: number; powers: { kind: string; weight: number }[]; sectors: { sector: string; weight: number }[] /* items 72, 78 and 79: how the class spreads, its weight in a neighbourhood's reading, its association with the power kinds and the sectors (weights summing to 1 per column) — read by §4.5's neighbourhood character */;
-  subLocations: SubLocationRow[]; openingHours: OpeningRow[] /* §2.6's */; tags: string[];
+  facilities: FacilityRow[]; openingHours: OpeningRow[] /* §2.6's */; tags: string[];
   label: string; icon?: string /* a V09 §5.1 sprite id, compiled from the family */; synonyms: string[]; commonness: number /* the roster reader's tie-break (V11 §3.5.1) */ }
 interface RelationRule {   // one row of a class's or a neighbourhood kind's relation template; read by the placement solver (§4.7 S10a, S10b) and, for district kinds, by §4.5's typing scorer
   kind: 'adjacent'|'near'|'far'|'sameStreet'|'clustered'|'avoid'                                  // to another class, cluster tag or feature class
@@ -16058,8 +16058,8 @@ interface CoverRow {   // item 63: the plausible fronts of one concealed class; 
 interface RosterSettings {   // the 'settings' row of roster.settings (V11 registry row 24); the cells' values and meanings are V11 §3.5.1's
   rosterMode: 'minimiseUnemployment'|'matchRatios'; unemploymentThreshold: number; propagation: { depth: number }; placement: { extensionWeight: number };
   detourFactor: number; crypt: { rankShare: number }; coverage: { rosterWeight: number } }
-interface SubLocationRow {   // a class's sub-location template: each building of the class takes one `SubLocation` (§2.6) per row (§4.7 S11); read by §10.3's schedules; empty in the base's rows, @plat/sim's M4b rows fill them (V11 §3.21.4)
-  name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … */; capacities: SubLocation['capacities'] /* §2.6 */; relax?: string[] }
+interface FacilityRow {   // a class's facility template: each building of the class takes one `Facility` (§2.6) per row (§4.7 S11); read by §10.3's schedules; empty in the base's rows, @plat/sim's M4b rows fill them (V11 §3.21.4)
+  name: string; tags: string[] /* table, counter, stage, bed, bath, pickup, deliver, … */; capacities: Facility['capacities'] /* §2.6 */; relax?: string[] }
 interface SquareQuotaRow {   // table 'squares.quota' (V11 registry row 91; file f item 301): the one square quota, a base table in @plat/tables read from M2b — by S7b (3)'s claims larger than a block (§4.5) and by S9b's sub-block remainder (§4.7 S9; V01 §3.5); key 'band'; its default rows V01 §3.5.2
   band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ }
 interface GrandeurCeilingRow {   // table 'grandeur.ceiling' (V11 registry row 97); key 'rung'; its rows V11 §3.25.4 (item 115)
@@ -16232,7 +16232,7 @@ dismantled, and the debit of a build or repair of that class — read by §4.11'
 `DesignationTemplateRow` carries them in its `replaceability`, `households`, `entrances` and `cellar` columns (above);
 `RosterTables.roomProgram` holds the room programmes and the plan rung's tables — the role table (`RoomRoleRow`), the
 furniture catalogue (`FurnitureRow`), the plan geometry row (`PlanGeometryRow`), `PatternRow`, `EntranceAnchorRow`,
-`WingAffinityRow`, `SubLocationRoleRow` and `AccessHostRow`, their types and default rows V03 §2.4 — and
+`WingAffinityRow`, `FacilityRoleRow` and `AccessHostRow`, their types and default rows V03 §2.4 — and
 `RosterTables.basementGate` the basement's terrain-gate values:
 
 ```ts
@@ -16242,7 +16242,7 @@ interface RoomProgramRow { for: { cls: BuildingClass | string /* a V11 class id,
   stair: { placement: 'by_entrance'|'rear'|'centre'|'tower'; kind: StairCore['kind'] } /* the stair core §2.6 places before any cut */; basementAccess: 'core'|'trapdoor' /* the access §2.6's basement decision derives into Basement.access for a cellar that is no walk-out, read at the plot's builtBand */;
   furnish: { density: number; wallBias: number } /* multipliers (default 1) of the role table's cells */ }
 interface RoomRuleRow { role: RoomRole /* §2.6: data-defined */; scope: 'unit'|'shared'|'service'|'circulation' /* item 28 (f): a room of one household's unit, one the households share, the use's or the staff's, or a corridor or stair hall — §2.6's interior ladder says which scopes a band's row allows */;
-  count: { n: number; law: 'const'|'perHousehold'|'perStorey'|'perCapacity'|'perSubLocation'; capacity?: string; tag?: string; perRoom?: number /* the perCapacity divisor */ };
+  count: { n: number; law: 'const'|'perHousehold'|'perStorey'|'perCapacity'|'perFacility'; capacity?: string; tag?: string; perRoom?: number /* the perCapacity divisor */ };
   area?: [number, number, number] /* m²: min, target, max; absent: the role table's cell (V03 §2.4) */; storey?: 'any'|'ground'|'upper'|'top'|'basement'|'notBasement'|'belowTop' /* absent: the role's */; exterior?: 'none'|'some'|'max'; door?: 'door'|'arch'|'open' /* absent: the role's */; maxDoors?: number;
   adjacency?: { kind: 'hard'|'soft'; to: 'core'|'entrance:main'|'entrance:yard'|RoomRole; via?: 'direct'|'corridor'|'under' }[] /* absent: none */; priority: 'hard'|'soft'; hearth?: boolean; half?: 'works'|'shop'|'both' /* default both */;
   concealed?: boolean /* item 63: a room of a concealed use's programme — placed away from the main entrance and off the public circulation hub (§4.7) */;
@@ -16254,7 +16254,7 @@ interface BasementGateRow {   // item 29 (b): the values §2.6's basement gate r
 
 The **room programme** lists the rooms a building of that class, use and band must and may have — each with its size band in
 m², its storey, its openings, its adjacencies and how many (a fixed number, a number per storey, one for each household of
-item 31's `relet`, or a sub-location's capacity) — which §2.6's plan rung writes first and then cuts the walls to fit (item
+item 31's `relet`, or a facility's capacity) — which §2.6's plan rung writes first and then cuts the walls to fit (item
 28), so rooms are never cut before the programme is known. The programme rows follow §2.6's **interior ladder** (item 28
 (f)): the ladder's row for the occupants' band gives the cross-class structure — how many households the shell holds, each
 unit's rooms, the shared rooms, the staff rooms and their size beside the owners', the circulation form and how large the
@@ -16538,7 +16538,7 @@ interface PortRows {   // item 88: the staged rows the dossier port fills (§14)
   An edited row's lifecycle — saved in the document's override layer, undone, re-read by a regeneration, migrated by its
   table version and orphaned when its base row changes — is §7.6's and §7.4's.
 
-### 10.3 People, households, relations, sub-locations, schedules
+### 10.3 People, households, relations, facilities, schedules
 
 **Households and people.** A person is a pure function `derivePerson(seed, key, tableVersion)` of its key — `(household
 address, member ordinal, birth epoch)`, a successor's with its `bornWeek` (§2.7; a founding member's key unchanged, a
@@ -16578,10 +16578,10 @@ pass on its own stream (`content/relations`) in person-key order — family unit
 carer / caree, friends, rivals, business and religious ties, affairs — and persists it with lifecycle and reference integrity
 (§10.1's locality contract). *Work (COV-FTG-B11):* professions ↔ workplaces by greedy matching with id tie-breaks, persisted
 as `Posting` records; after an edit only the postings of changed workplaces and the unemployed pool are re-matched, in
-person-key order; unfilled postings are tracked and reported. *Sub-locations and occupancy (FTG-11):*
+person-key order; unfilled postings are tracked and reported. *Facilities and occupancy (FTG-11):*
 `occupancy(dayType, hour)` resolves the whole population in person-key order in two passes — primary behaviours (home, work,
 study, care, following carers) from profession templates, then occupancy criteria (leisure, guest workers, temporary
-residence) filling `SubLocation` capacities with their relax options — cached per (day type, hour) and invalidated by edits
+residence) filling `Facility` capacities with their relax options — cached per (day type, hour) and invalidated by edits
 that touch the people or buildings involved; `whereIs(person, day, hour)` reads the cache; resource *provides / uses* edges
 on roster rows are data the schedules may read; its budget is §12.7's. The module registers the live layer `live.people`
 through §14's `LiveLayerProvider` registry (§8.2): favourite persons' positions from its occupancy at the view-state hour.
@@ -16619,7 +16619,7 @@ the use's address; a household re-homed by item 31's re-letting takes the same p
 
 **Lit windows, cluster households and dossier people (items 68, 70 and 88).**
 * **Lit windows (item 68).** At the view's hour the module's occupancy selects the lit windows — a building is lit while its
-  sub-locations hold anyone awake at that hour. Without the module a dwelling is lit in the evening hours of the lighting row
+  facilities hold anyone awake at that hour. Without the module a dwelling is lit in the evening hours of the lighting row
   (`lights.windowHours`, 17–22 h by default; our own row, `extension`) while its households live there at the drawn week
   (§4.11's Works), and a workplace during its `openingHours` rows (§10.2). Window lights are derived per view — §8.4's derived
   sources and §8.2's `live.windows` layer, never records; the `FTG` preset lights each lit building at its main entrance only
@@ -21323,7 +21323,7 @@ coarser than the findings.
 | E1 | layout editor | §7.1 draw / move / warp events with split-on-cross and dry-run validation | BASE |
 | E2 | regenerate area, bulk edit, constrained re-roll | §7.1 the named actions with scope; `setAttr` batches; faithful regeneration (beyond: undoable) | BASE |
 | E3 | entity editing, dictionaries, pins, notes, layers | §7.1 `setAttr`, data dictionaries by id (§10.3), annotation layer (§9.5), view notes (§11.3), `LayerSpec` | BASE |
-| F1 | schedules, behaviours, sub-locations | §10.3 module; sub-locations with capacities (§2.6) | module |
+| F1 | schedules, behaviours, facilities | §10.3 module; facilities with capacities (§2.6) | module |
 | F2 | clock, calendar, external time sync | §10.3 module; the time view state and the module's command over the bridge (§11.3) | module |
 | G1 | export | §11 (beyond: districts in GeoJSON; per-layer VTT; CityJSON) | BASE |
 | G2 | integrations (Foundry, Roll20, public links) | §11 VTT exports (Foundry-class, dd2vtt) + the host bridge over any transport; no hosted service — the host is the store (§11.5) | BASE |

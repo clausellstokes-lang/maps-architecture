@@ -4472,8 +4472,8 @@ J78 and item 101 (e) make an ORIGINAL skeleton with the structure of the owner's
 the toolkit, authored three ways that must agree (§13.2's T101 bars). This volume owns the "by hand" way. The fixture's
 structure (our own names, nothing traced; `research/reference-maps/baldurs-gate/README.md` is study-only): a walled upper
 town with a citadel on a bluff; a walled lower port sloping to a harbour with piers; unwalled outer sprawl along three
-roads; a hill inside the extent; cliffs with a cliffside cemetery; a satellite quarter across the river; a fortress on a
-bridge (with its deck plots, item 110 (d); V09 §4.20.4 (7)); two enceintes with nine gates; three region labels (upper, lower, outer);
+roads; a hill inside the extent; cliffs with a graveyard along their top; a satellite quarter across the river; a fortress on a
+bridge (with its deck plots, item 110 (d); V09 §4.20.4 (7)); two enceintes with nine gates; three region labels (our own names) over the upper town, the lower port and the sprawl;
 about fourteen declared quarters (a temple quarter, a manor quarter, a harbour quarter, an enclave, a graveyard …); about
 sixty named places with landmark leader lines; the two looks, ink and quarter-tinted. Its inputs live in
 `plat/tests/fixtures/known-city/K1/` and its goldens under `plat/goldens/known/K1/` (J-V12.58).

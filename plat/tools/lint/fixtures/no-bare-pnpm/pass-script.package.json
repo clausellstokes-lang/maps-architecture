@@ -1,0 +1,9 @@
+{
+  "name": "zz-fixture",
+  "packageManager": "pnpm@10.34.6",
+  "scripts": {
+    "test": "corepack pnpm test",
+    "frozen": "PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile",
+    "lint": "node scripts/lint.mjs"
+  }
+}

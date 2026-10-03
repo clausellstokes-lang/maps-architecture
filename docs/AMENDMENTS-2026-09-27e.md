@@ -51,7 +51,7 @@ vetoable interpretation.
      one by one — split, join, draw or move a footprint, heights, entrances, roof paint (`split`, `join`,
      `drawFootprint`, `moveFootprint`, `setAttr`, `setEntrance`, `paint`); T10 `hold`: lock, pin, revert, regenerate
      with keep on a scope — protect the declared, re-roll the derived (`lock`, `pin`, `revert`, `regenerate`). L4 FINISH
-     — T11 `name`: rename anything; REGION labels as named groups on the quarter tree (Upper, Lower, Outer City);
+     — T11 `name`: rename anything; REGION labels as named groups on the quarter tree (say, the Kiln Hill, the Saltings, the Far Bank);
      label placement; a leader-line switch for every landmark label at the city band (`renames`, `moveLabel`,
      `hideLabel`; §9.1 quarter groups, §9.4 leaders — a style switch, new); T12 `dress`: style family and preset, a
      thematic tint by quarter, furniture (compass, scale bar, cartouche or emblem, border — §9.5), an UNDERLAY image for
@@ -63,8 +63,8 @@ vetoable interpretation.
      applied on confirmation; a pasted roster becomes T7 with loci chosen by class rules and every unhonoured line
      reported with its closest options; (3) CRITIQUES a skeleton against the rules before it is applied (a main road
      with no gate through the wall, a temple quarter with no temple, a harbour with no quay, a quarter with no road
-     access); (4) ITERATES on instructions ("the Lower City should feel denser", "move the temples nearer the
-     citadel") as further declarations. The clerk never bypasses the dry run or the undo, never invents a dossier fact,
+     access); (4) ITERATES on instructions ("the river quarter should feel denser", "move the chapels nearer
+     the castle") as further declarations. The clerk never bypasses the dry run or the undo, never invents a dossier fact,
      and reads only what its viewer may know (item 63 (c)'s knowledge rules). The TOOL API is the must-have (so the
      host's own clerk — SettlementForge's — drives the module); a minimal built-in clerk over the same API is a
      should-have for standalone use.

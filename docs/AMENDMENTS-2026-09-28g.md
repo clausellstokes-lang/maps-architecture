@@ -203,7 +203,7 @@ vetoable interpretation.
      custom institution selling to a native guild) is pulled by that node the same way; placement runs upstream first, so a
      downstream node always sees its suppliers' sites; a custom pull never moves a native, dossier-declared or author-declared
      place beyond item 22's least disruption.
-     (5) SERVICES AND SUBSUMPTION — a custom service `providedBy` an institution sits inside it (a sub-location) or on an
+     (5) SERVICES AND SUBSUMPTION — a custom service `providedBy` an institution sits inside it (a facility) or on an
      adjoining plot; a custom institution that subsumes others takes over their site needs (a larger compound where they would
      have stood), never a second site.
      (6) TRADE ENDPOINTS — an import feeds its first consumer through a store (a warehouse, a yard) at the gate or quay facing its

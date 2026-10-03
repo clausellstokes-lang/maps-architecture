@@ -1,5 +1,5 @@
 # usage: python3 doc_checks.py [--doc docs/ARCHITECTURE.md] [--sections "13.2,13.3,16,Judgment calls"] [--allow docs/validation/doc-checks-allow.tsv]
-# PENDING FABLE REVIEW — written by opus standing in for the Fable seat fixall/draft-scope-r3 (2026-09-25); revised by opus stand-in (fixall/draft-scope-r4, 2026-09-26: VS3-4, C4; fixall/draft-scope-r5, 2026-09-26: VS4-1, S1's cell count); queued in docs/FABLE-REVIEW-QUEUE.md.
+# PENDING FABLE REVIEW — written by opus standing in for the Fable seat fixall/draft-scope-r3 (2026-09-25); revised by opus stand-in (fixall/draft-scope-r4, 2026-09-26: VS3-4, C4; fixall/draft-scope-r5, 2026-09-26: VS4-1, S1's cell count; design/cleanroom-fix-1, 2026-10-03: the corpus rule); queued in docs/FABLE-REVIEW-QUEUE.md.
 #        (lanes fixall/draft-scope-r3, -r4 and -r5; stdlib only; run from the project root)
 # The scripted document checks of ARCHITECTURE §17.1 (2). Every seat that writes docs/ARCHITECTURE.md — a fix-all
 # integration seat, an amendment pass's apply and repair lanes, any finishing or repair seat — runs them before its change
@@ -21,6 +21,8 @@
 #                   its lists: a dict's keys, an array of strings, and one field's string values across >= 3 records;
 #                   a hit is a line of the checked sections holding >= 5 distinct whole words (>= 4 letters) that are
 #                   members of one such list, reported as those words, sorted
+#   corpus          (2026-10-03) reference material only: C2-C4 leave our own outputs out (research/sf/, research/baselines/
+#                   and M-1's capture records inside captures/; the rule is stated where the corpus is read)
 #   S1 tables       outside fenced code (a fence may be indented, as inside a list item), every line that starts with '|'
 #                   also ends with '|', no non-table line sits between two table lines, and (VS4-1) every row has its
 #                   header's number of cells, counting only unescaped pipes: GitHub-flavoured Markdown splits a cell at
@@ -59,9 +61,31 @@ for ident in idents:
         if rx.search(l): hit('C1', ident, f'l. {i + 1}')
 # ---------- C2 colours
 cols = set(m.lower() for m in re.findall(r'(?:#|0x)([0-9a-fA-F]{6})(?![0-9a-fA-F])', doc))
+# The corpus is reference material only (rule of 2026-10-03, lane design/cleanroom-fix-1, as asked by
+# docs/calibration/E01-capture-plan.md §7, E02-ftg-captures.md §7 and E16-denylist.md §§5 and 7): what the reference
+# programs and their authors made, never our own outputs, which otherwise come back as phantom hits on our own words.
+# Left out: research/sf/ (SettlementForge, the owner's own program, not a reference: §17.1 (3), (6)); research/baselines/
+# (M-1's own research-side outputs, which cross into plat/ by §17.1 (4)); and the record files M-1's capture lanes write
+# inside captures/: in a capture folder dated on or after M-1's first capture day, the READMEs and the facts, stats,
+# plan, check, index and probe files our seats wrote beside the recordings. The recordings stay in (session/, draw/,
+# steps/ and every network body, the reference programs' exports and request bodies, the recorder's meta files), and so
+# do the capture records made before M-1, which the reviewed rows of the allow file were read against.
+OWN_TREES = ('research/sf/', 'research/baselines/')
+M1_FIRST_CAPTURE_DAY = '2026-10-03'
+OWN_RECORD = re.compile(r'(?:^|/)(?:README[^/]*\.md|capture-facts\.json|stats\.json|plan[^/]*\.json|[^/]*-check\.json|index\.json)$|/probe/')
+RECORDING = re.compile(r'/(?:session|draw|steps|coverage|profile|network)/')
+own_left_out = set()
+def reference(f):
+    """True for reference material; our own outputs (above) are counted and left out."""
+    p = f.replace(os.sep, '/')
+    day = re.search(r'\d{4}-\d{2}-\d{2}', p) if p.startswith('captures/') else None   # a capture folder's name carries its day
+    own = p.startswith(OWN_TREES) or bool(day and day.group(0) >= M1_FIRST_CAPTURE_DAY and OWN_RECORD.search(p) and not RECORDING.search(p))
+    if own: own_left_out.add(p)
+    return not own
 corpus_files = [f for f in glob.glob('research/**/*', recursive=True)
-                if os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() in ('md', 'txt', 'json', 'js', 'ts', 'tsv', 'csv', 'html', 'htm', 'svg', 'css', 'log', 'hx', 'xml', 'yaml', 'yml')]
-corpus_files += glob.glob('captures/**/README*.md', recursive=True)
+                if os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() in ('md', 'txt', 'json', 'js', 'ts', 'tsv', 'csv', 'html', 'htm', 'svg', 'css', 'log', 'hx', 'xml', 'yaml', 'yml')
+                and reference(f)]
+corpus_files += [f for f in glob.glob('captures/**/README*.md', recursive=True) if reference(f)]
 # Guard (2026-09-29): the reference corpus lives partly in folders kept off GitHub (captures/, research/patreon/, devlogs/,
 # ftg-docs/, external/). Without them the C2-C4 checks see a smaller corpus and can report a FALSE clean.
 _missing = [d for d in ('captures', 'research/patreon', 'research/devlogs', 'research/ftg-docs', 'research/external') if not os.path.isdir(d)]
@@ -69,7 +93,7 @@ if _missing:
     _w = 'WARNING: reference corpus INCOMPLETE (missing: ' + ', '.join(_missing) + ') - clean-room results are NOT authoritative; re-run on the machine that holds the corpus before any freeze'
     print(_w); print(_w, file=sys.stderr)
 
-corpus_files += glob.glob('captures/**/*.json', recursive=True)                     # VS3-4
+corpus_files += [f for f in glob.glob('captures/**/*.json', recursive=True) if reference(f)]   # VS3-4
 corpus_files += glob.glob('docs/confidence/**/*', recursive=True) + glob.glob('docs/improvements/**/*', recursive=True)
 corpus_files += ['docs/CONFIDENCE.md', 'docs/IMPROVEMENTS.md']
 corpus_files = list(dict.fromkeys(corpus_files))
@@ -105,7 +129,8 @@ tok = lambda s: re.findall(r'[a-z0-9_]+', s.lower())
 # ---------- the JSON corpus (VS3-4): one pass builds C3's document-order 3-grams and C4's lists
 PROFILER = re.compile(r'(\.calls[^/]*\.json|\.coverage\.json|\.idle\.json|\.trace\.json|\.draw\.json|\.paths\.json|/report\.json|/meta\.json|/session\.json|/index\.json)$')
 member = re.compile(r"[A-Za-z][A-Za-z '\-]{2,40}")
-json_files = sorted(set(glob.glob('research/**/*.json', recursive=True) + glob.glob('captures/**/*.json', recursive=True)))
+json_files = sorted(f for f in set(glob.glob('research/**/*.json', recursive=True) + glob.glob('captures/**/*.json', recursive=True))
+                    if reference(f))   # reference material only (the corpus rule above)
 shared = set()          # C3 corpus: findings + JSON document-order 3-grams
 lists = set()           # C4 corpus: frozensets of lower-cased member strings
 def add_list(seq):
@@ -195,7 +220,7 @@ by = {}
 for h in hits: by.setdefault(h[0], [0, 0])[0] += 1
 for h in un: by[h[0]][1] += 1
 print(f'doc={a.doc} sections={a.sections or "all"} identifiers={len(idents)} colours={len(cols)} colour_files={len(corpus_files)} '
-      f'json_files={len(json_files)} c3_corpus_3grams={len(shared)} c4_lists={len(lists)}')
+      f'json_files={len(json_files)} c3_corpus_3grams={len(shared)} c4_lists={len(lists)} own_outputs_left_out={len(own_left_out)}')
 for c in ('C1', 'C2', 'C3', 'C4', 'S1', 'S2'):
     t, u = by.get(c, [0, 0]); print(f'{c}: {t} hits, {u} unreviewed')
 for h in un: print('UNREVIEWED', h[0], '|', h[1], '|', h[2])

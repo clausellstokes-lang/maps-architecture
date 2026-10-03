@@ -1965,7 +1965,7 @@ and T-V2-46 — the bars whose clauses wait on a later landing — a clause whos
   and any entrance a secondary porch stands at, `Building.massing`, the **slices of `composition.json`** it read, and —
   for the porch's space — the **plot's ring with the footprints of the plot's other buildings and the yard parts** that lie
   within `porch.depthM[1] + clearanceM` of the main entrance (and of the secondary porch's entrance). Nothing else: a
-  relet, a household move, a use change, an access, a sub-location, a band drift, a Works stage or a material change
+  relet, a household move, a use change, an access, a facility, a band drift, a Works stage or a material change
   leaves the rung `current` and draws no change marker (T-V2-21), because dormers and the porch read none of them. A dossier
   event of items 18, 22 or 31 reaches the rung only through those inputs.
 * **What makes the `rooms` rung stale.** `wingsInputs`, plus the **occupants' band row and value**, the **household

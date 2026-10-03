@@ -5,8 +5,8 @@
  "date": "2026-10-03",
  "status": "partial",
  "statusReason": [
-  "row check 1: 34 of 35 exports (capture/MFCG/130/plain/8 gave no export; the page stopped answering input)",
-  "row check 3: the cold re-export of capture/MFCG/40/plain/0 needs a 36th load, outside J159; same-load re-export byte-identical on 33 seeds stands in"
+  "row check 1: 34 of 35 exports; capture/MFCG/130/plain/8 froze on both of its loads (J159 load 29, J161 load 2), so 35 of 35 cannot be met on build 12710731 with this seed; a substitute waits for the M-1 ruling seat's replacement-seed rule (J161 load 3 unused, kept for it)",
+  "row check 3 met under J161: seed 0's cold re-export (fresh profile) gave JSON and SVG byte-identical to the stored files (PNG identical too)"
  ],
  "build": {
   "reference": "MFCG",
@@ -47,8 +47,12 @@
    "sha256": "abcf6192fa9d89cd72d701eaf6e1e2d451ca7942a68a8d9c92c2a7f08a99d110"
   },
   "research/baselines/check_w03.py": {
-   "bytes": 7078,
-   "sha256": "f3f89df5b4fa021a7224e88780eb8116db36d101ccbf73e41f62bf5d3955ab2b"
+   "bytes": 11256,
+   "sha256": "60ce9f3ebd9bd54d981c0941d2da259683d8432b78e84b1ac33d71eabe59676e",
+   "was": {
+    "bytes": 7078,
+    "sha256": "f3f89df5b4fa021a7224e88780eb8116db36d101ccbf73e41f62bf5d3955ab2b"
+   }
   },
   "captures/mfcg/exports-sweep-m1-2026-10-03/export-log.jsonl": {
    "bytes": 195559,
@@ -71,8 +75,12 @@
    "sha256": "c8b94265d7d425415883b883140cea60d12a93699d74e54f052dc589cca66a3b"
   },
   "captures/mfcg/exports-sweep-m1-2026-10-03/export-check.json": {
-   "bytes": 3439,
-   "sha256": "8f2007438c5079802af07e56a9e9304fae3a8d24b8490bcad7abe4be2fc9edb0"
+   "bytes": 4630,
+   "sha256": "a9f53e2f9b0d166fc0c725afe8ad6e95548d71a7443e791047ee307058f7f900",
+   "was": {
+    "bytes": 3439,
+    "sha256": "8f2007438c5079802af07e56a9e9304fae3a8d24b8490bcad7abe4be2fc9edb0"
+   }
   },
   "captures/mfcg/exports-sweep-m1-2026-10-03/probe/ui.json": {
    "bytes": 665,
@@ -114,7 +122,17 @@
    "passed": true,
    "seedsWithReexport": 33,
    "byteIdentical": 33,
-   "size40plain0": "no in-page re-export (calibration load)"
+   "size40plain0": "no in-page re-export (calibration load)",
+   "size40plain0J161": [
+    {
+     "trigger": "window JSON item, downloads denied",
+     "gotBlob": true,
+     "blobIndex": 2,
+     "sha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "jsonSha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "byteIdentical": true
+    }
+   ]
   },
   "C5-version": {
    "passed": true,
@@ -165,6 +183,45 @@
      ]
     }
    }
+  },
+  "C7-j161": {
+   "passed": true,
+   "loads": 2,
+   "names": [
+    "size40-plain-0",
+    "size130-plain-8"
+   ],
+   "problems": [],
+   "records": {
+    "size40-plain-0": [
+     "ok"
+    ],
+    "size130-plain-8": [
+     "failed"
+    ]
+   }
+  },
+  "C8-cold": {
+   "passed": true,
+   "run": true,
+   ".json": true,
+   ".svg": true,
+   ".png": true,
+   "logged": [
+    [
+     ".json",
+     true
+    ],
+    [
+     ".svg",
+     true
+    ]
+   ],
+   "hrefOk": true,
+   "attempts": 1,
+   "retry": false,
+   "downloadsCompleted": 0,
+   "sameLoadReexport": true
   }
  },
  "rowChecks": [
@@ -172,7 +229,7 @@
    "check": "35 of 35 exports with Blob = download (sameAsDownload)",
    "passed": false,
    "value": "34/35",
-   "note": "the 35th is a recorded no-export failure"
+   "note": "capture/MFCG/130/plain/8 froze on 2 of 2 loads (no-export); unattainable on this build with this seed; substitute after the replacement-seed rule"
   },
   {
    "check": "canonical href carries the plan seed and the plain options",
@@ -181,14 +238,14 @@
   },
   {
    "check": "re-export of seed 0 at size 40 byte-identical",
-   "passed": false,
-   "value": "not run (needs a 36th load)",
-   "substitute": "same-load re-export byte-identical 33/33 (seeds 1-34)"
+   "passed": true,
+   "value": "cold re-export under J161: JSON and SVG byte-identical (C8); PNG identical too",
+   "substitute": "same-load re-export byte-identical 33/33 (seeds 1-34) and on seed 0's J161 load"
   },
   {
    "check": "retries recorded in sample.failed",
    "passed": true,
-   "value": "2 retry + 1 no-export recorded"
+   "value": "2 retry + 1 no-export (2 loads) recorded"
   }
  ],
  "sample": {
@@ -212,7 +269,11 @@
     {
      "label": "capture/MFCG/130/plain/8",
      "reason": "no-export",
-     "detail": "no record: the sweep process ended during this load (its console trace was not saved)",
+     "loads": 2,
+     "detail": [
+      "J159 load 29: no record: the sweep process ended during this load (its console trace was not saved)",
+      "J161 load 2: no JSON within 180000 ms of the navigation; generation marker seen: True; attempts 1; the page did not answer evaluate(1) within 10 s (main thread busy)"
+     ],
      "filesKept": false
     }
    ]
@@ -638,7 +699,9 @@
     2003595629
    ],
    "retry": false,
-   "reexportByteIdentical": null
+   "reexportByteIdentical": true,
+   "reexportVia": "J161 load 1 (same-load window JSON)",
+   "coldReexportByteIdentical": true
   },
   {
    "label": "capture/MFCG/40/plain/1",
@@ -1177,29 +1240,30 @@
    "step": "cold re-export of capture/MFCG/40/plain/0",
    "loads": 1,
    "downloads": 0,
-   "note": "downloads denied, Blob read in-page; or 1 download to keep the file"
+   "status": "done under J161 (load 1): byte-identical"
   },
   {
    "step": "second load of capture/MFCG/130/plain/8",
    "loads": 1,
    "downloads": 0,
-   "note": "confirms the freeze (no-export reason PLAUSIBLE until then)"
+   "status": "done under J161 (load 2): froze again; no-export CONFIRMED reproduced"
   },
   {
-   "step": "optional replacement capture/MFCG/130/plain/10",
+   "step": "replacement for capture/MFCG/130/plain/8 (e.g. /130/plain/10)",
    "loads": 1,
-   "downloads": 2,
-   "note": "needs a design ruling under V12 2.4 / 3.2.1 first"
+   "downloads": "0 with this tool (Blob read in-page; files kept)",
+   "status": "waiting for the M-1 ruling seat's replacement-seed rule; J161 load 3 kept for it"
   },
   {
    "step": "S-V12-1 20-seed fallback if W-13 triggers it",
    "loads": 30,
    "downloads": 60,
-   "note": "not covered by J159"
+   "note": "not covered by J159 or J161"
   }
  ],
  "plausible": [
-  "seed 1413909430 freezes MFCG 0.11.5 deterministically",
+  "seed 1413909430 freezes MFCG 0.11.5 on every load (2 of 2 observed)",
+  "the freeze lies after the model's stages, before the emblem fetch and the export (not profiled)",
   "window-route SVG equals export=svg SVG byte for byte",
   "armoria.herokuapp.com requests are the emblem"
  ],
@@ -1284,6 +1348,182 @@
    ],
    "exit": 1,
    "note": "C3 unreviewed = paths, table digit runs and our own phrases; not a design-set file, no allow rows"
+  },
+  "selfCheckAfterCompletion": {
+   "command": "doc_checks.py --doc docs/calibration/E03-mfcg-sweep.md --heads docs/ARCHITECTURE.md",
+   "corpusRule": "2026-10-03 reference material only (44 own outputs left out)",
+   "C1": [
+    1,
+    0
+   ],
+   "C2": [
+    0,
+    0
+   ],
+   "C3": [
+    30,
+    28
+   ],
+   "C4": [
+    0,
+    0
+   ],
+   "S1": [
+    0,
+    0
+   ],
+   "S2": [
+    0,
+    0
+   ],
+   "exit": 1,
+   "note": "C3 unreviewed = build path, table digit runs, dates and plain phrases of our own; not a design-set file, no allow rows"
+  },
+  "j161Corpus": "under the 2026-10-03 corpus rule the folder's README, export-check.json, stats.json and probe/ are our own records and left out; j161/size40-plain-0.json is byte-identical to a file already in the corpus and the corpus 3-grams and lists are sets, so it adds nothing; .jsonl, SVG and PNG are outside the globs"
+ },
+ "lanes": [
+  "m1/W-03",
+  "m1/W-03-complete"
+ ],
+ "approvalJ161": {
+  "ruling": "J161",
+  "loadsApproved": 3,
+  "loadsUsedByThisLane": 2,
+  "loadsLeft": 1,
+  "loadLeftFor": "a substitute for capture/MFCG/130/plain/8 after the ruling seat's replacement-seed rule",
+  "downloadsCompleted": 0,
+  "downloadEventsDenied": 3,
+  "buildIdFetches": 1,
+  "hostsContactedByThePage": {
+   "html-classic.itch.zone": 33,
+   "static.itch.io": 2,
+   "itch.io": 2,
+   "armoria.herokuapp.com": 3
+  },
+  "prompts": "none (no login, account, payment, terms or consent)"
+ },
+ "completion": {
+  "lane": "m1/W-03-complete",
+  "date": "2026-10-03",
+  "buildIdCheck": {
+   "resolvedAt": "2026-10-03T20:34:14.167Z",
+   "url": "https://html-classic.itch.zone/html/12710731/bin/index.html",
+   "pinShift": false
+  },
+  "method": "research/baselines/mfcg_j161_m1.mjs: the sweep's per-seed route (one navigation; JSON by the URL export key; screenshot; SVG by the Settlement window behind the same reference crops; the window JSON once more) with browser downloads denied and files written from the in-page Blob; own ledger j161/loads.jsonl (cap 2); no-overwrite writes; on a failed load the record first, then one bounded non-input question (evaluate, 10 s), then a bounded screenshot (20 s)",
+  "loads": [
+   {
+    "n": 1,
+    "t": "2026-10-03T20:34:28.070Z",
+    "label": "capture/MFCG/40/plain/0",
+    "profile": "fresh scratch (cold cache)",
+    "ok": true,
+    "json": {
+     "bytes": 525367,
+     "sha1": "eaa7701b6a75f38eb31c065044cb479e8ef93222",
+     "byteIdenticalToStored": true
+    },
+    "svg": {
+     "bytes": 584676,
+     "sha1": "f41234c377a125ad7ad0edc959e4f22b635aef90",
+     "byteIdenticalToStored": true
+    },
+    "png": {
+     "bytes": 375179,
+     "sha1": "032cd974d19af53eed72c21d59a830c53e82039b",
+     "byteIdenticalToStored": true
+    },
+    "attempts": 1,
+    "retry": false,
+    "hrefOk": true,
+    "sameLoadReexportByteIdentical": true,
+    "documents": 1,
+    "downloadEvents": "3, all denied",
+    "jsonMs": 4038,
+    "wallMs": 8420
+   },
+   {
+    "n": 2,
+    "t": "2026-10-03T20:34:54.104Z",
+    "label": "capture/MFCG/130/plain/8",
+    "profile": "same profile (warm cache, as load 29)",
+    "ok": false,
+    "failure": "no JSON within 180000 ms (waited 181847 ms)",
+    "stageLogComplete": true,
+    "lastStageLineMs": 2131,
+    "attempts": 1,
+    "retry": false,
+    "liveness": "no answer to evaluate(1) within 10 s (main thread busy)",
+    "screenshot": "no answer within 20 s",
+    "requests": 18,
+    "emblemHostRequests": 0,
+    "emblemHostRequestsOnGoodLoads": 3,
+    "documents": 1,
+    "downloadEvents": 0
+   }
+  ],
+  "freeze": {
+   "reproduced": true,
+   "loads": 2,
+   "of": 2,
+   "readingConfirmed": "the seed froze on both of its loads, in two browser sessions with different cache states",
+   "plausible": [
+    "it freezes on every load of this build",
+    "the hang lies after the model's stages, before the emblem fetch and the export (drawing or labelling); not profiled"
+   ]
+  },
+  "files": {
+   "research/baselines/mfcg_j161_m1.mjs": {
+    "bytes": 17895,
+    "sha256": "48f7d52b0dde6134e3244326993e0b0e8eaec3d2d916f3605d78616a8887056d"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/loads.jsonl": {
+    "bytes": 530,
+    "sha256": "0799d51d8022ce12783cc85c614d15927604c8cd3f1be7d8cf9fc3b25c51012d"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/export-log.jsonl": {
+    "bytes": 8815,
+    "sha256": "900a00cf0356f38a809f0c7af53027d8a1798bd06daf68f7e187f29009b14e91"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.json": {
+    "bytes": 525367,
+    "sha256": "6cb5ad2bac3a4b201e49ac041bdaaff433159c1cfd5b7a6aa2717d0ecf9eba42"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.svg": {
+    "bytes": 584676,
+    "sha256": "96b1dea95dffd80982d87cbf98afef8a3f0b24f37864483466e1fcd38cff71c9"
+   },
+   "captures/mfcg/exports-sweep-m1-2026-10-03/j161/size40-plain-0.png": {
+    "bytes": 375179,
+    "sha256": "f2a8ee70b93d138aebb2dea928c2c45f60386021645939a7a36b0a9c31af3aa5"
+   }
+  },
+  "checkerRedTests": "three APFS clones: flipped SVG byte under j161/ -> C7+C8 FAIL; a third ledger line -> C7 FAIL; a download marked completed -> C7+C8 FAIL; each exit 1; real folder exit 0",
+  "mockTests": "file:// mock (no network): green+compare, freeze after load (record first, liveness busy, screenshot abandoned at 20 s, exit 40 s), cap 2, loaded name refused, no overwrite (EEXIST), red compare, compare-before-write bug found and fixed",
+  "statsRerun": "stats.py re-run; stats.md and stats.json byte-identical (no new file in the folder)",
+  "delegatedCalls": [
+   "downloads denied, files = in-page Blob bytes (E03 sec 5 item 1's 0-download route; Blob = download proven on 68/68 files and 33 re-exports)",
+   "a separate tool and ledger (the landed tool refuses any J159-loaded seed by design; J161 counted apart, cap 2, load 3 left to the ruling seat)",
+   "cold = fresh scratch profile for load 1; load 2 reused it (warm, as load 29); profile deleted",
+   "one bounded non-input liveness question on a failed load, after the record is on disk",
+   "the cold re-export's files kept under j161/ (1.4 MB) for cmp, written with no overwrite",
+   "check_w03.py extended in place (C6 counts J161 loads; C7, C8)",
+   "the size-40 count corrected (4 -> 2 of 10 above 1500) in E03 sec 6 and the README; W-03.json left as history"
+  ]
+ },
+ "corrections": [
+  {
+   "where": "E03 sec 6, the sweep README, W-03.json notes",
+   "old": "4 of 10 size-40 seeds exceed TOWN's 1500 buildings",
+   "new": "2 of 10 (1571, 1576; 1499 and 1491 under)",
+   "source": "docs/calibration/results/wave1-verify.json (W-03), recounted from stats.json by m1/W-03-complete",
+   "appliedTo": [
+    "E03 sec 6",
+    "README"
+   ],
+   "leftAsHistory": [
+    "docs/calibration/results/W-03.json"
+   ]
   }
- }
+ ]
 }
