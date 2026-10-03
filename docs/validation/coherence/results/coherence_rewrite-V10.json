@@ -1,0 +1,33 @@
+{
+ "key": "coherence/rewrite-V10",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 526.0,
+ "new_kb": 442.9,
+ "facts_mapped": 805,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "23 BCR-V10 requests as applied f items, none restated: V10 §10.1 is a pointer table BCR-V10-n -> item (468 311 270 297 469 470 473 518 538 531 487 348 471 519 271 365 366 367 481 368 290 572 571; merged members 460 463 467 583 459 461 269 570); all 39 canon f items cited as base text (238 246 260 270 271 290 297 311 339 348 362 365 366 367 368 460 461 463 464 465 466 468 469 470 471 473 481 487 516 518 519 531 538 568 570 571 572 582 583)",
+  "g item 111 (build depth): V10 §3.9b water section (pull w_water*q(x), rich w_waterP share from FieldDrivers, shade on a sunlight cell <= 0, oasis dossier DR40 / generated oasisChance and oasisNoWaterFactor / drawn, well yield and coverage, failing), GroundInput.spring and the lake encoder's spring flag, MapBrief.water.arid and oasis lakes, desert/arid/oasis lexicon rows, the drivers' water term, budgets, three cases, T-V10-45, J-V10.112",
+  "g item 113 (build depth): V10 §3.9b history section (peak, peak.symbolic 'its exact size is not recorded', epoch, event DR37, refounded, buried) over HistoryRecord, Provenance.symbolic and DR36-DR39; read_map 'past', the brief's history line, prompt rule 19 and the symbolic-number rule; V10 §3.9a lost-void and buried-former-settlement rows; T1 history encoder; three cases; T-V10-46; J-V10.113",
+  "E-04, E-07, E-17, E-24, E-28, E-32, E-33 applied with their equivalence lists ticked; ID-BCR, ID-TOOL, ID-LAYER, ID-WX, ID-DUPDEF, ID-DR",
+  "J121/J122: provider, SDK, model tier and key path read from the deployment's AI setup (clerk.ops.model.provider, DirectBackend, the notice's {provider}; J-V10.114); SettlementForge = configuration C; M3c beside M3b; Q1-Q5 answered; the US$790-1 190 evaluation cap staged in V10 §7.3",
+  "wiring: W-IF-01/02/03 (V04, V07, V01 providers in the owed table; RetainingWall to V01 J-V10.117), W-IF-05 (RuleAnswer.evidence from V12's dist/evidence.json, J-V10.118), W-PKG-01 (@plat/cli plat clerk), W-EDIT-01 (E-04), W-FLD-12 (ClerkSegment.promptTokens reader), V05-WGAP-2b, V06-WGAP-1b (bend.time.hoodAlone), V10-WGAP-1 (encoders.ringSides, scopeRingSides, isletM2)",
+  "edges: 51 UNDEFINED + 14 UNTESTED edges and 8 owned combinations (+ a dossier change while a proposal waits) closed by V10 §3.23's tables with outcomes and ladder rungs, T-V10-47, T-V10-48; EI-V10-EDGE-1 the replaced empty-state town (V10 §4.2 (3), J-V10.116, T-V10-49)",
+  "renames: ClerkHarness -> ClerkHandle, Segment -> ClerkSegment (MC-11, J-V10.115), AnthropicBackend -> DirectBackend, error.clerkOffline retired, clerk.alt.history.fork/.undo -> button.openCopy/button.undo (SR6-05, J-V10.119), deckRefusal -> deckNoCellar, DR-V8.7/8 -> DR34/35",
+  "narration removed: eight banners, revision notes, PROGRESS/REVISION ledgers, twelve reconciliation round sections and the finalization note, §12 round records, §13 fix-list history, seam and critique ids in normative text; 21 incoming hand-offs closed; IN-V10-1..5 and IN-V02-3 folded at their homes; 39 open findings closed; §13 holds no open item",
+  "sizes: 84 658 -> 72 685 words (-14.1 %, canon count), 526.0 -> 442.9 KB; SIZE-1 marked: about 6 300 words of routed new design (§3.23, §3.9b, five bars, six cases, nine decisions, item 111/113 rows); doc_checks provisional (corpus absent): C1 0, C2 0, C4 0, S1 0"
+ ],
+ "conflicts_resolved": 18,
+ "cross_notes": [
+  "base scope §16 (items 531, 568): M3c 10.75-14.5 pw (+0.75 for items 111/113's V10 parts), M3a's C1 3.25-4.75 pw (+0.25 the water section); program totals recomputed once (14.25-19.5 and 14.75-20 pw)",
+  "base determinism §7.1: the binding table is the encoders' one source per tool (E-04) and the outcome table's refused/conflict rows are what V10's rule category reads (E-07); no change asked",
+  "model §2.1: MC-11 met by V10's rename to ClerkSegment; the base Segment keeps its meaning",
+  "V09 §4.11: creation acceptance over the untouched empty-state town reads V09 §3.2 (3)'s rule (nothing written to the local store; the old town's blueprint kept for the session's undo), as V10 §4.2 (3) states (EI-V10-EDGE-1, J-V10.116)",
+  "V09 §4.9: V10's families gain info.water.*, info.history.*, info.under.lost, info.under.buried; the clerk.alt.* row names clerk.alt.history.rerun and .rebuild only, fork and undo worded by button.openCopy and button.undo (J-V10.119)",
+  "V11: history.settings defaultAgeYears and burialYears, the event-to-epoch rows and the climate rows' item-111 cells (w_water, w_waterP, the sunlight cell, oasisChance, oasisNoWaterFactor) are read by V10 §3.9b and §4.1; registry rows 88-89 gain clerk.ops model.provider and clerk.content encoders.ringSides, scopeRingSides, isletM2 and the desert/oasis/history lexicon rows, all calibratable: false",
+  "V12: bars T-V10-45 - T-V10-49 join the register of volume bars; RuleAnswer.evidence reads V12 §2.10's EvidenceFile entry (status, measured against, due milestone, plain lines, latest row, a stamped cell's owner rule, run ids behind 'details')",
+  "V06 §4.5: the water section's failing row reads the district decline after a spring or oasis fails; the history section's epoch rows read the replay epochs",
+  "V01 §4.5: the RetainingWall kind answered by V01's provider (J-V10.117; present in V01's landed text); CVR-V10-6 and CVR-V10-13 met",
+  "V03 §2.3/§4.6: deckNoCellar and PlanReport.notes read as V03 states them (E-28)"
+ ]
+}

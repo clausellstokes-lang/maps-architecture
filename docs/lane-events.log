@@ -2014,3 +2014,6 @@
 2026-10-03 01:41 coherence/rewrite-V10 CHECKPOINT mapping table built (805 ids, all resolve to new headings; identifier sweep: 33 absent tokens, each retired/renamed/narration); §3.9a and §3.3 restatements trimmed; next: sizes, report, results JSON
 2026-10-03 01:43 coherence/rewrite-V11 LANDED docs/validation/coherence/new/volumes/V11-content.md docs/validation/coherence/rewrite-V11.md docs/validation/coherence/results/coherence_rewrite-V11.json
 2026-10-03 01:43 coherence/rewrite-V10 CHECKPOINT verify: J-V10.1-.119, T-V10-1-49 unique and resolved; all V10/Vnn refs resolve; f items 39/39 cited (238, 516 added); doc_checks provisional C1 0 C2 0 C4 0 S1 0 (one cell pipe escaped); leftover Segment renamed; next: report, results JSON
+2026-10-03 01:44 coherence/rewrite-V10 CHECKPOINT V11 setting names aligned (history.settings); writing report docs/validation/coherence/rewrite-V10.md
+2026-10-03 01:49 coherence/rewrite-V10 CHECKPOINT report written (docs/validation/coherence/rewrite-V10.md, 805-row mapping table); next: results JSON, LANDED
+2026-10-03 01:49 coherence/rewrite-V10 LANDED docs/validation/coherence/new/volumes/V10-clerk.md docs/validation/coherence/rewrite-V10.md docs/validation/coherence/results/coherence_rewrite-V10.json (84 658 -> 72 685 words, 526.0 -> 442.9 KB; 805/805 ids mapped; 18 conflicts; SIZE-1 marked)

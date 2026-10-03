@@ -1,0 +1,23 @@
+{
+ "n": 1,
+ "pc": "assemble",
+ "round": 0,
+ "sweep": true,
+ "units": [],
+ "owners": [],
+ "work": [],
+ "history": [],
+ "issues": [],
+ "material": [],
+ "rulingsFile": "",
+ "pendingRequests": 0,
+ "vround": 0,
+ "asm": null,
+ "step": {
+  "results": {},
+  "attempt": 1,
+  "planned": [
+   "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/step-001-a1-1.js"
+  ]
+ }
+}
