@@ -1,0 +1,158 @@
+{
+ "key": "coherence/verify-agree-tools-r0",
+ "file": "docs/validation/coherence/verify-agree-tools-r0s.md",
+ "issues": [
+  {
+   "id": "VAT-01",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§7.1's binding (base l. 9759) homes `rerollLayer('village.track')` at T10 `hold`, and §7.4's lifecycle row (l. 10291), V07 §4.x (l. 2991) and V09 §4.3's T10 row (l. 1573) agree; V10 denies it twice: §2.12's `HoldInput` comment (l. 873) reads \"no layer re-roll: T10's row lists no rerollLayer\", and T-V10-1 (l. 2820) asserts both that each tool's `events` enumeration equals the kinds §7.1 binds to it and that \"T10's enumeration holds no `rerollLayer` and `hold` no layer re-roll\" — a test that cannot pass, and a clerk with no route to re-grow a village's tracks (§6.1's one rerollable geometry concern, a Re-derive from VS4). The matrix lists `rerollLayer` only for V09–V10, V09–rendering and V10–rendering (home V10); the determinism–V10 pair is missing, and the home is §7.1 (determinism), not V10.",
+   "required_change": "V10 §2.12's `HoldInput` comment reads: \"T10's row lists `rerollLayer` for `village.track` alone (§7.1; V07's roads re-grown, a Re-derive from VS4 with its fates, §6.1): it reaches the model through `hold`'s `events` escape hatch at a village rung; new names are `name.newNames` (T11), a display re-roll `dress.restyle` (T12)\". T-V10-1's clause \"T10's enumeration holds no `rerollLayer` and `hold` no layer re-roll\" becomes \"T10's enumeration holds `rerollLayer` for `village.track` only, in T10's escape-hatch list, and no typed form of `hold` emits a layer re-roll\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-02",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.3 (l. 1552) says it places every pair of §7.1's binding on the screen and that T-V9-12 checks both directions, but its T9 row (l. 1572) differs from §7.1's T9 row (base l. 9758): (a) it omits `convert` `burn`, `downgradeWay`, `upgradeWay` and `repairRaised` (V06's hand forms; none of the four appears anywhere in V09), `setAttr` on a Works, and §7.1's \"every `setAttr` path no other row homes (a person's attributes, a use's specialisation)\"; (b) it lists `reshapeRange`, `moveTower` and `addTower` as event kinds — they are `MassingOp`s of `setMassing` (V02 §4.1; base l. 2459–2461); (c) its no-tool row (l. 1576) lists `advance` as a kind beside `epoch`, while `advance` is §11.2's request that appends `epoch` events (V06 §2.3), not an `EditEvent` kind. So T-V9-12's two-way check fails on (a) and is ill-typed on (b) and (c). V06's hand-off X21 to V09 (\"the hand forms of V6 §4.2 (repair a raised way or a deck …)\") is open: no V09 screen emits `repairRaised`. verify-vol-V09-V10's V09-BIND-1 (minor) names (a)'s four convert kinds only.",
+   "required_change": "V09 §4.3's T9 row adds `convert` `burn` (\"Change over time → Burn\" on a building), `downgradeWay` and `upgradeWay` (\"Change over time\" on a way), `repairRaised` (\"Change over time → Repair\" on a ruined span, an abandoned raised way and a struck deck's host — V06 §4.2's hand forms, closing V06:X21), `setAttr` on a Works (its start week and duration, the Works panel) and \"every `setAttr` path no other row homes\" (the context panel's Shape tab); it writes `setMassing` (its ops `reshapeRange`, `addTower`, `moveTower`, V02 §4.1) instead of listing the ops as kinds; its no-tool row reads \"`epoch`: appended by V06's `advance` request from T1's time card and the timeline bar\". V06's X21 is marked closed at V09 §4.3.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-03",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§7.1's binding is the one home keyed by (event kind, target class or path) (E-04, V09-ICONF-2), yet its T9 cell (base l. 9758) homes \"the decline kinds\" — a set the base never defines (\"decline kinds\" also in §7.4's lifecycle row, l. 10273) — and names no home for several `ConversionOp` members (§4.11, l. 7474–7480, 7822–7826, 7938–7961, 7999): `demolish`, `abandon`, `decay`, `ruin`, `robStone`, `clear`, `build` (the convert form), `outskirtToDistrict` (a district-making edit §7.3's S6 row re-derives, l. 9941), `carve`, `DeclineOp`'s `vacate`, `reoccupy`, `reuse`, and `reclearIsland` (the `sky.clearance` participant's only); and `neglect`, `breach`, `dismantle` are listed under T3 with no target class while `DeclineOp` also applies them to raised ways, retaining walls and decks, which \"the decline kinds\" would home at T9. V09 §4.3 enumerates a different set (`demolish`, `abandon`, `decay`, `ruin`, `robStone`, `clear`, `rebuild`, `build`, and the retaining wall's decline at T3), so the base's registry and enumeration bars (T101-1, T101-2) and V09's T-V9-12 check different pair sets.",
+   "required_change": "§7.1's binding names every `ConversionOp` member by its target: T9 `shape` — on a building `demolish`, `abandon`, `decay`, `ruin`, `robStone`, `clear`, `rebuild`, `build`, `vacate`, `reoccupy`, `reuse`, `burn`; on a way `downgradeWay`, `upgradeWay`; `neglect`, `breach`, `dismantle` and `ruin` on a raised way, a span, a support or a deck, and `repairRaised`; T3 `wall` — `neglect`, `breach`, `dismantle` on an enceinte or a retaining wall's stretch (as its row and V09's T3 row have them); T5 `quarter` — `outskirtToDistrict`; T2 `ground` — `carve` of a canal, moat or basin by hand (`digCanal` its canal form); the no-tool row — `reclearIsland` (V05's `sky.clearance` participant only) and every `convert` from an epoch. \"the decline kinds\" is removed from §7.1 and §7.4 (l. 10273 names the same members).",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-04",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§11.2's `ApplyResult` (base l. 14301–14305) has `ok { logHead, changed, created }`, `conflict { actions }` and `confirm { …, effects?, effectsMore?, holds? }`; the bend line (`bent`), the placement `alternatives` and the `effects` exist only on `PreviewResult`. V10 §3.5 step 3 (l. 1431) runs `edit(scratch, events, { filtered: true })` and reads \"an answer carrying a `bent` `MsgRef`\", its alternatives (\"each of the preview's plots as `placeAt`\") and, in step 4 (l. 1484), its effects — fields `edit` never returns on `ok`. Beyond the clerk, every client that commits without a preview (a bridged `doc.apply`, a script through `@plat/api/node`) has its declaration bent with no word of it, against §7.1's outcome rule (\"bent to the nearest lawful one, which the dry run names in one line\") and J-A101.71's \"nothing changes silently\".",
+   "required_change": "§11.2's `ApplyResult` `ok` branch gains `bent?: MsgRef; alternatives?: Id[]; effects?: Effect[]; effectsMore?: number; holds?: MsgRef` — the committed dry run's own values, filtered under `filtered` and `admitAs` as a preview's are — and the table's `edit` row names them; V10 §3.5 steps 3 and 4 cite that branch (\"`edit`'s `ok` carries the bend line, the alternatives and the effects, §11.2\").",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAT-05",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §3.16's `rule` row (l. 2143) lists \"the rung\" among \"every other refused or conflict row of §7.1's outcome table\" with the code `refuse.islandsRung`, and §3.23's refusals edge (l. 2430) reads \"the rung-specific rows (`refuse.islandsRung`, the raised way's `belowCity`) as the dry run gives them\". §7.1's outcome table has no rung row and refuses only for a dossier fact or a lock (item 101 R2; J-VI.4, J-VI.30); V05 §4.2 bends a T5 `sky` declaration at TOWN or a village rung to a ground quarter (`bend.island.rung`, V05 l. 2071, J-V5.10); `belowCity` is a `RaisedOutcome` of the `why` answer (V10 §2.13 l. 1045, `info.raised.belowCity`), not a dry-run row; V09 sources `refuse.islandsRung` from §7.8's disabled control (V09 l. 1813), not from the dry run. The clerk would word a bend as a refusal and drop its bent item.",
+   "required_change": "V10 §3.16's `rule` row drops \"the rung\" and `refuse.islandsRung` from its refused list, and its bends paragraph lists `bend.island.rung` (V05 §4.2) among the dry run's bends; §3.23's refusals row reads \"the rung-specific bends (`bend.island.rung`) and why lines (`info.raised.belowCity`) as the dry run and the oracle give them\"; the outcome of an `adjust` of a rung-disabled control is cited from §7.1's row (VAT-06).",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-06",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Shared subject missed (determinism–V09–V10): what the dry run answers when an `adjust` arrives through the API (the clerk's `intend` in edit mode or its `events`, a host's `doc.apply`, a script) for a parameter §7.8's registry disables at the document's rung — the islands control at TOWN and every village rung (base l. 11287), any \"control with nothing to act on at a rung\" (l. 11284). §7.8 states only the control's disabled state; §7.1's outcome table has no row; V09 §4.9 keys `refuse.islandsRung` (\"Floating islands exist only in cities and metropolises.\", button cityUp) to \"§7.8's disabled control\" (l. 1813); V10 expects it from the dry run (l. 2143, 2430). Verdict: disagree — an undefined edge with three readings (principle (11)).",
+   "required_change": "§7.1's outcome table gains the row: \"an `adjust` of a parameter the control registry disables at the document's rung (§7.8) | empty edit — nothing appended, the parameter unchanged (item 101 R2 admits no refusal) | the registry's reason row, with \"Make this town a city\" for a control a higher rung enables | V09 §4.9's row for the control (`refuse.islandsRung` for the islands control)\"; *Empty edits* lists the case; V09 §4.9's `refuse.islandsRung` row cites this row as its source beside §7.8's disabled control.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §4.3 (l. 2574–2578): when later events followed an accepted clerk group, \"the `owner` role's `undo(h, of)` runs the independence check …, and an `editor` is sent to the history panel, where the group is undone like any other (§7.4)\". The panel's **Undo this** is the owner's only (V09 §4.10, l. 2085: \"owner role: `undo(h, of)`\"), and §7.4 lets only an `owner` session name any live event; an editor's session undoes its own latest live event, in order. The editor is sent to a control it cannot use.",
+   "required_change": "V10 §4.3 reads: \"when the group is the session's latest live event, **Undo** is the session's `undo`; when the session's own later events followed, an `owner` runs `undo(h, of)` with its independence check and its conflicts shown, and an `editor`'s card says those later changes are undone first — each its own undo (§7.4) — and offers **Undo** again once the group is the session's latest; an editor is never sent to the history panel's **Undo this**, which is the owner's (V09 §4.10)\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-08",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "`ClerkHandle` has one declaration, in V09 §2.10's code block, but the two volumes name each other as its home: V09 §2.10 (l. 764–765) says \"`ClerkHandle`'s members are V10 §2.6's (the harness adds none)\", and V10 §2.6 (l. 568) says \"V09 §2.10 declares ClerkSlot, ClerkMount (with its host channel) and ClerkHandle, every member the drawer and the settings call among them; this volume implements the handle and adds no member (J-V10.88)\". E-33 rules `ClerkHandle` the one name; the circular pointer leaves which text governs a member's signature undetermined (principle (1)).",
+   "required_change": "V09 §2.10's sentence reads: \"`ClerkHandle` is declared here, with every member the drawer and the settings call; volume 10 implements it (`createClerk(mount)`, V10 §2.6), states each member's behaviour and adds no member (J-V10.88)\" — replacing \"`ClerkHandle`'s members are V10 §2.6's (the harness adds none)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-09",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§8.2 (base l. 12019–12020): \"a `setStyle` event carrying a refused sheet fails its dry run with the conflict action `invalid` (§7.1)\"; §9.2 (l. 13189): \"an `editTable` fails its dry run with `invalid` (§7.1)\" for a `knowledge.admit` table that breaks its order. §7.1's outcome table — \"the one home of every refusal, conflict and bend cause\" — has no such row: its only value row is \"a value outside its declared range … | bent | clamped to the nearest lawful value | `bend.invalid`\", which commits. A table or sheet whose cross-row check fails has no nearest value, so the two rendering rows cite a §7.1 outcome that does not exist, and an implementer of §7.1 alone would clamp and commit what §8.2 and §9.2 refuse.",
+   "required_change": "§7.1's outcome table gains the row \"an `editTable`, `editPreset` or `setStyle` whose result fails the loader's check of that table or sheet (§9.2's `knowledge.admit` order, §8.2's unresolved or ambiguous sheet pairs, a table schema's cross-row rule, §7.6) | conflict — nothing commits | `ConflictAction` `invalid` naming the failed check | `refuse.invalid` (V09 §4.9)\", beside and distinct from the range row's clamp; §8.2 and §9.2 cite it.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-10",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.9's `bend.invalid` row (l. 1810) — \"{field} can't be {value}; set to {nearest}, the nearest it allows\" — gives its source as \"`ConflictAction` `invalid`, clamped to the nearest lawful value\". A `ConflictAction` comes back in `status: 'conflict'` with nothing committed (§11.2), and `invalid` is the conflict of a table or sheet that fails its check (§8.2 l. 12019, §9.2 l. 13189; VAT-09); a clamp is a bend of a committed value (§7.1's range row). The canvas would word a refused table edit as \"set to the nearest\", and V09 has no row for the `invalid` conflict.",
+   "required_change": "V09 §4.9's `bend.invalid` source reads \"§7.1's range row: the value clamped (a `bent` `MsgRef`)\"; a new row `refuse.invalid` — \"{table} can't take this change: {check}.\" with `button.showWhy` why — is sourced \"`ConflictAction` `invalid` (§7.1's table-check row)\"; T-V9-15's walker covers it.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-11",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Shared subject missed (V09–V10): the history option's peak word. V09 §4.21.2 (1) (l. 3004) offers one chip **Once {a sizeWord}** per size word of V09 §4.5's seven T1 size chips (small town … metropolis, J-V9.56), writing `peak: { rung, population }` from that word's rung and quantile. V10 §2.12 types `IntendInput.history` as `{ once: Rung; ageYears? }` (l. 816) and §4.1's T1 row maps `once` to \"population: once's size word's quantile\" while claiming \"the bytes V09 §4.21.2's History chip writes\": a rung has three size words (TOWN: small town, town, large town; CITY: small city, city, large city), so the population is undetermined, and \"once a large town\" or \"once a small city\" cannot be written by the clerk. V09's \"for the present rung\" default age and V10's \"for the rung\" also differ. Verdict: disagree.",
+   "required_change": "V10 §2.12's `IntendInput.history` reads `{ once: SizeWord | VillageRung; ageYears?: number } | 'none'`, `SizeWord` the seven words of V09 §4.5's T1 rule (the lexicon's rows, V10 §3.3); V10 §4.1's T1 row maps `peak.rung` to the word's rung and `population` to its quantile (a village rung its typical, V07 §2.1), and the default `ageYears` to V11's `history.settings` `defaultAgeYears` for the present rung, as V09 §4.21.2 reads it — one byte sequence with the chip (T101-3).",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-12",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Shared subject missed (rendering–V09): who may take a document format. §11.1 *Knowledge* (base l. 14116–14119): `.plat`, the compact twin, the JSON schema, a permalink and the skeleton go \"only to a key of tier `secret` (the `owner` and `editor` roles by default, §11.3 …) and refuses any other key with the API error `E_KNOWLEDGE_TIER`\". V09 §4.9's `refuse.exportTier` (l. 1819), the sentence for that error, reads \"This file holds every secret of the town; only its owner can make it.\" — an editor at tier `secret` can, and an owner whose host-set key is below `secret` cannot. Verdict: disagree.",
+   "required_change": "V09 §4.9's `refuse.exportTier` reads \"This file holds every secret of the town; only someone who knows all of them can make it.\" (the rule of §11.1's *Knowledge*: a key of tier `secret`), keeping `button.pictureInstead` and `button.showWhy`.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-13",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Shared subject missed (V09–V10): `WhyCause`. V09 §2.7's projection (l. 581) builds the why card's `decidedBy` line from \"the oldest `cause` entry\": an event carrying `EditBase.dossier` → \"Placed here by SettlementForge's record\"; a user's declaring event → \"You placed it here\", or with `proposedBy: 'clerk'` \"You accepted the assistant's proposal\"; an epoch → \"… in {year}\"; a creation-prefix epoch of the history replay → \"Built when the town was {a tierWord}, in year {year}\". V10 §2.13's `WhyCause` (l. 1017) is `{ step, rule, slices, seq?, chance? }`: no author, no clerk or dossier mark, no creation flag, no week. `WhyAnswer.history` carries `by` but is paged newest first, so the oldest cause's event is not reliably in it, and §11.2 has no read of an event by `seq`. Verdict: disagree — a consumer reading fields its producer never writes.",
+   "required_change": "V10 §2.13's `WhyCause` gains `by?: 'generation'|'user'|'clerk'|'host'|'epoch'` (from the event at `seq`: `EditBase.dossier` set → `host`, `proposedBy: 'clerk'` → `clerk`, author `epoch` → `epoch`, else `user`; `generation` for a stage step), `creation?: true` (the event carries `EditBase.creation`) and `week?: number` (an epoch's week), written by the generic and every default provider (V10 §3.9); V09 §2.7's `decidedBy` rows read them.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-14",
+   "severity": "major",
+   "kind": "MATRIX-GAP",
+   "claim": "Shared subject missed (determinism–V10–V09, with scope's §14): a sea coast drawn as a line. §14's T2 row (base l. 17250) promises \"a coast or a river drawn as a knotted curve\"; V10 §4.1's `coast` encoder (l. 2490) emits `drawWater { kind: 'sea', add: [], line: path }`. §7.1's `drawWater` gives `line` a meaning only for rivers and canals (\"rivers and canals take a `line` and a width\", *Drawing at the authoring boundary*, l. 9518–9530), and its points forms give a coast \"a sea level and one shore point with a basin size\"; nothing says which side of a sea `line` is water, how its ends meet the existing shore or which operator repairs it, so the clerk's event has no defined fold. Verdict: disagree (an event form with no defined outcome).",
+   "required_change": "§7.1's drawing rule gains the coast line form: \"`drawWater { kind: 'sea', line }` re-draws the shore along `line`: the water on the side the existing sea lies at the line's first point, each end joined to the existing shore at its nearest shore point, the land gained or lost between the old and the new shore applied as `add` and `subtract` rings by the boolean engine and repaired by §7.3 (b)'s water operator; a line that meets no sea is bent to the nearest shore (`bend.*`, the outcome table's last row)\" — the event of §14's T2 row and V10 §4.1's `coast`.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VAT-15",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V09 §4.5's T2 row (l. 1640) has no coast-line mode — its water modes are Lake, River, River or canal, Coast & harbour (\"sea level, one shore point, a basin size\") and Water paint — though §14's T2 row promises a coast drawn as a knotted curve and V10 §4.1's `coast` encodes one, so the clerk emits a form the canvas never does (T101-3's one vocabulary); and its harbour mapper writes `drawWater { from: { points: [shore], levelCm, sizeM2 } }` with no `kind` (a required field) where V10 writes `kind: 'harbour_basin'` — the canvas and the clerk cannot give one byte sequence for one harbour.",
+   "required_change": "V09 §4.5's T2 row gains a **Coast** line mode (draw a line along the wanted shore) mapped to `drawWater { kind: 'sea', add: [], line }` (§7.1's coast line form, VAT-14; V10 §4.1's `coast` row), and its harbour mapper reads `drawWater { kind: 'harbour_basin', add: [], from: { points: [shore], levelCm, sizeM2 } }`; V09 §4.3's T2 row lists the coast line among its gestures.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-16",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "V06's X6 asks V09 for \"the forward path from the past\", and V06 §5.1 (l. 3269–3272) states it: while the timeline's thumb is off \"now\", \"every editing tool is disabled … and every disabled tool offers the way forward: V09's 'Open a copy from here'\" (a `forkAt` at the seq of the frame on screen), except over the replayed past before the creation week, which offers no fork (V06 §3.20.6). V09 §5.6 (l. 3222–3223) disables the tools with V06's band only, and no V09 rule offers the copy from a disabled tool; V09 §1.3 assigns the bar and card to V06 but keeps the tools and their disabled states (V09 §4.2).",
+   "required_change": "V09 §5.6 reads: \"while the thumb is off 'now' the editing tools are disabled with V06's 'viewing the past' band, and each disabled tool's reason offers **Open a copy from here** (`button.openCopy`, a `forkAt` at the seq of the frame on screen, V09 §3.9; in host mode by `HostSlots.newDocuments`), except over the replayed past before the creation week, which offers none (V06 §3.20.6)\"; V09 §13's row for V06:X6 marks the forward path met.",
+   "owner": "V09"
+  },
+  {
+   "id": "VAT-17",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "§8.2 (base l. 11866–11867): \"A ghost a clerk's `preview` delivers carries `source: 'clerk'` and draws the AI mark beside its count badge (R19; file f item 518)\", and V10 §5.1 relies on it. §11.2's `preview(h, e, opts?: { view?; filtered?; admitAs?; variations?; page?; focus? })` (l. 14276) carries nothing that says a preview is a clerk's, the bridge's `preview` has a `proposal` only for a host's assistant, and V10 §3.11 (4) previews with `{ filtered: true }` alone; edit-mode events receive `proposedBy` only at acceptance (V10 §4.2). The engine cannot tell which ghost to mark, so the AI mark on the built-in clerk's ghost has no producer.",
+   "required_change": "§11.2's `preview` options gain `source?: 'clerk'` — set by the clerk's handle on every proposal preview (V10 §3.11 (4), a flip, a re-preview) and by the module for a bridged `preview { proposal }` — and §8.2's sentence reads \"a ghost whose `preview` carried `source: 'clerk'` carries it in its `live.ghost` delivery and draws the AI mark …\"; the `preview` row of §11.2's table names the option.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VAT-18",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "The scratch document's session has two values: §11.2's `scratch(h)` (base l. 14269) — a call with no session parameter — opens the scratch with \"its session 'clerk:<n>'\"; V10 §3.5 (1) (l. 1427) states \"`scratch(h)` (item 469), its session `clerk:<session>.<turn>`\", a value the call has no way to receive.",
+   "required_change": "V10 §3.5 (1) reads \"The turn's first declaration makes the scratch: `scratch(h)` (item 469), its session the one `scratch` mints (§11.2)\", dropping `clerk:<session>.<turn>`.",
+   "owner": "V10"
+  },
+  {
+   "id": "VAT-19",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "V10 §2.12's `IntendInput.advance` (l. 818) is `{ years; shape?; to?; hazards?: 'none'|'minor'|'full' }`. V06 §2.3 (l. 557–570) maps the shapes to a `Trajectory` and states \"the card's 'more' pane and the clerk's `advance` accept `trajectory.slice`'s threat (0–1) and era row\" — neither is in V10's input; and `hazards` is V06 §2.2's `EvolutionParams.hazards` (l. 447), a document parameter set by `adjust` and refused on a dossier-bound document, not an `AdvanceRequest` field — V10's encoders (§4.1's T1 edit-mode row) map it nowhere. V06's hand-off X7 to V10 (\"the `advance` shapes table (V6 §2.3)\") is therefore met only in part.",
+   "required_change": "V10 §2.12's `advance` input gains `threat?: number /* 0–1 */` and `era?: string /* an era row */`, written into `trajectory.slice` (V06 §2.3); `hazards` is stated as the `adjust('evolution.hazards', value)` V10 §4.1's T1 edit-mode row emits beside the advance (V06 §2.2; on a dossier-bound document refused with V06 §3.11.1's line), not a field of the request; V10 §13 marks V06:X7 met.",
+   "owner": "V10"
+  }
+ ]
+}
