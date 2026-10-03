@@ -8,7 +8,7 @@
   "plan": "research/baselines/plan.json",
   "postChecks": 10
  },
- "slotsTaken": 2,
+ "slotsTaken": 3,
  "slotsTotal": 6,
  "days": [
   {
@@ -141,6 +141,84 @@
     "before": "45b4b315b5b3b22c",
     "after": "9b89d82e2901e33a"
    }
+  },
+  {
+   "day": 3,
+   "date": "2026-10-03",
+   "slot": 2,
+   "lane": "m1/W-02-slot2",
+   "account": "the owner's signed-in free account (J163)",
+   "label": "capture/FTG/BIG_TOWN/coast+river/0",
+   "capture": "2026-10-03T22-21-00",
+   "ftgSize": "BIG_TOWN",
+   "rung": "TOWN",
+   "water": "coast+river",
+   "population": 5600,
+   "populationSource": "nominal",
+   "listedPopulation": 5906,
+   "serverDate": "2026-10-03",
+   "putSentUtc": "2026-10-03T22:23:04.074Z",
+   "serverTimeS": 1.869,
+   "serverTimeContended": true,
+   "requestBytes": 274296,
+   "requestHash": "d93631bc2aed",
+   "referenceBuild": "ftg:2026-10-03+d93631bc2aed",
+   "payloadBytes": 419570,
+   "payloadSha256Prefix": "51a36d0994d7c956",
+   "buildings": 1821,
+   "edges": 4197,
+   "nodes": 3558,
+   "towers": 31,
+   "waterBodies": 3,
+   "districts": 4,
+   "borderHalfWidthM": 2000.0,
+   "requestDiffVsCityBase": {
+    "semantic": 12,
+    "slotKeys": 1,
+    "waterImplied": 0,
+    "sizeDependentPreset": 11,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot0": {
+    "semantic": 8,
+    "waterKeys": 2,
+    "waterImplied": 6,
+    "sizeDependentPreset": 0,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "sameSize": "16 of 16 equal slot 0 (2026-10-03T17-19-06)",
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "vsSlot0": true,
+    "sameSize": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true
+   },
+   "redTests": {
+    "asSlot0": "exit 1 (waterKeys)",
+    "asSlot1": "exit 1 (sizeKey, waterKeys, border)",
+    "asSlot3": "exit 1 (sizeKey, sameSize, border)"
+   },
+   "waterBodyShapes": "field 6 x3: one polygon of 9 points within 330 m of the centre, two of 97 and 94 points reaching the border (slot 1: three of 25-27 points inside the border); reading PLAUSIBLE",
+   "accountCounter": {
+    "before": "2 / 10",
+    "after": "3 / 10"
+   },
+   "shots": 21,
+   "folderMB": 37,
+   "freeGBBefore": 12,
+   "freeGBAfter": 12,
+   "planSha256": {
+    "before": "9b89d82e2901e33a",
+    "after": "f41df82b9e0799d3"
+   }
   }
  ],
  "failed": [],
@@ -168,7 +246,10 @@
   "createsLeftAfterSlot1": 8,
   "createsNeededAfterSlot1": 4,
   "checklistSection": "H",
-  "recordSection": "9"
+  "recordSection": "9",
+  "counterAfterSlot2": "3 / 10",
+  "createsLeftAfterSlot2": 7,
+  "createsNeededAfterSlot2": 3
  },
  "sizeDependentClass": {
   "leaves": 16,
@@ -177,13 +258,45 @@
    "slot1": 5
   },
   "pinnedIn": "research/baselines/ftg_capture_post.py SIZE_DEPENDENT",
-  "followsSize": "CONFIRMED by slot 1 (E02 section 10.3)"
+  "followsSize": "CONFIRMED by slot 1 (E02 section 10.3)",
+  "coastalOption": "no new kind of difference (slot 2 vs day 1: water keys and water-implied only; 16 of 16 equal; E02 section 11.3)"
  },
  "next": {
-  "slot": 2,
-  "ftgSize": "BIG_TOWN",
+  "slot": 3,
+  "ftgSize": "BIG_CITY",
   "water": "coast+river",
-  "expectedBorderHalfWidthM": 2000.0,
-  "procedure": "checklist section H (signed in, same day, J163)"
- }
+  "expectedBorderHalfWidthM": 2750.0,
+  "sameSizeReference": "slot 1 (2026-10-03T22-04-25)",
+  "procedure": "checklist section H (signed in, same day, J163)",
+  "note": "slot 3 still open after the stopped attempt of 2026-10-03 22:31 UTC (E02 section 12); retry on the owner's word that the session window is left alone; counter 3 / 10"
+ },
+ "stoppedAttempts": [
+  {
+   "slot": 3,
+   "lane": "m1/W-02-slot3",
+   "date": "2026-10-03",
+   "label": "capture/FTG/BIG_CITY/coast+river/0",
+   "folder": "2026-10-03T22-29-23",
+   "isCapture": false,
+   "created": false,
+   "createReceipt": "no PUT …/prod/settlements row in the folder's session/network/index.jsonl",
+   "reason": "external-use-of-the-session-window",
+   "reasonInWords": "between 22:31:13 and 22:31:16 UTC something other than the seat closed the create dialog; the account's settings page, the site's Patreon membership page (a payment page), Patreon checkout and login and a Google sign-in page (twice) followed, then the account list; the seat clicked none of them",
+   "stopShot": "steps/013-stop-external-actor.png",
+   "otherShots": [
+    "steps/011-pre-reserve.png",
+    "steps/012-pre-walled.png"
+   ],
+   "accountWrites": "none (after 22:31 only the settings page's user read and the list read)",
+   "listedAfter": {
+    "settlements": 3,
+    "BIG_CITY": 1,
+    "BIG_TOWN": 2
+   },
+   "counter": "3 / 10 (unchanged)",
+   "planJson": "unchanged; slot 3 not marked failed (not a site refusal; it can be retried today)",
+   "seatError": "two box clicks were sent in the same command as their readings, so the readings (dialog already gone) were not checked before the clicks; both fell on blank page area; checklist H12 adds a guarded click",
+   "record": "E02 section 12"
+  }
+ ]
 }

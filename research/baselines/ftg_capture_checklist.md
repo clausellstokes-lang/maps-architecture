@@ -215,4 +215,24 @@ and each hit-testable one as `[x, y, tag, insideTheCreateDialog]`).
 11. **Privacy grep** of every file you wrote or changed (the capture's README, `capture-facts.json`, `request-diff.txt`,
     `structure.md`, `create-request.json`, your notes, the E02 files, the result file, your `lane-events.log` lines)
     for an email pattern, the display name, a token prefix (`eyJ`) and full ids. Only `create-request.json`'s 45
-    partner ids may match the id pattern.
+    partner ids may match the id pattern, apart from `steps.jsonl`, which `drive.mjs` writes itself: it holds the new
+    settlement's full id (the map page's address) and the scratchpad's session folder name, neither an account id
+    (slots 1 and 2 alike; noted by slot 2).
+
+Slot 2 (2026-10-03, lane `m1/W-02-slot2`) followed H1–H11 without change: the coast select moved no box, and the
+reserve-area and walled boxes sat at (1008, 367) and (1008, 396) after the scroll, as in slot 1.
+
+12. **Guarded clicks; the window is not ours alone** (added by lane `m1/W-02-slot3`, 2026-10-03, after a stopped
+    attempt: `captures/ftg/2026-10-03T22-29-23/README.md`, E02 section 12). The session window is headful and visible
+    on the Mac, and something other than the seat closed the create dialog mid-form. It then opened Settings,
+    "Support me on Patreon!", Patreon checkout and a Google sign-in page. The seat had sent two box clicks in the same
+    shell command as their `text` readings, so it never saw that the dialog was gone. Rules from now on:
+    - never put a `click`, `clicktext` or `select` in the same shell command as the reading it depends on: read,
+      check the result, then act in a new command;
+    - make every coordinate click a guarded one, in one `eval` + `click` pair whose `eval` returns
+      `document.elementFromPoint(x, y)` and the expected control's identity (for a box, the element is that
+      `input[type=checkbox]` and the create dialog is open). Click only if it matches;
+    - at any sign of another hand (a dialog closed or a page changed without a command, a hover tooltip where the
+      driver did not move, a page outside the site): `shot`, `drive.mjs stop`, and report. Do not chase it, and do
+      not click on the foreign page;
+    - before starting, ask (through the session) that the owner leave the window alone while a seat runs.

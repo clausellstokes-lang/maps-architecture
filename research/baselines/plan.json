@@ -1914,7 +1914,7 @@
     "waterOptions": "nearest coast+river: coastal, rivers on",
     "nominalPopulation": 5600,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-03T22-21-00",
     "failed": null
    },
    {

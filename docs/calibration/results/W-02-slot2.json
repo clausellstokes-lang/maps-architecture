@@ -1,0 +1,123 @@
+{
+ "slot": 2,
+ "status": "landed",
+ "capture": "2026-10-03T22-21-00",
+ "checks": [
+  {
+   "check": "ftg_capture_post.py: one PUT with a body, one layout GET, one intercepted layout body",
+   "passed": true,
+   "receipt": "PUT rows 1, layout GET rows 1, intercepted layout bodies 1"
+  },
+  {
+   "check": "ftg_capture_post.py: request size key equals the slot",
+   "passed": true,
+   "receipt": "size BIG_TOWN, slot BIG_TOWN"
+  },
+  {
+   "check": "ftg_capture_post.py: request water keys equal the slot water option",
+   "passed": true,
+   "receipt": "coastType 'COASTAL' rivers True; slot coast+river wants 'COASTAL' / True"
+  },
+  {
+   "check": "ftg_capture_post.py: request differs from the 2026-09-21 base only in the slot keys, water-implied resources and the named size-dependent preset values",
+   "passed": true,
+   "receipt": "57 differing leaves: slot keys 1, water-implied 0, size-dependent preset 11 (.buildingsParameters.defaultInsideSettlementShopProbability, .buildingsParameters.defaultOutsideSettlementShopProbability, .factionsParameters.numberOfRandomFactions, stages[0].horizontalBranchSegments, stages[0].minDistric"
+  },
+  {
+   "check": "ftg_capture_post.py: request differs from slot 0 (day 1) only in the slot keys, water-implied resources and the named size-dependent values",
+   "passed": true,
+   "receipt": "against 2026-10-03T17-19-06: 8 semantic differences (0 size-dependent), other 0"
+  },
+  {
+   "check": "ftg_capture_post.py: the named size-dependent values equal the first capture of this size",
+   "passed": true,
+   "receipt": "against slot 0 (2026-10-03T17-19-06): 16 of 16 equal"
+  },
+  {
+   "check": "ftg_capture_post.py: payload decodes: field 3 edges and nodes, field 8 buildings present",
+   "passed": true,
+   "receipt": "419570 bytes; top-level fields {1: 1, 2: 1, 3: 1, 4: 1, 5: 1, 6: 3, 7: 31, 8: 1821, 9: 12, 10: 4, 11: 1, 13: 9, 14: 45, 15: 4, 16: 16, 17: 3, 18: 3, 19: 1, 20: 1, 22: 1, 23: 1, 27: 1}; 3.1 edges 4197, 3.2 nodes 3558, 8 buildings 1821"
+  },
+  {
+   "check": "ftg_capture_post.py: settlement border is the size ladder square (zig-zag cm)",
+   "passed": true,
+   "receipt": "border 5 points, max |coordinate| 2000.00 m, ladder half width 2000 m"
+  },
+  {
+   "check": "ftg_capture_post.py: no top-level field outside the known 27 (none of which is a resident count) -> populationSource nominal",
+   "passed": true,
+   "receipt": "unknown top-level fields: []"
+  },
+  {
+   "check": "ftg_capture_post.py: tools/pb_raw.py runs on the payload",
+   "passed": true,
+   "receipt": "# Raw protobuf structure of /Users/cstokes/Desktop/Maps/captures/ftg/2026-10-03T22-21-00/session/network/bodies/intercept-0035-b3cbc82f.bin"
+  },
+  {
+   "check": "exactly one settlement created for slot 2",
+   "passed": true,
+   "receipt": "one PUT …/prod/settlements with a body (status 200) in captures/ftg/2026-10-03T22-21-00/session/network/index.jsonl, sent 22:23:04.074 UTC; one Create Settlement click in steps.jsonl; no PUT in that index before the click; account counter 2 / 10 before, 3 / 10 after"
+  },
+  {
+   "check": "create control clicked only as the one hit-testable match inside the dialog",
+   "passed": true,
+   "receipt": "Create Settlement: 1 match, 1 hit-testable at (947, 522), insideTheCreateDialog true; text and shot 014-pre-create before it; CHECKPOINT line logged before the click"
+  },
+  {
+   "check": "form values verified before the create",
+   "passed": true,
+   "receipt": "eval: selects Big town (~6000 people), Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate (deciduous trees), Coastal; name empty; rivers, farms, forests, reserve area, walled all checked; a text and a shot before each click and select (shots 005-013)"
+  },
+  {
+   "check": "request differs from day 1 only by the water options (no new kind of difference)",
+   "passed": true,
+   "receipt": "8 semantic differences: 2 water keys + 6 leaves of the fishing raw-resource entry; 0 size-dependent (16 of 16 equal day 1); 45 partner ids; other 0. Against the 2026-09-21 base: size key + 11 BIG_TOWN size-dependent values only (the base was coastal with rivers on)"
+  },
+  {
+   "check": "request hash recomputed outside the script",
+   "passed": true,
+   "receipt": "sha256(PUT body) d93631bc2aed, 274296 bytes; create-request.json parses equal to the body; structure.md equals a fresh pb_raw run apart from its trailing newline (188 field paths)"
+  },
+  {
+   "check": "checks discriminate (red tests, --check-only)",
+   "passed": true,
+   "receipt": "as slot 0: exit 1 (waterKeys); as slot 1: exit 1 (sizeKey, waterKeys, border); as slot 3: exit 1 (sizeKey, sameSize, border)"
+  },
+  {
+   "check": "plan.py --bind-ftg 2=2026-10-03T22-21-00 and --check",
+   "passed": true,
+   "receipt": "bind exit 0; --check SAME plan.json (sha256 f41df82b9e0799d3, was 9b89d82e2901e33a) and metrics.m-1.json (7a21bb290bb9c7df, byte-unchanged); diff: one line (slot 2 capture)"
+  },
+  {
+   "check": "isolated runner is the profiler code; shared session file untouched",
+   "passed": true,
+   "receipt": "cmp identical: session.mjs e199be5d, drive.mjs 597eb62d, lib/common.mjs 3b948576, package.json 25e7d362, lib/instrument.js cca253ac; port 9341 free before; no FTG process and no Singleton file before; profiler/.session absent before and after"
+  },
+  {
+   "check": "privacy: no account identifier in any file written",
+   "passed": true,
+   "receipt": "grep of the capture README, capture-facts.json, request-diff.txt, structure.md, create-request.json, steps.jsonl, the notes, E02 .md/.json, the checklist, plan.json, this lane's lane-events lines and this file: 0 emails, 0 display-name hits, 0 token prefixes; full ids only the 45 client partner ids (create-request.json) and, in drive.mjs's own steps.jsonl, the new settlement id and the scratchpad session folder name (not account ids; slot 1 alike)"
+  },
+  {
+   "check": "session stopped; disk",
+   "passed": true,
+   "receipt": "drive.mjs stop -> session closed; no Singleton file, no FTG process, port 9341 closed after; df: 12 GB free before and after; capture folder 37 MB"
+  }
+ ],
+ "account_limit": "The site states: \"Free accounts have a limit of 10 settlements, which will not be deleted.\" The settlements view counter read 2 / 10 before this run and 3 / 10 after slot 2, so 7 creates remain and slots 3-5 need 3: the run is not limited by the account (CONFIRMED by reading the landing and the settlements view).",
+ "owner_notes": [
+  "Slot 2 is done: a big town on the coast with rivers was created in your signed-in free account and recorded. No limit message, payment or upgrade prompt, new terms, cookie notice or sign-in prompt appeared, and nothing was accepted.",
+  "Your account now holds 3 of its 10 free settlements (the big town that was there before this run, slot 1's big city, and this big town). None was renamed, shared or deleted. After slots 3-5 it will hold 6 of 10.",
+  "Your account name, email and ids were not written into any project file; records say only \"the owner's signed-in free account\"."
+ ],
+ "notes": [
+  "Outcome: slot 2 landed (CONFIRMED); all 10 checks of ftg_capture_post.py pass, bound in plan.json, plan.py --check SAME. 1821 buildings, 4197 edges, 3558 nodes, 31 towers, 3 water bodies, 4 districts, border +-2000 m, referenceBuild ftg:2026-10-03+d93631bc2aed, population 5600 nominal (account list 5906).",
+  "The coastal option brought no new kind of request difference (CONFIRMED): against day 1 only the 2 water keys and the 6-leaf fishing resource entry; the 16 size-dependent values equal day 1's, so the class needed no change.",
+  "The 2026-09-21 base request was itself coastal with rivers on (CONFIRMED): slot 2 differs from it only in the size key and the 11 BIG_TOWN values.",
+  "Field 6 has 3 entries again, but shaped differently from slot 1 (one 9-point polygon near the centre, two 97/94-point polygons reaching the border vs slot 1's three 25-27-point inner polygons); that they are sea, river and ponds is PLAUSIBLE only.",
+  "Correction for the record: H11 said only create-request.json may hold full ids; drive.mjs's own steps.jsonl holds the new settlement id and the scratchpad folder name (slot 1's too, although slot 1's receipt said 0). Not account ids; checklist H11 now says so. No file was altered to remove them.",
+  "Deviations: none from checklist H. The --full overview (shot 016) shows the scale bar without its label; shot 015 carries the 500 m label.",
+  "Files: captures/ftg/2026-10-03T22-21-00/ (README, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ with 21 shots); docs/calibration/E02-ftg-captures.md (top update, section 11); docs/calibration/E02-ftg-captures.json (days[2], slotsTaken 3, next slot 3); research/baselines/plan.json (slot 2 bound); research/baselines/ftg_capture_checklist.md (H11 wording, slot 2 line). No plat/, no git.",
+  "Still open from slot 1 (unchanged): the listed-population ruling for W-05b, and M-1-plan section 2.1 still describing the J159 schedule (outside this seat's write scope)."
+ ]
+}
