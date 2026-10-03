@@ -1,0 +1,97 @@
+{
+ "slot": 3,
+ "status": "landed",
+ "capture": "2026-10-03T22-43-28",
+ "checks": [
+  {
+   "check": "pre-flight: isolated runner, own port and session file",
+   "passed": true,
+   "receipt": "scratchpad ftg/runner copies cmp-identical to profiler/ (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free; no FTG browser process; no Singleton* in the profile; shared profiler/.session absent before and after"
+  },
+  {
+   "check": "no second settlement for slot 3 (resume/continue rule)",
+   "passed": true,
+   "receipt": "no prior lines or result for this key; capture folders ended at slot 2's 2026-10-03T22-21-00 (the stopped attempt's folder 22-29-23 already removed by someone else); this run's first list read (intercept-0021): 3 rows BIG_TOWN, BIG_CITY, BIG_TOWN = the earlier settlement and slots 1, 2; no PUT before the create click"
+  },
+  {
+   "check": "signed in, no consent notice, account limit as the site states it",
+   "passed": true,
+   "receipt": "landing: 'Signed in as [name]', Sign out, Home, no consent notice (shot 001); premium text 'Unlimited settlements'; settlements view has no N / 10 counter any more and a new 'Premium Settings' icon (shots 002-003; never clicked); recorded in E02 9.3"
+  },
+  {
+   "check": "form set by guarded steps (H12): each click/select its own command after a checked text+shot; elementFromPoint before every coordinate click; form-state read after each step",
+   "passed": true,
+   "receipt": "steps.jsonl 22:44:05-22:48:21 UTC: Home, New Settlement, size select 0 -> 'Big city (~25000 people)', coast select 7 -> 'Coastal', boxes rivers (1008,498), forests (1008,556), scroll, reserve (1008,367), walled (1008,396); final eval: 8 selects Big city/Medieval europe/Wood/Generic fantasy/Generic religions/Comfortable/Temperate (deciduous trees)/Coastal, name empty, 5 boxes on (shots 005-013); premium size not touched"
+  },
+  {
+   "check": "exactly one settlement created, create control 1 of 1 hit-testable inside the dialog",
+   "passed": true,
+   "receipt": "HIT '^Create Settlement$' -> 1 match, hittable [947,522,BUTTON,true]; elementFromPoint 'BUTTON | Create Settlement'; CHECKPOINT logged before the click; clicked once 22:47:11 UTC; index.jsonl: exactly one PUT .../prod/settlements (200) and one layout GET intercepted (intercept-0035, 1259943 bytes); list after: 4 rows (new BIG_CITY 3f6ab647)"
+  },
+  {
+   "check": "only the seat used the window",
+   "passed": true,
+   "receipt": "recording: 1 document load (landing), hosts = site, its API, analytics, error reporting, fonts; one API write (the create); no page outside the site; every page change followed a seat command"
+  },
+  {
+   "check": "ftg_capture_post.py --slot 3 --signed-in --premium (10 checks)",
+   "passed": true,
+   "receipt": "--check-only exit 0, writing run exit 0, 10/10 PASS: calls, sizeKey BIG_CITY, waterKeys COASTAL/True, requestDiff (other 0; slot keys 1, size-dependent 10, partner ids 45), vsSlot0 (23 semantic, other 0), sameSize 16/16 equal slot 1, decode (3.1 11121, 3.2 8400, 8 7342), border 2750.00 m, no unknown top-level field, pb_raw"
+  },
+  {
+   "check": "independent receipts outside the script",
+   "passed": true,
+   "receipt": "sha256 of the PUT body 0b64eaef3fe5 (274299 bytes); own pb_raw.parse walk: 8x7342, 7x40, 6x4, 10x4, 3.1x11121, 3.2x8400; structure.md = fresh pb_raw run apart from title and trailing newline; leaf diff vs slot 1 = 2 water keys + 6 water-implied + 45 partner ids; vs slot 2 = size key + 14 size-dependent + 45 partner ids; same 26 top-level keys"
+  },
+  {
+   "check": "red tests (the checks discriminate)",
+   "passed": true,
+   "receipt": "same capture as slot 0: exit 1 (sizeKey, waterKeys, border); as slot 1: exit 1 (waterKeys); as slot 2: exit 1 (sizeKey, sameSize, border)"
+  },
+  {
+   "check": "post script edit is wording-only",
+   "passed": true,
+   "receipt": "--premium added (account wording in capture-facts.json and README); old script (scratch copy) vs new, --check-only on slots 0-3 without the flag: 0 differing lines outside the pb_raw receipt's own file path; with the flag only the account line changes"
+  },
+  {
+   "check": "slot 3 bound in plan.json",
+   "passed": true,
+   "receipt": "plan.py --bind-ftg 3=2026-10-03T22-43-28 exit 0; --check SAME plan.json (sha256 811ae576, was f41df82b; one line changed, slot 3 capture) and metrics.m-1.json (7a21bb29, byte-unchanged)"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 md: header update, section 9.3 (premium, J164), section 13 (slot 3); E02 json: days[3] (day 4, slot 3), slotsTaken 4, signedIn premium fields, next slot 4, stoppedAttempts[0] folderOnDisk false + retriedBy; checklist H13; capture README via --notes"
+  },
+  {
+   "check": "session stopped cleanly",
+   "passed": true,
+   "receipt": "drive.mjs stop -> 'session closed'; no Singleton* in profiler/.profiles/ftg; no FTG process; scratchpad and shared .session absent"
+  },
+  {
+   "check": "privacy: no account identifier in files written",
+   "passed": true,
+   "receipt": "grep (email pattern, display name, 'eyJ', full uuid/32-hex ids) of README, capture-facts.json, create-request.json, request-diff.txt, structure.md, steps.jsonl, E02 md+json, checklist, post script, notes, this lane's lane-events lines: no email, name or token; only create-request.json's 45 partner ids and, in steps.jsonl (drive.mjs's own log), the new settlement id and the scratchpad session folder name, as in slots 1 and 2; checklist's one 'eyJ' is H11's own instruction text"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df: 12 GiB free before and after (stop line 1 GB); capture folder 38 MB"
+  }
+ ],
+ "account_limit": "premium since J164: the site states 'Unlimited settlements' and the settlements view shows no counter any more; the account list held 3 settlements before this run and 4 after; slots 4 and 5 remain and are not limited by the account",
+ "owner_notes": [
+  "Slot 3 is done. One big coastal city with rivers was created in your FTG account; it is the fourth settlement in your list. Nothing else was clicked or changed, and no premium-only feature was used.",
+  "With premium, the site no longer shows a settlement counter, so the seats now count the list instead. The last two slots (4 and 5) fit.",
+  "The automated Chrome window was left alone this time, thank you. Please keep doing that while slots 4 and 5 run.",
+  "The folder from the stopped attempt (captures/ftg/2026-10-03T22-29-23) was deleted by someone other than a capture seat, between 18:37 and 18:41. It held the recording of the Google sign-in pages. If you or the session deleted it, nothing needs doing. Its record stays in E02 section 12.",
+  "Your veto: the post-processing script gained a --premium flag. It changes only the wording, so the records stop calling your account free, and it changes no check."
+ ],
+ "notes": [
+  "Outcome: slot 3 (capture/FTG/BIG_CITY/coast+river/0) = captures/ftg/2026-10-03T22-43-28; 7342 buildings, 11121 edges, 8400 nodes, 40 towers, 4 water bodies, 4 districts, +-2750 m; referenceBuild ftg:2026-10-03+0b64eaef3fe5; listed population 24755 vs nominal 24500 (populationSource nominal). Bound; plan.json 811ae576.",
+  "Premium (J164) changed nothing on the wire or in the form beyond the enabled premium size and the missing counter (E02 9.3); checklist H13 tells slots 4-5 to count list rows and to post with --signed-in --premium.",
+  "Records: E02 sections 9.3 and 13, E02-ftg-captures.json days[3]; research/baselines/ftg_capture_checklist.md H13; research/baselines/ftg_capture_post.py (--premium, wording only). No plat/, no git.",
+  "Findings: the payload has 177 field paths vs 187/188 (only optional parts of field 11, decorations, missing); the road graph is much larger than slot 1's with near-equal buildings (one sample, no reading).",
+  "CONFIRMED: every number above, the single create, the clean session, and the equal request classes. PLAUSIBLE: what the four field-6 polygons are (sea and two river branches), and that the listed population is the generated resident count. J164's account of who used the window during section 12 is the owner's, relayed by the session; this seat did not observe it."
+ ]
+}

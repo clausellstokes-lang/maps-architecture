@@ -29,6 +29,14 @@ and 3 558 nodes, 31 wall towers, 3 water bodies and 4 districts on a 4 000 m squ
 `plan.py --check` reads SAME (section 11). The coastal option brought no new kind of request difference. The account
 counter read 3 / 10 after slot 2.
 
+**Update, slot 3 (2026-10-03 22:47 UTC, signed in, the account now premium under J164).** A first attempt stopped
+before any create (section 12). The owner then subscribed to FTG premium (J164); the account has unlimited settlements,
+and the site's request, form and payload did not change (section 9.3). Slot 3 (`capture/FTG/BIG_CITY/coast+river/0`) is
+`captures/ftg/2026-10-03T22-43-28`: a BIG_CITY settlement on the coast with rivers on, 7 342 buildings, 11 121 road
+edges and 8 400 nodes, 40 wall towers, 4 water bodies and 4 districts on a 5 500 m square; `referenceBuild`
+`ftg:2026-10-03+0b64eaef3fe5`. All 10 checks pass, its 16 size-dependent values equal slot 1's, the slot is bound, and
+`plan.py --check` reads SAME (section 13). The account list held 3 settlements before and 4 after.
+
 ## 1 What was built
 
 | file | what it is |
@@ -216,6 +224,24 @@ signed-in slot records its listed population beside the nominal one.
 The map page's toolbar puts a logout button and a re-roll button (a new generation with the previous settings) beside the
 home link. Neither may be clicked: logout would end the owner's session, and a re-roll would make a second settlement.
 Checklist section H gives the signed-in steps for slots 2–5.
+
+### 9.3 After the owner's premium subscription (J164; read 2026-10-03 22:43–22:45 UTC by lane `m1/W-02-slot3b`, CONFIRMED)
+
+The owner subscribed to FTG premium between slot 3's stopped attempt and its retry, and signed out and back in (J164,
+about 18:50 EDT). The retry seat read the site before creating anything (session `2026-10-03T22-43-28`, shots 001–005;
+read only). The hard limits did not change, and no premium-only option was used: the plan names none for any slot.
+
+| | free account (slots 1, 2) | premium (slot 3 on) |
+|---|---|---|
+| landing page | "Signed in as …", "Sign out", "Home", the membership text | the same lines, no consent notice; the membership text still lists the free tier's limit and, for premium, "Unlimited settlements" |
+| settlements view | the list, "New Folder", "New Settlement" and a counter `N / 10` | the same list and buttons; **no counter**; one more header icon, "Premium Settings" (never clicked) |
+| the create form | the dialog "Create New Settlement"; the premium size listed but disabled | the same dialog, fields, defaults and coordinates; the premium size is **enabled** (not touched); nothing new in the simple form |
+| the create button and the wire | "Create Settlement"; `PUT …/prod/settlements`; the layout GET intercepted | the same; the request has the same 26 top-level keys as slots 1 and 2 and no difference from the base outside the named classes (`other` 0) |
+
+**The account's limit, as the site states it.** For premium, the landing's membership section says "Unlimited
+settlements". The settlements view shows no counter any more, so a seat counts the account's settlements from the list
+read (`GET …/prod/settlements`, rows counted, numbers only). Before slot 3 the list held 3 rows (big town, big city, big
+town: the earlier settlement and slots 1 and 2), so the remaining three slots are not limited by the account.
 
 ## 10 Slot 1 (signed in) — 2026-10-03, BIG_CITY, `none`
 
@@ -435,3 +461,100 @@ Checklist H12 now requires a guarded click: `elementFromPoint` must name the exp
 **Who used the window is unknown.** It may have been the owner at the Mac, since the session's window is headful
 and visible, or another program. A retry needs the owner's word that the window will be left alone while a seat runs.
 The account counter is 3 / 10, so a retry fits.
+
+## 13 Slot 3 (signed in) — 2026-10-03, BIG_CITY, `coast+river`
+
+Lane `m1/W-02-slot3b`, the retry of section 12's stopped attempt, after the owner's premium subscription (J164; section
+9.3). One settlement was created, with one create click, by checklist section H with H12's guarded clicks. Before the
+create, the account list held no slot-3 settlement (3 rows, as after slot 2). Section 12's attempt folder
+`captures/ftg/2026-10-03T22-29-23` is no longer on disk: someone other than a capture seat removed it between 18:37 and
+18:41 EDT (observed by lane `m1/W-02-signed-in-verify`; this seat found it absent at 18:42). Section 12 and the JSON
+`stoppedAttempts` entry stand as its record. J164, as the session relays it, says the owner used the window during that
+attempt to subscribe. That accounts for section 12's other hand.
+
+### 13.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-03T22-43-28` |
+| account | the owner's signed-in account, premium since J164; the list held 3 settlements before and 4 after (no counter any more) |
+| size / rung | BIG_CITY / CITY |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 24 500, `nominal`. The account list gives 24 755 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-03; 22:47:11.141 UTC (the response date headers read 22:47:17 and 22:47:18 GMT) |
+| server time | 6.298 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 7 342 |
+| request hash | `0b64eaef3fe5`: sha256 of the exact 274 299-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-03+0b64eaef3fe5` |
+| payload | 1 259 943 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `a1c9606a34d8a322…`) |
+| road graph | 11 121 edges, 8 400 nodes |
+| wall towers / water bodies / districts | 40 / 4 / 4 |
+| settlement border | a square with half width 2 750.00 m, the size ladder's 5 500 m width |
+| capture folder | 38 MB: 13 MB of session recording and 25 MB of screenshots at 2× (no CPU profile). Free disk: 12 GB before and after. |
+
+**Form values.** The size was set to the BIG_CITY option and the coast select to the coastal option. The river,
+forest, reserve-area and wall boxes were switched on; the farm box was already on. Everything else stayed at FTG's
+default presets, and the name was left blank. All settings was never opened, and the premium size was not touched
+(shots 005–013; values verified by `eval` before the create click). Every click and select was its own command, after a
+`text` and a `shot`; every coordinate click also had an `elementFromPoint` reading naming its control, and a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 21 shots). The map (shot 015, 500 m bar)
+shows the sea to the west, a river reaching the coast south of the city and a harbour quarter. The core shot (019) has
+a 250 m bar.
+
+### 13.2 Checks (all executed 2026-10-03, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 3 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (16 of 16 equal slot 1's), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>`, and a separate walk with `pb_raw.parse` | exit 0, 177 distinct field paths; 3.1 × 11 121, 3.2 × 8 400, 8 × 7 342, 7 × 40, 6 × 4, 10 × 4 by both. `structure.md` equals a fresh run apart from its title line and trailing newline. |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_CITY; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `0b64eaef3fe5`, 274 299 bytes; exactly one PUT row with a body in the recording |
+| the request differs from slot 1's only by the water options | a leaf diff of the two requests | 8 semantic differences: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); plus 45 client-random partner ids. Nothing else. |
+| the request differs from slot 2's only by the size | a leaf diff of the two requests | 15 semantic differences: the size key and 14 named size-dependent values (the two that are equal at BIG_TOWN and BIG_CITY stay equal); plus 45 partner ids. Nothing else. Both requests have the same 26 top-level keys. |
+| the checks discriminate (red tests) | the same capture checked as other slots, `--check-only` | as slot 0 (BIG_TOWN, `none`): exit 1 (size key, water keys, border). As slot 1 (BIG_CITY, `none`): exit 1 (water keys). As slot 2 (BIG_TOWN, `coast+river`): exit 1 (size key, same-size, border). |
+| the `--premium` flag changes wording only | the script before the flag (a scratch copy) and after it, `--check-only` on slots 0–3 without the flag | outputs identical except the `pb_raw` receipt's own file path (the scratch copy's root); with the flag only the account line changes |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed` and no `Singleton*` file after; the shared `profiler/.session` absent before and after |
+| only the seat used the window | the recording's hosts, documents and writes | one document load (the landing); hosts: the site, its API, analytics, error reporting and fonts only; exactly one write to the site's API (the create); no page outside the site |
+| the slot bind is safe | `plan.py --bind-ftg 3=…`, then `--check` and a diff against the pre-bind copy | one line changed (slot 3's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`7a21bb29…`). `plan.json` sha256 moves from `f41df82b…` to `811ae576…` (the designed slot lifecycle). |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, section 9.3, the JSON entry, checklist H13, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row (the same two kinds of full id in `steps.jsonl` as in slots 1 and 2: the new settlement's id in the map-page address and the scratchpad's session folder name; neither is an account id) |
+
+### 13.3 Findings
+
+1. **Premium changed nothing that the tools read (CONFIRMED).** The form, the create call, the request's keys and the
+   layout call are those of slots 1 and 2 (section 9.3). Against slot 1 the request differs only by the water options,
+   against slot 2 only by the size, and its 16 size-dependent values equal slot 1's. The checks needed no change; only
+   the README's account wording did (`--premium`).
+2. **The coastal option again brings no new kind of difference (CONFIRMED).** As in slot 2, it adds the water keys and
+   the water-implied resource entry only.
+3. **Four water bodies (count CONFIRMED; reading PLAUSIBLE).** Field 6 occurs 4 times: one polygon of 7 points within
+   268 m of the centre, and three of 121, 129 and 132 points that reach the 2 750 m border. Shot 015 shows the sea and
+   a river that forks south of the city. So the three border-reaching polygons are PLAUSIBLY the sea and two river
+   branches. The small one is PLAUSIBLY of the same kind as slot 2's 9-point polygon near the centre.
+4. **The road graph is much larger than slot 1's (CONFIRMED; cause not read).** Against slot 1 (the same size, no
+   water): 11 121 against 7 236 edges and 8 400 against 6 302 nodes, but 7 342 against 7 164 buildings. Wall towers
+   are 40 against 66, and districts 4 against 5. These are one sample in each cell, so no reading is drawn.
+5. **Fewer distinct field paths (CONFIRMED).** The payload has 177 field paths, against 187 (slot 1) and 188 (slot 2).
+   All 177 occur in both earlier payloads. The missing ones are optional parts of field 11, the decorations message
+   (`research/findings/code-ftg-client.md` section 2.1). No check reads field 11.
+6. **The listed population again differs from the nominal one (CONFIRMED; meaning PLAUSIBLE).** Slot 3 lists 24 755
+   people against the nominal 24 500 (slot 1: 24 367). The row keeps `populationSource: nominal` until the ruling slot
+   1 asked for.
+
+### 13.4 Calls and deviations (vetoable)
+
+1. **`ftg_capture_post.py` gained `--premium`** (with `--signed-in`). It changes the account wording in
+   `capture-facts.json` and the README ("signed-in account, premium since J164" instead of "signed-in free account"),
+   so the record does not call a premium account free. It changes no check (13.2). The alternative was the old wording
+   with a correction in the notes.
+2. **Settlements counted from the list read, not the counter.** The premium view has no counter, so H3's `N / 10`
+   reading and its 10 / 10 stop were replaced by counting the list's rows before and after (checklist H13).
+3. **No deviation from checklist section H otherwise.** The `--full` shot of the settlements view (003) was taken as
+   H3 prescribes. The overview `--full` shot (016) again shows the scale bar without its label, as in slot 2; shot 015,
+   the same view, carries the 500 m label.
+
+### 13.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 9.3, 13.1 and 13.2, findings 1, 2 and 5, the counts in
+findings 3 and 4, and the listed population. PLAUSIBLE (reasoning only) are what the four field-6 polygons are, and that
+the listed population is the generated resident count. J164's account of section 12's other hand is the owner's, as
+the session relays it; this seat did not observe it.

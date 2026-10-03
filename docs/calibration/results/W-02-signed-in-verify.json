@@ -1,0 +1,30 @@
+{
+ "slots": [
+  {
+   "slot": 1,
+   "verdict": "confirmed",
+   "problems": [
+    "minor, does not change the verdict (CONFIRMED by a red test): ftg_capture_post.py still classes every leaf under the request's raw-resource list as water-implied by prefix, so the requestDiff and vsSlot0 checks pass any resource change. A scratch copy of slot 2's request with one non-water resource swapped (PIGS to IRON) passed both checks (exit 0). Independently, the real resource lists differ only by the one fishing entry (multiset comparison): slot 1 equals day 1 exactly, and lacks only that entry against the 2026-09-21 base. Vetoable suggestion: pin the class as R-24 pinned the size class, so the list must equal the reference list with only the fishing entry added or removed according to the water option.",
+    "minor, already corrected by slot 2's seat: W-02-slot1.json's privacy receipt says steps.jsonl held no full settlement id. drive.mjs's own steps.jsonl holds the new settlement's full id, which is not an account id. W-02-slot2.json and checklist H11 already record this."
+   ]
+  },
+  {
+   "slot": 2,
+   "verdict": "confirmed",
+   "problems": [
+    "minor wording, substance correct: E02 sections 11.2 and 11.3 and W-02-slot2.json call the 6 differing resource leaves 'the 6-leaf fishing resource entry'. The resource list holds 6 plain strings. The fishing string is inserted at the head, which shifts the other five by one place, so 6 positional leaves differ. As a multiset only the fishing entry differs from day 1, and nothing differs from the 2026-09-21 base.",
+    "minor, does not change the verdict: the same prefix-rule weakness of the water-implied class as under slot 1 (red test PIGS to IRON on this capture's request passes requestDiff and vsSlot0). The real difference was checked independently and is exactly the fishing entry."
+   ]
+  }
+ ],
+ "privacy_ok": true,
+ "privacy_notes": [
+  "Scope (final pass 2026-10-03 18:57 EDT, after m1/W-02-slot3b landed): docs/calibration/E02-ftg-captures.md and .json; docs/calibration/results/W-02.json, W-02-slot1.json, W-02-slot2.json, W-02-slot3.json and W-02-slot3b.json; research/baselines/ftg_capture_checklist.md, ftg_capture_post.py, ftg_text_summary.mjs, plan.json and metrics.m-1.json; docs/lane-events.log, docs/lanes-snapshots.jsonl, docs/ACTIVE-RUN.json and docs/PROGRESS.md; workflows/25-ftg-signed-in.js. The scan also covered the seats' chosen files inside the slot 1 and 2 capture folders.",
+  "Method: generic patterns (email, JWT 'eyJ', full UUID, 32+ hex, 17+ digit ids, analytics client-id shape, AWS keys, cookie and token assignments, 'Signed in as' followed by text). Exact values were collected in memory from the local slot 1-3 recordings: analytics client and session ids, settlement and partner ids, and any email, JWT, auth or cookie header (none exist: the recorder redacts the authorization header and keeps no cookie header). The display name was read in memory by OCR of the settlements-view shots. No value was printed or written anywhere.",
+  "Result: 0 email addresses, 0 tokens, 0 cookie or authorization values, 0 Google or FTG account or user ids, 0 analytics ids, and 0 display-name hits in every file the seats wrote or changed outside captures/. The 34 m1/W-02 lane lines in lane-events.log hold no hex id, UUID, email or token. The only full UUIDs in the scanned docs are this Claude session's id inside scratchpad paths (lane-events.log line 4009, docs/ACTIVE-RUN.json, docs/PROGRESS.md line 636), which is not an account id. The 32+ hex hits are other lanes' file hashes. The ftg_text_summary.mjs hit is its own redaction pattern.",
+  "Outside the seats' files, noted only: the name scan matched 2 times in docs/PROGRESS.md (lines 217 and 716). The session wrote both lines on 2026-09-29 (commit 2f7e10d), before J163. On inspection, both are the project's own GitHub repository address, which is not an FTG or Google account id.",
+  "Inside captures/ (git-ignored, not pushed): the seats' README, capture-facts.json, request-diff.txt and structure.md hold no email, token or UUID. create-request.json holds only the 45 client partner ids. drive.mjs's own steps.jsonl holds full settlement ids and the seat's redaction code, but no display name or email.",
+  "The stopped attempt's folder captures/ftg/2026-10-03T22-29-23 held that attempt's Google sign-in traffic. Someone other than this seat removed it between 18:37 and 18:41 EDT, and no copy was found elsewhere in the project. E02 section 13 and E02-ftg-captures.json (stoppedAttempts folderOnDisk false) now record the removal. E02 section 12, W-02-slot3.json and checklist H12 still point at its README and shots.",
+  "CONFIRMED: every count above (executed scans). PLAUSIBLE: that the two OCR candidates (14 and 8 characters, from the line above 'Your Settlements') are the display name."
+ ]
+}

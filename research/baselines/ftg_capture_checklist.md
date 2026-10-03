@@ -236,3 +236,26 @@ reserve-area and walled boxes sat at (1008, 367) and (1008, 396) after the scrol
       driver did not move, a page outside the site): `shot`, `drive.mjs stop`, and report. Do not chase it, and do
       not click on the foreign page;
     - before starting, ask (through the session) that the owner leave the window alone while a seat runs.
+
+Slot 3 (2026-10-03, lane `m1/W-02-slot3b`, `captures/ftg/2026-10-03T22-43-28`) followed H1–H12 with the changes of H13;
+every coordinate click had its own `elementFromPoint` reading, and a form-state reading followed every step.
+
+13. **The account is premium from slot 3 on** (owner ruling J164, 2026-10-03; E02 section 9.3). The hard limits are
+    unchanged, and a premium-only option is used only where the plan names one (it names none for slots 4 and 5).
+    What changed, and what to do:
+    - The settlements view shows **no `N / 10` counter**. H3's counter reading and its 10 / 10 stop are replaced by
+      counting the account list's rows: read the intercepted `GET …/prod/settlements` body in
+      `session/network/bodies/` and count rows by size, numbers only (never print names or ids). Before slot k
+      (k ≥ 4) it should hold k rows (the earlier settlement plus slots 1 to k − 1). More rows of the slot's size
+      than the captures explain mean a create may already have happened: STOP and report.
+    - A new header icon "Premium Settings" (a star, between "User guide" and "Settings") joins the never-click list.
+      So does the size option "★ Metropolis (~50000 people)", which is now enabled.
+    - The form, its coordinates, "Create Settlement" (1 of 1, ≈ 947, 522 after the scroll, inside the dialog), the
+      wire and the map page are unchanged. The landing still shows "Signed in as …", "Sign out" and "Home"; a landing
+      without them is still a STOP (session expired).
+    - Post-process with `python3 research/baselines/ftg_capture_post.py <stamp> --slot K --signed-in --premium --notes
+      <notes.md>` (`--check-only` first). `--premium` changes the account wording only; the 10 checks are the same.
+    - Shell helpers used by slot 3, beside H's `D`, `T` and `HIT` (zsh functions in a sourced scratch file):
+      `EP() { D eval "(() => { const t = document.elementFromPoint($1, $2); return t ? t.tagName + ' ' + (t.type || '') + ' | ' + ((t.closest('div') || {}).innerText || '').trim().slice(0, 40) : null; })()"; }`
+      before every coordinate click, and a form-state reading `G` (the eight selects' texts, the five boxes'
+      label, `checked` and centre, and whether the create dialog is open) after every step.

@@ -24,6 +24,14 @@ Usage (from anywhere; Python 3.9, standard library only):
 
 Regeneration keeps the FTG bindings already in plan.json; every other field is a pure function of this file, so a
 rerun writes the same bytes.
+
+FTG slots (M-1-plan sections 2.1 and 2.1b; rulings R-33 .. R-36 of M-1-rulings-2.md, J164): the slot list is the
+concatenation of two declared programmes, FTG_SCHEDULE (programme 1: the six slots of J159 / J163) and
+FTG_PREMIUM_SCHEDULE (programme 2: the 22 premium-month slots of J164). FTG cannot be seeded, so an FTG family's
+extension is this declared schedule block, never a CLI flag that mutates plan.json (that would break regeneration);
+slot numbers are positions in the concatenated list and are filled in capture order (bind refuses a slot while an
+earlier one is open). compute() refuses to write a plan whose first six labels differ from FTG_FIRST_LABELS or whose
+labels repeat, so an extension can only append.
 """
 import hashlib
 import json
@@ -183,17 +191,62 @@ FM_BUILD = '890'
 FM_CAPTURE = '2026-09-25T11-25-38'
 FM_N = 41
 
-# FTG's six-day schedule (M-1-plan section 2.1; ARCHITECTURE section 13.6 (2)); FTG cannot be seeded.
-FTG_NOMINAL = {'BIG_TOWN': 5600, 'BIG_CITY': 24500}
-FTG_RUNG = {'BIG_TOWN': 'TOWN', 'BIG_CITY': 'CITY'}
-FTG_SCHEDULE = [  # (day, size, water, the form's water options in our words)
-    (1, 'BIG_TOWN', 'none', 'nearest none: no coast, rivers off'),
-    (2, 'BIG_CITY', 'none', 'nearest none: no coast, rivers off'),
-    (3, 'BIG_TOWN', 'coast+river', 'nearest coast+river: coastal, rivers on'),
-    (4, 'BIG_CITY', 'coast+river', 'nearest coast+river: coastal, rivers on'),
-    (5, 'BIG_TOWN', 'coast+river', 'nearest coast+river: coastal, rivers on (second)'),
-    (6, 'BIG_CITY', 'coast+river', 'nearest coast+river: coastal, rivers on (second)'),
+# FTG's slots (M-1-plan sections 2.1 and 2.1b; ARCHITECTURE section 13.6 (2)); FTG cannot be seeded.
+# Nominal populations and widths are FTG's own size ladder (research/ftg-capture/presets.json, roughPopulation / width);
+# the rung is ARCHITECTURE section 1.1's population band of that nominal value (CITY, 9 500 people, lies in TOWN's
+# [1 500, 10 000), as section 13.5's generation-time row reads it; section 12.9).
+FTG_NOMINAL = {'BIG_TOWN': 5600, 'BIG_CITY': 24500, 'METROPOLIS': 49500, 'CITY': 9500, 'TOWN': 3625}
+FTG_HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0, 'METROPOLIS': 3000.0, 'CITY': 2500.0, 'TOWN': 1750.0}
+FTG_RUNG = {'BIG_TOWN': 'TOWN', 'BIG_CITY': 'CITY', 'METROPOLIS': 'METROPOLIS', 'CITY': 'TOWN', 'TOWN': 'TOWN'}
+FTG_PREMIUM_ONLY = ('METROPOLIS',)      # the size option the site enables for premium accounts only (E02 section 9.2)
+WATER_WORDS = {'none': 'nearest none: no coast, rivers off', 'coast+river': 'nearest coast+river: coastal, rivers on'}
+ORDINAL = ['', ' (second)', ' (third)', ' (fourth)', ' (fifth)', ' (sixth)', ' (seventh)', ' (eighth)', ' (ninth)',
+           ' (tenth)']
+# Programme 1 (J159, then J163 for slots 1-5: the owner's signed-in account): (day, size, water). Fixed; never reordered.
+FTG_SCHEDULE = [
+    (1, 'BIG_TOWN', 'none'),
+    (2, 'BIG_CITY', 'none'),
+    (3, 'BIG_TOWN', 'coast+river'),
+    (4, 'BIG_CITY', 'coast+river'),
+    (5, 'BIG_TOWN', 'coast+river'),
+    (6, 'BIG_CITY', 'coast+river'),
 ]
+# Programme 2 (J164, 2026-10-03: one premium month; M-1-rulings-2.md R-33): (size, water), in recording order -- the
+# METROPOLIS towns first (the owner's chief motive; its first three are the panel's none, coast+river, coast+river),
+# then BIG_TOWN and BIG_CITY alternating so a stopped run leaves the two matched sizes balanced (each reaches 10 slots:
+# 4 none, 6 coast+river), then the two other sizes the size ladder gains from (CITY: the timed preset's recorded family
+# reaches three usable; TOWN: FTG's form default, a fourth point of the size-dependent-value table).
+FTG_PREMIUM_SCHEDULE = [
+    ('METROPOLIS', 'none'),
+    ('METROPOLIS', 'coast+river'),
+    ('METROPOLIS', 'coast+river'),
+    ('METROPOLIS', 'coast+river'),
+    ('BIG_TOWN', 'none'),
+    ('BIG_CITY', 'none'),
+    ('BIG_TOWN', 'coast+river'),
+    ('BIG_CITY', 'coast+river'),
+    ('BIG_TOWN', 'none'),
+    ('BIG_CITY', 'none'),
+    ('BIG_TOWN', 'coast+river'),
+    ('BIG_CITY', 'coast+river'),
+    ('BIG_TOWN', 'none'),
+    ('BIG_CITY', 'none'),
+    ('BIG_TOWN', 'coast+river'),
+    ('BIG_CITY', 'coast+river'),
+    ('BIG_TOWN', 'coast+river'),
+    ('BIG_CITY', 'coast+river'),
+    ('CITY', 'none'),
+    ('CITY', 'coast+river'),
+    ('TOWN', 'none'),
+    ('TOWN', 'coast+river'),
+]
+# The recorded CITY family (R-02; the recorded block itself is W-01b's): both captures were coastal with rivers on, so
+# the planned CITY slots continue the family's per-water index after them (coast+river/2) and the family order after 2.
+FTG_RECORDED_CITY = [('2026-09-21T05-23-58', 'coast+river', 'usable'), ('2026-09-25T10-13-51', 'coast+river', 'failed: setting')]
+# The first six labels, fixed: compute() refuses to write a plan that changes or reorders them (R-36).
+FTG_FIRST_LABELS = ('capture/FTG/BIG_TOWN/none/0', 'capture/FTG/BIG_CITY/none/0', 'capture/FTG/BIG_TOWN/coast+river/0',
+                    'capture/FTG/BIG_CITY/coast+river/0', 'capture/FTG/BIG_TOWN/coast+river/1',
+                    'capture/FTG/BIG_CITY/coast+river/1')
 CAPTURE_RE = re.compile(r'^\d{4}-\d{2}-\d{2}T[\d-]{8}$')     # V12 section 3.3 C2's capture-folder pattern
 REASON_RE = re.compile(r'^[a-z]+(-[a-z]+)*$')
 
@@ -252,7 +305,12 @@ def build_plan(prior_slots):
     slots = []
     per_key = {}
     per_size = {}
-    for k, (day, size, water, words) in enumerate(FTG_SCHEDULE):
+    for _, water, _ in FTG_RECORDED_CITY:      # the recorded pair holds CITY's first two indices (R-02)
+        per_key[('CITY', water)] = per_key.get(('CITY', water), 0) + 1
+        per_size['CITY'] = per_size.get('CITY', 0) + 1
+    rows = [(1, day, size, water) for day, size, water in FTG_SCHEDULE] + \
+           [(2, None, size, water) for size, water in FTG_PREMIUM_SCHEDULE]
+    for k, (programme, day, size, water) in enumerate(rows):
         j = per_key.get((size, water), 0)
         per_key[(size, water)] = j + 1
         o = per_size.get(size, 0)
@@ -260,19 +318,26 @@ def build_plan(prior_slots):
         p = prior.get(k, {})
         slots.append({
             'slot': k,
+            'programme': programme,
             'day': day,
             'family': 'capture/FTG/%s' % size,
             'order': o,
             'label': 'capture/FTG/%s/%s/%d' % (size, water, j),
             'ftgSize': size,
-            'rung': FTG_RUNG[size],
+            'rung': FTG_RUNG.get(size),                 # None for an unknown size: compute() refuses the plan
             'water': water,
-            'waterOptions': words,
-            'nominalPopulation': FTG_NOMINAL[size],
+            'waterOptions': WATER_WORDS[water] + ORDINAL[j],
+            'nominalPopulation': FTG_NOMINAL.get(size),
+            'premiumOnly': size in FTG_PREMIUM_ONLY,
             'seed': None,
             'capture': p.get('capture'),
             'failed': p.get('failed'),
         })
+    per_size_totals = {}
+    for s in slots:
+        per_size_totals.setdefault(s['ftgSize'], {'slots': 0, 'none': 0, 'coast+river': 0})
+        per_size_totals[s['ftgSize']]['slots'] += 1
+        per_size_totals[s['ftgSize']][s['water']] += 1
 
     dupes = sorted([sorted(v) for v in collisions.values() if len(v) > 1])
     plan = {
@@ -315,10 +380,28 @@ def build_plan(prior_slots):
         'ftg': {
             'seedable': False,
             'why': 'the server draws its own seed; the plan lists capture slots in capture order (V12 section 3.2.1)',
-            'slotRule': 'slot k is the k-th capture taken; a refused day slides the schedule; a slot never taken is '
-                        'recorded failed with its reason, never faked (M-1-plan section 9; ARCHITECTURE 13.6 (12))',
-            'populationSource': 'nominal unless the decoded payload holds a resident count (re-checked per capture)',
-            'workItem': 'W-02',
+            'slotRule': 'slot k is the k-th capture taken, slots filled in slot order (bind refuses a slot while an '
+                        'earlier one is open); a slot never taken is recorded failed with its reason, never faked '
+                        '(M-1-plan section 9; ARCHITECTURE 13.6 (12)); the list is the concatenation of the two '
+                        'declared programmes below, and an extension can only append (R-36: the first six labels '
+                        'and the uniqueness of every label are checked before any write)',
+            'programmes': [
+                {'programme': 1, 'slots': [0, len(FTG_SCHEDULE)], 'rulings': 'J159 (slot 0, guest, one per day); '
+                 'J163 (slots 1-5, the owner\'s signed-in account, one sitting)', 'plan': 'M-1-plan section 2.1'},
+                {'programme': 2, 'slots': [len(FTG_SCHEDULE), len(rows)], 'rulings': 'J164 (one premium month; '
+                 'M-1-rulings-2.md R-33 .. R-36)', 'plan': 'M-1-plan section 2.1b',
+                 'order': 'by slot number: METROPOLIS first, then BIG_TOWN and BIG_CITY alternating, then CITY and TOWN',
+                 'premiumOnlySizes': list(FTG_PREMIUM_ONLY),
+                 'procedure': 'research/baselines/ftg_capture_checklist.md section H with M-1-plan section 2.1b\'s '
+                              'premium differences'},
+            ],
+            'perSize': per_size_totals,
+            'recordedCity': [{'capture': c, 'water': w, 'label': 'capture/FTG/CITY/%s/%d' % (w, i), 'status': st}
+                             for i, (c, w, st) in enumerate(FTG_RECORDED_CITY)],
+            'halfWidthM': FTG_HALF_WIDTH_M,
+            'populationSource': 'nominal unless the decoded payload holds a resident count (re-checked per capture); '
+                                'the account list\'s per-settlement population is recorded beside it, never used (R-37)',
+            'workItem': 'W-02 (programme 1), W-02b (programme 2)',
             'slots': slots,
         },
         'fm': {
@@ -337,7 +420,9 @@ def build_plan(prior_slots):
             'mfcgExports': sum(n for _, _, n, _, _ in MFCG_SETTINGS),
             'mfcgFiles': 2 * sum(n for _, _, n, _, _ in MFCG_SETTINGS),
             'ngGenerations': sum(n for _, n in NG_SIZES) * len(NG_TEMPLATES),
-            'ftgSlots': len(FTG_SCHEDULE),
+            'ftgSlots': len(slots),
+            'ftgProgramme1': len(FTG_SCHEDULE),
+            'ftgProgramme2': len(FTG_PREMIUM_SCHEDULE),
             'fmBuildings': FM_N,
             'seedCollisions': dupes,
         },
@@ -864,6 +949,15 @@ def compute(prior_slots):
     for label, _, pm in CHECK_VECTORS:
         if label in labels and labels[label] != pm:
             problems.append('plan entry %s seed %d != vector %d' % (label, labels[label], pm))
+    # R-36: an FTG extension can only append -- the first six labels are fixed and every label is unique.
+    ftg_labels = [s['label'] for s in plan['ftg']['slots']]
+    if tuple(ftg_labels[:len(FTG_FIRST_LABELS)]) != FTG_FIRST_LABELS:
+        problems.append('FTG slots 0..%d changed or reordered: %s' % (len(FTG_FIRST_LABELS) - 1, ftg_labels[:len(FTG_FIRST_LABELS)]))
+    if len(set(ftg_labels)) != len(ftg_labels):
+        problems.append('FTG labels repeat: %s' % sorted(l for l in set(ftg_labels) if ftg_labels.count(l) > 1))
+    for size in set(s for _, s, _ in FTG_SCHEDULE) | set(s for s, _ in FTG_PREMIUM_SCHEDULE):
+        if size not in FTG_NOMINAL or size not in FTG_RUNG or size not in FTG_HALF_WIDTH_M:
+            problems.append('FTG size %s lacks a nominal population, a rung or a half width' % size)
     return plan, metrics, problems
 
 
@@ -937,9 +1031,10 @@ def main(argv):
         print('wrote %s (%d bytes, sha256 %s)' % (os.path.relpath(p, ROOT), len(t.encode()),
                                                   hashlib.sha256(t.encode()).hexdigest()[:16]))
     c = plan['counts']
-    print('plan: MFCG %d exports (%d files), NG %d generations, FTG %d slots, FM %d buildings, seed collisions %d' %
-          (c['mfcgExports'], c['mfcgFiles'], c['ngGenerations'], c['ftgSlots'], c['fmBuildings'],
-           len(c['seedCollisions'])))
+    print('plan: MFCG %d exports (%d files), NG %d generations, FTG %d slots (programme 1: %d, programme 2: %d), '
+          'FM %d buildings, seed collisions %d' %
+          (c['mfcgExports'], c['mfcgFiles'], c['ngGenerations'], c['ftgSlots'], c['ftgProgramme1'], c['ftgProgramme2'],
+           c['fmBuildings'], len(c['seedCollisions'])))
     mc = metrics['counts']
     print('metrics: %d ids + %d families; parity %d, ours only %d; with M-1 rows %d; open %d; uncovered pairs %d' %
           (mc['ids'], mc['families'], mc['parity'], mc['oursOnly'], mc['withM1Rows'], mc['open'], mc['m1Uncovered']))

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3
 """W-02 post-processing of one FTG capture (research-side; no site contact).
 
-  python3 research/baselines/ftg_capture_post.py <stamp> --slot K [--signed-in] [--notes notes.md] [--check-only]
+  python3 research/baselines/ftg_capture_post.py <stamp> --slot K [--signed-in [--premium]] [--notes notes.md] [--check-only]
 
 --signed-in marks a capture made in the owner's signed-in free account (J163, slots 1-5): the README names the settlement
 as saved in the account, and the account list's population is recorded beside the nominal one (numbers only).
+--premium (with --signed-in) marks a capture made after the owner subscribed to FTG premium (J164, 2026-10-03, from
+slot 3): it changes the account wording of capture-facts.json and the README only, and no check.
 
 Reads captures/ftg/<stamp>/session/network/index.jsonl and the Fetch-intercepted bodies, and the slot K of
 research/baselines/plan.json (size, water, nominal population). Writes into the capture folder:
@@ -33,7 +35,8 @@ BASE_REQUEST = os.path.join(ROOT, 'research', 'ftg-capture', 'create-request.jso
 PLAN = os.path.join(HERE, 'plan.json')
 KNOWN_TOP_LEVEL = set(range(1, 28))            # the layout message's 27 fields (code-ftg-client.md section 2.1)
 WATER_KEYS = {'none': (None, False), 'coast+river': ('COASTAL', True)}   # (coastType, rivers) per WaterSetting
-HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0}                   # size ladder width / 2 (presets.json)
+HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0,                   # size ladder width / 2 (presets.json)
+                'METROPOLIS': 3000.0, 'CITY': 2500.0, 'TOWN': 1750.0}      # programme 2's sizes (J164; M-1-plan 2.1b, R-33)
 # The size-dependent preset values, pinned by name (ruling R-24; no prefix rule). The client fills them from the chosen
 # size; no simple-form control sets them. Measured on three sizes: the 2026-09-21 CITY base, day 1 (BIG_TOWN, slot 0) and
 # slot 1 (BIG_CITY, signed in), whose form steps differed only in the size option (E02 section 10). Day 1 differed from
@@ -98,6 +101,7 @@ def main(argv):
     notes = argv[argv.index('--notes') + 1] if '--notes' in argv else None
     check_only = '--check-only' in argv
     signed_in = '--signed-in' in argv          # J163: created in the owner's signed-in free account (slots 1-5)
+    premium = signed_in and '--premium' in argv   # J164: the same account after the owner subscribed (slot 3 on)
     cap = os.path.join(ROOT, 'captures', 'ftg', stamp)
     net = os.path.join(cap, 'session', 'network')
     slot = json.load(open(PLAN))['ftg']['slots'][slot_k]
@@ -209,7 +213,7 @@ def main(argv):
         'capture': stamp, 'slot': slot_k, 'label': slot['label'], 'family': slot['family'], 'ftgSize': slot['ftgSize'],
         'rung': slot['rung'], 'water': slot['water'],
         'population': slot['nominalPopulation'], 'populationSource': 'nominal' if not unknown else 'unchecked',
-        'listedPopulation': listed, 'account': 'signed-in free account (J163)' if signed_in else 'guest (no account, J159)',
+        'listedPopulation': listed, 'account': ('signed-in account, premium since J164' if premium else 'signed-in free account (J163)') if signed_in else 'guest (no account, J159)',
         'serverDate': sdate, 'putResponseDateHeader': server_date,
         'layoutResponseDateHeader': (get.get('respHeaders') or {}).get('date'),
         'putSentUtc': datetime.datetime.utcfromtimestamp(put_ts).isoformat(timespec='milliseconds') + 'Z',
@@ -245,7 +249,7 @@ def main(argv):
         '# FTG capture %s — %s, `WaterSetting: %s` (M-1 W-02, slot %d)' % (stamp, t['ftgSize'], t['water'], slot_k), '',
         'Research-side capture folder (plan `docs/calibration/M-1-plan.md` section 2.1; record `docs/calibration/E02-ftg-captures.md`).',
         'Made with `profiler/session.mjs --target ftg --headful` and `profiler/drive.mjs`, step by step by',
-        '`research/baselines/ftg_capture_checklist.md`; post-processed by `research/baselines/ftg_capture_post.py %s --slot %d%s`.' % (stamp, slot_k, ' --signed-in' if signed_in else ''), '',
+        '`research/baselines/ftg_capture_checklist.md`; post-processed by `research/baselines/ftg_capture_post.py %s --slot %d%s`.' % (stamp, slot_k, (' --signed-in --premium' if premium else ' --signed-in') if signed_in else ''), '',
         '## The three fields of ARCHITECTURE section 13.6 (2) and the plan\'s README fields', '',
         '| field | value |', '|---|---|',
         '| capture id (this folder) | `%s` |' % stamp,
@@ -267,7 +271,8 @@ def main(argv):
         '| road graph | %d edges (3.1), %d nodes (3.2) |' % (edges, nodes),
         '| wall towers / water bodies / districts | %d / %d / %d |' % (t['towers'], t['waterBodies'], t['districts']),
         '| settlement border | square, max coordinate %.2f m (zig-zag sint32, cm) — the size ladder\'s half width |' % half,
-        ('| settlement id | `%s…` (a new settlement saved in the owner\'s signed-in free account, J163) |' if signed_in else
+        ('| settlement id | `%s…` (a new settlement saved in the owner\'s signed-in account, premium since J164) |' if premium else
+         '| settlement id | `%s…` (a new settlement saved in the owner\'s signed-in free account, J163) |' if signed_in else
          '| temporary-settlement id | `%s…` (the guest identity\'s id; the new settlement replaced the previous one under it) |') % t['settlementIdPrefix'], '',
         '## Request', '',
         '`create-request.json` is the PUT body pretty-printed. `request-diff.txt` compares it with the 2026-09-21 CITY base and',

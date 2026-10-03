@@ -8,7 +8,7 @@
   "plan": "research/baselines/plan.json",
   "postChecks": 10
  },
- "slotsTaken": 3,
+ "slotsTaken": 4,
  "slotsTotal": 6,
  "days": [
   {
@@ -219,6 +219,101 @@
     "before": "9b89d82e2901e33a",
     "after": "f41df82b9e0799d3"
    }
+  },
+  {
+   "day": 4,
+   "date": "2026-10-03",
+   "slot": 3,
+   "lane": "m1/W-02-slot3b",
+   "account": "the owner's signed-in account, premium since J164",
+   "label": "capture/FTG/BIG_CITY/coast+river/0",
+   "capture": "2026-10-03T22-43-28",
+   "ftgSize": "BIG_CITY",
+   "rung": "CITY",
+   "water": "coast+river",
+   "population": 24500,
+   "populationSource": "nominal",
+   "listedPopulation": 24755,
+   "serverDate": "2026-10-03",
+   "putSentUtc": "2026-10-03T22:47:11.141Z",
+   "serverTimeS": 6.298,
+   "serverTimeContended": true,
+   "requestBytes": 274299,
+   "requestHash": "0b64eaef3fe5",
+   "referenceBuild": "ftg:2026-10-03+0b64eaef3fe5",
+   "payloadBytes": 1259943,
+   "payloadSha256Prefix": "a1c9606a34d8a322",
+   "buildings": 7342,
+   "edges": 11121,
+   "nodes": 8400,
+   "towers": 40,
+   "waterBodies": 4,
+   "districts": 4,
+   "borderHalfWidthM": 2750.0,
+   "distinctFieldPaths": 177,
+   "requestDiffVsCityBase": {
+    "semantic": 11,
+    "slotKeys": 1,
+    "waterImplied": 0,
+    "sizeDependentPreset": 10,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot0": {
+    "semantic": 23,
+    "other": 0,
+    "sizeDependentPreset": 14
+   },
+   "requestDiffVsSlot1": {
+    "semantic": 8,
+    "waterKeys": 2,
+    "waterImplied": 6,
+    "sizeDependentPreset": 0,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot2": {
+    "semantic": 15,
+    "sizeKey": 1,
+    "sizeDependentPreset": 14,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "sameSize": "16 of 16 equal slot 1 (2026-10-03T22-04-25)",
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "vsSlot0": true,
+    "sameSize": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true
+   },
+   "postFlags": "--signed-in --premium (wording only; E02 section 13.4)",
+   "redTests": {
+    "asSlot0": "exit 1 (sizeKey, waterKeys, border)",
+    "asSlot1": "exit 1 (waterKeys)",
+    "asSlot2": "exit 1 (sizeKey, sameSize, border)"
+   },
+   "waterBodyShapes": "field 6 x4: one polygon of 7 points within 268 m of the centre, three of 121, 129 and 132 points reaching the 2750 m border; reading PLAUSIBLE (the sea and two river branches)",
+   "accountList": {
+    "before": 3,
+    "after": 4,
+    "counter": "none shown (premium)"
+   },
+   "guardedClicks": "checklist H12: every click and select its own command after a checked reading; elementFromPoint before every coordinate click; one API write (the create); no page outside the site",
+   "shots": 21,
+   "folderMB": 38,
+   "freeGBBefore": 12,
+   "freeGBAfter": 12,
+   "planSha256": {
+    "before": "f41df82b9e0799d3",
+    "after": "811ae576670bce3a"
+   },
+   "record": "E02 section 13"
   }
  ],
  "failed": [],
@@ -249,7 +344,16 @@
   "recordSection": "9",
   "counterAfterSlot2": "3 / 10",
   "createsLeftAfterSlot2": 7,
-  "createsNeededAfterSlot2": 3
+  "createsNeededAfterSlot2": 3,
+  "premiumRuling": "J164",
+  "premiumSince": "2026-10-03, between slot 3's stopped attempt and its retry",
+  "premiumLimitWording": "Unlimited settlements",
+  "counterAfterPremium": "none shown; count the list read's rows",
+  "listBeforeSlot3": 3,
+  "listAfterSlot3": 4,
+  "createsNeededAfterSlot3": 2,
+  "premiumRecordSection": "9.3",
+  "premiumChecklistItem": "H13"
  },
  "sizeDependentClass": {
   "leaves": 16,
@@ -262,13 +366,13 @@
   "coastalOption": "no new kind of difference (slot 2 vs day 1: water keys and water-implied only; 16 of 16 equal; E02 section 11.3)"
  },
  "next": {
-  "slot": 3,
-  "ftgSize": "BIG_CITY",
+  "slot": 4,
+  "ftgSize": "BIG_TOWN",
   "water": "coast+river",
-  "expectedBorderHalfWidthM": 2750.0,
-  "sameSizeReference": "slot 1 (2026-10-03T22-04-25)",
-  "procedure": "checklist section H (signed in, same day, J163)",
-  "note": "slot 3 still open after the stopped attempt of 2026-10-03 22:31 UTC (E02 section 12); retry on the owner's word that the session window is left alone; counter 3 / 10"
+  "expectedBorderHalfWidthM": 2000.0,
+  "sameSizeReference": "slot 0 (2026-10-03T17-19-06)",
+  "procedure": "checklist section H with H12 and H13 (signed in, premium since J164; post with --signed-in --premium)",
+  "note": "account list held 4 settlements after slot 3; never create a second settlement for a slot whose PUT is already in a capture folder"
  },
  "stoppedAttempts": [
   {
@@ -296,7 +400,14 @@
    "counter": "3 / 10 (unchanged)",
    "planJson": "unchanged; slot 3 not marked failed (not a site refusal; it can be retried today)",
    "seatError": "two box clicks were sent in the same command as their readings, so the readings (dialog already gone) were not checked before the clicks; both fell on blank page area; checklist H12 adds a guarded click",
-   "record": "E02 section 12"
+   "record": "E02 section 12",
+   "folderOnDisk": false,
+   "folderNote": "removed between 18:37 and 18:41 EDT by someone other than a capture seat (observed by m1/W-02-signed-in-verify); this entry and E02 section 12 are its record",
+   "retriedBy": {
+    "lane": "m1/W-02-slot3b",
+    "capture": "2026-10-03T22-43-28",
+    "record": "E02 section 13"
+   }
   }
  ]
 }
