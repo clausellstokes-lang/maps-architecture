@@ -26,6 +26,15 @@ the builders make where the design leaves a case open is one row of `docs/build/
 Each package's `src/index.ts` re-exports one folder per piece of M0 work; each folder starts empty and is filled by the
 work item that owns it (`docs/build/M0-work.json` says which).
 
+**Where tests live.** A work item's tests go in its package's `test/` folder, one folder per item. Each package's tests
+can see only that package and the packages below it (kernel, then model, tables, site, layout), so two kinds of test live
+elsewhere: a test of bench code goes in `bench/test/<harness>/` (choices C-0114), and a test of package code that needs
+the test kit's tools — its random and hand-made test shapes, the reference checkers, the measurements — goes in
+`packages/testkit/test/<package>/<item folder>/` (for example `packages/testkit/test/kernel/io/`), because the test kit's
+tests are the only package tests that can see the test kit and every package (choices C-0122). Such a test reaches the
+package by its name (`@plat/kernel`, `@plat/layout`), so the package must export what is tested. A folder there needs no
+setup of its own; `tools/scaffold/workspace.test.mjs` checks the project wiring that makes this work.
+
 ## Building and testing on the reference Mac
 
 This Mac (MacBook Air M1, macOS 14, Node 24.12) is the design's reference machine. pnpm is **not** installed globally:
@@ -42,12 +51,18 @@ corepack pnpm vendor:verify  # the vendored libraries still match vendor/vendor.
 corepack pnpm notices        # regenerate THIRD-PARTY-NOTICES.txt and run the licence check
 ```
 
-* `corepack pnpm test --project kernel` runs one package's tests.
+* `corepack pnpm test --project kernel` runs one package's tests, and a folder after the project name narrows it to
+  that folder: `corepack pnpm test --project testkit packages/testkit/test/kernel/io/`.
 * Property tests run `PLAT_FUZZ_RUNS` cases each (10 000 when unset — the pull-request size; the nightly tier sets
   1 000 000). `PLAT_FUZZ_SEED` fixes the random seed to replay a failure.
 * `corepack pnpm bench -- <harness>` runs a bench harness (`calibrate`, `fusion`, `site`, …); `bench:calibrate`,
   `bench:timing-phase` and `tier:pr | tier:nightly | tier:milestone` are shortcuts. A harness not built yet exits 2
-  with `not built: <work item>`. Bench output goes to the folder named by `PLAT_BENCH_OUT` — on this Mac, the session's
+  with `not built: <work item>`.
+* Three more shortcuts are the design's command-line tools until PLAT has its own `plat` command (M1):
+  `corepack pnpm scan` (the clean-room content scan), `corepack pnpm parity` (the reference-parity report) and
+  `corepack pnpm baselines:check -- <file>` (the check every numbers-only file from the research side passes before it is
+  committed). Each is a bench harness (`scan`, `parity`, `baselines-check`) and says `not built` until its work item
+  lands. Bench output goes to the folder named by `PLAT_BENCH_OUT` — on this Mac, the session's
   scratchpad `build/` folder, never inside `plat/` — and no harness reads its inputs from there (inputs live inside
   `plat/` or are passed in memory).
 * `corepack pnpm browsers:check` launches the three cached Playwright browsers once (no download).
@@ -82,6 +97,14 @@ corepack pnpm landed:verify -- wave-2                     # the session, when th
   collision stands, and names the next free id.
 * `landed:verify` names every changed file, added line or edited line that no record of the wave claims. Such a change
   goes to the session, the only one that runs git.
+* Files from the research side (M-1's `baselines.json`, `ng-faces.json` and `denylist.json` in
+  `packages/testkit/baselines/`, and the digest's files in `docs/digest/`) arrive only while a wave is open, never during
+  the timing phase. Each comes with a crossing record appended to `packages/testkit/baselines/crossings.json` by the
+  checker who countersigned it; that record — the file's SHA-256 and the checker's ledger row — is what accounts for the
+  file, and the checker's own landed record accounts for the crossing record and its ledger row (choices C-0120). A
+  builder or checker who only added rows records them with `corepack pnpm landed -- <record id> --lane <lane key>`.
+* A test-tier job that reads one of those files waits, listed as pending, until the work item that reviews the file has
+  run on that exact version (choices C-0121).
 
 ## The clean-room rule
 

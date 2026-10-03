@@ -1,14 +1,16 @@
 // M0-s-01's workspace tests: the engine range (C-0025), pnpm through corepack only (C-0030), exact pins (§17.4), the
-// dependency placement of the fix round (C-0062, C-0065), the package indexes (C-0013, C-0064) and the bench
-// dispatcher — its map, and its "not built" and unknown-name exits proven on a fixture harness (C-0059, C-0095).
+// dependency placement of the fix round (C-0062, C-0065), the package indexes (C-0013, C-0064, C-0112), the bench
+// dispatcher — its map with the fourth fix round's entries and owners (C-0113), its shortcuts, its argument rule, and
+// its "not built" and unknown-name exits proven on fixture harnesses (C-0059, C-0095) — and the TypeScript projects with
+// what each test folder can import (C-0056, C-0114, C-0122; the fifth fix round).
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+import { dirname, join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { FIXTURE_HARNESSES, HARNESSES, resolveHarness } from '../../scripts/bench.mjs';
+import { FIXTURE_HARNESSES, HARNESSES, resolveHarness, splitArgs } from '../../scripts/bench.mjs';
 
 const root = fileURLToPath(new URL('../../', import.meta.url));
 const readJson = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'));
@@ -165,8 +167,8 @@ describe('package indexes (C-0013, C-0064)', () => {
       expect([...code].sort()).toEqual([...expected].sort());
     });
   }
-  it('the folders the fix round plans exist with their index lines (C-0064)', () => {
-    for (const [p, d] of [['kernel', 'noise'], ['kernel', 'digest'], ['testkit', 'scanner']]) {
+  it('the folders the fix rounds plan exist with their index lines (C-0064, C-0112)', () => {
+    for (const [p, d] of [['kernel', 'noise'], ['kernel', 'digest'], ['testkit', 'scanner'], ['kernel', 'types']]) {
       expect(existsSync(join(root, 'packages', p, 'src', d, 'index.ts'))).toBe(true);
       expect(readFileSync(join(root, 'packages', p, 'src', 'index.ts'), 'utf8')).toContain(`export * from './${d}/index.js';`);
     }
@@ -202,6 +204,45 @@ describe('the bench dispatcher (C-0059, C-0095)', () => {
     expect(HARNESSES['tier:pr']).toEqual({ folder: 'tiers', item: 'M0-f-02a', args: ['pr'] });
   });
 
+  it('holds the fourth fix round\'s entries and owners (C-0113, C-0115, C-0117)', () => {
+    expect(HARNESSES.scan).toEqual({ folder: 'scan', item: 'M0-k-06' });
+    expect(HARNESSES.parity).toEqual({ folder: 'parity', item: 'M0-k-05' });
+    expect(HARNESSES['baselines-check']).toEqual({ folder: 'baselines-check', item: 'M0-k-05' });
+    expect(HARNESSES['timing-phase']).toEqual({ folder: 'timing-phase', item: 'M0-t-00' });
+    expect(HARNESSES['bentcut-ng']).toEqual({ folder: 'bentcut-ng', item: 'M0-b-05' });
+    expect(HARNESSES['fusion-ng']).toEqual({ folder: 'fusion-ng', item: 'M0-c-07' });
+    for (const name of ['scan', 'parity', 'baselines-check']) {
+      const r = resolveHarness(name, {});
+      expect(r.ok, name).toBe(true);
+      expect(r.index).toBe(join(root, 'bench', 'src', name, 'index.ts'));
+    }
+  });
+
+  it('has the root shortcuts scan, parity and baselines:check over the dispatcher (C-0113)', () => {
+    expect(rootPkg.scripts.scan).toBe('tsx --conditions=plat-source scripts/bench.mjs scan');
+    expect(rootPkg.scripts.parity).toBe('tsx --conditions=plat-source scripts/bench.mjs parity');
+    expect(rootPkg.scripts['baselines:check']).toBe('tsx --conditions=plat-source scripts/bench.mjs baselines-check');
+    for (const s of ['scan', 'parity', 'baselines:check']) {
+      const name = rootPkg.scripts[s].split(' ').pop();
+      expect(Object.hasOwn(HARNESSES, name), s).toBe(true);
+    }
+  });
+
+  it('drops one leading -- and one -- after the harness name, passing the rest unchanged', () => {
+    expect(splitArgs(['--', 'baselines-check', '--', 'packages/testkit/baselines/baselines.json'])).toEqual({
+      name: 'baselines-check', rest: ['packages/testkit/baselines/baselines.json'],
+    });
+    expect(splitArgs(['baselines-check', 'a.json'])).toEqual({ name: 'baselines-check', rest: ['a.json'] });
+    expect(splitArgs(['parity', 'x', '--', 'y'])).toEqual({ name: 'parity', rest: ['x', '--', 'y'] });
+    expect(splitArgs([])).toEqual({ name: undefined, rest: [] });
+  });
+
+  it('passes a shortcut\'s arguments to the harness (the fixture harness zz-echo)', () => {
+    const r = run(['--', 'zz-echo', '--', 'a.json', '--flag'], FIXTURE_ROOT);
+    expect(r.status).toBe(0);
+    expect(r.stdout.trim()).toBe('["a.json","--flag"]');
+  });
+
   it('resolves ladder-coverage to bench/src/ladder-coverage/, owned by M0-x-05 (C-0085, C-0095)', () => {
     expect(HARNESSES['ladder-coverage']).toEqual({ folder: 'ladder-coverage', item: 'M0-x-05' });
     const r = resolveHarness('ladder-coverage', {});
@@ -219,7 +260,7 @@ describe('the bench dispatcher (C-0059, C-0095)', () => {
   });
 
   it('knows only the fixture map under PLAT_BENCH_FIXTURE_ROOT, so no real harness is reached from it', () => {
-    expect(Object.keys(FIXTURE_HARNESSES)).toEqual(['zz-unbuilt']);
+    expect(Object.keys(FIXTURE_HARNESSES)).toEqual(['zz-unbuilt', 'zz-echo']);
     const r = run(['calibrate'], FIXTURE_ROOT);
     expect(r.status).toBe(64);
     expect(r.stderr).toContain('unknown harness "calibrate"');
@@ -234,5 +275,95 @@ describe('the bench dispatcher (C-0059, C-0095)', () => {
     expect(outside.status).toBe(64);
     expect(outside.stderr).toContain('resolves outside plat/');
     expect(resolveHarness('zz-unbuilt', { PLAT_BENCH_FIXTURE_ROOT: join(FIXTURE_ROOT, 'no-such-folder') }).ok).toBe(false);
+  });
+});
+
+// The TypeScript projects (C-0056) and what each test folder can import (C-0114, C-0122). A package's source project
+// references exactly the PLAT packages its package.json depends on, and its test project those plus its own source, so
+// a package's tests see their package and the ones below it (§14) and nothing else; the bench's tests see every package
+// and the test kit (C-0114); the test kit's test project is the one package test project that sees the test kit's code
+// and every package, so a package item's test that reads @plat/testkit code lives in
+// packages/testkit/test/<package>/<item folder>/ (C-0122) and needs no configuration of its own. Nothing shipped depends
+// on the test kit, and its oracle libraries resolve from the test kit alone (C-0062).
+describe('the TypeScript projects and what each test folder can import (C-0056, C-0114, C-0122)', () => {
+  const SHIPPED = ['kernel', 'model', 'tables', 'site', 'layout']; // §14's order: kernel ← model ← tables ← site ← layout
+  const PROJECTS = [...SHIPPED, 'testkit', 'bench'];
+  const dirOf = (p) => (p === 'bench' ? 'bench' : `packages/${p}`);
+  const nameOf = (abs) => relative(root, abs).split(sep).join('/').replace(/^packages\//, '');
+  /** The projects a tsconfig references, by package name ('kernel' … 'testkit', 'bench'). */
+  const refsOf = (tsconfig) =>
+    (readJson(tsconfig).references ?? []).map((r) => nameOf(resolve(root, dirname(tsconfig), r.path))).sort();
+  /** The PLAT packages a manifest depends on, by name. */
+  const platDeps = (p) => {
+    const pkg = readJson(`${dirOf(p)}/package.json`);
+    return Object.keys({ ...pkg.dependencies, ...pkg.devDependencies })
+      .filter((d) => d.startsWith('@plat/'))
+      .map((d) => d.slice('@plat/'.length))
+      .sort();
+  };
+
+  it('the root builds the fourteen projects, each package\'s src and test', () => {
+    const expected = PROJECTS.flatMap((p) => [dirOf(p), `${dirOf(p)}/test`]).sort();
+    expect(readJson('tsconfig.json').references.map((r) => r.path).sort()).toEqual(expected);
+  });
+
+  it('each shipped package depends on the packages below it in §14\'s order, and on nothing else of PLAT\'s', () => {
+    SHIPPED.forEach((p, i) => expect(platDeps(p), p).toEqual(SHIPPED.slice(0, i).sort()));
+  });
+
+  it('the test kit depends on every package, the bench on every package and the test kit; nothing shipped on the test kit', () => {
+    expect(platDeps('testkit')).toEqual([...SHIPPED].sort());
+    expect(platDeps('bench')).toEqual([...SHIPPED, 'testkit'].sort());
+    for (const p of SHIPPED) expect(platDeps(p), p).not.toContain('testkit');
+  });
+
+  it('a source project references exactly its manifest\'s PLAT packages; its test project those and its own source', () => {
+    for (const p of PROJECTS) {
+      expect(refsOf(`${dirOf(p)}/tsconfig.json`), p).toEqual(platDeps(p));
+      expect(refsOf(`${dirOf(p)}/test/tsconfig.json`), `${p}/test`).toEqual([...platDeps(p), p].sort());
+    }
+  });
+
+  it('only the test kit\'s and the bench\'s test projects see the test kit\'s code (C-0114, C-0122)', () => {
+    expect(PROJECTS.filter((p) => refsOf(`${dirOf(p)}/test/tsconfig.json`).includes('testkit'))).toEqual(['testkit', 'bench']);
+  });
+
+  it('every test project compiles its whole test/ folder, so an item\'s nested test folder needs no configuration', () => {
+    for (const p of PROJECTS) {
+      const t = readJson(`${dirOf(p)}/test/tsconfig.json`);
+      expect(t.include, p).toEqual(['**/*', '**/*.json']);
+      expect(t.exclude, p).toEqual(['fixtures/**', 'tsconfig.json']);
+    }
+  });
+
+  it('vitest runs every test file under each package\'s test/ folder, nested folders included', async () => {
+    const { default: config } = await import('../../vitest.config.ts');
+    const byName = Object.fromEntries(config.test.projects.map((pr) => [pr.test.name, pr.test]));
+    for (const p of PROJECTS) {
+      expect(byName[p]?.include, p).toEqual(['test/**/*.test.ts']);
+      expect(resolve(root, byName[p].root), p).toBe(resolve(root, dirOf(p)));
+    }
+  });
+
+  it('the oracle libraries resolve from the test kit\'s test folders and from no other project (C-0062)', () => {
+    // The node_modules walk TypeScript and Vite resolve by, from a project's test/ folder up to plat/ and never above it
+    // (§17.1 (3)). Not require.resolve: under `corepack pnpm` NODE_PATH holds pnpm's hoisted store, which neither reads.
+    const visible = (p, lib) => {
+      for (let d = join(root, dirOf(p), 'test'); ; d = dirname(d)) {
+        if (existsSync(join(d, 'node_modules', lib, 'package.json'))) return true;
+        if (relative(root, d) === '') return false;
+      }
+    };
+    for (const lib of ['polygon-clipping', 'clipper2-wasm']) {
+      expect(visible('testkit', lib), lib).toBe(true);
+      for (const p of [...SHIPPED, 'bench']) expect(visible(p, lib), `${p} → ${lib}`).toBe(false);
+    }
+  });
+
+  it('no module folder of the test kit is named after a package, so testkit/test/<package>/ stays the package items\' (C-0122)', () => {
+    const modules = readdirSync(join(root, 'packages', 'testkit', 'src'), { withFileTypes: true })
+      .filter((d) => d.isDirectory())
+      .map((d) => d.name);
+    for (const p of SHIPPED) expect(modules).not.toContain(p);
   });
 });

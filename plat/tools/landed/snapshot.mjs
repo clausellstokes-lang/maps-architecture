@@ -2,8 +2,10 @@
 // `corepack pnpm snapshot -- <label>` (M0-s-01's third fix round; C-0104, C-0111): the wave's listing that attribution
 // is judged against. When a wave opens, the session runs it once (`snapshot -- wave-<n>`); it writes every file under
 // plat/ — outside the exclusions below — with its SHA-256 and size to docs/build/landed/snapshots/<label>.json, and for
-// the files that seats may append to (choices.md, CLEAN-ROOM.md, each package's src/index.ts) the hash of every line,
-// so `landed` and `landed:verify` can tell an appended row from an edit without git. No seat edits a snapshot.
+// the files that seats may append to (choices.md, CLEAN-ROOM.md, each package's src/index.ts) the hash of every line —
+// for the CrossingRecords file (packages/testkit/baselines/crossings.json, a JSON array) the hash of every record — so
+// `landed` and `landed:verify` can tell an appended row or record from an edit without git (C-0120). No seat edits a
+// snapshot.
 //
 // Node built-ins only. Every path is read inside plat/: the root is this file's own plat/ (no --root option), and a
 // symbolic link is recorded by its link text, never followed (§17.1 (3)).
@@ -43,9 +45,35 @@ export function isExcluded(rel) {
   return false;
 }
 
-/** The files seats may append to under the id rule (C-0104 (4)): rows of the two records, C-0064's index lines. */
+/** The CrossingRecords file (C-0092 (3)): a JSON array, one record appended by the countersigning seat per crossing. */
+export const CROSSINGS_FILE = 'packages/testkit/baselines/crossings.json';
+
+/**
+ * The files seats may append to (C-0104 (4) as widened by C-0120): rows of choices.md and of CLEAN-ROOM.md (§2 – §5),
+ * C-0064's index lines, and the records of crossings.json.
+ */
 export function isAppendFile(rel) {
-  return rel === 'docs/build/choices.md' || rel === 'CLEAN-ROOM.md' || /^packages\/[^/]+\/src\/index\.ts$/.test(rel);
+  return (
+    rel === 'docs/build/choices.md' ||
+    rel === 'CLEAN-ROOM.md' ||
+    rel === CROSSINGS_FILE ||
+    /^packages\/[^/]+\/src\/index\.ts$/.test(rel)
+  );
+}
+
+/**
+ * M-1's crossing files at M0 (§17.1 (2), (4); C-0071, C-0120): the numbers-only files committed into
+ * packages/testkit/baselines/ and every file of the digest but the scaffold's README. A change to one is attributed by a
+ * CrossingRecord appended in the same wave whose sha256 equals the file — never by a landed record (a later milestone
+ * that adds crossing files, §17.1 (4)'s goldens/d5/ and calibration/ among them, adds them here).
+ */
+export const CROSSING_FILES = [
+  'packages/testkit/baselines/baselines.json',
+  'packages/testkit/baselines/ng-faces.json',
+  'packages/testkit/baselines/denylist.json',
+];
+export function isCrossingFile(rel) {
+  return CROSSING_FILES.includes(rel) || (rel.startsWith('docs/digest/') && rel !== 'docs/digest/README.md');
 }
 
 /** A table row that stands in for an empty table ("| (none yet — …"); the first real row may replace it. */
@@ -95,13 +123,39 @@ export function listTree(root) {
   return new Map([...out.entries()].sort(([a], [b]) => byCodeUnit(a, b)));
 }
 
-/** The line hashes of an append file, with the hashes of its placeholder rows. */
-export function appendLines(text) {
-  const lines = splitLines(text);
-  return {
-    lines: lines.map(lineHash),
-    placeholders: [...new Set(lines.filter((l) => PLACEHOLDER_ROW.test(l)).map(lineHash))],
+/** JSON with every object's keys in code-unit order and no white space: a record's identity whatever the layout. */
+export function canonicalJson(v) {
+  if (v === null || typeof v !== 'object') return JSON.stringify(v);
+  if (Array.isArray(v)) return `[${v.map(canonicalJson).join(',')}]`;
+  return `{${Object.keys(v).sort(byCodeUnit).map((k) => `${JSON.stringify(k)}:${canonicalJson(v[k])}`).join(',')}}`;
+}
+
+/**
+ * The units of an append file: its lines, or for crossings.json its records (each as canonical JSON). A crossings file
+ * that is not a JSON array is one unit naming its hash, `invalid` set, so any change to it is an edit, never an append.
+ */
+export function appendUnits(rel, text) {
+  if (rel === CROSSINGS_FILE) {
+    let v;
+    try {
+      v = JSON.parse(text);
+    } catch {
+      v = undefined;
+    }
+    if (!Array.isArray(v)) return { units: [`(not a JSON array) sha256 ${sha256(Buffer.from(text, 'utf8'))}`], invalid: true, unit: 'record' };
+    return { units: v.map(canonicalJson), invalid: false, unit: 'record' };
+  }
+  return { units: splitLines(text), invalid: false, unit: 'line' };
+}
+
+/** The unit hashes of an append file, with the hashes of its placeholder rows. */
+export function appendLines(text, rel = '') {
+  const { units, unit } = appendUnits(rel, text);
+  const out = {
+    lines: units.map(lineHash),
+    placeholders: [...new Set(units.filter((l) => PLACEHOLDER_ROW.test(l)).map(lineHash))],
   };
+  return unit === 'record' ? { ...out, unit } : out;
 }
 
 /** A label is a file name: letters, digits, '.', '_' and '-', starting with a letter or digit. */
@@ -118,7 +172,7 @@ export function takeSnapshot(root, label, now = new Date()) {
   for (const [rel, entry] of tree) {
     files[toPlat(rel)] = entry;
     if (isAppendFile(rel) && entry.sha256 !== undefined) {
-      appendFiles[toPlat(rel)] = appendLines(readFileSync(join(root, ...rel.split('/')), 'utf8'));
+      appendFiles[toPlat(rel)] = appendLines(readFileSync(join(root, ...rel.split('/')), 'utf8'), rel);
     }
   }
   return {

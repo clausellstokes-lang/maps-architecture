@@ -2,8 +2,10 @@
 // exclusions with its SHA-256; `landed` writes a seat's record with each status and its appended lines, and refuses a
 // path outside its owns and the permitted appends, naming it; `landed:verify` passes a fully attributed wave and names
 // every unattributed change; no tool reads a path outside plat/ (a symbolic link is recorded, never followed; no CLI
-// takes a root). Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments
-// that write nothing.
+// takes a root). The fourth fix round (C-0120, C-0121): M-1's crossings — a crossing file attributed by the
+// CrossingRecord appended in its wave, that record and the CLEAN-ROOM.md §2 – §5 rows claimed by the appending seat's
+// lane, a seat that only appended recording without --owns — and a run item landing before its own wave. Every case
+// runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments that write nothing.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import {
@@ -21,8 +23,20 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterEach, describe, expect, it } from 'vitest';
-import { PLAT_ROOT, isExcluded, lineHash, takeSnapshot, validLabel, writeSnapshot } from './snapshot.mjs';
-import { buildRecord, labelPosition, lcsDiff, loadWork, ownersAt, parseArgs, parseOwnsEntry, patternMatches } from './landed.mjs';
+import { CROSSINGS_FILE, PLAT_ROOT, canonicalJson, isCrossingFile, isExcluded, lineHash, takeSnapshot, validLabel, writeSnapshot } from './snapshot.mjs';
+import {
+  buildRecord,
+  labelPosition,
+  lcsDiff,
+  ledgerSeat,
+  loadWork,
+  ownersAt,
+  parseArgs,
+  parseOwnsEntry,
+  patternMatches,
+  seatColumn,
+  splitCells,
+} from './landed.mjs';
 import { verifyWave } from './verify.mjs';
 
 const roots = [];
@@ -449,5 +463,212 @@ describe('the commands (C-0104 (5))', () => {
     const verify = spawn('verify.mjs', ['--', missing]);
     expect(verify.status).toBe(2);
     expect(existsSync(join(PLAT_ROOT, 'docs', 'build', 'landed', 'snapshots', `${missing}.json`))).toBe(false);
+  });
+});
+
+// ---------------------------------------------------------------------------------------------------------------
+// The fourth fix round (C-0120, C-0121)
+
+const CLEAN_ROOM_X = [
+  '# CLEAN-ROOM.md',
+  '',
+  '## 2 Seat ledger',
+  '',
+  '| # | seat (lane key / model) | date | role | what it read | notes |',
+  '|---|---|---|---|---|---|',
+  '| L-0001 | build/m0-spec (Opus) | 2026-10-03 | spec | ARCHITECTURE | — |',
+  '',
+  '## 3 The implementer digest checker\'s reports',
+  '',
+  '| # | date | seat (lane key / model) | digest files | checks run | result | notes |',
+  '|---|---|---|---|---|---|---|',
+  '| (none yet — the digest\'s first checker enters the first report, id D-0001) | | | | | | |',
+  '',
+  '## 4 The deny-list\'s generation record',
+  '',
+  '| # | date | seat (lane key / model) | file sha256 | normalisationVersion | sources (labels only) | counts | notes |',
+  '|---|---|---|---|---|---|---|---|',
+  '| (none yet — the first crossing of the deny-list enters the first record, id G-0001) | | | | | | | |',
+  '',
+].join('\n');
+
+const DENY = '{ "normalisationVersion": 1, "salt": "00", "tokens": [] }\n';
+const crossingRecord = (file, text, checkerSeat) => ({
+  file, sha256: sha(text), rows: 0, date: '2026-10-03', checks: ['C1', 'C2', 'C3', 'C4', 'C5', 'C6', 'C7'], checkerSeat, statement: 'numbers only',
+});
+const appendRecord = (root, rec) => {
+  const recs = JSON.parse(read(root, CROSSINGS_FILE));
+  write(root, CROSSINGS_FILE, `${JSON.stringify([...recs, rec], null, 2)}\n`);
+};
+const addLedgerRow = (root, row) => replaceIn(root, 'CLEAN-ROOM.md', '| L-0001 | build/m0-spec (Opus) | 2026-10-03 | spec | ARCHITECTURE | — |\n',
+  `| L-0001 | build/m0-spec (Opus) | 2026-10-03 | spec | ARCHITECTURE | — |\n${row}\n`);
+
+/** A wave in which M-1's deny-list crosses: the research seat's file and §4 row, the countersigning seat's record and row. */
+function crossingWave() {
+  const root = fixture({
+    'CLEAN-ROOM.md': CLEAN_ROOM_X,
+    [CROSSINGS_FILE]: '[]\n',
+    'docs/digest/README.md': '# digest\n',
+  });
+  writeSnapshot(root, 'wave-1');
+  write(root, 'packages/testkit/baselines/denylist.json', DENY);
+  replaceIn(root, 'CLEAN-ROOM.md', /\| \(none yet — the first crossing of the deny-list[^\n]*\n/,
+    `| G-0001 | 2026-10-03 | m1/W-16 (Fable) | ${sha(DENY).slice(0, 12)} | 1 | research: deny-list sources | 3 lists | — |\n`);
+  addLedgerRow(root, '| L-0002 | build/m0-cross-denylist (Opus) | 2026-10-03 | countersigning checker | denylist.json only | — |');
+  appendRecord(root, crossingRecord('packages/testkit/baselines/denylist.json', DENY, 'L-0002'));
+  return root;
+}
+
+describe('M-1\'s crossings (C-0120)', () => {
+  it('names the crossing files and line-hashes crossings.json by record, whatever its layout', () => {
+    for (const rel of ['packages/testkit/baselines/baselines.json', 'packages/testkit/baselines/ng-faces.json',
+      'packages/testkit/baselines/denylist.json', 'docs/digest/behaviours.md']) expect(isCrossingFile(rel), rel).toBe(true);
+    for (const rel of ['docs/digest/README.md', CROSSINGS_FILE, 'packages/testkit/baselines/denylist-allow.json']) expect(isCrossingFile(rel), rel).toBe(false);
+    const rec = crossingRecord('packages/testkit/baselines/denylist.json', DENY, 'L-0002');
+    const pretty = fixture({ [CROSSINGS_FILE]: `${JSON.stringify([rec], null, 2)}\n` });
+    const compact = fixture({ [CROSSINGS_FILE]: JSON.stringify([rec]) });
+    const a = takeSnapshot(pretty, 'wave-1').appendFiles[`plat/${CROSSINGS_FILE}`];
+    expect(a).toEqual({ lines: [lineHash(canonicalJson(rec))], placeholders: [], unit: 'record' });
+    expect(takeSnapshot(compact, 'wave-1').appendFiles[`plat/${CROSSINGS_FILE}`]).toEqual(a);
+  });
+
+  it('gives each seat its own appends: the countersigner its CrossingRecord and ledger row, the research seat its §4 row', () => {
+    const root = crossingWave();
+    const cross = buildRecord(root, { item: 'cross-denylist-1', lane: 'build/m0-cross-denylist' });
+    expect(cross.problems).toEqual([]);
+    expect(cross.record.ownsSource).toBe('declared');
+    expect(cross.record.files).toEqual([]);
+    expect(Object.fromEntries(cross.record.appends.map((a) => [a.file, a.ids]))).toEqual({
+      'plat/CLEAN-ROOM.md': ['L-0002'],
+      [`plat/${CROSSINGS_FILE}`]: [`packages/testkit/baselines/denylist.json@${sha(DENY).slice(0, 12)}`],
+    });
+    const gen = buildRecord(root, { item: 'gen-denylist-1', lane: 'm1/W-16' });
+    expect(gen.problems).toEqual([]);
+    expect(gen.record.appends.map((a) => [a.file, a.ids])).toEqual([['plat/CLEAN-ROOM.md', ['G-0001']]]);
+    expect(gen.record.appends[0].removed).toHaveLength(1); // §4's placeholder row
+    expect(ledgerSeat(read(root, 'CLEAN-ROOM.md').split('\n'), 'L-0002')).toBe('build/m0-cross-denylist (Opus)');
+    const r = verifyWave(root, 'wave-1');
+    expect(r.problems).toEqual([]);
+    expect(r.summary).toEqual({ label: 'wave-1', records: 2, changed: 5, attributed: 5 });
+  });
+
+  it('attributes a digest file by its record too, and a reformatted crossings.json is no edit', () => {
+    const root = crossingWave();
+    write(root, 'docs/digest/behaviours.md', '# behaviours\n');
+    appendRecord(root, crossingRecord('plat/docs/digest/behaviours.md', '# behaviours\n', 'L-0002'));
+    write(root, CROSSINGS_FILE, JSON.stringify(JSON.parse(read(root, CROSSINGS_FILE)))); // one line, same records
+    expect(buildRecord(root, { item: 'cross-denylist-1', lane: 'build/m0-cross-denylist' }).ok).toBe(true);
+    expect(buildRecord(root, { item: 'gen-denylist-1', lane: 'm1/W-16' }).ok).toBe(true);
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+
+  it('names a crossing file without its record, a wrong sha256, another lane\'s record, an edited or a deleted crossing', () => {
+    const root = fixture({ 'CLEAN-ROOM.md': CLEAN_ROOM_X, [CROSSINGS_FILE]: '[]\n', 'packages/testkit/baselines/baselines.json': '{ "rows": [] }\n' });
+    write(root, CROSSINGS_FILE, `${JSON.stringify([crossingRecord('packages/testkit/baselines/baselines.json', '{ "rows": [] }\n', 'L-0001')], null, 2)}\n`);
+    writeSnapshot(root, 'wave-1');
+    write(root, 'packages/testkit/baselines/ng-faces.json', '{ "faces": [] }\n'); // no record at all
+    write(root, 'packages/testkit/baselines/denylist.json', DENY);
+    addLedgerRow(root, '| L-0002 | build/m0-cross-x (Opus) | 2026-10-03 | countersigning checker | denylist.json only | — |');
+    appendRecord(root, crossingRecord('packages/testkit/baselines/denylist.json', 'other bytes', 'L-0002')); // wrong sha256
+    appendRecord(root, crossingRecord('docs/digest/a.md', '# a\n', 'L-0001')); // L-0001 is build/m0-spec's row
+    write(root, 'docs/digest/a.md', '# a\n');
+    expect(buildRecord(root, { item: 'cross-x', lane: 'build/m0-cross-x' }).ok).toBe(true);
+    let r = verifyWave(root, 'wave-1');
+    expect(r.ok).toBe(false);
+    expect(r.problems).toEqual([
+      'plat/docs/digest/a.md: created since wave-1; no CrossingRecord appended to plat/packages/testkit/baselines/crossings.json in this wave and claimed by its countersigning seat names it ' +
+        `with its sha256 ${sha('# a\n').slice(0, 12)}… (C-0120)`,
+      `plat/${CROSSINGS_FILE}:record 3 added, claimed by no record of wave-1: ${canonicalJson(crossingRecord('docs/digest/a.md', '# a\n', 'L-0001')).slice(0, 100)}`,
+      'plat/packages/testkit/baselines/denylist.json: created since wave-1; no CrossingRecord appended to plat/packages/testkit/baselines/crossings.json in this wave and claimed by its countersigning seat names it ' +
+        `with its sha256 ${sha(DENY).slice(0, 12)}… (C-0120)`,
+      'plat/packages/testkit/baselines/ng-faces.json: created since wave-1; no CrossingRecord appended to plat/packages/testkit/baselines/crossings.json in this wave and claimed by its countersigning seat names it ' +
+        `with its sha256 ${sha('{ "faces": [] }\n').slice(0, 12)}… (C-0120)`,
+    ]);
+    const recs = JSON.parse(read(root, CROSSINGS_FILE));
+    recs[0].statement = 'edited';
+    write(root, CROSSINGS_FILE, JSON.stringify(recs));
+    unlinkSync(join(root, 'packages', 'testkit', 'baselines', 'baselines.json'));
+    r = verifyWave(root, 'wave-1');
+    expect(r.problems).toContain(`plat/${CROSSINGS_FILE}: record 1 of the snapshot's file removed or edited`);
+    expect(r.problems).toContain('plat/packages/testkit/baselines/baselines.json: a crossing file deleted since wave-1 (crossings are append-only, §17.1 (4); C-0120)');
+    write(root, CROSSINGS_FILE, '{ "records": [] }\n');
+    expect(verifyWave(root, 'wave-1').problems).toContain(`plat/${CROSSINGS_FILE}: not a JSON array of CrossingRecords (C-0092, C-0120)`);
+  });
+
+  it('refuses a crossing file in --owns or --touched, and a seat without an item that claims nothing', () => {
+    const root = crossingWave();
+    const owns = buildRecord(root, { item: 'cross-x', lane: 'build/m0-cross-denylist', owns: ['plat/packages/testkit/baselines/denylist.json'] });
+    expect(owns.ok).toBe(false);
+    expect(owns.problems).toEqual([
+      '--owns plat/packages/testkit/baselines/denylist.json: a crossing file is attributed by its CrossingRecord in plat/packages/testkit/baselines/crossings.json, never declared (C-0120)',
+    ]);
+    const touched = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01', touched: ['plat/docs/digest/x.md'] });
+    expect(touched.problems).toEqual(['plat/docs/digest/x.md: a crossing file, attributed by its CrossingRecord, never by a seat\'s record (C-0120)']);
+    const empty = buildRecord(root, { item: 'nobody-1', lane: 'build/m0-nobody' });
+    expect(empty.ok).toBe(false);
+    expect(empty.problems[0]).toContain('claims nothing');
+    expect(existsSync(join(root, 'docs', 'build', 'landed', 'nobody-1.json'))).toBe(false);
+  });
+
+  it('a record that claims a crossing file fails (a)', () => {
+    const root = crossingWave();
+    expect(buildRecord(root, { item: 'cross-denylist-1', lane: 'build/m0-cross-denylist' }).ok).toBe(true);
+    const path = join(root, 'docs', 'build', 'landed', 'cross-denylist-1.json');
+    const rec = JSON.parse(readFileSync(path, 'utf8'));
+    rec.owns = ['plat/packages/testkit/baselines/denylist.json'];
+    rec.files = [{ path: 'plat/packages/testkit/baselines/denylist.json', status: 'created', sha256: sha(DENY), size: DENY.length }];
+    writeFileSync(path, JSON.stringify(rec));
+    expect(verifyWave(root, 'wave-1').problems).toContain(
+      'plat/docs/build/landed/cross-denylist-1.json: plat/packages/testkit/baselines/denylist.json is a crossing file, attributed by its CrossingRecord, never by a record (C-0120)',
+    );
+  });
+
+  it('the committed CLEAN-ROOM.md holds §3 and §4 as tables with a seat column and a placeholder row', () => {
+    const lines = read(PLAT_ROOT, 'CLEAN-ROOM.md').split('\n');
+    for (const heading of ['## 3 ', '## 4 ']) {
+      const h = lines.findIndex((l) => l.startsWith(heading));
+      expect(h, heading).toBeGreaterThan(0);
+      const next = lines.findIndex((l, i) => i > h && l.startsWith('## '));
+      const row = lines.findIndex((l, i) => i > h && i < next && /^\|\s*\(none yet\b/.test(l));
+      expect(row, heading).toBeGreaterThan(h);
+      expect(seatColumn(lines, row), heading).toBeGreaterThan(0);
+      expect(splitCells(lines[row - 2])?.[0], heading).toBe('#');
+    }
+  });
+});
+
+describe('a run item landing before its own wave (C-0121)', () => {
+  const WORK_K = {
+    waves: [
+      { wave: 0, items: ['M0-s-01'] },
+      { wave: 1, items: ['M0-k-06'] },
+      { wave: 'T', items: [] },
+      { wave: 'AFTER-M-1 (a)', items: ['M0-k-07'] },
+    ],
+    items: [
+      { id: 'M0-s-01', wave: 0, owns: ['plat/package.json'] },
+      { id: 'M0-k-06', wave: 1, owns: ['plat/packages/testkit/src/scanner/', 'plat/packages/testkit/baselines/denylist-allow.json (created empty here; handed over to M0-k-07)'] },
+      { id: 'M0-k-07', wave: 'AFTER-M-1 (a)', owns: ['plat/packages/testkit/baselines/denylist-allow.json (handed over from M0-k-06)', 'plat/docs/build/summaries/M0-k-07.json'] },
+    ],
+  };
+
+  it('owns its files and hand-overs as at its own wave, with a note; the wave\'s close attributes them', () => {
+    const root = fixture({ 'docs/build/M0-work.json': `${JSON.stringify(WORK_K, null, 2)}\n`, 'packages/testkit/baselines/denylist-allow.json': '{ "entries": [] }\n' });
+    writeSnapshot(root, 'wave-1');
+    expect(ownersAt(WORK_K, 'plat/packages/testkit/baselines/denylist-allow.json', labelPosition(WORK_K, 'wave-1'))).toEqual(['M0-k-06']);
+    write(root, 'packages/testkit/baselines/denylist-allow.json', '{ "entries": [{ "id": "A-0001" }] }\n');
+    write(root, 'docs/build/summaries/M0-k-07.json', '{ "reviewed": {} }\n');
+    const r = buildRecord(root, { item: 'M0-k-07', lane: 'build/m0-k-07' });
+    expect(r.problems).toEqual([]);
+    expect(r.record.files.map((f) => `${f.path} ${f.status}`)).toEqual([
+      'plat/docs/build/summaries/M0-k-07.json created',
+      'plat/packages/testkit/baselines/denylist-allow.json changed',
+    ]);
+    expect(r.notes.join('\n')).toContain('M0-k-07 is of wave AFTER-M-1 (a), landing in wave-1: its owns resolved at its own wave (C-0121)');
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+    // An item landing in its own wave or later is unchanged: M0-k-06 in wave 1 still owns the file it hands over.
+    const k06 = buildRecord(root, { item: 'M0-k-06', lane: 'build/m0-k-06', write: false });
+    expect(k06.record.files.map((f) => f.path)).toEqual(['plat/packages/testkit/baselines/denylist-allow.json']);
+    expect(k06.notes.join('\n')).not.toContain('C-0121');
   });
 });

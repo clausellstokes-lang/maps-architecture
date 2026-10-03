@@ -20,3 +20,4 @@ export * from './io/index.js';
 export * from './facade/index.js';
 export * from './noise/index.js';
 export * from './digest/index.js';
+export * from './types/index.js';

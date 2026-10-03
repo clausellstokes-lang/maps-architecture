@@ -6,7 +6,12 @@
 // choices.md and CLEAN-ROOM.md, found by the seat cell; C-0064's index line of a folder it owns). The record goes to
 // docs/build/landed/<item id>.json, a file every item owns implicitly. A path the seat says it touched (--touched) that
 // lies outside its owns and the permitted appends is refused, named. A seat without an item (a checker, a spec lane)
-// declares its files with --owns (exact paths no item owns; C-0111).
+// declares its files with --owns (exact paths no item owns; C-0111), or none when it only appended rows or records.
+// M-1's crossings (C-0120): a CrossingRecord appended to packages/testkit/baselines/crossings.json is the appending
+// seat's when its `checkerSeat` names a CLEAN-ROOM.md ledger row whose seat cell is the seat's lane; the crossing file
+// itself (baselines.json, ng-faces.json, denylist.json, a digest file) is attributed by that record in landed:verify,
+// never declared here. An item landing in a wave before its own (a run item started early, C-0121) owns its files and
+// hand-overs as at its own wave.
 //
 // Options: --lane <key> (required) · --wave <label> (the snapshot of the wave the seat started in; default: the newest
 // snapshot) · --touched <plat/path> (repeatable) · --whole <plat/path> (an append file the item owns, claimed whole for
@@ -15,15 +20,18 @@
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import {
+  CROSSINGS_FILE,
   LANDED_DIR,
   PLAT_ROOT,
   RECORD_SCHEMA,
   WORK_FILE,
+  appendUnits,
   byCodeUnit,
   cliArgs,
   formatJson,
   fromPlat,
   isAppendFile,
+  isCrossingFile,
   isMain,
   latestSnapshot,
   lineHash,
@@ -188,15 +196,61 @@ export function lcsDiff(a, b) {
   return { removed, added };
 }
 
-/** The current lines of an append file and its diff against the snapshot's line hashes. */
+/**
+ * The current units of an append file — its lines, or crossings.json's records as canonical JSON — and their diff
+ * against the snapshot's unit hashes. `unit` is 'line' or 'record'; `invalid` marks a crossings file that is not a JSON
+ * array (C-0120).
+ */
 export function appendDiff(root, snapshot, path) {
   const rel = fromPlat(path);
   const abs = join(root, ...rel.split('/'));
-  const lines = existsSync(abs) ? splitLines(readFileSync(abs, 'utf8')) : null;
+  const parsed = existsSync(abs) ? appendUnits(rel, readFileSync(abs, 'utf8')) : null;
+  const lines = parsed === null ? null : parsed.units;
   const hashes = lines === null ? [] : lines.map(lineHash);
   const before = snapshot.appendFiles?.[path];
   const old = before?.lines ?? [];
-  return { lines, hashes, old, placeholders: new Set(before?.placeholders ?? []), ...lcsDiff(old, hashes) };
+  return {
+    lines,
+    hashes,
+    old,
+    unit: rel === CROSSINGS_FILE ? 'record' : 'line',
+    invalid: parsed?.invalid ?? false,
+    placeholders: new Set(before?.placeholders ?? []),
+    ...lcsDiff(old, hashes),
+  };
+}
+
+/** A CrossingRecord's `file` as a path relative to plat/ (written with or without the leading `plat/`), or null. */
+export function crossingFile(record) {
+  return record !== null && typeof record === 'object' && typeof record.file === 'string' ? record.file.replace(/^plat\//, '') : null;
+}
+
+/** A record unit of crossings.json parsed back, or null. */
+export function parseRecordUnit(unit) {
+  try {
+    const v = JSON.parse(unit);
+    return v !== null && typeof v === 'object' && !Array.isArray(v) ? v : null;
+  } catch {
+    return null;
+  }
+}
+
+/** The seat cell of the CLEAN-ROOM.md ledger row with this id (`L-0042`), or null when no such row exists. */
+export function ledgerSeat(lines, id) {
+  if (typeof id !== 'string' || !/^L-\d{4}$/.test(id)) return null;
+  for (let i = 0; i < lines.length; i += 1) {
+    const cells = splitCells(lines[i]);
+    if (rowId(cells) !== id) continue;
+    const col = seatColumn(lines, i);
+    return col >= 0 ? (cells[col] ?? null) : null;
+  }
+  return null;
+}
+
+/** The current lines of plat/CLEAN-ROOM.md under root (empty when the file is absent). */
+export function cleanRoomLines(root) {
+  const abs = join(root, 'CLEAN-ROOM.md');
+  return existsSync(abs) ? splitLines(readFileSync(abs, 'utf8')) : [];
 }
 
 /** The next free id with a row id's letter in a file's lines. */
@@ -257,6 +311,7 @@ export function buildRecord(root, opts) {
   if (!validId(id)) problems.push(`invalid item id ${JSON.stringify(id)}`);
   if (typeof lane !== 'string' || !/^\S+$/.test(lane)) problems.push('--lane <lane key> is required (the key of the LANDED line)');
   if (opts.wave !== undefined && !validLabel(opts.wave)) problems.push(`invalid snapshot label ${JSON.stringify(opts.wave)}`);
+  // (A seat without an item may declare no file when it only appended rows or CrossingRecords; checked below.)
   if (problems.length) return fail(64);
 
   const snapshot = opts.wave !== undefined ? readSnapshot(root, opts.wave) : latestSnapshot(root);
@@ -276,7 +331,6 @@ export function buildRecord(root, opts) {
     if (declared.length > 0) problems.push(`${id} is an item of ${WORK_FILE}: its owns come from there, never from --owns`);
     owns = item.owns ?? [];
   } else {
-    if (declared.length === 0) problems.push(`${id} is no item of ${WORK_FILE}; a seat without an item declares its files with --owns <plat/path>`);
     for (const p of declared) {
       if (!p.startsWith('plat/') || /[*{}<>]/.test(p) || p.endsWith('/') || p.split('/').includes('..')) {
         problems.push(`--owns ${p}: a declared path is one exact file under plat/ (no folder, no pattern)`);
@@ -285,6 +339,9 @@ export function buildRecord(root, opts) {
       const others = anyOwners(work, p);
       if (others.length > 0) problems.push(`--owns ${p}: owned by ${others.join(', ')} in ${WORK_FILE}; only that item's record may claim it`);
       if (isAppendFile(fromPlat(p))) problems.push(`--owns ${p}: an append file is claimed by its lines, never declared`);
+      if (isCrossingFile(fromPlat(p))) {
+        problems.push(`--owns ${p}: a crossing file is attributed by its CrossingRecord in ${toPlat(CROSSINGS_FILE)}, never declared (C-0120)`);
+      }
     }
     owns = declared;
   }
@@ -295,9 +352,15 @@ export function buildRecord(root, opts) {
     W = wavePosition(work, item.wave) ?? Number.MAX_SAFE_INTEGER;
     notes.push(`snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved at ${id}'s own wave (${item.wave})`);
   }
-  const mine = (path) => (item !== null ? ownersAt(work, path, W).includes(id) : declared.includes(path));
+  // An item landing before its own wave (a run item started early in a build wave, C-0121) owns its files and its
+  // hand-overs as at its own wave; every other landing resolves at the open wave (a fix round's later wave included).
+  const own = item !== null ? wavePosition(work, item.wave) : null;
+  const at = own !== null && W !== null && own > W ? own : W;
+  if (at !== W) notes.push(`${id} is of wave ${item.wave}, landing in ${snapshot.label}: its owns resolved at its own wave (C-0121)`);
+  const mine = (path) => (item !== null ? ownersAt(work, path, at).includes(id) : declared.includes(path));
 
-  // Files under the owns (append files are claimed by their lines; records are their own items').
+  // Files under the owns (append files are claimed by their lines; records are their own items'; crossing files by
+  // their CrossingRecords, C-0120).
   const tree = listTree(root);
   const now = new Map([...tree].map(([rel, e]) => [toPlat(rel), e]));
   const before = new Map(Object.entries(snapshot.files ?? {}));
@@ -316,7 +379,7 @@ export function buildRecord(root, opts) {
   const unclaimed = [];
   for (const path of paths) {
     const rel = fromPlat(path);
-    if (isAppendFile(rel) || isRecordRel(rel)) continue;
+    if (isAppendFile(rel) || isRecordRel(rel) || isCrossingFile(rel)) continue;
     if (mine(path)) claimFile(path);
     else if (statusOf(before.get(path), now.get(path)) !== 'unchanged') unclaimed.push(path);
   }
@@ -327,7 +390,9 @@ export function buildRecord(root, opts) {
     else claimFile(p);
   }
 
-  // The permitted appends: this lane's rows, renumbered rows, the index lines of folders the item owns.
+  // The permitted appends: this lane's rows, renumbered rows, the index lines of folders the item owns, and the
+  // CrossingRecords whose checkerSeat names a ledger row of this lane (C-0120).
+  const ledger = cleanRoomLines(root);
   const previous = existsSync(recordPath(root, id)) ? JSON.parse(readFileSync(recordPath(root, id), 'utf8')) : null;
   const carried = previous !== null && previous.wave === snapshot.label ? previous : null;
   const appendPaths = [...new Set([...Object.keys(snapshot.appendFiles ?? {}), ...[...now.keys()].filter((p) => isAppendFile(fromPlat(p)))])].sort(byCodeUnit);
@@ -337,7 +402,8 @@ export function buildRecord(root, opts) {
     if (d.lines === null) continue;
     const addedSet = new Set(d.added);
     const isIndex = /\/src\/index\.ts$/.test(path);
-    if (!isIndex) {
+    const isRecords = d.unit === 'record';
+    if (!isIndex && !isRecords) {
       for (const c of collisions(d.lines, addedSet)) {
         problems.push(
           `${path}: id ${c.id} is carried by the rows on lines ${c.lines.join(' and ')} — a collision. By the id rule (C-0104) ` +
@@ -355,13 +421,17 @@ export function buildRecord(root, opts) {
       if (isIndex) {
         const m = INDEX_LINE.exec(line);
         const pkg = path.split('/')[2];
-        if (m && item !== null && ownersAt(work, `plat/packages/${pkg}/src/${m[1]}/index.ts`, W).includes(id)) claim = m[1];
+        if (m && item !== null && ownersAt(work, `plat/packages/${pkg}/src/${m[1]}/index.ts`, at).includes(id)) claim = m[1];
+      } else if (isRecords) {
+        const rec = d.invalid ? null : parseRecordUnit(line);
+        const seat = rec === null ? null : ledgerSeat(ledger, rec.checkerSeat);
+        if (seat !== null && seatNames(seat, lane)) claim = `${crossingFile(rec) ?? '(no file)'}@${String(rec.sha256 ?? '').slice(0, 12)}`;
       } else {
         const cells = splitCells(line);
         const col = cells ? seatColumn(d.lines, k) : -1;
         if ((col >= 0 && cells[col] !== undefined && seatNames(cells[col], lane)) || renumberedBy(line) === lane) claim = rowId(cells) ?? `line ${k + 1}`;
       }
-      if (claim === null && carriedLines.has(d.hashes[k])) claim = rowId(splitCells(line)) ?? `line ${k + 1}`;
+      if (claim === null && carriedLines.has(d.hashes[k])) claim = isRecords ? `record ${k + 1}` : (rowId(splitCells(line)) ?? `line ${k + 1}`);
       if (claim !== null) {
         ids.push(claim);
         lines.push(d.hashes[k]);
@@ -375,12 +445,19 @@ export function buildRecord(root, opts) {
     const rel = fromPlat(p);
     if (rel === null || rel.split('/').includes('..')) problems.push(`--touched ${p}: not a path under plat/`);
     else if (isAppendFile(rel) || rel === `${LANDED_DIR}/${id}.json`) continue;
+    else if (isCrossingFile(rel)) problems.push(`${p}: a crossing file, attributed by its CrossingRecord, never by a seat's record (C-0120)`);
     else if (!mine(p)) {
       const others = item !== null ? ownersAt(work, p, W) : anyOwners(work, p);
       problems.push(
         `${p}: outside ${id}'s owns and the permitted appends` + (others.length ? ` (owned by ${others.join(', ')} at ${snapshot.label})` : ''),
       );
     }
+  }
+  if (item === null && owns.length === 0 && appends.length === 0) {
+    problems.push(
+      `${id} is no item of ${WORK_FILE} and claims nothing: a seat without an item declares its files with --owns <plat/path> ` +
+        'or records the rows or CrossingRecords it appended',
+    );
   }
   if (problems.length) return fail(1);
 

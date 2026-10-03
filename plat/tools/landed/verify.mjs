@@ -4,11 +4,15 @@
 // under the item's owns (or the seat's declared files) or is a permitted append, and every hash equals the tree now.
 // Without --item, the wave's close: (a) and (b) on every record of the wave, then (c) every file that differs from the
 // wave's snapshot — and every line added to or removed from an append file — that no record of the wave claims is
-// named. An unattributed change fails the wave's check and goes to the session, which alone runs git.
+// named. A crossing file (M-1's baselines.json, ng-faces.json, denylist.json, a digest file) is attributed instead by
+// a CrossingRecord appended to crossings.json in the same wave, claimed by its countersigning seat's record, whose
+// sha256 equals the file now; a crossing file is never deleted and never claimed by a record (C-0120). An unattributed change fails the wave's check and goes to the
+// session, which alone runs git.
 // Exit 0 clean, 1 problems named, 2 no snapshot, 64 usage.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 import {
+  CROSSINGS_FILE,
   LANDED_DIR,
   PLAT_ROOT,
   RECORD_SCHEMA,
@@ -17,13 +21,14 @@ import {
   cliArgs,
   fromPlat,
   isAppendFile,
+  isCrossingFile,
   isMain,
   listTree,
   readSnapshot,
   toPlat,
   validLabel,
 } from './snapshot.mjs';
-import { anyOwners, appendDiff, loadWork, ownsMatch, statusOf } from './landed.mjs';
+import { anyOwners, appendDiff, crossingFile, loadWork, ownsMatch, parseRecordUnit, statusOf } from './landed.mjs';
 
 /** Every landed record under docs/build/landed/ (direct children), with the problems of the unreadable ones. */
 export function readRecords(root) {
@@ -94,6 +99,7 @@ export function verifyWave(root, label, opts = {}) {
           ? (record.owns ?? []).includes(f.path) && anyOwners(work, f.path).length === 0
           : item !== null && ownsMatch(item.owns ?? [], f.path);
       if (!under) problems.push(`${path}: ${f.path} lies outside ${record.item}'s owns`);
+      if (isCrossingFile(rel)) problems.push(`${path}: ${f.path} is a crossing file, attributed by its CrossingRecord, never by a record (C-0120)`);
       if (isAppendFile(rel) && record.ownsSource === 'declared') problems.push(`${path}: ${f.path} is an append file, claimed whole by a declared record`);
       if (!sameNow(f, now.get(f.path))) mismatch(`${f.path}: the tree no longer matches ${record.item}'s record (${f.status} at landing; changed since)`);
     }
@@ -115,6 +121,16 @@ export function verifyWave(root, label, opts = {}) {
   let changed = 0;
   let attributed = 0;
   if (opts.item === undefined) {
+    // The CrossingRecords appended since the snapshot and claimed by a record of the wave (the countersigning seat's):
+    // only such a record vouches for a crossing file.
+    const crossings = appendDiff(root, snapshot, toPlat(CROSSINGS_FILE));
+    const claimedCrossings = new Set(
+      ofWave.flatMap(({ record }) => (record.appends ?? []).filter((a) => a.file === toPlat(CROSSINGS_FILE)).flatMap((a) => a.lines)),
+    );
+    const newCrossings =
+      crossings.lines === null || crossings.invalid
+        ? []
+        : crossings.added.filter((k) => claimedCrossings.has(crossings.hashes[k])).map((k) => parseRecordUnit(crossings.lines[k])).filter((r) => r !== null);
     const claims = new Map();
     for (const { record } of ofWave) {
       for (const f of record.files ?? []) claims.set(f.path, [...(claims.get(f.path) ?? []), { record, f }]);
@@ -139,12 +155,16 @@ export function verifyWave(root, label, opts = {}) {
           }
         }
         const issues = [];
+        const unit = d.unit === 'record' ? 'record' : 'line';
         if (d.lines === null) issues.push(`${path}: deleted since ${label}`);
+        if (d.invalid) issues.push(`${path}: not a JSON array of CrossingRecords (C-0092, C-0120)`);
         for (const r of d.removed) {
-          if (!(d.placeholders.has(d.old[r]) && removedClaims.has(d.old[r]))) issues.push(`${path}: line ${r + 1} of the snapshot's file removed or edited`);
+          if (!(d.placeholders.has(d.old[r]) && removedClaims.has(d.old[r]))) issues.push(`${path}: ${unit} ${r + 1} of the snapshot's file removed or edited`);
         }
         for (const k of d.added) {
-          if (!lineClaims.has(d.hashes[k])) issues.push(`${path}:${k + 1} added, claimed by no record of ${label}: ${d.lines[k].slice(0, 100)}`);
+          if (!lineClaims.has(d.hashes[k])) {
+            issues.push(`${path}:${unit === 'record' ? `record ${k + 1}` : k + 1} added, claimed by no record of ${label}: ${d.lines[k].slice(0, 100)}`);
+          }
         }
         if (issues.length === 0) attributed += 1;
         else if (owners.length > 0) {
@@ -159,6 +179,18 @@ export function verifyWave(root, label, opts = {}) {
           attributed += 1;
           continue;
         }
+      }
+      if (isCrossingFile(rel)) {
+        const sha = now.get(path)?.sha256;
+        if (status === 'deleted') problems.push(`${path}: a crossing file deleted since ${label} (crossings are append-only, §17.1 (4); C-0120)`);
+        else if (newCrossings.some((r) => crossingFile(r) === rel && String(r.sha256 ?? '').toLowerCase() === sha)) attributed += 1;
+        else {
+          problems.push(
+            `${path}: ${status} since ${label}; no CrossingRecord appended to ${toPlat(CROSSINGS_FILE)} in this wave and claimed ` +
+              `by its countersigning seat names it with its sha256 ${String(sha).slice(0, 12)}… (C-0120)`,
+          );
+        }
+        continue;
       }
       if (owners.length > 0) {
         attributed += 1;
