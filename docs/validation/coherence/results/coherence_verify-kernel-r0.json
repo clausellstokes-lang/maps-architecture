@@ -1,0 +1,110 @@
+{
+ "key": "coherence/verify-kernel-r0",
+ "file": "docs/validation/coherence/verify-kernel-r0s.md",
+ "issues": [
+  {
+   "id": "VK0-03",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "owner": "rendering",
+   "claim": "Two §3.3 receipts were cut as restatements of §12.4 rows that do not hold them. Pool step 4's 'the ≈ 200 000 records S10–S12b create at CITY merge within §12.4's 8 ms row' (KERNEL-RESTATEMENTS-012, home '§12.4 merge row') is now '(§12.4's merge row)', but the merge row (base l. 14829) states only the copies and '13 ms (8 merge + 5 copies)': the ≈ 200 000-record basis of the 8 ms is stated nowhere in the set. Pool step 1's ≈ 9 000 step (0) items lost their provenance 'our count' and composition ('both sides of ≈ 6 km of perimeter margin band and of the wall's band, setback, glacis and tower parts'); §12.4's S10 (0) row (l. 14826) cites '§3.3 pool step 1' for the count, and pool step 1 now cites §12.4 back.",
+   "required_change": "§12.4's merge row's estimate cell ends '…, ≈ 1.5 ms each at CITY (measured, `fixall_kernel_r4_bench.out` A); the ≈ 200 000 records S10–S12b create at CITY merge within the 8 ms'; its S10 (0) row reads '… + ≈ 2.3 ms for the L3 partition rebuild of the ≈ 9 000 items it made (both sides of ≈ 6 km of perimeter margin band and of the wall's band, setback, glacis and tower parts; our count; build rate measured, `fixall_kernel_r3_bench.out` A; the rebuild: §3.3 pool step 1)'."
+  },
+  {
+   "id": "VK0-04",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "owner": "kernel",
+   "claim": "E-14 made §3.5 a pointer table ('every creator failure kept with its answer's home'), but the 2017 cut row's answer 'recursion bounded by the class band and a depth cap, every rejection logged (§4.6)' became 'the bent cut's bounded, logged ladder (§4.6, §5.2 F-CUT)' (base l. 3815): the answer to the unbounded recursion is now the failure ladder, a different mechanism, and the two bounds that close it — the block-depth range at which the face recursion stops (§4.6) and the declared recursion-depth work limit (§5.1 (5), F-WORK) — are neither named nor pointed to. A precise statement replaced by a vaguer one (principle (9)'s guard).",
+   "required_change": "§3.5's 2017 cut row's answer reads '`E_NOT_TWO_CROSSINGS` and `connectHole` (§3.6); the face recursion bounded by the block-depth range (§4.6) and its declared recursion-depth limit (§5.1 (5), F-WORK), every rejection logged (§5.1 (3)); the bent cut's ladder (§4.6 step 8, §5.2 F-CUT)'."
+  },
+  {
+   "id": "VK0-01",
+   "severity": "major",
+   "kind": "NEW-PROBLEM",
+   "owner": "kernel",
+   "claim": "§3.2 (9)'s frame growth (base l. 3203–3245) now runs '(b) when the arena grows, (a) and (c) when the frame grows', but (a) is (b)'s precondition: (a) runs 'so no deletion of the growth joins two faces finer than L1', and (b) deletes each lapsing `margin` stretch 'joining … each cleared L1 face beside it with the ring's'. Where the arena grows and the frame does not — the case the rewrite's 'kept at the current frame where that is no larger; the new arena … plus the current law's margin' creates (a territory frame kept across item 322's fold, its margin share rising from `territory.marginShare` 0.1 to 0.3) — (b) runs on uncleared faces: its deletion meets finer geometry (`E_LEVEL` in a clear-region batch, an epoch bug abort) or joins finer faces. `Plat.frame` is updated only 'as this batch [(b)] commits', so where the frame grows and the arena does not it is never updated. And `Frame.marginShare`'s comment ('0.3 under the `base` frame law') is false for a folded document whose territory frame still holds its town, which §4.11 (l. 7741) does not grow.",
+   "required_change": "In §3.2 (9) replace '(b) when the arena grows, (a) and (c) when the frame grows' by '(a) whenever the frame or the arena grows, then (b) when the arena grows and (c) when the frame grows'; in (b) replace '`Plat.frame` takes the new frame as this batch commits' by '`Plat.frame` takes the new frame as this batch commits — or, where the arena keeps its size, as (c) commits'; in the `Frame` block let `marginShare`'s comment read 'context margin per side, that of the frame law in force when the arena was made or last grown: 0.3 under `base`, `territory.marginShare` under `territory` (V07 §3.2 (1)); a folded document whose frame holds its town keeps its margin until a growth (§4.11)'."
+  },
+  {
+   "id": "VK0-02",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "kernel",
+   "claim": "§13.1 (base l. 15340) tests 'the kernel at its limits (§3.11): every case its rows name', but §3.11's rows (l. 4336–4351) omit edges the rewrite defined in place: `buffer`'s `square` and `miter` joins (the miter limit) and `flat` ends (§3.7); `insetRing` at `dCm` 0, below 0 and on a non-convex face (`E_NON_CONVEX`, §3.7 Insets); a cut whose two endpoints land on one vertex (§3.6 rule 2); an arena holding only its outer ring (§3.9); a frame growth whose target is not larger, and one across a change of frame law (§3.2 (9)); a part-0 warp under a raised way (its feet held, §3.6 held set (3)). The rewrite's cross-part note 28 listed them for §13.1, which instead cites §3.11's rows, so these defined outcomes have no test (principle (11)).",
+   "required_change": "§3.11's *degenerate geometry* row adds '`buffer` with `square` and `miter` joins (cut at twice the half-width) and `flat` ends (§3.7); `insetRing` at `dCm` 0 (the face's ring), below 0 (outward, never collapsing) and on a non-convex face (`E_NON_CONVEX`, the caller taking `offsetFace` or a buffer union); a cut whose two endpoints land on one vertex (`E_NOT_TWO_CROSSINGS`, §3.6 rule 2); a part-0 warp under a raised way (its feet held, §3.6)'; *the caps* row adds 'a frame growth whose target frame and arena are no larger (nothing runs), and one across a change of frame law (item 322's fold; §3.2 (9))'; the *save, load …* row adds 'an arena holding only its outer ring writes its level-≤ 1 chunk alone and loads to that one face (§3.9)'."
+  },
+  {
+   "id": "VK0-05",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "model",
+   "claim": "The kernel's g item 110 (b) part rests on model records that do not exist. §3.4 (base l. 3701) and §3.10's stored-references row (l. 4310) resolve 'a raised way's two feet … each a vertex on part 0 and one on the raised part … Each end names its part (`{ part; at }`)', but `RaisedWayRecord` (§2.7, l. 2131) has no feet field and §2.2 rule 7 no foot role, so the row checks a reference nothing stores (a dangling input); `Identity.key`'s exception (l. 2463) names only `UndergroundLink`; §3.2 (9) grows 'each raised part of the ground layer' by 'the `margin` rows of its own record', but §2.2 rule 1 gives a raised part no level mapping and no holder of its `margin` ring; and the kernel cites '§2.2's `PlatKey`' for the ground parts' numbering while the `PlatKey` comment (l. 543) and §2.1 *Arena parts* (l. 516–522, counters `nextUndergroundPart`, `nextSkyPart`) omit ground parts ≥ 1 and `Document.nextGroundPart` (declared l. 2745). The kernel rewrite's cross-part notes 3–5 were not applied.",
+   "required_change": "§2.7 `RaisedWayRecord` gains `feet: [RaisedFoot, RaisedFoot]` with `interface RaisedFoot { ground: VertexRef /* ('raised_foot', way id, i) on part 0 */; deck: VertexRef /* the same row on the way's own part */ }` — where its ramps or stairs meet part 0, placed and re-placed by its re-derivation (§3.4); §2.2 rule 7's vertex roles gain `raised_foot` (indexed); `Identity.key`'s comment adds 'and a raised way, whose two feet are one vertex in part 0 and one in its own part (§3.4)'; §2.2 rule 1 gains a *raised ground part* bullet — L0 its outer ring, the frame with its margin, the `margin` role on its way's record; L1 the deck way and its kerbs; L2–L4 as the ground's; and the `PlatKey` comment and §2.1 *Arena parts* add 'ground parts ≥ 1 = one arena per raised way (§2.7), numbered by `Document.nextGroundPart` (§2.9), allocated once and never reused'."
+  },
+  {
+   "id": "VK0-07",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "A stretch-state writer (file f items 245 and 575: `breach`, `dismantle`, `repairWall`, landfall) placing knots inside an existing profile has no rule for their ordinals: §2.2 rule 5's stretch-state *Write* bullet (base l. 806–808) places 'a knot at each end' by `splitThrough`, whose `row` 'carries its ordinal, an assertion otherwise' (§3.4), while §3.10's stored-references row requires 'every `ChainProfile`'s knots lie on its chain in ordinal order'. A mid-chain breach must give its two knots ordinals between existing ones and nothing renumbers (only `retypeEdges`' `rekey` does), so the common case fails §3.10 at stage end or save (a bug abort at an epoch, F-REDERIVE after an edit). The kernel rewrite's cross-part note 6 was not applied.",
+   "required_change": "The stretch-state *Write* bullet of §2.2 rule 5 ends '…; the writer then renumbers the entity's knots from 0 in chain order in the same batch — each moved knot row stripped by `removeEdges` on its `VertexRef` and re-added by `splitThrough` landing on its vertex (§3.4) — after the canonical form's drops, so §3.10's ordinal order holds'."
+  },
+  {
+   "id": "VK0-08",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "Class area floors are undefined constants. §3.2 (2) (base l. 3157) states the class floors are 'per face class a minimum width, a minimum area and an angle floor — … §4.7's class-floor row', and `E_BELOW_MIN_AREA`, `absorbSliver`'s `floor.minAreaCm2`, F-CUT's 'min area' and F-CORRIDOR's 'face below its class floor' read them, but §4.7's row (l. 6173–6176) holds only `minPlotWidth`, `minInteriorAnglePlot` and `minCorridor(c)`: no face class has a minimum area anywhere in the set (DXC-06's ruling covered the named constants only).",
+   "required_change": "§4.7's class-floor row states, for each face class whose floors §3.10, §5.3, F-CUT, F-CORRIDOR and F-PLOT check (plot, half-corridor strip, junction wedge, built block, residue), its minimum area — as a value or a derivation from existing rows (a plot's from `minPlotWidth` and its granularity band's minimum depth) — or that the class has none; §3.2 (2) then reads 'per face class the minimum width, area and angle §4.7's class-floor row declares'."
+  },
+  {
+   "id": "VK0-06",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "kernel",
+   "claim": "§3.4's *Raised ways* bullet (base l. 3689–3693) says 'its piers are footprints on part 0 (§2.7's `supports`), which part-0 stages read through the services', but §2.2 rule 5 and `RaisedWayRecord.supports` make a pier ring 'an ordinary attribute of its record' — no part-0 geometry a kernel service reads; and the model rewrite's cross-part note to the kernel (J-RM3: '§3.4 names `Document.nextGroundPart` for ground parts ≥ 1') is not applied — the bullet cites '§2.2's `PlatKey`', which does not state the ground parts.",
+   "required_change": "The bullet reads '… each lies on its own part of the `ground` layer, numbered from 1 by `Document.nextGroundPart` (§2.9) — part 0 is the ground — allocated once and never renumbered or reused, as the underground's and the sky's parts are. … its piers are footprints on part 0 held as point attributes of its record (§2.7's `supports`, §2.2 rule 5), which part-0 stages read from that record'."
+  },
+  {
+   "id": "VK0-09",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "kernel",
+   "claim": "§3.4 (base l. 3599) marks `hull` internal ('hull is obb's and lir's internal step', the rewrite's KWG-07 closure), but V07 §3.4 (VS3's 'convex hull of the kept points', V07 l. 1414) and V04 §3.2 (N3's 'R's convex hull', V04 l. 954) take convex hulls: either they re-implement one (a second mechanism) or call an op the kernel says no stage calls.",
+   "required_change": "The comment reads '…; `hull` is obb's and lir's step and a service read by V07 §3.4 (VS3's palisade hull) and V04 §3.2 (N3's extent of R)'."
+  },
+  {
+   "id": "VK0-10",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "kernel",
+   "claim": "§3.1's `KernelError` (base l. 3092–3110) promises 'each code's reader in brackets', but `E_DEGENERATE`, `E_STRUCTURAL` and `E_INVARIANT` carry none (`E_OUT_OF_RANGE` names its readers in prose): three codes whose consumer the kernel's home leaves unnamed.",
+   "required_change": "`E_DEGENERATE` … '[the caller's failure class by §5.1 (9); `seed`, `fixed`, `overlap`: F-PLAN tier 1, §5.2]'; `E_STRUCTURAL` … '[the caller: §3.6's sliver rule keeps the face as residue; an edit's dry run, §7.1; a plan wall move, F-PLAN]'; `E_INVARIANT` … '[in generation the issuing stage's property tests, §13.2; after an edit F-REDERIVE, §5.2]'."
+  },
+  {
+   "id": "VK0-11",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "pipeline",
+   "claim": "KWG-07 is closed only at the kernel: §3.4 names `hexLattice` as 'S4's routing lattice, built at §4.2 S3 (3)' and §3.7 names `offsetFace` for S11's per-edge setbacks, but §4.2 S3 (3) (base l. 4883) and §4.3's candidate lattice ('a jittered hexagonal point set at ≈ 25 m', l. 5074) never name `hexLattice` nor the cell constraints its assertion relies on (spacing ≥ `minEdge`, jitter < half the spacing), and §4.7 S11 does not name `offsetFace` — interfaces whose callers name them only by description (the kernel's cross-part note 11).",
+   "required_change": "§4.3's sentence reads '… a jittered hexagonal point set at ≈ 25 m (`hexLattice`, §3.4: its spacing cell ≥ `minEdge`, its jitter cell < half the spacing)'; §4.7 S11's setback step names `offsetFace` (§3.4, §3.7) for per-edge setbacks."
+  },
+  {
+   "id": "VK0-12",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "determinism",
+   "claim": "What an edit's undo record keeps of the commit record's lists is stated twice and differently: §3.3's commit-record bullet (base l. 3403–3405) — 'for `promoted`, their lattice points, former levels and flags and the anchor contact names promotion stripped; for `demoted`, the former levels; for `unflagged`, the flags it restores' — and §7.4's *Application* bullet (l. 10335–10338), which keeps former birth levels, `split` flags and stripped contact names but no lattice points. One fact, two homes, disagreeing (principle (1)).",
+   "required_change": "§7.4's *Application* bullet reads '… the lattice points, former birth levels, `split` flags and stripped contact names of the vertices it promoted …'; §3.3's sentence becomes 'What an edit's undo record keeps of `promoted`, `demoted` and `unflagged` is §7.4's.'"
+  },
+  {
+   "id": "VK0-13",
+   "severity": "minor",
+   "kind": "LOST",
+   "owner": "rendering",
+   "claim": "The archived §3.6 rule 6 gave the antenna rule its reason — 'so a GeoJSON ring never retraces a slit'. The rule's home is now §11.1 (KERNEL-RESTATEMENTS-014), whose GeoJSON row (base l. 14084) says only 'emitted without antennae'; the reason is stated nowhere in the set. (The circular pointer between §3.6 rule 6 and §11.1 is VR0-21.)",
+   "required_change": "§11.1's GeoJSON row reads 'faces as Polygons with holes, emitted without antennae (an antenna: §3.6 rule 3), so a ring never retraces a slit'."
+  }
+ ]
+}
