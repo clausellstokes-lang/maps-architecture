@@ -6,9 +6,9 @@ PROGRESS
 - [x] P1 canon, matrix rulings (MC-01, MC-11, MC-05, MC-08, MC-09), contracts, member hand-offs and the rewrite reports' cross-part notes read
 - [x] P2 model §2.5/§2.6 declarations against V01, V02, V03 (duplicate homes; field names; plot rename)
 - [x] P3 pipeline §4.7 S10/S11, §10.2 rows and II.1–II.3 against V01, V02, V03, V11
-- [ ] P4 V11's rows against the base's and V01–V03's readers (columns, values, keys) — AF-11, AF-18, AF-19, AF-26, AF-27 written; programme keys, composition keys, test/build seams next
-- [ ] P5 hand-offs among members closed at their destinations; matrix gaps
-- [ ] P6 issues table, results JSON, LANDED
+- [x] P4 V11's rows against the base's and V01–V03's readers (columns, values, keys); programme keys, composition keys, test/build seams
+- [x] P5 hand-offs among members closed at their destinations; matrix gaps
+- [x] P6 issues table, results JSON, LANDED
 
 Members: model (§2), pipeline (§4, §10, PART II, PART III), V01, V02, V03, V11. Text checked: the live
 `docs/ARCHITECTURE.md` and `docs/volumes/V*.md` as placed by assemble-r0 (2026-10-03 02:13).
@@ -19,7 +19,7 @@ Members: model (§2), pipeline (§4, §10, PART II, PART III), V01, V02, V03, V1
 
 ### AF-01 · BLOCKER · DISAGREE · owner pipeline
 **Claim.** The oasis's irrigated gardens are a land-use kind no record declares. Pipeline §4.9 *An oasis's gardens (item 111 (a))* has S12a site "irrigated gardens — `garden_irrigated` land-use faces (§2.7)". Model §2.7 declares `LandUse.kind` with `'garden' /* item 111: an oasis's irrigated garden */` and no `garden_irrigated`; model §2.3 *The oasis* says the gardens are "`LandUse` faces of kind `garden`"; V11 §3.17.2 keys the land-use row `garden` (role `field.garden`, an irrigated garden) and V11 §3.7's goods row reads `garden`. A builder following §4.9 writes a kind outside the enumeration, which V11's role, goods and drawing rows never match — the gardens would be drawn and valued as nothing.
-**Required change (pipeline).** In §4.9 *An oasis's gardens (item 111 (a))* replace "`garden_irrigated` land-use faces (§2.7)" by "`LandUse` faces of kind `garden` (§2.7; §2.3's *The oasis*)". Grep §4 and II for any other `garden_irrigated` and make it `garden`.
+**Required change (pipeline).** In §4.9 *An oasis's gardens (item 111 (a))* replace "`garden_irrigated` land-use faces (§2.7)" by "`LandUse` faces of kind `garden` (§2.7; §2.3's *The oasis*)". Grep §4 and II for any other `garden_irrigated` and make it `garden`. V07 follows: V07 §3.9 *An oasis's gardens and grove* ("S12a lays the irrigated `garden_irrigated` faces") reads "lays the irrigated gardens — `LandUse` faces of kind `garden` (§2.7)".
 
 ### AF-02 · BLOCKER · DISAGREE · owner pipeline
 **Claim.** Two declarations of the plot and site-plan strategies, with different methods, inputs and outputs. Pipeline §4.12 *The declarations* now declares `interface PlotStrategy { plots(block, alloc: Allocation, ctx: StageContext, k): KernelResult<Plot[]> }` and `interface SitePlanStrategy { sitePlan(plot, to: Designation, ctx: StageContext, k): KernelResult<MutationRecord> }`. §14's key interfaces (the registry's `plots` and `sitePlan` maps) declare `PlotStrategy { subdivide(block, ctx: BlockContext, claims: Claim[], sc, k): KernelResult<{ plots; alleys; residue }> }` and `SitePlanStrategy { plan(plot, ctx: ContextVector, tables: TableView, rng: Stream, k): KernelResult<SitePlan> }`, and the canon's context-vector contract (agreement.md) names `SitePlanStrategy.plan` as a reader of the one context vector. §4.12's site-plan signature is the designation mutator's (`DesignationMutator.mutate(plot, to, cause, ctx, k): KernelResult<MutationRecord>`, §4.7 S11), and its plot signature drops S10's alleys and residue (§4.7 S10). An implementer of S10/S11 and a registrant (V07's `toft` `PlotStrategy`, II.7.3's underground plots "`PlotStrategy`, `SitePlanStrategy` … unchanged, §14") would build against two incompatible interfaces. Also `BlockContext`, the `ctx` of §14's `subdivide` ("a view over the context vector, §2.5"; the contract calls it V01's), is declared nowhere in the set.
@@ -124,3 +124,109 @@ Members: model (§2), pipeline (§4, §10, PART II, PART III), V01, V02, V03, V1
 ### AF-27 · MAJOR · DUPLICATE-HOME · owner pipeline
 **Claim.** The district-kind affinity entry has two declarations. §10.2's `DistrictKindRow.affinity: { tag: string /* a class tag */; band?: [string, string]; weight: number }[]` declares the shape inline; V11 §2.8 declares `interface DistrictKindAffinity { tag: string /* a class tag (V11 §3.5.1) */; band?: [string, string]; weight: number } // §10.2's DistrictKindRow.affinity entry (item 438)`, a type no record uses (it occurs once in the set). §10.2's own preface says V11 declares the row types marked "V11 §2.x" and the base cites them.
 **Required change (pipeline).** §10.2 types the field `affinity: DistrictKindAffinity[] /* V11 §2.8; read by §4.5's typing scorer … and S7b (1)'s affinity (V11 §3.9) */` and drops the inline shape; V11 §2.8's declaration stays the one home.
+
+### AF-28 · BLOCKER · DISAGREE · owner V03
+**Claim.** The `workshop-yard` family's `forge or workshop` structure is resolved by two different tests. V02 §3.10.4's `composition.roleKeys` row gives it the key "`forge` where the class's profile `emits.fire` ≥ 1, else `workshop`"; V03 §2.4's slot rows give it "forge × 1 (hard) where the class's V11 profile family is `metalwork`, else workshop × 1 (hard)". The two tests part on V11's own rows: the `carpenter` (V11 §3.5.5: family `craft`, template `workshop-yard`, profile delta "E noise 2, fire 1") has `emits.fire` 1 and is not `metalwork`, so V02 masses its work building as a forge (the open front, the hearth and V02 §3.14.6's smoke stack) while V03 plans it as a workshop with no forge — and a custom or generic class on that family can part the other way. One structure, two answers: the map and its plan disagree.
+**Required change (V03).** The resolution's home is V02 §3.10.4 (the home of `composition.roleKeys`, which maps every V11 structure name). V03 §2.4's slot row reads "forge or workshop → the room rows of the key V02 §3.10.4 resolves for the slot: `forge` → forge × 1 (hard), `workshop` → workshop × 1 (hard), each with store × 1 (soft)"; V03's `smithy`, `farrier`, `armourer` class-id row is unchanged (its classes resolve to `forge` under either test).
+
+### AF-29 · MAJOR · DISAGREE · owner V11
+**Claim.** V11 §3.6.5's role table — "the role ids are the structure names the template families use … A template family whose structure names a role absent from this table fails T-V11-7" — lacks structure names V11 §3.6.1's own families use and V02 and V03 key: `forge or workshop` (`workshop-yard`), `gatehouse or lychgate` (`burial-ground`; the table has `gatehouse, lychgate`), and the yard entries listed in the structures column (`yard (open)` in `workshop-yard`, `yard (parade)` in `barracks`, `yard 0–1` in `warehouse`, and the parts marked "(yard parts)" in `works-noxious` and `yard`). V02 §3.10.4 maps each of them (`forge`/`workshop`, `lychgate`, `yardPart`) and V03 §2.4 reads `forge or workshop` as a slot role. Read as written, V11's compiler refuses its own families (no `footprintShare` or `houses` for those names), and the compiled `DesignationTemplateRow.structures` that S11 (§4.7) and V02 read has no defined share for them.
+**Required change (V11).** V11 §3.6.5 adds the rows `forge or workshop` — "the row of the role V02 §3.10.4 resolves (`forge` 0.2, `workshop` 0.25), compiled per class" — and `gatehouse or lychgate` — "0.08, no (the `gatehouse, lychgate` row)" — and states "a structure entry marked as a yard or yard part (`yard (open)`, `yard (parade)`, `yard`, `pits or vats`, `stacks`, `spoil`, `slip or stage`) is no structure: it compiles into the template's `yard` list (the yard-parts table), never into `structures`, and T-V11-7 skips it". Pipeline follows: §10.2's `DesignationTemplateRow.structures` comment, whose example slot list names "yard, court" beside the buildings, reads "main building, workshop, forge, stables, store, dwelling, journeymen's rooms … (yards and courts are `yard` parts)".
+
+### AF-30 · MAJOR · DISAGREE · owner V03
+**Claim.** V03 and V02 define a template's main slot differently, and V03 has no slot rows for the structures V11 §3.6.1 and V02 J-V2.88 added. V03 §2.4: "the rooms stand in the family's **main slot** — its first structure marked required, else its first structure". V02 §3.10.7 (J-V2.88): "a template with no required structure (`burial-ground`) has no main slot by name: each drawn structure is an ordinary slot …, the first drawn in the template's structure order is the main building for S11's entrance and household rules" — V11 §3.6.5 agrees ("mortuary chapel — main when present"). For a cemetery whose mortuary chapel is not drawn (V11: chance 0.3 / 0.5 / 0.7 / 0.9 by band) V02 makes the charnel house the main building and V03 points the programme at an absent slot. V03's slot rows also name none of `mortuary chapel` (V03's `cemetery` row calls it "its chapel slot"), `charnel house`, `gatehouse or lychgate`, the fort's `gate` and `range (barracks)`, or the arena's `stands`; each falls to "the building's class row", so a 3 × 4 m lychgate or a charnel house takes the cemetery's chapel programme (a hard nave of at least 30 m²) — the size mismatch V02 J-V2.88 rejected for the massing.
+**Required change (V03).** V03 §2.4's main-slot sentence reads "its first structure marked required; for a template with none (`burial-ground`), the first drawn structure in the template's order (V02 §3.10.7)"; the `cemetery` class-id row names "its `mortuary chapel` slot"; the slot rows add `mortuary chapel` → the `chapel` class row; `charnel house` → store × 1 (hard; the bone store), nave pattern; `gatehouse or lychgate` → at poor and modest (V02's roofed gate) no room — its ring the `passage` structural face — and at prosperous and rich the `gatehouse` slot row; `gate` (a fort's) → the `gatehouse` slot row; `range (barracks)` → the `barracks` family row; `stands` → the `arena` class-id row; an arena's absorbed `gate` takes no row (inside the stands' massing, V02 M8b).
+
+### AF-31 · MAJOR · DISAGREE · owner pipeline
+**Claim.** The base points to §10.2 for the square quota, and §10.2 holds nothing of it. §4.5 S7b (3) ("the squares larger than a block that `squares.quota` (§10.2; V01 …)") and §4.7 S9 ("both read the one base table `squares.quota` (per band: hectares per 1 000 inhabitants and kind factors; §10.2)") cite §10.2; §10.2 declares no `SquareQuotaRow` and names no `squares.quota`. The one declaration is V01 §2.2 (`interface SquareQuotaRow { band; haPer1000; kind }`, "the one square quota, a base table (§4.7 S9, item 301) whose rows this volume authors"). File f item 301 makes it a base table built at M2b in `@plat/tables` ("a stage-2 table must not drive a base stage"), read by S7b (3) from M2b and by S9b from M5 — a base-built table whose type lives in a stage-2 volume, behind a dangling pointer.
+**Required change (pipeline).** §10.2 declares `interface SquareQuotaRow { band: string; haPer1000: number /* typed-square target per 1 000 inhabitants of the district */; kind: Partial<Record<DistrictKind, number>> /* factor */ } // table 'squares.quota' (registry row 91; f item 301): read by S7b (3) from M2b and S9b from M5; default rows V01 §3.5.2` beside the roster's table list; V01 §2.2 drops its declaration and reads "`squares.quota` (§10.2; its default rows V01 §3.5.2)".
+
+### AF-32 · MINOR · DISAGREE · owner V01
+**Claim.** V01's integration notes place `BlockKind` in V01: "J-VI.1 and J-VI.23 (the block-content type `BlockKind`, V01 §2.1 …) stand at their homes". V01 §2.1 itself says "`FabricStrategyId` …, `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in §2.5", and model §2.5 declares `type BlockKind = 'ordinary'|'manor'|'square'|'green'|'yard'` (MC-11).
+**Required change (V01).** The integration note reads "(the block-content type `BlockKind`, §2.5; J-V1.31's alternative …)".
+
+### AF-33 · MAJOR · DUPLICATE-HOME · owner model
+**Claim.** The deck-plot offer has two homes in the base, and the one the record names as home is incomplete. `Plot.deck`'s comment (model §2.5) says "the fields and their rules are §2.7's Deck plots", and model §2.7 *Deck plots* states the exclusions ("A `Bridge` of kind `ford` or `draw`, or with no `deckCm`, offers no deck plot; a raised way's deck carries none"), the landmark slots ("offered to a tower or fort class only"), the budget and the removal. Pipeline §4.7 S10 *Deck plots* (file f item 246) states the same offer again with two more rules — only on a built ground-part-0 deck, and "on no moat deck at a gate (… realism tiebreaker)" (J-A110.41) — and draws the landmark slots by `deck.landmarks`' claimants (V11 §3.24.4: a chain tower or `fort` on the mole head, a `watchtower` mid-mole, a `fort` mid-bridge), not by "a tower or fort class". A builder reading the declared home offers deck plots on a gate's moat deck; the volumes cite either (V01 §3.17.6, V02 §3.16, V03 §3.13), which is how AF-06 to AF-08 arose.
+**Required change (model).** Model §2.7 *Deck plots* keeps the record — `deck.host`, `kind` (`DeckKind`, AF-09), `surfaceCm` (null for a quay platform on the bank), `landmark`, S11's copy to `DeckContext`, the deck's condition as its host's lifecycle existence (V06 BCR-V6-26), the least-disruption ruin and re-offer, the suppression key (deck host id, slot ordinal; §2.8) and the registry path — and replaces its offer sentences ("A `Bridge` of kind … carries none" and "The landmark slots … tower or fort class only") by "The offer — which decks, the moat rule, the sides, the landmark slots and their claimants, the budget and admission — is S10's deck-plot cutter's (§4.7 S10 *Deck plots*; V11 §3.24.4)"; `Plot.deck`'s comment reads "the record's fields §2.7's *Deck plots*, the offer §4.7 S10's".
+
+## Matrix gaps — shared subjects the matrix missed or marked agreed
+
+The matrix (agreement.json) lists no subject for these, each used by two or more members; their verdicts are the issues
+named: the garden land-use kind (AF-01); `PlotStrategy`, `SitePlanStrategy` and `BlockContext` (AF-02); the
+`undergroundAccess.prob` values (AF-05); the moat-deck rule and the deck-plot offer (AF-06, AF-07, AF-08, AF-33);
+`DeckKind` (AF-09); `RaisedKind` (AF-10); `OutlineTemplateId` and the outline rows (AF-13, AF-14); `PorchKind` (AF-15);
+`PresenceWhen` (AF-17, pipeline–V07); the `ring` row's parameters (AF-21); `RosterSettings` (AF-26);
+`DistrictKindAffinity` (AF-27); the structure-name vocabulary — `forge or workshop`, `gatehouse or lychgate`, the yard
+entries, the main slot and the J-V2.88 structures — across V11 §3.6.1/§3.6.5, V02 §3.10.4/§3.10.7 and V03 §2.4 (AF-28,
+AF-29, AF-30); `BlockKind`'s home (AF-32).
+
+The matrix marks these **agree**; the current text disagrees: `RuleRef`/`EditRef` (AF-03); `FabricStrategyId` beyond
+MC-11 (AF-04); the crypt columns (AF-11, AF-20); `NeighbourhoodRequest`/`NeighbourhoodResult` (AF-12); `TableId`, whose
+MC-11 move left no declaration (AF-16); `RoleRow` (AF-18); `terracedEdges` (AF-19); `levelledGroundCm` and `stepProfile`
+(AF-22 – AF-25); `squares.quota`/`SquareQuotaRow` (AF-31).
+
+## Hand-offs among the members
+
+Read at their destinations in the current text: V02 X1–X7, X11, X14, X16–X18, X24, X27, X28, X30–X32 (V11 §2.3, §3.6,
+§3.20, §3.24; V03 §2.4, §3.3, §3.6, §3.7; V01 §5.1; model §2.5/§2.7) — each closed there. V11 X-V11-5, -7, -8, -9, -16
+(V02 §3.15, §3.16 (2), §3.10.2; V01 §2.3, §3.7.2; V03 §2.4) — closed. V03's hand-offs to V01, V02 and V11 — stated at
+their destinations. **Open:** V03 §13's `levelledGroundCm` reader-list hand-off is addressed to V05, which owns no reader
+list; its destination is pipeline §4.7 S10 *Levelling*, where V03's readers are absent (AF-22, AF-23).
+
+## Agreed subjects confirmed
+
+Read in the current text and found agreeing: the plot rename (MC-01: `BuildingInput.plot`; no `lot` in V01, V02, V03,
+V11); `TypedBoundary`, `DriftBounds`, `BuildingClass`'s shape-class list, `BlockKind`, `SquareType`, `LayoutPattern`,
+`RoomRole`, `StairCore.kind`, `UnitForm`, `WingRole`; `RoomProgramRow` and `RoomRuleRow` (§10.2) against V03 §2.4's
+cells; `DesignationTemplateRow` against V11 §3.6.1's columns (the cellar depth 220 cm); `BuildingClassRow`'s V11 columns
+(`profile`, `staff`, `villageForm`, `templateFamily`, `crypt`, `cryptM2`, `deckOk`, the display cells); the 35 template
+families in V02 §3.10.2's rows; `DeckRow`/`DeckBudgetRead`; `DeckContext`'s fields as V02 and V03 read them; the deck
+landmark slots' claimants; `crypt.rankShare` 0.8, `crypt.clearCm`, `crypt.freeboardCm` and `cellar.depthCm ÷ 2` as V02,
+V03, V11 and §2.6 read them; `basementDoor(doc, key, b)` (§2.6) and its shorthand; `stackAccessDoor(b, a)` (V03 §3.7.2),
+`cryptSeedWings(b)`, `facadeBays`, `stairTreads` (V02 §2.4); the stage order around S7c and S9b (base §4.1 against V01
+§3.1); the soffit bound over a crossed way (V02-XCONF-1, applied); `terrace.slopeMin`'s unit (V01 percent = 100 × V11
+share); every test id `T-V1-n`, `T-V2-n`, `T-V3-n`, `T-V11-n` and decision id `J-V1.n`, `J-V2.n`, `J-V3.n`, `J-V11.n`
+cited by any member resolves to its definition (J-V2.58 unused by declaration); the `@plat/buildings` package's creator
+(§14: M6-P where it lands first, M6a adding its members; V02 §8.3, V03 §8) and V03's build order against INDEX §4.
+
+## Issue index
+
+33 issues: 5 blocker (AF-01, AF-02, AF-06, AF-12, AF-28), 27 major, 1 minor; DISAGREE 23, DUPLICATE-HOME 9,
+HANDOFF-OPEN 1 (the matrix gaps are listed above under their kinds); owners pipeline 10, model 6, V11 5, V03 4, V01 3,
+V02 3, determinism 1, V07 1. Results: `docs/validation/coherence/results/coherence_verify-agree-fabric-r0.json`.
+
+| id | severity | kind | owner |
+|---|---|---|---|
+| AF-01 | blocker | DISAGREE | pipeline |
+| AF-02 | blocker | DISAGREE | pipeline |
+| AF-03 | major | DISAGREE | pipeline |
+| AF-04 | major | DUPLICATE-HOME | model |
+| AF-05 | major | DUPLICATE-HOME | pipeline |
+| AF-06 | blocker | DISAGREE | V03 |
+| AF-07 | major | DISAGREE | V01 |
+| AF-08 | major | DISAGREE | V02 |
+| AF-09 | major | DUPLICATE-HOME | model |
+| AF-10 | major | DUPLICATE-HOME | model |
+| AF-11 | major | DUPLICATE-HOME | V11 |
+| AF-12 | blocker | DISAGREE | pipeline |
+| AF-13 | major | DISAGREE | pipeline |
+| AF-14 | major | DISAGREE | V01 |
+| AF-15 | major | DISAGREE | model |
+| AF-16 | major | DISAGREE | determinism |
+| AF-17 | major | DISAGREE | V07 |
+| AF-18 | major | DISAGREE | V11 |
+| AF-19 | major | DISAGREE | V11 |
+| AF-20 | major | DUPLICATE-HOME | V02 |
+| AF-21 | major | DUPLICATE-HOME | pipeline |
+| AF-22 | major | HANDOFF-OPEN | pipeline |
+| AF-23 | major | DISAGREE | V03 |
+| AF-24 | major | DISAGREE | V02 |
+| AF-25 | major | DISAGREE | model |
+| AF-26 | major | DISAGREE | V11 |
+| AF-27 | major | DUPLICATE-HOME | pipeline |
+| AF-28 | blocker | DISAGREE | V03 |
+| AF-29 | major | DISAGREE | V11 |
+| AF-30 | major | DISAGREE | V03 |
+| AF-31 | major | DISAGREE | pipeline |
+| AF-32 | minor | DISAGREE | V01 |
+| AF-33 | major | DUPLICATE-HOME | model |

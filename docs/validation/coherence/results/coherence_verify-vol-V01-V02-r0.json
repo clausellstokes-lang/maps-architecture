@@ -1,0 +1,262 @@
+{
+ "key": "coherence/verify-vol-V01-V02-r0",
+ "file": "docs/validation/coherence/verify-vol-V01-V02-r0s.md",
+ "issues": [
+  {
+   "id": "VV12-01",
+   "severity": "blocker",
+   "kind": "LOST",
+   "claim": "`NeighbourhoodRequest` and `NeighbourhoodResult` are declared nowhere. V01 §2.4 (l. 516) says they \"are II.1's (item 539)\"; base II.1 (l. 18002) says they, \"with DistrictContext and TypedBoundary, are V01 §2.4's\"; V05 §2.3 (l. 385) cites \"the `NeighbourhoodRequest` of V01 §2.4\". The archive's declarations (V01 §2.4, the interface file f item 539 puts in II.1 in place of the base's old one, PIPELINE-0642/0643) are gone: the request's `district`, `key`, `layer`, `boundary`, `seam?`, `context?`, `laid {blocks, plots, alleys}`, `strategy?`, `params?`, `closeup?`, `outlineTemplate?`, `lod: 'neighbourhood'` and the result's `mode`, `blocks`, `ways`, `plots`, `buildings`, `greens`, `pins`, `hoodPins`, `places`, `labels`, `seams`, `report`, `districts`. The base comment also misattributes `TypedBoundary`, which §2.5 declares (l. 1082).",
+   "required_change": "II.1 declares, beside `NeighbourhoodStrategy`, `interface NeighbourhoodRequest { district: Id; key: PlatKey; layer: 'ground'|'sky'|'underground'; boundary: TypedBoundary; seam?: SeamContract; context?: DistrictContext; laid: { blocks: Id[]; plots: Id[]; alleys: Id[] }; strategy?: FabricStrategyId; params?: Record<string, number>; closeup?: CloseupParams; outlineTemplate?: OutlineTemplateId; lod: 'neighbourhood' }` and `interface NeighbourhoodResult { mode: 'refine'|'replace'|'unit'; blocks: Block[]; ways: Way[]; plots: Plot[]; buildings: Building[]; greens: Greenery[]; pins: Pin[]; hoodPins: HoodPin[]; places: HoodPlace[]; labels: LabelEntity[]; seams: SeamReport; report: StageReport; districts: Id[] }` with the archive's field comments (V01 §2.4 of the archive); the comment after it reads \"`DistrictContext` is V01 §2.3's, `TypedBoundary` §2.5's\"; V01 §2.4 keeps its pointer.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV12-02",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "E-24 cut J-V2.73 and J-V2.76 to \"Superseded by J-V2.79.\", but J-V2.79 does not keep their reasons, against E-24's equivalence list (\"the governing row keeps the reason\"): J-V2.76's \"a sealed stack (the early stepped royal tombs) is a lawful building whose unreached tiers V03 flags\" — the historical ground of the sealed form — now appears nowhere in V02; J-V2.73's \"the nesting and the stair chain read only the wings with `on`, so ground wings break neither\" survives only as V02 §4.6's mechanism (\"ST6's nesting is unchanged\"), not as the decision's reason.",
+   "required_change": "J-V2.79's reason reads \"…because item 101 R2 lets a tool refuse only what item 20 forbids and what a lock protects; ground wings beside a stack break neither the nesting nor the stair chain, which read only the wings with `on`; and a sealed stack — the early stepped royal tombs — is a lawful building whose unreached tiers V03 flags.\"",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-03",
+   "severity": "major",
+   "kind": "CONFLICT (owner rule, g item 114)",
+   "claim": "Item 114 (c) withdraws item 260's held deletion (\"deleting one is for now\"; it lapses at the next change that re-reads the kind — an epoch, a New random over a place it crossed, a Re-derive of the stage that builds it) and gives the off switch the \"never\" job. V01 still states the withdrawn rule: §0 l. 76 \"remove one the generator raised (it stays removed)\"; §3.17.5 (1) \"a removal of a generated part is a suppression, item 260, that holds through regeneration\" and (2) \"the suppression's one reader … a Re-derive from S4 or S6 lays no raised part where one holds\"; §1b l. 179 (\"supports, spans and suppression\"); §4's tool row l. 2590 (\"a removal's suppression, item 260\"); T-V1-52 \"the viaduct stays absent after Regenerate (keep), after New random on each crossed district and after a Re-derive from S6\".",
+   "required_change": "§0: \"(removed for now — the town may build one again when it changes; Advanced › Built by the town turns raised ways off, item 114)\". §3.17.5 (1): \"a removal of a generated part is item 114 (c)'s delete for now: it holds through a plain Regenerate, a reload and crash recovery and lapses at the next epoch, New random over a district it crossed or Re-derive from S4 or S6; the kind's switch (item 114 (a)–(b)) is what keeps the generator from building one\"; (2): \"The generator reads the kind's switch; this volume reads only the committed way set.\" §1b and §4's rows cite item 114 in place of \"suppression, item 260\". T-V1-52: \"the viaduct stays absent after a plain Regenerate and a reload; after New random on a crossed district, a Re-derive from S6 or one epoch the generator may lay one again, and the deleted one counts against no cap; with raised ways switched off none is laid (item 114 (e))\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-04",
+   "severity": "major",
+   "kind": "CONFLICT (owner rule, g item 114)",
+   "claim": "V02 §3.16 (7) (l. 2301): \"a deck plot the user removes holds through regeneration and every epoch by item 260's suppression rule (keyed by its host and slot ordinal)\"; §3.17 (b) (l. 2326): \"a removal holding through regeneration (item 110 (b); item 260)\". Item 114 lists \"building plots on bridges and decks\" and the raised ways among its switch kinds and withdraws item 260's hold.",
+   "required_change": "§3.16 (7): \"a deck plot the user deletes is removed for now (item 114 (c)): it holds through a plain Regenerate and a reload and lapses at the next epoch or re-derivation of S10; the switch 'building plots on bridges and decks' (item 114 (a)) keeps the base from offering any.\" §3.17 (b): \"a removal lasting until the next change that re-reads raised ways (item 114 (c)); the kind's switch stops them (item 114 (a))\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-05",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "The `massing` concern's attempt cap disagrees with its home. Base §6.1 defines the cap as \"the HIGHEST attempt index its ladder may reach: attempts run 0 … cap\" (l. 8616) and lists `massing` with cap **2** (l. 8718; J-DET-55, three attempts); V02 states \"attempt cap 3\" (§3.12, l. 1900), \"attempts 0, 1 and 2 … (the concern's cap 3)\" (§3.5 M14, l. 1184) and \"attempt `a` = 0, 1, 2 (the `massing` concern's cap 3)\" (§3.15.1, l. 2056). Read with §6.1's definition, \"cap 3\" means four attempts.",
+   "required_change": "V02 l. 1184, 1900 and 2056 read \"cap 2 (attempts 0–2; §6.1)\"; nothing else changes (three attempts).",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-06",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "V01 §3.18's per-mechanism table has no row for §3.5.7 (courts greened), §3.5.9 (land in the programme) or §3.7.4 (the district's naming features), although the rewrite report says it holds \"a row per mechanism\". The one undefined outcome among them: §3.5.9's `λ_b = sq_b + gr_b + yd_b`, with `sq_b` \"the band's sub-block share of `squares.quota` over its plot land per 1 000 inhabitants\", divides by a band's plot land, so a band with no households (a rich band in a poor town) has no defined `λ_b`, and S7b (1)'s subtraction for it has no defined value.",
+   "required_change": "§3.5.9 adds \"a band with no plot land has `λ_b` 0\"; §3.18 gains rows \"courts greened (V01 §3.5.7): no court residue; a residue a wall crosses | nothing greened; one draw for every level piece | T-V1-11 (c)\", \"land in the programme (V01 §3.5.9): a band with no plot land; a quota with no sub-block remainder | `λ_b` 0; `sq_b` 0 | T-V1-12\" and \"naming features (V01 §3.7.4): a district with no feature | the rows' unguarded weights | T-V1-24\"; T-V1-12's stress fixture adds a town with an empty band.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-07",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "(also AF-14). V01 §1b's wiring row (l. 260) names outline rows that exist nowhere: \"`star`, `ring_star`, `spindle_street`, `plaza_rect`, `plaza_star` outline rows (V01 §3.10.2)\"; §3.10.1–§3.10.2, §3.14 (l. 2094) and base §4.2 S1 (2) (l. 4640) use `star`, `star_round`, `street_strip`, `plaza_frame`. (The archive carried the same slip, l. 425.)",
+   "required_change": "The row reads \"`star`, `star_round`, `street_strip`, `plaza_frame` outline rows (V01 §3.10.2; `OutlineTemplateId`, §4.2 S1 (2))\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-08",
+   "severity": "major",
+   "kind": "LOST (type declaration)",
+   "claim": "`OutlineTemplateId` is declared nowhere. The archive V01 §2.1 declared `type OutlineTemplateId = 'star'|'star_round'|'street_strip'|'plaza_frame'|'disc'|'d_shape'|'lozenge'| 'crescent'|'spindle'`; the new V01 §2.1 (l. 326) says it \"is §4.2 S1 (2)'s row key\", and uses it in `FabricParams.outline`, `HoodKindRow.outline` and `HoodRecipe.outline` (l. 352, 394, 551), but base §4.2 S1 (2) names the rows only in prose and spells one \"D-shape\" where V01's key is `d_shape` (V01 §3.10.1 l. 1744).",
+   "required_change": "§4.2 S1 (2) declares the type with the nine keys as above at its outline-template sentence and writes the prose list with the keys (`d_shape`); V01 §2.1 keeps its pointer.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VV12-09",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "(= AF-04; V01's N2). `FabricStrategyId` is declared twice — model §2.5 (l. 1079, a string of V01's `hood.templates` row keys) and pipeline §4.12 (l. 8168, `'bent-cut' | string` with V07's `'village-ways'`) — with different contents; V01 §2.1 cites §2.5.",
+   "required_change": "As AF-04: model §2.5's declaration names every registered fabric id (`'bent-cut'`, V01's `hood.templates` row keys at stage 2, V07's `'village-ways'`), `District.fabric`'s comment follows, pipeline §4.12 deletes its line and cites §2.5; V01 §2.1 reads \"(a registered fabric id; its stage-2 values are the `hood.templates` row keys)\".",
+   "owner": "model"
+  },
+  {
+   "id": "VAP-18",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-proof; confirmed). V01 §8.1 (l. 3075) starts M5 \"after M4 and M4b\"; J122's order, §16 and INDEX §3 start it after M4.",
+   "required_change": "V01 §8.1's first sentence reads \"Stage 2 is **M5** (§16): after M4, one of the four streams …\".",
+   "owner": "V01"
+  },
+  {
+   "id": "AT-17",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-time; confirmed). V01 §2.7's `Way.surface` row (l. 575) gives `create` \"S10a's end (V01 §3.7.3)\" only; V01 §3.7.3 and V06 §3.4 (9) have the epoch's `field` phase write it, and V06 the landfall clearance's `setAttr` pair.",
+   "required_change": "As AT-17: `create` reads \"S10a's end (V01 §3.7.3); at an epoch the `field` phase's re-lay (a `setAttr` of the `epoch` event, cause `rule:field`; V06 §3.4 (9)) and the landfall clearance's `setAttr` pair (cause `rule:landfall`; V06 §3.5.2)\"; `undo` reads \"the writing event's undo record (an epoch's for the engine's writes)\".",
+   "owner": "V01"
+  },
+  {
+   "id": "AT-18",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "(verify-agree-time; confirmed). V01 §3.5.11 (l. 1309) restates the `hood.fabric` participant's scope with a different block set than its home V01 §3.3.6 (1)–(4).",
+   "required_change": "§3.5.11 reads \"S9b's epoch half is the `hood.fabric` participant's (V01 §3.3.6 (1)–(4)): its rule on the blocks of `EpochScope.recut`; every other block keeps its content, and a standing square, green or manor block is a survivor\".",
+   "owner": "V01"
+  },
+  {
+   "id": "AF-07",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-fabric; confirmed). V01 §3.17.6 (1) (l. 2391–2392) gives moat bridges deck plots and owners; §4.7 S10 *Deck plots* offers none on a gate's moat deck (J-A110.41), the only moat deck the base lays.",
+   "required_change": "As AF-07: \"A moat bridge carries no deck plot (§4.7 S10 *Deck plots*: none on a gate's moat deck, the only moat deck the base lays; nor on a `ford`, a `draw` bridge or one without a `deckCm`).\"",
+   "owner": "V01"
+  },
+  {
+   "id": "VAP-09",
+   "severity": "major",
+   "kind": "HANDOFF-OPEN",
+   "claim": "(verify-agree-proof; confirmed). §13.2's takeover table gives V02 T110-4, T110-5 and T110-7; no V02 test names them.",
+   "required_change": "T-V2-44's title adds \"(T110-4 on the composer's output)\", T-V2-47 \"(T110-5's deck-building clauses)\", T-V2-50 \"(T110-7's volume-2 pin)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VAP-16",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-proof; confirmed). T-V2-52 runs from M2b by items 226 and 522 and §13.2's pointer; V02 §8.3 places it only in the row \"M6, across M6a–M6c\".",
+   "required_change": "V02 §8 states that T-V2-52 runs from M2b with item 226's raise, its re-basing clauses from M3a-V2 and its crypt-only sub-fixture from M6-U's crypt derivation; the M6 row keeps T-V2-53.",
+   "owner": "V02"
+  },
+  {
+   "id": "AT-19",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-time; confirmed). V02 §3.14.1 (a) (l. 1955) has \"the previous epoch's buildings\" enter the daylight raster; V06 §3.4 (1), the mask's home, rasterises the buildings standing when the field phase runs, after that epoch's hazards.",
+   "required_change": "As AT-19: \"at an epoch the buildings standing when its field phase runs — after that epoch's hazards, before anything it places — enter V06's building shade mask through them (V06 §3.4)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "AF-08",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-fabric; confirmed). V02 §3.18's row \"a bridge (over a river or a moat) carrying buildings\" (l. 2438) and §3.16 (1)'s exclusions omit the base's \"no deck plot on a gate's moat deck\".",
+   "required_change": "As AF-08: the row reads \"a river bridge carrying buildings …; a `ford`, a `draw` bridge, an unset `deckCm` or a gate's moat deck offers none (§4.7 S10 *Deck plots*)\"; §3.16 (1) adds \"or a gate's moat deck (§4.7 S10; J-A110.41)\"; T-V2-47's ford clause adds \"nor a gate's moat deck\".",
+   "owner": "V02"
+  },
+  {
+   "id": "AF-20",
+   "severity": "major",
+   "kind": "DUPLICATE-HOME",
+   "claim": "(verify-agree-fabric; confirmed). V02 §3.14.5 (c) (l. 2004) \"V02 owns the wet-ground lift and the half raise\" and (d) restates the crypt ladder that file f item 238 and model §2.6 *Basements* (l. 1809) hold.",
+   "required_change": "As AF-20: (c) \"V02 supplies the seed wings (`cryptSeedWings(b)`) and the constants `crypt.clearCm`, `crypt.freeboardCm` (V02 §3.10.9); the crypt ladder, the wet-ground lift and the half raise are §2.6 *Basements*' (item 238)\"; (d) cites §2.6 and keeps only the solid-platform clauses.",
+   "owner": "V02"
+  },
+  {
+   "id": "AF-24",
+   "severity": "major",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-fabric; confirmed). V02 §1b (l. 208), J-V2.98 (l. 3622) and §12 call `levelledGroundCm` \"V05's\" and `stepProfile` \"V01's\"; both are the base's (§4.7 S10, item 309; §2.7, item 245).",
+   "required_change": "They read \"§4.7 S10's `levelledGroundCm` (item 309)\" and \"§2.7's `stepProfile` (item 245)\"; J-V2.98's reasons stay.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-10",
+   "severity": "minor",
+   "kind": "CHANGED",
+   "claim": "E-27 unified the valley reach in form only (equivalence list: the integer form's byte-identity, the float form's view-only status), but V02 §3.7 (l. 1211–1220) also changed the integer form's value for a `shed` Y: the archive's bays used `⌊(X.ridgeCm − Y.eaveCm) × Y.halfSpanCm ÷ Y.riseCm⌋` for every Y, the new `'int'` mode reads a shed's full run (\"the two expressions disagreed there; T-V2-54\"). The change resolves a real disagreement with the float form, but no decision row records it and no T-V2-54 clause (a)–(j) asserts the shed case.",
+   "required_change": "A J-V2 row: \"Chose `Y.runCm` = the whole span for a `shed` Y in both modes over the bays' former half span, because the shed's single plane rises across its whole span and the roofscape already read it so\"; T-V2-13 adds \"on a wing whose ridge meets a `shed` roof, `valleyReach`'s two modes agree to within the integer floor\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-11",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "Base §5.2's † rows for V01 restate V01 §3.13 incompletely and in other words: F-UNIT† (l. 8390) \"its area below four blocks' worth\" where V01 §3.13 has \"below `4 × eLo²` (not one block's worth)\"; F-UNIT† omits the island outline face below one district's size, the `auto`-outline rung and the island no-district rung; F-TEMPLATE† (l. 8388) omits \"no void junction (V01 §3.4.5 (c))\".",
+   "required_change": "The F-TEMPLATE†, F-DISPATCH† and F-UNIT† rows' detection and ladder cells read \"V01 §3.13's\" (the bracket already names it), or state V01 §3.13's lists in full, with `4 × eLo²` for F-UNIT's area.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VV12-12",
+   "severity": "minor",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "(kernel cross-part note 34, not closed). V01 §3.4.4's precinct ring (l. 1034) offsets a reservation's outline outward with \"the kernel's `insetRing` with a negative inset\"; §3.7 *Insets* returns `E_NON_CONVEX` for a non-convex face and has the caller unite the face with a `buffer` of its ring for an outward offset. A non-convex reservation (an L-shaped precinct) has no stated path in V01.",
+   "required_change": "§3.4.4 reads \"offset outward by `dBar + w_tpl / 2` (§3.7 *Insets*: `insetRing` with a negative inset on a convex outline; a non-convex outline united with a `buffer` of its ring)\"; the §3.18 row for §3.4.3–§3.4.6 names the non-convex reservation with that outcome and T-V1-56.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-13",
+   "severity": "minor",
+   "kind": "RESTATEMENT",
+   "claim": "Facts whose canon home is a base section are restated: V01 §3.15's *Kind* and *Resolution* bullets restate §7.6's `NG` rule (l. 10694–10699, item 584; canon V01-0359); V01 §3.5.7 restates §4.9's court-greening row's formula \"× (0.5 + greenery), × 1.5 for `leafy`\" (l. 7190; V01-0267), keeping rightly only the band values it authors; V01 §5.2.3 (l. 2946) restates §9.4's \"≥ 90 % of named streets labelled\" (O13 b).",
+   "required_change": "§3.15's two bullets cite §7.6 (item 584) and keep only what stands on `hood.constants`; §3.5.7 keeps the band probabilities and the terraced-garden rule and cites §4.9's row for the factors; §5.2.3 cites §9.3–§9.4 without the value.",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-14",
+   "severity": "minor",
+   "kind": "RESTATEMENT",
+   "claim": "T-V2-31's table (l. 3217–3227) restates §13.5's Fantasy Manor rows (l. 16434–16438, file f item 522) — the measured counts and bars, identical; the scope rewrite's note asks T-V2-31 to cite them. V02 §6's intro (l. 2930) restates §2.6's assumed core mix (55 / 25 / 18 / 2 %).",
+   "required_change": "T-V2-31 reads \"the bars of §13.5's Fantasy Manor rows (item 522), on the free-frame harness under `FM`\" and keeps only the FM calibration sentence, SP-V2-4's extent and the J-V2.44 note; §6 cites §2.6's cost note without the shares.",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-15",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V01 §3.14's row for `terrace.maxLevels` / `terrace.profileNoticeCm` (l. 2130) has \"used in V01 §3.4.3 (per flank); §3.9, §3.11 (7)\": bare §3.9 and §3.11 resolve to the base's kernel sections.",
+   "required_change": "The cell reads \"V01 §3.4.3 (per flank); V01 §3.9, V01 §3.11 (7)\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-16",
+   "severity": "minor",
+   "kind": "DEFERRAL-WORDING",
+   "claim": "V01 §3.17.8 (l. 2431–2432) keeps \"a model `Pin` of kind fountain (or the base's basin kind, when it adds one)\" — a conditional on a future base change; V01-DEFER-2 asked the terminal stated as decided, and `Pin.kind` has no basin.",
+   "required_change": "Delete \"(or the base's basin kind, when it adds one)\".",
+   "owner": "V01"
+  },
+  {
+   "id": "VV12-17",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V02 §1b (l. 220) and §3.10.9's constants row (l. 1802) cite \"V02 §3.16 (2)\" for the deck stand-ins; they are in §3.16 (3) (*The budget and the storeys*, \"The stand-ins (X-V11-7)\"); item (2) is *The row*.",
+   "required_change": "Both read \"V02 §3.16 (3)\".",
+   "owner": "V02"
+  },
+  {
+   "id": "VV12-18",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V11's hand-off row X-V11-7 (l. 4679) cites \"V02 §3.16 (2)\" for the deck fallback constants (VV12-17).",
+   "required_change": "It reads \"V02 §3.16 (3)\".",
+   "owner": "V11"
+  },
+  {
+   "id": "VV12-19",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "V05 §2.3 (l. 385) builds \"the `NeighbourhoodRequest` of V01 §2.4\"; V01 §2.4 declares nothing (VV12-01).",
+   "required_change": "With VV12-01 applied, it reads \"the `NeighbourhoodRequest` of II.1 (item 539)\".",
+   "owner": "V05"
+  },
+  {
+   "id": "VV12-20",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V10 §3.16's button text (l. 2174) gives \"Stairs along the front\" for `bend.stack.internalSolid`, a key V09-XAGREE-3 retired (V02 emits none; the rewrite-V02 note maps it to `bend.tiers.none` / `bend.tiers.axial`); V09 §4.9 holds no such row.",
+   "required_change": "The example reads \"… and \"Stairs along the front\" for `bend.tiers.axial`\".",
+   "owner": "V10"
+  },
+  {
+   "id": "VV12-21",
+   "severity": "minor",
+   "kind": "NARRATION",
+   "claim": "Base §2.5 carries critique ids in V01-subject fields: `District.fabric` \"… at stage 2 (V1C-39)\" (l. 1073) and `Block.overrides` \"(…; V1C-20)\" (l. 1120); principle (5) keeps such ids in the validation records (V01 itself has none left).",
+   "required_change": "Delete \"(V1C-39)\" and \"; V1C-20\".",
+   "owner": "model"
+  },
+  {
+   "id": "AF-32",
+   "severity": "minor",
+   "kind": "DISAGREE",
+   "claim": "(verify-agree-fabric; confirmed). V01's integration notes (l. 3424) place `BlockKind` at \"V01 §2.1\"; §2.5 declares it.",
+   "required_change": "\"(the block-content type `BlockKind`, §2.5; …)\".",
+   "owner": "V01"
+  }
+ ]
+}
