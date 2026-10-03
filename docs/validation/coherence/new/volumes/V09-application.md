@@ -3824,7 +3824,7 @@ volumes'. Item 111's, item 112's and item 113's screens are absorbed in their st
 | **the release gate** | after M-SF | the game-master trial (V09 §7.6) — a process, priced in no step | T-V9-78 | — |
 | **total** | | | | **19.5–29** |
 
-**Pricing.** §16's line for the reference app's UI and V09's build-depth additions (16.75–24.75 pw, item 530) carries
+**Pricing.** §16's line for the reference app's UI and V09's build-depth additions (16.75–24.75 pw, item 530; the totals computed once by item 568) carries
 AP1–AP5, AP5b and AP9; the staged screens — AP6 1–1.5, AP7 0.5–1, AP8 1–1.25, AP10 0.25–0.5; 2.75–4.25 pw — are priced
 with their staged milestones (M6-U, M6-sky, M3c, M6c), outside the base total, as those engines are.
 
@@ -3947,7 +3947,7 @@ states the governing text.
 | J-V9.75 | a well pin as the bent result of an aqueduct with no higher source, over a cistern, because a cistern is an underground chamber the ground tools do not draw |
 | J-V9.76 | superseded by J-V9.106 |
 | J-V9.77 | a removed thing's former shape from the base's tombstone (`Tombstone.last`, item 467) over an app journal, because a delete by the clerk, a host or another session must offer Show and Build it again too |
-| J-V9.78 | the `terrace` sugar expanded into V10's flatten mode with `levelCm`, because the base carries one flatten mechanism |
+| J-V9.78 | the `terrace` sugar expanded into the one flatten mode with `levelCm` (item 366), because the base carries one flatten mechanism |
 | J-V9.79 | V10's key families carried in the one catalogue file with V10's texts, only two sub-families worded here, because one sentence has one owner and no raw key may reach a user |
 | J-V9.80 | a card-only mode of the one drawer through a clerk slot of kind `host`, over a host card component or the full drawer under configuration C, because one card is drawn once and one assistant per product |
 | J-V9.81 | the bridge handed to the harness through `ClerkMount.host`, over the transport or a wider `clerkMode`, because the embed owns the transport and the proxy token stays out of shell state |

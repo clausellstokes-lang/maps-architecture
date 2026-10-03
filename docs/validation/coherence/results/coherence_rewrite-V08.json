@@ -1,0 +1,33 @@
+{
+ "key": "coherence/rewrite-V08",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 532.7,
+ "new_kb": 445.8,
+ "facts_mapped": 165,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "32 BCR-V8 requests as applied f items, none restated: V08 §10 is a pointer table BCR-V8-n -> item (472 459 507 508 509 358 389 390 202 510 391 392 511 256 410 480 486 529 359 393 394 395 512 396 397 257 513 244 425 398 260 399) -> base home; other volumes' requests read by item (388 202 322 463 453 464 516 583 473 519 481 572 425)",
+  "g item 111 (build depth): dossier desert with or without oasis_water, with river/lake/coast (V08 §2.6 site and deposits rows, DR40), E-31 failure union, T-V8-40",
+  "g item 113 (build depth): V08 §2.6c history read (age, founding, 29 event templates, tier/population/calamity histories, lifecycle, ancient fall, peakTier and its gap), HistoryHint fill with peak evidence in DR36's order, historyAge and lifecycle rows, history block types (§2.5), W33, T-V8-49, J-V8.117",
+  "E-17, E-24, E-31 applied with their equivalence lists ticked",
+  "wiring: W-DOS-01a/01b (adapter field table, closed digest, J-V8.120), W-DOS-02 (wealth diff row), W-DOS-07 (importance dropped), W-DOS-08 (site/history frozen rows, frozen_fact_changed), W-DOS-09 (DR36+ cited), W-HOOK-02 (staged records filled)",
+  "edges: 41 UNDEFINED + 20 UNTESTED edges and 62 routed combinations closed by V08 §3.15 (four rules, 29-row table, three combination rules), T-V8-50 (a)-(j), T-V8-51, J-V8.124",
+  "owner decisions: Q1/Q2 follow SettlementForge as MapHostConfig inputs (origin, backupDepth, quotaBytes, locale; quota ladder B21; J-V8.118/119), Q3 bundle call exportScenes at build depth (J-V8.116, T-V8-48), Q4 M-SF after M-CAL, Q5 pictures now and live map after M-SF; §11 a decisions table",
+  "SR6-04 keys (host.control/dialog/undo, host.playersView with button.showEverything app(viewAsOff), host.status.retry, host.mirror.dropped, host.locked) and T-V8-14 walker; SR6-05 (b) closed",
+  "narration removed: stacked banners, PROGRESS and revision ledgers, reconciliation and finalization appendix, §12 lane records, §13 F1-F5 and X1-X25 (closed at homes), REVISED histories and seam ids in the body; 20 incoming hand-offs closed; IN-V08-1..4 folded at their homes"
+ ],
+ "conflicts_resolved": 12,
+ "cross_notes": [
+  "scope §14: PortNote union gains frozen_fact_changed and history_defaulted; DossierDigest notables[] drops importance and gains V08 §2.5's history block and wealth/site facts; MapHostConfig carries backupDepth, quotaBytes, locale (J121)",
+  "rendering §11.3: export.request bundle?: true; E_HOST_FORMAT exempts a bundle request for dd2vtt/foundry from M-SF; export.ready gains name on a bundle reply; doc.rejected reason 'quota'",
+  "determinism §7.7: item 1's never-read list adds npcs[].importance; DR1's bar is a creation bar (frozen site, frozen_fact_changed); PortValues comment adds threats; CarriedFact gains wealth, site, history",
+  "model §2.7: HistoryHint carries founding, events (numeric severity), tierHistory, populationHistory, calamities {week, deaths, exodus}, lifecycle, ancientFall and peak with its typed evidence list (V08 §2.6c (3))",
+  "V09: host-mode Settings shows the host's language (no choice); frame keeps quota-refused edits in its draft mirror and re-sends; V9 §4.9 loads V08's host.control/dialog/undo, host.playersView, host.status.retry/quota, host.mirror.dropped; party-tier undo is button.undo",
+  "V06: ancient-fall predecessor sizing under DR38 and tier-less resettlement evidence (no peak) read from V08 §2.6c (3); wealth reaches EpochInputs.wealthLevel at the next epoch",
+  "V11: era default cites V08 §2.6's era row without the tier (XCONF-9); event-to-epoch rows cover the 29 template words and the lifecycle row's outcomes",
+  "V07: §3.1 step 1 cites V08 §2.6b (3)'s village column (E-31, already landed)",
+  "scope §16/INDEX: M-SF after M-CAL, SF0-SF3 earlier, VH with the village, 15.75-21.5 pw; built-in clerk at M3c (SCOPE-C07)",
+  "adjudicator: types kept at V08 §2.2-§2.5 because the landed base cites them there (RESTATEMENTS-008..012); quota ladder dropping backups under SettlementForge's limit; J122 'two editors at once — not now' vs base two-editor convergence and V08's co-DM (flagged, not changed)",
+  "shrink: 84 356 -> 71 572 words (-15.2 %, below the 25-40 % band): ~15 300 narration and ~5 400 restatement removed, ~8 100 mandated words added (field table, g 111/113, §3.15 edges, T-V8-48..51, bundle call, J121 inputs, keys, J-V8.116..124); doc_checks provisional (corpus absent)"
+ ]
+}
