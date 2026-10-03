@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE (kept current; last updated 2026-09-29 20:15 EDT)
+## RESUME HERE (kept current; last updated 2026-10-03 00:10 UTC)
 
 **Where things stand — PAUSED at a clean point at the owner's request (2026-09-29 ~20:10).** (1) The twelve design volumes are DONE
 (docs/volumes/V01–V12, INDEX.md, SUMMARY.md, file f items 200–582, the bundle `docs/ARCHITECTURE-FULL.md` current as of 15:44).
@@ -10,7 +10,24 @@ docs/validation/coherence/new/base/); volume rewrites V01–V05 were IN PROGRESS
 up); V06–V12 not started; the LIVE design files are untouched (only the assembly seat writes them). (3) Then the Fable review — ONLY on
 the owner's word. All other decisions are delegated (J122). Owner rules: `docs/AMENDMENTS-2026-09-28g.md` (102–113).
 
-**Continuing in a CLOUD session (from the GitHub repository).** Launch the coherence pass with the repository's own folder:
+**CURRENT — cloud session (2026-10-02/03, branch `claude/gallant-dirac-w8i53u`; the loop of the coherence pass is driven
+from outside the script).** The cloud machine has 4 CPUs, so the workflow harness runs only 2 agents per run; the pass
+therefore runs as several runs side by side. (1) REWRITE (in progress): three runs of `workflows/18-coherence.js` with
+`args.only` finish the 13 unfinished rewrite seats (scope had NOT landed at the stop, whatever the old block below says):
+args in `workflows/lane-prompts/coherence-cloud-rewrite-{a,b,c}.json` (a = scope, V01, V06, V02, V10; b = V03, V04, V09,
+V08; c = V05, V07, V11, V12). If the session dies, relaunch the three with the same args: every seat continues from disk.
+(2) THE LOOP (after all 18 rewrites LANDED): `python3 tools/coherence_driver.py init`, then repeat: `python3
+tools/coherence_driver.py plan` → launch every printed step script with `Workflow({ scriptPath: <path> })` side by side →
+when all have finished, `python3 tools/coherence_driver.py ingest <runId> …` → until `status` says done. The driver is the
+script's own loop (assemble r0, verify, repair, adjudicate, validate; same prompts, rounds, caps, stall rule), with its
+state in `docs/validation/coherence/driver/state.json` and its log in `driver/log.md`; a seat that returns nothing is
+re-planned. After a session loss: `status`, then `plan` the current step again (seats that LANDED return their saved
+results). Proof that it matches the script: `python3 tools/coherence_driver_selftest.py <scratch-dir>` (all loop prompts
+byte-identical in two fake scenarios). `sh tools/cloud-checkpoint.sh loop 3` commits and pushes the working folders every
+30 minutes (the container is ephemeral); `/Users/cstokes/Desktop/Maps` is linked to the checkout so older work scripts
+run; `tools/progress.py` leaves its tables alone when `captures/` is absent.
+
+**Continuing in a CLOUD session (from the GitHub repository; superseded by the CURRENT block above).** Launch the coherence pass with the repository's own folder:
 `Workflow({ scriptPath: "<checkout>/workflows/18-coherence.js", args: { maxLanes: 6, date: "2026-09-28", fableModel: "opus",
 root: "<checkout>", scratch: "/tmp/maps-scratch/coherence" } })` where `<checkout>` is the absolute path of the clone (`pwd`). The
 workflow harness runs at most (CPUs − 2) agents at once, so a smaller cloud machine runs fewer lanes — slower, not wrong. The
