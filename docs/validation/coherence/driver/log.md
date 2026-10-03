@@ -2,3 +2,4 @@
 - step 1: launched assemble round 0 as run wf_e4e72074-623 (2026-10-03 01:50 UTC)
 - step 1: assembled round 0: 9062 KB → 8227 KB; broken references 25; doc-check hits 0; unplaced 13
 - step 2: launched verify round 0 (full sweep) as runs wf_1040b9c6-b9b, wf_a5117cac-477, wf_ff39e5b0-7c5 (2026-10-03 02:15 UTC)
+- step 2: verify round 0 (full sweep): 14 seat(s) returned nothing (coherence/verify-model-r0s, coherence/verify-kernel-r0s, coherence/verify-pipeline-r0s, coherence/verify-determinism-r0s, coherence/verify-rendering-r0s, coherence/verify-vol-V01-V02-r0s, coherence/verify-vol-V03-V04-r0s, coherence/verify-vol-V05-V06-r0s, coherence/verify-vol-V07-V08-r0s, coherence/verify-vol-V11-V12-r0s, coherence/verify-agree-fabric-r0s, coherence/verify-agree-layers-r0s, coherence/verify-agree-host-r0s, coherence/verify-agree-tools-r0s) — plan again to re-run only those
