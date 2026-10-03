@@ -16,6 +16,7 @@ fails (returns nothing) is re-run before the loop moves on, where the script wou
       [--operator FILE]                            # (verify steps) hand-confirmed findings no seat raised join the step
   python3 tools/coherence_driver.py peek RUNID …    # (verify steps) write the issues returned so far, for that review
   python3 tools/coherence_driver.py status          # where the loop stands
+  python3 tools/coherence_driver.py stop REASON     # end the loop by a ruling before its own exit (J127)
 """
 import glob, json, os, re, subprocess, sys
 
@@ -325,6 +326,19 @@ def init():
     log(st, 'driver started: every rewrite LANDED; the loop begins at assemble round 0')
 
 
+def stop(st, reason):
+    """End the loop by the owner's word before its own exit (e.g. J127: one repair round, then build)."""
+    if st['pc'] == 'done':
+        raise SystemExit('the loop is already done')
+    was = describe_step(st)
+    st['pc'] = 'done'
+    st['stopped'] = {'at_step': st['n'], 'next_was': was, 'reason': reason}
+    save(st)
+    summary = {'repair_rounds': st['round'], 'material_history': st['history'], 'validator_rounds': st['vround'],
+               'stopped_before': was, 'reason': reason}
+    log(st, f'STOPPED by ruling before {was}: {reason} — {json.dumps(summary, ensure_ascii=False)}')
+
+
 def status(st):
     print(json.dumps({k: (v if k not in ('work', 'issues', 'material') else len(v)) for k, v in st.items() if k != 'step'}, ensure_ascii=False))
     print('step:', describe_step(st), '| results so far:', sorted(st['step'].get('results', {})), '| planned:', st['step'].get('planned'))
@@ -346,5 +360,7 @@ if __name__ == '__main__':
             peek(load(), rest)
         else:
             ingest(load(), rest, op)
+    elif cmd == 'stop':
+        stop(load(), ' '.join(sys.argv[2:]) or 'stopped by the owner')
     else:
         status(load())
