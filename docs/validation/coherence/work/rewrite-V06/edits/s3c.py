@@ -1,0 +1,52 @@
+from lib import *
+t = extract(1427, 1677)
+R = [
+("→ `dismantle` with the stretch (its run of the ring's `condition` → `dismantled`, file f\n   item 575; TT-04), crediting the ledger",
+ "→ `dismantle` with the stretch (its run of the ring's `condition` → `dismantled`, item 575), crediting the ledger"),
+("removed or its crossing span `dismantled` (V06 §3.7.6 (5); TU-01 (d)).", "removed or its crossing span `dismantled` (V06 §3.7.6 (5))."),
+("(V06 §3.7.6 (5)); a tower or a gate is no building and never a pool candidate (item 575; TT-04, TU-01; J-V6.112;\n   V06 §3.5.2's exclusion of enceinte walls from the pool stands).",
+ "(V06 §3.7.6 (5)); a tower or a gate is no building and never a pool candidate (item 575; J-V6.112;\n   V06 §3.5.2's exclusion of enceinte walls from the pool stands)."),
+("the low threat's start and the ring's last lifted neglect, V06 §2.8's no-stretch `repairWall`, TU-02) enters its pathway with cause",
+ "the low threat's start and the ring's last lifted neglect, V06 §2.8's no-stretch `repairWall`) enters its pathway with cause"),
+("at `walls.breachChancePerYear` in the decline pool's `fabric` cap", "at `walls.breachChancePerYear` in the strike pool's `fabric` cap"),
+("(item 575; TT-04; J-V6.112), in chain order from the trace's first vertex,", "(item 575; J-V6.112), in chain order from the trace's first vertex,"),
+("it, a tower or a gate carrying no state of its own (item 575; TU-01) — `fabric` cap charged", "it, a tower or a gate carrying no state of its own (item 575) — `fabric` cap charged"),
+("lifecycle being the stretch repairs' (TU-02; J-V6.115).", "lifecycle being the stretch repairs' (J-V6.115)."),
+("closes it (a hand `repairWall` on it bends to that `drawWall`, V06 §2.8; ST-35).", "closes it (a hand `repairWall` on it bends to that `drawWall`, V06 §2.8)."),
+("**A ring in use with a breach** (TT-05; J-V6.110).", "**A ring in use with a breach** (J-V6.110)."),
+("towers and gates standing again with the run (item 575; TU-01; TV-04), the `fabric` cap charged", "towers and gates standing again with the run (item 575), the `fabric` cap charged"),
+("**3.7.6 Barriers, water and the dossier's walls (item 106; C6-07).**", "**3.7.6 Barriers, water and the dossier's walls (item 106).**"),
+("1. **Barrier closure on every trace.** The trace is the registered `EnceinteStrategy`'s under item 106's closure (the base\n   mechanism, applied by the coherence pass from file g): the boundary's arcs",
+ "1. **Barrier closure on every trace.** The trace is the registered `EnceinteStrategy`'s under item 106's closure (the base's\n   mechanism, §4.4 S5a): the boundary's arcs"),
+("a tower is added only at a head where none stands (C6-53);", "a tower is added only at a head where none stands;"),
+("   * **a removal holds** (C6-38 (7)): a generated quay wall", "   * **a removal holds**: a generated quay wall"),
+("serves it while it stands\n     (V06 §3.19.3 (7); SR3-08);", "serves it while it stands\n     (V06 §3.19.3 (7));"),
+("5. **Raised ways on every trace** (item 110 (b): an aqueduct \"crossing the wall through an arch\"; C6-46; J-V6.91).",
+ "5. **Raised ways on every trace** (item 110 (b): an aqueduct \"crossing the wall through an arch\"; J-V6.91)."),
+("a **wall opening** — an arch in the curtain, not a\n     gate (no portal, no gate law; critique-V1 V1C-68 (6));", "a **wall opening** — an arch in the curtain, not a\n     gate (no portal, no gate law);"),
+("aqueduct's span passes over it) and goes with its stretch (TU-01 (d); J-V6.114).", "aqueduct's span passes over it) and goes with its stretch (J-V6.114)."),
+# §3.8
+("(cause `island`: a wane, a settle, a fall, V05 §3.15; BCR-V5-23)", "(cause `island`: a wane, a settle, a fall, V05 §3.15)"),
+("abandoned and derelict stock as FTG's poorest pools do (`research/findings/ftg-docs-params.md` §3.3 *Dependency graph*;\n  C6-34).",
+ "abandoned and derelict stock as FTG's poorest pools do (`research/findings/ftg-docs-params.md` §3.3 *Dependency graph*)."),
+("or a `cryptAlways` keyword — then its class's column; SCC-31; V02 §3.16; item 110 (d));", "or a `cryptAlways` keyword — then its class's column; V02 §3.16; item 110 (d));"),
+("* **A placement on a retired way reopens it first** (TT-01, TU-05; J-V6.107).", "* **A placement on a hollow way reopens it first** (J-V6.107)."),
+("edge (§4.7's access test) is a retired hollow way — a way whose `abandoned` or `decayed` existence `retireWay` or\n  `effaceWay` set (its lifecycle cause) — is made only after",
+ "edge (§4.7's access test) is a hollow way (V07 §3.12: a way whose `abandoned` or `decayed` existence `retireWay` or\n  `effaceWay` set, its lifecycle cause) is made only after"),
+("Where that way reaches the ways in use only through other\n  retired ways, every retired way on its shortest way-graph path",
+ "Where that way reaches the ways in use only through other\n  hollow ways, every hollow way on its shortest way-graph path"),
+("A retired way that is locked or pinned is never reopened by the engine", "A hollow way that is locked or pinned is never reopened by the engine"),
+("* (5′) **the upgrade of downgraded ways and the reopening of retired ones** (TR-03): before tier (5) cuts a plot on a face\n  that a `downgradeWay`d lane or a retired hollow way bounds,",
+ "* (5′) **the upgrade of downgraded ways and the reopening of hollow ones**: before tier (5) cuts a plot on a face\n  that a `downgradeWay`d lane or a hollow way bounds,"),
+("tier, V07 §3.12). A retired hollow way is a way whose `abandoned` or `decayed` existence was set by `retireWay` or\n  `effaceWay` (its lifecycle cause); it is reopened by `reopenWay`",
+ "tier, V07 §3.12). A hollow way is reopened by `reopenWay`"),
+("the placement rule above reopens a retired\n  way at whichever earlier tier", "the placement rule above reopens a hollow\n  way at whichever earlier tier"),
+("first, then its class's column; SCC-31) — a deck slot a live removal\n  suppresses is skipped and counted held (V06 §3.19.3 (7); ST-15, ST-51) (V06 §3.19.5 (1));",
+ "first, then its class's column) — a deck slot a live removal\n  suppresses is skipped and counted held (V06 §3.19.3 (7), §3.19.5 (1));"),
+("(§3.6 (2)) or the poorest band's delta demand needs it", "(V06 §3.6 (2)) or the poorest band's delta demand needs it"),
+("ruin (the lottery's), a destructive event", "ruin (the strike pool's), a destructive event"),
+]
+t = apply(t, R)
+t = strip_narr_ids(t)
+save('08-s3c.md', t)
+print(words(t))

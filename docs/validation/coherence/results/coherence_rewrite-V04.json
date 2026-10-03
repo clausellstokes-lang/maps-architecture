@@ -1,0 +1,33 @@
+{
+ "key": "coherence/rewrite-V04",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 518.1,
+ "new_kb": 449.1,
+ "facts_mapped": 360,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "59 file f items cited as base text, never restated: 205, 207, 208, 212, 229, 238, 239, 243, 244, 245, 247, 248, 249, 250, 252, 278, 281, 291, 306, 309, 319, 325, 330, 338, 355, 372, 386, 403, 404, 407, 413, 414, 423, 445, 452, 475, 484, 485, 505, 526, 548, 549, 551, 552, 554, 555, 556, 557, 558, 559, 560, 561, 562, 563, 564, 565, 568, 573, 574",
+  "§10: the 46 requests renamed BCR-V4-n (ID-BCR), each a one-line pointer to its applied item (24 BCR blocks cut; BCR-V4-34 and -44 carried in 386 and 247; BCR-V4-36 via 564 merged into 560; BCR-V4-45 to 244 and 559)",
+  "item 244's span rule read with J-C4's `country` reason (V07-XCONF-2) and its cells named span.* (V11 raisedWays.structure.span.*; SCC-113)",
+  "item 452 read under V04 §5.5's rule: VTT portals only in a wall line (V04-ICONF-3); item 445 without the church-name clause (V04-ICONF-4); item 338's list as V04 §1b.1's twelve codes (V04-WGAP-3)",
+  "g item 113, V04's part at build depth: V04 §3.5.5 (b) BuriedFormer.lay (gate, rise rule, elements, older-than-town, access, failure; J-V4.123; T-V4-76); V04 §2.2/§2.6/§3.5.7 (g) the `lost` reading with ExcavationRecord, open = passability (J-V4.122; T-V4-77, T-V4-59); §3.10 reopen in the replay (J-V4.29)",
+  "g items 111 and 112 cross-checked: the oasis is water for every underground rule (V04 §3.13 (f)); every system's program carries a pattern cue beside colour (V04 §5.2)"
+ ],
+ "conflicts_resolved": 12,
+ "cross_notes": [
+  "determinism §5.4: the warnings comment names 7 underground codes; cite V04 §1b.1's list (item 338) or add W_RUIN_SOURCE_REMOVED, W_RUIN_MONUMENT_SKIPPED, W_ARCH_VAULT_NO_DOOR, W_TERMINAL_CISTERN_SKIPPED, W_BURIED_FORMER_SKIPPED",
+  "determinism §7.3 item 9 (d): the dwelling closure's cluster reads `unexcavated` or `lost` (g item 113 (e))",
+  "rendering §8.2/§8.4: a lost cluster draws in the dashed `unexcavated` style for every key its knownTo admits, whatever showUnexcavated; only an unexcavated one is secret-only (V04 §5.1, §5.2; J-V4.122)",
+  "pipeline II.6 (09-ii6-staged-layers.md l. 30): 'the ways with flowToward (§2.4)' → the ways' wayFall reading (item 208)",
+  "scope §14 keymap: PageUp/PageDown step the storey with a plan open, else the depth band (V04-XCONF-2); §16 M6-U row and INDEX §4 agree with V04 §8 (28.25–39.25 pw; after M5, beside it with a second pair; item 113 inside)",
+  "V03: §3.12 (9) cites gradeFaces(chamberId) (V04 §3.5.4 (f)) and drops its fallback; §13's T-V3-23 (g) hand-off closed by T-V4-50",
+  "V06: the replay calls BuriedFormer.lay at the burial epoch, clears the former records in that batch, writes HistoryRecord.buried; vacated households return displaced (cause void); the four under.* participants register stage 'U-FADE'",
+  "V07: §1 (5), §3.16 (1) cite the span rule's country reason (J-C4) and drop the fallback; IN-V07-2's reason corrected",
+  "V09: the lost cluster's panel line ('once known') for keys its knownTo admits; the hit stack reaches an arch vault through Chamber.span",
+  "V10: the providers' rows carry `lost`/'once known' and the buried former settlement's story; T-V4-79 is the completeness bar against V10's owed table",
+  "V11: the `buried` slice's former form (Old ⟨settlement⟩); history.burialYears and its factors are the rate V04 §3.5.5 (b) reads; registry row 59's `buried` params carry V04's former* keys",
+  "V12: register T-V4-76 – T-V4-79; the former* cells ride the default line",
+  "model §2.7: HistoryRecord.buried lists BuriedFormer.lay's system; Excavation and ExcavationRecord are V04 §2.2's records, cited by §2.7 and II.7.6",
+  "shrink: −11.5 % (83 966 → 74 333 words), below the band because ≈ 7.6 k words of required new design were added (V04 §3.13 edges, g item 113, the providers, T-V4-76 – T-V4-79, J-V4.122 – J-V4.126); gross cut ≈ 17.2 k (narration 60 %, restatement 37 %, duplicated mechanisms 2 %, verbose prose 1 %); doc_checks provisional (reference corpus absent)"
+ ]
+}

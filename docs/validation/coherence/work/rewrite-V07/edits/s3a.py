@@ -77,5 +77,8 @@ t = t[:k] + para4a + t[k:]
 t = t.replace("**(8) S3's non-siting jobs, taken over by VS1** (J-V7.50).", "**(8) S3's non-siting jobs, taken over by VS1** (J-V7.50).")
 t = t.replace('Σ_b D_v,b · toftArea_b', 'Σ_b N_v,b · toftArea_b')
 t = norm_d5(t)
+t = t.replace("""**Document-state keys.** `declarations.*` (VS8's `declarations.ends`) and `raised` (item 110 (b)'s parts from 1, V07 §2.7;
+item 290) are published by the kernel's declaration layer""", """**Document-state keys.** `declarations.*` (VS8's `declarations.ends`), `raised` (item 110 (b)'s parts from 1, V07 §2.7;
+item 290) and, at a refounding, `history.former` (item 113; V07 §3.12a) are published by the kernel's declaration layer""")
 save('08-s3a.md', t)
 print('ok', len(t.split()))

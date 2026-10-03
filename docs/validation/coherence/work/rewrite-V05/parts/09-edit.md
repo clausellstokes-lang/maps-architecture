@@ -109,8 +109,8 @@ carry no edit kind. Item 102's `w_sun` and this volume's `shade`, `routing` and 
   district that receives a face re-derived by its own scoped re-derivation from S8 — and each that moved inward a
   shrinking resize's, which gives no face and re-derives no district (the claim's aside, re-derived where its claim is
   re-searched, above; V01 §3.10.3 (6) (c)); volume 1's `plantRimWalk` then re-plants the rim walk whole, once for the
-  reshape; `areaHa` is rewritten to the new land area. A reshape that would make the rim non-simple is repaired by the
-  kernel (§3.4's `moveVertex` contract: `E_NON_SIMPLE`), the drag bent back to its last simple position.
+  reshape; `areaHa` is rewritten to the new land area. A reshape that would make the rim cross itself is refused by the
+  kernel (§3.1's `E_SELF_INTERSECT`) and the drag bent back to its last simple position.
 * **New random on the island** (`regenerate` with the island's scope, `newRandom`): the outline's displacement, the
   terrain (with an `own` relief's class), the underside (unless edited) and the river re-derived under the next reroll,
   SKY's island steps re-run (the rim strip, the landing yards and the institution claim re-laid, V05 §3.10 (5)), the

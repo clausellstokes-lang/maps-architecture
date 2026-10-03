@@ -1,0 +1,69 @@
+from lib import *
+t = extract(3447, 3587)
+t = strip_narr_ids(t); t = strip_narr_more(t); t = strip_narr_tail(t); t = norm_items(t); t = norm_d5(t)
+t = t.replace('first paint', 'first map')
+R = [
+("(the hand-off band; amended by reconciliation round 2: never the target's own rung) choose", "(the hand-off band, never the target's own rung) choose"),
+("(the hand-off band; amended by reconciliation round 2, TR-01: never the target's own rung) choose", "(the hand-off band, never the target's own rung) choose"),
+("chose, when a housing range forces fewer dwellings, to raise the doubling (at most two households a dwelling) and then lower the household size, never to leave the dossier's range,",
+ "chose, when a housing range forces fewer dwellings, to raise the doubling (at most two households a dwelling) and then lower the household size (never below 1.5 persons, the trigger the household count, a surplus built vacant), never to leave the dossier's range,"),
+(" (amended by J-V7.55: the trigger is the household count, the size never below 1.5 persons, a surplus built vacant)", " — amended by J-V7.55"),
+("houses along ways must stay along ways (amended by J-V7.53: VS5 cuts the interiors over 2 ha out of the perimeter before any stage allocates them)",
+ "houses along ways must stay along ways; VS5 cuts the interiors over 2 ha out of the perimeter before any stage allocates them — amended by J-V7.53"),
+("capped at 1, 3 and 6 — over", "capped by the law `1 + ⌊households ÷ 25⌋`, at most 6, declared ends exempt — over"),
+(" (amended: the cap is the law `1 + ⌊households ÷ 25⌋`, at most 6, J-V7.47; declared ends exempt, J-V7.71)", " — amended by J-V7.47, J-V7.71"),
+("(with `heart.prominence` +0.2", "(with `heart.prominence` +0.2"),
+(" (amended: with `heart.prominence` +0.2 beside the wind penalty −0.3, a sheltered shoulder or the lee foot of a rise scores above both the exposed crest and the flat bottom, as the reference's villages often sit on or beside a rise)",
+ "; `heart.prominence` +0.2 beside the wind penalty −0.3 puts a sheltered shoulder or the lee foot of a rise above both the exposed crest and the flat bottom, as the reference's villages often sit on or beside a rise"),
+("(20 ms + 0.4 ms per km² + 110 µs per footprint; p95 bars 30, 50 and 100 ms)", "(20 ms + 0.8 ms per frame km² + 110 µs per footprint; p95 bars 30, 50 and 100 ms, a declared miss above ≈ 1 100 people)"),
+(" (amended by J-V7.61: the law is now 20 ms + 0.8 ms per frame km² + 110 µs per footprint, with a declared miss above ≈ 1 100 people)", " — amended by J-V7.61"),
+("(≈ 140 m at 700 people)", "(the base's 150 m cap at the VILLAGE target, ≈ 120 m at the HAMLET target, ≈ 50 m at a 40-person thorp)"),
+("a thorp's settlement radius is ≈ 60 m and", "a thorp's settlement radius is ≈ 100 m and"),
+(" (amended: at the corrected radii the reach is the base's 150 m cap at the VILLAGE target, ≈ 120 m at the HAMLET target and ≈ 50 m at a 40-person thorp, J-V7.62)", " — amended by J-V7.62"),
+("over the critique's settlement-box cap,", "over a settlement-box cap,"),
+("chose to split the dwellings `D` into the village's `D_v` and the outlying `D_o`", "chose to split the dwellings `N` into the village's `N_v` and the outlying `N_o`"),
+("`D` as the sunlit share with g's shade = 1 − D, over g's wording alone,", "`D` as the sunlit share with item 102's shade = 1 − D, over item 102's wording alone,"),
+("over the largest church (the withdrawn first critique),", "over the largest church,"),
+("(amended by reconciliation round 2: every village row also names a `templateFamily` of V11 §3.6.1, from which its budget rows compile; `composition.classFamily` stays the composition key and is read first, J-V7.101)",
+ "; every village row also names a `templateFamily` of V11 §3.6.1 for its budget rows only, `composition.classFamily` (V02 §3.10.5, its one home) read first — amended by J-V7.101"),
+("(amended by reconciliation round 2, SR1-01: every village row also names a `templateFamily` of V11 §3.6.1, from which its budget rows compile; `composition.classFamily` stays the composition key and is read first, J-V7.101)",
+ "; every village row also names a `templateFamily` of V11 §3.6.1 for its budget rows only, `composition.classFamily` (V02 §3.10.5, its one home) read first — amended by J-V7.101"),
+(" (critique V7C-36; the critique's exclusion of reached closes from the strip is not taken: every unbuilt part may pass beneath, as fields do)", "; every unbuilt part, a reached close included, may pass beneath, as fields do"),
+(" (; the critique's exclusion of reached closes from the strip is not taken: every unbuilt part may pass beneath, as fields do)", "; every unbuilt part, a reached close included, may pass beneath, as fields do"),
+("over prose rows or the seam check's single-law presence shape,", "over prose rows or a single-law presence shape,"),
+(" *Amended in place by reconciliation round 5: \"one member\" read \"at least one member\", as V07 §2.4's forced seats and item 576 (a), (c) state it; the decision is unchanged.*", ""),
+("; the work is priced inside V-M2's range (amended by reconciliation round 4: the rim claim is taken only by a `market-hall`-family class with a `nearMarket` row, today `market_hall`; a `slave_market` joins slots up to `A_h` sited by its own rows toward the harbour or a gate, since those rows, not the market, pull it)",
+ "; the rim claim is taken only by a `market-hall`-family class with a `nearMarket` row (today `market_hall`), a `slave_market` joining slots up to `A_h` sited by its own rows toward the harbour or a gate, since those rows, not the market, pull it; the work is priced inside V-M2's range"),
+("; the work is priced inside V-M2's range (amended by reconciliation round 4, SR3-06: the rim claim is taken only by a `market-hall`-family class with a `nearMarket` row, today `market_hall`; a `slave_market` joins slots up to `A_h` sited by its own rows toward the harbour or a gate, since those rows, not the market, pull it)",
+ "; the rim claim is taken only by a `market-hall`-family class with a `nearMarket` row (today `market_hall`), a `slave_market` joining slots up to `A_h` sited by its own rows toward the harbour or a gate, since those rows, not the market, pull it; the work is priced inside V-M2's range"),
+("; the phases that run these placements and their ops are J-V7.125's (reconciliation round 5)", "; the phases that run these placements and their ops are J-V7.125's"),
+("; amended by round 6: an orphans step (step 0) takes", "; an orphans step (step 0) takes"),
+("(§7.7's *One path* sentence; round 6's pointer)", "(§7.7's *One path* sentence)"),
+("; one call on both paths keeps one list of what the village places (found beside TV-02 by reconciliation round 5)", "; one call on both paths keeps one list of what the village places"),
+("; one call on both paths keeps one list of what the village places (found beside by reconciliation round 5)", "; one call on both paths keeps one list of what the village places"),
+(", over the epoch key round 5 used (the town root, the placing stage, the epoch and an ordinal),", ", over an epoch key (the town root, the placing stage, the epoch and an ordinal),"),
+("(V08 §3.5.1 (d), J-V8.114; seam-settlements-r6 SR6-01; amended by the finalization)", "(V08 §3.5.1 (d), J-V8.114)"),
+("(V08 §3.5.1 (d), J-V8.114; seam-settlements-r6; amended by the finalization)", "(V08 §3.5.1 (d), J-V8.114)"),
+("— each row's roster share at VILLAGE's default target, computed by a script from the compiled rows and recomputed by T-V7-56 —", "— each row's roster share at VILLAGE's default target, compiled by V11's compiler (V11 §3.2.1 step 5a) and checked by T-V7-56 —"),
+("the pin kinds take their words from V08 §4.6's `host.pinKind.<kind>` rows, not a class row (amended by the finalization, SR6-04 (d))", "the pin kinds take their words from V08 §4.6's `host.pinKind.<kind>` rows, not a class row"),
+("the pin kinds take their words from V08 §4.6's `host.pinKind.<kind>` rows, not a class row (amended by the finalization)", "the pin kinds take their words from V08 §4.6's `host.pinKind.<kind>` rows, not a class row"),
+]
+t = apply(t, R, strict=False)
+
+t = t.replace("`research/sf/dossier-outputs.md` V07 §3.4", "`research/sf/dossier-outputs.md`, section 3.4")
+import re as _re
+_i = t.index('| J-V7.30 |'); _j = t.index('\n', _i)
+t = t[:_i] + "| J-V7.30 | chose to allow an author's declared works-and-shop split at village rungs (item 310) and never to merge a standing split pair on a rung change (least disruption, item 22), over forbidding splits below TOWN — superseded in part by J-V7.115, which makes a generated split item 105 (h)'s threshold at every rung, its one off switch V11 §3.7.4's `siting.web.splitEnabled` | V07 §2.1, V07 §3.12, V07 §4.1 |" + t[_j:]
+t = t.rstrip('\n') + "\n| J-V7.134 | chose to multiply item 102's settlement terms at village rungs — the heart's `sun`, VS2's `s(x)` and prosperity pass 1's daylight — by the climate row's sunlight cell (item 111 (c)) while the hinterland's suitability keeps its daylight term unscaled, over scaling every daylight reading, because in hot dry country the settlers seek shade and water while their crops still need sun | V07 §3.2 (4a), V07 §3.3, V07 §3.7 (3), V07 §3.9 (2) |\n| J-V7.135 | chose to run history-first generation at village rungs through the hand-off band's fold and the village's own epochs — generation at the peak's population by its own product, each replay epoch handing down by V07 §3.12 — over a village-specific replay path, because one fold and one set of phases keep a replayed village and a live one the same document | V07 §3.12a (1) |\n| J-V7.136 | chose to read a refounding's former fabric through one data key, `history.former`, with soft `rules.refound` cells — the heart toward the old centre, the palisade snapped onto a former wall line with gates at its gate gaps, a former way followed and reopened by `reopenWay`, a former bridge rebuilt, old foundations favoured in the slot race — over copying the old plan or ignoring it, because item 113 (b) asks that the old plan persist wherever it helps, `reopenWay` is the village's existing regrowth-first op, and soft cells leave the ground and the new settlers free | V07 §3.12a (3), V07 §2.2a |\n| J-V7.137 | chose to let a former town's abandoned streets become the village's field boundaries by construction — a decayed way keeps its chain, so the hinterland faces it bounds keep it as their edge — over a separate field-boundary rule, because the base's decline already keeps the record and its chain | V07 §3.12a (2) |\n| J-V7.138 | chose village cells `rules.aridWater` that multiply this volume's water shares by kind on an arid climate row, with the oasis drawn after the water type by §4.2 S0's chance, over reading the base's absolute arid chances at village rungs, because the village's water shares are VG's (its parity) and a multiplier keeps them at every non-arid row | V07 §2.2a, V07 §3.1 step 1, V07 §3.2 (4a) |\n| J-V7.139 | chose to read `density.bandWeight` as the elevation band's weight in VS2's sum (default 1, no output change), to delete `network.slack` and `network.emptyDensity` (read by no step; their removal changes no output), and to name `network.trailMinShare` in VS4's track limit, over keeping cells no rule reads, because every cell must have its reader (principle (7)) | V07 §2.2, V07 §3.3, V07 §3.5 step 6 |\n| J-V7.140 | chose to state the village `WhyProvider`'s answers as rows with `info.village.*` keys for `VillagePlan`, `VillageField` and `VillageEnd`, over prose examples, because V10's completeness test checks the owed provider by its rows | V07 §4.5 |\n| J-V7.141 | chose to derive the territory per head as the sum of the farm table's village rows (2.275 ha) and retire the stored 2.3, a declared −1.1 % in territory area, over two homes for one value, because an `editTable` of a farm row must move the territory with it (E-38) | V07 §2.2, V07 §3.2 (1), V07 §3.9 (1) |\n| J-V7.142 | chose to give `v.smithy` the same-kind spacing `K spread 200` that its COUNT reading spaces members by, over a spacing the row did not state | V07 §2.4 |" + '\n'
+t = t.replace('(2.3 ha per inhabitant over a 0.8 usable share, a floor per rung)', '(the farm rows\' 2.275 ha per inhabitant over a 0.8 usable share, a floor per rung)').replace("V07 §3.2 (1), V07 §3.9 (1) |\n| J-V7.8 |", "V07 §3.2 (1), V07 §3.9 (1) |\n| J-V7.8 |")
+t = t.replace("the fields, meadow, commons and woods to be the people's own |", "the fields, meadow, commons and woods to be the people's own — amended by J-V7.141 |", 1)
+
+t = t.replace("because V-M0's exit already runs under `VG` and V11 lands its entries with V-M0; so SR3-08's substance, a builder of this volume meeting V11's five entries, lands in V-M0's row, and SR3-07's retiming of V11's text to V-M1 is moot; the preset file's data work moves 0.25 pw from V-M1 to V-M0, the total unchanged",
+  "because V-M0's exit already runs under `VG` and V11 lands its entries with V-M0, so a builder of this volume meets V11's five entries in V-M0's row; the preset file's data work sits in V-M0, the total unchanged")
+t = t.replace("— without the hooks TV-02's and TV-03's failures return on the village's own milestones;", "— without the hooks a record or a pin at a village epoch would go unplaced on the village's own milestones;")
+t = t.replace("| V07 §3.12, V07 §8, V07 §1 (13), W28, item 202 |", "| V07 §3.12, V07 §8, V07 §1's facts (5), W28, item 202 |")
+t = t.replace("| V07 §3.15, W67, V07 §8, V07 §1 (11) |", "| V07 §3.15, W67, V07 §8, V07 §1's facts (2) |")
+t = t.replace("and V06 §3.16's list (X43),", "and V06 §3.16's list (V06 X43),")
+t = t.replace("a roster member's undone with an epoch that is one — TW-07) |", "a roster member's undone with an epoch that is one) |")
+save('20-s9.md', t)
+print('ok', len(t.split()))

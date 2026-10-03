@@ -31,7 +31,7 @@ R = [
  """| `calamities` | V06 §2.4's calamity rows | the dossier's calamities as hazard events (§3.11.1; DR28) |
 | `spring.droughtLoss` · `spring.overdrawLoss` · `spring.recoverPerYear` | 0.08 · 0.10 · 0.05 | a spring's `flow` lost per drought year, lost per year per unit of over-draw, regained per year when neither acts (§3.12.1; item 111 (b)) |
 | `spring.fullHouseholds` | 400 | the households a spring at full flow supplies inside its pull radius; more draw than `flow` × this is over-draw (§3.12.1) |
-| `spring.failFlow` · `spring.regrowFlow` | 0.25 · 0.5 | below the first a spring has failed (its gardens and grove wither, its quarters may decline); at or above the second they grow back (§3.12.1) |
+| `spring.floorFlow` · `spring.failFlow` · `spring.regrowFlow` | 0.05 · 0.25 · 0.5 | the least flow a spring keeps (a seep); below the second a spring has failed (its gardens and grove wither, its quarters may decline); at or above the third they grow back (§3.12.1) |
 | `spring.witherAfterYears` · `spring.dryAfterYears` | [3, 8] · [20, 50] | drawn once per garden face or grove row when its spring falls below `failFlow`; drawn once per spring at flow 0: the pond dries to a hollow (§3.12.1) |
 | `replay.maxEpochs` | 60 | the most coarse epochs one history replay at generation runs; above it the epoch length bends (§3.20.2) |"""),
 ("**Not calibratable** (SCC-57; J-V6.111). Eleven columns and one row set carry `calibratable: false` in their `ColumnSpec` (V11 §2.1), so V12",
@@ -62,6 +62,10 @@ refusal offers its alternative: "Make a what-if copy and advance it" (`forkAt` a
 its time (§4.11 *The clock*; J-V6.2). The refusal offers its alternative: "Make a what-if copy and advance it" (`forkAt` at
 the head, detached, V06 §4.4). On a standalone neighbourhood document it bends (V06 §4.1)."""),
 # §2.4
+("interface HazardRow { kind: string /* 'fire', 'flood', 'collapse' … data */; operator: 'burn'|'inundate'|'topple';",
+ "interface HazardRow { kind: string /* 'fire', 'flood', 'collapse', 'drought' … data */; operator: 'burn'|'inundate'|'topple'|'none' /* none: a kind the hazards phase never strikes, read by another step */;"),
+("`topple`, event-only. An unknown kind is reported and ignored (V06 §3.17).",
+ "`topple`, event-only; `drought` — `none`, event-only, `params.years` its length (default 1), read by the spring row (V06 §3.12.1) and never\nstruck. An unknown kind is reported and ignored (V06 §3.17)."),
 ("**The calamity table** (`tables/evolution.json#calamities`; DR28, item 388; this volume owns it — the port only carries",
  "**The calamity table** (`tables/evolution.json#calamities`; DR28, item 388; this volume owns it — the port only carries"),
 ("interface CalamityRef { id: string /* the dossier's calamity id */; name: string; type?: string; severity: 'minor'|'moderate'|'major'|'catastrophic';\n  targets: Id[] /* the institutions it marked ruined (§7.7 F5), as their bound uses' ids */;\n  deaths: number /* the calamity's deaths (V08 §2.6a (4), §3.6; 0 when the dossier gives none): added to the cemeteries' burials of the epoch at its week (V06 §3.18.2 (3); ST-31) */ }\n",

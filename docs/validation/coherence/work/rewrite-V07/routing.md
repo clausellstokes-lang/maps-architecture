@@ -36,3 +36,4 @@ docs/validation/coherence/new/volumes/V07-village.md. Report: docs/validation/co
 - §2.4: the 'no split switch' clause from deleted W40 (cite V11 §3.7.4)
 ## Parts done
 - 00-head … 13-s3f written (2026-10-03); W70 compacted; anchors (4a), §3.12a created; (4v) anchor dropped (W7 cites V07 §4.5)
+- all parts 00–22 written and assembled; report rewrite-V07.md (with the 333-row mapping table); results/coherence_rewrite-V07.json; LANDED (2026-10-03)

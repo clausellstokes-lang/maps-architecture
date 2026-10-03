@@ -3,55 +3,25 @@
 
 ### 1.1 What this volume builds (to build depth)
 
-1. **Existence and count** — the rung gate, the model setting, the dossier's coherence gate, the three ordered slots
-   (V05 §3.2).
-2. **The supply law made measurable** — the town supply and the carried supply on absolute field values, answering the
-   retrovalidation's RV-pc-3 (the town supply's unreachable top and its knife-edge gate) (V05 §3.3).
-3. **Purpose** — a prosperity island or an institution island, per slot, by rule or by assignment, with the institution
-   rows (palace, cathedral, prison, tower) (V05 §3.4).
-4. **The sky allocation** — S7b (5)'s fill, the carried workplaces, the coverage units, the population kept whole (V05 §3.5).
-5. **Shape** — the outline from §4.2 S1 (2)'s routine in the island's own local frame (V05 §3.6).
-6. **Placement** — where each island floats over the ground plan, by one scored draw with a failure ladder (V05 §3.7).
-7. **The island arena** — its frame, its L0 (the void, the land, the rim, water), its terrain echoing the ground, its
-   conjured river and waterfall (V05 §3.8).
-8. **Altitude and the underside** — the rocky root, its profile and thickness, the clearance over the ground (V05 §3.9;
-   the owner's J98).
-9. **Access** — hoists, rope lines, floating stairs and bridges of light, with a landing yard at each end (V05 §3.10).
-10. **The island's field and its unit inputs** — a gradient carrying each band on its share of the land, and the inputs
-    volume 1's unit run reads to lay the island's districts (V05 §3.11, §3.12).
-11. **Lights and names** (V05 §3.13, §3.14).
-12. **Over time** — the island laws an epoch applies, the households they move through volume 6's typed channels, an
-    island whose institution the dossier removes, the fall and its landfall over every covered kind (V05 §3.15, §3.16).
-13. **Failure ladders and determinism** (V05 §3.17, §3.18); **every edge defined** (V05 §3.23); **editing, rendering,
-    labels, exports, budgets, tests, build plan** (V05 §4–§8).
-14. **The island's shade strip** (the owner's item 102 on the island's side, with J98's underside) — the shade each island
-    casts across the model's representative day on §4.5's sampler, which field pass 2 folds into the daylight term; the
-    sky receivers' shade; its lag behind edits; the altitude fixed at SKY so the strip is read before the plots are cut;
-    the **shade basis**, the persisted copy of the island as the field last read it, so the lag (item 102 (e)) survives
-    a save, a load and a replay (V05 §2.1, §3.9, §3.19).
-15. **The siting rulebook across the island** (items 103 and 104 where they reach islands) — the route distance through
-    the accesses that the one placement solver reads between arenas, the island's districts as coverage units, the trades
-    an island never carries, the landing classes' siting facts, and a custom institution taken as an island institution by
-    its scene archetype (V05 §2.4, §3.4, §3.5, §3.11, §3.20).
-16. **Custom supply chains across the island** (item 104 (h) where it reaches islands) — which nodes of an active chain
-    may go up, how its links cross by the route, its order and shape across two arenas (V05 §3.5 (3), §3.20 (9)).
-17. **The magical node** — the dossier's `magical_node` deposit as a term of the town supply (V05 §3.3), the consumer
-    volume 8's deposits row names (V08 §2.6).
-18. **The ground reservation's hand-over and the island cathedral's crypt** — who takes the precinct or palace site an
-    institution island leaves on the ground, and item 109 (k) on an island (J111): the cathedral's crypt, always the
-    settlement's largest, a vault in the island's rim slab; island churchyards never catacomb sources (V05 §3.5, §3.10 (5)).
-19. **The rim as a barrier** (item 106 where it reaches islands) — the rim a `sheer` barrier that closes any wall circuit;
-    an author's island wall walling only the landing tops (V05 §3.21).
-20. **The supply web, spread and pull, and ladders across the island** (items 105, 107 and 108 where they reach islands)
-    (V05 §3.4, §3.5, §3.20 (10)–(12)).
-21. **Item 110 on, under and against the island** — raised parts, retaining walls, stepped massing and levelled
-    platforms as casters under an island; the accesses as overhead obstacles to a raised deck and the landing feet kept off
-    decks and raised-way piers; a raised stroke to a rim bent into an access (J-VI.4 (d)); the island's own retaining
-    walls; what the raised-way generator reads of the sky; the landfall over raised parts, retaining walls and deck plots;
-    the strip's receiver heights under levelling; a removed island or access that stays removed (V05 §3.22, with §3.2 (6),
-    §3.9, §3.10, §3.15 (5), (7), §3.16, §4.2).
-22. **An island's own water** (item 111) — the oasis, the water pull and the climate cell stop at the island's rim
-    (V05 §3.8 (4), §3.11).
+| what | where |
+|---|---|
+| existence and count: the rung gate, the model setting, the dossier's coherence gate, the three ordered slots, the removals that hold | V05 §3.2 |
+| the supply law made measurable: the town and carried supplies on absolute field values (RV-pc-3), the magical node (V08 §2.6's deposits row) | V05 §3.3 |
+| purpose: a prosperity or an institution island (palace, cathedral, prison, tower), by rule or by assignment, custom institutions by archetype, item 108's ladders | V05 §3.4 |
+| the sky allocation: S7b (5)'s fill, the carried workplaces, the coverage units, the S3 reservation's hand-over, the cathedral's crypt and item 109 (k) on an island | V05 §3.5 |
+| shape and placement | V05 §3.6, §3.7 |
+| the island arena: frame, void, land, rim, terrain echo, conjured river and waterfall; an island's own water under item 111 | V05 §3.8 |
+| the underside, the ground reference and the altitude (J98) | V05 §3.9 |
+| access: hoists, rope lines, floating stairs and bridges of light, with their landing yards | V05 §3.10 |
+| the island's gradient field, its context vector, and the inputs volume 1's unit run reads | V05 §3.11, §3.12 |
+| lights and names | V05 §3.13, §3.14 |
+| over time: the island laws an epoch applies, the households through volume 6's channels, the fall and its landfall over every covered kind | V05 §3.15, §3.16 |
+| failure ladders, determinism, every edge | V05 §3.17, §3.18, §3.23 |
+| the shade strip (item 102 on the island's side) and the shade basis that lets its lag survive a save | V05 §2.1, §3.19 |
+| the siting rulebook, the supply web and custom chains across the island (items 103–105, 107) | V05 §3.20 |
+| the rim as a barrier (item 106) | V05 §3.21 |
+| item 110 on, under and against the island | V05 §3.22 |
+| editing, rendering, labels, exports, budgets, tests, build plan | V05 §4–§8 |
 
 ### 1.2 The base hooks this volume consumes
 

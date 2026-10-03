@@ -1,0 +1,31 @@
+{
+ "key": "coherence/rewrite-V05",
+ "dir": "docs/validation/coherence/new/volumes",
+ "old_kb": 484.3,
+ "new_kb": 381.2,
+ "facts_mapped": 544,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "cited as base text at their V05 sections (none applied by this volume; the base parts applied them): items 203, 204, 213, 244, 245, 246, 251, 252, 253, 260, 274, 282, 286, 290, 295, 296, 299, 307, 308, 309, 313, 320, 331, 356, 375, 387, 408, 415, 416, 476, 546, 547, 568, 575, 580",
+  "V05 §10 replaced by a pointer table: BCR-V5-1..30 -> their f items (BCR-V5-23 and BCR-V5-28 carried by V06), each request checked applied in the landed base parts first",
+  "g item 111 (new design, routed here): V05 §3.8 (4) 'The island's water is its own' and §3.11 (no oasis on an island, the water pull and the climate cell ground-only, w_sun as filed on the island), J-V5.85, T-V5-9 (h)",
+  "conflicts: MC-05, MC-07, CF-PIPE-06, V05-ICONF-1 ('update' basis), V05-XCONF-1 (DR27), CANON-C03 (Q1 answered J122)",
+  "elegance: E-01 (stretch-state profile cited), E-02 (kept apart, nuance at J-V5.62), E-16 (no V05 use left), E-24 (J-V5.40, J-V5.42, J-V5.61 marked)",
+  "wiring: W-HOOK-02, V05-WGAP-2a/-2b (bend table with every key), V05-WGAP-3 (richest, cells, evaluated, removed.generated read); V05-WGAP-1's V05 end",
+  "edges: V05 §3.23 defines 60 undefined + 48 untested edges, 31 owned combinations, the named raised-way-under-shade combination and EI-V05-EDGE-1..4; new bars T-V5-33, T-V5-34; J-V5.82..85",
+  "17 hand-offs closed (V06 X10/X15/X26/X37/X40/X41/X46, V08 X8, V09 XV-V9-8/-16/-25, V10 CVR-V10-14, V12 X-V12-4/-11/-15/-16/-17); 69 routed findings FIXED; words 81 161 -> 64 229 (-20.9 %; -27.9 % before the mandated additions)"
+ ],
+ "conflicts_resolved": 6,
+ "cross_notes": [
+  "V09: §4.20.8's hit stack un-displaces sky hits and tool points under offset (world point less elevation x offsetPerMetre) before the anchor conversion (V05-WGAP-1)",
+  "V09: §4.9 gains the bend rows V05 §4.2 names: bend.island.count/.rung/.move/.altitude/.floor/.rimStop/.fallen, bend.access.kind/.deck/.rimFull/.last, bend.raised.hoist, bend.wall.rim (V05-WGAP-2a); XV-V9-8, -16 (a), -25 met",
+  "V10: the bend category carries the same lines (V05-WGAP-2b); CVR-V10-14's V05 part met by V05 §4.5's island section table; FieldDrivers.sources lists no island whose strip has cells 0",
+  "pipeline: II.6 (3) names node.bonus without the 0.25 (value at V05 §2.4, V05-RESTATE-3); §4.3 drops 'or a generation stage's after SKY' (the slot commits every generated raised part before S7b (1))",
+  "scope: §13's sky row reads T-V5-1 – T-V5-34; T104-2's island form is T-V5-24 (b)-(c), T-V5-23 is T104-1's; §14's @plat/sky names skyUnitInput (G-unitinput); index J-V5.82–85 if volume rows are indexed",
+  "determinism: E-07's dry-run outcome table cites V05 §4.2's bend table for the sky's bends; §7.4's convert row covers a landfall re-landing another island's access",
+  "rendering: §11.1 GeoJSON exports a vertical sky access (hoist, stair) as a Point with topElevationM and footElevationM",
+  "V06: §6.2 cites V05 §6's fallIsland row, now + 30 ms per access of another island it re-lands; X15, X26, X46 met",
+  "V12: §3.9.1's M6-sky PanelSpec stays provisional — not rated under J122 (V12-XCONF-1); X-V12-4/-11/-15/-16/-17 met for V05",
+  "adjudicator: V05-0136's canon 'reference' role (landing-class facts -> V11) ruled the other way: V11 §3.5.13 compiles its rows from V05 §2.4's facts and cites V05 §2.4, so the home stays V05 §2.4"
+ ]
+}

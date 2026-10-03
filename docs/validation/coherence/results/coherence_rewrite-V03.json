@@ -1,0 +1,29 @@
+{
+ "key": "coherence/rewrite-V03",
+ "dir": "docs/validation/coherence/new/volumes",
+ "old_kb": 493.9,
+ "new_kb": 384.5,
+ "facts_mapped": 513,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "cited as base text, never restated (48 + 241, 346): 218, 219, 225, 226, 228, 229, 230, 231, 232, 233, 234, 235, 236, 237, 238, 239, 240, 241, 242, 262, 263, 270, 273, 309, 324, 329, 334, 346, 347, 351, 352, 353, 354, 370, 374, 420, 428, 432, 436, 450, 451, 457, 482, 483, 505, 524, 567, 568, 578, 585",
+  "V03 §10: the 33 BCR blocks became one pointer table (BCR-V3-1..33 -> items 428, 232, 352, 374, 457, 420, 450, 273, 482, 329, 334, 233, 234, 483, 235, 353, 236, 451, 237, 238, 239, 262, 324, 354, 240, 241, 242, 263, 347(+346), 567(+568), 505, 578, 585) with each base home",
+  "no g item 111+ part routed to V03"
+ ],
+ "conflicts_resolved": 6,
+ "cross_notes": [
+  "V04: T-V4-50 gains V04-XCONF-3's elaboration-independence clause (V03 T-V3-23 (g) cites it); V03 cites gradeFaces(chamberId) at V04 §3.5.4 (f) and the band keys at V04 §5.1 under §14's PageUp/PageDown precedence",
+  "V09: §4.17.5 (e) words and cites V03 §3.7.4's crypt-edit dry runs (bend.crypt.largest 'stops at {share} of the cathedral's' = crypt.rankShare x the principal's area; bend.crypt.cathedral = smallest lawful size, the class's smallest cryptM2 cell; the join's closing a fate); the church Below line drops 'floor vaults (wet ground)' and cites V03 §3.7.4's wet-ground rule; XV-V9-5, XV-V9-15 closed at V03; V09's catalogue holds the words of info.plan.<cause> (11), info.plan.noRoom and info.crypt.* keys",
+  "V10: §3.9a crypt rows as V03 §4.6 words them; CVR-V10-9's list reads V03's eleven causes with deckNoCellar (not deckRefusal); CVR-V10-2 and CVR-V10-9 closed at V03 §4.6",
+  "V05: levelledGroundCm's reader list may name V03 §3.6's W2 outside sample",
+  "V01: basementDoor(b)'s rule 3 now takes no side whose sample lies across a cliff edge (V03 §3.13 (f)); V01's reserve reads the value, no V01 text change; V01 may cite V03 §3.7.1's doorRunPoint (E-29) as the shared core",
+  "scope: V03 §8 agrees with §16's M6-P row and INDEX §4 (P0, P1, P3 after M4 on base buildings; P2 once V04's access records exist; the rest after M6; 17.75-24.25 pw; PE in M2b/M3a); B-PLAN (§13.2) gains T-V3-36/T-V3-37's edge fixtures, no price; §14's keymap precedence present",
+  "model §2.6: V03 cites §2.6 for basementDoor's signature, the crypt ladder and lift, and the walk-out; *Basements* may optionally cite V03 §3.7.4 for the non-always church's wet-ground outcome",
+  "rendering §11.1 and pipeline §4.12 point to V03 §5.3 and V03 §2.4's workLimits row, so those stay V03's home (canon reference roles for V03-0294..0298 and V03-0146 answered by the landed base)",
+  "V02: X11 closed at V03; V03 §3.6 W2 cites V02 §8.1 for facadeBays/endMarginM/bayM moved forward",
+  "V06 X3, X18; V11 X-V11-16 (d); V12 X-V12-4, -15, -16, -17, -18: closed at V03 §2.4, §2.5, §3.7.4, §8",
+  "V07: standing rule — a new village class takes a V02 composition.classFamily row and, only where that row misfits, a V03 programme row (J-V3.111, J-V3.112)",
+  "shrink: 82 788 -> 66 643 words (-19.5 %), below the 25-40 % band; held by §2.4's default tables, §3's rules, §7's bars, §9's 129 reasoned decisions, ~3 900 words of mandated additions (§3.13 edges, T-V3-36/37, §4.1 edit table, §4.6 sections, crypt dry runs, wet-ground rule, doorRunPoint) and the V03 §x.y self-citation form",
+  "doc_checks PROVISIONAL (reference corpus absent in the cloud checkout): C1 0, C2 0, C4 0, S1 0; C3 336 (505 before); S2 78 volume pointers"
+ ]
+}

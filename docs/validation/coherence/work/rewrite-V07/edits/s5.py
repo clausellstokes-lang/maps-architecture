@@ -14,6 +14,7 @@ R = [
 ("the registry's completeness test covers it.", "the registry's completeness test covers it. An oasis, its spring, grove and gardens export by the base's mapping\n(§11.1; item 111), and a fact the effective peak sized carries its `symbolic` provenance into every export (§2.8; item 113)."),
 ]
 t = apply(t, R, strict=False)
+t = t.replace("`wall` layer's \"show circuit\" option (V09's) traces them", "`wall` layer's \"show circuit\" option (`LayerSpec.showCircuit`, §8.4, item 413; V09's control) traces them")
 t = t.replace('## 6 Performance budgets', '').rstrip() + '\n'
 save('17-s5.md', t)
 print('ok', len(t.split()))

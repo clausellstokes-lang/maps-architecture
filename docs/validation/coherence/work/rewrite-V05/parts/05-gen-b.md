@@ -163,8 +163,8 @@
    terrain; SKY-F re-runs the test on the cathedral's plot at its levelled platform datum (`levelledGroundCm`, item 309)
    where the unit run's S10 or S11 levelled it, since a platform cut into a slope lowers the floor — a form change listed
    as a fate, F-SKY-CRYPT's ladder as before.
-6. **The ground's field** gains, at field pass 2 (S10a), a positive kernel at each ground landing (`landingKernel`; §4.5,
-   item 295): the land by a landing trades with the island above.
+6. **The ground's field** takes §4.5's positive landing kernel at each ground landing in field pass 2 (item 295; its
+   cells `landingKernel`, V05 §2.4).
 7. **F-SKY-ACCESS** (V05 §3.17) where a top has no admitted kind.
 
 ### 3.11 The island's field and its context vector
@@ -229,18 +229,14 @@ prior, never a strategy** (J-V5.48): on every island district, S7c's template dr
 template by `fabricPrior` and chooses as it does anywhere; the hint is a prosperity island's `ring` from `fabricRingHa`
 and `bent-cut` below it, and an institution island's row's (`street` for a palace — an axial avenue from the main landing
 to the forecourt; `landmark` for a cathedral; `square` for a prison or a tower), always a valid `FabricStrategyId`
-(V01 §2.1). The unit run (V01 §3.10.3, which states each of these as its own step) writes only the island's arena; never
-cuts or plots the rim strip, which it plants as a rim walk once, after its districts' S12b, by `plantRimWalk` (V01
-§3.10.3 step 4; §4.9's rim-walk row, item 313; J-V5.26); reaches every landing attach with a way (the island's gates);
-cuts the institution claim as a hole and places its institution there by S10b; uses the river's crossing sites as V01
-§3.10.3 (4) qualifies and builds them (a site whose far bank no street reaches stays a `site`, reported in
-`requestedVsBuilt`); splits the allocation over its districts; reads the island's field from the unit inputs; measures
-every pull to a class on another arena by the route distance (V05 §3.20); levels island ground by item 110 (a)'s
-thresholds as the ground's S10 and S11 do, laying each retaining wall it raises on the island's arena and never on the
-rim strip or along the rim (V05 §3.22 (4)); leaves `SeamReport.portalsTotal` 0; and returns its district ids, which
-SKY-F writes to `SkyIsland.districts`. The seven inputs this volume owns — the call, no S1 on the island, the field, the
-claims with the rim strip, the `sky-*` kinds, the fabric prior and the district count — are V01 §3.10.3's steps 1–4 as
-written there.
+(V01 §2.1). The unit run lays the island by V01 §3.10.3 — no S1, the unit's outline the land face less the strip and
+the claims, every landing attach and laid deck end reached, the institution placed on its claim by S10b, the crossing
+sites qualified and built, the allocation split over the districts, the rim walk planted once by `plantRimWalk` (J-V5.26),
+`SeamReport.portalsTotal` 0 and its district ids returned for SKY-F to write to `SkyIsland.districts` — and honours two
+rules of this volume: every pull to a class on another arena is measured by the route distance (V05 §3.20), and the
+levelling it does by item 110 (a)'s thresholds lays its retaining walls on the island's arena, never on the rim strip or
+along the rim (V05 §3.22 (4)). The seven inputs this volume owns — the call, no S1 on the island, the field, the claims
+with the rim strip, the `sky-*` kinds, the fabric prior and the district count — are those V01 §3.10.3's steps read.
 
 **SKY-F checks** that every landing yard holds a `sky_landing_top` plot, that a way meets every island attach, and that a
 walkable part-0 way meets every ground landing attach after S8 (the destinations of V05 §3.10 (4)); that no island

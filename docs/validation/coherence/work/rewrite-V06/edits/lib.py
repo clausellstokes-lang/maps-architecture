@@ -30,3 +30,11 @@ def strip_narr_ids(t):
     return t
 def words(t):
     return len(t.split())
+CRIT = r'critique-V\d+(?:\s+|\n\s*)(?:V\d+C|C\d+)-[\d]+(?:-[\d]+)?(?:–(?:C\d+-)?[\d]+(?:-\d+)?)?(?:\s?\([a-z0-9]+\)(?:–\([a-z0-9]+\))?)?(?:\'s reconciliation)?'
+def strip_critique(t):
+    # '(X; critique-V5 C5-52 (b))' -> '(X)'; '(critique-V4 C4-110-1)' -> ''; 'critique-V1 V1C-86' inside lists
+    for _ in range(3):
+        t = re.sub(r'[;,]\s*' + CRIT + r'(?:\s*(?:,|and)\s*(?:\n\s*)?' + CRIT + r')*', '', t)
+        t = re.sub(r'\(\s*' + CRIT + r'(?:\s*(?:,|and)\s*(?:\n\s*)?' + CRIT + r')*\s*;\s*', '(', t)
+        t = re.sub(r'\s*\(\s*' + CRIT + r'(?:\s*(?:,|and)\s*(?:\n\s*)?' + CRIT + r')*\s*\)', '', t)
+    return t

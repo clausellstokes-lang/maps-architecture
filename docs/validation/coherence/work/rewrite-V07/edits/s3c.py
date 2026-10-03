@@ -16,6 +16,8 @@ around it,""",
  "after that it is kept and decays by stretch (the stretch-state profile, §2.2 rule 5; V06 §3.19.4), so a deserted hillside\n   village keeps its scarps."),
 ]
 t = apply(t, R, strict=False)
+t = t.replace("and item 102's daylight\n   term — terrain and the palisade casting, one pass, never iterated.",
+  "and item 102's daylight\n   term × the climate row's sunlight cell — terrain and the palisade casting, one pass, never iterated — with §4.5's water\n   term `w_waterP × prox(x)` (item 111; V07 §3.2 (4a)).")
 t = t.replace('`D_v`', '`N_v`')
 t = norm_d5(t)
 save('10-s3c.md', t)

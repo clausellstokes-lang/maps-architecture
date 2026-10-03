@@ -22,5 +22,11 @@ other target, V11 §2.3), absent meaning the class plays itself."""),
 ]
 t = apply(t, R, strict=False)
 t = norm_d5(t)
+rows = """| `water.proximity` (VS1; item 111) | VS1, from S1's water bodies (the oasis's spring among them) and the well-yield raster, with the climate row's pull radius | VS1's heart score, VS2's `p(x)`, VS5's pass 1 | never (recomputed with VS1) | recomputed with VS1; at an epoch from the water the epoch leaves | — (derived) | — |
+| `history.former` (item 113; a refounding) | the kernel's declaration layer, from the destroyed settlement's ruined records | VS1, VS3, VS4, VS6, S10b and S11 at the refounding epoch | never (read from the standing ruined records) | re-read at every derivation of the refounding | — (derived) | absent: no refounding |
+| a former town's remnants at village rungs (item 113; V07 §3.12a) | the replay's epochs (V06's engine) and the hand-off down | as the standing fabric's rows above; the clerk (the replay record) | the base's records in their decline states, a symbolic peak's facts with provenance `symbolic` | kept as standing fabric | none: the replay's epochs are the creation prefix, never undo targets (§7.4) | base |
+"""
+k = t.index('| the new request fields (')
+t = t[:k] + rows + t[k:]
 save('07-s2d.md', t)
 print('ok', len(t.split()))

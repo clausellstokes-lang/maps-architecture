@@ -45,6 +45,10 @@ chamber row and holds an institution only by declaration. The street-vault and b
 ("under it go in the same commit (critique C4-110-3).", "under it go in the same commit (V04 §3.5.4)."),
 ]
 t = apply(t, R, strict=False)
+t = t.replace("the defensibility table's cliff threshold over its height (V11's rows of item 106 (a)), and the gorge features.",
+  "the cliff threshold over its height of the defensibility table — V11 §3.16.1's `walls.barriers` rows, keyed by\n      `WallBarrierRow.arcKind` (the closure-arc kinds of J-VI.3; item 106 (a)) — and the gorge features.")
+t = t.replace("c. *Classifying the arcs* by the defensibility table (V11's rows): every water arc and every arc within",
+  "c. *Classifying the arcs* by `walls.barriers` (V11 §3.16.1), each arc by its `arcKind`: every water arc and every arc within")
 t = t.replace('`D_v`', '`N_v`')
 t = norm_d5(t)
 save('09-s3b.md', t)

@@ -3,7 +3,7 @@
 
 §13's families; each bar's class — **C** conformance, **P** parity, **O** outcome — in brackets. The base's island bars
 T10-1, T13-1 and T15-1 stand (§13.2), and T102-2's island clause is T-V5-19 with T-V5-20 and T-V5-21; T103-1 runs
-T-V5-22 on its island seeds, T104-1 T-V5-23 and T104-3 T-V5-24. Every no-op pin below is a `NoOpPin` on V12 §3.7.8's
+T-V5-22 on its island seeds, T104-1 T-V5-23, and T104-2 and T104-3 T-V5-24. Every no-op pin below is a `NoOpPin` on V12 §3.7.8's
 engine, "off" for item 110's rows read from V11 §3.24.0's switch table (every `deck.offer` 0, `terrace.enabled` false,
 the `raisedWays` chances 0) (X-V12-11).
 

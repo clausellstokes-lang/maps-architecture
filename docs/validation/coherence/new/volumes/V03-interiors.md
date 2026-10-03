@@ -450,7 +450,7 @@ interface FurnitureRow { // the abstract glyph catalogue; setting-agnostic shape
   tall: boolean /* taller than a sill: an against item keeps off a window's bay (F3) */ }
 interface PatternRow { pattern: LayoutPattern; requires: 'none'|'entrance'|'hall'|'core'|'courtOrStreet' /* what a seed piece must hold for the pattern to cut it (V03 §3.5) */ }
 interface EntranceAnchorRow { entrance: Entrance['role'] | 'concealed'; roles: (RoomRole | 'crossPassage' | 'firstGround' | 'concealedFirst')[] /* A2 (8) */ }
-interface WingAffinityRow { role: RoomRole; wings: string[] /* WingRole values (BCR-V2-01) or 'part:<partName>' (BCR-V3-13), preferred first (A5 (e));
+interface WingAffinityRow { role: RoomRole; wings: string[] /* WingRole values (BCR-V2-01) or 'part:<partName>' (§2.6's BaseWing.partName), preferred first (A5 (e));
                                  'tier:top' the highest storeyed tier, 'tier:entrance' the tier holding the main entrance's storey (item 110 (c)) */ }
 interface SubLocationRoleRow { key: string /* a SubLocation tag, a SettlementForge tag of a custom service, or 'cap:<capacity key>' */; roles: RoomRole[] /* A2 (5) */ }
 interface AccessHostRow { reach: string /* the reached element's system kind (II.7.6's kinds, sewer included, ruin, item 109 (b), and mine), or 'well' */;
@@ -1190,7 +1190,7 @@ exports read it, V03 §5.3).
   the same way.
 * **H4 Records.** One `Chimney` per stack (`levels` from its lowest hearth to the highest level H3 carried it to;
   `wing` the hearth's wing), `Room.hearth = { wall, at, chimney }` filled after the partition gives the room its wall
-  ids. A stack carried into another wing is reported `stackCarried` (information, no tier). The roofscape draws the
+  ids. A stack carried into another wing is reported as the note `stackCarried` (information, no tier; V03 §2.3). The roofscape draws the
   stack over `column` on the roof or terrace at `levels[1]`'s wing, never on `Chimney.wing`'s roof where a wing standing
   on it covers the column (volume 2's roofscape, V02 §5.2).
 * **E1 Entrance points.** Each entrance's inward point (the opening's midpoint moved `door.mainCm` inward) on its storey
@@ -1486,7 +1486,9 @@ the rung stale (§2.8's inputs).
   `door.mainCm`, `cellar.insetCm` and `cellar.depthCm`; it draws nothing and reads no plan, is implemented in
   `@plat/plots` beside `facadeBays` and re-exported by the plan package (`@plat/buildings`, BCR-V2-18's precedent), and is built with the eager facts at M3a (V03 §8's PE), so the plan
   rung's step 3 (§2.6), volume 1's entrance reserve (V01 §3.8.2 step 5), T28-3 and the exports read
-  one door without elaborating anything. **The door run** — `doorRunPoint(run, target, ok)`, the one geometric core of both outside doors (this function and
+  one door without elaborating anything.
+
+  **The door run** — `doorRunPoint(run, target, ok)`, the one geometric core of both outside doors (this function and
   `stackAccessDoor(b, a)`, V03 §3.7.2 (1); each keeps its own rules). It takes a straight run of a ring side, a target
   point and an admissibility test `ok` on the door's **span** — two `moduleCm` centred on a point of the run (a door's
   width, §2.6 step 3). A run shorter than two `moduleCm` gives nothing; otherwise the result is the target's projection
@@ -2213,7 +2215,7 @@ tier a chimney rises through); `facts` gain `elevationCm` and the room's tier (w
 `PlanReport.owed` row and the unit's asked and built form. The building's path `plan` ("why
 these units?", "why is there no kitchen?", "why no crypt?", "why are there no rooms?", "why can't I reach the top
 tier?") answers from the ladder row at the occupants' band, `Building.households`, A1's `programmeSource`, the owed rows,
-`Basement.crypt`'s derivation (the column value, the ladder's form, the rank trim) and `PlanReport.warnings`. Both are knowledge-filtered by volume 10's oracle rules and V03 §5.4.
+`Basement.crypt`'s derivation (the column value, the ladder's form, the rank trim), `PlanReport.warnings` and `PlanReport.notes`. Both are knowledge-filtered by volume 10's oracle rules and V03 §5.4.
 
 **Sections** (V10 §3.9a; the facade's `why` query merges them after the kind's provider, V10 §3.9). This volume
 registers two `WhySectionProvider`s; every row's words are a key of volume 9's catalogue, one key per value:

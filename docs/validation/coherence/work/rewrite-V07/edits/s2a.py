@@ -5,7 +5,7 @@ R = [
 ("All lengths in metres (`M`) or centimetres (`Cm`), angles in centidegrees (`Cdeg`), areas in m² or ha as named, as V07 §2.1\ndeclares.",
  "All lengths in metres (`M`) or centimetres (`Cm`), angles in centidegrees (`Cdeg`), areas in m² or ha as named, as §2.1\ndeclares."),
 ("Nothing in this section restates a base record; base records gain fields only through V07 §10's\nrequests.",
- "Nothing in this section restates a base record; base records gain fields only through the applied items V07 §10\nlists."),
+ "Nothing in this section restates a base record; base records gain fields only through the applied items V07 §10\nlists, and the base types it uses are the base's (`Rung`, §1.1, item 201; `TableId`, §7.6)."),
 # frame column after E-38 (a_h = 2.275 ha per head)
 ("| 1.2 km² (1.1 km); 0.36 km² |", "| 1.1 km² (1.1 km); 0.36 km² |"),
 ("| 5.8 km² (2.4 km); 1.0 km² |", "| 5.7 km² (2.4 km); 1.0 km² |"),

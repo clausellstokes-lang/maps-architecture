@@ -63,8 +63,8 @@ or a growing catacomb may cut through it; so a village over a cave rarely reache
 the deepest chambers stay hidden even under a metropolis. Only once a way in exists do people settle in it — a few
 squatters or a cult, or, in a large place, the undercity. A way in counts only while it is open: when the last open path
 closes — the sewer sealed, the cellar filled, the house above gone — the place is **lost**, remembered but drawn faded,
-its people leave, and it waits to be found again. A game master can show the sealed and lost voids to see what the
-inhabitants do not.
+its people leave, and it waits to be found again. A game master can show the sealed voids to see what the inhabitants
+do not.
 
 **The undercity** — at most one to three neighbourhoods — settles in the largest reachable void, an old ruin first: it
 has its own market square in a great chamber, its own walkways, its own tavern, fence and guild seat, and its lifelines
@@ -155,13 +155,13 @@ The underground's light rows (§4.7's `LightRule`, arena `underground`) are plac
 | the naming record and protected names | §2.8 | tunnel, system, complex and ruin names (V04 §5.4) |
 | the stream key's components (stage id, concern, salt, epoch) | §6.1 | V04 §3.12 |
 | item 110's base side: `RetainingWall` and S10–S11's levelled ground; the raised way's record on ground parts from 1 (its deck, its raised-way piers, its spans with their `use` and the span rule), the aqueduct's terminal and the fountains it feeds; the revised deck invariant; `levelledGroundCm`, the one reader of levelled heights | g item 110 (a), (b) at §2.7, §3.4, §4.3, §4.6, §4.7, §5.3; items 244, 245, 309 | the ground reads (below), U-NET N3 and N6–N7, the foundations (V04 §3.5.0), the arch vaults, the cistern test and the terminal cistern (V04 §3.5.4), U-ACCESS, U-DIG, the drawing (V04 §5.2) |
-| `layTiers`, `TierInput`, `TierLay`, the `stepped-monument` composition row | V02 §2.6, §3.15.1, §3.15.4, §3.15.6 | the ruin's stepped monuments (V04 §3.5.0a (5a)) |
-| `Basement.crypt`, `Entrance.faces` `'tunnel'`, `AccessHostRow` | V03 §2.1, §2.4, §3.7.2 (6), §3.7.4 (items 238, 239) | the crypt join (V04 §3.5.7 (c)), the burial-face entrance (V04 §3.5.1 (9)), the underground buildings' entrances (F4, F6, C4) |
-| V11's `stepped-shrine` heights row, the `CultureRow.monument` values, `era.raisedVaultM`, `culture.raisedVaultM`, the span's `vaultShare` | V11 §3.6.4, §3.23.4, §3.19.1, §3.20.3, §3.24.2 | the monuments (V04 §3.5.0a (5a)); the span rule's vault share |
+| `layTiers`, `TierInput`, `TierLay`, the `stepped-monument` composition row | V02 §2.6, V02 §3.15.1, V02 §3.15.4, V02 §3.15.6 | the ruin's stepped monuments (V04 §3.5.0a (5a)) |
+| `Basement.crypt`, `Entrance.faces` `'tunnel'`, `AccessHostRow` | V03 §2.1, V03 §2.4, V03 §3.7.2 (6), V03 §3.7.4 (items 238, 239) | the crypt join (V04 §3.5.7 (c)), the burial-face entrance (V04 §3.5.1 (9)), the underground buildings' entrances (F4, F6, C4) |
+| V11's `stepped-shrine` heights row, the `CultureRow.monument` values, `era.raisedVaultM`, `culture.raisedVaultM`, the span's `vaultShare` | V11 §3.6.4, V11 §3.23.4, V11 §3.19.1, V11 §3.20.3, V11 §3.24.2 | the monuments (V04 §3.5.0a (5a)); the span rule's vault share |
 | the underground's content rows (ruin chances, cultures, survival order, source rank, dig and opening rows, catacomb rows, burial threshold) | V11 §3.23 | U-SYS, U-ACCESS, U-CITY (V04 §2.3 keeps their schema) |
-| `EpochScope` (`raised`, `levelled`, `built`, `basementGrown`, `elements`, `surfaceChanged`, `workings`), the participants `under.fade`, `under.extend`, `under.access`, `under.undercity`, V06's derived catacomb primary and per-epoch cap, the span's calamity deaths (`CalamityRef.deaths`, item 573), the relocation that fills F6's dwellings at an epoch and the in-participant re-homing, the history replay | V06 §2.1, §2.4, §3.2, §3.18 (§3.18.1 (2c), (4), (6); §3.18.2 (3)) | the callers of V04 §3.10's functions (V04 §1b.2) |
-| V01's local-place step and its opening pass, `HoodPlace`, the ground `AccessPoint` symbols, `hood.pins` (arena-keyed); its services `districtsAbove(part, element)` and `fabricSignature(region)`; `Recipe.product`, the standalone neighbourhood document's `contextRung` and its one-district allocation; the stage-2 switch `fabric.extensionWeight` and its edit | V01 §2.2, §2.6, §3.7.1, §3.8.2, §3.8.8, §3.10.1 step 6 and (7), §3.15, §3.16, §5.1.2 | the opening pass (V04 §3.10 *The opening pass*); an access's surface head is V01's symbol (V04 §5.2 (7)); no underground hood pins (V04 §1.3); `districtsAbove` read by C5 and V04 §4.5, `fabricSignature` by V04 §3.5.0a (7); the standalone line (V04 §3.1) |
-| live sky islands and their churches; the landfall's `fallen_island` decoration, its rubble `quarry` land use and the raised parts it ruins | V05 §1.3, §3.5 (3), §3.16 (4)–(5); item 253 | the catacomb count (V04 §3.5.1 (3)); the access closures (V04 §3.10); the arch vaults' condition (V04 §3.5.4 (d) (2)); a `quarry` with a `source` is never the surface quarry (V04 §3.5.3); nothing else of the sky layer is read |
+| `EpochScope` (`raised`, `levelled`, `built`, `basementGrown`, `elements`, `surfaceChanged`, `workings`), the participants `under.fade`, `under.extend`, `under.access`, `under.undercity`, V06's derived catacomb primary and per-epoch cap, the span's calamity deaths (`CalamityRef.deaths`, item 573), the relocation that fills F6's dwellings at an epoch and the in-participant re-homing, the history replay | V06 §2.1, V06 §2.4, V06 §3.2, V06 §3.18 (§3.18.1 (2c), (4), (6); §3.18.2 (3)) | the callers of V04 §3.10's functions (V04 §1b.2) |
+| V01's local-place step and its opening pass, `HoodPlace`, the ground `AccessPoint` symbols, `hood.pins` (arena-keyed); its services `districtsAbove(part, element)` and `fabricSignature(region)`; `Recipe.product`, the standalone neighbourhood document's `contextRung` and its one-district allocation; the stage-2 switch `fabric.extensionWeight` and its edit | V01 §2.2, V01 §2.6, V01 §3.7.1, V01 §3.8.2, V01 §3.8.8, V01 §3.10.1 step 6 and (7), V01 §3.15, V01 §3.16, V01 §5.1.2 | the opening pass (V04 §3.10 *Opening places after generation*); an access's surface head is V01's symbol (V04 §5.2 (7)); no underground hood pins (V04 §1.3); `districtsAbove` read by C5 and V04 §4.5, `fabricSignature` by V04 §3.5.0a (7); the standalone line (V04 §3.1) |
+| live sky islands and their churches; the landfall's `fallen_island` decoration, its rubble `quarry` land use and the raised parts it ruins | V05 §1.3, V05 §3.5 (3), V05 §3.16 (4)–(5); item 253 | the catacomb count (V04 §3.5.1 (3)); the access closures (V04 §3.10); the arch vaults' condition (V04 §3.5.4 (d) (2)); a `quarry` with a `source` is never the surface quarry (V04 §3.5.3); nothing else of the sky layer is read |
 
 **The ground, and part 0.** Item 110 (b) gives the ground layer parts from 1 (raised decks). In this volume **the ground**
 means `{ layer: 'ground', part: 0 }` unless a raised part is named: every ground read — `pointLocate`, `resolve`, a way, a
@@ -202,7 +202,7 @@ L1's lifeline stair and air grating, `placeAccess`'s kinds, the forced vaults (V
   records reserve; the plan itself is V03's. This volume writes the reservation (the access record and its `basement`
   host) and marks the rung `stale` (§7.3 item 9 (d)).
 * **The underground close-up** (II.1's `layer: 'underground'`) is stage 2's workflow; it reads the committed part and
-  needs nothing from this volume beyond the records. The `underground` rows of V01's `hood.pins` (V01 §2.2, §3.8.2,
+  needs nothing from this volume beyond the records. The `underground` rows of V01's `hood.pins` (V01 §2.2, V01 §3.8.2,
   arena-keyed) are this volume's: it ships none, so an underground close-up draws no hood pins — the underground's
   furniture is its light rows (V04 §3.9) and its access marks (V04 §5.2) (J-V4.97).
 * **The port's wiring to a live host** is the SettlementForge stage's; this volume reads only the neutral digest and the
@@ -223,7 +223,7 @@ L1's lifeline stair and air grating, `placeAccess`'s kinds, the forced vaults (V
   T-V4-70.
 * **The underground's content rows** — the ancient-culture plan rows, the persistence order, the rank weights, the ruin
   chances, the dig and opening rows, the catacomb rows, the burial threshold and the `ruin` naming slice — are V11's
-  (V11 §3.23, §3.20); their schema is V04 §2.3's.
+  (V11 §3.23, V11 §3.20); their schema is V04 §2.3's.
 * **The scheduling over epochs** of excavation, catacomb growth, ruin decay and the links' re-binding is V06's, over this
   volume's rules (V04 §3.10).
 * **The controls** for `showUnexcavated` and for the active layer are V09's; this volume names the view key and what it

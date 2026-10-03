@@ -1,0 +1,30 @@
+{
+ "key": "coherence/rewrite-V07",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 632.9,
+ "new_kb": 540.0,
+ "facts_mapped": 333,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "45 f items cited as base text, none restated: 201 202 209 214 215 244 245 255 267 268 276 279 283 287 290 292 310 312 314 315 316 317 322 326 344 357 377 378 413 418 424 430 431 432 436 495 505 506 516 527 528 565 568 576 577 579; V07 §10 is a pointer table BCR-V7-1..38 -> item -> base section, the 5 627-word request texts removed",
+  "g item 111 (new design at village rungs): arid water shares rules.aridWater and the oasis draw (V07 §3.1 step 1), V07 §3.2 (4a) water.proximity, heart.pull, the climate sunlight cell on the settlement terms (J-V7.134), VS2's p(x), pass 1's water term, VS8 wells by yield and coverage factor, oasis gardens and grove, W74, T-V7-58 NoOpPin",
+  "g item 113 (new design at village rungs): V07 §3.12a — replay epochs through the hand-off band fold, the remnants of a former town at village rungs, refounding via history.former and rules.refound (reopenWay of former ways, palisade snapped to former wall lines with gates at gate gaps, former bridges rebuilt, old foundations favoured), neutral and failure rows, W75, lifecycle rows, T-V7-59 NoOpPin",
+  "E-01, E-24, E-30, E-31, E-38 applied with their equivalence lists (E-38: territory per head derived 2.275 ha, declared -1.1 % area, J-V7.141)",
+  "wiring: W-IF-02 (village WhyProvider rows, W76, T-V7-60), W-FLD-08 (formSource/roadsSource readers), V07-WGAP-1 (six prose constants made cells), V07-WGAP-2 (bandWeight wired; slack and emptyDensity deleted, J-V7.139)",
+  "edges: 38 UNDEFINED and 44 UNTESTED closed by V07 §3.17's table with §5.1 (9) and T-V7-61..T-V7-65",
+  "Q1 decided (a), J122: V-M0 right after M0 on M0's inputs beside M1; V-M1..V-M4 after M4 beside M5, M6-E, M6-P's first rungs; V-M3's epoch clauses with M6-E",
+  "narration removed: banners, ledgers, reading record, reconciliation and finalization appendices, §12 lane records, §13 round history, 397 seam/critique ids in the body; Fix list FL-1..FL-4 closed; 26 hand-offs closed; 54 routed findings fixed (RESTATE-1/RESTATEMENTS-001 marked for the adjudicator: ProductDecl's type kept at V07 §2.1, its f-item-202 home)"
+ ],
+ "conflicts_resolved": 13,
+ "cross_notes": [
+  "scope (§16, INDEX §3/§4): V07 §8 carries J122's slot as §16 states it; the village line stays 26.5-36.5 pw with V-M0 and V-M2u, items 110/111/113 priced inside V-M1..V-M3; V-M0's register check runs once M1's lint (T-V12-20) is in",
+  "V08 (E-31): V08 §2.6b (3) must carry the village column V07 now cites — flowing type kept; bearings on the two frame arcs the through road's entries divide unless the realm block fixes the line; topology raised to through unless a fixed isolated/none word; coastal dry site an estuary at the brook's width class; failure on a desert without oasis_water and no river drawn (rules.aridWater at village rungs), relief that cannot carry the brook, a fixed isolated/none word; V07 keeps the outcome (toll house at an entry, else on the heart's approach, toll_bridge_dry); V07 §3.11 DR1 defers to V08 §2.6 for a dossier desert without oasis_water (DR40)",
+  "V04: its new text (l. 3359) cites 'V07 §1 (5)' and 'V07 FL-3' — now 'V07 §1's facts (1)' and V07 §13's FL-3 (closed)",
+  "V06: 'V07 §1 (10)' now 'V07 §1's facts (5)'; V06 §6.2's row cites V07 §6's village.density bound at a base-product epoch (TX-04, <= 6 ms); a failing spring or oasis weakening its pull is V06's rule cited by V07 §3.2 (4a); the replay at village rungs runs through V07 §3.12a (1)",
+  "V11: village.json loses territory.haPerHead (E-38), network.slack, network.emptyDensity (J-V7.139) and gains palisade.denseDialFrom, palisade.pullM, palisade.section, rules.formRules.organicDialFrom, rules.formRules.districtDensity, rules.perimeter.closeM, rules.heart.pull, rules.aridWater, rules.refound (registry row 61's readers gain S0 and VS3/VS4/VS6); V11 §3.2.1 step 5a's v.-row commonness case cites V07 §2.4's roster-share rule (SR6-08); the climate rows' oasis chance, no-other-water factor, w_water, pull radius, w_waterP, coverage factor and sunlight cell and history.reuseCost/burialYears/epochYears are read at village rungs",
+  "V12: the farm rows are the calibratable cells and haPerHead leaves the register (E-38); the new village.json cells take the default line at V-M0 (owner V07); T-V7-58 and T-V7-59 are NoOpPins on V12 §3.7.8 beside T-V7-52",
+  "V10, V09: V07 §4.5's WhyProvider rows answer V10 §3.9's owed row for VillagePlan, VillageField, VillageEnd; the info.village.* keys enter V09's catalogue; CVR-V10-14's V07 half met",
+  "base (determinism, pipeline, rendering): V07 cites §5.1 (9)-(10), §7.6's reference cell, §7.7's DR36-DR40, §4.11 history-first generation, §4.2 S0/S1/S3 (6) and §4.5's item-111 terms, §8.2's programs retaining/raisedWay/way.stair/ruin and LayerSpec.showCircuit (item 413); pipeline §4.12's '(ProductDecl, V07 §2.1)' stays true — the canon's lift of ProductDecl's type to §4.12 (V07-RESTATE-1) is marked for the adjudicator",
+  "shrink: 104 422 -> 91 368 words (-12.5 %, below the 25-40 % band): narration ~15 400 and restatement ~6 100 removed, ~8 600 mandated words added (§3.17 edges, §3.12a, (4a), tests T-V7-58..65, WhyProvider rows, J-V7.134..142); the rest is the product's build-depth content (stages, two tables, 76 wiring rows, 65 tests, 142 decisions); doc_checks provisional (corpus absent): C1 0, C2 0, C4 1 reviewed, C3 343 (old 503)"
+ ]
+}

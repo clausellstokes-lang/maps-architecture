@@ -9,6 +9,8 @@ R = [
 ("| a raised way's removal (V09's delete; critique C6-39's suppression) |", "| a raised way's removal (V09's delete; the raised ways' suppression, §4.3, item 290) |"),
 ]
 t = apply(t, R, strict=False)
+t = t.replace("§7.2) until its author changes it, bent to the nearest lawful form by its dry run otherwise (item 101 R2).",
+  "§7.2) until its author changes it, bent to the nearest lawful form by its dry run otherwise (item 101 R2); no village tool\nrefuses a declaration that contradicts no dossier fact and no lock — a raised stroke at a village rung is drawn as declared,\nthe rung gate binding only generation (item 290).")
 # §4.2: the forms are §7.1's (item 357); this section keeps their village meaning (V07-0273)
 i = t.index('### 4.2 The new event forms'); j = t.index('### 4.3 Locality')
 s42 = """### 4.2 The new event forms
