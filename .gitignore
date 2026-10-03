@@ -13,11 +13,13 @@
 #  - backups/               local snapshot tarballs (git history replaces them)
 captures/
 reference/
-research/patreon/
-research/devlogs/
-research/ftg-docs/
-research/external/
-research/reference-maps/
+# (no trailing slash: on the owner's Mac these five are symbolic links to ~/Desktop/research/, and a pattern ending
+#  in '/' matches only real directories)
+research/patreon
+research/devlogs
+research/ftg-docs
+research/external
+research/reference-maps
 profiler/.profiles/
 profiler/node_modules/
 backups/
