@@ -1,0 +1,83 @@
+{
+ "id": "W-10",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E10-ng-bentcut-faces.md",
+  "docs/calibration/E10-ng-bentcut-faces.json"
+ ],
+ "outputs": [
+  "research/baselines/ng_faces_by_class.py (the W-10 tool; imports captures/neighbourhood/bentcut_parent_face.py, bentcut_geometry.py, bentcut_predict.py, bentcut_anchor.py unmodified)",
+  "docs/calibration/E10-ng-bentcut-faces.json (per-class trace rows cut.sigma / cut.cornerMid / cut.arrival85 / cut.fillet with ring / plain / per-template subsets, cut-length and block-area distributions; sha256 7c185b17)",
+  "docs/calibration/E10-ng-bentcut-faces.faces.json (168 rebuildable parent faces: classes, rings in model units, own cut measures, subtree blocks and cuts; research-side, not the ng-faces.json crossing file; sha256 3b069c2d)"
+ ],
+ "checks": [
+  {
+   "check": "pooled numbers reproduce 380 / 519 one-bend streets",
+   "passed": true,
+   "receipt": "ng_faces_by_class.py --check: PASS one_bend got (380, 519); bentcut_geometry.py run first prints the same per-map bends"
+  },
+  {
+   "check": "pooled numbers reproduce 96 % arrivals >= 85 degrees",
+   "passed": true,
+   "receipt": "PASS arrive85 got (780, 811) = 96.2 %"
+  },
+  {
+   "check": "pooled numbers reproduce the 200 of 378 filleted corners",
+   "passed": true,
+   "receipt": "PASS fillet got (200, 378); bentcut_parent_face.py prints 'all bent n=378 arc 200'"
+  },
+  {
+   "check": "sigma reproduces 0.066 plain / 0.098 ring (plan-check PC-02 (3), added)",
+   "passed": true,
+   "receipt": "PASS sigma_plain (0.066, eps 0.05), sigma_ring (0.098, eps 0), sigma_all (0.088, eps 0.02); corner-mid 99/120 also PASS"
+  },
+  {
+   "check": "rebuild equals the tested scripts' parents",
+   "passed": true,
+   "receipt": "162/162 simple parent polygons equal bentcut_predict's E1 and E3 vertex for vertex; 120/120 corner positions equal bentcut_parent_face's (asserted on every run)"
+  },
+  {
+   "check": "partition and area identity",
+   "passed": true,
+   "receipt": "classes + open cuts + template streets re-sum 200/378 fillets, 780/811 arrivals, 519/519 streets; 0 of 168 parents differ from the sum of their leaf faces' areas"
+  },
+  {
+   "check": "checker goes red when it should",
+   "passed": true,
+   "receipt": "expectation 381/519 -> FAIL, exit 1; arrival gate 86 degrees -> 772/811, two FAILs, exit 1"
+  },
+  {
+   "check": "deterministic outputs",
+   "passed": true,
+   "receipt": "second run: both JSON files sha256-identical, stdout identical"
+  },
+  {
+   "check": "record carries no reference identifiers, colours or lists",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E10 --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0; C3 36 unreviewed hits, all capture paths, digit runs and our own findings' phrases (exit 1 by that count; record is outside the design set)"
+  },
+  {
+   "check": "disk above 1 GB",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes 16 GB free at start, 15 GB at end; outputs 0.6 MB; no capture folder made"
+  }
+ ],
+ "rows": 6,
+ "build_ids": [
+  "itch:11441280"
+ ],
+ "owner_notes": [
+  "W-10 is done: NG's bent-cut numbers were re-measured per face shape from the 2026-09-25 captures already on disk; nothing touched any website and nothing went into plat/.",
+  "Three of the five face shapes are rare in NG's data (holed 3, triangular 9, C-shaped 16, nearly all from the ring template); a Fable seat should rule whether they stay descriptive or wait for the NG recording programme (W-04).",
+  "Finding worth knowing: on C-shaped faces NG puts the bend near the middle only 5 times in 12 (42 %, against 82 % overall), so these faces are where our cut is most likely to differ."
+ ],
+ "notes": [
+  "rows = 6 per-class signature rows (holed, C-shaped, triangular, curved, round-joined, plain control), each with the four cut.* metrics, ring/plain/per-template subsets, cut-length and block-area distributions; sigma not fitted below n = 10 (holed, triangular list f values).",
+  "Rulings owed (E10 section 7): PC-01 crossing of the per-face file (V12 3.3 'geometry never crosses'); PC-02 (1) cut-length metric has no catalogue id (numbers delivered under cutLength); PC-04 rows are on recorded seeds 7171/7172, so C7 needs a recorded-sample ruling or W-04's 20 medium formula seeds; thin classes.",
+  "Deferred, documented: bentcut_parent_face.TEMPLATE_W hard-codes the template-street widths of seeds 7171/7172; generalise before running the tool on W-04 seeds.",
+  "PC-03 handled: all rows in model units or relative (block.areaRel; length / median footprint short side); metres only under *_declared keys at 0.35 m per unit.",
+  "PC-10 handled: E10 section 3 records the sigma frame (drawn start e0 as a fraction of the parent's E1 OBB major axis; outer cycle on holed parents).",
+  "The two JSON outputs sit in docs/calibration, not research/, so doc_checks' corpus (research/ and captures/ JSON) does not grow; the tool itself is in research/baselines and was already in commit 394d354 identical to disk.",
+  "CONFIRMED: every number above was executed; PLAUSIBLE: the reading of why C-shaped faces loosen the corner position (E10 finding 3)."
+ ]
+}

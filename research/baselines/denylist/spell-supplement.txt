@@ -15,6 +15,7 @@ created_at deleted_at edited_at published_at unpublished_at scheduled_for user_i
 media_type post_type image_url image_urls image_file image_small_url large_url download_url edit_url thumb_url
 thumbnail_large thumbnail_small size_bytes json_bytes svg_bytes tile_w tile_h table_rows table_cols max_depth
 like_count comment_count post_count text_only one_liner user_defined
+json jsonl png jpg jpeg gif webp html css http https www arg args api config utf download downloads
 # ordinary English words the 1934 dictionary lacks (modern, compound or British forms)
 backpack battleaxe bullseye healthcare farmhand farmland glassblower harbourmaster harbormaster lanternmaker
 pastrycook winemaker woodcarver longship longsword shortsword shortbow greatsword warhammer warhorse sledgehammer

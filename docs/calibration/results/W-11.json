@@ -1,0 +1,83 @@
+{
+ "id": "W-11",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E11-ng-rows.md",
+  "docs/calibration/E11-ng-rows.json"
+ ],
+ "outputs": [
+  "research/baselines/adapters/ng.py (NG vertex capture -> MeasureInput, scale relative; snaps junction ends as the bent-cut scripts do; registers the footprint layer to the road layer from gen-N.png; sha256 9efcec5d)",
+  "research/baselines/measure_ng.py (the twins T1/T2 and V12 3.4.2's NG metrics on MeasureInput files only; --check exits 1 on any failure; sha256 0b180bd1)",
+  "research/baselines/inputs/NG/itch-11441280/<capture>.gen-<0|1>.metric.geojson.gz (8 files, 0.86 MB; gzip mtime 0, reproducible; outside doc_checks' corpus globs)",
+  "docs/calibration/E11-ng-rows.json (per-map values, per-seed series, seed stability, declared rules, twin rows, internal checks, time fixtures; sha256 4efbbca0)",
+  "docs/calibration/results/W-11.json"
+ ],
+ "checks": [
+  {
+   "check": "twin reproduces README-vertices.md's 36 table rows",
+   "passed": true,
+   "receipt": "measure_ng.py T1: paths_stats' four tables re-implemented on the MeasureInput files = README rows byte for byte, 40/40 lines (36 header and map rows + 4 separators); also held after footprint registration"
+  },
+  {
+   "check": "twin reproduces plot_granularity_baseline.py's party-wall shares",
+   "passed": true,
+   "receipt": "measure_ng.py T2: the old definitions re-implemented on the MeasureInput files = the script's live output, 8/8 rows byte-identical (>= 1 shared wall 95-99 %, shared length / perimeter 39-43 %, Moran k=8 -0.04..+0.03, all columns)"
+  },
+  {
+   "check": "detour and cycles stability across the two seeds reported",
+   "passed": true,
+   "receipt": "E11 section 4 and JSON stabilityAcrossSeeds: detour (200 pairs) seed difference 1.3 / 0.1 / 1.7 / 6.2 % (ring / area / street / square), all-pairs 1.2 / 1.7 / 1.0 / 6.0 %; cycles per declared km2 18.5 / 14.8 / 6.9 / 32.9 %"
+  },
+  {
+   "check": "road and footprint layers registered (added: the layers are on separate canvases)",
+   "passed": true,
+   "receipt": "unregistered, centrelines cross 88-484 footprints in 7 of 8 maps; after screenshot registration 0,1,1,0,0,0,0,0; built blocks and court share identical at +-1 px, gaps within 0.07 per 100 m"
+  },
+  {
+   "check": "internal checks (Euler, graph equality, footprints once, E10 medians, stored timings)",
+   "passed": true,
+   "receipt": "measure_ng.py --check: internal checks 41/41 pass, CHECKER PASS, exit 0"
+  },
+  {
+   "check": "deterministic outputs",
+   "passed": true,
+   "receipt": "adapter rerun: 8 gz files sha256-identical; final measure run twice: E11 json byte-identical (4efbbca0), stdout identical"
+  },
+  {
+   "check": "checker goes red when it should",
+   "passed": true,
+   "receipt": "red A (footprints moved 20 px) exit 1 via the registration check (381 crossed); red B (one vertex moved 0.5 px) exit 1 via T1 (lot-table row of street 7171); run on the pre-band-change code, same check paths"
+  },
+  {
+   "check": "record carries no reference identifiers, colours or lists",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E11 --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0; C3 40 unreviewed hits all read (capture names, dates, digit runs, short common phrases in our own findings); exit 1 by that count, record outside the design set"
+  },
+  {
+   "check": "disk above 1 GB",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes 15 GB free at start and end; outputs about 1.5 MB; no capture folder made"
+  }
+ ],
+ "rows": 14,
+ "build_ids": [
+  "itch:11441280"
+ ],
+ "owner_notes": [
+  "W-11 is done. Measured from the NG captures already on disk: NG's party walls, house pairing, junctions, detours, blocks, courtyards and gaps along the street front. Nothing touched any website, and nothing went into plat/.",
+  "Found and fixed: NG draws roads and buildings on separate layers and never records how they line up. In 7 of the 8 maps the two layers were up to about 38 pixels apart, so roads appeared to run through houses. Each layer is now aligned against the map's own screenshot, and after that 0 or 1 houses touch a road line per map. The 44 new NG recordings (W-04) must keep their screenshots for the same reason.",
+  "A Fable seat needs to rule on: the 0.35 m per model unit conversion for NG's metre-based numbers; which reading of 'pairing' counts (42-46 % or 9-13 %); whether NG's crossroads share is 0 (as recorded) or up to 5 % (when T-junctions 2 m apart are merged); the street-gap definition; and the blocks at the hood's undrawn edge. All values are on two recorded seeds, so baseline rows wait for W-04's seeds or a ruling.",
+  "Three design numbers in section 13.5 were stated under older definitions and shift under the catalogue's. Party walls go from 39-43 % to 42-46 % (now a median per house), attached houses from 95-99 % to 98-100 %, and Moran's I from -0.04..+0.03 to -0.18..+0.05."
+ ],
+ "notes": [
+  "rows = 14 metric ids with per-seed fixture values per template (bldg.pairing, bldg.partyShare, bldg.attached, plot.moran, plot.minWidth, junction.angles, junction.share4, street.detour, street.cyclesPerKm2, fg.streetwallGap100, block.countTemplate, block.area as block.areaRel, block.courtShare, time.model as fixtures only); 0 crossing-ready rows: PC-04 (recorded seeds 7171/7172 fail C7), PC-03 (metre metrics on a declared 0.35 m/mu), PC-11 (no 12.1 ratio for time).",
+  "Pooled values (8 maps, medium): partyShare median 0.419-0.464; attached 0.978-0.996; pairing B 0.403-0.464 (A 0.088-0.132, mutual 0.169-0.225); Moran (shared edge) -0.183..+0.053; junction angles median 90.8-92.9, p5 86.0-88.5; share4 raw 0 in every map, merged 0-0.053; detour 1.23-1.32; built blocks 76/59, 44/40, 17/18, 7/11; court share 115/268 deep blocks = 0.43; gaps > 2 m per 100 m 2.25-3.15 (declared); plot.minWidth p50 7.1-7.3 m declared.",
+  "Junction census: every degree-3 junction in all 8 maps is a street ending on another road (186, 156, 121, 101, 57, 54, 31, 41); 0 raw degree-4 nodes, so §13.5's 361/361 T reading holds; 4-ways appear only from the declared 2 m merge.",
+  "Bent footprint vertices (interior 170-190 deg) lie on party walls in only 1-8 % of cases: NG's bent edges are fronts and rears, not party walls (CONFIDENCE §6 #10, README-vertices headline 4).",
+  "Frontage band set to 1.0 x the median footprint short side after measuring setbacks (p90 0.52-0.60, row back edge ~1.7); 0.5 sat inside the setback spread and gave a fragile count; 0.75/1.0/1.25 now agree within 0.12 per 100 m.",
+  "36 % of footprints (2 120 of 5 861) lie in no bounded face because the hood edge is not drawn; block counts are interior counts (ruling owed).",
+  "Durable hazard for the session to save to memory (this lane writes no memory): NG vertex captures' road and footprint layers sit in different pixel frames (content-sized offscreen canvases, unrecorded integer offset 2-38 px); register via gen-N.png before relating footprints to roads (research/baselines/adapters/ng.py register()).",
+  "Not done, outside the row: PC-13's NG draw.* rows (hatched target, roof ratios); the plan was not amended to add them to W-11.",
+  "CONFIRMED: all numbers, twins, offsets, crossings, sensitivities, determinism, red tests (executed). PLAUSIBLE: the offscreen-canvas cause of the offset (fits the recorded canvas sizes; compositing not observed), the reading of the more negative Moran's I, the +-1 px road-registration precision."
+ ]
+}

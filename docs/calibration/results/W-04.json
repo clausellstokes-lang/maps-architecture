@@ -1,0 +1,43 @@
+{
+ "id": "W-04",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E04-ng-programme.md",
+  "docs/calibration/E04-ng-programme.json"
+ ],
+ "outputs": [
+  "research/baselines/ng_programme_m1.mjs",
+  "research/baselines/check_w04.py",
+  "captures/neighbourhood/ng-programme-m1-2026-10-03/ (README.md programme index, build-check.json, loads.jsonl, index.json, disk.log, programme.log, logs/, paths-stats.md)",
+  "captures/neighbourhood/2026-10-03T19-05-32 ... 2026-10-03T19-11-04 (44 capture folders, 322 MB: meta.json, draw/gen-0.paths.json/draw.json/png/idle.json, console.jsonl, network/)"
+ ],
+ "checks": [
+  {"check": "build-id check (plan section 9)", "passed": true, "receipt": "resolveTargetUrl('neighbourhood') at 18:59:52Z -> html-classic.itch.zone/html/11441280 = plan pin; C6: all 44 baseUrl and href on /html/11441280/ (CONFIRMED)"},
+  {"check": "row: each meta.json keeps the requested tags and seed", "passed": true, "receipt": "check_w04.py C1 44/44: args.seed/query = plan entry, runs 0, draw, vertices; one cold-load generation; href tags and seed = plan; exactly one generator console line per load naming the same seed and tags (CONFIRMED)"},
+  {"check": "row: paths.json caps untouched (0 skipped, 0 dropped)", "passed": true, "receipt": "C2 44/44: skippedLong 0, droppedTotal 0, nonFinite/path2d/errors 0, meta counts = file counts; largest map 62405 paths / 270635 vertices (ring/large/2) (CONFIRMED)"},
+  {"check": "row: paths_stats.py --md runs on every folder", "passed": true, "receipt": "C3: one invocation over 44 folders exit 0, 4 tables x 44 rows, JSON entry per folder -> paths-stats.md (CONFIRMED)"},
+  {"check": "loads within J159 (3): 44 loads, no downloads", "passed": true, "receipt": "C4: loads.jsonl 44 starts, 44 distinct plan labels with plan seeds, each with an end line; one document request per folder; 0 attachment responses; game page fetched once (CONFIRMED)"},
+  {"check": "every load settled; screenshot and draw record present", "passed": true, "receipt": "C5 44/44 settled true, markerTimedOut false; gen-0.png/draw.json/idle.json present (CONFIRMED)"},
+  {"check": "plan coverage", "passed": true, "receipt": "C7: all 44 W-04 entries of plan.json have a folder (medium 20, small 12, large 12) (CONFIRMED)"},
+  {"check": "checker red test", "passed": true, "receipt": "APFS clones with meta seed edited and skippedLong=1: C1 and C2 FAIL, exit 1; real folders exit 0 (CONFIRMED)"},
+  {"check": "driver mechanics before live loads", "passed": true, "receipt": "local file:// mock under a scratch record.mjs copy: normal, frozen page (killed + Chrome reaped), no generator line, never-reload on re-run, cap, disk stop; a delayed-kill defect (could hit the next load's Chrome) found and fixed before the live run (CONFIRMED)"},
+  {"check": "df between folders, stop under 1 GB", "passed": true, "receipt": "disk.log: df before the build check, before each of 44 loads, after; 15 GiB -> 14 GiB free (CONFIRMED)"},
+  {"check": "E04 record clean-room scan", "passed": true, "receipt": "doc_checks --doc E04 --heads ARCHITECTURE: C1 1 reviewed, C2/C4/S1/S2 0, C3 21 unreviewed all own phrases/paths/dates (exit 1 by that count; record outside the design set) (CONFIRMED)"},
+  {"check": "doc_checks corpus drift from the new folders", "passed": true, "receipt": "ARCHITECTURE and V12 with vs without the 45 folders (symlinked root): +486 JSON, +35647 3-grams, +1 list; hit counts and unreviewed lines identical -> 0 new hits; other 11 volumes not run (CONFIRMED for two documents)"}
+ ],
+ "rows": 44,
+ "build_ids": [
+  "NG itch:11441280 (NG 1.2.2), re-resolved 2026-10-03 18:59:52Z, unchanged - no pin shift"
+ ],
+ "owner_notes": [
+  "J159 (3) used up: 44 of 44 loads, 0 downloads, 1 public game-page fetch for the build-id check. No login, account, payment, terms or consent prompt appeared (fresh headless profiles). Any re-recording or further NG seed needs a new approval.",
+  "Each load made 16 requests: html-classic.itch.zone 14 (page, program, fonts, assets), static.itch.io 1 (itch embed script), itch.io 1 POST (the page's own callback ping, 204); 704 in all, 660 x 200 + 44 x 204."
+ ],
+ "notes": [
+  "Order: medium (20) first, then small (12), then large (12); index-major over area/street/square/ring inside a size. Run 19:05:32Z-19:11:15Z, all 44 exit 0, 0 timeouts, 0 leftover browsers.",
+  "Vetoable calls (E04 section 4): --url passed so record.mjs does not re-fetch the game page 44 times; recorder caps left at default (outcome 0 skipped); response bodies stored as record.mjs always does (56 MB of the build's program and asset files; no seat reads them), unlike W-03; headless as on 2026-09-25; meta wallMs (2.6-18.4 s) is not a timing row (shared machine).",
+  "Sample census (paths_stats, descriptive, not rows): 2625 streets, 9 with 2+ bends (948 straight, 1668 one bend); 4024/4135 junction ends arrive >= 85 deg; footprints per map small 77-532, medium 146-1332, large 621-1930; ring densest at every size.",
+  "Hand-offs: W-10 takes the 20 medium maps per face class; W-11 block.countTemplate/block.area at medium (5 per template + 2 of 2026-09-25), small/large for D3, register road and footprint layers on gen-0.png; W-12 via W-11 faces.",
+  "PLAUSIBLE only: headless equals headful painting (not compared); no doc_checks drift on the 11 volumes not run."
+ ]
+}

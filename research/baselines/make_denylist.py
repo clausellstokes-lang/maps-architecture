@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """make_denylist.py — the hashed content deny-list of docs/ARCHITECTURE.md §17.1 (5) (M-1 item W-16; research side only).
 
-  python3 research/baselines/make_denylist.py build [--refmap-names FILE] [--record JSON] [--date YYYY-MM-DD]
+  python3 research/baselines/make_denylist.py build [--refmap-names FILE] [--record JSON] [--date YYYY-MM-DD] [--as-of ISO|now]
   python3 research/baselines/make_denylist.py scan FILE... [--allow TSV ...] [--show]
   python3 research/baselines/make_denylist.py selftest [--report JSON] [--unreviewed TSV] [--refmap-names FILE]
 
@@ -51,6 +51,11 @@ DOC_ALLOW = 'docs/validation/doc-checks-allow.tsv'
 DICT = '/usr/share/dict/words'
 EXCLUDE = ('research/sf/', 'research/baselines/')
 FORMAT = 'plat.denylist/1'
+# The corpus cut: the authoritative clean-room corpus is the one lane catchup/cleanroom read (its record,
+# docs/validation/clean-room-mac-2026-10-03.md, written 07:25 EDT after round 8). Files modified later — today's M-1
+# capture folders, whose own record files (capture facts, probe acknowledgements, stats) carry our identifiers — wait
+# for the rebuild at M-1's exit (--as-of now, with those record files excluded by then). A list states its cut.
+CUT_DEFAULT = '2026-10-03T07:25:59-04:00'
 TRI_RUN, SET_MIN, WORD_MIN, PHR_MAX = 3, 5, 4, 8
 NOT_COLOURS = {'000000', 'ffffff'}           # black and white: not creative content (recorded in E16)
 IMAGE_EXT = {'png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp', 'ico', 'svg', 'tif', 'tiff', 'avif'}
@@ -156,6 +161,14 @@ def get_salt(create):
 
 # ---------------------------------------------------------------- the corpus, read as doc_checks.py reads it
 def in_scope(p): return not p.startswith(EXCLUDE)
+def parse_cut(v):
+    import datetime
+    if v == 'now': return datetime.datetime.now().astimezone().replace(microsecond=0).isoformat()
+    datetime.datetime.fromisoformat(v)
+    return v
+def cut_epoch(v):
+    import datetime
+    return datetime.datetime.fromisoformat(v).timestamp()
 def lenient_json(raw):
     t = re.sub(r'([{,]\s*)([A-Za-z_]\w*)\s*:', r'\1"\2":', raw); t = re.sub(r',(\s*[}\]])', r'\1', t)
     return json.loads(t)
@@ -163,7 +176,8 @@ def lenient_json(raw):
 class Corpus:
     """Collects the plaintext sets in memory (never written): the C3 3-grams, the C4 lists, the token and identifier
     candidates, the colour values, the files to digest, the names — each with per-source counts for the record."""
-    def __init__(self):
+    def __init__(self, cut):
+        self.cut = cut; self.cut_t = cut_epoch(cut); self.after = Counter()
         self.tri = set(); self.lists = {}; self.tok = set(); self.ident = set(); self.col = set(); self.phr = set()
         self.files = []; self.counts = Counter(); self.c1 = []; self.c4_lists = set(); self.bare6 = set()
         self.list_src = Counter()
@@ -219,6 +233,16 @@ class Corpus:
             if re.search(r'[a-f]', v): self.col.add(v)
         for m in re.finditer(rb'(?<![0-9a-fA-F])([0-9a-fA-F]{6})(?![0-9a-fA-F])', data): self.bare6.add(m.group(1).decode().lower())
 
+    def ok(self, f):
+        """In the corpus: inside research/ or captures/ but not an excluded tree, and not modified after the cut."""
+        if not in_scope(f): return False
+        try: t = os.path.getmtime(f)
+        except OSError: return False
+        if t > self.cut_t:
+            self.after['/'.join(f.split('/')[:3])] += 1
+            return False
+        return True
+
     def read(self, refmap_file=None):
         sys.setrecursionlimit(100000)
         # (1) C1 identifiers, exactly as doc_checks.py reads them
@@ -267,9 +291,10 @@ class Corpus:
         self.counts['provenance_class_identifiers'] = n
         # (4) the JSON corpus (C3 and C4), research/ and captures/, the two excluded trees left out
         jf_all = sorted(set(glob.glob('research/**/*.json', recursive=True) + glob.glob('captures/**/*.json', recursive=True)))
-        jf = [f for f in jf_all if in_scope(f)]
+        jf = [f for f in jf_all if self.ok(f)]
         self.counts['json_files_doc_checks'] = len(jf_all); self.counts['json_files_in_scope'] = len(jf)
-        self.counts['json_files_excluded'] = len(jf_all) - len(jf)
+        self.counts['json_files_excluded'] = sum(1 for f in jf_all if not in_scope(f))
+        self.counts['json_files_after_cut'] = len(jf_all) - len(jf) - self.counts['json_files_excluded']
         unread = []
         for f in jf:
             try: d = json.load(open(f, encoding='utf-8', errors='replace'))
@@ -289,7 +314,7 @@ class Corpus:
             self.colours_from_bytes(raw.encode('utf-8'))
         self.counts['lenient_distinct_bodies'] = ok; self.counts['lenient_unparsed'] = still
         # (6) the findings: C3's Markdown 3-grams (digits kept) and the string arrays a finding quotes
-        fm = sorted(glob.glob('research/findings/*.md'))
+        fm = sorted(f for f in glob.glob('research/findings/*.md') if self.ok(f))
         self.counts['findings_md'] = len(fm); n = 0
         for f in fm:
             txt = open(f, encoding='utf-8', errors='replace').read()
@@ -298,7 +323,7 @@ class Corpus:
                 self._add_list([x[1:-1] for x in re.findall(r'"[^"\n]*"|\'[^\'\n]*\'', arr)], 'findings'); n += 1
         self.counts['findings_quoted_arrays'] = n
         # (7) blind spot 2: the reference prose (C3's rule, digits kept; HTML without its tags)
-        pf = sorted(set(f for p in PROSE_PATTERNS for f in glob.glob(p, recursive=True)))
+        pf = sorted(set(f for p in PROSE_PATTERNS for f in glob.glob(p, recursive=True) if self.ok(f)))
         self.counts['prose_files'] = len(pf)
         for f in pf:
             t = open(f, encoding='utf-8', errors='replace').read()
@@ -309,7 +334,8 @@ class Corpus:
         cf += glob.glob('captures/**/README*.md', recursive=True) + glob.glob('captures/**/*.json', recursive=True)
         cf += glob.glob('docs/confidence/**/*', recursive=True) + glob.glob('docs/improvements/**/*', recursive=True)
         cf += ['docs/CONFIDENCE.md', 'docs/IMPROVEMENTS.md'] + glob.glob('captures/**/*.svg', recursive=True)
-        cf = [f for f in dict.fromkeys(cf) if in_scope(f) and os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() not in CODE_EXT]
+        cf = [f for f in dict.fromkeys(cf) if os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() not in CODE_EXT
+              and (not f.startswith(('research/', 'captures/')) or self.ok(f))]
         self.counts['colour_files'] = len(cf)
         for f in cf:
             try: self.colours_from_bytes(open(f, 'rb').read())
@@ -319,7 +345,7 @@ class Corpus:
         ff = []
         for base in ('research', 'captures'):
             for f in glob.glob(base + '/**/*', recursive=True):
-                if not os.path.isfile(f) or not in_scope(f): continue
+                if not os.path.isfile(f) or not self.ok(f): continue
                 ext = f.rsplit('.', 1)[-1].lower() if '.' in f.rsplit('/', 1)[-1] else ''
                 if ext in CODE_EXT: continue
                 if ext in IMAGE_EXT or '/network/bodies/' in f:
@@ -336,10 +362,12 @@ class Corpus:
                 mp, name = l.split('\t', 1)
                 self.refmap.append((mp, name.strip()))
         else: self.refmap = None
+        self.counts['corpus_cut'] = self.cut
+        self.counts['files_after_cut_by_folder'] = dict(self.after)
 
 def build(a):
     salt = get_salt(create=True); H = Hasher(salt)
-    C = Corpus(); C.read(a.refmap_names)
+    C = Corpus(parse_cut(a.as_of)); C.read(a.refmap_names)
     out = {'tok': set(), 'id': set(), 'tri': set(), 'col': set(), 'file': set(), 'phr': set()}
     out['tok'] = {H.d('tok', t) for t in C.tok}
     out['id'] = {H.d('id', i) for i in C.ident}
@@ -388,6 +416,7 @@ def build(a):
     doc = {
         'format': FORMAT,
         'generated': a.date,
+        'corpusAsOf': C.cut,
         'salt': salt,
         'hash': 'first 16 hex digits of SHA-256(salt bytes, then the tag in ASCII, then 0x1F, then the payload in UTF-8; for tag file the raw bytes)',
         'normalise': 'Unicode NFKD, combining marks dropped, lower-cased; a token is a maximal run of [a-z0-9_]; a word is a maximal run of [a-z] of at least 4 letters',
@@ -557,7 +586,7 @@ def scan(a):
 
 # ---------------------------------------------------------------- the self-test (W-16's checker column)
 def selftest(a):
-    DL = DenyList(); C = Corpus(); C.read(None); R = {}
+    DL = DenyList(); C = Corpus(DL.doc['corpusAsOf']); C.read(None); R = {'corpus_cut': C.cut}
     def hit_kinds(text): return {h[0] for h in DL.scan_text(text)}
     # (1) every C1 identifier
     miss = [i for i in C.c1 if not any(h[0] == 'ID' and h[1] == i for h in DL.scan_text('x ' + i + ' y'))]
@@ -645,7 +674,7 @@ def selftest(a):
 if __name__ == '__main__':
     ap = argparse.ArgumentParser()
     sp = ap.add_subparsers(dest='cmd', required=True)
-    b = sp.add_parser('build'); b.add_argument('--refmap-names'); b.add_argument('--record'); b.add_argument('--date', default=__import__('datetime').date.today().isoformat())
+    b = sp.add_parser('build'); b.add_argument('--refmap-names'); b.add_argument('--record'); b.add_argument('--as-of', default=CUT_DEFAULT, help="corpus cut, ISO time or 'now'"); b.add_argument('--date', default=__import__('datetime').date.today().isoformat())
     s = sp.add_parser('scan'); s.add_argument('files', nargs='+'); s.add_argument('--allow', nargs='*', default=[DOC_ALLOW, DESIGN_ALLOW]); s.add_argument('--show', action='store_true')
     t = sp.add_parser('selftest'); t.add_argument('--report'); t.add_argument('--unreviewed'); t.add_argument('--refmap-names')
     a = ap.parse_args()

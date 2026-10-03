@@ -1,0 +1,656 @@
+{
+ "id": "E16",
+ "lane": "m1/W-16",
+ "date": "2026-10-03",
+ "record": "docs/calibration/E16-denylist.md",
+ "list": {
+  "path": "research/baselines/denylist/denylist.v1.json.gz",
+  "format": "plat.denylist/1",
+  "bytes": 8719621,
+  "sha256": "60e6cc70c2243807e80b38361417faca628af9afdaec2eed66fffdefa6865e10",
+  "salt_file": "research/baselines/denylist/salt.hex",
+  "corpusAsOf": "2026-10-03T07:25:59-04:00",
+  "built": "2026-10-03 14:14 EDT (build 5); build 6 byte-identical"
+ },
+ "generation": {
+  "bare_six_hex_runs": 304484,
+  "c1_identifiers": 36,
+  "c4_lists_in_scope": 478,
+  "colour_files": 10197,
+  "colour_values": 7248,
+  "corpus_cut": "2026-10-03T07:25:59-04:00",
+  "dict_sha256": "be41ad97963bf8dabedd5871d5d691596175269d540956b0f9965a885c2bbab9",
+  "dict_words": 234456,
+  "digests_col": 7248,
+  "digests_file": 2076,
+  "digests_id": 130,
+  "digests_phr": 75,
+  "digests_sets": 235,
+  "digests_tok": 1369,
+  "digests_tri": 971690,
+  "files": 9561,
+  "files_after_cut_by_folder": {
+   "captures/ftg/2026-10-03T17-19-06": 111,
+   "captures/mfcg/exports-sweep-m1-2026-10-03": 280
+  },
+  "files_skipped_font_or_code": 383,
+  "findings_md": 39,
+  "findings_quoted_arrays": 28,
+  "foundry_identifiers": 41,
+  "json_files_after_cut": 57,
+  "json_files_doc_checks": 9691,
+  "json_files_excluded": 8,
+  "json_files_in_scope": 9626,
+  "json_unparsed": 994,
+  "lenient_distinct_bodies": 2,
+  "lenient_unparsed": 0,
+  "list_bytes": 8719621,
+  "list_sha256": "60e6cc70c2243807e80b38361417faca628af9afdaec2eed66fffdefa6865e10",
+  "lists_by_source": {
+   "foundry": 6,
+   "json": 478,
+   "lenient": 34
+  },
+  "lists_read": 518,
+  "lists_under_five_words": 284,
+  "prose_files": 355,
+  "provenance_class_identifiers": 71,
+  "refmap": {
+   "names_A": 84,
+   "names_B": 7,
+   "phr": 75,
+   "tok": 40,
+   "tri": 36,
+   "word": 16
+  },
+  "set_word_digests": 3072,
+  "supplement_sha256": "58d150e1613ada163b3ade9198ee5461e8427d8857212b416711f5d255cfb5ca",
+  "supplement_words": 179
+ },
+ "selftest": {
+  "corpus_cut": "2026-10-03T07:25:59-04:00",
+  "c1": {
+   "identifiers": 36,
+   "hit": 36,
+   "missed": 0
+  },
+  "colours": {
+   "values": 7248,
+   "hit": 7248,
+   "missed": 0,
+   "bare_runs_not_listed": 297234,
+   "excluded_black_white": 2
+  },
+  "c4_lists": {
+   "lists": 478,
+   "with_five_indexable_words": 210,
+   "hit": 210,
+   "missed": 0,
+   "under_five_never_a_c4_hit": 268
+  },
+  "all_lists": {
+   "lists_with_five_words": 234,
+   "hit": 234,
+   "missed": 0
+  },
+  "tokens": {
+   "tokens": 1329,
+   "hit": 1329,
+   "missed": 0
+  },
+  "identifiers": {
+   "identifiers": 130,
+   "hit": 130,
+   "missed": 0
+  },
+  "files": {
+   "files": 9561,
+   "hit": 9561,
+   "missed": 0
+  },
+  "trigrams_sampled": {
+   "sampled": 2004,
+   "of": 971654,
+   "missed": 0
+  },
+  "planted": {
+   "trials_each": 20,
+   "TRI": 20,
+   "SET": 20,
+   "COL": 20
+  },
+  "design_unreviewed_total": 17,
+  "design_unreviewed_distinct": 5,
+  "salt_matches_file": true,
+  "refmap_names": {
+   "names": 91,
+   "direct_hit": 90,
+   "single_dictionary_word_in_map_set_only": 1,
+   "neither": 0
+  },
+  "refmap_sets": {
+   "A": true
+  },
+  "pass": false
+ },
+ "design_set_hits_unreviewed": {
+  "docs/ARCHITECTURE.md": {
+   "TOK": [
+    33,
+    3
+   ],
+   "ID": [
+    8,
+    3
+   ],
+   "TRI": [
+    1956,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    26,
+    0
+   ],
+   "PHR": [
+    4,
+    1
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V01-neighbourhoods.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    430,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    6,
+    0
+   ],
+   "PHR": [
+    1,
+    1
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V02-buildings.md": {
+   "TOK": [
+    4,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    640,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    1,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V03-interiors.md": {
+   "TOK": [
+    17,
+    1
+   ],
+   "ID": [
+    1,
+    1
+   ],
+   "TRI": [
+    415,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    11,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V04-underground.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    254,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    4,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V05-sky.md": {
+   "TOK": [
+    1,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    260,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    0,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V06-evolution.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    346,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    7,
+    0
+   ],
+   "PHR": [
+    1,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V07-village.md": {
+   "TOK": [
+    18,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    402,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    11,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V08-settlementforge.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    226,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    4,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V09-application.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    1,
+    0
+   ],
+   "TRI": [
+    375,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    8,
+    0
+   ],
+   "PHR": [
+    2,
+    1
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V10-clerk.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    212,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    2,
+    0
+   ],
+   "PHR": [
+    3,
+    3
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V11-content.md": {
+   "TOK": [
+    43,
+    1
+   ],
+   "ID": [
+    1,
+    1
+   ],
+   "TRI": [
+    336,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    22,
+    0
+   ],
+   "PHR": [
+    3,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/V12-calibration.md": {
+   "TOK": [
+    5,
+    0
+   ],
+   "ID": [
+    9,
+    0
+   ],
+   "TRI": [
+    174,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    2,
+    0
+   ],
+   "PHR": [
+    1,
+    1
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/INDEX.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    24,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    0,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  },
+  "docs/volumes/SUMMARY.md": {
+   "TOK": [
+    0,
+    0
+   ],
+   "ID": [
+    0,
+    0
+   ],
+   "TRI": [
+    10,
+    0
+   ],
+   "COL": [
+    0,
+    0
+   ],
+   "SET": [
+    0,
+    0
+   ],
+   "PHR": [
+    0,
+    0
+   ],
+   "FILE": [
+    0,
+    0
+   ]
+  }
+ },
+ "routed_hits": [
+  {
+   "class": [
+    "TOK",
+    "ID"
+   ],
+   "what": "a Building field name equal to an FTG Foundry-module field name (ftg-payload-visual 7.3; ARCHITECTURE 17.1 (9))",
+   "where": [
+    "ARCHITECTURE l. 1369",
+    "ARCHITECTURE l. 1488",
+    "ARCHITECTURE l. 16013",
+    "V03 l. 310",
+    "V11 l. 1433"
+   ],
+   "needs": "design-seat rename or Fable ruling"
+  },
+  {
+   "class": [
+    "PHR"
+   ],
+   "what": "study map A: its three region names as an example",
+   "where": [
+    "ARCHITECTURE l. 15533",
+    "V01 l. 3163"
+   ],
+   "needs": "design-seat reword or Fable ruling"
+  },
+  {
+   "class": [
+    "PHR"
+   ],
+   "what": "study map A: a region name with two more of its place words in the clerk examples",
+   "where": [
+    "V10 l. 37",
+    "V10 l. 2347",
+    "V10 l. 3200"
+   ],
+   "needs": "design-seat reword or Fable ruling; V12 l. 1534 is a table-cell coincidence of the same text"
+  },
+  {
+   "class": [
+    "PHR"
+   ],
+   "what": "study map A: a landmark name in the known-city structure list",
+   "where": [
+    "V09 l. 4475"
+   ],
+   "needs": "design-seat reword or Fable ruling"
+  }
+ ],
+ "design_allow_rows": {
+  "TOK": 16,
+  "PHR": 3,
+  "SET": 17,
+  "TRI": 256,
+  "carried_doc_checks_rows": 6203
+ },
+ "judgments": [
+  "research/sf and research/baselines excluded",
+  "colour values only as written colours; black and white dropped",
+  "spell list web2 + inflection/British rules + 179-word supplement",
+  "word sets use check (vi) one-word-member index",
+  "table column = its one-word cells",
+  "classes id (case kept) and phr (map names) added",
+  "token sources limited to lists, identifier-shaped strings and named identifier sources",
+  "corpus cut at the clean-room record (07:25:59 EDT)",
+  "map transcription kept outside the project; digests only"
+ ]
+}

@@ -1,0 +1,129 @@
+{
+ "items": [
+  {
+   "id": "W-01",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "plan.py --vectors on the three row labels, cmp against line 1 + the three matching lines of v12_h32_vectors.out: identical (both sha256 b1187d9d79df0faf)",
+    "independent C MurmurHash3_x86_128 written from the reference algorithm: SMHasher value 0xb3ece62a, reproduces all 19 lines of v12_h32_vectors.out and v12_rev_h32.out (less its comment) by cmp, and all 79 plan.json seeds (0 mismatches, 79 distinct, all in 1..2147483646; MFCG 35, NG 44)",
+    "plan.py --check on a shadow copy: SAME plan.json 45b4b315 / SAME metrics.m-1.json 7a21bb29",
+    "plan.py --catalogue-check: 182 vs 182, 0 missing, 0 extra; own parse of the V12 table: 181 first-column ids + block.areaRel from the scale column = the registry",
+    "red copy (one expected vector +1): SELF-TEST FAILED, exit 2, plan.json unchanged; slot lifecycle on a copy: out-of-order, missing folder, rebind, reused folder, malformed reason each exit 1 with the file unchanged; a valid --fail-ftg then --check SAME, families identical"
+   ],
+   "problems": [
+    "Not W-01's checker but still open (CONFIRMED, doc_checks run 15:48-15:52 on the live tree): the design-set check stays red from M-1's own files - ARCHITECTURE C3 14 / C4 5 unreviewed, V12 C3 33 / C4 4 unreviewed, exit 1 on both; the exclusion of research/baselines/ (and the capture lanes' own record files) from doc_checks.py's corpus that E01, E02 and E16 ask for has not been applied"
+   ]
+  },
+  {
+   "id": "W-02",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "own protobuf walk (not pb_raw's parser) of intercept-0049 (396544 B, sha256 c71803079feb8e1e): field 3 once with 3.1 x3266 edges and 3.2 x3003 nodes, field 8 x1694 buildings, field 7 x25, field 6 absent, field 10 x3, border max |coordinate| 2000.00 m; top-level fields all within 1..27",
+    "the PUT body in index.jsonl: 274285 B, sha256 prefix aa8ba6c213b6 = referenceBuild ftg:2026-10-03+aa8ba6c213b6; create-request.json parses equal to it; size BIG_TOWN, coast none, rivers false = slot 0",
+    "ftg_capture_post.py --check-only from a shadow root (no file in the capture touched, mtimes unchanged): slot 0 exit 0, 8/8; slot 1 exit 1 (sizeKey, border); slot 2 exit 1 (waterKeys)",
+    "tools/pb_raw.py on the payload to scratch: exit 0, 183 paths; structure.md equals it apart from the title line",
+    "own walk of the two CITY payloads: 5326/4303/2798/17 and 4811/4045/2813/29, borders 2500 m; README carries capture id, WaterSetting none, population 5600 nominal, referenceBuild; plan.json slot 0 bound"
+   ],
+   "problems": [
+    "PLAUSIBLE weakness: the requestDiff check classes any leaf under the request's layout-stage subtree as size-dependent and any leaf of its raw-resource list as water-implied, so it would not fail on an unintended change inside those subtrees; day 1's 11 + 6 leaves are as recorded, but days 2-6 should pin the class to the named leaves",
+    "Item is day 1 of 6: five FTG slots remain (BIG_CITY none due no earlier than 2026-10-04 13:30 EDT)"
+   ]
+  },
+  {
+   "id": "W-03",
+   "verdict": "partial",
+   "reexecuted": [
+    "check_w03.py on an APFS clone of the sweep folder: C1-C6 PASS, exit 0; export-check.json equal to the landed one (folder key aside)",
+    "own pass: loads.jsonl 35 lines = the 35 plan names, each URL carrying its plan seed; console internal seed = plan seed on the 32 non-retry seeds; river+coast 1 and 4 retries with 2 and 3 attempts; 34 JSON + 34 SVG + 34 PNG on disk; no file for 130/plain/8; seed-0 JSON sha1 eaa7701b",
+    "own JSON-vs-SVG identity (building vertices / 4 with y flipped against SVG path coordinates): 0.775-0.790 exact matches on all 34 pairs against 0.001-0.002 for mismatched pairs - the same city in every pair",
+    "stats.py (sha1 f490ea64 = the 2026-09-25 copy) re-run on the clone: stats.json byte-identical, stats.md identical; E03 sec 4 anchor table recomputed from stats.json and matches"
+   ],
+   "problems": [
+    "Row not met as written, as the record says (CONFIRMED): 34/35 exports (130/plain/8 no-export) and the cold re-export of seed 0 not run (36th load outside J159); the same-load Blob identity 33/33 is only logged, not re-executable without a load",
+    "Factual error (CONFIRMED from stats.json): E03 sec 6, the sweep README (l. 81-82) and W-03.json notes say 4 of 10 size-40 seeds exceed TOWN's 1500 buildings; it is 2 of 10 (1571, 1576; 1499 and 1491 are under). The size-80 'one under 4500' (4205) is right",
+    "Owner-gated to close the row (unchanged): 1 load for seed 0's cold re-export, 1 load to confirm the 130/plain/8 freeze, a ruling before any replacement seed"
+   ]
+  },
+  {
+   "id": "W-04",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "check_w04.py on a clone of the programme folder (captures read through a shadow root): C1-C7 PASS, exit 0, 44 loads / 44 plan entries / 44 folders, build 11441280; paths-stats.md identical to the landed one apart from path prefixes",
+    "own pass over the 44 folders: exactly 44 2026-10-03T* NG folders, all mapped in index.json; meta seed and query = plan; exactly one console generator line naming the plan seed and both tags; gen-0.png present and >= 500 px; skippedLong 0 and droppedTotal 0; largest ring/large/2 62405 paths / 270635 vertices; 321.7 MB",
+    "E04 census recomputed from paths_stats JSON: 2625 streets, bends 948 / 1668 / 9, arrivals >= 85 deg 4024 / 4135; footprints per map 77-532 / 146-1332 / 621-1930; ring means 466 / 1078 / 1586; fewest 105 (square) / 302 / 782 (street)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-10",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "ng_faces_by_class.py --check from a shadow root, outputs to scratch: 11/11 PASS, exit 0; both JSON outputs byte-identical to the landed ones (7c185b17, 3b069c2d); no __pycache__ written",
+    "the existing scripts re-run unmodified: bentcut_geometry per-map bends and arrivals sum to 380/519 one-bend and 780/811; bentcut_parent_face 512 cuts, 162 simple, 99/120 at mid, all bent n=378 arc 200; bentcut_anchor sigma 0.098 ring, 0.066 eps 0.05 plain, 0.088 eps 0.02 all",
+    "separate code: profiler/paths_stats.py on the same 8 maps gives 519 streets, 380 one-bend, 780/811 arrivals",
+    "per-face file recount: 168 parents, flags holed 3 / C 16 / triangular 9 / curved 140 / round-joined 78, plain 11, partition 3+16+9+112+17+11; flags agree with the stored holes, corners45 and concave turn; shoelace areas re-sum with 0 mismatches; C-shaped one-bend 12 with 5 at mid and 4 filleted; pooled 103/125 mid, 62/125 fillet, 325/336 arrivals"
+   ],
+   "problems": [
+    "Not defects of the landing (recorded in E10 sec 7): rows are on recorded seeds 7171/7172 (PC-04 ruling owed); TEMPLATE_W must be generalised before the W-04 medium seeds are run through the tool"
+   ]
+  },
+  {
+   "id": "W-11",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "adapters/ng.py from a shadow root to scratch: 8 MeasureInputs byte-identical to the landed ones",
+    "measure_ng.py --check on them: T1 PASS 40/40 lines, T2 PASS 8/8 rows, internal 41/41, CHECKER PASS, exit 0; E11 JSON identical to the landed one (4efbbca0) after normalising the input-path list it embeds",
+    "README-vertices.md's 40 table lines equal a live profiler/paths_stats.py --md run on the four captures (path-normalised); plot_granularity_baseline.py live: shared wall 95-99 %, length share 39-43 %, Moran -0.04..+0.03",
+    "own road-footprint crossing count (segment intersection, separate code): registered 0,1,1,0,0,0,0,0; unregistered (shift undone) 1 and 88-484 in the other seven; +1 px 0-1",
+    "red test: one map's footprints moved 20 px -> 40/41, registration check FAIL (488 crossed), exit 1; detour and cycles seed differences match E11 sec 4"
+   ],
+   "problems": [
+    "By design, T1 and T2 are translation-invariant and cannot detect a registration error; only the internal registration check does (it fired in the red test)",
+    "Rulings owed as recorded (PC-03 scale, PC-04 sample, pairing reading, share4 raw vs merged, gap definition, edge blocks)"
+   ]
+  },
+  {
+   "id": "W-05",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "research/ftg-capture/roadlength100/length_precision.py (original) re-run on both payloads: output identical to the stored length_precision.out.txt",
+    "adapters/ftg.py in a shadow root: both MeasureInputs byte-identical (e8377e6e, 8097f383)",
+    "measure_ftg.py --check: every check PASS (lp 31/31 and 26/26, runs 50.5/30.25/50.25/30.00/14.70, 2798/2813 buildings, 17/29 towers, rows 7-9, turning/entropy criteria, stored input = fresh run), exit 0; E05 JSON byte-identical (243bca8e)",
+    "own exact tree nearest-neighbour search: median 10.591 / 10.570 m, p1 0.901 / 1.118; the old one-block search drops 320 / 374 trees and gives 9.66 / 9.40 - the shift of E05 sec 8 (1) reproduced; own footprint area median/p95 102.67/153.69 and 96.44/188.97"
+   ],
+   "problems": [
+    "PLAUSIBLE weakness: the 'agree with rows 7-9' pass rests on criteria the seat fixed itself, and (ii)-(iv) are lenient ((iv) is that the values exist), so the substantive test is (i) on one payload; it is declared, but a Fable seat should accept the criteria with the five section-13.5 shifts"
+   ]
+  },
+  {
+   "id": "W-07",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "adapters/mfcg.py in a shadow root: 18 MeasureInputs byte-identical",
+    "measure_mfcg.py --check: ALL PASS (15 lines incl. red-team scripts live = .out, stats.md equal), exit 0; E07 JSON byte-identical (55b8b186)",
+    "held gates_towers.py run live: gates 0/1/4/9/7, towers 33/32/29/24, coastal recorded tower draws 20",
+    "own walled share (largest wall ring, area centroids, prism counted): 0.9809 / 0.9676 / 0.9192 / 0.8231 / 0.3015; own R4 by V12's definition: gates4 0.8402 / 0.5791 / 0.3175, gates0 0.885 / 0.671 / 0.385, gates9 0.866 / 0.650 / 0.395",
+    "own gate law floor(1 + 0.47 sqrt(walled ha) + 0.5) on the 2026-09-25 sweep stats: 6/12 plain hits, 5/10 on sizes 10-250, every plain miss by one, river+coast 14 vs 23"
+   ],
+   "problems": [
+    "Minor wording error (CONFIRMED): E07 sec 2 says the fixtures hold fewer than 1500 footprints so every footprint is used; gates1 holds 1513 (with the prism) and the coastal city 15393, so R4 is sampled there (E07.json samples 1485-1499); the checked gates4 value is unaffected (1299)",
+    "Rulings owed as recorded (F1 coastal wall alignment vs T-V12-32, F2 ribbon band, F3 district median, F4 metric split, D24 target vs descriptive)"
+   ]
+  },
+  {
+   "id": "W-16",
+   "verdict": "partial",
+   "reexecuted": [
+    "make_denylist.py selftest in a shadow root with the transcription kept in the session scratchpad (~5 min): every count of E16 sec 4 reproduced - C1 36/36, colours 7248/7248 (297234 bare runs not listed), C4 lists 210/210 (268 under five), kept lists 234/234, tokens 1329/1329, identifiers 130/130, files 9561/9561, 2004 sampled 3-grams, planted 20/20/20, names 91 (90 direct, 1 by map A's set, 0 neither), salt = salt.hex; design set 17 occurrences / 5 distinct unreviewed, exit 1",
+    "rebuild with the same salt in a second shadow root, no transcription (digests merged): byte-identical to the landed list (sha256 60e6cc70c2243807...)",
+    "own planted leaks against the landed list: 40/40 seven-token runs from devlog/patreon/FTG-doc prose, 40/40 five-word sets from the FTG request and preset lists (and one as a table column), 20/20 captured SVG colours in upper case and 20/20 as 0x literals; a fresh sentence and a random colour do not hit",
+    "C1's 36 identifiers hit as ID in six realistic contexts each; lower-cased forms give 0 ID hits; class counts tok 1369, id 130, tri 971690, col 7248, file 2076, phr 75, 235 sets / 3072 word digests = E16",
+    "the routed field-name hit is a payload-visual 7.3 name and sits on each of its 5 cited lines; the 3 phrase hits are at the 7 cited lines"
+   ],
+   "problems": [
+    "Design-set scan fails exactly as claimed (CONFIRMED): one module field name (ARCHITECTURE l. 1369, 1488, 16013; V03 l. 310; V11 l. 1433) and three study-map phrases (ARCHITECTURE l. 15533; V01 l. 3163; V09 l. 4475; V10 l. 37, 2347, 3200; V12 l. 1534) need a design seat's rename or a Fable ruling, then a selftest rerun",
+    "The list's corpus is cut at 07:25:59; today's M-1 capture folders are not in it until the rebuild at M-1's exit (recorded in E16 sec 7)"
+   ]
+  }
+ ]
+}
