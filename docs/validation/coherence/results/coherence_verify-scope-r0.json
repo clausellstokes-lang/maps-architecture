@@ -1,0 +1,222 @@
+{
+ "key": "coherence/verify-scope-r0",
+ "file": "docs/validation/coherence/verify-scope-r0s.md",
+ "issues": [
+  {
+   "id": "VS0-05",
+   "severity": "major",
+   "kind": "LOST",
+   "claim": "§0.2 (E-22): the archived landing cells listed, per owner item, every section that carries its pointer, hook field or rule line, its tests, decisions and lists; the rewrite cut each to the home and replaced the lists by the sentence 'the sections that carry a pointer, a hook field or one line of the rule, and the item's tests … cite the item by number'. Checked by script over the live base: of the 476 (item, section) pairs the archived cells named, 95 sections hold no citation of their item (no 'item N', 'T N-n' or 'J-AN.' anywhere in the section) — e.g. item 2 at §2.7, §4.2, II.6; item 12 at §2.1, §3.10, §5.2, §6.1, II.7.4; item 16 at §2.5, §5.2, §7.3, §13.9, §14; item 18 at §2.5, §6.1, §6.3, §7.4, §14, §16; item 28 at §1.1, §1.2, §3.3, §14; item 30 at §3.4, §6.1, §11.4, §13.5; item 31 at §5.2, §7.5, §7.6, §14, §16 (full list in verify-scope-r0s.md, finding VS0-05). For those 95 pairs the landing fact is now stated nowhere and the new sentence is false; E-22's equivalence ('every clause-map cell kept') does not cover the landing record, and §0.2's own discipline ('every clause of every rule is checked at its landing') can no longer be followed from the table.",
+   "required_change": "§0.2: give each row a third cell 'also lands at' holding the archived landing cell's section, test and decision ids only (no prose — e.g. item 12: '§2.1, §2.2, §2.5–§2.7, §3.4, §3.7, §3.10, §5.2, §5.3, §6.1, §7.1, §7.4, §8.4, §11.1, §13.1, §14, II.7.4; T12-1; J-A12.31, J-A12.32, J-A12.71'), so that the table keeps every (item, section) pair of the archive; and reword the intro sentence to 'Each row names the home that states the mechanism, then the sections that carry a pointer, a hook field or one line of the rule, the item's tests (§13.2's T⟨item⟩-⟨n⟩ bars) and its decisions'. (Alternative only if the editor prefers it: add the item number at each of the 95 sections listed — owned by the other parts.)",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-08",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§1.1's village rows give the frame at the target as THORP '1.2 km² (1.1 km)', HAMLET '5.8 km² (2.4 km)', VILLAGE '20 km² (4.5 km)' (the archived values), while V07 §2.1's table — rewritten under the canon's E-38 (`haPerHead` derived, `A_T = a_h · P ÷ usableShare`, 2.275 ha per head; a declared −1.1 % territory area, J-V7.141) — gives 1.1 km², 5.7 km² and 19.9 km². One ladder.json row, two values (principles (1), (10)); J-A201.01 makes §1.1 the home of the village rows' values, so the base now states numbers the derivation no longer produces.",
+   "required_change": "§1.1's THORP, HAMLET and VILLAGE frame cells read '1.1 km² (1.1 km), territory law; minimum 0.36 km²', '5.7 km² (2.4 km); minimum 1.0 km²' and '19.9 km² (4.5 km); minimum 4.0 km²' — the values of V07 §3.2 (1)'s territory law after E-38 (J-V7.141's declared shift) — and the sentence after the table names that law as their source.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-10",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "Two declarations of one interface with different signatures (principles (1), (10)). §4.12 (l. 8156–8157, added by the pipeline rewrite for WG-PIPE-05) declares `interface PlotStrategy { plots(block: Block, alloc: Allocation, ctx: StageContext, k: Kernel): KernelResult<Plot[]> }` and `interface SitePlanStrategy { sitePlan(plot: Plot, to: Designation, ctx: StageContext, k: Kernel): KernelResult<MutationRecord> }`; §14 (l. 17022–17023, unchanged from the archive) declares `PlotStrategy { subdivide(block: Block, ctx: BlockContext, claims: Claim[], sc: StageContext, k: Kernel): KernelResult<{ plots; alleys; residue }> }` and `SitePlanStrategy { plan(plot: Plot, ctx: ContextVector, tables: TableView, rng: Stream, k: Kernel): KernelResult<SitePlan> }`. `StrategyRegistry.plots` and `.sitePlan` (§14) register one type each; an implementer cannot satisfy both, and CO-11's one context vector reaches the §14 forms (`BlockContext`, `ContextVector`) but not the §4.12 ones.",
+   "required_change": "Keep one declaration of each. §4.12 drops its `PlotStrategy` and `SitePlanStrategy` lines and its comment cites §14's; where S11's mutator path needs a `sitePlan(plot, to, …): MutationRecord` form (J-A18.41), that signature replaces §14's `SitePlanStrategy.plan` in §14 by a recorded ruling (the context vector kept as its input, CO-11), never as a second declaration; §14's comment then names every strategy §4.12 declares (VS0-11).",
+   "owner": "pipeline"
+  },
+  {
+   "id": "VS0-17",
+   "severity": "major",
+   "kind": "COHESION",
+   "claim": "§16's prices and two totals (and INDEX.md §1's price column) are not the sums of the volumes' own lines as the volumes now stand (file f item 568: §16 'first adds every request's effort-table line and milestone-row delta … then computes, once'). Three volumes re-priced after the scope rewrite and handed the change to §16, unapplied: V06 §8 prices M6-E at 29–41.5 pw (E9 and the spring line; V06 report note 14) where §16's staged row, the evolution line and INDEX §1 say 25.25–35.75; V10 §8 makes C1 3.25–4.75 pw plus the second transcript 0.25 inside M3a (base +3.5–5, item 531) and M3c 10.75–14.5 pw (V10 §13's hand-off to scope) where §16's M3a row and O11 line carry the oracle at 3.25–4.75 and the M3c row and clerk line 10.25–13.75; V11 §8 totals 12.75–17.75 pw with the new C1b (item 111's rows, 0.25–0.5 at M1/M2b) and C9 (item 113's rows, 0.25 at M6-E) where §16 prices neither and INDEX §1 says 12.25–17.0. §16's first total (221.5–300.5), staged total (170.75–238.75), whole program (392.25–539.25), the cuts' first total (≈ 204.5–272.5) and INDEX §1's V06, V10 and V11 prices are therefore stale.",
+   "required_change": "§16: the M6-E row and the evolution line read 29–41.5 pw; the M3c row and the clerk line 10.75–14.5 pw; M3a's oracle item and the O11 line's oracle read 3.5–5 (C1 3.25–4.75 plus the second transcript 0.25; the O11 line 12.5–17, the M3a row 35.25–47); V11's C1b (0.25–0.5) placed in M1 and M2b inside the content line (13.25–19) and V11's C9 (0.25) added to the content's staged rows (≈ 2–2.75); then recompute once (item 568): base subtotal 194.75–265, the first total 222–301.25, the staged total 175.25–245.5, the whole program 397.25–546.75, the cuts' first total ≈ 205–273.25 (or the figures the editor's own, stated placement of C1b gives); D-20 and the summary cite the new figures; INDEX.md §1's prices read V06 29–41.5, V10 14.25–19.5 (14.75–20 with the command-line clerk) and V11 12.75–17.75, and its V11 'where it is built' cell adds C1b (M1, M2b) and C9 (M6-E).",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-01",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "E-24 (one supersession mark) is applied only to the rows SCOPE-C02 enumerated. The archived index carried twelve further amendment relations inline on the governing rows — J-A28.34 '(amends J-A28.31's insertion and J-A28.33's read-back claim)', J-A30.23 '(amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\")', J-A28.28 '(amends J-A28.23)', J-A30.87 '(amends J-A30.84's mechanism)', J-A20.42 'refines J-A20.71's \"best-scoring site\"', J-A63.21 'refines J-A17.21', J-A24.43 '(amends J-A24.41's default weights)', J-A30.85 '(amends J-A30.83)', J-A30.26 '(amends J-A30.25)', J-A20.24 'amends J-A20.23's list of what factTier reads', J-A50.21 'supersedes … J-A29.41's reading of one street entrance as the references' behaviour', J-A76.71 'refines J-A20.74's condition' — the rewrite cut the inline notes from the governing rows (Part A keeps them) but put no mark on the amended rows, so J-A28.31, J-A28.33, J-A30.21, J-A28.26, J-A28.23, J-A30.84, J-A20.71, J-A17.21, J-A24.41, J-A30.83, J-A30.25, J-A20.23 and J-A29.41 now read as current choices in the index (J-A20.24's relation to J-A20.23 is in neither the index nor its Part A entry). Two governing rows keep a second, inline form (J-A30.24 '(amends J-A30.22)' beside J-A30.22's mark; J-A76.71 '; refines J-A20.74' with no mark on J-A20.74).",
+   "required_change": "In the Judgment-calls index and in each Part A entry (the mark mirrored, as the assembler did for the 17), add the one E-24 mark: J-A28.31 and J-A28.33 '— *amended by J-A28.34*'; J-A30.21 and J-A28.26 '— *amended by J-A30.23*'; J-A28.23 '— *amended by J-A28.28*'; J-A30.84 '— *amended by J-A30.87*'; J-A20.71 '— *amended by J-A20.42*'; J-A17.21 '— *amended by J-A63.21*'; J-A24.41 '— *amended by J-A24.43*'; J-A30.83 '— *amended by J-A30.85*'; J-A30.25 '— *amended by J-A30.26*'; J-A20.23 '— *amended by J-A20.24*'; J-A29.41 '— *amended by J-A50.21*'; J-A20.74 '— *amended by J-A76.71*'; remove the inline '(amends J-A30.22)' from J-A30.24's row and '; refines J-A20.74' from J-A76.71's row, and list these 14 marks in rewrite-scope's E-24 equivalence.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-02",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "INDEX.md's intro (l. 23) still says file f's items 200–585 are 'not yet applied' and that both files are applied 'by the coherence pass', while the set now carries them (the base §0.2's file-f pointer row, §13–§16, every volume's §10 pointer table); the sentence is false of the set it maps (principle (4)).",
+   "required_change": "INDEX.md intro: replace '(file f, items 200–585, not yet applied); the owner rules of 2026-09-28 are … Both are applied to the base by the coherence pass (`workflows/18-coherence.js`), file g first.' with one sentence stating that file f (items 200–585) and file g (items 102–113) are applied — to the base at the homes §0.2's landing table names and to the volumes, whose §10 pointer tables cite each item.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-03",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "INDEX.md keeps narration in its normative text (canon S9): the head's `volumes/_finalize` PROGRESS ledger (l. 5–17, which also cites J-RF2.4, an id defined only outside the set); §1's 'M5 (replacing the base's 14–18 pw M5 row)'; §1's 'The census was re-run at this lane's close'; §2's density paragraph 'counted by script at this lane's close … the six seam checks of §7 were drawn along exactly these pairs' — §7 no longer lists six seam checks, so that pointer is broken; §8 'CONFIRMED versus PLAUSIBLE' is wholly the _finalize lane's record (its md5s are of the pre-pass files, its doc-check sentence uses the retired G-cite forms 'V6 §2.1' and 'V9 §4.16', which refcheck lists as broken, and it keeps 'that the recommended order of §4 is the one the owner will choose', which J122 decided).",
+   "required_change": "INDEX.md: delete the PROGRESS ledger (l. 5–17) — its content stays in the _finalize validation record; §1 V01 row's cell reads '**M5**'; drop 'The census was re-run at this lane's close' (keep the census facts: 407 requests, 386 items, 137 BASE, 249 STAGED, 0 uncarried, 0 duplicated); drop §2's density paragraph or restate it as the seam pairs only without 'at this lane's close' and without the §7 pointer; rewrite §8 as this file's own CONFIRMED/PLAUSIBLE for the set it maps (the two totals and the order are §16's, PLAUSIBLE until the milestones run; the order is J122's, decided), with no lane narration and no old-form citation.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-04",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "INDEX.md headings and §5 do not match what the rewritten sections say: §4's heading 'The combined build order after M5, with estimates' heads a paragraph that states an order starting at M0 (V-M0 right after M0, M3c beside M3b, four streams after M4) and carries no estimates (it points to §16); §6's heading 'Owner questions with recommendations' heads a table of decisions (CANON-C03: 'INDEX §6 becomes the table of decisions'); §5 risk 6 'the base's own changes (files g and f) landing late or in another shape … the coherence pass applies g, then f, before the staged work' describes a risk the applied files retired.",
+   "required_change": "INDEX.md: §4 heading '§4 The combined build order (J122)'; §6 heading '§6 Owner questions and their decisions'; §5 row 6 removed (or restated as the dependency on file g's and file f's base parts being built at their §16 milestones, with the named fallbacks), and the bundle regenerated.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-06",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§0.2's heading still reads 'Where the owner's late rules land — items 1–7 (…), items 8–31 (…) and items 32–88 and 101 (…)' while its one table now lands items 102–113 (file g) and file f's items 200–585 as well.",
+   "required_change": "§0.2 heading: 'Where the owner's late rules and the volumes' base changes land — items 1–113 and file f (items 200–585)' (the file names stay in the intro, which already lists them); update the assembler's heading map with it.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-07",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§0.2 row 112 cites '§13.4's style check T112-1', but T112-1 is defined in §13.2's owner-items group (*Colour-blind-safe maps and the trial*); §13.4 only runs it in B-ZOOM ('T112-1's style check on every checked variant (§13.2)'). The index row J-A112.01's 'where' cell likewise names '§16, §13.4' for the release gate, whose bars are §13.2's T112-1 and T112-2.",
+   "required_change": "§0.2 row 112: '§13.2's style check T112-1 (run in §13.4's B-ZOOM) and the release gate T112-2 (§16)'; J-A112.01's where cell: '§16, §13.2'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-09",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V07 §2.1 restates §1.1's whole village table (bands, targets, footprints, frame, stage rows, granularity, greenery, matched references, layers) although J-A201.01 rules that §1.1 carries the village rows' values and volume 7 §2.1 gives households and dwellings; the restatement is how the two copies drifted apart (VS0-08).",
+   "required_change": "V07 §2.1: keep the households / dwellings column and the dwellings-versus-households sentence, and cite §1.1's rows for every other column ('the THORP, HAMLET and VILLAGE rows of §1.1's table') instead of restating them; the territory law stays V07 §3.2 (1)'s and §1.1 cites it.",
+   "owner": "V07"
+  },
+  {
+   "id": "VS0-11",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "§14's code comment '// @plat/layout — stages and strategies (StageDecl, NetworkStrategy and EnceinteStrategy are §4.12's)' is no longer the list: §4.12 now also declares `TerrainStrategy`, `CoastStrategy`, `RiverStrategy`, `ManifestStrategy` (and, until VS0-10 is fixed, `PlotStrategy` and `SitePlanStrategy`), which `StrategyRegistry` names in §14.",
+   "required_change": "§14's comment reads '(StageDecl, StageHookDecl, DataKey and the stage strategies TerrainStrategy, CoastStrategy, RiverStrategy, ManifestStrategy, NetworkStrategy and EnceinteStrategy are §4.12's)', with PlotStrategy and SitePlanStrategy added to that list only if VS0-10 keeps them in §4.12.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-12",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§14's `ContentProvider.site(roster: Roster, plots: Plot[], ctx: SitingContext, rng: Stream): SitingResult` uses `SitingContext` and `SitingResult`, which no part of the set declares (script over the base and the twelve volumes; the archive had the same gap). J-S46 keeps door 4 as an extension point with a fixture provider (§13.2), so the interface's input and output must be typed to be implementable (principle (7): every interface has an implementer and a caller).",
+   "required_change": "Declare `SitingContext` (the S10b solver's inputs a provider's `site` reads — the district allocations, the plots with their frontage and band, the context vector, the relation and supply rows) and `SitingResult` (the per-plot placements with the infeasible entries and their closest options, as S10b's own result) in §14 beside `ContentProvider`, or name the §4.7 S10b types they are.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-13",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§14's type map cites `Role` as §8.2's and `BridgeMessage` as §11.3's (`// @plat/api — … BridgeTransport and BridgeMessage: §11.3`; `@plat/model … the shared view vocabulary LodBand, Role, ZoomStop`), and `RoleIndex.roleAt`/`snap` return `Role`, but neither is declared as a named type anywhere in the set (§8.2 lists 'Role values' in prose; §11.3 uses `BridgeMessage` only in `BridgeTransport`'s signature) — the scope rewrite's cross-part note, still unapplied (driver unplaced 1 (b)).",
+   "required_change": "§8.2 declares `type Role = …` as the union of its role list (the roles §8.2's table names) and §11.3 declares `type BridgeMessage = …` as the union of the bridge's messages it lists (`doc.apply`, `doc.rejected`, `export.request`, `export.ready`, `export.refused`, `report.changed`, `ready`, … as §11.3 states them); §14 keeps its pointers.",
+   "owner": "rendering"
+  },
+  {
+   "id": "VS0-14",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "`Invariant` is used by `KernelTx.expect: Invariant[]` (§3.3, l. 3253) and `StageDecl.invariants: Invariant[]` (§4.12, l. 8146) and declared nowhere in the set — the scope rewrite's cross-part note to §5.3, still unapplied (driver unplaced 1 (a)); §14's `Stage<I, O> extends StageDecl` inherits the dangling type.",
+   "required_change": "§5.3 declares `interface Invariant { name: string; scope: 'batch'|'stage'|'save'|'load'|'ci'; hard: boolean /* hard aborts the batch; soft goes to the report */; check(…): { pass: boolean; count: number } }`, its result §5.4's report row `{ name, scope, pass, count }`, and §3.3 and §4.12 cite it.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VS0-15",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "`powerStructure.previousGovernments` is read and not read at once: §7.1's dating rungs (l. 7710, item 75) read `previousGovernments[].tick` to date a dossier change, while V08 §2.4's adapter field table marks `powerStructure.previousGovernments` `ignored` ('§7.7 item 1: narrative state with no map reader') and the index row and Part A entry J-A73.06 say 'no mechanism of the set reads it; §7.7 item 1 lists the key as never read' — and §7.7 item 1's never-read list (l. 10919–10929) does not name it (the scope rewrite's note W-DOS-05 to determinism is unapplied).",
+   "required_change": "Determinism decides one reading and states it once: either (a) drop `previousGovernments[].tick` from §7.1 item 2's rungs (a government change is dated by its decree's `tickRef`, its outcome id's week or `HostContext.week`) and add `powerStructure.previousGovernments` to §7.7 item 1's never-read list, so V08's 'ignored' row and J-A73.06 hold; or (b) keep the rung and have V08 §2.4's row read 'the ticks only, as §7.1 item 2's dating rung' and J-A73.06 (index and Part A) say 'never carried into the digest; its ticks date a government change (§7.1 item 2)'. (a) is the change the scope note requested.",
+   "owner": "determinism"
+  },
+  {
+   "id": "VS0-16",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§14 makes `@plat/buildings` both a ground package and a staged one: the dependency chain places it between `plots` and `labels` and lets `render` and `export` import it (for `roofscape`, `facadeBays` and the plan's readers), while the package line says it is built at M6 (or created by M6-P), `@plat/api`'s worker host lists it among 'each staged package the build includes … and calls its registration', and J-A505.01 rules that the ground must never import a staged layer. Between M1 and M6-P the base's `render` and `export` (M1, M3b) would import a package that does not exist; `roofscape` is used only 'once stage 3 registers' (§8.6), which is a registration, not an import.",
+   "required_change": "§14: `render` and `export` reach stage 3's `roofscape` and the plan's pure readers through registrations `@plat/buildings` makes at start through `@plat/api`'s worker host (a `RoofConstruction` registry entry for `roofConstruction: 'roofscape'` and `Exporter` registrations for the plan's JSON block, `.dd2vtt`, Foundry storey scenes, CityJSON storeys and glTF interiors), and import `facadeBays` from `@plat/plots` only; the chain reads `layout ← plots ← labels ← render …` with `buildings` among the staged packages no ground package imports — or, if the f item's static import is kept, a recorded ruling states why `@plat/buildings` exists (empty) from M1.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-18",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§13.2's takeover table and the stage bullets cite the volumes' test families by ranges that end where the families ended before the volumes' rewrites; each volume's §7 now defines more tests (the edge and combination tests of principle (11) and the items 111–113 parts): §13.2 says T-V1-1 – T-V1-54 (now 58; also §16's M5 exit), T-V2-1 – T-V2-53 (55), T-V3-1 – T-V3-34 (37), T-V4-1 – T-V4-75 (79), T-V5-1 – T-V5-32 (34; also T15-1's clause), T-V6-1 – T-V6-69 (74 — T-V6-70 onward are the history-replay tests that take item 113's bars, which the same row assigns to volume 6; V06 report note 14), T-V7-1 – T-V7-57 (65), T-V8-1 – T-V8-47 (51), T-V9-1 – T-V9-70 (78), T-V11-0 – T-V11-37 (40), T-V12-1 – T-V12-41 (48).",
+   "required_change": "§13.2 (the takeover table, the *Stage 3*, plan-rung, *underground layer built*, *SettlementForge stage* bullets and T15-1's clause) and §16's M5 exit cite T-V1-1 – T-V1-58, T-V2-1 – T-V2-55, T-V3-1 – T-V3-37, T-V4-1 – T-V4-79, T-V5-1 – T-V5-34, T-V6-1 – T-V6-74, T-V7-1 – T-V7-65, T-V8-1 – T-V8-51, T-V9-1 – T-V9-78, T-V11-0 – T-V11-40 and T-V12-1 – T-V12-48 — or 'V0n §7's tests' with no range, so the table cannot go stale again.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-19",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "The base's title still reads '… neighbourhood composition (stage 2), and what a village would need (later)' (inventory SCOPE-0001 flagged it for the canon), while the title block's own 'How to read the design', §1.1's stage table, PART III's heading and INDEX.md §1 describe the village as a designed product — volume 7 at build depth, V-M0 right after M0 and V-M1 – V-M4 after M4 (J122). 'would need (later)' reads as a hypothetical, unscheduled product, untrue of the set (principle (4)).",
+   "required_change": "Retitle to '# ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and what the village product needs from it' (or name the set: '… the base of the design set'), and update the assembler's heading map so the title file still places.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-20",
+   "severity": "minor",
+   "kind": "ELEGANCE",
+   "claim": "E-24 marks for base rows a volume decision supersedes or amends are missing (V01 report, cross-part note 4): J-S42's row still reads '`SquareFabric`'s `void` mode for NG's `square` pairs | §13.6, II.2' as a current choice — §13.6 (2) now uses the `carved` plaza (J-V1.6), and `SquareFabric` is a retired name (TemplateFabric rows) — and J-A44.71 ('the compound enclosure an `extension` with `over: 'both'`') carries no mark although J-V1.98 adds the `NG` parity preset that changes its alternative.",
+   "required_change": "Index rows and their Part A entries: J-S42 '— *superseded by J-V1.6*' (its choice text naming the `void` mode of the `square` template, not `SquareFabric`); J-A44.71 '— *amended by J-V1.98*'; and E-24's equivalence list in the scope report names cross-set marks (a base row amended by a volume's J-Vn.m row) as covered.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-21",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§14's port types disagree with V08 (V08 report, cross-part note 1): `PortNote.kind`'s union lacks `'frozen_fact_changed'` and `'history_defaulted'`, which V08 §4.6's note table defines (classes report and standing) and V08 §3.5 emits; and `DossierDigest.notables[]` still declares `importance?: string`, which V08 never fills and no mechanism reads (J-V8.122, V08 §2.3 l. 658; canon W-DOS-07) — an orphan field in the base's digest.",
+   "required_change": "§14: add `'frozen_fact_changed' | 'history_defaulted'` to `PortNote.kind`'s union (meaning and class V08 §4.6's); drop `importance?` from `DossierDigest.notables[]`, with the comment 'a notable's `importance` is never read (J-V8.122)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-22",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§13.2's takeover citations disagree with the volumes that take the bars: T104-2 cites 'volume 5's T-V5-23 on islands', but V05 (l. 2341, its T-V5-23 and T-V5-24 headings) maps T104-1 → T-V5-23 and T104-2 and T104-3 → T-V5-24, so T104-1 names no island form and T104-2 the wrong one; T110-7's list of the item-110 no-op pins registered on the same engine omits volume 1's T-V1-4 (e) (V01 note 2); B-PLAN's fixture list (§13.2, *The plan rung and elaboration*) lacks the edge fixtures V03's T-V3-36 and T-V3-37 run on it (a wing edited below one riser per storey, a basement under wings of different datums, cliff, steep, coastal, moat-with-deck-bridge, oasis and frame-edge buildings, a rung sweep; V03 note 6).",
+   "required_change": "§13.2: T104-1 gains '(volume 5's T-V5-23 on islands)'; T104-2 reads 'volume 5's T-V5-24 (b)–(c) on islands'; T110-7's list adds 'volume 1's T-V1-4 (e)'; the B-PLAN paragraph adds V03's edge fixtures (T-V3-36, T-V3-37) to its fixture set.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-23",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "§13.6 does not state what J122's V01 Q-V1-1 ('the default map changes at M5 … yes') requires of the M5 sitting and what V01's T-V1-32 runs: at M5 the MFCG and FTG side-by-sides are re-offered on the new default preset, rated by this protocol, beside the NG panel. §13.6 (1) lists M5 'against NG' only, (2) mentions only the NG seeds under the default preset (unrated), and (3) says an MFCG or FTG pair always runs its parity preset — so V01's rated re-offer on the default preset has no rule in the base and contradicts (3) as written.",
+   "required_change": "§13.6 (1): 'at M5 against NG (gates stage 2) and, because the default map changes at M5 (J122, V01 Q-V1-1), the MFCG and FTG panels re-offered on the new default preset, rated by this protocol (volume 1, T-V1-32)'; (3) gains the exception 'except M5's re-offer, which runs the default preset'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-24",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "§14's package lines omit members the volumes place in them: `@plat/hood` lists the services `catchmentOf` / `districtsAbove` / `fabricSignature` but not V01 §8.3's `skyDistrictCount`, `plantRimWalk` and `accessSymbolKind` (V01 note 5); `@plat/testkit`'s calibration commands list `plat calibrate` (runs and the register) but not `plat calibrate trial`, which V12 §2.14 places there to take the game-master trial's record (T112-2's evidence; V12 note 9).",
+   "required_change": "§14: the `@plat/hood` line names `skyDistrictCount`, `plantRimWalk` and `accessSymbolKind` among its services (or reads 'its services, V01 §8.3'); the `@plat/testkit` line reads '`plat calibrate` (runs, the register and `trial`, V12 §2.14)'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-25",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "ID-R makes a bare R1–R19 mean §14's interaction rules, but §13.5's MFCG street-signature row names a measured statistic 'lot-orientation coherence R4 within 60 / 120 / 250 m' and 'MFCG R4 0.84–0.97 / …', a bare R4 that reads as interaction rule R4 ('paint, do not parametrise').",
+   "required_change": "§13.5's row: name the statistic without the bare id — 'the orientation coherence (MFP-2's R statistic) within 60 / 120 / 250 m' and 'MFCG 0.84–0.97 / 0.58–0.88 / 0.32–0.68' — or qualify it 'redteam-mfcg R4'.",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-26",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "INDEX.md §2 and §3 cite volume-local row ids bare outside their volume (canon S7 / ID-WX: 'Volume-local row ids (W, X, H, FL, IN) are never cited bare outside their volume') and seam-finding ids that are narration (S9): 'the opening pass: W15' (§2's V01 row), 'V01's W15' qualified only in some places, 'W15's V04-reading parts land inert until M6-U' (§3's M5 row), 'the basement's extent: S23R6-02' (§2's V02 row), '(item 202's call points; TX-02)' and '(M6-E's steps for V-M3's epoch clauses; TX-01)' (§2's V07 row).",
+   "required_change": "INDEX.md: write each W15 as 'V01 W15' (or name the piece: V01's opening-pass services); drop 'S23R6-02', 'TX-01' and 'TX-02' (the validation records keep them), naming the thing instead ('the basement's extent, V03 §3.7.4'; 'item 202's call points'; 'M6-E's steps for V-M3's epoch clauses').",
+   "owner": "scope"
+  },
+  {
+   "id": "VS0-27",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "SCOPE-C01 (file f item 202) is not applied at T73-9: §13.2's bar reads '(T73-9) the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks', unqualified, while §1.1, §7.7 item 15, §14's `PortResult`, D-33, J-A81.71 and the staged list hold the refusal only while no village product is registered — once V-M2 registers the village product the three below-1 500 fixtures route to it (a creation below 1 stays refused), so T73-9 would fail the correct behaviour (the canon names T73-9 among the places that carry the one wording).",
+   "required_change": "§13.2 T73-9: 'the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks, while no village product is registered; with it registered (V-M2 onward) each routes to the village product's rung, and a creation below 1 stays refused (§1.1; file f item 202)' — the routed form run by volume 7's tests, named in the takeover table.",
+   "owner": "scope"
+  }
+ ]
+}

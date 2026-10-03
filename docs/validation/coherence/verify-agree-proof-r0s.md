@@ -3,17 +3,224 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/verify-agree-proof-r0; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (lane `coherence/verify-agree-proof-r0`, 2026-10-03)
-- P1 id census (T-, J-, D- ids across base and volumes; uniqueness; references resolve): pending
-- P2 base §13 takeover statements, §13.8 schedule, §16 build plan, INDEX §3/§4/§6/§7: pending
-- P3 every volume §7 (tests) and §8 (build plan), its hand-off rows, against the base and INDEX: pending
-- P4 shared subjects the matrix missed: pending
-- P5 issues, results JSON, LANDED: pending
+- P1 id census (T-, J-, D- ids across base and volumes; uniqueness; references resolve): done
+- P2 base §13 takeover statements, §13.8 schedule, §16 build plan, INDEX §1/§3/§4/§5/§6/§8: done
+- P3 every volume §7 (tests) and §8 (build plan), its hand-off rows and its rewrite's cross-part notes, against the base and INDEX: done
+- P4 shared subjects the matrix missed: done
+- P5 issues, results JSON, LANDED: done
 
-Members: scope, V01–V12. Text checked: the live files after assemble r0 (docs/ARCHITECTURE.md, docs/volumes/V01–V12, docs/volumes/INDEX.md).
+Members: scope, V01–V12. Text checked: the live files after assemble r0 (docs/ARCHITECTURE.md, docs/volumes/V01–V12, docs/volumes/INDEX.md). The reference corpus is absent in this checkout; no check here depends on it.
+
+## Result
+
+**26 issues** — all major (DISAGREE 18, HANDOFF-OPEN 7, MATRIX-GAP 1); no blocker: no disagreement found here would make the generator itself behave differently — each changes what a test runs, when it runs, what it is named for, or what the plan prices. By owning unit: scope 14, V02 2, V06 2, V11 2, V01 1, V04 1, V07 1, V08 1, V09 1, V12 1.
+
+The main pattern: the scope part landed (00:11) before the twelve volume rewrites (00:21–01:49), so the volumes' new edge bars, re-priced lines and test names never reached §13's takeover table, §13.8's lists or §16's rows; and the volumes, for their part, mostly do not name the base bars they take (W-05's volume end).
 
 ## Method
 
+* **Matrix.** From `agreement.json`, every subject of the proof-and-plan contracts (*the build plan*, *the test ids and bars*) among the members: 130 test ids (T-V…), the bench and calibration records (`BenchBarDef`, `BenchBarDefs`, `CalibrationEntry`, `CalibrationRun`, `CorpusAdapter`, `CorpusMap`, `MilestoneRecord`, `ParityReport`), the plan subjects (`M6-E`, `MutationPlan`, `PlanForm`, `VillagePlan`, `plan`, `gate`, `budgets`), and the four test-id disagreements with their rulings (V04-XCONF-3 on T-V3-23, V09-XAGREE-3 on T-V9-15, V11-XCONF-1 on T-V6-62, V12-XCONF-4 on T-V11-18).
+* **Census.** Every test id defined in a volume (table row or bullet head) and every reference to one across the set (`census.py` in scratch): each volume's ids contiguous and unique (V01 1–58, V02 1–55, V03 1–37, V04 1–79, V05 1–34, V06 1–74, V07 1–65, V08 1–51, V09 1–78, V10 1–49, V11 0–40, V12 1–48); 0 references to an undefined T-V id; 1 402 J-V decision ids, each defined once, under its own volume's prefix; the 96 base bar ids the volumes cite all exist in §13; no base bar defined twice.
+* **Reading.** Whole subsections: §13 (the convention, every owner-item group, the takeover table, §13.4's sessions, §13.8 with the bar schedule, §13.6's sittings, §13.9), §16 whole, §15.2's stage-2 rows, D-20 and D-35, INDEX.md whole; every volume's §7 and §8 whole, its §13 (fix list and hand-off rows) and its rewrite report's cross-part notes; V12 §3.6b's bar map, §3.7.8's pin table and §3.9.1's panels.
+* **Comparisons.** Per volume: the base bars its §7 names against §13.2's takeover row and owner-item groups (`base2vol.txt` maps each base bar to the volume tests it names and checks the name back); each §8 milestone's start-after, runs-beside, dependencies, exits and price against §16's rows, §16's effort lines, INDEX §1, §3, §4 and §5; every sum recomputed (§16's milestone rows = 221.5–300.5 = the lines plus stage 2; the staged rows = 170.75–238.75; each volume's step table equals its stated total); each no-op pin a volume names against V12 §3.7.8; each test tier against §13.8.
+
 ## Findings
 
+| id | kind | owner | subject |
+|---|---|---|---|
+| VAP-01 | DISAGREE (major) | scope | stale volume test ranges in §13.2 and §16 |
+| VAP-02 | DISAGREE (major) | scope | §13.2's takeover table omits base bars the volumes take |
+| VAP-03 | DISAGREE (major) | scope | T104-1 / T104-2 paired with the wrong V05 test |
+| VAP-04 | DISAGREE (major) | scope | T110-7's list of pin registrants |
+| VAP-05 | DISAGREE (major) | V12 | V12 §3.7.8's pin table omits pins the volumes name |
+| VAP-06 | HANDOFF-OPEN (major) | V06 | V06 tests do not name the base bars they take |
+| VAP-07 | HANDOFF-OPEN (major) | V04 | V04 tests do not name T109 and T113 bars |
+| VAP-08 | HANDOFF-OPEN (major) | V11 | V11 tests do not name the base bars they implement |
+| VAP-09 | HANDOFF-OPEN (major) | V02 | V02 tests do not name T110-4, T110-5, T110-7 |
+| VAP-10 | HANDOFF-OPEN (major) | V08 | V08 harness re-runs of the base's dossier bars |
+| VAP-11 | HANDOFF-OPEN (major) | V09 | V09 canvas re-runs of T101 bars |
+| VAP-12 | HANDOFF-OPEN (major) | V07 | V07 village-rung clauses of five base bars |
+| VAP-13 | DISAGREE (major) | scope | M6-E's price and E9 in §16 and INDEX |
+| VAP-14 | DISAGREE (major) | scope | the clerk's price, C1 share and exits |
+| VAP-15 | DISAGREE (major) | scope | V11's C1b and C9 unplaced; INDEX price |
+| VAP-16 | DISAGREE (major) | V02 | T-V2-52's first milestone |
+| VAP-17 | DISAGREE (major) | scope | M5's start after M4 or M4b (§16, D-35) |
+| VAP-18 | DISAGREE (major) | V01 | M5's start in V01 §8.1 |
+| VAP-19 | DISAGREE (major) | scope | §13.8's volume-12 tier list |
+| VAP-20 | MATRIX-GAP (major) | scope | §15.2 S4 (a), (b) against T-V1-6, T-V1-5 |
+| VAP-21 | DISAGREE (major) | scope | V12's register share milestones in §16 |
+| VAP-22 | DISAGREE (major) | scope | INDEX §5's spike list |
+| VAP-23 | DISAGREE (major) | scope | INDEX head, intro, §1, §2 and §8 against the base and J122 |
+| VAP-24 | DISAGREE (major) | scope | the M3c clerk session for T-V10-26 |
+| VAP-25 | DISAGREE (major) | V11 | V11 C1b's T111 milestones |
+| VAP-26 | DISAGREE (major) | V06 | T-V6-70 (b)'s tier |
+
+### VAP-01 — DISAGREE (major); owner scope
+
+**Claim.** The base restates every volume's test family as a closed range, and every range is stale against the volumes' current §7: §13.2 l. 15620 'T-V5-1 – T-V5-32' (V05 now ends at T-V5-34), l. 15718 'T-V3-1 – T-V3-34' (V03: T-V3-37), l. 15729 'T-V2-1 – T-V2-53' (V02: T-V2-55), l. 15884 'T-V4-1 – T-V4-75' (V04: T-V4-79), l. 16021 'T-V8-1 – T-V8-47' (V08: T-V8-51); the takeover table at the end of §13.2 (l. 16158–16169): V06 'T-V6-1 – T-V6-69' (T-V6-74), V05 'T-V5-1 – T-V5-32' (T-V5-34), V04 'T-V4-1 – T-V4-75' (T-V4-79), V03 'T-V3-1 – T-V3-34' (T-V3-37), V02 'T-V2-1 – T-V2-53' (T-V2-55), V01 'T-V1-1 – T-V1-54' (T-V1-58), V07 'T-V7-1 – T-V7-57' (T-V7-65), V08 'T-V8-1 – T-V8-47' (T-V8-51), V09 'T-V9-1 – T-V9-70' (T-V9-78), V12 'T-V12-1 – T-V12-41' (T-V12-48), V11 'T-V11-0 – T-V11-37' (T-V11-40); and §16's M5 exit (l. 17627) 'V01 §7's bars at M5 (T-V1-1 – T-V1-54)' while V01 §7 says every bar runs from M5 and its W11 verifies T-V1-1 – T-V1-58. The edge bars added in the rewrite (T-V1-55 – T-V1-58, T-V2-54 – T-V2-55, T-V3-36 – T-V3-37, T-V4-76 – T-V4-79, T-V5-33 – T-V5-34, T-V6-70 – T-V6-74, T-V7-58 – T-V7-65, T-V8-48 – T-V8-51, T-V9-71 – T-V9-78, T-V11-38 – T-V11-40, T-V12-42 – T-V12-48) are outside every family the base names. Open hand-offs: V01's, V02's, V03's, V05's, V06's and V12's cross-part notes and V12 §13's row to scope ('its volume-family row for calibration reads T-V12-1 – T-V12-48').
+
+**Required change.** At each of the 17 sites listed, cite the family without an upper bound ('V0n §7's T-V0n family', principle (1)) or write the current range: T-V1-1 – T-V1-58, T-V2-1 – T-V2-55, T-V3-1 – T-V3-37, T-V4-1 – T-V4-79, T-V5-1 – T-V5-34, T-V6-1 – T-V6-74, T-V7-1 – T-V7-65, T-V8-1 – T-V8-51, T-V9-1 – T-V9-78, T-V11-0 – T-V11-40, T-V12-1 – T-V12-48; §16's M5 exit reads 'V01 §7's bars at M5 (T-V1-1 – T-V1-58)' or 'V01 §7's bars at M5'.
+
+### VAP-02 — DISAGREE (major); owner scope
+
+**Claim.** §13.2's takeover table (the base bars each volume family re-runs, l. 16156–16169) omits base bars that the volumes state they take, and misplaces one: V05 §7's intro has T103-1 by T-V5-22, T104-1 by T-V5-23 and T104-2, T104-3 by T-V5-24 (the V05 row lists T10-1, T13-1, T15-1, T102-2 only); V02 §7 extends T18-1 – T18-4 (T-V2-15), T19-3 (T-V2-25) and T23-1 (T-V2-26) on composed buildings (the V02 row lists T29-4, T110-4, T110-5); V04's T-V4-21 runs T30-5's enumeration underground (not in the V04 row); V07 §7's *Base bars at village rungs* names item 109's presence and access bars (T-V7-38 – T-V7-40), item 110's (T-V7-46 – T-V7-55) and item 113's (T-V7-59), none in the V07 row; §13.2's own T102-2 names V06's T-V6-12 as its epoch form, its item-109 bars name T-V6-34, -36 – -40, and V12's bar map reads V06's T-V6-71 as T111-1's epoch form, none in the V06 row; V09 §7 runs T112-1 on every live provider and T112-2 as T-V9-78 (the V09 row lists T101-1 – T101-9 and §13.4's sessions); V10 §7 runs T101-1 (T-V10-1), T101-3 (T-V10-40) and T101-4 (T-V10-12) on the clerk's path and V10 §8 runs T101-6 (iii) at M3a in C1 (the V10 row names only 'T101-6's clerk path' and milestone M3c).
+
+**Required change.** Add to the table's rows: V05 — 'T103-1 (T-V5-22), T104-1 (T-V5-23), T104-2 and T104-3 (T-V5-24) on islands'; V02 — 'T18-1 – T18-4, T19-3 and T23-1 on composed buildings (T-V2-15, T-V2-25, T-V2-26)'; V04 — 'T30-5 (T-V4-21)'; V07 — 'item 109's presence and access bars (T-V7-38 – T-V7-40), T110-1 – T110-7 (T-V7-46 – T-V7-55), T113's village form (T-V7-59)'; V06 — 'T102-2's epoch form (T-V6-12), T109-2 – T109-5's epoch forms (T-V6-34, T-V6-36 – T-V6-40), T111-1 over epochs (T-V6-71)'; V09 — 'T112-1 on the live providers, T112-2 (T-V9-78)'; V10 — 'T101-1, T101-3, T101-4 on the clerk's path (T-V10-1, T-V10-40, T-V10-12)' and its engine cell 'the clerk (volume 10: C1 inside M3a, M3c)' with T101-6 (iii) at M3a.
+
+### VAP-03 — DISAGREE (major); owner scope
+
+**Claim.** §13.2's item-104 group (l. 818 of §13) pairs the wrong island test: '(T104-2) a chain's nodes closer together than a random baseline across seeds (volume 11's T-V11-16; volume 5's T-V5-23 on islands)'. V05's T-V5-23 is 'custom institutions on islands (T104-1 on islands)' and T-V5-24 is 'T104-2's and T104-3's island form' (its clause (b) the chain closeness), as V05 §7's intro and V05's cross-part note to scope state; T104-1 names no island test.
+
+**Required change.** T104-1 gains '(volume 5's T-V5-23 on islands)'; T104-2's '(volume 5's T-V5-23 on islands)' reads '(volume 5's T-V5-24 on islands)'; T104-3's '(volume 5's T-V5-24 on islands)' stays.
+
+### VAP-04 — DISAGREE (major); owner scope
+
+**Claim.** §13.2's T110-7 lists the item-110 no-op pins registered on V12's engine as 'volume 2's T-V2-50, volume 6's T-V6-65, volume 7's village pin and volume 11's T-V11-31'; V12 §3.7.8's pin table (the engine's home) lists for T110-7 V01's T-V1-4 (e), V02's T-V2-50, V03's T-V3-34, V04's T-V4-69, V05's T-V5-15, V06's T-V6-65, V07's T-V7-52, V11's T-V11-31 and V12's K1 and K2 — four registrants missing from the base's list (V01's cross-part note 2 asked for T-V1-4 (e)).
+
+**Required change.** T110-7's last sentence reads 'the volumes' pins register on the same engine, as V12 §3.7.8's pin table lists them (V01's T-V1-4 (e), V02's T-V2-50, V03's T-V3-34, V04's T-V4-69, V05's T-V5-15, V06's T-V6-65, V07's T-V7-52, V11's T-V11-31)', or cites V12 §3.7.8 alone.
+
+### VAP-05 — DISAGREE (major); owner V12
+
+**Claim.** V12 §3.7.8's pin table is the one list of every owner item's no-op pin and its owners' pin tests, and its rule 5 makes T-V12-45 fail on 'a pin bar §13.2 or a volume's §7 names with no registration'; the volumes name pins it does not list: item 102 — V02's T-V2-37 ('the no-op pin' at `sunBias` 0.5; item 102 (d)) and V10's T-V10-10 ('item 102's no-op pin'); item 103 — V11's T-V11-13 ('no-op pins' at coverage weight 0); item 105 — V11's T-V11-21 ('item 105 (k)'s no-op pin'); item 110 — V05's T-V5-27's terrace clause, V09's T-V9-57 ('the no-op pin on the canvas'), V10's T-V10-43; item 111 — V06's T-V6-71 ('item 111's no-op pin'), V10's T-V10-10 (`w_waterP` 0), V11's T-V11-38 (c) ('the NoOpPin T111-5'); item 113 — V06's T-V6-70 (e) ('— T113-7'), V10's T-V10-43, V11's T-V11-39 (c) ('the NoOpPin T113-7').
+
+**Required change.** V12 §3.7.8's 'owners' pin tests' column adds: `item102.sun` V02's T-V2-37, V10's T-V10-10; `item103.coverage` V11's T-V11-13; `item105.web` V11's T-V11-21; `item110.*` V05's T-V5-27 (its terrace clause), V09's T-V9-57, V10's T-V10-43; `item111.water` V06's T-V6-71, V10's T-V10-10, V11's T-V11-38 (c); `item113.history` V06's T-V6-70 (e), V10's T-V10-43, V11's T-V11-39 (c) — or, for any of these clauses that is not a byte-identity registration on the engine (V10's reader checks, V09's canvas script), the owning volume replaces the words 'no-op pin' by 'reads the <pin id> off form' so rule 5 does not apply.
+
+### VAP-06 — HANDOFF-OPEN (major); owner V06
+
+**Claim.** §13.2 rules that a volume family re-running base hook bars has 'each of its tests naming the base bar and the clauses it takes' (convention (3); canon S4, W-05, CO-06; scope's cross-part note to V06: '§7's tests name each base bar and clause they take — the takeover table's first row'). V06 §7 names only T113-1 – T113-3, T113-6, T113-7 (T-V6-70) and T67-2, T67-5; the V06 row's T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1, T67-3, T67-4, T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause and T81-1 have no T-V6 test naming them, and the tests §13.2 pairs with base bars (T-V6-12 for T102-2, T-V6-34/-36/-37/-38/-39/-40 for T109-2 – T109-5, T-V6-65 for T110-7) do not name them back.
+
+**Required change.** V06 §7 adds one takeover line (or a column of its table) naming, for every base bar and clause of §13.2's V06 row, the T-V6 test (and clause) that re-runs it on the engine's output, and T-V6-12, T-V6-34, T-V6-36 – T-V6-40 and T-V6-65 each name the base bar §13.2 pairs them with.
+
+### VAP-07 — HANDOFF-OPEN (major); owner V04
+
+**Claim.** §13.2's item-109 group names V04's tests for its bars (T109-1 → T-V4-55; T109-2 → T-V4-44, T-V4-45, T-V4-58; T109-3 → T-V4-43, T-V4-49, T-V4-54; T109-4 → T-V4-50; T109-5 → T-V4-51, T-V4-52), V12 §3.7.8 pairs the T109-6 pin with T-V4-47, and §13.2's item-113 group gives V04 T113-4 and T113-5 'on the underground's output'; none of T-V4-43 – T-V4-58 names its T109 bar, and T-V4-76 (the buried former settlement) and T-V4-77 (lost access) do not name T113-4 and T113-5 (scope's cross-part note: 'T-V4 name the base bars they take').
+
+**Required change.** T-V4-43, -44, -45, -47, -49, -50, -51, -52, -54, -55 and -58 each name the T109 bar §13.2 pairs them with (as above); T-V4-76 reads '… (T113-4 on the underground's output)' and T-V4-77 '… (T113-5)'.
+
+### VAP-08 — HANDOFF-OPEN (major); owner V11
+
+**Claim.** §13.2's owner-item groups name V11's tests as their bars' implementations — T103-1 → T-V11-12, T103-2 → T-V11-13, T105-1 and T107-3 → T-V11-14, T104-2 → T-V11-16, T108-1 → T-V11-17, T105-3 → T-V11-18, T106-5's rows → T-V11-19, T109-4 → T-V11-25, T102-3 → T-V11-30, T110-7 → T-V11-31 — and §13.2's rule asks each volume test that takes a base bar to name it; of V11's rows only T-V11-38 and T-V11-39 name theirs (T111-5, T113-7).
+
+**Required change.** Each of T-V11-12, -13, -14, -16, -17, -18, -19, -25, -30 and -31 names the base bar (and clause) §13.2 pairs it with, as listed above.
+
+### VAP-09 — HANDOFF-OPEN (major); owner V02
+
+**Claim.** §13.2's takeover table gives volume 2 'T29-4 on stacked and solid wings, T110-4, T110-5' and T110-7 names 'volume 2's T-V2-50'; V02 §7 names T29-4 (in T-V2-44) but no V02 test names T110-4 (a stepped building's tiers nest and cast one shadow each — T-V2-44's subject), T110-5 (deck plots within the deck's width and budget, falling with the deck — T-V2-47's) or T110-7 (T-V2-50's).
+
+**Required change.** T-V2-44's title reads '… (item 110 (f); T110-4 on the composer's output)', T-V2-47 adds '(T110-5's deck-building clauses)' and T-V2-50 adds '(T110-7's volume-2 pin)'.
+
+### VAP-10 — HANDOFF-OPEN (major); owner V08
+
+**Claim.** §13.2's takeover table has the SettlementForge connection re-run 'T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1, T88-2, T108-1 – T108-4' with 'T-V8-1 – T-V8-47, on the host harness'. V08 §7.3 re-runs T73-1 – T73-7 and T75-1 – T75-5 through the bridge, T-V8-16 takes T85-3, T-V8-21 T88-1 and T-V8-28 T85-1; T73-8 – T73-10, T77-1, T81-2, T85-2, T88-2 appear only in §8.3's release check R1 ('green at the release commit', not re-run on the harness), and T108-1 – T108-4 are named nowhere in V08 (§7.3's count parity reads item 108 by step type without the bars).
+
+**Required change.** V08 §7.1 or §7.3 names, for each of T73-8 – T73-10, T77-1, T81-2, T85-2, T88-2 and T108-1 – T108-4, the T-V8 bar (or §7.3 clause) that re-runs it on the host harness; a bar V08 does not re-run there is named as 'green at release only (R1)' and scope's row drops it (a note to scope in V08 §13's hand-offs).
+
+### VAP-11 — HANDOFF-OPEN (major); owner V09
+
+**Claim.** §13.2's takeover table has the application re-run 'T101-1 – T101-9 on the canvas, §13.4's scripted tasks and first-five-minutes test' with T-V9-1 – T-V9-70; V09 §7 names T101-2, T101-3 and T101-6 and §13.4's sessions, but no T-V9 bar names T101-1 (at most twelve tools), T101-4 (the declared subset exported), T101-5 (no contradiction without a bend), T101-7 (points in, shape out), T101-8 (declared means held) or T101-9 (the count badge) on the canvas.
+
+**Required change.** V09 §7.1 names the T-V9 bar re-running each of T101-1, T101-4, T101-5, T101-7, T101-8 and T101-9 on the canvas (or states, for one the canvas does not re-run, that §13.2's row drops it, with a hand-off note to scope).
+
+### VAP-12 — HANDOFF-OPEN (major); owner V07
+
+**Claim.** §13.2's takeover table gives the village product 'the village rungs' clauses of T13-1, T14-1, T30-4, T65-2, T102-1, T110-7 and T111-1 – T111-5'; V07 §7's *Base bars at village rungs* ('Each base hook bar this volume takes over names its test') names T111-n (T-V7-58), item 110's bars (T-V7-46 – T-V7-55), item 109's (T-V7-38 – T-V7-40) and item 113's (T-V7-59), but no test for the village-rung clauses of T13-1, T14-1, T30-4, T65-2 and T102-1.
+
+**Required change.** V07 §7's *Base bars at village rungs* names the V07 test taking the village-rung clause of each of T13-1, T14-1, T30-4, T65-2 and T102-1 (or states that V07 takes none of a bar's clauses, with a hand-off note to scope to drop it from the row).
+
+### VAP-13 — DISAGREE (major); owner scope
+
+**Claim.** M6-E's price and steps disagree between V06 §8 and the plan: V06 §8 prices M6-E at 29–41.5 pw over E0–E9 (E9 the history replay at generation, item 113; 'E9 after E1–E6, its burial clause after M6-U's buried system'); §16's staged row reads 'M6-E — the evolution engine (V06 §8: E0–E8) … 25.25–35.75 pw' and its effort line 'the evolution engine (volume 6) | 25.25–35.75'; INDEX §1's V06 row 'M6-E (E0–E8) | 25.25–35.75'; INDEX §3's M6-E row lacks E9's dependency. The staged total (170.75–238.75), the whole-program total (392.25–539.25) and their restatements in D-20 and J-A568.01's index row are therefore short by V06's +3.75–5.75 (V06's cross-part note 14 asked for this).
+
+**Required change.** §16's M6-E row reads '(V06 §8: E0–E9)', adds 'E9 after E1–E6, its burial clause after M6-U's buried system' and prices 29–41.5 pw; the effort line reads 29–41.5; INDEX §1's V06 row reads 'M6-E (E0–E9) | 29–41.5' and INDEX §3's M6-E row adds E9's dependency; item 568's totals are recomputed once together with VAP-14 and VAP-15 (staged 175.25–245.5 pw and the whole program 396.75–546 pw if the base-side deltas of VAP-14 and VAP-15 are absorbed by named lines, else the first total 222–301.25 and the whole program 397.25–546.75), and D-20 and J-A568.01 cite §16 without restating the numbers, or carry the recomputed ones.
+
+### VAP-14 — DISAGREE (major); owner scope
+
+**Claim.** The clerk's price and exits disagree between V10 §8 and the plan: V10 §8 prices M3c (C0, C2–C5) at 10.75–14.5 pw (items 111 and 113 add +0.75), C1 at 3.25–4.75 plus the second transcript 0.25 inside M3a (+3.5–5 pw in the base, item 531), and C1's exit 'T-V10-8, T-V10-9, T-V10-10, T-V10-30, T-V10-36, T-V10-41, T-V10-45 green'; §16's M3c row and effort line read 10.25–13.75, §16's M3a row prices 'the oracle at depth (volume 10's C1 … and both known-city fixtures' scripted transcripts; 3.25–4.75 pw)' and its exit lists T-V10-8, -9, -10, -30, -36 and -41 without T-V10-45; INDEX §1's V10 row reads '13.5–18.5 (14–19 with the command-line clerk)' against V10's 14.25–19.5 (14.75–20). V10's cross-part note to scope §16 is unapplied.
+
+**Required change.** §16's M3c row and the effort line 'the built-in clerk (volume 10)' read 10.75–14.5 pw; §16's M3a row prices V10's share as 'C1 3.25–4.75 pw and the second transcript 0.25 pw (V10 §8)' and either raises M3a's estimate and the first total by 0.25 or names the line that absorbs the 0.25 (J-A568.03's rule); M3a's exit adds T-V10-45; INDEX §1's V10 row reads '14.25–19.5 (14.75–20 with the command-line clerk)'; totals recomputed as in VAP-13.
+
+### VAP-15 — DISAGREE (major); owner scope
+
+**Claim.** Volume 11's price and placement disagree between V11 §8 and the plan: V11 §8's total is 12.75–17.75 pw with two rows the plan does not carry — C1b, item 111's rows (0.25–0.5 pw, 'M1 (the oasis and the water pull) and M2b (the prosperity term)'), and C9, item 113's rows (0.25 pw, 'M6-E, with V06's E9'); §16's content line basis names file g's rows for items 103–108 only (2.5–4), the M1 and M2b rows price item 111's base mechanisms without V11's rows, the staged content row reads '(V11: C4 at M-SF, C8 at M6-U) ≈ 1.75–2.5 pw' without C9, and INDEX §1's V11 row reads 12.25–17.0.
+
+**Required change.** §16 places C1b's 0.25–0.5 pw in the M1 and M2b rows with the content line's basis reading 'items 103–108 and 111; V11 §8, 2.75–4.5' (or names the line absorbing it, J-A568.03), and the staged content row reads '(V11: C4 at M-SF, C8 at M6-U, C9 at M6-E) ≈ 2–2.75 pw'; INDEX §1's V11 row reads 12.75–17.75; totals recomputed as in VAP-13.
+
+### VAP-16 — DISAGREE (major); owner V02
+
+**Claim.** T-V2-52 (the half cellar's raise, item 226) runs from M2b by file f items 226 and 522 and §13.2's stage-3 pointer ('T-V2-52 at M2b'); V02 §8.3 lists T-V2-52 among the exits of the row 'M6, across M6a–M6c' and no V02 text states an M2b start, so under §16's rule ('its volumes' bars are their §7's at the steps their §8 names') the bar would first run at M6.
+
+**Required change.** V02 §8 (the 'M6, across M6a–M6c' row and §7.7's *CI tiers for these*) states that T-V2-52 runs from M2b with item 226's half-cellar raise, its re-basing clauses (`rebaseStack`, the warp) from M3a-V2 and its crypt-only sub-fixture from M6-U's crypt derivation; the M6 row keeps T-V2-53.
+
+### VAP-17 — DISAGREE (major); owner scope
+
+**Claim.** M5's start disagrees across the plan: J122's combined order and INDEX §3 ('M5 (V01) | may start after M4') start M5 after M4 as one of four streams; D-35 writes 'M4 hardening … → M4b the content module → M5 stage 2', making M5 wait on M4b; §16 gives M4b ('after the relation store's schema, which is in the base from M1') no slot relative to the four post-M4 streams; V01 §8.1 reads 'after M4 and M4b'. Nothing V01 builds reads M4b's `@plat/sim`.
+
+**Required change.** §16's M4b row states its slot — after M4, beside the four streams (J122: 'after M4, four streams side by side') — and D-35 reads '… → M4 hardening and the incremental path; then M4b the content module beside M5 stage 2, …'; INDEX §3's M5 row stays 'M4'.
+
+### VAP-18 — DISAGREE (major); owner V01
+
+**Claim.** V01 §8.1 says stage 2 is M5 'after M4 and M4b', while J122's order and INDEX §3 start M5 after M4 (VAP-17).
+
+**Required change.** V01 §8.1's first sentence reads 'Stage 2 is **M5** (§16): after M4, one of the four streams …'.
+
+### VAP-19 — DISAGREE (major); owner scope
+
+**Claim.** §13.8's *The volumes in the tiers* enumerates volume 12's tier contents by id — PR: 'T-V12-1, -2, -9, -16, -20, -28 and -30's fixtures', K2's skeleton path, the pins' landing gate; nightly: 'T-V12-4, -5 and -7', the pins' off-state suites — but V12 §7.1's tier column (the home) also has T-V12-4 in PR on two golden seeds, T-V12-44's fixtures in PR from M3b, T-V12-47 in PR with its rung sweep nightly and T-V12-48 nightly from M3a; the base list is a stale restatement.
+
+**Required change.** §13.8's volume-12 sentence cites V12 §7.1's tier column for the bar ids and keeps only its budgets, or adds 'T-V12-4 (two golden seeds), T-V12-44's and T-V12-47's fixtures' to the PR list and 'T-V12-47's rung sweep, T-V12-48' to the nightly list.
+
+### VAP-20 — MATRIX-GAP (major); owner scope
+
+**Claim.** Shared subject the matrix missed: the S4 bars of §15.2 and their implementers in V01 (T-V1-5, T-V1-6). Verdict: disagree. §15.2 S4 (a) 'every base district kind has ≥ 1 template' while T-V1-6 excludes the kinds V01 §3.3.8's table excludes (hinterland, underground, undercity, the sky kinds) and requires ≥ 1 row eligible on ≥ 50 % of a kind's districts of ≥ 3 ha; §15.2 S4 (b) runs the nearest-centroid classifier 'over §7.7's signature vector, computed per district' (the forms catalogue's town signature: radial share of arterials, orthogonality index, street-density profile, block-area CV, enclosed share, outline anisotropy) while T-V1-5 runs it over V01 §2.3's `DistrictSignature` (loop, spine, square, bearing-order, orthogonality, edge- and contour-aligned shares), standardised over B-CITY, eleven classes, held-out half — two different statistics for one bar.
+
+**Required change.** §15.2's S4 row reads '(a) every district kind V01 §3.3.8's table does not exclude has ≥ 1 template row eligible on ≥ 50 % of its districts of ≥ 3 ha (T-V1-6) [C]; (b) … a nearest-centroid classifier over V01 §2.3's `DistrictSignature`, standardised over B-CITY, assigns ≥ 90 % of template districts to their template (T-V1-5) [C]'.
+
+### VAP-21 — DISAGREE (major); owner scope
+
+**Claim.** §16's row *carried in the rows' milestones outside their cells* places 'volume 12's register share built at M6-U's U3–U5 (V12 §8.2)'; V12 §8.2's W6 (the 0.25–0.5 pw that share is) is built at 'V4-U3 – V4-U5; V6-E9' — the underground's and the histories' harness (`item113.history` pin, item 113's register lines and the history fixtures' PR runs).
+
+**Required change.** The row reads 'volume 12's register share built at M6-U's U3–U5 and M6-E's E9 (V12 §8.2's W6)'.
+
+### VAP-22 — DISAGREE (major); owner scope
+
+**Claim.** INDEX §5's spike list disagrees with the volumes' §8: 'V02's spikes (2.25 pw, before M6a)' — V02 §8.2 runs SP-V2-1 before M6a, SP-V2-2 inside M6a, SP-V2-3 inside M6c and SP-V2-4 before M6c; 'V10's C0 (S1, S2)' — V10 §8's C0 holds S1–S4; 'V12's S-V12-1 and S-V12-2 (M-1)' — V12 §8.3 also runs S-V12-3 and S-V12-4 at M2b (which INDEX §5 risk 3 itself cites); 'V09's storage and first-five-minutes checks (S-A2, §13.4)' — V09 §8.2 also runs S-A1 (M2a) and S-A3 (M3a).
+
+**Required change.** INDEX §5's *Spikes, in the order they run* reads each volume's spikes with their slots as its §8 states them: V12's S-V12-1, S-V12-2 (M-1) and S-V12-3, S-V12-4 (M2b); V09's S-A1, S-A2 (M2a) and S-A3 (M3a); V02's SP-V2-1 and SP-V2-4 before M6a and M6c, SP-V2-2 and SP-V2-3 inside M6a and M6c; V10's C0 (S1–S4); the rest unchanged.
+
+### VAP-23 — DISAGREE (major); owner scope
+
+**Claim.** INDEX.md's unrewritten parts contradict the base and J122: the head keeps the volumes/_finalize PROGRESS ledger; the intro says file f's items are 'not yet applied' and that 'both are applied … by the coherence pass' as future work, while §0.2 lands files f and g; §1's V01 cell reads 'M5 (replacing the base's 14–18 pw M5 row)' (narration of a superseded price); §2 ends 'the six seam checks of §7 were drawn along exactly these pairs' though §7 now holds no seam record; §8 is the finalization lane's record (md5s, 'T-V9-70' as the newest test, the round-6 tallies) and lists as PLAUSIBLE 'that the recommended order of §4 is the one the owner will choose', while §16 and INDEX §4 carry the order J122 decided.
+
+**Required change.** INDEX.md drops the PROGRESS ledger; the intro reads that files f and g are applied to the base (§0.2 lands them); §1's V01 cell reads '**M5**'; §2's last sentence drops 'the six seam checks of §7 …'; §8 is rewritten as the current set's CONFIRMED and PLAUSIBLE (the order decided by J122; the prices and §16's totals PLAUSIBLE, computed by item 568), the lane's narration left to the validation records (S9).
+
+### VAP-24 — DISAGREE (major); owner scope
+
+**Claim.** V10 §8's C5 exit runs 'the clerk task in §13.4's session' and T-V10-26 runs 'in §13.4's sessions once the clerk exists' (V10 §8: 'before the first-five-minutes session that measures the clerk'), but §13.4 defines the first-five-minutes sessions only inside M3a (midpoint and exit) with the M2a pipeline session, and §13.8's schedule row lists 'M2a (the pipeline session), M3a (midpoint and exit)' — M3c, where the built-in clerk lands, follows M3a, so no session exists in which T-V10-26 can run.
+
+**Required change.** §13.4 adds a first-five-minutes session at M3c's exit for the clerk task (T-V10-26; same recruitment and pass rule) and §13.8's row reads 'M2a (the pipeline session), M3a (midpoint and exit), M3c's exit (the clerk task, T-V10-26)'.
+
+### VAP-25 — DISAGREE (major); owner V11
+
+**Claim.** V11 §8's C1b exit reads 'T-V11-38 (a), (b) at M1, (c) and the base's T111 bars at M2b'; §13.8's schedule runs T111-2, T111-3 and T111-5 from M1 (T111-1 and T111-4 from M2b), and V12 §3.7.8 lands the `item111.water` pin (T111-5, the off form T-V11-38 (c) checks) at M1 with the oasis, re-gated at M2b and M3a.
+
+**Required change.** C1b's exit reads 'T-V11-38 (a), (b) and (c)'s oasis form at M1 with the base's T111-2, T111-3 and T111-5 (§13.8); (c)'s water-pull form and T111-1, T111-4 at M2b with the prosperity water term'.
+
+### VAP-26 — DISAGREE (major); owner V06
+
+**Claim.** V06 §7's CI paragraph runs T-V6-70 per commit, whose clause (b) is 'one digest per seed and history on the five engines — T113-2'; §13.8's schedule runs 'T113-1 – T113-3, T113-6, T113-7 | PR on the history fixtures; T113-2's digest in the nightly five-engine run'.
+
+**Required change.** V06 §7's per-commit list reads '… T-V6-70 but its clause (b), whose five-engine digest runs in the nightly five-engine run (§13.8) …'.
+
 ## Checked and agreeing
+
+* **The four ruled test-id disagreements are closed in the text:** T-V4-50 carries the elaboration-independence clause and names V03's T-V3-23 (g) (V04-XCONF-3); V09 §4.9 holds no retired V02 bend key and T-V9-15 / T-V9-59 read V02 §1b's ids (V09-XAGREE-3); V11 §3.24.1 cites V12 §3.11 for `stateSnapCm` with V06 §8's line on `bar.T-V6-62` and no 'until' (V11-XCONF-1); V12's `servedShare` reads every district without a threshold, the ≥ 30-household filter only in the 105 (k) bar row and T-V11-18 (V12-XCONF-4).
+* **Sums.** §16's milestone rows (M-1 … M5 and the carried row) sum to 221.5–300.5 = the effort lines (194.25–264.25) plus stage 2 (27.25–36.25); the staged rows sum to 170.75–238.75 and the whole program to 392.25–539.25 as written (their inputs are stale for V06, V10, V11: VAP-13 – VAP-15). Each volume's step table equals its stated total: V01 27.25–36.25, V02 22.5–32.5 (M6 18.25–27.5 + spikes 2.25 + M3a-V2 2–2.75), V03 18.5–25.25 (P0–P6 17.75–24.25 + PE), V04 28.25–39.25, V05 17.25–23.25, V06 29–41.5, V07 26.5–36.5, V08 15.75–21.5, V09 19.5–29 (base share 16.75–24.75, staged 2.75–4.25), V10 14.25–19.5, V11 12.75–17.75, V12 6–9 base side and M-CAL 4.75–8.
+* **Order and slots (J122).** V-M0 after M0 beside M1; M3c after M3a beside M3b; the village, M6-E and P0/P1/P3 after M4; M6 and M6-U after M5 (M6-U beside M5 with a second pair, U3's distinctness and U4's parent waiting on V01's W15); M6-P's rest after M6, P2 with V04's access records; M6-sky after M6-U (P0 beside M5); M-CAL after M6-sky with inputs M4, M5, M6, V-M4; M-SF after M-CAL (SF0–SF3 earlier, VH with the village); V-M2u after M6-U's tail; V-M3's epoch clauses with M6-E's E2–E4 — the same in §16, INDEX §3/§4, D-35 (but M4b, VAP-17) and V01–V12 §8.
+* **Prices matching §16 and INDEX §1:** V01, V02, V03, V04, V05, V07, V08, V09 (base line and staged screens), V12 (rig shares per milestone: M-1, M1 1.75–2.25, M2b 2–2.75, M3a 1–1.75, M4 0.5–0.75; M-CAL 4.75–8).
+* **Exits named in §16 that agree with the volumes:** V03's PE inside M2b (0.25) and M3a (0.5–0.75); V02's M3a-V2 (2–2.75) with T-V2-44 – T-V2-47, T-V2-50, T-V2-51 at M3a as §13.2's pointer states; V12's W5 at M3a; the release gate (T112-1, T112-2: ten to twenty game masters, two sessions each) as V09's T-V9-78 and V12's T-V12-44 state it.
+* **Tiers.** §13.8's B-VILLAGE and B-VG tiers (PR 20 seeds per rung, nightly the full bench) are V07 §7's; V08's harness bars run in the tiers V08 §7.1 names; V02 §7.6 and §7.7 name every bar's tier; V09's milestone-or-release bars (T-V9-3, -4, -29 – -31, -73, -78) and PR rest; V10's PR / nightly / milestone split with no model call below the milestone tier; T-V12-20 'PR from M1' as every volume's register check cites it.
+* **Panels and sittings.** §13.6 (1), INDEX §6, V12 §3.9.1 and V02 §7.5, V03 §8 (V3-P6), V04 §8 (V4-U5), V05 §7 (M6-sky, descriptive), V06 (V6-E7), V07 (V-M4) and V01 (T-V1-32's M5 package) agree: sittings only at M1, M2b, M4, M5; a staged panel joins the next sitting when its build has exited, else provisional; `D5Pair` closes with V12 §2.8's `D5PairStaged` (§13.6).
+* **Bar map and pins.** V12 §3.6b's bar map pairs each item-103 – item-113 tendency bar with the same volume tests §13.2's groups name (V11's T-V11-12 – T-V11-18, V04's and V06's item-109 tests, V07's T-V7-58, V06's T-V6-71, V04's T-V4-76/77); V12 §3.7.8's base-bar column (T102-1, T103-3, T105-4, T106-5, T107-4, T109-6, T110-7, T111-5, T113-7) equals the base's pin bars and §13.8's M2b pin row.
+* **Fantasy Manor rows.** V12's `fm.*` family has the nine rows of V02's T-V2-31 table plus its plan-extent clause; §13.5 points to T-V2-31 from M6.
+* **INDEX §5's risk numbers** resolve to the cited risks: V01 4–6, V04 1, 4, 6, 9, V06 1, 3, 4–7, V07 1, 6–10, V08 1–2, V09 5, 7, V10 1, 3, 4, 6, V11 R1, R5, R6, V12 1–3 (only the spike list disagrees, VAP-22). INDEX §6's answers equal each volume's §11 and the canon's table.
 

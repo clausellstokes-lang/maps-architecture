@@ -1,0 +1,86 @@
+{
+ "key": "coherence/verify-edges-world-r0",
+ "file": "docs/validation/coherence/verify-edges-world-r0s.md",
+ "issues": [
+  {
+   "id": "EW-01",
+   "severity": "blocker",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "A frame growth beside a chain the old outer ring ends has no outcome: §2.7 *At the frame* (l.2375-2381) lays an aqueduct sourced beyond the frame up to the outer ring 'its deck ending there without a ramp', bends a declared course to the ring and ends a retaining wall on it, but re-offers only deck slots at a growth; §3.2 (9) (l.3228-3231) keeps a vertex that keeps a row, and §4.11 (l.7747-7748) continues only through-roads. After an upward rung crossing the aqueduct ends in mid-air inside the map (no ramp, source or supply) and a drawn retaining wall stops at the old map edge, with no rule, rung or report: a silent wrong result; T110-2 tests only the part's growth.",
+   "required_change": "§2.7 *At the frame* gains the growth case and §4.11's frame-growth sentence cites it beside S4's through-road continuation: at a frame growth every raised way whose deck ends on the old outer ring is continued in the growth's batches by its own course solver along its recorded source bearing - to its source when the grown frame holds it (the aqueduct gaining its intake, the terminal's supply re-read), else to the new outer ring without a ramp - and every declared chain the old ring clipped (a declared raised course, a drawn retaining wall) re-applies its held stroke against the new ring (its bend re-recorded, item 101 R2); each continuation a listed fate of the epoch, restored by its undo. T110-2 gains '0 raised decks end off a ground vertex, the outer ring or their source after a frame growth', T110-1 the drawn wall's clause, and §4.13's raised-way x frame cell names the growth case."
+  },
+  {
+   "id": "EW-02",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "pipeline",
+   "claim": "No outcome where a household that fills a dossier's population finds no plot able to take another residential slot inside its site plan's coverage and no shell with room: §4.7 *Households per building* (l.6670-6681) re-provides it 'within that building's capacity', §4.5 S7b (5)(c) (l.5786-5790) says 'never a shortfall', §7.7 item 5 (l.10984-10985) fills shells 'before any new plot'. Reached by an all-water or small island-town site under a large dossier population (S3 (6)'s level set holding all the land there is), a drawWater or terrain edit flooding built land, or a dossier event adding households to a full map without an epoch; the text contradicts itself and T19-4's dossier clause tests only shells with spare template rows.",
+   "required_change": "§4.7 *Households per building* states the last rungs, cited by F-SITING's row, §5.3's population invariant and §7.7 item 5: (1) the re-provision extends to every unbuilt face of the frame (the hinterland's and the pseudo-districts' land) as an informal cluster by §4.7's *Informal clusters* rules, reported; (2) where the frame holds no unbuilt land the household is kept on the manifest as `unhoused` (its people kept, no building), counted in the generation report and named in the disruption report as the contradiction between the dossier's population and the map's land - never dropped and never a bug abort. T19-4 gains three fixtures: a dossier population at the METROPOLIS cap on a small island-town site, a flooding drawWater over a dossier district, a dossier event adding households to a full map."
+  },
+  {
+   "id": "EW-03",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "pipeline",
+   "claim": "§4.4 S5a's barrier closure (l.5246-5263) walls 'only the approachable arcs' and §2.7's Enceinte.trace (l.2098) is those stretches; where every arc of a walled stage's boundary closes (a mesa or cliff-ringed spur, an island town whose stage-1 boundary is its whole shore under an `open` waterfront, a boundary inside a river loop with no neck) the stage has no stretch and nothing states the outcome: whether an Enceinte with an empty trace is committed (a stored ChainRef resolving empty fails §3.10's stored-references row, §3.11), where S3 (4)'s N1 gates stand when every route crosses on a barrier arc, and what is reported. F-WALL (§5.2) and T106-1..5 lack the case; S3 (4)'s N = 0 rule covers only a requested zero.",
+   "required_change": "S5a states the case and §2.7 the record: when the classification leaves no approachable arc no wall chain is laid and the stage is enclosed by its barriers - the Enceinte committed with closure 'barrier', `arcs` covering the whole boundary and no trace (`trace` optional in §2.7, absent exactly then), gates only where a route crosses an approachable point (none here), the stage reported as S3 (4)'s sealed circuit with the reason 'closed by its barriers' in requestedVsBuilt; F-WALL's detection and §5.3's walled-stage rows read the absent trace; T106 gains a cliff-ringed mesa and a walled island town under an open waterfront: 0 wall edges, closure 'barrier', the report line."
+  },
+  {
+   "id": "EW-04",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "V07",
+   "claim": "VS3's barrier closure (V07 §3.4 step 5, l.1420-1446) closes every water arc, sheer cliff and gorge; a village whose every arc closes (water `island` with a palisade resolved, a village filling a river loop's whole bend, one ringed by scarps) has no walled stretch, and neither VS3 nor V07 §3.17's VS3 row (l.2889) states the outcome - an Enceinte with no stretch committed in VS4's batch (step 7) or none, its gates, the report.",
+   "required_change": "V07 §3.4 step 5 (d) and §3.17's VS3 row state it by the base's rule for the same case (EW-03): no stretch -> the palisade's Enceinte committed with closure 'barrier' and no trace (or the base's ruled form), no gate, the report line 'closed by its barriers'; T-V7-6 gains an island village with a palisade drawn and a river-loop village whose loop holds the whole perimeter."
+  },
+  {
+   "id": "EW-05",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "pipeline",
+   "claim": "A castle moat is carved 'when water is within reach' (§4.2 S3 (10) l.4973; §4.8 l.6993) but the city moat 'when the blueprint's moat is inner or all' (l.4984-4986), and S5a's outer moats likewise, with no water condition; on a site with no water in reach (a dry hilltop, an arid site without an oasis) or along a trace whose ground falls across the relief, the text lays a wet WaterBody 'moat' with no source and no level (WaterBody carries none; S1's raster is not adjusted) - undefined against the realism tiebreaker, no rung, no test (§13.2's moat fixtures all have water in reach).",
+   "required_change": "S3 (10) and S5a's outer moats state: a city moat is wet only along trace stretches within the castle moat's reach of a water source (river, lake, coast, spring) whose ground stays within a table fall (`moat.maxFallCm`, V11's era row) of that source's level; every other stretch takes the dry ditch (the `ditch` residue of §4.7 S10 (0), as on an on_enceinte bailey's town side), reported in requestedVsBuilt (a requested wet moat delivered dry); the moat WaterBody names its source; `moat: 'auto'`'s feature-table row reads the same reach; §4.13 gains the EP row and B-EDGE fixtures for a hilltop town, an arid site with no oasis and a hillside trace."
+  },
+  {
+   "id": "EW-06",
+   "severity": "major",
+   "kind": "CATALOGUE-GAP",
+   "owner": "pipeline",
+   "claim": "§4.2 S1 (6) (l.4719) makes harbour candidates 'coast faces with depth >= threshold' and S3 (2) (l.4877-4878) lays the basin 'at the chosen harbour candidate'; where a harbour is requested (the toggle, P(harbour|coast), or a dossier `port` access - V08 l.737-739 gives 'a harbour basin' on plains, hills, mountain or forest terrain with no coast forced; DR1's check l.11076) and no coast face reaches the threshold (a shallow, marsh or all-cliff coast) or the site has no coast, no candidate exists and the basin, the harbour route (S3 (11)), the harbour gate (S3 (7)), the market's harbour candidate (S3 (12)), §4.3's trade flow and S10b's port classes have no defined outcome.",
+   "required_change": "S1 (6) and S3 (2) state the ladder: the best-scoring coast face below the threshold (a shallow harbour, reported `harbour_shallow`); with no coast, quays and docks on the largest navigable river or lake (the `river` access's form); else no basin - the harbour omitted (tier 6) in requestedVsBuilt and every reader (S3 (7), (11), (12), §4.3's TradeFlow, S10b's `requires: 'coast'` classes) taking its no-harbour path. V08's DR1 mapping cites the ladder for `port` on inland terrain; §4.13 gains the EP row and B-EDGE fixtures for a marsh coast, a cliff coast and an inland `port` dossier."
+  },
+  {
+   "id": "EW-07",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "§2.7's support step (3) (l.2302-2305) omits a station it cannot slide off a way corridor or water face and leaves 'the merged span open' with no bound; §4.3 (l.5175-5176) and §4.13 (l.8226) bound a bank-to-bank span by `viaduct.maxSpanM`, a cell (V11 l.3828, 600 m; V06 l.2527) that is the viaduct reading's whole chord across a ravine, not a clear span between supports. A raised way over water or a corridor wider than its material can span (a 150 m river under a masonry aqueduct) is laid as one open span of that length, silently, with no rung and no test.",
+   "required_change": "The support step states the bound and its outcome: a merged span longer than `slideMaxFactor` x the material band's upper bound (or a named cell `raisedWays.structure.maxClearSpanM` per material, V11 row 80) is infeasible - a generated course is not raised across that reach (the solver prices it so and keeps the ground route; `raised_too_wide`, reported as `raised_too_tall` is) and a declared course's dry run bends it as for `maxPierM` (item 101 R2); §4.3 and §4.13 cite this bound in place of `viaduct.maxSpanM` for a bank-to-bank span; T110-2 gains '0 merged spans above the bound' and B-EDGE the wide-river fixture."
+  },
+  {
+   "id": "EW-08",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "model",
+   "claim": "§4.3 *Where it may not go* (l.5175) says a raised way 'stands no support on a square, a reservation or an oasis's water' and §4.13 adds no support in a wall strip (l.8228), on a square or reservation (l.8230), in an oasis's water or on its grove (l.8233); the support step every raised way runs (§2.7 (3), l.2302-2305) slides a station only off 'a part-0 way's corridor or a water face', so a pier stands on a plaza, a market or precinct reservation, a castle bailey, a wall strip or a grove by the step while §4.3 and §4.13 say none does - the edge's outcome is contradictory at its home.",
+   "required_change": "§2.7's support step (3) names every exclusion as its obstacle set - a part-0 way's corridor, a water face, a square or other reservation, a wall strip, an oasis's grove - under the same slide-else-omit rule; §4.3 and §4.13 cite the step instead of restating; T110-2 asserts 0 piers on each."
+  },
+  {
+   "id": "EW-09",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "pipeline",
+   "claim": "A raised way crossing a standing city wall has three outcomes and no record: generation (§4.3 l.5174-5175; §4.13 l.8228) 'crosses ... only as the aqueduct's wall arch or on a gate's line' - undefined what 'on a gate's line' lays, the deck's clearance over curtain and gatehouse, and S7's furniture (§4.8 builds none); an edit (§7.1 l.9532-9534) brings the course 'down to a ground vertex before it' through its ground gate; an epoch (V06 l.1474-1477, l.2574-2575) adds 'a raised gate at deck level'; V01 §3.17.3 (6) (l.2339-2341) reads raised gates as wall openings; §2.7's Gate.kind has no raised gate and no record holds an aqueduct's wall arch.",
+   "required_change": "§4.3 states one rule, §4.8 its S7 furniture and §2.7 its records: at generation and in an edit a viaduct or elevated road meeting a standing curtain descends before it to a ground vertex and passes the gate its ground way makes (the edit's rule, replacing 'on a gate's line'), and an aqueduct crosses by an arch in the curtain; a new trace meeting a standing raised way takes V06's raised gate at deck level; §2.7 gains Gate.kind 'raised' (its junction on the raised part) and a wall-opening record on the wall chain for the aqueduct's arch, S7 building both and §11.1 exporting them; T110-2 and B-EDGE's wall x raised-way cell assert each case."
+  },
+  {
+   "id": "EW-10",
+   "severity": "minor",
+   "kind": "EDGE-UNTESTED",
+   "owner": "pipeline",
+   "claim": "§4.13 (l.8221) says 'a deck plot at VILLAGE and above (V07's village rows at village rungs)' and B-EDGE runs each cell 'at every rung the row names', but V07 §3.10a (3) draws a pier head from 200 people (PLaw (200, 0) -> (700, 0.3): a HAMLET above 200) and §3.10a (2) lets an author-widened deck carry a plot at every village rung, so the combination suite's deck-plot cells skip THORP and HAMLET decks that exist (tested only in V07's own T-V7-49 and T-V7-62).",
+   "required_change": "§4.13 restates the rung: 'a deck plot wherever a built deck offers one - at TOWN and above by the deck row, at village rungs by V07 §3.10a (a pier head from 200 people; an author-widened deck at any rung)', and B-EDGE's deck-plot cells run at THORP and HAMLET on an authored deck."
+  }
+ ]
+}
