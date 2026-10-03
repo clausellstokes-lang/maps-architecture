@@ -1,0 +1,106 @@
+[
+ {
+  "id": "G114-model-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "model",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: §2.8's bullet 'Removals that hold — suppression (J-VI.14)' (`LifecycleEvent.detail.suppress`, removed slots counted as filled, the lift rule, 'The city will not rebuild this aqueduct').",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-determinism-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "determinism",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: §7.1's delete dry run and §7.4's lifecycle rows state the reason-keyed suppression; §7.6 and §7.8 have no switch rows for what the town builds by itself.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-pipeline-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "pipeline",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: the stages that build an optional kind (raised ways, retaining walls, deck plots, quay walls, the harbour-mouth chain, oases, the underground's optional systems, …) read no switch and skip suppressed keys counted as filled.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-scope-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "scope",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: §13.2 has no bars for item 114 (e).",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V09-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V09",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: §4.14's advanced panel has the single row 'Raised ways the town builds by itself: as the rules say · none' (whose none deletes each one suppressed) and no 'Built by the town' list; §4.20.3's delete and the history row say the town won't rebuild it.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V06-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V06",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: §2.13's RaisedWayLedger carries `suppressed` and §3.19 skips suppressed keys counted against the caps.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V05-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V05",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: an island's or sky access's removal holds a count-law slot counted as filled (§2.1, §3.15 (5)).",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V04-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V04",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: the underground's optional systems have no place on a switch list.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V07-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V07",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: the kinds a village builds by itself have no switches.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V08-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V08",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: the switches are not stated as map-side settings never written to the dossier.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V10-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V10",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: the clerk cannot answer 'why is there no …?' with a switch, and its removal lines say the town won't rebuild.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V11-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V11",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: no switch rows or defaults for the kinds the town builds by itself.",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ },
+ {
+  "id": "G114-V12-01",
+  "severity": "major",
+  "kind": "F-MISSING",
+  "owner": "V12",
+  "claim": "Owner rule 114 (docs/AMENDMENTS-2026-09-28g.md item 114, J126) is not applied in this unit: no bars for item 114 (e).",
+  "required_change": "Apply item 114's part for this unit as its HOMES state: (a) the comprehensive 'Built by the town' switch list (one on/off row per kind the generator adds by its own rules that no dossier record requires, each at its kind's current default); (b) a switch is a map-side setting on §7.6's layers, never written to the dossier, one adjust event, previewed and undoable, OFF removing only the generator's standing instances; (c) a delete is for now — it holds while the town is unchanged (Regenerate, reload, crash recovery) and lapses at the next epoch, New random over the place or Re-derive of the building stage, counts against no cap; the reason-keyed suppression withdrawn; (d) the preview's and history row's words; (e) the bars. The complete list of kinds comes from the switch-list enumeration (workflows/19-item114.js) run when the build reaches these parts."
+ }
+]

@@ -10,6 +10,8 @@ docs/validation/coherence/new/base/); volume rewrites V01–V05 were IN PROGRESS
 up); V06–V12 not started; the LIVE design files are untouched (only the assembly seat writes them). (3) Then the Fable review — ONLY on
 the owner's word. All other decisions are delegated (J122). Owner rules: `docs/AMENDMENTS-2026-09-28g.md` (102–113).
 
+**OWNER RULING J129 (2026-10-03 ~05:50 UTC, supersedes J127's repair round): build now, fix as we go.** The coherence loop stops after the round-0 full sweep; its findings, the watch items and owner rule 114's changes are the build-time fix list (`docs/validation/coherence/fix-list.md`; the M0 subset in `plat/docs/build/open-design-findings.md`); the build starts with `workflows/20-build-m0-spec.js` (spec, scaffold, check).
+
 **OWNER RULING J127 (2026-10-03 ~05:15 UTC): one repair round, then build.** The coherence loop stops after repair round 1 and assemble round 1 (round-0 sweep findings + the watch list's unraised items + owner rule 114's routed changes from `workflows/19-item114.js`); leftovers go to `docs/validation/coherence/fix-list.md`; the Fable retrovalidation stays pending. Then the build starts at M0's uncalibrated pieces (kernel, determinism, site-and-fields, CI tiers) in the cloud under §17.1's clean-room chain; M-1 and M0 (b)/(c) need the owner's Mac (the reference corpus).
 
 **CURRENT — cloud session (2026-10-02/03, branch `claude/gallant-dirac-w8i53u`; the loop of the coherence pass is driven
