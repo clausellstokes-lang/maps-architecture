@@ -23,7 +23,10 @@
     "vendor:verify": "node tools/vendor/verify.mjs",
     "notices": "node tools/notices/generate.mjs",
     "notices:check": "node tools/notices/generate.mjs --check",
-    "browsers:check": "node tools/scaffold/launch-browsers.mjs"
+    "browsers:check": "node tools/scaffold/launch-browsers.mjs",
+    "snapshot": "node tools/landed/snapshot.mjs",
+    "landed": "node tools/landed/landed.mjs",
+    "landed:verify": "node tools/landed/verify.mjs"
   },
   "devDependencies": {
     "@types/node": "24.12.4",

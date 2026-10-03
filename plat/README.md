@@ -19,7 +19,7 @@ the builders make where the design leaves a case open is one row of `docs/build/
 | `packages/testkit` | `@plat/testkit` — test tools: random and hand-made test shapes, reference checkers, measurements, the clean-room content scanner; never shipped, and its third-party tools (the two reference checkers, fast-check, Playwright) are development-only dependencies |
 | `bench` | `@plat/bench` — timing and calibration, the test tiers, and the spike harnesses; run, never imported |
 | `vendor` | the five third-party libraries PLAT ships, copied in at exact versions with our two small patches (see `vendor/README.md`) |
-| `tools` | build helpers: the lint plugin (`tools/lint`), vendor checks, the notices generator, test setup |
+| `tools` | build helpers: the lint plugin (`tools/lint`), vendor checks, the notices generator, test setup, the landed-record tools (`tools/landed`) |
 | `scripts` | the build, lint and bench entry points behind the commands below |
 | `docs/build` | the M0 plan, the choices log, checker reports; `docs/digest` will hold the research digest (M-1's) |
 
@@ -51,11 +51,37 @@ corepack pnpm notices        # regenerate THIRD-PARTY-NOTICES.txt and run the li
   scratchpad `build/` folder, never inside `plat/` — and no harness reads its inputs from there (inputs live inside
   `plat/` or are passed in memory).
 * `corepack pnpm browsers:check` launches the three cached Playwright browsers once (no download).
-* Timings count only when taken in the timing phase with nothing else running on the machine; any other timing is
+* Timings count only when taken in the timing phase with nothing else running on the machine — M-1's research-side
+  captures and measurements included: the session pauses them before it opens the phase (C-0103); any other timing is
   marked *contended* and never decides anything (`docs/build/choices.md` C-0025, C-0047).
 
 Every command starts with `corepack pnpm`, and `npm install` is never run here: one package manager, one lockfile,
 one store.
+
+## Who changed what: snapshots and landed records
+
+Up to four builders work in this one folder at a time and none of them runs git, so each one's changes are recorded
+by file hashes instead (`docs/build/M0.md` §3, choices C-0104 and C-0111):
+
+```sh
+corepack pnpm snapshot -- wave-2                          # the session, when a wave opens: every file and its SHA-256
+corepack pnpm landed -- M0-a-01 --lane build/m0-a-01      # a builder, when its work is done: what it created or changed
+corepack pnpm landed:verify -- wave-2 --item M0-a-01      # that builder's checker: the record matches the folder
+corepack pnpm landed:verify -- wave-2                     # the session, when the wave closes: nothing unaccounted for
+```
+
+* The snapshot (`docs/build/landed/snapshots/<label>.json`) lists every file except installs, build outputs, coverage,
+  Finder's `.DS_Store` files and these snapshots, and the hash of every line of the files builders may add rows to.
+* A builder's record (`docs/build/landed/<item>.json`) lists every file under its work item's `owns` (from
+  `docs/build/M0-work.json`) as created, changed, unchanged or deleted, and the rows it added to `choices.md` and
+  `CLEAN-ROOM.md` (found by its lane key in the row's seat column) or the one index line of a folder it owns.
+  `--touched <plat/path>` names files the builder knows it edited; one outside its `owns` is refused. A checker or a
+  plan writer without a work item lists its exact files with `--owns <plat/path>`.
+* Adding a row: read the last id just before appending, append in one write; if two rows end up with one id, the next
+  writer renumbers the later row and says so in its reason column. `landed` refuses to write a record while a
+  collision stands, and names the next free id.
+* `landed:verify` names every changed file, added line or edited line that no record of the wave claims. Such a change
+  goes to the session, the only one that runs git.
 
 ## The clean-room rule
 

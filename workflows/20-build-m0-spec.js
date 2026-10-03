@@ -36,6 +36,7 @@ WORKING RULES: save your files as you go; append a CHECKPOINT line to docs/lane-
 const SPEC_SCHEMA = { type: 'object', properties: { file: { type: 'string' }, work_file: { type: 'string' }, items: { type: 'number' }, here: { type: 'array', items: { type: 'string' } }, waiting_on_m1: { type: 'array', items: { type: 'string' } }, open_questions: { type: 'array', items: { type: 'string' } }, mac_corrections: { type: 'array', items: { type: 'string' } } }, required: ['file', 'work_file', 'items', 'here', 'waiting_on_m1', 'open_questions', 'mac_corrections'] }
 const SCAFFOLD_SCHEMA = { type: 'object', properties: { packages: { type: 'array', items: { type: 'string' } }, commands: { type: 'array', items: { type: 'object', properties: { command: { type: 'string' }, exit: { type: 'number' } }, required: ['command', 'exit'] } }, files: { type: 'number' }, notes: { type: 'array', items: { type: 'string' } } }, required: ['packages', 'commands', 'files', 'notes'] }
 const CHECK_SCHEMA = { type: 'object', properties: { verdict: { type: 'string', enum: ['pass', 'fix'] }, issues: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, where: { type: 'string' }, problem: { type: 'string' }, required_change: { type: 'string' } }, required: ['id', 'where', 'problem', 'required_change'] } } }, required: ['verdict', 'issues'] }
+const CLOSING_SCHEMA = { type: 'object', properties: { verdict: { type: 'string', enum: ['pass', 'fix'] }, issues: { type: 'array', items: { type: 'object', properties: { id: { type: 'string' }, where: { type: 'string' }, problem: { type: 'string' }, required_change: { type: 'string' } }, required: ['id', 'where', 'problem', 'required_change'] } }, previous_fixed: { type: 'array', items: { type: 'string' } }, previous_open: { type: 'array', items: { type: 'string' } }, notes_file: { type: 'string' }, notes: { type: 'number' } }, required: ['verdict', 'issues', 'previous_fixed', 'previous_open', 'notes_file', 'notes'] }
 
 const specPrompt = (fix, key, note) => `${GROUND}
 
@@ -58,6 +59,10 @@ const checkPrompt = (key) => `${GROUND}
 
 LANE ${key}. You are the CHECKER of the M0 spec and scaffold, a seat independent of both writers. Read the design sections the spec cites (§16's M0 and M-1 rows, §13, §14, §3, §6, §12.1, §12.4, §17) and ${ROOT}/plat/docs/build/M0.md, M0-work.json and choices.md, and run the scaffold's commands yourself (install, build, test, lint, through corepack pnpm). Fail the spec if: an M0 piece, test id or exit bar of §16 or §13 is missing or misread; anything is marked built now that needs the reference recordings or M-1's baselines, or anything marked after-M-1 that could be built now; an after-M-1 item does not name the baselines rows or digest entries it needs; a cloud-container assumption survives (a row or clause resting on Node 22, the x86 container, refused egress, absent browsers or provisional timing on this machine) without a superseding Mac row; items share a file; an item's design sections are vague; the waves violate a dependency or put a timing-phase bar beside other work; an open question is left undecided; a row of plat/docs/build/open-design-findings.md is not decided. Fail the scaffold if any command exits non-zero, a dependency is not pinned or not on §17.4's list, pnpm is installed globally or not pinned through packageManager, the lint does not hold §6.5's allowlist, or the clean-room ledger is missing. Return verdict pass or fix with every issue (where, problem, required change).`
 
+const closingPrompt = (key, prev) => `${GROUND}
+
+LANE ${key}. You are the CLOSING CHECKER of the M0 spec and scaffold, independent of their writers. Four full checks found 18, 14, 13 and 9 issues, each round finer than the last; by the session's ruling (J160) this check CLOSES the spec: (1) for each issue of the previous check, listed here, confirm it is fixed in ${ROOT}/plat/docs/build/M0.md, M0-work.json, choices.md, CLEAN-ROOM.md and the scaffold, or report it in previous_open with what remains: ${JSON.stringify(prev)}; (2) confirm the fixes broke nothing they touched — re-run the ownership and dependency validator the earlier checks used (plat/docs/build/checks/) and the scaffold's commands through corepack pnpm (install, build, test, lint); (3) a NEW finding fails the spec ONLY if it is a blocker: a compile or dependency cycle, an item that cannot be built inside its owns, a dependency or wave-order violation, a timing-phase conflict, a clean-room breach, or a command that exits non-zero. Every other new observation is NOT an issue: write it to ${ROOT}/plat/docs/build/checks/M0-spec-notes.md (one row: id, item, observation, suggested handling) for the item checkers of the build waves, who check every item against its design sections anyway. Return pass when (1) leaves nothing open and (3) finds no blocker; otherwise fix with the open and blocker issues only.`
+
 phase('Spec')
 let spec = await ruledSeat(specPrompt(null, 'build/m0-spec'), 'build/m0-spec', 'Spec', SPEC_SCHEMA)
 if (!spec) return { error: 'spec failed' }
@@ -72,9 +77,14 @@ while (check && check.verdict === 'fix' && round < (ARGS.maxFixRounds || 2)) {
   const specIssues = check.issues.filter((i) => /spec|M0\.md|M0-work|choices/i.test(i.where))
   const scaffoldIssues = check.issues.filter((i) => !specIssues.includes(i))
   log(`check round ${round - 1}: ${check.issues.length} issues (${specIssues.length} spec, ${scaffoldIssues.length} scaffold)`)
-  const note = round >= (ARGS.noteFromRound || 99) ? (ARGS.fixNote || '') : ''
+  const note = (round >= (ARGS.noteFromRound || 99) && round <= (ARGS.noteUntilRound || 99)) ? (ARGS.fixNote || '') : ''
   if (specIssues.length) spec = await ruledSeat(specPrompt(specIssues, `build/m0-spec-fix${round}`, note), `build/m0-spec-fix${round}`, 'Spec', SPEC_SCHEMA) || spec
   if (scaffoldIssues.length || specIssues.length) scaffold = await seat(scaffoldPrompt(scaffoldIssues, `build/m0-scaffold-fix${round}`, note), `build/m0-scaffold-fix${round}`, 'Scaffold', SCAFFOLD_SCHEMA) || scaffold
-  check = await seat(checkPrompt(`build/m0-check-r${round}`), `build/m0-check-r${round}`, 'Check', CHECK_SCHEMA)
+  if (round >= (ARGS.closingFrom || 99)) {
+    const prev = check.issues
+    check = await seat(closingPrompt(`build/m0-check-close-r${round}`, prev), `build/m0-check-close-r${round}`, 'Check', CLOSING_SCHEMA)
+  } else {
+    check = await seat(checkPrompt(`build/m0-check-r${round}`), `build/m0-check-r${round}`, 'Check', CHECK_SCHEMA)
+  }
 }
 return { spec, scaffold, check, fix_rounds: round }

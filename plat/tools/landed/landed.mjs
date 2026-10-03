@@ -1,0 +1,456 @@
+#!/usr/bin/env node
+// `corepack pnpm landed -- <item id> --lane <lane key>` (M0-s-01's third fix round; C-0104, C-0111): a landing seat's
+// attribution record. Seats run no git and up to four share one tree, so each seat lists what it landed: every file
+// under its item's `owns` (read from docs/build/M0-work.json) with its SHA-256 and its status — created, changed,
+// unchanged or deleted — against the wave's snapshot, and the lines it appended under the id rule (its own rows of
+// choices.md and CLEAN-ROOM.md, found by the seat cell; C-0064's index line of a folder it owns). The record goes to
+// docs/build/landed/<item id>.json, a file every item owns implicitly. A path the seat says it touched (--touched) that
+// lies outside its owns and the permitted appends is refused, named. A seat without an item (a checker, a spec lane)
+// declares its files with --owns (exact paths no item owns; C-0111).
+//
+// Options: --lane <key> (required) · --wave <label> (the snapshot of the wave the seat started in; default: the newest
+// snapshot) · --touched <plat/path> (repeatable) · --whole <plat/path> (an append file the item owns, claimed whole for
+// an edit that is not an append) · --owns <plat/path> (repeatable; seats without an item only).
+// Exit 0 written, 1 refused, 2 no snapshot, 64 usage.
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import { join } from 'node:path';
+import {
+  LANDED_DIR,
+  PLAT_ROOT,
+  RECORD_SCHEMA,
+  WORK_FILE,
+  byCodeUnit,
+  cliArgs,
+  formatJson,
+  fromPlat,
+  isAppendFile,
+  isMain,
+  latestSnapshot,
+  lineHash,
+  listTree,
+  readSnapshot,
+  splitLines,
+  toPlat,
+  validLabel,
+} from './snapshot.mjs';
+
+// ---------------------------------------------------------------------------------------------------------------
+// owns entries and ownership
+
+/** Expands every {a,b,c} group of a path pattern (no nesting). */
+export function expandBraces(s) {
+  const m = /\{([^{}]*)\}/.exec(s);
+  if (!m) return [s];
+  return m[1].split(',').flatMap((alt) => expandBraces(s.slice(0, m.index) + alt.trim() + s.slice(m.index + m[0].length)));
+}
+
+/**
+ * Parses one `owns` entry of M0-work.json: the text before " (" is the path (a trailing comment explains it); braces
+ * expand; a segment `*` or `<name>` matches any one path segment; a trailing `/` makes the entry a folder.
+ */
+export function parseOwnsEntry(entry) {
+  const head = String(entry).split(' (')[0].trim();
+  const patterns = expandBraces(head).map((p) => {
+    const folder = p.endsWith('/');
+    const segments = (folder ? p.slice(0, -1) : p).split('/');
+    return { folder, segments: segments.map((s) => (s === '*' || /^<[^<>/]+>$/.test(s) ? null : s)) };
+  });
+  return { entry: String(entry), head, patterns };
+}
+
+/** Does a pattern own a path (POSIX, starting `plat/`)? By directory prefix: the path itself or anything under it. */
+export function patternMatches(pattern, path) {
+  const segs = path.split('/');
+  if (segs.length < pattern.segments.length) return false;
+  for (let i = 0; i < pattern.segments.length; i += 1) {
+    const want = pattern.segments[i];
+    if (want !== null && want !== segs[i]) return false;
+  }
+  return segs.length > pattern.segments.length || !pattern.folder;
+}
+
+const ownsCache = new Map();
+const parsedEntry = (e) => {
+  let p = ownsCache.get(e);
+  if (p === undefined) {
+    p = parseOwnsEntry(e);
+    ownsCache.set(e, p);
+  }
+  return p;
+};
+
+export function ownsMatch(owns, path) {
+  return owns.some((e) => parsedEntry(e).patterns.some((p) => patternMatches(p, path)));
+}
+
+export function loadWork(root) {
+  return JSON.parse(readFileSync(join(root, ...WORK_FILE.split('/')), 'utf8'));
+}
+
+const slug = (s) => String(s).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
+
+/** The position of a wave value (0, 1, …, "T", "T-fix", "AFTER-M-1 (a)") in M0-work.json's waves, or null. */
+export function wavePosition(work, wave) {
+  const i = (work.waves ?? []).findIndex((w) => slug(w.wave) === slug(wave));
+  return i < 0 ? null : i;
+}
+
+/** The wave a snapshot label names (`wave-<wave>`, compared as slugs: wave-2, wave-T2, wave-after-m-1-a), or null. */
+export function labelPosition(work, label) {
+  const m = /^wave-(.+)$/i.exec(label ?? '');
+  return m ? wavePosition(work, m[1]) : null;
+}
+
+/**
+ * The item or items that own a path while wave position W is open. Hand-overs run forward in waves, so of the items
+ * whose owns match the path, the owner is the one of the latest wave not after W (e.g. tools/lint/index.mjs is
+ * M0-s-01's in wave 0 and M0-d-07's from wave 1; a module folder's index.ts is the scaffold's until its owner's wave).
+ */
+export function ownersAt(work, path, W) {
+  let best = -1;
+  let owners = [];
+  for (const item of work.items ?? []) {
+    if (!ownsMatch(item.owns ?? [], path)) continue;
+    const p = wavePosition(work, item.wave);
+    if (p === null || p > W) continue;
+    if (p > best) {
+      best = p;
+      owners = [item.id];
+    } else if (p === best) owners.push(item.id);
+  }
+  return owners;
+}
+
+/** Every item whose owns match a path, at any wave. */
+export function anyOwners(work, path) {
+  return (work.items ?? []).filter((it) => ownsMatch(it.owns ?? [], path)).map((it) => it.id);
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// the appended lines
+
+/** A Markdown table row's cells (pipes inside a cell must be escaped as \|), or null for a non-row line. */
+export function splitCells(line) {
+  const t = line.trim();
+  if (!t.startsWith('|')) return null;
+  return t.replace(/^\|/, '').replace(/\|$/, '').split(/(?<!\\)\|/).map((c) => c.trim());
+}
+
+/** A row's id (`C-0104`, `L-0013`): its first cell, when it has that form. */
+export function rowId(cells) {
+  return cells && /^[A-Z]-\d{4}$/.test(cells[0]) ? cells[0] : null;
+}
+
+/** The index of the seat column of the table holding line i (the header cell starting with "seat"), or -1. */
+export function seatColumn(lines, i) {
+  let j = i;
+  while (j > 0 && lines[j - 1].trim().startsWith('|')) j -= 1;
+  const sep = lines[j + 1];
+  if (sep === undefined || !/^\|[\s:|-]+$/.test(sep.trim())) return -1;
+  return (splitCells(lines[j]) ?? []).findIndex((c) => /^seat\b/i.test(c));
+}
+
+/** Does a seat cell name this lane (the lane key, then the cell's end or a separator: "build/x (Opus, …)")? */
+export function seatNames(cell, lane) {
+  const c = cell.replace(/^`/, '');
+  return c.startsWith(lane) && (c.length === lane.length || /[^A-Za-z0-9_/-]/.test(c[lane.length]));
+}
+
+/** The lane named by a renumbering note in a row (C-0104's id rule), or null. */
+export function renumberedBy(line) {
+  const m = /renumbered from [A-Z]-\d{4} \(collision\) by `?([^\s`,;)]+)/.exec(line);
+  return m ? m[1].replace(/\.$/, '') : null;
+}
+
+export const INDEX_LINE = /^export \* from '\.\/([A-Za-z0-9_-]+)\/index\.js';\s*$/;
+
+/** Longest common subsequence of two hash lists: the indices of a not kept (removed) and of b not kept (added). */
+export function lcsDiff(a, b) {
+  const n = a.length;
+  const m = b.length;
+  const dp = Array.from({ length: n + 1 }, () => new Uint32Array(m + 1));
+  for (let i = n - 1; i >= 0; i -= 1) {
+    for (let j = m - 1; j >= 0; j -= 1) dp[i][j] = a[i] === b[j] ? dp[i + 1][j + 1] + 1 : Math.max(dp[i + 1][j], dp[i][j + 1]);
+  }
+  const removed = [];
+  const added = [];
+  let i = 0;
+  let j = 0;
+  while (i < n && j < m) {
+    if (a[i] === b[j]) {
+      i += 1;
+      j += 1;
+    } else if (dp[i + 1][j] >= dp[i][j + 1]) removed.push(i++);
+    else added.push(j++);
+  }
+  while (i < n) removed.push(i++);
+  while (j < m) added.push(j++);
+  return { removed, added };
+}
+
+/** The current lines of an append file and its diff against the snapshot's line hashes. */
+export function appendDiff(root, snapshot, path) {
+  const rel = fromPlat(path);
+  const abs = join(root, ...rel.split('/'));
+  const lines = existsSync(abs) ? splitLines(readFileSync(abs, 'utf8')) : null;
+  const hashes = lines === null ? [] : lines.map(lineHash);
+  const before = snapshot.appendFiles?.[path];
+  const old = before?.lines ?? [];
+  return { lines, hashes, old, placeholders: new Set(before?.placeholders ?? []), ...lcsDiff(old, hashes) };
+}
+
+/** The next free id with a row id's letter in a file's lines. */
+function nextFreeId(lines, letter) {
+  let max = 0;
+  for (const l of lines) {
+    const id = rowId(splitCells(l));
+    if (id && id[0] === letter) max = Math.max(max, Number(id.slice(2)));
+  }
+  return `${letter}-${String(max + 1).padStart(4, '0')}`;
+}
+
+/** Ids carried by more than one row of a file where one of the rows is new since the snapshot (a collision). */
+export function collisions(lines, addedSet) {
+  const byId = new Map();
+  lines.forEach((l, k) => {
+    const id = rowId(splitCells(l));
+    if (id) byId.set(id, [...(byId.get(id) ?? []), k]);
+  });
+  const out = [];
+  for (const [id, ks] of byId) {
+    if (ks.length > 1 && ks.some((k) => addedSet.has(k))) out.push({ id, lines: ks.map((k) => k + 1), next: nextFreeId(lines, id[0]) });
+  }
+  return out;
+}
+
+// ---------------------------------------------------------------------------------------------------------------
+// the record
+
+const sameEntry = (a, b) =>
+  a !== undefined && b !== undefined && (a.symlink !== undefined ? a.symlink === b.symlink : a.sha256 === b.sha256);
+
+/** created / changed / unchanged / deleted, or null when the path is in neither listing. */
+export function statusOf(before, now) {
+  if (before === undefined && now === undefined) return null;
+  if (before === undefined) return 'created';
+  if (now === undefined) return 'deleted';
+  return sameEntry(before, now) ? 'unchanged' : 'changed';
+}
+
+export const recordPath = (root, id) => join(root, ...LANDED_DIR.split('/'), `${id}.json`);
+const isRecordRel = (rel) => rel.startsWith(`${LANDED_DIR}/`) && !rel.slice(LANDED_DIR.length + 1).includes('/');
+
+const validId = (id) => typeof id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(id);
+
+/**
+ * Builds (and, with write, writes) the landed record of one seat. Returns { ok, code, problems, notes, record }.
+ * opts: { item, lane, wave?, touched?: string[], whole?: string[], owns?: string[], now?: Date, write?: boolean }.
+ */
+export function buildRecord(root, opts) {
+  const problems = [];
+  const notes = [];
+  const fail = (code) => ({ ok: false, code, problems, notes, record: null });
+  const { item: id, lane } = opts;
+  const touched = opts.touched ?? [];
+  const whole = opts.whole ?? [];
+  const declared = opts.owns ?? [];
+  if (!validId(id)) problems.push(`invalid item id ${JSON.stringify(id)}`);
+  if (typeof lane !== 'string' || !/^\S+$/.test(lane)) problems.push('--lane <lane key> is required (the key of the LANDED line)');
+  if (opts.wave !== undefined && !validLabel(opts.wave)) problems.push(`invalid snapshot label ${JSON.stringify(opts.wave)}`);
+  if (problems.length) return fail(64);
+
+  const snapshot = opts.wave !== undefined ? readSnapshot(root, opts.wave) : latestSnapshot(root);
+  if (snapshot === null) {
+    problems.push(
+      opts.wave !== undefined
+        ? `no snapshot ${opts.wave}: the session takes it when the wave opens (corepack pnpm snapshot -- ${opts.wave})`
+        : 'no wave snapshot under docs/build/landed/snapshots/: the session takes one when a wave opens (corepack pnpm snapshot -- wave-<n>)',
+    );
+    return fail(2);
+  }
+
+  const work = loadWork(root);
+  const item = (work.items ?? []).find((it) => it.id === id) ?? null;
+  let owns;
+  if (item !== null) {
+    if (declared.length > 0) problems.push(`${id} is an item of ${WORK_FILE}: its owns come from there, never from --owns`);
+    owns = item.owns ?? [];
+  } else {
+    if (declared.length === 0) problems.push(`${id} is no item of ${WORK_FILE}; a seat without an item declares its files with --owns <plat/path>`);
+    for (const p of declared) {
+      if (!p.startsWith('plat/') || /[*{}<>]/.test(p) || p.endsWith('/') || p.split('/').includes('..')) {
+        problems.push(`--owns ${p}: a declared path is one exact file under plat/ (no folder, no pattern)`);
+        continue;
+      }
+      const others = anyOwners(work, p);
+      if (others.length > 0) problems.push(`--owns ${p}: owned by ${others.join(', ')} in ${WORK_FILE}; only that item's record may claim it`);
+      if (isAppendFile(fromPlat(p))) problems.push(`--owns ${p}: an append file is claimed by its lines, never declared`);
+    }
+    owns = declared;
+  }
+  if (problems.length) return fail(1);
+
+  let W = labelPosition(work, snapshot.label);
+  if (item !== null && W === null) {
+    W = wavePosition(work, item.wave) ?? Number.MAX_SAFE_INTEGER;
+    notes.push(`snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved at ${id}'s own wave (${item.wave})`);
+  }
+  const mine = (path) => (item !== null ? ownersAt(work, path, W).includes(id) : declared.includes(path));
+
+  // Files under the owns (append files are claimed by their lines; records are their own items').
+  const tree = listTree(root);
+  const now = new Map([...tree].map(([rel, e]) => [toPlat(rel), e]));
+  const before = new Map(Object.entries(snapshot.files ?? {}));
+  const paths = [...new Set([...before.keys(), ...now.keys()])].sort(byCodeUnit);
+  const files = [];
+  const counts = { created: 0, changed: 0, unchanged: 0, deleted: 0 };
+  const claimFile = (path) => {
+    const status = statusOf(before.get(path), now.get(path));
+    if (status === null) return;
+    counts[status] += 1;
+    const e = now.get(path);
+    if (e === undefined) files.push({ path, status, sha256: null, was: before.get(path).sha256 ?? null });
+    else if (e.symlink !== undefined) files.push({ path, status, symlink: e.symlink });
+    else files.push({ path, status, sha256: e.sha256, size: e.size });
+  };
+  const unclaimed = [];
+  for (const path of paths) {
+    const rel = fromPlat(path);
+    if (isAppendFile(rel) || isRecordRel(rel)) continue;
+    if (mine(path)) claimFile(path);
+    else if (statusOf(before.get(path), now.get(path)) !== 'unchanged') unclaimed.push(path);
+  }
+  for (const p of whole) {
+    const rel = fromPlat(p);
+    if (rel === null || !isAppendFile(rel)) problems.push(`--whole ${p}: only an append file is claimed whole`);
+    else if (!mine(p)) problems.push(`--whole ${p}: not ${id}'s at ${snapshot.label}`);
+    else claimFile(p);
+  }
+
+  // The permitted appends: this lane's rows, renumbered rows, the index lines of folders the item owns.
+  const previous = existsSync(recordPath(root, id)) ? JSON.parse(readFileSync(recordPath(root, id), 'utf8')) : null;
+  const carried = previous !== null && previous.wave === snapshot.label ? previous : null;
+  const appendPaths = [...new Set([...Object.keys(snapshot.appendFiles ?? {}), ...[...now.keys()].filter((p) => isAppendFile(fromPlat(p)))])].sort(byCodeUnit);
+  const appends = [];
+  for (const path of appendPaths) {
+    const d = appendDiff(root, snapshot, path);
+    if (d.lines === null) continue;
+    const addedSet = new Set(d.added);
+    const isIndex = /\/src\/index\.ts$/.test(path);
+    if (!isIndex) {
+      for (const c of collisions(d.lines, addedSet)) {
+        problems.push(
+          `${path}: id ${c.id} is carried by the rows on lines ${c.lines.join(' and ')} — a collision. By the id rule (C-0104) ` +
+            `the later row takes the next free id, ${c.next}, and says "renumbered from ${c.id} (collision) by ${lane}" in its ` +
+            'reason column; the next writer renumbers it, then runs landed again',
+        );
+      }
+    }
+    const carriedLines = new Set((carried?.appends ?? []).filter((a) => a.file === path).flatMap((a) => a.lines));
+    const ids = [];
+    const lines = [];
+    for (const k of d.added) {
+      const line = d.lines[k];
+      let claim = null;
+      if (isIndex) {
+        const m = INDEX_LINE.exec(line);
+        const pkg = path.split('/')[2];
+        if (m && item !== null && ownersAt(work, `plat/packages/${pkg}/src/${m[1]}/index.ts`, W).includes(id)) claim = m[1];
+      } else {
+        const cells = splitCells(line);
+        const col = cells ? seatColumn(d.lines, k) : -1;
+        if ((col >= 0 && cells[col] !== undefined && seatNames(cells[col], lane)) || renumberedBy(line) === lane) claim = rowId(cells) ?? `line ${k + 1}`;
+      }
+      if (claim === null && carriedLines.has(d.hashes[k])) claim = rowId(splitCells(line)) ?? `line ${k + 1}`;
+      if (claim !== null) {
+        ids.push(claim);
+        lines.push(d.hashes[k]);
+      }
+    }
+    const removed = lines.length > 0 ? d.removed.map((r) => d.old[r]).filter((h) => d.placeholders.has(h)) : [];
+    if (lines.length > 0) appends.push({ file: path, ids, lines, removed });
+  }
+
+  for (const p of touched) {
+    const rel = fromPlat(p);
+    if (rel === null || rel.split('/').includes('..')) problems.push(`--touched ${p}: not a path under plat/`);
+    else if (isAppendFile(rel) || rel === `${LANDED_DIR}/${id}.json`) continue;
+    else if (!mine(p)) {
+      const others = item !== null ? ownersAt(work, p, W) : anyOwners(work, p);
+      problems.push(
+        `${p}: outside ${id}'s owns and the permitted appends` + (others.length ? ` (owned by ${others.join(', ')} at ${snapshot.label})` : ''),
+      );
+    }
+  }
+  if (problems.length) return fail(1);
+
+  if (unclaimed.length > 0) {
+    notes.push(
+      `${unclaimed.length} changed path(s) since ${snapshot.label} claimed by no owns of ${id} (another seat's — or yours outside ` +
+        `your owns, which fails your check): ${unclaimed.slice(0, 12).join(', ')}${unclaimed.length > 12 ? ', …' : ''}`,
+    );
+  }
+  const record = {
+    schema: RECORD_SCHEMA,
+    item: id,
+    lane,
+    lanes: [...new Set([...(carried?.lanes ?? []), lane])],
+    wave: snapshot.label,
+    snapshotTaken: snapshot.taken,
+    date: (opts.now ?? new Date()).toISOString(),
+    ownsSource: item !== null ? WORK_FILE : 'declared',
+    owns,
+    counts,
+    files,
+    appends,
+  };
+  if (opts.write !== false) {
+    mkdirSync(join(root, ...LANDED_DIR.split('/')), { recursive: true });
+    writeFileSync(recordPath(root, id), formatJson(record));
+  }
+  return { ok: true, code: 0, problems, notes, record };
+}
+
+/** Parses `<id> --lane <key> [--wave <label>] [--touched p]… [--whole p]… [--owns p]…`, or returns null. */
+export function parseArgs(args) {
+  const out = { touched: [], whole: [], owns: [] };
+  const rest = [];
+  for (let i = 0; i < args.length; i += 1) {
+    const a = args[i];
+    const flag = /^--(lane|wave|touched|whole|owns)$/.exec(a);
+    if (flag) {
+      const v = args[i + 1];
+      if (v === undefined || v.startsWith('--')) return null;
+      i += 1;
+      if (flag[1] === 'lane' || flag[1] === 'wave') {
+        if (out[flag[1]] !== undefined) return null;
+        out[flag[1]] = v;
+      } else out[flag[1]].push(v);
+    } else if (a.startsWith('--')) return null;
+    else rest.push(a);
+  }
+  if (rest.length !== 1 || out.lane === undefined) return null;
+  out.item = rest[0];
+  return out;
+}
+
+if (isMain(import.meta.url)) {
+  const parsed = parseArgs(cliArgs(process.argv.slice(2)));
+  if (parsed === null) {
+    process.stderr.write(
+      'usage: corepack pnpm landed -- <item id> --lane <lane key> [--wave <label>] [--touched <plat/path>]… ' +
+        '[--whole <plat/path>]… [--owns <plat/path>]… (--owns only for a seat without an item)\n',
+    );
+    process.exit(64);
+  }
+  const r = buildRecord(PLAT_ROOT, parsed);
+  for (const n of r.notes) process.stdout.write(`landed note: ${n}\n`);
+  for (const p of r.problems) process.stderr.write(`landed: ${p}\n`);
+  if (!r.ok) process.exit(r.code);
+  const c = r.record.counts;
+  const ap = r.record.appends.map((a) => `${a.file.replace(/^plat\//, '')} ${a.ids.join(', ')}`).join('; ') || 'none';
+  process.stdout.write(
+    `landed ${r.record.item} (lane ${r.record.lane}, against ${r.record.wave}): ${c.created} created, ${c.changed} changed, ` +
+      `${c.unchanged} unchanged, ${c.deleted} deleted; appends: ${ap} → ${toPlat(`${LANDED_DIR}/${r.record.item}.json`)}\n`,
+  );
+}

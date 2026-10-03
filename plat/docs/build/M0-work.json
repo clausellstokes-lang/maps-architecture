@@ -1,6 +1,6 @@
 {
  "file": "plat/docs/build/M0-work.json",
- "lane": "build/m0-spec (landed 2026-10-03 06:29); fix round build/m0-spec-fix1 (2026-10-03) after the checker report checks/M0-spec.md; the scaffold fix round build/m0-scaffold-fix1 (2026-10-03) closed the residue of SP-3, SP-6, SP-7, SP-8 and SP-9 (C-0080 – C-0082); fix round build/m0-spec-fix2 (2026-10-03) after the checker reports checks/M0-spec-r1.md and checks/M0-s-01-r1.md (C-0083 – C-0095; item M0-x-05 added)",
+ "lane": "build/m0-spec (landed 2026-10-03 06:29); fix round build/m0-spec-fix1 (2026-10-03) after the checker report checks/M0-spec.md; the scaffold fix round build/m0-scaffold-fix1 (2026-10-03) closed the residue of SP-3, SP-6, SP-7, SP-8 and SP-9 (C-0080 – C-0082); fix round build/m0-spec-fix2 (2026-10-03) after the checker reports checks/M0-spec-r1.md and checks/M0-s-01-r1.md (C-0083 – C-0095; item M0-x-05 added); fix round build/m0-spec-fix3 (2026-10-03) after the checker report checks/M0-spec-r2.md (C-0097 – C-0110; items M0-x-06 and M0-k-07 added, M0-k-06 moved to wave 13)",
  "written": "2026-10-03",
  "seats": [
   "L-0001 build/m0-spec (Opus, cloud)",
@@ -8,7 +8,8 @@
   "L-0003 build/m0-spec (Fable, Mac, new session)",
   "L-0007 build/m0-spec-fix1 (Fable, Mac): the fix round — ownership, waves, the §13.5 edge, the deny-list scan, the register check, noise, ng-faces.json, the Mac corrections re-checked",
   "L-0008 build/m0-scaffold-fix1 (Opus, Mac): M0-s-01's fix round (the six scaffold changes) and the spec residue of the checker's SP-3, SP-6, SP-7, SP-8, SP-9 — the conditional re-run wave T2 (C-0080), the corner and arrival clauses on NG's shapes (C-0081), the fusion and site gates in Chromium's worker (C-0082)",
-  "L-0010 build/m0-spec-fix2 (Fable, Mac): the second fix round — T34-1's commit clause (M0-b-03), R12-4 as a reported timing bar (C-0084), the stage ladder coverage item M0-x-05 and F-WORK's declared rungs (C-0085), ng-faces.json's per-face fields and the cut-length row (C-0086), the basic water gate (C-0087), the tier nesting broken and the whole-run protocol (C-0088), resolveVertexAt's M2a stub (C-0089), the matching workload (C-0090), the summaries' work quantiles (C-0091), M0-k-05's M0 form (C-0092), the no-bare-pnpm scope (C-0093), the junction row judged now (C-0094), the scaffold's second fix round and the missing hand-overs (C-0095), the stale ids (C-0083)"
+  "L-0010 build/m0-spec-fix2 (Fable, Mac): the second fix round — T34-1's commit clause (M0-b-03), R12-4 as a reported timing bar (C-0084), the stage ladder coverage item M0-x-05 and F-WORK's declared rungs (C-0085), ng-faces.json's per-face fields and the cut-length row (C-0086), the basic water gate (C-0087), the tier nesting broken and the whole-run protocol (C-0088), resolveVertexAt's M2a stub (C-0089), the matching workload (C-0090), the summaries' work quantiles (C-0091), M0-k-05's M0 form (C-0092), the no-bare-pnpm scope (C-0093), the junction row judged now (C-0094), the scaffold's second fix round and the missing hand-overs (C-0095), the stale ids (C-0083)",
+  "L-0013 build/m0-spec-fix3 (Fable, Mac): the third fix round — B-EDGE at M0 and the per-class degenerate fixtures (M0-x-06, C-0100), M0-k-02 narrowed (C-0110), the scanner built now (M0-k-06 wave 13; the run M0-k-07, C-0101), AFTER-M-1 never during T / T2 (C-0102), the detector widened to every process (C-0103), the tier-timing protocol (C-0097), §3.7's miss ladder ordered (C-0098), stageLadderCoverage (C-0109), attribution by landed records (C-0104), the probe in place (C-0106), the S11 workload built by M0-k-04 (C-0107), T34-1's mean owned once (C-0108), the tiers' end-to-end runs as receipts (C-0105), derived job status (C-0099), the stale text"
  ],
  "authority": "The machine-readable twin of M0.md §2. Where M0.md and this file differ, this file is the authority (M0.md's own rule). Every section pointer is to docs/ARCHITECTURE.md. The design is a REFERENCE, NOT A CONTRACT (J156): a case the design leaves open is one row of choices.md; tangled features are STAGED with their milestone named; no new design is added.",
  "machine": {
@@ -24,14 +25,16 @@
  "legend": {
   "here": "built and judged NOW on this machine by the item's checker (M0.md §3)",
   "timing-phase": "a timing bar measured only in the timing-phase waves — T (M0-t-01) and, after any fallback fix round, the conditional re-run T2 (M0-t-02, C-0080) — nothing else running",
-  "after-M-1": "needs M-1's committed numbers-only files (baselines.json, ng-faces.json) or the digest; scheduled in the AFTER-M-1 wave; never faked or estimated",
+  "after-M-1": "needs M-1's committed numbers-only files (baselines.json, ng-faces.json, denylist.json) or the digest; scheduled in the AFTER-M-1 wave; never faked or estimated; never started while T, T-fix or T2 is open (every AFTER-M-1 item depends on M0-x-01) and only on a seat the open wave leaves free within the four-seat cap (C-0102)",
   "owns": "the files an item alone writes; a package's src/index.ts, package.json and tsconfig.json and the workspace files are the scaffold's (C-0013); a module folder's index.ts is created empty by the scaffold and owned by the folder's owner named here",
   "handsOver": "a file whose ownership passes to a later item after this item LANDS (C-0021's form)",
   "estHours": "PLAUSIBLE: one implementer seat's sitting; an upper bound, not a budget",
   "summaries": "every harness writes its full report to PLAT_BENCH_OUT (uncommitted, truncated) and a numbers-only summary to plat/docs/build/summaries/<item>.json, owned by the item and the file the M0 record cites; no bench input is read from PLAT_BENCH_OUT (C-0067)",
   "indexLine": "C-0064: a module folder the scaffold did not plan gets its one re-export line in the package index from the folder's owner (the checker accepts that one line outside the item's owns); the folders this spec plans (kernel/src/noise, kernel/src/digest, testkit/src/scanner) are created empty by M0-s-01's fix round",
   "fixRound": "a LANDED item whose checker returned FIX re-runs under the lane key <lane>-fix<n>; its scope is the checker's list; it edits only the item's own files",
-  "conditional": "a wave that runs only when M0-t-01 records a timing miss: T-fix (the owning items' fix rounds applying the pre-decided fallbacks) and T2 (M0-t-02, the re-measure of every missed bar, alone); with no miss T-fix is empty and M0-t-02 records \"no miss\" (C-0080)"
+  "conditional": "a wave that runs only when M0-t-01 records a timing miss: T-fix (the owning items' fix rounds applying the pre-decided fallbacks) and T2 (M0-t-02, the re-measure of every missed bar, alone); with no miss T-fix is empty and M0-t-02 records \"no miss\" (C-0080)",
+  "landed": "C-0104: every item owns plat/docs/build/landed/<item id>.json implicitly — written by `corepack pnpm landed -- <item id>` from the item's owns (created / changed / unchanged against the wave's snapshot plat/docs/build/landed/snapshots/wave-<n>.json, the session's file); the LANDED line names it; the checker verifies it against the tree and the owns list, and `corepack pnpm landed:verify -- wave-<n>` names any unattributed change at the wave's close",
+  "appends": "C-0104: the only writes outside an item's owns — a row appended to choices.md, a row appended to CLEAN-ROOM.md §2 or §5, the one index line of C-0064, and the item's landed record; the id rule: re-read the last id immediately before appending, append in one write, a collision renumbered by the next writer (the later row by file order), noted in its reason column"
  },
  "waves": [
   {
@@ -47,7 +50,7 @@
    "items": [
     "M0-d-07"
    ],
-   "order": "M0-d-07 alone among the implementer items: no model-package code lands before the lint's bar holds (SC-1, C-0063); the scaffold's fix round build/m0-scaffold-fix1 runs beside it (it edits scaffold-owned files only)"
+   "order": "M0-d-07 alone among the implementer items: no model-package code lands before the lint's bar holds (SC-1, C-0063); the scaffold's fix rounds build/m0-scaffold-fix1 (landed), build/m0-scaffold-fix2 (landed, L-0011) and build/m0-scaffold-fix3 (tools/landed/, C-0104 — before wave 2, the first four-seat wave, opens) run beside it (they edit scaffold-owned files only)"
   },
   {
    "wave": 2,
@@ -161,11 +164,12 @@
   },
   {
    "wave": 13,
-   "seats": 3,
+   "seats": 4,
    "items": [
     "M0-c-04",
     "M0-e-04",
-    "M0-b-04"
+    "M0-b-04",
+    "M0-k-06"
    ]
   },
   {
@@ -197,9 +201,17 @@
    "wave": 17,
    "seats": 2,
    "items": [
-    "M0-f-02b",
+    "M0-x-06",
     "M0-f-03b"
    ]
+  },
+  {
+   "wave": 18,
+   "seats": 1,
+   "items": [
+    "M0-f-02b"
+   ],
+   "order": "after M0-x-05 and M0-x-06 (its manifests list their jobs built, C-0099) and every harness it lists"
   },
   {
    "wave": "T",
@@ -207,7 +219,8 @@
    "items": [
     "M0-t-01"
    ],
-   "alone": true
+   "alone": true,
+   "order": "starts only after the session's TIMING-PHASE OPEN line (M-1's research-side seats paused, their Chrome sessions closed, no Python running) and with PLAT_TIMING_TOKEN set (C-0103); no AFTER-M-1 item starts while T, T-fix or T2 is open (C-0102)"
   },
   {
    "wave": "T-fix",
@@ -227,7 +240,7 @@
    "order": "after every T-fix round has LANDED; with no miss in M0-t-01, M0-t-02 records \"no miss\" and ends (C-0080)"
   },
   {
-   "wave": 18,
+   "wave": 19,
    "seats": 1,
    "items": [
     "M0-x-01"
@@ -239,10 +252,10 @@
    "items": [
     "M0-b-05a",
     "M0-c-07a",
-    "M0-k-06"
+    "M0-k-07"
    ],
-   "order": "each item starts on its own startsWhen (C-0071): M0-b-05a and M0-c-07a when baselines.json and the digest are committed; M0-k-06 when denylist.json is committed",
-   "startsWhen": "plat/packages/testkit/baselines/baselines.json and plat/docs/digest/ committed with their CrossingRecords (§17.1 (4)); denylist.json for M0-k-06"
+   "order": "each item starts on its own startsWhen (C-0071) and only after M0-x-01 has LANDED (never while T, T-fix or T2 is open) on a seat the open wave leaves free within the four-seat cap (C-0102): M0-b-05a and M0-c-07a when baselines.json and the digest are committed; M0-k-07 when denylist.json is committed",
+   "startsWhen": "M0-x-01 LANDED, and: plat/packages/testkit/baselines/baselines.json and plat/docs/digest/ committed with their CrossingRecords (§17.1 (4)); denylist.json (with its normalisationVersion, C-0101) for M0-k-07"
   },
   {
    "wave": "AFTER-M-1 (b)",
@@ -252,11 +265,11 @@
     "M0-c-07b",
     "M0-x-03"
    ],
-   "order": "M0-b-05b, then M0-c-07b (cut.json's hand-over), then M0-x-03 appends the record; a (b) item whose ng-faces.json M-1 states it cannot deliver records its clauses descriptive by §13.5's ⟨M-1⟩ rule (C-0071)",
+   "order": "after M0-x-01 (never while T, T-fix or T2 is open; a free seat within the cap, C-0102): M0-b-05b, then M0-c-07b (cut.json's hand-over), then M0-x-03 appends the record; a (b) item whose ng-faces.json M-1 states it cannot deliver records its clauses descriptive by §13.5's ⟨M-1⟩ rule (C-0071)",
    "startsWhen": "plat/packages/testkit/baselines/ng-faces.json committed with its CrossingRecord (C-0043) — or M-1's recorded statement that it cannot be delivered"
   }
  ],
- "waveRule": "At most four implementer seats run at once; a wave starts when every item of the previous wave has LANDED (a failed item's fix round holds its dependents only); wave 1 holds the determinism lint alone so that no model-package code lands before §6.5 (3) is in force (C-0063); the timing-phase wave runs with nothing else on the machine, its first act the reference score (C-0075); a timing miss is answered by its pre-decided fallback in the owning item's fix round (the conditional wave T-fix, no timing taken there) and re-measured in the conditional re-run wave T2 (M0-t-02, alone), before the M0 record (C-0080); the AFTER-M-1 waves start on M-1's commits, whenever they fall, each item on its own startsWhen (C-0071). The waves were computed from dependsOn by a critical-path packer (the validator re-checks every dependency against them).",
+ "waveRule": "At most four implementer seats run at once; a wave starts when every item of the previous wave has LANDED (a failed item's fix round holds its dependents only); wave 1 holds the determinism lint alone so that no model-package code lands before §6.5 (3) is in force (C-0063); when a wave opens the session takes its snapshot (corepack pnpm snapshot -- wave-<n>) and every landing seat writes its landed record (C-0104); the timing-phase wave runs with nothing else on the machine — opened by the session's TIMING-PHASE OPEN line after M-1's research-side seats are paused, launched with PLAT_TIMING_TOKEN (C-0103) — its first act the reference score (C-0075); a timing miss is answered by its pre-decided fallback in the owning item's fix round (the conditional wave T-fix, no timing taken there) and re-measured in the conditional re-run wave T2 (M0-t-02, alone), before the M0 record (C-0080); the AFTER-M-1 items start on M-1's commits, each on its own startsWhen (C-0071), but never while T, T-fix or T2 is open — every AFTER-M-1 item depends on M0-x-01 — and only on a seat the open wave leaves free within the four-seat cap (C-0102). The waves were computed from dependsOn by a critical-path packer (the validator re-checks every dependency against them).",
  "workLimitCounters": {
   "rule": "C-0021: one workLimits.json row per counter; created with placeholder laws by M0-f-03a (provenance 'architecture 2026-10-03 placeholder'), rewritten from the spikes' measured 99.9th percentile per unit × 1.5 by M0-f-03b; a counter an item needs beyond these is a new row by M0-f-03a's form and an amendment here by M0-f-03b",
   "counters": [
@@ -356,7 +369,7 @@
    "source": "§16 M0 (a); §12.4's S5 row",
    "code": "M0-a-05",
    "measuredBy": "M0-t-01",
-   "miss": "§3.7's rule (C-0026)",
+   "miss": "C-0098's ladder, each step a T-fix round and a T2 re-measure (C-0080): one optimisation pass → ≤ 2× the measured cost into its §12.4 row (a declared budget amendment inside the row's budget) / > 2× or over the row's budget the WebAssembly accelerator for that loop → still missing: the D-18 budget re-declaration for the owner's veto (§3.7)",
    "measuredIn": "Node 24 (arm64)",
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
@@ -365,7 +378,7 @@
    "source": "§12.4's S8 row; §3.7",
    "code": "M0-a-07, M0-b-03",
    "measuredBy": "M0-t-01",
-   "miss": "§3.7's rule",
+   "miss": "C-0098's ladder, each step a T-fix round and a T2 re-measure (C-0080): one optimisation pass → ≤ 2× the measured cost into its §12.4 row (a declared budget amendment inside the row's budget) / > 2× or over the row's budget the WebAssembly accelerator for that loop → still missing: the D-18 budget re-declaration for the owner's veto (§3.7)",
    "measuredIn": "Node 24 (arm64)",
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
@@ -374,16 +387,16 @@
    "source": "§3.7 (ii)",
    "code": "M0-a-09",
    "measuredBy": "M0-t-01",
-   "miss": "one optimisation pass, then the Clipper2-WASM engine as the only engine (§3.7; C-0026)",
+   "miss": "C-0098's ladder, each step a T-fix round and a T2 re-measure (C-0080): one optimisation pass → ≤ 2× the measured cost into its §12.4 row (a declared budget amendment inside the row's budget) / > 2× or over the row's budget the WebAssembly accelerator for that loop → still missing: Clipper2-WASM as the only engine on every host (§3.7 (ii), a declared golden shift) → still missing: the D-18 re-declaration",
    "measuredIn": "Node 24 (arm64)",
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
   {
-   "bar": "S11's geometry share ≤ 3 µs per plot median on a synthetic per-plot workload (offsetFace, obb/lir fit, splits, an L4 insertion); re-measured at M1 on B-CITY-lite's S11",
+   "bar": "S11's geometry share ≤ 3 µs per plot median on M0-k-04's synthetic per-plot workload (per plot one offsetFace, one obb and one lir fit, the yard splits, one L4 insertChain; C-0107); re-measured at M1 on B-CITY-lite's S11",
    "source": "§3.7 (ii); §16 M0 (a)",
-   "code": "M0-a-08, M0-a-10, M0-a-05",
+   "code": "M0-k-04 (the workload, C-0107); M0-a-08, M0-a-10, M0-a-07, M0-a-05 (the loops)",
    "measuredBy": "M0-t-01",
-   "miss": "§3.7's rule",
+   "miss": "C-0098's ladder, each step a T-fix round and a T2 re-measure (C-0080): one optimisation pass → ≤ 2× the measured cost into its §12.4 row (a declared budget amendment inside the row's budget) / > 2× or over the row's budget the WebAssembly accelerator for that loop → still missing: for the arrangement part (offsetFace) Clipper2-WASM as the only engine (§3.7 (ii)), for the other loops the D-18 re-declaration (C-0098)",
    "measuredIn": "Node 24 (arm64)",
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
@@ -392,7 +405,7 @@
    "source": "§3.8",
    "code": "M0-a-11, M0-a-12",
    "measuredBy": "M0-t-01",
-   "miss": "one repair pass, then the downgrades become the defaults (§3.8)",
+   "miss": "one repair pass, then the downgrades become the defaults (§3.8); applied in a T-fix round, re-measured in T2 (C-0080)",
    "measuredIn": "Node 24 (arm64)",
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
@@ -451,13 +464,13 @@
    "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
   },
   {
-   "bar": "each CI tier inside its budget by C-0027's reading (PR ≤ 15 min on these 8 cores gates; nightly ≤ 4 h and milestone ≤ 12 h projected on 16 cores)",
+   "bar": "each CI tier inside its budget by C-0027's reading (PR ≤ 15 min on these 8 cores GATES, judged on the batched sum; nightly ≤ 4 h and milestone ≤ 12 h projected on 16 cores, never gating at M0)",
    "source": "§13.8; §16 M0 (f)",
    "code": "M0-f-02a, M0-f-02b",
    "measuredBy": "M0-t-01",
    "miss": "§13.8's fallback: B-CITY-lite 25 seeds (the spike runs at M0) and random fuzz 5 × 10³ per primitive, the constructive set never cut",
-   "measuredIn": "Node 24 (arm64); each tier run once, whole, under C-0088's protocol — bench/calibrate before and after the whole run within 5 %, the contention detector sampled every 30 s throughout — never inside another tier (the nightly's `timing-phase (nightly contents)` job is not-built: M1 at M0)",
-   "reMeasuredBy": "M0-t-02 after its fallback is applied, when it missed (C-0080)"
+   "measuredIn": "Node 24 (arm64), under C-0097's protocol: tier:pr in the runner's batched timing mode (each job's declared units as ≤ 60 s batches after 30 s idle with bench/calibrate before and after within 5 %, a drifting batch re-run at most twice then flagged throttled; the gating figure the batches' summed wall-clock, the CPU time beside it; a unit over 60 s flagged long-batch) plus one whole run reported; tier:nightly and tier:milestone each run once whole with calibrate before and after, one repeat on a > 5 % drift, then recorded throttled — never a loop; the detector (C-0103) sampled every 30 s throughout; never inside another tier (the nightly's `timing-phase (nightly contents)` job is not-built: M1 at M0)",
+   "reMeasuredBy": "M0-t-02 after §13.8's fallback is applied, when the PR tier missed (C-0080); the projected tiers are reported, not re-measured"
   },
   {
    "bar": "R12-4: §12.4's CITY per-stage p50 rows — S1 25 ms; the S3 slice against the components the slice builds (the gate-route solves ≈ 7 ms and T with the level set, gates and trace ≈ 4 ms: ≈ 11 ms of the S2 / S3 row's 16 ms, the whole row quoted beside it); S4 10 ms; S5 40 ms; S6 with the fields 17 ms; S8 20 ms — REPORTED from the per-stage stamps of M0-c-06's and M0-e-06's timing-phase runs",
@@ -490,17 +503,18 @@
    "ng-faces.json with NG's hood outlines (the district shapes for the 'same district shapes' clause) — or M-1's statement that it cannot be delivered (C-0071)",
    "baselines.json rows of §13.5's blocks and junction rows (as M0-c-07a)"
   ],
-  "M0-k-06": [
-   "plat/packages/testkit/baselines/denylist.json: the hashed deny-list of §17.1 (5) — salted SHA-256 digests of single normalised tokens, in-order token 3-grams, six-digit colour values, file bytes and per recorded list its members' words of four or more letters; its salt; the spell-check exclusion set's digests — passed through plat baselines check, with its CrossingRecord",
-   "CLEAN-ROOM.md §4's generation record (date, sources, counts — never the tokens)"
-  ],
   "M0-x-03": [
-   "M0-b-05a's, M0-b-05b's, M0-c-07a's, M0-c-07b's and M0-k-06's reports"
+   "M0-b-05a's, M0-b-05b's, M0-c-07a's, M0-c-07b's and M0-k-07's reports"
+  ],
+  "M0-k-07": [
+   "plat/packages/testkit/baselines/denylist.json: the hashed deny-list of §17.1 (5) — salted SHA-256 digests of single normalised tokens, in-order token 3-grams, six-digit colour values, file bytes and per recorded list its members' words of four or more letters; its salt; the spell-check exclusion set's digests — passed through plat baselines check, with its CrossingRecord",
+   "the file's normalisationVersion field equal to the scanner's (C-0101: version 1 = NFKD, combining marks stripped, lower-cased, tokens the maximal runs of letters and digits, 3-grams over consecutive tokens, colours as six lower-case hexadecimal digits, file bytes raw, each digest SHA-256(salt ‖ item)) — this spec's request to M-1, carried by the session; a mismatch stops the scan naming both versions",
+   "CLEAN-ROOM.md §4's generation record (date, sources, counts — never the tokens)"
   ]
  },
- "itemCount": 67,
+ "itemCount": 69,
  "barCounts": {
-  "here": 67,
+  "here": 69,
   "timing-phase": 22,
   "after-M-1": 9
  },
@@ -553,7 +567,8 @@
     "plat/bench/src/<harness>/index.ts (created empty; passes to the harness's owner, C-0059)",
     "plat/tools/lint/index.mjs (created as an empty plugin; passes to M0-d-07)",
     "plat/docs/build/checks/.gitkeep",
-    "plat/docs/digest/README.md"
+    "plat/docs/digest/README.md",
+    "plat/tools/landed/ (snapshot.mjs, landed.mjs, verify.mjs, landed.test.mjs; the scaffold's third fix round, C-0104)"
    ],
    "handsOver": [
     "plat/tools/lint/index.mjs → M0-d-07",
@@ -570,7 +585,7 @@
     "§6.5 (4)",
     "§13.8 (the PR tier's lint set)"
    ],
-   "builds": "AS LANDED 2026-10-03 (lane build/m0-scaffold, checks/M0-s-01.md): the pnpm workspace (corepack pnpm, packageManager pnpm@10.34.6, engines node >=24.12.0 <25, engine-strict, strict-peer-dependencies; packages/*, bench and vendor/* as members; esbuild under ignoredBuiltDependencies, C-0054); tsconfig.base (strict, ES2022, moduleResolution bundler, lib ES2022 only, types [], composite, isolatedModules, noUncheckedIndexedAccess off) with two composite projects per package — src/ and test/ (C-0056) — referenced from the root in dependency order; vitest 5's projects in vitest.config.ts (one per package plus tools) with the plat-source resolve condition and fast-check numRuns from PLAT_FUZZ_RUNS, 10⁴ when unset (C-0053, C-0057); scripts/build.mjs (tsc -b, esbuild library bundles), scripts/lint.mjs (ESLint with zero warnings, then the plugin's whole-tree checks; C-0060), scripts/bench.mjs (the harness dispatcher: a folder's index.ts exports run(args, { out }), else exit 2 'not built: <item>'; C-0059); the five vendored runtime libraries as unpacked registry tarballs with scripts and devDependencies stripped — robust-predicates 3.0.3, flatbush 4.6.2, flatqueue 3.1.0 (flatbush's own dependency, C-0052), delaunator 5.1.0, simplex-noise 4.0.3 — with the two C-0011 patches as JSON find-and-replace specs, vendor.lock.json and tools/vendor/{import,common,verify}.mjs (C-0055); tools/notices/{closure,generate}.mjs with dev-exceptions.json (the licence checker over the production closure; dev exceptions reported; C-0058); the dev pins typescript 6.0.3, typescript-eslint 8.71.0, eslint 10.12.0, @types/node 24.12.4, vite 8.3.2, vitest 5.0.3, fast-check 4.10.2, esbuild 0.28.2, tsx 4.23.15, playwright-core 1.60.0 (the release whose browsers.json names the cached chromium 1223, firefox 1522 and webkit 2251; C-0051); the root scripts install:frozen, build, test, lint, bench, bench:calibrate, bench:timing-phase, tier:pr, tier:nightly, tier:milestone, vendor:verify, notices, notices:check, browsers:check; the empty lint plugin tools/lint/index.mjs (rules {}, configs.recommended [], checks []) wired into eslint.config.js and scripts/lint.mjs. FIX ROUND build/m0-scaffold-fix1 (the checker's SC-2 and SC-3, and this spec's C-0064, C-0065): (1) @plat/testkit's clipper2-wasm, polygon-clipping, fast-check and playwright-core move from dependencies to devDependencies (§3.7: dev dependencies of @plat/testkit only), the lockfile regenerated with corepack pnpm install (offline: the store holds every package); (2) simplex-noise moves from packages/site/package.json to packages/kernel/package.json (§14 lists noise in @plat/kernel; C-0065); (3) the module folders kernel/src/noise/, kernel/src/digest/ and testkit/src/scanner/ are created with empty index.ts files and their re-export lines appended to the package indexes (C-0064); (4) scripts/bench.mjs's HARNESSES map names M0-f-02a for tier:pr / tier:nightly / tier:milestone; (5) tools/scaffold/workspace.test.mjs and tools/notices/notices.test.mjs updated for (1)–(3); (6) vendor/README.md's simplex-noise row names the kernel adapter. LANDED 2026-10-03 (build/m0-scaffold-fix1, L-0008), with three corrections inside the scaffold's own files: tools/notices/closure.mjs's walk keyed a start package's visit by directory only, so a start reached first through another package's dependencies lost its devDependencies — with testkit's oracles now dev, a walk from [testkit, bench] missed all four (red-first CONFIRMED), now keyed per start; the bentcut-ng, fusion-ng and tiers index comments and the dispatcher name M0-b-05a, M0-c-07a and M0-f-02a; README.md states that the lint's rules land with M0-d-07 and that no harness reads inputs from PLAT_BENCH_OUT. The fix round's checker re-runs every scaffold command. FIX ROUND 2 build/m0-scaffold-fix2 (C-0095; the checker's checks/M0-s-01-r1.md): (1) tools/notices/notices.test.mjs accepts exactly one of the placeholder and Sun's fdlibm notice in THIRD-PARTY-NOTICES.txt (so M0-d-03's vendor/fdlibm-5.3/NOTICE.txt turns it green, never red), and THIRD-PARTY-NOTICES.txt is handed over to M0-d-03 for regeneration; (2) scripts/bench.mjs gains the `ladder-coverage` entry (M0-x-05, C-0085) with its empty bench/src/ladder-coverage/index.ts, and a test-only PLAT_BENCH_FIXTURE_ROOT that resolves a `zz-unbuilt` harness (tools/scaffold/fixtures/bench-root/bench/src/zz-unbuilt/index.ts, exporting no run); (3) tools/scaffold/workspace.test.mjs proves the `not built: <item>` exit on that fixture and no longer spawns `calibrate` or `tier:pr` (which turn red when M0-f-01 and M0-f-02a land, and tier:pr would re-enter vitest). Scaffold-owned files only; may run beside wave 1 or later, before M0-d-03 and M0-f-01 land; its checker re-runs every scaffold command and re-issues checks/M0-s-01.md.",
+   "builds": "AS LANDED 2026-10-03 (lane build/m0-scaffold, checks/M0-s-01.md): the pnpm workspace (corepack pnpm, packageManager pnpm@10.34.6, engines node >=24.12.0 <25, engine-strict, strict-peer-dependencies; packages/*, bench and vendor/* as members; esbuild under ignoredBuiltDependencies, C-0054); tsconfig.base (strict, ES2022, moduleResolution bundler, lib ES2022 only, types [], composite, isolatedModules, noUncheckedIndexedAccess off) with two composite projects per package — src/ and test/ (C-0056) — referenced from the root in dependency order; vitest 5's projects in vitest.config.ts (one per package plus tools) with the plat-source resolve condition and fast-check numRuns from PLAT_FUZZ_RUNS, 10⁴ when unset (C-0053, C-0057); scripts/build.mjs (tsc -b, esbuild library bundles), scripts/lint.mjs (ESLint with zero warnings, then the plugin's whole-tree checks; C-0060), scripts/bench.mjs (the harness dispatcher: a folder's index.ts exports run(args, { out }), else exit 2 'not built: <item>'; C-0059); the five vendored runtime libraries as unpacked registry tarballs with scripts and devDependencies stripped — robust-predicates 3.0.3, flatbush 4.6.2, flatqueue 3.1.0 (flatbush's own dependency, C-0052), delaunator 5.1.0, simplex-noise 4.0.3 — with the two C-0011 patches as JSON find-and-replace specs, vendor.lock.json and tools/vendor/{import,common,verify}.mjs (C-0055); tools/notices/{closure,generate}.mjs with dev-exceptions.json (the licence checker over the production closure; dev exceptions reported; C-0058); the dev pins typescript 6.0.3, typescript-eslint 8.71.0, eslint 10.12.0, @types/node 24.12.4, vite 8.3.2, vitest 5.0.3, fast-check 4.10.2, esbuild 0.28.2, tsx 4.23.15, playwright-core 1.60.0 (the release whose browsers.json names the cached chromium 1223, firefox 1522 and webkit 2251; C-0051); the root scripts install:frozen, build, test, lint, bench, bench:calibrate, bench:timing-phase, tier:pr, tier:nightly, tier:milestone, vendor:verify, notices, notices:check, browsers:check; the empty lint plugin tools/lint/index.mjs (rules {}, configs.recommended [], checks []) wired into eslint.config.js and scripts/lint.mjs. FIX ROUND build/m0-scaffold-fix1 (the checker's SC-2 and SC-3, and this spec's C-0064, C-0065): (1) @plat/testkit's clipper2-wasm, polygon-clipping, fast-check and playwright-core move from dependencies to devDependencies (§3.7: dev dependencies of @plat/testkit only), the lockfile regenerated with corepack pnpm install (offline: the store holds every package); (2) simplex-noise moves from packages/site/package.json to packages/kernel/package.json (§14 lists noise in @plat/kernel; C-0065); (3) the module folders kernel/src/noise/, kernel/src/digest/ and testkit/src/scanner/ are created with empty index.ts files and their re-export lines appended to the package indexes (C-0064); (4) scripts/bench.mjs's HARNESSES map names M0-f-02a for tier:pr / tier:nightly / tier:milestone; (5) tools/scaffold/workspace.test.mjs and tools/notices/notices.test.mjs updated for (1)–(3); (6) vendor/README.md's simplex-noise row names the kernel adapter. LANDED 2026-10-03 (build/m0-scaffold-fix1, L-0008), with three corrections inside the scaffold's own files: tools/notices/closure.mjs's walk keyed a start package's visit by directory only, so a start reached first through another package's dependencies lost its devDependencies — with testkit's oracles now dev, a walk from [testkit, bench] missed all four (red-first CONFIRMED), now keyed per start; the bentcut-ng, fusion-ng and tiers index comments and the dispatcher name M0-b-05a, M0-c-07a and M0-f-02a; README.md states that the lint's rules land with M0-d-07 and that no harness reads inputs from PLAT_BENCH_OUT. The fix round's checker re-runs every scaffold command. FIX ROUND 2 build/m0-scaffold-fix2 (C-0095; the checker's checks/M0-s-01-r1.md): (1) tools/notices/notices.test.mjs accepts exactly one of the placeholder and Sun's fdlibm notice in THIRD-PARTY-NOTICES.txt (so M0-d-03's vendor/fdlibm-5.3/NOTICE.txt turns it green, never red), and THIRD-PARTY-NOTICES.txt is handed over to M0-d-03 for regeneration; (2) scripts/bench.mjs gains the `ladder-coverage` entry (M0-x-05, C-0085) with its empty bench/src/ladder-coverage/index.ts, and a test-only PLAT_BENCH_FIXTURE_ROOT that resolves a `zz-unbuilt` harness (tools/scaffold/fixtures/bench-root/bench/src/zz-unbuilt/index.ts, exporting no run); (3) tools/scaffold/workspace.test.mjs proves the `not built: <item>` exit on that fixture and no longer spawns `calibrate` or `tier:pr` (which turn red when M0-f-01 and M0-f-02a land, and tier:pr would re-enter vitest). Scaffold-owned files only; may run beside wave 1 or later, before M0-d-03 and M0-f-01 land; its checker re-runs every scaffold command and re-issues checks/M0-s-01.md. FIX ROUND 3 build/m0-scaffold-fix3 (C-0104; the checker's SP-r2-09): tools/landed/ — snapshot.mjs (every file under plat/ outside node_modules/, dist/, coverage/ and *.tsbuildinfo with its SHA-256 and size, to docs/build/landed/snapshots/<label>.json), landed.mjs (reads an item's owns from docs/build/M0-work.json, hashes every file under those prefixes and the permitted appends, writes docs/build/landed/<item id>.json with created / changed / unchanged against the named wave snapshot, and refuses a path outside owns and the permitted appends naming it), verify.mjs (every file that differs from a wave's snapshot and appears in no landed record of that wave, named) and their test; the root scripts `snapshot`, `landed` and `landed:verify` (each `corepack pnpm … -- <label | item id>`). Scaffold-owned files only; runs beside wave 1 and lands before wave 2 opens; its checker re-runs every scaffold command and re-issues checks/M0-s-01.md. LANDED 2026-10-03 (build/m0-scaffold-fix3, L-0014) before wave 1 opened, with C-0111 refining C-0104 where it left cases open: the snapshot excludes only the build outputs packages/*/dist/ and bench/dist/ (vendor/*/dist/ is vendored bytes), node_modules/, coverage/, *.tsbuildinfo, .DS_Store, bench-out/ and the snapshots folder, and line-hashes the append files; a handed-over file belongs, while wave W is open, to the matching item of the latest wave not after W; the statuses gain deleted; landed takes --lane <key> (required), --wave <label>, --touched <plat/path> (refused outside owns and the appends, naming the owner), --whole <plat/path> and, for seats without an item (checkers, spec lanes), --owns <plat/path> (exact files no item owns); landed:verify takes --item <id> for the checker's steps (a) and (b); a collision refuses the record and names the next free id; no CLI takes a root, and a symbolic link is recorded, never followed.",
    "interfaces": [
     "the workspace (pnpm-workspace.yaml)",
     "package exports with the plat-source condition (C-0013)",
@@ -592,7 +607,9 @@
     "each cached Playwright browser launches once under playwright-core 1.60.0 (chromium 148.0.7778.96 / 1223, firefox 150.0.2 / 1522, webkit 26.4 / 2251; corepack pnpm browsers:check; no page content)",
     "no package.json script calls a bare pnpm; no install lifecycle script exists (C-0030, C-0054)",
     "AFTER THE FIX ROUND (CONFIRMED 2026-10-03, L-0008): @plat/testkit lists no runtime dependency but the @plat/* packages; @plat/kernel depends on simplex-noise and @plat/site does not; no shipped package lists a dev-only library; the three new folders' index.ts files exist empty and each package index re-exports its folders and nothing else; scripts/bench.mjs's tier entries name M0-f-02a; the dev closure holds testkit's four tools whatever the walk order; install --frozen-lockfile (and --offline), build, test (56 tests), lint, vendor:verify, notices:check and browsers:check exit 0",
-    "AFTER FIX ROUND 2 (C-0095): the notices test is green with the placeholder and with Sun's notice (a simulated NOTICE.txt), never with both; the dispatcher test exits 2 naming M0-zz-00 on the fixture root's zz-unbuilt harness and 64 on an unknown name, and spawns neither calibrate nor tier:pr; the ladder-coverage entry resolves to bench/src/ladder-coverage/ and exits 2 naming M0-x-05 until it lands"
+    "AFTER FIX ROUND 2 (C-0095): the notices test is green with the placeholder and with Sun's notice (a simulated NOTICE.txt), never with both; the dispatcher test exits 2 naming M0-zz-00 on the fixture root's zz-unbuilt harness and 64 on an unknown name, and spawns neither calibrate nor tier:pr; the ladder-coverage entry resolves to bench/src/ladder-coverage/ and exits 2 naming M0-x-05 until it lands",
+    "AFTER FIX ROUND 3 (C-0104): the snapshot covers every file outside the four exclusions with its sha256; `landed -- <item>` on a fixture tree writes the record with the three statuses and refuses a path outside owns and the permitted appends naming it; `landed:verify -- <label>` names an unattributed changed file and passes a fully attributed tree; no tool reads a path outside plat/",
+    "AFTER FIX ROUND 3, as landed (C-0111; CONFIRMED 2026-10-03, L-0014): tools/landed/landed.test.mjs, 21 tests green — the snapshot's coverage, exclusions and line hashes, a symbolic link recorded and not followed, a label taken once; owns entries parsed (comment, braces, wildcards, folders) on a fixture and on every entry of the committed M0-work.json, hand-overs by the open wave; landed's statuses created / changed / unchanged / deleted, its appended rows, index line and placeholder removal; --touched refused outside owns naming the owner; a collision refused naming the next free id and the renumbered row accepted; a checker's declared record; landed:verify passing an attributed wave and naming an unattributed file, an unclaimed row, an edited row, a file changed after its record and a record claiming outside its owns; the CLIs' exits 64 and 2 writing nothing; five mutants each turned the file red"
    ],
    "exitBars": [
     {
@@ -640,7 +657,9 @@
     "C-0062",
     "C-0064",
     "C-0065",
-    "C-0095"
+    "C-0095",
+    "C-0104",
+    "C-0111"
    ],
    "checker": "runs every command of M0.md §4 as corepack pnpm …; confirms the lockfile is committed and the store is the default; confirms df -h /Users/cstokes before and after the install (footprint reported); after the fix round: confirms testkit's manifest has no runtime third-party dependency, kernel's lists simplex-noise, the three folders' index lines exist, and the prefix-overlap ownership check of M0.md §3 passes over the scaffold's actual files",
    "fixRound": {
@@ -653,6 +672,12 @@
     "key": "build/m0-scaffold-fix2",
     "wave": "beside wave 1 or later, before M0-d-03 (wave 2) and M0-f-01 (wave 5) land; scaffold-owned files only",
     "scope": "the three changes named in builds (C-0095); nothing else",
+    "checker": "checks/M0-s-01.md is re-issued with the verdict"
+   },
+   "fixRound3": {
+    "key": "build/m0-scaffold-fix3",
+    "wave": "beside wave 1, before wave 2 (the first four-seat wave) opens; scaffold-owned files only",
+    "scope": "tools/landed/ and the three root scripts (C-0104); nothing else",
     "checker": "checks/M0-s-01.md is re-issued with the verdict"
    }
   },
@@ -2205,7 +2230,7 @@
     "§17.4 (the licence allowlist over the production closure)",
     "§13.8 (the PR tier's lint set)"
    ],
-   "builds": "An eslint plugin (typescript-eslint with type information) with the rules: math-allowlist (abs floor ceil round trunc sign min max sqrt imul clz32 fround only, in model packages and the import closure of any digest-feeding function), no-exponent-operator (C-0008), no-object-key-iteration (for…in, Object.keys/values/entries; Map/Set insertion order allowed; C-0009), ratio-division (C-0044), no-nondeterminism (Math.random, Date, performance, timers, crypto.getRandomValues, DOM globals, toLocaleString, localeCompare, Intl), sort-with-comparator, dependency-direction (kernel ← model ← tables ← site ← layout; testkit imports anything, imported by nothing shipped; one adapter file per adopted library), repository-path (no import, fixture, script or build input resolving outside plat/ with symlinks resolved), no-bare-pnpm in C-0093's scope — every package.json scripts value outside vendor/; a 'pnpm' command literal passed to spawn / spawnSync / exec / execSync / execFile in scripts/ and tools/; fenced-code-block and inline-code command lines whose first token is pnpm in the Markdown files outside the records (plat/docs/build/** and CLEAN-ROOM.md are never scanned; a packageManager field and prose mentions are never flagged); each rule with pass and fail fixtures; vendor-scan.mjs — the Math census over vendor/*/ with its report; the audit record vendor-audit.json (library, version, scan result, each exception with its wrapper or patch: delaunator's EPSILON literal, simplex-noise's removed Math.random default); licences.mjs over the transitive production closure. The rule tests run the rules through ESLint's RuleTester over tools/lint/fixtures/ (ESLint-ignored by the scaffold's config, so the fixtures never fail the tree lint), and one PROBE fixture holds exactly the checker's probe — Math.pow(2, 0.5), Math.random(), Math.sin(1), Date.now(), performance.now(), 2 ** 0.5, Object.keys({a: 1}).sort(), for…in, [3, 1].sort(), 'a'.localeCompare('b') — which a test copies into packages/kernel/src/num/ as zz-probe.ts, runs corepack pnpm lint as a child process, asserts a non-zero exit naming each planted line, and removes (C-0063). The allowlist's scope at M0 is the five model packages and the import closure of every digest-feeding function (§6.5 (3)); the vendored scan reads vendor/*/.",
+   "builds": "An eslint plugin (typescript-eslint with type information) with the rules: math-allowlist (abs floor ceil round trunc sign min max sqrt imul clz32 fround only, in model packages and the import closure of any digest-feeding function), no-exponent-operator (C-0008), no-object-key-iteration (for…in, Object.keys/values/entries; Map/Set insertion order allowed; C-0009), ratio-division (C-0044), no-nondeterminism (Math.random, Date, performance, timers, crypto.getRandomValues, DOM globals, toLocaleString, localeCompare, Intl), sort-with-comparator, dependency-direction (kernel ← model ← tables ← site ← layout; testkit imports anything, imported by nothing shipped; one adapter file per adopted library), repository-path (no import, fixture, script or build input resolving outside plat/ with symlinks resolved), no-bare-pnpm in C-0093's scope — every package.json scripts value outside vendor/; a 'pnpm' command literal passed to spawn / spawnSync / exec / execSync / execFile in scripts/ and tools/; fenced-code-block and inline-code command lines whose first token is pnpm in the Markdown files outside the records (plat/docs/build/** and CLEAN-ROOM.md are never scanned; a packageManager field and prose mentions are never flagged); each rule with pass and fail fixtures; vendor-scan.mjs — the Math census over vendor/*/ with its report; the audit record vendor-audit.json (library, version, scan result, each exception with its wrapper or patch: delaunator's EPSILON literal, simplex-noise's removed Math.random default); licences.mjs over the transitive production closure. The rule tests run the rules through ESLint's RuleTester over tools/lint/fixtures/ (ESLint-ignored by the scaffold's config, so the fixtures never fail the tree lint), and one PROBE fixture holds exactly the checker's probe — Math.pow(2, 0.5), Math.random(), Math.sin(1), Date.now(), performance.now(), 2 ** 0.5, Object.keys({a: 1}).sort(), for…in, [3, 1].sort(), 'a'.localeCompare('b') — which the plugin's whole-tree check `probe-red` lints IN PLACE through ESLint's Node API (ignore: false on the fixture path; the rules' scope override treats it as model-package code) and PASSES only when every planted line is reported, so `corepack pnpm lint` is green only while the probe is red and no file is ever copied into a package folder (C-0106, superseding C-0063's copy; four seats share one tree). The allowlist's scope at M0 is the five model packages and the import closure of every digest-feeding function (§6.5 (3)); the vendored scan reads vendor/*/.",
    "interfaces": [
     "corepack pnpm lint",
     "tools/lint rules by name",
@@ -2225,11 +2250,11 @@
     "repository-path: a fixture importing ../../research/x.json fails; a symlink out of plat/ fails",
     "dependency-direction: layout importing kernel passes; kernel importing model fails; a second import of flatbush outside its adapter fails",
     "no-bare-pnpm (C-0093), one fixture per case: a script `pnpm test` fails and `corepack pnpm test` passes; a spawn of 'pnpm' fails; a fenced `pnpm install` line and an inline `pnpm -v` span fail; prose `pnpm 10.28` and `\"packageManager\": \"pnpm@10.34.6\"` pass; a docs/build/ record holding `pnpm` is skipped",
-    "the probe: a copy of tools/lint/fixtures/probe/zz-probe.ts in packages/kernel/src/num/ makes `corepack pnpm lint` exit non-zero naming every planted line (SC-1's probe, reproduced as a test; CONFIRMED by the checker's own run on acceptance)"
+    "the probe (C-0106): `corepack pnpm lint`'s `probe-red` check reports every planted line of tools/lint/fixtures/probe/zz-probe.ts; with one rule disabled in a test configuration the check fails the lint naming the missing line (SC-1's probe, reproduced as the lint's own self-check; no file written into the tree)"
    ],
    "exitBars": [
     {
-     "bar": "the lint runs green over plat/ in the PR tier; every rule has red fixtures; the vendored scan passes with the audit record (§6.5 (3)–(4); §16 M0 (d)); the checker's probe file in a model package makes corepack pnpm lint exit non-zero (SC-1) — no model-package code lands before this bar holds (wave 1, alone)",
+     "bar": "the lint runs green over plat/ in the PR tier; every rule has red fixtures; the vendored scan passes with the audit record (§6.5 (3)–(4); §16 M0 (d)); the `probe-red` check proves the probe fixture red under the model-package rule set on every `corepack pnpm lint` (SC-1, C-0106) — no model-package code lands before this bar holds (wave 1, alone)",
      "when": "here"
     }
    ],
@@ -2243,9 +2268,10 @@
     "C-0030",
     "C-0044",
     "C-0063",
-    "C-0093"
+    "C-0093",
+    "C-0106"
    ],
-   "checker": "plants one violation of each rule in a scratch copy and confirms each is caught; re-runs the SC-1 probe (Math.pow, Math.random, Math.sin, Date.now, **, Object.keys().sort() in packages/kernel/src/num/) and quotes the non-zero exit; confirms the scan reads the vendored bytes that run (C-0010)"
+   "checker": "plants one violation of each rule in a scratch copy of a fixture (outside the package folders) and confirms each is caught; runs `corepack pnpm lint` and quotes the `probe-red` check's output naming each planted line (Math.pow, Math.random, Math.sin, Date.now, **, Object.keys().sort(), …); confirms the scan reads the vendored bytes that run (C-0010); writes no file into a package folder (C-0106)"
   },
   {
    "id": "M0-d-08",
@@ -2437,7 +2463,7 @@
     "the cut.flattenM calibration on NG's signature → AFTER-M-1 (M0-b-05b)"
    ],
    "tests": [
-    "the τ formula (a unit test of the formula, not T34-1): τ = e_lo · (e_hi / e_lo)^g lies in [e_lo, e_hi] for every g ∈ [0, 1] and is monotone in g; T34-1's mean clause: over 10 000 planned faces the mean of g within 7/30 ± 3 s.e. (T34-1's commit clause — blocks below τ, cut faces at or above it, replayed from the cut.stop draws — is M0-b-03's)",
+    "the τ formula (a unit test of the formula, not T34-1): τ = e_lo · (e_hi / e_lo)^g lies in [e_lo, e_hi] for every g ∈ [0, 1] and is monotone in g (T34-1's 10 000-face mean is M0-b-04's, nightly, C-0108; T34-1's commit clause — blocks below τ, cut faces at or above it, replayed from the cut.stop draws — is M0-b-03's)",
     "T36-1: the start A draws nothing — a face planned with a different cut.t stream keeps its A — and lies on the run most nearly parallel (ties earlier)",
     "T37-1: K at least o from both ends or at λ / 2; the second leg square within the lattice tolerance; under flatten no kept K's triangle below max(cut.flattenM, 0.02 × |A–foot|); under straightFirst (the MFCG preset) every first leg within asin(√0.99) of square that passes the checks is straight; no cut bends twice",
     "T38-1 (shape clause): fillets on lane and street cuts only; each arc tangent to both legs, spanning the shorter leg, chords ≥ w_min / minEdge",
@@ -2447,7 +2473,7 @@
    ],
    "exitBars": [
     {
-     "bar": "the τ formula's unit test, T36-1, T37-1 and T38-1's shape clauses on the M0 (b) synthetic face set (curved, round-joined, triangular, C-shaped, holed) — PR; T34-1's 10 000-face mean (nightly, §13.8); T34-1's commit clause is M0-b-03's",
+     "bar": "the τ formula's unit test, T36-1, T37-1 and T38-1's shape clauses on the M0 (b) synthetic face set (curved, round-joined, triangular, C-shaped, holed) — PR; T34-1's 10 000-face mean is M0-b-04's (nightly, C-0108) and its commit clause M0-b-03's",
      "when": "here"
     }
    ],
@@ -2460,9 +2486,10 @@
     "M0-s-02"
    ],
    "choices": [
-    "C-0006"
+    "C-0006",
+    "C-0108"
    ],
-   "checker": "re-runs T34-1's 10 000-face mean and quotes it; confirms every trigonometric comparison is a cross-product test (no Math.asin / acos)"
+   "checker": "confirms every trigonometric comparison is a cross-product test (no Math.asin / acos); confirms the planner draws nothing outside its four registered concerns"
   },
   {
    "id": "M0-b-03",
@@ -2586,7 +2613,7 @@
      "when": "here"
     },
     {
-     "bar": "T34-1's 10 000-face mean of g within 7/30 ± 3 s.e. (nightly)",
+     "bar": "T34-1's 10 000-face mean of g within 7/30 ± 3 s.e. (nightly; this item alone owns it, C-0108)",
      "when": "here"
     },
     {
@@ -2607,7 +2634,8 @@
    "choices": [
     "C-0073",
     "C-0067",
-    "C-0091"
+    "C-0091",
+    "C-0108"
    ],
    "checker": "runs the 10⁵-face F-CUT bar and quotes the three counts; quotes the corner and arrival shares against 80 % and 95 %; confirms σ and the fillet share are reported, not passed, until M0-b-05a / M0-b-05b"
   },
@@ -3457,7 +3485,7 @@
     "§12.10 (the register's shape: budget, measured at, pass, change on a miss)",
     "§13.8 (Measurement (M0): the harness times each tier)"
    ],
-   "builds": "bench/calibrate with its own frozen implementations of the four Node kernels (C-0050: the score must not move with the product's code) over fixed inputs, returning a score and the host record (sysctl machdep.cpu.brand_string, hw.ncpu, hw.perflevel0/1, hw.memsize, sw_vers, process.version, process.arch, host.kind native-arm64 | rosetta | native-x64); the timing harness: batches of ≤ 60 s after 30 s idle, calibrate before and after, the two scores within 5 % else re-run, every result stamped { host, authority: 'authoritative' | 'contended', reasons[], normalisation: score ÷ referenceScore, poolSize }; the contention detector (C-0047): the 1-minute load average ≤ 1.5 before the batch, no other node / bench / tsc / browser process of the build in the process table (the caller's own child processes, passed as ownPids, excluded — the timing phase's Chromium leg, C-0082), AC power by pmset -g batt, the calibrate agreement; a contended result re-queued, never judged; the reference score's file bench/src/host/reference-score.json created with { score: null } — this item lands while other seats run, so no authoritative run exists yet (C-0075 refines C-0050): the first act of the timing-phase wave (M0-t-01) writes the score with its host record; until then every TimingResult carries normalisation null and authority 'contended' (the detector reports 'no reference score' among its reasons); output to PLAT_BENCH_OUT, truncated.",
+   "builds": "bench/calibrate with its own frozen implementations of the four Node kernels (C-0050: the score must not move with the product's code) over fixed inputs, returning a score and the host record (sysctl machdep.cpu.brand_string, hw.ncpu, hw.perflevel0/1, hw.memsize, sw_vers, process.version, process.arch, host.kind native-arm64 | rosetta | native-x64); the timing harness: batches of ≤ 60 s after 30 s idle, calibrate before and after, the two scores within 5 % else re-run, every result stamped { host, authority: 'authoritative' | 'contended', reasons[], normalisation: score ÷ referenceScore, poolSize }; the contention detector (C-0047, widened by C-0103): the 1-minute load average ≤ 1.5 before the batch; the process table (ps -axo pid,ppid,pcpu,comm) holding, outside the harness's own process tree (ownPids and their descendants — the timing phase's Chromium leg, C-0082), no process of the kinds browser (Google Chrome, Chromium, Firefox, WebKit, Safari and their helpers, Playwright's), node, python / python3, bench, tsc, vitest, esbuild, and no other process at ≥ 10 % CPU in the sample — M-1's Chrome sessions and Python measurements on this machine among what it catches — each offender named in reasons[]; AC power by pmset -g batt; the calibrate agreement; sampled every 30 s through every batch and tier run; a contended result re-queued, never judged; the reference score's file bench/src/host/reference-score.json created with { score: null } — this item lands while other seats run, so no authoritative run exists yet (C-0075 refines C-0050): the first act of the timing-phase wave (M0-t-01) writes the score with its host record; until then every TimingResult carries normalisation null and authority 'contended' (the detector reports 'no reference score' among its reasons); output to PLAT_BENCH_OUT, truncated.",
    "interfaces": [
     "corepack pnpm bench:calibrate",
     "calibrate(): { score, host }",
@@ -3471,15 +3499,15 @@
     "the Chrome-worker figures of §12.3's model budgets → M1 (nightly); the fusion and site gates' Chromium-worker figures are taken by M0-t-01 through M0-d-06's runner (C-0082)"
    ],
    "tests": [
-    "the detector: a synthetic load (a busy child process) makes the stamp contended with the reason 'load average' / 'process'; battery power makes it contended; two calibrate scores 6 % apart make it contended",
+    "the detector: a synthetic load (a busy child process) makes the stamp contended with the reason 'load average' / 'process'; battery power makes it contended; two calibrate scores 6 % apart make it contended; a planted python3 child (python3 -c 'import time; time.sleep(30)') and a Chromium launched through playwright-core from the cache, each outside ownPids, make the stamp contended naming the process ('process: python3', 'process: chromium'); a planted busy process of an unlisted name at ≥ 10 % CPU makes it contended (C-0103)",
     "calibrate's score is reproducible within 5 % on an idle run (CONFIRMED when the checker runs it idle; reported otherwise); with reference-score.json at null every stamp is contended with the reason 'no reference score'",
     "the host record names this machine's CPU, 8 cores, 16 GB, macOS 14.7.8, Node 24.12.0, arch arm64 or x64 under Rosetta",
     "the harness truncates its output files and never prints a log whole",
-    "a busy child process passed in ownPids leaves the stamp authoritative; the same process not passed makes it contended (C-0082)"
+    "a busy child process passed in ownPids leaves the stamp authoritative; the same process not passed makes it contended (C-0082); the planted python3 and Chromium inside ownPids leave it authoritative with the other conditions met (C-0103)"
    ],
    "exitBars": [
     {
-     "bar": "the detector's tests pass; the authority stamp is measured, never declared (C-0025, C-0047); reference-score.json exists at null and the harness refuses to call any result authoritative until M0-t-01 writes it (C-0075)",
+     "bar": "the detector's tests pass over every process on the machine, not only the build's (C-0103); the authority stamp is measured, never declared (C-0025, C-0047); reference-score.json exists at null and the harness refuses to call any result authoritative until M0-t-01 writes it (C-0075)",
      "when": "here"
     }
    ],
@@ -3491,7 +3519,8 @@
     "C-0047",
     "C-0050",
     "C-0075",
-    "C-0082"
+    "C-0082",
+    "C-0103"
    ],
    "checker": "runs calibrate twice idle and quotes the two scores and the stamp (the stamp is contended by the null reference score — expected); confirms no model package is imported by bench/src/calibrate (the frozen kernels are the bench's own)",
    "handsOver": [
@@ -3658,7 +3687,7 @@
     "§3.11 (every row a case of the set)",
     "§3.3 (the carve fixtures confirm the clear-region rules at M3a)"
    ],
-   "builds": "Every §13.1 constructive class as a named, seeded generator with a milestone tag (C-0038): built and run at M0 — the geometry classes (gcd-stepped on-segment points, collinear triples and overlaps, cuts through and grazing vertices with offsets 0 and ± 1, antennae and one-point touches, coincident typed chains, rotated snapped n-gons, holes touching, simultaneous skeleton events, the 2²³ − 2 star rings), quantisation, attraction and moves (the twelve fixtures of §13.1's list), removals and profiles (the lane removed from a spine, the S8 T-junction on a profiled spine, the split and re-join within 10⁻⁹ cm, the stretch removals, the refused two-part way), indexes and slots (freed and reused slots, the L3-before-L4 order, the promoted-then-demoted item), the straight-skeleton fixtures, §3.11's rows, the expectations, the further limits (buffer joins, insetRing cases, the outer-ring-only arena); tagged deferredTo and skipped with a count — kept content, carves and water edits (M3a), the pool overlays (M1), stretch-state writes (M2b), neighbour steps (M5), the transient arena and the re-cut (M6-P), the underground parts (M6-U), frame growth and the raised way (M4, M3a). The set is one list the runner (M0-k-04) iterates; the whole list's milestones are reported.",
+   "builds": "Every §13.1 constructive class as a named, seeded generator with a milestone tag (C-0038): built and run at M0 — the geometry classes (gcd-stepped on-segment points, collinear triples and overlaps, cuts through and grazing vertices with offsets 0 and ± 1, antennae and one-point touches, coincident typed chains, rotated snapped n-gons, holes touching, simultaneous skeleton events, the 2²³ − 2 star rings), quantisation, attraction and moves (the twelve fixtures of §13.1's list), removals and profiles (the lane removed from a spine, the S8 T-junction on a profiled spine, the split and re-join within 10⁻⁹ cm, the stretch removals, the refused two-part way), indexes and slots (freed and reused slots, the L3-before-L4 order, the promoted-then-demoted item), the straight-skeleton fixtures, §3.11's rows, the expectations, the further limits (buffer joins, insetRing cases, the outer-ring-only arena); tagged deferredTo and skipped with a count — kept content, carves and water edits (M3a), the pool overlays (M1), stretch-state writes (M2b), neighbour steps (M5), the transient arena and the re-cut (M6-P), the underground parts (M6-U), frame growth and the raised way (M4, M3a). Every case carries its expected outcome (§3.11's row or §13.1's bullet) as data and a generator yielding lattice input snap accepts; the cases that need only the numeric core — quantisation, the gcd-stepped collinear class against orient2d, the star rings against area2 — run green here against M0-a-01; every other M0 case is run by M0-k-04 (wave 11), after the kernel operations it exercises have landed (C-0110). The set is one list the runner (M0-k-04) iterates; the whole list's milestones are reported.",
    "interfaces": [
     "CONSTRUCTIVE_SET: ConstructiveCase[] { id, class, milestone, generate(seed), expect }",
     "casesAt(milestone)"
@@ -3668,12 +3697,13 @@
    ],
    "tests": [
     "every §13.1 constructive bullet maps to at least one case id (a coverage table against the section's list, checked by the checker)",
-    "every M0-tagged case runs against the kernel and returns the outcome §3.11 / §13.1 states for it",
-    "a deferred case is counted, never silently skipped"
+    "every M0-tagged case states its expected outcome (§3.11's row / §13.1's bullet) as data and its generator yields only coordinates snap accepts (10³ draws per case); the numeric-core cases (quantisation, the collinear class, the star rings) run green against M0-a-01 here",
+    "a deferred case is counted, never silently skipped",
+    "(every other M0 case runs against the kernel and returns the outcome it states — M0-k-04's test, wave 11, C-0110)"
    ],
    "exitBars": [
     {
-     "bar": "the whole constructive set enumerated with milestone tags; every M0 case green (§13.1; C-0038)",
+     "bar": "the whole constructive set enumerated with milestone tags and each case's expected outcome as data; the numeric-core cases green here; every other M0 case run by M0-k-04, green there (§13.1; C-0038, C-0110)",
      "when": "here"
     }
    ],
@@ -3683,7 +3713,8 @@
     "M0-m-01"
    ],
    "choices": [
-    "C-0038"
+    "C-0038",
+    "C-0110"
    ],
    "checker": "walks §13.1's bullets and confirms each has a case id and a tag; confirms the deferred counts appear in the runner's report"
   },
@@ -3743,7 +3774,8 @@
     "plat/packages/testkit/src/invariants/",
     "plat/bench/src/fuzz-bar/",
     "plat/packages/testkit/test/runner/",
-    "plat/docs/build/summaries/M0-k-04.json"
+    "plat/docs/build/summaries/M0-k-04.json",
+    "plat/bench/src/fuzz-bar/s11Workload.ts (the synthetic per-plot S11 workload, C-0107 — inside the owned folder, named for the checker)"
    ],
    "sections": [
     "§13.1 (the bar: 0 crashes, 0 hangs (hard timeout), 0 invalid outputs at §13.8's sizes; Properties checked after every operation; Ladder coverage: every rung reachable by a fixture, each downgrade exercised; bugs empty)",
@@ -3751,11 +3783,12 @@
     "§5.1 (8) (the fault-injection hook — its B-CITY-lite form M1's; the kernel's bug-abort shape tested here)",
     "§5.4 (GenerationReport.kernel: warnings, downgrades, workLimitHits; bugs)"
    ],
-   "builds": "The runner over every kernel primitive with M0-k-01's arbitraries and M0-k-02's set: per operation the hard timeout (a hang is a failure), the typed-result check (never a throw for a geometric reason), M0-a-14's property checks after every operation, the oracle comparison for booleans / buffers / tileRings (M0-k-03), the Euler characteristic, remove(insert(x)) ≡ id, the op-permutation and renumbering harnesses (M0-d-08) sampled; the ladder-coverage check over the KERNEL ladders — F-SKELETON's downgrades (the sampled medial axis, the plain roof) and F-NUM's kernel side (an optional chain refused with its typed code, never a throw; a mandatory chain never refused for precision) — by fixtures, as a ladderCoverage() table which M0-x-05 extends later with the stage ladders (F-CUT, F-ROUTE, F-NUM's re-propose, F-RIVER, F-WALL, F-BUDGET-STAGE, F-WORK) once their stages land (C-0085); the counts report (crashes, hangs, invalid outputs, warnings per code, downgrades, work-limit hits, deferred constructive cases by milestone); bugs empty asserted on every run; bench/src/fuzz-bar as the tier entry at the tier's size. The counts report's numbers-only summary goes to docs/build/summaries/M0-k-04.json (C-0067). The summary carries, per kernel work counter the run charged, the work-per-unit quantiles { n, p50, p99, p999, max } and the unit count (C-0091).",
+   "builds": "The runner over every kernel primitive with M0-k-01's arbitraries and M0-k-02's set: per operation the hard timeout (a hang is a failure), the typed-result check (never a throw for a geometric reason), M0-a-14's property checks after every operation, the oracle comparison for booleans / buffers / tileRings (M0-k-03), the Euler characteristic, remove(insert(x)) ≡ id, the op-permutation and renumbering harnesses (M0-d-08) sampled; the ladder-coverage check over the KERNEL ladders — F-SKELETON's downgrades (the sampled medial axis, the plain roof) and F-NUM's kernel side (an optional chain refused with its typed code, never a throw; a mandatory chain never refused for precision) — by fixtures, as a ladderCoverage() table which M0-x-05's stageLadderCoverage() merges later (it lands later) with the stage ladders (F-CUT, F-ROUTE, F-NUM's re-propose, F-RIVER, F-WALL, F-BUDGET-STAGE, F-WORK) once their stages land — this item's file is never edited by M0-x-05 (C-0085, C-0109); every M0 case of M0-k-02's constructive set run against the kernel and judged against the outcome it states (C-0110); the synthetic per-plot S11 workload (bench/src/fuzz-bar/s11Workload.ts, C-0107): seeded synthetic plots at plot scale from M0-k-01's face sets, per plot exactly one offsetFace (the per-edge setbacks), one obb and one lir fit, the yard partition's splitFace calls and one L4 insertChain (the footprint) through the façade, returning the per-plot call list and timings through M0-f-01's harness (CONTENDED outside the timing phase; M0-t-01 measures it); the counts report (crashes, hangs, invalid outputs, warnings per code, downgrades, work-limit hits, deferred constructive cases by milestone); bugs empty asserted on every run; bench/src/fuzz-bar as the tier entry at the tier's size. The counts report's numbers-only summary goes to docs/build/summaries/M0-k-04.json (C-0067). The summary carries, per kernel work counter the run charged, the work-per-unit quantiles { n, p50, p99, p999, max } and the unit count (C-0091).",
    "interfaces": [
     "corepack pnpm bench -- fuzz-bar --runs <n>",
     "runFuzz(primitive, n): FuzzReport",
-    "ladderCoverage(): CoverageReport (the kernel ladders; extended later by M0-x-05)"
+    "ladderCoverage(): CoverageReport (the kernel ladders; merged later by M0-x-05's stageLadderCoverage(), C-0109)",
+    "s11Workload(seed, n): { calls per plot, timings } (C-0107)"
    ],
    "defers": [
     "B-EDIT and B-CITY-lite's fault injection → M1 / M2a",
@@ -3764,11 +3797,13 @@
    "tests": [
     "a planted throw, a planted hang (a loop) and a planted self-intersecting output are each caught and counted",
     "the report's deferred counts equal M0-k-02's tags",
-    "the ladder-coverage table names every M0 KERNEL rung and downgrade with its fixture (the stage rungs are entered later by M0-x-05)"
+    "the ladder-coverage table names every M0 KERNEL rung and downgrade with its fixture (the stage rungs are entered later by M0-x-05)",
+    "every M0 case of the constructive set runs against the kernel and returns the outcome §3.11 / §13.1 states for it (C-0110)",
+    "the S11 workload makes exactly the listed calls per plot — one offsetFace, one obb, one lir, ≥ 1 splitFace, one L4 insertChain — counted by a façade spy, and reproduces its call list run to run (C-0107)"
    ],
    "exitBars": [
     {
-     "bar": "B-FUZZ 0 crashes / hangs / invalid outputs on 10⁶ random inputs per primitive (nightly; 10⁴ PR) and on M0's constructive set; every M0 kernel ladder rung and downgrade exercised (the stage ladders: run by M0-x-05); bugs empty (§13.1; §16 M0 (a))",
+     "bar": "B-FUZZ 0 crashes / hangs / invalid outputs on 10⁶ random inputs per primitive (nightly; 10⁴ PR) and on M0's constructive set — every M0 case of M0-k-02's set green (C-0110); every M0 kernel ladder rung and downgrade exercised (the stage ladders: run by M0-x-05); the S11 workload built and its call list tested (C-0107); bugs empty (§13.1; §16 M0 (a))",
      "when": "here"
     }
    ],
@@ -3778,13 +3813,18 @@
     "M0-k-01",
     "M0-k-02",
     "M0-k-03",
-    "M0-d-08"
+    "M0-d-08",
+    "M0-a-15",
+    "M0-f-01"
    ],
    "choices": [
     "C-0038",
     "C-0067",
     "C-0085",
-    "C-0091"
+    "C-0091",
+    "C-0107",
+    "C-0109",
+    "C-0110"
    ],
    "checker": "runs the bar at 10⁴ (PR size) and quotes the counts; confirms the nightly size is reachable (a 10⁶ run of one primitive) and that the whole constructive set runs in every tier"
   },
@@ -3807,14 +3847,15 @@
     "§13.2 (the core statistics record's M0 part: junction-degree histogram, turning per 100 m)",
     "§4.4 (the growth-drift row)"
    ],
-   "builds": "The metric functions over our outputs with metricVersion each: turning per 100 m and heading change per 50 m after 10 m resampling, the growth drift (net turn over 600 m), junction arm angles and degrees, block areas per district and cut lengths, R4 = |mean exp(4iθ)| over orientations within 60 / 120 / 250 m on block OBB axes (C-0018: a non-gating proxy until plots), wall alignment by distance band, T / Y share and intramural dead ends, blocks per ha, the bent-cut signature metrics (with M0-b-04), the court share per band (the deep-interior rule's output); the band rule in its M0 form (C-0092: p10 and p90 read from the row as M-1 stored them, the estimator field naming how; target rows the union of [p10 × 0.9, p90 × 1.1] and the single value ± 15 %; a distribution row by the median single-seed KS of ours ≤ 1.25 × the row's spreadKS.p90, missingBaseline without spreadKS; a row flagged sign-indefinite or carrying a metric floor notApplicable 'V12 §3.5 at M1', never pass; weakness one-sided; descriptive reported); the parity CLI reading baselines/baselines.json only — a missing file, an unreadable row or a row lacking referenceBuild, capture, script or date STOPS the CLI naming the file and the row (§13.5's edge, T-RIG-1; C-0068); a metric with no row reports missingBaseline, a metric inapplicable to the rung or setting notApplicable, never pass — writing a ParityReport in canonical form; plat baselines check in its M0 form (C-0092: C1 strings by pattern, C2 notes scanned — numbers, units, our ids and the provenance forms only —, C3 no colour value, C4 append-only against the committed file, C5 research-side paths as opaque research: labels, C6 corpus ids salted, C7 no corpus string but our preset keys; C8–C10 named as not run at M0 in the report; the minimal CrossingRecord { file, sha256, rows, date, checks, checkerSeat, statement } in baselines/crossings.json, a missing or stale record failing the check) over baselines.json and ng-faces.json; the baselines folder empty but for its README, which names the three files M-1 commits there (baselines.json, ng-faces.json, denylist.json), crossings.json and their checks.",
+   "builds": "The metric functions over our outputs with metricVersion each: turning per 100 m and heading change per 50 m after 10 m resampling, the growth drift (net turn over 600 m), junction arm angles and degrees, block areas per district and cut lengths, R4 = |mean exp(4iθ)| over orientations within 60 / 120 / 250 m on block OBB axes (C-0018: a non-gating proxy until plots), wall alignment by distance band, T / Y share and intramural dead ends, blocks per ha, the bent-cut signature metrics (with M0-b-04), the court share per band (the deep-interior rule's output); the band rule in its M0 form (C-0092: p10 and p90 read from the row as M-1 stored them, the estimator field naming how; target rows the union of [p10 × 0.9, p90 × 1.1] and the single value ± 15 %; a distribution row by the median single-seed KS of ours ≤ 1.25 × the row's spreadKS.p90, missingBaseline without spreadKS; a row flagged sign-indefinite or carrying a metric floor notApplicable 'V12 §3.5 at M1', never pass; weakness one-sided; descriptive reported); the parity CLI reading baselines/baselines.json only — a missing file, an unreadable row or a row lacking referenceBuild, capture, script or date STOPS the CLI naming the file and the row (§13.5's edge, T-RIG-1; C-0068); a metric with no row reports missingBaseline, a metric inapplicable to the rung or setting notApplicable, never pass — writing a ParityReport in canonical form; plat baselines check in its M0 form (C-0092: C1 strings by pattern, C2 notes scanned — numbers, units, our ids and the provenance forms only —, C3 no colour value, C4 append-only against the committed file, C5 research-side paths as opaque research: labels, C6 corpus ids salted, C7 no corpus string but our preset keys; C8–C10 named as not run at M0 in the report; the minimal CrossingRecord { file, sha256, rows, date, checks, checkerSeat, statement } in baselines/crossings.json, a missing or stale record failing the check) over baselines.json and ng-faces.json; the baselines folder empty but for its README, which names the three files M-1 commits there (baselines.json, ng-faces.json, denylist.json), crossings.json and their checks. The ng-faces.json loader (C-0101): loadNgFaces(path) with C-0086's record schema — per face its template, referenceBuild, the ring in integer centimetres, its block areas (cm²), cut lengths (cm) and per recorded cut the corner's position, the arrival angle (cdeg) and the fillet flag — refusing, naming the record and field, a face lacking referenceBuild, a non-integer coordinate or a missing per-face field, and stopping on a missing file naming it; tested on a synthetic file the test writes in memory; M0-b-05b and M0-c-07b read through it.",
    "interfaces": [
     "METRICS (registry: id, metricVersion, unit, measure(doc))",
     "plat parity",
     "plat baselines check <file>",
     "ParityReport",
     "Baseline",
-    "bandRule(row, ours)"
+    "bandRule(row, ours)",
+    "loadNgFaces(path): NgFace[] (C-0086's schema; C-0101)"
    ],
    "defers": [
     "baselines.json and ng-faces.json themselves → M-1's lane (committed research-side; AFTER-M-1)",
@@ -3828,7 +3869,8 @@
     "the band rule on hand-built rows (C-0092): a target row with p10 / p90, a single-value row, a KS row with spreadKS, a KS row without spreadKS → missingBaseline, a sign-indefinite or floored row → notApplicable (never pass), weakness, descriptive",
     "R4: a grid gives 1; uniformly random orientations give ≈ 0 (C-0018)",
     "turning per 100 m: a straight street 0; a circle of radius r the analytic value within 2 %",
-    "plat baselines check (C-0092): a colour value, a non-pattern string, a deleted row, an unsalted corpus id, or a missing or stale CrossingRecord fails naming it; an appended row with its record passes; the report names C8–C10 as not run at M0"
+    "plat baselines check (C-0092): a colour value, a non-pattern string, a deleted row, an unsalted corpus id, or a missing or stale CrossingRecord fails naming it; an appended row with its record passes; the report names C8–C10 as not run at M0",
+    "loadNgFaces (C-0101): a synthetic ng-faces.json loads; a record lacking referenceBuild, a non-integer coordinate, or a missing block-area, cut-length or per-cut field is refused naming the record and field; a missing file stops naming it"
    ],
    "exitBars": [
     {
@@ -3845,7 +3887,9 @@
     "C-0018",
     "C-0043",
     "C-0068",
-    "C-0092"
+    "C-0092",
+    "C-0086",
+    "C-0101"
    ],
    "checker": "confirms the CLI opens no path outside plat/packages/testkit/baselines/ and our outputs (a strace-style file-open log in the test)"
   },
@@ -3926,7 +3970,7 @@
    "package": "@plat/bench",
    "wave": "T",
    "alone": true,
-   "estHours": "4–6 (plus ≈ 4–6 h of idle machine time, C-0088)",
+   "estHours": "4–6 (plus ≈ 4.5–7 h of idle machine time, at most ≈ 8–12 h with every repeat; C-0097)",
    "owns": [
     "plat/bench/src/timing-phase/",
     "plat/docs/build/M0-timings.json",
@@ -3938,27 +3982,29 @@
     "§3.8, §4.4, §6.1, §6.2, §6.3, §12.4, §13.8 (each bar's pre-decided fallback)",
     "§16 M0 (a)–(f)"
    ],
-   "builds": "The one script that runs every bar M0-work.json marks timing-phase in one wave with nothing else running — its FIRST act the reference calibrate score: bench/calibrate run after 30 s idle, twice within 5 %, under the contention detector, written with its host record to bench/src/host/reference-score.json (C-0075; normalisation 1 from then on) —: the kernel bars (insert per proposal on the fusion fixture's proposals; splitFace per cut on the F-CUT faces; corridorUnion over the fusion CITY face set and one district; the synthetic per-plot S11 workload; the skeleton median per footprint on the stand-in corpus), the determinism bars (stream key; digest maintenance share, root finalisation, full recomputation on the spike city with the synthetic records tree; matching per entity, per kind, on M0-d-05b's synthetic sets and on M0-d-09's 20 re-derivation pairs — the real-anchor workload §6.3 names, C-0090), the spikes (S4 + S5 + S8 at CITY over 1 000 seeds' p50 and p95; S1 + S4 + S6 at CITY; the hydrology row; R12-4's per-stage p50 rows — S1, the S3 slice, S4, S5, S6 with the fields, S8 — from the same runs' stamps, reported, C-0084), the tiers' budgets (each of M0-f-02a's and M0-f-02b's three tiers run once, end to end over its built jobs, alone, under C-0088's whole-run protocol — bench/calibrate before and after the whole run within 5 %, the contention detector sampling the load average, process table and power every 30 s throughout, a failing sample repeating the run — wall-clock and CPU time judged by C-0027's reading; the nightly's `timing-phase (nightly contents)` job stays not-built: M1 and this script is never a tier job); each result through M0-f-01's harness with its authority stamp — a contended batch re-queued, never recorded as a result; a `--only <bar ids>` option that runs the reference-score check (the stored score read, never rewritten) and exactly the named bars by the same protocol, for the re-run wave (C-0080); the fusion and site gates measured twice — in Node and inside Chromium's Web Worker through M0-d-06's runner in its timing mode, the same seeds and sizes, the browser launched for its batch and closed before the after-batch calibrate, the detector told the phase's own child processes (C-0082) — and the checked figure chosen by §12.1's ± 15 % rule; M0-timings.json: per bar the measured value, unit, the bar, the verdict (pass / miss by factor), the authority stamp and host record, the fallback the miss rule names (applied by its owning item in a fix round, recorded in choices.md) and the normalisation 1 (C-0027).",
+   "builds": "The one script that runs every bar M0-work.json marks timing-phase in one wave with nothing else running — its FIRST act the reference calibrate score: bench/calibrate run after 30 s idle, twice within 5 %, under the contention detector, written with its host record to bench/src/host/reference-score.json (C-0075; normalisation 1 from then on) —: the kernel bars (insert per proposal on the fusion fixture's proposals; splitFace per cut on the F-CUT faces; corridorUnion over the fusion CITY face set and one district; M0-k-04's synthetic per-plot S11 workload, C-0107; the skeleton median per footprint on the stand-in corpus), each miss taking C-0098's ordered ladder, the determinism bars (stream key; digest maintenance share, root finalisation, full recomputation on the spike city with the synthetic records tree; matching per entity, per kind, on M0-d-05b's synthetic sets and on M0-d-09's 20 re-derivation pairs — the real-anchor workload §6.3 names, C-0090), the spikes (S4 + S5 + S8 at CITY over 1 000 seeds' p50 and p95; S1 + S4 + S6 at CITY; the hydrology row; R12-4's per-stage p50 rows — S1, the S3 slice, S4, S5, S6 with the fields, S8 — from the same runs' stamps, reported, C-0084), the tiers' budgets under C-0097's protocol (tier:pr in the runner's batched timing mode — its declared units as ≤ 60 s batches after 30 s idle with calibrate before and after within 5 %, a drifting batch re-run at most twice then flagged throttled, a unit over 60 s flagged long-batch, the GATING figure the batches' summed wall-clock with the CPU time beside it — plus one whole run reported; tier:nightly and tier:milestone each run once whole with calibrate before and after, one repeat on a > 5 % drift, then recorded throttled with both scores, their 16-core verdicts projected and never gating at M0; the detector sampling every 30 s throughout every run; every M0 job built before a tier is timed; the nightly's `timing-phase (nightly contents)` job stays not-built: M1 and this script is never a tier job); each result through M0-f-01's harness with its authority stamp — the detector counting every process on the machine (C-0103), a contended batch re-queued, never recorded as a result; the script requires PLAT_TIMING_TOKEN (the session's TIMING-PHASE OPEN token, set after M-1's research-side seats are paused) and records it in M0-timings.json, refusing to start without one (C-0103); a `--only <bar ids>` option that runs the reference-score check (the stored score read, never rewritten) and exactly the named bars by the same protocol, for the re-run wave (C-0080); the fusion and site gates measured twice — in Node and inside Chromium's Web Worker through M0-d-06's runner in its timing mode, the same seeds and sizes, the browser launched for its batch and closed before the after-batch calibrate, the detector told the phase's own child processes (C-0082) — and the checked figure chosen by §12.1's ± 15 % rule; M0-timings.json: per bar the measured value, unit, the bar, the verdict (pass / miss by factor), the authority stamp and host record, the fallback the miss rule names (applied by its owning item in a fix round, recorded in choices.md) and the normalisation 1 (C-0027).",
    "interfaces": [
     "corepack pnpm bench:timing-phase",
-    "M0-timings.json"
+    "M0-timings.json",
+    "PLAT_TIMING_TOKEN (required; C-0103)"
    ],
    "defers": [
     "the Chrome-worker re-measure of §12.3's model budgets at TOWN and CITY → M1 (nightly), where they are first gated; the fusion and site gates are measured in Chromium's worker here (C-0082)",
     "pool sizes → M1"
    ],
    "tests": [
-    "the script refuses to run while the contention detector reports another build process (a planted process)",
+    "the script refuses to run while the contention detector reports another process of the listed kinds or at ≥ 10 % CPU on the machine (a planted python3 and a planted Chromium outside ownPids; C-0103), and refuses to start without PLAT_TIMING_TOKEN, which it records",
     "every bar of M0-work.json's timingBars list appears in M0-timings.json exactly once",
     "the first act writes reference-score.json with a non-null score and the host record; a second run of the phase leaves it unchanged (the score is written once)",
     "`--only <ids>` runs exactly the named bars (a list of two gives two rows) and never rewrites reference-score.json (C-0080)",
     "the fusion and site bars carry a node and a chromium-worker figure each and the checked figure by the ± 15 % rule: a planted 20 % gap checks the Chromium figure, a 10 % gap the Node one; both are reported (C-0082)",
     "every §12.4 row of M0's stages (S1, the S3 slice, S4, S5, S6 + fields, S8) has a p50 in M0-timings.json, reported against its figure (C-0084)",
-    "each tier's record holds a calibrate score before and after the whole run within 5 % and the detector's 30 s samples; the nightly run invokes no bench:timing-phase (C-0088)"
+    "the PR tier's record holds the batched figure (every batch ≤ 60 s or flagged long-batch, each with two calibrate scores within 5 % or flagged throttled after two re-runs) and the whole-run figure with its two scores; the nightly and milestone records hold at most two whole runs each with their scores and a throttled flag when both drifted; the detector's 30 s samples in every record; the nightly run invokes no bench:timing-phase (C-0088, C-0097)",
+    "the S11 row names M0-k-04's workload file and its per-plot call list (C-0107); every kernel bar's miss row names C-0098's next step"
    ],
    "exitBars": [
     {
-     "bar": "every timing bar of M0.md §1 measured AUTHORITATIVE and recorded with its verdict; a miss names its pre-decided fallback and the fix round that applies it, and lists the bar for the re-run wave T2 (C-0025, C-0026, C-0047, C-0080); the fusion and site gates judged on the figure §12.1's ± 15 % rule picks (C-0082)",
+     "bar": "every timing bar of M0.md §1 measured AUTHORITATIVE (the detector over every process on the machine, the session's token recorded, C-0103) and recorded with its verdict; a miss names its pre-decided fallback — C-0098's next step for a kernel bar — and the fix round that applies it, and lists the bar for the re-run wave T2 (C-0025, C-0026, C-0047, C-0080); the fusion and site gates judged on the figure §12.1's ± 15 % rule picks (C-0082); the PR tier judged on its batched sum, the projected tiers reported (C-0097)",
      "when": "timing-phase"
     }
    ],
@@ -3972,7 +4018,9 @@
     "M0-a-12",
     "M0-f-02a",
     "M0-f-02b",
-    "M0-d-06"
+    "M0-d-06",
+    "M0-x-06",
+    "M0-k-06"
    ],
    "choices": [
     "C-0025",
@@ -3985,7 +4033,11 @@
     "C-0082",
     "C-0084",
     "C-0088",
-    "C-0090"
+    "C-0090",
+    "C-0097",
+    "C-0098",
+    "C-0103",
+    "C-0107"
    ],
    "checker": "confirms every result's stamp is authoritative and the load-average, process-table and power readings are in the file; a contended result anywhere fails the item",
    "handsOver": [
@@ -4008,10 +4060,11 @@
     "§12.1 (the timing phase: alone, ≤ 60 s batches, calibrate before and after within 5 %; the Chrome figure where Node and Chrome differ by > ± 15 %)",
     "§3.7, §3.8, §4.4, §6.1 – §6.3, §12.4 (R12-5), §13.8 (each bar's pre-decided fallback, which the T-fix round applied)"
    ],
-   "builds": "No code: the seat runs `corepack pnpm bench:timing-phase -- --only <the missed bar ids>` (M0-t-01's script) with nothing else on the machine, after every T-fix round has LANDED, and appends to M0-timings.json a `rerun` block — per missed bar: the fallback applied (its choices row and the fix round's lane key), the re-measured value with its authority stamp and host record, and the verdict: pass after the fallback, or still missing with the next step §3.7 names (≤ 2× → the measured cost carried into §12.4's row as a declared budget amendment; > 2× → the WebAssembly accelerator, itself a T-fix round and one more T2 run) and, for the fusion gate, the M1 re-declaration §16 M1 names. When M0-t-01 records no miss, the block is `rerun: []` with the reason \"no miss\" — a record, never a skip.",
+   "builds": "No code: the seat runs `corepack pnpm bench:timing-phase -- --only <the missed bar ids>` (M0-t-01's script) with nothing else on the machine, after every T-fix round has LANDED, and appends to M0-timings.json a `rerun` block — per missed bar: the fallback applied (its choices row and the fix round's lane key), the re-measured value with its authority stamp and host record, and the verdict: pass after the fallback, or still missing with the next step of C-0098's ladder (≤ 2× → the measured cost carried into §12.4's row as a declared budget amendment; > 2× → the WebAssembly accelerator; an accelerated arrangement loop still missing → Clipper2-WASM as the only engine, §3.7 (ii); then the D-18 re-declaration — each a T-fix round and one more T2 run, at most three cycles per bar) and, for the fusion gate, the M1 re-declaration §16 M1 names. When M0-t-01 records no miss, the block is `rerun: []` with the reason \"no miss\" — a record, never a skip. A re-measured PR-tier bar takes C-0097's batched protocol again (and one whole run); the projected tiers are never re-measured.",
    "interfaces": [
     "corepack pnpm bench:timing-phase -- --only <bar ids>",
-    "M0-timings.json `rerun` block"
+    "M0-timings.json `rerun` block",
+    "PLAT_TIMING_TOKEN (required; C-0103)"
    ],
    "defers": [
     "the fusion gate's re-run on B-CITY-lite's river, coast and relief configurations → M1 (§16 M1)"
@@ -4034,7 +4087,10 @@
     "C-0026",
     "C-0047",
     "C-0080",
-    "C-0082"
+    "C-0082",
+    "C-0097",
+    "C-0098",
+    "C-0103"
    ],
    "checker": "confirms the rerun block's bar list equals M0-t-01's missed list, every row authoritative with its readings, and each fallback backed by a LANDED T-fix round and a choices row; a contended row fails the item"
   },
@@ -4042,7 +4098,7 @@
    "id": "M0-x-01",
    "title": "The M0 record: every bar with its evidence, in prose and in §13.3's exitCriteria shape",
    "package": "plat/docs/build",
-   "wave": 18,
+   "wave": 19,
    "estHours": "4–6",
    "owns": [
     "plat/docs/build/M0-record.md",
@@ -4057,7 +4113,7 @@
     "§12.1 (the host record with every timing)",
     "§3.7, §4.4, §6.2, §12.4, §13.8 (each fallback's declaration where applied)"
    ],
-   "builds": "M0-record.md: every bar of M0.md §1 (a)–(f) and §2's items with its verdict and executed evidence (the command, the report file and the quoted numbers; each CONFIRMED or PLAUSIBLE), every fallback applied with its choices row, every timing with its authority stamp and host record (M0-t-01's rows and M0-t-02's re-run block, C-0080; the fusion and site gates with both figures, C-0082), every deferred clause with its milestone, the AFTER-M-1 bars listed as pending with what they need (afterM1Needs; the two start conditions of C-0071); the configuration decisions taken (switches) and the budget amendments declared under §3.7's ≤ 2× rule, each a choices row; the checks/<item>.md verdicts indexed. M0-record.json: §13.3's MilestoneRecord shape with milestone 'M0', outputVersions [], shifts [], cascades [], parity (pending-after-M-1: the parity CLI runs only once baselines.json is committed, §13.5's T-RIG-1 edge; the entry names the file, C-0068), d5 [], knownDefects, and exitCriteria one row per bar (result pass | fail | fallback-applied | pending-after-M-1 as not-achieved with the evidence 'AFTER-M-1'), plus the host record and the authority stamps as an M0 extension block (C-0042). R12-4's rows (C-0084): each §12.4 row of M0's stages whose measured p50 exceeds its figure is restated at the measured value in a choices row routed to the fix list; a row within its figure is recorded as holding.",
+   "builds": "M0-record.md: every bar of M0.md §1 (a)–(f) and §2's items with its verdict and executed evidence (the command, the report file and the quoted numbers; each CONFIRMED or PLAUSIBLE), every fallback applied with its choices row, every timing with its authority stamp and host record (M0-t-01's rows and M0-t-02's re-run block, C-0080; the fusion and site gates with both figures, C-0082), every deferred clause with its milestone, the AFTER-M-1 bars listed as pending with what they need (afterM1Needs; the two start conditions of C-0071); the configuration decisions taken (switches) and the budget amendments declared under §3.7's ≤ 2× rule, each a choices row; the checks/<item>.md verdicts indexed. M0-record.json: §13.3's MilestoneRecord shape with milestone 'M0', outputVersions [], shifts [], cascades [], parity (pending-after-M-1: the parity CLI runs only once baselines.json is committed, §13.5's T-RIG-1 edge; the entry names the file, C-0068), d5 [], knownDefects, and exitCriteria one row per bar (result pass | fail | fallback-applied | pending-after-M-1 as not-achieved with the evidence 'AFTER-M-1'), plus the host record and the authority stamps as an M0 extension block (C-0042). R12-4's rows (C-0084): each §12.4 row of M0's stages whose measured p50 exceeds its figure is restated at the measured value in a choices row routed to the fix list; a row within its figure is recorded as holding. The record indexes every item's landed record (docs/build/landed/<item id>.json) and the waves' landed:verify results (C-0104).",
    "interfaces": [
     "M0-record.md",
     "M0-record.json (MilestoneRecord shape + m0: { host, timings })"
@@ -4072,7 +4128,7 @@
    ],
    "exitBars": [
     {
-     "bar": "every bar of §16 M0 (a)–(f) carried with executed evidence or its AFTER-M-1 pending row; no undeclared shortcut, deviation or missing test across every item's check verdict (67 items at this spec's revision)",
+     "bar": "every bar of §16 M0 (a)–(f) carried with executed evidence or its AFTER-M-1 pending row; no undeclared shortcut, deviation or missing test across every item's check verdict (69 items at this spec's revision)",
      "when": "here"
     }
    ],
@@ -4086,7 +4142,8 @@
     "M0-b-04",
     "M0-f-02b",
     "M0-t-02",
-    "M0-x-05"
+    "M0-x-05",
+    "M0-x-06"
    ],
    "choices": [
     "C-0042",
@@ -4094,7 +4151,8 @@
     "C-0068",
     "C-0071",
     "C-0080",
-    "C-0084"
+    "C-0084",
+    "C-0104"
    ],
    "checker": "a seat other than the author re-runs three bars at random from the record and compares the quoted numbers; confirms the exitCriteria rows equal the bar list"
   },
@@ -4114,7 +4172,7 @@
     "§13.3 (exitCriteria rows)",
     "§13.5 (the ⟨M-1⟩ rule: a cell M-1 could not measure is descriptive and enters known-defects.json)"
    ],
-   "builds": "Appends to M0-record.json the exitCriteria rows of M0-b-05a, M0-b-05b, M0-c-07a, M0-c-07b and M0-k-06 with their verdicts and evidence (the parity reports' paths and input hashes; the scan report), replacing their pending rows; the parity entry filled with the nightly parity report's path; records any ⟨M-1⟩ cell made descriptive by §13.5's rule — an ng-faces.json clause M-1 could not deliver among them (C-0071) — with its known-defects entry; the addendum in prose with the recalibrations taken (cut.flattenM, the depth rows, the deep-interior shares, the infill constants) and their choices rows.",
+   "builds": "Appends to M0-record.json the exitCriteria rows of M0-b-05a, M0-b-05b, M0-c-07a, M0-c-07b and M0-k-07 with their verdicts and evidence (the parity reports' paths and input hashes; the scan report), replacing their pending rows; the parity entry filled with the nightly parity report's path; records any ⟨M-1⟩ cell made descriptive by §13.5's rule — an ng-faces.json clause M-1 could not deliver among them (C-0071) — with its known-defects entry; the addendum in prose with the recalibrations taken (cut.flattenM, the depth rows, the deep-interior shares, the infill constants) and their choices rows.",
    "interfaces": [
     "M0-record.json (updated)",
     "M0-record-addendum.md"
@@ -4138,7 +4196,7 @@
     "M0-b-05b",
     "M0-c-07a",
     "M0-c-07b",
-    "M0-k-06"
+    "M0-k-07"
    ],
    "choices": [
     "C-0042",
@@ -4235,7 +4293,7 @@
     "B-CITY's districts → M1 (the bars re-run there)"
    ],
    "tests": [
-    "the loader refuses an ng-faces.json face record without referenceBuild, with a non-integer coordinate, or lacking a per-face field (block areas, cut lengths, the per-cut corner, arrival and fillet numbers; C-0086), naming it",
+    "the faces are read through M0-k-05's loadNgFaces (its refusals — a record without referenceBuild, a non-integer coordinate, a missing per-face field — tested there, C-0101); this item's run stops on a refused record naming it",
     "the calibration search reproduces its result run to run",
     "a missing ng-faces.json stops the run naming the file (never a silent skip)",
     "the corner and arrival shares on NG's shapes are computed by the same metric functions (metricVersion) as M0-b-04's on the M0 (b) faces"
@@ -4261,7 +4319,8 @@
     "C-0073",
     "C-0081",
     "C-0086",
-    "C-0092"
+    "C-0092",
+    "C-0101"
    ],
    "checker": "confirms every number read comes from baselines.json or ng-faces.json (input hashes in the report) and that no capture or research file is opened; confirms the flattenM change is a table-version bump with a choices row",
    "handsOver": [
@@ -4349,7 +4408,7 @@
     "§13.5 (blocks, junction, MFCG street signature, deep block interiors rows; the band rule)",
     "§4.6 (the deep-interior default shares calibrated at M-1)"
    ],
-   "builds": "Runs S8 on NG's hood outlines (ng-faces.json) as the district shapes and compares the block-area KS and the junction-degree share with the blocks and junction rows by the band rule in its M0 form (C-0092) through the parity CLI — the 'same district shapes' clause of §16 M0 (c); on a statistics miss (phase a's rows or these), the recalibration of the infill constants (cut.*, the band table) as a recorded table-version bump with its choices row and the gate re-run through M0-c-06's harness (§4.4's statistics fallback, before M1); writes the report for M0-x-03.",
+   "builds": "Runs S8 on NG's hood outlines (ng-faces.json, read through M0-k-05's loadNgFaces, C-0101) as the district shapes and compares the block-area KS and the junction-degree share with the blocks and junction rows by the band rule in its M0 form (C-0092) through the parity CLI — the 'same district shapes' clause of §16 M0 (c); on a statistics miss (phase a's rows or these), the recalibration of the infill constants (cut.*, the band table) as a recorded table-version bump with its choices row and the gate re-run through M0-c-06's harness (§4.4's statistics fallback, before M1); writes the report for M0-x-03.",
    "interfaces": [
     "corepack pnpm bench -- fusion-ng --phase b",
     "FusionStatisticsReport (phase b)"
@@ -4378,7 +4437,8 @@
     "C-0043",
     "C-0071",
     "C-0072",
-    "C-0092"
+    "C-0092",
+    "C-0101"
    ],
    "checker": "confirms every reference number enters through baselines.json / ng-faces.json (input hashes in the report); confirms a recalibration is a table-version bump with its row",
    "startsWhen": "ng-faces.json is committed with NG's hood outlines (C-0043) — or M-1 states it cannot deliver it, in which case the 'same district shapes' clauses become descriptive by §13.5's ⟨M-1⟩ rule (C-0071)"
@@ -4399,12 +4459,13 @@
     "§12.1 (normalisation; the timing phase)",
     "§16 M0 (f)"
    ],
-   "builds": "The tier runner (bench/src/tiers): a tier is a manifest of jobs, each { name, run, status: 'built' | 'not-built: <item>' | 'after-M-1: <file>' }; the runner runs every built job, reports a not-built job as 'not built' (the tier is not end to end until none remains), reports an after-M-1 job as pending-after-M-1 naming the committed file it waits for (C-0069 — distinct from §13.8's missing-suite edge, which fails: a job whose seed family, fixture set or baseline file is empty or missing while its status is 'built' fails naming it), and records per job wall-clock and total CPU time, the normalised wall-clock (normalisation 1 once M0-t-01's reference score exists, null before; C-0027, C-0075), the PR tier's 8-core budget read literally, the nightly and milestone 16-core budgets projected as CPU time ÷ 16 and marked projected; over budget by > 10 % fails; the fallback switch (25 seeds, 5 × 10³ fuzz, the constructive set never cut) built and reported when applied. tier:pr's M0 jobs: lint (M0-d-07), type check (tsc -b), unit and contract tests (vitest), B-FUZZ at 10⁴ per primitive plus the whole constructive set (M0-k-04), the licence, notices and vendor checks (M0-s-01, M0-d-07), the deny-list scan as after-M-1 (M0-k-06; denylist.json); the spike runs standing in for B-CITY-lite (the fusion and site harnesses at 50 seeds) declared not-built until M0-f-02b. tier:nightly and tier:milestone: their manifests declared with every M0 job as not-built entries naming the items (filled by M0-f-02b), the nightly's last entry `timing-phase (nightly contents)` with status not-built: M1 — §13.8's four nightly timing-phase contents are M1's, and bench:timing-phase (M0-t-01's script) is the M0 exit's own run, never a tier job (C-0088).",
+   "builds": "The tier runner (bench/src/tiers): a tier is a manifest of jobs, each { name, kind: harness | vitest | command, source (the harness folder, the vitest folder or the script), inputs: [declared input files], item } whose status is DERIVED at run time (C-0099) — 'after-M-1: <file>' when a declared input is absent, else 'built' when the harness folder's index exports run / the vitest folder holds a test / the script exists, else 'not-built: <item>' — so a job flips when its item lands with no manifest edit; the runner runs every built job, reports a not-built job as 'not built' (the tier is not end to end until none remains), reports an after-M-1 job as pending-after-M-1 naming the committed file it waits for (C-0069 — distinct from §13.8's missing-suite edge, which fails: a job whose seed family, fixture set or baseline file is empty or missing while its status is 'built' fails naming it), and records per job wall-clock and total CPU time, the normalised wall-clock (normalisation 1 once M0-t-01's reference score exists, null before; C-0027, C-0075), the PR tier's 8-core budget read literally, the nightly and milestone 16-core budgets projected as CPU time ÷ 16 and marked projected; over budget by > 10 % fails; the fallback switch (25 seeds, 5 × 10³ fuzz, the constructive set never cut) built and reported when applied; the two timing modes M0-t-01 alone invokes (C-0097) — `whole` (one run, bench/calibrate before and after, the drift reported) and `batched` (each job's declared units — a job exports units(): Unit[], its natural partition: lint per package, tsc -b per project, vitest per project, B-FUZZ per primitive, the constructive set per class, the spike stand-ins per 10-seed block, the scans per package, the edge suite per fixture — run as ≤ 60 s batches after 30 s idle with calibrate before and after within 5 %, a drifting batch re-run at most twice then flagged throttled, a unit over 60 s flagged long-batch, the batches' wall-clock and CPU time summed). tier:pr's M0 jobs: lint (M0-d-07), type check (tsc -b), unit and contract tests (vitest), B-FUZZ at 10⁴ per primitive plus the whole constructive set (M0-k-04), the licence, notices and vendor checks (M0-s-01, M0-d-07), the deny-list scan (the scanner M0-k-06's, wave 13; its declared input denylist.json keeps it after-M-1 until M-1 commits the file, then M0-k-07's run, C-0101); the spike runs standing in for B-CITY-lite (the fusion and site harnesses at 50 seeds) declared not-built until M0-f-02b. tier:nightly and tier:milestone: their manifests declared with every M0 job as not-built entries naming the items (filled by M0-f-02b), the nightly's last entry `timing-phase (nightly contents)` with status not-built: M1 — §13.8's four nightly timing-phase contents are M1's, and bench:timing-phase (M0-t-01's script) is the M0 exit's own run, never a tier job (C-0088).",
    "interfaces": [
     "corepack pnpm tier:pr | tier:nightly | tier:milestone",
-    "TierReport { jobs[] { name, status, wallMs, cpuMs }, wallMs, cpuMs, normalised, budget, verdict, projected, pending[] }",
+    "TierReport { jobs[] { name, status (derived, C-0099), wallMs, cpuMs }, wallMs, cpuMs, normalised, budget, verdict, projected, pending[], mode, batches[] }",
     "tier fallback switch",
-    "TierManifest"
+    "TierManifest",
+    "timing modes whole | batched (C-0097); Job.units(): Unit[]"
    ],
    "defers": [
     "a hosted CI configuration → the owner's host (C-0027, C-0031)",
@@ -4412,15 +4473,15 @@
     "the nightly and milestone job lists → M0-f-02b"
    ],
    "tests": [
-    "an empty suite (a built job whose fixture set is empty) fails naming it (§13.8 Edges, T-RIG-5's form); a job over budget by 11 % fails over budget, by 9 % passes",
-    "a pending-after-M-1 job is reported pending with its file's name and never counted as pass or fail; a not-built job names its item",
+    "over a FIXTURE manifest of trivial jobs (C-0105 — never a real tier): an empty suite (a built job whose fixture set is empty) fails naming it (§13.8 Edges, T-RIG-5's form); a job over budget by 11 % fails over budget, by 9 % passes",
+    "status derivation (C-0099) over the fixture manifest: a harness folder without run → not-built naming its item; with run → built; a declared input file absent → after-M-1 naming the file (never counted pass or fail); a vitest folder without a test → not-built; a built job whose declared input is present runs",
     "the projection: CPU time ÷ 16 reported as projected for the 16-core tiers; the PR tier judged on wall-clock",
     "the fallback switch reduces the seed and fuzz counts and never the constructive set",
-    "tier:pr runs end to end over its built jobs on this tree"
+    "the batched timing mode over the fixture manifest with planted unit durations (C-0097): every batch ≤ 60 s with two calibrate scores, a planted 90 s unit flagged long-batch, a planted drift re-run at most twice then flagged throttled, the summed wall-clock and CPU time equal the planted sums; the whole mode records one run with its two scores"
    ],
    "exitBars": [
     {
-     "bar": "tier:pr runs end to end over M0's built jobs and writes its report; the pending-after-M-1 and not-built statuses tested; the fallback switch tested",
+     "bar": "the runner's tests over the fixture manifest pass (status derivation, the budget rule, the projection, the fallback switch, the two timing modes); the checker's receipt: tier:pr runs end to end over M0's built jobs on this tree (CONTENDED, for completeness; C-0105)",
      "when": "here"
     }
    ],
@@ -4436,9 +4497,12 @@
     "C-0069",
     "C-0075",
     "C-0079",
-    "C-0088"
+    "C-0088",
+    "C-0097",
+    "C-0099",
+    "C-0105"
    ],
-   "checker": "runs tier:pr once (CONTENDED, for completeness only) and confirms its job list equals §13.8's PR contents that exist at M0 plus the declared pending job; confirms the budget caps are never raised in code",
+   "checker": "runs `corepack pnpm tier:pr` once as a command receipt (CONTENDED, for completeness only; C-0105) and confirms its job list equals §13.8's PR contents that exist at M0 with each job's derived status (built, not-built naming an item of this spec, or after-M-1 naming its file); confirms no vitest test spawns a tier script (the scaffold's spawn helper refuses it, C-0096); confirms the budget caps are never raised in code",
    "handsOver": [
     "plat/bench/src/tier-jobs/ → M0-f-02b (the nightly and milestone job lists)"
    ]
@@ -4447,7 +4511,7 @@
    "id": "M0-f-02b",
    "title": "The nightly and milestone tier contents: the spike harnesses, the cross-host run, the determinism spike, the parity job (pending-after-M-1), the timing-phase step",
    "package": "@plat/bench, plat/ (scripts)",
-   "wave": 17,
+   "wave": 18,
    "estHours": "3–4",
    "owns": [
     "plat/bench/src/tier-jobs/ (handed over from M0-f-02a)",
@@ -4459,7 +4523,7 @@
     "§12.1 (normalisation; the timing phase)",
     "§16 M0 (f)"
    ],
-   "builds": "Fills the job lists: tier:pr gains the spike runs standing in for B-CITY-lite (C-0015: the fusion and site harnesses at 50 seeds, M0-c-06, M0-e-06); tier:nightly — B-FUZZ at 10⁶ (M0-k-04), the spike harnesses at their full seed counts (M0-c-06, M0-e-06, M0-b-04), the cross-host run (M0-d-06), the determinism spike (M0-d-09), the parity report as after-M-1 (M0-k-05's CLI over baselines.json — pending until the file is committed, C-0068, C-0069), then — last and alone — the job `timing-phase (nightly contents)`: §13.8's four nightly timing-phase contents (the cost-model sweeps with the F-WORK flatness check, the first-map runs, the in-Chrome re-measure of the model budgets, the re-timing of the max clause's flagged generations), all first built at M1, so its status is not-built: M1 and it is listed last; no manifest job calls bench:timing-phase, which is the M0 exit's own run (M0-t-01; C-0088); tier:milestone — the nightly set plus the F-CUT 10⁵-face bar (M0-b-04) and every bar M0.md §1 marks for the milestone; each tier's report written to PLAT_BENCH_OUT with the numbers-only summary docs/build/summaries/M0-f-02b.json.",
+   "builds": "Fills the job lists: tier:pr gains the spike runs standing in for B-CITY-lite (C-0015: the fusion and site harnesses at 50 seeds, M0-c-06, M0-e-06); tier:nightly — B-FUZZ at 10⁶ (M0-k-04), the spike harnesses at their full seed counts (M0-c-06, M0-e-06, M0-b-04), the cross-host run (M0-d-06), the determinism spike (M0-d-09), the edge suite at 1 000 seeds (`edge-suite (1 000 seeds)`: vitest over testkit's test/edge with PLAT_EDGE_SEEDS=1000 — B-EDGE's nightly form at M0, M0-x-06, C-0100; its status derived from the folder, C-0099), the ladder-coverage bench (M0-x-05), the parity report as after-M-1 (M0-k-05's CLI over baselines.json — pending until the file is committed, C-0068, C-0069), then — last and alone — the job `timing-phase (nightly contents)`: §13.8's four nightly timing-phase contents (the cost-model sweeps with the F-WORK flatness check, the first-map runs, the in-Chrome re-measure of the model budgets, the re-timing of the max clause's flagged generations), all first built at M1, so its status is not-built: M1 and it is listed last; no manifest job calls bench:timing-phase, which is the M0 exit's own run (M0-t-01; C-0088); tier:milestone — the nightly set plus the F-CUT 10⁵-face bar (M0-b-04) and every bar M0.md §1 marks for the milestone; each tier's report written to PLAT_BENCH_OUT with the numbers-only summary docs/build/summaries/M0-f-02b.json. Every job's status is derived at run time (C-0099); this item lands after every M0 job's item (wave 18), so its manifest test asserts built for each M0 job, and M0-t-01 requires every M0 job built before it times a tier.",
    "interfaces": [
     "the three TierManifests, complete for M0",
     "corepack pnpm tier:nightly | tier:milestone"
@@ -4468,20 +4532,20 @@
     "a hosted CI configuration → the owner's host (C-0027, C-0031)",
     "B-CITY-lite, B-EDIT, goldens, the five-engine golden run, visual regression → M1 and later",
     "the parity job's run → AFTER-M-1 (baselines.json)",
-    "the deny-list scan's run → AFTER-M-1 (M0-k-06)"
+    "the deny-list scan's run → AFTER-M-1 (M0-k-07; the scanner is M0-k-06's, wave 13, C-0101)"
    ],
    "tests": [
-    "every job of §13.8's three tiers that exists at M0 appears in exactly one manifest with status built; the AFTER-M-1 jobs appear with their file names; nothing of §13.8's M0 set is missing (a table against §13.8's rows)",
-    "tier:nightly and tier:milestone run end to end over their built jobs; the nightly's last job is `timing-phase (nightly contents)`, status not-built: M1, and no manifest job calls bench:timing-phase (C-0088)",
-    "the parity job over an absent baselines.json is reported pending-after-M-1, not run (C-0068)"
+    "every job of §13.8's three tiers that exists at M0 appears in exactly one manifest, each with its derived status — built for every M0 job (this item lands last among them), after-M-1 naming its file for the deny-list scan and the parity report, not-built: M1 for the nightly timing-phase job (C-0099); nothing of §13.8's M0 set is missing (a table against §13.8's rows, B-EDGE's nightly row included)",
+    "over a FIXTURE manifest (C-0105 — never a real tier): the nightly's last job is `timing-phase (nightly contents)`, status not-built: M1, and no manifest job calls bench:timing-phase (C-0088); the manifests' shape test",
+    "the parity job over an absent baselines.json is reported pending-after-M-1, not run (C-0068); the edge-suite job with PLAT_EDGE_SEEDS=1000 is a vitest invocation of the testkit project's test/edge folder (the command's arguments tested, not run)"
    ],
    "exitBars": [
     {
-     "bar": "the three tiers run end to end over M0's built jobs and write their reports; the pending jobs named with their files",
+     "bar": "the three manifests complete for M0 with every job's derived status; the pending jobs named with their files; the checker's receipts: tier:nightly and tier:milestone run end to end over M0's built jobs (CONTENDED, for completeness; C-0105)",
      "when": "here"
     },
     {
-     "bar": "each tier inside its budget by C-0027's reading (PR ≤ 15 min on 8 cores gates; nightly ≤ 4 h and milestone ≤ 12 h projected), or §13.8's fallback applied (§16 M0 (f)); measured by M0-t-01 under C-0088's whole-run protocol (calibrate before and after each whole tier run, the detector sampled throughout)",
+     "bar": "each tier inside its budget by C-0027's reading — tier:pr ≤ 15 min on these 8 cores GATES on the batched sum, tier:nightly ≤ 4 h and tier:milestone ≤ 12 h projected and never gating at M0 — measured by M0-t-01 under C-0097's protocol (tier:pr batched plus one whole run; the projected tiers once whole, one repeat on a > 5 % drift, then throttled), or §13.8's fallback applied to the PR tier (§16 M0 (f))",
      "when": "timing-phase"
     }
    ],
@@ -4493,7 +4557,9 @@
     "M0-d-09",
     "M0-b-04",
     "M0-k-05",
-    "M0-k-04"
+    "M0-k-04",
+    "M0-x-05",
+    "M0-x-06"
    ],
    "choices": [
     "C-0027",
@@ -4501,52 +4567,56 @@
     "C-0068",
     "C-0069",
     "C-0079",
-    "C-0088"
+    "C-0088",
+    "C-0097",
+    "C-0099",
+    "C-0100",
+    "C-0105"
    ],
-   "checker": "confirms the job lists against §13.8's rows for M0 (nothing dropped, nothing faked); runs tier:nightly once (CONTENDED, for completeness only) and quotes the pending and not-built entries",
+   "checker": "confirms the job lists against §13.8's rows for M0 (nothing dropped, nothing faked; B-EDGE's nightly row present); runs tier:nightly and tier:milestone once each as command receipts (CONTENDED, for completeness only; C-0105) and quotes the pending and not-built entries; confirms no vitest test spawns a tier script",
    "handsOver": []
   },
   {
    "id": "M0-k-06",
-   "title": "AFTER-M-1: the clean-room content scanner over plat/ with M-1's hashed deny-list, and the PR tier's deny-list scan",
+   "title": "The clean-room content scanner (built now on a synthetic deny-list): normalisation, salted digests, 3-grams, colour, file and list hits, the allow file, the report; the PR job at after-M-1 until denylist.json",
    "package": "@plat/testkit",
-   "wave": "AFTER-M-1 (a)",
+   "wave": 13,
    "estHours": "5–7",
    "owns": [
     "plat/packages/testkit/src/scanner/ (created empty by the scaffold fix round, C-0064)",
     "plat/packages/testkit/test/scanner/",
-    "plat/packages/testkit/baselines/denylist-allow.json (the reviewed allow entries, each with its written reason)",
-    "plat/docs/build/summaries/M0-k-06.json"
+    "plat/packages/testkit/baselines/denylist-allow.json (created empty here; handed over to M0-k-07, which fills the reviewed entries)"
    ],
-   "needs": "afterM1Needs.M0-k-06",
-   "startsWhen": "plat/packages/testkit/baselines/denylist.json (salted SHA-256 digests only) is committed by M-1 with its CrossingRecord and its generation record entered in CLEAN-ROOM.md §4 (date, sources, counts — never the tokens)",
    "sections": [
     "§17.1 (5) (the content scan: single normalised tokens not in the spell-check list, token 3-grams in list order, six-digit colour values, file bytes, and per recorded list the set of its members' words of four or more letters; the scanner digests the same way every token of @plat/tables, assets, source string literals and comments and the digest, in the PR tier; a list hit is a line, or a column of a table, holding five or more distinct words of one list's set; a hit fails the build unless a reviewed allow entry with a written reason exists)",
     "§13.8 (the PR tier's licence, notices and deny-list scans)",
     "§17.1 (2) (the digest checker runs the same scan on the digest — research-side; the scanner here reads the digest too)",
     "§17.1 (8) (SHA-256, FIPS 180-4)"
    ],
-   "builds": "The scanner: reads denylist.json (the salted digests, their salt, the list sets and the spell-check exclusion's digest set), normalises every token of @plat/tables' data files, every string literal and comment of plat/'s sources (kernel, model, tables, site, layout, testkit, bench, tools), every file under plat/assets (none at M0) and plat/docs/digest/ — lower-cased, diacritics stripped — and digests single tokens, 3-grams in order, six-digit colour values and file bytes with the same salt; flags a token, 3-gram, colour or file hit, and a list hit on any line or table column holding five or more distinct words of one list's set; a hit fails unless denylist-allow.json holds a reviewed entry (the exact text, the check, the written reason); the report (counts, the file and line of each hit, never the matched token) to PLAT_BENCH_OUT with the numbers-only summary; the PR-tier job (M0-f-02a's manifest entry 'deny-list scan' flips from after-M-1 to built when this item lands).",
+   "builds": "The scanner (C-0101, built NOW): reads a deny-list file (its normalisationVersion — refused naming both versions when it is not the scanner's, version 1 —, the salted digests, their salt, the list sets and the spell-check exclusion's digest set); normalises every token of @plat/tables' data files, every string literal and comment of plat/'s sources (kernel, model, tables, site, layout, testkit, bench, tools), every file under plat/assets (none at M0) and plat/docs/digest/ by normalisation 1 — NFKD, combining marks stripped, lower-cased, tokens the maximal runs of letters and digits — and digests single tokens, in-order 3-grams, six-digit colour values (six lower-case hexadecimal digits) and file bytes as SHA-256(salt ‖ item) with the file's salt; flags a token, 3-gram, colour or file hit, and a list hit on any line or table column holding five or more distinct words of one list's set; a hit fails unless denylist-allow.json holds a reviewed entry (the exact text, the check, the written reason); the report (counts, the file and line of each hit, never the matched token) to PLAT_BENCH_OUT; a missing deny-list file stops the scan naming it. Tested entirely on a synthetic deny-list the test builds with its own salt. The PR-tier job (M0-f-02a's manifest entry 'deny-list scan', its declared input denylist.json) reads after-M-1: denylist.json by C-0099 until M-1 commits the file; the run over M-1's file, the reviewed allow entries and the 0-unreviewed-hits bar are M0-k-07's (AFTER-M-1).",
    "interfaces": [
     "plat scan (corepack pnpm bench -- scan)",
     "ScanReport",
-    "denylist-allow.json"
+    "denylist-allow.json (empty here)",
+    "NORMALISATION_VERSION = 1 (C-0101)"
    ],
    "defers": [
+    "the run over M-1's denylist.json, the reviewed allow entries and the 0-unreviewed-hits bar → M0-k-07 (AFTER-M-1 (a), C-0101)",
     "plat/assets' files and the fonts' name tables → M1 (no assets at M0)",
     "the dossier port's adapter-boundary key scan → M1 (@plat/port)",
     "the palette audit (ΔE2000 against reference palettes) → research-side at every milestone (§17.1 (5)); M0 ships no palette"
    ],
    "tests": [
-    "a planted token, a planted in-order 3-gram, a planted colour value and a planted list of five words from a synthetic deny-list (built by the test with its own salt) are each found and named by file and line",
+    "a planted token, a planted in-order 3-gram, a planted colour value, a planted file and a planted list of five words from a synthetic deny-list (built by the test with its own salt and normalisationVersion 1) are each found and named by file and line",
     "a reviewed allow entry silences exactly its hit; an unreviewed hit fails the run",
     "the scanner never prints a matched token, only its location and check",
-    "a missing denylist.json stops the scan naming the file (never a vacuous pass)"
+    "a missing deny-list file stops the scan naming the file (never a vacuous pass); a file whose normalisationVersion is not 1 stops the scan naming both versions (C-0101)",
+    "normalisation 1 on fixtures: an upper-case, accented token digests like its lower-case plain form; a 3-gram across a line break is not formed; a colour value in upper case digests like the lower-case form"
    ],
    "exitBars": [
     {
-     "bar": "the scanner runs over plat/ with M-1's deny-list in the PR tier: 0 unreviewed hits (§17.1 (5), §13.8); every allow entry carries a written reason",
-     "when": "after-M-1"
+     "bar": "the scanner's tests pass on the synthetic deny-list (every hit kind found and named; an allow entry silences exactly its hit; a missing file and a version mismatch stop the scan naming them); the PR manifest's deny-list job reads after-M-1: denylist.json until the file exists (C-0099, C-0101)",
+     "when": "here"
     }
    ],
    "dependsOn": [
@@ -4556,9 +4626,64 @@
    ],
    "choices": [
     "C-0069",
-    "C-0064"
+    "C-0064",
+    "C-0099",
+    "C-0101"
    ],
-   "checker": "plants one hit of each kind in a scratch copy and confirms the scanner names each; confirms the allow file's every entry has a reason; confirms the deny-list's record is in CLEAN-ROOM.md §4 and no token appears anywhere in plat/"
+   "checker": "plants one hit of each kind in a scratch copy and confirms the scanner names each; confirms the scanner reads the deny-list's normalisationVersion and refuses another; confirms no token is ever printed; confirms denylist-allow.json is empty at this landing",
+   "handsOver": [
+    "plat/packages/testkit/baselines/denylist-allow.json → M0-k-07 (the reviewed allow entries with their written reasons)"
+   ]
+  },
+  {
+   "id": "M0-k-07",
+   "title": "AFTER-M-1 (a): the deny-list scan run over plat/ with M-1's denylist.json; the reviewed allow entries; the PR job built",
+   "package": "@plat/testkit",
+   "wave": "AFTER-M-1 (a)",
+   "estHours": "2–4",
+   "owns": [
+    "plat/packages/testkit/baselines/denylist-allow.json (handed over from M0-k-06; the reviewed entries, each with its written reason)",
+    "plat/docs/build/summaries/M0-k-07.json"
+   ],
+   "needs": "afterM1Needs.M0-k-07",
+   "startsWhen": "M0-x-01 LANDED (C-0102), and plat/packages/testkit/baselines/denylist.json (salted SHA-256 digests only, carrying normalisationVersion 1, C-0101) committed by M-1 with its CrossingRecord and its generation record entered in CLEAN-ROOM.md §4 (date, sources, counts — never the tokens)",
+   "sections": [
+    "§17.1 (5) (the content scan in the PR tier; a hit fails the build unless a reviewed allow entry with a written reason exists)",
+    "§13.8 (the PR tier's licence, notices and deny-list scans)",
+    "§17.1 (2) (the digest checker runs the same scan on the digest — research-side; the scanner here reads the digest too)",
+    "§17.1 (4) (denylist.json crosses as a numbers-only file with its CrossingRecord)"
+   ],
+   "builds": "No new code: runs M0-k-06's scanner over plat/ with M-1's denylist.json (plat baselines check green on it; the normalisationVersion equal to the scanner's), reviews every hit — a true reuse is fixed in the owning item's fix round, a false hit takes a reviewed allow entry with its written reason —, re-runs to 0 unreviewed hits, and records the run (counts, the allow entries' ids, the deny-list file's sha256 from its CrossingRecord) in the numbers-only summary; the PR manifest's deny-list job reads built once the file exists (C-0099) and the PR tier stays green from then on.",
+   "interfaces": [
+    "corepack pnpm bench -- scan (over the committed denylist.json)",
+    "denylist-allow.json (reviewed)"
+   ],
+   "defers": [
+    "the palette audit → research-side at every milestone (§17.1 (5)); M0 ships no palette"
+   ],
+   "tests": [
+    "the committed denylist.json's normalisationVersion equals the scanner's (a mismatch stops the scan naming both; C-0101) and its CrossingRecord's sha256 equals the file's",
+    "every hit of the first run is either fixed (the owning item's fix round named) or allowed with a written reason; the final run reports 0 unreviewed hits",
+    "the scanner never prints a matched token (the report checked)"
+   ],
+   "exitBars": [
+    {
+     "bar": "the scanner runs over plat/ with M-1's deny-list in the PR tier: 0 unreviewed hits (§17.1 (5), §13.8); every allow entry carries a written reason",
+     "when": "after-M-1"
+    }
+   ],
+   "dependsOn": [
+    "M0-k-06",
+    "M0-f-02a",
+    "M0-x-01"
+   ],
+   "choices": [
+    "C-0069",
+    "C-0099",
+    "C-0101",
+    "C-0102"
+   ],
+   "checker": "re-runs the scan and quotes the counts; confirms the allow file's every entry has a reason; confirms the deny-list's record is in CLEAN-ROOM.md §4 and no token appears anywhere in plat/; confirms the item started after M0-x-01 LANDED and not during T / T2 (the lane log)"
   },
   {
    "id": "M0-x-04",
@@ -4634,10 +4759,10 @@
     "§5.4 (GenerationReport.stages[].ladderUses; work_cut)",
     "§16 M0 (a) (the ladder-coverage clause of B-FUZZ's bar)"
    ],
-   "builds": "The stage-rung registry (ladder id, rung id, the stage, the report code or warning the rung leaves — W_CUT_SLID, work_cut, unserved, the gate re-draw and drop counts, … — and the milestone of a deferred rung) and, per M0 rung, one fixture that forces it on the real stages through M0-x-04's runBase or the stage's own Stage object: F-CUT's reflex pre-cut and antenna split, (a) the turned frames, (b) the straight cut, (c) the perpendicular cut with W_CUT_SLID, (d) the court substitution (M0-b-03); F-ROUTE's another-crossing-site, slope-relaxation and unserved rungs (M0-c-03; the extra-bridge rung tagged M1); F-NUM's re-propose then reject (M0-c-05); F-RIVER's carve-deeper, re-trace and move-inlet rungs (M0-e-02; the centre and no_crossing rungs tagged M1); F-WALL's gate re-draw and drop (M0-c-01) and the trace's re-offset and union-simplify rungs (M0-c-02; the open-chain, arterial-diversion, postern and setback-cut rungs tagged M1, the raised-way rung M3a); F-BUDGET-STAGE's top-up and accepted shortfall (M0-c-05); F-WORK's declared coarser rung per stage (C-0085: S1 hydrology, the fields, S5c, S6's grower, S8, the routes) through a test-side workLimits table with one low floor per run (M0-f-03a's loader); the check asserts each rung's report code appears exactly where its fixture forces it and nowhere on the plain fixture; the table extends M0-k-04's ladderCoverage() (the kernel ladders) into one report over §5.2 — every ladder named, each rung built or deferredTo its milestone (F-CORRIDOR, F-OUTLINE, F-CONTOUR, F-SITE, F-CASTLE, F-PLOT, F-SITING, F-SITEPLAN → M1; F-EDIT, F-REDERIVE → M2a / M3a; F-BUDGET-TIME → M1's worker host; F-LABEL, F-LIGHT → M1 / M4; the volumes' rows → their volumes); the bench entry bench/src/ladder-coverage (corepack pnpm bench -- ladder-coverage; the dispatcher entry is the scaffold fix round's, C-0095) writing the report to PLAT_BENCH_OUT and the numbers-only summary docs/build/summaries/M0-x-05.json (C-0067).",
+   "builds": "The stage-rung registry (ladder id, rung id, the stage, the report code or warning the rung leaves — W_CUT_SLID, work_cut, unserved, the gate re-draw and drop counts, … — and the milestone of a deferred rung) and, per M0 rung, one fixture that forces it on the real stages through M0-x-04's runBase or the stage's own Stage object: F-CUT's reflex pre-cut and antenna split, (a) the turned frames, (b) the straight cut, (c) the perpendicular cut with W_CUT_SLID, (d) the court substitution (M0-b-03); F-ROUTE's another-crossing-site, slope-relaxation and unserved rungs (M0-c-03; the extra-bridge rung tagged M1); F-NUM's re-propose then reject (M0-c-05); F-RIVER's carve-deeper, re-trace and move-inlet rungs (M0-e-02; the centre and no_crossing rungs tagged M1); F-WALL's gate re-draw and drop (M0-c-01) and the trace's re-offset and union-simplify rungs (M0-c-02; the open-chain, arterial-diversion, postern and setback-cut rungs tagged M1, the raised-way rung M3a); F-BUDGET-STAGE's top-up and accepted shortfall (M0-c-05); F-WORK's declared coarser rung per stage (C-0085: S1 hydrology, the fields, S5c, S6's grower, S8, the routes) through a test-side workLimits table with one low floor per run (M0-f-03a's loader); the check asserts each rung's report code appears exactly where its fixture forces it and nowhere on the plain fixture; stageLadderCoverage() calls M0-k-04's ladderCoverage() (the kernel ladders; its file untouched, C-0109) and merges the stage ladders into one report over §5.2 — every ladder named, each rung built or deferredTo its milestone (F-CORRIDOR, F-OUTLINE, F-CONTOUR, F-SITE, F-CASTLE, F-PLOT, F-SITING, F-SITEPLAN → M1; F-EDIT, F-REDERIVE → M2a / M3a; F-BUDGET-TIME → M1's worker host; F-LABEL, F-LIGHT → M1 / M4; the volumes' rows → their volumes); the bench entry bench/src/ladder-coverage (corepack pnpm bench -- ladder-coverage; the dispatcher entry is the scaffold fix round's, C-0095) writing the report to PLAT_BENCH_OUT and the numbers-only summary docs/build/summaries/M0-x-05.json (C-0067).",
    "interfaces": [
     "STAGE_LADDERS: LadderRung[] { ladder, rung, stage, code, fixture, milestone? }",
-    "ladderCoverage(): CoverageReport (M0-k-04's table, extended with the stage ladders)",
+    "stageLadderCoverage(): CoverageReport (M0-k-04's ladderCoverage() merged with the stage ladders; C-0109)",
     "corepack pnpm bench -- ladder-coverage"
    ],
    "defers": [
@@ -4649,7 +4774,8 @@
     "every M0 rung of C-0085's list is reached by exactly its fixture and leaves its report code (a planted fixture that reaches no rung fails the check)",
     "the plain flat fixture at one seed reaches no stage ladder rung but F-CUT's rung (a) (the baseline count)",
     "every §5.2 ladder appears in the table once, built or with its milestone; a ladder missing from the table fails",
-    "the report reproduces byte for byte (seeded)"
+    "the report reproduces byte for byte (seeded)",
+    "the combined report contains every row of ladderCoverage() unchanged, and `corepack pnpm build` (tsc -b) passes over testkit with both folders exported (C-0109)"
    ],
    "exitBars": [
     {
@@ -4673,9 +4799,79 @@
    "choices": [
     "C-0085",
     "C-0067",
-    "C-0095"
+    "C-0095",
+    "C-0109"
    ],
    "checker": "walks §5.2's rows and confirms each has a table entry (built with its fixture, or a milestone); runs the bench entry and quotes the per-rung counts; confirms no rung is reached by a code path that bypasses the stage (the fixtures run the real Stage objects)"
+  },
+  {
+   "id": "M0-x-06",
+   "title": "The edge suite B-EDGE at M0 and §13.1's per-class degenerate fixtures: §4.13's EP rows and combination cells whose mechanisms M0 lands, each asserting its home's stated outcome, hard, 0 per 1 000",
+   "package": "@plat/testkit",
+   "wave": 17,
+   "estHours": "6–8",
+   "owns": [
+    "plat/packages/testkit/src/edge/",
+    "plat/packages/testkit/test/edge/",
+    "plat/docs/build/summaries/M0-x-06.json"
+   ],
+   "sections": [
+    "§4.13 (the edge table's EP rows: EP-01, EP-04, EP-05, EP-06, EP-16, EP-20, EP-23 at M0; the combination table's frame column for river, bridge and wall; 'the home's stated outcome, hard, 0 per 1 000')",
+    "§13.2 (the edge suite B-EDGE — one fixture per EP row and per combination cell, at every rung the row names and under every preset)",
+    "§13.8 (the bar schedule's B-EDGE row: PR on its fixtures; the rung and preset sweep nightly; first milestone the one that lands each row's mechanism)",
+    "§13.1 (ladder coverage: the fixtures hold, per failure class, one degenerate input of each kind — zero-length, zero-area, self-touching, collinear and coincident)",
+    "§5.1 (9) (degenerate geometry has one rule: refused by the kernel, handled on the stage's class, never a whole-map retry)",
+    "§4.1 (the transactions table: each stage's failure class)",
+    "§3.11 (degenerate geometry: the kernel's outcomes)",
+    "§4.6 step 1 (the stop test's bell at g = 0 and g = 1), §4.4 S5b, S5c, S5d, §4.5 *Grower*, §4.2 S3 (6), §4.3 *Lattice and costs*, §4.2 S1 (5), (8) (the homes)"
+   ],
+   "builds": "The edge suite as a vitest folder (testkit/test/edge; PLAT_EDGE_SEEDS = 10 when unset, the PR size; 1 000 when run by M0-f-02b's nightly job — the bar's 0 per 1 000; C-0100) over fixtures in testkit/src/edge, each the smallest state that reaches its home — the stage's own Stage object on a prepared arena, or M0-x-04's runBase on a small frame — and each asserting the home's stated outcome on every seed: EP-01 on every M0 stage (S1's L0 batch, the S3 slice's commits, S4, S5a, S5b, S5c, S5d, S6, S8) × the five degenerate kinds (zero-length, zero-area, self-touching, collinear, coincident) — the kernel refuses with its §3.1 code, the stage's §5.2 class takes it on its ladder and the report names the rung, never a crash, hang, invalid output or whole-map retry; EP-04 (S5b with no new primary owed: N_k ≤ c adds none; S5c with no seed inside the boundary: nothing grown, reported — defined); EP-05 (S5d on a face its reserves cover: built land floored at 0 → one top-up → the shortfall reported); EP-06 (S6 on a single coarse face: one district; a degenerate district face: merged by §4.5's rule); EP-16's stop-test end (a fixture stream whose four uniforms are all 1, then all 0: g = 1 gives τ = e_hi and g = 0 gives τ = e_lo, the face cut or standing accordingly — defined); EP-20's M0 part (a flat fixture whose frame holds less reachable land than the CITY quotas ask: the capped t₁ and the frame arc at S3 (6), a stage with no land folded into the last stage with land at S5a, no top-up without land at S5d, the shortfall in requestedVsBuilt under F-BUDGET-STAGE); EP-23's M0 part (the 3 000 m relief fixture with a ridge above the class grade between the plaza and a gate: the S3 (5) gate route and S4's arterial within their class grade after the slope relaxation, else unserved reported); the frame-column cells — river × frame (a river reaching the arena's outer ring shares its edge, one edge both roles; no crossing site whose deck_end lies beyond the ring), bridge × frame (a built span's deck inside the frame, its site's two ends inside), wall × frame (the trace inside the frame; a frame arc inset by the outer wall strip); and §13.1's per-class degenerate inputs — for F-NUM, F-CUT, F-RIVER, F-ROUTE, F-WALL, F-BUDGET-STAGE, F-SKELETON and F-WORK one input of each of the five kinds (F-SKELETON's and F-NUM's kernel side by reference to M0-k-02's case ids; F-WORK's the coarser rung's output made degenerate), each refused by the kernel and taken on the class's ladder with the rung named. The coverage table lists every §4.13 EP row and combination cell and every (class, kind) pair with its fixture, or its milestone: EP-02, EP-03 (S0 → M1); EP-07 – EP-15, EP-17 – EP-19, EP-21, EP-22, EP-24 – EP-27 and every other combination cell → the milestone of their mechanism; EP-16's ring-spacing part (II.2) → its part's milestone; EP-20's island, fjord and narrow-valley fixtures and EP-23's S5b / S5c part → M1; the rung sweep (TOWN, METROPOLIS) and the preset sweep → M1, the M0 fixtures running at CITY. The numbers-only summary (per fixture the seed count and the outcome counts) to docs/build/summaries/M0-x-06.json (C-0067).",
+   "interfaces": [
+    "EDGE_FIXTURES: EdgeFixture[] { id (an EP row, a cell or a (class, kind) pair), home (the section), run(seed), expect, milestone? }",
+    "edgeCoverage(): EdgeCoverageReport",
+    "PLAT_EDGE_SEEDS (10 unset; 1 000 nightly)"
+   ],
+   "defers": [
+    "EP-02, EP-03, EP-07 – EP-15, EP-17 – EP-19, EP-21, EP-22, EP-24 – EP-27 and every combination cell outside the frame column's river, bridge and wall rows → the milestone of each row's mechanism (listed in the coverage table)",
+    "EP-16's ring-spacing part (II.2) → its part's milestone",
+    "EP-20's island, fjord and narrow-valley fixtures and EP-23's S5b / S5c part → M1 (coast and islands; S5 on relief with B-CITY)",
+    "the rung sweep (TOWN, METROPOLIS) and the preset sweep (the parity presets, each layer on and off) → M1 (the presets and the size ladder's fixtures; C-0100)"
+   ],
+   "tests": [
+    "every fixture at PLAT_EDGE_SEEDS seeds gives the home's stated outcome on every seed (0 per 1 000 at the nightly size): EP-01's kernel refusal code and the stage's named rung per stage and kind; EP-04's, EP-05's, EP-06's, EP-16's, EP-20's and EP-23's outcomes as stated; the three frame cells",
+    "the per-class degenerate inputs: for each of F-NUM, F-CUT, F-RIVER, F-ROUTE, F-WALL, F-BUDGET-STAGE, F-SKELETON and F-WORK, each of the five kinds is refused by the kernel and taken on the class's ladder, the rung named in the report; never a crash, hang, invalid output or whole-map retry (the harness's restart assertion)",
+    "the coverage table holds every §4.13 EP row and combination cell and every (class, kind) pair, each with a fixture or a milestone; a row missing from the table fails",
+    "a negative control: a fixture whose expected outcome is deliberately wrong fails the suite naming the fixture and seed",
+    "PLAT_EDGE_SEEDS unset gives 10 seeds per fixture; a non-integer value is refused (C-0057's form)"
+   ],
+   "exitBars": [
+    {
+     "bar": "B-EDGE's M0 rows — EP-01 on every M0 stage, EP-04, EP-05, EP-06, EP-16's stop-test end, EP-20's and EP-23's M0 parts, the frame cells for river, bridge and wall — and §13.1's per-class degenerate inputs (five kinds × eight classes) each give the home's stated outcome, hard, 0 per 1 000 (nightly; the PR size per PR run); every other row, cell, rung and preset listed with its milestone (§4.13; §13.2; §13.8's B-EDGE row; §13.1; C-0100)",
+     "when": "here"
+    }
+   ],
+   "dependsOn": [
+    "M0-x-04",
+    "M0-k-02",
+    "M0-k-01",
+    "M0-b-03",
+    "M0-c-01",
+    "M0-c-02",
+    "M0-c-03",
+    "M0-c-04",
+    "M0-c-05",
+    "M0-e-02",
+    "M0-e-03",
+    "M0-e-04",
+    "M0-e-05",
+    "M0-f-03a"
+   ],
+   "choices": [
+    "C-0100",
+    "C-0067",
+    "C-0057"
+   ],
+   "checker": "walks §4.13's rows and cells and §13.1's class × kind grid and confirms each has a table entry (a fixture or a milestone); runs the suite at PLAT_EDGE_SEEDS=1000 and quotes the per-fixture outcome counts (0 off-outcome); confirms every fixture runs the real Stage objects or runBase (no mock stage); confirms the summary carries counts only"
   }
  ]
 }
