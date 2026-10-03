@@ -1,0 +1,77 @@
+{
+ "slot": 4,
+ "status": "landed",
+ "capture": "2026-10-03T22-57-34",
+ "checks": [
+  {
+   "check": "ftg_capture_post.py --slot 4 --signed-in --premium: all 10 checks",
+   "passed": true,
+   "receipt": "--check-only exit 0, then the writing run exit 0; 10/10 PASS: calls, size key BIG_TOWN, water keys COASTAL/rivers true, request diff vs base (other 0), vs slot 0 (8 semantic, 0 size-dependent, other 0), same-size 16 of 16 equal day 1's (2026-10-03T17-19-06), decode (3.1 x 4215, 3.2 x 3571, 8 x 1880), border +-2000.00 m, no resident field, pb_raw runs (177 paths)"
+  },
+  {
+   "check": "exactly one create for slot 4",
+   "passed": true,
+   "receipt": "before: capture folders ended at slot 3's, slot 4 unbound, list read 4 rows (BIG_TOWN 2, BIG_CITY 2); one Create Settlement click (1 of 1 hit-testable, (947, 522), inside the dialog, elementFromPoint checked, CHECKPOINT logged first); one PUT .../prod/settlements 200 with a body; after: list 5 rows (BIG_TOWN 3, BIG_CITY 2)"
+  },
+  {
+   "check": "request hash recomputed outside the script",
+   "passed": true,
+   "receipt": "sha256 of the 274296-byte PUT body = 2473a617654e; referenceBuild ftg:2026-10-03+2473a617654e"
+  },
+  {
+   "check": "request vs slot 2 (same cell) and vs slot 3",
+   "passed": true,
+   "receipt": "vs slot 2: 0 semantic differences, 45 partner ids, same 26 top-level keys; vs slot 3: 15 semantic (size key + 14 size-dependent) + 45 partner ids"
+  },
+  {
+   "check": "red tests (same capture as other slots, --check-only)",
+   "passed": true,
+   "receipt": "as slot 0 exit 1 (waterKeys); as 1 exit 1 (sizeKey, waterKeys, border); as 3 and 5 exit 1 (sizeKey, sameSize, border); as 2 exit 0 (same cell, only the order index differs)"
+  },
+  {
+   "check": "structure.md equals a fresh pb_raw run",
+   "passed": true,
+   "receipt": "diff: title line and trailing newline only"
+  },
+  {
+   "check": "slot bind and plan check",
+   "passed": true,
+   "receipt": "plan.py --bind-ftg 4=2026-10-03T22-57-34 exit 0; --check SAME plan.json 10501452f2a45b8c and metrics.m-1.json 7a21bb290bb9c7df (unchanged); one line changed vs pre-bind e5697b73 (m1/rulings-2's 18:57 regeneration with programme 2)"
+  },
+  {
+   "check": "isolated runner and clean stop",
+   "passed": true,
+   "receipt": "cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, common.mjs 3b948576, package.json 25e7d362, instrument.js cca253ac); port 9341; no FTG process / Singleton* before and after; session closed; shared and own .session absent before and after"
+  },
+  {
+   "check": "only the seat used the window; hard limits",
+   "passed": true,
+   "receipt": "one document load; hosts: site, API, analytics, error reporting, fonts, one GPU-benchmark file (as slots 2-3); one API write (the create); no consent notice, no prompt, nothing accepted; no sign-out, settings, premium, re-roll, delete, rename or share touched"
+  },
+  {
+   "check": "privacy grep of every file written or changed",
+   "passed": true,
+   "receipt": "0 emails, 0 display-name hits, 0 tokens in README, capture-facts, request-diff, structure, create-request (45 partner UUIDs only), E02 md/json, checklist (its one token-prefix hit is H11's own wording), result, lane lines; steps.jsonl: settlement id + scratchpad folder name (as slots 1-3); its line 4 held the display name from an unredacted elementFromPoint eval, redacted after the run (E02 14.4)"
+  },
+  {
+   "check": "E02 section 14 + JSON day-5 entry + checklist H14; df",
+   "passed": true,
+   "receipt": "E02 header update and section 14 (14.1-14.5); JSON slotsTaken 5, days[4], next = slot 5; checklist slot-4 line and H14; 11 GiB free after (12 before)"
+  }
+ ],
+ "account_limit": "none reached: premium account (J164), no counter; list 4 settlements before, 5 after; 'Unlimited settlements'",
+ "owner_notes": [
+  "Slot 4 was created once in your signed-in account: a big town on the coast with rivers, 5 settlements in the list now. Nothing was accepted, bought or changed; no prompt appeared.",
+  "The first element check on the landing returned your display name in the seat's own output, and drive.mjs logged it into captures/ftg/2026-10-03T22-57-34/steps/steps.jsonl (local, git-ignored). That one value was replaced by [name]; the helper now redacts (checklist H14).",
+  "One slot remains: slot 5 (big city, coast + river). Please leave the browser window alone while a seat runs."
+ ],
+ "notes": [
+  "CONFIRMED: slot 4 = captures/ftg/2026-10-03T22-57-34, BIG_TOWN coast+river, 1880 buildings, 4215 edges, 3571 nodes, 22 towers, 4 water bodies, 4 districts, +-2000 m, referenceBuild ftg:2026-10-03+2473a617654e, listed population 6221 (nominal 5600 kept).",
+  "CONFIRMED: slot 4's request equals slot 2's apart from the 45 client-random partner ids, yet the towns differ (1880 vs 1821 buildings, 22 vs 31 towers, sea SW vs N); PLAUSIBLE: the server's own seed causes it (plan ftg.seedable false).",
+  "CONFIRMED: 177 field paths, same set as slot 3; the field-11 parts slot 2 had are also absent in slot 1 (free), so not a premium effect.",
+  "CONFIRMED: the map's re-roll control showed in the first map frames and was absent after the zoom clicks; never clicked.",
+  "Vetoable: steps.jsonl line 4 redacted in place (marked 'redacted'); checklist H14 added (redacting EP helper).",
+  "plan.json pre-bind sha e5697b73 is m1/rulings-2's regeneration (programme 2, slots 6-27), not slot 3's 811ae576; bindings 0-3 were kept and --check reads SAME.",
+  "Files: docs/calibration/E02-ftg-captures.md (header, section 14), docs/calibration/E02-ftg-captures.json, research/baselines/ftg_capture_checklist.md (slot-4 line, H14), research/baselines/plan.json (slot 4 bound), captures/ftg/2026-10-03T22-57-34/. No plat/, no git."
+ ]
+}

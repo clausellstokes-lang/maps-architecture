@@ -1,0 +1,40 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-d-02",
+  "lane": "build/M0-d-02",
+  "lanes": ["build/M0-d-02"],
+  "wave": "wave-2",
+  "snapshotTaken": "2026-10-03T22:45:42.038Z",
+  "date": "2026-10-03T23:00:14.776Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/kernel/src/hash/", "plat/packages/kernel/test/hash/", "plat/packages/kernel/test/vectors/murmur/"],
+  "counts": { "created": 11, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/kernel/src/hash/h32.ts", "status": "created", "sha256": "1876c779e0d8fb183d6841fe8f0358c18b79f2a466aa54275b855684b722b299", "size": 482 },
+    { "path": "plat/packages/kernel/src/hash/index.ts", "status": "changed", "sha256": "51d5198758116ca16b4925144d6a003427de89d4b3e66b656b84a0395e2fd994", "size": 606 },
+    { "path": "plat/packages/kernel/src/hash/lanes.ts", "status": "created", "sha256": "560385de00476ab1483f3ab5ddfa159431355fba98df151dcd637e1ad20c1809", "size": 3661 },
+    { "path": "plat/packages/kernel/src/hash/murmur3.ts", "status": "created", "sha256": "a8932a1de88b17d0d4157036f5737aa5cf756a0090cd6f336ac1de69a4c59d36", "size": 7210 },
+    { "path": "plat/packages/kernel/src/hash/types.ts", "status": "created", "sha256": "4c6a04f58b4af2a6017af24260ac35a7816c8f70a1c9dbd181306a8bcb97a49e", "size": 714 },
+    { "path": "plat/packages/kernel/src/hash/utf8.ts", "status": "created", "sha256": "7ab4e12f74fbc97843f889841eb7d9b858b1315f312ec166c15582bee4b4b8bb", "size": 2651 },
+    { "path": "plat/packages/kernel/test/hash/h32.test.ts", "status": "created", "sha256": "862c8bc8d38145114300c8dce053cdf494fc3cdefcd01919003de2f2f7ac4a1d", "size": 3052 },
+    { "path": "plat/packages/kernel/test/hash/lanes.test.ts", "status": "created", "sha256": "c4be2087d662571b50750c9d05e33bd81aa8845bc8efa4fd2c1be4e88e49d839", "size": 5991 },
+    { "path": "plat/packages/kernel/test/hash/murmur3.test.ts", "status": "created", "sha256": "f6bf803df4e770b56d477d3f0a11a9073135611d2072df44c99c95895dedde46", "size": 6761 },
+    { "path": "plat/packages/kernel/test/hash/support.ts", "status": "created", "sha256": "43b5ef53a6ffc42e3d1908ec7123e160cc129448871b7d99816d080206a69c44", "size": 2697 },
+    { "path": "plat/packages/kernel/test/hash/types.test.ts", "status": "created", "sha256": "ee4627df8e051376d3de5f1161b98c8ac4870a13d27db3ecf95b2e00cd647aca", "size": 2012 },
+    { "path": "plat/packages/kernel/test/vectors/murmur/murmur3-x86-128.json", "status": "created", "sha256": "43eb6464ca885d0c671c103b40b351896f8dbd6dcaa16e0a53e602a665686fcf", "size": 15253 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0032", "P-0001"],
+      "lines": ["604c6f6143ab6b37", "eca26f4f08d38806"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0132", "C-0133"],
+      "lines": ["3fa8f979311121dd", "c23ea580dfd42cab"],
+      "removed": []
+    }
+  ]
+}

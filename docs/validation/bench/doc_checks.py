@@ -22,7 +22,9 @@
 #                   a hit is a line of the checked sections holding >= 5 distinct whole words (>= 4 letters) that are
 #                   members of one such list, reported as those words, sorted
 #   corpus          (2026-10-03) reference material only: C2-C4 leave our own outputs out (research/sf/, research/baselines/
-#                   and M-1's capture records inside captures/; the rule is stated where the corpus is read)
+#                   and M-1's capture records inside captures/; the rule is stated where the corpus is read); an M-1
+#                   folder's stats.json, our script's table of the reference's exports, is read for its STRING VALUES
+#                   only (the generated names it transcribes), never its keys (our own field names) -- R-38, 2026-10-03
 #   S1 tables       outside fenced code (a fence may be indented, as inside a list item), every line that starts with '|'
 #                   also ends with '|', no non-table line sits between two table lines, and (VS4-1) every row has its
 #                   header's number of cells, counting only unescaped pipes: GitHub-flavoured Markdown splits a cell at
@@ -70,18 +72,34 @@ cols = set(m.lower() for m in re.findall(r'(?:#|0x)([0-9a-fA-F]{6})(?![0-9a-fA-F
 # plan, check, index and probe files our seats wrote beside the recordings. The recordings stay in (session/, draw/,
 # steps/ and every network body, the reference programs' exports and request bodies, the recorder's meta files), and so
 # do the capture records made before M-1, which the reviewed rows of the allow file were read against.
+# One record is read for its values only (R-38, lane m1/rulings-2, 2026-10-03, settling the clean-room verifier's P1):
+# an M-1 folder's stats.json is our script's table over the reference's exports, so its string values transcribe what
+# the reference generated (city names the exports also hold, in files this checker never opens) while its keys are our
+# own field names (phantom C3 runs and C4 lists on our own words, the reason R-30 cut our records). C3 and C4 therefore
+# read its string values in document order and its per-field value lists, and never its keys.
 OWN_TREES = ('research/sf/', 'research/baselines/')
 M1_FIRST_CAPTURE_DAY = '2026-10-03'
-OWN_RECORD = re.compile(r'(?:^|/)(?:README[^/]*\.md|capture-facts\.json|stats\.json|plan[^/]*\.json|[^/]*-check\.json|index\.json)$|/probe/')
+OWN_RECORD = re.compile(r'(?:^|/)(?:README[^/]*\.md|capture-facts\.json|plan[^/]*\.json|[^/]*-check\.json|index\.json)$|/probe/')
+VALUES_ONLY = re.compile(r'(?:^|/)stats\.json$')
 RECORDING = re.compile(r'/(?:session|draw|steps|coverage|profile|network)/')
 own_left_out = set()
+own_values_only = set()
+def m1_capture_record(p):
+    """True when p lies in a capture folder dated on or after M-1's first capture day, outside its recordings."""
+    day = re.search(r'\d{4}-\d{2}-\d{2}', p) if p.startswith('captures/') else None   # a capture folder's name carries its day
+    return bool(day and day.group(0) >= M1_FIRST_CAPTURE_DAY and not RECORDING.search(p))
 def reference(f):
     """True for reference material; our own outputs (above) are counted and left out."""
     p = f.replace(os.sep, '/')
-    day = re.search(r'\d{4}-\d{2}-\d{2}', p) if p.startswith('captures/') else None   # a capture folder's name carries its day
-    own = p.startswith(OWN_TREES) or bool(day and day.group(0) >= M1_FIRST_CAPTURE_DAY and OWN_RECORD.search(p) and not RECORDING.search(p))
+    own = p.startswith(OWN_TREES) or bool(m1_capture_record(p) and OWN_RECORD.search(p))
     if own: own_left_out.add(p)
     return not own
+def values_only(f):
+    """True for an M-1 folder's stats.json: its string values are corpus, its keys are not (R-38)."""
+    p = f.replace(os.sep, '/')
+    v = bool(m1_capture_record(p) and VALUES_ONLY.search(p))
+    if v: own_values_only.add(p)
+    return v
 corpus_files = [f for f in glob.glob('research/**/*', recursive=True)
                 if os.path.isfile(f) and f.rsplit('.', 1)[-1].lower() in ('md', 'txt', 'json', 'js', 'ts', 'tsv', 'csv', 'html', 'htm', 'svg', 'css', 'log', 'hx', 'xml', 'yaml', 'yml')
                 and reference(f)]
@@ -151,14 +169,17 @@ def records(vals):
 for f in json_files:
     try: d = json.load(open(f, encoding='utf-8', errors='replace'))
     except (OSError, ValueError): print(f'WARN unreadable JSON: {f}', file=sys.stderr); continue
-    stream = []; want_lists = not PROFILER.search(f)
+    stream = []; want_lists = not PROFILER.search(f); want_keys = not values_only(f)   # R-38: a values-only record's keys are ours
     stack = [d]
     def walk(x):
         if isinstance(x, str): stream.extend(t for t in tok(x) if not t.isdigit())
         elif isinstance(x, dict):
             for k, v in x.items():
-                stream.extend(t for t in tok(k) if not t.isdigit()); walk(v)
-            if want_lists: add_list(list(x.keys())); records(list(x.values()))
+                if want_keys: stream.extend(t for t in tok(k) if not t.isdigit())
+                walk(v)
+            if want_lists:
+                if want_keys: add_list(list(x.keys()))
+                records(list(x.values()))
         elif isinstance(x, list):
             for v in x: walk(v)
             if want_lists: records(x)
@@ -220,7 +241,8 @@ by = {}
 for h in hits: by.setdefault(h[0], [0, 0])[0] += 1
 for h in un: by[h[0]][1] += 1
 print(f'doc={a.doc} sections={a.sections or "all"} identifiers={len(idents)} colours={len(cols)} colour_files={len(corpus_files)} '
-      f'json_files={len(json_files)} c3_corpus_3grams={len(shared)} c4_lists={len(lists)} own_outputs_left_out={len(own_left_out)}')
+      f'json_files={len(json_files)} c3_corpus_3grams={len(shared)} c4_lists={len(lists)} own_outputs_left_out={len(own_left_out)} '
+      f'own_values_only={len(own_values_only)}')
 for c in ('C1', 'C2', 'C3', 'C4', 'S1', 'S2'):
     t, u = by.get(c, [0, 0]); print(f'{c}: {t} hits, {u} unreviewed')
 for h in un: print('UNREVIEWED', h[0], '|', h[1], '|', h[2])

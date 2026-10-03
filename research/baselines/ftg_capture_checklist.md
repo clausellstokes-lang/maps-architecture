@@ -259,3 +259,21 @@ every coordinate click had its own `elementFromPoint` reading, and a form-state 
       `EP() { D eval "(() => { const t = document.elementFromPoint($1, $2); return t ? t.tagName + ' ' + (t.type || '') + ' | ' + ((t.closest('div') || {}).innerText || '').trim().slice(0, 40) : null; })()"; }`
       before every coordinate click, and a form-state reading `G` (the eight selects' texts, the five boxes'
       label, `checked` and centre, and whether the create dialog is open) after every step.
+
+Slot 4 (2026-10-03, lane `m1/W-02-slot4b`, `captures/ftg/2026-10-03T22-57-34`) followed H1–H13 without change: the
+account list held 4 rows before (big town 2, big city 2) and 5 after; the form, the coordinates and "Create Settlement"
+(1 of 1, (947, 522), inside the dialog) were as in slots 1–3.
+
+14. **Redact the `elementFromPoint` helper too** (added by lane `m1/W-02-slot4b`). H13's `EP` prints the enclosing
+    block's text; on the landing's "Home" button that block holds the "Signed in as …" line, so its first reading
+    showed the display name, and `drive.mjs`, which logs every `eval` result, wrote it into `steps/steps.jsonl` (slot
+    4 redacted that one value afterwards). Use this form, which replaces that line before printing:
+    `EP() { D eval "(() => { const t = document.elementFromPoint($1, $2); return t ? t.tagName + ' ' + (t.type || '') + ' | ' + ((t.closest('div') || {}).innerText || '').trim().slice(0, 40).replace(/\\n/g,' / ').replace(/Signed in as [^\\/]*/g, 'Signed in as [name] ') : null; })()"; }`
+    For icon buttons (the map's "Zoom in", whose point hits an `svg` `path`), name the control by
+    `t.closest('[role=button],button')`'s `aria-label` instead. The map toolbar's re-roll control is shown in the first
+    map frames and may vanish after a zoom; it stays on the never-click list either way.
+
+Slot 5 (2026-10-03, lane `m1/W-02-slot5b`, `captures/ftg/2026-10-03T23-10-37`) followed H1–H14 without change: the
+account list held 5 rows before (big town 3, big city 2) and 6 after; the form, the coordinates and "Create Settlement"
+(1 of 1, (947, 522), inside the dialog) were as in slots 1–4; the redacting `EP` of H14 kept `steps.jsonl` free of the
+display name. Programme 1 (slots 0–5) is complete.

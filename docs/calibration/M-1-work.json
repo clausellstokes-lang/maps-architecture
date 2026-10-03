@@ -1,13 +1,14 @@
 {
- "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 17:05, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32)",
+ "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 16:59, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32); m1/rulings-2 (rev 3, 2026-10-03 evening, after plan-check-close-1 and J163 / J164; rulings M-1-rulings-2.md R-33..R-47)",
  "date": "2026-10-03",
- "status": "wave 1 landed (W-01, W-02 day 1, W-03 34/35, W-04, W-05, W-07, W-10, W-11, W-16 research list); plan revised; nothing written into plat/",
+ "status": "wave 1 landed (W-01, W-02 slot 0, W-03 34/35 + W-03-complete, W-04, W-05, W-07, W-10, W-11, W-16 research list); FTG slots 1-4 landed in the owner's signed-in account (J163; premium since J164 from slot 3), slot 5 running; FTG programme 2 (22 premium slots, J164) planned in plan.py / plan.json; plan revised (rev 3); nothing written into plat/",
  "machine": "MacBook Air, Apple M1 (4P+4E), 16 GB, macOS 14.7.8, Node 24.12.0, Python 3.9.6 with PIL 11.3, Google Chrome, puppeteer-core 25.x (profiler/node_modules)",
  "freeSpaceMB": {
   "at0328": 2700,
   "at0342": 19000,
   "at1700": 11000,
-  "stopBelowMB": 1000
+  "stopBelowMB": 1000,
+  "at1900": 12000
  },
  "referenceBuilds": {
   "MFCG": "itch:12710731 (JSON version 0.11.5); re-resolved by profiler/lib/common.mjs resolveTargetUrl at capture time; a newer build becomes a new pin by a declared shift (V12 §3.8, J-V12.13)",
@@ -60,22 +61,100 @@
    }
   },
   "FTG": {
-   "path": "capture/FTG/<size> slots in capture order (six); recorded family capture/FTG/CITY (two slots, one usable)",
-   "slots": 6,
+   "path": "capture/FTG/<size>/<water>/<j> as slots in capture order; 28 slots in two declared programmes (plan.py FTG_SCHEDULE + FTG_PREMIUM_SCHEDULE; R-33, R-35, R-36); recorded family capture/FTG/CITY (two recorded + two planned slots)",
+   "slots": 28,
+   "programmes": [
+    {
+     "programme": 1,
+     "slots": [
+      0,
+      6
+     ],
+     "rulings": "J159 (slot 0, guest); J163 (slots 1-5, the owner's signed-in account)",
+     "status": "slots 0-4 landed (2026-10-03T17-19-06, 22-04-25, 22-21-00, 22-43-28, 22-57-34); 5 running"
+    },
+    {
+     "programme": 2,
+     "slots": [
+      6,
+      28
+     ],
+     "rulings": "J164 (one premium month); R-33",
+     "status": "planned; recorded by workflows/25 by slot number after slots 4-5"
+    }
+   ],
+   "perSize": {
+    "BIG_TOWN": {
+     "slots": 10,
+     "none": 4,
+     "coast+river": 6
+    },
+    "BIG_CITY": {
+     "slots": 10,
+     "none": 4,
+     "coast+river": 6
+    },
+    "METROPOLIS": {
+     "slots": 4,
+     "none": 1,
+     "coast+river": 3
+    },
+    "CITY": {
+     "planned": 2,
+     "recorded": 2,
+     "usable": 3
+    },
+    "TOWN": {
+     "slots": 2,
+     "none": 1,
+     "coast+river": 1,
+     "rows": "none (research-side numbers; FtgSize has no TOWN)"
+    }
+   },
+   "nominalPopulation": {
+    "METROPOLIS": 49500,
+    "BIG_CITY": 24500,
+    "CITY": 9500,
+    "BIG_TOWN": 5600,
+    "TOWN": 3625
+   },
+   "rung": {
+    "METROPOLIS": "METROPOLIS",
+    "BIG_CITY": "CITY",
+    "CITY": "TOWN",
+    "BIG_TOWN": "TOWN",
+    "TOWN": "TOWN"
+   },
+   "halfWidthM": {
+    "METROPOLIS": 3000,
+    "BIG_CITY": 2750,
+    "CITY": 2500,
+    "BIG_TOWN": 2000,
+    "TOWN": 1750
+   },
+   "estimators": {
+    "BIG_TOWN": "type7 (n = 10); water rows minmax over the 6 coast+river slots",
+    "BIG_CITY": "type7 (n = 10); water rows minmax over 6",
+    "METROPOLIS": "minmax (n = 4)",
+    "CITY": "minmax (3 usable)"
+   },
    "recorded": {
     "capture/FTG/CITY": [
      {
       "slot": 0,
+      "label": "capture/FTG/CITY/coast+river/0",
       "capture": "2026-09-21T05-23-58",
       "usable": true
      },
      {
       "slot": 1,
+      "label": "capture/FTG/CITY/coast+river/1",
       "capture": "2026-09-25T10-13-51",
       "failed": "setting"
      }
     ]
-   }
+   },
+   "orderRule": "slots filled in slot order (plan.py --bind-ftg refuses a slot while an earlier one is open); an extension can only append (the first six labels fixed, labels unique: plan.py compute(), R-36)"
   }
  },
  "deliverables": [
@@ -193,7 +272,7 @@
   {
    "id": "D6",
    "deliverable": "MFCG sweep, ten seeds per matched size plus river-and-coast variant",
-   "class": "LANDED (E03; 34/35); W-03b closes the row under J161",
+   "class": "LANDED (E03; 34/35; m1/W-03-complete 16:49: re-export byte-identical, 130/plain/8 frozen on the retry, 2 of J161's 3 loads used); W-03b = R-13's extension only (R-39)",
    "captures": [
     "captures/mfcg/exports-sweep-m1-<date>"
    ],
@@ -204,7 +283,8 @@
    "work": [
     "W-03",
     "W-03b"
-   ]
+   ],
+   "note": "W-03b: 1 load (index 10) after W-01b's --extend; both ledgers counted (loads.jsonl 35; j161/loads.jsonl <= 3)"
   },
   {
    "id": "D7",
@@ -360,7 +440,7 @@
   {
    "id": "D14",
    "deliverable": "outline anisotropy and turning per 100 m on every FTG payload",
-   "class": "LANDED fixtures (E05) -> rows per slot",
+   "class": "LANDED fixtures (E05) -> values per slot (W-05b) -> rows at W-15",
    "existing": [
     "docs/validation/bench/ftg_anisotropy.out",
     "research/findings/_critic-ftg.md §4 rows 7-9"
@@ -383,7 +463,7 @@
    "work": [
     "W-05b"
    ],
-   "note": "outline band recomputed (DC-11)"
+   "note": "outline band recomputed by the band rule at n = 10 (DC-11); the ten-slot type7 turning band printed beside the declared exception (DC-35)"
   },
   {
    "id": "D15",
@@ -408,19 +488,20 @@
   {
    "id": "D16",
    "deliverable": "variety dispersions of MFCG and FTG ⟨M-1⟩",
-   "class": "COMPUTE+NEW",
+   "class": "COMPUTE in one step after both samples are complete (B-2; R-40)",
    "metrics": [
     "variety.dispersion"
    ],
    "roles": [
     "target as a floor"
    ],
-   "record": "E09/E05",
+   "record": "E09/E05/E15",
    "work": [
-    "W-09",
-    "W-05b"
+    "W-09 (MFCG vectors)",
+    "W-05b (FTG vectors)",
+    "W-15 (both dispersions)"
    ],
-   "note": "R-10: eight components; one value per rung, seeds = n; pooled deviations over MFCG usable seeds + FTG slots per rung; absFloor 0.1 z"
+   "note": "R-10: eight components; one value per rung, seeds = n; W-09 and W-05b write vectors only; W-15 forms both dispersions at TOWN, CITY and METROPOLIS with pooled deviations over MFCG 10 u FTG 10 (TOWN, CITY) and MFCG 10 u FTG 4 (METROPOLIS); absFloor 0.1 z; per-water-setting FTG values a note"
   },
   {
    "id": "D17",
@@ -554,7 +635,7 @@
   {
    "id": "D26",
    "deliverable": "FTG junctions, runs, footprints, party walls, towers and gates, water, trees, population, time",
-   "class": "LANDED fixtures (E05) -> rows per slot",
+   "class": "LANDED fixtures (E05) -> values per slot (W-05b) -> rows at W-15: type7 at BIG_TOWN and BIG_CITY (n = 10; water rows minmax over 6 coast+river), minmax at METROPOLIS (4) and CITY (3) (R-34)",
    "existing": [
     "research/ftg-capture/roadlength100/*.out.txt",
     "research/ftg-capture/analyse_layout.py",
@@ -741,18 +822,18 @@
    ],
    "noRow": [
     "label.* MFCG",
-    "time.worst MFCG (attempt counts a note)",
     "alley.gradient FTG",
     "FTG two market squares",
     "label.* NG",
     "plot.spearman NG",
-    "time.firstMap all (R-21)"
+    "FTG TOWN's two slots (research-side numbers; R-34)"
    ],
    "record": "E07/E11",
    "work": [
     "W-07b",
     "W-11b"
-   ]
+   ],
+   "timeRows": "every time cell M-1 cannot measure is one descriptive row in C-0116 form (R-44): MFCG and NG time.model, time.firstMap and time.worst for all three (MFCG time.worst's row carries the stress attempt counts as its note), values.n 0, reason contended or unmeasured, unless W-21"
   }
  ],
  "notM1": [
@@ -760,7 +841,7 @@
   "Fantasy Manor count rows (V02, M6c)",
   "ftg-captures.json and ng-counts.json (panel script at M1/M5)",
   "the M1 panel's MFCG coast+river exports at TOWN and METROPOLIS (V12 §3.2.1)",
-  "no row, stated (R-23): MFCG label.*, MFCG time.worst, FTG alley.gradient, FTG two market squares, NG label.*, NG plot.spearman, time.firstMap all three; MFCG/NG time.model descriptive unless W-21"
+  "no row, stated (R-23, R-44): MFCG label.*, FTG alley.gradient, FTG two market squares, NG label.*, NG plot.spearman, FTG TOWN slots; every unmeasured time cell one descriptive row (MFCG/NG time.model; time.firstMap and time.worst all three) unless W-21"
  ],
  "experiments": [
   {
@@ -892,27 +973,52 @@
   },
   {
    "id": "W-02",
-   "title": "FTG six captures",
-   "tool": "profiler/session.mjs --target ftg --headful; profiler/drive.mjs; persistent profile profiler/.profiles/ftg; research/baselines/ftg_capture_checklist.md",
+   "title": "FTG programme 1: six slots (slot 0 guest J159; slots 1-5 the owner's signed-in account J163)",
+   "tool": "profiler/session.mjs --target ftg --headful --port 9341 on an isolated runner; profiler/drive.mjs; persistent profile profiler/.profiles/ftg; research/baselines/ftg_capture_checklist.md section H (J163 rules, H12 guarded clicks); ftg_capture_post.py --slot k --signed-in [--premium]; plan.py --bind-ftg",
    "inputs": [
-    "the day's allowance",
-    "schedule: BIG_TOWN none, BIG_CITY none, BIG_TOWN coast+river, BIG_CITY coast+river, BIG_TOWN coast+river, BIG_CITY coast+river"
+    "the owner's signed-in account (J163)",
+    "plan.json slots 0-5: BIG_TOWN none, BIG_CITY none, BIG_TOWN coast+river, BIG_CITY coast+river, BIG_TOWN coast+river, BIG_CITY coast+river"
    ],
    "outputs": [
     "captures/ftg/<stamp>/ with layout .bin, create-request.json, screenshots, README (id, WaterSetting, population, populationSource, server time, buildings, request hash)",
     "E02"
    ],
-   "checker": "payload decodes with tools/pb_raw.py (fields 3 and 8 present); request size key equals the slot; README carries §13.6 (2)'s three fields; water keys equal the slot; days 2-6 pin the request-diff size class to the eleven named leaves (R-24)",
+   "checker": "the 10 checks of ftg_capture_post.py (calls, size key, water keys, request diff vs base and vs slot 0 within the 16 named size-dependent leaves, same-size values, decode, border, no resident field, pb_raw; R-24); plan.py --check SAME; the privacy grep (H11)",
    "depends": [
     "W-01",
-    "owner go"
+    "J159 (slot 0)",
+    "J163 (slots 1-5)"
    ],
-   "wave": "1 (day 1), 2 (days 2-6)",
+   "wave": "1 (slot 0), 2 (slots 1-5)",
    "ownerGated": true,
    "seatTier": "opus",
-   "diskMB": 170,
-   "status": "landed",
-   "record": "E02 day 1 of 6; days 2-6 by the session cron"
+   "diskMB": 280,
+   "status": "slots 0-4 landed (slot 4: 2026-10-03T22-57-34, m1/W-02-slot4b 19:09); slot 5 running (m1/W-02-slot5b)",
+   "record": "E02 sections 2, 10, 11, 13, 14 (slot 3 after the stopped attempt of section 12)"
+  },
+  {
+   "id": "W-02b",
+   "title": "FTG programme 2: the 22 premium slots 6-27 (J164; R-33), one sitting, by slot number",
+   "tool": "the same tools; M-1-plan section 2.1b's premium differences (the METROPOLIS option for slots 6-9 only, border half widths 3000 / 2500 / 1750 m in ftg_capture_post.py HALF_WIDTH_M, the first-of-size rule R-41, the retry rule, --premium); workflows/25-ftg-signed-in.js launched by the session with slots 6-27 and the premium wording; lanes m1/W-02-slot<k><suffix>",
+   "inputs": [
+    "the owner's premium account (unlimited saves; no further purchase; the window left alone)",
+    "plan.json ftg.slots 6-27 (ftg.programmes[1], ftg.perSize)"
+   ],
+   "outputs": [
+    "one captures/ftg/<stamp>/ per slot",
+    "plan.json slots 6-27 bound in order (or failed with a reason)",
+    "E02 one section per slot + .json entries; the size-dependent-value table per new size",
+    "the checklist's section I written by the first programme-2 seat from plan 2.1b"
+   ],
+   "checker": "the 10 checks per slot (same-size vacuous on a size's first capture, binding later); first-of-size evidence recorded before any widening of SIZE_DEPENDENT (R-41); plan.py --check SAME after each bind; the privacy grep; ftg.perSize totals reached or the shortfall recorded failed (never faked)",
+   "depends": [
+    "W-02 (slots 4-5 bind first)",
+    "J164"
+   ],
+   "wave": "2 (one sitting; first)",
+   "ownerGated": true,
+   "seatTier": "opus",
+   "diskMB": 1030
   },
   {
    "id": "W-03",
@@ -937,7 +1043,7 @@
    "seatTier": "opus",
    "diskMB": 325,
    "status": "landed",
-   "record": "E03 34/35; W-03b closes"
+   "record": "E03 34/35 + section 9 (W-03-complete: re-export identical, retry frozen); W-03b = the extension"
   },
   {
    "id": "W-04",
@@ -996,9 +1102,10 @@
     "ftg.ringBlock distribution; notes; plotShare upper bound",
     "E06"
    ],
-   "checker": "faces close (Euler check per ring subgraph); face areas sum to the ring area within 1 %",
+   "checker": "faces close (Euler check per ring subgraph); face areas sum to the ring area within 1 %; the last pass postdates the FTG programme's close (R-47)",
    "depends": [
-    "W-05"
+    "W-05",
+    "W-02b (last pass)"
    ],
    "wave": 2,
    "ownerGated": false,
@@ -1029,7 +1136,7 @@
   {
    "id": "W-08",
    "title": "MFCG recoverability and streetwall",
-   "tool": "measure_mfcg_render.py (SVG → PNG at the matched scale via headless Chrome; §8.5 2-px centreline sampling; pixel classes as mfcg_cover.py); fg.streetwall on cluster blocks",
+   "tool": "measure_mfcg_render.py (SVG -> PNG at the matched scale via headless Chrome WITH THE NETWORK DISABLED, R-47; section 8.5 2-px centreline sampling; pixel classes as mfcg_cover.py); fg.streetwall on cluster blocks",
    "inputs": [
     "the sweep's 30 plain SVGs and JSONs"
    ],
@@ -1037,7 +1144,7 @@
     "fg.recoverability, fg.streetwall, fg.coverWalled rows; rasters",
     "E08"
    ],
-   "checker": "two renders of one SVG differ < 0.005 in the metric; cover reproduces stats.py",
+   "checker": "two renders of one SVG differ < 0.005 in the metric; cover reproduces stats.py; 0 network requests in the render log",
    "depends": [
     "W-03",
     "W-09"
@@ -1049,16 +1156,16 @@
   },
   {
    "id": "W-09",
-   "title": "MFCG cluster blocks, derived graph, court share, variety",
-   "tool": "derived_graph.py (cluster blocks 1 m gap / 3 m close; raster medial axis at 0.5 m with 8 m spur pruning and 2 m node merge as the M-1 twin of V12 §3.4.1, declared); blockc.*, sgd.*, block.courtShare, variety.dispersion; metricVersion 1.0.0 kept (R-22)",
+   "title": "MFCG cluster blocks, derived graph, court share, variety vectors (no dispersion; R-40)",
+   "tool": "derived_graph.py (cluster blocks 1 m gap / 3 m close; raster medial axis at 0.5 m with 8 m spur pruning and 2 m node merge as the M-1 twin of V12 section 3.4.1, declared); blockc.*, sgd.*, block.courtShare, the MFCG signature vectors per usable seed WITHOUT a dispersion (B-2); metricVersion 1.0.0 kept (R-22)",
    "inputs": [
     "exports then the sweep"
    ],
    "outputs": [
-    "rows of D5, D11, D16",
+    "rows of D5, D11; D16's MFCG vectors per usable seed (the file W-15 reads)",
     "E09"
    ],
-   "checker": "planarity and face count; block area sum ≤ walled area; seed-to-seed CV handed to W-14",
+   "checker": "planarity and face count; block area sum <= walled area; seed-to-seed CV handed to W-14; one vector per usable seed per size",
    "depends": [
     "W-03",
     "W-07b"
@@ -1078,7 +1185,7 @@
     "per-class trace rows and block-area / cut-length distributions",
     "E10"
    ],
-   "checker": "pooled numbers reproduce 380/519 one-bend, 96 % arrivals ≥ 85°, 200 of 378 filleted",
+   "checker": "pooled numbers reproduce 380/519 one-bend, 96 % arrivals >= 85 deg, 200 of 378 filleted, and sigma 0.066 (plain) / 0.098 (ring) (E10 section 2)",
    "depends": [
     "W-01"
    ],
@@ -1091,7 +1198,7 @@
   {
    "id": "W-11",
    "title": "NG ⟨M-1⟩ rows, blocks, pairing, party walls, Moran, time",
-   "tool": "plot_granularity_baseline.py, paths_stats.py, the rebuilt road graph → adapters/ng.py (relative scale), measure_ng.py",
+   "tool": "plot_granularity_baseline.py, paths_stats.py, the rebuilt road graph -> adapters/ng.py, measure_ng.py (the landed twin ran at relative scale; W-11b applies the declared 0.35 m scale, R-01)",
    "inputs": [
     "the 2026-09-25 NG captures; W-04 later"
    ],
@@ -1112,17 +1219,17 @@
   {
    "id": "W-12",
    "title": "depth-row re-fit (item 34)",
-   "tool": "fit_depth_rows.py over W-09 cluster blocks (metres) and W-10 faces (relative); cut.flattenM against the bent-cut signature; the deep-interior share fit of R-19",
+   "tool": "fit_depth_rows.py over W-09 cluster blocks (metres) and W-11b's faces (declared metres and relative); cut.flattenM against the bent-cut signature; the deep-interior share fit of R-19",
    "inputs": [
     "E09",
     "E10",
     "E11"
    ],
    "outputs": [
-    "numbers table with provenance M-1 <date>; hand-off note to a design seat",
+    "numbers table with provenance M-1 <date>: depth rows, regime floors, cut.flattenM, the modest court cell and the ratio-moved bands, the MFCG preset's court cell; hand-off note to a design seat; the digest entry text (R-20 (2), (6))",
     "E12"
    ],
-   "checker": "fitted [e_lo, e_hi] reproduce the inputs' p10 / p90 within rounding; no block band signed before this lands",
+   "checker": "fitted [e_lo, e_hi] reproduce the inputs' p10 / p90 within rounding; the shares of every band sum to 1; no block band signed before this lands (J-A34.01)",
    "depends": [
     "W-09",
     "W-10b",
@@ -1146,7 +1253,7 @@
    ],
    "checker": "seeded, reproducible",
    "depends": [
-    "W-07",
+    "W-07b",
     "W-09"
    ],
    "wave": 2,
@@ -1161,7 +1268,7 @@
     "E09"
    ],
    "outputs": [
-    "CV > 0.3 → descriptive + known-defects entry",
+    "CV > 0.3 -> descriptive row in C-0116 form; the step / spur sensitivity reported as a PROXY of the raster-against-skeleton bias (no skeleton exists research-side; T-V12-3 at M1 decides, R-22)",
     "E14"
    ],
    "checker": "reproducible from E09's per-seed file",
@@ -1174,18 +1281,23 @@
   },
   {
    "id": "W-15",
-   "title": "rows, bands, candidate baselines.json",
-   "tool": "rows.py, bands.py (V12 §3.5.1-3.5.4), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json)",
+   "title": "rows, bands, the dispersions, the candidate baselines.json (the sole writer of rows.py, bands.py, cross_check.py; R-47)",
+   "tool": "rows.py (provenance, sample, role, estimator, spreadKS, declared-scale note; NO absFloor or sign field in any row, N-05; numbers below six consecutive digits where the unit allows: ratios at 4 decimals, areas in m2, N-03), bands.py (V12 section 3.5.1-3.5.4; type7 at n >= 10, minmax 2-9, single 1), the dispersion step (R-40: both references' variety.dispersion at TOWN, CITY, METROPOLIS from W-09's and W-05b's vectors), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json; the two new file kinds; colour check reading string values only, N-03)",
    "inputs": [
-    "every E record"
+    "every E record",
+    "W-02 and W-02b complete (28 slots bound or failed)",
+    "W-04",
+    "W-01b's registry (new ids)"
    ],
    "outputs": [
     "candidate baselines.json; check output",
     "E15"
    ],
-   "checker": "C1-C10 pass; referenceBuild, capture, script, date on every row; every ⟨M-1⟩ cell has a row or a known-defects entry; bands by the band rule with provenance M-1 <date>; gate flips listed for the shift record; T-V12-1 fixtures each refused naming their check; T-V12-28; T-V12-30 (R-26); the ng-faces.json candidate checked",
+   "checker": "C1-C10 pass; referenceBuild, capture, script, date on every row; every <M-1> cell has a target row or a descriptive row in C-0116 form (never a known-defects entry alone); no row carries a floor or sign field; bands by the band rule with provenance M-1 <date>; gate flips listed for the shift record; T-V12-1 fixtures each refused naming their check; T-V12-28; T-V12-30 (R-26); the ng-faces.json candidate checked; each FTG row's sample.captures equal the plan's slots in order (C7); D15's block.area carries spreadKS.p90 over per-template subsets",
    "depends": [
+    "W-01b",
     "W-02",
+    "W-02b",
     "W-04",
     "W-05b",
     "W-06",
@@ -1196,7 +1308,8 @@
     "W-11b",
     "W-12",
     "W-13",
-    "W-14"
+    "W-14",
+    "W-22"
    ],
    "wave": 3,
    "ownerGated": false,
@@ -1210,7 +1323,7 @@
     "the authoritative corpus of lane catchup/cleanroom; findings; captures' JSON and draw records; FTG request and presets; client bundle textures; Foundry module names; the two reference maps' transcribed names"
    ],
    "outputs": [
-    "the digest file for @plat/testkit's scanner; generation record (date, sources, counts)",
+    "the research-side list denylist/denylist.v1.json.gz (7 classes), the salt, the name digests, the supplement, design-allow.tsv; the crossing file denylist.json in M0 format is W-16b's (R-17)",
     "E16"
    ],
    "checker": "self-test: every doc_checks C1 identifier, corpus colour and check-(vi) list hits; design set scanned → 0 unreviewed hits with doc-checks-allow.tsv carried",
@@ -1283,17 +1396,18 @@
   {
    "id": "W-20",
    "title": "the crossing and the known-defects entries",
-   "tool": "baseline seat places baselines.json, ng-faces.json, denylist.json and the digest; checker seat runs corepack pnpm baselines:check per numbers-only file, appends the in-file crossings entry and C-0092 record to crossings.json (R-18), signs its §2 row; deny-list seat enters the §4 G-row; E19 lists known-defects entries for M1 (R-25)",
+   "tool": "baseline seat (research-side) places baselines.json, ng-faces.json, denylist.json; digest seat the digest; the checker seat (IMPLEMENTER-SIDE, C-0120 (3); R-45) reads only the candidates, baselines:check's output and the product's metrics.json, runs corepack pnpm baselines:check per numbers-only file, appends the in-file crossings entry and C-0092 record to crossings.json (R-18), signs its section 2 row; the planted-hit control (N-04) before the deny-list crosses; deny-list seat enters the section 4 G-row; E19 lists known-defects entries for M1 (R-25)",
    "inputs": [
     "E15",
     "E14",
-    "E19"
+    "E16 section 9 (the exit list)",
+    "E17"
    ],
    "outputs": [
     "committed files; first CrossingRecord",
     "E19"
    ],
-   "checker": "cross_check.py --previous on an empty file; T-V12-1/-28/-30; the git commit the session on the owner word",
+   "checker": "cross_check.py --previous on an empty file; T-V12-1/-28/-30; the planted-hit control caught; the hand-offs N-01..N-04 carried to M0-k-05 / M0-k-06 before their waves (plan section 7); the git commit the session on the owner word",
    "depends": [
     "W-15",
     "W-16b",
@@ -1314,10 +1428,10 @@
     "this plan"
    ],
    "outputs": [
-    "plan.json",
-    "metrics.m-1.json regenerated"
+    "plan.json (the MFCG --extend persisted like the FTG bindings; the recorded CITY block with labels capture/FTG/CITY/coast+river/0 usable and /1 failed:setting, R-02 / R-33)",
+    "metrics.m-1.json regenerated (the new ids; open list empty)"
    ],
-   "checker": "every existing seed unchanged (JSON diff); new ids present; open list empty",
+   "checker": "every existing seed unchanged (JSON diff); the 28 FTG slots and their bindings unchanged; new ids present; open list empty; plan.py --check SAME",
    "depends": [
     "W-01"
    ],
@@ -1327,49 +1441,50 @@
   },
   {
    "id": "W-03b",
-   "title": "closing W-03 under J161",
-   "tool": "mfcg_sweep_m1.mjs --one-seed",
+   "title": "closing W-03 under J161: R-13's extension only (B-1; R-39)",
+   "tool": "research/baselines/mfcg_j161_m1.mjs (the J161 tool with its own ledger j161/loads.jsonl; cap 2 -> 3 for this load) after plan.py --extend capture/MFCG/130/plain 11 (W-01b)",
    "inputs": [
-    "seed 0 cold re-export (1 load, downloads denied)",
-    "retry of 130/plain/8 (1 load)",
-    "if frozen: plan.py --extend capture/MFCG/130/plain 11 (1 load, 2 downloads)"
+    "1 load: index 10 = seedOf(capture/MFCG/130/plain, [10]); downloads denied, files from the in-page Blob (E03 section 9)",
+    "DONE by m1/W-03-complete (2 of J161's 3 loads; never re-run): seed 0's cold re-export byte-identical; the retry of 130/plain/8 frozen (sample.failed no-export, loads 2)"
    ],
    "outputs": [
-    "re-export sha1 vs eaa7701b",
-    "retry outcome",
-    "family at 10 usable",
-    "E03 §6 / README / W-03.json corrected to 2 of 10 size-40 seeds above 1500"
+    "family at 10 usable: indices [0,11), index 8 failed no-export",
+    "E03 section 10; sweep README and export-check.json updated; W-03.json left as history (E03 section 6 already says 2 of 10 size-40 seeds above 1500)"
    ],
-   "checker": "sha1 equal; extension seed = seedOf(family,[10]); check_w03 PASS; <= 3 loads beyond 35",
+   "checker": "extension seed = seedOf(family,[10]) printed by plan.py --check; check_w03.py PASS (C6 counting the J161 ledger too); BOTH ledgers counted: loads.jsonl 35 (J159) and j161/loads.jsonl <= 3 (J161), the build-id fetch logged as the same contact class; type7 estimator unchanged",
    "depends": [
     "W-03",
-    "J161"
+    "W-01b",
+    "J161 (the third load)"
    ],
-   "wave": 2,
+   "wave": "2 (after W-01b)",
    "ownerGated": true,
    "seatTier": "opus"
   },
   {
    "id": "W-05b",
-   "title": "FTG rows per slot",
-   "tool": "adapters/ftg.py, measure_ftg.py, rows.py per slot",
+   "title": "FTG measured values per slot (vectors, no dispersion, no rows.py; R-40, R-47)",
+   "tool": "adapters/ftg.py, measure_ftg.py per slot; per-slot values tabled in E05 section 9; MeasureInput files kept for W-15",
    "inputs": [
-    "six slots as they land",
-    "recorded family capture/FTG/CITY slot 0"
+    "the 28 slots as they land (programmes 1 and 2)",
+    "recorded family capture/FTG/CITY coast+river/0 usable"
    ],
    "outputs": [
-    "BIG_TOWN/BIG_CITY rows minmax n=3",
-    "CITY rows single n=1",
-    "time.model server rows (R-21)",
-    "FTG vectors and dispersion (R-10)",
-    "recomputed outline band (DC-11)",
-    "E05 §9"
+    "per-slot values for every FTG metric of D14, D25, D26",
+    "per-size samples for W-15: BIG_TOWN / BIG_CITY type7 at n = 10 (water rows minmax over 6 coast+river), METROPOLIS minmax 4, CITY minmax 3 usable (R-34); sample.captures the slots in order",
+    "time.model server values (R-21)",
+    "FTG signature vectors (R-10) without a dispersion",
+    "outline band inputs (DC-11); the ten-slot type7 turning band beside the declared exception (DC-35)",
+    "client scene time per slot with its contention flag (R-47)",
+    "TOWN slots as research-side numbers only",
+    "E05 section 9"
    ],
-   "checker": "MeasureInput equals a fresh run; captures equal the plan slots; 2026-09-25 payload in no row",
+   "checker": "MeasureInput equals a fresh run; captures equal the plan slots; 2026-09-25 payload in no sample (R-04); E02's same-size values reproduced from the requests",
    "depends": [
-    "W-02"
+    "W-02",
+    "W-02b (each slot)"
    ],
-   "wave": 2,
+   "wave": "2 (rolling; last pass after slot 27 or the programme's stop)",
    "ownerGated": false,
    "seatTier": "opus"
   },
@@ -1450,7 +1565,7 @@
     "§4 G-row record",
     "E16 §9"
    ],
-   "checker": "eleven checks PASS on both lists, check 11 at 0 unreviewed; planted leak per M0 class caught by the research twin of M0 rules; shared classes digest the same tokens",
+   "checker": "eleven checks PASS on both lists, check 11 at 0 unreviewed; planted leak per M0 class caught by the research twin of M0 rules; shared classes digest the same tokens; the header carries digestHexDigits 16 (N-04); the corpus rule equals doc_checks.py's two rules (R-30 exclusions; R-38 stats.json values only)",
    "depends": [
     "W-02",
     "W-03b",
@@ -1504,47 +1619,50 @@
   },
   {
    "id": "W-23",
-   "title": "doc_checks.py corpus exclusion (R-30; J161)",
-   "tool": "docs/validation/bench/doc_checks_exclude.txt read by the C2-C4 corpus walk: research/baselines/**, research/sf/**, M-1 capture lanes own record files",
+   "title": "doc_checks.py corpus exclusion (R-30; J161) -- DONE, amended by R-38",
+   "tool": "docs/validation/bench/doc_checks.py: OWN_TREES (research/sf/, research/baselines/), OWN_RECORD (M-1 capture lanes' README, capture-facts, plan, check, index, probe files from M1_FIRST_CAPTURE_DAY 2026-10-03; recordings kept), VALUES_ONLY (an M-1 folder's stats.json read for its string values only, never its keys; R-38)",
    "inputs": [
-    "E01 §6, E02 §7, E16 §5 (1)"
+    "E01 section 6, E02 section 7, E16 section 5 (1); the clean-room verifier's P1"
    ],
    "outputs": [
-    "the list; the script read; before/after counts on ARCHITECTURE and V12"
+    "the clean-room record's before / after counts (base C3 2050/14, C4 28/5 -> 1889/0, 24/0); R-38's counts in M-1-rulings-2.md section 3"
    ],
-   "checker": "design-set unreviewed C3/C4 from M-1 files return to 0 (14+2 and 33+4 today); C1, C2 unchanged",
+   "checker": "base exit 0 with 0 unreviewed; the positive control (five generated city names on one line -> a C4 hit) and the negative control (seven of our stats.json keys in a row -> no C3 run) in M-1-rulings-2.md section 3",
    "depends": [],
    "wave": 2,
    "ownerGated": false,
-   "seatTier": "opus"
+   "seatTier": "opus",
+   "status": "landed (clean-room lane 2026-10-03 + m1/rulings-2 R-38)"
   }
  ],
  "firstWave": [
   "LANDED: W-01, W-02 day 1, W-03 (34/35), W-04, W-05, W-07, W-10, W-11, W-16 (research list)"
  ],
  "ownerGated": [
-  "FTG days 2-6: approved J159; the cron; anything beyond the approved list stops the seat",
-  "MFCG three more loads: approved J161 (seed 0 re-export; retry 130/plain/8; R-13 extension 1 load 2 downloads only if frozen); build-id fetches were inside J159 Yes both",
+  "FTG programme 1 slots 1-5 in the owner's signed-in account: approved (J163, 'Yes, all five now'); slots 1-3 landed, 4-5 running; anything beyond section H's list stops the seat",
+  "FTG programme 2, 22 premium slots: approved in count (J164: about 20-25; BIG_TOWN and BIG_CITY to about ten, 3-5 metropolises, a few other sizes); the exact list of plan 2.1b (METROPOLIS 4, BIG_TOWN 7, BIG_CITY 7, CITY 2, TOWN 2) is R-33's ruling under J122, VETOABLE (the two TOWN slots drop first); no further purchase; nothing renews by a seat; settlements stay in the owner's account; the window left alone during a run",
+  "MFCG three more loads: approved J161 -- 2 used by W-03-complete (re-export; retry frozen); the third is R-13's extension (W-03b after W-01b)",
   "S-V12-1 fallback +30 loads +60 downloads: not approved",
   "W-21 timing loads 3 MFCG + 12 NG in an idle window after M0-t-01: not approved; else time rows descriptive",
   "NG: J159 (3) used up; any further load a new approval",
   "the crossing commit: the session on the owner word, re-confirmed in the chat of the day",
-  "R-14 ng-faces.json firewall restatement: decided under delegation, flagged for veto",
-  "design cells and corrections: reported not asked (J-A34.01) unless a signed golden flips",
-  "disk: no seat deletes or moves data",
-  "dependencies: nothing new installed"
+  "R-14 ng-faces.json firewall restatement: decided under delegation, flagged for veto; R-17's 16-hex digest truncation (digestHexDigits 16) flagged for the owner's eye",
+  "design cells and corrections DC-01..DC-35 (DC-31 records D-31's reversal for the premium month, the owner's own J164): reported not asked (J-A34.01) unless a signed golden flips",
+  "R-37 (listed population recorded, not used) and R-42 (three FTG pairs per rung in the sittings): vetoable",
+  "disk: no seat deletes or moves data; dependencies: nothing new installed"
  ],
  "diskEstimateMB": {
-  "ftgSixDays": 390,
+  "ftgProgramme1": 280,
+  "ftgProgramme2": 1030,
   "mfcgSweep": 220,
   "ngProgramme": 322,
   "renders": 60,
-  "measureInputs": 60,
+  "measureInputs": 75,
   "denylists": 20,
   "records": 6,
-  "total": 1080,
+  "total": 2013,
   "contingencyS-V12-1": 190,
-  "freeAt1700": 11000,
+  "freeAt1900": 12000,
   "stopBelow": 1000
  },
  "cannotMeasure": [
@@ -1555,8 +1673,8 @@
   },
   {
    "cell": "FTG resident count",
-   "status": "nominal 5600/24500, populationSource nominal",
-   "evidence": "CONFIRMED on three payloads"
+   "status": "nominal per size (presets.json: 5600 / 24500 / 49500 / 9500 / 3625), populationSource nominal; the account list's per-settlement population recorded beside, not used (R-37)",
+   "evidence": "CONFIRMED on six payloads (no resident field)"
   },
   {
    "cell": "MFCG derived-graph rows with CV > 0.3",
@@ -1569,9 +1687,9 @@
    "evidence": "CONFIRMED (E05 §5)"
   },
   {
-   "cell": "MFCG and NG time.model; time.firstMap and time.worst all three",
-   "status": "descriptive, values.n 0, reason contended, unless W-21 (R-21)",
-   "evidence": "CONFIRMED contended (E03 §3 (7), E04 §4 (5))"
+   "cell": "MFCG and NG time.model; time.firstMap and time.worst all three; FTG first-map clause at BIG_TOWN / BIG_CITY",
+   "status": "one descriptive row each in C-0116 form, values.n 0, reason contended or unmeasured, unless W-21 (R-21, R-44); FTG scene times tabled in E05 section 9 with contention flags; E19 entries",
+   "evidence": "CONFIRMED contended (E02 server-time notes, E03 section 3 (7), E04 section 4 (5))"
   },
   {
    "cell": "W-10 thin face classes (<10 bounded bent cuts on the formula sample)",
@@ -1596,7 +1714,7 @@
  ],
  "risks": [
   "itch build drift (MFCG 12710731, NG 11441280): new pin by declared shift; owner told first",
-  "FTG allowance refused on a day: schedule slides; sample.failed records the slot; fewer than six captures leaves the pairs recorded, never faked (§13.6 (12))",
+  "an FTG slot is refused or fails: plan 2.1b (6)'s retry rule (a create that made no settlement: up to 3 attempts; a failed post check: --fail-ftg K=<reason>; a site refusal stops the run); fewer slots than planned leave the rows at their smaller n and the pairs recorded, never faked (section 13.6 (12))",
   "derived street graph twin differs from the product's straight skeleton beyond 0.5 %: declared; M1's product value supersedes (J-V12.1)",
   "thin FTG samples: rows already weakness/descriptive except the declared turning exception",
   "unstable MFCG bands (S-V12-1): 20 seeds per size, +190 MB",
@@ -1604,10 +1722,12 @@
   "130/plain/8 freezes on the retry: R-13 formula extension to index 10",
   "a formula NG value departs from §13.5 recorded number: design corrected as a declared shift; formula row stands (R-03)",
   "raster twin vs skeleton: version 1.0.0 stands; digest entry lets M0-c-07a derive ours the same way; J-V12.1 at M1 (R-22)",
-  "M0-k-05 / M0-k-06 land late: crossings wait (R-32); candidates complete meanwhile"
+  "M0-k-05 / M0-k-06 land late: crossings wait (R-32); candidates complete meanwhile",
+  "the premium month lapses or the owner stops programme 2: the slots left stay open, the shortfall recorded in E02; no seat renews or buys",
+  "a new FTG size's first capture differs from slot 0 beyond the 16 named leaves: R-41 -- size-set layout values named into the class with the capture as evidence; anything else a deviation, the slot recorded failed"
  ],
- "revision": 2,
- "rulings": "docs/calibration/M-1-rulings-1.md",
+ "revision": 3,
+ "rulings": "docs/calibration/M-1-rulings-1.md (R-01..R-32); docs/calibration/M-1-rulings-2.md (R-33..R-47)",
  "scaleRule": {
   "NG": "declared 0.35 m per model unit (R-01; ARCHITECTURE 4.6 step 5 inference; plausibility: median footprint short side 20.3-20.8 mu = 7.1-7.3 m); MeasureInput header scale declared + unitM (DC-01); rows scale metric with the note; block.area declared metres is the row M0 reads, block.areaRel descriptive with edges 0.5-500 A in 24 log bins"
  },
@@ -1617,20 +1737,233 @@
   "MFCG": "usable plan seeds; retries and no-export in sample.failed; a frozen seed on retry extends the family by formula index (R-13)"
  },
  "wave2": [
-  "W-02 days 2-6 (cron) + W-05b per slot",
-  "W-01b, W-23 (small, first)",
-  "W-03b -> W-07b -> W-09 -> W-08, W-13, W-14",
+  "W-02 slots 4-5 (running) then W-02b slots 6-27 (one recording seat at a time, by slot number) + W-05b per slot (vectors, no dispersion)",
+  "W-01b first (--extend, the recorded CITY block, the new ids) -> W-03b (the extension, 1 load) -> W-07b -> W-09 (vectors) -> W-08, W-13, W-14",
+  "W-23 done (clean-room lane + R-38)",
   "W-11b -> W-10b -> W-22",
-  "W-06",
-  "design seat: DC-01..DC-30 (design/m1-corrections-1)",
+  "W-06 (last pass after the programme's close)",
+  "design seat: DC-01..DC-35 (design/m1-corrections-1)",
   "no crossing seat (R-32)"
  ],
  "wave3": [
-  "W-12 (Fable ruling over Opus fit) -> W-15",
+  "W-12 (Fable ruling over Opus fit) -> W-15 (rows, bands, BOTH dispersions, candidates; no floor fields; the digit rule)",
   "W-16b -> W-17 (Fable) -> W-18 (Opus verify)",
-  "W-20 (crossing; both record forms; after M0-k-05 / M0-k-06; a wave open) -> W-19",
+  "W-20 (crossing; the checker seat implementer-side; both record forms; the planted-hit control; after M0-k-05 / M0-k-06; a wave open) -> W-19",
   "W-21 only on an owner go",
   "the session commit on the owner word"
  ],
- "designCorrections": "docs/calibration/M-1-rulings-1.md §2 (DC-01..DC-30) for a design seat"
+ "designCorrections": "docs/calibration/M-1-rulings-1.md §2 (DC-01..DC-30) and M-1-rulings-2.md §2 (DC-31..DC-35) for a design seat",
+ "ftgProgramme2": {
+  "ruling": "J164 (owner, 2026-10-03 ~18:50 EDT) and R-33 (M-1-rulings-2.md); the slot list is vetoable",
+  "procedure": "research/baselines/ftg_capture_checklist.md section H + M-1-plan.md section 2.1b (premium differences, the first-of-size rule R-41, the retry rule); ftg_capture_post.py <stamp> --slot K --signed-in --premium; plan.py --bind-ftg K=<stamp> in slot order",
+  "workItem": "W-02b",
+  "slots": [
+   {
+    "slot": 6,
+    "size": "METROPOLIS",
+    "water": "none",
+    "label": "capture/FTG/METROPOLIS/none/0",
+    "rung": "METROPOLIS",
+    "nominalPopulation": 49500,
+    "premiumOnly": true
+   },
+   {
+    "slot": 7,
+    "size": "METROPOLIS",
+    "water": "coast+river",
+    "label": "capture/FTG/METROPOLIS/coast+river/0",
+    "rung": "METROPOLIS",
+    "nominalPopulation": 49500,
+    "premiumOnly": true
+   },
+   {
+    "slot": 8,
+    "size": "METROPOLIS",
+    "water": "coast+river",
+    "label": "capture/FTG/METROPOLIS/coast+river/1",
+    "rung": "METROPOLIS",
+    "nominalPopulation": 49500,
+    "premiumOnly": true
+   },
+   {
+    "slot": 9,
+    "size": "METROPOLIS",
+    "water": "coast+river",
+    "label": "capture/FTG/METROPOLIS/coast+river/2",
+    "rung": "METROPOLIS",
+    "nominalPopulation": 49500,
+    "premiumOnly": true
+   },
+   {
+    "slot": 10,
+    "size": "BIG_TOWN",
+    "water": "none",
+    "label": "capture/FTG/BIG_TOWN/none/1",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 11,
+    "size": "BIG_CITY",
+    "water": "none",
+    "label": "capture/FTG/BIG_CITY/none/1",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 12,
+    "size": "BIG_TOWN",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_TOWN/coast+river/2",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 13,
+    "size": "BIG_CITY",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_CITY/coast+river/2",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 14,
+    "size": "BIG_TOWN",
+    "water": "none",
+    "label": "capture/FTG/BIG_TOWN/none/2",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 15,
+    "size": "BIG_CITY",
+    "water": "none",
+    "label": "capture/FTG/BIG_CITY/none/2",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 16,
+    "size": "BIG_TOWN",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_TOWN/coast+river/3",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 17,
+    "size": "BIG_CITY",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_CITY/coast+river/3",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 18,
+    "size": "BIG_TOWN",
+    "water": "none",
+    "label": "capture/FTG/BIG_TOWN/none/3",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 19,
+    "size": "BIG_CITY",
+    "water": "none",
+    "label": "capture/FTG/BIG_CITY/none/3",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 20,
+    "size": "BIG_TOWN",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_TOWN/coast+river/4",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 21,
+    "size": "BIG_CITY",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_CITY/coast+river/4",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 22,
+    "size": "BIG_TOWN",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_TOWN/coast+river/5",
+    "rung": "TOWN",
+    "nominalPopulation": 5600,
+    "premiumOnly": false
+   },
+   {
+    "slot": 23,
+    "size": "BIG_CITY",
+    "water": "coast+river",
+    "label": "capture/FTG/BIG_CITY/coast+river/5",
+    "rung": "CITY",
+    "nominalPopulation": 24500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 24,
+    "size": "CITY",
+    "water": "none",
+    "label": "capture/FTG/CITY/none/0",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 25,
+    "size": "CITY",
+    "water": "coast+river",
+    "label": "capture/FTG/CITY/coast+river/2",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "premiumOnly": false
+   },
+   {
+    "slot": 26,
+    "size": "TOWN",
+    "water": "none",
+    "label": "capture/FTG/TOWN/none/0",
+    "rung": "TOWN",
+    "nominalPopulation": 3625,
+    "premiumOnly": false
+   },
+   {
+    "slot": 27,
+    "size": "TOWN",
+    "water": "coast+river",
+    "label": "capture/FTG/TOWN/coast+river/0",
+    "rung": "TOWN",
+    "nominalPopulation": 3625,
+    "premiumOnly": false
+   }
+  ]
+ },
+ "handOffs": {
+  "N-01 before M0-k-05": "one table (id, unit, metricVersion, role) for every row an AFTER-M-1 item reads, so M0-k-05's METRICS picks M-1's ids",
+  "N-02 before M0-k-05": "plan 7b's schema whole, referenceBuild on every hood and face record; strings match V12 3.3 C2 patterns",
+  "N-03 before M0-k-05": "a deny-list file kind for baselines:check; a colour check reading colours only inside string values (ng-faces.json cm2 integers, 16-hex digests)",
+  "N-04 before M0-k-06": "plan 7c whole with digestHexDigits 16; W-20's planted-hit control",
+  "N-05 at W-15": "no row M0 gates on carries absFloor or a sign field",
+  "N-06": "the countersigning checker seat is implementer-side (C-0120 (3)); plan section 7 corrected (R-45)"
+ }
 }
