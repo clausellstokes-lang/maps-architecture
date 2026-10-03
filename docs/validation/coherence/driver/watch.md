@@ -11,6 +11,8 @@ an operator finding (recorded in driver/log.md), so the zero bar covers it eithe
 Checked on landing (2026-10-03 ~01:35 UTC): V08 — the aqueduct's terminal bound to `conduit_house` and the need test met by it
 (no chance factor), as the canon rules; V09 — the wall tool's snapping to natural barriers and its barrier-arc ghost (106
 (g)); the ten bend keys stated once (V09-ICONF-3); the aqueduct's values cited from V11's `raisedWays.settings`, none
-restated (V09-RESTATE-6). Still to check when they land: V10 (explaining an unwalled side, "the cliff is the wall here", 106 (g)), V11 (the aqueduct table as the
-one home of its values; the defensibility rows; the culture modifier row for the aqueduct's chance, X6), V12 (the
-water-system factor withdrawn, V12-ICONF-1/-2).
+restated (V09-RESTATE-6). V11 (~01:45) — the aqueduct's
+values in one table (`aqueduct: { sourceReachKm, needRatioMin, minFallPerKm }`, cited by V09), item 106's `WallBarrierRow`
+defensibility and waterfront-threat rows (V11 §3.16), each culture row's `aqueductM` (V08 X6 closed); V12 (~01:45) — the
+"factor on the aqueduct's chance" sentence gone, §3.7.6's bump carries the met need, cap step and cistern terminal
+(V12-ICONF-1/-2). Still to check when it lands: V10 (explaining an unwalled side, "the cliff is the wall here", 106 (g)).

@@ -1,0 +1,8 @@
+   7  (?<![\w-])V(\d) § -> V0\1 §
+   5  (?<![\w-])V(\d)-(\d+(?:\.\d+)+) -> V0\1 §\2
+   1  DR\-V8\.8\b -> DR35
+   1  \bfile f items\b -> items
+   3  \bfile f item\b -> item
+   1  \bg items (\d) -> items \1
+   2  \bg item (\d) -> item \1
+sanitize: narration ids stripped

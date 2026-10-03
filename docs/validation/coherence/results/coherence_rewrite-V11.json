@@ -1,0 +1,37 @@
+{
+ "key": "coherence/rewrite-V11",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 635.0,
+ "new_kb": 559.7,
+ "facts_mapped": 647,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "31 BCR-V11 requests as applied f items, none restated: V11 §10 is a pointer table BCR-V11-n -> item (430 432 576 433 434 510 520 258 379 400 427 435 380 532 568 446 436 566 553 437 438 288 439 440 534 477 456 441 442 425 259 426 289 401 245 412 581) -> base section; BCR-V11-9 closed at V08 §2.6; other volumes' requests read by item (311 376 377 584 244 245 246 291 229 213 516)",
+  "g item 111 (build depth): the climate rows' dry-country cells with values, ranges and readers (V11 §3.17.1), the garden land use providing herbs (§3.17.2), the water table's well yields (§3.24.6), the off form in §3.24.0, W79-W81, T-V11-38, build row C1b, J-V11.98",
+  "g item 113 (build depth): table history (registry row 92) - settings (replay, epochYears 10, symbolicQuantile 0.25, defaultAgeYears per rung, burialYears 100 with flood/silt/rebuilt/bareRock factors and the [30, 400] clamp, reuseCost 0.6), the burial formula, 17 event-to-epoch rows mapping all 29 templates (V11 §3.25), W82, T-V11-39, build row C9, J-V11.99",
+  "E-05, E-20, E-24, E-30, E-34, E-37, E-38 applied with their equivalence lists ticked",
+  "wiring: DWG-03, KWG-06, W-SET-01 by registry row 93 base.settings (gridCellM, reroll.maxAdvance 3, crossing.searchBandM 120 m; W83); V11-WGAP-1 by row 50's readers",
+  "edges: 52 UNDEFINED + 12 UNTESTED edges and 21 owned combinations closed by V11 §3.26 (five rules, a mechanism table, a combination table), T-V11-40, J-V11.97; EDGE-1 W_STEP_LOWERED (T-V11-32 (h)); EDGE-2 coverage ranges",
+  "owner question Q-V11-1 answered by J122: the sensitive kinds concealed by default (concealment rows with none 0, a slave-market cover row, the dossier's own setting first), V11 §3.14, §11, J-V11.101",
+  "hand-offs: 40 routed to V11 answered (V11 §10b second table); X-V11-1..17 closed at their destinations (first table)",
+  "integration notes IN-V11-1..10 folded into their homes; the 11 reconciliation and finalization records, the revision note and the ledgers removed; §13 empty (F-V11-1, F-V11-2 as J-V11.105, J-V11.106; F-V11-3 closed)"
+ ],
+ "conflicts_resolved": 20,
+ "cross_notes": [
+  "base II.7.5 UndercityRule.sourceRank and V04 §2.3 RuinRule.sourceWeight name one rank; V11 §3.23.6 states values under the base name and names V04's field; V04 should cite the base name",
+  "pipeline §4.9 writes garden_irrigated; model §2.7 LandUse.kind and V11 §3.17.2 say garden; pipeline should read garden",
+  "determinism §7.6 holds no explicit type TableId declaration though MC-11 homes it there; V11 §2.1 cites §7.6",
+  "ClassMixRow.sun: base §10.2 states 0.3 (J-A102.41); V11 states none and cites §10.2 (registry row 27); the base value governs",
+  "base §10.2's crypt comment and the underground access probabilities restate V11 §3.5.8 and §3.5.1 values; the base should cite them",
+  "V06 §3.20.2 (2)'s history.defaultAgeYears is defined at V11 §3.25.1 (THORP 160 ... METROPOLIS 500)",
+  "burial bare rock: V06 §3.20.5 (3) reads site.terrain; V11 §3.25.2 adds the standalone reading (ground class rock); V06 to confirm",
+  "§13.2 convention (5) may cite V11 §3.24.0 alone: it now holds every owner item's off form (E-20)",
+  "base §2.2/§2.7 name span.*, slideMaxFactor and retaining.settings.stateSnapCm as V11's cells without values; V11 §3.24.1-§3.24.2 state them (unchanged from items 244-245)",
+  "§4.7's well decoration on the plot of highest well yield runs regardless of item 111's cells; T111-5 compares against the base with it",
+  "V12 §3.11 should list register lines for the item-111 and item-113 cells landed at V11 C1b and C9",
+  "V10 not landed: X-V11-3 and CVR-V10-12 (V11 §3.24.3 'As a designation') read against V10's source; V10's rewrite should cite V11 §3.24.3",
+  "V11 §3.14's sensitive kinds rely on the port carrying a record's own mode or knowledge (V08 §2.3 knownTo)",
+  "kernel §3.3, §5.1 (6), §4.2 S1 (5) and §6.3 should cite registry row 93 for gridCellM, reroll.maxAdvance and crossing.searchBandM (DXC-05)",
+  "doc_checks S2 does not follow the volume-prefixed list convention; V11's own section lists read as base pointers (327 hits, before 439)"
+ ]
+}

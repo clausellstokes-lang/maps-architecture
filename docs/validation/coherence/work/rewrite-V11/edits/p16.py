@@ -217,4 +217,17 @@ r("""(20, the castle's; V11 §3.24.2;
    SCC-R2C-10)""", """(20, the castle's; V11 §3.24.2)""")
 r("""landmark strings never count (C8-43 (1)).""", """landmark strings never count.""")
 
+# CVR-V10-12: terrace says; specialisation as a designation
+r("""its own stream, keyed by the levelling unit's lineage. A decorative tower is never an `Enceinte`, has no gate and no walk.""",
+  """its own stream, keyed by the levelling unit's lineage. A decorative tower is never an `Enceinte`, has no gate and no walk.
+The rows' `says` (the clerk's and the terrace tool's sentences): `terrace/<rung>` "levelled into terraces: the slope here is
+{s} %, more than {slopeMin} %, each step at most {stepMax} m"; `retaining/<band>` "a {material} wall holds the {band} plot
+above".""")
+r("""* **At village rungs** a row applies""", """* **As a designation** (the clerk's or a document's class slot naming a specialisation id, V10's `class`): the
+  specialisation's first carrier is placed — `stepped_temple` a `great_temple`, `terraced_palace` a `palace`,
+  `tiered_tower` a `tower_house` — with `Use.specialisation` set as a declared one (held, exempt from the chance and the
+  cap). Their plain words, the `desc.building` specialisation word and the clerk's: "a stepped temple", "a terraced
+  palace", "a tiered tower".
+* **At village rungs** a row applies""")
+
 build('16-s3-24', [(3678, 3997)], R)

@@ -10,6 +10,11 @@ IDS = [
     r"V\dC-\d+(?: \(\d+\))?",
     r"C\d-\d+(?: \(\d+[a-z]?\))?",
     r"C4-110-\d+",
+    r"(?<![\w-])E-\d\d(?![\w-])",
+    r"W-SET-01",
+    r"(?<![\w-])MC-11",
+    r"V1[12]-[IX]CONF-\d+",
+    r"ID-DUPDEF",
 ]
 def sanitize(text):
     for p in IDS:

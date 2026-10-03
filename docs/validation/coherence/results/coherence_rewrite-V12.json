@@ -1,0 +1,34 @@
+{
+ "key": "coherence/rewrite-V12",
+ "dir": "docs/validation/coherence/new/volumes/",
+ "old_kb": 471.2,
+ "new_kb": 419.1,
+ "facts_mapped": 403,
+ "facts_unmapped": 0,
+ "f_applied": [
+  "34 routed f items cited as base text, none restated: 229 291 376 377 381 382 447 456 488 489 491 492 493 495 496 497 498 499 500 501 502 503 504 521 522 529 533 535 536 537 568 569 575 584 (plus 244 245 290 534 read); V12 §10 a pointer table BCR-V12-1..22 -> item -> base section, the 6 056-word request texts removed",
+  "g item 111 (water) at build depth: register lines for the climate rows' item-111 cells and the oasis/pull/spring cells (V12 §3.11), indicators walkWater/waterPresent/richNearWater (§2.7b), metric water.walk (§3.4.2), T111-1 higherWith, T111-3 rate, T111-4 most as §3.6b specs (J-V12.86), pin item111.water (T111-5), T-V12-42",
+  "g item 112 (b) (trial): TrialFinding and the intake `plat calibrate trial` (V12 §2.14, J-V12.88): owner question / register trial row / known-defects entry; style threshold cvd.minDeltaE2000 no register entry (V11 row 52 calibratable:false); GmTrialRecord.findings typed TrialFinding[]; T-V12-44",
+  "g item 113 (history): exactStates rule on the step runner with access steps, undo and saveReload (T-V4-77, T113-5; J-V12.87), T113-1..4 and T113-6 on the conformance list, replay budget (§6), void.* excavation reading, history register line at V6-E9, pin item113.history (T113-7), T-V12-43",
+  "elegance E-20 (one NoOpPin engine and pin table §3.7.8, J-V12.85, T-V12-45), E-24 (one 'amended by' mark, 9 rows, no row dropped), E-35 (§2.11 the one producer/consumer table; §1b non-record pieces), E-37 (MetricUnit = Extract<Unit, ...17 units>), E-38 (farm rows calibratable, territory per head no entry) applied with equivalence lists ticked",
+  "wiring W-IF-04/05: EvidenceFile dist/evidence.json with entries summaries + cells, read by V09 §4.14 and V10 §2.13 (J-V12.90, T-V12-21)",
+  "edges: 40 UNDEFINED + 11 UNTESTED closed and 17 owned <feature> x presets combinations defined in V12 §3.15 (J-V12.91; T-V12-47, T-V12-48)",
+  "owner questions Q-V12-1..3 answered by J122 (§11); J122 sittings at M1/M2b/M4/M5 by one batch rule (J-V12.84); J122 order (V-M0 after M0, four streams after M4, M-CAL after M6-sky, M-SF after M-CAL) in §8 and the staged order (J-V12.89)",
+  "ids: J-T->JT (6), DR-V8.x->DR30..DR35 (14), G-cite 102->0, conflict and narration ids out (404 SCC-, 35 V12C-), new T-V12-42..48 and J-V12.84..91; no existing id renumbered",
+  "narration removed: banners, ledgers, finalization, §12 lane records, §13 round history; Fix list empty; 11 inbound hand-offs + INDEX §7 entry + coherence notes (V01, V04, V07, scope, determinism, model) closed; X-V12-1..19 closed both ways in §13; 34 open findings fixed"
+ ],
+ "conflicts_resolved": 10,
+ "cross_notes": [
+  "scope: §13.2's calibration row reads T-V12-1 - T-V12-48; conformance list carries T111-2, T112-1, T113-1..4, T113-6 and V04's T-V4-76/78/79 (T-V4-77, T113-5 are V12 exactStates specs); §13.6 D5Pair closes with V12 §2.8 D5PairStaged (FM, VG, DW, AB, SOLO); §16/INDEX estimates unchanged; M-CAL after M6-sky, M-SF after M-CAL (J122)",
+  "V09: GmTrialRecord.findings typed TrialFinding[] (V12 §2.14); the cell inspector (V09 §4.14) reads dist/evidence.json entries (W-IF-04)",
+  "V10: the clerk's provenance answer (V10 §2.13) reads EvidenceFile entries the same way (W-IF-05)",
+  "V11: compiler writes EvidenceFile with entries; V11 §3.17.1 and §3.25 rows take V12 §3.11 lines; cvd.minDeltaE2000 non-calibratable agreed (no register entry); V11 §3.24.1 cites V12 §3.11; stateSnapCm its own line on bar.T-V6-62 (V11-XCONF-1)",
+  "V06: register lines dated V6-E0..V6-E9; T-V6-71 over epochs on the step runner; replay budget cited at V06 §6.7",
+  "V04: T-V4-77 is an exactStates spec (access steps, undo, saveReload); T-V4-76..79 registered",
+  "V01: T-V1-4 (e) a NoOpPin on V12 §3.7.8; V12 §3.9.1's M5 row carries T-V1-32's package",
+  "base (rendering/determinism/model): T112-1 a BenchBarDef; §7.6 holds the pinning hash V12 §2.10 cites; MetricUnit is V12's named subset of §2.1 Unit (E-37)",
+  "§14/CLI: `plat calibrate trial` joins @plat/testkit's calibration commands beside `plat calibrate run` and `plat calibrate register`",
+  "G-lot kept for the references' own parcels (metric ids lots.*, blockc.lotsPer stable; stated once in V12 §3.4.2) - for the adjudicator",
+  "shrink: 76 414 -> 69 259 words (-9.4 %, above the 45 848-57 310 band): ~13 400 narration and ~800 restatement removed, ~7 000 mandated words added (§3.15 edges, §2.14, items 111/113 bars/lines/pins, J122 batch, E-35/E-20 tables, EvidenceFile, T-V12-42..48, J-V12.84..91); the rest is V12's build-depth catalogue, register lines, bar map, 48 tests, 91 decisions; doc_checks provisional (corpus absent): C1 9, C2 0, C3 163 (old 189), C4 0, S1 0, S2 167 (old 169)"
+ ]
+}
