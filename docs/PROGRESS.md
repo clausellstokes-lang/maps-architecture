@@ -217,7 +217,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-10-03 03:30 EDT._
+_Disk state as of 2026-10-03 03:31 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -700,3 +700,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-10-03 07:09 UTC** — STOPPED by the owner ("Then stop"): the build-start workflow (run wf_b619615b-189) was stopped while its spec seat was writing plat/docs/build/M0.md; nothing else runs. To resume: relaunch workflows/20-build-m0-spec.js (args root, scratch, model opus); the spec seat continues from its files and CHECKPOINT lines.
 - **2026-10-03 ~07:20 UTC** — Owner: "We are going to run this on my Mac. But not now." The handoff's RESUME HERE block now opens with the Mac steps (pull `main`, re-run the clean-room checker with the corpus, resume workflows/20-build-m0-spec.js with the Mac's root); `main` brought up to date with this branch.
 - **2026-10-03 03:30 EDT** — Mac session (J157): cloud workarounds reversed — the bench is this Mac, the corpus linked from ~/Desktop/research, the full-corpus clean-room check finds 78 unreviewed base hits the cloud could not see; launching workflows/20-build-m0-spec.js (Mac version: spec on Fable with Opus fallback, scaffold and check on Opus; prompts in the script) and workflows/21-mac-catchup.js (clean-room re-check of base and volumes, item 125 (d) SettlementForge check at origin/master 00b648c9d, M-1 plan; max 3 seats). Expected outputs: plat/docs/build/M0.md, M0-work.json, the plat/ scaffold; docs/validation/clean-room-mac-2026-10-03.md; research/sf/COMPAT-CHECK.md; docs/calibration/M-1-plan.md.
+- **2026-10-03 03:31 EDT** — Launched (J157): workflows/20-build-m0-spec.js as run wf_292b82ff-e68 (task wy4rvg8of) and workflows/21-mac-catchup.js as run wf_439b0f54-fa4 (task w4uz1i36i), journals under the session's subagents/workflows/<runId>/. Snapshot loop not restarted: the disk is 99 % full and git commits now carry the record.
