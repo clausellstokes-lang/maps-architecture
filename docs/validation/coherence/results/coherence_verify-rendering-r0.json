@@ -1,0 +1,222 @@
+{
+ "key": "coherence/verify-rendering-r0",
+ "file": "docs/validation/coherence/verify-rendering-r0s.md",
+ "issues": [
+  {
+   "id": "VR0-01",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "owner": "rendering",
+   "claim": "§12.7 *Plan rung* (base l.15082), cut by E-18: the archive read \"budgeted at ≤ 5 ms × steps median and ≤ 20 ms × steps p95. PLAUSIBLE until §13.2's T28-8 measures it on B-PLAN's fixtures and the stage-3 intake confirms it; pre-decided fallback …\"; the live text reads \"… ≤ 20 ms × steps p95 (R12-23)\". R12-23 keeps the milestone, bar and fallback, but the figure's PLAUSIBLE status is gone — the only one of §12's 19 PLAUSIBLE markers the E-18 cut removed (every other moved clause kept \"PLAUSIBLE until R12-n measures …\"), so the plan-rung budget now reads as a confirmed figure.",
+   "required_change": "§12.7 *Plan rung*: \"… budgeted at ≤ 5 ms × steps median and ≤ 20 ms × steps p95 — PLAUSIBLE until R12-23 measures it (§13.2's T28-8 on B-PLAN's fixtures, confirmed at the stage-3 intake); a miss at run time is reported, never answered by a coarser plan (§12.1).\""
+  },
+  {
+   "id": "VR0-02",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "owner": "rendering",
+   "claim": "§12.2 (base l.14719), restatement cut RESTATEMENT-007: \"Within a rung the frame scales with the requested population; the cap's frame and its headroom are §3.2 (9)'s\" — but §3.2 (9) says \"(… the cap: §12.2 …)\", so the two point at each other and neither states the cap's figures. The archived §12.2 stated \"At the cap the square frame is 12.4 km (19.8 km with the margins); at the extreme aspect 2 it is 17.5 × 8.8 km and |x| ≤ 1.40 × 10⁶ cm with the margins — ≈ 6× headroom under §3.2's 2²³-cm range (§3.2 (1))\". After the cut the constant 19.8 km (the cap frame with its margins) is stated nowhere in the set (grep), the 12.4 km square survives only in §12.2's table cell, and the aspect-2 frame and headroom only in §3.2 (1) (as 17.53 × 8.76 km, 1 402 000 cm, ≈ 6×).",
+   "required_change": "§12.2, replace the sentence by: \"Within a rung the frame scales with the requested population (§3.2 (9)); at the cap the square frame is 12.4 km (19.8 km with the margins) and at the extreme aspect 2 17.5 × 8.8 km, §3.2 (1)'s range bound with its ≈ 6× headroom.\" (§3.2 (9) keeps \"the cap: §12.2\".)"
+  },
+  {
+   "id": "VR0-03",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "owner": "rendering",
+   "claim": "§8.4 *Toggles are visibility; existence is model* (base l.12181-12182), restatement cut RESTATEMENT-003: the live text reads \"the sewer control and the island toggle set `LayerSpec.visible`, so hiding a layer changes no digest\"; the archive read \"the sewer control at CITY and METROPOLIS and the island view toggle set `LayerSpec.visible` of the `underground` and `sky` layers\". The rung qualifier is lost: II.7.1 (base l.18428) makes the one *Sewers* control a MODEL feature at TOWN (re-derive from S7b), so the live sentence is now false at TOWN, and it no longer says which layers' `visible` is set.",
+   "required_change": "§8.4: \"… the *Sewers* control at CITY and METROPOLIS (at TOWN it is II.7.1's model feature) and the island view toggle set the `underground` and `sky` layers' `LayerSpec.visible`, so hiding a layer changes no digest.\""
+  },
+  {
+   "id": "VR0-04",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§11.3 *View state* (base l.14552-14554), E-19's form: \"Every view key of §2.9 …, the per-viewer keys among them, travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun and the `underlay` image\". §2.9's view section now also holds the application's per-viewer keys `thematic` and `workingLayer` (and V09's `cvdVariant`), which V09 keeps \"never over a bridge\" (V09 l.898, l.3639; J-V9.130). The archived §11.3 enumerated the per-viewer keys that travel (knowledge, elaborate, storey, depthBand, plotsOnly, light, sunMode, sunHeight, handLantern, week; showUnexcavated by file f item 278), so the generalisation now sends keys V09 rules local, and the two units disagree on what crosses the bridge.",
+   "required_change": "§11.3 *View state*: \"… travels as `view.set` / `view.changed`, except the pointer that moves the cursor sun, the `underlay` image (§9.5) and the application's per-viewer keys `thematic`, `workingLayer` and `cvdVariant`, which stay in the viewer's own view section and never cross the bridge (V09 §5.4, §5.12; J-V9.130).\""
+  },
+  {
+   "id": "VR0-05",
+   "severity": "major",
+   "kind": "WIRING",
+   "owner": "model",
+   "claim": "`cvdVariant` (g item 112) is read by rendering as \"the per-viewer view key `cvdVariant`\" — §8.2 (base l.11904: the sheet's checked variant, joining the tile key), §8.3's census row (l.12142) and §13.2's T112-1 (l.16132) — and written by V09's colour-vision selector, but §2.9's view section (base l.3028-3050) does not declare it: a dangling view key (rendering's cross-part note to model §2.9 not closed).",
+   "required_change": "§2.9 *View state*, after `showUnexcavated`: \"`cvdVariant` (g item 112: `'none'|'protan'|'deutan'|'tritan'`, default `'none'`, per viewer: the sheet's checked colour-deficiency variant, §8.2; set by V09 §5.12's selector, never over a bridge)\"."
+  },
+  {
+   "id": "VR0-06",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "File f item 468 (BCR-V10-1; BASE, M3a — the oracle and the tool API) adds to §11.2 \"after the `Query` union, the declarations of `MapBrief` (with its item-110 lists and `salts`), `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer` (with `mode`, `sections`, paged `history` and `removed`), `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink` and `FieldDrivers` exactly as V10 §2.13 gives them, with `QueryResult` for these kinds being that type\". The live §11.2 (base l.14330) only comments \"each member's fields and its answer type (…) exactly as V10 §2.13's `ClerkQuery` gives them\", so the answer types of a base-built API that V09 and V10 both read are declared only in the staged clerk volume (V10 l.919-1000), against principle (1) (the base owns what it builds).",
+   "required_change": "§11.2: declare after the `Query` union `MapBrief`, `EntityCard`, `SiteCandidate`, `MeasureAnswer`, `FrameAnswer`, `RuleAnswer`, `ProfileAnswer`, `WhyAnswer`, `WhySection`, `WhyCause`, `WhyFamily`, `WhyPull`, `WhyLink` and `FieldDrivers` as V10 §2.13 now holds them, and `QueryResult` per kind; replace the comment by \"(M3a; file f item 468)\". V10 §2.13 then cites §11.2 for them (V10's editor)."
+  },
+  {
+   "id": "VR0-07",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "pipeline",
+   "claim": "File f item 479 (BCR-V6-23, routed to rendering's §12.6 by the canon; its sentence is §4.11's epoch order (c), which rendering's and V06's cross-part notes handed to pipeline) is not applied: base l.7433-7434 still reads \"the strike pool (below) draws per building, deciding whose households leave first, and strikes fabric by its exposure (item 28 (f) with item 8; J-A28.45)\"; the request's text — which dwellings empty is the departure matching's — is absent (the base holds no \"departure matching\").",
+   "required_change": "§4.11 order (c): \"… which dwellings empty is decided by the evolution engine's departure matching (V06 §3.5.1: the roster's suffix matched to exposure-weighted dwellings by band), and the strike pool (below) strikes fabric only, by its exposure (item 28 (f) with item 8; J-A28.45) …\" (file f item 479)."
+  },
+  {
+   "id": "VR0-08",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§8.2's `unexcavated` program (base l.11776-11777): \"dashed kerbs at 40 % alpha, no fill, no light; drawn only for a `secret` key while the view key `showUnexcavated` is on\". g item 113 (e) (owner rule) makes a void whose last open link closed LOST, \"drawn faded like an unexcavated void\"; V04 §5.2 (l.2738-2742) and §5 (l.2685) draw a LOST cluster by this program \"for every key its `knownTo` admits, whatever `showUnexcavated` says\", its system label carrying \"once known\" (V04's cross-part note 3 to rendering). The program's canonical statement excludes the lost case.",
+   "required_change": "§8.2 programs: \"`unexcavated` (g item 109 (j) (2), g item 113 (e): dashed kerbs at 40 % alpha, no fill, no light — an `unexcavated` cluster drawn only for a `secret` key while the view key `showUnexcavated` is on; a `lost` cluster for every key its `knownTo` admits whatever `showUnexcavated` says, its system label carrying “once known” (V04 §5.2); M6-U)\"."
+  },
+  {
+   "id": "VR0-09",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "g item 114 (c) (OWNER RULE, 2026-10-02; precedence over file f item 260 and J-VI.14) WITHDRAWS the reason-keyed suppression (`LifecycleEvent.detail.suppress`): a delete of a generated instance holds only until the town next changes. Rendering still writes it: §11.1's skeleton row (base l.14092) — \"a suppressing delete (item 110 (b)) with the key the fold recorded, written by the skeleton writer as `delete { id, suppress }` (the one place an event carries a suppression key …), whose import suppresses the key whether or not the address arises\" — and §11.2's `PreviewResult.holds` (l.14318) — \"a removal whose fold records a suppression or a removed slot: `info.remove.holds` with its verb (`rebuild` · `raise`)\".",
+   "required_change": "§11.1 skeleton row: replace \"and every author's `delete` of generated content, by its address, and a suppressing delete (item 110 (b)) with the key the fold recorded, written by the skeleton writer as `delete { id, suppress }` (the one place an event carries a suppression key; never written by a client), whose import suppresses the key whether or not the address arises — a removal whose address or key does not arise …\" by \"and every author's `delete` of generated content as the plain `delete { id }`, a removal for now (g item 114 (c)) — a removal whose address does not arise in the new document reported as applied with nothing to remove, never as a failure (file f item 455)\"; §11.2 `holds?`: \"/* a removal of generated content: g item 114 (d)'s `info.remove.holds` row (“Removed for now — the town may build one again when it changes …”) */\"."
+  },
+  {
+   "id": "VR0-10",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "model",
+   "claim": "g item 114 (owner rule, HOMES §2.8 \"the suppression bullet replaced by (c)\") is not applied: §2.8 (base l.2566-2575) still states \"Removals that hold — suppression (J-VI.14)\" with `LifecycleEvent.detail.suppress`, the suppressed set counted as filled and `SkyIsland.removed`; rendering's §11.1 and §11.2 (VR0-09) cannot follow the owner rule until its home does.",
+   "required_change": "§2.8: replace the *Removals that hold — suppression* bullet by g item 114 (c)'s rule (a delete of a generated instance holds while the town is unchanged and lapses at the next change that re-reads its kind; `LifecycleEvent.detail.suppress` and the counted removed slots withdrawn; the archived island arena kept for undo; an older document's suppression records migrated as plain deletions)."
+  },
+  {
+   "id": "VR0-11",
+   "severity": "major",
+   "kind": "EDGE-UNTESTED",
+   "owner": "rendering",
+   "claim": "Edge-catalogue entries routed to rendering that no T-ER row names: M-rendering-10914-E6 (§8.10 instances at every rung, THORP to the cap), M-rendering-11057-E8 (§9.1 `LabelEntity` and `PinnedPlacement` — persisted model data — through save, load, undo, redo, regenerate and migrate; UNTESTED), M-rendering-11262-E6 and -E8 (§9.3 spines at every rung, and their lifecycle), M-rendering-11057-E6 and M-rendering-11411-E6 (§9.1 and §9.6 at every rung). T-ER-09, T-ER-13, T-ER-14 and T-ER-16 name the mechanisms' input limits but neither the rungs nor the lifecycle.",
+   "required_change": "§8.11 T-ER-09 adds \"at every rung, THORP to the cap (instances per visible tile)\" to its row and test; §9.7 T-ER-13 and T-ER-14 add \"at every rung, and through save, load, undo, redo, a scoped regeneration and a migration (labels and pins persisted model data; spines derived and rebuilt on load): placement digests equal to a fresh build of that state\"; T-ER-16 adds \"at every rung\"."
+  },
+  {
+   "id": "VR0-12",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "V08's cross-part note 2 to rendering §11.3 is not closed: V08 §2.2 (l.357-359), W9 (l.204) and §5.4 declare `export.request { …, bundle?: true }`, answered `export.ready { bytes, name }`, the bundle request (for `dd2vtt` or `foundry`, from M-SF) exempt from `E_HOST_FORMAT`, and V08 §3.7 (l.1896) answers a refused write `doc.rejected { reason: 'quota' }`. Base §11.3 (l.14482-14500) has `export.request` without `bundle`, refuses every host-mode `export.request` other than `png`, `svg` and `print` with `E_HOST_FORMAT` (so §11.4's bundle call cannot pass the bridge), `export.ready { bytes }` without `name`, and `doc.rejected` reasons `'stale'|'invalid'|'role'|'version'` only.",
+   "required_change": "§11.3 vocabulary: `export.request { fmt, opts, displayNames?, knowledge?: Admission, bundle?: true }` (`bundle`: the export bundle's request for a scene format, §11.4, M-SF); the host-mode refusal reads \"… with `export.refused { error: 'E_HOST_FORMAT' }` (V08 §5.4), which never applies to `doc.snapshot` nor, from M-SF, to a `bundle` request for `dd2vtt` or `foundry`\"; PLAT → host `export.ready { bytes, name? }` (`name` on a bundle reply); `doc.rejected`'s reasons gain `'quota'` (the host's storage refused the write; V08 §3.7)."
+  },
+  {
+   "id": "VR0-13",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "owner": "rendering",
+   "claim": "File f item 495 (BCR-V7-23, routed to scope's §13.5; scope's note hands its §12 clause to rendering) says \"the base's §12 budgets point to V07 §6 for the village rungs\"; §12 holds no pointer to V07 §6 (no \"V07\" in §12), so §12.2's ladder and §12.3-§12.5's laws name TOWN, CITY and METROPOLIS only and the village rungs' budgets are unreachable from the base's budget section.",
+   "required_change": "§12.2, after the ladder table: \"The village rungs' budgets (THORP, HAMLET, VILLAGE; the village product) are V07 §6's (file f item 495).\""
+  },
+  {
+   "id": "VR0-14",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "rendering",
+   "claim": "Canon and inventory finding ids are cited in the normative text — narration by canon S9 and ID-R (they live only in validation records; the scope verifier's VS0-26 ruled the same for INDEX.md): \"(E-16)\" §8.2 roles (base l.11575) and programs (l.11751, l.11832); \"(RIC-01)\" l.11685; \"(RIC-02)\" l.12041; \"V01-XCONF-2's VTT rule\" T-ER-12 (l.13065); \"RXC-01\" §9.1 (l.13148); \"(E-17)\" §9.2 (l.13169); \"(EI-REDGE-01)\", \"(EI-REDGE-02, -03)\" T-ER-17/18 (l.13475-13476); \"(RIC-04)\" §11.1 (l.14120); \"V01-XCONF-2\" (l.14223); \"as corrected by V04-ICONF-3\" (l.14239); \"(E-19)\" §11.3 (l.14554); \"V08-XCONF-5\" §11.4 (l.14627); \"(E-18)\" §12.1 (l.14699); \"RIC-05\" §12.5 (l.14918); the heading \"### 12.10 The budget register (E-18)\".",
+   "required_change": "Delete each of these parenthetical ids (and \"as corrected by V04-ICONF-3\", \"V01-XCONF-2's\"), keeping the rule each sentence states; the heading reads \"### 12.10 The budget register\". The provenance stays in the canon and rewrite records."
+  },
+  {
+   "id": "VR0-15",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "rendering",
+   "claim": "Narration left in §8.5 (base l.12479): \"… so no separate per-band detail budget exists (the style sheet's former `budgets` field, which nothing read, is withdrawn)\" — how the text evolved (canon S9).",
+   "required_change": "§8.5: end the sentence at \"… so no separate per-band detail budget exists.\""
+  },
+  {
+   "id": "VR0-16",
+   "severity": "minor",
+   "kind": "CHANGED",
+   "owner": "rendering",
+   "claim": "§12.2 (base l.14722-14723), NARRATION-007's rewrite: \"MFCG counts with shanty town, river or coast switched on (15 392 buildings at size 80; 13 349–36 480 in its profile) are stress comparisons\"; the archive: \"The 15 392-building size-80 city of the earlier exports had shanty town, river and coast switched on; it and the 13 349–36 480 size-80 counts of the MFCG profile belong to such option sets\" — the 15 392 city had all three on, and \"or\" widens the class to a count with any one option on.",
+   "required_change": "§12.2: \"MFCG counts with shanty town, river and coast switched on (15 392 buildings at size 80; 13 349–36 480 in its profile, under such option sets) are stress comparisons, not the CITY bar.\""
+  },
+  {
+   "id": "VR0-17",
+   "severity": "minor",
+   "kind": "LOST",
+   "owner": "rendering",
+   "claim": "§8.2 *`lit` on the reference backend* (base l.12046-12047), E-19 pointer: \"Textures are `pattern` fills … tinted by the role colour (multiply); rungs 1–2 light them as *Paint programs* states\" — the archive said \"on rungs 1–2 the programs emit albedo and normals and §8.4's pass lights them per pixel\"; *Paint programs* (l.11780) states it for `faceLight`, the two-tone `roof`, `hillshade` and the `lit` crowns only, so the pointer names a home that does not state the textures' case, and \"per pixel\" is dropped.",
+   "required_change": "§8.2 *`lit` on the reference backend*: \"… tinted by the role colour (multiply); on rungs 1–2 every `lit` program, these textures included, emits albedo and normals and §8.4's pass lights them per pixel (*Paint programs*)\"."
+  },
+  {
+   "id": "VR0-18",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "owner": "rendering",
+   "claim": "§8.8 *Pyramid* (base l.12626-12630): \"Zoom stops at 2^¼ steps … cover B-ZOOM's 1:50 000 → 1:500 in 27 stops (k = 0 … 26)\" beside the new anchor \"m_k = 0.132 29 m × 2^((26 − k) ÷ 4) … stop 26 is 1:500 …, stop 0 ≈ 1:45 255\" (RWG-03): 27 quarter-octave stops from 1:500 reach 1:45 255 (checked), and B-ZOOM's 1:50 000 end (§13, l.16281) lies 10.5 % beyond stop 0 — outside \"the view settles on exact stops within ± 9 % of the requested scale\" — so the coarse end of B-ZOOM has no stop and its settle is undefined.",
+   "required_change": "§8.8 *Pyramid*: \"cover ≈ 1:45 255 → 1:500 in 27 stops (k = 0 … 26) — a requested scale coarser than stop 0 settles on stop 0, which draws B-ZOOM's 1:50 000 end — and eight building-band stops …\"."
+  },
+  {
+   "id": "VR0-19",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "owner": "rendering",
+   "claim": "§9.2's default order now reads \"annotation > region > quarter / district > water > wood > …\" (REDGE-03's edit, base l.13219-13220), while §9.4 *Quarters* (l.13350) still says each region group \"is a candidate at the city band with the highest priority of §9.2's order\" — an annotation now outranks it.",
+   "required_change": "§9.4: \"… each is a candidate at the city band with the highest priority of §9.2's order after the user's annotations …\"."
+  },
+  {
+   "id": "VR0-20",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "V04",
+   "claim": "V04 §5.2 heads the masonry program \"The `ruin` program (g item 109 (g); `ruinMasonry`)\" (l.2726) and §3 says \"the ruin program draws them as its 60 cm dots\" (l.1384), while base §8.2 names that program `ruinMasonry` and keeps `ruin` for the rubble-stipple program of ruined states and fallen islands (the rewrite's name disambiguation, its cross-part note to V04).",
+   "required_change": "V04 l.2726: \"**The `ruinMasonry` program** (g item 109 (g))\"; V04 l.1384: \"the `ruinMasonry` program draws them as its 60 cm dots (V04 §5.2)\"."
+  },
+  {
+   "id": "VR0-21",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "owner": "rendering",
+   "claim": "§11.1 GeoJSON row (base l.14084) \"faces as Polygons with holes, emitted without antennae (§3.6 (6))\" and T-ER-19 (l.14648) \"faces written without antennae, §3.6 (6)\", while §3.6 rule 6 (l.3962) reads \"A face's exported area boundary omits its antennae (§11.1)\" — the two point at each other; the kernel's note 26 made §11.1 the rule's home with the pointer \"(an antenna: §3.6 rule 3)\".",
+   "required_change": "§11.1 GeoJSON row and T-ER-19: replace \"(§3.6 (6))\" / \"§3.6 (6)\" by \"(an antenna: §3.6 rule 3)\"."
+  },
+  {
+   "id": "VR0-22",
+   "severity": "minor",
+   "kind": "LOST",
+   "owner": "rendering",
+   "claim": "The kernel cut §3.8's \"cached by (entity, content revision, roof construction) — never by id alone (§8.1 (5), LC-23, N-19), so a `setAttr` on floors or a re-fitted footprint changes the revision and so the roof\" to \"cached (§8.1 (5))\" (base l.4172; kernel note 25 names §8.1 (5) the only home); §8.1 item 5 (l.11460-11462) states only \"a `setAttr` on floors changes the building's revision and so its roof\" — the re-fitted footprint case and N-19 are stated nowhere.",
+   "required_change": "§8.1 item 5: \"… never by id alone (N-19): a `setAttr` on floors or a re-fitted footprint changes the building's revision and so its roof; a changed boundary street dirties both its sides.\""
+  },
+  {
+   "id": "VR0-23",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "rendering",
+   "claim": "§14's type map cites `Role` (§8.2) and `BridgeMessage` (§11.3) as declared at those homes (the scope rewrite's note routed both to rendering), but neither is declared: `Role` is used by `StyleSheet.palette`, `StyleSheet.variants` and `ThematicRow.paint` (base l.11517-11542), `BridgeMessage` by `BridgeTransport` (l.14459).",
+   "required_change": "§8.2 after *Roles*: `type Role = 'paper'|'road'|'ground'|'court'|'garden'|'green'|'tree'|'field'|'verge'|'water'|'building'|'roof'|'wall'|'ink'|'label'|'shadow'|'ambience'|'light'|'sand'|'plank'|'grid'|'snow'|'glow'|'wall.dry_stone'|'wall.earth_bank'|'wall.timber_crib'|'furniture'|'rock'|'void'|'sky.ground'` (with the `@night`/`@autumn` keys as `${Role}@${string}`); §11.3 *Vocabulary*: `type BridgeMessage =` the union of the host → PLAT and PLAT → host messages listed there, each `{ type, re?, logHead?, body }`."
+  },
+  {
+   "id": "VR0-24",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "rendering",
+   "claim": "Scope's cross-part note: §8.2's style-check sentence (base l.11905-11906) says only \"against its table threshold\"; T112-1 (§13.2, l.16135) reads the cell `cvd.minDeltaE2000` (ΔE2000 8) and the variants and cues ship at M3b (`hatched` at M5, §13.8 l.16734) — the drawing side names neither the cell nor when the variants ship.",
+   "required_change": "§8.2: \"… §13.2's T112-1 (against the cell `cvd.minDeltaE2000`, ΔE2000 8) measures every variant; the variants and cues ship with each family's four bands (M3b; `hatched` at M5)\"."
+  },
+  {
+   "id": "VR0-25",
+   "severity": "minor",
+   "kind": "TERM",
+   "owner": "V07",
+   "claim": "E-16 named the post operation `edgeFade` (the view's vignette, a whole-tile operation) while V07 §5 keeps a paint program `way.edgeFade` (a road or track fading into a dotted trail at the frame edge; V07 l.3081, l.3300) — one name for two mechanisms, the collision E-16 set out to remove.",
+   "required_change": "V07 l.3081 and l.3300: rename the program `way.frameTrail`."
+  },
+  {
+   "id": "VR0-26",
+   "severity": "minor",
+   "kind": "EDGE-UNDEFINED",
+   "owner": "rendering",
+   "claim": "Determinism's cross-part note to rendering — \"§11.2's empty-edit preview is `ok` with nothing changed\" — is not closed: §7.1 rules an empty edit (J-DET-56: appends nothing, the `ok` result), but §11.2 defines no outcome for `preview` or `edit` of an empty event list or an event that resolves to nothing.",
+   "required_change": "§11.2 after *Confirming fates*: \"An empty edit (§7.1; J-DET-56) answers `edit` with `{ status: 'ok', changed: 0, created: [] }` and `preview` with `{ status: 'ok' }`, no fates, renames, created addresses or effects and every count 0; nothing is logged.\""
+  },
+  {
+   "id": "VR0-27",
+   "severity": "minor",
+   "kind": "WIRING",
+   "owner": "model",
+   "claim": "§2.7's `Enceinte.walkCm` comment (base l.2107) names its readers \"§11.1's VTT and glTF wall tops and §8.3's close-up wall symbol\" (W-FLD-05), but rendering reads it only at §11.1's glTF wall top (l.14088): neither the `.dd2vtt` profile nor §8.3 reads `walkCm` — two named readers with no reading end.",
+   "required_change": "§2.7 `walkCm`: \"/* the wall-walk's width: written by S7 (§4.8); read by §11.1's glTF wall top */\"."
+  }
+ ]
+}

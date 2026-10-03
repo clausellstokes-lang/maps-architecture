@@ -140,9 +140,9 @@ at its home — the light host (§8.1 item 7), band-less admission (§9.2), fixe
 transient list (§8.1 item 6), never-lit overlays (§8.2's order) — except the rungs 1–2 albedo pointer (VR0-17) and the
 view-key generalisation (VR0-04).
 
-**Edges.** T-ER-01–21 (§8.11, §9.7, §11.6) define the outcomes and tests of 41 of the 48 catalogued edges and all 38
+**Edges.** T-ER-01–21 (§8.11, §9.7, §11.6) define the outcomes and tests of 42 of the 48 catalogued edges and all 38
 owned combinations (T-ER-10 light × 24 features, T-ER-11 labels × 9, T-ER-12 exports × 8); each outcome is on §5's ladder
-and none is a whole-map retry; the seven left are VR0-11; the determinism note's empty edit is VR0-26.
+and none is a whole-map retry; the six left are VR0-11; the determinism note's empty edit is VR0-26.
 
 **Cross-part notes to rendering.** Closed: V02 (WGAP-1 cells at V02 §5.3), V03 8 (V03 §5.3 home), V05 (§11.1 cites V05
 §5.5), V07 8, model (glTF wall top), pipeline, determinism (F-LIGHT, F-LABEL, §8.10 keying, skeleton `proposedBy`),

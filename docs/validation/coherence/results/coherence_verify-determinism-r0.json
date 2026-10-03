@@ -1,0 +1,254 @@
+{
+ "key": "coherence/verify-determinism-r0",
+ "file": "docs/validation/coherence/verify-determinism-r0s.md",
+ "issues": [
+  {
+   "id": "VD0-01",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§5.2 F-CUT, test cell (base l. 8356)] archive F-CUT test: 'on 10⁵ random concave and holed faces the ladder ends in ≤ 6 kernel calls and the face count never decreases' (DETERMINISM-0029). New cell: '§4.6 step 8 (a)'s bars on 10⁵ random concave and holed faces (the kernel-call bound; …)'. §4.6 step 8 (a) states 36°, ≤ 3 frames, ≤ 2 × the band's upper block area and ≤ 5 % but no kernel-call bound; T39-1 neither; the number 6 is stated nowhere in the set now",
+   "required_change": "§5.2 F-CUT test cell: replace '(the kernel-call bound; the face count never decreasing; the residue band per district)' by '(the ladder ends in ≤ 6 kernel calls; the face count never decreasing; the residue band per district, soft ≤ 5 %)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-06",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§5.3 crossing row 'a way crosses water only on a deck …' (base l. 8438)] archive §5.3 defined a harbour work by topology: 'a way of class `pier` or `quay` whose connected set of `pier` and `quay` edges meets land in at most one L0 land face (a pier, mole or breakwater arm rooted on one shore; a detached breakwater touching none, §4.8)' — the exception's criterion, which J-DET-32 ('harbour works admitted by topology | §5.3') records. The rewrite (E-11) replaced it by '(§4.8's definition)', but §4.8 (l. 7038) only lists kinds ('A pier, a mole, a breakwater arm rooted on one shore and a detached breakwater are harbour works under §5.3's crossing invariant') and points back to §5.3: the pointers are circular, the 'at most one L0 land face' bound is stated nowhere, and a `quay` edge with water on both sides — admitted by the archived topology — is no longer covered by the kind list",
+   "required_change": "§5.3's crossing row: '(§4.8's definition)' → '— a way of class `pier` or `quay` whose connected set of `pier` and `quay` edges meets land in at most one L0 land face (a pier, mole or breakwater arm rooted on one shore; a detached breakwater touching none; §4.8)', so the check column's land-face count has its bound; §4.8's sentence keeps citing §5.3",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-07",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§6.1 concern registry, `render.stampTiles` row (base l. 8703)] archive §6.1 stated the stamp-tile library's constant entity key exactly: 'the four 32-bit-lane finalisers (as for the seed key) over the words (stamp-tile domain, decoration class index, the reference spacing 400 cm, creation index — 0–3 for the class's four tiles, 4 for their shared border band)'. The new row says 'a constant entity key … as §8.10 states', and §8.10 (l. 12945) says the source is 'the `render.stampTiles` key and components of §6.1's registry entry' — each points at the other and neither states the key's words, though the registry row is declared 'the one statement of how its draws are keyed' and the shipped asset's hashes (§13.3's view shifts) depend on it",
+   "required_change": "§6.1's `render.stampTiles` row: replace 'a constant entity key with `STAGE_VIEW` and reroll, attempt, epoch and salt 0, as §8.10 states' by 'a constant entity key — the four 32-bit-lane finalisers (as for the seed key) over the words (stamp-tile domain, decoration class index, the reference spacing 400 cm, creation index: 0–3 for the class's four tiles, 4 for their shared border band) — with `STAGE_VIEW` and reroll, attempt, epoch and salt 0'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-08",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§6.2 'Geometry is hashed once, by the kernel, per level' (base l. 8812)] the archive's §6.2 defined the per-level plat digest: 'Each arena keeps a digest per level over its level-n route — vertices, roles, face owners and kinds of level ≤ n, never arena slots — updated along each commit record's dirty set (§3.3). A finer level's Steiner vertices belong to that finer level's digest, so deriving L3 never changes the L2 digest … a promotion … moves a vertex into the coarser level's digest from that commit on and a demotion moves a vertex or an edge back out of it (the neighbour step's reversal restores the kerb's L2 digest exactly)'. The rewrite replaced it by '(§3.3's per-level digests along each commit record's dirty set, …)', but §3.3 (l. 3401) only names 'the per-level plat digests' and §2.2 rule 3 (l. 730) points back to §6.2: what a level digest covers (vertices, roles, face owners, kinds of level ≤ n; never slots), the L3-never-moves-L2 consequence and the exact restoration of the kerb's L2 digest are stated nowhere",
+   "required_change": "§6.2: restore the definition as the bullet's first sentences — 'Each arena keeps a digest per level over its level-n route — vertices, roles, face owners and kinds of level ≤ n, never arena slots — updated along each commit record's dirty set (§3.3). A finer level's Steiner vertices belong to that finer level's digest, so deriving L3 never changes the L2 digest. Per-level digests read each vertex's and edge's current birth level: a promotion (§2.2 rule 3) moves a vertex into the coarser level's digest from that commit on and a demotion moves a vertex or an edge back out of it (the neighbour step's reversal restores the kerb's L2 digest exactly); kept finer content (§3.3) keeps its digest leaves through a coarser re-derivation.' — and drop the parenthetical '(§3.3's per-level digests …)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-09",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§7.1 *The dry run's outcomes* table (base l. 9667 ff.), E-07] E-07's equivalence ('each case's offered alternative stays its own row') is not met for two causes of the archived F-EDIT detection list: (a) 'an assignment cannot be honoured within its drift bounds' — the table has only 'an edit of an assigned attribute beyond its drift bounds', a different case (a user's edit, not the assignment's own feasibility), so an `assign` (or a dossier assignment) the class rules cannot honour within its DriftBounds has no outcome; (b) 'a plan edit that would leave a room … unreachable' — the row keeps 'below its row's minimum area' and 'a unit without its own door' but drops 'unreachable', and V03 §4.2 gives no bend for an opening edit (`setOpening` kind 'none', a moved door) that cuts a room off",
+   "required_change": "§7.1's outcome table gains two rows: '| an assignment the class rules cannot honour within its drift bounds (§7.7 `Assignment.drift`; §4.7 S11's designation template) | conflict | the closest acceptable sites with the bound each would need (§4.7 S10b), or remove the assignment; a dossier assignment's is reported in `GenerationReport.dossier` as `blocked` | `refuse.assigned` |' and, in the plan row, '… a room below its row's minimum area, a room left unreachable from the main entrance, or a unit without its own door …' with the bend target 'the nearest opening or wall position that keeps every room reached (V03 §4.2)' and the key `bend.room.unreachable` (V09 §4.9 gains its message row)",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-18",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "[§7.1 *Raised ways, aqueducts and retaining walls*, the flat-ground sentence (base l. 9542–9546)] same defect as DET-FLAT-1 (verify-vol-V09-V10-r0), confirmed here: the rule moved from V09 §4.20.1 (3) (a) into §7.1 lost its clause 'clipped to the drawn run's extent' (archive V09 l. 2585); §7.1 now moves the chain 'onto the nearest slope break, terrace edge or retaining wall …' with no extent, and V09 §4.20.1 (3) cites §7.1 for the rule",
+   "required_change": "§7.1: '… moves onto the nearest slope break, terrace edge or retaining wall stepping at least `terrace.stepMinCm` within `terrace.retainingReachM` of that share of the stations, clipped to the drawn run's extent, else becomes a `terrace` …'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-19",
+   "severity": "blocker",
+   "kind": "CONFLICT",
+   "claim": "[§7.3 item 9 (d), the dwelling-declaration closure (base l. 10201) and §7.1's outcome-table row 'a dwelling declaration in an underground cluster nobody can reach' (l. 9688)] same defect as AL-02 (verify-agree-layers-r0), V04's cross-part note 2 and assemble-r0 unplaced 1 (d), confirmed here: the closure fires on 'V04's excavation reading `unexcavated`' only, while V04 §3.8 and §3.4 (J-V4.53) apply it to a cluster read `unexcavated` or `lost` (g item 113 (e)); built from the base, a dwelling declared into a lost cluster digs no way in, against item 109 (j) (4)",
+   "required_change": "§7.3 item 9 (d): '… an underground cluster nobody can reach (V04's excavation reading `unexcavated` or `lost`, V04 §2.2) …'; the §7.1 row's cause cites the same reading",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-02",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§5.3 (base l. 8412 ff.) and the type uses at §3.3 l. 3253 (KernelTx.expect) and §4.12 l. 8146 (StageDecl.invariants)] same defect as VS0-14 (verify-scope-r0), confirmed here and raised at major because two declared interfaces use the type: the type `Invariant` is used by KernelTx.expect and StageDecl.invariants and declared nowhere in the set (kernel note 18, scope continuation note, assemble-r0 unplaced 1 (a)); §5.3's rows are prose, so a stage's declared invariants and the kernel's expect entries have no record shape linking them to §5.4's report row {name, scope, pass, count}",
+   "required_change": "§5.3, after the scope paragraph, declare: `interface Invariant { name: string /* the §5.3 row's id */; scope: 'batch'|'stage'|'save'|'load'|'ci'; hard: boolean /* hard: a failure aborts the batch and its ladder continues; soft: a statistics band, to the report */; check: string /* the row's 'how it is checked' entry */ }   // KernelTx.expect (§3.3), StageDecl.invariants (§4.12); each evaluation writes one GenerationReport.stages[].invariants row (§5.4)` and add to §5.1 (or §5.3) the sentence that KernelTx `onFail`'s `reject` / `repair` / `downgrade` are tiers 1 / 2 / 4 (§3.3)",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-03",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "[§5.4 GenerationReport.stages[].warnings comment (base l. 8481)] same defect as AL-15 (verify-agree-layers-r0): the comment names seven underground stage warnings (W_NET_CROSS … W_OUTFALL_LOW), while V04 §1b.1's row (l. 278) names twelve and gives §5.4 (item 338) as their home: W_RUIN_SOURCE_REMOVED, W_RUIN_MONUMENT_SKIPPED, W_ARCH_VAULT_NO_DOOR, W_TERMINAL_CISTERN_SKIPPED, W_BURIED_FORMER_SKIPPED are missing (V04 cross-part note 1; assemble-r0 unplaced 1 (c))",
+   "required_change": "the comment reads: '… the underground's W_NET_CROSS, W_BASEMENT_NEAR_VOID, W_VOID_UNDER_WATER, W_RUIN_SIMILAR, W_CATACOMB_BELOW_TOWN, W_SUBTERRANEAN_WET, W_OUTFALL_LOW, W_RUIN_SOURCE_REMOVED, W_RUIN_MONUMENT_SKIPPED, W_ARCH_VAULT_NO_DOOR, W_TERMINAL_CISTERN_SKIPPED, W_BURIED_FORMER_SKIPPED (V04 §1b.1; items 338, 113)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-04",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§5.4 ReportCode and the report-codes table (base l. 8503, 8509 ff.)] §5.4 says its ten codes are 'the only codes a ladder writes' (DIC-03: 'every other code a §5.2 ladder writes'), but ladders and generators of the set write codes the union lacks: F-SKY-ACCESS's last rung reports an island with no access `unreachable` (V05 §3.17, T-V5-8; a §5.2 staged row); the raised-way generator's support step drops a generated course as `raised_too_tall` (base §2.7 step (4) l. 2308, §4.13 l. 8225, V06 §3.19 (5), V11 §2.x maxPierM); a cistern terminal with no conduit_house falls to a fountain pin reported `aqueduct_terminal_pin` (V11 §3.24 aqueduct rows) — a typed `code?: ReportCode` cannot carry them; and the raised-way generator, whose course solver has a ladder (§4.3: 're-routes by the solver's ladder or is not built, reported') and whose support step drops a course, has no failure class in §5.2, so `ladderUses.cause` (a FailureClass) cannot name it",
+   "required_change": "ReportCode gains `'unreachable'|'raised_too_tall'|'aqueduct_terminal_pin'`, and the table gains three rows: `unreachable` | F-SKY-ACCESS (an island left with no access, V05 §3.17) | `ladderUses`; the island's `requested` row when requested · `raised_too_tall` | the raised-way generator's support step (§2.7 step (4), item 244) | `ladderUses` (the epoch's `raised.waited` count, V06 §3.19) · `aqueduct_terminal_pin` | the aqueduct terminal's cistern with no conduit_house roster member (V11 §3.24) | `ladderUses`; and §5.2's main table gains the row '| F-RAISED† a raised way cannot be laid as asked [§4.3, §2.7's support step] | S4's and S5's raised-way generator, the epoch's `raisedWays` phase (V06 §3.19), a raised `drawWay`'s dry run | no course within the solver's bounds; a support above `maxPierM[kind]`; an access column or clearance met (V05 §2.3b) | re-route by the course solver's ladder → a generated course not built (`raised_too_tall` for a support), reported; a declared one bent (§7.1's outcome table) | §13.2's item-110 bars (T110-1 – T110-7) |', the class `raised_too_tall`'s row names",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-10",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§7.4 delete / merge / split / join / convert row, undo cell (base l. 10273)] V05's cross-part note to determinism ('§7.4's convert row covers a landfall's re-landing of another island's access, V05 §3.16 (4)') is not closed: V05 §3.16 (8) says a `fallIsland` undo 'restores all of it from the event's undo record (§7.4's convert row) — each covered way's class, surface and prior formerClass …, each covered enceinte's condition profile and lifecycle and each covered retaining wall's state …, and every re-landed access at its former foot', but the row's undo cell names only 'a fallen island's arena restored from the archive and its ruin face removed through the carve path's inverse' — the base's undo-record contents for the landfall omit what V05 relies on",
+   "required_change": "§7.4's convert row, undo cell: after 'a fallen island's arena restored from the archive and its ruin face removed through the carve path's inverse' add '— with every covered way's class, surface and prior `formerClass`, every covered enceinte's condition profile and lifecycle, every covered retaining wall's `state` and every other island's re-landed access at its former foot with its landing yard (V05 §3.16 (4), (8))'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-11",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§7.5 *The schema transforms* table (base l. 10554 ff.)] the model rewrite's cross-part note to §7.5 (the migration rows §2 names) is not closed: model §2.4 (l. 1052–1053) says 'A document without `slopeP95` has it written on load by S9's rule from the terrain along the spine (§7.5); a stored `flowToward` is dropped', and §2.9 adds `nextGroundPart` (1 at creation, g item 110 (b)); §7.5's table — the home for what an older document gets — has no row for a way's `slopeP95`, the dropped `flowToward`, the `nextGroundPart` counter (it lists only `nextUndergroundPart` and `nextSkyPart`), the oasis records' absent `WaterBody.spring` / `fedBy`, or a block without `content` (stated only in §7.4's stage-2 row), so §2.4's pointer resolves to nothing and an older document's first raised way has no defined part counter",
+   "required_change": "§7.5's table gains rows: '| a way's `slopeP95` | — | written on load by S9's rule from the terrain along its spine (§2.4) | 110 (a) |', '| a stored way's `flowToward` | dropped (the sewer reads the `wayFall` reading, §2.4, item 208) | — | 208 |', '| `nextGroundPart` | 1 + the highest raised ground part the document holds, 1 when none (§2.9) | — | 110 (b) |' (or extend the `nextUndergroundPart; nextSkyPart` row to the three counters), '| a `WaterBody`'s `spring`; a grove's or garden's `fedBy` | absent (no spring; fed by none, §2.3) | — | 111 |' and '| a block's `content`; a square's type `market` | `ordinary`; `trading` (§2.5) | — | V01 |'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-12",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "[§7.7 *One path* (base l. 10880 ff.) and DR1's bar cell (l. 11076)] V08 §3.5's diff table (l. 1633) answers any later change of the carried `site` with 'no map event: the site is creation's (§7.7 One path; DR1, DR2, DR19, DR29)' and one `frozen_fact_changed` note, and V08's cross-part note asks that 'DR1's bar is a creation bar'; the base states neither — §7.7's One path says nothing of the site, and DR1's bar ('a coastal dossier has a coast, a riverside one a river, a port one a harbour basin') reads as standing, so after an absorb whose site words changed, §7.7 item 11's coherence check (every dossier fact met) contradicts V08's frozen site",
+   "required_change": "§7.7 *One path*: add 'The carried site — `site.terrain`, `site.access`, the water deposits, `site.culture` and the realm cell's terrain, river and coast — is creation's: DR1, DR2's site part and DR19 read it at creation only, and a later change of it is no map event, the port writing one `frozen_fact_changed` note (V08 §3.5); the coherence check of §7.7 item 11 reads these facts as they stood at creation.' and DR1's bar cell: 'at creation: a coastal dossier has a coast, a riverside one a river, a port one a harbour basin'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-15",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "[§7.7 item 10 *The history replay's record* (base l. 11117) and §6.2's digest layer list (l. 8800 ff.)] model §2.7 (l. 2265) declares `HistoryRecord` as the base's record — 'one per document, as the MaterialLedger is, written once at generation by the replay … model data in the digest' — and the model rewrite's note asks §7.7 to cite it; §7.7 instead puts the replay's record 'in V06's history record, which the report's `epochs` list (§5.4) and the clerk read', i.e. another home and a derived-cache reader (§5.4's `epochs` are V06's per-epoch `EpochReport`s, excluded from every digest), and §6.2's root list names the MaterialLedger under content but not `HistoryRecord`, so the record's digest membership is stated two ways (model: in the digest; §7.7: report data)",
+   "required_change": "§7.7: 'in V06's history record, which the report's `epochs` list (§5.4) and the clerk read (V10)' → 'in §2.7's `HistoryRecord` (model data in the digest, written once at generation by the replay, V06), which the clerk and the reader read (V10)'; §6.2's content line: '… the MaterialLedger, the HistoryRecord (g item 113), Works records …'; §7.5's table gains '| `HistoryRecord` | — (a document generated without the replay has none, and none is invented) | — | 113 |'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-17",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "[§7.1 *Delete* (l. 9605 ff.), the T10 `hold` rows of the toolkit and binding tables (l. 9739, 9759), the sky-island edit-target row (l. 9634); §7.4's delete/convert row (l. 10273), `convert removeIsland` row (l. 10276) and *Every kind at the edit boundary* raised-way and oasis rows (l. 10445 ff.); §7.6; §7.7's generated-content sentence (l. 10937); §7.8; §5.3's sky row (l. 8429); §7.5] g item 114 (OWNER RULE, J126; precedence over f item 260 and J-VI.14) names §7.1, §7.4, §7.6 and §7.8 and withdraws the reason-keyed suppression; the base still states the withdrawn rule — §7.1: 'records what the removal suppresses: LifecycleEvent.detail.suppress … (“the town will not rebuild this aqueduct; undo brings it back”) … The removal holds through regeneration, every absorb and every epoch … lifted only by its undo or by the user's own re-add'; T10: 'the removal of generated content holds'; sky row: 'the record kept in state removed holding its slot', 'an integer islands.count counting the slots removed islands hold as filled … a count never releases a hold'; §7.4: 'a delete records its suppression', 'a delete's suppression lifted', removeIsland 'honoured as a hold', raised way 'a removed generated one stays removed', oasis 'its delete holding by carry-over'; §7.7: 'the deletion holds through regeneration, every absorb and every epoch'; §5.3: 'a slot held by a removed island carries no island' — and §7.6 / §7.8 carry no 'Built by the town' switch rows (same defect as DET-G114, verify-vol-V05-V06-r0)",
+   "required_change": "(1) §7.1 *Delete*: a delete of a generated instance (a raised way, a quay wall, the harbour-mouth chain, a retaining wall, a deck plot, an oasis, an island or a sky access, every kind of the list in (4)) removes it as any generated content and holds while the town is unchanged — a plain Regenerate, a reload and crash recovery give the map as the author left it — and lapses at the next change that re-reads its kind (the next epoch, a New random over a place it crossed, a Re-derive of the stage that builds it), after which the generator decides afresh while the kind is on; a deleted instance counts against no cap; undo restores it; Build it again makes it the author's own (held as drawn content); the dry run and history row say 'Removed for now — the town may build one again when it changes. To stop it building {kind}s, turn them off in Advanced › Built by the town.' (V09's `info.remove.holds`); a dossier-backed element's delete stays `rejectSite`; `LifecycleEvent.detail.suppress` is withdrawn. (2) T10 rows: 'the removal of generated content is for now (above)'; sky row: delete folded as `convert removeIsland`, the record kept `removed` with its archived arena part and households for undo, its slot free at the next change; `islands.count` counts no removed island. (3) §7.4: the delete row's regenerate cell 'a delete of generated content holds until the next change that re-reads its kind (§7.1)', undo cell 'the deleted instance restored'; removeIsland 'held while the town is unchanged; lapses at the next epoch, New random over its slot or a Re-derive from S7b'; the edge-boundary raised-way cell 'a deleted generated one may be rebuilt at the next change, unless its kind is switched off'; oasis likewise; a new row '| adjust of a Built-by-the-town switch | T1 `intend`'s advanced panel (V09 §4.14) | the settings layer value | log | off: the generator's standing instances of that kind removed (listed in the preview), never a drawn or dossier-bound one; on: built again at the next derivation | inverse | an older document's suppression records migrate as plain deletions that lapse at the next change |'. (4) §7.6: the switches are settings of the map on §7.6's layers (this town; the user's preferences as the default for new maps; a preset may set one), never written to the dossier (item 22). (5) §7.8: the control registry gains the group 'Built by the town' — one row per kind the generator adds by its own rules that no dossier record requires (the comprehensive list item 114 (a) assembles: raised ways split into viaducts, elevated roads and aqueducts; terrace retaining walls; deck plots; quay walls with their sea gates; the harbour-mouth chain; oases; floating islands and their sky accesses; the underground's optional systems), each on / off, its default its kind's current default, locality re-derive from its builder stage, discrete, in the advanced panel outside the basic count. (6) §7.7: 'and the deletion holds through regeneration, every absorb and every epoch' → 'and the deletion is for now (§7.1 *Delete*)'. (7) §5.3's sky row: drop 'a slot held by a `removed` island carries no island'. (8) §7.5's table: '| `LifecycleEvent.detail.suppress`; V05's removed slots held as filled | read as plain deletions that lapse at the next change | — | 114 |'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-20",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§7.6 *Tables have keyed rows* (base l. 10616 ff.); users: §7.1 `editTable.table` (l. 9440), model §2.8 `SliceRef.table`, §2.9 `Recipe.tablePins`, §10.4, V07 §2.1, V11 §2.1] same defect as AF-16 / AL-25 (verify-agree-fabric-r0, verify-agree-layers-r0) and the model and V11 cross-part notes, confirmed here: MC-11 homes `type TableId` at §7.6 and V11 §2.1 says 'TableId is §7.6's type', but §7.6 holds no declaration — a type used across the set and declared nowhere",
+   "required_change": "§7.6, first sentence of *Tables have keyed rows*: declare `type TableId = string;   // a table's registry id, one per row of V11 §3.1's catalogue: dotted, stable, never re-used — 'roster.classes', 'siting.families', 'village', 'under.layout' …`",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-23",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "[§7.1 *The dry run's outcomes* (base l. 9663 ff.) and *Empty edits* (l. 9611)] same defects as VAT-06 and VAT-09 (verify-agree-tools-r0), confirmed here: (a) an `adjust` arriving through the API or the clerk for a parameter §7.8's registry disables at the document's rung (the islands control at TOWN and every village rung) has no row — §7.8 states only the control's disabled state, V09 §4.9 keys `refuse.islandsRung` to it; (b) §8.2 and §9.2 send a `setStyle` with a refused sheet and an `editTable` breaking `knowledge.admit`'s order to 'the conflict action `invalid` (§7.1)', but §7.1 has only the range row that clamps and commits (`bend.invalid`), so a failed cross-row check has no defined outcome",
+   "required_change": "§7.1's table gains '| an `adjust` of a parameter the control registry disables at the document's rung (§7.8) | empty edit — nothing appended, the parameter unchanged | the registry's reason row, with “Make this town a city” where a higher rung enables it | `refuse.islandsRung` (V09 §4.9) for the islands control |' and '| an `editTable`, `editPreset` or `setStyle` whose result fails the loader's check of that table or sheet (a schema's cross-row rule, §9.2's `knowledge.admit` order, §8.2's unresolved sheet pairs; §7.6) | conflict — nothing commits | `ConflictAction` `invalid` naming the failed check | `refuse.invalid` |'; *Empty edits* lists the disabled-parameter case",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-24",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "[§7.1 *Drawing at the authoring boundary* (base l. 9518–9530) and the `drawWater` member (l. 9419)] same defect as VAT-14 (verify-agree-tools-r0), confirmed here: §7.1 gives `drawWater.line` a meaning only for rivers and canals ('rivers and canals take a `line` and a width'), while §14's T2 row promises 'a coast … drawn as a knotted curve' and V10 §4.1's `coast` encoder emits `drawWater { kind: 'sea', add: [], line }`; which side is water, how the ends meet the shore and which operator repairs it are undefined",
+   "required_change": "§7.1's drawing rule gains: '`drawWater { kind: 'sea', line }` re-draws the shore along `line`: the water lies on the side the existing sea lies at the line's first point, each end joins the existing shore at its nearest shore point, and the land gained or lost between the old and the new shore is applied as `add` and `subtract` rings and repaired by §7.3 (b)'s water operator; a line that meets no sea is bent to the nearest shore (the outcome table's last row)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-25",
+   "severity": "major",
+   "kind": "EDGE-UNDEFINED",
+   "claim": "[§6.1 *The components* — epoch and salt (base l. 8625–8631)] same defect as EL-02 (verify-edges-life-r0), confirmed here: the epoch component is u16 with its upper half reserved to the history replay (`0x8000 + r`), but a document's live epoch index has no stated bound (each `advance` adds up to `advance.maxEpochs` epochs), so past 0x7FFF a live epoch's keys equal a replay epoch's and past 0xFFFF the component wraps; the town-wide salt (u16, bumped by every `rerollLayer`) has no bound either, unlike the reroll component's 32 767 cap",
+   "required_change": "§6.1: state the bounds and their outcomes — a document's live epoch index is capped at 0x7FFF (an `epoch` event past it is an empty edit with the reason `epochCap`, *Empty edits* §7.1, and an `advance` that would pass it bends to the epochs that fit, said in one line), and a town salt is capped at 0xFFFF (a `rerollLayer` at the cap reports `no_alternative`, §5.1 (6)); or widen the components and restate the replay's offset accordingly (EL-02's alternative)",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-28",
+   "severity": "major",
+   "kind": "WIRING",
+   "claim": "[§7.7 DR14 (base l. 11089)] the dossier's deity does not trace to its derivation row (item 20 (h)): V08 §2.4 (l. 573) maps `config.primaryDeitySnapshot` → `religion.deityKey`, `.deityName` → the `deity` fact → F16 and 'DR14', and §10's religion paragraph (l. 13626–13627) reads 'its `deities` the dossier's `religion.deityKey` or `deityName` when present (§7.7 DR14)' for the principal temple's dedication, but DR14's inputs are only 'the dossier's names (protected); `site.culture`' and its map fact the names of ways, districts, quarters and local places — the pipeline rewrite's note ('§7.7: DR14 lists `religion.deityName`') is unclosed",
+   "required_change": "DR14: map fact '… and V01's local places (`HoodPlace`); a religion's deities and the principal temple's dedication'; inputs '… `site.culture`; `religion.deityKey`, `religion.deityName` (the `deity` fact, receipt F16)'; rule '§10.4 with item 72's dominant components; S2's `Religion.deities` (§10.2)'; bar '… ; a dossier deity dedicates the principal temple'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-30",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "[§5.1 (5) `WorkUnit` (base l. 8263)] §4.12 (l. 8175) states '`WorkUnit` (§5.1) gains `'moduleCells'`' and V03 §3.4 (l. 787–788) writes the plan stage's `workLimits.json` row `{ counter: 'plan.storey'; unit: 'moduleCells'; … }` (BCR-V3-23, f item 324), but §5.1's declaration — the union's one home — is `'plots' | 'buildings' | 'households' | 'landHa' | 'frameCells' | 'latticeNodes' | 'faces' | 'vertices'`, so the schema refuses V03's row (the pipeline rewrite's note unclosed)",
+   "required_change": "§5.1 (5): `type WorkUnit = 'plots' | 'buildings' | 'households' | 'landHa' | 'frameCells' | 'latticeNodes' | 'faces' | 'vertices' | 'moduleCells' /* a storey piece's area ÷ moduleCm², the plan rung's unit (V03 §3.4; item 324) */;`",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-05",
+   "severity": "minor",
+   "kind": "NEW-PROBLEM",
+   "claim": "[§5.1 (6), (8), (9); §6.1 attempt component and Fixed-key draws; §7.1 outcome table and binding headings; §7.4 world points; §7.5 Diff comment and schema transforms; §7.6 registry paragraphs; §7.7 closed-digest rule, DR intro, DR6 (base l. 8291, 8308, 8319, 8620, 8645, 9663, 9744, 10406, 10536, 10554, 10618, 10622, 10633, 10637, 10930, 11071, 11081)] the rewrite cites 18 coherence-canon ruling ids in normative text — W-SET-01 (×2), DWG-01, E-GEN-1, DIC-02 ('DIC-02: no concern's number of draws changes'), E-03, E-07, E-04, E-10 (×2), DWG-02, E-05, V12-XCONF-2, E-30, W-DOS-01a, ID-DR, W-DOS-02; these are validation-record ids, not design ids (principle (5): the validation records keep how the text came about; the same defect was raised for V06 §3.21's EI ids), and none resolves to a section of the set",
+   "required_change": "delete each parenthetical canon id (keep the J-, D-, T- and item ids beside them): e.g. '(DWG-01)', '(E-GEN-1)', '(E-03)', '(E-07; the one …' → '(the one …', '(E-04; the one …' → '(the one …', '(E-10)', '(DWG-02)', '(item 379; E-05; …' → '(item 379; …', '(W-SET-01)', '(V12-XCONF-2; V11 §3.2…' → '(V11 §3.2…', '(E-30; J-V7.96)' → '(J-V7.96)', '(W-DOS-01a)', ', ID-DR' dropped, '; W-DOS-02' dropped; §6.1 '(DIC-02: no concern's number of draws changes)' → '(no concern's number of draws changes by this definition)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-13",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "[§7.7 `Intent.port` comment (base l. 10841) and item 1's never-read list (l. 10919 ff.)] V08's cross-part note to §7.7 is half closed: `PortValues`' comment names 'crime, food import, food chains, legitimacy, latitude' while V08 §2.5 (l. 703–706) also declares `threats` (read by DR2's waterfront); and the never-read list does not name `npcs[].importance`, which V08 §2.4's field table (l. 598) and J-V8.122 mark `ignored` under '§7.7 item 1: the NPC layer beside its persons'",
+   "required_change": "l. 10841's comment reads 'V08 §2.5: crime, food import, food chains, legitimacy, latitude, threats — null standalone (item 389)'; item 1's list reads '… its NPC social groups and its NPC layer beside them (`relationships`, `prominentRelationship`, `conflicts`, a notable's `importance` and every other `npcs[]` field V08 §2.4 marks ignored) …'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-14",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "[§5.2 F-SITING, detection cell (base l. 8367)] DBR-01 (routed FIX) is half applied: the row's 'where' cell now reads '§4.5's band range, item 72 (d‴)', but its detection cell still cites '(§4.5 (5); J-A72.50)', and §4.5 holds two numbered lists that both have a (5) — S7b's 'Sky pseudo-districts' (l. 5659) and item 72's 'The band range' (l. 5773) — so the pointer resolves to the wrong list by number",
+   "required_change": "F-SITING's detection cell: '(§4.5 (5); J-A72.50)' → '(§4.5's band range, item 72 (d‴); J-A72.50)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-16",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "[§5.2 detection cells of F-CUT, F-OUTLINE, F-RIVER, F-CORRIDOR, F-PLOT, F-SKELETON (base l. 8356–8366, 8375)] the kernel rewrite's notes 15 and 17 are not closed: §3.1 (l. 3101–3108) routes `E_HOLE_CONTACT` to F-CUT, `E_SELF_INTERSECT` to F-OUTLINE, `E_NO_PATH` to F-ROUTE and F-RIVER, `E_BELOW_MIN_AREA`/`_WIDTH`/`_ANGLE` to F-CUT, F-CORRIDOR and F-PLOT, and §3.8 (l. 4224) sends 'an input the numeric contract refuses' to the reader's downgrade, but the §5.2 rows name only `E_NOT_TWO_CROSSINGS` (F-CUT) and `E_NO_PATH` (F-ROUTE) and F-SKELETON's detection omits the numeric-contract refusal — the code → class wiring is stated one way only; and §3.10's stored-references row (l. 4310) sends a failure 'after an edit' to F-REDERIVE's, while F-REDERIVE's detection lists no unresolved stored reference (kernel note 20)",
+   "required_change": "detection cells: F-CUT '`E_NOT_TWO_CROSSINGS`, `E_HOLE_CONTACT`; a child fails simple / min area / min width / min angle (`E_BELOW_MIN_AREA`, `E_BELOW_MIN_WIDTH`, `E_BELOW_MIN_ANGLE`, §3.3's expect)'; F-OUTLINE '… self-intersects or loops (`E_SELF_INTERSECT`)'; F-RIVER '… no crossing site in the core band; `E_NO_PATH` on a re-trace'; F-CORRIDOR and F-PLOT add '(`E_BELOW_MIN_AREA`, `E_BELOW_MIN_WIDTH`)' after the class-floor clause; F-SKELETON '§3.8's four post-conditions fail, an input §3.8's numeric contract refuses (a corner sharper than 5°, a hole touching the outer ring or another hole), or the skeleton's work limit …'; F-REDERIVE's detection gains '; a stored reference of a live entity that no longer resolves after the edit (§3.10's row, `E_INVARIANT` naming it)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-21",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "[§5.1 (10) (base l. 8327), §7.7 DR23 (l. 11098), §7.7 item 15 (l. 11224)] same defect as AL-31 (verify-agree-layers-r0), confirmed here: three sites cite '`ProductDecl`, §4.12', while §4.12 and §14 say the type is V07 §2.1's, where it is declared",
+   "required_change": "the three sites read '`ProductDecl` (V07 §2.1; registered by §4.12's `StrategyRegistry.products`)'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-22",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "[§7.7 item 1's never-read list (base l. 10919 ff.) against §7.1 item 2's dating rungs (l. 7710, pipeline §4.11) and J-A73.06] same defect as VS0-15 (verify-scope-r0), confirmed here: J-A73.06 and V08 §2.4 say '§7.7 item 1 lists `powerStructure.previousGovernments` as never read', but item 1's list does not name it, while §4.11's dating rungs read `previousGovernments[].tick` (the scope rewrite's note W-DOS-05 unapplied)",
+   "required_change": "decide one reading and state it once: add to item 1's list '`powerStructure.previousGovernments` (narrative state with no map reader) — its entries' ticks excepted, read only as a dating rung (§4.11)', and J-A73.06's index row and Part A entry say 'never carried into the digest; its ticks read only as a dating rung'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-26",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "[§7.1 event → tool binding table, T1 row (base l. 9750)] retired term 'a standalone neighbourhood's outline' (G-standalone: the term is 'standalone neighbourhood document')",
+   "required_change": "read 'a standalone neighbourhood document's outline'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-27",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "[§5.3 F-VOID row (base l. 8374)] bare bar group '§13.2's T65 fixtures' against ID-TOOL",
+   "required_change": "read '§13.2's T65-1 – T65-8 fixtures'",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-29",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "[§5.4 `GenerationReport` (base l. 8478 ff.)] model §2.9 (l. 2776) declares `Recipe.presetId` as provenance 'read by the generation report's recipe line', and J-P54 cites §5.4 for that reader (the model rewrite's note M5), but §5.4's `GenerationReport` has no recipe line — the named consumer does not exist",
+   "required_change": "§5.4's `GenerationReport` gains `recipe: { presetId?: string /* §2.9: the preset the document was created from, provenance only */; packs: string[] /* the pack set's ids */ };   // the panel's recipe line (V09's recipe panel reads the same)`, or §2.9's comment and J-P54 drop 'the generation report's recipe line' and name V09's recipe panel alone",
+   "owner": "determinism"
+  },
+  {
+   "id": "VD0-31",
+   "severity": "minor",
+   "kind": "BROKEN-REFERENCE",
+   "claim": "[§7.7 `Assignment.drift` comment (base l. 10817)] the comment reads 'typed in V02 §2.1 (item 385)', while model §2.6 (l. 1313) declares `DriftBounds` ('declared here; … V02 §2.1 cites it') under MC-11 — the model rewrite's note ('§7.7's DriftBounds comment reads \"typed in §2.6\"') is unclosed",
+   "required_change": "l. 10817: 'typed in V02 §2.1 (item 385)' → 'typed in §2.6 (item 385; V02 §2.1 gives its meanings)'",
+   "owner": "determinism"
+  }
+ ]
+}
