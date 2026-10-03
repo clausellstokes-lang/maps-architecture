@@ -1115,6 +1115,18 @@
    ],
    "V12": [
     "VV1112-01"
+   ],
+   "model": [
+    "VM0-01",
+    "VM0-12"
+   ],
+   "pipeline": [
+    "VP0-01",
+    "VP0-10",
+    "VP0-16",
+    "VV12-01",
+    "VV12-08",
+    "VV1112-06"
    ]
   },
   "runs": [
@@ -1153,6 +1165,23 @@
      "V10-PROV-1",
      "DET-FLAT-1",
      "VV1112-01"
+    ]
+   },
+   {
+    "script": "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/restore-r1-02.js",
+    "units": [
+     "pipeline",
+     "model"
+    ],
+    "findings": [
+     "VM0-01",
+     "VM0-12",
+     "VP0-01",
+     "VP0-10",
+     "VP0-16",
+     "VV12-01",
+     "VV12-08",
+     "VV1112-06"
     ]
    }
   ]

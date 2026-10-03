@@ -6,3 +6,5 @@
 - step 2: the usage limit (reset 04:40 UTC) cut 14 of the 20 seats at ~03:15; the 6 returned results kept; the 14 re-launched at 2026-10-03 04:43 UTC as runs wf_2cc51691-ed8, wf_03731b57-4f1, wf_5abf0398-9d2 (each continues from its partial report on disk)
 - step 2: restore round 1 planned: 21 finding(s) of kinds NUANCE-LOST, LOST, CHANGED over determinism, rendering, scope, V02, V03, V06, V09, V10, V12 in 1 run(s)
 - restore round 1 (J130): run 1 launched for determinism, rendering, V02, scope, V03, V06, V09, V10, V12 at 05:59 UTC (run wf_50c9d859-98a)
+- step 2: restore round 1 planned: 8 finding(s) of kinds NUANCE-LOST, LOST, CHANGED over model, pipeline in 1 run(s)
+- restore round 1 (J130): run 2 launched for pipeline, model at 06:01 UTC (run wf_7c97b5a1-549); VM0-21 (LOST, owned by determinism, raised by the model checker after determinism's restore seat started) waits for a round-2 restore of late findings
