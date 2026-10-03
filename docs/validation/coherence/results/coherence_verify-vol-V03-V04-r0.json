@@ -1,0 +1,214 @@
+{
+ "key": "coherence/verify-vol-V03-V04-r0",
+ "file": "docs/validation/coherence/verify-vol-V03-V04-r0s.md",
+ "issues": [
+  {
+   "id": "V03-DEC-1",
+   "severity": "blocker",
+   "kind": "NUANCE-LOST",
+   "claim": "Six reconciliation-era decisions lost reasons or rejected alternatives when their round labels were folded: J-V3.122 (l. 2660) lost \"since 'each with its tier in the report' would otherwise fail the same building's soft rooms\"; J-V3.123 (l. 2661) lost \"(T28-13's fixtures and the goldens re-signed at M6-P)\" and \"over leaving that order unstated, which would leave the P1 seat a restatement the lint refuses\"; J-V3.124 (l. 2662) lost \"over a text the base could read as moving S11's entrance draws after the basement's\"; J-V3.125 (l. 2663) lost (a) \"rather than falling to a higher side or to the trapdoor\" and (c) \"so a door.mainCm span held within its side would bar on a church a side every other building may use, and one not held within it could slide past the side's end\"; J-V3.126 (l. 2664) lost (c)'s \"over reverting the arch to an opening outside the tree, which re-strands that undercroft\"; J-V3.127 (l. 2665) lost (a)'s \"since a wing that only touches the vault stands over no part of it\" and (d)'s \"over 'from the room the basement's tree enters first'\".",
+   "required_change": "Restore each quoted clause in its row from docs/archive/volumes-pre-coherence-2026-09-28/V03-interiors.md §9 (J-V3.122 – J-V3.127), removing only round labels, seam and critique ids and 'recorded'/'refinement' narration.",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-MOAT-1",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V03 §3.13 (f)'s coast/moat/oasis row says 'a building on a bridge over a moat is a deck building' and T-V3-37 (d) builds 'a gatehouse on a moat with a deck building on its bridge', but the base offers deck plots 'on no moat deck at a gate (a gate's approach stays clear; realism tiebreaker)' (§4.7 S10, base l. 6280): the fixture asks for a building the generator never makes. Coincides with verify-agree-fabric AF-06 (apply once).",
+   "required_change": "The row reads 'a moat deck at a gate holds no deck plot (§4.7 S10), so no building stands on it and the gatehouse's entrance opens onto the deck; a deck plot on any other bridge is a deck building (V03 §3.7.2 (0))', and T-V3-37 (d) asserts no plan on a gate's moat deck and the gatehouse's entrance on the deck.",
+   "owner": "V03"
+  },
+  {
+   "id": "V04-RANK-1",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "One cell, two names, two records, two types: the base declares UndercityRule.sourceRank: Partial<Record<UndergroundSystem['kind'], number>> (II.7.5, base l. 18762, 18889; registry row 59) and V11 §3.23.6 states its values under that name, but V04 declares RuinRule.sourceWeight: Record<...> (l. 673) and reads it at l. 700, 1127, 1299, 1892, 3045 and J-V4.117 (l. 3211), registering its calibration on the under.ruin line (58a). V11's cross-part note 1 was not applied. Coincides with AL-11 and VV1112-08 (apply once).",
+   "required_change": "Drop sourceWeight from RuinRule (l. 673); read UndercityRule.sourceRank (II.7.5; V11 §3.23.6) at l. 700, 1127, 1299, 1892, 3045 and J-V4.117; name the calibration line as registry row 59's undercity line; §2.3's defaults row lists UndercityRule.sourceRank -> V11 §3.23.6.",
+   "owner": "V04"
+  },
+  {
+   "id": "V04-G114-1",
+   "severity": "major",
+   "kind": "F-MISSING",
+   "claim": "g item 114 (OWNER RULE filed 2026-10-03 02:35 UTC, applied like items 111-113, J126) names V04 ('the underground's optional systems on the list') and 'every stage that builds a listed kind (reads its switch)', and withdraws deletions that hold for ever. V04 has no Built-by-the-town rows, no stage reading a switch, and three deletions that still hold for ever against 114 (c): a deleted generated run's tombstone on its creation key with cost infinity (V04 §3.2 N3a (2), l. 980), the catacomb tombstones that 'growth never digs again' (l. 482; J-V4.56; V04 §4.3's delete row; T-V4-39's epoch clause), and the arch vault's 'a regeneration after a removal lays none' (V04 §2.6 l. 848).",
+   "required_change": "New design at build depth by V04's editor: (a) a V04 §2.3 table of the underground's switch rows (blueprint ruin, generated catacombs, caverns and fissures, quarries and mine voids, street, bridge and arch vaults, buried old town, public openings, dig accesses, generated undercity), each with its default, the stage that reads it and the dossier-bound instances it never touches; (b) each V04 §3 stage reading its switch, OFF removing only that kind's generated standing instances (listed in the adjust preview), never author-drawn or dossier-bound ones; (c) the three deletions made 'for now' — holding through a plain Regenerate, reload and crash recovery and lapsing at the next epoch, New random or Re-derive of the building stage (J-V4.56 amended by a new decision; T-V4-39 reworded); (d) lifecycle rows (V04 §2.6), wiring (V04 §1b), edges (V04 §3.13 (c)) and a bar (switch off: none at every rung and epoch; back on: present at the next derivation; delete then Regenerate byte-identical; delete then one epoch may rebuild; all rows at default byte-identical to the base).",
+   "owner": "V04"
+  },
+  {
+   "id": "V04-PROG-1",
+   "severity": "major",
+   "kind": "TERM",
+   "claim": "V04 calls ruinMasonry 'the ruin program' (l. 2726 '**The `ruin` program** (g item 109 (g); `ruinMasonry`)', l. 1384, 3070, 3269, 3350), while base §8.2 defines two distinct programs, `ruin` (the ruined state's dashed outline, fill and stipple) and `ruinMasonry` (the ancient ruin system's double wall); one name means two programs. Coincides with AL-16 (apply once).",
+   "required_change": "Each of the five places reads 'the `ruinMasonry` program' (BCR-V4-40's §10 row included).",
+   "owner": "V04"
+  },
+  {
+   "id": "DET-V04-2",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "§7.3 item 9 (d) (base l. 10201) defines the dwelling closure for 'an underground cluster nobody can reach (V04's excavation reading `unexcavated`)'; under g item 113 (e) a `lost` cluster is equally unreachable and V04 §3.8, §4.1, §4.3 treat 'unexcavated or lost', so read as written a declaration placing dwellings in a lost cluster builds no way in. V04's cross-part note 2 was not applied.",
+   "required_change": "Write '(V04's excavation reading `unexcavated` or `lost`)'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "REN-V04-1",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V04 rules (V04 §5.1, §5.2, J-V4.122; V09 §4.17.3 and V10 follow) that a lost cluster is drawn faded by the `unexcavated` program and labelled 'once known' for every key its knownTo admits, whatever showUnexcavated says, only an unexcavated element being secret-only; the base's homes are silent on lost — §8.4 (l. 12183) draws unexcavated voids under showUnexcavated, §11.1 (l. 14113) admits an unexcavated element at secret only, §2.7 (l. 2421) says 'drawn faded like an unexcavated void' — so a renderer following the base hides a publicly known lost void or shows it only under the secret view key. V04's cross-part note 3 was not applied.",
+   "required_change": "§8.4 and §11.1 state that a lost element, its 'once known' label and its links are drawn by the `unexcavated` program and exported for every key its knownTo admits, independent of showUnexcavated; only an unexcavated element is secret-only and drawn under showUnexcavated.",
+   "owner": "rendering"
+  },
+  {
+   "id": "V06-V04-1",
+   "severity": "major",
+   "kind": "CONFLICT",
+   "claim": "V06 §3.20.5 (3) buries a former settlement by 'the raiseGrade conversion with cause burial over the region ... so later coarse epochs build on the raised ground', with no size gate; V04 §3.5.5 (b) (the builder) lays it by BuriedFormer.lay(doc, epoch, former) in that epoch's batch — no grade raise, the former records cleared, elements riseCm below today's levelled ground, only a former fabric that stood at TOWN or above, W_BURIED_FORMER_SKIPPED when nothing can be laid, the id written into HistoryRecord.buried — and base II.7.6 (l. 19037) says 'buried the same way' as the scar town with no raiseGrade recorded. V04 §13 lists the hand-off as closed at V06; it is not. Coincides with verify-vol-V05-V06's burial issue (apply once).",
+   "required_change": "V06 §3.20.5 (3) calls V04's BuriedFormer.lay as V04 §3.5.5 (b) states (its TOWN gate, its depth law, the clearing of the former records in the batch), writes the returned id into HistoryRecord.buried, and drops the raiseGrade conversion and 'later coarse epochs build on the raised ground'.",
+   "owner": "V06"
+  },
+  {
+   "id": "V03-CITE-1",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "Canon S1 has a volume cite the base section where an applied request's fact lives; V03's body names other volumes' requests 66 times instead (V04 converted all of its own): BCR-V2-33 15x, BCR-V2-41 9x, BCR-V2-34 6x, BCR-V2-28 6x, BCR-V2-27 5x, BCR-V2-42 3x, BCR-V2-01 3x, BCR-V5-30 2x, BCR-V4-30 2x, BCR-V2-32, -31, BCR-V11-13, BCR-V1-43 2x each, BCR-V4-29, BCR-V2-39, -38, -20, -18, -15, -04, -03, BCR-V11-1, BCR-V10-3 once — several as the only pointer ('volume 2's BCR-V2-33 (c) states it'); stepProfile(wall) is cited '(BCR-V1-43; V01 §3.11 (7))' (l. 133, 1485) though declared at base §2.7 (item 245, l. 2148), levelledGroundCm '(BCR-V5-30)' though homed at §4.7 (item 309). Partly coincides with AF-23.",
+   "required_change": "Outside §10's 'Other volumes' requests' paragraph, write each as the base section and item the request became (from V02 §10 and the other volumes' pointer rows: BCR-V2-33 -> §2.6, item 371; BCR-V2-41 -> §2.6 Entrances, item 230; BCR-V2-28 -> §2.6, item 226; BCR-V1-43 -> §2.7, item 245; BCR-V5-30 -> §4.7, item 309; BCR-V4-29, -30 -> II.7.4, items 554, 557; BCR-V10-3 -> §2.8, item 270; BCR-V11-1, -13 -> their items; and so for the rest).",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-CITE-2",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "Citation forms outside canon S7 / ID-WX: l. 1606 \"volume 4's §3.5.1 (9)\" (a bare § meaning V04's); l. 2815 \"stated in V02 (its §1b, §2, §3.13, §3.17, §4.6, §5.2)\" (bare §s that read as the base's); l. 2392 \"volume 2's X17 cap\" (a volume-local row id).",
+   "required_change": "Write 'V04 §3.5.1 (9)'; 'V02 §1b, V02 §2, V02 §3.13, V02 §3.17, V02 §4.6, V02 §5.2'; \"V02 X17's cap\".",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-IN-1",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "The Integration notes table (l. 2822-2830) keeps the ids IN-V03-1 – IN-V03-3 with a restated summary and cites 'J-VI.17 H18' with _integrate's row id bare; ID-WX keeps IN ids only in the validation records and has another unit write '_integrate H18'.",
+   "required_change": "Replace the table with V04's form — one paragraph naming each J-VI decision (J-VI.17's row as '_integrate H18', J-VI.4, J-VI.5) and the V03 home it is folded into (V03 §4.6, §1b; V03 §4.2; V03 §1, §3.3 S6 (e)) — and drop the IN ids.",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-HO-1",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V03 §13's 'Hand-offs from this volume' gives four rows a process status — \"V04's editor (this pass)\", \"V09's editor (this pass)\", \"V10's editor (this pass)\", \"V05's editor (this pass)\" (l. 2811, 2816-2818) — though three are stated at their homes (T-V4-50's elaboration-independence clause in V04 §7; V09 §4.9's bend.crypt rows and §4.17.5; V10 §3.9a's crypt rows and §10.2's CVR-V10-9) and the fourth is open (V05-V03-1).",
+   "required_change": "Each status cell names its destination home ('stated at V04 §7's T-V4-50', 'stated at V09 §4.9 and §4.17.5', 'stated at V10 §3.9a and V10 §10.2'); the V05 row 'stated at V05 §1b' once V05-V03-1 lands.",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-PLAN-1",
+   "severity": "minor",
+   "kind": "COHESION",
+   "claim": "V03 §8 ends '§16 computes the total once; this volume states none of its own' (l. 2531) while its own table states '**total** 18.5–25.25': two readings of one fact.",
+   "required_change": "Use V04 §8's sentence: '§16's totals are computed once from the volumes' lines (item 568); this volume states its own estimate only.'",
+   "owner": "V03"
+  },
+  {
+   "id": "V03-RAISED-1",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "V03 §4.2's raised-way bullet (l. 2106) restates the base's delete rule '(a removal of a generated way holds through regeneration)'; g item 114 (c) changes that rule (a delete holds while the town is unchanged and lapses at its next change), so the restatement will disagree with the base once the base applies item 114.",
+   "required_change": "Cite instead of restating: 'the base's edit (its hold is §2.8's delete rule, item 114 (c))', the fate line naming the plan as lost with the way in either case.",
+   "owner": "V03"
+  },
+  {
+   "id": "V04-CITE-1",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "l. 162 'V06 §3.18 (§3.18.1 (2c), (4), (6); §3.18.2 (3))' uses bare §s that read as the base's; and V10's request BCR-V10-3 is cited four times (V04 §1b.2 l. 323, §4.5 l. 2591, T-V4-79 l. 2967, J-V4.125 l. 3219) where V04's own §10 rule cites the applied item.",
+   "required_change": "Write 'V06 §3.18.1 (2c), (4), (6), V06 §3.18.2 (3)'; replace 'BCR-V10-3' with 'the explainer registry (§2.8, item 270)'.",
+   "owner": "V04"
+  },
+  {
+   "id": "DET-V04-1",
+   "severity": "minor",
+   "kind": "CONFLICT",
+   "claim": "§5.4's warnings comment (base l. 8481) names seven underground codes; V04 §1b.1's list (item 338, BCR-V4-41) has twelve — W_RUIN_SOURCE_REMOVED, W_RUIN_MONUMENT_SKIPPED, W_ARCH_VAULT_NO_DOOR, W_TERMINAL_CISTERN_SKIPPED, W_BURIED_FORMER_SKIPPED are missing (V04-WGAP-3; g item 113). V04 §13 lists the hand-off as closed at §5.4; it is not.",
+   "required_change": "The comment reads 'the underground's codes (V04 §1b.1's list; item 338)'.",
+   "owner": "determinism"
+  },
+  {
+   "id": "PIPE-V04-1",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "II.6 (base l. 18243, 18245) still lists 'the ways with `flowToward` (§2.4)' among SewerStrategy's inputs and has mains 'falling with `flowToward`'; item 208 retired the stored field for the derived reading wayFall(way) (§2.4, l. 1033, which drops a stored value on load). V04's cross-part note 4 was not applied.",
+   "required_change": "Write 'the ways' `wayFall` reading (§2.4, item 208)' and 'falling with `wayFall`'.",
+   "owner": "pipeline"
+  },
+  {
+   "id": "V05-V03-1",
+   "severity": "minor",
+   "kind": "WIRING",
+   "claim": "V05 §1b's row for levelledGroundCm on a sky key (l. 253) lists its readers as V05's surface top, crypt re-test and clearance check and V01's island bridge build, 'never a field reader'; V03 §3.6's W2 outside sample reads it on a building's own arena key, a sky island's included (V03 l. 1410), for the exposure gates, Entrance.storey, the walk-out and the outside digest — a consumer missing at its producer (V03 §13's open hand-off).",
+   "required_change": "Add to the row's readers: \"V03 §3.6's W2 outside sample (the exposure gates, Entrance.storey, the walk-out door, the outside digest) on an island building\".",
+   "owner": "V05"
+  },
+  {
+   "id": "ID-U-scope",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V04 renamed its build steps V4-U0 – V4-U5 and V4-U3b (V12's form) so that a bare U1 – U3 names only II.7.3's owner rules; the base and INDEX still cite them bare: §16 l. 17628 ('M6-U's U3–U5'), l. 17639 ('after V04's U5'), l. 17642 ('its U3 distinctness and U4 undercity parent', 'U4 carries the crypt derivation'); INDEX l. 119, 143 ('U0'), 144 (\"V04's U5\", 'U3/U4').",
+   "required_change": "Each reads V4-U0, V4-U3, V4-U4, V4-U5 (and 'V4-U3–V4-U5').",
+   "owner": "scope"
+  },
+  {
+   "id": "ID-U-V02",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V02 l. 1854 cites V04's step bare: '`panel` at U5 (V4-U5, ...)' (V04 renamed its steps V4-U0 – V4-U5; bare U1 – U3 are II.7.3's owner rules).",
+   "required_change": "Write '`panel` at V4-U5 (`realism`; ...)'.",
+   "owner": "V02"
+  },
+  {
+   "id": "ID-U-V06",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V06 l. 3602 cites V04's step bare: 'the burial clause after M6-U's buried system (as E8 after U5)'.",
+   "required_change": "Write '(as E8 after V4-U5)'.",
+   "owner": "V06"
+  },
+  {
+   "id": "ID-U-V07",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V07 l. 3401 cites V04's step bare: \"the dig rows are rows of V04's tables (landed at V04's U3b)\".",
+   "required_change": "Write \"(landed at V04's V4-U3b)\".",
+   "owner": "V07"
+  },
+  {
+   "id": "ID-U-V09",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V09 §8's AP6 row (l. 3819) cites V04's steps bare: \"M6-U (with V04's U3, U3b and U4)\".",
+   "required_change": "Write \"M6-U (with V04's V4-U3, V4-U3b and V4-U4)\".",
+   "owner": "V09"
+  },
+  {
+   "id": "V11-SPAN-1",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V04 renamed the span-rule cells to the base's names (span.vaultShare, span.vaultCap, span.supportFoundationCm; item 244; V11's raisedWays.structure.span.*), but V11 still names them by V04's retired names: l. 513 \"V04's `raised.vaultShare`\", l. 650 '(`raised.vaultShare`)', l. 652 '(`raised.vaultCap[rung]`)', and l. 3866's prose-name list (raised.vaultShare, raised.vault.maxHeightCm, raised.vaultCap ...).",
+   "required_change": "Each reads the base's span.* name; drop the prose-name list (one name per cell).",
+   "owner": "V11"
+  },
+  {
+   "id": "V11-U-1",
+   "severity": "minor",
+   "kind": "ID",
+   "claim": "V11 l. 4440 cites V04's step bare: '`panel` (V4-U5, `realism`) at U5'.",
+   "required_change": "Write 'at V4-U5'.",
+   "owner": "V11"
+  },
+  {
+   "id": "V12-SPAN-1",
+   "severity": "minor",
+   "kind": "TERM",
+   "claim": "V12 l. 2147 names V04's retired cell name \"(V04's `raised.vaultShare`, ...)\", and l. 2119 registers \"`under.ruin` `sourceWeight`\" — V04's second name for the base's UndercityRule.sourceRank (V04-RANK-1).",
+   "required_change": "Write 'span.vaultShare'; key the l. 2119 line to registry row 59's UndercityRule.sourceRank (V11 §3.23.6).",
+   "owner": "V12"
+  }
+ ]
+}
