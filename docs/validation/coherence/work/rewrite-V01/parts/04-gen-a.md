@@ -107,7 +107,7 @@ At S7c the claims of S7b (3) are not yet cut, so the **pre-claim template face**
 a wall strip, an S3 reservation, an intramural garden (item 106 (b)) nor another district's; `templateFaceAreaM2` is its
 area less the expected area of the claims the greedy allocation gives D (every claim counted against this face — the
 conservative reading); `inscribedRadiusM` and `faceObb` are the pre-claim face's. S8 re-tests the requirement on the
-committed template face (V01 §3.4.1), a failure there being F-TEMPLATE's under the land cap (V01 §3.3.7, §3.13). Every
+committed template face (V01 §3.4.1), a failure there being F-TEMPLATE's under the land cap (V01 §3.3.7, V01 §3.13). Every
 factor below is a `hood.constants` cell (its key in brackets; V01 §3.14).
 
 | requirement | holds when (metres from the context) |
@@ -134,7 +134,7 @@ fails.
 with **`κ(D)` = `select.kind[D.kind]`**, 1 when absent — for a `sky-*` kind its ground counterpart's (V05 §2.4):
 `sky-temple` reads `temple`, `sky-palace` `castle`, `sky-island` the town's richest ground kind (the kind of the ground
 district with the highest pass-1 mean value, ties by address), `sky-prison` and `sky-tower` none (1) — and
-`fabric.extensionWeight` is `hood.constants`' stage-2 switch (V01 §3.14, §3.15; 1 in the default preset, **0 in the
+`fabric.extensionWeight` is `hood.constants`' stage-2 switch (V01 §3.14, V01 §3.15; 1 in the default preset, **0 in the
 `MFCG` and `FTG` parity presets**, §7.6 — so the parity presets lay every district with the bent cut, the M4 output — and
 1 under `NG`, whose `ng.fabric` replaces this product by the four NG rows' `select.ngOdds`, each kept only when eligible,
 every other row 0). A `stepped` row's weight is further × `min(2, slope.meanPct ÷ 8) × (1 + terrace.askGain × asks)` —
@@ -234,7 +234,7 @@ included; a saved and reloaded document replays them from the log.
 
 **The reconcile.** S7b (1)'s bounded reconcile (≤ 3 rounds, its own; §4.5, item 294) runs with each district's capacity
 per band equal to its pass-1 built land — less the under-deck strips inside it, plus the capacity of the deck plots it
-owns (V01 §3.17.4, §3.17.6) — less its expected dispatch land (V01 §3.5.9) less `templateLandM2`, the template land taken
+owns (V01 §3.17.4, V01 §3.17.6) — less its expected dispatch land (V01 §3.5.9) less `templateLandM2`, the template land taken
 from the bands in proportion to their built-land shares in the template face. The households the reduced capacity cannot
 hold move, in S7b's declared order, to the first district whose capacity holds them — households are the reconcile's
 movable tail; institutions and workplaces never move for a template. A capacity the subtraction would take below 0 is 0

@@ -8,9 +8,9 @@ PROGRESS (lane `coherence/rewrite-V04`, 2026-09-29; cloud continuation 2026-10-0
 - P3 §1b: done (parts/01-s1b.md)
 - P4 §2: done (parts/02-s2.md)
 - P5 §3.1–§3.4: done (parts/03-s3-1-4.md)
-- P6 §3.5: pending
-- P7 §3.6–§3.12 (edges table): pending
-- P8 §4–§6: pending
+- P6 §3.5: done (parts/04-s3-5a.md, parts/05-s3-5b.md)
+- P7 §3.6–§3.13 (edges table §3.13): done (parts/06-s3-6-9.md, parts/07-s3-10-13.md)
+- P8 §4–§6: done (parts/08-s4.md, parts/09-s5-6.md)
 - P9 §7–§8: pending
 - P10 §9–§13, integration notes: pending
 - P11 assemble, verify ids, references, terms, sizes: pending

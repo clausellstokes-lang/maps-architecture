@@ -7,7 +7,7 @@ recomputed from persisted state and never stored.
 ### 2.1 Identifiers and the fabric table
 
 `FabricStrategyId` (a `hood.templates` row key), `BlockKind`, `SquareType`, `SeamRun` and `TypedBoundary` are declared in
-§2.5 (MC-11); `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
+§2.5; `OutlineTemplateId` is §4.2 S1 (2)'s row key, its standalone rows added by item 285 (V01 §3.10.2).
 
 ```ts
 type HoodSite = 'court'|'plotYard'|'yardBlock'|'square'|'green'|'cemetery'|'fieldEdge'|'outsideYard';   // hood-pin sites (V01 §3.8.2); the last three hinterland
@@ -62,7 +62,7 @@ interface DispatchRow { band: string;
 interface SquareRow { type: SquareType; m2PerInhabitant: number /* the square-sizing row S4 (d)'s fallback rescales (§13.7) */; minM2: number; maxShareOfFace: number;
   centrepiece: { kind: Pin['kind']; weight: number }[] /* S11's centrepiece draw on `pin.centrepiece`; II.2's centrepiece rule reads this row (item 542) */ }
   // a place's knowledge defaults from `hood.placeKnowledge`, not from this row
-// ---- `hood.pins` — the neighbourhood-tier pin rows (V01 §3.8.2; II.3's gate and decay); arena-keyed; the underground rows are volume 4's, which ships none (V01 §3.8.2)
+// ---- `hood.pins` — the neighbourhood-tier pin rows (V01 §3.8.2; II.3's gate and decay); arena-keyed; the underground rows: V01 §3.8.2
 interface HoodPinRow { kind: Pin['kind'] /* well, pump, trough, fountain, large_tree, statue, monument, bandstand, cross, shrine */; arena: 'ground'|'sky'|'underground';
   sites: HoodSite[]; gate: { band: string; p: number }[] /* per-site probability at the band for square, yard-block and green sites, interpolated; court, plot-yard and
     hinterland sites × `hood.constants`' pin.courtFactor */;
@@ -174,7 +174,7 @@ interface WayNamingContext {   // S13a's naming input for a way (V01 §3.7.2), d
 ```
 
 A retaining wall's step profile is §2.7's derived view `stepProfile(wall)` (item 245), which this volume reads (V01 §3.11
-(7), §3.17.2).
+(7), V01 §3.17.2).
 
 **Arena parts per reader** (item 110 (b); J-V1.66). Item 110 (b) puts every raised deck in a ground arena part from 1
 (`PlatKey.part ≥ 1`; §3.4). Every rule of this volume that reads `ways` reads the parts this table gives, and cites it.
@@ -184,11 +184,11 @@ an island carries no raised way (V05 §3.22 (3) (d)) — and "raised" means a gr
 | reader | part 0 (a sky island's own part) | a raised road (viaduct, elevated road) | an aqueduct |
 |---|---|---|---|
 | χ̃'s frontage, `mainRoad` and trade (V01 §3.2); `chains[].alongWay`; S7c's `chain` term | yes | no — nothing fronts a deck | no |
-| portals and their ranks, `bridgePortal`, `portal:gate`, `portal:bridge`, the bridgehead template, S9b's bridgehead squares (V01 §3.4.2 (a), §3.4.5, §3.5.3) | part-0 gates; part-0 decks over water only — on a sky arena the island's own decks over its conjured river among them (V01 §3.10.3 (4)) | no; each ramp or stair end is an ordinary ground junction ranked by its carried class | no, never a portal |
-| S9b's junction arms and the void junction; the greens' tier-1 frontage; manor prestige; the bank path; the quay way (V01 §3.4.5 (c), §3.5.3–§3.5.5, §3.6) | yes | its ramp and stair ends, as junctions of its class | no |
+| portals and their ranks, `bridgePortal`, `portal:gate`, `portal:bridge`, the bridgehead template, S9b's bridgehead squares (V01 §3.4.2 (a), V01 §3.4.5, V01 §3.5.3) | part-0 gates; part-0 decks over water only — on a sky arena the island's own decks over its conjured river among them (V01 §3.10.3 (4)) | no; each ramp or stair end is an ordinary ground junction ranked by its carried class | no, never a portal |
+| S9b's junction arms and the void junction; the greens' tier-1 frontage; manor prestige; the bank path; the quay way (V01 §3.4.5 (c), V01 §3.5.3–§3.5.5, V01 §3.6) | yes | its ramp and stair ends, as junctions of its class | no |
 | the surface rule (V01 §3.7.3) | by its fronting blocks | the base's value for its class (it has no fronting blocks) | none |
 | the naming context (V01 §3.7.2) | as V01 §3.7.2 states | `shape`, `to` (from its ends), `landmark` and `raised`; no `trade`, no `band`; its kind word the base's | none — the base names it as a feature |
-| `DistrictSignature`, `fabricSignature` (V01 §2.3, §3.16) | yes | no | no |
+| `DistrictSignature`, `fabricSignature` (V01 §2.3, V01 §3.16) | yes | no | no |
 | `SeamReport.portalsConnected`'s walk (V01 §3.11 (6)); `catchmentOf('walk')` (V01 §3.16) | yes | yes, as one edge between its two end vertices | no |
 | `TypedBoundary`'s runs (V01 §3.11 (8)) | yes | never a seam: its strip is a hole (V01 §3.17.3) | never |
 

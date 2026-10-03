@@ -173,8 +173,8 @@ this volume emulates is restated in metres in our own words, cited by file and s
 
 **Pointers.** A pointer to V07 §2.1–V07 §2.7, to any V07 §3.m or to V07 §1b names this volume's own section; the base's sections with
 those numbers are written "§n" (§2.8 and §2.9, which this volume lacks, are written bare). Every other `§n.m` names the base (this volume's §4.1–§4.5 and §5.1–§5.4 are written
-"V07 §n"). A bare top-level `§n` up to V07 §13 names this volume's section n; the base's whole sections are written "the
-base's §n", and §14–§17 are the base's. Another volume's sections are written with its name ("V08 §3.10").
+"V07 §n"). A bare top-level `§n` up to V07 §13 names this volume's section n; the base's whole sections are written "
+§n", and §14–§17 are the base's. Another volume's sections are written with its name ("V08 §3.10").
 
 ## 0 In plain words
 
@@ -285,7 +285,7 @@ decorations and S12b greenery (§4.9); names and labels (§4.10, §9); the displ
 slot and the relief tier (§8.1, §8.2); the light model (§8.4); the entity registry and lifecycle (§2.8); the document and
 recipe (§2.9); determinism, streams and addresses (§6.1–§6.3); edits, locality, lifecycle rows and migrations (§7.1–§7.5);
 the override layer and parity presets (§7.6); the dossier contract, the derivation table DR1–DR25 and items 12–16 (§7.7);
-the port (§14); exports (§11.1); budgets and test families (§12, V07 §13); the epoch, the frame growth and `ConversionOp`
+the port (§14); exports (§11.1); budgets and test families (§12, §13); the epoch, the frame growth and `ConversionOp`
 (§4.11, §3.2 (9)); items 102–108 (file g) through the base mechanisms the coherence pass applies — the daylight share,
 the profile columns and families, the supply web (links, orientation, order, relaxation, `Use.branchOf`), the barrier
 closure with its defensibility classes and stretch profile, the balance profile with `comfortM` and same-kind spacing,
@@ -438,7 +438,7 @@ title.
 | W32 | the GeoJSON village layers (§5.4) | W7, W12, W16's closes, W21, W24, W11's approaches | exports; the skeleton file | the `Exporter` registry; the registry's export mapping | — |
 | W33 | the village concerns (V07 §3.14) | the concern registry | VS1–VS8; S12a's village presets | §6.1 (BCR-V7-15) | — |
 | W34 | the `VG` parity preset (V07 §3.15) | W3's `VG` column and the switches | B-REF's VG rows; the side-by-side (§13.6) | §7.6 (BCR-V7-13) | — |
-| W35 | the village budgets and the `B-VILLAGE` bench (V07 §6, V07 §7) | V07 §6's laws | CI tiers; the milestone exits (V07 §8) | §12, V07 §13 (BCR-V7-23) | the frozen small-dossier fixtures |
+| W35 | the village budgets and the `B-VILLAGE` bench (V07 §6, V07 §7) | V07 §6's laws | CI tiers; the milestone exits (V07 §8) | §12, §13 (BCR-V7-23) | the frozen small-dossier fixtures |
 | W36 | the village supply, balance and spacing rows (V07 §2.4's second table) | the roster tables (V11 cites them for village rungs); V11's goods table | S2's need propagation; S10b's placement order and two-way pulls, the relaxation pass (V07 §3.8); the coverage and spacing terms; the clerk's link explanations | `SupplyEdge` and the balance profile (§10.2; file g items 105, 107) | `activeChains[]` (W38) bind to these edges |
 | W37 | the village rungs' ladder rows — member ranges and the step readings (V07 §2.4's third table, V07 §3.11) | V11's step-type table; the dossier's ladder records | S2's member counts; S10b's members (spaced by W36); VS8's QUARTER ends; V07 §3.12's promotions and demotions; the palisade's REPLACEMENT | the step-type table (§10.2; file g item 108) | `institutions[]` names with a range or a qualifier → DR9 (item 108) |
 | W38 | the dossier's `activeChains[]` as village links (V07 §3.11) | V08's chain row (file g item 105 (i)) | S10b's links between bound members; the entry store (W39); the clerk | the port's DR rows (§7.7; V08) | `economicState` supply chains → V08's chain row |
@@ -1497,8 +1497,8 @@ the network routes to it and around it. No site → F-V-MILL (V07 §3.13): a win
 `access_to_external_mill` suppresses both mills (V07 §3.11).
 
 **(8) S3's non-siting jobs, taken over by VS1** (V7C-02; J-V7.50). S3 is not in the village's set, so VS1 does its four
-jobs that the later stages read, with the base's constructions: (a) the **map border** chain on the frame rectangle (the
-base's V07 §3.2 (9) and V07 §2.2 rule 1), laid first in VS1's L1 batch; (b) the **lattice** and its edge costs over the frame (§4.2
+jobs that the later stages read, with the base's constructions: (a) the **map border** chain on the frame rectangle (
+§3.2 (9) and §2.2 rule 1), laid first in VS1's L1 batch; (b) the **lattice** and its edge costs over the frame (§4.2
 S3 (3)'s form), the costs reading the village way classes and `rules.grade`, output `lattice` — read by the leat (7), S4's
 router for the neighbour roads, the polyfocal joins and the `row` spine (V07 §3.5) and F-V-TRACK's third rung, every such
 call passing the routed rung so that the router prices no raised span (V07 §3.5's rung gate; J-V7.90); (c) the typed
@@ -1877,8 +1877,8 @@ precedes S7 (V7C-03).
    way that will carry frontage (`through`, `secondary`, `lane`, and a `track` inside the region, on ground part 0 — never
    a raised way, V07 §3.5a (3)) is an interior; an
    interior of more than `slot.backCloseHa` (2 ha) is removed from the region, so it is a hinterland face from the start
-   (the fields inside a ring of village lanes, J-V7.19) — a hole in the district's face, which the plat supports (the
-   base's V07 §3.6 hole rule); interiors of the palisade's reached ground are never cut (V07 §3.4 step 5 b). The result is
+   (the fields inside a ring of village lanes, J-V7.19) — a hole in the district's face, which the plat supports (
+§3.6 hole rule); interiors of the palisade's reached ground are never cut (V07 §3.4 step 5 b). The result is
    inserted as L1 chains with the `perimeter` role by the base's same-level splits (§3.3), so every network
    face it crosses is split and nothing outside it is touched.
 2. **The district.** The faces inside the perimeter form **one `District` of kind `village`** (PART III item 4;

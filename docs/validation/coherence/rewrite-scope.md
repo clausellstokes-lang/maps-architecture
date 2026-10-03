@@ -2,12 +2,15 @@
 
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/rewrite-scope; covered by the whole-design retrovalidation (J84).
 
-PROGRESS (lane `coherence/rewrite-scope`, 2026-09-29)
+PROGRESS (lane `coherence/rewrite-scope`, 2026-09-29; cloud continuation 2026-10-02/03)
 - P1 inputs read (the scope part whole, canon scope routes, conflicts, f and g items with their BCR texts, INDEX, owner decisions): done
 - P2 section files written to `docs/validation/coherence/new/base/scope/` (14 files, 01–14 in document order): done
 - P3 INDEX §3, §4, §6 and §7 new text for the assembler (`docs/validation/coherence/new/index/`): done
 - P4 sizes, mapping table, elegance, f and g items, conflicts, renumberings, cross-part notes: done
-- P5 result file and LANDED: done
+- P5 the landed base parts' cross-part notes (model, kernel, determinism, rendering, pipeline) folded into §0, §13, §14,
+  §16, §17 and the index (*Landed parts' notes folded*, below): done (the run of 2026-09-29 stopped inside this step;
+  the continuation verified every note against the files and finished it)
+- P6 result file and LANDED: done
 
 ## Outcome
 
@@ -19,10 +22,12 @@ the twelve volumes — with J122's combined build order and item 568's two total
 conflict (27), f item (64 own, 6 shared parts, and the §13/§16 parts of items 296, 308, 317, 371, 413, 458 and 474),
 g part (102–113), wiring gap (6), elegance ruling (7), id ruling (7), cohesion check, owner question and the 8 UNDEFINED
 edges are applied; the 73 open findings are closed (below). All 1 684 inventory ids are mapped (none missing). The unit
-shrinks by 5.6 %, below the 25–40 % band: the pass added about 9 500 words of required content, and the rest is test
+shrinks by 3.8 %, below the 25–40 % band: the pass added about 11 300 words of required content, and the rest is test
 specification, typed interfaces, matrices and one index row per decision (see *Sizes*). CONFIRMED by script: table
-shapes, pointer resolution against the base and volume headings, index ids (758 unique, the 736 old ones all present),
-the §16 sums; the design statements themselves are PLAUSIBLE as before.
+shapes, pointer resolution against the base and volume headings, index ids (795 unique, the 736 old ones all present),
+the §16 sums; the design statements themselves are PLAUSIBLE as before. The five landed base parts' notes to this
+part are folded (36 further index rows for their decisions and J-A112.02, T112-1's threshold and simulation, §14's stage-2 type homes
+and `SkyUnitInput`, the ID-TOOL, G-cite and G-lot forms).
 
 ## Sizes
 
@@ -30,21 +35,21 @@ the §16 sums; the design statements themselves are PLAUSIBLE as before.
 |---|---|---|---|---|---|
 | 01-title | 264 | 302 | +38 | 2 | 2 |
 | 02-summary | 1944 | 1732 | -212 | 11 | 10 |
-| 03-s0 | 5689 | 2712 | -2977 | 34 | 16 |
+| 03-s0 | 5689 | 2715 | -2974 | 34 | 16 |
 | 04-part1 | 17 | 17 | +0 | 0 | 0 |
 | 05-s1 | 5570 | 5580 | +10 | 34 | 34 |
-| 06-s13 | 26850 | 32504 | +5654 | 163 | 197 |
-| 07-s14 | 7391 | 9108 | +1717 | 50 | 63 |
+| 06-s13 | 26850 | 33189 | +6339 | 163 | 201 |
+| 07-s14 | 7391 | 9157 | +1766 | 50 | 64 |
 | 08-s15 | 8436 | 8692 | +256 | 48 | 49 |
-| 09-s16 | 7565 | 8237 | +672 | 46 | 50 |
-| 10-s17 | 3383 | 3752 | +369 | 22 | 25 |
+| 09-s16 | 7565 | 8248 | +683 | 46 | 50 |
+| 10-s17 | 3383 | 3773 | +390 | 22 | 25 |
 | 11-delegated | 3005 | 3107 | +102 | 19 | 19 |
-| 12-judgment | 25908 | 15384 | -10524 | 146 | 83 |
+| 12-judgment | 25908 | 16385 | -9523 | 146 | 88 |
 | 13-staged | 1779 | 1296 | -483 | 11 | 8 |
 | 14-appendixA | 657 | 549 | -108 | 4 | 3 |
-| **total** | **98458** | **92972** | **-5486 (-5.6 %)** | **590** | **559** |
+| **total** | **98458** | **94742** | **-3716 (-3.8 %)** | **590** | **569** |
 
-**Words removed, by source** (≈ 15 000 removed, ≈ 9 500 added; the source split is PLAUSIBLE — estimated section by
+**Words removed, by source** (≈ 15 000 removed, ≈ 11 300 added; the source split is PLAUSIBLE — estimated section by
 section from the edits made, not measured by a diff tool):
 
 | source | words removed | where |
@@ -54,20 +59,23 @@ section from the edits made, not measured by a diff tool):
 | duplicated mechanisms (the canon's UNIFY rulings) | ≈ 1 400 | E-20 (three convention copies → one), E-21 (§13.8's two tier paragraphs and §16's exit T-lists → one schedule table; net of the table), E-22 (three landing tables → one), E-23 (three re-signing lists → one) |
 | verbose prose | ≈ 300 | compact wording in §1.1's layers paragraph, §1.5–§1.6, D-rows |
 
-**Added, as required by the pass** (≈ 9 500): the g items 102–113's bars at build depth (≈ 2 300); the volumes placed —
+**Added, as required by the pass** (≈ 11 300): the g items 102–113's bars at build depth (≈ 2 300); the volumes placed —
 §1.1's stage table and village rows, §14's nine new package lines and dependency rules, §16's staged-milestone table,
 release gate and effort lines, §15's STAGE-3 rows (≈ 3 300); the f items' texts (T28-1/2/3, T29-4, T14-1, T15-1,
 T101-6, the Baseline/ParityReport/D5/MilestoneRecord fields, §13.6 (10)–(11), §13.7's two rows, §13.9's items 6–10,
 §17.1's additions; ≈ 2 000); the takeover table (CO-06/W-05) and the edges (≈ 1 100); the schedule table net (≈ 400);
-the index's 22 new rows (≈ 400).
+the index's 22 new rows (≈ 400); in the continuation, the landed parts' notes (≈ 1 800 — §13's clauses for the
+kernel's cost model, the determinism fixtures and schema tests, the pipeline's B-EDGE suite, the door-4 fixture, T66-2's
+dug-route case and T112-1's threshold and simulation, ≈ 690; the index's 36 rows for the other parts' decisions and J-A112.02,
+≈ 1 000; §14's, §16's and §17.1's lines, ≈ 110).
 
-**Why the unit sits below the band (not a defect; the goal yields to the guard).** §13 (32 500 words) is test
+**Why the unit sits below the band (not a defect; the goal yields to the guard).** §13 (33 200 words) is test
 specification: every bar is a behaviour, a fixture or a threshold, and none is restated elsewhere; §14's typed
 interfaces exist only here (script check: `interface StageContext`, `ConcernId`, `StrategyRegistry`, `Kernel`, `Rng`,
 `EditEngine`, the strategies and the port's types are declared once in the base, in §14); §15's two matrices are the
-home of the parity rows and the acceptance letters; the index keeps one row per decision (758). Cutting further would
+home of the parity rows and the acceptance letters; the index keeps one row per decision (795). Cutting further would
 remove content, which the guard forbids. The unit shrank by more than half nowhere as a whole; two files did — §0 (−52
-%, its landing lists cut to homes by E-22) and the index (−41 %, the choice text beyond the name, held in Part A) — and
+%, its landing lists cut to homes by E-22) and the index (−37 %, the choice text beyond the name, held in Part A) — and
 are flagged for the verifier's nuance audit.
 
 ## Elegance rulings applied, with their equivalence lists
@@ -95,7 +103,7 @@ are flagged for the verifier's nuance audit.
   102–113 and a pointer row for file f.
 * **E-23 — one list of calibratable table families** (§13.9 (4)). Equivalence: ☑ "the dossier row sets are not
   re-signed" kept as §13.9 (7), so the volumes' citations of (7) still resolve.
-* **E-24 — one supersession mark** (the index). Equivalence: ☑ no row dropped (758 = 736 + 22, ids checked by script);
+* **E-24 — one supersession mark** (the index). Equivalence: ☑ no row dropped (795 = 736 + 22 + the continuation's 37, ids checked by script);
   ☑ the governing row keeps the reason (Part A). Marks: J-P16 *superseded by J-A37.41*; J-A29.01 *amended by J-A50.01,
   J-A50.21*; J-A30.71, J-A30.72 *amended by J-A20.77*; J-A30.22 *amended by J-A30.24*; J-A8.21 *amended by J-A8.22*;
   J-A12.45 *amended by J-A65.31*; J-DET-2, J-DET-6, J-DET-53 (their inline "amended by amendments b" notes); J-A28.71
@@ -180,10 +188,28 @@ with no open item).
   "the calibration rule every table row and threshold cites"; only the rename is applied, the meaning kept.
 * **A.3 → Appendix A** (ID-APPX): the section is unnumbered.
 * **New index rows:** J-C1 – J-C4, J-S44 – J-S47, J-A73.06, J-A77.06, J-A102.01, J-A110.01, J-A111.01, J-A112.01,
-  J-A113.01, J-A201.01, J-A505.01, J-A505.02, J-A509.01, J-A568.01 – J-A568.03 (their Part A entries below).
+  J-A113.01, J-A201.01, J-A505.01, J-A505.02, J-A509.01, J-A568.01 – J-A568.03 (their Part A entries below); J-A112.02
+  (this part's threshold for T112-1); and, entered for the other parts' decisions under J122 as their editors report
+  them, the determinism part's J-A113.61, J-A110.61, J-DET-55, J-A344.61, J-A101.78, J-DET-56, the model part's
+  J-A110.21, J-A206.21, J-P51, J-A111.21, J-A77.21, J-P52, J-P53, J-A106.21, J-A113.21, J-A110.22, J-P54, the kernel
+  part's J-K37, the pipeline part's J-P55, J-A102.41, J-P56, J-A110.41 – J-A110.43, J-A101.42, J-A26.45, J-A111.41,
+  J-A109.41, J-A64.45, J-A12.48, J-A68.43, J-A15.43, J-A58.44, and the rendering part's J-R57 – J-R59 (the index's
+  convention: J-A⟨item⟩.⟨n⟩ with the seat's digit, else the area family; the index header's J-P now reads "pipeline and
+  model", which its §2 rows J-P47 – J-P54 need). Every id checked against the whole set: none collides.
 * **§0.2's columns** are now item | home — the mechanism | clause map (E-22).
 
 ## Wiring gaps closed
+
+**In the continuation:** T112-1's threshold — item 112 (a)'s "table threshold" had no cell (§8.2 deferred it to §13's
+check and §13 to §8.2): now the cell `cvd.minDeltaE2000` (ΔE2000 8, provenance `own`) of the style sheets' check row in
+`@plat/tables`, read by T112-1, with the simulation method named (Machado, Oliveira and Fernandes 2009, full severity;
+§17.1 (8)) and the failure's report (pair, variant, sheet) — J-A112.02; the stage-2 type homes in §14 (`HoodPlace` §2.7,
+`TypedBoundary` and `FabricStrategyId` §2.5, as the model now declares them); `@plat/sky`'s `skyUnitInput`
+(G-unitinput, the name V05 gives it); three uses of "lot" for our own concept made "plot" (G-lot: T72-4, §15.2's O10
+row, the delegated decisions' district paragraph); V01's cites in the `V1-x.y` form written `V01 §x.y` (G-cite, seven).
+Found and routed (cross-part notes): `Invariant` is used by `KernelTx.expect` and
+`StageDecl.invariants` and declared nowhere (§5.3's); `D5PairStaged` and `CustomRecordRef`, which §13.6 and §14 cite as
+V12 §2.8's and V08 §2.8's, are written there as unnamed shapes.
 
 W-DOS-05 (`DossierDigest.government.previous` dropped — no reader in the set; J-A73.06); W-DOS-06
 (`RealmBlock.mPerRealmUnit` dropped — the host client's `realmBlockFrom` converts the scale; J-A77.06); W-HOOK-01 (the
@@ -233,6 +259,45 @@ subjects, the context vector named at `DistrictContext`, `BlockContext` and `Run
 | V06:X1, X13, X29, X33, X34, X38, X41, X42 | file f items 209, 264, 275, 336, 443, 574, 575, BCR-V6-24 – BCR-V6-28 and the DR rows of item 110's dossier inputs | the model, pipeline and determinism editors; §16's M6-E row cites V06 §8 |
 | V07:FL-4 | the critique ids left in V07 | V07's editor |
 | V11:X-V12-1, X-V11-16, X-V11-17 | the preset entries, companion rows for V01, V03, V04, V06, V07, V08, V09, V12 and file f | the named volumes' editors; §14's `@plat/tables` line and §13.9 (3)'s historical packs agree |
+
+## Landed parts' notes folded (the continuation)
+
+Every note the five landed base parts addressed to this part, checked against the files on disk; each is present at the
+place named (the run of 2026-09-29 had folded most of them before it stopped; the rest were finished here).
+
+| from | note | where it now stands |
+|---|---|---|
+| model | §1.1 declares `Rung` | §1.1's `RungProfile` block (`type Rung`) |
+| model | T77-1's removed-partner clause (J-RM8) | §13.2 T77-1's slice clause |
+| model | item 110 (f)'s frame clause for raised ways, retaining walls and deck slots (J-RM12) | §13.2 T110-1, T110-2, T110-5 |
+| model | the registry path test covers `HistoryRecord`, `WaterBody.spring`, `fedBy`, `Enceinte.arcs`/`stretchClass`, `Gate.mouth` | §13.2 *Document tests* |
+| kernel 28 | §13.1's constructive set gains §3.11's cases | §13.1 *the kernel at its limits (§3.11)* — by pointer to §3.11's rows, their home (principle (1)) |
+| kernel 29 | the cost-model test bounds `work` and the four edge counts per commit by the touched faces | §13.2 *Batch cost* |
+| kernel 30 | `Kernel.resolve(ref, key)` takes a `PlatKey`; a transient arena through `readBack` and `view` | §14's `Kernel` |
+| kernel 31 | the extreme-growth memory measurement | §16 M4's exits |
+| determinism | the bug-abort fault injection, "`bugs` empty", one degenerate input per failure class | §13.1 |
+| determinism | §6.5 (9)'s cross-host, replay = session and truncation tests per base rung and the METROPOLIS cap | §13.2 |
+| determinism | the empty-edit, lock-pin-declaration, edit-boundary fixtures; the report-schema, budget-row and control-registry tests | §13.2 (*B-EDIT*, *Document tests*) |
+| determinism | `migrate` returns `{ doc, diff: UpgradeDiff }` | §14's `EditEngine` |
+| determinism | tools with their words (ID-TOOL) in §13.8 and §16 | scanned clean; two stragglers fixed (§0.2's row 108 cites "DR9 and the institution ladders", J-A111.01 "T2 `ground`'s spring flag") |
+| determinism | decisions 1–6 as index rows | J-A113.61, J-A110.61, J-DET-55, J-A344.61, J-A101.78, J-DET-56 |
+| pipeline | §1's "What the base supports" stays at §4.2 S0 | §1 holds none (nothing to change) |
+| pipeline | B-EDGE (EP-01 – EP-19 and the combination cells, hard, 0 per 1 000) | §13.2 *The edge suite B-EDGE*; §13.8's schedule row |
+| pipeline | a fixture `ContentProvider` for door 4 (W-IF-07) | §13.2 *The host-content door* (J-S46) |
+| pipeline | items 111's and 113's bars | §13.2 T111-1 – T111-5, T113-1 – T113-7 |
+| pipeline | T66's over-long dug route (EDGE-PIPE-02) | §13.2 T66-2 |
+| pipeline | §13.5's wealth-bands row points to §4.5 for MFCG's ward-class shares | §13.5's wealth-bands row |
+| pipeline | `StrategyRegistry.hooks`, `products`; `AccessPassStrategy`; `@plat/evolve` | §14 |
+| pipeline | its decisions (section 4) | J-P55, J-A102.41, J-P56, J-A110.41 – J-A110.43, J-A101.42, J-A26.45, J-A111.41, J-A109.41, J-A64.45, J-A12.48, J-A68.43, J-A15.43, J-A58.44 |
+| rendering | `ObstacleSource` kind `room` | §14's `ObstacleSource` |
+| rendering | `LabelTable`'s `pinDirCdeg`, `pinLines` if §14 lists its columns | §14 lists none (cites §8.1); nothing to add |
+| rendering | the `LiveLayerProvider` registrations | §14 cites §8.2's list, naming `live.history` and `live.people` |
+| rendering | PageUp/PageDown; T1's time card, the timeline and history panel; `@plat/clerk` | §14 |
+| rendering | T-ER-01 – T-ER-21 registered by pointer | §13.2 *The rendering, label and export edges* |
+| rendering | item 112's style check with its table threshold and id | §13.2 T112-1 with `cvd.minDeltaE2000` (above) |
+| rendering | the band entry stops' B-ZOOM pop check | §13.4 *B-ZOOM* |
+| rendering | item 474 (d)'s M5 row and effort line; the daylight term's measurement at M2b; item 568's totals | §16 |
+| model, kernel, rendering | their decisions under J122 | J-A110.21, J-A206.21, J-P51, J-A111.21, J-A77.21, J-P52, J-P53, J-A106.21, J-A113.21, J-A110.22, J-P54 (model's J-RM3, 5–13; J-RM1, 2, 4, 14–16 are editorial and enter no row); J-K37 (KWG-01); J-R57 – J-R59 (the removal rulings) |
 
 ## Owner questions marked answered
 
@@ -331,14 +396,49 @@ the first-five-minutes participants (§13.4, J122).
   order); every volume listing the published methods it adopts (§17.1 (8)'s rule) and its production dependencies
   through its base change requests (§17.4).
 
+* **Continuation notes (2026-10-02/03), from folding the landed parts' notes:**
+  * **Rationale (Part A):** entries for the 36 rows entered for the other parts' decisions, each from its editor's report
+    verbatim as "chose X over Y because Z": J-A113.61, J-A110.61, J-DET-55, J-A344.61, J-A101.78, J-DET-56 ← the
+    determinism report's *Decisions taken under J122* 1–6; J-A110.21, J-A206.21, J-P51, J-A111.21, J-A77.21 with J-P52,
+    J-P53, J-A106.21, J-A113.21, J-A110.22, J-P54 ← the model report's J-RM3, J-RM5, J-RM6, J-RM7, J-RM8, J-RM9, J-RM10,
+    J-RM11, J-RM12, J-RM13; J-K37 ← the kernel report's KWG-01 ruling; J-P55, J-A102.41, J-P56, J-A110.41 – J-A110.43,
+    J-A101.42, J-A26.45, J-A111.41, J-A109.41, J-A64.45, J-A12.48, J-A68.43, J-A15.43, J-A58.44 ← the pipeline report's
+    section 4, bullet by bullet (its last bullet split into its six constants); J-R57 – J-R59 ← the rendering report's
+    removal rulings. And J-A112.02: chose to simulate each deficiency by Machado, Oliveira and Fernandes' model at full
+    severity and to fail a legend pair below ΔE2000 8 (`cvd.minDeltaE2000`) over a hue-only or per-family threshold,
+    because 8 is the contrast matrix's own floor for two area fills that meet (§8.2) and item 112 (a) asks a table
+    threshold the style check reads, the second cue carrying the meaning where colour alone falls short.
+  * **Determinism (§5.3):** declare the `Invariant` type, which `KernelTx.expect` (§3.3) and `StageDecl.invariants` (§4.12)
+    use and nothing declares (the kernel's note 18): its name, its scope among §5.3's five (`batch`, `stage`, `save`,
+    `load`, `ci`), hard or soft (§5.3: a hard failure aborts the batch, a soft one goes to the report) and its check, whose
+    result is §5.4's report row `{ name, scope, pass, count }`.
+  * **Rendering:** §8.2's "against its table threshold" names T112-1's cell `cvd.minDeltaE2000` (ΔE2000 8) of the style
+    sheets' check row; §8.2 and §11.3 name the unions `Role` (§8.2's role list) and `BridgeMessage` (§11.3's messages),
+    which §14's type map cites as theirs.
+  * **V11:** the style sheets' check row holds the cell `cvd.minDeltaE2000` = 8 (provenance `own`; reader §13.2's T112-1).
+  * **V12:** §2.8 names its five panel variants `type D5PairStaged = …` (FM, VG, DW, AB, SOLO), the union §13.6's
+    `D5Pair` closes with.
+  * **V08:** §2.8 names the object it declares as `DossierInstitution.custom` `CustomRecordRef`, which §14 cites.
+  * **V05:** the unit-run view is `skyUnitInput(doc, island)` returning `SkyUnitInput` (G-unitinput), as §14's `@plat/sky`
+    line names it (the V05 rewrite's parts already use it).
+
 ## CONFIRMED versus PLAUSIBLE
 
-**CONFIRMED (executed in this lane):** every section file starts with its heading line exactly as in the base (md5
-01fea21f); every table row of the fourteen files has its header's cell count; every `§x.y` pointer resolves to a base
-heading and every `Vnn §x.y` to a volume heading or numbered paragraph; the index holds 758 rows with 758 distinct ids
-and every one of the 736 old ids; the new test ids collide with none in the set; §16's rows sum to the first total
-(221.5–300.5) and its staged lines to 170.75–238.75 and the whole program to 392.25–539.25; the typed interfaces of §14
-are declared nowhere else in the base; all 1 684 inventory ids appear in the mapping table; the word counts of *Sizes*.
+**CONFIRMED (executed in this lane; re-run in the continuation on the final files):** every section file starts with its
+heading line exactly as in the base; every table row of the fourteen files has its header's cell count (three hits are
+lines of TypeScript unions inside code blocks); every `§x.y` pointer resolves to a heading of the six base parts' new
+text and every `Vnn §x.y` to a volume heading or numbered paragraph; the index holds 795 rows with 795 distinct ids and
+every one of the 736 old ids, and its 59 new ids collide with nothing in the set; the new test ids collide with none in
+the set; §16's rows sum to the first total (221.5–300.5) and its staged lines to 170.75–238.75 and the whole program to
+392.25–539.25; the retired-term patterns of the canon's glossary find no hit outside quotations of the references (one
+G-M6U hit is §16's *runs beside* cell M6, volume 2's stage 3, as the rule intends); every type of §14's type map is
+declared at the home it names except `Role` and `BridgeMessage` (routed to rendering); all 1 684 inventory ids appear in
+the mapping table; the word counts of *Sizes*. The bench script `docs/validation/bench/doc_checks.py`, run over
+the fourteen files with the six base parts' headings, is NOT authoritative in this checkout (captures/ and four research
+folders are absent; it says so) and is recorded as **provisional**: C1 1 hit and C4 1 hit, both reviewed in the allow
+file; C2 0; S1 0; C3 363 hits, 96 unreviewed, every one a generic phrase ("byte identical to the base", "stage 2 and the
+whole") or a run of section numbers, none a copied list, name or sentence; S2 14, each a volume pointer (V07 §3.12, V12
+§3.14, V01 §3.15, V10 §2.11 …) the base-only heading set cannot hold, every one resolved by this lane's volume check.
 **PLAUSIBLE:** the source split of the words removed; the designs added (the g bars, the edges' outcomes, the pricing
 placements J-A568.01 – J-A568.03, the calendar estimate), each until the milestone §16 names executes it.
 

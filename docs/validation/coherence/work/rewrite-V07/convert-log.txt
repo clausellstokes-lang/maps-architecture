@@ -1,3 +1,5 @@
+INHERIT-BASE l175 §2.9 ctx=' sections with\nthose numbers are written "\x00B§n" (\x00B§2.8 and §2.9, which th'
+INHERIT-BASE l288 §13 ctx='t (§14); exports (§11.1); budgets and test families (\x00B§12, §13); the epo'
 INHERIT l294 V04 §2.3  gap='–' ctx="uinRule`, `DigRule`, `OpeningRow`, `CatacombRule`; V04 §2.2–§2.3);\nV11's c"
 INHERIT l346 V11 §2.9  gap=',\n' ctx='` naming a `v.` key and its compile check (SS-01; V11 §2.3,\n§2.9), `guildh'
 INHERIT l349 V06 §3.5.2  gap=', ' ctx='n` and `reopen` members and their issuers (TR-03; V06 §2.1, §3.5.2, §3.8.2 t'
@@ -12,9 +14,11 @@ CHECK-BASE l384 §3.5.1 ctx='S8 lays at a village rung (reconcile-V11-r5). V08 �
 CHECK-BASE l397 §3.5.1 ctx="51); no fallback. V08 — landed by reconcile-V08-r6 (14:12): §3.5.1 (c)'s thr"
 INHERIT l397 V11 §3.5.15  gap=', ' ctx="(14:25): the display cells on `BuildingClassRow` (V11 §2.3, §3.5.15; T-V11-4'"
 INHERIT l397 V06 §3.9.1  gap=', ' ctx="m-sized roster member's opening and the counts (V06 §3.9.6, §3.9.1, E4), a l"
+INHERIT-BASE l441 §13 ctx=") | §6's laws | CI tiers; the milestone exits (§8) | \x00B§12, §13 (BCR-V7-2"
 INHERIT l572 V06 §3.5.3  gap=', ' ctx=" and hinterland steps at this product's epochs (V06 §3.5.2, §3.5.3; §3.12) *"
 INHERIT l891 V11 §2.9  gap=' and ' ctx='\n(`v.hovel`, `v.smithy`, `v.parish_church`, …; V11 §2.3 and §2.9 as SS-01 '
 INHERIT l896 V11 §3.5.14  gap=', ' ctx='hese rows by the rules it applies to every class\n(V11 §3.2, §3.5.14) — the sa'
+INHERIT-BASE l1501 §2.2 ctx='*map border** chain on the frame rectangle (\n\x00B§3.2 (9) and §2.2 rule 1), '
 INHERIT l2420 V06 §3.5.2  gap=', ' ctx=' per-epoch cap — through `ProductDeclEpoch.rows` (V06 §2.1, §3.5.2, §3.5.3;\n'
 INHERIT l2420 V06 §3.5.3  gap=', ' ctx='ch cap — through `ProductDeclEpoch.rows` (V06 §2.1, §3.5.2, §3.5.3;\n`Product'
 INHERIT l3407 V06 §3.9.1  gap=', ' ctx="m-sized roster member's opening and the counts (V06 §3.9.6, §3.9.1, E4), a l"

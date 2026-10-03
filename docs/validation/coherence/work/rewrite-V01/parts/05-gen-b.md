@@ -247,7 +247,7 @@ only portals — template portals of kind `landing` and `bridge` (V01 §3.10.3 (
 For each district D in lineage order, on the generation worker, as S10a's block hook — **after S10a (i)** has placed the
 field-driving classes and the institutions below a block, **before (ii)'s field pass 2** (J-V1.40; §4.7, item 300) —
 compute D's three quotas (V01 §3.5.2), then type its blocks in two phases — quota-driven (squares V01 §3.5.3, greens
-§3.5.4, manors §3.5.5) and a weighted draw for the remaining small blocks (V01 §3.5.6) — writing `Block.content`,
+V01 §3.5.4, manors V01 §3.5.5) and a weighted draw for the remaining small blocks (V01 §3.5.6) — writing `Block.content`,
 `Block.squareType` and, for a void square, `Block.voidCorner`. The step runs only while `fabric.extensionWeight` > 0
 (V01 §3.15), so in the parity presets every block stays `ordinary`; under `NG` its squares, manors, small blocks and
 greens follow V01 §3.15's rules. **Candidate blocks** are D's L2 built blocks whose `interior` is not `wall_strip`,
@@ -435,7 +435,7 @@ is reported orphaned (§7.7's precedence, items 20, 22; §7.4).
 
 **Ladder records** (item 108; `DistrictContext.records`). A **QUARTER** record whose district is D makes D's identity the
 dossier's (item 72 (3); `identitySource: 'dossier'`), which S7c's `identity` term reads like any dossier identity and the
-panel and the title show (V01 §4.5, §5.2.1); its members elsewhere keep their own districts. A **GUILD** record's hall
+panel and the title show (V01 §4.5, V01 §5.2.1); its members elsewhere keep their own districts. A **GUILD** record's hall
 on a reservation is a σ-bearing landmark for S9b's forecourt (V01 §3.5.3). A **COUNT** record's members are ordinary
 allocation rows keyed `#k` (DR9, J-A74.73). **No double counting** (item 108 (c)): every member is counted once, in the
 district its plot stands in; `membersHere + Σ elsewhere = membersTotal` = the record's count.

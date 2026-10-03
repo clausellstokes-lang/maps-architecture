@@ -28,3 +28,24 @@ def strip_narr_ids(t):
     t = re.sub(r'\(\s*(?:seam\s+)?' + NARR_ID + r'(?:\s*(?:,|and|–)\s*' + NARR_ID + r')*\s*;\s*', '(', t)
     t = re.sub(r'\s*\(\s*(?:seam\s+)?' + NARR_ID + r'(?:\s*(?:,|and|–)\s*' + NARR_ID + r')*\s*\)', '', t)
     return t
+def strip_narr_more(t):
+    # ', SR3-06)' inside a parenthesis; '; reconciliation round N, SR2-02' ; '(the key, TW-01)'
+    t = re.sub(r';\s*reconciliation round \d+(?:\'s continuation)?(?:,\s*' + NARR_ID + r')*', '', t)
+    t = re.sub(r',\s*' + NARR_ID + r'(?=\))', '', t)
+    t = re.sub(r'\(the key,\s*' + NARR_ID + r'\)', '(the key)', t)
+    return t
+def norm_items(t):
+    # 'g item 103' / 'g's item' shorthand for file g -> 'item 103' (ID-ITEM)
+    t = re.sub(r'(?<![\w`])g item(s?) (?=\d)', r'item\1 ', t)
+    t = re.sub(r'\bfile [fg]\s+(items?)\b', r'\1', t)
+    t = re.sub(r'\bfile g\s+item', 'item', t)
+    return t
+def norm_d5(t):
+    t = re.sub(r'\(VG, D5\.\d+\)', '(VG)', t)
+    t = re.sub(r'\bD5\.\d+\b', 'D5', t)
+    return t
+def strip_narr_tail(t):
+    # ', seam TX-02)' / '; seam SR6-01)' inside parentheses
+    t = re.sub(r'[,;]\s*seam\s+' + NARR_ID + r'(?=\))', '', t)
+    t = re.sub(r'\(\s*seam\s+' + NARR_ID + r'\s*\)', '', t)
+    return t

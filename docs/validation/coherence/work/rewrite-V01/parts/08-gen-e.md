@@ -106,14 +106,14 @@ style-sheet cells. Values another unit owns are cited, never restated: volume 11
 
 | constant | used in | table · key | provenance |
 |---|---|---|---|
-| S7c row weights and gains; eligibility shares (water, wall 0.2; slope 8 %; `landmarkSigma` `character.anchorSigma`) | V01 §3.3.2, §3.3.3 | `hood.templates` · `select.*`, `requires.*` | `own`, calibrate at M5 (non-bent share 15–35 % at CITY; S4 (b)) |
+| S7c row weights and gains; eligibility shares (water, wall 0.2; slope 8 %; `landmarkSigma` `character.anchorSigma`) | V01 §3.3.2, V01 §3.3.3 | `hood.templates` · `select.*`, `requires.*` | `own`, calibrate at M5 (non-bent share 15–35 % at CITY; S4 (b)) |
 | standalone `auto` odds 0.7 / 0.3 / 0.1 / 0.1 | V01 §3.3.5 | `hood.templates` · `select.ngOdds` | `ref:NG 1.2.2 random template weights (code)` |
 | ring radii law (one factor per district), `ringJitter` 0.15, `ringPasses` 3 | V01 §3.4.4, II.2 | `hood.templates` · `params` | `ref:NG 1.2.2 ring courses (code)` (II.2, item 543) |
 | series spacing `2 × dBar + w_tpl` (range `1.5–3 × dBar + w_tpl`) | V01 §3.4.3 | `hood.templates` · the `stepped` row's `params.terraceSpacingM` | `own` (hill-town practice: two plot rows and a street to a terrace) |
 | plaza aligned to the face's OBB | V01 §3.4.5 | — (a rule, no value) | `own` (J-V1.5) |
 | square quota rows, kind factors | V01 §3.5.2 | `squares.quota` (base) | `own`, target S4 (d) 0.03–0.15, median 0.08 (§13.7) |
 | `manorBlockShare` rows | V01 §3.5.2 | `hood.dispatch` · `manorBlockShare` | `own`, anchored on NG's 6–11 % |
-| small-block weights, `yardPaved` | V01 §3.5.6, §3.5.10 | `hood.dispatch` · `small`, `yardPaved` | `own`, calibrate at M5 on the NG pairs |
+| small-block weights, `yardPaved` | V01 §3.5.6, V01 §3.5.10 | `hood.dispatch` · `small`, `yardPaved` | `own`, calibrate at M5 on the NG pairs |
 | court-greening rows | V01 §3.5.7 | §4.9's table (item 313) · the court-greening row | `own`, anchored on NG's 23–58 % (item 58 (b)) |
 | `way.surface` rows | V01 §3.7.3 | `way.surface` | `own` |
 | hood-pin rows | V01 §3.8.2 | `hood.pins` | `own`; decay ÷ 10 `ref:NG 1.2.2 pin decay (code)`, P20 |
@@ -134,40 +134,40 @@ cell resolving under `NG` as under `MFCG`. Provenance `own` unless the row names
 
 | column(s) | used in | default | type · unit | range | calibratable | marker | `NG` | provenance |
 |---|---|---|---|---|---|---|---|---|
-| `fabric.extensionWeight` — the stage-2 switch | V01 §3.3.3, §3.15 | 1 | number · `weight` | [0, 1] | no | `weight` | 1 (`own`; `fixed: the NG preset runs stage 2 (V01 §3.15)`) | `own` |
+| `fabric.extensionWeight` — the stage-2 switch | V01 §3.3.3, V01 §3.15 | 1 | number · `weight` | [0, 1] | no | `weight` | 1 (`own`; `fixed: the NG preset runs stage 2 (V01 §3.15)`) | `own` |
 | `ng.fabric`, `ng.squares`, `ng.manors`, `ng.smallBlocks`, `ng.greens`, `ng.courts`, `ng.pins`, `ng.plazaByTag` — NG's rule switches | V01 §3.15 | off | bool · `none` | — | no | — | on (`ref:NG 1.2.2 ⟨the rule's behaviour⟩ (code)`, V01 §3.15's reference column) | `own` |
 | `ng.plazaM2` — the plaza areas by size tag (small, medium, large), read wherever `ng.plazaByTag` is on | V01 §3.15 | 450, 1 800, 7 200 | list · `m2` | [100, 20 000] each | yes | — | — | `own`, calibrate at M5 on the NG pairs by T-V1-31's plaza share |
 | `auto.contextFactor` | V01 §3.3.5 | 0.7 | number · `share` | [0, 1] | yes | `weight` | — | `own` |
 | `elig.ringELo`, `elig.plazaFaceMult`, `elig.spineEHi`, `elig.runEHi` | V01 §3.3.2 | 2.5, 6, 3, 3 | number · `none` (multiples of `eLo`, of the plaza's area, of `eHi`) | [1, 5], [2, 12], [1.5, 6], [1.5, 6] | yes | — | — | `own` |
-| `elig.crossAngleDeg`, `fan.sepDeg`, `hood.edgeDeg` | V01 §3.3.2, §3.4.2 (a), §3.4.6, §3.10.1 | 45°, 45°, 60° | number · `cdeg` | [30°, 90°] each | yes | — | — | `own` |
-| `anchor.spanShare`, `tpl.widthLow`, `tpl.crossDelta` | V01 §3.4.2 (a)–(b), §3.4.3 | 0.7, 0.8, 0.05 | number · `share` | [0.3, 1], [0.5, 1], [0, 0.15] | yes | — | — | `own`; `tpl.widthLow`'s per-map template width idea `ref:NG 1.2.2 template widths (code)` (II.2) |
+| `elig.crossAngleDeg`, `fan.sepDeg`, `hood.edgeDeg` | V01 §3.3.2, V01 §3.4.2 (a), V01 §3.4.6, V01 §3.10.1 | 45°, 45°, 60° | number · `cdeg` | [30°, 90°] each | yes | — | — | `own` |
+| `anchor.spanShare`, `tpl.widthLow`, `tpl.crossDelta` | V01 §3.4.2 (a)–(b), V01 §3.4.3 | 0.7, 0.8, 0.05 | number · `share` | [0.3, 1], [0.5, 1], [0, 0.15] | yes | — | — | `own`; `tpl.widthLow`'s per-map template width idea `ref:NG 1.2.2 template widths (code)` (II.2) |
 | `tpl.courseDelta`; `tpl.segMin`, `tpl.segSpan` | V01 §3.4.3 (δ ± 0.15, 3–7 segments, ½-segment jitter, passes 4 − ⌊n/2⌋) | 0.15; 3, 4 | number · `share`; integer · `none` | [0, 0.3]; [2, 6], [0, 6] | no (`ref:NG` code values) | — | — | `ref:NG 1.2.2 main street course (code)`, in metres |
-| `tpl.arrivalDeg` | V01 §3.4.3, §3.4.4 | 85°–95° | range · `cdeg` | [60°, 120°] | yes | — | — | `own` |
+| `tpl.arrivalDeg` | V01 §3.4.3, V01 §3.4.4 | 85°–95° | range · `cdeg` | [60°, 120°] | yes | — | — | `own` |
 | `ring.insetELo`; `ring.portalGapM` | V01 §3.4.4 (the fit inset `eLo + w_tpl / 2`; the portal gap `max(6 m, 2 × lane width)`) | 1 (× `eLo`); 6 m | number · `none`; number · `m` | [1, 2]; [4, 12] | yes | — | — | `own` (§4.6 step 7's law on rings) |
-| `land.spineFactor`; `land.ringSlack`, `land.smallShare` | V01 §3.3.7, §3.5.9 | 1.15; 0.10, 0.12 | number · `none`; number · `share` | [1, 1.5]; [0, 0.3], [0, 0.4] | yes | — | — | `own`, calibrate at M5 (T-V1-12); the small share measured at M5 |
-| `plaza.aspectMin`, `sq.smallDiv` | V01 §3.4.5 (aspect `1 + bell4` above 1.2), §3.5.3 (`smallBlockM2 = eLo² / 2`) | 1.2, 2 | number · `none` | [1, 2], [1, 4] | no (`ref:NG` code values) | — | — | `ref:NG 1.2.2 square plaza (code)`; `ref:NG 1.2.2 small-block rule (code)`, restated on our extents |
+| `land.spineFactor`; `land.ringSlack`, `land.smallShare` | V01 §3.3.7, V01 §3.5.9 | 1.15; 0.10, 0.12 | number · `none`; number · `share` | [1, 1.5]; [0, 0.3], [0, 0.4] | yes | — | — | `own`, calibrate at M5 (T-V1-12); the small share measured at M5 |
+| `plaza.aspectMin`, `sq.smallDiv` | V01 §3.4.5 (aspect `1 + bell4` above 1.2), V01 §3.5.3 (`smallBlockM2 = eLo² / 2`) | 1.2, 2 | number · `none` | [1, 2], [1, 4] | no (`ref:NG` code values) | — | — | `ref:NG 1.2.2 square plaza (code)`; `ref:NG 1.2.2 small-block rule (code)`, restated on our extents |
 | `plaza.voidRadius`; `park.minM2`; `park.maxShareOfFace` | V01 §3.4.5 | 1.2; 3 000 m²; 0.4 | number · `none`; `m2`; `share` | [0.8, 2]; [1 000, 10 000]; [0.1, 0.8] | yes | — | — | `own`; the park floor §4.9's 0.3 ha |
-| `sq.forecourtM`, `sq.bridgeM`; `sq.maxM2`; `sq.overTake`, `dispatch.overQuota` | V01 §3.5.3, §3.5.6 | 60 m, 40 m; 5 000 m²; 1.5, 1.5 | number · `m`; `m2`; `none` | [20, 120], [10, 80]; [1 000, 10 000]; [1, 3] each | yes | — | — | `own` |
-| `green.maxMedian`, `green.spacingEHi`, `green.leafyCourt` | V01 §3.5.4, §3.5.7 | 1.5, 2, 1.5 | number · `none` | [0.5, 3], [1, 5], [1, 3] | yes | — | — | `own` |
+| `sq.forecourtM`, `sq.bridgeM`; `sq.maxM2`; `sq.overTake`, `dispatch.overQuota` | V01 §3.5.3, V01 §3.5.6 | 60 m, 40 m; 5 000 m²; 1.5, 1.5 | number · `m`; `m2`; `none` | [20, 120], [10, 80]; [1 000, 10 000]; [1, 3] each | yes | — | — | `own` |
+| `green.maxMedian`, `green.spacingEHi`, `green.leafyCourt` | V01 §3.5.4, V01 §3.5.7 | 1.5, 2, 1.5 | number · `none` | [0.5, 3], [1, 5], [1, 3] | yes | — | — | `own` |
 | `manor.fitLow`, `manor.fitHigh`, `manor.spacingEHi` | V01 §3.5.5 | 1.0, 3.0, 2 | number · `none` | [0.5, 2], [1.5, 5], [1, 5] | yes | — | — | `own`; the spacing idea `ref:NG 1.2.2 manor spacing (code)` |
 | `manor.sunWeight` | V01 §3.5.5 | 0.5 | number · `weight` | [0, 1] | yes | `weight` | — | `own`; item 102 (d) |
 | `guard.softShare`; `guard.bands` | V01 §3.5.8 | 0.3; 1 | number · `share`; integer · `none` | [0, 1]; [0, 3] | yes; no | — | — | `own` |
-| `feature.runM`, `name.landmarkM` | V01 §3.6, §3.7.2 | 60 m, 50 m | number · `m` | [20, 150], [10, 150] | yes | — | — | `own` |
+| `feature.runM`, `name.landmarkM` | V01 §3.6, V01 §3.7.2 | 60 m, 50 m | number · `m` | [20, 150], [10, 150] | yes | — | — | `own` |
 | `name.tradeShare`, `name.curvedShare`; `name.bentDeg` | V01 §3.7.2 | 0.3, 0.3; 15° | number · `share`; `cdeg` | [0, 1] each; [5°, 45°] | yes | — | — | `own` |
 | `terrace.askGain` | V01 §3.3.3 | 1 | number · `weight` | [0, 3] | yes | `weight` | — | `own`, calibrate at M5 (T-V1-50) |
-| `terrace.siteShare`, `terrace.minGapShare` | V01 §2.3, §3.4.3 | 0.3, 0.6 | number · `share` | [0, 1], [0.3, 0.9] | yes | — (thresholds: `asks` is inert wherever `terrace.askGain` is 0 and volume 11's `terrace.enabled` off; J-V1.99) | — | `own`, calibrate at M5 (T-V1-50) |
+| `terrace.siteShare`, `terrace.minGapShare` | V01 §2.3, V01 §3.4.3 | 0.3, 0.6 | number · `share` | [0, 1], [0.3, 0.9] | yes | — (thresholds: `asks` is inert wherever `terrace.askGain` is 0 and volume 11's `terrace.enabled` off; J-V1.99) | — | `own`, calibrate at M5 (T-V1-50) |
 | `terrace.maxLevels`; `terrace.profileNoticeCm` | V01 §3.4.3 (per flank); §3.9, §3.11 (7) | 15; 50 cm | integer · `none`; number · `cm` | [4, 31]; [10, 200] | no (a work limit); yes | — | — | `own` |
 | `raised.stripMarginM`, `raised.clearWidthM`; `raised.squareDeg` | V01 §3.17.3 (strip margin; arch clear width + 1 m; ± 30° of square) | 1 m, 1 m; 30° | number · `m`; `cdeg` | [0, 3] each; [10°, 45°] | yes | — | — | `own` |
 | `landmark.maxRings` | V01 §3.4.4 | 2 | integer · `none` | [1, 4] | no | `option` — the precinct multi-ring; its off value 1 is its `presets.MFCG` and `presets.FTG` entry (`own`; `fixed: the parity off value`) | — | `own` |
 | `landmark.roundTol` | V01 §3.4.4 | 0.9 | number · `share` | [0.7, 1] | yes | — | — | `own` |
-| `hood.hillsidePct`; `hood.hillsideMaxPct` | V01 §3.10.1, §4.1 | 20; 60 | number · `none` (percent) | [0, 60]; [20, 100] | yes; no | `weight` (the hillside default: a hood is flat under the parity presets and `NG`); — | — | `own` |
-| `court.nameMinM2`, `pin.siteMinM2` | V01 §3.7.1, §3.8.2 | 200 m², 30 m² | number · `m2` | [50, 1 000], [5, 200] | yes | — | — | `own` |
+| `hood.hillsidePct`; `hood.hillsideMaxPct` | V01 §3.10.1, V01 §4.1 | 20; 60 | number · `none` (percent) | [0, 60]; [20, 100] | yes; no | `weight` (the hillside default: a hood is flat under the parity presets and `NG`); — | — | `own` |
+| `court.nameMinM2`, `pin.siteMinM2` | V01 §3.7.1, V01 §3.8.2 | 200 m², 30 m² | number · `m2` | [50, 1 000], [5, 200] | yes | — | — | `own` |
 | `pin.cap`, `pin.courtFactor`; `pin.edgeInsetM` | V01 §3.8.2 | 0.6, 0.2; 3 m | number · `share`; `m` | [0, 1] each; [0, 10] | yes | — | — | `own` (the court factor from NG C6's density) |
 | `pin.decayScope` | V01 §3.8.2 | `'block'` | enum · `none` (`block`, `district`) | — | no | — (a categorical cell: `presets.MFCG` and `presets.FTG` `'block'`, `own`, `fixed: the parity value`, as §7.6 requires of one) | `'district'` (`ref:NG 1.2.2 pin decay (code)`, P20) | `own` |
-| `access.<accessSymbolKind>M` — twelve columns, one per `AccessSymbolKind` value (V01 §3.8.8); the column set is held by T-V1-4's registry test (set equality with the enum), not by a `TotalityRule` — a `coversEnum` checks one column's values across a table's rows, and this is one settings row (V11 §2.1); V01 §3.8.8's kind list and these columns change together in one change | V01 §3.8.8, §5.1.2 | `stair` 2.5, `ladder` 1.2, `hatch` 1.2, `shaft` 1.5, `well` 1.6, `cellar_stair` 1.5, `grating` 1.0, `mouth` 3.0, `sinkhole` 4.0, `collapsed_shaft` 3.0, `ruin_entrance` 3.0, `catacomb` 2.5 (m) | number · `m` | [0.5, 8] each | no (drawing sizes) | — | — | `own` |
+| `access.<accessSymbolKind>M` — twelve columns, one per `AccessSymbolKind` value (V01 §3.8.8); the column set is held by T-V1-4's registry test (set equality with the enum), not by a `TotalityRule` — a `coversEnum` checks one column's values across a table's rows, and this is one settings row (V11 §2.1); V01 §3.8.8's kind list and these columns change together in one change | V01 §3.8.8, V01 §5.1.2 | `stair` 2.5, `ladder` 1.2, `hatch` 1.2, `shaft` 1.5, `well` 1.6, `cellar_stair` 1.5, `grating` 1.0, `mouth` 3.0, `sinkhole` 4.0, `collapsed_shaft` 3.0, `ruin_entrance` 3.0, `catacomb` 2.5 (m) | number · `m` | [0.5, 8] each | no (drawing sizes) | — | — | `own` |
 | `closeup.chunkKB` | V01 §3.8.3 | 32 | integer · `none` (KiB) | [8, 128] | no (an engineering budget) | — | — | `own` |
-| `size.small`, `size.medium`, `size.large` | V01 §3.10.1, §3.15 | 85, 700, 1 050 | integer · `none` (buildings) | [20, 3 000] each | no (NG's measured bands) | — | — | NG's size bands (`docs/confidence/ng.md` C8) |
-| `hood.frameMargin`, `hood.starRadiusFloor`, `sky.plotShare` | V01 §3.10.1, §3.10.2, §3.16 | 0.3, 0.35, 0.62 | number · `share` | [0.1, 1], [0.2, 0.6], [0.3, 0.9] | yes | — | — | `own`; `sky.plotShare`'s default the base's dense-core plot share (0.62, §4.2 S2) |
+| `size.small`, `size.medium`, `size.large` | V01 §3.10.1, V01 §3.15 | 85, 700, 1 050 | integer · `none` (buildings) | [20, 3 000] each | no (NG's measured bands) | — | — | NG's size bands (`docs/confidence/ng.md` C8) |
+| `hood.frameMargin`, `hood.starRadiusFloor`, `sky.plotShare` | V01 §3.10.1, V01 §3.10.2, V01 §3.16 | 0.3, 0.35, 0.62 | number · `share` | [0.1, 1], [0.2, 0.6], [0.3, 0.9] | yes | — | — | `own`; `sky.plotShare`'s default the base's dense-core plot share (0.62, §4.2 S2) |
 
 ### 3.15 The `NG` preset — Neighbourhood's own rules (item 23; J-V1.98)
 
@@ -206,7 +206,7 @@ volume's rules as declared extensions, which T-V1-32 shows the owner beside the 
   hand whose host still stands (V01 §2.7) are kept at 0 as at 1; the `Block.overrides` rows stay in their leaves, dormant
   while the switch is 0 — the close-up derives no pins then, so no row is applied, orphaned or reported — and resolve by
   V01 §3.8.5 again when it rises (a superseded block's rows moving to its successor as ever); the `CloseupRecord`s stay,
-  and every close-up chunk is stale by its digest (V01 §3.8.3, §3.8.4). The underground tail runs after the ground, its
+  and every close-up chunk is stale by its digest (V01 §3.8.3, V01 §3.8.4). The underground tail runs after the ground, its
   T6 running the opening pass under the new gate (V04 §3.10; J-V4.121): raised above 0, the opening places made; lowered
   to 0, none made and the old ones retired by the carry-over; the underground consequences of any change of the value are
   V04 §4.3's switch row (inside (0, 1] its re-cut plots take the ground-edit row's). The edit's scope for the oracle is
@@ -234,7 +234,7 @@ volume's rules as declared extensions, which T-V1-32 shows the owner beside the 
 | greens | only at a ring's centre (the centre rule's equal odds); no sub-block green quota; `gr_b` 0 in `λ_b` | `ng.greens` on | the ring centre |
 | court greening | a court greened exactly when its block's frontage ring is complete (every plot fronts a way), in place of §4.9's court-greening row's band probability | `ng.courts` on | the court green (item 58 (b)'s anchor) |
 | hood pins | only on `yardBlock` sites, one per yard block — the block's midline at half its short side from one end (a coin for the end) — one weighted pick among {none (a plain yard) 1, well 1, large tree at the tree coverage, fountain 1}, the district the decay's scope (each picked kind's weight ÷ 10 for the rest of the district), the pin placed with probability `(area ÷ OBB area)³`; each pin at its row's `sizeM` | `ng.pins` on; `pin.decayScope` `'district'` (P20) | the empty block's pin |
-| plaza size | by the size tag — small, medium, large at the side ratio 1 : 2 : 4, areas `ng.plazaM2` in place of V01 §3.4.5 (a)'s law; a standalone hood's tag its size chip, an in-town district's the chip whose `size.*` count lies nearest its allocated household count (a building per household at NG's scale — S8 lays the plaza before any building exists) | `ng.plazaByTag` on | the plaza size by tag |
+| plaza size | by the size tag — small, medium, large at the side ratio 1 : 2 : 4, areas `ng.plazaM2` in place of V01 §3.4.5 (a)'s law; a standalone neighbourhood document's tag its size chip, an in-town district's the chip whose `size.*` count lies nearest its allocated household count (a building per household at NG's scale — S8 lays the plaza before any building exists) | `ng.plazaByTag` on | the plaza size by tag |
 | item 110's neighbourhood rows (the series flag, `terrace.askGain`, the precinct multi-ring, the hillside default, the flatter-square tie-break) | off — the context rows are 0, S9b types no square and a hood is flat; these switch cells and the base's item-110 rows take `MFCG`'s off values (T-V1-4) | none | — |
 | everything else | the base's rules and this volume's geometry, each cell as `MFCG` resolves it | none | — |
 

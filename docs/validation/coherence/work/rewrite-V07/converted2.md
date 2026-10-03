@@ -173,8 +173,8 @@ this volume emulates is restated in metres in our own words, cited by file and s
 
 **Pointers.** A pointer to V07 §2.1–V07 §2.7, to any V07 §3.m or to V07 §1b names this volume's own section; the base's sections with
 those numbers are written "§n" (§2.8 and §2.9, which this volume lacks, are written bare). Every other `§n.m` names the base (this volume's §4.1–§4.5 and §5.1–§5.4 are written
-"V07 §n"). A bare top-level `§n` up to V07 §13 names this volume's section n; the base's whole sections are written "the
-base's §n", and §14–§17 are the base's. Another volume's sections are written with its name ("V08 §3.10").
+"V07 §n"). A bare top-level `§n` up to V07 §13 names this volume's section n; the base's whole sections are written "
+§n", and §14–§17 are the base's. Another volume's sections are written with its name ("V08 §3.10").
 
 ## 0 In plain words
 
@@ -285,7 +285,7 @@ decorations and S12b greenery (§4.9); names and labels (§4.10, §9); the displ
 slot and the relief tier (§8.1, §8.2); the light model (§8.4); the entity registry and lifecycle (§2.8); the document and
 recipe (§2.9); determinism, streams and addresses (§6.1–§6.3); edits, locality, lifecycle rows and migrations (§7.1–§7.5);
 the override layer and parity presets (§7.6); the dossier contract, the derivation table DR1–DR25 and items 12–16 (§7.7);
-the port (§14); exports (§11.1); budgets and test families (§12, V07 §13); the epoch, the frame growth and `ConversionOp`
+the port (§14); exports (§11.1); budgets and test families (§12, §13); the epoch, the frame growth and `ConversionOp`
 (§4.11, §3.2 (9)); items 102–108 (file g) through the base mechanisms the coherence pass applies — the daylight share,
 the profile columns and families, the supply web (links, orientation, order, relaxation, `Use.branchOf`), the barrier
 closure with its defensibility classes and stretch profile, the balance profile with `comfortM` and same-kind spacing,
@@ -438,7 +438,7 @@ title.
 | W32 | the GeoJSON village layers (§5.4) | W7, W12, W16's closes, W21, W24, W11's approaches | exports; the skeleton file | the `Exporter` registry; the registry's export mapping | — |
 | W33 | the village concerns (V07 §3.14) | the concern registry | VS1–VS8; S12a's village presets | §6.1 (item 344) | — |
 | W34 | the `VG` parity preset (V07 §3.15) | W3's `VG` column and the switches | B-REF's VG rows; the side-by-side (§13.6) | §7.6 (item 377) | — |
-| W35 | the village budgets and the `B-VILLAGE` bench (V07 §6, V07 §7) | V07 §6's laws | CI tiers; the milestone exits (V07 §8) | §12, V07 §13 (item 495) | the frozen small-dossier fixtures |
+| W35 | the village budgets and the `B-VILLAGE` bench (V07 §6, V07 §7) | V07 §6's laws | CI tiers; the milestone exits (V07 §8) | §12, §13 (item 495) | the frozen small-dossier fixtures |
 | W36 | the village supply, balance and spacing rows (V07 §2.4's second table) | the roster tables (V11 cites them for village rungs); V11's goods table | S2's need propagation; S10b's placement order and two-way pulls, the relaxation pass (V07 §3.8); the coverage and spacing terms; the clerk's link explanations | `SupplyEdge` and the balance profile (§10.2; items 105, 107) | `activeChains[]` (W38) bind to these edges |
 | W37 | the village rungs' ladder rows — member ranges and the step readings (V07 §2.4's third table, V07 §3.11) | V11's step-type table; the dossier's ladder records | S2's member counts; S10b's members (spaced by W36); VS8's QUARTER ends; V07 §3.12's promotions and demotions; the palisade's REPLACEMENT | the step-type table (§10.2; item 108) | `institutions[]` names with a range or a qualifier → DR9 (item 108) |
 | W38 | the dossier's `activeChains[]` as village links (V07 §3.11) | V08's chain row (item 105 (i)) | S10b's links between bound members; the entry store (W39); the clerk | the port's DR rows (§7.7; V08) | `economicState` supply chains → V08's chain row |
@@ -650,7 +650,7 @@ interface VillageRungRow {
 type PLaw = { at: [number /* persons */, number][] }   // the anchor law: piecewise linear in ln P between anchors, clamped outside
 ```
 
-**The anchor law — smooth scaling by population** (DEFINITION V07 §2: "Inside a band, everything scales smoothly with the
+**The anchor law — smooth scaling by population** (DEFINITION.md §2: "Inside a band, everything scales smoothly with the
 head count"; J-V7.47). A per-rung value in the table below is an **anchor**, not a constant: the three rung columns are the
 value at the three rung targets (40, 200 and 700 people), and the value at a population `P` is read piecewise linear in
 `ln P` between neighbouring anchors and clamped outside them, so nothing steps at 80 or 400 people and no default moves at
@@ -722,7 +722,7 @@ regional village forms (provenance `own`, calibrated at the corpus stage; J-V7.6
 
 ### 2.2a The rule cells — every other constant of V07 §3, typed (`VillageRungRow.rules`)
 
-Item 23 and DEFINITION V07 §5 ("Rules are data"): no rule constant of V07 §3 stands in prose alone. Each is a cell of
+Item 23 and DEFINITION.md §5 ("Rules are data"): no rule constant of V07 §3 stands in prose alone. Each is a cell of
 `VillageRuleCells`, `{ value, unit, provenance, calibratable }`, editable by `editTable`, versioned with `village.json`
 (V07 §2.6) and read by the stage named; a cell given one value is the same at every rung, and a `PLaw` cell follows the anchor
 law (V07 §2.2). A cell may instead hold a **reference** to another table's cell, `{ ref: { table: TableId; row: string;
@@ -1497,8 +1497,8 @@ the network routes to it and around it. No site → F-V-MILL (V07 §3.13): a win
 `access_to_external_mill` suppresses both mills (V07 §3.11).
 
 **(8) S3's non-siting jobs, taken over by VS1** (V7C-02; J-V7.50). S3 is not in the village's set, so VS1 does its four
-jobs that the later stages read, with the base's constructions: (a) the **map border** chain on the frame rectangle (the
-base's V07 §3.2 (9) and V07 §2.2 rule 1), laid first in VS1's L1 batch; (b) the **lattice** and its edge costs over the frame (§4.2
+jobs that the later stages read, with the base's constructions: (a) the **map border** chain on the frame rectangle (
+§3.2 (9) and §2.2 rule 1), laid first in VS1's L1 batch; (b) the **lattice** and its edge costs over the frame (§4.2
 S3 (3)'s form), the costs reading the village way classes and `rules.grade`, output `lattice` — read by the leat (7), S4's
 router for the neighbour roads, the polyfocal joins and the `row` spine (V07 §3.5) and F-V-TRACK's third rung, every such
 call passing the routed rung so that the router prices no raised span (V07 §3.5's rung gate; J-V7.90); (c) the typed
@@ -1877,8 +1877,8 @@ precedes S7 (V7C-03).
    way that will carry frontage (`through`, `secondary`, `lane`, and a `track` inside the region, on ground part 0 — never
    a raised way, V07 §3.5a (3)) is an interior; an
    interior of more than `slot.backCloseHa` (2 ha) is removed from the region, so it is a hinterland face from the start
-   (the fields inside a ring of village lanes, J-V7.19) — a hole in the district's face, which the plat supports (the
-   base's V07 §3.6 hole rule); interiors of the palisade's reached ground are never cut (V07 §3.4 step 5 b). The result is
+   (the fields inside a ring of village lanes, J-V7.19) — a hole in the district's face, which the plat supports (
+§3.6 hole rule); interiors of the palisade's reached ground are never cut (V07 §3.4 step 5 b). The result is
    inserted as L1 chains with the `perimeter` role by the base's same-level splits (§3.3), so every network
    face it crosses is split and nothing outside it is touched.
 2. **The district.** The faces inside the perimeter form **one `District` of kind `village`** (PART III item 4;
@@ -2697,7 +2697,7 @@ standing dwellings' median frontage and depth, the ends one per standing distric
 village phases run: the declining town contracts by the engine's lottery and the village's persistence rows, its
 districts stay districts (the village rules read the plan, never re-cut a district), and a later rise past the band hands
 up again by the steps above, the same plan superseded once more (J-V7.67). One document, one seed, one history (V08
-§3.10, J-V8.12). **The standing underground** (DEFINITION V07 §4: tunnels "silt up, cave in or are sealed, never torn down";
+§3.10, J-V8.12). **The standing underground** (DEFINITION.md §4: tunnels "silt up, cave in or are sealed, never torn down";
 item 109 (k) (4)–(5); J-V7.63): every standing system keeps its records, arena parts and access points; at a village rung
 V04's stages for the kinds the village's set does not otherwise register (the sewer network, a catacomb, quarries,
 vaults, a buried old town) stay registered in **maintenance mode** — each re-derives its own parts from its kept galleries
@@ -3475,7 +3475,7 @@ constants is in the rows of V07 §2.2 and V07 §2.4; these rows record the choic
 | J-V7.22 | chose, at the hand-off up, to make the green the principal market's reservation when the town has none, over a new market square, because many market towns' markets were their former greens (least disruption, item 22) | V07 §3.12 |
 | J-V7.23 | chose, under `VG`, one household-size draw per village in [3, 7] read in reverse (dwellings = population ÷ the draw) over VG's population = dwellings × the draw, because the requested population must still decide while the relation stays VG's | V07 §3.15 |
 | J-V7.24 | chose no stage-2 close-up of a village district — its model already carries tofts, crofts, closes and yards at the neighbourhood band — over running V01's composer on it, because a second composition would duplicate the village's own plot-scale fabric | V07 §1, V07 §5.2 |
-| J-V7.25 | chose the `painterly` family as the village's opening look, `ink` one click away, over opening in `ink` as the town does, because emulation-first makes VG's look the village's default (DEFINITION V07 §1: match how the references look) and the base reserves the slot for it | V07 §5.1 |
+| J-V7.25 | chose the `painterly` family as the village's opening look, `ink` one click away, over opening in `ink` as the town does, because emulation-first makes VG's look the village's default (DEFINITION.md §1: match how the references look) and the base reserves the slot for it | V07 §5.1 |
 | J-V7.26 | chose that every water body closes a village palisade — sea, lake, pond, river and brook alike, a water arc never walled — over walling across a fordable brook, because a village never fenced off its own water (stock, the mill, the ford), item 106's "never cut off water access", and VG cuts at every shore | V07 §3.4 step 5 |
 | J-V7.27 | chose to keep a walled stretch between two barriers that no road crosses, dropping it only under `VG`, over VG's drop everywhere, because with the barrier closure an approachable arc left unwalled would open the enclosure — item 106 walls exactly the approachable arcs — and the gates stay where the roads cross | V07 §3.4 step 7 |
 | J-V7.28 | chose an always-open village waterfront, a sea threat raising a watchtower at the wharf or landing, over item 106 (d)'s quay wall with sea gates, because villages did not wall their shores and a lookout is the attested response; no harbour-mouth chain without a harbour basin | V07 §3.11 DR2 |
@@ -3520,7 +3520,7 @@ constants is in the rows of V07 §2.2 and V07 §2.4; these rows record the choic
 | J-V7.67 | chose one `VillagePlan` per document, ever — superseded at a hand-off up and revived at a hand-off down, with VS2 and the plan's read kept as base-product participants while it is superseded — over deriving a fresh plan per crossing, because identity must be stable and the old core's fabric reads the plan's inputs | V07 §2.3, V07 §3.12 |
 | J-V7.68 | chose a 5 % hand-off band as a fold over the epochs (never a stored flag), over switching exactly at 1 500, because a village oscillating around the threshold would flip product, district kind and market every epoch | V07 §2.1 |
 | J-V7.69 | chose to key a branch by its step index along the parent (`t0/s<k>.L`) over its branch ordinal, because an earlier branch's appearance or loss renumbers ordinals and churns every later address | V07 §2.5 |
-| J-V7.70 | chose typed sub-records in `VillageRungRow.rules` for every V07 §3 constant, over prose values, because rules are data (DEFINITION V07 §5, item 23): editable, versioned, calibratable | V07 §2.2a |
+| J-V7.70 | chose typed sub-records in `VillageRungRow.rules` for every V07 §3 constant, over prose values, because rules are data (DEFINITION.md §5, item 23): editable, versioned, calibratable | V07 §2.2a |
 | J-V7.71 | chose a lassoed `declareEnd` keyed by its event's address, exempt from the merge and the cap, with the count badge in its dry run, over a point anchor with nearest-anchor plots, because item 101 R4, R13 and R14 require lassos, held declarations and the badge | V07 §2.3, V07 §4.1–§4.4 |
 | J-V7.72 | chose explicit request fields (`organic`, `district`, `orchards`, `forest`, `arableFactor`) with `organic` also derived from the intent's organic dial, and the reference's request mapping held with B-VG's baseline rows, over naming the reference's requests in the volume, because the bench needs a mapping while the clean-room rule keeps the reference's vocabulary out of the design | V07 §2.7, V07 §3.1 |
 | J-V7.73 | chose to specify the painterly building, edge, bridge, crown and spotlight programs at build depth with our own cells, over citing V02's roof rows alone, because the reference's look is the village's default (emulation-first) and B-ZOOM must test each program | V07 §5.1 |

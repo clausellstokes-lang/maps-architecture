@@ -29,3 +29,10 @@ docs/validation/coherence/new/volumes/V07-village.md. Report: docs/validation/co
 00-head · 01-s0 · 02-s1 · 03-s1b · 04-s2a (2.1–2.2) · 05-s2b (2.2a) · 06-s2c (2.3–2.4) · 07-s2d (2.5–2.7) · 08-s3a (3.0–3.2)
 · 09-s3b (3.3–3.5a) · 10-s3c (3.6–3.8a) · 11-s3d (3.9–3.10a) · 12-s3e (3.11) · 13-s3f (3.12) · 14-s3g (3.13–3.16)
 · 15-s3h (3.17 edges, new) · 16-s4 · 17-s5 · 18-s6-7 · 19-s8-9 · 20-s10-13-notes
+
+## TODO anchors and follow-ups (check before assembly)
+- W70 compaction (V07-DUP-1) once V07 §3.12 *Records at a village epoch* is confirmed to hold the whole contract
+- anchors used by parts 02/03: V07 §3.2 (4a) water pull; V07 §3.3 water factor; V07 §3.12a (item 113); V07 §3.12 (4v) formSource/roadsSource reader; V07 §4.5 WhyProvider
+- §2.4: the 'no split switch' clause from deleted W40 (cite V11 §3.7.4)
+## Parts done
+- 00-head … 13-s3f written (2026-10-03); W70 compacted; anchors (4a), §3.12a created; (4v) anchor dropped (W7 cites V07 §4.5)

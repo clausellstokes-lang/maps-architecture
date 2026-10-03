@@ -9,7 +9,7 @@ Two callers exist at generation; V01 §3.10.3 (6) names those after it.
 
 #### 3.10.1 The standalone neighbourhood document (`Recipe.product = 'hood'`)
 
-The one-click standalone neighbourhood (IMPROVEMENTS S6, NG-UX-1). Its recipe is `Recipe.hood` (V01 §2.6).
+The one-click standalone neighbourhood document (IMPROVEMENTS S6, NG-UX-1). Its recipe is `Recipe.hood` (V01 §2.6).
 1. **S0.** Resolve the recipe, drawing on `blueprint.features` (appended after S0's existing draws, §6.1) in this order:
    * **the kind** when absent — `hood.kinds` weights over `DistrictKind` values only: central 0.25, craft 0.25, market
      0.15, temple 0.15, riverbank 0.05 (with a river edge only), docks 0.05 (with a sea or canal edge only), gate 0.05
@@ -143,7 +143,7 @@ one caller. On the generation worker, after the ground's S10 (0), beside the hin
    of which a seed or a lane must reach — an unreached attach or deck end is a validation failure of F-TEMPLATE, whose
    last rung lays a lane to it; S9, S10a (i), S9b, S10a (ii)–(iii), S10 (0) (a margin band only on land-face runs
    **without** a rim strip; the rim strip itself is never cut and never plotted), S10–S12b in the island's own overlay.
-   **Crossing sites** (V05 §3.8 (4), §3.12; §4.2 S1 (5) as item 580 extends it; J-V1.91). An island crossing site
+   **Crossing sites** (V05 §3.8 (4), V05 §3.12; §4.2 S1 (5) as item 580 extends it; J-V1.91). An island crossing site
    **qualifies** when both its `deck_end` vertices lie on the boundary of the unit's outline face — both banks border the
    island's built land, neither a claim nor the rim strip. After S7c and before any district's seeds, one L1 batch on the
    island's overlay lays, for each qualifying site in site order (the `Bridge` records' address order), its **span**: its
@@ -168,7 +168,7 @@ one caller. On the generation worker, after the ground's S10 (0), beside the hin
    deck end no rung reaches has its span removed in the after-S8 batch and stays a `site` (a street that reached the
    other end stays, ending at the bank), reported in `requestedVsBuilt` ("the river crossing at {site} left unbridged: no
    street reaches its far bank"); a site that does not qualify stays a `site`, unlaid. The landfall fates of the
-   island's bridges and their deck plots are volume 5's (V05 §3.16 (7), §3.22 (6)).
+   island's bridges and their deck plots are volume 5's (V05 §3.16 (7), V05 §3.22 (6)).
    **Cross-arena pulls**: its S10b reads a class on another arena by the route distance (`skyRoute`, V05 §3.20 (1);
    item 308) and, at generation, reads a ground provider at the block its S10a allocation holds (V05 §3.20 (1), (12)
    (a)), never the pool's placed plots, so its placements are the same whatever the pool's size and interleaving; after

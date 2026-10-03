@@ -35,7 +35,7 @@ their shadows (V01 §5.1.3).
   pyramid, tent or skeleton wing's one face per eave, a cone or dome as one surface; under `roofscape` (from stage 3's
   landing, V02 §5.2–§5.3), each of the building's `RoofFacet`s. **The NG parity sheet** keeps `fakeGablePerWing` from M6a;
   at M6b the NG draw-style bars are re-measured on `roofscape` and the sheet switches to it when they pass, else keeps
-  `fakeGablePerWing`, reported (V02 §5.3; J-VI.17 H8); every other `hatched` sheet switches to `roofscape('twoTone')` and
+  `fakeGablePerWing`, reported (V02 §5.3; J-VI.17, _integrate H8); every other `hatched` sheet switches to `roofscape('twoTone')` and
   the per-facet hatch when stage 3 registers. Lines at a **world pitch** `hatch.pitchM` — a model length, as
   Neighbourhood's spacing is (`code-neighbourhood.md` §2.11), so a facet has the same lines at every zoom; its default is
   calibrated at M5 so the census mean is 17–19 per wing on B-ZOOM's neighbourhood-band reference viewport, starting at
@@ -146,7 +146,7 @@ buildings → buildings → chimneys → block trees → title) is a subsequence
 | 20 | grid | — |
 | 21–25 | scale bar, compass, labels, title and legend, live layers | as §8.2's list |
 
-**Stacks in slot 12** (item 110 (c), (f); V02 X24). A building's wings are drawn in stack order by `BaseWing.on` depth
+**Stacks in slot 12** (item 110 (c), (f)). A building's wings are drawn in stack order by `BaseWing.on` depth
 (V02 §2.6; §8.6, item 419) — a wing before the wings standing on it, ties by wing key (V02 §2.1's canonical order) — and
 after each wing that carries others, the prism shadows of the wings standing on it are drawn clipped to that wing's roof,
 in the shadow tone at the sheet's shadow alpha (slot 9's law), so each tier casts its own visible shadow on the tier below;

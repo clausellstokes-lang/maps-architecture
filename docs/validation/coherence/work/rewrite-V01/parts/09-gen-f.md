@@ -8,12 +8,9 @@ states what the neighbourhood does with them. With the terrace, raised-way and d
 
 #### 3.17.1 The terraced ward (J-V1.60–J-V1.62)
 
-1. **The state.** `terraceState(D)` (V01 §2.3) says whether D is terraced: declared (`District.terrace`, item 211), else
-   the relief rows' `terracedEdges` cell at the site's relief class (volume 11; item 110 (a)'s "when the relief row asks
-   for terraces"), else an authored S1 `terrace` site primitive (§4.2 S1 (1)) under ≥ `terrace.siteShare` of D's area;
-   and whether walls may stand (`walls`: `slope.meanPct ≥ 100 × terrace.slopeMin`). It is pure and draw-free, computed
-   from records eager at S6's end, so S7c, the base's district-edge source and the elevated-road generator's terrace
-   endpoints (V06 §3.19.3; item 290) read one value, and none reads `District.fabric` (no cycle with S7c).
+1. **The state.** `terraceState(D)` (V01 §2.3, its one definition) says whether D is terraced (`asks`, with its
+   `source`) and whether walls may stand (`walls`); S7c, the base's district-edge source and the elevated-road
+   generator's terrace endpoints (V06 §3.19.3; item 290) read that one value.
 2. **The layout.** S7c's `stepped` weight gains the factor `(1 + terrace.askGain × asks)` (V01 §3.3.3); the `stepped`
    row lays a contour series, and over a ravine a thalweg path with a series per flank (V01 §3.4.3). A terraced ward is
    declared by name as a quarter with `fabric: 'stepped'` (the Terraces card) and `terrace: 'on'` (items 349, 350) — the
@@ -163,7 +160,7 @@ committed state.
    (J-VI.4 (e): `raised` dropped, the stroke drawn as the island's own way).
 2. **The terrace rule on an island.** The island's unit run reads `terraceState` at the island's relief class: its drawn
    class (`terrainEcho.reliefClass`, V05 §2.1; item 251) where `terrainEcho.relief` is `own`, and `plain` where it is
-   `echo` or `none` — the echo's quarter amplitude and the dome are no terracing relief (V05 §3.8 (3), §3.22 (4);
+   `echo` or `none` — the echo's quarter amplitude and the dome are no terracing relief (V05 §3.8 (3), V05 §3.22 (4);
    J-V1.94) — and the base's levelling raises its walls on the island's arena (V05 §3.22 (4)). No ward-edge wall stands
    on or along the rim: the rim run is `sky` (hard, which the district-edge source excludes, item 302) and the levelling
    stops at the rim strip's setback line (volume 5).
@@ -171,7 +168,7 @@ committed state.
    strip itself (V06 §3.19 (7)) before the commit's operator removes the strip's plots (V01 §3.17.4); opened close-ups
    then read the committed state — the `hood.fabric` participant's item (3) re-derives the crossed districts' fabric
    reading and hood pins, logged in the epoch's diff, with no plot removal and no re-homing of its own (V01 §3.3.6,
-   §3.17.4).
+   V01 §3.17.4).
 4. **Walls over epochs** are the base's district-edge source in whichever S10 lays a district's plots — a new stage's
    growth run or an epoch's re-derivation (V06 §3.19.4 (1)); a surviving district's walls are survivors, their state
    profile item 245's. The `hood.fabric` participant raises no wall.

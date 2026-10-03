@@ -85,7 +85,7 @@ skylight: one `HoodPlace` of kind `opening` (1) per **public opening** — an `A
 entrance** — an `AccessPoint` of kind `stair`, source `system`, whose `cause.system` is a `catacomb` system (V04 §3.5.1
 (9)), a quarry ossuary's stair at its working's surface head included — subtype `catacomb`. No other access makes a
 place: a sewer's `mouth` (source `system`, its system the sewer), a quarry's adit, a grating and a neighbourhood or
-lifeline stair keep their symbols only (V01 §3.8.8, §5.1.2). A place is named from `naming.place` with the opening's kind
+lifeline stair keep their symbols only (V01 §3.8.8, V01 §5.1.2). A place is named from `naming.place` with the opening's kind
 as a feature ("the Sinkhole", "the Old Mouth"), its `knownTo` is the AccessPoint's, and it lives as long as its host while
 the step runs (V01 §2.7). **A catacomb entrance** sits only on cemetery ground (item 109 (k) (2); II.7.6, item 560): the
 churchyard part of a church, temple or cathedral plot — never inside the footprint of a church-class building (V03
@@ -93,7 +93,7 @@ churchyard part of a church, temple or cathedral plot — never inside the footp
 hinterland, or, at CITY and METROPOLIS only, a quarry ossuary's surface head (its working's shaft and stair, V04 §3.5.1
 (9)); its place draws no name of its own but carries its catacomb's (volume 4's label rule), and its knowledge is the
 AccessPoint's. **No crypt gets a place or a pin**, the cathedral's included: a crypt is `Basement.crypt`, a basement fact
-(V03 §3.7.4; §2.6, item 238; J-VI.17 H33), and a crypt joined to a catacomb by a (3b) link adds no second entrance. A
+(V03 §3.7.4; §2.6, item 238; J-VI.17, _integrate H33), and a crypt joined to a catacomb by a (3b) link adds no second entrance. A
 building's dug access (a cellar stair, a shaft, a well that broke through, (j) (3) (i)) gets no place: hosted by the
 building or its basement it draws no surface symbol — the building's plan draws its head (V03 §3.7.2 (5)) — and opening
 in a yard it is a symbol on its plot (V01 §3.8.8). An unexcavated void puts nothing on the surface. A town with no
@@ -181,7 +181,7 @@ the pick ordinal — in the order gate, kind, size, angle:
    `outsideYard` (an outside plot's yard parts ≥ `pin.siteMinM2`). A site's **point** is its face's pole of
    inaccessibility (the spine summit), else the next clearance maximum. A court residue a `RetainingWall` crosses is read
    as one site per level piece (the pieces its wall lines cut it into), each with its own pole, pieces below
-   `pin.siteMinM2` dropped; no site lies on a deck plot or in an under-deck strip (V01 §3.17.3, §3.17.6). A block with no
+   `pin.siteMinM2` dropped; no site lies on a deck plot or in an under-deck strip (V01 §3.17.3, V01 §3.17.6). A block with no
    site derives no pin.
 2. **Prior picks.** Before a block's first site, every model pin already in the block — §4.7 S11's decoration rows, a
    square's centrepiece, a singleton — counts as a prior pick of its kind (its decay applied, step 4); a kind S11 treats
@@ -248,7 +248,7 @@ buildings' footprints, `Entrance` records, `Basement.access`, `basementDoor(b)`'
 `stackAccessDoor(b, a)` value and whether each has `ground(b)` (the entrance reserve, V01 §3.8.2 step 5), the
 `PorchKindRow` slice of `composition.json` the reserve reads (cited as the `hood.pins` slice is, §7.6), every
 `RetainingWall`, raised strip and pier inside or on D's faces, the deck plots D owns with their buildings (V01 §3.17.2 (3),
-§3.17.6), its `CloseupRecord` (or the default params), the `hood.pins` slice cited (§7.6) and every `Block.overrides` it
+V01 §3.17.6), its `CloseupRecord` (or the default params), the `hood.pins` slice cited (§7.6) and every `Block.overrides` it
 holds. At most `closeup.chunkKB` per district; counted in §12.8's elaboration cache line and evicted by its LRU to
 `absent` (nothing is lost: the content is a pure function). A chunk whose inputs digest mismatches on read is dropped
 and re-derived; a district with no pin stores an empty chunk.
@@ -308,7 +308,7 @@ reading (sealed → `bricked`; collapsed as a trace with rubble stipple; II.7.4,
 `ground.host` is a building or its basement (a cellar stair, a basement's ladder or hatch, a shaft dug from a cellar), or
 whose `ground.at` falls inside a footprint (a catacomb stair headed in a cemetery chapel, V04 §3.5.1 (9)), draws **no
 surface symbol**: its roof covers it at the neighbourhood band, and at the building band the building's plan draws its
-head (V03 §3.7.2 (5), §3.7.3, §5.1; a `secret` head by §5.4) — one mark per access. An arch vault's `door` is the base's
+head (V03 §3.7.2 (5), V03 §3.7.3, V03 §5.1; a `secret` head by V03 §5.4) — one mark per access. An arch vault's `door` is the base's
 drawing of the vault's infill and takes no symbol. §9.2's admission filters each drawn symbol by its `knownTo` — a yard's
 access (`local`) at the neighbourhood band for a public key; a `secret` one only at the building band, to a key holding
 the secret. An unexcavated void has no `AccessPoint`, so it puts nothing on the surface (item 109 (j) (2)). The symbols

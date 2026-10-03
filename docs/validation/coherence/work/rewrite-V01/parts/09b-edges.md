@@ -37,7 +37,7 @@ Test: T-V1-57.
 | the islands off | no sky unit run, no strip or `shadeSky` read, `shade.islandShare` absent |
 | the underground off | no opening pass, place, access symbol or `under[]` entry; no void part in a standalone neighbourhood document |
 | item 110's rows off | nothing of V01 §3.17 acts; byte-identical to the build without them (T-V1-4's no-op pin) |
-| the `pins` and `trees` layers; the style's `details` and `shadows` | view only (V01 §5.1.2, §5.1.3) |
+| the `pins` and `trees` layers; the style's `details` and `shadows` | view only (V01 §5.1.2, V01 §5.1.3) |
 | GeoJSON `closeup: true` | hood pins exported as presentation features (V01 §5.3) |
 
 Tests: T-V1-4, T-V1-56 (c).
@@ -52,7 +52,7 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 
 | mechanism (home) | edge | outcome | rung | test |
 |---|---|---|---|---|
-| identifiers and tables (V01 §2.1, §2.2) | a `fabric` row id no table holds (a later version's, or a row an `editTable` removed); a `fallback` naming an absent row; a band with no row | the district reads `bent-cut`, reported (§7.5's table-row migration); V11's compiler refuses such a table (its reference check), so none loads; the band interpolates (item 27) | substitute; check | T-V1-55, T-V1-56 |
+| identifiers and tables (V01 §2.1, V01 §2.2) | a `fabric` row id no table holds (a later version's, or a row an `editTable` removed); a `fallback` naming an absent row; a band with no row | the district reads `bent-cut`, reported (§7.5's table-row migration); V11's compiler refuses such a table (its reference check), so none loads; the band interpolates (item 27) | substitute; check | T-V1-55, T-V1-56 |
 | `DistrictContext` (V01 §2.3) | no portal, water, wall, chain, record or landmark; no island shade basis; `under` before the tail | each list empty or each value 0; `islandShare` absent; `under` is read only after the tail | check | T-V1-35, T-V1-56 |
 | request, result, report (V01 §2.4) | a regenerate or undo after a run | the report is recomputed with every run and written to the generation report, never stored | — | T-V1-55 |
 | stage graph (V01 §3.1) | a town of one district; a town with no district S7c lays | S7c and S9b run once; nothing written | — | T-V1-56 |
@@ -65,7 +65,7 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 | portals and anchors (V01 §3.4.2) | no usable portal; one usable portal; an unreachable landing attach or deck end | the spine's anchors are the `axis` ends; a spine needing two anchors takes the `axis` ends; F-TEMPLATE's last rung lays a lane to it | simpler shape | T-V1-8, T-V1-21 |
 | spine, series, ring, plaza, fan (V01 §3.4.3–§3.4.6) | a chord below `2 × eHi`; flat ground under a series; `R ≤ eLo`; `landmark.maxRings` reached; 0 inhabitants; no void junction; fewer portals than a fan's minimum | no spine, the row bends; level 0 alone; no ring, the row bends; the precinct series ends, reported; the plaza at `minM2`; no void square, reported; every portal there is, or none | substitute; leave out and report | T-V1-7, T-V1-8, T-V1-9, T-V1-38, T-V1-56 |
 | the rows (V01 §3.4.7) | a table holding only `bent-cut`; a seeded row whose seeds all lay nothing | every district `bent-cut`; the bent cut on the whole face, reported as rung 4 | substitute | T-V1-56 |
-| unit runs (V01 §3.4.8, §3.10) | a unit of one district; a degenerate outline | the partition makes one district; F-UNIT (V01 §3.13) | repair locally; substitute | T-V1-20, T-V1-21 |
+| unit runs (V01 §3.4.8, V01 §3.10) | a unit of one district; a degenerate outline | the partition makes one district; F-UNIT (V01 §3.13) | repair locally; substitute | T-V1-20, T-V1-21 |
 | S9b and its quotas (V01 §3.5.1–§3.5.2) | no candidate block; 0 inhabitants; one candidate; quotas above what the candidates hold; a band or kind factor missing | none typed; every quota 0, phase 2 only; it alone is weighed; the unmet remainder rolls and is reported (F-DISPATCH); interpolated (item 27), a missing kind factor 1 | leave out and report | T-V1-11, T-V1-56 |
 | squares, greens, manors, phase 2 (V01 §3.5.3–§3.5.6) | no candidate for a type; one; an empty fit band or no compound class; every remaining manor weight 0; no small block | its quota rolls to the next type, the last remainder reported; it is taken if it fits; M 0; the draw stops, the unmet manors reported; phase 2 types none | leave out and report | T-V1-10, T-V1-11 |
 | the seam guard (V01 §3.5.8) | no soft seam; no district across | the guard does not apply | — | T-V1-13 |
@@ -75,8 +75,8 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 | places (V01 §3.7.1) | no square, green, yard or large court; the underground off; a court below `court.nameMinM2`; a host removed; a dossier-owned name | no place; no opening pass; no place; tombstoned, its name archived; the dossier's name kept | — | T-V1-24, T-V1-46 |
 | the naming context (V01 §3.7.2) | a way with no feature | a proper name | — | T-V1-24 |
 | surfaces (V01 §3.7.3) | a way with no fronting block; an era with no row | the row at the pass-2 value at its midpoint; the rows without `era` | — | T-V1-25 |
-| the trigger and frame (V01 §3.8.1, §3.8.7) | a click on no district (water, off the map); a district with no footprint | nothing opened; the frame is its boundary | — | T-V1-15, T-V1-23 |
-| hood pins and the cache (V01 §3.8.2, §3.8.3) | no site; `pin.cap` reached; one pin; a digest mismatch | no pin and an empty chunk; each site's probability capped; one; the chunk dropped and re-derived | — | T-V1-15, T-V1-26, T-V1-31 |
+| the trigger and frame (V01 §3.8.1, V01 §3.8.7) | a click on no district (water, off the map); a district with no footprint | nothing opened; the frame is its boundary | — | T-V1-15, T-V1-23 |
+| hood pins and the cache (V01 §3.8.2, V01 §3.8.3) | no site; `pin.cap` reached; one pin; a digest mismatch | no pin and an empty chunk; each site's probability capped; one; the chunk dropped and re-derived | — | T-V1-15, T-V1-26, T-V1-31 |
 | staleness, overrides, persistence (V01 §3.8.4–§3.8.6) | a document with no `closeups` block; an undo, redo or load | default params; the chunk stale by its digest | — | T-V1-19, T-V1-55 |
 | access symbols (V01 §3.8.8) | an access with no stored state | the derived reading, else `open` | — | T-V1-46 |
 | the outline close-up (V01 §3.8.9) | an outline over nothing; over one district; a degenerate outline | nothing, one line; that district's close-up; nothing, one line | — | T-V1-15, T-V1-56 |
@@ -90,7 +90,7 @@ Tests: T-V1-19, T-V1-34, T-V1-55.
 | deck plots (V01 §3.17.6) | a deck whose owner rule meets no district (`Bridge.deck[0]` in the hinterland) | the hinterland pseudo-district's allocation | — | T-V1-53 |
 | editing (V01 §4.1–§4.4) | an edit on a target a dossier change removed; an edit under a parity preset | orphaned, reported (§7.4); a declared value held and laid ((c)) | — | T-V1-34, T-V1-40 |
 | why providers (V01 §4.5) | a subject no provider covers | volume 10's provider for its kind | — | T-V1-37 |
-| rendering and labels (V01 §5.1, §5.2) | an empty tile; a single wing; a sheet lacking a stage-2 program; a district with no name yet; a label fitting no candidate | the base marks only; its facets hatched; the base program (V01 §5.1.6); the identity label alone; dropped by §9.4's floors | — | T-V1-26, T-V1-28 |
+| rendering and labels (V01 §5.1, V01 §5.2) | an empty tile; a single wing; a sheet lacking a stage-2 program; a district with no name yet; a label fitting no candidate | the base marks only; its facets hatched; the base program (V01 §5.1.6); the identity label alone; dropped by §9.4's floors | — | T-V1-26, T-V1-28 |
 | exports (V01 §5.3) | a scope with no stage-2 content; a close-up never opened | the base's content only; derived for the export, never stored | — | T-V1-33 |
 
 **(f) Where this volume's features meet another unit's at their limits** (at TOWN, CITY and METROPOLIS unless a row says
@@ -111,6 +111,6 @@ otherwise):
 | an oasis and a terraced ward | no ward-edge wall on the pool's shore run (hard); the contour streets end at its setback | T-V1-58 |
 | the map frame and a district (a `frame` run) | hard and portal-free; the margin band lies along it, so no plot fronts the frame (in a standalone neighbourhood document the outline itself, V01 §3.10.1 step 6) | T-V1-20 |
 | the map frame and a terraced ward | no ward-edge wall on a `frame` run (item 302); the levelling stops at the margin band | T-V1-58 |
-| a terraced ward and a lock | a locked or pinned plot is a fixed input: its face a hole the series avoids (V01 §3.4.1, §3.4.3), its plot and site kept by every re-derivation (§7.2); the walls round it are the base's levelling's | T-V1-18 |
+| a terraced ward and a lock | a locked or pinned plot is a fixed input: its face a hole the series avoids (V01 §3.4.1, V01 §3.4.3), its plot and site kept by every re-derivation (§7.2); the walls round it are the base's levelling's | T-V1-18 |
 | a terraced ward and save and load | `District.terrace` and the walls persist in their leaves; `terraceState` and `stepProfile` are recomputed on load; a load re-derives nothing (byte-identical) | T-V1-55 |
 
