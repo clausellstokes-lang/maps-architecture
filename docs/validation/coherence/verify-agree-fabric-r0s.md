@@ -3,10 +3,10 @@
 > PENDING FABLE REVIEW — written by opus standing in for the seat coherence/verify-agree-fabric-r0; covered by the whole-design retrovalidation (J84).
 
 PROGRESS
-- [ ] P1 canon, matrix rulings (MC-01, MC-11, MC-05, MC-08, MC-09), contracts, member hand-offs and the rewrite reports' cross-part notes read
-- [ ] P2 model §2.5/§2.6 declarations against V01, V02, V03 (duplicate homes; field names; plot rename)
-- [ ] P3 pipeline §4.7 S10/S11, §10.2 rows and II.1–II.3 against V01, V02, V03, V11
-- [ ] P4 V11's rows against the base's and V01–V03's readers (columns, values, keys)
+- [x] P1 canon, matrix rulings (MC-01, MC-11, MC-05, MC-08, MC-09), contracts, member hand-offs and the rewrite reports' cross-part notes read
+- [x] P2 model §2.5/§2.6 declarations against V01, V02, V03 (duplicate homes; field names; plot rename)
+- [x] P3 pipeline §4.7 S10/S11, §10.2 rows and II.1–II.3 against V01, V02, V03, V11
+- [ ] P4 V11's rows against the base's and V01–V03's readers (columns, values, keys) — AF-11, AF-18, AF-19, AF-26, AF-27 written; programme keys, composition keys, test/build seams next
 - [ ] P5 hand-offs among members closed at their destinations; matrix gaps
 - [ ] P6 issues table, results JSON, LANDED
 

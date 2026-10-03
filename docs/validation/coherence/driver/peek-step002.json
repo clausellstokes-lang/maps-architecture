@@ -1,0 +1,1091 @@
+[
+ {
+  "id": "VS0-05",
+  "severity": "major",
+  "kind": "LOST",
+  "claim": "§0.2 (E-22): the archived landing cells listed, per owner item, every section that carries its pointer, hook field or rule line, its tests, decisions and lists; the rewrite cut each to the home and replaced the lists by the sentence 'the sections that carry a pointer, a hook field or one line of the rule, and the item's tests … cite the item by number'. Checked by script over the live base: of the 476 (item, section) pairs the archived cells named, 95 sections hold no citation of their item (no 'item N', 'T N-n' or 'J-AN.' anywhere in the section) — e.g. item 2 at §2.7, §4.2, II.6; item 12 at §2.1, §3.10, §5.2, §6.1, II.7.4; item 16 at §2.5, §5.2, §7.3, §13.9, §14; item 18 at §2.5, §6.1, §6.3, §7.4, §14, §16; item 28 at §1.1, §1.2, §3.3, §14; item 30 at §3.4, §6.1, §11.4, §13.5; item 31 at §5.2, §7.5, §7.6, §14, §16 (full list in verify-scope-r0s.md, finding VS0-05). For those 95 pairs the landing fact is now stated nowhere and the new sentence is false; E-22's equivalence ('every clause-map cell kept') does not cover the landing record, and §0.2's own discipline ('every clause of every rule is checked at its landing') can no longer be followed from the table.",
+  "required_change": "§0.2: give each row a third cell 'also lands at' holding the archived landing cell's section, test and decision ids only (no prose — e.g. item 12: '§2.1, §2.2, §2.5–§2.7, §3.4, §3.7, §3.10, §5.2, §5.3, §6.1, §7.1, §7.4, §8.4, §11.1, §13.1, §14, II.7.4; T12-1; J-A12.31, J-A12.32, J-A12.71'), so that the table keeps every (item, section) pair of the archive; and reword the intro sentence to 'Each row names the home that states the mechanism, then the sections that carry a pointer, a hook field or one line of the rule, the item's tests (§13.2's T⟨item⟩-⟨n⟩ bars) and its decisions'. (Alternative only if the editor prefers it: add the item number at each of the 95 sections listed — owned by the other parts.)",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-08",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "§1.1's village rows give the frame at the target as THORP '1.2 km² (1.1 km)', HAMLET '5.8 km² (2.4 km)', VILLAGE '20 km² (4.5 km)' (the archived values), while V07 §2.1's table — rewritten under the canon's E-38 (`haPerHead` derived, `A_T = a_h · P ÷ usableShare`, 2.275 ha per head; a declared −1.1 % territory area, J-V7.141) — gives 1.1 km², 5.7 km² and 19.9 km². One ladder.json row, two values (principles (1), (10)); J-A201.01 makes §1.1 the home of the village rows' values, so the base now states numbers the derivation no longer produces.",
+  "required_change": "§1.1's THORP, HAMLET and VILLAGE frame cells read '1.1 km² (1.1 km), territory law; minimum 0.36 km²', '5.7 km² (2.4 km); minimum 1.0 km²' and '19.9 km² (4.5 km); minimum 4.0 km²' — the values of V07 §3.2 (1)'s territory law after E-38 (J-V7.141's declared shift) — and the sentence after the table names that law as their source.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-10",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "Two declarations of one interface with different signatures (principles (1), (10)). §4.12 (l. 8156–8157, added by the pipeline rewrite for WG-PIPE-05) declares `interface PlotStrategy { plots(block: Block, alloc: Allocation, ctx: StageContext, k: Kernel): KernelResult<Plot[]> }` and `interface SitePlanStrategy { sitePlan(plot: Plot, to: Designation, ctx: StageContext, k: Kernel): KernelResult<MutationRecord> }`; §14 (l. 17022–17023, unchanged from the archive) declares `PlotStrategy { subdivide(block: Block, ctx: BlockContext, claims: Claim[], sc: StageContext, k: Kernel): KernelResult<{ plots; alleys; residue }> }` and `SitePlanStrategy { plan(plot: Plot, ctx: ContextVector, tables: TableView, rng: Stream, k: Kernel): KernelResult<SitePlan> }`. `StrategyRegistry.plots` and `.sitePlan` (§14) register one type each; an implementer cannot satisfy both, and CO-11's one context vector reaches the §14 forms (`BlockContext`, `ContextVector`) but not the §4.12 ones.",
+  "required_change": "Keep one declaration of each. §4.12 drops its `PlotStrategy` and `SitePlanStrategy` lines and its comment cites §14's; where S11's mutator path needs a `sitePlan(plot, to, …): MutationRecord` form (J-A18.41), that signature replaces §14's `SitePlanStrategy.plan` in §14 by a recorded ruling (the context vector kept as its input, CO-11), never as a second declaration; §14's comment then names every strategy §4.12 declares (VS0-11).",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-17",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "§16's prices and two totals (and INDEX.md §1's price column) are not the sums of the volumes' own lines as the volumes now stand (file f item 568: §16 'first adds every request's effort-table line and milestone-row delta … then computes, once'). Three volumes re-priced after the scope rewrite and handed the change to §16, unapplied: V06 §8 prices M6-E at 29–41.5 pw (E9 and the spring line; V06 report note 14) where §16's staged row, the evolution line and INDEX §1 say 25.25–35.75; V10 §8 makes C1 3.25–4.75 pw plus the second transcript 0.25 inside M3a (base +3.5–5, item 531) and M3c 10.75–14.5 pw (V10 §13's hand-off to scope) where §16's M3a row and O11 line carry the oracle at 3.25–4.75 and the M3c row and clerk line 10.25–13.75; V11 §8 totals 12.75–17.75 pw with the new C1b (item 111's rows, 0.25–0.5 at M1/M2b) and C9 (item 113's rows, 0.25 at M6-E) where §16 prices neither and INDEX §1 says 12.25–17.0. §16's first total (221.5–300.5), staged total (170.75–238.75), whole program (392.25–539.25), the cuts' first total (≈ 204.5–272.5) and INDEX §1's V06, V10 and V11 prices are therefore stale.",
+  "required_change": "§16: the M6-E row and the evolution line read 29–41.5 pw; the M3c row and the clerk line 10.75–14.5 pw; M3a's oracle item and the O11 line's oracle read 3.5–5 (C1 3.25–4.75 plus the second transcript 0.25; the O11 line 12.5–17, the M3a row 35.25–47); V11's C1b (0.25–0.5) placed in M1 and M2b inside the content line (13.25–19) and V11's C9 (0.25) added to the content's staged rows (≈ 2–2.75); then recompute once (item 568): base subtotal 194.75–265, the first total 222–301.25, the staged total 175.25–245.5, the whole program 397.25–546.75, the cuts' first total ≈ 205–273.25 (or the figures the editor's own, stated placement of C1b gives); D-20 and the summary cite the new figures; INDEX.md §1's prices read V06 29–41.5, V10 14.25–19.5 (14.75–20 with the command-line clerk) and V11 12.75–17.75, and its V11 'where it is built' cell adds C1b (M1, M2b) and C9 (M6-E).",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-01",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "E-24 (one supersession mark) is applied only to the rows SCOPE-C02 enumerated. The archived index carried twelve further amendment relations inline on the governing rows — J-A28.34 '(amends J-A28.31's insertion and J-A28.33's read-back claim)', J-A30.23 '(amends J-A30.21's union sentence and J-A28.26's \"reserved passage cells\")', J-A28.28 '(amends J-A28.23)', J-A30.87 '(amends J-A30.84's mechanism)', J-A20.42 'refines J-A20.71's \"best-scoring site\"', J-A63.21 'refines J-A17.21', J-A24.43 '(amends J-A24.41's default weights)', J-A30.85 '(amends J-A30.83)', J-A30.26 '(amends J-A30.25)', J-A20.24 'amends J-A20.23's list of what factTier reads', J-A50.21 'supersedes … J-A29.41's reading of one street entrance as the references' behaviour', J-A76.71 'refines J-A20.74's condition' — the rewrite cut the inline notes from the governing rows (Part A keeps them) but put no mark on the amended rows, so J-A28.31, J-A28.33, J-A30.21, J-A28.26, J-A28.23, J-A30.84, J-A20.71, J-A17.21, J-A24.41, J-A30.83, J-A30.25, J-A20.23 and J-A29.41 now read as current choices in the index (J-A20.24's relation to J-A20.23 is in neither the index nor its Part A entry). Two governing rows keep a second, inline form (J-A30.24 '(amends J-A30.22)' beside J-A30.22's mark; J-A76.71 '; refines J-A20.74' with no mark on J-A20.74).",
+  "required_change": "In the Judgment-calls index and in each Part A entry (the mark mirrored, as the assembler did for the 17), add the one E-24 mark: J-A28.31 and J-A28.33 '— *amended by J-A28.34*'; J-A30.21 and J-A28.26 '— *amended by J-A30.23*'; J-A28.23 '— *amended by J-A28.28*'; J-A30.84 '— *amended by J-A30.87*'; J-A20.71 '— *amended by J-A20.42*'; J-A17.21 '— *amended by J-A63.21*'; J-A24.41 '— *amended by J-A24.43*'; J-A30.83 '— *amended by J-A30.85*'; J-A30.25 '— *amended by J-A30.26*'; J-A20.23 '— *amended by J-A20.24*'; J-A29.41 '— *amended by J-A50.21*'; J-A20.74 '— *amended by J-A76.71*'; remove the inline '(amends J-A30.22)' from J-A30.24's row and '; refines J-A20.74' from J-A76.71's row, and list these 14 marks in rewrite-scope's E-24 equivalence.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-02",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "INDEX.md's intro (l. 23) still says file f's items 200–585 are 'not yet applied' and that both files are applied 'by the coherence pass', while the set now carries them (the base §0.2's file-f pointer row, §13–§16, every volume's §10 pointer table); the sentence is false of the set it maps (principle (4)).",
+  "required_change": "INDEX.md intro: replace '(file f, items 200–585, not yet applied); the owner rules of 2026-09-28 are … Both are applied to the base by the coherence pass (`workflows/18-coherence.js`), file g first.' with one sentence stating that file f (items 200–585) and file g (items 102–113) are applied — to the base at the homes §0.2's landing table names and to the volumes, whose §10 pointer tables cite each item.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-03",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "INDEX.md keeps narration in its normative text (canon S9): the head's `volumes/_finalize` PROGRESS ledger (l. 5–17, which also cites J-RF2.4, an id defined only outside the set); §1's 'M5 (replacing the base's 14–18 pw M5 row)'; §1's 'The census was re-run at this lane's close'; §2's density paragraph 'counted by script at this lane's close … the six seam checks of §7 were drawn along exactly these pairs' — §7 no longer lists six seam checks, so that pointer is broken; §8 'CONFIRMED versus PLAUSIBLE' is wholly the _finalize lane's record (its md5s are of the pre-pass files, its doc-check sentence uses the retired G-cite forms 'V6 §2.1' and 'V9 §4.16', which refcheck lists as broken, and it keeps 'that the recommended order of §4 is the one the owner will choose', which J122 decided).",
+  "required_change": "INDEX.md: delete the PROGRESS ledger (l. 5–17) — its content stays in the _finalize validation record; §1 V01 row's cell reads '**M5**'; drop 'The census was re-run at this lane's close' (keep the census facts: 407 requests, 386 items, 137 BASE, 249 STAGED, 0 uncarried, 0 duplicated); drop §2's density paragraph or restate it as the seam pairs only without 'at this lane's close' and without the §7 pointer; rewrite §8 as this file's own CONFIRMED/PLAUSIBLE for the set it maps (the two totals and the order are §16's, PLAUSIBLE until the milestones run; the order is J122's, decided), with no lane narration and no old-form citation.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-04",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "INDEX.md headings and §5 do not match what the rewritten sections say: §4's heading 'The combined build order after M5, with estimates' heads a paragraph that states an order starting at M0 (V-M0 right after M0, M3c beside M3b, four streams after M4) and carries no estimates (it points to §16); §6's heading 'Owner questions with recommendations' heads a table of decisions (CANON-C03: 'INDEX §6 becomes the table of decisions'); §5 risk 6 'the base's own changes (files g and f) landing late or in another shape … the coherence pass applies g, then f, before the staged work' describes a risk the applied files retired.",
+  "required_change": "INDEX.md: §4 heading '§4 The combined build order (J122)'; §6 heading '§6 Owner questions and their decisions'; §5 row 6 removed (or restated as the dependency on file g's and file f's base parts being built at their §16 milestones, with the named fallbacks), and the bundle regenerated.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-06",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "§0.2's heading still reads 'Where the owner's late rules land — items 1–7 (…), items 8–31 (…) and items 32–88 and 101 (…)' while its one table now lands items 102–113 (file g) and file f's items 200–585 as well.",
+  "required_change": "§0.2 heading: 'Where the owner's late rules and the volumes' base changes land — items 1–113 and file f (items 200–585)' (the file names stay in the intro, which already lists them); update the assembler's heading map with it.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-07",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "§0.2 row 112 cites '§13.4's style check T112-1', but T112-1 is defined in §13.2's owner-items group (*Colour-blind-safe maps and the trial*); §13.4 only runs it in B-ZOOM ('T112-1's style check on every checked variant (§13.2)'). The index row J-A112.01's 'where' cell likewise names '§16, §13.4' for the release gate, whose bars are §13.2's T112-1 and T112-2.",
+  "required_change": "§0.2 row 112: '§13.2's style check T112-1 (run in §13.4's B-ZOOM) and the release gate T112-2 (§16)'; J-A112.01's where cell: '§16, §13.2'.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-09",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V07 §2.1 restates §1.1's whole village table (bands, targets, footprints, frame, stage rows, granularity, greenery, matched references, layers) although J-A201.01 rules that §1.1 carries the village rows' values and volume 7 §2.1 gives households and dwellings; the restatement is how the two copies drifted apart (VS0-08).",
+  "required_change": "V07 §2.1: keep the households / dwellings column and the dwellings-versus-households sentence, and cite §1.1's rows for every other column ('the THORP, HAMLET and VILLAGE rows of §1.1's table') instead of restating them; the territory law stays V07 §3.2 (1)'s and §1.1 cites it.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-11",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "§14's code comment '// @plat/layout — stages and strategies (StageDecl, NetworkStrategy and EnceinteStrategy are §4.12's)' is no longer the list: §4.12 now also declares `TerrainStrategy`, `CoastStrategy`, `RiverStrategy`, `ManifestStrategy` (and, until VS0-10 is fixed, `PlotStrategy` and `SitePlanStrategy`), which `StrategyRegistry` names in §14.",
+  "required_change": "§14's comment reads '(StageDecl, StageHookDecl, DataKey and the stage strategies TerrainStrategy, CoastStrategy, RiverStrategy, ManifestStrategy, NetworkStrategy and EnceinteStrategy are §4.12's)', with PlotStrategy and SitePlanStrategy added to that list only if VS0-10 keeps them in §4.12.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-12",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "§14's `ContentProvider.site(roster: Roster, plots: Plot[], ctx: SitingContext, rng: Stream): SitingResult` uses `SitingContext` and `SitingResult`, which no part of the set declares (script over the base and the twelve volumes; the archive had the same gap). J-S46 keeps door 4 as an extension point with a fixture provider (§13.2), so the interface's input and output must be typed to be implementable (principle (7): every interface has an implementer and a caller).",
+  "required_change": "Declare `SitingContext` (the S10b solver's inputs a provider's `site` reads — the district allocations, the plots with their frontage and band, the context vector, the relation and supply rows) and `SitingResult` (the per-plot placements with the infeasible entries and their closest options, as S10b's own result) in §14 beside `ContentProvider`, or name the §4.7 S10b types they are.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-13",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "§14's type map cites `Role` as §8.2's and `BridgeMessage` as §11.3's (`// @plat/api — … BridgeTransport and BridgeMessage: §11.3`; `@plat/model … the shared view vocabulary LodBand, Role, ZoomStop`), and `RoleIndex.roleAt`/`snap` return `Role`, but neither is declared as a named type anywhere in the set (§8.2 lists 'Role values' in prose; §11.3 uses `BridgeMessage` only in `BridgeTransport`'s signature) — the scope rewrite's cross-part note, still unapplied (driver unplaced 1 (b)).",
+  "required_change": "§8.2 declares `type Role = …` as the union of its role list (the roles §8.2's table names) and §11.3 declares `type BridgeMessage = …` as the union of the bridge's messages it lists (`doc.apply`, `doc.rejected`, `export.request`, `export.ready`, `export.refused`, `report.changed`, `ready`, … as §11.3 states them); §14 keeps its pointers.",
+  "owner": "rendering",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-14",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "`Invariant` is used by `KernelTx.expect: Invariant[]` (§3.3, l. 3253) and `StageDecl.invariants: Invariant[]` (§4.12, l. 8146) and declared nowhere in the set — the scope rewrite's cross-part note to §5.3, still unapplied (driver unplaced 1 (a)); §14's `Stage<I, O> extends StageDecl` inherits the dangling type.",
+  "required_change": "§5.3 declares `interface Invariant { name: string; scope: 'batch'|'stage'|'save'|'load'|'ci'; hard: boolean /* hard aborts the batch; soft goes to the report */; check(…): { pass: boolean; count: number } }`, its result §5.4's report row `{ name, scope, pass, count }`, and §3.3 and §4.12 cite it.",
+  "owner": "determinism",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-15",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "`powerStructure.previousGovernments` is read and not read at once: §7.1's dating rungs (l. 7710, item 75) read `previousGovernments[].tick` to date a dossier change, while V08 §2.4's adapter field table marks `powerStructure.previousGovernments` `ignored` ('§7.7 item 1: narrative state with no map reader') and the index row and Part A entry J-A73.06 say 'no mechanism of the set reads it; §7.7 item 1 lists the key as never read' — and §7.7 item 1's never-read list (l. 10919–10929) does not name it (the scope rewrite's note W-DOS-05 to determinism is unapplied).",
+  "required_change": "Determinism decides one reading and states it once: either (a) drop `previousGovernments[].tick` from §7.1 item 2's rungs (a government change is dated by its decree's `tickRef`, its outcome id's week or `HostContext.week`) and add `powerStructure.previousGovernments` to §7.7 item 1's never-read list, so V08's 'ignored' row and J-A73.06 hold; or (b) keep the rung and have V08 §2.4's row read 'the ticks only, as §7.1 item 2's dating rung' and J-A73.06 (index and Part A) say 'never carried into the digest; its ticks date a government change (§7.1 item 2)'. (a) is the change the scope note requested.",
+  "owner": "determinism",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-16",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "§14 makes `@plat/buildings` both a ground package and a staged one: the dependency chain places it between `plots` and `labels` and lets `render` and `export` import it (for `roofscape`, `facadeBays` and the plan's readers), while the package line says it is built at M6 (or created by M6-P), `@plat/api`'s worker host lists it among 'each staged package the build includes … and calls its registration', and J-A505.01 rules that the ground must never import a staged layer. Between M1 and M6-P the base's `render` and `export` (M1, M3b) would import a package that does not exist; `roofscape` is used only 'once stage 3 registers' (§8.6), which is a registration, not an import.",
+  "required_change": "§14: `render` and `export` reach stage 3's `roofscape` and the plan's pure readers through registrations `@plat/buildings` makes at start through `@plat/api`'s worker host (a `RoofConstruction` registry entry for `roofConstruction: 'roofscape'` and `Exporter` registrations for the plan's JSON block, `.dd2vtt`, Foundry storey scenes, CityJSON storeys and glTF interiors), and import `facadeBays` from `@plat/plots` only; the chain reads `layout ← plots ← labels ← render …` with `buildings` among the staged packages no ground package imports — or, if the f item's static import is kept, a recorded ruling states why `@plat/buildings` exists (empty) from M1.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-18",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "§13.2's takeover table and the stage bullets cite the volumes' test families by ranges that end where the families ended before the volumes' rewrites; each volume's §7 now defines more tests (the edge and combination tests of principle (11) and the items 111–113 parts): §13.2 says T-V1-1 – T-V1-54 (now 58; also §16's M5 exit), T-V2-1 – T-V2-53 (55), T-V3-1 – T-V3-34 (37), T-V4-1 – T-V4-75 (79), T-V5-1 – T-V5-32 (34; also T15-1's clause), T-V6-1 – T-V6-69 (74 — T-V6-70 onward are the history-replay tests that take item 113's bars, which the same row assigns to volume 6; V06 report note 14), T-V7-1 – T-V7-57 (65), T-V8-1 – T-V8-47 (51), T-V9-1 – T-V9-70 (78), T-V11-0 – T-V11-37 (40), T-V12-1 – T-V12-41 (48).",
+  "required_change": "§13.2 (the takeover table, the *Stage 3*, plan-rung, *underground layer built*, *SettlementForge stage* bullets and T15-1's clause) and §16's M5 exit cite T-V1-1 – T-V1-58, T-V2-1 – T-V2-55, T-V3-1 – T-V3-37, T-V4-1 – T-V4-79, T-V5-1 – T-V5-34, T-V6-1 – T-V6-74, T-V7-1 – T-V7-65, T-V8-1 – T-V8-51, T-V9-1 – T-V9-78, T-V11-0 – T-V11-40 and T-V12-1 – T-V12-48 — or 'V0n §7's tests' with no range, so the table cannot go stale again.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-19",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "The base's title still reads '… neighbourhood composition (stage 2), and what a village would need (later)' (inventory SCOPE-0001 flagged it for the canon), while the title block's own 'How to read the design', §1.1's stage table, PART III's heading and INDEX.md §1 describe the village as a designed product — volume 7 at build depth, V-M0 right after M0 and V-M1 – V-M4 after M4 (J122). 'would need (later)' reads as a hypothetical, unscheduled product, untrue of the set (principle (4)).",
+  "required_change": "Retitle to '# ARCHITECTURE — PLAT, the fused town/city generator (base), neighbourhood composition (stage 2), and what the village product needs from it' (or name the set: '… the base of the design set'), and update the assembler's heading map so the title file still places.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-20",
+  "severity": "minor",
+  "kind": "ELEGANCE",
+  "claim": "E-24 marks for base rows a volume decision supersedes or amends are missing (V01 report, cross-part note 4): J-S42's row still reads '`SquareFabric`'s `void` mode for NG's `square` pairs | §13.6, II.2' as a current choice — §13.6 (2) now uses the `carved` plaza (J-V1.6), and `SquareFabric` is a retired name (TemplateFabric rows) — and J-A44.71 ('the compound enclosure an `extension` with `over: 'both'`') carries no mark although J-V1.98 adds the `NG` parity preset that changes its alternative.",
+  "required_change": "Index rows and their Part A entries: J-S42 '— *superseded by J-V1.6*' (its choice text naming the `void` mode of the `square` template, not `SquareFabric`); J-A44.71 '— *amended by J-V1.98*'; and E-24's equivalence list in the scope report names cross-set marks (a base row amended by a volume's J-Vn.m row) as covered.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-21",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "§14's port types disagree with V08 (V08 report, cross-part note 1): `PortNote.kind`'s union lacks `'frozen_fact_changed'` and `'history_defaulted'`, which V08 §4.6's note table defines (classes report and standing) and V08 §3.5 emits; and `DossierDigest.notables[]` still declares `importance?: string`, which V08 never fills and no mechanism reads (J-V8.122, V08 §2.3 l. 658; canon W-DOS-07) — an orphan field in the base's digest.",
+  "required_change": "§14: add `'frozen_fact_changed' | 'history_defaulted'` to `PortNote.kind`'s union (meaning and class V08 §4.6's); drop `importance?` from `DossierDigest.notables[]`, with the comment 'a notable's `importance` is never read (J-V8.122)'.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-22",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "§13.2's takeover citations disagree with the volumes that take the bars: T104-2 cites 'volume 5's T-V5-23 on islands', but V05 (l. 2341, its T-V5-23 and T-V5-24 headings) maps T104-1 → T-V5-23 and T104-2 and T104-3 → T-V5-24, so T104-1 names no island form and T104-2 the wrong one; T110-7's list of the item-110 no-op pins registered on the same engine omits volume 1's T-V1-4 (e) (V01 note 2); B-PLAN's fixture list (§13.2, *The plan rung and elaboration*) lacks the edge fixtures V03's T-V3-36 and T-V3-37 run on it (a wing edited below one riser per storey, a basement under wings of different datums, cliff, steep, coastal, moat-with-deck-bridge, oasis and frame-edge buildings, a rung sweep; V03 note 6).",
+  "required_change": "§13.2: T104-1 gains '(volume 5's T-V5-23 on islands)'; T104-2 reads 'volume 5's T-V5-24 (b)–(c) on islands'; T110-7's list adds 'volume 1's T-V1-4 (e)'; the B-PLAN paragraph adds V03's edge fixtures (T-V3-36, T-V3-37) to its fixture set.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-23",
+  "severity": "minor",
+  "kind": "COHESION",
+  "claim": "§13.6 does not state what J122's V01 Q-V1-1 ('the default map changes at M5 … yes') requires of the M5 sitting and what V01's T-V1-32 runs: at M5 the MFCG and FTG side-by-sides are re-offered on the new default preset, rated by this protocol, beside the NG panel. §13.6 (1) lists M5 'against NG' only, (2) mentions only the NG seeds under the default preset (unrated), and (3) says an MFCG or FTG pair always runs its parity preset — so V01's rated re-offer on the default preset has no rule in the base and contradicts (3) as written.",
+  "required_change": "§13.6 (1): 'at M5 against NG (gates stage 2) and, because the default map changes at M5 (J122, V01 Q-V1-1), the MFCG and FTG panels re-offered on the new default preset, rated by this protocol (volume 1, T-V1-32)'; (3) gains the exception 'except M5's re-offer, which runs the default preset'.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-24",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "§14's package lines omit members the volumes place in them: `@plat/hood` lists the services `catchmentOf` / `districtsAbove` / `fabricSignature` but not V01 §8.3's `skyDistrictCount`, `plantRimWalk` and `accessSymbolKind` (V01 note 5); `@plat/testkit`'s calibration commands list `plat calibrate` (runs and the register) but not `plat calibrate trial`, which V12 §2.14 places there to take the game-master trial's record (T112-2's evidence; V12 note 9).",
+  "required_change": "§14: the `@plat/hood` line names `skyDistrictCount`, `plantRimWalk` and `accessSymbolKind` among its services (or reads 'its services, V01 §8.3'); the `@plat/testkit` line reads '`plat calibrate` (runs, the register and `trial`, V12 §2.14)'.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-25",
+  "severity": "minor",
+  "kind": "ID",
+  "claim": "ID-R makes a bare R1–R19 mean §14's interaction rules, but §13.5's MFCG street-signature row names a measured statistic 'lot-orientation coherence R4 within 60 / 120 / 250 m' and 'MFCG R4 0.84–0.97 / …', a bare R4 that reads as interaction rule R4 ('paint, do not parametrise').",
+  "required_change": "§13.5's row: name the statistic without the bare id — 'the orientation coherence (MFP-2's R statistic) within 60 / 120 / 250 m' and 'MFCG 0.84–0.97 / 0.58–0.88 / 0.32–0.68' — or qualify it 'redteam-mfcg R4'.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-26",
+  "severity": "minor",
+  "kind": "ID",
+  "claim": "INDEX.md §2 and §3 cite volume-local row ids bare outside their volume (canon S7 / ID-WX: 'Volume-local row ids (W, X, H, FL, IN) are never cited bare outside their volume') and seam-finding ids that are narration (S9): 'the opening pass: W15' (§2's V01 row), 'V01's W15' qualified only in some places, 'W15's V04-reading parts land inert until M6-U' (§3's M5 row), 'the basement's extent: S23R6-02' (§2's V02 row), '(item 202's call points; TX-02)' and '(M6-E's steps for V-M3's epoch clauses; TX-01)' (§2's V07 row).",
+  "required_change": "INDEX.md: write each W15 as 'V01 W15' (or name the piece: V01's opening-pass services); drop 'S23R6-02', 'TX-01' and 'TX-02' (the validation records keep them), naming the thing instead ('the basement's extent, V03 §3.7.4'; 'item 202's call points'; 'M6-E's steps for V-M3's epoch clauses').",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "VS0-27",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "SCOPE-C01 (file f item 202) is not applied at T73-9: §13.2's bar reads '(T73-9) the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks', unqualified, while §1.1, §7.7 item 15, §14's `PortResult`, D-33, J-A81.71 and the staged list hold the refusal only while no village product is registered — once V-M2 registers the village product the three below-1 500 fixtures route to it (a creation below 1 stays refused), so T73-9 would fail the correct behaviour (the canon names T73-9 among the places that carry the one wording).",
+  "required_change": "§13.2 T73-9: 'the three refusal fixtures refused with `E_RUNG_UNAVAILABLE` naming the village product, at birth and after their ticks, while no village product is registered; with it registered (V-M2 onward) each routes to the village product's rung, and a creation below 1 stays refused (§1.1; file f item 202)' — the routed form run by volume 7's tests, named in the takeover table.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-scope-r0"
+ },
+ {
+  "id": "V09-DEC-1",
+  "severity": "blocker",
+  "kind": "NUANCE-LOST",
+  "claim": "V09 §9's decision rows were cut to a short \"X over Y because Z\" that drops archived reasons, rejected alternatives and stated cases. The because/over content kept is under 60 % in J-V9.3, .4, .5, .8 – .12, .14 – .16, .18 – .20, .24, .26 – .28, .30, .31, .33 – .35, .38 – .41, .43, .46 – .50, .55 – .61, .63 – .66, .68 – .72, .74, .75, .77 – .94, .96 – .116, .118 – .122, .124, .125 (97 rows). Examples: J-V9.3 loses \"the survey's strongest pattern is the result appearing with the gesture\"; J-V9.12 loses \"over drawing every glyph or taking every icon from a library\" and \"generic glyphs gain from familiarity\"; J-V9.13 \"a game master's everyday view is `secret`\"; J-V9.15 the M2a session's content and \"the four tasks need those events\"; J-V9.38 the name `showUnexcavated`, the rejected `underSealed` and `LayerSpec` field and \"one name must serve both volumes\"; J-V9.39 \"none of the four catacomb bends or two crypt bends refuses\"; J-V9.92 \"everything editable keeps a past state reachable\" and \"`.plat` is the user's format in host mode\"; J-V9.96 the three outcomes' reasons; J-V9.121 the five additions (`app`, `event`, `each`, `when`, `command`), `ConflictAction.msg` keyed as its button, **Move it** as a `show`, locale files text-only; J-V9.125 the two namespaces' rung sets and why `commonness` differs.",
+  "required_change": "Rewrite every listed row from its archived text (`docs/archive/volumes-pre-coherence-2026-09-28/V09-application.md` §9), removing only critique, seam and round ids and narration and applying E-24's one mark; keep every \"over …\" alternative, every \"because …\" reason and every stated case. A case the body states may be cited instead of repeated (e.g. J-V9.6's \"events made elsewhere show no time\", V09 §3.9; J-V9.17's salience rule, V09 §3.5).",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V10-PROV-1",
+  "severity": "blocker",
+  "kind": "NUANCE-LOST",
+  "claim": "V10 §2.10's default rows lost their provenance notes: `ops.model.fallbacks` (\"Migrating … new API features\"), `ops.model.clientFallbacks` (\"refusal fallbacks, pattern 2\"), `ops.model.thinking` (\"thinking and effort\"), `ops.routes.converse` (\"effort guidance\"; \"the model's hard cap; streaming default about 64 000\"), `ops.cache` (\"choosing the TTL\"), `ops.prices` (the source table). `ops.prices` also lost its exception \"Opus 5.5's read rate as the source states it\", so \"reads 0.1×\" now contradicts its own `claude-opus-5-5` row (cache read 0.20 on input 4, 0.05×).",
+  "required_change": "Restore each row's provenance as archived, naming the provider's documentation per row (worded for the deployment's provider, J121), and write the price note as \"reads 0.1× on `claude-opus-5` and `claude-opus-4-8`; `claude-opus-5-5`'s read rate is its row's (0.20)\".",
+  "owner": "V10",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "DET-FLAT-1",
+  "severity": "blocker",
+  "kind": "NUANCE-LOST",
+  "claim": "When the flat-ground rule moved from V09 §4.20.1 (3) (a) into §7.1 (V09-RESTATE-6), its clause \"clipped to the drawn run's extent\" (archive V09 l.2584) was dropped: §7.1 (l.9542–9546) moves the chain \"onto the nearest slope break, terrace edge or retaining wall …\" with no extent, and V09 now cites §7.1.",
+  "required_change": "§7.1's flat-ground sentence: \"… moves onto the nearest slope break, terrace edge or retaining wall stepping at least `terrace.stepMinCm` within `terrace.retainingReachM` of that share of the stations, clipped to the drawn run's extent, else …\".",
+  "owner": "determinism",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-CAT-1",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "V09 §4.9 is the one catalogue, yet four families other units emit and word through it have no row or family entry: `info.water.*` and `info.history.*` (V10 §3.9b; V10 §13's hand-off), `info.village.*` (V07 §4.5, W76; V07's cross-part note), `info.plan.<cause>` and `info.plan.noRoom` (V03 §4.6); and base §7.1's *Empty edits* (\"its dry run reports it empty with the reason (V09 §4.9)\") has no row (determinism's cross-part note). T-V9-15's code list names none of them, so those keys can reach a user raw.",
+  "required_change": "Add the four families to V09 §4.9's families table with their text homes (V10 §3.9b; V07 §4.5; V03 §4.6); add one empty-edit row (e.g. `info.edit.empty` \"Nothing to apply: {reason}.\", no button) for §7.1's empty forms; extend T-V9-15's list to V07's and V03's keys and the empty-edit reason.",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-EMPTY-1",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V09 §4.11 (l.2216) says that when a creation proposal is accepted over the untouched empty-state town \"the old one stays in Recent towns\"; V10 §4.2 (3), V10 §3.23 and J-V10.116 rule (EI-V10-EDGE-1) that it is replaced as V09 §3.2 (3) replaces it on Surprise me — nothing written to the local store, the blueprint kept for the session's undo. V09 contradicts its own §3.2 (3) and V10 (V10 §13's open hand-off).",
+  "required_change": "V09 §4.11: \"Accept follows V10 §4.2 (3): over the untouched empty-state town the view moves to the new town and the old one is replaced as V09 §3.2 (3) replaces it on Surprise me — nothing is written to the local store, the handle keeping its blueprint for the session's undo (J-V10.116); otherwise …\"; add the case to T-V9-40 (or cite T-V10-49).",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-QUOTA-1",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "V08 §3.7's quota ladder ends: a commit answered `doc.rejected { reason: 'quota' }` keeps its events \"in its draft mirror (V09 §3.8 (6)) and sends [them] again with its next commit\" — \"nothing is lost\". V09 §3.8 (6) states only that the draft mirror stays local, and `DraftMirror` holds a draft, not committed events; no V09 text keeps or re-sends a rejected group, so the defined outcome rests on a mechanism V09 does not state.",
+  "required_change": "V09 §3.8 (6) states the rule: a `quota` rejection keeps the rejected group's events in the draft mirror (`DraftMirror.rejected?: EditEvent[]`, V09 §2.11), shown pending under `host.status.quota`, re-sent ahead of the next commit and dropped only when one lands or the user discards it; its V09 §2.12 lifecycle row; a T-V9-28 clause.",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V10-LOST-1",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "One key, two sentences: `info.under.lost` is \"Once known; no open way leads here since year {year}.\" in V09 §4.9 (whose families table makes `info.under.lost`'s words V09's), but V10 §3.9a words it \"once known; its last way in closed {n} years ago when {event}\" (and adds \"found again\" on reopening, a line with no key).",
+  "required_change": "V10 §3.9a's lost-void row cites V09 §4.9's `info.under.lost` row instead of writing its own sentence; the reopening line becomes a key of V09's catalogue or is dropped. If the `{event}` slot is wanted, V09's row takes it (one text).",
+  "owner": "V10",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "MODEL-HH-1",
+  "severity": "major",
+  "kind": "WIRING",
+  "claim": "§2.7's `HistoryHint` declares only `ageYears` and `scars` (l.2264), yet §4.11 reads `HistoryHint.peak` (l.7649), V08 §1.1 (9) carries the peak's evidence into it, and V09 §4.21.2 and V10 §4.1 write `adjust('blueprint.history', { ageYears, scars, peak: { rung, population, symbolic, evidence } })` — a field written and read but never declared.",
+  "required_change": "§2.7's `HistoryHint` gains `peak?: { rung: Rung; population: number; symbolic: boolean; evidence: string[] }` (the shape of `HistoryRecord.peak`), its comment naming the writers (V08's port, the blueprint's history option) and the reader (§4.11).",
+  "owner": "model",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "MODEL-WL-1",
+  "severity": "major",
+  "kind": "CONFLICT",
+  "claim": "V09-XCONF-1 ruled that item 277's `workingLayer` text reads \"ground, a sky island's `PlatKey`, or the underground (its band the view key `depthBand`)\", matching V09 §2.4's type and V04's `depthBand`; §2.9 (l.3048) still reads \"or an underground depth band\", and V09 §10 states that \"the base's §2.9 carries that reading\".",
+  "required_change": "§2.9's view-state list: \"`workingLayer` (per viewer: the layer the tools act on — ground, a sky island's `PlatKey`, or the underground, its band the view key `depthBand`, never copied here; V09 §2.4)\".",
+  "owner": "model",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "SCOPE-PLAN-1",
+  "severity": "major",
+  "kind": "COHESION",
+  "claim": "§16 and INDEX carry V10's prices from before items 111 and 113: §16's M3a row prices V10's C1 and transcript at 3.25–4.75 pw and its M3c row at 10.25–13.75 pw; INDEX §2's V10 row reads 13.5–18.5 (14–19). V10 §8 now reads C1 3.25–4.75 + transcript 0.25 (3.5–5 inside M3a), M3c 10.75–14.5, together 14.25–19.5 (14.75–20 with `plat clerk`), and V10 §13 hands the change to §16.",
+  "required_change": "§16's M3a row: V10's part 3.5–5 pw; §16's M3c row: 10.75–14.5 pw; the program's totals recomputed once (item 568); INDEX §2's V10 row: 14.25–19.5 (14.75–20 with the command-line clerk).",
+  "owner": "scope",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-REF-1",
+  "severity": "minor",
+  "kind": "BROKEN-REFERENCE",
+  "claim": "Bare list continuations survive where the convention reads a bare § as the base: l.143 \"V09 §4.11, §3.12, §5.10, §5.12\"; l.4075 \"V12 §2.14 and §3.14\"; l.4102 \"V09 §2.3, §2.9\"; l.4110 \"V02 §3.14.5, §4.5, §4.6\"; l.4113 \"V10 §2.6, §3.5, §3.16, §4.1, §4.3\". And §6.1's tiers row cites \"V02 §6\" where the archive and V02 name V02 §6.5.",
+  "required_change": "Prefix each continuation with its volume (V09 §3.12, V09 §5.10, V09 §5.12; V12 §3.14; V09 §2.9; V02 §4.5, V02 §4.6; V10 §3.5, V10 §3.16, V10 §4.1, V10 §4.3) and restore \"V02 §6.5\" in V09 §6.1.",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-BIND-1",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V09 §4.3's T9 row lists the pairs of §7.1's T9 row but omits four `convert` kinds §7.1 binds to T9 — `burn`, `downgradeWay`, `upgradeWay`, `repairRaised` — though its rule (and T-V9-12) is that every pair of §7.1's table has a mode here.",
+  "required_change": "Add the four kinds to V09 §4.3's T9 row with their screen (\"Change over time\" on a building, a way, a raised way).",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-LAYER-1",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "V09 §8.3 risk 4 reads \"§13.4's fallback: L3–L4 pointer-only on touch\"; under ID-LAYER a bare L3–L4 means refinement levels (plots, footprints), not the toolkit's layers.",
+  "required_change": "\"§13.4's fallback: the L3 FABRIC and L4 FINISH layers pointer-only on touch.\"",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-MOAT-1",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V09 §3.16 (g)'s \"a moat × the tools\" row says \"T2's Lake over it refuses with `refuse.water`\", but `refuse.water` is the lock refusal (new water reaching a kept record, §7.3 (b) 3); an unlocked moat is no lock, so the row states a refusal item 101 R2 does not allow.",
+  "required_change": "State the outcome by §7.1's outcome table: the lake joins the water by S1's water rules (its level bending by `bend.lake.level`); `refuse.water` only where the new water would reach a locked record.",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-HIST-1",
+  "severity": "minor",
+  "kind": "TERM",
+  "claim": "V09 §4.21.2 names the default age \"V11's `history.defaultAgeYears`\"; V11 §1b and §3.25 name the cell `history.settings`' `defaultAgeYears`, as V10 §4.1 writes it.",
+  "required_change": "\"V11's `history.settings` `defaultAgeYears` for the present rung\".",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V09-EPOCH-1",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "One fact, two sentences on one card: for a thing built in a replay epoch V09 §2.7's `decidedBy` line reads \"Built when the town was {a tierWord}, in year {year}\" (V09 §4.21.3 (2)), while the card's `history` section (V10 §3.9b's `epoch` row, which V09's why card renders) reads \"built {n} years ago, when {town} was {a tierWord}\".",
+  "required_change": "Make the `decidedBy` line for a replay epoch the `history` section's `epoch` row (one key), or have V10 §3.9b's `epoch` row carry V09's words; one sentence per fact.",
+  "owner": "V09",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V10-CAL-1",
+  "severity": "minor",
+  "kind": "WIRING",
+  "claim": "V10 §2.10's `content.encoders` note says the terrace radius and the islet's size \"calibrate-later against V09's brush defaults\", but V09 §4.20.1 (4) takes its terrace radius from this very cell (V09-RESTATE-6, RESTATEMENTS-016): the calibration source is circular, and V12 §3.11 asks a calibrate-later constant to name its confirming test.",
+  "required_change": "Name the measurement that re-sets them (e.g. \"calibrate-later by T-V9-51's terrace gesture and V10 §7.3's group A and D cases\"), not V09's default.",
+  "owner": "V10",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V10-REST-1",
+  "severity": "minor",
+  "kind": "NEW-PROBLEM",
+  "claim": "V10 §6.4's heading restates §2.10's `ops.prices` figures (\"`claude-opus-5` input US$5, output US$25, cache read US$0.50, cache write US$6.25\"), a second home for one row inside the volume (principle (1)).",
+  "required_change": "\"### 6.4 Cost (PLAUSIBLE; at the shipped `clerk.ops.prices` row, V10 §2.10)\".",
+  "owner": "V10",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "V03-CRYPT-1",
+  "severity": "minor",
+  "kind": "CONFLICT",
+  "claim": "V03 §4.6 writes its own words for the `info.crypt.*` keys (`.none.row` \"its row gave it none\", `.none.wet` \"ledger slabs in the chancel floor\", `.rank.principal`, `.join` …) while V09 §4.9 assigns their texts to V10 §3.9a, whose words differ (\"no crypt: its row gave it none\", \"no crypt: ledger slabs in the chancel floor\"); V10 also words the wet-ground `always` case (\"a raised-choir crypt: the ground is too wet to dig\"), for which V03's key list names no key.",
+  "required_change": "V03 §4.6 names the keys and cites V10 §3.9a for their texts (one home), and adds the key for the wet-ground raised-choir row (e.g. `info.crypt.form.raisedWet`).",
+  "owner": "V03",
+  "reported_by": "coherence/verify-vol-V09-V10-r0"
+ },
+ {
+  "id": "AT-01",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "The epoch-spread mutation's timing and decision rule disagree between the base and V06. Base §4.11 *The epoch-spread mutation (item 18 (c))* still reads \"the engine issues §4.7 S11's `MutationRecord` as a sequence of `mutate` events over the ladder's rung durations (item 31) … Each of those events decides and records its step at once\", and `UseConversionOp`'s `mutate.spread` comment reads \"'epochs' issues its steps over the ladder's durations\". V06 §3.10.1 (the engine, the only issuer of a spread) decides the whole record once at the creating op, splits its parts into occupy · adapt · extend · rebuild steps due at `mutation.stepYears` (V06 §2.2: occupy 0 · adapt [1, 3] · extend [3, 10] · rebuild [8, 25]) and states \"these rows replace the base's 'over the ladder's rung durations'\"; it also opens the use at the first compatible step (`opensAt`), lays an always-crypt target's crypt at occupy, and applies the inverse of the done steps when a cancelled plan's building takes its former designation (item 18 (e)). f item 266 (BCR-V6-21) is the ruled base change that carries exactly this text; it is not in the base. A builder following the base schedules each step on the `WealthLadderTable` years and re-decides each step; V06 schedules on its own rows from one record — two generators. (The canon routed f item 266 to model, by the f file's §2.8 heading; its text edits §4.11, the pipeline's.)",
+  "required_change": "At pipeline, §4.11 *The epoch-spread mutation*: Apply f item 266 as written: \"§4.7 S11's `MutationRecord`, decided once at the creating op, as a sequence of `mutate` events each applying its own parts of that record, due at the evolution table's `mutation.stepYears` rows (V06 §2.2) — first occupy, when the present design is compatible (every kept part, nothing added; an always-crypt target's crypt basement exempt and laid then); otherwise the use opens at the first step whose result is compatible, a relocating use staying at its former site until then; then adapt; then extend (the adds); and rebuild only the parts that cannot be adapted. A plan cancelled because its use left keeps its done steps; when the building next takes its former designation, the mutator's record is the inverse of the done steps (item 18 (e))\", and \"Each of those events applies and records its step at once\"; the record and its rules pointing to V06 §2.5, §3.10. In `UseConversionOp`, `spread`'s comment reads \"'epochs' issues its steps at `mutation.stepYears` (V06 §2.2, §3.10)\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Base §4.11 *The runner* says V06's `'history'` strategy \"adds the steps `prelude`, `hazards`, `fortification`, `terrainWater`, `raisedWays`, `close` and the participant steps at V06 §3.2's places\". Against V06 §2.1's twenty-step `EpochStep` and V06 §3.1 (2) / §3.2 this list is wrong both ways: `prelude` is a `'grow-by-stage'` phase already (the base names it among the nine, and V06 §3.1 (2) reuses it as \"`prelude`'s base part\"), while the engine's own steps `uses` ((b)), `departures` and `decline` ((c)) and `ladder` ((d)) are missing — the base itself states that the use step, the strike pool and the ladder's schedule are the staged engine's, not `'grow-by-stage'`'s. A reader of the base cannot tell which steps run under which strategy.",
+  "required_change": "At pipeline, §4.11 *The runner*: Restore f item 317's subject and make the list exact: \"The epoch's order (a)–(j) gains the steps `prelude`, `hazards`, `fortification`, `terrainWater`, `raisedWays`, `close` and the participant steps `afterField`, `decline` and `afterGrowth` at V06 §3.2's places. V06's `'history'` strategy registers a phase for each of V06 §2.1's twenty steps that runs anything: it reuses the base phases of `demand`, `dossier`, `lapse` and `character` and the base part of `prelude`, wraps the base parts of `prelude`, `field`, `siting`, `growth` and `works` with its own acts, and adds `hazards`, `uses` ((b)), `departures` and `decline` ((c)), `fortification`, `terrainWater`, `raisedWays`, `ladder` ((d)) and `close` (V06 §3.1 (2))\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-03",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "Who leaves at a fall. Base §4.11 *Survivors* — *The epoch's order* (c) still reads \"the strike pool (below) draws per building, deciding whose households leave first, and strikes fabric by its exposure (item 28 (f) with item 8; J-A28.45)\". V06 §3.5.1 (the departure matching: the roster's suffix matched by band to exposure-weighted dwellings by `k = u^(1 ÷ w)` keys on `EVO_DEPARTURES`, with the swap rule and the protected-building refill) states \"Which dwellings empty is decided by this matching; the strike pool strikes fabric only (§4.11 step (c), item 479)\". f item 479 (BCR-V6-23) is the ruled base change; the base text is the pre-change one. Two different draws decide which buildings empty. (The canon routed f item 479 to rendering, by the f file's §12.6 heading; its text edits §4.11 (c), the pipeline's.)",
+  "required_change": "At pipeline, §4.11 (c): Apply f item 479: \"which dwellings empty is decided by the evolution engine's departure matching (V06 §3.5.1: the roster's suffix matched to exposure-weighted dwellings by band), and the strike pool (below) strikes fabric only, by its exposure (item 28 (f) with item 8; J-A28.45)\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-04",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "The use step's closing durations. Base §4.11 *Uses across epochs* (2) reads \"closes only when its catchment's demand … has been below `closeShare` for `closeAfterEpochs`, or a hard supply edge has had no provider in reach for `starveAfterEpochs`\". Those two fields no longer exist: §10.2's `UseRuleRow` (f item 429 (b), applied) carries `closeAfterYears` and `starveAfterYears` with `moveChance` per year, and V06 §2.9 / §3.9.4 close a use when its `Use.strain` of kind `demand` has lasted `closeAfterYears` (or `supply`, `starveAfterYears`), read on the weekly clock (J-V6.26). f item 429 (c) is the ruled base text; the base keeps the epoch counts, so the base's use step counts epochs (irregular on the weekly clock) where V06 counts years.",
+  "required_change": "At pipeline, §4.11 *Uses across epochs* (2): Apply f item 429 (c): \"closes only when its `strain` (§2.7; V06 §2.9) of kind `demand` has lasted `closeAfterYears`, or of kind `supply` `starveAfterYears`, read on the weekly clock\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-05",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "The regrowth-first rule and the history engine's stage exceptions. Base §4.11 *Regrowth-first* ends \"an epoch whose residual is ≤ 0 grows no stage and adds no face\" with no exception, and lists only tiers (0)–(6). V06 §3.6 grows a stage for the overflow backlog (`R + B ≥ q`) and a decrowding stage (`C ≥ max(q, growth.crowdShareMax × H)`) — \"the two exceptions item 336 states\" — and V06 §3.8.2 places tiers (5′) (upgrade of downgraded ways, reopening of hollow ways) and (5″) (crowding) between the base's (5) and (6), with the reopen-on-placement rule at every placement, again citing the base (\"Tiers (5′) and (5″) are this strategy's own tiers between the base's (5) and (6) (item 336)\"). f item 336 (BCR-V6-18) is the ruled base text and is absent: the base's absolute rule forbids what V06 builds. (The canon routed f item 336 to determinism, by the f file's §5.3 heading; its text edits §4.11, the pipeline's.)",
+  "required_change": "At pipeline, §4.11 *Regrowth-first*: Apply f item 336: after \"an epoch whose residual is ≤ 0 grows no stage and adds no face\" add \"— the owner-staged history engine's two exceptions excepted (V06 §3.6): a stage for the overflow backlog, whose households are those its overflow ladder housed in earlier epochs, and a decrowding stage, whose households are the crowded ones it moves. That engine places its own tiers between (5) and (6): (5′) the upgrade of downgraded ways and the reopening of retired ones (V07's hollow ways, `reopenWay`) and (5″) crowding within a factor of the band row (V06 §3.8); and every placement that engine makes — at every tier, in its use step's openings and moves, or in a dossier-backed use's relocation — on a plot whose access edge is a retired way reopens that way, with any retired way on its path to the ways in use, in the same batch first (V06 §3.8.2)\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-06",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Which buildings cast in an epoch's daylight term. Base §4.5 *The daylight term* (\"at an epoch the previous epoch's buildings do (V06 §3.4)\") and §4.11 (a) (\"the previous epoch's buildings casting in the daylight term\") restate V06's rule as \"the previous epoch's buildings\". V06 §3.4 (1) — the home of the building shade mask — writes the mask from \"the buildings as they stand when the field phase runs — after this epoch's hazards\" (a quarter a fire opened is sunnier at once, J-V6.29), before anything the epoch's later phases place. After a fire or a topple in the epoch's `hazards` step the two statements give different casters (a burned building casts at its eave, a toppled one at its ruin share).",
+  "required_change": "At pipeline, §4.5 and §4.11 (a): Replace the restatement by the rule's reference: \"at an epoch the buildings standing when its field phase runs — after that epoch's hazards, before anything it places — cast through V06's building shade mask (V06 §3.4)\"; §4.11 (a) likewise (\"the buildings standing at the field phase casting through the building shade mask (item 102 (e); V06 §3.4)\").",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-07",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The decline table's slower dwell bands are undefined numbers and disagree with the layers' own lag rules. Base §4.11's decline table (f item 291's row) reads \"walls, raised ways and retaining walls one band slower, tunnels two\", and II.6 \"its dwell bands are two steps slower than a building's\"; \"one band slower\" and \"two\" are given no years anywhere. Their readers disagree on what they time: V06 §3.19.2 (3) strikes a raised span \"whose dwell band has run since the way's neglect\" (which band, unstated); V04 §3.10's `UndergroundFade.candidates` takes elements \"whose dwell band has run (§4.11's persistence table: the `underground` row and its bands)\" (no band in `UndergroundFadeRule`); while an enceinte's stretches are breached at `walls.breachChancePerYear` from the neglect with no dwell band (V06 §3.7.3) and a retaining stretch is a candidate after V11 §3.18's `retaining.neglectAfterYears` (30) with no dwell band (V06 §3.19.4 (3), V11 §3.18). Two builders would give different lags to the same layer.",
+  "required_change": "At pipeline, §4.11's decline table, dwell-band row; II.6's tunnel sentence citing it: State the row exactly, the specific layer rules qualifying the general: \"vacant → derelict [10, 30]; derelict → ruin [20, 60]; ruin → cleared on salvage demand only. A raised way's span: a standing span is a strike candidate once [20, 60] years — drawn once per span, keyed with the epoch of the way's neglect — have run since that neglect (V06 §3.19.2 (3)). A tunnel, gallery or chamber: each step once [40, 120] years — drawn once per element and step, keyed with the epoch it entered its condition — have run (V04 §3.10). An enceinte's stretches step by V06 §3.7's pathway rows (`walls.neglectAfterYears`, `walls.breachChancePerYear`, `walls.dismantleChancePerYear`), and a retaining stretch after V11 §3.18's `retaining.neglectAfterYears`, with no further band.\" (The two numeric bands are the base's own band progression shifted one and two places — [10, 30], [20, 60], [40, 120] — our own, calibratable, §13.9; if the editor reads \"one band slower\" otherwise, the row must still give the years.) V04 §3.10 and V06 §3.19.2 (3) then cite the row by these words.",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-08",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "V06 states two different memberships of the strike pool and a wall lag the wall rules do not have. V06 §1.1 (4) lists \"the per-layer candidates of the base's strike pool (building, plot boundary, street, wall)\", while V06 §3.5.2 says \"Enceinte walls are not in the pool (their pathway is V06 §3.7's)\" and V06 §3.7.2 (3) repeats \"V06 §3.5.2's exclusion of enceinte walls from the pool stands\"; V06 §3.19.2 (3) calls the raised kind \"one dwell band slower than buildings, as walls\", but no wall rule of V06 §3.7 reads a dwell band (AT-07). The base's persistence row (`wall` 0.05) is read only as V06 §3.7.3's stretch weight factor.",
+  "required_change": "At V06: §1.1 (4) reads \"the per-layer candidates of the base's strike pool (building, plot boundary, street, and item 110's raised, retaining and deck kinds), an enceinte's stretches stepping by the fortification phase's pathway (V06 §3.7)\"; §3.19.2 (3) drops \"as walls\" and cites the dwell-band row as AT-07 words it.",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-09",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The catacomb primary's tie rule. V04 §3.5.1 (5) — the home of the primary reading — takes \"the complex whose source serves the most burials — the greatest need `A` of (2) …, ties by rank … at every derivation; at an epoch, V06's derived primary, the same reading held by its hysteresis\". V06 §3.18.2 (3a) breaks the tie \"by source address\". With two complexes of equal served burials the epoch and a regeneration pick different primaries, so the rank cap holds a different complex — the opposite of \"the same reading\".",
+  "required_change": "At V06 §3.18.2 (3a): \"the primary is V04 §3.5.1 (5)'s reading — the complex whose source serves the most burials, ties by rank — held by `catacomb.primaryHysteresis` (10 %): another complex becomes the primary only when its served burials exceed the current primary's by that share\".",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-10",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "A burial source's age after epochs. Base II.7.6 (the age gate's home, `minAgeYears` 100) gives \"a source's age is its own — at generation `(K − k + 1) × yearsPerStage` …, after the replay or epochs the log's years since its use opened\", which for a source standing at generation drops its generation age once an epoch runs. V06 §3.18.2 (2) (the epoch's reader) adds them: \"`(week − burialsBegan) ÷ 52 +` its generation age … the generation age II.7.6's stage age at creation or the port's `HistoryHint.ageYears`\", and V04 §3.5.1 (3) reads \"`minAgeYears` by the face's growth stage, `HistoryHint` or the log\". A churchyard 150 years old at generation is 10 years old after a decade of epochs by the base, 160 by V06 — the age gate opens or not by which text is built.",
+  "required_change": "At pipeline, II.7.6's age sentence: \"… at generation `(K − k + 1) × yearsPerStage` for a source built in growth stage k of K …; after the replay or epochs, that generation age (zero for a source opened after creation) plus the log's years since its use opened (V06 §3.18.2 (2))\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-11",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The catacomb source draw's key. V06 §3.18.2 (1) says \"Each candidate face takes V04's one uniform `u` keyed by (`catacomb`, the face's lineage) on `sewer`\", the candidates including the quarry ossuary; V04 §3.12 keys a quarry ossuary's chance by its working (\"the quarry ossuary's chance (`sewer`, the working)\"; the fixed-key exceptions: \"a quarry ossuary's by its working\"). The restatement gives the ossuary a key no working has.",
+  "required_change": "At V06 §3.18.2 (1), *The source draw*: Replace the restated key by the reference: \"Each candidate takes V04's fixed-key source draw (V04 §3.5.1 (3), §3.12: a burial face's keyed by the face's lineage, a quarry ossuary's by its working) — fixed by its key, never re-drawn\".",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-12",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "The hollow ways' ops are declared nowhere. Base §2.8 (*the decline and regrowth hooks*) and §7.1's village binding row say the ways' ladder runs \"by `DeclineOp`'s `retireWay`, `effaceWay` and `reopenWay` (§4.11)\"; V06 issues them (`ProductEpochRows.street.op`/`again`/`reopen`, V06 §2.1; the village street candidate, V06 §3.5.2; tier (5′) and the placement rule, V06 §3.8.2; the replay's destroy, V06 §3.20.5 (1)) and V07 issues and hand-binds them (V07 §3.12, §4.1, §4.4). §4.11's `DeclineOp` union has no such member: f item 268 (BCR-V7-32) part (b) — the ruled member — is missing, so the `convert` operator has no op for any of the three. (The canon routed f item 268 to model, by the f file's §2.8 heading; model applied part (a), and part (b) edits §4.11, the pipeline's.)",
+  "required_change": "At pipeline, §4.11 `DeclineOp`: Add, after the deck member, f item 268 (b)'s member: \"`| { op: 'retireWay' | 'effaceWay' | 'reopenWay'; way: Id } // a way of a land class on ground part 0 at a village rung (V07 §3.12): retire — in use → abandoned (a hollow way); efface — abandoned → decayed; reopen — a hollow way back to built, regrowth first; issued through the product's epoch rows (V06's ProductDeclEpoch.rows) or by hand through convert; never on a deck, a ford or a raised part`\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The replay's destruction uses the hollow-way op outside its domain and outside its build slot. V06 §3.20.5 (1) has \"every way takes `retireWay` (V07's op, item 268 …)\" at a destroy effect. The base restricts the op to \"ways on ground part 0 of the land classes … at a village rung\" and says \"the crossing and water classes (`bridge`, `pier`, `quay`, a mole) and every raised part never become hollow ways … a `ford` retires with its carried way\" (§2.8; f item 268's member: \"never on a deck, a ford or a raised part\"). And item 268 is STAGED with the village product (V-M), while V06 §8's E9 (the replay) names no dependency on it; with no village product registered V06 §3.3.2's clamp ([1 500, 120 000]) forbids the destroy's \"target 0 from `w` until the refounding\".",
+  "required_change": "At V06 §3.20.5 (1) and §8's E9 row: (1) reads: \"every way of a land class on ground part 0 takes `retireWay` (item 268: `abandoned`, its line kept as a hollow way and field boundary), a deck host its deck member's `ruin` (§4.11, its deck plots' buildings with it), a ford with its carried way, every raised way `neglect`; with no village product registered the target cannot reach 0 (V06 §3.3.2's clamp), so a `destroy` effect is reported (`replay.destroyUnregistered`) and has no effect but its soft hint, as an unmapped event type has (V06 §3.20.3)\". E9's contents add \"the destruction's hollow ways after V-M's item 268 (as the burial clause after M6-U)\".",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-14",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Whether the base's own epoch path re-resolves `Features.sewers`. II.7.1 says the feature is \"re-resolved at each epoch against the epoch's rung and population … (V06's prelude, V06 §3.2; the first epoch it turns on, the network is laid whole, §4.11)\", and §4.11 *Regrowth-first* (6), a `'grow-by-stage'` rule, lays the network whole \"the first epoch the feature turns on … (V06's `under.extend`)\". V04 §8's V4-U5 builds \"U-NET laid whole at the first sewers epoch … run by hand and on M4's grow path\", and V04 §3.10 has `SewerStrategy.extend` \"on the grow-by-stage path, after the new stage's S11\". But V06 §3.1 (2) defines `'grow-by-stage'`'s `prelude` as \"the rung and the dials before S2\" only — the re-resolution is V06's — so on M4's path (no V06) a TOWN grown past CITY's floor never turns sewers on and V04's first-sewers-epoch contract has no caller. Two units place one rule in different strategies.",
+  "required_change": "At pipeline, II.7.1 and §4.11: The re-resolution is the base's prelude act, on both strategies (f item 550 is a base item): II.7.1 reads \"re-resolved at each epoch's `prelude` (§4.11; both strategies, V06 §3.2 row 1) …\"; §4.11 *The epoch's order*'s \"Before S2\" sentence gains \"the feature set re-resolved at the epoch's rung (II.7.1)\"; and *Regrowth-first* (6)'s parenthesis reads \"(on `'grow-by-stage'`, V04's M4 hook after the new stage's S11; under `'history'`, V06's `under.extend`; V04 §3.10)\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-15",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The V06 half of AT-14: V06 §3.1 (2) lists `'grow-by-stage'`'s `prelude` as \"(the rung and the dials before S2)\", and V06 §3.2's *The feature set at an epoch* presents the re-resolution as the engine's, so under `'grow-by-stage'` (T-V6-1's arbiter, \"a step M4 runs that has no phase fails it\") the feature is never re-resolved, against II.7.1 and V04 §8's V4-U5.",
+  "required_change": "At V06 §3.1 (2) and §3.2: §3.1 (2): \"`prelude` (the rung, the dials and the feature set before S2)\"; §3.2 *The feature set at an epoch* opens \"The base's prelude act (II.7.1; item 550), run under both strategies: …\", the first-epoch whole-network clause naming V04's M4 hook on `'grow-by-stage'` beside `under.extend`.",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-16",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The stage component of `hood.fabric`'s draws. V06 §2.1 (`EpochParticipant.stage`: \"its draws' stream-key stage and its reads' tag\") and V06 §3.16 (\"participants register the stage their volume names — … `S9b` for `hood.fabric` … and their draws use that id\") put every draw of the participant on stage `S9b`. V01 §3.3.6 registers `stage: S9b` but draws \"on `ctx.stream(S7c | S9b, entity)`\" — S7c's rule for a new district on `S7c`, S9b's rule for a re-cut block on `S9b`. A new district's fabric draw takes a different stream key by each text.",
+  "required_change": "At V06 §2.1 and §3.16: `EpochParticipant.stage`'s comment reads \"the stage its volume names (V06 §3.16) — its reads' tag and its draws' default stage; a participant that runs two stages' rules draws each on that rule's stage through `ctx.stream(stage, entity)`\"; §3.16's list reads \"`S9b` for `hood.fabric` (V01 §3.3.6: its S7c rule draws on `S7c`, its S9b rule on `S9b`)\".",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-17",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "`Way.surface`'s lifecycle row omits its epoch writer. V01 §2.7 — the field's home row, which V06 §2.12 cites (\"V01's field (V01 §2.7; item 207), this volume one of its epoch writers\") — gives `create` \"S10a's end (V01 §3.7.3)\" only, while V01 §3.7.3 itself and V06 §3.4 (9) have the epoch's `field` phase write it (\"a `setAttr` (cause `rule:field`) written where the value changes\"), and V06 §2.10/§2.12 the landfall clearance's `setAttr` pair (V06 §3.5.2). The home row and its readers disagree on who writes the field.",
+  "required_change": "At V01 §2.7, the `Way.surface` row: `create` reads \"S10a's end (V01 §3.7.3); at an epoch the `field` phase's re-lay (a `setAttr` op of the `epoch` event, cause `rule:field`; V06 §3.4 (9)) and the landfall clearance's `setAttr` pair (cause `rule:landfall`; V06 §3.5.2)\"; `undo` reads \"the writing event's undo record (an epoch's for the engine's writes)\".",
+  "owner": "V01",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-18",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "The `hood.fabric` participant's scope is stated twice in V01 with different scopes. V01 §3.3.6 (its home) gives (1) districts made outside S7b → S7c, (2) every block of `EpochScope.recut` (\"re-cut or redeveloped\" by rung 3) → S9b, (3) the districts `scope.raised` crosses, (4) nothing else; V01 §3.5.11 restates it as S9b \"on the blocks an epoch creates outside a growth run's S10a hook and on due blocks rung 3 redevelops\" — a block set (blocks outside S10a's hook) §3.3.6 does not list, and \"redevelops\" without \"re-cut\". V06 §3.2's participant table follows §3.3.6.",
+  "required_change": "At V01 §3.5.11: Replace the restatement by the reference: \"S9b's epoch half is the `hood.fabric` participant's (V01 §3.3.6 (1)–(4)): its rule on the blocks of `EpochScope.recut`; every other block keeps its content, and a standing square, green or manor block is a survivor\".",
+  "owner": "V01",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-19",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The epoch casters' moment, restated in V02. V02 §3.14.1 (a) says \"at an epoch (§4.11) the previous epoch's buildings enter the daylight-share raster through them\"; V06 §3.4 (1), the mask's home, rasterises \"the buildings as they stand when the field phase runs — after this epoch's hazards\", before anything the epoch's later phases place (the pair of AT-06 in the base). After an epoch's fire or topple the two give different casters.",
+  "required_change": "At V02 §3.14.1 (a): \"These are item 102's epoch casters: at an epoch the buildings standing when its field phase runs — after that epoch's hazards, before anything it places — enter V06's building shade mask through them (V06 §3.4)\".",
+  "owner": "V02",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-20",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The dig-from-above draw's key at an epoch. V04 §3.5.7 (d) — the draw's home — keys it by \"(the building's lineage, `dig`, the void kind; the lineage carries the epoch that built it and the wing key of a wing V02's mutator adds, V02 §3.9 W6)\", and V02 §3.9 W6 has an added wing draw \"once for an access down, keyed (building lineage, `dig`, the void system's kind, the wing's key)\". V06 §3.18.1 (2a) restates the key as \"one uniform per (building lineage, `dig`, void kind)\" and says only \"a rebuild on a trace … and every new stage's buildings bring new draws\", so a `MutationPlan` step or a rung-3 op that adds a wing over a void (`scope.basementGrown`) re-compares the building's old draw instead of drawing for the wing.",
+  "required_change": "At V06 §3.18.1 (2a): Replace the restated key by the reference: \"its fixed-key draw (V04 §3.5.7 (d): key parts the building's lineage, `dig` and the void kind, with the wing key of a wing the mutator adds, V02 §3.9 W6) … while a rebuild on a trace (a successor lineage, §6.3), a wing an epoch's mutation adds and every new stage's buildings bring new draws\".",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-21",
+  "severity": "major",
+  "kind": "DUPLICATE-HOME",
+  "claim": "Which crypts the rank counts. V03 §3.7.4 (3) — the rank's home — runs it \"over every building with a crypt\", the principal being \"the `cathedral` building's … with no cathedral, the `always` building's with the largest ring\". V06 §3.18.3 (2) adds a condition the home lacks: \"Only crypts of buildings whose **live** use is in the church family are ranked; a vacant, ruined or converted building's crypt stays in the model, unranked.\" After an epoch ruins or vacates a former cathedral, V03's text keeps it principal and caps the live see's crypt; V06's makes the live seat principal. One rule, two homes, two results.",
+  "required_change": "At V03 §3.7.4 (3): The rank's opening reads \"Only crypts of buildings whose live use is in the church family are ranked — a vacant, ruined or converted building's crypt stays in the model, unranked (the epoch case, V06 §3.18.3 (2)). The settlement's principal crypt is the ranked `cathedral` building's …\"; V06 §3.18.3 (2) then cites V03 §3.7.4 (3) for the condition instead of stating it.",
+  "owner": "V03",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-22",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The village street candidate's rate. V07 §3.12 *Decline and desertion* says a disused way \"is a candidate of the pool's `street` kind at a village rung … struck at V06 §3.5.2's street rate **per year** over the epoch's span (`1 − (1 − p)^years`, §4.11 *The clock* (5))\". V06 §3.5.2 — the pool's home — makes the persistence rate a layer weight: \"`w = E(x) · rate(layer) · u` …, strikes are taken in descending `w` … with no second draw … until the district's `fabric` churn cap or the 2-plots-per-block bound stops it\"; V11 §3.18 repeats that the rows are \"a layer weight inside the churn cap …, never a per-year chance\" (J-V11.71). A per-year chance and a capped weighted draw give different numbers of hollow ways.",
+  "required_change": "At V07 §3.12, *Decline and desertion*: \"… is a candidate of the pool's `street` kind at a village rung (V06 §3.5.2, read through the village's epoch rows): weighted by the street layer's persistence rate inside the district's `fabric` churn cap (V06 §3.5.2), it takes **`retireWay`** …\" — the per-year clause removed (the cap is what scales with `years`, §4.11 *Churn*).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-23",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The rung at a hand-off. V07 §2.1's fold (and V06 §2.1 / §3.1 (3), which read it) gives the rung by §1.1's router at the target outside the band and the previous product's edge row inside it; V07 §3.12 states flatly \"*The hand-off up* … (the fold gives the base product; the rung is TOWN)\" and \"*The hand-off down* … (the fold gives the village product; the rung is VILLAGE)\". A village whose target jumps to a CITY population in one epoch, or a town that falls to a hamlet's population, is on CITY or HAMLET by the fold, not TOWN or VILLAGE — and V06 §3.19 (C) founds raised ways only at the fold's CITY rung, V04's maintenance mode and the village phases read the fold's rung.",
+  "required_change": "At V07 §3.12, both headings: \"(the fold gives the base product; the rung is the fold's — TOWN unless the target reaches a higher band, V07 §2.1)\" and \"(the fold gives the village product; the rung is the fold's — VILLAGE, HAMLET or THORP by the target, V07 §2.1; a target of 0 routes to THORP and desertion, §4.11)\".",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-24",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "Who writes a land-use retype at a village epoch. V07 §2.6's `LandUse` retype row gives `create` \"an epoch's village phases (V07 §3.12) or a hand `convert`\", while V07 §3.12 itself says the decline and hinterland phases are the engine's, reading the village's `epoch.rows` (V06 §3.5.3's fallow ladder with `hinterland.slack`, `order` and `cap`), and the village's own retypes are the fair field's (the `dossier` step's `village.records` or the siting override's step (m), V07 §3.12 (a)); V06 §2.8's `retypeLand` adds the withered oasis garden (V06 §3.12.1). The row names a producer that does not issue the op and omits two that do.",
+  "required_change": "At V07 §2.6, the `LandUse` retype row: `create` reads \"the engine's hinterland step with the village's `epoch.rows.hinterland` (V06 §3.5.3); the fair field's `commons` faces by `village.records` or the siting override's step (m) (V07 §3.12 (a)); a withered oasis garden (V06 §3.12.1); a hand `convert`\"; `regenerate` \"kept\" (as V07 §4.4's row).",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-25",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The evolution engine's build slot and price. §16's staged row reads \"**M6-E — the evolution engine** (V06 §8: E0–E8) … E4 after item 105's S10b changes land, E8 after V04's U5, E7 after E1–E6; item 113's history replay at generation (volume 6) | 25.25–35.75 pw\", §16's totals row \"the evolution engine (volume 6) | 25.25–35.75\", and INDEX.md's V06 row and its plan the same. V06 §8 has ten milestones E0–**E9** (E9: item 113's replay at generation, 2.75–4.25 pw) totalling **29–41.5** pw, and its dependencies add E3's raised-way pass after item 110's base half at M3a and E9's burial clause after M6-U's buried system (V06 §8, §11 Q1). g item 113's V06 part is new design at build depth, so its milestone belongs in the combined plan.",
+  "required_change": "At scope, §16's M6-E row and totals row; INDEX.md's V06 row, §3 dependency graph and §4 order: \"M6-E — the evolution engine (V06 §8: E0–E9) | M4 | M5, the village | V06 §8; E3's raised-way pass after item 110's base half (M3a), E4 after item 105's S10b changes land, E8 after V04's U5, E9's burial clause after M6-U's buried system, E7 after E1–E6 | 29–41.5 pw\", the totals recomputed once by item 568.",
+  "owner": "scope",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-26",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "An author value no record has. V06 writes several epoch ops \"(author `engine`, …)\" — the `field` phase's `Way.surface` re-lay (V06 §3.4 (9), W81, §2.12), `Use.strain` (V06 §3.9), the spring row's `setAttr(spring.flow)` (V06 §3.12.1 (3)), the raised way's `underuseSince` (V06 §3.19.2 (2)). §7.1's `EditBase.author` is `'user'|'host'|'epoch'| 'migration'` and §2.8's `LifecycleEvent` has no author (its `cause` carries `rule:…`); an op inside an epoch is a batch of the one `epoch` event (V06 §3.1 (4)). What the text relies on — that such a write is no user edit, so it never enters `flags.editedPaths` (\"attributes the user set\", §2.8) and the next epoch's \"edited `surface` kept\" test does not hold it — is stated through a value that does not exist.",
+  "required_change": "At V06, every \"author `engine`\": Read \"(an op of the `epoch` event — its `EditBase.author` `'epoch'` (§7.1), its lifecycle cause `rule:…`; never in `flags.editedPaths`)\" — once, in V06 §3.1 (4), with each site citing it.",
+  "owner": "V06",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-27",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "claim": "The same non-existent author value at a village epoch: V07 §3.12 *Pins over epochs* (\"the pin records VS8 writes (author `engine`, cause `rule:village.pins`)\") and V07 §2.6's village-epoch pins row (\"author `engine`\"), against §7.1's `EditBase.author` (`'user'|'host'|'epoch'|'migration'`).",
+  "required_change": "At V07 §3.12 and §2.6: \"(ops of the `epoch` event, `EditBase.author` `'epoch'` (§7.1), cause `rule:village.pins`)\", citing V06 §3.1 (4) as AT-26 words it.",
+  "owner": "V07",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-28",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "V06's conversion kinds are outside the one union. §4.11 declares `ConversionOp` \"here, once, as one union\" ending \"`| LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity;`\" and its prose lists no volume-6 kind, while §7.1's `convert` (\"`op: ConversionOp /* §4.11, V06's EvolveOp and V05's island ops among them */`\"), §7.4's convert row (\"V06's `EvolveOp`s — `absorbWall`, `downgradeWay`, `upgradeWay`, `burn`, `repairWall`, `retypeLand`, `repairRaised`, `repairRetaining`\") and §2.8's `LifecycleEvent.cause` (\"its ConversionOp or EvolveOp kind\") — and V06 §2.8 (\"in ConversionOp's union (§4.11 …)\"), V06 W10 and V07 W27 — all place `EvolveOp` in it. f item 209 (BCR-V6-5) (a) is the ruled base text (\"`… | ClearUndercity | EvolveOp;`\"); it is not applied, so the operator that every epoch op and every hand `convert` passes through has no member for the eight ops. (The canon routed f item 209 to model, by the f file's §2.4 heading; model applied part (b), `Way.formerClass`, and part (a) edits §4.11, the pipeline's.)",
+  "required_change": "At pipeline, §4.11: The union's last line reads \"`| LadderOp | DeclineOp | UseConversionOp | TerrainWaterOp | HiddenOp | RaiseGrade | ClearUndercity | EvolveOp;`\", the opening sentence's list gaining \"and the evolution engine's `EvolveOp` (item 209: `absorbWall`, `downgradeWay`, `upgradeWay`, `burn`, `repairWall`, `retypeLand`, `repairRaised`, `repairRetaining`; declared at V06 §2.8), each usable by hand through `convert` (§7.1) with an undo record (§7.4) and a lifecycle cause `convert:<op>`\".",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "AT-29",
+  "severity": "blocker",
+  "kind": "DISAGREE",
+  "claim": "The plan step on `mutate`. V06 §3.10.2 applies each `MutationPlan` step as \"a `mutate` op carrying `step: { plan, step }` (item 264) that applies exactly that step's parts of the stored record\"; §7.1's edit-target table says \"a `mutate` with its step (item 264)\" and V06 §4.2's hand form \"a `mutate` with the step\". §4.11's `UseConversionOp` member is still \"`{ op: 'mutate'; plot: Id; to: Designation; spread?: 'now' | 'epochs' … }`\" with no `step`: f item 264 (BCR-V6-7) (b) is not applied, so neither the engine nor a user's \"do it now\" can apply one step of a plan. (The canon routed f item 264 to model, by the f file's §2.8 heading; model applied parts (a) and (c), and part (b) edits §4.11, the pipeline's.)",
+  "required_change": "At pipeline, §4.11 `UseConversionOp`: \"`| { op: 'mutate'; plot: Id; to: Designation; spread?: 'now' | 'epochs'; step?: { plan: Id; step: 'adapt' | 'extend' | 'rebuild' } /* §4.7 S11's operator; 'epochs' issues its steps at mutation.stepYears (V06 §2.2); with step, the op applies exactly that step's parts of the plan's stored MutationRecord (V06 §3.10) */ };`\" (with AT-01's comment wording).",
+  "owner": "pipeline",
+  "reported_by": "coherence/verify-agree-time-r0"
+ },
+ {
+  "id": "VAP-01",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "The base restates every volume's test family as a closed range, and every range is stale against the volumes' current §7: §13.2 l. 15620 'T-V5-1 – T-V5-32' (V05 now ends at T-V5-34), l. 15718 'T-V3-1 – T-V3-34' (V03: T-V3-37), l. 15729 'T-V2-1 – T-V2-53' (V02: T-V2-55), l. 15884 'T-V4-1 – T-V4-75' (V04: T-V4-79), l. 16021 'T-V8-1 – T-V8-47' (V08: T-V8-51); the takeover table at the end of §13.2 (l. 16158–16169): V06 'T-V6-1 – T-V6-69' (T-V6-74), V05 'T-V5-1 – T-V5-32' (T-V5-34), V04 'T-V4-1 – T-V4-75' (T-V4-79), V03 'T-V3-1 – T-V3-34' (T-V3-37), V02 'T-V2-1 – T-V2-53' (T-V2-55), V01 'T-V1-1 – T-V1-54' (T-V1-58), V07 'T-V7-1 – T-V7-57' (T-V7-65), V08 'T-V8-1 – T-V8-47' (T-V8-51), V09 'T-V9-1 – T-V9-70' (T-V9-78), V12 'T-V12-1 – T-V12-41' (T-V12-48), V11 'T-V11-0 – T-V11-37' (T-V11-40); and §16's M5 exit (l. 17627) 'V01 §7's bars at M5 (T-V1-1 – T-V1-54)' while V01 §7 says every bar runs from M5 and its W11 verifies T-V1-1 – T-V1-58. The edge bars added in the rewrite (T-V1-55 – T-V1-58, T-V2-54 – T-V2-55, T-V3-36 – T-V3-37, T-V4-76 – T-V4-79, T-V5-33 – T-V5-34, T-V6-70 – T-V6-74, T-V7-58 – T-V7-65, T-V8-48 – T-V8-51, T-V9-71 – T-V9-78, T-V11-38 – T-V11-40, T-V12-42 – T-V12-48) are outside every family the base names. Open hand-offs: V01's, V02's, V03's, V05's, V06's and V12's cross-part notes and V12 §13's row to scope ('its volume-family row for calibration reads T-V12-1 – T-V12-48').",
+  "required_change": "At each of the 17 sites listed, cite the family without an upper bound ('V0n §7's T-V0n family', principle (1)) or write the current range: T-V1-1 – T-V1-58, T-V2-1 – T-V2-55, T-V3-1 – T-V3-37, T-V4-1 – T-V4-79, T-V5-1 – T-V5-34, T-V6-1 – T-V6-74, T-V7-1 – T-V7-65, T-V8-1 – T-V8-51, T-V9-1 – T-V9-78, T-V11-0 – T-V11-40, T-V12-1 – T-V12-48; §16's M5 exit reads 'V01 §7's bars at M5 (T-V1-1 – T-V1-58)' or 'V01 §7's bars at M5'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-02",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "§13.2's takeover table (the base bars each volume family re-runs, l. 16156–16169) omits base bars that the volumes state they take, and misplaces one: V05 §7's intro has T103-1 by T-V5-22, T104-1 by T-V5-23 and T104-2, T104-3 by T-V5-24 (the V05 row lists T10-1, T13-1, T15-1, T102-2 only); V02 §7 extends T18-1 – T18-4 (T-V2-15), T19-3 (T-V2-25) and T23-1 (T-V2-26) on composed buildings (the V02 row lists T29-4, T110-4, T110-5); V04's T-V4-21 runs T30-5's enumeration underground (not in the V04 row); V07 §7's *Base bars at village rungs* names item 109's presence and access bars (T-V7-38 – T-V7-40), item 110's (T-V7-46 – T-V7-55) and item 113's (T-V7-59), none in the V07 row; §13.2's own T102-2 names V06's T-V6-12 as its epoch form, its item-109 bars name T-V6-34, -36 – -40, and V12's bar map reads V06's T-V6-71 as T111-1's epoch form, none in the V06 row; V09 §7 runs T112-1 on every live provider and T112-2 as T-V9-78 (the V09 row lists T101-1 – T101-9 and §13.4's sessions); V10 §7 runs T101-1 (T-V10-1), T101-3 (T-V10-40) and T101-4 (T-V10-12) on the clerk's path and V10 §8 runs T101-6 (iii) at M3a in C1 (the V10 row names only 'T101-6's clerk path' and milestone M3c).",
+  "required_change": "Add to the table's rows: V05 — 'T103-1 (T-V5-22), T104-1 (T-V5-23), T104-2 and T104-3 (T-V5-24) on islands'; V02 — 'T18-1 – T18-4, T19-3 and T23-1 on composed buildings (T-V2-15, T-V2-25, T-V2-26)'; V04 — 'T30-5 (T-V4-21)'; V07 — 'item 109's presence and access bars (T-V7-38 – T-V7-40), T110-1 – T110-7 (T-V7-46 – T-V7-55), T113's village form (T-V7-59)'; V06 — 'T102-2's epoch form (T-V6-12), T109-2 – T109-5's epoch forms (T-V6-34, T-V6-36 – T-V6-40), T111-1 over epochs (T-V6-71)'; V09 — 'T112-1 on the live providers, T112-2 (T-V9-78)'; V10 — 'T101-1, T101-3, T101-4 on the clerk's path (T-V10-1, T-V10-40, T-V10-12)' and its engine cell 'the clerk (volume 10: C1 inside M3a, M3c)' with T101-6 (iii) at M3a.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-03",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "§13.2's item-104 group (l. 818 of §13) pairs the wrong island test: '(T104-2) a chain's nodes closer together than a random baseline across seeds (volume 11's T-V11-16; volume 5's T-V5-23 on islands)'. V05's T-V5-23 is 'custom institutions on islands (T104-1 on islands)' and T-V5-24 is 'T104-2's and T104-3's island form' (its clause (b) the chain closeness), as V05 §7's intro and V05's cross-part note to scope state; T104-1 names no island test.",
+  "required_change": "T104-1 gains '(volume 5's T-V5-23 on islands)'; T104-2's '(volume 5's T-V5-23 on islands)' reads '(volume 5's T-V5-24 on islands)'; T104-3's '(volume 5's T-V5-24 on islands)' stays.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-04",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "§13.2's T110-7 lists the item-110 no-op pins registered on V12's engine as 'volume 2's T-V2-50, volume 6's T-V6-65, volume 7's village pin and volume 11's T-V11-31'; V12 §3.7.8's pin table (the engine's home) lists for T110-7 V01's T-V1-4 (e), V02's T-V2-50, V03's T-V3-34, V04's T-V4-69, V05's T-V5-15, V06's T-V6-65, V07's T-V7-52, V11's T-V11-31 and V12's K1 and K2 — four registrants missing from the base's list (V01's cross-part note 2 asked for T-V1-4 (e)).",
+  "required_change": "T110-7's last sentence reads 'the volumes' pins register on the same engine, as V12 §3.7.8's pin table lists them (V01's T-V1-4 (e), V02's T-V2-50, V03's T-V3-34, V04's T-V4-69, V05's T-V5-15, V06's T-V6-65, V07's T-V7-52, V11's T-V11-31)', or cites V12 §3.7.8 alone.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-05",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V12",
+  "claim": "V12 §3.7.8's pin table is the one list of every owner item's no-op pin and its owners' pin tests, and its rule 5 makes T-V12-45 fail on 'a pin bar §13.2 or a volume's §7 names with no registration'; the volumes name pins it does not list: item 102 — V02's T-V2-37 ('the no-op pin' at `sunBias` 0.5; item 102 (d)) and V10's T-V10-10 ('item 102's no-op pin'); item 103 — V11's T-V11-13 ('no-op pins' at coverage weight 0); item 105 — V11's T-V11-21 ('item 105 (k)'s no-op pin'); item 110 — V05's T-V5-27's terrace clause, V09's T-V9-57 ('the no-op pin on the canvas'), V10's T-V10-43; item 111 — V06's T-V6-71 ('item 111's no-op pin'), V10's T-V10-10 (`w_waterP` 0), V11's T-V11-38 (c) ('the NoOpPin T111-5'); item 113 — V06's T-V6-70 (e) ('— T113-7'), V10's T-V10-43, V11's T-V11-39 (c) ('the NoOpPin T113-7').",
+  "required_change": "V12 §3.7.8's 'owners' pin tests' column adds: `item102.sun` V02's T-V2-37, V10's T-V10-10; `item103.coverage` V11's T-V11-13; `item105.web` V11's T-V11-21; `item110.*` V05's T-V5-27 (its terrace clause), V09's T-V9-57, V10's T-V10-43; `item111.water` V06's T-V6-71, V10's T-V10-10, V11's T-V11-38 (c); `item113.history` V06's T-V6-70 (e), V10's T-V10-43, V11's T-V11-39 (c) — or, for any of these clauses that is not a byte-identity registration on the engine (V10's reader checks, V09's canvas script), the owning volume replaces the words 'no-op pin' by 'reads the <pin id> off form' so rule 5 does not apply.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-06",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V06",
+  "claim": "§13.2 rules that a volume family re-running base hook bars has 'each of its tests naming the base bar and the clauses it takes' (convention (3); canon S4, W-05, CO-06; scope's cross-part note to V06: '§7's tests name each base bar and clause they take — the takeover table's first row'). V06 §7 names only T113-1 – T113-3, T113-6, T113-7 (T-V6-70) and T67-2, T67-5; the V06 row's T8-1 – T8-7, T17-2, T17-3, T18-1 – T18-4's epoch-spread form, T20-2's and T20-6's epoch clauses, T25-1, T31-2, T31-3, T31-8 – T31-12, T67-1, T67-3, T67-4, T67-6, T70-1 – T70-4 over epochs, T72-1 – T72-9's epoch clauses, T76-1's per-year clause and T81-1 have no T-V6 test naming them, and the tests §13.2 pairs with base bars (T-V6-12 for T102-2, T-V6-34/-36/-37/-38/-39/-40 for T109-2 – T109-5, T-V6-65 for T110-7) do not name them back.",
+  "required_change": "V06 §7 adds one takeover line (or a column of its table) naming, for every base bar and clause of §13.2's V06 row, the T-V6 test (and clause) that re-runs it on the engine's output, and T-V6-12, T-V6-34, T-V6-36 – T-V6-40 and T-V6-65 each name the base bar §13.2 pairs them with.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-07",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V04",
+  "claim": "§13.2's item-109 group names V04's tests for its bars (T109-1 → T-V4-55; T109-2 → T-V4-44, T-V4-45, T-V4-58; T109-3 → T-V4-43, T-V4-49, T-V4-54; T109-4 → T-V4-50; T109-5 → T-V4-51, T-V4-52), V12 §3.7.8 pairs the T109-6 pin with T-V4-47, and §13.2's item-113 group gives V04 T113-4 and T113-5 'on the underground's output'; none of T-V4-43 – T-V4-58 names its T109 bar, and T-V4-76 (the buried former settlement) and T-V4-77 (lost access) do not name T113-4 and T113-5 (scope's cross-part note: 'T-V4 name the base bars they take').",
+  "required_change": "T-V4-43, -44, -45, -47, -49, -50, -51, -52, -54, -55 and -58 each name the T109 bar §13.2 pairs them with (as above); T-V4-76 reads '… (T113-4 on the underground's output)' and T-V4-77 '… (T113-5)'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-08",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V11",
+  "claim": "§13.2's owner-item groups name V11's tests as their bars' implementations — T103-1 → T-V11-12, T103-2 → T-V11-13, T105-1 and T107-3 → T-V11-14, T104-2 → T-V11-16, T108-1 → T-V11-17, T105-3 → T-V11-18, T106-5's rows → T-V11-19, T109-4 → T-V11-25, T102-3 → T-V11-30, T110-7 → T-V11-31 — and §13.2's rule asks each volume test that takes a base bar to name it; of V11's rows only T-V11-38 and T-V11-39 name theirs (T111-5, T113-7).",
+  "required_change": "Each of T-V11-12, -13, -14, -16, -17, -18, -19, -25, -30 and -31 names the base bar (and clause) §13.2 pairs it with, as listed above.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-09",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V02",
+  "claim": "§13.2's takeover table gives volume 2 'T29-4 on stacked and solid wings, T110-4, T110-5' and T110-7 names 'volume 2's T-V2-50'; V02 §7 names T29-4 (in T-V2-44) but no V02 test names T110-4 (a stepped building's tiers nest and cast one shadow each — T-V2-44's subject), T110-5 (deck plots within the deck's width and budget, falling with the deck — T-V2-47's) or T110-7 (T-V2-50's).",
+  "required_change": "T-V2-44's title reads '… (item 110 (f); T110-4 on the composer's output)', T-V2-47 adds '(T110-5's deck-building clauses)' and T-V2-50 adds '(T110-7's volume-2 pin)'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-10",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V08",
+  "claim": "§13.2's takeover table has the SettlementForge connection re-run 'T73-1 – T73-10, T75-1 – T75-5, T77-1, T81-2, T85-1 – T85-3, T88-1, T88-2, T108-1 – T108-4' with 'T-V8-1 – T-V8-47, on the host harness'. V08 §7.3 re-runs T73-1 – T73-7 and T75-1 – T75-5 through the bridge, T-V8-16 takes T85-3, T-V8-21 T88-1 and T-V8-28 T85-1; T73-8 – T73-10, T77-1, T81-2, T85-2, T88-2 appear only in §8.3's release check R1 ('green at the release commit', not re-run on the harness), and T108-1 – T108-4 are named nowhere in V08 (§7.3's count parity reads item 108 by step type without the bars).",
+  "required_change": "V08 §7.1 or §7.3 names, for each of T73-8 – T73-10, T77-1, T81-2, T85-2, T88-2 and T108-1 – T108-4, the T-V8 bar (or §7.3 clause) that re-runs it on the host harness; a bar V08 does not re-run there is named as 'green at release only (R1)' and scope's row drops it (a note to scope in V08 §13's hand-offs).",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-11",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V09",
+  "claim": "§13.2's takeover table has the application re-run 'T101-1 – T101-9 on the canvas, §13.4's scripted tasks and first-five-minutes test' with T-V9-1 – T-V9-70; V09 §7 names T101-2, T101-3 and T101-6 and §13.4's sessions, but no T-V9 bar names T101-1 (at most twelve tools), T101-4 (the declared subset exported), T101-5 (no contradiction without a bend), T101-7 (points in, shape out), T101-8 (declared means held) or T101-9 (the count badge) on the canvas.",
+  "required_change": "V09 §7.1 names the T-V9 bar re-running each of T101-1, T101-4, T101-5, T101-7, T101-8 and T101-9 on the canvas (or states, for one the canvas does not re-run, that §13.2's row drops it, with a hand-off note to scope).",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-12",
+  "severity": "major",
+  "kind": "HANDOFF-OPEN",
+  "owner": "V07",
+  "claim": "§13.2's takeover table gives the village product 'the village rungs' clauses of T13-1, T14-1, T30-4, T65-2, T102-1, T110-7 and T111-1 – T111-5'; V07 §7's *Base bars at village rungs* ('Each base hook bar this volume takes over names its test') names T111-n (T-V7-58), item 110's bars (T-V7-46 – T-V7-55), item 109's (T-V7-38 – T-V7-40) and item 113's (T-V7-59), but no test for the village-rung clauses of T13-1, T14-1, T30-4, T65-2 and T102-1.",
+  "required_change": "V07 §7's *Base bars at village rungs* names the V07 test taking the village-rung clause of each of T13-1, T14-1, T30-4, T65-2 and T102-1 (or states that V07 takes none of a bar's clauses, with a hand-off note to scope to drop it from the row).",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-13",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "M6-E's price and steps disagree between V06 §8 and the plan: V06 §8 prices M6-E at 29–41.5 pw over E0–E9 (E9 the history replay at generation, item 113; 'E9 after E1–E6, its burial clause after M6-U's buried system'); §16's staged row reads 'M6-E — the evolution engine (V06 §8: E0–E8) … 25.25–35.75 pw' and its effort line 'the evolution engine (volume 6) | 25.25–35.75'; INDEX §1's V06 row 'M6-E (E0–E8) | 25.25–35.75'; INDEX §3's M6-E row lacks E9's dependency. The staged total (170.75–238.75), the whole-program total (392.25–539.25) and their restatements in D-20 and J-A568.01's index row are therefore short by V06's +3.75–5.75 (V06's cross-part note 14 asked for this).",
+  "required_change": "§16's M6-E row reads '(V06 §8: E0–E9)', adds 'E9 after E1–E6, its burial clause after M6-U's buried system' and prices 29–41.5 pw; the effort line reads 29–41.5; INDEX §1's V06 row reads 'M6-E (E0–E9) | 29–41.5' and INDEX §3's M6-E row adds E9's dependency; item 568's totals are recomputed once together with VAP-14 and VAP-15 (staged 175.25–245.5 pw and the whole program 396.75–546 pw if the base-side deltas of VAP-14 and VAP-15 are absorbed by named lines, else the first total 222–301.25 and the whole program 397.25–546.75), and D-20 and J-A568.01 cite §16 without restating the numbers, or carry the recomputed ones.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-14",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "The clerk's price and exits disagree between V10 §8 and the plan: V10 §8 prices M3c (C0, C2–C5) at 10.75–14.5 pw (items 111 and 113 add +0.75), C1 at 3.25–4.75 plus the second transcript 0.25 inside M3a (+3.5–5 pw in the base, item 531), and C1's exit 'T-V10-8, T-V10-9, T-V10-10, T-V10-30, T-V10-36, T-V10-41, T-V10-45 green'; §16's M3c row and effort line read 10.25–13.75, §16's M3a row prices 'the oracle at depth (volume 10's C1 … and both known-city fixtures' scripted transcripts; 3.25–4.75 pw)' and its exit lists T-V10-8, -9, -10, -30, -36 and -41 without T-V10-45; INDEX §1's V10 row reads '13.5–18.5 (14–19 with the command-line clerk)' against V10's 14.25–19.5 (14.75–20). V10's cross-part note to scope §16 is unapplied.",
+  "required_change": "§16's M3c row and the effort line 'the built-in clerk (volume 10)' read 10.75–14.5 pw; §16's M3a row prices V10's share as 'C1 3.25–4.75 pw and the second transcript 0.25 pw (V10 §8)' and either raises M3a's estimate and the first total by 0.25 or names the line that absorbs the 0.25 (J-A568.03's rule); M3a's exit adds T-V10-45; INDEX §1's V10 row reads '14.25–19.5 (14.75–20 with the command-line clerk)'; totals recomputed as in VAP-13.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-15",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "Volume 11's price and placement disagree between V11 §8 and the plan: V11 §8's total is 12.75–17.75 pw with two rows the plan does not carry — C1b, item 111's rows (0.25–0.5 pw, 'M1 (the oasis and the water pull) and M2b (the prosperity term)'), and C9, item 113's rows (0.25 pw, 'M6-E, with V06's E9'); §16's content line basis names file g's rows for items 103–108 only (2.5–4), the M1 and M2b rows price item 111's base mechanisms without V11's rows, the staged content row reads '(V11: C4 at M-SF, C8 at M6-U) ≈ 1.75–2.5 pw' without C9, and INDEX §1's V11 row reads 12.25–17.0.",
+  "required_change": "§16 places C1b's 0.25–0.5 pw in the M1 and M2b rows with the content line's basis reading 'items 103–108 and 111; V11 §8, 2.75–4.5' (or names the line absorbing it, J-A568.03), and the staged content row reads '(V11: C4 at M-SF, C8 at M6-U, C9 at M6-E) ≈ 2–2.75 pw'; INDEX §1's V11 row reads 12.75–17.75; totals recomputed as in VAP-13.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-16",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V02",
+  "claim": "T-V2-52 (the half cellar's raise, item 226) runs from M2b by file f items 226 and 522 and §13.2's stage-3 pointer ('T-V2-52 at M2b'); V02 §8.3 lists T-V2-52 among the exits of the row 'M6, across M6a–M6c' and no V02 text states an M2b start, so under §16's rule ('its volumes' bars are their §7's at the steps their §8 names') the bar would first run at M6.",
+  "required_change": "V02 §8 (the 'M6, across M6a–M6c' row and §7.7's *CI tiers for these*) states that T-V2-52 runs from M2b with item 226's half-cellar raise, its re-basing clauses (`rebaseStack`, the warp) from M3a-V2 and its crypt-only sub-fixture from M6-U's crypt derivation; the M6 row keeps T-V2-53.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-17",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "M5's start disagrees across the plan: J122's combined order and INDEX §3 ('M5 (V01) | may start after M4') start M5 after M4 as one of four streams; D-35 writes 'M4 hardening … → M4b the content module → M5 stage 2', making M5 wait on M4b; §16 gives M4b ('after the relation store's schema, which is in the base from M1') no slot relative to the four post-M4 streams; V01 §8.1 reads 'after M4 and M4b'. Nothing V01 builds reads M4b's `@plat/sim`.",
+  "required_change": "§16's M4b row states its slot — after M4, beside the four streams (J122: 'after M4, four streams side by side') — and D-35 reads '… → M4 hardening and the incremental path; then M4b the content module beside M5 stage 2, …'; INDEX §3's M5 row stays 'M4'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-18",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V01",
+  "claim": "V01 §8.1 says stage 2 is M5 'after M4 and M4b', while J122's order and INDEX §3 start M5 after M4 (VAP-17).",
+  "required_change": "V01 §8.1's first sentence reads 'Stage 2 is **M5** (§16): after M4, one of the four streams …'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-19",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "§13.8's *The volumes in the tiers* enumerates volume 12's tier contents by id — PR: 'T-V12-1, -2, -9, -16, -20, -28 and -30's fixtures', K2's skeleton path, the pins' landing gate; nightly: 'T-V12-4, -5 and -7', the pins' off-state suites — but V12 §7.1's tier column (the home) also has T-V12-4 in PR on two golden seeds, T-V12-44's fixtures in PR from M3b, T-V12-47 in PR with its rung sweep nightly and T-V12-48 nightly from M3a; the base list is a stale restatement.",
+  "required_change": "§13.8's volume-12 sentence cites V12 §7.1's tier column for the bar ids and keeps only its budgets, or adds 'T-V12-4 (two golden seeds), T-V12-44's and T-V12-47's fixtures' to the PR list and 'T-V12-47's rung sweep, T-V12-48' to the nightly list.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-20",
+  "severity": "major",
+  "kind": "MATRIX-GAP",
+  "owner": "scope",
+  "claim": "Shared subject the matrix missed: the S4 bars of §15.2 and their implementers in V01 (T-V1-5, T-V1-6). Verdict: disagree. §15.2 S4 (a) 'every base district kind has ≥ 1 template' while T-V1-6 excludes the kinds V01 §3.3.8's table excludes (hinterland, underground, undercity, the sky kinds) and requires ≥ 1 row eligible on ≥ 50 % of a kind's districts of ≥ 3 ha; §15.2 S4 (b) runs the nearest-centroid classifier 'over §7.7's signature vector, computed per district' (the forms catalogue's town signature: radial share of arterials, orthogonality index, street-density profile, block-area CV, enclosed share, outline anisotropy) while T-V1-5 runs it over V01 §2.3's `DistrictSignature` (loop, spine, square, bearing-order, orthogonality, edge- and contour-aligned shares), standardised over B-CITY, eleven classes, held-out half — two different statistics for one bar.",
+  "required_change": "§15.2's S4 row reads '(a) every district kind V01 §3.3.8's table does not exclude has ≥ 1 template row eligible on ≥ 50 % of its districts of ≥ 3 ha (T-V1-6) [C]; (b) … a nearest-centroid classifier over V01 §2.3's `DistrictSignature`, standardised over B-CITY, assigns ≥ 90 % of template districts to their template (T-V1-5) [C]'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-21",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "§16's row *carried in the rows' milestones outside their cells* places 'volume 12's register share built at M6-U's U3–U5 (V12 §8.2)'; V12 §8.2's W6 (the 0.25–0.5 pw that share is) is built at 'V4-U3 – V4-U5; V6-E9' — the underground's and the histories' harness (`item113.history` pin, item 113's register lines and the history fixtures' PR runs).",
+  "required_change": "The row reads 'volume 12's register share built at M6-U's U3–U5 and M6-E's E9 (V12 §8.2's W6)'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-22",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "INDEX §5's spike list disagrees with the volumes' §8: 'V02's spikes (2.25 pw, before M6a)' — V02 §8.2 runs SP-V2-1 before M6a, SP-V2-2 inside M6a, SP-V2-3 inside M6c and SP-V2-4 before M6c; 'V10's C0 (S1, S2)' — V10 §8's C0 holds S1–S4; 'V12's S-V12-1 and S-V12-2 (M-1)' — V12 §8.3 also runs S-V12-3 and S-V12-4 at M2b (which INDEX §5 risk 3 itself cites); 'V09's storage and first-five-minutes checks (S-A2, §13.4)' — V09 §8.2 also runs S-A1 (M2a) and S-A3 (M3a).",
+  "required_change": "INDEX §5's *Spikes, in the order they run* reads each volume's spikes with their slots as its §8 states them: V12's S-V12-1, S-V12-2 (M-1) and S-V12-3, S-V12-4 (M2b); V09's S-A1, S-A2 (M2a) and S-A3 (M3a); V02's SP-V2-1 and SP-V2-4 before M6a and M6c, SP-V2-2 and SP-V2-3 inside M6a and M6c; V10's C0 (S1–S4); the rest unchanged.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-23",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "INDEX.md's unrewritten parts contradict the base and J122: the head keeps the volumes/_finalize PROGRESS ledger; the intro says file f's items are 'not yet applied' and that 'both are applied … by the coherence pass' as future work, while §0.2 lands files f and g; §1's V01 cell reads 'M5 (replacing the base's 14–18 pw M5 row)' (narration of a superseded price); §2 ends 'the six seam checks of §7 were drawn along exactly these pairs' though §7 now holds no seam record; §8 is the finalization lane's record (md5s, 'T-V9-70' as the newest test, the round-6 tallies) and lists as PLAUSIBLE 'that the recommended order of §4 is the one the owner will choose', while §16 and INDEX §4 carry the order J122 decided.",
+  "required_change": "INDEX.md drops the PROGRESS ledger; the intro reads that files f and g are applied to the base (§0.2 lands them); §1's V01 cell reads '**M5**'; §2's last sentence drops 'the six seam checks of §7 …'; §8 is rewritten as the current set's CONFIRMED and PLAUSIBLE (the order decided by J122; the prices and §16's totals PLAUSIBLE, computed by item 568), the lane's narration left to the validation records (S9).",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-24",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "scope",
+  "claim": "V10 §8's C5 exit runs 'the clerk task in §13.4's session' and T-V10-26 runs 'in §13.4's sessions once the clerk exists' (V10 §8: 'before the first-five-minutes session that measures the clerk'), but §13.4 defines the first-five-minutes sessions only inside M3a (midpoint and exit) with the M2a pipeline session, and §13.8's schedule row lists 'M2a (the pipeline session), M3a (midpoint and exit)' — M3c, where the built-in clerk lands, follows M3a, so no session exists in which T-V10-26 can run.",
+  "required_change": "§13.4 adds a first-five-minutes session at M3c's exit for the clerk task (T-V10-26; same recruitment and pass rule) and §13.8's row reads 'M2a (the pipeline session), M3a (midpoint and exit), M3c's exit (the clerk task, T-V10-26)'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-25",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V11",
+  "claim": "V11 §8's C1b exit reads 'T-V11-38 (a), (b) at M1, (c) and the base's T111 bars at M2b'; §13.8's schedule runs T111-2, T111-3 and T111-5 from M1 (T111-1 and T111-4 from M2b), and V12 §3.7.8 lands the `item111.water` pin (T111-5, the off form T-V11-38 (c) checks) at M1 with the oasis, re-gated at M2b and M3a.",
+  "required_change": "C1b's exit reads 'T-V11-38 (a), (b) and (c)'s oasis form at M1 with the base's T111-2, T111-3 and T111-5 (§13.8); (c)'s water-pull form and T111-1, T111-4 at M2b with the prosperity water term'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "VAP-26",
+  "severity": "major",
+  "kind": "DISAGREE",
+  "owner": "V06",
+  "claim": "V06 §7's CI paragraph runs T-V6-70 per commit, whose clause (b) is 'one digest per seed and history on the five engines — T113-2'; §13.8's schedule runs 'T113-1 – T113-3, T113-6, T113-7 | PR on the history fixtures; T113-2's digest in the nightly five-engine run'.",
+  "required_change": "V06 §7's per-commit list reads '… T-V6-70 but its clause (b), whose five-engine digest runs in the nightly five-engine run (§13.8) …'.",
+  "reported_by": "coherence/verify-agree-proof-r0"
+ },
+ {
+  "id": "EW-01",
+  "severity": "blocker",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "A frame growth beside a chain the old outer ring ends has no outcome: §2.7 *At the frame* (l.2375-2381) lays an aqueduct sourced beyond the frame up to the outer ring 'its deck ending there without a ramp', bends a declared course to the ring and ends a retaining wall on it, but re-offers only deck slots at a growth; §3.2 (9) (l.3228-3231) keeps a vertex that keeps a row, and §4.11 (l.7747-7748) continues only through-roads. After an upward rung crossing the aqueduct ends in mid-air inside the map (no ramp, source or supply) and a drawn retaining wall stops at the old map edge, with no rule, rung or report: a silent wrong result; T110-2 tests only the part's growth.",
+  "required_change": "§2.7 *At the frame* gains the growth case and §4.11's frame-growth sentence cites it beside S4's through-road continuation: at a frame growth every raised way whose deck ends on the old outer ring is continued in the growth's batches by its own course solver along its recorded source bearing - to its source when the grown frame holds it (the aqueduct gaining its intake, the terminal's supply re-read), else to the new outer ring without a ramp - and every declared chain the old ring clipped (a declared raised course, a drawn retaining wall) re-applies its held stroke against the new ring (its bend re-recorded, item 101 R2); each continuation a listed fate of the epoch, restored by its undo. T110-2 gains '0 raised decks end off a ground vertex, the outer ring or their source after a frame growth', T110-1 the drawn wall's clause, and §4.13's raised-way x frame cell names the growth case.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-02",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "pipeline",
+  "claim": "No outcome where a household that fills a dossier's population finds no plot able to take another residential slot inside its site plan's coverage and no shell with room: §4.7 *Households per building* (l.6670-6681) re-provides it 'within that building's capacity', §4.5 S7b (5)(c) (l.5786-5790) says 'never a shortfall', §7.7 item 5 (l.10984-10985) fills shells 'before any new plot'. Reached by an all-water or small island-town site under a large dossier population (S3 (6)'s level set holding all the land there is), a drawWater or terrain edit flooding built land, or a dossier event adding households to a full map without an epoch; the text contradicts itself and T19-4's dossier clause tests only shells with spare template rows.",
+  "required_change": "§4.7 *Households per building* states the last rungs, cited by F-SITING's row, §5.3's population invariant and §7.7 item 5: (1) the re-provision extends to every unbuilt face of the frame (the hinterland's and the pseudo-districts' land) as an informal cluster by §4.7's *Informal clusters* rules, reported; (2) where the frame holds no unbuilt land the household is kept on the manifest as `unhoused` (its people kept, no building), counted in the generation report and named in the disruption report as the contradiction between the dossier's population and the map's land - never dropped and never a bug abort. T19-4 gains three fixtures: a dossier population at the METROPOLIS cap on a small island-town site, a flooding drawWater over a dossier district, a dossier event adding households to a full map.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-03",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "pipeline",
+  "claim": "§4.4 S5a's barrier closure (l.5246-5263) walls 'only the approachable arcs' and §2.7's Enceinte.trace (l.2098) is those stretches; where every arc of a walled stage's boundary closes (a mesa or cliff-ringed spur, an island town whose stage-1 boundary is its whole shore under an `open` waterfront, a boundary inside a river loop with no neck) the stage has no stretch and nothing states the outcome: whether an Enceinte with an empty trace is committed (a stored ChainRef resolving empty fails §3.10's stored-references row, §3.11), where S3 (4)'s N1 gates stand when every route crosses on a barrier arc, and what is reported. F-WALL (§5.2) and T106-1..5 lack the case; S3 (4)'s N = 0 rule covers only a requested zero.",
+  "required_change": "S5a states the case and §2.7 the record: when the classification leaves no approachable arc no wall chain is laid and the stage is enclosed by its barriers - the Enceinte committed with closure 'barrier', `arcs` covering the whole boundary and no trace (`trace` optional in §2.7, absent exactly then), gates only where a route crosses an approachable point (none here), the stage reported as S3 (4)'s sealed circuit with the reason 'closed by its barriers' in requestedVsBuilt; F-WALL's detection and §5.3's walled-stage rows read the absent trace; T106 gains a cliff-ringed mesa and a walled island town under an open waterfront: 0 wall edges, closure 'barrier', the report line.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-04",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "V07",
+  "claim": "VS3's barrier closure (V07 §3.4 step 5, l.1420-1446) closes every water arc, sheer cliff and gorge; a village whose every arc closes (water `island` with a palisade resolved, a village filling a river loop's whole bend, one ringed by scarps) has no walled stretch, and neither VS3 nor V07 §3.17's VS3 row (l.2889) states the outcome - an Enceinte with no stretch committed in VS4's batch (step 7) or none, its gates, the report.",
+  "required_change": "V07 §3.4 step 5 (d) and §3.17's VS3 row state it by the base's rule for the same case (EW-03): no stretch -> the palisade's Enceinte committed with closure 'barrier' and no trace (or the base's ruled form), no gate, the report line 'closed by its barriers'; T-V7-6 gains an island village with a palisade drawn and a river-loop village whose loop holds the whole perimeter.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-05",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "pipeline",
+  "claim": "A castle moat is carved 'when water is within reach' (§4.2 S3 (10) l.4973; §4.8 l.6993) but the city moat 'when the blueprint's moat is inner or all' (l.4984-4986), and S5a's outer moats likewise, with no water condition; on a site with no water in reach (a dry hilltop, an arid site without an oasis) or along a trace whose ground falls across the relief, the text lays a wet WaterBody 'moat' with no source and no level (WaterBody carries none; S1's raster is not adjusted) - undefined against the realism tiebreaker, no rung, no test (§13.2's moat fixtures all have water in reach).",
+  "required_change": "S3 (10) and S5a's outer moats state: a city moat is wet only along trace stretches within the castle moat's reach of a water source (river, lake, coast, spring) whose ground stays within a table fall (`moat.maxFallCm`, V11's era row) of that source's level; every other stretch takes the dry ditch (the `ditch` residue of §4.7 S10 (0), as on an on_enceinte bailey's town side), reported in requestedVsBuilt (a requested wet moat delivered dry); the moat WaterBody names its source; `moat: 'auto'`'s feature-table row reads the same reach; §4.13 gains the EP row and B-EDGE fixtures for a hilltop town, an arid site with no oasis and a hillside trace.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-06",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "pipeline",
+  "claim": "§4.2 S1 (6) (l.4719) makes harbour candidates 'coast faces with depth >= threshold' and S3 (2) (l.4877-4878) lays the basin 'at the chosen harbour candidate'; where a harbour is requested (the toggle, P(harbour|coast), or a dossier `port` access - V08 l.737-739 gives 'a harbour basin' on plains, hills, mountain or forest terrain with no coast forced; DR1's check l.11076) and no coast face reaches the threshold (a shallow, marsh or all-cliff coast) or the site has no coast, no candidate exists and the basin, the harbour route (S3 (11)), the harbour gate (S3 (7)), the market's harbour candidate (S3 (12)), §4.3's trade flow and S10b's port classes have no defined outcome.",
+  "required_change": "S1 (6) and S3 (2) state the ladder: the best-scoring coast face below the threshold (a shallow harbour, reported `harbour_shallow`); with no coast, quays and docks on the largest navigable river or lake (the `river` access's form); else no basin - the harbour omitted (tier 6) in requestedVsBuilt and every reader (S3 (7), (11), (12), §4.3's TradeFlow, S10b's `requires: 'coast'` classes) taking its no-harbour path. V08's DR1 mapping cites the ladder for `port` on inland terrain; §4.13 gains the EP row and B-EDGE fixtures for a marsh coast, a cliff coast and an inland `port` dossier.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-07",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "§2.7's support step (3) (l.2302-2305) omits a station it cannot slide off a way corridor or water face and leaves 'the merged span open' with no bound; §4.3 (l.5175-5176) and §4.13 (l.8226) bound a bank-to-bank span by `viaduct.maxSpanM`, a cell (V11 l.3828, 600 m; V06 l.2527) that is the viaduct reading's whole chord across a ravine, not a clear span between supports. A raised way over water or a corridor wider than its material can span (a 150 m river under a masonry aqueduct) is laid as one open span of that length, silently, with no rung and no test.",
+  "required_change": "The support step states the bound and its outcome: a merged span longer than `slideMaxFactor` x the material band's upper bound (or a named cell `raisedWays.structure.maxClearSpanM` per material, V11 row 80) is infeasible - a generated course is not raised across that reach (the solver prices it so and keeps the ground route; `raised_too_wide`, reported as `raised_too_tall` is) and a declared course's dry run bends it as for `maxPierM` (item 101 R2); §4.3 and §4.13 cite this bound in place of `viaduct.maxSpanM` for a bank-to-bank span; T110-2 gains '0 merged spans above the bound' and B-EDGE the wide-river fixture.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-08",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "model",
+  "claim": "§4.3 *Where it may not go* (l.5175) says a raised way 'stands no support on a square, a reservation or an oasis's water' and §4.13 adds no support in a wall strip (l.8228), on a square or reservation (l.8230), in an oasis's water or on its grove (l.8233); the support step every raised way runs (§2.7 (3), l.2302-2305) slides a station only off 'a part-0 way's corridor or a water face', so a pier stands on a plaza, a market or precinct reservation, a castle bailey, a wall strip or a grove by the step while §4.3 and §4.13 say none does - the edge's outcome is contradictory at its home.",
+  "required_change": "§2.7's support step (3) names every exclusion as its obstacle set - a part-0 way's corridor, a water face, a square or other reservation, a wall strip, an oasis's grove - under the same slide-else-omit rule; §4.3 and §4.13 cite the step instead of restating; T110-2 asserts 0 piers on each.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-09",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "pipeline",
+  "claim": "A raised way crossing a standing city wall has three outcomes and no record: generation (§4.3 l.5174-5175; §4.13 l.8228) 'crosses ... only as the aqueduct's wall arch or on a gate's line' - undefined what 'on a gate's line' lays, the deck's clearance over curtain and gatehouse, and S7's furniture (§4.8 builds none); an edit (§7.1 l.9532-9534) brings the course 'down to a ground vertex before it' through its ground gate; an epoch (V06 l.1474-1477, l.2574-2575) adds 'a raised gate at deck level'; V01 §3.17.3 (6) (l.2339-2341) reads raised gates as wall openings; §2.7's Gate.kind has no raised gate and no record holds an aqueduct's wall arch.",
+  "required_change": "§4.3 states one rule, §4.8 its S7 furniture and §2.7 its records: at generation and in an edit a viaduct or elevated road meeting a standing curtain descends before it to a ground vertex and passes the gate its ground way makes (the edit's rule, replacing 'on a gate's line'), and an aqueduct crosses by an arch in the curtain; a new trace meeting a standing raised way takes V06's raised gate at deck level; §2.7 gains Gate.kind 'raised' (its junction on the raised part) and a wall-opening record on the wall chain for the aqueduct's arch, S7 building both and §11.1 exporting them; T110-2 and B-EDGE's wall x raised-way cell assert each case.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EW-10",
+  "severity": "minor",
+  "kind": "EDGE-UNTESTED",
+  "owner": "pipeline",
+  "claim": "§4.13 (l.8221) says 'a deck plot at VILLAGE and above (V07's village rows at village rungs)' and B-EDGE runs each cell 'at every rung the row names', but V07 §3.10a (3) draws a pier head from 200 people (PLaw (200, 0) -> (700, 0.3): a HAMLET above 200) and §3.10a (2) lets an author-widened deck carry a plot at every village rung, so the combination suite's deck-plot cells skip THORP and HAMLET decks that exist (tested only in V07's own T-V7-49 and T-V7-62).",
+  "required_change": "§4.13 restates the rung: 'a deck plot wherever a built deck offers one - at TOWN and above by the deck row, at village rungs by V07 §3.10a (a pier head from 200 people; an author-widened deck at any rung)', and B-EDGE's deck-plot cells run at THORP and HAMLET on an authored deck.",
+  "reported_by": "coherence/verify-edges-world-r0"
+ },
+ {
+  "id": "EL-01",
+  "severity": "blocker",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "determinism",
+  "claim": "A dossier change whose target the user has locked has no defined outcome. §7.7's precedence (lock > dossier existence > assignment > …) and §7.1's first outcome row (an edit targeting a locked entity or path is refused; 'a host that must override a lock sends an unlock first') meet §7.7 items 2, 11 and 14 (the dossier is the sole immutable truth; a listed ruin is present as its ruin; dossier-owned values change only by dossier events) when a dossier removal, a `ruined` state, a rename, a kind or class change, a re-designation or a `knownTo` / concealment change targets a dossier-backed element, or its building, that the user locked; likewise in an epoch, DR28's calamity F5 targets are 'struck in place, never relocated' while §4.11's hazard exemptions say 'a locked or pinned entity is never struck'. The port sends no unlock (V08 has no such rule), the change is no map event the outcome table can answer with actions, and refusing it leaves the map contradicting the dossier, which §5.3's stage-end coherence row (a hard invariant) aborts — a lost dossier change — while applying it silently breaks the user's lock. Two rules, two outcomes, no rung, no test.",
+  "required_change": "In §7.7, directly after the precedence paragraph, add the one statement: '**A dossier change meets a lock or a pin on its own target** (items 20, 22). A lock or a pin binds map events, placements and an epoch's own steps, never a dossier fact: a dossier change — standalone or carried by an epoch (§7.7 item 6), a calamity's F5 targets (DR28) among them — whose target is a dossier-backed element, its building or a dossier-owned path of it (§7.7 item 11) that the user locked or pinned is applied as its least-disruption mutation (§7.7 item 5), changing only what the fact requires (a removal closes the use and leaves the building standing vacant; a `ruined` state ruins the building in place; a rename, kind, class or knowledge change sets the value). Each lock and pin it overrides is kept on whatever the change leaves standing, orphaned (§7.4's orphan table) where its target goes, and listed in the event's `DisruptionReport.why` with the rule `lockOverridden`, never silently; §4.11's exemption that a locked or pinned entity is never struck holds for the engine's own hazards only. The precedence line stands for placement: a dossier element is never placed on a locked entity.' Add `lockOverridden` to the rule words V09 §4.9 renders for `DisruptionReport.why`. Add to §13.2's *Derivation fills every gap* list: '(T20-14) on B-DOSSIER-lite, a dossier removal, a `ruined` state, a calamity F5 strike in an epoch, a rename and a re-designation of a locked element, and of a pinned one, are each applied, the lock or pin listed `lockOverridden` and kept or orphaned as stated, and the coherence rows pass (§5.3)'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-02",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "determinism",
+  "claim": "Two stream-key components have no bound and no outcome at their cap (§6.1). The epoch component is packed as u16 with its upper half reserved to the history replay (`0x8000 + r`, 'so no replay draw can equal a live epoch's'), but a document's live epoch index has no stated bound: each `advance` adds up to `advance.maxEpochs` (200) epochs and nothing caps a document's total, so past 0x7FFF a live epoch's keys equal a replay epoch's and past 0xFFFF the component wraps onto epoch 0's draws. The salt is packed as u16 and bumped by every town-wide `rerollLayer`, with no bound either. The reroll component has its cap (32 767, `no_alternative`); these two do not, and §6.1's distinctness test cannot reach the case — a silent stream collision.",
+  "required_change": "In §6.1's components list: (epoch) 'pack the epoch component as u32 — the packed components take one more 32-bit lane in the stream key's finaliser round —, key the history replay's coarse epochs `0x8000_0000 + r`, and bound a document's live epoch index at 0x7FFF_FFFF: an `epoch` event past it is an empty edit with the reason `epochCap` (§7.1 *Empty edits*), and an `advance` that would pass it bends to the epochs that fit, said in one line'; (salt) 'a town-wide salt is bounded at 0xFFFF: a `rerollLayer` whose concern's salt stands at the bound reports `no_alternative` and appends nothing (§7.1 *Empty edits*)'. Update J-A113.61's row to the new replay base. Add to §6.1's *Distinctness* test: 'and on a fixture whose live epoch index stands at the bound and whose `naming` salt stands at 0xFFFF, the next epoch and the next `rerollLayer(naming)` take the stated outcomes, and no live epoch's key equals a replay epoch's'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-03",
+  "severity": "major",
+  "kind": "EDGE-UNTESTED",
+  "owner": "V08",
+  "claim": "V08 §3.15's test column names, for these rows, a test whose text does not hold the row's cases, so a regression of the stated outcome passes CI: the embed (3.1) → T-V8-1; the refresh queue (3.4) → T-V8-12; the ladders (3.5.1) → T-V8-44; the history read (2.6c) → T-V8-49 (only the absent age, an event without `yearsAgo` and no evidence are held); custom content (2.8, 3.13) → T-V8-25; the village hand-off (3.10) → T-V8-19; the host actions (4.2) → T-V8-47; locality (4.3) → T20-8 (the base's T20-8 tests only the disruption set); the host clerk (4.4) → T-V8-27 / T-V8-47; custom content under editing (4.5) → T-V8-25; the DM's view (4.6) → T-V8-14 (the case sits in T-V8-47's history-line clause); the Map tab (5.1) → T-V8-17; pictures (5.3) → T-V8-16; no new declaration (4.1) → T-V8-37 (no `dossierRecord` refusal, no undo re-opening the slot).",
+  "required_change": "Extend T-V8-50 with one clause per row, each asserting its row's outcome, and point each row's test cell at its clause: (k) a mount element of zero size boots and waits for a size with the thumbnail shown, a frame resized to zero pauses drawing and keeps the session [3.1]; (l) an empty refresh queue resolves at once with no frame, one map takes one frame, a record the host no longer holds is skipped, a refused dossier is held while the queue moves on, a restore during a refresh makes its commit `stale` and discards its snapshot [3.4]; (m) a range `(lo-hi)` with `lo > hi` reads `[hi, lo]` noted `unmapped_word`, a top of 0 reads `[1, 1]`, an open top above V11's cap stops at the cap, reported [3.5.1]; (n) a negative `yearsAgo` reads 0, a `peakTier` that is no tier word is carried noted `unmapped_word` with no evidence, a resettlement with no recorded former tier gives DR38's refounding with no peak [2.6c]; (o) a custom record with no category, tags or tokens resolves `generic-other` with `custom_resolved` naming the rung, two records of one `localUid` stay apart by dossier order with `duplicate_key`, an unknown scene token is dropped with `unmapped_word`, a dossier with no custom content is byte-identical to one without the keys [2.8, 3.13]; (p) a tier word that disagrees with the population draws the population's rung titled by the word, a negative or non-integer population is refused `E_UNKNOWN_SHAPE`, an epoch crossing products is no undo target, a document made before the product registered reads its product from the fold [3.10]; (q) 'Make a new map from the record' at population 0 is refused `E_RUNG_UNAVAILABLE` `.empty`, and at a village rung offered with the product registered, else B7 `.village` [4.2]; (r) one dossier element whose every neighbour is locked is placed at the least-disruptive site and reported over budget [4.3]; (s) a host clerk call with no map open runs a headless session, a second preview replaces the pending one, a malformed query answers `query.result { error }`, a proposal waiting across a reload answers `clerk.proposal { status: 'stale' }` [4.4]; (t) a declaration whose `localUid` leaves the dossier is orphaned and reported, undone as any edit, and kept across a reload and a regeneration keyed `inst:uid:<localUid>` [4.5]; (u) the Map tab with no record and no thumbnail shows `host.status.opening` over an empty container, a player's tab with no set the public thumbnail with `host.party.notOpened` [5.1]; (v) a picture key that admits no named place draws the ground, the ways and the unnamed marks only, and an undo after a thumbnail is followed by the next commit re-making the thumbnails [5.3]; (w) a user's or clerk's `dossierRecord` is refused `dossier-owned`, and the undo of a generated raised way's removal re-opens its slot [4.1]. The DM's view row (4.6) names T-V8-47's clause 'a place whose binding row is gone is named by its key with no target'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-04",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V08",
+  "claim": "V08 §3.15 has no row for a dossier change whose target the DM has locked or pinned: its 'locality (4.3)' row covers only a placement whose every neighbour is locked, and its closing combination line only 'a dossier removing what an edit pinned' (the pin reported orphaned). V08 §4.1 says every map edit — 'a move, a lock …' — 'survives every absorb', which, read with §7.7's precedence, contradicts the dossier's authority when the absorb's change targets the locked thing itself (the base side is EL-01).",
+  "required_change": "Add a V08 §3.15 row 'protection under an absorb (4.1, 4.3)': edge 'a dossier removal, `ruined` state, rename or re-designation of an element, or of its building, that the DM locked or pinned'; outcome 'applied by §7.7's rule for a dossier change meeting a lock or a pin on its own target (EL-01's statement), the lock listed `lockOverridden` in the absorb's group of the DM's view (V08 §4.6) and kept on what stands or orphaned'; rung B12; test T-V8-50 (x), which asserts it on `town-1` with a locked institution building removed, ruined and renamed by test-side dossier versions. In V08 §4.1 read 'every map edit … survives every absorb, except a lock or pin on a target a dossier change itself names, which §7.7 rules'. Extend the closing combination line to name the lock beside the pin.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-05",
+  "severity": "blocker",
+  "kind": "CATALOGUE-GAP",
+  "owner": "V09",
+  "claim": "Nothing defines one town open in two tabs or windows of the standalone app. Every town lives in one IndexedDB database per origin (V09 §2.11: `docs`, `journal`, `drafts`), every commit is journalled there against the tab's own `logHead`, compaction replaces `LocalDocRecord.snapshot` (V09 §3.8), and an unshared document has one stored session whose undo is linear (§7.4). Two tabs editing one town each fold their own log, interleave journal entries and overwrite each other's snapshot; at the next open recovery meets the first `logHeadAfter` mismatch and quarantines the 'later changes' (§3.8 (3)) — committed edits lost from the town — with no rule, rung or test.",
+  "required_change": "Add V09 §3.8 item 7, '**One tab writes a town.** Opening a town for editing takes the Web Locks API lock `plat-doc:<docId>` (`navigator.locks.request`, mode `exclusive`, held for the tab's life); a second tab or window that opens the town while the lock is held opens it read-only — it writes no journal entry and runs no compaction, every tool is disabled, and the banner `info.openElsewhere` (\"This town is open in another tab.\") carries `button.editHere`, which asks the holder over `BroadcastChannel('plat-doc')` to finish its pending journal write, compact and release; the asking tab then takes the lock and re-opens from the new snapshot. A browser without Web Locks uses a lease in `LocalDocRecord` (`leaseTab`, `leaseUntil`, renewed every 5 s and expired after 15 s) with the same outcome; a holder killed mid-write releases its lock with the tab, and recovery runs as item 3 states. In host mode the host is the store (§11.3) and no lock is taken.' Add `leaseTab` and `leaseUntil` to V09 §2.11's `LocalDocRecord` with their lifecycle row, the two keys to V09 §4.9's catalogue, a row to V09 §3.16 (e) ('autosave and recovery: the same town opened in a second tab → read-only with **Edit here**; rung check'), and to T-V9-17: 'two tabs on one town: the second opens read-only and writes nothing; after **Edit here** every edit the first tab committed is in the snapshot the second opens (0 lost edits); a killed holder's lock passes to the waiting tab'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-06",
+  "severity": "minor",
+  "kind": "EDGE-UNTESTED",
+  "owner": "V09",
+  "claim": "V09 §3.16 says 'T-V9-74 runs every row of (a)–(f)' and gives T-V9-74 clauses inside rules (a)–(d) (one degenerate input of each kind per gesture kind; the four first-five-minutes tasks and each mode's gesture on each rung's fixture; each tool's gesture with every layer off in turn and under each parity preset; each panel's state after save, reload, undo, redo, regenerate and an `upgrade`), while T-V9-74's own row in V09 §7 reads only 'every row of V09 §3.16's per-mechanism table' — two statements of one test's scope.",
+  "required_change": "Reword T-V9-74's row: 'the edges (V09 §3.16): rules (a)–(d) with the clauses each names — one degenerate input of each kind per gesture kind of V09 §2.3; the four first-five-minutes tasks and each tool mode's one gesture on each rung's fixture; each tool's gesture with every layer off in turn and under each parity preset; each panel's state after save, reload, undo, redo, regenerate and an `upgrade` — and every row of tables (e) and (f), on its fixture: the stated outcome on its stated rung of the failure ladder; across the suite 0 crashes, 0 hangs past 10 s, 0 lost edits and 0 whole-map retries'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-07",
+  "severity": "major",
+  "kind": "EDGE-UNDEFINED",
+  "owner": "V12",
+  "claim": "V12's population range contradicts its own village rungs. V12 §3.15 rule (c) says every mechanism runs THORP to the METROPOLIS cap, the village rungs under V07's generator from V-M4, 'and a population outside [1 500, 120 000] is `notApplicable`'; V12 §3.6b's *Levels that cannot run* (with V12 §3.12's level row and V12 §1b's population row) calls [1 500, 120 000] 'the port's range (§12.2 …)'. Every THORP, HAMLET and VILLAGE fixture lies below 1 500, so read literally the village rungs are never measured even after V-M4 — against V12 §3.15's own combination table ('every rung (THORP – VILLAGE under `VG`)') and T-V12-48 — and the port's range is §7.7 item 15's, which reaches below 1 500 once the village product is registered (§12.2 states no port range). One case, two outcomes, and a citation that does not hold its value.",
+  "required_change": "V12 §3.15 rule (c)'s last clause reads 'a population outside the registered products' union (§7.7 item 15; V06 §3.3.2: [1 500, 120 000] with the town product alone, [1, 120 000] once V07's village product is registered) is `notApplicable`'. In V12 §3.6b's *Levels that cannot run* and its item-108 (f) row, V12 §3.12's level row and V12 §1b's population row, 'the port's range [1 500, 120 000] (§12.2 …)' reads 'the town product's range [1 500, 120 000] (§1.1)', scoped to item 108 (f)'s town-ladder sweep, whose levels below 1 500 are `notApplicable` for that sweep only. T-V12-47 (k) gains: 'from V-M4 a THORP and a VILLAGE fixture are measured, never `notApplicable` for their population'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-08",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "V06",
+  "claim": "Two cases of an `advance` job have no outcome (V06 §4.1, §6). (1) A job that ends without Stop — the tab closed, the app or the worker killed: the epochs already folded survive through V09 §3.8's journal, but the group's last epoch carries neither `stoppedAt` nor `index + 1 = of`, and nothing says whether the next open resumes the job, reads the group as stopped, or tells the user. (2) An edit, a clerk acceptance or an undo on the same document while the job folds epochs: V06 §6 says the job never blocks 'an edit on another document', so an edit on this one would land between the group's epochs, breaking the group's contiguity and its one-step undo ('while its last epoch is the latest live event'), and no rule says whether the tools wait or the job stops first.",
+  "required_change": "Add to V06 §4.1, after *Undo*: '**A job cut off.** An `advance` job that ends without Stop leaves the epochs already folded as a shorter group, as Stop does: at the next open the app writes nothing, reads a group whose last epoch has `index + 1 < of` and no `stoppedAt` as stopped at `index + 1`, never resumes the job by itself, and the history panel shows \"Advanced {n} of {m} years — stopped\" with **Continue**, which starts a new `advance` for the remaining span from the document's week. **Edits during a job.** While a job folds epochs on a document, every tool, the clerk's Accept and undo on that document wait — the rail and the drawer show the job's progress, as V09 §3.9's going back does — until Stop or the job's end; edits on other documents never wait.' Add T-V6-23 clause (j): 'a 100-epoch job killed after epoch 37: the reopened document holds 37 epochs read as stopped at 37, no job resumes, **Continue** appends a new group for the remaining span; during a job the tools and Accept on that document are disabled and a queued undo waits for the job's end'. Add the two cases to V06 §3.21's `advance` rows.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-09",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "V11",
+  "claim": "A numeric table column may declare no range, so its cells have no ends: `ColumnSpec.range` is optional (V11 §2.1), and V11 §4.1's clamp and rule (a)'s compile check act only on a declared range. A numeric cell of a column with none — V06 §2.2's `advance.maxEpochs`, `replay.maxEpochs`, `history.checkpointStride`, `uses.openCandidates` among them — takes 0, a negative or an arbitrarily large value from `editTable`, a pack, an override or a calibration run with no outcome stated; for a divisor (`⌈spanYears × 52 ÷ advance.maxEpochs⌉` in V06 §3.3.2; the keyframe period) the rule then has no finite value.",
+  "required_change": "In V11 §2.1, make `ColumnSpec.range` required for `type: 'number'` and `'integer'` (a count or divisor column's lower bound at least 1); V11 §3.2.1 step 4 refuses a numeric column without one, naming it; T-V11-3 gains 'every number and integer column of every registry table declares its range, and every count or divisor column's lower bound is at least 1'; V11 §3.26 rule (a) adds 'an edit, a pack, an override or a calibration run is clamped into its column's declared range (V11 §4.1; V12 §3.7), so no runtime reader meets a value outside it'.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ },
+ {
+  "id": "EL-10",
+  "severity": "major",
+  "kind": "CATALOGUE-GAP",
+  "owner": "V06",
+  "claim": "V06 §2.2's numeric evolution rows declare no range (V06 states only their `calibratable: false` flag), so `advance.maxEpochs`, `replay.maxEpochs`, `history.checkpointStride` and `uses.openCandidates` — divisors and iteration counts of V06 §3.3.2, §3.20.2, §3.15.2 and §3.9.6 — can be edited to 0 or below with no outcome (the volume-side half of EL-09).",
+  "required_change": "Give every numeric row of V06 §2.2's table its declared range (`ColumnSpec.range`) in the table, with a lower bound of 1 for `advance.maxEpochs`, `replay.maxEpochs`, `history.checkpointStride` and `uses.openCandidates`, and add V06 §3.21 row 'parameters and the evolution table (V06 §2.2): a tables-editor edit of a count or divisor row to 0 or below → clamped to the range's lower bound with its line (V11 §4.1); rung repair locally' with T-V6-73 clause (r) asserting it for each of the four rows.",
+  "reported_by": "coherence/verify-edges-life-r0"
+ }
+]

@@ -3,9 +3,9 @@
 > PENDING FABLE REVIEW — written by opus standing in for the Fable seat coherence/verify-vol-V05-V06-r0; covered by the whole-design retrovalidation (J84).
 
 PROGRESS (lane `coherence/verify-vol-V05-V06-r0`; started 2026-10-03 in the cloud continuation; no earlier output on disk)
-- P1 inputs gathered (canon routing for V05/V06, edges, cross-part notes from every rewrite report): pending
-- P2 mechanical checks (ids, references, terms, deferral, mapping table, per-item tokens): pending
-- P3 V05 archive → new review, section by section: pending
+- P1 inputs gathered (canon routing for V05/V06, edges, cross-part notes from every rewrite report): done (scratch vv56/)
+- P2 mechanical checks (ids, references, terms, deferral, mapping table, per-item tokens): done (findings in WORKING NOTES)
+- P3 V05 archive → new review, section by section: in progress (resumed 04:45 after a cut)
 - P4 V06 archive → new review, section by section: pending
 - P5 cross-unit agreement, cohesion, wiring, edges: pending
 - P6 report, results JSON, LANDED: pending
