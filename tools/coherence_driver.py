@@ -13,6 +13,8 @@ fails (returns nothing) is re-run before the loop moves on, where the script wou
   python3 tools/coherence_driver.py init            # check every rewrite LANDED; the loop starts at assemble round 0
   python3 tools/coherence_driver.py plan [--runs 3] # write the current step's run scripts; print their paths
   python3 tools/coherence_driver.py ingest RUNID …  # read those runs' journals; re-plan failed seats or advance
+      [--operator FILE]                            # (verify steps) hand-confirmed findings no seat raised join the step
+  python3 tools/coherence_driver.py peek RUNID …    # (verify steps) write the issues returned so far, for that review
   python3 tools/coherence_driver.py status          # where the loop stands
 """
 import glob, json, os, re, subprocess, sys
@@ -188,20 +190,45 @@ def journal_results(run):
     return out
 
 
-def ingest(st, runs):
+def collect(st, runs):
     have = st['step'].setdefault('results', {})
     want = [label for (label, _) in seats(st)]
     for run in runs:
         for label, val in journal_results(run).items():
             if label in want and val:
                 have[label] = val
+    return have, want
+
+
+def peek(st, runs):
+    """Write every issue the current verify step's seats have returned so far (nothing advances) for review."""
+    have, want = collect(st, runs)
+    issues = [dict(i, reported_by=have[l].get('key')) for l in want if l in have for i in (have[l].get('issues') or []) if i]
+    out = os.path.join(DDIR, f'peek-step{st["n"]:03d}.json')
+    json.dump(issues, open(out, 'w'), indent=1, ensure_ascii=False)
+    print(f'{len([l for l in want if l in have])}/{len(want)} seats returned; {len(issues)} issues → {out}')
+
+
+def ingest(st, runs, operator=None):
+    have, want = collect(st, runs)
     missing = [l for l in want if l not in have]
     st['step'].setdefault('runs', []).extend(runs)
     if missing:
         save(st)
         log(st, f'{describe_step(st)}: {len(missing)} seat(s) returned nothing ({", ".join(missing)}) — plan again to re-run only those')
         return
-    advance(st, [have[l] for l in want], [u for (_, u) in seats(st)])
+    results = [have[l] for l in want]
+    if operator:
+        # findings the session confirmed by hand that no seat raised (docs/validation/coherence/driver/watch.md): they join
+        # this verify step's issues as one more check, reported by 'operator', so the zero bar covers them
+        if st['pc'] != 'verify':
+            raise SystemExit('operator findings join a verify step only')
+        ops = json.load(open(operator))
+        for i in ops:
+            assert all(k in i for k in ('id', 'severity', 'kind', 'claim', 'required_change', 'owner')), i
+        results.append({'key': 'operator', 'file': os.path.relpath(operator, BASE), 'issues': ops})
+        log(st, f'{len(ops)} operator finding(s) from {os.path.relpath(operator, BASE)} join {describe_step(st)}: {", ".join(i["id"] for i in ops)}')
+    advance(st, results, [u for (_, u) in seats(st)])
 
 
 def begin_repair(st, work):
@@ -310,7 +337,14 @@ if __name__ == '__main__':
     elif cmd == 'plan':
         runs = int(sys.argv[sys.argv.index('--runs') + 1]) if '--runs' in sys.argv else 3
         plan(load(), runs)
-    elif cmd == 'ingest':
-        ingest(load(), sys.argv[2:])
+    elif cmd in ('ingest', 'peek'):
+        rest = sys.argv[2:]
+        op = None
+        if '--operator' in rest:
+            k = rest.index('--operator'); op = rest[k + 1]; rest = rest[:k] + rest[k + 2:]
+        if cmd == 'peek':
+            peek(load(), rest)
+        else:
+            ingest(load(), rest, op)
     else:
         status(load())
