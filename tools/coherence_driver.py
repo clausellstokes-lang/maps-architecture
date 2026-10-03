@@ -17,6 +17,8 @@ fails (returns nothing) is re-run before the loop moves on, where the script wou
   python3 tools/coherence_driver.py peek RUNID …    # (verify steps) write the issues returned so far, for that review
   python3 tools/coherence_driver.py status          # where the loop stands
   python3 tools/coherence_driver.py stop REASON     # end the loop by a ruling before its own exit (J127)
+  python3 tools/coherence_driver.py restore --units a,b [--runs N] [--round 1] [--from peek.json]
+                                                   # J130: repair only the NUANCE-LOST / LOST / CHANGED findings
 """
 import glob, json, os, re, subprocess, sys
 
@@ -326,6 +328,58 @@ def init():
     log(st, 'driver started: every rewrite LANDED; the loop begins at assemble round 0')
 
 
+def write_step(st, stage, desc, phase_title, name):
+    """One generated step script: the script with this stage's args embedded (the same mechanism plan() uses)."""
+    src = open(SCRIPT).read()
+    body = 'const ARGS = ' + src.split('\nconst ARGS = ', 1)[1]
+    body = body.replace("const ARGS = (typeof args === 'object' && args) ? args : {}\n", 'const ARGS = __STEP_ARGS\n', 1)
+    base = json.load(open(ARGS_FILE))
+    a = dict(base, maxLanes=2, stage=stage)
+    sdir = os.path.join(base['scratch'], 'driver-steps')
+    os.makedirs(sdir, exist_ok=True)
+    meta = ('export const meta = {\n  name: ' + json.dumps(name) + ',\n  description: ' + json.dumps(desc)
+            + ',\n  phases: [{ title: ' + json.dumps(phase_title) + ' }],\n}\n')
+    p = os.path.join(sdir, name + '.js')
+    open(p, 'w').write(meta + 'const __STEP_ARGS = ' + json.dumps(a, ensure_ascii=False) + '\n' + body)
+    return p
+
+
+RESTORE_KINDS = ('NUANCE-LOST', 'LOST', 'CHANGED')
+
+
+def restore(st, rnd, units, runs, source):
+    """J130: a repair round restricted to content the rewrite cut or changed, outside the loop's state (the loop has stopped
+    or is stopping by J129); the findings come from a peek or the step's results, the owners normalised by the script."""
+    issues = json.load(open(source))
+    kind = lambda i: re.split(r'[ (/:,]', i['kind'].strip().upper())[0]
+    sel = [i for i in issues if kind(i) in RESTORE_KINDS]
+    owners = evaluate({'kind': 'describe', 'owners': [i.get('owner') for i in sel]})['owners']
+    sel = [dict(i, owner=o) for i, o in zip(sel, owners)]
+    rs = st.setdefault('restore', {'round': rnd, 'units': {}, 'runs': []})
+    todo = [u for u in units if u not in rs['units']]
+    work = [i for i in sel if i['owner'] in todo]
+    have = list(dict.fromkeys(i['owner'] for i in work))
+    if not have:
+        raise SystemExit('no restore findings for those units (or they are planned already)')
+    w = lambda u: sum(1 for i in work if i['owner'] == u)
+    bins = [[] for _ in range(min(runs, len(have)))]
+    load_ = [0] * len(bins)
+    for u in sorted(have, key=lambda u: -w(u)):
+        k = load_.index(min(load_)); bins[k].append(u); load_[k] += w(u)
+    paths = []
+    for k, b in enumerate(bins):
+        stage = {'kind': 'repair', 'round': rnd, 'owners': b, 'rulingsFile': '', 'work': [i for i in work if i['owner'] in b]}
+        n = len(rs['runs']) + 1
+        paths.append(write_step(st, stage, f'Coherence pass, restore round {rnd} (J130: cut content back from the archive), run {n}: {", ".join(b)}', 'Repair', f'restore-r{rnd}-{n:02d}'))
+        rs['runs'].append({'script': paths[-1], 'units': b, 'findings': [i['id'] for i in work if i['owner'] in b]})
+    for u in have:
+        rs['units'][u] = [i['id'] for i in work if i['owner'] == u]
+    save(st)
+    log(st, f'restore round {rnd} planned: {len(work)} finding(s) of kinds {", ".join(RESTORE_KINDS)} over {", ".join(have)} in {len(paths)} run(s)')
+    for p, b in zip(paths, bins):
+        print(f'  {p}  ({", ".join(b)})')
+
+
 def stop(st, reason):
     """End the loop by the owner's word before its own exit (e.g. J127: one repair round, then build)."""
     if st['pc'] == 'done':
@@ -360,6 +414,10 @@ if __name__ == '__main__':
             peek(load(), rest)
         else:
             ingest(load(), rest, op)
+    elif cmd == 'restore':
+        rest = sys.argv[2:]
+        opt = lambda k, d=None: rest[rest.index(k) + 1] if k in rest else d
+        restore(load(), int(opt('--round', '1')), opt('--units').split(','), int(opt('--runs', '1')), opt('--from', os.path.join(DDIR, 'peek-step002.json')))
     elif cmd == 'stop':
         stop(load(), ' '.join(sys.argv[2:]) or 'stopped by the owner')
     else:

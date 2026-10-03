@@ -1073,5 +1073,88 @@
    "wf_a5117cac-477",
    "wf_ff39e5b0-7c5"
   ]
+ },
+ "restore": {
+  "round": 1,
+  "units": {
+   "determinism": [
+    "VD0-01",
+    "VD0-06",
+    "VD0-07",
+    "VD0-08",
+    "VD0-09",
+    "VD0-18",
+    "DET-FLAT-1"
+   ],
+   "rendering": [
+    "VR0-01",
+    "VR0-02",
+    "VR0-03",
+    "VR0-16",
+    "VR0-17",
+    "VR0-22"
+   ],
+   "scope": [
+    "VS0-05"
+   ],
+   "V02": [
+    "VV12-02",
+    "VV12-10"
+   ],
+   "V03": [
+    "V03-DEC-1"
+   ],
+   "V06": [
+    "V06-BUDGET-1"
+   ],
+   "V09": [
+    "V09-DEC-1"
+   ],
+   "V10": [
+    "V10-PROV-1"
+   ],
+   "V12": [
+    "VV1112-01"
+   ]
+  },
+  "runs": [
+   {
+    "script": "/tmp/claude-0/-home-user-maps-architecture/ce371545-83c4-5807-9f2a-da73abd8485d/scratchpad/coherence/driver-steps/restore-r1-01.js",
+    "units": [
+     "determinism",
+     "rendering",
+     "V02",
+     "scope",
+     "V03",
+     "V06",
+     "V09",
+     "V10",
+     "V12"
+    ],
+    "findings": [
+     "VD0-01",
+     "VD0-06",
+     "VD0-07",
+     "VD0-08",
+     "VD0-09",
+     "VD0-18",
+     "VR0-01",
+     "VR0-02",
+     "VR0-03",
+     "VR0-16",
+     "VR0-17",
+     "VR0-22",
+     "VS0-05",
+     "VV12-02",
+     "VV12-10",
+     "V03-DEC-1",
+     "V06-BUDGET-1",
+     "V09-DEC-1",
+     "V10-PROV-1",
+     "DET-FLAT-1",
+     "VV1112-01"
+    ]
+   }
+  ]
  }
 }
