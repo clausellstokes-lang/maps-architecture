@@ -1,0 +1,54 @@
+{
+ "record": "E02",
+ "workItem": "W-02",
+ "lane": "m1/W-02",
+ "files": {
+  "checklist": "research/baselines/ftg_capture_checklist.md",
+  "post": "research/baselines/ftg_capture_post.py",
+  "plan": "research/baselines/plan.json"
+ },
+ "slotsTaken": 1,
+ "slotsTotal": 6,
+ "days": [
+  {
+   "day": 1,
+   "date": "2026-10-03",
+   "slot": 0,
+   "label": "capture/FTG/BIG_TOWN/none/0",
+   "capture": "2026-10-03T17-19-06",
+   "ftgSize": "BIG_TOWN",
+   "rung": "TOWN",
+   "water": "none",
+   "population": 5600,
+   "populationSource": "nominal",
+   "serverDate": "2026-10-03",
+   "putSentUtc": "2026-10-03T17:23:23.574Z",
+   "serverTimeS": 2.553,
+   "serverTimeContended": true,
+   "requestBytes": 274285,
+   "requestHash": "aa8ba6c213b6",
+   "referenceBuild": "ftg:2026-10-03+aa8ba6c213b6",
+   "payloadBytes": 396544,
+   "payloadSha256Prefix": "c71803079feb8e1e",
+   "buildings": 1694,
+   "edges": 3266,
+   "nodes": 3003,
+   "towers": 25,
+   "waterBodies": 0,
+   "districts": 3,
+   "borderHalfWidthM": 2000.0,
+   "requestDiffVsCityBase": {"semantic": 20, "slotKeys": 3, "waterImplied": 6, "sizeDependentPreset": 11, "other": 0, "partnerIds": 45},
+   "checks": {"calls": true, "sizeKey": true, "waterKeys": true, "requestDiff": true, "decode": true, "border": true, "noResidentField": true, "pbRaw": true, "readmeFields": true},
+   "redTests": {"slot1": "exit 1 (sizeKey, border)", "slot2": "exit 1 (waterKeys)"},
+   "folderMB": 65,
+   "freeGBBefore": 17,
+   "freeGBAfter": 16
+  }
+ ],
+ "failed": [],
+ "decoderTwin": {
+  "2026-09-21T05-23-58": {"edges": 5326, "nodes": 4303, "buildings": 2798, "towers": 17, "borderHalfWidthM": 2500.0},
+  "2026-09-25T10-13-51": {"edges": 4811, "nodes": 4045, "buildings": 2813, "towers": 29, "borderHalfWidthM": 2500.0}
+ },
+ "nextDay": {"day": 2, "slot": 1, "ftgSize": "BIG_CITY", "water": "none", "earliest": "2026-10-04T13:30-04:00", "expectedBorderHalfWidthM": 2750.0}
+}

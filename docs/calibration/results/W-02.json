@@ -1,0 +1,38 @@
+{
+ "id": "W-02",
+ "status": "landed",
+ "records": ["docs/calibration/E02-ftg-captures.md", "docs/calibration/E02-ftg-captures.json"],
+ "outputs": [
+  "captures/ftg/2026-10-03T17-19-06/ (README.md, create-request.json, request-diff.txt, structure.md, capture-facts.json, session/, steps/)",
+  "research/baselines/ftg_capture_checklist.md",
+  "research/baselines/ftg_capture_post.py",
+  "research/baselines/plan.json (FTG slot 0 bound to 2026-10-03T17-19-06; sha256 6c81c04b -> 45b4b315 by design; metrics.m-1.json unchanged)"
+ ],
+ "checks": [
+  {"check": "payload decodes with tools/pb_raw.py: field 3 edges and nodes, field 8 buildings present", "passed": true, "receipt": "pb_raw exit 0, 183 paths; 3.1 x3266 edges, 3.2 x3003 nodes, 8 x1694 buildings (intercept-0049, 396544 B, sha256 c71803079feb8e1e)"},
+  {"check": "request size key equals the slot", "passed": true, "receipt": "create-request.json size BIG_TOWN = slot 0 BIG_TOWN"},
+  {"check": "request water keys equal the slot water option (PC-16)", "passed": true, "receipt": "coast key empty, rivers false = slot 0 'none'"},
+  {"check": "README carries the three 13.6 (2) fields", "passed": true, "receipt": "capture id 2026-10-03T17-19-06, WaterSetting none, population 5600 with populationSource nominal (grep 4/4)"},
+  {"check": "ftg_capture_post.py 8 checks", "passed": true, "receipt": "--check-only exit 0, 8/8 pass; red tests vs slot 1 and slot 2 exit 1 on the size/border and water checks"},
+  {"check": "decoder twin on documented payloads", "passed": true, "receipt": "2026-09-21: 5326/4303/2798/17; 2026-09-25: 4811/4045/2813/29; borders +-2500 m"},
+  {"check": "slot bind keeps the plan deterministic", "passed": true, "receipt": "plan.py --bind-ftg 0=2026-10-03T17-19-06 then --check SAME/SAME; one leaf changed; seeds unchanged"},
+  {"check": "disk above 1 GB before and after the capture folder", "passed": true, "receipt": "df 17 GB free before, 16 GB after; folder 65 MB"}
+ ],
+ "rows": 1,
+ "build_ids": ["ftg:2026-10-03+aa8ba6c213b6"],
+ "owner_notes": [
+  "FTG day 1 done on the free allowance: one temporary settlement (BIG_TOWN, no coast, rivers off) created 2026-10-03 17:23 UTC; no cookie/consent notice appeared, nothing was accepted, no login/account/payment/terms. A Chrome window opened on your screen and closed by itself.",
+  "Day 2 (BIG_CITY, no water) is due no earlier than 2026-10-04 13:30 EDT; E02 section 5 has the exact steps for the session to launch.",
+  "Vetoable call: the forest, reserve-area and wall boxes were switched on to match the 2026-09-21 base (the site's fresh form has them off); all six days keep this."
+ ],
+ "notes": [
+  "CONFIRMED: every number in E02 sections 2-3 (decoded payload, request, index timings). PLAUSIBLE: that the 11 layout-preset values that differ from the CITY base follow the size choice (day 2 tests it).",
+  "Finding: choosing the size also moves 11 hidden layout-preset values (stage parameters incl. main-road step 60->50 m, faction count, shop probabilities); post script classes them separately and fails on anything else - a verifier may rule on that class.",
+  "No resident count in the payload (fields within the known 27) -> populationSource nominal 5600. 0 water bodies (CITY captures had 4). Same guest temporary-settlement id as 2026-09-21/-25.",
+  "Hazard: parallel lanes share profiler/.session and port 9333 (drive.mjs, export.mjs); the FTG session ran from byte-identical copies in the scratchpad on port 9341 with its own session file; profiler/.session was never written.",
+  "Hazard: this Mac's window (1440x632) is smaller than the session viewport (1500x1100); shot --full clears the emulation; the form dialog scrolls - recorded in checklist section G.",
+  "Server time 2.553 s recorded as contended (PC-11): feeds no time row.",
+  "Side effect: capture-facts.json (numbers/ids only) and the capture README enter doc_checks.py's corpus like every capture README; expect a few phantom C3 hits until captures' own record files are excluded (same fix E01 asks for research/baselines/).",
+  "plan.json sha256 changed from E01's 6c81c04b to 45b4b315 by the designed slot bind; verifiers should use plan.py --check, not E01's hash."
+ ]
+}

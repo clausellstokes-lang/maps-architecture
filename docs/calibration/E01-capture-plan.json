@@ -1,0 +1,448 @@
+{
+ "record": "E01",
+ "workItem": "W-01",
+ "lane": "m1/W-01",
+ "date": "2026-10-03",
+ "files": {
+  "research/baselines/plan.py": {
+   "bytes": 54336,
+   "sha256": "20d209018a59af0abfe696fdfcea42d93f91e61f76694d0153cf4028aa0f49d3"
+  },
+  "research/baselines/plan.json": {
+   "bytes": 48444,
+   "sha256": "6c81c04b6fbe6bb692738a35b642fc31fe2e6cba5cd08a81cf62e5240a699348"
+  },
+  "research/baselines/metrics.m-1.json": {
+   "bytes": 88627,
+   "sha256": "7a21bb290bb9c7dfc15917f7449cf925e12f89a72af28536836319fdbc597c70"
+  }
+ },
+ "checkVectors": [
+  {
+   "label": "capture/MFCG/40/plain/0",
+   "h32": 2003595628,
+   "parkMiller": 2003595629,
+   "reproduces": "docs/validation/bench/v12_h32_vectors.out",
+   "byteIdentical": true
+  },
+  {
+   "label": "capture/MFCG/80/river+coast/9",
+   "h32": 1452355483,
+   "parkMiller": 1452355484,
+   "reproduces": "docs/validation/bench/v12_h32_vectors.out",
+   "byteIdentical": true
+  },
+  {
+   "label": "capture/NG/area/medium/0",
+   "h32": 259196529,
+   "parkMiller": 259196530,
+   "reproduces": "docs/validation/bench/v12_h32_vectors.out",
+   "byteIdentical": true
+  }
+ ],
+ "smhasherVerification": "0xb3ece62a",
+ "wholeFileReproduction": {
+  "docs/validation/bench/v12_h32_vectors.out": {
+   "lines": 19,
+   "identical": true
+  },
+  "docs/validation/bench/v12_rev_h32.out": {
+   "lines": 11,
+   "identicalLessCommentLine": true
+  }
+ },
+ "plan": {
+  "counts": {
+   "mfcgExports": 35,
+   "mfcgFiles": 70,
+   "ngGenerations": 44,
+   "ftgSlots": 6,
+   "fmBuildings": 41,
+   "seedCollisions": []
+  },
+  "seeds": {
+   "capture/MFCG/40/plain": [
+    2003595629,
+    992112889,
+    900856892,
+    51029561,
+    1304928856,
+    1883485116,
+    1560054321,
+    1173894402,
+    610932995,
+    936396370
+   ],
+   "capture/MFCG/80/plain": [
+    1057909441,
+    326645150,
+    1832027109,
+    1016906889,
+    1787087151,
+    368320464,
+    1893549258,
+    817490467,
+    983352665,
+    1069210667
+   ],
+   "capture/MFCG/130/plain": [
+    1178932495,
+    380855225,
+    1562318027,
+    1854483063,
+    1597314254,
+    1658332635,
+    1616577459,
+    1269412869,
+    1413909430,
+    1502932918
+   ],
+   "capture/MFCG/80/river+coast": [
+    1277715861,
+    969798778,
+    1811725741,
+    1482787121,
+    1312004405
+   ],
+   "capture/NG/area/medium": [
+    259196530,
+    232825077,
+    1353336801,
+    632875219,
+    1985887065
+   ],
+   "capture/NG/street/medium": [
+    785771709,
+    1598584932,
+    13886769,
+    1773949171,
+    1679123909
+   ],
+   "capture/NG/square/medium": [
+    515542992,
+    357012674,
+    1487799455,
+    1551289944,
+    1809810844
+   ],
+   "capture/NG/ring/medium": [
+    1081967957,
+    444492668,
+    286417888,
+    1753136892,
+    359026657
+   ],
+   "capture/NG/area/small": [
+    126607485,
+    358222298,
+    404975847
+   ],
+   "capture/NG/street/small": [
+    978382261,
+    636321768,
+    1275069081
+   ],
+   "capture/NG/square/small": [
+    707853513,
+    1890188727,
+    409499837
+   ],
+   "capture/NG/ring/small": [
+    304900102,
+    1442993248,
+    338509678
+   ],
+   "capture/NG/area/large": [
+    1752556562,
+    1090102981,
+    477074889
+   ],
+   "capture/NG/street/large": [
+    998667101,
+    1535414009,
+    1041970032
+   ],
+   "capture/NG/square/large": [
+    396387888,
+    1692923774,
+    880974761
+   ],
+   "capture/NG/ring/large": [
+    470968935,
+    1263018650,
+    1801952899
+   ]
+  },
+  "ftgSlots": [
+   {
+    "slot": 0,
+    "day": 1,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 0,
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "none",
+    "nominalPopulation": 5600,
+    "capture": null,
+    "failed": null
+   },
+   {
+    "slot": 1,
+    "day": 2,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 0,
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "none",
+    "nominalPopulation": 24500,
+    "capture": null,
+    "failed": null
+   },
+   {
+    "slot": 2,
+    "day": 3,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 1,
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "nominalPopulation": 5600,
+    "capture": null,
+    "failed": null
+   },
+   {
+    "slot": 3,
+    "day": 4,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 1,
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "nominalPopulation": 24500,
+    "capture": null,
+    "failed": null
+   },
+   {
+    "slot": 4,
+    "day": 5,
+    "family": "capture/FTG/BIG_TOWN",
+    "order": 2,
+    "ftgSize": "BIG_TOWN",
+    "rung": "TOWN",
+    "water": "coast+river",
+    "nominalPopulation": 5600,
+    "capture": null,
+    "failed": null
+   },
+   {
+    "slot": 5,
+    "day": 6,
+    "family": "capture/FTG/BIG_CITY",
+    "order": 2,
+    "ftgSize": "BIG_CITY",
+    "rung": "CITY",
+    "water": "coast+river",
+    "nominalPopulation": 24500,
+    "capture": null,
+    "failed": null
+   }
+  ],
+  "fm": {
+   "build": "890",
+   "capture": "2026-09-25T11-25-38",
+   "n": 41
+  }
+ },
+ "metrics": {
+  "metricsVersion": "1.0.0",
+  "counts": {
+   "ids": 172,
+   "families": 10,
+   "parity": 73,
+   "oursOnly": 109,
+   "withM1Rows": 61,
+   "open": 8,
+   "m1Uncovered": 19
+  },
+  "catalogueIds": 182,
+  "catalogueMissing": 0,
+  "catalogueExtra": 0,
+  "open": [
+   {
+    "id": "bldg.wallAlign",
+    "owner": "W-07"
+   },
+   {
+    "id": "block.area",
+    "owner": "W-11"
+   },
+   {
+    "id": "block.areaRel",
+    "owner": "W-11"
+   },
+   {
+    "id": "variety.dispersion",
+    "owner": "W-09 (MFCG) and W-05 (FTG)"
+   },
+   {
+    "id": "street.detour",
+    "owner": "W-11"
+   },
+   {
+    "id": "street.cyclesPerKm2",
+    "owner": "W-11"
+   },
+   {
+    "id": "plot.minWidth",
+    "owner": "W-11"
+   },
+   {
+    "id": "fg.streetwallGap100",
+    "owner": "W-11"
+   }
+  ],
+  "m1Uncovered": [
+   {
+    "metric": "block.areaRel",
+    "reference": "NG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "bldg.area",
+    "reference": "MFCG",
+    "catalogueRole": "descriptive"
+   },
+   {
+    "metric": "plot.spearman",
+    "reference": "NG",
+    "catalogueRole": "weakness"
+   },
+   {
+    "metric": "plot.cvDistrict",
+    "reference": "NG",
+    "catalogueRole": "weakness"
+   },
+   {
+    "metric": "alley.gradient",
+    "reference": "FTG",
+    "catalogueRole": "weakness"
+   },
+   {
+    "metric": "wall.ungated",
+    "reference": "MFCG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "water.step",
+    "reference": "MFCG",
+    "catalogueRole": "descriptive"
+   },
+   {
+    "metric": "water.riverWidth",
+    "reference": "MFCG",
+    "catalogueRole": "descriptive"
+   },
+   {
+    "metric": "pop.perBuilding",
+    "reference": "MFCG",
+    "catalogueRole": "weakness"
+   },
+   {
+    "metric": "time.firstMap",
+    "reference": "MFCG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "time.firstMap",
+    "reference": "FTG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "time.firstMap",
+    "reference": "NG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "time.worst",
+    "reference": "MFCG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "time.worst",
+    "reference": "FTG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "time.worst",
+    "reference": "NG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "draw.*",
+    "reference": "NG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "label.*",
+    "reference": "MFCG",
+    "catalogueRole": "weakness"
+   },
+   {
+    "metric": "label.*",
+    "reference": "NG",
+    "catalogueRole": null
+   },
+   {
+    "metric": "wall.barrierShare",
+    "reference": "MFCG",
+    "catalogueRole": "descriptive"
+   }
+  ]
+ },
+ "docChecks": {
+  "method": "doc_checks.py run in the project root and in a scratch root without research/baselines/ (docs, captures and every other research entry linked)",
+  "V12-calibration.md": {
+   "with": {
+    "c3": 207,
+    "c3Unreviewed": 33,
+    "c4": 6,
+    "c4Unreviewed": 4,
+    "exit": 1
+   },
+   "without": {
+    "c3": 174,
+    "c3Unreviewed": 0,
+    "c4": 2,
+    "c4Unreviewed": 0,
+    "exit": 0
+   }
+  },
+  "ARCHITECTURE.md": {
+   "with": {
+    "c3": 2050,
+    "c3Unreviewed": 14,
+    "c4": 27,
+    "c4Unreviewed": 2,
+    "exit": 1
+   },
+   "without": {
+    "c3": 2040,
+    "c3Unreviewed": 0,
+    "c4": 26,
+    "c4Unreviewed": 0,
+    "exit": 0
+   }
+  },
+  "E01-capture-plan.md": {
+   "c1": 0,
+   "c2": 0,
+   "c3Unreviewed": 24,
+   "c4Unreviewed": 2,
+   "s1": 0,
+   "s2": 0,
+   "exit": 1,
+   "note": "own words only; not a design-set file"
+  },
+  "fix": "exclude research/baselines/ from doc_checks.py corpus_files (line 62) and json_files (line 108); W-16 make_denylist.py already excludes it (EXCLUDE, line 49)"
+ }
+}

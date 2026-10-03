@@ -1,0 +1,4397 @@
+{
+ "schema": "research.metrics-twin/1",
+ "metricsVersion": "1.0.0",
+ "lane": "m1/W-01",
+ "planDate": "2026-10-03",
+ "script": "research:baselines/plan.py",
+ "source": "V12 section 3.4.2's catalogue and default rules; section 2.1's MetricDef fields",
+ "units": [
+  "m",
+  "m2",
+  "ha",
+  "deg",
+  "share",
+  "count",
+  "perHa",
+  "perKm",
+  "ratio",
+  "bits",
+  "ms",
+  "s",
+  "luma",
+  "rb",
+  "chroma",
+  "z",
+  "none"
+ ],
+ "defaultTolerance": {
+  "geo": {
+   "rel": 1e-09
+  },
+  "model": {
+   "rel": 1e-09
+  },
+  "trace": {
+   "rel": 1e-09
+  },
+  "counts": {
+   "rel": 1e-09
+  },
+  "render": {
+   "abs": 0.01
+  },
+  "m1Twin": {
+   "rel": 0.005,
+   "orLastDigit": 1
+  }
+ },
+ "centroids": "area centroids for polygons, the point itself for points (default rule)",
+ "metrics": [
+  {
+   "id": "street.turn100",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "deg",
+   "output": {
+    "kind": "scalar",
+    "unit": "deg"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 1,
+    "basis": "default: angles 1 degree"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "street turning",
+   "parity": true,
+   "basis": "stated; unit degrees per 100 m read as deg (inferred); perSeed the length-weighted median (stated)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D14",
+     "workItem": "W-05",
+     "role": "target",
+     "note": "organic presets only; the declared exception band (0.5 - 1.5 x FTG)"
+    }
+   ]
+  },
+  {
+   "id": "street.stepHist",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "deg",
+   "output": {
+    "kind": "distribution",
+    "unit": "deg",
+    "edges": [
+     0,
+     1,
+     2,
+     3,
+     4,
+     5,
+     6,
+     7,
+     8,
+     9,
+     10,
+     11,
+     12,
+     13,
+     14,
+     15,
+     16,
+     17,
+     18,
+     19,
+     20,
+     21,
+     22,
+     23,
+     24,
+     25,
+     26,
+     27,
+     28,
+     29,
+     30,
+     31,
+     32,
+     33,
+     34,
+     35,
+     36,
+     37,
+     38,
+     39,
+     40,
+     41,
+     42,
+     43,
+     44,
+     45
+    ],
+    "underflow": false,
+    "overflow": true,
+    "rule": "1 degree bins over 0 - 45 degrees plus overflow (stated by the row)"
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "value": 1,
+    "basis": "default: angles 1 degree"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "street turning",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D14",
+     "workItem": "W-05",
+     "role": "weakness"
+    }
+   ]
+  },
+  {
+   "id": "street.entropy50",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "bits",
+   "output": {
+    "kind": "scalar",
+    "unit": "bits"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.05,
+    "basis": "default: entropies"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "street turning",
+   "parity": true,
+   "basis": "stated; one entropy per town (inferred)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D14",
+     "workItem": "W-05",
+     "role": "weakness"
+    }
+   ]
+  },
+  {
+   "id": "street.drift600",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "growth drift",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "junction.angles",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "deg",
+   "output": {
+    "kind": "vector",
+    "unit": "deg",
+    "fields": [
+     "median",
+     "p5"
+    ]
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 1,
+    "basis": "default: angles 1 degree"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    },
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "junction arm angles",
+   "parity": true,
+   "basis": "stated (per seed median and p5)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11"
+    }
+   ]
+  },
+  {
+   "id": "junction.share4",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    },
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "junction arm angles",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D4",
+     "workItem": "W-11",
+     "role": "target"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "street.runs",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "vector",
+    "unit": "m",
+    "fields": [
+     "arterial",
+     "street",
+     "lane",
+     "alley",
+     "track"
+    ]
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "street runs by class",
+   "parity": true,
+   "basis": "stated (per seed median per class); fields are the profile's way classes a run can carry (inferred)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "bldg.r4.60",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated; R4 is a resultant length in [0, 1], unit ratio (inferred)",
+   "sampling": {
+    "label": "bldg.r4.60",
+    "n": 1500
+   },
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D7",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.r4.120",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "as bldg.r4.60",
+   "sampling": {
+    "label": "bldg.r4.120",
+    "n": 1500
+   },
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D7",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.r4.250",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "as bldg.r4.60",
+   "sampling": {
+    "label": "bldg.r4.250",
+    "n": 1500
+   },
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D7",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.wallAlign",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "none",
+   "output": {
+    "kind": "vector",
+    "unit": "none",
+    "fields": [
+     "b0_40.median",
+     "b0_40.share15",
+     "b40_100.median",
+     "b40_100.share15",
+     "b100_200.median",
+     "b100_200.share15"
+    ],
+    "fieldUnits": {
+     "median": "deg",
+     "share15": "share"
+    }
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 1,
+    "basis": "default: angles 1 degree"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated (per band the median and the share <= 15 degrees)",
+   "open": "W-07: the vector mixes degrees and shares while MetricDef.output carries one unit; the band floor for the share fields is 0.02 (default) -- split or keep fieldUnits, ruled before the row",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D7",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "sgd.tShare",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D11",
+     "workItem": "W-09",
+     "role": "target",
+     "note": "descriptive instead if its seed-to-seed CV > 0.3 (S-V12-2, W-14)"
+    }
+   ]
+  },
+  {
+   "id": "sgd.deadEnds",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "perKm",
+   "output": {
+    "kind": "scalar",
+    "unit": "perKm"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: densities 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D11",
+     "workItem": "W-09",
+     "role": "target",
+     "note": "descriptive instead if its seed-to-seed CV > 0.3 (S-V12-2, W-14)"
+    }
+   ]
+  },
+  {
+   "id": "blockc.perHa",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "perHa",
+   "output": {
+    "kind": "scalar",
+    "unit": "perHa"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: densities 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D11",
+     "workItem": "W-09",
+     "role": "target",
+     "note": "descriptive instead if its seed-to-seed CV > 0.3 (S-V12-2, W-14)"
+    }
+   ]
+  },
+  {
+   "id": "blockc.lotsPer",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D11",
+     "workItem": "W-09",
+     "role": "target",
+     "note": "descriptive instead if its seed-to-seed CV > 0.3 (S-V12-2, W-14)"
+    }
+   ]
+  },
+  {
+   "id": "block.area",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m2",
+   "output": {
+    "kind": "distribution",
+    "unit": "m2",
+    "edges": [
+     50.0,
+     66.676072,
+     88.913971,
+     118.568685,
+     158.113883,
+     210.848252,
+     281.170663,
+     374.947105,
+     500.0,
+     666.760716,
+     889.139705,
+     1185.686853,
+     1581.13883,
+     2108.482517,
+     2811.706626,
+     3749.471047,
+     5000.0,
+     6667.607161,
+     8891.39705,
+     11856.868528,
+     15811.388301,
+     21084.825171,
+     28117.06626,
+     37494.710467,
+     50000.0
+    ],
+    "underflow": true,
+    "overflow": true,
+    "rule": "log-spaced, 24 bins, 50 - 50 000 m2, with underflow and overflow bins (default rule)"
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "blocks",
+   "parity": true,
+   "basis": "stated (built blocks per district; distribution)",
+   "open": "W-11: NG inputs are relative (V12 section 2.2), so NG rows read block.areaRel; block.area applies to metric sources",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D15",
+     "workItem": "W-11",
+     "role": "target",
+     "note": "NG inputs are relative: the row reads block.areaRel (open on that entry)"
+    }
+   ]
+  },
+  {
+   "id": "block.areaRel",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "distribution",
+    "unit": "ratio",
+    "edges": null
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "blocks",
+   "parity": true,
+   "basis": "stated as the relative variant of block.area (areas / the median footprint area)",
+   "open": "W-11: V12 states no bin edges for the relative variant (edges null here); edges in median-footprint units are owed before the first row"
+  },
+  {
+   "id": "block.countTemplate",
+   "version": "1.0.0",
+   "input": "counts",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "blocks",
+   "parity": true,
+   "basis": "stated (built blocks per hood per template at medium)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D15",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "block.courtShare",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    },
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "deep block interiors",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D5",
+     "workItem": "W-11",
+     "role": "target"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D5",
+     "workItem": "W-09",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "cut.sigma",
+   "version": "1.0.0",
+   "input": "trace",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "bent-cut signature",
+   "parity": true,
+   "basis": "section 4.6's recorded-frame measure; unit ratio (inferred: a relative offset)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D23",
+     "workItem": "W-10",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "cut.cornerMid",
+   "version": "1.0.0",
+   "input": "trace",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "bent-cut signature",
+   "parity": true,
+   "basis": "section 4.6's measure; unit share (inferred)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D23",
+     "workItem": "W-10",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "cut.arrival85",
+   "version": "1.0.0",
+   "input": "trace",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "bent-cut signature",
+   "parity": true,
+   "basis": "section 4.6's measure (arrivals >= 85 degrees); unit share (inferred)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D23",
+     "workItem": "W-10",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "cut.fillet",
+   "version": "1.0.0",
+   "input": "trace",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "bent-cut signature",
+   "parity": true,
+   "basis": "section 4.6's measure (filleted corners); unit share (inferred)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D23",
+     "workItem": "W-10",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "fg.recoverability",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "figure-ground and streetwall",
+   "parity": true,
+   "basis": "stated (section 8.5's metric)",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D12",
+     "workItem": "W-08",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "fg.coverWalled",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "figure-ground and streetwall",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D12",
+     "workItem": "W-08",
+     "role": "descriptive"
+    }
+   ]
+  },
+  {
+   "id": "fg.streetwall",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "figure-ground and streetwall",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D10",
+     "workItem": "W-08",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.area",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m2",
+   "output": {
+    "kind": "vector",
+    "unit": "m2",
+    "fields": [
+     "median",
+     "p95"
+    ]
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "plots and footprints",
+   "parity": true,
+   "basis": "stated (per seed median and p95)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "bldg.quadSide",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "plots and footprints",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "bldg.worstCorner",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "deg",
+   "output": {
+    "kind": "scalar",
+    "unit": "deg"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 1,
+    "basis": "default: angles 1 degree"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "plots and footprints",
+   "parity": true,
+   "basis": "stated (per seed p95 of the per-footprint largest corner deviation)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "plot.area",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "plots and footprints",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "bldg.partyShare",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    },
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "party walls and attachment",
+   "parity": true,
+   "basis": "stated (per class median; a reference has one class, unknown)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11"
+    }
+   ]
+  },
+  {
+   "id": "bldg.attached",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    },
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "party walls and attachment",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11"
+    }
+   ]
+  },
+  {
+   "id": "plot.spearman",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "any",
+   "absFloor": {
+    "value": 0.05,
+    "basis": "default: Moran's I and Spearman"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG",
+     "role": "weakness"
+    }
+   ],
+   "row": "plot-area gradient",
+   "parity": true,
+   "basis": "stated; NG's plots read as geo (stated)"
+  },
+  {
+   "id": "plot.moran",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "any",
+   "absFloor": {
+    "value": 0.05,
+    "basis": "default: Moran's I and Spearman"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG",
+     "role": "weakness"
+    }
+   ],
+   "row": "plot-area gradient",
+   "parity": true,
+   "basis": "stated; NG's plots read as geo (stated)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11"
+    }
+   ]
+  },
+  {
+   "id": "plot.cvDistrict",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG",
+     "role": "weakness"
+    }
+   ],
+   "row": "plot-area gradient",
+   "parity": true,
+   "basis": "stated; NG's plots read as geo (stated)"
+  },
+  {
+   "id": "alley.gradient",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "any",
+   "absFloor": {
+    "value": 0.05,
+    "basis": "default: Moran's I and Spearman"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "alleys",
+   "parity": true,
+   "basis": "stated (a Spearman)"
+  },
+  {
+   "id": "walled.share",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "walled share and ribbons",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D8",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "ribbon.share",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "walled share and ribbons",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D8",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "district.area",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ha",
+   "output": {
+    "kind": "scalar",
+    "unit": "ha"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "plaza.area",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ha",
+   "output": {
+    "kind": "scalar",
+    "unit": "ha"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "castle.area",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ha",
+   "output": {
+    "kind": "scalar",
+    "unit": "ha"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "castle.compact",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "wall.nodeSpacing",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors",
+   "parity": true,
+   "basis": "stated (p50)",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "quarter.count",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG anchors; labels",
+   "parity": true,
+   "basis": "stated (references: district features)",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "outline.r90cv",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "outline anisotropy",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D14",
+     "workItem": "W-05",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "outline.roadRatio",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "outline anisotropy",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D14",
+     "workItem": "W-05",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "usemix.resOnly",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "block-level use mix",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "usemix.entropy",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "block-level use mix",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "usemix.liveIn",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "block-level use mix",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wall.towerSpacing",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "towers and gates",
+   "parity": true,
+   "basis": "stated (p50)",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "wall.ungated",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "towers and gates",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "gate.count",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "towers and gates",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D9",
+     "workItem": "W-07",
+     "role": "target"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "water.step",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "water",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "water.riverWidth",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "water",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "tree.nnP1",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "tree scatter",
+   "parity": true,
+   "basis": "stated (the 1st percentile of nearest-neighbour distances, inferred from the id)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "tree.nnMedian",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "scalar",
+    "unit": "m"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "tree scatter",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "tree.pcf",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ratio",
+   "output": {
+    "kind": "vector",
+    "unit": "ratio",
+    "fields": [
+     "r1",
+     "r2",
+     "r3",
+     "r4",
+     "r5",
+     "r6",
+     "r7",
+     "r8",
+     "r9",
+     "r10",
+     "r11",
+     "r12",
+     "r13",
+     "r14",
+     "r15",
+     "r16",
+     "r17",
+     "r18",
+     "r19",
+     "r20"
+    ]
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "weakness"
+    }
+   ],
+   "row": "tree scatter",
+   "parity": true,
+   "basis": "stated (the pair-correlation function at 1 .. 20 m)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "pop.perBuilding",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG",
+     "role": "weakness"
+    },
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "population and buildings",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    }
+   ]
+  },
+  {
+   "id": "time.model",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": "free",
+   "unit": "ms",
+   "output": {
+    "kind": "scalar",
+    "unit": "ms"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: timings 5 %"
+   },
+   "tolerance": null,
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    },
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "generation time",
+   "parity": true,
+   "basis": "stated (section 12's measure / the calibration score ratio); timing has no same-input tolerance",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D13",
+     "workItem": "W-02",
+     "role": "weakness"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "D26",
+     "workItem": "W-05"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "descriptive"
+    }
+   ]
+  },
+  {
+   "id": "time.firstMap",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": "free",
+   "unit": "ms",
+   "output": {
+    "kind": "scalar",
+    "unit": "ms"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: timings 5 %"
+   },
+   "tolerance": null,
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    },
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "section 12's targets",
+   "parity": true,
+   "basis": "stated"
+  },
+  {
+   "id": "time.worst",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": "free",
+   "unit": "ms",
+   "output": {
+    "kind": "scalar",
+    "unit": "ms"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: timings 5 %"
+   },
+   "tolerance": null,
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    },
+    {
+     "ref": "FTG"
+    },
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "MFCG-worst configurations",
+   "parity": true,
+   "basis": "stated"
+  },
+  {
+   "id": "wait.generate",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.regenerate",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.openFromSF",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.dossierChange",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.advanceTime",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.historyReplay",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.export",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.migrate",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wait.progressMs",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 119 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "time.findSuggest",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 120 (k): section 12.5's overlay budget",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "time.findGlow",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 120 (k): section 12.5's overlay budget",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "delivery.tier",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "ladder.use",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "vacancy.share",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "quay.reach",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "residue.share",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "entrance.frontage",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "hidden.share",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "the C rows of section 13.5",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "wealth.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "members": "W-05 fixes the member ids (one per lifestyle tier share) before its first row (M-1-plan D25)",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05",
+     "role": "descriptive"
+    }
+   ]
+  },
+  {
+   "id": "draw.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [
+    {
+     "ref": "MFCG"
+    },
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "members": "W-07 fixes the member ids for MFCG's draw-style rows (section 8.3's census; M-1-plan D28); draw.contrast and draw.hairline below are members of ours",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "ink"
+    }
+   ]
+  },
+  {
+   "id": "label.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [
+    {
+     "ref": "MFCG",
+     "role": "weakness"
+    },
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "labels",
+   "parity": true,
+   "members": "section 9.4's checks; no M-1 work item measures a label row (M-1-plan section 1 lists none)"
+  },
+  {
+   "id": "variety.dispersion",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "z",
+   "output": {
+    "kind": "scalar",
+    "unit": "z"
+   },
+   "perSeed": "value",
+   "sign": "any",
+   "absFloor": null,
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    },
+    {
+     "ref": "FTG"
+    }
+   ],
+   "row": "between-seed variety",
+   "parity": true,
+   "basis": "stated (mean pairwise distance of standardised signature vectors over the seeds); sign any by the default rule for unit z",
+   "open": "W-09 (MFCG) and W-05 (FTG): V12 states no absFloor for a z distance; set before the first row",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D16",
+     "workItem": "W-09",
+     "role": "target",
+     "note": "a floor"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "D16",
+     "workItem": "W-05",
+     "role": "target",
+     "note": "a floor; estimator minmax at n = 3 (section 8 (5))"
+    }
+   ]
+  },
+  {
+   "id": "market.secondary",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "markets",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D24",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "descriptive with a known-defects entry if the export holds one square (section 8)"
+    }
+   ]
+  },
+  {
+   "id": "market.adjacent",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "markets",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D24",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "descriptive with a known-defects entry if the export holds one square (section 8)"
+    }
+   ]
+  },
+  {
+   "id": "palette.paperLuma",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "section 13.4 palette bar (item 69 owner-set targets)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "palette.paperWarmth",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "section 13.4 palette bar (item 69 owner-set targets)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "palette.inkLuma",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "section 13.4 palette bar (item 69 owner-set targets)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "palette.inkWarmth",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "section 13.4 palette bar (item 69 owner-set targets)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "palette.plateChroma",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "section 13.4 palette bar (item 69 owner-set targets)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "fm.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "counts",
+   "scale": "free",
+   "references": [
+    {
+     "ref": "FM"
+    }
+   ],
+   "row": "V02 section 7.4",
+   "parity": true,
+   "members": "V02's T-V2-31 rows (nine rows and the plan extent); crosses at M6c, not an M-1 row"
+  },
+  {
+   "id": "vg.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": null,
+   "references": [
+    {
+     "ref": "VG"
+    }
+   ],
+   "row": "V07 section 7",
+   "parity": true,
+   "members": "V07 section 7's parity metrics; cross at V-M4"
+  },
+  {
+   "id": "siting.<spec>",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [
+    {
+     "ref": "corpus"
+    }
+   ],
+   "row": "T71-3; file g bars",
+   "parity": true,
+   "members": "one per registered NullModelSpec (V12 section 3.6); the corpus at M-CAL"
+  },
+  {
+   "id": "bar.<barId>",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "the register's entries",
+   "parity": false,
+   "members": "generated per registered owner bar (V12 2.1)"
+  },
+  {
+   "id": "frame.<table>.<column>",
+   "family": true,
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": null,
+   "references": [
+    {
+     "ref": "corpus"
+    }
+   ],
+   "row": "the register's corpus entries",
+   "parity": true,
+   "members": "generated per calibratable column (V12 section 2.1); notApplicable before its corpus run"
+  },
+  {
+   "id": "wall.barrierShare",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    },
+    {
+     "ref": "corpus"
+    }
+   ],
+   "row": "item 106's use of natural barriers",
+   "parity": true,
+   "basis": "stated"
+  },
+  {
+   "id": "wall.condition",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 114 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "grid.r4",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (c)'s distinctness bar",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "grid.axis",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (c)'s distinctness bar",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "ruin.blockArea",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "references": [],
+   "row": "item 109 (c)'s distinctness bar",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "plan.rightAngle",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (i)'s structure test",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "plan.straight",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (i)'s structure test",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "void.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "V12 section 2.7b's indicators",
+   "parity": false,
+   "members": "ours only; the product registry"
+  },
+  {
+   "id": "link.*",
+   "family": true,
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "V12 section 2.7b's indicators",
+   "parity": false,
+   "members": "ours only; the product registry"
+  },
+  {
+   "id": "ladder.members",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "V12 section 2.7b's indicators",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crypt.present",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (2)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crypt.areaM2",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 109 (k) (2)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crypt.rank",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (2)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crypt.joined",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (2)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.count",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (3)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.source",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (3)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.rank",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (3)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.extentM2",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 109 (k) (4)-(6)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.fill",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 109 (k) (4)-(6)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.blockedBy",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "item 109 (k) (4)-(6)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "catacomb.growthM2",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 109 (k) (4)-(6)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "raised.count",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (b), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "raised.generatedBelowCity",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (b), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "raised.reasonMissing",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (b), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "raised.overCap",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (b), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "raised.junctions",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "retaining.lengthM",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 110 (a), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "retaining.onFlatM",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 110 (a), (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "deck.buildings",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (c), (d)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "tier.count",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 110 (c), (d)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crossing.kinds",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "the ways.crossing register line",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "water.needRatio",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "the water and climate register lines; V11's T-V11-33",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "water.kinds",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 111 (d)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "water.walkShare",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 111 (d)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "water.distByBand",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "metric",
+   "references": [],
+   "row": "item 111 (d)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "ruin.survival",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "the under.ruin survival register line",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "shade.gap",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "item 102 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "bldg.grandeur",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 115 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "view.limitStop",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 116 (e)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "season.crownColours",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "item 117 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "season.leafCover",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "item 117 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "season.iceOrder",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "item 117 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "season.iceSnow",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "item 117 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "time.reskin",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 117 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "festival.weeks",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "item 118 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "festival.kinds",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 118 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "festival.stage",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "item 118 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "festival.blocked",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 118 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "find.matches",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 120 (k)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "find.leaks",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 120 (k)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "find.held",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 120 (k)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "find.pins",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 120 (k)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "find.cues",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 120 (k)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "resolution.changes",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 121 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "resolution.p95",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 121 (h)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "resolution.textPx",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "T121-5, T121-8",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "resolution.ultra4k",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": "free",
+   "references": [],
+   "row": "T121-5, T121-8",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.weeks",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.stable",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.scale",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.blocked",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.share",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (g)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "time.crisisReskin",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "section 12.10's R12-37",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.rasterShare",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": "free",
+   "references": [],
+   "row": "section 12.10's R12-37",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.areaPerHead",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (h)-(i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.coalition",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (h)-(i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.framing",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (h)-(i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "crisis.ring",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 122 (h)-(i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "damage.nested",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 123 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "damage.breakLevel",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 123 (f)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.frameMs",
+   "version": "1.0.0",
+   "input": "timing",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.snow",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.aridRain",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.cover",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.luma",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "weather.replay",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": null,
+   "references": [],
+   "row": "item 124 (i)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "port.fallbacks",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "references": [],
+   "row": "item 125 (e)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "layout.touch",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "item 126 (e)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "layout.belowMedium",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "references": [],
+   "row": "item 126 (e)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "street.detour",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "median",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "detour index <M-1>",
+   "parity": true,
+   "basis": "stated (200 node pairs >= 100 m apart; per seed median); unit ratio (inferred)",
+   "sampling": {
+    "label": "street.detour",
+    "n": 200
+   },
+   "open": "W-11: a metric-scale metric (pairs >= 100 m apart) on a relative-scale NG input is notApplicable by V12 section 3.5.6 unless a relative rule is stated",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D4",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "street.cyclesPerKm2",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": null,
+   "output": {
+    "kind": "scalar",
+    "unit": null
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: densities 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "cycles per km2 <M-1>",
+   "parity": true,
+   "basis": "stated",
+   "open": "W-11: per km2 is not in MetricUnit (perHa and perKm are); and the metric needs metres while NG inputs are relative -- a unit and a relative rule are owed before the row",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D4",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "plot.minWidth",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "distribution",
+    "unit": "m",
+    "edges": [
+     0.0,
+     0.25,
+     0.5,
+     0.75,
+     1.0,
+     1.25,
+     1.5,
+     1.75,
+     2.0,
+     2.25,
+     2.5,
+     2.75,
+     3.0,
+     3.25,
+     3.5,
+     3.75,
+     4.0,
+     4.25,
+     4.5,
+     4.75,
+     5.0,
+     5.25,
+     5.5,
+     5.75,
+     6.0,
+     6.25,
+     6.5,
+     6.75,
+     7.0,
+     7.25,
+     7.5,
+     7.75,
+     8.0,
+     8.25,
+     8.5,
+     8.75,
+     9.0,
+     9.25,
+     9.5,
+     9.75,
+     10.0,
+     10.25,
+     10.5,
+     10.75,
+     11.0,
+     11.25,
+     11.5,
+     11.75,
+     12.0,
+     12.25,
+     12.5,
+     12.75,
+     13.0,
+     13.25,
+     13.5,
+     13.75,
+     14.0,
+     14.25,
+     14.5,
+     14.75,
+     15.0,
+     15.25,
+     15.5,
+     15.75,
+     16.0,
+     16.25,
+     16.5,
+     16.75,
+     17.0,
+     17.25,
+     17.5,
+     17.75,
+     18.0,
+     18.25,
+     18.5,
+     18.75,
+     19.0,
+     19.25,
+     19.5,
+     19.75,
+     20.0,
+     20.25,
+     20.5,
+     20.75,
+     21.0,
+     21.25,
+     21.5,
+     21.75,
+     22.0,
+     22.25,
+     22.5,
+     22.75,
+     23.0,
+     23.25,
+     23.5,
+     23.75,
+     24.0,
+     24.25,
+     24.5,
+     24.75,
+     25.0,
+     25.25,
+     25.5,
+     25.75,
+     26.0,
+     26.25,
+     26.5,
+     26.75,
+     27.0,
+     27.25,
+     27.5,
+     27.75,
+     28.0,
+     28.25,
+     28.5,
+     28.75,
+     29.0,
+     29.25,
+     29.5,
+     29.75,
+     30.0
+    ],
+    "underflow": false,
+    "overflow": true,
+    "rule": "0.25 m bins to 30 m with an overflow bin (default rule)"
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "plot minimum width <M-1>",
+   "parity": true,
+   "basis": "stated (NG's plots geo; ours model)",
+   "open": "W-11: metres on a relative-scale NG input -- a relative variant (as block.areaRel) is owed",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D4",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "fg.streetwallGap100",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": null,
+   "output": {
+    "kind": "scalar",
+    "unit": null
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: densities 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "streetwall gap <M-1>",
+   "parity": true,
+   "basis": "stated (gaps > 2 m per 100 m of frontage)",
+   "open": "W-11: no MetricUnit names a count per 100 m, and the metric needs metres while NG inputs are relative",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D4",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.pairing",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "share",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "adjacent-footprint pairing <M-1>",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D2",
+     "workItem": "W-11",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "draw.contrast",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "the M1 exit's contrast matrix (our floors)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "draw.hairline",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": null,
+   "references": [],
+   "row": "the M1 exit's hairline fidelity (our floors)",
+   "parity": false,
+   "basis": "ours only: no reference row; the product registry fills the remaining fields at M1"
+  },
+  {
+   "id": "ftg.ringBlock",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "m2",
+   "output": {
+    "kind": "distribution",
+    "unit": "m2",
+    "edges": [
+     50.0,
+     66.676072,
+     88.913971,
+     118.568685,
+     158.113883,
+     210.848252,
+     281.170663,
+     374.947105,
+     500.0,
+     666.760716,
+     889.139705,
+     1185.686853,
+     1581.13883,
+     2108.482517,
+     2811.706626,
+     3749.471047,
+     5000.0,
+     6667.607161,
+     8891.39705,
+     11856.868528,
+     15811.388301,
+     21084.825171,
+     28117.06626,
+     37494.710467,
+     50000.0
+    ],
+    "underflow": true,
+    "overflow": true,
+    "rule": "log-spaced, 24 bins, 50 - 50 000 m2, with underflow and overflow bins (default rule)"
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.05,
+    "basis": "default: areas 5 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "FTG face recovery (descriptive)",
+   "parity": true,
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D1",
+     "workItem": "W-06",
+     "role": "descriptive"
+    }
+   ]
+  }
+ ],
+ "m1Uncovered": [
+  {
+   "metric": "block.areaRel",
+   "reference": "NG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "bldg.area",
+   "reference": "MFCG",
+   "catalogueRole": "descriptive"
+  },
+  {
+   "metric": "plot.spearman",
+   "reference": "NG",
+   "catalogueRole": "weakness"
+  },
+  {
+   "metric": "plot.cvDistrict",
+   "reference": "NG",
+   "catalogueRole": "weakness"
+  },
+  {
+   "metric": "alley.gradient",
+   "reference": "FTG",
+   "catalogueRole": "weakness"
+  },
+  {
+   "metric": "wall.ungated",
+   "reference": "MFCG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "water.step",
+   "reference": "MFCG",
+   "catalogueRole": "descriptive"
+  },
+  {
+   "metric": "water.riverWidth",
+   "reference": "MFCG",
+   "catalogueRole": "descriptive"
+  },
+  {
+   "metric": "pop.perBuilding",
+   "reference": "MFCG",
+   "catalogueRole": "weakness"
+  },
+  {
+   "metric": "time.firstMap",
+   "reference": "MFCG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "time.firstMap",
+   "reference": "FTG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "time.firstMap",
+   "reference": "NG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "time.worst",
+   "reference": "MFCG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "time.worst",
+   "reference": "FTG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "time.worst",
+   "reference": "NG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "draw.*",
+   "reference": "NG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "label.*",
+   "reference": "MFCG",
+   "catalogueRole": "weakness"
+  },
+  {
+   "metric": "label.*",
+   "reference": "NG",
+   "catalogueRole": null
+  },
+  {
+   "metric": "wall.barrierShare",
+   "reference": "MFCG",
+   "catalogueRole": "descriptive"
+  }
+ ],
+ "counts": {
+  "ids": 172,
+  "families": 10,
+  "parity": 73,
+  "oursOnly": 109,
+  "withM1Rows": 61,
+  "open": 8,
+  "m1Uncovered": 19
+ }
+}

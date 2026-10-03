@@ -1,0 +1,152 @@
+{
+  "verdict": "fix",
+  "issues": [
+    {
+      "id": "PC-01",
+      "where": "M-1-plan.md §1, §2 (W-10, W-11, W-20), §7; M-1-work.json deliverables",
+      "problem": "ng-faces.json is missing from the plan. M0's AFTER-M-1 (b) items read it: M0-b-05b and M0-c-07b (plat/docs/build/M0-work.json afterM1Needs; choices C-0043, C-0071, C-0086). It must hold NG face rings in integer cm by template with referenceBuild, and per face the block areas, the cut lengths and, for each cut, the corner position, the arrival angle and the fillet flag, plus NG's hood outlines. M0 accepts instead M-1's recorded statement that it cannot deliver the file. The plan names neither (CONFIRMED by grep). The file also conflicts with the design: V12 §3.3 says geometry never crosses, and §17.1 (4)'s list of crossing files does not include it (CONFIRMED by reading).",
+      "required_change": "Add a ledger row and the producing steps: W-10/W-11 build the per-face records, W-20 crosses the file with its CrossingRecord. Before anything is produced, route the geometry-crossing conflict to a Fable ruling or design amendment. Otherwise record now, in §8, M-1's statement that it cannot deliver the file, so M0-b-05b/M0-c-07b go descriptive by the ⟨M-1⟩ rule (C-0071). The plan must say which path it takes.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-02",
+      "where": "§1 D23, §2 W-10 (tool, outputs, checker), W-01 metrics.m-1.json",
+      "problem": "Three gaps. (1) The baselines row M0 requested for cut lengths per face (NG 1.2.2, vertex captures) ⟨M-1⟩, with bins/histogram and spreadKS.p90 over per-template subsets (C-0086), is missing. Its metric id is not in V12 §3.4.2's catalogue, so check C6 would refuse it. (2) W-10 partitions only by face class (curved, round-joined, triangular, C-shaped, holed). M0 needs the per-template subsets, plus σ split plain 0.066 versus ring/holed 0.098 for M0-b-05a. (3) W-10's checker reproduces 380/519, 96 % and 200/378 but never σ 0.066/0.098 (CONFIRMED by reading).",
+      "required_change": "Register the cut-length metric: a design amendment to the catalogue, then an entry in metrics.m-1.json. Otherwise record the row as cannot-deliver. Have W-10 output the plain/ring and per-template partitions beside the face classes. Add 'σ reproduces 0.066 (plain) and 0.098 (ring) on the recorded bent-cut records' to W-10's checker.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-03",
+      "where": "§1 D4, D15, D27, D23; §2 W-11 (adapters/ng.py scale: relative), W-10",
+      "problem": "NG captures are in canvas px, with a per-map view scale of 0.56–1.11 (README-vertices.md, CONFIRMED). Yet these rows use metre-scale metrics in V12 §3.4.2: street.detour (pairs ≥ 100 m apart), street.cyclesPerKm2, plot.minWidth, fg.streetwallGap100 (gaps > 2 m per 100 m) and block.area (m²). junction.angles also uses 2 m merging and arms 10 m along. By V12 §3.5.6, a metre-scale metric on a relative input reads notApplicable, and ng-faces.json needs integer cm. The plan states no scale conversion.",
+      "required_change": "Declare the NG scale rule in E01/W-11 and mark every row that uses it. For example: px ÷ the map's CTM, times the design's inferred 0.35 m per model unit (ARCHITECTURE §4.6, the cut.flattenM note at line 7307), with that provenance. Otherwise use the relative variants (block.areaRel; constants as multiples of the median footprint short side). In that case enter the metre-only ⟨M-1⟩ rows as descriptive, with known-defects entries and a hand-off to a design seat.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-04",
+      "where": "§1 D2, D4, D5, D15, D23, D27 (NG), D14/D26 (FTG CITY payloads); §2 W-01, W-05, W-10, W-11; §3",
+      "problem": "Check C7 (V12 §3.2.1, §3.3) builds a row only from a plan's indices [0, n) of a registered capture/ family, and an FTG row's captures must equal the plan's slots in order. The plan builds NG rows from the four 2026-09-25 vertex captures, which were not taken on formula seeds (e.g. 7171), and pools FTG rows over the two CITY payloads, which plan.json is never said to list as slots. §3 also says W-07/W-09's fixture pass gives M0 (c) its MFCG rows, but fixture numbers cannot become rows. As planned, these rows fail C7 at W-15 (CONFIRMED by reading).",
+      "required_change": "W-01's plan.json lists the FTG slots in capture order: the two CITY captures as recorded slots (setting CITY) and the six new ones by size. NG rows come from W-04's medium plan seeds, with the 2026-09-25 captures used as twin fixtures. W-10/W-11's row passes then depend on W-04, and M0's AFTER-M-1 rows wait for it. For the cut.* trace rows that V12 §3.2.2 calls 'the recorded measurements', declare a recorded-sample entry under a Fable ruling, following the Fantasy Manor 41 precedent. Correct the §3 sentence.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-05",
+      "where": "§1 D1, D14, D16, D26; §2 W-05, W-06",
+      "problem": "The 2026-09-25 FTG payload (captures/ftg/2026-09-25T10-13-51, Nevervalley) used a non-default layout: Custom preset with the Stage-2 road segment length 60 → 100 m (research/ftg-capture/roadlength100/README.md, CONFIRMED). The plan pools 'the two CITY payloads' as one default setting for runs, turning, junctions, outline, ring blocks, variety and time.",
+      "required_change": "Mark the 2026-09-25 payload as a declared non-default setting. Keep it for the street-runs law and the twin checks, and exclude it from the default CITY rows or label it separately there, with the reason in E05/E06 and the row notes.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-06",
+      "where": "§2 W-03 (checker), §2.2, §5 item 2, §9 (S-V12-1 fallback), W-13",
+      "problem": "The owner approved (J159) 35 automated loads and 70 downloads. The planned method makes one navigation per file: the comment in captures/mfcg/exports-sweep-2026-09-25/sweep.sh and the exports README ('One invocation makes one navigation'), both CONFIRMED. 35 seeds × (JSON + SVG) is therefore 70 page loads, not 35. W-03's checker adds a re-export of seed 0 (1–2 more loads and downloads). S-V12-1's pre-decided 20-seed fallback adds 30 seeds (60 loads, 60 downloads) with no owner step. §5 item 2 understates the loads. The build-id fetch of the game page is named in §5 but is not in J159's wording.",
+      "required_change": "Restate §5 and W-03 as 70 loads plus 70 downloads (plus the re-export if kept). The session re-confirms with the owner before W-03 runs (otherwise the seat stops and reports owner_notes). Make the S-V12-1 extension and the build-id fetch explicit owner-gated steps in §5.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-07",
+      "where": "§1 D19, §2 W-16 (outputs, checker), §7 row 2",
+      "problem": "W-16's output does not match M0-k-06's needs. M0-k-06 requires plat/packages/testkit/baselines/denylist.json holding the salted SHA-256 digests (tokens, in-order 3-grams, colour values, file bytes, per-list member words of ≥ 4 letters), its salt and the spell-check exclusion set's digests. It must pass `plat baselines check` with a CrossingRecord and have its generation record in CLEAN-ROOM.md §4. The plan never names the file, ships no exclusion-set digests, does not say which spell list stands in for §9.6's (not yet built), and plans no crossing. V12 §3.3 and §17.1 (4) do not list the file. Hex digests must not trip the colour check (V12 C4 / M0's C3) (CONFIRMED by reading).",
+      "required_change": "Name the file and its fields as afterM1Needs.M0-k-06 states them, and generate the exclusion-set digests from a named spell list. Plan the crossing: cross_check.py support for this file kind, a C4 that reads only hex-delimited six-digit runs, and the CrossingRecord. Name CLEAN-ROOM.md §4 for the generation record.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-08",
+      "where": "§1 D17, §2 W-15, W-20, §7 row 1",
+      "problem": "M0's C-0092 has the countersigning checker append a minimal CrossingRecord {file, sha256, rows, date, checks, checkerSeat, statement} to plat/packages/testkit/baselines/crossings.json. M0-k-05's check refuses a file whose record is missing or whose sha256 differs. The plan writes crossings only inside baselines.json (V12 §2.3), so M0's AFTER-M-1 start condition and checks would refuse the committed files (CONFIRMED by reading choices.md).",
+      "required_change": "W-20 writes both: V12's in-file crossings and a C-0092 record in crossings.json for each crossed file (baselines.json, denylist.json, ng-faces.json if delivered). Alternatively, the session reconciles the two forms with the build side before W-20. State the choice in §7.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-09",
+      "where": "§1 (no row), §2 W-12, §7 last row",
+      "problem": "The fit of the deep-interior default shares is missing. ARCHITECTURE §4.6 (line 7390) calibrates the court / back lane / through-alley / rear-plot shares per band at M-1, on NG's hollow-block frequency and MFCG's inner-plot removal. M0-c-07a needs them as interior.json cells with provenance 'M-1 ⟨date⟩'. The plan has D5's court-share rows but no fit (CONFIRMED by reading).",
+      "required_change": "Add a ledger row and a W-12 step (or a new item) that fits these shares from E09/E11. State the method: the data give one court share per reference or class, so say which cells are fitted and which are held. State the provenance and the hand-off channel.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-10",
+      "where": "§2 W-17 (inputs, outputs), §7 rows 3 and 6, W-12",
+      "problem": "W-17 does not name the digest entries M0's AFTER-M-1 items wait on: how NG's σ was measured (the recorded frame, rotated retries included), the re-fitted depth rows (M0-b-05a), R4's definition, the hollow-block frequency's definition and the junction census, T versus crossroads (M0-c-07a). The plan also routes the depth rows only through a design amendment, while M0-b-05a's start condition reads them from the digest.",
+      "required_change": "List these five entries in W-17's outputs. State in §7 the channel for the re-fitted depth rows and the deep-interior shares: a digest entry, with the amendment kept as the design record. Have W-10/W-11 record the σ-frame and junction-census definitions in E10/E11 for the digest seat to cite.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-11",
+      "where": "§1 D13, D26, D27, D28; §2 W-05, W-07, W-11 (time.model rows)",
+      "problem": "V12 §3.4.2 defines time.model as §12's measures taken in the timing phase, divided by §12.1's calibration score ratio. That ratio waits for M0-t-01's reference score (C-0075). The plan takes FTG scene times, NG hood times and MFCG gen ms from capture logs with neither the host nor the ratio. The new W-02/W-03/W-04 runs would time while M0's build seats run: CONTENDED, and the M-1 brief forbids timing on this machine now.",
+      "required_change": "Build time.* rows only from recorded timings that carry their host and the §12.1 ratio (after M0-t-01), or re-measure them in an idle window agreed with the build side. Record the new captures' timings as contended, feeding no time row. State this in W-05, W-07 and W-11.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-12",
+      "where": "§2 W-09, W-14, §9 row 3",
+      "problem": "The M-1 twin of the derived street graph is a raster medial axis, not V12 §3.4.1's straight skeleton. sgd.tShare and sgd.deadEnds gate at M0-c-07a (C-0072), but J-V12.1's product supersession only happens at M1, after M0's verdict. M0 would then compare ours (its own derivation) against a reference measured by another definition, breaking J-V12.5's like-with-like rule. Under C6 these rows would also need their own metricVersion.",
+      "required_change": "Give the twin rows their own metricVersion in metrics.m-1.json, and add a digest entry describing the twin derivation so M0-c-07a measures ours the same way. Otherwise have W-14 report the raster-versus-skeleton bias on fixtures. Record the consequence for M0-c-07a in §9.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-13",
+      "where": "§1 ledger and 'Not M-1's' paragraph",
+      "problem": "Several §13.5 reference cells with V12 §3.4.2 metric ids appear neither in §1 nor in 'Not M-1's': MFCG bldg.area (descriptive), label.* (weakness), pop.perBuilding (weakness), water.riverWidth (descriptive), wall.barrierShare (descriptive), time.worst (MFCG-worst configurations, weakness) and the waterfront gate law (descriptive, P11); FTG alley.gradient (weakness) and the two market squares (descriptive, no catalogue id); NG draw.* for `hatched` (target) and the roof ratios (descriptive). §16's exit requires every §13.5 baseline row to be present (CONFIRMED by reading §13.5 and V12 §3.4.2 against the ledger).",
+      "required_change": "Give each one a ledger row with class, source and work item, or a one-line no-row statement with its reason (class C, a code-read note, `hatched` at M5) in 'Not M-1's'. Widen W-05, W-07 and W-11 to match.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-14",
+      "where": "§2 W-07 checker",
+      "problem": "W-07's checker is narrower than T-V12-6, which W1 makes M-1's exit (V12 §8). T-V12-6 also requires: gross cover 0.657 / 0.582 / 0.621 / 0.583 / 0.569 to three decimals; R4 within 0.02 of every per-city value in mfcg_orient.out (not only gates4); wall alignment within one point of every city in mfcg_wallalign.out; and, on exports-sweep-2026-09-25, the buildings, walled share, cover, median footprint, gates, districts, plaza and castle areas exactly as stats.md gives them.",
+      "required_change": "Make W-07's checker T-V12-6 in full.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-15",
+      "where": "§2 W-11 checker; §1 D27",
+      "problem": "W-11's checker asks the twin to reproduce plot_granularity_baseline.py's party-wall shares. That script's definition differs from V12's bldg.partyShare: it uses collinear overlap ≥ 2 px within 0.1 px and a pooled shared-length ratio, where V12 takes per footprint a 1 %-of-short-side tolerance and a per-class median. Its Moran's I uses k = 8, where V12's plot.moran uses shared-edge adjacency (CONFIRMED by reading the script head).",
+      "required_change": "Reproduce the old script under its own definition as the twin check. Then report the V12-definition values with the shift declared, as D14 already does for turning.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-16",
+      "where": "§5 item 1, §2 W-02 (tool, checker), research/baselines/ftg_capture_checklist.md",
+      "problem": "§5 leaves accepting FTG's cookie notice to the owner. J159 has since ruled: choose the most private option (decline non-essential), accept nothing else, and stop and report on any login, account, payment or new terms. W-02's checker also verifies only the request's size key, not that its coast and river keys equal the slot's water option.",
+      "required_change": "Write J159's consent and stop rules into W-02's checklist. Add the water-option check to W-02's checker.",
+      "affects_wave1": true
+    },
+    {
+      "id": "PC-17",
+      "where": "§1 D16, §8 item 5",
+      "problem": "FTG variety is given `estimator: minmax, n = 3`. variety.dispersion is one statistic over the set (the mean pairwise distance over the seeds), not a per-seed statistic, so V12 §3.5.1's estimators do not apply. The sample for 'the rung's pooled deviations' is also not named.",
+      "required_change": "Restate the row as one value with seeds = 3, gating as a floor ('ours ≥ the larger reference dispersion'), and name the sample whose deviations are pooled.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-18",
+      "where": "§2 depends column (W-09, W-15, W-19, W-20); M-1-work.json",
+      "problem": "Several dependencies are incomplete. W-09 depends only on W-07 although its rows read the sweep (W-03). W-15 does not name W-02 (six slots or the recorded shortfall) or W-04. W-19's ledger runs before W-20's plat/ writes. W-20 writes plat/docs/known-defects.json, a file M0-x-03 defers to M1 (@plat/docs), which lists M0's entries in its addendum until then.",
+      "required_change": "Add W-03 to W-09 (for its rows), and W-02 and W-04 to W-15. Have each W-20 seat append its own ledger row, or run W-19 after W-20. Agree the known-defects channel with the build side before W-20.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-19",
+      "where": "§2 W-15, W-20 checkers; §1 D22",
+      "problem": "V12 §8's W1 exit includes T-V12-1's fixtures on the twin, T-V12-28 and T-V12-30. No checker names them. cross_check.py should refuse each T-V12-1 fixture, the adapters should clean T-V12-30's degenerate cases with `dropped` counted and empty captures as failed indices, and T-V12-28's scan should run over the crossed files.",
+      "required_change": "Add the three tests to W-15's and W-20's checkers.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-20",
+      "where": "§2.1 (FTG form values), §2.2 (MFCG query keys), §1 D24 (export key); §11's own rule",
+      "problem": "§11 says the file holds no reference identifier or word beyond FTG's two size names. It nevertheless quotes MFCG's URL keys (`shantytown`, `greens`), FTG's form option labels (the era, lifestyle and climate presets and the walled/coastal flags by their site names) and MFCG's JSON feature key (`squares`). The self-check did not flag these, because C1 checks only the FTG identifier list (CONFIRMED by reading).",
+      "required_change": "Reword these in our own terms (e.g. 'the shanty-town and parks flags off', 'FTG's default era, lifestyle and climate presets', 'the export's square feature'). Keep the literal values only in research-side scripts and the capture checklist.",
+      "affects_wave1": false
+    },
+    {
+      "id": "PC-21",
+      "where": "M-1-work.json D3; plan §2 W-04 wave",
+      "problem": "work.json's D3 lists block.area / block.countTemplate with role 'target' and record E04 only. The plan says D3 has no §13.5 row of its own and records E04, E11 and E12. W-04 is wave 2 in both files, but the session runs it in wave 1, and PC-04 makes NG's rows depend on it.",
+      "required_change": "Align D3 in the JSON with the plan text. Move W-04 to wave 1 in both files, ordered after FTG day 1 and the MFCG sweep for disk value.",
+      "affects_wave1": true
+    }
+  ]
+}
