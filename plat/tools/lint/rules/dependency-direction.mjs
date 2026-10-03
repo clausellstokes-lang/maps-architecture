@@ -5,7 +5,8 @@
 // library other than through its adapters. A file belongs to the folder directly under `packages/` (or to `bench/`), at
 // every depth — so `packages/testkit/test/kernel/<folder>/` is test-kit code (C-0122, the spec note N-12). A package's
 // tests follow its package's direction (C-0056) but may import an adopted library directly, as the reference a test
-// compares against (C-0127). A relative import into another package counts as an import of that package.
+// compares against (C-0127). A relative import into another package counts as an import of that package, and a
+// relative import into a node_modules folder as an import of the package it names there (C-0129).
 import { dirname, resolve } from 'node:path';
 import {
   MODEL_PACKAGES,
@@ -62,6 +63,19 @@ export function packageOf(rel) {
 
 export const adapterPath = (pkg, lib) => `packages/${pkg}/src/adapters/${lib}.ts`;
 
+/**
+ * The package a plat/-relative path into a node_modules folder names — the segment after its last `node_modules`
+ * (`@scope/name` for a scoped one), as a bare specifier would — or null when the path enters no node_modules folder.
+ */
+export function nodeModulesPackage(rel) {
+  const parts = rel.split('/');
+  const at = parts.lastIndexOf('node_modules');
+  if (at < 0 || at + 1 >= parts.length) return null;
+  const first = parts[at + 1];
+  if (!first.startsWith('@')) return first;
+  return at + 2 < parts.length ? `${first}/${parts[at + 2]}` : null;
+}
+
 export default {
   meta: {
     type: 'problem',
@@ -111,6 +125,19 @@ export default {
       context.report({ node, messageId: 'outsideAdapter', data: { lib, adapter: where } });
     }
 
+    /** A package named as a bare specifier names it (or a path into a node_modules folder does). */
+    function checkName(node, name) {
+      if (name.startsWith('@plat/')) {
+        checkPackage(node, name.slice('@plat/'.length));
+        return;
+      }
+      if (adoption.has(name)) {
+        checkLibrary(node, name);
+        return;
+      }
+      if (isModelSrc) context.report({ node, messageId: 'thirdPartyInModel', data: { name } });
+    }
+
     const visitors = specifierVisitors((spec, node) => {
       if (isBuiltin(spec)) {
         if (isModelSrc) context.report({ node, messageId: 'nodeBuiltin', data: { name: spec } });
@@ -119,6 +146,11 @@ export default {
       if (isPathSpecifier(spec)) {
         const target = relPath(root, resolve(dirname(resolve(filename)), spec));
         if (target === null) return; // outside plat/: plat/repository-path's report
+        const named = nodeModulesPackage(target);
+        if (named !== null) {
+          checkName(node, named); // `../../node_modules/flatbush/index.js` is an import of flatbush
+          return;
+        }
         const there = packageOf(target);
         if (there !== null) {
           if (there.pkg !== home.pkg) checkPackage(node, there.pkg);
@@ -135,16 +167,7 @@ export default {
         context.report({ node, messageId: 'outsideGraph', data: { target } });
         return;
       }
-      const name = packageNameOf(spec);
-      if (name.startsWith('@plat/')) {
-        checkPackage(node, name.slice('@plat/'.length));
-        return;
-      }
-      if (adoption.has(name)) {
-        checkLibrary(node, name);
-        return;
-      }
-      if (isModelSrc) context.report({ node, messageId: 'thirdPartyInModel', data: { name } });
+      checkName(node, packageNameOf(spec));
     });
 
     return {

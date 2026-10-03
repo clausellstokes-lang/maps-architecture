@@ -9,7 +9,7 @@
 // node_modules links resolve to that folder. Per file it takes the Math census (every member, allowed or not) and runs
 // the determinism rules (rules/index.mjs's VENDOR_RULES: the allowlist, `**`, the clock / randomness / host / locale
 // reads, comparator-less sorts, key enumeration). A finding fails the library unless it is a reviewed exception below,
-// pinned to the file's sha256, line, column and rule, so a version change re-opens it. A patch (vendor/patches/) is
+// pinned to the file's sha256, line and rule (C-0126 (4)), so any byte change re-opens it. A patch (vendor/patches/) is
 // recorded as the library's exception with its spec, its choices row and the adapter that wraps the library.
 // `corepack pnpm lint` runs this as the whole-tree check `vendor-scan`: it fails on a failing library, and on an audit
 // record that differs from the scan (a stale record: re-run with --write and review the diff).

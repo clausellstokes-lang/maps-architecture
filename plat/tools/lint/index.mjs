@@ -29,7 +29,7 @@ import { check as vendorScan } from './vendor-scan.mjs';
 /** The model packages' sources, every code extension (§6.5 (3)'s "model packages"; their tests are not model code). */
 export const MODEL_FILES = [`packages/{${MODEL_PACKAGES.join(',')}}/src/**/*.${CODE_GLOB}`];
 
-/** The digest closure's files outside the model packages (none at M0), linted under the model rule set too. */
+/** The digest closure of plat/ (its files outside the model packages, none at M0, are linted under the model rule set too). */
 export const closure = digestClosure(PLAT_ROOT);
 
 const plugin = {
@@ -39,39 +39,49 @@ const plugin = {
   checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, noBarePnpm, licences],
 };
 
-plugin.configs.recommended = [
-  // Parsers for the code extensions eslint.config.js leaves to ESLint's defaults (C-0128): the TypeScript family with
-  // type information like `.ts`, `.jsx` with JSX, `.cjs` as CommonJS (ESLint's default for it).
-  {
-    name: 'plat/parse-typescript',
-    files: ['**/*.{tsx,mts,cts}'],
-    languageOptions: { parser: tseslint.parser, parserOptions: { projectService: true, tsconfigRootDir: PLAT_ROOT } },
-    linterOptions: { reportUnusedDisableDirectives: 'error' },
-    plugins: { plat: plugin },
-  },
-  {
-    name: 'plat/parse-jsx',
-    files: ['**/*.jsx'],
-    languageOptions: { ecmaVersion: 2022, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
-    linterOptions: { reportUnusedDisableDirectives: 'error' },
-    plugins: { plat: plugin },
-  },
-  {
-    name: 'plat/parse-cjs',
-    files: ['**/*.cjs'],
-    languageOptions: { ecmaVersion: 2022, sourceType: 'commonjs' },
-    linterOptions: { reportUnusedDisableDirectives: 'error' },
-    plugins: { plat: plugin },
-  },
-  { name: 'plat/model-packages', files: MODEL_FILES, rules: { ...MODEL_RULES } },
-  ...(closure.outside.length > 0 ? [{ name: 'plat/digest-closure', files: closure.outside, rules: { ...MODEL_RULES } }] : []),
-  {
-    name: 'plat/package-graph',
-    files: [`packages/**/*.${CODE_GLOB}`, `bench/**/*.${CODE_GLOB}`],
-    rules: { 'plat/dependency-direction': 'error' },
-  },
-  { name: 'plat/repository-path', files: [`**/*.${CODE_GLOB}`], rules: { 'plat/repository-path': 'error' } },
-  { name: 'plat/no-bare-pnpm', files: [`scripts/**/*.${CODE_GLOB}`, `tools/**/*.${CODE_GLOB}`], rules: { 'plat/no-bare-pnpm': 'error' } },
-];
+/**
+ * The plugin's configurations for a digest closure (`digestClosure(root)`'s result): the parsers, then the scopes. The
+ * closure's files outside the model packages' sources get the model rule set in their own entry, `plat/digest-closure`
+ * (§6.5 (3), C-0125 (1)); the tree's configuration is this function of plat/'s own closure, and the tests build it from
+ * a fixture closure, since plat/'s is empty at M0 (C-0129).
+ */
+export function recommendedFor(digest) {
+  return [
+    // Parsers for the code extensions eslint.config.js leaves to ESLint's defaults (C-0128): the TypeScript family with
+    // type information like `.ts`, `.jsx` with JSX, `.cjs` as CommonJS (ESLint's default for it).
+    {
+      name: 'plat/parse-typescript',
+      files: ['**/*.{tsx,mts,cts}'],
+      languageOptions: { parser: tseslint.parser, parserOptions: { projectService: true, tsconfigRootDir: PLAT_ROOT } },
+      linterOptions: { reportUnusedDisableDirectives: 'error' },
+      plugins: { plat: plugin },
+    },
+    {
+      name: 'plat/parse-jsx',
+      files: ['**/*.jsx'],
+      languageOptions: { ecmaVersion: 2022, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
+      linterOptions: { reportUnusedDisableDirectives: 'error' },
+      plugins: { plat: plugin },
+    },
+    {
+      name: 'plat/parse-cjs',
+      files: ['**/*.cjs'],
+      languageOptions: { ecmaVersion: 2022, sourceType: 'commonjs' },
+      linterOptions: { reportUnusedDisableDirectives: 'error' },
+      plugins: { plat: plugin },
+    },
+    { name: 'plat/model-packages', files: MODEL_FILES, rules: { ...MODEL_RULES } },
+    ...(digest.outside.length > 0 ? [{ name: 'plat/digest-closure', files: [...digest.outside], rules: { ...MODEL_RULES } }] : []),
+    {
+      name: 'plat/package-graph',
+      files: [`packages/**/*.${CODE_GLOB}`, `bench/**/*.${CODE_GLOB}`],
+      rules: { 'plat/dependency-direction': 'error' },
+    },
+    { name: 'plat/repository-path', files: [`**/*.${CODE_GLOB}`], rules: { 'plat/repository-path': 'error' } },
+    { name: 'plat/no-bare-pnpm', files: [`scripts/**/*.${CODE_GLOB}`, `tools/**/*.${CODE_GLOB}`], rules: { 'plat/no-bare-pnpm': 'error' } },
+  ];
+}
+
+plugin.configs.recommended = recommendedFor(closure);
 
 export default plugin;

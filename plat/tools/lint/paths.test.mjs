@@ -8,7 +8,7 @@ import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { Linter } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
-import { checkRepositoryPaths, judgePath, judgeSpecifier } from './paths.mjs';
+import { checkRepositoryPaths, isDirectiveNote, judgePath, judgeSpecifier, lintFile } from './paths.mjs';
 import repositoryPath from './rules/repository-path.mjs';
 import { CODE_EXTENSIONS, PLAT_ROOT } from './rules/shared.mjs';
 
@@ -159,6 +159,29 @@ describe('the whole-tree check repository-path', () => {
     expect(r.problems).toEqual(['packages/kernel/src/silenced.mjs:3: The import "../../../../research/x.json" resolves outside plat/ (§17.1 (3)).']);
     expect(r.counts.sources).toBe(3);
   }, 60_000);
+
+  it('fails closed on a source its configuration does not reach (C-0128 (5), C-0129; the checker\'s mutant MB)', () => {
+    // The walk skips node_modules, so no tree reaches this through checkRepositoryPaths at M0; the per-file lint is the
+    // guard, and a message without a rule that is not ESLint's directive note is a problem, never dropped.
+    const { root } = tree({
+      'node_modules/zz-lib/x.mjs': "import y from '../../../outside/x.mjs';\nexport default y;\n",
+      'src/noted.mjs': '/* eslint-disable */\nexport default 1;\n',
+    });
+    const linter = new Linter({ cwd: root });
+    const unreached = lintFile(linter, root, 'node_modules/zz-lib/x.mjs');
+    expect(unreached).toHaveLength(1);
+    expect(unreached[0]).toMatch(/^node_modules\/zz-lib\/x\.mjs:0: No matching configuration found for .*node_modules\/zz-lib\/x\.mjs\.$/);
+    expect(lintFile(linter, root, 'src/noted.mjs')).toEqual([]); // the directive note alone is not a path problem
+  }, 60_000);
+
+  it('tells ESLint\'s note on a directive from every other message without a rule (C-0128 (5))', () => {
+    const [note] = new Linter().verify('/* eslint-disable */\nexport default 1;\n', [{ linterOptions: { noInlineConfig: true } }], { filename: 'a.mjs' });
+    expect(note).toMatchObject({ ruleId: null, line: 1 });
+    expect(isDirectiveNote(note)).toBe(true);
+    expect(isDirectiveNote({ ruleId: null, severity: 1, message: 'No matching configuration found for /x/node_modules/a.mjs.', line: 0, column: 0 })).toBe(false);
+    expect(isDirectiveNote({ ...note, fatal: true })).toBe(false);
+    expect(isDirectiveNote({ ...note, ruleId: 'plat/repository-path' })).toBe(false);
+  });
 
   it('passes the real plat/ tree', () => {
     const r = checkRepositoryPaths(PLAT_ROOT);

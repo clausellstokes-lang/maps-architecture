@@ -5,8 +5,9 @@
 import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
+import { Linter } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
-import { ALLOWED_DIRECTIVE, checkInlineDirectives } from './directives.mjs';
+import { ALLOWED_DIRECTIVE, checkInlineDirectives, directivesOf } from './directives.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
 
 /** Every test that parses a tree carries an explicit timeout: wall time grows with the load of the shared machine. */
@@ -86,6 +87,22 @@ describe('the whole-tree check inline-directives', () => {
   it('passes a model tree whose only directives are vetted divisions', () => {
     const r = checkInlineDirectives(tree({ 'packages/kernel/src/vetted.ts': VETTED }));
     expect(r).toMatchObject({ ok: true, problems: [], counts: { files: 1, directives: 1 } });
+  }, LINT);
+
+  it('fails closed on a closure file its configuration does not reach (C-0128 (5), C-0129; the checker\'s mutant MC)', () => {
+    // The checker's plant: a kernel source imports a library by a path into node_modules, which the closure follows and
+    // ESLint's configuration never reaches; dependency-direction names the import too (C-0129), and this check refuses
+    // the file it cannot read rather than passing it with no directives.
+    const root = tree({
+      'packages/kernel/src/index.ts': "export { default } from '../node_modules/zz-lib/index.js';\n",
+      'packages/kernel/node_modules/zz-lib/index.js': '/* eslint-disable */\nexport default Math.sin(1);\n',
+    });
+    const r = checkInlineDirectives(root);
+    expect(r.ok).toBe(false);
+    expect(r.problems).toHaveLength(1);
+    expect(r.problems[0]).toMatch(/^packages\/kernel\/node_modules\/zz-lib\/index\.js:0: cannot be read \(No matching configuration found for .*\)$/);
+    expect(directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/node_modules/zz-lib/index.js')).toEqual({ fatal: r.problems[0] });
+    expect(directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/src/index.ts')).toEqual({ directives: [] });
   }, LINT);
 
   it('passes the real plat/ tree', () => {

@@ -54,6 +54,10 @@ LANE build/steward-wave-${wave}-${action}. You are the WAVE STEWARD, acting for 
     ? `OPEN wave ${wave} (items ${JSON.stringify(items)}): run corepack pnpm snapshot -- wave-${wave} in plat/ and confirm plat/docs/build/landed/snapshots/wave-${wave}.json exists (if it already exists for this wave, keep it and say so). Run no git. Return ok with the snapshot path in notes.`
     : `CLOSE wave ${wave} (items ${JSON.stringify(items)}, all checked pass): run corepack pnpm landed:verify -- wave-${wave} in plat/ and quote it; list every unattributed path. If none: stage EXACTLY the files the wave's landed records and check records name, plus plat/docs/build/choices.md, plat/CLEAN-ROOM.md, plat/docs/build/landed/, plat/docs/build/checks/, any lockfile change a record names, and docs/lane-events.log — by explicit path, never git add -A, -u or a bare directory outside plat/ — check git diff --cached --stat shows nothing outside those, scan the staged diff for secrets (api keys, tokens, private keys), commit with the message "M0 wave ${wave} landed: ${items.join(', ')}" ending with the line "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", and git push origin main (the owner's standing rule J158; never force). If anything is unattributed or the push is refused, commit nothing more, push nothing, and return ok false with the paths. Never touch research/, captures/ or docs/calibration/ (M-1's seats own them).`}`
 
+const closingCheckPrompt = (id, wave, lane, prev) => `${GROUND}
+
+LANE ${lane}. You are the CLOSING CHECKER of item ${id} (wave ${wave}), independent of its author, after two full checks and their fix rounds (the session's ruling J162: an adversarial checker can always find one more contrived escape, so the third check closes the item). (1) For each failing line of the previous check, listed here, re-run its evidence and confirm it is fixed, or report it as still failing: ${JSON.stringify(prev)}. (2) Re-run the gates of plat/docs/build/M0.md section 3 step 3 and landed:verify -- wave-${wave} --item ${id}, quoting the output. (3) A NEW finding fails the item ONLY if it is a blocker: a gate exits non-zero; an interface or test id the item lists is missing; a stub or shortcut on an honest code path without a notBuilt milestone and a choices row; a wrong result on an honest input; a clean-room breach; a path outside plat/. Every other new finding — a contrived or deliberate-writer escape, a further hardening test, a tightening of a claim — is NOT a fail: append it to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, the hardening milestone M4 unless it belongs earlier) and record that file with corepack pnpm landed -- check-${id}-notes --lane ${lane} --owns plat/docs/build/checks/${id}-notes.md. Write the verdict to plat/docs/build/checks/${id}.md as section 3 step 5 says. Return pass when (1) leaves nothing failing and (3) finds no blocker; otherwise fail with only those lines.`
+
 const runItem = async (id, wave) => {
   let built = await seat(buildPrompt(id, wave, `build/${id}`, null), `build/${id}`, 'Build', BUILD_SCHEMA)
   if (!built || built.status === 'blocked') return { id, ok: false, why: built ? 'blocked: ' + built.notes.join('; ') : 'implementer returned nothing', built }
@@ -63,7 +67,12 @@ const runItem = async (id, wave) => {
     round++
     built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines: check.failing_lines }), `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
     if (!built || built.status === 'blocked') return { id, ok: false, why: 'fix round blocked', built, check }
-    check = await seat(checkPrompt(id, wave, `check/${id}-r${round}`), `check/${id}-r${round}`, 'Check', CHECK_SCHEMA)
+    if (round >= (ARGS.closingFrom || 99)) {
+      const prev = check.failing_lines
+      check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, prev), `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA)
+    } else {
+      check = await seat(checkPrompt(id, wave, `check/${id}-r${round}`), `check/${id}-r${round}`, 'Check', CHECK_SCHEMA)
+    }
   }
   return { id, ok: !!check && check.verdict === 'pass', rounds: round, built, check }
 }

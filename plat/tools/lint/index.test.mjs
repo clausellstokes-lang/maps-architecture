@@ -2,18 +2,21 @@
 // packages' sources (and to the digest closure beyond them), dependency-direction to packages/ and bench/,
 // repository-path to every linted file and no-bare-pnpm's spawn part to scripts/ and tools/ — each over every code
 // extension (C-0128); a test-kit file at any depth is test-kit code (N-12). The digest closure walk is built now and
-// seeded with the model packages (the labels / render seeds are M1's). Configurations are computed for paths, and
-// sources are linted as text at a path (`lintText`), never written into the tree. Every test that runs ESLint carries
-// an explicit timeout (LINT): wall time grows with the load of the shared machine.
-import { mkdirSync, mkdtempSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
+// seeded with the model packages (the labels / render seeds are M1's), and its files outside the model packages are
+// linted under the model rule set: plat/'s closure has none at M0, so that entry is proved on a fixture closure built in
+// the OS temporary folder (C-0129). Configurations are computed for paths, and sources are linted as text at a path
+// (`lintText`), never written into the tree. Every test that runs ESLint carries an explicit timeout (LINT): wall time
+// grows with the load of the shared machine.
+import { mkdirSync, mkdtempSync, readFileSync, readdirSync, realpathSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { ESLint } from 'eslint';
-import { afterAll, describe, expect, it } from 'vitest';
+import tseslint from 'typescript-eslint';
+import { afterAll, describe, expect, it, vi } from 'vitest';
 import { digestClosure } from './digest-closure.mjs';
-import plugin, { closure } from './index.mjs';
-import { MODEL_RULE_NAMES, rules } from './rules/index.mjs';
+import plugin, { closure, recommendedFor } from './index.mjs';
+import { MODEL_RULES, MODEL_RULE_NAMES, rules } from './rules/index.mjs';
 import { CODE_EXTENSIONS, PLAT_ROOT } from './rules/shared.mjs';
 
 const LINT = 60_000;
@@ -147,7 +150,7 @@ describe('the digest closure', () => {
     expect(closure.unresolved).toEqual([]);
   });
 
-  it('finds a module outside the model packages that a model file imports, and is linted there', () => {
+  it('finds a module outside the model packages that a model file imports, of every code extension', () => {
     const base = mkdtempSync(join(tmpdir(), 'plat-closure-'));
     temps.push(base);
     const files = {
@@ -174,5 +177,87 @@ describe('the digest closure', () => {
     expect(c.files).not.toContain('tools/unrelated.ts');
     expect(c.vendored).toEqual(['flatbush']);
     expect(c.external).toEqual(['left-pad']);
+  }, LINT);
+
+  it('builds the tree\'s configuration from plat/\'s own closure (recommendedFor, C-0129)', () => {
+    expect(plugin.configs.recommended).toEqual(recommendedFor(closure));
+    expect(plugin.configs.recommended.map((c) => c.name)).toEqual([
+      'plat/parse-typescript', 'plat/parse-jsx', 'plat/parse-cjs', 'plat/model-packages', 'plat/package-graph', 'plat/repository-path', 'plat/no-bare-pnpm',
+    ]); // no plat/digest-closure entry while plat/'s closure stays inside the model packages (M0)
+  });
+
+  it('feeds the closure index.mjs computes into the tree\'s configuration (its wiring, C-0129)', async () => {
+    // plat/'s closure is empty beyond the model packages at M0, so the wiring is proved with the walk's result replaced:
+    // a fresh index.mjs over a closure with a file outside them must carry that file in its plat/digest-closure entry.
+    const fake = { ...closure, outside: ['packages/kernel/data-zz/x.mjs'] };
+    vi.resetModules();
+    vi.doMock('./digest-closure.mjs', async (importOriginal) => ({ ...(await importOriginal()), digestClosure: () => fake }));
+    try {
+      const fresh = await import('./index.mjs');
+      expect(fresh.closure).toBe(fake);
+      expect(fresh.default.configs.recommended.filter((c) => c.name === 'plat/digest-closure')).toEqual([
+        { name: 'plat/digest-closure', files: fake.outside, rules: MODEL_RULES },
+      ]);
+    } finally {
+      vi.doUnmock('./digest-closure.mjs');
+      vi.resetModules();
+    }
+  }, LINT);
+
+  it('lints the closure\'s files outside the model packages under the model rule set (§6.5 (3), C-0125 (1), C-0129)', async () => {
+    // The checker's plant (checks/M0-d-07.md, G1): a kernel file outside src/ that a kernel source re-exports, and a
+    // file outside packages/ that one reaches; a file no model source reaches stays outside the model rule set.
+    const base = realpathSync(mkdtempSync(join(tmpdir(), 'plat-closure-lint-')));
+    temps.push(base);
+    const files = {
+      'packages/kernel/src/index.ts': "export { s } from '../data-zz/x.mjs';\nexport { h } from '../../../shared/helper.js';\n",
+      'packages/kernel/data-zz/x.mjs': 'export const s = Math.sin(1);\n',
+      'shared/helper.ts': 'export const h = Date.now() + 2 ** 0.5;\n',
+      'tools/unrelated.mjs': 'export const u = Math.sin(1);\n',
+    };
+    for (const [rel, text] of Object.entries(files)) {
+      mkdirSync(join(base, rel, '..'), { recursive: true });
+      writeFileSync(join(base, rel), text);
+    }
+    const c = digestClosure(base);
+    expect(c.outside).toEqual(['packages/kernel/data-zz/x.mjs', 'shared/helper.ts']);
+    const entry = recommendedFor(c).find((x) => x.name === 'plat/digest-closure');
+    expect(entry).toEqual({ name: 'plat/digest-closure', files: c.outside, rules: MODEL_RULES });
+
+    /** ESLint over the fixture tree with the plugin's configurations for a closure (the tree's parsers, no types). */
+    const eslintFor = (digest) => new ESLint({
+      cwd: base,
+      overrideConfigFile: true,
+      overrideConfig: [
+        { files: ['**/*.ts'], languageOptions: { parser: tseslint.parser, parserOptions: { sourceType: 'module' } }, plugins: { plat: plugin } },
+        { files: ['**/*.mjs'], languageOptions: { ecmaVersion: 2022, sourceType: 'module' }, plugins: { plat: plugin } },
+        ...recommendedFor(digest),
+        { settings: { plat: { root: base } } },
+      ],
+    });
+    const rulesOf = async (e, rel) => {
+      const config = await e.calculateConfigForFile(join(base, ...rel.split('/')));
+      return Object.entries(config.rules ?? {})
+        .filter(([name, v]) => name.startsWith('plat/') && (Array.isArray(v) ? v[0] : v) === 2)
+        .map(([name]) => name.slice('plat/'.length))
+        .sort();
+    };
+    const reports = async (e) => Object.fromEntries((await e.lintFiles(['packages/kernel/data-zz/x.mjs', 'shared/helper.ts', 'tools/unrelated.mjs']))
+      .map((r) => [r.filePath.slice(base.length + 1), r.messages.map((m) => `${m.line} ${m.ruleId ?? m.message}`).sort()]));
+
+    const withClosure = eslintFor(c);
+    expect(await rulesOf(withClosure, 'packages/kernel/data-zz/x.mjs')).toEqual([...MODEL, 'dependency-direction', 'repository-path'].sort());
+    expect(await rulesOf(withClosure, 'shared/helper.ts')).toEqual([...MODEL, 'repository-path'].sort());
+    expect(await rulesOf(withClosure, 'tools/unrelated.mjs')).toEqual(['no-bare-pnpm', 'repository-path']);
+    expect(await reports(withClosure)).toEqual({
+      'packages/kernel/data-zz/x.mjs': ['1 plat/math-allowlist'],
+      'shared/helper.ts': ['1 plat/no-exponent-operator', '1 plat/no-nondeterminism'],
+      'tools/unrelated.mjs': [],
+    });
+
+    // Without the closure's entry the same files escape every model rule — what this test exists to catch.
+    const withoutEntry = eslintFor({ ...c, outside: [] });
+    expect(await rulesOf(withoutEntry, 'packages/kernel/data-zz/x.mjs')).toEqual(['dependency-direction', 'repository-path']);
+    expect(await reports(withoutEntry)).toEqual({ 'packages/kernel/data-zz/x.mjs': [], 'shared/helper.ts': [], 'tools/unrelated.mjs': [] });
   }, LINT);
 });

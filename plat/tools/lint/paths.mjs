@@ -96,9 +96,11 @@ export function nodeModulesLinks(root) {
  * (`noInlineConfig`), so no directive in the file silences this check, and of the Linter's messages only the rule's
  * own reports and fatal parse errors count: the notes ESLint adds about the file's directives (each "has no effect"
  * here) are not path problems — a directive for another rule (C-0125 (6)'s vetted division) is the tree lint's to
- * judge, and the whole-tree check inline-directives judges which directives model code may carry (C-0128).
+ * judge, and the whole-tree check inline-directives judges which directives model code may carry (C-0128). Every
+ * other message without a rule — `No matching configuration found for …`, when the file lies where the configuration
+ * does not reach — is kept as a problem, so the check fails closed (C-0128 (5); paths.test.mjs holds it, C-0129).
  */
-function lintFile(linter, root, rel) {
+export function lintFile(linter, root, rel) {
   const abs = join(root, ...rel.split('/'));
   const code = readFileSync(abs, 'utf8');
   const ts = TS_FILE.test(rel);
