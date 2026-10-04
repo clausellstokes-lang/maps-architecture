@@ -3482,8 +3482,8 @@ medieval towns):
 | `c14` (default) | 1300–1399 | 0.6 · 0.3 · 0 · 0.1 | 35–50 | 8–16 | 0.5 | 0.5 | sparse | 1.0 · 0.15 | — | raised | no | 1.0 | 1.0 |
 | `c15` | 1400–1499 | 0.4 · 0.3 · 0.2 · 0.1 | 35–50 | 10–18 | 0.6 | 0.7 | moderate | 0.9 · 0.15 | 1450 | lowered | yes | 1.2 | 1.0 |
 
-`intervallum` and `market paved` are chances drawn on the reading stage's stream; FTG's 39 m tower spacing and MFCG's
-tower-per-vertex remain §4.8's reference points. **3.19.2 Era default from the dossier:** V08 §2.6's era row
+`intervallum` and `market paved` are chances drawn on the reading stage's stream; FTG's median tower spacing
+(34.9 / 33.4 / 32.7 m at the matched sizes, §13.5) and MFCG's tower-per-vertex remain §4.8's reference points. **3.19.2 Era default from the dossier:** V08 §2.6's era row
 derives `era` from `site.culture` alone, the culture the discriminator (every culture defaults to `c14`; a culture row may
 name another era); the region is `western` unless a pack adds region rows.
 

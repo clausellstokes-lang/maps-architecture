@@ -39,18 +39,19 @@ MFCG keeps an unbuilt interior in about four of five deep blocks at every size (
 of the 30 plain seeds); NG in a little under half. The fixture value for NG before the formula seeds was 0.43 (115 of
 268). The seed-to-seed CV of MFCG's share is at most 0.068 on the plain families.
 
-## 3 Like for like: the design's own deep test differs from the row's
+## 3 Like for like: the design's deep test, as applied, reads the row's population
 
-§4.6's deep-interior rule and §2.5's `Block.depthClass` call a block `deep` when its local thickness exceeds twice its
-band's plot depth, and §13.5's deep-interior row reads the court share over those blocks. The reference row's
-population is the catalogue's (inscribed radius above 1.5 × the median short side, about 21.6 m of thickness on NG).
-The two populations differ: at the old `modest` depth (mean 24 m) the design's test admits 98 of NG's 597
-deep blocks (court share 0.418), and at the re-fitted depth (mean 36 m, entry 2) it admits 3, so the keep-test would
-judge a court share over an empty set. A design correction routes the keep-test's population to the reference's
-definition (or to a factor the reference's population supports, at most 0.6 × the band's mean depth at the ruled
-rows); the census behind it: at 36 m a thickness above half the mean depth admits 597 blocks (court share 0.462), above
-three quarters of it 535 (0.486), above the mean 318 (0.472) and above twice it 3 (0). Until the amendment lands, M0-c-07a should read the court share over blocks
-that meet item 1's inscribed-radius test, so the shares of entry 6 are judged on the blocks they were measured on.
+§4.6's deep-interior rule and §2.5's `Block.depthClass` call a block `deep` when its local thickness exceeds
+**0.6 × its band's plot depth** (the design amendment of 2026-10-04; the test was twice the band's plot depth before),
+and §13.5's deep-interior row reads the court share over those blocks. The reference row's population is the
+catalogue's (inscribed radius above 1.5 × the median short side, about 21.6 m of thickness on NG). At the re-fitted
+`modest` depth (mean 36 m, entry 2) the applied test's threshold is 21.6 m, and on NG's blocks it admits 593 of the 597
+deep blocks and no other block (court share 0.465 against 0.462), so the keep-test reads entry 6's shares over the
+population they come from. The test before the amendment admitted 98 of the 597 at the old `modest` depth (mean 24 m; court share
+0.418) and 3 at the re-fitted one, a court share over an almost empty set. The census behind the factor: at 36 m a
+thickness above half the mean depth admits 597 blocks (court share 0.462), above three quarters of it 535 (0.486),
+above the mean 318 (0.472) and above twice it 3 (0). M0-c-07a reads the applied test (S8's deep test); item 1's
+inscribed-radius test stays the definition of the reference row.
 
 ## 4 The creators' stated ideas, in our words
 

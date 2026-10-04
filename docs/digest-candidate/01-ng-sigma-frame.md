@@ -62,11 +62,13 @@ ten or more bounded cuts: area 0.062–0.082 over four hoods, ring 0.062–0.108
 between 0.81 and 1.00; the arrival share has a type-7 p10–p90 of 0.904–1.000 over the 20 hoods and the fillet share
 0.486–0.686.
 
-**Against the design's quoted figures.** §13.5 quotes σ 0.066 (plain) and 0.098 (ring), one bend on roughly 73 % of
-streets, the corner near mid-course on roughly 82 %, all read from two recorded fixture hoods per template. The
-formula seeds give plain 0.084 (+ 0.018, inside the 0.02 floor), ring 0.094 (− 0.004), one bend on 0.657 of streets
-(739 of 1 125) and the corner near the middle on 0.883. The rows carry the formula values; the design's cell is
-corrected by amendment to the same numbers.
+**Against the design's figures.** Before M-1 §13.5 quoted σ 0.066 (plain) and 0.098 (ring) and the fixture counts of
+one bend and of the corner near mid-course, all read from two recorded fixture hoods per template. The formula seeds
+give **σ 0.084 on plain faces and 0.094 on ring faces** (+ 0.018 and − 0.004, inside the 0.02 floor), one bend on
+0.657 of streets (739 of 1 125) and the corner near the middle on 0.883. The design amendment of 2026-10-04 applied
+these values: the bent-cut signature of §13.5, §16's M0 clause (b) (σ within ± 0.02 of 0.084 on plain faces and 0.094 on ring
+faces, on NG's formula seeds) and §4.6's position step carry σ 0.084 / 0.094, the ± 0.02 band moves with them, and the
+fixture figures stay in the row as history.
 
 **Shape of NG's faces (for M0-b-04's synthetic set and M0-b-05b).** On the fixtures 140 of 168 rebuilt parents have a
 side that bends more than 10° (ring roads, or long fillet arcs of crossing streets met part-way by a later cut), 78 have

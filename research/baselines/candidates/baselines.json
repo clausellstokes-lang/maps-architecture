@@ -435,7 +435,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.26: lo 42.9-43.9, hi 58.1-83.4"
   },
   {
    "id": "ftg/BIG_TOWN/street.runs/all/street",
@@ -481,7 +481,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.75: lo 28.4-32.2, hi 41.6-52.3"
   },
   {
    "id": "ftg/BIG_TOWN/street.runs/all/lane",
@@ -573,7 +573,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.62: lo 46.2-130, hi 239-355"
   },
   {
    "id": "ftg/BIG_TOWN/bldg.area/all/median",
@@ -2213,7 +2213,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.72: lo 0.181-0.271, hi 0.379-0.535"
   },
   {
    "id": "ftg/BIG_TOWN/outline.roadRatio/all",
@@ -2258,7 +2259,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.76: lo 0.817-1.16, hi 1.55-2.11"
   },
   {
    "id": "ftg/BIG_TOWN/wealth.tier1/all",
@@ -3048,7 +3050,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.35: lo 38.3-42.9, hi 55.6-58.1"
   },
   {
    "id": "ftg/BIG_CITY/street.runs/all/street",
@@ -3140,7 +3142,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.20: lo 26-28.4, hi 40.1-51.4"
   },
   {
    "id": "ftg/BIG_CITY/street.runs/all/track",
@@ -3186,7 +3188,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class"
+   "note": "junction-to-junction run medians per class; target for the extramural ribbon and suburb regimes; FTG draws no alley class; S-V12-1 edge noise 0.79: lo 38.1-65.9, hi 110-420"
   },
   {
    "id": "ftg/BIG_CITY/bldg.area/all/median",
@@ -4808,7 +4810,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.77: lo 0.0771-0.165, hi 0.258-0.522"
   },
   {
    "id": "ftg/BIG_CITY/outline.roadRatio/all",
@@ -4853,7 +4856,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.70: lo 0.951-1.05, hi 1.35-1.8"
   },
   {
    "id": "ftg/BIG_CITY/wealth.tier1/all",
@@ -10137,7 +10141,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "longest-edge axis, 1500 sampled buildings, area centroids"
+   "note": "longest-edge axis, 1500 sampled buildings, area centroids; S-V12-1 edge noise 0.32: lo 0.481-0.561, hi 0.712-0.769"
   },
   {
    "id": "mfcg/40/plain/bldg.r4.250/all",
@@ -10170,7 +10174,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "longest-edge axis, 1500 sampled buildings, area centroids"
+   "note": "longest-edge axis, 1500 sampled buildings, area centroids; S-V12-1 edge noise 0.62: lo 0.286-0.355, hi 0.476-0.568"
   },
   {
    "id": "mfcg/40/plain/bldg.wallAlign.median/all/b0_40",
@@ -10203,7 +10207,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.17: lo 3.05-3.66, hi 5.29-5.73"
   },
   {
    "id": "mfcg/40/plain/bldg.wallAlign.median/all/b40_100",
@@ -10236,7 +10240,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.72: lo 6.63-8.79, hi 12-14.6"
   },
   {
    "id": "mfcg/40/plain/bldg.wallAlign.median/all/b100_200",
@@ -10269,7 +10273,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.48: lo 11-14.1, hi 20.9-25"
   },
   {
    "id": "mfcg/40/plain/bldg.wallAlign.share15/all/b0_40",
@@ -10335,7 +10339,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.63: lo 0.473-0.542, hi 0.712-0.873"
   },
   {
    "id": "mfcg/40/plain/bldg.wallAlign.share15/all/b100_200",
@@ -10368,7 +10372,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.78: lo 0.309-0.385, hi 0.513-0.71"
   },
   {
    "id": "mfcg/40/plain/sgd.tShare/all",
@@ -10401,7 +10405,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2)"
+   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.26: lo 0.35-0.393, hi 0.5-0.552"
   },
   {
    "id": "mfcg/40/plain/sgd.deadEnds/all",
@@ -10434,7 +10438,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2)"
+   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.80: lo 1.4-1.99, hi 2.65-4"
   },
   {
    "id": "mfcg/40/plain/blockc.perHa/all",
@@ -10467,7 +10471,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2)"
+   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.38: lo 1.88-2.21, hi 2.91-3.2"
   },
   {
    "id": "mfcg/40/plain/blockc.lotsPer/all",
@@ -10500,7 +10504,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2)"
+   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.46: lo 6.8-7.65, hi 9.9-11"
   },
   {
    "id": "mfcg/40/plain/block.courtShare/all",
@@ -10697,7 +10701,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2)"
+   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2); S-V12-1 edge noise 0.20: lo 0.477-0.667, hi 0.859-0.937"
   },
   {
    "id": "mfcg/40/plain/district.area/all",
@@ -10730,7 +10734,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "per seed the median district area"
+   "note": "per seed the median district area; S-V12-1 edge noise 0.49: lo 5.49-7.61, hi 10.2-13.9"
   },
   {
    "id": "mfcg/40/plain/plaza.area/all",
@@ -10762,7 +10766,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.88: lo 0.13-0.277, hi 0.486-0.75"
   },
   {
    "id": "mfcg/40/plain/castle.area/all",
@@ -10794,7 +10799,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.88: lo 0.715-1.97, hi 2.73-4.1"
   },
   {
    "id": "mfcg/40/plain/castle.compact/all",
@@ -10858,7 +10864,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.23: lo 71.9-80.2, hi 101-114"
   },
   {
    "id": "mfcg/40/plain/quarter.count/all",
@@ -10890,7 +10897,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.78: lo 6.3-7.2, hi 9.9-12.1"
   },
   {
    "id": "mfcg/40/plain/gate.count/all",
@@ -10955,7 +10963,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.36: lo 75.6-85.3, hi 109-122"
   },
   {
    "id": "mfcg/40/plain/market.secondary/all",
@@ -11219,7 +11228,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "longest-edge axis, 1500 sampled buildings, area centroids"
+   "note": "longest-edge axis, 1500 sampled buildings, area centroids; S-V12-1 edge noise 0.42: lo 0.378-0.445, hi 0.572-0.629"
   },
   {
    "id": "mfcg/80/plain/bldg.wallAlign.median/all/b0_40",
@@ -11252,7 +11261,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.65: lo 2.13-2.82, hi 4.15-4.83"
   },
   {
    "id": "mfcg/80/plain/bldg.wallAlign.median/all/b40_100",
@@ -11285,7 +11294,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.72: lo 5.22-6.11, hi 8.91-13.7"
   },
   {
    "id": "mfcg/80/plain/bldg.wallAlign.median/all/b100_200",
@@ -11318,7 +11327,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.76: lo 9.08-11.4, hi 14.7-20.4"
   },
   {
    "id": "mfcg/80/plain/bldg.wallAlign.share15/all/b0_40",
@@ -11384,7 +11393,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.42: lo 0.52-0.589, hi 0.779-0.869"
   },
   {
    "id": "mfcg/80/plain/bldg.wallAlign.share15/all/b100_200",
@@ -11417,7 +11426,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; S-V12-1 edge noise 0.69: lo 0.38-0.47, hi 0.599-0.742"
   },
   {
    "id": "mfcg/80/plain/sgd.tShare/all",
@@ -11483,7 +11492,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2)"
+   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.80: lo 0.971-1.24, hi 1.6-2.11"
   },
   {
    "id": "mfcg/80/plain/blockc.perHa/all",
@@ -11516,7 +11525,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2)"
+   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.42: lo 1.76-2.05, hi 2.59-3.51"
   },
   {
    "id": "mfcg/80/plain/blockc.lotsPer/all",
@@ -11549,7 +11558,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2)"
+   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2); S-V12-1 edge noise 0.63: lo 6.3-7.65, hi 9.9-11"
   },
   {
    "id": "mfcg/80/plain/block.courtShare/all",
@@ -11582,7 +11591,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "deep cluster blocks inside the curtain holding an unbuilt interior part (the inner-plot removal; R-19)"
+   "note": "deep cluster blocks inside the curtain holding an unbuilt interior part (the inner-plot removal; R-19); S-V12-1 edge noise 0.19: lo 0.634-0.71, hi 0.901-0.961"
   },
   {
    "id": "mfcg/80/plain/fg.recoverability/all",
@@ -11746,7 +11755,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2)"
+   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2); S-V12-1 edge noise 0.48: lo 0.474-0.546, hi 0.697-0.808"
   },
   {
    "id": "mfcg/80/plain/district.area/all",
@@ -11779,7 +11788,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "per seed the median district area"
+   "note": "per seed the median district area; S-V12-1 edge noise 0.88: lo 7.63-12.6, hi 22.9-36.1"
   },
   {
    "id": "mfcg/80/plain/plaza.area/all",
@@ -11811,7 +11820,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.81: lo 0.14-0.285, hi 0.376-0.566"
   },
   {
    "id": "mfcg/80/plain/castle.area/all",
@@ -11843,7 +11853,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.91: lo 0.693-2.94, hi 4.24-7.05"
   },
   {
    "id": "mfcg/80/plain/castle.compact/all",
@@ -11939,7 +11950,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "free"
+   "scale": "free",
+   "note": "S-V12-1 edge noise 0.76: lo 9-10.8, hi 14.3-16.5"
   },
   {
    "id": "mfcg/80/plain/gate.count/all",
@@ -12004,7 +12016,8 @@
     ]
    },
    "estimator": "type7",
-   "scale": "metric"
+   "scale": "metric",
+   "note": "S-V12-1 edge noise 0.39: lo 111-125, hi 162-170"
   },
   {
    "id": "mfcg/80/plain/market.secondary/all",
@@ -12325,7 +12338,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1; S-V12-1 edge noise 0.49: lo 1.6-2.12, hi 3.65-4.49"
   },
   {
    "id": "mfcg/130/plain/bldg.wallAlign.median/all/b40_100",
@@ -12364,7 +12377,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1; S-V12-1 edge noise 0.67: lo 4.13-5.2, hi 6.83-9.3"
   },
   {
    "id": "mfcg/130/plain/bldg.wallAlign.median/all/b100_200",
@@ -12403,7 +12416,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1; S-V12-1 edge noise 0.75: lo 5.85-10.6, hi 13.7-17.3"
   },
   {
    "id": "mfcg/130/plain/bldg.wallAlign.share15/all/b0_40",
@@ -12481,7 +12494,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1; S-V12-1 edge noise 0.49: lo 0.609-0.654, hi 0.847-0.944"
   },
   {
    "id": "mfcg/130/plain/bldg.wallAlign.share15/all/b100_200",
@@ -12520,7 +12533,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1"
+   "note": "buildings inside the curtain in bands 0-40, 40-100, 100-200 m from it; dropped: 1; S-V12-1 edge noise 0.77: lo 0.417-0.495, hi 0.64-0.854"
   },
   {
    "id": "mfcg/130/plain/sgd.tShare/all",
@@ -12598,7 +12611,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2); dropped: 1"
+   "note": "on the derived street graph, the raster twin at a half-metre step with 8 m spurs and a 2 m merge (R-22); CV ≤ 0.3, target (S-V12-2); dropped: 1; S-V12-1 edge noise 0.47: lo 0.697-0.838, hi 1.09-1.33"
   },
   {
    "id": "mfcg/130/plain/blockc.perHa/all",
@@ -12637,7 +12650,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2); dropped: 1"
+   "note": "cluster blocks inside the curtain per walled ha (1 m gap, 3 m close); CV ≤ 0.3, target (S-V12-2); dropped: 1; S-V12-1 edge noise 0.14: lo 2.06-2.23, hi 2.86-3.14"
   },
   {
    "id": "mfcg/130/plain/blockc.lotsPer/all",
@@ -12676,7 +12689,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2); dropped: 1"
+   "note": "footprints per cluster block, per seed the median; CV ≤ 0.3, target (S-V12-2); dropped: 1; S-V12-1 edge noise 0.56: lo 7.2-8.01, hi 10.3-11"
   },
   {
    "id": "mfcg/130/plain/block.courtShare/all",
@@ -12754,7 +12767,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "city-band recoverability at the default view of MFCG (R1), labels off; metres per pixel 1.20 / 2.09 / 3.23 at sizes 40 / 80 / 130; dropped: 1"
+   "note": "city-band recoverability at the default view of MFCG (R1), labels off; metres per pixel 1.20 / 2.09 / 3.23 at sizes 40 / 80 / 130; dropped: 1; S-V12-1 edge noise 0.11: lo 0.475-0.53 (one-sided)"
   },
   {
    "id": "mfcg/130/plain/fg.streetwall/all",
@@ -12910,7 +12923,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2); dropped: 1"
+   "note": "the extramural share near an arterial (100 m); the band per size (R-12 F2); dropped: 1; S-V12-1 edge noise 0.54: lo 0.387-0.464, hi 0.602-0.689"
   },
   {
    "id": "mfcg/130/plain/district.area/all",
@@ -12949,7 +12962,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "per seed the median district area; dropped: 1"
+   "note": "per seed the median district area; dropped: 1; S-V12-1 edge noise 0.86: lo 16.5-26.1, hi 34-46.9"
   },
   {
    "id": "mfcg/130/plain/plaza.area/all",
@@ -12988,7 +13001,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "dropped: 1"
+   "note": "dropped: 1; S-V12-1 edge noise 0.89: lo 0.137-0.256, hi 0.486-0.782"
   },
   {
    "id": "mfcg/130/plain/castle.area/all",
@@ -13027,7 +13040,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "dropped: 1"
+   "note": "dropped: 1; S-V12-1 edge noise 0.89: lo 0.556-2.03, hi 5.8-9.77"
   },
   {
    "id": "mfcg/130/plain/castle.compact/all",
@@ -13105,7 +13118,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "dropped: 1"
+   "note": "dropped: 1; S-V12-1 edge noise 0.43: lo 125-139, hi 177-204"
   },
   {
    "id": "mfcg/130/plain/quarter.count/all",
@@ -13144,7 +13157,7 @@
    },
    "estimator": "type7",
    "scale": "free",
-   "note": "dropped: 1"
+   "note": "dropped: 1; S-V12-1 edge noise 0.74: lo 9.9-14.1, hi 17.9-22"
   },
   {
    "id": "mfcg/130/plain/gate.count/all",
@@ -13222,7 +13235,7 @@
    },
    "estimator": "type7",
    "scale": "metric",
-   "note": "dropped: 1"
+   "note": "dropped: 1; S-V12-1 edge noise 0.55: lo 131-155, hi 197-247"
   },
   {
    "id": "mfcg/130/plain/market.secondary/all",
@@ -23439,6 +23452,601 @@
    "estimator": "single",
    "scale": "free",
    "note": "mean pairwise distance in z; components by the SD over MFCG 10 and FTG 4 vectors (R-10, R-40); none None, coast and river 2.5342"
+  },
+  {
+   "id": "ftg/BIG_TOWN/water.channelWidth/all",
+   "metric": "water.channelWidth",
+   "unit": "m",
+   "reference": "FTG",
+   "referenceBuild": "ftg:m1+07526ccf921b",
+   "capture": "research:captures/ftg",
+   "script": "research:baselines/measure_ftg_slots.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "ftgSize": "BIG_TOWN",
+    "population": 5600
+   },
+   "role": "target",
+   "values": {
+    "p10": 42.62,
+    "p50": 43.9985,
+    "p90": 55.989,
+    "n": 6,
+    "seeds": 6
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/FTG/BIG_TOWN",
+    "indices": [
+     0,
+     10
+    ],
+    "captures": [
+     "capture/FTG/BIG_TOWN/none/0",
+     "capture/FTG/BIG_TOWN/coast+river/0",
+     "capture/FTG/BIG_TOWN/coast+river/1",
+     "capture/FTG/BIG_TOWN/none/1",
+     "capture/FTG/BIG_TOWN/coast+river/2",
+     "capture/FTG/BIG_TOWN/none/2",
+     "capture/FTG/BIG_TOWN/coast+river/3",
+     "capture/FTG/BIG_TOWN/none/3",
+     "capture/FTG/BIG_TOWN/coast+river/4",
+     "capture/FTG/BIG_TOWN/coast+river/5"
+    ],
+    "failed": [
+     {
+      "index": 0,
+      "reason": "water-none"
+     },
+     {
+      "index": 3,
+      "reason": "water-none"
+     },
+     {
+      "index": 5,
+      "reason": "water-none"
+     },
+     {
+      "index": 7,
+      "reason": "water-none"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "metric",
+   "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
+  },
+  {
+   "id": "ftg/BIG_CITY/water.channelWidth/all",
+   "metric": "water.channelWidth",
+   "unit": "m",
+   "reference": "FTG",
+   "referenceBuild": "ftg:m1+07526ccf921b",
+   "capture": "research:captures/ftg",
+   "script": "research:baselines/measure_ftg_slots.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "CITY",
+    "ftgSize": "BIG_CITY",
+    "population": 24500
+   },
+   "role": "target",
+   "values": {
+    "p10": 31.489,
+    "p50": 46.1225,
+    "p90": 54.606,
+    "n": 6,
+    "seeds": 6
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/FTG/BIG_CITY",
+    "indices": [
+     0,
+     10
+    ],
+    "captures": [
+     "capture/FTG/BIG_CITY/none/0",
+     "capture/FTG/BIG_CITY/coast+river/0",
+     "capture/FTG/BIG_CITY/coast+river/1",
+     "capture/FTG/BIG_CITY/none/1",
+     "capture/FTG/BIG_CITY/coast+river/2",
+     "capture/FTG/BIG_CITY/none/2",
+     "capture/FTG/BIG_CITY/coast+river/3",
+     "capture/FTG/BIG_CITY/none/3",
+     "capture/FTG/BIG_CITY/coast+river/4",
+     "capture/FTG/BIG_CITY/coast+river/5"
+    ],
+    "failed": [
+     {
+      "index": 0,
+      "reason": "water-none"
+     },
+     {
+      "index": 3,
+      "reason": "water-none"
+     },
+     {
+      "index": 5,
+      "reason": "water-none"
+     },
+     {
+      "index": 7,
+      "reason": "water-none"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "metric",
+   "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
+  },
+  {
+   "id": "ftg/METROPOLIS/water.channelWidth/all",
+   "metric": "water.channelWidth",
+   "unit": "m",
+   "reference": "FTG",
+   "referenceBuild": "ftg:m1+07526ccf921b",
+   "capture": "research:captures/ftg",
+   "script": "research:baselines/measure_ftg_slots.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "METROPOLIS",
+    "ftgSize": "METROPOLIS",
+    "population": 49500
+   },
+   "role": "target",
+   "values": {
+    "p10": 22.373,
+    "p50": 29.791,
+    "p90": 31.665,
+    "n": 3,
+    "seeds": 3
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/FTG/METROPOLIS",
+    "indices": [
+     0,
+     4
+    ],
+    "captures": [
+     "capture/FTG/METROPOLIS/none/0",
+     "capture/FTG/METROPOLIS/coast+river/0",
+     "capture/FTG/METROPOLIS/coast+river/1",
+     "capture/FTG/METROPOLIS/coast+river/2"
+    ],
+    "failed": [
+     {
+      "index": 0,
+      "reason": "water-none"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "metric",
+   "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
+  },
+  {
+   "id": "ftg/CITY/water.channelWidth/all",
+   "metric": "water.channelWidth",
+   "unit": "m",
+   "reference": "FTG",
+   "referenceBuild": "ftg:m1+07526ccf921b",
+   "capture": "research:captures/ftg",
+   "script": "research:baselines/measure_ftg_slots.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "ftgSize": "CITY",
+    "population": 9500
+   },
+   "role": "descriptive",
+   "values": {
+    "p10": 31.303,
+    "p50": 37.0845,
+    "p90": 42.866,
+    "n": 2,
+    "seeds": 2
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/FTG/CITY",
+    "indices": [
+     0,
+     4
+    ],
+    "captures": [
+     "capture/FTG/CITY/coast+river/0",
+     "capture/FTG/CITY/coast+river/1",
+     "capture/FTG/CITY/none/0",
+     "capture/FTG/CITY/coast+river/2"
+    ],
+    "failed": [
+     {
+      "index": 1,
+      "reason": "setting"
+     },
+     {
+      "index": 2,
+      "reason": "water-none"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "metric",
+   "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
+  },
+  {
+   "id": "mfcg/80/river+coast/water.channelWidth/all",
+   "metric": "water.channelWidth",
+   "unit": "m",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "CITY",
+    "mfcgSize": 80
+   },
+   "role": "descriptive",
+   "values": {
+    "p10": 68.7762,
+    "p50": 83.8575,
+    "p90": 114.2627,
+    "n": 3,
+    "seeds": 3
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/80/river+coast",
+    "indices": [
+     0,
+     5
+    ],
+    "failed": [
+     {
+      "index": 1,
+      "reason": "retry"
+     },
+     {
+      "index": 4,
+      "reason": "retry"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "metric",
+   "note": "the stress family (river and coast on); one width per course, as exported"
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.casingLaw/all",
+   "metric": "draw.casingLaw",
+   "unit": "share",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "role": "target",
+   "values": {
+    "p10": 1.0,
+    "p50": 1.0,
+    "p90": 1.0,
+    "n": 11,
+    "seeds": 11
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/draw/recorded",
+    "indices": [
+     0,
+     12
+    ],
+    "captures": [
+     "capture/MFCG/draw/recorded/0",
+     "capture/MFCG/draw/recorded/1",
+     "capture/MFCG/draw/recorded/2",
+     "capture/MFCG/draw/recorded/3",
+     "capture/MFCG/draw/recorded/4",
+     "capture/MFCG/draw/recorded/5",
+     "capture/MFCG/draw/recorded/6",
+     "capture/MFCG/draw/recorded/7",
+     "capture/MFCG/draw/recorded/8",
+     "capture/MFCG/draw/recorded/9",
+     "capture/MFCG/draw/recorded/10",
+     "capture/MFCG/draw/recorded/11"
+    ],
+    "failed": [
+     {
+      "index": 9,
+      "reason": "uncased"
+     }
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "the twelve draw recordings of the recorded draw family (R-51); draw style is size-invariant (sizes 24-80, water on and off); cased ribbons with the casing at core plus 2 hairlines; 1 failed: uncased"
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.roundJoins/all",
+   "metric": "draw.roundJoins",
+   "unit": "share",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "role": "target",
+   "values": {
+    "p10": 0.9998,
+    "p50": 0.9999,
+    "p90": 1.0,
+    "n": 12,
+    "seeds": 12
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/draw/recorded",
+    "indices": [
+     0,
+     12
+    ],
+    "captures": [
+     "capture/MFCG/draw/recorded/0",
+     "capture/MFCG/draw/recorded/1",
+     "capture/MFCG/draw/recorded/2",
+     "capture/MFCG/draw/recorded/3",
+     "capture/MFCG/draw/recorded/4",
+     "capture/MFCG/draw/recorded/5",
+     "capture/MFCG/draw/recorded/6",
+     "capture/MFCG/draw/recorded/7",
+     "capture/MFCG/draw/recorded/8",
+     "capture/MFCG/draw/recorded/9",
+     "capture/MFCG/draw/recorded/10",
+     "capture/MFCG/draw/recorded/11"
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "the twelve draw recordings of the recorded draw family (R-51); draw style is size-invariant (sizes 24-80, water on and off); round joins over joins; pooled 0.99998"
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.roundCaps/all",
+   "metric": "draw.roundCaps",
+   "unit": "share",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "role": "descriptive",
+   "values": {
+    "p10": 0.991,
+    "p50": 0.9971,
+    "p90": 0.9992,
+    "n": 12,
+    "seeds": 12
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/draw/recorded",
+    "indices": [
+     0,
+     12
+    ],
+    "captures": [
+     "capture/MFCG/draw/recorded/0",
+     "capture/MFCG/draw/recorded/1",
+     "capture/MFCG/draw/recorded/2",
+     "capture/MFCG/draw/recorded/3",
+     "capture/MFCG/draw/recorded/4",
+     "capture/MFCG/draw/recorded/5",
+     "capture/MFCG/draw/recorded/6",
+     "capture/MFCG/draw/recorded/7",
+     "capture/MFCG/draw/recorded/8",
+     "capture/MFCG/draw/recorded/9",
+     "capture/MFCG/draw/recorded/10",
+     "capture/MFCG/draw/recorded/11"
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "the twelve draw recordings of the recorded draw family (R-51); draw style is size-invariant (sizes 24-80, water on and off); round caps over caps; pooled 0.99905"
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.wallsAfterBuildings/all",
+   "metric": "draw.wallsAfterBuildings",
+   "unit": "share",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "role": "target",
+   "values": {
+    "p10": 1.0,
+    "p50": 1.0,
+    "p90": 1.0,
+    "n": 8,
+    "seeds": 8
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/draw/recorded",
+    "indices": [
+     0,
+     12
+    ],
+    "captures": [
+     "capture/MFCG/draw/recorded/0",
+     "capture/MFCG/draw/recorded/1",
+     "capture/MFCG/draw/recorded/2",
+     "capture/MFCG/draw/recorded/3",
+     "capture/MFCG/draw/recorded/4",
+     "capture/MFCG/draw/recorded/5",
+     "capture/MFCG/draw/recorded/6",
+     "capture/MFCG/draw/recorded/7",
+     "capture/MFCG/draw/recorded/8",
+     "capture/MFCG/draw/recorded/9",
+     "capture/MFCG/draw/recorded/10",
+     "capture/MFCG/draw/recorded/11"
+    ],
+    "failed": [
+     {
+      "index": 4,
+      "reason": "truncated-log"
+     },
+     {
+      "index": 5,
+      "reason": "truncated-log"
+     },
+     {
+      "index": 6,
+      "reason": "truncated-log"
+     },
+     {
+      "index": 8,
+      "reason": "truncated-log"
+     }
+    ]
+   },
+   "estimator": "minmax",
+   "scale": "free",
+   "note": "the twelve draw recordings of the recorded draw family (R-51); draw style is size-invariant (sizes 24-80, water on and off); first wall stroke after the last roof fill; 4 failed: truncated-log"
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/wall",
+   "metric": "draw.widthPx",
+   "unit": "none",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "mfcgSize": 40
+   },
+   "role": "target",
+   "values": {
+    "p10": 6.0086,
+    "p50": 6.3403,
+    "p90": 7.0661,
+    "n": 10,
+    "seeds": 10
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/40/plain",
+    "indices": [
+     0,
+     10
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "model width 7.6 m × the px per metre of each export (its outer scale / 4); px per metre 0.7906-0.9297 over the ten seeds (R-51)"
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/tower",
+   "metric": "draw.widthPx",
+   "unit": "none",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "mfcgSize": 40
+   },
+   "role": "target",
+   "values": {
+    "p10": 12.0171,
+    "p50": 12.6806,
+    "p90": 14.1322,
+    "n": 10,
+    "seeds": 10
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/40/plain",
+    "indices": [
+     0,
+     10
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "model width 15.2 m × the px per metre of each export (its outer scale / 4); px per metre 0.7906-0.9297 over the ten seeds (R-51)"
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/roadCore",
+   "metric": "draw.widthPx",
+   "unit": "none",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "mfcgSize": 40
+   },
+   "role": "target",
+   "values": {
+    "p10": 6.3248,
+    "p50": 6.674,
+    "p90": 7.438,
+    "n": 10,
+    "seeds": 10
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/40/plain",
+    "indices": [
+     0,
+     10
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "model width 8 m × the px per metre of each export (its outer scale / 4); px per metre 0.7906-0.9297 over the ten seeds (R-51)"
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/pier",
+   "metric": "draw.widthPx",
+   "unit": "none",
+   "reference": "MFCG",
+   "referenceBuild": "itch:12710731",
+   "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
+   "script": "research:baselines/measure_mfcg.py",
+   "date": "2026-10-04",
+   "matched": {
+    "rung": "TOWN",
+    "mfcgSize": 40
+   },
+   "role": "target",
+   "values": {
+    "p10": 3.7949,
+    "p50": 4.0044,
+    "p90": 4.4628,
+    "n": 10,
+    "seeds": 10
+   },
+   "metricVersion": "1.0.0",
+   "sample": {
+    "family": "capture/MFCG/40/plain",
+    "indices": [
+     0,
+     10
+    ]
+   },
+   "estimator": "type7",
+   "scale": "free",
+   "note": "model width 4.8 m × the px per metre of each export (its outer scale / 4); px per metre 0.7906-0.9297 over the ten seeds (R-51); a plain export draws no plank: the 4.8 m default"
   }
  ],
  "crossings": []

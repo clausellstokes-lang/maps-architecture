@@ -40,19 +40,22 @@ amendment that records the same cells is the design seat's (E12 §13), not this 
 
 | file | bytes | sha256 (first 16) | crosses |
 |---|---|---|---|
-| `docs/digest-candidate/INDEX.md` | 4 160 | `293ee71d734f8fe5` | yes (the digest's index; the scaffold's `README.md` in `plat/docs/digest/` stays) |
-| `docs/digest-candidate/01-ng-sigma-frame.md` | 7 898 | `dcd648cfcd7b0f1a` | yes |
-| `docs/digest-candidate/02-depth-rows-refit.md` | 9 668 | `8d97212fd68f1dd6` | yes |
-| `docs/digest-candidate/03-r4-definition.md` | 5 176 | `383381c9675e80fb` | yes |
-| `docs/digest-candidate/04-hollow-block-definition.md` | 5 777 | `60dfd4d72ac616fa` | yes |
-| `docs/digest-candidate/05-junction-census.md` | 5 243 | `b46d7218722a8d1f` | yes |
-| `docs/digest-candidate/06-deep-interior-shares.md` | 4 640 | `fb1f6e9acf0b7a6a` | yes |
-| `docs/digest-candidate/07-derived-graph-twin.md` | 9 326 | `98481b1f29527fa3` | yes |
-| `docs/digest-candidate/08-ng-declared-scale.md` | 6 739 | `7031687c2cf5e599` | yes |
-| `docs/digest-candidate/09-ftg-city-family.md` | 6 684 | `e5e7667e70b85ba7` | yes |
-| `docs/digest-candidate/READING-LOG.md` | 6 660 | `d00ba76bf91d4b73` | **no** — this seat's logged reading list (plan section 7's "logs every file read"); it names research paths and stays research-side |
+| `docs/digest-candidate/INDEX.md` | 3 340 | `293ee71d734f8fe5` | yes (the digest's index; the scaffold's `README.md` in `plat/docs/digest/` stays) |
+| `docs/digest-candidate/01-ng-sigma-frame.md` | 7 886 | `7583e7f5b9470311` | yes |
+| `docs/digest-candidate/02-depth-rows-refit.md` | 8 390 | `8d97212fd68f1dd6` | yes |
+| `docs/digest-candidate/03-r4-definition.md` | 4 933 | `383381c9675e80fb` | yes |
+| `docs/digest-candidate/04-hollow-block-definition.md` | 5 434 | `b9cc26d567cfa768` | yes |
+| `docs/digest-candidate/05-junction-census.md` | 5 026 | `b46d7218722a8d1f` | yes |
+| `docs/digest-candidate/06-deep-interior-shares.md` | 5 538 | `8064b73e6d9c3bd3` | yes |
+| `docs/digest-candidate/07-derived-graph-twin.md` | 8 988 | `98481b1f29527fa3` | yes |
+| `docs/digest-candidate/08-ng-declared-scale.md` | 5 845 | `7031687c2cf5e599` | yes |
+| `docs/digest-candidate/09-ftg-city-family.md` | 6 667 | `8219a11cf68d7c3e` | yes |
+| `docs/digest-candidate/READING-LOG.md` | 5 511 | `d00ba76bf91d4b73` | **no** — this seat's logged reading list (plan section 7's "logs every file read"); it names research paths and stays research-side |
 
-The bytes and hashes are those of the files at this record's writing; W-18 reads the files, not this table. No new
+The bytes and hashes are those of the files after round 3 (lane `m1/round3-apply`, section 9): the draft's byte column
+was wrong for every file and its hashes for entries (1) and (6) predated the draft's last edits (the wave-3 verifier,
+`results/wave3-verify-ab.json`), and round 3 changed entries (1), (4), (6) and (9). W-18 reads the files, not this
+table. No new
 tool was built: the row names none (the digest is prose), and the checker column's instruments already exist —
 `docs/validation/bench/doc_checks.py` (the scripted document checks of §17.1 (2)) and the scanner's research twin
 `research/baselines/make_denylist.py scan` (W-16b's lists).
@@ -100,7 +103,28 @@ the full reading list is `READING-LOG.md`.
 
 ## 4 Receipts (the row's checker column, executed by this seat; CONFIRMED)
 
-<!-- RECEIPTS -->
+The row's checker column on the ten crossing files: `doc_checks.py --doc <file> --heads docs/ARCHITECTURE.md` (C1–C4,
+S1, S2; hits / unreviewed) and the scanner's research twin with **no allow file**
+(`make_denylist.py scan <files> --list m0 --allow` and the same with `--list research`; every class). The draft's own
+runs (five of the ten per-file checks, and the scans before entries (1) and (6) were last edited) left this section a
+placeholder; the wave-3 verifier ran all ten checks and both scans on the draft's final bytes, and round 3 re-ran both
+on the four entries it changed (section 9). Each row below names the run that holds for the file's current bytes.
+
+| file | sha256 (first 16) | `doc_checks.py` (C1–C4, S1, S2) | scan, M0 list | scan, research list | run |
+|---|---|---|---|---|---|
+| `INDEX.md` | `293ee71d734f8fe5` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `01-ng-sigma-frame.md` | `7583e7f5b9470311` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/round3-apply`, 2026-10-04 (151 s) |
+| `02-depth-rows-refit.md` | `8d97212fd68f1dd6` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `03-r4-definition.md` | `383381c9675e80fb` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `04-hollow-block-definition.md` | `b9cc26d567cfa768` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/round3-apply`, 2026-10-04 (149 s) |
+| `05-junction-census.md` | `b46d7218722a8d1f` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `06-deep-interior-shares.md` | `8064b73e6d9c3bd3` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/round3-apply`, 2026-10-04 (149 s) |
+| `07-derived-graph-twin.md` | `98481b1f29527fa3` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `08-ng-declared-scale.md` | `7031687c2cf5e599` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/wave3-verify-ab`, 2026-10-04 09:36–10:28 (the draft's final bytes, unchanged since) |
+| `09-ftg-city-family.md` | `8219a11cf68d7c3e` | none in any class, exit 0 | 0 hits in every class, exit 0 | 0 hits in every class, exit 0 | `m1/round3-apply`, 2026-10-04 (164 s) |
+
+**0 code excerpts, 0 reference word lists, palettes or tables, 0 deny-list hits** on the ten files (CONFIRMED). The
+planted-leak test and the implementer-side run of M0's own scanner are W-18's (section 6).
 
 ## 5 Calls made under the delegation (J122; each vetoable; none changes a design cell or a ruling)
 
@@ -110,7 +134,7 @@ the full reading list is `READING-LOG.md`.
 | D2 | `INDEX.md`, not `README.md`, for the index | `plat/docs/digest/README.md` is the scaffold's and is the one file of the folder that is not a crossing file (C-0120 (1)); the index must cross |
 | D3 | records cited as `research:M-1/E10`-style labels; rows by id; the design by section | plan section 7's "no research path but an opaque label"; a row id is the one name an implementer can resolve (`baselines.json`); V12 is not in an M0 implementer's reading set |
 | D4 | the creators' ideas paraphrased, never quoted | §17.1 (2) allows "a creator's sentence under 15 words quoted for traceability" as a reviewed hit; a paraphrase needs no review and names no post. Alternative: short quotes with allow rows, which W-18 would have to carry |
-| D5 | entries (4) and (6) tell M0-c-07a to read the court share over the reference's deep population (inscribed radius > 1.5 × the median short side) until E12's D-1 amendment lands | E12 §15 R5: the design's own test admits 3 of NG's 597 deep blocks at the ruled depth, so the keep-test would judge an empty set; the digest is the channel R-20 names for M0-c-07a. Alternative: say nothing and let the parity run report an empty population |
+| D5 | entries (4) and (6) tell M0-c-07a to read the court share over the reference's deep population (inscribed radius > 1.5 × the median short side) until E12's D-1 amendment lands | E12 §15 R5: the design's own test admits 3 of NG's 597 deep blocks at the ruled depth, so the keep-test would judge an empty set; the digest is the channel R-20 names for M0-c-07a. Alternative: say nothing and let the parity run report an empty population. **History since round 3:** the amendment applied D-1 as thickness > 0.6 × the band's plot depth (J-1), which reproduces the reference's population at `modest`; entries (4) and (6) now state the applied test and the interim reading is gone (section 9) |
 | D6 | entry (7) carries the `fg.recoverability` and `fg.streetwall` rows beside the D11 rows | they read the same derived graph and cluster blocks (E08 §3), and an implementer deriving one should derive all alike. Alternative: a tenth entry, which R-20 does not name |
 | D7 | entry (8) carries the registered-frame paragraph (NG's two canvases and their offset) | every footprint-to-road NG row and the face-record file rest on it (E11); R-20 (1) asks for "the recorded frame". Alternative: leave it to `ng-faces.json`'s hand-off, which names the frame but not the step |
 | D8 | the scanner run with no allow file; 0 total hits the bar | CLEAN-ROOM §3's report form is "0 deny-list hits"; a reviewed hit is a hit the next checker must re-read. Alternative: allow rows for ordinary phrasing (the design set's practice), which the digest's size does not need |
@@ -132,7 +156,8 @@ the full reading list is `READING-LOG.md`.
   O-6, entries (2) and (6) are re-drafted with the vetoed values and re-checked (every number in them is E12 §12's).
 * **The design seat.** No new correction from this lane. The entries restate corrections already routed: E12 §13's
   D-1 … D-3 (entries 4 and 6), E10 §9.4's DC-26 successor (entry 1: σ plain 0.084, one bend 0.657, corner 0.883),
-  E09 F1's granularity anchor (entry 7), E15 §8's recomputed bands (entries 3, 5, 7).
+  E09 F1's granularity anchor (entry 7), E15 §8's recomputed bands (entries 3, 5, 7). Since round 3 entries (1), (4)
+  and (6) state them as applied by design/m1-corrections-2 (section 9).
 * **W-19 (the exit check).** `READING-LOG.md` is this seat's reading list for the seat ledger.
 
 ## 7 CONFIRMED versus PLAUSIBLE
@@ -157,3 +182,28 @@ are outside R-20's nine entries and were not digested (E06 §8 and E08 §3 were 
 `df -h /Users/cstokes`: 11 GiB free at the start and the end; `memory_pressure` 72 % free. One scan or check process at
 a time at nice 10. The scratch files (the five scan passes, the per-file check outputs, the receipts script and its
 JSON) live in the session scratchpad `m1w3/`; the digest candidate is 66 KB in all.
+
+## 9 Round 3 (lane `m1/round3-apply`, 2026-10-04): four entries restated on the applied design
+
+The research apply seat of rulings round 3 (`M-1-rulings-3.md`; plan notes section 7 (c); the wave-3 verifier's W-17
+points) changed four crossing files, no other file of the folder (`diff` against copies made before any edit):
+
+* **(6) `06-deep-interior-shares.md`.** Section 3 calls both §7.6 changes applied — the `MFCG` entry 0.813 / 0 / 0 / 0.187
+  in every band, and the step that resolves a cell under `NG` to its default when that default is NG's own rule or was
+  calibrated on NG's output, with the amendment's extension to `cut.bendMode` and `cut.flattenM` (J-2), not routed.
+  Section 4 states the applied deep test, local thickness > 0.6 × the band's plot depth (J-1): 21.6 m at the re-fitted
+  `modest` depth, the reference's own threshold, admitting 593 of NG's 597 deep blocks and no other (court share 0.465
+  against 0.462; the wave-3 verifier's count), the replaced test's 98 and 3 as history. Section 5 names J-1 and J-2 as
+  vetoable calls with their veto's effect.
+* **(4) `04-hollow-block-definition.md`.** Section 3 states the same applied test and drops "until the amendment lands";
+  the census behind the factor stays; item 1's inscribed-radius test stays the reference row's definition.
+* **(1) `01-ng-sigma-frame.md`.** The paragraph against the design's figures states σ 0.084 (plain faces) and 0.094
+  (ring faces) as applied in the bent-cut signature of §13.5, §16's M0 clause (b) and §4.6's position step, with the fixture
+  figures as history (F6, DC-38).
+* **(9) `09-ftg-city-family.md`.** The "no silent gap" sentence carries the exception R-53 rules (a row with `values.n` 0
+  lists every member in `failed`, and its `values.seeds` is the member count); the row of river widths is named by its
+  id `water.channelWidth`.
+
+Each touched file was scanned with no allow file against both lists and checked by `doc_checks.py` (section 4); five
+phrases of the first wording formed 3-gram runs on both lists and were reworded, so no allow row was added. Entry (2)
+quotes no σ and needed no change; the index's row for entry (6) still describes it.

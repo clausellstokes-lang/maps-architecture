@@ -39,18 +39,25 @@ cells of each row keep their design proportions.
 **The `MFCG` preset's row.** MFCG's inner-plot removal leaves an unbuilt interior in **0.8135** of its deep cluster
 blocks (the type-7 median over the 30 usable plain seeds; 8 157 of 10 015 pooled; 0.810–0.814 by size). The remainder
 is rear plots because MFCG either keeps a deep block's inner plots or removes them, and inserts no lane or alley
-spine; a row with lanes would be shares MFCG never draws. §7.6's list of rows carrying `presets` entries gains the
-deep-interior shares (the `MFCG` entry above; `FTG` reads the default), and the `NG` parity preset reads the default
-row for these cells (0.457 at `modest`) rather than resolving through the `MFCG` entry — both routed to the design seat.
+spine; a row with lanes would be shares MFCG never draws. Both §7.6 changes stand **applied** (the design amendment
+of 2026-10-04): §7.6's list of rows carrying `presets` entries holds the deep-interior shares, with the `MFCG` entry
+0.813 / 0 / 0 / 0.187 in every band (`FTG` reads the default); and a base cell whose default is NG's own rule, or was
+calibrated on NG's output, resolves under the `NG` parity preset to its default before any fall-back to `MFCG`. That
+step covers these shares (so `NG` reads 0.457 at `modest`) and, by the amendment's extension, `cut.bendMode` with
+`cut.flattenM`, so the `NG` preset reads the 0.7 m flatten rule rather than the `MFCG` entry's. No `NG` entry is
+written; the presets reach M1's loader, and M0's loader reads defaults only.
 
 ## 4 Like for like: which blocks the keep-test reads
 
 §13.5's keep-test is the court share per class. The shares above were measured over the reference's deep population
-(inscribed radius above 1.5 × the median footprint short side; entry 4). The design's own deep test (local thickness
-above twice the band's plot depth) admits 98 of NG's 597 deep blocks at the old `modest` depth (court share 0.418)
-and 3 at the re-fitted one (entry 2), while the reference's population is every block of thickness above 21.6 m (an
-inscribed radius of about 10.8 m), so the keep-test's population must be the reference's for the shares to be judged
-on the blocks they were measured on. The design correction is routed; M0-c-07a reads the reference's definition meanwhile.
+(inscribed radius above 1.5 × the median footprint short side; entry 4), every NG block of thickness above 21.6 m (an
+inscribed radius of about 10.8 m). The design's deep test, **as applied** (§2.5 `Block.depthClass` and §4.6's rule,
+amendment of 2026-10-04), calls a block deep when its local thickness exceeds **0.6 × the band's plot depth**: at the
+re-fitted `modest` depth of 36 m that is 21.6 m, the reference's own threshold, and on NG's blocks the applied test
+admits 593 of the 597 deep blocks and no other block (court share 0.465 against 0.462). The test it replaced, twice the
+band's plot depth, admitted 98 of the 597 at the old `modest` depth (court share 0.418) and 3 at the re-fitted one. So
+the keep-test reads the population the shares were measured on, and M0-c-07a judges them over the blocks S8's applied
+test calls deep.
 
 ## 5 Status
 
@@ -58,4 +65,6 @@ CONFIRMED by execution research-side: the medians and counts, every published ro
 alternative estimators (the count ratio 0.462, the `area` template's 0.457) within 0.006 of the chosen one. PLAUSIBLE:
 that NG's `medium` hood stands for the `modest` band; that MFCG's cluster blocks stand for its generator's blocks
 inside the walls. The rulings behind the cells were decided under the owner's delegation and are vetoable; a veto on
-the remainder rule gives the `MFCG` row 0.813 / 0.102 / 0.051 / 0.034.
+the remainder rule gives the `MFCG` row 0.813 / 0.102 / 0.051 / 0.034. The factor form of the deep test and the reach
+of the `NG` resolution step are the design seat's calls under the same delegation, also vetoable: a veto of the first
+puts the inscribed-radius form in its place, a veto of the second narrows the step to the shares alone.

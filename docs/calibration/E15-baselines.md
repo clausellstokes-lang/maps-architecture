@@ -4,55 +4,65 @@ Lane `m1/W-15`, 2026-10-04, on the owner's Mac, beside M0's build seats. This is
 (`plat/CLEAN-ROOM.md` rule 2: implementer seats do not read it). It holds numbers, metric ids, file paths and our own words:
 no reference word list, grammar, palette, identifier or content table. The numbers are in `E15-baselines.json` beside it,
 written by `rows.py`. Nothing was written into `plat/`, no capture or capture bundle was opened, no site was touched, no
-benchmark ran and no git command changed state.
+benchmark ran and no git command changed state. Round 3 (lane `m1/round3-apply`, the same day, after
+`M-1-rulings-3.md`) continued this item with the same three tools; section 13 records it, and the lines below that it
+changed say so.
 
-**Outcome (partial; every number CONFIRMED by execution unless marked).**
+**Outcome (landed at round 3; partial at W-15's own landing; every number CONFIRMED by execution unless marked).**
 
 * **The candidate exists and passes the row's checks.** `research/baselines/candidates/baselines.json` (`plat.baselines/2`,
-  sha256 `e6d65954…`) holds **478 rows**: FTG 223, MFCG 110, NG 145; 247 target, 92 weakness, 139 descriptive. The
-  research twin of the crossing check, `cross_check.py`, passes it on **C1–C10**. Every row carries `referenceBuild`,
+  sha256 `784e2373…` since round 3) holds **491 rows**: FTG 227, MFCG 119, NG 145; 257 target, 92 weakness, 142
+  descriptive (478 rows, sha256 `e6d65954…`, at W-15's landing; round 3 appended the 13 held rows after them, section
+  13). The research twin of the crossing check, `cross_check.py`, passes it on **C1–C10**. Every row carries `referenceBuild`,
   `capture`, `script` and `date`. No row carries a floor or a sign field (N-05). Every ⟨M-1⟩ cell of §13.5 and V12's
   catalogue has a target row or a descriptive row in C-0116's form, 26 of 26. Every FTG row's `sample.captures` equals the
-  plan's slots in order (C7). T-V12-1's fixtures are each refused naming their check, and T-V12-30's behave: 41 of 41
-  fixtures in all. The `ng-faces.json` candidate (W-10b's, 374 faces, 20 hoods) passes its kind's checks. 307 receipts
-  against the measuring items' own summaries are all equal, and 11 rows recomputed by a second implementation are equal.
+  plan's slots in order (C7). T-V12-1's fixtures are each refused naming their check, and T-V12-30's behave: 46 of 46
+  fixtures in all (41 at the landing; round 3 added five). The `ng-faces.json` candidate (W-10b's, 374 faces, 20 hoods)
+  passes its kind's checks. 324 receipts against the measuring items' own records are all equal (307 at the landing),
+  and 11 rows recomputed by a second implementation are equal (round 3 added its own independent recomputes, section 13.5).
 * **Both variety dispersions are formed (R-40).** MFCG 1.81 / 1.56 / 1.74 z and FTG 3.29 / 3.48 / 3.36 z at TOWN / CITY /
   METROPOLIS, over the pooled deviations of MFCG 10 ∪ FTG 10 (TOWN, CITY) and MFCG 10 ∪ FTG 4 (METROPOLIS).
 * **W-13's bootstrap now covers W-08's two rows.** `fg.streetwall` is stable at every rung; `fg.recoverability` is
-  unstable at METROPOLIS (108 of 1 000 draws). S-V12-1's outcome stays fired: 50 of 78 rows (64.1 %).
-* **Why partial — three things only other seats can do:**
-  1. **N-26 (for the session, before M0 waves 11 and 13).** Scanned as whole text, the candidate holds 140 three-gram runs
-     that are made of numbers only: histogram counts such as runs of zeros, which match number 3-grams of the deny-list's
-     corpus. Its string values and keys hold no hit on either list. `cross_check.py`'s C10 reads the strings and keys,
-     the reading N-22 fixed for colours. M0's scanner must read crossing files the same way, or the deny-list must drop
-     number-only 3-grams. Until one of the two is done, `baselines.json` cannot pass M0's scan at W-20.
-  2. **F2: the five `water.riverWidth` rows are held.** The metric id's second token is listed by both deny-lists,
-     because it repeats a key of MFCG's export. By R-29's precedent an id of ours that repeats a reference identifier is
-     renamed by a design seat, and then the registry is regenerated. The rows are formed and kept in `E15-baselines.json`
-     (`heldRows`), so the append is mechanical.
-  3. **F1: D28's eight MFCG draw-style rows are held.** Their twelve draw records are profiler recordings, not plan
-     seeds. R-03 builds no row from a fixture, and `plan.json` registers no recorded MFCG draw family; R-02 did that for
-     FTG's CITY captures. A ruling and a `plan.py` block are owed before these rows can pass C7.
+  unstable at METROPOLIS (108 of 1 000 draws). S-V12-1's outcome stays fired: 50 of 78 rows (64.1 %). The remedy is
+  R-50's (round 3; the owner withdrew the pre-decided loads, J171): every flagged target row keeps its role, values and
+  band and carries a stability marker in its note, 50 MFCG rows and, by R-50 (4), 10 FTG rows (section 13.3).
+* **Why W-15 was partial at its landing, and how round 3 settled each item:**
+  1. **N-26 (ruled by R-52; the session carries row N-26 before M0 waves 11 and 13).** Scanned as whole text, the
+     candidate holds **70 distinct three-gram runs made of numbers only, each hit once on each of the two lists (140
+     hits in all; the landing's "140 runs" counted hits — the wave-3 verifier's correction)**: histogram counts such as
+     runs of zeros, which match number 3-grams of the deny-list's corpus. Its string values and keys hold no hit on
+     either list. R-52 rules that M0's scanner reads the crossing files by their string values and keys, each a text of
+     its own, as `cross_check.py`'s C10 does (round 3 made the twin read each string on its own, section 13.4); the
+     deny-list stays whole. Until M0-k-06 applies that reading, `baselines.json` passes T-V12-28 under D13's reading
+     (vetoable, R-54) and fails it whole-text.
+  2. **F2: the five channel-width rows (resolved).** The metric id's earlier second token is listed by both deny-lists,
+     because it repeats a key of MFCG's export. The design renamed the id `water.channelWidth` (design/m1-corrections-2,
+     J-5); round 3 installed it in the registry and appended the five rows (section 13.1).
+  3. **F1: D28's eight MFCG draw-style rows (resolved by R-51).** Their twelve draw records are profiler recordings, not
+     plan seeds. R-51 registers them as the recorded family `capture/MFCG/draw/recorded` (R-02's form) for four
+     metrics, and builds `draw.widthPx` by the formula route on the size-40 plain family; round 3 installed the
+     `plan.py` block and appended the eight rows (section 13.2).
 
 ## 1 What was built and run
 
 | file | what | sha256 |
 |---|---|---|
-| `research/baselines/bands.py` | V12 §3.5.1–§3.5.4: the estimators, the scalar band rule (the floor read from the registry, never from a row), the distribution spread and ceiling, §13.5's fixed, declared-exception and weakness forms, the dispersion step, the passing-to-failing intervals; `--selftest` | `f62dbfe0…` |
-| `research/baselines/rows.py` | reads every measuring record's JSON, forms the rows, the bands, the dispersions, W-13's addendum, the flip list and the design hand-off; writes the candidate and `E15-baselines.json`; `--check` (byte-equal recompute), `--red` | `e399f74a…` |
-| `research/baselines/cross_check.py` | the research twin of `plat baselines check`: C1–C10 for `baselines.json`, the `ng-faces` and `denylist` kinds, the T-V12-1 / T-V12-30 / N-05 / N-21 / N-22 / N-24 fixtures, T-V12-28's research side; imports `make_denylist.py`'s scanner | `1f7989e5…` |
-| `research/baselines/candidates/baselines.json` | the candidate (478 rows; three pins; `crossings` empty, W-20's) | `e6d65954…` |
-| `docs/calibration/E15-baselines.json` | every row's band, the dispersions, W-13's addendum, the flips, the hand-off, the held rows and no-rows, the receipts, the inputs' sha256 | `e0daeda1…` |
+| `research/baselines/bands.py` | V12 §3.5.1–§3.5.4: the estimators, the scalar band rule (the floor read from the registry, never from a row), the distribution spread and ceiling, §13.5's fixed, declared-exception and weakness forms (round 3: the `ink` preset's draw-style bands), the dispersion step, the passing-to-failing intervals; `--selftest` | `f5d3bbc7…` (`f62dbfe0…` at the landing) |
+| `research/baselines/rows.py` | reads every measuring record's JSON, forms the rows, the bands, the dispersions, W-13's addendum, the flip list and the design hand-off; round 3: the appended rows, R-50's markers and the FTG test of R-50 (4); writes the candidate and `E15-baselines.json`; `--check` (byte-equal recompute), `--red` | `e7509b38…` (`e399f74a…`) |
+| `research/baselines/cross_check.py` | the research twin of `plat baselines check`: C1–C10 for `baselines.json`, the `ng-faces` and `denylist` kinds, the T-V12-1 / T-V12-30 / N-05 / N-21 / N-22 / N-24 fixtures and round 3's five, T-V12-28's research side; imports `make_denylist.py`'s scanner | `03c6d5c1…` (`1f7989e5…`) |
+| `research/baselines/candidates/baselines.json` | the candidate (491 rows; three pins; `crossings` empty, W-20's) | `784e2373…` (`e6d65954…`, 478 rows) |
+| `docs/calibration/E15-baselines.json` | every row's band, the dispersions, W-13's addendum, the flips, the hand-off, the held rows (none since round 3) and no-rows, the receipts, the inputs' sha256, `round3` | `2ca99a4a…` (`e0daeda1…`) |
 
 All three scripts are our own code, standard library only. `rows.py` imports `bands.py` and, for W-13's draws only,
 `spike_bootstrap.py`. `bands.py` imports `measure_mfcg.py` and `measure_ng.py` in its self-test, to show that its estimator
 equals theirs. Inputs (read only; sha256 in the JSON's `inputs`): `plan.json`, `metrics.m-1.json`, E05's slots file, E06,
-E07's plan file and fixture file, E08, E09 with its seeds and vectors files, E10's plan file, E11's plan file, E13, E14,
-E20, and the NG plan-seed input index (for the drop counts).
+E07's plan file and fixture file (and, since round 3, its widths file), E08, E09 with its seeds and vectors files, E10's
+plan file, E11's plan file, E13, E14, E20, and the NG plan-seed input index (for the drop counts).
 
 Run from the project root:
 
 ```
+python3 research/baselines/measure_mfcg.py --plan-widths --json docs/calibration/E07-mfcg-signature.widths.json   # round 3
 python3 research/baselines/bands.py --selftest
 python3 research/baselines/rows.py --write          # then --check (SAME, SAME) and --red
 python3 research/baselines/cross_check.py research/baselines/candidates/baselines.json
@@ -66,25 +76,32 @@ python3 research/baselines/cross_check.py --tv12-28 research/baselines/candidate
 
 | reference | target | weakness | descriptive | all |
 |---|---|---|---|---|
-| FTG | 54 | 79 | 90 | 223 |
-| MFCG | 87 | 3 | 20 | 110 |
+| FTG | 57 | 79 | 91 | 227 |
+| MFCG | 94 | 3 | 22 | 119 |
 | NG | 106 | 10 | 29 | 145 |
-| all | 247 | 92 | 139 | 478 |
+| all | 257 | 92 | 142 | 491 |
 
-By kind of band: band rule 145, fixed 93, declared exception 3, floor 6 (the dispersions), weakness 92, descriptive 139.
+By kind of band: band rule 148, fixed 100, declared exception 3, floor 6 (the dispersions), weakness 92, descriptive 142.
+(At W-15's landing: FTG 54 / 79 / 90, MFCG 87 / 3 / 20, 478 rows; band rule 145, fixed 93, descriptive 139. Round 3 added
+the channel-width rows — three FTG targets, the FTG CITY and MFCG stress rows descriptive — and R-51's eight: three
+recorded-family targets, `draw.roundCaps` descriptive, the four `draw.widthPx` targets.)
 
 **Form of a row.**
 * **Id** (N-25): `<reference>/<setting>/<metric>/<subset>[/<field>]`, for example `mfcg/80/plain/bldg.r4.120/all`,
   `ftg/BIG_CITY/junction.angles/all/median`, `ng/medium/cut.sigma/ring`, `ng/medium/block.countTemplate/template-ring`,
-  `ng/medium/cut.fillet/class-cShaped`. The subset is `all`, `plain`, `ring`, `template-<name>` or `class-<flag>`; a vector
-  metric has one row per field.
+  `ng/medium/cut.fillet/class-cShaped`, and since round 3 `mfcg/draw/recorded/draw.roundJoins/all` (the recorded draw
+  family's setting). The subset is `all`, `plain`, `ring`, `template-<name>` or `class-<flag>`; a vector metric has one row
+  per field.
 * **Sample.** MFCG and per-template NG rows name their registered family and its indices, with `failed` from the plan
   (`capture/MFCG/130/plain` index 8 `no-export`; the stress family's 1 and 4 `retry`). An FTG row lists **every plan slot
   of its size in order**; a slot that gives no value is in `failed` with its reason: `water-none` (a `none` slot in a
   water row, R-33), `no-wall` (slot 12, W05b-D11), `setting` (the 2026-09-25 CITY capture, R-04). A pooled NG row names
-  the union `capture/NG` and lists its member labels in plan order (D2 below). A row with `values.n` 0 lists every member
-  in `failed` with its reason (C-0116; T-V12-30). So C7 can test "no silent gap" on every row: the members outside
-  `failed` equal `values.seeds`.
+  the union `capture/NG` and lists its member labels in plan order (D2 below). The MFCG draw rows on the recorded family
+  name `capture/MFCG/draw/recorded` with `indices` [0, 12) and its twelve labels in recording order, the members a
+  metric cannot read in `failed` (`uncased`, `truncated-log`; R-51). A row with `values.n` 0 lists every member in
+  `failed` with its reason (C-0116; T-V12-30), and its `values.seeds` is the member count (19 such rows: FTG 8, MFCG 7,
+  NG 4). So C7 tests "no silent gap" on every row: where `values.n` is above 0 the members outside `failed` equal
+  `values.seeds`, and where it is 0 every member is in `failed` (R-53; row N-31 carries this to M0-k-05).
 * **Values.** Scalar rows hold p10, p50 and p90 by V12 §3.5.1's estimator (`type7` at n ≥ 10, `minmax` at 2–9, `single`
   at 1) over the per-seed statistics. Distribution rows hold the registry's edges (rounded to four decimals) and the
   pooled histogram, with `spreadKS` {p90, pairs}. A **fixed-band row whose reference value is one pooled statistic**
@@ -101,33 +118,36 @@ By kind of band: band rule 145, fixed 93, declared exception 3, floor 6 (the dis
   `large` map, which only the draw rows read, and those read the draw records, not the cleaned input.
 
 **Roles** follow §13.5 and the rulings: FTG by R-34 and R-48 (band rule: `street.runs`, `outline.*`,
-`wall.towerSpacing`, `water.riverWidth`; fixed: `junction.*`, `bldg.area`, `bldg.quadSide`, `bldg.worstCorner`,
+`wall.towerSpacing`, `water.channelWidth`; fixed: `junction.*`, `bldg.area`, `bldg.quadSide`, `bldg.worstCorner`,
 `gate.count`, `water.step`; declared exception: `street.turn100`; weakness: `street.stepHist`, `street.entropy50`,
 `wall.ungated`, `tree.*`, `time.model`; descriptive: `bldg.partyShare`, `bldg.attached`, `pop.perBuilding`, `wealth.*`,
 `ftg.ringBlock`); at the recorded CITY family `time.model` is a weakness row and every other row descriptive (R-02); TOWN
 has no row (R-34). MFCG's D11 rows are targets at every rung (E14: every CV ≤ 0.3). NG's face-class rows are descriptive
 (R-09). Every unmeasured time cell is one descriptive row with `values.n` 0 (R-44): MFCG `time.model` and
 `time.firstMap` per plain family and `time.worst` on the stress family with its attempt counts; NG's three over the 20
-`medium` seeds; FTG `time.firstMap` (contended) and `time.worst` (unmeasured) per size.
+`medium` seeds; FTG `time.firstMap` (contended) and `time.worst` (unmeasured) per size. MFCG's draw rows (R-51, round
+3): `draw.casingLaw`, `draw.roundJoins` and `draw.wallsAfterBuildings` targets with §13.5's fixed `ink` bands,
+`draw.roundCaps` descriptive, `draw.widthPx` a target with the ± 15 % band on each field.
 
 ## 3 The checks (the row's checker column)
 
 | check | how | result |
 |---|---|---|
-| C1–C10 on the candidate | `cross_check.py` on the file (C2 by N-24's pattern, case-sensitive; C4 strings only, N-22; C6 against `metrics.m-1.json`, R-45; C9 one live row per (reference, build, metric, rung, size, setting, subset and field); C10 the scanner over the string values and keys, both lists) | **C1–C10 PASS**, 478 rows, 10 224 strings, 0 numbers with six consecutive digits; scan 0 hits. Whole text: 140 hits, all number runs (N-26) |
-| every row has `referenceBuild`, `capture`, `script`, `date` | C1 | PASS (478 / 478) |
+| C1–C10 on the candidate | `cross_check.py` on the file (C2 by N-24's pattern, case-sensitive; C4 strings only, N-22; C6 against `metrics.m-1.json`, R-45; C9 one live row per (reference, build, metric, rung, size, setting, subset and field); C10 the scanner over each string value and each key on its own, both lists, R-52) | **C1–C10 PASS** at round 3: 491 rows, 10 526 strings (10 568 texts, 967 distinct), 0 numbers with six consecutive digits; scan 0 hits. Whole text: 140 hits = 70 distinct number runs, each hit once on each of the two lists (N-26). At the landing: 478 rows, 10 224 strings, the same 70 runs |
+| every row has `referenceBuild`, `capture`, `script`, `date` | C1 | PASS (491 / 491; 478 / 478 at the landing) |
 | every ⟨M-1⟩ cell has a target row or a descriptive row in C-0116's form | the cells of §13.5 and V12 §3.4.2's ⟨M-1⟩ rows against the candidate; every `m1` entry of the registry against the candidate and the held list | PASS: 26 of 26 cells; 0 registry entries without a row or a held row |
 | no row carries a floor or a sign field | C1's forbidden members (`absFloor`, `sign`, `floor`, `band`, `signIndefinite`) and two fixtures | PASS |
 | T-V12-1's fixtures each refused naming their check | 16 fixtures built from the candidate: place name in `capture` (C2), 201-character note (C3), a six-hex run (C4), no `referenceBuild` (C1), indices from 3 (C7), a removed row (C9), two live rows (C9), an unsalted corpus id (C8), a corpus target at frame n 12 (C8), a corpus string (C8), a frame crossed later (C8), a panel note as text (C3), an empty candidate (C1), a committed file without `--previous` (C9); an upper-case family and a one-row file pass | 16 / 16 behave |
-| T-V12-28 (research side) | the scanner over both candidates; no `MeasureInput` and no capture path inside them. The `plat/` path scan is the checker seat's at W-20 (it reads `plat/`) | strings and keys: 0 hits on both. Whole text: `ng-faces.json` 0, `baselines.json` 140 number runs (N-26). No `MeasureInput`, no capture path |
+| T-V12-28 (research side) | the scanner over both candidates; no `MeasureInput` and no capture path inside them. The `plat/` path scan is the checker seat's at W-20 (it reads `plat/`) | **passes under D13 (vetoable; R-54), the strings-and-keys reading R-52 rules for M0's scanner: 0 hits on both files; fails whole-text until N-26 is applied at M0-k-06** (`cross_check.py --tv12-28` exit 1: `ng-faces.json` 0, `baselines.json` 70 distinct number runs on each list, 140 hits). No `MeasureInput`, no capture path |
 | T-V12-30 | a listed failed index passes C7; an unlisted gap is refused; an empty capture listed `empty` passes; the FTG nominal population is marked; `adapters/mfcg.py`'s cleaner merges a coincident pair, splits a self-touch, drops a zero-area ring and a zero-length line, counting each; a capture left with no building yields no ring | 6 / 6 behave |
 | each FTG row's captures equal the plan's slots in order | C7 against `plan.json`'s slots per family | PASS |
 | N-05, N-21, N-22, N-24 | 2 + 10 + 5 + 2 fixtures (the `ng-faces` kind refuses a face or hood without `referenceBuild`, a decimal coordinate, an unknown member, a bad `seedLabel`, a crossing ring, areas off their face, a cut field out of range, a six-hex string; the deny-list kind refuses an unsorted array and a 15-digit digest; `block.counttemplate` pairs with no registry entry) | 19 / 19 behave |
+| round 3 (R-50, R-51 (5) (ii), F2) | a recorded-draw row with its twelve captures passes C7; two captures swapped, and indices [0, 11), are refused by C7; a `water.channelWidth` row passes C6; the longest marked note (198 characters) passes C3 with the scanner | 5 / 5 behave (46 / 46 fixtures in all) |
 | the `ng-faces.json` candidate | the kind's C1, C2, C4, C5 and C10: §7b's members exactly, `referenceBuild` on every hood and face, integers, closed simple rings with the stated orientation, leaves within 1e-3 of their face | ACCEPTED: 20 hoods, 374 faces, largest leaf-area deviation 1.7e-4 (W-10b's own figure) |
 | the `denylist.json` kind | on W-16b's exit list: attachment C's patterns (`make_denylist.validate_m0`), C4, C10 over the header | ACCEPTED (24.2 MB, 1 274 853 strings) |
-| bands with provenance "M-1 2026-10-04" | every row's band in the JSON's `bands`, its kind and edge terms | 478 bands; `bands.py --selftest` 11 / 11, its band equal to W-13's on all 78 of E13's rows |
-| the values are the measuring items' | receipts: E05 per size (128), E06 histograms (4), E07 / E08 / E09 summaries (96), E11 estimates and pooled histograms (79) | 307 / 307 equal; an independent recompute (the standard library's inclusive quantiles) of 11 rows across the three references: 11 / 11 equal |
-| determinism and discrimination | `rows.py --check` in a second process; `rows.py --red` | SAME, SAME; three planted input faults (E05, E07, E11) each caught by its receipt |
+| bands with provenance "M-1 2026-10-04" | every row's band in the JSON's `bands`, its kind and edge terms | 491 bands (478 at the landing); `bands.py --selftest` 12 / 12 (11 / 11; round 3 added the relative-× fixed band's known answer), its band equal to W-13's on all 78 of E13's rows |
+| the values are the measuring items' | receipts: E05 per size (128), E06 histograms (4), E07 / E08 / E09 summaries (96), E11 estimates and pooled histograms (79); round 3: E07's draw census per recording and its pooled shares (13), the widths file (4) | 324 / 324 equal (307 / 307 at the landing); an independent recompute (the standard library's inclusive quantiles) of 11 rows across the three references: 11 / 11 equal; round 3's own in section 13.5 |
+| determinism and discrimination | `rows.py --check` in a second process; `rows.py --red` | SAME, SAME; five planted input faults (E05, E07, E11; round 3: E07's draw census, the widths file) each caught by its receipt |
 
 ## 4 The bands (a selection; every row's band is in the JSON)
 
@@ -241,8 +261,10 @@ beside as a companion.
 | fg.streetwall | METROPOLIS | band rule (companion) | 0.7857 – 1.063 | 0 / 1 000 | stable |
 
 With the three rungs' stated-form rows added, W-13's count becomes 50 unstable of 78 (64.1 %): the rule still fires.
-F1 of E13 (20 MFCG seeds per size, + 30 loads and + 60 downloads, not approved) and its F2 (the fallback cannot meet the
-test) stay with the owner and the rulings seat. This item's rows stand at the ten seeds the plan has.
+The owner withdrew the pre-decided loads (J171: no extra MFCG loads), and the remedy is R-50's (M-1-rulings-3.md): each
+flagged target row keeps its role, values and band and carries a stability marker in its note — the row's flip share
+and the 2.5–97.5 % interval of each edge over the draws — with the same block in this record's JSON (section 13.3). The
+rows stand at the ten seeds the plan has.
 
 ## 7 Passing to failing (for the shift record; §13.5's band-rule paragraph)
 
@@ -303,6 +325,15 @@ the values that passed the old band and fail the new one. The shift record decla
 | `ftg/BIG_TOWN/wall.towerSpacing/all` | 31.552 – 42.688 | 29.1564 – 44.7425 | none |
 | `ftg/BIG_CITY/wall.towerSpacing/all` | 31.552 – 42.688 | 28.3539 – 39.0966 | 39.0966 to 42.688 |
 | `ftg/METROPOLIS/wall.towerSpacing/all` | 31.552 – 42.688 | 27.7984 – 38.104 | 38.104 to 42.688 |
+| `mfcg/40/plain/draw.widthPx/all/wall` | 5.27 – 7.13 | 5.3893 – 7.2913 | 5.27 to 5.3893 |
+| `mfcg/40/plain/draw.widthPx/all/tower` | 10.54 – 14.26 | 10.7785 – 14.5827 | 10.54 to 10.7785 |
+| `mfcg/40/plain/draw.widthPx/all/roadCore` | 5.525 – 7.475 | 5.6729 – 7.6751 | 5.525 to 5.6729 |
+| `mfcg/40/plain/draw.widthPx/all/pier` | 3.315 – 4.485 | 3.4037 – 4.6051 | 3.315 to 3.4037 |
+
+The four `draw.widthPx` rows (round 3) take the old band as ± 15 % around §13.5's (and §8.3's) fixture figures 6.2 /
+12.4 / 6.5 / 3.9 px. **Round 3 adds to the shift record's input the stability markers of R-50 (section 13.3): 60 rows
+whose band edges move by more than the 5 % candidates in over 5 % of the draws, each with the 2.5–97.5 % interval of
+each edge**, so a verdict near an edge is read with the reference's own uncertainty beside it.
 
 The other recomputed bands (`street.runs`, the D11 rows, `block.courtShare`, `fg.*`, the NG `medium` rows, `cut.length`,
 the dispersions) had no numeric band in the design before M-1 (⟨M-1⟩ cells or formula figures), so nothing passed
@@ -311,7 +342,8 @@ before that fails now; their bands are new.
 ## 8 The design seat's hand-off: every recomputed band or reference value a design cell quotes
 
 `section · the cell · the old figure · the new row values` (p50 [p10, p90], the estimator, n; then the band). The JSON's
-`designHandoff` holds the same list. The changes are measurements, routed for the next design pass to apply by
+`designHandoff` holds the same list: 56 entries at the landing, 63 since round 3 (the channel-width cells and the
+MFCG draw-style cells, which DC-40 reads). The changes are measurements, routed for the next design pass to apply by
 amendment (J-A34.01; J156: no new design). DC-36 (the hatch figures) is already in §13.5 and agrees.
 
 | section | cell | old | new |
@@ -371,14 +403,21 @@ amendment (J-A34.01; J156: no new design). DC-36 (the hatch figures) is already 
 | ARCHITECTURE 13.5 between-seed variety | dispersion per rung, MFCG and FTG | ⟨M-1⟩ | `mfcg/TOWN/variety.dispersion/all`: 1.8061 [1.8061, 1.8061] single n 10<br>`ftg/TOWN/variety.dispersion/all`: 3.2901 [3.2901, 3.2901] single n 10<br>`mfcg/CITY/variety.dispersion/all`: 1.5611 [1.5611, 1.5611] single n 10<br>`ftg/CITY/variety.dispersion/all`: 3.4795 [3.4795, 3.4795] single n 10<br>`mfcg/METROPOLIS/variety.dispersion/all`: 1.7378 [1.7378, 1.7378] single n 10<br>`ftg/METROPOLIS/variety.dispersion/all`: 3.3631 [3.3631, 3.3631] single n 4 |
 | ARCHITECTURE 13.5 markets (MFCG) | secondary markets; adjacent pairs | 0 and 0 in every export (E07) | `mfcg/40/plain/market.secondary/all`: 0 [0, 0] type7 n 10; band -0.5 to 0.5<br>`mfcg/80/plain/market.secondary/all`: 0 [0, 0] type7 n 10; band -0.5 to 0.5<br>`mfcg/130/plain/market.secondary/all`: 0 [0, 0] type7 n 10; band -0.5 to 0.5<br>`mfcg/40/plain/market.adjacent/all`: 0 [0, 0] type7 n 10; band - to 0<br>`mfcg/80/plain/market.adjacent/all`: 0 [0, 0] type7 n 10; band - to 0<br>`mfcg/130/plain/market.adjacent/all`: 0 [0, 0] type7 n 10; band - to 0 |
 | ARCHITECTURE 13.5 wealth bands (FTG, descriptive) | six-tier lifestyle distribution | ⟨M-1⟩ | `ftg/BIG_TOWN/wealth.tier1/all`: 0.0109 [0.0109, 0.0109] type7 n 10<br>`ftg/BIG_TOWN/wealth.tier2/all`: 0.0109 [0.0109, 0.0109] type7 n 10<br>`ftg/BIG_TOWN/wealth.tier3/all`: 0.2174 [0.2174, 0.2174] type7 n 10<br>`ftg/BIG_TOWN/wealth.tier4/all`: 0.4348 [0.4348, 0.4348] type7 n 10<br>`ftg/BIG_TOWN/wealth.tier5/all`: 0.2174 [0.2174, 0.2174] type7 n 10<br>`ftg/BIG_TOWN/wealth.tier6/all`: 0.1087 [0.1087, 0.1087] type7 n 10 |
+| ARCHITECTURE 13.5 water (FTG) | river widths (the channel-width rows, round 3) | 44.0 / 46.1 / 29.8 m, M-1's rows held until the registry carried the renamed id (31 m / 48 m on the two CITY captures) | `ftg/BIG_TOWN/water.channelWidth/all`: 43.9985 [42.62, 55.989] minmax n 6; band 37.3987 to 61.5879<br>`ftg/BIG_CITY/water.channelWidth/all`: 46.1225 [31.489, 54.606] minmax n 6; band 28.3401 to 60.0666<br>`ftg/METROPOLIS/water.channelWidth/all`: 29.791 [22.373, 31.665] minmax n 3; band 20.1357 to 34.8315<br>`ftg/CITY/water.channelWidth/all`: 37.0845 [31.303, 42.866] minmax n 2 |
+| ARCHITECTURE 13.5 water (MFCG, descriptive) | exported river width, the stress family (round 3) | 84 m at size 80 over three stress seeds (M-1) | `mfcg/80/river+coast/water.channelWidth/all`: 83.8575 [68.7762, 114.263] minmax n 3 |
+| ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40) | casing law, round joins, walls after buildings; round caps (descriptive) | casing = core + 2h on 7 / 7 maps, round joins 4 062 / 4 063, 17-step order | `mfcg/draw/recorded/draw.casingLaw/all`: 1 [1, 1] type7 n 11; band 1 to -<br>`mfcg/draw/recorded/draw.roundJoins/all`: 0.9999 [0.9998, 1] type7 n 12; band 0.999 to -<br>`mfcg/draw/recorded/draw.wallsAfterBuildings/all`: 1 [1, 1] minmax n 8; order parity as section 8.3 defines it, ours against our declared slot table; the reference's value reported (section 13.5 draw style, ink; R-51)<br>`mfcg/draw/recorded/draw.roundCaps/all`: 0.9971 [0.991, 0.9992] type7 n 12 |
+| ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40) | wall width at size 40 | 6.2 px at size 40's scale (the four-gate fixture, 0.8157 px per m) | `mfcg/40/plain/draw.widthPx/all/wall`: 6.3403 [6.0086, 7.0661] type7 n 10; band 5.3893 to 7.2913 |
+| ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40) | tower width at size 40 | 12.4 px at size 40's scale (the four-gate fixture) | `mfcg/40/plain/draw.widthPx/all/tower`: 12.6806 [12.0171, 14.1322] type7 n 10; band 10.7785 to 14.5827 |
+| ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40) | road-core width at size 40 | 6.5 px at size 40's scale (the four-gate fixture) | `mfcg/40/plain/draw.widthPx/all/roadCore`: 6.674 [6.3248, 7.438] type7 n 10; band 5.6729 to 7.6751 |
+| ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40) | pier width at size 40 (section 8.3 quotes 3.9) | 3.9 px at size 40's scale (the four-gate fixture) | `mfcg/40/plain/draw.widthPx/all/pier`: 4.0044 [3.7949, 4.4628] type7 n 10; band 3.4037 to 4.6051 |
 | ARCHITECTURE 4.7 granularity table, prosperous band anchor | MFCG plots per block | about 18.6 plots per block (a profiler count of partition leaves, E09 F1) | `mfcg/40/plain/blockc.lotsPer/all`: 9 [8, 9.1] type7 n 10; band 7.2 to 10.35<br>`mfcg/80/plain/blockc.lotsPer/all`: 9 [7, 10] type7 n 10; band 6.3 to 11<br>`mfcg/130/plain/blockc.lotsPer/all`: 9 [8.9, 10] type7 n 10; band 7.65 to 11 |
 
 ## 9 Held rows and stated no-rows
 
 | what | rows | why | to |
 |---|---|---|---|
-| `water.riverWidth` (FTG BIG_TOWN, BIG_CITY, METROPOLIS, CITY; MFCG stress) | 5, formed, in `heldRows` | the id's second token is listed by both deny-lists (it repeats an MFCG export key); C10 refuses them | F2: a rename by a design seat (R-29's precedent; V12 §3.4.2's id and §13.5's water cell), then the registry |
-| D28: `draw.casingLaw`, `draw.roundJoins`, `draw.roundCaps`, `draw.widthPx` (four fields), `draw.wallsAfterBuildings` (MFCG) | 8, values in `heldRows` | no registered sample family for the twelve draw records; R-03 | F1: a ruling (a recorded MFCG draw family as R-02's) and a `plan.py` block |
+| the channel-width rows (FTG BIG_TOWN, BIG_CITY, METROPOLIS, CITY; MFCG stress) | 5 — **appended at round 3** | the earlier id's second token was listed by both deny-lists (it repeated an MFCG export key) | resolved: the id `water.channelWidth` (design/m1-corrections-2, J-5; the registry at round 3); the rows equal the held ones apart from the id (section 13.1) |
+| D28: `draw.casingLaw`, `draw.roundJoins`, `draw.roundCaps`, `draw.widthPx` (four fields), `draw.wallsAfterBuildings` (MFCG) | 8 — **appended at round 3** | no registered sample family for the twelve draw records (R-03) | resolved by R-51: the recorded family `capture/MFCG/draw/recorded` (plan.py's block) for four, the formula route on `capture/MFCG/40/plain` for `draw.widthPx` (section 13.2) |
 | `street.runs` field `alley` (FTG) | no row | FTG's way classes hold no alley (E05); no payload has the value | — |
 | FTG TOWN (slots 26, 27) | no row | R-34: `FtgSize` has no TOWN member; research-side numbers in E05 §9 | — |
 | the stress family's other values (MFCG) | no row | R-23 names the stress cells that take rows | — |
@@ -403,17 +442,28 @@ amendment (J-A34.01; J156: no new design). DC-36 (the hatch figures) is already 
 | D13 | C10's research twin reads a JSON file's string values and keys | a number holds no word, list, grammar or name (N-22's reasoning); the whole-text count is reported beside it. Flagged for veto: it is a firewall-rule reading, as R-14 was |
 | D14 | the CITY family's rows: `time.model` a weakness, the rest descriptive | R-02 / R-34: the timed preset serves the generation-time row and descriptive companions |
 | D15 | the cut-length rows list seeds with no bounded cut in `failed` as `no-cut` | T-V12-30: no unlisted gap |
+| D16 (round 3) | the 13 formerly held rows are appended after the landing's 478, in a fixed order (FTG channel width by size, MFCG's stress row, the four recorded draw rows, the four `draw.widthPx` fields) | the rulings say "append"; the 478 keep their places and bytes except the 60 marked notes, so the change reads as appends plus notes. Alternative: each row in its natural place among its reference's rows (the order is free before the first crossing) |
+| D17 (round 3) | the measuring records keep the key their tools wrote before the rename; `rows.py` reads E05's and E07's values under that key and writes the registry id `water.channelWidth` | E05 and E07 are W-05b's and W-07b's records, reproduced byte for byte by their `--check`; renaming inside them would break those receipts for a key no crossing file carries. Alternative: re-key both records (their tools and JSON), which moves two landed records for no measured reason |
+| D18 (round 3) | `draw.widthPx`'s per-seed values go to a new record, `E07-mfcg-signature.widths.json`, written by a new `--plan-widths` mode of `measure_mfcg.py` with its own checker and `--red` | adding a block to E07's plan JSON would move the input hash E13 records (`spike_bootstrap.py --verify` would then differ) and W-07b's byte reproduction; the new file leaves both intact (W-07 and W-07b re-run byte-identical, section 13.5). Alternative: the block inside E07's plan JSON |
+| D19 (round 3) | C10's twin reads each string value and each distinct key as a text of its own | R-52 rules this reading for M0's scanner and states the twin applies it; the twin joined the strings one per line, and the scanner's 3-grams ran across lines, so one run spanned a marker and the next row's id (finding F7). One reading on both sides. Alternative: reword the marker to dodge the joined run, which leaves the twin and M0 reading differently |
+| D20 (round 3) | the recorded draw rows' notes name the family, not the recording dates | the two dates as one phrase are a 3-gram run on both lists (C3, C10); the labels and `plan.json`'s block name the recordings |
+| D21 (round 3) | R-50 (4)'s FTG test draws one set of 1 000 index vectors per size, shared by that size's type 7 band-rule rows (the code refuses rows that read different slots) | E13's form per family; all 13 rows read the same ten slots per size |
+| D22 (round 3) | `draw.wallsAfterBuildings` per recording 1.0 or 0.0, a share; `draw.casingLaw` per recording the paired cores over the cased ones (cores less the uncased) | the registry's units (share); the casing share is the law's own reading in E07 section 7 |
+| D23 (round 3) | `plan.py` keeps every recorded draw member against the prior `plan.json` and lets the family only append | R-36's guard for FTG's slots carried to the new recorded block (R-51 (2): "the family extends only by a new recording appended in order"); a swap was refused and an append accepted on a scratch mirror |
+| D24 (round 3) | W-15's result file turns to `landed` | every check of the row passes once the 13 rows are in; T-V12-28's receipt states the D13 pass and the whole-text fail together, as the wave-3 verifier asked |
 
 ## 11 Findings and hand-offs
 
-* **N-26 (for the session, to M0-k-05 and M0-k-06 before waves 11 and 13; the deny-list seat).** The scanner over a
-  numbers-only crossing file finds 3-gram runs made of numbers: 140 on `baselines.json`, all runs of histogram counts or
-  values (0 on `ng-faces.json`, whose integers are large). Strings and keys: 0 hits. Either M0's scanner reads a crossing
-  file's string values and keys (C10's reading here, as N-22 fixed for colours), or the deny-list drops 3-grams made only
-  of number tokens (as E16 dropped bare six-hex numbers from the colour class). Recommended: the first, which leaves the
-  list whole for the design-set scan. Without one of them W-20 cannot cross `baselines.json`. CONFIRMED (counted).
-* **F1 (rulings seat):** D28's draw rows need a registered recorded family (section 9).
-* **F2 (design seat, then the registry's writer):** rename `water.riverWidth` (section 9). R-29's precedent.
+* **N-26 (ruled by R-52; carried by the session to M0-k-05 and M0-k-06 before waves 11 and 13).** The scanner over a
+  numbers-only crossing file finds 3-gram runs made of numbers: **70 distinct runs on `baselines.json`, each hit once on
+  each of the two lists (140 hits)**, all runs of histogram counts or values (0 on `ng-faces.json`, whose integers are
+  large); the landing wrote "140 runs" for the hits. Strings and keys: 0 hits. R-52 took the first route (M0's scanner
+  reads a crossing file by its string values and keys, each a text of its own; the list stays whole); it stands or falls
+  with D13 (R-54). CONFIRMED (counted; the same 70 per list on the 491-row candidate).
+* **F1 (resolved by R-51, round 3):** D28's draw rows on the recorded family `capture/MFCG/draw/recorded` and
+  `draw.widthPx` on the size-40 plain family (sections 9, 13.2).
+* **F2 (resolved, round 3):** the id `water.channelWidth` (design/m1-corrections-2, J-5), in the registry since round 3
+  (sections 9, 13.1).
 * **F3 (design seat; information):** the vacuous distribution ceilings of section 4.
 * **F4 (owner and rulings seat; carried, not new):** S-V12-1 has fired (E13 F1, F2); with W-08's rows it stays fired, and
   `fg.recoverability` at METROPOLIS is itself unstable.
@@ -424,6 +474,16 @@ amendment (J-A34.01; J156: no new design). DC-36 (the hatch figures) is already 
 * **F6 (design seat; information):** DC-38's figures are confirmed on the formula seeds: corner near the middle 0.883
   (211 of 239), filleted 0.538 (393 of 731), arrival 0.974; σ plain moves 0.066 → 0.084 (the band moves with it, section
   7); granularity's "about 18.6 plots per block" against `blockc.lotsPer` 9 per size (E09 F1).
+* **F7 (round 3; fixed here):** C10's twin joined the string values and keys one per line and handed the whole to the
+  scanner, whose 3-grams run across lines, so a 3-gram could span two strings — the reading R-52 rules out and says the
+  twin already follows. Round 3's markers made it visible: one run spanning the end of `mfcg/80/plain/sgd.deadEnds/all`'s
+  note and the next row's id hit both lists, while every string alone holds 0. The twin now scans each text on its own
+  (D19). The landing's verdict is unaffected: the 478-row candidate held 0 hits under either form. CONFIRMED.
+* **F8 (round 3; a hazard for reproductions):** R-51's block moved `plan.json`'s bytes (sha256 `9ed325bd…` →
+  `748707c3…`; the families, the FTG slots and the bindings are byte-equal). Records that embed the plan's hash —
+  E05's slots file and E06 (`9ed325bd…`), E08 and E09 (older hashes already) — now differ from a fresh run in that one
+  field; a byte reproduction compares all but the plan hash (as `measure_ftg_faces.py --check` does) or runs against
+  git HEAD 339ef9f's `plan.json`. CONFIRMED (the hashes read).
 
 ## 12 CONFIRMED versus PLAUSIBLE
 
@@ -436,6 +496,8 @@ the number runs carry no reference content (they are histogram counts of our own
 cannot be told apart from a copied numeric table by the scanner alone); that the midpoint is a fair centre for an old
 range in section 7 (the cells give none).
 
+Round 3's own CONFIRMED / PLAUSIBLE line is in section 13.6.
+
 **Content check of this record** (`doc_checks.py --doc docs/calibration/E15-baselines.md --heads docs/ARCHITECTURE.md`,
 with this paragraph): C1 0, C2 0, C4 0, S1 0, S2 0; C3 17 hits, 11 unreviewed, all read: digit runs of values and
 section numbers, and phrases of our own records and of §13.5 (the json holds the spread; the tower spacing cell; the M-1
@@ -444,3 +506,138 @@ row is added (wave 1's precedent).
 
 `df -h`: 11 GiB free at the start. Not touched: `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, every
 earlier record and script, the deny-lists. No git command changed state.
+
+## 13 Round 3 — the rulings applied (lane `m1/round3-apply`, 2026-10-04)
+
+The research apply seat of rulings round 3 (`M-1-rulings-3.md`, R-50 … R-54; J171), continuing W-15 with its own
+tools (R-47 (a)); beside it a design seat applied DC-39 … DC-41's design side. Nothing was written into `plat/` or the
+design, no website was touched, no benchmark ran, no git command changed state; every heavy run was one at a time under
+`nice 10` beside M0's build seats. The result file is `results/round3-apply.json`.
+
+### 13.1 The registry rename (F2) and the five channel-width rows
+
+`plan.py`'s catalogue twin carried the earlier id, so `plan.py --check` refused every write (exit 2, "catalogue
+mismatch", the wave-3 verifier's receipt). On a scratch mirror (the plan, the registry and today's V12) the registry
+entry, its two M-1 mappings and their notes took `water.channelWidth`, the entry's basis records the rename, and the
+twin's `amendedBy` names this lane; the mirror then read `--check` SAME and SAME and `--catalogue-check` exit 0 (0
+missing, 0 extra, the draw family's nine members alike). `plan.py` was installed by an atomic rename and regenerated:
+`plan.json` byte-equal (`9ed325bd…`), `metrics.m-1.json` `8a0efa7e…` → `ee191172…` (three lines differ: the id, its
+basis, `amendedBy`), `--check` SAME SAME, `--catalogue-check` exit 0. `rows.py` then formed the five rows under the
+registry id; each equals its held row in `heldRows` apart from `id` and `metric` (CONFIRMED by comparison).
+
+### 13.2 R-51: the recorded draw family and the eight draw rows
+
+**The block.** Appendix B's `MFCG_RECORDED_DRAW` and its rule were installed in `plan.py` the same way (a second
+mirror, then an atomic rename): `plan.json` gains the top-level `mfcgRecordedDraw` (twelve members in recording order,
+labels `capture/MFCG/draw/recorded/0` … `/11`, each with its folder, generation, size, water, log-complete and
+cased-ribbon flags), `counts.mfcgRecordedDraw` 12 and an `amendments` entry; `families` and `ftg` are byte-equal;
+`--check` SAME SAME (`748707c3…`, `ee191172…`). `compute()` keeps every member against the prior `plan.json` (D23): on
+a mirror, swapping members 10 and 11 was refused (exit 2) and appending a thirteenth recording was accepted.
+`cross_check.py`'s `load_plan` registers the family, kind `recorded`, and C7 checks a row on it as any registered
+family with captures (three fixtures, section 3).
+
+**`draw.widthPx`, the formula route.** `measure_mfcg.py --plan-widths` (D18) reads each plan seed's own export by
+E07's `matchedWidthsPx` rule — the model width × px per metre, px per metre the SVG's outer scale / 4 — for the three
+plain families (no load; W-03's files): its checks pass 4 / 4 (all 30 exports present; the model widths wall 7.6, tower 15.2,
+road core 8 and pier 4.8 m in every one; 120 widths recomputed by the rule; E07's four fixtures reproduced exactly by the generalised
+function), `--red` turns the two planted checks red, and a second run is byte-identical. A plain export draws no plank,
+so the pier width is the rule's 4.8 m default, said in the row's note. Px per metre at size 40 is 0.8343 [0.7906,
+0.9297]; at 80 and 130 (tabled in E07, no row) 0.4784 and 0.3093.
+
+**The rows (appended after the 478):**
+
+| row | role / band kind | p50 [p10, p90], estimator, n | sample failed | band |
+|---|---|---|---|---|
+| `ftg/BIG_TOWN/water.channelWidth/all` | target / band rule | 43.9985 [42.62, 55.989], minmax, n 6 | 0 water-none, 3 water-none, 5 water-none, 7 water-none | 37.3987 – 61.5879 |
+| `ftg/BIG_CITY/water.channelWidth/all` | target / band rule | 46.1225 [31.489, 54.606], minmax, n 6 | 0 water-none, 3 water-none, 5 water-none, 7 water-none | 28.3401 – 60.0666 |
+| `ftg/METROPOLIS/water.channelWidth/all` | target / band rule | 29.791 [22.373, 31.665], minmax, n 3 | 0 water-none | 20.1357 – 34.8315 |
+| `ftg/CITY/water.channelWidth/all` | descriptive / descriptive | 37.0845 [31.303, 42.866], minmax, n 2 | 1 setting, 2 water-none | — |
+| `mfcg/80/river+coast/water.channelWidth/all` | descriptive / descriptive | 83.8575 [68.7762, 114.263], minmax, n 3 | 1 retry, 4 retry | — |
+| `mfcg/draw/recorded/draw.casingLaw/all` | target / fixed | 1 [1, 1], type7, n 11 | 9 uncased | 1.0 – - |
+| `mfcg/draw/recorded/draw.roundJoins/all` | target / fixed | 0.9999 [0.9998, 1], type7, n 12 | none | 0.999 – - |
+| `mfcg/draw/recorded/draw.roundCaps/all` | descriptive / descriptive | 0.9971 [0.991, 0.9992], type7, n 12 | none | — |
+| `mfcg/draw/recorded/draw.wallsAfterBuildings/all` | target / fixed | 1 [1, 1], minmax, n 8 | 4 truncated-log, 5 truncated-log, 6 truncated-log, 8 truncated-log | order parity (section 8.3), no numeric edge |
+| `mfcg/40/plain/draw.widthPx/all/wall` | target / fixed | 6.3403 [6.0086, 7.0661], type7, n 10 | none | 5.3893 – 7.2913 |
+| `mfcg/40/plain/draw.widthPx/all/tower` | target / fixed | 12.6806 [12.0171, 14.1322], type7, n 10 | none | 10.7785 – 14.5827 |
+| `mfcg/40/plain/draw.widthPx/all/roadCore` | target / fixed | 6.674 [6.3248, 7.438], type7, n 10 | none | 5.6729 – 7.6751 |
+| `mfcg/40/plain/draw.widthPx/all/pier` | target / fixed | 4.0044 [3.7949, 4.4628], type7, n 10 | none | 3.4037 – 4.6051 |
+
+The casing, joins and caps shares are per recording from E07's draw census (`coresPaired` over the cased cores;
+round joins over joins; round caps over caps), pooled joins 0.99998 and caps 0.99905 in the notes; a recording whose
+log was cut at 60 000 entries cannot place its first wall stroke (`truncated-log`), and the one recording that draws its
+road uncased has no cased ribbon (`uncased`). The draw style is size-invariant (E07 section 7), so the recorded rows
+carry no `matched` (DC-40 adds V12 §3.5.5's sentence for such a row). Receipts: each recording's flags in `plan.json`
+against E07's census (12), the pooled shares against E07 section 7's figures (1), the four width rows against the
+widths file's summaries (4) — 17 / 17.
+
+### 13.3 R-50: the stability markers
+
+**MFCG (R-50 (2)).** The 49 band-rule rows E13 lists unstable and `mfcg/130/plain/fg.recoverability/all` under
+§13.5's one-sided form carry the marker `S-V12-1 edge noise ⟨flip share⟩: lo ⟨2.5 %⟩-⟨97.5 %⟩, hi ⟨2.5 %⟩-⟨97.5 %⟩`
+(three significant figures; `(one-sided)` on the recoverability row), joined to the note by "; ". `rows.py` forms each
+from E13's `rowRate`, `loDraws` and `hiDraws`, and the recoverability row from W-13's addendum, whose re-run now keeps
+the per-draw edges' 2.5 / 50 / 97.5 percentiles (0.4751 – 0.5302 around 0.4936). **All 50 markers equal appendix A of
+`M-1-rulings-3.md` character for character, on exactly the 50 rows it lists** (CONFIRMED by comparison); the longest
+note is 198 characters. Every marked row's band entry in the JSON gains `stability` (flip share, both intervals, the
+edge terms, the draws' sha256, the source, the rule). No role, value, band, estimator or sample changed: among the
+first 478 rows only the 60 marked notes differ (CONFIRMED by comparison with the landing's candidate).
+
+**FTG (R-50 (4)).** S-V12-1's test, unchanged, on FTG's 13 band-rule target rows with estimator `type7` (stream
+`S-V12-1|capture/FTG/<size>`, 1 000 draws of the ten slots, candidates at each edge ± 5 %, flagged above 50 flips;
+draws sha256 `f3bb0964…` at BIG_TOWN and `1ccd24c6…` at BIG_CITY). **10 of the 13 are flagged and carry the marker;
+3 are stable** (rows whose edges both rest on the centre terms, or nearly). Rows with `minmax` or `single` estimators
+take no marker (R-50 (4)). The outcome share is not recomputed over FTG.
+
+| row | flips | band | edge terms | verdict | marker |
+|---|---|---|---|---|---|
+| `ftg/BIG_TOWN/street.runs/all/arterial` | 262 / 1 000 | 42.925 – 60.5 | c x 0.85; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.26: lo 42.9-43.9, hi 58.1-83.4` |
+| `ftg/BIG_TOWN/street.runs/all/street` | 752 / 1 000 | 29.9439 – 49.6122 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.75: lo 28.4-32.2, hi 41.6-52.3` |
+| `ftg/BIG_TOWN/street.runs/all/lane` | 0 / 1 000 | 37.995 – 51.405 | c x 0.85; c x 1.15 | stable | none |
+| `ftg/BIG_TOWN/street.runs/all/track` | 620 / 1 000 | 64.7532 – 289.7763 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.62: lo 46.2-130, hi 239-355` |
+| `ftg/BIG_TOWN/outline.r90cv/all` | 724 / 1 000 | 0.2363 – 0.522 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.72: lo 0.181-0.271, hi 0.379-0.535` |
+| `ftg/BIG_TOWN/outline.roadRatio/all` | 763 / 1 000 | 0.959 – 2.068 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.76: lo 0.817-1.16, hi 1.55-2.11` |
+| `ftg/BIG_CITY/street.runs/all/arterial` | 353 / 1 000 | 38.5992 – 58.0693 | p10 x 0.9; c x 1.15 | flagged | `S-V12-1 edge noise 0.35: lo 38.3-42.9, hi 55.6-58.1` |
+| `ftg/BIG_CITY/street.runs/all/street` | 0 / 1 000 | 30.0177 – 40.6122 | c x 0.85; c x 1.15 | stable | none |
+| `ftg/BIG_CITY/street.runs/all/lane` | 205 / 1 000 | 27.0 – 49.1645 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.20: lo 26-28.4, hi 40.1-51.4` |
+| `ftg/BIG_CITY/street.runs/all/track` | 792 / 1 000 | 44.5338 – 371.0927 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.79: lo 38.1-65.9, hi 110-420` |
+| `ftg/BIG_CITY/wall.towerSpacing/all` | 12 / 1 000 | 28.3539 – 39.0966 | c x 0.85; p90 x 1.1 | stable | none |
+| `ftg/BIG_CITY/outline.r90cv/all` | 774 / 1 000 | 0.0812 – 0.4334 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.77: lo 0.0771-0.165, hi 0.258-0.522` |
+| `ftg/BIG_CITY/outline.roadRatio/all` | 701 / 1 000 | 0.9707 – 1.628 | p10 x 0.9; p90 x 1.1 | flagged | `S-V12-1 edge noise 0.70: lo 0.951-1.05, hi 1.35-1.8` |
+
+### 13.4 The checks re-run on the 491-row candidate
+
+`cross_check.py` C1–C10 PASS, ACCEPTED (491 rows, 10 526 strings, 0 numbers with six consecutive digits, scan 0 hits;
+whole text 140 hits, the 70 number runs per list of section 11, none other). The twin's C10 now reads each string value
+and each distinct key on its own (D19, F7): before that change the first round-3 run was refused on C3 and C10 — the
+draw notes' recording dates formed a 3-gram run on both lists (D20) and one run spanned two strings (F7); both are
+gone. `--fixtures` 46 / 46 (the 41 of the landing and round 3's five); `--kind ng-faces` ACCEPTED (20 hoods, 374 faces);
+`--kind denylist` ACCEPTED (24 227 888 bytes, 1 274 853 strings, 0 hits); `--tv12-28`: `ng-faces.json` 0,
+`baselines.json` 70 number runs per list whole-text (exit 1; the D13 pass and the whole-text fail of section 3).
+`rows.py --check` SAME, SAME (candidate `784e2373…`, this record's JSON `2ca99a4a…`); `rows.py --red` 5 / 5 caught;
+`bands.py --selftest` 12 / 12; `plan.py --check` SAME, SAME and `--catalogue-check` exit 0.
+
+### 13.5 Independent recomputation and the measuring tools' receipts (CONFIRMED, executed)
+
+* A second implementation (own code; it imports none of `rows.py`, `bands.py`, `spike_bootstrap.py` or
+  `measure_mfcg.py`) recomputed from E05's per-slot values, the registry's floors and the declared stream: the FTG
+  test's flip counts on all 13 rows equal (262, 752, 0, 620, 724, 763; 353, 0, 205, 792, 12, 774, 701), the same 10
+  flagged, the lo intervals equal the markers; the four recorded draw rows from E07's census and the four
+  `draw.widthPx` rows from each SVG's outer scale (its own pattern) equal the candidate's p10 / p50 / p90.
+* `measure_mfcg.py --check` (W-07's fixture run) and `--plan` (W-07b) after the `--plan-widths` extension: both JSON
+  outputs byte-identical to `E07-mfcg-signature.json` and `E07-mfcg-signature.plan.json` (16 s and 39 s), so the
+  extension moved neither; `--check --red` and `--plan --red` turn their planted checks red (2 and 3), exit 1.
+
+### 13.6 CONFIRMED versus PLAUSIBLE (round 3)
+
+**CONFIRMED (executed):** every count, hash and value in this section; the rename and the block installed with
+`--check` SAME and the catalogue check passing; the 13 appended rows and their receipts; the 60 markers (50 equal to
+appendix A, 10 by R-50 (4)'s draws, each recomputed independently); C1–C10, the kinds, the fixtures and T-V12-28's two
+readings; the reproductions of W-07 and W-07b. **PLAUSIBLE (reasoning):** that the draw style is size-invariant enough
+for one recorded family to serve every setting (E07 section 7's twelve recordings over sizes 24–80, water on and off,
+with one non-round join each; DC-40's sentence makes the reading explicit); that the 4.8 m pier default is the plank
+width a plain export would draw (no plain export draws one); that no reader needs the stability marker before M1's
+parity report (R-50's own PLAUSIBLE line).
+
+The round-3 content checks (`doc_checks.py --doc … --heads docs/ARCHITECTURE.md` on this record, E07 and E17, and on
+the four digest entries; the scanner's twin with no allow file on the entries) are receipts in
+`results/round3-apply.json`. `df -h /`: 11 GiB free at the start and the end; `memory_pressure` 73 % free at the start.

@@ -134,7 +134,7 @@ measured value beside the mark.
 | §13.5 rows M0 measures (E15 3–15, 22–24) | M0-k-05, M0-c-06, M0-c-07, M0-c-07a, M0-c-07b, M0-x-03 | quoted values only; metric ids, roles, bands and ⟨M-1⟩ marks are unchanged, so M0-k-05's registry and parity CLI are unaffected |
 | DC-37 | M0-k-05 | none: N-24 already gave M0's C1 this pattern, and V12 now agrees |
 | F2 rename | none | no M0 item reads `water.*`; N-01's table does not list it |
-| other consistency edits (§1 table, §4.4 S5a, §4.7 class floors and S11, §12, §16 O6 and O17) | M0-s-02 (§4.7 class floors: text only), M0-c-04 (§4.4 S5a: the calibration-target sentence only) | nothing they build changes |
+| other consistency edits (§1 table, §4.4 S5a, §4.7 class floors and S11, §12, §15.2 O6 and O17) | M0-s-02 (§4.7 class floors: text only), M0-c-04 (§4.4 S5a: the calibration-target sentence only) | nothing they build changes |
 
 ## 3 Judgment calls (delegated authority, J122; each vetoable)
 
@@ -185,8 +185,8 @@ measured value beside the mark.
 * **The count law at METROPOLIS (for the owner).** M-1's ten-seed median at size 130 is 16 districts. The law gives
   17–18 at METROPOLIS. That is inside §13.5's anchors band (11.5–21.0) but outside ± 1 of 16. Whether to re-fit the law
   is a tuning call; it was left.
-* **Narrative history kept.** The calibration-target list in §1.4 ("FTG's 10.3 m quad side"), the closing summary list,
-  §16 O19's "FTG minimum 0.14 m" and §4.6 step 5's "3 / 519" are true of the samples they name.
+* **Narrative history kept.** The calibration-target list in §0.3 ("FTG's 10.3 m quad side"), the closing summary list,
+  §15.2 O19's "FTG minimum 0.14 m" and §4.6 step 5's "3 / 519" are true of the samples they name.
 * **The count in W-15's result.** `results/W-15.json` says "57 design cells". The `designHandoff` list holds 56 entries
   (55 of §13.5 and one of §4.7).
 * **The digest (W-17, drafting in parallel).** E12 §14's entry (6) was written before D-1 was applied. The digest
@@ -208,7 +208,7 @@ measured value beside the mark.
   * §4.7's class-floor worst corner;
   * §4.7 S11's attached share;
   * §12's FTG server time;
-  * §16 O6's and O17's evidence.
+  * §15.2 O6's and O17's evidence.
 * **Greps after the edit.** Every old figure in the hand-offs was grepped again across the base and the volumes. Each
   surviving hit is a history clause in the new text, or a site listed in §4.
 * **The deny-list.** Candidate ids were scanned by `make_denylist.py scan --list research|m0`, with the old id as a
@@ -236,3 +236,132 @@ measured value beside the mark.
   run.
 * That most blocks become deep under J-1's test at the re-fitted rows. E12's forward run puts `modest` blocks at a p10
   of 30.2 m against a 21.6 m threshold. M0-b-03's harness measures it.
+
+## Round 3 — `design/m1-corrections-3` (2026-10-04)
+
+Lane `design/m1-corrections-3`, the design seat of rulings round 3 (`M-1-rulings-3.md`), on the owner's Mac beside M0's
+four build seats. Its inputs: the record-completeness and m0-affected items of `m1-corrections-2.verify.json`, the
+`design/m1-corrections-2` item of `results/wave3-verify-ab.json`, and DC-39 … DC-41 of `M-1-rulings-3.md` §2. The result
+file is `m1-corrections-3.json`. Nothing was written into `plat/`, no site was touched, no benchmark ran, and no git
+command changed state.
+
+**Outcome (CONFIRMED by the edit log and the diff).** 13 replacements, each matched exactly once in its backup copy: the
+base `docs/ARCHITECTURE.md` 5, `V12-calibration.md` 4, `V11-content.md` 1, and 3 in this record (above, in place). The
+three stale tower-spacing quotes now carry E15 entry 45's medians. DC-39, DC-40 and DC-41 are in the design; DC-41
+stands or falls with D13 (R-54). One further clause, the wave-3 verifiers' minor wording point, was corrected (X-1).
+No number moved except as the inputs state, no section, test id or J-id changed, and no allow row was added.
+
+### R3.1 The changes
+
+| id | site | before | after | status |
+|---|---|---|---|---|
+| T-1 | base §4.8 S7 *Towers* | "FTG's 39 m median and MFCG's tower-per-vertex are the two reference points" | "FTG's median spacing 34.9 / 33.4 / 32.7 m at the matched sizes (§13.5) and MFCG's tower-per-vertex are the two reference points" | applied |
+| T-2 | base §15.2 O8 row (c) | "[P — FTG 39 m]" | "[P — FTG medians 34.9 / 33.4 / 32.7 m at the matched sizes, §13.5]", as the O6 and O17 tags have it | applied |
+| T-3 | V11 §3.19.1, under the era rows | "FTG's 39 m tower spacing and MFCG's tower-per-vertex remain §4.8's reference points" | "FTG's median tower spacing (34.9 / 33.4 / 32.7 m at the matched sizes, §13.5) and MFCG's tower-per-vertex remain …" | applied |
+| W-1 – W-3 | this record's §2 table, §4 and §5 | "§16 O6 and O17", "§16 O19", "the calibration-target list in §1.4" | "§15.2 O6 and O17", "§15.2 O19", "§0.3" | applied |
+| DC-39 | V12 §8.3 (1), the *Pre-decided* clause | MFCG to 20 seeds per size; FTG's rows as §13.5 classes them (weakness and descriptive, the one declared target exception) | the ruling's text: each flagged target row keeps role, values and band and carries a stability marker in its `note`; the 20-seed fallback withdrawn by J171 with its reason; FTG's roles as §13.5 classes them, its type 7 band-rule rows marked (R-50 (4)) | applied-adapted (J-7, J-9) |
+| DC-39 | V12 §3.5.4 | — | "The report prints a row's stability marker (V12 §8.3 (1)) beside its verdict, as it prints "declared exception"." | applied-adapted (J-8) |
+| DC-40 | base §13.5 draw style, the MFCG cell | 7 / 7 maps, 4 062 / 4 063, 17-step order, widths 6.2 / 12.4 / 6.5 px at size 40's scale | the ruling's text: the eleven cased recordings of the twelve, round joins 0.99998 pooled, walls after buildings on 8 / 8 complete logs, widths as M-1's ten-seed `draw.widthPx` rows at size 40, the earlier figures as history | applied-adapted (J-9) |
+| DC-40 | V12 §3.5.5 step 2 | — | "A row without `matched` (the MFCG draw rows on the recorded family) is read at every setting of its reference." | applied |
+| DC-41 | V12 §3.3 C10 | "over the whole file: 0 hits" | "over the file: 0 hits — a JSON file read by its string values and keys, each a text of its own, never its numbers" | applied (stands or falls with D13, R-54) |
+| DC-41 | base §17.1 (5), the scanner's scope sentence | "… and the digest, in the PR tier" | "… and the digest, and the crossing files under `plat/packages/testkit/baselines/` by their string values and keys (a numbers-only file carries no word in its numbers), in the PR tier" | applied (stands or falls with D13, R-54) |
+| X-1 | base §13.5 deep block interiors, the MFCG clause | "each over the reference's deep blocks, §4.6's deep-interior rule" | "each over the reference's deep blocks as V12 §3.4.2's `block.courtShare` defines them" | applied (J-11) |
+
+E15 entry 45 (`E15-baselines.json` `designHandoff`): `wall.towerSpacing` medians 34.897 at BIG_TOWN (`minmax`, n 9),
+33.3575 at BIG_CITY (`type7`, n 10) and 32.704 at METROPOLIS (`minmax`, n 4). The 39 m figure stays in §13.5's towers
+cell as history; the three restated sites carry no history clause, as the O6 and O17 tags carry none.
+
+### R3.2 This record, completed (the verifiers' record points)
+
+* **Location labels (W-1 – W-3).** O6, O17 and O19 are rows of §15.2's improvement matrix, and the calibration-target
+  list sits in §0.3; the three places above now say so. `m1-corrections-2.json` (`design_corrections`, `notes`) carries the
+  same two labels; it is a landed result, kept as history, and this section and `m1-corrections-3.json` supersede them.
+* **Edits made in round 2 but not listed in §1 or §5.** Round 2's script also changed the anchor column of §4.7 S10 (2)'s
+  band table (its labels C-1 and C-2): the `poor` anchor now reads NG attached 0.987 and party walls 0.441 (E15 entries
+  27–28), and the `modest` anchor FTG quad side 10.24 / 10.33 / 9.95 m and footprint 96 / 99 / 91 m² (entries 25–26).
+  For M0: M0-s-02's `granularity.json` reads the depth column, so the anchor column is text only.
+* **§2's M0 table, completed (read from `M0-work.json`).** M0-b-04's and M0-b-05a's `exitBars` also quote σ's
+  0.066 / 0.098; the session carries this as N-28 (`plat/docs/build/checks/M0-spec-notes.md`, read only), which names
+  M0-b-04, M0-b-05, M0-b-05a, M0-b-05b and M0-x-01. M0-b-05a belongs under C-8 (its section is §4.6 step 1 on the depth
+  rows and regime floors re-fitted at M-1), and M0-x-03 under σ (§16 M0 (b), (c), the comparison clauses). Nothing
+  they build changes for: M0-b-02 (§4.6 steps 1–7, where it builds the flatten rule on `cut.flattenM`), M0-c-01 (§4.4
+  S5a, the regimes' a), M0-d-03 and M0-x-06 (§4.6 step 1, C-8's parenthetical only), and M0-t-00 and M0-t-01 (§16 M0
+  (a)–(f), so M0 (b)'s σ).
+
+### R3.3 What the build side carries (M0 items whose `sections` include a changed section; `M0-work.json`, read only)
+
+| change | M0 items | what changes for them |
+|---|---|---|
+| T-1 (§4.8 S7 *Towers*) | none; M0-s-02 and M0-c-02 cite §4.8's strip widths and wall strips only, and M0-c-02 defers S7's towers to M1 (C-0033) | nothing |
+| T-2 (§15.2 O8) | none; no M0 item cites §15.2 | nothing |
+| T-3 (V11 §3.19.1) | none; M0 reads no volume (C-0092) | nothing |
+| DC-39 (V12 §3.5.4 and §8.3 (1)) | none by section. M0-k-05 (wave 11) reads the marker inside a row's `note`; M0-c-07a's eight gate rows among the 50 marked rows keep their values and bands | nothing they build: no role, value or band changes; printing the marker beside the verdict is V12's M1 report |
+| DC-40 (§13.5 draw style; V12 §3.5.5) | none; M0-k-05's metric list holds no `draw.*` metric | nothing; a row without `matched` loads (§13.5's `Baseline` has `matched?`) and is never selected at M0 |
+| DC-41 (§17.1 (5); V12 §3.3 C10) | M0-k-06 (wave 13), M0-k-07 (AFTER-M-1 (a)); M0-k-05 | M0-k-06's scanner scope gains the JSON files under `plat/packages/testkit/baselines/`, read by string values and keys, so its section quote in `M0-work.json` is behind the design; the session carries it as N-26 (rulings round 3 §3). M0-k-07's run over `plat/` reads those files the same way. M0-k-05: C10 is not run at M0 (C-0092 (2)), so nothing changes. A veto of D13 restores both sentences, and the session replaces N-26 (R-52's coupling) |
+| X-1 (§13.5 deep block interiors) | M0-c-07, M0-c-07a, M0-c-07b, M0-k-05 | nothing they build: the reference values are unchanged and the rows are read as stored; the clause only names the definition the reference rows were measured by |
+| W-1 – W-3 (this record) | none | nothing |
+
+### R3.4 Judgment calls (delegated authority, J122; each vetoable)
+
+* **J-7 — DC-39's trailing parenthetical dropped.** The old clause went on "(weakness and descriptive, the one declared
+  target exception)", past the ruling's quoted text. That list described FTG's rows when FTG had three captures. §13.5
+  now classes FTG's tower spacing, street runs and outline rows as targets, and R-50 (4) marks exactly those type 7
+  band-rule targets, so keeping it would contradict the new clause. The new clause names §13.5 as the authority instead.
+  Veto restores it.
+* **J-8 — a cross-reference in §3.5.4.** The added sentence names "(V12 §8.3 (1))", which defines the marker, since a
+  reader of §3.5.4 meets the term there first. Veto drops the parenthesis.
+* **J-9 — rewording for C3, no allow row.** The ruled texts as written matched corpus 3-grams: 4 unreviewed runs in the
+  base (two date runs, two width lists) and 1 in V12 ("share and the" before a percentile pair). As round 2 did (J-6),
+  the words were changed and the meaning kept: "twelve recordings of 21 and 25 September 2026", "on the recordings of
+  21 September before", "the model widths 7.6, 15.2, 8 and 4.8 m in every export; 6.2, 12.4, 6.5 and 3.9 px on the
+  four-gate fixture's scale before", and "the row's flip share and each edge's 2.5–97.5 % bootstrap interval". Veto
+  writes the ruled forms and adds reviewed allow rows.
+* **J-10 — the tower-spacing sites carry no history clause.** §13.5's cell keeps 39 m as history. The three restated
+  sites follow the corrected O6 and O17 tags, which name the matched sizes and §13.5 and carry no history. Veto adds
+  "(39 m earlier)" as §1's comparison table has it.
+* **J-11 — X-1, outside the brief's enumerated list.** Both wave-3 verifiers flagged the clause as misleading. Round 2
+  wrote it, and the owner's rule is to fix every finding now. It said the reference's 0.810 / 0.810 / 0.814 were taken
+  over "§4.6's deep-interior rule", but the rows use V12 §3.4.2's inscribed-radius definition (R-20 (4); E12 entry 6).
+  Under J-1's test the two agree on NG at `modest` (593 of 597, the wave-3 verifier), not by definition. One clause
+  changed; no value. Veto restores round 2's wording.
+
+### R3.5 Noted, not changed (so nobody re-finds them)
+
+* **Other 39 m mentions.** §0.3's calibration-target list and the closing CONFIRMED-versus-PLAUSIBLE sentence say the
+  number was measured and confirmed by its own lane, which is history of the sample they name, as round 2 kept the same
+  sentences for 10.3 m. §17.1 (6)'s "39 m tower spacing (FTG)" illustrates the form of a `ref:` provenance label; no
+  cell carries such a label (grep). §1's comparison table already reads "33–35 m … (M-1; 39 m earlier)".
+* **§8.3's `ink` census row** (its five drawn widths within ± 15 %, at "MFCG size 40, 0.816 px/m") states
+  its scale. The model widths × 0.8157 px per m give exactly those widths, and the model widths hold in every export
+  (E07 §7), so the bar agrees with DC-40. No correction is owed.
+* **V12's PLAUSIBLE list, item 2** ("the ten-seed choice's adequacy (S-V12-1)") stays true: the marker carries the edge
+  noise rather than establishing adequacy.
+* **For the owner (the round-2 verifier's note).** FTG's re-measured medians (34.9 / 33.4 / 32.7 m) lie just below our
+  own 35–60 m tower-spacing rule (V11's era rows), so the rule's anchor no longer sits inside it. Re-anchoring would be
+  tuning (J156); it was left.
+* **For the session (PLAUSIBLE, M0-k-05, wave 11).** C-0092 (2) words M0's note check as "a note holds only numbers,
+  units, our ids and the provenance forms". W-15's notes already hold words ("main gates = N exact by our law …"), as
+  will R-50's markers ("edge noise", "lo", "hi"). A literal reading would refuse such notes, so the check's M0 reading
+  may need confirming beside N-31 before the first crossing.
+
+### R3.6 Receipts (CONFIRMED, executed)
+
+* **Backups.** Before the first edit, `ARCHITECTURE.md`, `ARCHITECTURE-FULL.md`, `V11-content.md`, `V12-calibration.md`,
+  this record, `doc-checks-allow.tsv` and `design-allow.tsv` were copied to the scratchpad's `m1r3/backup/` with
+  `SHA256SUMS`. The design files equalled git HEAD and round 2's last write (base `cde0c228`, V12 `ae77045f`, V11
+  `cce719fb`).
+* **The edits.** `m1r3/mc3_apply.py` applies `mc3_edits.py`'s 13 edits to the backups, each matched exactly once. It
+  refuses any file that differs from both its backup and its own last output. `mc3_apply.log.json` holds every before
+  and after with its line.
+* **Content.** Deny-list scan (`make_denylist.py scan`) of the four edited files: research list TOK 8/0, ID 13/0,
+  TRI 2465/0, COL 0/0, SET 50/0, PHR 7/0, FILE 0/0; M0 list TOK 8/0, TRI 2465/0, COL 0/0, SET 50/0, FILE 0/0; both
+  exit 0. The same counts hold on the backups (control), so no class rose. The 13 new texts alone scan 0 hits in every
+  class on both lists.
+* **Doc checks, the bundle and the allow files.** See `m1-corrections-3.json` (`checks`), which holds the final runs'
+  counts and exits.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED (read or executed): each value written was read from E15's JSON (entry 45) or the ruling's
+text; every site was read where the design stood; the M0 rows come from `M0-work.json`'s `sections`, `defers` and
+`exitBars`; the scans, doc checks and bundle check ran. PLAUSIBLE: that no other sentence restates a value this round
+changed. The greps covered "39 m", "tower spacing", the old draw-style figures, "20 seeds", "whole file", "S-V12-1" and
+the scanner's scope words across the base and every volume.

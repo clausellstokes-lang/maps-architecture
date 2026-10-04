@@ -58,9 +58,11 @@ pooling it would mix two settings in one cell. Wherever both towns' values appea
 
 * An FTG row lists every plan slot of its size in order; a slot that gives no value is in `failed` with its reason:
   `water-none` (a no-water slot in a water row), `no-wall` (one BIG_TOWN slot without a wall), `setting` (above). A reader
-  that checks "no silent gap" compares the members outside `failed` with the row's seed count.
+  that checks "no silent gap" compares the members outside `failed` with the row's seed count when the row has a value
+  (`values.n` above 0); a row with `values.n` 0 lists every member in `failed`, and its `values.seeds` is the member
+  count, so that comparison does not apply to it.
 * Non-water rows pool both water settings per size (four `none` and six `coast+river` slots at BIG_TOWN and BIG_CITY);
-  the water rows (`water.step`; the river-width row once its id is renamed) read the `coast+river` slots only.
+  the water rows (`water.step`, and `water.channelWidth` for river widths) read the `coast+river` slots only.
 * Two draws of one setting differ although their requests are equal apart from client-random ids (the server draws its
   own seed; PLAUSIBLE), so a cell's captures are independent draws under one setting.
 * The FTG rows' ids follow `ftg/<size>/<metric>/<subset>[/<field>]`, with `all` the subset on every FTG row.

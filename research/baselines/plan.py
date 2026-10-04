@@ -5,7 +5,9 @@ Lane m1/W-01 (docs/calibration/M-1-plan.md section 2, work item W-01; record doc
 amended by lane m1/W-01b (item W-01b; record E01 section 9): the recorded CITY family's block (R-02), one MFCG load per
 seed (R-16), --extend (R-13), the catalogue's split and new ids (DC-17, DC-21), block.areaRel's edges and the declared
 scale (R-01), the units perKm2 / per100m (DC-02), the draw and wealth members (R-12, R-23, E05 section 5), the item table
-of plan revision 3, and variety.dispersion's floor and its forming item W-15 (R-10, R-40).
+of plan revision 3, and variety.dispersion's floor and its forming item W-15 (R-10, R-40); and by lane m1/round3-apply
+(M-1-rulings-3.md; record E15 section 13): the registry id water.channelWidth (E15 F2, the catalogue's rename by
+design/m1-corrections-2) and the recorded MFCG draw family's block (R-51).
 Research side only: nothing here enters plat/. Our own code; the hash below is MurmurHash3 x86_128 written from the
 published public-domain algorithm, as docs/validation/bench/v12_h32_vectors.py writes it.
 
@@ -260,6 +262,33 @@ FTG_RECORDED_RULE = ('as recorded (R-02; the Fantasy Manor sample is the precede
                      'non-default setting, kept in sample.failed with reason setting and pooled in no row (R-04); the '
                      'planned CITY slots continue the per-water index and the family order after them, so with slots 24 '
                      'and 25 the family reaches three usable, minmax (R-33, R-34)')
+# The recorded MFCG draw family (R-51, M-1-rulings-3.md; R-02's precedent): the twelve profiler draw recordings of
+# build 12710731 that E07 section 7 measured, in recording order (folder stamp, then generation). Each row: (folder,
+# generation, size, water in our terms, log complete, draws a cased ribbon). A formula sample would need twelve
+# new loads (J171: none), so the family is registered as recorded (V12 section 3.2.1's "as recorded").
+MFCG_RECORDED_DRAW = [
+    ('2026-09-21T05-03-24', 'gen-0', 25, 'river+coast', True, True),
+    ('2026-09-21T05-03-24', 'gen-1', 24, 'river+coast', True, True),
+    ('2026-09-21T05-03-24', 'gen-2', 31, 'river', True, True),
+    ('2026-09-21T05-03-24', 'gen-3', 31, 'coast', True, True),
+    ('2026-09-21T05-06-58', 'gen-0', 80, 'river+coast', False, True),
+    ('2026-09-21T05-06-58', 'gen-1', 80, 'river+coast', False, True),
+    ('2026-09-21T05-06-58', 'gen-2', 80, 'river+coast', False, True),
+    ('2026-09-21T11-25-32', 'gen-0', 40, 'plain', True, True),
+    ('2026-09-21T11-25-32', 'gen-1', 71, 'river+coast', False, True),
+    ('2026-09-25T10-05-23', 'gen-0', 40, 'plain', True, False),
+    ('2026-09-25T10-05-38', 'gen-0', 40, 'plain', True, True),
+    ('2026-09-25T10-05-44', 'gen-0', 40, 'plain', True, True),
+]
+MFCG_RECORDED_DRAW_RULE = ('as recorded (R-51; R-02 and the Fantasy Manor sample are the precedents, V12 section 3.2.1): '
+                           'the twelve draw recordings made before the plan hold the family capture/MFCG/draw/recorded '
+                           'in recording order; a row lists in sample.failed the members its metric cannot read '
+                           '(truncated-log for the four logs cut at 60 000 entries; uncased for the one recording '
+                           'that draws its road without a casing) and pools nothing else; the family extends only by '
+                           'a new recording appended in order, under an approval (J171: none now)')
+MFCG_RECORDED_DRAW_FAMILY = 'capture/MFCG/draw/recorded'
+# The fields a recorded draw member keeps against the prior plan.json (compute(); lane m1/round3-apply, R-36's form).
+MFCG_RECORDED_DRAW_FROZEN = ('order', 'label', 'record', 'size', 'water', 'logComplete', 'casedRibbon')
 # The first six labels, fixed: compute() refuses to write a plan that changes or reorders them (R-36); every recorded
 # slot, these six included, is also held against the prior plan.json in label, size, water, programme and day
 # (compute(); m1/plan-fix-3, m1/plan-guard-2), so even a swap of two equal-key rows is refused.
@@ -407,6 +436,11 @@ def build_plan(prior_slots, prior_ext=None):
              'item': "m1/plan-fix-3-check's finding (record M-1-plan-fix-3.md, section Guard round 2)",
              'what': "the recorded-slot guard also keeps a recorded slot's programme and day; ftg.slotRule "
                      "restated"},
+            {'lane': 'm1/round3-apply', 'date': '2026-10-04',
+             'item': 'M-1-rulings-3.md R-51 and E15 F2 (record E15 section 13)',
+             'what': "the recorded MFCG draw family's block (mfcgRecordedDraw; R-51, R-02's precedent): the twelve "
+                     "profiler draw recordings in recording order, a member kept against the prior plan.json and "
+                     "the family extended only by appending; the registry twin's id water.channelWidth (E15 F2)"},
         ],
         'seedRule': {
             'formula': "seedOf(family, [i]) = reduce(H32(family + '/' + i)); H32 = MurmurHash3 x86_128 h1, seed 0, "
@@ -483,6 +517,14 @@ def build_plan(prior_slots, prior_ext=None):
             'workItem': 'W-02 (programme 1), W-02b (programme 2)',
             'slots': slots,
         },
+        'mfcgRecordedDraw': {
+            'family': MFCG_RECORDED_DRAW_FAMILY, 'reference': 'MFCG', 'build': MFCG_BUILD, 'priority': 3,
+            'rule': MFCG_RECORDED_DRAW_RULE, 'workItem': 'W-07 (E07 section 7); rows at W-15 (R-51)',
+            'records': [{'family': MFCG_RECORDED_DRAW_FAMILY, 'order': i,
+                         'label': '%s/%d' % (MFCG_RECORDED_DRAW_FAMILY, i),
+                         'record': '%s/%s' % (folder, gen), 'capture': folder, 'generation': gen,
+                         'size': size, 'water': water, 'logComplete': complete, 'casedRibbon': cased}
+                        for i, (folder, gen, size, water, complete, cased) in enumerate(MFCG_RECORDED_DRAW)]},
         'fm': {
             'reference': 'FM', 'build': FM_BUILD, 'capture': FM_CAPTURE, 'n': FM_N,
             'sample': 'gen-0 (cold load) and gen-1 .. gen-40 (regenerations), all settled, as recorded; no new '
@@ -504,6 +546,7 @@ def build_plan(prior_slots, prior_ext=None):
             'ftgProgramme1': len(FTG_SCHEDULE),
             'ftgProgramme2': len(FTG_PREMIUM_SCHEDULE),
             'fmBuildings': FM_N,
+            'mfcgRecordedDraw': len(MFCG_RECORDED_DRAW),
             'seedCollisions': dupes,
         },
     }
@@ -721,8 +764,9 @@ REGISTRY = [
       basis='stated'),
     P('water.step', 'geo', 'metric', 'm', ('scalar',), 'median', AF_LEN, [R('FTG'), R('MFCG', 'descriptive')],
       'water', basis='stated'),
-    P('water.riverWidth', 'geo', 'metric', 'm', ('scalar',), 'median', AF_LEN, [R('FTG'), R('MFCG', 'descriptive')],
-      'water', basis='stated'),
+    P('water.channelWidth', 'geo', 'metric', 'm', ('scalar',), 'median', AF_LEN, [R('FTG'), R('MFCG', 'descriptive')],
+      'water', basis="stated; the id renamed at M-1 (E15 F2; design/m1-corrections-2; R-29's precedent: no token of "
+                     "ours repeats a reference's export key), installed here by lane m1/round3-apply"),
     P('tree.nnP1', 'geo', 'metric', 'm', ('scalar',), 'value', AF_LEN, [R('FTG', 'weakness')], 'tree scatter',
       basis='stated (the 1st percentile of nearest-neighbour distances, inferred from the id)'),
     P('tree.nnMedian', 'geo', 'metric', 'm', ('scalar',), 'median', AF_LEN, [R('FTG', 'weakness')], 'tree scatter',
@@ -944,7 +988,7 @@ M1 = [
     (m, 'FTG', 'D26', 'W-05b', None) for m in
     ['junction.angles', 'junction.share4', 'street.runs', 'bldg.area', 'bldg.quadSide', 'bldg.worstCorner',
      'bldg.partyShare', 'bldg.attached', 'wall.towerSpacing', 'wall.ungated', 'gate.count', 'water.step',
-     'water.riverWidth', 'tree.nnP1', 'tree.nnMedian', 'tree.pcf', 'pop.perBuilding', 'time.model']] + [
+     'water.channelWidth', 'tree.nnP1', 'tree.nnMedian', 'tree.pcf', 'pop.perBuilding', 'time.model']] + [
     (m, 'NG', 'D27', 'W-11b', None) for m in
     ['junction.angles', 'bldg.partyShare', 'bldg.attached', 'plot.moran', 'plot.cvDistrict']] + [
     ('time.model', 'NG', 'D27', 'W-11b', 'descriptive'),
@@ -961,7 +1005,7 @@ M1 = [
     ('draw.roofLumaRatio', 'NG', 'D34', 'W-22', 'descriptive'),
     ('bldg.area', 'MFCG', 'D35', 'W-07b', 'descriptive'),
     ('water.step', 'MFCG', 'D35', 'W-07b', 'descriptive'),
-    ('water.riverWidth', 'MFCG', 'D35', 'W-07b', 'descriptive'),
+    ('water.channelWidth', 'MFCG', 'D35', 'W-07b', 'descriptive'),
     ('pop.perBuilding', 'MFCG', 'D35', 'W-07b', 'weakness'),
     ('wall.ungated', 'MFCG', 'D35', 'W-07b', 'descriptive'),
     ('wall.barrierShare', 'MFCG', 'D35', 'W-07b', 'descriptive'),
@@ -1013,14 +1057,14 @@ M1_NOTES = {
     ('water.step', 'FTG', 'D26'): "against section 13.5's fixed bound 'outline step <= 25 m': the reference value "
                                   'sharpened, the band column kept (R-48); the six coast+river slots per matched size, '
                                   'minmax',
-    ('water.riverWidth', 'FTG', 'D26'): 'the band rule per class over the six coast+river slots per matched size, '
-                                        'minmax (R-34, R-48)',
+    ('water.channelWidth', 'FTG', 'D26'): 'the band rule per class over the six coast+river slots per matched size, '
+                                          'minmax (R-34, R-48)',
     ('time.model', 'NG', 'D27'): _TIME_NOTE,
     ('time.model', 'MFCG', 'D28'): _TIME_NOTE,
     ('cut.length', 'NG', 'D30'): 'spreadKS.p90 over the per-template subsets (R-15)',
     ('bldg.area', 'MFCG', 'D35'): 'R-23',
     ('water.step', 'MFCG', 'D35'): _STRESS,
-    ('water.riverWidth', 'MFCG', 'D35'): _STRESS,
+    ('water.channelWidth', 'MFCG', 'D35'): _STRESS,
     ('pop.perBuilding', 'MFCG', 'D35'): "from the export's population figure where it carries one, else the coded "
                                         'six-per-lot law as the note (R-23)',
     ('wall.ungated', 'MFCG', 'D35'): _STRESS,
@@ -1123,7 +1167,8 @@ def build_metrics():
         'schema': 'research.metrics-twin/1',
         'metricsVersion': METRICS_VERSION,
         'lane': 'm1/W-01',
-        'amendedBy': 'm1/W-01b (M-1-plan section 2 item W-01b; record E01 section 9)',
+        'amendedBy': 'm1/W-01b (M-1-plan section 2 item W-01b; record E01 section 9); m1/round3-apply (the id '
+                     'water.channelWidth, E15 F2 and design/m1-corrections-2; record E15 section 13)',
         'planDate': PLAN_DATE,
         'script': 'research:baselines/plan.py',
         'source': "V12 section 3.4.2's catalogue and default rules; section 2.1's MetricDef fields; the M-1 rulings "
@@ -1235,6 +1280,13 @@ def load_prior_extensions():
     return {f['family']: f['extension']['n'] for f in fams if f.get('extension')}
 
 
+def load_prior_recorded_draw():
+    """The recorded MFCG draw family's members as the prior plan.json holds them (R-51), or []."""
+    if not os.path.exists(PLAN_PATH):
+        return []
+    return (json.load(open(PLAN_PATH, encoding='utf-8')).get('mfcgRecordedDraw') or {}).get('records', [])
+
+
 def formula_families():
     d = {'capture/MFCG/%d/%s' % (size, opts): n for size, opts, n, _, _ in MFCG_SETTINGS}
     d.update({'capture/NG/%s/%s' % (t, size): n for size, n in NG_SIZES for t in NG_TEMPLATES})
@@ -1259,7 +1311,7 @@ def extend(prior_ext, family, n_text):
     return out
 
 
-def compute(prior_slots, prior_ext=None):
+def compute(prior_slots, prior_ext=None, prior_draw=None):
     plan = build_plan(prior_slots, prior_ext)
     metrics, problems = build_metrics()
     cat, missing, extra = catalogue_diff()
@@ -1300,6 +1352,26 @@ def compute(prior_slots, prior_ext=None):
         if moved:
             problems.append('recorded FTG slot %d (%s) changed: %s; a recorded slot is never relabelled or moved' %
                             (n['slot'], p.get('capture') or 'failed: ' + str(p.get('failed')), '; '.join(moved)))
+    # The recorded MFCG draw family (R-51; lane m1/round3-apply): unique labels and records in order 0 .. n - 1, and
+    # every member the prior plan.json holds kept in each field of MFCG_RECORDED_DRAW_FROZEN at its place, so the
+    # family extends only by appending a new recording (R-36's form for a recorded family).
+    recs = plan['mfcgRecordedDraw']['records']
+    if [r['order'] for r in recs] != list(range(len(recs))):
+        problems.append('recorded MFCG draw members out of order')
+    for key in ('label', 'record'):
+        vals = [r[key] for r in recs]
+        if len(set(vals)) != len(vals):
+            problems.append('recorded MFCG draw %ss repeat: %s' % (key, sorted(v for v in set(vals) if vals.count(v) > 1)))
+    for p in prior_draw or []:
+        o = p.get('order')
+        n = recs[o] if isinstance(o, int) and 0 <= o < len(recs) else None
+        if n is None:
+            problems.append('recorded MFCG draw member %s (%s) is no longer in the family' % (o, p.get('label')))
+            continue
+        moved = ['%s %s -> %s' % (k, p.get(k), n.get(k)) for k in MFCG_RECORDED_DRAW_FROZEN if n.get(k) != p.get(k)]
+        if moved:
+            problems.append('recorded MFCG draw member %d changed: %s; a recorded member is never relabelled or '
+                            'moved' % (o, '; '.join(moved)))
     # A formula extension (R-13) is kept: every family plan.json records as extended still is, at no smaller n.
     got = {f['family']: f['indices'][1] for f in plan['families']}
     for fam, n in sorted((prior_ext or {}).items()):
@@ -1375,7 +1447,7 @@ def main(argv):
         prior_ext = extend(prior_ext, argv[1], argv[2])
     elif argv[:1] not in ([], ['--check'], ['--bind-ftg'], ['--fail-ftg']):
         sys.exit('unknown option %s (see the usage at the top of plan.py)' % argv[0])
-    plan, metrics, problems = compute(prior, prior_ext)
+    plan, metrics, problems = compute(prior, prior_ext, load_prior_recorded_draw())
     if problems:
         print('PLAN CHECK FAILED, nothing written:\n  ' + '\n  '.join(problems))
         return 2
@@ -1395,9 +1467,9 @@ def main(argv):
                                                   hashlib.sha256(t.encode()).hexdigest()[:16]))
     c = plan['counts']
     print('plan: MFCG %d exports (%d files), NG %d generations, FTG %d slots (programme 1: %d, programme 2: %d), '
-          'FM %d buildings, seed collisions %d; formula extensions %s' %
+          'FM %d buildings, MFCG recorded draws %d, seed collisions %d; formula extensions %s' %
           (c['mfcgExports'], c['mfcgFiles'], c['ngGenerations'], c['ftgSlots'], c['ftgProgramme1'], c['ftgProgramme2'],
-           c['fmBuildings'], len(c['seedCollisions']), c['formulaExtensions'] or 'none'))
+           c['fmBuildings'], c['mfcgRecordedDraw'], len(c['seedCollisions']), c['formulaExtensions'] or 'none'))
     mc = metrics['counts']
     print('metrics: %d ids (%d of them family members) + %d families; parity %d, ours only %d; with M-1 rows %d; '
           'open %d; stated no-rows %d; uncovered pairs %d' %

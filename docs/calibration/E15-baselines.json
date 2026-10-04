@@ -3,6 +3,11 @@
  "record": "docs/calibration/E15-baselines.md",
  "workItem": "W-15",
  "lane": "m1/W-15",
+ "continuedBy": {
+  "lane": "m1/round3-apply",
+  "rulings": "docs/calibration/M-1-rulings-3.md (R-50, R-51)",
+  "record": "E15 section 13"
+ },
  "date": "2026-10-04",
  "provenance": "M-1 2026-10-04",
  "scripts": [
@@ -13,11 +18,11 @@
  "inputs": {
   "plan": {
    "path": "research/baselines/plan.json",
-   "sha256": "9ed325bdbcbb427b7f31b9f5846466de7815d181c2758984216c053e92a69ca5"
+   "sha256": "748707c3023278dcfb9f5b847e25927dc46ec683260ad7028bf5a03285676114"
   },
   "registry": {
    "path": "research/baselines/metrics.m-1.json",
-   "sha256": "8a0efa7e61592ef3efcdf06e3bc696e3de15a262215df03f0501134f4c29a670"
+   "sha256": "ee191172382520f4485961db8a9293ac646340e95c96c33c727cf87e621e4a92"
   },
   "e05": {
    "path": "docs/calibration/E05-ftg-metrics.slots.json",
@@ -34,6 +39,10 @@
   "e07fix": {
    "path": "docs/calibration/E07-mfcg-signature.json",
    "sha256": "55b8b186004877c8d4bc329bc21b6df0f4c27e99215519d96d98e1382c2ec99c"
+  },
+  "e07widths": {
+   "path": "docs/calibration/E07-mfcg-signature.widths.json",
+   "sha256": "4e4c1907e53f5f9abed35453e4d5d444441657732fa54772de3eeaadaf55259a"
   },
   "e08": {
    "path": "docs/calibration/E08-mfcg-renders.json",
@@ -78,15 +87,15 @@
  },
  "candidate": {
   "path": "research/baselines/candidates/baselines.json",
-  "rows": 478,
+  "rows": 491,
   "byRole": {
-   "target": 247,
+   "target": 257,
    "weakness": 92,
-   "descriptive": 139
+   "descriptive": 142
   },
   "byReference": {
-   "FTG": 223,
-   "MFCG": 110,
+   "FTG": 227,
+   "MFCG": 119,
    "NG": 145
   }
  },
@@ -277,6 +286,16 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.822404,
+     0.8401925,
+     0.844083
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median - 0.03",
+     "hi": null
+    },
     "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499"
    },
    {
@@ -298,6 +317,20 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.7245434000000001,
+     0.739663625,
+     0.74297055
+    ],
+    "hiDraws": [
+     0.9802645999999999,
+     1.000721375,
+     1.00519545
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "c x 1.15"
+    },
     "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499"
    },
    {
@@ -317,6 +350,16 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.9225205249999999,
+     0.923333,
+     0.929226
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median + 0",
+     "hi": null
+    },
     "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499"
    },
    {
@@ -338,6 +381,20 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.78414244625,
+     0.7848330499999999,
+     0.7898421
+    ],
+    "hiDraws": [
+     1.06089860375,
+     1.0618329499999999,
+     1.0686099
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "c x 1.15"
+    },
     "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499"
    },
    {
@@ -357,6 +414,16 @@
     "rowFlips": 46,
     "rowRate": 0.046,
     "unstable": false,
+    "loDraws": [
+     0.680649,
+     0.7194845,
+     0.726407
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median - 0.03",
+     "hi": null
+    },
     "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592"
    },
    {
@@ -378,6 +445,20 @@
     "rowFlips": 46,
     "rowRate": 0.046,
     "unstable": false,
+    "loDraws": [
+     0.6040516499999999,
+     0.6362394299999999,
+     0.6426433500000001
+    ],
+    "hiDraws": [
+     0.8324369102500001,
+     0.8619071749999999,
+     0.86986805
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
     "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592"
    },
    {
@@ -397,6 +478,16 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.924249,
+     0.9283589999999999,
+     0.9299035
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median + 0",
+     "hi": null
+    },
     "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592"
    },
    {
@@ -418,6 +509,20 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.78561165,
+     0.7891051499999999,
+     0.790417975
+    ],
+    "hiDraws": [
+     1.0628863499999999,
+     1.06761285,
+     1.069389025
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "c x 1.15"
+    },
     "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592"
    },
    {
@@ -437,6 +542,16 @@
     "rowFlips": 108,
     "rowRate": 0.108,
     "unstable": true,
+    "loDraws": [
+     0.475102,
+     0.4935775,
+     0.5302009999999999
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median - 0.03",
+     "hi": null
+    },
     "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987"
    },
    {
@@ -458,6 +573,20 @@
     "rowFlips": 49,
     "rowRate": 0.049,
     "unstable": false,
+    "loDraws": [
+     0.4293367,
+     0.445040875,
+     0.46394487000000006
+    ],
+    "hiDraws": [
+     0.5926760749999999,
+     0.6313153,
+     0.6442311499999999
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "p90 x 1.1"
+    },
     "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987"
    },
    {
@@ -477,6 +606,16 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.921615,
+     0.924322,
+     0.9260515
+    ],
+    "hiDraws": null,
+    "edgeTerms": {
+     "lo": "MFCG median + 0",
+     "hi": null
+    },
     "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987"
    },
    {
@@ -498,6 +637,20 @@
     "rowFlips": 0,
     "rowRate": 0.0,
     "unstable": false,
+    "loDraws": [
+     0.78337275,
+     0.7856736999999999,
+     0.787143775
+    ],
+    "hiDraws": [
+     1.0598572499999999,
+     1.0629703,
+     1.064959225
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "c x 1.15"
+    },
     "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987"
    }
   ],
@@ -1437,6 +1590,107 @@
     {
      "row": "ftg/METROPOLIS/water.step/all",
      "new": "50.001 [16.154, 50.22] minmax n 3; band - to 25"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 water (FTG)",
+   "cell": "river widths (the channel-width rows, round 3)",
+   "old": "44.0 / 46.1 / 29.8 m, M-1's rows held until the registry carried the renamed id (31 m / 48 m on the two CITY captures)",
+   "new": [
+    {
+     "row": "ftg/BIG_TOWN/water.channelWidth/all",
+     "new": "43.9985 [42.62, 55.989] minmax n 6; band 37.3987 to 61.5879"
+    },
+    {
+     "row": "ftg/BIG_CITY/water.channelWidth/all",
+     "new": "46.1225 [31.489, 54.606] minmax n 6; band 28.3401 to 60.0666"
+    },
+    {
+     "row": "ftg/METROPOLIS/water.channelWidth/all",
+     "new": "29.791 [22.373, 31.665] minmax n 3; band 20.1357 to 34.8315"
+    },
+    {
+     "row": "ftg/CITY/water.channelWidth/all",
+     "new": "37.0845 [31.303, 42.866] minmax n 2"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 water (MFCG, descriptive)",
+   "cell": "exported river width, the stress family (round 3)",
+   "old": "84 m at size 80 over three stress seeds (M-1)",
+   "new": [
+    {
+     "row": "mfcg/80/river+coast/water.channelWidth/all",
+     "new": "83.8575 [68.7762, 114.263] minmax n 3"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "casing law, round joins, walls after buildings; round caps (descriptive)",
+   "old": "casing = core + 2h on 7 / 7 maps, round joins 4 062 / 4 063, 17-step order",
+   "new": [
+    {
+     "row": "mfcg/draw/recorded/draw.casingLaw/all",
+     "new": "1 [1, 1] type7 n 11; band 1 to -"
+    },
+    {
+     "row": "mfcg/draw/recorded/draw.roundJoins/all",
+     "new": "0.9999 [0.9998, 1] type7 n 12; band 0.999 to -"
+    },
+    {
+     "row": "mfcg/draw/recorded/draw.wallsAfterBuildings/all",
+     "new": "1 [1, 1] minmax n 8; order parity as section 8.3 defines it, ours against our declared slot table; the reference's value reported (section 13.5 draw style, ink; R-51)"
+    },
+    {
+     "row": "mfcg/draw/recorded/draw.roundCaps/all",
+     "new": "0.9971 [0.991, 0.9992] type7 n 12"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "wall width at size 40",
+   "old": "6.2 px at size 40's scale (the four-gate fixture, 0.8157 px per m)",
+   "new": [
+    {
+     "row": "mfcg/40/plain/draw.widthPx/all/wall",
+     "new": "6.3403 [6.0086, 7.0661] type7 n 10; band 5.3893 to 7.2913"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "tower width at size 40",
+   "old": "12.4 px at size 40's scale (the four-gate fixture)",
+   "new": [
+    {
+     "row": "mfcg/40/plain/draw.widthPx/all/tower",
+     "new": "12.6806 [12.0171, 14.1322] type7 n 10; band 10.7785 to 14.5827"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "road-core width at size 40",
+   "old": "6.5 px at size 40's scale (the four-gate fixture)",
+   "new": [
+    {
+     "row": "mfcg/40/plain/draw.widthPx/all/roadCore",
+     "new": "6.674 [6.3248, 7.438] type7 n 10; band 5.6729 to 7.6751"
+    }
+   ]
+  },
+  {
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "pier width at size 40 (section 8.3 quotes 3.9)",
+   "old": "3.9 px at size 40's scale (the four-gate fixture)",
+   "new": [
+    {
+     "row": "mfcg/40/plain/draw.widthPx/all/pier",
+     "new": "4.0044 [3.7949, 4.4628] type7 n 10; band 3.4037 to 4.6051"
     }
    ]
   },
@@ -2597,6 +2851,86 @@
      42.688
     ]
    ]
+  },
+  {
+   "row": "mfcg/40/plain/draw.widthPx/all/wall",
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "wall width at size 40",
+   "oldBand": {
+    "lo": 5.27,
+    "hi": 7.13
+   },
+   "newBand": {
+    "lo": 5.3893,
+    "hi": 7.2913
+   },
+   "oldFormedBy": "the fixed band around the old reference value",
+   "passingToFailing": [
+    [
+     5.27,
+     5.3893
+    ]
+   ]
+  },
+  {
+   "row": "mfcg/40/plain/draw.widthPx/all/tower",
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "tower width at size 40",
+   "oldBand": {
+    "lo": 10.54,
+    "hi": 14.26
+   },
+   "newBand": {
+    "lo": 10.7785,
+    "hi": 14.5827
+   },
+   "oldFormedBy": "the fixed band around the old reference value",
+   "passingToFailing": [
+    [
+     10.54,
+     10.7785
+    ]
+   ]
+  },
+  {
+   "row": "mfcg/40/plain/draw.widthPx/all/roadCore",
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "road-core width at size 40",
+   "oldBand": {
+    "lo": 5.525,
+    "hi": 7.475
+   },
+   "newBand": {
+    "lo": 5.6729,
+    "hi": 7.6751
+   },
+   "oldFormedBy": "the fixed band around the old reference value",
+   "passingToFailing": [
+    [
+     5.525,
+     5.6729
+    ]
+   ]
+  },
+  {
+   "row": "mfcg/40/plain/draw.widthPx/all/pier",
+   "section": "ARCHITECTURE 13.5 draw style (MFCG ink; R-51, DC-40)",
+   "cell": "pier width at size 40 (section 8.3 quotes 3.9)",
+   "oldBand": {
+    "lo": 3.315,
+    "hi": 4.485
+   },
+   "newBand": {
+    "lo": 3.4037,
+    "hi": 4.6051
+   },
+   "oldFormedBy": "the fixed band around the old reference value",
+   "passingToFailing": [
+    [
+     3.315,
+     3.4037
+    ]
+   ]
   }
  ],
  "bands": [
@@ -2707,6 +3041,25 @@
     "loTerm": "c x 0.85",
     "hiTerm": "p90 x 1.1",
     "floor": 1.01
+   },
+   "stability": {
+    "flipShare": 0.262,
+    "loInterval": [
+     42.925,
+     43.8558
+    ],
+    "hiInterval": [
+     58.075,
+     83.369
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_TOWN",
+    "marker": "S-V12-1 edge noise 0.26: lo 42.9-43.9, hi 58.1-83.4",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -2722,6 +3075,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.7424
+   },
+   "stability": {
+    "flipShare": 0.752,
+    "loInterval": [
+     28.413,
+     32.229
+    ],
+    "hiInterval": [
+     41.602,
+     52.305
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_TOWN",
+    "marker": "S-V12-1 edge noise 0.75: lo 28.4-32.2, hi 41.6-52.3",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -2752,6 +3124,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 3.6643
+   },
+   "stability": {
+    "flipShare": 0.62,
+    "loInterval": [
+     46.188,
+     130.2957
+    ],
+    "hiInterval": [
+     239.3116,
+     354.552
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_TOWN",
+    "marker": "S-V12-1 edge noise 0.62: lo 46.2-130, hi 239-355",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -2883,8 +3274,8 @@
    }
   },
   {
-   "id": "ftg/BIG_TOWN/water.riverWidth/all",
-   "metric": "water.riverWidth",
+   "id": "ftg/BIG_TOWN/water.channelWidth/all",
+   "metric": "water.channelWidth",
    "reference": "FTG",
    "role": "target",
    "kind": "band rule",
@@ -3172,6 +3563,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.724,
+    "loInterval": [
+     0.1814,
+     0.2713
+    ],
+    "hiInterval": [
+     0.379,
+     0.5355
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_TOWN",
+    "marker": "S-V12-1 edge noise 0.72: lo 0.181-0.271, hi 0.379-0.535",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3187,6 +3597,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.763,
+    "loInterval": [
+     0.8175,
+     1.1645
+    ],
+    "hiInterval": [
+     1.5482,
+     2.1138
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_TOWN",
+    "marker": "S-V12-1 edge noise 0.76: lo 0.817-1.16, hi 1.55-2.11",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3359,6 +3788,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c x 1.15",
     "floor": 1.0099
+   },
+   "stability": {
+    "flipShare": 0.353,
+    "loInterval": [
+     38.259,
+     42.925
+    ],
+    "hiInterval": [
+     55.55,
+     58.075
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
+    "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_CITY",
+    "marker": "S-V12-1 edge noise 0.35: lo 38.3-42.9, hi 55.6-58.1",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3389,6 +3837,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.6719
+   },
+   "stability": {
+    "flipShare": 0.205,
+    "loInterval": [
+     26.0228,
+     28.4148
+    ],
+    "hiInterval": [
+     40.1401,
+     51.3935
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_CITY",
+    "marker": "S-V12-1 edge noise 0.20: lo 26-28.4, hi 40.1-51.4",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3404,6 +3871,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.558
+   },
+   "stability": {
+    "flipShare": 0.792,
+    "loInterval": [
+     38.07,
+     65.9259
+    ],
+    "hiInterval": [
+     109.8581,
+     419.672
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_CITY",
+    "marker": "S-V12-1 edge noise 0.79: lo 38.1-65.9, hi 110-420",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3535,8 +4021,8 @@
    }
   },
   {
-   "id": "ftg/BIG_CITY/water.riverWidth/all",
-   "metric": "water.riverWidth",
+   "id": "ftg/BIG_CITY/water.channelWidth/all",
+   "metric": "water.channelWidth",
    "reference": "FTG",
    "role": "target",
    "kind": "band rule",
@@ -3824,6 +4310,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.774,
+    "loInterval": [
+     0.0771,
+     0.1653
+    ],
+    "hiInterval": [
+     0.2577,
+     0.5218
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_CITY",
+    "marker": "S-V12-1 edge noise 0.77: lo 0.0771-0.165, hi 0.258-0.522",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -3839,6 +4344,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.701,
+    "loInterval": [
+     0.9507,
+     1.0499
+    ],
+    "hiInterval": [
+     1.3543,
+     1.8016
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+    "source": "R-50 (4): S-V12-1's test on the FTG type 7 sample, stream S-V12-1|capture/FTG/BIG_CITY",
+    "marker": "S-V12-1 edge noise 0.70: lo 0.951-1.05, hi 1.35-1.8",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -4187,8 +4711,8 @@
    }
   },
   {
-   "id": "ftg/METROPOLIS/water.riverWidth/all",
-   "metric": "water.riverWidth",
+   "id": "ftg/METROPOLIS/water.channelWidth/all",
+   "metric": "water.channelWidth",
    "reference": "FTG",
    "role": "target",
    "kind": "band rule",
@@ -4745,8 +5269,8 @@
    "band": null
   },
   {
-   "id": "ftg/CITY/water.riverWidth/all",
-   "metric": "water.riverWidth",
+   "id": "ftg/CITY/water.channelWidth/all",
+   "metric": "water.channelWidth",
    "reference": "FTG",
    "role": "descriptive",
    "kind": "descriptive",
@@ -5080,6 +5604,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.323,
+    "loInterval": [
+     0.4812,
+     0.5608
+    ],
+    "hiInterval": [
+     0.7124,
+     0.7691
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.32: lo 0.481-0.561, hi 0.712-0.769",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5095,6 +5638,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.62,
+    "loInterval": [
+     0.2858,
+     0.3548
+    ],
+    "hiInterval": [
+     0.476,
+     0.568
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.62: lo 0.286-0.355, hi 0.476-0.568",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5110,6 +5672,25 @@
     "loTerm": "c - floor",
     "hiTerm": "c + floor",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.168,
+    "loInterval": [
+     3.0547,
+     3.6574
+    ],
+    "hiInterval": [
+     5.2949,
+     5.7265
+    ],
+    "edgeTerms": {
+     "lo": "c - floor",
+     "hi": "c + floor"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.17: lo 3.05-3.66, hi 5.29-5.73",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5125,6 +5706,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.717,
+    "loInterval": [
+     6.6261,
+     8.7887
+    ],
+    "hiInterval": [
+     12.036,
+     14.5944
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.72: lo 6.63-8.79, hi 12-14.6",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5140,6 +5740,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.479,
+    "loInterval": [
+     11.0222,
+     14.0638
+    ],
+    "hiInterval": [
+     20.8828,
+     24.953
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.48: lo 11-14.1, hi 20.9-25",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5170,6 +5789,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.633,
+    "loInterval": [
+     0.4728,
+     0.5421
+    ],
+    "hiInterval": [
+     0.712,
+     0.8733
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.63: lo 0.473-0.542, hi 0.712-0.873",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5185,6 +5823,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.78,
+    "loInterval": [
+     0.3093,
+     0.3847
+    ],
+    "hiInterval": [
+     0.5134,
+     0.7102
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.78: lo 0.309-0.385, hi 0.513-0.71",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5200,6 +5857,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.264,
+    "loInterval": [
+     0.3496,
+     0.3926
+    ],
+    "hiInterval": [
+     0.5002,
+     0.5521
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.26: lo 0.35-0.393, hi 0.5-0.552",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5215,6 +5891,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1158
+   },
+   "stability": {
+    "flipShare": 0.798,
+    "loInterval": [
+     1.3958,
+     1.9927
+    ],
+    "hiInterval": [
+     2.6531,
+     4.0036
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.80: lo 1.4-1.99, hi 2.65-4",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5230,6 +5925,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.128
+   },
+   "stability": {
+    "flipShare": 0.375,
+    "loInterval": [
+     1.8794,
+     2.2074
+    ],
+    "hiInterval": [
+     2.907,
+     3.1988
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.38: lo 1.88-2.21, hi 2.91-3.2",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5245,6 +5959,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c x 1.15",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.458,
+    "loInterval": [
+     6.8,
+     7.65
+    ],
+    "hiInterval": [
+     9.9,
+     11.0
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.46: lo 6.8-7.65, hi 9.9-11",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5327,6 +6060,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.202,
+    "loInterval": [
+     0.4773,
+     0.6673
+    ],
+    "hiInterval": [
+     0.8586,
+     0.9375
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.20: lo 0.477-0.667, hi 0.859-0.937",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5342,6 +6094,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.4428
+   },
+   "stability": {
+    "flipShare": 0.495,
+    "loInterval": [
+     5.4937,
+     7.6141
+    ],
+    "hiInterval": [
+     10.2352,
+     13.8634
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.49: lo 5.49-7.61, hi 10.2-13.9",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5357,6 +6128,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.0188
+   },
+   "stability": {
+    "flipShare": 0.881,
+    "loInterval": [
+     0.1303,
+     0.2771
+    ],
+    "hiInterval": [
+     0.4856,
+     0.7504
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.88: lo 0.13-0.277, hi 0.486-0.75",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5372,6 +6162,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1191
+   },
+   "stability": {
+    "flipShare": 0.879,
+    "loInterval": [
+     0.7147,
+     1.9709
+    ],
+    "hiInterval": [
+     2.7253,
+     4.1042
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.88: lo 0.715-1.97, hi 2.73-4.1",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5402,6 +6211,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.8072
+   },
+   "stability": {
+    "flipShare": 0.23,
+    "loInterval": [
+     71.8791,
+     80.1727
+    ],
+    "hiInterval": [
+     101.3275,
+     114.1465
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.23: lo 71.9-80.2, hi 101-114",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5417,6 +6245,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.778,
+    "loInterval": [
+     6.3,
+     7.2
+    ],
+    "hiInterval": [
+     9.9,
+     12.1
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.78: lo 6.3-7.2, hi 9.9-12.1",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5446,6 +6293,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.9404
+   },
+   "stability": {
+    "flipShare": 0.363,
+    "loInterval": [
+     75.5759,
+     85.2966
+    ],
+    "hiInterval": [
+     108.5844,
+     122.1465
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "d557a176ace78687e627deb36c5dea21c8a0cfa3e948d6f7c8027cb5ea35e499",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.36: lo 75.6-85.3, hi 109-122",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5549,6 +6415,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.421,
+    "loInterval": [
+     0.3781,
+     0.4448
+    ],
+    "hiInterval": [
+     0.5716,
+     0.6292
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.42: lo 0.378-0.445, hi 0.572-0.629",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5564,6 +6449,25 @@
     "loTerm": "c - floor",
     "hiTerm": "c + floor",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.649,
+    "loInterval": [
+     2.1264,
+     2.8178
+    ],
+    "hiInterval": [
+     4.1508,
+     4.8315
+    ],
+    "edgeTerms": {
+     "lo": "c - floor",
+     "hi": "c + floor"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.65: lo 2.13-2.82, hi 4.15-4.83",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5579,6 +6483,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.716,
+    "loInterval": [
+     5.2159,
+     6.1054
+    ],
+    "hiInterval": [
+     8.9079,
+     13.6576
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.72: lo 5.22-6.11, hi 8.91-13.7",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5594,6 +6517,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.759,
+    "loInterval": [
+     9.0825,
+     11.3647
+    ],
+    "hiInterval": [
+     14.7094,
+     20.3787
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.76: lo 9.08-11.4, hi 14.7-20.4",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5624,6 +6566,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.417,
+    "loInterval": [
+     0.5197,
+     0.5886
+    ],
+    "hiInterval": [
+     0.779,
+     0.8687
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.42: lo 0.52-0.589, hi 0.779-0.869",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5639,6 +6600,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.69,
+    "loInterval": [
+     0.3799,
+     0.4704
+    ],
+    "hiInterval": [
+     0.5992,
+     0.7418
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.69: lo 0.38-0.47, hi 0.599-0.742",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5669,6 +6649,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.0713
+   },
+   "stability": {
+    "flipShare": 0.8,
+    "loInterval": [
+     0.9712,
+     1.2431
+    ],
+    "hiInterval": [
+     1.5999,
+     2.1057
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.80: lo 0.971-1.24, hi 1.6-2.11",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5684,6 +6683,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1153
+   },
+   "stability": {
+    "flipShare": 0.418,
+    "loInterval": [
+     1.7631,
+     2.0479
+    ],
+    "hiInterval": [
+     2.588,
+     3.5087
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.42: lo 1.76-2.05, hi 2.59-3.51",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5699,6 +6717,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.629,
+    "loInterval": [
+     6.3,
+     7.65
+    ],
+    "hiInterval": [
+     9.9,
+     11.0
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.63: lo 6.3-7.65, hi 9.9-11",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5714,6 +6751,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c x 1.15",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.191,
+    "loInterval": [
+     0.6344,
+     0.7099
+    ],
+    "hiInterval": [
+     0.9014,
+     0.961
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.19: lo 0.634-0.71, hi 0.901-0.961",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5781,6 +6837,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.484,
+    "loInterval": [
+     0.4738,
+     0.546
+    ],
+    "hiInterval": [
+     0.6971,
+     0.8076
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.48: lo 0.474-0.546, hi 0.697-0.808",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5796,6 +6871,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.8737
+   },
+   "stability": {
+    "flipShare": 0.878,
+    "loInterval": [
+     7.6295,
+     12.5691
+    ],
+    "hiInterval": [
+     22.8767,
+     36.1027
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.88: lo 7.63-12.6, hi 22.9-36.1",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5811,6 +6905,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.0164
+   },
+   "stability": {
+    "flipShare": 0.806,
+    "loInterval": [
+     0.14,
+     0.2851
+    ],
+    "hiInterval": [
+     0.3761,
+     0.5659
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.81: lo 0.14-0.285, hi 0.376-0.566",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5826,6 +6939,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1754
+   },
+   "stability": {
+    "flipShare": 0.913,
+    "loInterval": [
+     0.6933,
+     2.9375
+    ],
+    "hiInterval": [
+     4.2365,
+     7.0469
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.91: lo 0.693-2.94, hi 4.24-7.05",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5871,6 +7003,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.761,
+    "loInterval": [
+     9.0,
+     10.8
+    ],
+    "hiInterval": [
+     14.3,
+     16.5
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.76: lo 9-10.8, hi 14.3-16.5",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -5900,6 +7051,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c x 1.15",
     "floor": 2.9189
+   },
+   "stability": {
+    "flipShare": 0.388,
+    "loInterval": [
+     110.6991,
+     125.393
+    ],
+    "hiInterval": [
+     162.1893,
+     170.4134
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
+    "drawsSha256": "2fe0766ffd42a170aae28a90158ec143e6925763a41a74c203ee64a24a499592",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.39: lo 111-125, hi 162-170",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6018,6 +7188,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c + floor",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.495,
+    "loInterval": [
+     1.5951,
+     2.1155
+    ],
+    "hiInterval": [
+     3.6456,
+     4.4867
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c + floor"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.49: lo 1.6-2.12, hi 3.65-4.49",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6033,6 +7222,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.673,
+    "loInterval": [
+     4.1321,
+     5.2028
+    ],
+    "hiInterval": [
+     6.8302,
+     9.2986
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.67: lo 4.13-5.2, hi 6.83-9.3",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6048,6 +7256,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.0
+   },
+   "stability": {
+    "flipShare": 0.747,
+    "loInterval": [
+     5.8483,
+     10.6408
+    ],
+    "hiInterval": [
+     13.6536,
+     17.3191
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.75: lo 5.85-10.6, hi 13.7-17.3",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6078,6 +7305,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "c x 1.15",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.487,
+    "loInterval": [
+     0.6086,
+     0.6542
+    ],
+    "hiInterval": [
+     0.847,
+     0.944
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "c x 1.15"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.49: lo 0.609-0.654, hi 0.847-0.944",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6093,6 +7339,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.769,
+    "loInterval": [
+     0.4174,
+     0.495
+    ],
+    "hiInterval": [
+     0.6403,
+     0.8542
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.77: lo 0.417-0.495, hi 0.64-0.854",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6123,6 +7388,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.0479
+   },
+   "stability": {
+    "flipShare": 0.466,
+    "loInterval": [
+     0.6973,
+     0.8378
+    ],
+    "hiInterval": [
+     1.0876,
+     1.3348
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.47: lo 0.697-0.838, hi 1.09-1.33",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6138,6 +7422,25 @@
     "loTerm": "c x 0.85",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1266
+   },
+   "stability": {
+    "flipShare": 0.138,
+    "loInterval": [
+     2.0607,
+     2.2294
+    ],
+    "hiInterval": [
+     2.8565,
+     3.1422
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.14: lo 2.06-2.23, hi 2.86-3.14",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6153,6 +7456,25 @@
     "loTerm": "c x 0.85",
     "hiTerm": "p90 x 1.1",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.56,
+    "loInterval": [
+     7.2,
+     8.01
+    ],
+    "hiInterval": [
+     10.35,
+     11.0
+    ],
+    "edgeTerms": {
+     "lo": "c x 0.85",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.56: lo 7.2-8.01, hi 10.3-11",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6182,6 +7504,22 @@
     "text": "recoverability >= MFCG - 0.03 (section 13.5 figure-ground)",
     "lo": 0.4936,
     "hi": null
+   },
+   "stability": {
+    "flipShare": 0.108,
+    "loInterval": [
+     0.4751,
+     0.5302
+    ],
+    "hiInterval": null,
+    "edgeTerms": {
+     "lo": "MFCG median - 0.03",
+     "hi": null
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E15 w13Addendum (W-15's re-run of W-13's draws on section 13.5's one-sided form)",
+    "marker": "S-V12-1 edge noise 0.11: lo 0.475-0.53 (one-sided)",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6235,6 +7573,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.02
+   },
+   "stability": {
+    "flipShare": 0.536,
+    "loInterval": [
+     0.387,
+     0.4644
+    ],
+    "hiInterval": [
+     0.6022,
+     0.6892
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.54: lo 0.387-0.464, hi 0.602-0.689",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6250,6 +7607,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 1.5194
+   },
+   "stability": {
+    "flipShare": 0.86,
+    "loInterval": [
+     16.4889,
+     26.0704
+    ],
+    "hiInterval": [
+     33.9863,
+     46.934
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.86: lo 16.5-26.1, hi 34-46.9",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6265,6 +7641,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.0179
+   },
+   "stability": {
+    "flipShare": 0.893,
+    "loInterval": [
+     0.1368,
+     0.2563
+    ],
+    "hiInterval": [
+     0.4862,
+     0.7821
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.89: lo 0.137-0.256, hi 0.486-0.782",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6280,6 +7675,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.1916
+   },
+   "stability": {
+    "flipShare": 0.89,
+    "loInterval": [
+     0.556,
+     2.0325
+    ],
+    "hiInterval": [
+     5.8001,
+     9.7724
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.89: lo 0.556-2.03, hi 5.8-9.77",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6310,6 +7724,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 3.1476
+   },
+   "stability": {
+    "flipShare": 0.431,
+    "loInterval": [
+     124.9724,
+     139.1454
+    ],
+    "hiInterval": [
+     177.1936,
+     203.8256
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.43: lo 125-139, hi 177-204",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6325,6 +7758,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 0.5
+   },
+   "stability": {
+    "flipShare": 0.738,
+    "loInterval": [
+     9.9,
+     14.13
+    ],
+    "hiInterval": [
+     17.93,
+     22.0
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.74: lo 9.9-14.1, hi 17.9-22",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6354,6 +7806,25 @@
     "loTerm": "p10 x 0.9",
     "hiTerm": "p90 x 1.1",
     "floor": 3.5159
+   },
+   "stability": {
+    "flipShare": 0.547,
+    "loInterval": [
+     130.5206,
+     155.4083
+    ],
+    "hiInterval": [
+     196.6317,
+     247.1354
+    ],
+    "edgeTerms": {
+     "lo": "p10 x 0.9",
+     "hi": "p90 x 1.1"
+    },
+    "drawsSha256": "8541437c5548cd8fa908bfaabf034f673c832edf47fc6924a6cb4ddcaee8e987",
+    "source": "E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)",
+    "marker": "S-V12-1 edge noise 0.55: lo 131-155, hi 197-247",
+    "rule": "R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged"
    }
   },
   {
@@ -6424,8 +7895,8 @@
    "band": null
   },
   {
-   "id": "mfcg/80/river+coast/water.riverWidth/all",
-   "metric": "water.riverWidth",
+   "id": "mfcg/80/river+coast/water.channelWidth/all",
+   "metric": "water.channelWidth",
    "reference": "MFCG",
    "role": "descriptive",
    "kind": "descriptive",
@@ -6458,6 +7929,169 @@
    "kind": "descriptive",
    "provenance": "M-1 2026-10-04",
    "band": null
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.casingLaw/all",
+   "metric": "draw.casingLaw",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "casing law on 100 % of ribbons (section 13.5 draw style, ink; R-51)",
+    "lo": 1.0,
+    "hi": null
+   },
+   "perRecording": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.roundJoins/all",
+   "metric": "draw.roundJoins",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "round joins >= 99.9 % (section 13.5 draw style, ink; R-51)",
+    "lo": 0.999,
+    "hi": null
+   },
+   "perRecording": [
+    0.9998,
+    0.9997,
+    0.9999,
+    0.9998,
+    1.0,
+    1.0,
+    1.0,
+    0.9999,
+    1.0,
+    0.9998,
+    0.9999,
+    0.9999
+   ]
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.roundCaps/all",
+   "metric": "draw.roundCaps",
+   "reference": "MFCG",
+   "role": "descriptive",
+   "kind": "descriptive",
+   "provenance": "M-1 2026-10-04",
+   "band": null,
+   "perRecording": [
+    0.9909,
+    0.9877,
+    0.9986,
+    0.9924,
+    0.9992,
+    0.9998,
+    0.9991,
+    0.9961,
+    0.9988,
+    0.995,
+    0.9975,
+    0.9968
+   ]
+  },
+  {
+   "id": "mfcg/draw/recorded/draw.wallsAfterBuildings/all",
+   "metric": "draw.wallsAfterBuildings",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "order parity as section 8.3 defines it, ours against our declared slot table; the reference's value reported (section 13.5 draw style, ink; R-51)",
+    "lo": null,
+    "hi": null
+   },
+   "perRecording": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    null,
+    null,
+    null,
+    1.0,
+    null,
+    1.0,
+    1.0,
+    1.0
+   ]
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/wall",
+   "metric": "draw.widthPx",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "widths +-15 % of the reference (section 13.5 draw style, ink; R-51)",
+    "lo": 5.3893,
+    "hi": 7.2913
+   }
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/tower",
+   "metric": "draw.widthPx",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "widths +-15 % of the reference (section 13.5 draw style, ink; R-51)",
+    "lo": 10.7785,
+    "hi": 14.5827
+   }
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/roadCore",
+   "metric": "draw.widthPx",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "widths +-15 % of the reference (section 13.5 draw style, ink; R-51)",
+    "lo": 5.6729,
+    "hi": 7.6751
+   }
+  },
+  {
+   "id": "mfcg/40/plain/draw.widthPx/all/pier",
+   "metric": "draw.widthPx",
+   "reference": "MFCG",
+   "role": "target",
+   "kind": "fixed",
+   "provenance": "M-1 2026-10-04",
+   "band": {
+    "kind": "fixed",
+    "text": "widths +-15 % of the reference (section 13.5 draw style, ink; R-51)",
+    "lo": 3.4037,
+    "hi": 4.6051
+   }
   },
   {
    "id": "ng/medium/bldg.pairing/all",
@@ -8795,342 +10429,7 @@
    }
   }
  ],
- "heldRows": [
-  {
-   "deliverable": "D28",
-   "metrics": [
-    "draw.casingLaw",
-    "draw.roundJoins",
-    "draw.roundCaps",
-    "draw.widthPx",
-    "draw.wallsAfterBuildings"
-   ],
-   "records": [
-    "2026-09-21T05-03-24/gen-0",
-    "2026-09-21T05-03-24/gen-1",
-    "2026-09-21T05-03-24/gen-2",
-    "2026-09-21T05-03-24/gen-3",
-    "2026-09-21T05-06-58/gen-0",
-    "2026-09-21T05-06-58/gen-1",
-    "2026-09-21T05-06-58/gen-2",
-    "2026-09-21T11-25-32/gen-0",
-    "2026-09-21T11-25-32/gen-1",
-    "2026-09-25T10-05-23/gen-0",
-    "2026-09-25T10-05-38/gen-0",
-    "2026-09-25T10-05-44/gen-0"
-   ],
-   "reason": "the twelve draw records are profiler recordings, not plan seeds; R-03 builds no row from a fixture and plan.json registers no recorded MFCG draw family (R-02's precedent is FTG's recorded CITY family); a ruling and a plan.py block are owed before these rows can pass C7",
-   "values": {
-    "draw.casingLaw": "11 of 11 cased records hold the law (0 violations)",
-    "draw.roundJoins": "pooled 1.0",
-    "draw.roundCaps": "pooled 0.9991",
-    "draw.widthPx": "wall 6.20, tower 12.40, road core 6.53, pier 3.92 px at the gates-4 scale",
-    "draw.wallsAfterBuildings": "8 of 8 records with a complete log"
-   }
-  },
-  {
-   "deliverable": "D26 / D35",
-   "metrics": [
-    "water.riverWidth"
-   ],
-   "reason": "the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, then the registry); the rows are formed and wait here",
-   "row": {
-    "id": "ftg/BIG_TOWN/water.riverWidth/all",
-    "metric": "water.riverWidth",
-    "unit": "m",
-    "reference": "FTG",
-    "referenceBuild": "ftg:m1+07526ccf921b",
-    "capture": "research:captures/ftg",
-    "script": "research:baselines/measure_ftg_slots.py",
-    "date": "2026-10-04",
-    "matched": {
-     "rung": "TOWN",
-     "ftgSize": "BIG_TOWN",
-     "population": 5600
-    },
-    "role": "target",
-    "values": {
-     "p10": 42.62,
-     "p50": 43.9985,
-     "p90": 55.989,
-     "n": 6,
-     "seeds": 6
-    },
-    "metricVersion": "1.0.0",
-    "sample": {
-     "family": "capture/FTG/BIG_TOWN",
-     "indices": [
-      0,
-      10
-     ],
-     "captures": [
-      "capture/FTG/BIG_TOWN/none/0",
-      "capture/FTG/BIG_TOWN/coast+river/0",
-      "capture/FTG/BIG_TOWN/coast+river/1",
-      "capture/FTG/BIG_TOWN/none/1",
-      "capture/FTG/BIG_TOWN/coast+river/2",
-      "capture/FTG/BIG_TOWN/none/2",
-      "capture/FTG/BIG_TOWN/coast+river/3",
-      "capture/FTG/BIG_TOWN/none/3",
-      "capture/FTG/BIG_TOWN/coast+river/4",
-      "capture/FTG/BIG_TOWN/coast+river/5"
-     ],
-     "failed": [
-      {
-       "index": 0,
-       "reason": "water-none"
-      },
-      {
-       "index": 3,
-       "reason": "water-none"
-      },
-      {
-       "index": 5,
-       "reason": "water-none"
-      },
-      {
-       "index": 7,
-       "reason": "water-none"
-      }
-     ]
-    },
-    "estimator": "minmax",
-    "scale": "metric",
-    "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
-   }
-  },
-  {
-   "deliverable": "D26 / D35",
-   "metrics": [
-    "water.riverWidth"
-   ],
-   "reason": "the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, then the registry); the rows are formed and wait here",
-   "row": {
-    "id": "ftg/BIG_CITY/water.riverWidth/all",
-    "metric": "water.riverWidth",
-    "unit": "m",
-    "reference": "FTG",
-    "referenceBuild": "ftg:m1+07526ccf921b",
-    "capture": "research:captures/ftg",
-    "script": "research:baselines/measure_ftg_slots.py",
-    "date": "2026-10-04",
-    "matched": {
-     "rung": "CITY",
-     "ftgSize": "BIG_CITY",
-     "population": 24500
-    },
-    "role": "target",
-    "values": {
-     "p10": 31.489,
-     "p50": 46.1225,
-     "p90": 54.606,
-     "n": 6,
-     "seeds": 6
-    },
-    "metricVersion": "1.0.0",
-    "sample": {
-     "family": "capture/FTG/BIG_CITY",
-     "indices": [
-      0,
-      10
-     ],
-     "captures": [
-      "capture/FTG/BIG_CITY/none/0",
-      "capture/FTG/BIG_CITY/coast+river/0",
-      "capture/FTG/BIG_CITY/coast+river/1",
-      "capture/FTG/BIG_CITY/none/1",
-      "capture/FTG/BIG_CITY/coast+river/2",
-      "capture/FTG/BIG_CITY/none/2",
-      "capture/FTG/BIG_CITY/coast+river/3",
-      "capture/FTG/BIG_CITY/none/3",
-      "capture/FTG/BIG_CITY/coast+river/4",
-      "capture/FTG/BIG_CITY/coast+river/5"
-     ],
-     "failed": [
-      {
-       "index": 0,
-       "reason": "water-none"
-      },
-      {
-       "index": 3,
-       "reason": "water-none"
-      },
-      {
-       "index": 5,
-       "reason": "water-none"
-      },
-      {
-       "index": 7,
-       "reason": "water-none"
-      }
-     ]
-    },
-    "estimator": "minmax",
-    "scale": "metric",
-    "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
-   }
-  },
-  {
-   "deliverable": "D26 / D35",
-   "metrics": [
-    "water.riverWidth"
-   ],
-   "reason": "the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, then the registry); the rows are formed and wait here",
-   "row": {
-    "id": "ftg/METROPOLIS/water.riverWidth/all",
-    "metric": "water.riverWidth",
-    "unit": "m",
-    "reference": "FTG",
-    "referenceBuild": "ftg:m1+07526ccf921b",
-    "capture": "research:captures/ftg",
-    "script": "research:baselines/measure_ftg_slots.py",
-    "date": "2026-10-04",
-    "matched": {
-     "rung": "METROPOLIS",
-     "ftgSize": "METROPOLIS",
-     "population": 49500
-    },
-    "role": "target",
-    "values": {
-     "p10": 22.373,
-     "p50": 29.791,
-     "p90": 31.665,
-     "n": 3,
-     "seeds": 3
-    },
-    "metricVersion": "1.0.0",
-    "sample": {
-     "family": "capture/FTG/METROPOLIS",
-     "indices": [
-      0,
-      4
-     ],
-     "captures": [
-      "capture/FTG/METROPOLIS/none/0",
-      "capture/FTG/METROPOLIS/coast+river/0",
-      "capture/FTG/METROPOLIS/coast+river/1",
-      "capture/FTG/METROPOLIS/coast+river/2"
-     ],
-     "failed": [
-      {
-       "index": 0,
-       "reason": "water-none"
-      }
-     ]
-    },
-    "estimator": "minmax",
-    "scale": "metric",
-    "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
-   }
-  },
-  {
-   "deliverable": "D26 / D35",
-   "metrics": [
-    "water.riverWidth"
-   ],
-   "reason": "the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, then the registry); the rows are formed and wait here",
-   "row": {
-    "id": "ftg/CITY/water.riverWidth/all",
-    "metric": "water.riverWidth",
-    "unit": "m",
-    "reference": "FTG",
-    "referenceBuild": "ftg:m1+07526ccf921b",
-    "capture": "research:captures/ftg",
-    "script": "research:baselines/measure_ftg_slots.py",
-    "date": "2026-10-04",
-    "matched": {
-     "rung": "TOWN",
-     "ftgSize": "CITY",
-     "population": 9500
-    },
-    "role": "descriptive",
-    "values": {
-     "p10": 31.303,
-     "p50": 37.0845,
-     "p90": 42.866,
-     "n": 2,
-     "seeds": 2
-    },
-    "metricVersion": "1.0.0",
-    "sample": {
-     "family": "capture/FTG/CITY",
-     "indices": [
-      0,
-      4
-     ],
-     "captures": [
-      "capture/FTG/CITY/coast+river/0",
-      "capture/FTG/CITY/coast+river/1",
-      "capture/FTG/CITY/none/0",
-      "capture/FTG/CITY/coast+river/2"
-     ],
-     "failed": [
-      {
-       "index": 1,
-       "reason": "setting"
-      },
-      {
-       "index": 2,
-       "reason": "water-none"
-      }
-     ]
-    },
-    "estimator": "minmax",
-    "scale": "metric",
-    "note": "the coast and river slots only (R-33, R-48); the band rule per class (river)"
-   }
-  },
-  {
-   "deliverable": "D26 / D35",
-   "metrics": [
-    "water.riverWidth"
-   ],
-   "reason": "the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, then the registry); the rows are formed and wait here",
-   "row": {
-    "id": "mfcg/80/river+coast/water.riverWidth/all",
-    "metric": "water.riverWidth",
-    "unit": "m",
-    "reference": "MFCG",
-    "referenceBuild": "itch:12710731",
-    "capture": "research:captures/mfcg/exports-sweep-m1-2026-10-03",
-    "script": "research:baselines/measure_mfcg.py",
-    "date": "2026-10-04",
-    "matched": {
-     "rung": "CITY",
-     "mfcgSize": 80
-    },
-    "role": "descriptive",
-    "values": {
-     "p10": 68.7762,
-     "p50": 83.8575,
-     "p90": 114.2627,
-     "n": 3,
-     "seeds": 3
-    },
-    "metricVersion": "1.0.0",
-    "sample": {
-     "family": "capture/MFCG/80/river+coast",
-     "indices": [
-      0,
-      5
-     ],
-     "failed": [
-      {
-       "index": 1,
-       "reason": "retry"
-      },
-      {
-       "index": 4,
-       "reason": "retry"
-      }
-     ]
-    },
-    "estimator": "minmax",
-    "scale": "metric",
-    "note": "the stress family (river and coast on); one width per course, as exported"
-   }
-  }
- ],
+ "heldRows": [],
  "noRow": [
   {
    "metric": "street.runs",
@@ -9151,13 +10450,837 @@
    "reason": "R-23 names the stress cells that take rows; the family's other values stay in E07 and E09 (the stress variant is descriptive)"
   }
  ],
+ "round3": {
+  "drawRows": {
+   "draw.casingLaw": {
+    "n": 11,
+    "failed": [
+     9
+    ]
+   },
+   "draw.roundJoins": {
+    "n": 12,
+    "failed": []
+   },
+   "draw.roundCaps": {
+    "n": 12,
+    "failed": []
+   },
+   "draw.wallsAfterBuildings": {
+    "n": 8,
+    "failed": [
+     4,
+     5,
+     6,
+     8
+    ]
+   }
+  },
+  "appended": [
+   "ftg/BIG_TOWN/water.channelWidth/all",
+   "ftg/BIG_CITY/water.channelWidth/all",
+   "ftg/METROPOLIS/water.channelWidth/all",
+   "ftg/CITY/water.channelWidth/all",
+   "mfcg/80/river+coast/water.channelWidth/all",
+   "mfcg/draw/recorded/draw.casingLaw/all",
+   "mfcg/draw/recorded/draw.roundJoins/all",
+   "mfcg/draw/recorded/draw.roundCaps/all",
+   "mfcg/draw/recorded/draw.wallsAfterBuildings/all",
+   "mfcg/40/plain/draw.widthPx/all/wall",
+   "mfcg/40/plain/draw.widthPx/all/tower",
+   "mfcg/40/plain/draw.widthPx/all/roadCore",
+   "mfcg/40/plain/draw.widthPx/all/pier"
+  ],
+  "stability": {
+   "marked": [
+    {
+     "id": "mfcg/40/plain/bldg.r4.120/all",
+     "marker": "S-V12-1 edge noise 0.32: lo 0.481-0.561, hi 0.712-0.769",
+     "noteLength": 114
+    },
+    {
+     "id": "mfcg/40/plain/bldg.r4.250/all",
+     "marker": "S-V12-1 edge noise 0.62: lo 0.286-0.355, hi 0.476-0.568",
+     "noteLength": 114
+    },
+    {
+     "id": "mfcg/40/plain/bldg.wallAlign.median/all/b0_40",
+     "marker": "S-V12-1 edge noise 0.17: lo 3.05-3.66, hi 5.29-5.73",
+     "noteLength": 122
+    },
+    {
+     "id": "mfcg/40/plain/bldg.wallAlign.median/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.72: lo 6.63-8.79, hi 12-14.6",
+     "noteLength": 120
+    },
+    {
+     "id": "mfcg/40/plain/bldg.wallAlign.median/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.48: lo 11-14.1, hi 20.9-25",
+     "noteLength": 118
+    },
+    {
+     "id": "mfcg/40/plain/bldg.wallAlign.share15/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.63: lo 0.473-0.542, hi 0.712-0.873",
+     "noteLength": 126
+    },
+    {
+     "id": "mfcg/40/plain/bldg.wallAlign.share15/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.78: lo 0.309-0.385, hi 0.513-0.71",
+     "noteLength": 125
+    },
+    {
+     "id": "mfcg/40/plain/sgd.tShare/all",
+     "marker": "S-V12-1 edge noise 0.26: lo 0.35-0.393, hi 0.5-0.552",
+     "noteLength": 185
+    },
+    {
+     "id": "mfcg/40/plain/sgd.deadEnds/all",
+     "marker": "S-V12-1 edge noise 0.80: lo 1.4-1.99, hi 2.65-4",
+     "noteLength": 180
+    },
+    {
+     "id": "mfcg/40/plain/blockc.perHa/all",
+     "marker": "S-V12-1 edge noise 0.38: lo 1.88-2.21, hi 2.91-3.2",
+     "noteLength": 148
+    },
+    {
+     "id": "mfcg/40/plain/blockc.lotsPer/all",
+     "marker": "S-V12-1 edge noise 0.46: lo 6.8-7.65, hi 9.9-11",
+     "noteLength": 126
+    },
+    {
+     "id": "mfcg/40/plain/ribbon.share/all",
+     "marker": "S-V12-1 edge noise 0.20: lo 0.477-0.667, hi 0.859-0.937",
+     "noteLength": 131
+    },
+    {
+     "id": "mfcg/40/plain/district.area/all",
+     "marker": "S-V12-1 edge noise 0.49: lo 5.49-7.61, hi 10.2-13.9",
+     "noteLength": 86
+    },
+    {
+     "id": "mfcg/40/plain/plaza.area/all",
+     "marker": "S-V12-1 edge noise 0.88: lo 0.13-0.277, hi 0.486-0.75",
+     "noteLength": 53
+    },
+    {
+     "id": "mfcg/40/plain/castle.area/all",
+     "marker": "S-V12-1 edge noise 0.88: lo 0.715-1.97, hi 2.73-4.1",
+     "noteLength": 51
+    },
+    {
+     "id": "mfcg/40/plain/wall.nodeSpacing/all",
+     "marker": "S-V12-1 edge noise 0.23: lo 71.9-80.2, hi 101-114",
+     "noteLength": 49
+    },
+    {
+     "id": "mfcg/40/plain/quarter.count/all",
+     "marker": "S-V12-1 edge noise 0.78: lo 6.3-7.2, hi 9.9-12.1",
+     "noteLength": 48
+    },
+    {
+     "id": "mfcg/40/plain/wall.towerSpacing/all",
+     "marker": "S-V12-1 edge noise 0.36: lo 75.6-85.3, hi 109-122",
+     "noteLength": 49
+    },
+    {
+     "id": "mfcg/80/plain/bldg.r4.250/all",
+     "marker": "S-V12-1 edge noise 0.42: lo 0.378-0.445, hi 0.572-0.629",
+     "noteLength": 114
+    },
+    {
+     "id": "mfcg/80/plain/bldg.wallAlign.median/all/b0_40",
+     "marker": "S-V12-1 edge noise 0.65: lo 2.13-2.82, hi 4.15-4.83",
+     "noteLength": 122
+    },
+    {
+     "id": "mfcg/80/plain/bldg.wallAlign.median/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.72: lo 5.22-6.11, hi 8.91-13.7",
+     "noteLength": 122
+    },
+    {
+     "id": "mfcg/80/plain/bldg.wallAlign.median/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.76: lo 9.08-11.4, hi 14.7-20.4",
+     "noteLength": 122
+    },
+    {
+     "id": "mfcg/80/plain/bldg.wallAlign.share15/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.42: lo 0.52-0.589, hi 0.779-0.869",
+     "noteLength": 125
+    },
+    {
+     "id": "mfcg/80/plain/bldg.wallAlign.share15/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.69: lo 0.38-0.47, hi 0.599-0.742",
+     "noteLength": 124
+    },
+    {
+     "id": "mfcg/80/plain/sgd.deadEnds/all",
+     "marker": "S-V12-1 edge noise 0.80: lo 0.971-1.24, hi 1.6-2.11",
+     "noteLength": 184
+    },
+    {
+     "id": "mfcg/80/plain/blockc.perHa/all",
+     "marker": "S-V12-1 edge noise 0.42: lo 1.76-2.05, hi 2.59-3.51",
+     "noteLength": 149
+    },
+    {
+     "id": "mfcg/80/plain/blockc.lotsPer/all",
+     "marker": "S-V12-1 edge noise 0.63: lo 6.3-7.65, hi 9.9-11",
+     "noteLength": 126
+    },
+    {
+     "id": "mfcg/80/plain/block.courtShare/all",
+     "marker": "S-V12-1 edge noise 0.19: lo 0.634-0.71, hi 0.901-0.961",
+     "noteLength": 158
+    },
+    {
+     "id": "mfcg/80/plain/ribbon.share/all",
+     "marker": "S-V12-1 edge noise 0.48: lo 0.474-0.546, hi 0.697-0.808",
+     "noteLength": 131
+    },
+    {
+     "id": "mfcg/80/plain/district.area/all",
+     "marker": "S-V12-1 edge noise 0.88: lo 7.63-12.6, hi 22.9-36.1",
+     "noteLength": 86
+    },
+    {
+     "id": "mfcg/80/plain/plaza.area/all",
+     "marker": "S-V12-1 edge noise 0.81: lo 0.14-0.285, hi 0.376-0.566",
+     "noteLength": 54
+    },
+    {
+     "id": "mfcg/80/plain/castle.area/all",
+     "marker": "S-V12-1 edge noise 0.91: lo 0.693-2.94, hi 4.24-7.05",
+     "noteLength": 52
+    },
+    {
+     "id": "mfcg/80/plain/quarter.count/all",
+     "marker": "S-V12-1 edge noise 0.76: lo 9-10.8, hi 14.3-16.5",
+     "noteLength": 48
+    },
+    {
+     "id": "mfcg/80/plain/wall.towerSpacing/all",
+     "marker": "S-V12-1 edge noise 0.39: lo 111-125, hi 162-170",
+     "noteLength": 47
+    },
+    {
+     "id": "mfcg/130/plain/bldg.wallAlign.median/all/b0_40",
+     "marker": "S-V12-1 edge noise 0.49: lo 1.6-2.12, hi 3.65-4.49",
+     "noteLength": 133
+    },
+    {
+     "id": "mfcg/130/plain/bldg.wallAlign.median/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.67: lo 4.13-5.2, hi 6.83-9.3",
+     "noteLength": 132
+    },
+    {
+     "id": "mfcg/130/plain/bldg.wallAlign.median/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.75: lo 5.85-10.6, hi 13.7-17.3",
+     "noteLength": 134
+    },
+    {
+     "id": "mfcg/130/plain/bldg.wallAlign.share15/all/b40_100",
+     "marker": "S-V12-1 edge noise 0.49: lo 0.609-0.654, hi 0.847-0.944",
+     "noteLength": 138
+    },
+    {
+     "id": "mfcg/130/plain/bldg.wallAlign.share15/all/b100_200",
+     "marker": "S-V12-1 edge noise 0.77: lo 0.417-0.495, hi 0.64-0.854",
+     "noteLength": 137
+    },
+    {
+     "id": "mfcg/130/plain/sgd.deadEnds/all",
+     "marker": "S-V12-1 edge noise 0.47: lo 0.697-0.838, hi 1.09-1.33",
+     "noteLength": 198
+    },
+    {
+     "id": "mfcg/130/plain/blockc.perHa/all",
+     "marker": "S-V12-1 edge noise 0.14: lo 2.06-2.23, hi 2.86-3.14",
+     "noteLength": 161
+    },
+    {
+     "id": "mfcg/130/plain/blockc.lotsPer/all",
+     "marker": "S-V12-1 edge noise 0.56: lo 7.2-8.01, hi 10.3-11",
+     "noteLength": 139
+    },
+    {
+     "id": "mfcg/130/plain/ribbon.share/all",
+     "marker": "S-V12-1 edge noise 0.54: lo 0.387-0.464, hi 0.602-0.689",
+     "noteLength": 143
+    },
+    {
+     "id": "mfcg/130/plain/district.area/all",
+     "marker": "S-V12-1 edge noise 0.86: lo 16.5-26.1, hi 34-46.9",
+     "noteLength": 96
+    },
+    {
+     "id": "mfcg/130/plain/plaza.area/all",
+     "marker": "S-V12-1 edge noise 0.89: lo 0.137-0.256, hi 0.486-0.782",
+     "noteLength": 67
+    },
+    {
+     "id": "mfcg/130/plain/castle.area/all",
+     "marker": "S-V12-1 edge noise 0.89: lo 0.556-2.03, hi 5.8-9.77",
+     "noteLength": 63
+    },
+    {
+     "id": "mfcg/130/plain/wall.nodeSpacing/all",
+     "marker": "S-V12-1 edge noise 0.43: lo 125-139, hi 177-204",
+     "noteLength": 59
+    },
+    {
+     "id": "mfcg/130/plain/quarter.count/all",
+     "marker": "S-V12-1 edge noise 0.74: lo 9.9-14.1, hi 17.9-22",
+     "noteLength": 60
+    },
+    {
+     "id": "mfcg/130/plain/wall.towerSpacing/all",
+     "marker": "S-V12-1 edge noise 0.55: lo 131-155, hi 197-247",
+     "noteLength": 59
+    },
+    {
+     "id": "mfcg/130/plain/fg.recoverability/all",
+     "marker": "S-V12-1 edge noise 0.11: lo 0.475-0.53 (one-sided)",
+     "noteLength": 193
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/arterial",
+     "marker": "S-V12-1 edge noise 0.26: lo 42.9-43.9, hi 58.1-83.4",
+     "noteLength": 174
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/street",
+     "marker": "S-V12-1 edge noise 0.75: lo 28.4-32.2, hi 41.6-52.3",
+     "noteLength": 174
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/track",
+     "marker": "S-V12-1 edge noise 0.62: lo 46.2-130, hi 239-355",
+     "noteLength": 171
+    },
+    {
+     "id": "ftg/BIG_TOWN/outline.r90cv/all",
+     "marker": "S-V12-1 edge noise 0.72: lo 0.181-0.271, hi 0.379-0.535",
+     "noteLength": 55
+    },
+    {
+     "id": "ftg/BIG_TOWN/outline.roadRatio/all",
+     "marker": "S-V12-1 edge noise 0.76: lo 0.817-1.16, hi 1.55-2.11",
+     "noteLength": 52
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/arterial",
+     "marker": "S-V12-1 edge noise 0.35: lo 38.3-42.9, hi 55.6-58.1",
+     "noteLength": 174
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/lane",
+     "marker": "S-V12-1 edge noise 0.20: lo 26-28.4, hi 40.1-51.4",
+     "noteLength": 172
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/track",
+     "marker": "S-V12-1 edge noise 0.79: lo 38.1-65.9, hi 110-420",
+     "noteLength": 172
+    },
+    {
+     "id": "ftg/BIG_CITY/outline.r90cv/all",
+     "marker": "S-V12-1 edge noise 0.77: lo 0.0771-0.165, hi 0.258-0.522",
+     "noteLength": 56
+    },
+    {
+     "id": "ftg/BIG_CITY/outline.roadRatio/all",
+     "marker": "S-V12-1 edge noise 0.70: lo 0.951-1.05, hi 1.35-1.8",
+     "noteLength": 51
+    }
+   ],
+   "mfcg": 50,
+   "ftg": 10,
+   "ftgSpike": [
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/arterial",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 42.925,
+      "hi": 60.5
+     },
+     "edgeTerms": {
+      "lo": "c x 0.85",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 0,
+      "loIn": 2,
+      "hiIn": 0,
+      "hiOut": 262
+     },
+     "rowFlips": 262,
+     "rowRate": 0.262,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      42.925,
+      42.925,
+      43.8558
+     ],
+     "hiDraws": [
+      58.075,
+      60.5,
+      83.369
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/street",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 29.9439,
+      "hi": 49.6122
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 253,
+      "loIn": 133,
+      "hiIn": 348,
+      "hiOut": 262
+     },
+     "rowFlips": 752,
+     "rowRate": 0.752,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      28.413,
+      29.9439,
+      32.229
+     ],
+     "hiDraws": [
+      41.602,
+      49.6122,
+      52.305
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/lane",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 37.995,
+      "hi": 51.405
+     },
+     "edgeTerms": {
+      "lo": "c x 0.85",
+      "hi": "c x 1.15"
+     },
+     "flips": {
+      "loOut": 0,
+      "loIn": 0,
+      "hiIn": 0,
+      "hiOut": 0
+     },
+     "rowFlips": 0,
+     "rowRate": 0.0,
+     "unstable": false,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      37.9865,
+      37.995,
+      37.995
+     ],
+     "hiDraws": [
+      51.3935,
+      51.405,
+      51.405
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_TOWN/street.runs/all/track",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 64.7532,
+      "hi": 289.7763
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 229,
+      "loIn": 161,
+      "hiIn": 147,
+      "hiOut": 260
+     },
+     "rowFlips": 620,
+     "rowRate": 0.62,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      46.188,
+      64.7532,
+      130.2957
+     ],
+     "hiDraws": [
+      239.3116,
+      289.7763,
+      354.552
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_TOWN/outline.r90cv/all",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 0.2363,
+      "hi": 0.522
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 260,
+      "loIn": 267,
+      "hiIn": 390,
+      "hiOut": 0
+     },
+     "rowFlips": 724,
+     "rowRate": 0.724,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      0.1814,
+      0.2363,
+      0.2713
+     ],
+     "hiDraws": [
+      0.379,
+      0.5205,
+      0.5355
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_TOWN/outline.roadRatio/all",
+     "family": "capture/FTG/BIG_TOWN",
+     "n": 10,
+     "band": {
+      "lo": 0.959,
+      "hi": 2.068
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 253,
+      "loIn": 357,
+      "hiIn": 390,
+      "hiOut": 1
+     },
+     "rowFlips": 763,
+     "rowRate": 0.763,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      0.8175,
+      0.959,
+      1.1645
+     ],
+     "hiDraws": [
+      1.5482,
+      2.068,
+      2.1138
+     ],
+     "drawsSha256": "f3bb09647af1d263795902b2cf383d0374b96f4d4df90c33846ebadd350397f2",
+     "stream": "S-V12-1|capture/FTG/BIG_TOWN"
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/arterial",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 38.5992,
+      "hi": 58.0693
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "c x 1.15"
+     },
+     "flips": {
+      "loOut": 3,
+      "loIn": 350,
+      "hiIn": 1,
+      "hiOut": 0
+     },
+     "rowFlips": 353,
+     "rowRate": 0.353,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      38.259,
+      38.5992,
+      42.925
+     ],
+     "hiDraws": [
+      55.55,
+      58.0693,
+      58.075
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/street",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 30.0177,
+      "hi": 40.6122
+     },
+     "edgeTerms": {
+      "lo": "c x 0.85",
+      "hi": "c x 1.15"
+     },
+     "flips": {
+      "loOut": 0,
+      "loIn": 0,
+      "hiIn": 0,
+      "hiOut": 0
+     },
+     "rowFlips": 0,
+     "rowRate": 0.0,
+     "unstable": false,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      29.9625,
+      30.0177,
+      30.6
+     ],
+     "hiDraws": [
+      40.5375,
+      40.6122,
+      41.4
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/lane",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 27.0,
+      "hi": 49.1645
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 8,
+      "loIn": 36,
+      "hiIn": 165,
+      "hiOut": 0
+     },
+     "rowFlips": 205,
+     "rowRate": 0.205,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      26.0228,
+      27.0,
+      28.4148
+     ],
+     "hiDraws": [
+      40.1401,
+      49.1645,
+      51.3935
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/street.runs/all/track",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 44.5338,
+      "hi": 371.0927
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 265,
+      "loIn": 153,
+      "hiIn": 405,
+      "hiOut": 251
+     },
+     "rowFlips": 792,
+     "rowRate": 0.792,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      38.07,
+      44.5338,
+      65.9259
+     ],
+     "hiDraws": [
+      109.8581,
+      365.695,
+      419.672
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/wall.towerSpacing/all",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 28.3539,
+      "hi": 39.0966
+     },
+     "edgeTerms": {
+      "lo": "c x 0.85",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 1,
+      "loIn": 1,
+      "hiIn": 10,
+      "hiOut": 2
+     },
+     "rowFlips": 12,
+     "rowRate": 0.012,
+     "unstable": false,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      27.2773,
+      28.3483,
+      29.342
+     ],
+     "hiDraws": [
+      37.4653,
+      39.0966,
+      40.2001
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/outline.r90cv/all",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 0.0812,
+      "hi": 0.4334
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 6,
+      "loIn": 375,
+      "hiIn": 374,
+      "hiOut": 251
+     },
+     "rowFlips": 774,
+     "rowRate": 0.774,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      0.0771,
+      0.0812,
+      0.1653
+     ],
+     "hiDraws": [
+      0.2577,
+      0.4236,
+      0.5218
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    },
+    {
+     "id": "ftg/BIG_CITY/outline.roadRatio/all",
+     "family": "capture/FTG/BIG_CITY",
+     "n": 10,
+     "band": {
+      "lo": 0.9707,
+      "hi": 1.628
+     },
+     "edgeTerms": {
+      "lo": "p10 x 0.9",
+      "hi": "p90 x 1.1"
+     },
+     "flips": {
+      "loOut": 3,
+      "loIn": 193,
+      "hiIn": 374,
+      "hiOut": 251
+     },
+     "rowFlips": 701,
+     "rowRate": 0.701,
+     "unstable": true,
+     "zeroEdgeFallback": false,
+     "loDraws": [
+      0.9507,
+      0.9707,
+      1.0499
+     ],
+     "hiDraws": [
+      1.3543,
+      1.6088,
+      1.8016
+     ],
+     "drawsSha256": "1ccd24c66d9a679acbe388895b3a11d3d17ea57529158b1b6e56c540b26a7aa7",
+     "stream": "S-V12-1|capture/FTG/BIG_CITY"
+    }
+   ]
+  },
+  "renamed": {
+   "id": "water.channelWidth",
+   "readsSourceKeyOf": "E05 and E07 (the key their tools wrote)",
+   "by": "E15 F2; design/m1-corrections-2 (V12 3.4.2); the registry at m1/round3-apply"
+  },
+  "resolvedHeld": [
+   {
+    "deliverable": "D26 / D35",
+    "rows": 5,
+    "how": "the registry id water.channelWidth (F2)"
+   },
+   {
+    "deliverable": "D28",
+    "rows": 8,
+    "how": "R-51: the recorded draw family (four rows) and draw.widthPx on capture/MFCG/40/plain (four fields)"
+   }
+  ]
+ },
  "receipts": {
-  "total": 307,
+  "total": 324,
   "failed": [],
   "byKind": {
    "E05": 128,
    "E06": 4,
    "E07/E08/E09 summary": 96,
+   "E07 draw": 13,
+   "E07 widths": 4,
    "E11 estimate": 64,
    "E11 pooledHist": 15
   }

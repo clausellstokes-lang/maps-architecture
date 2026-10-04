@@ -1,0 +1,90 @@
+{
+ "id": "m1/rulings-3",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/M-1-rulings-3.md (sha256 dc1108e1d0fc34ff...; R-50..R-54, DC-39..DC-41, rows N-26 and N-31, appendix A the 50 marked rows, appendix B the plan.py block)",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/rulings-3.json",
+  "scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1r3/r50-markers.json (sha256 c70c88400a62e862...), r50-markers.md, appendix-a.md, doc_checks.out, scan-research.out, scan-m0.out"
+ ],
+ "checks": [
+  {
+   "check": "the round's inputs read whole (plan-notes section 7; E13 whole with F1-F3; E15 and W-15.json; wave3-verify-ab.json; m1-corrections-2.md and its verify file; V12 sections 8.3 and 3.5 (also 3.3, 2.3, 2.4); M0-work.json's M0-k-05 and M0-k-06 and afterM1Needs; M0.md's baselines:check text; M0-spec-notes.md; M0-handoff-M1.md; rulings 1 and 2; plan.py; cross_check.py; rows.py; spike_bootstrap.py; metrics.m-1.json draw entries; E07 section 7 and JSON; the candidate)",
+   "passed": true,
+   "receipt": "every file listed in the record's inputs paragraph was read in full by this seat before any ruling was written (CONFIRMED by the transcript); plat/ read-only; no website"
+  },
+  {
+   "check": "(1) S-V12-1 under J171: the test restated or the remedy restated so the outcome follows from the measured evidence; which MFCG rows change role, band or note; the V12 change as a DC",
+   "passed": true,
+   "receipt": "R-50: the test stands as measured (49/72, 50/78 with W-08's rows), the remedy is restated as a stability marker (row flip share, the 2.5-97.5 % bootstrap interval of each edge) in the row's note and E15's JSON; 50 rows change note (the 49 of E13 outcome.unstable: 18/16/16 at sizes 40/80/130, incl. the eight M0-c-07a gates sgd.tShare/40, sgd.deadEnds/40/80/130, blockc.perHa/40/80/130, block.courtShare/80; plus fg.recoverability/130 one-sided), 0 change role, 0 change band; gate.count/40 excluded (fixed band); FTG's 13 type7 band-rule rows get the same marker at W-15's append (vetoable); DC-39 written; alternatives (widen, re-threshold, demote, new estimator) rejected with reasons"
+  },
+  {
+   "check": "the marker table computed from E13's JSON and the addendum's draws; every combined note within C3's 200 characters and character set",
+   "passed": true,
+   "receipt": "scratch r50-markers.json: 50 rows; loDraws/hiDraws are the 2.5/50/97.5 percentiles (spike_bootstrap.py l. 263-264); the one-sided row recomputed with spike_bootstrap.stream('capture/MFCG/130/plain'): draws sha256 8541437c5548cd8f... equal to E15's and E13's, 108 row flips reproduced, lo interval 0.4751-0.5302 around 0.4936; longest combined note 198 of 200; only C3's characters; executed under nice 10, nothing written outside the scratchpad"
+  },
+  {
+   "check": "(2) F1: D28's eight MFCG draw rows: the family and the plan.py block, or descriptive, with W-15's append instructions",
+   "passed": true,
+   "receipt": "R-51: recorded family capture/MFCG/draw/recorded (12 recordings in recording order; R-02's precedent; J171 forbids the 12 loads a formula sample would cost) for draw.casingLaw (n 11, index 9 failed uncased), draw.roundJoins (n 12), draw.roundCaps (descriptive, n 12), draw.wallsAfterBuildings (n 8, indices 4,5,6,8 failed truncated-log), fixed bands, ids mfcg/draw/recorded/<metric>/all, no matched; draw.widthPx by the formula route on capture/MFCG/40/plain (four fields, type7 n 10, +-15 %), the fixture px figures to history (DC-40); the plan.py block MFCG_RECORDED_DRAW + plan.json top-level mfcgRecordedDraw + counts.mfcgRecordedDraw 12 in appendix B; load_plan's two lines; six append steps; all twelve recordings are build 12710731 (meta.json baseUrl, flags read only)"
+  },
+  {
+   "check": "(3) N-26: M0's scanner reads crossing JSON by string values only, or the deny-list drops number-only 3-grams; the spec-notes row text",
+   "passed": true,
+   "receipt": "R-52: the first, scoped to the JSON files under plat/packages/testkit/baselines/ (added to the scanner's scope; each string value and key one text; numbers form no token; every other file whole-text; the list unchanged); the second rejected (weakens every scan for three countersigned files; only 5 of 280 reviewed TRI allow rows are digit-only); coupled to D13; row N-26 written in our words (section 3; carry_rows); DC-41 (V12 3.3 C10 and 17.1 (5)) stands or falls with D13"
+  },
+  {
+   "check": "(4) F5: the row text for M0-k-05 (union family, stress rows keyed by the options segment, n-0 rows), numbered N-31",
+   "passed": true,
+   "receipt": "R-53: row N-31 written (section 3; carry_rows): the loader accepts captures without indices; the CLI reads the plain-family row for M0's settings and lists the stress row as other setting; an n-0 row with every member in failed reads reported and its values.seeds is the member count; tests named; E15 section 2's sentence and digest entry (9) corrected by W-15 / W-17"
+  },
+  {
+   "check": "(5) D13 recorded for the owner's veto as R-14 was",
+   "passed": true,
+   "receipt": "R-54 and section 4 item 2 (prominent); owner_notes; the veto's consequence stated (R-52 and DC-41 fall with it; the deny-list route then applies, W-16b rebuilds)"
+  },
+  {
+   "check": "ids unused before this round",
+   "passed": true,
+   "receipt": "grep over docs/, plat/docs/ and research/baselines/*.py: no R-50, DC-39, DC-40, DC-41 or N-31 before this record (the only earlier N-26 is the rendering volume's unrelated row id, 2026-09-26)"
+  },
+  {
+   "check": "content check of this record (doc_checks.py --doc docs/calibration/M-1-rulings-3.md --heads docs/ARCHITECTURE.md, 10:49-10:52)",
+   "passed": true,
+   "receipt": "C1 0, C2 0, C4 0, S1 0, S2 0; C3 45 hits, 44 unreviewed, all read: our own capture-folder stamps (2026-09-21T05-03-24 and the five others, which the corpus holds as folder names), section-number digit runs (8 3 3 5 3 3 2 3 = sections 8.3, 3.5, 3.3, 2.3, 2.4), the model widths 7.6/15.2/8/4.8 m, appendix A's value runs and ordinary phrases; none a reference word list, palette, grammar or identifier; exit 1 by the unreviewed count as every non-design record reads; no allow row (not a design-set file, wave 1's precedent)"
+  },
+  {
+   "check": "deny-list scan of this record (make_denylist.py scan --list research and --list m0, 10:52)",
+   "passed": true,
+   "receipt": "research list: TOK 1 hit 0 unreviewed, ID 0, TRI 45 (44 unreviewed, the same runs as C3), COL 0, SET 0, PHR 0, FILE 0; M0 list: TOK 1/0, TRI 45/44, COL 0, SET 0, FILE 0; exit 1 by the unreviewed TRI count on both"
+  },
+  {
+   "check": "the machine rules and the clean room",
+   "passed": true,
+   "receipt": "no benchmark; one process at a time under nice 10; 11 GiB free and memory 73 % free at the start and the end; nothing written into plat/; no website; no git command changed state (git status shows only this record untracked and lane-events.log modified); no reference identifier, name, colour, word list or grammar quoted"
+  }
+ ],
+ "design_corrections": [
+  "DC-39: | DC-39 | V12 §8.3 (1), the *Pre-decided* clause; one sentence in V12 §3.5.4 (the report) | \"*Pre-decided:* above 10 % of target rows flipping in over 5 % of draws, MFCG goes to 20 seeds per size (minutes of exports); FTG's rows stay as §13.5 classes them\" | \"*Pre-decided:* above 10 % of target rows flipping in over 5 % of draws, each flagged target row keeps its role, values and band and carries a stability marker in its `note` — the row's flip share and the 2.5–97.5 % bootstrap interval of each edge (M-1, E13: 49 of 72 band-rule rows flagged, 50 of 78 with the figure-ground rows; the fallback of 20 seeds per size was withdrawn by J171 because the edge rests on the two outermost seeds of ten and the model leaves 53 of 72 rows flagged at 20 seeds and 38 at 100); FTG's roles stay as §13.5 classes them, and its type 7 band-rule rows carry the same marker (R-50 (4))\". §3.5.4 gains: \"the report prints a row's stability marker beside its verdict, as it prints 'declared exception'\" | E13 §5–§7; E15 §6; R-50 |",
+  "DC-40: | DC-40 | §13.5 draw style, the MFCG cell; V12 §3.5.5 step 2 (one sentence) | \"casing = core + 2h on 7 / 7 maps, round joins 4 062 / 4 063, 17-step order; wall, tower and road-core widths 6.2 / 12.4 / 6.5 px at size 40's scale\" | \"casing = core + 2h on every cased ribbon of the eleven recordings that draw one (twelve recordings, 2026-09-21 and 2026-09-25, the recorded draw family; 7 / 7 on the 2026-09-21 recordings before), round joins 0.99998 pooled (one non-round join per recording; 4 062 / 4 063 on the first), walls after buildings on 8 / 8 complete logs; wall, tower, road-core and pier widths as M-1's ten-seed rows at size 40 (`draw.widthPx`, M-1 2026-10-04; the model widths 7.6 / 15.2 / 8 / 4.8 m in every export, 6.2 / 12.4 / 6.5 / 3.9 px at the four-gate fixture's scale before)\". V12 §3.5.5 step 2 gains: \"a row without `matched` (the MFCG draw rows on the recorded family) is read at every setting of its reference\" | E07 §7 and its JSON; R-51; W-15's `draw.widthPx` rows (the values the design seat quotes come from W-15's append) |",
+  "DC-41 (stands or falls with D13 / R-54): | DC-41 (stands or falls with D13, R-54) | V12 §3.3 C10; §17.1 (5), the scanner's scope sentence | C10 \"the clean-room scanner (§17.1 (5)) over the whole file: 0 hits\"; §17.1 (5) \"digests the same way every token of `@plat/tables`, assets, source string literals and comments and the digest\" | C10 \"the clean-room scanner (§17.1 (5)) over the file: 0 hits — a JSON file read by its string values and keys, each a text of its own, never its numbers\"; §17.1 (5) \"… and the digest, and the crossing files under `plat/packages/testkit/baselines/` by their string values and keys (a numbers-only file carries no word in its numbers)\" | E15 §11; R-52 |"
+ ],
+ "carry_rows": [
+  "| N-26 | M0-k-06 (the scanner); M0-k-05 (`baselines:check`, the crossing files' folder) | *(session hand-off from M-1, 2026-10-04; before waves 11 and 13)* The files M-1 commits into `plat/packages/testkit/baselines/` (`baselines.json`, `ng-faces.json`, `denylist.json`; `crossings.json` beside them) are numbers-only JSON, and T-V12-28 (§17.1 (4)'s crossing rule) expects them to pass the scanner with 0 hits. §17.1 (5)'s 3-gram class lists 3-grams of number tokens as well as words, and the item's scope sentence names `@plat/tables`, sources, assets and the digest but not this folder. Read as whole text, `baselines.json` holds runs of histogram counts and values that match number-only 3-grams of the list (0 hits in its string values and keys), so a whole-text reading would refuse M-1's crossing on numbers that carry no word, name, list, grammar or colour, while skipping the folder would leave T-V12-28 unmet. | The scanner's scope includes the JSON files under `plat/packages/testkit/baselines/`, and it reads each of them by its string values and keys only: every string value and every key is one text, tokenised and 3-grammed on its own (no 3-gram spans two strings); a number, boolean or null forms no token. Every other file it scans keeps the whole-text reading; the deny-list is unchanged. (`baselines:check`'s C3 already reads colours this way, N-22.) Tests: a file in that folder whose numbers alone would form a listed 3-gram → 0 hits; the same three tokens inside one string value → one hit at that line; the same file placed outside the folder → the hit; a listed token in a key → a hit; the report names the file and line, never the token. |",
+  "| N-31 | M0-k-05 (the parity CLI; the `baselines.json` loader) | *(session hand-off from M-1, 2026-10-04; before wave 11)* Three forms of M-1's `baselines.json` that §13.5's `Baseline` and N-25 do not state. (1) A row pooled over several NG seed families names the union `capture/NG` in `sample.family` and lists every member label in `sample.captures`, with no `indices`. (2) MFCG rows of one metric, reference and matched rung exist for two settings — the plain family `capture/MFCG/<size>/plain` and the stress family `capture/MFCG/<size>/river+coast` — told apart by the options segment of `sample.family` (and by the id's setting segment); M0's parity settings are plain only. (3) A row with `values.n` 0 lists every member in `sample.failed`, and its `values.seeds` is the member count, not 0; so \"the members outside `failed` equal `values.seeds`\" holds only when `n` > 0. | (1) The loader accepts a `sample` with `captures` and no `indices`; the CLI selects by `metric`, `reference`, `matched` and the trailing segments (N-25) and never parses `sample.family`. (2) When two rows share metric, reference, matched and trailing segments, the CLI reads the one whose `sample.family` options segment is `plain` for M0's settings and lists the other in the report as `other setting: <options>`, read for no verdict; a third such row is reported as a duplicate naming all three. (3) A row with `values.n` 0 is accepted when every member is in `failed` (C-0116's descriptive form, `reported`); a row with `n` > 0 whose `values.seeds` differs from its members outside `failed` is reported naming the row (M0 runs no sample check of its own, C-0092 (2); the report line is information). Tests: a union-family row pairs with its metric; a plain and a stress row for one metric select the plain row and list the other; an n-0 row with every member failed reads `reported`; an n-0 row with `values.seeds` equal to its member count passes the loader. |"
+ ],
+ "owner_notes": [
+  "J171 is the owner's own decision (no extra MFCG loads); R-50 restates the remedy, not the loads: 50 MFCG rows gain a stability marker in their note, 0 change role, 0 change band; vetoable (a veto leaves the notes as W-15 wrote them)",
+  "R-54: E15 D13 (C10's research twin reads a crossing file's string values and keys, not its numbers) is FLAGGED FOR VETO as R-14 was; R-52 (M0's scanner reads the crossing files the same way) and DC-41 stand or fall with it; on a veto the deny-list drops number-only 3-grams (W-16b rebuilds and re-runs its self-test) and the session carries a replacement N-26 row",
+  "R-50 (4) FTG's 13 type7 band-rule rows marked by the same tool at W-15's append: vetoable; R-51 recorded draw family and draw.widthPx on the size-40 plain family: vetoable (alternatives named); R-52 the strings-and-keys reading over dropping number-only 3-grams: vetoable",
+  "the design corrections DC-39..DC-41 are reported, not asked (plan section 5 item 8; J-A34.01); none moves a signed golden; DC-41 waits on the D13 veto window",
+  "not approved, unchanged: W-21's timing loads, any further NG load, the crossing's commit (the session on the owner's word, re-confirmed in the chat of the day); R-14 and R-17's flags stand"
+ ],
+ "notes": [
+  "outcome: all five items ruled (R-50..R-54), each with its reason and the record that measured it, vetoable under J122; the record's section 1 holds the rulings, section 2 the DCs, section 3 the two M0 rows verbatim, section 4 the flags, section 5 what is routed, section 6 CONFIRMED vs PLAUSIBLE, appendix A the 50 marked rows with intervals, appendix B the plan.py block",
+  "for the research apply lane (W-15's append; order matters): (a) the registry writer installs the water.channelWidth rename first (plan.py refuses every write until then, exit 2 on the catalogue mismatch); (b) install appendix B's block by atomic rename, regenerate, --check SAME; (c) load_plan's two lines + a C7 fixture in cross_check.py; (d) extend measure_mfcg.py for draw.widthPx on the ten size-40 exports (--check, --red); (e) form the 8 draw rows + append them with the 5 held channel-width rows; (f) append R-50's markers to the 50 notes from scratch r50-markers.json / appendix A and write bands[id].stability in E15's JSON; (g) run the FTG draws of R-50 (4) on the 13 type7 rows and mark the flagged ones; (h) shift-record input, E15 section 2's n-0 sentence, E15 section 6's last sentence, W-15.json's owner note and T-V12-28 receipt (passes under D13, vetoable; 70 runs per list, not 140); (i) cross_check C1-C10, rows.py --check SAME and --red",
+  "for the design apply lane: DC-39 (V12 8.3 (1) and one sentence in 3.5.4), DC-40 (13.5 draw-style MFCG cell; V12 3.5.5 step 2 one sentence; its draw.widthPx values come from W-15's append, so DC-40 applies after it), DC-41 only once the D13 veto window has passed; plus the stale 39 m quotes and W-17's entries already routed by J171",
+  "for the session: carry rows N-26 (M0-k-06, M0-k-05) and N-31 (M0-k-05) to plat/docs/build/checks/M0-spec-notes.md before waves 11 and 13 (the text in carry_rows); enter the J-row for this round in docs/PROGRESS.md",
+  "not done here, by design: F2's registry rename and the five held rows, the 39 m quotes, W-17's entries (J171's apply lanes); E13 F3 needs no ruling; S-V12-2 owes nothing",
+  "CONFIRMED (executed or read): every number and text cited; the marker table; the one-sided row's draws and flips; the recordings' build; the content checks. PLAUSIBLE (reasoning): E13's projection (the owner acted on it; R-50 rests on the CONFIRMED edge geometry); that load_plan's two lines are the only cross_check.py change R-51 needs; that measure_mfcg.py's scale rule reads the sweep exports as it reads the fixtures (W-15's --check proves it); that no 13.5 reader needs the marker before M1's report"
+ ]
+}

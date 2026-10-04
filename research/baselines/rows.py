@@ -10,10 +10,17 @@ role, the estimator and, for a distribution, `spreadKS`; **no row carries an abs
 stays in metrics.m-1.json). Numbers are rounded to four decimals, so no number holds six consecutive digits where the
 unit allows it (R-46, N-03). Ids end in /<subset> or /<subset>/<field> (N-25).
 
+Round 3 (lane m1/round3-apply, M-1-rulings-3.md; record E15 section 13) continues W-15 with these tools: the rows of
+the registry id water.channelWidth (E15 F2; the measuring records keep the key their tools wrote) and R-51's eight MFCG
+draw rows (the recorded draw family capture/MFCG/draw/recorded; draw.widthPx on capture/MFCG/40/plain) are APPENDED
+after the 478 rows of the first candidate, in a fixed order; R-50's stability marker joins the note of every target row
+S-V12-1 flags (the 49 of E13 and fg.recoverability at size 130 from W-13's addendum; FTG's type 7 band-rule rows by the
+same test on their own stream, R-50 (4)), with the intervals in E15's bands[id].stability.
+
 Run (project root):
   python3 research/baselines/rows.py --write     # the candidate, E15's JSON
   python3 research/baselines/rows.py --check     # recompute in memory; the written files must be byte-equal
-  python3 research/baselines/rows.py --red       # three planted input faults, each caught by its receipt
+  python3 research/baselines/rows.py --red       # five planted input faults, each caught by its receipt
 """
 import gzip
 import hashlib
@@ -40,6 +47,7 @@ INPUTS = {
     'e06': 'docs/calibration/E06-ftg-faces.json',
     'e07': 'docs/calibration/E07-mfcg-signature.plan.json',
     'e07fix': 'docs/calibration/E07-mfcg-signature.json',
+    'e07widths': 'docs/calibration/E07-mfcg-signature.widths.json',
     'e08': 'docs/calibration/E08-mfcg-renders.json',
     'e09': 'docs/calibration/E09-mfcg-derived-graph.json',
     'e09seeds': 'docs/calibration/E09-mfcg-derived-graph.seeds.json',
@@ -63,6 +71,7 @@ SCRIPT = {
     'dispersion': 'research:baselines/bands.py',
 }
 CAPTURE_ROOT = {
+    'MFCGdraw': 'research:captures/mfcg',
     'FTG': 'research:captures/ftg',
     'MFCG': 'research:captures/mfcg/exports-sweep-m1-2026-10-03',
     'NG': 'research:captures/neighbourhood/ng-programme-m1-2026-10-03',
@@ -122,6 +131,9 @@ class Ctx:
         self.bands = []
         self.held = []
         self.heldRows = []
+        self.appended = []      # round 3: rows of the metrics formerly held, appended after the first candidate's
+        self.vals = {}          # FTG scalar rows: the per-slot values and their members (R-50 (4)'s draws)
+        self.round3 = {}
         self.drops = self._drops()
         self.noRow = []
         self.receipts = []
@@ -209,6 +221,8 @@ def add_row(ctx, *, rid, metric, reference, build, capture, script, matched, rol
         row['note'] = note_ok(note)
     if metric in HELD_METRICS:
         ctx.heldRows.append({'row': row, 'reason': HELD_METRICS[metric]})
+    elif metric in APPENDED_R3 and reference == 'MFCG' or metric == 'water.channelWidth':
+        ctx.appended.append(row)
     else:
         ctx.rows.append(row)
     b = {'id': rid, 'metric': metric, 'reference': reference, 'role': role, 'kind': kind, 'provenance': PROVENANCE}
@@ -220,11 +234,15 @@ def add_row(ctx, *, rid, metric, reference, build, capture, script, matched, rol
     return row
 
 
-HELD_METRICS = {
-    'water.riverWidth': ("the id's second token is listed by both deny-lists (C10): it repeats an MFCG export key; "
-                         "R-29's precedent renames an id of ours that repeats a reference identifier (a design seat, "
-                         "then the registry); the rows are formed and wait here"),
-}
+HELD_METRICS = {}      # none since round 3: the channel-width rows and D28's rows are formed and appended (E15 section 13)
+# Round 3 (lane m1/round3-apply): the metrics whose rows were held at W-15's landing; their rows follow the first
+# candidate's 478 in the order formed (FTG channel width by size, MFCG's stress channel width, the four recorded draw
+# rows, the four draw.widthPx fields), so the earlier rows keep their places (only R-50's notes change among them).
+APPENDED_R3 = {'water.channelWidth', 'draw.casingLaw', 'draw.roundJoins', 'draw.roundCaps', 'draw.widthPx',
+               'draw.wallsAfterBuildings'}
+# The measuring records keep the key their tools wrote before the registry rename (E05 and E07 are W-05b's and
+# W-07b's, unchanged); the row carries the registry id (E15 F2; design/m1-corrections-2; m1/round3-apply).
+SOURCE_KEY = {'water.channelWidth': 'water.riverWidth'}
 
 
 def _r(fb):
@@ -279,7 +297,7 @@ def scalar_band_entry(ctx, metric, field, kind, values, reference_value=None):
 
 FTG_KIND = {
     'street.runs': 'band rule', 'outline.r90cv': 'band rule', 'outline.roadRatio': 'band rule',
-    'wall.towerSpacing': 'band rule', 'water.riverWidth': 'band rule',
+    'wall.towerSpacing': 'band rule', 'water.channelWidth': 'band rule',
     'junction.angles': 'fixed', 'junction.share4': 'fixed', 'bldg.area': 'fixed', 'bldg.quadSide': 'fixed',
     'bldg.worstCorner': 'fixed', 'gate.count': 'fixed', 'water.step': 'fixed',
     'street.turn100': 'declared exception',
@@ -292,7 +310,7 @@ for _i in range(1, 7):
     FTG_KIND[f'wealth.tier{_i}'] = 'descriptive'
 ROLE_OF_KIND = {'band rule': 'target', 'fixed': 'target', 'declared exception': 'target', 'floor': 'target',
                 'weakness': 'weakness', 'descriptive': 'descriptive'}
-WATER_ROWS = {'water.step', 'water.riverWidth'}
+WATER_ROWS = {'water.step', 'water.channelWidth'}
 WALL_ROWS = {'wall.towerSpacing', 'wall.ungated', 'gate.count'}
 
 FTG_NOTES = {
@@ -306,7 +324,7 @@ FTG_NOTES = {
     'wall.ungated': 'arterial ways crossing the curtain at no gate; the walled payloads only (W05b-D11)',
     'gate.count': 'the payload carries no gate object; the walled payloads only (W05b-D11)',
     'water.step': 'median outline vertex spacing after the 1 deg drop; coasts come at 15-16 m or 50 m steps; the band is the fixed 25 m bound (R-48)',
-    'water.riverWidth': 'the coast and river slots only (R-33, R-48); the band rule per class (river)',
+    'water.channelWidth': 'the coast and river slots only (R-33, R-48); the band rule per class (river)',
     'tree.pcf': 'the pair-correlation function at 1 m steps, Stoyan estimator',
     'pop.perBuilding': 'nominal population over buildings: the payload holds no resident count (R-37)',
     'time.model': 'server time PUT sent to layout GET sent; no host ratio applies (R-21); the client side was contended',
@@ -337,7 +355,7 @@ def ftg_perslot(ctx):
 
 
 def ftg_value(p, metric, field):
-    m = p['metrics'].get(metric)
+    m = p['metrics'].get(SOURCE_KEY.get(metric, metric))
     if m is None:
         return None
     if metric == 'junction.angles':
@@ -372,7 +390,7 @@ def ftg_rows(ctx):
                              'every capture a row reads, in plan order (BIG_TOWN, BIG_CITY, METROPOLIS, CITY)'}
     metrics = ['street.turn100', 'street.stepHist', 'street.entropy50', 'junction.angles', 'junction.share4',
                'street.runs', 'bldg.area', 'bldg.quadSide', 'bldg.worstCorner', 'bldg.partyShare', 'bldg.attached',
-               'wall.towerSpacing', 'wall.ungated', 'gate.count', 'water.step', 'water.riverWidth', 'tree.nnP1',
+               'wall.towerSpacing', 'wall.ungated', 'gate.count', 'water.step', 'water.channelWidth', 'tree.nnP1',
                'tree.nnMedian', 'tree.pcf', 'pop.perBuilding', 'time.model', 'outline.r90cv', 'outline.roadRatio'] + \
               [f'wealth.tier{i}' for i in range(1, 7)]
     for size, rung, pop in FTG_SIZES + [FTG_CITY]:
@@ -389,7 +407,7 @@ def ftg_rows(ctx):
             if metric == 'street.runs':
                 fields = ['arterial', 'street', 'lane', 'track']
             for field in fields:
-                vals, failed = [], []
+                vals, failed, used = [], [], []
                 for m in members:
                     if m['failed'] is not None:
                         failed.append({'index': m['order'], 'reason': m['failed']})
@@ -406,9 +424,10 @@ def ftg_rows(ctx):
                     else:
                         v = ftg_value(p, metric, field)
                     if v is None:
-                        failed.append({'index': m['order'], 'reason': 'no-river' if metric == 'water.riverWidth' else 'no-value'})
+                        failed.append({'index': m['order'], 'reason': 'no-river' if metric == 'water.channelWidth' else 'no-value'})
                         continue
                     vals.append(v)
+                    used.append(m['label'])
                 sample = {'family': fam, 'indices': [0, len(members)], 'captures': [m['label'] for m in members]}
                 if failed:
                     sample['failed'] = sorted(failed, key=lambda f: f['index'])
@@ -435,8 +454,10 @@ def ftg_rows(ctx):
                 add_row(ctx, rid=rid, metric=metric, reference='FTG', build=build, capture=CAPTURE_ROOT['FTG'],
                         script=SCRIPT['FTG'], matched=matched, role=role, values=values, estimator=estimator,
                         sample=sample, note=note, kind=kind, band=band)
+                ctx.vals[rid] = {'members': used, 'vals': vals, 'size': size, 'kind': kind, 'metric': metric}
                 # receipt: the values equal E05's samples (the measured record) where E05 tables them
-                key = metric if field is None else f'{metric}.{field}'
+                src = SOURCE_KEY.get(metric, metric)
+                key = src if field is None else f'{src}.{field}'
                 tab = e05['samples'][size]['values'].get(key)
                 if tab is not None:
                     ctx.receipts.append(('E05', rid, [rnd(x) for x in tab['values']] == [rnd(x) for x in vals]))
@@ -599,15 +620,15 @@ def mfcg_rows(ctx):
     # the stress family: R-23's cells only (descriptive)
     fam, rung, size, pre = MFCG_STRESS
     sample, usable = mfcg_sample(ctx, fam, None)
-    for metric in ['water.step', 'water.riverWidth', 'wall.ungated', 'wall.barrierShare', 'gate.count']:
+    for metric in ['water.step', 'water.channelWidth', 'wall.ungated', 'wall.barrierShare', 'gate.count']:
         vals = []
         for s in usable:
-            v = e07['perSeed'][s][metric]
+            v = e07['perSeed'][s][SOURCE_KEY.get(metric, metric)]
             vals.append(v['value'] if isinstance(v, dict) else v)
         est = B.estimate(vals)
         values, estimator = scalar_values(est, len(vals))
         note = {'water.step': 'the sea polygon only, vertices turning under 1 deg dropped (as on FTG); the river is a centreline',
-                'water.riverWidth': 'one width per course, as exported',
+                'water.channelWidth': 'one width per course, as exported',
                 'wall.ungated': 'proper crossings and crossings at a non-gate curtain vertex',
                 'wall.barrierShare': 'shore closure length over the enclosure perimeter',
                 'gate.count': 'the waterfront law at the stress setting (R-23); land gates'}[metric]
@@ -617,19 +638,97 @@ def mfcg_rows(ctx):
                 note='the stress family (river and coast on); ' + note, kind='descriptive', band={'band': None})
     ctx.noRow.append({'metric': 'every other stress-family value', 'reference': 'MFCG', 'family': 'capture/MFCG/80/river+coast',
                       'reason': "R-23 names the stress cells that take rows; the family's other values stay in E07 and E09 (the stress variant is descriptive)"})
-    # D28: the draw-style members have no registered sample family (held; E15 F1)
-    fix = ctx.src['e07fix']['draw']
-    recs = sorted(fix.keys())
-    ctx.held.append({'deliverable': 'D28', 'metrics': ['draw.casingLaw', 'draw.roundJoins', 'draw.roundCaps',
-                                                       'draw.widthPx', 'draw.wallsAfterBuildings'],
-                     'records': recs, 'reason': "the twelve draw records are profiler recordings, not plan seeds; R-03 "
-                     "builds no row from a fixture and plan.json registers no recorded MFCG draw family (R-02's precedent "
-                     "is FTG's recorded CITY family); a ruling and a plan.py block are owed before these rows can pass C7",
-                     'values': {'draw.casingLaw': '11 of 11 cased records hold the law (0 violations)',
-                                'draw.roundJoins': 'pooled ' + str(rnd(sum(v['roundJoins'] for v in fix.values()) / sum(v['joins'] for v in fix.values()))),
-                                'draw.roundCaps': 'pooled ' + str(rnd(sum(v['roundCaps'] for v in fix.values()) / sum(v['caps'] for v in fix.values()))),
-                                'draw.widthPx': 'wall 6.20, tower 12.40, road core 6.53, pier 3.92 px at the gates-4 scale',
-                                'draw.wallsAfterBuildings': '8 of 8 records with a complete log'}})
+    # D28: R-51 (M-1-rulings-3.md): the recorded draw family for four members, the formula route for draw.widthPx
+    mfcg_draw_rows(ctx)
+
+
+DRAW_NOTE = 'the twelve draw recordings of the recorded draw family (R-51); draw style is size-invariant (sizes 24-80, water on and off)'
+DRAW_ROWS = [   # (metric, role, kind, the reason a member gives no value or None, its test) -- notes within C3
+    ('draw.casingLaw', 'target', 'fixed', 'uncased', 'cased ribbons with the casing at core plus 2 hairlines'),
+    ('draw.roundJoins', 'target', 'fixed', None, 'round joins over joins'),
+    ('draw.roundCaps', 'descriptive', 'descriptive', None, 'round caps over caps'),
+    ('draw.wallsAfterBuildings', 'target', 'fixed', 'truncated-log', 'first wall stroke after the last roof fill'),
+]
+
+
+def mfcg_draw_rows(ctx):
+    """R-51 (3): four rows on capture/MFCG/draw/recorded, read from E07's draw census per recording (E07 section 7);
+    R-51 (4): draw.widthPx per field on capture/MFCG/40/plain from measure_mfcg.py --plan-widths (E07's widths file)."""
+    blk = ctx.src['plan']['mfcgRecordedDraw']
+    recs = blk['records']
+    fam = blk['family']
+    draw = ctx.src['e07fix']['draw']
+    labels = [r['label'] for r in recs]
+    census = []
+    for r in recs:
+        d = draw[r['record']]
+        cased = d['coresTotal'] - len(d['coresUncased'])
+        # the plan's flags agree with the census they were read from (a receipt per recording)
+        ctx.receipts.append(('E07 draw', f"{fam}/{r['order']}", (cased > 0) == r['casedRibbon']
+                             and (d['logDropped'] == 0) == r['logComplete']
+                             and (d['wallsAfterBuildings'] is None) == (not r['logComplete'])))
+        census.append({
+            'draw.casingLaw': None if cased == 0 else d['coresPaired'] / cased,
+            'draw.roundJoins': d['roundJoins'] / d['joins'],
+            'draw.roundCaps': d['roundCaps'] / d['caps'],
+            'draw.wallsAfterBuildings': None if d['wallsAfterBuildings'] is None else (1.0 if d['wallsAfterBuildings'] else 0.0),
+        })
+    pooled = {'draw.roundJoins': sum(draw[r['record']]['roundJoins'] for r in recs) / sum(draw[r['record']]['joins'] for r in recs),
+              'draw.roundCaps': sum(draw[r['record']]['roundCaps'] for r in recs) / sum(draw[r['record']]['caps'] for r in recs)}
+    # E07 section 7's figures (the record's own text): pooled joins 0.99998 and caps 0.99905, 11 of 11 cased, 8 of 8 logs
+    ctx.receipts.append(('E07 draw', 'pooled joins and caps', round(pooled['draw.roundJoins'], 5) == 0.99998
+                         and round(pooled['draw.roundCaps'], 5) == 0.99905))
+    out = {}
+    for metric, role, kind, reason, test in DRAW_ROWS:
+        vals, failed = [], []
+        for r, c in zip(recs, census):
+            if c[metric] is None:
+                failed.append({'index': r['order'], 'reason': reason})
+            else:
+                vals.append(c[metric])
+        est = B.estimate(vals)
+        values, estimator = scalar_values(est, len(vals))
+        sample = {'family': fam, 'indices': [0, len(recs)], 'captures': labels}
+        if failed:
+            sample['failed'] = failed
+        note = DRAW_NOTE + '; ' + test
+        if metric in pooled:
+            note += f'; pooled {pooled[metric]:.5f}'
+        if failed:
+            note += f"; {len(failed)} failed: {reason}"
+        rid = f'mfcg/draw/recorded/{metric}/all'
+        band = scalar_band_entry(ctx, metric, None, kind, values) if kind != 'descriptive' else {'band': None}
+        add_row(ctx, rid=rid, metric=metric, reference='MFCG', build=BUILD['MFCG'], capture=CAPTURE_ROOT['MFCGdraw'],
+                script=SCRIPT['MFCG'], matched=None, role=role, values=values, estimator=estimator, sample=sample,
+                note=note, kind=kind, band=band, extra={'perRecording': [rnd(c[metric]) if c[metric] is not None else None
+                                                                         for c in census]})
+        out[metric] = {'n': len(vals), 'failed': [f['index'] for f in failed]}
+    # draw.widthPx on the plan's size-40 plain family (R-51 (4)): per seed, each model width x that export's px per metre
+    wj = ctx.src['e07widths']
+    famw = 'capture/MFCG/40/plain'
+    fw = wj['families'][famw]
+    sample, usable = mfcg_sample(ctx, famw, None)
+    if usable != fw['usable']:
+        raise ValueError('the widths file and E07 disagree on the size-40 usable seeds')
+    pxm = B.estimate([fw['perSeed'][st]['pxPerM'] for st in usable])
+    for field in ('wall', 'tower', 'roadCore', 'pier'):
+        vals = [fw['perSeed'][st][field] for st in usable]
+        est = B.estimate(vals)
+        values, estimator = scalar_values(est, len(vals))
+        mw = wj['modelWidthsM'][field]
+        note = (f"model width {mw:g} m × the px per metre of each export (its outer scale / 4); px per metre "
+                f"{rnd(pxm['a'])}-{rnd(pxm['b'])} over the ten seeds (R-51)")
+        if field == 'pier':
+            note += '; a plain export draws no plank: the 4.8 m default'
+        rid = f'mfcg/40/plain/draw.widthPx/all/{field}'
+        add_row(ctx, rid=rid, metric='draw.widthPx', reference='MFCG', build=BUILD['MFCG'], capture=CAPTURE_ROOT['MFCG'],
+                script=SCRIPT['MFCG'], matched={'rung': 'TOWN', 'mfcgSize': 40}, role='target', values=values,
+                estimator=estimator, sample=sample, note=note, kind='fixed',
+                band={'band': _r(B.fixed_band('draw.widthPx', field, values['p50']))})
+        sm = fw['summaries'][field]
+        ctx.receipts.append(('E07 widths', rid, all(abs(rnd(sm[k]) - values[q]) < 1.5e-4
+                                                    for k, q in (('a', 'p10'), ('b', 'p90'), ('c', 'p50')))))
+    ctx.round3['drawRows'] = out
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -1023,6 +1122,11 @@ def dispersion_rows(ctx):
 # W-13's bootstrap over W-08's two target rows (the wave-2 verifier's note; E15 section 6)
 # ---------------------------------------------------------------------------------------------------------------
 
+def bb_terms(ctx, metric, e):
+    bb = B.scalar_band(e['a'], e['b'], e['c'], ctx.sign(metric), ctx.floor(metric))
+    return bb['loTerm'], bb['hiTerm']
+
+
 def w13_addendum(ctx):
     """S-V12-1's test (W-13, V12 section 8.3 (1)) on fg.recoverability and fg.streetwall, which landed after W-13
     ran: the same seeded draws per family (spike_bootstrap.stream), 1 000 resamples, candidates at the edge +- 5 %, a row
@@ -1051,9 +1155,12 @@ def w13_addendum(ctx):
                 verdict = {k: fb['lo'] <= v <= fb['hi'] for k, v in cands.items()}
                 flips = {k: 0 for k in cands}
                 row_flips = 0
+                los, his = [], []
                 for idx in draws:
                     e = B.estimate([xs[i] for i in idx])
                     bb = edges(e)
+                    los.append(bb['lo'])
+                    his.append(bb['hi'])
                     anyf = False
                     for k, v in cands.items():
                         if (bb['lo'] <= v <= bb['hi']) != verdict[k]:
@@ -1064,6 +1171,10 @@ def w13_addendum(ctx):
                             'band': {'lo': rnd(fb['lo']), 'hi': None if not math.isfinite(fb['hi']) else rnd(fb['hi'])},
                             'flips': flips, 'rowFlips': row_flips, 'rowRate': rnd(row_flips / SB.DRAWS),
                             'unstable': row_flips > SB.UNSTABLE_DRAWS * SB.DRAWS,
+                            'loDraws': [SB.pick(los, q) for q in (0.025, 0.5, 0.975)],
+                            'hiDraws': [SB.pick(his, q) for q in (0.025, 0.5, 0.975)] if math.isfinite(fb['hi']) else None,
+                            'edgeTerms': {'lo': 'MFCG median ' + ('- 0.03' if off else '+ 0') if form.startswith('section') else bb_terms(ctx, metric, full)[0],
+                                          'hi': None if form.startswith('section') else bb_terms(ctx, metric, full)[1]},
                             'drawsSha256': hashlib.sha256(json.dumps(draws).encode()).hexdigest()})
     # the outcome with these rows added to W-13's denominator (the stated form)
     e13 = ctx.src['e13']
@@ -1085,6 +1196,124 @@ def w13_addendum(ctx):
             first = [[rng.randrange(n) for _ in range(n)] for _ in range(3)]
             ok = ok and fam_first.get(fam) == first
         ctx.w13['drawsEqualW13'] = ok
+
+
+# ---------------------------------------------------------------------------------------------------------------
+# R-50 (M-1-rulings-3.md): S-V12-1's stability marker on every flagged target row (lane m1/round3-apply)
+# ---------------------------------------------------------------------------------------------------------------
+
+def g3(x):
+    """three significant figures, plain digits (R-50's marker form)"""
+    t = format(x, '.3g')
+    if 'e' in t:
+        raise ValueError(f'marker figure {x} needs an exponent')
+    return t
+
+
+def marker_text(rate, lo, hi):
+    t = f'S-V12-1 edge noise {rate:.2f}: lo {g3(lo[0])}-{g3(lo[2])}'
+    return t + (f', hi {g3(hi[0])}-{g3(hi[2])}' if hi else ' (one-sided)')
+
+
+def ftg_spike(ctx):
+    """R-50 (4): S-V12-1's test, unchanged, on FTG's band-rule target rows with estimator type7: per size one stream
+    spike_bootstrap.stream('capture/FTG/<size>') (the label S-V12-1|capture/FTG/<size>), 1 000 draws of the ten slots with
+    replacement shared by the size's rows, candidates at each edge +- 5 %, a row flagged when it flips in more than 5 %
+    of the draws. Rows with estimator minmax or single are outside the test (R-50 (4))."""
+    import spike_bootstrap as SB
+    bands = {b['id']: b for b in ctx.bands}
+    out = []
+    for size in ('BIG_TOWN', 'BIG_CITY', 'METROPOLIS', 'CITY'):
+        sel = [r for r in ctx.rows if r['reference'] == 'FTG' and (r.get('matched') or {}).get('ftgSize') == size
+               and r['role'] == 'target' and bands[r['id']]['kind'] == 'band rule' and r['estimator'] == 'type7']
+        if not sel:
+            continue
+        mem = {tuple(ctx.vals[r['id']]['members']) for r in sel}
+        if len(mem) != 1:
+            raise ValueError(f'FTG {size}: the type7 band-rule rows read different slots; one draw set cannot serve them')
+        n = len(next(iter(mem)))
+        fam = f'capture/FTG/{size}'
+        rng = SB.stream(fam)
+        draws = [[rng.randrange(n) for _ in range(n)] for _ in range(SB.DRAWS)]
+        dsha = hashlib.sha256(json.dumps(draws).encode()).hexdigest()
+        for r in sel:
+            xs = ctx.vals[r['id']]['vals']
+            fspec = {k: v for k, v in (ctx.floor(r['metric']) or {}).items() if k != 'basis'}
+            sign = ctx.sign(r['metric'])
+            full = SB.MM.estimate(xs)
+            b = SB.band(full, sign, fspec)
+            cand, zero = SB.candidates(b['lo'], b['hi'], 'edge')
+            verdict = {k: SB.inside(cand[k], b) for k in SB.CAND}
+            if verdict != SB.CAND_FULL:
+                raise ValueError(f"{r['id']}: the candidates' full-sample verdicts are not fail / pass / pass / fail")
+            flips = {k: 0 for k in SB.CAND}
+            row_flips = 0
+            los, his = [], []
+            for idx in draws:
+                bd = SB.band(SB.MM.estimate([xs[i] for i in idx]), sign, fspec)
+                los.append(bd['lo'])
+                his.append(bd['hi'])
+                anyf = False
+                for k in SB.CAND:
+                    if SB.inside(cand[k], bd) != verdict[k]:
+                        flips[k] += 1
+                        anyf = True
+                row_flips += anyf
+            out.append({'id': r['id'], 'family': fam, 'n': n, 'band': {'lo': rnd(b['lo']), 'hi': rnd(b['hi'])},
+                        'edgeTerms': {'lo': b['loTerm'], 'hi': b['hiTerm']}, 'flips': flips, 'rowFlips': row_flips,
+                        'rowRate': row_flips / SB.DRAWS, 'unstable': row_flips > SB.UNSTABLE_DRAWS * SB.DRAWS,
+                        'zeroEdgeFallback': zero,
+                        'loDraws': [SB.pick(los, q) for q in (0.025, 0.5, 0.975)],
+                        'hiDraws': [SB.pick(his, q) for q in (0.025, 0.5, 0.975)], 'drawsSha256': dsha,
+                        'stream': f'S-V12-1|{fam}'})
+    return out
+
+
+def stability_markers(ctx):
+    """R-50 (2), (4), (5): the marker joins the note ('; '), the stability block goes to the row's band entry; no role,
+    value, band, estimator or sample changes"""
+    rows = {r['id']: r for r in ctx.rows}
+    bands = {b['id']: b for b in ctx.bands}
+    e13 = ctx.src['e13']
+    famsha = {f: v['drawsSha256'] for f, v in e13['families'].items()}
+    marks = []
+    for r in e13['rows']:
+        if not (r.get('inDenominator') and r.get('unstable')):
+            continue
+        rid = f"mfcg/{r['size']}/plain/{r['metric']}/all" + (f"/{r['field']}" if r.get('field') else '')
+        marks.append({'id': rid, 'rate': r['rowRate'], 'lo': r['loDraws'], 'hi': r['hiDraws'],
+                      'terms': {'lo': r['band']['loTerm'], 'hi': r['band']['hiTerm']},
+                      'drawsSha256': famsha[r['family']],
+                      'source': 'E13 rows[] (W-13): rowRate, loDraws / hiDraws (the 2.5 / 50 / 97.5 percentiles of the edge over 1 000 draws)'})
+    for w in ctx.w13['rows']:
+        if w['form'].startswith('section') and w['unstable']:
+            rid = f"mfcg/{w['family'].split('/')[2]}/plain/{w['metric']}/all"
+            marks.append({'id': rid, 'rate': w['rowRate'], 'lo': w['loDraws'], 'hi': w['hiDraws'],
+                          'terms': w['edgeTerms'], 'drawsSha256': w['drawsSha256'],
+                          'source': "E15 w13Addendum (W-15's re-run of W-13's draws on section 13.5's one-sided form)"})
+    spike = ftg_spike(ctx)
+    for f in spike:
+        if f['unstable']:
+            marks.append({'id': f['id'], 'rate': f['rowRate'], 'lo': f['loDraws'], 'hi': f['hiDraws'], 'terms': f['edgeTerms'],
+                          'drawsSha256': f['drawsSha256'],
+                          'source': f"R-50 (4): S-V12-1's test on the FTG type 7 sample, stream {f['stream']}"})
+    done = []
+    for m in marks:
+        r = rows[m['id']]
+        if r['role'] != 'target':
+            raise ValueError(f"{m['id']}: a marker on a {r['role']} row")
+        mk = marker_text(m['rate'], m['lo'], m['hi'])
+        r['note'] = note_ok((r['note'] + '; ' if r.get('note') else '') + mk)
+        bands[m['id']]['stability'] = {
+            'flipShare': rnd(m['rate']), 'loInterval': [rnd(m['lo'][0]), rnd(m['lo'][2])],
+            'hiInterval': [rnd(m['hi'][0]), rnd(m['hi'][2])] if m['hi'] else None, 'edgeTerms': m['terms'],
+            'drawsSha256': m['drawsSha256'], 'source': m['source'], 'marker': mk,
+            'rule': 'R-50 (M-1-rulings-3.md): S-V12-1 flags the row (flips in more than 5 % of 1 000 draws); role, values and band unchanged'}
+        done.append({'id': m['id'], 'marker': mk, 'noteLength': len(r['note'])})
+    ctx.round3['stability'] = {'marked': done, 'mfcg': sum(1 for d in done if d['id'].startswith('mfcg/')),
+                               'ftg': sum(1 for d in done if d['id'].startswith('ftg/')),
+                               'ftgSpike': [dict(f, rowRate=rnd(f['rowRate']), loDraws=[rnd(x) for x in f['loDraws']],
+                                                 hiDraws=[rnd(x) for x in f['hiDraws']]) for f in spike]}
 
 
 # ---------------------------------------------------------------------------------------------------------------
@@ -1154,6 +1383,13 @@ DESIGN_CELLS = [
     (S135 + ' towers and gates (FTG weakness)', 'arterial crossings at no gate', '3 and 1', _ftg('wall.ungated'), None),
     (S135 + ' towers and gates (MFCG)', 'main gates', '5 / 8 / 12 at sizes 40 / 80 / 130', _mfcg('gate.count'), None),
     (S135 + ' water (FTG)', 'outline step', '50 m resampling on one payload; the second capture pooled 15.7 m', _ftg('water.step'), None),
+    (S135 + ' water (FTG)', 'river widths (the channel-width rows, round 3)', "44.0 / 46.1 / 29.8 m, M-1's rows held until the registry carried the renamed id (31 m / 48 m on the two CITY captures)", _ftg('water.channelWidth') + ['ftg/CITY/water.channelWidth/all'], None),
+    (S135 + ' water (MFCG, descriptive)', "exported river width, the stress family (round 3)", '84 m at size 80 over three stress seeds (M-1)', ['mfcg/80/river+coast/water.channelWidth/all'], None),
+    (S135 + ' draw style (MFCG ink; R-51, DC-40)', 'casing law, round joins, walls after buildings; round caps (descriptive)', 'casing = core + 2h on 7 / 7 maps, round joins 4 062 / 4 063, 17-step order', [f'mfcg/draw/recorded/{m}/all' for m in ('draw.casingLaw', 'draw.roundJoins', 'draw.wallsAfterBuildings', 'draw.roundCaps')], None),
+    (S135 + ' draw style (MFCG ink; R-51, DC-40)', 'wall width at size 40', "6.2 px at size 40's scale (the four-gate fixture, 0.8157 px per m)", ['mfcg/40/plain/draw.widthPx/all/wall'], ('fixedRel', 6.2)),
+    (S135 + ' draw style (MFCG ink; R-51, DC-40)', 'tower width at size 40', "12.4 px at size 40's scale (the four-gate fixture)", ['mfcg/40/plain/draw.widthPx/all/tower'], ('fixedRel', 12.4)),
+    (S135 + ' draw style (MFCG ink; R-51, DC-40)', 'road-core width at size 40', "6.5 px at size 40's scale (the four-gate fixture)", ['mfcg/40/plain/draw.widthPx/all/roadCore'], ('fixedRel', 6.5)),
+    (S135 + ' draw style (MFCG ink; R-51, DC-40)', 'pier width at size 40 (section 8.3 quotes 3.9)', "3.9 px at size 40's scale (the four-gate fixture)", ['mfcg/40/plain/draw.widthPx/all/pier'], ('fixedRel', 3.9)),
     (S135 + ' tree scatter (FTG weakness)', 'nearest-neighbour median; p1', 'median 10.6 m (10.59 / 10.57 m); minimum 0.14 m', _ftg('tree.nnMedian') + _ftg('tree.nnP1'), None),
     (S135 + ' population and buildings', 'persons per building', 'FTG 3.4 (descriptive); MFCG six per lot (weakness)', _ftg('pop.perBuilding') + _mfcg('pop.perBuilding'), None),
     (S135 + ' generation time (FTG weakness)', 'server time at the timed CITY preset', '2.9-3.2 s PUT to OPTIONS; 3.7-4.3 s PUT to layout GET (the row)', ['ftg/CITY/time.model/all'] + _ftg('time.model'), None),
@@ -1237,7 +1473,10 @@ def build(ctx):
     ng_rows(ctx)
     time_rows(ctx)
     dispersion_rows(ctx)
+    ctx.round3['appended'] = [r['id'] for r in ctx.appended]
+    ctx.rows.extend(ctx.appended)       # round 3: after the first candidate's rows
     w13_addendum(ctx)
+    stability_markers(ctx)
     design_handoff(ctx)
     pins = [{'reference': 'FTG', 'build': ctx.ftg_build['build'], 'since': 'M-1'},
             {'reference': 'MFCG', 'build': BUILD['MFCG'], 'since': 'M-1'},
@@ -1252,14 +1491,20 @@ def e15_json(ctx, candidate):
     roles = Counter(r['role'] for r in ctx.rows)
     refs = Counter(r['reference'] for r in ctx.rows)
     return {'schema': 'm1.e15/1', 'record': 'docs/calibration/E15-baselines.md', 'workItem': 'W-15', 'lane': 'm1/W-15',
+            'continuedBy': {'lane': 'm1/round3-apply', 'rulings': 'docs/calibration/M-1-rulings-3.md (R-50, R-51)',
+                            'record': 'E15 section 13'},
             'date': DATE, 'provenance': PROVENANCE, 'scripts': ['research:baselines/rows.py', 'research:baselines/bands.py',
                                                                  'research:baselines/cross_check.py'],
             'inputs': ctx.inputs, 'candidate': {'path': 'research/baselines/candidates/baselines.json',
                                                 'rows': len(ctx.rows), 'byRole': dict(roles), 'byReference': dict(refs)},
             'ftgBuild': ctx.ftg_build, 'dispersion': ctx.dispersion, 'w13Addendum': ctx.w13,
             'designHandoff': ctx.handoff, 'handoffMissingRows': ctx.handoffMissing, 'flips': ctx.flips, 'bands': ctx.bands,
-            'heldRows': ctx.held + [{'deliverable': 'D26 / D35', 'metrics': ['water.riverWidth'], 'reason': h['reason'],
+            'heldRows': ctx.held + [{'deliverable': 'D26 / D35', 'metrics': [h['row']['metric']], 'reason': h['reason'],
                                      'row': h['row']} for h in ctx.heldRows], 'noRow': ctx.noRow,
+            'round3': dict(ctx.round3, renamed={'id': 'water.channelWidth', 'readsSourceKeyOf': 'E05 and E07 (the key their tools wrote)',
+                                                'by': 'E15 F2; design/m1-corrections-2 (V12 3.4.2); the registry at m1/round3-apply'},
+                           resolvedHeld=[{'deliverable': 'D26 / D35', 'rows': 5, 'how': 'the registry id water.channelWidth (F2)'},
+                                         {'deliverable': 'D28', 'rows': 8, 'how': "R-51: the recorded draw family (four rows) and draw.widthPx on capture/MFCG/40/plain (four fields)"}]),
             'receipts': {'total': len(ctx.receipts), 'failed': [r[:2] for r in ctx.receipts if not r[2]],
                          'byKind': dict(Counter(r[0] for r in ctx.receipts))}}
 
@@ -1287,7 +1532,7 @@ def run(write):
 
 
 def red():
-    """three planted faults, each in memory on one input: the receipt that reads that input must fail and the
+    """five planted faults, each in memory on one input: the receipt that reads that input must fail and the
     candidate must differ from the written one; nothing is written"""
     written = open(CANDIDATE).read() if os.path.exists(CANDIDATE) else None
     plants = [
@@ -1297,6 +1542,10 @@ def red():
             'median', c.src['e07']['perSeed']['size40-plain-0']['bldg.r4.60']['median'] + 0.1), 'E07/E08/E09 summary'),
         ('E11: the first pooled street.detour + 0.5', lambda c: c.src['e11']['mediumPooled']['scalars']['street.detour']['perSeed'].__setitem__(
             0, c.src['e11']['mediumPooled']['scalars']['street.detour']['perSeed'][0] + 0.5), 'E11 estimate'),
+        ('E07 draw: the first recording loses a round join', lambda c: c.src['e07fix']['draw']['2026-09-21T05-03-24/gen-0'].__setitem__(
+            'roundJoins', c.src['e07fix']['draw']['2026-09-21T05-03-24/gen-0']['roundJoins'] - 400), 'E07 draw'),
+        ('E07 widths: size40-plain-0 wall + 0.5', lambda c: c.src['e07widths']['families']['capture/MFCG/40/plain']['perSeed']['size40-plain-0'].__setitem__(
+            'wall', c.src['e07widths']['families']['capture/MFCG/40/plain']['perSeed']['size40-plain-0']['wall'] + 0.5), 'E07 widths'),
     ]
     bad = 0
     for name, plant, kind in plants:

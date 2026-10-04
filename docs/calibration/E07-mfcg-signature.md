@@ -362,3 +362,26 @@ export logs; the three red-team scripts' live outputs equal their `.out` files; 
 byte-reproducible; F1's two definitions and their numbers; F2's and F3's values. PLAUSIBLE (reasoning): that the
 recommended F1 resolution is the right one; that a market created once per attempt explains the counts 2 and 7
 (they equal the attempts the earlier profile recorded); that the rise of R4 with size survives ten seeds.
+
+## 11 Round 3 — `draw.widthPx` on the plan's plain exports (R-51 (4); lane `m1/round3-apply`, 2026-10-04)
+
+`M-1-rulings-3.md` R-51 (4) builds the `draw.widthPx` row by the formula route: per plan seed, each model width × that
+export's px per metre by section 7's rule (the SVG's outer scale ÷ 4 m), read from W-03's own exports (no load). The
+new mode `measure_mfcg.py --plan-widths` writes `docs/calibration/E07-mfcg-signature.widths.json` (sha256 `4e4c1907…`);
+the fixture run's output and the plan run's output are untouched (both re-run byte-identical after the change). Its
+checker: the 30 usable plain exports present; the model widths wall 7.6, tower 15.2, road core 8 and pier 4.8 m in every one (no plain export
+draws a plank, so the pier takes the rule's 4.8 m default); 120 widths equal model width × outer scale ÷ 4; the four
+gate fixtures' stored `matchedWidthsPx` reproduced exactly — 4 / 4 PASS; `--red` (an expected model width and a stored
+fixture scale shifted) 2 red, exit 1. Per family, p50 [p10, p90] by `type7` over ten seeds (px):
+
+| size | px per metre | wall | tower | road core | pier |
+|---|---|---|---|---|---|
+| 40 | 0.8343 [0.7906, 0.9297] | 6.3403 [6.0086, 7.0661] | 12.6806 [12.0171, 14.1322] | 6.6740 [6.3248, 7.4380] | 4.0044 [3.7949, 4.4628] |
+| 80 | 0.4784 [0.4293, 0.4861] | 3.6357 [3.2625, 3.6942] | 7.2713 [6.5250, 7.3883] | 3.8270 [3.4342, 3.8886] | 2.2962 [2.0605, 2.3332] |
+| 130 | 0.3093 [0.2978, 0.3336] | 2.3503 [2.2629, 2.5350] | 4.7006 [4.5258, 5.0700] | 2.4740 [2.3820, 2.6684] | 1.4844 [1.4292, 1.6010] |
+
+Size 40's values are W-15's four rows (`mfcg/40/plain/draw.widthPx/all/<field>`, E15 section 13.2); sizes 80 and 130
+take no row (the design's cell names size 40's scale). The four-gate fixture's 0.8157 px per metre lies between the plan
+seeds' lower decile and their median. The other four draw members took the recorded family R-51 registers
+(`capture/MFCG/draw/recorded`, the twelve recordings of section 7 in recording order); their per-recording values are
+section 7's census. CONFIRMED (executed): every number above, the reproductions and the red run.

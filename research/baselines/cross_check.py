@@ -2,8 +2,10 @@
 """cross_check.py — the research-side twin of `plat baselines check` (V12 section 3.3, C1 - C10), run on every
 numbers-only candidate before it crosses into plat/ (plan item W-15; the crossing is W-20's).
 
-Lane m1/W-15 is the sole writer of this file, rows.py and bands.py (M-1-rulings-2.md R-47 (a)). Our own code; it imports
-make_denylist.py's scanner (the research twin of M0's scanner, W-16b) for C3's scan and C10, and nothing else.
+Lane m1/W-15 is the sole writer of this file, rows.py and bands.py (M-1-rulings-2.md R-47 (a)); lane m1/round3-apply
+continues W-15 with them (M-1-rulings-3.md R-51 (5) (ii): load_plan registers the recorded MFCG draw family, kind
+'recorded', and two fixtures prove C7 on it). Our own code; it imports make_denylist.py's scanner (the research twin of
+M0's scanner, W-16b) for C3's scan and C10, and nothing else.
 
 Three file kinds:
   baselines  plat.baselines/2 (V12 section 2.3, ARCHITECTURE section 13.5's Baseline): C1 - C10
@@ -112,6 +114,13 @@ def load_plan(path=PLAN):
     for fam, lst in ftg.items():
         lst.sort()
         fams[fam] = {'n': len(lst), 'labels': [lab for _, lab in lst], 'kind': 'ftg'}
+    # the recorded MFCG draw family (R-51; plan.json's mfcgRecordedDraw): its labels in recording order
+    rec = {}
+    for r in (plan.get('mfcgRecordedDraw') or {}).get('records', []):
+        rec.setdefault(r['family'], []).append((r['order'], r['label']))
+    for fam, lst in rec.items():
+        lst.sort()
+        fams[fam] = {'n': len(lst), 'labels': [lab for _, lab in lst], 'kind': 'recorded'}
     return plan, fams
 
 
@@ -185,8 +194,9 @@ def scan_text(text):
     return hits
 
 
-def text_of_strings(doc):
-    """the file's words: every string value and every distinct key, one per line (a JSON number holds no word)"""
+def texts_of_strings(doc):
+    """the file's words: every string value and every distinct key, each a text of its own (a JSON number holds no
+    word); R-52 (M-1-rulings-3.md) and E15 D13"""
     keys = []
     def walk(x):
         if isinstance(x, dict):
@@ -197,17 +207,41 @@ def text_of_strings(doc):
             for v in x:
                 walk(v)
     walk(doc)
-    return '\n'.join([s for _, s in strings_of(doc)] + sorted(set(keys)))
+    return [s for _, s in strings_of(doc)] + sorted(set(keys))
+
+
+def text_of_strings(doc):
+    """the same texts one per line (a listing; the scan reads each text on its own, scan_strings)"""
+    return '\n'.join(texts_of_strings(doc))
+
+
+def scan_strings(doc):
+    """C10's reading of a JSON crossing file (R-52; E15 D13, lane m1/round3-apply): every string value and every
+    distinct key is tokenised and 3-grammed on its own, so no 3-gram spans two strings; a hit names the text's place
+    (1-based, in texts_of_strings order). Equal texts are scanned once."""
+    texts = texts_of_strings(doc)
+    seen, hits = {}, []
+    for i, t in enumerate(texts):
+        if t not in seen:
+            seen[t] = scan_text(t)
+        hits += [(name, cls, i + 1) for name, cls, _ in seen[t]]
+    return hits, len(texts), len(seen)
 
 
 def scan_check(rep, text, label='file', doc=None):
-    """C10: the clean-room scanner, both lists (the research list and M0's list), 0 hits. On a JSON file it reads the
-    string values and keys (the reading N-22 fixed for colours, carried to the scan: E15 hand-off N-26); the whole
-    text's hits are counted beside it, split into runs of digits only and the rest."""
-    scan_on = text_of_strings(doc) if doc is not None else text
-    hits = scan_text(scan_on)
+    """C10: the clean-room scanner, both lists (the research list and M0's list), 0 hits. On a JSON file it reads each
+    string value and each distinct key as a text of its own (R-52, the reading M0's scanner takes for the crossing
+    files; E15 D13; N-22's reading for colours), never a 3-gram across two strings (lane m1/round3-apply: the earlier
+    form joined the strings one per line, and the scanner's 3-grams ran across lines); the whole text's hits are
+    counted beside it, split into runs of digits only and the rest."""
+    if doc is not None:
+        hits, ntexts, nunique = scan_strings(doc)
+        rep.info['scanReading'] = 'each string value and each distinct key on its own (R-52; E15 D13)'
+        rep.info['textsScanned'] = {'texts': ntexts, 'distinct': nunique}
+    else:
+        hits = scan_text(text)
     for name, cls, line in hits:
-        rep.bad('C10', f'{label} string line {line}', f'{name} list: a {cls} hit')
+        rep.bad('C10', f'{label} string {line}', f'{name} list: a {cls} hit')
     rep.ran('C10')
     rep.info['scanHits'] = len(hits)
     rep.info['scanLists'] = sorted(k for k, v in scanners().items() if not isinstance(v, Exception))
@@ -828,6 +862,21 @@ def fixtures(cand_path):
     expect('N-05 a row carrying an absFloor', cb(d), 'C1')
     d = copy.deepcopy(base); d['rows'][0]['sign'] = 'any'
     expect('N-05 a row carrying a sign field', cb(d), 'C1')
+    # round 3 (lane m1/round3-apply; M-1-rulings-3.md R-50, R-51 (5) (ii); E15 F2)
+    rd = next(r for r in cand['rows'] if r['sample'].get('family') == 'capture/MFCG/draw/recorded')
+    d = copy.deepcopy(base); d['rows'] = [copy.deepcopy(rd)]
+    expect('R-51 a row on capture/MFCG/draw/recorded with its twelve captures passes C7', cb(d), 'C7', refused=False)
+    c = d['rows'][0]['sample']['captures']; c[0], c[1] = c[1], c[0]
+    expect('R-51 a recorded-draw row with two captures out of order is refused', cb(d), 'C7')
+    d = copy.deepcopy(base); d['rows'] = [copy.deepcopy(rd)]; d['rows'][0]['sample']['indices'] = [0, 11]
+    expect('R-51 a recorded-draw row with indices [0, 11) is refused', cb(d), 'C7')
+    cw = next(r for r in cand['rows'] if r['metric'] == 'water.channelWidth')
+    d = copy.deepcopy(base); d['rows'] = [copy.deepcopy(cw)]
+    expect('F2 a water.channelWidth row pairs with its registry entry (C6) and passes', cb(d), 'C6', refused=False)
+    mk = max((r for r in cand['rows'] if 'S-V12-1 edge noise' in r.get('note', '')), key=lambda r: len(r['note']))
+    d = copy.deepcopy(base); d['rows'] = [copy.deepcopy(mk)]
+    expect(f"R-50 the longest note with a stability marker ({len(mk['note'])} characters) passes C3 with the scanner",
+           cb(d, scan=True), 'C3', refused=False)
     # T-V12-30
     m130 = next(r for r in cand['rows'] if r['sample'].get('family') == 'capture/MFCG/130/plain' and r['values'].get('n'))
     d = copy.deepcopy(base); d['rows'] = [copy.deepcopy(m130)]

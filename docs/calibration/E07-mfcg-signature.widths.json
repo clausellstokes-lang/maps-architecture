@@ -1,0 +1,650 @@
+{
+ "checks": [
+  {
+   "check": "every usable seed of the plain families has its JSON and SVG export and an outer scale (W-03's files; no load)",
+   "detail": "seeds measured by size 40 10 / 80 10 / 130 10",
+   "passed": true
+  },
+  {
+   "check": "the model widths wall 7.6, tower 15.2, road core 8 and pier 4.8 m in every export (E07 section 7)",
+   "detail": "30 exports; planks drawn in 0",
+   "passed": true
+  },
+  {
+   "check": "each width = model width x px per metre, px per metre = the SVG's outer scale / 4 (E07's matchedWidthsPx rule)",
+   "detail": "120 widths recomputed",
+   "passed": true
+  },
+  {
+   "check": "the generalised rule reproduces E07's stored matchedWidthsPx on the four gate fixtures exactly",
+   "detail": "4 fixtures, equal",
+   "passed": true
+  }
+ ],
+ "checksFailed": 0,
+ "families": {
+  "capture/MFCG/130/plain": {
+   "failed": [
+    {
+     "filesKept": false,
+     "label": "capture/MFCG/130/plain/8",
+     "loads": 2,
+     "reason": "no-export"
+    }
+   ],
+   "indices": [
+    0,
+    11
+   ],
+   "perSeed": {
+    "size130-plain-0": {
+     "pier": 1.5035999999999998,
+     "pxPerM": 0.31325,
+     "roadCore": 2.506,
+     "svgScale": 1.253,
+     "tower": 4.761399999999999,
+     "wall": 2.3806999999999996
+    },
+    "size130-plain-1": {
+     "pier": 1.4316,
+     "pxPerM": 0.29825,
+     "roadCore": 2.386,
+     "svgScale": 1.193,
+     "tower": 4.5334,
+     "wall": 2.2667
+    },
+    "size130-plain-10": {
+     "pier": 1.6032,
+     "pxPerM": 0.334,
+     "roadCore": 2.672,
+     "svgScale": 1.336,
+     "tower": 5.0768,
+     "wall": 2.5384
+    },
+    "size130-plain-2": {
+     "pier": 1.4292,
+     "pxPerM": 0.29775,
+     "roadCore": 2.382,
+     "svgScale": 1.191,
+     "tower": 4.5258,
+     "wall": 2.2629
+    },
+    "size130-plain-3": {
+     "pier": 1.6008,
+     "pxPerM": 0.3335,
+     "roadCore": 2.668,
+     "svgScale": 1.334,
+     "tower": 5.0692,
+     "wall": 2.5346
+    },
+    "size130-plain-4": {
+     "pier": 1.4652,
+     "pxPerM": 0.30525,
+     "roadCore": 2.442,
+     "svgScale": 1.221,
+     "tower": 4.6398,
+     "wall": 2.3199
+    },
+    "size130-plain-5": {
+     "pier": 1.5264,
+     "pxPerM": 0.318,
+     "roadCore": 2.544,
+     "svgScale": 1.272,
+     "tower": 4.8336,
+     "wall": 2.4168
+    },
+    "size130-plain-6": {
+     "pier": 1.4436,
+     "pxPerM": 0.30075,
+     "roadCore": 2.406,
+     "svgScale": 1.203,
+     "tower": 4.5714,
+     "wall": 2.2857
+    },
+    "size130-plain-7": {
+     "pier": 1.4292,
+     "pxPerM": 0.29775,
+     "roadCore": 2.382,
+     "svgScale": 1.191,
+     "tower": 4.5258,
+     "wall": 2.2629
+    },
+    "size130-plain-9": {
+     "pier": 1.5539999999999998,
+     "pxPerM": 0.32375,
+     "roadCore": 2.59,
+     "svgScale": 1.295,
+     "tower": 4.920999999999999,
+     "wall": 2.4604999999999997
+    }
+   },
+   "row": false,
+   "rung": "METROPOLIS",
+   "size": 130,
+   "summaries": {
+    "pier": {
+     "a": 1.4292,
+     "b": 1.60104,
+     "c": 1.4844,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ]
+    },
+    "pxPerM": {
+     "a": 0.29775,
+     "b": 0.33355,
+     "c": 0.30925,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ]
+    },
+    "roadCore": {
+     "a": 2.382,
+     "b": 2.6684,
+     "c": 2.474,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ]
+    },
+    "tower": {
+     "a": 4.5258,
+     "b": 5.06996,
+     "c": 4.7006,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ]
+    },
+    "wall": {
+     "a": 2.2629,
+     "b": 2.53498,
+     "c": 2.3503,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ]
+    }
+   },
+   "usable": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ]
+  },
+  "capture/MFCG/40/plain": {
+   "failed": [],
+   "indices": [
+    0,
+    10
+   ],
+   "perSeed": {
+    "size40-plain-0": {
+     "pier": 4.5276,
+     "pxPerM": 0.94325,
+     "roadCore": 7.546,
+     "svgScale": 3.773,
+     "tower": 14.3374,
+     "wall": 7.1687
+    },
+    "size40-plain-1": {
+     "pier": 3.9852,
+     "pxPerM": 0.83025,
+     "roadCore": 6.642,
+     "svgScale": 3.321,
+     "tower": 12.6198,
+     "wall": 6.3099
+    },
+    "size40-plain-2": {
+     "pier": 3.8855999999999997,
+     "pxPerM": 0.8095,
+     "roadCore": 6.476,
+     "svgScale": 3.238,
+     "tower": 12.3044,
+     "wall": 6.1522
+    },
+    "size40-plain-3": {
+     "pier": 4.0236,
+     "pxPerM": 0.83825,
+     "roadCore": 6.706,
+     "svgScale": 3.353,
+     "tower": 12.7414,
+     "wall": 6.3707
+    },
+    "size40-plain-4": {
+     "pier": 4.0248,
+     "pxPerM": 0.8385,
+     "roadCore": 6.708,
+     "svgScale": 3.354,
+     "tower": 12.7452,
+     "wall": 6.3726
+    },
+    "size40-plain-5": {
+     "pier": 3.942,
+     "pxPerM": 0.82125,
+     "roadCore": 6.57,
+     "svgScale": 3.285,
+     "tower": 12.483,
+     "wall": 6.2415
+    },
+    "size40-plain-6": {
+     "pier": 4.2852,
+     "pxPerM": 0.89275,
+     "roadCore": 7.142,
+     "svgScale": 3.571,
+     "tower": 13.5698,
+     "wall": 6.7849
+    },
+    "size40-plain-7": {
+     "pier": 3.6372,
+     "pxPerM": 0.75775,
+     "roadCore": 6.062,
+     "svgScale": 3.031,
+     "tower": 11.5178,
+     "wall": 5.7589
+    },
+    "size40-plain-8": {
+     "pier": 3.8124,
+     "pxPerM": 0.79425,
+     "roadCore": 6.354,
+     "svgScale": 3.177,
+     "tower": 12.0726,
+     "wall": 6.0363
+    },
+    "size40-plain-9": {
+     "pier": 4.4556,
+     "pxPerM": 0.92825,
+     "roadCore": 7.426,
+     "svgScale": 3.713,
+     "tower": 14.109399999999999,
+     "wall": 7.0546999999999995
+    }
+   },
+   "row": true,
+   "rung": "TOWN",
+   "size": 40,
+   "summaries": {
+    "pier": {
+     "a": 3.79488,
+     "b": 4.4628,
+     "c": 4.0044,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ]
+    },
+    "pxPerM": {
+     "a": 0.7906,
+     "b": 0.92975,
+     "c": 0.83425,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ]
+    },
+    "roadCore": {
+     "a": 6.3248,
+     "b": 7.438,
+     "c": 6.674,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ]
+    },
+    "tower": {
+     "a": 12.01712,
+     "b": 14.1322,
+     "c": 12.6806,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ]
+    },
+    "wall": {
+     "a": 6.00856,
+     "b": 7.0661,
+     "c": 6.3403,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ]
+    }
+   },
+   "usable": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ]
+  },
+  "capture/MFCG/80/plain": {
+   "failed": [],
+   "indices": [
+    0,
+    10
+   ],
+   "perSeed": {
+    "size80-plain-0": {
+     "pier": 2.4551999999999996,
+     "pxPerM": 0.5115,
+     "roadCore": 4.092,
+     "svgScale": 2.046,
+     "tower": 7.774799999999999,
+     "wall": 3.8873999999999995
+    },
+    "size80-plain-1": {
+     "pier": 2.2944,
+     "pxPerM": 0.478,
+     "roadCore": 3.824,
+     "svgScale": 1.912,
+     "tower": 7.265599999999999,
+     "wall": 3.6327999999999996
+    },
+    "size80-plain-2": {
+     "pier": 2.298,
+     "pxPerM": 0.47875,
+     "roadCore": 3.83,
+     "svgScale": 1.915,
+     "tower": 7.277,
+     "wall": 3.6385
+    },
+    "size80-plain-3": {
+     "pier": 1.986,
+     "pxPerM": 0.41375,
+     "roadCore": 3.31,
+     "svgScale": 1.655,
+     "tower": 6.289,
+     "wall": 3.1445
+    },
+    "size80-plain-4": {
+     "pier": 2.2092,
+     "pxPerM": 0.46025,
+     "roadCore": 3.682,
+     "svgScale": 1.841,
+     "tower": 6.995799999999999,
+     "wall": 3.4978999999999996
+    },
+    "size80-plain-5": {
+     "pier": 2.298,
+     "pxPerM": 0.47875,
+     "roadCore": 3.83,
+     "svgScale": 1.915,
+     "tower": 7.277,
+     "wall": 3.6385
+    },
+    "size80-plain-6": {
+     "pier": 2.13,
+     "pxPerM": 0.44375,
+     "roadCore": 3.55,
+     "svgScale": 1.775,
+     "tower": 6.744999999999999,
+     "wall": 3.3724999999999996
+    },
+    "size80-plain-7": {
+     "pier": 2.3064,
+     "pxPerM": 0.4805,
+     "roadCore": 3.844,
+     "svgScale": 1.922,
+     "tower": 7.303599999999999,
+     "wall": 3.6517999999999997
+    },
+    "size80-plain-8": {
+     "pier": 2.3196,
+     "pxPerM": 0.48325,
+     "roadCore": 3.866,
+     "svgScale": 1.933,
+     "tower": 7.3454,
+     "wall": 3.6727
+    },
+    "size80-plain-9": {
+     "pier": 2.0688,
+     "pxPerM": 0.431,
+     "roadCore": 3.448,
+     "svgScale": 1.724,
+     "tower": 6.5512,
+     "wall": 3.2756
+    }
+   },
+   "row": false,
+   "rung": "CITY",
+   "size": 80,
+   "summaries": {
+    "pier": {
+     "a": 2.06052,
+     "b": 2.33316,
+     "c": 2.2962,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ]
+    },
+    "pxPerM": {
+     "a": 0.429275,
+     "b": 0.486075,
+     "c": 0.478375,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ]
+    },
+    "roadCore": {
+     "a": 3.4342,
+     "b": 3.8886,
+     "c": 3.827,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ]
+    },
+    "tower": {
+     "a": 6.524979999999999,
+     "b": 7.3883399999999995,
+     "c": 7.2713,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ]
+    },
+    "wall": {
+     "a": 3.2624899999999997,
+     "b": 3.6941699999999997,
+     "c": 3.63565,
+     "estimator": "type7",
+     "n": 10,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ]
+    }
+   },
+   "usable": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ]
+  }
+ },
+ "lane": "m1/round3-apply",
+ "modelWidthsM": {
+  "pier": 4.8,
+  "roadCore": 8.0,
+  "tower": 15.2,
+  "wall": 7.6
+ },
+ "referenceBuild": "itch:12710731",
+ "rule": "per export, each model width x that export's px per metre (its SVG's outer scale / 4, the export's 4 m unit): E07's matchedWidthsPx rule, read from each plan seed's own export rather than from one fixture (M-1-rulings-3.md R-51 (4)); a plain export draws no plank, so its pier width is the rule's 4.8 m default",
+ "ruling": "M-1-rulings-3.md R-51 (4); the rows at W-15 (rows.py)",
+ "schema": "research.e07-widths/1",
+ "script": "research:baselines/measure_mfcg.py",
+ "sweep": "captures/mfcg/exports-sweep-m1-2026-10-03"
+}

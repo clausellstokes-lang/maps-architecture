@@ -1082,7 +1082,7 @@ twin `research/baselines/cross_check.py` applies the same rules, and M1's first 
 | C7 samples | `sample.family` is a registered `capture/…` family and `indices` start at 0; an FTG row's `captures` equal the plan's slots in order; a panel file's FM, DW and VG references are the plan's, in order | refused |
 | C8 corpus | a corpus row's reference is `corpus:frame:<id>` or `corpus:map:<16 hex>`; `evidence` present; a *target* row is a frame row with `frameN` ≥ 20 and `evidence: 'surveyed'`; a frame row's frame is in `frames.json` by a `CrossingRecord` EARLIER than the row's, with equal `n` and digest; no other string of corpus origin | refused |
 | C9 append-only | against the previous committed file, no row is removed or changed; a replaced row is kept and named by the new row's `supersedes`; no two live rows share one (reference, build, metric, rung, setting) | refused |
-| C10 scan | the clean-room scanner (§17.1 (5)) over the whole file: 0 hits | refused |
+| C10 scan | the clean-room scanner (§17.1 (5)) over the file: 0 hits — a JSON file read by its string values and keys, each a text of its own, never its numbers | refused |
 
 A passing file is committed by the **baseline seat** (research tier) and countersigned by a **checker seat** that reads
 only the candidate file, the check's output and `metrics.json` — never the captures — appending a `CrossingRecord`. A
@@ -1293,7 +1293,8 @@ n₂ that of our median-sized seed, and the row compares our median single-seed 
 **3.5.4 Weakness, descriptive and declared exceptions.** A weakness row compares ours (the median) with its one-sided
 bound and margin as §13.5 states it; a descriptive row is reported and gates nothing; a row whose band §13.5 or a volume
 declares as an exception (the organic turning's 0.5–1.5 × FTG; V02's χ² and KS clauses for Fantasy Manor's small sample)
-carries that band in its registry entry as `band.override`, and the report prints "declared exception" beside it.
+carries that band in its registry entry as `band.override`, and the report prints "declared exception" beside it. The
+report prints a row's stability marker (V12 §8.3 (1)) beside its verdict, as it prints "declared exception".
 
 **3.5.5 The parity run, step by step** (`plat parity --tier nightly|milestone [--html] [--csv]`):
 1. Load `baselines.json`; re-run checks C1, C5, C6 and C9 against the last committed hash; select rows whose build equals
@@ -1305,7 +1306,8 @@ carries that band in its registry entry as `band.override`, and the report print
    one setting per rung and water — TOWN, CITY and METROPOLIS at `none` and at `coast+river` — because the rows pool each
    size's captures (`matched.population` the nominal value; the per-capture population is the panels', §13.6 (2));
    for NG rows the districts `ng-counts.json` records from §13.6 (2)'s search (so the nightly never repeats it); for VG and
-   Fantasy Manor rows V07's and V02's settings.
+   Fantasy Manor rows V07's and V02's settings. A row without `matched` (the MFCG draw rows on the recorded family) is
+   read at every setting of its reference.
 3. Generate our towns on `bref/<ref>/<rung>/<water>/<i>` (20 per setting nightly, 100 at a milestone) once per preset arm
    the setting's rows need — the reference's own preset for P rows (`MFCG` or `FTG`, T23-1; `NG`, T-V1-31; `VG`, T-V7-23;
    `FM`, T-V2-31) and `'default'` for O and C rows — so a setting with both kinds of rows generates two arms (V12 §6).
@@ -3251,8 +3253,11 @@ V-M4), and before the SettlementForge stage M-SF (V08, J-V8.39; item 529); its l
    per matched size and four at METROPOLIS after it). *Spike S-V12-1 (M-1, 1–2 days):*
    bootstrap the ten MFCG seeds per size — draw ten with replacement 1 000 times, recompute each target band, and count how
    often a fixed candidate value's verdict flips. *Pre-decided:* above 10 % of target rows flipping in over 5 % of draws,
-   MFCG goes to 20 seeds per size (minutes of exports); FTG's rows stay as §13.5 classes them (weakness and descriptive, the
-   one declared target exception).
+   each flagged target row keeps its role, values and band and carries a stability marker in its `note` — the row's
+   flip share and each edge's 2.5–97.5 % bootstrap interval (M-1, E13: 49 of 72 band-rule rows flagged, 50 of 78
+   with the figure-ground rows; the fallback of 20 seeds per size was withdrawn by J171 because the edge rests on the two
+   outermost seeds of ten and the model leaves 53 of 72 rows flagged at 20 seeds and 38 at 100); FTG's roles stay as
+   §13.5 classes them, and its type 7 band-rule rows carry the same marker (R-50 (4)).
 2. **The derived street graph may be unstable** (skeleton spurs on footprint outlines). *Spike S-V12-2 (M-1, 1 day):* its
    metrics on the ten seeds per size; *pre-decided:* a metric whose seed-to-seed CV exceeds 0.3 becomes descriptive by the
    ⟨M-1⟩ rule and enters `known-defects.json`.

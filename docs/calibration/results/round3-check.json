@@ -1,0 +1,107 @@
+{
+ "id": "m1/round3-check",
+ "status": "partial",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/round3-check.json (this file)",
+  "scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1r3/check/ (r50_indep.py + r50_indep.json: own recompute of E13; ftg_indep.py, ftg_indep2.py: own recompute of R-50 (4); cand_diff.py, e15_cmp.py, plan_cmp.py, n31_check.py, c10_control.py; dc-*.out, bundle-check.out, scan-carry-*.out, rows-check.out, bands-selftest.out, cc-*.out; head-*.json are git show HEAD copies; proposed-n32.txt)"
+ ],
+ "checks": [
+  {
+   "check": "each ruling R-50..R-54 is recorded with its reason, its measuring record and its vetoable mark",
+   "passed": true,
+   "receipt": "M-1-rulings-3.md read whole (sha256 dc1108e1, unchanged since 10:49): R-50, R-51 and R-53 each carry Reason, Measured by and Vetoable; R-52 carries Reason and Measured by, vetoable in section 4 item 5; R-54 is the flag ruling (reason: it narrows what the firewall reads, as R-14 did; source E15 D13; veto consequence stated via R-52's coupling) and has no separate 'Measured by' label, which a flag needs none of. rulings-3.json mirrors them in owner_notes. No J-row for round 3 is in docs/PROGRESS.md yet (the session's step, rulings-3.json notes)"
+  },
+  {
+   "check": "S-V12-1's restatement follows from E13's numbers (at least one row's verdict recomputed under the new rule)",
+   "passed": true,
+   "receipt": "own code (scratch r50_indep.py; imports nothing from research/baselines) from E13 perSeed and the stated rule (band = min(0.9 p10, 0.85 c, c - floor) .. max(1.1 p90, 1.15 c, c + floor); candidates edge +-5 %; stream S-V12-1|<family>, 1 000 draws of 10): draw digests 8541437c / d557a176 / 2fe0766f equal E13; 78 rows, 0 mismatches against E13 on bands, candidates, per-candidate flips, row flips and the 2.5/50/97.5 edge percentiles; 49 of 72 unstable (68.1 %; 18/16/15 by size), equal to outcome.unstable; gap 2.7 % stable vs 13.8 % unstable; 47 of 49 with a spread-term edge, 16 of 23 stable with both centre edges; gate.count/40 27.9 %; projection 53 of 72 at 20 seeds, 38 at 100; width companion 93.1 %. Under the new rule every recomputed flagged row keeps role, values and band and its marker equals the candidate's note (49/49) and E15's bands[id].stability (49/49 at 4 decimals)"
+  },
+  {
+   "check": "R-50 applied as ruled: notes only, 0 role, 0 value, 0 band changes",
+   "passed": true,
+   "receipt": "candidate vs git HEAD 339ef9f's (git show to scratch): 491 rows, the first 478 in the same order, non-row blocks equal, exactly 60 rows changed and only in note, each new note = old + '; ' + marker; 50 MFCG ids = appendix A's 50; 10 FTG; longest note 198, 0 over 200. E15 JSON bands vs HEAD: 0 differ apart from the 60 stability blocks (after the id rename), 0 role changes"
+  },
+  {
+   "check": "appendix A's 50 markers equal the data, as the apply lane's receipts state",
+   "passed": false,
+   "receipt": "49 of 50 equal. mfcg/40/plain/ribbon.share/all: appendix A of M-1-rulings-3.md says 'hi 0.859-0.938'; the hi edge's 97.5 % value is 0.9374999999999999 (E13 hiDraws), so three significant figures give 0.937, as the candidate note, E15 JSON's marker, the rulings seat's own scratch r50-markers.json and appendix-a.md all have; the appendix rounded the 4-decimal 0.9375 a second time. Three receipts state equality 'character for character' and are wrong on this row: results/round3-apply.json check (b), results/W-15.json (line 104) and E15-baselines.md section 13.3 (line 580). The data is right; the record and the receipts are not"
+  },
+  {
+   "check": "R-50 (4): FTG's 13 type7 band-rule target rows tested, flagged rows marked",
+   "passed": true,
+   "receipt": "own code (ftg_indep.py, ftg_indep2.py) from E05 slots (outlineBandInputs; perSlot street.runs medians and wall.towerSpacing values in each row's capture order): draws f3bb0964 (BIG_TOWN) / 1ccd24c6 (BIG_CITY) equal E15; all 13 flip shares and all 10 flagged rows' lo/hi intervals equal E15 JSON; stable: BIG_TOWN street.runs lane 0, BIG_CITY street.runs street 0, BIG_CITY wall.towerSpacing 12 flips; the 13 are exactly the FTG rows with type7, target and a band-rule band"
+  },
+  {
+   "check": "plan.py --check SAME and its catalogue check passing with water.channelWidth",
+   "passed": true,
+   "receipt": "plan.py --check: 'SAME research/baselines/plan.json (69375 bytes, sha256 748707c3023278dc)', 'SAME research/baselines/metrics.m-1.json (111331 bytes, sha256 ee191172382520f4)', exit 0; --catalogue-check exit 0 (catalogue 184 = registry 184, missing [], extra [], draw.* 9 alike) on today's V12; water.channelWidth in metrics.m-1.json, 0 riverWidth in metrics, plan.json and the candidate; metrics vs HEAD: 3 lines (id, basis, amendedBy); plan.json vs HEAD: only mfcgRecordedDraw added, counts.mfcgRecordedDraw and one amendments entry; appendix B's MFCG_RECORDED_DRAW table and rule verbatim in plan.py, the rule string equal in plan.json"
+  },
+  {
+   "check": "the candidate carries the five channel-width rows and the eight ruled D28 rows as R-51 says",
+   "passed": true,
+   "receipt": "5 water.channelWidth rows equal HEAD E15's heldRows apart from id and metric. Recorded family rows: ids mfcg/draw/recorded/<metric>/all, family capture/MFCG/draw/recorded, indices [0, 12], captures the 12 labels in order, itch:12710731, no matched, scale free; recomputed from E07's draw block: casingLaw 1 [1, 1] n 11 (9 uncased), roundJoins 0.9999 [0.9998, 1] n 12 (pooled 0.99998; exactly one non-round join per recording), roundCaps 0.9971 [0.991, 0.9992] n 12 descriptive (pooled 0.99905), wallsAfterBuildings minmax 1 n 8 (4, 5, 6, 8 truncated-log); plan.json's 12 records' logComplete/casedRibbon flags equal E07; all six folders' meta.json name build 12710731 only. draw.widthPx: the ten size-40 exports' first SVG scale equals widths.json's svgScale on 10/10; model width x scale / 4 gives p10/p50/p90 equal to the four rows; bands +-15 % (wall 5.3893-7.2913)"
+  },
+  {
+   "check": "cross_check.py C1-C10 on the candidate (re-run by this seat), fixtures, kinds, T-V12-28, and a C10 positive control",
+   "passed": true,
+   "receipt": "cross_check.py candidates/baselines.json: C1..C10 PASS, ACCEPTED, 491 rows, 10 526 strings, 0 six-digit numbers, scan 0 hits, whole-text 140 hits all number runs (70 per list); --fixtures 46/46; --kind ng-faces ACCEPTED; --kind denylist ACCEPTED; --tv12-28 exit 1 (baselines.json 140 whole-text hits; ng-faces PASS), as W-15.json now states. Own control (c10_control.py, scratch copies): one number run the whole-text scan hits, planted inside one note, is refused by C3 and C10 on both lists; split across two strings it passes, which is D13's reading. rows.py --check SAME SAME; bands.py --selftest 12/12"
+  },
+  {
+   "check": "the W-17 entries carry 0.6 x and 0.084 / 0.094",
+   "passed": true,
+   "receipt": "04 line 45 and 06 line 55 state 'thickness exceeds 0.6 x the band's plot depth' as applied (06 section 3: the 7.6 changes applied with the NG step's extension; MFCG entry 0.813 / 0 / 0 / 0.187); 01 lines 54-55 and 65-70: sigma 0.084 plain / 0.094 ring; each matches the base (l. 1176, 7389, 7402, 12428, 20252); 09 l. 61-62 carries the n-0 exception. E17 section 1's bytes and sha256 equal all eleven files on disk"
+  },
+  {
+   "check": "the design's three 39 m quotes are restated and nothing else moved (diff against the backups)",
+   "passed": true,
+   "receipt": "m1r3/backup SHA256SUMS verify OK and equal git HEAD (base cde0c228, V12 ae77045f, V11 cce719fb, record 68299d96, bundle 4745ff2b); allow files unchanged. diff -U0: base 5 hunks (T-1 l. 8419, X-1 l. 20251, DC-40 l. 20273, T-2 l. 21462, DC-41 l. 21748), V12 4 (C10, 3.5.4, 3.5.5 step 2, 8.3 (1)), V11 1 (T-3 l. 3485), record 3 label edits + the Round 3 section; nothing else. 34.9 / 33.4 / 32.7 m = the candidate's FTG wall.towerSpacing p50 34.897 / 33.3575 / 32.704. DC texts equal the rulings' apart from the recorded adaptations J-7 (stale parenthetical), J-8 (cross-reference), J-9 (wording for C3), meaning kept. X-1 lies outside the brief's list but is recorded as J-11 under the no-defer rule (V12 3.4.2 defines block.courtShare by the inscribed radius, checked). Remaining 39 m mentions (0.3, 1.4 table 'M-1; 39 m earlier', 13.5 history, 17.1 (6) example, Appendix A sentence) are listed with reasons in R3.5 / J-10"
+  },
+  {
+   "check": "DC-41's timing agrees with the ruling",
+   "passed": false,
+   "receipt": "M-1-rulings-3.md section 4 item 6 says 'DC-41 waits for item 2' and rulings-3.json notes say 'DC-41 only once the D13 veto window has passed'; the design now carries DC-41 in V12 3.3 C10 and base 17.1 (5) (design/m1-corrections-3, applied per its brief, which passed the DC list without that condition; disclosed in its owner_notes with the revert path m1r3/backup). R-14's firewall DC-20 was applied while flagged (m1-corrections-1), so the application has precedent, but the round's records now disagree with the design"
+  },
+  {
+   "check": "doc_checks.py exits 0 on every touched design document; the bundle is current",
+   "passed": true,
+   "receipt": "run by this seat one at a time under nice 10: ARCHITECTURE.md exit 0 (C1 5/0, C2 2/0, C3 1886/0, C4 24/0, S1 0/0, S2 318/0); V12 --heads ARCHITECTURE exit 0 (C1 7/0, C3 155/0, C4 2/0, S2 119/0); V11 exit 0 (C3 326/0, C4 8/0, S2 334/0); m1-corrections-2.md exit 0 (C3 6/0, S2 1/0) - equal to the design seat's receipts; tools/bundle_architecture.py --check: UP TO DATE, exit 0"
+  },
+  {
+   "check": "the carry rows N-26 and N-31 are implementer-safe (our words, field names and design sections only)",
+   "passed": true,
+   "receipt": "both rows identical in rulings-3.json carry_rows and the record's section 3; no R-nn, E-nn, D-nn, W-nn, J-row or research path; they cite design sections (13.5, 17.1 (4)-(5)), choices C-0092 / C-0116, spec rows N-22 / N-25 and file and field names. N-26 names T-V12-28, a V12 id M0 cannot open, but glosses it as 17.1 (4)'s crossing rule, which states the content; N-24 already cites Volume 12. N-26's account of M0-k-06's scope sentence matches M0-work.json. make_denylist.py scan of the two rows with no allow file: m0 list TOK/TRI/COL/SET/FILE 0, research list all seven classes 0, exit 0; doc_checks on them: every class 0, exit 0"
+  },
+  {
+   "check": "N-31's three conventions hold on the candidate",
+   "passed": true,
+   "receipt": "19 n-0 rows (FTG 8, MFCG 7, NG 4), each with every member in failed and values.seeds = member count; 0 rows with n > 0 break seeds = members outside failed; 56 union-family rows (capture/NG), all with captures and no indices; one plain / river+coast pair shares metric, reference, matched and trailing segments. Five MFCG river+coast rows have no plain sibling (water.step, wall.ungated, wall.barrierShare, time.worst, water.channelWidth); N-31 (2) does not say how a lone stress row is read, but all five are descriptive and no M0 item names their metrics (M0-work.json), so no verdict depends on it (ruled not a defect)"
+  },
+  {
+   "check": "R-50's premise that the marker crosses in the row's note survives M0's note check",
+   "passed": false,
+   "receipt": "M0-work.json's M0-k-05 item states baselines:check's note check as 'numbers, units, our ids and the provenance forms only' (C-0092 (2)); the candidate's notes hold phrases in our words (4 notes contain 'organic presets only', 1 'round joins over joins', and the 60 markers 'edge noise', 'lo', 'hi'), which V12 3.3 C3 (letters allowed, scanned) and base 17.1 (4) ('notes scanned') allow. Implemented literally, M0's check would refuse the crossing, and R-50's PLAUSIBLE 'the note crosses with the row either way' would fail. Not caused by round 3 alone (W-15's notes predate it); design/m1-corrections-3 raised it as a PLAUSIBLE item but no numbered row carries it. A proposed row is in carry_rows (both lists 0 hits, doc_checks every class 0, exit 0)"
+  },
+  {
+   "check": "the machine rules, the clean room and git",
+   "passed": true,
+   "receipt": "no benchmark; one heavy process at a time under nice 10 (doc_checks runs sequential); disk 11 GiB free, memory 74 % free at start and end; nothing written into plat/ (plat/packages/testkit/baselines/ does not exist; plat files newer than the rulings record are M0 seats' landed and check files); no website; git used only for status and git show into the scratchpad; every research tool and checked file hashed equal before and after the checks; written: this file, lane-events.log lines and scratch files"
+  }
+ ],
+ "design_corrections": [],
+ "carry_rows": [
+  "PROPOSED by the checker for the session's decision (problem 3; a PLAUSIBLE need, before wave 11): | N-32 | M0-k-05 (`baselines:check`, the note check) | *(session hand-off from M-1, 2026-10-04; before wave 11)* M0-k-05's item states the note check as \"numbers, units, our ids and the provenance forms only\". The `note` fields of M-1's `baselines.json` also hold short phrases in our own words (for example \"organic presets only\", \"round joins over joins\" and the stability marker \"S-V12-1 edge noise 0.32: lo 0.481-0.561, hi 0.712-0.769\"), which §17.1 (4)'s \"notes scanned\" allows. A check that refuses every word that is not a number, unit or id would refuse the whole file. | The note check reads a `note` as at most 200 characters of letters, digits, spaces and `.,;:()-/%±≤≥×`, passed through the clean-room scanner (§17.1 (5)) with 0 hits; it refuses a longer note, a character outside that set or a scanner hit, naming the row and never the token. Tests: a note in the stability-marker form passes; a note of 201 characters is refused; a note holding a character outside the set is refused; a note holding a listed token is refused. |"
+ ],
+ "owner_notes": [
+  "Round 3 holds on every number re-executed: the S-V12-1 fire and all 50 MFCG and 13 FTG stability tests reproduce from my own code, the 13 new rows reproduce from their sources, C1-C10 pass, plan.py reads SAME with water.channelWidth, and the design moved only by the listed edits. The status is partial for three record or hand-off problems; none changes a value, role or band.",
+  "DC-41 (the scanner reading crossing files by their strings) is already in the design although the ruling said it would wait for your D13 veto; R-14's precedent applied its design change while flagged too. A veto of D13 (R-54) still restores both sentences from the backups and replaces N-26.",
+  "R-54 / E15 D13 stays flagged for your veto, unchanged by this check."
+ ],
+ "notes": [
+  "outcome: partial. Problems, each with its fix: (1) appendix A of M-1-rulings-3.md, row mfcg/40/plain/ribbon.share/all: 'hi 0.859-0.938' should read 'hi 0.859-0.937' (the data is right), and the 'character for character' equality receipts in round3-apply.json check (b), W-15.json line 104 and E15-baselines.md line 580 should read '49 of 50 character for character; ribbon.share at 40 differs in the last digit because appendix A rounded twice; the note follows the rule'. The rulings record is landed history, so the correction is a dated line by the round's close (the session) or round 4. (2) DC-41's timing: the session records which holds, either DC-41 stays applied and vetoable under R-14's precedent and rulings-3 section 4 item 6 is corrected, or the two edits are reverted from m1r3/backup until the veto window passes. (3) M0-k-05's note check: carry the proposed row (carry_rows) or an equivalent with N-26 and N-31 before wave 11.",
+  "JUDGMENT: status partial rather than landed, because three CONFIRMED-labelled receipts state an equality that fails on one row and two hand-offs disagree with the design or M0's item text; none moves a number - say 'veto' to flip it to landed.",
+  "JUDGMENT: for problem 2 I recommend keeping DC-41 applied (R-14 / DC-20 precedent; it is disclosed, reversible from m1r3/backup, and matches N-26 and the research twin's C10, which already reads strings on their own) over a revert, which would leave the design behind both checkers - say 'veto' to revert instead.",
+  "JUDGMENT: ruled not defects: N-31 (2) not covering a lone stress row (five rows, all descriptive, metrics no M0 item reads); the draw.widthPx note's 'px per metre 0.7906-0.9297 over the ten seeds' is the p10-p90 spread (the range is 0.7578-0.9433), worded loosely but matching E07 section 11 - say 'veto' to route either as a correction.",
+  "not independently recomputed: the one-sided fg.recoverability/130 row's 108 flips (E08 holds no per-seed recoverability field I could read); its edge 0.4936 = E08's median 0.523578 - 0.03 is confirmed, and its flips rest on the rulings and apply seats' two reproductions (PLAUSIBLE here).",
+  "CONFIRMED (executed this session): every check marked passed or failed above, each number quoted, the doc_checks counts, the scans, the diffs and the hashes. PLAUSIBLE: that M0-k-05 would implement C-0092's note wording literally (problem 3); that 'first scale()' in each export is the outer scale (it equals widths.json on 10/10)."
+ ]
+}

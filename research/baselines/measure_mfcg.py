@@ -80,6 +80,11 @@ Usage:
     the sweep's stats.md equal, every usable seed in every summary, the failed indices listed); exit 1 on any FAIL.
     --red shifts three expectations (a fixture cover by +0.001, one M-1 stats.md building count by +1, the TOWN usable
     count by +1) to prove the checker goes red
+  python3 research/baselines/measure_mfcg.py --plan-widths [--json OUT] [--red]
+    R-51 (4) (lane m1/round3-apply; M-1-rulings-3.md): draw.widthPx per usable seed of the three plain families, read
+    from W-03's own exports by E07's matchedWidthsPx rule (record docs/calibration/E07-mfcg-signature.widths.json; the
+    rows are W-15's); its checker column (exports present, the model widths, the rule, the four fixtures reproduced);
+    --red plants two faults (an expected model width, a stored fixture scale) so two checks go red
 """
 import cmath
 import gzip
@@ -434,15 +439,107 @@ def svg_scale(path):
     return float(m.group(3)) if m else None
 
 
-def matched_widths(stem):
-    J = json.load(open(os.path.join(EXPORTS, stem + '.json')))
+def matched_widths(stem, folder=EXPORTS):
+    J = json.load(open(os.path.join(folder, stem + '.json')))
     F = {f['id']: f for f in J['features']}
     v = F['values'].get('properties', F['values'])
-    s = svg_scale(os.path.join(EXPORTS, stem + '.svg'))
+    s = svg_scale(os.path.join(folder, stem + '.svg'))
     pxm = s / 4.0
     pw = sorted({g.get('width') for g in F['planks']['geometries']}) or [4.8]
     return {'svgScale': s, 'pxPerM': pxm, 'wall': v['wallThickness'] * pxm, 'tower': 2 * v['towerRadius'] * pxm,
             'roadCore': v['roadWidth'] * pxm, 'pier': pw[0] * pxm}
+
+
+# ---------------------------------------------------------------- R-51 (4): draw.widthPx on the plan's plain exports
+WIDTH_FIELDS = ('wall', 'tower', 'roadCore', 'pier')
+MODEL_WIDTH_M = {'wall': 7.6, 'tower': 15.2, 'roadCore': 8.0, 'pier': 4.8}   # E07 section 7: in all 18 fixture files
+WIDTHS_RULE = ("per export, each model width x that export's px per metre (its SVG's outer scale / 4, the export's 4 m "
+               "unit): E07's matchedWidthsPx rule, read from each plan seed's own export rather than from one fixture "
+               "(M-1-rulings-3.md R-51 (4)); a plain export draws no plank, so its pier width is the rule's 4.8 m default")
+
+
+def export_model_widths(folder, stem):
+    """the model widths (m) an export carries, by the same reads as matched_widths, and whether a plank was drawn"""
+    J = json.load(open(os.path.join(folder, stem + '.json')))
+    F = {f['id']: f for f in J['features']}
+    v = F['values'].get('properties', F['values'])
+    pw = sorted({g.get('width') for g in F['planks']['geometries']})
+    return {'wall': v['wallThickness'], 'tower': 2 * v['towerRadius'], 'roadCore': v['roadWidth'],
+            'pier': pw[0] if pw else 4.8}, bool(pw)
+
+
+def main_widths(out_json, red):
+    """R-51 (4) (lane m1/round3-apply): draw.widthPx per usable seed of the plan's three plain families (W-03's
+    exports, already on disk; no load), summarised by V12 section 3.5.1's estimator; the row is size 40's (the cell
+    names size 40's scale), sizes 80 and 130 are tabled for E07. The checker column runs every time; --red plants two
+    faults (the expected model wall width 7.7 m; one fixture's stored px per metre + 0.001) so two checks go red."""
+    fams = {lab: fm for lab, fm in plan_families().items() if fm['options'] == 'plain'}
+    e07 = json.load(open(os.path.join(ROOT, 'docs', 'calibration', 'E07-mfcg-signature.json')))
+    result = {'schema': 'research.e07-widths/1', 'script': SCRIPT, 'lane': 'm1/round3-apply',
+              'ruling': 'M-1-rulings-3.md R-51 (4); the rows at W-15 (rows.py)', 'referenceBuild': REFERENCE_BUILD,
+              'sweep': os.path.relpath(M1_DIR, ROOT), 'rule': WIDTHS_RULE, 'modelWidthsM': MODEL_WIDTH_M,
+              'families': {}, 'checks': []}
+    fails = 0
+
+    def ck(name, ok, detail):
+        nonlocal fails
+        fails += (not ok)
+        result['checks'].append({'check': name, 'passed': bool(ok), 'detail': detail})
+        print(f"{'PASS' if ok else 'FAIL'} {name}: {detail}")
+    missing, models, bad_rule, planks = [], {}, [], []
+    want = dict(MODEL_WIDTH_M, wall=7.7) if red else MODEL_WIDTH_M
+    for lab, fm in fams.items():
+        per = {}
+        for stem in fm['usable']:
+            if not all(os.path.exists(os.path.join(M1_DIR, stem + x)) for x in ('.json', '.svg')):
+                missing.append(stem)
+                continue
+            w = matched_widths(stem, M1_DIR)
+            mw, plank = export_model_widths(M1_DIR, stem)
+            if plank:
+                planks.append(stem)
+            models[stem] = mw
+            for f in WIDTH_FIELDS:
+                if abs(w[f] - mw[f] * w['svgScale'] / 4.0) > 1e-9:
+                    bad_rule.append(f'{stem} {f}')
+            per[stem] = {k: w[k] for k in ('svgScale', 'pxPerM') + WIDTH_FIELDS}
+        summ = {}
+        for f in WIDTH_FIELDS + ('pxPerM',):
+            xs = [per[s][f] for s in fm['usable'] if s in per]
+            e = estimate(xs) or {'estimator': None, 'n': 0}
+            e['seeds'] = [s for s in fm['usable'] if s in per]
+            summ[f] = e
+        result['families'][lab] = {'size': fm['size'], 'rung': fm['rung'], 'indices': fm['indices'],
+                                   'usable': fm['usable'], 'failed': fm['failed'], 'perSeed': per, 'summaries': summ,
+                                   'row': fm['size'] == 40}
+    n_by = ' / '.join(f"{fm['size']} {len(result['families'][lab]['perSeed'])}" for lab, fm in fams.items())
+    ck("every usable seed of the plain families has its JSON and SVG export and an outer scale (W-03's files; no load)",
+       not missing and all(len(result['families'][lab]['perSeed']) == len(fm['usable']) == 10 for lab, fm in fams.items()),
+       f'seeds measured by size {n_by}' + (f'; missing {missing}' if missing else ''))
+    off = sorted({f'{s} {f} {v}' for s, mw in models.items() for f, v in mw.items() if abs(v - want[f]) > 1e-9})
+    ck('the model widths wall 7.6, tower 15.2, road core 8 and pier 4.8 m in every export (E07 section 7)', not off,
+       f'{len(models)} exports; planks drawn in {len(planks)}' + (f'; differ: {off[:6]}' if off else ''))
+    ck("each width = model width x px per metre, px per metre = the SVG's outer scale / 4 (E07's matchedWidthsPx rule)",
+       not bad_rule, f'{len(models) * len(WIDTH_FIELDS)} widths recomputed' + (f'; differ: {bad_rule[:6]}' if bad_rule else ''))
+    stored = json.loads(json.dumps(e07['matchedWidthsPx']))
+    if red:
+        stored['s555001-size40-gates4']['pxPerM'] += 0.001
+    fx_bad = [s for s in stored if matched_widths(s) != stored[s]]
+    ck("the generalised rule reproduces E07's stored matchedWidthsPx on the four gate fixtures exactly", not fx_bad,
+       f'{len(stored)} fixtures' + (f'; differ: {fx_bad}' if fx_bad else ', equal'))
+    for lab, fr in result['families'].items():
+        sm = fr['summaries']
+        print(f"-- {lab}: " + '; '.join(f"{f} {sm[f]['c']:.4f} [{sm[f]['a']:.4f}, {sm[f]['b']:.4f}] {sm[f]['estimator']} n {sm[f]['n']}"
+                                         for f in ('pxPerM',) + WIDTH_FIELDS))
+    print(f"{'ALL PASS' if not fails else f'{fails} FAIL'}")
+    result['checksFailed'] = fails
+    if out_json:
+        tmp = out_json + '.tmp'
+        with open(tmp, 'w') as fh:
+            json.dump(result, fh, indent=1, sort_keys=True)
+            fh.write('\n')
+        os.replace(tmp, out_json)
+    return 1 if fails else 0
 
 
 # ---------------------------------------------------------------- D24 cross-check: the coverage call counts
@@ -1008,6 +1105,8 @@ def main():
         i = args.index('--json'); out_json = args[i + 1]; del args[i:i + 2]
     check = '--check' in args; red = '--red' in args
 
+    if '--plan-widths' in args:
+        return main_widths(out_json, red)
     if '--plan' in args:
         return main_plan(out_json, red)
     files = sorted(f for f in os.listdir(INPUTS) if f.endswith('.metric.geojson.gz') and f.split('.', 1)[0] in FIXTURE_FOLDERS)

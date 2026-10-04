@@ -15,6 +15,12 @@
    "date": "2026-10-03",
    "item": "m1/plan-fix-3-check's finding (record M-1-plan-fix-3.md, section Guard round 2)",
    "what": "the recorded-slot guard also keeps a recorded slot's programme and day; ftg.slotRule restated"
+  },
+  {
+   "lane": "m1/round3-apply",
+   "date": "2026-10-04",
+   "item": "M-1-rulings-3.md R-51 and E15 F2 (record E15 section 13)",
+   "what": "the recorded MFCG draw family's block (mfcgRecordedDraw; R-51, R-02's precedent): the twelve profiler draw recordings in recording order, a member kept against the prior plan.json and the family extended only by appending; the registry twin's id water.channelWidth (E15 F2)"
   }
  ],
  "seedRule": {
@@ -2481,6 +2487,160 @@
    }
   ]
  },
+ "mfcgRecordedDraw": {
+  "family": "capture/MFCG/draw/recorded",
+  "reference": "MFCG",
+  "build": "12710731",
+  "priority": 3,
+  "rule": "as recorded (R-51; R-02 and the Fantasy Manor sample are the precedents, V12 section 3.2.1): the twelve draw recordings made before the plan hold the family capture/MFCG/draw/recorded in recording order; a row lists in sample.failed the members its metric cannot read (truncated-log for the four logs cut at 60 000 entries; uncased for the one recording that draws its road without a casing) and pools nothing else; the family extends only by a new recording appended in order, under an approval (J171: none now)",
+  "workItem": "W-07 (E07 section 7); rows at W-15 (R-51)",
+  "records": [
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 0,
+    "label": "capture/MFCG/draw/recorded/0",
+    "record": "2026-09-21T05-03-24/gen-0",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-0",
+    "size": 25,
+    "water": "river+coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 1,
+    "label": "capture/MFCG/draw/recorded/1",
+    "record": "2026-09-21T05-03-24/gen-1",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-1",
+    "size": 24,
+    "water": "river+coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 2,
+    "label": "capture/MFCG/draw/recorded/2",
+    "record": "2026-09-21T05-03-24/gen-2",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-2",
+    "size": 31,
+    "water": "river",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 3,
+    "label": "capture/MFCG/draw/recorded/3",
+    "record": "2026-09-21T05-03-24/gen-3",
+    "capture": "2026-09-21T05-03-24",
+    "generation": "gen-3",
+    "size": 31,
+    "water": "coast",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 4,
+    "label": "capture/MFCG/draw/recorded/4",
+    "record": "2026-09-21T05-06-58/gen-0",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-0",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 5,
+    "label": "capture/MFCG/draw/recorded/5",
+    "record": "2026-09-21T05-06-58/gen-1",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-1",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 6,
+    "label": "capture/MFCG/draw/recorded/6",
+    "record": "2026-09-21T05-06-58/gen-2",
+    "capture": "2026-09-21T05-06-58",
+    "generation": "gen-2",
+    "size": 80,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 7,
+    "label": "capture/MFCG/draw/recorded/7",
+    "record": "2026-09-21T11-25-32/gen-0",
+    "capture": "2026-09-21T11-25-32",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 8,
+    "label": "capture/MFCG/draw/recorded/8",
+    "record": "2026-09-21T11-25-32/gen-1",
+    "capture": "2026-09-21T11-25-32",
+    "generation": "gen-1",
+    "size": 71,
+    "water": "river+coast",
+    "logComplete": false,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 9,
+    "label": "capture/MFCG/draw/recorded/9",
+    "record": "2026-09-25T10-05-23/gen-0",
+    "capture": "2026-09-25T10-05-23",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": false
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 10,
+    "label": "capture/MFCG/draw/recorded/10",
+    "record": "2026-09-25T10-05-38/gen-0",
+    "capture": "2026-09-25T10-05-38",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   },
+   {
+    "family": "capture/MFCG/draw/recorded",
+    "order": 11,
+    "label": "capture/MFCG/draw/recorded/11",
+    "record": "2026-09-25T10-05-44/gen-0",
+    "capture": "2026-09-25T10-05-44",
+    "generation": "gen-0",
+    "size": 40,
+    "water": "plain",
+    "logComplete": true,
+    "casedRibbon": true
+   }
+  ]
+ },
  "fm": {
   "reference": "FM",
   "build": "890",
@@ -2547,6 +2707,7 @@
   "ftgProgramme1": 6,
   "ftgProgramme2": 22,
   "fmBuildings": 41,
+  "mfcgRecordedDraw": 12,
   "seedCollisions": []
  }
 }

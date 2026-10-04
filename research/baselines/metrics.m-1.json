@@ -2,7 +2,7 @@
  "schema": "research.metrics-twin/1",
  "metricsVersion": "1.0.0",
  "lane": "m1/W-01",
- "amendedBy": "m1/W-01b (M-1-plan section 2 item W-01b; record E01 section 9)",
+ "amendedBy": "m1/W-01b (M-1-plan section 2 item W-01b; record E01 section 9); m1/round3-apply (the id water.channelWidth, E15 F2 and design/m1-corrections-2; record E15 section 13)",
  "planDate": "2026-10-03",
  "script": "research:baselines/plan.py",
  "source": "V12 section 3.4.2's catalogue and default rules; section 2.1's MetricDef fields; the M-1 rulings named in each basis (M-1-rulings-1.md, M-1-rulings-2.md); the item table of M-1-plan section 1",
@@ -2432,7 +2432,7 @@
    ]
   },
   {
-   "id": "water.riverWidth",
+   "id": "water.channelWidth",
    "version": "1.0.0",
    "input": "geo",
    "scale": "metric",
@@ -2465,7 +2465,7 @@
    ],
    "row": "water",
    "parity": true,
-   "basis": "stated",
+   "basis": "stated; the id renamed at M-1 (E15 F2; design/m1-corrections-2; R-29's precedent: no token of ours repeats a reference's export key), installed here by lane m1/round3-apply",
    "m1": [
     {
      "reference": "FTG",

@@ -2,7 +2,8 @@
 """bands.py — the band arithmetic of M-1's rows (V12 section 3.5.1 - 3.5.4), the dispersion step (R-10, R-40) and
 the fixed-band, declared-exception and weakness forms the design states in ARCHITECTURE section 13.5.
 
-Lane m1/W-15 is the sole writer of this file, rows.py and cross_check.py (M-1-rulings-2.md R-47 (a)). Our own code,
+Lane m1/W-15 is the sole writer of this file, rows.py and cross_check.py (M-1-rulings-2.md R-47 (a)); lane
+m1/round3-apply continues W-15 with them (M-1-rulings-3.md: R-51's draw-style fixed bands, E15 section 13). Our own code,
 standard library only. It holds numbers, metric ids and our own words; no reference word list, grammar, palette or
 identifier. Nothing here is read by plat/: the parity CLI forms its bands from each row's stored values (C-0092); this
 module forms the same bands research-side for E15's table, the flip list and the design seat's hand-off.
@@ -161,6 +162,11 @@ FIXED_BANDS = {
     ('market.adjacent', None): ('fixed', 'adjacent markets 0 (section 13.5 markets)', None, 0.0, False),
     ('draw.capSquare', None): ('fixed', 'square caps on open streets: a law of the hatched preset (section 13.5 draw style; E20 F3)', None, None, False),
     ('bldg.attached', None): ('fixed', 'attached >= 90 % in dense / poor (section 13.5 party walls)', 0.90, None, False),
+    # the ink preset's clauses (section 13.5 draw style; R-51, lane m1/round3-apply); 'mul': edges relative x the reference
+    ('draw.casingLaw', None): ('fixed', 'casing law on 100 % of ribbons (section 13.5 draw style, ink; R-51)', 1.0, None, False),
+    ('draw.roundJoins', None): ('fixed', 'round joins >= 99.9 % (section 13.5 draw style, ink; R-51)', 0.999, None, False),
+    ('draw.wallsAfterBuildings', None): ('fixed', "order parity as section 8.3 defines it, ours against our declared slot table; the reference's value reported (section 13.5 draw style, ink; R-51)", None, None, False),
+    ('draw.widthPx', None): ('fixed', 'widths +-15 % of the reference (section 13.5 draw style, ink; R-51)', 0.85, 1.15, 'mul'),
 }
 
 DECLARED_EXCEPTIONS = {
@@ -188,7 +194,10 @@ def fixed_band(metric, field, ref):
     if spec is None:
         return None
     kind, text, lo, hi, rel = spec
-    if rel and ref is not None:
+    if rel == 'mul' and ref is not None:
+        lo = None if lo is None else ref * lo
+        hi = None if hi is None else ref * hi
+    elif rel and ref is not None:
         lo = None if lo is None else ref + lo
         hi = None if hi is None else ref + hi
     return {'kind': kind, 'text': text, 'lo': lo, 'hi': hi}
@@ -294,6 +303,10 @@ def _selftest():
     check('within-group pairs', s['pairs'] == 1 and abs(s['p90'] - 0.5) < 1e-12, json.dumps(s))
     check('lost intervals', lost_intervals({'lo': 1, 'hi': 5}, {'lo': 2, 'hi': 4}) == [[1, 2], [4, 5]]
           and lost_intervals({'lo': 1, 'hi': 5}, {'lo': 0, 'hi': 9}) == [])
+    fb = fixed_band('draw.widthPx', 'wall', 10.0)
+    fs = fixed_band('cut.sigma', None, 0.09)
+    check('fixed band KAT (relative x and relative +)', abs(fb['lo'] - 8.5) < 1e-12 and abs(fb['hi'] - 11.5) < 1e-12
+          and abs(fs['lo'] - 0.07) < 1e-12 and abs(fs['hi'] - 0.11) < 1e-12, json.dumps([fb['lo'], fb['hi'], fs['lo'], fs['hi']]))
     d = dispersion_step([[0, 0], [1, 1]], [[0, 0], [2, 2]])
     check('dispersion KAT', d['MFCG'] is not None and d['FTG'] > d['MFCG'], json.dumps({k: d[k] for k in ('MFCG', 'FTG')}))
 
