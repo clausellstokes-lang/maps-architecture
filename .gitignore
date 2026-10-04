@@ -35,3 +35,6 @@ node_modules/
 plat/**/dist/
 *.tsbuildinfo
 plat/**/coverage/
+
+# machine-local lane tracker (tools/lanes.py; absolute journal paths of this session)
+docs/ACTIVE-RUN.json
