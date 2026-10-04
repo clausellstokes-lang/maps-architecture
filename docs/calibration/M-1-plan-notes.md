@@ -247,3 +247,17 @@ All 39 were read, and they are of the same kinds: our paths, digit runs and our 
    no website). That the site session is still valid at the next sitting is PLAUSIBLE only. The first programme-2 seat
    reads the landing before anything (H2), and stops if the signed-in line is missing. The owner then signs in once in that
    window.
+
+## 7 Session intake (2026-10-03, after the M0 hand-off was carried)
+
+The session carried rows N-20 to N-25 with attachments A to C into `plat/docs/build/checks/M0-spec-notes.md` and
+`checks/M0-handoff-M1.md` (wave 3, record `session-handoff-1`). Two requests in them point back here and are assigned now:
+
+* **DC-37 (for the next design seat; from N-24).** V12 §3.3's C2 string pattern for a row's `id`, `metric` and
+  `supersedes` admits lower case only, yet ten of the twenty AFTER-M-1 ids and 38 of the 81 metrics with M-1 rows carry an
+  upper-case letter (`sgd.tShare`, `block.countTemplate`, `bldg.wallAlign.share15`). Widen it to
+  `^[A-Za-z0-9.:/@+_-]{1,120}$` with case-sensitive matching, as N-24 states for M0's C1.
+* **W-15 and W-20 (M-1 wave 3).** `cross_check.py`'s C1 takes the same widened pattern (N-24); its C3 reads a colour only
+  inside a JSON string value (N-22); rows carry no floor or sign field where M0 gates on them (N-05); the countersigning
+  checker seat is implementer-side and reads only the file and `baselines:check`'s output (N-06, R-45); W-20 runs N-23's
+  planted-hit control in a scratch copy outside the project; the row ids follow N-25's trailing `/<subset>[/<field>]` form.
