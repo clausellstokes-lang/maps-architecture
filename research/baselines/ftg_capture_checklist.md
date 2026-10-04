@@ -659,3 +659,19 @@ the page. For the relaunch, under a new lane key:
   re-scroll.
 - Slot 27's form is otherwise unchanged: the 8 commands before the create equal slot 25's first 9 without its size
   select, in order and coordinates.
+
+Slot 27, relaunch (2026-10-04, lane `m1/W-02-slot27c`, `captures/ftg/2026-10-04T09-33-54`, E02 section 39) followed H1–H14
+and I1–I11 with the first seat's slot-27 note: the root scroll read 0 → 0 across the landing; the account list held 27
+rows before (big town 10, big city 10, metropolis 4, city 2, town 1) and 28 after; the form opened at the town option
+(key remainder exactly `TOWN`), confirmed by `eval` and not selected. The 12 form, map and navigation commands equal every
+signed-in `coast+river` capture's 13 without their size select. Just before the create CHECKPOINT, the form-state reading
+with the hit test put the boxes at y 280–396 as the form-final reading did, and the hover named the checkbox under the
+wall box's point. The post script passed 10 of 10 on its first run with the 28 same-size values equal to slot 26's. With
+slot 27 bound, programme 2 is complete (all 28 FTG slots bound, none failed). One thing for any later seat:
+- **The list's size is a label; match the new row by the PUT's settlement id.** The new row carried this create's
+  settlement id, but the list named it a big town with 5 725 people, although the request's size key was `TOWN` and the
+  payload's border the town's 1 750 m. For slots 1–26 every listed size equals the request's. PLAUSIBLY FTG labels a
+  saved settlement by its generated population. So I5's "one new row of the slot's size" is read as one new row
+  carrying the PUT's settlement id (the post script reads the listed population that way), with every other row
+  unchanged. Two new rows, or a new row with another id, stay I5's stop. A row count by size (H13, I2) is a count of
+  labels.

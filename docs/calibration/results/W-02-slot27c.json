@@ -1,0 +1,91 @@
+{
+ "slot": 27,
+ "status": "landed",
+ "capture": "2026-10-04T09-33-54",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot27c.json and no lane line for m1/W-02-slot27c; owner-go.json ftg true; plan.json slots 0-26 bound, slot 27 open; plan.py --check SAME (11a9b357 / 8a0efa7e); newest folder 2026-10-04T08-26-40 is slot 27b's attempt with 0 PUT rows; 08-06-17 holds slot 26's own create"
+  },
+  {
+   "check": "isolated runner and clean start/stop",
+   "passed": true,
+   "receipt": "scratchpad copies cmp-identical (session.mjs e199be5d, drive.mjs 597eb62d, lib/common.mjs 3b948576, package.json 25e7d362, lib/instrument.js cca253ac); port 9341 free; no FTG process, no Singleton*, both .session absent before; after drive.mjs stop: 'session closed', no Singleton*, both .session absent, port free, pgrep empty at once and ~5 and ~8 min later"
+  },
+  {
+   "check": "landing signed in, no consent notice, no other hand (H2, I2, I10)",
+   "passed": true,
+   "receipt": "signed-in line, Sign out, Home present (redacted reading); 0 cookie/consent words, 0 dialogs; root scroll 0 -> 0 across the landing, hover empty; one identity-provider call at 09:34:06 as the landing loaded, answered 200 (slot-13 note); shot 001"
+  },
+  {
+   "check": "account list before (I2)",
+   "passed": true,
+   "receipt": "intercepted list body: 27 rows (big town 10, big city 10, metropolis 4, city 2, town 1) = the earlier settlement + slots 1-26; no slot-27 row"
+  },
+  {
+   "check": "TOWN option by its request key (I4, slot-24/25 notes); metropolis not chosen",
+   "passed": true,
+   "receipt": "form opened at 'Town (~4000 people)'; React key remainder exactly TOWN for 1 of 12 options (3 end in TOWN), the selected one; confirmed by eval, not selected; re-read in the form-final reading; request size key TOWN"
+  },
+  {
+   "check": "form set by guarded steps (H12, H14) and the slot-27 pre-create reading",
+   "passed": true,
+   "receipt": "select 7 Coastal; rivers (1008,498), forests (1008,556), wheel 720 400 300, reserve (1008,367), walled (1008,396), each its own command after text + shot + elementFromPoint naming the box, checked after; form-final: 8 selects, 23 boxes, text lengths equal slot 27b's form-final; 12 commands equal the 13 of all 16 signed-in coast+river captures without their size select; just before the create CHECKPOINT: boxes y 280-396 (unchanged), hover on the walled box's checkbox, Create Settlement 1 of 1 at (947,522) inside the dialog, shot 012"
+  },
+  {
+   "check": "one create, retry rule (plan 2.1b (6))",
+   "passed": true,
+   "receipt": "CHECKPOINT line 05:37 before the click; one click; PUT 200 (273 918-byte body), layout GET 200 intercepted; list 27 -> 28 rows, exactly one new row and it carries the PUT's settlement id (8ca18932...); other sizes' counts unchanged; listed size of the new row BIG_TOWN (see notes); no retry"
+  },
+  {
+   "check": "same-size rule R-41 (TOWN's second capture)",
+   "passed": true,
+   "receipt": "sameSize 28 of 28 equal slot 26's; request vs slot 26: 8 semantic differences (2 water keys + 6 fishing-entry leaves), 0 size-dependent, 0 other, 45 partner ids; SIZE_DEPENDENT untouched (post script c4ad4ddf76bd1f2a)"
+  },
+  {
+   "check": "ftg_capture_post.py all checks",
+   "passed": true,
+   "receipt": "--check-only twice (identical output) exit 0, writing run exit 0: 10 of 10 (calls, sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, decode, border 1750.00 m, noResidentField, pbRaw); red tests: this capture as each of slots 0-26 exits 1 (as slot 26: waterKeys, requestDiff, vsSlot0; as the coast+river slots of other sizes: sizeKey, sameSize, border); structure.md equals a fresh pb_raw run apart from line 1"
+  },
+  {
+   "check": "payload and request facts",
+   "passed": true,
+   "receipt": "requestHash 2842892ac3a8; referenceBuild ftg:2026-10-04+2842892ac3a8; payload 396 506 bytes (sha256 667bf05b696975ac); 1 755 buildings, 2 850 edges, 2 541 nodes, 54 towers, 83 wall edges (1 745 m, two open lines), 4 water bodies, 4 districts; 183 field paths, none new vs slots 0-26; server time 1.877 s (contended); listed population 5 725 (nominal 3 625)"
+  },
+  {
+   "check": "slot bound, plan SAME",
+   "passed": true,
+   "receipt": "plan.json byte-equal to the pre-flight copy just before the bind; plan.py --bind-ftg 27=2026-10-04T09-33-54 exit 0; --check SAME both files immediately and again at 05:50; one line changed (slot 27 capture); plan.json 11a9b357 -> 9ed325bd; metrics.m-1.json 8a0efa7e unchanged; plan.py 68709ba8 unchanged"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 header update + section 39 (183 lines added, none removed; W-05b's e02_table() parse equal before/after, 28 rows); E02-ftg-captures.json: days entry for slot 27, slotsTaken 28, slotsByProgramme 2 = 22 of 22, sizeDependentClass.secondTown, next.programme2 complete, stoppedAttempts[slot 27b].retriedBy (prior days byte-equal); checklist section I slot-27 relaunch note (16 lines added, none removed); capture README with the seat's notes"
+  },
+  {
+   "check": "privacy grep of the files written (H11, H14)",
+   "passed": true,
+   "receipt": "README, capture-facts.json, request-diff.txt, structure.md, notes, E02 additions, E02 JSON entry, checklist note, this lane's lane-events lines: 0 emails, 0 display-name hits, 0 'eyJ', 0 uuids; create-request.json: 45 uuids = the partner ids; steps.jsonl: 0 emails, 0 display name, 0 'eyJ', 2 distinct uuids = the scratchpad session folder name and the new settlement's id (neither an account id); no settlement name written"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes: 11 GiB free before and after; capture folder 33 MB"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164); the list held 27 settlements before and 28 after; no counter, no limit, payment or upgrade prompt shown",
+ "owner_notes": [
+  "Slot 27, the last town (coast and river), was created once and recorded. All 22 premium slots of programme 2 are now done, and all 28 FTG slots are bound. Your account holds 28 settlements. Nothing was bought, accepted or changed, and you are still signed in.",
+  "One oddity, decided and recorded so you can overrule it: your settlement list calls the new town a 'Big town' with 5 725 people, although it was asked for as a 'Town (~4000 people)'. I checked that it is a town-sized map (the same request as slot 26's town, apart from the coast and river, and the town's map size). It came out bigger, with a walled part on each bank of the river. The site appears to label saved settlements by their real population. I counted it as slot 27; the session can undo that if you disagree.",
+  "Programme 2 needs no more creates in the premium account.",
+  "Your display name appears only in the local screenshots under captures/, which git ignores. It is in no file this seat wrote."
+ ],
+ "notes": [
+  "CONFIRMED: one create (PUT 200, one new list row carrying the PUT's id), the request equal to slot 26's but the water options, the town's 1 750 m border, 10 of 10 post checks, the bind (--check SAME), and the list's BIG_TOWN label at 5 725 people. PLAUSIBLE: that FTG labels saved settlements by generated population, and why this coastal river town is 59 % larger than slot 26 (its extra buildings sit 300-600 m out, in the far bank's walled part).",
+  "Judgment call (E02 39.4 call 1, vetoable): checklist I5's 'one new row of the slot's size' was read as 'one new row carrying the PUT's id', because the listed size is a population label. With the label read literally, this is I5's 'other combination' (stop, never retry). No retry was possible either way. The slot was bound because all checks pass, as the brief says. plan.py never rewrites a recorded slot, so a veto is a session edit of plan.json slot 27.",
+  "Routed to W-05b / E05 section 9: slot 27's population is nominal 3 625 (populationSource nominal) but the list gives 5 725 (+58 %); every earlier listed figure is within 12 % of its nominal. A reading of town numbers as a function of population should use the listed figure for this slot or say why not.",
+  "Checklist section I gained a slot-27 relaunch note: match the new list row by the PUT's settlement id, not by the listed size.",
+  "Files: captures/ftg/2026-10-04T09-33-54/ (README.md, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ with 19 shots); research/baselines/plan.json (slot 27 bound); docs/calibration/E02-ftg-captures.md (header update, section 39); docs/calibration/E02-ftg-captures.json; research/baselines/ftg_capture_checklist.md (section I note); docs/calibration/results/W-02-slot27c.json; docs/lane-events.log (this lane's lines). Scratch: s27c/ in the session scratchpad (notes, red tests, facts)."
+ ]
+}

@@ -8,7 +8,7 @@
   "plan": "research/baselines/plan.json",
   "postChecks": 10
  },
- "slotsTaken": 27,
+ "slotsTaken": 28,
  "slotsTotal": 28,
  "days": [
   {
@@ -3585,6 +3585,178 @@
     "after": "c4ad4ddf76bd1f2a"
    },
    "record": "E02 section 37"
+  },
+  {
+   "day": null,
+   "programme": 2,
+   "date": "2026-10-04",
+   "slot": 27,
+   "lane": "m1/W-02-slot27c",
+   "account": "the owner's signed-in account, premium since J164",
+   "label": "capture/FTG/TOWN/coast+river/0",
+   "capture": "2026-10-04T09-33-54",
+   "ftgSize": "TOWN",
+   "rung": "TOWN",
+   "water": "coast+river",
+   "population": 3625,
+   "populationSource": "nominal",
+   "listedPopulation": 5725,
+   "listedSize": "BIG_TOWN",
+   "serverDate": "2026-10-04",
+   "putSentUtc": "2026-10-04T09:37:46.823Z",
+   "serverTimeS": 1.877,
+   "serverTimeContended": true,
+   "requestBytes": 273918,
+   "requestHash": "2842892ac3a8",
+   "referenceBuild": "ftg:2026-10-04+2842892ac3a8",
+   "payloadBytes": 396506,
+   "payloadSha256Prefix": "667bf05b696975ac",
+   "buildings": 1755,
+   "edges": 2850,
+   "nodes": 2541,
+   "towers": 54,
+   "wallEdges": 83,
+   "waterBodies": 4,
+   "districts": 4,
+   "borderHalfWidthM": 1750.0,
+   "wall": "83 type-7 (wall) edges, 1 745 m long, every wall node within 482 m of the centre, two open lines (49 edges and 1 000 m; 34 edges and 745 m), one round each bank's walled part, and 54 towers: more towers than any capture at TOWN, BIG_TOWN or CITY (slot 26: 27; BIG_TOWN 0-31; CITY 13 and 36); slot 2 (BIG_TOWN coast+river) also had two open lines (E02 section 39.3 finding 3)",
+   "distinctFieldPaths": 183,
+   "distinctFieldPathsNote": "a subset of the union of slots 0-26 (198): none new; the 15 absent are 11.1, 11.6 and 11.7 (5 each), each absent in at least 13 earlier captures, slot 26 among them (E02 section 39.3 finding 7)",
+   "sameSize": "28 of 28 equal slot 26's, the first TOWN (post script sha256 c4ad4ddf76bd1f2a, unchanged); SIZE_DEPENDENT not touched (E02 section 39.3 finding 5)",
+   "requestDiffVsSlot26": {
+    "semantic": 8,
+    "waterKeys": 2,
+    "waterImplied": 6,
+    "sizeDependentPreset": 0,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsCityBase": {
+    "semantic": 24,
+    "sizeKey": 1,
+    "waterKeys": 0,
+    "waterImplied": 0,
+    "sizeDependentPreset": 23,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot0": {
+    "semantic": 30,
+    "sizeKey": 1,
+    "waterKeys": 2,
+    "waterImplied": 6,
+    "sizeDependentPreset": 21,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsCoastRiver": {
+    "slot25": 24,
+    "bigTownSlots2_4_12_16_20_22": 22,
+    "bigCitySlots3_5_13_17_21_23": 27,
+    "metropolisSlots7_8_9": 27,
+    "sizeKey": 1,
+    "sizeDependentPreset": {
+     "CITY": 23,
+     "BIG_TOWN": 21,
+     "BIG_CITY": 26,
+     "METROPOLIS": 26
+    },
+    "other": 0
+   },
+   "requestDiffVsNone": {
+    "bigTownSlots0_10_14_18": 30,
+    "bigCitySlots1_11_15_19": 35,
+    "metropolisSlot6": 35,
+    "citySlot24": 32,
+    "other": 0
+   },
+   "waterComparison": "slots 26 and 27 are the controlled water comparison at TOWN: the requests differ in the 2 water keys and the fishing resource entry only (E02 section 39.3 finding 6)",
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "vsSlot0": true,
+    "sameSize": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true
+   },
+   "firstRunChecks": "10 of 10",
+   "postFlags": "--signed-in --premium",
+   "redTests": {
+    "asSlot0": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, border)",
+    "asSlot1": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, border)",
+    "asSlot2": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot3": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot4": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot5": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot6": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, border)",
+    "asSlot7": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot8": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot9": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot10": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot11": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot12": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot13": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot14": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot15": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot16": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot17": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot18": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot19": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, sameSize, border)",
+    "asSlot20": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot21": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot22": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot23": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot24": "exit 1 (sizeKey, waterKeys, requestDiff, vsSlot0, border)",
+    "asSlot25": "exit 1 (sizeKey, sameSize, border)",
+    "asSlot26": "exit 1 (waterKeys, requestDiff, vsSlot0)"
+   },
+   "waterBodyShapes": "4 polygons: 353 points, 200-2 475 m from the centre, reaching the border (PLAUSIBLY the sea); 83 points, 82-1 766 m, reaching the border (PLAUSIBLY the river); 11 points within 95-323 m and 9 points within 330-379 m (PLAUSIBLY the near-centre kind of the coastal captures); no pond (E02 section 39.3 finding 4)",
+   "largerThanTheInlandTown": "1 755 buildings against slot 26's 1 102 (+59 %), 2 850 edges against 2 417, 0.40 MB payload against 0.27; building centres within 300 m 862 against 873, 300-600 m 869 against 220, beyond 600 m 24 against 9: the extra buildings lie in the far bank's walled part; at BIG_TOWN, BIG_CITY and CITY the coast+river captures are not larger than the none ones; cause PLAUSIBLE only (E02 section 39.3 finding 2)",
+   "listedSizeNote": "the new row carries the PUT's settlement id; the list names it BIG_TOWN with 5 725 people, while the request size key is TOWN and the payload border is TOWN's 1 750 m; every earlier capture's listed size equals its request size; PLAUSIBLY FTG labels a saved settlement by its generated population (bands: town 3 590, big town 5 491-6 221, city 9 407-9 767, big city 24 024-26 099, metropolis 48 622-52 637); match a new list row by the PUT's settlement id, not by the listed size (E02 section 39.3 finding 1, 39.4 call 1)",
+   "listedPopulationNote": "5 725 against the nominal 3 625 (+58 %), where every earlier listed population lies within 12 % of its nominal; a population reading of the town numbers (E05 section 9; W-05b) should use the listed figure for this slot or say why not",
+   "accountList": {
+    "before": 27,
+    "after": 28,
+    "beforeBySize": {
+     "BIG_TOWN": 10,
+     "BIG_CITY": 10,
+     "CITY": 2,
+     "METROPOLIS": 4,
+     "TOWN": 1
+    },
+    "afterBySize": {
+     "BIG_TOWN": 11,
+     "BIG_CITY": 10,
+     "CITY": 2,
+     "METROPOLIS": 4,
+     "TOWN": 1
+    },
+    "counter": "none shown (premium)",
+    "newRowIsThePutsSettlement": true,
+    "newRowListedSize": "BIG_TOWN",
+    "note": "the twenty-eighth settlement: no limit, payment or upgrade prompt (premium active); exactly one new row, the create's own"
+   },
+   "createAttempts": 1,
+   "putStatus": 200,
+   "sizeOptionKey": "the form opens at the town option; the request key read from each option's React element key; three of 12 keys end in TOWN, so the seat matched the whole part of the key after the option's text: exactly one option's part is TOWN, the selected one; confirmed by eval and not selected again (checklist I4); the metropolis option not touched",
+   "windowCheck": "landing root scroll 0 at the first reading and 0 before the Home click; no hover; just before the create CHECKPOINT the form-state reading put the five boxes at y 280-396 as the form-final reading did and the hover chain named the checkbox under the wall box's click point (checklist I, slot-27 note); one document load; one write to the settlements API (the create); one identity-provider call as the landing loaded, answered 200 (as in slots 8, 13 and 25); no response of status 400 or above; focus from the seat's Home click on (E02 section 39.4 calls 5 and 6)",
+   "guardedClicks": "checklist H12-H14: every click its own command after a checked text, shot and (for coordinate clicks) elementFromPoint reading; a form-state reading after each step; the 12 commands equal every signed-in coast+river capture's 13 without their size select; the pre-create shot (012) taken after the hit test",
+   "orphanHelper": "none: pgrep -fl profiles/ftg empty at once after the stop and again about five and eight minutes later; no process signalled (E02 section 39.4 call 4)",
+   "boundDespiteListedSize": "call (vetoable): bound because the PUT returned 200, the list gained exactly one row carrying the PUT's id, and all 10 checks pass; the listed size is a population label (E02 section 39.4 call 1)",
+   "shots": 19,
+   "folderMB": 33,
+   "freeGBBefore": 11,
+   "freeGBAfter": 11,
+   "planSha256": {
+    "before": "11a9b3577f6d3d63",
+    "after": "9ed325bdbcbb427b"
+   },
+   "postScriptSha256": "c4ad4ddf76bd1f2a (unchanged)",
+   "record": "E02 section 39"
   }
  ],
  "failed": [],
@@ -3665,13 +3837,14 @@
   "tenthBigCity": "slot 23 (BIG_CITY coast+river, sixth): 17 of 17 equal slot 1's; request equal to slots 3, 5, 13, 17 and 21's (the same cell) apart from the partner ids; BIG_CITY reaches ten captures, 4 none and 6 coast+river (E02 section 34.3)",
   "firstOfSizeCity": "slot 24 (CITY none, R-41): no leaf named (other 0 against the base and slot 0); the 17 values equal the 2026-09-21 CITY base's, the CITY column of section 17.3's table; SIZE_DEPENDENT unchanged at 17; slot 25 must repeat them (E02 section 35.3 finding 1)",
   "secondCity": "slot 25 (CITY coast+river): 17 of 17 equal slot 24's, which equal the 2026-09-21 CITY base's; the request equals the base apart from the partner ids; SIZE_DEPENDENT unchanged at 17 (E02 section 36.3 finding 1)",
-  "firstOfSizeTown": "slot 26 (TOWN none, R-41): FTG's client gives the town one layout stage (the gaps stage) where the larger sizes have a dense stage then a gaps stage; 11 values joined by name: the first stage's identifier and building placement, and the second stage's identifier, building placement, branch type, building material, two turn caps, wall flag, spoke probability and wall placement (absent at the town); slots 0-25 unchanged, 28 of 28 same-size values equal; two of the added (the second stage's building material and wall flag) take form values at two-stage sizes and are guarded there by the same-size check (E02 section 37.3 finding 1, 37.4 call 1)"
+  "firstOfSizeTown": "slot 26 (TOWN none, R-41): FTG's client gives the town one layout stage (the gaps stage) where the larger sizes have a dense stage then a gaps stage; 11 values joined by name: the first stage's identifier and building placement, and the second stage's identifier, building placement, branch type, building material, two turn caps, wall flag, spoke probability and wall placement (absent at the town); slots 0-25 unchanged, 28 of 28 same-size values equal; two of the added (the second stage's building material and wall flag) take form values at two-stage sizes and are guarded there by the same-size check (E02 section 37.3 finding 1, 37.4 call 1)",
+  "secondTown": "slot 27 (TOWN coast+river): 28 of 28 equal slot 26's; the request equals slot 26's apart from the water keys, the fishing resource entry and the partner ids; SIZE_DEPENDENT unchanged at 28 (E02 section 39.3 finding 5)"
  },
  "next": {
   "programme1": "complete: slots 0-5 bound (E02 section 15.3 finding 6)",
   "then": "programme 2 (slots 6-27; work item W-02b; M-1-plan section 2.1b) is not this record's lane",
   "note": "account list held 6 settlements after slot 5 (BIG_TOWN 3, BIG_CITY 3); never create a second settlement for a slot whose PUT is already in a capture folder",
-  "programme2": "slots 6-26 bound (2026-10-04T02-55-56, 2026-10-04T03-13-14, 2026-10-04T03-26-16, 2026-10-04T03-40-45, 2026-10-04T03-53-59, 2026-10-04T04-07-26, 2026-10-04T04-20-04, 2026-10-04T04-35-38, 2026-10-04T04-53-21, 2026-10-04T05-07-56, 2026-10-04T05-24-24, 2026-10-04T05-40-57, 2026-10-04T06-00-29, 2026-10-04T06-30-03, 2026-10-04T06-42-05, 2026-10-04T06-55-42, 2026-10-04T07-07-33, 2026-10-04T07-21-10, 2026-10-04T07-34-12, 2026-10-04T07-50-43, 2026-10-04T08-06-17): the four METROPOLIS slots, BIG_TOWN and BIG_CITY to ten captures each, both CITY slots (none and coast+river; the CITY family three usable with the 2026-09-21 base) and the first TOWN (slot 26, none; R-41 widened SIZE_DEPENDENT to 28 names: the town has one layout stage) are done; slot 27 open (TOWN, coast+river; its 28 size-dependent values must equal slot 26's; the form opens at the town option, confirmed by its React key remainder TOWN); the account list holds 27 settlements after slot 26 (BIG_TOWN 10, BIG_CITY 10, METROPOLIS 4, CITY 2, TOWN 1)"
+  "programme2": "complete: slots 6-27 bound (2026-10-04T02-55-56, 2026-10-04T03-13-14, 2026-10-04T03-26-16, 2026-10-04T03-40-45, 2026-10-04T03-53-59, 2026-10-04T04-07-26, 2026-10-04T04-20-04, 2026-10-04T04-35-38, 2026-10-04T04-53-21, 2026-10-04T05-07-56, 2026-10-04T05-24-24, 2026-10-04T05-40-57, 2026-10-04T06-00-29, 2026-10-04T06-30-03, 2026-10-04T06-42-05, 2026-10-04T06-55-42, 2026-10-04T07-07-33, 2026-10-04T07-21-10, 2026-10-04T07-34-12, 2026-10-04T07-50-43, 2026-10-04T08-06-17, 2026-10-04T09-33-54): the four METROPOLIS slots, BIG_TOWN and BIG_CITY to ten captures each, both CITY slots (the CITY family three usable with the 2026-09-21 base) and both TOWN slots (26 none, 27 coast+river; R-41 widened SIZE_DEPENDENT to 28 names at slot 26); none failed; the account list holds 28 settlements after slot 27 (BIG_TOWN 11 by the list's labels, of which one is slot 27's town, listed by its population; BIG_CITY 10, METROPOLIS 4, CITY 2, TOWN 1) (E02 section 39)"
  },
  "stoppedAttempts": [
   {
@@ -3761,7 +3934,7 @@
    "planJson": "unchanged; slot 27 open, not marked failed (no create attempted)",
    "record": "E02 section 38",
    "folderOnDisk": true,
-   "retriedBy": null
+   "retriedBy": "m1/W-02-slot27c: captured as 2026-10-04T09-33-54 (E02 section 39)"
   }
  ],
  "slotsByProgramme": {
@@ -3770,9 +3943,8 @@
    "total": 6
   },
   "2": {
-   "taken": 21,
-   "total": 22,
-   "open": "slot 27"
+   "taken": 22,
+   "total": 22
   }
  }
 }
