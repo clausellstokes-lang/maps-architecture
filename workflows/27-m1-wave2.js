@@ -5,8 +5,8 @@ export const meta = {
     { title: 'Prep', detail: 'm1/plan-fix-3 and its independent check: the prefix rule, the label guard, checklist section I, water.step, stale text' },
     { title: 'NG', detail: 'W-11b, W-10b, W-22' },
     { title: 'Design', detail: 'DC-01..DC-35 applied to the design, then verified' },
-    { title: 'MFCG', detail: 'W-01b, the M0 hand-off draft, W-03b (owner go), W-07b, W-09, W-08, W-13, W-14' },
-    { title: 'FTG', detail: 'programme 2 by workflows/25 (owner go), then W-05b and W-06' },
+    { title: 'MFCG', detail: 'W-01b (after plan-fix-3 and the design seat), the M0 hand-off draft, W-03b (owner go), W-07b, W-09, W-08, W-13, W-14' },
+    { title: 'FTG', detail: 'programme 2 by workflows/25 (owner go; after W-01b so binds work), then W-05b and W-06' },
     { title: 'Verify', detail: 'one Opus verifier re-executes every landed item check' },
   ],
 }
@@ -57,11 +57,11 @@ LANE m1/plan-fix-3. You fix, BEFORE programme 2 records anything and before m1/W
 
 const fixCheckPrompt = (r) => `${GROUND}
 
-LANE m1/plan-fix-3-check. You are the INDEPENDENT CHECKER of lane m1/plan-fix-3 (docs/calibration/M-1-plan-fix-3.md; result ${JSON.stringify({ status: r.status, checks: r.checks.length })}), separate from its author; you change none of its files. Re-execute and try to refute each unit: (U1) on a scratch copy, a request with any one resource leaf changed now fails requestDiff or vsSlot0 (try at least three different leaves, one of them the fishing entry's neighbour), and --check-only on slots 0-5 still passes 10/10; (U2) on a scratch mirror of research/baselines/, bind a programme-2 slot then edit its schedule row: refused; strike an unrecorded tail row: allowed; reorder the first six: refused; and plan.py --check SAME on the live files; (U3) checklist section I covers plan 2.1b (1)-(10) and the retry rule reads AND with the ambiguous case stopping; (U4) R-48 is recorded and applied in the plan and the work file and agrees with §13.5's water row; (U5) every point of M-1-plan-notes.md section 6 (6) is done or its reason recorded. Result file: docs/calibration/results/plan-fix-3-check.json (status landed if every unit holds; blocked with the failing units otherwise).`
+LANE m1/plan-fix-3-check. You are the INDEPENDENT CHECKER of lane m1/plan-fix-3 (docs/calibration/M-1-plan-fix-3.md; result ${JSON.stringify({ status: r.status, checks: r.checks.length })}), separate from its author; you change none of its files. Re-execute and try to refute each unit: (U1) on a scratch copy, a request with any one resource leaf changed now fails requestDiff or vsSlot0 (try at least three different leaves, one of them the fishing entry's neighbour), and --check-only on slots 0-5 still passes 10/10; (U2) on a scratch mirror of research/baselines/, bind a programme-2 slot then edit its schedule row: refused; strike an unrecorded tail row: allowed; reorder the first six: refused; and plan.py --check SAME (EXPECTED STATE: since design/m1-corrections-1 edited V12 §3.4.2's catalogue at 20:24, plan.py refuses every write with a catalogue mismatch until m1/W-01b registers the new ids, which runs after you; so run U2's tests and --check on a scratch mirror holding the V12 copy from before that edit (plan-fix-3's record names it) or the catalogue check stubbed to the old ids, and report the live mismatch as expected, not as this lane's failure); (U3) checklist section I covers plan 2.1b (1)-(10) and the retry rule reads AND with the ambiguous case stopping; (U4) R-48 is recorded and applied in the plan and the work file and agrees with §13.5's water row; (U5) every point of M-1-plan-notes.md section 6 (6) is done or its reason recorded. Result file: docs/calibration/results/plan-fix-3-check.json (status landed if every unit holds; blocked with the failing units otherwise).`
 
 // ---------- the items (the work file rows; the EXTRA lines carry the closing checks' notes) ----------
 const EXTRA = {
-  'W-01b': 'Develop on a scratch mirror of research/baselines/ (closing-check note 3): plan.json has a second writer in this wave (the FTG recording seats bind slots with --bind-ftg), so install the new plan.py by ATOMIC RENAME between two binds (check docs/lane-events.log for a CHECKPOINT that says a create or bind is in progress, and wait for its LANDED line), regenerate at once, and compare the 28 FTG slots and their bindings against the LIVE plan.json read after the install. Regenerate metrics.m-1.json so variety.dispersion names W-15 (R-40) and not W-09 / W-05 or "minmax at n = 3", and its open list is empty. Keep m1/plan-fix-3\'s label guard (U2) intact.',
+  'W-01b': 'FIRST: the design seat design/m1-corrections-1 changed V12 §3.4.2\'s metric catalogue (DC edits: bldg.wallAlign became bldg.wallAlign.median and bldg.wallAlign.share15; cut.length added), so plan.py now refuses every write with "catalogue mismatch" and FTG programme 2 cannot bind slots until you register the current catalogue ids: do that first, with plan.py --check SAME on the live files as the receipt, and write a CHECKPOINT line saying the binds work again. Then: develop on a scratch mirror of research/baselines/ (closing-check note 3): plan.json has a second writer in this wave (the FTG recording seats bind slots with --bind-ftg), so install the new plan.py by ATOMIC RENAME between two binds (check docs/lane-events.log for a CHECKPOINT that says a create or bind is in progress, and wait for its LANDED line), regenerate at once, and compare the 28 FTG slots and their bindings against the LIVE plan.json read after the install. Regenerate metrics.m-1.json so variety.dispersion names W-15 (R-40) and not W-09 / W-05 or "minmax at n = 3", and its open list is empty. Keep m1/plan-fix-3\'s label guard (U2) intact.',
   'W-03b': 'THE OWNER\'S GO for this one automated page load of the public MFCG build on itch.io must be recorded in docs/calibration/owner-go.json with mfcg true: read it first and STOP (status blocked, nothing loaded) if it does not say so. Then exactly the row: the build-id check first (one public game-page fetch, logged as the same contact class); one load of index 10 = seedOf(capture/MFCG/130/plain, [10]) through the J161 tool after W-01b\'s --extend; downloads denied, files from the in-page Blob (E03 section 9); no login, account, payment, terms or consent; stop and report anything else a site asks. The seed is printed by plan.py --vectors capture/MFCG/130/plain/10. Count both ledgers.',
   'W-07b': 'All usable seeds of the sweep including W-03b\'s index 10 if it landed; if W-03b is blocked (no owner go), run on the usable seeds there are, list the missing index, and return partial.',
   'W-09': 'Vectors only (R-40): W-15 forms the dispersions.',
@@ -115,6 +115,26 @@ const prepPromise = (async () => {
   return prepOk
 })()
 
+// The design seat edits V12's metric catalogue, which plan.py checks on every write, so W-01b (which registers the
+// catalogue's ids in plan.py) runs after both the prep lane and the design seat, and FTG programme 2 binds only after W-01b.
+const designPromise = (async () => {
+  if (!ONLY.includes('design') && !ONLY.includes('mchain') && !ONLY.includes('ftg')) return null
+  const r = await seat(dcPrompt, 'design/m1-corrections-1', 'Design', DC_SCHEMA)
+  const v = r ? await seat(dcVerifyPrompt(r), 'design/m1-corrections-1-verify', 'Design', VERIFY_SCHEMA) : null
+  results.design = r; results.designVerify = v
+  if (r) log(`design corrections: ${r.applied.filter((a) => a.status.startsWith('applied')).length} applied of ${r.applied.length}; verify ${v ? v.verdict : 'none'}`)
+  return r
+})()
+const w01bPromise = (async () => {
+  if (!ONLY.includes('mchain') && !ONLY.includes('ftg')) return null
+  const ok = await prepPromise
+  const d = await designPromise
+  if (!ok || !d) { log('W-01b: waiting on plan-fix-3 and the design seat; not run'); return null }
+  const w = await item('W-01b', 'MFCG')
+  if (!w || w.status === 'blocked') log('W-01b blocked; the MFCG chain and FTG programme 2 stop')
+  return w
+})()
+
 const branches = []
 if (ONLY.includes('ng')) branches.push(async () => {
   const [chain, w22] = await parallel([
@@ -123,17 +143,10 @@ if (ONLY.includes('ng')) branches.push(async () => {
   ])
   results.ng = [...(chain || []), w22].filter(Boolean)
 })
-if (ONLY.includes('design')) branches.push(async () => {
-  const r = await seat(dcPrompt, 'design/m1-corrections-1', 'Design', DC_SCHEMA)
-  const v = r ? await seat(dcVerifyPrompt(r), 'design/m1-corrections-1-verify', 'Design', VERIFY_SCHEMA) : null
-  results.design = r; results.designVerify = v
-  if (r) log(`design corrections: ${r.applied.filter((a) => a.status.startsWith('applied')).length} applied of ${r.applied.length}; verify ${v ? v.verdict : 'none'}`)
-})
 if (ONLY.includes('mchain')) branches.push(async () => {
-  if (!(await prepPromise)) { log('MFCG chain: waiting on plan-fix-3; not run'); return }
-  const w01b = await item('W-01b', 'MFCG')
-  results.mchain = [w01b]
-  if (!w01b || w01b.status === 'blocked') { log('W-01b blocked; the MFCG chain stops'); return }
+  const w01b = await w01bPromise
+  results.mchain = [w01b].filter(Boolean)
+  if (!w01b || w01b.status === 'blocked') return
   const [ho, rest] = await parallel([
     () => seat(handoffPrompt, 'm1/handoff-m0', 'MFCG', HANDOFF_SCHEMA),
     async () => {
@@ -154,7 +167,8 @@ if (ONLY.includes('mchain')) branches.push(async () => {
   results.mchain.push(...(rest || []).filter(Boolean))
 })
 if (ONLY.includes('ftg')) branches.push(async () => {
-  if (!(await prepPromise)) { log('FTG programme 2: waiting on plan-fix-3; not run'); return }
+  const w01b = await w01bPromise
+  if (!w01b || w01b.status === 'blocked') { log('FTG programme 2: waiting on W-01b (plan.py binds); not run'); return }
   const go = await readGo('ftg')
   if (!go || !go.ftg) { log('FTG programme 2: no owner go (owner-go.json); not run in this run'); return }
   const slots = Array.from({ length: 22 }, (_, k) => k + 6)
@@ -168,6 +182,8 @@ if (ONLY.includes('ftg')) branches.push(async () => {
 })
 await parallel(branches)
 await prepPromise
+await designPromise
+await w01bPromise
 
 if (ONLY.includes('verify')) {
   const all = [results.planFix3, ...(results.ng || []), ...(results.mchain || []), ...(results.ftg || [])].filter(Boolean)

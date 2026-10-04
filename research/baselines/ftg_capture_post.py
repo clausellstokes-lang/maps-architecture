@@ -16,8 +16,9 @@ research/baselines/plan.json (size, water, nominal population). Writes into the 
   capture-facts.json    every number the README states, with the checks and their verdicts
   README.md             the capture README (plan section 2.1; ARCHITECTURE section 13.6 (2)); --notes appends a section
 Exit status 0 only when every check of W-02's row passes (10 checks: calls, size key, water keys, the request diff
-against the base and against slot 0 within the named size-dependent leaves (R-24), the same-size values, decode, border,
-no resident field, pb_raw). --check-only writes nothing and prints the checks.
+against the base and against slot 0 within the named size-dependent leaves (R-24) and the pinned water-implied resource
+list (WATER_IMPLIED; m1/plan-fix-3), the same-size values, decode, border, no resident field, pb_raw). --check-only
+writes nothing and prints the checks.
 
 Decoding follows the recorded findings: payload coordinates are zig-zag sint32 in centimetres (memory note on FTG
 payload decoding; research/findings/code-ftg-client.md section 2.1 gives the 27-field layout message, none of which is
@@ -59,6 +60,21 @@ SIZE_DEPENDENT = (
     '.layoutParameters.stages[1].verticalBranchSegments',
     '.religionParameters.religionTargetPercentage',
 )
+# The water-implied resource class, pinned like the size class (lane m1/plan-fix-3, after both FTG verifiers found the
+# old prefix rule passed any resource change). The water options add or drop exactly one raw-resource entry, the fishing
+# one, at the head of the list, which shifts the other five by one place: the leaf diff shows the six positional leaves
+# below (E02 sections 4 and 11.3). Those leaves are water-implied only when the request's whole list equals the list its
+# water setting implies -- the 2026-09-21 base's list (coastal, rivers on) for coast+river, that list without the fishing
+# entry for none; any other list fails the request-diff and slot-0 checks.
+RESOURCES = '.landscapeParameters.availableRawResources'
+WATER_ENTRY = 'FISH'
+WATER_IMPLIED = tuple('%s[%d]' % (RESOURCES, i) for i in range(6))
+
+
+def water_resources(base, water):
+    """The raw-resource list a WaterSetting implies, from the base request (itself coastal with rivers on)."""
+    lst = list(base['landscapeParameters']['availableRawResources'])
+    return lst if water == 'coast+river' else [r for r in lst if r != WATER_ENTRY]
 
 
 def zz(n):
@@ -143,20 +159,26 @@ def main(argv):
           'size %s, slot %s' % (req['size'], slot['ftgSize']), 'sizeKey')
     check('request water keys equal the slot water option', lp['coastType'] == want_coast and lp['rivers'] is want_rivers,
           'coastType %r rivers %r; slot %s wants %r / %r' % (lp['coastType'], lp['rivers'], slot['water'], want_coast, want_rivers), 'waterKeys')
-    diff, sem, nonsem = request_diff(json.load(open(BASE_REQUEST)), req)
-    # Classes of difference against the 2026-09-21 CITY base. (a) the slot's own keys; (b) the raw resources the water
-    # options imply; (c) the layout preset's size-dependent values, which the client fills when the size changes (no
-    # simple-form control sets them; first seen on day 1, 2026-10-03 — PLAUSIBLE until a second size confirms it);
-    # (d) client-random partner ids. Anything else is a form value that left the base: the check fails.
+    base = json.load(open(BASE_REQUEST))
+    diff, sem, nonsem = request_diff(base, req)
+    # Classes of difference against the 2026-09-21 CITY base. (a) the slot's own keys; (b) the water-implied resource
+    # leaves, admitted only when the whole resource list is the one the slot's water setting implies (WATER_IMPLIED);
+    # (c) the layout preset's size-dependent values, which the client fills when the size changes (no simple-form control
+    # sets them; pinned by name, R-24, R-41); (d) client-random partner ids. Anything else is a form value that left the
+    # base: the check fails, and so does a resource list other than the water setting's even where no leaf differs.
     slot_keys = {'.size', '.landscapeParameters.coastType', '.landscapeParameters.rivers'}
-    water_implied = [d for d in sem if d[0].startswith('.landscapeParameters.availableRawResources')]
+    resources_ok = lp.get('availableRawResources') == water_resources(base, slot['water'])
+    water_implied = [d for d in sem if d[0] in WATER_IMPLIED and resources_ok]
     size_implied = [d for d in sem if d[0] in SIZE_DEPENDENT]
     other = [d for d in sem if d[0] not in slot_keys and d not in water_implied and d not in size_implied]
     check('request differs from the 2026-09-21 base only in the slot keys, water-implied resources and the named size-dependent preset values',
-          not other, '%d differing leaves: slot keys %d, water-implied %d, size-dependent preset %d (%s), partner ids %d, other %d%s' % (
+          not other and resources_ok,
+          '%d differing leaves: slot keys %d, water-implied %d, size-dependent preset %d (%s), partner ids %d, other %d%s; '
+          'resource list %s the %s list' % (
               len(diff), len([d for d in sem if d[0] in slot_keys]), len(water_implied), len(size_implied),
               ', '.join(d[0].replace('.layoutParameters.', '') for d in size_implied), len(nonsem), len(other),
-              (' (' + ', '.join(d[0] for d in other) + ')') if other else ''), 'requestDiff')
+              (' (' + ', '.join(d[0] for d in other) + ')') if other else '',
+              'equals' if resources_ok else 'DIFFERS FROM', slot['water']), 'requestDiff')
 
     # The same against slot 0 (day 1, the first capture; the same form steps but the size and the water): only the slot
     # keys, water-implied resources and named size-dependent values may differ. A later slot of a size already captured
@@ -165,13 +187,16 @@ def main(argv):
     req_of = lambda k: json.load(open(os.path.join(ROOT, 'captures', 'ftg', plan_slots[k]['capture'], 'create-request.json')))
     ref0 = req_of(0) if plan_slots[0].get('capture') and slot_k != 0 else req
     _, sem0, _ = request_diff(ref0, req)
-    other0 = [d for d in sem0 if d[0] not in slot_keys and not d[0].startswith('.landscapeParameters.availableRawResources')
+    water0 = plan_slots[0]['water'] if ref0 is not req else slot['water']
+    resources0_ok = resources_ok and ref0['landscapeParameters'].get('availableRawResources') == water_resources(base, water0)
+    other0 = [d for d in sem0 if d[0] not in slot_keys and not (d[0] in WATER_IMPLIED and resources0_ok)
               and d[0] not in SIZE_DEPENDENT]
     check('request differs from slot 0 (day 1) only in the slot keys, water-implied resources and the named size-dependent values',
-          not other0, 'against %s: %d semantic differences (%d size-dependent), other %d%s' % (
+          not other0 and resources0_ok, 'against %s: %d semantic differences (%d size-dependent), other %d%s; resource lists %s' % (
               plan_slots[0].get('capture') if slot_k != 0 else 'itself', len(sem0),
               len([d for d in sem0 if d[0] in SIZE_DEPENDENT]), len(other0),
-              (' (' + ', '.join(d[0] for d in other0) + ')') if other0 else ''), 'vsSlot0')
+              (' (' + ', '.join(d[0] for d in other0) + ')') if other0 else '',
+              'each its water setting\'s' if resources0_ok else 'NOT each its water setting\'s'), 'vsSlot0')
     same = [k for k, s in enumerate(plan_slots) if k < slot_k and s.get('capture') and s['ftgSize'] == slot['ftgSize']]
     if same:
         ref, mine = dict(leaves(req_of(same[0]))), dict(leaves(req))

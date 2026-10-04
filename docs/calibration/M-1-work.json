@@ -1,5 +1,5 @@
 {
- "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 16:59, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32); m1/rulings-2 (rev 3, 2026-10-03 evening, after plan-check-close-1 and J163 / J164; rulings M-1-rulings-2.md R-33..R-47)",
+ "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 16:59, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32); m1/rulings-2 (rev 3, 2026-10-03 evening, after plan-check-close-1 and J163 / J164; rulings M-1-rulings-2.md R-33..R-47); m1/plan-fix-3 (rev 3 fix round, 2026-10-03 evening, after the FTG verifiers and plan-check-close-2: docs/calibration/M-1-plan-fix-3.md; plan section 12c)",
  "date": "2026-10-03",
  "status": "wave 1 landed (W-01, W-02 slot 0, W-03 34/35 + W-03-complete, W-04, W-05, W-07, W-10, W-11, W-16 research list); FTG slots 1-5 landed in the owner's signed-in account (J163; premium since J164 from slot 3): programme 1 complete at 19:20, slots 0-5 bound; FTG programme 2 (22 premium slots, J164) planned in plan.py / plan.json; plan revised (rev 3); nothing written into plat/",
  "machine": "MacBook Air, Apple M1 (4P+4E), 16 GB, macOS 14.7.8, Node 24.12.0, Python 3.9.6 with PIL 11.3, Google Chrome, puppeteer-core 25.x (profiler/node_modules)",
@@ -154,7 +154,7 @@
      }
     ]
    },
-   "orderRule": "slots filled in slot order (plan.py --bind-ftg refuses a slot while an earlier one is open); an extension can only append (the first six labels fixed, labels unique: plan.py compute(), R-36)"
+   "orderRule": "slots filled in slot order (plan.py --bind-ftg refuses a slot while an earlier one is open); an extension can only append (the first six labels fixed, labels unique: plan.py compute(), R-36); and a recorded slot (bound or failed, any programme) keeps its label, size and water against the prior plan.json -- compute() refuses a change or a removal (m1/plan-fix-3)"
   }
  },
  "deliverables": [
@@ -414,27 +414,29 @@
   },
   {
    "id": "D13",
-   "deliverable": "FTG captures at BIG_TOWN and BIG_CITY, three each, over six days",
-   "class": "LANDED day 1 (E02) -> NEW days 2-6",
+   "deliverable": "FTG captures: programme 1 (six slots, J159 / J163) and programme 2 (22 premium slots, J164)",
+   "class": "LANDED slots 0-5 (programme 1 complete, E02) -> NEW slots 6-27 (one sitting)",
    "captures": [
-    "six captures/ftg/<stamp> folders"
+    "28 slots: one captures/ftg/<stamp> folder per slot (six landed), by ftg_capture_checklist.md section H and, for programme 2, section I; ftg_capture_post.py 10 checks; plan.py --bind-ftg K= in slot order"
    ],
    "metrics": [
-    "time.model (FTG, server interval, weakness; R-21)",
-    "all FTG rows gain the payloads"
+    "time.model (FTG, server interval, weakness; R-21) at BIG_TOWN, BIG_CITY, METROPOLIS and CITY",
+    "every FTG row gains the payloads (R-34)"
    ],
    "readmeFields": [
     "id (folder name)",
     "WaterSetting",
     "population",
     "populationSource",
+    "listed population beside it (R-37)",
     "server time",
     "buildings",
     "request hash"
    ],
    "record": "E02",
    "work": [
-    "W-02"
+    "W-02 (programme 1)",
+    "W-02b (programme 2)"
    ]
   },
   {
@@ -635,7 +637,7 @@
   {
    "id": "D26",
    "deliverable": "FTG junctions, runs, footprints, party walls, towers and gates, water, trees, population, time",
-   "class": "LANDED fixtures (E05) -> values per slot (W-05b) -> rows at W-15: type7 at BIG_TOWN and BIG_CITY (n = 10; water rows minmax over 6 coast+river), minmax at METROPOLIS (4) and CITY (3) (R-34)",
+   "class": "LANDED fixtures (E05) -> values per slot (W-05b) -> rows at W-15: type7 at BIG_TOWN and BIG_CITY (n = 10; water rows minmax over 6 coast+river), minmax at METROPOLIS (4) and CITY (3) (R-34); water.step against section 13.5's fixed bound \"outline step <= 25 m\" (reference value sharpened, band column kept), water.riverWidth by the band rule per class (R-48)",
    "existing": [
     "research/ftg-capture/roadlength100/*.out.txt",
     "research/ftg-capture/analyse_layout.py",
@@ -999,18 +1001,18 @@
   {
    "id": "W-02b",
    "title": "FTG programme 2: the 22 premium slots 6-27 (J164; R-33), one sitting, by slot number",
-   "tool": "the same tools; M-1-plan section 2.1b's premium differences (the METROPOLIS option for slots 6-9 only, border half widths 3000 / 2500 / 1750 m in ftg_capture_post.py HALF_WIDTH_M, the first-of-size rule R-41, the retry rule, --premium); workflows/25-ftg-signed-in.js launched by the session with slots 6-27 and the premium wording; lanes m1/W-02-slot<k><suffix>",
+   "tool": "the same tools; M-1-plan section 2.1b's premium differences as steps in ftg_capture_checklist.md section I (written by m1/plan-fix-3) (the METROPOLIS option for slots 6-9 only, border half widths 3000 / 2500 / 1750 m in ftg_capture_post.py HALF_WIDTH_M, the first-of-size rule R-41, the retry rule, --premium); workflows/25-ftg-signed-in.js launched by the session with slots 6-27 and the premium wording; lanes m1/W-02-slot<k><suffix>",
    "inputs": [
     "the owner's premium account (unlimited saves; no further purchase; the window left alone)",
     "plan.json ftg.slots 6-27 (ftg.programmes[1], ftg.perSize)"
    ],
    "outputs": [
     "one captures/ftg/<stamp>/ per slot",
-    "plan.json slots 6-27 bound in order (or failed with a reason)",
+    "plan.json slots 6-27 bound in order; --fail-ftg K=<reason> for a created settlement that fails a post check or a slot whose three create attempts made no settlement; a site refusal stops the run with the slot left open (plan 2.1b (6))",
     "E02 one section per slot + .json entries; the size-dependent-value table per new size",
-    "the checklist's section I written by the first programme-2 seat from plan 2.1b"
+    "the checklist's section I: written by m1/plan-fix-3 before programme 2 (plan 2.1b (10), section 12c)"
    ],
-   "checker": "the 10 checks per slot (same-size vacuous on a size's first capture, binding later); first-of-size evidence recorded before any widening of SIZE_DEPENDENT (R-41); plan.py --check SAME after each bind; the privacy grep; ftg.perSize totals reached or the shortfall recorded failed (never faked)",
+   "checker": "the 10 checks per slot (the water-implied resource class pinned, m1/plan-fix-3; same-size vacuous on a size's first capture, binding later); first-of-size evidence recorded before any widening of SIZE_DEPENDENT (R-41); plan.py --check SAME after each bind; the privacy grep; ftg.perSize totals reached or the shortfall recorded failed (never faked)",
    "depends": [
     "W-02 (complete: slots 0-5 bound)",
     "J164"
@@ -1282,7 +1284,7 @@
   {
    "id": "W-15",
    "title": "rows, bands, the dispersions, the candidate baselines.json (the sole writer of rows.py, bands.py, cross_check.py; R-47)",
-   "tool": "rows.py (provenance, sample, role, estimator, spreadKS, declared-scale note; NO absFloor or sign field in any row, N-05; numbers below six consecutive digits where the unit allows: ratios at 4 decimals, areas in m2, N-03), bands.py (V12 section 3.5.1-3.5.4; type7 at n >= 10, minmax 2-9, single 1), the dispersion step (R-40: both references' variety.dispersion at TOWN, CITY, METROPOLIS from W-09's and W-05b's vectors), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json; the two new file kinds; colour check reading string values only, N-03)",
+   "tool": "rows.py (provenance, sample, role, estimator, spreadKS, declared-scale note; NO absFloor or sign field in any row, N-05; numbers below six consecutive digits where the unit allows: ratios at 4 decimals, areas in m2, N-03), bands.py (V12 section 3.5.1-3.5.4; type7 at n >= 10, minmax 2-9, single 1; the fixed-band rows keep section 13.5's band column with the reference value sharpened -- water.step among them, \"outline step <= 25 m\" -- while water.riverWidth is banded by the band rule per class, R-48), the dispersion step (R-40: both references' variety.dispersion at TOWN, CITY, METROPOLIS from W-09's and W-05b's vectors), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json; the two new file kinds; colour check reading string values only, N-03)",
    "inputs": [
     "every E record",
     "W-02 and W-02b complete (28 slots bound or failed)",
@@ -1451,7 +1453,7 @@
     "family at 10 usable: indices [0,11), index 8 failed no-export",
     "E03 section 10; sweep README and export-check.json updated; W-03.json left as history (E03 section 6 already says 2 of 10 size-40 seeds above 1500)"
    ],
-   "checker": "extension seed = seedOf(family,[10]) printed by plan.py --check; check_w03.py PASS (C6 counting the J161 ledger too); BOTH ledgers counted: loads.jsonl 35 (J159) and j161/loads.jsonl <= 3 (J161), the build-id fetch logged as the same contact class; type7 estimator unchanged",
+   "checker": "extension seed = seedOf(family,[10]) printed by plan.py --vectors capture/MFCG/130/plain/10 (H32 1179968782, parkMiller 1179968783; --check prints SAME or DIFFERS only); check_w03.py PASS (C6 counting the J161 ledger too); BOTH ledgers counted: loads.jsonl 35 (J159) and j161/loads.jsonl <= 3 (J161), the build-id fetch logged as the same contact class; type7 estimator unchanged",
    "depends": [
     "W-03",
     "W-01b",
@@ -1557,7 +1559,7 @@
    "title": "deny-list at the exit in M0 format",
    "tool": "make_denylist.py build --as-of now --format m0 (R-17, plan 7c), same salt; selftest after design/cleanroom-fix-1; research list rebuilt beside",
    "inputs": [
-    "corpus after W-02 day 6, W-03b, W-04; W-23 exclusion list"
+    "corpus after programme 2's close (W-02, W-02b: both FTG programmes' folders join it), W-03b, W-04; W-23 exclusion list"
    ],
    "outputs": [
     "denylist.json candidate",
@@ -1568,6 +1570,7 @@
    "checker": "eleven checks PASS on both lists, check 11 at 0 unreviewed; planted leak per M0 class caught by the research twin of M0 rules; shared classes digest the same tokens; the header carries digestHexDigits 16 (N-04); the corpus rule equals doc_checks.py's two rules (R-30 exclusions; R-38 stats.json values only)",
    "depends": [
     "W-02",
+    "W-02b",
     "W-03b",
     "W-04",
     "W-23",
@@ -1640,7 +1643,7 @@
  ],
  "ownerGated": [
   "FTG programme 1 slots 1-5 in the owner's signed-in account: approved (J163, 'Yes, all five now'); slots 1-5 landed (programme 1 complete at 19:20); anything beyond section H's list stops the seat",
-  "FTG programme 2, 22 premium slots: approved in count (J164: about 20-25; BIG_TOWN and BIG_CITY to about ten, 3-5 metropolises, a few other sizes); the exact list of plan 2.1b (METROPOLIS 4, BIG_TOWN 7, BIG_CITY 7, CITY 2, TOWN 2) is R-33's ruling under J122, VETOABLE (the two TOWN slots drop first); no further purchase; nothing renews by a seat; settlements stay in the owner's account; the window left alone during a run",
+  "FTG programme 2, 22 premium slots: approved in count (J164: about 20-25; BIG_TOWN and BIG_CITY to about ten, 3-5 metropolises, a few other sizes); the exact list of plan 2.1b (METROPOLIS 4, BIG_TOWN 7, BIG_CITY 7, CITY 2, TOWN 2) is R-33's ruling under J122, VETOABLE (the two TOWN slots drop first; during the run only rows after the last recorded slot, plan.py refusing a change to a recorded one); no further purchase; nothing renews by a seat; settlements stay in the owner's account; the window left alone during a run",
   "MFCG three more loads: approved J161 -- 2 used by W-03-complete (re-export; retry frozen); the third is R-13's extension (W-03b after W-01b)",
   "S-V12-1 fallback +30 loads +60 downloads: not approved",
   "W-21 timing loads 3 MFCG + 12 NG in an idle window after M0-t-01: not approved; else time rows descriptive",
@@ -1714,12 +1717,12 @@
  ],
  "risks": [
   "itch build drift (MFCG 12710731, NG 11441280): new pin by declared shift; owner told first",
-  "an FTG slot is refused or fails: plan 2.1b (6)'s retry rule (a create that made no settlement: up to 3 attempts; a failed post check: --fail-ftg K=<reason>; a site refusal stops the run); fewer slots than planned leave the rows at their smaller n and the pairs recorded, never faked (section 13.6 (12))",
+  "an FTG slot is refused or fails: plan 2.1b (6)'s retry rule, corrected by m1/plan-fix-3 -- a create whose PUT did not return 200 AND after which the list shows no new row may be retried (up to 3 attempts, then --fail-ftg K=<reason>); a PUT 200 with no new row is ambiguous and stops the run, reported, never retried (a retry could make a second settlement); a failed post check: --fail-ftg K=<reason>, folder kept; a site refusal stops the run with the slot left open; fewer slots than planned leave the rows at their smaller n and the pairs recorded, never faked (section 13.6 (12))",
   "derived street graph twin differs from the product's straight skeleton beyond 0.5 %: declared; M1's product value supersedes (J-V12.1)",
-  "thin FTG samples: rows already weakness/descriptive except the declared turning exception",
+  "thin FTG samples: answered by programme 2 (R-33, R-34) -- type7 at n = 10 per matched size, METROPOLIS minmax at 4, CITY minmax at 3 usable; a short programme leaves the rows at their smaller n (minmax below ten), never faked",
   "unstable MFCG bands (S-V12-1): 20 seeds per size, +190 MB",
   "disk under 1 GB: stop and report; date-bound and highest-value captures first",
-  "130/plain/8 freezes on the retry: R-13 formula extension to index 10",
+  "130/plain/8 froze on the retry (history: m1/W-03-complete, 16:49, E03 section 9): R-13's formula extension to index 10 is W-03b's one load (J161's third; R-39); should index 10 fail too, R-13's next index needs a new approval",
   "a formula NG value departs from §13.5 recorded number: design corrected as a declared shift; formula row stands (R-03)",
   "raster twin vs skeleton: version 1.0.0 stands; digest entry lets M0-c-07a derive ours the same way; J-V12.1 at M1 (R-22)",
   "M0-k-05 / M0-k-06 land late: crossings wait (R-32); candidates complete meanwhile",
@@ -1727,17 +1730,17 @@
   "a new FTG size's first capture differs from slot 0 beyond the 16 named leaves: R-41 -- size-set layout values named into the class with the capture as evidence; anything else a deviation, the slot recorded failed"
  ],
  "revision": 3,
- "rulings": "docs/calibration/M-1-rulings-1.md (R-01..R-32); docs/calibration/M-1-rulings-2.md (R-33..R-47)",
+ "rulings": "docs/calibration/M-1-rulings-1.md (R-01..R-32); docs/calibration/M-1-rulings-2.md (R-33..R-47; R-48 in its section 8 addendum)",
  "scaleRule": {
   "NG": "declared 0.35 m per model unit (R-01; ARCHITECTURE 4.6 step 5 inference; plausibility: median footprint short side 20.3-20.8 mu = 7.1-7.3 m); MeasureInput header scale declared + unitM (DC-01); rows scale metric with the note; block.area declared metres is the row M0 reads, block.areaRel descriptive with edges 0.5-500 A in 24 log bins"
  },
  "sampleRule": {
   "NG": "every NG row on W-04 plan seeds capture/NG/<template>/medium [0,5) (small/large [0,3)); 2026-09-25 captures are twin fixtures only (R-03)",
-  "FTG": "BIG_TOWN/BIG_CITY rows on the six slots in order; recorded family capture/FTG/CITY: slot 0 = 2026-09-21T05-23-58 usable, slot 1 = 2026-09-25T10-13-51 failed:setting (R-02, R-04); CITY rows estimator single",
+  "FTG": "FTG rows read the plan's 28 slots in order (plan sections 2.1, 2.1b; R-33): BIG_TOWN and BIG_CITY at n = 10 each (type7; the water rows over the six coast+river slots, minmax), METROPOLIS at n = 4 (minmax), and the recorded family capture/FTG/CITY -- coast+river/0 = 2026-09-21T05-23-58 usable, coast+river/1 = 2026-09-25T10-13-51 failed: setting (R-02, R-04), continued by slots 24 and 25 -- at three usable (minmax); FTG TOWN's two slots feed research-side numbers only (R-34)",
   "MFCG": "usable plan seeds; retries and no-export in sample.failed; a frozen seed on retry extends the family by formula index (R-13)"
  },
  "wave2": [
-  "W-02 slots 4-5 (running) then W-02b slots 6-27 (one recording seat at a time, by slot number) + W-05b per slot (vectors, no dispersion)",
+  "W-02 complete (slots 0-5 bound at 19:20), then W-02b slots 6-27 (one recording seat at a time, by slot number, by the checklist's section I) + W-05b per slot (vectors, no dispersion)",
   "W-01b first (--extend, the recorded CITY block, the new ids) -> W-03b (the extension, 1 load) -> W-07b -> W-09 (vectors) -> W-08, W-13, W-14",
   "W-23 done (clean-room lane + R-38)",
   "W-11b -> W-10b -> W-22",
@@ -1755,7 +1758,7 @@
  "designCorrections": "docs/calibration/M-1-rulings-1.md §2 (DC-01..DC-30) and M-1-rulings-2.md §2 (DC-31..DC-35) for a design seat",
  "ftgProgramme2": {
   "ruling": "J164 (owner, 2026-10-03 ~18:50 EDT) and R-33 (M-1-rulings-2.md); the slot list is vetoable",
-  "procedure": "research/baselines/ftg_capture_checklist.md section H + M-1-plan.md section 2.1b (premium differences, the first-of-size rule R-41, the retry rule); ftg_capture_post.py <stamp> --slot K --signed-in --premium; plan.py --bind-ftg K=<stamp> in slot order",
+  "procedure": "research/baselines/ftg_capture_checklist.md section H + section I (M-1-plan.md section 2.1b's premium differences as steps: the first-of-size rule R-41, the corrected retry rule, the --fail-ftg path; written by m1/plan-fix-3); ftg_capture_post.py <stamp> --slot K --signed-in --premium; plan.py --bind-ftg K=<stamp> in slot order",
   "workItem": "W-02b",
   "slots": [
    {

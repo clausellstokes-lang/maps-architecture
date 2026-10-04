@@ -231,7 +231,7 @@ METROPOLIS × ≈ 60 (a 2–3 MB payload against BIG_CITY's 1.1–1.3 MB, the sa
 `MeasureInput` files ≈ 1 MB each at METROPOLIS. 12 GiB free at 19:00 (`df`); the 1 GB stop rule is far off.
 
 **The procedure's premium differences** are plan §2.1b's ten points (the checklist's section H stays the procedure): the
-settlements view's counter is gone and a "Premium Settings" link is never clicked; the metropolis size option is enabled
+settlements view's saved-settlements counter is gone and the premium-settings link is never clicked; the metropolis size option is enabled
 and chosen for slots 6–9 only, by its request value; the border half widths; the first-of-size rule (R-41); `--premium`
 on the post script; the retry rule (a create that made no settlement may be retried up to three attempts, V12 §3.12; a
 failed post check is `--fail-ftg`; a site refusal stops the run; nothing slides, slots are fixed by number); the larger
@@ -370,8 +370,8 @@ listed populations 6 221 (slot 4) and 24 597 (slot 5) join R-37's table, recorde
 
 **The owner's question — "let me know if i need to sign back into FTG": no, not now (CONFIRMED by a live read that was not
 this seat's).** Lane `m1/W-02-slot3b`, resumed after the switch, made one read-only landing check at 19:32–19:33 EDT on the
-isolated runner because of this question (its NOTE lines in `lane-events.log`): the landing shows the signed-in line, "Sign
-out" and "Home", no consent notice; nothing was clicked, the recording holds reads only (15 GET; the 3 POST are error
+isolated runner because of this question (its NOTE lines in `lane-events.log`): the landing shows the signed-in line and
+the sign-out and home controls, no consent notice; nothing was clicked, the recording holds reads only (15 GET; the 3 POST are error
 reporting and analytics, no settlements write), and the session stopped cleanly. The sign-in lives in the capture profile
 `profiler/.profiles/ftg`, not in the Claude account, so the account switch did not touch it. This seat read that profile's
 cookie table for **flags and times only** (host, persistent, HttpOnly, created, last access, expiry — no name and no value,
@@ -391,3 +391,29 @@ the cookie flags and times, the capture folders ending at slot 5's). PLAUSIBLE: 
 the site session's validity at the next sitting; the meaning of the listed population (R-37 unchanged). Not touched by this
 instance: `plat/`, the design, E02, the checklist, `doc_checks.py`, `plan.py`, `plan.json`, `M-1-rulings-1.md`,
 `docs/PROGRESS.md`; no git state change; no website.
+
+## 8 Addendum — lane `m1/plan-fix-3` (2026-10-03, after the closing check of revision 3)
+
+The closing check of revision 3 (`results/plan-check-close-2.json`, verdict pass; `M-1-plan-notes.md` §6) and the two FTG
+verifiers (`results/W-02-signed-in-verify.json`, `-verifyb.json`) left points to fix before programme 2 records anything.
+Lane `m1/plan-fix-3` fixed them; its record is `M-1-plan-fix-3.md` and the plan's changelog is §12c. One of them amends a
+ruling of this record, so it is entered here with the same form as the rulings above.
+
+**R-48 — `water.step` keeps §13.5's fixed bound; `water.riverWidth` keeps the band rule per class (amends R-34).**
+§13.5's water row reads, in its band column, "outline step ≤ 25 m; width band by class": the outline step has a fixed
+bound and only the river width is banded. R-34 listed both water rows among the rows "with bands by the band rule"
+(notes §6 point 5). *Ruling:* W-15 treats `water.step` like the fixed-band rows — the payloads sharpen FTG's reference value
+and spread (the six `coast+river` slots per matched size, `minmax`), and the band column stays "≤ 25 m" — and bands
+`water.riverWidth` by the band rule per class over the same slots. R-34's other buckets stand as the closing check read
+them against §13.5 and V12 §3.5.1. *Reason:* the band column is the design's, and a ruled design cell is re-decided by
+amendment, not by a ruling seat; a band formed by V12 §3.5.2 from FTG's ≈ 50 m step would fail our step, which the design
+bounds at 25 m on purpose. Decided under the owner's delegation (J122); **vetoable**. Applied in plan §1 D26 and §2 W-15
+and in `M-1-work.json` (D26, W-15). *Measured by:* §13.5's water row and its band rule paragraph (read whole, 2026-10-03).
+
+**The other points, for the record (each receipt in `M-1-plan-fix-3.md`).** R-41's last sentence ("the first programme-2
+seat writes its section I") is superseded: this lane wrote the checklist's section I before programme 2, with the retry
+rule corrected (a retry only when the PUT did not return 200 and the list shows no new row; a PUT 200 with no new row stops
+the run, reported, never retried). R-36's guard is extended in `plan.py`: a change of any recorded slot's label, size or
+water, or its removal, is refused. The post script's water-implied resource class is pinned as R-24 pinned the size
+class. This record's two literal site-control labels (section 2's premium-differences paragraph and section 7) are now in
+our terms (R-27); `results/rulings-2.json` keeps them as this seat's history.

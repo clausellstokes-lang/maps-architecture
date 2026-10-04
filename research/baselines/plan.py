@@ -31,7 +31,10 @@ FTG_PREMIUM_SCHEDULE (programme 2: the 22 premium-month slots of J164). FTG cann
 extension is this declared schedule block, never a CLI flag that mutates plan.json (that would break regeneration);
 slot numbers are positions in the concatenated list and are filled in capture order (bind refuses a slot while an
 earlier one is open). compute() refuses to write a plan whose first six labels differ from FTG_FIRST_LABELS or whose
-labels repeat, so an extension can only append.
+labels repeat, so an extension can only append; and it refuses any change to a RECORDED slot (bound to a capture or
+recorded failed, in either programme) of its label, size or water against the prior plan.json, or its removal, so a
+schedule edit can never relabel a capture (lane m1/plan-fix-3, after the closing check of plan revision 3). Striking
+or reordering rows after the last recorded slot stays allowed (the owner's veto of R-33: the TOWN pair first).
 """
 import hashlib
 import json
@@ -243,7 +246,8 @@ FTG_PREMIUM_SCHEDULE = [
 # The recorded CITY family (R-02; the recorded block itself is W-01b's): both captures were coastal with rivers on, so
 # the planned CITY slots continue the family's per-water index after them (coast+river/2) and the family order after 2.
 FTG_RECORDED_CITY = [('2026-09-21T05-23-58', 'coast+river', 'usable'), ('2026-09-25T10-13-51', 'coast+river', 'failed: setting')]
-# The first six labels, fixed: compute() refuses to write a plan that changes or reorders them (R-36).
+# The first six labels, fixed: compute() refuses to write a plan that changes or reorders them (R-36); every recorded
+# slot after them is held the same way against the prior plan.json (compute(); m1/plan-fix-3).
 FTG_FIRST_LABELS = ('capture/FTG/BIG_TOWN/none/0', 'capture/FTG/BIG_CITY/none/0', 'capture/FTG/BIG_TOWN/coast+river/0',
                     'capture/FTG/BIG_CITY/coast+river/0', 'capture/FTG/BIG_TOWN/coast+river/1',
                     'capture/FTG/BIG_CITY/coast+river/1')
@@ -958,6 +962,21 @@ def compute(prior_slots):
     for size in set(s for _, s, _ in FTG_SCHEDULE) | set(s for s, _ in FTG_PREMIUM_SCHEDULE):
         if size not in FTG_NOMINAL or size not in FTG_RUNG or size not in FTG_HALF_WIDTH_M:
             problems.append('FTG size %s lacks a nominal population, a rung or a half width' % size)
+    # A recorded slot is frozen (m1/plan-fix-3): bound or failed, in any programme, it keeps its label, size and water
+    # against the prior plan.json (the bindings this run carries), so an edit of a schedule row at or before the last
+    # recorded slot can never relabel or drop a capture. Unrecorded rows may still be struck or reordered.
+    new_slots = {s['slot']: s for s in plan['ftg']['slots']}
+    for p in prior_slots or []:
+        if not (p.get('capture') or p.get('failed')):
+            continue
+        n = new_slots.get(p.get('slot'))
+        if n is None:
+            problems.append('recorded FTG slot %s (%s) is no longer in the schedule' % (p.get('slot'), p.get('label')))
+            continue
+        moved = ['%s %s -> %s' % (key, p.get(key), n.get(key)) for key in ('label', 'ftgSize', 'water') if n.get(key) != p.get(key)]
+        if moved:
+            problems.append('recorded FTG slot %d (%s) changed: %s; a recorded slot is never relabelled' %
+                            (n['slot'], p.get('capture') or 'failed: ' + str(p.get('failed')), '; '.join(moved)))
     return plan, metrics, problems
 
 

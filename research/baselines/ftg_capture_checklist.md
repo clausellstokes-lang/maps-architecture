@@ -277,3 +277,117 @@ Slot 5 (2026-10-03, lane `m1/W-02-slot5b`, `captures/ftg/2026-10-03T23-10-37`) f
 account list held 5 rows before (big town 3, big city 2) and 6 after; the form, the coordinates and "Create Settlement"
 (1 of 1, (947, 522), inside the dialog) were as in slots 1–4; the redacting `EP` of H14 kept `steps.jsonl` free of the
 display name. Programme 1 (slots 0–5) is complete.
+
+## I. Programme 2: the premium slots 6–27 (J164; plan section 2.1b) — read before slot 6
+
+Written by lane `m1/plan-fix-3` (2026-10-03, before any programme-2 capture) from plan section 2.1b (1)–(10). Plan
+2.1b (10) first gave this section to the first programme-2 seat; it was written here instead so that every programme-2
+seat reads the same procedure. Owner ruling J164: one month of FTG premium (unlimited saves, the premium-only size). The
+seats buy nothing, renew nothing and change no account setting. Sections A–H still hold unless this section says
+otherwise, H12–H14 included.
+
+| slot | size (request key) | form size option | coast select | rivers box | label |
+|---|---|---|---|---|---|
+| 6 | `METROPOLIS` | the option whose value is `METROPOLIS` | "No coast" | off | `capture/FTG/METROPOLIS/none/0` |
+| 7 | `METROPOLIS` | the option whose value is `METROPOLIS` | "Coastal" | on | `capture/FTG/METROPOLIS/coast+river/0` |
+| 8 | `METROPOLIS` | the option whose value is `METROPOLIS` | "Coastal" | on | `capture/FTG/METROPOLIS/coast+river/1` |
+| 9 | `METROPOLIS` | the option whose value is `METROPOLIS` | "Coastal" | on | `capture/FTG/METROPOLIS/coast+river/2` |
+| 10 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "No coast" | off | `capture/FTG/BIG_TOWN/none/1` |
+| 11 | `BIG_CITY` | the option whose value is `BIG_CITY` | "No coast" | off | `capture/FTG/BIG_CITY/none/1` |
+| 12 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "Coastal" | on | `capture/FTG/BIG_TOWN/coast+river/2` |
+| 13 | `BIG_CITY` | the option whose value is `BIG_CITY` | "Coastal" | on | `capture/FTG/BIG_CITY/coast+river/2` |
+| 14 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "No coast" | off | `capture/FTG/BIG_TOWN/none/2` |
+| 15 | `BIG_CITY` | the option whose value is `BIG_CITY` | "No coast" | off | `capture/FTG/BIG_CITY/none/2` |
+| 16 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "Coastal" | on | `capture/FTG/BIG_TOWN/coast+river/3` |
+| 17 | `BIG_CITY` | the option whose value is `BIG_CITY` | "Coastal" | on | `capture/FTG/BIG_CITY/coast+river/3` |
+| 18 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "No coast" | off | `capture/FTG/BIG_TOWN/none/3` |
+| 19 | `BIG_CITY` | the option whose value is `BIG_CITY` | "No coast" | off | `capture/FTG/BIG_CITY/none/3` |
+| 20 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "Coastal" | on | `capture/FTG/BIG_TOWN/coast+river/4` |
+| 21 | `BIG_CITY` | the option whose value is `BIG_CITY` | "Coastal" | on | `capture/FTG/BIG_CITY/coast+river/4` |
+| 22 | `BIG_TOWN` | the option whose value is `BIG_TOWN` | "Coastal" | on | `capture/FTG/BIG_TOWN/coast+river/5` |
+| 23 | `BIG_CITY` | the option whose value is `BIG_CITY` | "Coastal" | on | `capture/FTG/BIG_CITY/coast+river/5` |
+| 24 | `CITY` | the option whose value is `CITY` | "No coast" | off | `capture/FTG/CITY/none/0` |
+| 25 | `CITY` | the option whose value is `CITY` | "Coastal" | on | `capture/FTG/CITY/coast+river/2` |
+| 26 | `TOWN` | the option whose value is `TOWN` | "No coast" | off | `capture/FTG/TOWN/none/0` |
+| 27 | `TOWN` | the option whose value is `TOWN` | "Coastal" | on | `capture/FTG/TOWN/coast+river/0` |
+
+The table is `plan.json`'s `ftg.slots` 6–27. One seat records one slot, by slot number; `plan.py --bind-ftg` refuses a
+slot while an earlier one is open. Every other form value is as in H5: farms, forests, reserve area and walled on, the
+name blank, All settings never opened.
+
+1. **Before the slot (no site contact).** In `plan.json`, slot K must be open and every earlier slot bound or failed.
+   No folder in `captures/ftg/` newer than the last recorded slot's may hold a `PUT …/prod/settlements` row; if one
+   does, a create already happened for this slot (H1): STOP and report. Run `df -h /Users/cstokes`: stop under 1 GB
+   free (a METROPOLIS folder is about 60 MB).
+2. **Landing and list (H2, H3, H13).** The landing must show "Signed in as …", "Sign out" and "Home". Without them,
+   STOP: the session has expired, the owner signs in once in that window, and the seat is relaunched. The settlements
+   view shows no `N / 10` counter. Count the account list's rows from the intercepted `GET …/prod/settlements` body, by
+   size, numbers only. Before slot K the list should hold one row (the earlier settlement) plus one for each slot
+   1 … K − 1 whose create made a settlement: K rows when every earlier slot made one, so 6 before slot 6. More rows of
+   the slot's size than the captures explain mean a create may already have happened: STOP and report.
+3. **Never click or open:** H's list and H13's additions stand. That covers "Sign out" / "Logout" (on the map page at
+   the top left, (26, 21)), "Settings", "Premium Settings", "New Folder", a row's "…" menu, the map toolbar's
+   re-roll control, and anything about an upgrade, Patreon, billing or the subscription. The one change: the size option
+   "★ Metropolis (~50000 people)" is now chosen, for slots 6–9 only.
+4. **The size (plan 2.1b (2)).** `eval` the size select's options (visible select 0) with their values. Pick the option
+   whose value is the slot's request key: for slots 6–9 the one whose value is `METROPOLIS`. Its text on 2026-10-03 was
+   the one in step 3, but never select by a remembered or guessed text. Then `D select 0 "^<that option's text,
+   regex-escaped>$"`, re-read, and confirm the selected value by `eval`. TOWN (slots 26, 27) is the option the form
+   opens at: confirm the value by `eval` (selecting it again changes nothing). The coast, the rivers and the other boxes
+   follow H5: coast select 7; re-read every box's coordinates after the coast select and after the dialog scroll; guarded
+   clicks (H12) with H14's redacting `EP`; a form-state reading `G` after every step; `D shot form-final`.
+5. **Create, and the retry rule (plan 2.1b (6), corrected).** Append a CHECKPOINT line saying that the create click
+   happens now. Then `D clicktext "^Create Settlement$"`, once: 1 of 1 hit-testable, inside the dialog (H6). Poll
+   `index.jsonl` for up to five minutes for the `PUT …/prod/settlements` row with `postData` and its status, its
+   intercepted response and the intercepted layout body. A METROPOLIS build takes about 10 s on the server and its payload
+   is about 2–3 MB; the five-minute poll stands. Then go back to the list (H8) and count its rows (step 2).
+   - **PUT 200 and one new row of the slot's size:** the create made one settlement. Go on to step 6.
+   - **The PUT did not return 200 (no PUT row, a non-200 status, or an error on the page) AND the list shows no new
+     row:** no settlement was made. The seat may retry, with at most three create attempts for the slot in all (V12
+     §3.12's rule). Before each attempt, take a fresh `T`, `shot` and `G`, and append its own CHECKPOINT line.
+   - **A PUT 200 with no new row is ambiguous.** The list may lag, or the settlement may exist where the seat did not
+     look. STOP the run and report it in `owner_notes`. **Never retry it**: a retry could make a second settlement in
+     the owner's account. Any other combination is reported the same way and never retried (for example, a new row
+     after a PUT that did not return 200, or two new rows).
+   - **Three attempts and no settlement:** run `python3 research/baselines/plan.py --fail-ftg K=create-failed`, keep the
+     folders, report, and return `failed`.
+   - **A site refusal** (a limit, a payment or upgrade prompt, a sign-in or Google prompt, an expired premium, new
+     terms): STOP as section H says. The slot stays **open** in `plan.json` as the programme's shortfall, never faked
+     (ARCHITECTURE §13.6 (12)).
+6. **Map, back to the list, stop:** H7–H9. That means the overview, two zoom clicks and `core`; the home link at
+   (63, 21), never (26, 21); `D stop`; `df`.
+7. **Post (plan 2.1b (3), (5)):** `python3 research/baselines/ftg_capture_post.py <stamp> --slot K --signed-in --premium
+   --notes <notes.md>`, with `--check-only` first; all 10 checks must pass. The border check reads the size's half width
+   (`HALF_WIDTH_M`: METROPOLIS 3 000, BIG_CITY 2 750, CITY 2 500, BIG_TOWN 2 000, TOWN 1 750 m). The request-diff and
+   slot-0 checks admit the six water-implied resource leaves only when the whole resource list is the one the slot's water
+   setting implies (`WATER_IMPLIED`). Then run `python3 research/baselines/plan.py --bind-ftg K=<stamp>` and
+   `plan.py --check` (SAME), and write an E02 section and an `E02-ftg-captures.json` entry. `plan.py` refuses any change
+   to a recorded slot's label, size or water: never edit `FTG_PREMIUM_SCHEDULE` rows at or before the last recorded slot.
+8. **A created settlement that fails a post check** (and is not step 9's case): run
+   `python3 research/baselines/plan.py --fail-ftg K=<reason>` (lower-case words joined by `-`), keep the folder, record
+   the failure in E02, and return `failed`. Nothing slides: the slots are fixed by number, and slot K + 1 is the next
+   seat's.
+9. **The first capture of a new size (R-41): slot 6 (METROPOLIS), slot 24 (CITY) and slot 26 (TOWN).** Each is itself
+   the controlled comparison: its form steps differ from slot 0's (BIG_TOWN, `none`, the same water) in the size option
+   only. If `--check-only` fails in `requestDiff` or `vsSlot0` and in nothing else:
+   1. Confirm the form steps. The form-final `eval` must show every select except the size, and every box, as slot 0's,
+      and `steps/steps.jsonl` must hold no other form change. If either fails, it is a deviation: go to step 8.
+   2. List the leaves that the two checks name as `other` (the `--check-only` output's `requestDiff.semantic` and the
+      `vsSlot0` receipt).
+   3. Examine each leaf. A value of the layout preset that the size sets may join the class: no simple-form control sets
+      it, and it sits among the preset's layout, building, faction or religion parameters, as the 16 named ones do.
+      Anything else is a deviation (step 8) and is never widened in: a resource, a water key, a form value, a name.
+   4. Add the qualifying leaves **by name** to `SIZE_DEPENDENT` in `research/baselines/ftg_capture_post.py`. Work on a
+      scratch copy. `--check-only` on this capture must exit 1 before the change and 0 after, and every bound slot must
+      still pass 10 of 10. Then install the copy by an atomic rename, after checking that the file's hash is unchanged.
+   5. Record the evidence in E02: the capture, the steps comparison, and a table of the new leaves with their values at
+      the new size, at slot 0's and slot 1's sizes and in the base (as E02 section 10.3). Name the leaves in the
+      CHECKPOINT line and the result.
+   6. Run the writing run and bind (step 7). The size's later captures must repeat those values exactly: the same-size
+      check, which is vacuous on a size's first capture.
+   CITY's first slot (24) may need no new leaf, because the base request is itself a CITY capture (PLAUSIBLE until slot
+   24 shows it). Any other failing check on a first capture is step 8's case. Report the decoded border half width in
+   the result.
+10. **The window is not ours alone (plan 2.1b (8)).** The owner leaves the recording window alone while a seat runs
+    (J164). At any sign of another hand, stop as H12 says.
+11. **Privacy (plan 2.1b (9)):** as H11 and H14. Records say "the owner's signed-in account, premium since J164".

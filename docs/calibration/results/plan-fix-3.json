@@ -1,0 +1,80 @@
+{
+ "id": "m1/plan-fix-3",
+ "status": "landed",
+ "records": [
+  "docs/calibration/M-1-plan-fix-3.md",
+  "docs/calibration/M-1-rulings-2.md section 8 (addendum: R-48, amends R-34)",
+  "docs/calibration/M-1-plan.md section 12c (changelog of this fix round; still revision 3)"
+ ],
+ "outputs": [
+  "research/baselines/ftg_capture_post.py (3911fc3b -> 4d396e67): the water-implied class pinned to the six positional resource leaves, admitted only when the whole list equals the water setting's list (base list for coast+river, without the fishing entry for none); installed by atomic rename",
+  "research/baselines/plan.py (4015955f -> a128b9d1): compute() refuses a change of a recorded slot's label, size or water against the prior plan.json, or its removal (bound or failed, any programme); unrecorded tail rows may still be struck or reordered; installed by atomic rename",
+  "research/baselines/ftg_capture_checklist.md (2bc14e19 = HEAD -> f88ceaa3): section I, programme 2 slots 6-27",
+  "docs/calibration/M-1-plan.md (e0cd4256 -> 67f4d38d)",
+  "docs/calibration/M-1-work.json (a452f168 -> 0f8c0512; dump format kept, parses)",
+  "docs/calibration/M-1-rulings-2.md (8f3013de -> 63f59177)",
+  "docs/calibration/M-1-plan-fix-3.md (new, fa037647)",
+  "docs/calibration/results/plan-fix-3.json (this file)",
+  "plan.json and metrics.m-1.json NOT written (still 524830f5 / 7a21bb29)"
+ ],
+ "checks": [
+  {
+   "check": "U1 red first: planted resource changes pass the old post script and fail the new one",
+   "passed": true,
+   "receipt": "scratch mirror, --check-only: 7 planted changes (slot 5 coast+river: replace one, swap two, drop one, drop the fishing entry; slot 1 none: replace one, swap two, add the fishing entry) old exit 0 -> new exit 1 with requestDiff and vsSlot0 failing; controls (slots 1, 5 unchanged) exit 0 under both (20:12-20:16)"
+  },
+  {
+   "check": "U1 regression: --check-only on slots 0-5 with the installed script",
+   "passed": true,
+   "receipt": "slots 0-5 exit 0, 10/10 each, receipts 'resource list equals the none / coast+river list' per the slot's water (20:16; re-run 21:03 identical); writing run on a fresh scratch folder of slot 5: exit 0, 10 PASS, create-request.json byte-equal, request-diff.txt and structure.md equal but the path line"
+  },
+  {
+   "check": "U2 red first: a bound slot's schedule row edit relabels it under the old plan.py and is refused under the new",
+   "passed": true,
+   "receipt": "scratch mirror, slot 6 bound: METROPOLIS none -> BIG_TOWN none old exit 0 (slot 6 became capture/FTG/BIG_TOWN/none/1), new exit 2 nothing written; also refused (exit 2): bind with the edit in place, striking row 0, striking all of programme 2 (old exit 0 and slot 6's binding silently lost), a failed slot's relabel, size+water together; allowed (exit 0): striking the TOWN pair, reordering CITY rows 24/25; unchanged schedule byte-identical to the old script's output (f44946aa after the bind under both)"
+  },
+  {
+   "check": "U2 live: plan.py --check SAME after the atomic install",
+   "passed": true,
+   "receipt": "lane log checked (no bind since slot 5 at 19:20; W-01b and programme 2 not started); live hashes checked before the swap; --check SAME plan.json 524830f5 / metrics.m-1.json 7a21bb29 at 20:18 and 20:23"
+  },
+  {
+   "check": "U3 checklist section I written from plan 2.1b (1)-(10) with the corrected retry rule, R-41 step list, --fail-ftg path, metropolis by request value, post with --signed-in --premium",
+   "passed": true,
+   "receipt": "section I appended after H14 (sections A-H unchanged; file was equal to HEAD before); slot table generated from plan.json slots 6-27; plan 2.1b (10) and section 12c record the move"
+  },
+  {
+   "check": "U4 R-48 recorded and applied",
+   "passed": true,
+   "receipt": "M-1-rulings-2.md section 8 (J122, vetoable, reason: section 13.5's water band column 'outline step <= 25 m; width band by class'); plan D26 and W-15; work file D26 and W-15"
+  },
+  {
+   "check": "U5 text left behind reworded, each by name",
+   "passed": true,
+   "receipt": "plan 2.2 last sentence and section 9 row as history; W-16b depends + W-02b and inputs 'after programme 2'; work D13, sampleRule.FTG, wave2[0], risks (thin samples, retry, 130/plain/8); W-03b checker -> plan.py --vectors capture/MFCG/130/plain/10 (1179968782 / PM 1179968783, run in this lane); plan 2.1b (1) and rulings-2 sections 2 and 7 site-control labels in our terms; also aligned: W-02b's failure path, the plan's own D13 class, section I named in 4 (1) and the work file's procedure, the guard in 5 (1) / ownerGated / orderRule"
+  },
+  {
+   "check": "doc_checks.py --doc <each touched document> --heads docs/ARCHITECTURE.md, every unreviewed hit read",
+   "passed": true,
+   "receipt": "plan C1 1 reviewed, C2 0, C3 46/44, C4 0, S1 0, S2 1 reviewed (re-run on the final text: same hits); rulings-2 C1 1 reviewed, C3 44/41, S2 1 reviewed, rest 0; work file C3 27/25, rest 0; checklist C1 4 reviewed, C3 21/20, S2 1 reviewed, rest 0; this record C3 23/23, rest 0 (final text fa037647). All unreviewed hits are our dates, digit runs, paths and phrases, except 3 checklist hits that are the site's form labels in its opening paragraph (lane m1/W-02's text, kept there by PC-20 / R-27; not touched). The record's first run caught two of those labels quoted in its own self-check paragraph; reworded in our terms before the final run. No allow rows."
+  },
+  {
+   "check": "plan.py --check at the end (after another lane's V12 edit)",
+   "passed": false,
+   "receipt": "21:03: exit 2 'catalogue mismatch: missing bldg.wallAlign.median, bldg.wallAlign.share15, cut.length; extra bldg.wallAlign' -- caused by design/m1-corrections-1's V12 section 3.4.2 edit (20:24/20:46), not this lane: the pre-fix plan.py fails identically on today's V12 and reads SAME on the 20:17 V12 copy; plan.json and metrics.m-1.json byte-unchanged; registering the ids is W-01b's item"
+  }
+ ],
+ "rows": 0,
+ "owner_notes": [
+  "BEFORE PROGRAMME 2 BINDS ANYTHING: plan.py now refuses every write (--check, --bind-ftg, --fail-ftg) because the design seat's V12 catalogue edit added bldg.wallAlign.median / .share15 and cut.length, which plan.py's registry gains only in W-01b. Land W-01b before slot 6's seat binds, or the seat will hold a created METROPOLIS settlement it cannot bind (CONFIRMED by running plan.py --check at 21:03 and the pre-fix plan.py on a mirror).",
+  "workflows/25-ftg-signed-in.js (the session's file, plan-check-close-2 note 1) still needs its programme-2 brief: section I now exists, so its first-seat branch should point every programme-2 seat to checklist section I instead of asking slot 6's seat to write one; name R-41 (section I step 9); the post command needs --signed-in --premium; the retry rule is section I step 5 (a PUT 200 with no new list row stops the run, never retried); record whether the loop stops on a failed slot.",
+  "Vetoable calls (J122): the fishing entry pinned by value in the post script (as R-24 pins leaf names); any wrong resource list fails both request checks; plan.py also refuses a recorded slot's removal (the old script silently lost a binding when rows were struck); three create attempts without a settlement are --fail-ftg K=create-failed while a site refusal leaves the slot open; any create outcome other than 'PUT 200 + one new row' or 'no 200 + no new row' stops the run; the plan stays revision 3 with a section 12c changelog; R-48 (water.step keeps section 13.5's fixed bound <= 25 m).",
+  "No FTG sign-in is needed for this lane (no website touched)."
+ ],
+ "notes": [
+  "Left to m1/W-01b (it regenerates the files): metrics.m-1.json variety.dispersion's m1 entries (plan.py M1 table and M1_ROLE_NOTES) still name W-09 / W-05 and 'minmax at n = 3', and its open names W-09 / W-05 (R-40 moved both dispersions to W-15); plan.json's ftg.slotRule names only R-36's checks and ftg.programmes[1].procedure names section H with 2.1b -- left unchanged so --check stays SAME; W-01b may add the recorded-slot guard and section I there.",
+  "The slot READMEs of slots 0-5 were written by the old post script and are not regenerated (seats' history); their verdicts are unchanged (10/10 under the new script).",
+  "CONFIRMED: every receipt above (executed). PLAUSIBLE: that the METROPOLIS form keeps H4's coordinates; that CITY's first slot needs no new size-dependent leaf (the base is a CITY capture); that programme 2's sizes imply the same resource lists as programme 1's.",
+  "Nothing written into plat/, the design or plan.json / metrics.m-1.json; no website, no benchmark, no git state change. Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1w2/plan-fix-3/ (u1 red tests, u2 guard tests, dc doc_checks outputs, pre-edit copies). df 12 GiB free."
+ ]
+}
