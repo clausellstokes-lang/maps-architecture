@@ -74,7 +74,9 @@ if (ONLY.includes('A')) {
   results.w12 = w12; results.w16b = w16b
   log(`phase A: W-12 ${w12 ? w12.status : 'none'}; W-16b ${w16b ? w16b.status : 'none'}`)
 }
+const W05B_27 = 'AN ADDENDUM to m1/W-05b-final (results/W-05b-final.json, E05 sections 9.6-9.10): FTG slot 27 (TOWN, coast+river; capture 2026-10-04T09-33-54, lane m1/W-02-slot27c, confirmed by m1/W-02b-verifyc) was recorded after that pass measured slots 0-26. Measure slot 27 with the same tool and settings (its MeasureInput file was routed here by m1/W-06-final), append a short section to E05 section 9 and update E05-ftg-metrics.slots.json, keeping every earlier slot byte-unchanged (show it). Note: the settlement list labels slot 27 BIG_TOWN at a listed population of 5 725 against TOWN\'s nominal 3 625 (+58 %; E02 section 39); record both and say which the TOWN-as-a-function-of-population reading uses and why. TOWN slots feed research-side numbers only (R-34).'
 if (ONLY.includes('B')) {
+  if (ARGS.slot27) results.w05b27 = await item('W-05b', 'W-05b-slot27', W05B_27, 'B')
   const w15 = await item('W-15', 'W-15', W15, 'B')
   results.w15 = w15
   if (w15 && w15.status !== 'blocked') {
@@ -98,6 +100,7 @@ if (ONLY.includes('verify')) {
     { id: 'W-15', result: 'docs/calibration/results/W-15.json' },
     { id: 'design/m1-corrections-2', result: 'docs/validation/m1-corrections-2.json (and .verify.json)' },
     { id: 'W-17 draft', result: 'docs/calibration/results/W-17-draft.json' },
+    { id: 'W-05b slot-27 addendum', result: 'docs/calibration/results/W-05b-slot27.json' },
   ]
   results.verify = landed.length ? await seat(verifyPrompt(landed), `m1/${VKEY}`, 'Verify', VERIFY_SCHEMA) : null
 }
