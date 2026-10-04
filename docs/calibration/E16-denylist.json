@@ -652,5 +652,1186 @@
   "token sources limited to lists, identifier-shaped strings and named identifier sources",
   "corpus cut at the clean-room record (07:25:59 EDT)",
   "map transcription kept outside the project; digests only"
- ]
+ ],
+ "w16b": {
+  "lane": "m1/W-16b",
+  "date": "2026-10-04",
+  "record": "docs/calibration/E16-denylist.md section 9",
+  "m0": {
+   "path": "research/baselines/denylist/denylist.json",
+   "schema": "plat.denylist/1",
+   "normalisationVersion": 1,
+   "digestHexDigits": 16,
+   "bytes": 24227888,
+   "sha256": "7b3d79936f32dccd0770bf37cf7381a747555a1a0a543b185749842f18c223c6",
+   "date": "2026-10-04T05:56:16-04:00",
+   "corpusCut": "2026-10-04T05:56:16-04:00",
+   "counts": {
+    "colours": 7358,
+    "files": 2523,
+    "listWords": 3461,
+    "lists": 260,
+    "spell": 234593,
+    "tokens": 894,
+    "trigrams": 1026020
+   },
+   "tokensInSpell": 0
+  },
+  "research": {
+   "path": "research/baselines/denylist/denylist.v1.json.gz",
+   "normalisationVersion": 1,
+   "bytes": 9190376,
+   "sha256": "00bb0d659148e17d3ea397906ae31384f536cc58812a1c3a82cf13366371a0a8",
+   "digests": {
+    "col": 7358,
+    "file": 2523,
+    "id": 130,
+    "phr": 75,
+    "sets": 260,
+    "tok": 894,
+    "tri": 1026020
+   },
+   "setWordDigests": 3461
+  },
+  "generationRecord": "research/baselines/denylist/generation-record.json",
+  "salt": {
+   "file": "research/baselines/denylist/salt.hex",
+   "sha256": "3f342aee68fdb9cce86f47015e855b454b9641b5a2e9b26074955af9da9f5808",
+   "unchanged": true
+  },
+  "supplement": {
+   "tokens": 190,
+   "sha256": "f5689f6e9a05f5a8fcb70d85f0ac8ef8eb14e403b14e8ed71066f9e80b6adeb1",
+   "added": 11
+  },
+  "designAllowRowsAdded": {
+   "TRI": 24
+  },
+  "generation": {
+   "bare_six_hex_runs": 304639,
+   "built": "2026-10-04T05:56:16-04:00",
+   "c1_identifiers": 36,
+   "c4_lists_in_scope": 546,
+   "colour_files": 11048,
+   "colour_values": 7358,
+   "corpus_cut": "2026-10-04T05:56:16-04:00",
+   "dict_sha256": "be41ad97963bf8dabedd5871d5d691596175269d540956b0f9965a885c2bbab9",
+   "dict_tokens": 234454,
+   "digests_col": 7358,
+   "digests_file": 2523,
+   "digests_id": 130,
+   "digests_phr": 75,
+   "digests_sets": 260,
+   "digests_tok": 894,
+   "digests_tri": 1026020,
+   "doc_checks_own_outputs_left_out": 105,
+   "files": 12005,
+   "files_after_cut_by_folder": {},
+   "files_skipped_font_or_code": 606,
+   "findings_md": 39,
+   "findings_quoted_arrays": 28,
+   "foundry_identifiers": 41,
+   "json_files_after_cut": 0,
+   "json_files_all": 10498,
+   "json_files_in_scope": 10441,
+   "json_files_own_outputs": 57,
+   "json_unparsed": 994,
+   "json_values_only": 1,
+   "lenient_distinct_bodies": 2,
+   "lenient_unparsed": 0,
+   "list_bytes": 9190376,
+   "list_sha256": "00bb0d659148e17d3ea397906ae31384f536cc58812a1c3a82cf13366371a0a8",
+   "lists_by_source": {
+    "foundry": 6,
+    "json": 546,
+    "lenient": 34
+   },
+   "lists_read": 586,
+   "lists_under_five_words": 325,
+   "non_ascii_characters_seen": 227,
+   "own_outputs_left_out_all_sources": 292,
+   "prose_files": 355,
+   "provenance_class_identifiers": 71,
+   "refmap": {
+    "names_A": 85,
+    "names_B": 7,
+    "phr": 75,
+    "tok": 40,
+    "tri": 36,
+    "word": 17
+   },
+   "set_word_digests": 3461,
+   "supplement_sha256": "f5689f6e9a05f5a8fcb70d85f0ac8ef8eb14e403b14e8ed71066f9e80b6adeb1",
+   "supplement_tokens": 190
+  },
+  "corpusRuleParity": {
+   "doc_checks": {
+    "json_files": 10441,
+    "own_outputs_left_out": 105,
+    "own_values_only": 1
+   },
+   "builder": {
+    "json_files_in_scope": 10441,
+    "doc_checks_own_outputs_left_out": 105,
+    "json_values_only": 1
+   },
+   "equal": true
+  },
+  "selftest": {
+   "corpus_cut": "2026-10-04T05:56:16-04:00",
+   "pass": true,
+   "lists": {
+    "research": {
+     "list": "research/baselines/denylist/denylist.v1.json.gz",
+     "kind": "research",
+     "1_c1": {
+      "identifiers": 36,
+      "missed": 0,
+      "format_gap_R17": 0,
+      "pass": true
+     },
+     "2_colours": {
+      "values": 7358,
+      "missed": 0,
+      "bare_runs_not_listed": 297279,
+      "pass": true
+     },
+     "3_c4_lists": {
+      "lists": 546,
+      "with_five_indexable_words": 237,
+      "missed": 0,
+      "under_five_never_a_c4_hit": 309,
+      "pass": true
+     },
+     "4_all_lists": {
+      "lists_with_five_words": 261,
+      "missed": 0,
+      "pass": true
+     },
+     "5_tokens_identifiers": {
+      "tokens": 855,
+      "tokens_missed": 0,
+      "identifiers": 130,
+      "identifiers_missed": 0,
+      "identifier_format_gap_R17": 0,
+      "pass": true
+     },
+     "6_files": {
+      "files": 12005,
+      "missed": 0,
+      "pass": true
+     },
+     "7_trigrams_sampled": {
+      "sampled": 2004,
+      "of": 1025984,
+      "missed": 0,
+      "pass": true
+     },
+     "8_planted": {
+      "trials_each": 20,
+      "TOK": 20,
+      "TRI": 20,
+      "SET": 20,
+      "COL": 20,
+      "FILE": 20,
+      "ID": 20,
+      "PHR": 20,
+      "pass": true
+     },
+     "9_refmap_names": {
+      "names": 92,
+      "direct_hit": 91,
+      "single_word_in_map_set_only": 1,
+      "format_gap_R17": 0,
+      "neither": 0,
+      "map_sets_hit": {
+       "A": true
+      },
+      "pass": true
+     },
+     "10_salt_header": {
+      "salt_matches_file": true,
+      "normalisationVersion": 1,
+      "digestHexDigits": 16,
+      "pass": true
+     },
+     "pass": true
+    },
+    "m0": {
+     "list": "research/baselines/denylist/denylist.json",
+     "kind": "m0",
+     "1_c1": {
+      "identifiers": 36,
+      "missed": 0,
+      "format_gap_R17": 29,
+      "pass": true
+     },
+     "2_colours": {
+      "values": 7358,
+      "missed": 0,
+      "bare_runs_not_listed": 297279,
+      "pass": true
+     },
+     "3_c4_lists": {
+      "lists": 546,
+      "with_five_indexable_words": 237,
+      "missed": 0,
+      "under_five_never_a_c4_hit": 309,
+      "pass": true
+     },
+     "4_all_lists": {
+      "lists_with_five_words": 261,
+      "missed": 0,
+      "pass": true
+     },
+     "5_tokens_identifiers": {
+      "tokens": 855,
+      "tokens_missed": 0,
+      "identifiers": 130,
+      "identifiers_missed": 0,
+      "identifier_format_gap_R17": 40,
+      "pass": true
+     },
+     "6_files": {
+      "files": 12005,
+      "missed": 0,
+      "pass": true
+     },
+     "7_trigrams_sampled": {
+      "sampled": 2004,
+      "of": 1025984,
+      "missed": 0,
+      "pass": true
+     },
+     "8_planted": {
+      "trials_each": 20,
+      "TOK": 20,
+      "TRI": 20,
+      "SET": 20,
+      "COL": 20,
+      "FILE": 20,
+      "pass": true,
+      "spell_words_planted_hits": 0,
+      "spell_words_planted": 20,
+      "tokens_in_spell": 0
+     },
+     "9_refmap_names": {
+      "names": 92,
+      "direct_hit": 47,
+      "single_word_in_map_set_only": 1,
+      "format_gap_R17": 44,
+      "neither": 0,
+      "map_sets_hit": {
+       "A": true
+      },
+      "pass": true
+     },
+     "10_salt_header": {
+      "salt_matches_file": true,
+      "normalisationVersion": 1,
+      "digestHexDigits": 16,
+      "format": {
+       "problems": [],
+       "strings": 1275393,
+       "strings_holding_a_six_hex_run": 0,
+       "ascii_only": true,
+       "bytes": 24227888
+      },
+      "pass": true
+     },
+     "pass": true
+    }
+   },
+   "shared_classes": {
+    "tokens": {
+     "research": 894,
+     "m0": 894,
+     "equal": true
+    },
+    "trigrams": {
+     "research": 1026020,
+     "m0": 1026020,
+     "equal": true
+    },
+    "colours": {
+     "research": 7358,
+     "m0": 7358,
+     "equal": true
+    },
+    "files": {
+     "research": 2523,
+     "m0": 2523,
+     "equal": true
+    },
+    "lists": {
+     "research": 260,
+     "m0": 260,
+     "equal": true
+    },
+    "list_words": {
+     "research": 3461,
+     "m0": 3461,
+     "equal": true
+    },
+    "salt": {
+     "research": "e181605211e2b737da705a98fcbaac383836a25d2e26bfca47252fc503ca2a64",
+     "m0": "e181605211e2b737da705a98fcbaac383836a25d2e26bfca47252fc503ca2a64",
+     "equal": true
+    },
+    "corpus_cut": {
+     "research": "2026-10-04T05:56:16-04:00",
+     "m0": "2026-10-04T05:56:16-04:00",
+     "equal": true
+    },
+    "pass": true
+   },
+   "construction_pass": true,
+   "normalisation_parity": {
+    "characters": 227,
+    "differ": 0,
+    "differ_codepoints": [],
+    "python_unicode": "13.0.0",
+    "node_unicode": "16.0"
+   }
+  },
+  "designSet": {
+   "research": {
+    "per_document": {
+     "docs/ARCHITECTURE.md": {
+      "TOK": [
+       8,
+       0
+      ],
+      "ID": [
+       5,
+       0
+      ],
+      "TRI": [
+       1956,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       26,
+       0
+      ],
+      "PHR": [
+       3,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V01-neighbourhoods.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       427,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       6,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V02-buildings.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       640,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       1,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V03-interiors.md": {
+      "TOK": [
+       13,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       417,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       11,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V04-underground.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       254,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       4,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V05-sky.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       262,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V06-evolution.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       346,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       7,
+       0
+      ],
+      "PHR": [
+       1,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V07-village.md": {
+      "TOK": [
+       5,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       405,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       11,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V08-settlementforge.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       228,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       4,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V09-application.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       1,
+       0
+      ],
+      "TRI": [
+       375,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       8,
+       0
+      ],
+      "PHR": [
+       1,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V10-clerk.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       213,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       2,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V11-content.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       336,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       22,
+       0
+      ],
+      "PHR": [
+       3,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V12-calibration.md": {
+      "TOK": [
+       1,
+       0
+      ],
+      "ID": [
+       8,
+       0
+      ],
+      "TRI": [
+       172,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       2,
+       0
+      ],
+      "PHR": [
+       1,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/INDEX.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       24,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/SUMMARY.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "ID": [
+       0,
+       0
+      ],
+      "TRI": [
+       10,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "PHR": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     }
+    },
+    "unreviewed_total": 0,
+    "unreviewed_distinct": 0,
+    "single_listed_trigrams_positions_lines": [
+     132734,
+     46239
+    ],
+    "pass": true
+   },
+   "m0": {
+    "per_document": {
+     "docs/ARCHITECTURE.md": {
+      "TOK": [
+       8,
+       0
+      ],
+      "TRI": [
+       1956,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       26,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V01-neighbourhoods.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       427,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       6,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V02-buildings.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       640,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       1,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V03-interiors.md": {
+      "TOK": [
+       13,
+       0
+      ],
+      "TRI": [
+       417,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       11,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V04-underground.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       254,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       4,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V05-sky.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       262,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V06-evolution.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       346,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       7,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V07-village.md": {
+      "TOK": [
+       5,
+       0
+      ],
+      "TRI": [
+       405,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       11,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V08-settlementforge.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       228,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       4,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V09-application.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       375,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       8,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V10-clerk.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       213,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       2,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V11-content.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       336,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       22,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/V12-calibration.md": {
+      "TOK": [
+       1,
+       0
+      ],
+      "TRI": [
+       172,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       2,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/INDEX.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       24,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     },
+     "docs/volumes/SUMMARY.md": {
+      "TOK": [
+       0,
+       0
+      ],
+      "TRI": [
+       10,
+       0
+      ],
+      "COL": [
+       0,
+       0
+      ],
+      "SET": [
+       0,
+       0
+      ],
+      "FILE": [
+       0,
+       0
+      ]
+     }
+    },
+    "unreviewed_total": 0,
+    "unreviewed_distinct": 0,
+    "single_listed_trigrams_positions_lines": [
+     132734,
+     46239
+    ],
+    "pass": true
+   }
+  },
+  "firstPass": {
+   "build": "build 1, cut 2026-10-04T05:09:38-04:00 (before slot 27), superseded",
+   "check11_unreviewed_distinct": 32,
+   "check11_unreviewed_total": 550,
+   "by_class": {
+    "TOK": 8,
+    "TRI": 24
+   },
+   "settled": "TOK by the supplement (+11 words), TRI by 24 reviewed allow rows"
+  },
+  "determinism": {
+   "build3": "same --as-of and --date as build 2",
+   "cmp_identical": [
+    "denylist.json",
+    "denylist.v1.json.gz",
+    "generation-record.json",
+    "refmap-names.digests"
+   ]
+  },
+  "handOffs": [
+   "M0-k-06: the 3-gram hit is a run of >= 3 consecutive listed 3-grams (section 17.1 (2) (iii)); a single-3-gram reading fires at 132734 positions on 46239 lines of the design set",
+   "M0-k-07 / R-17 version 2: version 1 cannot carry 29 of 36 C1 identifiers, 40 of 130 identifier candidates, 44 of 92 study-map names (dictionary-word compounds under five tokens)",
+   "the colour hit is the #rrggbb / 0xrrggbb literal rule; the list holds only values written as colours",
+   "a list word is a maximal run of category-L letters, four or more",
+   "size 24.2 MB, about 1.27 million digests; N-22 colour reading: 0 strings with a bounded six-hex run"
+  ],
+  "judgments": [
+   "both lists on normalisation 1 (R-17)",
+   "corpus rule compiled from doc_checks.py source",
+   "supplement 179 -> 190 tokens instead of 8 TOK allow rows",
+   "the clean-room fix verifier transcription (92 names; reproduces all 167 W-16 name digests)",
+   "R-17 gap counted, not failed, on the M0 list (checks 1, 5, 9)",
+   "build 1 superseded by build 2 for slot 27"
+  ],
+  "selfCheck": "doc_checks.py --doc docs/calibration/E16-denylist.md --sections 9 --heads docs/ARCHITECTURE.md: exit 0; C2 1 and C3 3 hits, all reviewed"
+ }
 }

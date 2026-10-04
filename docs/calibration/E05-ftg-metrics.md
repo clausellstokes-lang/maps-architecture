@@ -498,6 +498,393 @@ W-20 to list. This table is what M1 has.
 **Not touched by this pass:** `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, E02, the checklist, the
 adapter and W-05's fixture JSON. No website was contacted, no capture bundle was read, and no git command changed state.
 
+### 9.6 W-05b, final pass — slots 0–26 and the recorded CITY capture (lane `m1/W-05b-final`, 2026-10-04)
+
+**Outcome (CONFIRMED by execution).** Every slot that `plan.json` has bound is measured, and every check of W-05b's row
+passes, 4 of 4. That is 27 slots, 0 to 26, and none has failed:
+- programme 1's six slots (0–5);
+- programme 2's first 21 slots (6–26).
+
+The recorded CITY family's usable capture was measured with them, so the pass covers 28 captures. Slot 27 (TOWN,
+`coast+river`) is **open**. Its seat stopped before the create because the dialog moved without a command (E02
+section 38), so no settlement exists for it, and `plan.json` does not mark it failed. If a later seat binds slot 27, one
+more pass measures it (`--write`, then `--check`), and every value below stays as it is.
+
+Each measured capture now has:
+- a `MeasureInput` file for W-15 and M1;
+- every FTG metric of D14, D25 and D26;
+- its R-10 signature vector.
+
+No dispersion is formed (R-40), and the values are measured values, not rows (R-47 (a)). The samples W-15 forms into
+rows are complete as far as the programme went:
+- BIG_TOWN and BIG_CITY hold ten slots each (`type7` at n = 10), with six `coast+river` slots each for the water rows;
+- METROPOLIS holds four (`minmax`), three of them `coast+river`;
+- CITY holds three usable captures (`minmax`): the 2026-09-21 capture and slots 24 and 25;
+- TOWN holds one, slot 26, as research-side numbers with no row (R-34).
+
+This pass builds on pass 1 (sections 9.1–9.5), whose text stands as written. Pass 1's eight `MeasureInput` files and the
+recorded CITY file were checked again against fresh adapter runs and are byte-equal. Its values for slots 0–7 and the
+CITY capture are reproduced: every per-slot key is equal, the 17 size values pass 1 read included.
+
+**What this pass changed in the tool** (the calls are in 9.9):
+1. **The 28-value size class.** R-41 widened the size-dependent class from 17 to 28 values at slot 26, because the
+   town's request has one layout stage where the larger sizes have two (E02 section 37.3). E02 37.3 finding 9 found that
+   pass 1's reader stops on the town's request. The tool now reads all 28 values by name:
+   - an absent leaf reads null;
+   - a text leaf reads as the first 12 hex digits of the sha256 of its value, so no request string enters the record;
+   - a boolean reads as itself.
+
+   Check 4 reads E02's latest size table, which is now section 37.3 (28 rows, five sizes). E02 37.4 call 3 left that
+   reading to this lane. Number cells and "absent" cells are compared exactly. The word cells are compared by their
+   pattern: the same word in two size columns must stand for the same request value, and different words for different
+   values. Check 4 also holds the tool's 28 rows equal, by name, to the post script's `SIZE_DEPENDENT`, so a further
+   widening fails the check until the tool follows it.
+2. **The wall rows read walled payloads only.** Slot 12's request is walled, but its payload draws no wall (E02 section
+   23.3, which routed this to W-05b's wall rows). The wall rows (`wall.towerSpacing`, `wall.ungated`, `gate.count`) now
+   read only the slots whose payload draws a wall. Slot 12 is listed in its sample's `wallRows.noWall` and keeps its
+   values in the per-slot table. Check 2 holds this list against E02's own wall counts.
+3. **Smaller changes.** `--lane` names the pass in the JSON, and the per-slot table is printed in three parts.
+
+| file | what it is |
+|---|---|
+| `research/baselines/measure_ftg_slots.py` | W-05b's tool (`f218a9d3…`), changed as above. It still drives `adapters/ftg.py` (`782e636f…`) and `measure_ftg.py`'s `metrics()` (`c6d20992…`), both unchanged by this pass. It reads `ftg_capture_post.py`'s `SIZE_DEPENDENT` and nothing else from that script. |
+| `research/baselines/inputs/FTG/ftg-2026-10-04_<hash>/<stamp>.metric.geojson.gz` | 19 new `MeasureInput` files, slots 8–26. The folder now holds 29 files and 8.8 MB, W-05's two fixtures included. The nine earlier files were compared, not rewritten. |
+| `docs/calibration/E05-ftg-metrics.slots.json` | rewritten by this pass (`8898b640…`, 28 captures). Each per-slot entry now has 28 size values, and each sample has `wallRows`. Pass 1's version (`90349d49…`) is in the repository at commit `bef102c`. |
+
+Run (project root): `python3 research/baselines/measure_ftg_slots.py --write --lane m1/W-05b-final --md <tables>`, then
+`python3 research/baselines/measure_ftg_slots.py --check`. The pass ran under `nice` while M0's build seats were running.
+A measuring run takes about ten minutes for the 28 captures.
+
+**Per-slot values.** These are read from each slot's `MeasureInput`. Quantiles inside a slot are type 7. "CITY rec. 0" is
+the 2026-09-21 capture. A dash means that the metric has no value on that payload: there is no water on a `none` slot
+without ponds, no river on a pond-only slot, and no wall on slot 12.
+
+| metric (unit) | slot 0 | slot 2 | slot 4 | slot 10 | slot 12 | slot 14 | slot 16 | slot 18 | slot 20 | slot 22 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| size / water | BIG_TOWN / none | BIG_TOWN / coast+river | BIG_TOWN / coast+river | BIG_TOWN / none | BIG_TOWN / coast+river | BIG_TOWN / none | BIG_TOWN / coast+river | BIG_TOWN / none | BIG_TOWN / coast+river | BIG_TOWN / coast+river |
+| buildings / towers | 1 694 / 25 | 1 821 / 31 | 1 880 / 22 | 1 675 / 17 | 1 610 / 0 | 1 826 / 23 | 1 675 / 16 | 1 712 / 22 | 1 672 / 14 | 1 789 / 18 |
+| street.turn100 (° / 100 m) | 7.516 | 8.456 | 6.463 | 7.666 | 8.256 | 8.698 | 8.615 | 8.392 | 8.456 | 9.687 |
+| street.stepHist share > 15° | 0.0059 | 0.0091 | 0.0073 | 0.0027 | 0.0051 | 0.0062 | 0.0129 | 0.0066 | 0.0099 | 0.0175 |
+| street.entropy50 (bits) | 0.990 | 1.454 | 1.208 | 0.701 | 1.099 | 1.308 | 1.515 | 1.183 | 1.405 | 1.762 |
+| junction.angles median (°) | 93.54 | 90.27 | 90.28 | 91.82 | 92.10 | 91.58 | 91.26 | 93.22 | 91.43 | 91.02 |
+| junction.angles p5 (°) | 55.40 | 71.58 | 74.88 | 56.13 | 62.41 | 67.63 | 71.33 | 63.71 | 60.96 | 66.64 |
+| junction.share4 | 0.172 | 0.296 | 0.319 | 0.232 | 0.214 | 0.265 | 0.272 | 0.220 | 0.235 | 0.293 |
+| street.runs arterial (m) | 50.5 | 50.5 | 75.8 | 50.5 | 50.5 | 50.5 | 50.5 | 50.5 | 50.5 | 52.7 |
+| street.runs street (m) | 33.9 | 39.0 | 47.5 | 33.5 | 44.8 | 37.7 | 35.8 | 37.1 | 31.6 | 37.1 |
+| street.runs lane (m) | 44.7 | 43.7 | 44.7 | 44.7 | 44.7 | 44.7 | 44.7 | 44.7 | 44.7 | 44.7 |
+| street.runs track (m) | 75.8 | 213.8 | 214.5 | 251.2 | 256.9 | 74.2 | 75.6 | 322.3 | 152.6 | 51.3 |
+| bldg.area median (m²) | 86.3 | 103.3 | 99.4 | 94.9 | 92.2 | 97.5 | 95.0 | 93.5 | 97.3 | 96.6 |
+| bldg.area p95 (m²) | 167.6 | 177.4 | 155.8 | 154.2 | 175.7 | 171.7 | 158.7 | 167.0 | 147.9 | 153.8 |
+| bldg.quadSide (m) | 9.34 | 10.42 | 10.39 | 10.14 | 9.97 | 10.26 | 10.25 | 10.11 | 10.24 | 10.27 |
+| bldg.worstCorner p95 (°) | 24.53 | 21.75 | 17.42 | 22.48 | 29.52 | 23.04 | 19.73 | 26.70 | 24.54 | 20.92 |
+| bldg.partyShare | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| bldg.attached | 0.182 | 0.190 | 0.113 | 0.098 | 0.137 | 0.135 | 0.078 | 0.139 | 0.063 | 0.139 |
+| wall.towerSpacing (m) | 32.40 | 34.90 | 34.96 | 36.63 | — | 34.33 | 34.89 | 34.73 | 37.36 | 40.67 |
+| wall.ungated (arterial) | 1 | 2 | 4 | 3 | 0 | 3 | 3 | 3 | 0 | 2 |
+| gate.count | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| water.step (m) | — | 70.17 | 50.66 | — | 17.47 | 14.29 | 15.17 | 10.19 | 16.87 | 14.49 |
+| water.riverWidth (m) | — | 49.95 | 43.17 | — | 44.83 | — | 55.99 | — | 42.62 | 42.95 |
+| tree.nnP1 (m) | 0.981 | 1.031 | 1.118 | 0.893 | 0.998 | 1.217 | 0.806 | 0.985 | 0.943 | 0.985 |
+| tree.nnMedian (m) | 9.47 | 10.63 | 10.88 | 11.03 | 9.77 | 11.62 | 10.02 | 10.32 | 10.50 | 10.02 |
+| pop.perBuilding | 3.306 | 3.075 | 2.979 | 3.343 | 3.478 | 3.067 | 3.343 | 3.271 | 3.349 | 3.130 |
+| time.model (ms, server) | 2 553 | 1 869 | 2 232 | 1 934 | 4 445 | 2 064 | 2 627 | 1 951 | 2 127 | 2 135 |
+| outline.r90cv | 0.473 | 0.487 | 0.278 | 0.382 | 0.304 | 0.290 | 0.337 | 0.202 | 0.412 | 0.269 |
+| outline.roadRatio | 1.922 | 1.875 | 1.356 | 1.704 | 1.185 | 1.581 | 1.337 | 1.083 | 0.908 | 1.290 |
+| wealth.tier1 … tier6 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 |
+
+| metric (unit) | slot 1 | slot 3 | slot 5 | slot 11 | slot 13 | slot 15 | slot 17 | slot 19 | slot 21 | slot 23 |
+|---|---|---|---|---|---|---|---|---|---|---|
+| size / water | BIG_CITY / none | BIG_CITY / coast+river | BIG_CITY / coast+river | BIG_CITY / none | BIG_CITY / coast+river | BIG_CITY / none | BIG_CITY / coast+river | BIG_CITY / none | BIG_CITY / coast+river | BIG_CITY / coast+river |
+| buildings / towers | 7 164 / 66 | 7 342 / 40 | 7 270 / 49 | 7 376 / 62 | 7 328 / 37 | 7 696 / 49 | 7 311 / 25 | 7 174 / 51 | 7 603 / 23 | 7 108 / 47 |
+| street.turn100 (° / 100 m) | 8.522 | 13.728 | 11.911 | 8.227 | 9.474 | 8.553 | 13.134 | 8.340 | 9.228 | 13.717 |
+| street.stepHist share > 15° | 0.0044 | 0.0094 | 0.0089 | 0.0026 | 0.0109 | 0.0055 | 0.0142 | 0.0041 | 0.0127 | 0.0069 |
+| street.entropy50 (bits) | 1.446 | 1.763 | 1.773 | 1.291 | 1.638 | 1.408 | 1.900 | 1.252 | 1.653 | 1.737 |
+| junction.angles median (°) | 93.21 | 90.63 | 91.09 | 92.47 | 90.14 | 90.45 | 91.02 | 91.42 | 90.56 | 91.35 |
+| junction.angles p5 (°) | 58.03 | 67.24 | 64.81 | 55.27 | 69.26 | 67.33 | 67.00 | 58.23 | 66.47 | 61.05 |
+| junction.share4 | 0.151 | 0.277 | 0.275 | 0.221 | 0.312 | 0.327 | 0.263 | 0.269 | 0.305 | 0.255 |
+| street.runs arterial (m) | 42.5 | 50.5 | 50.5 | 46.9 | 50.5 | 50.5 | 50.5 | 50.5 | 50.5 | 42.9 |
+| street.runs street (m) | 35.2 | 35.2 | 35.2 | 35.2 | 36.5 | 35.2 | 35.5 | 35.7 | 36.3 | 35.4 |
+| street.runs lane (m) | 44.7 | 30.0 | 31.2 | 44.7 | 30.0 | 31.6 | 35.6 | 44.7 | 30.9 | 39.2 |
+| street.runs track (m) | 50.3 | 80.0 | 381.5 | 75.8 | 278.4 | 50.5 | 42.3 | 332.4 | 217.3 | 57.3 |
+| bldg.area median (m²) | 92.9 | 100.5 | 99.9 | 96.7 | 104.7 | 99.5 | 98.5 | 95.5 | 100.0 | 92.9 |
+| bldg.area p95 (m²) | 186.5 | 155.3 | 164.1 | 177.1 | 191.4 | 167.7 | 149.7 | 157.6 | 152.7 | 156.4 |
+| bldg.quadSide (m) | 9.71 | 10.38 | 10.32 | 10.13 | 10.46 | 10.35 | 10.33 | 10.29 | 10.39 | 10.19 |
+| bldg.worstCorner p95 (°) | 27.27 | 22.34 | 26.35 | 28.43 | 24.74 | 28.12 | 18.91 | 26.37 | 23.36 | 24.63 |
+| bldg.partyShare | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| bldg.attached | 0.296 | 0.087 | 0.153 | 0.231 | 0.099 | 0.129 | 0.129 | 0.143 | 0.114 | 0.152 |
+| wall.towerSpacing (m) | 33.36 | 31.74 | 34.11 | 32.09 | 36.55 | 33.35 | 30.91 | 33.07 | 35.43 | 34.52 |
+| wall.ungated (arterial) | 6 | 1 | 1 | 7 | 3 | 5 | 1 | 7 | 2 | 3 |
+| gate.count | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| water.step (m) | 8.88 | 50.33 | 16.25 | — | 15.56 | — | 16.66 | — | 17.11 | 50.87 |
+| water.riverWidth (m) | — | 31.49 | 42.16 | — | 34.66 | — | 53.69 | — | 54.61 | 50.08 |
+| tree.nnP1 (m) | 1.082 | 0.985 | 1.324 | 1.044 | 1.204 | 0.943 | 1.000 | 1.030 | 1.265 | 1.209 |
+| tree.nnMedian (m) | 9.40 | 11.12 | 10.07 | 10.20 | 10.72 | 10.43 | 10.48 | 10.18 | 10.83 | 9.98 |
+| pop.perBuilding | 3.420 | 3.337 | 3.370 | 3.322 | 3.343 | 3.183 | 3.351 | 3.415 | 3.222 | 3.447 |
+| time.model (ms, server) | 5 656 | 6 298 | 5 976 | 6 161 | 6 025 | 6 039 | 7 122 | 6 528 | 6 704 | 7 098 |
+| outline.r90cv | 0.144 | 0.177 | 0.474 | 0.091 | 0.385 | 0.086 | 0.217 | 0.239 | 0.308 | 0.188 |
+| outline.roadRatio | 1.056 | 1.206 | 1.638 | 1.161 | 1.462 | 1.176 | 1.141 | 1.252 | 1.308 | 1.081 |
+| wealth.tier1 … tier6 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 |
+
+| metric (unit) | slot 6 | slot 7 | slot 8 | slot 9 | CITY rec. 0 | slot 24 | slot 25 | slot 26 |
+|---|---|---|---|---|---|---|---|---|
+| size / water | METROPOLIS / none | METROPOLIS / coast+river | METROPOLIS / coast+river | METROPOLIS / coast+river | CITY / coast+river | CITY / none | CITY / coast+river | TOWN / none |
+| buildings / towers | 14 748 / 93 | 14 617 / 74 | 15 606 / 92 | 14 313 / 57 | 2 798 / 17 | 2 881 / 36 | 2 770 / 13 | 1 102 / 27 |
+| street.turn100 (° / 100 m) | 10.853 | 15.961 | 14.104 | 14.025 | 8.021 | 7.484 | 8.622 | 7.543 |
+| street.stepHist share > 15° | 0.0035 | 0.0108 | 0.0041 | 0.0083 | 0.0103 | 0.0049 | 0.0098 | 0.0037 |
+| street.entropy50 (bits) | 1.460 | 1.987 | 1.692 | 1.758 | 1.507 | 1.139 | 1.576 | 0.864 |
+| junction.angles median (°) | 92.77 | 92.14 | 92.29 | 90.98 | 90.15 | 92.19 | 90.53 | 90.03 |
+| junction.angles p5 (°) | 58.32 | 57.72 | 56.78 | 64.05 | 69.65 | 67.32 | 71.07 | 73.69 |
+| junction.share4 | 0.182 | 0.222 | 0.207 | 0.276 | 0.279 | 0.205 | 0.324 | 0.370 |
+| street.runs arterial (m) | 44.5 | 41.4 | 43.0 | 40.7 | 55.2 | 54.2 | 60.5 | 50.5 |
+| street.runs street (m) | 35.2 | 35.3 | 35.2 | 35.2 | 42.0 | 38.5 | 41.0 | 34.5 |
+| street.runs lane (m) | 44.7 | 32.4 | 42.6 | 30.0 | 40.2 | 44.7 | 43.0 | 44.7 |
+| street.runs track (m) | 50.5 | 77.9 | 58.8 | 213.2 | 278.1 | 84.4 | 192.5 | 398.8 |
+| bldg.area median (m²) | 90.8 | 90.5 | 90.5 | 102.6 | 102.7 | 90.7 | 100.8 | 101.4 |
+| bldg.area p95 (m²) | 166.4 | 160.2 | 161.2 | 169.1 | 153.7 | 172.4 | 154.1 | 149.0 |
+| bldg.quadSide (m) | 9.81 | 9.90 | 9.99 | 10.51 | 10.34 | 9.46 | 10.23 | 10.33 |
+| bldg.worstCorner p95 (°) | 26.00 | 25.42 | 27.37 | 26.60 | 22.93 | 21.57 | 16.02 | 20.09 |
+| bldg.partyShare | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| bldg.attached | 0.268 | 0.199 | 0.292 | 0.140 | 0.072 | 0.286 | 0.068 | 0.000 |
+| wall.towerSpacing (m) | 32.89 | 31.81 | 32.52 | 34.64 | 38.65 | 35.49 | 44.56 | 35.94 |
+| wall.ungated (arterial) | 7 | 5 | 3 | 3 | 3 | 5 | 1 | 3 |
+| gate.count | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| water.step (m) | 12.26 | 16.15 | 50.22 | 50.00 | 50.37 | — | 15.25 | — |
+| water.riverWidth (m) | — | 31.66 | 22.37 | 29.79 | 31.30 | — | 42.87 | — |
+| tree.nnP1 (m) | 1.184 | 1.334 | 1.208 | 1.044 | 0.901 | 1.044 | 0.721 | 1.077 |
+| tree.nnMedian (m) | 9.11 | 9.70 | 8.74 | 9.39 | 10.59 | 10.34 | 10.14 | 11.52 |
+| pop.perBuilding | 3.356 | 3.386 | 3.172 | 3.458 | 3.395 | 3.297 | 3.430 | 3.289 |
+| time.model (ms, server) | 11 147 | 15 223 | 10 296 | 14 845 | 4 267 | 2 767 | 5 245 | 1 477 |
+| outline.r90cv | 0.183 | 0.279 | 0.383 | 0.387 | 0.365 | 0.189 | 0.258 | 0.255 |
+| outline.roadRatio | 1.167 | 0.845 | 1.403 | 1.491 | 1.160 | 1.198 | 1.259 | 1.303 |
+| wealth.tier1 … tier6 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 |
+
+**The samples W-15 forms into rows (R-34).** Each sample holds its slots in plan order (`sample.captures`), grouped by what
+each request says. The water rows (`water.step`, `water.riverWidth`) read the `coast+river` slots, and the wall rows
+read the walled payloads. The estimator column is V12 §3.5.1's for that n. The 2026-09-25 capture is in CITY's `failed`
+list with reason `setting` (R-02, R-04) and in no value.
+
+| FTG size (rung) | n now / planned | estimator at n | slots in order | water-row slots (n) | wall rows: n (no wall) | open slots | failed |
+|---|---|---|---|---|---|---|---|
+| BIG_TOWN (TOWN) | 10 / 10 | type7 | 0, 2, 4, 10, 12, 14, 16, 18, 20, 22 | coast+river/0, coast+river/1, coast+river/2, coast+river/3, coast+river/4, coast+river/5 (6) | 9 (slot 12) | — | — |
+| BIG_CITY (CITY) | 10 / 10 | type7 | 1, 3, 5, 11, 13, 15, 17, 19, 21, 23 | coast+river/0, coast+river/1, coast+river/2, coast+river/3, coast+river/4, coast+river/5 (6) | 10 (none) | — | — |
+| METROPOLIS (METROPOLIS) | 4 / 4 | minmax | 6, 7, 8, 9 | coast+river/0, coast+river/1, coast+river/2 (3) | 4 (none) | — | — |
+| CITY (TOWN) | 3 / 4 | minmax | rec. 0, 24, 25 | coast+river/0, coast+river/2 (2) | 3 (none) | — | CITY/coast+river/1 (setting) |
+| TOWN (TOWN) | 1 / 2 | no row (R-34) | 26 | — (0) | 1 (none) | 27 | — |
+
+**FTG signature vectors (R-10; vectors only, R-40).** These are section 6's eight components, with R = the 90th
+percentile of building-centroid distance from the header centre. Component 5 is 0 by definition.
+
+| slot | size / water | radial | orthog. | dens. in / mid / out (km/km²) | block CV | encl. | r90 CV | R (m) |
+|---|---|---|---|---|---|---|---|---|
+| 0 | BIG_TOWN / none | 0.6533 | 0.2520 | 30.82 / 15.26 / 8.79 | 1.7881 | 0 | 0.4732 | 557.3 |
+| 1 | BIG_CITY / none | 0.5484 | 0.3014 | 45.85 / 41.06 / 29.06 | 2.0337 | 0 | 0.1443 | 704.3 |
+| 2 | BIG_TOWN / coast+river | 0.4014 | 0.4428 | 35.30 / 18.17 / 12.72 | 1.5023 | 0 | 0.4868 | 583.6 |
+| 3 | BIG_CITY / coast+river | 0.7046 | 0.1387 | 47.42 / 45.33 / 30.95 | 1.5478 | 0 | 0.1774 | 794.0 |
+| 4 | BIG_TOWN / coast+river | 0.2787 | 0.2503 | 26.62 / 21.14 / 11.49 | 1.3759 | 0 | 0.2781 | 607.1 |
+| 5 | BIG_CITY / coast+river | 0.5012 | 0.1523 | 26.00 / 25.92 / 18.14 | 1.9440 | 0 | 0.4744 | 1005.0 |
+| 6 | METROPOLIS / none | 0.5546 | 0.0624 | 45.80 / 42.67 / 26.68 | 1.9856 | 0 | 0.1834 | 1027.9 |
+| 7 | METROPOLIS / coast+river | 0.2703 | 0.1707 | 42.91 / 36.91 / 24.76 | 2.3284 | 0 | 0.2793 | 1114.2 |
+| 8 | METROPOLIS / coast+river | 0.3721 | 0.0573 | 42.39 / 31.89 / 13.41 | 2.1930 | 0 | 0.3828 | 1372.5 |
+| 9 | METROPOLIS / coast+river | 0.5107 | 0.0772 | 41.62 / 31.43 / 14.67 | 2.0811 | 0 | 0.3865 | 1397.5 |
+| 10 | BIG_TOWN / none | 0.3261 | 0.3814 | 44.41 / 28.70 / 4.25 | 1.3627 | 0 | 0.3824 | 511.5 |
+| 11 | BIG_CITY / none | 0.7332 | 0.1173 | 45.15 / 41.52 / 35.53 | 1.8373 | 0 | 0.0907 | 699.8 |
+| 12 | BIG_TOWN / coast+river | 0.3860 | 0.1366 | 48.53 / 36.50 / 21.09 | 1.2430 | 0 | 0.3040 | 397.6 |
+| 13 | BIG_CITY / coast+river | 0.4454 | 0.2771 | 39.01 / 29.00 / 15.72 | 1.6328 | 0 | 0.3851 | 1028.1 |
+| 14 | BIG_TOWN / none | 0.7382 | 0.1404 | 41.58 / 32.65 / 15.86 | 1.4505 | 0 | 0.2896 | 426.5 |
+| 15 | BIG_CITY / none | 0.6160 | 0.0988 | 41.30 / 39.06 / 38.80 | 1.5422 | 0 | 0.0857 | 736.1 |
+| 16 | BIG_TOWN / coast+river | 0.7454 | 0.4203 | 37.08 / 28.32 / 6.37 | 1.5049 | 0 | 0.3370 | 529.7 |
+| 17 | BIG_CITY / coast+river | 0.2253 | 0.1710 | 38.61 / 35.69 / 30.32 | 1.9248 | 0 | 0.2175 | 844.2 |
+| 18 | BIG_TOWN / none | 0.3891 | 0.5016 | 39.20 / 42.88 / 23.61 | 1.6425 | 0 | 0.2016 | 376.5 |
+| 19 | BIG_CITY / none | 0.6870 | 0.1164 | 43.64 / 39.49 / 26.20 | 1.6349 | 0 | 0.2387 | 779.0 |
+| 20 | BIG_TOWN / coast+river | 0.2230 | 0.2985 | 33.93 / 30.56 / 14.28 | 1.7077 | 0 | 0.4120 | 476.7 |
+| 21 | BIG_CITY / coast+river | 0.3754 | 0.2571 | 39.87 / 31.86 / 18.59 | 1.9060 | 0 | 0.3077 | 997.0 |
+| 22 | BIG_TOWN / coast+river | 0.4764 | 0.2866 | 41.29 / 39.13 / 18.17 | 1.8376 | 0 | 0.2693 | 424.3 |
+| 23 | BIG_CITY / coast+river | 0.4751 | 0.2269 | 44.51 / 41.34 / 24.28 | 2.1953 | 0 | 0.1881 | 799.1 |
+| 24 | CITY / none | 0.6357 | 0.3984 | 44.59 / 35.61 / 25.23 | 1.9606 | 0 | 0.1890 | 458.1 |
+| 25 | CITY / coast+river | 0.2067 | 0.3162 | 35.96 / 29.14 / 21.14 | 1.4268 | 0 | 0.2576 | 577.5 |
+| 26 | TOWN / none | 0.6836 | 0.2549 | 48.94 / 30.11 / 18.02 | 0.6242 | 0 | 0.2551 | 352.3 |
+| CITY rec. 0 | CITY / coast+river | 0.5072 | 0.2141 | 36.78 / 27.21 / 9.40 | 1.6685 | 0 | 0.3650 | 715.1 |
+
+**Street turning beside the declared exception (DC-35).** BIG_TOWN and BIG_CITY now hold ten slots, so the `type7`
+[p10, p90] band is printed beside the declared exception, 0.5–1.5 × the sample median.
+
+| FTG size | n | per-slot turn100 | median | declared exception 0.5–1.5 × | sample range | type7 [p10, p90] |
+|---|---|---|---|---|---|---|
+| BIG_TOWN | 10 | 7.516 / 8.456 / 6.463 / 7.666 / 8.256 / 8.698 / 8.615 / 8.392 / 8.456 / 9.687 | 8.424 | 4.212–12.636 | 6.463–9.687 | 7.411–8.797 |
+| BIG_CITY | 10 | 8.522 / 13.728 / 11.911 / 8.227 / 9.474 / 8.553 / 13.134 / 8.340 / 9.228 / 13.717 | 9.351 | 4.675–14.026 | 8.227–13.728 | 8.329–13.718 |
+| METROPOLIS | 4 | 10.853 / 15.961 / 14.104 / 14.025 | 14.064 | 7.032–21.097 | 10.853–15.961 | not formed (n < 10) |
+
+**The outline band's inputs (DC-11)** are the `outline.r90cv` and `outline.roadRatio` rows of the per-slot tables, ten
+values each at BIG_TOWN and BIG_CITY and four at METROPOLIS. They are also in the JSON's `outlineBandInputs`. W-15 forms
+the band by the band rule at n = 10.
+
+**Server and client times (R-21, R-47 (e)).** The server interval runs from the PUT being sent to the layout GET being
+sent. It is admissible with no host ratio. The client times are measured from the PUT being sent, as defined in 9.1.
+The scene-build moment is not recoverable, because no capture holds a CPU profile. Every slot is flagged contended,
+since M0's build seats shared the machine. So §13.5's first-map clause has no reference value at M-1 (R-47 (e): an E19
+entry for W-20).
+
+| slot | server: PUT → layout GET sent (s) | layout at the client (s) | first map shot (s) | scene build | contended |
+|---|---|---|---|---|---|
+| 0 | 2.553 | 3.129 | 21.384 | not recoverable (no CPU profile) | yes |
+| 1 | 5.656 | 9.849 | 26.465 | not recoverable (no CPU profile) | yes |
+| 2 | 1.869 | 2.852 | 11.134 | not recoverable (no CPU profile) | yes |
+| 3 | 6.298 | 9.955 | 19.944 | not recoverable (no CPU profile) | yes |
+| 4 | 2.232 | 4.430 | 22.263 | not recoverable (no CPU profile) | yes |
+| 5 | 5.976 | 9.429 | 26.142 | not recoverable (no CPU profile) | yes |
+| 6 | 11.147 | 13.626 | 32.149 | not recoverable (no CPU profile) | yes |
+| 7 | 15.223 | 17.429 | 31.432 | not recoverable (no CPU profile) | yes |
+| 8 | 10.296 | 15.513 | 37.835 | not recoverable (no CPU profile) | yes |
+| 9 | 14.845 | 17.392 | 32.663 | not recoverable (no CPU profile) | yes |
+| 10 | 1.934 | 3.436 | 24.515 | not recoverable (no CPU profile) | yes |
+| 11 | 6.161 | 9.504 | 25.546 | not recoverable (no CPU profile) | yes |
+| 12 | 4.445 | 5.343 | 14.354 | not recoverable (no CPU profile) | yes |
+| 13 | 6.025 | 7.623 | 18.905 | not recoverable (no CPU profile) | yes |
+| 14 | 2.064 | 3.796 | 18.154 | not recoverable (no CPU profile) | yes |
+| 15 | 6.039 | 9.346 | 24.844 | not recoverable (no CPU profile) | yes |
+| 16 | 2.627 | 4.958 | 18.131 | not recoverable (no CPU profile) | yes |
+| 17 | 7.122 | 11.844 | 24.643 | not recoverable (no CPU profile) | yes |
+| 18 | 1.951 | 4.525 | 18.011 | not recoverable (no CPU profile) | yes |
+| 19 | 6.528 | 12.030 | 30.704 | not recoverable (no CPU profile) | yes |
+| 20 | 2.127 | 3.898 | 20.430 | not recoverable (no CPU profile) | yes |
+| 21 | 6.704 | 10.724 | 19.317 | not recoverable (no CPU profile) | yes |
+| 22 | 2.135 | 3.330 | 14.452 | not recoverable (no CPU profile) | yes |
+| 23 | 7.098 | 8.687 | 25.572 | not recoverable (no CPU profile) | yes |
+| 24 | 2.767 | 4.198 | 20.075 | not recoverable (no CPU profile) | yes |
+| 25 | 5.245 | 7.309 | 17.239 | not recoverable (no CPU profile) | yes |
+| 26 | 1.477 | 2.710 | 19.208 | not recoverable (no CPU profile) | yes |
+| CITY rec. 0 | 4.267 | — | — | recorded 6.4–7.0 s for the two CITY captures (CPU profile) | not recorded |
+
+### 9.7 The checks of W-05b's row (final pass; executed 2026-10-04, CONFIRMED)
+
+| check (the row's checker column) | how | result |
+|---|---|---|
+| each slot's `MeasureInput` equals a fresh run | as in 9.2: the stored gzip's sha256 against a fresh adapter write, the JSON compared, and the record's hash against the file's; run by `--check`, apart from the measuring run | 28 of 28 equal (each hash is in the JSON's `perSlot[].measureInput`). The nine files of pass 1 are among them, unchanged |
+| every value's captures equal the plan's slots | as in 9.2, against the plan's 27 bound slots; also the wall rows against E02's own wall counts for each capture (W-05's tower count for the recorded capture) | BIG_TOWN 0, 2, 4, 10, 12, 14, 16, 18, 20, 22; BIG_CITY 1, 3, 5, 11, 13, 15, 17, 19, 21, 23; METROPOLIS 6–9; CITY rec. 0, 24, 25; TOWN 26. Water rows: BIG_TOWN 2, 4, 12, 16, 20, 22; BIG_CITY 3, 5, 13, 17, 21, 23; METROPOLIS 7, 8, 9; CITY rec. 0, 25. Wall rows: every capture but slot 12. 0 problems (`plan.json` `11a9b357…`); the pass reads slots 0–26, and none was decided since |
+| the 2026-09-25 payload is in no sample (R-04) | its capture id and request hash searched in every sample, water and wall sample, vector and per-slot entry | 0 hits. It stands once, in CITY's `failed` list with reason `setting` |
+| E02's same-size values reproduced from the requests | the 28 values read from each capture's own PUT body, against E02's latest size table (section 37.3: 28 rows, five sizes): 20 rows of numbers or "absent" exactly, 8 rows of words by their pattern; every later capture of a size against its first; the tool's rows against the post script's `SIZE_DEPENDENT` by name | 28 / 28 on all 28 captures against E02's columns; every later capture 28 / 28 against the first of its size; 0 rows missing or unmapped; 28 tool rows = 28 class names |
+| the checks discriminate (`--red`) | pass 1's four planted faults, on the final record | 0 of 4 pass, exit 1, nothing written |
+| the new parts discriminate | six more planted faults, in memory, on the final record (`red_extra.py` in the scratchpad): R1 a tool row removed; R2 E02's TOWN word made CITY's; R3 a TOWN "absent" cell given a number; R4 a name added to the post script's class; R5 slot 10's text leaf altered in its request; R6 slot 12 put into BIG_TOWN's wall rows | R1–R5 each fail check 4 only, naming the row or the slot (R4: the unsynced name); R6 fails check 2 only. The baseline passes 4 / 4 before and after |
+| pass 1 reproduced | this pass's first run against pass 1's JSON, for the nine captures pass 1 measured | every per-slot key equal apart from `sizeValues`, whose 17 earlier values are equal and which gains the 11 new ones |
+| determinism | run 1 against run 2 (the tool before W05b-D11), and run 3 (the record) against run 4 | run 2 = run 1 byte for byte. Run 3 = run 1 in every per-slot entry; it differs only in each sample's wall rows and in check 2's receipt. Run 4 = run 3 byte for byte, tables included. The record is run 3 (`8898b640…`) |
+| the plan | `plan.py --check` at the start and the end | SAME, SAME (`plan.json` `11a9b357…`, `metrics.m-1.json` `8a0efa7e…`); this lane wrote neither file |
+
+### 9.8 What the full sample shows (CONFIRMED by the values above; for W-15 and the next design pass, no ruling here)
+
+1. **The ten-slot `type7` turning band lies inside the declared exception at both matched sizes.**
+   - BIG_TOWN: the band is 7.411–8.797 °/100 m, inside 4.212–12.636 (median 8.424). All ten values lie in 6.463–9.687.
+   - BIG_CITY: the band is 8.329–13.718, inside 4.675–14.026 (median 9.351). All ten values lie in 8.227–13.728.
+
+   R-34 listed this as PLAUSIBLE, and for these ten draws it is now CONFIRMED. BIG_TOWN's band spans 0.88–1.04 × its
+   median and BIG_CITY's 0.89–1.47 ×. BIG_CITY's sample has two groups: six slots at 8.2–9.5 and three `coast+river`
+   slots (3, 17, 23) at 13.1–13.7, with slot 5 at 11.9 between them. Whether the exception's stated reason still holds is
+   the design pass's question (DC-35); a ruled design cell is re-decided by amendment, not here.
+2. **FTG draws a coast at one of two steps, and each slot's pooled `water.step` follows its coast's step.** The raw
+   vertex spacing per water body (the JSON's `waterOutlines`; the table below) shows:
+   - all 23 rivers at 49.9–50.1 m;
+   - 10 of the 17 coasts at 14.9–16.2 m (slots 5, 7, 12, 13, 16, 17, 20, 21, 22, 25);
+   - the other 7 at 50.0 m (slots 2, 3, 4, 8, 9, 23 and the CITY capture). Six of those are straight and keep only
+     their 4 corner vertices after W05-D8's 1° drop; slot 9's keeps 109 of 138.
+
+   The pooled step on the `coast+river` slots falls into two groups with nothing between them: 14.49–17.47 m on the ten
+   slots with a fine coast, and 50.00–70.17 m on the seven with a 50 m coast. Per size, the range is 14.49–70.17 m at
+   BIG_TOWN (six slots), 15.56–50.87 m at BIG_CITY (six), 16.15–50.22 m at METROPOLIS (three) and 15.25 / 50.37 m at
+   CITY. For DC-10 ("the 50 m step holds on one payload only"), the count is now 7 coasts of 17 and every river.
+   This sharpens the question pass 1 routed in 9.3 (1). That question was whether `water.step` keeps W05-D8's drop
+   or reads the raw spacing. It now also asks whether FTG's reference value is one number or a value per coast step. It
+   is a definition call for a ruling seat, to be made before W-15 sharpens the value, and no ruling record answers it as
+   of this pass. §13.5's fixed bound "outline step ≤ 25 m" is ours and stays as it is (R-48). River widths are
+   42.62–55.99 m at BIG_TOWN, 31.49–54.61 m at BIG_CITY, 22.37–31.67 m at METROPOLIS, and 31.30 / 42.87 m at CITY.
+
+   | slot | water.step pooled (m) | per body: class, vertices, raw step (m), vertices kept after the 1° drop, step after the drop (m) |
+   |---|---|---|
+   | 1 | 8.88 | lake 26, 9.3, 26, 9.3; lake 24, 11.2, 24, 11.2; lake 25, 5.9, 25, 5.9 |
+   | 2 | 70.17 | lake 8, 50.0, 4, 157.9; river 96, 50.0, 23, 50.5; sea 93, 50.0, 4, 3 259 |
+   | 3 | 50.33 | lake 6, 49.4, 4, 98.9; river 120, 50.0, 53, 50.3; river 128, 50.0, 48, 50.3; sea 131, 50.0, 4, 4 533 |
+   | 4 | 50.66 | lake 7, 74.0, 6, 74.0; river 98, 50.0, 56, 50.6; river 88, 50.0, 64, 50.5; sea 108, 50.0, 4, 3 698 |
+   | 5 | 16.25 | lake 19, 13.1, 18, 13.1; river 146, 50.0, 62, 50.4; sea 294, 16.2, 224, 15.4 |
+   | 6 | 12.26 | lake 13, 12.3, 13, 12.3 |
+   | 7 | 16.15 | lake 17, 13.2, 14, 13.5; lake 24, 10.1, 24, 10.1; lake 13, 10.2, 13, 10.2; lake 19, 8.8, 19, 8.8; lake 30, 9.4, 30, 9.4; river 139, 49.9, 120, 50.3; river 124, 50.0, 107, 50.4; sea 510, 14.9, 501, 15.1 |
+   | 8 | 50.22 | lake 7, 50.0, 4, 99.1; river 144, 50.0, 56, 50.2; sea 127, 50.0, 4, 4 627 |
+   | 9 | 50.00 | lake 13, 50.0, 8, 74.5; river 135, 50.0, 127, 50.3; sea 138, 50.0, 109, 50.0 |
+   | 12 | 17.47 | lake 12, 12.7, 12, 12.7; lake 80, 50.0, 28, 50.5; river 96, 50.0, 56, 50.5; sea 209, 16.0, 162, 15.3 |
+   | 13 | 15.56 | lake 14, 12.8, 14, 12.8; lake 28, 7.4, 27, 7.3; river 140, 50.0, 82, 50.5; sea 493, 15.1, 484, 15.2 |
+   | 14 | 14.29 | lake 11, 12.9, 11, 12.9; lake 18, 14.9, 18, 14.9 |
+   | 16 | 15.17 | lake 10, 19.3, 10, 19.3; lake 26, 5.0, 26, 5.0; lake 24, 7.6, 24, 7.6; river 89, 50.0, 53, 50.9; sea 336, 14.9, 329, 15.2 |
+   | 17 | 16.66 | lake 11, 13.7, 10, 31.8; river 107, 50.0, 77, 50.8; lake 50, 50.0, 30, 50.7; river 135, 50.0, 81, 50.6; sea 557, 15.0, 541, 15.2 |
+   | 18 | 10.19 | lake 13, 11.6, 13, 11.6; lake 24, 8.7, 23, 8.5; lake 13, 10.2, 13, 10.2; lake 28, 10.3, 28, 10.3 |
+   | 20 | 16.87 | lake 14, 12.7, 13, 13.1; river 112, 50.0, 72, 50.5; sea 387, 15.7, 378, 15.9 |
+   | 21 | 17.11 | lake 10, 30.5, 10, 30.5; river 121, 50.0, 99, 50.9; river 169, 50.0, 138, 50.9; sea 468, 14.9, 459, 15.0 |
+   | 22 | 14.49 | lake 7, 12.8, 5, 35.7; lake 18, 13.3, 18, 13.3; lake 11, 9.9, 11, 9.9; lake 19, 9.1, 19, 9.1; lake 28, 10.7, 28, 10.7; river 95, 50.0, 15, 49.5; sea 208, 16.0, 164, 15.3 |
+   | 23 | 50.87 | lake 6, 52.4, 4, 76.0; river 127, 50.0, 107, 50.7; sea 122, 50.0, 4, 4 368 |
+   | 25 | 15.25 | lake 22, 12.8, 18, 13.4; lake 30, 5.9, 30, 5.9; lake 27, 8.5, 27, 8.5; lake 30, 5.5, 30, 5.5; river 146, 50.0, 98, 50.6; sea 424, 15.1, 411, 15.2 |
+   | CITY rec. 0 | 50.37 | lake 8, 50.0, 4, 142.2; river 101, 50.0, 69, 50.3; river 132, 50.0, 95, 50.4; sea 128, 50.0, 4, 4 438 |
+
+3. **One walled request in 27 drew no wall: slot 12.** Every request asked for a wall, and 26 payloads draw one. The
+   wall rows read the walled payloads:
+   - BIG_TOWN, nine slots: tower spacing 32.40–40.67 m and 0–4 arterial crossings at no gate per payload;
+   - BIG_CITY, ten slots: 30.91–36.55 m and 1–7;
+   - METROPOLIS: 31.81–34.64 m and 3–7;
+   - CITY: 35.49–44.56 m and 1–5;
+   - TOWN: 35.94 m and 3.
+
+   `gate.count` is 0 on every payload, which has no gate object; ours is 0 crossings. Without slot 12, BIG_TOWN's wall
+   rows have n = 9, and the estimator at that n is `minmax`. W-15 forms the row. W05b-D11 is vetoable: a veto pools
+   slot 12's 0 crossings and its missing spacing back in.
+4. **Pass 1's split between `none` and `coast+river` junctions does not hold at ten slots.** Pass 1's note 9.3 (3) was
+   read on one `none` slot per size, and its numbers stand for those slots.
+   - The 4-way share at BIG_TOWN is 0.172–0.265 on `none` slots and 0.214–0.319 on `coast+river` slots. At BIG_CITY it
+     is 0.151–0.327 and 0.255–0.312.
+   - The junction median at BIG_TOWN is 91.58–93.54° on `none` slots and 90.27–92.10° on `coast+river` slots. At
+     BIG_CITY it is 90.45–93.21° and 90.14–91.35°.
+
+   The `none` slots still lean towards higher medians, but the ranges overlap. This is a note for D16's per-water
+   companion, not a finding.
+5. **Server times (all contended).** BIG_TOWN 1.87–4.45 s (slot 12's 4.45 s is the only one above 2.7 s), BIG_CITY
+   5.66–7.12 s, METROPOLIS 10.30–15.22 s, CITY 2.77–5.25 s, TOWN 1.48 s. On the client side, the layout arrived
+   2.71–17.43 s after the PUT. The first map shot was logged 11.13–37.84 s after the PUT, an upper bound that the seat's
+   pace sets.
+6. **The town (slot 26, one draw, research-side).** It has 1 102 buildings. Its attached share is 0.000, the only payload
+   with no attached footprint (the others 0.063–0.296). Its block-size CV is 0.62, against 1.24–2.33 on every other
+   payload, and its 4-way share is 0.370, against 0.151–0.327. Its turning is 7.543 °/100 m. E02 37.3 reads the town's one
+   stage as the gaps stage, and these values PLAUSIBLY follow from that stage. It is one draw, so this is a note only.
+7. **The size values follow the size exactly at all five sizes** (check 4). Every later capture of a size repeats its
+   first in all 28 values, and the requests reproduce E02 37.3's table. Each size's slots are therefore independent draws
+   of the same settings, as 9.3 (7) read them.
+8. **The weakness and descriptive rows keep their shape over 28 captures.** `bldg.partyShare` is 0 on every payload.
+   The tree nearest-neighbour median is 8.74–11.62 m. Persons per building at the nominal population are 2.98–3.48. The
+   wealth tiers are the request's weights, equal on every slot (0.011 / 0.011 / 0.217 / 0.435 / 0.217 / 0.109).
+
+### 9.9 Calls made under the delegation in this pass (each vetoable; none changes a design cell or a ruling)
+
+| id | decision | why; effect |
+|---|---|---|
+| W05b-D11 | the wall rows (`wall.towerSpacing`, `wall.ungated`, `gate.count`) read only the payloads that draw a wall. A wall-less payload is listed in its sample's `wallRows.noWall` and keeps its values per slot. Check 2 holds the list against E02's wall counts | spacing is undefined without a wall, and a crossing or gate count of 0 there measures no curtain. Pooled, slot 12's 0 would pull FTG's `wall.ungated` weakness reference towards ours (0). The water rows' `coast+river` rule is the precedent. A veto pools slot 12 back in (n = 10 at BIG_TOWN) |
+| W05b-D12 | the 28 size values are read by name: an absent leaf as null, a text leaf as a 12-hex digest of its JSON, and a boolean as itself | the record carries numbers, ids and our own words only, so a request string never enters it, and a digest still tells equal values from unequal ones |
+| W05b-D13 | check 4 compares E02's word cells by pattern (equal words with equal request values, different words with different ones), and it holds the tool's rows equal, by name, to the post script's class | E02 writes text leaves in our words, which no request value equals, so the pattern is what those cells assert. The name check makes the next R-41 widening fail check 4 until the tool reads it. That closes the gap E02 37.3 finding 9 found |
+| W05b-D14 | each pass rewrites `E05-ftg-metrics.slots.json` (the one file W-15 reads), and the record keeps each pass's section | W-15 needs the current pass only. Pass 1's file is in the repository (`bef102c`), and its section stands as written |
+| W05b-D15 | slot 27 is listed as open, neither measured nor failed, and this pass is final for slots 0–26 | `plan.json` holds slot 27 open after a stop with no create (E02 section 38, call 2: no `--fail-ftg`). Its status is W-02b's to decide, not this lane's. Under the rolling rule, a further pass takes it in if it binds |
+
+### 9.10 CONFIRMED versus PLAUSIBLE (final pass)
+
+**CONFIRMED (executed or read):**
+- every number in 9.6–9.8, the per-body water table included;
+- the four row checks, `--red`, and the six extra planted faults;
+- the reproduction of pass 1 and the determinism comparisons;
+- the unchanged hashes of the adapter, `measure_ftg.py` and W-05's fixture JSON;
+- `plan.py --check` SAME;
+- that no ruling record answers the `water.step` question (`M-1-rulings-1.md` and `-2.md` read for it).
+
+**PLAUSIBLE (reasoning only):**
+- that slot 12's missing wall is generator variation, since its request equals those of slots 2 and 4 apart from the
+  partner ids (E02 23.3);
+- that the town's attached share, block CV and 4-way share follow from its single gaps stage;
+- the timing readings of 9.5: the interceptor's write time and the click's lead over the PUT.
+
+**Not touched by this pass:** `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, E02, the checklist, the
+adapter, `measure_ftg.py`, the post script, W-05's fixture JSON and pass 1's text in sections 9.1–9.5. No website was
+contacted, no capture bundle was read, and no git command changed state.
+
 ## 10 CONFIRMED versus PLAUSIBLE
 
 CONFIRMED (executed or read):

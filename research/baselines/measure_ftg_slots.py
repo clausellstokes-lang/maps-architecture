@@ -19,17 +19,22 @@ row asks beyond them:
   checks       W-05b's checker column: (1) each slot's MeasureInput equals a fresh run (bytes and JSON); (2) every
                sample's captures equal the plan's slots in order, grouped by what each request says (size, water);
                (3) the 2026-09-25 payload is in no sample (R-04); (4) E02's same-size values (its latest
-               size-dependent table: section 10.3, then each first-of-size section under R-41) are reproduced from
-               each capture's own PUT body, and every later capture of a size repeats its first
+               size-dependent table: section 10.3, then each first-of-size section under R-41 -- 17.3, then 37.3's
+               28 values with TOWN's one stage) are reproduced from each capture's own PUT body, every later capture
+               of a size repeats its first, and the tool's rows are exactly the post script's SIZE_DEPENDENT names
   a pass       reads the slots decided (bound or failed) when it starts, through slot K; a slot decided later has a
                higher number (plan.py binds in slot order) and belongs to the next pass (the checks report it)
+
+Passes: m1/W-05b (pass 1, slots 0-7, 2026-10-03) and m1/W-05b-final (slots 0-26 with programme 2, 2026-10-04; it added
+the eleven values R-41 named at slot 26 and the reading of a one-stage TOWN request: an absent leaf reads null, a text
+leaf reads as a 12-hex digest so that no request string enters the record).
 
 No dispersion is formed here (R-40: W-15 forms both references' variety dispersions over the union of vectors). No band
 is formed except the type7 turning band DC-35 asks W-05b to print. The record carries numbers, metric ids and our own
 words only; request key names stay in this script, as in ftg_capture_post.py.
 
 Usage (project root):
-  python3 research/baselines/measure_ftg_slots.py [--write] [--through K] [--json OUT] [--md OUT]
+  python3 research/baselines/measure_ftg_slots.py [--write] [--through K] [--json OUT] [--md OUT] [--lane KEY]
       measure every bound slot (and the recorded CITY family's usable capture; --through K stops at slot K, to re-run a
       pass's snapshot), write OUT (default
       docs/calibration/E05-ftg-metrics.slots.json); --write writes a missing MeasureInput file (an existing one is never
@@ -56,6 +61,7 @@ sys.path.insert(0, os.path.join(HERE, 'adapters'))
 sys.path.insert(0, HERE)
 import ftg as A  # noqa: E402
 import measure_ftg as M  # noqa: E402
+import ftg_capture_post as P  # noqa: E402  (SIZE_DEPENDENT only: check 4 holds the tool's rows equal to its names)
 
 SCRIPT = 'research:baselines/measure_ftg_slots.py'
 PLAN = os.path.join(HERE, 'plan.json')
@@ -66,6 +72,9 @@ EXCLUDED_CAPTURE = '2026-09-25T10-13-51'          # R-04: a declared non-default
 EXCLUDED_HASH = 'ba02af9ca044'
 ROW_SIZES = ('BIG_TOWN', 'BIG_CITY', 'METROPOLIS', 'CITY')   # FtgSize members with rows (R-34); TOWN research-side
 WATER_ROWS = ('water.step', 'water.riverWidth')               # read only coast+river slots (R-33, R-34)
+# read only the slots whose payload draws a wall (W05b-D11, lane m1/W-05b-final): every request is walled, yet slot 12's
+# payload has no wall (E02 section 23.3); spacing is undefined there and a crossing or gate count of 0 measures no curtain
+WALL_ROWS = ('wall.towerSpacing', 'wall.ungated', 'gate.count')
 
 # The per-slot scalar each sample carries, with R-34's bucket (informational: W-15 forms the rows; R-48 moved
 # water.step to the fixed bound). (row key, metric id, key path inside the metric's value, bucket)
@@ -120,13 +129,32 @@ E02_ROWS = {
     'shop probability, inside the settlement': (('buildingsParameters', 'defaultInsideSettlementShopProbability'), 1),
     'shop probability, outside the settlement': (('buildingsParameters', 'defaultOutsideSettlementShopProbability'), 1),
     'religious-workers share': (('religionParameters', 'religionTargetPercentage'), 1),
+    # joined at slot 26 (R-41, E02 section 37.3): TOWN's stage list is one stage (the gaps stage), the larger sizes'
+    # two (dense, then gaps); stages pair by position, as in the post script's leaf diff. A text leaf is compared by
+    # its digest (its value never enters the record); a boolean as itself; an absent leaf reads null
+    "stage 1: the stage's identifier": (('layoutParameters', 'stages', 0, 'key'), None),
+    'stage 1: building placement': (('layoutParameters', 'stages', 0, 'buildingPlacement'), None),
+    "stage 2: the stage's identifier": (('layoutParameters', 'stages', 1, 'key'), None),
+    'stage 2: building placement': (('layoutParameters', 'stages', 1, 'buildingPlacement'), None),
+    'stage 2: branch type': (('layoutParameters', 'stages', 1, 'branchType'), None),
+    'stage 2: building material': (('layoutParameters', 'stages', 1, 'buildingMaterial'), None),
+    'stage 2: main-road turn cap (degrees)': (('layoutParameters', 'stages', 1, 'maxMainRoadAngle'), 1),
+    'stage 2: side-road turn cap (degrees)': (('layoutParameters', 'stages', 1, 'maxNormalRoadAngle'), 1),
+    'stage 2: wall after this stage': (('layoutParameters', 'stages', 1, 'placeWallAfter'), None),
+    'stage 2: spoke probability': (('layoutParameters', 'stages', 1, 'spokeStaySpokeProbability'), 1),
+    'stage 2: wall placement': (('layoutParameters', 'stages', 1, 'wallPlacement'), None),
 }
-# E02's size-dependent tables (section 10.3, then each first-of-size section under R-41, e.g. 17.3): a header row
-# '| value | <FtgSize> (...) | ... | in the class since |'. The LAST such table is the current class; its size columns are
-# read from the header (the first word of each cell naming an FtgSize), so a column or a row R-41 adds is read without a
-# code change, and a row the tool cannot map to a request leaf fails check 4
-E02_HEADER = re.compile(r'^\s*\| value \| (TOWN|CITY|BIG_TOWN|BIG_CITY|METROPOLIS) \(.*\| in the class since \|\s*$')
+# E02's size-dependent tables: section 10.3 and 17.3 ('| value | <FtgSize> (...) | ... | in the class since |'), 35.3
+# ('| value | slot 24: CITY | ... | slot 24 differs from |') and 37.3 ('| leaf (our words) | slot 26: TOWN | ... |
+# joined at |'). The LAST such table is the current class. Its size columns are read from the header (a cell whose first
+# word, or whose word after 'slot N: ' / '<date> base: ', is an FtgSize; the first column of a size is used, and a later
+# column of the same size must agree), so a column or a row R-41 adds is read without a code change, and a row the tool
+# cannot map to a request leaf fails check 4. A cell reads as a number, 'absent' (null) or a word (our words for a text
+# or boolean leaf, compared by the pattern of equal and unequal words across the sizes)
 FTG_SIZES = ('TOWN', 'CITY', 'BIG_TOWN', 'BIG_CITY', 'METROPOLIS')
+E02_FIRST_CELLS = ('value', 'leaf (our words)')
+E02_SIZE_CELL = re.compile(r'^(?:(TOWN|CITY|BIG_TOWN|BIG_CITY|METROPOLIS)\b.*|(?:slot \d+|\d{4}-\d\d-\d\d base): '
+                           r'(TOWN|CITY|BIG_TOWN|BIG_CITY|METROPOLIS))$')
 
 
 def q7(v, p):
@@ -253,34 +281,81 @@ def client_times(stamp, prov):
 
 
 # ---------------------------------------------------------------- E02's size-dependent values
-def e02_table():
-    """E02 section 10.3's table: {row words: {FtgSize: value}}; the size columns are the header cells whose first word
-    is an FtgSize"""
+def e02_header_cols(ln):
+    """the size columns [(cell index, FtgSize)] of a size-dependent table's header row, or None if ln is not one"""
+    s = ln.replace('**', '').strip()
+    if not s.startswith('|'):
+        return None
+    head = [c.strip() for c in s.strip('|').split('|')]
+    if head[0] not in E02_FIRST_CELLS:
+        return None
+    cols = []
+    for i, h in enumerate(head):
+        m = E02_SIZE_CELL.match(h) if i > 0 else None
+        if m:
+            cols.append((i, m.group(1) or m.group(2)))
+    return cols if len(cols) >= 2 else None
+
+
+def e02_cell(c):
+    c = c.replace('**', '').strip()
+    if c == 'absent':
+        return None
+    try:
+        return float(c)
+    except ValueError:
+        return 'word:' + c
+
+
+def e02_table(meta=None):
+    """E02's latest size-dependent table: {row words: {FtgSize: number | None (absent) | 'word:<our words>'}}; meta,
+    if a dict, receives the table's line number, its sizes and any later column of a size that disagrees with the first"""
     lines = open(E02_MD).read().split('\n')
-    start = max(i for i, ln in enumerate(lines) if E02_HEADER.match(ln))     # the latest table is the current class
-    out, cols, on = {}, None, False
-    for ln in lines[start:]:
-        ln = ln.replace('**', '')
-        if E02_HEADER.match(ln):
-            on = True
-            head = [c.strip() for c in ln.strip().strip('|').split('|')]
-            cols = [(i, h.split()[0]) for i, h in enumerate(head) if i > 0 and h.split() and h.split()[0] in FTG_SIZES]
+    start = max(i for i, ln in enumerate(lines) if e02_header_cols(ln))     # the latest table is the current class
+    cols = e02_header_cols(lines[start])
+    firsts, dups = {}, []
+    for i, size in cols:
+        firsts.setdefault(size, i)
+    out = {}
+    for ln in lines[start + 1:]:
+        s = ln.strip()
+        if s.startswith('|---'):
             continue
-        if on:
-            s = ln.strip()
-            if s.startswith('|---'):
-                continue
-            if not s.startswith('|'):
-                if out:
-                    break
-                continue
-            cells = [c.strip() for c in s.strip('|').split('|')]
-            out[cells[0]] = {size: float(cells[i]) for i, size in cols}
+        if not s.startswith('|'):
+            break
+        cells = [c.strip() for c in s.strip('|').split('|')]
+        row = cells[0].replace('**', '').strip()
+        out[row] = {size: e02_cell(cells[i]) for size, i in firsts.items()}
+        for i, size in cols:
+            if i != firsts[size] and e02_cell(cells[i]) != out[row][size]:
+                dups.append('%s: %s columns disagree' % (row, size))
+    if isinstance(meta, dict):
+        meta.update(line=start + 1, sizes=sorted(firsts, key=FTG_SIZES.index), disagree=dups)
     return out
 
 
+def leaf_value(req, path, f):
+    """one size-dependent leaf of a request: a number times f, a boolean as itself, a text leaf as 'text:' + the first
+    12 hex of the sha256 of its JSON (its value stays out of the record), None where the leaf is absent (TOWN's request
+    has one stage)"""
+    try:
+        v = dig(req, path)
+    except (KeyError, IndexError, TypeError):
+        return None
+    if isinstance(v, bool):
+        return v
+    if isinstance(v, (int, float)):
+        return round(float(v) * (f or 1), 6)
+    return 'text:' + hashlib.sha256(json.dumps(v, sort_keys=True).encode('utf-8')).hexdigest()[:12]
+
+
 def request_size_values(req):
-    return {k: round(float(dig(req, path)) * f, 6) for k, (path, f) in E02_ROWS.items()}
+    return {k: leaf_value(req, path, f) for k, (path, f) in E02_ROWS.items()}
+
+
+def dotted(path):
+    """a request path as the post script spells its SIZE_DEPENDENT names"""
+    return ''.join('[%d]' % p if isinstance(p, int) else '.' + p for p in path)
 
 
 # ---------------------------------------------------------------- water outlines, per body (a note beside water.step)
@@ -355,15 +430,17 @@ def samples_of(per, slots, recorded):
         if size == 'CITY':
             mine.sort(key=lambda p: (0 if p['recorded'] else 1, p['slot'] if p['slot'] is not None else 0))
         water = [p for p in mine if p['requestWater'] == 'coast+river']
+        walled = [p for p in mine if p['metrics']['wall.towerSpacing'].get('stretches', 0) > 0]
+        nowall = [p for p in mine if p not in walled]
         planned = [s for s in slots if s['ftgSize'] == size]
         rec = [r for r in recorded if r['ftgSize'] == size]
         failed = [dict(label=r['label'], capture=r['capture'], reason=r['failed']) for r in rec if r['status'] == 'failed']
         failed += [dict(label=s['label'], capture=s['capture'], reason=s['failed']) for s in planned if s['status'] == 'failed']
         vals = {}
         for key, mid, kp, bucket in SCALARS:
-            src = water if key in WATER_ROWS else mine
+            src = water if key in WATER_ROWS else walled if key in WALL_ROWS else mine
             vals[key] = {'values': [get_scalar(p['metrics'], mid, kp) for p in src], 'bucket': bucket,
-                         'over': 'coast+river' if key in WATER_ROWS else 'all'}
+                         'over': 'coast+river' if key in WATER_ROWS else 'walled' if key in WALL_ROWS else 'all'}
         vals['tree.pcf'] = {'values': [p['metrics']['tree.pcf']['value'] for p in mine], 'bucket': 'weakness',
                             'over': 'all', 'fields': 'r1..r20 (m)'}
         out[size] = {
@@ -375,6 +452,11 @@ def samples_of(per, slots, recorded):
             'n': len(mine), 'estimatorAtN': estimator(len(mine)),
             'waterRows': {'captures': [p['label'] for p in water], 'stamps': [p['capture'] for p in water],
                           'n': len(water), 'estimatorAtN': estimator(len(water))},
+            'wallRows': {'captures': [p['label'] for p in walled], 'stamps': [p['capture'] for p in walled],
+                         'n': len(walled), 'estimatorAtN': estimator(len(walled)), 'rows': list(WALL_ROWS),
+                         'noWall': [{'label': p['label'], 'capture': p['capture'], 'slot': p['slot']} for p in nowall],
+                         'rule': 'the wall rows read the slots whose payload draws a wall; a wall-less slot keeps its '
+                                 'values in perSlot (W05b-D11)'},
             'plannedSlots': len(planned) + len(rec), 'openSlots': [s['slot'] for s in planned if s['status'] == 'open'],
             'failed': failed, 'values': vals,
         }
@@ -455,10 +537,15 @@ def run_checks(doc, red=False):
     e02_build = {d['capture']: d.get('referenceBuild') for d in e02.get('days', [])}
     # the recorded CITY captures predate capture-facts.json: their builds are the ones W-05 fixed (E05 section 1)
     e05 = json.load(open(os.path.join(ROOT, 'docs', 'calibration', 'E05-ftg-metrics.json')))
+    # whether a payload draws a wall, read apart from this tool's metrics: E02's per-slot wall edges (towers where E02
+    # did not count edges); W-05's own tower count for the recorded captures
+    e02_wall = {d['capture']: (d['wallEdges'] if d.get('wallEdges') is not None else d.get('towers'))
+                for d in e02.get('days', [])}
     for c in e05.get('captures', []):
         facts_build.setdefault(c['capture'], c.get('referenceBuild'))
         if facts_build[c['capture']] is None:
             facts_build[c['capture']] = c.get('referenceBuild')
+        e02_wall.setdefault(c['capture'], c.get('metrics', {}).get('wall.towerSpacing', {}).get('towers'))
     for size, smp in doc['samples'].items():
         want = [s['label'] for s in slots if s['ftgSize'] == size and s['status'] == 'bound']
         want_rec = [r['label'] for r in sorted([r for r in recorded if r['ftgSize'] == size and r['status'] == 'bound'],
@@ -483,11 +570,21 @@ def run_checks(doc, red=False):
             probs.append('%s captures %s, plan %s' % (size, got, want))
         if got_w != want_w:
             probs.append('%s water-row captures %s, plan %s' % (size, got_w, want_w))
-        rec2.append('%s %d (%s)' % (size, len(got), ', '.join(g.split('/')[-2] + '/' + g.split('/')[-1] for g in got) or 'none'))
+        # the wall rows: the sample's captures with a wall drawn (E02's counts), in order; the rest listed as noWall
+        wr = smp.get('wallRows', {})
+        want_wall = [lab for lab, st in zip(smp['captures'], smp['stamps']) if (e02_wall.get(st) or 0) > 0]
+        want_nowall = [lab for lab, st in zip(smp['captures'], smp['stamps']) if not (e02_wall.get(st) or 0) > 0]
+        unknown = [st for st in smp['stamps'] if e02_wall.get(st) is None]
+        if wr.get('captures') != want_wall or [x['label'] for x in wr.get('noWall', [])] != want_nowall or unknown:
+            probs.append('%s wall-row captures %s (no wall %s), E02 counts give %s (no wall %s; no count %s)' % (
+                size, wr.get('captures'), [x['label'] for x in wr.get('noWall', [])], want_wall, want_nowall, unknown))
+        rec2.append('%s %d (%s)%s' % (size, len(got), ', '.join(g.split('/')[-2] + '/' + g.split('/')[-1] for g in got) or 'none',
+                                       (' no wall: %s' % ', '.join(want_nowall)) if want_nowall else ''))
     if changed:
         probs.append('slots %s changed in plan.json since the pass read them' % changed)
     ck('captures', "every value's captures equal the plan's slots in order (per size, the water rows over the "
-       "coast+river slots; each request's size and water = the plan's; each referenceBuild = capture-facts and E02)",
+       "coast+river slots, the wall rows over the slots E02 counts a wall in; each request's size and water = the "
+       "plan's; each referenceBuild = capture-facts and E02)",
        not probs, '; '.join(rec2) + ('; problems: ' + '; '.join(probs) if probs else '; plan.json sha256 %s' % plan_hash[:12])
        + '; the pass reads slots 0-%d; decided since, for the next pass: %s' % (K, later or 'none'))
     # (3) the 2026-09-25 payload is in no sample
@@ -515,21 +612,41 @@ def run_checks(doc, red=False):
        'hits %s; CITY failed %s' % (hits or 0, [(f['label'].split('/', 2)[2], f['reason']) for f in doc['samples']['CITY']['failed']]))
     # (4) E02's same-size values reproduced from the requests: against E02 section 10.3's column for the size where
     # the table has one, and (the post script's same-size rule) every later capture of a size against its first
-    table = e02_table()
+    meta = {}
+    table = e02_table(meta)
     miss = [k for k in E02_ROWS if k not in table]
     unmapped = [k for k in table if k not in E02_ROWS]
+    names = {dotted(path) for path, _ in E02_ROWS.values()}
+    unsynced = sorted(set(P.SIZE_DEPENDENT) ^ names)       # the tool's rows against the post script's class, by name
     if red:
-        k0 = sorted(table)[0]
+        k0 = sorted(k for k in table if isinstance(table[k].get('BIG_TOWN'), float))[0]
         table[k0] = dict(table[k0], BIG_TOWN=table[k0]['BIG_TOWN'] + 1)      # planted: one table value moved
     moved, rec4, first = [], [], {}
+
+    def same(a, b):
+        if isinstance(a, float) and isinstance(b, float) and not isinstance(a, bool) and not isinstance(b, bool):
+            return abs(a - b) <= 1e-9
+        return a == b and type(a) is type(b)
+    words = collections.defaultdict(dict)       # text rows: {row: {FtgSize: (E02 word, the first capture's value)}}
     for s in todo:
         prov = A.provenance(s['capture'])
         got = request_size_values(prov['request'])
         size = s['ftgSize']
         has_col = all(size in table.get(k, {}) for k in E02_ROWS if k in table)
-        mv = [k for k in E02_ROWS if k in table and size in table[k] and abs(got[k] - table[k][size]) > 1e-9]
+        mv = []
+        for k in E02_ROWS:
+            if k not in table or size not in table[k]:
+                continue
+            e = table[k][size]
+            if isinstance(e, str):              # a word: held to the pattern across sizes below
+                words[k].setdefault(size, (e, got[k]))
+            elif e is None:
+                if got[k] is not None:
+                    mv.append(k)
+            elif not isinstance(got[k], float) or abs(got[k] - e) > 1e-9:
+                mv.append(k)
         ref = first.setdefault(size, (s['capture'], got))
-        mv_first = [k for k in E02_ROWS if abs(got[k] - ref[1][k]) > 1e-9]
+        mv_first = [k for k in E02_ROWS if not same(got[k], ref[1][k])]
         rec4.append('%s %s %s%s' % (s['capture'], size,
                                     ('E02 %d/%d' % (len(E02_ROWS) - len(mv), len(E02_ROWS))) if has_col else 'no E02 column yet',
                                     (', = first of size %d/%d' % (len(E02_ROWS) - len(mv_first), len(E02_ROWS)))
@@ -538,11 +655,25 @@ def run_checks(doc, red=False):
         moved += ['%s: %s %s against the first %s capture %s' % (s['capture'], k, got[k], size, ref[0]) for k in mv_first]
         if per.get(s['capture'], {}).get('sizeValues') != got:
             moved.append('%s: the record\'s sizeValues differ from the request' % s['capture'])
+    # a text or boolean row: equal words in E02 <-> equal request values, over the sizes measured (both directions)
+    pattern = 0
+    for k, by in sorted(words.items()):
+        w2v, v2w = {}, {}
+        for size, (w, v) in sorted(by.items()):
+            key = json.dumps(v)
+            if w2v.setdefault(w, key) != key or v2w.setdefault(key, w) != w:
+                moved.append('%s: E02 word %r at %s does not follow the request values' % (k, w[5:], size))
+        pattern += 1
+    numeric = sum(1 for k in table if all(not isinstance(v, str) for v in table[k].values()))
     ck('e02SameSize', "E02's same-size values (its latest size-dependent table, %d rows) reproduced from each capture's own "
-       "PUT body, and every later capture of a size equal to its first" % len(E02_ROWS),
-       not miss and not unmapped and not moved,
-       'table rows %d (missing %s, unmapped %s); %s%s' % (len(table), miss or 0, unmapped or 0, '; '.join(rec4),
-                                                          ('; moved: ' + '; '.join(moved)) if moved else ''))
+       "PUT body, every later capture of a size equal to its first, and the tool's rows equal to the post script's "
+       "SIZE_DEPENDENT names" % len(E02_ROWS),
+       not miss and not unmapped and not moved and not unsynced and not meta.get('disagree'),
+       'table at E02 line %d, rows %d (%d numeric or absent, %d held by word pattern), sizes %s (missing %s, unmapped %s; '
+       'class names %d, tool rows %d, unsynced %s; disagreeing duplicate columns %s); %s%s' % (
+           meta.get('line', 0), len(table), numeric, pattern, '/'.join(meta.get('sizes', [])), miss or 0, unmapped or 0,
+           len(P.SIZE_DEPENDENT), len(names), unsynced or 0, meta.get('disagree') or 0, '; '.join(rec4),
+           ('; moved: ' + '; '.join(moved)) if moved else ''))
     return C
 
 
@@ -560,9 +691,19 @@ def fmt(v, nd=3):
 
 
 def md_tables(doc):
-    L = []
     per = doc['perSlot']
-    cols = [p for p in per]
+    # one per-slot table per group of sizes (at most ten columns each), slots in plan order inside a size
+    order = {s: i for i, s in enumerate(('BIG_TOWN', 'BIG_CITY', 'METROPOLIS', 'CITY', 'TOWN'))}
+    by = sorted(per, key=lambda p: (order.get(p['requestSize'], 9), 0 if p['recorded'] else 1,
+                                    p['slot'] if p['slot'] is not None else -1))
+    groups = [[p for p in by if p['requestSize'] == 'BIG_TOWN'], [p for p in by if p['requestSize'] == 'BIG_CITY'],
+              [p for p in by if p['requestSize'] not in ('BIG_TOWN', 'BIG_CITY')]]
+    out = [per_slot_table(g) for g in groups if g]
+    return md_rest(doc, out)
+
+
+def per_slot_table(cols):
+    L = []
     head = '| metric (unit) | ' + ' | '.join(('slot %d' % p['slot']) if p['slot'] is not None else 'CITY rec. 0' for p in cols) + ' |'
     L.append(head)
     L.append('|---|' + '---|' * len(cols))
@@ -603,7 +744,11 @@ def md_tables(doc):
         L.append('| %s | %s |' % (lab, ' | '.join(cells)))
     L.append('| wealth.tier1 … tier6 | ' + ' | '.join(
         '/'.join('%.3f' % p['metrics']['wealth.tier%d' % k]['value'] for k in range(1, 7)) for p in cols) + ' |')
-    out = ['\n'.join(L)]
+    return '\n'.join(L)
+
+
+def md_rest(doc, out):
+    per = doc['perSlot']
     # signature vectors
     V = ['| slot | size / water | radial | orthog. | dens. in / mid / out (km/km²) | block CV | encl. | r90 CV | R (m) |',
          '|---|---|---|---|---|---|---|---|---|']
@@ -626,14 +771,17 @@ def md_tables(doc):
             p['slot'], ct['layoutGetSentS'], ct['layoutAtClientS'], ct['firstMapShotS'], 'yes' if ct['contended'] else 'no'))
     out.append('\n'.join(T))
     # samples
-    S = ['| FTG size (rung) | n now / planned | estimator at n | slots in order | water-row slots (n) | open slots | failed |',
-         '|---|---|---|---|---|---|---|']
+    S = ['| FTG size (rung) | n now / planned | estimator at n | slots in order | water-row slots (n) | wall rows: n (no wall) | open slots | failed |',
+         '|---|---|---|---|---|---|---|---|']
     for size, smp in doc['samples'].items():
-        S.append('| %s (%s) | %d / %d | %s | %s | %s (%d) | %s | %s |' % (
+        wr = smp.get('wallRows', {})
+        S.append('| %s (%s) | %d / %d | %s | %s | %s (%d) | %s | %s | %s |' % (
             size, smp['rung'], smp['n'], smp['plannedSlots'], smp['estimatorAtN'] if smp['rows'] else 'no row (R-34)',
             ', '.join(('rec. 0' if s is None else str(s)) for s in smp['slots']) or '—',
             ', '.join(c.split('/')[-2] + '/' + c.split('/')[-1] for c in smp['waterRows']['captures']) or '—',
-            smp['waterRows']['n'], ', '.join(str(s) for s in smp['openSlots']) or '—',
+            smp['waterRows']['n'],
+            '%d (%s)' % (wr.get('n', 0), ', '.join('slot %s' % x['slot'] for x in wr.get('noWall', [])) or 'none'),
+            ', '.join(str(s) for s in smp['openSlots']) or '—',
             ', '.join('%s (%s)' % (f['label'].split('/', 2)[2], f['reason']) for f in smp['failed']) or '—'))
     out.append('\n'.join(S))
     # turning beside the exception
@@ -674,6 +822,7 @@ def main():
         return default
     out = opt('--json', JSON_DEFAULT)
     md = opt('--md')
+    lane = opt('--lane', 'm1/W-05b')
     if '--check' in args:
         doc = json.load(open(out))
         red = '--red' in args
@@ -686,7 +835,7 @@ def main():
     slots, recorded, plan_hash, per, through = measure_all('--write' in args, int(lim) if lim is not None else None)
     samples = samples_of(per, slots, recorded)
     doc = {
-        'schema': 'm1.e05.slots/1', 'record': 'E05 section 9', 'workItem': 'W-05b', 'lane': 'm1/W-05b',
+        'schema': 'm1.e05.slots/1', 'record': 'E05 section 9', 'workItem': 'W-05b', 'lane': lane,
         'script': SCRIPT, 'uses': [A.SCRIPT, M.SCRIPT], 'plan': {'file': rel(PLAN), 'sha256': plan_hash},
         'pass': {'throughSlot': through, 'rule': 'the slots decided (bound or failed) when the pass started; a slot decided '
                  'later has a higher number (plan.py binds in slot order) and belongs to the next pass'},

@@ -1,7 +1,7 @@
-# reference-map names, transcribed by the research seat (lane m1/W-16, 2026-10-03): salted digests only
+# reference-map names, transcribed by a research seat (lane m1/W-16, 2026-10-03; re-digested under normalisation 1 by lane m1/W-16b, 2026-10-04): salted digests only
 # class	map	digest (meta rows: the longest name in tokens and the name count per map)
 meta	phrmax	5
-meta	names_A	84
+meta	names_A	85
 meta	names_B	7
 phr	A	0204012658f26573
 phr	A	02cba9a483688f8d
@@ -166,6 +166,7 @@ word	A	6fb11a0ea6d495ac
 word	A	719f5fe10486f7f0
 word	A	724d5f0eada67c33
 word	A	76da15c2cb25e340
+word	A	82abd5040880916d
 word	A	a191ae0a2dbc97d5
 word	A	b965169686ae4978
 word	A	d86b21bf5f6a5334

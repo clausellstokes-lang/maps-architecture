@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """research/baselines/measure_ftg_faces.py -- M-1 work item W-06: FTG face recovery (CONFIDENCE section 6 #5; D1).
 
-Lane m1/W-06 (docs/calibration/M-1-plan.md section 2, row W-06; record docs/calibration/E06-ftg-faces.md). Research side
+Lane m1/W-06 (pass 1) and m1/W-06-final (the last pass, after FTG programme 2's close; E06 section 13)
+(docs/calibration/M-1-plan.md section 2, row W-06; record docs/calibration/E06-ftg-faces.md). Research side
 only; our own code, standard library. Lineage: research/ftg-capture/analyse_layout.py (the stats script CONFIDENCE #5
 asks to extend: its hull and minimum-area rectangle helpers are re-written here) and the two challenge probes
 (research/ftg-capture/challenge-under/{tower_ring_probe,wall_edge_probe}.py, reproduced as the twin). analyse_layout.py
@@ -68,6 +69,9 @@ import ftg as A  # noqa: E402
 import measure_ftg_slots as S  # noqa: E402
 
 SCRIPT = 'research:baselines/measure_ftg_faces.py'
+LANE = 'm1/W-06-final'      # the last pass (E06 section 13); pass 1 ran under m1/W-06
+EARLIER_PASS = {'lane': 'm1/W-06', 'throughSlot': 11, 'jsonSha256': '7726227ba90bdbb65ae10c2472f96d32764b3095a571836d3afcc8fe69a68a58',
+                'record': 'E06 sections 1-12 (pass 1, kept as written)'}
 JSON_DEFAULT = os.path.join(ROOT, 'docs', 'calibration', 'E06-ftg-faces.json')
 REGISTRY = os.path.join(HERE, 'metrics.m-1.json')
 E02_JSON = os.path.join(ROOT, 'docs', 'calibration', 'E02-ftg-captures.json')
@@ -1149,7 +1153,8 @@ def build(through=None, plant=None):
             'towerSpacingPooledM': summ([x for p in mine for x in p['towers']['spacingRaw']], 2),
             'marketsPerCapture': [p['markets']['n'] for p in mine]}
     doc = {
-        'schema': 'm1.e06/1', 'record': 'docs/calibration/E06-ftg-faces.md', 'workItem': 'W-06', 'lane': 'm1/W-06',
+        'schema': 'm1.e06/1', 'record': 'docs/calibration/E06-ftg-faces.md', 'workItem': 'W-06', 'lane': LANE,
+        'earlierPass': EARLIER_PASS,
         'script': SCRIPT, 'uses': [A.SCRIPT], 'metric': 'ftg.ringBlock (descriptive; R-34)',
         'plan': {'file': 'research/baselines/plan.json', 'sha256': plan_hash},
         'pass': {'throughSlot': K, 'rule': 'the slots decided (bound or failed) when the pass started; a later slot '
@@ -1335,7 +1340,7 @@ def md_tables(doc):
         T.append('| %s | %d / %d | %d | %d (%d) | %d / %d | %s | %s | %s / %s / %s (%s–%s) | %s | %s, %s (%s) |' % (
             short(p), t['onWallVertex'], t['towers'], t['wallVertices'], t['chains'], t['closedChains'],
             t['chainEnds']['towers'], t['chainEnds']['n'], bt, ba, fmt(sp.get('p10'), 1), fmt(sp.get('p50'), 1),
-            fmt(sp.get('p90'), 1), fmt(sp.get('min'), 1), fmt(sp.get('max'), 1), run, g['bestDM'],
+            fmt(sp.get('p90'), 1), fmt(sp.get('min'), 1), fmt(sp.get('max'), 1), run, fmt(g['bestDM']),
             fmt(g['agreement'], 3), fmt(g['baselineAgreement'], 3)))
     out.append('\n'.join(T))
     X = ['| group | straight, no way meets | straight, a way meets | corner (≥ 2°) or chain end, no way meets | corner, a way meets | rule "no way meets" | rule "no way meets, or a corner" |',
@@ -1350,9 +1355,14 @@ def md_tables(doc):
             n = sum(p['towers']['cornerByWayMeets'][z]['n'] for p in caps)
             t = sum(p['towers']['cornerByWayMeets'][z]['towers'] for p in caps)
             cells.append('%d / %d' % (t, n))
-        nv = sum(p['towers']['wallVertices'] for p in caps)
-        a1 = sum(p['towers']['ruleNoWayMeets']['agreement'] * p['towers']['wallVertices'] for p in caps) / nv
-        a2 = sum(p['towers']['ruleNoWayOrCorner']['agreement'] * p['towers']['wallVertices'] for p in caps) / nv
+        # a payload without a wall (W-06-final: slot 12) has no wall vertex and no agreement; it adds nothing here
+        walled = [p for p in caps if p['towers']['wallVertices']]
+        nv = sum(p['towers']['wallVertices'] for p in walled)
+        if not nv:
+            X.append('| %s | %s | %s | %s | %s | — | — |' % (name, cells[0], cells[1], cells[2], cells[3]))
+            continue
+        a1 = sum(p['towers']['ruleNoWayMeets']['agreement'] * p['towers']['wallVertices'] for p in walled) / nv
+        a2 = sum(p['towers']['ruleNoWayOrCorner']['agreement'] * p['towers']['wallVertices'] for p in walled) / nv
         X.append('| %s | %s | %s | %s | %s | %.3f | %.3f |' % (name, cells[0], cells[1], cells[2], cells[3], a1, a2))
     out.append('\n'.join(X))
     M_ = ['| payload | market squares | footprint m² | ring | footprint / its face | distance apart m | same face | neighbouring faces |',
@@ -1400,7 +1410,16 @@ def main():
             fails[cid] = not next(c for c in Cr if c['id'] == cid)['passed']
         # the closure test on synthetic states (the live state is open, so a plant there would prove nothing): a
         # closed programme read through slot 26 of 27 must fail, an open one must fail, and the green control must pass
-        fails['lastPass'] = (not last_pass_ok(True, 26, 27)) and (not last_pass_ok(False, 9, 9)) and last_pass_ok(True, 27, 27)
+        synthetic = (not last_pass_ok(True, 26, 27)) and (not last_pass_ok(False, 9, 9)) and last_pass_ok(True, 27, 27)
+        # and on the live state, through run_checks: the recorded pass read one slot short of the last decided slot
+        # must fail (W-06-final; once the programme is closed the recorded pass itself is the green control)
+        d3 = json.loads(json.dumps(base))
+        d3['pass']['throughSlot'] = K - 1
+        live = not next(c for c in run_checks(d3) if c['id'] == 'lastPass')['passed']
+        green = next(c for c in run_checks(base) if c['id'] == 'lastPass')['passed']
+        print('lastPass: synthetic states %s; live plant (read through slot %d) caught %s; live green control (the '
+              'recorded pass) passes %s' % ('caught' if synthetic else 'MISSED', K - 1, live, green))
+        fails['lastPass'] = synthetic and live
         d6 = json.loads(json.dumps(base))
         d6['perCapture'][0]['ringChecks'][0]['scanRel'] = 0.01
         fails['scanline'] = not next(c for c in run_checks(d6) if c['id'] == 'scanline')['passed']

@@ -294,3 +294,28 @@ TRI	bars and the town guard	stitched: no single corpus file holds five consecuti
 TRI	re run on a fresh	stitched: no single corpus file holds five consecutive tokens of it (attribution by m1/W-16) — ordinary phrasing, numbers or pointers; fraction and sub/superscript digits split by NFKD
 TRI	town and city generator of	stitched: no single corpus file holds five consecutive tokens of it (attribution by m1/W-16) — ordinary phrasing, numbers or pointers; fraction and sub/superscript digits split by NFKD
 TRI	md to the unit that	stitched: no single corpus file holds five consecutive tokens of it (attribution by m1/W-16) — ordinary phrasing, numbers or pointers; fraction and sub/superscript digits split by NFKD
+# lane m1/W-16b, 2026-10-04: hits of the exit list (normalisation 1: the underscore splits, Greek and other letters are tokens); each read against its corpus source with a scratch attribution tool (the longest run any one corpus file holds)
+TRI	0 5 0 5 m 1	stitched; our own variable notation m_0.25 / m_0.5 / m_1 split at the underscore (R-17)
+TRI	2 or 5 even odds b3 cos 2π s λ	reviewed as C3 "2 or 5 even odds b3 cos 2 s"; normalisation 1 keeps the Greek letters as tokens; source our own (code) re-derivation in code-village.md (§17.1 (1)), cited ref:VG 1.6.9
+TRI	4 12 mostly 9 12 vertex i at angle 2π i	reviewed as C3 "4 12 mostly 9 12 vertex i at angle 2 i"; normalisation 1 keeps 2π as one token; source our own (code) re-derivation in code-neighbourhood.md (§17.1 (1))
+TRI	5 μs per building plus	reviewed as C3 "5 s per building plus" (our own timing figures); normalisation 1 keeps the micro sign as a letter token, so the run gained a token; stitched
+TRI	a disc of radius r	stitched; ordinary geometry phrasing (R_s split at the underscore)
+TRI	at least max perimeter 6 1 2π	reviewed as TRI "at least max perimeter 6 1 2" (W-16); normalisation 1 keeps 2π as one token; our own (code) re-derivation in code-village.md
+TRI	at n 0 5 σ	our measured bent-cut law N(0.5, σ) (E10, W-10b); the sigma is now a letter token (normalisation 1); stitched
+TRI	bands w i n 1 5	the power law W·(i/N)^1.5 of the depth bands as our own finding visual-spec.md l. 661 restates it (five tokens there); formula notation, a behaviour (§17.1 (1))
+TRI	c is the generator s own	stitched; our own notation L_c / N_c / D_c split at the underscore (R-17), then ordinary prose
+TRI	elevation line of sight from	the public VTT export term line_of_sight split at the underscore (R-17), then ordinary prose; 5 tokens in our own synthesis page dwellings-synthesis.md
+TRI	hall and parlour one cross cut	our own Fable synthesis page research/findings/dwellings-synthesis.md (6 tokens there; not a reference): our layout-pattern names in prose, reviewed as C3 rows of amendments-b/assemble-r0; joined into one run because normalisation 1 (R-17) splits at the underscore
+TRI	house and the rest stay	stitched; a SettlementForge catalogue id (the owner's program, not a reference) split at the underscore (R-17), then our prose
+TRI	m 0 0 10 the	stitched; our own notation m_1 − m_0 < 0.10 split at the underscore (R-17), then prose
+TRI	not of the form s	stitched; ordinary phrasing before our own pattern
+TRI	place a large tree or	stitched; our own pin kind large_tree split at the underscore (R-17); ordinary phrasing
+TRI	r t the point at	stitched; our clerk API notation { along: r, t } then ordinary prose
+TRI	s the other side of the road	reviewed as C3 "the other side of the road" (ordinary phrase a creator post shares); our R_s split at the underscore (R-17) adds one token
+TRI	storey and the main entrance	stitched; our own warning id W_ENTRANCE_NO_STOREY split at the underscore (R-17) before our prose
+TRI	the hearth room larger cross passage a through passage at the entrance with rooms either side enfilade rooms in a row with	our own Fable synthesis page dwellings-synthesis.md (21 consecutive tokens there; not a reference); the union of the reviewed C3 rows of amendments-b/assemble-r0, joined because normalisation 1 (R-17) splits at the underscore of our pattern id
+TRI	w hi w lo w	stitched (no corpus file holds five of its tokens in a row): our width-band variables w_hi / w_lo split at the underscore (R-17)
+TRI	w lo w hi w lo	our width-band variables w_lo / w_hi split at the underscore (R-17); the one file holding the run is our own profiler finding profile-neighbourhood.md using the same names; the law is our own (§4.6)
+TRI	wall is a line of sight	stitched; the public VTT export term line_of_sight split at the underscore (R-17)
+TRI	with σ 0 066 plain	the measured σ 0.066 of W-10b (E10) in our words; 5 tokens in our own finding code-neighbourhood.md restating the measured law; numbers, not content
+TRI	μs per building from its	our own timing-budget prose with the micro sign now a letter token (normalisation 1); stitched (no corpus file holds five of its tokens)

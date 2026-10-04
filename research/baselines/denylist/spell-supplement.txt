@@ -24,3 +24,7 @@ bathhouse groundfloor topfloor townhouse gatehouse warehouse farmstead marketpla
 # the references, their creators and the platforms the captures came from (cited by name under §17.1 (6))
 mfcg ftg watabou procgen procjam gamedev devlog devlogs wip itch patreon facebook google instagram reddit spotify
 tiktok vimeo youtube discord twitter github
+# lane m1/W-16b, 2026-10-04: ordinary words and standard abbreviations that normalisation 1's underscore split (R-17) made
+# token candidates (each read in its corpus sources: creator posts, capture keys, one pre-M-1 record key of our own; none
+# a reference coinage); without them every use in our design and in plat/'s sources would be a token hit
+app avatar bldg def diff est ext hideout paid screenshot upfront
