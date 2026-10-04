@@ -1154,7 +1154,8 @@ the preset step resolves every table by the preset's order (§7.6; V11 §2.2): u
 which only the village-read tables carry, else 0 or off for an `extension` cell, else its default, a categorical `option`
 cell of a table no village stage reads resolving to its `MFCG` entry — so an epoch at a village rung (V07 §3.12; V06 §3.2)
 reads the epoch tables at their parity values, as a town's epochs do under `MFCG` (J-V11.91); under `NG` a cell's
-`presets.NG` entry, else its `MFCG` resolution (V01 §3.15); resolve every reference cell to its target's current value
+`presets.NG` entry, else its default for the base cells §7.6 names (`cut.bendMode` with `cut.flattenM`, the
+deep-interior shares), else its `MFCG` resolution (V01 §3.15); resolve every reference cell to its target's current value
 (§7.6; E-30); apply the web's two switches (V11 §3.7.4: with `orientEnabled` false every class's `profile.orientation`
 reads `balanced` in the view, with `splitEnabled` false no class's `profile.split` is in the view — a use's declared split,
 V11 §4.2, stands); run `resolveSiting` (V11 §3.3.4); freeze. The view is memoised by the H128 of (pinned table hashes, the
@@ -5119,7 +5120,8 @@ entries (0 on V11 §3.24.0's chance and offer cells) land with V02's **M6c**, in
 (file f item 376), written by the seat landing M6c. Before then neither preset exists and no entry for it is written.
 Each of those exits runs the compile's preset check (V11 §3.2.1 step 4; T-V11-0) and the register check, which passes each
 entry by its `fixed:` note (V11 §2.2) with no register entry. V11 writes **no `presets.NG` entry**: none of its cells lies
-in `NG`'s scope, and each resolves under `NG` as under `MFCG` (its `MFCG` entry where it has one). The `NG` entries are
+in `NG`'s scope, and each resolves under `NG` as under `MFCG` (its `MFCG` entry where it has one), save the base cells
+§7.6 resolves to their default under `NG` (`cut.bendMode` with `cut.flattenM`, the deep-interior shares). The `NG` entries are
 V01's, on `hood.constants`, written by the seat landing V01's **M5** (W17; V01 §3.15) in the change that ships the `NG`
 preset file (file f item 584); from that change every compile runs step 4's checks under `NG` too (T-V11-0;
 J-V11.88).

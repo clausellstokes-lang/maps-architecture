@@ -371,7 +371,8 @@ type HoodSite = 'court'|'plotYard'|'yardBlock'|'square'|'green'|'cemetery'|'fiel
 Every `hood.*` table and `squares.quota` carries §7.6's per-preset cells: the `default` value and the `MFCG` and `FTG`
 entries where they differ; `NG` entries stand only on the `hood.constants` cells V01 §3.15 lists — never on another
 `hood.*` table, on `squares.quota` or on a base table, each of which resolves under `NG` as under `MFCG` (§7.6, item
-584). Every cell has `{ value, unit, provenance, calibratable }`. A row or column marked `extension` has its **switch
+584) save the base cells §7.6 resolves to their default under `NG` (`cut.bendMode` with `cut.flattenM`, the
+deep-interior shares). Every cell has `{ value, unit, provenance, calibratable }`. A row or column marked `extension` has its **switch
 cells** — chances, gates, weights, gains, quotas and options — 0 or off in the `MFCG` and `FTG` presets (§7.6's marker;
 T-V1-4), and so under `NG` unless V01 §3.15 lists an `NG` entry for them; its **geometry cells** — sizes, heights,
 clearances, distances, angles, thresholds and factors read only inside a switched step — carry no marker, so every preset
@@ -2216,9 +2217,10 @@ volume's rules as declared extensions, which T-V1-32 shows the owner beside the 
 584; J-V1.98):
 * **Kind** — a zeroing parity preset beside `MFCG`, `FTG` and `VG` (§7.6): one more zeroing `PresetId` (V11 §2.2), and so
   one more `PresetArm` (V12 §2.1).
-* **Resolution** — a cell resolves under `NG` to its own `presets.NG` entry, else to what it resolves to under `MFCG`:
-  its `presets.MFCG` entry, else 0 or off for an `extension` switch cell, else its default (§7.6's order). So the base
-  under `NG` is the base under `MFCG` — Neighbourhood's `area` fabric is the measured bent cut MFCG's code shares (II.2)
+* **Resolution** — a cell resolves under `NG` to its own `presets.NG` entry; else, for a base cell §7.6 names as NG's
+  own rule or calibrated on NG's output (`cut.bendMode` with `cut.flattenM`, the deep-interior shares), to its default;
+  else to what it resolves to under `MFCG`: its `presets.MFCG` entry, else 0 or off for an `extension` switch cell, else
+  its default (§7.6's order). So the base under `NG` is the base under `MFCG`, save those cells — Neighbourhood's `area` fabric is the measured bent cut MFCG's code shares (II.2)
   — and no base table needs an `NG` entry; this volume's geometry cells, unmarked (V01 §2.2), keep their values (the
   templates' seed laws are already NG's), and its switch cells take `MFCG`'s off values unless the table below gives an
   entry.

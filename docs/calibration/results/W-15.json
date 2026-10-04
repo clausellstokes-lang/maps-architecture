@@ -1,0 +1,119 @@
+{
+ "id": "W-15",
+ "status": "partial",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E15-baselines.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E15-baselines.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/rows.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/bands.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/cross_check.py",
+  "/Users/cstokes/Desktop/Maps/research/baselines/candidates/baselines.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-15.json"
+ ],
+ "checks": [
+  {
+   "check": "C1-C10 pass on the candidate baselines.json (research twin; C2 by N-24's widened case-sensitive pattern, C4 colours in strings only (N-22), C6 against metrics.m-1.json (R-45), C10 the scanner over the string values and keys on both lists)",
+   "passed": true,
+   "receipt": "cross_check.py research/baselines/candidates/baselines.json: C1..C10 PASS, ACCEPTED; 478 rows, 10 224 strings, 0 numbers with six consecutive digits, scan 0 hits (research and M0 lists); candidate sha256 e6d6595414f3. Read as whole text the file holds 140 three-gram runs made of numbers only (histogram counts): N-26, routed"
+  },
+  {
+   "check": "every row has referenceBuild, capture, script, date",
+   "passed": true,
+   "receipt": "C1: 478 / 478"
+  },
+  {
+   "check": "every <M-1> cell has a target row or a descriptive row in C-0116's form (never a known-defects entry alone)",
+   "passed": true,
+   "receipt": "26 / 26 cells (section 13.5 and V12 3.4.2's <M-1> rows: turn100, sgd.tShare, sgd.deadEnds, blockc.perHa, blockc.lotsPer, block.countTemplate, block.courtShare NG and MFCG, cut.length, fg.recoverability, fg.streetwall, market.secondary, market.adjacent, variety.dispersion MFCG and FTG, wealth.tier1-6, street.detour, street.cyclesPerKm2, plot.minWidth, fg.streetwallGap100, bldg.pairing); every registry m1 entry has a row or a held row (0 missing); unmeasured time cells are descriptive rows with values.n 0 and every member in sample.failed (R-44)"
+  },
+  {
+   "check": "no row carries a floor or sign field (N-05)",
+   "passed": true,
+   "receipt": "C1 forbids absFloor, sign, floor, band, signIndefinite: 0 on 478 rows; fixtures N-05 (absFloor, sign) refused by C1"
+  },
+  {
+   "check": "bands by the band rule with provenance M-1 <date>; D15's block.area carries spreadKS.p90 over the per-template subsets",
+   "passed": true,
+   "receipt": "478 bands in E15-baselines.json (band rule 145, fixed 93, declared exception 3, floor 6, weakness 92, descriptive 139), provenance 'M-1 2026-10-04'; bands.py --selftest 11/11, its scalar band equal to W-13's on all 78 E13 rows; ng/medium/block.area/all spreadKS p90 0.819 over the 40 within-template pairs (all-pairs 0.8009 = W-11b's), per-template rows carry their own"
+  },
+  {
+   "check": "gate flips listed for the shift record (passing-to-failing recomputations)",
+   "passed": true,
+   "receipt": "E15 section 7 / JSON flips: 50 recomputed bands with an old quoted figure; e.g. cut.sigma plain old 0.046-0.086 -> new 0.064-0.104 (0.046-0.064 flips), ribbon.share size 40 0.9098-0.9775 flips, castle.area size 130 7.395-10.005 flips"
+  },
+  {
+   "check": "T-V12-1's fixtures each refused naming their check",
+   "passed": true,
+   "receipt": "cross_check.py --fixtures: 16/16 T-V12-1 (14 refusals each naming C1/C2/C3/C4/C7/C8/C9 as expected; an upper-case family and a one-row file pass); 41/41 fixtures in all"
+  },
+  {
+   "check": "T-V12-28 (research side: the scanner over every file W-15 would cross; no MeasureInput, no captures path)",
+   "passed": true,
+   "receipt": "strings and keys: 0 hits on baselines.json and ng-faces.json; whole text: ng-faces 0, baselines.json 140 number-only runs (N-26); no features array, 0 capture paths. The plat/ path scan is the checker seat's at W-20"
+  },
+  {
+   "check": "T-V12-30",
+   "passed": true,
+   "receipt": "6/6: a listed failed index passes C7, an unlisted gap refused, an empty capture listed 'empty' passes, FTG nominal population marked, adapters/mfcg.py's cleaner merges / splits / drops with counts, an all-degenerate capture leaves no ring"
+  },
+  {
+   "check": "each FTG row's sample.captures equal the plan's slots in order (C7)",
+   "passed": true,
+   "receipt": "C7 against plan.json's slots per family: 0 problems on 223 FTG rows (all slots listed; water-none, no-wall, setting in failed)"
+  },
+  {
+   "check": "the ng-faces.json candidate checked",
+   "passed": true,
+   "receipt": "cross_check.py --kind ng-faces: C1 C2 C4 C5 C10 PASS, ACCEPTED; 20 hoods, 374 faces, leaf-area deviation at most 1.7e-4; 10 N-21 fixtures behave"
+  },
+  {
+   "check": "the denylist kind (the second new file kind)",
+   "passed": true,
+   "receipt": "cross_check.py --kind denylist on W-16b's denylist.json: C1 (attachment C via make_denylist.validate_m0) C4 C10 PASS; 3 kind fixtures behave"
+  },
+  {
+   "check": "both variety dispersions formed (R-40)",
+   "passed": true,
+   "receipt": "MFCG 1.8061 / 1.5611 / 1.7378 z, FTG 3.2901 / 3.4795 / 3.3631 z at TOWN / CITY / METROPOLIS; pooled SD over MFCG 10 + FTG 10 (TOWN, CITY), MFCG 10 + FTG 4 (METROPOLIS); per-water FTG values in the notes"
+  },
+  {
+   "check": "W-13's bootstrap over fg.recoverability and fg.streetwall (the wave-2 verifier's note)",
+   "passed": true,
+   "receipt": "same seeded draws as E13 (first three per family equal); fg.streetwall stable at all rungs; fg.recoverability unstable at METROPOLIS (108/1000); S-V12-1 outcome with them 50/78 = 64.1 %, still fires"
+  },
+  {
+   "check": "values equal the measuring items' records; determinism; discrimination",
+   "passed": true,
+   "receipt": "307/307 receipts (E05 128, E06 4, E07/E08/E09 96, E11 79); 11/11 rows equal under an independent recompute; rows.py --check SAME, SAME; rows.py --red 3/3 planted faults caught"
+  },
+  {
+   "check": "the candidate is complete for every deliverable row",
+   "passed": false,
+   "receipt": "13 rows held: water.riverWidth x5 (its id token is listed by both deny-lists; rename owed, F2) and D28's 8 MFCG draw rows (no registered sample family, R-03; ruling and plan.py block owed, F1)"
+  },
+  {
+   "check": "the E15 record's content check",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E15-baselines.md --heads ARCHITECTURE.md (final text): C1 0, C2 0, C4 0, S1 0, S2 0; C3 17 hits, 11 unreviewed, all read (digit runs; our own phrases and the 13.5 tower cell; no reference word list, palette, grammar or identifier); exit 1 on the unreviewed C3 as earlier records report"
+  }
+ ],
+ "rows": 478,
+ "design_corrections": [
+  "E15 section 8: the hand-off list (section, cell, old, new) for 57 design cells of ARCHITECTURE 13.5 and the 4.7 granularity anchor; JSON designHandoff",
+  "F2 (proposed DC): rename the metric id water.riverWidth (V12 3.4.2; 13.5 water cell) because its second token repeats an MFCG export key listed by both deny-lists (R-29's precedent); then the registry",
+  "F3 (information): the distribution clause cannot fail on block.area all / ring / street and cut.length all / street / square at NG's sample (p90 >= 0.8)",
+  "F6: DC-38's figures confirmed on the formula seeds; sigma plain 0.066 -> 0.084 moves its +-0.02 band; granularity's 18.6 plots per block against blockc.lotsPer 9"
+ ],
+ "owner_notes": [
+  "S-V12-1 has fired and stays fired with W-08's rows (50 of 78 unstable); its pre-decided remedy (+30 MFCG loads, +60 downloads) is not approved and E13 F2 says it cannot meet the test; rows stand at 10 seeds",
+  "D13 (C10 reads a crossing file's strings and keys, not its numbers) is a clean-room rule reading: flagged for veto as R-14 was"
+ ],
+ "notes": [
+  "partial because three steps belong to other seats: N-26 (M0's scanner reads crossing JSON by string values, or the deny-list drops number-only 3-grams) before W-20 can cross baselines.json; F2 the riverWidth rename; F1 the D28 recorded family",
+  "15 calls under J122 in E15 section 10 (FTG samples list every slot; union family capture/NG; FTG programme build ftg:m1+07526ccf921b as the pin; MFCG dispersion over derived lanes; within-template spreadKS; pooled fixed-band values as single; C10 strings reading; and others)",
+  "F5 for M0-k-05 via the session: the union family, the stress rows keyed by sample.family's options segment, and n-0 rows listing every member in failed",
+  "no plat/ write, no capture or bundle opened, no site, no git state change"
+ ]
+}

@@ -794,7 +794,7 @@ entry for W-20).
    or reads the raw spacing. It now also asks whether FTG's reference value is one number or a value per coast step. It
    is a definition call for a ruling seat, to be made before W-15 sharpens the value, and no ruling record answers it as
    of this pass. §13.5's fixed bound "outline step ≤ 25 m" is ours and stays as it is (R-48). River widths are
-   42.62–55.99 m at BIG_TOWN, 31.49–54.61 m at BIG_CITY, 22.37–31.67 m at METROPOLIS, and 31.30 / 42.87 m at CITY.
+   42.62–55.99 m at BIG_TOWN, 31.49–54.61 m at BIG_CITY, 22.37–31.66 m at METROPOLIS, and 31.30 / 42.87 m at CITY.
 
    | slot | water.step pooled (m) | per body: class, vertices, raw step (m), vertices kept after the 1° drop, step after the drop (m) |
    |---|---|---|
@@ -884,6 +884,204 @@ entry for W-20).
 **Not touched by this pass:** `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, E02, the checklist, the
 adapter, `measure_ftg.py`, the post script, W-05's fixture JSON and pass 1's text in sections 9.1–9.5. No website was
 contacted, no capture bundle was read, and no git command changed state.
+
+### 9.11 Addendum: slot 27 (lane `m1/W-05b-slot27`, 2026-10-04)
+
+**Outcome (CONFIRMED by execution).** Slot 27 (TOWN, `coast+river`, capture `2026-10-04T09-33-54`) is now measured. Lane
+`m1/W-02-slot27c` bound it at 05:45 and `m1/W-02b-verifyc` confirmed it, both after the final pass of 9.6 had landed.
+The tool and its settings are the final pass's, with no change (`f218a9d3…`), and every check of W-05b's row passes,
+4 of 4. With slot 27, all 28 FTG slots and the recorded CITY capture are measured, 29 captures in all, so the row's
+"last pass after slot 27" is met. No earlier value moved. Sections 9.6–9.10 stand as written, and this section
+supersedes only what they say about slot 27 being open (9.6, 9.9 W05b-D15).
+
+| file | what changed |
+|---|---|
+| `research/baselines/inputs/FTG/ftg-2026-10-04_2842892ac3a8/2026-10-04T09-33-54.metric.geojson.gz` | new: slot 27's `MeasureInput` (`1f0228e8…`, 108 KB), written by `--write`. The 29 earlier files are byte-unchanged: the folder's sha256 list before and after the pass differs by this one line. The folder now holds 30 files, 8.9 MB |
+| `docs/calibration/E05-ftg-metrics.slots.json` | rewritten by the pass (W05b-D14): `f48d2882…`, 29 captures. The final pass's file `8898b640…` is in commit `a5542d0` |
+| this record | this section, and in 9.8 (2) METROPOLIS's river widths now read 22.37–31.66 m, as the table prints them (slot 7's 31.665 prints as 31.66). No other line of 9.1–9.10 changed |
+
+Run (project root): `python3 research/baselines/measure_ftg_slots.py --write --lane m1/W-05b-slot27 --md <tables>`, then
+`--check`. One measuring run takes about five and a half minutes for the 29 captures.
+
+**The earlier slots are byte-unchanged (CONFIRMED by comparison with the final pass's file `8898b640…`).**
+- All 28 earlier per-slot entries serialise to the same bytes, and each entry's block of lines occurs verbatim in both
+  files. Their order is kept, and slot 27's entry stands after slot 26's, in the tool's plan order.
+- All 28 earlier signature vectors are byte-equal, and slot 27's vector is added.
+- The BIG_TOWN, BIG_CITY, METROPOLIS and CITY samples are byte-equal. So are `turningBesideException`,
+  `outlineBandInputs` and `serverTimes`, which read only those four sizes. Every sample W-15 forms into a row is
+  therefore unchanged. Only TOWN changes: n goes from 1 to 2, its water rows from 0 to 1 and its wall rows from 1 to 2,
+  and slot 27 leaves its open list.
+- The other keys that changed are the lane, the plan hash (`11a9b357…` to `9ed325bd…`, which is slot 27's bind),
+  `pass.throughSlot` (26 to 27), slot 27's `slotStatus` row (open to bound), and the checks' receipts. A line diff
+  removes 48 lines, all of them inside those keys. Most are the TOWN sample's one-value lists, whose last value gains
+  a comma.
+- Determinism: run 2, which is the record, equals run 1 byte for byte, the tables included. Slot 27 measured alone
+  through the tool's own functions equals its entry byte for byte.
+
+**Slot 27's values beside slot 26's.** These are TOWN's two draws, as research-side numbers with no row (R-34). The
+units and conventions are those of 9.6.
+
+| metric (unit) | slot 26 | slot 27 |
+|---|---|---|
+| size / water | TOWN / none | TOWN / coast+river |
+| buildings / towers | 1 102 / 27 | 1 755 / 54 |
+| street.turn100 (° / 100 m) | 7.543 | 9.050 |
+| street.stepHist share > 15° | 0.0037 | 0.0074 |
+| street.entropy50 (bits) | 0.864 | 1.378 |
+| junction.angles median (°) | 90.03 | 91.25 |
+| junction.angles p5 (°) | 73.69 | 61.97 |
+| junction.share4 | 0.370 | 0.206 |
+| street.runs arterial (m) | 50.5 | 50.5 |
+| street.runs street (m) | 34.5 | 49.0 |
+| street.runs lane (m) | 44.7 | 44.7 |
+| street.runs track (m) | 398.8 | 101.9 |
+| bldg.area median (m²) | 101.4 | 90.1 |
+| bldg.area p95 (m²) | 149.0 | 190.5 |
+| bldg.quadSide (m) | 10.33 | 9.91 |
+| bldg.worstCorner p95 (°) | 20.09 | 38.06 |
+| bldg.partyShare | 0.000 | 0.000 |
+| bldg.attached | 0.000 | 0.000 |
+| wall.towerSpacing (m) | 35.94 | 34.75 |
+| wall.ungated (arterial) | 3 | 1 |
+| gate.count | 0 | 0 |
+| water.step (m) | — | 16.95 |
+| water.riverWidth (m) | — | 67.46 |
+| tree.nnP1 (m) | 1.077 | 0.825 |
+| tree.nnMedian (m) | 11.52 | 11.20 |
+| pop.perBuilding (at the nominal 3 625) | 3.289 | 2.066 |
+| time.model (ms, server) | 1 477 | 1 877 |
+| outline.r90cv | 0.255 | 0.227 |
+| outline.roadRatio | 1.303 | 1.167 |
+| wealth.tier1 … tier6 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 |
+
+| slot | size / water | radial | orthog. | dens. in / mid / out (km/km²) | block CV | encl. | r90 CV | R (m) |
+|---|---|---|---|---|---|---|---|---|
+| 26 | TOWN / none | 0.6836 | 0.2549 | 48.94 / 30.11 / 18.02 | 0.6242 | 0 | 0.2551 | 352.3 |
+| 27 | TOWN / coast+river | 0.3785 | 0.3645 | 32.31 / 34.16 / 17.95 | 0.7422 | 0 | 0.2268 | 408.2 |
+
+| slot | server: PUT → layout GET sent (s) | layout at the client (s) | first map shot (s) | scene build | contended |
+|---|---|---|---|---|---|
+| 26 | 1.477 | 2.710 | 19.208 | not recoverable (no CPU profile) | yes |
+| 27 | 1.877 | 5.204 | 16.331 | not recoverable (no CPU profile) | yes |
+
+| FTG size (rung) | n now / planned | estimator at n | slots in order | water-row slots (n) | wall rows: n (no wall) | open slots | failed |
+|---|---|---|---|---|---|---|---|
+| TOWN (TOWN) | 2 / 2 | no row (R-34) | 26, 27 | coast+river/0 (1) | 2 (none) | — | — |
+
+| slot | water.step pooled (m) | per body: class, vertices, raw step (m), vertices kept after the 1° drop, step after the drop (m) |
+|---|---|---|
+| 27 | 16.95 | lake 8, 13.8, 8, 13.8; lake 10, 50.5, 4, 143.0; river 82, 50.1, 17, 50.9; sea 352, 15.9, 340, 16.5 |
+
+**The town's population: both figures recorded, and the one the reading uses.**
+- *The two figures (CONFIRMED, read).* The **nominal** figure is **3 625**, the size ladder's TOWN. It is the record's
+  `population` with `populationSource: nominal`, and it is the base of `pop.perBuilding`. The **listed** figure is
+  **5 725**, from FTG's account list (`capture-facts.json` `listedPopulation`, E02 39.3 finding 1). That is 57.9 % above
+  the nominal figure, and the list labels the row a big town. On slots 1–26 the listed figure lies between −1.9 % and
+  +11.1 % of the nominal one (slot 0, made as a guest, has none).
+- *What each figure gives (CONFIRMED, computed).* At the nominal figure, slot 27 has 2.066 persons per building, below
+  every other payload's 2.98–3.48. At the listed figure it has 3.262, inside the 3.243–3.431 that the listed figures
+  give on slots 1–26 (slot 26: 3.258). Its 1 755 buildings lie inside BIG_TOWN's 1 610–1 880.
+- *The reading of the town's numbers as a function of population (plan §2.1b, slot 26's row) uses the **nominal 3 625**
+  for both TOWN slots.* There are four reasons.
+  1. R-37 rules it. `populationSource` stays nominal, and the listed figure is recorded beside it and enters no row and
+     no panel file. This lane applies R-37 and does not re-decide it.
+  2. The reading's variable is the requested size. Slot 26's row sets up the ladder (TOWN 3 625, BIG_TOWN 5 600, CITY
+     9 500, all inside our TOWN rung) so that the size-dependent request values and the footprint and street numbers
+     are read against the size asked for. The request carries no population, and slot 27's 28 size values equal slot
+     26's. Slots 26 and 27 differ only in the water options (E02 39.3 finding 6), so at the nominal figure they are
+     FTG's controlled water comparison at one point of the ladder. At the listed figures, the water change would be
+     read as 2 135 more people.
+  3. What the listed figure means is PLAUSIBLE only (E02 39.5, R-37).
+  4. Both figures lie in our TOWN rung [1 500, 10 000), so no rung, row or sample depends on the choice. R-37 says the
+     rung band clamps either value alike.
+- *What the reading shows.* At TOWN's point of the ladder, the inland draw is about a third smaller than BIG_TOWN in
+  buildings, while the coastal draw is BIG_TOWN's size both in buildings and in FTG's own listed figure. The town's
+  numbers therefore spread across BIG_TOWN's range on one water change, and the reading states that spread instead of
+  moving the point. The low 2.066 persons per building at the nominal figure comes from that spread. PLAUSIBLY it is
+  not a density FTG draws, since the listed figure gives the same 3.26 as slot 26; this holds only if the listed figure
+  is the generated resident count. This is a note for whichever seat reads R-37 next, and no ruling is asked, since
+  TOWN has no row. Slot 27 is the first capture on which R-37's choice moves a value by more than 12 %. The amendment
+  R-37 leaves open ("adopting the listed figure is possible later") would change this one capture's population-based
+  values.
+
+**What else slot 27 shows (values CONFIRMED; readings marked).**
+1. *Water.* The coast is drawn at the fine step, with a raw spacing of 15.9 m and 340 of 352 vertices kept, giving
+   16.5 m after the drop. The river is drawn at 50.1 m. One of the two lakes is drawn at about 50 m (raw 50.5 m) and
+   keeps 4 of its 10 vertices, as lakes are on slots 2, 3, 8, 9, 12, 17 and 23 and the CITY capture (raw 49.4–52.4 m in
+   9.8 (2)'s table). Over all `coast+river` payloads, 9.8 (2)'s counts become 11 of 18
+   coasts at 14.9–16.2 m, 7 of 18 at 50 m, and all 24 rivers at 49.9–50.1 m. The pooled `water.step` of 16.95 m joins the
+   fine group (14.49–17.47 m). The river is 67.46 m wide everywhere (410 samples, p25 = p75), wider than any other
+   payload's river (22.37–55.99 m). TOWN has no water row (R-34), so no sample W-15 reads changes. The routed
+   `water.step` question of 9.8 (2) is unchanged.
+2. *Two TOWN draws (research-side, n = 2).* Two of slot 26's distinctions repeat on the second draw:
+   - the attached share is 0.000 on both TOWN slots, and they are the only payloads with none (the others read
+     0.063–0.296);
+   - the block-size CV is 0.62 and 0.74, both below every other payload's 1.24–2.33.
+
+   The third does not repeat. Slot 26's 4-way share of 0.370 was above every other payload, but slot 27's 0.206 lies
+   inside the others' 0.151–0.327. 9.8 (6)'s PLAUSIBLE reading, that these follow from the town's single gaps stage,
+   now covers the first two only.
+3. *One draw outside every other payload (CONFIRMED values; cause not read).*
+   - The street run median is 49.0 m (others 31.6–47.5 m).
+   - The worst-corner p95 is 38.06° (others 16.02–29.52°).
+   - The river width is 67.46 m.
+   - Persons per building at the nominal figure is 2.066 (above).
+
+   Turning (9.050 °/100 m) and every other metric lie inside the range of the other 28 captures. The wall has 54
+   towers, a tower spacing of 34.75 m and 1 ungated arterial crossing, read over the two open stretches that E02 39.3
+   finding 3 describes.
+4. *Times (contended, R-47 (e)).* The server interval is 1.877 s, against 1.477 s for slot 26. The layout reached the
+   client at 5.204 s and the first map shot was logged at 16.331 s.
+
+**The checks of W-05b's row (executed 2026-10-04 06:56–07:09, CONFIRMED).**
+
+| check | result |
+|---|---|
+| each slot's `MeasureInput` equals a fresh run | `--check`: 29 of 29 equal, slot 27's included (`1f0228e8…`). The 28 earlier files are those of 9.7, unchanged |
+| every value's captures equal the plan's slots | BIG_TOWN, BIG_CITY, METROPOLIS and CITY as in 9.7; TOWN 2 (26, 27), water rows slot 27, wall rows both. 0 problems (`plan.json` `9ed325bd…`). The pass reads slots 0–27, and none was decided since |
+| the 2026-09-25 payload is in no sample (R-04) | 0 hits; it stands once in CITY's `failed` list with reason `setting` |
+| E02's same-size values reproduced from the requests | 28 / 28 on all 29 captures against E02 37.3 (now at line 3722; section 39 adds no size table). Slot 27 equals the first TOWN capture, slot 26, in 28 / 28. 28 tool rows = 28 class names |
+| the checks discriminate (`--red`) | 0 of 4 pass, exit 1, nothing written |
+| earlier slots unchanged; determinism | as above: 28 / 28 entries and vectors byte-equal; run 2 = run 1; slot 27 alone = its entry |
+| the plan | `plan.py --check` SAME, SAME at the start and the end (`9ed325bd…`, `8a0efa7e…`); this lane wrote neither file |
+
+**The FTG wave verifier's three routed items (`results/wave2-verify-ftg.json`), all closed here.**
+- (a) **E06's stored-file flag.** With slot 27's file written, `measure_ftg_faces.py --check` reported that the W-06
+  record no longer reproduced, because slot 27's `measureInputStoredEqualsFresh` went from null to true. That flag is
+  now refreshed in `E06-ftg-faces.json` (W05b-D17; E06 13.9). `--check` gives 6 of 6, "the record reproduces: True",
+  exit 0. The same check on the unrefreshed file gives "reproduces: False", exit 1.
+- (b) The METROPOLIS river-width text in 9.8 (2) is corrected, as listed above.
+- (c) E06 13.3 item 3 now gives the cuts and chains on one base: 2 772 cuts over 24 044 chains in the samples, with
+  the R-04 fixture's 36 cuts and 342 chains excluded (2 808 over 24 386 with it). These were recounted from the
+  JSON's per-ring `cutsChecked` and `cuts`.
+
+**Calls under the delegation (each vetoable; none changes a design cell or a ruling).**
+
+| id | decision | why; effect |
+|---|---|---|
+| W05b-D16 | the listed population is recorded in this record's text and in `capture-facts.json` (R-37's places), and no field is added to the slots JSON | R-37 keeps the listed figure out of rows and panel files, and the slots JSON is W-15's row input. A new per-slot field would also change all 28 earlier entries. A veto adds the field in a later pass |
+| W05b-D17 | E06's slot-27 flag is refreshed by a one-value edit of its JSON. The value is the one the faces tool's own rule computes (a fresh adapter write equals the stored file), and the edit is re-serialised in the tool's own format, whose round trip of the unedited file is byte-exact. W-06's last pass is not re-run | one line changes, and `--check` proves the edited file is what the tool produces now. A re-run would measure nothing new, and it would rewrite the pass's receipts and plan hash. A veto re-runs `measure_ftg_faces.py`, then `--check` |
+| W05b-D18 | E06 gains a short dated note (13.9) that names the JSON's new sha256 and the 13.3 wording fix. Its earlier hash mentions (13.1, 13.6, 13.8) stay as the pass wrote them | each record names the file state it read, and the note keeps E06's hash claims true without rewriting the pass's text |
+
+**CONFIRMED versus PLAUSIBLE (this addendum).** CONFIRMED (executed or read):
+- every number in this section;
+- the four row checks and `--red`;
+- the byte comparisons with `8898b640…` and the `MeasureInput` hash lists;
+- run 2 = run 1, and slot 27 measured alone;
+- E06's `--check` on the refreshed file (reproduces) and on the old file (does not);
+- the chain and cut counts;
+- `plan.py --check` SAME.
+
+PLAUSIBLE (reasoning only):
+- that the listed figure is FTG's generated resident count, and so that 2.066 persons per building is an artefact of
+  the nominal figure;
+- that the town's attached share and block CV follow from its single stage;
+- the cause of slot 27's wide river, long street runs and sharp worst corner (one draw).
+
+Not touched: `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, E02, the checklist, the adapter,
+`measure_ftg.py`, `measure_ftg_faces.py`, the post script and this tool. No website was contacted, no capture bundle
+was read, and no git command changed state. Scratch work is in the session scratchpad `m1w3/w05b27/`: the runs, the
+comparison, the probe, the flag edit and the check outputs.
 
 ## 10 CONFIRMED versus PLAUSIBLE
 

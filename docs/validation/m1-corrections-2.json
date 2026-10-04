@@ -1,0 +1,117 @@
+{
+ "id": "design/m1-corrections-2",
+ "status": "landed",
+ "records": [
+  "docs/validation/m1-corrections-2.md"
+ ],
+ "outputs": [
+  "docs/ARCHITECTURE.md",
+  "docs/volumes/V12-calibration.md",
+  "docs/volumes/V01-neighbourhoods.md",
+  "docs/volumes/V11-content.md",
+  "docs/ARCHITECTURE-FULL.md",
+  "docs/validation/m1-corrections-2.md",
+  "docs/validation/m1-corrections-2.json"
+ ],
+ "checks": [
+  {
+   "check": "doc_checks.py --doc docs/ARCHITECTURE.md: exit 0, no new allow row",
+   "passed": true,
+   "receipt": "exit 0; C1: 5 hits, 0 unreviewed; C2: 2 hits, 0 unreviewed; C3: 1886 hits, 0 unreviewed; C4: 24 hits, 0 unreviewed; S1: 0 hits, 0 unreviewed; S2: 318 hits, 0 unreviewed; doc-checks-allow.tsv unchanged against its backup"
+  },
+  {
+   "check": "doc_checks.py --doc docs/volumes/V12-calibration.md --heads docs/ARCHITECTURE.md: exit 0, no new allow row",
+   "passed": true,
+   "receipt": "exit 0; C1: 7 hits, 0 unreviewed; C2: 0 hits, 0 unreviewed; C3: 155 hits, 0 unreviewed; C4: 2 hits, 0 unreviewed; S1: 0 hits, 0 unreviewed; S2: 119 hits, 0 unreviewed; doc-checks-allow.tsv unchanged against its backup"
+  },
+  {
+   "check": "doc_checks.py --doc docs/volumes/V01-neighbourhoods.md --heads docs/ARCHITECTURE.md: exit 0, no new allow row",
+   "passed": true,
+   "receipt": "exit 0; C1: 0 hits, 0 unreviewed; C2: 0 hits, 0 unreviewed; C3: 421 hits, 0 unreviewed; C4: 6 hits, 0 unreviewed; S1: 0 hits, 0 unreviewed; S2: 286 hits, 0 unreviewed; doc-checks-allow.tsv unchanged against its backup"
+  },
+  {
+   "check": "doc_checks.py --doc docs/volumes/V11-content.md --heads docs/ARCHITECTURE.md: exit 0, no new allow row",
+   "passed": true,
+   "receipt": "exit 0; C1: 0 hits, 0 unreviewed; C2: 0 hits, 0 unreviewed; C3: 326 hits, 0 unreviewed; C4: 8 hits, 0 unreviewed; S1: 0 hits, 0 unreviewed; S2: 334 hits, 0 unreviewed; doc-checks-allow.tsv unchanged against its backup"
+  },
+  {
+   "check": "doc_checks.py --doc docs/validation/m1-corrections-2.md --heads docs/ARCHITECTURE.md: exit 0, no new allow row",
+   "passed": true,
+   "receipt": "exit 0; C1: 0 hits, 0 unreviewed; C2: 0 hits, 0 unreviewed; C3: 5 hits, 0 unreviewed; C4: 0 hits, 0 unreviewed; S1: 0 hits, 0 unreviewed; S2: 1 hits, 0 unreviewed; doc-checks-allow.tsv unchanged against its backup"
+  },
+  {
+   "check": "python3 tools/bundle_architecture.py, then --check",
+   "passed": true,
+   "receipt": "wrote docs/ARCHITECTURE-FULL.md: 73034 lines from 14 source(s); --check: UP TO DATE /Users/cstokes/Desktop/Maps/docs/ARCHITECTURE-FULL.md"
+  },
+  {
+   "check": "every edit matched exactly once against the backup; files untouched by others",
+   "passed": true,
+   "receipt": "mc2_apply.py: applied 55 edits to 4 files (base 49, V12 2, V01 2, V11 2); log mc2_apply.log.json; git diff --stat lists these four files only"
+  },
+  {
+   "check": "deny-list scan of the four edited design documents (make_denylist.py scan, both lists)",
+   "passed": true,
+   "receipt": "research: TOK 7/0, ID 13/0, TRI 2887/0, COL 0/0, SET 56/0, PHR 7/0, FILE 0/0, exit 0; m0: TOK 7/0, TRI 2887/0, COL 0/0, SET 56/0, FILE 0/0, exit 0 (hits/unreviewed); the backups gave TOK 9/0, so the rename removed the two hits of the old id"
+  },
+  {
+   "check": "F2 candidate id scanned clean before the rename",
+   "passed": true,
+   "receipt": "water.channelWidth: TOK 0 and ID 0 on the research list, TOK 0 on the m0 list; the old id as control: TOK 1 on both"
+  },
+  {
+   "check": "old figures re-grepped across the base and every volume after the edit",
+   "passed": true,
+   "receipt": "every surviving hit is a history clause of the new text or a site listed in the record section 4; the old river-width id: 0 hits in the design; plat/ (read-only grep): 0 hits"
+  },
+  {
+   "check": "E12 C-7 shares sum to 1 per band",
+   "passed": true,
+   "receipt": "poor 0.355+0.248+0.298+0.099, modest 0.457+0.296+0.148+0.099, prosperous 0.659+0.146+0.049+0.146, rich 0.761+0.096+0+0.143: each 1.000"
+  },
+  {
+   "check": "plan.py --check reports only the rename's expected catalogue mismatch (the registry writer follows F2; plan.py writes are refused until then)",
+   "passed": true,
+   "receipt": "exit 2: PLAN CHECK FAILED, nothing written: / catalogue mismatch: missing ['water.channelWidth'] extra ['water.riverWidth']; --catalogue-check exit 1: missing from registry: ['water.channelWidth']; in registry, not in catalogue: ['water.riverWidth']"
+  }
+ ],
+ "rows": 73,
+ "design_corrections": [
+  "E12 C-1..C-4 (applied): section 4.7 S10 (2) depth rows poor 16-32, modest 24-48, prosperous 33-64, rich 40-96 m (from 12-20, 18-30, 25-40, 30-60), column provenance \"M-1 2026-10-04, E12\" and a sentence naming the fit",
+  "E12 C-5 (applied): section 4.4 dense-core block-depth floor 30-45 -> 37-45 m (the lo re-fitted on MFCG intramural blocks)",
+  "E12 C-6 (applied-adapted): section 4.6 step 5 cut.flattenM provenance states the M-1 bound (0.59 m, 3 of 731, 0.658 vs 0.660); \"M0-b-05b\" written as \"section 16 M0 (b)\"",
+  "E12 C-7 (applied): section 4.6 default deep-interior shares 0.355/0.248/0.298/0.099, 0.457/0.296/0.148/0.099, 0.659/0.146/0.049/0.146, 0.761/0.096/0/0.143, provenance \"M-1 2026-10-04\" with the method",
+  "E12 C-8, C-9 (applied): section 4.6 step 1 cites E12; section 13.5 blocks row: the re-fit meets the band condition",
+  "E12 D-1 (applied-adapted, J-1): Block.depthClass and section 4.6: deep when local thickness > 0.6 x the band plot depth (was 2 x), the reference rows deep population (21.6 m on NG at the re-fitted modest 36 m)",
+  "E12 D-2 (applied-adapted, J-2): section 7.6 NG resolution gains a step: base cells whose default is NG own rule or NG-calibrated (cut.bendMode with cut.flattenM; the deep-interior shares) resolve under NG to their default; mirrored in V01 section 2.2 and 3.15 and V11 section 3.2.2 and its compile note",
+  "E12 D-3 (applied): section 7.6 rows carried with presets entries gain the deep-interior shares, MFCG entry 0.813/0/0/0.187 in every band, FTG the default; section 4.6 states it",
+  "E15 hand-off, 56 entries (52 applied, 2 applied-adapted: 18 per DC-38 and 55 wealth values withheld J-4; 2 already true: 52 draw style, 54 markets): section 13.5 cells quote M-1 per-size medians with provenance \"M-1 2026-10-04\", old figures kept as history, the band-rule paragraph gains one key sentence; section 4.7 prosperous anchor 18.6 -> 9 footprints per cluster block",
+  "E15 entry 2 with DC-35: the street-turning target exception restated on the ten-capture measurement (J-3), not withdrawn",
+  "F2 (applied): V12 section 3.4.2 metric id renamed to water.channelWidth; section 13.5 water cell rewords the MFCG export key",
+  "F3 (applied as information): blocks and bent-cut band columns say where the KS clause binds at NG sample (block.area area and square; cut.length area and ring)",
+  "F6 (applied): sigma plain 0.066 -> 0.084 (ring 0.098 -> 0.094) in section 13.5, section 4.6 step 2 and section 16 M0 (b); granularity anchor per entry 56",
+  "DC-37 (applied): V12 section 3.3 C2: id, metric, supersedes take ^[A-Za-z0-9.:/@+_-]{1,120}$, matched case-sensitively",
+  "DC-38 (applied-adapted): section 13.5 bent-cut row carries the formula-seed values (one bend 739 of 1125, 66 %; corner near the middle 211 of 239, 0.883 = the W-15 row; the DC said about 89 %, E10 simple-parent 0.888), fixture figures 380/519 and 99/120 named as history; the design text quoted 380/519, not 73 % / 82 %",
+  "Consistency sites beyond the hand-offs (applied): section 1 table towers and walled-share criterion; section 4.4 S5a road-ratio target; section 4.6 step 6 fillet; section 4.7 class-floor worst corner and S11 attached share; section 12 FTG server time; section 16 O6 and O17 evidence"
+ ],
+ "owner_notes": [
+  "J-1 (veto flips): D-1 written as thickness > 0.6 x the band plot depth, not E12 first wording (inscribed radius > 1.5 x the band median footprint short side), because footprints do not exist when S8 runs and no table holds that band value.",
+  "J-2 (veto narrows): D-2 also resolves cut.bendMode with cut.flattenM to their NG defaults (flatten, 0.7 m) under the NG preset; before, NG fell back to MFCG straightFirst with 8 m, which section 4.6 step 5 attributes to MFCG and VG, not NG.",
+  "J-3 (veto withdraws): the street-turning target clause keeps its declared exception (0.5-1.5 x FTG), restated: FTG median rises 8.42 -> 9.35 -> 14.06 deg per 100 m with size and the band rule per-size bands (6.7-9.7 at BIG_TOWN, 9.8-17.6 at METROPOLIS) share no value.",
+  "J-4 (veto writes them in): FTG six lifestyle shares are identical on all ten BIG_TOWN captures (a fixed table of the reference), so the design names the measurement only; the rows carry the numbers.",
+  "E12 consequence: the band upper block area e_hi^2 rises at CITY from 0.36 to 0.92 ha at modest, widening section 4.6 substitution bound and section 4.5 district claims; using tau p90 there instead would be a design choice for the owner.",
+  "Count law at METROPOLIS: M-1 ten-seed median is 16 districts at MFCG size 130 (one seed gave 18); section 4.5 law (fitted on 9/12/18/22/24) gives 17-18, inside section 13.5 band 11.5-21.0 but outside +-1 of 16; section 9 label bar stays on the 2026-09-25 sweep it names. Re-fitting is a tuning call, left as is."
+ ],
+ "notes": [
+  "Outcome: every input applied by amendment; 73 units dispositioned (12 E12 + 56 E15 + F2, F3, F6, DC-37, DC-38): 65 applied, 6 applied-adapted, 2 already true, 0 invalid; no new design (J156). CONFIRMED by the edit log, the diff and the final checks.",
+  "FOR THE SESSION (CONFIRMED): plan.py --check exits 2 with catalogue mismatch: missing ['water.channelWidth'] extra ['water.riverWidth'] until the registry writer follows F2 (plan.py catalogue twin and metrics.m-1.json); then W-15's five held river-width rows can be appended. Same pattern as DC-17/DC-21 last round.",
+  "FOR THE SESSION (M0 carry, read from M0-work.json): M0-s-02 (landed) granularity.json depthM, regimes.json dense-core floor [37,45], interior.json shares plus presets.MFCG 0.813/0/0/0.187, cut.flattenM provenance text; M0-b-01 (landed) block-depth ranges move (modest e [48,96] at CITY); M0-m-01 (landed) Block.depthClass doc comment; M0-b-03 builds the 0.6 x d-bar deep test; M0-b-04/-05/-05a/-05b and M0-x-01: sigma +-0.02 of 0.084 plain and 0.094 ring (M0-work.json sections and afterM1Needs still quote 0.066/0.098); M0-c-07/-07a/-07b: shares and deep population; F3 tells M0-b-05b/M0-c-07b which KS subsets can fail; M0-k-05: values only, ids/roles/marks unchanged; D-2 reaches M1 loader and V01 M5, no M0 item.",
+  "FOR THE SESSION: W-17 digest entry (6) predates D-1: it should state the applied deep test (thickness > 0.6 x the band plot depth) and the MFCG preset entry; sigma's entry should carry 0.084 / 0.094.",
+  "results/W-15.json says 57 design cells; designHandoff holds 56 entries (55 of section 13.5, one of section 4.7).",
+  "Left unchanged with reasons (record section 4): anchors of our own rules that name their earlier sample (section 4.5 walled-share stage rows, section 4.2 S3 plaza band and gate law, section 4.5 district merge note and count law, section 9 label bar); narrative history (section 1.4 targets, closing list, O19 minimum 0.14 m, section 4.6 step 5 3/519).",
+  "First doc-check run found 18 unreviewed C3 hits in the new text (digit runs and five phrases matching corpus 3-grams; the deny-list scanner found the same 18 TRI); all reworded, none allowed. Untouched base: C3 1888 / 0 unreviewed.",
+  "CONFIRMED vs PLAUSIBLE: edits, numbers (from E12 sections 12-13, E15 section 8 and JSON, E10 section 9), M0 mapping, scans and checks are CONFIRMED by execution or reading; PLAUSIBLE: that no restatement escaped the greps, J-3 premise about one headingSigma, and that most blocks become deep under J-1 (M0-b-03 measures it).",
+  "Backups of ARCHITECTURE.md, ARCHITECTURE-FULL.md, doc-checks-allow.tsv and all docs/volumes/*.md with SHA256SUMS in the scratchpad m1w3/backup/; nothing written into plat/; no git state changed; no site touched.",
+  "Method note for later seats (memory candidate): make_denylist.py scan --list research <files> reports the same 3-gram runs as doc_checks C3 in about ten seconds, so it is a fast proxy while rewording; doc_checks on a volume needs --heads docs/ARCHITECTURE.md, or S2 reports hundreds of unreviewed base pointers (V12 588, V01 646, V11 932 without it; 0 with it)."
+ ]
+}

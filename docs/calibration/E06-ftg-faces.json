@@ -46807,7 +46807,7 @@
    "referenceBuild": "ftg:2026-10-04+2842892ac3a8",
    "ftgSize": "TOWN",
    "water": "coast+river",
-   "measureInputStoredEqualsFresh": null,
+   "measureInputStoredEqualsFresh": true,
    "wayEdges": 732,
    "wayEdgeDuplicates": 0,
    "districtRings": 4,

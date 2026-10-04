@@ -428,7 +428,8 @@ payloads lie on the water outline. (c) Slot 27's two towers off the wall were lo
    0.398–0.554. §4.5's dense-core 0.62 lies inside every payload's bracket (floor at most 0.554, bound at least 0.857).
    Its looser regimes' 0.55 and 0.45 cannot be compared with a whole-ring figure. §4.5 has M1 measure `plotShare` per
    regime (R-31), so no change is asked.
-3. **Dividing roads.** The samples hold 2 772 sibling cuts (24 386 chains examined). By size, 0.52–0.59 run across the
+3. **Dividing roads.** The samples hold 2 772 sibling cuts over 24 044 chains examined (the R-04 fixture's 36 cuts and
+   342 chains excluded; with it, 2 808 over 24 386). By size, 0.52–0.59 run across the
    long axis and 0.18–0.23 along it, 0.75–0.79 lie within 15° of an OBB axis, the median offset from the middle is
    0.074–0.107 of the long side, the median area balance is 0.547–0.608, and 0.75–0.81 end on the parent's longest
    side. Pass 1 left one question open: the September CITY payloads ran across far more often. The October CITY slots
@@ -669,3 +670,18 @@ the JSON (sha256 `290166d0…`) and the result `results/W-06-final.json`. No `Me
 diff only), no site or bundle was read, and no
 benchmark or timing was run. Scratch work (the pre-pass, raster, bridge and tower probes, pass 1's copies) is in the
 session scratchpad `m1w2/w06f/`.
+
+### 13.9 Addendum (lane `m1/W-05b-slot27`, 2026-10-04): slot 27's stored file and two text fixes
+
+* **Slot 27's `MeasureInput` file now exists, and the JSON's flag for it is refreshed.** W-05b wrote the file
+  (`1f0228e8…`, E05 9.11), which completes the second hand-off of 13.6. The faces tool's flag
+  `measureInputStoredEqualsFresh` for slot 27 was refreshed from null to true. True is the value the tool's own rule
+  computes now: a fresh adapter write equals the stored file. No other byte of `E06-ftg-faces.json` changed, and
+  `diff` shows one line. The JSON's sha256 is now `3d15a080…`. Sections 13.1, 13.6 and 13.8 name the pass's
+  `290166d0…`, which differs from the current file in that one value only. The samples W-15 reads are unchanged.
+  `measure_ftg_faces.py --check` (07:09–07:11) gives 6 of 6 checks, "the record reproduces: True", exit 0. The same
+  check on the unrefreshed file gives "reproduces: False", exit 1, which is the case the FTG wave verifier found. The
+  call is W05b-D17, vetoable, in E05 9.11; a veto re-runs the pass instead.
+* **Item 3 of 13.3** now gives the cuts and the chains on one base, as the wave verifier asked: 2 772 cuts over 24 044
+  chains in the samples, with the R-04 fixture's 36 cuts and 342 chains excluded (2 808 over 24 386 with it). Both
+  counts were recounted from the JSON's per-ring `cutsChecked` and `cuts`. No number of the pass changed.

@@ -1,0 +1,94 @@
+{
+ "id": "W-17",
+ "lane": "m1/W-17-draft",
+ "status": "partial",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E17-implementer-digest.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/READING-LOG.md"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/01-ng-sigma-frame.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/02-depth-rows-refit.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/03-r4-definition.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/04-hollow-block-definition.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/05-junction-census.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/06-deep-interior-shares.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/07-derived-graph-twin.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/08-ng-declared-scale.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/09-ftg-city-family.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/INDEX.md",
+  "/Users/cstokes/Desktop/Maps/docs/digest-candidate/READING-LOG.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E17-implementer-digest.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-17-draft.json"
+ ],
+ "outputSha256First16": {
+  "01-ng-sigma-frame.md": "c54775ad77a23204",
+  "02-depth-rows-refit.md": "8d97212fd68f1dd6",
+  "03-r4-definition.md": "383381c9675e80fb",
+  "04-hollow-block-definition.md": "60dfd4d72ac616fa",
+  "05-junction-census.md": "b46d7218722a8d1f",
+  "06-deep-interior-shares.md": "cfa1ea167c7bf154",
+  "07-derived-graph-twin.md": "98481b1f29527fa3",
+  "08-ng-declared-scale.md": "7031687c2cf5e599",
+  "09-ftg-city-family.md": "e5e7667e70b85ba7",
+  "INDEX.md": "293ee71d734f8fe5",
+  "READING-LOG.md": "d00ba76bf91d4b73"
+ },
+ "checks": [
+  {
+   "check": "the research twin of the scanner with W-16b's M0 exit list (denylist.json) on the ten crossing files, no allow file: 0 hits in every class (TOK, TRI, COL, SET, FILE), exit 0",
+   "passed": true,
+   "receipt": "scratch m1w3/scan-m0-pass6-noallow.txt: TOK 0, TRI 0, COL 0, SET 0, FILE 0, exit 0 (first pass TRI 91 hits / 81 unreviewed; five rewording rounds 91 -> 27 -> 12 -> 4 -> 2 -> 0, no allow row added). Run before the one-cell edits to entries 01 (a note cell: 0.088) and 06 (three numbers added to section 4); to be re-run on the final bytes"
+  },
+  {
+   "check": "the same twin with the research list (denylist.v1.json.gz; TOK, ID, TRI, COL, SET, PHR, FILE), no allow file: 0 hits in every class, exit 0",
+   "passed": true,
+   "receipt": "scratch m1w3/scan-research-pass6-noallow.txt: all seven classes 0 hits, exit 0 (same caveat: re-run owed on entries 01 and 06 after their one-cell edits)"
+  },
+  {
+   "check": "doc_checks.py --doc <file> --heads docs/ARCHITECTURE.md on each of the ten crossing files: C1, C2, C3, C4, S1, S2 all 0 hits, exit 0; every hit read",
+   "passed": false,
+   "receipt": "INDEX, 01, 02, 03, 04: C1 0, C2 0, C3 0, C4 0, S1 0, S2 0, exit 0 each (scratch m1w3/docchecks-final-<file>.txt). 05, 06, 07, 08, 09: runs were in progress (about 3 min each, one at a time) when the harness closed the lane; the concatenated pass of all nine entries plus INDEX before the last two rewording rounds gave C1 0, C2 0, C4 0, S1 0, S2 0 and C3 91 -> the same 91 runs the twin found, all since removed. Owed: the five remaining per-file runs, and re-runs on 01 and 06 after their one-cell edits"
+  },
+  {
+   "check": "no research path, finding, reference identifier, word list, palette, grammar or content table in any crossing file; records cited by opaque research: labels only",
+   "passed": true,
+   "receipt": "grep of the ten crossing files for research/, captures/, /Users/, profiler/, the word findings and the reference programs' author or engine names: 0 lines; labels used: research:M-1/E05, E07, E08, E09, E10, E11, E12, E14, E15, rulings-1, rulings-2; design pointers 2.5, 4.4, 4.6, 4.7, 7.6, 13.5, 13.6, 16, 17.1 (S2 0 on the five files checked)"
+  },
+  {
+   "check": "every baselines.json row id cited exists in the candidate and its quoted value, role and note agree",
+   "passed": true,
+   "receipt": "58 distinct row ids cited (<size> forms expanded to 40 / 80 / 130), 0 missing from research/baselines/candidates/baselines.json (plat.baselines/2, 478 rows); values read from the rows and from E15 sections 4 and 8"
+  },
+  {
+   "check": "the nine entries of R-20 present, one file each, each naming its AFTER-M-1 item; E12 section 14's two ruled texts carried into entries (2) and (6) with every number",
+   "passed": true,
+   "receipt": "01 … 09 plus INDEX.md under docs/digest-candidate/; the 144 numbers of E12 section 14 all occur in entries 2 and 6 after 0.418, 10.8 and 21.6 were added to entry 6 section 4"
+  },
+  {
+   "check": "every file read is logged",
+   "passed": true,
+   "receipt": "docs/digest-candidate/READING-LOG.md (research-side, does not cross): six tables with each file's extent and the list of what was not read"
+  },
+  {
+   "check": "nothing written into plat/; no capture bundle; no site; no benchmark; no git state change; one heavy process at a time; disk and memory within the stop rules",
+   "passed": true,
+   "receipt": "no plat/ write by this lane; df 11 GiB free; memory_pressure 72 % free; scans and checks sequential at nice 10"
+  }
+ ],
+ "rows": 0,
+ "design_corrections": [
+  "none new; the entries restate corrections already routed: E12 section 13 D-1 … D-3 (entries 4, 6), E10 section 9.4 / DC-38 (entry 1), E09 F1 (entry 7), E15 section 8 (entries 3, 5, 7)"
+ ],
+ "owner_notes": [
+  "The implementer digest is drafted as ten short files (an index and the nine entries M0 asked for) under docs/digest-candidate/, outside the product tree, telling the build seats in our own words how each reference number was measured. Both hashed deny-lists report zero hits on every file with no exceptions granted; the scripted document checks are clean on the five files that finished before the lane was closed by the harness, and the other five were mid-run (the earlier whole-set pass found nothing beyond the phrasing hits since removed).",
+  "It does not enter plat/ yet: the content scanner (M0-k-06) must land first, then W-18 checks the digest and W-20 carries it across. No owner step is needed; the session commits on your word.",
+  "Entries 2 and 6 carry the re-fitted depth rows and deep-interior shares W-12 ruled under your delegation; a veto on the NG comparator or the dense-core floor re-drafts those two entries only. Entries 4 and 6 tell the M0 run item to judge the court share on the reference definition until the design correction E12 D-1 lands (decided here, vetoable: E17 section 5 D5)."
+ ],
+ "notes": [
+  "PARTIAL — CONTINUE RULE for the next instance: (1) re-run doc_checks.py --doc docs/digest-candidate/<f>.md --heads docs/ARCHITECTURE.md for 05-junction-census, 06-deep-interior-shares, 07-derived-graph-twin, 08-ng-declared-scale, 09-ftg-city-family and again for 01-ng-sigma-frame (sequential, nice 10, about 3 min each), reading any hit; (2) re-run the two twin scans with --allow (empty) on docs/digest-candidate/0*.md and INDEX.md; (3) run scratch m1w3/w17_receipts.py and paste its table over the \"<!-- RECEIPTS -->\" marker in E17 section 4, update E17 section 1's hashes for 01 and 06 (the current first-16 sha256 are in outputSha256First16 here), run doc_checks on E17 itself and record its counts in E17; (4) run scratch m1w3/w17_write_result.py (it rewrites this file with status landed when every check passes) and append the LANDED line. Nothing else is owed.",
+  "CONFIRMED (executed): the two no-allow deny-list scans (0 hits, exit 0 on both lists); the five finished per-file doc_checks runs (all 0, exit 0); the earlier concatenated doc_checks pass; the row-id check (58 ids, 0 missing); the E12 section 14 number check (144 carried); the path-string grep (0 lines); the hashes above. PLAUSIBLE: that the five unfinished per-file runs and the two re-runs will be clean (every C3 run of the concatenated pass was identical to the twin's TRI list, which is now 0); that M0's own scanner reads the files as the twin does (E16 section 9.7 hand-offs are the session's); that the paraphrased creator ideas match their posts.",
+  "Calls under the delegation (E17 section 5, D1 … D10, each vetoable): ten crossing files rather than one; INDEX.md beside the scaffold README; opaque research: labels; paraphrase over quotation; the like-for-like instruction in entries 4 and 6; the fg.* rows in entry 7; the registered-frame paragraph in entry 8; zero total hits with no allow file as the bar; the digit rule applied by rewording never by changing a value; W-18 appends to E17.",
+  "Hand-offs: W-18 (re-execute the receipts, the planted-leak test on a scratch copy, the 0 / 0 / 0 report for CLEAN-ROOM section 3); W-20 (place the ten files under plat/docs/digest/ with crossing records after M0-k-06, R-32); the session (entries 2 and 6 are the R-20 channel for M0-b-05a and M0-c-07a); W-19 (READING-LOG.md). Deliberately not done: no plat/ write, no design edit, no baselines.json row, no allow rows; E06 section 8, E08 beyond definitions and E13 are outside R-20's nine entries. No new tool (the row names none; doc_checks.py and make_denylist.py scan are the instruments)."
+ ]
+}
