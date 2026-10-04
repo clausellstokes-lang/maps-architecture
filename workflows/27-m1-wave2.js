@@ -24,6 +24,8 @@ const RULE_MODEL = ARGS.ruleModel || 'fable'
 const MAX = ARGS.maxLanes || 3
 const ONLY = ARGS.only || ['prep', 'ng', 'design', 'mchain', 'ftg', 'verify']
 const VKEY = ARGS.verifyKey || 'wave2-verify'
+const FTG_SUFFIX = ARGS.ftgKeySuffix || '' // a re-run of programme 2 takes new lane keys (m1/W-02-slot<k><suffix>)
+const PASS = ARGS.passSuffix || '' // W-05b / W-06 re-pass keys after a re-run of programme 2 (e.g. '-final')
 
 let live = 0
 const waiters = []
@@ -74,10 +76,10 @@ const EXTRA = {
   'W-05b': 'Every bound slot of programmes 1 and 2 (read plan.json: bound, failed and open slots; measure the bound ones, list the others with their status); vectors only, no dispersion (R-40); the client scene time with its contention flag (R-47).',
   'W-06': 'The last pass: it postdates programme 2\'s close (R-47); every bound FTG payload.',
 }
-const itemPrompt = (id) => `${GROUND}
+const itemPrompt = (id, key) => `${GROUND}
 
-LANE m1/${id}. Your item is ${id} of docs/calibration/M-1-work.json (its row in M-1-plan.md section 2, and any note naming it in M-1-plan-notes.md sections 4 and 6): build its tool from the existing scripts the row names, run it, write its record, and run its checker column yourself as the receipt. ${EXTRA[id] || ''} Result file: docs/calibration/results/${id}.json. Return status landed only when every check in the row passed; partial or blocked otherwise, with the reason.`
-const item = (id, phaseName) => seat(itemPrompt(id), `m1/${id}`, phaseName, ITEM_SCHEMA)
+LANE m1/${key || id}. Your item is ${id} of docs/calibration/M-1-work.json (its row in M-1-plan.md section 2, and any note naming it in M-1-plan-notes.md sections 4 and 6): build its tool from the existing scripts the row names, run it, write its record, and run its checker column yourself as the receipt. ${EXTRA[id] || ''}${key && key !== id ? ` THIS IS A RE-PASS (lane ${key}): an earlier pass under lane m1/${id} (docs/calibration/results/${id}.json) ran before FTG programme 2 was recorded; read it, reuse what still holds (its tools and per-slot files for slots it measured, re-checked), and cover every slot bound now; append a re-pass section to the record rather than rewriting the earlier one.` : ''} Result file: docs/calibration/results/${key || id}.json. Return status landed only when every check in the row passed; partial or blocked otherwise, with the reason.`
+const item = (id, phaseName, key) => seat(itemPrompt(id, key), `m1/${key || id}`, phaseName, ITEM_SCHEMA)
 
 const goPrompt = (what) => `${GROUND}
 
@@ -172,12 +174,12 @@ if (ONLY.includes('ftg')) branches.push(async () => {
   const go = await readGo('ftg')
   if (!go || !go.ftg) { log('FTG programme 2: no owner go (owner-go.json); not run in this run'); return }
   const slots = Array.from({ length: 22 }, (_, k) => k + 6)
-  const p2 = await workflow({ scriptPath: ROOT + '/workflows/25-ftg-signed-in.js' }, { root: ROOT, scratch: SCRATCH + '/ftg', slots, keySuffix: '', programme: 2, premium: true })
+  const p2 = await workflow({ scriptPath: ROOT + '/workflows/25-ftg-signed-in.js' }, { root: ROOT, scratch: SCRATCH + '/ftg', slots, keySuffix: FTG_SUFFIX, programme: 2, premium: true })
   results.ftgProgramme2 = p2
   const took = p2 && p2.results ? p2.results.filter(Boolean) : []
   log(`FTG programme 2: ${took.filter((x) => x.status === 'landed').length} landed, ${took.filter((x) => x.status === 'failed').length} failed of ${slots.length}; verify ${p2 && p2.verify ? 'done' : 'none'}`)
-  const w05b = await item('W-05b', 'FTG')
-  const w06 = await item('W-06', 'FTG')
+  const w05b = await item('W-05b', 'FTG', PASS ? 'W-05b' + PASS : undefined)
+  const w06 = await item('W-06', 'FTG', PASS ? 'W-06' + PASS : undefined)
   results.ftg = [w05b, w06].filter(Boolean)
 })
 await parallel(branches)
