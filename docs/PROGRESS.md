@@ -230,7 +230,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-10-04 05:31 EDT._
+_Disk state as of 2026-10-04 05:32 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -829,3 +829,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-10-04 04:55 EDT** — Launching workflows/29-m1-wave3.js phase A (args m1-wave3-A-args.json, maxLanes 2): W-12 (Opus fit, then Fable ruling with Opus fallback) and W-16b (deny-list at the exit, M0 format, candidate research-side). Phase B (W-15 rows/bands/dispersions; design/m1-corrections-2 with E12, E15, DC-37, DC-38 + verifier; W-17 digest draft into docs/digest-candidate/) launches when the FTG run's W-05b-final and W-06-final land (args m1-wave3-B-args.json). Phase C (W-18, W-20 crossing, W-19) waits for M0-k-05 / M0-k-06.
 - **2026-10-04 05:03 EDT** — Owner idea (backlog, J156): plot lines hidden unless a physical boundary (fence/hedge/wall/railing) — already the design (§8.2 treatments, §2.5 PlotBound, §8.5 plotsOnly as a non-default view); new for M1's app shell: hover outlines the plot under the cursor, and a 'plot lines' overlay toggle beside plotsOnly. Recorded in docs/BACKLOG.md.
 - **2026-10-04 05:31 EDT** — FTG slot 27b STOPPED at 04:31 before its create (another hand on the window: the dialog scrolled with no seat command); no settlement made, slot 27 open. The session missed it: its Monitor pipelines piped grep into cut, which block-buffers, so no event ever reached the session (the wave-3 close line was missed the same way); fixed (awk with fflush). The session had also told the owner at ~05:00 that all 22 premium towns were recorded — wrong: 21 of 22 (slots 6-26); corrected to the owner. The FTG run went on: W-02b-verifyb LANDED 04:51 (slots 6-26 confirmed, privacy clean); W-05b-final measuring 28 captures; then W-06-final and wave2-verify-ftg.
+- **2026-10-04 05:32 EDT** — Owner: 'Do it' — re-record FTG slot 27 (TOWN, coast+river) under lane key m1/W-02-slot27c via workflows/25 (programme 2, slots [27], keySuffix c, premium), then its verifier m1/W-02b-verifyc; the owner keeps the pointer off the FTG window. W-05b's slot-27 numbers follow as a small addendum after it lands (TOWN feeds no target row).
