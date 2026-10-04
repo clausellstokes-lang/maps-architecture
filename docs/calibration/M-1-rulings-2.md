@@ -1,6 +1,7 @@
 # M-1 rulings, round 2 — the round-1 blockers, the premium FTG programme (J164) and the corpus rule
 
-Lane `m1/rulings-2`, 2026-10-03 (18:42 → about 19:30 EDT), the Fable ruling seat J164 names, on the owner's Mac. A
+Lane `m1/rulings-2`, 2026-10-03 (18:42 → 19:16 EDT, then a continuation from 19:32 EDT after the owner's account switch —
+section 7; the LANDED line in `docs/lane-events.log` carries its end), the Fable ruling seat J164 names, on the owner's Mac. A
 research-side record (`plat/CLEAN-ROOM.md` rule 2: implementer seats do not read it). It holds numbers, metric ids, file
 paths and our own words: no reference word list, grammar, palette value or identifier beyond FTG's five size names (the
 `FtgSize` values of §13.5 plus the size ladder's TOWN, which the design already uses) and the four NG template names.
@@ -26,7 +27,8 @@ and its verifier's `.verify.json` (P1–P6), `doc_checks.py`; the design: §13.5
 ⟨M-1⟩ rule, `FtgSize`), §13.6 (1)–(3), §16's M-1 row, §1.1's rung table, §12.9's FTG paragraph, D-31, J-S11; V12 §2.4,
 §3.2.1–§3.2.4, §3.3, §3.4.4's FTG row, §3.5, §3.9.1's panel table, §6's B-REF line, Q-V12-1; the J122, J163 and J164 rows
 of `docs/PROGRESS.md`; FTG's size ladder (`research/ftg-capture/presets.json`: the five sizes' nominal populations and
-widths); the lane-events log for the slot lanes (slot 3b landed 18:51, slot 4b 19:09, slot 5b running).
+widths); the lane-events log for the slot lanes (slot 3b landed 18:51, slot 4b 19:09; slot 5b landed 19:20 — read in the continuation
+of section 7 together with E02 §13–§15, after the owner's account switch).
 
 ## 1 The round-1 closing check: both blockers fixed, every note answered or routed
 
@@ -179,7 +181,9 @@ bound at the time), gaining only `programme` and `premiumOnly`; every other top-
 `--bind-ftg 6=<slot 3's folder>` → "slot 4 is still open", exit 1; `--bind-ftg 4=<slot 3's folder>` → "already bound to
 another slot", exit 1; the mirror's files unchanged by the red tests. **Installed** into `research/baselines/plan.py`
 (sha256 `4015955f…`) by an atomic rename and regenerated at once (`plan.json` `e5697b73…`, then `10501452…` after
-`m1/W-02-slot4b` bound slot 4 through the installed script: its `--check` read SAME, CONFIRMED by its LANDED line).
+`m1/W-02-slot4b` bound slot 4 through the installed script: its `--check` read SAME, CONFIRMED by its LANDED line; then
+`524830f5…` after `m1/W-02-slot5b` bound slot 5 at 19:20, SAME by its LANDED line and by this seat's own `--check` at 19:35 in
+the continuation — SAME for both files, `524830f5…` and `7a21bb29…`, section 7).
 
 **R-37 — The listed population: recorded, not used.** Signed in, FTG's settlements list carries a per-settlement
 population (5 769 and 5 906 against the nominal 5 600; 24 367 and 24 755 against 24 500; 6 221 for slot 4), while the layout
@@ -263,7 +267,19 @@ keeps with its keys (the two files share all 56 keys; CONFIRMED), so the full co
 **The clean separation:** on a scratch corpus root holding only the M-1 `stats.json` (and a stub for C1's source), the new
 script gives **C3 0, C4 1** (the five names caught; the seven keys not) and the keys-included variant **C3 1, C4 1** —
 the positive control proves the generated names are in the corpus under R-38, the negative control that our keys are not.
-(5) **Revision 3's self-check**: appended below after this record's own run.
+(5) **Revision 3's self-check** (run in the continuation, section 7, on the full corpus with slots 4 and 5's folders in it —
+JSON files 10 204, 3-grams 955 797, lists 521): `doc_checks.py --doc docs/calibration/M-1-plan.md --heads docs/ARCHITECTURE.md`,
+19:37–19:39 — C1 1 (reviewed), C2 0, C4 0, S1 0, S2 1 (reviewed); **C3 45 hits, 43 unreviewed, every one read**: capture dates
+and stamps ("the 2026 09 25 captures", "with the 2026 09 21 base"), digit runs of section numbers ("3 5 1 3 5 4"), our own
+file paths (the presets file, the NG draw record, the NG build-id string of our `referenceBuild` form) and phrases of our own
+records ("recorded in the owner s", "be read as a function of", "is written by the first") — none a reference word list,
+palette, grammar or identifier; the plan is not in the design set, so no allow rows are added (wave 1's precedent; the
+closing check read 28 / 27 on revision 2, and revision 3 is longer by §2.1b). **This record's own check** (`--doc
+docs/calibration/M-1-rulings-2.md --heads docs/ARCHITECTURE.md`, 19:39–19:43): C1 1 (reviewed), C2 0, C4 0, S1 0, S2 1
+(reviewed); C3 25 hits, 22 unreviewed, all read — the section-number run of the inputs paragraph ("2 4 3 2 1 3 2 4 3 3 3 4
+4" is §2.4, §3.2.1–§3.2.4, §3.3, §3.4.4), our paths (the 2026-09-25 exports sweep, the road-length README) and our own
+phrases ("none and the first two", "last in the order and the first to", "the end of this lane"); the same reading, exit 1
+by the unreviewed count as every non-design document reads.
 
 ## 4 Design corrections the programme requires (for a design seat, `design/m1-corrections-1`; this seat edited no design file)
 
@@ -311,8 +327,67 @@ size-set layout values (R-41 tests it on slot 6); the METROPOLIS payload size an
 is the generated resident count (R-37 keeps nominal); that the ten-payload `type7` turning band will lie inside the
 declared exception (DC-35 measures it); that four METROPOLIS towns are the right count inside the owner's three to five.
 
-`df -h /Users/cstokes`: 12 GiB free at the start and the end of this lane. Outputs: this record; `M-1-plan.md` revision 3;
+`df -h /Users/cstokes`: 12 GiB free at the start and the end of the first instance, 13 GiB at the continuation (19:35). Outputs: this record; `M-1-plan.md` revision 3;
 `M-1-work.json` revision 3; `research/baselines/plan.py` and the regenerated `plan.json` (`metrics.m-1.json` unchanged);
 `research/baselines/ftg_capture_post.py` (three half widths); `docs/validation/bench/doc_checks.py` (R-38);
 `results/rulings-2.json`; CHECKPOINT and LANDED lines in `docs/lane-events.log`. Not touched: `plat/`, the design, E02 and
 the checklist (the slot lanes' files), `M-1-rulings-1.md` (history), `docs/PROGRESS.md` (the session's ledger).
+
+## 7 Continuation after the owner's account switch (the CONTINUE rule; from 19:32 EDT)
+
+**What this instance found.** The result file and sections 1–6 of this record were written at 19:15–19:16 by the first
+instance of this lane, which was stopped before its LANDED line when the orchestrator paused at 19:20 for the owner's account
+switch (`m1/W-02-slot5b` LANDED in the same minute). The session committed the files in `83ddd74` (`plan.py`, the post script) and `fd29304` (the pause commit: the plan, the
+work file, this record, the result, `doc_checks.py`, `plan.json`'s binds) and relaunched the lane under `b1f350f` (`workflows/26-m1-rulings-2.js`, run `wf_2694b14e-85c`). By the brief's CONTINUE rule
+("files without that line mean continue from them") nothing of sections 1–6 was redone; this instance re-executed the
+receipts on today's tree, folded in what landed meanwhile, ran the self-checks section 3 (5) had promised, answered the
+owner's one question, and wrote the LANDED line. No website was touched by this seat, nothing was written into `plat/` or
+the design, and no git command changed state.
+
+**Receipts re-executed (CONFIRMED, 19:34–19:43).** (1) `plan.py --check`: SAME for `plan.json` (60 036 bytes, sha256
+`524830f5…`) and `metrics.m-1.json` (88 627 bytes, `7a21bb29…`); the file holds 28 slots, slots 0–5 bound (slot 5 =
+`2026-10-03T23-10-37`), 6–27 open with `programme` 2, `ftg.programmes` two, `ftg.perSize` as R-33, `counts.ftgSlots` 28.
+(2) `doc_checks.py` on the base (`docs/ARCHITECTURE.md`), with slots 4 and 5's folders now in the corpus: colour files
+10 670, JSON 10 204, 3-grams 955 797, lists 521, own outputs left out 53, values-only 1; **C1 5, C2 2, C3 1 889, C4 24, S1 0,
+S2 318, 0 unreviewed, exit 0** — the same hit counts as section 3's receipt (2). (3) The two self-checks of section 3 (5).
+(4) The work file parses after its status touch and its dump format is unchanged (seven lines differ, all status text).
+(5) `df`: 13 GiB free at 19:35. (6) Git (`git show --stat`, read-only): `fd29304` holds six of this lane's files (the plan, the work file, this record,
+the result, `doc_checks.py` and `plan.json`), and the last commit touching `plan.py` and `ftg_capture_post.py` is `83ddd74`;
+`--check` SAME proves the installed `plan.py` and the committed `plan.json` agree whichever commit holds them. The only
+working-tree changes of this continuation are the status touches below and this section.
+
+**Slot 5 folded in.** E02 §13–§15 (slots 3, 4, 5) and the slot lanes' LANDED lines were read whole. Programme 1 is complete:
+six slots bound in order, BIG_TOWN `none` × 1 and `coast+river` × 2, BIG_CITY the same; slot 6 (METROPOLIS, `none`) is the
+next to take, so the premium programme starts from the first row of `FTG_PREMIUM_SCHEDULE` with nothing sliding. The plan's
+header, W-02 row, §2.1 slot-5 row, §2.1b bind sentence, §4 (1), §5 (1) and a §12b row say so (still revision 3: a status
+touch, no ruling changed); the work file's `status`, both programme statuses, W-02's status and record, W-02b's dependency
+wording and owner-gated step 1 likewise; this record's inputs paragraph and R-36 name slot 5's bind (`524830f5…`). Three E02
+findings bear on programme 2 and change no ruling: (a) the two draws of one cell differ although their requests are equal
+apart from the client-random ids (slots 2 / 4 and 3 / 5; the server's own seed is the PLAUSIBLE cause) — so W-05b reads a
+cell's captures as independent draws of the same settings, which R-33's water mix already assumes; (b) field 11's optional
+parts vary by draw, not by account (177–198 field paths across the premium captures; no check reads field 11); (c) the
+listed populations 6 221 (slot 4) and 24 597 (slot 5) join R-37's table, recorded and not used.
+
+**The owner's question — "let me know if i need to sign back into FTG": no, not now (CONFIRMED by a live read that was not
+this seat's).** Lane `m1/W-02-slot3b`, resumed after the switch, made one read-only landing check at 19:32–19:33 EDT on the
+isolated runner because of this question (its NOTE lines in `lane-events.log`): the landing shows the signed-in line, "Sign
+out" and "Home", no consent notice; nothing was clicked, the recording holds reads only (15 GET; the 3 POST are error
+reporting and analytics, no settlements write), and the session stopped cleanly. The sign-in lives in the capture profile
+`profiler/.profiles/ftg`, not in the Claude account, so the account switch did not touch it. This seat read that profile's
+cookie table for **flags and times only** (host, persistent, HttpOnly, created, last access, expiry — no name and no value,
+nothing written anywhere): two persistent cookies for the site, one created at 18:43 EDT (the owner's sign-back-in after
+subscribing, E02 §9.3), both refreshed at 19:32 EDT by that check, expiring 2027-11-07 (the browser's 400-day cap) — which
+also explains the profile's 19:32 modification times this seat had noticed before reading the NOTE lines. PLAUSIBLE only:
+that the site's own session is still valid at the next sitting. The procedure already covers it — every seat reads the
+landing before anything else (checklist H2), and a landing without the signed-in line stops the seat and is reported;
+then the owner signs in once in that window (as at 18:43) and the seat is relaunched. *Call made (vetoable):* reading the
+profile's cookie metadata to corroborate the live check, rather than answering from the NOTE lines alone — chosen because
+the owner's question deserved every local fact; the alternative, never opening the profile's databases, is a rule the owner
+may prefer, in which case it goes into the checklist's H11 and this seat's reading stands as the one exception, recorded.
+
+**CONFIRMED versus PLAUSIBLE for this section.** CONFIRMED: every count above (the `--check` hashes, the base run's six
+counts and corpus sizes, the two self-checks, the work file's diff, the free space, the lane-events lines of the slot lanes,
+the cookie flags and times, the capture folders ending at slot 5's). PLAUSIBLE: the server-seed cause of the differing draws;
+the site session's validity at the next sitting; the meaning of the listed population (R-37 unchanged). Not touched by this
+instance: `plat/`, the design, E02, the checklist, `doc_checks.py`, `plan.py`, `plan.json`, `M-1-rulings-1.md`,
+`docs/PROGRESS.md`; no git state change; no website.

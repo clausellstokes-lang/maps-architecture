@@ -23,7 +23,7 @@ is byte-identical and the retry of `130/plain/8` froze again (`sample.failed` `n
 extension only (R-39); the clean-room fix landed and was verified (`docs/validation/clean-room-fix-2026-10-03.md`, verdict
 confirmed); FTG moved into the owner's signed-in account (J163) and slots 1, 2 and 3 landed the same evening
 (`2026-10-03T22-04-25`, `2026-10-03T22-21-00`, `2026-10-03T22-43-28`), slot 4 at 19:09 (`2026-10-03T22-57-34`) and slot
-5 is being recorded (lane `m1/W-02-slot5b`); the owner subscribed to FTG premium for one month (J164) and this revision
+5 at 19:20 (`2026-10-03T23-10-37`; programme 1 complete, slots 0–5 bound); the owner subscribed to FTG premium for one month (J164) and this revision
 plans **programme 2** — 22 more slots, 6–27, in `plan.py` and `plan.json` (section 2.1b; R-33).
 What changed in revision 2, in one sentence each: NG's metres are a **declared** scale (R-01); every NG row comes from
 W-04's **formula seeds**, the 2026-09-25 captures being fixtures (R-03); the two FTG CITY payloads are a **recorded family**
@@ -133,7 +133,7 @@ under the same tool, on the plan seeds or the new slots.
 |---|---|---|---|---|---|---|---|
 | W-01 | the capture plan and the seed twin — **LANDED** (E01) | `research/baselines/plan.py` → `plan.json`, `metrics.m-1.json` | V12 §2.4's formulas | 85 slots; 182 ids; the FTG slot lifecycle | the three vectors byte for byte (CONFIRMED); the catalogue 182 = 182 | — | 1 |
 | W-01b | the plan's amendments | `plan.py`: the recorded family `capture/FTG/CITY` (R-02), `mfcgExport.perSeed` one load per seed (R-16), `--extend <family> <n>` (R-13), `block.areaRel` edges, `perKm2` / `per100m`, `cut.length`, `wealth.tier1–6`, `bldg.wallAlign.median` / `.share15`, the draw members (R-01, R-12, R-15, R-23) in `metrics.m-1.json` | this plan | the two files regenerated; `--check` SAME on the unchanged parts | every existing seed unchanged (a JSON diff); the new ids present; the registry's `open` list empty but `variety.dispersion`'s floor now stated | W-01 | 2 |
-| W-02 | FTG programme 1, six slots — slots 0–4 **LANDED** (E02 §2, §10–§14); slot 5 being recorded (J163) | `session.mjs --target ftg --headful --port 9341` on an isolated runner, `drive.mjs`, `ftg_capture_checklist.md` section H (J163's rules, H12's guarded clicks), `ftg_capture_post.py --slot k --signed-in [--premium]` | the owner's signed-in account; section 2.1's slot table | `captures/ftg/<stamp>/` with the payload, `create-request.json`, `request-diff.txt`, `structure.md`, `capture-facts.json`, README; the slot bound in `plan.json` | the 10 checks of `ftg_capture_post.py` (calls, size key, water keys, the request diff against the base and against slot 0 within the 16 named size-dependent leaves, the same-size values, decode, border, no resident field, `pb_raw`; R-24); `plan.py --check` SAME; the privacy grep of H11 | W-01; J159, J163 | 1 (slot 0), 2 (slots 1–5) |
+| W-02 | FTG programme 1, six slots — all six **LANDED** (E02 §2, §10–§15; programme 1 complete at 19:20, J163) | `session.mjs --target ftg --headful --port 9341` on an isolated runner, `drive.mjs`, `ftg_capture_checklist.md` section H (J163's rules, H12's guarded clicks), `ftg_capture_post.py --slot k --signed-in [--premium]` | the owner's signed-in account; section 2.1's slot table | `captures/ftg/<stamp>/` with the payload, `create-request.json`, `request-diff.txt`, `structure.md`, `capture-facts.json`, README; the slot bound in `plan.json` | the 10 checks of `ftg_capture_post.py` (calls, size key, water keys, the request diff against the base and against slot 0 within the 16 named size-dependent leaves, the same-size values, decode, border, no resident field, `pb_raw`; R-24); `plan.py --check` SAME; the privacy grep of H11 | W-01; J159, J163 | 1 (slot 0), 2 (slots 1–5) |
 | W-02b | **FTG programme 2** — the 22 premium slots 6–27 (J164; R-33), one sitting, by slot number | the same tools; section 2.1b's premium differences (the METROPOLIS option, the border half widths 3 000 / 2 500 / 1 750 m, the first-of-size rule R-41, the retry rule, `--premium`); the session launches `workflows/25-ftg-signed-in.js` with slots 6–27 and the premium wording; lanes `m1/W-02-slot<k><suffix>` | the owner's premium account (unlimited saves; no further purchase); `plan.json` slots 6–27 | one capture folder per slot; `plan.py --bind-ftg K=<stamp>` in slot order (`--fail-ftg K=<reason>` for a slot the site or the server refuses after the retry rule); E02 one section per slot and the `.json` entries; the size-dependent-value table extended per new size (E02) | the 10 checks per slot (the same-size check vacuous on a size's first capture, binding on its later ones); the first-of-size evidence recorded before any widening of the class (R-41); `plan.py --check` SAME after each bind; the privacy grep; the per-size totals of `plan.json`'s `ftg.perSize` reached or the shortfall recorded failed (never faked) | W-02 (slots 4–5 first: bind order); J164 | 2 (one sitting; first) |
 | W-03 | the MFCG sweep — **LANDED** 34 / 35 (E03) | `research/baselines/mfcg_sweep_m1.mjs`, `sweep_m1.sh`, `check_w03.py`; one load per seed (JSON by the URL key, SVG by the app's export window) | the 35 plan seeds; the live build id | `captures/mfcg/exports-sweep-m1-2026-10-03/` (34 × JSON / SVG / PNG, `export-log.jsonl`, `loads.jsonl`, `stats.md`, `export-check.json`, README) | C1–C6 of `check_w03.py` PASS (CONFIRMED); the row's "35 of 35" and "cold re-export" open → W-03b | W-01; J159 | 1 |
 | W-03b | closing W-03's row under J161 — **the extension only** (B-1; R-39): the re-export (byte-identical) and the retry (frozen) were done by `m1/W-03-complete` at 16:49 with 2 of J161's 3 loads and must not be run again | `mfcg_j161_m1.mjs` (the J161 tool with its own ledger `j161/loads.jsonl`, cap raised from 2 to 3 for this one load) after `plan.py --extend capture/MFCG/130/plain 11` (W-01b) | **1 load**: R-13's extension, index 10 = seedOf(`capture/MFCG/130/plain`, [10]); downloads denied, the files from the in-page Blob (E03 §9's route) | the family at 10 usable (indices [0, 11), index 8 `failed: no-export`, loads 2); E03 §10, the sweep README and `export-check.json` updated; `W-03.json` left as history (E03 §6 already corrected to "2 of 10 size-40 seeds exceed 1 500") | the extension's seed = seedOf(family, [10]) printed by `plan.py --check`; `check_w03.py` PASS on the folder (C6 counting the J161 ledger too); **both ledgers counted: `loads.jsonl` 35 (J159) and `j161/loads.jsonl` ≤ 3 (J161), the build-id fetch logged as the same contact class**; the family's `type7` estimator unchanged | W-03, **W-01b** (`--extend`); J161 (the third load) | 2 (after W-01b) |
@@ -183,7 +183,7 @@ the recording window to subscribe to premium (J164); the seat detected the other
 | 2 | BIG_TOWN | nearest `coast+river` | `capture/FTG/BIG_TOWN/coast+river/0` | **landed** `2026-10-03T22-21-00` (1 821 buildings, 31 towers, 3 water bodies; `ftg:2026-10-03+d93631bc2aed`) |
 | 3 | BIG_CITY | nearest `coast+river` | `capture/FTG/BIG_CITY/coast+river/0` | **landed** `2026-10-03T22-43-28` (premium account, the same flow; 10 / 10 checks; `m1/W-02-slot3b`) after the stopped attempt of `m1/W-02-slot3` |
 | 4 | BIG_TOWN | `coast+river` (second) | `capture/FTG/BIG_TOWN/coast+river/1` | **landed** `2026-10-03T22-57-34` (premium account; 1 880 buildings, 22 towers, 4 water bodies; `ftg:2026-10-03+2473a617654e`; `m1/W-02-slot4b`, 19:09) |
-| 5 | BIG_CITY | `coast+river` (second) | `capture/FTG/BIG_CITY/coast+river/1` | being recorded (`m1/W-02-slot5b`) |
+| 5 | BIG_CITY | `coast+river` (second) | `capture/FTG/BIG_CITY/coast+river/1` | **landed** `2026-10-03T23-10-37` (premium account; 7 270 buildings, 49 towers, 3 water bodies; `ftg:2026-10-03+101a10861aae`; `m1/W-02-slot5b`, 19:20) — programme 1 complete, slots 0–5 bound |
 
 Every other form value stays as day 1 set it (E02 §6 (1)): FTG's default era, lifestyle, climate, material, race and
 religion presets, the layout preset untouched, the farm, forest, reserve-area and wall boxes on (the 2026-09-21 base), the
@@ -207,7 +207,8 @@ premium-only size option, the metropolis — on the session's advice, chiefly fo
 size give V12 §3.5.1's `type7` estimator instead of `minmax` at three). The subscription is done; no further purchase is
 ever made by a seat, and nothing renews on a seat's action. **The slots are in `plan.py` (`FTG_PREMIUM_SCHEDULE`) and
 `plan.json` (`ftg.slots` 6–27, `ftg.programmes[1]`, `ftg.perSize`)**, so a recording seat takes a slot by its number
-(`python3 research/baselines/plan.py --bind-ftg K=<stamp>`), in slot order; slots 4 and 5 bind first.
+(`python3 research/baselines/plan.py --bind-ftg K=<stamp>`), in slot order; slots 0–5 are bound (programme 1 complete at
+19:20), so slot 6 is the next to take.
 
 | slot | size | water | slot label | why this slot |
 |---|---|---|---|---|
@@ -305,7 +306,7 @@ W-11, W-16 (research list; design-set scan routed). The plan check and the verif
 
 **Wave 2 — now → the FTG programme's close (slot 27 or its stop, one sitting) and the MFCG and NG rows; at most three
 research seats beside M0's four (J161), the FTG recording seat counted:**
-1. **W-02 slots 4–5** (running) then **W-02b slots 6–27** (one recording seat at a time, by slot number; the session
+1. **W-02** complete (slots 0–5 bound at 19:20), then **W-02b slots 6–27** (one recording seat at a time, by slot number; the session
    launches `workflows/25-ftg-signed-in.js` with the premium wording), and **W-05b** per slot as each lands (vectors, no
    dispersion).
 2. **W-01b** (first: `--extend`, the recorded CITY family's block, the registry ids) → **W-03b** (J161's third load: the
@@ -333,8 +334,8 @@ programme stops and reports (12 GiB free at 19:00).
 
 ## 5 Owner-gated steps (named plainly, for the session to ask)
 
-1. **FTG programme 1, slots 1–5 in the owner's signed-in account** — approved (J163: "Yes, all five now"); slots 1–3
-   landed, 4–5 running; anything the site asks beyond section H's list stops the seat. **FTG programme 2, the 22 premium
+1. **FTG programme 1, slots 1–5 in the owner's signed-in account** — approved (J163: "Yes, all five now"); slots 1–5
+   landed (programme 1 complete at 19:20); anything the site asks beyond section H's list stops the seat. **FTG programme 2, the 22 premium
    slots** — approved in count (J164: "about 20–25 more", BIG_TOWN and BIG_CITY to about ten, three to five metropolises, a
    few other sizes); the exact list of section 2.1b (22 slots: METROPOLIS 4, BIG_TOWN 7, BIG_CITY 7, CITY 2, TOWN 2) is
    this seat's ruling under J122 (R-33), **vetoable** — the owner may strike or reorder slots before the run (the two TOWN
@@ -558,3 +559,4 @@ file is not in the design set, so no allow rows are added (wave 1's precedent). 
 | §8 (5) | descriptive, reason `contended` | one row form for every unmeasured time cell; the FTG first-map E19 entry and the scene-time table | R-44, R-47 |
 | §9 | "an FTG day is refused … slides" | the slot retry rule; the premium lapse; the first-of-size deviation | R-41; §2.1b (6) |
 | §10, §11 | — ; the 17:10 clock | the new CONFIRMED / PLAUSIBLE items; the clock statements corrected; revision 3's self-check in the rulings record | the closing check's note |
+| header, §2 W-02, §2.1 (slot 5's row), §2.1b, §4 (1), §5 (1) — a status touch after the owner's account switch (still revision 3) | slot 5 being recorded; slots 4–5 running; slots 4 and 5 bind first | slot 5 landed at 19:20 (`2026-10-03T23-10-37`); programme 1 complete, slots 0–5 bound; slot 6 next | `m1/W-02-slot5b`'s LANDED line; the CONTINUE rule (`M-1-rulings-2.md` §7) |

@@ -153,3 +153,97 @@ Two more points the session should settle:
 | M0-x-03 | known-defects entries of the descriptive rows | R-25 · E19 (M1's file) | the rows' `sample.failed` reasons (implementer-side seats cannot read E19) | W-15 | reasons must be in the row |
 | M0-k-07 | `denylist.json`: digests, salt, spell set, `normalisationVersion` 1 | D19, D31 · W-16b → W-20 | plan §7c | W-16b (eleven checks; a planted leak per class); W-20 `baselines:check` | **N-03, N-04** |
 | M0-k-07 | §4 G-row, `crossings.json` record, window | W-20 · R-18, R-32 | C-0092's record; G-nnnn row | W-20; the wave's close (C-0120) | N-06 |
+
+## 6 Round 2 — the closing check of plan revision 3 (lane `m1/plan-check-close-2`, 2026-10-03 19:47–20:05 EDT)
+
+The closing checker of revision 3 (`M-1-plan.md`, `M-1-work.json`, `M-1-rulings-2.md`), independent of its writer. The
+verdict is in `results/plan-check-close-2.json`. B-1 and B-2 are fixed, and no new finding is a blocker by the brief's four
+classes. Everything below is for the session and the seats that run next. Nothing was written into `plat/`, no site was
+touched, no git command changed state, and every `plan.py` write ran on a scratch mirror.
+
+**What was confirmed (CONFIRMED, read or executed).** B-1: W-03b is the extension only in plan §1 D6, §2 W-03b, §4, §5 (2)
+and the work file. It depends on W-01b, and its checker counts both ledgers. Today `loads.jsonl` holds 35 lines and
+`j161/loads.jsonl` holds 2. `mfcg_j161_m1.mjs` finds its seed by name in `plan.json` and caps at `--cap`, so it cannot load
+index 10 before W-01b's `--extend`. B-2: W-09 and W-05b write vectors only, and W-15 forms both dispersions after W-02b,
+W-05b, W-06 and W-09 in both files. The 22 programme-2 slots are identical in `plan.json`, `M-1-work.json` `ftgProgramme2`,
+`results/rulings-2.json` and plan §2.1b: size, water, water options, label in the family form, rung, nominal population and
+premium flag (0 mismatches). `plan.py --check` gives SAME for `plan.json` (`524830f5…`) and `metrics.m-1.json`
+(`7a21bb29…`). On a scratch mirror: binding slot 7 while slot 6 is open is refused (exit 1); binding slot 6 to slot 5's
+folder is refused (exit 1); binding slot 6 to a new folder writes, and `--check` then gives SAME; swapping two programme-1
+rows is refused (exit 2). No new `--extend` exists (R-35 makes programme 2 a declared block), so none was run. The band
+rule (§13.5) and V12 §3.5.1's estimators match R-34's roles except one bucket (point 5). Disk: programme 1 measures 65 / 46 /
+38 / 39 / 37 / 42 MB (267 in all). Programme 2's ≈ 1 030 MB estimate uses ≈ 45 MB per BIG_TOWN / BIG_CITY slot. 13 168 MB
+were free at 19:55. `M0-work.json`'s `afterM1Needs` is unchanged since §5 above (same hash at a884e70, fe2e99b and on disk),
+and choices C-0124 … C-0138 name no M-1 need. **The self-check re-run** (`doc_checks.py --doc docs/calibration/M-1-plan.md
+--heads docs/ARCHITECTURE.md`, 19:52–19:55) gives C1 1 (reviewed), C2 0, C4 0, S1 0, S2 1 (reviewed), and C3 45 hits with
+43 unreviewed. These are the rulings seat's counts. All 43 were read: capture dates, section-number digit runs, our own
+paths (the presets file, the NG draw record, our `referenceBuild` string) and phrases of our own records. None is a reference
+word list, palette, grammar or identifier. The same check on `M-1-rulings-2.md` (19:55–19:58) gives C1 1 (reviewed), C2 0,
+C4 0, S1 0, S2 1 (reviewed), and C3 42 hits with 39 unreviewed. The rulings seat's 25 / 22 came before its §7 was written.
+All 39 were read, and they are of the same kinds: our paths, digit runs and our own phrases.
+
+1. **Before programme 2 is launched, `workflows/25-ftg-signed-in.js` needs a programme-2 brief.** This is the session's
+   file, not the plan. Plan §2.1b names it as the launcher "with slots 6–27 and the premium wording". As written
+   (CONFIRMED by reading lines 14–40):
+   (a) the first-seat branch fires for `SLOTS[0]`, whatever slot that is. Slot 6's seat would be told it is "the FIRST
+   signed-in seat" and must write a new checklist section H and an E02 "Signed-in captures (J163)" section. Plan §2.1b (10)
+   wants programme 2's first seat to write section I instead.
+   (b) "plan section 2.1: day ${n + 1}'s size and water options" is wrong for these slots: they have no day (`plan.json`
+   `day` is null) and they live in §2.1b.
+   (c) "all its checks must pass … failed otherwise", combined with the loop's stop on any non-landed result, means that
+   without R-41 named, a first-of-size capture (slot 6, METROPOLIS) that sets more than the 16 named leaves fails
+   `requestDiff` / `vsSlot0`, and the run stops at slot 6. Name R-41 and §2.1b (4).
+   (d) §2.1b (6) wants a created-but-failed slot to be recorded with `--fail-ftg` and the next slot to follow. The loop
+   instead stops on it. Keeping the stop is the conservative choice; either way, record which one applies.
+   (e) The ground text still says "six towns", "the five remaining towns … FREE account", "the owner's signed-in free
+   account" and "fewer than five creates". Programme 2's wording is 22 slots under J164, "premium since J164", and
+   unlimited saves.
+   (f) The post command omits `--signed-in --premium` (checklist H13 has them).
+2. **R-36 guards only the first six labels.** CONFIRMED on the scratch mirror. After slot 6 was bound, the first
+   `FTG_PREMIUM_SCHEDULE` row was changed from METROPOLIS `none` to BIG_TOWN `none` and the plan regenerated. `plan.py`
+   wrote it with exit 0, and slot 6 became `capture/FTG/BIG_TOWN/none/1` while still holding its METROPOLIS folder. §5 (1)
+   lets the owner strike or reorder rows "before the run". Once slot 6 binds, any edit at or before the last recorded slot
+   silently relabels captures. Recommended (a small `compute()` check): refuse when a recorded slot's label, size or water
+   differs from the prior `plan.json`. Striking unrecorded tail rows (the TOWN pair first) stays allowed. Until then, edit
+   only rows after the last recorded slot.
+3. **`plan.json` has two writers in wave 2.** Every `--bind-ftg` regenerates both `plan.json` and `metrics.m-1.json` from
+   the `plan.py` on disk. W-01b changes `plan.py` and regenerates while programme 2 binds slots. This creates two risks:
+   a lost binding (W-01b reads the slots, a bind lands, W-01b writes) and a bind run through W-01b's half-edited `plan.py`.
+   Recommended: W-01b develops on a scratch mirror, as the rulings seat did. It installs `plan.py` by atomic rename between
+   two binds and regenerates at once. Its checker ("the 28 FTG slots and their bindings unchanged") compares against the
+   live `plan.json` read after the install.
+4. **The retry rule's "or" (§2.1b (6)) can make a duplicate settlement.** It reads: "a create whose PUT does not return
+   200, or after which the settlements list shows no new settlement, made no settlement". So a PUT that returns 200 while
+   the list lags would be retried, creating a second settlement in the owner's account. Safer: retry only when the PUT did
+   not return 200 *and* the list shows no new row. A PUT 200 with no list row stops the run and is reported. Carry this
+   into section I.
+5. **`water.step` is in the wrong bucket in R-34.** §13.5's water row has the band column "outline step ≤ 25 m; width band
+   by class", so the step is a fixed bound, not the band rule. If W-15 forms `water.step`'s band from FTG's ≈ 50 m step by
+   V12 §3.5.2, our ≤ 25 m step fails a target it should pass. W-15 should treat `water.step` like the fixed-band rows (the
+   reference value is sharpened, the band column stays) and `water.riverWidth` by the band rule per class. The other
+   buckets match §13.5 and V12 §3.5.1:
+   * band rule: `street.runs`, `outline.*`, `wall.towerSpacing`;
+   * fixed: `junction.*`, `bldg.*`;
+   * declared exception: `street.turn100`;
+   * the weakness and descriptive rows are unchanged;
+   * the estimators are `type7` at n = 10 and `minmax` at 2–9, with coverages 0.5 / 0.6 / 0.67 / 0.71 at n = 3 / 4 / 5 / 6.
+6. **Text left behind (not blockers; the rows that act are right):**
+   * Plan §2.2's last sentence still lists the cold re-export and the retry as W-03b's steps, and §9's "freezes on the
+     retry" row is now history. Reword both as history.
+   * W-16b's inputs ("the corpus after W-02 day 6") and its depends (W-02 only) predate programme 2, whose folders join
+     the corpus. §4 already starts wave 3 after the programme's close, so the order holds. Add W-02b to the depends.
+   * In `M-1-work.json` (follow the plan): D13 still reads "three each, over six days" with work W-02 only; `sampleRule.FTG`
+     still reads "six slots … CITY rows estimator single"; `wave2[0]` still has "slots 4-5 (running)"; and the risks entry
+     "thin FTG samples: rows already weakness/descriptive" is stale.
+   * In `metrics.m-1.json`, regenerated by W-01b, `variety.dispersion`'s `m1` entries still name W-09 / W-05 and
+     "minmax at n = 3", and its `open` names W-09 / W-05. R-40 moved both dispersions to W-15.
+   * W-03b's checker says the seed is "printed by `plan.py --check`", but `--check` prints SAME / DIFFERS only.
+     `plan.py --vectors capture/MFCG/130/plain/10` prints it (H32 1179968782, parkMiller 1179968783; CONFIRMED today).
+   * Plan §2.1b (1), rulings-2 §2 and `results/rulings-2.json` quote the site's account-control labels literally. These
+     are site controls, not generator content, so this is no clean-room breach. Still, R-27 (PC-20) keeps literal site
+     labels in the checklist only. Reword them in our terms when the files are next touched.
+7. **The owner's sign-in question.** No new sign-in is needed as of 19:33 EDT: lane `m1/W-02-slot3b`'s read-only landing
+   check showed the signed-in line, and no later lane line reports a sign-in prompt (CONFIRMED by the log; this seat touched
+   no website). That the site session is still valid at the next sitting is PLAUSIBLE only. The first programme-2 seat
+   reads the landing before anything (H2), and stops if the signed-in line is missing. The owner then signs in once in that
+   window.

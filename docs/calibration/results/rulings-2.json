@@ -3,8 +3,8 @@
  "lane": "m1/rulings-2",
  "date": "2026-10-03",
  "status": "landed",
- "plan": "docs/calibration/M-1-plan.md (revision 3)",
- "work_file": "docs/calibration/M-1-work.json (revision 3)",
+ "plan": "docs/calibration/M-1-plan.md (revision 3; a status touch after the owner's account switch: slot 5 landed, programme 1 complete)",
+ "work_file": "docs/calibration/M-1-work.json (revision 3; the same status touch)",
  "blockers_fixed": [
   "B-1 (R-39): W-03b restated in M-1-plan.md (sections 1 D6, 2 W-03b, 4, 5 (2)) and M-1-work.json as R-13's extension only -- 1 load (index 10 = seedOf(capture/MFCG/130/plain,[10])) through the J161 tool after W-01b's --extend; depends on W-01b; the checker counts both ledgers (loads.jsonl 35; j161/loads.jsonl <= 3) and logs the build-id fetch; the re-export (byte-identical) and the retry (frozen) done by m1/W-03-complete are never run again",
   "B-2 (R-40): W-09 and W-05b write signature vectors only; W-15 forms both variety.dispersion values (TOWN, CITY, METROPOLIS) after W-02, W-02b, W-09 and W-05b are complete, pooled deviations over MFCG 10 u FTG 10 (TOWN, CITY) and MFCG 10 u FTG 4 (METROPOLIS); plan sections 1 D16, 2 W-05b / W-09 / W-15 and the work file aligned"
@@ -184,7 +184,7 @@
   "new_slots": 22,
   "all_slots": 28
  },
- "plan_py": "FTG_PREMIUM_SCHEDULE block appended to FTG_SCHEDULE (R-35: a declared schedule, not a CLI flag; W-01b's MFCG --extend unchanged); compute() refuses reordering of the first six labels, duplicate labels and sizes without nominal/rung/half width (R-36; red-tested); plan.json regenerated with slots 0-5 and bindings kept, metrics.m-1.json byte-unchanged, --check SAME; ftg_capture_post.py HALF_WIDTH_M gains METROPOLIS 3000 / CITY 2500 / TOWN 1750 (10/10 checks on slots 0-3 unchanged)",
+ "plan_py": "FTG_PREMIUM_SCHEDULE block appended to FTG_SCHEDULE (R-35: a declared schedule, not a CLI flag; W-01b's MFCG --extend unchanged); compute() refuses reordering of the first six labels, duplicate labels and sizes without nominal/rung/half width (R-36; red-tested); plan.json regenerated with slots 0-5 and bindings kept, metrics.m-1.json byte-unchanged, --check SAME; ftg_capture_post.py HALF_WIDTH_M gains METROPOLIS 3000 / CITY 2500 / TOWN 1750 (10/10 checks on slots 0-3 unchanged); re-checked in the continuation at 19:35 after slot 5 bound: --check SAME (plan.json 524830f5, metrics.m-1.json 7a21bb29)",
  "rows_affected": [
   "target rows with bands by the band rule at BIG_TOWN / BIG_CITY, type7 at n = 10: street.runs, outline.r90cv, outline.roadRatio (band recomputed, DC-11), wall.towerSpacing, variety.dispersion (floor); water.step and water.riverWidth over the six coast+river slots (minmax)",
   "target rows with the design's fixed bands, sharpened reference values: junction.angles, junction.share4 (ringed / american), bldg.area, bldg.quadSide, bldg.worstCorner, gate.count",
@@ -196,7 +196,7 @@
   "FTG TOWN: no row (FtgSize has no TOWN); research-side numbers in E05 section 9",
   "every unmeasured time cell one descriptive row in C-0116 form (R-44)"
  ],
- "corpus_rule": "R-38: an M-1 folder's stats.json stays in doc_checks.py's corpus for its STRING VALUES only (document-order 3-grams and per-field value lists, which carry the reference's generated city names) and never its keys (our field names); applied in docs/validation/bench/doc_checks.py (stats.json out of OWN_RECORD; VALUES_ONLY; own_values_only= in the summary); base re-run exit 0 with C1 5, C2 2, C3 1889/0, C4 24/0, S1 0, S2 318 (identical to before); controls: five generated names on one line -> C4 1 (positive), seven keys in a row -> C3 0 under the rule and C3 1 under a keys-included variant on a scratch corpus holding only that file (clean negative); on the full corpus the key run also lives in the pre-M-1 exports-sweep-2026-09-25/stats.json (same 56 keys), which CF-6 keeps; W-16b's deny-list rebuild adopts the same two rules",
+ "corpus_rule": "R-38: an M-1 folder's stats.json stays in doc_checks.py's corpus for its STRING VALUES only (document-order 3-grams and per-field value lists, which carry the reference's generated city names) and never its keys (our field names); applied in docs/validation/bench/doc_checks.py (stats.json out of OWN_RECORD; VALUES_ONLY; own_values_only= in the summary); base re-run exit 0 with C1 5, C2 2, C3 1889/0, C4 24/0, S1 0, S2 318 (identical to before); controls: five generated names on one line -> C4 1 (positive), seven keys in a row -> C3 0 under the rule and C3 1 under a keys-included variant on a scratch corpus holding only that file (clean negative); on the full corpus the key run also lives in the pre-M-1 exports-sweep-2026-09-25/stats.json (same 56 keys), which CF-6 keeps; W-16b's deny-list rebuild adopts the same two rules; re-run in the continuation (19:34-19:37, slots 4 and 5's folders in the corpus: colour files 10 670, JSON 10 204, 3-grams 955 797, lists 521, own outputs left out 53, values-only 1): C1 5, C2 2, C3 1889/0, C4 24/0, S1 0, S2 318, exit 0 -- the same hit counts",
  "design_corrections": [
   "DC-31 D-31 / section 1.1 / 13.5 FtgSize + matched sizes / 13.6 (2)(3) / 12.9 / V12 l.160, 3.4.4 FTG row, Q-V12-1: FTG METROPOLIS rows (n = 4) and panel pairs from J164's premium month; D-31 records the reversal",
   "DC-32 V12 3.2.1 FTG row and section 16 M-1: two programmes (6 + 22 slots) in the owner's signed-in account; exit 'every slot decoded or recorded failed'",
@@ -218,7 +218,9 @@
   "this round's files: committed by the session on the owner's word"
  ],
  "notes": [
-  "Order of recording: slots 4-5 (programme 1, running) bind first; then 6-27 by number: METROPOLIS 6-9 (none, coast+river x3), BIG_TOWN / BIG_CITY alternating 10-23, CITY 24-25, TOWN 26-27; the session launches workflows/25 with slots 6-27 and the premium wording; the first programme-2 seat writes the checklist's section I from plan 2.1b (the slot lanes were editing the checklist during this round, so it was not touched).",
+  "Order of recording: programme 1 is COMPLETE (slots 0-5 bound; slot 5 = 2026-10-03T23-10-37 landed 19:20 by m1/W-02-slot5b), so slot 6 is the next to take: METROPOLIS 6-9 (none, coast+river x3), BIG_TOWN / BIG_CITY alternating 10-23, CITY 24-25, TOWN 26-27; the session launches workflows/25 with slots 6-27 and the premium wording; the first programme-2 seat writes the checklist's section I from plan 2.1b (the slot lanes were editing the checklist during this round, so it was not touched).",
+  "THE OWNER'S SIGN-IN QUESTION (\"let me know if i need to sign back into FTG\"): NO sign-in is needed now. CONFIRMED by lane m1/W-02-slot3b's read-only landing check at 19:33 EDT (after the account switch, on the isolated runner, nothing clicked, no account write): the landing shows the signed-in line, Sign out and Home, no consent notice. Consistent with the capture profile's own metadata (read as flags and times only, no name or value): two persistent cookies for the site, one created 18:43 EDT (the owner's sign-back-in after subscribing, E02 9.3), both refreshed at 19:32 EDT by that check, expiring 2027-11-07 (the browser's 400-day cap). The sign-in lives in profiler/.profiles/ftg, not in the Claude account, so the account switch did not touch it. PLAUSIBLE only: that the site's own session stays valid until the next sitting -- the checklist's section H covers it: every seat reads the landing before anything, and a landing without the signed-in line stops the seat and is reported; then the owner signs in once in that window and the seat is relaunched.",
+  "Continuation after the pause (the CONTINUE rule): this lane's result and record were written at 19:15-19:16 and committed in fd29304 without a LANDED line; the continuation (19:32 -> 19:46) re-executed the receipts on today's tree, folded slot 5b's landing into the plan (header, W-02, 2.1, 2.1b, 4 (1), 5 (1), 12b), the work file (status, W-02, W-02b, programme statuses, owner-gated 1) and this record (inputs, R-36, section 3 (5), section 7), ran the two self-checks the record had promised, and wrote the LANDED line. 13 GiB free at 19:35.",
   "Procedure differences (plan 2.1b): no settlement counter, a Premium Settings link never clicked; the metropolis size option enabled and used only for slots 6-9 by its request value; half widths 3000 / 2500 / 1750 m; first-of-size rule R-41 for the 16-leaf size-dependent class; --premium on the post script; retry rule (a create that made no settlement up to 3 attempts; a failed post check --fail-ftg; a refusal stops; nothing slides); larger METROPOLIS payload and server time within the 5-minute poll; H12 guarded clicks and the window left alone; privacy as H11.",
   "Disk: programme 1 measured 65 / 46 / 38 / 39 / 37 MB per slot; programme 2 estimated 1030 MB (14 x 45, 4 x 60, 4 x 40); 12 GiB free at 19:00.",
   "Concurrency: slot lanes 3b and 4b landed during this round and bound their slots through the installed plan.py (--check SAME); the post script received a wording-only --premium flag from slot 3b before this round's half-width edit; E02 and the checklist were left to those lanes.",
@@ -227,11 +229,17 @@
  ],
  "files_written": [
   "docs/calibration/M-1-rulings-2.md",
-  "docs/calibration/M-1-plan.md (revision 3; revision 2 is git 8010bfa)",
-  "docs/calibration/M-1-work.json (revision 3)",
+  "docs/calibration/M-1-plan.md (revision 3; revision 2 is git 8010bfa; the continuation's status touch on top of fd29304)",
+  "docs/calibration/M-1-work.json (revision 3; the same status touch)",
   "research/baselines/plan.py (FTG_PREMIUM_SCHEDULE; R-36 order check) and research/baselines/plan.json (regenerated; metrics.m-1.json unchanged)",
   "research/baselines/ftg_capture_post.py (HALF_WIDTH_M for METROPOLIS, CITY, TOWN)",
   "docs/validation/bench/doc_checks.py (R-38 values-only rule)",
   "docs/calibration/results/rulings-2.json"
- ]
+ ],
+ "self_checks": {
+  "M-1-plan.md revision 3": "C1 1 (reviewed), C2 0, C4 0, S1 0, S2 1 (reviewed); C3 45 hits, 43 unreviewed, all read (capture dates and stamps, section-number digit runs, our own file paths and phrases of our own records; no reference word list, palette, grammar or identifier); no allow rows (not a design-set file); 19:37-19:39 on the full corpus",
+  "M-1-rulings-2.md": "C1 1 (reviewed), C2 0, C4 0, S1 0, S2 1 (reviewed); C3 25 hits, 22 unreviewed, all read (the inputs paragraph's section-number run, our paths, our own phrases); 19:39-19:43",
+  "method": "doc_checks.py --doc <file> --heads docs/ARCHITECTURE.md on the full corpus; every C3 hit read; this file is not in the design set, so no allow rows (wave 1's precedent)"
+ },
+ "landed_at": "2026-10-03 19:46 EDT (continuation after the owner's account switch; the first instance ran 18:42-19:16)"
 }
