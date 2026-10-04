@@ -1,0 +1,63 @@
+{
+ "file": "docs/calibration/handoff-M0.md",
+ "rows": [
+  {
+   "id": "N-20",
+   "items": [
+    "M0-k-05"
+   ],
+   "summary": "Carries M-1's N-01: attachment A tables the 20 metric ids the AFTER-M-1 items read, each with its section 13.5 row, reference and role, unit and output form (vector fields, distribution bins), metricVersion 1.0.0 and M-1's measure in our words. 0 of the 20 ids appear implementer-side (CONFIRMED by exact search). Rows for metrics M0 does not register (81 metrics carry M-1 rows) are listed as unread and never stop the CLI."
+  },
+  {
+   "id": "N-21",
+   "items": [
+    "M0-k-05"
+   ],
+   "summary": "Carries N-02: attachment B gives the ng-faces.json schema plat.ng-faces/1 whole: seven top-level members, referenceBuild on the top, every hood and every face, integer cm and cm2 with one declared-scale decimal, ring closure and orientation, and cut-field ranges. Volume 12's C2 string patterns are restated per field for M0's C1 (seedLabel and capture the only free strings). There is no in-file crossing member (R-18)."
+  },
+  {
+   "id": "N-22",
+   "items": [
+    "M0-k-05",
+    "M0-k-07"
+   ],
+   "summary": "Carries N-03: a denylist.json file kind for baselines:check, and M0's C3 reading a colour only inside JSON string values as a hex-delimited six-hex run, never inside a number. Otherwise 16-hex digests, the 64-hex salt, nine-digit cm2 integers and six-decimal bin edges trip it."
+  },
+  {
+   "id": "N-23",
+   "items": [
+    "M0-k-06",
+    "M0-k-07"
+   ],
+   "summary": "Carries N-04: the header field digestHexDigits: 16. The scanner truncates to it and stops (exit 2) when the field is absent or holds another value. Salt-as-32-bytes and UTF-8 items are pinned, with known-answer digests and normalisation cases (attachment C). W-20's planted-hit control is run by the deny-list seat in a scratch copy of plat/."
+  },
+  {
+   "id": "N-24",
+   "items": [
+    "M0-k-05"
+   ],
+   "summary": "New, found while drafting N-20: volume 12's C2 pattern for id, metric and supersedes is lower-case only, yet 10 of the 20 ids (38 of the 81 metrics with M-1 rows) are mixed-case. M0's C1 should admit [A-Za-z0-9.:/@+_-] and match ids case-sensitively."
+  },
+  {
+   "id": "N-25",
+   "items": [
+    "M0-k-05",
+    "M0-b-05a",
+    "M0-b-05b",
+    "M0-c-07a",
+    "M0-c-07b"
+   ],
+   "summary": "New, found while drafting N-20: section 13.5's Baseline has no subset key or vector-field key (sigma on plain versus ring faces, per-template counts, junction-angle and wall-alignment fields). M-1 writes both as the row id's trailing segments .../<subset>[/<field>], and the CLI selects a row by metric, reference, matched and those segments."
+  }
+ ],
+ "doc_checks_exit": 0,
+ "notes": [
+  "OUTCOME: LANDED. docs/calibration/handoff-M0.md holds six rows in M0-spec-notes.md's form (ids N-20 to N-25, continuing after that file's last row, N-19, re-read at 23:00) and attachments A, B and C. The session carries the rows and the attachments into plat/docs/build/checks/M0-spec-notes.md: N-20, N-21, N-22, N-24 and N-25 before M0 wave 11 (M0-k-05), N-23 before wave 13 (M0-k-06). On an id collision, renumber by C-0104's append rule.",
+  "CHECKS (CONFIRMED, executed): doc_checks.py --doc docs/calibration/handoff-M0.md --heads docs/ARCHITECTURE.md exits 0 with C1 0, C2 0, C3 2 (both reviewed), C4 0, S1 0 and S2 0; no corpus-incomplete warning. Every hit was read. The 2 hits are both '13 5 s bent cut row' (our own phrase pointing to section 13.5's bent-cut row; reviewed row in the allow file). Run 1 had 9 unreviewed C3 hits and run 2 had 1, all generic phrases of ours ('of the order of a', 'the first vertex repeated as', and similar); all were reworded, and no allow row was added. plan.py --check gives SAME for plan.json (f6972b91, changed since W-01b by lane m1/plan-guard-2) and metrics.m-1.json (8a0efa7e, W-01b's, the source of attachment A); this lane wrote neither.",
+  "EVIDENCE (CONFIRMED by reading or executing): an exact search of docs/ARCHITECTURE.md, M0-work.json, plat/docs and plat/packages finds 0 of the 20 ids. 81 metrics carry M-1 rows, 38 of them mixed-case. Attachment C's digests agree across Python hashlib, shasum and Node crypto, and the normalisation cases agree between Python and Node. M-1's current ng-faces candidate (W-10b's, not yet landed) has exactly the seven top-level members, referenceBuild on all 20 hoods and 374 faces, integers of at most nine digits and one decimal (the declared scale), closed rings with outer rings positive and holes negative, and face templates equal to their hood's. W-10b's own header check refuses any other top-level key.",
+  "VETOABLE CALLS (J122; each recorded with its reason). (a) N-25's row-id grammar binds W-15's rows.py, because section 13.5's Baseline has no subset key or field key and the two sides need one rule before wave 11. The session must hand W-15 attachment A and N-25 with its brief. The alternative is a design correction adding subset and field members to Baseline. (b) Normalisation 1 is pinned to Unicode general categories (M removed; tokens are runs of L and N), and the digest to SHA-256 over the 32 salt bytes followed by the UTF-8 item. Both are R-17's words made byte-exact, so that the two sides cannot diverge silently. W-16b's --format m0 writer must do exactly this, and its self-test should reproduce attachment C's known-answer digests. (c) ng-faces.json carries no in-file crossing member: this reads R-18 (the crossings.json record only) over plan section 7b's 'crossing: { ... }' line, as the candidate and W-10b's header check already do. Drop that line at the next plan touch. (d) The deny-list seat (research-side) runs the planted-hit control, because only a research seat may know a listed token. (e) M0's append-only C4 does not apply to the denylist.json kind, because a new list replaces the file whole with its own crossing record.",
+  "ROUTED, with owners named: a design correction to volume 12 section 3.3 C2, widening id, metric and supersedes to admit upper case (N-24), goes to a design seat through the session. W-15's cross_check.py takes the same widened pattern, the string-only hex-delimited colour reading (N-22) and N-25's row ids.",
+  "PLAUSIBLE (reasoning only): that M0-k-05 would otherwise pick different ids (CONFIRMED only that it cannot see these ids); 'about a million digests' (from the v1 list's class counts); that baselines.json distribution rows will repeat the registry's six-decimal bin edges; that the planted-hit control can run with a plain copy of plat/ once the scan resolves paths relative to its copy.",
+  "SCOPE: no plat/ write, no third-party site, no git command that changes state, no benchmark. Writes: docs/calibration/handoff-M0.md, docs/calibration/results/handoff-m0.json and lane-events lines. Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1w2/handoff-*."
+ ]
+}

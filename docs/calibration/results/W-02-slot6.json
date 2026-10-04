@@ -1,0 +1,56 @@
+{
+ "slot": 6,
+ "status": "stopped",
+ "capture": "2026-10-04T02-18-09 (attempt folder, not a capture; nothing created)",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot6.json and no lane line for m1/W-02-slot6; plan.json slots 0-5 bound, slot 6 open; plan.py --check SAME (ee28c604 / 8a0efa7e); capture folders ended at slot 5's 2026-10-03T23-10-37; owner-go.json ftg true"
+  },
+  {
+   "check": "isolated runner and clean start",
+   "passed": true,
+   "receipt": "own copies in scratchpad m1w2/ftg/runner, cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, common.mjs 3b948576, package.json 25e7d362, instrument.js cca253ac); port 9341 free; no FTG process, no Singleton*, shared profiler/.session absent; 12 GiB free"
+  },
+  {
+   "check": "landing signed in, no consent notice (H2, I2)",
+   "passed": true,
+   "receipt": "the 'Signed in as ...' line, Sign out and Home present (redacted reading); no consent notice; shot 001"
+  },
+  {
+   "check": "only the seat used the window (H12, I10)",
+   "passed": false,
+   "receipt": "with only text/shot/read-only eval sent, the landing's root scroll container moved 0 -> 653 px (~8 s after load; Home (896,931) -> (896,278)) and -> 2769 px (~73 s; five lazy feature images fetched at 73.0-73.2 s); :hover chain at 77.5 s ended in the landing's account block (a pointer over the page); shots 002, 003; the three earlier signed-in landings (slots 3-5) never moved (Home hit at (896,931) each)"
+  },
+  {
+   "check": "stopped cleanly, nothing clicked, no account write",
+   "passed": true,
+   "receipt": "drive.mjs stop -> session closed; no Singleton*, no FTG process, both .session files absent; recording: 16 site GETs (page + assets), fonts, tag manager, analytics, one error report, the sign-in library's token refresh at load; no call to the settlements API (no list read, no PUT); no click, select, key or wheel command in steps.jsonl"
+  },
+  {
+   "check": "slot left open, plan untouched by this seat",
+   "passed": true,
+   "receipt": "no --bind-ftg / --fail-ftg run; slot 6 capture null, failed null; plan.py --check SAME after (plan.json now f6972b91, rewritten meanwhile by another lane, not this seat; metrics 8a0efa7e unchanged)"
+  },
+  {
+   "check": "privacy grep of the files written",
+   "passed": true,
+   "receipt": "attempt README, E02 header update + section 16, E02 JSON stoppedAttempts entry, checklist note, this lane's lane-events lines, steps.jsonl: 0 emails, 0 display-name hits, 0 token prefixes (the checklist's one 'eyJ' is H11's own wording)"
+  }
+ ],
+ "account_limit": "not reached and not read: premium account (J164); the seat stopped on the landing before the settlements view, so the list was not counted (6 after slot 5 by slot 5b's reading); no settlements API call was made",
+ "owner_notes": [
+  "Slot 6 (the first metropolis) was NOT created. The recording seat stopped on FTG's front page before clicking anything. While it was only reading, the page scrolled down twice by itself (to the features section), and the mouse pointer was over the window. That looks like someone scrolling the recording window. The rule is to stop whenever another hand is on the window, so the seat stopped.",
+  "Nothing was clicked, bought, accepted or changed, and your account was not touched. You are still signed in.",
+  "To retry: please leave the FTG Chrome window alone while a seat runs, and keep the mouse and trackpad off it. Scrolling over it counts as touching it. The session can then relaunch slot 6 under a new lane key, for example m1/W-02-slot6b.",
+  "Your display name appears only in the local screenshots under captures/, which git ignores. It is in no file this seat wrote."
+ ],
+ "notes": [
+  "CONFIRMED: the page scrolled without a seat command (readings at 7.1, 16.2, 50.2 and 98.1 s; lazy-image fetches at 8.3 and 73 s; shots 001-003); no account write (network index). PLAUSIBLE (strongly): a person scrolled the visible headful window.",
+  "Stop reason recorded as external-use-of-the-session-window, as slot 3's first attempt was; slot 6 stays open (no create was attempted, so neither --fail-ftg nor the retry rule applies).",
+  "Checklist section I gained a note: the landing's scroll lives in .root-component (window.scrollY stays 0); read its scrollTop with the first landing reading and again right before the Home click, and treat a change as a sign of another hand.",
+  "A relaunch must use a new lane key: this key now has a result file and a LANDED line, so the resume rule would return this stopped result.",
+  "Files: captures/ftg/2026-10-04T02-18-09/ (README.md, 3 shots, recording), docs/calibration/E02-ftg-captures.md (header update, section 16), docs/calibration/E02-ftg-captures.json (stoppedAttempts entry), research/baselines/ftg_capture_checklist.md (slot-6 note), docs/calibration/results/W-02-slot6.json. No plat/, no design, no git, plan.json not written by this seat."
+ ]
+}

@@ -176,7 +176,7 @@ body reads the decision.
 | V10 | Q4 — the built-in clerk as M3c beside M3b | yes (J122) |
 | V10 | Q5 — the clerk's live-evaluation spend | a budget cap of about US$790–1 190 through M3c, spent in stages — the smallest tier first, the full suite at M3c's exit — each spend shown to the owner first (J122) |
 | V11 | Q-V11-1 — the sensitive catalogue kinds | kept, concealed by default in player views, shown as SettlementForge's own settings show them (J122) |
-| V12 | Q-V12-1 — one month of FTG's premium tier | no (J122) |
+| V12 | Q-V12-1 — one month of FTG's premium tier | no (J122); reversed by the owner on 2026-10-03 (J164): one month bought for the METROPOLIS reference |
 | V12 | Q-V12-2 — the owner's sittings | only at M1 (the look check), M2b, M4 and M5, batched, about an hour each; a staged milestone's panel joins the next of them when its build has landed, else stays *provisional — not rated* (J122; §13.6 (1)) |
 | V12 | Q-V12-3 — historical layers as defaults | only where the owner's sitting passes them (J122) |
 

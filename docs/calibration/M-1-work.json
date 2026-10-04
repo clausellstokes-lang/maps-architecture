@@ -1,5 +1,5 @@
 {
- "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 16:59, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32); m1/rulings-2 (rev 3, 2026-10-03 evening, after plan-check-close-1 and J163 / J164; rulings M-1-rulings-2.md R-33..R-47); m1/plan-fix-3 (rev 3 fix round, 2026-10-03 evening, after the FTG verifiers and plan-check-close-2: docs/calibration/M-1-plan-fix-3.md; plan section 12c)",
+ "lane": "catchup/m1-plan (rev 1, 03:51); m1/rulings-1 (rev 2, 2026-10-03 16:59, after wave 1 and the plan check; rulings M-1-rulings-1.md R-01..R-32); m1/rulings-2 (rev 3, 2026-10-03 evening, after plan-check-close-1 and J163 / J164; rulings M-1-rulings-2.md R-33..R-47); m1/plan-fix-3 (rev 3 fix round, 2026-10-03 evening, after the FTG verifiers and plan-check-close-2: docs/calibration/M-1-plan-fix-3.md; plan section 12c); m1/rulings-2b (rev 3 addendum, 2026-10-03 evening, after W-22 returned partial: R-49 and DC-36 in M-1-rulings-2.md section 9)",
  "date": "2026-10-03",
  "status": "wave 1 landed (W-01, W-02 slot 0, W-03 34/35 + W-03-complete, W-04, W-05, W-07, W-10, W-11, W-16 research list); FTG slots 1-5 landed in the owner's signed-in account (J163; premium since J164 from slot 3): programme 1 complete at 19:20, slots 0-5 bound; FTG programme 2 (22 premium slots, J164) planned in plan.py / plan.json; plan revised (rev 3); nothing written into plat/",
  "machine": "MacBook Air, Apple M1 (4P+4E), 16 GB, macOS 14.7.8, Node 24.12.0, Python 3.9.6 with PIL 11.3, Google Chrome, puppeteer-core 25.x (profiler/node_modules)",
@@ -790,7 +790,7 @@
   {
    "id": "D34",
    "deliverable": "NG draw census (hatched; R-23)",
-   "class": "COMPUTE",
+   "class": "COMPUTE; LANDED (E20): the reference values are the pooled plan-seed values over the 44 under E20 section 2's definitions (hatch per gable/hip wing, the two ridge tapers included; quads per wing); draw.hatchPerWing a fixed-band row (section 13.5's \"15-20 triangles per wing\", reference value sharpened, band column kept); section 13.5's 17.4 / 2.33 superseded (R-49, DC-36)",
    "metrics": [
     "draw.capSquare",
     "draw.hatchPerWing",
@@ -1284,7 +1284,7 @@
   {
    "id": "W-15",
    "title": "rows, bands, the dispersions, the candidate baselines.json (the sole writer of rows.py, bands.py, cross_check.py; R-47)",
-   "tool": "rows.py (provenance, sample, role, estimator, spreadKS, declared-scale note; NO absFloor or sign field in any row, N-05; numbers below six consecutive digits where the unit allows: ratios at 4 decimals, areas in m2, N-03), bands.py (V12 section 3.5.1-3.5.4; type7 at n >= 10, minmax 2-9, single 1; the fixed-band rows keep section 13.5's band column with the reference value sharpened -- water.step among them, \"outline step <= 25 m\" -- while water.riverWidth is banded by the band rule per class, R-48), the dispersion step (R-40: both references' variety.dispersion at TOWN, CITY, METROPOLIS from W-09's and W-05b's vectors), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json; the two new file kinds; colour check reading string values only, N-03)",
+   "tool": "rows.py (provenance, sample, role, estimator, spreadKS, declared-scale note; NO absFloor or sign field in any row, N-05; numbers below six consecutive digits where the unit allows: ratios at 4 decimals, areas in m2, N-03), bands.py (V12 section 3.5.1-3.5.4; type7 at n >= 10, minmax 2-9, single 1; the fixed-band rows keep section 13.5's band column with the reference value sharpened -- water.step among them, \"outline step <= 25 m\", and draw.hatchPerWing, \"15-20 triangles per wing\" (R-49) -- while water.riverWidth is banded by the band rule per class, R-48), the dispersion step (R-40: both references' variety.dispersion at TOWN, CITY, METROPOLIS from W-09's and W-05b's vectors), cross_check.py (C1-C10 twin; C6 against metrics.m-1.json; the two new file kinds; colour check reading string values only, N-03)",
    "inputs": [
     "every E record",
     "W-02 and W-02b complete (28 slots bound or failed)",
@@ -1612,13 +1612,15 @@
     "draw.capSquare, draw.hatchPerWing, draw.shadowQuadsPerWing (target), draw.roofLumaRatio (descriptive)",
     "E20"
    ],
-   "checker": "2026-09-25 draw records reproduce ~17.4 and 2.33 within rounding; no colour value in the record",
+   "checker": "(1a) on the figures' own records (2026-09-21T05-04-54, the profile's section 5.4) the census counts the table's triangles and quads exactly on all four generations and gen-0 over the table's 296 wings rounds to section 13.5's 17.4 and 2.33; (1b) the 2026-09-25 twin fixtures reproduce E20 section 4's 17.5072 and 2.3295 to four decimals (R-49; before it: '2026-09-25 draw records reproduce ~17.4 and 2.33 within rounding', which failed on the hatch figure, 17.5072, E20 F1); no colour value in the record",
    "depends": [
     "W-04"
    ],
    "wave": 2,
    "ownerGated": false,
-   "seatTier": "opus"
+   "seatTier": "opus",
+   "status": "landed (E20; the first check restated by R-49, lane m1/rulings-2b: --check 7 / 7 PASS, --red 3 FAIL)",
+   "record": "E20"
   },
   {
    "id": "W-23",
@@ -1730,7 +1732,7 @@
   "a new FTG size's first capture differs from slot 0 beyond the 16 named leaves: R-41 -- size-set layout values named into the class with the capture as evidence; anything else a deviation, the slot recorded failed"
  ],
  "revision": 3,
- "rulings": "docs/calibration/M-1-rulings-1.md (R-01..R-32); docs/calibration/M-1-rulings-2.md (R-33..R-47; R-48 in its section 8 addendum)",
+ "rulings": "docs/calibration/M-1-rulings-1.md (R-01..R-32); docs/calibration/M-1-rulings-2.md (R-33..R-47; R-48 in its section 8 addendum; R-49 and DC-36 in its section 9 addendum)",
  "scaleRule": {
   "NG": "declared 0.35 m per model unit (R-01; ARCHITECTURE 4.6 step 5 inference; plausibility: median footprint short side 20.3-20.8 mu = 7.1-7.3 m); MeasureInput header scale declared + unitM (DC-01); rows scale metric with the note; block.area declared metres is the row M0 reads, block.areaRel descriptive with edges 0.5-500 A in 24 log bins"
  },

@@ -40,6 +40,16 @@ consecutive points within 0.02 px, coarser than 1 mm at any of these scales).
 
 Usage:
   python3 research/baselines/adapters/ng.py [CAPTURE_DIR ...] [--out DIR]   (default: the four 2026-09-25 captures)
+  python3 research/baselines/adapters/ng.py --plan [--out DIR] [--jobs N]  (W-11b: W-04's 44 plan-seed recordings)
+
+--plan (lane m1/W-11b, M-1-plan.md section 2 row W-11b; record E11 section 10). The 44 entries of plan.json's twelve NG
+families, in plan order, each resolved to its recording through the programme index
+(captures/neighbourhood/ng-programme-m1-2026-10-03/index.json) and cross-checked against the recording's meta.json (seed,
+template, size, build); one gen-0 per folder. The geometry and the registration are exactly the fixture mode's; only the
+header differs (R-01, DC-01): scale 'declared' with unitM = 0.35 / ctmScale (declared metres per input unit, the input
+staying canvas px) and seedLabel = the plan label. Output: research/baselines/inputs/NG/itch-11441280/plan-seeds/ (a
+subfolder, so the fixture run's directory listing is unchanged) with index.json (label -> file, capture, sha256).
+The fixture mode is unchanged (its eight files reproduce byte for byte).
 """
 import collections
 import gzip
@@ -274,20 +284,47 @@ def adapt(fp, cap_name, g, info):
         ways.append({'k': k, 'coords': coords, 'inserted': inserted, 'drawnEnds': drawn_ends, 'closed': r['closed'],
                      'list': 'street' if k < nS else 'ring', 'n': r['n'], 'w': r['w'], 'wpx': r['wpx']})
     # ---- planar graph and faces (bentcut_parent_face's construction and face rule)
+    # W-11b (2026-10-03): two degeneracies the 2026-09-25 fixtures never had (their outputs are unchanged), found on the
+    # plan seeds: (a) way vertices within 1 mm (declared) of each other are one node, as measure_ng.way_graph merges them
+    # (V12 section 3.2.2), so the faces and the measured graph agree; (b) a fallback snap can lay a street's last segment
+    # exactly on the crossed road's segment, so two ways carry the same edge; kept twice, the two copies sort to the same
+    # angle at both ends and the half-edge walk sees a twisted (non-planar) rotation that merges the faces on either side
+    # (square/medium/3: 14 faces where 16 exist). The duplicate is collapsed. Both are counted in the census only when
+    # non-zero (keeping the fixture files byte-identical).
     nodes, nid = [], {}
+    eps_px = MM_DECLARED_MU * sc
+    gcell = max(eps_px, 1e-9) * 4
+    ngrid = collections.defaultdict(list)
+    merged_1mm = [0]
 
     def node(q):
         key = (q[0], q[1])
-        if key not in nid:
-            nid[key] = len(nodes)
-            nodes.append(key)
+        if key in nid:
+            return nid[key]
+        gx, gy = math.floor(q[0] / gcell), math.floor(q[1] / gcell)
+        for dx in (-1, 0, 1):
+            for dy in (-1, 0, 1):
+                for i in ngrid.get((gx + dx, gy + dy), ()):
+                    if math.dist(nodes[i], key) <= eps_px:
+                        nid[key] = i
+                        merged_1mm[0] += 1
+                        return i
+        nid[key] = len(nodes)
+        nodes.append(key)
+        ngrid[(gx, gy)].append(len(nodes) - 1)
         return nid[key]
     edges = []
     zero_len = 0
+    seen_e, dup_e = set(), 0
     for w in ways:
         ids = [node(q) for q in w['coords']]
         for a, b in zip(ids, ids[1:]):
             if a != b and math.dist(nodes[a], nodes[b]) > 1e-6:
+                ek = (min(a, b), max(a, b))
+                if ek in seen_e:
+                    dup_e += 1
+                    continue
+                seen_e.add(ek)
                 edges.append((a, b, w['k']))
             else:
                 zero_len += 1
@@ -389,6 +426,10 @@ def adapt(fp, cap_name, g, info):
               'openFaces': sum(openf), 'blocks': len(bounded), 'blocksWithIslands': len(holes),
               'boundedOrientationFacesWithDanglingEdge': dangling_interior, 'footprints': len(lots),
               'roofFaces': len(A['roofs']), 'dropped': dropped}
+    if merged_1mm[0]:
+        dropped['wayVerticesMerged1mm'] = merged_1mm[0]
+    if dup_e:
+        dropped['duplicateWaySegmentsCollapsed'] = dup_e
     mi = {
         'schema': SCHEMA,
         'header': {'source': 'NG', 'build': info['build'], 'scale': 'relative', 'centre': centre},
@@ -428,6 +469,83 @@ def read(path):
         return json.loads(fh.read().decode())
 
 
+PLAN_JSON = os.path.join(ROOT, 'research', 'baselines', 'plan.json')
+PROGRAMME_INDEX = os.path.join(ROOT, 'captures', 'neighbourhood', 'ng-programme-m1-2026-10-03', 'index.json')
+OUT_PLAN = os.path.join(OUT_DEFAULT, 'plan-seeds')
+
+
+def plan_entries():
+    """the 44 NG plan entries in plan order: (family, index, label, seed, template, size, capture folder)"""
+    plan = json.load(open(PLAN_JSON))
+    loads = json.load(open(PROGRAMME_INDEX))['loads']
+    out = []
+    for fam in plan['families']:
+        if fam['reference'] != 'NG':
+            continue
+        st = fam['setting']
+        lo, hi = fam['indices']
+        idx = [e['i'] for e in fam['entries']]
+        if idx != list(range(lo, hi)):
+            raise SystemExit(f"plan family {fam['family']}: entry indices {idx} != [{lo}, {hi})")
+        for e in fam['entries']:
+            ld = loads.get(e['label'])
+            if ld is None or ld['seed'] != e['seed'] or ld.get('exit') != 0:
+                raise SystemExit(f"plan entry {e['label']}: no matching load in the programme index")
+            out.append({'family': fam['family'], 'i': e['i'], 'label': e['label'], 'seed': e['seed'],
+                        'template': st['template'], 'size': st['size'], 'capture': os.path.join(ROOT, ld['folder'])})
+    return out
+
+
+def _plan_one(e):
+    cap = e['capture']
+    cap_name = os.path.basename(cap.rstrip('/'))
+    fp = os.path.join(cap, 'draw', 'gen-0.paths.json')
+    info = meta_of(cap, 0)
+    bad = [k for k, want in (('seed', e['seed']), ('template', e['template']), ('size', e['size']), ('build', REFERENCE_BUILD))
+           if info[k] != want]
+    if bad:
+        raise SystemExit(f"{e['label']}: meta.json disagrees with the plan on {bad} ({info})")
+    mi = adapt(fp, cap_name, 0, info)
+    sc = mi['research']['ctmScale']
+    # R-01 / DC-01: a declared scale; the coordinates stay canvas px (the input's own units)
+    mi['header'] = {'source': 'NG', 'build': info['build'], 'scale': 'declared', 'unitM': M_PER_MU_DECLARED / sc,
+                    'centre': mi['header']['centre'], 'seedLabel': e['label']}
+    mi['research'].update({'planFamily': e['family'], 'planIndex': e['i'], 'planLabel': e['label'],
+                           'declaredScale': {'mPerModelUnit': M_PER_MU_DECLARED, 'unitM': 'metres per canvas px = 0.35 / ctmScale',
+                                             'rule': 'R-01 (M-1-rulings-1.md); DC-01: header scale declared with unitM'}})
+    return e, cap_name, mi
+
+
+def main_plan(out, jobs):
+    import concurrent.futures
+    import hashlib
+    os.makedirs(out, exist_ok=True)
+    ents = plan_entries()
+    index = []
+    with concurrent.futures.ProcessPoolExecutor(max_workers=jobs) as ex:
+        for e, cap_name, mi in ex.map(_plan_one, ents):
+            path = os.path.join(out, out_name(cap_name, 0))
+            nraw = write(mi, path)
+            c = mi['research']['census']
+            rg = mi['research']['registration']
+            index.append({'label': e['label'], 'family': e['family'], 'i': e['i'], 'seed': e['seed'], 'template': e['template'],
+                          'size': e['size'], 'capture': os.path.relpath(e['capture'], ROOT), 'file': os.path.basename(path),
+                          'sha256': hashlib.sha256(open(path, 'rb').read()).hexdigest(), 'rawBytes': nraw,
+                          'shift': rg['shiftFootprintsToRoadFrame'], 'footprintHit': rg['footprintCanvas']['hit'],
+                          'footprintHit1px': rg['footprintCanvas']['bestNeighbour1px'], 'roadHit': rg['roadCanvas']['hit'],
+                          'roadHit1px': rg['roadCanvas']['bestNeighbour1px'], 'census': c})
+            print(f"{e['label']} {cap_name}: shift {rg['shiftFootprintsToRoadFrame']} fp hit {rg['footprintCanvas']['hit']:.3f}"
+                  f"/{rg['footprintCanvas']['bestNeighbour1px']:.3f} road {rg['roadCanvas']['hit']:.3f}/{rg['roadCanvas']['bestNeighbour1px']:.3f}; "
+                  f"blocks {c['blocks']} footprints {c['footprints']} junction ends {c['junctionEnds']} (fallback {c['fallbackSnaps']}) "
+                  f"dropped {c['dropped']}", flush=True)
+    doc = {'schema': 'research.ng-plan-inputs/1', 'lane': 'm1/W-11b', 'script': SCRIPT, 'referenceBuild': REFERENCE_BUILD,
+           'plan': os.path.relpath(PLAN_JSON, ROOT), 'programmeIndex': os.path.relpath(PROGRAMME_INDEX, ROOT),
+           'scale': {'kind': 'declared', 'mPerModelUnit': M_PER_MU_DECLARED, 'rule': 'R-01'}, 'maps': index}
+    with open(os.path.join(out, 'index.json'), 'w') as fh:
+        json.dump(doc, fh, indent=1)
+        fh.write('\n')
+
+
 def main():
     args = sys.argv[1:]
     out = OUT_DEFAULT
@@ -435,6 +553,14 @@ def main():
         i = args.index('--out')
         out = args[i + 1]
         del args[i:i + 2]
+    if '--plan' in args:
+        jobs = 2
+        if '--jobs' in args:
+            i = args.index('--jobs')
+            jobs = int(args[i + 1])
+            del args[i:i + 2]
+        main_plan(out if out != OUT_DEFAULT else OUT_PLAN, jobs)
+        return
     caps = args or [os.path.join(ROOT, 'captures', 'neighbourhood', c) for c in CAPS_DEFAULT]
     os.makedirs(out, exist_ok=True)
     for cap in caps:

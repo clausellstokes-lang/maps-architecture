@@ -1,0 +1,82 @@
+{
+ "id": "design/m1-corrections-1-fix-verify",
+ "status": "partial",
+ "records": [
+  "docs/validation/m1-corrections-1-fix.verify.json (this result; no other file written outside the scratchpad, whose followups/fixverify/ folder holds the diff, the sweep and the four doc_checks outputs)"
+ ],
+ "checks": [
+  {
+   "check": "the fix round started from the right state and changed only the four named base lines",
+   "passed": true,
+   "receipt": "the fix seat's backup self-checks OK (SHA256SUMS); its base 337cf44c equals the first round's apply state (m1w2/apply_state.json); diff of today's base 70fcf77d against it lists lines 6791, 7918, 20245 and 20253 only, and the edit log matches the diff word for word; table cells per edited row unchanged (3, 4, 4 separators as before); V12 1bacd39d, INDEX 355e7ac1 and SUMMARY bde1729b equal the apply state; V01-V11 and _integrate equal the first round's backup; the allow file 9cfaae16 is unchanged; E20's record and JSON keep the hashes R-49 names (62938abf, ef77332a); the rulings file was last written at 22:09, before the fix round began (CONFIRMED)"
+  },
+  {
+   "check": "DC-08 fixed: the towers-and-gates row no longer misreads under the key sentence",
+   "passed": true,
+   "receipt": "l. 20245 reads '17 of 17 towers on ring vertices'; '17 / 17' occurs 0 times in the base and every volume; every other a / b pair in §13.5's FTG cells (1.03 % / 0.82 %, 0 / 1, 0.28 / 0.30, 0.365 / 0.333, 1.160 / 1.214, 38.65 / 35.59 m, 31 m / 48 m, 10.59 / 10.57 m) is the two captures' values, checked against E05's per-capture tables (rows for step histogram, tower spacing, river width, tree spacing, r90 CV) (CONFIRMED)"
+  },
+  {
+   "check": "DC-19 fixed: the row count is 10",
+   "passed": true,
+   "receipt": "re-counted on the pre-round base (= git HEAD, 0df02c1e): the blank line before '| markets' split exactly 10 rows (markets, wealth bands, entrances and basements, hidden plots, lighting, five Fantasy Manor rows); record §1 says 'the nine after it ... (ten rows)', §3 'ten rows', the JSON's DC-19 reason and note 10; no '13 rows', 'thirteen' or 'twelve after' remains in the record, its JSON or the fix result (CONFIRMED)"
+  },
+  {
+   "check": "DC-05 fixed: the reason's premise reworded, design text unchanged",
+   "passed": true,
+   "receipt": "§4.5's six bands (l. 6920-6925) include `poor` and no `dense`; both `squalid` and `poor` map to §4.7's 'poor / dense' row (l. 6920, 6921); the record and JSON reasons now say exactly that; V12 unchanged (CONFIRMED)"
+  },
+  {
+   "check": "DC-24 fixed: §4.7 S11's row arrangement restated",
+   "passed": true,
+   "receipt": "l. 7918 (inside §4.7, under S11's arrangement table) reads 'NG 0.98–1.00 attached under V12's definition, 95–99 % under the earlier script', matching §4.7's anchor (l. 7567) and §13.5's party-wall row (l. 20236); the only other '95–99' site is Appendix A l. 24234, the reading record (history) (CONFIRMED)"
+  },
+  {
+   "check": "DC-16 fixed: §4.5 Grower's pointer restated",
+   "passed": true,
+   "receipt": "l. 6791 reads '2.4–17.6 ha on the size-40 gate fixtures, 2.4–21.5 ha on the plain size-40 city', the anchors row's two ranges (l. 20242); '2.4–17.6 ha at size 40' occurs 0 times (CONFIRMED)"
+  },
+  {
+   "check": "DC-11 and DC-15 fixed: M0 lists completed, DC-11 relabelled",
+   "passed": true,
+   "receipt": "M0-work.json: M0-c-04 cites '§4.4 S5a Boundary', the paragraph holding the edited ratio (l. 6563-6569); M0-b-01 cites '§4.4 (the regimes' block-depth band floors)', the table holding the ribbon row (l. 6741); the record §2 and the JSON now list both; JSON statuses count 25 applied and 10 applied-adapted over 35 entries, and the record's §1 headings count the same (CONFIRMED)"
+  },
+  {
+   "check": "DC-36 applied exactly as R-49 rules",
+   "passed": true,
+   "receipt": "the DC-36 row parsed from M-1-rulings-2.md §9: its new cell occurs once in the base and its old cell 0 times (the backup held the old cell once); substituting old by new on the backup's l. 20253 reproduces today's line byte for byte; '17.4 hatch' and '2.33 shadow' occur 0 times in the base and every volume; the band column ('15–20 triangles per wing'), §8.3's hatched row (l. 14298) and T-V1-26 are unchanged; the cell carries no ⟨M-1⟩ mark (CONFIRMED)"
+  },
+  {
+   "check": "DC-36's M0-affected list is complete (none)",
+   "passed": true,
+   "receipt": "every item's sections grepped: none cites §8.3, the draw-style row, hatching or shadow quads; the eleven items citing §13.5 (M0-b-04, -b-05, -b-05a, -b-05b, -c-05, -c-06, -c-07, -c-07a, -c-07b, -k-05, -x-03) cite the bent-cut, blocks, junction, street-signature, deep-interior, growth-drift and towers-and-gates rows, the band rule or the ⟨M-1⟩ rule; M0-k-05's metric list names no draw metric; afterM1Needs names none (CONFIRMED)"
+  },
+  {
+   "check": "M0 lists of the fix round's own sites are complete",
+   "passed": false,
+   "receipt": "towers-and-gates row: M0-c-06 only (CONFIRMED); §4.7 S11's arrangement table: no item (M0-s-02 and M0-b-01 cite §4.7's class floors at l. 7549 and the granularity table, not the arrangement rows) (CONFIRMED); §4.5 Grower (DC-16's site): M0-e-04 and M0-x-06 are listed, but M0-s-02 is not, although it cites §4.5 for `district.growthRate`, the table defined in the same Grower paragraph (l. 6779) whose effect the edited parenthetical anchors ('so the rates set its size (the small gate, castle and bridgehead wards behind §13.5's MFCG anchors row ...)'). The record lists the loader M0-s-02 beside the readers wherever only a reference anchor of a table it loads changed (DC-15, DC-24). Facts CONFIRMED by reading; that the list's rule requires it is PLAUSIBLE (judgment by the record's own practice). Impact nil: the rates are unchanged"
+  },
+  {
+   "check": "no missed restatement of any DC's old value",
+   "passed": true,
+   "receipt": "own sweep, independent of the fix seat's: 25 patterns from the old cells of DC-01..DC-36 over the base and all volumes; every hit is a site the record names, the corrected text itself, a value still true (FTG's 39 m median, ≈ 31 m river, our 29 ha nuclei, σ 0.098), the panel's per-capture population (DC-34 keeps it there), D-31's recorded reversal, history, or an unrelated number; V06 T-V6-31 points to §4.4's ribbon row, which carries the size-40 label, so the fix seat's 'not a defect' ruling agrees with the first verifier's classification (CONFIRMED by grep and reading; pattern-list completeness PLAUSIBLE)"
+  },
+  {
+   "check": "doc_checks.py exits 0 on every touched document",
+   "passed": true,
+   "receipt": "four runs on one corpus snapshot (10 674 colour files, 10 208 JSON, 955 876 3-grams, 523 lists), files hash-unchanged across the runs: base C1 5, C2 2, C3 1888/0, C4 24, S1 0, S2 318/0, exit 0; record (--heads base) C3 10/0, S2 6/0, exit 0; its JSON C3 4/0, S2 2/0, exit 0; the fix result on its final text (bbbb7efc) all 0, exit 0 — every count equals the fix seat's (CONFIRMED)"
+  },
+  {
+   "check": "the bundle is current",
+   "passed": true,
+   "receipt": "python3 tools/bundle_architecture.py --check: 'UP TO DATE', exit 0; diff against the fix seat's backup of the old bundle = the base hash row and the four edited lines (CONFIRMED)"
+  }
+ ],
+ "new_dcs": [],
+ "notes": [
+  "Outcome: partial on one minor point. The seven findings of the first verification are fixed where the fix round says, DC-36 is in §13.5 word for word with no M0 item, nothing changed outside the four base lines and the record's corrected passages, doc_checks exit 0 on all four touched documents with counts equal to the fix seat's, and bundle --check reports UP TO DATE (each of these CONFIRMED by running it again here).",
+  "The one problem, for a design seat (a list entry, no design text): add M0-s-02 to DC-16's M0 row in docs/validation/m1-corrections-1.md §2 and m1-corrections-1.json (it loads `district.growthRate`, defined in §4.5's Grower paragraph, whose rate anchor l. 6791 restates), as DC-15 and DC-24 list it beside their readers. Impact nil. The facts are CONFIRMED; that the list's rule requires the entry is PLAUSIBLE. If the session reads the rule as citation-level only, rule this invalid instead.",
+  "Not defects (observations): m1-corrections-1.json's m0_items_affected has no DC-36 row while the record's §2 has one; its notes state 'DC-36: no M0 item', so no reader loses information. The bundle has 73 009 newline-terminated lines (the fix seat's 73 010 counts the split after the last newline).",
+  "Carried, not decided here: E20 F2 (whether §8.3's '15–20 hatch triangles per wing', T-V1-26 (a) and §13.5's band column read per wing or per map mean) still needs a ruling seat, as the fix result records; the base was not changed for it, which is correct under J156.",
+  "No design, plat/ or rulings write; no git command changed state; no site touched; no benchmark run."
+ ]
+}

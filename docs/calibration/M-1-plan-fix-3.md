@@ -255,3 +255,94 @@ wrote that paragraph, and this lane did not touch it. The checklist holds them b
 that carries the literal labels the driver needs). They name site controls, not generator content.
 
 No allow row was added for any hit. This record's own counts are in `results/plan-fix-3.json`.
+
+## Guard round 2 — a recorded slot keeps its programme and day too (lane `m1/plan-guard-2`)
+
+Lane `m1/plan-guard-2`, 2026-10-03 (21:58 → its LANDED line in `docs/lane-events.log`), a research-side seat (§17.1),
+run after `m1/W-01b` landed (22:15) and before programme 2's first bind. Nothing was written into `plat/` or the
+design, no website was touched, no benchmark ran and no git command changed state.
+
+**Outcome.** `plan.py` now refuses any change to a recorded slot's label, size, water, programme or day, and it still
+refuses the slot's removal. The three cases of the closing check's finding wrote with exit 0 under the script W-01b
+installed. Under the new script they exit 2 and write nothing. Striking or reordering unrecorded tail rows still writes.
+The live `--check` reads SAME.
+
+**The finding (from `results/plan-fix-3-check.json`; reproduced here).** U2's guard compared a recorded slot's label,
+size and water only. Three edits regenerated with exit 0 and rewrote bound slots. The first swaps programme-1 rows 2
+and 4, which have equal size and water, so the two slots' days are swapped. The second changes a recorded slot's day.
+The third moves programme 1's last row to the head of programme 2: slot 5 goes to programme 2 and its day becomes null.
+The guard R-36 had before plan-fix-3 had the same gap.
+
+**The fix.** `compute()` compares every recorded slot (bound or failed, in either programme) with the new plan in the
+five fields of a new constant, `FTG_RECORDED_FROZEN`: label, size, water, programme and day. A change is refused with
+exit 2, and every changed field is named (for example "day 3 -> 5"). The other slot fields are the family, the order,
+the rung, the water words, the nominal population and the premium flag. They follow from the five and the fixed tables,
+because recorded slots form a prefix (bind fills slots in order). The module docstring and the comments at
+`FTG_FIRST_LABELS` and in `compute()` now name the five fields. So do `plan.json`'s `ftg.slotRule` and a second
+`amendments` entry for this lane.
+
+**Red first (CONFIRMED, executed 22:16–22:19).** Every case ran on a fresh scratch mirror. The mirrors were built from
+W-01b's landed files: `plan.py` `fad7b21d…`, `plan.json` `ee28c604…`, `metrics.m-1.json` `8a0efa7e…` and V12 `1bacd39d…`.
+Each case edited the mirror's schedule blocks and then ran the command shown.
+
+| case | W-01b's `plan.py` | widened guard |
+|---|---|---|
+| R1 programme-1 rows 2 and 4 swapped (equal size and water), regenerate | exit 0; slots 2 and 4 written with their days swapped | **exit 2**, "day 3 -> 5", "day 5 -> 3"; nothing written |
+| R2 slot 5's day changed from 6 to 7 | exit 0, written | **exit 2** |
+| R3 programme 1's last row moved to the head of programme 2 | exit 0; slot 5 written with programme 2 and day null | **exit 2**, "programme 1 -> 2; day 6 -> None" |
+| R2b slot 0's day changed | exit 0, written | **exit 2** |
+| R1 through `--check` | exit 1 (DIFFERS) | **exit 2** |
+| R1 through `--bind-ftg 6` | exit 0; slot 6 bound and the days swapped | **exit 2** |
+| R1 through `--extend capture/MFCG/40/plain 11` | exit 0, written | **exit 2** |
+| R4 slot 6 bound, then its row moved to programme 1 (day 7) | exit 0, written | **exit 2**, "programme 2 -> 1; day None -> 7" |
+| R5 slot 6 bound and slot 7 recorded failed, both rows moved to programme 1 | exit 0, written | **exit 2**, both slots named |
+| A1 the last programme-2 row struck | exit 0 | exit 0 |
+| A2 slot 6 bound, the TOWN pair struck | exit 0 | exit 0, slot 6 still bound |
+| A3 slot 6 bound, the CITY rows of slots 24 and 25 swapped | exit 0 | exit 0 |
+| A4 slot 6 bound, slot 7's row struck (the first unrecorded one) | exit 0 | exit 0 |
+| A5 / A6 / A7 bind slot 7 / fail slot 7 / extend, schedule unchanged | exit 0 | exit 0 |
+
+In A1–A7 the two scripts write the same plan, apart from the two restated texts (a JSON diff: `ftg.slotRule` and
+`amendments` only). **Every reordering of programme 1 is now refused.** All 719 non-identity orders of its six rows
+were run through `compute()` in one process. All 719 are refused: 716 by R-36's first-six labels, and 3 by the new
+fields only. Those 3 are the swaps of rows with equal size and water: rows 2 and 4, rows 3 and 5, and both swaps at once.
+The plan's header sentence "refusing any reordering of the first six" is therefore now true as written, so the closing
+check's request to correct it needs no edit.
+
+**Installed (CONFIRMED, 22:20:58).** The install checked two things first. No "THE CREATE CLICK HAPPENS NOW" line was
+waiting for its LANDED line, and the live hashes equalled the mirrors' base. Slot 6's seat (`m1/W-02-slot6`) had started
+at 22:17 and was on the site's landing page. It had made no create and could not bind before one. At 22:21 it stopped
+for its own reason (the recording window moved while the seat only read; its result), with slot 6 open. Its closing
+`--check` read SAME on the regenerated `plan.json`, and it names the rewrite as another lane's.
+The new script went in by an atomic rename (`68709ba8…`, byte-equal to the tested copy) and regenerated at once.
+`plan.json` became `f6972b91…`. Against `ee28c604…`, a JSON diff shows only `ftg.slotRule` and the `amendments` list.
+The 28 slots and the six bindings are equal, and so are the families. `metrics.m-1.json` stays byte-unchanged
+(`8a0efa7e…`). The live **`plan.py --check` gives SAME and SAME, exit 0**. A mirror of the installed files was then
+checked again: R1, R2 and R3 each exit 2, a struck tail row writes, and `--check` reads SAME.
+
+**Calls made under the owner's delegation (J122; each vetoable).**
+
+1. **Five named fields, not every field.** The alternative was to compare every slot field except the capture and the
+   failure, as the checker and W-01b suggested. The five fields are the slot's identity and its place in the schedule.
+   Every other field follows from them and the fixed tables, so freezing the five freezes the recorded slots' content.
+   An every-field guard would also refuse any regeneration that adds a slot field or rewords a derived text, for the
+   recorded slots too. That would block every bind in the middle of programme 2. A veto switches the guard to every
+   field except `capture` and `failed`.
+2. **`ftg.slotRule` restated, with a regeneration at install, as W-01b's NOTE (22:03) asked.** The alternative was a
+   byte-neutral install, which would leave the sentence that `plan.py` writes about its own guard naming three fields.
+   The regeneration is a pure function, and it followed the rename at once, between two binds. Its JSON diff
+   shows the two texts only. A veto reverts the two texts in `plan.py` and regenerates between binds.
+3. **Three present-tense sentences in other lanes' files still name three fields, and are ruled not defects.** They
+   are `M-1-work.json`'s `seedFamilies.FTG.orderRule`, the parenthetical in plan §5 (1), and section I step 7 of the
+   checklist. Each stays true, because the guard refuses those fields. None can lead a reader into a harmful edit. The
+   checklist and plan sentences already say never to touch rows at or before the last recorded slot, and any edit of a
+   day or programme is now refused with nothing written. This lane did not edit them: they are outside its write set,
+   and programme 2's seats are reading the checklist. Changelog rows and ruling records (plan §12c, `M-1-rulings-2.md`
+   §8, E01 §9, this record's U2) are history and stay as written. For whoever next edits those three files, a suggested
+   tightening is "label, size, water, programme or day".
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED (executed): the red cases under both scripts, the allowed controls, the 719
+orders, the install's hashes, the regeneration's diff, and the live `--check`. PLAUSIBLE: none of this round's verdicts.
+Scratch: the session scratchpad's folder `followups/plan-guard-2/`
+(`run_cases.py`, `apply_fix.py`, `regen_check.py`, `install.py`, `results-w01b-old.json`, `results-w01b-new.json`,
+`install-record.json`).

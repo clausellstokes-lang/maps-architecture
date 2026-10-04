@@ -1,0 +1,91 @@
+{
+ "verdict": "partial",
+ "items": [
+  {
+   "id": "summary",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "backup (scratchpad m1w2/backup, SHA256SUMS self-check OK) equals git HEAD for all four files; the current files equal apply_state.json's hashes; every other docs/volumes/*.md equals its backup; doc-checks-allow.tsv unchanged",
+    "git diff --no-index --word-diff on the four files (base 33 hunks, V12 32, INDEX 1, SUMMARY 1): every hunk mapped to a DC or to a follow-on site the record names under that DC; no heading line changed; table column counts 0 bad rows in base and V12",
+    "doc_checks.py on today's corpus (10 670 colour files, 10 204 JSON, 955 797 3-grams, 521 lists): base C1 5, C2 2, C3 1888/0, C4 24, S1 0, S2 318, exit 0; V12 C1 7, C3 155/0, C4 2, S2 119, exit 0; INDEX C3 22/0, exit 0; SUMMARY C3 10/0, exit 0; the record (--heads base) C3 10/0, S2 6/0, exit 0",
+    "doc_checks.py on the added lines alone with an empty allow file: C1 0, C2 0, C4 0; all 27 C3 runs also occur in the pre-edit text (digit runs, our file paths and our own phrases), so the new words add no reference word, name, identifier, colour or list member",
+    "tools/bundle_architecture.py --check: UP TO DATE",
+    "plat/docs/build/M0-work.json sections grepped for every changed section (1.1, 1.4, 2.1, 4.4, 4.6, 4.7, 12.9, 13.5, 13.6, 15, 16, 17.1, D-31, J-S11, V12) and every item field grepped for the changed topics",
+    "the new numbers checked against E05 sections 4, 6, 8, E07 sections 5 and 7, V12 3.9.1, base 16 M0 (b) and base 2.1; plan.py --catalogue-check (read-only, plan.json 524830f5 and metrics.m-1.json 7a21bb29 unchanged) reports exactly missing bldg.wallAlign.median, bldg.wallAlign.share15, cut.length and extra bldg.wallAlign, as the record says"
+   ],
+   "problems": []
+  },
+  {
+   "id": "DC-08",
+   "verdict": "partial",
+   "reexecuted": [
+    "read base 13.5 (the key sentence under Matched sizes, the towers-and-gates row l. 20245) and docs/validation/coverage-audit-ftg.md l. 288; E05 section 4 (wall.towerSpacing n 16 / 27)"
+   ],
+   "problems": [
+    "The new key sentence says that wherever an FTG cell gives two values a / b, a is the 2026-09-21 capture and b the 2026-09-25 capture. The towers-and-gates row's older FTG text '17 / 17 towers on ring vertices' means 17 of 17 (coverage-audit-ftg l. 288; the second payload has 27 tower spacings), so under the key it now reads as a per-capture pair. Fix: write '17 of 17 towers' or limit the key's scope (CONFIRMED by reading)."
+   ]
+  },
+  {
+   "id": "DC-19",
+   "verdict": "partial",
+   "reexecuted": [
+    "read backup base l. 20248-20260 and counted the lines that start with | after the blank line"
+   ],
+   "problems": [
+    "The blank-line fix is right: the line removed did split 13.5's table. But the record says the split made 13 rows render as plain text: 'the markets row and the twelve after it' in DC-19's reason, 'thirteen rows' in section 3, and '13 rows' in the JSON notes. Backup l. 20250-20259 hold 10 rows: markets, wealth bands, entrances and basements, hidden plots, lighting and five Fantasy Manor rows. Correct the count to 10 (CONFIRMED)."
+   ]
+  },
+  {
+   "id": "DC-05",
+   "verdict": "partial",
+   "reexecuted": [
+    "read base 4.5's six-band table (l. 6918-6925) and 4.7's granularity table (l. 7565-7571)"
+   ],
+   "problems": [
+    "The adapted text holds: 'blocks in the dense / poor band row (4.7)' covers both bands that map to that row, squalid and poor. The reason's premise is half wrong, though. It says the design has no bands named dense and poor, but `poor` is one of 4.5's six bands (l. 6921). There is no `dense` band. Reword the reason; the design text needs no change (CONFIRMED)."
+   ]
+  },
+  {
+   "id": "DC-24",
+   "verdict": "partial",
+   "reexecuted": [
+    "grep of the old values across the base and every volume; read base l. 7918"
+   ],
+   "problems": [
+    "A restatement was missed. The 4.7 S11 arrangement table's `row` arrangement (base l. 7918) still says 'NG 95-99 % attached', with no definition. 4.7's granularity anchor, 13.5's party-wall row and O17 (c) now give 0.98-1.00 under V12's definition and label 95-99 % as the earlier script's. This refutes the record's judgment call 'one measured fact, one value' and its PLAUSIBLE claim that the greps found every restatement. Fix: the same wording as 4.7's anchor (CONFIRMED)."
+   ]
+  },
+  {
+   "id": "DC-16",
+   "verdict": "partial",
+   "reexecuted": [
+    "grep of '17.6 ha' across the base and every volume; read base l. 6788-6791"
+   ],
+   "problems": [
+    "A minor restatement was missed. 4.5 (base l. 6791) still cites '13.5's MFCG anchors row, 2.4-17.6 ha at size 40'. The anchors row now says 2.4-17.6 ha is the size-40 gate fixtures' range and gives 2.4-21.5 ha for the plain size-40 city. The 2.4 ha floor this sentence relies on is unchanged, but its wording is the imprecision DC-16 corrected (CONFIRMED)."
+   ]
+  },
+  {
+   "id": "DC-11",
+   "verdict": "partial",
+   "reexecuted": [
+    "M0-work.json sections grep for 4.4; read base l. 6559-6571"
+   ],
+   "problems": [
+    "The M0 list is incomplete. M0-c-04 cites '4.4 S5a Boundary (the level set of T ...)', which is the paragraph DC-11's follow-on edited: the anisotropy ratio a and FTG's calibration target sit in it. The list names only M0-c-01. The impact is nil (reference text only), but the list's own rule ('M0 items whose sections include a changed section') requires M0-c-04 (CONFIRMED).",
+    "Minor: the status is 'applied', but the text departs in scope from the DC. 'from the BIG_TOWN / BIG_CITY rows' became 'from the matched sizes' rows', adding METROPOLIS by R-34. The record gives a reason that holds; by the record's own use, 'applied-adapted' is the closer status (PLAUSIBLE judgment)."
+   ]
+  },
+  {
+   "id": "DC-15",
+   "verdict": "partial",
+   "reexecuted": [
+    "M0-work.json sections grep for 4.4; read base 4.4's stage-regimes table l. 6735-6743 and V06 T-V6-31 (V06 l. 4204)"
+   ],
+   "problems": [
+    "The M0 list is incomplete. M0-b-01 cites '4.4 (the regimes' block-depth band floors)', which is the stage-regimes table whose ribbon row DC-15's follow-on edited (notes column only). The list names M0-s-02 and M0-c-01 only. The impact is nil (CONFIRMED).",
+    "PLAUSIBLE note for the design pass, not a DC defect: V06 T-V6-31 still calls 71-85 % 'MFCG's ribbon band'. The ribbon row now gives that range as the size-40 gate fixtures' value, and the share falls to 0.58 / 0.49 at sizes 80 / 130. T-V6-31's own bar [0.6, 0.9] should be re-read when W-07b's per-size rows land."
+   ]
+  }
+ ]
+}

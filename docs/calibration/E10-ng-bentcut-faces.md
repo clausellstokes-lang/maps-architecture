@@ -200,3 +200,207 @@ python3 research/baselines/ng_faces_by_class.py --check \
 It reads only `captures/neighbourhood/2026-09-25T10-55-{19,36,47,59}` and writes the two files byte for byte as recorded
 above. `df -h /Users/cstokes` read 16 GB free at the start and 15 GB at the end, other lanes' captures included; this
 item's outputs are 0.6 MB.
+
+## 9 W-10b — the NG trace rows, `cut.length` and the face records on W-04's plan seeds (lane `m1/W-10b`, 2026-10-03 from 21:40 EDT; landing time in `docs/lane-events.log`)
+
+Lane `m1/W-10b` appended this section; sections 1–8 above are W-10's record and were not edited (their open points 7 (1),
+(2), (4) and (5) are answered by R-14, R-15 with W-01b's registration, R-09, and 9.2 below). Research side only: nothing
+was written into `plat/`, no third-party site was touched, no captured program bundle was read, no benchmark or timing
+was run, no git command changed state, and `plan.json` / `metrics.m-1.json` were read only. Numbers, metric ids and our own
+words only. Values: `docs/calibration/E10-ng-bentcut-faces.plan.json` (sha256 `267cfece…`); research-side per-face
+records: `E10-ng-bentcut-faces.plan.faces.json` (`82cbaed2…`); the plan §7b candidate:
+`research/baselines/candidates/ng-faces.json` (`eb0be059…`). All three are written by one deterministic run.
+
+**Outcome: the row's checker passes (CONFIRMED, executed).**
+- *The fixture run still prints 11 / 11.* `ng_faces_by_class.py --check` on the 2026-09-25 captures prints the eleven PASS
+  lines, and its two JSON files are byte-identical to the landed ones (`7c185b17…`, `3b069c2d…`). The generalised template
+  rule picks exactly W-10's template set on 8 / 8 fixture maps.
+- *Each parent's area equals its leaves' sum on every map.* 380 rebuilt parents on the 20 `medium` maps, 0 violations at
+  1e-6 relative and 1 cm² declared (largest gap 1.0e-6 cm²).
+- *The formula σ against §13.5's 0.066 / 0.098.* Plain 0.084 (simple parents, the set the recorded numbers were measured
+  on) and ring 0.094: both within the 0.02 floor (+0.018 and −0.004). Two other recorded numbers depart beyond their
+  floor and are listed for DC-26's successor (9.4).
+
+### 9.1 What was run
+
+| step | command | result |
+|---|---|---|
+| plan seeds | `python3 research/baselines/ng_faces_by_class.py --plan` | exit 0, `W-10b CHECKER PASS: 13 / 13`, ≈ 33 s; writes the three files above |
+| determinism | the same with `--out-json/--out-faces/--out-candidate/--md` into scratch | all four outputs byte-identical; stdout identical apart from elapsed seconds |
+| fixtures | `ng_faces_by_class.py --check --json <scratch> --faces <scratch>` | exit 0; 11 PASS lines plus "template roads … = W-10's TEMPLATE_W sets on 8 / 8 maps; duplicate edges collapsed 0"; both JSON files equal the landed ones |
+| red tests | `ng_faces_by_class.py --red` | exit 0, `19 / 19 as expected` (9.6) |
+| content scan | `doc_checks.py --doc docs/calibration/E10-ng-bentcut-faces.md --heads docs/ARCHITECTURE.md` | 9.10 |
+
+The inputs are W-11b's: `plan-seeds/index.json` (`ed973ee2…`, the registered road frame) and `ng-faces.hoods.json`
+(`7530098b…`); the bent-cut scripts are pinned by sha256 in the JSON's `inputs` and were imported unmodified.
+
+### 9.2 Tool changes (our own code; the fixture mode's outputs unchanged)
+
+1. **Template roads by draw order and width class (R-09).** W-10's limit was real: `TEMPLATE_W` (the widths of seeds
+   7171 / 7172) finds **no** template street on any of the 20 plan seeds, so the street template's main street and the
+   square template's plaza roads would have entered the tree as cuts. The rule now used, measured on all 44 W-04
+   recordings and the 8 fixture maps: the templates that lay roads down themselves draw them first, at one per-map width
+   that is not the length law's; the template roads are the maximal draw-order prefix whose raw widths equal the first
+   road's (to 0.001 mu), on `street` and `square` only (CA-2's k: one main street; three plaza roads, one of them the
+   closed loop where it is drawn closed); `area` and `ring` lay none (their closed roads stay templates by shape). Result:
+   `street` 1 road and `square` 3 roads on 44 / 44 recordings, no other street at that width on any map, and the script's
+   own template set equals the rule's on every map (asserted). **Red test:** on the fixtures the rule's sets equal
+   `TEMPLATE_W`'s on 8 / 8 maps and the 11 checks pass; planting "area lays its first street" or "street lays none"
+   turns two checks red. Planting "square lays none" leaves the 11 checks green — the square template's roads are open
+   and its one bent road has no measurable bend, so the fixture numbers cannot see them — and is caught only by the
+   rule-equality check, which is why the fixture verification is both together.
+2. **Duplicate edges.** E11 10.1's adapter defect is in the bent-cut scripts' graph too: on `square/medium/3` two mutual
+   fallback snaps give two node pairs twice, and the face walk merged blocks (15 faces where the adapter has 17). A line
+   trace on `bentcut_parent_face.analyse` collapses each repeated node pair after the edge list is built and before the
+   walk (the file is not modified); the edge kept carries the later-drawn road, because the overlap is a short connector
+   off the earlier road's line, and kept on the earlier road the script's collinear-insertion rule drops its landing
+   node and the parent polygon loses a sliver (0.7 % of one face against its leaves, found by the identity check and
+   fixed). After the collapse the face graph equals the adapter's (faces, open faces, blocks) on 20 / 20 maps.
+3. **One degenerate cut.** On the same map the overlap fuses streets 22 and 23 into one path (22 ends on 23's start; 23
+   starts on 22 just short of 22's end), so street 22 is a dead end once 23 is removed: the replay drops the zero-width
+   spur it leaves in the merged face (2 edges; the tested script's polygon never holds one), and street 22 — its two
+   sides one face at its removal, its parent without an inner cycle — is recorded **degenerate**: it stays in the
+   face-free measures and in its ancestors' cut lists, and leaves the rebuilt-parent set (its face would repeat 23's).
+   The fixtures have neither case.
+4. **`--plan`, `--red`.** The plan mode reads W-11b's index (five `medium` seeds per template, plan order, each checked
+   against its `meta.json`), checks the frame (every face-ring vertex on a `MeasureInput` way within 1e-6 px; the bounded
+   faces' areas equal the input's blocks within 1e-9; W-11b's built rule re-derived on the faces equals E11 10's per-seed
+   counts on 20 / 20), and writes the values, the research per-face file and the candidate.
+
+### 9.3 Measured values (R-47 (a): W-15 forms the rows; per-seed values in plan order are in the JSON's `rows`)
+
+`bounded` = cuts with a rebuilt parent (the faces the candidate carries); `all` = every non-template street. σ is the
+pooled maximum-likelihood fit over the subset (the recorded-frame measure), "simple" its simple-parent subset.
+
+| subset | seeds | bounded / all cuts | cut.sigma (ε) | simple (ε) | cut.cornerMid | cut.arrival85 all · bounded | cut.fillet all · bounded | cut.length m p10 · p50 · p90 | spreadKS.p90 binned · raw |
+|---|---|---|---|---|---|---|---|---|---|
+| pooled | 20 | 379 / 1 107 | 0.088 (0.03) | 0.090 (0) | 211 / 239 (88 %) | 97 % · 98 % | 393 / 731 (54 %) · 111 / 239 (46 %) | 37 · 55 · 89 | 0.936 · 1.000 |
+| ring | 5 | 245 / 484 | 0.090 (0.05) | 0.094 (0) | 163 / 188 (87 %) | 97 % · 97 % | 49 % · 44 % | 35 · 54 · 90 | 0.496 · 0.558 |
+| plain | 15 | 134 / 623 | 0.084 (0) | 0.084 (0) | 48 / 51 (94 %) | 98 % · 100 % | 58 % · 57 % | 44 · 58 · 86 | 1.000 · 1.000 |
+| area | 5 | 106 / 349 | 0.078 (0) | 0.078 (0) | 32 / 34 (94 %) | 99 % · 100 % | 57 % · 53 % | 43 · 57 · 87 | 0.243 · 0.343 |
+| street | 5 | 11 / 127 | 0.102 (0) | 0.102 (0) | 7 / 8 | 96 % · 21 / 22 | 62 % · 6 / 8 | 45 · 55 · 68 | 1.000 · 1.000 |
+| square | 5 | 17 / 147 | 0.098 (0) | 0.098 (0) | 9 / 9 | 96 % · 34 / 34 | 57 % · 5 / 9 | 49 · 66 · 82 | 1.000 · 1.000 |
+
+Per seed: σ is fitted only where a seed has ≥ 10 bounded cuts — area 0.062–0.082 (4 seeds), ring 0.062–0.108 (5);
+`cut.cornerMid` 0.81–1.00 on the ring seeds; the all-cuts arrival share has type-7 p10–p90 0.904–1.000 over 20 seeds and
+the fillet share 0.486–0.686. `cut.length` uses the registry's bins (`metrics.m-1.json`, W-01b: 5 m to 400 m plus
+overflow; 0 cuts overflow); a companion over every cut with two snapped ends, open parents included (653 cuts), gives
+p50 58 m and `spreadKS.p90` area 0.249, street 0.802, square 0.641, ring 0.355.
+
+### 9.4 Formula values against the recorded numbers (R-03: the formula row stands; the design number is corrected)
+
+| quantity | recorded (fixtures, §13.5) | formula seeds | difference | beyond the 0.02 floor? |
+|---|---|---|---|---|
+| `cut.sigma` plain, simple parents | 0.066 | 0.084 | +0.018 | no (near it) |
+| `cut.sigma` ring, simple parents | 0.098 | 0.094 | −0.004 | no |
+| `cut.sigma` all, simple parents | 0.088 | 0.090 | +0.002 | no |
+| `cut.sigma` ring, rebuilt parents (DC-26's 0.100) | 0.100 | 0.090 | −0.010 | no |
+| `cut.cornerMid`, simple parents | 99 / 120 = 0.825 | 0.888 | +0.063 | **yes** |
+| arrivals ≥ 85°, all streets | 780 / 811 = 0.962 | 1 712 / 1 763 = 0.971 | +0.009 | no |
+| filleted one-bend cuts | 200 / 378 = 0.529 | 393 / 731 = 0.538 | +0.009 | no |
+| one-bend streets, all streets | 380 / 519 = 0.732 | 739 / 1 125 = 0.657 | −0.075 | **yes** |
+
+**For DC-26's successor (routed through the session to the design seat; this lane edits no design file):** §13.5's
+bent-cut signature should carry the formula values — corner within 0.10 of mid-course on 89 % of bent cuts (not 82 %),
+one bend on 66 % of streets (not 73 %); σ 0.066 / 0.098 hold within the floor, the plain value moving to 0.084.
+
+### 9.5 The five face classes (descriptive, R-09)
+
+| class (flag) | bounded cuts | bent cuts | cut.sigma (ε) or f | cut.cornerMid | cut.fillet | blocks |
+|---|---|---|---|---|---|---|
+| holed | 5 (ring) | 2 | f 0.392, 0.419, 0.465, 0.661, 0.733 | 2 / 2 | 1 / 2 | 0 |
+| C-shaped | 20 (ring) | 14 | 0.178 (0.4) | 11 / 14 | 9 / 14 | 3 |
+| triangular | 18 (17 ring) | 17 | 0.092 (0) | 15 / 17 | 9 / 17 | 21 |
+| curved | 263 | 203 | 0.090 (0.05) | 176 / 203 | 91 / 203 | 307 |
+| round-joined | 172 | 135 | 0.090 (0) | 118 / 135 | 60 / 135 | 219 |
+| plain (control) | 88 | 22 | 0.076 (0) | 21 / 22 | 14 / 22 | 139 |
+
+The exclusive partition and the ring / plain / per-template subsets are in the JSON's `classes`. **Known-defects entry
+(R-09):** only `holed` has fewer than 10 bounded bent cuts (2), so it stays descriptive with an E19 entry for M1's file;
+C-shaped (14) and triangular (17) cleared the threshold on the formula seeds, against 12 and 7 on the fixtures. The
+C-shaped σ fit puts 40 % of its mass in the uniform term: on a face that wraps around, f is not concentrated near mid.
+
+### 9.6 The `ng-faces.json` candidate (plan §7b; R-14; N-02)
+
+`research/baselines/candidates/ng-faces.json`: the §7b header (`schema`, **`referenceBuild` at the top**,
+`metricsVersion` 1.0.0, `scaleDeclared` 0.35, `outlineKind` 1), W-11b's 20 hood records unchanged (each with
+`referenceBuild`), and **374 face records, each with `referenceBuild`** — area 106, street 11, square 17, ring 240 — with
+1 150 cut records (up to 59 per face) and 5 holes. No `crossing` key: W-20 writes it. 285 KB.
+
+Conventions (calls under delegation, 9.9): rings are E1, the face as drawn (fillet arcs as chords, a junction node whose
+two boundary edges lie on one road dropped), in the registered road frame at cm = px ÷ ctmScale × 35 rounded half to
+even — W-11b's hood frame — closed, outer rings positive and holes negative; `blockAreasCm2` holds every bounded leaf
+inside the face, by cumulative rounding along the union's final order so that each face's integers sum to its exact area
+within 1 cm²; `cuts` lists the face's own cut first and then every cut inside it in drawing order; `cornerT` is t in
+thousandths for a one-bend cut and −1 otherwise; `arrivalCdeg` is the smaller of the cut's two junction-end arrivals.
+**Left out, recorded:** 5 C-shaped parents whose boundary runs along both sides of a slit (not simple at any resolution;
+their cuts are in their annulus's record) and the degenerate cut of 9.2 (3).
+
+Checks, all PASS: header; hoods unchanged with W-11b's §7b checks re-run; per face the §7b fields exactly, integer ids,
+hood and template consistent, flags 0 / 1, integer coordinates, closed simple rings, holes inside, every ring vertex
+inside its hood outline; every number an integer except the declared 0.35; **every string matching V12 §3.3 C2's
+pattern for its field** (`seedLabel`, `capture`, `referenceBuild`) or the schema's enumeration (`template`) and constants;
+no hex-delimited six-digit run in any string; **area:** the exact face area equals the exact leaves within 1.0e-6 cm², the
+file's integer block areas sum to the exact area within 0.94 cm² with every face's leaf count right, and each integer
+ring's own area lies within its coordinate-rounding bound of that sum (largest 1.7e-4 relative, median 2.6e-5).
+**Red tests (`--red`, 19 / 19):** three planted template rules turn the fixture verification red and the true rule stays
+green; fourteen planted faults on a copy of the candidate (a face, a hood or the header without `referenceBuild`; a
+non-integer coordinate; a float block area; a self-crossing ring; a seedLabel outside C2; a free string; a six-hex run in
+a string and one inside a C2-valid label; a block area dropped or moved by 2 cm²; a missing cut field; a face 2 cm² off
+its leaves) are each refused, and the candidate as written passes.
+
+**N-03 stands (for the session):** read literally, V12's "no six-hex-digit sequence anywhere" refuses every
+`referenceBuild` string in the file (395 of them: `itch:11441280` holds an eight-digit run) and every block area of
+six or more digits; the check here reads hex-delimited runs in string values only, as N-03 asks of M0-k-05.
+
+### 9.7 Readings for the seats that use these values (CONFIRMED as measurements)
+
+1. **The street and square templates are thin for every face-based row.** Their 10 hoods hold 28 rebuilt parents (two
+   hoods none): σ cannot be fitted per seed, and `cut.length`'s per-template `spreadKS.p90` is 1.000 (4 seeds with cuts,
+   6 pairs) — a band that can never fail. The area (0.243) and ring (0.496) subsets carry the information; the
+   all-snapped-ends companion (0.802 / 0.641) is the only usable spread for street and square. W-15 should know this
+   before it forms the per-template rows.
+2. **Which cut set a row reads.** σ, `cut.cornerMid` and `cut.length` need the rebuilt parent. For `cut.arrival85` and
+   `cut.fillet`, §13.5's recorded numbers were taken over every street and every one-bend cut, so the all-cuts values are
+   the like-for-like replacement (R-03); the bounded values are the like-for-like comparison with M0's synthetic faces.
+   Both are in the JSON; the choice is W-15's.
+3. **Unbuilt leaves.** `blockAreasCm2` must hold every leaf for the area identity, and 35 of the 489 distinct leaves are
+   unbuilt by W-11b's rule (no footprint centroid; plaza remnants and slivers), while W-11b's `block.area` row holds built
+   blocks only. M0-b-05b's block-area KS should know the two populations differ by about 7 %.
+4. **The rebuilt share is the ring's.** 245 of 379 rebuilt parents are ring faces; 727 of 1 107 cuts have an open parent.
+
+### 9.8 Hand-offs
+
+- **W-15:** `rows` (pooled, ring, plain, per template; per-seed values, estimates, `spreadKS`), `classes`, 9.7 (1)–(2).
+- **W-20 / the session (N-02, with §7b to M0-k-05):** the candidate; its conventions (9.6) travel with §7b — the cut
+  order, `arrivalCdeg` as the smaller end, `cornerT` −1 for non-one-bend cuts, every leaf in `blockAreasCm2`.
+- **E19 (M1's known-defects file):** the `holed` class (2 bounded bent cuts).
+- **The design seat, through the session:** 9.4's two departures for DC-26's successor.
+- **W-12:** `cut.flattenM` reads these cut lengths and the per-face file.
+
+### 9.9 Calls made under delegation (vetoable, J122)
+
+1. **The template rule** (9.2 (1)) — the class is measured, and the template key decides only whether a template lays
+   roads (CA-2).
+2. **The duplicate edge kept on the later road, the spur drop and the degenerate cut** (9.2 (2)–(3)) — the alternative
+   (the first copy kept) loses a sliver of one face; leaving the defect merges blocks.
+3. **The slit C faces and the degenerate face left out of the candidate** — a slit boundary is not a simple ring at any
+   resolution, and the degenerate face repeats another; no cut is lost.
+4. **`arrivalCdeg` as the smaller end, `cornerT` −1 for two-bend cuts, the cut order, every leaf in `blockAreasCm2`** —
+   §7b leaves each open.
+5. **Cumulative rounding of the leaf areas** — the plan's "within one cm²" then holds in the file's integers.
+6. **Hex-delimited reading of the colour rule** (N-03) for this file's strings.
+
+### 9.10 Content scan and disk
+
+`doc_checks.py --doc docs/calibration/E10-ng-bentcut-faces.md --heads docs/ARCHITECTURE.md` after this section: see the
+result file `results/W-10b.json`. Disk: 12 GB free at the start and the end; this item's outputs are 1.2 MB.
+
+### 9.11 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED (executed):** every number in 9.1–9.7; the fixture reproduction and byte-identity; the template rule on 44
+recordings; the graph equality with the adapter; the frame and built-count cross-checks; the area identities; the
+candidate checks; determinism; the red tests. **PLAUSIBLE (reasoning):** that the square template's three roads and the
+street template's one are what CA-2's k counts (the arithmetic is shown there, the identification inferred); that the
+mutual fallback snap on `square/medium/3` is a drawing artefact rather than NG's own topology; that the C-shaped σ's
+large contamination term reflects wrapping faces rather than too few cuts.

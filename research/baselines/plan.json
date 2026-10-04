@@ -3,6 +3,20 @@
  "lane": "m1/W-01",
  "planDate": "2026-10-03",
  "script": "research:baselines/plan.py",
+ "amendments": [
+  {
+   "lane": "m1/W-01b",
+   "date": "2026-10-03",
+   "item": "W-01b (M-1-plan section 2; record E01 section 9)",
+   "what": "the recorded CITY family's block (ftg.recordedCity; R-02, R-04); mfcgExport: one load per seed (R-16); --extend, kept in a family's extension block (R-13); ftg.slotRule and programme 2's procedure (section I) restated"
+  },
+  {
+   "lane": "m1/plan-guard-2",
+   "date": "2026-10-03",
+   "item": "m1/plan-fix-3-check's finding (record M-1-plan-fix-3.md, section Guard round 2)",
+   "what": "the recorded-slot guard also keeps a recorded slot's programme and day; ftg.slotRule restated"
+  }
+ ],
  "seedRule": {
   "formula": "seedOf(family, [i]) = reduce(H32(family + '/' + i)); H32 = MurmurHash3 x86_128 h1, seed 0, of the UTF-8 label (V12 section 2.4)",
   "parkMiller": "1 + (H32 mod 2147483646), the MINSTD state range 1 .. 2147483646 (ARCHITECTURE section 13.6 (2))",
@@ -49,10 +63,12 @@
   }
  },
  "mfcgExport": {
-  "tool": "profiler/export.mjs",
-  "perSeed": "one cold navigation per file: the JSON export with --shot, then the SVG export",
+  "tool": "research/baselines/mfcg_sweep_m1.mjs (W-03, J159); research/baselines/mfcg_j161_m1.mjs (J161: m1/W-03-complete and W-03b); both modelled on profiler/export.mjs",
+  "perSeed": "one load per seed (R-16): the JSON by the URL export key on load (the entry's exports[0]), the SVG by the app's own export window in the same page (E03); exports[1], the SVG key of the 2026-09-25 sweep's one-load-per-file method, is kept for reference and never loaded",
+  "loads": "J159: 35, one per declared seed (W-03); J161: 3 -- seed 0's cold re-export and the retry of capture/MFCG/130/plain/8 (m1/W-03-complete) and R-13's extension to index 10 (W-03b); any further load is a new owner's approval (M-1-plan section 5)",
   "modelledOn": "captures/mfcg/exports-sweep-2026-09-25/sweep.sh",
-  "retryRule": "an export whose console trace shows a second attempt (a different internal seed under the same href) is recorded in the row's sample.failed with reason retry, never dropped (C7)"
+  "retryRule": "an export whose console trace shows a second attempt (a different internal seed under the same href) is recorded in the row's sample.failed with reason retry, never dropped (C7)",
+  "extendRule": "R-13 (M-1-rulings-1.md): a formula family whose usable count falls below its declared n extends by the next formula index until n usable -- never a hand-chosen seed; the failed index stays in the row's sample.failed; every added index is a load under an owner's approval; set by plan.py --extend and kept by every regeneration"
  },
  "ngRecord": {
   "tool": "profiler/record.mjs",
@@ -490,7 +506,7 @@
    "purpose": "rows",
    "indices": [
     0,
-    10
+    11
    ],
    "workItem": "W-03",
    "entries": [
@@ -683,8 +699,37 @@
       "river": "0",
       "coast": "0"
      }
+    },
+    {
+     "i": 10,
+     "label": "capture/MFCG/130/plain/10",
+     "seed": 1179968783,
+     "name": "size130-plain-10",
+     "query": "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783",
+     "exports": [
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783&export=json",
+      "size=130&walls=1&citadel=1&plaza=1&temple=1&gates=-1&river=0&coast=0&seed=1179968783&export=svg"
+     ],
+     "hrefExpect": {
+      "size": "130",
+      "seed": "1179968783",
+      "shantytown": "0",
+      "greens": "0",
+      "river": "0",
+      "coast": "0"
+     }
     }
-   ]
+   ],
+   "extension": {
+    "declaredN": 10,
+    "n": 11,
+    "added": [
+     10
+    ],
+    "by": "plan.py --extend",
+    "rule": "R-13 (M-1-rulings-1.md): a formula family whose usable count falls below its declared n extends by the next formula index until n usable -- never a hand-chosen seed; the failed index stays in the row's sample.failed; every added index is a load under an owner's approval; set by plan.py --extend and kept by every regeneration",
+    "note": "index 8 froze twice (no-export, 2 loads: W-03 and m1/W-03-complete's retry); index 10 is J161's third load, W-03b (R-13, R-39)"
+   }
   },
   {
    "family": "capture/MFCG/80/river+coast",
@@ -1868,7 +1913,7 @@
  "ftg": {
   "seedable": false,
   "why": "the server draws its own seed; the plan lists capture slots in capture order (V12 section 3.2.1)",
-  "slotRule": "slot k is the k-th capture taken, slots filled in slot order (bind refuses a slot while an earlier one is open); a slot never taken is recorded failed with its reason, never faked (M-1-plan section 9; ARCHITECTURE 13.6 (12)); the list is the concatenation of the two declared programmes below, and an extension can only append (R-36: the first six labels and the uniqueness of every label are checked before any write)",
+  "slotRule": "slot k is the k-th capture taken, slots filled in slot order (bind refuses a slot while an earlier one is open); a slot never taken is recorded failed with its reason, never faked (M-1-plan section 9; ARCHITECTURE 13.6 (12)); the list is the concatenation of the two declared programmes below, and an extension can only append (R-36: the first six labels and the uniqueness of every label are checked before any write); a recorded slot (bound or failed) keeps its label, size, water, programme and day against the prior plan.json and is never removed, so a schedule edit cannot relabel, re-date, move or drop a capture (m1/plan-fix-3, m1/plan-guard-2); rows after the last recorded slot may be struck or reordered (the owner's veto of R-33)",
   "programmes": [
    {
     "programme": 1,
@@ -1891,7 +1936,7 @@
     "premiumOnlySizes": [
      "METROPOLIS"
     ],
-    "procedure": "research/baselines/ftg_capture_checklist.md section H with M-1-plan section 2.1b's premium differences"
+    "procedure": "research/baselines/ftg_capture_checklist.md section I (programme 2's procedure, written by m1/plan-fix-3 from M-1-plan section 2.1b: section H with the premium differences)"
    }
   ],
   "perSize": {
@@ -1923,18 +1968,31 @@
   },
   "recordedCity": [
    {
+    "family": "capture/FTG/CITY",
+    "order": 0,
     "capture": "2026-09-21T05-23-58",
     "water": "coast+river",
     "label": "capture/FTG/CITY/coast+river/0",
-    "status": "usable"
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "status": "usable",
+    "failed": null
    },
    {
+    "family": "capture/FTG/CITY",
+    "order": 1,
     "capture": "2026-09-25T10-13-51",
     "water": "coast+river",
     "label": "capture/FTG/CITY/coast+river/1",
-    "status": "failed: setting"
+    "ftgSize": "CITY",
+    "rung": "TOWN",
+    "nominalPopulation": 9500,
+    "status": "failed",
+    "failed": "setting"
    }
   ],
+  "recordedRule": "as recorded (R-02; the Fantasy Manor sample is the precedent, V12 section 3.2.1): the two CITY captures made before the plan hold the family's first two indices; the 2026-09-25 one is a declared non-default setting, kept in sample.failed with reason setting and pooled in no row (R-04); the planned CITY slots continue the per-water index and the family order after them, so with slots 24 and 25 the family reaches three usable, minmax (R-33, R-34)",
   "halfWidthM": {
    "BIG_TOWN": 2000.0,
    "BIG_CITY": 2750.0,
@@ -2061,7 +2119,7 @@
     "nominalPopulation": 49500,
     "premiumOnly": true,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T02-55-56",
     "failed": null
    },
    {
@@ -2479,9 +2537,12 @@
   "the panel identifier files (fm-captures.json, dw-captures.json, vg-seeds.json; ftg-captures.json; ng-counts.json) are written for their panels at M1, M5, M6c and V-M4 (M-1-plan section 1, Not M-1's)"
  ],
  "counts": {
-  "mfcgExports": 35,
-  "mfcgFiles": 70,
+  "mfcgExports": 36,
+  "mfcgFiles": 72,
   "ngGenerations": 44,
+  "formulaExtensions": {
+   "capture/MFCG/130/plain": 11
+  },
   "ftgSlots": 28,
   "ftgProgramme1": 6,
   "ftgProgramme2": 22,

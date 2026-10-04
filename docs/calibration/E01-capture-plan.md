@@ -163,3 +163,109 @@ section 7; W-16's exclusion of `research/baselines/` (read in its script; W-16 h
 (reasoning only):
 the inferred units and per-seed reductions labelled `inferred` in `metrics.m-1.json`, and that some of the 19 uncovered
 pairs are ours-only by intent.
+
+## 9 W-01b — the plan's amendments (lane `m1/W-01b`, 2026-10-03 21:48–22:15 EDT)
+
+**Outcome.** Item W-01b is done and every check of its row passes (CONFIRMED, executed). `plan.py` registers the
+catalogue that the design seat `design/m1-corrections-1` changed: `bldg.wallAlign.median`, `bldg.wallAlign.share15` and
+`cut.length` are in, and `bldg.wallAlign` is retired. That step was installed first, at 21:53, because until then `plan.py`
+refused every write, the FTG binds included. The live `--check` then read SAME, so the binds worked again. The remaining
+amendments were built on a scratch mirror and installed by an atomic rename at 22:04. No bind had run since slot 5's, and the
+programme-2 seats wait for this lane's landing. The plan was regenerated at once and then extended by
+`plan.py --extend capture/MFCG/130/plain 11`. The live `--check` reads **SAME** for `plan.json` (`ee28c604…`, 63 728
+bytes) and for `metrics.m-1.json` (`8a0efa7e…`, 111 059 bytes), and `--catalogue-check` exits 0 (184 = 184, the nine
+named `draw.*` members registered alike). Against the live `plan.json` read at the install (`524830f5…`), all 79 existing
+seeds are unchanged and only one entry is new, `capture/MFCG/130/plain/10`, seed 1179968783. The 28 FTG slots are
+identical in every field, and the six bindings are kept. The registry's `open` list is empty and `variety.dispersion`'s
+floor is stated (0.1 z). Every catalogue (metric, reference) pair now has an M-1 row or a stated no-row: 0 uncovered.
+
+**What changed in `plan.py`** (step 1 `da7f956d…`, step 2 `fad7b21d…`; the pre-lane script was `a128b9d1…`):
+
+| part | change | ruling |
+|---|---|---|
+| registry, the catalogue's ids | `bldg.wallAlign.median` (deg) and `bldg.wallAlign.share15` (share), each a vector over the bands 0–40, 40–100 and 100–200 m, replace `bldg.wallAlign`; `cut.length` (trace, m, a distribution on the run-length bins 0–400 m in 5 m steps with overflow, `perSeed: sample`) | DC-17 / R-12 F4; DC-21 / R-15 |
+| `block.area`, `block.areaRel` | `block.area` is read in declared metres for NG and is the row M0-b-05b reads; `block.areaRel` gains its edges (24 log bins over 0.5–500 median footprint areas, with underflow and overflow) and is the descriptive companion | R-01 |
+| the NG metres and units | `street.detour`, `street.cyclesPerKm2` (unit `perKm2`, R-08's hull outline), `plot.minWidth` and `fg.streetwallGap100` (unit `per100m`, R-07's definition) are read in declared metres; the registry's unit list is V12 §2.1's `MetricUnit` with `perKm2` and `per100m`, and every parity metric's unit is checked against it | R-01, R-07, R-08, DC-02 |
+| `variety.dispersion` | `absFloor` 0.1 z (V12 §3.4.2); both M-1 entries name **W-15** as the item that forms them (R-40), with the rung's pooled deviations in the note; no entry names W-09 or W-05, and "minmax at n = 3" appears nowhere in the file | R-10, R-40 |
+| family members | `draw.*`: MFCG's five (`draw.casingLaw`, `draw.roundJoins`, `draw.roundCaps` descriptive, `draw.widthPx` a vector, `draw.wallsAfterBuildings`) and NG's four (`draw.capSquare`, `draw.hatchPerWing`, `draw.shadowQuadsPerWing`, `draw.roofLumaRatio` descriptive); `wealth.*`: `wealth.tier1` … `wealth.tier6`. Each is an entry of its own with `memberOf`; the family entry lists `memberIds` | DC-18, R-12, R-23, E05 §5, E20 |
+| the item table (`M1`) | rebuilt from plan revision 3's section 1: 102 entries over D1–D35, the measuring items of wave 2 (W-07b, W-10b, W-11b, W-05b, W-22, …); W-15 forms the two dispersions and the R-44 time rows; notes per (metric, reference, deliverable) | plan §1, R-23, R-34, R-44, R-48 |
+| stated no-rows | MFCG and NG `label.*`, FTG `alley.gradient` and NG `plot.spearman`, each in `m1NoRow` with its reason; `m1Uncovered` is empty | R-23 |
+| `--extend FAMILY N` | a formula family (MFCG or NG) extends by the next formula indices; the family gains an `extension` block (declared n, n, the indices added, R-13's rule) that every regeneration keeps, like an FTG binding; `compute()` refuses a plan that loses an extension; an FTG family, an unknown family, N not above the current n, or a malformed N are refused with nothing written | R-13, R-35, R-39 |
+| `plan.json` texts | `mfcgExport` states one load per seed (the JSON through the URL's export key, the SVG through the app's export window; J159's 35 and J161's three loads); `ftg.recordedCity` becomes the recorded family's block (family, order, capture, water, label, size, rung, nominal population, status, failed reason) with `ftg.recordedRule`; `ftg.slotRule` names the recorded-slot guard; programme 2's procedure is the checklist's section I | R-02, R-04, R-16, R-33 |
+| the command line | an unknown option is refused (before, a typo such as `--chek` regenerated and wrote both files) | — |
+
+**The checker column, executed on the live files after the install (CONFIRMED).**
+
+| check | result |
+|---|---|
+| every existing seed unchanged (a JSON diff against the live `plan.json` read at the install) | 79 / 79 entries equal as whole entries; one added, `capture/MFCG/130/plain/10` = 1179968783, equal to `plan.py --vectors capture/MFCG/130/plain/10` (H32 1179968782, parkMiller 1179968783); family order unchanged; only `130/plain`'s `indices` (0–10 to 0–11) and its new `extension` block differ |
+| the 28 FTG slots and their bindings unchanged | 28 / 28 slots equal in every field; slots 0–5 bound to their six folders as before |
+| the new ids present | the three catalogue ids, the 15 members, `block.areaRel`'s edges, `perKm2` / `per100m` |
+| the registry's `open` list empty; `variety.dispersion`'s floor stated | `open` 0; `absFloor` 0.1 z |
+| `plan.py --check` SAME | SAME for both files, exit 0; `--catalogue-check` exit 0 |
+| the unchanged parts | the other `plan.json` blocks (`seedRule`, `referenceBuilds`, `ngRecord`, `fm`, `notInThisPlan`) are equal; in `metrics.m-1.json` 124 entries are byte-equal, 51 change only their item-table entries, and 9 change their definition fields as the table above says |
+
+**Red tests (CONFIRMED, scratch mirrors with the real capture folder names and two fake ones).** Before (the step-1
+script) and after (the installed script):
+
+- `--extend` refuses an FTG family, an unknown family, N equal to or below the current n, a non-number and a missing N,
+  each with exit 1 and nothing written. A valid extension of `capture/NG/area/small` to 4 is kept through a later bind,
+  a re-extension to 4 is refused, an extension after a bind keeps the binding, and `--fail-ftg 7` keeps both. `--check`
+  reads SAME after each step.
+- Removing the extended family from the source gives exit 2: "formula extension of capture/MFCG/130/plain to n = 11 is
+  lost". Nothing is written.
+- The guards of R-36 and `m1/plan-fix-3` hold unchanged. A swap of rows 0 and 1 is refused (exit 2). After a bind of
+  slot 6, editing its row is refused (exit 2) under both scripts; striking every programme-2 row is refused (exit 2).
+  Striking the unrecorded TOWN pair and swapping the CITY rows 24 and 25 still write.
+- A planted catalogue id in a V12 copy is refused: "catalogue mismatch: missing ['cut.planted']", exit 2.
+- An unknown option: before, exit 0 and a regeneration; after, exit 1 and nothing written.
+
+**Who reads `plan.json` (a census; CONFIRMED by grep and by running).** `check_w03.py`, `mfcg_sweep_m1.mjs`,
+`mfcg_j161_m1.mjs`, `check_w04.py`, `ng_programme_m1.mjs`, `adapters/ng.py`, `measure_ng.py` and `ftg_capture_post.py`
+read only the entries' and slots' fields, and no field of an existing entry or slot changed. `check_w03.py` was run on a
+clone of the sweep folder (the clone took its `export-check.json`, and the live folder was not touched). With the old plan
+it gives 8 / 8 PASS under both plans, before and after. Its C6 now lists `130/plain` as n 11, usable 9, failed 8
+`no-export` and 10 `not-loaded`. That is W-03b's load to make. The lookup `mfcg_j161_m1.mjs` makes (an MFCG entry by name), run in
+Python on the live file, finds `size130-plain-10` with the plan's seed in its query and `hrefExpect`. No script reads `ftg.recordedCity`, and no script imports `plan.py`.
+
+**Calls made under the owner's delegation (J122; each vetoable).**
+
+1. **The catalogue step was installed alone and first.** It was a minimal registration with exact definitions, so the FTG
+   binds were accepted again from 21:53 rather than only after every amendment. The alternative, one install at the end,
+   would have kept programme 2 waiting until every amendment was done.
+2. **Members are entries of their own (`memberOf`).** The alternative was a list nested in the family entry. W-15's C6
+   and M0-k-05's registry look a row's metric id up directly, and V12 §2.1 defines one `MetricDef` per id. The catalogue
+   check compares the catalogue's first-column ids with the registry's own ids. The members V12 names are compared
+   separately in `--catalogue-check`, and that comparison never blocks a write. A reworded member list in V12 should
+   never stop an FTG bind, the hazard this lane opened with.
+3. **`draw.roundCaps` is descriptive.** Plan D28 says "(target, `ink`)" for the five as a group. V12 §3.4.2 and E07 §7
+   mark `draw.roundCaps` descriptive, and the design is the reference (J156).
+4. **The inferred units of the members.** Shares are `share` and quotients are `ratio`. `draw.hatchPerWing` is a `count`.
+   `draw.widthPx` is `none`, because its values are pixels and `MetricUnit` names no pixel unit. Each is labelled
+   "inferred" in its `basis`.
+5. **D25's work item is W-05b.** The plan's D25 row says W-05 (the member ids, landed), and its W-05b row measures
+   "every FTG metric of D14, D25, D26" per slot. The entry's note says so.
+6. **The MFCG entries keep their shape.** `exports[1]`, the old SVG URL key, stays in each entry and `mfcgExport` says it
+   is never loaded. Removing it would change every MFCG entry that `check_w03.py` and both sweep tools read.
+7. **The recorded-slot guard was left as `m1/plan-fix-3` wrote it.** The closing check `m1/plan-fix-3-check` routed its
+   finding here: the guard does not freeze a recorded slot's day or programme. While this lane was working, the session
+   gave that fix to lane `m1/plan-guard-2` (`workflows/28-wave2-followups.js`), which waits for this landing. This lane
+   built and red-tested a variant that freezes every field, but did not install it. Installing it here would have left
+   that lane's red-first unreproducible and given one guard two writers. Cases T1–T3 still write with exit 0 on the
+   installed script, as they did before. A NOTE line (22:03) tells `m1/plan-guard-2` where the variant and its cases are,
+   and that `ftg.slotRule` and the docstring must name the widened guard.
+
+**Hand-offs (written where they will be found).**
+
+- **W-03b:** index 10 is in `plan.json` (`size130-plain-10`, seed 1179968783). `check_w03.py`'s C6 lists it as
+  `not-loaded` until the load. Its C7 still caps the J161 ledger at 2, and W-03b's row raises that cap to 3.
+- **W-15:** `metrics.m-1.json` holds every id a row will carry, the members included. `m1NoRow` gives the reasons for the
+  four stated no-rows. The item table is plan revision 3's, so W-15 reads `workItem` as the measuring item and forms the
+  rows itself.
+- **The session (a hazard; CONFIRMED when this lane began):** an edit to V12 §3.4.2's ids makes `plan.py` refuse every
+  write, the FTG binds included, until the registry follows. During programme 2's sitting, sequence any catalogue-id edit
+  with a registry lane before or after the sitting.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED (executed): both installs and their `--check` SAME, the JSON diffs, the red
+tests, the census runs and the hashes above. CONFIRMED (read): the rulings each change cites. PLAUSIBLE: that W-15's C6
+and M0-k-05 will look ids up flat, so that members as entries of their own suit them. Neither tool exists yet.

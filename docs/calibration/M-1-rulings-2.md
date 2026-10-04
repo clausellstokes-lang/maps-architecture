@@ -417,3 +417,79 @@ the run, reported, never retried). R-36's guard is extended in `plan.py`: a chan
 water, or its removal, is refused. The post script's water-implied resource class is pinned as R-24 pinned the size
 class. This record's two literal site-control labels (section 2's premium-differences paragraph and section 7) are now in
 our terms (R-27); `results/rulings-2.json` keeps them as this seat's history.
+
+## 9 Addendum — lane `m1/rulings-2b` (2026-10-03, after W-22 returned partial): R-49 and DC-36
+
+W-22 (NG's draw census; `results/W-22.json`, E20) returned partial on its row's first check, which read "the 2026-09-25
+draw records reproduce §13.5's ≈ 17.4 and 2.33 within the count's rounding": the eight 2026-09-25 records pool to 17.5072
+hatch triangles per wing (17.5 at one decimal) and 2.3295 shadow quads (2.33). E20 F1 traced both figures to one record —
+gen-0 of `2026-09-21T05-04-54`, the profile's §5.4 table: 5 150 triangles and 690 quads over 296 wings — and showed that no
+single wing rule reproduces both figures on the 2026-09-25 records (the census's rule 17.5072 / 2.3295; the profile's
+"non-ink fills ÷ 2" 17.4145 / 2.3589; gen-0 only 17.4361 / 2.3140), and that the table's 296 wings follow from no stated
+rule (the profile's own rule gives 299 on that record, 598 roof fills ÷ 2; the census's units 302, of which 293 gable/hip).
+The plan reserves reference-value and definition calls for a ruling seat; this is one, entered in the form of the rulings
+above. Inputs read whole (CONFIRMED): `results/W-22.json`, E20 §1–§9 and its JSON's pooled, fixture and source blocks,
+`ng_draw_census.py`, plan §1 D34, §2 W-15 and W-22, §3, `M-1-work.json`'s W-22, W-15 and D34, §13.5 whole (the draw-style row,
+the band rule), §8.3's `hatched` census row, T-V1-26 (a), V12 §3.4.2's `draw.*` row, `profile-neighbourhood.md` §5.4, and
+sections 1–8 of this record (the R-nn and DC-nn forms, R-34's buckets, R-48).
+
+**R-49 — `draw.hatchPerWing` and `draw.shadowQuadsPerWing` carry the pooled plan-seed value under the census's declared
+definition; W-22's first check is a provenance check plus a fixture pin; §13.5's figures are corrected (DC-36).**
+
+*(1) Reference value and definition.* The rows W-15 forms for `draw.hatchPerWing` and `draw.shadowQuadsPerWing` carry the
+**pooled plan-seed value over the 44 W-04 recordings** — 18.0679 hatch triangles per gable/hip wing (map means
+15.7606–21.0979) and 2.2869 shadow quads per wing (1.9737–2.5369), E20 §4, per-map values in E20's JSON `plan.maps` — under
+**E20 §2's declared definitions**: a wing is one roof unit on the buildings canvas; the hatch count is the 3-segment ink
+fills of each gable/hip (two-fill) wing, the two heavier ridge tapers included — §8.3's `hatched` count on T-V1-26 (a)'s
+counted wings; the quads are the shadow-style 5-segment fills over every wing, each wing casting one prism shadow.
+`draw.hatchPerWing` is a **fixed-band row** (§13.5's band column "15–20 triangles per wing"; R-34's second bucket; R-48's
+rule): the sample sharpens the reference value and its spread and the band column stays. `draw.shadowQuadsPerWing` has no
+band column and is banded by the band rule (W-15, R-47 (a)). The old figures 17.4 and 2.33 are **superseded** as reference
+values: one map's ratios over a wing count no stated rule reproduces. The 2026-09-25 values (17.5072 / 2.3295) are the twin
+fixtures' values and **enter no row** (R-03). *Reason:* the sample rule (R-03: fixtures check the tool, rows come from plan
+seeds) is the plan's rule for every NG row, and every other §13.5 figure read from a single capture was sharpened the same
+way (DC-08, DC-15, DC-24, DC-25); the definition is the design's own (§8.3's count on T-V1-26 (a)'s wings), which E20 restates
+as the M-1 twin that the product's census supersedes at M1 (J-V12.1), and it is the one definition under which the counts
+of the figures' own records are reproduced exactly (row (1a) below). *The alternatives, rejected:* the profile's wing rule
+(non-ink fills ÷ 2) halves one-fill roofs and doubles four-fill ones and gives 17.9318 / 2.3210 over the 44 — it counts
+fills, not wings; the 2026-09-25 fixture value as the reference — fixtures are not plan seeds (R-03), and eight records of
+four maps carry no estimator; the old figure — above.
+
+*(2) The checker, restated.* W-22's first check now reads: **"(1a) on the figures' own records (`2026-09-21T05-04-54`, the
+profile's §5.4) the census counts the table's triangles and quads exactly on all four generations (5 150 / 11 330 / 5 959 /
+8 446; 690 / 1 533 / 765 / 1 136), and gen-0 over the table's 296 wings rounds to §13.5's 17.4 and 2.33; (1b) the 2026-09-25
+twin fixtures reproduce E20 §4's fixture values 17.5072 and 2.3295 to four decimals."** The second check ("no colour value
+in the record") stands. (1a) tests what the old check meant to test — that the tool counts what the design's figures
+counted — on the only records that can test it, and goes red on one triangle; (1b) makes the 2026-09-25 records what R-03
+says fixtures are, a regression pin on the tool's own values (as W-10's and W-11's fixture numbers are), and goes red on a
+shift of 0.0001. E20 §5's proposed clause ("within ± 1 % of 17.4 and 2.33 on the 2026-09-25 records") is **not adopted**: a
+tolerance against a figure those records never produced tests nothing — it would pass a wing rule off by 1 % and fail a
+correct one on a map whose mean lies 1.4 % away (the per-map means on those very records span 17.1732–17.6476). Applied in
+plan §1 D34, §2 W-15 (the fixed-band list) and §2 W-22, in `M-1-work.json` (D34, W-15, W-22, `rulings`) and in
+`ng_draw_census.py`'s `--check` (its row checks are (1a) and (1b); `--red` also shifts the pin). *Measured by:* E20 §3–§5 (W-22,
+2026-10-03); re-executed by this seat at 22:06–22:07: **`--check` 7 PASS, 0 FAIL, row checks failed 0, exit 0; `--red` 3 FAIL
+(rows (1a), (1b), (2)), exit 1, nothing written** — E20's JSON and record byte-unchanged (`62938abf…`, `ef77332a…`), the
+script now `5acc39f5…` (W-22's `50c03963…`) (CONFIRMED; `results/rulings-2b.json`).
+
+*(3) The design.* §13.5's draw-style row states the NG figures as "≈ 17.4 hatch triangles and 2.33 shadow quads per wing";
+by (1) both are stale and neither names its wing. **DC-36** below corrects the reference cell, in the form of §4's table,
+for a design seat (a measured figure's correction, DC-08's class; no new design, J156). The band column ("15–20 triangles
+per wing") is a ruled design cell and is **not** touched here: E20 F2 — whether it reads per wing or per map mean (NG's own
+wings fall in 15–20 on 52.86 % of wings, its map means on 40 of 44) — stays routed to the design seat as W-22 routed it,
+recorded, not deferred. E20 is history and is not edited (its §3 row (1a) FAIL and §5 F1 are resolved by this ruling;
+`results/W-22.json` carries the restated checks and its status).
+
+Decided under the owner's delegation (J122); **vetoable** — a veto returns the row to 17.4 / 2.33, which then needs a wing
+rule nobody can state, and leaves W-22 partial.
+
+| id | section | old | new | measured by |
+|---|---|---|---|---|
+| DC-36 | §13.5 draw style, the NG reference cell | "NG square caps, ≈ 17.4 hatch triangles and 2.33 shadow quads per wing — **target** (`hatched`)" | "NG square caps, 18.07 hatch triangles per gable/hip wing (the two ridge tapers included; map means 15.76–21.10) and 2.29 shadow quads per wing (1.97–2.54) over the 44 plan seeds (M-1, E20; 17.4 and 2.33 were one 2026-09-21 map's ratios over the profile's wing count) — **target** (`hatched`)" | E20 §4; R-49 |
+
+**CONFIRMED versus PLAUSIBLE for this section.** CONFIRMED (read or executed): every number above (E20's JSON blocks, the
+profile's §5.4 table, the two re-executed runs and their exit codes, the unchanged hashes); the design texts cited (§13.5's
+draw-style row and band column, §8.3's `hatched` row, T-V1-26 (a), V12 §3.4.2's `draw.*` row); the plan's sample rule
+(R-03) and R-34's buckets. PLAUSIBLE (reasoning only): that the design's wing in "per wing" is T-V1-26 (a)'s counted gable
+and hip wing for the hatch figure (the text says "gable and hip wings counted"; the quads' "per wing" is every wing by the
+shadow law); that W-15 will pool the four NG members over all 44 maps (the pool is W-15's, R-47 (a)). Not touched: `plat/`,
+the design, E20, `M-1-rulings-1.md`, `docs/PROGRESS.md`; no git command changed state; no website; no benchmark.

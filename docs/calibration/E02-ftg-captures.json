@@ -8,8 +8,8 @@
   "plan": "research/baselines/plan.json",
   "postChecks": 10
  },
- "slotsTaken": 6,
- "slotsTotal": 6,
+ "slotsTaken": 7,
+ "slotsTotal": 28,
  "days": [
   {
    "day": 1,
@@ -536,6 +536,130 @@
     "after": "524830f556bdc335"
    },
    "record": "E02 section 15"
+  },
+  {
+   "day": null,
+   "programme": 2,
+   "date": "2026-10-04",
+   "slot": 6,
+   "lane": "m1/W-02-slot6b",
+   "account": "the owner's signed-in account, premium since J164",
+   "label": "capture/FTG/METROPOLIS/none/0",
+   "capture": "2026-10-04T02-55-56",
+   "ftgSize": "METROPOLIS",
+   "rung": "METROPOLIS",
+   "water": "none",
+   "population": 49500,
+   "populationSource": "nominal",
+   "listedPopulation": 49780,
+   "serverDate": "2026-10-04",
+   "putSentUtc": "2026-10-04T02:59:19.584Z",
+   "serverTimeS": 11.147,
+   "serverTimeContended": true,
+   "requestBytes": 274292,
+   "requestHash": "47ad771558f5",
+   "referenceBuild": "ftg:2026-10-04+47ad771558f5",
+   "payloadBytes": 2088939,
+   "payloadSha256Prefix": "2c48da5b83b35282",
+   "buildings": 14748,
+   "edges": 13193,
+   "nodes": 10819,
+   "towers": 93,
+   "waterBodies": 1,
+   "districts": 7,
+   "borderHalfWidthM": 3000.0,
+   "distinctFieldPaths": 187,
+   "distinctFieldPathsNote": "a subset of the six earlier captures' union (198), none new; absent: field 11's optional parts 11.7 and 11.8.2 (vary by draw)",
+   "requestDiffVsCityBase": {
+    "semantic": 24,
+    "slotKeys": 3,
+    "waterImplied": 6,
+    "sizeDependentPreset": 15,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot0": {
+    "semantic": 16,
+    "sizeKey": 1,
+    "sizeDependentPreset": 15,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "requestDiffVsSlot1": {
+    "semantic": 8,
+    "sizeKey": 1,
+    "sizeDependentPreset": 7,
+    "other": 0,
+    "partnerIds": 45
+   },
+   "firstOfSize": {
+    "rule": "R-41 (plan 2.1b (4); checklist I9)",
+    "firstCheckOnly": "exit 1: 8 of 10 (requestDiff, vsSlot0; other 1)",
+    "addedToClass": [
+     "stage 2: most spokes"
+    ],
+    "valuesAddedLeaf": {
+     "METROPOLIS": 2,
+     "BIG_CITY": 1,
+     "BIG_TOWN": 1,
+     "CITY": 1
+    },
+    "evidence": "form steps equal slot 1's but the size option (steps.jsonl); the client's per-size second-stage table gives 2 at METROPOLIS, 1 at BIG_TOWN, CITY and BIG_CITY",
+    "redFirst": "old script slot 6 exit 1, new script exit 0; slots 0-5 10/10 under both",
+    "postScriptSha256": {
+     "before": "4d396e67a8081598",
+     "after": "735922948e3970fb"
+    }
+   },
+   "sameSize": "vacuous: the first METROPOLIS (this capture sets the 17 reference values)",
+   "checks": {
+    "calls": true,
+    "sizeKey": true,
+    "waterKeys": true,
+    "requestDiff": true,
+    "vsSlot0": true,
+    "sameSize": true,
+    "decode": true,
+    "border": true,
+    "noResidentField": true,
+    "pbRaw": true
+   },
+   "postFlags": "--signed-in --premium",
+   "redTests": {
+    "asSlot0": "exit 1 (sizeKey, border)",
+    "asSlot1": "exit 1 (sizeKey, border)",
+    "asSlot7": "exit 1 (waterKeys, requestDiff, vsSlot0)"
+   },
+   "waterBodyShapes": "field 6 x1: one polygon of 14 points, all coordinates within 1781 m of the centre (not reaching the 3000 m border); reading PLAUSIBLE (a pond)",
+   "accountList": {
+    "before": 6,
+    "after": 7,
+    "beforeBySize": {
+     "BIG_TOWN": 3,
+     "BIG_CITY": 3
+    },
+    "afterBySize": {
+     "BIG_TOWN": 3,
+     "BIG_CITY": 3,
+     "METROPOLIS": 1
+    },
+    "counter": "none shown (premium)",
+    "newRowIsThePutsSettlement": true
+   },
+   "createAttempts": 1,
+   "putStatus": 200,
+   "sizeOptionKey": "the option values equal their texts; the request key read from each option's React element key (1 of 12 options ends in METROPOLIS)",
+   "windowCheck": "landing root scroll 0 at the first reading and 0 before the Home click; no hover; one document load; one API write (the create)",
+   "guardedClicks": "checklist H12-H14: every click and select its own command after a checked reading; elementFromPoint (redacting helper) before every coordinate click; the reserve-area click had a form-state reading in place of a text reading",
+   "shots": 19,
+   "folderMB": 46,
+   "freeGBBefore": 10,
+   "freeGBAfter": 10,
+   "planSha256": {
+    "before": "f6972b91265f5b6c",
+    "after": "80d1a447b7cc05d1"
+   },
+   "record": "E02 section 17"
   }
  ],
  "failed": [],
@@ -584,21 +708,24 @@
   "createsNeededAfterSlot5": 0
  },
  "sizeDependentClass": {
-  "leaves": 16,
+  "leaves": 17,
   "since": {
    "day1": 11,
-   "slot1": 5
+   "slot1": 5,
+   "slot6": 1
   },
   "pinnedIn": "research/baselines/ftg_capture_post.py SIZE_DEPENDENT",
   "followsSize": "CONFIRMED by slot 1 (E02 section 10.3)",
   "coastalOption": "no new kind of difference (slot 2 vs day 1: water keys and water-implied only; 16 of 16 equal; E02 section 11.3)",
   "secondDrawSameSize": "slot 4 (second BIG_TOWN coast+river): 16 of 16 equal day 1's; request equal to slot 2's apart from the partner ids (E02 section 14.3)",
-  "secondDrawSameSizeCity": "slot 5 (second BIG_CITY coast+river): 16 of 16 equal slot 1's; request equal to slot 3's apart from the partner ids (E02 section 15.3)"
+  "secondDrawSameSizeCity": "slot 5 (second BIG_CITY coast+river): 16 of 16 equal slot 1's; request equal to slot 3's apart from the partner ids (E02 section 15.3)",
+  "firstOfSizeMetropolis": "slot 6 (R-41): the second stage's spoke cap joined by name (1 at CITY, BIG_TOWN, BIG_CITY; 2 at METROPOLIS); slots 0-5 unchanged, 17 of 17 same-size values equal (E02 section 17.3)"
  },
  "next": {
   "programme1": "complete: slots 0-5 bound (E02 section 15.3 finding 6)",
   "then": "programme 2 (slots 6-27; work item W-02b; M-1-plan section 2.1b) is not this record's lane",
-  "note": "account list held 6 settlements after slot 5 (BIG_TOWN 3, BIG_CITY 3); never create a second settlement for a slot whose PUT is already in a capture folder"
+  "note": "account list held 6 settlements after slot 5 (BIG_TOWN 3, BIG_CITY 3); never create a second settlement for a slot whose PUT is already in a capture folder",
+  "programme2": "slot 6 bound (2026-10-04T02-55-56); slots 7-27 open; the METROPOLIS slots 7-9 must repeat slot 6's 17 values exactly"
  },
  "stoppedAttempts": [
   {
@@ -634,6 +761,40 @@
     "capture": "2026-10-03T22-43-28",
     "record": "E02 section 13"
    }
+  },
+  {
+   "slot": 6,
+   "lane": "m1/W-02-slot6",
+   "date": "2026-10-04",
+   "label": "capture/FTG/METROPOLIS/none/0",
+   "folder": "2026-10-04T02-18-09",
+   "isCapture": false,
+   "created": false,
+   "createReceipt": "no call to the site's settlements API in the folder's session/network/index.jsonl (no list read, no PUT)",
+   "reason": "external-use-of-the-session-window",
+   "reasonInWords": "on the landing, while the seat sent only text, shot and read-only eval commands, the page's root scroll container moved from 0 to 653 px (about 8 s after load) and to 2769 px (about 73 s; lazy feature images fetched then); a :hover reading showed a pointer over the page; no click, select, key or wheel was sent",
+   "stopShot": "steps/003-other-hand-scroll.png",
+   "otherShots": [
+    "steps/001-landing.png",
+    "steps/002-landing-2.png"
+   ],
+   "accountWrites": "none (no settlements API call at all; the sign-in library's token refresh at load only)",
+   "listedAfter": null,
+   "planJson": "unchanged; slot 6 open, not marked failed (no create attempted)",
+   "record": "E02 section 16",
+   "folderOnDisk": true,
+   "retriedBy": "m1/W-02-slot6b: captured as 2026-10-04T02-55-56 (E02 section 17)"
   }
- ]
+ ],
+ "slotsByProgramme": {
+  "1": {
+   "taken": 6,
+   "total": 6
+  },
+  "2": {
+   "taken": 1,
+   "total": 22,
+   "open": "slots 7-27"
+  }
+ }
 }

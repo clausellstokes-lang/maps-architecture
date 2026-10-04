@@ -108,7 +108,7 @@ record among them; and the edges of every mechanism here (V12 §3.16).
 | §6.4 | table versions, output versions, retention, stage isolation |
 | §11.1 (item 447) | the neutral measurement profile `MeasureInput` (V12 §2.2) |
 | §14 (item 521) | where the code lives |
-| D-2, D-5, D-30, D-31 | the historical packs' keys (V12 §3.10.3); the gates; METROPOLIS against MFCG only (J122) |
+| D-2, D-5, D-30, D-31 | the historical packs' keys (V12 §3.10.3); the gates; METROPOLIS against MFCG and, from the owner's premium month, FTG (J164) |
 | §2.7 `Enceinte.closure` and `.condition` (items 575, 114); II.7.3, II.7.5, II.7.6 (item 109); §4.11 | the enclosure, the underground profile, the crypt, catacomb and sweep metrics (V12 §2.2, V12 §3.4.2) |
 | §2.7 and §3.4 with item 110's `RetainingWall`, raised ways and deck plots (items 244, 245); §5.3's deck invariant | the profile's item-110 kinds; the `raised.*`, `retaining.*`, `deck.*`, `tier.*` metrics |
 | §13.2's T101-6 | the known-city fixtures' engine (V12 §3.14) |
@@ -157,7 +157,7 @@ T-V4-50, V06's T-V6-40, V11's T-V11-25), and item 110 (f)'s:
 Also out of scope: an editor sitting on the application itself (V09 §7.4 reuses only the protocol's shape); the game-master
 trial's running and its `TrialRecord` (V09 §7.6 — this volume enters its findings into the calibration record, V12 §2.14); SettlementForge's inputs (V08) — calibration
 never *targets* a dossier fact, reads dossier fields only as fixture inputs of its bars and guards (V12 §1b), and never
-re-signs the dossier row sets (§13.9 (7)); a premium FTG capture (D-31; J122, Q-V12-1: no).
+re-signs the dossier row sets (§13.9 (7)); any FTG purchase beyond the owner's one premium month (D-31; J164, Q-V12-1).
 
 ## 1b Wiring table
 
@@ -232,8 +232,8 @@ research-side files that never enter `plat/` — except the provenance fields `e
 in the shipped tables, and `dist/evidence.json` beside them (V12 §2.10). None of it is document state: a `.plat` document
 never holds a metric, a baseline or a run; it holds the table versions they produced (§6.4). **Units** are §2.1's
 vocabulary (E-37); a metric names its unit from the subset `MetricUnit` below, where `deg` is degrees, `share` lies in
-[0, 1], `ratio` is dimensionless, `luma` is 8-bit Rec. 601 luma, `rb` 8-bit R − B, `chroma` CIELAB C*ab and `z` a
-standard score.
+[0, 1], `ratio` is dimensionless, `luma` is 8-bit Rec. 601 luma, `rb` 8-bit R − B, `chroma` CIELAB C*ab, `z` a
+standard score, and `perKm2` and `per100m` counts per square kilometre and per 100 m of length.
 
 ### 2.1 The metric registry
 
@@ -247,7 +247,7 @@ type MetricInput =
   | 'timing'  // §12.1's timing phase, normalised by the calibration score
   | 'trace'   // a stage's recorded trace at the bench level: S8's cut log (§4.6), S10b's placement log
   | 'counts'  // integer counts a harness writes: Fantasy Manor's family and element counts (V02 §7.4), NG hood and VG village counts
-type MetricUnit = Extract<Unit /* §2.1 */, 'm'|'m2'|'ha'|'deg'|'share'|'count'|'perHa'|'perKm'|'ratio'|'bits'|'ms'|'s'|'luma'|'rb'|'chroma'|'z'|'none'>
+type MetricUnit = Extract<Unit /* §2.1 */, 'm'|'m2'|'ha'|'deg'|'share'|'count'|'perHa'|'perKm'|'perKm2'|'per100m'|'ratio'|'bits'|'ms'|'s'|'luma'|'rb'|'chroma'|'z'|'none'>
 interface MetricDef {
   id: MetricId;
   version: string            // semver: major = the definition changed (every baseline of it re-measured, V12 §3.4.3); minor = a new field; patch = no value change
@@ -325,8 +325,9 @@ interface MeasureInput {   // one per town or map: §11.1's metric GeoJSON varia
   header: {
     source: 'PLAT' | ReferenceId | 'corpus';
     build: string;                    // our output version; a reference build (§13.5's `referenceBuild`); the corpus adapter's version
-    scale: 'metric' | 'relative';     // relative: no metric scale known (NG's vertex captures; a corpus plate without a scale bar)
-    unitM?: number;                   // metres per input unit when metric and ≠ 1
+    scale: 'metric' | 'relative' | 'declared';   // relative: no metric scale known (a corpus plate without a scale bar);
+                                      // declared: none measured, one declared with its provenance (NG's vertex captures), read as metric
+    unitM?: number;                   // metres per input unit: when metric and ≠ 1; required when declared
     centre: [number, number];         // the settlement centre in input units (the plaza, else the wall ring's centroid, else the building centroid)
     rung?: Rung; population?: number; water?: WaterSetting;
     seedLabel?: string;               // the seed family path that made it (V12 §2.4) — never a place name
@@ -355,6 +356,12 @@ interface MeasureFeature {
     stair?: boolean; ramp?: boolean;                      // way segments crossing a retaining wall, and a raised way's ends
     stepMinCm?: number; stepMaxCm?: number } }            // retaining walls: the least and greatest step over the whole wall (merged on read, below)
 ```
+
+**A declared scale.** A source that exports no metric, but whose unit a stated inference fixes, carries `scale:
+'declared'` with `unitM`: every metric reads it as metric, every row built on it carries `scale: 'metric'` and a note
+naming the declaration ("declared 0.35 m per model unit (own)"), and the input stays truthful — no scale was measured.
+NG's vertex captures are the one such source: 0.35 m per model unit (§4.6 step 5's inference; its median footprint
+short side then reads 7.1–7.3 m).
 
 **Our way classes in the profile.** `measureInputOf` maps §2.4's `WayClass` once: `through` and `primary` → `arterial`;
 `secondary` → `street`; `lane` and `cul_de_sac` → `lane`; `alley` → `alley`; `track` and `path` → `track`; `bridge` and `ford`
@@ -820,6 +827,7 @@ The one table of every record's producer, consumers and lifecycle; V12 §1b cite
 | `MetricDef` and `dist/metrics.json` | authored in `@plat/testkit/metrics` with its catalogue row; `plat build` generates the `bar.*` and `frame.*` members and writes the file | `plat measure`, `plat parity`, crossing check C6, `plat calibrate`, the research row writer, the docs pages, release-note sentences | `metrics.json` in `dist/` | rebuilt by `plat build` | a code revert; a major bump re-measures its baselines (V12 §3.4.3) | a definition change is a major version, never an edit in place |
 | `MeasureInput` | research adapters per reference; `measureInputOf` (ours); the corpus adapter at M-CAL | `plat measure` (every `geo` metric) | research side: `research/baselines/inputs/<ref>/<build>/`; ours in memory or a golden fixture | re-derived from its capture or document at will | — (derived) | re-written when the profile's version bumps |
 | `Baseline` row (item 496) | `rows.py` over `plat baselines aggregate`, through the crossing | the band arithmetic (3.5), crossing checks C6–C9, tuning targets (3.7), corpus runs (3.10), `plat parity` | `baselines.json` | never re-computed in place: a new metric version or build adds a row that `supersedes` it | supersession (append-only) | `schema` bump with a converter in `plat baselines check --migrate` |
+| `ng-faces.json` (NG's face records; §17.1 (4)) | the baseline seat from M-1's NG trace pass on the formula seeds, through the crossing (V12 §3.3) | M0 (b) and (c)'s comparisons on NG's own shapes (§16) | `plat/packages/testkit/baselines/` | re-derived research-side from the recordings, never edited in place | a superseding file crosses as a new version | read by schema version |
 | `BaselinesFile` header — `ReferencePin`, `CrossingRecord` | the baseline seat through the crossing (M-1; pins moved by the drift rule, 3.8) | `plat parity` (the gating build), the drift handling (3.8), the checker's audit | `baselines.json` | — | a pin change back is a new declared baseline shift | — |
 | `ParityReport` (item 497) | `plat parity` | `MilestoneRecord.parity`, `CalibrationRun.before` / `after` / holdout, the dashboard, release notes | `plat/goldens/parity/` (milestone), CI artifacts (nightly) | the same inputs give the same bytes (V12 §3.13) | — (a report is a fact) | read by schema version |
 | `CalibrationRun` (item 503) | `plat calibrate run <spec>` | table source edits (V11's compiler), `ShiftRecord`s with cause `calibration`, the register's history, release notes, `ReconciliationRecord.runs`, the compiler's evidence | `plat/calibration/runs/`, its spec in `plat/calibration/specs/` | re-running its spec reproduces every evaluation (T-V12-8) | a revert run restoring the `from` values, itself declared | read by schema version |
@@ -962,7 +970,7 @@ appends nothing. The release notes list the findings and their dispositions (V12
  research side (reads captures; never ships)                 │ product side, plat/ (reads only what crossed)
  ──────────────────────────────────────────────────────────── │ ─────────────────────────────────────────────────────────────
  capture plan (seed families, V12 §2.4)                       │
-   → captures (profiler tools; FTG one per day)               │
+   → captures (profiler tools; FTG by slot)                   │
    → adapters → MeasureInput files (numbers, geometry)         │
    → plat measure (the product's metric code, run here)  ─────┼─ the same code: plat measure on our towns
    → per-seed rows → plat baselines aggregate                  │
@@ -995,16 +1003,18 @@ buildings are its sample as recorded (V02 §7.4). The plan at M-1:
 
 | reference | settings | per setting | cost | note |
 |---|---|---|---|---|
-| MFCG (build 12710731) | sizes 40 / 80 / 130 with §13.5's plain options; size 80 with river and coast (stress, descriptive) | 10 plain (J-V12.3); 5 stress | ≈ 35 exports × ≈ 7 s wall | one URL load per export (`captures/mfcg/exports-2026-09-25/README.md`, *How export was triggered*); JSON, SVG and screenshot per seed |
-| FTG (server of the capture date) | BIG_TOWN and BIG_CITY; one capture with water options nearest `none`, two nearest `coast+river` (§13.6 (2)) | 3 | six days on the free daily allowance | each capture's resident count recorded |
-| NG 1.2.2 | `medium`, templates area / street / square / ring | 5 | the vertex-capture sessions of `docs/CONFIDENCE.md` §6 #2 | relative scale |
+| MFCG (build 12710731) | sizes 40 / 80 / 130 with §13.5's plain options; size 80 with river and coast (stress, descriptive) | 10 plain (J-V12.3); 5 stress | ≈ 35 exports × ≈ 7 s wall | one load per seed (the JSON fetched by its URL key, the SVG saved from the app's export window); JSON, SVG and screenshot per seed |
+| FTG (server of the capture date) | the owner's signed-in account, slots in capture order: programme 1, BIG_TOWN and BIG_CITY, one capture with water options nearest `none` and two nearest `coast+river` each (§13.6 (2); J159, J163); programme 2, the premium month's 22 slots (J164); and the recorded family `capture/FTG/CITY`, the two earlier CITY payloads, one usable and one at a declared non-default setting in `sample.failed` | BIG_TOWN and BIG_CITY 10 each (4 `none`, 6 `coast+river`), METROPOLIS 4 (1 / 3), CITY 2 planned and 2 recorded, TOWN 2 (research-side numbers, no row) | 28 slots, one create each | each capture's resident count recorded |
+| NG 1.2.2 | `medium`, templates area / street / square / ring | 5 | the vertex-capture sessions of `docs/CONFIDENCE.md` §6 #2 | declared, 0.35 m a model unit (V12 §2.2) |
 | VG 1.6.9 | V07 §7's tag sets | V07's counts | V07's recordings | V07's rows |
 | Fantasy Manor 1.0.0 (build 890) | the free frame | 41 buildings (as captured) | none new | counts only (V02 §7.4) |
 
 The MFCG stress settings exist at size 80 only, so B-REF runs no MFCG `coast+river` town at TOWN or METROPOLIS; the M1
 panel's MFCG `coast+river` pairs take their own exports per rung (V12 §3.9.1), which feed no row. The panels' reference
 identifiers — `fm-captures.json`, `dw-captures.json` and `vg-seeds.json`, numbers and ids only — are written by `plan.py`
-and cross by V12 §3.3 into `plat/goldens/d5/<panel>/`, where `plat d5 seeds` reads them (item 535).
+at the milestone of the panel that reads each (M6's Fantasy Manor pairs, V3-P6's Dwellings pairs, V-M4's VG pairs;
+V12 §3.9.1), not at M-1, and cross by V12 §3.3 into `plat/goldens/d5/<panel>/`, where `plat d5 seeds` reads them
+(item 535).
 
 **3.2.2 Adapters to `MeasureInput`.** One research-side script per reference, `research/baselines/adapters/<ref>.py`,
 writes `research/baselines/inputs/<ref>/<build>/<capture>.metric.geojson` with its header:
@@ -1025,8 +1035,10 @@ writes `research/baselines/inputs/<ref>/<build>/<capture>.metric.geojson` with i
 * **FTG** — the decoded payload's road graph with main → `arterial`, district → `street`, suburb → `lane`; footprints;
   wall chains and tower points; fields; water outlines; centimetres to metres. No plots (the client receives none, item
   49).
-* **NG** — blocks, plots and building polygons from the vertex captures, `scale: 'relative'`; the bent-cut signature's
-  reference values are the recorded measurements of §13.5's bent-cut row, entered as `trace` rows.
+* **NG** — blocks, plots and building polygons from the vertex captures, `scale: 'declared'` with `unitM` 0.35 (V12 §2.2);
+  the bent-cut signature's reference values — σ, corner, arrival, fillet and cut length — are measured on the formula
+  seeds of the plan (five per template at `medium`) and entered as `trace` rows; the recorded captures behind the
+  bent-cut numbers of §13.5 are twin fixtures that check the tool.
 * **VG** — V07 §7's features from its recordings; **Fantasy Manor** — no geometry, a `counts` file.
 
 **Degenerate geometry in a capture or a corpus plate** is cleaned by one rule, never guessed: coincident vertices within
@@ -1054,14 +1066,14 @@ opaque strings the product never resolves (C2; J-V12.24).
 ### 3.3 The crossing — how numbers, and only numbers, enter `plat/`
 
 `plat baselines check <file> [--previous <committed file>]` runs on every candidate numbers-only file before it is
-committed — `baselines.json`, `ftg-captures.json`, `ng-counts.json`, `fm-captures.json`, `dw-captures.json`,
-`vg-seeds.json`, a panel's `answers.json` and `key.json` after the reveal, and the corpus's `frames.json`
-(§17.1 (4)'s list, item 535); until M1 its research-side twin `research/baselines/cross_check.py` applies
-the same rules, and M1's first run of the product check re-validates the M-1 file (T-V12-1).
+committed — `baselines.json`, `ng-faces.json` (NG's face records, the one file of measured geometry, §17.1 (4)),
+`ftg-captures.json`, `ng-counts.json`, `fm-captures.json`, `dw-captures.json`, `vg-seeds.json`, a panel's `answers.json`
+and `key.json` after the reveal, and the corpus's `frames.json` (§17.1 (4)'s list, item 535); until M1 its research-side
+twin `research/baselines/cross_check.py` applies the same rules, and M1's first run of the product check re-validates the M-1 file (T-V12-1).
 
 | check | rule | on failure |
 |---|---|---|
-| C1 schema | the file parses under its zod schema (`plat.baselines/2`, §13.6 (9)'s types) | refused, naming the path |
+| C1 schema | the file parses under its zod schema (`plat.baselines/2`, `plat.ng-faces/1`, §13.6 (9)'s types) | refused, naming the path |
 | C2 strings | every string matches its field's pattern: `id`, `metric`, `supersedes` `^[a-z0-9.:/@+_-]{1,120}$`; `sample.family`, `sample.captures[]`, a panel file's seed labels and reference ids `^[A-Za-z0-9.:/@+_-]{1,120}$`; builds `^[A-Za-z0-9._:+-]{1,64}$`; dates ISO 8601; `capture` a capture folder name (`^\d{4}-\d{2}-\d{2}T[\d-]{8}$`) or a `research:` label; `script` a `research:` label `^research:[a-z0-9_./-]{1,160}$`; any other string field refused | refused, naming the field |
 | C3 notes | a `note` is ≤ 200 characters of letters, digits, spaces and `.,;:()-/%±≤≥×` and passes the clean-room scanner | refused |
 | C4 colours | no six-hex-digit sequence anywhere in the file | refused |
@@ -1076,8 +1088,10 @@ A passing file is committed by the **baseline seat** (research tier) and counter
 only the candidate file, the check's output and `metrics.json` — never the captures — appending a `CrossingRecord`. A
 candidate holding one row passes like any other (its `estimator` `single`, V12 §3.5.1); an empty candidate is refused as
 "nothing to cross"; a candidate for a file that has a committed version, checked without `--previous`, is refused naming
-the flag. What never crosses, whatever the check says: images, geometry, names, colours, a reference's option names
-beyond numbers and flags, any corpus string other than our D-2 preset keys (J-V12.2).
+the flag. What never crosses, whatever the check says: a reference's rendered images; any named, labelled or styled
+geometry, and any geometry beyond the declared face-record file `ng-faces.json` (integer coordinates measured from a
+seeded generator's drawn output, numbers like a block area, §17.1 (4)); names; colours; a reference's option names beyond
+numbers and flags; any corpus string other than our D-2 preset keys (J-V12.2).
 
 ### 3.4 The metric suite
 
@@ -1102,7 +1116,7 @@ stretch end), and a "main gate" is a gate of class `land` (a water gate, a harbo
 
 **Default rules** (a row states its own value only where it differs; the registry holds the result):
 * `absFloor` — shares, ratios and rank statistics 0.02; angles 1°; lengths 2 % and areas 5 % of the reference's median;
-  densities (`perHa`, `perKm`) 5 % of it; counts 0.5; Moran's I and Spearman 0.05; entropies 0.05 bits; timings 5 %.
+  densities (`perHa`, `perKm`, `perKm2`, `per100m`) 5 % of it; counts 0.5; Moran's I and Spearman 0.05; entropies 0.05 bits; timings 5 %.
 * `sign` — `any` for Moran's I, Spearman, `z` and signed angles; `positive` for everything else (a folded angle is positive).
 * Distribution bins (`output.edges`; V12 §3.5.3's KS distance runs on the binned CDFs at these edges) — areas
   log-spaced, 24 bins over the metric's range (blocks 50 – 50 000 m²; buildings 10 – 2 000 m²; plots 20 – 5 000 m²) with an
@@ -1141,18 +1155,19 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `junction.share4` | geo | f | degree-4 nodes ÷ nodes of degree ≥ 3 | NG; FTG | junction arm angles |
 | `street.runs` | geo | m | lengths of maximal paths between nodes of degree ≠ 2, per way class; per seed median per class | FTG | street runs by class |
 | `bldg.r4.60`, `.120`, `.250` | geo | m | each building's axis = its longest ring edge's direction; z = e^{4iθ}; for 1 500 buildings sampled by the metric's stream (all if fewer), R4 = \|mean z\| over buildings whose centroids lie within r of the sample's centroid, samples with ≥ 5 such buildings; per seed median | MFCG | MFCG street signature |
-| `bldg.wallAlign` | geo | m | buildings inside the outermost curtain, in bands 0–40, 40–100, 100–200 m from it: the angle between the building axis and the nearest curtain segment folded into [0°, 45°]; per band the median and the share ≤ 15° | MFCG | MFCG street signature |
+| `bldg.wallAlign.median`, `bldg.wallAlign.share15` | geo | m | buildings inside the outermost curtain, in bands 0–40, 40–100, 100–200 m from it: the angle between the building axis and the nearest curtain segment folded into [0°, 45°]; two vector metrics over the three bands — per band the median (`deg`, `absFloor` 1°) and the share ≤ 15° (`share`, `absFloor` 0.02) | MFCG | MFCG street signature |
 | `sgd.tShare` | geo | f | on the derived street graph, degree-3 nodes with two arms within 20° of straight ÷ degree-3 nodes | MFCG | MFCG street signature |
 | `sgd.deadEnds` | geo | m | degree-1 nodes of the derived street graph per km of its length | MFCG | MFCG street signature |
 | `blockc.perHa` | geo | m | cluster blocks inside the outermost curtain per walled hectare | MFCG | MFCG street signature |
 | `blockc.lotsPer` | geo | f | footprints per cluster block; per seed median | MFCG | MFCG street signature |
 | `block.area` | geo | m (f as `block.areaRel`, ÷ median footprint area) | built blocks' areas per district; distribution | NG | blocks |
-| `block.countTemplate` | counts | f | built blocks per hood per template at `medium` | NG (V01 T-V1-31) | blocks |
+| `block.countTemplate` | counts | f | bounded built blocks — faces closed by ways — per hood per template at `medium`, a reference's land in no closed face counted in the row's note; ours: the opened district's blocks that do not touch its outline | NG (V01 T-V1-31) | blocks |
 | `block.courtShare` | geo | f | deep blocks — largest inscribed circle's radius > 1.5 × the median footprint's short side — holding an unbuilt interior component (the block less its footprints dilated by 5 % of that short side) of area ≥ 0.5 × the median footprint area that touches no block edge ÷ deep blocks | NG; MFCG | deep block interiors |
 | `cut.sigma`, `cut.cornerMid`, `cut.arrival85`, `cut.fillet` | trace | f | §4.6's recorded-frame measures on S8's cut log | NG | bent-cut signature |
+| `cut.length` | trace | m (declared for NG, V12 §2.2) | per cut on S8's cut log, the length of its fillet-free course between the snapped ends; a distribution on the run-length bins (5 m to 400 m plus overflow), `perSeed: 'sample'` | NG | bent-cut signature (cut lengths per face ⟨M-1⟩) |
 | `fg.recoverability` | render | f | §8.5's metric on the city band at the matched scale | MFCG | figure-ground and streetwall |
 | `fg.coverWalled` | geo | f | Σ area of footprints whose centroid is inside the outermost curtain ÷ the curtain ring's area | MFCG (descriptive) | figure-ground and streetwall |
-| `fg.streetwall` | geo | f | on dense frontages, the share of cluster-block outline length within 0.5 m (metric) or 2 % of the median short side (relative) of a footprint edge | MFCG | figure-ground and streetwall |
+| `fg.streetwall` | geo | f | on dense frontages — a reference's every intramural frontage (MFCG) or every built block's frontage (NG); ours, blocks in the dense / poor band row (§4.7) — the share of cluster-block outline length within 0.5 m (metric) or 2 % of the median short side (relative) of a footprint edge | MFCG | figure-ground and streetwall |
 | `bldg.area` | geo | m | footprint areas (ours: residential families; references: all buildings); per seed median and p95 | FTG; MFCG (descriptive) | plots and footprints |
 | `bldg.quadSide`, `bldg.worstCorner` | geo | m / f | four-vertex footprints' median side; per footprint the largest \|corner − 90°\|, per seed p95 | FTG | plots and footprints |
 | `plot.area` | model | m | L3 plot areas per class and band | — | plots and footprints |
@@ -1173,8 +1188,8 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `wait.generate`, `.regenerate`, `.openFromSF`, `.dossierChange`, `.advanceTime`, `.historyReplay`, `.export`, `.migrate`; `wait.progressMs` | timing | — | item 119's one-time waits, click to complete result — `advanceTime` the whole advance and `historyReplay` the replay with the peak's generation before it, each in total (item 119 (a2)) — on the reference hardware (§12.1), and the time from the click to the first progress frame (V12 §3.15.9) | — (ours) | item 119 (f) |
 | `time.findSuggest`, `time.findGlow` | timing | — | item 120 (j)'s interaction times at the METROPOLIS cap on V09's app harness: a key in Find's box to its suggestions drawn; a chip's click to its matches' glow drawn, and a drawn week's frame (one that is not the head) drawn to its chips' re-evaluated glow drawn (from the later of M5 and V06's E6) | — (ours) | item 120 (k): §12.5's overlay budget (V12 §3.15.10) |
 | `delivery.tier`, `ladder.use`, `vacancy.share`, `quay.reach`, `residue.share`, `entrance.frontage`, `hidden.share`, `wealth.*` | model | — | from the core statistics record and the report (§13.2, §5.4) | — / FTG descriptive | the C rows of §13.5 |
-| `draw.*`, `label.*` | render / model | — | §8.3's census; §9.4's checks | MFCG; NG | draw style; labels |
-| `variety.dispersion` | geo | f | §7.7's signature vector per town, computed from the input where the source has the kinds; standardised by the rung's pooled deviations; mean pairwise Euclidean distance over the seeds | MFCG; FTG (floors) | between-seed variety |
+| `draw.*`, `label.*` | render / model | — | §8.3's census; §9.4's checks. The `draw.*` members: MFCG `draw.casingLaw`, `draw.roundJoins`, `draw.roundCaps` (descriptive), `draw.widthPx` (a vector) and `draw.wallsAfterBuildings`; NG `draw.capSquare`, `draw.hatchPerWing`, `draw.shadowQuadsPerWing` and `draw.roofLumaRatio` (descriptive); `draw.order` has no numeric member (§8.3's order parity compares our order with our own slot table) | MFCG; NG | draw style; labels |
+| `variety.dispersion` | geo | f | §7.7's signature vector per town, eight components computed from the input where the source has the kinds, with R the 90th percentile of building-centroid distance from the header centre and only the 10 m way chords whose midpoint lies within R: (1) the length share of arterial chords within 30° of radial; (2) the orthogonality \|Σ ℓ e^{4iθ}\| ÷ Σ ℓ over every way chord; (3)–(5) way km per km² in the annuli 0–⅓ R, ⅓–⅔ R and ⅔–R; (6) the CV of the areas of the cluster blocks (V12 §3.4.1) whose seed footprint lies within R; (7) the enclosed share, 0 where the source has no enclosure; (8) `outline.r90cv`. Each component is standardised by the rung's pooled deviation over both references' vectors (MFCG's usable seeds with FTG's captures at the rung); the value is the mean pairwise Euclidean distance over the seeds, one per rung with `seeds` = n and no per-seed estimator, in `z` with `absFloor` 0.1 | MFCG; FTG (floors) | between-seed variety |
 | `market.secondary`, `market.adjacent` | geo | f | market squares beyond the first per town; market-square pairs sharing an edge | MFCG | markets |
 | `palette.paperLuma`, `.paperWarmth`, `.inkLuma`, `.inkWarmth`, `.plateChroma` | render | — | §8.2's definitions on §8.2's measurement render | item 69 (owner-set targets) | §13.4 palette bar |
 | `fm.*` | counts | f | one metric per row of V02 T-V2-31's table and its plan-extent clause, as V02 states them (nine rows — family shares, path segments, blocks, towers, square towers, dormers per segment, porches, half-round porches, entrances — and the plan extent in wing widths) | FM | V02 §7.4 |
@@ -1215,10 +1230,10 @@ the siting statistics read their `onDeck`; a stepped building's `heightM` is the
 | `port.fallbacks` | model (the generation report) | f | on the required-keys dossier at every rung (V12 §3.15.15): the fields V08's field table lists as read that the dossier lacks, each without a report line naming the fallback taken, and the stages that end with no output — both 0 by rule | — (ours) | item 125 (e): T125-1 (V12 §3.15.15) |
 | `layout.touch`, `layout.belowMedium` | render (V09's app harness: its layout and frame captures) | f | at the medium class's minimum, 600 × 480 CSS px, the tools of V09 §4.12's list whose canvas script fails to complete under touch events with `AppPrefs.touch.editFabric` on (V09 §4.12; §13.4's fallback changes only its default); over the resize script, the steps below 600 × 480 at which the map's layout is not the medium layout at its minimum, a tool is withheld or greyed, or the page does not scroll to every part — each 0 by rule | — (ours) | item 126 (e): T126-1, T126-2 (V12 §3.15.16) |
 | `street.detour` | geo | m | over 200 node pairs per town drawn by the metric's stream among degree-≥ 3 nodes at least 100 m apart, the way-graph distance ÷ the straight distance; per seed median | NG (§16 M-1's IMPROVEMENTS §7.2 rows) | detour index ⟨M-1⟩ |
-| `street.cyclesPerKm2` | geo | m | independent cycles of the way graph (edges − nodes + components) per km² of the built outline | NG | cycles per km² ⟨M-1⟩ |
+| `street.cyclesPerKm2` | geo | m | independent cycles of the way graph (edges − nodes + components) per km² of the built outline (`perKm2`) | NG | cycles per km² ⟨M-1⟩ |
 | `plot.minWidth` | geo (NG's plots) / model (ours) | m | per plot the width of its minimum-width enclosing rectangle (rotating calipers, §17.1 (8)); distribution | NG | plot minimum width ⟨M-1⟩ |
-| `fg.streetwallGap100` | geo | m | along dense frontages (as `fg.streetwall`), gaps longer than 2 m per 100 m of frontage | NG | streetwall gap ⟨M-1⟩ |
-| `bldg.pairing` | geo | f | the share of footprints sharing ≥ 50 % of one edge with exactly one neighbour whose area lies within ± 25 % of theirs | NG (CONFIDENCE §6 #10) | adjacent-footprint pairing ⟨M-1⟩ |
+| `fg.streetwallGap100` | geo | m | along dense frontages (as `fg.streetwall`), each built block's centreline outline its frontage: rays cast inward every 5 % of the median footprint short side are walled where they meet a footprint within 1.0 × that side; a gap is a run of unwalled rays longer than 2 m; the gaps per 100 m of frontage (`per100m`), the gap length per 100 m reported beside them | NG | streetwall gap ⟨M-1⟩ |
+| `bldg.pairing` | geo | f | the share of footprints that have exactly one neighbour which both shares ≥ 50 % of one footprint edge and has an area within ± 25 % of theirs | NG (CONFIDENCE §6 #10) | adjacent-footprint pairing ⟨M-1⟩ |
 | `draw.contrast`, `draw.hairline` | render | — | §8.2's contrast matrix and §8.3's hairline fidelity on §8.2's measurement render | — (our floors) | the M1 exit's contrast matrix and hairline fidelity |
 | `ftg.ringBlock` | geo | m | areas of the faces FTG's ways close inside a ring, from ways alone; distribution | FTG (descriptive) | FTG face recovery (descriptive); plot depth, frontage and plot share withdrawn by item 49 ("the client receives none"), each a `known-defects.json` note |
 
@@ -1232,7 +1247,7 @@ report reads the rows whose `metricVersion` equals the running registry's.
 | reference and pinned build | our setting | rungs | what gates (role as §13.5 or the volume states) | tier |
 |---|---|---|---|---|
 | MFCG 12710731 | the matched population (V12 §3.5.5), water `none`, parity preset `MFCG` for P rows; stress rows at `coast+river` | TOWN (size 40), CITY (80), METROPOLIS (130) | street signature, walled and ribbon shares, anchors, gates, recoverability and streetwall ⟨M-1⟩, markets ⟨M-1⟩, draw style (`ink`), labels (weakness), variety (floor); cover, footprints and time descriptive | nightly; milestone |
-| FTG (server of each capture, request hash) | each capture's recorded population and water setting (§13.6 (2)), parity preset `FTG` | TOWN (BIG_TOWN), CITY (BIG_CITY); METROPOLIS none (D-31; J122) | turning, junctions, runs, footprints, outline, towers and gates, water, trees (weakness), time (weakness), variety (floor); population and wealth descriptive | nightly; milestone |
+| FTG (server of each capture, request hash) | per rung and water setting at the size's nominal population (V12 §3.5.5), parity preset `FTG` | TOWN (BIG_TOWN), CITY (BIG_CITY), METROPOLIS (METROPOLIS, the owner's premium month; D-31, J164) | turning, junctions, runs, footprints, outline, towers and gates, water, trees (weakness), time (weakness), variety (floor); population and wealth descriptive | nightly; milestone |
 | NG 1.2.2 (itch 11441280) | the base's bent cut on the same face shapes (M0, M1); a district opened at neighbourhood LOD (M5, §13.6 (2)'s search) | the neighbourhood band | bent-cut signature, junction angles (organic), blocks and template counts, court share, party walls, Moran (weakness), hood time | M0 spike; nightly from M1; M5 |
 | VG 1.6.9 (19365073) | V07's settings under the `VG` preset | THORP, HAMLET, VILLAGE | V07 §7's rows | V07's tiers from V-M4 |
 | Fantasy Manor (build 890) | the free frame, `FM` preset | the building band | V02 T-V2-31 | V02's tiers from M6c |
@@ -1286,7 +1301,9 @@ carries that band in its registry entry as `band.override`, and the report print
 2. Resolve each row's setting: for MFCG rows the **matched population** — the population whose expected non-hinterland
    building count equals the reference's median building count at that size, round(3.4 × count ÷ (1 − h)), with §12.2's
    3.4 persons per building and h the hinterland share of buildings measured on B-CITY-lite at that rung, solved once per
-   rung at each milestone and recorded in the report's `setting` (J-V12.8); for FTG rows the capture's recorded population;
+   rung at each milestone and recorded in the report's `setting` (J-V12.8); for FTG rows the size's nominal population,
+   one setting per rung and water — TOWN, CITY and METROPOLIS at `none` and at `coast+river` — because the rows pool each
+   size's captures (`matched.population` the nominal value; the per-capture population is the panels', §13.6 (2));
    for NG rows the districts `ng-counts.json` records from §13.6 (2)'s search (so the nightly never repeats it); for VG and
    Fantasy Manor rows V07's and V02's settings.
 3. Generate our towns on `bref/<ref>/<rung>/<water>/<i>` (20 per setting nightly, 100 at a milestone) once per preset arm
@@ -1785,7 +1802,7 @@ every release until rated, never blocking the build.
 
 | panel | sat at | gate a rated pass claims | groups (pairs) | extras | spec owner |
 |---|---|---|---|---|---|
-| M1 | M1 | diagnostic (§13.6 (1)) | MFCG 30 (per rung five `none`, five `coast+river`), FTG 6 (three per rung, TOWN and CITY) | threshold strips due at M1; labels | base |
+| M1 | M1 | diagnostic (§13.6 (1)) | MFCG 30 (per rung five `none`, five `coast+river`), FTG 9 (three per rung at TOWN, CITY and METROPOLIS; the captures §13.6 (2) names) | threshold strips due at M1; labels | base |
 | M2b | M2b | "the base at parity" | as M1 (`lit` against FTG) | strips due at M2b; labels | base |
 | M4 | M4 | "mastered" | as M2b; plus the **M4-110 group** (SOLO, six items, below), which confirms item 110's register lines and gates nothing of M4's claim | strips; the `house` pick (§13.6 (8)); labels | base; the M4-110 group V12 |
 | M5 | M5 | the stage-2 gate | NG 20 (five per template), `preset: 'NG'` (V01's T-V1-32) | strips (S4 (d)) | base (item 498: its `square` pairs on the carved plaza) |
@@ -2307,7 +2324,7 @@ No step discards and retries everything: each failure has a bounded ladder (§5'
 
 | failure | detection | ladder | reported as |
 |---|---|---|---|
-| a capture fails (session crash, export error) | the capture script | same seed, up to 3 attempts; FTG: the next day, up to 6 days | a plan index in `sample.failed` with its reason — never silently skipped (C7) |
+| a capture fails (session crash, export error) | the capture script | same seed, up to 3 attempts; an FTG slot likewise, the slots fixed by number (on programme 1's free allowance a retry waited for the next day, up to 6 days) | a plan index in `sample.failed` with its reason — never silently skipped (C7) |
 | a reference re-seeds itself inside a capture (MFCG's size-200 retry, sweep README item 6) | its console trace | kept: it is the reference's output for that seed | a row note |
 | a capture or plate with degenerate geometry | the adapter (V12 §3.2.2) | the cleaning rule; a capture left empty is a failed index | `dropped: n` in the row note; `sample.failed` reason `empty` |
 | FTG payload without a resident count | the adapter | the size's nominal target (§13.6 (2)) | `populationSource: 'nominal'` |
@@ -3079,7 +3096,7 @@ V12 §3.15.9.
 | all `geo` metrics of one town (the sum of `costMs`, derived blocks and street graph included) | ≤ 300 ms at CITY, ≤ 900 ms at METROPOLIS | M1 | the R4 sample drops from 1 500 to 750 (a major metric version: its reference rows re-measured, V12 §3.4.3) |
 | `render` metrics of one town (the matched-scale city band and recoverability) | ≤ 1.5 s at CITY, ≤ 4 s at METROPOLIS | M1 | render metrics run every third night, rotating the settings |
 | one `NullModelSpec` on one town (K = 20 permutations and the statistic; the town read from B-CITY) | ≤ 40 ms at CITY, ≤ 120 ms at METROPOLIS | M2b | K drops to 12 and the rule is re-calibrated by the rank receipt's code before use |
-| B-REF nightly, counted per preset arm: MFCG TOWN, CITY and METROPOLIS at `none` × 2 arms (`MFCG` for P rows, `'default'` for O and C rows) × 20 = 120 towns; MFCG `coast+river` at CITY × 1 arm × 20 = 20; FTG 6 settings × 2 arms × 20 = 240; NG from `ng-counts.json`'s recorded districts, ≈ 20 districts opened at LOD — ≈ 400 towns, ≈ 3 s each on average with the render metrics (METROPOLIS 40 of them) | ≤ 20 CPU-min, ≈ 2 min wall on 16 cores | M1 | render metrics every third night; then the O and C arms at 10 seeds nightly (20 at milestones) |
+| B-REF nightly, counted per preset arm: MFCG TOWN, CITY and METROPOLIS at `none` × 2 arms (`MFCG` for P rows, `'default'` for O and C rows) × 20 = 120 towns; MFCG `coast+river` at CITY × 1 arm × 20 = 20; FTG 6 settings — TOWN, CITY and METROPOLIS at `none` and `coast+river`, each at the size's nominal population (V12 §3.5.5) — × 2 arms × 20 = 240; NG from `ng-counts.json`'s recorded districts, ≈ 20 districts opened at LOD — ≈ 400 towns, ≈ 3 s each on average with the render metrics (METROPOLIS 120 of them) | ≤ 20 CPU-min, ≈ 2 min wall on 16 cores | M1 | render metrics every third night; then the O and C arms at 10 seeds nightly (20 at milestones) |
 | all pooled statistics nightly — every `NullModelSpec` and pooled `StatBarSpec` on B-CITY's towns: the marginal cost only (≈ 60 specs × 200 towns × 40 ms at CITY ≈ 8 CPU-min) | ≤ 10 CPU-min | M2b | specs rotate over nights by spec id; each still runs at least every third night |
 | specs on their own `null/…` families (custom-chain fixtures, forced sites) and the web, comfort and chain bars; item 111's specs (`T111d.*`: the rate rows `stopAfter` S1, the walk and rich specs on arid levels) | ≤ 15 CPU-min together, nightly | M2b | they rotate over two nights |
 | the confirmation re-runs (`c1`, twice the towns), when a bar is suspect | ≤ 10 CPU-min per night, a runner job outside the tier budget | M2b | queued to the next night |
@@ -3128,7 +3145,7 @@ Classes as §15.2: C conformance, P parity with a measured reference number, O a
 | T-V12-3 | **One implementation.** For every M-1 baseline, the released CLI's `plat measure` on the same `MeasureInput` agrees with the M-1 script within the metric's `tolerance`; recoverability within 0.01 on M1's golden renders (§16 M-1). Research-side (`research/baselines/check_t3.py`); its verdict reaches the exit record as the output hash | C | M1, research-side |
 | T-V12-4 | **Our input equals our export.** On the golden suite `measureInputOf(doc)` equals the metric GeoJSON export read back — ids, kinds, classes (V12 §2.2's `WayClass` mapping and water classes), `use`, `district`, `prosperity`, item 110's kinds and properties as item 447 exports them and V12 §2.2 declares them (the undeclared ones dropped on read), the closures' six barrier kinds (J-VI.3), coordinates to the centimetre, each retaining wall and each built stretch one feature after V12 §2.2's merge (`wall`, `run`, `state`, `condition` and `material` dropped) — and every `geo` metric gives equal values on the two; on a fixture whose curtain holds a worn, a patched, a breached and a dismantled run and whose retaining wall holds one decayed run, the read-back holds one feature per built stretch and per retaining wall, `stepMinCm` and `stepMaxCm` the least and greatest over the runs, and `wall.nodeSpacing` and `wall.towerSpacing` equal the fixture's all-standing twin's | C | PR (two golden seeds); nightly (the suite) from M1; item 110's clause from M3a; the runs clause from M4 (item 575; item 114's states when they land) |
 | T-V12-5 | **Like with like.** On B-CITY-lite towns the cluster-block and derived-street-graph metrics computed on our full input equal those on the same town's input with plots, blocks and lanes removed | C | nightly from M1 |
-| T-V12-6 | **Measurement parity with our recorded measurements of MFCG.** The released CLI's `plat measure` on the five exports of `captures/mfcg/exports-2026-09-25/` reproduces gross cover 0.657 / 0.582 / 0.621 / 0.583 / 0.569 to three decimals, walled shares 0.98 / 0.97 / 0.92 / 0.82 / 0.30 to two, city gates 0 / 1 / 4 / 9 / 7 exactly and towers 33 / 32 / 29 / 24 on the dry cities, R4 medians within 0.02 of `docs/validation/bench/mfcg_orient.out`'s per-city values, the wall-alignment shares within one point of `mfcg_wallalign.out`'s; and on the sweep (`captures/mfcg/exports-sweep-2026-09-25/`) the buildings, walled share, cover, median footprint, gates, districts, plaza and castle areas of every size exactly as its `stats.md`. Research-side (`research/baselines/check_t6.py`) | P | M-1 (twin); M1 (the released CLI), research-side |
+| T-V12-6 | **Measurement parity with our recorded measurements of MFCG.** The released CLI's `plat measure` on the five exports of `captures/mfcg/exports-2026-09-25/` reproduces gross cover 0.657 / 0.582 / 0.621 / 0.583 / 0.569 to three decimals, walled shares 0.98 / 0.97 / 0.92 / 0.82 / 0.30 to two, city gates 0 / 1 / 4 / 9 / 7 exactly and towers 33 / 32 / 29 / 24 on the dry cities, R4 medians within 0.02 of `docs/validation/bench/mfcg_orient.out`'s per-city values, the wall-alignment shares on the four dry cities within one point of `mfcg_wallalign.out`'s; and on the sweep (`captures/mfcg/exports-sweep-2026-09-25/`) the buildings, walled share, cover, median footprint, gates, districts, plaza and castle areas of every size exactly as its `stats.md`. Research-side (`research/baselines/check_t6.py`) | P | M-1 (twin); M1 (the released CLI), research-side |
 | T-V12-7 | **Reports are facts.** Two `plat parity` runs on the same inputs, on Node x86 and arm64, give byte-identical reports at every rung and band, rows in V12 §3.13's order; a run with no rows gives the header alone, identical on both | C | nightly from M1 |
 | T-V12-8 | **Runs reproduce.** A calibration spec run twice gives the same evaluations, the same chosen values and the same holdout report hash | C | M2b |
 | T-V12-9 | **Runs keep to their scope.** Specs naming an `owner`, `owner-eye`, palette-target, `host` or `sf:` cell, an `ownerRule`-stamped cell, a `raisedWays` row below CITY (refused by V11's schema before the spec check), a non-calibratable cell, a `presets.MFCG` or `presets.FTG` entry, a `presets.FM`, `presets.VG` or `presets.NG` entry in any run but a `reference` run against that preset's own reference or a `fallback` run applying that entry's own register fallback (or such a run that also names a default or another preset's entry, or a fallback run moving it to any value but its entry's stated fallback), a preset entry no register entry names, a bound outside the column's range, a `lo` below a column's owner-stamped minimum, a table no target stage reads, a fifth cell, a cell another open run holds, no cell, no target, `lo` ≥ `hi`, a step ≤ 0 or a `from` outside the bracket are each refused before any evaluation; a fallback whose doubled value would pass its range top is clamped, and one already at the top goes to *not produced*; a bracket under two steps evaluates its endpoints only | C | PR fixtures from M2b |
@@ -3150,11 +3167,11 @@ Classes as §15.2: C conformance, P parity with a measured reference number, O a
 | T-V12-25 | **Evidence gates.** On the synthetic corpus, a possibility-only row proposing a weight is refused E1; a 12-map frame setting a share is refused E2; a drawn plate aimed at a structural metric is refused E3; the possibility floor only lifts 0 to 0.02 or lowers 1 to 0.98, and only in a cell a register entry maps to the metric; the reachability search records a planted unreachable value; a planted record of a catacomb under a cathedral yields one `ownerExcluded` row, no layer cell and no known defect (109 (k) (2)), and a planted village catacomb the same (109 (k) (1)); a frame with zero raised ways yields the CITY raised-way chance at its owner-stamped minimum in the layer, a `floorsHeld` row and the report line; a witnessed TOWN aqueduct is recorded reachable by declaration and yields no layer cell | C | M-CAL |
 | T-V12-26 | **Acceptance.** A1 – A5 evaluated on the synthetic corpus; the M-CAL panel's decision computed per frame by V12 §3.10.6's rule, an unrated panel leaving every frame `pending-owner` with its pack selectable; an adopted pack applies to a new document of its era and region and never to another, nor to a rung its frames do not cover; a fixture frame row failing under the default passes the parity exit as `reported`; a document pinning a retired pack version replays it | C | M-CAL |
 | T-V12-27 | **Palette re-check.** A synthetic plate set within 3 units of the released corpus-sourced ends changes nothing; one outside requires the owner's pick; a one-ended fixture (darkest ink) is compared on our p90 only; ink warmth and `ink`'s chroma (our own tolerances) are never re-signed; a re-sign without the pick is refused | C | M-CAL |
-| T-V12-28 | **Clean room.** `baselines.json`, `metrics.json`, the register, run and panel records, `answers.json`, `key.json`, the capture-id files and `frames.json` pass the scanner with 0 hits; no `MeasureInput` of a reference or the corpus exists under `plat/`, and no `plat/` test reads `captures/` (a path and header scan; T-V12-3 and T-V12-6 live research-side) | C | PR from M-1 |
+| T-V12-28 | **Clean room.** `baselines.json`, `metrics.json`, the register, run and panel records, `answers.json`, `key.json`, the capture-id files, `ng-faces.json` and `frames.json` pass the scanner with 0 hits; no `MeasureInput` of a reference or the corpus exists under `plat/`, and no `plat/` test reads `captures/` (a path and header scan; T-V12-3 and T-V12-6 live research-side) | C | PR from M-1 |
 | T-V12-29 | **Budgets.** V12 §6's rows, measured at their milestones (timings in the timing phase; CPU budgets by accounting) | C | as V12 §6 |
 | T-V12-30 | **No silent gaps.** A row with a failed plan index listed in `sample.failed` passes C7; an unlisted gap is refused; an FTG capture without residents takes the nominal population, marked; a capture with coincident vertices, a zero-length segment, a zero-area footprint and a self-touching ring is cleaned by V12 §3.2.2's rule with `dropped` counted, and one left with no building is a failed index with reason `empty` | C | PR fixtures from M-1 |
 | T-V12-31 | **The tendency rules are calibrated.** `plat statbar --calibrate` re-runs V12 §3.6b's simulations with the product's rule code and matches `v12_sweeprule.out`, `v12_rev_clustered.out` and `v12_rev_confirm.out` within two points on every rate; on fixtures a planted 0.55 share fails `most` and 0.80 passes, and with a town effect of ρ = 0.3 a planted 0.55 passes ≤ 2 % of the time on effective instances; a flat rate fails `trend`, a planted reversal fails the no-reversal clause, a rate off by half fails `rate` at 200 units; a per-household `higherWith` with a planted town effect holds its size ≤ 1.5 % after deflation; **family-wise:** 40 fixture bars at a planted 0.8-standard-deviation effect fire ≤ 0.1 fallbacks per table version with the confirmation stage; a suspect bar that passes its confirmation reads "pass on confirmation" | C | M2b |
-| T-V12-32 | **Enclosures and way classes are measured by one rule.** On a cliff-closed fixture town (item 106) `walled.share` counts the buildings inside the enclosure, no tower spacing spans the closure, `gate.count` excludes a water gate and the harbour-mouth chain, `wall.barrierShare` equals the fixture's closure length share; the way mapping sends `through` and `primary` to `arterial`, `secondary` to `street`, `cul_de_sac` to `lane`, `path` to `track`, a bridge to its carried class and no `quay` or `pier` into the way graph, and a moat to still water; the five MFCG exports measured through the shore split keep T-V12-6's values, and the coastal city gives the 24 shore vertices and the 20 towers of its README's derivation | C | M1 (MFCG); M2b (ours, with item 106) |
+| T-V12-32 | **Enclosures and way classes are measured by one rule.** On a cliff-closed fixture town (item 106) `walled.share` counts the buildings inside the enclosure, no tower spacing spans the closure, `gate.count` excludes a water gate and the harbour-mouth chain, `wall.barrierShare` equals the fixture's closure length share; the way mapping sends `through` and `primary` to `arterial`, `secondary` to `street`, `cul_de_sac` to `lane`, `path` to `track`, a bridge to its carried class and no `quay` or `pier` into the way graph, and a moat to still water; the five MFCG exports measured through the shore split keep T-V12-6's walled share, gates and towers (the coastal city's wall alignment through the split is 89.2 / 56.7 / 41.0 %, descriptive: a closure is never wall, item 106), and the coastal city gives the 24 shore vertices and the 20 towers of its README's derivation | C | M1 (MFCG); M2b (ours, with item 106) |
 | T-V12-33 | **The underground profile measures plans.** `undergroundInputOf` on a fixture ruin returns every gallery and chamber in every state; `plan.rightAngle` is 1.0 on a drawn rectangular grid and 0 on a drawn circle; `grid.r4` is 1.0 on an orthogonal grid and below 0.05 on 360 rays at 1° steps; `ruin.blockArea` on a 30 m centreline grid is 900 m²; `plan.*` and `ruin.blockArea` on a ruin with its stepped monument equal the same ruin's values without it; a zero-area void is no void, and an outline too small for 20 steps and a faceless gallery graph read `notApplicable` | C | `V4-U3` |
 | T-V12-34 | **Distinctness and structure rules bite.** A ruin laid from the town's own culture row fails `paired`; a ruin flagged `sharedAxis` is judged on its two other measures; ruins drawn with the cavern's outline fail `twoSample`; a dispersed class whose share drops by 0.10 with the web on fails `noRegression` | C | `V4-U3`; M2b (the web) |
 | T-V12-35 | **The bar map is wired.** Every row of V12 §3.6b's bar map has a registered spec whose owner, owner's bar, rule, parameters and levels match; `plat statbar all` runs each on its tier; a registered spec absent from the map fails; a tendency bar in §13.2 without a spec fails, except a clause on the registry's `conformance` list (§13.2's conformance clauses of items 105 – 118 and 120 – 126, V12 §1, V12 §3.15); the 104 (h) (8) comfort row's spec carries `ownerBar` T104-3 and the 107 (g) row's T107-1 and T107-2; item 102 (g) has no spec | C | M2b (web, siting, chains, item 111); `V4-U3` (underground); M3a (raised ways) |
@@ -3230,7 +3247,8 @@ V-M4), and before the SettlementForge stage M-SF (V08, J-V8.39; item 529); its l
 
 ### 8.3 Risks, spikes and their pre-decided outcomes
 
-1. **Small reference samples make noisy bands** (FTG has three captures per size). *Spike S-V12-1 (M-1, 1–2 days):*
+1. **Small reference samples make noisy bands** (FTG had three captures per size before the owner's premium month; ten
+   per matched size and four at METROPOLIS after it). *Spike S-V12-1 (M-1, 1–2 days):*
    bootstrap the ten MFCG seeds per size — draw ten with replacement 1 000 times, recompute each target band, and count how
    often a fixed candidate value's verdict flips. *Pre-decided:* above 10 % of target rows flipping in over 5 % of draws,
    MFCG goes to 20 seeds per size (minutes of exports); FTG's rows stay as §13.5 classes them (weakness and descriptive, the
@@ -3467,7 +3485,7 @@ its body.
 
 | # | question | answer |
 |---|---|---|
-| Q-V12-1 | Buy one month of FTG's premium tier to capture one METROPOLIS for the side-by-sides? | decided (J122): no. METROPOLIS stays compared with MFCG size 130 (D-31); FTG's published metropolis pictures are an unscored card (V12 §3.4.4) |
+| Q-V12-1 | Buy one month of FTG's premium tier to capture one METROPOLIS for the side-by-sides? | decided (J122): no; **reversed by the owner on 2026-10-03 (J164)**: one premium month bought, FTG METROPOLIS captured (four towns) for its rows beside MFCG size 130 and for the panels' METROPOLIS FTG pairs (D-31, V12 §3.4.4); no further purchase by a seat |
 | Q-V12-2 | When does the owner sit? | decided (J122): only at the gating milestones — M1 (the look check), M2b, M4 and M5 — batched, about an hour each; a missed sitting leaves its milestone *provisional — not rated*; the staged panels join the next gating sitting once built, else stay unrated (V12 §3.9.1; §13.6 (1), (7)) |
 | Q-V12-3 | Should an era and region's historical layer become the default look of new towns of that era and region? | decided (J122): only where the owner's sitting passes it, frame by frame — the after side better or the same on realism in two thirds of its pairs and not worse on legibility on every pair of any rung; otherwise selectable, the default unchanged; unrated, `pending-owner` and selectable; a town of another era or region never receives it (V12 §3.10.6) |
 

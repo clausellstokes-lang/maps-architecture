@@ -444,5 +444,159 @@
    "note": "own words only; not a design-set file"
   },
   "fix": "exclude research/baselines/ from doc_checks.py corpus_files (line 62) and json_files (line 108); W-16 make_denylist.py already excludes it (EXCLUDE, line 49)"
+ },
+ "w01b": {
+  "workItem": "W-01b",
+  "lane": "m1/W-01b",
+  "date": "2026-10-03",
+  "section": "E01 section 9",
+  "installs": [
+   {
+    "step": 1,
+    "time": "21:53",
+    "planPy": "da7f956d",
+    "what": "registry: bldg.wallAlign.median, bldg.wallAlign.share15, cut.length; bldg.wallAlign retired",
+    "check": "SAME plan.json 524830f5 (byte-unchanged), metrics.m-1.json 280bf570"
+   },
+   {
+    "step": 2,
+    "time": "22:04",
+    "planPy": "fad7b21d",
+    "what": "the rest of the row; then plan.py --extend capture/MFCG/130/plain 11",
+    "check": "SAME plan.json ee28c604, metrics.m-1.json 8a0efa7e; --catalogue-check exit 0"
+   }
+  ],
+  "files": {
+   "research/baselines/plan.py": {
+    "bytes": 86011,
+    "sha256": "fad7b21ddaaff2668b3490e9cdd13e5c7fd5d5cfe8804fbb28657239311cc5f3"
+   },
+   "research/baselines/plan.json": {
+    "bytes": 63728,
+    "sha256": "ee28c6047c12fd5026f619894f0cf53b422c1e7700054645e45e45382608ae6a"
+   },
+   "research/baselines/metrics.m-1.json": {
+    "bytes": 111059,
+    "sha256": "8a0efa7e61592ef3efcdf06e3bc696e3de15a262215df03f0501134f4c29a670"
+   }
+  },
+  "plan": {
+   "entriesBefore": 79,
+   "entriesAfter": 80,
+   "entriesChanged": 0,
+   "entryAdded": {
+    "label": "capture/MFCG/130/plain/10",
+    "seed": 1179968783,
+    "h32": 1179968782
+   },
+   "formulaExtensions": {
+    "capture/MFCG/130/plain": 11
+   },
+   "ftgSlots": 28,
+   "ftgSlotsChanged": 0,
+   "ftgBound": {
+    "0": "2026-10-03T17-19-06",
+    "1": "2026-10-03T22-04-25",
+    "2": "2026-10-03T22-21-00",
+    "3": "2026-10-03T22-43-28",
+    "4": "2026-10-03T22-57-34",
+    "5": "2026-10-03T23-10-37"
+   },
+   "topBlocksChanged": [
+    "amendments",
+    "counts",
+    "families (130/plain only)",
+    "ftg (programmes, recordedCity, recordedRule, slotRule)",
+    "mfcgExport"
+   ]
+  },
+  "metrics": {
+   "catalogueIds": 184,
+   "members": 15,
+   "counts": {
+    "ids": 189,
+    "families": 10,
+    "members": 15,
+    "parity": 90,
+    "oursOnly": 109,
+    "withM1Rows": 81,
+    "open": 0,
+    "m1NoRow": 4,
+    "m1Uncovered": 0
+   },
+   "entriesUnchanged": 124,
+   "entriesChangedItemTableOnly": 51,
+   "entriesChangedDefinition": [
+    "block.area",
+    "block.areaRel",
+    "wealth.*",
+    "draw.*",
+    "variety.dispersion",
+    "street.detour",
+    "street.cyclesPerKm2",
+    "plot.minWidth",
+    "fg.streetwallGap100"
+   ],
+   "m1Entries": 102,
+   "m1NoRow": [
+    [
+     "plot.spearman",
+     "NG"
+    ],
+    [
+     "alley.gradient",
+     "FTG"
+    ],
+    [
+     "label.*",
+     "MFCG"
+    ],
+    [
+     "label.*",
+     "NG"
+    ]
+   ],
+   "m1Uncovered": [],
+   "varietyDispersion": {
+    "absFloor": 0.1,
+    "workItem": "W-15"
+   }
+  },
+  "redTests": "scratch mirrors; see E01 section 9: --extend refusals 6/6 exit 1, extension kept through bind/fail/regeneration, lost extension exit 2, R-36 and plan-fix-3 guards unchanged, planted catalogue id exit 2, unknown option exit 1",
+  "census": "check_w03.py on a clone of the sweep folder: 8/8 PASS with the old and the new plan; C6 lists 130/plain/10 not-loaded (W-03b)",
+  "handOffs": {
+   "W-03b": "index 10 in plan.json; check_w03 C7 cap 2 -> 3 is W-03b's",
+   "W-15": "flat member ids; m1NoRow reasons; workItem = measuring item",
+   "m1/plan-guard-2": "the guard widening (day, programme) is that lane's; ftg.slotRule and the docstring to restate",
+   "session": "a V12 section 3.4.2 id edit blocks every plan.py write until the registry follows"
+  },
+  "docChecks": {
+   "command": "python3 docs/validation/bench/doc_checks.py --doc docs/calibration/E01-capture-plan.md --heads docs/ARCHITECTURE.md",
+   "before": {
+    "C1": 0,
+    "C2": 0,
+    "C3": [
+     16,
+     16
+    ],
+    "C4": 0,
+    "S1": 0,
+    "S2": 0,
+    "exit": 1
+   },
+   "after": {
+    "C1": 0,
+    "C2": 0,
+    "C3": [
+     17,
+     16
+    ],
+    "C4": 0,
+    "S1": 0,
+    "S2": 0,
+    "exit": 1
+   },
+   "note": "the 16 unreviewed C3 hits are the same set before and after (W-01 sections 1-8: our phrases, dates, digit runs); section 9 adds one reviewed hit and no unreviewed one, after eight of our phrases were reworded; no allow row added"
+  }
  }
 }

@@ -2,9 +2,10 @@
  "schema": "research.metrics-twin/1",
  "metricsVersion": "1.0.0",
  "lane": "m1/W-01",
+ "amendedBy": "m1/W-01b (M-1-plan section 2 item W-01b; record E01 section 9)",
  "planDate": "2026-10-03",
  "script": "research:baselines/plan.py",
- "source": "V12 section 3.4.2's catalogue and default rules; section 2.1's MetricDef fields",
+ "source": "V12 section 3.4.2's catalogue and default rules; section 2.1's MetricDef fields; the M-1 rulings named in each basis (M-1-rulings-1.md, M-1-rulings-2.md); the item table of M-1-plan section 1",
  "units": [
   "m",
   "m2",
@@ -14,6 +15,8 @@
   "count",
   "perHa",
   "perKm",
+  "perKm2",
+  "per100m",
   "ratio",
   "bits",
   "ms",
@@ -82,9 +85,9 @@
     {
      "reference": "FTG",
      "deliverable": "D14",
-     "workItem": "W-05",
+     "workItem": "W-05b",
      "role": "target",
-     "note": "organic presets only; the declared exception band (0.5 - 1.5 x FTG)"
+     "note": "organic presets only; the declared exception band (0.5 - 1.5 x FTG), the ten-slot type7 band printed beside it for the design pass (DC-35, R-34)"
     }
    ]
   },
@@ -175,7 +178,7 @@
     {
      "reference": "FTG",
      "deliverable": "D14",
-     "workItem": "W-05",
+     "workItem": "W-05b",
      "role": "weakness"
     }
    ]
@@ -216,7 +219,7 @@
     {
      "reference": "FTG",
      "deliverable": "D14",
-     "workItem": "W-05",
+     "workItem": "W-05b",
      "role": "weakness"
     }
    ]
@@ -273,12 +276,12 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     },
     {
      "reference": "NG",
      "deliverable": "D27",
-     "workItem": "W-11"
+     "workItem": "W-11b"
     }
    ]
   },
@@ -320,13 +323,14 @@
     {
      "reference": "NG",
      "deliverable": "D4",
-     "workItem": "W-11",
-     "role": "target"
+     "workItem": "W-11b",
+     "role": "target",
+     "note": "nodes within 2 m (declared) merged (R-06); the raw degree-4 count in the note"
     },
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -372,7 +376,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -415,7 +419,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D7",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -459,7 +463,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D7",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -503,32 +507,25 @@
     {
      "reference": "MFCG",
      "deliverable": "D7",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
   },
   {
-   "id": "bldg.wallAlign",
+   "id": "bldg.wallAlign.median",
    "version": "1.0.0",
    "input": "geo",
    "scale": "metric",
-   "unit": "none",
+   "unit": "deg",
    "output": {
     "kind": "vector",
-    "unit": "none",
+    "unit": "deg",
     "fields": [
-     "b0_40.median",
-     "b0_40.share15",
-     "b40_100.median",
-     "b40_100.share15",
-     "b100_200.median",
-     "b100_200.share15"
-    ],
-    "fieldUnits": {
-     "median": "deg",
-     "share15": "share"
-    }
+     "b0_40",
+     "b40_100",
+     "b100_200"
+    ]
    },
    "perSeed": "value",
    "sign": "positive",
@@ -550,13 +547,57 @@
    ],
    "row": "MFCG street signature",
    "parity": true,
-   "basis": "stated (per band the median and the share <= 15 degrees)",
-   "open": "W-07: the vector mixes degrees and shares while MetricDef.output carries one unit; the band floor for the share fields is 0.02 (default) -- split or keep fieldUnits, ruled before the row",
+   "basis": "stated (DC-17; R-12 F4: the split of bldg.wallAlign): per band 0-40, 40-100, 100-200 m from the outermost curtain, the median of the building-axis to nearest-curtain-segment angle folded into [0, 45] degrees",
    "m1": [
     {
      "reference": "MFCG",
      "deliverable": "D7",
-     "workItem": "W-07",
+     "workItem": "W-07b",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "bldg.wallAlign.share15",
+   "version": "1.0.0",
+   "input": "geo",
+   "scale": "metric",
+   "unit": "share",
+   "output": {
+    "kind": "vector",
+    "unit": "share",
+    "fields": [
+     "b0_40",
+     "b40_100",
+     "b100_200"
+    ]
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "MFCG street signature",
+   "parity": true,
+   "basis": "stated (DC-17; R-12 F4: the split of bldg.wallAlign): per band the share of those angles <= 15 degrees",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D7",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -785,15 +826,14 @@
    ],
    "row": "blocks",
    "parity": true,
-   "basis": "stated (built blocks per district; distribution)",
-   "open": "W-11: NG inputs are relative (V12 section 2.2), so NG rows read block.areaRel; block.area applies to metric sources",
+   "basis": "stated (built blocks per district; distribution); NG reads it in declared metres (scale declared, 0.35 m per model unit, R-01; V12 section 2.2): the target row M0-b-05b reads",
    "m1": [
     {
      "reference": "NG",
      "deliverable": "D15",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target",
-     "note": "NG inputs are relative: the row reads block.areaRel (open on that entry)"
+     "note": "declared metres (0.35 m per model unit, R-01) on the catalogue's log bins: the row M0-b-05b reads"
     }
    ]
   },
@@ -806,7 +846,36 @@
    "output": {
     "kind": "distribution",
     "unit": "ratio",
-    "edges": null
+    "edges": [
+     0.5,
+     0.666761,
+     0.88914,
+     1.185687,
+     1.581139,
+     2.108483,
+     2.811707,
+     3.749471,
+     5.0,
+     6.667607,
+     8.891397,
+     11.856869,
+     15.811388,
+     21.084825,
+     28.117066,
+     37.49471,
+     50.0,
+     66.676072,
+     88.913971,
+     118.568685,
+     158.113883,
+     210.848252,
+     281.170663,
+     374.947105,
+     500.0
+    ],
+    "underflow": true,
+    "overflow": true,
+    "rule": "log-spaced, 24 bins, 0.5 - 500 median footprint areas, with underflow and overflow bins (R-01: the default area rule on the relative range)"
    },
    "perSeed": "sample",
    "sign": "positive",
@@ -823,13 +892,22 @@
    },
    "references": [
     {
-     "ref": "NG"
+     "ref": "NG",
+     "role": "descriptive"
     }
    ],
    "row": "blocks",
    "parity": true,
-   "basis": "stated as the relative variant of block.area (areas / the median footprint area)",
-   "open": "W-11: V12 states no bin edges for the relative variant (edges null here); edges in median-footprint units are owed before the first row"
+   "basis": "stated as the relative variant of block.area (areas / the median footprint area); edges and the descriptive role ruled by R-01 (the companion of block.area)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D15",
+     "workItem": "W-11b",
+     "role": "descriptive",
+     "note": "the descriptive companion of block.area (R-01): 24 log bins over 0.5 - 500 median footprint areas"
+    }
+   ]
   },
   {
    "id": "block.countTemplate",
@@ -866,8 +944,9 @@
     {
      "reference": "NG",
      "deliverable": "D15",
-     "workItem": "W-11",
-     "role": "target"
+     "workItem": "W-11b",
+     "role": "target",
+     "note": "bounded faces per hood at medium (R-08); the share of footprints in no face in the note"
     }
    ]
   },
@@ -909,7 +988,7 @@
     {
      "reference": "NG",
      "deliverable": "D5",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target"
     },
     {
@@ -955,8 +1034,9 @@
     {
      "reference": "NG",
      "deliverable": "D23",
-     "workItem": "W-10",
-     "role": "target"
+     "workItem": "W-10b",
+     "role": "target",
+     "note": "the pooled, ring, plain and per-template rows; the five face-class rows descriptive (R-09)"
     }
    ]
   },
@@ -995,8 +1075,9 @@
     {
      "reference": "NG",
      "deliverable": "D23",
-     "workItem": "W-10",
-     "role": "target"
+     "workItem": "W-10b",
+     "role": "target",
+     "note": "the pooled, ring, plain and per-template rows; the five face-class rows descriptive (R-09)"
     }
    ]
   },
@@ -1035,8 +1116,9 @@
     {
      "reference": "NG",
      "deliverable": "D23",
-     "workItem": "W-10",
-     "role": "target"
+     "workItem": "W-10b",
+     "role": "target",
+     "note": "the pooled, ring, plain and per-template rows; the five face-class rows descriptive (R-09)"
     }
    ]
   },
@@ -1075,8 +1157,136 @@
     {
      "reference": "NG",
      "deliverable": "D23",
-     "workItem": "W-10",
-     "role": "target"
+     "workItem": "W-10b",
+     "role": "target",
+     "note": "the pooled, ring, plain and per-template rows; the five face-class rows descriptive (R-09)"
+    }
+   ]
+  },
+  {
+   "id": "cut.length",
+   "version": "1.0.0",
+   "input": "trace",
+   "scale": "metric",
+   "unit": "m",
+   "output": {
+    "kind": "distribution",
+    "unit": "m",
+    "edges": [
+     0,
+     5,
+     10,
+     15,
+     20,
+     25,
+     30,
+     35,
+     40,
+     45,
+     50,
+     55,
+     60,
+     65,
+     70,
+     75,
+     80,
+     85,
+     90,
+     95,
+     100,
+     105,
+     110,
+     115,
+     120,
+     125,
+     130,
+     135,
+     140,
+     145,
+     150,
+     155,
+     160,
+     165,
+     170,
+     175,
+     180,
+     185,
+     190,
+     195,
+     200,
+     205,
+     210,
+     215,
+     220,
+     225,
+     230,
+     235,
+     240,
+     245,
+     250,
+     255,
+     260,
+     265,
+     270,
+     275,
+     280,
+     285,
+     290,
+     295,
+     300,
+     305,
+     310,
+     315,
+     320,
+     325,
+     330,
+     335,
+     340,
+     345,
+     350,
+     355,
+     360,
+     365,
+     370,
+     375,
+     380,
+     385,
+     390,
+     395,
+     400
+    ],
+    "underflow": false,
+    "overflow": true,
+    "rule": "5 m bins to 400 m with an overflow bin (default rule: run lengths)"
+   },
+   "perSeed": "sample",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "bent-cut signature (cut lengths per face <M-1>)",
+   "parity": true,
+   "basis": "stated (DC-21; R-15): per cut on S8's cut log the length of its fillet-free course between the snapped ends; NG in declared metres (0.35 m per model unit, R-01; V12 section 2.2)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D30",
+     "workItem": "W-10b",
+     "role": "target",
+     "note": "spreadKS.p90 over the per-template subsets (R-15)"
     }
    ]
   },
@@ -1244,7 +1454,14 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "R-23"
     }
    ]
   },
@@ -1283,7 +1500,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -1322,7 +1539,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -1375,12 +1592,12 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     },
     {
      "reference": "NG",
      "deliverable": "D27",
-     "workItem": "W-11"
+     "workItem": "W-11b"
     }
    ]
   },
@@ -1423,12 +1640,12 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     },
     {
      "reference": "NG",
      "deliverable": "D27",
-     "workItem": "W-11"
+     "workItem": "W-11b"
     }
    ]
   },
@@ -1501,7 +1718,7 @@
     {
      "reference": "NG",
      "deliverable": "D27",
-     "workItem": "W-11"
+     "workItem": "W-11b"
     }
    ]
   },
@@ -1536,7 +1753,14 @@
    ],
    "row": "plot-area gradient",
    "parity": true,
-   "basis": "stated; NG's plots read as geo (stated)"
+   "basis": "stated; NG's plots read as geo (stated)",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D27",
+     "workItem": "W-11b"
+    }
+   ]
   },
   {
    "id": "alley.gradient",
@@ -1606,7 +1830,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D8",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1646,8 +1870,9 @@
     {
      "reference": "MFCG",
      "deliverable": "D8",
-     "workItem": "W-07",
-     "role": "target"
+     "workItem": "W-07b",
+     "role": "target",
+     "note": "the band per size (R-12 F2)"
     }
    ]
   },
@@ -1686,7 +1911,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1726,7 +1951,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1766,7 +1991,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1806,7 +2031,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1846,7 +2071,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1886,7 +2111,7 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     }
    ]
@@ -1926,8 +2151,9 @@
     {
      "reference": "FTG",
      "deliverable": "D14",
-     "workItem": "W-05",
-     "role": "target"
+     "workItem": "W-05b",
+     "role": "target",
+     "note": "the band recomputed by the band rule at n = 10 (DC-11, R-34)"
     }
    ]
   },
@@ -1966,8 +2192,9 @@
     {
      "reference": "FTG",
      "deliverable": "D14",
-     "workItem": "W-05",
-     "role": "target"
+     "workItem": "W-05b",
+     "role": "target",
+     "note": "the band recomputed by the band rule at n = 10 (DC-11, R-34)"
     }
    ]
   },
@@ -2039,13 +2266,13 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     },
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -2087,7 +2314,14 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "the stress family capture/MFCG/80/river+coast (R-23)"
     }
    ]
   },
@@ -2129,13 +2363,20 @@
     {
      "reference": "MFCG",
      "deliverable": "D9",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target"
     },
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "at the stress setting: the waterfront law; the stress family capture/MFCG/80/river+coast (R-23)"
     }
    ]
   },
@@ -2178,7 +2419,15 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b",
+     "note": "against section 13.5's fixed bound 'outline step <= 25 m': the reference value sharpened, the band column kept (R-48); the six coast+river slots per matched size, minmax"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "the stress family capture/MFCG/80/river+coast (R-23)"
     }
    ]
   },
@@ -2221,7 +2470,15 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b",
+     "note": "the band rule per class over the six coast+river slots per matched size, minmax (R-34, R-48)"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "the stress family capture/MFCG/80/river+coast (R-23)"
     }
    ]
   },
@@ -2261,7 +2518,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -2301,7 +2558,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -2363,7 +2620,7 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     }
    ]
   },
@@ -2406,7 +2663,14 @@
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
+    },
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "weakness",
+     "note": "from the export's population figure where it carries one, else the coded six-per-lot law as the note (R-23)"
     }
    ]
   },
@@ -2449,24 +2713,31 @@
     {
      "reference": "FTG",
      "deliverable": "D13",
-     "workItem": "W-02",
-     "role": "weakness"
+     "workItem": "W-02b",
+     "role": "weakness",
+     "inputs": [
+      "W-02"
+     ],
+     "note": "the server interval, PUT sent to layout GET sent (R-21), on the slots of programme 1 (W-02) and programme 2 (W-02b) at BIG_TOWN, BIG_CITY, METROPOLIS and CITY"
     },
     {
      "reference": "FTG",
      "deliverable": "D26",
-     "workItem": "W-05"
+     "workItem": "W-05b"
     },
     {
      "reference": "NG",
      "deliverable": "D27",
-     "workItem": "W-11"
+     "workItem": "W-11b",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
     },
     {
      "reference": "MFCG",
      "deliverable": "D28",
      "workItem": "W-07",
-     "role": "descriptive"
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
     }
    ]
   },
@@ -2504,7 +2775,30 @@
    ],
    "row": "section 12's targets",
    "parity": true,
-   "basis": "stated"
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
+    }
+   ]
   },
   {
    "id": "time.worst",
@@ -2540,7 +2834,30 @@
    ],
    "row": "MFCG-worst configurations",
    "parity": true,
-   "basis": "stated"
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44); the row's note carries the stress seeds' attempt counts"
+    },
+    {
+     "reference": "FTG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
+    },
+    {
+     "reference": "NG",
+     "deliverable": "R-44",
+     "workItem": "W-15",
+     "role": "descriptive",
+     "note": "descriptive in C-0116's form (values.n 0, sample.failed reason contended or unmeasured) unless W-21 runs (R-21, R-44)"
+    }
+   ]
   },
   {
    "id": "wait.generate",
@@ -2736,13 +3053,271 @@
    ],
    "row": "the C rows of section 13.5",
    "parity": true,
-   "members": "W-05 fixes the member ids (one per lifestyle tier share) before its first row (M-1-plan D25)",
+   "members": "registered below (memberOf wealth.*): wealth.tier1 .. wealth.tier6, fixed by W-05 (E05 section 5, W05-D13; M-1-plan D25)",
+   "memberIds": [
+    "wealth.tier1",
+    "wealth.tier2",
+    "wealth.tier3",
+    "wealth.tier4",
+    "wealth.tier5",
+    "wealth.tier6"
+   ]
+  },
+  {
+   "id": "wealth.tier1",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 1, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
    "m1": [
     {
      "reference": "FTG",
      "deliverable": "D25",
-     "workItem": "W-05",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
+    }
+   ]
+  },
+  {
+   "id": "wealth.tier2",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
      "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 2, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
+    }
+   ]
+  },
+  {
+   "id": "wealth.tier3",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 3, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
+    }
+   ]
+  },
+  {
+   "id": "wealth.tier4",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 4, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
+    }
+   ]
+  },
+  {
+   "id": "wealth.tier5",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 5, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
+    }
+   ]
+  },
+  {
+   "id": "wealth.tier6",
+   "version": "1.0.0",
+   "input": "model",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "rel": 1e-09
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "FTG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "the C rows of section 13.5",
+   "parity": true,
+   "basis": "E05 section 5 (W05-D13): the share of households requested in lifestyle tier 6, the tiers lowest first; the tier-pair output shares a note",
+   "memberOf": "wealth.*",
+   "m1": [
+    {
+     "reference": "FTG",
+     "deliverable": "D25",
+     "workItem": "W-05b",
+     "role": "descriptive",
+     "note": "member ids fixed by W-05 (E05 section 5); the per-slot values W-05b"
     }
    ]
   },
@@ -2762,14 +3337,398 @@
    ],
    "row": "draw style",
    "parity": true,
-   "members": "W-07 fixes the member ids for MFCG's draw-style rows (section 8.3's census; M-1-plan D28); draw.contrast and draw.hairline below are members of ours",
+   "members": "registered below (memberOf draw.*), the members V12 section 3.4.2 names (DC-18): MFCG's five (section 8.3's census; R-12 F4, E07 section 7; M-1-plan D28) and NG's four (R-23, E20; M-1-plan D34); draw.order has no numeric member; draw.contrast and draw.hairline below are ids of ours",
+   "memberIds": [
+    "draw.casingLaw",
+    "draw.roundJoins",
+    "draw.roundCaps",
+    "draw.widthPx",
+    "draw.wallsAfterBuildings",
+    "draw.capSquare",
+    "draw.hatchPerWing",
+    "draw.shadowQuadsPerWing",
+    "draw.roofLumaRatio"
+   ]
+  },
+  {
+   "id": "draw.casingLaw",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; E07 section 7): the share of cased ribbons whose dark casing lies at core + 2t (within 0.002), t the record's hairline; unit share (inferred)",
+   "memberOf": "draw.*",
    "m1": [
     {
      "reference": "MFCG",
      "deliverable": "D28",
      "workItem": "W-07",
      "role": "target",
-     "note": "ink"
+     "note": "parity preset ink"
+    }
+   ]
+  },
+  {
+   "id": "draw.roundJoins",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; E07 section 7): round joins / joins",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "parity preset ink"
+    }
+   ]
+  },
+  {
+   "id": "draw.roundCaps",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member, descriptive (DC-18; E07 section 7): round caps / caps",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "descriptive",
+     "note": "parity preset ink"
+    }
+   ]
+  },
+  {
+   "id": "draw.widthPx",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "none",
+   "output": {
+    "kind": "vector",
+    "unit": "none",
+    "fields": [
+     "wall",
+     "tower",
+     "roadCore",
+     "pier"
+    ]
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "relToReferenceMedian": 0.02,
+    "basis": "default: lengths 2 % of the reference median"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member, a vector (DC-18; E07 section 7): model width x px per metre at the matched scale; the values are pixels and MetricUnit names no pixel unit, so the unit is none (inferred)",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "parity preset ink"
+    }
+   ]
+  },
+  {
+   "id": "draw.wallsAfterBuildings",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "MFCG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; E07 section 7): 1 where the first wall stroke follows the last roof fill, else 0; a share over the records (inferred)",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D28",
+     "workItem": "W-07",
+     "role": "target",
+     "note": "parity preset ink"
+    }
+   ]
+  },
+  {
+   "id": "draw.capSquare",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "share",
+   "output": {
+    "kind": "scalar",
+    "unit": "share"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; R-23; E20 section 2): square-capped strokes / street-style strokes",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D34",
+     "workItem": "W-22",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "draw.hatchPerWing",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "count",
+   "output": {
+    "kind": "scalar",
+    "unit": "count"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.5,
+    "basis": "default: counts"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; R-23; E20 section 2): per two-fill wing the 3-segment ink fills in its roof unit, the map's value the mean; unit count (inferred)",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D34",
+     "workItem": "W-22",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "draw.shadowQuadsPerWing",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member (DC-18; R-23; E20 section 2): 5-segment shadow fills / roof units; unit ratio (inferred)",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D34",
+     "workItem": "W-22",
+     "role": "target"
+    }
+   ]
+  },
+  {
+   "id": "draw.roofLumaRatio",
+   "version": "1.0.0",
+   "input": "render",
+   "scale": "free",
+   "unit": "ratio",
+   "output": {
+    "kind": "scalar",
+    "unit": "ratio"
+   },
+   "perSeed": "value",
+   "sign": "positive",
+   "absFloor": {
+    "value": 0.02,
+    "basis": "default: shares, ratios and rank statistics"
+   },
+   "tolerance": {
+    "abs": 0.01
+   },
+   "twinTolerance": {
+    "rel": 0.005,
+    "orLastDigit": 1
+   },
+   "references": [
+    {
+     "ref": "NG",
+     "role": "descriptive"
+    }
+   ],
+   "row": "draw style",
+   "parity": true,
+   "basis": "stated member, descriptive (DC-18; R-23; E20 section 2): per two-fill wing the second fill's luma / the first's, the map's value the median; a ratio, no colour value",
+   "memberOf": "draw.*",
+   "m1": [
+    {
+     "reference": "NG",
+     "deliverable": "D34",
+     "workItem": "W-22",
+     "role": "descriptive"
     }
    ]
   },
@@ -2804,7 +3763,10 @@
    },
    "perSeed": "value",
    "sign": "any",
-   "absFloor": null,
+   "absFloor": {
+    "value": 0.1,
+    "basis": "stated: V12 section 3.4.2 (absFloor 0.1 z; R-10, W05-D18)"
+   },
    "tolerance": {
     "rel": 1e-09
    },
@@ -2822,22 +3784,21 @@
    ],
    "row": "between-seed variety",
    "parity": true,
-   "basis": "stated (mean pairwise distance of standardised signature vectors over the seeds); sign any by the default rule for unit z",
-   "open": "W-09 (MFCG) and W-05 (FTG): V12 states no absFloor for a z distance; set before the first row",
+   "basis": "stated (DC-07 from R-10): section 7.7's eight-component signature vector per town, each component standardised by the rung's pooled deviation over both references' vectors; the mean pairwise Euclidean distance over the seeds, one value per rung with seeds = n and no per-seed estimator; sign any by the default rule for unit z",
    "m1": [
     {
      "reference": "MFCG",
      "deliverable": "D16",
-     "workItem": "W-09",
+     "workItem": "W-15",
      "role": "target",
-     "note": "a floor"
+     "note": "a floor (ours >= the larger reference dispersion), formed at W-15 from both references' signature vectors (R-10; one per usable MFCG seed and FTG slot, written by the measuring items without a dispersion) with the rung's pooled deviations over their union (MFCG 10 with FTG 10 at TOWN and CITY, MFCG 10 with FTG 4 at METROPOLIS; R-40); one value per rung, seeds = n; absFloor 0.1 z"
     },
     {
      "reference": "FTG",
      "deliverable": "D16",
-     "workItem": "W-05",
+     "workItem": "W-15",
      "role": "target",
-     "note": "a floor; estimator minmax at n = 3 (section 8 (5))"
+     "note": "a floor (ours >= the larger reference dispersion), formed at W-15 from both references' signature vectors (R-10; one per usable MFCG seed and FTG slot, written by the measuring items without a dispersion) with the rung's pooled deviations over their union (MFCG 10 with FTG 10 at TOWN and CITY, MFCG 10 with FTG 4 at METROPOLIS; R-40); one value per rung, seeds = n; absFloor 0.1 z; the per-water-setting FTG values reported beside it as a note (R-40)"
     }
    ]
   },
@@ -2876,9 +3837,9 @@
     {
      "reference": "MFCG",
      "deliverable": "D24",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target",
-     "note": "descriptive with a known-defects entry if the export holds one square (section 8)"
+     "note": "reference value 0: every export holds one square and every recorded generation builds one market geometry (R-12 D24; E07 section 6)"
     }
    ]
   },
@@ -2917,9 +3878,9 @@
     {
      "reference": "MFCG",
      "deliverable": "D24",
-     "workItem": "W-07",
+     "workItem": "W-07b",
      "role": "target",
-     "note": "descriptive with a known-defects entry if the export holds one square (section 8)"
+     "note": "reference value 0: every export holds one square and every recorded generation builds one market geometry (R-12 D24; E07 section 6)"
     }
    ]
   },
@@ -3078,7 +4039,16 @@
    ],
    "row": "item 106's use of natural barriers",
    "parity": true,
-   "basis": "stated"
+   "basis": "stated",
+   "m1": [
+    {
+     "reference": "MFCG",
+     "deliverable": "D35",
+     "workItem": "W-07b",
+     "role": "descriptive",
+     "note": "the stress family capture/MFCG/80/river+coast (R-23)"
+    }
+   ]
   },
   {
    "id": "wall.condition",
@@ -3892,17 +4862,16 @@
    ],
    "row": "detour index <M-1>",
    "parity": true,
-   "basis": "stated (200 node pairs >= 100 m apart; per seed median); unit ratio (inferred)",
+   "basis": "stated (200 node pairs >= 100 m apart; per seed median); unit ratio (inferred); NG reads it in declared metres (0.35 m per model unit, R-01; V12 section 2.2), so the 100 m pair minimum applies",
    "sampling": {
     "label": "street.detour",
     "n": 200
    },
-   "open": "W-11: a metric-scale metric (pairs >= 100 m apart) on a relative-scale NG input is notApplicable by V12 section 3.5.6 unless a relative rule is stated",
    "m1": [
     {
      "reference": "NG",
      "deliverable": "D4",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target"
     }
    ]
@@ -3912,10 +4881,10 @@
    "version": "1.0.0",
    "input": "geo",
    "scale": "metric",
-   "unit": null,
+   "unit": "perKm2",
    "output": {
     "kind": "scalar",
-    "unit": null
+    "unit": "perKm2"
    },
    "perSeed": "value",
    "sign": "positive",
@@ -3937,13 +4906,12 @@
    ],
    "row": "cycles per km2 <M-1>",
    "parity": true,
-   "basis": "stated",
-   "open": "W-11: per km2 is not in MetricUnit (perHa and perKm are); and the metric needs metres while NG inputs are relative -- a unit and a relative rule are owed before the row",
+   "basis": "stated (unit perKm2, DC-02); the built outline for NG is the convex hull of every drawn road and footprint vertex, declared (outlineKind 1; R-08); NG in declared metres (R-01)",
    "m1": [
     {
      "reference": "NG",
      "deliverable": "D4",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target"
     }
    ]
@@ -4104,13 +5072,12 @@
    ],
    "row": "plot minimum width <M-1>",
    "parity": true,
-   "basis": "stated (NG's plots geo; ours model)",
-   "open": "W-11: metres on a relative-scale NG input -- a relative variant (as block.areaRel) is owed",
+   "basis": "stated (NG's plots geo; ours model); NG in declared metres (R-01)",
    "m1": [
     {
      "reference": "NG",
      "deliverable": "D4",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target"
     }
    ]
@@ -4120,10 +5087,10 @@
    "version": "1.0.0",
    "input": "geo",
    "scale": "metric",
-   "unit": null,
+   "unit": "per100m",
    "output": {
     "kind": "scalar",
-    "unit": null
+    "unit": "per100m"
    },
    "perSeed": "value",
    "sign": "positive",
@@ -4145,13 +5112,12 @@
    ],
    "row": "streetwall gap <M-1>",
    "parity": true,
-   "basis": "stated (gaps > 2 m per 100 m of frontage)",
-   "open": "W-11: no MetricUnit names a count per 100 m, and the metric needs metres while NG inputs are relative",
+   "basis": "stated (DC-05 from R-07: rays every 5 % of the median footprint short side, walled within 1.0 x that side; a gap is an unwalled run longer than 2 m; gaps per 100 m of frontage, unit per100m by DC-02, the gap length per 100 m reported beside); NG in declared metres (R-01)",
    "m1": [
     {
      "reference": "NG",
      "deliverable": "D4",
-     "workItem": "W-11",
+     "workItem": "W-11b",
      "role": "target"
     }
    ]
@@ -4191,8 +5157,9 @@
     {
      "reference": "NG",
      "deliverable": "D2",
-     "workItem": "W-11",
-     "role": "target"
+     "workItem": "W-11b",
+     "role": "target",
+     "note": "reading B (R-05); reading A and the mutual-pair share in the note"
     }
    ]
   },
@@ -4288,110 +5255,42 @@
    ]
   }
  ],
- "m1Uncovered": [
-  {
-   "metric": "block.areaRel",
-   "reference": "NG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "bldg.area",
-   "reference": "MFCG",
-   "catalogueRole": "descriptive"
-  },
+ "m1NoRow": [
   {
    "metric": "plot.spearman",
    "reference": "NG",
-   "catalogueRole": "weakness"
-  },
-  {
-   "metric": "plot.cvDistrict",
-   "reference": "NG",
-   "catalogueRole": "weakness"
+   "catalogueRole": "weakness",
+   "reason": "R-23: NG has no prosperity"
   },
   {
    "metric": "alley.gradient",
    "reference": "FTG",
-   "catalogueRole": "weakness"
-  },
-  {
-   "metric": "wall.ungated",
-   "reference": "MFCG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "water.step",
-   "reference": "MFCG",
-   "catalogueRole": "descriptive"
-  },
-  {
-   "metric": "water.riverWidth",
-   "reference": "MFCG",
-   "catalogueRole": "descriptive"
-  },
-  {
-   "metric": "pop.perBuilding",
-   "reference": "MFCG",
-   "catalogueRole": "weakness"
-  },
-  {
-   "metric": "time.firstMap",
-   "reference": "MFCG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "time.firstMap",
-   "reference": "FTG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "time.firstMap",
-   "reference": "NG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "time.worst",
-   "reference": "MFCG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "time.worst",
-   "reference": "FTG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "time.worst",
-   "reference": "NG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "draw.*",
-   "reference": "NG",
-   "catalogueRole": null
+   "catalogueRole": "weakness",
+   "reason": "R-23: a model metric; FTG's alley length is 0 by its class set (E05)"
   },
   {
    "metric": "label.*",
    "reference": "MFCG",
-   "catalogueRole": "weakness"
+   "catalogueRole": "weakness",
+   "reason": "R-23: a qualitative weakness; ours gates on section 13.7's own bar"
   },
   {
    "metric": "label.*",
    "reference": "NG",
-   "catalogueRole": null
-  },
-  {
-   "metric": "wall.barrierShare",
-   "reference": "MFCG",
-   "catalogueRole": "descriptive"
+   "catalogueRole": null,
+   "reason": "R-23: NG draws no label"
   }
  ],
+ "m1Uncovered": [],
  "counts": {
-  "ids": 172,
+  "ids": 189,
   "families": 10,
-  "parity": 73,
+  "members": 15,
+  "parity": 90,
   "oursOnly": 109,
-  "withM1Rows": 61,
-  "open": 8,
-  "m1Uncovered": 19
+  "withM1Rows": 81,
+  "open": 0,
+  "m1NoRow": 4,
+  "m1Uncovered": 0
  }
 }

@@ -1,0 +1,82 @@
+{
+ "id": "W-22",
+ "status": "landed",
+ "records": [
+  "docs/calibration/E20-ng-draw-census.md",
+  "docs/calibration/E20-ng-draw-census.json"
+ ],
+ "outputs": [
+  "research/baselines/ng_draw_census.py (sha256 5acc39f5… after R-49 restated its row checks, lane m1/rulings-2b; W-22's own version 50c03963…)",
+  "docs/calibration/E20-ng-draw-census.json (sha256 62938abf…; byte-identical on a second run)",
+  "docs/calibration/E20-ng-draw-census.md (sha256 ef77332a…)",
+  "docs/calibration/results/W-22.json"
+ ],
+ "checks": [
+  {
+   "check": "row (1a) as R-49 restates it (M-1-rulings-2.md section 9, lane m1/rulings-2b): on the figures' own records (2026-09-21T05-04-54, profile section 5.4) the census counts the table's triangles and quads exactly on all four generations, and gen-0 over the table's 296 wings rounds to section 13.5's 17.4 and 2.33",
+   "passed": true,
+   "receipt": "ng_draw_census.py --check (22:06, after R-49): triangles 5 150 / 11 330 / 5 959 / 8 446 and quads 690 / 1 533 / 765 / 1 136 equal the table; gen-0 17.3986 and 2.3311 over 296 wings (CONFIRMED). History: as the plan wrote it before R-49 ('the 2026-09-25 draw records reproduce section 13.5's ~17.4 ... within the count's rounding') this check failed -- pooled over the eight 2026-09-25 records 17.5072, rounds to 17.5 (map means 17.1732-17.6476; gen-0 only 17.4361; the profile's wing rule 17.4145); the figures are the 2026-09-21T05-04-54 gen-0 record's ratios and no single wing rule passes both halves on the 2026-09-25 records (E20 F1, CONFIRMED)"
+  },
+  {
+   "check": "row (1b) as R-49 restates it: the 2026-09-25 twin fixtures reproduce E20 section 4's fixture values 17.5072 and 2.3295 to four decimals (a regression pin on the tool; R-03: fixtures enter no row)",
+   "passed": true,
+   "receipt": "ng_draw_census.py --check (22:06, after R-49): pooled over the 8 records 17.5072 and 2.3295 against the pin 17.5072 and 2.3295 (maps 17.1732-17.6476 and 2.2489-2.5186; gen-0 only 17.4361 and 2.314; the profile's wing rule 17.4145 and 2.3589; the 44 plan seeds 18.0679 and 2.2869) (CONFIRMED). History: before R-49 this check read 'the same records reproduce 2.33 shadow quads per wing' and passed (2.3295 rounds to 2.33)"
+  },
+  {
+   "check": "row (2): no colour value in the record",
+   "passed": true,
+   "receipt": "E20 md and JSON scanned against the 580 style keys, 56 label texts and 917 canvas keys of the 56 input records, plus colour literals: 0 hits; a copy with one style key planted is caught; an independent scan agrees (0 style keys, 0 hex, 0 label texts); doc_checks C2 0 (0 colours) (CONFIRMED)"
+  },
+  {
+   "check": "provenance: the figures' source records (2026-09-21T05-04-54, profile-neighbourhood section 5.4) -- W-22's own receipt, which R-49 made row (1a)",
+   "passed": true,
+   "receipt": "the census counts 5 150 / 11 330 / 5 959 / 8 446 triangles and 690 / 1 533 / 765 / 1 136 quads, equal to the profile's table on all four generations; gen-0 over that table's 296 wings gives 17.3986 and 2.3311, which round to 17.4 and 2.33 (CONFIRMED)"
+  },
+  {
+   "check": "all 44 W-04 recordings measured in plan order; the truncated log completed",
+   "passed": true,
+   "receipt": "44/44 labels equal the programme index; ring/large/2's log (2 406 dropped) completed with 2 405 paints from paths.json (the 2 406th was the title text); segments = vertices on every polygon path the census reads (CONFIRMED)"
+  },
+  {
+   "check": "the count includes the two ridge tapers (plan row's note, section 8.3)",
+   "passed": true,
+   "receipt": "exactly two heavy-base triangles on 33 383 of 33 636 gable/hip wings (0.9925) over 52 records with a vertex layer; worst map 0.9601 (CONFIRMED)"
+  },
+  {
+   "check": "attribution of triangles to wings, against the geometry",
+   "passed": true,
+   "receipt": "centroid inside its own wing's footprint fill for 603 730 of 604 534 triangles (0.9987); worst map 0.9929 (CONFIRMED)"
+  },
+  {
+   "check": "caps law as counts",
+   "passed": true,
+   "receipt": "square caps never exceed the street strokes; capSquare 1 on 33 of 44 maps; each of the 11 square-template maps has exactly 3 round-capped street strokes and one filled street (CONFIRMED)"
+  },
+  {
+   "check": "red run",
+   "passed": true,
+   "receipt": "--red (provenance shifted by one triangle; a style key planted in the scanned text): both FAIL, exit 1, nothing written (CONFIRMED, W-22). Re-executed after R-49 (22:07) with the fixture pin also shifted by 0.0001: rows (1a), (1b) and (2) FAIL, 3 FAIL, exit 1, nothing written -- E20's JSON and record byte-unchanged (CONFIRMED, m1/rulings-2b)"
+  },
+  {
+   "check": "doc_checks on the record",
+   "passed": true,
+   "receipt": "doc_checks.py --doc docs/calibration/E20-ng-draw-census.md --heads docs/ARCHITECTURE.md (final text): C1 0, C2 0, C3 35 hits / 34 unreviewed, C4 0, S1 0, S2 0. All 34 were read: capture folder names and dates, digit runs, two short phrases quoted from our own findings file, and plain phrases of the record. None is a reference list, palette, grammar or identifier. Exit 1 by the C3 count, outside the design set, so no allow rows (CONFIRMED)"
+  }
+ ],
+ "rows": 44,
+ "owner_notes": [
+  "W-22 measured how the Neighbourhood generator draws its houses on all 44 maps recorded earlier today. A house wing carries about 18 small hatch strokes, casts about 2.3 shadow pieces, its street lines end square, and the shaded half of each roof is about 0.80 as bright as the lit half. Nothing touched any website and nothing went into plat/.",
+  "One check in the plan missed by a hair. The 2026-09-25 test maps were supposed to give 17.4 hatch strokes per wing, and they give 17.5. The design's 17.4 actually came from an earlier map, and on that map the new tool counts exactly what the earlier study counted. The plan's ruling seat (R-49, M-1-rulings-2.md section 9) restated that check: the tool must count exactly what the earlier study counted on the earlier map (it does), and must give its own recorded numbers on the test maps (it does). The item is now landed, and the design's 17.4 is corrected to the programme's own value, about 18.1 over the 44 maps, by DC-36 for the design seat.",
+  "For the design seat: the design asks for 15-20 hatch strokes on every wing, but the reference generator itself does that on only about half its wings. The wording should say 'on average per map' (E20 F2)."
+ ],
+ "notes": [
+  "Outcome: the tool research/baselines/ng_draw_census.py was built (standard library; roles found at run time, no colour stored) and run on the 44 W-04 recordings, the eight 2026-09-25 records and the four 2026-09-21 source records. Over the 44 maps: draw.hatchPerWing 18.0679 (map means 15.7606-21.0979), draw.shadowQuadsPerWing 2.2869 (1.9737-2.5369), draw.capSquare 0.9938 (1 on 33 maps), draw.roofLumaRatio 0.7985 (map medians 0.7981-0.7986). Per-map values with label, template, size and index are in E20 JSON plan.maps; there are 12 template-by-size pools, 3 sizes and all 44.",
+  "rows = 44 maps, each with values for the four members. W-22 writes no baselines row; W-15 forms the rows (R-47 (a)). Roles: three targets (hatched), roofLumaRatio descriptive. Ratios are at four decimals (R-47 (k)).",
+  "Why partial: the brief returns landed only when every row check passes, and row check (1a) fails as written (17.5072 vs 17.4 at one decimal). Ruling needed from the plan's owner, F1. The proposed restatement: the census reproduces profile section 5.4's counts exactly on the 2026-09-21T05-04-54 records, with gen-0 over its 296 wings at 17.4 and 2.33; on the 2026-09-25 records the pooled values lie within +-1 % of 17.4 and 2.33. Both clauses pass today: +0.62 % and -0.02 %. -- Resolved by R-49 (M-1-rulings-2.md section 9, lane m1/rulings-2b, 2026-10-03 22:06-22:08): the first check is a provenance check on the figures' own records plus a fixture pin (E20 section 5's +-1 % clause not adopted), the reference value is the pooled plan-seed value over the 44 under E20 section 2's definitions (draw.hatchPerWing a fixed-band row), and section 13.5's 17.4 / 2.33 are corrected by DC-36; --check 7 PASS exit 0, --red 3 FAIL exit 1; status landed. E20 itself is history and unchanged.",
+  "Findings routed: F2 (design seat) on section 8.3's hatched row and T-V1-26 (a). NG's own gable/hip wings have median 18, p10 12, p90 24, and only 52.86 % fall in 15-20. Map means fall outside 15-20 on 4 of 44 maps and outside 'mean 17-19' on 20 of 44. F3 (W-15): state the cap row as the open-street law with the filled street's three round-capped strokes as the declared exception. F4 (history): the profile prints gen-3's 17.17 as 17.1; it is not edited.",
+  "Calls under delegated authority (vetoable, E20 section 6): (1) a wing is one roof unit; hatch is counted per two-fill (gable/hip) wing, and quads over all wings. The alternative, the profile's rule (non-ink fills / 2), gives 17.9318 / 2.3210 over the 44. (2) The map value is the mean for hatch and the median for the tone ratio. (3) The checker was read literally: all eight 2026-09-25 records pooled, at the figures' own decimals. (4) paths.json is read as part of the draw records, for the truncated tail and the geometric receipts only. (5) The 2026-09-21 records are used as provenance only.",
+  "Hand-offs: W-01b should register the four NG member ids and add the item mapping (draw.*, NG, D34, W-22) in plan.py; metrics.m-1.json has only the draw.* family, and plan.py maps it to MFCG D28 only. This lane wrote neither file. plan.py --check currently refuses with the catalogue mismatch noted in the lane log at 21:03 (W-01b's to clear); plan.json 524830f5… and metrics.m-1.json 7a21bb29… are unchanged.",
+  "CONFIRMED (executed): every number above, the exact count reproduction, the completion, the taper and attribution receipts, the cap counts, the colour scans with the planted control, the red run, determinism and doc_checks. PLAUSIBLE (reasoning only): which roof kinds the one-fill and four-fill units are; that the three round-capped strokes per square map surround the filled place; that F1's restatement matches the plan writer's intent.",
+  "Build itch:11441280 (the recordings' own pin). No site was contacted, no program bundle was read, nothing was written into plat/, and no git command changed state. Disk had 12 GiB free."
+ ]
+}

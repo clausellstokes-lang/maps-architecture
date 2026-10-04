@@ -41,7 +41,9 @@ HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0,                   # size
 # The size-dependent preset values, pinned by name (ruling R-24; no prefix rule). The client fills them from the chosen
 # size; no simple-form control sets them. Measured on three sizes: the 2026-09-21 CITY base, day 1 (BIG_TOWN, slot 0) and
 # slot 1 (BIG_CITY, signed in), whose form steps differed only in the size option (E02 section 10). Day 1 differed from
-# the base in the first eleven; slot 1 adds the last five.
+# the base in the first eleven; slot 1 adds the next five. Slot 6 (METROPOLIS, 2026-10-04T02-55-56; R-41, the first capture
+# of a new size, whose form steps differ from slot 1's in the size option only) adds the seventeenth: the second stage's
+# spoke cap, 1 at CITY, BIG_TOWN and BIG_CITY and 2 at METROPOLIS (E02 section 17).
 SIZE_DEPENDENT = (
     '.buildingsParameters.defaultInsideSettlementShopProbability',
     '.buildingsParameters.defaultOutsideSettlementShopProbability',
@@ -59,6 +61,7 @@ SIZE_DEPENDENT = (
     '.layoutParameters.stages[1].horizontalBranchSegments',
     '.layoutParameters.stages[1].verticalBranchSegments',
     '.religionParameters.religionTargetPercentage',
+    '.layoutParameters.stages[1].maxSpokesInStage',
 )
 # The water-implied resource class, pinned like the size class (lane m1/plan-fix-3, after both FTG verifiers found the
 # old prefix rule passed any resource change). The water options add or drop exactly one raw-resource entry, the fishing

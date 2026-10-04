@@ -112,7 +112,7 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   the default map shows neighbourhoods once they exist.
 - **Money and hosting.** Approve the underground's cost; host the map module on a SettlementForge subdomain; a private
   preview of the editor for testers first; users bring their own AI key (no relay for now); about US$1 200 of your AI
-  budget for testing the assistant; do not buy FTG's premium month; testers invited unpaid (a small thank-you only if
+  budget for testing the assistant; do not buy FTG's premium month (you later bought one month, on 2026-10-03, for the metropolis comparison); testers invited unpaid (a small thank-you only if
   too few agree).
 - **Your time.** Sit seven short review sessions at the main milestones (up to about 45 minutes each) and four very short
   ones; if you cannot, the build continues and those checks stay marked as not yet rated.

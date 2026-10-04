@@ -391,3 +391,25 @@ name blank, All settings never opened.
 10. **The window is not ours alone (plan 2.1b (8)).** The owner leaves the recording window alone while a seat runs
     (J164). At any sign of another hand, stop as H12 says.
 11. **Privacy (plan 2.1b (9)):** as H11 and H14. Records say "the owner's signed-in account, premium since J164".
+
+Slot 6, first seat (2026-10-04, lane `m1/W-02-slot6`, attempt `captures/ftg/2026-10-04T02-18-09`, E02 section 16):
+STOPPED on the landing before any click, because the page scrolled while the seat only read it. The landing's scroll
+lives in its root container (`.root-component`), not the window: `window.scrollY` stays 0. Its `scrollTop` went 0 →
+653 → 2 769 px, "Home" moved from (896, 931) to (896, 278), the lazy feature images were fetched at those moments, and
+the `:hover` chain showed a pointer over the page. The next seat reads `document.querySelector('.root-component').scrollTop`
+with its first landing reading and again right before the "Home" click. A change between the two is H12's sign of another
+hand.
+
+Slot 6, relaunch (2026-10-04, lane `m1/W-02-slot6b`, `captures/ftg/2026-10-04T02-55-56`, E02 section 17) followed H1–H14
+and I1–I11 with one create; the root scroll read 0 → 0 across the landing. Three things for slots 7 onward:
+- **The size option's request key (I4).** Each size option's `value` attribute equals its display text, so "the option
+  whose value is the request key" is read from the option's React element key, which is the display text followed by
+  the key: `D eval "(() => { const s = [...document.querySelectorAll('select')].filter((e) => e.getBoundingClientRect().width > 2)[0]; return JSON.stringify([...s.options].map((o) => { const k = Object.keys(o).find((x) => x.startsWith('__reactFiber')); return [o.text, k ? o[k].key : null]; })); })()"`.
+  Pick the one option whose key ends in the slot's request key, select it by its exact text, then re-read the selected
+  option's key. On 2026-10-04 exactly one of 12 options ended in `METROPOLIS`.
+- **SIZE_DEPENDENT has 17 names** (R-41, slot 6): `.layoutParameters.stages[1].maxSpokesInStage` joined (1 at CITY,
+  BIG_TOWN and BIG_CITY; 2 at METROPOLIS; the client's per-size second-stage table sets it). METROPOLIS slots 7–9 must
+  repeat slot 6's 17 values exactly; the same-size check compares them with slot 6.
+- **The METROPOLIS form is slot 1's form** but for the size option: forests (1008, 556) before the scroll, the reserve
+  area (1008, 367) and walled (1008, 396) after `wheel 720 400 300`, "Create Settlement" 1 of 1 at (947, 522) inside the
+  dialog. The premium size raised no prompt. The PUT answered in about 11 s and the payload was 2.1 MB.

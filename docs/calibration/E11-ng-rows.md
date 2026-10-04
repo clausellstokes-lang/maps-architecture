@@ -238,3 +238,212 @@ README-vertices.md headline 4 left open are almost all on free edges, street fro
   translations fit it, and the screenshot fit confirms the offsets, but the compositing step itself was not observed);
 - that the more negative Moran's I reflects unlike neighbours across party walls;
 - the ±1 px precision figure for road registration.
+
+## 10 W-11b — the NG values on W-04's plan seeds (lane `m1/W-11b`, 2026-10-03 from 20:08 EDT; landing time in `docs/lane-events.log`)
+
+Lane `m1/W-11b` appended this section; sections 1–9 above are W-11's record and were not edited. Research side only:
+nothing was written into `plat/`, no third-party site was touched, no captured program bundle was read, no benchmark or
+timing was run (M0's build seats shared the machine), and no git command changed state. Numbers, metric ids and our own
+words only. Numbers: `docs/calibration/E11-ng-rows.plan.json` (sha256 `5a30648e…`, 2.06 MB, deterministic); hood
+outlines: `research/baselines/candidates/ng-faces.hoods.json` (`7530098b…`).
+
+**Outcome: the row's checker passes (CONFIRMED, executed).**
+- *The fixture run still reproduces T1 and T2.* After every change below, `measure_ng.py --check` on the 2026-09-25
+  fixtures prints T1 PASS (40 / 40 lines), T2 PASS (8 / 8 rows) and 41 / 41 internal checks, and its JSON is byte-identical
+  to the landed `E11-ng-rows.json` (`4efbbca0…`). The adapter's eight fixture files re-run byte-identical too.
+- *Registration on all 44 recordings.* Road centrelines cross at most 2 footprints per map at the registered offset (38
+  maps 0, five maps 1, one map 2); at the four ±1 px neighbours the maximum is 3. Built-block counts are equal at every
+  neighbour on every map; the court share moves by at most 0.0625 and the gap count by at most 0.30 per 100 m.
+- *Samples.* Every `medium` family's measured indices are exactly [0, 5) and every `small` / `large` family's [0, 3);
+  nothing failed, so no `sample.failed` entry exists.
+
+Further checks of this lane's own, all PASS: each map is its `plan.json` entry (label, seed, folder, template, size,
+index; the input header `declared` with `unitM` = 0.35 ÷ the map's paint scale and `seedLabel` the plan label); the way
+graph equals the adapter's and Euler's identity holds on 44 / 44; paths_stats' four tables rebuilt from the plan-seed
+`MeasureInput` files equal W-04's `paths-stats.md` (176 rows and 4 headers, byte for byte); the 20 hood outlines pass plan
+§7b's research-side checks. Two full runs (three worker processes each) wrote byte-identical files. Seven planted faults
+turn the checks red (a 20 px footprint shift: 417 crossed against 0; a missing index 4; a wrong `seedLabel`; a footprint
+vertex moved 0.5 px; a self-crossing ring, a non-integer coordinate and a hood without `referenceBuild`), and the three
+controls (the true header, the true map, a square hood) stay green.
+
+### 10.1 What was run
+
+| step | command | result |
+|---|---|---|
+| adapter, plan seeds | `python3 research/baselines/adapters/ng.py --plan --jobs 3` | 44 files under `research/baselines/inputs/NG/itch-11441280/plan-seeds/` (4.2 MB) and its `index.json` (label, folder, sha256, registration receipt, census) |
+| adapter, fixtures | `adapters/ng.py --out <scratch>` | the eight landed files, byte-identical (sha256 compared) |
+| measure, plan seeds | `python3 research/baselines/measure_ng.py --plan --jobs 3 --check` | exit 0, `CHECKER PASS`; ≈ 7 min wall on the shared machine; run twice, byte-identical |
+| measure, fixtures | `measure_ng.py --check --json <scratch>` | exit 0; T1 PASS, T2 PASS, 41 / 41; JSON = `4efbbca0…` |
+| red tests | `measure_ng.py --red` | 10 / 10 as expected (7 planted faults red, 3 controls green) |
+| content scan | `doc_checks.py --doc docs/calibration/E11-ng-rows.md --heads docs/ARCHITECTURE.md` | section 10.9 |
+
+**Tool changes (both scripts, our own code).** `adapters/ng.py` gained `--plan`: the 44 entries of `plan.json`'s twelve NG
+families in plan order, each resolved through the programme index and cross-checked against its `meta.json` (seed, template,
+size, build), written to a subfolder so the fixture run's directory listing is unchanged. `measure_ng.py` gained `--plan`
+(the same per-map measurement, `measure_map`, unchanged, plus the additions of 10.2) and `--red`. The fixture mode's output
+is unchanged byte for byte.
+
+**A defect found and fixed in the adapter's face graph (CONFIRMED).** The first plan run failed its graph check on four
+maps. (a) On three maps (`square/medium/3`, `area/large/1`, `square/large/1`) a fallback snap — the foot of the
+perpendicular, used when a street end's extension misses — laid a street's last segment exactly on the crossed road's
+segment, so two ways carried the same edge. Kept twice, the two copies sort to the same angle at both ends, the half-edge
+walk sees a twisted rotation, and the faces on either side merge: `square/medium/3` showed 14 blocks where 16 exist
+(Euler predicted 19 faces, the walk found 15). (b) On `square/large/2` two way vertices lay 0.0017 px (0.9 mm declared)
+apart; the measured graph merges them by V12 §3.2.2's 1 mm rule, the adapter's did not. The adapter now merges way
+vertices within 1 mm and collapses duplicate edges, counting both in the census (`duplicateWaySegmentsCollapsed` 2 / 1 / 1,
+`wayVerticesMerged1mm` 1) only when non-zero; the fixtures have neither, so their files are unchanged. After the fix the
+three maps hold 16, 66 and 129 blocks (was 14, 65 and 128) and every check passes. The other 40 inputs are byte-identical
+before and after. **For W-10b:** the bent-cut scripts' face construction is the same, so `square/medium/3` (in W-10b's 20)
+needs the same collapse before its faces are read.
+
+### 10.2 The rulings applied
+
+| ruling | applied as |
+|---|---|
+| R-01 | metres at 0.35 m per model unit, every such key suffixed `declared`; input header `scale: 'declared'` with `unitM` (DC-01); `block.areaRel`'s edges 0.5 × 1000^(i/24), i = 0 … 24, with underflow and overflow |
+| R-05 | `bldg.pairing` reading B; reading A and the mutual-pair share as companions |
+| R-06 | `junction.share4` with nodes merged within 2 m; the raw degree-4 count as a companion |
+| R-07 | the ray definition of `fg.streetwallGap100` (band 1.0 × the median short side; 0.75 and 1.25 beside) |
+| R-08 | `block.countTemplate` = bounded built faces, the share of footprints in no face beside; the built outline (`street.cyclesPerKm2`) and the hood outline = the convex hull of every drawn road and footprint vertex (`outlineKind` 1); section 2's footprint-only hull beside |
+| R-23 | `plot.cvDistrict` = the hood's footprint-area CV (population standard deviation ÷ mean; ≥ 30 plots, met by all 20) |
+| R-47 (d) | `spreadKS.p90` per template subset on `block.area` (and `block.areaRel`, `plot.minWidth`): V12 §3.5.3's p90 of the seed-pair KS distances, KS on the binned CDFs at the catalogue edges (V12 §3.4.2); the raw-ECDF KS beside |
+| R-19 | `block.courtShare` pooled both ways: the type-7 median over the 20 hoods and the count ratio |
+| R-44 | NG `time.model`: descriptive in C-0116's form, `values.n` 0, reason `contended` (W-04's per-generation wall times were taken beside M0's seats, E04 §4 (5)); no value here |
+| R-47 (a) | measured values only; W-15 forms the rows. Each value block carries its sample (family, indices [0, 5), usable 5, failed none, the five capture folders in index order) |
+
+### 10.3 Values at `medium` (five seeds per template: [min, max] and median; pooled: type-7 p10 – p90 and median over 20)
+
+| metric | area | street | square | ring | pooled 20 |
+|---|---|---|---|---|---|
+| `bldg.pairing` (B) | 0.415–0.481 (0.439) | 0.389–0.454 (0.418) | 0.379–0.432 (0.423) | 0.388–0.453 (0.410) | 0.389–0.453 (0.421) |
+| `street.detour` | 1.243–1.301 (1.277) | 1.140–1.292 (1.222) | 1.273–1.366 (1.289) | 1.221–1.250 (1.232) | 1.219–1.304 (1.254) |
+| `junction.share4` (merged) | 0.040–0.060 (0.052) | 0.000–0.118 (0.062) | 0.037–0.077 (0.062) | 0.026–0.077 (0.038) | 0.026–0.077 (0.052) |
+| `street.cyclesPerKm2` (decl.) | 138.5–291.7 (261.1) | 30.3–272.7 (84.7) | 99.0–270.3 (193.5) | 178.0–658.1 (330.1) | 81.4–331.2 (197.9) |
+| `fg.streetwallGap100` (decl.) | 2.25–2.53 (2.40) | 1.69–2.85 (2.47) | 2.05–2.88 (2.43) | 1.99–3.11 (2.48) | 2.01–2.85 (2.45) |
+| `block.courtShare` | 0.438–0.667 (0.457) | 0.250–0.500 (0.455) | 0.300–0.538 (0.400) | 0.242–0.486 (0.479) | 0.295–0.542 (0.457) |
+| `block.countTemplate` | 16–57 (39) | 2–17 (6) | 5–23 (10) | 33–116 (59) | 5–61 (20) |
+| `junction.angles` median ° | 90.2–90.7 (90.7) | 91.0–92.2 (91.1) | 90.6–93.9 (91.4) | 91.1–92.0 (91.3) | 90.6–92.0 (91.1) |
+| `junction.angles` p5 ° | 87.7–88.1 (87.8) | 84.2–88.2 (86.6) | 84.2–88.1 (87.6) | 84.6–87.1 (86.0) | 84.5–88.1 (87.1) |
+| `bldg.partyShare` (median) | 0.422–0.448 (0.435) | 0.371–0.453 (0.438) | 0.399–0.468 (0.415) | 0.418–0.487 (0.447) | 0.409–0.463 (0.441) |
+| `bldg.attached` | 0.986–0.996 (0.989) | 0.980–0.993 (0.987) | 0.966–0.988 (0.986) | 0.984–0.992 (0.990) | 0.983–0.992 (0.987) |
+| `plot.moran` | −0.111–+0.230 (−0.098) | −0.361–+0.000 (−0.234) | −0.230–+0.081 (+0.025) | −0.214–−0.088 (−0.148) | −0.235–+0.064 (−0.101) |
+| `plot.cvDistrict` | 0.341–0.420 (0.365) | 0.296–0.494 (0.399) | 0.299–0.630 (0.432) | 0.373–0.531 (0.411) | 0.300–0.497 (0.393) |
+
+The per-seed values, every companion and the per-map records are in the JSON (`medium`, `mediumPooled`, `maps`).
+Companions in brief: pairing reading A 0.069–0.142 and the mutual share 0.141–0.288; detour all-pairs medians 1.140–1.356
+(four hoods have fewer than 200 eligible pairs — street 3 and 4 with 72 and 84, square 0 and 1 with 135 and 160 — so
+their sample is every pair);
+`fg.streetwallGap100` gap length 12.6–47.4 m per 100 m; the footprint-only hull gives cycles per km² 32.7–684.0 (the R-08
+hull is 1.04–1.43 times its area); the old script's definitions on these seeds give ≥ 1 shared wall 91.8–99.0 %, shared
+length 36.3–45.1 % of perimeter and Moran's I (k = 8) −0.090 … +0.076.
+
+**Distributions.** Built-block areas per seed: median 1 121–3 925 m² declared; `block.area`'s `spreadKS.p90` per template
+(10 seed pairs each; binned / raw ECDF): area 0.327 / 0.356, street 1.000 / 1.000, square 0.703 / 0.840, ring 0.819 /
+0.871; over the 20 hoods (190 pairs, across templates) 0.801 / 0.865. `block.areaRel` (median per seed 18.0–41.7 median
+footprint areas): 0.383, 0.850, 0.580, 0.524 binned. `plot.minWidth` (median per seed 6.73–8.74 m declared; 12 482
+footprints): 0.195, 0.348, 0.270, 0.388 binned. No block area fell outside 50–50 000 m² and none outside 0.5–500 median
+footprint areas.
+
+**Junction census.** 1 674 merged nodes of degree ≥ 3 over the 20 maps; the raw graph has one degree-4 node in all 20 (at
+`square/medium/3`), and it is a snapping artefact: a fallback landing point placed on another street's drawn end, 0.67 px
+(0.22 m declared) from that street's own landing on the road. Every merged degree-4 node joins two end-on T junctions within
+the 2 m merge (`deg4FromTwoEndOn` equals the merged count on every map), as on the fixtures.
+
+**Courts (R-19's input).** 276 of 597 deep built blocks hold a court (0.462); the type-7 median over the 20 hoods is
+0.457. No shallow block holds one. The fixtures gave 0.43 (115 of 268).
+
+### 10.4 Formula values against the recorded numbers (R-03: the formula row stands; the design number is corrected)
+
+| cell | recorded (fixtures or §13.5) | formula seeds | beyond the row's floor? |
+|---|---|---|---|
+| `bldg.partyShare` (DC-24's new text) | per-footprint median 0.42–0.46 | 0.37–0.49 per seed (pooled p10–p90 0.41–0.46) | yes (floor 0.02) |
+| `bldg.attached` (DC-24) | 0.98–1.00 | 0.966–0.996 | no (0.014 < 0.02) |
+| §13.5 party walls under the old script | 39–43 % of perimeter, 95–99 % attached | 36–45 %, 92–99 % | yes |
+| `plot.moran` (DC-25's new text) | −0.18 … +0.05 | −0.36 … +0.23 per seed (pooled p10–p90 −0.24 … +0.06) | yes (floor 0.05) |
+| §13.5 Moran (8 nearest, the old rule) | −0.04 … +0.03 | −0.09 … +0.08 | yes |
+| `junction.share4` (DC-04's new text) | 0–5 % 4-way under the 2 m merge | 0–12 % per seed (pooled p10–p90 3–8 %) | yes |
+| `junction.angles` p5 | 86.0–88.5° (fixtures) | 84.2–88.2° | yes (floor 1°); the §13.5 bar (p5 ≥ 30°) is far off |
+| `bldg.pairing` (fixtures) | 0.40–0.46 | 0.38–0.48 | at the floor |
+
+DC-04, DC-24 and DC-25 were written from the fixtures; under R-03 the design seat should carry the formula ranges. This
+lane edits no design file: the list is routed through the session to `design/m1-corrections-1` (or its successor).
+
+### 10.5 D3: block minor extents by size (for W-12; every family's sample [0, n), nothing failed)
+
+| template | `small` (3 seeds) p10 · p50 · p90 | `medium` (5) | `large` (3) |
+|---|---|---|---|
+| area | 4.53 · 5.62 · 7.24 × (35.1 · 44.1 · 56.7 m), 28 blocks | 3.93 · 5.35 · 7.43 × (30.0 · 39.7 · 54.6 m), 194 | 4.00 · 5.32 · 7.20 × (27.5 · 38.5 · 54.5 m), 158 |
+| street | 4.44 · 5.52 · 6.50 × (33.7 · 41.6 · 49.1 m), 8 | 3.48 · 5.34 · 7.93 × (24.1 · 39.5 · 56.5 m), 40 | 3.99 · 5.31 · 8.36 × (28.4 · 39.0 · 60.8 m), 98 |
+| square | 4.60 · 5.82 · 6.69 × (33.2 · 43.2 · 47.6 m), 8 | 4.06 · 5.20 · 8.06 × (30.5 · 40.7 · 60.8 m), 57 | 3.75 · 4.99 · 6.62 × (26.1 · 35.1 · 49.6 m), 195 |
+| ring | 4.44 · 5.58 · 9.08 × (31.8 · 40.0 · 64.1 m), 66 | 3.88 · 5.29 · 7.71 × (26.5 · 38.4 · 58.1 m), 317 | 3.91 · 5.40 · 7.60 × (30.6 · 43.0 · 60.8 m), 266 |
+
+The relative unit is the map's median footprint short side (6.7–8.7 m declared at `medium`). One `small` street hood
+(`street/small/1`) has no built block at all: its roads close no face around a footprint. The per-seed values, the block
+areas and the footprint frontage and depth that W-12 also reads are in `sizeSweepD3`.
+
+### 10.6 The hood outlines (plan §7b `hoods[]`; R-08; N-02)
+
+`research/baselines/candidates/ng-faces.hoods.json` holds the 20 `medium` hoods as §7b's records — `id` 0–19 in plan
+order (area 0–4, street 5–9, square 10–14, ring 15–19), `referenceBuild` on every hood, `template`, `seedLabel` (the plan
+label), `capture` (the folder) and `outlineCm` — plus a research-side sidecar per hood (input file and sha256, paint scale,
+cm per px, area). The frame is the registered road frame of the plan-seed inputs: cm = road-canvas px ÷ paint scale × 35,
+rounded half to even; rings closed. Rings have 13–31 vertices; the hulls cover 3.95–23.4 ha declared. Coordinates reach
+60 934 cm, so the hood records alone stay below six consecutive digits; the built blocks' areas in cm² run to seven to
+nine digits (654–10 011 m² at `medium`), so N-03's string-only colour reading still applies to the assembled file.
+
+### 10.7 Readings for the seats that use these values (CONFIRMED as measurements; their use is W-15's and W-12's)
+
+1. **The street template's block row has almost no power at n = 5.** Its hoods hold 2–17 built blocks, so two seeds'
+   block-area distributions barely overlap: `spreadKS.p90` is 1.000 (binned and raw), and a band of 1.25 × 1.000 can
+   never fail. Square (0.703) and ring (0.819) are wide too. W-15 should know this before it forms `block.area`'s
+   per-template rows; the counts row (`block.countTemplate`, 2–17) carries the street template's information.
+2. **R-07's band choice holds on 19 of 20 maps.** The front row's set-back p90 is 0.45–0.79 × the short side on 18
+   maps, 0.91 on one and 1.06 on `street/medium/1`, so the 1.0 band no longer lies beyond it everywhere (the fixtures gave
+   0.52–0.60). The count moves by at most 0.11 per 100 m from 1.0 to 1.25 (median 0.01), but by up to 0.50 from 1.0 to 0.75
+   (median 0.04), where the narrower band cuts into the set-back spread.
+3. **R-08's hull counts road stubs.** Including drawn road vertices enlarges the outline by 4–43 %, most in the street
+   template, whose roads run on past the last houses; cycles per km² fall accordingly (pooled median 197.9 against 231.0
+   with the footprint-only hull).
+4. **Fallback snaps are rare: about 1 in 400 junction ends** (10 of 4 135 over the 44 maps, on 7 maps); the fixtures had
+   none.
+5. **36 % of footprints lay in no face on the fixtures; on the formula seeds the share is 13–82 % per hood**, highest in
+   the street template (53–82 %), which R-08's note on `block.countTemplate` should quote.
+
+### 10.8 Hand-offs
+
+- **W-10b:** the plan-seed inputs (`plan-seeds/index.json`) are the registered frame; the hood ids its `faces[].hood` will
+  reference are 10.6's; collapse duplicate edges before the face walk (10.1's defect, `square/medium/3`).
+- **W-12:** `sizeSweepD3` (minor extents in both units per family and per seed, footprint frontage and depth),
+  `mediumPooled.scalars['block.courtShare']` (`r19Median20` 0.457, the count ratio 0.462).
+- **W-15:** `medium` and `mediumPooled` (per-seed values in index order, the samples, the companions for each row's note,
+  `spreadKS`); NG `time.model` descriptive (`timeModel`); 10.7 (1).
+- **The design seat (through the session):** 10.4's formula ranges for DC-04, DC-24 and DC-25.
+- **The session (N-03):** none new; the hood coordinates stay below six digits.
+
+### 10.9 Content scan and disk
+
+`doc_checks.py --doc docs/calibration/E11-ng-rows.md --heads docs/ARCHITECTURE.md` before this section: C1 0, C2 0, C4 0,
+S1 0, S2 0, C3 40 hits with 38 unreviewed (section 1's 42 / 40 then; corpus drift). After it: see the result file
+`results/W-11b.json`. The seat was relaunched at 21:09 before its result was written; the relaunched seat re-ran the
+adapter (fixtures and plan seeds), the fixture checker, the plan-seed checker and the red tests into scratch and compared
+every output with the files named here (the result file lists the receipts). Disk: 13 GB free at the start, 12 GB after (the inputs add 4.2 MB, the JSON 2.1 MB).
+
+### 10.10 Calls made under delegation (vetoable, J122)
+
+1. **The adapter's graph fix (10.1).** Collapsing a duplicate edge and merging vertices within 1 mm change no drawn
+   geometry; the alternative, leaving the twisted walk, would have lost three blocks on three maps. The census records each.
+2. **KS on binned CDFs as the primary `spreadKS`.** V12 §3.4.2 says the KS distance runs on the binned CDFs at the
+   catalogue edges; the raw-ECDF value sits beside it for W-15.
+3. **`plot.cvDistrict` with the population standard deviation** (the earlier script's CV) and the hood as the district (R-23).
+4. **The plan-seed inputs in a subfolder** and `E11-ng-rows.plan.json` beside `E11-ng-rows.json`, so wave 1's fixture
+   files and record stay as they landed.
+5. **Hood rings closed and rounded half to even**, the GeoJSON convention of the inputs; §7b states neither.
+
+### 10.11 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED (executed):** every number in 10.1–10.7; the fixture reproduction; the registration counts and ±1 px
+neighbours; the samples; the graph defect, its cause (Euler's face count against the walk's) and its fix; determinism; the
+red tests. **PLAUSIBLE (reasoning):** that the raw degree-4 node is a snapping artefact rather than a drawn crossroads (the
+geometry fits; the drawing order was not traced); that `street/small/1`'s faceless hood is NG's own layout rather than a
+registration or snap effect (its roads were not inspected by eye); that the street template's weak block row comes from its
+few blocks per hood, so more seeds would not strengthen it.

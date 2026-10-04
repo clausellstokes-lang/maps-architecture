@@ -1,0 +1,62 @@
+{
+ "id": "m1/plan-guard-2",
+ "status": "landed",
+ "records": [
+  "docs/calibration/M-1-plan-fix-3.md (section 'Guard round 2'; final text 41bc647e)",
+  "research/baselines/plan.py (68709ba8; installed 22:20:58 by atomic rename)",
+  "research/baselines/plan.json (f6972b91; regenerated at install: ftg.slotRule and amendments only)",
+  "docs/calibration/results/plan-guard-2.json"
+ ],
+ "checks": [
+  {
+   "check": "Red first on W-01b's landed plan.py (fad7b21d): the checker's three cases write with exit 0 before the change and are refused after",
+   "passed": true,
+   "receipt": "CONFIRMED, executed 22:16-22:19 on fresh scratch mirrors of W-01b's landed files (plan.py fad7b21d, plan.json ee28c604, metrics 8a0efa7e, V12 1bacd39d). Swapping programme-1 rows 2 and 4: old exit 0 and slots 2 and 4 written with their days swapped; new exit 2, 'day 3 -> 5' and 'day 5 -> 3', nothing written. Slot 5's day changed from 6 to 7: old exit 0 written; new exit 2. Programme 1's last row moved to programme 2's head: old exit 0 with slot 5 written as programme 2 and day null; new exit 2, 'programme 1 -> 2; day 6 -> None'. Steps: scratch results-w01b-old.json and results-w01b-new.json."
+  },
+  {
+   "check": "The guard holds on every write path and for bound and failed programme-2 slots",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. The rows-2/4 swap pushed through --check (old exit 1 DIFFERS), --bind-ftg 6 (old exit 0, bound and the days swapped) and --extend capture/MFCG/40/plain 11 (old exit 0) each exits 2 under the new script, with nothing written. Slot 0's day changed: old 0, new 2. Slot 6 bound and its row moved into programme 1 at day 7: old 0, new 2 ('programme 2 -> 1; day None -> 7'). Slot 6 bound and slot 7 recorded failed, both rows moved into programme 1: old 0, new 2, both slots named."
+  },
+  {
+   "check": "Striking or reordering unrecorded tail rows still writes, as do the bind, fail and extend paths",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. Each case exits 0 under both scripts. The cases: the last programme-2 row struck; with slot 6 bound, the TOWN pair struck (slot 6 still bound), the CITY rows of slots 24 and 25 swapped, and slot 7's row struck; and bind 7, fail 7 and extend with the schedule unchanged. A JSON diff of each case's written plan.json, old against new, shows only ftg.slotRule and amendments."
+  },
+  {
+   "check": "Every reordering of programme 1 is refused (the plan header's 'refusing any reordering of the first six')",
+   "passed": true,
+   "receipt": "CONFIRMED, executed in process on a mirror of the installed files. All 719 non-identity permutations of FTG_SCHEDULE's six rows are refused: 716 by R-36's first-six labels, and 3 by the new day field only (the equal-key swaps rows 2/4, rows 3/5, and both). The identity order gives no problem. The header sentence in M-1-plan.md is now true as written, so it needs no edit."
+  },
+  {
+   "check": "Installed by atomic rename between two binds, regenerated at once, then the live plan.py --check reads SAME",
+   "passed": true,
+   "receipt": "CONFIRMED, executed 22:20:58 (scratch install-record.json). Preconditions: no 'THE CREATE CLICK HAPPENS NOW' line without its LANDED line, and the live hashes equal to the mirrors' base (fad7b21d / ee28c604 / 8a0efa7e). After the rename, plan.py is 68709ba8, byte-equal to the tested copy. The regeneration exits 0 and gives plan.json f6972b91. Its JSON diff against ee28c604 shows only ftg.slotRule and the amendments list; the 28 slots and six bindings are equal, and so are the families. metrics.m-1.json stays 8a0efa7e, byte-unchanged. The live --check gives SAME and SAME with exit 0, both at install and again at 22:40. --catalogue-check exits 0."
+  },
+  {
+   "check": "A mirror of the installed live files repeats the key cases",
+   "passed": true,
+   "receipt": "CONFIRMED, executed. On a copy of plan.py 68709ba8 and plan.json f6972b91, the three cases R1, R2 and R3 exit 2, a struck last row exits 0 and writes, and --check exits 0 and reads SAME."
+  },
+  {
+   "check": "doc_checks.py --doc docs/calibration/M-1-plan-fix-3.md --heads docs/ARCHITECTURE.md on the final text, every unreviewed hit read",
+   "passed": true,
+   "receipt": "CONFIRMED, executed 22:32-22:40 on text 41bc647e. C1, C2, C4, S1 and S2 are 0. C3 has 24 hits, 23 of them unreviewed; that list is identical (diff) to plan-fix-3's final run on this record (23/23). The new section adds no unreviewed hit. The first run found two of this section's phrases (a generic five-word run and the scratch path), and both were reworded. The tool exits 1, as it did for this record before, because of the 23 reviewed-by-reading hits: our dates, digit runs and phrases."
+  },
+  {
+   "check": "Scope: no plat/, no website, no benchmark, no git state change",
+   "passed": true,
+   "receipt": "CONFIRMED. Written: plan.py and its regenerated plan.json and metrics.m-1.json (byte-identical), the record section, this file, and lane-events lines. No other file was touched, and no temp file is left in research/baselines/."
+  }
+ ],
+ "new_dcs": [],
+ "notes": [
+  "OUTCOME: plan.py refuses any change to a recorded slot's label, size, water, programme or day, and the slot's removal (FTG_RECORDED_FROZEN in compute()). The closing check's three cases are refused, and unrecorded tail rows can still be struck or reordered. Live --check reads SAME (plan.json f6972b91, metrics 8a0efa7e).",
+  "JUDGMENT under J122, vetoable: guard on the five named fields, not every field. The others follow from the five and the fixed tables, because recorded slots form a prefix. An every-field guard would refuse any regeneration that adds a slot field or rewords a derived text, and that would block binds mid-programme. A veto compares every field except capture and failed.",
+  "JUDGMENT under J122, vetoable: plan.json's ftg.slotRule was restated as W-01b's NOTE (22:03) asked, and plan.json was regenerated right after the rename. The alternative was a byte-neutral install that leaves plan.py's sentence about its own guard naming three fields. The diff shows only that text and a new amendments entry. This went beyond the brief's literal write set, through plan.py's own output. A veto reverts both texts in plan.py and regenerates between binds.",
+  "RULED NOT DEFECTS (premise false): three present-tense sentences in other lanes' files still name 'label, size and/or water'. They are M-1-work.json seedFamilies.FTG.orderRule, M-1-plan.md section 5 (1)'s parenthetical, and the checklist's section I step 7. Each stays true, and none can lead to a harmful edit, because any edit of a day or programme is refused with nothing written. They are outside this lane's write set, and the checklist is in active use. An optional tightening for whoever next edits them: 'label, size, water, programme or day'. History texts stay: plan section 12c, rulings-2 section 8, E01 section 9, this record's U2.",
+  "TIMING FACT: slot 6's seat (m1/W-02-slot6) started at 22:17, before the 22:20:58 install, but had not reached a create, so no bind was possible. The brief's precondition (no open CREATE CLICK) held. The seat STOPPED at 22:21 for its own reason (the window moved while it only read), and its closing --check read SAME on f6972b91. Slot 6 is still open. A relaunch binds through the new guard: a bind with the schedule unchanged was tested to exit 0.",
+  "CONFIRMED: every check above was executed. PLAUSIBLE: none.",
+  "Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/followups/plan-guard-2/ (run_cases.py, apply_fix.py, regen_check.py, install.py, results-*.json, install-record.json, dc-record*.txt, base-w01b/ with the pre-install plan.py fad7b21d for rollback)."
+ ]
+}
