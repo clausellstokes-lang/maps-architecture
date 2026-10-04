@@ -11,10 +11,10 @@
   "measure_mfcg.py": "f907f2003d7b",
   "adapters/ftg.py": "782e636fb6f7"
  },
- "scriptSha256": "9c4dec71e5aa",
+ "scriptSha256": "6eccbc9b7ad2",
  "plan": {
   "file": "research/baselines/plan.json",
-  "sha256": "67614c8e0617"
+  "sha256": "da68f06933a2"
  },
  "parameters": {
   "rasterStepM": 0.5,
@@ -237,7 +237,11 @@
    },
    "streetSpace": {
     "areaM2": 142118.25,
-    "domainM2": 583902.0
+    "parts": 1,
+    "domainM2": 583902.0,
+    "pockets": 0,
+    "pocketAreaM2": 0,
+    "largestPocketM2": 0.0
    },
    "raster": {
     "stepM": 0.5,
@@ -265,18 +269,17 @@
     "componentsRaw": 1,
     "isolatedNodes": 0,
     "holesStreetSpace": 99,
+    "nodeClusterHoleLoops": 0,
     "facesRaw": 99,
     "facesPruned": 99,
     "facesMerged": 99,
+    "mergeCollapsedFaces": 0,
+    "mergeInternalLongestM": 1.802776,
     "mergedGroups": 2,
     "internalEdgesRemoved": 2,
     "chainAnomalies": 0
    },
-   "dropped": {
-    "components": 0,
-    "lengthM": 0,
-    "largestM": 0.0
-   },
+   "graphParts": 1,
    "crossings": 0,
    "sgd.tShare": {
     "value": 0.39207,
@@ -374,7 +377,11 @@
    },
    "streetSpace": {
     "areaM2": 174526.5,
-    "domainM2": 583348.5
+    "parts": 1,
+    "domainM2": 583348.5,
+    "pockets": 0,
+    "pocketAreaM2": 0,
+    "largestPocketM2": 0.0
    },
    "raster": {
     "stepM": 0.5,
@@ -402,18 +409,17 @@
     "componentsRaw": 1,
     "isolatedNodes": 0,
     "holesStreetSpace": 157,
+    "nodeClusterHoleLoops": 0,
     "facesRaw": 157,
     "facesPruned": 157,
-    "facesMerged": 157,
+    "facesMerged": 156,
+    "mergeCollapsedFaces": 1,
+    "mergeInternalLongestM": 2.943175,
     "mergedGroups": 5,
-    "internalEdgesRemoved": 5,
+    "internalEdgesRemoved": 6,
     "chainAnomalies": 0
    },
-   "dropped": {
-    "components": 0,
-    "lengthM": 0,
-    "largestM": 0.0
-   },
+   "graphParts": 1,
    "crossings": 0,
    "sgd.tShare": {
     "value": 0.383523,
@@ -421,20 +427,20 @@
     "degree3": 352
    },
    "sgd.deadEnds": {
-    "value": 2.45858,
+    "value": 2.459328,
     "degree1": 54,
-    "lengthKm": 21.963895
+    "lengthKm": 21.95722
    },
    "graph": {
-    "nodes": 413,
-    "edges": 569,
+    "nodes": 412,
+    "edges": 567,
     "degrees": {
      "1": 54,
      "3": 352,
-     "4": 7
+     "4": 6
     },
-    "faces": 157,
-    "lengthKm": 21.963895
+    "faces": 156,
+    "lengthKm": 21.95722
    },
    "block.courtShare": {
     "value": 0.819444,
@@ -511,7 +517,11 @@
    },
    "streetSpace": {
     "areaM2": 159820.5,
-    "domainM2": 582777.0
+    "parts": 1,
+    "domainM2": 582777.0,
+    "pockets": 0,
+    "pocketAreaM2": 0,
+    "largestPocketM2": 0.0
    },
    "raster": {
     "stepM": 0.5,
@@ -539,18 +549,17 @@
     "componentsRaw": 1,
     "isolatedNodes": 0,
     "holesStreetSpace": 138,
+    "nodeClusterHoleLoops": 0,
     "facesRaw": 138,
     "facesPruned": 138,
-    "facesMerged": 138,
+    "facesMerged": 137,
+    "mergeCollapsedFaces": 1,
+    "mergeInternalLongestM": 2.943175,
     "mergedGroups": 6,
-    "internalEdgesRemoved": 6,
+    "internalEdgesRemoved": 7,
     "chainAnomalies": 0
    },
-   "dropped": {
-    "components": 0,
-    "lengthM": 0,
-    "largestM": 0.0
-   },
+   "graphParts": 1,
    "crossings": 0,
    "sgd.tShare": {
     "value": 0.42053,
@@ -558,20 +567,20 @@
     "degree3": 302
    },
    "sgd.deadEnds": {
-    "value": 2.293747,
+    "value": 2.294252,
     "degree1": 46,
-    "lengthKm": 20.054521
+    "lengthKm": 20.05011
    },
    "graph": {
-    "nodes": 357,
-    "edges": 494,
+    "nodes": 356,
+    "edges": 492,
     "degrees": {
      "1": 46,
      "3": 302,
-     "4": 9
+     "4": 8
     },
-    "faces": 138,
-    "lengthKm": 20.054521
+    "faces": 137,
+    "lengthKm": 20.05011
    },
    "block.courtShare": {
     "value": 0.71875,
@@ -648,7 +657,11 @@
    },
    "streetSpace": {
     "areaM2": 153015.0,
-    "domainM2": 578614.75
+    "parts": 1,
+    "domainM2": 578614.75,
+    "pockets": 0,
+    "pocketAreaM2": 0,
+    "largestPocketM2": 0.0
    },
    "raster": {
     "stepM": 0.5,
@@ -676,39 +689,38 @@
     "componentsRaw": 1,
     "isolatedNodes": 0,
     "holesStreetSpace": 98,
+    "nodeClusterHoleLoops": 0,
     "facesRaw": 98,
     "facesPruned": 98,
-    "facesMerged": 98,
+    "facesMerged": 97,
+    "mergeCollapsedFaces": 1,
+    "mergeInternalLongestM": 2.943175,
     "mergedGroups": 5,
-    "internalEdgesRemoved": 5,
+    "internalEdgesRemoved": 6,
     "chainAnomalies": 0
    },
-   "dropped": {
-    "components": 0,
-    "lengthM": 0,
-    "largestM": 0.0
-   },
+   "graphParts": 1,
    "crossings": 0,
    "sgd.tShare": {
-    "value": 0.452991,
-    "tNodes": 106,
-    "degree3": 234
+    "value": 0.452586,
+    "tNodes": 105,
+    "degree3": 232
    },
    "sgd.deadEnds": {
-    "value": 3.09056,
+    "value": 3.09188,
     "degree1": 54,
-    "lengthKm": 17.47256
+    "lengthKm": 17.465104
    },
    "graph": {
-    "nodes": 295,
-    "edges": 392,
+    "nodes": 293,
+    "edges": 389,
     "degrees": {
      "1": 54,
-     "3": 234,
+     "3": 232,
      "4": 7
     },
-    "faces": 98,
-    "lengthKm": 17.47256
+    "faces": 97,
+    "lengthKm": 17.465104
    },
    "block.courtShare": {
     "value": 0.85,
@@ -785,7 +797,11 @@
    },
    "streetSpace": {
     "areaM2": 615669.5,
-    "domainM2": 2311162.5
+    "parts": 2,
+    "domainM2": 2311162.5,
+    "pockets": 0,
+    "pocketAreaM2": 0,
+    "largestPocketM2": 0.0
    },
    "raster": {
     "stepM": 0.5,
@@ -813,39 +829,38 @@
     "componentsRaw": 2,
     "isolatedNodes": 0,
     "holesStreetSpace": 514,
+    "nodeClusterHoleLoops": 0,
     "facesRaw": 514,
     "facesPruned": 514,
     "facesMerged": 514,
+    "mergeCollapsedFaces": 0,
+    "mergeInternalLongestM": 2.118034,
     "mergedGroups": 15,
     "internalEdgesRemoved": 15,
     "chainAnomalies": 0
    },
-   "dropped": {
-    "components": 1,
-    "lengthM": 25939.304181,
-    "largestM": 25939.304181
-   },
+   "graphParts": 2,
    "crossings": 0,
    "sgd.tShare": {
-    "value": 0.423131,
-    "tNodes": 300,
-    "degree3": 709
+    "value": 0.428835,
+    "tNodes": 464,
+    "degree3": 1082
    },
    "sgd.deadEnds": {
-    "value": 1.44575,
-    "degree1": 73,
-    "lengthKm": 50.492819
+    "value": 1.282183,
+    "degree1": 98,
+    "lengthKm": 76.432123
    },
    "graph": {
-    "nodes": 796,
-    "edges": 1128,
+    "nodes": 1200,
+    "edges": 1712,
     "degrees": {
-     "1": 73,
-     "3": 709,
-     "4": 14
+     "1": 98,
+     "3": 1082,
+     "4": 20
     },
-    "faces": 333,
-    "lengthKm": 50.492819
+    "faces": 514,
+    "lengthKm": 76.432123
    },
    "block.courtShare": {
     "value": 0.733591,
@@ -897,9 +912,9 @@
     "sgd.tShare": {
      "estimator": "type7",
      "n": 10,
-     "a": 0.40410379999999996,
+     "a": 0.4046159,
      "b": 0.4935334,
-     "c": 0.44011,
+     "c": 0.44148149999999997,
      "seeds": [
       "size40-plain-0",
       "size40-plain-1",
@@ -915,19 +930,19 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 0.4461143000000001,
-      "sd": 0.03658175750911315,
-      "cv": 0.0820008628037997,
-      "sdPop": 0.03470450236222961,
-      "cvPop": 0.0777928489676964
+      "mean": 0.44690069999999993,
+      "sd": 0.03560809671362213,
+      "cv": 0.07967787187091481,
+      "sdPop": 0.033780806627580706,
+      "cvPop": 0.07558906626814572
      }
     },
     "sgd.deadEnds": {
      "estimator": "type7",
      "n": 10,
-     "a": 1.6575734,
-     "b": 2.7313050999999993,
-     "c": 2.3157305,
+     "a": 1.6580578000000001,
+     "b": 2.7323812,
+     "c": 2.3163135,
      "seeds": [
       "size40-plain-0",
       "size40-plain-1",
@@ -943,11 +958,11 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 2.3292051000000003,
-      "sd": 0.5931539342056626,
-      "cv": 0.2546593832400859,
-      "sdPop": 0.5627152305538655,
-      "cvPop": 0.24159110357171443
+      "mean": 2.329696,
+      "sd": 0.5933775375299533,
+      "cv": 0.25470170250966356,
+      "sdPop": 0.5629273592930086,
+      "cvPop": 0.2416312511559485
      }
     },
     "blockc.perHa": {
@@ -1037,9 +1052,9 @@
     "graph.lengthKm": {
      "estimator": "type7",
      "n": 10,
-     "a": 19.128958500000003,
+     "a": 19.1223214,
      "b": 22.1479875,
-     "c": 20.047261,
+     "c": 20.043598000000003,
      "seeds": [
       "size40-plain-0",
       "size40-plain-1",
@@ -1058,9 +1073,9 @@
     "graph.faces": {
      "estimator": "type7",
      "n": 10,
-     "a": 129.1,
+     "a": 129.0,
      "b": 166.5,
-     "c": 142.0,
+     "c": 141.0,
      "seeds": [
       "size40-plain-0",
       "size40-plain-1",
@@ -1173,8 +1188,8 @@
     "sgd.tShare": {
      "estimator": "type7",
      "n": 10,
-     "a": 0.4216071,
-     "b": 0.4828866,
+     "a": 0.4215895,
+     "b": 0.4828834,
      "c": 0.4542255,
      "seeds": [
       "size80-plain-0",
@@ -1191,19 +1206,19 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 0.4497001000000001,
-      "sd": 0.025216436092578804,
-      "cv": 0.05607389478583349,
-      "sdPop": 0.02392241175738767,
-      "cvPop": 0.05319636743996202
+      "mean": 0.4497573,
+      "sd": 0.025272543876925235,
+      "cv": 0.056191514572248705,
+      "sdPop": 0.02397564027528775,
+      "cvPop": 0.05330795136685441
      }
     },
     "sgd.deadEnds": {
      "estimator": "type7",
      "n": 10,
-     "a": 1.1112548,
-     "b": 1.7765198,
-     "c": 1.4250755,
+     "a": 1.1112609,
+     "b": 1.7767437,
+     "c": 1.425404,
      "seeds": [
       "size80-plain-0",
       "size80-plain-1",
@@ -1219,11 +1234,11 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 1.4432703999999998,
-      "sd": 0.25412862753696647,
-      "cv": 0.17607832013804656,
-      "sdPop": 0.24108758450082,
-      "cvPop": 0.1670425614637562
+      "mean": 1.4434725,
+      "sd": 0.2541789242667237,
+      "cv": 0.17608851174284493,
+      "sdPop": 0.24113530016828724,
+      "cvPop": 0.16705223006900877
      }
     },
     "blockc.perHa": {
@@ -1313,9 +1328,9 @@
     "graph.lengthKm": {
      "estimator": "type7",
      "n": 10,
-     "a": 65.8233626,
-     "b": 77.2902789,
-     "c": 69.2351575,
+     "a": 65.8188784,
+     "b": 77.2766511,
+     "c": 69.229478,
      "seeds": [
       "size80-plain-0",
       "size80-plain-1",
@@ -1334,9 +1349,9 @@
     "graph.faces": {
      "estimator": "type7",
      "n": 10,
-     "a": 437.7,
-     "b": 645.4,
-     "c": 487.5,
+     "a": 436.7,
+     "b": 643.6,
+     "c": 486.5,
      "seeds": [
       "size80-plain-0",
       "size80-plain-1",
@@ -1449,9 +1464,9 @@
     "sgd.tShare": {
      "estimator": "type7",
      "n": 10,
-     "a": 0.4493704,
-     "b": 0.47097409999999995,
-     "c": 0.4572885,
+     "a": 0.4491515,
+     "b": 0.4712957,
+     "c": 0.4572735,
      "seeds": [
       "size130-plain-0",
       "size130-plain-1",
@@ -1467,19 +1482,19 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 0.45907079999999995,
-      "sd": 0.010269582678960226,
-      "cv": 0.022370367879987633,
-      "sdPop": 0.009742581565478418,
-      "cvPop": 0.02122239437898995
+      "mean": 0.4590659,
+      "sd": 0.010336289345472744,
+      "cv": 0.022515916223515498,
+      "sdPop": 0.00980586506586747,
+      "cvPop": 0.021360473661553754
      }
     },
     "sgd.deadEnds": {
      "estimator": "type7",
      "n": 10,
-     "a": 0.796245,
-     "b": 1.1067251,
-     "c": 0.9569755,
+     "a": 0.7962797,
+     "b": 1.1068246,
+     "c": 0.957048,
      "seeds": [
       "size130-plain-0",
       "size130-plain-1",
@@ -1495,11 +1510,11 @@
      "notApplicable": [],
      "cv": {
       "n": 10,
-      "mean": 0.9579936999999997,
-      "sd": 0.14334118036663432,
-      "cv": 0.14962643320789518,
-      "sdPop": 0.1359853837366722,
-      "cvPop": 0.1419480981312009
+      "mean": 0.958066,
+      "sd": 0.14338817247752492,
+      "cv": 0.14966419064816508,
+      "sdPop": 0.13602996436741424,
+      "cvPop": 0.1419839179841621
      }
     },
     "blockc.perHa": {
@@ -1589,9 +1604,9 @@
     "graph.lengthKm": {
      "estimator": "type7",
      "n": 10,
-     "a": 170.94983580000002,
-     "b": 191.49754670000002,
-     "c": 181.2475945,
+     "a": 170.9281463,
+     "b": 191.4914372,
+     "c": 181.2409175,
      "seeds": [
       "size130-plain-0",
       "size130-plain-1",
@@ -1610,9 +1625,9 @@
     "graph.faces": {
      "estimator": "type7",
      "n": 10,
-     "a": 1289.2,
-     "b": 1536.7,
-     "c": 1351.5,
+     "a": 1285.0,
+     "b": 1533.9,
+     "c": 1349.5,
      "seeds": [
       "size130-plain-0",
       "size130-plain-1",
@@ -1725,9 +1740,9 @@
     "sgd.tShare": {
      "estimator": "minmax",
      "n": 3,
-     "a": 0.432088,
-     "b": 0.485757,
-     "c": 0.448842,
+     "a": 0.44748,
+     "b": 0.475845,
+     "c": 0.447876,
      "seeds": [
       "size80-rivercoast-0",
       "size80-rivercoast-2",
@@ -1736,19 +1751,19 @@
      "notApplicable": [],
      "cv": {
       "n": 3,
-      "mean": 0.45556233333333335,
-      "sd": 0.027458378508814614,
-      "cv": 0.060273592656141343,
-      "sdPop": 0.022419672170266487,
-      "cvPop": 0.04921318232396991
+      "mean": 0.45706700000000006,
+      "sd": 0.016263430357707456,
+      "cv": 0.03558215832188159,
+      "sdPop": 0.013279035281224323,
+      "cvPop": 0.029052710611845358
      }
     },
     "sgd.deadEnds": {
      "estimator": "minmax",
      "n": 3,
-     "a": 0.839581,
-     "b": 1.885126,
-     "c": 1.499256,
+     "a": 0.903332,
+     "b": 1.885665,
+     "c": 1.394579,
      "seeds": [
       "size80-rivercoast-0",
       "size80-rivercoast-2",
@@ -1757,11 +1772,11 @@
      "notApplicable": [],
      "cv": {
       "n": 3,
-      "mean": 1.4079876666666664,
-      "sd": 0.5287140231338047,
-      "cv": 0.3755104079750259,
-      "sdPop": 0.4316931921772942,
-      "cvPop": 0.30660296421438415
+      "mean": 1.3945253333333334,
+      "sd": 0.4911665021989318,
+      "cv": 0.35221052673521297,
+      "sdPop": 0.4010357697116583,
+      "cvPop": 0.28757869084605486
      }
     },
     "blockc.perHa": {
@@ -1830,9 +1845,9 @@
     "graph.lengthKm": {
      "estimator": "minmax",
      "n": 3,
-     "a": 47.356838,
-     "b": 76.22851,
-     "c": 68.960919,
+     "a": 68.941207,
+     "b": 111.808275,
+     "c": 86.764545,
      "seeds": [
       "size80-rivercoast-0",
       "size80-rivercoast-2",
@@ -1844,9 +1859,9 @@
     "graph.faces": {
      "estimator": "minmax",
      "n": 3,
-     "a": 317,
-     "b": 592,
-     "c": 488.0,
+     "a": 484,
+     "b": 815,
+     "c": 600.0,
      "seeds": [
       "size80-rivercoast-0",
       "size80-rivercoast-2",
@@ -1962,9 +1977,9 @@
   },
   {
    "id": "faceCount",
-   "check": "face count: the graph's faces E - V + C equal the street space's holes (Gray's bit-quad Euler number; the skeleton's and the raw graph's Euler numbers equal the street space's) after the raw build, the spur pruning and the node merge; 0 chain anomalies",
-   "passed": false,
-   "receipt": "35 of 40 maps equal at all three stages (24222 faces in all); differs on ['size80-plain-7', 'size130-plain-3', 'size130-plain-10', 'size80-rivercoast-3', 'size80-rivercoast-4']"
+   "check": "face count: the skeleton's and the raw graph's Euler numbers equal the street space's (Gray's bit quads), so the raw graph's faces E - V + C equal the street space's holes; the spur pruning keeps them; the node merge only collapses faces bounded by edges of <= 2 x MERGE inside one merged node (the final faces = the pruned faces less those, so no merge makes a face); 0 chain anomalies",
+   "passed": true,
+   "receipt": "40 of 40 maps hold at every stage (24159 final faces in all); the merge collapsed 71 faces of a few cells on 34 maps (longest internal edge removed 3.82 m); 2 node-cluster hole loops kept at extraction"
   },
   {
    "id": "areaSum",

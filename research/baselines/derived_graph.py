@@ -74,9 +74,10 @@ Usage (project root):
     the usable ones only), writing docs/calibration/E09-mfcg-derived-graph.json (summary and checks),
     E09-mfcg-derived-graph.seeds.json (the per-seed file W-13 and W-14 read) and E09-mfcg-derived-graph.vectors.json
     (the MFCG vectors per usable plain seed, the file W-15 reads); exit 1 on any FAIL
-    --red      reads the stored per-seed file and plants four faults (a crossing in one fixture's graph, a face too
-               many in another's, one vector dropped, one block-area sum pushed past its enclosure), so the checker
-               must go red; writes nothing
+    --red      reads the stored per-seed file and plants seven faults, one per check (a crossing in one fixture's
+               graph, a face too many in another's, one block-area sum pushed past its enclosure, one family's CV
+               dropped, one vector dropped, one map's cluster twin unequal, a failed seed in a summary), so every
+               check must go red; writes nothing
     --from-seeds FILE   forms the summaries and the checks again from a stored per-seed file, with no measurement
                (writes only to --json when given)
     --step / --spur / --merge   the raster step and the two thresholds (W-14's sensitivity; R-22) -- with any of them,
@@ -1475,22 +1476,29 @@ def checks_for(fixtures, per, sample, vectors_by_size, summaries, red=False):
     return C
 
 
-def red_variant(fixtures, per, vectors_by_size):
-    """four planted faults: a crossing in one fixture, a face too many in another, a vector dropped, a block-area sum
-    past its enclosure"""
+def red_variant(fixtures, per, vectors_by_size, summaries, sample):
+    """seven planted faults, one per check: a crossing in one fixture, a face too many in another, a block-area sum past
+    its enclosure, one family's CV dropped, a vector dropped, one map's cluster twin unequal, a failed seed in a summary"""
     import copy
     fx = copy.deepcopy(fixtures)
     pr = copy.deepcopy(per)
     vb = copy.deepcopy(vectors_by_size)
+    sm = copy.deepcopy(summaries)
     k0 = next(iter(fx))
     fx[k0]['crossings'] = 1
     k1 = list(fx)[-1]
     fx[k1]['topology']['facesMerged'] += 1
-    lab = next(iter(vb))
-    vb[lab] = vb[lab][1:]
     s0 = next(iter(pr))
     pr[s0]['blockAreas']['intramuralSumM2'] = pr[s0]['blockAreas']['enclosureM2'] * 1.01
-    return fx, pr, vb
+    lab = next(iter(sm))
+    sm[lab]['summary']['blockc.perHa']['cv'] = None
+    lab = next(iter(vb))
+    vb[lab] = vb[lab][1:]
+    s1 = list(pr)[1]
+    pr[s1]['clusterTwin']['equal'] = False
+    lab = next(lb for lb, f in sample.items() if f['failedStems'])
+    sm[lab]['summary']['sgd.tShare']['seeds'].append(sample[lab]['failedStems'][0])
+    return fx, pr, vb, sm
 
 
 def module_sha(name):
@@ -1701,10 +1709,10 @@ def main():
     shares = [per[s]['block.courtShare']['value'] for s in allplain if per[s]['block.courtShare']['value'] is not None]
     pooled['plain (all three sizes)'] = {'countRatio': cd / dp if dp else None, 'courtDeep': cd, 'deep': dp,
                                          'median': q7(shares, .5), 'n': len(shares)}
-    fx_c, per_c, vb_c = (fixtures, per, vectors_by_size)
+    fx_c, per_c, vb_c, sm_c = (fixtures, per, vectors_by_size, summaries)
     if red:
-        fx_c, per_c, vb_c = red_variant(fixtures, per, vectors_by_size)
-    checks = checks_for(fx_c, per_c, sample, vb_c, summaries)
+        fx_c, per_c, vb_c, sm_c = red_variant(fixtures, per, vectors_by_size, summaries, sample)
+    checks = checks_for(fx_c, per_c, sample, vb_c, sm_c)
     for c in checks:
         print(('PASS ' if c['passed'] else 'FAIL ') + c['id'] + ': ' + c['receipt'])
     ok = all(c['passed'] for c in checks)

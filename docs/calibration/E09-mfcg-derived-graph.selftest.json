@@ -1,0 +1,53 @@
+{
+ "schema": "m1.e09.selftest/1",
+ "script": "research:baselines/derived_graph.py",
+ "scriptSha256": "6eccbc9b7ad2",
+ "maps": [
+  "exports-2026-09-25.s555001-size40-gates0",
+  "exports-2026-09-25.s555001-size40-gates1",
+  "exports-2026-09-25.s555001-size40-gates4",
+  "exports-2026-09-25.s555001-size40-gates9",
+  "exports-2026-09-25.s777001-size80-river-coast",
+  "exports-sweep-m1-2026-10-03.size40-plain-0",
+  "exports-sweep-m1-2026-10-03.size80-plain-0",
+  "exports-sweep-m1-2026-10-03.size130-plain-0"
+ ],
+ "checks": [
+  {
+   "id": "S0",
+   "check": "Gray's bit-quad Euler number on four synthetic shapes, before and after the thinning",
+   "passed": true,
+   "receipt": "disk 1/1 (want 1); ring 0/0 (want 0); two 2/2 (want 2); two holes -1/-1 (want -1)"
+  },
+  {
+   "id": "S1",
+   "check": "the LUT closing equals PIL MaxFilter(13) then MinFilter(13), cell for cell, on every cluster raster of two fixtures",
+   "passed": true,
+   "receipt": "305 of 305 rasters identical"
+  },
+  {
+   "id": "S2",
+   "check": "the run-length hole fill equals PIL floodfill from the corner, cell for cell, on the same rasters",
+   "passed": true,
+   "receipt": "305 of 305 rasters identical"
+  },
+  {
+   "id": "S3",
+   "check": "the tiled thinning equals the whole-raster thinning, cell for cell and pass count, on two fixtures",
+   "passed": true,
+   "receipt": "s555001-size40-gates0 equal (72/72 passes); s555001-size40-gates1 equal (107/107 passes)"
+  },
+  {
+   "id": "S4",
+   "check": "cluster_blocks_lut equals measure_ftg.cluster_blocks (areas, counts, roots), with its own union-find and with Map.clusters' partition, on 8 maps",
+   "passed": true,
+   "receipt": "s555001-size40-gates0 equal (115 clusters); s555001-size40-gates1 equal (190 clusters); s555001-size40-gates4 equal (190 clusters); s555001-size40-gates9 equal (175 clusters); s777001-size80-river-coast equal (1890 clusters); size40-plain-0 equal (180 clusters); size80-plain-0 equal (730 clusters); size130-plain-0 equal (1800 clusters)"
+  },
+  {
+   "id": "S5",
+   "check": "measure_ftg.m_signature with the LUT cluster blocks equals it unmodified (the whole returned record)",
+   "passed": true,
+   "receipt": "s555001-size40-gates0 equal; s555001-size40-gates1 equal; s555001-size40-gates4 equal; s555001-size40-gates9 equal; s777001-size80-river-coast equal; size40-plain-0 equal; size80-plain-0 equal; size130-plain-0 equal"
+  }
+ ]
+}

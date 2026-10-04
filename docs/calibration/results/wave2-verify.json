@@ -1,0 +1,124 @@
+{
+ "verdict": "confirmed",
+ "items": [
+  {
+   "id": "m1/plan-fix-3",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "U1 red-first on a scratch mirror (non-bundle bodies only): 12 planted raw-resource-list changes (slots 5 coast+river and 1 none x replace-last, swap-first-two, drop-last, append-copy, empty, toggle-fishing) pass the pre-fix post script 3911fc3b (exit 0) and fail plan-fix-3's 4d396e67 and the live c4ad4ddf (exit 1, requestDiff and vsSlot0); the 2 controls pass under all three",
+    "U1 regression on the live capture folders, --check-only, live script: all 27 bound slots 0-26 exit 0, 10 of 10, each receipt 'resource list equals the <water> list'; nothing written",
+    "the live post script differs from 4d396e67 only by the SIZE_DEPENDENT names the slot-6 and slot-26 seats added (R-41); the WATER_IMPLIED guard is byte-unchanged (diff)",
+    "U2 on scratch mirrors (524830f5 / 7a21bb29 / V12 3f20cb1f, slot 6 bound): a128b9d1 refuses 5 of 5 edits of a recorded slot (size, water, insert before, strike programme 2, label-moving first-six swap) with exit 2 and nothing written; the pre-fix 4015955f writes 4 of 5 with exit 0 (the fifth is R-36's refusal under both); striking the TOWN pair and swapping CITY rows 24/25 write under both",
+    "U2 on the live plan.py 68709ba8 (plan-guard-2's widening) and live files: slot 6 relabel, equal-key swap of programme-1 rows 2/4 (day 5 -> 3), CITY 24/25 swap (now recorded) and striking programme 2 all exit 2, nothing written; striking the unrecorded last row writes",
+    "U3: checklist section I table = plan.json slots 6-27 (22 rows, 0 mismatches in size, option value, coast, rivers, label); retry rule reads AND, PUT 200 with no new row stops and is never retried (read)",
+    "U4: R-48 present in M-1-rulings-2.md section 8; U5 and section 12c present (read)"
+   ],
+   "problems": [
+    "minor text, not a failure: checklist section I step 7 still says plan.py refuses a change of a recorded slot's 'label, size or water'; since m1/plan-guard-2 it also freezes programme and day (the code is stricter than the text). For whoever next edits the checklist."
+   ]
+  },
+  {
+   "id": "W-01b",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "W-01b's installed plan.py (fad7b21d, the seat's mirror copy) run on a fresh mirror from the 524830f5 / 7a21bb29 base with the live V12 (unchanged since 20:46): regenerate, then --extend capture/MFCG/130/plain 11 -> plan.json ee28c604 and metrics.m-1.json 8a0efa7e byte for byte (the landed hashes); --check SAME",
+    "JSON diff 524830f5 -> live plan.json: 79 of 79 formula entries equal, one added (capture/MFCG/130/plain/10 seed 1179968783), family order equal, only 130/plain indices [0,10] -> [0,11] and its extension block differ; 28 slots, only 'capture' differs (later binds), slots 0-5 bindings unchanged",
+    "plan.py --vectors capture/MFCG/130/plain/10 -> H32 1179968782, PM 1179968783; --catalogue-check 184 = 184, draw.* members registered alike",
+    "metrics.m-1.json: counts.open 0, m1Uncovered 0; bldg.wallAlign.median/.share15, cut.length (81 edges 0-400), wealth.tier1-6, 9 draw members present, bldg.wallAlign retired; block.areaRel 25 edges 0.5-500; perKm2 / per100m used; variety.dispersion names W-15 only, 'minmax at n = 3' absent",
+    "--extend refusals on a mirror (FTG family, unknown family, N = current, N below, non-number, missing N, unknown option): each refused, plan.json hash unchanged",
+    "live plan.py --check SAME (plan.json 11a9b357 after the FTG binds, metrics 8a0efa7e); live plan.py 68709ba8 differs from fad7b21d only by plan-guard-2's guard lines (diff)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-03b",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "check_w03.py on an APFS clone of the sweep folder: C1-C9 PASS, exit 0; its export-check.json equals the stored one in every key but the folder path",
+    "ledgers read directly: loads.jsonl 35 lines; j161/loads.jsonl 3 loads (size40-plain-0, size130-plain-8, size130-plain-10) + 2 build-id-fetch lines; its first 530 bytes and the J161 export-log prefix equal the seat's 16:34 backup (append-only)",
+    "index 10's load URL on build 12710731 carries seed=1179968783; JSON / SVG / PNG sha1 e39d42d3 / f3b4de47 / 588cd113 (= receipts)",
+    "stats.json: 34 records equal to the pre-load backup, one added (size130-plain-10); stats.md diff = that row and its note only",
+    "C6/C9: 130/plain n 11, usable 10, index 8 no-export; type7 at declared and usable n",
+    "red: 3 tampered clones (a JSON byte, a fourth J161 load, index 10's hrefAfter seed) each exit 1 on C2+C7, C7, C3"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-07b",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "measure_mfcg.py --plan --json <scratch>: ALL PASS, exit 0; output byte-identical to E07-mfcg-signature.plan.json (0592b85f); covers 0.65704 / 0.58158 / 0.62067 / 0.58266 / 0.56901 -> 0.657 / 0.582 / 0.621 / 0.583 / 0.569; walled, gates, towers, R4 (9 values, max gap 0.0133), wall alignment (9 values, max 1.00 point), both stats.md comparisons, sample, failed indices, gate law, D24 all PASS",
+    "--plan --red: 3 FAIL, exit 1",
+    "independent: 100 metric summaries (116 banded leaves) each cover exactly the usable seeds of export-check.json (10 / 10 / 10 / 3), no retry seed; type7 p10 / p90 / median recomputed for walled.share at 40 and 130 equal; per-seed building counts equal stats.json on 34 of 35, the 35th the declared F6 difference (13 814 vs 13 815)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-09",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "4 maps re-measured in a fresh process (fixture gates9, size40-plain-7, size80-rivercoast-2, size130-plain-10): all 19 per-seed fields equal the stored seeds file",
+    "my own brute-force planarity on those 4 final graphs (2 429 to 29 402 segments): 0 proper crossings and 0 contacts away from shared nodes; my own E - V + C face count equals facesMerged (97 / 136 / 815 / 1 533)",
+    "--from-seeds -> E09 JSON equal in every key but the plan.json hash (FTG binds since); 7 of 7 PASS",
+    "--red: 7 FAIL, exit 1, nothing written; --selftest S0-S5 ALL PASS",
+    "independent from the seeds file: 40 maps, intramural block area / enclosure max 0.7741, none above 1, crossings 0 on all; 16 CVs (sample SD / mean) equal E09's (max plain 0.2547); vectors 10 / 10 / 10 = the usable plain seeds, 130/plain/8 absent"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-08",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "stored render log: 4 sessions x 30 renders, page requests 0, NetLog URL requests to non-loopback 0, named resolutions 0, outside TCP 0, bytes out 0, NetLogs closed, 0 refs left / 0 refused; control log counts its one reserved-name request (1 / 1, 0 TCP, 0 bytes)",
+    "stored E08: K1 max |R1 - R2| 6.1e-5 over 30 seeds; K2 vs stats.json 30 of 30 at 3 dp, exact on 18 unmerged, within the merge bound on 12 (max 1.54e-9 rel), and equal to E07's cover; stored R1 PNG hashes = records 30 of 30; recorded script / helper / input hashes = current files",
+    "fresh re-run, measure_mfcg_render.py --only size40-plain-0,size130-plain-10 into scratch (fresh geometry, 4 fresh fenced Chrome sessions): all 4 sessions 0 outside on every counter; geometry, streetwall and cover equal the stored records; recoverability R1 / R2 / R3 / R4 within 3.1e-5 of stored; my K1 |R1 - R2| 0; registration shift (0,0), modal L1 0, no labels in R1 / R2 / R4",
+    "--red: 8 of 8 plants red, exit 1; its base pass re-runs K1-K3 and L1-L5 on the stored files: all PASS"
+   ],
+   "problems": []
+  },
+  {
+   "id": "W-13",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "spike_bootstrap.py --json <scratch>: ALL PASS, output byte-identical to E13 (546521ef)",
+    "--verify E13 in a separate process: ALL PASS, exit 0; --red: 6 FAIL, exit 1",
+    "independent re-implementation from the declared rule (stream, type7, V12 3.5.2 band, +-5 % candidates, any-candidate row flip, > 50 of 1 000): the first draws equal per family; 78 of 78 rows equal in band, candidates and every flip count; 49 of 72 = 68.1 % unstable, the same set, fires",
+    "the 78 rows' estimates equal their source summaries in E07 (63) and E09 (15)"
+   ],
+   "problems": [
+    "note, not a failure: fg.recoverability and fg.streetwall are excluded because W-08 had not landed; W-08 has since landed, so the bootstrap does not cover them (the row's inputs are E07 and E09; the seat shows they cannot undo the outcome). For W-15 and the rulings seat."
+   ]
+  },
+  {
+   "id": "W-14",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "spike_derived_graph.py --verify E14 in a separate process: byte-identical (f7bae41d), ALL PASS; --verify --red: 7 FAIL, exit 1",
+    "the 20 sensitivity records re-measured into a scratch cache (base, step 0.25 m, spur 6 m, spur 10 m x 5 fixtures): 20 of 20 equal the stored records on all 21 fields",
+    "independent CVs from E09's per-seed file: 16 of 16 equal E14's; 12 ruled rows all target (max 0.2547 <= 0.3); stress rows descriptive by the plan (sgd.deadEnds 0.3522)"
+   ],
+   "problems": []
+  },
+  {
+   "id": "handoff-m0",
+   "verdict": "confirmed",
+   "reexecuted": [
+    "doc_checks.py --doc handoff-M0.md --heads ARCHITECTURE.md: exit 0; C1 0, C2 0, C3 2 / 0 unreviewed, C4 0, S1 0, S2 0",
+    "attachment C: the four known-answer digests reproduced by Python hashlib, shasum, openssl and Node crypto; the five normalisation cases reproduced from the stated rule",
+    "attachment A: 20 ids, each in metrics.m-1.json at 1.0.0 with the stated unit and output form (fields, edges); 10 of 20 mixed-case; 81 metrics with M-1 rows, 38 mixed-case",
+    "attachment B on research/baselines/candidates/ng-faces.json: 7 top-level members, referenceBuild on 20 hoods and 374 faces, integers only outside scaleDeclared (max 9 digits), rings closed, outer positive, holes negative, face template = hood's",
+    "exact search: 0 of 20 ids in docs/ARCHITECTURE.md and plat/docs outside the two files the session later carried the hand-off into"
+   ],
+   "problems": [
+    "not re-executed: N-20's search of plat/packages (outside this seat's read scope)."
+   ]
+  }
+ ],
+ "notes": [
+  "OUTCOME: 9 of 9 items confirmed. No claimed pass was refuted. Every checker column was re-executed from the saved scripts and data on scratch mirrors or clones. Three minor notes are routed above; none blocks.",
+  "Verifier's own slip, recorded: one plan.py --extend capture/FTG/CITY 3 ran against the live tree by mistake. It was refused before any write (FTG families cannot be extended), and nothing changed: plan.json 11a9b357 is still slot 26's bind (04:18:25) and --check reads SAME.",
+  "JUDGMENT (J122, vetoable): W-08's K1 was re-executed with fresh renders through render_svg_offline.mjs. The fence covers the resolver, a closed loopback proxy, request interception and offline mode. The alternative was to check only the stored renders. I chose fresh renders because the fence opens no site, and both its NetLog and mine show 0 outside requests. Scratch profiles were removed and no Chrome process remains.",
+  "CONFIRMED: every receipt above (executed or read 04:16-04:55). PLAUSIBLE: none of the verdicts. Not done: N-20's plat/packages search; the W-13 projection model (a model, not a pass).",
+  "Writes: this file and lane-events lines only. Nothing in plat/, no site, no git, no captured bundle read. plan.py --check SAME at the end. Stored record hashes are unchanged. Scratch: /private/tmp/claude-502/-Users-cstokes-Desktop-Maps/35f80c37-a71f-4b8a-aa2a-ae5f9064cf55/scratchpad/m1w2/w2v/. 11 GiB free."
+ ]
+}

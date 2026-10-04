@@ -362,7 +362,7 @@ name blank, All settings never opened.
    slot-0 checks admit the six water-implied resource leaves only when the whole resource list is the one the slot's water
    setting implies (`WATER_IMPLIED`). Then run `python3 research/baselines/plan.py --bind-ftg K=<stamp>` and
    `plan.py --check` (SAME), and write an E02 section and an `E02-ftg-captures.json` entry. `plan.py` refuses any change
-   to a recorded slot's label, size or water: never edit `FTG_PREMIUM_SCHEDULE` rows at or before the last recorded slot.
+   to a recorded slot's label, size, water, programme or day (m1/plan-guard-2): never edit `FTG_PREMIUM_SCHEDULE` rows at or before the last recorded slot.
 8. **A created settlement that fails a post check** (and is not step 9's case): run
    `python3 research/baselines/plan.py --fail-ftg K=<reason>` (lower-case words joined by `-`), keep the folder, record
    the failure in E02, and return `failed`. Nothing slides: the slots are fixed by number, and slot K + 1 is the next
@@ -537,3 +537,125 @@ apart from the 45 partner ids. The town has four small ponds under the `none` op
 outcome, bound as usual (E02 29.3 finding 3). No browser helper outlived the stop this time (`pgrep -fl profiles/ftg`
 empty at once and four minutes later), so nothing was signalled; the slot-13 and slot-17 notes stand for runs where one
 does.
+
+Slot 19 (2026-10-04, lane `m1/W-02-slot19b`, `captures/ftg/2026-10-04T06-30-03`, E02 section 30) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 19 rows before (big town 8,
+big city 7, metropolis 4) and 20 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 11 form, map
+and navigation commands equal slots 1, 11 and 15's (the same cell) in order, coordinates and size text; coast and rivers
+were already at the slot's values and not touched; the `pre-create` shot was taken after the hit test. The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 1's; the request equals slots 1, 11 and 15's
+apart from the 45 partner ids. No browser helper outlived the stop (`pgrep -fl profiles/ftg` empty at once and half a
+minute later), as in slot 18, so nothing was signalled.
+
+Slot 20 (2026-10-04, lane `m1/W-02-slot20b`, `captures/ftg/2026-10-04T06-42-05`, E02 section 31) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 20 rows before (big town 8,
+big city 8, metropolis 4) and 21 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 13 form, map
+and navigation commands equal slots 2, 4, 12 and 16's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 0's; the request equals slots 2, 4, 12 and 16's apart from the 45 partner ids. The wall is one line
+closing a harbour quarter (32 wall edges, 499 m, 14 towers, the fewest towers and the shortest wall so far): a per-draw
+outcome like slot 16's, bound as usual (E02 31.3 finding 2). No browser helper outlived the stop, as in slots 18 and 19.
+The page reported window focus from the settlements view on (not on the landing), with no hover, scroll or page change:
+read as the `--full` shot raising the window, not another hand (E02 31.4 call 4); a later seat that sees focus change
+together with a hover, scroll or page change it did not cause still stops as H12 says.
+
+Slot 21 (2026-10-04, lane `m1/W-02-slot21b`, `captures/ftg/2026-10-04T06-55-42`, E02 section 32) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 21 rows before (big town 9,
+big city 8, metropolis 4) and 22 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 13 form, map
+and navigation commands equal slots 3, 5, 13 and 17's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 1's; the request equals slots 3, 5, 13 and 17's apart from the 45 partner ids. The wall is one line
+closing the harbour quarter (41 wall edges, 789 m, 23 towers: the fewest towers and the shortest wall at BIG_CITY), the
+shape of slots 16, 17 and 20: a per-draw outcome, bound as usual (E02 32.3 finding 2). No browser helper outlived the
+stop, as in slots 18 to 20. The landing made no background call to the identity provider this time (slot 13's note
+covers runs where it does); the focus change after the `--full` shot came again with no hover, scroll or page change
+(slot 20's note).
+
+Slot 22 (2026-10-04, lane `m1/W-02-slot22b`, `captures/ftg/2026-10-04T07-07-33`, E02 section 33) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 22 rows before (big town 9,
+big city 9, metropolis 4) and 23 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 13 form, map
+and navigation commands equal slots 2, 4, 12, 16 and 20's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 0's; the request equals slots 2, 4, 12, 16 and 20's apart from the 45 partner ids. BIG_TOWN now
+has its ten captures (4 `none`, 6 `coast+river`). The town has seven water bodies, four of them small ponds: a per-draw
+outcome, bound as usual (E02 33.3 finding 5). No browser helper outlived the stop, as in slots 18 to 21. The page
+reported window focus already at the first settlements-view reading, right after the seat's own "Home" click and before
+the `--full` shot, with the hover on a list row under that click's point and no scroll or page change of its own: read as
+the seat's navigation, not another hand (E02 33.4 call 4); slot 20's note on focus stands.
+
+Slot 23 (2026-10-04, lane `m1/W-02-slot23b`, `captures/ftg/2026-10-04T07-21-10`, E02 section 34) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 23 rows before (big town 10,
+big city 9, metropolis 4) and 24 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 13 form, map
+and navigation commands equal slots 3, 5, 13, 17 and 21's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 1's; the request equals slots 3, 5, 13, 17 and 21's apart from the 45 partner ids. BIG_CITY now
+has its ten captures (4 `none`, 6 `coast+river`), as BIG_TOWN does. The wall is two open lines (83 wall edges, 1 557 m,
+47 towers), the shape of slots 3, 5 and 13: a per-draw outcome, bound as usual (E02 34.3 finding 3). No browser helper
+outlived the stop and the landing made no identity-provider call, as in slots 21 and 22; focus came with the seat's own
+"Home" click, as in slot 22 (slot 20's note stands). Slot 24 is the first CITY: checklist I9's first-of-size steps apply.
+
+Slot 24 (2026-10-04, lane `m1/W-02-slot24b`, `captures/ftg/2026-10-04T07-34-12`, E02 section 35) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 24 rows before (big town 10,
+big city 10, metropolis 4, city 0) and 25 after. The 11 form, map and navigation commands equal slots 1, 6, 10, 11, 14,
+15, 18 and 19's (every signed-in `none` capture) in order and coordinates; only the size text differs ("City (~10000
+people)"); coast and rivers were already at the slot's values and not touched; the `pre-create` shot was taken after the
+hit test. **I9 (R-41) named no leaf:** the first `--check-only` passed 10 of 10, with `other` 0 against the CITY base and
+against slot 0; the request differs from the base only by the water options, so the 17 values equal the base's and
+`SIZE_DEPENDENT` stays at 17 names. Slot 25 (CITY, `coast+river`) must repeat slot 24's 17 values (the same-size check).
+One thing for slots 25–27:
+- **Match the size option by the whole part of its React key after the text, not by "ends in".** The slot-6 note's
+  reading picks the option whose key ends in the request key; that was unique for `METROPOLIS`, `BIG_TOWN` and
+  `BIG_CITY`, but three keys end in `CITY` (`SMALL_CITY`, `CITY`, `BIG_CITY`) and three in `TOWN` (`SMALL_TOWN`, `TOWN`,
+  `BIG_TOWN`). Read `key.slice(o.text.length)` for each option (the key starts with the option's text) and take the one
+  option whose remainder equals the slot's request key exactly: on 2026-10-04 that was "City (~10000 people)" for
+  `CITY`, and the form opens at "Town (~4000 people)", whose remainder is `TOWN`. Confirm the selected option's remainder
+  by `eval` after the select and in the form-final reading. To check the name field, find it by its placeholder; the
+  first `input[type=text]` on the page is a hidden All settings field, not the name.
+
+Slot 25 (2026-10-04, lane `m1/W-02-slot25b`, `captures/ftg/2026-10-04T07-50-43`, E02 section 36) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 25 rows before (big town 10,
+big city 10, metropolis 4, city 1) and 26 after; the size option was matched by the whole remainder of its React key
+after the text, as the slot-24 note says (1 of 12 is exactly `CITY`; 3 end in it). The 13 form, map and navigation
+commands equal every signed-in `coast+river` capture's (slots 2–5, 7–9, 12, 13, 16, 17, 20–23) in order and
+coordinates, only the size text differing, and the `pre-create` shot was taken after the hit test. The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 24's; the request equals the 2026-09-21 CITY
+base apart from the 45 partner ids, so the CITY family now has three usable captures. One hover reading taken just after
+the form opened named the dialog's full-window layer under the "New Settlement" click point: `elementFromPoint` there
+returns that layer, so it is the seat's own pointer, not another hand. The landing made one background call to the
+identity provider again (slot 13's note). No browser helper outlived the stop. Slots 26 and 27 are TOWN: slot 26 is the
+next first-of-size capture (I9), and the form opens at the TOWN option, so confirm its remainder `TOWN` by `eval`
+(I4) rather than selecting it.
+
+Slot 26 (2026-10-04, lane `m1/W-02-slot26b`, `captures/ftg/2026-10-04T08-06-17`, E02 section 37) followed H1–H14 and
+I1–I11, with I9's first-of-size steps: the root scroll read 0 → 0 across the landing; the account list held 26 rows
+before (big town 10, big city 10, metropolis 4, city 2, town 0) and 27 after. The form opened at "Town (~4000 people)",
+whose React key remainder is exactly `TOWN` (1 of 12; 3 keys end in `TOWN`), so the size was confirmed by `eval` and
+not selected; coast and rivers were already at the slot's values. The 10 form, map and navigation commands equal every
+signed-in `none` capture's 11 without their size select, and the `pre-create` shot was taken after the hit test. **I9
+(R-41) named 11 leaves:** the first `--check-only` failed `requestDiff` and `vsSlot0` (8 of 10) on the same 11, all in
+the layout stage list, because FTG's client gives SMALL_TOWN and TOWN one stage (the `GAPS` stage, key `2`) where the
+larger sizes have the `DENSE` stage (key `dense`) and then the `GAPS` stage. `SIZE_DEPENDENT` now has **28 names**:
+`.layoutParameters.stages[0].key`, `stages[0].buildingPlacement`, and `stages[1].key`, `.buildingPlacement`,
+`.branchType`, `.buildingMaterial`, `.maxMainRoadAngle`, `.maxNormalRoadAngle`, `.placeWallAfter`,
+`.spokeStaySpokeProbability`, `.wallPlacement` joined (red first; slots 0–25 at 10 of 10 under both scripts; post script
+`735922948e3970fb…` → `c4ad4ddf76bd1f2a…`). Two things for slot 27 (TOWN, `coast+river`, the last slot):
+- **Its 28 size-dependent values must equal slot 26's** (the same-size check; the nine second-stage leaves are absent
+  in both). Its form is slot 26's plus the coast select ("Coastal", select 7) and the rivers box (1008, 498), as in every
+  signed-in `coast+river` capture; the size is again the form's opening option, confirmed by its key remainder `TOWN`.
+- **W-05b's reader cannot read a TOWN request.** `measure_ftg_slots.py`'s `request_size_values` reads `stages[1]` by
+  position and raises an index error on slot 26's request; that is W-05b's file, reported by this lane, and it does not
+  touch a recording seat's checks. Leave E02's class-form table (section 17.3) as the last one: a new size table must
+  keep a header outside that form, as sections 35.3 and 37.3 do.
+
+Slot 27, first seat (2026-10-04, lane `m1/W-02-slot27b`, attempt `captures/ftg/2026-10-04T08-26-40`, E02 section 38):
+STOPPED before the create click, nothing created. The form was set and checked as in slot 25 (but the size, confirmed at
+the opening town option), and the create hit test passed. Then, between two readings with no seat command, the create
+dialog scrolled back to its top (boxes from y 280–396 to 498–614) and the `:hover` chain left the walled box and then
+the page. For the relaunch, under a new lane key:
+- **Re-read the box coordinates with the create hit test.** Right before the create CHECKPOINT line, take the form-state
+  reading `G` together with `HIT '^Create Settlement$'`. The five boxes must still read y 280–396 (the form-final
+  reading's), and the `:hover` chain should still name the walled box, the driver's last click point (slots 6 and
+  11–26; slot 10's was empty). A dialog that moved back to its top is H12's sign of another hand: stop, do not
+  re-scroll.
+- Slot 27's form is otherwise unchanged: the 8 commands before the create equal slot 25's first 9 without its size
+  select, in order and coordinates.

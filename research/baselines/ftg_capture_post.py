@@ -43,7 +43,12 @@ HALF_WIDTH_M = {'BIG_TOWN': 2000.0, 'BIG_CITY': 2750.0,                   # size
 # slot 1 (BIG_CITY, signed in), whose form steps differed only in the size option (E02 section 10). Day 1 differed from
 # the base in the first eleven; slot 1 adds the next five. Slot 6 (METROPOLIS, 2026-10-04T02-55-56; R-41, the first capture
 # of a new size, whose form steps differ from slot 1's in the size option only) adds the seventeenth: the second stage's
-# spoke cap, 1 at CITY, BIG_TOWN and BIG_CITY and 2 at METROPOLIS (E02 section 17).
+# spoke cap, 1 at CITY, BIG_TOWN and BIG_CITY and 2 at METROPOLIS (E02 section 17). Slot 26 (TOWN, 2026-10-04T08-06-17;
+# R-41, form steps equal to every signed-in `none` capture's but the size option, which the form opens at) adds the last
+# eleven: the client builds TOWN's stage list from the size as one stage, the gaps stage, where the larger sizes have a
+# dense stage then a gaps stage; so the first stage's key and building placement differ, and the nine second-stage
+# leaves no earlier name covered are absent (E02 section 37). A second-stage leaf that a form control sets at two-stage
+# sizes (its building material) is guarded at those sizes by the same-size check, since every size now has a first capture.
 SIZE_DEPENDENT = (
     '.buildingsParameters.defaultInsideSettlementShopProbability',
     '.buildingsParameters.defaultOutsideSettlementShopProbability',
@@ -62,6 +67,17 @@ SIZE_DEPENDENT = (
     '.layoutParameters.stages[1].verticalBranchSegments',
     '.religionParameters.religionTargetPercentage',
     '.layoutParameters.stages[1].maxSpokesInStage',
+    '.layoutParameters.stages[0].key',
+    '.layoutParameters.stages[0].buildingPlacement',
+    '.layoutParameters.stages[1].key',
+    '.layoutParameters.stages[1].buildingPlacement',
+    '.layoutParameters.stages[1].branchType',
+    '.layoutParameters.stages[1].buildingMaterial',
+    '.layoutParameters.stages[1].maxMainRoadAngle',
+    '.layoutParameters.stages[1].maxNormalRoadAngle',
+    '.layoutParameters.stages[1].placeWallAfter',
+    '.layoutParameters.stages[1].spokeStaySpokeProbability',
+    '.layoutParameters.stages[1].wallPlacement',
 )
 # The water-implied resource class, pinned like the size class (lane m1/plan-fix-3, after both FTG verifiers found the
 # old prefix rule passed any resource change). The water options add or drop exactly one raw-resource entry, the fishing

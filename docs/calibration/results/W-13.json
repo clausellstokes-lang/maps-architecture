@@ -1,0 +1,78 @@
+{
+ "id": "W-13",
+ "status": "landed",
+ "records": [
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E13-spike-bootstrap.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E13-spike-bootstrap.json"
+ ],
+ "outputs": [
+  "/Users/cstokes/Desktop/Maps/research/baselines/spike_bootstrap.py",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E13-spike-bootstrap.md",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/E13-spike-bootstrap.json",
+  "/Users/cstokes/Desktop/Maps/docs/calibration/results/W-13.json"
+ ],
+ "checks": [
+  {
+   "check": "the resample is seeded and reproducible (the W-13 row's checker)",
+   "passed": true,
+   "receipt": "spike_bootstrap.py (sha 654a47d7): two computations from fresh streams in one process identical (core sha256 0b643404 both; draws sha256 TOWN d557a176, CITY 2fe0766f, METROPOLIS 8541437c); a separate process (--verify) re-computes docs/calibration/E13-spike-bootstrap.json byte for byte (sha256 546521ef both), exit 0; the stream is declared random.Random(int(sha256('S-V12-1|<family>')[:16],16)).randrange(10), the projection's streams seeded the same way and inside both comparisons"
+  },
+  {
+   "check": "C2 lane: E07's and E09's usable seeds agree per family; n = 10; no failed seed among them",
+   "passed": true,
+   "receipt": "10 / 10 / 10 at TOWN / CITY / METROPOLIS; size130-plain-8 (no-export) carried, never drawn"
+  },
+  {
+   "check": "C3 lane: each row's full-sample estimator equals its record's stored summary exactly",
+   "passed": true,
+   "receipt": "78 of 78 rows: estimator, n, a, b, c and seeds equal to E07-mfcg-signature.plan.json (0592b85f) and E09-mfcg-derived-graph.json (512e682c) summaries"
+  },
+  {
+   "check": "C4 lane: every MFCG target entry at W-07b / W-09 is a row; the others listed with a reason",
+   "passed": true,
+   "receipt": "26 of 26 metric rows (vector fields counted) x 3 plain families = 78; 7 excluded with reasons: draw.casingLaw, draw.roundJoins, draw.widthPx, draw.wallsAfterBuildings (W-07, not per seed), fg.recoverability, fg.streetwall (W-08, outside the row's inputs, not landed), variety.dispersion (W-15, R-40); adding all of them as stable rows cannot undo the outcome (49 of at most 102)"
+  },
+  {
+   "check": "C5 lane: full-sample candidate verdicts fail / pass / pass / fail (both readings)",
+   "passed": true,
+   "receipt": "78 rows; zero-edge fallback used on none"
+  },
+  {
+   "check": "C6 lane: every row's sample complete",
+   "passed": true,
+   "receipt": "78 rows, a value for each usable seed"
+  },
+  {
+   "check": "red run (one planted fault per check)",
+   "passed": true,
+   "receipt": "--red: 6 of 6 FAIL, exit 1 (C1 unseeded TOWN stream: core a72dc6ac vs 18a23d47; C2 renamed seed; C3 ribbon.share/METROPOLIS +1e-6; C4 first row dropped 25/26; C5 walled.share/TOWN verdict flipped; C6 sgd.tShare/CITY value removed)"
+  },
+  {
+   "check": "the flip table and the outcome rule reported as the row states",
+   "passed": true,
+   "receipt": "E13 section 5 (78 rows: c, band and edge terms, four candidate flip rates, row flip rate, unstable flag) and section 6 (> 10 % of target rows flipping in > 5 % of draws: 49 / 72 = 68.1 % -> fires -> 20 seeds per size, owner step plan 5 (3), not approved)"
+  },
+  {
+   "check": "plan.py --check after the lane's writes",
+   "passed": true,
+   "receipt": "SAME plan.json (6f946bf3 at 03:31, after another seat's slot bind; a08cec0a at 03:26) and SAME metrics.m-1.json (8a0efa7e); this lane wrote neither"
+  },
+  {
+   "check": "content checks on the record (precedent E07 / E09)",
+   "passed": true,
+   "receipt": "doc_checks.py --doc E13.md --heads ARCHITECTURE.md: C1 0, C2 0, C4 0, S1 0, S2 0, C3 70 hits / 69 unreviewed, all read (digit runs of section 5's tables, section numbers, common phrases of our own text; none a reference word list, palette, grammar or identifier; exit 1 = that count, as for E07/E09); make_denylist.py scan E13.md + E13.json: TOK 0, ID 0, COL 0, SET 0, PHR 0, FILE 0, TRI 121 / 117 of the same kinds"
+  }
+ ],
+ "rows": 78,
+ "owner_notes": [
+  "Your decision is needed on one item. The test on MFCG's reference numbers fired: with only 10 sample towns per size, about two-thirds of the ranges our generator will be judged against move noticeably when the sample is reshuffled. The plan's pre-agreed remedy is 20 towns per size. That means 30 more MFCG page loads and 60 downloads (plan section 5 (3)). It is not approved, and nothing was loaded.",
+  "Before you approve, note this: a model (an estimate, not a measurement) says 20 towns would barely help (about 74 % of ranges still unstable, against the 10 % the test allows), and even 100 would not pass. The rulings seat should look at this first (E13 finding F2). No site was touched."
+ ],
+ "notes": [
+  "OUTCOME (CONFIRMED, executed): spike S-V12-1 built (research/baselines/spike_bootstrap.py, stdlib, imports measure_mfcg.py and derived_graph.py unchanged) and run on E07's and E09's per-seed values: 1 000 seeded draws of ten seeds per size, bands recomputed by V12 3.5.1-3.5.2, flips counted at each band edge +- 5 %. The W-13 checker passes (seeded, reproducible in-process and in a separate process byte for byte); lane checks C2-C6 pass; red 6/6 FAIL. Values are a test of the bands, not rows (W-15 forms rows and bands).",
+  "THE RULE (as the row states): > 10 % of target rows flipping in > 5 % of draws -> 20 seeds per size, an owner step (plan 5 (3)). RESULT: 49 of 72 band-rule MFCG target rows unstable = 68.1 % -> FIRES (TOWN 18/24, CITY 16/24, METROPOLIS 15/24). Companions also fire: 50/78 (64.1 %) with the fixed-band rows gate.count and market.adjacent counted; 67/72 (93.1 %) with candidates at +- 5 % of band width. The 5 % threshold sits in an empty gap (highest stable row 2.7 %, lowest unstable 13.8 %). Stable at every rung: bldg.r4.60, bldg.wallAlign.share15/b0_40, walled.share, castle.compact, market.secondary.",
+  "F1 (owner step): 20 MFCG seeds per size = + 30 loads, + 60 downloads (plan 5 (3)); not approved; the seat stopped and reports. F2 (major, for the rulings seat before the owner's decision; PLAUSIBLE model): a smoothed-bootstrap projection gives 73.6 % unstable at 20 seeds, 69.4 % at 40, 52.8 % at 100 (control at 10: 77.8 % vs measured 68.1 %), so the pre-decided remedy cannot satisfy the pre-decided test; the cause is structural (CONFIRMED): 47 of 49 unstable rows have an edge set by p10 x 0.9 or p90 x 1.1, which at n = 10 rests on the two outermost seeds; a draw repeating an outer seed (probability 0.264) moves that edge > 5 %, and 52 of 144 outer candidates flip in 24-30 % of draws. This seat does not re-decide V12 8.3 (1). F3 (info, W-15): band-rule hi edges of shares exceed 1 (e.g. walled.share 1.040-1.062); no verdict changes.",
+  "JUDGMENT (J122, vetoable; E13 8.1 D1-D10): rows per vector field (N-25); gate.count and market.adjacent kept as section 13.5 fixed bands, out of the denominator; plain families only; 7 MFCG target entries excluded with reasons; '+-5 %' = of the edge's magnitude (width reading computed beside); a row flips when any of its 4 candidates flips; whole-seed joint resampling; strict thresholds (> 50 of 1 000 draws, > 7.2 of 72 rows); relative floors recomputed per draw; the projection reported as a model, outside the outcome.",
+  "CONFIRMED vs PLAUSIBLE: every measured number (flip table, outcome, companions, checks, hashes) is CONFIRMED by execution; the projection at 20/40/100 seeds and F2's claim that the fallback leaves the rule firing are PLAUSIBLE (a model from ten values). No plat/ write, no site, no git, no benchmark; plan.py --check SAME; 11 GiB free."
+ ]
+}

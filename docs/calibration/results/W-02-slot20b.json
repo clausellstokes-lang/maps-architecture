@@ -1,0 +1,89 @@
+{
+ "slot": 20,
+ "status": "landed",
+ "capture": "2026-10-04T06-42-05",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot20b.json and no lane line for m1/W-02-slot20b or any earlier slot-20 key; owner-go.json ftg true; plan.json slots 0-19 bound, slot 20 open (BIG_TOWN, coast+river, fifth), --check SAME (fac17995/8a0efa7e); newest folder 2026-10-04T06-30-03 = slot 19's own (its one PUT listed as BIG_CITY after)"
+  },
+  {
+   "check": "isolated runner and clean start/stop",
+   "passed": true,
+   "receipt": "scratchpad m1w2/ftg/runner copies cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, package.json 25e7d362, lib/common.mjs 3b948576, lib/instrument.js cca253ac); port 9341 free; no FTG process, no Singleton* before; both .session absent before and after; 'session closed', no Singleton*, port free after; pgrep -fl profiles/ftg empty at once, about two minutes later and at 02:53 (no leftover helper; nothing signalled)"
+  },
+  {
+   "check": "landing signed in, no consent notice, no other hand (H2, I2, I10)",
+   "passed": true,
+   "receipt": "'Signed in as [name]', 'Sign out', 'Home' (redacted reading), no consent notice (shot 001); .root-component scrollTop 0 at the first reading and 0 just before the Home click, hover empty; Home 1 of 2 matches hit-testable (896,931); one background identity-provider call as the landing loaded (200; token renewal per checklist I slot-13 note; no prompt); window focus reported from the settlements view on with no hover, scroll or page change (PLAUSIBLY the --full shot raising the window; E02 31.4 call 4)"
+  },
+  {
+   "check": "account list before (I2)",
+   "passed": true,
+   "receipt": "intercepted GET .../prod/settlements: 20 rows (BIG_TOWN 8, BIG_CITY 8, METROPOLIS 4) = the earlier settlement + slots 1-19; no ninth BIG_TOWN row, so no slot-20 create had happened"
+  },
+  {
+   "check": "BIG_TOWN option chosen by its request key (plan 2.1b (2), I4); metropolis not chosen",
+   "passed": true,
+   "receipt": "each option's React element key = text + request key; exactly 1 of 12 ends in BIG_TOWN ('Big town (~6000 people)'); selected by exact text, re-read key '...BIG_TOWN' after the select and in the form-final reading"
+  },
+  {
+   "check": "form set by guarded steps (H12, H14)",
+   "passed": true,
+   "receipt": "form-final eval: selects Big town, Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate (deciduous trees), Coastal; name empty; rivers, farms, forests, reserve area, walled on; dialog open; every click its own command after text + shot + elementFromPoint; 13 commands equal slots 2, 4, 12 and 16's (the same cell) in order, coordinates and size text; the coast select moved no box"
+  },
+  {
+   "check": "one create, retry rule (plan 2.1b (6))",
+   "passed": true,
+   "receipt": "CHECKPOINT line at 02:45 before the click; 'Create Settlement' 1 of 1 hit-testable (947,522) inside the dialog, pre-create shot 013 after the hit test, clicked once (PUT sent 06:45:11.866 UTC); PUT 200; layout body intercepted (intercept-0037); list 20 -> 21 rows (BIG_TOWN 9), the new row carries the PUT's settlement id (listed population 5 537); no retry"
+  },
+  {
+   "check": "same-size rule R-41: 17 values equal slot 0's, class not widened",
+   "passed": true,
+   "receipt": "post script unchanged (735922948e3970fb); sameSize 'against slot 0 (2026-10-03T17-19-06): 17 of 17 equal'; leaf diff vs slots 2, 4, 12 and 16 (same cell): 0 semantic, 45 partner ids"
+  },
+  {
+   "check": "ftg_capture_post.py all checks",
+   "passed": true,
+   "receipt": "--slot 20 --signed-in --premium: --check-only exit 0 on the first run, writing run exit 0, 10/10 (calls, sizeKey, waterKeys, requestDiff other 0, vsSlot0 8 semantic = 2 water keys + 6 water-implied, sameSize 17/17, decode, border 2000.00 m, noResidentField, pbRaw); red tests: as slots 2/4/12/16 exit 0, as 0/10/14/18 exit 1 (waterKeys, requestDiff, vsSlot0), as 3/5/7/8/9/13/17 exit 1 (sizeKey, sameSize, border), as 1/6 exit 1 (5 checks), as 11/15/19 exit 1 (6 checks)"
+  },
+  {
+   "check": "payload and request facts",
+   "passed": true,
+   "receipt": "1 672 buildings, 3 583 edges, 3 126 nodes, 14 towers, 32 wall (type-7) edges (499 m, within 405 m of the centre), 3 water bodies, 4 districts; payload 463 590 bytes (sha256 1199279e05f5a685); requestHash 21432c73dce0 (274 296 bytes, recomputed outside the script); referenceBuild ftg:2026-10-04+21432c73dce0; server time 2.127 s (contended); structure.md equals a fresh pb_raw run apart from its title; 183 field paths, none new"
+  },
+  {
+   "check": "slot bound, plan SAME",
+   "passed": true,
+   "receipt": "plan.json byte-equal to the pre-flight copy just before the bind; plan.py --bind-ftg 20=2026-10-04T06-42-05: one line changed; --check SAME immediately after and again at 02:53 (plan.json fac17995 -> da68f069; metrics.m-1.json 8a0efa7e unchanged; plan.py 68709ba8 unchanged)"
+  },
+  {
+   "check": "records written",
+   "passed": true,
+   "receipt": "E02 header update + section 31 (capture, checks, findings, calls; 149 lines added, none removed); E02-ftg-captures.json: days entry for slot 20, slotsTaken 21, sizeDependentClass.ninthBigTown, next.programme2, slotsByProgramme 2 taken 15 (open 21-27); checklist slot-20 note appended (no line removed); capture README with notes"
+  },
+  {
+   "check": "privacy grep of the files written (H11, H14)",
+   "passed": true,
+   "receipt": "README, capture-facts.json, request-diff.txt, structure.md, E02 section 31 + header, the JSON entry, the checklist note, the notes, this lane's lane-events lines: 0 email, 0 display name, 0 token prefix, 0 full ids; create-request.json only its 45 partner ids; steps.jsonl only the new settlement's id (map address, 11) and the scratchpad session folder name (20), neither an account id; this result file grepped after writing"
+  },
+  {
+   "check": "disk",
+   "passed": true,
+   "receipt": "df -h /Users/cstokes: 11 GiB free before the session, 11 GiB after it and at the end; capture folder 36 MB"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164, unlimited); no counter shown; list 20 rows before, 21 after (BIG_TOWN 9, BIG_CITY 8, METROPOLIS 4); no payment, upgrade, limit, sign-in or terms prompt appeared.",
+ "owner_notes": [
+  "Slot 20 is done. It is a big town on the coast with a river, the fifth of that kind. One new settlement was saved in your account, which now holds 21. Nothing was bought, accepted or changed, and you are still signed in.",
+  "The recording window was left alone; the seat saw no other hand."
+ ],
+ "notes": [
+  "CONFIRMED: the one create (PUT 200, list 20 -> 21, the new row is the PUT's settlement); the 10/10 post checks on the first run; the 17 same-size values equal to slot 0's; the request equal to slots 2, 4, 12 and 16's apart from the 45 partner ids; every payload count; the bind with --check SAME. PLAUSIBLE: that the server's seed makes equal requests differ, what the three water polygons and edge type 14 are, any cause of the short wall, that the window-focus change was the seat's own full-frame shot, that the listed population is a generated count.",
+  "Findings (E02 31.3): the wall is one line closing a harbour quarter, 32 edges, 499 m, 14 towers: the fewest towers and the shortest wall of the 20 walled captures (finding 2); 3 water bodies, no pond (finding 4); the largest BIG_TOWN payload so far (0.46 MB) from edge type 14 (468 edges), which appears only in the coast+river BIG_TOWN captures (finding 5); 183 field paths, none new (finding 6); listed population 5 537, rank agreement with building counts across eight BIG_TOWN captures Spearman 0.99 (finding 8).",
+  "No leftover Chrome helper this run (as in slots 18 and 19); nothing was signalled (E02 31.4 call 2).",
+  "SIZE_DEPENDENT was not touched (17 names; R-41 forbids widening on a later capture of a size). Slot 21 (BIG_CITY coast+river, fifth) is next; it must repeat slot 1's 17 values and must not choose the metropolis option.",
+  "Files: captures/ftg/2026-10-04T06-42-05/ (README.md, capture-facts.json, create-request.json, request-diff.txt, structure.md, session/, steps/ 20 shots), research/baselines/plan.json (via plan.py), research/baselines/ftg_capture_checklist.md (slot-20 note), docs/calibration/E02-ftg-captures.md (header + section 31), docs/calibration/E02-ftg-captures.json, docs/calibration/results/W-02-slot20b.json, docs/lane-events.log (this lane's lines). No plat/, no git command."
+ ]
+}

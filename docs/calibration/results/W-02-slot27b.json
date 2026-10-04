@@ -1,0 +1,66 @@
+{
+ "slot": 27,
+ "status": "stopped",
+ "capture": "2026-10-04T08-26-40 (attempt folder, not a capture; nothing created)",
+ "checks": [
+  {
+   "check": "resume/continue state before the site",
+   "passed": true,
+   "receipt": "no results/W-02-slot27b.json and no lane line for m1/W-02-slot27b; plan.json slots 0-26 bound, slot 27 open; plan.py --check SAME (11a9b357 / 8a0efa7e); newest capture folder 2026-10-04T08-06-17 holds slot 26's own create; owner-go.json ftg true"
+  },
+  {
+   "check": "isolated runner and clean start",
+   "passed": true,
+   "receipt": "own copies in scratchpad m1w2/ftg/runner, cmp identical (session.mjs e199be5d, drive.mjs 597eb62d, common.mjs 3b948576, package.json 25e7d362, instrument.js cca253ac); port 9341 free; no FTG process, no Singleton*, both .session files absent; 11 GiB free"
+  },
+  {
+   "check": "landing signed in, no consent notice, root scroll steady (H2, I2, slot-6 note)",
+   "passed": true,
+   "receipt": "the 'Signed in as ...' line, Sign out and Home present (redacted reading); no consent notice; root scroll 0 -> 0 across the landing, hover empty; shot 001"
+  },
+  {
+   "check": "account list count before the create (H13, I2)",
+   "passed": true,
+   "receipt": "list body counted by size: 27 rows (big town 10, big city 10, metropolis 4, city 2, town 1) = the earlier settlement + slots 1-26; no slot-27 row"
+  },
+  {
+   "check": "form set to slot 27 by guarded steps (H12, H14, I4)",
+   "passed": true,
+   "receipt": "opened at 'Town (~4000 people)', React key remainder exactly TOWN (1 of 12; 3 end in TOWN), confirmed not selected; select 7 Coastal; rivers (1008,498), forests (1008,556), wheel 720 400 300, reserve (1008,367), walled (1008,396), each after text+shot+elementFromPoint and checked after; form-final equals slot 25's but the size text (8 selects, 23 boxes); name empty; 8 commands = slot 25's first 9 minus its size select; create hit test 1 of 1 at (947,522) inside the dialog"
+  },
+  {
+   "check": "only the seat used the window (H12, I10)",
+   "passed": false,
+   "receipt": "form-final 08:29:44 UTC: boxes y 280-396 (scrolled, as in all 24 earlier signed-in creates with this reading); 08:29:53 :hover chain ended at the form container, not the walled box last clicked (17 of 18 earlier readings named the box); shot 012 08:29:54 still scrolled; 08:30:19 :hover empty and elementFromPoint(1008,396) = form body; 08:30:39 boxes y 498-614 (dialog back at its top), shot 013; last seat command that moves or scrolls: walled click 08:29:37; no network row after the form opened (08:28:03)"
+  },
+  {
+   "check": "stopped cleanly, no create, no account write",
+   "passed": true,
+   "receipt": "shot 014, drive.mjs stop -> session closed; no Singleton*, no FTG process, both .session files absent, port 9341 free; recording: site page and assets, fonts, tag manager, analytics, one error report, list GET + presets GET (with interceptions); no PUT .../prod/settlements, no status >= 400, no identity-provider call; create never clicked, no create CHECKPOINT written"
+  },
+  {
+   "check": "slot left open, plan untouched",
+   "passed": true,
+   "receipt": "no --bind-ftg / --fail-ftg run (no create attempted, retry rule not engaged); plan.json byte-equal to the pre-run copy; plan.py --check SAME (11a9b357 / 8a0efa7e) after"
+  },
+  {
+   "check": "privacy grep of the files written",
+   "passed": true,
+   "receipt": "attempt README, E02 header update + section 38, E02 JSON stoppedAttempts entry, checklist note, this lane's lane-events lines: 0 emails, 0 display-name hits, 0 'eyJ', 0 uuids; steps.jsonl: 0 emails, 0 display name, 0 'eyJ', 14 uuid hits all the scratchpad session folder name (H11)"
+  }
+ ],
+ "account_limit": "not reached: premium account (J164); the list held 27 settlements before the form (big town 10, big city 10, metropolis 4, city 2, town 1) and no create was sent, so it still holds 27; no counter, no limit or upgrade prompt shown",
+ "owner_notes": [
+  "Slot 27 (the last town, coast and river) was NOT created. The seat had filled in the whole form and was about to press Create when the form scrolled back to its top by itself, and the mouse pointer moved off it, while the seat was only reading the page. That looks like someone scrolling or moving the mouse over the recording window. The rule is to stop whenever another hand is on the window, so the seat stopped before pressing Create.",
+  "Nothing was clicked beyond the form's own boxes, nothing was bought, accepted or changed, and no settlement was made: your account still holds 27 settlements. You are still signed in.",
+  "To finish: please leave the FTG Chrome window alone while a seat runs, with the mouse and trackpad off it (scrolling over it counts as touching it). The session can then relaunch slot 27 under a new lane key, for example m1/W-02-slot27c. It is the last slot of programme 2.",
+  "Your display name appears only in the local screenshots under captures/, which git ignores. It is in no file this seat wrote."
+ ],
+ "notes": [
+  "CONFIRMED: the dialog returned to its top and the pointer left the walled box and then the page with no seat command (readings at 08:29:44, 08:29:53, 08:30:19, 08:30:39 UTC; shots 012 and 013); no create call in the recording. PLAUSIBLE (strongly): a person scrolled or moved the pointer over the visible headful window.",
+  "Stop reason recorded as external-use-of-the-session-window, as slot 3's and slot 6's first attempts were; slot 27 stays open (no create attempted, so neither --fail-ftg nor the retry rule applies).",
+  "Checklist section I gained a slot-27 note: take the form-state reading with the create hit test just before the create CHECKPOINT; boxes must still read y 280-396 and the hover should name the walled box; a dialog back at its top is a stop, never a re-scroll.",
+  "A relaunch must use a new lane key: this key now has a result file and a LANDED line, so the resume rule would return this stopped result.",
+  "Files: captures/ftg/2026-10-04T08-26-40/ (README.md, 14 shots, recording; 12 MB), docs/calibration/E02-ftg-captures.md (header update, section 38), docs/calibration/E02-ftg-captures.json (stoppedAttempts entry), research/baselines/ftg_capture_checklist.md (slot-27 note), docs/calibration/results/W-02-slot27b.json. No plat/, no design, no git, plan.json and ftg_capture_post.py not written. Disk 11 GiB free before, 10 GiB after."
+ ]
+}

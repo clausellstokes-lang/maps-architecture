@@ -266,3 +266,7 @@ The session carried rows N-20 to N-25 with attachments A to C into `plat/docs/bu
   82 %). W-10b's plan-seed sample (E10 section 9; 20 medium maps, formula seeds, R-03) measures about 66 % one-bend and
   about 89 % corner-near-middle. By R-49's precedent (a pooled plan-seed value replaces a fixture figure) the reference
   values in that row become W-10b's, with the fixture figures named as history; the band columns are W-15's to form.
+* **W-15 (from the wave-2 verifier, 2026-10-04).** W-13's bootstrap ran before W-08 landed, so `fg.recoverability` and
+  `fg.streetwall` are outside its flip table; W-15 (or the wave-3 ruling seat) either re-runs W-13 over those two rows or
+  records why their bands need no bootstrap. Checklist section I's guard sentence was brought in line with plan-guard-2
+  (label, size, water, programme or day) by the session.

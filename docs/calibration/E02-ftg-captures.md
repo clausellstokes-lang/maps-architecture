@@ -167,6 +167,85 @@ same-size check), its request equals slots 0, 10 and 14's (the same cell) apart 
 is bound, and `plan.py --check` reads SAME (section 29). The account list held 18 settlements before and 19 after, with
 no prompt.
 
+**Update, programme 2, slot 19 (2026-10-04 06:32 UTC, signed in, premium since J164): the eighth BIG_CITY.** Lane
+`m1/W-02-slot19b`. Slot 19 (`capture/FTG/BIG_CITY/none/3`) is `captures/ftg/2026-10-04T06-30-03`: a BIG_CITY settlement
+with no coast and rivers off, 7 174 buildings, 9 470 road edges and 7 595 nodes, 51 wall towers (100 wall edges, a
+roughly triangular ring round the inner district), no water body and 5 districts on a 5 500 m square; `referenceBuild`
+`ftg:2026-10-04+6a85e3718382`. All 10 checks pass on the first run, its 17 size-dependent values equal slot 1's (the
+same-size check), its request equals slots 1, 11 and 15's (the same cell) apart from the 45 client-random ids, the slot
+is bound, and `plan.py --check` reads SAME (section 30). The account list held 19 settlements before and 20 after, with
+no prompt.
+
+**Update, programme 2, slot 20 (2026-10-04 06:45 UTC, signed in, premium since J164): the ninth BIG_TOWN.** Lane
+`m1/W-02-slot20b`. Slot 20 (`capture/FTG/BIG_TOWN/coast+river/4`) is `captures/ftg/2026-10-04T06-42-05`: a BIG_TOWN
+settlement on the coast with rivers on, 1 672 buildings, 3 583 road edges and 3 126 nodes, 14 wall towers (32 wall
+edges, 499 m: the fewest towers and the shortest wall so far, one line closing a harbour quarter), 3 water bodies and 4
+districts on a 4 000 m square; `referenceBuild` `ftg:2026-10-04+21432c73dce0`. All 10 checks pass on the first run, its
+17 size-dependent values equal slot 0's (the same-size check), its request equals slots 2, 4, 12 and 16's (the same
+cell) apart from the 45 client-random ids, the slot is bound, and `plan.py --check` reads SAME (section 31). The account
+list held 20 settlements before and 21 after, with no prompt.
+
+**Update, programme 2, slot 21 (2026-10-04 06:58 UTC, signed in, premium since J164): the ninth BIG_CITY.** Lane
+`m1/W-02-slot21b`. Slot 21 (`capture/FTG/BIG_CITY/coast+river/4`) is `captures/ftg/2026-10-04T06-55-42`: a BIG_CITY
+settlement on the coast with rivers on, 7 603 buildings, 11 890 road edges and 9 121 nodes, 23 wall towers (41 wall
+edges, 789 m: the fewest towers and the shortest wall at BIG_CITY, one line closing a harbour quarter), 4 water bodies
+and 5 districts on a 5 500 m square; `referenceBuild` `ftg:2026-10-04+e2fe1aca7649`. All 10 checks pass on the first
+run, its 17 size-dependent values equal slot 1's (the same-size check), its request equals slots 3, 5, 13 and 17's (the
+same cell) apart from the 45 client-random ids, the slot is bound, and `plan.py --check` reads SAME (section 32). The
+account list held 21 settlements before and 22 after, with no prompt.
+
+**Update, programme 2, slot 22 (2026-10-04 07:10 UTC, signed in, premium since J164): the tenth BIG_TOWN.** Lane
+`m1/W-02-slot22b`. Slot 22 (`capture/FTG/BIG_TOWN/coast+river/5`) is `captures/ftg/2026-10-04T07-07-33`: a BIG_TOWN
+settlement on the coast with rivers on, 1 789 buildings, 3 749 road edges and 3 255 nodes, 18 wall towers (36 wall
+edges, 714 m, one line closing the harbour quarter), 7 water bodies (four of them small ponds) and 2 districts on a
+4 000 m square; `referenceBuild` `ftg:2026-10-04+d2c182d38b90`. All 10 checks pass on the first run, its 17
+size-dependent values equal slot 0's (the same-size check), its request equals slots 2, 4, 12, 16 and 20's (the same
+cell) apart from the 45 client-random ids, the slot is bound, and `plan.py --check` reads SAME (section 33). BIG_TOWN
+now has its ten captures (4 `none`, 6 `coast+river`). The account list held 22 settlements before and 23 after, with no
+prompt.
+
+**Update, programme 2, slot 23 (2026-10-04 07:23 UTC, signed in, premium since J164): the tenth BIG_CITY.** Lane
+`m1/W-02-slot23b`. Slot 23 (`capture/FTG/BIG_CITY/coast+river/5`) is `captures/ftg/2026-10-04T07-21-10`: a BIG_CITY
+settlement on the coast with rivers on, 7 108 buildings (the fewest at BIG_CITY), 9 254 road edges and 7 366 nodes,
+47 wall towers (83 wall edges, 1 557 m, in two open lines), 3 water bodies and 4 districts on a 5 500 m square;
+`referenceBuild` `ftg:2026-10-04+7ce26f7b8581`. All 10 checks pass on the first run, its 17 size-dependent values equal
+slot 1's (the same-size check), its request equals slots 3, 5, 13, 17 and 21's (the same cell) apart from the 45
+client-random ids, the slot is bound, and `plan.py --check` reads SAME (section 34). BIG_CITY now has its ten captures
+(4 `none`, 6 `coast+river`), as BIG_TOWN has since slot 22. The account list held 23 settlements before and 24 after,
+with no prompt.
+
+**Update, programme 2, slot 24 (2026-10-04 07:37 UTC, signed in, premium since J164): the first CITY.** Lane
+`m1/W-02-slot24b`. Slot 24 (`capture/FTG/CITY/none/0`) is `captures/ftg/2026-10-04T07-34-12`: a CITY settlement with no
+coast and rivers off, 2 881 buildings, 4 123 road edges and 3 664 nodes, 36 wall towers (76 wall edges, 1 494 m, one
+closed ring), 0 water bodies and 4 districts on a 5 000 m square; `referenceBuild` `ftg:2026-10-04+1efe31200956`. All
+10 checks pass on the first run. Under the first-of-size rule (R-41) no leaf outside the 17 named values differs: the
+request differs from the 2026-09-21 CITY base only by the water options, and its 17 size-dependent values equal the
+base's, so `SIZE_DEPENDENT` is unchanged. The slot is bound, and `plan.py --check` reads SAME (section 35). The account
+list held 24 settlements before and 25 after, with no prompt.
+
+**Update, programme 2, slot 25 (2026-10-04 07:54 UTC, signed in, premium since J164): the second CITY.** Lane
+`m1/W-02-slot25b`. Slot 25 (`capture/FTG/CITY/coast+river/2`) is `captures/ftg/2026-10-04T07-50-43`: a CITY settlement
+on the coast with rivers on, 2 770 buildings, 5 131 road edges and 4 195 nodes, 13 wall towers (27 wall edges, 526 m,
+one open line closing the harbour quarter), 6 water bodies and 3 districts on a 5 000 m square; `referenceBuild`
+`ftg:2026-10-04+b7db525fe189`. All 10 checks pass on the first run, and its 17 size-dependent values equal slot 24's
+(the same-size check). Its request equals the 2026-09-21 CITY base request apart from the 45 client-random ids, so the
+two are draws of one request. The recorded CITY family now holds three usable captures. The slot is bound, and
+`plan.py --check` reads SAME (section 36). The account list held 25 settlements before and 26 after, with no prompt.
+
+**Update, programme 2, slot 26 (2026-10-04 08:08 UTC, signed in, premium since J164): the first TOWN.** Lane
+`m1/W-02-slot26b`. Slot 26 (`capture/FTG/TOWN/none/0`) is `captures/ftg/2026-10-04T08-06-17`: a TOWN settlement with no
+coast and rivers off, 1 102 buildings, 2 417 road edges and 1 985 nodes, 27 wall towers (49 wall edges, 1 178 m, one
+closed ring), 0 water bodies and 2 districts on a 3 500 m square; `referenceBuild` `ftg:2026-10-04+de113ff3f066`. As the
+first capture of a new size (R-41) it brought eleven values the class did not yet name: FTG's client gives the town a
+single layout stage where the larger sizes have two, so the first stage's identifier and building placement differ and
+nine values of the second stage are absent. They joined the class by name (28 values) on this capture's controlled
+comparison and the client's stage builder. All 10 checks then pass, the slot is bound, and `plan.py --check` reads SAME
+(section 37). The account list held 26 settlements before and 27 after, with no prompt.
+**Update, programme 2, slot 27's first seat (2026-10-04 08:31 UTC): STOPPED, nothing created.** Lane
+`m1/W-02-slot27b` set the whole form and stopped before the create click: the create dialog scrolled back to its top
+while the seat only read it (section 38). No settlement was made and the account was not written to. Slot 27
+(`capture/FTG/TOWN/coast+river/0`) stays open in `plan.json`; a relaunch needs the window left alone.
+
 ## 1 What was built
 
 | file | what it is |
@@ -2504,3 +2583,1300 @@ the listed population. PLAUSIBLE (reasoning only) are that the server's seed mak
 field-6 polygons are ponds that come from the draw rather than the water options, the reading of the wall in the shots,
 that a lapsed premium would refuse a further settlement, and that the listed population is the generated resident
 count.
+
+## 30 Slot 19 (programme 2) — 2026-10-04, BIG_CITY, `none`
+
+Lane `m1/W-02-slot19b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+Before the create, slot 19 was open and slots 0–18 bound, the newest folder was slot 18's (its one create is slot 18's
+own), no lane line named a slot-19 key, and the account list held 19 settlements (big town 8, big city 7, metropolis 4:
+the earlier settlement and slots 1 to 18), so no slot-19 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 30.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T06-30-03` |
+| account | the owner's signed-in account, premium since J164; the list held 19 settlements before and 20 after (no counter) |
+| size / rung | BIG_CITY / CITY |
+| `WaterSetting` | `none` (the request's coast key empty, rivers false) |
+| population, source | 24 500, `nominal`. The account list gives 24 614 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 02:32 EDT); 06:32:28.414 UTC (the response date headers read 06:32:34 and 06:32:36 GMT) |
+| server time | 6.528 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 7 174 |
+| request hash | `6a85e3718382`: sha256 of the exact 274 288-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+6a85e3718382` |
+| payload | 1 221 783 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `7a048d704a411955…`) |
+| road graph | 9 470 edges, 7 595 nodes; 100 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 51 / 0 / 5 |
+| settlement border | a square with half width 2 750.00 m, the size ladder's 5 500 m width |
+| capture folder | 44 MB: 13 MB of session recording and 31 MB of screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the big-city option, chosen by its request key as in slots 6–18: the seat read each
+size option's React element key by `eval`; exactly one of the 12 options carried `BIG_CITY`, and the selected option's
+key was re-read after the select and again in the form-final reading. The metropolis option was not touched. The water
+was the form's own default: no coast, rivers off. The farm box was already on; the forest, reserve-area and wall boxes
+were switched on. Everything else stayed at FTG's default presets, and the name was left blank. All settings was never
+opened (shots 004–010; values verified by `eval` before the create click). Every click and select was its own command
+after its readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 18 shots). The 11 form, map and navigation
+commands equal slots 1, 11 and 15's (the same cell) in order, coordinates and size text. The map (shot 012, 500 m bar)
+shows a city with a walled, roughly triangular core holding one district label, four more districts outside the wall
+(north-west, north-east, south-east and south), dense houses spreading along the roads on every side and in long arms
+to the west and east, a large forest over the west and south-west, hedged fields of crops and pasture everywhere else,
+and no water. The core shot (016) has a 250 m bar.
+
+### 30.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 19 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 1's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 184 distinct field paths; 3.1 × 9 470, 3.2 × 7 595, 8 × 7 174, 7 × 51, 6 × 0, 10 × 5; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder over the eight BIG_CITY captures, edges counted by type | 100 type-7 (wall) edges, 1 861 m long, every wall node within 396 m of the centre, and 51 towers; slots 1, 11 and 15 (the same cell): 130, 116 and 92 edges, 2 368, 2 128 and 1 756 m, within 488, 435 and 416 m, 66, 62 and 49 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_CITY; coast key empty and rivers false |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `6a85e3718382`, 274 288 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals slots 1, 11 and 15's (the same cell) | leaf diffs of the requests | **0 semantic differences** against each; only the 45 client-random partner ids differ. All four have the same 26 top-level keys. |
+| the request differs from slots 3, 5, 13 and 17 (BIG_CITY, `coast+river`) only by the water options | leaf diffs of the requests | 8 semantic differences each: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; plus 45 partner ids |
+| the request differs from slots 0, 10, 14 and 18 (BIG_TOWN, the same water) only by the size | leaf diffs of the requests | 15 semantic differences each: the size key and the 14 size-dependent values that differ between BIG_TOWN and BIG_CITY (section 10.3's table); plus 45 partner ids |
+| the request differs from slot 6's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 8 semantic differences: the size key and 7 size-dependent values (the random-faction count, four first-stage values, the second stage's spoke cap, the religious-workers share); plus 45 partner ids |
+| the request differs from the base within the named classes | the script's `requestDiff` and `vsSlot0` | against the base: 19 semantic (3 slot keys, 6 water-implied, 10 size-dependent), `other` 0; against day 1: 15 semantic (14 size-dependent), `other` 0 |
+| the checks discriminate (red tests) | this capture checked as every earlier slot, `--check-only` | as slots 1, 11 and 15 (the same cell): exit 0, as it must be. As slots 0 and 6 (BIG_TOWN and METROPOLIS, `none`; each its size's first): exit 1 (size key, border). As slots 10, 14 and 18 (BIG_TOWN, `none`, later draws): exit 1 (size key, same-size, border). As slots 3, 5, 13 and 17 (BIG_CITY, `coast+river`): exit 1 (water keys, request diff, diff against slot 0). As slots 2, 4, 7, 8, 9, 12 and 16 (BIG_TOWN and METROPOLIS, `coast+river`): exit 1 (size key, water keys, request diff, diff against slot 0, same-size, border). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about half a minute later (30.4 call 2); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–18), and no call to the site's identity provider; exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 19 → 20, the new row of size BIG_CITY carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 19=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 19's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `2d420b3e…` to `fac17995…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist line, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 30.3 Findings
+
+1. **The size-dependent values repeat in the eighth BIG_CITY (CONFIRMED).** All 17 equal slot 1's, as slots 3, 5, 11,
+   13, 15 and 17 found. The 17-value class needed no change (R-41).
+2. **The same request gives a different city again (CONFIRMED).** Against slots 1, 11 and 15 (the same cell, equal
+   requests): 7 174 buildings against 7 164, 7 376 and 7 696; 9 470 edges and 7 595 nodes against 7 236 / 6 302,
+   8 427 / 6 835 and 10 937 / 8 566; 51 towers against 66, 62 and 49; 100 wall edges against 130, 116 and 92; 5
+   districts against 5, 6 and 5. The eight BIG_CITY captures still span 7 164–7 696 buildings; this one is the second
+   lowest. Its road graph lies between the other `none` draws', again mostly through edge type 4 (4 349 here against
+   2 157, 3 458 and 5 180). The server's own seed remains the PLAUSIBLE source of the spread (sections 14.3, 21.3, 23.3,
+   25.3).
+3. **No standing water (CONFIRMED).** Field 6 is absent, as in slots 11 and 15, where slot 1 (the same cell) had 3
+   bodies. Field 6 now appears in 4 of the 9 `none` captures (slots 1, 6, 14 and 18; slots 0, 10, 11, 15 and 19 have
+   none), which fits section 25.3 finding 3's PLAUSIBLE reading: ponds come from the draw, not from the water options.
+4. **The wall is a ring round the inner district (counts CONFIRMED; reading of the shots PLAUSIBLE).** 100 wall edges and
+   51 towers, 1 861 m of wall with every wall node within 396 m of the centre: between slots 11 and 15 in edges and
+   length, and the tightest of the four `none` BIG_CITY walls (slots 1, 11 and 15: within 488, 435 and 416 m). Shots 012
+   and 016 show it closing round the one district inside it, with the four other districts outside it.
+5. **The payload's paths are a subset of the earlier union (CONFIRMED).** 184 distinct field paths, none new. Of the 14
+   absent from the union of slots 0–18's 198: field 6 and its parts (no water body, as in slots 0, 10, 11 and 15), 11.7
+   and its parts (absent in slots 1, 3, 4, 6, 9, 10, 11, 12 and 18 too) and 11.8.2 and its parts (absent in slots 0, 1,
+   3, 4, 6, 10, 11, 14, 15 and 18 too).
+6. **The premium account took a twentieth settlement with no prompt (CONFIRMED).** The list held 19 rows before and 20
+   after; no limit, payment or upgrade prompt appeared. Whether a lapsed premium would refuse one stays PLAUSIBLE only.
+7. **Server time, payload and listed population (CONFIRMED; time contended; meaning of the listed figure PLAUSIBLE).** The
+   payload is 1.22 MB (slots 1, 11 and 15: 1.13, 1.19 and 1.33 MB) and the server time 6.5 s (the other BIG_CITY
+   captures: 5.7–7.1 s). The layout body was in the folder at the poll's first looks, within seconds of the click. The
+   account list gives 24 614 people against the nominal 24 500 (slots 1, 3, 5, 11, 13, 15 and 17: 24 367, 24 755,
+   24 597, 24 961, 24 436, 26 099 and 24 673). Across the eight BIG_CITY captures the listed figure and the building
+   count rank alike with a Spearman coefficient of 0.83 (section 26.3 finding 4's reading, one more sample); the rows
+   keep `populationSource: nominal` until the ruling slot 1 asked for.
+
+### 30.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (011) was taken after the hit test (section 26.4 call 2). The coast select and the rivers box were
+   already at the slot's values (the form's defaults), so neither was touched, as in slots 1, 6, 10, 11, 14, 15 and 18:
+   forests (1008, 556) before the scroll, the reserve area (1008, 367) and walled (1008, 396) after it, "Create
+   Settlement" 1 of 1 at (947, 522) inside the dialog.
+2. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about half a minute later, as in slot 18. Checklist I's slot-13
+   and slot-17 notes stay as written.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands.
+4. **A second visit to the settlements view after the create** (one guarded navigation click) read the list. It changed
+   nothing. The hover readings named only the points of the seat's own last clicks (the walled box before the create,
+   the map canvas after it, the zoom control, the header at the home-link point). The re-roll control showed in the
+   first two map shots (012, 013) and was gone after the zooms (016). It was never clicked. The overview `--full` shot
+   (013) drew the scale bar without its label, as in slots 10 and 18; the window shot just before it (012) reads 500 m.
+
+### 30.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 30.1 and 30.2, findings 1, 2 (the request equality and the
+differing counts), 3 (the field-6 counts), 4 (the wall counts, length and radius), 5, 6 and 7 (the sizes, times, listed
+populations and the rank coefficient). PLAUSIBLE (reasoning only) are that the server's seed makes equal requests
+differ, that field 6 holds ponds that come from the draw, the reading of the wall in the shots, that a lapsed premium
+would refuse a further settlement, and that the listed population is the generated resident count.
+
+## 31 Slot 20 (programme 2) — 2026-10-04, BIG_TOWN, `coast+river`
+
+Lane `m1/W-02-slot20b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+Before the create, slot 20 was open and slots 0–19 bound, the newest folder was slot 19's (its one create is slot 19's
+own), no lane line named a slot-20 key, and the account list held 20 settlements (big town 8, big city 8, metropolis 4:
+the earlier settlement and slots 1 to 19), so no slot-20 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 31.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T06-42-05` |
+| account | the owner's signed-in account, premium since J164; the list held 20 settlements before and 21 after (no counter) |
+| size / rung | BIG_TOWN / TOWN |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 5 600, `nominal`. The account list gives 5 537 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 02:45 EDT); 06:45:11.866 UTC (the response date headers read 06:45:13 and 06:45:14 GMT) |
+| server time | 2.127 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 1 672 |
+| request hash | `21432c73dce0`: sha256 of the exact 274 296-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+21432c73dce0` |
+| payload | 463 590 bytes, Fetch-intercepted (`intercept-0037…bin`, sha256 `1199279e05f5a685…`) |
+| road graph | 3 583 edges, 3 126 nodes; 32 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 14 / 3 / 4 |
+| settlement border | a square with half width 2 000.00 m, the size ladder's 4 000 m width |
+| capture folder | 36 MB: 12 MB of session recording and 23 MB of screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the big-town option, chosen by its request key as in slots 6–19: the seat read each
+size option's React element key by `eval`; exactly one of the 12 options carried `BIG_TOWN`, and the selected option's
+key was re-read after the select and again in the form-final reading. The metropolis option was not touched. The coast
+select was set to the coastal option, and the river, forest, reserve-area and wall boxes were switched on; the farm box
+was already on. Everything else stayed at FTG's default presets, and the name was left blank. All settings was never
+opened (shots 004–013; values verified by `eval` before the create click). Every click and select was its own command
+after its readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 20 shots). The 13 form, map and navigation
+commands equal slots 2, 4, 12 and 16's (the same cell) in order, coordinates and size text. The map (shot 014, 500 m
+bar) shows the sea over the north-west half, its shore running from the north-east corner to the south-west, and a
+river from the south reaching it. The town lies at the river mouth on both banks: a small walled quarter at the harbour
+on the west bank holds one district label and a basin with a pier, a second district lies beside it inland, a third
+along the shore to the south-west, and a fourth across the river on the east bank, with two bridges between the banks.
+Hedged fields of crops and pasture lie east of the river, large woods to the north-east and south-east, and open
+grassland with scattered trees over the south-west. The core shot (018) has a 250 m bar.
+
+### 31.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 20 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 0's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 183 distinct field paths; 3.1 × 3 583, 3.2 × 3 126, 8 × 1 672, 7 × 14, 6 × 3, 10 × 4; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder over slots 0–20, edges counted by type | 32 type-7 (wall) edges, 499 m long, every wall node within 405 m of the centre, and 14 towers: the fewest towers and the shortest wall of the 20 walled captures (the others: 16–93 towers, 594–3 296 m; 29–180 edges); slots 2, 4, 12 and 16 (the same cell): 49, 38, 0 and 29 edges, 998, 806, 0 and 594 m, within 258, 232, – and 265 m, 31, 22, 0 and 16 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_TOWN; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `21432c73dce0`, 274 296 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals slots 2, 4, 12 and 16's (the same cell) | leaf diffs of the requests | **0 semantic differences** against each; only the 45 client-random partner ids differ. All five have the same 26 top-level keys. |
+| the request differs from slots 0, 10, 14 and 18 (BIG_TOWN, `none`) only by the water options | leaf diffs of the requests | 8 semantic differences each: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; plus 45 partner ids |
+| the request differs from slots 3, 5, 13 and 17 (BIG_CITY, the same water) only by the size | leaf diffs of the requests | 15 semantic differences each: the size key and the 14 size-dependent values that differ between BIG_CITY and BIG_TOWN (section 10.3's table); plus 45 partner ids |
+| the request differs from slot 9's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 16 semantic differences: the size key and 15 size-dependent values; plus 45 partner ids |
+| the request differs from the base within the named classes | the script's `requestDiff` and `vsSlot0` | against the base: 12 semantic (1 slot key, 11 size-dependent; the base was itself coastal with rivers, section 11.3 finding 2), `other` 0; against day 1: 8 semantic (2 water keys, 6 water-implied), `other` 0 |
+| the checks discriminate (red tests) | this capture checked as every earlier slot, `--check-only` | as slots 2, 4, 12 and 16 (the same cell): exit 0, as it must be. As slots 0, 10, 14 and 18 (BIG_TOWN, `none`): exit 1 (water keys, request diff, diff against slot 0). As slots 3, 5, 7, 8, 9, 13 and 17 (BIG_CITY and METROPOLIS, `coast+river`): exit 1 (size key, same-size, border). As slots 1 and 6 (each its size's first, `none`): exit 1 (size key, water keys, request diff, diff against slot 0, border). As slots 11, 15 and 19 (BIG_CITY, `none`, later draws): exit 1 (those five and same-size). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about two minutes later (31.4 call 2); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts, one GPU-benchmark file from a public package CDN (as in slots 2–19), and one background call to the site's identity provider as the landing loaded (answered 200; the token renewal of checklist I's slot-13 note, as in slots 8 and 13; no prompt); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 20 → 21, the new row of size BIG_TOWN carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 20=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 20's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `fac17995…` to `da68f069…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist line, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 31.3 Findings
+
+1. **The size-dependent values repeat in the ninth BIG_TOWN (CONFIRMED).** All 17 equal slot 0's, as slots 2, 4, 10,
+   12, 14, 16 and 18 found. The 17-value class needed no change (R-41).
+2. **The shortest wall so far, one line closing the harbour quarter (counts CONFIRMED; reading of the shots CONFIRMED;
+   cause PLAUSIBLE).** The request asks for the wall exactly as slots 2, 4, 12 and 16's do. This draw has 32 wall edges,
+   499 m of wall and 14 towers: the fewest towers and the shortest wall of the 20 walled captures (slot 16 had 16 towers
+   and 594 m; its 29 edges stay the fewest). Every wall node lies within 405 m of the centre, the farthest of the five
+   draws of this request (258, 232 and 265 m for slots 2, 4 and 16), because the walled quarter sits at the harbour off
+   the centre. Shot 018 shows the wall as one line from the shore north of the harbour to the shore south-west of it,
+   closing one small quarter with one district label on its land side, with the other three districts outside it: the
+   shape slot 17 showed at BIG_CITY. Across the five draws of this one request the wall now ranges from none to 49
+   edges. **For W-05b:** a single wall line closing a harbour quarter is a valid draw for the wall rows; it is not a
+   decode fault.
+3. **The same request gives a different town again (CONFIRMED).** Against slots 2, 4, 12 and 16 (the same cell, equal
+   requests): 1 672 buildings against 1 821, 1 880, 1 610 and 1 675; 3 583 edges and 3 126 nodes against 4 197 / 3 558,
+   4 215 / 3 571, 2 987 / 2 639 and 3 648 / 3 186; 4 districts against 4, 4, 2 and 4; 3 water bodies against 3, 4, 4
+   and 5. The nine BIG_TOWN captures still span 1 610–1 880 buildings; this one is the second lowest. The server's own
+   seed remains the PLAUSIBLE source (sections 14.3, 21.3, 23.3, 25.3).
+4. **Three water bodies (count CONFIRMED; reading PLAUSIBLE).** The polygons have 15, 113 and 388 points; their farthest
+   points lie 333, 2 353 and 2 828 m from the centre. Shot 014 shows the sea, the river and the harbour basin, and no
+   pond. The 388-point polygon reaching the corner is PLAUSIBLY the sea, the 113-point one PLAUSIBLY the river, and the
+   15-point one near the centre PLAUSIBLY the near-centre kind seen in slots 2, 4, 12 and 16.
+5. **The largest BIG_TOWN payload so far, from one edge type (CONFIRMED; cause PLAUSIBLE).** The payload is 0.46 MB
+   (the eight earlier BIG_TOWN captures: 0.38–0.43 MB) although the building count is the second lowest. Edge type 14
+   accounts for 468 edges here against 183, 288, 288 and 366 in slots 2, 4, 12 and 16; it appears in the `coast+river`
+   BIG_TOWN captures only (none in slots 0, 10, 14 and 18). What type 14 draws is not read here; the hedged fields east
+   of the river in shot 014 are PLAUSIBLY part of it.
+6. **The payload's paths are a subset of the earlier union (CONFIRMED).** 183 distinct field paths, none new. Of the 15
+   absent from the union of slots 0–19's 198: 11.1 and its parts (absent in slots 2, 3, 4, 9, 10, 13, 14, 16 and 18
+   too), 11.6 and its parts (absent in slots 0, 2, 3, 4, 10, 12, 13, 14, 15, 16 and 18 too) and 11.7 and its parts
+   (absent in slots 1, 3, 4, 6, 9, 10, 11, 12, 18 and 19 too).
+7. **The premium account took a twenty-first settlement with no prompt (CONFIRMED).** The list held 20 rows before and 21
+   after; no limit, payment or upgrade prompt appeared. Whether a lapsed premium would refuse one stays PLAUSIBLE only.
+8. **Server time and listed population (CONFIRMED; time contended; meaning of the listed figure PLAUSIBLE).** The server
+   time is 2.1 s (slots 2, 4, 12 and 16: 1.9, 2.2, 4.4 and 2.6 s). The layout body was in the folder at the poll's first
+   look, within seconds of the click. The account list gives 5 537 people against the nominal 5 600 (the seven earlier
+   signed-in BIG_TOWN captures: 5 491–6 221). Across the eight BIG_TOWN captures with a listed figure (slots 2, 4, 10,
+   12, 14, 16, 18 and 20; slot 0, the guest capture, has none) the listed figure and the building count rank alike with
+   a Spearman coefficient of 0.99 (section 26.3 finding 4's reading; section 30.3 finding 7 found 0.83 at BIG_CITY); the
+   rows keep `populationSource: nominal` until the ruling slot 1 asked for.
+
+### 31.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (013) was taken after the hit test (section 26.4 call 2). Setting the coast select (select 7) to the
+   coastal option moved no box: rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area
+   (1008, 367) and walled (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522) inside the dialog.
+2. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about two minutes later, as in slots 18 and 19. Checklist I's
+   slot-13 and slot-17 notes stay as written.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands.
+4. **A second visit to the settlements view after the create** (one guarded navigation click) read the list. It changed
+   nothing. The hover readings named only the points of the seat's own last clicks (the dialog under the "New
+   Settlement" point, the walled box before the create, the map canvas after it, the zoom control). The page reported
+   window focus from the settlements view on (it did not on the landing); no hover, scroll or page change came with it,
+   so it is read as the full-frame shot raising the window, not another hand (PLAUSIBLE). The re-roll control showed in
+   the first two map shots (014, 015) and was gone after the zooms (018). It was never clicked. The overview `--full`
+   shot (015) drew the scale bar without its label, as in slots 10, 18 and 19; the window shot just before it (014)
+   reads 500 m.
+
+### 31.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 31.1 and 31.2, findings 1, 2 (the equal requests, the wall
+counts, length and radius, the shots), 3 (the request equality and the differing counts), 4 (the field-6 counts and
+extents), 5 (the payload sizes and edge-type counts), 6, 7 and 8 (the times, listed populations and the rank
+coefficient). PLAUSIBLE (reasoning only) are any cause of the short wall, that the server's seed makes equal requests
+differ, what the three field-6 polygons are, what edge type 14 draws, that the focus change was the seat's own shot,
+that a lapsed premium would refuse a further settlement, and that the listed population is the generated resident
+count.
+
+## 32 Slot 21 (programme 2) — 2026-10-04, BIG_CITY, `coast+river`
+
+Lane `m1/W-02-slot21b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+Before the create, slot 21 was open and slots 0–20 bound, the newest folder was slot 20's (its one create is slot 20's
+own), no lane line named a slot-21 key, and the account list held 21 settlements (big town 9, big city 8, metropolis 4:
+the earlier settlement and slots 1 to 20), so no slot-21 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 32.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T06-55-42` |
+| account | the owner's signed-in account, premium since J164; the list held 21 settlements before and 22 after (no counter) |
+| size / rung | BIG_CITY / CITY |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 24 500, `nominal`. The account list gives 25 663 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 02:58 EDT); 06:58:15.757 UTC (the response date headers read 06:58:22 and 06:58:23 GMT) |
+| server time | 6.704 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 7 603 |
+| request hash | `e2fe1aca7649`: sha256 of the exact 274 299-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+e2fe1aca7649` |
+| payload | 1 411 840 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `5b38da132aa69a6b…`) |
+| road graph | 11 890 edges, 9 121 nodes; 41 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 23 / 4 / 5 |
+| settlement border | a square with half width 2 750.00 m, the size ladder's 5 500 m width |
+| capture folder | 39 MB: 13 MB of session recording and 26 MB of screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the big-city option, chosen by its request key as in slots 6–20: the seat read each
+size option's React element key by `eval`; exactly one of the 12 options carried `BIG_CITY`, and the selected option's
+key was re-read after the select and again in the form-final reading. The metropolis option was not touched. The coast
+select was set to the coastal option, and the river, forest, reserve-area and wall boxes were switched on; the farm box
+was already on. Everything else stayed at FTG's default presets, and the name was left blank. All settings was never
+opened (shots 004–013; values verified by `eval` before the create click). Every click and select was its own command
+after its readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 20 shots). The 13 form, map and navigation
+commands equal slots 3, 5, 13 and 17's (the same cell) in order, coordinates and size text. The map (shot 014, 500 m
+bar) shows the sea along the whole east side. A river comes in from the north and forks near the top edge: one arm runs
+south-west across the farmland to the south-west corner, the other curves south-east through the city and reaches the
+sea, with a harbour basin and a mole at its mouth. A small district lies in the fork. The walled quarter lies between
+the eastern arm and the sea, two districts lie north of it along the shore and one south of the arm. Hedged fields of
+crops and pasture and open grassland lie to the west and south-west, and woods to the north-west. The core shot (018,
+250 m bar) shows the wall: one line with towers from the eastern arm north-east to the shore, closing the harbour
+quarter on its land side.
+
+### 32.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 21 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 1's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 193 distinct field paths; 3.1 × 11 890, 3.2 × 9 121, 8 × 7 603, 7 × 23, 6 × 4, 10 × 5; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder over slots 0–21, edges counted by type | 41 type-7 (wall) edges, 789 m long, every wall node within 401 m of the centre, and 23 towers: the fewest towers and the shortest wall at BIG_CITY (the other eight: 25–66 towers, 827–2 368 m; 40–130 edges); slots 3, 5, 13 and 17 (the same cell): 57, 80, 58 and 40 edges, 1 211, 1 560, 1 339 and 827 m, 40, 49, 37 and 25 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_CITY; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `e2fe1aca7649`, 274 299 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals slots 3, 5, 13 and 17's (the same cell) | leaf diffs of the requests | **0 semantic differences** against each; only the 45 client-random partner ids differ. All five have the same 26 top-level keys. |
+| the request differs from slots 1, 11, 15 and 19 (BIG_CITY, `none`) only by the water options | leaf diffs of the requests | 8 semantic differences each: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; plus 45 partner ids |
+| the request differs from slots 2, 4, 12, 16 and 20 (BIG_TOWN, the same water) only by the size | leaf diffs of the requests | 15 semantic differences each: the size key and the 14 size-dependent values that differ between BIG_TOWN and BIG_CITY (section 10.3's table); plus 45 partner ids |
+| the request differs from slot 9's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 8 semantic differences: the size key and 7 size-dependent values (the random-faction count, four first-stage values, the second stage's spoke cap, the religious-workers share); plus 45 partner ids |
+| the request differs from the base within the named classes | the script's `requestDiff` and `vsSlot0` | against the base: 11 semantic (1 slot key, 10 size-dependent; the base was itself coastal with rivers, section 11.3 finding 2), `other` 0; against day 1: 23 semantic (14 size-dependent, the 2 water keys, 6 water-implied, the size key), `other` 0 |
+| the checks discriminate (red tests) | this capture checked as every earlier slot, `--check-only` | as slots 3, 5, 13 and 17 (the same cell): exit 0, as it must be. As slots 1, 11, 15 and 19 (BIG_CITY, `none`): exit 1 (water keys, request diff, diff against slot 0). As slots 2, 4, 12, 16 and 20 (BIG_TOWN, `coast+river`) and 7, 8 and 9 (METROPOLIS, `coast+river`): exit 1 (size key, same-size, border). As slots 0 and 6 (BIG_TOWN and METROPOLIS, `none`; each its size's first): exit 1 (size key, water keys, request diff, diff against slot 0, border). As slots 10, 14 and 18 (BIG_TOWN, `none`, later draws): exit 1 (those five and same-size). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about two minutes later (32.4 call 2); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–20); no call to the site's identity provider this run (32.4 call 4); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 21 → 22, the new row of size BIG_CITY carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 21=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 21's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `da68f069…` to `6ad28659…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist line, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 32.3 Findings
+
+1. **The size-dependent values repeat in the ninth BIG_CITY (CONFIRMED).** All 17 equal slot 1's, as slots 3, 5, 11,
+   13, 15, 17 and 19 found. The 17-value class needed no change (R-41).
+2. **The fewest towers and the shortest wall at BIG_CITY, one line closing the harbour quarter (counts and shots
+   CONFIRMED; cause PLAUSIBLE).** The request asks for the wall exactly as slots 3, 5, 13 and 17's do. This draw has 41
+   wall edges, 789 m of wall and 23 towers; the eight earlier big cities have 25–66 towers and 827–2 368 m (slot 17's
+   40 edges stay the fewest). Every wall node lies within 401 m of the centre. Shot 018 shows the wall as one line with
+   towers from the eastern river arm north-east to the shore: it closes the harbour quarter between the arm and the sea
+   on its land side, and the arm and the sea close the rest; the other four districts lie outside it. That is the shape
+   of slots 16, 17 and 20 (sections 27.3, 28.3 and 31.3 finding 2), now in two of the five draws of this BIG_CITY
+   request. Why the first stage's quarter is walled alone is PLAUSIBLE only. **For W-05b:** a single wall line closing
+   a harbour quarter is a valid BIG_CITY draw; it is not a decode fault.
+3. **The same request gives a different city again (CONFIRMED).** Against slots 3, 5, 13 and 17 (the same cell, equal
+   requests): 7 603 buildings against 7 342, 7 270, 7 328 and 7 311; 11 890 edges and 9 121 nodes against
+   11 121 / 8 400, 10 164 / 7 984, 11 713 / 9 000 and 10 715 / 8 329; 5 districts against 4, 4, 5 and 6; 4 water
+   bodies against 4, 3, 4 and 5. The edge and node counts are the highest at BIG_CITY so far, and the building count is
+   the highest of the five coastal big cities; the nine BIG_CITY captures span 7 164–7 696 buildings (slot 15 keeps the
+   most). The server's own seed remains the PLAUSIBLE source (sections 14.3, 21.3, 23.3, 25.3).
+4. **Four water bodies (count and extents CONFIRMED; reading PLAUSIBLE).** The polygons have 11, 122, 170 and 469
+   points; their farthest points lie 209, 2 956, 3 860 and 3 889 m from the centre; 3 889 m is the border square's
+   corner. Shot 014 shows the sea along the east side, the river's two arms and the harbour basin, and no pond. The
+   469-point polygon is PLAUSIBLY the sea, the 170- and 122-point ones PLAUSIBLY the two river arms, and the 11-point one
+   within 209 m of the centre PLAUSIBLY the near-centre kind of slots 3, 5, 13 and 17 (7, 20, 15 and 12 points within
+   236–302 m).
+5. **The largest BIG_CITY payload so far (CONFIRMED; cause PLAUSIBLE).** The payload is 1.41 MB (the eight earlier
+   BIG_CITY captures: 1.13–1.36 MB), with the most edges at this size. Edge type 14 accounts for 652 edges here against
+   356, 430, 518 and 673 in slots 3, 5, 13 and 17; as at BIG_TOWN (section 31.3 finding 5) it appears in the
+   `coast+river` captures only (none in slots 1, 11, 15 and 19). What type 14 draws is not read here.
+6. **The payload's paths are a subset of the earlier union (CONFIRMED).** 193 distinct field paths, none new. The 5
+   absent from the union of slots 0–20's 198 are 11.7 and its parts, absent in slots 1, 3, 4, 6, 9, 10, 11, 12, 18, 19
+   and 20 too.
+7. **The premium account took a twenty-second settlement with no prompt (CONFIRMED).** The list held 21 rows before and
+   22 after; no limit, payment or upgrade prompt appeared. Whether a lapsed premium would refuse one stays PLAUSIBLE
+   only.
+8. **Server time and listed population (CONFIRMED; time contended; meaning of the listed figure PLAUSIBLE).** The server
+   time is 6.7 s (slots 1, 3, 5, 11, 13, 15, 17 and 19: 5.7, 6.3, 6.0, 6.2, 6.0, 6.0, 7.1 and 6.5 s); the machine was
+   shared, so the difference is not read. The layout body was in the folder at the poll's first look. The account list
+   gives 25 663 people against the nominal 24 500 (the eight earlier BIG_CITY captures: 24 367–26 099). Across the nine
+   BIG_CITY captures the listed figure and the building count rank alike with a Spearman coefficient of 0.88 (section
+   30.3 finding 7 found 0.83 over eight); the rows keep `populationSource: nominal` until the ruling slot 1 asked for.
+
+### 32.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (013) was taken after the hit test (section 26.4 call 2). Setting the coast select (select 7) to the
+   coastal option moved no box: rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area
+   (1008, 367) and walled (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522) inside the dialog.
+2. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about two minutes later, as in slots 18 to 20. Checklist I's
+   slot-13 and slot-17 notes stay as written.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands.
+4. **A second visit to the settlements view after the create** (one guarded navigation click) read the list. It changed
+   nothing. The hover readings named only the points of the seat's own last clicks (the walled box before the create,
+   the map canvas under the create point after it, the zoom control before the home link). The page reported window
+   focus from the settlements view on, after the full-frame shot, with no hover, scroll or page change: read as the shot
+   raising the window, as in section 31.4 call 4 (PLAUSIBLE). Unlike slots 8, 13, 17 and 20, the landing made no
+   background call to the site's identity provider this time; nothing was needed either way. The re-roll control showed
+   in the first two map shots (014, 015) and was gone after the zooms (018). It was never clicked. The overview `--full`
+   shot (015) drew the scale bar without its label, as in slots 10, 18, 19 and 20; the window shot just before it (014)
+   reads 500 m.
+
+### 32.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 32.1 and 32.2, findings 1, 2 (the equal requests, the wall
+counts, length and radius, the shots), 3 (the request equality and the differing counts), 4 (the field-6 counts and
+extents), 5 (the payload sizes and edge-type counts), 6, 7 and 8 (the times, listed populations and the rank
+coefficient). PLAUSIBLE (reasoning only) are any cause of the short wall, that the server's seed makes equal requests
+differ, what the four field-6 polygons are, what edge type 14 draws, that the focus change was the seat's own shot,
+that a lapsed premium would refuse a further settlement, and that the listed population is the generated resident
+count.
+
+## 33 Slot 22 (programme 2) — 2026-10-04, BIG_TOWN, `coast+river`
+
+Lane `m1/W-02-slot22b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+Before the create, slot 22 was open and slots 0–21 bound, the newest folder was slot 21's (its one create is slot 21's
+own), no lane line named a slot-22 key, and the account list held 22 settlements (big town 9, big city 9, metropolis 4:
+the earlier settlement and slots 1 to 21), so no slot-22 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 33.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T07-07-33` |
+| account | the owner's signed-in account, premium since J164; the list held 22 settlements before and 23 after (no counter) |
+| size / rung | BIG_TOWN / TOWN |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 5 600, `nominal`. The account list gives 6 102 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 03:10 EDT); 07:10:12.661 UTC (the response date headers read 07:10:14 and 07:10:15 GMT) |
+| server time | 2.135 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 1 789 |
+| request hash | `d2c182d38b90`: sha256 of the exact 274 296-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+d2c182d38b90` |
+| payload | 429 178 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `3e6a7d1bca99a844…`) |
+| road graph | 3 749 edges, 3 255 nodes; 36 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 18 / 7 / 2 |
+| settlement border | a square with half width 2 000.00 m, the size ladder's 4 000 m width |
+| capture folder | 35 MB: 12 MB of session recording and 22 MB of screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the big-town option, chosen by its request key as in slots 6–21: the seat read each
+size option's React element key by `eval`; exactly one of the 12 options carried `BIG_TOWN`, and the selected option's
+key was re-read after the select and again in the form-final reading. The metropolis option was not touched. The coast
+select was set to the coastal option, and the river, forest, reserve-area and wall boxes were switched on; the farm box
+was already on. Everything else stayed at FTG's default presets, and the name was left blank. All settings was never
+opened (shots 004–013; values verified by `eval` before the create click). Every click and select was its own command
+after its readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 20 shots). The 13 form, map and navigation
+commands equal slots 2, 4, 12, 16 and 20's (the same cell) in order, coordinates and size text. The map (shot 014,
+500 m bar) shows the sea along the whole east side, with a strip of beach in the north, and a river that comes in from
+the west-south-west and crosses the south of the map to the sea. The town lies on the shore just north of the river
+mouth. A small walled quarter at the harbour, with a pier at its shore, holds one district label; the second district
+label lies beside it, outside the wall on its south-west side, and a small suburb lies south of the river across a
+bridge. Hedged fields of crops and pasture cover the west and north, with woods in the north-west corner and three
+small ponds among the fields. The core shot (018, 250 m bar) shows the wall: one curved line with towers from the shore
+north of the harbour round to the shore south of it, closing the harbour quarter on its land side.
+
+### 33.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 22 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 0's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 183 distinct field paths; 3.1 × 3 749, 3.2 × 3 255, 8 × 1 789, 7 × 18, 6 × 7, 10 × 2; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder over slots 0–22, edges counted by type | 36 type-7 (wall) edges, 714 m long, every wall node within 251 m of the centre, and 18 towers; the ten BIG_TOWN captures now span 0–31 towers, 0–998 m and 0–49 edges; slots 2, 4, 12, 16 and 20 (the same cell): 49, 38, 0, 29 and 32 edges, 998, 806, 0, 594 and 499 m, within 258, 232, –, 265 and 405 m, 31, 22, 0, 16 and 14 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_TOWN; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `d2c182d38b90`, 274 296 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals slots 2, 4, 12, 16 and 20's (the same cell) | leaf diffs of the requests | **0 semantic differences** against each; only the 45 client-random partner ids differ. All six have the same 26 top-level keys. |
+| the request differs from slots 0, 10, 14 and 18 (BIG_TOWN, `none`) only by the water options | leaf diffs of the requests | 8 semantic differences each: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; plus 45 partner ids |
+| the request differs from slots 3, 5, 13, 17 and 21 (BIG_CITY, the same water) only by the size | leaf diffs of the requests | 15 semantic differences each: the size key and the 14 size-dependent values that differ between BIG_CITY and BIG_TOWN (section 10.3's table); plus 45 partner ids |
+| the request differs from slot 9's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 16 semantic differences: the size key and 15 size-dependent values; plus 45 partner ids |
+| the request differs from the base within the named classes | the script's `requestDiff` and `vsSlot0` | against the base: 12 semantic (1 slot key, 11 size-dependent; the base was itself coastal with rivers, section 11.3 finding 2), `other` 0; against day 1: 8 semantic (2 water keys, 6 water-implied), `other` 0 |
+| the checks discriminate (red tests) | this capture checked as every earlier slot, `--check-only` | as slots 2, 4, 12, 16 and 20 (the same cell): exit 0, as it must be. As slots 0, 10, 14 and 18 (BIG_TOWN, `none`): exit 1 (water keys, request diff, diff against slot 0). As slots 3, 5, 7, 8, 9, 13, 17 and 21 (BIG_CITY and METROPOLIS, `coast+river`): exit 1 (size key, same-size, border). As slots 1 and 6 (each its size's first, `none`): exit 1 (size key, water keys, request diff, diff against slot 0, border). As slots 11, 15 and 19 (BIG_CITY, `none`, later draws): exit 1 (those five and same-size). The check-only runs wrote nothing (the folder held `session/` and `steps/` only until the writing run). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about three minutes later (33.4 call 2); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–21); no call to the site's identity provider this run (as in slot 21); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 22 → 23, the new row of size BIG_TOWN carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 22=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 22's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `6ad28659…` to `a08cec0a…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist line, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 33.3 Findings
+
+1. **The size-dependent values repeat in the tenth BIG_TOWN (CONFIRMED).** All 17 equal slot 0's, as slots 2, 4, 10,
+   12, 14, 16, 18 and 20 found. The 17-value class needed no change (R-41).
+2. **BIG_TOWN has its ten captures (CONFIRMED).** Slots 0, 10, 14 and 18 (`none`) and 2, 4, 12, 16, 20 and 22
+   (`coast+river`) are bound: the 4 / 6 split of `plan.json`'s `ftg.perSize` for BIG_TOWN, and the count plan section
+   2.1b names for the `type7` estimator (the "tenth BIG_TOWN" row). Whether the rows read at ten carry bands is W-05b's
+   reading, not this record's.
+3. **One curved wall line closing the harbour quarter (counts CONFIRMED; reading of the shots CONFIRMED; cause
+   PLAUSIBLE).** The request asks for the wall exactly as slots 2, 4, 12, 16 and 20's do. This draw has 36 wall edges,
+   714 m of wall and 18 towers, every wall node within 251 m of the centre: inside the BIG_TOWN range (0–31 towers,
+   0–998 m). Shot 018 shows the wall as one line from the shore north of the harbour round to the shore south of it,
+   closing the small harbour quarter, which holds one of the two district labels, on its land side; the other district
+   lies outside it. It is the shape of slots 16, 17, 20 and 21. Across the six draws of this one request the wall ranges
+   from none to 49 edges.
+4. **The same request gives a different town again (CONFIRMED).** Against slots 2, 4, 12, 16 and 20 (the same cell,
+   equal requests): 1 789 buildings against 1 821, 1 880, 1 610, 1 675 and 1 672; 3 749 edges and 3 255 nodes against
+   4 197 / 3 558, 4 215 / 3 571, 2 987 / 2 639, 3 648 / 3 186 and 3 583 / 3 126; 2 districts against 4, 4, 2, 4 and 4.
+   The ten BIG_TOWN captures span 1 610–1 880 buildings. The server's own seed remains the PLAUSIBLE source (sections
+   14.3, 21.3, 23.3, 25.3).
+5. **Seven water bodies, four of them small ponds (counts and extents CONFIRMED; reading PLAUSIBLE).** The most of any
+   BIG_TOWN capture (the nine earlier: 0–5) and second only to slot 7's eight overall. The polygons have 8, 12, 19, 20,
+   29, 96 and 209 points. The 209-point one reaches the corner (2 828 m from the centre): PLAUSIBLY the sea. The 96-point
+   one runs from 456 to 2 208 m: PLAUSIBLY the river. The 8-point one lies within 208 m of the centre: PLAUSIBLY the
+   near-centre kind seen in slots 2, 4, 12, 16 and 20. The four of 12–29 points each lie in a narrow ring, 742–769,
+   828–903, 1 597–1 694 and 1 872–1 930 m from the centre: PLAUSIBLY ponds. Shot 014 shows three small ponds among the
+   fields; the fourth PLAUSIBLY lies outside the window's frame. Ponds under `coast+river` are not new: slot 16 had two
+   (section 27.3 finding 5). Like slot 14's and 18's ponds under `none`, this is a per-draw outcome, not a capture fault.
+6. **Payload and edge types (CONFIRMED; what type 14 draws PLAUSIBLE).** The payload is 0.43 MB (the five earlier
+   `coast+river` BIG_TOWN captures: 0.39–0.46 MB). Edge type 14 has 273 edges here against 183, 288, 288, 366 and 468
+   in slots 2, 4, 12, 16 and 20, and is still absent from every `none` BIG_TOWN capture (slots 0, 10, 14 and 18). The
+   edge types present (0, 1, 2, 3, 4, 6, 7, 10, 11, 13, 14) all occur in earlier captures.
+7. **The payload's paths are a subset of the earlier union (CONFIRMED).** 183 distinct field paths, none new. Of the 15
+   absent from the union of slots 0–21's 198: 11.1 and its parts (absent in slots 2, 3, 4, 9, 10, 13, 14, 16, 18 and 20
+   too), 11.6 and its parts (absent in slots 0, 2, 3, 4, 10, 12, 13, 14, 15, 16, 18 and 20 too) and 11.7 and its parts
+   (absent in slots 1, 3, 4, 6, 9, 10, 11, 12, 18, 19, 20 and 21 too).
+8. **The premium account took a twenty-third settlement with no prompt (CONFIRMED).** The list held 22 rows before and 23
+   after; no limit, payment or upgrade prompt appeared. Whether a lapsed premium would refuse one stays PLAUSIBLE only.
+9. **Server time and listed population (CONFIRMED; time contended; meaning of the listed figure PLAUSIBLE).** The server
+   time is 2.1 s (slots 2, 4, 12, 16 and 20: 1.9, 2.2, 4.4, 2.6 and 2.1 s). The layout body was in the folder at the
+   poll's first look, within seconds of the click. The account list gives 6 102 people against the nominal 5 600 (the
+   eight earlier signed-in BIG_TOWN captures: 5 491–6 221). Across the nine BIG_TOWN captures with a listed figure
+   (slots 2, 4, 10, 12, 14, 16, 18, 20 and 22; slot 0, the guest capture, has none) the listed figure and the building
+   count rank alike with a Spearman coefficient of 0.95 (0.99 over the first eight, section 31.3 finding 8); the rows
+   keep `populationSource: nominal` until the ruling slot 1 asked for.
+
+### 33.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (013) was taken after the hit test (section 26.4 call 2). Setting the coast select (select 7) to the
+   coastal option moved no box: rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area
+   (1008, 367) and walled (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522) inside the dialog.
+2. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about three minutes later, as in slots 18 to 21. Checklist I's
+   slot-13 and slot-17 notes stay as written.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands.
+4. **Focus came with the seat's own navigation this time, not after the full-frame shot (PLAUSIBLE reading).** The page
+   reported window focus at the first reading of the settlements view, taken right after the seat's "Home" click and
+   before the `--full` shot (slots 20 and 21 first saw it after that shot). The hover at that reading was a list row
+   under the "Home" click's own point; no scroll and no page change came with it beyond the seat's own navigation. It is
+   read as the seat's click, or the browser raising the window as the page changed, not another hand. A later seat that
+   sees focus together with a hover, scroll or page change it did not cause still stops as H12 says. A second visit to
+   the settlements view after the create (one guarded navigation click) read the list and changed nothing; the other
+   hover readings named only the seat's own last click points (the dialog under the "New Settlement" point, the walled
+   box before the create, the map canvas after it, the zoom control). The re-roll control showed in the first two map
+   shots (014, 015) and was gone after the zooms (018). It was never clicked. The overview `--full` shot (015) drew the
+   scale bar without its label, as in slots 10 and 18 to 21; the window shot just before it (014) reads 500 m.
+
+### 33.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 33.1 and 33.2, findings 1, 2, 3 (the equal requests, the
+wall counts, length and radius, the shots), 4 (the request equality and the differing counts), 5 (the field-6 counts
+and extents), 6 (the payload sizes and edge-type counts), 7, 8 and 9 (the times, listed populations and the rank
+coefficient). PLAUSIBLE (reasoning only) are any cause of the wall's shape, that the server's seed makes equal requests
+differ, what the seven field-6 polygons are, what edge type 14 draws, what raised the window's focus, that a lapsed
+premium would refuse a further settlement, and that the listed population is the generated resident count.
+
+## 34 Slot 23 (programme 2) — 2026-10-04, BIG_CITY, `coast+river`
+
+Lane `m1/W-02-slot23b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+Before the create, slot 23 was open and slots 0–22 bound, the newest folder was slot 22's (its one create is slot 22's
+own), no lane line named a slot-23 key, and the account list held 23 settlements (big town 10, big city 9, metropolis 4:
+the earlier settlement and slots 1 to 22), so no slot-23 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 34.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T07-21-10` |
+| account | the owner's signed-in account, premium since J164; the list held 23 settlements before and 24 after (no counter) |
+| size / rung | BIG_CITY / CITY |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 24 500, `nominal`. The account list gives 24 024 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 03:23 EDT); 07:23:38.935 UTC (the response date headers read 07:23:46 and 07:23:47 GMT) |
+| server time | 7.098 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 7 108 |
+| request hash | `7ce26f7b8581`: sha256 of the exact 274 299-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+7ce26f7b8581` |
+| payload | 1 178 709 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `f9f05124c92b7567…`) |
+| road graph | 9 254 edges, 7 366 nodes; 83 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 47 / 3 / 4 |
+| settlement border | a square with half width 2 750.00 m, the size ladder's 5 500 m width |
+| capture folder | 39 MB with the post outputs: the session recording and the screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the big-city option, chosen by its request key as in slots 6–22: the seat read each
+size option's React element key by `eval`; exactly one of the 12 options carried `BIG_CITY`, and the selected option's
+key was re-read after the select and again in the form-final reading. The metropolis option was not touched. The coast
+select was set to the coastal option, and the river, forest, reserve-area and wall boxes were switched on; the farm box
+was already on. Everything else stayed at FTG's default presets, and the name was left blank. All settings was never
+opened (shots 004–013; values verified by `eval` before the create click). Every click and select was its own command
+after its readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state
+reading after each step showed the dialog still open (`steps/steps.jsonl`, 20 shots). The 13 form, map and navigation
+commands equal slots 3, 5, 13, 17 and 21's (the same cell) in order, coordinates and size text. The map (shot 014,
+500 m bar) shows the sea along the whole south-west and south, with a strip of beach on its shore, and a river that
+comes from the north and runs south through the city to the sea. The city lies on both banks of the river mouth, with
+four district labels: a walled harbour quarter on the east bank at the mouth, with a pier at its shore; a narrow walled
+strip along the river's west bank; a large district west of the river; and a large district north of the walled
+quarter. Hedged fields of crops and pasture cover the east, with woods at the east edge; open grassland with scattered
+trees covers the west and north-west. The core shot (018, 250 m bar) shows the wall as two open lines with towers: one
+curves from the river bank round the harbour quarter to the shore east of the harbour; the other runs along the river's
+west bank from the shore north to a point across the river from the first line's river end, closing the narrow strip
+between it and the river.
+
+### 34.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 23 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 1's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 187 distinct field paths; 3.1 × 9 254, 3.2 × 7 366, 8 × 7 108, 7 × 47, 6 × 3, 10 × 4; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder over slots 0–23, edges counted by type and joined into connected lines | 83 type-7 (wall) edges, 1 557 m long, every wall node within 464 m of the centre, and 47 towers; two open lines, of 59 edges (1 108 m) and 24 edges (450 m). The ten BIG_CITY captures now span 23–66 towers, 789–2 368 m and 40–130 edges. Slots 3, 5, 13, 17 and 21 (the same cell): 57, 80, 58, 40 and 41 edges, 1 211, 1 560, 1 339, 827 and 789 m, within 729, 494, 574, 506 and 401 m, 40, 49, 37, 25 and 23 towers; two open lines in slots 3, 5 and 13, one in slots 17 and 21 |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | BIG_CITY; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `7ce26f7b8581`, 274 299 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals slots 3, 5, 13, 17 and 21's (the same cell) | leaf diffs of the requests | **0 semantic differences** against each; only the 45 client-random partner ids differ. All six have the same 26 top-level keys. |
+| the request differs from slots 1, 11, 15 and 19 (BIG_CITY, `none`) only by the water options | leaf diffs of the requests | 8 semantic differences each, the same 8 leaves: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; plus 45 partner ids |
+| the request differs from slots 2, 4, 12, 16, 20 and 22 (BIG_TOWN, the same water) only by the size | leaf diffs of the requests | 15 semantic differences each, the same 15 leaves: the size key and the 14 size-dependent values that differ between BIG_TOWN and BIG_CITY (section 10.3's table); plus 45 partner ids |
+| the request differs from slot 9's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 8 semantic differences: the size key and 7 size-dependent values; plus 45 partner ids |
+| the request differs from the base within the named classes | the script's `requestDiff` and `vsSlot0` | against the base: 11 semantic (1 slot key, 10 size-dependent; the base was itself coastal with rivers, section 11.3 finding 2), `other` 0; against day 1: 23 semantic (the size key, 2 water keys, 6 water-implied, 14 size-dependent), `other` 0 |
+| the checks discriminate (red tests) | this capture checked as every earlier slot, `--check-only` | as slots 3, 5, 13, 17 and 21 (the same cell): exit 0, as it must be. As slots 1, 11, 15 and 19 (BIG_CITY, `none`): exit 1 (water keys, request diff, diff against slot 0). As slots 2, 4, 7, 8, 9, 12, 16, 20 and 22 (BIG_TOWN and METROPOLIS, `coast+river`): exit 1 (size key, same-size, border). As slots 0 and 6 (each its size's first, `none`): exit 1 (size key, water keys, request diff, diff against slot 0, border). As slots 10, 14 and 18 (BIG_TOWN, `none`, later draws): exit 1 (those five and same-size). The check-only runs wrote nothing (the folder held `session/` and `steps/` only until the writing run). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about two minutes later (34.4 call 2); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–22); no call to the site's identity provider this run (as in slots 21 and 22); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 23 → 24, the new row of size BIG_CITY carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 23=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 23's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `a08cec0a…` to `6f946bf3…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist line, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 34.3 Findings
+
+1. **The size-dependent values repeat in the tenth BIG_CITY (CONFIRMED).** All 17 equal slot 1's, as slots 3, 5, 11,
+   13, 15, 17, 19 and 21 found. The 17-value class needed no change (R-41).
+2. **BIG_CITY has its ten captures (CONFIRMED).** Slots 1, 11, 15 and 19 (`none`) and 3, 5, 13, 17, 21 and 23
+   (`coast+river`) are bound: the 4 / 6 split of `plan.json`'s `ftg.perSize` for BIG_CITY, and the count plan section
+   2.1b names for the `type7` estimator (the "tenth BIG_CITY" row). With slot 22, both matched sizes now hold ten.
+   Whether the rows read at ten carry bands is W-05b's reading, not this record's.
+3. **A two-line wall again (counts, lines and shots CONFIRMED; cause PLAUSIBLE).** The request asks for the wall exactly
+   as slots 3, 5, 13, 17 and 21's do. This draw has 83 wall edges, 1 557 m of wall and 47 towers, every wall node within
+   464 m of the centre: inside the BIG_CITY range (23–66 towers, 789–2 368 m). The wall is two open lines: one of 59 edges
+   (1 108 m) round the harbour quarter on the east bank, and one of 24 edges (450 m) along the river's west bank, closing
+   a narrow strip, which carries its own district label, between it and the river (shot 018). Slots 3, 5 and 13 also had
+   two lines; slots 17 and 21 had one line closing a harbour quarter. Across the six draws of this one request the wall
+   ranges from 40 to 83 edges and from 789 to 1 560 m. Why the draws split between one and two lines is PLAUSIBLE only.
+4. **The same request gives a different city again (CONFIRMED).** Against slots 3, 5, 13, 17 and 21 (the same cell,
+   equal requests): 7 108 buildings against 7 342, 7 270, 7 328, 7 311 and 7 603; 9 254 edges and 7 366 nodes against
+   11 121 / 8 400, 10 164 / 7 984, 11 713 / 9 000, 10 715 / 8 329 and 11 890 / 9 121; 4 districts against 4, 4, 5, 6 and
+   5. The building count is the fewest of the ten BIG_CITY captures (the nine earlier: 7 164–7 696), and the edge and
+   node counts are the fewest of the six coastal big cities. The server's own seed remains the PLAUSIBLE source
+   (sections 14.3, 21.3, 23.3, 25.3).
+5. **Three water bodies (count and extents CONFIRMED; reading PLAUSIBLE).** The polygons have 7, 123 and 128 points. The
+   123-point one runs from 200 m to the border square's corner (3 889 m): PLAUSIBLY the sea. The 128-point one runs from
+   81 to 2 878 m: PLAUSIBLY the river. The 7-point one lies 156–252 m from the centre: PLAUSIBLY the near-centre kind of
+   slots 3, 5, 13, 17 and 21 (7, 20, 15, 12 and 11 points within 209–302 m). Shot 014 shows the sea, the one river and
+   the harbour basin, and no pond.
+6. **The smallest coastal BIG_CITY payload (CONFIRMED; cause PLAUSIBLE).** The payload is 1.18 MB (the five earlier
+   `coast+river` BIG_CITY captures: 1.26–1.41 MB; all ten BIG_CITY captures: 1.13–1.41 MB). Edge type 14 has 223 edges
+   here against 356, 430, 518, 673 and 652 in slots 3, 5, 13, 17 and 21, the fewest, and it is still absent from every
+   `none` BIG_CITY capture (slots 1, 11, 15 and 19). The edge types present (0, 1, 2, 3, 4, 6, 7, 10, 14) all occur in
+   earlier captures. What type 14 draws is not read here.
+7. **The payload's paths are a subset of the earlier union (CONFIRMED).** 187 distinct field paths, none new. Of the 11
+   absent from the union of slots 0–22's 198: 11.7 and its parts (absent in slots 1, 3, 4, 6, 9, 10, 11, 12, 18, 19, 20,
+   21 and 22 too) and 11.8.2 and its parts (absent in slots 0, 1, 3, 4, 6, 10, 11, 14, 15, 18 and 19 too).
+8. **The premium account took a twenty-fourth settlement with no prompt (CONFIRMED).** The list held 23 rows before and
+   24 after; no limit, payment or upgrade prompt appeared. Whether a lapsed premium would refuse one stays PLAUSIBLE
+   only.
+9. **Server time and listed population (CONFIRMED; time contended; meaning of the listed figure PLAUSIBLE).** The server
+   time is 7.1 s (slots 1, 3, 5, 11, 13, 15, 17, 19 and 21: 5.7, 6.3, 6.0, 6.2, 6.0, 6.0, 7.1, 6.5 and 6.7 s); the
+   machine was shared, so the difference is not read. The layout body was in the folder at the poll's first look. The
+   account list gives 24 024 people against the nominal 24 500, the lowest of the ten BIG_CITY captures (the nine
+   earlier: 24 367–26 099), beside the fewest buildings. Across the ten BIG_CITY captures the listed figure and the
+   building count rank alike with a Spearman coefficient of 0.92 (section 32.3 finding 8 found 0.88 over nine); the rows
+   keep `populationSource: nominal` until the ruling slot 1 asked for.
+
+### 34.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (013) was taken after the hit test (section 26.4 call 2). Setting the coast select (select 7) to the
+   coastal option moved no box: rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area
+   (1008, 367) and walled (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522) inside the dialog.
+2. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about two minutes later, as in slots 18 to 22. Checklist I's
+   slot-13 and slot-17 notes stay as written.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands.
+4. **Focus came with the seat's own navigation, as in slot 22 (PLAUSIBLE reading).** The page reported window focus at
+   the first reading of the settlements view, taken right after the seat's "Home" click and before the `--full` shot.
+   The hover at that reading was a list row under the "Home" click's own point; no scroll and no page change came with it
+   beyond the seat's own navigation. It is read as the seat's click, or the browser raising the window as the page
+   changed, not another hand (section 33.4 call 4). A second visit to the settlements view after the create (one guarded
+   navigation click) read the list and changed nothing; the other hover readings named only the seat's own last click
+   points (the walled box before the create, the map canvas after it, the zoom control, the page header under the home
+   link). The re-roll control showed in the first two map shots (014, 015) and was gone after the zooms (018). It was
+   never clicked. The overview `--full` shot (015) drew the scale bar without its label, as in slots 10 and 18 to 22; the
+   window shot just before it (014) reads 500 m.
+
+### 34.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 34.1 and 34.2, findings 1, 2, 3 (the equal requests, the
+wall counts, lines, length and radius, the shots), 4 (the request equality and the differing counts), 5 (the field-6
+counts and extents), 6 (the payload sizes and edge-type counts), 7, 8 and 9 (the times, listed populations and the rank
+coefficient). PLAUSIBLE (reasoning only) are any cause of the wall's shape, that the server's seed makes equal requests
+differ, what the three field-6 polygons are, what edge type 14 draws, what raised the window's focus, that a lapsed
+premium would refuse a further settlement, and that the listed population is the generated resident count.
+
+## 35 Slot 24 (programme 2) — 2026-10-04, CITY, `none`
+
+Lane `m1/W-02-slot24b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+This is the first CITY capture of the programme, so checklist I9's first-of-size steps applied (R-41). Before the
+create, slot 24 was open and slots 0–23 bound, the newest folder was slot 23's (its one create is slot 23's own), no
+lane line named a slot-24 key, and the account list held 24 settlements (big town 10, big city 10, metropolis 4, city 0:
+the earlier settlement and slots 1 to 23), so no slot-24 settlement existed. The landing's root scroll container read 0
+at the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 35.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T07-34-12` |
+| account | the owner's signed-in account, premium since J164; the list held 24 settlements before and 25 after (no counter) |
+| size / rung | CITY / TOWN (nominal 9 500 people, the size ladder's CITY; plan 2.1b's timed preset) |
+| `WaterSetting` | `none` (the request's coast key empty, rivers false) |
+| population, source | 9 500, `nominal`. The account list gives 9 767 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 03:37 EDT); 07:37:34.552 UTC (the response date headers read 07:37:37 and 07:37:38 GMT) |
+| server time | 2.767 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 2 881 |
+| request hash | `1efe31200956`: sha256 of the exact 274 282-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+1efe31200956` |
+| payload | 570 441 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `1c764916a2b1d479…`) |
+| road graph | 4 123 edges, 3 664 nodes; 76 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 36 / 0 / 4 |
+| settlement border | a square with half width 2 500.00 m, the size ladder's 5 000 m width |
+| capture folder | 38 MB: the session recording and the screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the city option, chosen by its request key: the seat read each size option's React
+element key by `eval`. Three of the 12 keys end in `CITY` (the small-city, city and big-city options), so the seat
+matched the whole part of the key after the option's text: exactly one option's part is `CITY`. The selected option's
+part was re-read after the select and again in the form-final reading. The metropolis option was not touched. The
+water was the form's own default: no coast, rivers off, neither touched. The farm box was already on; the forest,
+reserve-area and wall boxes were switched on. Everything else stayed at FTG's default presets, and the name was left
+blank. All settings was never opened (shots 004–010; values verified by `eval` before the create click). Every click and
+select was its own command after its readings, and every coordinate click had an `elementFromPoint` reading naming its
+control; a form-state reading after each step showed the dialog still open (`steps/steps.jsonl`, 18 shots). The 11
+form, map and navigation commands equal those of slots 1, 6, 10, 11, 14, 15, 18 and 19 (every signed-in `none` capture)
+in order and coordinates; only the size option's text differs. The map (shot 012, 500 m bar) shows a compact walled
+town in the middle of the frame: an oval wall round the core, four district labels (one inside the wall, three round it
+to the north-west, north-east and south) and suburbs on every side, densest to the south-east. A wide open meadow with
+scattered trees lies north of the town between two woods in the top corners; hedged fields of crops and pasture cover
+the rest of the frame. There is no sea, no river and no pond. The core shot (016) has a 250 m bar.
+
+### 35.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 24 --signed-in --premium`, `--check-only` first, then the writing run: exit 0 both times (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass on the **first** run: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (vacuous: the first CITY of the programme; this capture sets CITY's reference values), decode, border, no resident field, `pb_raw` runs |
+| the first-of-size rule (R-41; checklist I9) | the first `--check-only`'s `requestDiff` and `vsSlot0` receipts, and leaf diffs outside the script | nothing to list: `other` 0 against the base and 0 against slot 0, so I9 steps 2–4 name no leaf and `SIZE_DEPENDENT` stays at 17 (finding 1). Step 1 was run anyway (the row below). |
+| the form steps differ from the captured `none` slots in the size option only (R-41 step 1) | the form-changing commands of the `steps.jsonl` files; the form-state readings | the same 11 commands as slots 1, 6, 10, 11, 14, 15, 18 and 19, in the same order at the same coordinates ("Home", "New Settlement", the size select, the forest box, the dialog scroll, the reserve-area and wall boxes, "Create Settlement", two zoom clicks, the home link); only the size option's text differs. The first and the form-final readings show the other seven selects and all 23 checkboxes (the five simple-form boxes and the hidden All settings mirrors) exactly as slots 18 and 19's first and form-final readings. |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 179 distinct field paths; 3.1 × 4 123, 3.2 × 3 664, 8 × 2 881, 7 × 36, 6 × 0, 10 × 4; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder, edges counted by type and joined into connected lines | 76 type-7 (wall) edges, 1 494 m long, every wall node within 290 m of the centre, one closed ring with no open end, and 36 towers. The `none` captures of the other sizes are closed rings too: BIG_TOWN (slots 0, 10, 14, 18) 42, 34, 44 and 46 edges, 993, 694, 870 and 827 m, 25, 17, 23 and 22 towers; BIG_CITY (slots 1, 11, 15, 19) 130, 116, 92 and 100 edges, 2 368, 2 128, 1 756 and 1 861 m, 66, 62, 49 and 51 towers; METROPOLIS (slot 6) 180 edges, 3 296 m, 93 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | CITY; coast key empty and rivers false |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `1efe31200956`, 274 282 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request differs from the 2026-09-21 base (CITY, coastal with rivers on) only by the water options | a leaf diff of the two requests | 8 semantic differences: the 2 water keys and the 6 leaves of the raw-resource entry the water options drop (the list shifts by one); **0 size-dependent**; 0 other; plus 45 client-random partner ids. Both requests have the same 26 top-level keys. |
+| the request differs from slots 0, 10, 14 and 18 (BIG_TOWN, the same water) only by the size | leaf diffs of the requests | 12 semantic differences each, the same 12 leaves: the size key and 11 size-dependent values (the eleven of day 1, section 4); 0 other; plus 45 partner ids |
+| the request differs from slots 1, 11, 15 and 19 (BIG_CITY, the same water) only by the size | leaf diffs of the requests | 11 semantic differences each, the same 11 leaves: the size key and 10 size-dependent values; 0 other; plus 45 partner ids |
+| the request differs from slot 6's (METROPOLIS, the same water) only by the size | a leaf diff of the two requests | 16 semantic differences: the size key and 15 size-dependent values; 0 other; plus 45 partner ids |
+| the request differs from slots 3 and 23 (BIG_CITY, `coast+river`) only by the size and the water | leaf diffs of the requests | 19 semantic differences each: the size key, 2 water keys, 6 water-implied and 10 size-dependent values; 0 other |
+| the checks discriminate (red tests) | this capture checked as every other slot, `--check-only` | as slot 25 (CITY, `coast+river`): exit 1 (water keys, request diff, diff against slot 0). As slots 0, 1 and 6 (each its size's first, `none`) and 26 (TOWN, `none`): exit 1 (size key, border). As slots 10, 11, 14, 15, 18 and 19 (later `none` draws of BIG_TOWN and BIG_CITY): exit 1 (size key, same-size, border). As slots 2–5, 7–9, 12, 13, 16, 17 and 20–23 (`coast+river` at the other sizes): exit 1 (size key, water keys, request diff, diff against slot 0, same-size, border). As slot 27 (TOWN, `coast+river`): exit 1 (size key, water keys, request diff, diff against slot 0, border). The check-only runs wrote nothing (the folder held `session/` and `steps/` only until the writing run). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about four minutes later (35.4 call 5); both `.session` files absent before and after |
+| only the seat used the window | the scroll readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–23); no call to the site's identity provider this run (as in slots 21 to 23); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 24 → 25, the new row of size CITY carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 24=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 24's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `6f946bf3…` to `0fd7aae1…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist note, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 35.3 Findings
+
+1. **CITY's first capture adds no size-dependent value (CONFIRMED; R-41).** Checklist I9 said this was PLAUSIBLE until
+   slot 24 showed it, because the 2026-09-21 base is itself a CITY capture. The first `--check-only` passed: against the
+   base the request differs only by the water options, so all 17 named values equal the base's, and against slot 0 no
+   leaf outside the class differs. The form steps differ from those of the captured `none` slots in the size option only
+   (35.2), so this is the controlled comparison R-41 asks for, and it names no new leaf. `SIZE_DEPENDENT` keeps its 17
+   names; the class table of section 17.3 stays the current one, and its CITY column (read from the base) is now
+   confirmed by a programme capture. Slot 25 (CITY, `coast+river`) must repeat this capture's 17 values exactly (the
+   same-size check). The 17 values at CITY beside the other sizes (the header is not in the class-table form, so W-05b's
+   reader keeps section 17.3's table):
+
+   | value | slot 24: CITY | 2026-09-21 base: CITY | slot 0: BIG_TOWN | slot 1: BIG_CITY | slot 6: METROPOLIS | slot 24 differs from |
+   |---|---|---|---|---|---|---|
+   | stage 1: branch segments, first direction | 4 | 4 | 3 | 4 | 5 | BIG_TOWN, METROPOLIS |
+   | stage 1: branch segments, second direction | 4 | 4 | 3 | 4 | 5 | BIG_TOWN, METROPOLIS |
+   | stage 1: minimum district area (ha) | 10 | 10 | 6 | 10 | 12 | BIG_TOWN, METROPOLIS |
+   | stage 1: building share | 0.2 | 0.2 | 0.1 | 0.2 | 0.25 | BIG_TOWN, METROPOLIS |
+   | stage 1: spoke probability | 0.5 | 0.5 | 0.1 | 0.3 | 0.3 | all three |
+   | stage 1: most spokes | 1 | 1 | 1 | 2 | 2 | BIG_CITY, METROPOLIS |
+   | stage 1: main-road step (m) | 50 | 50 | 50 | 70 | 70 | BIG_CITY, METROPOLIS |
+   | stage 2: branch segments, first direction | 3 | 3 | 3 | 5 | 5 | BIG_CITY, METROPOLIS |
+   | stage 2: branch segments, second direction | 3 | 3 | 3 | 5 | 5 | BIG_CITY, METROPOLIS |
+   | stage 2: minimum district area (ha) | 7 | 7 | 6 | 10 | 10 | all three |
+   | stage 2: building share | 0.5 | 0.5 | 0.6 | 0.6 | 0.6 | all three |
+   | stage 2: main-road step (m) | 60 | 60 | 50 | 50 | 50 | all three |
+   | stage 2: most spokes | 1 | 1 | 1 | 1 | 2 | METROPOLIS |
+   | random-faction count | 4 | 4 | 3 | 5 | 6 | all three |
+   | shop probability, inside the settlement | 0.1 | 0.1 | 0.4 | 0.1 | 0.1 | BIG_TOWN |
+   | shop probability, outside the settlement | 0.5 | 0.5 | 0.4 | 0.5 | 0.5 | BIG_TOWN |
+   | religious-workers share | 0.01 | 0.01 | 0.01 | 0.005 | 0.0025 | BIG_CITY, METROPOLIS |
+
+   Slot 24 differs from BIG_TOWN in 11 values, from BIG_CITY in 10 and from METROPOLIS in 15, and from the base in none:
+   FTG's CITY preset did not change between 2026-09-21 and today.
+2. **The city sits between the big town and the big city (CONFIRMED for this one draw).** Against the `none` captures
+   of the two matched sizes (BIG_TOWN slots 0, 10, 14, 18; BIG_CITY slots 1, 11, 15, 19): 2 881 buildings against
+   1 675–1 826 and 7 164–7 696; 4 123 edges against 3 003–3 597 and 7 236–10 937; 3 664 nodes against 2 639–3 145 and
+   6 302–8 566; 36 towers against 17–25 and 49–66; 1 494 m of wall against 694–993 and 1 756–2 368 m; 4 districts against
+   2–3 and 5–6; a 0.57 MB payload against 0.38–0.41 and 1.13–1.33 MB; a 2 500 m half width against 2 000 and 2 750 m.
+   The account list gives 9 767 people against the nominal 9 500. The two recorded CITY captures (2026-09-21, usable,
+   and 2026-09-25, failed for a setting under R-04; both labelled coastal with rivers; section 3) have 2 798 and 2 813
+   buildings, 5 326 and 4 811 edges, 4 303 and 4 045 nodes and 17 and 29 towers. Their water differs from this slot's,
+   so they are not draws of the same cell.
+3. **One closed wall ring (counts and shot CONFIRMED).** The wall is a single closed ring of 76 edges and 1 494 m round
+   the core, every wall node within 290 m of the centre, with 36 towers. Every `none` capture so far has a single closed
+   ring (35.2), while the coastal captures often have open lines that close on the shore (sections 31.3 to 34.3).
+4. **No water body (CONFIRMED).** Field 6 is absent, as in slots 0, 10, 11, 15 and 19. Slots 1, 6, 14 and 18, also
+   `none`, had 3, 1, 2 and 4 small ponds. Shot 012 shows no water.
+5. **The payload's paths are a subset of the earlier union (CONFIRMED).** 179 distinct field paths, none new. Of the 19
+   absent from the union of slots 0–23's 198: field 6 and its parts (3; absent in slots 0, 10, 11, 15 and 19 too), 11.1
+   and its parts (5; absent in 11 earlier slots), 11.7 and its parts (5; absent in 14 earlier slots) and 11.8.2 and its
+   parts (6; absent in 12 earlier slots). The edge types present (0, 1, 2, 3, 4, 6, 7, 10) all occur in earlier
+   captures; type 13 is absent here (present in slots 0, 1, 6, 14, 15 and 18 among the `none` captures), and type 14
+   is absent, as in every `none` capture.
+6. **Server time (CONFIRMED; contended).** 2.8 s, between the `none` BIG_TOWN captures (1.9–2.6 s) and the `none` BIG_CITY
+   captures (5.7–6.5 s). The machine was shared, so the figure feeds no row. The layout body was in the folder at the
+   poll's first look.
+7. **The premium account took a twenty-fifth settlement with no prompt (CONFIRMED).** The list held 24 rows before and
+   25 after; no limit, payment or upgrade prompt appeared.
+8. **"Ends in the request key" is ambiguous at CITY and TOWN (CONFIRMED).** The slot-6 note of checklist I reads the
+   size option by its React key, the display text followed by the request key. For slots 6–23 the reading "the key ends
+   in the slot's request key" picked one option, but three keys end in `CITY` (small city, city, big city), and three end
+   in `TOWN` (small town, town, big town). The seat therefore matched the whole part of the key after the option's text,
+   which names exactly one option for every request key on the form. The checklist note for slot 24 records this for
+   slots 25–27.
+
+### 35.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (011) was taken after the hit test. The coast select already read the no-coast option and the river
+   box was off, so neither was touched. Forests (1008, 556) before the scroll, the reserve area (1008, 367) and walled
+   (1008, 396) after it, and "Create Settlement" 1 of 1 at (947, 522) inside the dialog, as in slots 1 to 23.
+2. **The size option was matched by the whole part of its key after the text** (finding 8). The alternative, "ends in
+   `CITY`", names three options, and choosing among them by their texts would be the guess checklist I4 forbids. The
+   request's size key confirmed the choice (check `sizeKey`).
+3. **`SIZE_DEPENDENT` was not touched.** R-41 adds a leaf only when the first `--check-only` names one as `other`; it
+   named none. The 17-value table of finding 1 has a header outside the class-table form on purpose, so that
+   `measure_ftg_slots.py`'s reader, which takes the last class-form table as the current class, still reads section
+   17.3's; its parse was run before and after this section was written, with equal results.
+4. **One form-final reading read the wrong field and was replaced.** A combined reading took the first text input on the
+   page as the name field; it is a hidden All settings field holding a default of 8 characters, which the seat did not
+   print. The next reading found the dialog's name field by its placeholder: empty. The form-state reading's visible
+   text inputs read empty too. No click depended on the first reading.
+5. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about four minutes later, as in slots 18 to 23.
+6. **Focus came with the seat's own navigation, as in slots 22 and 23 (PLAUSIBLE reading).** The page reported window
+   focus at the first reading of the settlements view, right after the seat's "Home" click and before the `--full` shot,
+   with the hover on a list row under that click's own point and no scroll or page change beyond the seat's navigation.
+   The other hover readings named only the seat's own last click points (the walled box before the create, the map
+   canvas after it, the zoom control, the page header under the home link). A second visit to the settlements view after
+   the create (one guarded navigation click) read the list and changed nothing. The re-roll control showed in the first
+   two map shots (012, 013) and was gone after the zooms (016); it was never clicked. The overview `--full` shot (013)
+   drew the scale bar without its label, as in slots 10 and 18 to 23; the window shot just before it (012) reads 500 m.
+
+### 35.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 35.1 and 35.2, findings 1 (the passing first-of-size check,
+the request equalities and the 17-value table), 2 (the counts against the other sizes and the recorded CITY family), 3
+(the wall counts, ring and radius, the shots), 4, 5, 6 (the time, contended), 7 and 8. PLAUSIBLE (reasoning only) are
+what raised the window's focus, and that the listed population is the generated resident count. That the city sits
+between the two matched sizes is CONFIRMED for this one draw only; a second CITY draw (slot 25) has other water.
+
+## 36 Slot 25 (programme 2) — 2026-10-04, CITY, `coast+river`
+
+Lane `m1/W-02-slot25b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+This is the second CITY capture of the programme, so the same-size rule applied (R-41): its 17 size-dependent values
+must equal slot 24's. Before the create, slot 25 was open and slots 0–24 bound, the newest folder was slot 24's (its one
+create is slot 24's own), no lane line named a slot-25 key, and the account list held 25 settlements (big town 10, big
+city 10, metropolis 4, city 1: the earlier settlement and slots 1 to 24), so no slot-25 settlement existed. The
+landing's root scroll container read 0 at the first reading and 0 again just before the "Home" click, and no hover was
+on the page: no sign of another hand.
+
+### 36.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T07-50-43` |
+| account | the owner's signed-in account, premium since J164; the list held 25 settlements before and 26 after (no counter) |
+| size / rung | CITY / TOWN (nominal 9 500 people, the size ladder's CITY; plan 2.1b's timed preset) |
+| `WaterSetting` | `coast+river` (the request's coast key coastal, rivers true) |
+| population, source | 9 500, `nominal`. The account list gives 9 407 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 03:54 EDT); 07:54:04.381 UTC (the response date headers read 07:54:09 and 07:54:10 GMT) |
+| server time | 5.245 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 2 770 |
+| request hash | `b7db525fe189`: sha256 of the exact 274 293-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+b7db525fe189` |
+| payload | 638 724 bytes, Fetch-intercepted (`intercept-0037…bin`, sha256 `96ad0e51eec619ba…`) |
+| road graph | 5 131 edges, 4 195 nodes; 27 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 13 / 6 / 3 |
+| settlement border | a square with half width 2 500.00 m, the size ladder's 5 000 m width |
+| capture folder | 37 MB: the session recording and the screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The size was set to the city option, chosen by its request key as in slot 24: the seat read each size
+option's React element key by `eval` and matched the whole part of the key after the option's text (three keys end in
+`CITY`); exactly one option's part is `CITY`. The selected option's part was re-read after the select and again in the
+form-final reading. The metropolis option was not touched. The coast select was set to the coastal option, and the
+river, forest, reserve-area and wall boxes were switched on; the farm box was already on. Everything else stayed at
+FTG's default presets, and the name (found by its placeholder) was left blank. All settings was never opened (shots
+004–013; values verified by `eval` before the create click). Every click and select was its own command after its
+readings, and every coordinate click had an `elementFromPoint` reading naming its control; a form-state reading after
+each step showed the dialog still open (`steps/steps.jsonl`, 20 shots). The 13 form, map and navigation commands equal
+those of every signed-in `coast+river` capture (slots 2–5, 7–9, 12, 13, 16, 17 and 20–23) in order and coordinates; only
+the size option's text differs. The map (shot 014, 500 m bar) shows the sea across the whole north of the frame and a
+river that comes from the south and runs north through the town to the sea. The town lies on both banks of the river
+mouth, with three district labels: a harbour quarter on the west bank at the mouth, a large district west of the river
+behind it and a district on the east bank. Hedged fields of crops and pasture lie east of the river, a wood runs along
+the east edge with a small pond in it, and open grassland with scattered trees covers the west and south-west. The core
+shot (018, 250 m bar) shows the wall as one open line with towers along the land side of the harbour quarter, from the
+shore west of the harbour to the river bank.
+
+### 36.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 25 --signed-in --premium`, `--check-only` first (twice, identical output), then the writing run: exit 0 every time (the script unchanged since slot 6, `735922948e3970fb…`) | 10 of 10 pass on the **first** run: calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (**17 of 17 equal slot 24's**), decode, border, no resident field, `pb_raw` runs |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 198 distinct field paths; 3.1 × 5 131, 3.2 × 4 195, 8 × 2 770, 7 × 13, 6 × 6, 10 × 3; `structure.md` equals a fresh run apart from its title path |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder, edges counted by type and joined into connected lines | 27 type-7 (wall) edges, 526 m long, every wall node within 289 m of the centre, one open line (two ends), and 13 towers. The recorded CITY family: slot 24 (`none`) 76 edges, 1 494 m, one closed ring, 36 towers; the 2026-09-21 base (`coast+river`) 25 edges, 632 m, one open line, within 375 m, 17 towers; the 2026-09-25 capture (`coast+river`, failed for a setting) 44 edges, 933 m, two open lines (31 and 13 edges), within 493 m, 29 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | CITY; coast key coastal and rivers true |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `b7db525fe189`, 274 293 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request equals the 2026-09-21 base (CITY, coastal with rivers on) | a leaf diff of the two requests, and the script's `requestDiff` | **0 semantic differences**: 45 differing leaves, all client-random partner ids. Both requests have the same 26 top-level keys. |
+| the request differs from the 2026-09-25 capture (CITY, coastal with rivers on, failed for a setting) in that setting only | a leaf diff of the two requests | 1 semantic difference: the stage-2 main-road step, 60 m here and 100 m there (the non-default setting that R-04 failed that capture for); plus 45 partner ids |
+| the request differs from slot 24's (CITY, `none`) only by the water options | a leaf diff of the two requests | 8 semantic differences: the 2 water keys and 6 leaves of the raw-resource entry the water options add (the list shifts by one); 0 size-dependent; 0 other; plus 45 partner ids |
+| the request differs from the other sizes' `coast+river` captures only by the size | leaf diffs of the requests | against slots 2, 4, 12, 16, 20 and 22 (BIG_TOWN): 12 semantic differences each, the size key and 11 size-dependent values; against slots 3, 5, 13, 17, 21 and 23 (BIG_CITY): 11 each, the size key and 10; against slots 7, 8 and 9 (METROPOLIS): 16 each, the size key and 15; 0 other in every pair; plus 45 partner ids |
+| the request differs from the other sizes' first `none` captures by the size and the water only | leaf diffs of the requests, and the script's `vsSlot0` | against slots 0, 1 and 6: 20, 19 and 24 semantic differences (the size key, 2 water keys, 6 water-implied and 11, 10 and 15 size-dependent values); 0 other |
+| the checks discriminate (red tests) | this capture checked as every other slot, `--check-only` | as slot 24 (CITY, `none`): exit 1 (water keys, request diff, diff against slot 0). As slots 0, 1, 6 and 26 (each its size's first, `none`): exit 1 (size key, water keys, request diff, diff against slot 0, border). As slots 10, 11, 14, 15, 18 and 19 (later `none` draws of BIG_TOWN and BIG_CITY): exit 1 (those five and same-size). As slots 2–5, 7–9, 12, 13, 16, 17 and 20–23 (`coast+river` at the other sizes): exit 1 (size key, same-size, border). As slot 27 (TOWN, `coast+river`, no TOWN captured yet): exit 1 (size key, border). The check-only runs wrote nothing (the folder held `session/` and `steps/` only until the writing run). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about three minutes later (36.4 call 4); both `.session` files absent before and after |
+| only the seat used the window | the scroll and hover readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, its identity provider (one background call as the landing loaded, answered 200, as in slots 8 and 13), analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–24); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 25 → 26, the new row of size CITY carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 25=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 25's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `0fd7aae1…` to `d9c1109e…`. |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist note, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 36.3 Findings
+
+1. **The size-dependent values repeat in the second CITY (CONFIRMED; R-41).** All 17 equal slot 24's, which equal the
+   2026-09-21 base's (section 35.3 finding 1). The same-size check compared them with slot 24, the first CITY of the
+   programme. The 17-value class needed no change.
+2. **The request equals the 2026-09-21 base request (CONFIRMED).** Apart from the 45 client-random partner ids, every
+   leaf of the two requests is equal: the same size, the same water options, the same 17 size-dependent values and the
+   same form values, in the same 26 top-level keys. The base is the recorded CITY family's usable capture
+   (`capture/FTG/CITY/coast+river/0`), so slot 25 and the base are two draws of one request, made two weeks apart. FTG's
+   default request for a coastal city with rivers did not change between 2026-09-21 and today. Plan section 2.1b names
+   slot 25 as poolable with the base; this check shows the requests are equal. The 2026-09-25 capture
+   (`capture/FTG/CITY/coast+river/1`) differs from both in one leaf only, the stage-2 main-road step (100 m against
+   60 m), the setting R-04 failed it for.
+3. **The CITY family has three usable captures (CONFIRMED).** The base (`coast+river/0`), slot 24 (`none/0`) and slot 25
+   (`coast+river/2`) are usable, and the 2026-09-25 capture stays failed for a setting and pooled in no row (`plan.json`
+   `ftg.recordedCity`, R-02, R-04). This is the count `plan.json`'s `recordedRule` names: "with slots 24 and 25 the
+   family reaches three usable, minmax" (R-33, R-34). How the CITY rows read at three is W-05b's reading, not this
+   record's.
+4. **The same request gives a different town (CONFIRMED; cause PLAUSIBLE).** Against the base: 2 770 buildings against
+   2 798, 5 131 edges and 4 195 nodes against 5 326 and 4 303, 13 towers against 17, 27 wall edges (526 m) against 25
+   (632 m), 6 water bodies against 4, 3 districts against 4, and a 638 724-byte payload against 593 263. The server's
+   own seed remains the PLAUSIBLE source (sections 14.3, 21.3, 23.3, 25.3).
+5. **The fewest towers so far (counts, line and shot CONFIRMED; cause PLAUSIBLE).** The wall is one open line of 27
+   edges and 526 m with 13 towers, every wall node within 289 m of the centre: it runs along the land side of the
+   harbour quarter from the shore to the river bank (shot 018). Thirteen towers are the fewest of any walled capture in
+   slots 0–25 (the next fewest: 14 in slot 20, 16 in slot 16; slot 12 had no wall), and 526 m is the second-shortest
+   wall (slot 20: 499 m). One line closing a harbour quarter is the shape of slots 16, 17, 20, 21 and 22; the base's
+   wall is also one open line (25 edges, 632 m, 17 towers). Slot 24, the `none` city, has a closed ring of
+   76 edges, as every `none` capture does (section 35.3 finding 3). Why coastal draws close a quarter with one line is
+   PLAUSIBLE only.
+6. **Six water bodies (count and extents CONFIRMED; reading PLAUSIBLE).** The polygons have 425, 147, 23, 31, 28 and 31
+   points. The 425-point one runs from 200 m to the border square's corner (3 536 m): PLAUSIBLY the sea. The 147-point
+   one runs from 223 m to the border (3 181 m): PLAUSIBLY the river. The 23-point one lies 47–238 m from the centre:
+   PLAUSIBLY the near-centre kind seen in the coastal captures (the base's has 9 points within 138–344 m). The three
+   others have 28–31 points each and lie 1 957–2 721 m from the centre, inside the border (their largest coordinates
+   1 823–2 266 m against the 2 500 m half width): PLAUSIBLY ponds, like those of slots 14, 18 and 22. Shot 014 shows one
+   small pond, in the wood at the east edge. The base and the 2026-09-25 capture had 4 water bodies each.
+7. **The city sits between the coastal big town and big city (CONFIRMED for this one draw).** Against the `coast+river`
+   captures of the two matched sizes (BIG_TOWN slots 2, 4, 12, 16, 20, 22; BIG_CITY slots 3, 5, 13, 17, 21, 23): 2 770
+   buildings against 1 610–1 880 and 7 108–7 603; 13 towers against 0–31 and 23–49; a 0.64 MB payload against
+   0.39–0.46 and 1.18–1.41 MB; a 2 500 m half width against 2 000 and 2 750 m. Slot 24 (`none`) had 2 881 buildings
+   and 36 towers. The account list gives 9 407 people against the nominal 9 500 (slot 24: 9 767).
+8. **The payload's paths are the whole earlier union (CONFIRMED).** 198 distinct field paths: exactly the union of slots
+   0–24's, none new and none absent. The edge types present (0, 1, 2, 3, 4, 6, 7, 10, 12, 13, 14) all occur in earlier
+   captures; type 14 has 505 edges (the base: 348; slot 24, `none`: none, as in every `none` capture).
+9. **The premium account took a twenty-sixth settlement with no prompt (CONFIRMED).** The list held 25 rows before and
+   26 after; no limit, payment or upgrade prompt appeared.
+10. **Server time (CONFIRMED; contended).** 5.2 s, against 2.8 s for slot 24; the machine was shared, so the difference
+    is not read and the figure feeds no row. The layout body was in the folder at the poll's second look, a few seconds
+    after the PUT.
+
+### 36.4 Calls and deviations (vetoable)
+
+1. **No deviation from checklist sections H and I.** The `--full` shot of the settlements view (002) was taken as H3
+   prescribes; the form and the map then ran in the 1440×632 window. Every click and select had a `text` reading, a
+   `shot` and, for coordinate clicks, an `elementFromPoint` reading before it, and a form-state reading after it. The
+   pre-create shot (013) was taken after the hit test. Setting the coast select (select 7) to the coastal option moved
+   no box: rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area (1008, 367) and walled
+   (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522) inside the dialog, as in every signed-in
+   `coast+river` capture.
+2. **One more hover reading than earlier seats took, and what it showed.** The seat read the page's hover chain just
+   after the form opened, before the size select. It named the create dialog's full-window layer: the pointer still
+   rested at the "New Settlement" click point (1377, 576), outside the visible dialog panel. A read-only
+   `elementFromPoint` there returned that layer (`0, 0, 1440, 632`), so the reading is the seat's own pointer, not
+   another hand. The seats of slots 23 and 24 took no hover reading at this step, so there is nothing to compare it with.
+3. **`SIZE_DEPENDENT` was not touched** (R-41 forbids widening it on a later capture of a size); the same-size check
+   passed as it stands. The class-table reader of `measure_ftg_slots.py` parses E02 equally before and after this
+   section was written (this section adds no class-form table).
+4. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about three minutes later, as in slots 18 to 24.
+5. **Focus came with the seat's own navigation, as in slots 22 to 24 (PLAUSIBLE reading).** The page reported window
+   focus at the first reading of the settlements view, right after the seat's "Home" click and before the `--full`
+   shot, with the hover on a list row under that click's own point and no scroll or page change beyond the seat's
+   navigation. The other hover readings named only the seat's own last click points (the modal layer above, the walled
+   box before the create, the map canvas after it, the zoom control, the page header under the home link). A second
+   visit to the settlements view after the create (one guarded navigation click) read the list and changed nothing. The
+   re-roll control showed in the first two map shots (014, 015) and was gone after the zooms (018); it was never
+   clicked. The overview `--full` shot (015) drew the scale bar without its label, as in slots 10 and 18 to 24; the
+   window shot just before it (014) reads 500 m.
+6. **The identity-provider call needed no action.** As the landing loaded, the site's own sign-in library called its
+   identity provider once (answered 200), as in slots 8 and 13 and not in slots 21 to 24. No sign-in page or prompt
+   appeared on screen (checklist I, slot-13 note).
+
+### 36.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 36.1 and 36.2, findings 1, 2 (the request equality with the
+base and the one-leaf difference from the 2026-09-25 capture), 3, 4 (the request equality and the differing counts), 5
+(the wall counts, line, length, radius and ranks, the shots), 6 (the field-6 counts and extents), 7 (for this one draw),
+8, 9 and 10 (the time, contended). PLAUSIBLE (reasoning only) are any cause of the wall's shape, that the server's seed
+makes equal requests differ, what the six field-6 polygons are, what raised the window's focus, and that the listed
+population is the generated resident count.
+
+## 37 Slot 26 (programme 2) — 2026-10-04, TOWN, `none`
+
+Lane `m1/W-02-slot26b`, under the owner's go for programme 2 (`owner-go.json`). One settlement was created, with one
+create click, by checklist sections H (with H12's guarded clicks, H13's list count and H14's redacting helper) and I.
+This is the first TOWN capture, so checklist I9's first-of-size steps applied (R-41). Before the create, slot 26 was
+open and slots 0–25 bound, the newest folder was slot 25's (its one create is slot 25's own), no lane line named a
+slot-26 key, and the account list held 26 settlements (big town 10, big city 10, metropolis 4, city 2, town 0: the
+earlier settlement and slots 1 to 25), so no slot-26 settlement existed. The landing's root scroll container read 0 at
+the first reading and 0 again just before the "Home" click, and no hover was on the page: no sign of another hand.
+
+### 37.1 The capture
+
+| field (README) | value |
+|---|---|
+| capture id | `2026-10-04T08-06-17` |
+| account | the owner's signed-in account, premium since J164; the list held 26 settlements before and 27 after (no counter) |
+| size / rung | TOWN / TOWN (nominal 3 625 people, the size ladder's TOWN; FTG's form default) |
+| `WaterSetting` | `none` (the request's coast key empty, rivers false) |
+| population, source | 3 625, `nominal`. The account list gives 3 590 (section 9.1; recorded, not used). |
+| server date; PUT sent | 2026-10-04 (UTC; 04:08 EDT); 08:08:41.293 UTC (both response date headers read 08:08:43 GMT) |
+| server time | 1.477 s, from the PUT being sent to the layout GET being sent. **Contended**: M0's build seats and M-1 research seats shared the machine, so this feeds no time row (plan-check PC-11). |
+| buildings | 1 102 |
+| request hash | `de113ff3f066`: sha256 of the exact 273 907-byte PUT body |
+| `referenceBuild` | `ftg:2026-10-04+de113ff3f066` |
+| payload | 271 060 bytes, Fetch-intercepted (`intercept-0035…bin`, sha256 `3b66815867e34d2f…`) |
+| road graph | 2 417 edges, 1 985 nodes; 49 wall edges (edge type 7) |
+| wall towers / water bodies / districts | 27 / 0 / 2 |
+| settlement border | a square with half width 1 750.00 m, the size ladder's 3 500 m width |
+| capture folder | 33 MB: the session recording and the screenshots at 2× (no CPU profile). Free disk: 11 GB before and 11 GB after the session (other lanes writing too). |
+
+**Form values.** The form opened at the town option. The seat read each size option's React element key by `eval`:
+three of the 12 keys end in `TOWN` (the small-town, town and big-town options), so the seat matched the whole part of
+the key after the option's text, and exactly one option's part is `TOWN`: the selected one. As checklist I4 says for
+slots 26 and 27, it was confirmed by `eval` and not selected again; the form-final reading re-read it. The metropolis
+option was not touched. The water was the form's own default: no coast, rivers off, neither touched. The farm box was
+already on; the forest, reserve-area and wall boxes were switched on. Everything else stayed at FTG's default presets,
+and the name (found by its placeholder) was left blank. All settings was never opened (shots 004–009; values verified
+by `eval` before the create click). Every click was its own command after its readings, and every coordinate click had
+an `elementFromPoint` reading naming its control; a form-state reading after each step showed the dialog still open
+(`steps/steps.jsonl`, 17 shots). The 10 form, map and navigation commands equal the 11 of every signed-in `none` capture
+(slots 1, 6, 10, 11, 14, 15, 18, 19 and 24) in order and coordinates, with their size select left out. The map (shot
+011, 500 m bar) shows a small walled town in the middle of the frame: a round wall closes the core, with both district
+labels inside it, suburbs spread on every side and a road leaves to the north. Open meadow with scattered trees covers
+most of the frame, a large wood lies to the south-south-west, and hedged fields of crops and pasture line the west,
+south-east and east edges. There is no sea, no river and no pond. The core shot (015) has a 250 m bar.
+
+### 37.2 Checks (all executed 2026-10-04, CONFIRMED)
+
+| check | how | result |
+|---|---|---|
+| all checks of `ftg_capture_post.py` | `--slot 26 --signed-in --premium`, `--check-only` first (the script at `735922948e3970fb…`) | **first run exit 1**: 8 of 10; the request diff against the base and the diff against slot 0 each named the same 11 values outside the 17 named ones (finding 1); every other check passed |
+| the first-of-size rule (R-41; checklist I9) | finding 1's steps 1–4 | the 11 values joined the class by name; `--check-only` exit 0, then the writing run exit 0: 10 of 10 pass (calls, size key, water keys, the request diff against the base, the diff against slot 0, the same-size values (vacuous: the first TOWN; this capture sets TOWN's reference values), decode, border, no resident field, `pb_raw` runs) |
+| the form steps differ from the captured `none` slots in the size option only (R-41 step 1) | the form-changing commands of the `steps.jsonl` files; the form-state readings | this capture's 10 commands ("Home", "New Settlement", the forest box, the dialog scroll, the reserve-area and wall boxes, "Create Settlement", two zoom clicks, the home link) equal the 11 of slots 1, 6, 10, 11, 14, 15, 18, 19 and 24 in order and coordinates once their size select is left out; no other form change. The form-final reading shows the other seven selects and the 23 checkboxes as slot 25's form-final reading apart from the river box and its All settings mirror (slot 25 is coastal with rivers on). |
+| the 11 values come from the size (R-41 step 3) | FTG's client script bundle in this capture's recording (research-side reading) | the client builds the stage list from the size: two stages (a dense stage, then a stage with gaps) for every size above the town, the gaps stage alone for the small town and the town, none for the hamlet and the village sizes; each stage takes its per-size values from a table, and the town's gaps-stage entry (2.5 ha, building share 0.5, branch segments 3 and 3, main-road step 50 m, at most one spoke) equals the request's one stage |
+| the widening is red first and safe (R-41 step 4) | the old script and a same-directory copy with the 11 added names, `--check-only` on slots 0–26 | old: slot 26 exit 1 (other 11), slots 0–25 exit 0 at 10 of 10 (same-size 17 of 17 where it applies); copy: slot 26 exit 0, slots 0–25 exit 0 at 10 of 10 (same-size 28 of 28 where it applies). Installed by an atomic rename after checking the file's hash unchanged (`735922948e3970fb…` → `c4ad4ddf76bd1f2a…`). |
+| the widened class still guards the second stage at two-stage sizes | the copy's module run in-process on slot 21 (BIG_CITY) and slot 26 with one planted value each | slot 21 unplanted exit 0; slot 21 with the second stage's building material changed: exit 1 (same-size; the old script failed the request diff and the diff against slot 0 instead); slot 21 with the second stage's wall flag changed: exit 1 (same-size); slot 26 with its one stage's building material changed: exit 1 (request diff, diff against slot 0) under both scripts |
+| the payload decodes: field 3 edges and nodes, field 8 buildings | `python3 tools/pb_raw.py <payload>` (the post script's run, and a fresh run) | exit 0, 173 distinct field paths; 3.1 × 2 417, 3.2 × 1 985, 8 × 1 102, 7 × 27, 6 × 0, 10 × 2; `structure.md` equals a fresh run apart from its title line |
+| the wall in the payload | `research/baselines/adapters/ftg.py`'s decoder, edges counted by type and joined into connected lines | 49 type-7 (wall) edges, 1 178 m long, every wall node within 250 m of the centre, one closed ring with no open end, and 27 towers. The `none` captures of the other sizes are closed rings too: BIG_TOWN (slots 0, 10, 14, 18) 34–46 edges, 694–993 m, within 198–257 m, 17–25 towers; CITY (slot 24) 76 edges, 1 494 m, within 290 m, 36 towers |
+| the request's size key and water keys equal the slot's (PC-16) | `create-request.json` | TOWN; coast key empty and rivers false |
+| the request hash | sha256 of the PUT row's body, recomputed outside the script | `de113ff3f066`, 273 907 bytes; exactly one PUT row with a body in the recording; `create-request.json` parses to the same object |
+| the request differs from the 2026-09-21 base (CITY, coastal with rivers on) only by the size and the water | a leaf diff of the two requests, under the widened class | 32 semantic differences: the size key, the 2 water keys, the 6 water-implied resource leaves and 23 size-dependent values; 0 other; plus 45 client-random partner ids. Both requests have the same 26 top-level keys. Under the old class: 12 size-dependent and 11 other. |
+| the request differs from slot 24's (CITY, the same water) only by the size | a leaf diff of the two requests | 24 semantic differences: the size key and 23 size-dependent values; 0 other; plus 45 partner ids |
+| the request differs from the other sizes' `none` captures only by the size | leaf diffs of the requests | against slots 0, 10, 14 and 18 (BIG_TOWN): 22 each, the size key and 21 size-dependent values; against slots 1, 11, 15 and 19 (BIG_CITY) and slot 6 (METROPOLIS): 27 each, the size key and 26; 0 other in every pair; plus 45 partner ids |
+| the request differs from `coast+river` captures by the size and the water only | leaf diffs of the requests | against slot 25 (CITY) 32, slot 2 (BIG_TOWN) 30, slots 3 (BIG_CITY) and 7 (METROPOLIS) 35: the size key, 2 water keys, 6 water-implied and 23, 21, 26 and 26 size-dependent values; 0 other |
+| the checks discriminate (red tests) | this capture checked as every other slot, `--check-only`, under the installed script | as slots 0, 1, 6 and 24 (each its size's first, `none`): exit 1 (size key, border). As slots 10, 11, 14, 15, 18 and 19 (later `none` draws): exit 1 (size key, same-size, border). As slots 2–5, 7–9, 12, 13, 16, 17, 20–23 and 25 (`coast+river` at the other sizes): exit 1 (size key, water keys, request diff, diff against slot 0, same-size, border). As slot 27 (TOWN, `coast+river`): exit 1 (water keys, request diff, diff against slot 0). The check-only runs write nothing (the script returns before its writes). |
+| the runner is the profiler's code | `cmp` of the scratchpad copies against `profiler/` before the start | identical: session.mjs `e199be5d…`, drive.mjs `597eb62d…`, lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`; port 9341; no FTG process and no `Singleton*` file before; `session closed`, no `Singleton*` file, port 9341 free and no FTG process at once after the stop and again about seven minutes later (37.4 call 5); both `.session` files absent before and after |
+| only the seat used the window | the scroll and hover readings and the recording's hosts, documents and writes | root scroll 0 → 0 across the landing, hover empty; one document load (the landing); hosts: the site, its API, analytics, error reporting, fonts and one GPU-benchmark file from a public package CDN (as in slots 2–25); no call to the site's identity provider this run (as in slots 21 to 24); exactly one write to the site's settlements API (the create; listed twice, as the request and its interception); no page outside the site; no response of status 400 or above |
+| one settlement made (plan 2.1b (6)) | the PUT status and the list before and after | PUT 200; the list's rows 26 → 27, the new row of size TOWN carrying the PUT's settlement id; no retry |
+| the slot bind is safe | `plan.py --bind-ftg 26=…`, then `--check` and a diff against the pre-bind copy | `plan.json` byte-equal to the pre-flight copy just before the bind (no second writer in between); one line changed (slot 26's capture); SAME for both files; `metrics.m-1.json` byte-unchanged (`8a0efa7e…`); `plan.py` unchanged (`68709ba8…`). `plan.json` sha256 moves from `d9c1109e…` to `11a9b357…`. |
+| W-05b's class-table reader still reads section 17.3's table | `measure_ftg_slots.py`'s `e02_table()`, before and after this section was written | equal: 17 rows, columns BIG_CITY, BIG_TOWN, CITY and METROPOLIS (37.4 call 3) |
+| no account identifier in the files written | grep of the README, `capture-facts.json`, `create-request.json`, `request-diff.txt`, `structure.md`, `steps.jsonl`, this section, the header update, the JSON entry, the checklist note, the post script's new lines, the result file and this lane's `lane-events.log` lines for an email pattern, the display name, a token prefix and a full id | see the result file's privacy row |
+
+### 37.3 Findings
+
+1. **The town has one layout stage where the larger sizes have two (CONFIRMED; R-41).** The first `--check-only` named
+   11 values outside the class, the same 11 in the request diff against the base and in the diff against slot 0, and
+   the same 11 against every one of 16 earlier requests compared (the base, the 2026-09-25 capture and slots 0, 1, 2, 3,
+   6, 7, 10, 11, 14, 15, 18, 19, 24 and 25). The four steps of checklist I9: (1) the form steps differ from those of
+   every captured `none` slot in the size option only, and here the size option was the form's own opening value
+   (37.2); (2) the 11 are the only values the two failing checks name as other; (3) all 11 sit in the layout preset's
+   stage list, which no simple-form control sets (it lives in All settings, never opened): FTG's client builds that list
+   from the size, giving every size above the town a dense stage and then a stage with gaps, and the small town and the
+   town the gaps stage alone. The leaf diff pairs stages by position, so the town's one stage meets the other sizes'
+   dense stage: its identifier and building placement differ (2 values), and nine values of the second stage are absent
+   (the other six second-stage values were already in the class and read absent too). The town's one stage carries the
+   client's town entry of the gaps-stage table (2.5 ha minimum district area, building share 0.5, branch segments 3 and
+   3, main-road step 50 m, at most one spoke) and, like the first stage of every other size, the form's building
+   material (wood) and the wall flag on. None of the 11 is a resource, a water key, a form value or a name. (4) They
+   joined `SIZE_DEPENDENT` by name, red first (37.2). The class now has **28 named values**. Their values at the five
+   sizes captured (the header is not in the class-table form, so W-05b's reader keeps section 17.3's table; 37.4 call 3):
+
+   | leaf (our words) | slot 26: TOWN | slot 24: CITY | slot 0: BIG_TOWN | slot 1: BIG_CITY | slot 6: METROPOLIS | joined at |
+   |---|---|---|---|---|---|---|
+   | stage 1: branch segments, first direction | 3 | 4 | 3 | 4 | 5 | day 1 |
+   | stage 1: branch segments, second direction | 3 | 4 | 3 | 4 | 5 | day 1 |
+   | stage 1: minimum district area (ha) | 2.5 | 10 | 6 | 10 | 12 | day 1 |
+   | stage 1: building share | 0.5 | 0.2 | 0.1 | 0.2 | 0.25 | day 1 |
+   | stage 1: spoke probability | 0.1 | 0.5 | 0.1 | 0.3 | 0.3 | day 1 |
+   | stage 1: most spokes | 1 | 1 | 1 | 2 | 2 | slot 1 |
+   | stage 1: main-road step (m) | 50 | 50 | 50 | 70 | 70 | slot 1 |
+   | stage 2: branch segments, first direction | absent | 3 | 3 | 5 | 5 | slot 1 |
+   | stage 2: branch segments, second direction | absent | 3 | 3 | 5 | 5 | slot 1 |
+   | stage 2: minimum district area (ha) | absent | 7 | 6 | 10 | 10 | day 1 |
+   | stage 2: building share | absent | 0.5 | 0.6 | 0.6 | 0.6 | day 1 |
+   | stage 2: main-road step (m) | absent | 60 | 50 | 50 | 50 | day 1 |
+   | stage 2: most spokes | absent | 1 | 1 | 1 | 2 | slot 6 |
+   | random-faction count | 3 | 4 | 3 | 5 | 6 | day 1 |
+   | shop probability, inside the settlement | 0.1 | 0.1 | 0.4 | 0.1 | 0.1 | day 1 |
+   | shop probability, outside the settlement | 0.5 | 0.5 | 0.4 | 0.5 | 0.5 | day 1 |
+   | religious-workers share | 0.01 | 0.01 | 0.01 | 0.005 | 0.0025 | slot 1 |
+   | **stage 1: the stage's identifier** | **the gaps stage's** | the dense stage's | the dense stage's | the dense stage's | the dense stage's | **slot 26** |
+   | **stage 1: building placement** | **with gaps** | dense | dense | dense | dense | **slot 26** |
+   | **stage 2: the stage's identifier** | **absent** | the gaps stage's | the gaps stage's | the gaps stage's | the gaps stage's | **slot 26** |
+   | **stage 2: building placement** | **absent** | with gaps | with gaps | with gaps | with gaps | **slot 26** |
+   | **stage 2: branch type** | **absent** | continue | continue | continue | continue | **slot 26** |
+   | **stage 2: building material** | **absent** | wood | wood | wood | wood | **slot 26** |
+   | **stage 2: main-road turn cap (degrees)** | **absent** | 15 | 15 | 15 | 15 | **slot 26** |
+   | **stage 2: side-road turn cap (degrees)** | **absent** | 15 | 15 | 15 | 15 | **slot 26** |
+   | **stage 2: wall after this stage** | **absent** | no | no | no | no | **slot 26** |
+   | **stage 2: spoke probability** | **absent** | 0.1 | 0.1 | 0.1 | 0.1 | **slot 26** |
+   | **stage 2: wall placement** | **absent** | round all lots | round all lots | round all lots | round all lots | **slot 26** |
+
+   The town's "stage 1" row is its gaps stage, so its numbers compare with the other sizes' stage-2 rows: they match the
+   CITY and BIG_TOWN pattern of the second stage (branch segments 3 and 3, at most one spoke) at a smaller minimum
+   district area. Slot 26 differs from CITY in 23 of the 28 values, from BIG_TOWN in 21 and from BIG_CITY and
+   METROPOLIS in 26. Slot 27 (TOWN, `coast+river`) must repeat this column exactly (the same-size check). The eleven
+   new values are equal at the four two-stage sizes, so slots 0–25 are unchanged by the widening (28 of 28 same-size
+   values equal).
+2. **The town is the smallest capture so far (CONFIRMED for this one draw).** Against the `none` captures of BIG_TOWN
+   (slots 0, 10, 14, 18) and CITY (slot 24): 1 102 buildings against 1 675–1 826 and 2 881; 2 417 edges against
+   3 003–3 597 and 4 123; 1 985 nodes against 2 639–3 145 and 3 664; 2 districts against 2–3 and 4; a 0.27 MB payload
+   against 0.38–0.41 and 0.57 MB; a 1 750 m half width against 2 000 and 2 500 m. The account list gives 3 590 people
+   against the nominal 3 625.
+3. **One closed wall ring, longer than the big towns' (counts CONFIRMED; reading PLAUSIBLE).** The wall is a single
+   closed ring of 49 edges and 1 178 m with 27 towers, every wall node within 250 m of the centre: longer and with more
+   towers than any BIG_TOWN `none` wall (694–993 m, 17–25 towers), though the town is smaller. The wall flag sits on the
+   first stage at every size; at the town that stage is the only one and takes half the buildings (share 0.5), where
+   BIG_TOWN's first, dense stage takes a tenth. So the wall PLAUSIBLY closes round more of the town. Every `none` capture
+   so far has a single closed ring.
+4. **No water body (CONFIRMED).** Field 6 is absent, as in slots 0, 10, 11, 15, 19 and 24. Shot 011 shows no water.
+5. **The payload's paths are a subset of the earlier union (CONFIRMED).** 173 distinct field paths, none new. Each of
+   the 25 absent from the union of slots 0–25's 198 is absent in at least one earlier capture: field 6 and its parts (3;
+   absent in 6 earlier slots), 11.1 and its parts (5; 12), 11.6 and its parts (5; 13), 11.7 and its parts (5; 15),
+   11.8.2 and its parts (6; 13), and 9.2.4 (1; absent before only in slot 10). The edge types present (0, 1, 2, 3, 4, 6,
+   7, 10) all occur in earlier captures; types 13 and 14 are absent.
+6. **Server time (CONFIRMED; contended).** 1.5 s, the shortest so far (the `none` BIG_TOWN captures: 1.9–2.6 s; slot
+   24: 2.8 s). The machine was shared, so the figure feeds no row. The layout body was in the folder at the poll's first
+   look.
+7. **The premium account took a twenty-seventh settlement with no prompt (CONFIRMED).** The list held 26 rows before and
+   27 after; no limit, payment or upgrade prompt appeared.
+8. **The form's opening state already carries the town's values (CONFIRMED).** The size select was never touched, and
+   the request carries the client's town values (the one stage, the faction count 3). The opening form is therefore the
+   town's form, not a form with another size's stage values under a town label.
+9. **W-05b's size-value reader cannot read a town request (CONFIRMED for the function; its effect on a run PLAUSIBLE).**
+   `measure_ftg_slots.py` reads the 17 class values from each bound capture's request by fixed positions, the second
+   stage included. Called on this request, its reader stops with an index error (there is no second stage), and its
+   "stage 1" rows would read the town's gaps stage. That tool measures every bound slot, so its next run over slot 26
+   PLAUSIBLY stops there. The tool belongs to W-05b's lane and was not changed here; the result names it for the session.
+
+### 37.4 Calls and deviations (vetoable)
+
+1. **The size-dependent class grows to 28 values by R-41.** The 11 added values are named in the post script, with this
+   capture and the client's stage builder as their evidence. The alternative was to record slot 26 `failed` on values
+   that the size option alone sets; slot 27 would then fail the same way, and the programme would have no TOWN. The
+   rule's guard holds: a resource, a water key, a form value or a name would have failed the slot. One cost, stated:
+   two of the added second-stage values (its building material and its wall flag) take a form control's value at the
+   two-stage sizes. There, a change to them now passes the request diff and the diff against slot 0, and is caught by
+   the same-size check instead, which applies to every size from here on because every size has a first capture (the
+   planted tests in 37.2). A single "stage-list shape" rule would be smaller, but R-24 pins the class by name and this
+   lane may change only the names.
+2. **The size option was confirmed, not selected** (checklist I4 for slots 26 and 27): the form opened at the town
+   option, so the form steps are those of the other `none` slots without their size select. The alternative, selecting
+   the same option again, would add a command that changes nothing.
+3. **The 28-value table's header is outside the class-table form** (as section 35.3's), and section 17.3's table stays
+   the one `measure_ftg_slots.py` reads. That reader turns every cell into a number and maps each row to a fixed
+   request position, so the town's absent cells, the text values of the new rows and the 11 new rows would stop it or
+   fail its check 4. Its parse was run before and after this section was written, with equal results. Adding the new
+   rows and a town reading to that tool is W-05b's work (finding 9).
+4. **One more hover reading than slot 25's seat took, and what it showed.** As in slot 25, the hover chain read just
+   after the form opened named the create dialog's full-window layer under the "New Settlement" click point: the seat's
+   own pointer, not another hand. The other hover readings named only the seat's own last click points (a list row under
+   the "Home" point, the box last clicked, the map canvas after the create, the zoom control, the page header under the
+   home link). Window focus came with the seat's own "Home" click, as in slots 22 to 25 (PLAUSIBLE reading).
+5. **No browser helper outlived the stop; no process was signalled.** After `drive.mjs stop` printed "session closed",
+   `pgrep -fl profiles/ftg` was empty at once and again about seven minutes later, as in slots 18 to 25.
+6. **The shots.** The re-roll control showed in the first two map shots (011, 012) and was gone after the zooms (015);
+   it was never clicked. This time the overview `--full` shot (012) kept its scale-bar label (500 m), unlike slots 10
+   and 18 to 25. A second visit to the settlements view after the create (one guarded navigation click) read the list
+   and changed nothing.
+
+### 37.5 CONFIRMED versus PLAUSIBLE
+
+CONFIRMED (executed or read) are every number in sections 37.1 and 37.2, finding 1 (the 11 values, the controlled
+comparison, the client's stage builder and town entry, the 28-value table, the red-first widening), findings 2 (for this
+one draw), 4, 5, 6 (the time, contended), 7 and 8, the wall counts, ring and radius of finding 3, and that W-05b's
+reader stops on this request (finding 9). PLAUSIBLE (reasoning only) are why the town's wall is longer than the big
+towns', that W-05b's next run stops at slot 26, what raised the window's focus, and that the listed population is the
+generated resident count.
+
+## 38 Slot 27 (programme 2) — 2026-10-04, TOWN, `coast+river`: STOPPED, nothing created
+
+Lane `m1/W-02-slot27b`, the seat for programme 2's last slot (J164; owner's go of 2026-10-03, `owner-go.json`). **No
+settlement was created; slot 27 stays open** (`plan.json` unchanged, not marked failed). The attempt's folder is
+`captures/ftg/2026-10-04T08-26-40` (its README gives the timeline; it is not a capture).
+
+**Before the site (CONFIRMED).** No result file or earlier line for this lane key; slots 0–26 bound and slot 27 open;
+`plan.py --check` SAME (`11a9b357…` / `8a0efa7e…`); the capture folders ended at slot 26's `2026-10-04T08-06-17`,
+whose one create is slot 26's own; no FTG process, no `Singleton*` file, both `.session` files absent, port 9341 free;
+11 GiB free. The isolated runner's copies `cmp` equal to `profiler/` (session.mjs `e199be5d…`, drive.mjs `597eb62d…`,
+lib/common.mjs `3b948576…`, package.json `25e7d362…`, lib/instrument.js `cca253ac…`).
+
+**What the seat did (CONFIRMED by `steps/steps.jsonl` and the shots).** Checklist H1–H14 and I1–I11, as for slots 25
+and 26. The landing loaded signed in with no consent notice; its root scroll container read 0 at the first reading and
+0 again just before the "Home" click, with no hover on the page. The account list held 27 settlements (big town 10, big
+city 10, metropolis 4, city 2, town 1: the earlier settlement and slots 1 to 26), so no slot-27 settlement existed. The
+form opened at the town option, whose React key remainder is exactly `TOWN` (1 of 12; 3 keys end in `TOWN`); it was
+confirmed by `eval` and not selected again. Then: coast select 7 "Coastal", rivers (1008, 498), forests (1008, 556), the
+dialog scroll (`wheel 720 400 300`, its point inside the dialog), reserve area (1008, 367) and walled (1008, 396). These
+8 commands equal slot 25's first 9 without its size select, in order and coordinates. Each click was its own command
+after a `text`, a `shot` and an `elementFromPoint` reading naming its control, and a form-state reading after each step
+showed that it had taken. The form-final reading (08:29:44 UTC) equals slot 25's in all eight selects but the size text
+and in all 23 boxes: size Town, Medieval europe, Wood, Generic fantasy, Generic religions, Comfortable, Temperate
+(deciduous trees), Coastal; name empty; rivers, farms, forests, reserve area and walled on. The create hit test found
+"Create Settlement" 1 of 1, hit-testable at (947, 522), inside the dialog.
+
+**What stopped it (CONFIRMED by the readings and shots 012 and 013).** The form-final reading put the five boxes at
+y 280–396, the dialog scrolled, as in every one of the 24 earlier signed-in creates with a form-state reading (slots
+3–26), each of which stayed scrolled up to its create click. At 08:29:53, with the seat's pointer last at the walled
+box, the `:hover` chain ended at the form's own container instead of that box (17 of the 18 earlier slots with this
+reading named the box; slot 10's was empty). Shot 012 (08:29:54) still shows the dialog scrolled. At 08:30:19 the
+`:hover` chain was empty and `elementFromPoint(1008, 396)` was the form body, no longer the walled box. At 08:30:39 the
+five boxes read y 498–614, and shot 013 shows the dialog at its top: it had scrolled back with no seat command. Every
+form value was still as set. The seat's last command that moves a pointer or scrolls was the walled click at 08:29:37,
+and the recording has no network row between the form's opening (08:28:03) and the stop, so no data arrival re-rendered
+the form. Checklist H12 and I10 treat a page that changes without a command as a sign of another hand, so the seat took
+shot 014 and stopped the session (`session closed`; no `Singleton*` file, no FTG process, both `.session` files absent,
+port 9341 free). The create control was never clicked, and no create CHECKPOINT line was written.
+
+**Effects (CONFIRMED in the recording).** The recording holds the page and its assets, fonts, the tag manager,
+analytics, one error report, and two reads of the site's API: the account list and the generation presets, each with
+its interception. It holds no create call and no response of status 400 or above. This run made no call to the
+identity provider. Nothing was written to the account, which still holds the 27 settlements read before the form. The
+recording stays local under `captures/`, which git ignores.
+
+**Reading (PLAUSIBLE, strongly).** A person moved the pointer and scrolled over the visible recording window, which is
+headful on the Mac. A wheel or trackpad scroll over the dialog would return it to its top, and nothing in the seat's
+commands or the network explains the change. Who it was is unknown. A relaunch needs the window, the mouse and the
+trackpad over it left alone while a seat runs (J164, plan 2.1b (8)).
+
+**Calls (vetoable).** (1) A scroll of the create dialog counts as a page change without a command, as the landing's
+scroll did for slot 6's first seat (section 16), so the seat stopped instead of re-scrolling and clicking. The create is
+the one irreversible step; the click would still have hit-tested at the click, but the rule exists so that a seat never
+acts while another hand is on the window. (2) The lane is closed as `stopped` with this record, as slot 6's and slot 3's
+first attempts were. No `plan.py --fail-ftg` was run: no create was attempted, so the retry rule does not apply. A
+relaunch runs under a new lane key, because the resume rule returns this result for this one. (3) The checklist gained
+a note for the relaunch (section I): take a form-state reading with the create hit test, just before the create
+CHECKPOINT, and stop if the boxes' coordinates differ from the form-final reading.
+
+**CONFIRMED versus PLAUSIBLE.** CONFIRMED (executed readings, shots, the network index and `steps.jsonl`): the state
+before the site, the form as set, the dialog's return to its top and the pointer's departure without a seat command,
+the stop, and that no create call was made. PLAUSIBLE: that a person caused the change.
