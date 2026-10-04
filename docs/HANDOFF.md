@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-**PENDING ACTION (J169, 2026-10-04 ~02:50):** when wave 3 closes (`build/steward-wave-3-close LANDED`), stop the M0 run wf_487b6d00-7aa and relaunch `workflows/23-build-m0-waves.js` FRESH with `workflows/lane-prompts/m0-waves-from3v-j169-args.json` passed inline (second check closes an item; targeted mutants). In a new session, use that args file from wave 3v (or the from3 file with wave 3 carrying `closingFrom: 3` if wave 3 has not closed).
+**M0 build since 2026-10-04 ~02:55:** run wf_d3d0ef95-c85 = `workflows/23-build-m0-waves.js` with `workflows/lane-prompts/m0-waves-cutoff-args.json` (pass inline): wave 3 with M0-a-02, M0-k-03, M0-m-01 done and M0-d-01 resumed at fix round 3 on F-7..F-11 under the owner's cut-off (at most one more round; confirm-only re-checks; then accepted with notes), then 3v and 4–18 under J169 (second check closes; targeted mutants), early starts (J166), memory rule (J168), maxLanes 3. In a new session: if wave 3 has closed, use `m0-waves-from3v-j169-args.json`; otherwise the cut-off args file.
 
 ## RESUME HERE — NEW MACHINE (written 2026-10-04 ~02:20 EDT; the move was CALLED OFF at ~02:25 — no USB drive — and the work RESUMED on the same MacBook Air: runs relaunched with m0-waves-from3-args.json, m1-wave2-mchain-args.json and m1-wave2-ftg-retry-args.json; this block stays valid for any later move)
 

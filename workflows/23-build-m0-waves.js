@@ -98,7 +98,35 @@ const runVendor = async (wave) => {
   return { id: 'vendor-flatbush', ok: !!check && check.verdict === 'pass', rounds: round, built, check }
 }
 
+// A wave entry may carry done: [ids] (items that already passed their checks in an earlier run: skipped, counted passed)
+// and resume: { id: { round, lines } } (the owner's cut-off, 2026-10-04: "i would allow another round after this one but
+// anything more and we move on"): start that item at fix round <round> with the listed failing lines, then a closing check;
+// at most ONE more fix round and closing check after that; if the item still fails, its open lines are written to
+// checks/<id>-notes.md by a notes seat and the item is accepted CUT OFF so the build moves on.
+const RESUME_AT = Object.fromEntries((ARGS.waves || []).flatMap((w) => Object.entries(w.resume || {}).map(([id, r]) => [id, r])))
+const CUT = ' CUT-OFF (the owner, 2026-10-04): this item gets at most two more fix rounds in all. Fix exactly the listed lines with the smallest test change that pins each promise; if an earlier attempt under this lane key left a broader mutation sweep in progress, stop it and keep only what the listed lines need (targeted mutants, J169).'
+const CONFIRM = ' CONFIRM-ONLY (the owner, 2026-10-04: when the fix is added tests, the re-check only confirms them): for each listed line, re-introduce the fault it describes in a scratch copy (the mutant or edit the earlier check used) and confirm the new test now fails on it and passes without it; then run the gates once. Do NOT search for new findings beyond the listed lines and the gates; pass when every listed line is pinned and the gates exit 0.'
+const notesPrompt = (id, wave, lines) => `${GROUND}
+
+LANE check/${id}-cutoff-notes. The owner cut item ${id} off after its allowed fix rounds (2026-10-04: at most one more round, then move on). Append each of these still-open lines as a row to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, milestone M4 unless it belongs earlier; say plainly that the owner's cut-off accepted the item with this line open), record the file with corepack pnpm landed -- check-${id}-cutoff-notes --lane check/${id}-cutoff-notes --owns plat/docs/build/checks/${id}-notes.md (if that path is already declared by another record of this wave, re-land that record's id instead and say so), run no git, change no other file. Lines: ${JSON.stringify(lines)}. Return verdict pass with the rows written in report.`
+const runResumed = async (id, wave, r) => {
+  let lines = r.lines
+  let check = null
+  for (let k = 0; k < 2; k++) {
+    const round = r.round + k
+    const built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines }) + CUT, `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
+    if (!built || built.status === 'blocked') return { id, ok: false, why: 'cut-off fix round blocked', built }
+    check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, lines) + CONFIRM, `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA)
+    if (check && check.verdict === 'pass') return { id, ok: true, rounds: round, built, check }
+    lines = check ? check.failing_lines : lines
+  }
+  log(`${id}: still failing after the owner's allowed rounds; cut off with its open lines written to notes`)
+  const notes = await seat(notesPrompt(id, wave, lines), `check/${id}-cutoff-notes`, 'Check', CHECK_SCHEMA)
+  return { id, ok: true, rounds: r.round + 1, check, cutOff: true, notes }
+}
+
 const runItem = async (id, wave) => {
+  if (RESUME_AT[id]) return runResumed(id, wave, RESUME_AT[id])
   let built = await seat(buildPrompt(id, wave, `build/${id}`, null), `build/${id}`, 'Build', BUILD_SCHEMA)
   if (!built || built.status === 'blocked') return { id, ok: false, why: built ? 'blocked: ' + built.notes.join('; ') : 'implementer returned nothing', built }
   let check = await seat(checkPrompt(id, wave, `check/${id}`), `check/${id}`, 'Check', CHECK_SCHEMA)
@@ -152,7 +180,8 @@ for (let wi = 0; wi < WAVES.length; wi++) {
       track(pick)
     }
     onRelease = tryPull
-    w.items.forEach((id) => track(id))
+    for (const id of (w.done || [])) { passed.add(id) }
+    w.items.filter((id) => !(w.done || []).includes(id)).forEach((id) => track(id))
     // wait for every member, including items pulled while earlier members ran (a pull is pushed before the
     // promise that triggered it resolves, so an empty tail means nothing more can start in this wave)
     let seen = 0
@@ -163,7 +192,7 @@ for (let wi = 0; wi < WAVES.length; wi++) {
     }
     open = false
     onRelease = null
-    results = await Promise.all(running)
+    results = [...(w.done || []).map((id) => ({ id, ok: true, rounds: 'earlier run' })), ...(await Promise.all(running))]
     w.items = members
   }
   const failed = results.filter((r) => !r || !r.ok)
