@@ -48,11 +48,38 @@ Definitions (V12 section 3.4.2; centroids are area centroids everywhere, V12's d
   time.model         per export, the sum of the app's own per-stage console timings over all attempts (stats.py's
                      'gen ms'), descriptive
 
+W-07b additions (lane m1/W-07b; the M-1 sweep captures/mfcg/exports-sweep-m1-2026-10-03, rows of plan D7, D8, D9, D24
+and D35; R-23's cells; T-V12-6 in full). Computed by measure_extra(), read by the --plan mode only, so the W-07 fixture
+run's output (docs/calibration/E07-mfcg-signature.json) keeps its bytes:
+  fg.coverWalled     sum of the areas of footprints whose centroid is inside the enclosure / the enclosure's area (V12;
+                     stats.py's 'cover in walls'; T-V12-6's gross cover; the row is W-08's, reported here as the clause)
+  bldg.area          footprint areas (every building: footprints and prisms); per seed the median and p95 (type 7)
+  water.step         per water polygon (the sea), vertices turning < 1 degree dropped, the arc spacing between consecutive
+                     kept vertices; per seed the median over every spacing (measure_ftg.py's twin, like with like). The
+                     river is an exported centreline, never an outline: its kept-vertex step is a research number only
+  water.riverWidth   the median of the river features' widths (one width per course: the export's riverWidth)
+  wall.ungated       arterial ways (part 0) crossing a curtain stretch at no gate: proper crossings (a way segment and a
+                     curtain segment meeting at a point more than 0.01 m from all four ends) plus crossings at a curtain
+                     vertex (way arms on both sides of the curtain there, measure_ftg.py's side rule) that is no gate;
+                     a closure is no curtain, so a way over a shore closure never counts
+  pop.perBuilding    the export carries no population figure, so the coded law (section 13.5's population row: six
+                     persons per lot, the total rounded up to two significant figures; its buildings are its lots) on the
+                     exported building count, divided by that count; populationSource 'law'
+  wall.barrierShare and the gate law at the stress setting come from measure() as before.
+  Per family (plan.json's MFCG families, the sample of the sweep's export-check.json): the usable seeds' per-seed
+  values summarised by V12 section 3.5.1's estimator (type7 at n >= 10, minmax at 2-9, single at 1): measured values,
+  never rows (R-47 (a): W-15 is the sole writer of rows.py); failed indices carried, retries measured and excluded.
+
 Usage:
   python3 research/baselines/measure_mfcg.py [--json OUT] [--check] [--red]
     --check  run the W-07 checker column (and the T-V12-6 / T-V12-32 clauses this item can run); exit 1 on any FAIL
     --red    shift two expectations (the R4 gates4 60 m value by +0.03, the gates0 tower count by +1) to prove the
              checker goes red
+  python3 research/baselines/measure_mfcg.py --plan [--json OUT] [--red]
+    W-07b: the M-1 sweep's per-seed values and per-family summaries, and the W-07b checker column (T-V12-6 in full,
+    the sweep's stats.md equal, every usable seed in every summary, the failed indices listed); exit 1 on any FAIL.
+    --red shifts three expectations (a fixture cover by +0.001, one M-1 stats.md building count by +1, the TOWN usable
+    count by +1) to prove the checker goes red
 """
 import cmath
 import gzip
@@ -84,6 +111,13 @@ TURN_NODE_DEG = 10.0
 CASING_TOL = 0.002
 FIXTURES = ['s555001-size40-gates0', 's555001-size40-gates1', 's555001-size40-gates4', 's555001-size40-gates9',
             's777001-size80-river-coast']
+FIXTURE_FOLDERS = ('exports-2026-09-25', 'exports-sweep-2026-09-25')   # the W-07 run reads these MeasureInputs only
+M1_FOLDER = 'exports-sweep-m1-2026-10-03'
+M1_DIR = os.path.join(ROOT, 'captures', 'mfcg', M1_FOLDER)
+PLAN_JSON = os.path.join(HERE, 'plan.json')
+COVERS = ['0.657', '0.582', '0.621', '0.583', '0.569']     # T-V12-6: the five fixtures' gross cover, three decimals
+WATER_TURN_DEG = 1.0
+NEAR = 0.01
 DRAW_CAPTURES = ['2026-09-21T05-03-24', '2026-09-21T05-06-58', '2026-09-21T11-25-32',
                  '2026-09-25T10-05-23', '2026-09-25T10-05-38', '2026-09-25T10-05-44']
 
@@ -474,23 +508,24 @@ def held_ribbon():
     return v
 
 
-def held_statsmd():
+def held_statsmd(d=SWEEP, prefix='| size-'):
     rows = {}
-    lines = open(os.path.join(SWEEP, 'stats.md')).read().splitlines()
+    lines = open(os.path.join(d, 'stats.md')).read().splitlines()
     hdr = None
     for ln in lines:
         if ln.startswith('| file |'):
             hdr = [h.strip() for h in ln.strip('|').split('|')]
-        elif hdr and ln.startswith('| size-'):
+        elif hdr and ln.startswith(prefix):
             cells = [c.strip() for c in ln.strip('|').split('|')]
             rows[cells[0]] = dict(zip(hdr, cells))
     return rows
 
 
-def held_castles():
+def held_castles(d=SWEEP, pattern=r"- `(size-[^`]+)` \S+: .*castle ([\d.]+) ha"):
+    """the castle hectares of stats.md's per-file lines (numbers only leave this function)"""
     v = {}
-    for ln in open(os.path.join(SWEEP, 'stats.md')):
-        m = re.match(r"- `(size-[^`]+)` \S+: .*castle ([\d.]+) ha", ln)
+    for ln in open(os.path.join(d, 'stats.md')):
+        m = re.match(pattern, ln)
         if m:
             v[m.group(1)] = m.group(2)
     return v
@@ -501,6 +536,470 @@ def rerun_held(script, cwd):
     return p.stdout
 
 
+# ---------------------------------------------------------------- W-07b: R-23's cells and T-V12-6's cover on one MeasureInput
+def law_population(lots):
+    """section 13.5's population row: six persons per lot, the total rounded up to two significant figures"""
+    p = 6 * lots
+    if p <= 0:
+        return 0
+    e = 10 ** max(0, len(str(p)) - 2)
+    return -(-p // e) * e
+
+
+def kept_spacings(pts, closed_):
+    """arc spacings between consecutive vertices turning >= 1 degree (an open line's two ends always kept)"""
+    n = len(pts)
+    if n < 2:
+        return []
+    keep = []
+    for i in range(n):
+        if not closed_ and (i == 0 or i == n - 1):
+            keep.append(i); continue
+        a, v, b = pts[i - 1], pts[i], pts[(i + 1) % n]
+        h1 = math.atan2(v[1] - a[1], v[0] - a[0]); h2 = math.atan2(b[1] - v[1], b[0] - v[0])
+        if abs((math.degrees(h2 - h1) + 180.0) % 360.0 - 180.0) >= WATER_TURN_DEG:
+            keep.append(i)
+    arc = [0.0]
+    for i in range(n if closed_ else n - 1):
+        arc.append(arc[-1] + math.dist(pts[i], pts[(i + 1) % n]))
+    if closed_:
+        return [((arc[keep[(k + 1) % len(keep)]] - arc[keep[k]]) % arc[-1]) if len(keep) > 1 else arc[-1]
+                for k in range(len(keep))]
+    return [arc[keep[k + 1]] - arc[keep[k]] for k in range(len(keep) - 1)]
+
+
+def seg_x(p, q, a, b):
+    rx, ry = q[0] - p[0], q[1] - p[1]; sx, sy = b[0] - a[0], b[1] - a[1]
+    den = rx * sy - ry * sx
+    if abs(den) < 1e-12:
+        return None
+    t = ((a[0] - p[0]) * sy - (a[1] - p[1]) * sx) / den
+    u = ((a[0] - p[0]) * ry - (a[1] - p[1]) * rx) / den
+    if -1e-9 <= t <= 1 + 1e-9 and -1e-9 <= u <= 1 + 1e-9:
+        return (p[0] + t * rx, p[1] + t * ry)
+    return None
+
+
+def wall_ungated(curt, ways, gates):
+    if not curt:
+        return 'notApplicable'
+    csegs = [(s[k], s[k + 1]) for s in curt for k in range(len(s) - 1)]
+    cell = 100.0; G = {}
+    for ci, (a, b) in enumerate(csegs):
+        for gx in range(int(min(a[0], b[0]) // cell), int(max(a[0], b[0]) // cell) + 1):
+            for gy in range(int(min(a[1], b[1]) // cell), int(max(a[1], b[1]) // cell) + 1):
+                G.setdefault((gx, gy), []).append(ci)
+    proper = []
+    for w in ways:
+        for k in range(len(w) - 1):
+            p, q = w[k], w[k + 1]
+            cand = set()
+            for gx in range(int(min(p[0], q[0]) // cell), int(max(p[0], q[0]) // cell) + 1):
+                for gy in range(int(min(p[1], q[1]) // cell), int(max(p[1], q[1]) // cell) + 1):
+                    cand.update(G.get((gx, gy), ()))
+            for ci in sorted(cand):
+                a, b = csegs[ci]
+                x = seg_x(p, q, a, b)
+                if x is None or min(math.dist(x, p), math.dist(x, q), math.dist(x, a), math.dist(x, b)) <= NEAR:
+                    continue
+                if not any(math.dist(x, y) <= NEAR for y in proper):
+                    proper.append(x)
+    VG = {}
+    for wi, w in enumerate(ways):
+        for k, x in enumerate(w):
+            VG.setdefault((int(x[0] // cell), int(x[1] // cell)), []).append((wi, k))
+    gated = ungated = 0
+    for s in curt:
+        closed_ = len(s) > 2 and s[0] == s[-1]
+        pts = s[:-1] if closed_ else s
+        m = len(pts)
+        for i in range(m):
+            if not closed_ and (i == 0 or i == m - 1):
+                continue                      # an open stretch's end has no two sides (measure_ftg.py: interior vertices)
+            v = pts[i]
+            arms = []
+            for gx in (int(v[0] // cell) - 1, int(v[0] // cell), int(v[0] // cell) + 1):
+                for gy in (int(v[1] // cell) - 1, int(v[1] // cell), int(v[1] // cell) + 1):
+                    for wi, k in VG.get((gx, gy), ()):
+                        x = ways[wi][k]
+                        if abs(x[0] - v[0]) < NEAR and abs(x[1] - v[1]) < NEAR:
+                            if k > 0:
+                                arms.append(ways[wi][k - 1])
+                            if k < len(ways[wi]) - 1:
+                                arms.append(ways[wi][k + 1])
+            if not arms:
+                continue
+            a, b = pts[(i - 1) % m], pts[(i + 1) % m]
+            w1 = math.degrees(math.atan2(a[1] - v[1], a[0] - v[0])) % 360
+            w2 = math.degrees(math.atan2(b[1] - v[1], b[0] - v[0])) % 360
+            span = (w2 - w1) % 360
+            sides = set()
+            for x in arms:
+                ang = (math.degrees(math.atan2(x[1] - v[1], x[0] - v[0])) - w1) % 360
+                if ang < 1e-9 or abs(ang - span) < 1e-9:
+                    continue
+                sides.add(0 if ang < span else 1)
+            if len(sides) == 2:
+                if any(abs(g[0] - v[0]) < NEAR and abs(g[1] - v[1]) < NEAR for g in gates):
+                    gated += 1
+                else:
+                    ungated += 1
+    return {'value': len(proper) + ungated, 'properCrossings': len(proper), 'vertexCrossingsAtNoGate': ungated,
+            'gatedCrossings': gated}
+
+
+def measure_extra(mi):
+    fs = mi['features']
+    by = {}
+    for f in fs:
+        by.setdefault(f['kind'], []).append(f)
+    B = [open_ring(f['geometry']['coordinates'][0]) for f in by.get('building', [])]
+    A = [abs(sarea(r)) for r in B]
+    C = [centroid(r) for r in B]
+    out = {}
+    enc = [open_ring(f['geometry']['coordinates'][0]) for f in by.get('enclosure', [])]
+    enc = enc[0] if enc else None
+    if enc:
+        inside = [pip(c, enc) for c in C]
+        out['fg.coverWalled'] = {'value': sum(a for a, i in zip(A, inside) if i) / abs(sarea(enc)), 'inside': sum(inside)}
+    else:
+        out['fg.coverWalled'] = 'notApplicable'
+    out['bldg.area'] = {'median': pct(A, 0.5), 'p95': pct(A, 0.95), 'n': len(A)} if A else 'notApplicable'
+    sp = []
+    for f in by.get('water', []):
+        sp.extend(kept_spacings(open_ring(f['geometry']['coordinates'][0]), True))
+    out['water.step'] = {'value': pct(sp, 0.5), 'n': len(sp), 'polygons': len(by.get('water', []))} if sp else 'notApplicable'
+    riv = by.get('river', [])
+    if riv:
+        ws = [f['props'].get('widthM') for f in riv if f['props'].get('widthM') is not None]
+        rs = [x for f in riv for x in kept_spacings(f['geometry']['coordinates'], False)]
+        out['water.riverWidth'] = {'value': pct(ws, 0.5) if ws else None, 'courses': len(riv),
+                                   'centrelineStepResearch': pct(rs, 0.5)}
+    else:
+        out['water.riverWidth'] = 'notApplicable'
+    curt = [f['geometry']['coordinates'] for f in by.get('wall', []) if f['props'].get('class') == 'curtain']
+    ways = [f['geometry']['coordinates'] for f in by.get('way', [])
+            if f['props'].get('class') == 'arterial' and f['props'].get('part', 0) == 0]
+    gates = [tuple(g['geometry']['coordinates']) for g in by.get('gate', [])]
+    out['wall.ungated'] = wall_ungated(curt, ways, gates)
+    pop = law_population(len(B))
+    out['pop.perBuilding'] = {'value': pop / len(B), 'population': pop, 'lots': len(B), 'populationSource': 'law'} if B \
+        else 'notApplicable'
+    return out
+
+
+# ---------------------------------------------------------------- W-07b: the families, the summaries and the checker column
+SCALARS = [   # (metric id, the per-seed statistic's path in measure() / measure_extra()'s output)
+    ('bldg.r4.60', 'median'), ('bldg.r4.120', 'median'), ('bldg.r4.250', 'median'),
+    ('walled.share', 'value'), ('ribbon.share', 'value'),
+    ('district.area', 'median'), ('plaza.area', 'value'), ('castle.area', 'value'), ('castle.compact', 'value'),
+    ('wall.nodeSpacing', 'p50'), ('quarter.count', 'value'), ('gate.count', 'value'), ('wall.towerSpacing', 'p50'),
+    ('market.secondary', 'value'), ('market.adjacent', 'value'),
+    ('bldg.area', 'median'), ('bldg.area', 'p95'), ('pop.perBuilding', 'value'),
+    ('water.step', 'value'), ('water.riverWidth', 'value'), ('wall.ungated', 'value'), ('wall.barrierShare', 'value'),
+    ('fg.coverWalled', 'value'),
+]
+BAND_KEYS = ('b0_40', 'b40_100', 'b100_200')
+SERVES = {   # plan section 1: which deliverable each summary serves, and from which family (R-12, R-23, V12 3.4.4)
+    'plain': {'D7': ['bldg.r4.60', 'bldg.r4.120', 'bldg.r4.250', 'bldg.wallAlign.median', 'bldg.wallAlign.share15'],
+              'D8': ['walled.share', 'ribbon.share'],
+              'D9': ['district.area', 'plaza.area', 'castle.area', 'castle.compact', 'wall.nodeSpacing', 'quarter.count',
+                     'gate.count', 'wall.towerSpacing'],
+              'D24': ['market.secondary', 'market.adjacent'],
+              'D35': ['bldg.area', 'bldg.area.p95', 'pop.perBuilding'],
+              'W-08 (reported here as T-V12-6 clause only)': ['fg.coverWalled']},
+    'river+coast': {'D35': ['water.step', 'water.riverWidth', 'wall.ungated', 'wall.barrierShare', 'gate.count'],
+                    'descriptive (the stress variant; F1 / DC-14 for wall alignment)': ['every other summary']},
+}
+
+
+def estimate(xs):
+    """V12 section 3.5.1: single at n = 1, minmax at 2-9, type7 (p10 / p90) at n >= 10; the centre is the median"""
+    n = len(xs)
+    if n == 0:
+        return None
+    if n == 1:
+        return {'estimator': 'single', 'n': 1, 'a': xs[0], 'b': xs[0], 'c': xs[0]}
+    if n < 10:
+        return {'estimator': 'minmax', 'n': n, 'a': min(xs), 'b': max(xs), 'c': pct(xs, 0.5)}
+    return {'estimator': 'type7', 'n': n, 'a': pct(xs, 0.1), 'b': pct(xs, 0.9), 'c': pct(xs, 0.5)}
+
+
+def stat_of(p, metric, key):
+    v = p.get(metric)
+    if not isinstance(v, dict):
+        return None
+    return v.get(key)
+
+
+def summarise(per, stems):
+    rows = {}
+    for metric, key in SCALARS:
+        mid = metric + ('.p95' if key == 'p95' else '')
+        vals = [(s, stat_of(per[s], metric, key)) for s in stems]
+        xs = [v for _, v in vals if v is not None]
+        e = estimate(xs) or {'estimator': None, 'n': 0}
+        e['seeds'] = [s for s, v in vals if v is not None]
+        e['notApplicable'] = [s for s, v in vals if v is None]
+        rows[mid] = e
+    for metric, key in (('bldg.wallAlign.median', 'median'), ('bldg.wallAlign.share15', 'share15')):
+        comp = {}
+        for b in BAND_KEYS:
+            vals = [(s, per[s]['bldg.wallAlign'][b][key] if isinstance(per[s].get('bldg.wallAlign'), dict) else None)
+                    for s in stems]
+            xs = [v for _, v in vals if v is not None]
+            e = estimate(xs) or {'estimator': None, 'n': 0}
+            e['seeds'] = [s for s, v in vals if v is not None]
+            e['notApplicable'] = [s for s, v in vals if v is None]
+            comp[b] = e
+        rows[metric] = comp
+    return rows
+
+
+def plan_families():
+    """plan.json's MFCG families and the sweep's export-check.json sample -> label, stems, usable, failed"""
+    plan = json.load(open(PLAN_JSON))
+    chk = json.load(open(os.path.join(M1_DIR, 'export-check.json')))['sample']
+    fams = {}
+    for f in plan['families']:
+        if f.get('reference') != 'MFCG':
+            continue
+        lab = f['family']; size = f['setting']['mfcgSize']; opt = f['setting']['options']
+        stem_of = lambda i: f"size{size}-{'plain' if opt == 'plain' else 'rivercoast'}-{i}"
+        lo, hi = f['indices']
+        s = chk[lab]
+        failed = s['failed']
+        failed_stems = {stem_of(int(x['label'].rsplit('/', 1)[1])) for x in failed}
+        usable = [stem_of(i) for i in range(lo, hi) if stem_of(i) in s['captured'] and stem_of(i) not in failed_stems]
+        fams[lab] = {'family': lab, 'size': size, 'options': opt, 'rung': f['setting']['rung'], 'purpose': f['purpose'],
+                     'indices': [lo, hi], 'declaredN': (f.get('extension') or {}).get('declaredN', hi - lo),
+                     'captured': s['captured'], 'usable': usable, 'usableCount': s['usable'],
+                     'failed': [{k: v for k, v in x.items() if k in ('label', 'reason', 'loads', 'attempts', 'filesKept')}
+                                for x in failed],
+                     'failedStems': sorted(failed_stems)}
+    return fams
+
+
+def attempts_m1():
+    att = {}
+    for line in open(os.path.join(M1_DIR, 'export-log.jsonl')):
+        r = json.loads(line)
+        if r.get('jsonOk') or r.get('downloads'):
+            att[r['name']] = r.get('attempts')
+    j = os.path.join(M1_DIR, 'j161', 'export-log.jsonl')
+    for line in open(j):
+        r = json.loads(line)
+        if r.get('jsonOk') and r.get('name') not in att:
+            att[r['name']] = r.get('attempts')
+    return att
+
+
+def main_plan(out_json, red):
+    files = sorted(f for f in os.listdir(INPUTS) if f.endswith('.metric.geojson.gz'))
+    per, fxper = {}, {}
+    for f in files:
+        cap = f[:-len('.metric.geojson.gz')]
+        folder, stem = cap.split('.', 1)
+        mi = read_mi(os.path.join(INPUTS, f))
+        m = measure(mi, f'{folder}/{stem}')
+        m.update(measure_extra(mi))
+        m['research'] = {'census': mi['research']['census'], 'optionsFrom': mi['research'].get('optionsFrom', 'export-log.jsonl')}
+        if folder == M1_FOLDER:
+            per[stem] = m
+        elif folder in FIXTURE_FOLDERS:
+            fxper[f'{folder}/{stem}'] = m
+    fams = plan_families()
+    att = attempts_m1()
+    rows, gate_law = {}, {}
+    for lab, fm in fams.items():
+        rows[lab] = summarise(per, fm['usable'])
+        gl = [(s, per[s]['gateLaw']) for s in fm['usable']]
+        gate_law[lab] = {'hits': sum(1 for _, g in gl if g['hit']), 'n': len(gl),
+                         'perSeed': {s: {k: g[k] for k in ('landLaw', 'law', 'measured', 'hit', 'waterfront')} for s, g in gl},
+                         'waterGates': {s: per[s]['gate.count']['water'] for s in fm['usable']}}
+        excluded = [s for s in fm['failedStems'] if s in per]
+        fm['measuredButExcluded'] = excluded
+    stress = fams['capture/MFCG/80/river+coast']
+    time_worst = {'note': 'MFCG time.worst is a descriptive row with values.n 0 (R-44); its note carries the stress seeds\' '
+                          'generation attempts (the export logs\' attempt counts; the retries are sample.failed, reason retry)',
+                  'stressAttempts': {s: att.get(s) for s in stress['captured']},
+                  'stressCities': len(stress['captured']),
+                  'stressAttemptsTotal': sum(att.get(s) or 0 for s in stress['captured']),
+                  'plainAttempts': {lab: sorted({att.get(s) for s in fm['usable']}, key=lambda x: (x is None, x or 0)) for lab, fm in fams.items() if fm['options'] == 'plain'}}
+
+    # ------------------------------------------------ printing (compact)
+    print('== W-07b: per-family summaries (V12 3.5.1 estimators over the usable seeds; measured values, not rows)')
+    def fmt(e, d=3):
+        if not e or e.get('c') is None:
+            return 'n/a'
+        return f"{e['c']:.{d}f} [{e['a']:.{d}f}, {e['b']:.{d}f}] {e['estimator']} n {e['n']}" + (f" na {len(e['notApplicable'])}" if e['notApplicable'] else '')
+    for lab, fm in fams.items():
+        r = rows[lab]
+        print(f"-- {lab} ({fm['rung']}, {fm['purpose']}): usable {len(fm['usable'])} of indices {fm['indices']}; failed "
+              + ', '.join(f"{x['label'].rsplit('/', 1)[1]} {x['reason']}" for x in fm['failed']) if fm['failed'] else
+              f"-- {lab} ({fm['rung']}, {fm['purpose']}): usable {len(fm['usable'])} of indices {fm['indices']}; failed none")
+        for mid in [m + ('.p95' if k == 'p95' else '') for m, k in SCALARS]:
+            print(f"   {mid}: {fmt(r[mid], 4)}")
+        for mid in ('bldg.wallAlign.median', 'bldg.wallAlign.share15'):
+            print(f"   {mid}: " + ' | '.join(f"{b} {fmt(r[mid][b], 3)}" for b in BAND_KEYS))
+        g = gate_law[lab]
+        print(f"   gate law hits {g['hits']}/{g['n']}: " + '; '.join(f"{s.rsplit('-', 1)[1]} {v['measured']} vs {v['law']}{' wf' if v['waterfront'] else ''}"
+                                                          for s, v in g['perSeed'].items()))
+    print('time.worst note: stress attempts ' + str(time_worst['stressAttempts']) + f"; plain {time_worst['plainAttempts']}")
+
+    result = {'schema': 'research.e07-plan/1', 'script': SCRIPT, 'lane': 'm1/W-07b', 'referenceBuild': REFERENCE_BUILD,
+              'inputs': os.path.relpath(INPUTS, ROOT), 'sweep': os.path.relpath(M1_DIR, ROOT),
+              'families': fams, 'perSeed': per, 'summaries': rows, 'serves': SERVES, 'gateLaw': gate_law,
+              'timeWorstNote': time_worst,
+              'fixturesExtra': {k: {m: v[m] for m in ('fg.coverWalled', 'bldg.area', 'buildings', 'walled.share')} for k, v in fxper.items()},
+              'checks': []}
+
+    # ------------------------------------------------ the W-07b checker column
+    fails = 0
+    def ck(name, ok, detail):
+        nonlocal fails
+        fails += (not ok)
+        result['checks'].append({'check': name, 'passed': bool(ok), 'detail': detail})
+        print(f"{'PASS' if ok else 'FAIL'} {name}: {detail}")
+    fx = lambda s: fxper[f'exports-2026-09-25/{s}']
+    # T-V12-6 (1) the five fixture covers to three decimals, printed (R-24)
+    got = [f"{fx(s)['fg.coverWalled']['value']:.3f}" for s in FIXTURES]
+    want = list(COVERS)
+    if red:
+        want[0] = '0.658'
+    ck('T-V12-6 gross cover of the five fixtures to three decimals 0.657 / 0.582 / 0.621 / 0.583 / 0.569', got == want,
+       ' / '.join(f"{fx(s)['fg.coverWalled']['value']:.5f} -> {g}" for s, g in zip(FIXTURES, got)))
+    # (2) walled shares two decimals, (3) gates exact, (4) towers on the dry cities
+    got = [fx(s)['walled.share']['value'] for s in FIXTURES]
+    ck('T-V12-6 walled 0.98 / 0.97 / 0.92 / 0.82 / 0.30 to two decimals', [f'{v:.2f}' for v in got] == ['0.98', '0.97', '0.92', '0.82', '0.30'],
+       ' / '.join(f'{v:.4f}' for v in got))
+    got = [fx(s)['gate.count']['value'] for s in FIXTURES]
+    ck('T-V12-6 city gates 0 / 1 / 4 / 9 / 7 exactly', got == [0, 1, 4, 9, 7], str(got))
+    got = [fx(s)['towers']['value'] for s in FIXTURES[:4]]
+    ck('T-V12-6 towers 33 / 32 / 29 / 24 on the dry cities', got == [33, 32, 29, 24], str(got))
+    # (5) R4 within 0.02 of every per-city value of mfcg_orient.out
+    ho = held_orient()
+    allr4 = [(s, r, fx(s)[f'bldg.r4.{r}']['median'], v) for (s, r), v in sorted(ho.items())]
+    ck('T-V12-6 R4 medians within 0.02 of every per-city value of mfcg_orient.out', all(abs(a - b) <= 0.02 for _, _, a, b in allr4),
+       f'{len(allr4)} values, largest gap {max(abs(a - b) for _, _, a, b in allr4):.4f}; '
+       + '; '.join(f'{s[8:]} r{r} {a:.3f} vs {b:.2f}' for s, r, a, b in allr4))
+    # (6) wall alignment on the dry cities within one point of mfcg_wallalign.out. The held file holds three of the four
+    #     dry fixtures (gates 0, 4 and 9: nine values); the gates-1 city has no held value, so it is printed, not compared
+    #     (record E07 section 9, finding F5)
+    hw = held_wallalign()
+    dry = []
+    for (s, lo), (n, med, sh) in sorted(hw.items()):
+        if 'river' in s:
+            continue
+        w = fx(s)['bldg.wallAlign'][{0: 'b0_40', 40: 'b40_100', 100: 'b100_200'}[lo]]
+        dry.append((s, lo, w['share15'] * 100, sh))
+    held_dry = sorted({s for s, _, _, _ in dry})
+    unheld = [s for s in FIXTURES[:4] if s not in held_dry]
+    result['wallAlignUnheld'] = {s: {b: fx(s)['bldg.wallAlign'][b] for b in BAND_KEYS} for s in unheld}
+    ck('T-V12-6 wall-alignment shares within one point of mfcg_wallalign.out on every dry city it holds (gates 0 / 4 / 9)',
+       len(dry) == 9 and held_dry == ['s555001-size40-gates0', 's555001-size40-gates4', 's555001-size40-gates9']
+       and all(abs(a - b) <= 1 for _, _, a, b in dry),
+       f'{len(dry)} values, largest gap {max(abs(a - b) for _, _, a, b in dry):.2f} point; '
+       + '; '.join(f'{s[8:]} {lo} {a:.1f} vs {b}' for s, lo, a, b in dry)
+       + '; not held, printed only: ' + '; '.join(f"{s[8:]} " + ' / '.join(f"{fx(s)['bldg.wallAlign'][b]['share15'] * 100:.1f}%" for b in BAND_KEYS) for s in unheld))
+    # (7) T-V12-6's sweep clause on the 2026-09-25 sweep: buildings, walled share, cover, median footprint, gates, districts,
+    #     plaza and castle areas of every size exactly as its stats.md (and walled ha and the dry towers, as W-07 checked)
+    sm = held_statsmd(); hc = held_castles(); bad = []; cells = 0
+    sweep_caps = sorted([c for c in fxper if c.startswith('exports-sweep-2026-09-25/')],
+                        key=lambda c: [int(t) if t.isdigit() else t for t in re.split(r'(\d+)', c)])
+    for cap in sweep_caps:
+        n = cap.split('/')[1]; p = fxper[cap]; r = sm[n]
+        pairs = [('buildings', f"{p['buildings']:,}", r['buildings']), ('walled share', f"{p['walled.share']['value']:.2f}", r['walled share']),
+                 ('cover in walls', f"{p['fg.coverWalled']['value']:.3f}", r['cover in walls']),
+                 ('median m²', f"{p['bldg.area']['median']:.1f}", r['median m²']),
+                 ('walled ha', f"{p['walledHa']:.2f}", r['walled ha']), ('gates', str(p['gate.count']['value']), r['gates']),
+                 ('districts', str(p['quarter.count']['value']), r['districts']), ('plaza ha', f"{p['plaza.area']['value']:.3f}", r['plaza ha']),
+                 ('castle ha', f"{p['castle.area']['value']:.3f}", hc[n])]
+        if 'river' not in n:
+            pairs.append(('towers', str(p['towers']['value']), r['towers']))
+        cells += len(pairs)
+        bad += [f'{n} {k} {a} vs {b}' for k, a, b in pairs if a != b]
+    ck("T-V12-6 the 2026-09-25 sweep's stats.md: buildings, walled share, cover, median footprint, gates, districts, plaza and "
+       "castle areas (and walled ha, dry towers) of every size exactly", not bad and len(sweep_caps) == 13,
+       f'{len(sweep_caps)} sizes, {cells} cells, ' + ('all equal' if not bad else '; '.join(bad)))
+    # (8) the M-1 sweep's stats.md equal for every captured file (the W-07b row's "the sweep's stats.md equal")
+    sm1 = held_statsmd(M1_DIR, '| size'); hc1 = held_castles(M1_DIR, r"- `(size[^`]+)` .*?castle ([\d.]+) ha")
+    bad, declared, cells = [], [], 0
+    for stem in sorted(per, key=lambda x: [int(t) if t.isdigit() else t for t in re.split(r'(\d+)', x)]):
+        p = per[stem]; r = sm1[stem]
+        dropped = p['research']['census']['droppedPolygons']
+        nb = p['buildings'] + dropped + (1 if (red and stem == 'size40-plain-0') else 0)
+        if dropped:
+            declared.append(f"{stem}: {dropped} zero-area footprint dropped by V12 3.2.2's degenerate rule (ours {p['buildings']:,}, stats.md {r['buildings']})")
+        pairs = [('buildings', f"{nb:,}", r['buildings']), ('walled share', f"{p['walled.share']['value']:.2f}", r['walled share']),
+                 ('walled ha', f"{p['walledHa']:.2f}", r['walled ha']), ('cover in walls', f"{p['fg.coverWalled']['value']:.3f}", r['cover in walls']),
+                 ('median m²', f"{p['bldg.area']['median']:.1f}", r['median m²']), ('gates', str(p['gate.count']['value']), r['gates']),
+                 ('districts', str(p['quarter.count']['value']), r['districts']), ('plaza ha', f"{p['plaza.area']['value']:.3f}", r['plaza ha']),
+                 ('castle ha', f"{p['castle.area']['value']:.3f}", hc1[stem])]
+        if 'rivercoast' not in stem:
+            pairs.append(('towers', str(p['towers']['value']), r['towers']))
+        if r.get('attempts') not in (None, '–'):
+            pairs.append(('attempts', str(att.get(stem)), r['attempts']))
+        cells += len(pairs)
+        bad += [f'{stem} {k} {a} vs {b}' for k, a, b in pairs if a != b]
+    ck("the M-1 sweep's stats.md: buildings, walled share and ha, cover, median footprint, gates, dry towers, districts, plaza "
+       "and castle ha, attempts, for every captured file", not bad and len(per) == len(sm1) == 35,
+       f'{len(per)} files, {cells} cells, ' + ('all equal' if not bad else '; '.join(bad))
+       + ('; declared: ' + '; '.join(declared) if declared else ''))
+    result['statsDeclared'] = declared
+    # (9) every usable seed in every summary, the sample's counts, and no failed seed in any summary
+    want_usable = {'capture/MFCG/40/plain': 10 + (1 if red else 0), 'capture/MFCG/80/plain': 10, 'capture/MFCG/130/plain': 10,
+                   'capture/MFCG/80/river+coast': 3}
+    bad = []
+    for lab, fm in fams.items():
+        U = set(fm['usable'])
+        if len(U) != want_usable[lab] or len(U) != fm['usableCount']:
+            bad.append(f"{lab} usable {len(U)} (export-check {fm['usableCount']}, expected {want_usable[lab]})")
+        if not all(s in per for s in U):
+            bad.append(f"{lab} usable seed without a MeasureInput: {sorted(U - set(per))}")
+        for mid, e in rows[lab].items():
+            for ee in (e.values() if mid.startswith('bldg.wallAlign') else [e]):
+                if set(ee['seeds']) | set(ee['notApplicable']) != U or len(ee['seeds']) + len(ee['notApplicable']) != len(U):
+                    bad.append(f'{lab} {mid} seeds differ from the usable list')
+                if set(ee['seeds']) & set(fm['failedStems']):
+                    bad.append(f'{lab} {mid} holds a failed seed')
+    na = {lab: sorted({f"{mid}: {len(e['notApplicable'])}" for mid, e in rows[lab].items()
+                       if not mid.startswith('bldg.wallAlign') and e['notApplicable']}) for lab in fams}
+    ck('every usable seed in every summary (10 / 10 / 10 / 3), no failed seed in any', not bad,
+       'all ' + str(sum(len(r) for r in rows.values())) + ' summaries over ' + ' / '.join(str(len(fm['usable'])) for fm in fams.values())
+       + ' usable seeds; notApplicable by design: ' + json.dumps(na) if not bad else '; '.join(bad))
+    # (10) the failed indices listed, equal to the sweep's export-check and to plan.json's index ranges
+    listed = {lab: [(x['label'], x['reason']) for x in fm['failed']] for lab, fm in fams.items()}
+    want_failed = {'capture/MFCG/40/plain': [], 'capture/MFCG/80/plain': [],
+                   'capture/MFCG/130/plain': [('capture/MFCG/130/plain/8', 'no-export')],
+                   'capture/MFCG/80/river+coast': [('capture/MFCG/80/river+coast/1', 'retry'), ('capture/MFCG/80/river+coast/4', 'retry')]}
+    cover = all(len(fm['usable']) + len(fm['failed']) == fm['indices'][1] - fm['indices'][0] for fm in fams.values())
+    ck('the failed indices listed: 130/plain/8 no-export (2 loads); 80/river+coast/1 and /4 retry (measured, excluded)',
+       listed == want_failed and cover,
+       json.dumps(listed) + f'; usable + failed = every plan index: {cover}; measured but excluded: '
+       + json.dumps({lab: fm['measuredButExcluded'] for lab, fm in fams.items() if fm['measuredButExcluded']}))
+    # (11) the gate law's hits on the usable seeds, reported
+    ck("the gate law's hits on the usable seeds, reported", True,
+       '; '.join(f"{lab.split('/', 2)[2]} {g['hits']}/{g['n']}" for lab, g in gate_law.items()))
+    # (12) D24 on the sweep: one square per usable file, secondary 0 and adjacent 0 (reference 0)
+    sq = [(s, per[s]['market.secondary']['squares'], per[s]['market.secondary']['value'], per[s]['market.adjacent']['value'])
+          for fm in fams.values() for s in fm['usable']]
+    ck('D24 on the usable seeds: one square each, market.secondary 0 and market.adjacent 0', all(a == 1 and b == 0 and c == 0 for _, a, b, c in sq),
+       f'{len(sq)} seeds; squares {sorted({a for _, a, _, _ in sq})}, secondary {sorted({b for _, _, b, _ in sq})}, adjacent {sorted({c for _, _, _, c in sq})}')
+    # (13) receipts: the held red-team scripts still print their .out files
+    for script, cwd in (('mfcg_orient.py', EXPORTS), ('mfcg_wallalign.py', EXPORTS), ('mfcg_ribbon.py', EXPORTS)):
+        live = rerun_held(script, cwd)
+        held = open(os.path.join(BENCH, script[:-3] + '.out')).read()
+        ck(f'{script} re-run live equals its .out', live == held, f'{len(live.splitlines())} lines, identical={live == held}')
+    print(f"{'ALL PASS' if not fails else f'{fails} FAIL'}")
+    result['checksFailed'] = fails
+    if out_json:
+        with open(out_json, 'w') as fh:
+            json.dump(result, fh, indent=1, sort_keys=True)
+            fh.write('\n')
+    return 1 if fails else 0
+
+
 # ---------------------------------------------------------------- main
 def main():
     args = sys.argv[1:]
@@ -509,7 +1008,9 @@ def main():
         i = args.index('--json'); out_json = args[i + 1]; del args[i:i + 2]
     check = '--check' in args; red = '--red' in args
 
-    files = sorted(f for f in os.listdir(INPUTS) if f.endswith('.metric.geojson.gz'))
+    if '--plan' in args:
+        return main_plan(out_json, red)
+    files = sorted(f for f in os.listdir(INPUTS) if f.endswith('.metric.geojson.gz') and f.split('.', 1)[0] in FIXTURE_FOLDERS)
     per = {}
     for f in files:
         cap = f[:-len('.metric.geojson.gz')]

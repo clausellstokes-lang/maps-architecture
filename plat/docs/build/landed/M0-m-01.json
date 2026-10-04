@@ -1,0 +1,52 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-m-01",
+  "lane": "build/M0-m-01-fix1",
+  "lanes": ["build/M0-m-01", "build/M0-m-01-fix1"],
+  "wave": "wave-3",
+  "snapshotTaken": "2026-10-04T01:53:12.168Z",
+  "date": "2026-10-04T02:41:55.097Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/model/src/types/", "plat/packages/model/src/records/", "plat/packages/model/src/schema/", "plat/packages/model/src/stage/", "plat/packages/model/test/types/", "plat/packages/model/test/records/", "plat/packages/model/test/schema/", "plat/packages/model/test/stage/"],
+  "counts": { "created": 20, "changed": 4, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/model/src/records/districts.ts", "status": "created", "sha256": "50377dfd1ff87897e09052cae2050f24f6e7fdb7a190eddaa4799cf2f5d7cdcf", "size": 9372 },
+    { "path": "plat/packages/model/src/records/index.ts", "status": "changed", "sha256": "9ae837c7d03ea2f7a14904e952f0351439f6bff52a2ca55a4dcccd42b3b20cc8", "size": 390 },
+    { "path": "plat/packages/model/src/records/network.ts", "status": "created", "sha256": "c419deebba38e2db0f72b6e4ff9077ef1da982ec0b2f4086cda2383341dd4497", "size": 2609 },
+    { "path": "plat/packages/model/src/records/seam.ts", "status": "created", "sha256": "a31f87e5eb12209c59019a364e13ea9a1db940b33f99aaeea4ed80da45ceb04e", "size": 1777 },
+    { "path": "plat/packages/model/src/records/site.ts", "status": "created", "sha256": "0d4dce5eb8c4878881d4ec02b2a33442ab52cd6af87f0e95fdc3825e0722511e", "size": 4776 },
+    { "path": "plat/packages/model/src/records/walls.ts", "status": "created", "sha256": "7f15bc6000e34103758c09911a4074ccf9dd7947472efbce74b8a57f0bf4b803", "size": 2494 },
+    { "path": "plat/packages/model/src/schema/index.ts", "status": "changed", "sha256": "1ba13361c18ec0a562156018c66b73e5917d1ecabe34a0433317b5eebe111a0a", "size": 368 },
+    { "path": "plat/packages/model/src/schema/kinds.ts", "status": "created", "sha256": "6edf8da4512100fdcd602cd11854f0e37f1b1fec7a0b701603a0dd825cb197c8", "size": 1480 },
+    { "path": "plat/packages/model/src/schema/order.ts", "status": "created", "sha256": "1d13fa57c97c38bc824a97926bd2665b932bddd8b061fde03bb8e135f4383f8f", "size": 4958 },
+    { "path": "plat/packages/model/src/schema/staged.ts", "status": "created", "sha256": "a864ade5403fe24b6c5c3fe02db608fad83c2d3706c05d26610eca3acb3a5903", "size": 6481 },
+    { "path": "plat/packages/model/src/stage/decl.ts", "status": "created", "sha256": "a7e398f52b7a0f334d3d38fb921f9734a1701f53daa9380d6dbf2a68e7f4a60a", "size": 6509 },
+    { "path": "plat/packages/model/src/stage/index.ts", "status": "changed", "sha256": "7a4e2552252b8eb85e085b18737a1d420b9fb69876ca36337486b4a290e243de", "size": 592 },
+    { "path": "plat/packages/model/src/stage/vocab.ts", "status": "created", "sha256": "95b653486568c78d3f7e692775cbd96fe8b20f9da4e74a9a365cc0920615a195", "size": 2489 },
+    { "path": "plat/packages/model/src/types/identity.ts", "status": "created", "sha256": "f7b8e025b7f502d43b42a185326b8e9639b45c8c4aba4c3c94a18ce423c5afba", "size": 4706 },
+    { "path": "plat/packages/model/src/types/index.ts", "status": "changed", "sha256": "b880372effa3f311103c7c6701e9b4fa6c672230585b59fbde47de7e5f84d5da", "size": 441 },
+    { "path": "plat/packages/model/src/types/kernel.ts", "status": "created", "sha256": "79f2f41312b673be426f73624a3d08d73b0e806ffade7d574e48b9c888419f49", "size": 1323 },
+    { "path": "plat/packages/model/src/types/staged.ts", "status": "created", "sha256": "4e5e803cc4f1f3ef6522cf2ce1d76503f0cd216b11af39b89dc1ff5f9192979d", "size": 771 },
+    { "path": "plat/packages/model/src/types/vocabulary.ts", "status": "created", "sha256": "bf989975320242904184153b48be46d3966d06c2a5021e6938983963246199f7", "size": 3400 },
+    { "path": "plat/packages/model/test/records/records.test.ts", "status": "created", "sha256": "a9a8e2e39e98bc4c73e4eeb2372088d99f054297e09978d617f744cd73d9aaa5", "size": 8664 },
+    { "path": "plat/packages/model/test/schema/schema-order.json", "status": "created", "sha256": "7b1d927b3a2a11d75b3e3c866ecf53bb1f1a42e6d6a7eab3880c3c128f941303", "size": 3254 },
+    { "path": "plat/packages/model/test/schema/schema.test.ts", "status": "created", "sha256": "f741e9a35837d95475add27a5a9b3b1f1dc6c0225ecb10f54459d838040cefe0", "size": 10543 },
+    { "path": "plat/packages/model/test/stage/stage.test.ts", "status": "created", "sha256": "fde99836363f44fc25626ad1098b82fc13ae6ee07e05ec359e54d0a15f1ba0a3", "size": 11883 },
+    { "path": "plat/packages/model/test/types/dom.test.ts", "status": "created", "sha256": "4bdedd62572440e7fd8225d734b9f5890f391d56f105f49a05bd451a2ff8c17a", "size": 3783 },
+    { "path": "plat/packages/model/test/types/types.test.ts", "status": "created", "sha256": "3879770e4fa05bd8baeda5580e459256e6b7be3503fec9f2c15ea5e42e341225", "size": 12012 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0048", "L-0051"],
+      "lines": ["2ae50335e13b61ab", "dfa95b22aa25424b"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0142", "C-0145"],
+      "lines": ["5c732a312951223c", "2a39986e5b38d0bd"],
+      "removed": []
+    }
+  ]
+}

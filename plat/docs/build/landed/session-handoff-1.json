@@ -1,0 +1,17 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "session-handoff-1",
+  "lane": "session/handoff-1",
+  "lanes": ["session/handoff-1"],
+  "wave": "wave-3",
+  "snapshotTaken": "2026-10-04T01:53:12.168Z",
+  "date": "2026-10-04T03:18:16.496Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/M0-spec-notes.md", "plat/docs/build/checks/M0-handoff-M1.md"],
+  "counts": { "created": 1, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/M0-handoff-M1.md", "status": "created", "sha256": "aacfd6c3ff76b096c6fc4f9825fac7dc354595b4fa0ca0f974fb6ec7a67da257", "size": 12781 },
+    { "path": "plat/docs/build/checks/M0-spec-notes.md", "status": "changed", "sha256": "ecbfaf098d442f24d45206bc9c8342efa3a2959c5778211b306f1e5b4ce7efb5", "size": 19844 }
+  ],
+  "appends": []
+}

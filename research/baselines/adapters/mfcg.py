@@ -41,6 +41,8 @@ the file's version values and sha256, the census.
 Usage:
   python3 research/baselines/adapters/mfcg.py [EXPORT_DIR ...] [--out DIR]
     default: captures/mfcg/exports-2026-09-25 and captures/mfcg/exports-sweep-2026-09-25 (the 2026-09-25 fixtures)
+    W-07b (lane m1/W-07b): python3 research/baselines/adapters/mfcg.py captures/mfcg/exports-sweep-m1-2026-10-03
+      (the M-1 sweep's 35 exports, failed retries included; a J161 capture's options come from its j161/ log record)
 """
 import gzip
 import hashlib
@@ -144,7 +146,26 @@ def clean_line(raw, census):
 
 
 # ---------------------------------------------------------------- the export log (canonical href)
+def query_options(href):
+    q = (href or '').split('?', 1)[-1]
+    opts = {}
+    for kv in q.split('&'):
+        if '=' in kv:
+            k, v = kv.split('=', 1)
+            try:
+                opts[k] = int(v)
+            except ValueError:
+                try:
+                    opts[k] = float(v)
+                except ValueError:
+                    pass   # never a string option (V12 2.2: numbers and flags only)
+    return opts
+
+
 def href_options(d, stem):
+    """The canonical href's options from the folder's export log; a J161 capture (downloads denied, files from the
+    in-page Blob: W-03-complete, W-03b) has its record in <folder>/j161/export-log.jsonl instead (lane m1/W-07b), which
+    is read only when the folder's own log holds no record for the stem. Returns (options or None, source or None)."""
     log = os.path.join(d, 'export-log.jsonl')
     opts = None
     if os.path.exists(log):
@@ -153,19 +174,18 @@ def href_options(d, stem):
             if r.get('name') != stem or not r.get('downloads'):
                 continue
             if str(r['downloads'][0].get('suggestedFilename', '')).endswith('.json'):
-                q = r.get('hrefAfter', '').split('?', 1)[-1]
-                opts = {}
-                for kv in q.split('&'):
-                    if '=' in kv:
-                        k, v = kv.split('=', 1)
-                        try:
-                            opts[k] = int(v)
-                        except ValueError:
-                            try:
-                                opts[k] = float(v)
-                            except ValueError:
-                                pass   # never a string option (V12 2.2: numbers and flags only)
-    return opts
+                opts = query_options(r.get('hrefAfter', ''))
+    if opts is not None:
+        return opts, None
+    j161 = os.path.join(d, 'j161', 'export-log.jsonl')
+    if os.path.exists(j161):
+        for line in open(j161):
+            r = json.loads(line)
+            if r.get('name') == stem and r.get('jsonOk') and r.get('hrefAfter'):
+                opts = query_options(r['hrefAfter'])
+        if opts is not None:
+            return opts, 'j161/export-log.jsonl'
+    return None, None
 
 
 # ---------------------------------------------------------------- the adapter
@@ -311,7 +331,8 @@ def adapt(d, stem):
         add('tree', f'x{i}', 'Point', list(map(float, p)))
 
     # header
-    opts = href_options(d, stem) or {}
+    opts, opts_from = href_options(d, stem)
+    opts = opts or {}
     if squares:
         centre = centroid(max(squares, key=lambda q: abs(sarea(q))))
     elif city:
@@ -336,6 +357,8 @@ def adapt(d, stem):
                        planks=len(F['planks']['geometries']), trees=len(F['trees']['coordinates'])),
         'script': SCRIPT,
     })
+    if opts_from:   # only the J161 captures carry it, so every earlier MeasureInput keeps its bytes
+        research['optionsFrom'] = opts_from
     return {'schema': SCHEMA, 'header': header, 'features': feats, 'research': research}
 
 

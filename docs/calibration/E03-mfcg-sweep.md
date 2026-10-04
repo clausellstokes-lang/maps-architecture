@@ -1,8 +1,15 @@
 # E03 — the MFCG sweep by formula (M-1 work item W-03)
 
-Lane `m1/W-03`, 2026-10-03, on the owner's Mac; completed the same day by lane `m1/W-03-complete` under J161 (section 9).
+Lane `m1/W-03`, 2026-10-03, on the owner's Mac; completed the same day by lane `m1/W-03-complete` under J161 (section 9)
+and closed by lane `m1/W-03b` with R-13's extension, as section 10 records.
 This is a research-side record, written in numbers, metric ids and our own words. It holds no reference code, word list,
 grammar, palette or generated name. Nothing was written into `plat/`, and no git command was run.
+
+**Outcome after R-13's extension (section 10, lane `m1/W-03b`): the MFCG sample is complete.** J161's third and last
+load exported `capture/MFCG/130/plain/10` (the formula's next index, seed 1179968783) with one generation attempt, the plan
+href and no download, so the METROPOLIS plain family stands at **10 usable of 11 indices** (index 8 `no-export`) and keeps
+the `type7` estimator. All four families: 10 / 10 / 10 usable, the stress family 3 of 5. J161 is used up (3 of 3 loads,
+0 downloads), and both build-id fetches are logged in its ledger. `check_w03.py` C1–C9 pass.
 
 **Outcome after the completion (section 9): three of the row's four checks pass; the fourth stands at 34 / 35 on a
 reproduced generator freeze.** Two more loads under J161 (downloads denied, files read from the in-page Blob):
@@ -12,7 +19,8 @@ reproduced generator freeze.** Two more loads under J161 (downloads denied, file
 - **`capture/MFCG/130/plain/8` froze again.** All of the app's generation stages logged within 2.1 s of the navigation.
   Then no export came within 180 s, and the page's main thread was still busy. The seed stays in `failed` with reason
   `no-export`, now on two loads. "35 of 35" cannot be met on this build with this seed. A substitute waits for the ruling
-  seat's replacement-seed rule; J161's third load is kept for it.
+  seat's replacement-seed rule; J161's third load is kept for it. (Since then: the rule is R-13's formula extension
+  (R-39), run by W-03b, section 10.)
 
 The wave verifier's count correction (section 6: two size-40 seeds above 1 500, not four) is applied.
 
@@ -110,7 +118,7 @@ The owner steps that would close the row are in section 5.
 |---|---|---|---|---|
 | `capture/MFCG/40/plain` (TOWN) | 10 | 10 | 10 | — |
 | `capture/MFCG/80/plain` (CITY) | 10 | 10 | 10 | — |
-| `capture/MFCG/130/plain` (METROPOLIS) | 10 | 9 | 9 | i = 8, seed 1413909430, `no-export` (no JSON in 180 s; page unresponsive; trace lost) |
+| `capture/MFCG/130/plain` (METROPOLIS) | 10, extended to 11 indices by R-13 (W-03b, section 10) | 10 | 10 | i = 8, seed 1413909430, `no-export` on 2 loads (no JSON in 180 s; page unresponsive; section 9.3) |
 | `capture/MFCG/80/river+coast` (stress, descriptive) | 5 | 5 | 3 | i = 1 `retry` (2 attempts, final internal seed 565976615); i = 4 `retry` (3 attempts, final 1143976087) |
 
 Per-family anchors (`stats.json`, min / median / max over the captured files; the stress row includes the two retries):
@@ -119,16 +127,18 @@ Per-family anchors (`stats.json`, min / median / max over the captured files; th
 |---|---|---|---|---|---|---|---|---|---|
 | 40 plain | 1 209 / 1 447 / 1 576 | 53.8 / 58.3 / 60.9 | 0.814 / 0.905 / 0.926 | 0.561 / 0.605 / 0.627 | 224 / 251 / 313 | 4 / 5 / 5 | 7 / 8.5 / 11 | 0.15 / 0.38 / 0.68 | 0.79 / 2.38 / 3.73 |
 | 80 plain | 4 205 / 5 103 / 5 591 | 200 / 212 / 222 | 0.861 / 0.905 / 0.924 | 0.604 / 0.624 / 0.653 | 225 / 263 / 332 | 8 / 8 / 8 | 10 / 12.5 / 15 | 0.16 / 0.33 / 0.51 | 0.77 / 3.51 / 6.41 |
-| 130 plain | 12 889 / 13 879 / 14 134 | 518 / 533 / 549 | 0.885 / 0.925 / 0.942 | 0.613 / 0.624 / 0.642 | 228 / 245 / 253 | 11 / 12 / 12 | 13 / 16 / 20 | 0.15 / 0.30 / 0.71 | 0.62 / 5.26 / 8.88 |
+| 130 plain (10 usable: i = 0–7, 9, 10) | 12 889 / 13 951 / 16 800 | 518 / 535 / 549 | 0.885 / 0.924 / 0.942 | 0.608 / 0.623 / 0.642 | 202 / 242 / 253 | 11 / 12 / 12 | 11 / 16 / 20 | 0.15 / 0.36 / 0.71 | 0.62 / 3.83 / 8.88 |
 | 80 river + coast | 4 374 / 5 336 / 8 092 | 206 / 260 / 350 | 0.845 / 0.905 / 0.942 | 0.590 / 0.594 / 0.647 | 245 / 256 / 305 | 7 / 7 / 7 | 11 / 13 / 15 | 0.27 / 0.42 / 0.64 | 1.02 / 2.43 / 8.02 |
 
 These are `stats.py`'s raw anchor values (plan section 2.2), not rows. The rows, their definitions and bands are W-07's,
-W-09's and W-15's.
+W-09's and W-15's. The 130 plain row was recomputed by W-03b over the ten usable files (section 10.3); over the first
+nine it read 12 889 / 13 879 / 14 134 buildings, 533 walled ha, 0.925 walled share, 0.613 / 0.624 cover, 228 / 245
+median footprint, 13 / 16 districts, 0.30 plaza ha and 5.26 castle ha.
 
 ## 5 Owner-gated steps that would close the row
 
 The owner approved up to three more loads (J161). Steps 1 and 2 were taken by lane `m1/W-03-complete` (section 9);
-step 3 waits for a ruling; step 4 is not approved.
+step 3 was ruled as R-13's formula extension (R-39) and taken by lane `m1/W-03b` (section 10); step 4 is not approved.
 
 1. **Seed 0's cold re-export — done (J161 load 1).** One more automated load of `capture/MFCG/40/plain/0`. It can run with downloads denied,
    reading the Blob in-page, so it needs **1 load and 0 downloads**, or 1 download if the file is to be kept. Comparing
@@ -141,6 +151,9 @@ step 3 waits for a ruling; step 4 is not approved.
 3. **Optional: a replacement seed — waiting.** Restoring n = 10 needs a design ruling: would `capture/MFCG/130/plain/10` be a
    legitimate replacement under V12 §2.4 and §3.2.1? If so, 1 load and 2 downloads. The rule belongs to the M-1 ruling
    seat (`m1/rulings-1`); J161's third load is unused and kept for it.
+   *Result:* ruled R-13 (a frozen seed extends the family by the formula's next index, never a hand-chosen seed) and R-39;
+   `plan.py --extend` (W-01b) added index 10, and J161 load 3 exported it with 0 downloads (section 10). The family
+   stands at 10 usable.
 4. **S-V12-1's 20-seed fallback, if W-13 triggers it.** It would add 30 loads and 60 downloads with this method (one load
    per seed). This is not covered by J159 (plan-check PC-06).
 
@@ -159,7 +172,8 @@ step 3 waits for a ruling; step 4 is not approved.
     The first version of this record said 4 of 10; the wave verifier counted 2 from `stats.json`, and the completion
     lane recounted 2 (section 9).
   - Size 80 gives 4 205–5 591; 1 of 10 is under CITY's 4 500.
-  - Size 130 gives 12 889–14 134, all inside METROPOLIS.
+  - Size 130 gives 12 889–16 800 over its ten usable seeds; 1 of 10 exceeds METROPOLIS's 15 000 (16 800, the extension
+    index 10; the other nine are 12 889–14 134). Corrected by W-03b (section 10.3); the first nine were all inside.
   - Gates are 4–5, 8 and 11–12 at the three sizes; W-07 tests the gate law on these.
 - **Derived towers.** They remain invalid for the river-and-coast family, where the exported ring follows the shore
   (inherited caveat).
@@ -346,3 +360,139 @@ rule of 2026-10-03, which reads 10 152 JSON files and 953 357 corpus 3-grams and
   plain phrases of our own. None is a reference word list, palette, grammar or identifier.
 - The exit status 1 is that unreviewed count. As in section 7, this record is not in the design set, so no allow rows
   are added.
+
+## 10 R-13's extension under J161 (lane `m1/W-03b`, 2026-10-03, 22:16–22:50 local)
+
+**Outcome: the METROPOLIS plain family stands at 10 usable, and J161 is used up.** J161's third and last load exported
+`capture/MFCG/130/plain/10`, the formula's next index after the frozen index 8 (R-13, R-39; `plan.py --extend` by
+W-01b). It made one generation attempt, at the plan seed, and its href equals the plan. Its JSON, SVG and screenshot are
+in the sweep folder beside the other 34, read from the in-page Blob with every download denied. `check_w03.py` C1–C9 pass
+on the folder. The family keeps V12 §3.5.1's `type7` estimator (10 usable), where nine usable would have given `minmax`.
+Both build-id fetches made under J161 are now in its ledger as the same contact class (R-47 (i)). The live build is
+still `itch:12710731`, so there is no pin shift. No login, account, payment, terms or consent prompt appeared, and the
+site asked nothing else.
+
+### 10.1 What was run
+
+| file | role | bytes | sha256 |
+|---|---|---|---|
+| `research/baselines/mfcg_j161_m1.mjs` | the J161 tool, extended: ledger kinds (a load, or a `build-id-fetch` written before the fetch with its result as a note in the log); `--build-id`, the check alone (one fetch through `profiler/lib/common.mjs` `resolveTargetUrl`, no browser; exit 4 on a pin shift); the cap counts loads only and is 3, J161's whole approval; a load on an https build refused unless a fresh build-id fetch, made after the last load, found exactly that build | 22 381 | `2b310229…` (was `48f7d52b…`, 17 895) |
+| `research/baselines/check_w03.py` | C1–C8 as before, with C2–C5 also covering a seed first captured under J161; C7 at a cap of 3 with the fetch lines checked; new C9, the estimator at the usable count against the declared n | 15 808 | `2a7e4c18…` (was `60ce9f3e…`, 11 256) |
+| `captures/mfcg/exports-sweep-m1-2026-10-03/size130-plain-10.json / .svg / .png` | the extension's files: the URL-export Blob, the window's SVG Blob, the screenshot | 7 620 995 / 8 071 825 / 936 474 | sha1 `e39d42d3…` / `f3b4de47…` / `588cd113…` |
+| `captures/mfcg/exports-sweep-m1-2026-10-03/j161/loads.jsonl` | 5 lines: loads 1–3 and 2 build-id fetches; its first two lines are byte-unchanged (their 530 bytes still hash to `0799d51d…`) | 1 439 | `9b1d5199…` |
+| `captures/mfcg/exports-sweep-m1-2026-10-03/j161/export-log.jsonl` | 3 load records, 2 notes of load 2, 2 build-id notes | 16 548 | `dba00bab…` |
+| `stats.md`, `stats.json`, `export-check.json` (same folder) | `stats.py` re-run as `sweep_m1.sh` runs it; the checker's output | — | `99f81c35…`, `eb77b3b6…`, `ab756c8b…` |
+
+- **Seed.** `plan.py --vectors capture/MFCG/130/plain/10` prints H32 1179968782 and Park–Miller 1179968783; the plan entry,
+  the load URL, the console's seed line and the href all carry 1179968783.
+- **Build-id check** (22:26:25 local, `--build-id`): the public game page named build 12710731, the pinned one. Its ledger line was written before the fetch.
+- **W-03-complete's fetch backfilled.** That lane's 16:34:14 fetch (section 9.1) had no ledger line. It now has one, marked
+  `backfilled` with `loggedBy m1/W-03b`, its time taken from that lane's own record of the check; its note carries the
+  build it found (12710731). A backfilled line never satisfies the tool's build-id guard.
+- **Load 3** (22:26:35 local, a fresh scratch profile with an empty cache): the JSON came 8.5 s after the navigation, the
+  window and menu crops matched, and the window's JSON item was exported a second time within that load. The page started three
+  downloads; all three were denied. One document request; the page's own requests went to the build host (18), `itch.io`
+  (1), `static.itch.io` (1) and the emblem host (3), as on every good load.
+- **Afterwards.** The scratch profile (13 MB) was deleted. One orphaned network helper of that profile was still running
+  and was stopped; no other process was touched. 11 GiB free before and after (`j161/disk.log`).
+- **Mock tests before the live contact,** on a `file://` copy of W-03-complete's mock page (index 8's seed freezes, others
+  export) and a localhost page standing in for the game page; no outside network. Fifteen cases behaved as intended: the
+  guard refused a load with no fetch, after a fetch of another build, after a pin-shift fetch, after a backfilled fetch
+  and after a two-hour-old fetch (dry-run and real run, both before any browser started); it allowed a fresh matching
+  fetch (dry-run only); `--build-id` exited 0 when the page named the pinned build, 4 when it named another and 4 when it
+  named none; a green load of index 10 (3 denied downloads, re-export identical); the cap refused a fourth load; a name already
+  in the ledger was refused; files were never overwritten; a freezing page still wrote its record first.
+
+### 10.2 The row's checks (executed 2026-10-03)
+
+| check (plan §2 W-03b) | receipt | result |
+|---|---|---|
+| the extension's seed = seedOf(family, [10]), by `plan.py --vectors` | 1179968782 / 1179968783 printed; the URL, the console's seed line (1 attempt, internal seed 1179968783) and `hrefAfter` carry 1179968783 | **pass** |
+| `check_w03.py` PASS on the folder, C6 counting the J161 ledger | C1–C9 pass, exit 0. C6: `capture/MFCG/130/plain` n 11, captured 10, usable 10, failed i = 8 `no-export` (2 loads). C2: index 10's two files hash to their logged sha1 and equal their Blobs; the screenshot hashes to its logged sha1; the three denied downloads name one city. C3: href 35 / 35. C4: same-load re-export identical 34 / 34. C5: 35 JSON at mfcg 0.11.5, unit ratio 4.0 | **pass** |
+| both ledgers counted; the build-id fetch logged as the same contact class | `loads.jsonl` 35 (J159). `j161/loads.jsonl` 3 loads (cap 3) and 2 build-id fetches (W-03-complete's, backfilled; W-03b's), each with its note, each finding 12710731 (C7) | **pass** |
+| the family's `type7` estimator unchanged | C9: declared n 10 → `type7`; usable 10 → `type7`. The same checker on a clone of the folder taken before the load failed C9 (usable 9 → `minmax`): red first | **pass** |
+| the checker catches tampering | eight APFS clones, each exit 1: a flipped SVG byte (C2, C7), a fourth load line (C7), a fetch line without a note (C7), a fetch note naming another build (C7), an unknown ledger kind (C7), index 10's record removed (C7, C9), index 10's href seed changed (C3), a flipped screenshot byte (C2). The real folder exits 0 | pass |
+| `stats.py` re-run | run as `sweep_m1.sh` runs it: `stats.md` and `stats.json` gain the `size130-plain-10` row and nothing else (the first 34 records of `stats.json` are equal to before); a second run reproduces `stats.md` byte for byte | pass |
+| plan files unchanged by this lane | `plan.py --check`: SAME for `plan.json` and `metrics.m-1.json` (`8a0efa7e…`) at 22:31 and again at 23:22; `plan.json` was regenerated meanwhile by other lanes (`f6972b91…` from `m1/plan-guard-2` at 22:20, `703dd74b…` after the FTG slot binds by 23:21), index 10's seed unchanged; this lane wrote neither | pass |
+
+### 10.3 Index 10 in numbers (CONFIRMED from `stats.json`)
+
+| anchor | index 10 | the other nine usable (min–max) |
+|---|---|---|
+| buildings | 16 800 | 12 889–14 134 |
+| median footprint m² | 202 | 228–253 |
+| walled ha | 544 | 518–549 |
+| walled share | 0.890 | 0.885–0.942 |
+| cover in walls | 0.608 | 0.613–0.642 |
+| gates | 12 | 11–12 |
+| districts | 11 | 13–20 |
+
+- **Index 10 lies above METROPOLIS's building count at the target** (§12: 12 000–15 000). With it, 1 of the 10 usable
+  size-130 seeds exceeds 15 000, as 2 of 10 size-40 seeds exceed TOWN's 1 500. Section 6 is corrected. This is a finding
+  for the §12 / W-15 design seat and for W-07b, not a reason to drop the seed: R-13 allows no hand-chosen substitute.
+- It packs more and smaller buildings into a wall of ordinary size; three anchors (buildings, median footprint, districts)
+  fall outside the other nine's ranges. Section 4's anchor row and the README's per-family row are recomputed over the ten.
+- `stats.md`'s attempts, stage and wall-time columns are blank for this row: `stats.py` (unchanged) reads them from the J159
+  log only, and this load's record is in `j161/export-log.jsonl`. The attempt count (1) and the href are checked by C3,
+  C6 and C7 from that record; the timing feeds no row (PC-11, R-44).
+
+### 10.4 Calls made under delegated authority (J122; vetoable)
+
+1. **Two contact classes in one ledger.** R-47 (i) puts the build-id fetches in the J161 ledger, while the tool and the
+   checker read every line as a load. A fetch line therefore carries `kind: build-id-fetch` and a load line keeps no
+   kind, so lines 1–2 stay byte-unchanged and the cap counts loads only. The fetch's result is a `build-id` note in the
+   log, written after the fetch, as a load's record follows its ledger line.
+2. **W-03-complete's fetch was backfilled,** marked as such, with that lane's own time. Rewriting the ledger's history
+   was ruled out; an appended, labelled line keeps the file append-only.
+3. **The build-id check comes first, by refusal.** A load on an https build needs a build-id fetch made after the last
+   load, at most an hour old, not backfilled, that found exactly the build to be loaded. A pin shift stops the tool
+   before any browser starts (plan §9: the owner is told first).
+4. **The cap's default is 3,** J161's whole approval (W-03-complete ran with 2 to keep the third for the ruling); the
+   ledger now holds 3 loads, so the tool refuses any further load under any cap of 3.
+5. **Index 10's files are in the sweep folder, not `j161/`:** the family counts it like its other nine usable seeds, and it is no re-export, so `stats.py`,
+   the checker's C2–C5 and W-07b read it like the other 34. Files are written without overwrite.
+6. **`stats.py` stays byte-identical** to the 2026-09-25 copy (section 10.3 says what that leaves blank).
+7. **The checker was extended in place** (C2–C5 for J161 captures, C7's cap and fetch lines, C9), so one command still
+   checks the whole folder.
+8. **Section 6's size-130 line and section 4's row were corrected in place** (as the completion lane did for size 40);
+   `W-03.json` and `W-03-complete.json` are left as history.
+
+### 10.5 Effect on `doc_checks.py`
+
+`size130-plain-10.json` is a new reference export. Unlike section 9.5's cold re-export, this file duplicates nothing, so
+it joins the corpus with new content. `stats.json` adds no string for this row (its name field is empty, see 10.3).
+The `.jsonl` logs, the SVG and the PNG are not read.
+
+**Measured, 22:32–23:10, CONFIRMED: the new file changes no result on the design set.** Method as in section 7:
+`doc_checks.py --doc` on V12 and on the base document (`docs/ARCHITECTURE.md`) from two roots, back to back. One root
+was the project; the other a symlinked copy that hides only `size130-plain-10.json`.
+
+- **The file entered the corpus:** 1 more JSON file and colour file (10 208 against 10 207) and 21 more corpus 3-grams;
+  the C4 lists are unchanged (523).
+- **V12:** C1 7 / 0, C2 0, C3 155 / 0, C4 2 / 0, S1 0, S2 604 / 588 (no `--heads`, as in section 7) in both runs; the
+  sorted unreviewed lines `diff` empty.
+- **ARCHITECTURE:** C1 5 / 0, C2 2 / 0, C3 1 888 / 0, C4 24 / 0, S1 0, S2 318 / 0 with the file (exit 0, nothing
+  unreviewed); without it, every count was equal and the sorted unreviewed lines `diff` empty (none either way). The second
+  root's corpus had grown by 8 JSON files and 1 list meanwhile, written by other lanes (corpus drift), and still no
+  count moved.
+
+### 10.6 CONFIRMED versus PLAUSIBLE
+
+**CONFIRMED** (executed): the seed by `--vectors`; the build id at 22:26:25; 1 load with 1 document, 3 denied downloads
+and 0 completed; the files' hashes, Blob identity and the same-load re-export; one attempt at the plan seed; the href;
+C1–C9 on the folder, the red-first C9 and the eight red clones; `stats.py`'s added row and reproducibility; `plan.py
+--check` SAME; the fifteen mock cases; the profile deleted and its helper stopped; the section 10.3 numbers.
+**PLAUSIBLE**: none of the row's conclusions rests on reasoning alone. That the three extra emblem-host requests fetch the
+emblem stays PLAUSIBLE, as in section 3.
+
+### 10.7 This record's own check (executed after section 10 was written)
+
+Command: `doc_checks.py --doc docs/calibration/E03-mfcg-sweep.md --heads docs/ARCHITECTURE.md`, on the corpus rule of
+2026-10-03 (the new file included).
+
+- C1 1 hit, reviewed. C2 0, C4 0, S1 0, S2 0.
+- C3 31 hits, 28 unreviewed, of the kinds section 9.7 lists: the build path, digit runs of the tables, dates and plain
+  phrases of our own. None is a reference word list, palette, grammar or identifier. A first run of this section's
+  draft found ten more, all our own phrases (a heading, a path pair, the build URL, a few connectives); they were
+  reworded before the final run.
+- The exit status 1 is that unreviewed count. This record lies outside the design set, so no allow row is added.

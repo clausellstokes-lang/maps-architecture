@@ -2136,7 +2136,7 @@
     "nominalPopulation": 49500,
     "premiumOnly": true,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T03-13-14",
     "failed": null
    },
    {
@@ -2153,7 +2153,7 @@
     "nominalPopulation": 49500,
     "premiumOnly": true,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T03-26-16",
     "failed": null
    },
    {
@@ -2170,7 +2170,7 @@
     "nominalPopulation": 49500,
     "premiumOnly": true,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T03-40-45",
     "failed": null
    },
    {
@@ -2187,7 +2187,7 @@
     "nominalPopulation": 5600,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T03-53-59",
     "failed": null
    },
    {
@@ -2204,7 +2204,7 @@
     "nominalPopulation": 24500,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T04-07-26",
     "failed": null
    },
    {
@@ -2221,7 +2221,7 @@
     "nominalPopulation": 5600,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T04-20-04",
     "failed": null
    },
    {
@@ -2238,7 +2238,7 @@
     "nominalPopulation": 24500,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T04-35-38",
     "failed": null
    },
    {
@@ -2255,7 +2255,7 @@
     "nominalPopulation": 5600,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T04-53-21",
     "failed": null
    },
    {
@@ -2272,7 +2272,7 @@
     "nominalPopulation": 24500,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T05-07-56",
     "failed": null
    },
    {
@@ -2289,7 +2289,7 @@
     "nominalPopulation": 5600,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T05-24-24",
     "failed": null
    },
    {
@@ -2306,7 +2306,7 @@
     "nominalPopulation": 24500,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T05-40-57",
     "failed": null
    },
    {
@@ -2323,7 +2323,7 @@
     "nominalPopulation": 5600,
     "premiumOnly": false,
     "seed": null,
-    "capture": null,
+    "capture": "2026-10-04T06-00-29",
     "failed": null
    },
    {

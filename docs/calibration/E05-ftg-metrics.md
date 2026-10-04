@@ -239,6 +239,265 @@ The six W-02 payloads (day 1 landed `2026-10-03T17-19-06`; the task scoped this 
 
 None of these needs new code. The fixture checks of section 2 stay tied to the two CITY payloads.
 
+### 9.1 W-05b, pass 1 — slots 0–7 and the recorded CITY capture (lane `m1/W-05b`, 2026-10-03)
+
+**Outcome (CONFIRMED by execution).** Every slot that was bound when this pass began is measured, and every check of
+W-05b's row passes, 4 of 4. Eight slots were bound at that point, and none had failed:
+- slots 0–5, programme 1: three BIG_TOWN and three BIG_CITY;
+- slots 6 and 7, programme 2: the first two METROPOLIS, bound during this lane by `m1/W-02-slot6b` and
+  `m1/W-02-slot7b`. Slot 6's first seat had stopped before any create (E02 section 16).
+
+The recorded CITY family's usable capture was measured with them. Slots 8–27 are open, and a recording seat may be taking
+slot 8 as this pass ends. Each measured capture now has:
+- a `MeasureInput` file for W-15 and M1;
+- every FTG metric of D14, D25 and D26;
+- its R-10 signature vector.
+
+No dispersion is formed here (R-40), and the values are measured values, not rows (R-47 (a)). W-15 forms the rows, the
+bands and both dispersions. TOWN's two slots (26, 27) are open, so this pass has no research-side TOWN numbers. The item is
+rolling. A pass reads the slots decided (bound or failed) when it begins. A slot decided later has a higher number, because
+`plan.py` binds in slot order, so it belongs to the next pass, and the checks list it. The last pass runs after slot 27 or
+the programme's stop.
+
+| file | what it is |
+|---|---|
+| `research/baselines/measure_ftg_slots.py` | W-05b's tool. It drives `adapters/ftg.py` (unchanged, `782e636f…`) and `measure_ftg.py`'s `metrics()` over the slots `plan.json` has decided and the recorded family's usable captures. It forms the per-size samples, the vectors, the time table, a per-body water note and the four checks. `--check` re-runs the checks from the JSON, fresh adapter runs and the requests; `--red` plants one fault per check. |
+| `research/baselines/measure_ftg.py` | split, without a change of behaviour. `metrics(mi)` is the metric half of `measure()`, moved into its own function; `measure()` calls it and adds the twin, as before. The reason: slot 6's raw payload holds a footprint with a repeated vertex, and the fixture twin's raw-quad routine (a re-typing of an older script, tied to the two CITY fixtures by R-03) divides by zero on it. The metric half reads the `MeasureInput`, where the adapter has merged that vertex. Receipt: W-05's `--check` gives 7 PASS, exit 0, and writes `E05-ftg-metrics.json` byte-identical (`243bca8e…`). |
+| `research/baselines/inputs/FTG/ftg-2026-10-0<d>_<hash>/<stamp>.metric.geojson.gz` | eight new `MeasureInput` files, one per slot, 3.10 MB in all (the two METROPOLIS files 0.76 MB each). The recorded CITY file (`e8377e6e…`) was compared, not rewritten. An existing file is never overwritten. |
+| `docs/calibration/E05-ftg-metrics.slots.json` | per slot: every metric value, the counts, the `MeasureInput` hashes, the 17 size-dependent request values, the server and client times and a per-body water-outline note. Per size: the samples. Also the signature vectors, the turning band beside the exception, the outline band inputs, the slot status, the pass's last slot and the four checks. W-05's `E05-ftg-metrics.json` is unchanged. |
+
+Run (project root): `python3 research/baselines/measure_ftg_slots.py --write --md <tables>`, then
+`python3 research/baselines/measure_ftg_slots.py --check`. The measuring run ran under `nice` while M0's seats and a
+recording seat were running.
+
+**Per-slot values** (the slot's `MeasureInput`; quantiles inside a slot are type 7; "CITY rec. 0" is
+`capture/FTG/CITY/coast+river/0`, the 2026-09-21 capture, whose values equal section 4's first column):
+
+| metric (unit) | slot 0 | slot 1 | slot 2 | slot 3 | slot 4 | slot 5 | slot 6 | slot 7 | CITY rec. 0 |
+|---|---|---|---|---|---|---|---|---|---|
+| size / water | BIG_TOWN / none | BIG_CITY / none | BIG_TOWN / coast+river | BIG_CITY / coast+river | BIG_TOWN / coast+river | BIG_CITY / coast+river | METROPOLIS / none | METROPOLIS / coast+river | CITY / coast+river |
+| buildings / towers | 1 694 / 25 | 7 164 / 66 | 1 821 / 31 | 7 342 / 40 | 1 880 / 22 | 7 270 / 49 | 14 748 / 93 | 14 617 / 74 | 2 798 / 17 |
+| street.turn100 (° / 100 m) | 7.516 | 8.522 | 8.456 | 13.728 | 6.463 | 11.911 | 10.853 | 15.961 | 8.021 |
+| street.stepHist share > 15° | 0.0059 | 0.0044 | 0.0091 | 0.0094 | 0.0073 | 0.0089 | 0.0035 | 0.0108 | 0.0103 |
+| street.entropy50 (bits) | 0.990 | 1.446 | 1.454 | 1.763 | 1.208 | 1.773 | 1.460 | 1.987 | 1.507 |
+| junction.angles median (°) | 93.54 | 93.21 | 90.27 | 90.63 | 90.28 | 91.09 | 92.77 | 92.14 | 90.15 |
+| junction.angles p5 (°) | 55.40 | 58.03 | 71.58 | 67.24 | 74.88 | 64.81 | 58.32 | 57.72 | 69.65 |
+| junction.share4 | 0.172 | 0.151 | 0.296 | 0.277 | 0.319 | 0.275 | 0.182 | 0.222 | 0.279 |
+| street.runs arterial (m) | 50.5 | 42.5 | 50.5 | 50.5 | 75.8 | 50.5 | 44.5 | 41.4 | 55.2 |
+| street.runs street (m) | 33.9 | 35.2 | 39.0 | 35.2 | 47.5 | 35.2 | 35.2 | 35.3 | 42.0 |
+| street.runs lane (m) | 44.7 | 44.7 | 43.7 | 30.0 | 44.7 | 31.2 | 44.7 | 32.4 | 40.2 |
+| street.runs track (m) | 75.8 | 50.3 | 213.8 | 80.0 | 214.5 | 381.5 | 50.5 | 77.9 | 278.1 |
+| bldg.area median (m²) | 86.3 | 92.9 | 103.3 | 100.5 | 99.4 | 99.9 | 90.8 | 90.5 | 102.7 |
+| bldg.area p95 (m²) | 167.6 | 186.5 | 177.4 | 155.3 | 155.8 | 164.1 | 166.4 | 160.2 | 153.7 |
+| bldg.quadSide (m) | 9.34 | 9.71 | 10.42 | 10.38 | 10.39 | 10.32 | 9.81 | 9.90 | 10.34 |
+| bldg.worstCorner p95 (°) | 24.53 | 27.27 | 21.75 | 22.34 | 17.42 | 26.35 | 26.00 | 25.42 | 22.93 |
+| bldg.partyShare | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 | 0.000 |
+| bldg.attached | 0.182 | 0.296 | 0.190 | 0.087 | 0.113 | 0.153 | 0.268 | 0.199 | 0.072 |
+| wall.towerSpacing (m) | 32.40 | 33.36 | 34.90 | 31.74 | 34.96 | 34.11 | 32.89 | 31.81 | 38.65 |
+| wall.ungated (arterial) | 1 | 6 | 2 | 1 | 4 | 1 | 7 | 5 | 3 |
+| gate.count | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
+| water.step (m) | — | 8.88 | 70.17 | 50.33 | 50.66 | 16.25 | 12.26 | 16.15 | 50.37 |
+| water.riverWidth (m) | — | — | 49.95 | 31.49 | 43.17 | 42.16 | — | 31.66 | 31.30 |
+| tree.nnP1 (m) | 0.981 | 1.082 | 1.031 | 0.985 | 1.118 | 1.324 | 1.184 | 1.334 | 0.901 |
+| tree.nnMedian (m) | 9.47 | 9.40 | 10.63 | 11.12 | 10.88 | 10.07 | 9.11 | 9.70 | 10.59 |
+| pop.perBuilding | 3.306 | 3.420 | 3.075 | 3.337 | 2.979 | 3.370 | 3.356 | 3.386 | 3.395 |
+| time.model (ms, server) | 2 553 | 5 656 | 1 869 | 6 298 | 2 232 | 5 976 | 11 147 | 15 223 | 4 267 |
+| outline.r90cv | 0.473 | 0.144 | 0.487 | 0.177 | 0.278 | 0.474 | 0.183 | 0.279 | 0.365 |
+| outline.roadRatio | 1.922 | 1.056 | 1.875 | 1.206 | 1.356 | 1.638 | 1.167 | 0.845 | 1.160 |
+| wealth.tier1 … tier6 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 | 0.011/0.011/0.217/0.435/0.217/0.109 |
+
+**The samples W-15 forms into rows (R-34).** Each sample holds its slots in plan order (`sample.captures`). The slots are
+grouped by what each request says, not by the plan's label alone, and check 2 holds the two equal. The water rows
+(`water.step`, `water.riverWidth`) read the `coast+river` slots only. The estimator column is V12 §3.5.1's for that n:
+`type7` at n ≥ 10, `minmax` at 2–9, `single` at 1. The 2026-09-25 capture appears in the CITY family's `failed` list with
+reason `setting` (R-02, R-04), and in no value.
+
+| FTG size (rung) | n now / planned | estimator at n | slots in order | water-row slots (n) | open slots | failed |
+|---|---|---|---|---|---|---|
+| BIG_TOWN (TOWN) | 3 / 10 | minmax | 0, 2, 4 | coast+river/0, coast+river/1 (2) | 10, 12, 14, 16, 18, 20, 22 | — |
+| BIG_CITY (CITY) | 3 / 10 | minmax | 1, 3, 5 | coast+river/0, coast+river/1 (2) | 11, 13, 15, 17, 19, 21, 23 | — |
+| METROPOLIS (METROPOLIS) | 2 / 4 | minmax | 6, 7 | coast+river/0 (1) | 8, 9 | — |
+| CITY (TOWN) | 1 / 4 | single | rec. 0 | coast+river/0 (1) | 24, 25 | CITY/coast+river/1 (setting) |
+| TOWN (TOWN) | 0 / 2 | no row (R-34) | — | — (0) | 26, 27 | — |
+
+**FTG signature vectors (R-10; vectors only, R-40).** These are the eight components of section 6, with R = the 90th
+percentile of building-centroid distance from the header centre. FTG has no enclosure, so component 5 is 0 by definition.
+
+| slot | size / water | radial | orthog. | dens. in / mid / out (km/km²) | block CV | encl. | r90 CV | R (m) |
+|---|---|---|---|---|---|---|---|---|
+| 0 | BIG_TOWN / none | 0.6533 | 0.2520 | 30.82 / 15.26 / 8.79 | 1.7881 | 0 | 0.4732 | 557.3 |
+| 1 | BIG_CITY / none | 0.5484 | 0.3014 | 45.85 / 41.06 / 29.06 | 2.0337 | 0 | 0.1443 | 704.3 |
+| 2 | BIG_TOWN / coast+river | 0.4014 | 0.4428 | 35.30 / 18.17 / 12.72 | 1.5023 | 0 | 0.4868 | 583.6 |
+| 3 | BIG_CITY / coast+river | 0.7046 | 0.1387 | 47.42 / 45.33 / 30.95 | 1.5478 | 0 | 0.1774 | 794.0 |
+| 4 | BIG_TOWN / coast+river | 0.2787 | 0.2503 | 26.62 / 21.14 / 11.49 | 1.3759 | 0 | 0.2781 | 607.1 |
+| 5 | BIG_CITY / coast+river | 0.5012 | 0.1523 | 26.00 / 25.92 / 18.14 | 1.9440 | 0 | 0.4744 | 1005.0 |
+| 6 | METROPOLIS / none | 0.5546 | 0.0624 | 45.80 / 42.67 / 26.68 | 1.9856 | 0 | 0.1834 | 1027.9 |
+| 7 | METROPOLIS / coast+river | 0.2703 | 0.1707 | 42.91 / 36.91 / 24.76 | 2.3284 | 0 | 0.2793 | 1114.2 |
+| CITY rec. 0 | CITY / coast+river | 0.5072 | 0.2141 | 36.78 / 27.21 / 9.40 | 1.6685 | 0 | 0.3650 | 715.1 |
+
+**Street turning beside the declared exception (DC-35).** §13.5's target clause is "0.5–1.5 × FTG's" median turning per
+100 m. The table prints that interval around each size's sample median, and the `type7` [p10, p90] band once a size holds
+ten slots. No size has ten yet. The sample range is shown for reference and is not a band.
+
+| FTG size | n | per-slot turn100 | median | declared exception 0.5–1.5 × | sample range | type7 [p10, p90] |
+|---|---|---|---|---|---|---|
+| BIG_TOWN | 3 | 7.516 / 8.456 / 6.463 | 7.516 | 3.758–11.274 | 6.463–8.456 | not formed (n < 10) |
+| BIG_CITY | 3 | 8.522 / 13.728 / 11.911 | 11.911 | 5.955–17.866 | 8.522–13.728 | not formed (n < 10) |
+| METROPOLIS | 2 | 10.853 / 15.961 | 13.407 | 6.704–20.111 | 10.853–15.961 | not formed (n < 10) |
+
+**The outline band's inputs (DC-11)** are the `outline.r90cv` and `outline.roadRatio` rows of the per-slot table:
+
+| size | `outline.r90cv` | `outline.roadRatio` |
+|---|---|---|
+| BIG_TOWN | 0.473 / 0.487 / 0.278 | 1.922 / 1.875 / 1.356 |
+| BIG_CITY | 0.144 / 0.177 / 0.474 | 1.056 / 1.206 / 1.638 |
+| METROPOLIS | 0.183 / 0.279 | 1.167 / 0.845 |
+
+The same values are in the JSON's `outlineBandInputs`. W-15 forms the band by the band rule.
+
+**Server and client times (R-21, R-47 (e)).** `time.model` is FTG's server interval: the PUT sent to the layout GET sent,
+read from each session's network index. It is admissible with no host ratio (R-21):
+
+| size | `time.model` (ms) |
+|---|---|
+| BIG_TOWN | 2 553 / 1 869 / 2 232 |
+| BIG_CITY | 5 656 / 6 298 / 5 976 |
+| METROPOLIS | 11 147 / 15 223 |
+| CITY | 4 267 |
+
+On the client side these captures hold two more times, both measured from the PUT sent. The create click precedes the PUT
+by a client delay that the step log does not record: the click's step is logged about 1.03 s after the PUT, at the end of
+the driver's idle wait.
+- **Layout at the client** is when the interceptor wrote the layout's body file, which it did as the response reached the
+  browser.
+- **First map shot** is when the seat logged its after-create shot. Each capture README describes that shot as the first
+  map frame. The seat's own pace sets this time, so it is only an upper bound.
+
+The **scene-build moment** of §12.9 (6.4–7.0 s after the click) was read from CPU-profile script bursts. These captures
+carry no CPU profile (E02 section 2), so it is **not recoverable**. Every slot is flagged contended, because M0's build seats
+shared the machine (`capture-facts.json`, `serverTimeContended`). A capture cannot be re-taken in an idle window, so
+§13.5's first-map clause at BIG_TOWN and BIG_CITY has no reference value at M-1. R-47 (e) names this as an E19 entry for
+W-20 to list. This table is what M1 has.
+
+| slot | server: PUT → layout GET sent (s) | layout at the client (s) | first map shot (s) | scene build | contended |
+|---|---|---|---|---|---|
+| 0 | 2.553 | 3.129 | 21.384 | not recoverable (no CPU profile) | yes |
+| 1 | 5.656 | 9.849 | 26.465 | not recoverable (no CPU profile) | yes |
+| 2 | 1.869 | 2.852 | 11.134 | not recoverable (no CPU profile) | yes |
+| 3 | 6.298 | 9.955 | 19.944 | not recoverable (no CPU profile) | yes |
+| 4 | 2.232 | 4.430 | 22.263 | not recoverable (no CPU profile) | yes |
+| 5 | 5.976 | 9.429 | 26.142 | not recoverable (no CPU profile) | yes |
+| 6 | 11.147 | 13.626 | 32.149 | not recoverable (no CPU profile) | yes |
+| 7 | 15.223 | 17.429 | 31.432 | not recoverable (no CPU profile) | yes |
+| CITY rec. 0 | 4.267 | — | — | recorded 6.4–7.0 s for the two CITY captures (CPU profile) | not recorded |
+
+### 9.2 The checks of W-05b's row (executed 2026-10-03, CONFIRMED)
+
+| check (the row's checker column) | how | result |
+|---|---|---|
+| each slot's `MeasureInput` equals a fresh run | the stored gzip's sha256 against a fresh adapter write into a temporary folder; the JSON compared; the record's hash against the file's. Run by `--check`, apart from the measuring run | 9 of 9 equal: slots 0–7 `9ea13272…`, `d639cbb1…`, `f7cdc815…`, `15a4010d…`, `952cae11…`, `e7121470…`, `d31a6a69…`, `4d638c8d…`; CITY rec. 0 `e8377e6e…` (W-05's file, the bytes the wave-1 verifier checked) |
+| every value's captures equal the plan's slots | per size, the sample's slots, grouped by each request's own size and water, against `plan.json`'s slots decided at the pass's start, in slot order (the recorded family's usable capture first); the water-row samples against the `coast+river` slots; each request's size and water against the plan's label; each `referenceBuild` against the capture's `capture-facts.json` and E02's JSON (E05's for the recorded capture); every slot up to the pass's last must still read as the pass read it | BIG_TOWN 0, 2, 4; BIG_CITY 1, 3, 5; METROPOLIS 6, 7; CITY rec. 0; TOWN none. Water rows: BIG_TOWN 2, 4; BIG_CITY 3, 5; METROPOLIS 7. 0 problems at the measuring run (`plan.json` `703dd74b…`). The later `--check` against the live plan also passes, with slot 8 (bound since) listed for the next pass |
+| the 2026-09-25 payload is in no sample (R-04) | its capture id and its request hash searched in every sample, water sample, vector and per-slot entry | 0 hits. It appears once, in CITY's `failed` list with reason `setting` |
+| E02's same-size values reproduced from the requests | the size-dependent values read from each capture's own PUT body (the exact bytes in the network index; the 2026-09-21 base from its create session), checked two ways: against E02's latest size table, read from E02 itself (section 17.3, 17 rows, after R-41 added the second stage's spoke cap at slot 6); and every later capture of a size against that size's first capture (the post script's same-size rule) | 17 / 17 on all nine captures against E02's columns (METROPOLIS, BIG_CITY, BIG_TOWN, CITY); every later capture 17 / 17 against the first of its size (slot 7 against slot 6 included); 0 rows missing or unmapped |
+| the checks discriminate (`--red`) | one planted fault per check: a stored hash altered, two BIG_TOWN slots swapped, the 2026-09-25 capture pooled into CITY, one E02 BIG_TOWN value moved | 0 of 4 pass, exit 1, nothing written. One extra planted fault removed the BIG_TOWN column from the table and moved slot 2's request by one; it failed the first-of-size path and named slot 2 |
+| determinism | the measuring run repeated as the tool grew (runs 1–4 on slots 0–5 and the CITY capture), and the pass's snapshot re-run with `--through 7` after slot 8 had bound (run 7); JSON and tables compared | runs 1–4 agree on every value: run 2 equals run 1 byte for byte apart from a per-run "written" flag, now kept out of the record; runs 3 and 4 differ only in the checks block and the added water note. Run 5 (the record, `90349d49…`) equals run 4 on those seven captures after the metric split. Run 7 equals the record in every key but the live plan's hash and check 2's receipt (which lists the slots bound since), slots 6–7 included. The value tables are identical in runs 5 and 7 |
+| the plan | `plan.py --check` at the start and the end | SAME, SAME (`metrics.m-1.json` `8a0efa7e…`). `plan.json` moved only with the slot seats' binds; this lane wrote neither file |
+
+### 9.3 What slots 0–7 show (CONFIRMED by the values above; for W-15 and the next design pass, no ruling here)
+
+1. **FTG draws its water outlines at 50 m or at about 15 m; the pooled `water.step` partly measures its own drop rule.**
+   - On the five `coast+river` slots the pooled step is 70.17, 50.33, 50.66 and 16.25 m (BIG_TOWN and BIG_CITY) and
+     16.15 m (METROPOLIS).
+   - Per water body (the table below, and the JSON's `waterOutlines`, a note beside the metric), the raw vertex spacing
+     is 50.0 m on every river.
+   - It is also 50.0 m on the coasts of slots 2–4 and the CITY capture. The coasts of slots 5 and 7 (294 and 510
+     vertices) are drawn at 16.2 and 14.9 m, as the 2026-09-25 payload's coast was (DC-10).
+   - W05-D8's one pass drops every vertex turning less than 1°. A coast drawn as straight 50 m pieces keeps only its 4
+     corner vertices, and a river keeps 24–86 % of its vertices. So the pooled median mixes the drawing step with the
+     lengths of merged straight runs. For example, slot 2's 70.17 m is the median of 31 spacings: 23 on the river (which
+     keeps 23 of its 96 vertices) and 8 long ones from the lake and the coast.
+
+   §13.5's band column "outline step ≤ 25 m" is ours and stays a fixed bound (R-48); only FTG's reference value is in
+   question. Whether `water.step` keeps W05-D8's drop or reads the raw vertex spacing is a definition call for a ruling
+   seat, to be made before W-15 sharpens the reference value. The plan reserves definition calls for a ruling seat, as
+   R-49 did. The call is routed there with these numbers and changes no landed value. River widths are 31.49–49.95 m.
+
+   | slot | water.step pooled (m) | per body: class, vertices, raw step (m), vertices kept after the 1° drop, step after the drop (m) |
+   |---|---|---|
+   | 1 | 8.88 | lake 26, 9.3, 26, 9.3; lake 24, 11.2, 24, 11.2; lake 25, 5.9, 25, 5.9 |
+   | 2 | 70.17 | lake 8, 50.0, 4, 157.9; river 96, 50.0, 23, 50.5; sea 93, 50.0, 4, 3 259 |
+   | 3 | 50.33 | lake 6, 49.4, 4, 98.9; river 120, 50.0, 53, 50.3; river 128, 50.0, 48, 50.3; sea 131, 50.0, 4, 4 533 |
+   | 4 | 50.66 | lake 7, 74.0, 6, 74.0; river 98, 50.0, 56, 50.6; river 88, 50.0, 64, 50.5; sea 108, 50.0, 4, 3 698 |
+   | 5 | 16.25 | lake 19, 13.1, 18, 13.1; river 146, 50.0, 62, 50.4; sea 294, 16.2, 224, 15.4 |
+   | 6 | 12.26 | lake 13, 12.3, 13, 12.3 |
+   | 7 | 16.15 | lake 17, 13.2, 14, 13.5; lake 24, 10.1, 24, 10.1; lake 13, 10.2, 13, 10.2; lake 19, 8.8, 19, 8.8; lake 30, 9.4, 30, 9.4; river 139, 49.9, 120, 50.3; river 124, 50.0, 107, 50.4; sea 510, 14.9, 501, 15.1 |
+   | CITY rec. 0 | 50.37 | lake 8, 50.0, 4, 142.2; river 101, 50.0, 69, 50.3; river 132, 50.0, 95, 50.4; sea 128, 50.0, 4, 4 438 |
+
+2. **The turning sample lies inside the declared exception at every size** (n = 3, 3, 2): BIG_TOWN 6.46–8.46 inside
+   3.76–11.27, BIG_CITY 8.52–13.73 inside 5.96–17.87, METROPOLIS 10.85–15.96 inside 6.70–20.11. R-34 lists "the
+   ten-payload `type7` band inside the exception" as PLAUSIBLE, and it stays PLAUSIBLE until n = 10.
+3. **The `none` and `coast+river` slots differ in the junction rows.**
+   - The 4-way share among ways is 0.172 / 0.151 / 0.182 on the three `none` slots. It is 0.275–0.319 on the four
+     BIG_TOWN and BIG_CITY `coast+river` slots, 0.222 on the METROPOLIS one and 0.279 on the CITY capture.
+   - The junction median is 93.5 / 93.2 / 92.8° on the `none` slots, against 90.15–92.14° on the others.
+
+   There is one `none` slot per size, so this is a note for D16's per-water-setting companion and no finding.
+4. **A no-coast settlement still has small lakes:** three on slot 1, one on slot 6 (E02 sections 10.3 and 17.3). Their
+   outlines give an 8.88 and a 12.26 m step and no river. These slots stay out of the water sample by R-33's rule.
+5. **METROPOLIS has about twice BIG_CITY's buildings:**
+   - 14 748 and 14 617 buildings, against 7 164–7 342;
+   - 93 and 74 towers;
+   - R of 1 028 and 1 114 m, against 704–1 005 m;
+   - server intervals of 11.1 and 15.2 s, against 5.7–6.3 s.
+
+   Its footprints are no larger than BIG_CITY's: median 90.8 / 90.5 m² against 92.9–100.5 m², and quad side
+   9.81 / 9.90 m against 9.71–10.38 m.
+6. **The weakness and descriptive rows keep their recorded shape.**
+   - `bldg.partyShare` is 0 on every slot: FTG keeps footprints about 1.5 m apart.
+   - `bldg.attached` is 0.087–0.296.
+   - `gate.count` is 0 on every payload, which has no gate object.
+   - Arterial crossings of the curtain at no gate are 1–7 per payload, against ours 0.
+   - The tree nearest-neighbour median is 9.11–11.12 m.
+   - Persons per building, at the nominal population, are 2.98–3.42.
+7. **The size-dependent request values follow the size exactly** (check 4). The draws of each size share all 17 values,
+   and their settlements still differ (E02 sections 14.3 and 15.3). W-05b therefore reads each size's slots as
+   independent draws of the same settings, as R-33's water mix assumes.
+
+### 9.4 Calls made under the delegation (each vetoable; none changes a design cell or a ruling)
+
+| id | decision | why; effect |
+|---|---|---|
+| W05b-D1 | the client times are the interceptor's body-file write time and the after-create shot's logged time, both from the PUT sent; the scene-build moment is recorded as not recoverable | these are the only client-side clocks the captures hold. R-47 (e) asks for "what exists", and a proxy named as the scene time would mislead M1 |
+| W05b-D2 | samples group the measured captures by each request's own size and water, in slot order, with the recorded family's usable capture first in its family order | check 2 then tests the plan against the payloads, instead of copying the plan's list |
+| W05b-D3 | an existing `MeasureInput` file is never overwritten; it must equal the fresh run | W-05's recorded CITY file stays the bytes the wave-1 verifier checked |
+| W05b-D4 | the per-slot values go to a new `E05-ftg-metrics.slots.json`, the way E10 and E11 keep their plan-seed values beside the fixture JSON; W-05's `E05-ftg-metrics.json` is not regenerated | the fixture file stays the verified twin (`243bca8e…`) |
+| W05b-D5 | each sample carries one scalar per metric (for example the share above 15° for `street.stepHist`; the median, the p5 and the 80–100° share for `junction.angles`; the four class medians for `street.runs`) and `tree.pcf` as its 20-value vector; the full per-slot values stay in the JSON | W-15 needs one number per slot per row and can still reach every value |
+| W05b-D6 | each sample is labelled with the estimator V12 §3.5.1 gives at its n and with R-34's bucket, as information only | W-15 forms the rows and may read the labels otherwise |
+| W05b-D7 | check 4 reads E02's latest size table (header-detected, its size columns read from the header) and also applies the post script's same-size rule (each capture against its size's first) | each first-of-size capture adds a column and, as slot 6 did, possibly a row (R-41). The tool reads that table without a code change. A row it cannot map to a request leaf fails the check. A size with no column yet (TOWN, slots 26–27) binds from its second capture |
+| W05b-D8 | a per-body water-outline note (raw vertex step, vertices kept after the 1° drop, the body's own step) sits beside `water.step` in the JSON and in 9.3 (1); the metric itself is unchanged | the ruling seat can see what the pooled step mixes, without a landed metric being redefined here |
+| W05b-D9 | a pass covers the slots decided when it begins; a slot decided later goes to the next pass and is listed by check 2 (`--through K` re-runs a pass's snapshot) | the recording seats bind slots while a pass runs. Slots bind in slot order, so the snapshot is a prefix of the plan, and every slot inside it is re-checked against the live plan |
+| W05b-D10 | `measure_ftg.py`'s metric half is split out as `metrics(mi)` and called alone on the slots; the twin is not run on slots | the twin re-types fixture-era scripts on the raw payload and stops on slot 6's degenerate footprint, while the metrics read the cleaned `MeasureInput`. The split moved no line of logic (W-05's JSON is byte-identical); the alternative, patching the twin, would change a twin's faithfulness to its source |
+
+### 9.5 CONFIRMED versus PLAUSIBLE (this pass)
+
+**CONFIRMED (executed or read):**
+- every number in 9.1–9.3, the per-body water note included;
+- the four row checks, the red test and the extra first-of-size red test;
+- the determinism comparisons;
+- the adapter's unchanged hash, and W-05's `--check` with its byte-identical JSON after the split;
+- `plan.py --check` SAME;
+- each after-create shot's description in its capture README.
+
+**PLAUSIBLE (reasoning only):**
+- that the interceptor's body-file write time marks the layout's arrival at the page to within a few milliseconds;
+- that the create click precedes the PUT by milliseconds;
+- that the roadlength100 README's 6.4 s and 7.0 s belong to the 2026-09-25 and 2026-09-21 captures in that order (its
+  sentence pairs them with the server times "this time and on 2026-09-21");
+- that the ten-slot `type7` turning band will lie inside the declared exception.
+
+**Not touched by this pass:** `plat/`, the design, `plan.py`, `plan.json`, `metrics.m-1.json`, E02, the checklist, the
+adapter and W-05's fixture JSON. No website was contacted, no capture bundle was read, and no git command changed state.
+
 ## 10 CONFIRMED versus PLAUSIBLE
 
 CONFIRMED (executed or read):

@@ -413,3 +413,127 @@ and I1–I11 with one create; the root scroll read 0 → 0 across the landing. T
 - **The METROPOLIS form is slot 1's form** but for the size option: forests (1008, 556) before the scroll, the reserve
   area (1008, 367) and walled (1008, 396) after `wheel 720 400 300`, "Create Settlement" 1 of 1 at (947, 522) inside the
   dialog. The premium size raised no prompt. The PUT answered in about 11 s and the payload was 2.1 MB.
+
+Slot 7 (2026-10-04, lane `m1/W-02-slot7b`, `captures/ftg/2026-10-04T03-13-14`, E02 section 18) followed H1–H14 and I1–I11
+without change: the root scroll read 0 → 0 across the landing; the account list held 7 rows before (big town 3, big
+city 3, metropolis 1) and 8 after; the size option was read by its React key as the slot-6 note says (1 of 12 ends in
+`METROPOLIS`); the coast select ("Coastal", select 7) moved no box; rivers (1008, 498) and forests (1008, 556) before
+the scroll, the reserve area (1008, 367) and walled (1008, 396) after it; "Create Settlement" 1 of 1 at (947, 522)
+inside the dialog. The post script passed 10 of 10 on its first run with the 17 same-size values equal to slot 6's, so
+`SIZE_DEPENDENT` was not touched.
+
+Slot 8 (2026-10-04, lane `m1/W-02-slot8b`, `captures/ftg/2026-10-04T03-26-16`, E02 section 19) followed H1–H14 and I1–I11
+without change: the root scroll read 0 → 0 across the landing; the account list held 8 rows before (big town 3, big
+city 3, metropolis 2) and 9 after; 1 of 12 size options ends in `METROPOLIS`; the 13 form, map and navigation commands
+equal slot 7's in order and coordinates ("Create Settlement" 1 of 1 at (947, 522) inside the dialog). The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 6's; the request equals slot 7's apart from
+the 45 partner ids. The map toolbar's re-roll control was already gone in the overview shot, before any zoom (never
+clicked).
+
+Slot 9 (2026-10-04, lane `m1/W-02-slot9b`, `captures/ftg/2026-10-04T03-40-45`, E02 section 20) followed H1–H14 and I1–I11
+without change: the root scroll read 0 → 0 across the landing; the account list held 9 rows before (big town 3, big
+city 3, metropolis 3) and 10 after; 1 of 12 size options ends in `METROPOLIS`; the 13 form, map and navigation commands
+equal slots 7 and 8's in order and coordinates ("Create Settlement" 1 of 1 at (947, 522) inside the dialog). The post
+script passed 10 of 10 on its first run with the 17 same-size values equal to slot 6's; the request equals slots 7 and
+8's apart from the 45 partner ids. The re-roll control showed in the overview shots and was gone after the zooms (never
+clicked). The METROPOLIS slots 6–9 are done; slot 10 onward never chooses the metropolis option (I3). The account now
+holds 10 settlements, the free tier's stated limit: the premium account showed no counter and no prompt, and any limit
+or upgrade prompt on a later slot is I5's site refusal (STOP, the slot stays open).
+
+Slot 10 (2026-10-04, lane `m1/W-02-slot10b`, `captures/ftg/2026-10-04T03-53-59`, E02 section 21) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 10 rows before (big town 3,
+big city 3, metropolis 4) and 11 after, the eleventh past the free tier's limit with no prompt; 1 of 12 size options ends
+in `BIG_TOWN` ("Big town (~6000 people)"), read by its React key as the slot-6 note says. For a `none` slot the coast
+select already reads "No coast" and the rivers box is already off, so neither is touched: the 11 form, map and
+navigation commands equal slots 1 and 6's in order and coordinates apart from the size text (forests (1008, 556) before
+the scroll, the reserve area (1008, 367) and walled (1008, 396) after it, "Create Settlement" 1 of 1 at (947, 522)
+inside the dialog). The post script passed 10 of 10 on its first run with the 17 same-size values equal to slot 0's; the
+request equals slot 0's (the guest capture) apart from the 45 partner ids. The overview `--full` shot drew the scale bar
+without its label; the window shot just before it reads 500 m.
+
+Slot 11 (2026-10-04, lane `m1/W-02-slot11b`, `captures/ftg/2026-10-04T04-07-26`, E02 section 22) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 11 rows before (big town 4,
+big city 3, metropolis 4) and 12 after; 1 of 12 size options ends in `BIG_CITY` ("Big city (~25000 people)"), read by
+its React key. The 11 form, map and navigation commands equal slot 1's (the same cell) in order, coordinates and size
+text; coast and rivers were already at the slot's values and not touched. The post script passed 10 of 10 on its first
+run with the 17 same-size values equal to slot 1's; the request equals slot 1's apart from the 45 partner ids. The hover
+reading just before the create click names the walled box, the driver's own last click point: that is not another hand.
+
+Slot 12 (2026-10-04, lane `m1/W-02-slot12b`, `captures/ftg/2026-10-04T04-20-04`, E02 section 23) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 12 rows before (big town 4,
+big city 4, metropolis 4) and 13 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 13 form, map
+and navigation commands equal slots 2 and 4's (the same cell) in order, coordinates and size text: the coast select
+("Coastal", select 7) moved no box; rivers (1008, 498) and forests (1008, 556) before the scroll, the reserve area
+(1008, 367) and walled (1008, 396) after it; "Create Settlement" 1 of 1 at (947, 522) inside the dialog. The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 0's; the request equals slots 2 and 4's
+apart from the 45 partner ids. **The town came out with no wall** (no wall edge, no tower field) although the walled box
+was on and the request's wall settings equal slots 2 and 4's: a per-draw outcome, not a capture fault. A later seat
+that sees the same binds the slot as usual and records it (E02 23.3 finding 2, 23.4 call 2); the wall is not one of the
+10 checks.
+
+Slot 13 (2026-10-04, lane `m1/W-02-slot13b`, `captures/ftg/2026-10-04T04-35-38`, E02 section 24) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 13 rows before (big town 5,
+big city 4, metropolis 4) and 14 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 13 form, map
+and navigation commands equal slots 3 and 5's (the same cell) in order, coordinates and size text. The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 1's; the request equals slots 3 and 5's
+apart from the 45 partner ids; the wall is present again (58 wall edges, 37 towers). Two things for later seats:
+- **A browser helper can outlive `drive.mjs stop`.** After "session closed", one Chrome network-service helper of this
+  run stayed alive with no parent for about seven minutes, so `pgrep -fl profiles/ftg` was not empty. Check that it is
+  your own run's (its `--user-data-dir` is your runner's `profiler/.profiles/ftg` link, and its start time, by
+  `ps -o lstart`, is your session's start), then end it with a plain `kill -TERM <pid>`. Never end a process whose
+  user-data directory or start time is not your run's.
+- **The site may renew its sign-in in the background.** As the landing loads, the site's own sign-in library may call
+  its identity provider once to renew the session tokens (slots 8 and 13; answered 200). That is not a sign-in prompt
+  and needs no action; a sign-in page or prompt on screen is still I5's STOP.
+
+Slot 14 (2026-10-04, lane `m1/W-02-slot14b`, `captures/ftg/2026-10-04T04-53-21`, E02 section 25) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 14 rows before (big town 5,
+big city 5, metropolis 4) and 15 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 11 form, map
+and navigation commands equal slot 10's (the same cell) in order, coordinates and size text; coast and rivers were
+already at the slot's values and not touched. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 0's; the request equals slots 0 and 10's apart from the 45 partner ids. The town has two small ponds
+(field 6 × 2) under the `none` option, where slots 0 and 10 had none: a per-draw outcome like slot 12's missing wall, not
+a capture fault (E02 25.3 finding 3). The orphaned network helper of slot 13's note appeared again; it was checked as
+this run's own and ended by `kill -TERM` about three minutes after the stop.
+
+Slot 15 (2026-10-04, lane `m1/W-02-slot15b`, `captures/ftg/2026-10-04T05-07-56`, E02 section 26) followed H1–H14 and
+I1–I11 in its clicks: the root scroll read 0 → 0 across the landing; the account list held 15 rows before (big town 6,
+big city 5, metropolis 4) and 16 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 11 form, map
+and navigation commands equal slots 1 and 11's (the same cell) in order, coordinates and size text; coast and rivers were
+already at the slot's values and not touched. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 1's; the request equals slots 1 and 11's apart from the 45 partner ids. The seat took no separate
+`pre-create` shot (H6): the form-final shot was its last shot before the click, followed only by readings. Take the
+`pre-create` shot after the hit test, as slots 1–14 did (E02 26.4 call 2). The orphaned network helper of slot 13's note
+appeared for the third run in a row and was ended by `kill -TERM` as that note says.
+
+Slot 16 (2026-10-04, lane `m1/W-02-slot16b`, `captures/ftg/2026-10-04T05-24-24`, E02 section 27) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 16 rows before (big town 6,
+big city 6, metropolis 4) and 17 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 13 form, map
+and navigation commands equal slots 2, 4 and 12's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test (slot 15's note). The post script passed 10 of 10 on its first run with
+the 17 same-size values equal to slot 0's; the request equals slots 2, 4 and 12's apart from the 45 partner ids. The
+wall is present but short (29 wall edges, 16 towers, round one harbour quarter): a per-draw outcome like slot 12's
+missing wall, bound as usual (E02 27.3 finding 2). The orphaned network helper of slot 13's note appeared for the fourth
+run in a row and was ended by `kill -TERM` as that note says.
+
+Slot 17 (2026-10-04, lane `m1/W-02-slot17b`, `captures/ftg/2026-10-04T05-40-57`, E02 section 28) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 17 rows before (big town 7,
+big city 6, metropolis 4) and 18 after; 1 of 12 size options ends in `BIG_CITY`, read by its React key. The 13 form, map
+and navigation commands equal slots 3, 5 and 13's (the same cell) in order, coordinates and size text, and the
+`pre-create` shot was taken after the hit test. The post script passed 10 of 10 on its first run with the 17 same-size
+values equal to slot 1's; the request equals slots 3, 5 and 13's apart from the 45 partner ids. The wall is the shortest
+at BIG_CITY (40 wall edges, 25 towers), one line closing the harbour quarter on its land side: a per-draw outcome like
+slot 16's, bound as usual (E02 28.3 finding 2). The leftover helper of slot 13's note appeared for the fifth run in a
+row, but exited by itself within about a minute of the stop, before any signal: wait a minute and re-check
+`pgrep -fl profiles/ftg` before ending it.
+
+Slot 18 (2026-10-04, lane `m1/W-02-slot18b`, `captures/ftg/2026-10-04T06-00-29`, E02 section 29) followed H1–H14 and
+I1–I11 without change: the root scroll read 0 → 0 across the landing; the account list held 18 rows before (big town 7,
+big city 7, metropolis 4) and 19 after; 1 of 12 size options ends in `BIG_TOWN`, read by its React key. The 11 form, map
+and navigation commands equal slots 10 and 14's (the same cell) in order, coordinates and size text; coast and rivers
+were already at the slot's values and not touched; the `pre-create` shot was taken after the hit test. The post script
+passed 10 of 10 on its first run with the 17 same-size values equal to slot 0's; the request equals slots 0, 10 and 14's
+apart from the 45 partner ids. The town has four small ponds under the `none` option (slot 14 had two): a per-draw
+outcome, bound as usual (E02 29.3 finding 3). No browser helper outlived the stop this time (`pgrep -fl profiles/ftg`
+empty at once and four minutes later), so nothing was signalled; the slot-13 and slot-17 notes stand for runs where one
+does.

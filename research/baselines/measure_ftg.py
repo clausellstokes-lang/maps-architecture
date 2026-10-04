@@ -1234,6 +1234,43 @@ def m_signature(mi, outline_cv):
 
 
 # ---------------------------------------------------------------- per capture
+def metrics(mi):
+    """every FTG metric of the row on one MeasureInput (V12 section 3.4.2) and the R-10 signature vector; measure()
+    adds the twin, which is tied to the two CITY fixtures (W-05b calls this alone on the plan slots)"""
+    met = {}
+    met.update(m_turning(mi))
+    met.update(m_junctions(mi))
+    met.update(m_runs(mi))
+    met.update(m_buildings(mi))
+    rings = [ring_open(f['geometry']['coordinates'][0]) for f in feats(mi, 'district')]
+    party, _ = m_party(mi, cats=mi['research']['buildingCategory'], rings=rings)
+    met.update(party)
+    met.update(m_walls(mi))
+    met.update(m_water(mi))
+    met.update(m_trees(mi))
+    nb = len(feats(mi, 'building'))
+    met['pop.perBuilding'] = {'value': r3(mi['header']['population'] / nb, 4), 'population': mi['header']['population'],
+                              'populationSource': mi['research']['populationSource'], 'buildings': nb, 'unit': 'ratio'}
+    st = mi['research']['serverTimeS']
+    met['time.model'] = {'value': round(st['putToLayoutGet'] * 1000) if st['putToLayoutGet'] is not None else None, 'unit': 'ms',
+                         'definition': 'PUT sent to layout GET sent (index.jsonl ts), as W-02 records it; the server is remote, so no score ratio applies',
+                         'putToLayoutOptionsMs': round(st['putToLayoutOptions'] * 1000) if st['putToLayoutOptions'] is not None else None}
+    o, r90 = m_outline(mi)
+    met.update(o)
+    w = mi['research']['lifestyleWeights']
+    tw = sum(w)
+    pairs = collections.Counter(mi['research']['buildingTierPair'])
+    nres = sum(v for k, v in pairs.items() if k != 0)
+    for i, x in enumerate(w):
+        met['wealth.tier%d' % (i + 1)] = {'value': r3(x / tw, 4), 'unit': 'share', 'source': 'request weight (input)'}
+    met['wealth.outputTierPairs'] = {'residences': nres, 'unmapped': pairs.get(-1, 0),
+                                     'shares': [r3(pairs.get(k, 0) / nres, 4) for k in (1, 2, 3)],
+                                     'requestPairShares': [r3((w[0] + w[1]) / tw, 4), r3((w[2] + w[3]) / tw, 4), r3((w[4] + w[5]) / tw, 4)],
+                                     'note': 'residence buildings per tier pair 1-2 / 3-4 / 5-6 (a building count, not households)'}
+    met['variety.signature'] = m_signature(mi, met['outline.r90cv']['value'])
+    return met
+
+
 def measure(stamp):
     mi_mem, D, prov = A.adapt(stamp)
     path = A.out_path(mi_mem, stamp)
@@ -1271,38 +1308,7 @@ def measure(stamp):
     res['twin']['water'] = wrows
     res['twin']['trees'] = tnn
     res['twin']['partyCensus'] = twin_party_census(D)
-    met = {}
-    met.update(m_turning(mi))
-    met.update(m_junctions(mi))
-    met.update(m_runs(mi))
-    met.update(m_buildings(mi))
-    rings = [ring_open(f['geometry']['coordinates'][0]) for f in feats(mi, 'district')]
-    party, _ = m_party(mi, cats=mi['research']['buildingCategory'], rings=rings)
-    met.update(party)
-    met.update(m_walls(mi))
-    met.update(m_water(mi))
-    met.update(m_trees(mi))
-    nb = len(feats(mi, 'building'))
-    met['pop.perBuilding'] = {'value': r3(mi['header']['population'] / nb, 4), 'population': mi['header']['population'],
-                              'populationSource': mi['research']['populationSource'], 'buildings': nb, 'unit': 'ratio'}
-    st = mi['research']['serverTimeS']
-    met['time.model'] = {'value': round(st['putToLayoutGet'] * 1000) if st['putToLayoutGet'] is not None else None, 'unit': 'ms',
-                         'definition': 'PUT sent to layout GET sent (index.jsonl ts), as W-02 records it; the server is remote, so no score ratio applies',
-                         'putToLayoutOptionsMs': round(st['putToLayoutOptions'] * 1000) if st['putToLayoutOptions'] is not None else None}
-    o, r90 = m_outline(mi)
-    met.update(o)
-    w = mi['research']['lifestyleWeights']
-    tw = sum(w)
-    pairs = collections.Counter(mi['research']['buildingTierPair'])
-    nres = sum(v for k, v in pairs.items() if k != 0)
-    for i, x in enumerate(w):
-        met['wealth.tier%d' % (i + 1)] = {'value': r3(x / tw, 4), 'unit': 'share', 'source': 'request weight (input)'}
-    met['wealth.outputTierPairs'] = {'residences': nres, 'unmapped': pairs.get(-1, 0),
-                                     'shares': [r3(pairs.get(k, 0) / nres, 4) for k in (1, 2, 3)],
-                                     'requestPairShares': [r3((w[0] + w[1]) / tw, 4), r3((w[2] + w[3]) / tw, 4), r3((w[4] + w[5]) / tw, 4)],
-                                     'note': 'residence buildings per tier pair 1-2 / 3-4 / 5-6 (a building count, not households)'}
-    met['variety.signature'] = m_signature(mi, met['outline.r90cv']['value'])
-    res['metrics'] = met
+    res['metrics'] = metrics(mi)
     return res
 
 

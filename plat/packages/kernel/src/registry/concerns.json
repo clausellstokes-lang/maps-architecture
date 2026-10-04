@@ -1,0 +1,1200 @@
+{
+  "$comment": "The concern registry of §6.1 (G-P6) — versioned data inside @plat/kernel (C-0005), append-only: each row keeps the u16 id it was appended with; ids are never renumbered or reused; a new concern is a reviewed change appended at the end (C-0020). Rows in §6.1's table order, one per concern; `row` is the table row it shares; `cap` the attempt cap as the table writes it (\"default\" or a number; null for a retired id); `keyedBy` the table cell verbatim, the one statement of how its draws are keyed; `readers` the reader stages or programs the cell names; `reservedUntil` the milestone whose item lands the first reader (no field: read at M0). ConcernId constants are generated from this file into ids.ts (test/rng/gen-registry.ts). Item M0-d-01.",
+  "registry": "concerns",
+  "version": 1,
+  "rows": [
+    {
+      "id": 0,
+      "name": "terrain.noise",
+      "row": 1,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's terrain (§4.2 S1)"
+    },
+    {
+      "id": 1,
+      "name": "terrain.controls",
+      "row": 1,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's terrain (§4.2 S1)"
+    },
+    {
+      "id": 2,
+      "name": "water.coast",
+      "row": 2,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's water (§4.2 S1)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 3,
+      "name": "water.river",
+      "row": 2,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's water (§4.2 S1)"
+    },
+    {
+      "id": 4,
+      "name": "water.islands",
+      "row": 2,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's water (§4.2 S1)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 5,
+      "name": "water.delta",
+      "row": 2,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S1's water (§4.2 S1)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 6,
+      "name": "site.centre",
+      "row": 3,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "the town root's key: S3's siting (§4.2 S3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 7,
+      "name": "blueprint.features",
+      "row": 4,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S0",
+        "S1"
+      ],
+      "keyedBy": "the town root's key: S0's per-rung feature draws (§4.2 S0); then, appended after them in this order, the geology flag's uniform (§4.2 S1 (10), item 65; J-A65.49) and the relief toggle's `auto` pick (§4.2 S0; S1 (1) reads the class), each drawn whether its toggle is `auto` or set (a set toggle ignores its draw), so setting either moves no other draw; the sewer layer's existence draw (II.7.1)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 8,
+      "name": "intent.surprise",
+      "row": 5,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "Surprise me (§7.7 layer 1)"
+      ],
+      "keyedBy": "a fresh seed's town root: Surprise me's intent draw (§7.7 layer 1)",
+      "reservedUntil": "M3b"
+    },
+    {
+      "id": 9,
+      "name": "gate.pick",
+      "row": 6,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "S3's gate picks (§4.2 S3 (7)); a trade partner's bearing where the blueprint gives none (§7.7 layer 2, item 77; no host input gives one, item 125 (b)), the partner's binding key hashed as the derivation unit, so the bearing never moves when unrelated facts change"
+    },
+    {
+      "id": 10,
+      "name": "reserve.plaza",
+      "row": 7,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "S3's reservations (§4.2 S3)"
+    },
+    {
+      "id": 11,
+      "name": "reserve.castle",
+      "row": 7,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "S3's reservations (§4.2 S3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 12,
+      "name": "reserve.precinct",
+      "row": 7,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "S3's reservations (§4.2 S3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 13,
+      "name": "reserve.water",
+      "row": 7,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "S3's reservations (§4.2 S3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 14,
+      "name": "roster",
+      "row": 8,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S2"
+      ],
+      "keyedBy": "S2's roster, with the ordinal-keyed `roster/<class>/<ordinal>` draws (§10.2)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 15,
+      "name": "route",
+      "row": 9,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S4"
+      ],
+      "keyedBy": "S4's router (§4.3)"
+    },
+    {
+      "id": 16,
+      "name": "growth.heading",
+      "row": 10,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S5"
+      ],
+      "keyedBy": "S5's growth (§4.4)"
+    },
+    {
+      "id": 17,
+      "name": "growth.branch",
+      "row": 10,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S5"
+      ],
+      "keyedBy": "S5's growth (§4.4)"
+    },
+    {
+      "id": 18,
+      "name": "growth.mainroad",
+      "row": 10,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S5"
+      ],
+      "keyedBy": "S5's growth (§4.4)"
+    },
+    {
+      "id": 19,
+      "name": "growth.curvature",
+      "row": 10,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S5"
+      ],
+      "keyedBy": "S5's growth (§4.4)"
+    },
+    {
+      "id": 20,
+      "name": "district.seed",
+      "row": 11,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S6"
+      ],
+      "keyedBy": "S6's seeds (§4.5); each grower's turn skips and its absorbed neighbour (item 47), keyed by the grower's seed lineage (its feature's; a remainder seed's first face) with the turn number as the creation index, so §7.3's S6 operator re-grows a scoped regroup exactly"
+    },
+    {
+      "id": 21,
+      "name": "district.type",
+      "row": 12,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S6"
+      ],
+      "keyedBy": "S6's typing (§4.5)"
+    },
+    {
+      "id": 22,
+      "name": "alloc.district",
+      "row": 13,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S7b"
+      ],
+      "keyedBy": "S7b's allocation (§4.5 S7b), including its edge-green-or-orchard choice per district and dispersal's controlled random share (item 72)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 23,
+      "name": "alloc.block",
+      "row": 14,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10a"
+      ],
+      "keyedBy": "S10a's block allocation (§4.7); item 105 (f)'s relaxation pass (≤ 2)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 24,
+      "name": "field.chance",
+      "row": 15,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S6"
+      ],
+      "keyedBy": "the prosperity field's ε (§4.5)"
+    },
+    {
+      "id": 25,
+      "name": "cut.t",
+      "row": 16,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S8"
+      ],
+      "keyedBy": "the bent cut (§4.6, items 34–40): twice per attempt — step 2's position bell and step 4's corner bell, three uniforms each; step 8's turned frames on the `attempt` component (item 39)"
+    },
+    {
+      "id": 26,
+      "name": "cut.side",
+      "row": 17,
+      "cap": null,
+      "rerollable": false,
+      "retired": true,
+      "readers": [],
+      "keyedBy": "retired: the start run is a deterministic rule (§4.6 step 3); the id reserved, no reader, never reused (J-A41.61)"
+    },
+    {
+      "id": 27,
+      "name": "cut.arc",
+      "row": 18,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S8"
+      ],
+      "keyedBy": "one uniform per corner §4.6 step 5 keeps on a lane or street cut — the fillet predictor's one test (step 6); stage 2's ring courses (II.2, item 58 (a): the district's one shared phase, each vertex's jitter, each ring's spacing factor), keyed by the district with the ring's ordinal as the creation index"
+    },
+    {
+      "id": 28,
+      "name": "cut.width",
+      "row": 19,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S8"
+      ],
+      "keyedBy": "one uniform u per district, the exponent `p` = `4^u` ÷ 2 through `dmath.pow` (§4.6)"
+    },
+    {
+      "id": 29,
+      "name": "cut.farSideAlt",
+      "row": 20,
+      "cap": null,
+      "rerollable": false,
+      "retired": true,
+      "readers": [],
+      "keyedBy": "retired: the far side is a deterministic rule (§4.6 step 5); the id reserved, no reader, never reused (J-A41.61)"
+    },
+    {
+      "id": 30,
+      "name": "plot.width",
+      "row": 21,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10"
+      ],
+      "keyedBy": "S10's plots (§4.7 S10); a plot fusion or splitting (item 31), keyed from the due block's lineage, the members' buildings keeping their streams because their lineage continues (§6.3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 31,
+      "name": "plot.vacancy",
+      "row": 21,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10"
+      ],
+      "keyedBy": "S10's plots (§4.7 S10); a plot fusion or splitting (item 31), keyed from the due block's lineage, the members' buildings keeping their streams because their lineage continues (§6.3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 32,
+      "name": "plot.bounds",
+      "row": 21,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10"
+      ],
+      "keyedBy": "S10's plots (§4.7 S10); a plot fusion or splitting (item 31), keyed from the due block's lineage, the members' buildings keeping their streams because their lineage continues (§6.3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 33,
+      "name": "plot.join",
+      "row": 22,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10",
+        "S11"
+      ],
+      "keyedBy": "S10's joins (§4.7 S10); the cluster row's `wholeBlock` pick (§4.7 S11, item 70), keyed by the block; the fractional join bonus of §7.7 layer 1",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 34,
+      "name": "siting",
+      "row": 23,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S10b"
+      ],
+      "keyedBy": "S10b (§4.7): a concealed institution's default mode and its cover (item 63), keyed by the institution's lineage; a residential plot's building class from the class mix (item 71), keyed by the plot and its request; a post-build placement — an `assign`, a dossier event, a positive placement or a relocation (§7.7) — with the causing event's `seq` as its creation index (§6.3); the members of a collective dossier record a status reaches (§7.7 item 14, item 80), keyed by the record's assignment with the dossier event's `seq` as its creation index",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 35,
+      "name": "siteplan",
+      "row": 24,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "S11 (§4.7): a plot's front recession (item 43) and a cluster's packing (item 70), keyed by the plot",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 36,
+      "name": "siteplan.template",
+      "row": 25,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "S11's template choice (§4.7)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 37,
+      "name": "heights",
+      "row": 26,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "S11 (§4.7, §2.6)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 38,
+      "name": "material",
+      "row": 26,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "S11 (§4.7, §2.6)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 39,
+      "name": "greenery",
+      "row": 27,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a",
+        "S12b"
+      ],
+      "keyedBy": "S12 (§4.9)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 40,
+      "name": "fields",
+      "row": 27,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a",
+        "S12b"
+      ],
+      "keyedBy": "S12 (§4.9)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 41,
+      "name": "crop",
+      "row": 27,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a",
+        "S12b"
+      ],
+      "keyedBy": "S12 (§4.9)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 42,
+      "name": "forest",
+      "row": 27,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a",
+        "S12b"
+      ],
+      "keyedBy": "S12 (§4.9)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 43,
+      "name": "hinterland.outside",
+      "row": 28,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a"
+      ],
+      "keyedBy": "S12a (§4.9); a listed deposit's bearing, which no input gives (DR19; item 88, staged; item 125 (b)), its binding key hashed as the derivation unit",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 44,
+      "name": "hinterland.decor",
+      "row": 29,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S12a"
+      ],
+      "keyedBy": "S12a's decoration (§4.9)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 45,
+      "name": "pin.centrepiece",
+      "row": 30,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "pins (§4.7, II.3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 46,
+      "name": "pin.stall",
+      "row": 30,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "pins (§4.7, II.3)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 47,
+      "name": "pin.decor",
+      "row": 31,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "pins (§4.7); the neighbourhood tier's pin picks with their weight decay (II.3, item 58 (c)), keyed by the block with the pick's ordinal",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 48,
+      "name": "people",
+      "row": 32,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "derivePerson (§10.3)"
+      ],
+      "keyedBy": "`derivePerson` (§10.3)",
+      "reservedUntil": "M4b"
+    },
+    {
+      "id": 49,
+      "name": "content/relations",
+      "row": 33,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the relations (§10)"
+      ],
+      "keyedBy": "the relations (§10)",
+      "reservedUntil": "M4b"
+    },
+    {
+      "id": 50,
+      "name": "naming",
+      "row": 34,
+      "cap": 8,
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "S13a"
+      ],
+      "keyedBy": "rerollable. S13a (§9.6); an epoch's district rename (§6.3 case (5), item 72), with the renaming epoch's component",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 51,
+      "name": "naming.quarter",
+      "row": 35,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S13a"
+      ],
+      "keyedBy": "S13a's quarter names (§9.6); non-rerollable",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 52,
+      "name": "naming.emblem",
+      "row": 36,
+      "cap": "default",
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "the emblem generator (§9.5)"
+      ],
+      "keyedBy": "rerollable. The emblem generator (§9.5)",
+      "reservedUntil": "M3b"
+    },
+    {
+      "id": 53,
+      "name": "warp.jitter",
+      "row": 37,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the warp jitter kernel (§7.1)"
+      ],
+      "keyedBy": "the warp's `jitter` kernel (§7.1)",
+      "reservedUntil": "M3a"
+    },
+    {
+      "id": 54,
+      "name": "epoch.transform",
+      "row": 38,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the epoch transform (§4.11)"
+      ],
+      "keyedBy": "§4.11: the strike pool's `u` (V06 §3.5.2) and each entity's dwell spans, keyed by the entity's lineage and the epoch; the terrain and water conversions (reclamation, silting, a course shift), keyed by the water body's or land-use face's lineage (J-A25.61); a churn cap's extra — the chance of one more carried by a cap scaled by a fractional `years` (J-A76.44) — keyed by the district's lineage with the cap's kind as the creation index and the epoch component",
+      "reservedUntil": "M4"
+    },
+    {
+      "id": 55,
+      "name": "island.place",
+      "row": 39,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S7b",
+        "SKY"
+      ],
+      "keyedBy": "S7b (5) and V05: the island count, each slot's reason, and per island its template, bearing, outline, placement, own relief, river, underside, access kinds and dwell spans, by V05 §3.18's creation indices (item 476)",
+      "reservedUntil": "M4"
+    },
+    {
+      "id": 56,
+      "name": "sewer",
+      "row": 40,
+      "cap": "default",
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the underground network stage (II.7)"
+      ],
+      "keyedBy": "the network stage's routing, connection and `pit` draws (II.7.2); the basement access lottery (II.7.3, item 64), keyed by the building's lineage; every draw of the layer's other systems (II.7.6, item 65), keyed by the system's lineage — its part in the arena key — and the element's source; the undercity's existence and size (II.7.5), keyed by the settlement's lineage; the connection stage's links; an underground closure's generators (§7.3 item 9), keyed by the edited entity's lineage — the building's, or an undercity lifeline's neighbourhood `District` — the target's and the event's `seq` (a closure's other generators draw on the concerns of the stage they call, keyed the same way); V04's fixed-key draws (above). The underground stage and the undercity's neighbourhoods draw on the ordinary `plot.*`, `siting`, `siteplan` and `heights` concerns keyed from the underground pseudo-district's or their own lineage (II.7, §6.3)",
+      "reservedUntil": "M6-U"
+    },
+    {
+      "id": 57,
+      "name": "style.jitter",
+      "row": 41,
+      "cap": "default",
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "the paint programs (§8.2)"
+      ],
+      "keyedBy": "rerollable. The paint programs and the compass furniture (§8.2, §9.5)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 58,
+      "name": "style.crowns",
+      "row": 41,
+      "cap": "default",
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "the paint programs (§8.2)"
+      ],
+      "keyedBy": "rerollable. The paint programs and the compass furniture (§8.2, §9.5)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 59,
+      "name": "style.compass",
+      "row": 41,
+      "cap": "default",
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "the compass furniture (§9.5)"
+      ],
+      "keyedBy": "rerollable. The paint programs and the compass furniture (§8.2, §9.5)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 60,
+      "name": "render.instances",
+      "row": 42,
+      "cap": "default",
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "the instance function (§8.10)"
+      ],
+      "keyedBy": "rerollable. The instance function (§8.10)",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 61,
+      "name": "style.random",
+      "row": 43,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the random style (§8.2)"
+      ],
+      "keyedBy": "the random-style draw of §8.2: creation index = the `setStyle` event's `seq`",
+      "reservedUntil": "M3b"
+    },
+    {
+      "id": 62,
+      "name": "render.stampTiles",
+      "row": 44,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the stamp-tile builder (§8.10)"
+      ],
+      "keyedBy": "the stamp-tile library (§8.10): a constant entity key — the four 32-bit-lane finalisers (as for the seed key) over the words (stamp-tile domain, decoration class index, the reference spacing 400 cm, creation index: 0–3 for the class's four tiles, 4 for their shared border band) — with `STAGE_VIEW` and reroll, attempt, epoch and salt 0; read by `@plat/kernel`'s `poisson` builder when `plat/tools/stamptiles/` builds the shipped asset, and in a worker only by the fallback rebuild of a tile whose hash differs",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 63,
+      "name": "siteplan.mutate",
+      "row": 45,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "geometry. §4.7 S11's designation mutator, keyed by the plot's lineage; an added main slot",
+      "reservedUntil": "M3a"
+    },
+    {
+      "id": 64,
+      "name": "use.relocate",
+      "row": 46,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the use step (§4.11)"
+      ],
+      "keyedBy": "§4.11's use step on the use's `…/epoch=e` stream",
+      "reservedUntil": "M4"
+    },
+    {
+      "id": 65,
+      "name": "siteplan.entrance",
+      "row": 47,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "geometry. The side, rear and yard door draws and the basement decision of §2.6, keyed by the building's lineage, so re-deriving the entrances after a mutation or a terrain change disturbs no site-plan draw (J-A29.61)",
+      "reservedUntil": "M2b"
+    },
+    {
+      "id": 66,
+      "name": "plan.program",
+      "row": 48,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "BuildingGenerator.plan (§2.6)"
+      ],
+      "keyedBy": "geometry; non-rerollable by salt. `BuildingGenerator.plan` (§2.6), keyed with the rung counters (above); `plan.roles` re-derives what hangs off roles (window demand, door kinds, furniture)",
+      "reservedUntil": "M6-P"
+    },
+    {
+      "id": 67,
+      "name": "plan.roles",
+      "row": 48,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "BuildingGenerator.plan (§2.6)"
+      ],
+      "keyedBy": "geometry; non-rerollable by salt. `BuildingGenerator.plan` (§2.6), keyed with the rung counters (above); `plan.roles` re-derives what hangs off roles (window demand, door kinds, furniture)",
+      "reservedUntil": "M6-P"
+    },
+    {
+      "id": 68,
+      "name": "plan.furnish",
+      "row": 48,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "BuildingGenerator.plan (§2.6)"
+      ],
+      "keyedBy": "geometry; non-rerollable by salt. `BuildingGenerator.plan` (§2.6), keyed with the rung counters (above); `plan.roles` re-derives what hangs off roles (window demand, door kinds, furniture)",
+      "reservedUntil": "M6-P"
+    },
+    {
+      "id": 69,
+      "name": "plan.layout",
+      "row": 49,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "BuildingGenerator.plan (§2.6)"
+      ],
+      "keyedBy": "geometry; non-rerollable by salt. `BuildingGenerator.plan` (§2.6), F-PLAN's tier 3; keyed with the rung counters; it keeps the wings, the entrances and the stair core",
+      "reservedUntil": "M6-P"
+    },
+    {
+      "id": 70,
+      "name": "reserve.market",
+      "row": 50,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3"
+      ],
+      "keyedBy": "geometry. §4.2 S3 (12)'s trade-convergence random term, keyed by the town root's entity key",
+      "reservedUntil": "M1"
+    },
+    {
+      "id": 71,
+      "name": "cut.interior",
+      "row": 51,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S8"
+      ],
+      "keyedBy": "geometry. §4.6's deep-interior draw, one (treatment, reach) pair per deep block, keyed by the block's lineage"
+    },
+    {
+      "id": 72,
+      "name": "cut.stop",
+      "row": 52,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S8"
+      ],
+      "keyedBy": "geometry. The per-face stop threshold of §4.6's first step, one draw of four uniforms per face, keyed by the face's lineage; not retried — a turned frame re-plans steps 2–7 only"
+    },
+    {
+      "id": 73,
+      "name": "works",
+      "row": 53,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the Works step (§4.11)"
+      ],
+      "keyedBy": "for a Works an epoch starts: keyed by its target's lineage with the epoch's week as the creation index and the epoch component — the start offset within the epoch's span (§4.11 *Works* (10)) drawn first, the duration inside its `WorksTable` row's range second; for a Works a dated change or a scheduled edit starts: keyed by its target's lineage with its given start week as the creation index — the duration alone (J-A67.61)",
+      "reservedUntil": "M4"
+    },
+    {
+      "id": 74,
+      "name": "pin.light",
+      "row": 54,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "geometry. S11's placement of the light sources (§4.7), keyed by the host's lineage with the light rule row as the creation index; a light's flicker is never a stream — a pure function of its render key and the view's time (§8.4; J-A68.61)",
+      "reservedUntil": "M3b"
+    },
+    {
+      "id": 75,
+      "name": "raised.reason",
+      "row": 55,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the raised-way generator (§4.3, §4.6)"
+      ],
+      "keyedBy": "geometry. The raised-way generator (item 110 (b); §4.3, §4.6; item 290): one uniform per `RaisedReasonKey` (§2.7) with epoch component 0, in the kind order aqueduct, viaduct, elevated — the gate `u < p` at every generation and epoch, the same draw each time, never re-drawn; a raised part's pier pitch where no `spanSpacingCm` is edited, keyed by (the way's lineage, `pitch`) (§2.7's support step (1)); a span's open-or-vault draw, keyed by (the way's lineage, the span's stations `a`, `b`) (§2.7's span rule (3)); V06's `EVO_RAISED` phase draws its gates here",
+      "reservedUntil": "M3a"
+    },
+    {
+      "id": 76,
+      "name": "fabric.select",
+      "row": 56,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S7c"
+      ],
+      "keyedBy": "V01 §3.12 (S7c's draw); reserved at M1, drawing nothing before M5 (item 340)",
+      "reservedUntil": "M5"
+    },
+    {
+      "id": 77,
+      "name": "hood.dispatch",
+      "row": 57,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S9b"
+      ],
+      "keyedBy": "V01 §3.12 (S9b's picks); reserved at M1 (item 340)",
+      "reservedUntil": "M5"
+    },
+    {
+      "id": 78,
+      "name": "hood.template",
+      "row": 58,
+      "cap": 3,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the stage-2 seed primitives (V01 §3.12)"
+      ],
+      "keyedBy": "V01 §3.12 (the seed primitives; F-TEMPLATE's redraw rung); reserved at M1 (item 340)",
+      "reservedUntil": "M5"
+    },
+    {
+      "id": 79,
+      "name": "massing",
+      "row": 59,
+      "cap": 2,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S11"
+      ],
+      "keyedBy": "geometry. S11's `outline()` and every operator that re-derives S11 on a plot, keyed by the building's lineage (V02 §3.12; item 341)",
+      "reservedUntil": "M6"
+    },
+    {
+      "id": 80,
+      "name": "compose.dormers",
+      "row": 60,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the composition (V02 §3.12)"
+      ],
+      "keyedBy": "geometry. Keyed with `#wings` (V02 §3.12)",
+      "reservedUntil": "M6"
+    },
+    {
+      "id": 81,
+      "name": "compose.porch",
+      "row": 60,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the composition (V02 §3.12)"
+      ],
+      "keyedBy": "geometry. Keyed with `#wings` (V02 §3.12)",
+      "reservedUntil": "M6"
+    },
+    {
+      "id": 82,
+      "name": "compose.rooms",
+      "row": 61,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the composition (V02 §3.12)"
+      ],
+      "keyedBy": "keyed with `#wings` and `#rooms` (V02 §3.12)",
+      "reservedUntil": "M6"
+    },
+    {
+      "id": 83,
+      "name": "village.plan",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 84,
+      "name": "village.density",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 85,
+      "name": "village.palisade",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 86,
+      "name": "village.track",
+      "row": 62,
+      "cap": 0,
+      "rerollable": true,
+      "retired": false,
+      "readers": [
+        "VS4 (V07 §4.3)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 87,
+      "name": "village.open",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 88,
+      "name": "village.slot",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 89,
+      "name": "village.fields",
+      "row": 62,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the village stages (V07 §3.14)"
+      ],
+      "keyedBy": "the village product's stages (V07 §3.14; item 344); `village.track` rerollable",
+      "reservedUntil": "V-M1"
+    },
+    {
+      "id": 90,
+      "name": "walls.condition",
+      "row": 63,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "S3",
+        "S7"
+      ],
+      "keyedBy": "S3's and S7's generation-time condition of each enceinte run (§7.7 DR41, item 114 (d); a village palisade's in VS3, V07 §3.4 (8)): keyed by the enceinte's lineage with the stretch's index along the trace (V06 §3.7.2 (2)'s cut at `walls.dismantleStretchM`) as the creation index — one uniform choosing the run's condition by V11's `walls.condition` generation shares, then, for a `patched` run, one choosing its material among the `walls.patchMaterials` rows admitted for the enceinte's kind and culture by weight; no draw while `walls.condition.atGeneration` is false, and none under history-first generation, whose replay gives the condition (V06 §3.7.7 (5))",
+      "reservedUntil": "M3b"
+    },
+    {
+      "id": 91,
+      "name": "plan.damage",
+      "row": 64,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the plan damage layer (§2.6 step 7)"
+      ],
+      "keyedBy": "geometry-free; non-rerollable by salt; epoch component 0. Item 123's damage thresholds (§6.3 *Plan damage*): one uniform per plan element, keyed by (the building's lineage, the element's id) at the stage id its `plan.*` concerns carry, no rung counter, reroll or salt entering — fixed for the element's life, never re-drawn; read by every reader that draws a plan's damage: §2.6 step 7's damage layer, V03 (the plan's drawing per state, its exports, the panel lines), V02 (the exterior), V04 (cellars, crypts and underground buildings), §8.6 and §11.1",
+      "reservedUntil": "M6-P"
+    },
+    {
+      "id": 92,
+      "name": "view.weather",
+      "row": 65,
+      "cap": 0,
+      "rerollable": false,
+      "retired": false,
+      "readers": [
+        "the weather layer (§8.4)"
+      ],
+      "keyedBy": "view only; non-rerollable. The weather timeline (item 124; *The weather stream*, below): keyed from the session seed by the spell index, never from the seed key; the spell's marks (§8.2's *Weather effects*: positions, lengths and sways) on further keys of the same concern — the spell's entity key folded through the one mixer with the frame's world-aligned cell as structured components — so a mark stays put while its spell lasts; read by §8.4's per-frame weather layer and §8.2's effect marks, which §8.8 places above the tiles — never by a stage, a digest, a tile key or an export",
+      "reservedUntil": "M3b"
+    }
+  ]
+}

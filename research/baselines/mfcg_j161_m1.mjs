@@ -16,16 +16,54 @@
  *      bounded screenshot, then stops. Nothing waits on the 600 s protocol limit.
  * No response body is stored; the network record is URL, status, bytes and host, as in the sweep.
  *
+ * Lane m1/W-03b (R-39, R-47 (i); E03 section 10) used J161's third and last load for R-13's extension
+ * (capture/MFCG/130/plain/10, after plan.py --extend) and added three things:
+ *   5. The ledger holds two contact classes. A line without `kind` is a load (written before the navigation, as before);
+ *      a line with kind 'build-id-fetch' is one fetch of the public game page (written before the fetch; its result is
+ *      a 'build-id' note in <out>/export-log.jsonl). --cap counts loads only and is now 3, J161's whole approval.
+ *   6. --build-id: the build-id check alone (one fetch through profiler/lib/common.mjs resolveTargetUrl, or --game-page
+ *      for a local mock), logged as above; exit 0 when the live build equals --build, 4 on a pin shift (the owner is
+ *      told before any load: plan section 9). No browser starts in this mode.
+ *   7. A load on an https build is refused unless the ledger's last line after its last load is a build-id fetch of
+ *      this run's making (not backfilled, at most an hour old) whose note found exactly --build (the check comes first).
+ *
  *   node research/baselines/mfcg_j161_m1.mjs --plan research/baselines/plan.json --build <index.html url> --out <ledger dir>
  *        --files <dir> --name <plan name> --ui <sweep folder>/probe --profile <scratch dir> [--compare <dir>]
- *        [--cap 2] [--max 180000] [--settle 1500] [--dry-run]
+ *        [--cap 3] [--max 180000] [--settle 1500] [--lane <key>] [--dry-run]
+ *   node research/baselines/mfcg_j161_m1.mjs --build-id --build <pinned index.html url> --out <ledger dir> [--lane <key>]
+ *        [--game-page <url>]
  */
 import fs from 'node:fs';
 import path from 'node:path';
 import crypto from 'node:crypto';
-import { launch, sleep, parseArgs } from '../../profiler/lib/common.mjs';
+import { launch, sleep, parseArgs, resolveTargetUrl, TARGETS } from '../../profiler/lib/common.mjs';
 
-const args = parseArgs(process.argv.slice(2), { cap: 2, max: 180000, settle: 1500 });
+const args = parseArgs(process.argv.slice(2), { cap: 3, max: 180000, settle: 1500 });
+const readJsonl = (f) => (fs.existsSync(f) ? fs.readFileSync(f, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : []);
+const freeMB = () => { const s = fs.statfsSync('/Users/cstokes'); return Math.floor((s.bavail * s.bsize) / 1048576); };
+const isLoad = (l) => !l.kind;                       // a ledger line without kind is a load (lines 1-2 predate the kinds)
+const FETCH = 'build-id-fetch';
+if (args['build-id']) {                              // 6: the build-id check alone, one public game-page fetch, no browser
+  for (const k of ['build', 'out']) if (!args[k]) { console.error(`missing --${k}`); process.exit(2); }
+  const dir = path.resolve(args.out); fs.mkdirSync(dir, { recursive: true });
+  if (freeMB() < 1024) { console.error(`${freeMB()} MB free (< 1 GB): nothing fetched`); process.exit(3); }
+  const page = args['game-page'] || TARGETS.mfcg.itch;
+  const line = { kind: FETCH, ruling: 'J161', t: new Date().toISOString(), page, pinned: args.build, ...(args.lane ? { by: args.lane } : {}) };
+  fs.appendFileSync(path.join(dir, 'loads.jsonl'), JSON.stringify(line) + '\n');   // the contact is counted before it is made
+  let resolved = null; let error;
+  try {
+    if (args['game-page']) {                         // a local mock page only; the live check is resolveTargetUrl's one fetch
+      const m = (await (await fetch(args['game-page'])).text()).match(/https:\/\/html-classic\.itch\.zone\/html\/\d+\/[^"'&\s]*index\.html/);
+      if (!m) throw new Error(`no embedded build url on ${args['game-page']}`);
+      resolved = m[0];
+    } else resolved = await resolveTargetUrl('mfcg');
+  } catch (err) { error = String((err && err.message) || err).slice(0, 200); }
+  const note = { t: new Date().toISOString(), name: 'build-id', note: 'build-id', fetchT: line.t, page, resolved, pinned: args.build, same: resolved === args.build, ...(error ? { error } : {}), ...(args.lane ? { by: args.lane } : {}) };
+  fs.appendFileSync(path.join(dir, 'export-log.jsonl'), JSON.stringify(note) + '\n');
+  console.log(JSON.stringify(note));
+  if (!note.same) console.error(resolved ? `PIN SHIFT: the live build is ${resolved}, not ${args.build}; no load (the owner is told first)` : `STOP: the build-id check failed (${error})`);
+  process.exit(note.same ? 0 : 4);
+}
 for (const k of ['plan', 'build', 'out', 'files', 'name', 'ui', 'profile']) if (!args[k]) { console.error(`missing --${k}`); process.exit(2); }
 const out = path.resolve(args.out); const filesDir = path.resolve(args.files); const uiDir = path.resolve(args.ui);
 const userDataDir = path.resolve(args.profile);
@@ -37,17 +75,23 @@ const e = plan.families.filter((f) => f.family.startsWith('capture/MFCG/')).flat
 if (!e) { console.error(`no plan entry named ${args.name}`); process.exit(2); }
 const MARKER = /buildGeometry \d+/;
 const logFile = path.join(out, 'export-log.jsonl'); const loadsFile = path.join(out, 'loads.jsonl');
-const readJsonl = (f) => (fs.existsSync(f) ? fs.readFileSync(f, 'utf8').split('\n').filter(Boolean).map((l) => JSON.parse(l)) : []);
-const freeMB = () => { const s = fs.statfsSync('/Users/cstokes'); return Math.floor((s.bavail * s.bsize) / 1048576); };
 const ui = JSON.parse(fs.readFileSync(path.join(uiDir, 'ui.json'), 'utf8'));
 const refClip = fs.readFileSync(path.join(uiDir, 'ref-clip.png')); const refMenu = fs.readFileSync(path.join(uiDir, 'ref-menu.png'));
-const loads = readJsonl(loadsFile);
+const ledger = readJsonl(loadsFile); const loads = ledger.filter(isLoad);
 const url = `${args.build}?${e.exports[0]}`;
+// 7: on an https build the build-id check comes first: the last ledger line after the last load is a fetch that found --build
+const lastLoadAt = ledger.map(isLoad).lastIndexOf(true);
+const last = ledger.length ? ledger[ledger.length - 1] : null;   // a fresh fetch: not a backfilled past one, at most an hour old
+const fetchLine = last && ledger.length - 1 > lastLoadAt && last.kind === FETCH && !last.backfilled && Date.now() - Date.parse(last.t) <= 3600000 ? last : null;
+const fetchNote = fetchLine && readJsonl(logFile).filter((r) => r.note === 'build-id' && r.fetchT === fetchLine.t).pop();
+const buildIdCheck = !/^https:/.test(args.build) ? 'not required (not an https build: a local mock)'
+  : fetchNote && fetchNote.same && fetchNote.resolved === args.build ? `fetch ${fetchLine.t}: ${fetchNote.resolved}` : null;
 const refuse = loads.length >= Number(args.cap) ? `${loads.length} loads in ${loadsFile}, cap ${args.cap}`
   : loads.some((l) => l.name === e.name) ? `${e.name} is already in ${loadsFile}` : freeMB() < 1024 ? `${freeMB()} MB free (< 1 GB)`
+  : !buildIdCheck ? `no build-id check for ${args.build} after the last load (run --build-id first)`
   : !(ui.clip && ui.open && ui.menuClip && ui.svgItem && ui.jsonItem) ? 'ui.json lacks a calibrated route' : null;
 if (args['dry-run'] || refuse) {
-  console.log(JSON.stringify({ name: e.name, label: e.label, seed: e.seed, url, loadsSoFar: loads.length, cap: Number(args.cap), refuse, freeMB: freeMB(), files: filesDir, compare: args.compare || null }, null, 1));
+  console.log(JSON.stringify({ name: e.name, label: e.label, seed: e.seed, url, loadsSoFar: loads.length, contactsSoFar: ledger.length, cap: Number(args.cap), buildIdCheck, refuse, freeMB: freeMB(), files: filesDir, compare: args.compare || null }, null, 1));
   process.exit(refuse ? 3 : 0);
 }
 
@@ -117,13 +161,13 @@ const compareWith = (ext, buf) => {
   const s = fs.readFileSync(p); return { stored: path.basename(p), exists: true, storedSha1: sha1(s), storedBytes: s.length, byteIdentical: Buffer.compare(s, buf) === 0 };
 };
 
-fs.appendFileSync(loadsFile, JSON.stringify({ n: loads.length + 1, ruling: 'J161', t: new Date().toISOString(), name: e.name, url, downloads: 'denied' }) + '\n');
+fs.appendFileSync(loadsFile, JSON.stringify({ n: loads.length + 1, ruling: 'J161', t: new Date().toISOString(), name: e.name, url, downloads: 'denied', ...(args.lane ? { by: args.lane } : {}) }) + '\n');
 t0 = Date.now();
 const nav = await within(130000, page.goto(url, { waitUntil: 'load', timeout: 120000 }));
 const navNote = nav === TIMEOUT ? 'goto did not return in 130 s' : nav && nav.error ? `goto: ${nav.error}` : 'load';
 // the JSON: the generation marker on the console, a download event (denied) and the URL-export Blob's text in the page
 const gotJson = await waitFor(async () => consoleLines.some((l) => MARKER.test(l.text)) && downloads.size >= 1 && await hasBlob(0, /json/), Number(args.max));
-const rec = { t: new Date().toISOString(), ruling: 'J161', name: e.name, label: e.label, seed: e.seed, family: e.family, url, loadN: loads.length + 1, nav: navNote, downloadsDenied: true, jsonOk: gotJson };
+const rec = { t: new Date().toISOString(), ruling: 'J161', name: e.name, label: e.label, seed: e.seed, family: e.family, url, loadN: loads.length + 1, buildIdCheck, ...(args.lane ? { by: args.lane } : {}), nav: navNote, downloadsDenied: true, jsonOk: gotJson };
 if (!gotJson) {
   const lines = consoleLines.filter((l) => !/^\s*$/.test(l.text)); const reqs = [...net.values()];
   Object.assign(rec, { ok: false, failure: `no JSON within ${args.max} ms of the navigation`, waitedMs: Date.now() - t0, markerSeen: lines.some((l) => MARKER.test(l.text)),
@@ -197,5 +241,5 @@ if (!gotJson) {
 await within(5000, bcdp.send('Browser.setDownloadBehavior', { behavior: 'default' }));
 await within(15000, browser.close());
 try { browser.process()?.kill('SIGKILL'); } catch { /* already gone */ }
-console.log(JSON.stringify({ finished: new Date().toISOString(), loadsInLedger: readJsonl(loadsFile).length, cap: Number(args.cap) }));
+console.log(JSON.stringify({ finished: new Date().toISOString(), loadsInLedger: readJsonl(loadsFile).filter(isLoad).length, contactsInLedger: readJsonl(loadsFile).length, cap: Number(args.cap) }));
 process.exit(0);

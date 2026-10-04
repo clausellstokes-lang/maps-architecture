@@ -1,0 +1,2000 @@
+{
+ "record": "docs/calibration/E09-mfcg-derived-graph.md",
+ "workItem": "W-09",
+ "lane": "m1/W-09",
+ "script": "research:baselines/derived_graph.py",
+ "metricVersion": "1.0.0",
+ "referenceBuild": "itch:12710731",
+ "uses": {
+  "measure_ftg.py": "c6d2099282c5",
+  "measure_ng.py": "9d7c6b5c88ff",
+  "measure_mfcg.py": "f907f2003d7b",
+  "adapters/ftg.py": "782e636fb6f7"
+ },
+ "scriptSha256": "9c4dec71e5aa",
+ "plan": {
+  "file": "research/baselines/plan.json",
+  "sha256": "67614c8e0617"
+ },
+ "parameters": {
+  "rasterStepM": 0.5,
+  "clusterGapM": 1.0,
+  "closeM": 3.0,
+  "spurM": 8.0,
+  "mergeM": 2.0,
+  "armM": 10.0,
+  "straightDeg": 20.0,
+  "deepRelShort": 1.5,
+  "dilateRelShort": 0.05,
+  "courtAreaRelMedian": 0.5,
+  "courtCellRelDilation": 0.5
+ },
+ "rule": "measured values, not rows (R-47 (a)): W-15 forms the rows, the bands and both dispersions (R-40)",
+ "schema": "m1.e09/1",
+ "sample": [
+  {
+   "family": "capture/MFCG/40/plain",
+   "size": 40,
+   "options": "plain",
+   "rung": "TOWN",
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ],
+   "usable": [
+    "size40-plain-0",
+    "size40-plain-1",
+    "size40-plain-2",
+    "size40-plain-3",
+    "size40-plain-4",
+    "size40-plain-5",
+    "size40-plain-6",
+    "size40-plain-7",
+    "size40-plain-8",
+    "size40-plain-9"
+   ],
+   "failed": [],
+   "failedStems": []
+  },
+  {
+   "family": "capture/MFCG/80/plain",
+   "size": 80,
+   "options": "plain",
+   "rung": "CITY",
+   "purpose": "rows",
+   "indices": [
+    0,
+    10
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ],
+   "usable": [
+    "size80-plain-0",
+    "size80-plain-1",
+    "size80-plain-2",
+    "size80-plain-3",
+    "size80-plain-4",
+    "size80-plain-5",
+    "size80-plain-6",
+    "size80-plain-7",
+    "size80-plain-8",
+    "size80-plain-9"
+   ],
+   "failed": [],
+   "failedStems": []
+  },
+  {
+   "family": "capture/MFCG/130/plain",
+   "size": 130,
+   "options": "plain",
+   "rung": "METROPOLIS",
+   "purpose": "rows",
+   "indices": [
+    0,
+    11
+   ],
+   "declaredN": 10,
+   "captured": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ],
+   "usable": [
+    "size130-plain-0",
+    "size130-plain-1",
+    "size130-plain-2",
+    "size130-plain-3",
+    "size130-plain-4",
+    "size130-plain-5",
+    "size130-plain-6",
+    "size130-plain-7",
+    "size130-plain-9",
+    "size130-plain-10"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/130/plain/8",
+     "reason": "no-export",
+     "loads": 2,
+     "filesKept": false
+    }
+   ],
+   "failedStems": [
+    "size130-plain-8"
+   ]
+  },
+  {
+   "family": "capture/MFCG/80/river+coast",
+   "size": 80,
+   "options": "river+coast",
+   "rung": "CITY",
+   "purpose": "stress (descriptive)",
+   "indices": [
+    0,
+    5
+   ],
+   "declaredN": 5,
+   "captured": [
+    "size80-rivercoast-0",
+    "size80-rivercoast-1",
+    "size80-rivercoast-2",
+    "size80-rivercoast-3",
+    "size80-rivercoast-4"
+   ],
+   "usable": [
+    "size80-rivercoast-0",
+    "size80-rivercoast-2",
+    "size80-rivercoast-3"
+   ],
+   "failed": [
+    {
+     "label": "capture/MFCG/80/river+coast/1",
+     "reason": "retry",
+     "attempts": 2,
+     "filesKept": true
+    },
+    {
+     "label": "capture/MFCG/80/river+coast/4",
+     "reason": "retry",
+     "attempts": 3,
+     "filesKept": true
+    }
+   ],
+   "failedStems": [
+    "size80-rivercoast-1",
+    "size80-rivercoast-4"
+   ]
+  }
+ ],
+ "fixtures": {
+  "exports-2026-09-25.s555001-size40-gates0": {
+   "stem": "exports-2026-09-25.s555001-size40-gates0",
+   "buildings": 838,
+   "enclosureHa": 58.348033,
+   "medianFootprint": {
+    "areaM2": 426.752905,
+    "shortSideM": 17.771956
+   },
+   "clusters": {
+    "n": 115,
+    "singletons": 23,
+    "largestFootprintCount": 18
+   },
+   "blockc.perHa": {
+    "value": 1.696715,
+    "blocks": 99,
+    "walledHa": 58.348033
+   },
+   "blockc.lotsPer": {
+    "value": 8.0,
+    "mean": 8.30303,
+    "p90": 14.0,
+    "max": 18,
+    "singletonShare": 0.070707
+   },
+   "waterTakenOut": {
+    "sea": 0,
+    "river": 0
+   },
+   "blockAreas": {
+    "intramuralSumM2": 441783.75,
+    "enclosureM2": 583480.331703,
+    "ratio": 0.757153,
+    "intramuralOverlapM2": 0.0,
+    "intramuralClosedSumM2": 391481.5
+   },
+   "streetSpace": {
+    "areaM2": 142118.25,
+    "domainM2": 583902.0
+   },
+   "raster": {
+    "stepM": 0.5,
+    "width": 1855,
+    "height": 1749,
+    "thinningPasses": 72,
+    "eulerStreetSpace": -98,
+    "eulerSkeleton": -98
+   },
+   "graphRaw": {
+    "nodes": 1097,
+    "edges": 1195,
+    "degrees": {
+     "1": 452,
+     "2": 3,
+     "3": 636,
+     "4": 6
+    },
+    "anomalies": 0
+   },
+   "topology": {
+    "eulerStreetSpace": -98,
+    "eulerSkeleton": -98,
+    "eulerGraphRaw": -98,
+    "componentsRaw": 1,
+    "isolatedNodes": 0,
+    "holesStreetSpace": 99,
+    "facesRaw": 99,
+    "facesPruned": 99,
+    "facesMerged": 99,
+    "mergedGroups": 2,
+    "internalEdgesRemoved": 2,
+    "chainAnomalies": 0
+   },
+   "dropped": {
+    "components": 0,
+    "lengthM": 0,
+    "largestM": 0.0
+   },
+   "crossings": 0,
+   "sgd.tShare": {
+    "value": 0.39207,
+    "tNodes": 89,
+    "degree3": 227
+   },
+   "sgd.deadEnds": {
+    "value": 2.240488,
+    "degree1": 39,
+    "lengthKm": 17.40692
+   },
+   "graph": {
+    "nodes": 270,
+    "edges": 368,
+    "degrees": {
+     "1": 39,
+     "3": 227,
+     "4": 4
+    },
+    "faces": 99,
+    "lengthKm": 17.40692
+   },
+   "block.courtShare": {
+    "value": 0.707317,
+    "deep": 41,
+    "courtDeep": 29,
+    "courtShallow": 6,
+    "blocks": 99,
+    "thresholds": {
+     "deepRadiusM": 26.657934,
+     "dilateM": 0.888598,
+     "courtCellM": 0.25,
+     "subdivision": 2,
+     "minCourtM2": 213.376452
+    },
+    "exactTransforms": 22
+   },
+   "measureInputSha256": "d4f13e0bf8993e81ca5e187dc7517ee8f6e1765b68bb71f8697a9957baff7517",
+   "header": {
+    "source": "MFCG",
+    "build": "itch:12710731",
+    "rung": "TOWN",
+    "water": "none",
+    "size": 40
+   },
+   "clusterTwin": {
+    "measureFtg": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "here": {
+     "n": 115,
+     "singletons": 23,
+     "largestFootprintCount": 18
+    },
+    "equal": true
+   }
+  },
+  "exports-2026-09-25.s555001-size40-gates1": {
+   "stem": "exports-2026-09-25.s555001-size40-gates1",
+   "buildings": 1513,
+   "enclosureHa": 58.292731,
+   "medianFootprint": {
+    "areaM2": 209.542418,
+    "shortSideM": 12.445184
+   },
+   "clusters": {
+    "n": 190,
+    "singletons": 33,
+    "largestFootprintCount": 27
+   },
+   "blockc.perHa": {
+    "value": 2.676148,
+    "blocks": 156,
+    "walledHa": 58.292731
+   },
+   "blockc.lotsPer": {
+    "value": 9.0,
+    "mean": 9.384615,
+    "p90": 15.0,
+    "max": 27,
+    "singletonShare": 0.057692
+   },
+   "waterTakenOut": {
+    "sea": 0,
+    "river": 0
+   },
+   "blockAreas": {
+    "intramuralSumM2": 408822.0,
+    "enclosureM2": 582927.311171,
+    "ratio": 0.701326,
+    "intramuralOverlapM2": 0.0,
+    "intramuralClosedSumM2": 352061.0
+   },
+   "streetSpace": {
+    "areaM2": 174526.5,
+    "domainM2": 583348.5
+   },
+   "raster": {
+    "stepM": 0.5,
+    "width": 1855,
+    "height": 1749,
+    "thinningPasses": 107,
+    "eulerStreetSpace": -156,
+    "eulerSkeleton": -156
+   },
+   "graphRaw": {
+    "nodes": 1593,
+    "edges": 1749,
+    "degrees": {
+     "1": 639,
+     "2": 11,
+     "3": 935,
+     "4": 8
+    },
+    "anomalies": 0
+   },
+   "topology": {
+    "eulerStreetSpace": -156,
+    "eulerSkeleton": -156,
+    "eulerGraphRaw": -156,
+    "componentsRaw": 1,
+    "isolatedNodes": 0,
+    "holesStreetSpace": 157,
+    "facesRaw": 157,
+    "facesPruned": 157,
+    "facesMerged": 157,
+    "mergedGroups": 5,
+    "internalEdgesRemoved": 5,
+    "chainAnomalies": 0
+   },
+   "dropped": {
+    "components": 0,
+    "lengthM": 0,
+    "largestM": 0.0
+   },
+   "crossings": 0,
+   "sgd.tShare": {
+    "value": 0.383523,
+    "tNodes": 135,
+    "degree3": 352
+   },
+   "sgd.deadEnds": {
+    "value": 2.45858,
+    "degree1": 54,
+    "lengthKm": 21.963895
+   },
+   "graph": {
+    "nodes": 413,
+    "edges": 569,
+    "degrees": {
+     "1": 54,
+     "3": 352,
+     "4": 7
+    },
+    "faces": 157,
+    "lengthKm": 21.963895
+   },
+   "block.courtShare": {
+    "value": 0.819444,
+    "deep": 72,
+    "courtDeep": 59,
+    "courtShallow": 19,
+    "blocks": 156,
+    "thresholds": {
+     "deepRadiusM": 18.667776,
+     "dilateM": 0.622259,
+     "courtCellM": 0.25,
+     "subdivision": 2,
+     "minCourtM2": 104.771209
+    },
+    "exactTransforms": 39
+   },
+   "measureInputSha256": "f59bbbd2ddaf2638ba076b3729339a30288bdf89e1d180648a1633a73081d2e4",
+   "header": {
+    "source": "MFCG",
+    "build": "itch:12710731",
+    "rung": "TOWN",
+    "water": "none",
+    "size": 40
+   },
+   "clusterTwin": {
+    "measureFtg": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "here": {
+     "n": 190,
+     "singletons": 33,
+     "largestFootprintCount": 27
+    },
+    "equal": true
+   }
+  },
+  "exports-2026-09-25.s555001-size40-gates4": {
+   "stem": "exports-2026-09-25.s555001-size40-gates4",
+   "buildings": 1299,
+   "enclosureHa": 58.237344,
+   "medianFootprint": {
+    "areaM2": 254.560513,
+    "shortSideM": 13.76604
+   },
+   "clusters": {
+    "n": 190,
+    "singletons": 47,
+    "largestFootprintCount": 19
+   },
+   "blockc.perHa": {
+    "value": 2.352442,
+    "blocks": 137,
+    "walledHa": 58.237344
+   },
+   "blockc.lotsPer": {
+    "value": 9.0,
+    "mean": 8.715328,
+    "p90": 14.0,
+    "max": 19,
+    "singletonShare": 0.109489
+   },
+   "waterTakenOut": {
+    "sea": 0,
+    "river": 0
+   },
+   "blockAreas": {
+    "intramuralSumM2": 422956.5,
+    "enclosureM2": 582373.441,
+    "ratio": 0.726263,
+    "intramuralOverlapM2": 0.0,
+    "intramuralClosedSumM2": 372758.5
+   },
+   "streetSpace": {
+    "areaM2": 159820.5,
+    "domainM2": 582777.0
+   },
+   "raster": {
+    "stepM": 0.5,
+    "width": 1855,
+    "height": 1733,
+    "thinningPasses": 68,
+    "eulerStreetSpace": -137,
+    "eulerSkeleton": -137
+   },
+   "graphRaw": {
+    "nodes": 1397,
+    "edges": 1534,
+    "degrees": {
+     "1": 566,
+     "2": 5,
+     "3": 812,
+     "4": 14
+    },
+    "anomalies": 0
+   },
+   "topology": {
+    "eulerStreetSpace": -137,
+    "eulerSkeleton": -137,
+    "eulerGraphRaw": -137,
+    "componentsRaw": 1,
+    "isolatedNodes": 0,
+    "holesStreetSpace": 138,
+    "facesRaw": 138,
+    "facesPruned": 138,
+    "facesMerged": 138,
+    "mergedGroups": 6,
+    "internalEdgesRemoved": 6,
+    "chainAnomalies": 0
+   },
+   "dropped": {
+    "components": 0,
+    "lengthM": 0,
+    "largestM": 0.0
+   },
+   "crossings": 0,
+   "sgd.tShare": {
+    "value": 0.42053,
+    "tNodes": 127,
+    "degree3": 302
+   },
+   "sgd.deadEnds": {
+    "value": 2.293747,
+    "degree1": 46,
+    "lengthKm": 20.054521
+   },
+   "graph": {
+    "nodes": 357,
+    "edges": 494,
+    "degrees": {
+     "1": 46,
+     "3": 302,
+     "4": 9
+    },
+    "faces": 138,
+    "lengthKm": 20.054521
+   },
+   "block.courtShare": {
+    "value": 0.71875,
+    "deep": 64,
+    "courtDeep": 46,
+    "courtShallow": 14,
+    "blocks": 137,
+    "thresholds": {
+     "deepRadiusM": 20.649059,
+     "dilateM": 0.688302,
+     "courtCellM": 0.25,
+     "subdivision": 2,
+     "minCourtM2": 127.280256
+    },
+    "exactTransforms": 37
+   },
+   "measureInputSha256": "f9cdb32dd0b49ffd15403b7e5e7191baec8891a40d283245ad20fb2d097b555f",
+   "header": {
+    "source": "MFCG",
+    "build": "itch:12710731",
+    "rung": "TOWN",
+    "water": "none",
+    "size": 40
+   },
+   "clusterTwin": {
+    "measureFtg": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "here": {
+     "n": 190,
+     "singletons": 47,
+     "largestFootprintCount": 19
+    },
+    "equal": true
+   }
+  },
+  "exports-2026-09-25.s555001-size40-gates9": {
+   "stem": "exports-2026-09-25.s555001-size40-gates9",
+   "buildings": 1227,
+   "enclosureHa": 57.823563,
+   "medianFootprint": {
+    "areaM2": 271.921604,
+    "shortSideM": 14.168616
+   },
+   "clusters": {
+    "n": 175,
+    "singletons": 48,
+    "largestFootprintCount": 26
+   },
+   "blockc.perHa": {
+    "value": 1.677517,
+    "blocks": 97,
+    "walledHa": 57.823563
+   },
+   "blockc.lotsPer": {
+    "value": 11.0,
+    "mean": 10.412371,
+    "p90": 16.0,
+    "max": 26,
+    "singletonShare": 0.051546
+   },
+   "waterTakenOut": {
+    "sea": 0,
+    "river": 0
+   },
+   "blockAreas": {
+    "intramuralSumM2": 425599.75,
+    "enclosureM2": 578235.629202,
+    "ratio": 0.736032,
+    "intramuralOverlapM2": 0.0,
+    "intramuralClosedSumM2": 348573.75
+   },
+   "streetSpace": {
+    "areaM2": 153015.0,
+    "domainM2": 578614.75
+   },
+   "raster": {
+    "stepM": 0.5,
+    "width": 1855,
+    "height": 1733,
+    "thinningPasses": 80,
+    "eulerStreetSpace": -97,
+    "eulerSkeleton": -97
+   },
+   "graphRaw": {
+    "nodes": 1157,
+    "edges": 1254,
+    "degrees": {
+     "1": 482,
+     "2": 4,
+     "3": 666,
+     "4": 5
+    },
+    "anomalies": 0
+   },
+   "topology": {
+    "eulerStreetSpace": -97,
+    "eulerSkeleton": -97,
+    "eulerGraphRaw": -97,
+    "componentsRaw": 1,
+    "isolatedNodes": 0,
+    "holesStreetSpace": 98,
+    "facesRaw": 98,
+    "facesPruned": 98,
+    "facesMerged": 98,
+    "mergedGroups": 5,
+    "internalEdgesRemoved": 5,
+    "chainAnomalies": 0
+   },
+   "dropped": {
+    "components": 0,
+    "lengthM": 0,
+    "largestM": 0.0
+   },
+   "crossings": 0,
+   "sgd.tShare": {
+    "value": 0.452991,
+    "tNodes": 106,
+    "degree3": 234
+   },
+   "sgd.deadEnds": {
+    "value": 3.09056,
+    "degree1": 54,
+    "lengthKm": 17.47256
+   },
+   "graph": {
+    "nodes": 295,
+    "edges": 392,
+    "degrees": {
+     "1": 54,
+     "3": 234,
+     "4": 7
+    },
+    "faces": 98,
+    "lengthKm": 17.47256
+   },
+   "block.courtShare": {
+    "value": 0.85,
+    "deep": 60,
+    "courtDeep": 51,
+    "courtShallow": 9,
+    "blocks": 97,
+    "thresholds": {
+     "deepRadiusM": 21.252924,
+     "dilateM": 0.708431,
+     "courtCellM": 0.25,
+     "subdivision": 2,
+     "minCourtM2": 135.960802
+    },
+    "exactTransforms": 23
+   },
+   "measureInputSha256": "6db1cd2eab4856ebd50cfe7f53c317fc63eea7700241a58e666ae669b45015a0",
+   "header": {
+    "source": "MFCG",
+    "build": "itch:12710731",
+    "rung": "TOWN",
+    "water": "none",
+    "size": 40
+   },
+   "clusterTwin": {
+    "measureFtg": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "here": {
+     "n": 175,
+     "singletons": 48,
+     "largestFootprintCount": 26
+    },
+    "equal": true
+   }
+  },
+  "exports-2026-09-25.s777001-size80-river-coast": {
+   "stem": "exports-2026-09-25.s777001-size80-river-coast",
+   "buildings": 15393,
+   "enclosureHa": 247.719507,
+   "medianFootprint": {
+    "areaM2": 252.587472,
+    "shortSideM": 13.407332
+   },
+   "clusters": {
+    "n": 1890,
+    "singletons": 339,
+    "largestFootprintCount": 37
+   },
+   "blockc.perHa": {
+    "value": 2.078964,
+    "blocks": 515,
+    "walledHa": 247.719507
+   },
+   "blockc.lotsPer": {
+    "value": 9.0,
+    "mean": 9.01165,
+    "p90": 14.0,
+    "max": 25,
+    "singletonShare": 0.048544
+   },
+   "waterTakenOut": {
+    "sea": 1,
+    "river": 1
+   },
+   "blockAreas": {
+    "intramuralSumM2": 1695495.75,
+    "enclosureM2": 2477195.074919,
+    "ratio": 0.684442,
+    "intramuralOverlapM2": 0.0,
+    "intramuralClosedSumM2": 1455383.75
+   },
+   "streetSpace": {
+    "areaM2": 615669.5,
+    "domainM2": 2311162.5
+   },
+   "raster": {
+    "stepM": 0.5,
+    "width": 3783,
+    "height": 4775,
+    "thinningPasses": 169,
+    "eulerStreetSpace": -512,
+    "eulerSkeleton": -512
+   },
+   "graphRaw": {
+    "nodes": 4867,
+    "edges": 5379,
+    "degrees": {
+     "1": 1928,
+     "2": 20,
+     "3": 2886,
+     "4": 33
+    },
+    "anomalies": 0
+   },
+   "topology": {
+    "eulerStreetSpace": -512,
+    "eulerSkeleton": -512,
+    "eulerGraphRaw": -512,
+    "componentsRaw": 2,
+    "isolatedNodes": 0,
+    "holesStreetSpace": 514,
+    "facesRaw": 514,
+    "facesPruned": 514,
+    "facesMerged": 514,
+    "mergedGroups": 15,
+    "internalEdgesRemoved": 15,
+    "chainAnomalies": 0
+   },
+   "dropped": {
+    "components": 1,
+    "lengthM": 25939.304181,
+    "largestM": 25939.304181
+   },
+   "crossings": 0,
+   "sgd.tShare": {
+    "value": 0.423131,
+    "tNodes": 300,
+    "degree3": 709
+   },
+   "sgd.deadEnds": {
+    "value": 1.44575,
+    "degree1": 73,
+    "lengthKm": 50.492819
+   },
+   "graph": {
+    "nodes": 796,
+    "edges": 1128,
+    "degrees": {
+     "1": 73,
+     "3": 709,
+     "4": 14
+    },
+    "faces": 333,
+    "lengthKm": 50.492819
+   },
+   "block.courtShare": {
+    "value": 0.733591,
+    "deep": 259,
+    "courtDeep": 190,
+    "courtShallow": 41,
+    "blocks": 515,
+    "thresholds": {
+     "deepRadiusM": 20.110998,
+     "dilateM": 0.670367,
+     "courtCellM": 0.25,
+     "subdivision": 2,
+     "minCourtM2": 126.293736
+    },
+    "exactTransforms": 123
+   },
+   "measureInputSha256": "b14a836c2cffe1cd7fc2c219b00c98a35402456b27b70d2c2fb6d0f667fae8db",
+   "header": {
+    "source": "MFCG",
+    "build": "itch:12710731",
+    "rung": "CITY",
+    "water": "coast+river",
+    "size": 80
+   },
+   "clusterTwin": {
+    "measureFtg": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "here": {
+     "n": 1890,
+     "singletons": 339,
+     "largestFootprintCount": 37
+    },
+    "equal": true
+   }
+  }
+ },
+ "summaries": {
+  "capture/MFCG/40/plain": {
+   "family": "capture/MFCG/40/plain",
+   "rung": "TOWN",
+   "size": 40,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "summary": {
+    "sgd.tShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.40410379999999996,
+     "b": 0.4935334,
+     "c": 0.44011,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.4461143000000001,
+      "sd": 0.03658175750911315,
+      "cv": 0.0820008628037997,
+      "sdPop": 0.03470450236222961,
+      "cvPop": 0.0777928489676964
+     }
+    },
+    "sgd.deadEnds": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 1.6575734,
+     "b": 2.7313050999999993,
+     "c": 2.3157305,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 2.3292051000000003,
+      "sd": 0.5931539342056626,
+      "cv": 0.2546593832400859,
+      "sdPop": 0.5627152305538655,
+      "cvPop": 0.24159110357171443
+     }
+    },
+    "blockc.perHa": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 2.1987889999999997,
+     "b": 2.7453193999999996,
+     "c": 2.559938,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 2.5092674,
+      "sd": 0.2659218459201876,
+      "cv": 0.10597588998294385,
+      "sdPop": 0.25227561381124414,
+      "cvPop": 0.10053755682285759
+     }
+    },
+    "blockc.lotsPer": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 8.0,
+     "b": 9.1,
+     "c": 9.0,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 8.7,
+      "sd": 0.6749485577105528,
+      "cv": 0.07758029398971872,
+      "sdPop": 0.6403124237432849,
+      "cvPop": 0.07359912916589482
+     }
+    },
+    "block.courtShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.7451993,
+     "b": 0.8557572,
+     "c": 0.8101315,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.8011322999999999,
+      "sd": 0.04499039296227582,
+      "cv": 0.05615850585761656,
+      "sdPop": 0.042681634376040445,
+      "cvPop": 0.05327663655059277
+     }
+    },
+    "graph.lengthKm": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 19.128958500000003,
+     "b": 22.1479875,
+     "c": 20.047261,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "graph.faces": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 129.1,
+     "b": 166.5,
+     "c": 142.0,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.perHa.blocks": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 129.0,
+     "b": 166.5,
+     "c": 141.0,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.lotsPer.mean": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 8.0366614,
+     "b": 9.4008485,
+     "c": 8.6337335,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.deep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 52.7,
+     "b": 72.3,
+     "c": 63.0,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.courtDeep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 43.8,
+     "b": 59.599999999999994,
+     "c": 47.5,
+     "seeds": [
+      "size40-plain-0",
+      "size40-plain-1",
+      "size40-plain-2",
+      "size40-plain-3",
+      "size40-plain-4",
+      "size40-plain-5",
+      "size40-plain-6",
+      "size40-plain-7",
+      "size40-plain-8",
+      "size40-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    }
+   }
+  },
+  "capture/MFCG/80/plain": {
+   "family": "capture/MFCG/80/plain",
+   "rung": "CITY",
+   "size": 80,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "summary": {
+    "sgd.tShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.4216071,
+     "b": 0.4828866,
+     "c": 0.4542255,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.4497001000000001,
+      "sd": 0.025216436092578804,
+      "cv": 0.05607389478583349,
+      "sdPop": 0.02392241175738767,
+      "cvPop": 0.05319636743996202
+     }
+    },
+    "sgd.deadEnds": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 1.1112548,
+     "b": 1.7765198,
+     "c": 1.4250755,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 1.4432703999999998,
+      "sd": 0.25412862753696647,
+      "cv": 0.17607832013804656,
+      "sdPop": 0.24108758450082,
+      "cvPop": 0.1670425614637562
+     }
+    },
+    "blockc.perHa": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 2.0282797,
+     "b": 3.163872,
+     "c": 2.306387,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 2.4496222,
+      "sd": 0.44610804090334694,
+      "cv": 0.18211299722191732,
+      "sdPop": 0.4232152475310407,
+      "cvPop": 0.17276755882235256
+     }
+    },
+    "blockc.lotsPer": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 7.0,
+     "b": 10.0,
+     "c": 9.0,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 8.6,
+      "sd": 1.0749676997731399,
+      "cv": 0.12499624415966744,
+      "sdPop": 1.0198039027185568,
+      "cvPop": 0.11858184915332057
+     }
+    },
+    "block.courtShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.7158502999999999,
+     "b": 0.8447749999999999,
+     "c": 0.8098425,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.7963878999999999,
+      "sd": 0.05427987832920533,
+      "cv": 0.06815758794075769,
+      "sdPop": 0.051494413991131124,
+      "cvPop": 0.06465996531480593
+     }
+    },
+    "graph.lengthKm": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 65.8233626,
+     "b": 77.2902789,
+     "c": 69.2351575,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "graph.faces": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 437.7,
+     "b": 645.4,
+     "c": 487.5,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.perHa.blocks": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 436.7,
+     "b": 643.6,
+     "c": 486.5,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.lotsPer.mean": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 7.521228600000001,
+     "b": 9.8591297,
+     "c": 8.936836,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.deep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 198.9,
+     "b": 264.4,
+     "c": 228.0,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.courtDeep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 149.7,
+     "b": 226.7,
+     "c": 187.5,
+     "seeds": [
+      "size80-plain-0",
+      "size80-plain-1",
+      "size80-plain-2",
+      "size80-plain-3",
+      "size80-plain-4",
+      "size80-plain-5",
+      "size80-plain-6",
+      "size80-plain-7",
+      "size80-plain-8",
+      "size80-plain-9"
+     ],
+     "notApplicable": [],
+     "cv": null
+    }
+   }
+  },
+  "capture/MFCG/130/plain": {
+   "family": "capture/MFCG/130/plain",
+   "rung": "METROPOLIS",
+   "size": 130,
+   "options": "plain",
+   "purpose": "rows",
+   "n": 10,
+   "summary": {
+    "sgd.tShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.4493704,
+     "b": 0.47097409999999995,
+     "c": 0.4572885,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.45907079999999995,
+      "sd": 0.010269582678960226,
+      "cv": 0.022370367879987633,
+      "sdPop": 0.009742581565478418,
+      "cvPop": 0.02122239437898995
+     }
+    },
+    "sgd.deadEnds": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.796245,
+     "b": 1.1067251,
+     "c": 0.9569755,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.9579936999999997,
+      "sd": 0.14334118036663432,
+      "cv": 0.14962643320789518,
+      "sdPop": 0.1359853837366722,
+      "cvPop": 0.1419480981312009
+     }
+    },
+    "blockc.perHa": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 2.4082553,
+     "b": 2.8113363,
+     "c": 2.5312825,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 2.5754487999999998,
+      "sd": 0.1780897100363871,
+      "cv": 0.06914900037476462,
+      "sdPop": 0.16895073346617942,
+      "cvPop": 0.06560050173242793
+     }
+    },
+    "blockc.lotsPer": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 8.9,
+     "b": 10.0,
+     "c": 9.0,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 9.1,
+      "sd": 0.5676462121975466,
+      "cv": 0.06237870463709304,
+      "sdPop": 0.5385164807134504,
+      "cvPop": 0.059177635243236305
+     }
+    },
+    "block.courtShare": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 0.7883802,
+     "b": 0.850827,
+     "c": 0.8142645,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 10,
+      "mean": 0.8199806000000001,
+      "sd": 0.025080537989090726,
+      "cv": 0.030586745575554745,
+      "sdPop": 0.023793487496371793,
+      "cvPop": 0.029017134669249236
+     }
+    },
+    "graph.lengthKm": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 170.94983580000002,
+     "b": 191.49754670000002,
+     "c": 181.2475945,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "graph.faces": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 1289.2,
+     "b": 1536.7,
+     "c": 1351.5,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.perHa.blocks": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 1285.0,
+     "b": 1530.3,
+     "c": 1349.5,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.lotsPer.mean": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 8.951637999999999,
+     "b": 9.8979029,
+     "c": 9.5049145,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.deep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 650.4,
+     "b": 765.1,
+     "c": 699.5,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.courtDeep": {
+     "estimator": "type7",
+     "n": 10,
+     "a": 538.9,
+     "b": 637.3,
+     "c": 568.5,
+     "seeds": [
+      "size130-plain-0",
+      "size130-plain-1",
+      "size130-plain-2",
+      "size130-plain-3",
+      "size130-plain-4",
+      "size130-plain-5",
+      "size130-plain-6",
+      "size130-plain-7",
+      "size130-plain-9",
+      "size130-plain-10"
+     ],
+     "notApplicable": [],
+     "cv": null
+    }
+   }
+  },
+  "capture/MFCG/80/river+coast": {
+   "family": "capture/MFCG/80/river+coast",
+   "rung": "CITY",
+   "size": 80,
+   "options": "river+coast",
+   "purpose": "stress (descriptive)",
+   "n": 3,
+   "summary": {
+    "sgd.tShare": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 0.432088,
+     "b": 0.485757,
+     "c": 0.448842,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 3,
+      "mean": 0.45556233333333335,
+      "sd": 0.027458378508814614,
+      "cv": 0.060273592656141343,
+      "sdPop": 0.022419672170266487,
+      "cvPop": 0.04921318232396991
+     }
+    },
+    "sgd.deadEnds": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 0.839581,
+     "b": 1.885126,
+     "c": 1.499256,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 3,
+      "mean": 1.4079876666666664,
+      "sd": 0.5287140231338047,
+      "cv": 0.3755104079750259,
+      "sdPop": 0.4316931921772942,
+      "cvPop": 0.30660296421438415
+     }
+    },
+    "blockc.perHa": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 2.188974,
+     "b": 2.352792,
+     "c": 2.331364,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 3,
+      "mean": 2.291043333333333,
+      "sd": 0.08904157119757795,
+      "cv": 0.03886507509573279,
+      "sdPop": 0.07270213844325508,
+      "cvPop": 0.03173320093316513
+     }
+    },
+    "blockc.lotsPer": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 9.0,
+     "b": 10.0,
+     "c": 9.0,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 3,
+      "mean": 9.333333333333334,
+      "sd": 0.5773502691896257,
+      "cv": 0.06185895741317418,
+      "sdPop": 0.4714045207910317,
+      "cvPop": 0.050507627227610534
+     }
+    },
+    "block.courtShare": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 0.686747,
+     "b": 0.830357,
+     "c": 0.82381,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": {
+      "n": 3,
+      "mean": 0.7803046666666665,
+      "sd": 0.08108941698109152,
+      "cv": 0.10392019994894072,
+      "sdPop": 0.06620923171448392,
+      "cvPop": 0.08485048794763575
+     }
+    },
+    "graph.lengthKm": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 47.356838,
+     "b": 76.22851,
+     "c": 68.960919,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "graph.faces": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 317,
+     "b": 592,
+     "c": 488.0,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.perHa.blocks": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 484,
+     "b": 816,
+     "c": 596.0,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "blockc.lotsPer.mean": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 8.836777,
+     "b": 10.011745,
+     "c": 9.343137,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.deep": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 249,
+     "b": 420,
+     "c": 336.0,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    },
+    "block.courtShare.courtDeep": {
+     "estimator": "minmax",
+     "n": 3,
+     "a": 171,
+     "b": 346,
+     "c": 279.0,
+     "seeds": [
+      "size80-rivercoast-0",
+      "size80-rivercoast-2",
+      "size80-rivercoast-3"
+     ],
+     "notApplicable": [],
+     "cv": null
+    }
+   }
+  }
+ },
+ "courtPooled": {
+  "capture/MFCG/40/plain": {
+   "countRatio": 0.8012924071082391,
+   "courtDeep": 496,
+   "deep": 619,
+   "median": 0.8101315,
+   "n": 10
+  },
+  "capture/MFCG/80/plain": {
+   "countRatio": 0.7982758620689655,
+   "courtDeep": 1852,
+   "deep": 2320,
+   "median": 0.8098425,
+   "n": 10
+  },
+  "capture/MFCG/130/plain": {
+   "countRatio": 0.820944036178632,
+   "courtDeep": 5809,
+   "deep": 7076,
+   "median": 0.8142645,
+   "n": 10
+  },
+  "capture/MFCG/80/river+coast": {
+   "countRatio": 0.7920398009950249,
+   "courtDeep": 796,
+   "deep": 1005,
+   "median": 0.82381,
+   "n": 3
+  },
+  "plain (all three sizes)": {
+   "countRatio": 0.8144782825761357,
+   "courtDeep": 8157,
+   "deep": 10015,
+   "median": 0.8134589999999999,
+   "n": 30
+  }
+ },
+ "vectorsFile": "docs/calibration/E09-mfcg-derived-graph.vectors.json",
+ "seedsFile": "docs/calibration/E09-mfcg-derived-graph.seeds.json",
+ "checks": [
+  {
+   "id": "planarity",
+   "check": "no two edges of the derived graph cross (every fixture and every captured sweep file)",
+   "passed": true,
+   "receipt": "40 of 40 maps with 0 proper crossings"
+  },
+  {
+   "id": "faceCount",
+   "check": "face count: the graph's faces E - V + C equal the street space's holes (Gray's bit-quad Euler number; the skeleton's and the raw graph's Euler numbers equal the street space's) after the raw build, the spur pruning and the node merge; 0 chain anomalies",
+   "passed": false,
+   "receipt": "35 of 40 maps equal at all three stages (24222 faces in all); differs on ['size80-plain-7', 'size130-plain-3', 'size130-plain-10', 'size80-rivercoast-3', 'size80-rivercoast-4']"
+  },
+  {
+   "id": "areaSum",
+   "check": "the intramural cluster blocks' area sum <= the walled (enclosure) area",
+   "passed": true,
+   "receipt": "40 of 40 maps; largest ratio 0.7741; intramural block overlap 0.00 m2 in all"
+  },
+  {
+   "id": "cvHandedToW14",
+   "check": "the seed-to-seed CV of sgd.tShare, sgd.deadEnds, blockc.perHa and blockc.lotsPer per family (n = the usable seeds), in the summary file and the per-seed file for W-14",
+   "passed": true,
+   "receipt": "16 of 16 CVs present over the usable seeds"
+  },
+  {
+   "id": "vectors",
+   "check": "one R-10 vector per usable plain seed per size, none for a failed seed (vectors only, no dispersion: R-40)",
+   "passed": true,
+   "receipt": "{'capture/MFCG/40/plain': 10, 'capture/MFCG/80/plain': 10, 'capture/MFCG/130/plain': 10}"
+  },
+  {
+   "id": "clusterTwin",
+   "check": "the clusters equal measure_ftg.py's own (count, singletons, largest cluster) on every map, so the vector's block-area CV reads the same clusters",
+   "passed": true,
+   "receipt": "40 of 40 maps equal"
+  },
+  {
+   "id": "sample",
+   "check": "every usable seed in every summary, no failed seed in any; the failed indices listed",
+   "passed": true,
+   "receipt": "44 summaries over 10 / 10 / 10 / 3 usable seeds; failed: capture/MFCG/130/plain/8 no-export; capture/MFCG/80/river+coast/1 retry; capture/MFCG/80/river+coast/4 retry"
+  }
+ ]
+}
