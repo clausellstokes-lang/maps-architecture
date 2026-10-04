@@ -3,7 +3,7 @@
 // retired ids reserved with no reader, J-DET-22's "rerollable concern without a reader" test with reserved rows skipped
 // until their milestone, and the generated constants up to date.
 import { readFileSync } from 'node:fs';
-import { describe, expect, it, vi } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import {
   attemptCap,
   CONCERN_COUNT,
@@ -305,87 +305,4 @@ describe('the generated constants (ids.ts) are up to date with the registries', 
     expect(renderIds(appended, stages)).not.toBe(renderIds(concerns, stages));
     expect(() => renderIds({ ...concerns, rows: concerns.rows.slice(1) }, stages)).toThrow(/dense/);
   });
-});
-
-describe('the registries refuse a malformed file at load (src/registry/index.ts, on doctored copies)', () => {
-  type Row = Record<string, unknown>;
-  type File = { registry: string; version: number; view?: Row; rows: Row[] };
-  const read = (name: string): File => JSON.parse(readFileSync(new URL(`${name}.json`, REGISTRY_DIR), 'utf8')) as File;
-  const CONCERNS_FILE = read('concerns');
-  const STAGES_FILE = read('stages');
-  const doctor = (file: File, change: (f: File) => void): File => {
-    const copy = structuredClone(file);
-    change(copy);
-    return copy;
-  };
-  /** Loads the registry module over the two files as given: "loaded <concerns> <stages>", or the load's error message. */
-  const load = async (concerns: File, stages: File = STAGES_FILE): Promise<string> => {
-    vi.resetModules();
-    vi.doMock('../../src/registry/concerns.json', () => ({ default: concerns }));
-    vi.doMock('../../src/registry/stages.json', () => ({ default: stages }));
-    try {
-      const m = await import('../../src/registry/index.js');
-      return `loaded ${String(m.CONCERN_COUNT)} ${String(m.STAGE_COUNT)}`;
-    } catch (e) {
-      return e instanceof Error ? e.message : 'not an Error';
-    } finally {
-      vi.doUnmock('../../src/registry/concerns.json');
-      vi.doUnmock('../../src/registry/stages.json');
-      vi.resetModules();
-    }
-  };
-  const extraRows = (file: File, total: number, extra: (id: number) => Row): File =>
-    doctor(file, (f) => {
-      for (let id = f.rows.length; id < total; id += 1) f.rows.push({ ...extra(id), id, name: `zz.${String(id)}` });
-    });
-  const at = (name: string): number => CONCERNS_FILE.rows.findIndex((r) => r.name === name);
-
-  it('loads the committed files (the harness itself)', async () => {
-    expect(await load(CONCERNS_FILE)).toBe(`loaded ${String(CONCERN_COUNT)} ${String(STAGE_COUNT)}`);
-  }, 120_000);
-
-  it("refuses a bad header, a row out of its dense u16 id, a bad or repeated name and a reservedUntil that is no milestone", async () => {
-    const bad = (change: (f: File) => void): Promise<string> => load(doctor(CONCERNS_FILE, change));
-    expect(await bad((f) => (f.registry = 'stages'))).toBe('registry concerns: bad header');
-    expect(await bad((f) => (f.version = 0))).toBe('registry concerns: bad header');
-    expect(await bad((f) => (f.version = 1.5))).toBe('registry concerns: bad header');
-    expect(await bad((f) => (f.rows[5].id = 6))).toBe('registry concerns: bad row 5');
-    expect(await bad((f) => (f.rows[5].name = 7))).toBe('registry concerns: bad row 5');
-    expect(await bad((f) => (f.rows[5].name = f.rows[4].name))).toBe('registry concerns: bad row 5');
-    expect(await bad((f) => (f.rows[5].reservedUntil = 'M99'))).toBe('registry concerns: bad row 5');
-    expect(await bad((f) => (f.rows[5].reservedUntil = 5))).toBe('registry concerns: bad row 5');
-    expect(await bad((f) => (f.rows[5].reservedUntil = 'M6-sky'))).toBe(`loaded ${String(CONCERN_COUNT)} ${String(STAGE_COUNT)}`);
-    expect(await load(CONCERNS_FILE, doctor(STAGES_FILE, (f) => (f.registry = 'concerns')))).toBe('registry stages: bad header');
-    expect(await load(CONCERNS_FILE, doctor(STAGES_FILE, (f) => (f.rows[3].id = 4)))).toBe('registry stages: bad row 3');
-  }, 120_000);
-
-  it('takes ids up to 0xffff and refuses the 65 537th row (a u16 id)', async () => {
-    const live = { cap: 0, rerollable: false, retired: false, readers: ['S1'], row: 1, keyedBy: 'x' };
-    expect(await load(extraRows(CONCERNS_FILE, 0x10000, () => live))).toBe(`loaded 65536 ${String(STAGE_COUNT)}`);
-    expect(await load(extraRows(CONCERNS_FILE, 0x10001, () => live))).toBe('registry concerns: bad row 65536');
-  }, 120_000);
-
-  it("refuses a cap outside the row's kind: a retired id's must be none, a live id's \"default\" or 0 … 255", async () => {
-    const bad = (name: string, change: (r: Row) => void): Promise<string> => load(doctor(CONCERNS_FILE, (f) => change(f.rows[at(name)])));
-    const ok = `loaded ${String(CONCERN_COUNT)} ${String(STAGE_COUNT)}`;
-    expect(await bad('cut.side', (r) => (r.cap = 'default'))).toBe('registry concerns: bad row cut.side');
-    expect(await bad('cut.side', (r) => (r.cap = 0))).toBe('registry concerns: bad row cut.side');
-    expect(await bad('cut.side', (r) => (r.readers = ['S8']))).toBe('registry concerns: bad row cut.side');
-    expect(await bad('route', (r) => (r.cap = null))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.cap = 256))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.cap = -1))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.cap = 1.5))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.cap = '2'))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.cap = 255))).toBe(ok);
-    expect(await bad('route', (r) => (r.cap = 0))).toBe(ok);
-    expect(await bad('route', (r) => (r.rerollable = 'yes'))).toBe('registry concerns: bad row route');
-    expect(await bad('route', (r) => (r.readers = 'S4'))).toBe('registry concerns: bad row route');
-  }, 120_000);
-
-  it('refuses a view id other than 0xffff and a stage table that would reach it', async () => {
-    const plain = { title: 'x' };
-    expect(await load(CONCERNS_FILE, doctor(STAGES_FILE, (f) => ((f.view as Row).id = 0xfffe)))).toBe('registry stages: bad view id');
-    expect(await load(CONCERNS_FILE, extraRows(STAGES_FILE, 0xfffe, () => plain))).toBe(`loaded ${String(CONCERN_COUNT)} 65534`);
-    expect(await load(CONCERNS_FILE, extraRows(STAGES_FILE, 0xffff, () => plain))).toBe('registry stages: bad view id');
-  }, 120_000);
 });

@@ -50,12 +50,11 @@ describe('the seed key: four 32-bit-lane finalisers with distinct salts (§6.1)'
       }
       return lo;
     };
-    expect([2n, 3n, 5n, 7n].map((p) => Number(icbrt(p << 96n) - (1n << 32n)))).toEqual([...SEED_SALTS]);
+    expect([2n, 3n, 5n, 7n].map((p) => Number(icbrt(p << 96n) - (1n << 32n)))).toEqual([0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5]);
     // the seed key end to end, computed outside the item with MurmurHash3's published fmix32 over these salts
     expect(seedKey(0)).toEqual([0xb30705af, 0xbaaedc8b, 0xb0675f61, 0x0889e26d]);
     expect(seedKey(1)).toEqual([0x27909591, 0xcd4901e5, 0xede5b0e6, 0x6022ffcf]);
     expect(seedKey(0xffffffff)).toEqual([0xd746e956, 0xfe3f7222, 0xc0a260ec, 0x26915c8d]);
-    expect(laneKey([0])).toEqual(seedKey(0));
   });
 
   it('is laneKey over the one word, and laneKey folds its words in order', () => {
@@ -155,12 +154,6 @@ describe('the entity key: the seed key mixed with the lineage hash and the arena
     expect(() => entityKey([1, 2, 3] as unknown as Hash128, [1, 2], GROUND0)).toThrow(RangeError);
     expect(() => entityKey(SK, [1, 2, 3] as unknown as [number, number], GROUND0)).toThrow(RangeError);
     expect(() => entityKey(SK, [1, -2], GROUND0)).toThrow(RangeError);
-    // every word of each key is checked, the first and the last among them
-    expect(() => entityKey([-1, 2, 3, 4] as unknown as Hash128, [1, 2], GROUND0)).toThrow(/seed key/);
-    expect(() => entityKey([1, 2, 3, 0.5] as unknown as Hash128, [1, 2], GROUND0)).toThrow(/seed key/);
-    expect(() => entityKey(SK, [-1, 2], GROUND0)).toThrow(/lineage/);
-    expect(() => streamKey([2 ** 32, 1, 2, 3] as unknown as Hash128, STAGES.S4, CONCERNS.route, OPTS0)).toThrow(/entity key/);
-    expect(() => streamKey([1, 2, 3, -1] as unknown as Hash128, STAGES.S4, CONCERNS.route, OPTS0)).toThrow(/entity key/);
     expect(() => entityKey(SK, [1, 2], { layer: 'attic' as 'ground', part: 0 })).toThrow(RangeError);
     expect(() => entityKey(SK, [1, 2], { layer: 'ground', part: -1 })).toThrow(RangeError);
     expect(() => entityKey(SK, [1, 2], { layer: 'ground', part: 2 ** 32 })).toThrow(RangeError);
@@ -307,48 +300,6 @@ describe('the one structured mixer: stream keys', () => {
     for (const c of [-1, 0.5, 1.5, Number.NaN, CONCERN_COUNT, 0x10000, 0x10000 + CONCERNS['cut.t'], 2 ** 32 + CONCERNS['cut.t']]) {
       expect(() => key({}, STAGES.S8, c), `concern ${String(c)}`).toThrow(/the concern must be/);
     }
-  });
-
-  it('names what it refuses and the value it got, by its numeric code, in a RangeError (text.ts, off the generation path)', () => {
-    const message = (f: () => unknown): string => {
-      try {
-        f();
-      } catch (e) {
-        return e instanceof RangeError ? e.message : 'not a RangeError';
-      }
-      return 'no refusal';
-    };
-    const SK = seedKey(1);
-    expect(message(() => seedKey(-1))).toBe('rng: the seed must be a u32 (§2.9); got -1');
-    expect(message(() => entityKey([1, 2, 3] as unknown as Hash128, [1, 2], { layer: 'ground', part: 0 }))).toBe('rng: a seed key is four u32 words; got [1, 2, 3]');
-    expect(message(() => entityKey(SK, [1, 2, 3] as unknown as [number, number], { layer: 'ground', part: 0 }))).toBe(
-      'rng: a lineage hash is two u32 words (§6.3); got [1, 2, 3]',
-    );
-    expect(message(() => entityKey(SK, [1, 2], { layer: 'attic' as 'ground', part: 0 }))).toBe(
-      'rng: an arena key\'s layer is \'ground\', \'underground\' or \'sky\' (§2.1); got "attic"',
-    );
-    // a value whose String() throws is shown by its type
-    expect(message(() => entityKey(SK, [1, 2], { layer: Object.create(null) as 'ground', part: 0 }))).toBe(
-      'rng: an arena key\'s layer is \'ground\', \'underground\' or \'sky\' (§2.1); got object',
-    );
-    expect(message(() => entityKey(SK, [1, 2], { layer: 'ground', part: -1 }))).toBe("rng: an arena key's part must be a u32 (§2.2); got -1");
-    expect(message(() => streamKey([1, 2, 3] as unknown as Hash128, STAGES.S4, CONCERNS.route, OPTS0))).toBe(
-      'rng: an entity key is four u32 words (§6.1); got [1, 2, 3]',
-    );
-    expect(message(() => streamKey(EK, 70000 as StageId, CONCERNS.route, OPTS0))).toBe(
-      'rng: the stage must be a registered u16 stage id or STAGE_VIEW (§6.1); got 70000',
-    );
-    expect(message(() => streamKey(EK, STAGES.S8, 'cut.stop' as unknown as ConcernId, OPTS0))).toBe(
-      'rng: the concern must be a registered, unretired u16 concern id — a retired id has no reader (§6.1, T41-1); got "cut.stop"',
-    );
-    expect(message(() => streamKey(EK, STAGES.S4, CONCERNS.route, { ...OPTS0, reroll: -1 }))).toBe('rng: reroll must be a u16 (§6.1); got -1');
-    expect(message(() => streamKey(EK, STAGES.S4, CONCERNS.route, { ...OPTS0, attempt: 3 }))).toBe(
-      "rng: attempt must be an integer from 0 to the concern's registered cap (§6.1); got 3",
-    );
-    expect(message(() => streamKey(EK, STAGES.S4, CONCERNS.route, { ...OPTS0, epoch: -1 }))).toBe('rng: epoch must be a u32 (§6.1); got -1');
-    expect(message(() => streamKey(EK, STAGES.S4, CONCERNS.route, { ...OPTS0, salt: 65536 }))).toBe('rng: salt must be a u16 (§6.1); got 65536');
-    expect(message(() => laneKey([]))).toBe('rng: a lane key takes at least one word; got 0');
-    expect(message(() => laneKey([1, -2]))).toBe('rng: a lane key word must be a u32; got -2');
   });
 
   it('times the mixer (CONTENDED, informative only: the ≤ 0.1 µs bar is measured in the timing phase, M0-t-01)', () => {

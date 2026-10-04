@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-d-01",
-  "lane": "build/M0-d-01-fix2",
-  "lanes": ["build/M0-d-01", "build/M0-d-01-fix1", "build/M0-d-01-fix2"],
+  "lane": "build/M0-d-01-fix3",
+  "lanes": ["build/M0-d-01", "build/M0-d-01-fix1", "build/M0-d-01-fix2", "build/M0-d-01-fix3"],
   "wave": "wave-3",
   "snapshotTaken": "2026-10-04T01:53:12.168Z",
-  "date": "2026-10-04T03:46:58.703Z",
+  "date": "2026-10-04T06:51:32.922Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/rng/", "plat/packages/kernel/src/registry/", "plat/packages/kernel/src/registry/concerns.json", "plat/packages/kernel/src/registry/stages.json", "plat/packages/kernel/test/rng/", "plat/packages/kernel/test/vectors/xoshiro/", "plat/vendor/xoshiro/"],
   "counts": { "created": 30, "changed": 2, "unchanged": 0, "deleted": 0 },
@@ -26,12 +26,12 @@
     { "path": "plat/packages/kernel/test/rng/kat-hosts.mjs", "status": "created", "sha256": "ddf950e63693006b9cd4aa929a5cd451f658d478054eef128c51f98dd84d3a72", "size": 3458 },
     { "path": "plat/packages/kernel/test/rng/kat-run.ts", "status": "created", "sha256": "049023ae3a1b4e433b13f808f4b7ea6f345e1c351a7e502c4fe5cde67c02dcef", "size": 4371 },
     { "path": "plat/packages/kernel/test/rng/kat.test.ts", "status": "created", "sha256": "b7e5927b55defd36e35eb12dc47a065bc471812ba071c5b1d092263885a0ff16", "size": 2409 },
-    { "path": "plat/packages/kernel/test/rng/mixer.test.ts", "status": "created", "sha256": "b0f0436c3e281a2937cf08cbc5e23c7956a54c1124580c9a36be2953c22e89e0", "size": 15940 },
-    { "path": "plat/packages/kernel/test/rng/no-string.test.ts", "status": "created", "sha256": "681aadaa32c6a5cb1446e83d2e12f898c85f800b38604ce9111aca79384581fb", "size": 9893 },
+    { "path": "plat/packages/kernel/test/rng/mixer.test.ts", "status": "created", "sha256": "9d67c816b0c94b910922db451b07c90954cbed10082d30829917ab9905b866c0", "size": 17286 },
+    { "path": "plat/packages/kernel/test/rng/no-string.test.ts", "status": "created", "sha256": "4092ba23e10b0d5d513751ed7018f21a0c10ae24ea775fc54e600db7f1b2bb09", "size": 10090 },
     { "path": "plat/packages/kernel/test/rng/registry.snapshot.json", "status": "created", "sha256": "bbeff2dd7291af5217abe051ab23a3762ece10e12fcbe21a135350b14c548404", "size": 3528 },
     { "path": "plat/packages/kernel/test/rng/registry.test.ts", "status": "created", "sha256": "b53711f01f452bb69404b85512f596ed0d04200d5cd792cb1542e67f5835efbb", "size": 15371 },
-    { "path": "plat/packages/kernel/test/rng/rng.test.ts", "status": "created", "sha256": "5c994d40eec4cf02cb14af675d6296782e958dd615ceede7d2997288307c9574", "size": 12105 },
-    { "path": "plat/packages/kernel/test/rng/stream.test.ts", "status": "created", "sha256": "67f87e90a4a8dea46e8ee2a52417fe2b3d6091d81e733c1acb677b8f2c2f1018", "size": 15739 },
+    { "path": "plat/packages/kernel/test/rng/rng.test.ts", "status": "created", "sha256": "d14c2e72cabb78fa9d0486ac634494eb2673f94616064a0bc093154dac9d9319", "size": 13213 },
+    { "path": "plat/packages/kernel/test/rng/stream.test.ts", "status": "created", "sha256": "a5b3ee02e49df34c73a1fbe674c70c3910b07b894bb156bbdc1b6158b4756dde", "size": 16706 },
     { "path": "plat/packages/kernel/test/vectors/xoshiro/README.md", "status": "created", "sha256": "90e81261d790c05f2362cb6dc3a951ac5b96a5037e8925219959af1da1df5910", "size": 1897 },
     { "path": "plat/packages/kernel/test/vectors/xoshiro/arm64/xoshiro128ss-long.txt", "status": "created", "sha256": "552bb1ed2b9a0d3d9fec7ffaac7087b3a3030ae0a9eeaafebdafe16c13344ab7", "size": 648 },
     { "path": "plat/packages/kernel/test/vectors/xoshiro/arm64/xoshiro128ss.txt", "status": "created", "sha256": "c201a851c3eebf16820371a4c73771294adc7ad2abadaf32d3d2dae7cf5bfe33", "size": 457056 },
@@ -46,8 +46,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0049", "L-0056", "L-0062", "P-0023", "P-0024"],
-      "lines": ["5dcf008dade05bd6", "4b7e13e4b814e036", "b33bfc921ec18d54", "54bc32912e312e45", "12f497acc07b5e14"],
+      "ids": ["L-0049", "L-0056", "L-0062", "L-0074", "P-0023", "P-0024"],
+      "lines": ["5dcf008dade05bd6", "4b7e13e4b814e036", "b33bfc921ec18d54", "a9748fdf5ccf03b1", "54bc32912e312e45", "12f497acc07b5e14"],
       "removed": []
     },
     {

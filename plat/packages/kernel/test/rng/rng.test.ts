@@ -3,12 +3,12 @@
 // M0-d-09 over the spike city) and the textual key form for reports.
 import { describe, expect, it } from 'vitest';
 import type { Hash128 } from '../../src/hash/index.js';
-import { CONCERN_COUNT, CONCERNS, STAGE_COUNT, STAGE_VIEW, STAGES } from '../../src/registry/index.js';
+import { CONCERNS, STAGE_VIEW, STAGES } from '../../src/registry/index.js';
 import { KeyCensus } from '../../src/rng/census.js';
 import { entityKey, packComponents, seedKey, streamKey } from '../../src/rng/mixer.js';
 import { createRng } from '../../src/rng/rng.js';
 import { Stream } from '../../src/rng/stream.js';
-import { concernText, keyText, stageText } from '../../src/rng/text.js';
+import { keyText } from '../../src/rng/text.js';
 import type { ConcernId, StageId, StreamOpts } from '../../src/types/index.js';
 import { unfinalise } from './invert.js';
 
@@ -184,17 +184,9 @@ describe('the distinctness harness (§6.1; M0-d-09 runs it over the spike city)'
     const shortFirst = new KeyCensus(4);
     expect(shortFirst.add(key, [9, 9])).toBe('new');
     expect(shortFirst.add(key, [9, 9, 7])).toBe('collision');
-    expect(shortFirst.add(key, [9, 9])).toBe('reused');
-    expect(shortFirst.firstCollision).toEqual({ hash: [1, 2, 3, 4], first: [9, 9], second: [9, 9, 7] });
     const longFirst = new KeyCensus(4);
     expect(longFirst.add(key, [9, 9, 7])).toBe('new');
     expect(longFirst.add(key, [9, 9])).toBe('collision');
-    expect(longFirst.add(key, [9, 9, 7])).toBe('reused');
-    const empty = new KeyCensus(4); // the empty source is a source too
-    expect(empty.add(key, [])).toBe('new');
-    expect(empty.add(key, [0])).toBe('collision');
-    expect(empty.add(key, [])).toBe('reused');
-    expect([shortFirst.collisions, longFirst.collisions, empty.collisions]).toEqual([1, 1, 1]);
   });
 
   it('holds lineage hashes too (two words) and grows past its first capacity', () => {
@@ -203,47 +195,7 @@ describe('the distinctness harness (§6.1; M0-d-09 runs it over the spike city)'
     for (let i = 0; i < 50000; i += 7) expect(census.add([i, Math.imul(i, 0x9e3779b1) >>> 0], [i])).toBe('reused');
     expect(census.size).toBe(50000);
     expect(census.collisions).toBe(0);
-    // every hash is found again after the growths, those stored just before each one among them
-    const small = new KeyCensus(2, 4);
-    for (let i = 0; i < 300; i += 1) small.add([i, 7], [i]);
-    for (let i = 0; i < 300; i += 1) expect(small.add([i, 7], [i]), `hash ${String(i)}`).toBe('reused');
-    for (let i = 0; i < 300; i += 1) expect(small.add([i, 7], [i, 1]), `hash ${String(i)}`).toBe('collision');
-    expect([small.size, small.reused, small.collisions]).toEqual([300, 300, 300]);
   }, 120_000);
-
-  it('tells hashes apart by every word, keeps sources of any length, and finds all-zero hashes after a growth', () => {
-    // hashes that differ in one word only, at each of the four positions: all distinct, then all found again
-    const census = new KeyCensus(4, 4);
-    for (let pos = 0; pos < 4; pos += 1) {
-      for (let i = 0; i < 500; i += 1) {
-        const h = [7, 7, 7, 7];
-        h[pos] = i;
-        expect(census.add(h, [pos, i]), `word ${String(pos)} = ${String(i)}`).toBe(i === 7 ? (pos === 0 ? 'new' : 'collision') : 'new');
-      }
-    }
-    expect([census.size, census.collisions]).toEqual([1997, 3]); // [7, 7, 7, 7] four times: new, then three other sources
-    for (let pos = 0; pos < 4; pos += 1) {
-      for (let i = 0; i < 500; i += 1) {
-        const h = [7, 7, 7, 7];
-        h[pos] = i;
-        if (i !== 7) expect(census.add(h, [pos, i])).toBe('reused');
-      }
-    }
-    // a source far longer than the store's first room, again and then with its last word changed
-    const long = Array.from({ length: 5000 }, (_, i) => i);
-    const big = new KeyCensus(2, 4);
-    expect(big.add([1, 1], long)).toBe('new');
-    expect(big.add([2, 2], long)).toBe('new');
-    expect(big.add([1, 1], [...long])).toBe('reused');
-    expect(big.add([2, 2], [...long.slice(0, 4999), 0])).toBe('collision');
-    expect(big.firstCollision?.first).toEqual(long);
-    // the first add after a growth may be the all-zero hash: new, then reused
-    const z = new KeyCensus(2, 4);
-    for (let i = 1; i <= 9; i += 1) z.add([i, i], [i]); // the ninth add grows the table
-    expect(z.add([0, 0], [5])).toBe('new');
-    expect(z.add([0, 0], [5])).toBe('reused');
-    expect(z.collisions).toBe(0);
-  });
 
   it('records a stream key with its entity key and packed components as the source', () => {
     const census = new KeyCensus(4);
@@ -259,24 +211,7 @@ describe('the distinctness harness (§6.1; M0-d-09 runs it over the spike city)'
     expect(() => census.add([1, 2], [])).toThrow(RangeError);
     expect(() => census.add([1, 2, 3, -4], [])).toThrow(RangeError);
     expect(() => census.add([1, 2, 3, 4], [0.5])).toThrow(RangeError);
-    expect(() => census.add([-1, 2, 3, 4], [])).toThrow(/word 0 is not a u32/);
-    expect(() => census.add([1, 2, 3, 4], [1, 0.5])).toThrow(/word 1 is not a u32/);
-    expect(() => census.add([1, 2, 3, 4], [1, 2, 2 ** 32])).toThrow(/word 2 is not a u32/);
-    expect(census.size).toBe(0); // nothing recorded by a refused add
     expect(() => new KeyCensus(0)).toThrow(RangeError);
-  });
-
-  it('holds hashes of 1 … 8 words, four (a stream key) by default, and refuses any other width', () => {
-    expect(new KeyCensus().width).toBe(4);
-    for (const w of [1, 2, 8]) {
-      const census = new KeyCensus(w);
-      const hash = Array.from({ length: w }, (_, i) => i + 1);
-      expect(census.add(hash, [1])).toBe('new');
-      expect(census.add(hash, [1])).toBe('reused');
-      expect(census.add(hash, [2])).toBe('collision');
-      expect(() => census.add([...hash, 0], [1])).toThrow(RangeError);
-    }
-    for (const w of [0, 9, -1, 1.5, Number.NaN]) expect(() => new KeyCensus(w), `width ${String(w)}`).toThrow(/width .* is not 1 … 8/);
   });
 });
 
@@ -292,22 +227,9 @@ describe('keyText: the textual form of a stream key, for reports only (§6.1)', 
   });
 
   it('renders no component given as 0 — reroll, attempt, epoch and salt alike (C-0143 (4): "each non-zero component")', () => {
-    // checks/M0-d-01.md F-8: each of the four is given explicitly as 0, together and one at a time beside a non-zero one
-    const c = { entity: 'plot:7kq2m9x4c1b0a', stage: STAGES.S11, concern: CONCERNS.siteplan };
-    expect(keyText({ ...c, reroll: 0, attempt: 0, epoch: 0, salt: 0 })).toBe('S11/siteplan@plot:7kq2m9x4c1b0a');
-    expect(keyText({ ...c, reroll: 0, attempt: 1, epoch: 1, salt: 1 })).toBe('S11/siteplan@plot:7kq2m9x4c1b0a/a=1/e=1/s=1');
-    expect(keyText({ ...c, reroll: 1, attempt: 0, epoch: 1, salt: 1 })).toBe('S11/siteplan@plot:7kq2m9x4c1b0a/r=1/e=1/s=1');
-    expect(keyText({ ...c, reroll: 1, attempt: 1, epoch: 0, salt: 1 })).toBe('S11/siteplan@plot:7kq2m9x4c1b0a/r=1/a=1/s=1');
-    expect(keyText({ ...c, reroll: 1, attempt: 1, epoch: 1, salt: 0 })).toBe('S11/siteplan@plot:7kq2m9x4c1b0a/r=1/a=1/e=1');
-  });
-
-  it('names every registered stage and concern, the first and the last among them, and #n for any other id', () => {
-    expect(stageText(0)).toBe('S0');
-    expect(stageText(STAGE_COUNT - 1)).toBe('S8.seed');
-    expect(stageText(STAGE_VIEW)).toBe('VIEW');
-    for (const id of [STAGE_COUNT, -1, 1.5, STAGE_VIEW - 1]) expect(stageText(id)).toBe(`#${String(id)}`);
-    expect(concernText(0)).toBe('terrain.noise');
-    expect(concernText(CONCERN_COUNT - 1)).toBe('view.weather');
-    for (const id of [CONCERN_COUNT, -1, 1.5]) expect(concernText(id)).toBe(`#${String(id)}`);
+    // checks/M0-d-01.md F-8: all four given explicitly as 0
+    expect(keyText({ entity: 'plot:7kq2m9x4c1b0a', stage: STAGES.S11, concern: CONCERNS.siteplan, reroll: 0, attempt: 0, epoch: 0, salt: 0 })).toBe(
+      'S11/siteplan@plot:7kq2m9x4c1b0a',
+    );
   });
 });

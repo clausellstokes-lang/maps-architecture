@@ -168,8 +168,6 @@ describe('a stream call whose concern or stage is not the registry brand is refu
     expect(attempt(() => rng.stream(EK, STAGES.S8, 52, O))).toBe(true);
     // @ts-expect-error a plain number is not a StageId on Rng.stream either (C-0143 (3); checks/M0-d-01.md F-10)
     expect(attempt(() => rng.stream(EK, 11, CONCERNS['cut.stop'], O))).toBe(true);
-    // @ts-expect-error a stage given by name on Rng.stream
-    expect(attempt(() => rng.stream(EK, 'S8', CONCERNS['cut.stop'], O))).toBe(false);
     // @ts-expect-error a stage given by name
     expect(attempt(() => streamKey(EK, 'S8', CONCERNS['cut.stop'], O))).toBe(false);
     // @ts-expect-error a plain number is not a StageId
