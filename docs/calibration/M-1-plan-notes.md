@@ -261,3 +261,8 @@ The session carried rows N-20 to N-25 with attachments A to C into `plat/docs/bu
   inside a JSON string value (N-22); rows carry no floor or sign field where M0 gates on them (N-05); the countersigning
   checker seat is implementer-side and reads only the file and `baselines:check`'s output (N-06, R-45); W-20 runs N-23's
   planted-hit control in a scratch copy outside the project; the row ids follow N-25's trailing `/<subset>[/<field>]` form.
+* **DC-38 (for the next design seat; found by the session's discoveries digest, 2026-10-03 ~23:45).** §13.5's bent-cut
+  row still quotes the NG figures taken from two fixture maps (one-bend cuts about 73 %, the corner near the middle about
+  82 %). W-10b's plan-seed sample (E10 section 9; 20 medium maps, formula seeds, R-03) measures about 66 % one-bend and
+  about 89 % corner-near-middle. By R-49's precedent (a pooled plan-seed value replaces a fixture figure) the reference
+  values in that row become W-10b's, with the fixture figures named as history; the band columns are W-15's to form.
