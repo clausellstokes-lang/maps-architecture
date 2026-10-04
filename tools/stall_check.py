@@ -37,8 +37,10 @@ for run in runs:
             started[e['agentId']] = e.get('label', '?')
         elif e.get('type') == 'result' and e.get('agentId'):
             done.add(e['agentId'])
+    # a stop and resumeFromRunId re-starts a killed seat under the same label: only the latest agent per label is live
+    latest = {label: aid for aid, label in started.items()}
     for aid, label in started.items():
-        if aid in done:
+        if aid in done or latest.get(label) != aid:
             continue
         t = os.path.join(os.path.dirname(journal), f'agent-{aid}.jsonl')
         if not os.path.exists(t):
