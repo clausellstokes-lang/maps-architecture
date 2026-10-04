@@ -32,12 +32,20 @@ const WAVES = ARGS.waves || []
 let live = 0
 const waiters = []
 let onRelease = null // the pull hook (below): a freed seat may start a ready item of the next wave
-const gate = async (fn) => {
-  while (live >= MAX) await new Promise((r) => waiters.push(r))
+// A freed seat goes first to a waiting check or steward (they close items and waves and unblock early starts), then to
+// a waiting build, in arrival order within each class (2026-10-04: a finished build's check had queued behind a new build).
+const gate = async (fn, prio) => {
+  while (live >= MAX) await new Promise((r) => waiters.push({ r, prio: prio || 0 }))
   live++
-  try { return await fn() } finally { live--; const w = waiters.shift(); if (w) w(); else if (onRelease) onRelease() }
+  try { return await fn() } finally {
+    live--
+    let k = waiters.findIndex((x) => x.prio === 0)
+    if (k < 0 && waiters.length) k = 0
+    if (k >= 0) waiters.splice(k, 1)[0].r()
+    else if (onRelease) onRelease()
+  }
 }
-const seat = (prompt, label, phaseName, schema) => gate(() => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: MODEL }))
+const seat = (prompt, label, phaseName, schema) => gate(() => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: MODEL }), phaseName === 'Build' ? 1 : 0)
 
 const CLEAN_ROOM = `CLEAN ROOM (§17.1 (1), binding): you are an IMPLEMENTER-SIDE seat. You read ONLY docs/ARCHITECTURE.md, docs/volumes/INDEX.md, the design volumes a milestone builds (M0 builds none), plat/ (and plat/docs/digest/ when it exists), published algorithm papers and the public documentation of adopted libraries. You NEVER open, list, grep or read research/, captures/, reference/, partitioned/, profiler/, docs/confidence/, docs/improvements/, docs/CONFIDENCE.md, docs/IMPROVEMENTS.md, docs/fable-review/, docs/retrovalidation/, docs/validation/ (the review records), docs/calibration/, docs/design/ or any findings, critic or red-team file — not even to search them; a citation in the design that points there is for traceability only and you do not follow it. No code from any other settlement generator is read, ported or paraphrased. THE FULL REFERENCE CORPUS IS PRESENT ON THIS MACHINE, so the firewall is physical: run every search, find and grep INSIDE plat/ or on named design files only — never a recursive search, find, du or ls from the project root or from docs/ — and never follow a symbolic link out of plat/. Sign plat/CLEAN-ROOM.md's seat ledger (seat, date, role, what you read) by the id rule of C-0104.`
 
