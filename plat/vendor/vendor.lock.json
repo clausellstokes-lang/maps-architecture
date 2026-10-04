@@ -33,15 +33,17 @@
       "files": {
         "LICENSE": "08a9d45b1300baf1925a966bcbec26cf9bd4137883d96b79089cba2c72d872bc",
         "README.md": "65e8cc0ed25fe6a9b16d82cb98fbcbc8f45ba9147b9b7bf7d50c3640c57c3dc9",
-        "flatbush.js": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29",
+        "flatbush.js": "b1a7838eb7753a2bc617cbd504408c2e3e240badead3611cfd32c99e25853827",
         "index.d.ts": "707a4214c28a3730cb4bcf0895cf7333b9bae17ec1964e5def0af67d2c0e9ff0",
-        "index.js": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850",
+        "index.js": "7bba0670e35931c3a52400bf7bda05fd7342e0da60877547211e8c72465ab7b0",
         "package.json": "b193fe9dcb422d8cb9b3279ee259e8b5066259f0f6dbf2ada6a37dc02ff0ae08"
       },
       "integrity": "sha512-nNT7MFJ58Q4IAm3aYsEg+zgZGpdRcmR1i4U+aa8c+r91jmYZg7FTQwNnIMC0FyBqVZTbClKdAnrJkKkfp1BOvw==",
       "licence": "ISC",
       "name": "flatbush",
       "original": {
+        "flatbush.js": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29",
+        "index.js": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850",
         "package.json": "bba765e651b5323964c7368911c047a7c57d7120c59089c5c393db0d782a6d79"
       },
       "packageJsonEdits": [
@@ -49,8 +51,8 @@
         "removed devDependencies",
         "dependency flatqueue: ^3.1.0 -> workspace:3.1.0"
       ],
-      "patch": null,
-      "patchSha256": null,
+      "patch": "patches/flatbush@4.6.2.json",
+      "patchSha256": "8e4e640f2c17eeac9d55b7e81a4b368194e411f2e75e55cef488ed2912d7f21a",
       "tarball": "flatbush-4.6.2.tgz",
       "version": "4.6.2"
     },

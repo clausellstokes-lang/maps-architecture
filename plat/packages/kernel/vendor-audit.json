@@ -92,25 +92,14 @@
       "adapter": "packages/kernel/src/adapters/flatbush.ts",
       "exceptions": [
         {
-          "choice": "C-0126",
-          "column": 55,
-          "file": "flatbush.js",
-          "kind": "reviewed",
-          "line": 341,
-          "rule": "plat/no-exponent-operator",
-          "status": "open — as index.js",
-          "what": "the same expression in the UMD build (the package `main`; our ESM import reads index.js)",
-          "wrapper": "packages/kernel/src/adapters/flatbush.ts"
-        },
-        {
-          "choice": "C-0126",
-          "column": 60,
-          "file": "index.js",
-          "kind": "reviewed",
-          "line": 300,
-          "rule": "plat/no-exponent-operator",
-          "status": "open — a patch to an exact multiplication is routed to the session (vendor/patches/ is M0-s-01's)",
-          "what": "`this.nodeSize ** level` in _collectContained (reached from search): an integer power, exact on the engines we run; `**` is implementation-approximated by the language",
+          "choice": "C-0152",
+          "files": [
+            "flatbush.js",
+            "index.js"
+          ],
+          "kind": "patch",
+          "spec": "vendor/patches/flatbush@4.6.2.json",
+          "what": "The determinism allowlist (§6.5 (3)) forbids the exponent operator, which the language leaves implementation-approximated; _collectContained (reached from search) computed `this.nodeSize ** level`. In both builds it is now the node size to the power level by exact repeated multiplication (scale = 1, then level times scale *= nodeSize), the rest of the line unchanged: every level search reaches lies below the root's, where nodeSize^level < numItems, so each partial product is an integer below 2^53 and exact, and the same integer as before. Closes C-0126 (5).",
           "wrapper": "packages/kernel/src/adapters/flatbush.ts"
         }
       ],
@@ -123,7 +112,7 @@
             "min": 6
           },
           "path": "flatbush.js",
-          "sha256": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29"
+          "sha256": "b1a7838eb7753a2bc617cbd504408c2e3e240badead3611cfd32c99e25853827"
         },
         {
           "math": {
@@ -133,7 +122,7 @@
             "min": 6
           },
           "path": "index.js",
-          "sha256": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850"
+          "sha256": "7bba0670e35931c3a52400bf7bda05fd7342e0da60877547211e8c72465ab7b0"
         }
       ],
       "findings": [],
@@ -148,7 +137,7 @@
         "min": 12
       },
       "outsideAllowlist": [],
-      "result": "pass (reviewed exceptions)",
+      "result": "pass",
       "runsFrom": [
         {
           "link": "packages/kernel/node_modules/flatbush",

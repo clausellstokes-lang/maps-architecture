@@ -1,5 +1,5 @@
 {
-  "$comment": "The vendored scan's fixture copies (M0-d-07): each folder holds files of a published registry tarball, unpacked unmodified, with its licence. Fetched with `npm pack <name>@<version>` on 2026-10-03; the tarball's integrity equals the registry's dist.integrity (and, for delaunator and simplex-noise, vendor/vendor.lock.json's). Each copied file is listed with its sha256 and `from`, its path in the tarball: a tarball's dist/ folder is stored under another name, because the Maps repository's .gitignore ignores every dist/ under plat/ but the vendored ones. The two unpatched copies' code files equal vendor.lock.json's pre-patch hashes (`original`), keyed by `from`.",
+  "$comment": "The vendored scan's fixture copies (M0-d-07): each folder holds files of a published registry tarball, unpacked unmodified, with its licence. Fetched with `npm pack <name>@<version>` on 2026-10-03 (flatbush on 2026-10-04, C-0152); the tarball's integrity equals the registry's dist.integrity (and, for delaunator, simplex-noise and flatbush, vendor/vendor.lock.json's). Each copied file is listed with its sha256 and `from`, its path in the tarball: a tarball's dist/ folder is stored under another name, because the Maps repository's .gitignore ignores every dist/ under plat/ but the vendored ones. The three unpatched copies' code files equal vendor.lock.json's pre-patch hashes (`original`), keyed by `from`.",
   "folders": {
     "delaunator@5.1.0-unpatched": {
       "tarball": "delaunator-5.1.0.tgz",
@@ -46,6 +46,26 @@
         "simplex-noise.ts": {
           "sha256": "54ed75fe5352210fb47247c38d2cc0e8ab565f469e6515ddcea04e24d44313ea",
           "from": "simplex-noise.ts"
+        }
+      }
+    },
+    "flatbush@4.6.2-unpatched": {
+      "tarball": "flatbush-4.6.2.tgz",
+      "integrity": "sha512-nNT7MFJ58Q4IAm3aYsEg+zgZGpdRcmR1i4U+aa8c+r91jmYZg7FTQwNnIMC0FyBqVZTbClKdAnrJkKkfp1BOvw==",
+      "licence": "ISC",
+      "why": "the library before C-0152's patch: `this.nodeSize ** level` in _collectContained, in both builds (C-0126 (5)); also the unpatched module of the patch's property test (tools/vendor/flatbush-patch.test.mjs)",
+      "files": {
+        "LICENSE": {
+          "sha256": "08a9d45b1300baf1925a966bcbec26cf9bd4137883d96b79089cba2c72d872bc",
+          "from": "LICENSE"
+        },
+        "flatbush.js": {
+          "sha256": "918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29",
+          "from": "flatbush.js"
+        },
+        "index.js": {
+          "sha256": "03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850",
+          "from": "index.js"
         }
       }
     },

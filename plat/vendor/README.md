@@ -34,12 +34,18 @@ place of the placeholder — M0-d-03 regenerates that file with `corepack pnpm n
 Each folder is a pnpm workspace member; PLAT's packages depend on it as `"<name>": "workspace:<version>"`, and only the
 one adapter file named above imports it.
 
-## The two patches (C-0011)
+## The three patches (C-0011, C-0152)
 
-* `delaunator@5.1.0`: `EPSILON = Math.pow(2, -52)` becomes the literal `2.220446049250313e-16` (bit-identical), in
-  `index.js`, `delaunator.js` and `delaunator.min.js`.
-* `simplex-noise@4.0.3`: the `random = Math.random` defaults of `createNoise2D/3D/4D` are removed (a call without our
-  seeded source throws), and the declarations make `random` required, in the ESM and CommonJS builds and the source.
+* `delaunator@5.1.0` (C-0011): `EPSILON = Math.pow(2, -52)` becomes the literal `2.220446049250313e-16`
+  (bit-identical), in `index.js`, `delaunator.js` and `delaunator.min.js`.
+* `simplex-noise@4.0.3` (C-0011): the `random = Math.random` defaults of `createNoise2D/3D/4D` are removed (a call
+  without our seeded source throws), and the declarations make `random` required, in the ESM and CommonJS builds and the
+  source.
+* `flatbush@4.6.2` (C-0152): `_collectContained`, reached from `search`, computed `this.nodeSize ** level`; the exponent
+  operator is implementation-approximated by the language (§6.5 (3)), so the power is now multiplied out exactly
+  (`scale *= this.nodeSize`, `level` times), in `index.js` and `flatbush.js`. Every level the search reaches gives the
+  same integer (`tools/vendor/flatbush-patch.test.mjs`). This closed the vendored scan's last reviewed exception
+  (C-0126 (5)); the unpatched bytes are kept as the scan's fixture copy.
 
 ## Checking
 

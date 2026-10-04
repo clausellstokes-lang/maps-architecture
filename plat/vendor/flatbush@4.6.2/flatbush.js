@@ -338,7 +338,9 @@
 			const indices = this._indices;
 			let pos = nodeIndex;
 			for (let l = level; l > 0; l--) pos = indices[pos >> 2];
-			const leafEnd = Math.min(pos + (end - nodeIndex) * this.nodeSize ** level, numItems4);
+			let scale = 1; // PLAT patch (choices C-0152): nodeSize to the power level, by exact repeated multiplication
+			for (let l = level; l > 0; l--) scale *= this.nodeSize;
+			const leafEnd = Math.min(pos + (end - nodeIndex) * scale, numItems4);
 			if (filterFn === void 0) for (; pos < leafEnd; pos += 4) results.push(indices[pos >> 2] | 0);
 			else for (; pos < leafEnd; pos += 4) {
 				const index = indices[pos >> 2] | 0;

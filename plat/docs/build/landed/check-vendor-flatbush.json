@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "check-vendor-flatbush",
+  "lane": "check/vendor-flatbush",
+  "lanes": ["check/vendor-flatbush"],
+  "wave": "wave-3v",
+  "snapshotTaken": "2026-10-04T07:01:53.554Z",
+  "date": "2026-10-04T07:35:06.039Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/vendor-flatbush.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/vendor-flatbush.md", "status": "created", "sha256": "5f96625b5b33ef03897713094836500345e5ab145e2aa1d3e4aa0acf2192d90b", "size": 11090 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0077"],
+      "lines": ["7da55cea87f99e54"],
+      "removed": []
+    }
+  ]
+}

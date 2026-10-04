@@ -1,5 +1,5 @@
 // M0-s-01's vendor tests: the committed vendor tree verifies, and a tampered byte, an unapplied patch, an extra file or
-// an unlocked folder each fail naming the file (C-0010, C-0011).
+// an unlocked folder each fail naming the file (C-0010, C-0011, C-0152).
 import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync, mkdirSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -22,13 +22,14 @@ describe('vendor:verify', () => {
     expect(r.checked).toBeGreaterThan(40);
   });
 
-  it('locks exactly the five vendored libraries, with the two C-0011 patches recorded', () => {
+  it('locks exactly the five vendored libraries, with the three patches recorded (C-0011 twice, C-0152)', () => {
     const lock = readJson(join(VENDOR_DIR, 'vendor.lock.json'));
     expect(Object.keys(lock.libraries).sort()).toEqual([
       'delaunator@5.1.0', 'flatbush@4.6.2', 'flatqueue@3.1.0', 'robust-predicates@3.0.3', 'simplex-noise@4.0.3',
     ]);
     const patched = Object.entries(lock.libraries).filter(([, e]) => e.patch !== null).map(([k]) => k).sort();
-    expect(patched).toEqual(['delaunator@5.1.0', 'simplex-noise@4.0.3']);
+    expect(patched).toEqual(['delaunator@5.1.0', 'flatbush@4.6.2', 'simplex-noise@4.0.3']);
+    expect(Object.keys(lock.libraries['flatbush@4.6.2'].original).sort()).toEqual(['flatbush.js', 'index.js', 'package.json']);
     for (const e of Object.values(lock.libraries)) expect(e.integrity).toMatch(/^sha512-/);
   });
 
@@ -48,6 +49,20 @@ describe('vendor:verify', () => {
     const r = verifyVendor(copy).problems.join('\n');
     expect(r).toContain('delaunator@5.1.0/index.js: patch not applied');
     expect(r).toContain('delaunator@5.1.0/index.js: sha256');
+  });
+
+  it('fails when the flatbush patch (C-0152) is reverted in either build', () => {
+    const spec = readJson(join(VENDOR_DIR, 'patches', 'flatbush@4.6.2.json'));
+    for (const e of spec.edits) {
+      const f = join(copy, 'flatbush@4.6.2', e.file);
+      writeFileSync(f, readFileSync(f, 'utf8').replace(e.replace, e.find));
+    }
+    const r = verifyVendor(copy).problems.join('\n');
+    for (const file of ['index.js', 'flatbush.js']) {
+      expect(r).toContain(`flatbush@4.6.2/${file}: patch not applied`);
+      expect(r).toContain(`flatbush@4.6.2/${file}: patch replacement`);
+      expect(r).toContain(`flatbush@4.6.2/${file}: sha256`);
+    }
   });
 
   it('fails on an extra file and on an unlocked folder', () => {

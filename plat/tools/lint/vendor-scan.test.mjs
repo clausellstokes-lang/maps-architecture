@@ -1,7 +1,8 @@
-// The vendored scan (§6.5 (4); C-0007, C-0010, C-0011): the unpatched fixture copies of delaunator and simplex-noise
-// fail (Math.pow; Math.random), the vendored patched sources pass, d3-delaunay's tarball (a fixture copy, never
-// vendored) fails on Math.pow / sin / cos / hypot — C-0007's reason reproduced — and the audit record in @plat/kernel
-// equals the scan. Fixtures are read in place; the one mutated copy lives in the OS temporary folder.
+// The vendored scan (§6.5 (4); C-0007, C-0010, C-0011, C-0126, C-0152): the unpatched fixture copies of delaunator,
+// simplex-noise and flatbush fail (Math.pow; Math.random; the exponent operator), the vendored patched sources pass with
+// no reviewed exception open, d3-delaunay's tarball (a fixture copy, never vendored) fails on Math.pow / sin / cos /
+// hypot — C-0007's reason reproduced — and the audit record in @plat/kernel equals the scan. Fixtures are read in place;
+// the mutated copies live in the OS temporary folder.
 // Every test that scans whole libraries carries an explicit timeout (SCAN): a scan's wall time grows with the load of
 // the shared machine (up to four build seats and M-1's lane), and vitest's 5 s default is no bar of this item. The scan
 // of the real vendor/ tree is taken once (beforeAll) and read by the tests of the audit record.
@@ -35,8 +36,12 @@ describe('the fixture copies', () => {
     }
   });
 
-  it('of delaunator and simplex-noise are the pre-patch bytes vendor.lock.json records', () => {
-    for (const [folder, key] of [['delaunator@5.1.0-unpatched', 'delaunator@5.1.0'], ['simplex-noise@4.0.3-unpatched', 'simplex-noise@4.0.3']]) {
+  it('of delaunator, simplex-noise and flatbush are the pre-patch bytes vendor.lock.json records', () => {
+    for (const [folder, key] of [
+      ['delaunator@5.1.0-unpatched', 'delaunator@5.1.0'],
+      ['simplex-noise@4.0.3-unpatched', 'simplex-noise@4.0.3'],
+      ['flatbush@4.6.2-unpatched', 'flatbush@4.6.2'],
+    ]) {
       expect(manifest[folder].integrity).toBe(lock[key].integrity);
       for (const file of codeFilesOf(join(FIX, folder))) {
         const { from } = manifest[folder].files[file];
@@ -66,6 +71,20 @@ describe('scanLibrary', () => {
     expect(new Set(r.findings.map((f) => f.rule))).toEqual(new Set(['plat/math-allowlist', 'plat/no-nondeterminism']));
   }, SCAN);
 
+  it('fails unpatched flatbush on `this.nodeSize ** level` in each of its two builds, and on nothing else (C-0126 (5))', () => {
+    const r = scanLibrary(join(FIX, 'flatbush@4.6.2-unpatched'), 'flatbush@4.6.2');
+    expect(r.result).toBe('fail');
+    expect(outsideAllowlist(r.math)).toEqual([]);
+    expect(r.reviewed).toEqual([]);
+    expect(r.findings.map((f) => `${f.file}:${f.line} ${f.rule}`)).toEqual([
+      'flatbush.js:341 plat/no-exponent-operator',
+      'index.js:300 plat/no-exponent-operator',
+    ]);
+    const lines = (f) => readFileSync(join(FIX, 'flatbush@4.6.2-unpatched', f), 'utf8').split('\n');
+    expect(lines('index.js')[299]).toContain('this.nodeSize ** level');
+    expect(lines('flatbush.js')[340]).toContain('this.nodeSize ** level');
+  }, SCAN);
+
   it('fails d3-delaunay on Math.pow, sin, cos and hypot (C-0007\'s reason; PI is outside the list too)', () => {
     const r = scanLibrary(join(FIX, 'd3-delaunay@6.0.4'), 'd3-delaunay@6.0.4');
     expect(r.result).toBe('fail');
@@ -82,28 +101,35 @@ describe('scanLibrary', () => {
     expect(results['flatqueue@3.1.0'].result).toBe('pass');
     expect(results['robust-predicates@3.0.3'].result).toBe('pass');
     expect(results['simplex-noise@4.0.3'].result).toBe('pass');
-    expect(results['flatbush@4.6.2'].result).toBe('pass (reviewed exceptions)');
+    expect(results['flatbush@4.6.2'].result).toBe('pass'); // patched (C-0152): no open exception
     for (const r of Object.values(results)) {
       expect(r.findings).toEqual([]);
+      expect(r.reviewed).toEqual([]);
       expect(outsideAllowlist(r.math)).toEqual([]);
     }
-    expect(results['flatbush@4.6.2'].reviewed.map((e) => `${e.file}:${e.line} ${e.rule}`)).toEqual([
-      'flatbush.js:341 plat/no-exponent-operator',
-      'index.js:300 plat/no-exponent-operator',
-    ]);
   }, SCAN);
 
   it('re-opens a reviewed exception when the library\'s bytes change (a version change is a new review)', () => {
+    // No reviewed exception is open in the tree (C-0152 closed the last); the mechanism (C-0126 (4)) is held on an
+    // entry pinned to the unpatched fixture copy's bytes.
     const dir = mkdtempSync(join(tmpdir(), 'plat-vendor-scan-'));
     temps.push(dir);
-    cpSync(join(VENDOR, 'flatbush@4.6.2', 'index.js'), join(dir, 'index.js'));
-    writeFileSync(join(dir, 'index.js'), `${readFileSync(join(dir, 'index.js'), 'utf8')}\n// changed\n`);
-    const r = scanLibrary(dir, 'flatbush@4.6.2');
+    const file = join(dir, 'index.js');
+    cpSync(join(FIX, 'flatbush@4.6.2-unpatched', 'index.js'), file);
+    const pinned = [{ library: 'flatbush@4.6.2', file: 'index.js', sha256: sha256(file), line: 300, rule: 'plat/no-exponent-operator', choice: 'C-0126', what: 'test entry', status: 'test' }];
+    const judged = scanLibrary(dir, 'flatbush@4.6.2', pinned);
+    expect(judged.result).toBe('pass (reviewed exceptions)');
+    expect(judged.reviewed.map((e) => `${e.file}:${e.line} ${e.rule}`)).toEqual(['index.js:300 plat/no-exponent-operator']);
+    expect(scanLibrary(dir, 'flatbush@4.6.1', pinned).result).toBe('fail'); // another version is another review
+    writeFileSync(file, `${readFileSync(file, 'utf8')}\n// changed\n`);
+    const r = scanLibrary(dir, 'flatbush@4.6.2', pinned);
     expect(r.result).toBe('fail');
+    expect(r.reviewed).toEqual([]);
     expect(r.findings.map((f) => `${f.file}:${f.line} ${f.rule}`)).toEqual(['index.js:300 plat/no-exponent-operator']);
   }, SCAN);
 
-  it('pins every reviewed exception to the sha256 of the vendored file it was judged on', () => {
+  it('holds no open reviewed exception (C-0152 closed C-0126 (5)), and would pin any to the vendored file it was judged on', () => {
+    expect(REVIEWED).toEqual([]);
     for (const e of REVIEWED) {
       const [name, version] = [e.library.slice(0, e.library.lastIndexOf('@')), e.library.slice(e.library.lastIndexOf('@') + 1)];
       expect(sha256(join(VENDOR, `${name}@${version}`, e.file))).toBe(e.sha256);
@@ -125,15 +151,19 @@ describe('the audit record', () => {
     expect(readFileSync(join(PLAT_ROOT, ...AUDIT_FILE.split('/')), 'utf8')).toBe(real.text);
   });
 
-  it('holds each library with its version, result and exceptions: the two C-0011 patches with their wrappers (buildAudit)', () => {
+  it('holds each library with its version, result and exceptions: the three patches with their rows and wrappers (buildAudit)', () => {
     const audit = real.audit; // checkVendorScan's buildAudit(PLAT_ROOT)
     const by = Object.fromEntries(audit.libraries.map((l) => [l.library, l]));
     expect(Object.keys(by).sort()).toEqual(['delaunator', 'flatbush', 'flatqueue', 'robust-predicates', 'simplex-noise']);
     expect(by.delaunator.exceptions).toMatchObject([{ kind: 'patch', spec: 'vendor/patches/delaunator@5.1.0.json', choice: 'C-0011', wrapper: 'packages/kernel/src/adapters/delaunator.ts' }]);
     expect(by['simplex-noise'].exceptions).toMatchObject([{ kind: 'patch', spec: 'vendor/patches/simplex-noise@4.0.3.json', choice: 'C-0011', wrapper: 'packages/kernel/src/adapters/simplex-noise.ts' }]);
-    expect(by.flatbush.exceptions.map((e) => e.kind)).toEqual(['reviewed', 'reviewed']);
+    expect(by.flatbush.exceptions).toMatchObject([{ kind: 'patch', spec: 'vendor/patches/flatbush@4.6.2.json', choice: 'C-0152', files: ['flatbush.js', 'index.js'], wrapper: 'packages/kernel/src/adapters/flatbush.ts' }]);
+    expect(by.flatbush.exceptions).toHaveLength(1);
+    expect(by.flatbush.result).toBe('pass');
     expect(by.flatqueue.adapter).toMatch(/^none/);
     for (const l of audit.libraries) {
+      expect(l.exceptions.filter((e) => e.kind !== 'patch')).toEqual([]); // no reviewed exception open
+      expect(l.findings).toEqual([]);
       expect(l.version).toBe(lock[`${l.library}@${l.version}`].version);
       expect(l.runsFrom.length).toBeGreaterThan(0);
       for (const r of l.runsFrom) expect(r.resolves).toBe(l.folder);

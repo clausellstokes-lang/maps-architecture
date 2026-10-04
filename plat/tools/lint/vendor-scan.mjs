@@ -29,35 +29,14 @@ const CODE = /\.(js|mjs|cjs|ts|mts|cts)$/;
 const DECLARATION = /\.d\.(ts|mts|cts)$/;
 
 /**
- * Reviewed exceptions: a finding the seat that recorded it judged and routed, pinned to the bytes it was judged on.
- * C-0126: flatbush 4.6.2's `_collectContained` (reached from `search`) computes `this.nodeSize ** level` — an integer
- * power of the node size (16 by default) to the tree level, an exact integer far below 2^53 for every index M0 builds,
- * which every IEEE engine we run returns exactly, but `**` is implementation-approximated by the language, so §6.5 (3)
- * refuses it in our code. The fix is a patch to vendor/patches/ (M0-s-01's files, outside this item), routed to the
- * session; until it lands the finding stays recorded here and in the audit, open, and nothing else passes.
+ * Reviewed exceptions: a finding the seat that recorded it judged and routed, pinned to the bytes it was judged on —
+ * entries of the form { library, file, sha256, line, rule, choice, what, status }. None is open. The one C-0126 (5)
+ * recorded — flatbush 4.6.2's `this.nodeSize ** level` in `_collectContained`, in index.js and flatbush.js — is closed
+ * by the patch vendor/patches/flatbush@4.6.2.json (C-0152: the power by exact repeated multiplication), which the audit
+ * records as flatbush's patch exception; the unpatched bytes are the fixture copy
+ * fixtures/vendor-scan/flatbush@4.6.2-unpatched/, which still fails on the operator.
  */
-export const REVIEWED = Object.freeze([
-  {
-    library: 'flatbush@4.6.2',
-    file: 'index.js',
-    sha256: '03a0292b03e580efe4b5f42b506ed766ad6a868180751837e4360b6ca4e3b850',
-    line: 300,
-    rule: 'plat/no-exponent-operator',
-    choice: 'C-0126',
-    what: '`this.nodeSize ** level` in _collectContained (reached from search): an integer power, exact on the engines we run; `**` is implementation-approximated by the language',
-    status: 'open — a patch to an exact multiplication is routed to the session (vendor/patches/ is M0-s-01\'s)',
-  },
-  {
-    library: 'flatbush@4.6.2',
-    file: 'flatbush.js',
-    sha256: '918d03a3572f0e210ea6b26cf8d2f54aec134afb23e38b114389c29de0be4c29',
-    line: 341,
-    rule: 'plat/no-exponent-operator',
-    choice: 'C-0126',
-    what: 'the same expression in the UMD build (the package `main`; our ESM import reads index.js)',
-    status: 'open — as index.js',
-  },
-]);
+export const REVIEWED = Object.freeze([]);
 
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
