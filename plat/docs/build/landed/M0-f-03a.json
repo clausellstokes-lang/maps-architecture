@@ -1,0 +1,31 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-f-03a",
+  "lane": "build/M0-f-03a-fix1",
+  "lanes": ["build/M0-f-03a-fix1"],
+  "wave": "wave-6f",
+  "snapshotTaken": "2026-10-04T19:28:31.858Z",
+  "date": "2026-10-04T19:53:00.943Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/tables/src/workLimits/", "plat/packages/tables/data/workLimits.json", "plat/packages/tables/test/workLimits/"],
+  "counts": { "created": 0, "changed": 0, "unchanged": 9, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/tables/data/workLimits.json", "status": "unchanged", "sha256": "87de920b6b2e88cae44d162b4f0cffc5434b038888b27c2c30e4ac8da842b9e5", "size": 7126 },
+    { "path": "plat/packages/tables/src/workLimits/counters.ts", "status": "unchanged", "sha256": "190a7de1114a36f45e0d8b45fc3be14967129355bf6eecb56c647438a7fc5c74", "size": 3086 },
+    { "path": "plat/packages/tables/src/workLimits/index.ts", "status": "unchanged", "sha256": "46d12703f2d46bad353a33c7ae2b56d9fd13a5a63947c2c52ab24e07f580457d", "size": 878 },
+    { "path": "plat/packages/tables/src/workLimits/law.ts", "status": "unchanged", "sha256": "20858955e007d266502bc685bde3f7f939dda737724f3c2c0eff0bae7c6610cd", "size": 3047 },
+    { "path": "plat/packages/tables/src/workLimits/report.ts", "status": "unchanged", "sha256": "9a484a377de8ec1530fc0099c34a9568424e84440e4c156f61a9b19095b5f136", "size": 4794 },
+    { "path": "plat/packages/tables/src/workLimits/table.ts", "status": "unchanged", "sha256": "08db613ce5a5b92f7c47a16e386910e443630008b734fc43fcccf6b6dfe0d324", "size": 10695 },
+    { "path": "plat/packages/tables/test/workLimits/law.test.ts", "status": "unchanged", "sha256": "b654e998c6f0a33f0e488df6831228719240247a62d25cc2fa9f6504a78e704f", "size": 8497 },
+    { "path": "plat/packages/tables/test/workLimits/report.test.ts", "status": "unchanged", "sha256": "100ba6846a17564bbc3a750fbb2b2c79da9e79eda2aea1beb381d0e2c0d6ff41", "size": 4400 },
+    { "path": "plat/packages/tables/test/workLimits/table.test.ts", "status": "unchanged", "sha256": "f2af05c4ea337e16cdc36f27b36918a6bb964ac6df49fd34229d870bd4b88da4", "size": 15993 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0120"],
+      "lines": ["37b350f8660c9624"],
+      "removed": []
+    }
+  ]
+}
