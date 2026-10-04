@@ -27,7 +27,7 @@ const REPO = dirname(dirname(fileURLToPath(import.meta.url)));
 const PLAT = join(REPO, 'plat');
 const argv = process.argv.slice(2);
 const opt = (k) => { const i = argv.indexOf(k); return i >= 0 ? argv[i + 1] : undefined; };
-const list = (k) => (opt(k) || '').split(',').map((s) => s.trim()).filter(Boolean);
+const list = (k) => (opt(k) || '').split(',').map((s) => s.trim()).filter((s) => s && s !== '-'); // '-' = none
 // --items <id,...> expands each item to its own record and the records of its checks that exist on disk
 // (check-<id>, check-<id>-notes, check-<id>-cutoff-notes); --records names further records (integration checks).
 const ITEM_RECORDS = list('--items').flatMap((id) => [id, `check-${id}`, `check-${id}-notes`, `check-${id}-cutoff-notes`].filter((r, k) => k === 0 || existsSync(join(PLAT, ...LANDED_DIR.split('/'), `${r}.json`))));

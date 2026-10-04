@@ -195,7 +195,7 @@ const ATTEMPT = (FLOW && FLOW.attempt) || 1
 const flowStewardPrompt = (action, n, ids, ints, busy, outside) => {
   const L = FLOW.label
   const close = action === 'close'
-  const stage = `node tools/flow_stage.mjs --label ${L} --items ${ids.join(',') || '-'}${ints.length ? ` --records ${ints.join(',')}` : ''}${busy.length ? ` --busy ${busy.join(',')}` : ''} --scratch ${SCRATCH}/steward-${L} --stage`
+  const stage = `node tools/flow_stage.mjs --label ${L}${ids.length ? ` --items ${ids.join(',')}` : ''}${ints.length ? ` --records ${ints.join(',')}` : ''}${busy.length ? ` --busy ${busy.join(',')}` : ''} --scratch ${SCRATCH}/steward-${L} --stage`
   return `${GROUND}
 
 LANE build/steward-${L}-a${ATTEMPT}-${action}${n ? `-${n}` : ''}. You are the FLOW STEWARD (J173: M0 builds without stage barriers under one snapshot, ${L}), acting for the session: the ONE seat allowed to run git, and only the commands below. The RESUME RULE does not apply to you: if git log -5 --format=%s already shows your exact commit message, return that commit; otherwise do the work. ${action === 'open'
@@ -273,11 +273,15 @@ if (FLOW) {
       intUncommitted = []
       commitN++
       const action = final ? 'close' : 'commit'
-      const r = await seat(flowStewardPrompt(action, commitN, ids, ints, final ? [] : busyList(), outside), `steward/${L}-a${ATTEMPT}-${action}-${commitN}`, 'Commit', STEWARD_SCHEMA, 0, 0)
+      let r
+      // a steward that throws or fails gives its items back, so a relaunch built from the result never counts them committed
+      try { r = await seat(flowStewardPrompt(action, commitN, ids, ints, final ? [] : busyList(), outside), `steward/${L}-a${ATTEMPT}-${action}-${commitN}`, 'Commit', STEWARD_SCHEMA, 0, 0) }
+      catch (e) { uncommitted = [...ids, ...uncommitted]; intUncommitted = [...ints, ...intUncommitted]; throw e }
       commits.push({ n: commitN, action, ids, ints, commit: r ? r.commit : null, ok: !!(r && r.ok) })
       if (!r || !r.ok) {
         halt = { commitN, steward: r }
         uncommitted = [...ids, ...uncommitted]
+        intUncommitted = [...ints, ...intUncommitted]
         log(`flow ${L}: steward ${action} ${commitN} failed (a staging problem or a refused push); no new item starts — the session must look`)
       } else {
         ids.forEach((id) => committed.add(id))
@@ -300,7 +304,8 @@ if (FLOW) {
       first = r
       if (r && r.verdict === 'fail') {
         // fix only what may be fixed now: a group item, or a passed, settled item (in or before the run)
-        const allowed = (id) => ids.includes(id) || (inRun.has(id) ? passed.has(id) && !fixing.has(id) && !failed.has(id) : !failed.has(id) && /^M0-[a-z]-\d+[a-z]?$/.test(id))
+        // never a hand-over giver whose successor has started: the successor already edits the handed-over file
+        const allowed = (id) => !(HANDS[id] || []).some((s) => started.has(s)) && (ids.includes(id) || (inRun.has(id) ? passed.has(id) && !fixing.has(id) && !failed.has(id) : !failed.has(id) && /^M0-[a-z]-\d+[a-z]?$/.test(id)))
         const byItem = {}
         const refused = []
         for (const f of r.failing_lines) (allowed(f.item) ? (byItem[f.item] = byItem[f.item] || []) : refused).push({ item: f.item, line: f.line, evidence: f.evidence, required_change: f.required_change })
@@ -398,6 +403,7 @@ if (FLOW) {
     ok: ok && !halt,
     results: Object.fromEntries(Object.entries(results).map(([id, r]) => [id, r ? { ok: r.ok, rounds: r.rounds, why: r.why, cutOff: r.cutOff } : null])),
     integrations,
+    integrated: Object.keys(integrations).filter((k) => integrations[k] === 'pass' || integrations[k] === 'single'),
     failed: Object.fromEntries(failed),
     waiting,
     committed: [...committed],
