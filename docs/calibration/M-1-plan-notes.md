@@ -280,3 +280,11 @@ The session carried rows N-20 to N-25 with attachments A to C into `plat/docs/bu
   string values only or the deny-list drops number-only 3-grams — carry to M0-k-05/k-06 with N-22; (5) F5 for M0-k-05 via
   the session (the union family, stress rows keyed by sample.family's options segment, n-0 rows listing every member in
   failed); (6) D13 (C10 reads a crossing file's strings and keys, not its numbers) flagged for veto as R-14 was.
+* **Follow-ups from design/m1-corrections-2 and its verifier (2026-10-04 09:35; for the round-3 lane).** (a) The registry
+  writer follows F2: `water.riverWidth` became `water.channelWidth` in V12, so plan.py refuses writes (catalogue mismatch)
+  until plan.py's catalogue twin and metrics.m-1.json carry the new id; then W-15 appends its five held channel-width rows.
+  (b) Three places still quote FTG's old 39 m tower spacing as current (base §4.8 S7 Towers, §15.2 O8 row (c), V11 near
+  l. 3485); E15 entry 45 gives the re-measured value — a design seat corrects them. (c) W-17's digest entry (6) predates D-1:
+  it states the applied deep test (thickness > 0.6 × the band plot depth) and the MFCG preset entry, and σ's entry carries
+  0.084 / 0.094. (d) The session carried the M0-affected changes as spec-notes rows N-27..N-30 (wave 4, record
+  session-handoff-2); N-26 stays reserved for W-15's scanner / deny-list question.
