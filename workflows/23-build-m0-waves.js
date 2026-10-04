@@ -10,6 +10,13 @@ export const meta = {
 }
 
 // args: { root, scratch, waves: [{ wave, items: [ids], alone?, custom? }], maxLanes (default 4), maxFixRounds (default 2), closingFrom, note }
+// args.deps { id: [dependsOn] } (from M0-work.json) and args.noPull [ids] enable EARLY STARTS: while a wave's items are in
+// build, check or fix rounds and a seat is free, an item of the NEXT numeric wave whose every dependency has passed its
+// check (or lies in an earlier wave) starts inside the current wave - it lands against the current wave's snapshot
+// (C-0121: an item landing in a wave before its own owns its files as at its own wave) and the current wave's close
+// waits for it and commits it. Never into or out of a custom wave; never an item in noPull (items that need a session
+// hand-off before they start, e.g. M0-k-05, M0-k-06). M0-work.json's wave rule: a failed item's fix round holds its
+// dependents only.
 // A wave with custom: 'vendor-flatbush' is a session-routed seat outside M0-work.json (J162's N1): its own build and check briefs below, same open/close.
 // The wave list comes from plat/docs/build/M0-work.json (the session extracts it; scripts cannot read files).
 // Timing-phase waves (T, T-fix, T2) and the AFTER-M-1 waves are NOT run here: the session opens them by hand.
@@ -23,10 +30,11 @@ const WAVES = ARGS.waves || []
 
 let live = 0
 const waiters = []
+let onRelease = null // the pull hook (below): a freed seat may start a ready item of the next wave
 const gate = async (fn) => {
   while (live >= MAX) await new Promise((r) => waiters.push(r))
   live++
-  try { return await fn() } finally { live--; const w = waiters.shift(); if (w) w() }
+  try { return await fn() } finally { live--; const w = waiters.shift(); if (w) w(); else if (onRelease) onRelease() }
 }
 const seat = (prompt, label, phaseName, schema) => gate(() => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: MODEL }))
 
@@ -108,12 +116,55 @@ const runItem = async (id, wave) => {
   return { id, ok: !!check && check.verdict === 'pass', rounds: round, built, check }
 }
 
+const DEPS = ARGS.deps || {}
+const NOPULL = ARGS.noPull || []
+const passed = new Set()
 const done = []
-for (const w of WAVES) {
+for (let wi = 0; wi < WAVES.length; wi++) {
+  const w = WAVES[wi]
+  if (!w.items.length) { log(`wave ${w.wave}: every item started early in the wave before; nothing left`); continue }
   phase('Open')
   const opened = await seat(stewardPrompt(w.wave, 'open', w.items), `steward/wave-${w.wave}-open`, 'Open', STEWARD_SCHEMA)
   if (!opened || !opened.ok) { log(`wave ${w.wave}: snapshot failed; stopping`); return { done, stoppedAt: w.wave, opened } }
-  const results = w.custom === 'vendor-flatbush' ? [await runVendor(w.wave)] : await parallel(w.items.map((id) => () => runItem(id, w.wave)))
+  let results
+  if (w.custom === 'vendor-flatbush') {
+    results = [await runVendor(w.wave)]
+  } else {
+    const next = WAVES[wi + 1]
+    const earlier = new Set(WAVES.slice(0, wi).flatMap((x) => x.items))
+    const canPull = next && !next.custom && !w.custom && Object.keys(DEPS).length > 0
+    const members = [...w.items]
+    const running = []
+    let open = true
+    const track = (id) => {
+      const p = runItem(id, w.wave).then((r) => { if (r && r.ok) passed.add(id); if (open) tryPull(); return r })
+      running.push(p)
+    }
+    const ready = (id) => !NOPULL.includes(id) && (DEPS[id] || []).every((d) => passed.has(d) || earlier.has(d) || (!members.includes(d) && !next.items.includes(d) && !WAVES.slice(wi + 2).some((x) => x.items.includes(d))))
+    const tryPull = () => {
+      if (!canPull || !open || live >= MAX) return
+      const pick = next.items.find((id) => ready(id))
+      if (!pick) return
+      next.items = next.items.filter((id) => id !== pick)
+      members.push(pick)
+      log(`wave ${w.wave}: ${pick} (wave ${next.wave}) starts early on a free seat; it lands and commits with wave ${w.wave}`)
+      track(pick)
+    }
+    onRelease = tryPull
+    w.items.forEach((id) => track(id))
+    // wait for every member, including items pulled while earlier members ran (a pull is pushed before the
+    // promise that triggered it resolves, so an empty tail means nothing more can start in this wave)
+    let seen = 0
+    while (seen < running.length) {
+      const batch = running.slice(seen)
+      seen = running.length
+      await Promise.all(batch)
+    }
+    open = false
+    onRelease = null
+    results = await Promise.all(running)
+    w.items = members
+  }
   const failed = results.filter((r) => !r || !r.ok)
   log(`wave ${w.wave}: ${results.length - failed.length}/${results.length} items pass` + (failed.length ? `; failed: ${failed.map((r) => r ? r.id : '?').join(', ')}` : ''))
   if (failed.length) { done.push({ wave: w.wave, results }); return { done, stoppedAt: w.wave, failed } }
