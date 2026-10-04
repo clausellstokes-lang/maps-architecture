@@ -118,16 +118,18 @@ const notesPrompt = (id, wave, lines) => `${GROUND}
 
 LANE check/${id}-cutoff-notes. The owner cut item ${id} off after its allowed fix rounds (2026-10-04: at most one more round, then move on). Append each of these still-open lines as a row to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, milestone M4 unless it belongs earlier; say plainly that the owner's cut-off accepted the item with this line open), record the file with corepack pnpm landed -- check-${id}-cutoff-notes --lane check/${id}-cutoff-notes --owns plat/docs/build/checks/${id}-notes.md (if that path is already declared by another record of this wave, re-land that record's id instead and say so), run no git, change no other file. Lines: ${JSON.stringify(lines)}. Return verdict pass with the rows written in report.`
 const runResumed = async (id, wave, r) => {
+  const CUTX = r.cutoff === false ? ' RESUMED after a stalled seat (2026-10-04): continue this fix round from your files and CHECKPOINT lines; targeted mutants (J169).' : CUT
   let lines = r.lines
   let check = null
   for (let k = 0; k < 2; k++) {
     const round = r.round + k
-    const built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines }) + CUT, `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
+    const built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines }) + CUTX, `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
     if (!built || built.status === 'blocked') return { id, ok: false, why: 'cut-off fix round blocked', built }
     check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, lines) + CONFIRM, `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA)
     if (check && check.verdict === 'pass') return { id, ok: true, rounds: round, built, check }
     lines = check ? check.failing_lines : lines
   }
+  if (r.cutoff === false) { log(`${id}: still failing after two closing rounds; stopping for the session (J169: a real defect is never cut off)`); return { id, ok: false, rounds: r.round + 1, check } }
   log(`${id}: still failing after the owner's allowed rounds; cut off with its open lines written to notes`)
   const notes = await seat(notesPrompt(id, wave, lines), `check/${id}-cutoff-notes`, 'Check', CHECK_SCHEMA)
   return { id, ok: true, rounds: r.round + 1, check, cutOff: true, notes }

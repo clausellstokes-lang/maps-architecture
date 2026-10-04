@@ -2,7 +2,7 @@
 
 **M-1 wave 3 (since 2026-10-04 ~05:00):** `workflows/29-m1-wave3.js` phase A run wf_6339d38b-f33 (args `m1-wave3-A-args.json`: W-12 fit + Fable ruling, W-16b); phase B (`m1-wave3-B-args.json`: W-15, design/m1-corrections-2 with E12/E15/DC-37/DC-38, W-17 digest draft into docs/digest-candidate/, verifier) launches when FTG's W-05b-final and W-06-final land (run wf_acb2f7b6-879); phase C (W-18, W-20 crossing on the owner's word, W-19) after M0-k-05 / M0-k-06 land. M-1 wave 2's MFCG chain LANDED and verified (24ea385). J170: M0 back to four lanes with check-first priority at wave 4's close.
 
-**M0 build since 2026-10-04 ~03:15:** wave 3 LANDED (5710262). Run wf_57765027-597 = `workflows/23-build-m0-waves.js` from wave 3v with `workflows/lane-prompts/m0-waves-from3v-j169-args.json` (pass inline): the flatbush patch, then waves 4–18 under J169 (second check closes; targeted mutants), early starts (J166), memory rule (J168), maxLanes 3; the steward prompt quotes the owner's in-session push re-confirmation.
+**M0 build since 2026-10-04 ~09:20 (J170):** run wf_78ccdd31-03f = `workflows/23-build-m0-waves.js` with `workflows/lane-prompts/m0-waves-from4-args.json` (pass inline): wave 4 (holding the early-started wave-5 items; all passed but M0-a-11, resumed at fix round 1 after its seat stalled), then waves 6–18; FOUR lanes, check-first priority, J169, early starts, memory rule. Waves 3v (f509217) and 3 (5710262) landed.
 
 ## RESUME HERE — NEW MACHINE (written 2026-10-04 ~02:20 EDT; the move was CALLED OFF at ~02:25 — no USB drive — and the work RESUMED on the same MacBook Air: runs relaunched with m0-waves-from3-args.json, m1-wave2-mchain-args.json and m1-wave2-ftg-retry-args.json; this block stays valid for any later move)
 
