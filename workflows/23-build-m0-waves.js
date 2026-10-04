@@ -6,6 +6,8 @@ export const meta = {
     { title: 'Build', detail: 'one implementer seat per item, inside its owns' },
     { title: 'Check', detail: 'one independent checker per item, M0.md section 3; fix rounds on a fail' },
     { title: 'Close', detail: 'landed:verify over the wave, explicit-path commit, push (J158)' },
+    { title: 'Integrate', detail: 'flow mode (J173): one integration check per stage group once all its items passed' },
+    { title: 'Commit', detail: 'flow mode (J173): the steward commits and pushes checked work every few passed items' },
   ],
 }
 
@@ -20,7 +22,22 @@ export const meta = {
 // A wave with custom: 'vendor-flatbush' is a session-routed seat outside M0-work.json (J162's N1): its own build and check briefs below, same open/close.
 // The wave list comes from plat/docs/build/M0-work.json (the session extracts it; scripts cannot read files).
 // Timing-phase waves (T, T-fix, T2) and the AFTER-M-1 waves are NOT run here: the session opens them by hand.
+// FLOW MODE (J173; the owner, 2026-10-04: "Do that after this current one"): args.flow = { label, groups: [{ group, items }],
+// done: [ids], resume: { id: { round, lines, cutoff } }, hold: [ids], est: { id: hours }, commitEvery } replaces the
+// wave loop. ONE snapshot (label) for the whole run; an item starts the moment every item it depends on has passed its
+// check (no stage barrier); a free seat goes to (0) the steward, (1) a check or fix of an item another item of the run
+// still depends on, or a group's integration check, (2) a build, (3) a check or fix of a LEAF (nothing in the run
+// depends on it: its check waits for spare seats and the end), each class by the longest chain of estimated hours still
+// hanging on the item; when every item of a group (a former wave) has passed, one INTEGRATION CHECK reads the group's
+// pieces together (blockers only; one fix per implicated item, then a confirm-only re-check); the steward commits and
+// pushes checked work every commitEvery passed items (append files cut to their checked lines) and closes at the end.
+// A failed item holds its own dependents only; everything else continues. hold: items that start only once every
+// earlier group has passed (the old noPull, for an item still waiting on a session hand-off).
 const ARGS = (typeof args === 'object' && args) ? args : {}
+const FLOW = ARGS.flow || null
+const LBL = (wave) => (FLOW ? FLOW.label : `wave-${wave}`)
+const WTXT = (wave) => (FLOW ? `stage group ${wave} of the flow ${FLOW.label}; no stage barrier, J173` : `wave ${wave}`)
+let PRI = () => [] // flow mode sets it: [class, rank] per item and seat kind
 const ROOT = ARGS.root || '/Users/cstokes/Desktop/Maps'
 const SCRATCH = ARGS.scratch || '/tmp/maps-scratch/waves'
 const MODEL = ARGS.model || 'opus'
@@ -31,25 +48,33 @@ const WAVES = ARGS.waves || []
 
 let live = 0
 const waiters = []
+let wseq = 0
 let onRelease = null // the pull hook (below): a freed seat may start a ready item of the next wave
 // A freed seat goes first to a waiting check or steward (they close items and waves and unblock early starts), then to
 // a waiting build, in arrival order within each class (2026-10-04: a finished build's check had queued behind a new build).
-const gate = async (fn, prio) => {
-  while (live >= MAX) await new Promise((r) => waiters.push({ r, prio: prio || 0 }))
-  live++
+// Flow mode adds classes and a rank (lower class first, then higher rank, then arrival). A freed seat is HANDED to the
+// chosen waiter (live stays the same), so a newcomer can never take it between the release and the waiter's wake-up.
+const better = (a, b) => (a.cls !== b.cls ? a.cls < b.cls : a.rank !== b.rank ? a.rank > b.rank : a.seq < b.seq)
+const gate = async (fn, cls, rank) => {
+  if (live >= MAX) await new Promise((r) => waiters.push({ r, cls: cls || 0, rank: rank || 0, seq: wseq++ }))
+  else live++
   try { return await fn() } finally {
-    live--
-    let k = waiters.findIndex((x) => x.prio === 0)
-    if (k < 0 && waiters.length) k = 0
-    if (k >= 0) waiters.splice(k, 1)[0].r()
-    else if (onRelease) onRelease()
+    if (waiters.length) {
+      let k = 0
+      for (let i = 1; i < waiters.length; i++) if (better(waiters[i], waiters[k])) k = i
+      waiters.splice(k, 1)[0].r()
+    } else {
+      live--
+      if (onRelease) onRelease()
+    }
   }
 }
-const seat = (prompt, label, phaseName, schema) => gate(() => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: MODEL }), phaseName === 'Build' ? 1 : 0)
+const seat = (prompt, label, phaseName, schema, cls, rank) => gate(() => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: MODEL }), cls !== undefined ? cls : (phaseName === 'Build' ? 1 : 0), rank || 0)
 
 const CLEAN_ROOM = `CLEAN ROOM (§17.1 (1), binding): you are an IMPLEMENTER-SIDE seat. You read ONLY docs/ARCHITECTURE.md, docs/volumes/INDEX.md, the design volumes a milestone builds (M0 builds none), plat/ (and plat/docs/digest/ when it exists), published algorithm papers and the public documentation of adopted libraries. You NEVER open, list, grep or read research/, captures/, reference/, partitioned/, profiler/, docs/confidence/, docs/improvements/, docs/CONFIDENCE.md, docs/IMPROVEMENTS.md, docs/fable-review/, docs/retrovalidation/, docs/validation/ (the review records), docs/calibration/, docs/design/ or any findings, critic or red-team file — not even to search them; a citation in the design that points there is for traceability only and you do not follow it. No code from any other settlement generator is read, ported or paraphrased. THE FULL REFERENCE CORPUS IS PRESENT ON THIS MACHINE, so the firewall is physical: run every search, find and grep INSIDE plat/ or on named design files only — never a recursive search, find, du or ls from the project root or from docs/ — and never follow a symbolic link out of plat/. Sign plat/CLEAN-ROOM.md's seat ledger (seat, date, role, what you read) by the id rule of C-0104.`
 
-const MACHINE = ARGS.machine ? `THE MACHINE: ${ARGS.machine}` : `THE MACHINE: the owner's MacBook Air, §12.1's reference machine (Apple M1 4P+4E, 16 GB, macOS 14.7.8, Node 24.12 arm64; Rosetta 2 for the x86-64 leg; Playwright's Chromium, Firefox and WebKit cached; outbound access to the npm registry, nodejs.org, www.netlib.org and prng.di.unimi.it). pnpm only as "corepack pnpm ..." (never installed globally). Up to four build seats share one working tree, and M-1's research-side seats (Chrome sessions, Python measurements) run on the machine too: never take or gate on a timing here — timing bars are measured only in the timing-phase waves the session opens; a timing a test prints is contended and informative only. Keep output small (logs to ${SCRATCH}/, truncated); stop and report if df -h /Users/cstokes shows under 1 GB free. MEMORY (the owner's Mac ran out of application memory on 2026-10-04 at about 02:00 with four seats each running parallel test and mutation sweeps; J168): 16 GB are shared by every seat, the owner's apps and an FTG recording browser, so give EVERY vitest run --maxWorkers=2 (for example corepack pnpm test -- --maxWorkers=2, or corepack pnpm exec vitest run --maxWorkers=2 <files>), run at most ONE test process at a time (never several vitest runs or scratch mirrors in parallel), run mutation sweeps one mutant after another with --maxWorkers=1, delete a scratch mirror's node_modules when you finish with it, and before any big run check memory_pressure: if it reports under 25 % free, wait and re-check rather than start. A gate's verdict does not depend on the worker count. MUTATION TESTING (J169, the owner's yes on 2026-10-04): mutants are TARGETED - at most about forty, each aimed at a promise the item states (an interface's contract, a listed test's claim, a refusal, a bar) or at a failing line being fixed; never an exhaustive sweep of hundreds; an equivalent survivor needs no test, only a one-line note.`
+const SEAT_RULES = `MEMORY (J168; J170 keeps it in every brief): the seats share one machine, so give EVERY vitest run --maxWorkers=2 (for example corepack pnpm test -- --maxWorkers=2, or corepack pnpm exec vitest run --maxWorkers=2 <files>), run at most ONE test process at a time (never several vitest runs or scratch mirrors in parallel), run mutation sweeps one mutant after another with --maxWorkers=1, delete a scratch mirror's node_modules when you finish with it, and before any big run check free memory (memory_pressure on macOS, free -m on Linux): under about a quarter free, wait and re-check rather than start. A gate's verdict does not depend on the worker count. MUTATION TESTING (J169, the owner's yes on 2026-10-04): mutants are TARGETED - at most about forty, each aimed at a promise the item states (an interface's contract, a listed test's claim, a refusal, a bar) or at a failing line being fixed; never an exhaustive sweep of hundreds; an equivalent survivor needs no test, only a one-line note.`
+const MACHINE = ARGS.machine ? `THE MACHINE: ${ARGS.machine} ${SEAT_RULES}` : `THE MACHINE: the owner's MacBook Air, §12.1's reference machine (Apple M1 4P+4E, 16 GB, macOS 14.7.8, Node 24.12 arm64; Rosetta 2 for the x86-64 leg; Playwright's Chromium, Firefox and WebKit cached; outbound access to the npm registry, nodejs.org, www.netlib.org and prng.di.unimi.it). pnpm only as "corepack pnpm ..." (never installed globally). Up to four build seats share one working tree, and M-1's research-side seats (Chrome sessions, Python measurements) run on the machine too: never take or gate on a timing here — timing bars are measured only in the timing-phase waves the session opens; a timing a test prints is contended and informative only. Keep output small (logs to ${SCRATCH}/, truncated); stop and report if df -h /Users/cstokes shows under 1 GB free. MEMORY (the owner's Mac ran out of application memory on 2026-10-04 at about 02:00 with four seats each running parallel test and mutation sweeps; J168): 16 GB are shared by every seat, the owner's apps and an FTG recording browser, so give EVERY vitest run --maxWorkers=2 (for example corepack pnpm test -- --maxWorkers=2, or corepack pnpm exec vitest run --maxWorkers=2 <files>), run at most ONE test process at a time (never several vitest runs or scratch mirrors in parallel), run mutation sweeps one mutant after another with --maxWorkers=1, delete a scratch mirror's node_modules when you finish with it, and before any big run check memory_pressure: if it reports under 25 % free, wait and re-check rather than start. A gate's verdict does not depend on the worker count. MUTATION TESTING (J169, the owner's yes on 2026-10-04): mutants are TARGETED - at most about forty, each aimed at a promise the item states (an interface's contract, a listed test's claim, a refusal, a bar) or at a failing line being fixed; never an exhaustive sweep of hundreds; an equivalent survivor needs no test, only a one-line note.`
 
 const NOTE = ARGS.note ? ` SESSION NOTE: ${ARGS.note}` : ''
 
@@ -62,11 +87,11 @@ const STEWARD_SCHEMA = { type: 'object', properties: { wave: { type: 'string' },
 
 const buildPrompt = (id, wave, lane, fix) => `${GROUND}
 
-LANE ${lane}. You are the IMPLEMENTER of item ${id} (wave ${wave}). Read first, whole: plat/docs/build/M0.md sections 0, 3 and 4 and the item's entry in section 2; the item in plat/docs/build/M0-work.json (owns, sections, builds, interfaces, defers, tests, exitBars, dependsOn, choices, checker, handsOver, needs); every design section it names, in full; every choices.md row it cites; plat/docs/build/checks/M0-spec-notes.md if it names your item; and the code of the items yours depends on (read their packages, never edit them). Then build exactly the item: its interfaces under the design's names, its tests (every listed test, plus the unit and property tests it adds), its bars marked here (a timing bar: build its harness and record shape only). Run the gates as M0.md section 3 lists them (install --frozen-lockfile, lint with its probe-red check, build, test for your package and your test files, your here-bars) until each exits 0. Write your landed record with corepack pnpm landed -- ${id} --lane ${lane} (and --touched for each file you edited), sign CLEAN-ROOM.md, and append choices rows for every deviation or open case you decided. Return ready-for-check only when every gate exits 0; blocked with the reason otherwise (a missing dependency of an earlier item, a design contradiction you could not decide inside J156).${fix ? ` THIS IS FIX ROUND ${fix.round}: the independent checker failed the item (plat/docs/build/checks/${id}.md) on these lines — fix every one, then re-run the failed lines and the item's whole test set: ${JSON.stringify(fix.lines)}` : ''}`
+LANE ${lane}. You are the IMPLEMENTER of item ${id} (${WTXT(wave)}). Read first, whole: plat/docs/build/M0.md sections 0, 3 and 4 and the item's entry in section 2; the item in plat/docs/build/M0-work.json (owns, sections, builds, interfaces, defers, tests, exitBars, dependsOn, choices, checker, handsOver, needs); every design section it names, in full; every choices.md row it cites; plat/docs/build/checks/M0-spec-notes.md if it names your item; and the code of the items yours depends on (read their packages, never edit them). Then build exactly the item: its interfaces under the design's names, its tests (every listed test, plus the unit and property tests it adds), its bars marked here (a timing bar: build its harness and record shape only). Run the gates as M0.md section 3 lists them (install --frozen-lockfile, lint with its probe-red check, build, test for your package and your test files, your here-bars) until each exits 0. Write your landed record with corepack pnpm landed -- ${id} --lane ${lane}${FLOW ? ` --wave ${FLOW.label}` : ''} (and --touched for each file you edited), sign CLEAN-ROOM.md, and append choices rows for every deviation or open case you decided. Return ready-for-check only when every gate exits 0; blocked with the reason otherwise (a missing dependency of an earlier item, a design contradiction you could not decide inside J156).${fix ? ` THIS IS FIX ROUND ${fix.round}: the independent checker failed the item (plat/docs/build/checks/${id}.md) on these lines — fix every one, then re-run the failed lines and the item's whole test set: ${JSON.stringify(fix.lines)}` : ''}`
 
 const checkPrompt = (id, wave, lane) => `${GROUND}
 
-LANE ${lane}. You are the INDEPENDENT CHECKER of item ${id} (wave ${wave}); you are not its author and you change none of its files. Follow plat/docs/build/M0.md section 3 exactly — steps 1 to 5: read the brief whole (the item in M0-work.json, its entry in M0.md, every design section it names in full, the choices rows it cites and any its author appended, plat/docs/build/checks/M0-spec-notes.md where it names the item); read the code whole and attribute it with corepack pnpm landed:verify -- wave-${wave} --item ${id} (quote the output); run the gates and the item's here-bars yourself; go through the checklist line by line with quoted evidence; and write the verdict to plat/docs/build/checks/${id}.md (record your own files with corepack pnpm landed -- check-${id} --lane ${lane} --owns plat/docs/build/checks/${id}.md). Try to refute the item: a test that cannot fail, a bar silently narrowed, a stub without a milestone, a deviation without a choices row, a design clause with no test, a Math member outside the allowlist, a path outside plat/. Return pass only if every checklist line passes; fail with every failing line, its evidence and the required change.`
+LANE ${lane}. You are the INDEPENDENT CHECKER of item ${id} (${WTXT(wave)}); you are not its author and you change none of its files. Follow plat/docs/build/M0.md section 3 exactly — steps 1 to 5: read the brief whole (the item in M0-work.json, its entry in M0.md, every design section it names in full, the choices rows it cites and any its author appended, plat/docs/build/checks/M0-spec-notes.md where it names the item); read the code whole and attribute it with corepack pnpm landed:verify -- ${LBL(wave)} --item ${id} (quote the output); run the gates and the item's here-bars yourself; go through the checklist line by line with quoted evidence; and write the verdict to plat/docs/build/checks/${id}.md (record your own files with corepack pnpm landed -- check-${id} --lane ${lane}${FLOW ? ` --wave ${FLOW.label}` : ''} --owns plat/docs/build/checks/${id}.md). Try to refute the item: a test that cannot fail, a bar silently narrowed, a stub without a milestone, a deviation without a choices row, a design clause with no test, a Math member outside the allowlist, a path outside plat/. Return pass only if every checklist line passes; fail with every failing line, its evidence and the required change.`
 
 const stewardPrompt = (wave, action, items) => `${GROUND}
 
@@ -76,7 +101,7 @@ LANE build/steward-wave-${wave}-${action}. You are the WAVE STEWARD, acting for 
 
 const closingCheckPrompt = (id, wave, lane, prev) => `${GROUND}
 
-LANE ${lane}. You are the CLOSING CHECKER of item ${id} (wave ${wave}), independent of its author, after its first full check and that check's fix round (the rulings J162 and J169: the first check is the critical one and an adversarial checker can always find one more contrived escape, so from wave 3v on the item's SECOND check closes it). (1) For each failing line of the previous check, listed here, re-run its evidence and confirm it is fixed, or report it as still failing: ${JSON.stringify(prev)}. (2) Re-run the gates of plat/docs/build/M0.md section 3 step 3 and landed:verify -- wave-${wave} --item ${id}, quoting the output. (3) A NEW finding fails the item ONLY if it is a blocker: a gate exits non-zero; an interface or test id the item lists is missing; a stub or shortcut on an honest code path without a notBuilt milestone and a choices row; a wrong result on an honest input; a clean-room breach; a path outside plat/. Every other new finding — a contrived or deliberate-writer escape, a further hardening test, a tightening of a claim — is NOT a fail: append it to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, the hardening milestone M4 unless it belongs earlier) and record that file with corepack pnpm landed -- check-${id}-notes --lane ${lane} --owns plat/docs/build/checks/${id}-notes.md. Write the verdict to plat/docs/build/checks/${id}.md as section 3 step 5 says. Return pass when (1) leaves nothing failing and (3) finds no blocker; otherwise fail with only those lines.`
+LANE ${lane}. You are the CLOSING CHECKER of item ${id} (${WTXT(wave)}), independent of its author, after its first full check and that check's fix round (the rulings J162 and J169: the first check is the critical one and an adversarial checker can always find one more contrived escape, so from wave 3v on the item's SECOND check closes it). (1) For each failing line of the previous check, listed here, re-run its evidence and confirm it is fixed, or report it as still failing: ${JSON.stringify(prev)}. (2) Re-run the gates of plat/docs/build/M0.md section 3 step 3 and landed:verify -- ${LBL(wave)} --item ${id}, quoting the output. (3) A NEW finding fails the item ONLY if it is a blocker: a gate exits non-zero; an interface or test id the item lists is missing; a stub or shortcut on an honest code path without a notBuilt milestone and a choices row; a wrong result on an honest input; a clean-room breach; a path outside plat/. Every other new finding — a contrived or deliberate-writer escape, a further hardening test, a tightening of a claim — is NOT a fail: append it to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, the hardening milestone M4 unless it belongs earlier) and record that file with corepack pnpm landed -- check-${id}-notes --lane ${lane}${FLOW ? ` --wave ${FLOW.label}` : ''} --owns plat/docs/build/checks/${id}-notes.md. Write the verdict to plat/docs/build/checks/${id}.md as section 3 step 5 says. Return pass when (1) leaves nothing failing and (3) finds no blocker; otherwise fail with only those lines.`
 
 const VENDOR_FACTS = `THE ROUTED FIX (J162; plat/docs/build/checks/M0-d-07-notes.md row N1; choices row C-0126 (5)): flatbush 4.6.2 computes this.nodeSize ** level in _collectContained, reached from search (plat/vendor/flatbush@4.6.2/index.js near line 300; flatbush.js near line 341, the UMD build). The operator ** is implementation-approximated by the language, which §6.5 (3) refuses in anything the model runs; the fix §6.5 (4) names is a patch BEFORE ADOPTION, and M0-a-03 writes the flatbush adapter in wave 4, so it lands now, between waves 3 and 4, as its own wave labelled 3v. The patched bytes must compute the same integer by exact repeated multiplication (or an equivalent exact product) for every level the search reaches, in both builds, and change nothing else in the library.`
 
@@ -111,45 +136,45 @@ const runVendor = async (wave) => {
 // anything more and we move on"): start that item at fix round <round> with the listed failing lines, then a closing check;
 // at most ONE more fix round and closing check after that; if the item still fails, its open lines are written to
 // checks/<id>-notes.md by a notes seat and the item is accepted CUT OFF so the build moves on.
-const RESUME_AT = Object.fromEntries((ARGS.waves || []).flatMap((w) => Object.entries(w.resume || {}).map(([id, r]) => [id, r])))
+const RESUME_AT = Object.fromEntries([...(ARGS.waves || []).flatMap((w) => Object.entries(w.resume || {})), ...Object.entries((FLOW && FLOW.resume) || {})])
 const CUT = ' CUT-OFF (the owner, 2026-10-04): this item gets at most two more fix rounds in all. Fix exactly the listed lines with the smallest test change that pins each promise; if an earlier attempt under this lane key left a broader mutation sweep in progress, stop it and keep only what the listed lines need (targeted mutants, J169).'
 const CONFIRM = ' CONFIRM-ONLY (the owner, 2026-10-04: when the fix is added tests, the re-check only confirms them): for each listed line, re-introduce the fault it describes in a scratch copy (the mutant or edit the earlier check used) and confirm the new test now fails on it and passes without it; then run the gates once. Do NOT search for new findings beyond the listed lines and the gates; pass when every listed line is pinned and the gates exit 0.'
 const notesPrompt = (id, wave, lines) => `${GROUND}
 
-LANE check/${id}-cutoff-notes. The owner cut item ${id} off after its allowed fix rounds (2026-10-04: at most one more round, then move on). Append each of these still-open lines as a row to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, milestone M4 unless it belongs earlier; say plainly that the owner's cut-off accepted the item with this line open), record the file with corepack pnpm landed -- check-${id}-cutoff-notes --lane check/${id}-cutoff-notes --owns plat/docs/build/checks/${id}-notes.md (if that path is already declared by another record of this wave, re-land that record's id instead and say so), run no git, change no other file. Lines: ${JSON.stringify(lines)}. Return verdict pass with the rows written in report.`
+LANE check/${id}-cutoff-notes. The owner cut item ${id} off after its allowed fix rounds (2026-10-04: at most one more round, then move on). Append each of these still-open lines as a row to plat/docs/build/checks/${id}-notes.md (one row: id, observation, suggested handling, milestone M4 unless it belongs earlier; say plainly that the owner's cut-off accepted the item with this line open), record the file with corepack pnpm landed -- check-${id}-cutoff-notes --lane check/${id}-cutoff-notes${FLOW ? ` --wave ${FLOW.label}` : ''} --owns plat/docs/build/checks/${id}-notes.md (if that path is already declared by another record of this wave, re-land that record's id instead and say so), run no git, change no other file. Lines: ${JSON.stringify(lines)}. Return verdict pass with the rows written in report.`
 const runResumed = async (id, wave, r) => {
   const CUTX = r.cutoff === false ? ' RESUMED after a stalled seat (2026-10-04): continue this fix round from your files and CHECKPOINT lines; targeted mutants (J169).' : CUT
   let lines = r.lines
   let check = null
   for (let k = 0; k < 2; k++) {
     const round = r.round + k
-    const built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines }) + CUTX, `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
+    const built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines }) + CUTX, `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA, ...PRI(id, 'fix'))
     if (!built || built.status === 'blocked') return { id, ok: false, why: 'cut-off fix round blocked', built }
-    check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, lines) + CONFIRM, `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA)
+    check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, lines) + CONFIRM, `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA, ...PRI(id, 'check'))
     if (check && check.verdict === 'pass') return { id, ok: true, rounds: round, built, check }
     lines = check ? check.failing_lines : lines
   }
   if (r.cutoff === false) { log(`${id}: still failing after two closing rounds; stopping for the session (J169: a real defect is never cut off)`); return { id, ok: false, rounds: r.round + 1, check } }
   log(`${id}: still failing after the owner's allowed rounds; cut off with its open lines written to notes`)
-  const notes = await seat(notesPrompt(id, wave, lines), `check/${id}-cutoff-notes`, 'Check', CHECK_SCHEMA)
+  const notes = await seat(notesPrompt(id, wave, lines), `check/${id}-cutoff-notes`, 'Check', CHECK_SCHEMA, ...PRI(id, 'check'))
   return { id, ok: true, rounds: r.round + 1, check, cutOff: true, notes }
 }
 
 const runItem = async (id, wave) => {
   if (RESUME_AT[id]) return runResumed(id, wave, RESUME_AT[id])
-  let built = await seat(buildPrompt(id, wave, `build/${id}`, null), `build/${id}`, 'Build', BUILD_SCHEMA)
+  let built = await seat(buildPrompt(id, wave, `build/${id}`, null), `build/${id}`, 'Build', BUILD_SCHEMA, ...PRI(id, 'build'))
   if (!built || built.status === 'blocked') return { id, ok: false, why: built ? 'blocked: ' + built.notes.join('; ') : 'implementer returned nothing', built }
-  let check = await seat(checkPrompt(id, wave, `check/${id}`), `check/${id}`, 'Check', CHECK_SCHEMA)
+  let check = await seat(checkPrompt(id, wave, `check/${id}`), `check/${id}`, 'Check', CHECK_SCHEMA, ...PRI(id, 'check'))
   let round = 0
   while (check && check.verdict === 'fail' && round < MAXFIX) {
     round++
-    built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines: check.failing_lines }), `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA)
+    built = await seat(buildPrompt(id, wave, `build/${id}-fix${round}`, { round, lines: check.failing_lines }), `build/${id}-fix${round}`, 'Build', BUILD_SCHEMA, ...PRI(id, 'fix'))
     if (!built || built.status === 'blocked') return { id, ok: false, why: 'fix round blocked', built, check }
     if (round >= (CLOSING_FROM[wave] || ARGS.closingFrom || 99)) {
       const prev = check.failing_lines
-      check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, prev), `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA)
+      check = await seat(closingCheckPrompt(id, wave, `check/${id}-close-r${round}`, prev), `check/${id}-close-r${round}`, 'Check', CHECK_SCHEMA, ...PRI(id, 'check'))
     } else {
-      check = await seat(checkPrompt(id, wave, `check/${id}-r${round}`), `check/${id}-r${round}`, 'Check', CHECK_SCHEMA)
+      check = await seat(checkPrompt(id, wave, `check/${id}-r${round}`), `check/${id}-r${round}`, 'Check', CHECK_SCHEMA, ...PRI(id, 'check'))
     }
   }
   return { id, ok: !!check && check.verdict === 'pass', rounds: round, built, check }
@@ -159,6 +184,230 @@ const DEPS = ARGS.deps || {}
 const NOPULL = ARGS.noPull || []
 const passed = new Set()
 const done = []
+
+// ---- FLOW MODE (J173) ----
+// Review wf_a3074073-6cf (2026-10-04) shaped what follows: staging is a script (tools/flow_stage.mjs), never a recipe;
+// an item under an integration fix is never committed until its re-check passes; every item not yet committed-safe
+// is BUSY for the steward and the integration checker; a hand-over successor starts only once its giver is committed.
+const INT_SCHEMA = { type: 'object', properties: { group: { type: 'string' }, verdict: { type: 'string', enum: ['pass', 'fail'] }, report: { type: 'string' }, failing_lines: { type: 'array', items: { type: 'object', properties: { item: { type: 'string' }, line: { type: 'string' }, evidence: { type: 'string' }, required_change: { type: 'string' } }, required: ['item', 'line', 'evidence', 'required_change'] } } }, required: ['group', 'verdict', 'report', 'failing_lines'] }
+const ATTEMPT = (FLOW && FLOW.attempt) || 1
+
+const flowStewardPrompt = (action, n, ids, ints, busy, outside) => {
+  const L = FLOW.label
+  const close = action === 'close'
+  const stage = `node tools/flow_stage.mjs --label ${L} --items ${ids.join(',') || '-'}${ints.length ? ` --records ${ints.join(',')}` : ''}${busy.length ? ` --busy ${busy.join(',')}` : ''} --scratch ${SCRATCH}/steward-${L} --stage`
+  return `${GROUND}
+
+LANE build/steward-${L}-a${ATTEMPT}-${action}${n ? `-${n}` : ''}. You are the FLOW STEWARD (J173: M0 builds without stage barriers under one snapshot, ${L}), acting for the session: the ONE seat allowed to run git, and only the commands below. The RESUME RULE does not apply to you: if git log -5 --format=%s already shows your exact commit message, return that commit; otherwise do the work. ${action === 'open'
+    ? `OPEN the flow (items ${JSON.stringify(ids)}). (1) Run git status -sb and git log -1 --format=%H%n%s: the branch is main and not behind origin/main; the index holds nothing staged. (2) Every dependency outside the run — ${JSON.stringify(outside)} — has its landed record and its check record committed: git ls-files --error-unmatch plat/docs/build/landed/<id>.json plat/docs/build/landed/check-<id>.json for each (an item with no check record of its own, e.g. the scaffold M0-s-01, needs only its record). (3) Run corepack pnpm snapshot -- ${L} in plat/ and confirm plat/docs/build/landed/snapshots/${L}.json exists (if it already exists, keep it and say so: the flow's one snapshot is taken once). Change nothing else. Return ok only if (1)-(3) hold; ok false naming what failed otherwise.`
+    : `${close ? 'CLOSE the flow: commit the last checked work' : 'COMMIT checked work'}: items ${JSON.stringify(ids)} and records ${JSON.stringify(ints)}; BUSY (nothing of theirs is committed): ${JSON.stringify(busy)}. (1) In plat/: run corepack pnpm landed:verify -- ${L} --item <id> for each item (an item whose record names another label against that label) and quote each result; any failure stops you. Then run corepack pnpm landed:verify -- ${L} and quote its summary line. ${close
+      ? 'Nothing is busy now: it must exit 0, else commit nothing and return ok false with its problems.'
+      : 'Mid-run it names the busy items\' work in progress; copy into notes only problems that name no busy item\'s files, record or checks/ files, and carry on (the close verifies the whole flow).'} (2) Stage with the session's staging script, from the repository root, exactly: ${stage} — quote its JSON. It stages each committed record's files whole (only while the tree matches the record), never a busy item's path (a hand-over is carried by its successor), the append files cut to HEAD's lines plus the committed records' claimed lines, crossings.json whole only when every added record is claimed, the flow's snapshot and docs/lane-events.log, and re-checks every staged blob. If it exits 1 it has unstaged its paths: commit nothing and return ok false with its problems. Never stage anything by hand. (3) git diff --cached --stat shows only what the script staged; scan the staged diff for secrets (api keys, tokens, private keys); commit with the message "M0 flow ${L} ${close ? 'landed' : `a${ATTEMPT} commit ${n}`}: ${[...ids, ...ints].join(', ')}" ending with the line "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", and git push origin main (the owner's standing rule J158, re-confirmed in this session's chat on 2026-10-04 ~02:10: "save all your progress to github"; never force). If the push is refused, return ok false. Never touch research/, captures/ or docs/calibration/ (M-1's seats own them).`}`
+}
+
+const integrationPrompt = (group, ids, lane, prev, busy) => `${GROUND}
+
+LANE ${lane}. You are the INTEGRATION CHECKER of stage group ${group} of the flow ${FLOW.label} (items ${JSON.stringify(ids)}; each already passed its own independent check), independent of their authors; you change none of their files. Your purpose (J173): catch what one-item checks miss — the pieces working TOGETHER. Items BUSY right now (being built, checked or fixed by other seats; their files are work in progress): ${JSON.stringify(busy)}. ${prev
+    ? `This is the RE-CHECK after the integration fix: (1) for each line of the previous integration check, listed here, re-run its evidence and confirm it is fixed: ${JSON.stringify(prev)}; (2) run the gates once; (3) read the files the fixed items' re-landed records changed and fail only on a blocker there (a stub or shortcut on an honest path without a notBuilt milestone and a choices row, a wrong result on an honest input, a clean-room breach, a path outside plat/). Do NOT search for new findings elsewhere.`
+    : `(1) Read the group's items in plat/docs/build/M0-work.json (interfaces, handsOver, dependsOn, tests) and the design sections where two of them — or one of them and an item it depends on — meet: a record or field one writes and another reads, a shared table, an order, unit, id or determinism promise across them. (2) Run the gates once (install --frozen-lockfile, lint with its probe-red check, build, test with --maxWorkers=2) and corepack pnpm landed:verify -- ${FLOW.label} --item <id> for each item (an item whose record names another label against that label). (3) Write a few composition probes under ${SCRATCH}/integration-g${group}/ (never in plat/): run each meeting point end to end on honest inputs (the items' own fixtures, a seeded random case) and compare with what the design promises.`} A finding FAILS the group only if it is a BLOCKER: a gate exits non-zero because of a file of the group or of a passed item it depends on; a wrong result on an honest input when the pieces are composed; an interface mismatch between them (a field, unit, id or order one writes and the other reads differently). NOT blockers, only notes: anything in a busy item's files (a red test, a type error, an unfinished module); a landed:verify hash mismatch on a path a busy item now owns through a handsOver. Name, for each failing line, the ONE item whose files must change — an item of the group, or a dependency that has passed and is not busy. Write the verdict, the probes you ran and the notes to plat/docs/build/checks/integration-g${group}.md and record it with corepack pnpm landed -- check-integration-g${group} --lane ${lane} --wave ${FLOW.label} --owns plat/docs/build/checks/integration-g${group}.md (a re-check re-lands the same record). Return group "${group}", pass, or fail with only the blocker lines.`
+
+const INTFIX = (group) => ` INTEGRATION FIX (J173): the failing lines above come from the stage-group integration check plat/docs/build/checks/integration-g${group}.md (the pieces composed), not from the item's own check file. Fix them inside your item's owns with a test that pins each, re-run your item's whole test set and the gates, and re-land your record with --wave ${FLOW ? FLOW.label : ''}.`
+
+if (FLOW) {
+  const L = FLOW.label
+  const groups = FLOW.groups || []
+  const all = groups.flatMap((g) => g.items)
+  const inRun = new Set(all)
+  const gIndex = Object.fromEntries(groups.map((g, i) => [g.group, i]))
+  const groupOf = Object.fromEntries(groups.flatMap((g) => g.items.map((id) => [id, g.group])))
+  const doneSet = new Set(FLOW.done || [])
+  doneSet.forEach((id) => passed.add(id))
+  const HOLD = FLOW.hold || []
+  const EVERY = FLOW.commitEvery || 4
+  const est = FLOW.est || {}
+  const HANDS = FLOW.handsOver || {} // giver -> [successors]: a successor starts only once its giver is committed
+  const giversOf = (id) => Object.keys(HANDS).filter((g) => (HANDS[g] || []).includes(id))
+  const dependents = Object.fromEntries(all.map((id) => [id, all.filter((x) => (DEPS[x] || []).includes(id))]))
+  const cp = {}
+  const cpOf = (id) => (cp[id] !== undefined ? cp[id] : (cp[id] = (est[id] || 1) + Math.max(0, ...dependents[id].map(cpOf))))
+  all.forEach(cpOf)
+  const leaf = (id) => dependents[id].length === 0
+  PRI = (id, kind) => (kind === 'build' ? [2, cp[id] || 0] : [inRun.has(id) && leaf(id) ? 3 : 1, cp[id] || 0])
+  const outside = [...new Set(all.flatMap((id) => DEPS[id] || []).filter((d) => !inRun.has(d)))].sort()
+  log(`flow ${L} (attempt ${ATTEMPT}): ${all.length} items in ${groups.length} groups (${doneSet.size} passed earlier); leaves, checked last: ${all.filter(leaf).join(', ') || 'none'}`)
+
+  phase('Open')
+  const opened = await seat(flowStewardPrompt('open', 0, all, [], [], outside), `steward/${L}-a${ATTEMPT}-open`, 'Open', STEWARD_SCHEMA, 0, 0)
+  if (!opened || !opened.ok) { log(`flow ${L}: open failed (snapshot, branch or an uncommitted outside dependency); stopping`); return { done, stoppedAt: L, opened } }
+
+  const failed = new Map()
+  const started = new Set()
+  const fixing = new Set()          // items under an integration fix: never committed until the re-check passes
+  const runningGroups = new Set()   // integration checks in progress
+  const committed = new Set([...(FLOW.committed || []), ...[...doneSet].filter((id) => !(FLOW.uncommitted || []).includes(id))])
+  const results = {}
+  const running = []
+  const commits = []
+  const groupsDone = new Set(FLOW.integrated || [])
+  const integrations = {}
+  let uncommitted = [...(FLOW.uncommitted || [])]   // passed earlier, not yet committed (a relaunch names them)
+  let intUncommitted = []
+  let commitChain = Promise.resolve()
+  let commitN = 0
+  let halt = null
+
+  const earlierGroupsPassed = (id) => groups.slice(0, gIndex[groupOf[id]]).every((g) => g.items.every((x) => passed.has(x)))
+  const ready = (id) => (DEPS[id] || []).every((d) => passed.has(d) || (!inRun.has(d) && !failed.has(d))) &&
+    giversOf(id).every((g) => committed.has(g) || !inRun.has(g)) && (!HOLD.includes(id) || earlierGroupsPassed(id))
+  // BUSY: every run item that is not passed-and-settled, every item under an integration fix, every failed item
+  // (an item not yet started has touched nothing, so it is not busy: a hand-over giver's file is committed before its successor starts)
+  const busyList = () => [...new Set([...all.filter((id) => started.has(id) && !passed.has(id)), ...fixing, ...failed.keys()])]
+
+  const commit = (final) => {
+    commitChain = commitChain.then(async () => {
+      if (halt) return
+      const ids = uncommitted.filter((id) => !fixing.has(id) && !failed.has(id))
+      const ints = intUncommitted
+      if (!final && !ids.length && !ints.length) return
+      uncommitted = uncommitted.filter((id) => !ids.includes(id))
+      intUncommitted = []
+      commitN++
+      const action = final ? 'close' : 'commit'
+      const r = await seat(flowStewardPrompt(action, commitN, ids, ints, final ? [] : busyList(), outside), `steward/${L}-a${ATTEMPT}-${action}-${commitN}`, 'Commit', STEWARD_SCHEMA, 0, 0)
+      commits.push({ n: commitN, action, ids, ints, commit: r ? r.commit : null, ok: !!(r && r.ok) })
+      if (!r || !r.ok) {
+        halt = { commitN, steward: r }
+        uncommitted = [...ids, ...uncommitted]
+        log(`flow ${L}: steward ${action} ${commitN} failed (a staging problem or a refused push); no new item starts — the session must look`)
+      } else {
+        ids.forEach((id) => committed.add(id))
+        log(`flow ${L}: ${action} ${commitN} ${r.commit} (${ids.concat(ints).join(', ')})`)
+        launch()
+      }
+    }).catch((e) => { halt = { commitN, error: String(e) }; log(`flow ${L}: steward commit threw (${e}); no new item starts — the session must look`) })
+    return commitChain
+  }
+
+  const runIntegration = async (g) => {
+    const ids = g.items
+    const rank = Math.max(...ids.map((id) => cp[id] || 0))
+    const lane = `check/integration-${L}-g${g.group}`
+    runningGroups.add(g.group)
+    let verdict = 'none'
+    let first = null
+    try {
+      let r = await seat(integrationPrompt(g.group, ids, lane, null, busyList()), lane, 'Integrate', INT_SCHEMA, 1, rank)
+      first = r
+      if (r && r.verdict === 'fail') {
+        // fix only what may be fixed now: a group item, or a passed, settled item (in or before the run)
+        const allowed = (id) => ids.includes(id) || (inRun.has(id) ? passed.has(id) && !fixing.has(id) && !failed.has(id) : !failed.has(id) && /^M0-[a-z]-\d+[a-z]?$/.test(id))
+        const byItem = {}
+        const refused = []
+        for (const f of r.failing_lines) (allowed(f.item) ? (byItem[f.item] = byItem[f.item] || []) : refused).push({ item: f.item, line: f.line, evidence: f.evidence, required_change: f.required_change })
+        if (refused.length) log(`flow ${L}: group ${g.group}'s integration named items it may not fix now (${refused.map((x) => x.item).join(', ')}); left for the session`)
+        const hit = Object.keys(byItem)
+        if (!hit.length) verdict = 'fail'
+        else {
+          hit.forEach((id) => fixing.add(id))
+          uncommitted = uncommitted.filter((id) => !hit.includes(id))
+          await commitChain // a commit already staging one of them finishes on its checked state before any fix edits it
+          const fixes = await Promise.all(hit.map((id) => seat(buildPrompt(id, groupOf[id] !== undefined ? groupOf[id] : g.group, `build/${id}-int-g${g.group}-fix1`, { round: 'I (integration)', lines: byItem[id] }) + INTFIX(g.group), `build/${id}-int-g${g.group}-fix1`, 'Build', BUILD_SCHEMA, 1, rank)
+            .then((b) => ({ id, ok: !!b && b.status !== 'blocked' }), (e) => ({ id, ok: false, why: String(e) }))))
+          const prev = r.failing_lines
+          r = fixes.every((f) => f.ok) ? await seat(integrationPrompt(g.group, ids, `${lane}-close`, prev, busyList()), `${lane}-close`, 'Integrate', INT_SCHEMA, 1, rank) : null
+          hit.forEach((id) => fixing.delete(id))
+          if (r && r.verdict === 'pass' && !refused.length) {
+            verdict = 'pass'
+            hit.forEach((id) => { if (!uncommitted.includes(id)) uncommitted.push(id) })
+          } else {
+            verdict = 'fail'
+            hit.forEach((id) => { passed.delete(id); failed.set(id, `group ${g.group} integration still failing`) })
+            log(`flow ${L}: group ${g.group}'s integration still fails after one fix (items ${hit.join(', ')}); they stay uncommitted and their dependents not yet started wait for the session (J169: a real defect is never cut off)`)
+          }
+        }
+      } else verdict = r ? (r.verdict === 'pass' ? 'pass' : 'fail') : 'none'
+      if (r || first) intUncommitted.push(`check-integration-g${g.group}`)
+      if (verdict === 'none') log(`flow ${L}: group ${g.group}'s integration seat returned nothing; recorded for the session`)
+    } catch (e) {
+      verdict = 'error'
+      log(`flow ${L}: group ${g.group}'s integration threw (${e}); recorded for the session`)
+    }
+    runningGroups.delete(g.group)
+    integrations[g.group] = verdict
+    if (uncommitted.length + intUncommitted.length >= EVERY) commit(false)
+    launch()
+    return { group: g.group, verdict }
+  }
+
+  const maybeIntegrate = (g) => {
+    if (halt || groupsDone.has(g.group) || !g.items.every((x) => passed.has(x))) return
+    groupsDone.add(g.group)
+    if (g.items.length >= 2) running.push(runIntegration(g))
+    else { integrations[g.group] = 'single'; log(`flow ${L}: group ${g.group} has one item; its own check stands for the group`) }
+  }
+
+  const onDone = (id) => (r) => {
+    results[id] = r
+    if (r && r.ok) {
+      passed.add(id)
+      uncommitted.push(id)
+      maybeIntegrate(groups[gIndex[groupOf[id]]])
+      // a hand-over giver commits at once so its successor can start on committed ground
+      if (uncommitted.length >= EVERY || (HANDS[id] || []).some((s) => inRun.has(s))) commit(false)
+    } else {
+      failed.set(id, r ? (r.why || 'still failing') : 'no result')
+      log(`flow ${L}: ${id} FAILED (${failed.get(id)}); its dependents will not start, everything else continues`)
+    }
+    launch()
+    return r
+  }
+
+  function launch() {
+    if (halt) return
+    for (const id of all) {
+      if (started.has(id) || doneSet.has(id) || failed.has(id) || !ready(id)) continue
+      started.add(id)
+      log(`flow ${L}: ${id} starts (group ${groupOf[id]}; chain ${cp[id]} h${leaf(id) ? '; leaf' : ''})`)
+      running.push(runItem(id, groupOf[id]).catch((e) => ({ id, ok: false, why: 'error: ' + e })).then(onDone(id)))
+    }
+  }
+
+  phase('Build')
+  groups.forEach(maybeIntegrate) // a group made only of items passed earlier and not yet integrated
+  if (uncommitted.length) commit(false) // items a relaunch names as passed but uncommitted
+  launch()
+  let seen = 0
+  while (true) {
+    while (seen < running.length) {
+      const batch = running.slice(seen)
+      seen = running.length
+      await Promise.all(batch)
+    }
+    await commitChain // a commit can unblock a hand-over successor, which pushes new work
+    if (seen === running.length) break
+  }
+  const waiting = all.filter((id) => !started.has(id) && !doneSet.has(id))
+  const intOk = Object.values(integrations).every((v) => v === 'pass' || v === 'single')
+  const ok = !halt && failed.size === 0 && waiting.length === 0 && intOk
+  if (ok) await commit(true)
+  else if (!halt && (uncommitted.some((id) => !failed.has(id)) || intUncommitted.length)) await commit(false)
+  log(`flow ${L}: ${all.filter((id) => passed.has(id) && !doneSet.has(id)).length}/${all.length - doneSet.size} items passed; failed ${failed.size}; waiting ${waiting.length}; integrations ${JSON.stringify(integrations)}; ${commits.length} commits`)
+  return {
+    flow: L,
+    attempt: ATTEMPT,
+    ok: ok && !halt,
+    results: Object.fromEntries(Object.entries(results).map(([id, r]) => [id, r ? { ok: r.ok, rounds: r.rounds, why: r.why, cutOff: r.cutOff } : null])),
+    integrations,
+    failed: Object.fromEntries(failed),
+    waiting,
+    committed: [...committed],
+    uncommitted,
+    commits,
+    halt,
+    stoppedAt: ok && !halt ? null : L,
+  }
+}
+
 for (let wi = 0; wi < WAVES.length; wi++) {
   const w = WAVES[wi]
   if (!w.items.length) { log(`wave ${w.wave}: every item started early in the wave before; nothing left`); continue }
