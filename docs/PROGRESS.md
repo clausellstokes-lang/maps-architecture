@@ -228,7 +228,7 @@ The owner will start the adversarial review (workflow 03) at a later date — do
 
 <!-- AUTO:BEGIN (tools/progress.py rewrites this block) -->
 
-_Disk state as of 2026-10-04 02:15 EDT._
+_Disk state as of 2026-10-04 02:18 EDT._
 
 ### Phase 3 — exhaustive read (Opus readers, Fable critic) → research/findings/ — 25/25 landed
 
@@ -810,3 +810,4 @@ Fable review: `Workflow({ scriptPath: ".../workflows/15-fable-review-b.js", args
 - **2026-10-04 02:08 EDT** — J168: M0 build stopped for memory (owner); relaunching workflows/23 fresh from wave 3 with m0-waves-from3-args.json (maxLanes 3, memory rule in the brief, early starts).
 - **2026-10-04 02:10 EDT** — Owner (~02:10): 'save all your progress to github and find a good stopping point' — moving to a new machine with more cores. Stopping now: the M0 build (run wf_0ba4f1c0-192) and M-1 wave-2 run 1 (wf_e8a71ab8-80a, W-09 in progress); the FTG recording (wf_1ab85c3f-11f) is stopped right after slot 18b lands, before slot 19's create. Then everything (including wave 3's uncommitted plat/ work) is committed and pushed, and HANDOFF gets the new-machine steps.
 - **2026-10-04 02:15 EDT** — PAUSED 02:15 for the move to a new machine (owner). All runs stopped clean (FTG slot 18b landed, slot 19 before create; M0 wave 3 mid-fix; W-09 mid-run). Checkpoint commit carries everything incl. wave 3's in-progress plat/ work; a stray plat/docs/lane-events.log line (check/M0-d-01-r1 wrote to the wrong path) was moved into docs/lane-events.log so wave 3's close stays attributable. HANDOFF 'RESUME HERE — NEW MACHINE' written; memory snapshot session-state/agent-memory-snapshot-2026-10-04.
+- **2026-10-04 02:18 EDT** — Owner (~02:25): no USB drive, so the move is off — 'keep continuing everything on this machine'. Resuming here: M0 build (23, m0-waves-from3-args.json, maxLanes 3, J168 memory rule); M-1 wave 2 mchain+verify (27, m1-wave2-mchain-args.json, maxLanes 2: W-09 continues, then W-08, W-13, W-14, wave2-verify); FTG programme 2 slots 19-27 (27, m1-wave2-ftg-retry-args.json; same session, J165 go and the owner's 'restart it' stand).

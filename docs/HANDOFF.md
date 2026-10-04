@@ -1,6 +1,6 @@
 # HANDOFF — town-generator research program
 
-## RESUME HERE — NEW MACHINE (kept current; last updated 2026-10-04 ~02:20 EDT — PAUSED to move machines)
+## RESUME HERE — NEW MACHINE (written 2026-10-04 ~02:20 EDT; the move was CALLED OFF at ~02:25 — no USB drive — and the work RESUMED on the same MacBook Air: runs relaunched with m0-waves-from3-args.json, m1-wave2-mchain-args.json and m1-wave2-ftg-retry-args.json; this block stays valid for any later move)
 
 **PAUSED 2026-10-04 ~02:15 EDT on the owner's word ("save all your progress to github and find a good stopping point"; moving to a new machine with more cores).** Every run was stopped at a clean point and everything — including wave 3's in-progress `plat/` work, which the wave's steward normally commits only at its close — is committed and pushed to `origin/main`. Nothing runs. Stop points: FTG programme 2 stopped right after slot 18b LANDED (02:13); slot 19's seat was killed while reading, before any create (no slot-19 line in the log; no FTG browser left; no profile locks). M0 build (run wf_0ba4f1c0-192) stopped in wave 3: M0-m-01 PASSED; M0-d-01 in fix round 3 (a closing check follows); M0-a-02 in its round-2 check; M0-k-03 in fix round 3 — each CONTINUES from its files and CHECKPOINT lines. M-1 wave 2 run 1 (wf_e8a71ab8-80a) stopped in W-09 (partial E09 outputs on disk; W-08, W-13, W-14 and m1/wave2-verify not started).
 
