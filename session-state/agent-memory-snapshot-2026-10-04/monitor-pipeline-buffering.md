@@ -10,3 +10,5 @@ On 2026-10-04 the session's Monitor watches (`tail -F docs/lane-events.log | gre
 **Why:** a silent watcher looks exactly like "nothing happened".
 
 **How to apply:** in every Monitor pipeline, every stage must flush per line — `grep --line-buffered`, then `awk '{print substr($0,1,200); fflush()}'` for truncation; never `cut`, `head` or `sed` without `-u` mid-pipeline. Before reporting "all done", read the lane log directly rather than trusting a quiet monitor. Related: [[record-state-at-spawn-time]], [[maps-project-state]].
+
+**Linux (cloud container, 2026-10-04):** `awk` is mawk there, and mawk BLOCK-BUFFERS ITS INPUT from a pipe even with fflush() — the cloud watcher missed three LANDED lines (M0-k-05, M0-d-05a's check, M0-k-02) in 30 minutes. Use `mawk -W interactive '{print substr($0,1,200); fflush()}'` on Linux (tested: a line passes in under a second); macOS's awk does not take -W.
