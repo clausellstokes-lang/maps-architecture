@@ -1,4 +1,4 @@
-- [Maps project state](maps-project-state.md) — goal, layout, resume point (2026-10-04 02:15: PAUSED to move to a new machine via GitHub — see HANDOFF "RESUME HERE — NEW MACHINE"); journals at <session>/subagents/workflows/<runId>/journal.jsonl
+- [Maps project state](maps-project-state.md) — goal, layout, resume point (2026-10-04 12:40: RUNNING — M0 build wave 4+ (four lanes); M-1 waves 2-3 landed, phase C waits for M0-k-05/k-06; see HANDOFF); journals at <session>/subagents/workflows/<runId>/journal.jsonl
 - [Agent model tiers directive](agent-model-tiers-directive.md) — Fable manages/judges/architects/validates; Opus verifies/scouts/implements/surveys
 - [Patreon public API access](patreon-public-api-access.md) — endpoints that work without login; browser routes blocked
 - [Generation profiler hazards](generation-profiler-hazards.md) — watabou attribution trick; FTG server-side one-shot capture pitfalls; FTG payload coordinates are zig-zag sint32 (unsigned decode doubles lengths); analyzer trees are time-sorted (not an execution order); Dwellings successor seed = Lehmer 48271 state after k draws, clock-reseeded ≈ 1 in 5 generations
@@ -36,3 +36,5 @@
 - [Mac session environment](mac-session-environment.md) — the Mac IS the §12.1 bench; corpus symlinked from ~/Desktop/research; disk ≈ 17 GB free; pnpm via corepack; Fable answers
 - [No rate-limit evasion](no-rate-limit-evasion.md) — owner asked to rotate IPs/scrub cookies past FTG's daily limit (2026-10-03); declined; offer legitimate routes
 - [Machine move checklist](machine-move-checklist.md) — what GitHub does not carry (captures/, reference/, research archives, profiler/, FTG sign-in, memory path, approvals, timing bench)
+- [Derived-graph twin sensitivity](derived-graph-twin-sensitivity.md) — E14 / W-14 (2026-10-04): the raster twin's sgd.deadEnds is spur-threshold- and step-dominated (×2–3 at spur 6 m, −30 % at 10 m, +18–39 % at 0.25 m), sgd.tShare 4–17 %, blockc.* invariant; the CV rule still keeps all 12 D11 rows target; the digest must carry step / spur / merge / thinning; expect a baselineShift at M1 on sgd.deadEnds
+- [Monitor pipeline buffering](monitor-pipeline-buffering.md) — cut block-buffers and swallows Monitor events; use grep --line-buffered + awk fflush; verify the log before saying 'done'
