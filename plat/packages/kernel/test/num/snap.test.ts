@@ -3,7 +3,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { LATTICE, snap } from '../../src/num/index.js';
-import { MAX, RANGE } from './support.js';
+import { MAX, RANGE, TIMEOUT } from './support.js';
 
 const refused = (x: number, y: number, detail: 'x' | 'y') => {
   expect(snap(x, y)).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail });
@@ -91,5 +91,5 @@ describe('snap (§3.2 (7))', () => {
         );
       }),
     );
-  });
+  }, TIMEOUT);
 });

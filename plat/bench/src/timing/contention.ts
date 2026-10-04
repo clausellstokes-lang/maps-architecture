@@ -3,7 +3,8 @@
 //   * the reference score is null ("no reference score", C-0075), or was taken with another calibrate version;
 //   * the 1-minute load average is above 1.5 (the before-batch clause);
 //   * the process table (`ps -axo pid,ppid,pcpu,comm`) holds, outside the harness's own process tree, a process of the
-//     kinds browser (Google Chrome, Chromium, Firefox, WebKit, Safari, their helpers, Playwright's builds), node,
+//     kinds browser (Google Chrome, Chromium, Firefox, WebKit, Safari, their helpers, Playwright's builds — and, by
+//     their app bundles, Microsoft Edge and the rest of the Chromium family, C-0141), node,
 //     python / python3, bench, tsc, vitest or esbuild, or ANY other process at ≥ 10 % CPU — every process on the
 //     machine, M-1's Chrome sessions and Python measurements among them, each offender named in `reasons`;
 //   * the machine is not on AC power (`pmset -g batt`);
@@ -109,12 +110,36 @@ export function baseName(comm: string): string {
 }
 
 /**
+ * The browsers' app bundles (a lower-case path segment) and their kinds: every process inside a bundle — the browser,
+ * its helpers (renderer, GPU, utility, plugin) and its crashpad handler — is that browser (C-0138 (4)). C-0103 named the
+ * browsers it knew; a browser is matched by its bundle, every release channel of it included, so the Chromium family
+ * beyond Chrome and Chromium — Microsoft Edge, this machine's browser, and Brave, Arc, Opera and Vivaldi — is counted
+ * too, and so are the web-app shims Chrome and Edge install in `~/Applications/<browser> Apps.localized/` (fix round 2,
+ * `checks/M0-f-01.md` F-3; C-0141). Their updaters (`GoogleUpdater`, `EdgeUpdater`) are not browsers.
+ */
+const BROWSER_BUNDLES: readonly (readonly [RegExp, string])[] = [
+  [/\/google chrome( beta| dev| canary| for testing)?\.app\//, 'chrome'],
+  [/\/chrome apps\.localized\//, 'chrome'],
+  [/\/chromium\.app\//, 'chromium'],
+  [/\/microsoft edge( beta| dev| canary)?\.app\//, 'edge'],
+  [/\/edge apps\.localized\//, 'edge'],
+  [/\/brave browser( beta| nightly)?\.app\//, 'brave'],
+  [/\/arc\.app\//, 'arc'],
+  [/\/opera( gx| beta| developer| air)?\.app\//, 'opera'],
+  [/\/vivaldi( snapshot)?\.app\//, 'vivaldi'],
+  [/\/firefox( nightly| developer edition)?\.app\//, 'firefox'],
+  [/\/safari( technology preview)?\.app\//, 'safari'],
+];
+
+/**
  * The C-0103 kind of a process from its `comm` (the executable path ps reports), or null for an unlisted process.
- * The browsers are recognised by their app bundles and Playwright's cached builds, so a browser's helper processes
- * (inside the bundle) count as the browser; the operating system's shared WebKit XPC services, which any app's web
- * view holds, are not a browser and fall to the CPU clause (C-0138). tsc and vitest run as `node`
- * (ps reports the executable), so the `node` kind covers them; the names `tsc`, `vitest`, `bench` and `esbuild` are
- * matched as executables too.
+ * The browsers are recognised by their app bundles (BROWSER_BUNDLES) and Playwright's cached builds, so a browser's
+ * helper processes (inside the bundle) count as the browser, and by their executables' names where ps gives no path
+ * (`Google Chrome…`, `Chromium…`, `Microsoft Edge…`, `msedge…`, `firefox…`, `Safari`); the operating system's shared
+ * WebKit XPC services, which any app's web view holds, Safari's system agents and an Electron app's helpers (Claude's
+ * `chrome-native-host` and `chrome_crashpad_handler` among them) are not browsers and fall to the CPU clause (C-0138
+ * (4), C-0141). tsc and vitest run as `node` (ps reports the executable), so the `node` kind covers them; the names
+ * `tsc`, `vitest`, `bench` and `esbuild` are matched as executables too.
  */
 export function processKind(comm: string): string | null {
   const path = comm.toLowerCase();
@@ -122,10 +147,12 @@ export function processKind(comm: string): string | null {
   if (path.includes('/ms-playwright/chromium')) return 'chromium';
   if (path.includes('/ms-playwright/firefox')) return 'firefox';
   if (path.includes('/ms-playwright/webkit')) return 'webkit';
-  if (path.includes('/google chrome.app/') || path.includes('/google chrome for testing.app/') || base.startsWith('google chrome') || base === 'chrome') return 'chrome';
-  if (path.includes('/chromium.app/') || base.startsWith('chromium') || base === 'chrome-headless-shell') return 'chromium';
-  if (path.includes('/firefox.app/') || path.includes('/firefox nightly.app/') || path.includes('/firefox developer edition.app/') || base.startsWith('firefox')) return 'firefox';
-  if (path.includes('/safari.app/') || path.includes('/safari technology preview.app/') || base === 'safari') return 'safari';
+  for (const [bundle, kind] of BROWSER_BUNDLES) if (bundle.test(path)) return kind;
+  if (base.startsWith('google chrome') || base === 'chrome') return 'chrome';
+  if (base.startsWith('chromium') || base === 'chrome-headless-shell') return 'chromium';
+  if (base.startsWith('microsoft edge') || base.startsWith('msedge')) return 'edge';
+  if (base.startsWith('firefox')) return 'firefox';
+  if (base === 'safari') return 'safari';
   if (base === 'minibrowser' || base === 'webkitwebprocess' || base === 'webkitnetworkprocess') return 'webkit';
   if (base === 'node' || base === 'nodejs') return 'node';
   if (/^python3[0-9.]*$/.test(base) || path.includes('/python3.framework/') || (base === 'python' && path.includes('/versions/3.'))) return 'python3';

@@ -22,9 +22,7 @@ import {
   type RatioKind,
 } from '../../src/num/index.js';
 import type { LatticePoint } from '../../src/types/index.js';
-import { RANGE, anyRing, coord, incircleBig, latticePoint, orient2dBig, pt, shoelaceBig, signOf } from './support.js';
-
-const TIMEOUT = 600_000; // the hard timeout of a nightly 10⁶-run property on the shared machine; never a timing
+import { RANGE, TIMEOUT, anyRing, coord, incircleBig, latticePoint, orient2dBig, pt, rotate, shoelaceBig, signOf } from './support.js';
 
 /** A KernelResult is well formed: ok with a warnings array, or a refusal with a code and a string detail. */
 function wellFormed<T>(r: KernelResult<T>): boolean {
@@ -78,6 +76,16 @@ describe('B-FUZZ (§13.1): every M0-a-01 primitive at PLAT_FUZZ_RUNS', () => {
         const exact = shoelaceBig(ring);
         const o = orient(ring);
         return BigInt(area2(ring)) === exact && area2Big(ring) === exact && (o === 1 || o === 0 || o === -1);
+      }),
+    );
+  }, TIMEOUT);
+
+  it('orient (ring): a property of the cyclic ring — invariant under rotation, negated by reversal (§3.2 (6), C-0140)', () => {
+    fc.assert(
+      fc.property(anyRing(32), fc.nat(), (ring, k) => {
+        const o = orient(ring);
+        const r = rotate(ring, k % ring.length);
+        return orient(r) === o && orient(r.slice().reverse()) === -o && orient(ring.slice().reverse()) === -o;
       }),
     );
   }, TIMEOUT);

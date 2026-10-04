@@ -3,7 +3,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { LATTICE, belowMinEdge, cdeg, dist, dist2, unitVec, withinAttract, withinCm } from '../../src/num/index.js';
-import { MAX, latticePoint, pt } from './support.js';
+import { MAX, TIMEOUT, latticePoint, pt } from './support.js';
 
 describe('cdeg (§2.1, §3.2 (3))', () => {
   it('quantises degrees to the nearest centidegree, a half away from zero, unnormalised', () => {
@@ -26,7 +26,7 @@ describe('cdeg (§2.1, §3.2 (3))', () => {
         return Number.isInteger(c) && Math.abs(c - deg * 100) <= 0.5;
       }),
     );
-  });
+  }, TIMEOUT);
 });
 
 describe('unitVec (§3.2 (5))', () => {
@@ -50,7 +50,7 @@ describe('unitVec (§3.2 (5))', () => {
         return Math.abs(len - 1) <= 4 * Number.EPSILON && dot > 0 && Math.abs(cross) <= 1e-9 * Math.abs(dot);
       }),
     );
-  });
+  }, TIMEOUT);
 });
 
 describe('the distance tests against attractCm and minEdge (§3.2 (2), (3))', () => {
@@ -85,5 +85,5 @@ describe('the distance tests against attractCm and minEdge (§3.2 (2), (3))', ()
         return !belowMinEdge(0, 0, Math.round(x), Math.round(y)) && dist(0, 0, Math.round(x), Math.round(y)) >= 26 - Math.SQRT1_2;
       }),
     );
-  });
+  }, TIMEOUT);
 });

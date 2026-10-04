@@ -8,6 +8,12 @@ import type { Cm, LatticePoint } from '../../src/types/index.js';
 export const RANGE = 2 ** 23;
 export const MAX = RANGE - 1;
 
+/**
+ * The hard timeout of a property run at PLAT_FUZZ_RUNS — 10⁶ cases in the nightly tier (C-0057) — on the shared machine;
+ * never a timing. Every property at that size carries it (§13.1's 0 hangs, judged by a hard timeout; C-0140).
+ */
+export const TIMEOUT = 600_000;
+
 /** A lattice point from integers the test already holds in range (the test's own door; production code snaps). */
 export const pt = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
 
@@ -97,6 +103,12 @@ export function incircleBig(ax: number, ay: number, bx: number, by: number, cx: 
 }
 
 export const signOf = (v: bigint | number): number => (v > 0 ? 1 : v < 0 ? -1 : 0);
+
+/** The ring started at its k-th vertex (the same cyclic ring, another list). */
+export const rotate = <T>(ring: readonly T[], k: number): T[] => [...ring.slice(k), ...ring.slice(0, k)];
+
+/** Every rotation of a ring, the first the ring itself. */
+export const rotations = <T>(ring: readonly T[]): T[][] => ring.map((_, k) => rotate(ring, k));
 
 export function gcd(a: number, b: number): number {
   let x = Math.abs(a);

@@ -6,7 +6,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { area2, area2Big, snap } from '../../src/num/index.js';
 import type { LatticePoint } from '../../src/types/index.js';
-import { MAX, anyRing, maxPartialBig, pt, shoelaceBig, unflushedSum } from './support.js';
+import { MAX, TIMEOUT, anyRing, maxPartialBig, pt, shoelaceBig, unflushedSum } from './support.js';
 
 const R = 2 ** 23 - 2;
 const TWO52 = 2n ** 52n;
@@ -91,7 +91,7 @@ describe('area2 and area2Big (§3.2 (6))', () => {
         return Number.isInteger(a) && BigInt(a) === exact && area2Big(ring) === exact;
       }),
     );
-  });
+  }, TIMEOUT);
 
   it('property: the same for ≥ 300-vertex rings inside ± 2²¹ (any vertex count whose bound stays below 2⁵³)', () => {
     const c = fc.integer({ min: -(2 ** 21), max: 2 ** 21 });

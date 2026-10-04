@@ -60,14 +60,18 @@ export interface ReferenceRun {
   scores: [number, number];
   calibrateVersion: number;
   host: HostRecord;
-  /** The contention reasons measured over the run: only "no reference score" may remain (C-0047, C-0075). */
-  reasons: readonly string[];
+  /**
+   * The run's stamp as the detector or the harness MEASURED it — the run's ContentionReport or TimingResult, passed
+   * whole: its readings must be `measured` (C-0047: a stamp built from injected readings is never trusted) and its
+   * reasons may hold only "no reference score" (C-0075). Fix round 1, the checker's note N-1 (C-0139).
+   */
+  stamp: { readings: 'measured' | 'built'; reasons: readonly string[] };
 }
 
 /**
- * Writes the reference score ONCE (C-0075): refuses when the file already holds a score, when the run's measured
- * reasons hold anything but "no reference score" (the authority is measured, never declared — C-0047), or when the two
- * scores differ by more than 5 % (§12.1). The score written is the mean of the two agreeing scores. Atomic (write and
+ * Writes the reference score ONCE (C-0075): refuses when the file already holds a score, when the run's stamp was built
+ * from injected readings or its reasons hold anything but "no reference score" (the authority is measured, never
+ * declared — C-0047), or when the two scores differ by more than 5 % (§12.1). The score written is the mean of the two agreeing scores. Atomic (write and
  * rename). Returns the record written.
  */
 export function writeReferenceScore(run: ReferenceRun, opts: { writtenBy: string; path?: string; at?: string }): ReferenceScore {
@@ -76,7 +80,10 @@ export function writeReferenceScore(run: ReferenceRun, opts: { writtenBy: string
   if (current.score !== null) {
     throw new Error(`reference score: already written (${current.score} ms by ${current.writtenBy ?? 'unknown'} at ${current.measuredAt ?? 'unknown'}); it is written once (C-0075)`);
   }
-  const others = run.reasons.filter((r) => r !== NO_REFERENCE_SCORE);
+  if (run.stamp.readings !== 'measured') {
+    throw new Error('reference score: the run\'s stamp was built from injected readings; only a measured stamp writes it (C-0047)');
+  }
+  const others = run.stamp.reasons.filter((r) => r !== NO_REFERENCE_SCORE);
   if (others.length > 0) {
     throw new Error(`reference score: the run was contended (${others.join('; ')}); only an AUTHORITATIVE run writes it (C-0047, C-0075)`);
   }

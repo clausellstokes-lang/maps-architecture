@@ -26,6 +26,9 @@ function sign(v: number): number {
  * lowest-leftmost vertex (least y, then least x) with its neighbours the nearest vertices before and after it that are
  * not the same lattice point. 1 counter-clockwise, −1 clockwise, 0 degenerate. Where that vertex is the tip of a spike
  * — its neighbours collinear with it, which no simple ring has — the sign of the exact `area2Big` decides (C-0134 (2)).
+ * Where the lowest-leftmost lattice point recurs apart from its run of consecutive duplicates — a pinch, or an antenna
+ * based there, so "the lowest-leftmost vertex" names two or more corners — the sign of `area2Big` decides too
+ * (C-0140): so a ring's orientation never depends on the vertex its list starts at, and reversing a ring negates it.
  */
 export function orient(ring: readonly LatticePoint[]): number;
 export function orient(a: LatticePoint, b: LatticePoint, c: LatticePoint): number;
@@ -50,10 +53,20 @@ export function orient(first: readonly LatticePoint[] | LatticePoint, b?: Lattic
   let inx = (m + 1) % n;
   while (inx !== m && ring[inx].x === v.x && ring[inx].y === v.y) inx = (inx + 1) % n;
   if (ip === m || inx === m) return 0; // every vertex is one lattice point
+  // The vertices from inx forward to ip lie outside v's run; v among them is a second corner at the lowest-leftmost
+  // point (C-0140), decided by the exact area.
+  for (let j = inx; j !== ip; j = (j + 1) % n) {
+    if (ring[j].x === v.x && ring[j].y === v.y) return areaSign(ring);
+  }
   const p = ring[ip];
   const q = ring[inx];
   const s = sign(orient2d(p.x, p.y, v.x, v.y, q.x, q.y));
   if (s !== 0) return s;
+  return areaSign(ring);
+}
+
+/** The sign of a ring's exact twice-area, as −1, 0 or 1: `orient`'s fallback (C-0134 (2), C-0140). */
+function areaSign(ring: readonly LatticePoint[]): number {
   const big = area2Big(ring);
   return big > 0n ? 1 : big < 0n ? -1 : 0;
 }

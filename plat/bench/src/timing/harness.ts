@@ -9,7 +9,7 @@
 import { calibrate, scoreDrift } from '../calibrate/calibrate.js';
 import { hostRecord, readReferenceScore, type HostRecord } from '../host/index.js';
 import { contention, judgeContention, sampleMachine, type Authority, type ContentionReport, type MachineSample } from './contention.js';
-import { startSampler, type Sampler } from './sampler.js';
+import { SAMPLE_EVERY_MS, startSampler, type Sampler } from './sampler.js';
 
 export type TimingUnit = 'ms' | 'µs' | 's';
 
@@ -29,8 +29,9 @@ export interface TimingResult {
   host: HostRecord;
   authority: Authority;
   /**
-   * `measured` when the harness read the machine, ran calibrate, sampled through the batch and read the reference
-   * score itself; `built` when the caller passed any of them (the tests). judge() never judges a built result (C-0047).
+   * `measured` when the harness read the machine and the host, ran calibrate, sampled through the batch and read the
+   * reference score itself; `built` when the caller passed any of them (the tests). judge() never judges a built result
+   * (C-0047; the host since C-0141).
    */
   readings: 'measured' | 'built';
   /** Every contention condition found before, through and after the batch; empty exactly when authoritative. */
@@ -62,13 +63,13 @@ export interface TimeBatchOptions {
   poolSize?: number;
   /** The harness's own processes (the Chromium leg, a tier job) — a list, or a function read after the batch. */
   ownPids?: readonly number[] | (() => readonly number[]);
-  /** The idle wait before each attempt (default 30 000 ms; §12.1's fanless host). */
+  /** The idle wait before each attempt (default IDLE_MS, 30 000 ms; §12.1's fanless host). */
   idleMs?: number;
-  /** The detector's sampling period through the batch (default 30 000 ms, C-0103). */
+  /** The detector's sampling period through the batch (default SAMPLE_EVERY_MS, 30 000 ms, C-0103). */
   sampleEveryMs?: number;
-  /** The batch cap (default 60 000 ms, §12.1); a longer batch is flagged `long-batch`, never cut. */
+  /** The batch cap (default MAX_BATCH_MS, 60 000 ms, §12.1); a longer batch is flagged `long-batch`, never cut. */
   maxBatchMs?: number;
-  /** Re-runs on a > 5 % calibrate drift (default 2, C-0097); then the result is flagged `throttled`. */
+  /** Re-runs on a > 5 % calibrate drift (default MAX_REPEATS, 2, C-0097); then the result is flagged `throttled`. */
   maxRepeats?: number;
   /** The calibrate score function (default: calibrate().score). */
   calibrate?: () => number | Promise<number>;
@@ -78,9 +79,16 @@ export interface TimeBatchOptions {
   machine?: () => MachineSample;
   /** The sampler through the batch (default: the worker-thread sampler of sampler.ts). */
   sampler?: (everyMs: number) => Promise<Sampler>;
-  /** The host record (default: hostRecord()). */
+  /** The host record (default: hostRecord()); passed, it makes the result `built` (C-0141). */
   host?: HostRecord;
 }
+
+/** §12.1's fanless host: every batch starts after 30 s idle (the default of `idleMs`). */
+export const IDLE_MS = 30_000;
+/** §12.1's batch cap, ≤ 60 s (C-0097): a longer batch is flagged `long-batch`, never cut (the default of `maxBatchMs`). */
+export const MAX_BATCH_MS = 60_000;
+/** C-0097's re-run bound on a > 5 % calibrate drift (the default of `maxRepeats`); then the batch is `throttled`. */
+export const MAX_REPEATS = 2;
 
 const UNIT_PER_MS: Record<TimingUnit, number> = { ms: 1, 'µs': 1000, s: 0.001 };
 
@@ -104,10 +112,10 @@ export async function timeBatch(fn: () => unknown, opts: TimeBatchOptions = {}):
   const unit = opts.unit ?? 'ms';
   const ops = opts.ops ?? 1;
   if (!(ops > 0)) throw new Error(`timeBatch ${label}: ops ${ops} must be positive`);
-  const idleMs = opts.idleMs ?? 30_000;
-  const everyMs = opts.sampleEveryMs ?? 30_000;
-  const maxBatchMs = opts.maxBatchMs ?? 60_000;
-  const maxRepeats = opts.maxRepeats ?? 2;
+  const idleMs = opts.idleMs ?? IDLE_MS;
+  const everyMs = opts.sampleEveryMs ?? SAMPLE_EVERY_MS;
+  const maxBatchMs = opts.maxBatchMs ?? MAX_BATCH_MS;
+  const maxRepeats = opts.maxRepeats ?? MAX_REPEATS;
   const cal = opts.calibrate ?? (() => calibrate().score);
   const machine = opts.machine ?? sampleMachine;
   const sampler = opts.sampler ?? ((ms: number) => startSampler({ everyMs: ms }));
@@ -115,8 +123,12 @@ export async function timeBatch(fn: () => unknown, opts: TimeBatchOptions = {}):
   const ref = opts.referenceScore === undefined ? readReferenceScore() : null;
   const referenceScore = ref !== null ? ref.score : opts.referenceScore ?? null;
   const referenceVersion = ref !== null ? ref.calibrateVersion : null;
+  // the host is a reading too (§12.1: a stored score names its machine): a caller-passed host makes the result built
+  // like a passed machine, sampler, calibrate or reference score (fix round 2, the checker's note N-r1-1; C-0141)
   const readings: 'measured' | 'built' =
-    opts.calibrate === undefined && opts.referenceScore === undefined && opts.machine === undefined && opts.sampler === undefined ? 'measured' : 'built';
+    opts.calibrate === undefined && opts.referenceScore === undefined && opts.machine === undefined && opts.sampler === undefined && opts.host === undefined
+      ? 'measured'
+      : 'built';
   const own = (): readonly number[] => (typeof opts.ownPids === 'function' ? opts.ownPids() : opts.ownPids ?? []);
 
   let attempt = 0;
@@ -132,12 +144,13 @@ export async function timeBatch(fn: () => unknown, opts: TimeBatchOptions = {}):
     try {
       produced = await fn();
     } catch (e) {
-      await watch.stop(); // a throwing workload still stops the sampler's worker
+      // a throwing workload still stops the sampler's worker; the workload's error wins over a dead sampler's
+      await watch.stop().catch(() => undefined);
       throw e;
     }
     const t1 = process.hrtime.bigint();
     const cpu = process.cpuUsage(cpu0);
-    const during = await watch.stop();
+    const during = await watch.stop(); // a sampler whose worker died rejects here: the batch fails, never hangs (C-0139)
     const s2 = await cal();
     const after = contention({ ownPids: own(), referenceScore, referenceVersion, machine: machine(), checkLoad: false, calibration: { before: s1, after: s2 } });
     const drift = scoreDrift(s1, s2);

@@ -27,17 +27,18 @@ export {
   sampleMachine,
 } from './contention.js';
 export type { Authority, ContentionOptions, ContentionReport, MachineSample, Offender, PowerSource, ProcessRow } from './contention.js';
-export { judge, timeBatch } from './harness.js';
+export { IDLE_MS, MAX_BATCH_MS, MAX_REPEATS, judge, timeBatch } from './harness.js';
 export type { Judgement, RegisterRow, TimeBatchOptions, TimedValue, TimingFlag, TimingResult, TimingUnit } from './harness.js';
 export { LINE_CAP, OUT_CAP_BYTES, outDir, say, summariseReasons, truncate, writeJson, writeTruncated } from './output.js';
-export { startSampler } from './sampler.js';
-export type { Sampler } from './sampler.js';
+export { SAMPLE_EVERY_MS, SAMPLER_WORKER_SOURCE, startSampler } from './sampler.js';
+export type { Sampler, SamplerOptions } from './sampler.js';
 
 const USAGE = 'usage: corepack pnpm bench -- timing [--batch [--idle-ms N] [--every-ms N]]';
 
-function msArg(args: readonly string[], name: string, fallback: number): number | null {
+/** A millisecond argument: undefined when absent (timeBatch's default then holds), null when malformed. */
+function msArg(args: readonly string[], name: string): number | undefined | null {
   const i = args.indexOf(name);
-  if (i < 0) return fallback;
+  if (i < 0) return undefined;
   const v = Number(args[i + 1]);
   return Number.isInteger(v) && v >= 0 && v <= 600_000 ? v : null;
 }
@@ -52,8 +53,8 @@ export async function run(args: string[], ctx: { out: string }): Promise<number>
       return 64;
     }
   }
-  const idleMs = msArg(rest, '--idle-ms', 30_000);
-  const everyMs = msArg(rest, '--every-ms', 30_000);
+  const idleMs = msArg(rest, '--idle-ms'); // absent: timeBatch's IDLE_MS
+  const everyMs = msArg(rest, '--every-ms'); // absent: SAMPLE_EVERY_MS
   if (idleMs === null || everyMs === null || everyMs === 0 || (!batch && rest.length > 0)) {
     say(`timing: bad argument; ${USAGE}`);
     return 64;

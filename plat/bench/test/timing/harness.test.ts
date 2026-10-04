@@ -3,7 +3,11 @@
 // re-runs the batch at most twice and then flags it `throttled`; a long batch is flagged, never cut; the result names
 // its host, normalisation and pool size; a contended result is never judged; while reference-score.json is null no
 // result is authoritative. The protocol's clauses are driven with built readings and stub calibrations; the sampler and
-// the null-reference refusal also run for real on this machine.
+// the null-reference refusal also run for real on this machine. Fix round 1 (checks/M0-f-01.md): the defaults themselves
+// are pinned — 30 s idle before every attempt (fake timers), the 60 s cap (a stubbed clock), two re-runs, 30 s sampling —
+// and a batch whose sampler's worker dies rejects instead of hanging (F-1 (a), F-2). Fix round 2 (the checker's notes
+// N-r1-1 and N-r1-3; C-0141): a caller-passed host makes the result built, and a battery reading taken only through the
+// batch contends it.
 import { spawn } from 'node:child_process';
 import { once } from 'node:events';
 import { readFileSync } from 'node:fs';
@@ -11,10 +15,10 @@ import { join } from 'node:path';
 import { afterEach, describe, expect, it, vi } from 'vitest';
 import { hostRecord, NO_REFERENCE_SCORE } from '../../src/host/index.js';
 import type { MachineSample, ProcessRow } from '../../src/timing/contention.js';
-import { judge, timeBatch, type RegisterRow, type TimeBatchOptions, type TimingResult } from '../../src/timing/harness.js';
+import { IDLE_MS, MAX_BATCH_MS, MAX_REPEATS, judge, timeBatch, type RegisterRow, type TimeBatchOptions, type TimingResult } from '../../src/timing/harness.js';
 import { run } from '../../src/timing/index.js';
 import { LINE_CAP, OUT_CAP_BYTES, outDir } from '../../src/timing/output.js';
-import type { Sampler } from '../../src/timing/sampler.js';
+import { SAMPLE_EVERY_MS, SAMPLER_WORKER_SOURCE, startSampler, type Sampler } from '../../src/timing/sampler.js';
 
 const HOST = hostRecord();
 
@@ -55,6 +59,27 @@ const busy = (ms: number): void => {
 /** The built-reading options: no idle, a quiet machine, a reference score of 100, agreeing calibrations. */
 function built(extra: TimeBatchOptions = {}): TimeBatchOptions {
   return { idleMs: 0, machine: () => reading(), sampler: stubSampler(), calibrate: scores(100, 101), referenceScore: 100, host: HOST, ...extra };
+}
+
+/** The real setTimeout and clearTimeout, kept before any test fakes the timers. */
+const realSetTimeout = setTimeout;
+const realClearTimeout = clearTimeout;
+const realSleep = (ms: number): Promise<void> => new Promise((r) => realSetTimeout(r, ms));
+
+/** Lets every pending promise continuation run (one macrotask turn; setImmediate is never faked here). */
+const flush = (): Promise<void> => new Promise((r) => setImmediate(r));
+
+/** Settles with `p`, or rejects with "HANG …" after `ms` of real time. */
+async function within<T>(p: Promise<T>, ms: number): Promise<T> {
+  let timer: ReturnType<typeof setTimeout> | undefined;
+  const hang = new Promise<never>((_, reject) => {
+    timer = realSetTimeout(() => reject(new Error(`HANG: no answer within ${ms} ms`)), ms);
+  });
+  try {
+    return await Promise.race([p, hang]);
+  } finally {
+    realClearTimeout(timer);
+  }
 }
 
 describe('timeBatch: the protocol on built readings', () => {
@@ -147,6 +172,109 @@ describe('timeBatch: the protocol on built readings', () => {
   });
 });
 
+describe('timeBatch\'s defaults are §12.1\'s: 30 s idle before every attempt, ≤ 60 s batches, two re-runs, 30 s sampling (F-1 (a))', () => {
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  it('the named defaults', () => {
+    expect([IDLE_MS, MAX_BATCH_MS, MAX_REPEATS, SAMPLE_EVERY_MS]).toEqual([30_000, 60_000, 2, 30_000]);
+  });
+
+  it('with no idleMs, each attempt starts after 30 s idle and not a millisecond sooner (fake timers)', async () => {
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const seen: number[] = [];
+    const cal = scores(100, 106, 100, 101); // the first attempt drifts 6 %: a second attempt, after its own idle wait
+    const p = timeBatch(() => undefined, {
+      machine: () => reading(),
+      sampler: stubSampler(),
+      calibrate: () => {
+        const x = cal();
+        seen.push(x);
+        return x;
+      },
+      referenceScore: 100,
+      host: HOST,
+    });
+    await vi.advanceTimersByTimeAsync(29_999);
+    await flush();
+    expect(seen).toEqual([]);
+    await vi.advanceTimersByTimeAsync(1);
+    await flush();
+    expect(seen).toEqual([100, 106]); // the first attempt ran whole, then waited again
+    await vi.advanceTimersByTimeAsync(29_999);
+    await flush();
+    expect(seen).toEqual([100, 106]);
+    await vi.advanceTimersByTimeAsync(1);
+    const r = await p;
+    expect(seen).toEqual([100, 106, 100, 101]);
+    expect(r.calibration).toEqual({ before: 100, after: 101, drift: 0.01, attempts: 2 });
+  });
+
+  it('with no maxBatchMs, a batch of 60 001 ms is flagged long-batch with its figure kept; 60 000 and 59 999 ms are not (a stubbed clock)', async () => {
+    const wall = async (ms: number): Promise<TimingResult> => {
+      const t0 = 1_000_000_000n;
+      const clock = vi.spyOn(process.hrtime, 'bigint').mockReturnValueOnce(t0).mockReturnValueOnce(t0 + BigInt(ms) * 1_000_000n);
+      try {
+        return await timeBatch(() => undefined, built()); // built(): idleMs 0, maxBatchMs absent
+      } finally {
+        clock.mockRestore();
+      }
+    };
+    const over = await wall(60_001);
+    expect(over.wallMs).toBe(60_001);
+    expect(over.value).toBe(60_001);
+    expect(over.flags).toEqual(['long-batch']);
+    expect(over.authority).toBe('authoritative'); // long, not contended (C-0138 (6))
+    for (const ms of [60_000, 59_999]) {
+      const r = await wall(ms);
+      expect(r.wallMs).toBe(ms);
+      expect(r.flags).toEqual([]);
+    }
+  });
+
+  it('with no maxRepeats, a batch that keeps drifting runs three times; with no sampleEveryMs the sampler samples every 30 s', async () => {
+    const log: string[] = [];
+    let runs = 0;
+    const r = await timeBatch(() => void runs++, built({ calibrate: scores(100, 106), sampler: stubSampler([], log) }));
+    expect(runs).toBe(3);
+    expect(r.flags).toEqual(['throttled']);
+    expect(log).toEqual(['start 30000', 'stop', 'start 30000', 'stop', 'start 30000', 'stop']);
+  });
+});
+
+describe('timeBatch with a sampler whose worker dies mid-batch (F-2)', () => {
+  // the worker dies 300 ms after it started, while the workload (1.5 s) runs; no ps sample holds its thread (10 s period)
+  const dying = `${SAMPLER_WORKER_SOURCE}\nsetTimeout(() => { throw new Error('worker died'); }, 300);\n`;
+  const sampler = (ms: number): Promise<Sampler> => startSampler({ everyMs: ms, source: dying });
+
+  it('the batch rejects with the sampler\'s cause within the bound — it never hangs', async () => {
+    const p = timeBatch(() => realSleep(1_500), built({ sampler, sampleEveryMs: 10_000 }));
+    await expect(within(p, 5_000)).rejects.toThrow('worker died');
+  }, 20_000);
+
+  it('a throwing workload keeps its own error when the sampler has died too', async () => {
+    const p = timeBatch(async () => {
+      await realSleep(1_500);
+      throw new Error('workload failed');
+    }, built({ sampler, sampleEveryMs: 10_000 }));
+    await expect(within(p, 5_000)).rejects.toThrow('workload failed');
+  }, 20_000);
+});
+
+describe('timeBatch with a battery reading taken only through the batch (fix round 2, note N-r1-3)', () => {
+  it('the worker\'s planted battery reading contends the result: the power through the batch is read, never assumed', async () => {
+    const battery = SAMPLER_WORKER_SOURCE.replace("read(workerData.pmset, ['-g', 'batt'])", JSON.stringify("Now drawing from 'Battery Power'"));
+    expect(battery).not.toBe(SAMPLER_WORKER_SOURCE);
+    // built(): the before and after readings are on AC; only the samples through the 800 ms batch see the battery
+    const r = await timeBatch(() => realSleep(800), built({ sampler: (ms) => startSampler({ everyMs: ms, source: battery }), sampleEveryMs: 100 }));
+    expect(r.samples).toBeGreaterThanOrEqual(3);
+    expect(r.reasons).toContain('power: battery');
+    expect(r.authority).toBe('contended');
+  }, 30_000);
+});
+
 describe('timeBatch on this machine', () => {
   const planted: ReturnType<typeof spawn>[] = [];
   afterEach(async () => {
@@ -172,7 +300,8 @@ describe('timeBatch on this machine', () => {
       { idleMs: 0, sampleEveryMs: 150, calibrate: scores(100, 100), referenceScore: 100, host: HOST },
     );
     expect(pid).toBeGreaterThan(0);
-    expect(r.samples).toBeGreaterThanOrEqual(5);
+    // before and after, and at least one through the batch (a loaded machine's ps can take ~300 ms, so the count varies)
+    expect(r.samples).toBeGreaterThanOrEqual(3);
     // named by the samples taken through the batch: as /usr/bin/python3 and, once the shim has exec'd, as the framework's Python
     const mine = r.reasons.filter((x) => x.includes(`pid ${pid})`));
     expect(mine.length).toBeGreaterThanOrEqual(1);
@@ -190,6 +319,16 @@ describe('timeBatch on this machine', () => {
     expect(r.host.kind).toBe('native-arm64');
     expect(r.readings).toBe('measured');
     expect(judge(r, { row: 'probe', budget: 1e9, unit: 'ms', measuredAt: 'test', pass: '≤ budget', changeOnMiss: 'none' }).verdict).toBe('requeue');
+  }, 60_000);
+
+  it('a host passed by the caller makes the result built and never judged: a score names the machine the harness read (fix round 2, note N-r1-1)', async () => {
+    const other = { ...HOST, cpu: 'Another CPU' };
+    const r = await timeBatch(() => busy(5), { idleMs: 0, sampleEveryMs: 30_000, host: other });
+    expect(r.host).toEqual(other);
+    expect(r.readings).toBe('built');
+    const j = judge(r, { row: 'probe', budget: 1e9, unit: 'ms', measuredAt: 'test', pass: '≤ budget', changeOnMiss: 'none' });
+    expect(j.verdict).toBe('requeue');
+    expect(j.reason).toMatch(/never declared/);
   }, 60_000);
 });
 
@@ -260,6 +399,40 @@ describe('corepack pnpm bench -- timing (the dispatcher entry run)', () => {
     expect(Buffer.byteLength(text)).toBeLessThanOrEqual(OUT_CAP_BYTES);
     expect((JSON.parse(text) as { reasons: string[] }).reasons).toContain(NO_REFERENCE_SCORE);
   });
+
+  it('with no --idle-ms the probe batch waits timeBatch\'s own 30 s idle: the command keeps no default of its own (fake timers)', async () => {
+    const lines = capture();
+    const dir = outDir(join(outDir(), 'f01-timing-test'));
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout'] });
+    const p = run(['--batch', '--every-ms', '200'], { out: dir });
+    let done = false;
+    p.then(
+      () => {
+        done = true;
+      },
+      () => {
+        done = true;
+      },
+    );
+    try {
+      expect(vi.getTimerCount()).toBe(1); // the idle wait, pending before anything is measured
+      await vi.advanceTimersByTimeAsync(29_999);
+      expect(vi.getTimerCount()).toBe(1);
+      await vi.advanceTimersByTimeAsync(1);
+      expect(vi.getTimerCount()).toBe(0);
+    } finally {
+      // the batch runs in real time; a drifting attempt's next idle wait is advanced as it comes — and the run is
+      // always finished here, so a failed assertion never leaves it printing into the next test
+      while (!done) {
+        if (vi.getTimerCount() > 0) await vi.advanceTimersByTimeAsync(30_000);
+        else await realSleep(20);
+      }
+      vi.useRealTimers();
+      vi.restoreAllMocks();
+    }
+    expect(await p).toBe(0);
+    expect(lines[0]).toMatch(/^timing: probe: fbm × 10 [0-9.]+ ms; contended; /);
+  }, 90_000);
 
   it('times a probe batch and writes the stamped TimingResult; bad arguments exit 64', async () => {
     const lines = capture();

@@ -3,7 +3,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { incircle } from '../../src/num/index.js';
-import { MAX, coord, generator, incircleBig, intIn, signOf } from './support.js';
+import { MAX, TIMEOUT, coord, generator, incircleBig, intIn, signOf } from './support.js';
 
 describe('incircle (§3.1)', () => {
   it('is 1 inside, −1 outside, 0 on the circle through a counter-clockwise triangle (+y north)', () => {
@@ -38,7 +38,7 @@ describe('incircle (§3.1)', () => {
         return incircle(ax, ay, bx, by, cx, cy, dx, dy) === signOf(incircleBig(ax, ay, bx, by, cx, cy, dx, dy));
       }),
     );
-  });
+  }, TIMEOUT);
 
   it('property: the same on near-cocircular points (a fourth point one lattice unit off a circle\'s lattice point)', () => {
     const near = fc
@@ -56,5 +56,5 @@ describe('incircle (§3.1)', () => {
         return incircle(a[0], a[1], b[0], b[1], c[0], c[1], d[0], d[1]) === signOf(incircleBig(a[0], a[1], b[0], b[1], c[0], c[1], d[0], d[1]));
       }),
     );
-  });
+  }, TIMEOUT);
 });

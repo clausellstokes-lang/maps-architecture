@@ -4,6 +4,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { LATTICE, frameOf } from '../../src/num/index.js';
+import { TIMEOUT } from './support.js';
 
 describe('LatticeSpec (§2.2)', () => {
   it('holds §2.2\'s constants and cannot be changed', () => {
@@ -39,7 +40,7 @@ describe('the frame law (§3.2 (9))', () => {
         },
       ),
     );
-  });
+  }, TIMEOUT);
 
   it('a square at aspect 1, the two extremes, and the largest arena of §3.2 (1)', () => {
     expect(frameOf(1_000_000, 1, 0.3)).toEqual({
@@ -73,4 +74,46 @@ describe('the frame law (§3.2 (9))', () => {
     // an area too small for a 1 cm side: the height's ratio refuses it
     expect(frameOf(1e-5, 1, 0.3)).toEqual({ ok: false, code: 'E_DEGENERATE', detail: 'ratio' });
   });
+
+  it('refuses an arena at 2²³ on either side alone, and the boundary is exact (§3.2 (1), (9); C-0134 (6))', () => {
+    const range = { ok: false, code: 'E_OUT_OF_RANGE', detail: 'range' };
+    // At the extreme aspects one side alone passes the range: 60 km × 120 km (and 120 km × 60 km) with the 30 %
+    // margin puts the long side's arena at 0.8 × 12 000 000 cm = 9 600 000 cm > 2²³, the short side's at 4 800 000 cm.
+    expect(lawSides(7.2e9, 0.5)).toEqual([6_000_000, 12_000_000]);
+    expect(frameOf(7.2e9, 0.5, 0.3)).toEqual(range); // the tall side
+    expect(lawSides(7.2e9, 2)).toEqual([12_000_000, 6_000_000]);
+    expect(frameOf(7.2e9, 2, 0.3)).toEqual(range); // the wide side
+    // The boundary at marginShare 0, where the arena's half extent is half the side: 16 777 214 cm reaches 8 388 607,
+    // 16 777 215 cm reaches 8 388 607.5 (2²³ in whole centimetres), 16 777 216 cm reaches 2²³ itself — at aspect 1
+    // on both sides, at 0.5 on the tall side alone, at 2 on the wide side alone.
+    const cases: readonly (readonly [number, number, number, boolean])[] = [
+      [16_777_214, 16_777_214, 1, true],
+      [16_777_215, 16_777_215, 1, false],
+      [16_777_216, 16_777_216, 1, false],
+      [8_388_607, 16_777_214, 0.5, true],
+      [8_388_608, 16_777_216, 0.5, false],
+      [16_777_214, 8_388_607, 2, true],
+      [16_777_216, 8_388_608, 2, false],
+    ];
+    for (const [w, h, aspect, accepted] of cases) {
+      const label = `${String(w)} × ${String(h)} cm`;
+      const area = (w * h) / 10_000;
+      expect(lawSides(area, aspect), label).toEqual([w, h]); // the case is the frame it names
+      expect(frameOf(area, aspect, 0), label).toEqual(
+        accepted ? { ok: true, value: { widthCm: w, heightCm: h, aspect, marginShare: 0 }, warnings: [] } : range,
+      );
+    }
+    // the range is taken on the frame as rounded: a 16 777 214.4 cm side is a 16 777 214 cm frame, inside the range
+    const near = (16_777_214.4 * 16_777_214.4) / 10_000;
+    expect(frameOf(near, 1, 0)).toEqual({
+      ok: true,
+      value: { widthCm: 16_777_214, heightCm: 16_777_214, aspect: 1, marginShare: 0 },
+      warnings: [],
+    });
+  });
 });
+
+/** The frame law's sides in whole centimetres for an area in m², computed here without frameOf. */
+function lawSides(areaM2: number, aspect: number): [number, number] {
+  return [Math.round(Math.sqrt(areaM2 * 10_000 * aspect)), Math.round(Math.sqrt((areaM2 * 10_000) / aspect))];
+}

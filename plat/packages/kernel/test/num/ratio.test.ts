@@ -3,6 +3,7 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { RATIO_FLOOR, ratio, type RatioKind } from '../../src/num/index.js';
+import { TIMEOUT } from './support.js';
 
 const KINDS: RatioKind[] = ['length', 'area', 'angle', 'count'];
 
@@ -33,5 +34,5 @@ describe('ratio (§3.2 (8))', () => {
         return !r.ok && r.code === 'E_DEGENERATE' && r.detail === 'ratio' && !('partial' in r);
       }),
     );
-  });
+  }, TIMEOUT);
 });

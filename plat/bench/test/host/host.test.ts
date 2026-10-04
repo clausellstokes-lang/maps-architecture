@@ -1,6 +1,6 @@
 // M0-f-01's host tests (C-0025, C-0075, C-0114): the host record names §12.1's reference machine on both Node legs
 // (arm64 natively, x64 under Rosetta 2), and the reference-score file exists at null, is written once and only from an
-// authoritative run.
+// authoritative run whose stamp was measured (fix round 1: the run's ContentionReport or TimingResult, never built).
 import { execFileSync } from 'node:child_process';
 import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
@@ -18,6 +18,7 @@ import {
   writeReferenceScore,
   type HostRecord,
 } from '../../src/host/index.js';
+import { contention } from '../../src/timing/contention.js';
 
 const RECORD_TS = fileURLToPath(new URL('../../src/host/record.ts', import.meta.url));
 const GIB = 1024 * 1024 * 1024;
@@ -92,7 +93,7 @@ describe('the reference score (C-0075)', () => {
     const { dir, path } = scratch();
     try {
       const rec = writeReferenceScore(
-        { scores: [30, 31], calibrateVersion: 1, host, reasons: [NO_REFERENCE_SCORE] },
+        { scores: [30, 31], calibrateVersion: 1, host, stamp: { readings: 'measured', reasons: [NO_REFERENCE_SCORE] } },
         { writtenBy: 'test', path, at: '2026-10-03T00:00:00.000Z' },
       );
       expect(rec.score).toBe(30.5);
@@ -102,7 +103,7 @@ describe('the reference score (C-0075)', () => {
       expect(back.calibration?.drift).toBeCloseTo(1 / 30, 12);
       expect((JSON.parse(readFileSync(path, 'utf8')) as Record<string, unknown>)['$comment']).toMatch(/M0-t-01/);
       expect(() =>
-        writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, reasons: [NO_REFERENCE_SCORE] }, { writtenBy: 'test', path }),
+        writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, stamp: { readings: 'measured', reasons: [NO_REFERENCE_SCORE] } }, { writtenBy: 'test', path }),
       ).toThrow(/already written/);
       expect(readReferenceScore(path).score).toBe(30.5);
     } finally {
@@ -114,11 +115,32 @@ describe('the reference score (C-0075)', () => {
     const { dir, path } = scratch();
     try {
       expect(() =>
-        writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, reasons: [NO_REFERENCE_SCORE, 'process: python3 (Python, pid 1)'] }, { writtenBy: 'test', path }),
+        writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, stamp: { readings: 'measured', reasons: [NO_REFERENCE_SCORE, 'process: python3 (Python, pid 1)'] } }, { writtenBy: 'test', path }),
       ).toThrow(/contended/);
       expect(() =>
-        writeReferenceScore({ scores: [100, 106], calibrateVersion: 1, host, reasons: [] }, { writtenBy: 'test', path }),
+        writeReferenceScore({ scores: [100, 106], calibrateVersion: 1, host, stamp: { readings: 'measured', reasons: [] } }, { writtenBy: 'test', path }),
       ).toThrow(/6\.0 %/);
+      expect(readReferenceScore(path).score).toBeNull();
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it('refuses a stamp built from injected readings, however quiet: the stamp is measured, never declared (C-0047; note N-1)', () => {
+    const { dir, path } = scratch();
+    try {
+      expect(() =>
+        writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, stamp: { readings: 'built', reasons: [] } }, { writtenBy: 'test', path }),
+      ).toThrow(/built from injected readings/);
+      // the detector's own report plugs in whole: a reading the caller built is refused even with only the null-reference reason
+      const quiet = contention({
+        machine: { at: '2026-10-03T00:00:00.000Z', loadAverage: 0.2, power: 'ac', selfPid: process.pid, processes: [{ pid: process.pid, ppid: 1, pcpu: 0, comm: 'node' }] },
+        referenceScore: null,
+      });
+      expect([quiet.readings, quiet.reasons]).toEqual(['built', [NO_REFERENCE_SCORE]]);
+      expect(() => writeReferenceScore({ scores: [30, 30], calibrateVersion: 1, host, stamp: quiet }, { writtenBy: 'test', path })).toThrow(
+        /built from injected readings/,
+      );
       expect(readReferenceScore(path).score).toBeNull();
     } finally {
       rmSync(dir, { recursive: true, force: true });
