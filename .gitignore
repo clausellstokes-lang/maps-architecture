@@ -23,7 +23,9 @@ research/reference-maps
 profiler/.profiles/
 profiler/node_modules/
 backups/
-.claude/
+.claude/*
+# shared harness settings (J177: the workflow concurrent-agent gate) travel with the repository
+!.claude/settings.json
 .DS_Store
 **/.DS_Store
 *.lock
