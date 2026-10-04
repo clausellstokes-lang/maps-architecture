@@ -1,5 +1,7 @@
 # HANDOFF — town-generator research program
 
+> **`main` IS THE PRODUCTION LINE (owner, 2026-10-04, J175): "make sure that this is main … if I switch to a different machine, this is the branch that they look to first."** Every session, on any machine or account, starts from `origin/main` and pushes its landings to `main` (never force). A session branch (e.g. a cloud session's `main-j0y3pc`) is only a mirror: fast-forward `main` to it at once, never leave work only there. If `main` and a session branch differ, `main` wins unless the other holds newer commits that fast-forward it.
+
 ## RESUME HERE — CLOUD (kept current; written 2026-10-04 ~14:15 EDT on the owner's word: "Move it to the Cloud then after the current lane ends")
 
 **The program moves to a Claude Code cloud session** after M0 wave 4 (which holds the early-started wave-5 and wave-6 items) closes on the owner's Mac. The conversation carries over. In the cloud:
