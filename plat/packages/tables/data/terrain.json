@@ -1,0 +1,73 @@
+{
+  "table": "terrain",
+  "version": 1,
+  "section": "§2.3",
+  "rows": {
+    "TOWN": {
+      "rasterCellM": {"value": 5, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCellM": {"value": 16, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCoarseCellM": {"value": 20, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "carveMaxCm": {"value": 400, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "CITY": {
+      "rasterCellM": {"value": 8, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCellM": {"value": 25, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCoarseCellM": {"value": 32, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "carveMaxCm": {"value": 400, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "METROPOLIS": {
+      "rasterCellM": {"value": 10, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCellM": {"value": 32, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hydroCoarseCellM": {"value": 40, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "carveMaxCm": {"value": 600, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "settings": {
+      "reliefLimitCm": {"value": 1000000, "unit": "cm", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "outfallStretchM": {"value": 50, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "slopeQueryM": {"value": 2.5, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "fbm": {
+      "octaves": {"value": 5, "unit": "count", "provenance": "ref:VG five-octave relief field", "calibratable": false},
+      "baseGridM": {"value": 32, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "fineOctaves": {"value": 1, "unit": "count", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "lacunarity": {"value": 2, "unit": "ratio", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "gain": {"value": 0.5, "unit": "ratio", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "relief": {
+      "plain.amplitudeM": {"value": 20, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "rolling.amplitudeM": {"value": 60, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "hilly.amplitudeM": {"value": 250, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "mountainous.amplitudeM": {"value": 1500, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "river": {
+      "exponent": {"value": 0.4, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "w0M": {"value": 0.75, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthBandM.river": {"value": [10, 60], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "widthBandM.tributary": {"value": [3, 15], "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "controlSpacingM": {"value": 150, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "lakeThresholdCm": {"value": 150, "unit": "cm", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "isletMinWidthM": {"value": 20, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "crossing": {
+      "searchBandM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "minSpacingM": {"value": 40, "unit": "m", "provenance": "ref:FTG 40 m bridge spacing", "calibratable": false},
+      "snapM": {"value": 20, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "fordMaxWidthM": {"value": 10, "unit": "m", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "shoreSetback": {
+      "beachM": {"value": 6, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "marshM": {"value": 10, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "rockM": {"value": 3, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "cliffM": {"value": 5, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "quayM": {"value": 0, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "fieldsM": {"value": 10, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "resources": {
+      "fertileSlopeMax": {"value": 0.15, "unit": "ratio", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wellYield.alluvial": {"value": 1, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wellYield.gravel": {"value": 0.8, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wellYield.low": {"value": 0.6, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "wellYield.ordinary": {"value": 0.2, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    }
+  }
+}

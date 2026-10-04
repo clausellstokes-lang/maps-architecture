@@ -1,0 +1,137 @@
+{
+  "item": "M0-a-12",
+  "corpus": {
+    "files": 1,
+    "faces": 2000,
+    "families": 7
+  },
+  "inputs": {
+    "opened": 2,
+    "outsidePlat": 0
+  },
+  "bar": {
+    "downgradesMax": 0.005,
+    "workLimitHitsMax": 0.001,
+    "pass": true
+  },
+  "roof": {
+    "faces": 2000,
+    "skeletons": 1998,
+    "downgrades": 2,
+    "workLimitHits": 0,
+    "failures": 0,
+    "downgradeShare": 0.001,
+    "workLimitShare": 0,
+    "contract": {
+      "empty": 0,
+      "degenerate": 0,
+      "notSimple": 0,
+      "sharpCorner": 0,
+      "holeContact": 0,
+      "holeOutside": 0
+    },
+    "validator": {
+      "planarity": 2,
+      "faces": 0,
+      "heights": 0,
+      "topology": 0
+    },
+    "events": {
+      "total": 13450,
+      "max": 18
+    },
+    "byFamily": [
+      [
+        516,
+        2
+      ],
+      [
+        235,
+        0
+      ],
+      [
+        258,
+        0
+      ],
+      [
+        305,
+        0
+      ],
+      [
+        196,
+        0
+      ],
+      [
+        242,
+        0
+      ],
+      [
+        248,
+        0
+      ]
+    ],
+    "pass": true
+  },
+  "spine": {
+    "faces": 2000,
+    "skeletons": 1998,
+    "downgrades": 2,
+    "workLimitHits": 0,
+    "failures": 0,
+    "downgradeShare": 0.001,
+    "workLimitShare": 0,
+    "contract": {
+      "empty": 0,
+      "degenerate": 0,
+      "notSimple": 0,
+      "sharpCorner": 0,
+      "holeContact": 0,
+      "holeOutside": 0
+    },
+    "validator": {
+      "planarity": 2,
+      "faces": 0,
+      "heights": 0,
+      "topology": 0
+    },
+    "events": {
+      "total": 13450,
+      "max": 18
+    },
+    "byFamily": [
+      [
+        516,
+        2
+      ],
+      [
+        235,
+        0
+      ],
+      [
+        258,
+        0
+      ],
+      [
+        305,
+        0
+      ],
+      [
+        196,
+        0
+      ],
+      [
+        242,
+        0
+      ],
+      [
+        248,
+        0
+      ]
+    ],
+    "axes": {
+      "computed": 2,
+      "empty": 0
+    },
+    "pass": true
+  }
+}

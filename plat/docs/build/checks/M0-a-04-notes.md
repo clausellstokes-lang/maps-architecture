@@ -1,0 +1,17 @@
+# M0-a-04 — the closing check's notes (not failing lines)
+
+These notes come from the closing check of item M0-a-04 (lane `check/M0-a-04-close-r1`, 2026-10-04). Under the
+session's rulings J162 and J169, the closing check fails the item only on a blocker. Neither finding below is a
+blocker: one is a hardening fixture for a path the code already gets right, and the other names the reader a fix-round
+change leaves to a later item. Each row names its handling and where it belongs. The verdict and its evidence are in
+`checks/M0-a-04.md` (the closing round is at the top).
+
+The first check's notes N-1 – N-5 stay in `checks/M0-a-04.md`. N-1 (the placement's fallback moves an incoming vertex
+metres, beyond *Existing geometry wins*' √2 · `attractCm` and its acute-tip bound) is now recorded by C-0170 (1) as
+the design's own fallback text; it is still the session's to route to the design's reviewer and to M0-a-05, whose step 3
+re-enters the fallback's new segments. The ids below continue that numbering.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-6 | **The fallback's "sub-edge the exact position falls on" has no test on a run with a finer vertex.** Every fallback fixture is a run of one edge: `placement.test.ts`'s 49 cm edge, `attract.test.ts`'s `WEDGE`, and the B-FUZZ's chord arenas (L0 and L1 only, one op per case). So the closing check's mutant F1f — the fallback taking the nearer of the run's two ends (`V[0]`, `V[k]`) instead of the sub-edge's (`V[j]`, `V[j + 1]`) — survives the item's seven files (`PLAT_CROSSING_CASES=20000 PLAT_FUZZ_SEED=2`, `--maxWorkers=1`, exit 0). It is not equivalent. The mirror probe `WEDGE_S` is `WEDGE` with an L2 vertex S = (181, 3 234) on the long L1 edge, 0.42 cm off its line, valid by the support's `problems()`. On the item's code, `attractVertex(L2 – L4, (314, 3 190))` falls back onto S (140 cm), the nearer end of the sub-edge (723, 3 092) – S, with W_PLACED and W_ATTRACTED and nothing written; at L1 S is finer than the batch and the op refuses `E_LEVEL` (candidate (b), C-0169 (5)); `placePoint` alone answers `endpoint` S ("Tests 2 passed"). Under F1f both probe tests go red (`expected { kind: 'endpoint', vertex: 7, … } to match object { kind: 'endpoint', vertex: 8 }`). CONFIRMED (executed on a scratch mirror). The probe source is `scratchpad/waves/check-M0-a-04-close-r1/probe-close.test.ts`. | Add `WEDGE_S` (or an equivalent run with a finer vertex beside a thin wedge) to `attract.test.ts` and `placement.test.ts`. Or let `chordArena` put an occasional finer vertex on a chord, so the B-FUZZ's `fallbackLandings` oracle — which already walks multi-edge runs — judges this path too. | M4 (test hardening), or M0-a-05 if its step 3 and candidate (b) tests build such runs first |
+| N-7 | **Step 1's W_ATTRACTED has no transaction reader until M0-a-05.** C-0170 (2) makes `decimate` a plan: its merges' W_ATTRACTED are in its result only, and M0-a-05's `insertChain` is to fold them into the transaction when the chain goes on. Until then no code reads `decimate`'s result warnings, so this is a one-ended hook by design, recorded in C-0170 (2). PLAUSIBLE (reasoned from the code; M0-a-05 is not built). | M0-a-05's builder folds the result's warnings into the transaction on success. Its checker should hold a test that a chain whose step 1 merged two exempt points reports W_ATTRACTED once in the transaction (and so in M0-a-06's `CommitRecord.warnings`), and that a refused chain reports none. | M0-a-05 |

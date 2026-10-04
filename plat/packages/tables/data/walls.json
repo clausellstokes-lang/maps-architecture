@@ -1,0 +1,30 @@
+{
+  "table": "walls",
+  "version": 1,
+  "section": "§4.8",
+  "rows": {
+    "strip": {
+      "thicknessRangeM": {"value": [2, 3], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "innerSetbackRangeM": {"value": [6, 10], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "outerSetbackGlacisRangeM": {"value": [10, 20], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "era.default": {
+      "thicknessM": {"value": 2, "unit": "m", "provenance": "own", "calibratable": false, "note": "M0-s-02 pick inside the strip ranges, giving C-0033 lines of 8 m and 15 m (C-0158, lane build/M0-s-02)"},
+      "innerSetbackM": {"value": 7, "unit": "m", "provenance": "own", "calibratable": false, "note": "M0-s-02 pick inside the strip ranges, giving C-0033 lines of 8 m and 15 m (C-0158, lane build/M0-s-02)"},
+      "outerSetbackGlacisM": {"value": 14, "unit": "m", "provenance": "own", "calibratable": false, "note": "M0-s-02 pick inside the strip ranges, giving C-0033 lines of 8 m and 15 m (C-0158, lane build/M0-s-02)"},
+      "intervallum": {"value": "none", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "trace": {
+      "searchBandM": {"value": 40, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "smoothPasses": {"value": 3, "unit": "count", "provenance": "ref:MFCG 12710731 three pinned smoothing passes (code), P12", "calibratable": false},
+      "simplifyMinSegmentM": {"value": 20, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "simplifyMinAngleCdeg": {"value": 10000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "barrierReachM": {"value": 150, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "gateLaw": {
+      "intercept": {"value": 1, "unit": "count", "provenance": "ref:MFCG gate law", "calibratable": false},
+      "coefficient": {"value": 0.47, "unit": "ratio", "provenance": "ref:MFCG gate law", "calibratable": false},
+      "waterfrontShare": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true}
+    }
+  }
+}

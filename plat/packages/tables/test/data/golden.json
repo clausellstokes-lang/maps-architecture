@@ -1,0 +1,54 @@
+{
+  "ladder.json": {
+    "version": 1,
+    "sha256": "781027a7719ee0f9c17e464c2664db385b732041fd366f76667fc89adab918ac"
+  },
+  "granularity.json": {
+    "version": 1,
+    "sha256": "3a91f18685d54a3742b1d366483fae56a52be692ab94416e94f9bb2a4058843e"
+  },
+  "faces.json": {
+    "version": 1,
+    "sha256": "f2c85c5dcfcaed730c345d5d86850f02d67b872f9db3f20f4524e983b846d9d8"
+  },
+  "regimes.json": {
+    "version": 1,
+    "sha256": "29e8dcd31b9acb7dbfd713a7ce95ebfc48b5ee1e5c23daa06017e026be310f31"
+  },
+  "ways.json": {
+    "version": 1,
+    "sha256": "eabc022b72476f70e2acf110a44d6e73141deec51535911c810d77de938c1d26"
+  },
+  "cut.json": {
+    "version": 1,
+    "sha256": "d0700974926850209882fb7c7971d4976d59c8d98aa72d827d9c8cbed5df3d04"
+  },
+  "interior.json": {
+    "version": 1,
+    "sha256": "0d20044493222b5f3cbd98478832a6a9a1c5ea359b3dd4e41e7e6d91e9589679"
+  },
+  "walls.json": {
+    "version": 1,
+    "sha256": "17fdee3c9b57bd028a767b9e0317bf49153b2ff5cc390d4772413f74e3028174"
+  },
+  "lattice.json": {
+    "version": 1,
+    "sha256": "d75df813531e3b410e97156c8031f6fcf224adaec3cfbc2f9f7d7ec7d9927340"
+  },
+  "district.json": {
+    "version": 1,
+    "sha256": "4c66c2136c66e8cf48f7d1900c441476e5f94bed308b70d5856b59ee60e91868"
+  },
+  "fields.json": {
+    "version": 1,
+    "sha256": "a1ecd8adc44e5f13a10bccb27dc766454af70150dfcbdce3f7c1b9c13557cdce"
+  },
+  "bands.json": {
+    "version": 1,
+    "sha256": "f40cf3f5949c75e8fc656beb1e6f9a96e1e9b59a41618e35a7818c96ef7ed6bc"
+  },
+  "terrain.json": {
+    "version": 1,
+    "sha256": "56bcb8fe79c70b405838ff0d2256c7ee929bb2999fe1ac0e7079b79ab105639c"
+  }
+}

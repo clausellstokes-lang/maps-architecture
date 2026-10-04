@@ -1,0 +1,75 @@
+{
+  "table": "regimes",
+  "version": 1,
+  "section": "§4.4",
+  "rows": {
+    "dense_core": {
+      "walled": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "blockDepthFloorM": {"value": [30, 45], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "a": {"value": 1.3, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "heading": {"value": "ou", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "destinationBias": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.TOWN": {"value": 120, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.CITY": {"value": 160, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.METROPOLIS": {"value": 200, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "walled_rings": {
+      "walled": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "blockDepthFloorM": {"value": [45, 70], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "a": {"value": 1.8, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "heading": {"value": "ou", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "destinationBias": {"value": true, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.TOWN": {"value": 120, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.CITY": {"value": 160, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.METROPOLIS": {"value": 200, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "ribbon": {
+      "walled": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "blockDepthFloorM": {"value": [30, 50], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "a": {"value": 4, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "mainRoadSpacingM.CITY": {"value": 450, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "suburb": {
+      "walled": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "blockDepthFloorM": {"value": [40, 60], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": true},
+      "a": {"value": 3, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "heading": {"value": "offshoots", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "destinationBias": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "perimeterLaneSpacingM": {"value": [60, 90], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.TOWN": {"value": 80, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.CITY": {"value": 80, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "separationM.METROPOLIS": {"value": 80, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "linear_street": {
+      "a": {"value": 8, "unit": "ratio", "provenance": "own", "calibratable": true}
+    },
+    "heading.organic": {
+      "sigmaCdegPer100m": {"value": 2000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "correlationM": {"value": 90, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "reversionM": {"value": 250, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "heading.planned": {
+      "sigmaCdegPer100m": {"value": 500, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "correlationM": {"value": 90, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "reversionM": {"value": 250, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "growth": {
+      "stepM.secondary": {"value": [25, 40], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "stepM.lane": {"value": [15, 25], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "snapStepShare": {"value": 0.35, "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "legalAngleCdeg": {"value": 3000, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "destinationBiasSteps": {"value": 1.5, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "branch.afterSegments": {"value": 3, "unit": "count", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "branch.probability.secondary": {"value": 0.5, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "branch.probability.lane": {"value": 0.35, "unit": "share", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"},
+      "branch.jitterCdeg": {"value": 1500, "unit": "cdeg", "provenance": "own", "calibratable": true, "note": "M0-s-02 pick: the design names this table value without giving it (C-0158, lane build/M0-s-02)"}
+    },
+    "crossing.organic": {
+      "collinearCdeg": {"value": 600, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "fourWayShare": {"value": [0, 0.15], "unit": "share", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "settings": {
+      "lanesInfillOnly": {"value": false, "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}

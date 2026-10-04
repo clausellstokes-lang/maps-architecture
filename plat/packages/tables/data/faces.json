@@ -1,0 +1,11 @@
+{
+  "table": "faces",
+  "version": 1,
+  "section": "§4.7",
+  "rows": {
+    "plot": {
+      "minPlotWidthM": {"value": 2.5, "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "minInteriorAnglePlotCdeg": {"value": 1200, "unit": "cdeg", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}

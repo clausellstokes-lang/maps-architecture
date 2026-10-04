@@ -1,0 +1,68 @@
+{
+  "table": "interior",
+  "version": 1,
+  "section": "§4.6",
+  "rows": {
+    "squalid": {
+      "reach.open": {"value": 0.25, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0.75, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.2, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "poor": {
+      "shares.court": {"value": 0.35, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.backLane": {"value": 0.25, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.throughAlley": {"value": 0.3, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.rearPlots": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true},
+      "reach.open": {"value": 0.25, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0.75, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.12, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "modest": {
+      "shares.court": {"value": 0.45, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.backLane": {"value": 0.3, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.throughAlley": {"value": 0.15, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.rearPlots": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true},
+      "reach.open": {"value": 0.7, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0.3, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.04, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "comfortable": {
+      "reach.open": {"value": 0.8, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0.15, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0.05, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.02, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "prosperous": {
+      "shares.court": {"value": 0.65, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.backLane": {"value": 0.15, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.throughAlley": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.rearPlots": {"value": 0.15, "unit": "share", "provenance": "own", "calibratable": true},
+      "reach.open": {"value": 0.6, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0.05, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0.35, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.04, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "rich": {
+      "shares.court": {"value": 0.75, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.backLane": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.throughAlley": {"value": 0, "unit": "share", "provenance": "own", "calibratable": true},
+      "shares.rearPlots": {"value": 0.15, "unit": "share", "provenance": "own", "calibratable": true},
+      "reach.open": {"value": 0.3, "unit": "weight", "provenance": "own", "calibratable": true},
+      "reach.passage": {"value": 0, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "reach.gated": {"value": 0.7, "unit": "weight", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}},
+      "hiddenShare": {"value": 0.08, "unit": "share", "provenance": "own", "calibratable": true, "extension": {"over": "both", "mode": "weight"}}
+    },
+    "settings": {
+      "deepFactor": {"value": 2, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "hiddenShareTol": {"value": 0.03, "unit": "share", "provenance": "own", "calibratable": false},
+      "reachRung.TOWN": {"value": 0.6, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "reachRung.CITY": {"value": 1.0, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "reachRung.METROPOLIS": {"value": 1.2, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "densityBase": {"value": 0.5, "unit": "ratio", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "passageWidthM": {"value": [2.4, 3.5], "unit": "m", "provenance": "architecture 2026-09-25", "calibratable": false}
+    }
+  }
+}
