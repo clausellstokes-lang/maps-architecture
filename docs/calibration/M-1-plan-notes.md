@@ -270,3 +270,13 @@ The session carried rows N-20 to N-25 with attachments A to C into `plat/docs/bu
   `fg.streetwall` are outside its flip table; W-15 (or the wave-3 ruling seat) either re-runs W-13 over those two rows or
   records why their bands need no bootstrap. Checklist section I's guard sentence was brought in line with plan-guard-2
   (label, size, water, programme or day) by the session.
+* **Rulings round 3 (from W-15 partial, 2026-10-04 08:14; one Fable lane after phase B).** (1) S-V12-1: the bootstrap test
+  fired (49–50 of 72–78 MFCG rows unstable at 10 seeds) and E13 F2 shows the pre-decided remedy (20 seeds: +30 MFCG loads,
+  +60 downloads, owner-gated, not approved) cannot satisfy it — the band edge rests on the two outermost seeds; rule
+  whether to restate the test or the remedy (V12 §8.3 (1)), the owner's word on the loads beside it; (2) F2: the metric id
+  `water.riverWidth` collides with a deny-listed token — rename the id (design seat + registry) and re-run W-15 for its 5
+  held rows; (3) F1: D28's 8 MFCG draw rows have no registered sample family (R-03) — rule the family and the plan.py
+  block, then cross or hold them; (4) N-26: before W-20 crosses baselines.json, either M0's scanner reads crossing JSON by
+  string values only or the deny-list drops number-only 3-grams — carry to M0-k-05/k-06 with N-22; (5) F5 for M0-k-05 via
+  the session (the union family, stress rows keyed by sample.family's options segment, n-0 rows listing every member in
+  failed); (6) D13 (C10 reads a crossing file's strings and keys, not its numbers) flagged for veto as R-14 was.
