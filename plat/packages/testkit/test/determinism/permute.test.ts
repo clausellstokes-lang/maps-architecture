@@ -46,6 +46,16 @@ describe('permuteOps(tx): the same transaction, its ops in another order', () =>
     expect(canon(a)).toEqual(canon(tx));
   });
 
+  it('a declared batch of one op is not counted as permutable (no order to move)', () => {
+    const one: DeterminismSequence = {
+      name: 'one declared op',
+      arena: () => framedArena(0, 0, 4000, 4000),
+      batches: [{ name: 'one op', build: () => ({ spec: fixtureSpec(1, { ops: ops(1) }) }) }],
+    };
+    const r = permutationCompare(one, { count: 2 });
+    expect(r).toMatchObject({ permutable: 0, orders: 3, identical: true, divergence: null });
+  });
+
   it('permutedSequence permutes only declared batches of two ops or more', () => {
     const seq = KERNEL_SEQUENCES[0];
     const p = permutedSequence(seq, 3);

@@ -22,7 +22,7 @@ Reading rules:
 
 | # | item | what M1 receives | source line | M1 clauses | note |
 |---|---|---|---|---|---|
-| W1 | M0-s-01 | @plat/content, @plat/plots and every later package: created by their milestones (M1 …) — no empty skeletons for them (J156 (2)) | M0-work.json:615 | 4, 30, 32 |  |
+| W1 | M0-s-01 | @plat/content, @plat/plots and every later package: created by their milestones (M1 …) — no empty skeletons for them (J156 (2)) | M0-work.json:615 | 36, 31, 30, 32 |  |
 | W2 | M0-s-01 | zod: M1 with the document schema (C-0012) | M0-work.json:616 | 25, 27, 14 |  |
 | W3 | M0-s-02 | zod schemas and the unit lint → M1 (C-0012, C-0044) | M0-work.json:777 | 25, 27 |  |
 | W4 | M0-m-01 | every record of §2.5–§2.7 M0 does not read (Building, Passage, Castle, RaisedWayRecord, …) → M1 and later; declared only where an M0 record's field needs the name | M0-work.json:857 | 124 |  |
@@ -112,11 +112,11 @@ Reading rules:
 | W88 | M0-b-05b | B-CITY's districts → M1 (the bars re-run there) | M0-work.json:4617 | 130 |  |
 | W89 | M0-c-07a | the slope class of the band table → M1's gate re-run on real terrain | M0-work.json:4679 | 66 |  |
 | W90 | M0-c-07b | the slope class of the band table → M1's gate re-run on real terrain | M0-work.json:4736 | 66 |  |
-| W91 | M0-f-02a | B-CITY-lite, B-EDIT, goldens, the five-engine golden run, visual regression → M1 and later | M0-work.json:4793 | 20, 21, 63, 74 | M1 and later |
-| W92 | M0-f-02b | B-CITY-lite, B-EDIT, goldens, the five-engine golden run, visual regression → M1 and later | M0-work.json:4858 | 20, 21, 63, 74 | M1 and later |
+| W91 | M0-f-02a | B-CITY-lite, B-EDIT, goldens, the five-engine golden run, visual regression → M1 and later | M0-work.json:4793 | 20, 21, 63, 71, 74, 116 | M1 and later |
+| W92 | M0-f-02b | B-CITY-lite, B-EDIT, goldens, the five-engine golden run, visual regression → M1 and later | M0-work.json:4858 | 20, 21, 63, 71, 74, 116 | M1 and later |
 | W93 | M0-k-06 | plat/assets' files and the fonts' name tables → M1 (no assets at M0) | M0-work.json:4934 | — | no clause; nearest are 61 (stamp-tile asset) and 92 (font faces) |
 | W94 | M0-k-06 | the dossier port's adapter-boundary key scan → M1 (@plat/port) | M0-work.json:4935 | 131 |  |
-| W95 | M0-x-04 | every stage M0 does not build (S0's expansion, S2, S7, S7b, S9 …) → M1 | M0-work.json:5046 | 4, 111, 112 |  |
+| W95 | M0-x-04 | every stage M0 does not build (S0's expansion, S2, S7, S7b, S9 …) → M1 | M0-work.json:5046 | 4, 43, 111, 112, 9, 10 |  |
 | W96 | M0-x-05 | the later rungs of F-ROUTE, F-RIVER and F-WALL → M1 / M3a (tagged in the table) | M0-work.json:5107 | 113 | split M1 / M3a |
 | W97 | M0-x-05 | the fault-injection hook's B-CITY-lite form → M1 (§5.1 (8)) | M0-work.json:5108 | 128 |  |
 | W98 | M0-x-06 | EP-02, EP-03, EP-07 – EP-15, EP-17 – EP-19, EP-21, EP-22, EP-24 – EP-27 and every combination cell outside the frame column's cliff, river, bridge and wall rows (the cliff cell's drawn clause → M1, S14; C-0118) → the milestone of each row's mechanism (listed in the coverage table) | M0-work.json:5175 | 104 | mostly later milestones; the M1 part is the cliff × frame drawn clause and the rows whose mechanism lands at M1 |
@@ -215,7 +215,7 @@ These are hand-overs the M1 scope inventory does not yet carry. Three are alread
 
 ## 5. M1 clauses fed from M0 that no deferral above names
 
-These are `scope.json` clauses whose status is `staged-from-M0` but which no ledger row above points at. No item's `defers` names it as M1 work; `scope.json` lists M0-b-05a and M0-c-07a as its M0 items.
+These are `scope.json` clauses whose kind is `staged-from-M0` but which no ledger row above points at. No item's `defers` names it as M1 work; `scope.json` lists M0-b-05a and M0-c-07a as its M0 items.
 
 | clause | kind | status | clause text (abridged) |
 |---|---|---|---|

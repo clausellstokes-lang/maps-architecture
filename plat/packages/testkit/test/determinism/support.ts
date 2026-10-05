@@ -1,7 +1,7 @@
 // Test support for M0-d-08's harness: the kernel fixtures the bars run over, each as a DeterminismSequence —
 // M0-a-06's batch fixtures (packages/kernel/test/tx/fixtures/sequences.json, read here: the file's `$comment` names this
 // harness as its reader), crowded declared batches as M0-a-06's order test builds them, declared batches of M0-a-07's
-// partitioners, and the constructive arenas of M0-k-02's set (C-0198).
+// partitioners, and the constructive arenas of M0-k-02's set (C-0199).
 import { readFileSync } from 'node:fs';
 import {
   insertChain,

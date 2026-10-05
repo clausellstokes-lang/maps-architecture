@@ -560,22 +560,38 @@
         ]
       }
     },
-    "singleTrigramNote": "singleListedTrigrams counts listed 3-grams that occur alone or in runs shorter than the hit threshold of three; they are not hits under the run rule (C3, section 17.1 (2) (iii)); recorded for context only",
+    "singleTrigramNote": "singleListedTrigrams counts every listed 3-gram occurrence (the wrapper's stats counter, which increments before the run length is known, so occurrences inside a hit run would be counted too); with 0 TRI hits in every file here, every counted occurrence lies in a run shorter than the hit threshold of three (C3, section 17.1 (2) (iii)); recorded for context only",
     "result": "0 hits and 0 unreviewed in every class, every file, both lists"
   },
   "controls": [
     {
       "name": "planted leak, scratch copy",
-      "what": "a copy of 03-r4-definition.md with 21 lines of a research findings file (inside the corpus) appended, outside plat/ and outside docs/",
+      "what": "a scratch copy of 03-r4-definition.md with 21 non-blank lines (non-blank lines 21-41) of the first research/findings file in sorted order with at least 60 lines appended (inside the corpus), written outside plat/ and outside docs/, deleted after the run",
       "caught": {
         "research": {
+          "TOK": 10,
+          "ID": 11,
           "TRI": 1
         },
         "m0": {
+          "TOK": 10,
           "TRI": 1
         }
       },
-      "verdict": "caught by both lists"
+      "verdict": "caught by both lists",
+      "unreviewed": {
+        "research": {
+          "TOK": 10,
+          "ID": 11,
+          "TRI": 1
+        },
+        "m0": {
+          "TOK": 10,
+          "TRI": 1
+        }
+      },
+      "receipt": "maps-scratch/filler/w18-twin/control_planted.py (script) and control-planted.txt (its stdout, counts only; exit 0)",
+      "note": "the seat's first planted run (before revision r1) kept no script or output and recorded only its TRI count; this receipted re-run replaces it and matches the checker's independent run (research TRI 1 TOK 10 ID 11; m0 TRI 1 TOK 10)"
     },
     {
       "name": "verbatim corpus file, scratch copy",
@@ -595,7 +611,8 @@
           "TRI": 1
         }
       },
-      "verdict": "caught; no FILE hit, as expected if the file class holds image and body bytes (source S07) rather than prose files (PLAUSIBLE, not checked further); the copy was deleted after the run"
+      "verdict": "caught; no FILE hit, as expected if the file class holds image and body bytes (source S07) rather than prose files (PLAUSIBLE, not checked further); the copy was deleted after the run",
+      "receipt": "maps-scratch/filler/w18-twin/control.py (script); its stdout was not kept"
     }
   ],
   "m0ScannerHalf": {
@@ -614,7 +631,7 @@
   "labels": {
     "CONFIRMED": [
       "twin scan, both lists: 0 hits over the ten files (executed, exits 0, counts above)",
-      "planted control caught by both lists (executed)"
+      "planted control caught by both lists (executed; receipt control_planted.py and control-planted.txt)"
     ],
     "PLAUSIBLE": [
       "the reason the verbatim control shows no FILE hit"

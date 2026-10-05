@@ -177,7 +177,7 @@ export function recordPrint(p: Plat, r: CommitRecord): string {
 
 /**
  * One batch's outcome, slot-free: a refusal by its code alone (a refusal's detail is diagnostic text that may name an
- * op's issue position or a slot, C-XXXX (4)), `nothing` for a batch that wrote nothing, or the commit — the record, the
+ * op's issue position or a slot, C-0199 (1)), `nothing` for a batch that wrote nothing, or the commit — the record, the
  * arena print and the five level digests.
  */
 export function outcomePrint(p: Plat, r: KernelResult<Committed<unknown>>): string {

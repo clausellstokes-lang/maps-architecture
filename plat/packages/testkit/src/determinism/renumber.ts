@@ -13,7 +13,7 @@
 //   vertex's `out` names, which half-edge of its ring a face's `outer` and each hole entry name — re-drawn. This goes
 //   past the design's clause (a renumbering renames slots; it does not move a record's stored start), so the bar runs
 //   without it; with it, the arena after the next op is identical and only the commit record's created / changed split
-//   can move (C-0198 (2));
+//   can move (C-0199 (2));
 // * the lists whose order is a history of allocations, not a canonical order — an owner's face list, a role key's
 //   same-key chain — re-linked in the new slot order, as a load would link them; the role-head and owner hash tables
 //   rebuilt in that order; the free lists rebuilt in ascending slot order;
@@ -22,7 +22,7 @@
 //   original's, renamed (no rebuild that would hide an index-state dependence); and M0-d-04's maintained level digests
 //   re-attached when the original carried them.
 //
-// Interned handles are left as they are: they are not slots (§2.1), and §3.3's clause is about slots (C-XXXX (2)).
+// Interned handles are left as they are: they are not slots (§2.1), and §3.3's clause is about slots (C-0199 (2)).
 import {
   attachLevelDigests,
   createOwnerTable,
@@ -67,7 +67,7 @@ export type RenumberMode = 'random' | 'reverse';
 export interface RenumberOptions {
   /** Default 'random'. */
   readonly mode?: RenumberMode;
-  /** Also re-draw `out`, `outer` and the hole entries among their equivalents (default false; C-0198 (2)). */
+  /** Also re-draw `out`, `outer` and the hole entries among their equivalents (default false; C-0199 (2)). */
   readonly starts?: boolean;
 }
 

@@ -5,7 +5,7 @@
 // them when it is a writer this harness interprets (insertChain, removeEdges, splitFace), else a probe chain across the
 // arena at the deepest level the case used. `runTwiceCompare` then renumbers the arena's slots before every batch, so
 // the next op meets the constructive arena under other slot numbers. A case's other steps (warp, queries, the save
-// round trip …) are their own items' (C-0198 (3)).
+// round trip …) are their own items' (C-0199 (3)).
 import { insertChain, removeEdges, splitFace, type Level, type Overlay } from '@plat/kernel';
 import type { ConstructiveCase, ConstructiveInput, ConstructiveStep } from '../constructive/types.js';
 import { faceHolding, fixtureSpec, framedArena, lp } from './fixtures.js';

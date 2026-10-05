@@ -21,13 +21,13 @@ W-19 is the exit check and runs after W-20 (plan §2, §4 wave 3 (3); R-25). Thi
 | `plat/CLEAN-ROOM.md` **as committed** | the copy the session saved at `maps-scratch/filler/w19/CLEAN-ROOM.head.md` (255 lines; sha256 prefix `04f12a0e57852b0a`) | whole §1 rule and §2 ledger read; §2a–§5 read for their tables' state |
 | `plat/CLEAN-ROOM.md` working copy | the tree at 03:31 | **row ids and seat keys only**, to say which rows are uncommitted (§3); none of it feeds a finding |
 | `plat/docs/digest/`, `plat/packages/testkit/baselines/` | the working copy at 03:31 | a directory listing and `crossings.json`'s size: the crossing targets' state (§2) |
-| `docs/lane-events.log` | 5 570 lines at 03:31 | every line of the 107 M-1-related lane keys (§6), each searched for a `plat/` path and for a stated no-`plat/` clause |
+| `docs/lane-events.log` | 5 570 lines at 03:32 | every line of the 107 M-1-related lane keys (§6), each searched for a `plat/` path and for a stated no-`plat/` clause |
 | M-1 plan files | `M-1-plan.md` (revision 3, with §12c and §12d), `M-1-work.json`, `M-1-rulings-1.md` R-25, `M-1-rulings-2.md` R-45, `M-1-plan-notes.md` N-06, §3 | §7's table and R-45's sentence give the seat list; W-17 … W-20 rows in both files |
 | `docs/calibration/results/W-20-dryrun.json`, `W-18-twin.json` | as landed at 03:10 and 03:30 | searched for ledger and role sentences only |
 
 ## 2 The M-1 seats in the lane log, and whether any wrote into `plat/`
 
-107 lane keys serve M-1: 82 `m1/…` keys, `catchup/m1-plan`, `catchup/cleanroom`, eight `design/…` lanes (the clean-room fix
+107 lane keys serve M-1: 82 `m1/…` keys, `catchup/m1-plan`, `catchup/cleanroom`, nine `design/…` lanes (the clean-room fix
 and the M-1 design corrections, with their verifiers) and 14 `filler/…` keys of this workflow (this lane included). §6 lists
 every one.
 
@@ -52,7 +52,7 @@ The committed §2 holds **143 rows**, ids L-0001 … L-0145 with **L-0142 and L-
 are in the working copy, uncommitted). Every seat cell is a `build/…` or `check/…` key of an M0 spec, scaffold or item lane;
 every role cell names an implementer-side author, checker or closing checker (three, L-0101, L-0109 and L-0110, say
 "independent checker" without the word "side"; none says research-side). Lane keys of M-1 appear in the ledger only
-inside "what it read" cells — 15 distinct `m1/…` keys, cited by M0 seats that read M-1 log lines and used nothing from them
+inside notes cells (rule-8 incidental-read notes about `docs/lane-events.log` output) — 15 distinct `m1/…` keys, cited by M0 seats that read M-1 log lines and used nothing from them
 — never as a seat. Seven seat keys repeat over 15 rows; most of the repeats name the row they correct or say they are a
 continuation, relaunch or re-dispatch, and one (L-0143, a later fix round of the same item in another flow) says neither;
 none is an M-1 seat, and the repeats are M0's to judge.
@@ -77,7 +77,7 @@ research-side; the checker and digest-checker seats are implementer-side):
 | digest-checker seat | implementer | the §3 report in `CLEAN-ROOM.md` | the §3 D-row, and one §2 row (it checks in `plat/`) | no (the research-side twin half ran as `filler/w18-twin-half`; the implementer half waits on M0-k-06) |
 | design seat | research | nothing (the design's cells live outside `plat/`) | none | — |
 
-**W-19's expectation after W-20:** five §2 rows (one per seat above that writes or checks in `plat/`), one §3 report, one
+**W-19's expectation after W-20:** five §2 rows (one per seat above that writes or checks in `plat/`; the design seat owes none, see F2), one §3 report, one
 §4 record, each dated no later than its seat's LANDED line; and still zero rows for every other M-1 seat of §6.
 
 ## 5 Mismatches in the plan's text (role and scope)
@@ -94,7 +94,10 @@ mismatch (reasoning over the two texts); the texts themselves are CONFIRMED.
 **F2 — The work file names fewer §2 rows than the plan.** Plan §7's last row has *each* crossing seat append its own §2
 row. `M-1-work.json`'s W-20 names only the checker seat's §2 row (and the deny-list seat's §4 G-row); W-17 and W-18 name no
 §2 row; W-19's output reads "ledger rows" with no count. The work file is behind the plan here, as `M-1-plan-notes.md` §3
-found for other items; follow the plan. CONFIRMED by the two texts.
+found for other items; follow the plan. CONFIRMED by the two texts. One limit on "follow the plan": plan §7's "each seat
+above" literally includes the design seat, which writes nothing in `plat/` and so owes no row under the ledger's header.
+W-19 tests the ledger's rule and expects five rows (§4), not six. When the plan's row is next touched it should read "each
+seat above that writes into `plat/`"; route that wording with the work-file fix.
 
 **F3 — Three wordings of W-19's test.** The plan's W-19 says "every seat that **wrote into** `plat/`"; the work file says
 "every seat that **touched** `plat/`"; the ledger's header says "writes **or checks** anything in `plat/`". A seat that
@@ -114,7 +117,7 @@ report), so only it owes a ledger entry; the research half owes none. CONFIRMED 
 and the committed ledger has no row for any `session/…` key. Whether the orchestrating session counts as a "seat" under the
 ledger's header is the session's call; it is not an M-1 seat, so W-19 does not check it.
 
-## 6 The 107 M-1-related lane keys (from `docs/lane-events.log`, 5 570 lines at 03:31)
+## 6 The 107 M-1-related lane keys (from `docs/lane-events.log`, 5 570 lines at 03:32)
 
 "plat/ in its lines" reads: *states no plat/ write* — one of its lines says so; *silent* — no such clause, and every path the
 key's lines name lies outside `plat/`.
@@ -262,6 +265,6 @@ key's lines name lies outside `plat/`.
 * The deny-list twin (`research/baselines/make_denylist.py scan`) over this file before placing it: the research list
   TOK 0, ID 2 hits with 0 unreviewed, TRI 0, COL 0, SET 0, PHR 0, FILE 0 (six generic 3-gram runs of a first draft were
   reworded, not allowed); the M0-format list TOK 0, TRI 0, COL 0, SET 0, FILE 0. Exit 0 both.
-* The seat table of §6 was generated by a short script in this lane's scratch folder from the log as it stood at 03:31;
+* The seat table of §6 was generated by a short script in this lane's scratch folder from the log as it stood at 03:32;
   the ledger extract (`rows.txt`) and the key list (`m1-keys.txt`) sit beside it. Nothing under `plat/` was written; no
   git command and no test runner ran.

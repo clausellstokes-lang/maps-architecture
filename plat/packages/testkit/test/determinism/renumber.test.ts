@@ -6,6 +6,9 @@
 import { describe, expect, it, vi } from 'vitest';
 import {
   checkIndexState,
+  FREE_KIND,
+  rebuildAtStageEnd,
+  roleInfo,
   faceKey,
   hasLevelDigests,
   attachLevelDigests,
@@ -141,6 +144,55 @@ describe('renumberSlots(plat, seed): the same arena under other slot numbers', (
     for (const l of LEVELS) expect(levelDigest(q, l)).toEqual(levelDigest(p, l));
   });
 
+  it('an arena with rebuilt static partitions, then tombstones and grid items: index state and queries carried over', () => {
+    const s = KERNEL_SEQUENCES[0];
+    const p = built(s, 1);
+    expect(rebuildAtStageEnd(p)).toBeGreaterThan(0);
+    for (const b of s.batches.slice(1)) runBatch(p, b.build(p));
+    const idx = p.index;
+    expect(idx !== undefined && idx.partitions.some((part) => part.keys.length > 0)).toBe(true);
+    expect(idx !== undefined && idx.levels.some((L) => L.tombstones.some((t) => t.size > 0))).toBe(true);
+    for (const q of [renumberSlots(p, 21), renumberSlots(p, 22, { mode: 'reverse' })]) {
+      expect(checkIndexState(q)).toEqual([]);
+      for (const l of LEVELS) expect(answer(q, l)).toBe(answer(p, l));
+    }
+    // and the next batch on the renumbered copy gives the original's outcome
+    const next = KERNEL_SEQUENCES[0].batches[1];
+    const a = renumberSlots(p, 23);
+    expect(outcomePrint(a, runBatch(a, next.build(a)))).toBe(outcomePrint(p, runBatch(p, next.build(p))));
+  });
+
+  it('the print sees every field it names: a point, a level, a flag, a vertex row, an edge row, an owner, a kind, a stage, a parent', () => {
+    // the grid with its L2 lanes (L2 faces, owned L1 blocks), and the profiled way (knot rows on vertices)
+    const grid = (): Plat => built(KERNEL_SEQUENCES[0], 3);
+    const way = (): Plat => built(KERNEL_SEQUENCES[1], 1);
+    const first = (top: number, ok: (i: number) => boolean): number => {
+      for (let i = 0; i < top; i++) if (ok(i)) return i;
+      throw new Error('support: no such element');
+    };
+    const row = (p: Plat, kind: 'vertex' | 'edge'): number => first(p.slots.role.top, (r) => p.roles.kind[r] !== FREE_KIND && roleInfo(p.roles.kind[r]).kind === kind);
+    const vertex = (p: Plat): number => first(p.slots.vertex.top, (v) => isVertexLive(p, v));
+    const face = (p: Plat, l: 1 | 2, owned = false): number => first(p.slots.face[l].top, (f) => isFaceLive(p, l, f) && (!owned || p.faces[l].owner[f] >= 0));
+    const edits: [string, () => Plat, (q: Plat) => void][] = [
+      ['point', grid, (q) => void (q.vertices.x[vertex(q)] += 1)],
+      ['vertex level', grid, (q) => void (q.vertices.level[vertex(q)] ^= 1)],
+      ['flag', grid, (q) => void (q.vertices.flags[vertex(q)] ^= 1)],
+      ['vertex row', way, (q) => void (q.roles.ordinal[row(q, 'vertex')] += 1)],
+      ['edge row', grid, (q) => void (q.roles.ordinal[row(q, 'edge')] += 1)],
+      ['owner', grid, (q) => void (q.faces[1].owner[face(q, 1, true)] = q.faces[1].owner[face(q, 1, true)] === 0 ? 1 : 0)],
+      ['kind', grid, (q) => void (q.faces[1].kind[face(q, 1)] += 1)],
+      ['stage', grid, (q) => void (q.faces[1].stage[face(q, 1)] += 1)],
+      ['parent', grid, (q) => void (q.faces[2].parent[face(q, 2)] = -1)],
+    ];
+    for (const [what, make, edit] of edits) {
+      const q = make();
+      const base = arenaPrint(q);
+      expect(arenaPrint(renumberSlots(q, 2)), what).toBe(base);
+      edit(q);
+      expect(arenaPrint(q), what).not.toBe(base);
+    }
+  });
+
   it('refuses an arena with a batch open on it', () => {
     const p = built(KERNEL_SEQUENCES[0]);
     let thrown = '';
@@ -192,7 +244,7 @@ describe('the bar: renumbering + next op gives identical output on every constru
     expect(commits / total).toBeGreaterThan(0.8);
   });
 
-  it('with the stored starts re-drawn too (past the clause, C-0198 (2)): the arena after every batch is identical', () => {
+  it('with the stored starts re-drawn too (past the clause, C-0199 (2)): the arena after every batch is identical', () => {
     for (const s of [...constructiveSequences(1), ...KERNEL_SEQUENCES]) {
       let p = s.arena();
       let q = s.arena();
