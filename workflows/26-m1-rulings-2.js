@@ -11,7 +11,7 @@ const ARGS = (typeof args === 'object' && args) ? args : {}
 const ROOT = ARGS.root || '/Users/cstokes/Desktop/Maps'
 const SCRATCH = ARGS.scratch || '/tmp/maps-scratch/m1r2'
 const MODEL = ARGS.model || 'opus'
-const RULE_MODEL = ARGS.ruleModel || 'fable'
+const RULE_MODEL = ARGS.ruleModel || 'opus' // J190 (owner 2026-10-05: "in place of using fable for anything, use opus 5.5")
 const seat = (prompt, label, phaseName, schema, model) => agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: model || MODEL })
 const ruledSeat = async (prompt, label, phaseName, schema) => {
   if (RULE_MODEL !== MODEL) {

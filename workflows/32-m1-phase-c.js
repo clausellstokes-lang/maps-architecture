@@ -25,7 +25,7 @@ const ARGS = (typeof args === 'object' && args) ? args : {}
 const ROOT = ARGS.root || '/home/cstokes111/Maps'
 const SCRATCH = ARGS.scratch || '/home/cstokes111/maps-scratch/m1c'
 const MODEL = ARGS.model || 'opus'
-const RULE_MODEL = ARGS.ruleModel || 'fable'
+const RULE_MODEL = ARGS.ruleModel || 'opus' // J190 (owner 2026-10-05: "in place of using fable for anything, use opus 5.5")
 const MAX = ARGS.maxLanes || 2
 const CAP = ARGS.cap || 5
 const ONLY = ARGS.only || ['A', 'B']

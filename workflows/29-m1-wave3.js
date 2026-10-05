@@ -13,7 +13,7 @@ const ARGS = (typeof args === 'object' && args) ? args : {}
 const ROOT = ARGS.root || '/Users/cstokes/Desktop/Maps'
 const SCRATCH = ARGS.scratch || '/tmp/maps-scratch/m1w3'
 const MODEL = ARGS.model || 'opus'
-const RULE_MODEL = ARGS.ruleModel || 'fable'
+const RULE_MODEL = ARGS.ruleModel || 'opus' // J190 (owner 2026-10-05: "in place of using fable for anything, use opus 5.5")
 const MAX = ARGS.maxLanes || 2
 const ONLY = ARGS.only || ['A']
 const VKEY = ARGS.verifyKey || 'wave3-verify-ab'
