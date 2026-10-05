@@ -52,6 +52,22 @@ describe('tileRings (§3.4 the seed clip)', () => {
     for (const q of pieces) for (const v of q) if (v.x === 1000 || v.x === 1600) expect(cv.has(key(v))).toBe(true);
   });
 
+  it('a later ring meeting an earlier one’s side at a vertex or along a stretch: the contact points are vertices of both pieces', () => {
+    const base = rect(0, 0, 2000, 1000);
+    const diamond = [P(1000, 1000), P(1500, 1500), P(1000, 2000), P(500, 1500)];
+    const box = rect(1700, 1000, 2600, 1600);
+    const r = tileRings([base, diamond, box]);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const [b, d, x] = r.value.map((ps) => new Set(ps.flat().map(key)));
+    // the diamond's tip on the base's top side, and the box's corner on it: vertices of the base's piece too
+    for (const q of ['1000,1000', '1700,1000']) expect(b.has(q)).toBe(true);
+    expect(d.has('1000,1000')).toBe(true);
+    expect(x.has('1700,1000') && x.has('2000,1000')).toBe(true);
+    expect(b.has('2000,1000')).toBe(true);
+    expect(r.value.map((ps) => area2Of(ps))).toEqual([area2(base), area2(diamond), area2(box)]);
+  });
+
   it('an earlier ring wholly inside a later one: E_DEGENERATE overlap, naming the later ring and a vertex of the hole', () => {
     const r = tileRings([rect(1000, 700, 1400, 1100), rect(0, 0, 3000, 2000)]);
     expect(r.ok).toBe(false);

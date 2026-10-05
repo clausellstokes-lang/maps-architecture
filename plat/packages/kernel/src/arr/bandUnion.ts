@@ -9,18 +9,21 @@
 // inserted through `insertChain` (the door) with the outline's row (`kerb` or `band`); (2) at every junction vertex J of
 // F's boundary — a route vertex where the boundary passes from one buffered spine to another, or where one spine
 // passes straight through a vertex at which a third L1 edge arrives (a T-junction whose street arrives from the other
-// side) — the `corridor_split` edges: at a corner of F (a left turn of its walk between two spines) the kerb corner K
-// — the kerb point nearest the meeting point of the two spines' offset lines — is joined to the foot of its
-// perpendicular on each of the two spine edges at J, so the junction wedge (J, the two feet, K) is a face of its own
-// and each half-corridor strip ends square, half the crossed street's width short of J (§3.7: "S9's corridor union
-// and junction wedge produce [the stroke's square caps] without model trimming"); a foot within `attractCm` of J is J;
-// where the spine passes straight through J — or turns away from F there — there is no corner and no wedge: one edge
-// from J to its nearest kerb point (the foot of J's perpendicular on a straight spine) separates the two strips
-// (§3.7's T-junction clause); (3) the faces of the batch's level inside F are read back: a face bounded by a buffered
-// spine edge is a band face — a junction wedge when it is bounded by two different spines, a strip otherwise — and
-// every other face is outside the band (corridorUnion's built blocks). A face with no bounding spine is one built block
-// with no kerb and no corridor_split edge: no edge is written, and the L1 face is its own child at the batch's level
-// (§2.2 rule 2) — `BandResult.whole` names it.
+// side) — the `corridor_split` edges (kerb.ts computes them with the kerb, so the kerb point a split reaches is a vertex
+// of kerb(F) itself): at a corner of F (a left turn of its walk between two spines) the kerb corner K — the kerb's
+// vertex at the meeting point of the two strips' inner edges — is joined to the foot of its perpendicular on each of
+// the two spine edges at J, so the junction wedge (J, the two feet, K) is a face of its own and each half-corridor strip
+// ends square, half the crossed street's width short of J (§3.7: "S9's corridor union and junction wedge produce [the
+// stroke's square caps] without model trimming"; rule 1: "one junction wedge at each of its corners"); a foot within
+// `attractCm` of J is J, and a foot beyond its spine edge (a strip shorter than the crossed half-width) leaves the one
+// edge J → K; where the spine passes straight through J — or turns away from F there — there is no corner and no
+// wedge: one edge from J to its nearest kerb point (the foot of J's perpendicular on a straight spine) separates the two
+// strips (§3.7's T-junction clause); (3) the faces of the batch's level inside F are read back: a face whose interior
+// point (an ear's centroid) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
+// a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the
+// batch's level is its own child there (§2.2 rule 2): one built block when its kerb is not empty — a spine-less face,
+// with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
+// split that collapses to one point (the insertion's E_DEGENERATE `empty`) adds nothing.
 //
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,

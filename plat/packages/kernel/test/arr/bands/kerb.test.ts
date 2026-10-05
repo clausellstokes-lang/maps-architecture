@@ -98,18 +98,20 @@ describe('kerb(F) (§3.7)', () => {
   });
 
   it('a dead end’s declared square end extends the strip by the half-width; a round end is chords of ≤ 2 cm sagitta', () => {
-    const build = (ends: 'round' | 'square'): string[] => {
+    const build = (ends: 'round' | 'square' | 'default'): string[] => {
       const p = framed();
       way(p, 'way:1', [[0, 2000], [4000, 2000]]);
       way(p, 'way:3', [[2000, 2000], [2000, 1000]]);
       const [low] = own(p, 'district:1', [[500, 500]]);
-      const k = kerbIn(p, low, widthsOf({ 'way:1': 300, 'way:3': { halfWidthCm: 200, ends } }));
+      const k = kerbIn(p, low, widthsOf({ 'way:1': 300, 'way:3': ends === 'default' ? 200 : { halfWidthCm: 200, ends } }));
       expect(k.ok).toBe(true);
       return k.ok ? k.value.flat().map((q) => `${String(q.x)},${String(q.y)}`) : [];
     };
     const square = build('square');
     expect(square).toContain('1800,800');
     expect(square).toContain('2200,800');
+    // an end declared neither way is round (§3.7: "square ends where declared")
+    expect(build('default')).toEqual(build('round'));
     const round = build('round');
     expect(round).not.toContain('1800,800');
     expect(round).not.toContain('2200,800');

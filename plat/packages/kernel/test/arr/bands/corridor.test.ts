@@ -234,6 +234,10 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     const d = tx(b.p, spec(2, { ...AT_S9, ops: [opCorridorUnion(lin(7), 0, b.faces, W)] }));
     expect(d.ok).toBe(true);
     expect(state(b.p)).toBe(state(a.p));
+    // the faces are read in canonical order: a list in any order commits the same arena
+    const e = crossingFaces();
+    commit(e.p, 2, (o) => corridorUnion(o, e.faces.slice().reverse(), W), AT_S9);
+    expect(state(e.p)).toBe(state(a.p));
     // a FaceRef of L1 faces names its owner's faces
     const c = crossingFaces();
     commit(c.p, 2, (o) => corridorUnion(o, { owner: 'district:1', level: 1 }, W), AT_S9);
