@@ -20,7 +20,7 @@
 // E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT — and an acute corner commits with its warning (a wedge route beyond
 // 2 · √2 · `attractCm` is not taken: its crossings are placed in turn, N-38, N-40); an optional chain is also rejected E_BELOW_MIN_EDGE
 // (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
-// *Chain classes*). A segment no route keeps clear — a gap in the router, never reached in the runs of C-0200 — is
+// *Chain classes*). A segment no route keeps clear — a gap in the router, never reached in the runs of C-0202 — is
 // refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
@@ -368,7 +368,7 @@ function clearSince(ctx: ChainCtx, m: Mark): boolean {
  * bends away from a vertex the first part was written beside — it is undone and the strict route tried (step 3 routing
  * only through vertices within `minEdge`); where that fails too, the route along existing edges (`routeAlongExisting`);
  * and before any refusal the route with every crossing on the placement rule's endpoint fallback (§3.6: "each such
- * re-route lands on an existing vertex, so the loop ends"; N-37, C-0200). A refusal of the design or strict route is the
+ * re-route lands on an existing vertex, so the loop ends"; N-37, C-0202). A refusal of the design or strict route is the
  * segment's; a gap no fallback closes is refused E_INVARIANT (B-FUZZ reports it as a defect), never thrown.
  */
 function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): KernelResult<null> {

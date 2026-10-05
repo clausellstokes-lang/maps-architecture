@@ -1,4 +1,4 @@
-// M0-a-05 fix round S1: the session's ruling N-37 (J186; C-0200). The placement rule's clearance test (iii) exempts the
+// M0-a-05 fix round S1: the session's ruling N-37 (J186; C-0202). The placement rule's clearance test (iii) exempts the
 // edges at a crossing's ends, on the assumption that the edge to that end is written; where the re-route then reached
 // that end through another vertex instead, the router found no route keeping clearance and threw. §3.6 promises the
 // opposite — when no candidate qualifies the vertex moves onto the nearer endpoint and "each such re-route lands on an

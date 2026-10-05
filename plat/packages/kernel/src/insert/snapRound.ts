@@ -19,7 +19,7 @@
 // it is written, with a strict route and a route along existing edges as its fallbacks (insertChain's `routeSegment`,
 // `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
 // every such commit reports W_PLACED). A mandatory chain is wedge-routed only where the move is at most 2 · √2 ·
-// `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13); C-0200.
+// `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13); C-0202.
 import {
   addRole,
   allocEdgePair,

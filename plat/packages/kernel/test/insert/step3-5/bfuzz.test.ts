@@ -17,7 +17,7 @@
 // rejected for precision over 10⁶ random chains" is the third property: its size is PLAT_FUZZ_RUNS (10⁶ is the nightly
 // tier's), and every refusal of a mandatory chain in the other two families is held to it as well. A mandatory chain
 // refused E_INVARIANT — a segment no route keeps clear, a gap in the router (N-37) — is counted on its own line of that
-// property, never folded into its precision count, and the count must be 0 (N-40, C-0200); in the other two families
+// property, never folded into its precision count, and the count must be 0 (N-40, C-0202); in the other two families
 // it fails the property as an unknown refusal.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';

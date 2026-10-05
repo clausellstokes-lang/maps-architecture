@@ -9,7 +9,7 @@
 // `attractCm` is rejected with E_BELOW_MIN_EDGE (the class table's `wedgeBeyondAttract`, §3.6); a mandatory chain is
 // wedge-routed only where the move is at most 2 · √2 · `attractCm` ≈ 73.5 cm (θ ≥ 19.3° at minEdge 25), the largest
 // move under which §3.7's attracted bound still holds — the session's rulings N-38 as amended by N-40 — and beyond it
-// has its crossings placed in turn instead. Readings: C-0177 (6), C-0200.
+// has its crossings placed in turn instead. Readings: C-0177 (6), C-0202.
 import { type VertexId } from '../arena/index.js';
 import { query } from '../index/index.js';
 import { dmath } from '../dmath/index.js';
@@ -45,7 +45,7 @@ export function wedgeBound(thetaCdeg: number): number {
 const SCALE = 1_048_576;
 
 /**
- * The decision for a wedge route that moves the chain `moveCm` (N-38 as amended by N-40, C-0200): within `attractCm`
+ * The decision for a wedge route that moves the chain `moveCm` (N-38 as amended by N-40, C-0202): within `attractCm`
  * the corner takes the chain — true, with W_WEDGE_ROUTED reported (at the corner's point); beyond it an optional chain
  * is refused E_BELOW_MIN_EDGE (§3.6, the class table's `wedgeBeyondAttract`, unchanged); a mandatory chain is still
  * wedge-routed up to 2 · √2 · `attractCm` (`WEDGE_CAP_SQ`: the 30° junction floor's 0.47 m keeps its route) and beyond

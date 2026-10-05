@@ -1,4 +1,4 @@
-// M0-a-05 fix round S1: the session's rulings N-38 as amended by N-40 (J186, J188; C-0200). §3.6 step 4 resolves two
+// M0-a-05 fix round S1: the session's rulings N-38 as amended by N-40 (J186, J188; C-0202). §3.6 step 4 resolves two
 // consecutive crossings closer than `minEdge` at the acute corner they straddle, a move of at most minEdge / (2 tan(θ/2))
 // — a bound with no limit as θ → 0. A mandatory chain is therefore wedge-routed only where the move is at most
 // 2 · √2 · `attractCm` ≈ 73.5 cm (θ ≥ 19.3° at minEdge 25), the largest move under which §3.7's attracted bound still
@@ -62,7 +62,7 @@ function sliver(h: number): Plat {
 
 describe('N-38/N-40: no wedge route beyond 2 · √2 · attractCm (the arrangement\'s sliver corner)', () => {
   // N-38 asks for a 0.5° sliver crossed 100 m from its corner; two crossings of a 0.5° corner closer than minEdge lie
-  // within 28.6 m of it (25 / tan 0.5°), so both figures are kept in two cases (C-0200): a 0.12° sliver crossed 100 m
+  // within 28.6 m of it (25 / tan 0.5°), so both figures are kept in two cases (C-0202): a 0.12° sliver crossed 100 m
   // from its corner (crossings 21 cm apart) and a 0.5° sliver crossed 25 m from it (21.9 cm apart).
   for (const [title, h, x, wedgeMove] of [
     ['a 0.12° sliver with 200 m arms crossed 100 m from its corner', 42, 0, 10000],
