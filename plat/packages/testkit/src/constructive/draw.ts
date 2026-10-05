@@ -130,6 +130,11 @@ export interface Placed {
   pointSets: Record<string, LatticePoint[]>;
   chains: Record<string, LatticePoint[]>;
   rings: Record<string, LatticePoint[]>;
+  /**
+   * Whether the drawn symmetry was a reflection — so a ring's placed vertex i is its local vertex (n − i) mod n
+   * (`placedRingIndex`). Never part of a case's input (`makeInput` copies the four geometry records only).
+   */
+  reflected?: boolean;
 }
 
 /**
@@ -182,7 +187,64 @@ export function place(d: Draw, g: Geo, opts: { limit?: number; fixed?: boolean; 
     pointSets: rec(g.pointSets, (s) => s.map(to)),
     chains: rec(g.chains, (s) => s.map(to)),
     rings: rec(g.rings, ring),
+    reflected: reflect,
   };
+}
+
+/** The placed index of a ring's local vertex i (a reflection keeps vertex 0 and reverses the rest, `place`). */
+export function placedRingIndex(placed: Placed, n: number, i: number): number {
+  return placed.reflected === true && i > 0 ? n - i : i;
+}
+
+/** `resolve`'s vertex order: by y, then x (the kernel's `compareVertices`). */
+export function compareYX(p: P, q: P): number {
+  return p.y !== q.y ? (p.y < q.y ? -1 : 1) : p.x !== q.x ? (p.x < q.x ? -1 : 1) : 0;
+}
+
+/** A profiled line rewritten in chain order, its knots renumbered along it (`inChainOrder`). */
+export interface ChainOrdered {
+  /** The line's vertices in `resolve`'s chain order. */
+  line: LatticePoint[];
+  /** The knots as indices into `line`, strictly ascending: ordinal i is the i-th knot along the chain. */
+  knots: number[];
+  /** The knots' values, in the same order. */
+  values: number[];
+  /** A placed vertex index's index in `line`. */
+  index: (i: number) => number;
+}
+
+/**
+ * A profiled line in `resolve`'s chain order (§2.2 rule 5: a join "concatenates their knots in chain order"; C-0185 (6),
+ * (7); C-0191): an open chain from its lower (y, x) end, a ring counter-clockwise from its lowest-leftmost vertex. The
+ * line's vertex list is rewritten to run that way, and the knots — placed vertex indices, one value each — are renumbered
+ * so that ordinal i is the i-th knot along the chain, as the kernel numbers them after a rekey; a split and a re-join then
+ * give the profile back bit for bit. A ring must already turn counter-clockwise (an assertion).
+ */
+export function inChainOrder(line: readonly LatticePoint[], closed: boolean, knots: readonly number[], values: readonly number[]): ChainOrdered {
+  const n = line.length;
+  if (knots.length !== values.length || new Set(knots).size !== knots.length || knots.some((k) => !Number.isInteger(k) || k < 0 || k >= n)) {
+    throw new Error('inChainOrder: the knots must be distinct vertex indices of the line, one value each');
+  }
+  let index: (i: number) => number;
+  if (closed) {
+    let a2 = 0;
+    for (let i = 0; i < n; i += 1) {
+      const p = line[i];
+      const q = line[(i + 1) % n];
+      a2 += p.x * q.y - q.x * p.y;
+    }
+    if (!(a2 > 0)) throw new Error('inChainOrder: a profiled ring must turn counter-clockwise');
+    let low = 0;
+    for (let i = 1; i < n; i += 1) if (compareYX(line[i], line[low]) < 0) low = i;
+    index = (i) => (i - low + n) % n;
+  } else {
+    const flip = compareYX(line[n - 1], line[0]) < 0;
+    index = flip ? (i) => n - 1 - i : (i) => i;
+  }
+  const out: LatticePoint[] = new Array<LatticePoint>(n);
+  for (let i = 0; i < n; i += 1) out[index(i)] = line[i];
+  const pairs = knots.map((k, j) => [index(k), values[j]] as const).sort((u, v) => u[0] - v[0]);
+  return { line: out, knots: pairs.map((u) => u[0]), values: pairs.map((u) => u[1]), index };
 }
 
 /** Points turned by `angle` radians about `centre` (doubles, `dmath`) and snapped. */

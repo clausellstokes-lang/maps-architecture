@@ -6,7 +6,7 @@
 // with their milestones (C-0038): the Poisson sampler (M1), `transientArena` (M6-P), the clear-region contact rule
 // (M3a), frame growth (M4), undo and redo (M2a, the edit log), the declared shift and migration (M1, the goldens and
 // the document). The F-NUM inputs of §13.1's ladder coverage are tagged here (M0-x-06 reads them by id).
-import { ATTRACT, MIN_EDGE, cw, deferredCase, m0Case, makeInput, place, primitiveDir, rect, step, type Draw, type P } from '../draw.js';
+import { ATTRACT, MIN_EDGE, cw, deferredCase, inChainOrder, m0Case, makeInput, place, placedRingIndex, primitiveDir, rect, step, type Draw, type P } from '../draw.js';
 import { footInside } from '../exact.js';
 import { refArea2, refCross } from '../numeric.js';
 import type { ConstructiveCase, ConstructiveExpect, ConstructiveInput, ConstructiveMilestone } from '../types.js';
@@ -132,7 +132,10 @@ function buildInsetEmpty(d: Draw): ConstructiveInput {
 
 function buildSampleProfileEmpty(d: Draw): ConstructiveInput {
   const L = d.log(400, 1 << 16);
-  return makeInput('limit/no-input-sampleprofile', d.seed, place(d, { chains: { way: [{ x: 0, y: 0 }, { x: L, y: 0 }, { x: L, y: d.log(400, 1 << 16) }] } }), { knots: [0, 2], knotValues: [d.int(100, 600), d.int(100, 600)], knotRole: 'width_knot' }, [
+  const placed = place(d, { chains: { way: [{ x: 0, y: 0 }, { x: L, y: 0 }, { x: L, y: d.log(400, 1 << 16) }] } });
+  // The knots numbered in chain order (C-0191), as every profiled case gives them.
+  const o = inChainOrder(placed.chains.way, false, [0, 2], [d.int(100, 600), d.int(100, 600)]);
+  return makeInput('limit/no-input-sampleprofile', d.seed, { ...placed, chains: { way: o.line } }, { knots: o.knots, knotValues: o.values, knotRole: 'width_knot' }, [
     step('insertChain', { chain: 'way', level: 1, cls: 'mandatory', role: 'way', profile: 'knots' }),
     step('removeEdges', { chain: 'way' }),
     step('sampleProfile', { chain: 'way', atCm: 'perVertex' }),
@@ -151,7 +154,10 @@ function buildFewPoints(id: string, op: string) {
 
 function buildOneKnot(d: Draw): ConstructiveInput {
   const r = face(d);
-  return makeInput('limit/one-item-profile-knot', d.seed, place(d, { rings: { ring: r } }), { knots: [d.int(0, 3)], knotValues: [d.int(100, 900)], knotRole: 'base_knot' }, [
+  const placed = place(d, { rings: { ring: r } });
+  // The ring in chain order, counter-clockwise from its lowest-leftmost vertex, its one knot on the drawn vertex (C-0191).
+  const o = inChainOrder(placed.rings.ring, true, [placedRingIndex(placed, r.length, d.int(0, 3))], [d.int(100, 900)]);
+  return makeInput('limit/one-item-profile-knot', d.seed, { ...placed, rings: { ring: o.line } }, { knots: o.knots, knotValues: o.values, knotRole: 'base_knot' }, [
     step('insertChain', { ring: 'ring', level: 1, cls: 'mandatory', role: 'wall', profile: 'knots' }),
     step('sampleProfile', { ring: 'ring', atCm: d.int(25, 1000) }),
   ]);

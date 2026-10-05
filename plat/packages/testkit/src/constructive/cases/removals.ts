@@ -3,8 +3,10 @@
 // 10⁻⁹ cm, the stretch removals, the refused two-part way and the promotion beside a finer vertex — M0's, run by
 // M0-k-04 (C-0110). The neighbour steps are II.1 (3)'s, M5's (C-0038): their generators are stubs. A profile is data:
 // `params.knots` are vertex indices of the chain that carry a knot row of `params.knotRole`, `params.knotValues` the
-// knots' values in cm, read by linear interpolation (C-0045).
-import { ATTRACT, deferredCase, m0Case, makeInput, place, step, type Draw, type P } from '../draw.js';
+// knots' values in cm, read by linear interpolation (C-0045). Every profiled line is given in `resolve`'s chain order and
+// its knots numbered along it (`inChainOrder`; §2.2 rule 5, C-0185 (6), C-0191), the order the kernel renumbers knots in
+// after a rekey — so a split and a re-join give the profile back bit for bit whichever symmetry `place` drew.
+import { ATTRACT, deferredCase, inChainOrder, m0Case, makeInput, place, placedRingIndex, step, type Draw, type P, type Placed } from '../draw.js';
 import { footInside, len2, lineDistCmp, lineDistIn, roundsToSelf, segFartherThan } from '../exact.js';
 import { refCross } from '../numeric.js';
 import type { ConstructiveCase, ConstructiveInput } from '../types.js';
@@ -30,6 +32,12 @@ function profiledSpine(d: Draw, n: number): { spine: P[]; knots: number[]; value
 }
 
 /** The lattice point nearest the point at share t of the segment a–b. */
+/** The placed geometry with its profiled chain `name` rewritten in chain order, and the knots' params along it. */
+function profiledChain(placed: Placed, name: string, knots: readonly number[], values: readonly number[]) {
+  const o = inChainOrder(placed.chains[name], false, knots, values);
+  return { placed: { ...placed, chains: { ...placed.chains, [name]: o.line } }, knots: o.knots, knotValues: o.values, index: o.index };
+}
+
 function between(a: P, b: P, t: number): P {
   return { x: Math.round(a.x + (b.x - a.x) * t), y: Math.round(a.y + (b.y - a.y) * t) };
 }
@@ -63,8 +71,8 @@ function buildTJunctionProfiled(d: Draw): ConstructiveInput {
   const { spine, knots, values } = profiledSpine(d, d.int(4, 7));
   const i = d.int(0, spine.length - 2);
   const end = between(spine[i], spine[i + 1], d.int(250, 750) / 1000);
-  const placed = place(d, { chains: { spine, lane: laneTo(d, end, d.sign()) } });
-  return makeInput('remove/tjunction-profiled-spine', d.seed, placed, { knots, knotValues: values, knotRole: 'width_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
+  const o = profiledChain(place(d, { chains: { spine, lane: laneTo(d, end, d.sign()) } }), 'spine', knots, values);
+  return makeInput('remove/tjunction-profiled-spine', d.seed, o.placed, { knots: o.knots, knotValues: o.knotValues, knotRole: 'width_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
     way('spine', 1, { profile: 'knots' }),
     step('sampleProfile', { chain: 'spine', atCm: 'sampleStepCm', record: 'before' }),
     way('lane'),
@@ -76,8 +84,8 @@ function buildSplitRejoin(d: Draw): ConstructiveInput {
   const { spine, values } = profiledSpine(d, d.int(5, 8));
   const knots = [0, d.int(3, spine.length - 1)];
   const splitAt = d.int(1, knots[1] - 1); // a shape vertex strictly between the two knots
-  const placed = place(d, { chains: { spine } });
-  return makeInput('remove/split-rejoin-profile', d.seed, placed, { knots, knotValues: values.slice(0, 2), knotRole: 'width_knot', interpolation: 'linear', splitAt, sampleStepCm: d.int(50, 500) }, [
+  const o = profiledChain(place(d, { chains: { spine } }), 'spine', knots, values.slice(0, 2));
+  return makeInput('remove/split-rejoin-profile', d.seed, o.placed, { knots: o.knots, knotValues: o.knotValues, knotRole: 'width_knot', interpolation: 'linear', splitAt: o.index(splitAt), sampleStepCm: d.int(50, 500) }, [
     way('spine', 1, { profile: 'knots' }),
     step('sampleProfile', { chain: 'spine', atCm: 'sampleStepCm', record: 'before' }),
     step('retypeEdges', { chain: 'spine', rekey: 'split', at: 'splitAt' }),
@@ -91,8 +99,8 @@ function buildStretchWay(d: Draw): ConstructiveInput {
   const { spine, knots, values } = profiledSpine(d, d.int(5, 8));
   const i1 = d.int(1, spine.length - 3);
   const i2 = d.int(i1 + 1, spine.length - 2);
-  const placed = place(d, { chains: { spine, laneA: laneTo(d, spine[i1], 1), laneB: laneTo(d, spine[i2], -1) }, points: { j1: spine[i1], j2: spine[i2] } });
-  return makeInput('remove/stretch-way', d.seed, placed, { knots, knotValues: values, knotRole: 'width_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
+  const o = profiledChain(place(d, { chains: { spine, laneA: laneTo(d, spine[i1], 1), laneB: laneTo(d, spine[i2], -1) }, points: { j1: spine[i1], j2: spine[i2] } }), 'spine', knots, values);
+  return makeInput('remove/stretch-way', d.seed, o.placed, { knots: o.knots, knotValues: o.knotValues, knotRole: 'width_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
     way('spine', 1, { profile: 'knots' }),
     way('laneA'),
     way('laneB'),
@@ -119,7 +127,9 @@ function buildStretchRing(d: Draw): ConstructiveInput {
   const a1 = (a0 + d.int(2, n - 2)) % n;
   const knots = [a0, (a0 + 1) % n, a1];
   const placed = place(d, { rings: { ring }, points: { anchor0: ring[a0], anchor1: ring[a1] } });
-  return makeInput('remove/stretch-ring', d.seed, placed, { knots, knotValues: knots.map(() => d.int(100, 600)), knotRole: 'base_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
+  const values = knots.map(() => d.int(100, 600));
+  const o = inChainOrder(placed.rings.ring, true, knots.map((k) => placedRingIndex(placed, n, k)), values);
+  return makeInput('remove/stretch-ring', d.seed, { ...placed, rings: { ring: o.line } }, { knots: o.knots, knotValues: o.values, knotRole: 'base_knot', interpolation: 'linear', sampleStepCm: d.int(50, 500) }, [
     step('insertChain', { ring: 'ring', level: 1, cls: 'mandatory', role: 'wall', profile: 'knots', anchors: 'anchor0,anchor1' }),
     step('sampleProfile', { ring: 'ring', atCm: 'sampleStepCm', record: 'before' }),
     step('removeEdges', { stretchOf: 'ring', from: 'anchor0', to: 'anchor1' }),
