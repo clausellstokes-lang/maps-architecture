@@ -165,6 +165,19 @@ describe('insetRing (§3.7 Insets; §13.1 further limits)', () => {
     expect(insetRing(h.tx, h.face, 100)).toMatchObject({ ok: false, code: 'E_NON_CONVEX' });
   });
 
+  it('a convex face with a straight-through vertex (a neighbour’s T-junction on its side) is convex: the half-plane inset, never E_NON_CONVEX', () => {
+    // §3.7 checks convexity exactly; C-0196 (5) and isConvexRing: every turn a left turn or straight (orient2d ≥ 0)
+    const bottom = R([0, 0], [500, 0], [1000, 0], [1000, 600], [0, 600]);
+    const b = arenaFace([bottom]);
+    expect(insetRing(b.tx, b.face, 100)).toMatchObject({ ok: true, value: [rect(100, 100, 900, 500)] });
+    expect(rings(insetRing(b.tx, b.face, 0))).toEqual([bottom]);
+    expect(rings(insetRing(b.tx, b.face, -100))).toEqual([rect(-100, -100, 1100, 700)]);
+    expect(insetRing(b.tx, b.face, 400)).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'collapsed' });
+    // the same with the vertex on a vertical side
+    const side = arenaFace([R([0, 0], [1000, 0], [1000, 300], [1000, 600], [0, 600])]);
+    expect(insetRing(side.tx, side.face, 100)).toMatchObject({ ok: true, value: [rect(100, 100, 900, 500)] });
+  });
+
   it('past the inradius: E_DEGENERATE collapsed, carrying the last non-empty distance and its inset', () => {
     const { tx, face } = arenaFace([rect(0, 0, 1000, 600)]);
     const r = insetRing(tx, face, 400);
