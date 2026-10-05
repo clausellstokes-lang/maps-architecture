@@ -98,8 +98,10 @@ const flatC = commitsT.flatMap((e) => e.ids)
 const commitTime = {}
 for (const e of commitsT) for (const id of e.ids) if (commitTime[id] === undefined) commitTime[id] = e.t
 if (mode === 'flow') {
-  const miss = runIds.filter((id) => passT[id] !== undefined && !flatC.includes(id) && !(X.done || []).includes(id))
+  const miss = runIds.filter((id) => passT[id] !== undefined && !flatC.includes(id) && !(X.done || []).includes(id) && !(X.committed || []).includes(id))
   if (miss.length && out && out.ok) problems.push('passed but never committed: ' + miss.join(','))
+  // J185: an item a relaunch names as committed is never staged again
+  for (const e of commitsT) for (const id of e.ids) if ((X.committed || []).includes(id)) problems.push(`${id} named committed by the relaunch but staged again by ${e.label}`)
   for (const e of commitsT) for (const id of e.ids) for (const w of intWin[id] || []) {
     const t0 = e.t - 0.1 // the commit's start: its ids are fixed then
     if (t0 > w.start && (w.end === undefined || e.t < w.end)) problems.push(`${id} committed at ${e.t.toFixed(2)} inside its integration fix window ${w.start.toFixed(2)}-${w.end}`)

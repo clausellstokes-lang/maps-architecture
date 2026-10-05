@@ -74,7 +74,7 @@ The other five must-haves gate the base release, not M1 (IMPROVEMENTS.md l. 1527
 
 ## 4 Held notes inside M1's scope (ungraded; recorded for "the next full round")
 
-The family checks raised these outside their own family, so none of them is graded. Each touches S3, S5 or the report panel; the class says whether M1 meets the case. The class is this seat's reading.
+The family checks raised these outside their own family, so none of them is graded. Each touches a part M1 builds — S3, S5, §8.2's order table (the `ink` preset, scope.md cl. 12) or the report panel; the class says whether M1 meets the case. The class is this seat's reading.
 
 | note | class | statement (own words) | source |
 |---|---|---|---|
@@ -83,15 +83,15 @@ The family checks raised these outside their own family, so none of them is grad
 | r7v 2: gate route re-crossing | A | Each gate is a route's first point on `T = t_1`, but nothing says a (5) route crosses that line only once. A second crossing would meet the trace with no gate. | fix-list.md l. 243–245 (re-held l. 218) |
 | r7y readers: report panel | A | V09's report panel has no catalogue rows for a stage's non-kernel warning codes, so warnings such as walled-by-barriers or a dry moat are shown nowhere. The panel and T-V9-15 are M1's (scope.md cl. 19, 37). | fix-list.md l. 227 |
 | r7y readers: lettered slots | A | §8.2's `OrderSlot.slot` is a number, but the order table has lettered rows (8b, 9b, 13b, 15b, 19a, 19b), and no numeric form is given for them. | fix-list.md l. 226 (also l. 335–336, 380–381) |
-| r7y readers: derived-pass slot | B | Slot resolution refuses a sheet that puts one derived kind in two slots of a band, yet slot 19a draws deck shadows in a derived pass with no kind named. The rule is M1's; decks are M3a's. | fix-list.md l. 225 |
+| r7y readers: derived-pass slot | B | Slot resolution refuses a sheet that puts one derived kind in two slots of a band, yet slot 19a draws deck shadows in a derived pass with no kind named. The rule is M1's; decks are M3a's (M0.md l. 1068, working copy). | fix-list.md l. 225 |
 | r7y gen/tests: cross wall vs earlier ground way | B | The cross wall gets a gate only where the inter-nucleus route crosses it. A ground road laid before it that crosses the partition line has no gate rule. Such roads are declared (M3a) or kept (M2a) (PLAUSIBLE; §16's M3a row has "drawn constraints", ARCHITECTURE.md l. 21515, and its M2a row "locks and pins", l. 21513). | fix-list.md l. 215, 234 |
-| r7v 3: raised stretch over a canal | C | S3 (5) prices a raised stretch over a canal, and S4 may drop it, which leaves a gate route without its crossing. Raised ways are M3a's. | fix-list.md l. 246–248 |
+| r7v 3: raised stretch over a canal | C | S3 (5) prices a raised stretch over a canal, and S4 may drop it, which leaves a gate route without its crossing. Raised ways are M3a's (M0.md l. 1068, working copy). | fix-list.md l. 246–248 |
 
 ## 5 Builders' valid choices touching M1
 
 | id | class | statement (own words) | source |
 |---|---|---|---|
-| VF7v-GEN-05 | B (PLAUSIBLE) | When no route crosses `T = t_1` lawfully, the design allows two builds: F-ROUTE's last rung over lawful first points, or the pick redrawn as a closed arc and then dropped. M1 builds the rest of F-ROUTE (scope.md cl. 113). "Lawfully" reads §2.7's raised-way laws, so the case is M3a's. The M1 builder records whichever build it picks. | fix-list.md l. 189 |
+| VF7v-GEN-05 | B (PLAUSIBLE) | When no route crosses `T = t_1` lawfully, the design allows two builds: F-ROUTE's last rung over lawful first points, or the pick redrawn as a closed arc and then dropped. M1 builds the rest of F-ROUTE (scope.md cl. 113). "Lawfully" reads §2.7's raised-way laws, so the case is M3a's (M0.md l. 1068, working copy). The M1 builder records whichever build it picks. | fix-list.md l. 189 |
 
 The other seven open choices (VF7-GEN-06, VF7-RDR-07, VF7v-TBL-04, VF7v-TBL-05, VF7v-EPO-06, VF7v-RDR-05, VF7x-TBL-05; l. 178–202) are raised-way × wall choices for M3a or later: class C.
 
@@ -106,9 +106,9 @@ There are 49 fix-list findings in class C. Their milestones come from the M0 spe
 * **Export annotations, entity anchors, looks, viewer presets (M3a / M3b and the volumes):** VAT-r5-02 (l. 58), VAT-r6-01 (l. 59), VRC6T-01 (l. 60), VRC6T-02 (l. 61), VRC6T-04 (l. 63).
 * **Volumes past M1:** these are 34 findings. V01 (l. 81–83), V02 (l. 89), V03 (l. 95–96), V04 (l. 102–104), V05 (l. 110–111), V06 (l. 117–119), V07 (l. 125–127), V08 (l. 133–137), V09 (l. 143–147: the advanced panel, the context card, the Dress panel and hand bends, none of them in AP1's list in scope.md cl. 37), V10 (l. 153–156), V11's VF7y-RDR-04 and VV1112-r6-03 (l. 164–165), and V12's VV1112-r6-01 (l. 172).
 
-The two round-8 hand-offs (locks: l. 206–207) are M2a's or later. The item-113 table (OQ113-01 … -07, l. 401–407) is resolved at E9, U3 and M-SF (l. 397).
+The two round-8 hand-offs (locks: l. 206–207) are M2a's or later (§16's M2a row, "locks and pins", ARCHITECTURE.md l. 21513). The item-113 table (OQ113-01 … -07, l. 401–407) is resolved at E9, U3 and M-SF (l. 397).
 
-**Tally.** 62 findings: 5 in class A (3 of them in part: G127-pipeline-01, G127-model-01, G127-V11-01), 8 in class B (4 of them "decide"), and 49 in class C. On top of those, five held notes are A and two are B, and one valid choice is B.
+**Tally.** 62 findings: 5 in class A (3 of them in part: G127-pipeline-01, G127-model-01, G127-V11-01), 8 in class B (3 of them "decide"), and 49 in class C. On top of those, five held notes are A and two are B, and one valid choice is B.
 
 ## 7 Open notes next to the fix list (`docs/validation/`)
 

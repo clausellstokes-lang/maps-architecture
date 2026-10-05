@@ -28,7 +28,7 @@ request), that the exit record has to show crossed or closed (P1–P5). Of these
   optional.
 
 Two clauses in §16's preamble apply to every milestone: the `MilestoneRecord`, and `plat calibrate register --check`
-when a milestone lands a calibratable column. No M-1 record shows either. The design's own text places the first at
+when a milestone lands a calibratable column. No M-1 record shows either. §13.3's wording places the first at
 M1 (section 3, CONFIRMED by text read); whether the register clause binds M-1's exit is a reading for the session
 (section 3). The labels follow the user's rules: **CONFIRMED** means this lane executed or
 counted it. **RECORD** means a record states it and this lane did not re-execute it. **PLAUSIBLE** means it rests on
@@ -63,11 +63,11 @@ golden renders, so it is M1's work. W-21 runs only on an owner go.
 
 ## 3 Preamble clauses
 
-**Placed by the design's text: `MilestoneRecord`.** §16's preamble says "every exit writes its `MilestoneRecord` with
+**`MilestoneRecord`, placed by §13.3's wording.** §16's preamble says "every exit writes its `MilestoneRecord` with
 the milestone's declared shifts and fails on an undeclared one (§13.3)". §13.3, which it points to, restricts this:
 the milestone records "are built at M1, not at hardening", and "Every milestone from M1 on writes its
-`MilestoneRecord`". So the clause first binds at M1 by the design's own text, and M-1's exit owes none. CONFIRMED
-(text read, `docs/ARCHITECTURE.md` §13.3 and §16's preamble).
+`MilestoneRecord`". So the clause first binds at M1 by §13.3's wording, and M-1's exit owes none. CONFIRMED
+(text read: §13.3 and §16's preamble, both in the architecture file).
 
 **Clause this pre-audit cannot place (for the session):**
 
@@ -98,3 +98,6 @@ clause above reads "shown". Nothing in the order needs `captures/`.
   and its check. CONFIRMED for the working copy at this lane's run.
 * Every other entry in the "shown by" columns: RECORD (stated by the cited record or verifier file, not re-executed
   here).
+* `python3 research/baselines/make_denylist.py scan docs/calibration/E22-exit-preaudit.md --list research --allow --show`
+  and the same with `--list m0`, no allow file: 0 hits and 0 unreviewed in every class on both lists, exit 0 on both
+  (run on this revision, before this receipt line was added, and again after it). CONFIRMED.

@@ -5645,3 +5645,5 @@
 2026-10-05 04:31 filler/m1-open-findings CHECKPOINT revision pass started
 2026-10-05 04:32 filler/m1-open-findings LANDED docs/calibration/M1-open-findings-draft.md (revision)
 2026-10-05 04:33 filler/m1-exit-preaudit CHECKPOINT revision: fixing checker items in docs/calibration/E22-exit-preaudit.md
+2026-10-05 04:33 filler/m1-exit-preaudit LANDED docs/calibration/E22-exit-preaudit.md (revision)
+2026-10-05 04:37 check/M0-a-13-close-r1 CHECKPOINT testkit project still running; verdict drafted PASS; next: testkit result, verdict file, landed records
