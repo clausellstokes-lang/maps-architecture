@@ -118,7 +118,7 @@ describe('§3.6 Existing geometry wins: the four edge kinds a batch creates, eac
     for (const [a, b] of liveEdges(p)) expect((X[a] - X[b]) ** 2 + (Y[a] - Y[b]) ** 2).toBeGreaterThanOrEqual(625);
   });
 
-  it('(d) the span between two crossings: resolved at the acute corner when shorter than minEdge, else ≥ minEdge', () => {
+  it('(d) the span between two crossings: at least minEdge — placed in turn where the corner lies farther than attractCm (N-38), never cut shorter', () => {
     for (const d of [30, 40, 47, 50, 70]) {
       const p = framed();
       ins(tx(p, 1), [[2388, 2449], [2000, 1000], [1612, 2449]], [{ role: 'way', entity: 'way:v' }]);
@@ -129,8 +129,11 @@ describe('§3.6 Existing geometry wins: the four edge kinds a batch creates, eac
       const Y = p.vertices.y;
       for (const [a, b] of liveEdges(p)) expect((X[a] - X[b]) ** 2 + (Y[a] - Y[b]) ** 2).toBeGreaterThanOrEqual(625);
       if (!r.ok) continue;
-      // Below 2 · d · tan 15° < 25 (d < 46.65) the corner takes the chain: W_WEDGE_ROUTED.
-      expect(r.warnings.some((w) => w.code === 'W_WEDGE_ROUTED')).toBe(2 * d * Math.tan((15 * Math.PI) / 180) < 25);
+      // Below 2 · d · tan 15° < 25 (d < 46.65) the crossings stand closer than minEdge, but the corner lies d > attractCm
+      // from the chain: no wedge route (N-38); the second crossing is placed at least minEdge from the first.
+      expect(r.warnings.some((w) => w.code === 'W_WEDGE_ROUTED')).toBe(false);
+      const span = liveEdges(p).filter(([a, b]) => Y[a] > 1000 && Y[b] > 1000 && Y[a] < 1100 && Y[b] < 1100 && Math.abs(X[a] - 2000) < 60 && Math.abs(X[b] - 2000) < 60);
+      expect(span).toHaveLength(1);
     }
   });
 });
@@ -205,7 +208,7 @@ describe('the router\'s regressions from B-FUZZ (≥ 300-vertex self-touching wa
     return { p, r };
   };
 
-  it('a crossing closer than minEdge to the segment\'s own end is the corner beside that end: routed through it (W_WEDGE_ROUTED); an optional chain moved 26.0 cm > attractCm is refused, nothing written', () => {
+  it('a crossing closer than minEdge to the segment\'s own end is the corner beside that end; the wedge would move the chain 26.0 cm > attractCm: a mandatory chain has the crossing placed instead (N-38), an optional one is refused, nothing written', () => {
     // The chain's own acute corner at (2997, 3812): its later segment leaves (3023, 3810) — on one arm — and crosses the
     // other arm 15 cm away. Bent along that arm to keep minEdge from its end, the next pass met a vertex beside it and
     // left a crossing vertex standing 22 cm from an edge outside its one-ring.
@@ -213,7 +216,7 @@ describe('the router\'s regressions from B-FUZZ (≥ 300-vertex self-touching wa
     const m = run(pts, 'mandatory');
     expect(m.r.ok).toBe(true);
     expect(allProblems(m.p)).toEqual([]);
-    if (m.r.ok) expect(m.r.warnings.map((w) => w.code)).toContain('W_WEDGE_ROUTED');
+    if (m.r.ok) expect(m.r.warnings.map((w) => w.code)).not.toContain('W_WEDGE_ROUTED');
     expect(edgeRows(m.p, [2997, 3812], [3009, 3716])).toEqual(['way/way:w']);
     expect(edgeRows(m.p, [2997, 3812], [3053, 3772])).toEqual(['way/way:w']); // the arm unsplit
     const o = run(pts, 'optional');
@@ -222,13 +225,14 @@ describe('the router\'s regressions from B-FUZZ (≥ 300-vertex self-touching wa
     expect(contentPrint(o.p)).toBe(contentPrint(framed()));
   });
 
-  it('the same corner beside the segment\'s own end: a last segment ending on one arm crosses the other 15 cm before its end — routed through the corner (W_WEDGE_ROUTED), the arm unsplit; optional: refused', () => {
+  it('the same corner beside the segment\'s own end: a last segment ending on one arm crosses the other 15 cm before its end — beyond attractCm no wedge (N-38): the mandatory chain follows the existing arms, the arm unsplit; optional: refused', () => {
     const pts: [number, number][] = [[3051, 3808], [2997, 3812], [3053, 3772], [3009, 3716], [3023, 3808]];
     const m = run(pts, 'mandatory');
     expect(m.r.ok).toBe(true);
     expect(allProblems(m.p)).toEqual([]);
-    if (m.r.ok) expect(m.r.warnings.map((w) => w.code)).toContain('W_WEDGE_ROUTED');
-    expect(edgeRows(m.p, [3009, 3716], [2997, 3812])).toEqual(['way/way:w']);
+    if (m.r.ok) expect(m.r.warnings.map((w) => w.code)).not.toContain('W_WEDGE_ROUTED');
+    expect(edgeRows(m.p, [3009, 3716], [2997, 3812])).toBeNull();
+    expect(edgeRows(m.p, [3053, 3772], [3009, 3716])).toEqual(['way/way:w']);
     expect(edgeRows(m.p, [2997, 3812], [3053, 3772])).toEqual(['way/way:w']);
     const o = run(pts, 'optional');
     expect(o.r.ok).toBe(false);

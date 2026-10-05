@@ -37,7 +37,7 @@ const acquire = async (key) => {
 const release = () => { fillerLive--; const w = waiters.shift(); if (w) w() }
 const seat = async (key, prompt, opts) => {
   await acquire(key)
-  try { return await agent(prompt, opts) } finally { release() }
+  try { return await agent(prompt, { effort: 'high', ...opts }) } finally { release() } // J187: work and critic seats at high effort
 }
 const fable = async (key, prompt, opts) => (await seat(key, prompt, { ...opts, model: 'fable' })) || seat(`${key}-opus`, prompt, opts)
 

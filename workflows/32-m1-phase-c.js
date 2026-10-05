@@ -54,7 +54,7 @@ const acquire = async (label) => {
 const release = () => { live--; const w = waiters.shift(); if (w) w() }
 const seat = async (prompt, label, phaseName, schema, model) => {
   await acquire(label)
-  try { return await agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: model || MODEL }) } finally { release() }
+  try { return await agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: model || MODEL, effort: 'high' }) } finally { release() } // J187
 }
 const ruledSeat = async (prompt, label, phaseName, schema) => {
   if (RULE_MODEL !== MODEL) {
