@@ -5647,3 +5647,5 @@
 2026-10-05 04:33 filler/m1-exit-preaudit CHECKPOINT revision: fixing checker items in docs/calibration/E22-exit-preaudit.md
 2026-10-05 04:33 filler/m1-exit-preaudit LANDED docs/calibration/E22-exit-preaudit.md (revision)
 2026-10-05 04:37 check/M0-a-13-close-r1 CHECKPOINT testkit project still running; verdict drafted PASS; next: testkit result, verdict file, landed records
+2026-10-05 04:47 session/handoff-5 LANDED plat/docs/build/checks/M0-spec-notes.md plat/docs/build/landed/session-handoff-4.json (re-landed by lane session/handoff-5) — session rulings N-37 (M0-a-05 router: endpoint-fallback route before any throw), N-38 (wedge routing only when the move <= attractCm; §3.7 sweep sentence), N-39 (refusals classified; oracle-own-input refusals outside C-0150's allowance) for M0-a-05's fix round S1 and M0-a-08 (J186)
+2026-10-05 04:48 build/M0-a-05-fix-s1 CHECKPOINT read brief, M0.md 0/3/4, §3.6/3.7/3.10, N-37/N-38, insert code; next: reproduce both faults

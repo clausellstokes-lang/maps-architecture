@@ -41,7 +41,7 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { beginIndexBatch, endIndexBatch, indexAdd, indexChange, indexDelete, indexOf, isItemLive, ITEM_VERTEX, query } from '../index/index.js';
-import { belowMinEdge, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
+import { belowMinEdge, err, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
 import type { LatticePoint } from '../types/index.js';
 import { applyAttraction, planAttraction } from './attractVertex.js';
 import { charge, check, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
@@ -170,8 +170,11 @@ function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePo
       const move = Math.sqrt((at.x - pt.x) * (at.x - pt.x) + (at.y - pt.y) * (at.y - pt.y));
       const w = wedgeOutcome(ctx, move, at);
       if (!w.ok) return passOn(w);
-      if (merges(at)) return merged();
-      return ok({ vertex: applyLanding(ctx, l.value), merged: false });
+      if (w.value) {
+        if (merges(at)) return merged();
+        return ok({ vertex: applyLanding(ctx, l.value), merged: false });
+      }
+      // Beyond attractCm a mandatory chain's corner stays where it is: the router places its crossings in turn (N-38).
     }
   }
   // Kept content round a free vertex (§3.3): a finer vertex on a route of level ≤ n within attractCm is candidate (b);
@@ -377,10 +380,18 @@ function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): K
   const r3 = routeAlongExisting(ctx, a, b);
   if (!r3.ok) return passOn(r3);
   if (r3.value) return ok(null);
+  if (!r2.ok) return r2;
+  // §3.6's own fallback before any refusal (N-37): the segment re-routed with every crossing on the placement's
+  // endpoint fallback, never split — each such re-route lands on an existing vertex, so the loop ends.
+  ctx.endpointCrossings = true;
+  const r4 = snapRound(ctx, a, b);
+  ctx.endpointCrossings = false;
+  if (r4.ok && clearSince(ctx, m)) return r4;
+  rollback(ctx, log, m);
+  if (!r4.ok && r4.code !== 'E_INVARIANT') return r4;
   const X = ctx.p.vertices.x;
   const Y = ctx.p.vertices.y;
-  check(!r2.ok, `no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance`);
-  return r2;
+  return err('E_INVARIANT', `insert: no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance (§3.10)`);
 }
 
 /**

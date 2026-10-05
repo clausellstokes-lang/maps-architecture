@@ -129,6 +129,12 @@ export interface ChainCtx {
    */
   strict: boolean;
   /**
+   * The router's last reading for a segment that no other route keeps clear (N-37, C-0200): every crossing lands on the
+   * placement rule's endpoint fallback — the crossed sub-edge's nearer vertex, or its other end when that one is already
+   * on the chain's path (C-0177 (7)) — and is never split (W_PLACED). Unset: crossings are placed as §3.6 states.
+   */
+  endpointCrossings?: boolean;
+  /**
    * The inverse of every arena write the chain made, in order: a refused chain runs them backwards so the op writes
    * nothing (C-0177 (8)).
    */

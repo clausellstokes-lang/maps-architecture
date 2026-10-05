@@ -597,9 +597,14 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     const r1 = route(ctx, a, j, pass, withAll(exclude, b), depth + 1);
     if (!r1.ok) return r1;
     if (k !== j) {
-      const along = routeBetween(p, j, k, n);
-      check(along !== null, 'a stretch\'s join and leave points lie on one route piece');
-      share(ctx, along);
+      // The route to j may have split or promoted a vertex between j and k: then the run is walked from j to k, and only
+      // where that walk is impossible is j → k routed as any segment (N-37).
+      const along = routeBetween(p, j, k, n) ?? walkRun(ctx, ob.piece, j, k);
+      if (along !== null) share(ctx, along);
+      else {
+        const r2 = route(ctx, j, k, pass, withAll(exclude, a, b), depth + 1);
+        if (!r2.ok) return r2;
+      }
     }
     return route(ctx, k, b, pass, withAll(exclude, a, j), depth + 1);
   }
@@ -613,10 +618,20 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const k = fc.corner;
       const w = wedgeOutcome(ctx, cornerMove(ctx, a, b, k), pointOf(p, k));
       if (!w.ok) return passOn(w);
-      if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
-      return via(k, pass);
+      if (w.value) {
+        if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
+        return via(k, pass);
+      }
+      // Beyond attractCm a mandatory chain is not wedge-routed: its crossings are placed in turn, the first here (N-38).
     }
-    const c = fc.crossing;
+    const c = fc.kind === 'wedge' ? fc.first : fc.crossing;
+    if (ctx.endpointCrossings === true) {
+      // N-37's route: the crossing lands on the placement's endpoint fallback, never a split.
+      const e = fallbackEnd(ctx, c.piece, c.x, c.y, onPath);
+      if (e < 0) return err('E_INVARIANT', `a crossing at (${c.x.toFixed(1)}, ${c.y.toFixed(1)}) has both sub-edge ends on the chain's path`);
+      const v = applyLanding(ctx, { kind: 'vertex', vertex: e, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, e) }] });
+      return via(v, pass + 1);
+    }
     const l = planLanding(tx, c.piece, c.x, c.y, { c: pointOf(p, a), d: pointOf(p, b) });
     if (!l.ok) return passOn(l);
     let landing = l.value;
@@ -661,6 +676,82 @@ function planLandingAfter(ctx: ChainCtx, piece: { readonly a: VertexId; readonly
   const l = planLanding(ctx.tx, sub, x, y);
   if (!l.ok) return passOn(l);
   return ok(applyLanding(ctx, l.value));
+}
+
+/** How far off its run's own-level route a vertex the stretch walk steps onto may stand: J-K32's ≈ 1.49 cm, rounded up. */
+const WALK_BAND_CM = 2;
+
+/**
+ * N-37's walk along a stretch's run from its join point j to its leave point k, for when the route to j has split or
+ * promoted a vertex between them, so that no one route piece joins them: the physical half-edges of the run's level from
+ * j, each step to the neighbour that lies on towards k along the run's own-level route (of several, the one nearest that
+ * line; it must stand within 2 cm of it), until k. Null when the walk cannot reach k. Nothing written.
+ */
+function walkRun(ctx: ChainCtx, piece: { readonly runA: VertexId; readonly runB: VertexId; readonly edge: HalfEdgeId }, j: VertexId, k: VertexId): HalfEdgeId[] | null {
+  const p = ctx.p;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const m = p.halfEdges.level[piece.edge >> 1];
+  const ax = X[piece.runA];
+  const ay = Y[piece.runA];
+  const bx = X[piece.runB];
+  const by = Y[piece.runB];
+  const ux = bx - ax;
+  const uy = by - ay;
+  const band2 = WALK_BAND_CM * WALK_BAND_CM * (ux * ux + uy * uy);
+  const tOf = (v: VertexId): number => (X[v] - ax) * ux + (Y[v] - ay) * uy;
+  const tk = tOf(k);
+  const dir = tk > tOf(j) ? 1 : -1;
+  const path: HalfEdgeId[] = [];
+  let u = j;
+  for (let guard = 0; u !== k; guard++) {
+    if (guard > p.slots.pair.top) return null;
+    const tu = tOf(u);
+    let step = -1;
+    let stepOff = 0;
+    for (const h of outgoing(p, u)) {
+      if (edgeLevel(p, h) !== m) continue;
+      const w = O[h ^ 1];
+      const tw = tOf(w);
+      if (dir * (tw - tu) <= 0 || dir * (tw - tk) > 0) continue;
+      const o = orient2d(ax, ay, bx, by, X[w], Y[w]);
+      if (o * o > band2) continue;
+      if (step < 0 || o * o < stepOff) {
+        step = h;
+        stepOff = o * o;
+      }
+    }
+    if (step < 0) return null;
+    path.push(step);
+    u = O[step ^ 1];
+  }
+  return path.length > 0 ? path : null;
+}
+
+/**
+ * N-37's endpoint for a crossing at the exact position (x, y) on the route piece: the nearer end of the physical
+ * sub-edge holding it (ties y then x — the placement rule's fallback, §3.6), or its other end when that one is already on
+ * the chain's path (C-0177 (7)); −1 when both are.
+ */
+function fallbackEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number, onPath: (v: VertexId) => boolean): VertexId {
+  const p = ctx.p;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const path = routeBetween(p, piece.a, piece.b, ctx.n);
+  check(path !== null, 'a piece joins its two ends');
+  const vs = path.map((h) => O[h]);
+  vs.push(O[path[path.length - 1] ^ 1]);
+  const ux = X[piece.b] - X[piece.a];
+  const uy = Y[piece.b] - Y[piece.a];
+  const tq = (x - X[piece.a]) * ux + (y - Y[piece.a]) * uy;
+  let i = 0;
+  while (i + 2 < vs.length && (X[vs[i + 1]] - X[piece.a]) * ux + (Y[vs[i + 1]] - Y[piece.a]) * uy <= tq) i += 1;
+  const near = nearerVertex(p, vs[i], vs[i + 1], x, y);
+  const far = near === vs[i] ? vs[i + 1] : vs[i];
+  if (!onPath(near)) return near;
+  return onPath(far) ? -1 : far;
 }
 
 /** A set with more members. */

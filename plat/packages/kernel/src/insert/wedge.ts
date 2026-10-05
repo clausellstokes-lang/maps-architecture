@@ -5,9 +5,10 @@
 // crossings along one new segment — the chain is routed through the corner's vertex; when it is the chain's own — two
 // crossings along one existing edge — the chain's corner vertex moves onto that edge at the placement point of its foot.
 // Either way the chain moves at most minEdge / (2 tan(θ/2)) for a corner of angle θ (0.47 m at the 30° junction floor,
-// 1.2 m at the 12° plot floor). An optional chain that would move more than `attractCm` this way is rejected with
-// E_BELOW_MIN_EDGE (the class table's `wedgeBeyondAttract`); a mandatory one commits with W_WEDGE_ROUTED. Readings:
-// C-0177 (6).
+// 1.2 m at the 12° plot floor) — a bound with no limit as θ → 0, so wedge routing applies only where the move is at
+// most `attractCm` (the session's ruling N-38): an optional chain that would move more is rejected with
+// E_BELOW_MIN_EDGE (the class table's `wedgeBeyondAttract`), a mandatory one has its crossings placed in turn instead.
+// Readings: C-0177 (6), C-0200.
 import { type VertexId } from '../arena/index.js';
 import { query } from '../index/index.js';
 import { dmath } from '../dmath/index.js';
@@ -38,16 +39,22 @@ export function wedgeBound(thetaCdeg: number): number {
 const SCALE = 1_048_576;
 
 /**
- * The class decision for a wedge route that moves the chain `moveCm`: a refusal (E_BELOW_MIN_EDGE) for an optional chain
- * moving more than `attractCm`, else null, with W_WEDGE_ROUTED reported for the route (at the corner's point).
+ * The decision for a wedge route that moves the chain `moveCm` (N-38, C-0200): within `attractCm` the corner takes the
+ * chain — true, with W_WEDGE_ROUTED reported (at the corner's point); beyond it an optional chain is refused
+ * E_BELOW_MIN_EDGE (§3.6, the class table's `wedgeBeyondAttract`), and a mandatory chain is not wedge-routed at all —
+ * false: its crossings are placed in turn by the placement rule (the second at least `minEdge` from the first under
+ * (ii), a step across the sliver) or by the rule's endpoint fallback, and a corner below `minFaceAngle` that this leaves
+ * commits with W_ACUTE_CORNER. §3.6's bound minEdge / (2 tan(θ/2)) grows without bound as θ → 0, so a sliver corner far
+ * away would otherwise pull the chain by the length of its arms.
  */
-export function wedgeOutcome(ctx: ChainCtx, moveCm: number, at: LatticePoint): KernelResult<null> {
+export function wedgeOutcome(ctx: ChainCtx, moveCm: number, at: LatticePoint): KernelResult<boolean> {
   if (moveCm > ATTRACT) {
     const o = classOutcome(ctx.cls, 'wedgeBeyondAttract');
     if ('refuse' in o) return { ok: false, code: o.refuse, detail: `${o.detail} (${moveCm.toFixed(1)} cm)` };
+    return ok(false);
   }
   warn(ctx.tx, ctx.warnings, 'W_WEDGE_ROUTED', at);
-  return ok(null);
+  return ok(true);
 }
 
 /** The move of routing the segment a → b through the corner k: k's distance from the segment. */
