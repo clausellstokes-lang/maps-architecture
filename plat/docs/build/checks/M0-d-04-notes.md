@@ -36,3 +36,20 @@ These notes come from lane `check/M0-d-04` on 2026-10-05. None of them fails the
 11. **N-11 Importer reds seen outside scope.** On 2026-10-05, `testkit/test/kernel/arr-booleans-buffers/` (M0-a-08,
     busy) held seven scratch `zz-debug*.test.ts` files that fail, plus 5 reds in `agreement.test.ts`. This is a note for
     the session, not this item's.
+
+## Closing round (lane `check/M0-d-04-close-r1`, 2026-10-05)
+
+None of these notes fails the item. Each is a further hardening test, and the hardening milestone is M4.
+
+12. **N-12 A chain's x coordinates.** Probe mutant K13x (`W.i32(0).i32(q[i])`, so a chain point's x is written as 0)
+    survived the kernel digest tests (50/50) and the model digest tests (51/51). The fix round's chain-geometry tests
+    move the way only in y (y = 2000 against y = 2100). Its twin K13y (y written as 0) was killed by both tests. To
+    pin the x half, add a pair of arenas whose way differs only in x, for example a slanted street whose interior
+    point moves east.
+13. **N-13 A hole's geometry, beyond its presence.** Probe mutant K16c wrote each hole ring as its length only
+    (`for (const h of holes) W.u32(h.length)`). It survived both suites (50/50 and 51/51). The new tests show that a
+    hole enters the face's digest and that holes are sorted, but not that moving a hole moves the digest. Add a test
+    in which the same face has its hole at two positions, for example `HOLES[0]` shifted by 100 in x.
+14. **N-14 A face's kind at the model leaf.** K11 (the face kind written as 0) is now killed by the kernel test, as
+    B-3 (a) asked. It still passes the model digest suite (51/51), because no model test retypes a face. The kernel
+    test is enough for the promise. A model test that moves a leaf through a retype would pin the end-to-end path.
