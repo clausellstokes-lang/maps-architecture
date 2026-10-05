@@ -349,11 +349,24 @@ export function oracleOffset(rings: readonly Ring[], edges: readonly { a: Lattic
     }
   }
   if (d.some((di) => di >= Math.hypot(x1 - x0, y1 - y0))) return { ok: true, engine, rings: [], perimeterCm: perimeterOf(rings) };
-  const buf = oracleBuffer(chains, ws, 'round', 'round', engine);
+  // The construction runs about the face's box centre (an exact integer translation; the offset commutes with it), so
+  // a face near the lattice's edge keeps the edges' buffers inside the range.
+  const cx = Math.round((x0 + x1) / 2);
+  const cy = Math.round((y0 + y1) / 2);
+  const move = (p: LatticePoint, sx: number, sy: number): LatticePoint => ({ x: (p.x + sx) as Cm, y: (p.y + sy) as Cm });
+  const local = rings.map((r) => r.map((p) => move(p, -cx, -cy)));
+  const buf = oracleBuffer(
+    chains.map((c) => c.map((p) => move(p, -cx, -cy))),
+    ws,
+    'round',
+    'round',
+    engine,
+  );
   if (!buf.ok) return buf;
-  const res = oracleBoolean('difference', rings, buf.rings, 'nonzero', engine);
+  const res = oracleBoolean('difference', local, buf.rings, 'nonzero', engine);
   if (!res.ok) return res;
-  return { ...res, perimeterCm: perimeterOf(rings) + perimeterOf(res.rings) };
+  const back = res.rings.map((r) => r.map((p) => move(p, cx, cy)));
+  return { ...res, rings: back, perimeterCm: perimeterOf(rings) + perimeterOf(back) };
 }
 
 /**
@@ -458,7 +471,9 @@ function meetsPixel(px: number, py: number, qx: number, qy: number, cx: number, 
  * rounded point by point, so where the exact result has two pieces touching at a point inside an edge the rounded
  * rings may cross or overlap that point by a fraction of a centimetre, and the face count reads one face where the
  * region has two. Our engine's rings are snap-rounded by the insertion rules, so this is the oracle's half of "after
- * both are snapped". The area is unchanged within ½ cm × the perimeter.
+ * both are snapped". A rounded ring that passes one lattice point twice — two pieces touching there, which Clipper2 may
+ * write as one ring — is cut into its simple loops there, as our engine's trace cuts its own. The area is unchanged
+ * within ½ cm × the perimeter.
  */
 export function snapRoundRings(rings: readonly Ring[]): Ring[] {
   const segs: [LatticePoint, LatticePoint][] = [];
@@ -500,9 +515,41 @@ export function snapRoundRings(rings: readonly Ring[]): Ring[] {
       }
     }
     while (ring.length > 1 && ring[0].x === ring[ring.length - 1].x && ring[0].y === ring[ring.length - 1].y) ring.pop();
-    if (ring.length >= 3) out.push(ring);
+    // a ring that passes one lattice point twice (two pieces touching there, written as one ring) is cut into its
+    // simple loops there, as our engine's trace cuts its own; zero-area loops dropped
+    for (const loop of simpleLoopsOf(ring)) if (loop.length >= 3 && signedArea2(loop) !== 0) out.push(loop);
   }
   return out;
+}
+
+/** Twice the signed area of a ring. */
+function signedArea2(r: readonly LatticePoint[]): number {
+  let a = 0;
+  for (let i = 0; i < r.length; i += 1) {
+    const q = r[(i + 1) % r.length];
+    a += r[i].x * q.y - q.x * r[i].y;
+  }
+  return a;
+}
+
+/** A closed walk of lattice points cut into simple loops at every point it visits twice (each loop in walk order). */
+function simpleLoopsOf(ring: readonly LatticePoint[]): LatticePoint[][] {
+  const loops: LatticePoint[][] = [];
+  const stack: LatticePoint[] = [];
+  const at = new Map<string, number>();
+  for (const p of ring) {
+    const k = `${String(p.x)},${String(p.y)}`;
+    const i = at.get(k);
+    if (i !== undefined) {
+      const loop = stack.splice(i);
+      for (const u of loop) at.delete(`${String(u.x)},${String(u.y)}`);
+      loops.push(loop);
+    }
+    at.set(k, stack.length);
+    stack.push(p);
+  }
+  if (stack.length > 0) loops.push(stack);
+  return loops;
 }
 
 // ── the judge ──

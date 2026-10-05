@@ -5434,3 +5434,10 @@
 2026-10-05 00:14 build/M0-a-08 CHECKPOINT offsetFace on partsOutline; harness: arb-chain-sparse buffer family, guard min(1e5, ceil(0.1 runs)); scratch zz-* removed; C-0196 and L-0153 appended (placeholder ids renumbered); build 0, lint 0 (probe-red ok), kernel arr 47/47; agreement at 300/op: 6/7 green, buffer crashes on the M0-a-05 router gap; next: PR-size run of booleans/offsetFace/insetRing, then result
 2026-10-05 00:16 build/M0-a-07 CHECKPOINT importer projects running (model tables site layout testkit bench, one process, --maxWorkers=2); next: landed
 2026-10-05 00:19 build/M0-a-13 CHECKPOINT importers model 174/174, tables 240/240, site 120/120, layout 48/48 green; testkit running; next: bench, landed
+2026-10-05 00:33 check/M0-d-04 CHECKPOINT importer projects running (testkit long); mutants queued after
+2026-10-05 00:34 build/M0-a-08 CHECKPOINT install --frozen-lockfile 0; PR-size (10^4/op) agreement run of booleans x4, offsetFace, insetRing in progress (~25 min so far); next: its verdict, then the structured result
+2026-10-05 00:36 build/M0-a-07 CHECKPOINT importer projects still running (bench reds so far only the Mac-reference files); next: landed
+2026-10-05 00:40 build/M0-a-13 CHECKPOINT testkit project still running (40 min, 3 other seats' vitest runs contending); waiting; next: bench, landed
+2026-10-05 00:42 check/M0-d-04 CHECKPOINT importers: 26 red = 14 J176 bench + 12 in busy M0-a-08 testkit arr-booleans-buffers (agreement, zz-debug*), none in digest; next: 39 targeted mutants
+2026-10-05 00:43 build/M0-a-13 CHECKPOINT importers green: model 174, tables 240, site 120, layout 48, testkit 905/905 (M0-a-08's in-progress arr-booleans-buffers agreement folder excluded: 40-min PR-size run, imports no warp), bench 14 red all J176 Mac-reference; next: landed
+2026-10-05 00:43 build/M0-a-13 LANDED plat/packages/kernel/src/warp/{held,index,simplify,smooth,types,validate,view,warp}.ts plat/packages/kernel/test/warp/{bfuzz,fixtures,simplify,smooth,validate}.test.ts plat/packages/kernel/test/warp/support.ts plat/docs/build/landed/M0-a-13.json plat/docs/build/choices.md (C-0193) plat/CLEAN-ROOM.md (L-0147)
