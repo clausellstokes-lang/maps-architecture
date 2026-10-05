@@ -289,9 +289,15 @@ if (FLOW) {
   let commitN = 0
   let halt = null
 
+  // J200: early { id: [deps] } — the session names dependencies that are BUILT (landed) but still under check; the item starts on
+  // their landed code without waiting for their pass (and, for a hand-over giver, without waiting for its commit: the seat's
+  // item note tells it to touch the handed-over file only once the giver is committed). An early item commits only together
+  // with or after each early dependency; one whose early dependency fails is never committed and waits for the session.
+  const EARLY = FLOW.early || {}
+  const earlyDep = (id, d) => (EARLY[id] || []).includes(d) && !failed.has(d)
   const earlierGroupsPassed = (id) => groups.slice(0, gIndex[groupOf[id]]).every((g) => g.items.every((x) => passed.has(x)))
-  const ready = (id) => (DEPS[id] || []).every((d) => passed.has(d) || (!inRun.has(d) && !failed.has(d))) &&
-    giversOf(id).every((g) => committed.has(g) || !inRun.has(g)) && (!HOLD.includes(id) || earlierGroupsPassed(id))
+  const ready = (id) => (DEPS[id] || []).every((d) => passed.has(d) || earlyDep(id, d) || (!inRun.has(d) && !failed.has(d))) &&
+    giversOf(id).every((g) => committed.has(g) || earlyDep(id, g) || !inRun.has(g)) && (!HOLD.includes(id) || earlierGroupsPassed(id))
   // BUSY: every run item that is not passed-and-settled, every item under an integration fix, every failed item
   // (an item not yet started has touched nothing, so it is not busy: a hand-over giver's file is committed before its successor starts)
   const busyList = () => [...new Set([...all.filter((id) => started.has(id) && !passed.has(id)), ...fixing, ...failed.keys()])]
@@ -299,7 +305,8 @@ if (FLOW) {
   const commit = (final) => {
     commitChain = commitChain.then(async () => {
       if (halt) return
-      const ids = uncommitted.filter((id) => !fixing.has(id) && !failed.has(id) && !committed.has(id))
+      const base = uncommitted.filter((id) => !fixing.has(id) && !failed.has(id) && !committed.has(id))
+      const ids = base.filter((id) => (EARLY[id] || []).every((d) => committed.has(d) || base.includes(d))) // J200
       const ints = intUncommitted
       if (!final && !ids.length && !ints.length) return
       uncommitted = uncommitted.filter((id) => !ids.includes(id))
