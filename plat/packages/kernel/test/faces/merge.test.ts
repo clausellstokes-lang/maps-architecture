@@ -193,6 +193,27 @@ describe('absorbSliver (§3.6\'s sliver rule)', () => {
     content(p);
   });
 
+  it('a residue between two owned neighbours takes the owner across its longest boundary (§3.6)', () => {
+    // Fix round 1 (check B-1): the sliver shares 3 100 cm of way with `lower` and 3 000 cm with `upper`; every
+    // boundary is structural, so it stays as residue owned by `lower`, the neighbour across the longer boundary.
+    const p = halves();
+    commit(p, 1, (o) => insertChain(o, pts([[0, 1900], [3000, 1900], [3000, 2000]]), [{ role: 'way', entity: 'way:7' }], 'mandatory'));
+    const sliver = faceAt(p, 1, 1500, 1950);
+    const lower = faceAt(p, 1, 1500, 500);
+    const upper = faceAt(p, 1, 1500, 3000);
+    commit(p, 1, (o) => {
+      const a = setOwner(o, [lower], 'block:low');
+      if (!a.ok) return a;
+      return setOwner(o, [upper], 'block:up');
+    });
+    expect(p.faces[1].owner[lower]).not.toBe(p.faces[1].owner[upper]);
+    const c = commit(p, 1, (o) => absorbSliver(o, sliver, { minWidthCm: 200, minAreaCm2: 0 }));
+    expect(c.value).toBe(sliver);
+    expect(p.faces[1].kind[sliver]).toBe(FACE_KIND_RESIDUE);
+    expect(p.faces[1].owner[sliver]).toBe(p.faces[1].owner[lower]);
+    content(p);
+  });
+
   it('a way pulled onto a shore is one edge carrying both roles (no sliver at all)', () => {
     const p = framed();
     commit(p, 0, (o) => insertChain(o, pts([[0, 1000], [4000, 1000]]), [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
