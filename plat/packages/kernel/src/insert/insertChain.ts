@@ -17,9 +17,11 @@
 // `ChainInsert.placed` names, per input point in input order, the vertex it became after snapping, attraction and
 // sharing (§3.4); valid until the next commit. A mandatory chain never fails for a precision reason: only §3.1's
 // non-precision codes reject it — E_DEGENERATE `empty` (step 1), E_KEPT (finer geometry is kept content, C-0177 (4)),
-// E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT — and an acute corner or a long wedge route commits with its warning; an
-// optional chain is also rejected E_BELOW_MIN_EDGE (step 1's collapse, or a collapse by attraction, or a wedge route
-// beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6 *Chain classes*). The op is atomic: every write it makes is undone on
+// E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT — and an acute corner commits with its warning (a wedge route beyond
+// 2 · √2 · `attractCm` is not taken: its crossings are placed in turn, N-38, N-40); an optional chain is also rejected E_BELOW_MIN_EDGE
+// (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
+// *Chain classes*). A segment no route keeps clear — a gap in the router, never reached in the runs of C-0202 — is
+// refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
 // shell of C-0169 (1)). Readings: C-0177.
@@ -41,7 +43,7 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { beginIndexBatch, endIndexBatch, indexAdd, indexChange, indexDelete, indexOf, isItemLive, ITEM_VERTEX, query } from '../index/index.js';
-import { belowMinEdge, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
+import { belowMinEdge, err, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
 import type { LatticePoint } from '../types/index.js';
 import { applyAttraction, planAttraction } from './attractVertex.js';
 import { charge, check, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
@@ -170,8 +172,12 @@ function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePo
       const move = Math.sqrt((at.x - pt.x) * (at.x - pt.x) + (at.y - pt.y) * (at.y - pt.y));
       const w = wedgeOutcome(ctx, move, at);
       if (!w.ok) return passOn(w);
-      if (merges(at)) return merged();
-      return ok({ vertex: applyLanding(ctx, l.value), merged: false });
+      if (w.value) {
+        if (merges(at)) return merged();
+        return ok({ vertex: applyLanding(ctx, l.value), merged: false });
+      }
+      // Beyond 2 · √2 · attractCm a mandatory chain's corner stays where it is: the router places its crossings in turn
+      // (N-38, N-40).
     }
   }
   // Kept content round a free vertex (§3.3): a finer vertex on a route of level ≤ n within attractCm is candidate (b);
@@ -360,9 +366,10 @@ function clearSince(ctx: ChainCtx, m: Mark): boolean {
  * One chain segment a → b routed and checked (C-0177 (13)): the design route of steps 3 – 4 (`snapRound`); where it leaves
  * §3.10's clearance broken — a tight cluster where step 3's band routes the chain through a vertex whose sub-route then
  * bends away from a vertex the first part was written beside — it is undone and the strict route tried (step 3 routing
- * only through vertices within `minEdge`); where that fails too, the route along existing edges (`routeAlongExisting`).
- * A refusal of the design route is the segment's; a gap no fallback closes throws (a programming error, which B-FUZZ
- * reports).
+ * only through vertices within `minEdge`); where that fails too, the route along existing edges (`routeAlongExisting`);
+ * and before any refusal the route with every crossing on the placement rule's endpoint fallback (§3.6: "each such
+ * re-route lands on an existing vertex, so the loop ends"; N-37, C-0202). A refusal of the design or strict route is the
+ * segment's; a gap no fallback closes is refused E_INVARIANT (B-FUZZ reports it as a defect), never thrown.
  */
 function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): KernelResult<null> {
   const m = markOf(ctx, log);
@@ -377,10 +384,19 @@ function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): K
   const r3 = routeAlongExisting(ctx, a, b);
   if (!r3.ok) return passOn(r3);
   if (r3.value) return ok(null);
+  if (!r2.ok) return r2;
+  // §3.6's own fallback before any refusal (N-37): the segment re-routed with every crossing on the placement's
+  // endpoint fallback, never split — each such re-route lands on an existing vertex, so the loop ends. A commit here
+  // always reports W_PLACED (N-40): without a crossing this route is the design route, which failed clearance above.
+  ctx.endpointCrossings = true;
+  const r4 = snapRound(ctx, a, b);
+  ctx.endpointCrossings = false;
+  if (r4.ok && clearSince(ctx, m)) return r4;
+  rollback(ctx, log, m);
+  if (!r4.ok && r4.code !== 'E_INVARIANT') return r4;
   const X = ctx.p.vertices.x;
   const Y = ctx.p.vertices.y;
-  check(!r2.ok, `no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance`);
-  return r2;
+  return err('E_INVARIANT', `insert: no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance (§3.10)`);
 }
 
 /**
