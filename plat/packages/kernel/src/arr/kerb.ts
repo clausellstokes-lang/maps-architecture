@@ -92,6 +92,11 @@ export interface KerbRead {
   readonly warnings: Warning[];
 }
 
+/** Two texts in code-unit order (a total order on the spine keys; never a slot order). */
+function byText(a: string, b: string): number {
+  return a < b ? -1 : a > b ? 1 : 0;
+}
+
 /** The key a row is matched by. */
 function rowKeyOf(role: number, handle: number): string {
   return `${String(role)}:${String(handle)}`;
@@ -168,7 +173,7 @@ export function readFace(p: Plat, face: FaceId, widths: SpineWidths, cache: Map<
         spines.set(key, s);
         if (!keys.includes(key)) keys.push(key);
       }
-      es.push({ a, b, h, spines: keys.sort() });
+      es.push({ a, b, h, spines: keys.sort(byText) });
     }
     rings.push(ring);
     edges.push(es);
@@ -255,7 +260,7 @@ export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<str
   }
   const box = boxOf(rings);
   const parts: Ring[] = [];
-  const keys = [...spines.keys()].sort();
+  const keys = [...spines.keys()].sort(byText);
   for (const k of keys) {
     const r = spineParts(spines.get(k) as Spine, box);
     if (!r.ok) return r;

@@ -25,11 +25,11 @@
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
 // E_INVARIANT — puts the batch back as the op found it. Readings: C-0212.
-import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, outgoing, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
+import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow } from '../arena/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
 import { TX_FACES_WALKED } from '../insert/index.js';
-import { err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+import { ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
