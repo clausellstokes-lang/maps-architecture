@@ -55,7 +55,7 @@ const acquire = async (label) => {
 }
 const seat = async (prompt, label, phaseName, schema, model) => {
   await acquire(label)
-  return agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: model || MODEL })
+  return agent(prompt, { label, phase: phaseName, schema, agentType: 'general-purpose', model: model || MODEL, effort: 'high' }) // J187
 }
 const ruledSeat = async (prompt, label, phaseName, schema) => {
   if (SPEC_MODEL !== MODEL) {

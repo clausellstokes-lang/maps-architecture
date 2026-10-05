@@ -17,7 +17,7 @@ const MAX = args.maxRounds || 3
 const brief = (key) => `Your brief is the string under the key "${key}" in the JSON file ${args.briefs}. Print it whole first (python3 -c "import json;print(json.load(open('${args.briefs}'))['${key}'])") and follow it exactly; everything below adds to it.`
 args.build = brief('build')
 args.check = brief('check')
-const opts = (label, phase, schema) => ({ label, phase, schema, model: 'opus' })
+const opts = (label, phase, schema) => ({ label, phase, schema, model: 'opus', effort: 'high' }) // J187: build and check at high effort
 
 let built = await agent(args.build, opts(`build/${ID}-fix-s1`, 'Build', BUILD_SCHEMA))
 if (!built || built.status === 'blocked') return { id: ID, ok: false, why: 'blocked', built }
