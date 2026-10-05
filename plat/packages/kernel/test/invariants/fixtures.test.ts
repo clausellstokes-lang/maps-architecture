@@ -6,9 +6,12 @@
 import { describe, expect, it } from 'vitest';
 import {
   addRole,
+  faceHoles,
   isFaceLive,
   outgoing,
   rowsOn,
+  setFaceHoles,
+  VERTEX_FREE,
   type FaceId,
   type HalfEdgeId,
   type Plat,
@@ -22,6 +25,7 @@ import {
   checkFreeze,
   checkSave,
   checkStageEnd,
+  eulerCounts,
   faceArea2,
   KERNEL_ROWS,
   poolScopeProblems,
@@ -159,6 +163,20 @@ describe('min-edge', () => {
     p.vertices.x[a] = 1975; // 25 cm: at minEdge, not shorter
     expect(rowOf(checkBatch(r, p), 'min-edge').problems.filter((x) => x.includes(`(${p.vertices.x[a]}, 1000)–(${p.vertices.x[b]}, 1000)`))).toEqual([]);
   });
+  it('the length is Euclidean: a diagonal (17, 17) edge of 24.04 cm fails; a (15, 20) edge of exactly 25 cm holds', () => {
+    // An L2 lane (500, 500)–(1500, 1500) inside the lower-left block: its far end has the lane as its only edge.
+    const p = blocks();
+    const r = commit(p, 2, (o) => insertChain(o, [pt(500, 500), pt(1500, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory')).record as CommitRecord;
+    holds(checkBatch(r, p), 'min-edge');
+    const e = v(p, 1500, 1500);
+    p.vertices.x[e] = 517;
+    p.vertices.y[e] = 517; // √(17² + 17²) = 24.04 cm (|dx| + |dy| = 34, max(|dx|, |dy|) = 17)
+    const res = fails(checkBatch(r, p), 'min-edge');
+    expect(res.problems).toEqual(['min-edge: the edge (500, 500)–(517, 517) is shorter than minEdge (25 cm)']);
+    p.vertices.x[e] = 515;
+    p.vertices.y[e] = 520; // √(15² + 20²) = 25 cm exactly (max(|dx|, |dy|) = 20): at minEdge, not shorter
+    holds(checkBatch(r, p), 'min-edge');
+  });
 });
 
 describe('clearance', () => {
@@ -240,6 +258,19 @@ describe('simple-faces', () => {
     p.faces[2].outer[f] = he(p, v(p, 500, 500), v(p, 1500, 1500));
     const res = fails(checkBatch(r, p), 'simple-faces');
     expect(res.problems.some((x) => x.includes('twice its area 0'))).toBe(true);
+  });
+  it('a hole ring stored on its island side (wound counter-clockwise) fails on the winding', () => {
+    // An L2 island ring [500, 1500]² in the lower-left block: the block's other L2 face holds it as a hole, wound clockwise.
+    const p = blocks();
+    commit(p, 2, (o) => insertChain(o, [pt(500, 500), pt(1500, 500), pt(1500, 1500), pt(500, 1500)], [{ role: 'kerb', entity: 'ring:1' }], 'mandatory', { closed: true }));
+    holds(checkBatch(wholeRecord(p), p), 'simple-faces');
+    let host = -1;
+    for (let f = 0; f < p.slots.face[2].top; f++) if (isFaceLive(p, 2, f) && faceHoles(p, 2, f).length > 0) host = f;
+    expect(host).toBeGreaterThanOrEqual(0);
+    const holes = faceHoles(p, 2, host);
+    setFaceHoles(p, 2, host, holes.map((h) => h ^ 1)); // each hole ring now walked on the island's side: counter-clockwise
+    const res = fails(checkBatch(wholeRecord(p), p), 'simple-faces');
+    expect(res.problems.some((x) => x.includes('hole ring winds counter-clockwise'))).toBe(true);
   });
   it('a face whose outer ring winds clockwise fails', () => {
     const { p, r } = base();
@@ -391,6 +422,14 @@ describe('prepared-contacts (subject M3a: a clear-region batch)', () => {
     addRole(p, end, { role: 'anchor', entity: 'enceinte:1', ordinal: 2 }, 2);
     fails(checkBatch({ ...r, promoted: [end] }, p, { prepared: [end] }), 'prepared-contacts');
   });
+  it('an edge of the batch\'s level that shares a finer edge (carries a finer row) fails; without the finer row holds', () => {
+    const p = blocks();
+    const r = commit(p, 1, (o) => insertChain(o, [pt(0, 3000), pt(2000, 3000)], [{ role: 'way', entity: 'way:3' }], 'mandatory')).record as CommitRecord;
+    expect(holds(checkBatch(r, p, { prepared: [] }), 'prepared-contacts').subjects).toBeGreaterThan(0);
+    addRole(p, he(p, v(p, 0, 3000), v(p, 2000, 3000)), { role: 'kerb', entity: 'kerb:9' }, 2);
+    const res = fails(checkBatch(r, p, { prepared: [] }), 'prepared-contacts');
+    expect(res.problems.some((x) => x.includes('shares a finer edge'))).toBe(true);
+  });
 });
 
 /** The before-image kept content reads: every face of the levels finer than `level`. */
@@ -499,6 +538,24 @@ describe('references-resolve (stage end, save)', () => {
     addRole(p, v(p, 0, 1000), { role: 'deck_end', entity: 'bridge:1', ordinal: 0 }, 2);
     fails(checkStageEnd(p), 'references-resolve');
   });
+  it('an indexed vertex role on a dead vertex slot finds no live geometry: fails', () => {
+    const { p } = base();
+    const w = v(p, 2000, 2000);
+    addRole(p, w, { role: 'deck_end', entity: 'bridge:1', ordinal: 0 }, 2);
+    holds(checkStageEnd(p), 'references-resolve');
+    p.vertices.flags[w] |= VERTEX_FREE; // the row's vertex freed under it
+    const res = fails(checkStageEnd(p), 'references-resolve');
+    expect(res.problems.some((x) => x.includes('deck_end row names a dead vertex slot'))).toBe(true);
+  });
+  it('a face owned by a dead entity fails (the owner clause, not only a role row\'s entity)', () => {
+    const { p } = base();
+    let f1 = -1;
+    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) f1 = f;
+    commit(p, 1, (o: Overlay) => setOwner(o, [f1], 'block:dead'));
+    holds(checkStageEnd(p, { isLive: () => true }), 'references-resolve');
+    const res = fails(checkStageEnd(p, { isLive: (id) => id !== 'block:dead' }), 'references-resolve');
+    expect(res.problems).toEqual(['references-resolve: geometry carries the dead entity block:dead']);
+  });
 });
 
 describe('references-resolve: stored profiles\' knots', () => {
@@ -523,6 +580,18 @@ describe('references-resolve: stored profiles\' knots', () => {
     addRole(p, v(p, 2000, 1000 + 1000), { role: 'width_knot', entity: 'way:k', ordinal: 3 }, 1);
     const off = fails(checkStageEnd(p, { profiles: [profile(4)] }), 'references-resolve');
     expect(off.problems.some((x) => x.includes('lies off its chain'))).toBe(true);
+  });
+  it('a ring carries at least one knot: a closed kerb ring with one knot holds, with a profile of no knot fails', () => {
+    const p = blocks();
+    const ring = [pt(500, 500), pt(1500, 500), pt(1500, 1500), pt(500, 1500)];
+    commit(p, 2, (o) => insertChain(o, ring, [{ role: 'kerb', entity: 'ring:k' }], 'mandatory', {
+      closed: true,
+      knots: [{ index: 0, role: 'width_knot', entity: 'ring:k', ordinal: 0 }],
+    }));
+    const ringProfile = (n: number) => ({ chain: { role: 'kerb', entity: 'ring:k' }, knotRole: 'width_knot', profile: { knotRole: 'width_knot', values: Array.from({ length: n }, (_, i) => 300 + i), interp: 'linear' as const } });
+    holds(checkStageEnd(p, { profiles: [ringProfile(1)] }), 'references-resolve');
+    const res = fails(checkStageEnd(p, { profiles: [ringProfile(0)] }), 'references-resolve');
+    expect(res.problems.some((x) => x.includes('carries no knot'))).toBe(true);
   });
 });
 
@@ -654,5 +723,43 @@ describe('euler (CI)', () => {
       H.prev[n] = e ^ 1;
     }
     fails(checkCI(p), 'euler');
+  });
+  /**
+   * Swaps the successors of two half-edges of the lower-left L1 block's ring — the one entering (0, 0) from the north and
+   * the one entering (2000, 2000) from the south — re-linking that ring into two cycles (prev kept consistent).
+   */
+  function splitRing(p: Plat, northOfOrigin: VertexId, southOfCrossing: VertexId): void {
+    const H = p.halfEdges;
+    const h1 = he(p, northOfOrigin, v(p, 0, 0));
+    const h2 = he(p, southOfCrossing, v(p, 2000, 2000));
+    const n1 = H.next[h1];
+    const n2 = H.next[h2];
+    expect([H.origin[n1 ^ 1], H.origin[n2 ^ 1]]).toEqual([v(p, 2000, 0), v(p, 0, 2000)]);
+    H.next[h1] = n2;
+    H.prev[n2] = h1;
+    H.next[h2] = n1;
+    H.prev[n1] = h2;
+  }
+  const chi = (p: Plat, level: Level): number => {
+    const k = eulerCounts(p, level);
+    return k.v - k.e + k.f - (1 + k.c);
+  };
+  it('one face too many fails: the block\'s ring split into two cycles that each enclose area (V − E + F = 2 + C)', () => {
+    // With the kerb, the block's L1 ring passes (0, 1000) and (2000, 1000): each of the two cycles keeps three corners.
+    const { p } = base();
+    holds(checkCI(p), 'euler');
+    splitRing(p, v(p, 0, 1000), v(p, 2000, 1000));
+    expect(chi(p, 1)).toBe(1);
+    const res = fails(checkCI(p), 'euler');
+    expect(res.problems.some((x) => x.startsWith('euler: L1: '))).toBe(true);
+  });
+  it('a deficit of exactly one face fails: the block\'s ring split so one cycle encloses no area (V − E + F = C)', () => {
+    // Without the kerb, the block's ring is its four corners: one cycle keeps two vertices (no area), so a bounded face is lost.
+    const p = blocks();
+    holds(checkCI(p), 'euler');
+    splitRing(p, v(p, 0, 2000), v(p, 2000, 0));
+    expect(chi(p, 1)).toBe(-1);
+    const res = fails(checkCI(p), 'euler');
+    expect(res.problems.some((x) => x.startsWith('euler: L1: '))).toBe(true);
   });
 });

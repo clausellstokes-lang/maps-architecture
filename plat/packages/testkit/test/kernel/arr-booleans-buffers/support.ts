@@ -6,6 +6,7 @@
 // unattracted draw count §13.1's vacuity guard reads. Our output is also held to the hard ring checks on EVERY case
 // (§3.7 (i): "0 invalid outputs"), not only on the attracted side the comparison checks.
 import fc from 'fast-check';
+import { expect } from 'vitest';
 import {
   attachIndex,
   booleans,
@@ -28,11 +29,23 @@ import {
   type PlatKey,
   type Warning,
 } from '@plat/kernel';
-import { arb } from '../../../src/fuzz/index.js';
+import { arb, fuzzRuns } from '../../../src/fuzz/index.js';
 import { constructiveCase } from '../../../src/constructive/index.js';
 import type { ConstructiveInput } from '../../../src/constructive/types.js';
-import { compareSplit, oracleBoolean, oracleBuffer, OracleReport, type OracleResult, type Verdict } from '../../../src/oracles/index.js';
-import { ringProblems, perimeterOf } from '../../../src/oracles/rings.js';
+import {
+  ATTRACTED_CM,
+  compareSplit,
+  isOracleRefusal,
+  oracleBoolean,
+  oracleBuffer,
+  OracleReport,
+  splitOf,
+  UNATTRACTED_DRAW_MIN,
+  symDiffArea,
+  type OracleResult,
+  type Verdict,
+} from '../../../src/oracles/index.js';
+import { dedupe, ringProblems, perimeterOf } from '../../../src/oracles/rings.js';
 import { ORACLE_ENGINES, type BooleanOp, type EndKind, type FillRule, type JoinKind, type OracleEngine, type Ring } from '../../../src/oracles/types.js';
 
 /** Every generated coordinate lies in ±2¹⁶ cm (M0-k-01's smallest range), so two operands meet often. */
@@ -615,6 +628,20 @@ export function warningsOf(ours: KernelResult<Ring[]>): Warning[] {
   return w ?? [];
 }
 
+/**
+ * The step that refused (the spec note N-39): the oracle's own answer on the case's operands (`own`), the area of
+ * |ours Δ oracle| through the oracle's own xor (`measure`), or the same area through the other oracle (`cross-check`).
+ */
+export type RefusalStep = 'own' | 'measure' | 'cross-check';
+
+/** A tally of cases of one kind and how many of them failed against some oracle. */
+export interface CaseTally {
+  cases: number;
+  failed: number;
+  /** The largest distance seen (cm): for `stretchFar` the farthest vertex of ours from the oracle's boundary. */
+  maxCm: number;
+}
+
 /** A harness run's tallies besides the report: invalid outputs, crashes, and the cases a typed refusal settled. */
 export interface Harness {
   report: OracleReport;
@@ -625,10 +652,35 @@ export interface Harness {
   sources: Record<string, number>;
   /** Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone (C-0196 (7)). */
   snapRounded: Record<string, number>;
+  /** Refused verdicts by `<engine>/<step>` (N-39). */
+  refusalSteps: Record<string, number>;
+  /** Refused verdicts that count against C-0150's 0.1 % allowance: every measurement and cross-check refusal, and an own-operand refusal the three conditions of N-40 do not exclude. */
+  refusalsCounted: number;
+  /** Own-operand refusals excluded from the allowance (N-39 as amended by N-40). */
+  refusalsExcluded: number;
+  /** Per source (family), the cases every oracle refused on its own operands — N-40's third condition caps them at 1 %. */
+  allOwnRefused: Record<string, number>;
+  /** Cases reporting W_PLACED (an endpoint-route landing among them, N-37 / N-40), measured on the attracted bound. */
+  placed: CaseTally;
+  /** Cases reporting W_STRETCH_SHARED with a vertex of ours more than √2 · attractCm from the oracle's boundary (N-41 (2)). */
+  stretchFar: CaseTally;
 }
 
 export function newHarness(): Harness {
-  return { report: new OracleReport(), invalid: [], failures: [], settled: {}, sources: {}, snapRounded: {} };
+  return {
+    report: new OracleReport(),
+    invalid: [],
+    failures: [],
+    settled: {},
+    sources: {},
+    snapRounded: {},
+    refusalSteps: {},
+    refusalsCounted: 0,
+    refusalsExcluded: 0,
+    allOwnRefused: {},
+    placed: { cases: 0, failed: 0, maxCm: 0 },
+    stretchFar: { cases: 0, failed: 0, maxCm: 0 },
+  };
 }
 
 const MAX_KEPT = 20;
@@ -637,21 +689,108 @@ function keep(list: string[], s: string): void {
   if (list.length < MAX_KEPT) list.push(s);
 }
 
-/** Records one case: our result against each oracle, and our output's validity on either side of the split. */
+/** Our result as rings (E_DEGENERATE `empty` and any other refusal read as none), as `compareSplit` reads them. */
+function oursRings(ours: KernelResult<Ring[]> | readonly Ring[]): Ring[] {
+  if (Array.isArray(ours)) return (ours as readonly Ring[]).map(dedupe);
+  const r = ours as KernelResult<Ring[]>;
+  return r.ok ? r.value.map(dedupe) : [];
+}
+
+/** Does the oracle's own xor refuse to measure |ours Δ its rings|? (Re-run on a refused verdict only, to name the step.) */
+function measureRefuses(mine: readonly Ring[], rings: readonly Ring[], e: OracleEngine): boolean {
+  try {
+    symDiffArea(mine, rings, e);
+    return false;
+  } catch (err) {
+    return isOracleRefusal(err);
+  }
+}
+
+/** The distance from p to the segment a–b (doubles). */
+function distToSegment(px: number, py: number, a: LatticePoint, b: LatticePoint): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((px - a.x) * dx + (py - a.y) * dy) / len2));
+  return Math.hypot(px - (a.x + t * dx), py - (a.y + t * dy));
+}
+
+/**
+ * The farthest any vertex of ours lies from the oracle's boundary (cm; Infinity when ours has a vertex and the oracle's
+ * result is empty, 0 when ours is empty): N-41 (2)'s measure of how far a shared stretch carried our boundary.
+ */
+export function farthestVertexCm(mine: readonly Ring[], theirs: readonly Ring[]): number {
+  let worst = 0;
+  const segs: [LatticePoint, LatticePoint][] = [];
+  for (const r of theirs) for (let i = 0; i < r.length; i += 1) segs.push([r[i], r[(i + 1) % r.length]]);
+  for (const r of mine) {
+    for (const p of r) {
+      let best = Infinity;
+      for (const [a, b] of segs) {
+        const d = distToSegment(p.x, p.y, a, b);
+        if (d < best) best = d;
+        if (best <= worst) break;
+      }
+      if (best > worst) worst = best;
+    }
+  }
+  return worst;
+}
+
+/**
+ * Records one case: our result against each oracle, and our output's validity on either side of the split. A refused
+ * verdict is classified by the step that refused (N-39) and counted against C-0150's allowance unless it is an
+ * own-operand refusal that N-40's conditions exclude: every oracle that answered still judges the case, and our result
+ * passes the hard ring checks (C-0150 (4)); the third condition — cases every oracle refused on its own operands stay
+ * ≤ 1 % per family — is the caller's assertion on `allOwnRefused`.
+ */
 export function judge(h: Harness, op: string, source: string, ours: KernelResult<Ring[]> | Ring[], oracle: (e: OracleEngine) => OracleResult, warnings: readonly Warning[], what: () => string): void {
   h.sources[source] = (h.sources[source] ?? 0) + 1;
   const own = ownProblems(ours);
   if (own.length > 0) keep(h.invalid, `${op} [${source}]: ${own.join(', ')} — ${what()}`);
-  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
+  const results = ORACLE_ENGINES.map((e) => {
     const or = oracle(e);
-    const v = compareSplit(ours, or, warnings);
+    const v0 = compareSplit(ours, or, warnings);
     // an unattracted case that fails on the face count alone is judged again on the oracle's rings snap-rounded (C-0196 (7))
-    if (!or.ok || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
+    if (!or.ok || v0.split !== 'unattracted' || v0.failures.length !== 1 || v0.failures[0] !== 'faces') return { e, or, v: v0 };
     h.snapRounded[e] = (h.snapRounded[e] ?? 0) + 1;
-    return compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings);
+    return { e, or, v: compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings) };
   });
+  const verdicts: Verdict[] = results.map((r) => r.v);
   h.report.record(op, verdicts);
+  // N-39 / N-40: each refusal's step, and whether it counts against the allowance
+  const mine = oursRings(ours);
+  const answeredJudge = results.filter((r) => r.or.ok).every((r) => !r.v.refused);
+  const excludable = answeredJudge && own.length === 0;
+  let ownRefusals = 0;
+  for (const r of results) {
+    if (!r.v.refused) continue;
+    const step: RefusalStep = !r.or.ok ? 'own' : measureRefuses(mine, r.or.rings, r.e) ? 'measure' : 'cross-check';
+    h.refusalSteps[`${r.e}/${step}`] = (h.refusalSteps[`${r.e}/${step}`] ?? 0) + 1;
+    if (step === 'own') ownRefusals += 1;
+    if (step === 'own' && excludable) h.refusalsExcluded += 1;
+    else h.refusalsCounted += 1;
+  }
+  if (ownRefusals === results.length) h.allOwnRefused[source] = (h.allOwnRefused[source] ?? 0) + 1;
   const bad = verdicts.find((v) => !v.pass && !v.refused);
+  // N-40 (W_PLACED: the endpoint route's landings) and N-41 (2) (a shared stretch leaving far from the input): tallied
+  // on the attracted bound the verdicts above already apply
+  if (splitOf(warnings) === 'attracted') {
+    const failed = bad !== undefined ? 1 : 0;
+    if (warnings.some((w) => w.code === 'W_PLACED' && w.count > 0)) {
+      h.placed.cases += 1;
+      h.placed.failed += failed;
+    }
+    const answer = results.find((r) => r.or.ok)?.or;
+    if (answer !== undefined && answer.ok && warnings.some((w) => w.code === 'W_STRETCH_SHARED' && w.count > 0)) {
+      const far = farthestVertexCm(mine, answer.rings);
+      if (far > ATTRACTED_CM) {
+        h.stretchFar.cases += 1;
+        h.stretchFar.failed += failed;
+        if (far > h.stretchFar.maxCm) h.stretchFar.maxCm = far;
+      }
+    }
+  }
   if (bad !== undefined) {
     keep(
       h.failures,
@@ -726,4 +865,45 @@ export function judgeInset(h: Harness, c: FaceCase): void {
 /** The guard's draw count for a run of `runs` cases (C-0196 (7)): min(10⁵, ⌈share × runs⌉). */
 export function guardFor(runs: number, min: number): number {
   return Math.min(min, Math.ceil(MIN_UNATTRACTED_SHARE * runs));
+}
+
+/** The size of an agreement run: PLAT_FUZZ_RUNS cases per operation (10⁴ on a PR, 10⁶ nightly; C-0057). */
+export const RUNS = fuzzRuns();
+
+/** One operation's run may take this long at the nightly size (the PR's 10⁴ takes minutes). */
+export const TIMEOUT = 3_600_000;
+
+/** Refusals counted against C-0150's allowance: 0.1 % of the cases, as M0-k-03's own agreement test allows. */
+export const MAX_REFUSAL_SHARE = 0.001;
+
+/** N-40's third condition: cases every oracle refused on its own operands, at most 1 % of a family's cases. */
+export const MAX_ALL_OWN_REFUSED_SHARE = 0.01;
+
+/**
+ * An operation's verdict after its run: the report line printed (both shares, the unattracted count against the
+ * guard, the refusals by step, the W_PLACED and far-stretch tallies), then §3.7 (i)'s bar asserted — 0 crashes (a
+ * throw fails the property before this), 0 invalid outputs, every judged case passing, every case accounted for,
+ * refusals within C-0150's allowance as N-39 / N-40 classify them, and §13.1's vacuity guard (C-0196 (7)).
+ */
+export function verdict(h: Harness, op: string, runs: number = RUNS): void {
+  const line = h.report.line(op);
+  const settled = Object.values(h.settled).reduce((s, n) => s + n, 0);
+  const guard = guardFor(runs, UNATTRACTED_DRAW_MIN);
+  console.info(
+    `arr/${op}: ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}, share ${line.attractedShare.toFixed(3)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)} by step ${JSON.stringify(h.refusalSteps)} (counted ${String(h.refusalsCounted)}, excluded ${String(h.refusalsExcluded)}, every oracle on its own operands ${JSON.stringify(h.allOwnRefused)}); unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; W_PLACED cases ${String(h.placed.cases)} (failed ${String(h.placed.failed)}); stretch beyond √2·attractCm ${String(h.stretchFar.cases)} (failed ${String(h.stretchFar.failed)}, farthest ${h.stretchFar.maxCm.toFixed(1)} cm); snap-rounded ${JSON.stringify(h.snapRounded)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}`,
+  );
+  expect(h.failures).toEqual([]);
+  expect(h.invalid).toEqual([]);
+  expect(line.failures).toEqual({});
+  expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
+  expect(line.draws + line.unjudged + settled).toBe(runs);
+  expect(h.refusalsCounted).toBeLessThanOrEqual(Math.ceil(MAX_REFUSAL_SHARE * runs));
+  for (const [source, n] of Object.entries(h.allOwnRefused)) {
+    expect(n, `cases every oracle refused on its own operands in ${source}`).toBeLessThanOrEqual(Math.ceil(MAX_ALL_OWN_REFUSED_SHARE * (h.sources[source] ?? 0)));
+  }
+  expect(h.placed.failed).toBe(0);
+  expect(h.stretchFar.failed).toBe(0);
+  // §13.1's vacuity guard (C-0196 (7)): 10⁵ unattracted draws at the nightly size, a tenth of the draws below it
+  expect(line.unattracted).toBeGreaterThanOrEqual(guard);
+  expect(h.report.meetsDrawCount(op, guard)).toBe(true);
 }
