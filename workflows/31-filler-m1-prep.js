@@ -69,6 +69,27 @@ const TASKS = [
     check: `You are the independent CHECKER of workflows/33-build-m1-spec.js. Compare with workflows/20-build-m0-spec.js step by step: refute any dropped check (closing check J160, clean-room, spec-notes), any write under plat/, any seat tier contrary to J157 (5), syntax (node --check), and any step that cannot work on this machine (absent captures/ or reference/).` },
 ]
 
+// ROUND 2 (J184, 2026-10-05 ~03:30): the scope critic's "partly runnable" items, now that round 1's outputs exist.
+// Run with args.only = ROUND2 keys. Each stays outside plat/ and states what waits for M0-k-06 or the flow's close.
+TASKS.push(
+  { key: 'w18-twin-half', role: RESEARCH, tier: 'opus', est: 45,
+    work: `W-18's research-twin half on docs/digest-candidate/ (its nine entries plus INDEX): run the twin deny-list scan (tools/ or research/baselines/: make_denylist.py's scan mode) with W-16b's list over every digest-candidate file and record per file the hit counts by class, content-free. The M0-scanner half needs M0-k-06 (not built): record it as NOT RUN. Write docs/calibration/results/W-18-twin.json (status "twin-half"; ls first, stop if it exists). Note in the record that doc_checks.py's authoritative clean-room run needs the local corpus absent from this clone (HANDOFF "What GitHub does NOT carry").` ,
+    check: `You are the independent research-side CHECKER of docs/calibration/results/W-18-twin.json. Re-run the twin scan on at least three of the digest-candidate files and compare counts; refute any claim that the M0-scanner half ran, and any listed token in the record.` },
+  { key: 'w19-ledger-preaudit', role: RESEARCH, tier: 'opus', est: 45,
+    work: `W-19 pre-audit (the seat ledger): compare the M-1 seats in docs/lane-events.log and the M-1 plan's seat list (docs/calibration/ M-1 plan files) with plat/CLEAN-ROOM.md's rows AS COMMITTED (the working copy carries busy items' uncommitted lines: read the committed text the session saved at ${S}/w19/CLEAN-ROOM.head.md — if it is missing, stop and return blocked). List every seat with no ledger row, every row with no seat, and every role mismatch. Write docs/calibration/E18-ledger-preaudit.md (ls first). Write NO CLEAN-ROOM row (that is the session's, after the flow).`,
+    check: `You are the independent research-side CHECKER of docs/calibration/E18-ledger-preaudit.md. Re-derive three of its mismatches and three of its "matched" seats from the sources it cites; refute any row that misreads the ledger or the lane log.` },
+  { key: 'm1-deferral-ledger', role: IMPL, tier: 'opus', est: 45,
+    work: `M0-to-M1 deferral ledger (a SNAPSHOT, refreshed at M0's close): from plat/docs/build/M0-work.json (every item's defers naming M1), plat/docs/build/choices.md and plat/docs/build/checks/M0-spec-notes.md AS COMMITTED (the session saved them at ${S}/m1-defer/choices.head.md and ${S}/m1-defer/spec-notes.head.md; read those, not the working copies; if missing, stop and return blocked), list every piece of work M0 hands to M1: item id, what, source line. Cross-reference docs/build-prep/M1/scope.json's clause numbers. Write docs/build-prep/M1/m0-deferrals.md.`,
+    check: `You are the independent implementer-side CHECKER of docs/build-prep/M1/m0-deferrals.md. Grep M0-work.json's defers for "M1" yourself and compare; refute omissions and wrong clause cross-references.` },
+  { key: 'm1-wbs-skeleton', role: IMPL, tier: 'fable', est: 60,
+    work: `M1 work-breakdown SKELETON (family level only): from docs/build-prep/M1/scope.json, volume-shares.md and m0-deferrals.md (if present), group the M1 clauses into work families (one per package or subsystem), each with its clauses, its M0 interfaces it builds on, its M-1 needs, and a rough order. Do NOT bind items to owners or files (that waits for M0-x-01's record and M0-a-16's façade). Write docs/build-prep/M1/wbs-skeleton.md. Add no design (J156).`,
+    check: `You are the independent implementer-side CHECKER of docs/build-prep/M1/wbs-skeleton.md. Check every scope.json clause lands in exactly one family; refute invented work, owner or file bindings, and dependency orders that contradict the M0 items named.` },
+  { key: 'v-m0-scope', role: IMPL, tier: 'opus', est: 40,
+    work: `V-M0 scope prep: extract V07 §8's V-M0 items (docs/volumes/V07*.md) into docs/build-prep/M1/V-M0-scope.md with ids, one-line summaries and source lines; mark which wait for M0-b-05a/b's final tables. Confirm first that CLEAN_ROOM lets an implementer-side seat read V07; if not, stop and return blocked.`,
+    check: `You are the independent implementer-side CHECKER of docs/build-prep/M1/V-M0-scope.md. Re-scan V07 §8 for V-M0 items and compare ids and line ranges; refute omissions and wrong ranges.` },
+)
+const ROUND2 = ['w18-twin-half', 'w19-ledger-preaudit', 'm1-deferral-ledger', 'm1-wbs-skeleton', 'v-m0-scope']
+
 const run = async (t) => {
   const P = `${COMMON}${t.role}\n\nTASK filler/${t.key} (about ${t.est} minutes): ${t.work} Append a CHECKPOINT line at least every twenty minutes and a LANDED line when done. Return status, the files you wrote and a summary.`
   const opts = { label: `work:${t.key}`, phase: 'Work', schema: DONE_SCHEMA }
