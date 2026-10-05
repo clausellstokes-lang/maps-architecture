@@ -618,8 +618,12 @@ export function compareRings(a: Ring, b: Ring): number {
   return a.length - b.length;
 }
 
-/** The loop without its straight-through vertices (exactly collinear and going on), cyclically. */
-function dropStraight(loop: LatticePoint[]): LatticePoint[] {
+/**
+ * The loop without its straight-through vertices (exactly collinear and going on), cyclically — but never a vertex in
+ * `keep`: a vertex where the kept boundary meets itself (a hole touching its outline, two faces touching) is a vertex of
+ * every ring through it, even where one ring runs straight on there (C-0206 (1)).
+ */
+function dropStraight(loop: LatticePoint[], keep: (p: LatticePoint) => boolean): LatticePoint[] {
   let pts = loop;
   let changed = true;
   while (changed && pts.length >= 3) {
@@ -630,7 +634,7 @@ function dropStraight(loop: LatticePoint[]): LatticePoint[] {
       const a = out.length > 0 ? out[out.length - 1] : pts[n - 1];
       const v = pts[i];
       const b = pts[i + 1 === n ? 0 : i + 1];
-      const straight = orient2d(a.x, a.y, v.x, v.y, b.x, b.y) === 0 && (v.x - a.x) * (b.x - v.x) + (v.y - a.y) * (b.y - v.y) > 0;
+      const straight = !keep(v) && orient2d(a.x, a.y, v.x, v.y, b.x, b.y) === 0 && (v.x - a.x) * (b.x - v.x) + (v.y - a.y) * (b.y - v.y) > 0;
       if (straight) changed = true;
       else out.push(v);
     }
@@ -656,6 +660,11 @@ export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: 
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const seen = new Uint8Array(half);
+  // how many boundary half-edges leave each vertex: two or more where the kept boundary meets itself (C-0206 (1))
+  const leaving = new Map<VertexId, number>();
+  for (let h = 0; h < half; h += 1) if (boundary(h)) leaving.set(O[h], (leaving.get(O[h]) ?? 0) + 1);
+  const touch = new Set<string>();
+  for (const [v, n] of leaving) if (n > 1) touch.add(`${String(X[v])},${String(Y[v])}`);
   const rings: Ring[] = [];
   for (let h0 = 0; h0 < half; h0 += 1) {
     if (seen[h0] === 1 || !boundary(h0)) continue;
@@ -674,7 +683,10 @@ export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: 
       if (++guard > half * 4) throw new Error('arr: the kept boundary does not close');
     } while (h !== h0);
     for (const loop of simpleLoops(cycle)) {
-      const pts = dropStraight(loop.map((v) => ({ x: X[v] as Cm, y: Y[v] as Cm })));
+      const pts = dropStraight(
+        loop.map((v) => ({ x: X[v] as Cm, y: Y[v] as Cm })),
+        (q) => touch.has(`${String(q.x)},${String(q.y)}`),
+      );
       if (pts.length < 3 || area2(pts) === 0) continue;
       rings.push(canonicalRing(pts));
     }

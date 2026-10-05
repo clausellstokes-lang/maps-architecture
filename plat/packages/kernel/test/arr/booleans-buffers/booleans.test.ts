@@ -101,6 +101,30 @@ describe('booleans: holes, pinches and fill rules', () => {
     expect(r).toEqual([rect(0, 0, 1000, 1000)]);
   });
 
+  it('a hole touching its outline inside an outline edge: the touch point is a vertex of both rings (C-0206 (1))', () => {
+    // the hole's vertex (1000, 2000) lies on the outline's bottom edge (0, 2000)–(2000, 2000)… of a ring whose own
+    // vertices skip it: the outer ring keeps it, so the two rings meet at a shared vertex (the PR run's xor case: a
+    // touch inside an edge made polygon-clipping refuse our rings)
+    const outer = R([0, 0], [2000, 0], [2000, 2000], [0, 2000]);
+    const hole = R([1000, 2000], [500, 1000], [1500, 1000]);
+    for (const fill of ['evenodd', 'nonzero'] as const) {
+      const r = rings(booleans('difference', [outer], [hole.slice().reverse()], fill));
+      expect(r).toEqual([R([0, 0], [2000, 0], [2000, 2000], [1000, 2000], [0, 2000]), R([500, 1000], [1000, 2000], [1500, 1000])]);
+      expect(areaOf(r)).toBe(4_000_000 - 500_000);
+    }
+    // the xor of the PR run (2026-10-05): a's hole touches a's outline at (−227, 237), inside the edge (4943, −2326)–(−4457, 2334)
+    const a = [
+      R([4943, -2326], [-4457, 2334], [-9920, 1893], [-13586, -4727], [-17800, -11712], [-8407, -16825], [-1636, -14164], [1813, -10947]),
+      R([-2426, -2515], [-3897, -1832], [-1984, -670], [-227, 237], [-864, -752]),
+    ];
+    const b = [R([8315, 36111], [7858, 36301], [7685, 36300], [7508, 36299], [7653, 36074], [7671, 36007], [7736, 35765], [8063, 35798], [8253, 36034])];
+    const x = rings(booleans('xor', a, b, 'evenodd'));
+    expect(x).toHaveLength(3);
+    expect(x[0]).toContainEqual(pt(-227, 237));
+    expect(x[1]).toContainEqual(pt(-227, 237));
+    expect(areaOf(x)).toBe(areaOf([a[0]]) - Math.abs(areaOf([a[1]])) + areaOf(b));
+  });
+
   it('a self-crossing bow-tie: both lobes under either rule', () => {
     const bow = R([0, 0], [2000, 2000], [2000, 0], [0, 2000]);
     const nz = rings(booleans('union', [bow], [], 'nonzero'));
