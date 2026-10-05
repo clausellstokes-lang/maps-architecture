@@ -1,0 +1,641 @@
+{
+  "id": "W-18-twin",
+  "status": "twin-half",
+  "date": "2026-10-05",
+  "seat": "filler/w18-twin-half (Opus, research-side; workflow wf_2dccb46b-5d7); no git, no vitest, nothing written under plat/",
+  "scope": {
+    "files": [
+      "docs/digest-candidate/01-ng-sigma-frame.md",
+      "docs/digest-candidate/02-depth-rows-refit.md",
+      "docs/digest-candidate/03-r4-definition.md",
+      "docs/digest-candidate/04-hollow-block-definition.md",
+      "docs/digest-candidate/05-junction-census.md",
+      "docs/digest-candidate/06-deep-interior-shares.md",
+      "docs/digest-candidate/07-derived-graph-twin.md",
+      "docs/digest-candidate/08-ng-declared-scale.md",
+      "docs/digest-candidate/09-ftg-city-family.md",
+      "docs/digest-candidate/INDEX.md"
+    ],
+    "excluded": {
+      "docs/digest-candidate/READING-LOG.md": "not a crossing file (the nine entries plus INDEX are the ten crossing files; E17 section 6 keeps the reading log out of W-18 and gives it to W-19)"
+    }
+  },
+  "twinScan": {
+    "tool": "research/baselines/make_denylist.py, scan mode (the research twin of the scanner; W-16b normalisation 1)",
+    "commands": [
+      "python3 research/baselines/make_denylist.py scan <the ten files> --list research",
+      "python3 research/baselines/make_denylist.py scan <the ten files> --list m0"
+    ],
+    "exits": {
+      "research": 0,
+      "m0": 0
+    },
+    "allowFilesDefault": [
+      "docs/validation/doc-checks-allow.tsv",
+      "research/baselines/denylist/design-allow.tsv"
+    ],
+    "perFileCounts": "a counts-only wrapper (maps-scratch/filler/w18-twin/twin_counts.py) importing the same module and calling DenyList.scan_file and Allow.reviewed per file; its totals agree with the CLI runs (cli-research.txt, cli-m0.txt in the same scratch folder)",
+    "listNote": "both lists are W-16b's, from one corpus read; the m0 list sha256 equals generation-record.json fileSha256",
+    "lists": {
+      "research": {
+        "path": "research/baselines/denylist/denylist.v1.json.gz",
+        "kind": "research",
+        "sha256": "00bb0d659148e17d3ea397906ae31384f536cc58812a1c3a82cf13366371a0a8",
+        "classes": [
+          "TOK",
+          "ID",
+          "TRI",
+          "COL",
+          "SET",
+          "PHR",
+          "FILE"
+        ],
+        "totals": {
+          "TOK": 0,
+          "ID": 0,
+          "TRI": 0,
+          "COL": 0,
+          "SET": 0,
+          "PHR": 0,
+          "FILE": 0
+        },
+        "unreviewedTotals": {
+          "TOK": 0,
+          "ID": 0,
+          "TRI": 0,
+          "COL": 0,
+          "SET": 0,
+          "PHR": 0,
+          "FILE": 0
+        },
+        "files": [
+          {
+            "file": "docs/digest-candidate/01-ng-sigma-frame.md",
+            "sha256": "7583e7f5b9470311276e2a1e86ef8453b05c64e1b0abcdeded722ba6650dd4b1",
+            "bytes": 7886,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 179,
+            "singleListedTrigramLines": 65
+          },
+          {
+            "file": "docs/digest-candidate/02-depth-rows-refit.md",
+            "sha256": "8d97212fd68f1dd6cc2b8c06be0d5d69b2a0480a3ef3c6919aef22a4c5dd3859",
+            "bytes": 8390,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 150,
+            "singleListedTrigramLines": 57
+          },
+          {
+            "file": "docs/digest-candidate/03-r4-definition.md",
+            "sha256": "383381c9675e80fb5b9875f7ed43a1917c000072478cc75f954d9763aaed063b",
+            "bytes": 4933,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 77,
+            "singleListedTrigramLines": 33
+          },
+          {
+            "file": "docs/digest-candidate/04-hollow-block-definition.md",
+            "sha256": "b9cc26d567cfa7680e011069ed3a41d769facc098f39cd89916917971b3ec62a",
+            "bytes": 5434,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 85,
+            "singleListedTrigramLines": 39
+          },
+          {
+            "file": "docs/digest-candidate/05-junction-census.md",
+            "sha256": "b46d7218722a8d1ff69a8c0e3a28f9df6039edc0ef534554fe6e5785948b4668",
+            "bytes": 5026,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 74,
+            "singleListedTrigramLines": 37
+          },
+          {
+            "file": "docs/digest-candidate/06-deep-interior-shares.md",
+            "sha256": "8064b73e6d9c3bd3d034013f8bf3560d1b191ea78b708f5ed8c768f6cbcf9f96",
+            "bytes": 5538,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 91,
+            "singleListedTrigramLines": 37
+          },
+          {
+            "file": "docs/digest-candidate/07-derived-graph-twin.md",
+            "sha256": "98481b1f29527fa3a414b0397273929dc485925a67e37836f449699629f5e26b",
+            "bytes": 8988,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 157,
+            "singleListedTrigramLines": 56
+          },
+          {
+            "file": "docs/digest-candidate/08-ng-declared-scale.md",
+            "sha256": "7031687c2cf5e599c9f44b772738adc3218cd82b1390a3144769975a3a6116ea",
+            "bytes": 5845,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 101,
+            "singleListedTrigramLines": 46
+          },
+          {
+            "file": "docs/digest-candidate/09-ftg-city-family.md",
+            "sha256": "8219a11cf68d7c3eedf473847fe5db9714da2a73b1d695fc8f40c4df8b074b4a",
+            "bytes": 6667,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 118,
+            "singleListedTrigramLines": 46
+          },
+          {
+            "file": "docs/digest-candidate/INDEX.md",
+            "sha256": "293ee71d734f8fe536ab2c9d467c13bfad0ee0a582b4b9024b428aed8351e5f3",
+            "bytes": 3340,
+            "hits": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "ID": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "PHR": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 41,
+            "singleListedTrigramLines": 22
+          }
+        ]
+      },
+      "m0": {
+        "path": "research/baselines/denylist/denylist.json",
+        "kind": "m0",
+        "sha256": "7b3d79936f32dccd0770bf37cf7381a747555a1a0a543b185749842f18c223c6",
+        "classes": [
+          "TOK",
+          "TRI",
+          "COL",
+          "SET",
+          "FILE"
+        ],
+        "totals": {
+          "TOK": 0,
+          "TRI": 0,
+          "COL": 0,
+          "SET": 0,
+          "FILE": 0
+        },
+        "unreviewedTotals": {
+          "TOK": 0,
+          "TRI": 0,
+          "COL": 0,
+          "SET": 0,
+          "FILE": 0
+        },
+        "files": [
+          {
+            "file": "docs/digest-candidate/01-ng-sigma-frame.md",
+            "sha256": "7583e7f5b9470311276e2a1e86ef8453b05c64e1b0abcdeded722ba6650dd4b1",
+            "bytes": 7886,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 179,
+            "singleListedTrigramLines": 65
+          },
+          {
+            "file": "docs/digest-candidate/02-depth-rows-refit.md",
+            "sha256": "8d97212fd68f1dd6cc2b8c06be0d5d69b2a0480a3ef3c6919aef22a4c5dd3859",
+            "bytes": 8390,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 150,
+            "singleListedTrigramLines": 57
+          },
+          {
+            "file": "docs/digest-candidate/03-r4-definition.md",
+            "sha256": "383381c9675e80fb5b9875f7ed43a1917c000072478cc75f954d9763aaed063b",
+            "bytes": 4933,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 77,
+            "singleListedTrigramLines": 33
+          },
+          {
+            "file": "docs/digest-candidate/04-hollow-block-definition.md",
+            "sha256": "b9cc26d567cfa7680e011069ed3a41d769facc098f39cd89916917971b3ec62a",
+            "bytes": 5434,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 85,
+            "singleListedTrigramLines": 39
+          },
+          {
+            "file": "docs/digest-candidate/05-junction-census.md",
+            "sha256": "b46d7218722a8d1ff69a8c0e3a28f9df6039edc0ef534554fe6e5785948b4668",
+            "bytes": 5026,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 74,
+            "singleListedTrigramLines": 37
+          },
+          {
+            "file": "docs/digest-candidate/06-deep-interior-shares.md",
+            "sha256": "8064b73e6d9c3bd3d034013f8bf3560d1b191ea78b708f5ed8c768f6cbcf9f96",
+            "bytes": 5538,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 91,
+            "singleListedTrigramLines": 37
+          },
+          {
+            "file": "docs/digest-candidate/07-derived-graph-twin.md",
+            "sha256": "98481b1f29527fa3a414b0397273929dc485925a67e37836f449699629f5e26b",
+            "bytes": 8988,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 157,
+            "singleListedTrigramLines": 56
+          },
+          {
+            "file": "docs/digest-candidate/08-ng-declared-scale.md",
+            "sha256": "7031687c2cf5e599c9f44b772738adc3218cd82b1390a3144769975a3a6116ea",
+            "bytes": 5845,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 101,
+            "singleListedTrigramLines": 46
+          },
+          {
+            "file": "docs/digest-candidate/09-ftg-city-family.md",
+            "sha256": "8219a11cf68d7c3eedf473847fe5db9714da2a73b1d695fc8f40c4df8b074b4a",
+            "bytes": 6667,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 118,
+            "singleListedTrigramLines": 46
+          },
+          {
+            "file": "docs/digest-candidate/INDEX.md",
+            "sha256": "293ee71d734f8fe536ab2c9d467c13bfad0ee0a582b4b9024b428aed8351e5f3",
+            "bytes": 3340,
+            "hits": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "unreviewed": {
+              "TOK": 0,
+              "TRI": 0,
+              "COL": 0,
+              "SET": 0,
+              "FILE": 0
+            },
+            "singleListedTrigrams": 41,
+            "singleListedTrigramLines": 22
+          }
+        ]
+      }
+    },
+    "singleTrigramNote": "singleListedTrigrams counts every listed 3-gram occurrence (the wrapper's stats counter, which increments before the run length is known, so occurrences inside a hit run would be counted too); with 0 TRI hits in every file here, every counted occurrence lies in a run shorter than the hit threshold of three (C3, section 17.1 (2) (iii)); recorded for context only",
+    "result": "0 hits and 0 unreviewed in every class, every file, both lists"
+  },
+  "controls": [
+    {
+      "name": "planted leak, scratch copy",
+      "what": "a scratch copy of 03-r4-definition.md with 21 non-blank lines (non-blank lines 21-41) of the first research/findings file in sorted order with at least 60 lines appended (inside the corpus), written outside plat/ and outside docs/, deleted after the run",
+      "caught": {
+        "research": {
+          "TOK": 10,
+          "ID": 11,
+          "TRI": 1
+        },
+        "m0": {
+          "TOK": 10,
+          "TRI": 1
+        }
+      },
+      "verdict": "caught by both lists",
+      "unreviewed": {
+        "research": {
+          "TOK": 10,
+          "ID": 11,
+          "TRI": 1
+        },
+        "m0": {
+          "TOK": 10,
+          "TRI": 1
+        }
+      },
+      "receipt": "maps-scratch/filler/w18-twin/control_planted.py (script) and control-planted.txt (its stdout, counts only; exit 0)",
+      "note": "the seat's first planted run (before revision r1) kept no script or output and recorded only its TRI count; this receipted re-run replaces it and matches the checker's independent run (research TRI 1 TOK 10 ID 11; m0 TRI 1 TOK 10)"
+    },
+    {
+      "name": "verbatim corpus file, scratch copy",
+      "what": "a byte copy of one research findings file",
+      "caught": {
+        "research": {
+          "TOK": 25,
+          "ID": 14,
+          "COL": 7,
+          "SET": 1,
+          "TRI": 1
+        },
+        "m0": {
+          "TOK": 25,
+          "COL": 7,
+          "SET": 1,
+          "TRI": 1
+        }
+      },
+      "verdict": "caught; no FILE hit, as expected if the file class holds image and body bytes (source S07) rather than prose files (PLAUSIBLE, not checked further); the copy was deleted after the run",
+      "receipt": "maps-scratch/filler/w18-twin/control.py (script); its stdout was not kept"
+    }
+  ],
+  "m0ScannerHalf": {
+    "status": "NOT RUN",
+    "reason": "needs M0-k-06 (M0's own scanner), not built at this date; the implementer-side run of M0's scanner over the ten files stays with W-18 proper after M0-k-06 lands"
+  },
+  "docChecks": {
+    "status": "NOT RUN",
+    "reason": "docs/validation/bench/doc_checks.py --doc gives the authoritative clean-room verdict only on the full local corpus, which this clone lacks (docs/HANDOFF.md, \"What GitHub does NOT carry\": captures/, reference/, the five research archives); its run belongs to a seat with that corpus present"
+  },
+  "notCovered": [
+    "the code-excerpt and reference word list / palette / table reviews of the W-18 row (a reading seat's check)",
+    "the Fable read",
+    "appending to E17 and plat/CLEAN-ROOM.md section 3 (W-18 proper, at the crossing)"
+  ],
+  "labels": {
+    "CONFIRMED": [
+      "twin scan, both lists: 0 hits over the ten files (executed, exits 0, counts above)",
+      "planted control caught by both lists (executed; receipt control_planted.py and control-planted.txt)"
+    ],
+    "PLAUSIBLE": [
+      "the reason the verbatim control shows no FILE hit"
+    ]
+  },
+  "scratch": "maps-scratch/filler/w18-twin/"
+}
