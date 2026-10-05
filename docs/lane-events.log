@@ -5683,3 +5683,4 @@
 2026-10-05 06:11 build/M0-a-05-fix-s1 CHECKPOINT README offsetFace case passes §3.7 (i) vs both oracles in the mirror (no cap: |Δ| 62.7e6 > 5.27e6, reproduced); gates: install 0, lint 0 (probe-red ok), build 0; next: kernel project, importers
 2026-10-05 06:21 build/M0-a-05-fix-s1 CHECKPOINT gates so far: kernel 1327/1327, model 177, tables 240, site 120, layout 131, bench 14 red all J176 Mac-reference; choices C-0202 and CLEAN-ROOM L-0168 appended; C-0200 refs (taken by another item) repointed to C-0202 (comment-only); testkit running; next: re-run lint/build/kernel after the comment edit, landed record
 2026-10-05 06:22 build/M0-a-14 CHECKPOINT gates: install, lint (probe-red ok), build exit 0; test --project kernel 1327/1327, model, tables, site, layout green; testkit and bench running
+2026-10-05 06:29 build/M0-c-01 CHECKPOINT testkit project still running (one long worker); next: its result, landed record
