@@ -23,10 +23,12 @@
 // re-lands that free end (insertChain's `reland`) onto the nearest existing vertex within √2 · attractCm whose segment
 // routes clear: (361, 234), 26.2 cm off.
 import { describe, expect, it } from 'vitest';
-import { createPlat, type Plat } from '../../../src/arena/index.js';
-import { attachIndex } from '../../../src/index/index.js';
+import { allocVertex, createPlat, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { attachIndex, indexAdd, ITEM_VERTEX } from '../../../src/index/index.js';
+import { exactCrossings, placeAcross } from '../../../src/insert/crossings.js';
+import { chainJournal, type ChainCtx } from '../../../src/insert/stretch.js';
 import type { Cm } from '../../../src/types/index.js';
-import { GROUND } from '../../arena/support.js';
+import { GROUND, pt } from '../../arena/support.js';
 import { allProblems, edgeRows, framed, ins, liveEdges, tx } from './support.js';
 
 /** §3.6 *Existing geometry wins*: an incoming chain vertex moves at most √2 · attractCm (the attracted bound of §3.7). */
@@ -95,6 +97,46 @@ describe('N-42 (a): a crossing on the near side of a sliver is placed across it'
     const c2 = cross(CHAINS[8][0], CHAINS[8][1], [31926, 35390], [30615, 35718]);
     expect(Math.hypot(c1[0] - c2[0], c1[1] - c2[1])).toBeLessThan(25);
     expect(Math.hypot(c1[0] - c2[0], c1[1] - c2[1])).toBeCloseTo(19.42, 2);
+  });
+
+  // placeAcross on its own (crossings.ts): the segment's remainder from the crossing it placed on (31879, 35456)–(31311,
+  // 35898), i.e. (31834, 35491) → (30953, 35363), stood up as two free vertices on the eighth chain's arena.
+  it('placeAcross: the near crossing qualifies only with the far side\'s sub-edge left out of (iii) — (31656, 35465), W_PLACED; with any other partner no point qualifies (the far edge stands 19.4 cm off)', () => {
+    const p = wideArena(64);
+    const t = tx(p, 0);
+    for (let i = 0; i < 8; i++) expect(ins(t, CHAINS[i], [{ role: 'invisible', entity: `s${i}` }]).ok).toBe(true);
+    const free = (x: number, y: number): VertexId => {
+      const v = allocVertex(p, pt(x, y), 0, 0);
+      indexAdd(p, { kind: ITEM_VERTEX, level: 0, slot: v });
+      return v;
+    };
+    const a = free(31834, 35491);
+    const b = free(30953, 35363);
+    const ctx: ChainCtx = { tx: t, p, n: 0, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [] };
+    const cs = exactCrossings(ctx, a, b);
+    expect(cs.ok).toBe(true);
+    if (!cs.ok) return;
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    const on = (u: readonly [number, number], w: readonly [number, number]) => cs.value.find((c) => {
+      const ends = [[X[c.piece.a], Y[c.piece.a]], [X[c.piece.b], Y[c.piece.b]]].map((q) => q.join(','));
+      return ends.includes(u.join(',')) && ends.includes(w.join(','));
+    });
+    const near = on([31868, 35406], [30183, 35876]);
+    const far = on([31926, 35390], [30615, 35718]);
+    expect(near).toBeDefined();
+    expect(far).toBeDefined();
+    if (near === undefined || far === undefined) return;
+    const across = placeAcross(ctx, a, b, near, far);
+    expect(across.ok).toBe(true);
+    if (!across.ok) return;
+    expect(across.value).not.toBeNull();
+    if (across.value === null || across.value.kind !== 'split') throw new Error('a split landing');
+    expect(across.value.plan.at).toEqual({ x: 31656, y: 35465 });
+    expect(across.value.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 31656, y: 35465 } }]);
+    // The near crossing as its own partner: the far edge is read in (iii), and every candidate stands within minEdge of it.
+    const alone = placeAcross(ctx, a, b, near, near);
+    expect(alone.ok && alone.value).toBe(null);
   });
 
   for (const cell of [64, 512]) {
