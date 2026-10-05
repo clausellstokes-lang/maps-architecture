@@ -4,8 +4,11 @@
 // folder's (C-0122).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
+import { handleOf, isHalfEdgeLive, roleIdOf, rowsOn } from '../../../src/arena/index.js';
 import { booleans, buildOverlay, windingLabels, type Ring } from '../../../src/arr/index.js';
-import { areaOf, perimeterOf, pt, R, rect, simpleRing, TIMEOUT, area2Exact } from './support.js';
+import { LATTICE } from '../../../src/num/index.js';
+import type { LatticePoint } from '../../../src/types/index.js';
+import { areaOf, insideRings, perimeterOf, pt, R, rect, simpleRing, TIMEOUT, area2Exact } from './support.js';
 
 function rings(r: ReturnType<typeof booleans>): Ring[] {
   if (!r.ok) throw new Error(`refused: ${r.code} ${r.detail}`);
@@ -176,5 +179,82 @@ describe('a property over random rectangles (inclusion–exclusion within the sp
       }),
       { numRuns: 500 },
     );
+  });
+});
+
+/** The winding number of a closed ring about (x, y) (doubles; the ring as drawn, crossings and all). */
+function windingAt(ring: readonly LatticePoint[], x: number, y: number): number {
+  let w = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const side = (b.x - a.x) * (y - a.y) - (x - a.x) * (b.y - a.y);
+    if (a.y <= y && b.y > y && side > 0) w += 1;
+    else if (a.y > y && b.y <= y && side < 0) w -= 1;
+  }
+  return w;
+}
+
+describe('a retraced spur on a segment row nets nothing (the spec note N-41 (3); C-0196 (1))', () => {
+  // M0-a-05's seven-chain repro (C-0205 (3)): the ring's seventh segment s6, A (−48140, 46382) → B (−48863, 44833),
+  // commits through the endpoint route as A–P–Q–P–R–B: out along P–Q, an edge s4 also carries, and back. The winding
+  // walk reads a segment's row as the one path from its first vertex to its last, so the spur nets 0 for s6 — a row
+  // that traverses an edge out and back is lawful (N-41 (3)), and the region is the one s6's plain path A–P–R–B bounds.
+  const RING = R([-48863, 44833], [-48080, 46354], [-48522, 45607], [-48031, 46325], [-48468, 45739], [-47267, 47616], [-48140, 46382]);
+  const P = pt(-48450, 45728);
+  const Q = pt(-48389, 45801);
+
+  it('s6 walks out along P–Q and back; that edge carries s4’s flow alone and the labels stay consistent', () => {
+    const ov = buildOverlay([[RING]]);
+    expect(ov.ok).toBe(true);
+    if (!ov.ok) return;
+    const p = ov.value.plat;
+    const O = p.halfEdges.origin;
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    const role = roleIdOf('invisible');
+    const rowsOfPair = (e: number): number[] =>
+      [...rowsOn(p, 'edge', 2 * e)].filter((r) => p.roles.kind[r] === role).map((r) => p.roles.entity[r]);
+    const at = (v: number, q: LatticePoint): boolean => X[v] === q.x && Y[v] === q.y;
+    let spur = -1;
+    const s6Degree = new Map<string, number>();
+    for (let e = 0; e < p.slots.pair.top; e += 1) {
+      if (!isHalfEdgeLive(p, 2 * e)) continue;
+      const rows = rowsOfPair(e);
+      if (!rows.includes(handleOf(p, 'arr:s6'))) continue;
+      for (const v of [O[2 * e], O[2 * e + 1]]) s6Degree.set(`${String(X[v])},${String(Y[v])}`, (s6Degree.get(`${String(X[v])},${String(Y[v])}`) ?? 0) + 1);
+      if ((at(O[2 * e], P) && at(O[2 * e + 1], Q)) || (at(O[2 * e], Q) && at(O[2 * e + 1], P))) {
+        spur = e;
+        expect(rows).toContain(handleOf(p, 'arr:s4'));
+      }
+    }
+    // the precondition (C-0205 (3)): s6's edges form a path with a spur — Q is a dead end of s6's row
+    expect(spur).toBeGreaterThanOrEqual(0);
+    expect(s6Degree.get(`${String(Q.x)},${String(Q.y)}`)).toBe(1);
+    expect(s6Degree.get(`${String(P.x)},${String(P.y)}`)).toBe(3);
+    // s4 runs P → Q once; s6's out-and-back adds nothing (counting both traversals would add ±2, or ±1 for one)
+    const sgn = at(O[2 * spur], P) ? 1 : -1;
+    expect(sgn * ov.value.net[spur]).toBe(1);
+    expect(windingLabels(ov.value).consistent).toBe(true);
+  });
+
+  it('the ring’s region under either fill rule: valid rings within §3.7’s attracted bound of the ring as drawn', () => {
+    for (const fill of ['nonzero', 'evenodd'] as const) {
+      const r = rings(booleans('union', [RING], [], fill));
+      expect(r.every(simpleRing)).toBe(true);
+      // |ours Δ the ring's region| on a 4 cm grid over the box (the ring's own winding numbers, not our engine's)
+      const step = 4;
+      let diff = 0;
+      for (let x = -48863 + step / 2; x < -47267; x += step) {
+        for (let y = 44833 + step / 2; y < 47616; y += step) {
+          const w = windingAt(RING, x, y);
+          const want = fill === 'nonzero' ? w !== 0 : (w & 1) !== 0;
+          if (want !== insideRings(r, x, y)) diff += step * step;
+        }
+      }
+      const bound = (perimeterOf([RING]) + perimeterOf(r)) * Math.SQRT2 * LATTICE.attractCm;
+      expect(diff).toBeGreaterThan(0); // the case is attracted: something moved
+      expect(diff).toBeLessThanOrEqual(bound);
+    }
   });
 });

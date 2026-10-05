@@ -43,3 +43,24 @@ None of these notes fails the item; the blockers are in `checks/M0-c-01.md` (B-1
     and 80 m) the outline kept 0 and 1 Chaikin passes, because the guard refused a deeper pass. The outline is then
     the simplified marching ring. This is correct by C-0201 (5), but worth a look when M0-e-06 runs relief, since the
     trace (M0-c-02) smooths again.
+
+## Closing check (lane `check/M0-c-01-close-r1`, 2026-10-05) — notes added; none fails the item
+
+13. **N-13 A bridgehead gate can stand in the river, up to half a spacing from the bank.** C-0204 (2) records the
+    open case. Where the stage-1 selection spans a river along a deck, a route's first exit is the edge between the
+    deck's last water node and the far bank. The gate is then that edge's midpoint, which is the contour's own crossing
+    (C-0017). In this check's sweep of 460 river layouts (probes R2 and R3: 6 seeds × 5 river positions × 2 directions ×
+    5 deck layouts, plus diagonal and CITY-frame rivers), 6 gates were bridgehead gates. For 3 of them the gate point
+    lies inside the water face. The depths measured were 10.11 m and 12.40 m into a 40 m band, with a 25 m spacing
+    (probe R4). The fixer's river test pins the case exactly (`heads` is 1 for seed 25 and 0 for seed 21). That
+    replaces the first check's requested assertion that no gate's inside node is water. This check accepts it as a
+    declared choice (J156) and not as a wrong result, because the gate is where the route first reaches T = t₁.
+    *Suggested handling:* M0-c-02, which commits the trace, or M0-e-06, which runs this slice on a river, decides
+    whether such a gate snaps to the bank or becomes C-0087's water gate. A test should then bound the gate's distance
+    from the bank, and the `heads` pin in `picks.test.ts` should be updated to match. *Milestone:* M0-e-06 (earlier
+    than M4).
+14. **N-14 The status of earlier notes after fix round 1.** N-9 is closed: the fixture `GATE_REDRAWS itself caps the
+    re-draws` kills the K25 shape. This check's mutants X06 (`tried <= GATE_REDRAWS`) and X07 (no cap, only the
+    list's length) are both killed. N-3 has new evidence and stays open: every one of the 460 river layouts gave
+    `rings` 1, so no probe has yet produced a second component. *Suggested handling:* none for N-9; N-3 as before.
+    *Milestone:* M4.
