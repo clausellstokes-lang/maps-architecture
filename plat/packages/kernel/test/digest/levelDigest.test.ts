@@ -4,7 +4,7 @@
 // derivation never changes a coarser level's digest (§3.3's canonical key); promotion then demotion restores the
 // coarser level's digest exactly; no digest depends on slots.
 import { describe, expect, it } from 'vitest';
-import type { Plat } from '../../src/arena/index.js';
+import { faceWalk, facesOfOwner, handleOf, isFaceLive, type Plat } from '../../src/arena/index.js';
 import {
   attachLevelDigests,
   changedEntities,
@@ -15,6 +15,7 @@ import {
   recomputeLevelDigest,
   updateLevelDigests,
 } from '../../src/digest/index.js';
+import { FACE_KIND_RESIDUE } from '../../src/faces/index.js';
 import type { Hash128 } from '../../src/hash/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { removeEdges, setOwner, tx, type TxEnv } from '../../src/tx/index.js';
@@ -197,6 +198,71 @@ describe('levels', () => {
   });
 });
 
+/** Two isolated L1 chains inside the south half (y < 2000) of the frame cut by an L1 street along y = 2000. */
+const HOLES = [
+  [pt(500, 1000), pt(1200, 1000)],
+  [pt(2600, 700), pt(3300, 1300)],
+] as const;
+
+/** The live face of level m with hole rings (exactly one expected). */
+function faceWithHoles(p: Plat, m: Level): number {
+  const found: number[] = [];
+  for (let f = 0; f < p.slots.face[m].top; f++) if (isFaceLive(p, m, f) && faceWalk(p, m, f).length > 1) found.push(f);
+  expect(found).toHaveLength(1);
+  return found[0];
+}
+
+/** The frame and an L1 street along y = `y`; both L1 faces owned by district:a. */
+function streetArena(y: number): Plat {
+  const p = framed();
+  attachLevelDigests(p);
+  const c = commit(p, 1, (o) => insertChain(o, [pt(0, y), pt(4000, y)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), {}, ENV);
+  commit(p, 1, (o) => setOwner(o, c.record?.faces[0].created ?? [], 'district:a'), { stage: S6, rederivesFrom: S6 }, ENV);
+  return p;
+}
+
+const DISTRICT = { owner: 'district:a', level: 1 as Level };
+const WAY = { role: 'way', entity: 'way:1' };
+
+describe('what enters an item (§6.2: vertices, roles, face owners and kinds; C-0194 (1))', () => {
+  it('a chain\'s level-ℓ geometry enters its chain item: the same way moved 1 m gives another ChainRef and level digest', () => {
+    const a = streetArena(2000);
+    const b = streetArena(2100);
+    const ra = freshLevelDigests(a);
+    const rb = freshLevelDigests(b);
+    expect(hex(rb.ref(WAY))).not.toBe(hex(ra.ref(WAY)));
+    expect(hex(rb.ref({ ...WAY, ordinal: 0 }))).not.toBe(hex(ra.ref({ ...WAY, ordinal: 0 })));
+    expect(hex(rb.level(1))).not.toBe(hex(ra.level(1)));
+    // Maintained as recomputed on both.
+    expect(hex(levelDigests(a).ref(WAY))).toBe(hex(ra.ref(WAY)));
+    expect(hex(levelDigests(b).ref(WAY))).toBe(hex(rb.ref(WAY)));
+  });
+
+  it('a face\'s kind enters its face item: two arenas equal but for one face\'s kind differ at its level and in its FaceRef', () => {
+    const a = streetArena(2000);
+    const b = streetArena(2000);
+    expect(fresh(b)).toEqual(fresh(a));
+    const f = facesOfOwner(b, 1, handleOf(b, 'district:a'))[0];
+    expect(b.faces[1].kind[f]).not.toBe(FACE_KIND_RESIDUE);
+    // The kind written in place (absorbSliver's residue retype, without its geometry); read from nothing on both.
+    b.faces[1].kind[f] = FACE_KIND_RESIDUE;
+    expect(hex(recomputeLevelDigest(b, 1))).not.toBe(hex(recomputeLevelDigest(a, 1)));
+    expect(hex(recomputeLevelDigest(b, 0))).toBe(hex(recomputeLevelDigest(a, 0)));
+    expect(hex(freshLevelDigests(b).ref(DISTRICT))).not.toBe(hex(freshLevelDigests(a).ref(DISTRICT)));
+  });
+
+  it('a face\'s holes enter its face item: a face that gains a hole changes its owner\'s FaceRef digest', () => {
+    const a = streetArena(2000);
+    const b = streetArena(2000);
+    commit(b, 1, (o) => insertChain(o, HOLES[0], [{ role: 'way', entity: 'hole:0' }], 'mandatory'), {}, ENV);
+    const f = faceWithHoles(b, 1);
+    expect(b.faces[1].owner[f]).toBe(handleOf(b, 'district:a'));
+    expect(hex(freshLevelDigests(b).ref(DISTRICT))).not.toBe(hex(freshLevelDigests(a).ref(DISTRICT)));
+    expect(hex(levelDigests(b).ref(DISTRICT))).toBe(hex(freshLevelDigests(b).ref(DISTRICT)));
+    expect(all(b)).toEqual(fresh(b));
+  });
+});
+
 describe('no digest depends on slot numbers', () => {
   it('equal content reached through other slots gives equal digests at every level', () => {
     const build = (shuffle: boolean): Plat => {
@@ -221,6 +287,30 @@ describe('no digest depends on slot numbers', () => {
     expect(b.slots.vertex.top).not.toBe(a.slots.vertex.top);
     expect(all(b)).toEqual(all(a));
     expect(fresh(b)).toEqual(fresh(a));
+  });
+
+  it('equal content whose face reaches two holes in either slot order gives equal digests (holes sorted, C-0194 (1))', () => {
+    // The frame, an L1 street along y = 2000 and two isolated L1 chains in the south half (holes of one face), inserted
+    // in either order.
+    const build = (order: readonly number[]): Plat => {
+      const p = framed();
+      attachLevelDigests(p);
+      commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), {}, ENV);
+      for (const i of order) commit(p, 1, (o) => insertChain(o, HOLES[i], [{ role: 'way', entity: `hole:${i}` }], 'mandatory'), {}, ENV);
+      return p;
+    };
+    const a = build([0, 1]);
+    const b = build([1, 0]);
+    // The face's hole rings come out of the walk in other orders: only the digest's sort makes them equal.
+    const holeStarts = (p: Plat): number[] => {
+      const f = faceWithHoles(p, 1);
+      return faceWalk(p, 1, f).slice(1).map((ring) => Math.min(...ring.map((h) => p.vertices.x[p.halfEdges.origin[h]])));
+    };
+    expect(holeStarts(a)).toHaveLength(2);
+    expect(holeStarts(b)).toEqual(holeStarts(a).slice().reverse());
+    expect(all(b)).toEqual(all(a));
+    expect(fresh(b)).toEqual(fresh(a));
+    expect(all(a)).toEqual(fresh(a));
   });
 
   it('the arena\'s layer and part enter the digest', () => {

@@ -2,7 +2,7 @@
 // after every batch of every fuzz run (the CI oracle, §5.3's CI-only row; the spike runs' half is M0-d-09's, N-16);
 // layers, parent nodes, the identity and plats nodes; finalisation on read; the three fallbacks as switches, off by
 // default and root-neutral when on; the oracle catches a stale leaf.
-import { levelDigestBuilds, type Hash128, type Plat } from '@plat/kernel';
+import { levelDigest, levelDigestBuilds, recomputeLevelDigest, updateLevelDigests, type CommitRecord, type DirtySet, type Hash128, type Plat } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { DIGEST_LAYERS, ModelDigest, type DigestEntry } from '../../src/digest/index.js';
 import { faceWalk, insertChain, isFaceLive, setOwner, tx, type StageId } from '@plat/kernel';
@@ -60,6 +60,26 @@ describe('the full recomputation equals the maintained root after every batch (t
       expect(roots.length).toBeGreaterThan(0);
     }, 120_000);
   }
+
+  it('the oracle reads the geometry from nothing: a stale kernel state carrying the arena\'s version is caught', () => {
+    for (const switches of [{}, { subtreeOracle: true }]) {
+      const { md, p } = setup(switches);
+      md.put(wayEntry('way:9'));
+      // One batch whose kernel half skips its re-hash (the dirty faces, owners and keys dropped) but still advances the
+      // state's version, so no rebuild repairs it: the maintained level digests and resolved references are stale.
+      const stale = (plat: Plat, dirty: DirtySet, record: CommitRecord): void => {
+        updateLevelDigests(plat, { ...dirty, faces: [], owners: [], roles: [] }, record);
+        md.onDirty(dirty);
+      };
+      commit(p, 1, (o) => insertChain(o, [pt(0, 1000), pt(4000, 1300)], [{ role: 'way', entity: 'way:9' }], 'mandatory'), { onCommit: stale });
+      expect(levelDigestBuilds(p)).toBe(1);
+      expect(hex(levelDigest(p, 1))).not.toBe(hex(recomputeLevelDigest(p, 1)));
+      const o = md.oracle(7);
+      expect(o.ok).toBe(false);
+      if (o.mode === 'root') expect(o.mismatches).toEqual(['root']);
+      else expect(o.mismatches).toContain('plats');
+    }
+  });
 
   it('the oracle catches a stale leaf: a record changed in place without its write', () => {
     const { md } = setup();
@@ -153,6 +173,38 @@ describe('the tree', () => {
     // An L2 chain from the south ends on the street 60 cm east of the plot line: an L2 Steiner vertex on the plot's ring.
     commit(p, 2, (o) => insertChain(o, [pt(2060, 1000), pt(2060, 1990)], [{ role: 'corridor_split', entity: 'way:n' }], 'mandatory'), env);
     expect(hex(md.leaf('plot:1'))).not.toBe(leaf);
+    expect(md.oracle().ok).toBe(true);
+  });
+
+  it('a record\'s leaf takes its chains\' geometry: the same way 1 m further north gives another leaf', () => {
+    const leafAt = (y: number): string => {
+      const md = new ModelDigest();
+      const p = framed(4000);
+      md.addArena(p);
+      md.put(wayEntry('way:1'));
+      commit(p, 1, (o) => insertChain(o, [pt(0, y), pt(4000, y)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), { onCommit: md.listener });
+      expect(md.oracle().ok).toBe(true);
+      return hex(md.leaf('way:1'));
+    };
+    expect(leafAt(2100)).not.toBe(leafAt(2000));
+  });
+
+  it('a record\'s leaf takes its faces\' holes: a district face that gains an isolated inner chain moves the district\'s leaf', () => {
+    const md = new ModelDigest();
+    const p = framed(4000);
+    md.addArena(p);
+    md.put(districtEntry('district:1'));
+    const env = { onCommit: md.listener };
+    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), env);
+    const owned: number[] = [];
+    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) owned.push(f);
+    commit(p, 1, (o) => setOwner(o, owned, 'district:1'), env, { stage: 6 as StageId, rederivesFrom: 6 as StageId });
+    const before = hex(md.leaf('district:1'));
+    commit(p, 1, (o) => insertChain(o, [pt(500, 1000), pt(1200, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'), env);
+    let holed = 0;
+    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f) && faceWalk(p, 1, f).length > 1) holed++;
+    expect(holed).toBe(1);
+    expect(hex(md.leaf('district:1'))).not.toBe(before);
     expect(md.oracle().ok).toBe(true);
   });
 
