@@ -1,6 +1,6 @@
 // §3.10's rows, one declaration each, at their scopes (§5.3: "every invariant declares a scope"). The table is the
 // suite's index: `checkBatch`, `checkStageEnd`, `checkSave`, `checkCI` and `checkFreeze` evaluate exactly the rows
-// declared here for their scope, and a test maps every §3.10 row to its name. M0-a-14. Readings: C-0217.
+// declared here for their scope, and a test maps every §3.10 row to its name. M0-a-14. Readings: C-0200.
 import type { Invariant } from '../types/index.js';
 import type { RowDecl } from './types.js';
 
@@ -9,7 +9,7 @@ function row(name: string, scope: Invariant['scope'], cls: 'hard' | 'soft', when
   return Object.freeze(deferredTo === undefined ? r : { ...r, deferredTo });
 }
 
-/** §3.10's rows in the design's order (the corner row is two declarations: its soft and its hard class, C-0217 (9)). */
+/** §3.10's rows in the design's order (the corner row is two declarations: its soft and its hard class, C-0200 (9)). */
 export const KERNEL_ROWS: readonly RowDecl[] = Object.freeze([
   row('lattice-range', 'batch', 'hard', 'at snap (by construction); re-read on the batch\'s vertices', 'every coordinate is a lattice point inside the range invariant'),
   row('min-edge', 'batch', 'hard', 'batch-local', 'no edge shorter than minEdge, whichever writer made or moved it'),

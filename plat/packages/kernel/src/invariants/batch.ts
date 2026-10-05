@@ -2,7 +2,7 @@
 // created, changed or removed"), read off the commit record (§3.3: "the commit record is the input of the batch-local
 // invariants") — its touched faces, its moved, promoted and demoted vertices, its demoted edges and their one-ring —
 // so a batch costs O(touched), never O(model) (SCL-1). Every row is evaluated whether it holds or not, each with its
-// subject count and its cost meter (§13.2's cost-model test reads the meters). M0-a-14. Readings: C-0217.
+// subject count and its cost meter (§13.2's cost-model test reads the meters). M0-a-14. Readings: C-0200.
 import {
   faceWalk,
   handleOf,
@@ -258,7 +258,7 @@ function rotationClockwise(p: Plat, v: VertexId): boolean {
 }
 
 /**
- * Faces simple except declared antennae; no two edges cross (C-0217 (4)). Each touched edge against the edges the index
+ * Faces simple except declared antennae; no two edges cross (C-0200 (4)). Each touched edge against the edges the index
  * finds in its box: two edges meet only at a shared endpoint, never overlap and never join one pair of vertices twice.
  * Each touched vertex's rotation is clockwise by angle, so no face ring crosses itself where it passes a vertex twice
  * (a pinch is a touching, never a crossing). Each touched face's outer ring winds counter-clockwise with positive area
@@ -589,7 +589,7 @@ function ownChild(p: Plat, level: Level, f: FaceId): boolean {
  * open — the transaction's `invariants` hook — its coarser writes; a coarser face write of an own child the re-walk
  * materialised is a new record of that level, allowed as the transaction allows it, C-0185 (12)) and the changed items
  * the record names — its created faces, its moved, promoted and demoted vertices — each in its level's grid; or the
- * context's journal (C-0217 (6)).
+ * context's journal (C-0200 (6)).
  */
 function indexFreshness(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantResult {
   const row = rowNamed('index-freshness');
@@ -678,7 +678,7 @@ export function acuteCorners(p: Plat, ring: readonly VertexId[], cdeg: number): 
     const cross = ux * vy - uy * vx;
     const dot = ux * vx + uy * vy;
     // The interior angle π − turn is below φ when the left turn exceeds π − φ (cross > 0), or the ring reverses there —
-    // but not at an antenna's tip, where the ring turns back along the one edge it came by (no corner, C-0217 (9)).
+    // but not at an antenna's tip, where the ring turns back along the one edge it came by (no corner, C-0200 (9)).
     if (a === d) continue;
     if ((cross > 0 && cross * c + dot * s < 0) || (cross === 0 && dot < 0)) out.push(b);
   }
@@ -763,7 +763,7 @@ export function batchCost(results: readonly InvariantResult[]): { faces: number;
   return { faces, vertices, edges };
 }
 
-/** The role keys on a set of edges and vertices (for a record synthesised from faces, C-0217 (8)). */
+/** The role keys on a set of edges and vertices (for a record synthesised from faces, C-0200 (8)). */
 export function roleKeysOn(p: Plat, pairs: readonly number[], vertices: readonly VertexId[]): RoleKey[] {
   const keys = new Map<string, RoleKey>();
   const add = (x: number): void => {

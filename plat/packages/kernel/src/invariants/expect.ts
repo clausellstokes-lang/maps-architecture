@@ -3,7 +3,7 @@
 // E_BELOW_MIN_WIDTH / _AREA / _ANGLE, the transaction's own measure), the named predicates the transaction calls for each
 // entry (`TxEnv.checks`), and the whole batch-local suite on every commit (`TxEnv.invariants`) — hard rows abort the
 // batch, soft rows and every row's cost meter go to the report, never into `expect` (§3.3: "a soft row goes to the
-// report, never into `expect`"). M0-a-14. Readings: C-0217.
+// report, never into `expect`"). M0-a-14. Readings: C-0200.
 import type { FaceId, Plat } from '../arena/index.js';
 import { touchedFaces, type CommitRecord, type ExpectView, type TxEnv } from '../tx/index.js';
 import type { Invariant } from '../types/index.js';

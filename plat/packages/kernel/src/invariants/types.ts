@@ -1,6 +1,6 @@
 // The invariant suite's types (§3.10, §5.3): a row as the suite declares it, one row's verdict on one evaluation, the
 // cost meter of §13.2's cost-model test, and the context a batch's caller can hand the batch-local rows that read more
-// than the commit record. M0-a-14. Readings: C-0217.
+// than the commit record. M0-a-14. Readings: C-0200.
 import type { FaceId, VertexId } from '../arena/index.js';
 import type { ChangedItem } from '../index/index.js';
 import type { ChainProfile, ChainRef, GeomRef, Id, Invariant, Level, Order, RoleName } from '../types/index.js';
@@ -55,7 +55,7 @@ export interface StoredProfile {
 }
 
 /**
- * What the batch-local rows read beyond the commit record and the arena (C-0217 (3)). Every field is optional: a row
+ * What the batch-local rows read beyond the commit record and the arena (C-0200 (3)). Every field is optional: a row
  * whose input is absent reads only the record (its default) or, where it reads nothing else, holds vacuously with a
  * note saying which input it lacked — never silently.
  */
@@ -74,7 +74,7 @@ export interface BatchContext {
   readonly opKinds?: readonly string[];
   /** Role consistency's declared part counts (default: the transaction's `LINEAR_PARTS`). */
   readonly chainParts?: (role: RoleName, entity: Id) => number | null;
-  /** The batch's changed index items (the transaction's journal); default: what the record names (C-0217 (6)). */
+  /** The batch's changed index items (the transaction's journal); default: what the record names (C-0200 (6)). */
   readonly indexChanged?: readonly ChangedItem[];
 }
 

@@ -81,7 +81,10 @@ const CHAINS_391: readonly (readonly (readonly [number, number])[])[] = [
 ];
 
 describe('N-37: a stretch whose join point\'s route split the piece before its leave point is walked along the run', () => {
-  it('M0-a-08\'s buffer case 391: every chain commits (or collapses, E_DEGENERATE empty), the arena valid; the last one shares a stretch (W_STRETCH_SHARED)', () => {
+  // The walk shares the run's pieces from join to leave as they stand. Routing join → leave as any segment instead (the
+  // walk's own fallback) gives the same geometry here but re-attracts the vertex the join point's route split in — one
+  // W_ATTRACTED and one W_STRETCH_SHARED more (5 and 5, measured with the walk removed), which pins the walk.
+  it('M0-a-08\'s buffer case 391: every chain commits (or collapses, E_DEGENERATE empty), the arena valid; the last one shares a stretch by the run walk (W_STRETCH_SHARED 4, W_ATTRACTED 4)', () => {
     const p = wideArena();
     const t = tx(p, 0);
     expect(ins(t, FRAME_391, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
@@ -90,7 +93,11 @@ describe('N-37: a stretch whose join point\'s route split the piece before its l
       if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
       if (i === CHAINS_391.length - 1) {
         expect(r.ok).toBe(true);
-        if (r.ok) expect(r.warnings.map((w) => w.code)).toContain('W_STRETCH_SHARED');
+        if (r.ok) {
+          const count = (code: string): number => r.warnings.find((w) => w.code === code)?.count ?? 0;
+          expect(count('W_STRETCH_SHARED')).toBe(4);
+          expect(count('W_ATTRACTED')).toBe(4);
+        }
       }
     });
     expect(allProblems(p)).toEqual([]);

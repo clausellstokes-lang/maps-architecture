@@ -80,4 +80,3 @@ export function facesAt(p: Plat, level: Level): FaceId[] {
   return out;
 }
 
-export { state as arenaState };

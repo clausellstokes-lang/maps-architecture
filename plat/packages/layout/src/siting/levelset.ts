@@ -5,7 +5,7 @@
 // §3.4, every node beside the contour an obstacle so none changes side) and Chaikin-smoothed between the pins (the
 // gates, which stay its vertices). A Chaikin pass that would move a node across the outline or make it touch itself is
 // not applied (C-XXXX (5)). Only interior nodes are land, so the contour always closes inside the frame.
-import { chaikin, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
+import { BinaryHeap, chaikin, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
 import { area2Of, insideRing, latticeAt, ringIsSimple, type XY } from './geom.js';
 import type { Field, LevelSet } from './types.js';
 
@@ -18,14 +18,18 @@ export interface LevelSetOptions {
 }
 
 /**
- * The selection of `field` at `t`: interior nodes with T ≤ t, then every unselected node not connected (through
- * unselected nodes) to the lattice's rim filled in. Returns the selection and the filled count.
+ * The selection of `field` at `t`: the land nodes (interior, not in water) with T ≤ t; then the water the selection
+ * reaches across from its banks — a water node whose least bank T plus the distance across the water to it is ≤ t, the
+ * water never carrying cost back to land (C-XXXX (8)), so the stage's boundary crosses a river where its reach ends;
+ * then every unselected node not connected (through unselected nodes) to the lattice's rim filled in. Returns the
+ * selection and the filled count.
  */
 export function selectNodes(field: Field, t: number): { selected: Uint8Array; filled: number } {
   const { lattice, T } = field;
   const n = T.length;
   const selected = new Uint8Array(n);
-  for (let i = 0; i < n; i += 1) if (lattice.interior[i] === 1 && T[i] <= t) selected[i] = 1;
+  for (let i = 0; i < n; i += 1) if (lattice.interior[i] === 1 && lattice.water[i] === 0 && T[i] <= t) selected[i] = 1;
+  spreadOverWater(field, t, selected);
   // The outside: unselected nodes reached from the rim through unselected nodes.
   const outside = new Uint8Array(n);
   const stack: number[] = [];
@@ -52,6 +56,43 @@ export function selectNodes(field: Field, t: number): { selected: Uint8Array; fi
     }
   }
   return { selected, filled };
+}
+
+/** The water the selection reaches from its banks (C-XXXX (8)): a Dijkstra over the water nodes alone. */
+function spreadOverWater(field: Field, t: number, selected: Uint8Array): void {
+  const { lattice, T } = field;
+  const { points, adjacency, water, interior } = lattice;
+  const n = T.length;
+  const reach = new Float64Array(n).fill(Infinity);
+  const heap = new BinaryHeap();
+  const len = (i: number, j: number): number => Math.sqrt((points[j].x - points[i].x) * (points[j].x - points[i].x) + (points[j].y - points[i].y) * (points[j].y - points[i].y));
+  for (let i = 0; i < n; i += 1) {
+    if (selected[i] !== 1) continue;
+    for (let d = 0; d < 6; d += 1) {
+      const w = adjacency[6 * i + d];
+      if (w === -1 || water[w] !== 1 || interior[w] !== 1) continue;
+      const r = T[i] + len(i, w);
+      if (r < reach[w]) {
+        reach[w] = r;
+        heap.push(w, r);
+      }
+    }
+  }
+  while (heap.size > 0) {
+    const u = heap.pop();
+    const ru = reach[u];
+    if (ru > t || selected[u] === 1) continue;
+    selected[u] = 1;
+    for (let d = 0; d < 6; d += 1) {
+      const w = adjacency[6 * u + d];
+      if (w === -1 || water[w] !== 1 || interior[w] !== 1 || selected[w] === 1) continue;
+      const r = ru + len(u, w);
+      if (r < reach[w]) {
+        reach[w] = r;
+        heap.push(w, r);
+      }
+    }
+  }
 }
 
 /**
@@ -144,6 +185,23 @@ function keepsSides(ring: readonly XY[], points: readonly LatticePoint[], g: { i
   return true;
 }
 
+/**
+ * The Chaikin smoothing of a simplified ring between its pins (C-XXXX (5)): `OUTLINE_CHAIKIN_PASSES` passes, or fewer
+ * when a deeper one would carry a guard node across the ring or make it touch itself; 0 passes keeps the ring.
+ */
+export function smoothOutline(
+  ring: readonly LatticePoint[],
+  pins: readonly number[],
+  points: readonly LatticePoint[],
+  g: { inside: Set<number>; outside: Set<number> },
+): { outline: LatticePoint[]; passes: number } {
+  for (let k = OUTLINE_CHAIKIN_PASSES; k >= 1; k -= 1) {
+    const smooth = chaikinPinned(ring, pins, k);
+    if (keepsSides(smooth, points, g)) return { outline: smooth, passes: k };
+  }
+  return { outline: [...ring], passes: 0 };
+}
+
 /** Chaikin over a closed ring with pinned vertices: each open run between pins smoothed with both ends kept. */
 function chaikinPinned(ring: readonly LatticePoint[], pinned: readonly number[], passes: number): LatticePoint[] {
   const n = ring.length;
@@ -193,7 +251,7 @@ export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): L
   const { lattice } = field;
   const { selected, filled } = selectNodes(field, t);
   let count = 0;
-  for (let i = 0; i < selected.length; i += 1) count += selected[i];
+  for (let i = 0; i < selected.length; i += 1) if (lattice.water[i] === 0) count += selected[i];
   const land = count * lattice.cellAreaCm2;
   const rings = marchingRings(field, selected);
   if (rings.length === 0) {
@@ -226,16 +284,8 @@ export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): L
     simplified = s.length > 1 && s[0].x === s[s.length - 1].x && s[0].y === s[s.length - 1].y ? s.slice(0, -1) : s;
     if (!keepsSides(simplified, lattice.points, g)) simplified = contour;
   }
-  const simplePins = pinIndices(simplified, opts.pins ?? []);
-  let outline = simplified;
-  let passes = 0;
-  for (let k = OUTLINE_CHAIKIN_PASSES; k >= 1; k -= 1) {
-    const smooth = chaikinPinned(simplified, simplePins, k);
-    if (keepsSides(smooth, lattice.points, g)) {
-      outline = smooth;
-      passes = k;
-      break;
-    }
-  }
+  const smooth = smoothOutline(simplified, pinIndices(simplified, opts.pins ?? []), lattice.points, g);
+  const outline = smooth.outline;
+  const passes = smooth.passes;
   return { field, t, selected, filled, landCm2: land, contour, contourEdges: best.edges, rings: rings.length, outline, smoothPasses: passes };
 }

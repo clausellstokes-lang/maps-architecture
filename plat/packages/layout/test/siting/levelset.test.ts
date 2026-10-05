@@ -3,8 +3,9 @@
 // encloses exactly the selected nodes, and its land equals the stage's share within one cell.
 import { describe, expect, it } from 'vitest';
 import { area2Of } from '../../src/siting/geom.js';
+import { OUTLINE_CHAIKIN_PASSES, smoothOutline } from '../../src/siting/levelset.js';
 import { fieldT, insideRing, levelSet, marchingRings, ringIsSimple, s3Slice, selectNodes, stageThreshold, type LevelSet } from '../../src/index.js';
-import { SEEDS, sliceOf, smallSite } from './support.js';
+import { P, SEEDS, sliceOf, smallSite } from './support.js';
 
 /** Every node's side of `ring` against the selection: the count of nodes on the wrong side. */
 function wrongSide(set: LevelSet, ring: readonly { x: number; y: number }[]): number {
@@ -113,12 +114,101 @@ describe('the stage-1 level set (C-0017)', () => {
     for (let i = 0; i < s.lattice.points.length; i += 1) if (s.lattice.rim[i] === 1) expect(set.selected[i]).toBe(0);
   });
 
+  it('spans a river: the water the selection reaches from its banks is selected, never counted as land, and the boundary crosses the river (C-XXXX (8))', () => {
+    const band = [P(10_000, -100_000), P(14_000, -100_000), P(14_000, 100_000), P(10_000, 100_000)];
+    const water = { faces: [band], decks: [{ id: 'bridge:0', a: P(10_000, 0), b: P(14_000, 0) }] };
+    const s = s3Slice(smallSite(21, { water }), { requestedN: 3 });
+    const L = s.lattice;
+    const set = s.levelSet;
+    let wet = 0;
+    let wetSelected = 0;
+    for (let i = 0; i < L.points.length; i += 1) {
+      expect(L.water[i]).toBe(insideRing(band, L.points[i], true) ? 1 : 0);
+      wet += L.water[i];
+      if (L.water[i] === 1 && set.selected[i] === 1) wetSelected += 1;
+    }
+    expect(wet).toBeGreaterThan(100);
+    expect(wetSelected).toBeGreaterThan(5);
+    expect(wetSelected).toBeLessThan(wet);
+    // Land excludes the water: within one cell of stage 1's share.
+    let land = 0;
+    for (let i = 0; i < L.points.length; i += 1) if (set.selected[i] === 1 && L.water[i] === 0) land += 1;
+    expect(set.landCm2).toBe(land * L.cellAreaCm2);
+    expect(Math.abs(set.landCm2 - s.site.land.stagesHa[0] * 1e8)).toBeLessThanOrEqual(L.cellAreaCm2 / 2);
+    // One closed, simple ring around land and the water between, crossing the river twice (its runs over the water).
+    expect(set.rings).toBe(1);
+    expect(ringIsSimple(set.contour)).toBe(true);
+    expect(wrongSide(set, set.contour)).toBe(0);
+    // Read the ring by bank, skipping its vertices over the water: it passes from one bank to the other twice.
+    const banks = set.contour.filter((p) => p.x < 10_000 || p.x > 14_000).map((p) => (p.x < 10_000 ? 'W' : 'E'));
+    let runs = 0;
+    banks.forEach((b, k) => {
+      if (b !== banks[(k + banks.length - 1) % banks.length]) runs += 1;
+    });
+    expect(set.contour.some((p) => insideRing(band, p))).toBe(true);
+    expect(runs).toBe(2);
+    // The water reached is reached from the banks within t₁: for each selected water node some selected bank node's T
+    // plus the straight distance to it (a lower bound of the way across the water) is ≤ t₁.
+    const banksNodes: number[] = [];
+    for (let i = 0; i < L.points.length; i += 1) {
+      if (L.water[i] === 1 || set.selected[i] !== 1) continue;
+      for (let d = 0; d < 6; d += 1) {
+        const j = L.adjacency[6 * i + d];
+        if (j !== -1 && L.water[j] === 1) {
+          banksNodes.push(i);
+          break;
+        }
+      }
+    }
+    expect(banksNodes.length).toBeGreaterThan(0);
+    for (let i = 0; i < L.points.length; i += 1) {
+      if (L.water[i] !== 1 || set.selected[i] !== 1) continue;
+      const p = L.points[i];
+      const reach = Math.min(...banksNodes.map((j) => s.field.T[j] + Math.hypot(L.points[j].x - p.x, L.points[j].y - p.y)));
+      expect(reach).toBeLessThanOrEqual(s.threshold.t + 1e-6);
+    }
+    // Every route crosses the river only along the deck (C-0076).
+    for (const r of s.routes) {
+      for (let k = 1; k < r.nodes.length; k += 1) {
+        const a = L.points[r.nodes[k - 1]];
+        const b = L.points[r.nodes[k]];
+        if (L.water[r.nodes[k - 1]] === 1 || L.water[r.nodes[k]] === 1) {
+          expect(Math.abs(a.y)).toBeLessThanOrEqual(L.spacingCm);
+          expect(Math.abs(b.y)).toBeLessThanOrEqual(L.spacingCm);
+        }
+      }
+    }
+  });
+
   it('a larger t takes a superset of nodes (the stages nest)', () => {
     const s = sliceOf(7);
     const a = levelSet(s.field, s.threshold.t);
     const b = levelSet(s.field, stageThreshold(s.field, 220e8).t);
     for (let i = 0; i < a.selected.length; i += 1) if (a.selected[i] === 1) expect(b.selected[i]).toBe(1);
     expect(b.landCm2).toBeGreaterThan(a.landCm2);
+  });
+
+  it('the outline keeps every node on its side: a Chaikin pass that would cut a node off is not applied (C-XXXX (5))', () => {
+    const square = [P(0, 0), P(10_000, 0), P(10_000, 10_000), P(0, 10_000)];
+    const points = [P(5_000, 5_000), P(300, 300), P(20_000, 20_000)];
+    // Only the centre and a far node guarded: both passes stand.
+    const free = smoothOutline(square, [], points, { inside: new Set([0]), outside: new Set([2]) });
+    expect(free.passes).toBe(OUTLINE_CHAIKIN_PASSES);
+    expect(free.outline.length).toBe(16);
+    // A node in the corner a pass would cut: no pass is applied, the ring stands.
+    const cut = smoothOutline(square, [], points, { inside: new Set([0, 1]), outside: new Set([2]) });
+    expect(cut.passes).toBe(0);
+    expect(cut.outline).toEqual(square);
+    // Pinning that corner keeps it, and the node with it: both passes stand again, the pin a vertex.
+    const pinned = smoothOutline(square, [0], points, { inside: new Set([0, 1]), outside: new Set([2]) });
+    expect(pinned.passes).toBe(OUTLINE_CHAIKIN_PASSES);
+    expect(pinned.outline[0]).toEqual(P(0, 0));
+    expect(insideRing(pinned.outline, points[1])).toBe(true);
+    // An outside node a pass would swallow (beside a reflex corner) also stops it.
+    const ell = [P(0, 0), P(10_000, 0), P(10_000, 5_000), P(5_000, 5_000), P(5_000, 10_000), P(0, 10_000)];
+    const near = [P(2_000, 2_000), P(5_300, 5_300)];
+    expect(smoothOutline(ell, [], near, { inside: new Set([0]), outside: new Set([1]) }).passes).toBe(0);
+    expect(smoothOutline(ell, [], near, { inside: new Set([0]), outside: new Set() }).passes).toBe(OUTLINE_CHAIKIN_PASSES);
   });
 
   it('an empty selection gives no contour', () => {

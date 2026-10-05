@@ -2,9 +2,9 @@
 // "by construction; debug-build assertion"): every slot a caller holds comes from a result stamped with its arena's key
 // and version, and a debug build asserts, wherever the slot is passed, that the key is the arena the call acts on and
 // the version is current. The build flag (C-0146 (6) hands it here) is the free identifier `PLAT_DEBUG_BUILD`: a
-// production bundle defines it `false` (esbuild's `define`), which turns the mode off and lets the bundler drop the
-// assertions; every source run (vitest, the plat-source condition) and every bundle that does not define it is a debug
-// build. M0-a-14. Readings: C-0217 (10).
+// production bundle defines it `false` (esbuild's `define`), which turns the mode off so no slot assertion runs;
+// every source run (vitest, the plat-source condition) and every bundle that does not define it is a debug
+// build. M0-a-14. Readings: C-0200 (10).
 import { assertStamp, debugAssertions, isFaceLive, isHalfEdgeLive, isLevel, isVertexLive, setDebugAssertions, type Plat, type Stamp } from '../arena/index.js';
 import type { Level } from '../types/index.js';
 

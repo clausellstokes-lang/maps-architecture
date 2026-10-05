@@ -81,6 +81,9 @@ export interface Lattice {
   interior: Uint8Array;
   /** 1 where the node lies on the lattice's edge (fewer than six neighbours): the frame's nodes the gate routes end at. */
   rim: Uint8Array;
+  /** 1 where the node lies inside a planned water face: never the town's land, reached by the level set only across
+   * the water from its banks (C-XXXX (8)). */
+  water: Uint8Array;
   /** Per node, the terrain's slope there (rise over run, the TerrainSampler's): the pick score's terrain term. */
   slope: Float64Array;
   /** The nominal cell area of a node (s²·√3 ÷ 2, cm²): what the level set accumulates. */

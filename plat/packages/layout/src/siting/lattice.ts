@@ -204,6 +204,15 @@ export function buildLattice(site: Site, costs: Costs, stream?: Stream): Lattice
     return out;
   };
 
+  const water = new Uint8Array(n);
+  for (let w = 0; w < costs.water.faces.length; w += 1) {
+    const box = boxes.water[w];
+    for (let i = 0; i < n; i += 1) {
+      const p = points[i];
+      if (p.x < box[0] || p.x > box[2] || p.y < box[1] || p.y > box[3]) continue;
+      if (insideRing(costs.water.faces[w], p, true)) water[i] = 1;
+    }
+  }
   const reservedNodes: number[] = [];
   for (let i = 0; i < n; i += 1) {
     for (const r of costs.reservations) {
@@ -221,6 +230,7 @@ export function buildLattice(site: Site, costs: Costs, stream?: Stream): Lattice
     adjacency,
     interior,
     rim,
+    water,
     slope,
     cellAreaCm2: spacingCm * spacingCm * HALF_SQRT3,
     graph,

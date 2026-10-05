@@ -3,7 +3,7 @@
 // batch-local over the commit record, stage-end and save over the arena, the CI-only Euler characteristic — the rows
 // whose subjects M0 lacks declared with their predicates and holding vacuously with a count of 0; the `Invariant` kinds
 // wired into `KernelTx.expect`; the cost meter per batch; the debug-build assertion mode behind a build flag. The
-// scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-14. Readings: C-0217.
+// scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-14. Readings: C-0200.
 export {
   type BatchContext,
   type Checked,

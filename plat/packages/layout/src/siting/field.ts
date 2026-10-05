@@ -5,7 +5,8 @@
 // soft term (§4.5's contract), so at weight 0 the field is byte-identical to the field without it. The road set is a
 // set of edges, so the field is a function of the lattice and the routes alone, never of the routes' order. The
 // threshold t sorts the land nodes by T (ties by index) and accumulates their cell areas to the stage's land, exact to
-// one cell; capped at the largest T the nucleus reaches inside the frame (the shortfall reported). Choices: C-XXXX.
+// one cell; capped at the largest T the nucleus reaches inside the frame (the shortfall reported). A node inside water
+// is never land (a deck's nodes included). Choices: C-XXXX.
 import { dijkstraTree } from '@plat/kernel';
 import { quot, type XY } from './geom.js';
 import type { Field, GateRoute, Lattice, Threshold } from './types.js';
@@ -94,7 +95,7 @@ export function stageThreshold(field: Field, areaCm2: number): Threshold {
   const { lattice, T } = field;
   const cell = lattice.cellAreaCm2;
   const nodes: number[] = [];
-  for (let i = 0; i < T.length; i += 1) if (lattice.interior[i] === 1 && T[i] < Infinity) nodes.push(i);
+  for (let i = 0; i < T.length; i += 1) if (lattice.interior[i] === 1 && lattice.water[i] === 0 && T[i] < Infinity) nodes.push(i);
   nodes.sort((a, b) => T[a] - T[b] || a - b);
   const want = Math.max(1, Math.round(quot(areaCm2, cell, 'area', 'threshold')));
   if (nodes.length === 0) return { t: 0, landCm2: 0, askedCm2: areaCm2, capped: true, shortfallCm2: areaCm2 };

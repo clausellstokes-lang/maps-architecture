@@ -2,7 +2,7 @@
 // so the predicate stands built and the row holds vacuously in M0's runs), the pool scope (at the merge, M1), the seed
 // tiling of a transient arena (M6-P), and the CI-only Euler characteristic per level — with `checkCI` also sweeping
 // every batch-local row over the whole arena and the index against the arena (the B-FUZZ property check, §13.1).
-// M0-a-14. Readings: C-0217.
+// M0-a-14. Readings: C-0200.
 import {
   FREE_KIND,
   handleOf,
