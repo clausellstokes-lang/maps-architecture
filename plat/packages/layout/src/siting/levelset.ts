@@ -192,8 +192,9 @@ function pinIndices(ring: readonly LatticePoint[], pins: readonly LatticePoint[]
 export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): LevelSet {
   const { lattice } = field;
   const { selected, filled } = selectNodes(field, t);
-  let land = 0;
-  for (let i = 0; i < selected.length; i += 1) if (selected[i] === 1) land += lattice.cellAreaCm2;
+  let count = 0;
+  for (let i = 0; i < selected.length; i += 1) count += selected[i];
+  const land = count * lattice.cellAreaCm2;
   const rings = marchingRings(field, selected);
   if (rings.length === 0) {
     return { field, t, selected, filled, landCm2: land, contour: [], contourEdges: [], rings: 0, outline: [], smoothPasses: 0 };

@@ -65,7 +65,10 @@ export function kernelChecks(ctx: BatchContext = {}): Record<string, (view: Expe
     if (r.class !== 'hard' || r.scope !== 'batch') continue;
     out[r.name] = (view: ExpectView): string | null => {
       const res = checkBatch(viewRecord(view), view.plat, ctx).find((x) => x.name === r.name) as InvariantResult;
-      return res.holds ? null : `${res.problems[0]}${res.problems.length > 1 ? ` (and ${res.problems.length - 1} more)` : ''}`;
+      if (res.holds) return null;
+      // The transaction prefixes the entry's name (§3.3's E_INVARIANT detail), so the row's own prefix is dropped here.
+      const first = res.problems[0].slice(r.name.length + 2);
+      return `${first}${res.problems.length > 1 ? ` (and ${res.problems.length - 1} more)` : ''}`;
     };
   }
   return out;

@@ -8,13 +8,14 @@ import {
   addRole,
   isFaceLive,
   outgoing,
+  rowsOn,
   type FaceId,
   type HalfEdgeId,
   type Plat,
   type VertexId,
 } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { indexOf, itemKey, ITEM_FACE, rebuildForFreeze } from '../../src/index/index.js';
+import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildForFreeze } from '../../src/index/index.js';
 import {
   checkBatch,
   checkCI,
@@ -25,17 +26,19 @@ import {
   KERNEL_ROWS,
   poolScopeProblems,
   seedTilingProblems,
+  touchedSet,
+  wholeRecord,
   type BatchContext,
   type FaceBefore,
   type InvariantResult,
 } from '../../src/invariants/index.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { setOwner, type CommitRecord, type Overlay } from '../../src/tx/index.js';
+import { clearFiner, setOwner, type CommitRecord, type Overlay } from '../../src/tx/index.js';
 import type { Level, StageId } from '../../src/types/index.js';
 import { warp } from '../../src/warp/index.js';
 import { box, drag } from '../warp/support.js';
 import { vertexAtPoint } from '../tx/support.js';
-import { commit, framed, must, pt, rowOf } from './support.js';
+import { commit, framed, must, pt, rowOf, suiteTx } from './support.js';
 
 const done = (): KernelResult<null> => ({ ok: true, value: null, warnings: [] });
 
@@ -101,19 +104,43 @@ describe('every §3.10 row is declared, and this file has a fixture for each', (
   });
 });
 
+describe('the batch-local subjects: the record\'s faces, its vertex lists and their one-ring', () => {
+  it('a record naming only moved, promoted, demoted or unflagged vertices touches them and their incident edges', () => {
+    const { p, r } = base();
+    const w = v(p, 2000, 3000 - 1000);
+    const bare: CommitRecord = { ...r, faces: [], moved: [], promoted: [], demoted: { vertices: [], edges: [] }, unflagged: [] };
+    expect(touchedSet(p, bare).vertices).toEqual([]);
+    for (const k of ['moved', 'promoted', 'unflagged'] as const) {
+      const t = touchedSet(p, { ...bare, [k]: [w] });
+      expect(t.vertices).toEqual([w]);
+      expect(t.pairs.length).toBe(outgoing(p, w).length);
+    }
+    expect(touchedSet(p, { ...bare, demoted: { vertices: [w], edges: [] } }).vertices).toEqual([w]);
+    const h = outgoing(p, w)[0];
+    expect(touchedSet(p, { ...bare, demoted: { vertices: [], edges: [h] } }).pairs).toEqual([h >> 1]);
+  });
+  it('a record\'s created and changed faces bring their rings\' vertices; removed ones do not', () => {
+    const { p, r } = base();
+    const t = touchedSet(p, r);
+    expect(t.faces.length).toBe(r.faces.reduce((n, d) => n + d.created.length + d.changed.length, 0));
+    expect(t.vertices).toContain(v(p, 0, 1000));
+    expect(t.vertices).toContain(v(p, 2000, 1000));
+  });
+});
+
 describe('lattice-range', () => {
   it('holds on a committed batch; a coordinate at the range fails', () => {
     const { p, r } = base();
     expect(holds(checkBatch(r, p), 'lattice-range').subjects).toBeGreaterThan(0);
-    p.vertices.x[v(p, 1000, 1000)] = p.lattice.rangeCm;
+    p.vertices.x[v(p, 2000, 1000)] = p.lattice.rangeCm;
     fails(checkBatch(r, p), 'lattice-range');
   });
   it('the bound is strict: rangeCm − 1 holds, −rangeCm fails', () => {
     const { p, r } = base();
-    const w = v(p, 1000, 1000);
+    const w = v(p, 2000, 1000);
     p.vertices.x[w] = p.lattice.rangeCm - 1;
-    holds(checkBatch(r, p), 'lattice-range');
-    p.vertices.x[w] = 1000;
+    expect(rowOf(checkBatch(r, p), 'lattice-range').problems).toEqual([]);
+    p.vertices.x[w] = 2000;
     p.vertices.y[w] = -p.lattice.rangeCm;
     fails(checkBatch(r, p), 'lattice-range');
   });
@@ -183,6 +210,37 @@ describe('simple-faces', () => {
     const res = fails(checkBatch(r, p), 'simple-faces');
     expect(res.problems.some((x) => x.includes('angular order') || x.includes('counter-clockwise') || x.includes('cross') || x.includes('overlap'))).toBe(true);
   });
+  it('a rotation swapped at a crossing (no coordinate moved) fails on the angular order', () => {
+    const { p } = base();
+    holds(checkCI(p), 'simple-faces');
+    const c = v(p, 2000, 2000);
+    const out = outgoing(p, c);
+    const order = [out[0], out[2], out[1], out[3]];
+    for (let i = 0; i < 4; i++) {
+      p.halfEdges.next[order[i] ^ 1] = order[(i + 1) % 4];
+      p.halfEdges.prev[order[(i + 1) % 4]] = order[i] ^ 1;
+    }
+    const res = fails(checkBatch(wholeRecord(p), p), 'simple-faces');
+    expect(res.problems.some((x) => x.includes('angular order'))).toBe(true);
+  });
+  it('a face record whose outer ring is walked clockwise (its outer half-edge on the far side) fails on the winding', () => {
+    const { p } = base();
+    let f0 = -1;
+    for (let f = 0; f < p.slots.face[0].top; f++) if (isFaceLive(p, 0, f)) f0 = f;
+    p.faces[0].outer[f0] ^= 1; // the frame's outside: walked clockwise
+    const res = fails(checkBatch(wholeRecord(p), p), 'simple-faces');
+    expect(res.problems.some((x) => x.includes('does not wind counter-clockwise'))).toBe(true);
+    expect(res.problems.some((x) => x.includes('angular order') || x.includes('cross'))).toBe(false);
+  });
+  it('a face record whose outer ring has no area (a floating antenna\'s cycle) fails on the winding', () => {
+    const p = blocks();
+    const r = commit(p, 2, (o) => insertChain(o, [pt(500, 500), pt(1500, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory')).record as CommitRecord;
+    holds(checkBatch(r, p), 'simple-faces');
+    const f = r.faces.find((d) => d.level === 2)?.created[0] ?? r.faces.find((d) => d.level === 2)?.changed[0] as FaceId;
+    p.faces[2].outer[f] = he(p, v(p, 500, 500), v(p, 1500, 1500));
+    const res = fails(checkBatch(r, p), 'simple-faces');
+    expect(res.problems.some((x) => x.includes('twice its area 0'))).toBe(true);
+  });
   it('a face whose outer ring winds clockwise fails', () => {
     const { p, r } = base();
     // Mirror the lower-left block's whole content in x = 1000: every ring's winding reverses, nothing crosses.
@@ -235,19 +293,43 @@ describe('placement-bound', () => {
     p.vertices.x[end] = 2003;
     fails(checkBatch(r, p, ctx), 'placement-bound');
   });
-  it('0.71 cm is the bound: 1 cm off fails, on the route holds; a vertex on no coarser edge is no subject', () => {
+  it('0.71 cm is the bound: 1 cm off fails; a vertex on no coarser edge is no subject', () => {
     const { p, r } = base();
     const end = v(p, 2000, 1000);
     p.vertices.x[end] = 2001;
     fails(checkBatch(r, p, { placed: [end] }), 'placement-bound');
     p.vertices.x[end] = 2000;
-    const mid = v(p, 0, 1000);
-    expect(rowOf(checkBatch(r, p, { placed: [v(p, 1000, 3000 - 2000 + 1000 - 1000)].filter(() => false) }), 'placement-bound').subjects).toBe(0);
-    expect(p.vertices.level[mid]).toBe(2);
+    // The kerb's interior has no vertex; the frame-side end (0, 1000) lies on the L0 frame: a subject too.
+    const west = v(p, 0, 1000);
+    expect(rowOf(checkBatch(r, p, { placed: [west] }), 'placement-bound').subjects).toBe(1);
+    const corner = v(p, 2000, 2000);
+    expect(rowOf(checkBatch(r, p, { placed: [corner] }), 'placement-bound').subjects).toBe(0);
+  });
+  it('half a lattice diagonal off a 45° route (d² = 0.5 cm²) holds; a whole diagonal off fails', () => {
+    const p = blocks();
+    commit(p, 1, (o) => insertChain(o, [pt(2100, 2000), pt(4000, 3900)], [{ role: 'way', entity: 'way:d' }], 'mandatory'));
+    const r = commit(p, 2, (o) => insertChain(o, [pt(3000, 4000), pt(3000, 2900)], [{ role: 'kerb', entity: 'kerb:d' }], 'mandatory')).record as CommitRecord;
+    const end = v(p, 3000, 2900);
+    expect(p.vertices.level[end]).toBe(2);
+    holds(checkBatch(r, p, { placed: [end] }), 'placement-bound');
+    p.vertices.y[end] = 2901; // |3000 − 2901 − 100| / √2 = 0.7071 cm
+    holds(checkBatch(r, p, { placed: [end] }), 'placement-bound');
+    p.vertices.y[end] = 2902; // 1.41 cm
+    fails(checkBatch(r, p, { placed: [end] }), 'placement-bound');
+  });
+  it('a finer vertex on a run through a moved vertex is a subject though it did not move itself', () => {
+    const { p, r } = base();
+    const crossing = v(p, 2000, 2000);
+    const end = v(p, 2000, 1000); // the kerb's end, on the way's run (2000, 0)–(2000, 2000)
+    const rec: CommitRecord = { ...r, moved: [crossing] };
+    const ok = holds(checkBatch(rec, p), 'placement-bound');
+    expect(ok.subjects).toBe(1); // the kerb's end: the crossing itself is on no coarser edge
+    p.vertices.x[end] = 2003;
+    fails(checkBatch(rec, p), 'placement-bound');
   });
   it('a warp\'s moved vertices are subjects without a context', () => {
     const { p } = base();
-    const res = commit(p, 2, (o) => warp(o, drag(40, 0), 2, box(-10, 900, 900, 1100)), { rederivesFrom: 0 as StageId });
+    const res = commit(p, 2, (o) => warp(o, drag(0, 40), 2, box(-10, 900, 900, 1100)), { rederivesFrom: 0 as StageId });
     const r = res.record as CommitRecord;
     expect(r.moved.length).toBeGreaterThan(0);
     expect(holds(checkBatch(r, p), 'placement-bound').subjects).toBeGreaterThan(0);
@@ -259,12 +341,20 @@ describe('level-consistency', () => {
     const { p, r } = base();
     expect(holds(checkBatch(r, p), 'level-consistency').subjects).toBeGreaterThan(0);
     const h = he(p, v(p, 0, 1000), v(p, 2000, 1000));
-    p.halfEdges.level[h >> 1] = 3;
+    for (const x of rowsOn(p, 'edge', h)) p.roles.level[x] = 3; // its rows now all L3, the edge still L2
     fails(checkBatch(r, p), 'level-consistency');
+  });
+  it('a finer vertex whose two coarser edges carry different rows lies inside no single run: fails', () => {
+    const { p, r } = base();
+    const end = v(p, 2000, 1000);
+    const up = outgoing(p, end).find((h) => p.vertices.y[p.halfEdges.origin[h ^ 1]] > 1000) as HalfEdgeId;
+    addRole(p, up, { role: 'way', entity: 'way:x' }, 1);
+    const res = fails(checkBatch(r, p), 'level-consistency');
+    expect(res.problems.some((x) => x.includes('no single run'))).toBe(true);
   });
   it('a vertex coarser than everything at it fails', () => {
     const { p, r } = base();
-    p.vertices.level[v(p, 0, 1000)] = 1;
+    p.vertices.level[v(p, 2000, 1000)] = 0; // coarser than the L1 way and the L2 kerb at it, and no row
     fails(checkBatch(r, p), 'level-consistency');
   });
 });
@@ -275,7 +365,7 @@ describe('held-vertices', () => {
     const quiet = rowOf(checkBatch(kerb, p), 'held-vertices');
     expect(quiet.subjects).toBe(0);
     expect(quiet.holds).toBe(true);
-    const res = commit(p, 2, (o) => warp(o, drag(40, 0), 2, box(-10, 900, 900, 1100)), { rederivesFrom: 0 as StageId });
+    const res = commit(p, 2, (o) => warp(o, drag(0, 40), 2, box(-10, 900, 900, 1100)), { rederivesFrom: 0 as StageId });
     const r = res.record as CommitRecord;
     const moved = r.moved[0];
     const other = v(p, 2000, 1000);
@@ -316,29 +406,51 @@ function beforeImage(p: Plat, level: Level): (l: Level, f: FaceId) => FaceBefore
 }
 
 describe('kept-content', () => {
-  it('finer faces of an earlier stage re-owned: holds when nothing is kept, fails when they are', () => {
+  it('an L2 batch clearing L3 faces of an earlier stage: holds when nothing is kept, fails when they are; no image: vacuous', () => {
     const { p } = base();
-    // L3 content inside the lower-left block's lower L2 face, made by stage 8.
+    const l2: FaceId[] = [];
+    for (let f = 0; f < p.slots.face[2].top; f++) if (isFaceLive(p, 2, f)) l2.push(f);
+    commit(p, 2, (o: Overlay) => setOwner(o, l2, 'block:1'));
+    // L3 content (stage rank 8) inside the lower-left block's lower L2 face [0, 2000] × [0, 1000].
     commit(p, 3, (o) => insertChain(o, [pt(0, 500), pt(2000, 500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory'));
     const before = beforeImage(p, 2);
-    const l2 = (() => {
-      for (let f = 0; f < p.slots.face[2].top; f++) if (isFaceLive(p, 2, f)) return f;
-      return -1;
-    })();
-    // An L2 batch re-owning that L2 face's L3 faces (a re-derivation of rank 0: nothing kept, so the writers allow it).
-    const r = commit(p, 3, (o: Overlay) => {
-      for (let f = 0; f < p.slots.face[3].top; f++) if (isFaceLive(p, 3, f)) must(setOwner(o, 3, f, 'district:9'));
-      return done();
-    }, { rederivesFrom: 0 as StageId }).record as CommitRecord;
-    expect(l2).toBeGreaterThanOrEqual(0);
-    const changed = r.faces.filter((d) => d.level > 2).reduce((s, d) => s + d.changed.length, 0);
-    expect(changed).toBeGreaterThan(0);
-    const asL2: CommitRecord = { ...r, level: 2 };
-    expect(holds(checkBatch(asL2, p, { kept: { keptBelow: 0, before } }), 'kept-content').subjects).toBeGreaterThan(0);
-    fails(checkBatch(asL2, p, { kept: { keptBelow: 200, before } }), 'kept-content');
-    const none = rowOf(checkBatch(asL2, p), 'kept-content');
+    // An L2 re-derivation from rank 0 (nothing kept, so the writer clears it) of the block's finer content.
+    const r = commit(p, 2, (o: Overlay) => clearFiner(o, { owner: 'block:1', level: 2 }, 2), { rederivesFrom: 0 as StageId }).record as CommitRecord;
+    const finer = r.faces.filter((d) => d.level > 2).reduce((s0, d) => s0 + d.changed.length + d.removed.length, 0);
+    expect(finer).toBeGreaterThan(0);
+    expect(holds(checkBatch(r, p, { kept: { keptBelow: 0, before } }), 'kept-content').subjects).toBe(finer);
+    expect(holds(checkBatch(r, p, { kept: { keptBelow: 8, before } }), 'kept-content').subjects).toBe(finer);
+    const res = fails(checkBatch(r, p, { kept: { keptBelow: 9, before } }), 'kept-content');
+    expect(res.problems.some((x) => x.includes('cleared'))).toBe(true);
+    const none = rowOf(checkBatch(r, p), 'kept-content');
     expect([none.holds, none.subjects]).toEqual([true, 0]);
     expect(none.note).toContain('before-image');
+  });
+  it('a kept face re-owned fails', () => {
+    const { p } = base();
+    commit(p, 3, (o) => insertChain(o, [pt(0, 500), pt(2000, 500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory'));
+    const before = beforeImage(p, 2);
+    const l3: FaceId[] = [];
+    for (let f = 0; f < p.slots.face[3].top; f++) if (isFaceLive(p, 3, f)) l3.push(f);
+    const r = commit(p, 3, (o: Overlay) => setOwner(o, l3, 'district:9'), { rederivesFrom: 0 as StageId }).record as CommitRecord;
+    // Read as a coarser batch's record (its L3 faces finer than the batch): the re-own of kept content.
+    const coarser: CommitRecord = { ...r, level: 2 };
+    holds(checkBatch(coarser, p, { kept: { keptBelow: 0, before } }), 'kept-content');
+    const res = fails(checkBatch(coarser, p, { kept: { keptBelow: 200, before } }), 'kept-content');
+    expect(res.problems.some((x) => x.includes('re-owned'))).toBe(true);
+  });
+});
+
+describe('kept-content: a split', () => {
+  it('a kept face split (its area changed) fails', () => {
+    const { p } = base();
+    commit(p, 3, (o) => insertChain(o, [pt(0, 500), pt(2000, 500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory'));
+    const before = beforeImage(p, 2);
+    const r = commit(p, 3, (o) => insertChain(o, [pt(1000, 0), pt(1000, 500)], [{ role: 'plot_line', entity: 'plots:2' }], 'mandatory'), { rederivesFrom: 0 as StageId }).record as CommitRecord;
+    const coarser: CommitRecord = { ...r, level: 2 };
+    holds(checkBatch(coarser, p, { kept: { keptBelow: 0, before } }), 'kept-content');
+    const res = fails(checkBatch(coarser, p, { kept: { keptBelow: 200, before } }), 'kept-content');
+    expect(res.problems.some((x) => x.includes('split'))).toBe(true);
   });
 });
 
@@ -389,6 +501,31 @@ describe('references-resolve (stage end, save)', () => {
   });
 });
 
+describe('references-resolve: stored profiles\' knots', () => {
+  /** A way along y = 3000 with width knots at three of its points, ordinals in the order given. */
+  function profiled(ordinals: readonly number[]): Plat {
+    const p = blocks();
+    const xs = [200, 1000, 1800];
+    commit(p, 1, (o) => insertChain(o, xs.map((x) => pt(x, 3000)), [{ role: 'way', entity: 'way:k' }], 'mandatory', {
+      knots: xs.map((_, i) => ({ index: i, role: 'width_knot', entity: 'way:k', ordinal: ordinals[i] })),
+    }));
+    return p;
+  }
+  const profile = (n: number) => ({ chain: { role: 'way', entity: 'way:k' }, knotRole: 'width_knot', profile: { knotRole: 'width_knot', values: Array.from({ length: n }, (_, i) => 500 + i), interp: 'linear' as const } });
+  it('knots on the chain in ordinal order (either way along it) hold; out of order, missing or off the chain fail', () => {
+    holds(checkStageEnd(profiled([0, 1, 2]), { profiles: [profile(3)] }), 'references-resolve');
+    holds(checkStageEnd(profiled([2, 1, 0]), { profiles: [profile(3)] }), 'references-resolve');
+    const order = fails(checkStageEnd(profiled([0, 2, 1]), { profiles: [profile(3)] }), 'references-resolve');
+    expect(order.problems.some((x) => x.includes('not in ordinal order'))).toBe(true);
+    const missing = fails(checkStageEnd(profiled([0, 1, 2]), { profiles: [profile(4)] }), 'references-resolve');
+    expect(missing.problems.some((x) => x.includes('knot 3') && x.includes('finds 0 vertices'))).toBe(true);
+    const p = profiled([0, 1, 2]);
+    addRole(p, v(p, 2000, 1000 + 1000), { role: 'width_knot', entity: 'way:k', ordinal: 3 }, 1);
+    const off = fails(checkStageEnd(p, { profiles: [profile(4)] }), 'references-resolve');
+    expect(off.problems.some((x) => x.includes('lies off its chain'))).toBe(true);
+  });
+});
+
 describe('frozen-base (subject M1: the pool freeze)', () => {
   it('vacuous at stage end; its predicate holds after the freeze\'s rebuild and fails with a grid item left', () => {
     const { p } = base();
@@ -407,6 +544,26 @@ describe('index-freshness', () => {
     const f = r.faces.find((d) => d.level === 2)?.created[0] as FaceId;
     indexOf(p).levels[2].dynamic.entries.delete(itemKey(ITEM_FACE, f));
     fails(checkBatch(r, p), 'index-freshness');
+  });
+  it('an L2 batch writing the L1 index (no promotion or demotion) fails inside the batch', () => {
+    const p = blocks();
+    let l1 = -1;
+    for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) l1 = f;
+    const { res, report } = suiteTx(p, 2, (o: Overlay) => {
+      const x = insertChain(o, [pt(500, 500), pt(1500, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory');
+      indexChange(o.plat, { kind: ITEM_FACE, level: 1, slot: l1 });
+      return x;
+    });
+    expect(res.ok).toBe(false);
+    const line = report.batches[0].results;
+    const r = fails(line, 'index-freshness');
+    expect(r.problems.some((x) => x.includes('wrote the L1 index'))).toBe(true);
+  });
+  it('an L3 batch in a block with no L2 record (the re-walk materialises its own child) holds', () => {
+    const p = blocks();
+    const { res, report } = suiteTx(p, 3, (o: Overlay) => insertChain(o, [pt(500, 500), pt(1500, 1500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory'));
+    expect(res.ok).toBe(true);
+    holds(report.batches[0].results, 'index-freshness');
   });
   it('the CI sweep folds in the index state: a stale grid entry fails there', () => {
     const { p } = base();

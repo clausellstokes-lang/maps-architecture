@@ -3,8 +3,8 @@
 // the plaza's attach points; the gate count is the law's.
 import { astar } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { bearingCdeg, flatFixture, gatesOnBoundary, gateRoutes, plazaTree, s3Slice, type S3Slice } from '../../src/index.js';
-import { SEEDS, sliceOf, vertexIndex } from './support.js';
+import { angularGap, bearingCdeg, flatFixture, gatesOnBoundary, gateRoutes, plazaTree, s3Slice, type S3Slice } from '../../src/index.js';
+import { SEEDS, sliceOf, smallSite, vertexIndex } from './support.js';
 
 function check(s: S3Slice): void {
   const set = s.levelSet;
@@ -29,8 +29,10 @@ function check(s: S3Slice): void {
     expect(set.selected[v]).toBe(0);
     expect(s.field.T[u]).toBeLessThanOrEqual(s.threshold.t);
     expect(s.field.T[v]).toBeGreaterThan(s.threshold.t);
-    expect(g.at.x).toBe(Math.round((pts[u].x + pts[v].x) / 2));
-    expect(g.at.y).toBe(Math.round((pts[u].y + pts[v].y) / 2));
+    // The edge's midpoint snapped (§3.2 (7): a half away from zero).
+    const half = (v2: number): number => Math.sign(v2) * Math.round(Math.abs(v2));
+    expect(g.at.x).toBe(half((pts[u].x + pts[v].x) / 2));
+    expect(g.at.y).toBe(half((pts[u].y + pts[v].y) / 2));
     // Two routes never share a gate.
     const key = `${String(g.at.x)},${String(g.at.y)}`;
     expect(seen.has(key)).toBe(false);
@@ -63,6 +65,41 @@ describe('gates on the boundary (§4.2 S3 (7))', () => {
       expect(leaving).toBe(s.n);
     });
   }
+
+  it('takes the first exit when a route leaves, re-enters and leaves again', () => {
+    const s = sliceOf(1);
+    const g = s.gates[0];
+    const r = s.routes[0];
+    const [u, v] = g.edge;
+    // Another unselected neighbour of the gate's inside node: a second, later exit.
+    let w = -1;
+    for (let d = 0; d < 6; d += 1) {
+      const x = s.lattice.adjacency[6 * u + d];
+      if (x !== -1 && x !== v && s.levelSet.selected[x] === 0) w = x;
+    }
+    expect(w).not.toBe(-1);
+    const nodes = [...r.nodes.slice(0, g.routeIndex + 2), u, w, ...r.nodes.slice(g.routeIndex + 2)];
+    const [again] = gatesOnBoundary([{ ...r, nodes }], s.threshold.t, s.levelSet);
+    expect(again?.edge).toEqual([u, v]);
+    expect(again?.at).toEqual(g.at);
+    // Starting with the second exit first gives that exit instead.
+    const swapped = [...r.nodes.slice(0, g.routeIndex + 1), w, u, v];
+    expect(gatesOnBoundary([{ ...r, nodes: swapped }], s.threshold.t, s.levelSet)[0]?.edge).toEqual([u, w]);
+  });
+
+  it('a requested bearing routes the pick to the frame at that bearing (§4.2 S3 (4), (5))', () => {
+    const site = smallSite(13);
+    const s = s3Slice(site, { requestedN: 2, requestedBearingsCdeg: [4_500, 22_500] });
+    expect(s.routes.map((r) => r.bearingCdeg)).toEqual([4_500, 22_500]);
+    for (const r of s.routes) {
+      const end = s.lattice.points[r.nodes[r.nodes.length - 1]];
+      expect(s.lattice.rim[r.nodes[r.nodes.length - 1]]).toBe(1);
+      // The rim node lies on the bearing's ray from the pick, within a spacing or two of it.
+      const p = s.lattice.points[r.nodes[r.pickAt]];
+      expect(angularGap(bearingCdeg(end.x - p.x, end.y - p.y), r.bearingCdeg)).toBeLessThan(300);
+    }
+    expect(s.gateSites.map((g) => g.bearingCdeg)).toEqual([4_500, 22_500]);
+  });
 
   it('gatesOnBoundary refuses a level set at another t, and gives null for a route that never leaves', () => {
     const s = sliceOf(1);

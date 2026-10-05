@@ -657,7 +657,7 @@ function seedTiling(): InvariantResult {
   return vacuous(rowNamed('seed-tiling'), 'not a transient arena (transient arenas are M6-P\'s, §4b)');
 }
 
-/** Does a route ring (the face on its left) have a corner below `cdeg` centidegrees? Returns the corner vertices. */
+/** The corners of a route ring (the face on its left) below `cdeg` centidegrees, an antenna's tip excepted. */
 export function acuteCorners(p: Plat, ring: readonly VertexId[], cdeg: number): VertexId[] {
   const n = ring.length;
   const out: VertexId[] = [];
@@ -677,7 +677,9 @@ export function acuteCorners(p: Plat, ring: readonly VertexId[], cdeg: number): 
     const vy = Y[d] - Y[b];
     const cross = ux * vy - uy * vx;
     const dot = ux * vx + uy * vy;
-    // The interior angle π − turn is below φ when the left turn exceeds π − φ (cross > 0), or the ring reverses there.
+    // The interior angle π − turn is below φ when the left turn exceeds π − φ (cross > 0), or the ring reverses there —
+    // but not at an antenna's tip, where the ring turns back along the one edge it came by (no corner, C-0217 (9)).
+    if (a === d) continue;
     if ((cross > 0 && cross * c + dot * s < 0) || (cross === 0 && dot < 0)) out.push(b);
   }
   return out;

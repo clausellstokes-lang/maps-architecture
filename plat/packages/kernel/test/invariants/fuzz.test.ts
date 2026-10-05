@@ -4,6 +4,7 @@
 // CI sweep (the Euler characteristic per level on every arena, every batch-local row over the whole arena, the stored
 // references, the index state), and §13.2's cost model holds: the faces the suite reads per batch stay within a constant
 // × the batch's touched faces, and the same local batch reads the same counts in arenas 16 to 256 blocks large.
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat, type VertexId } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
@@ -16,12 +17,16 @@ import { box, brush, type BrushKind } from '../warp/support.js';
 import { allProblems, commit, framed, fuzzRun, must, pt, spec, suiteRefusal, suiteTx } from './support.js';
 import { suiteEnv, suiteReport } from '../../src/invariants/index.js';
 
+/** PLAT_FUZZ_RUNS (10⁴ in the PR tier, 10⁶ nightly; C-0057): the seeds and warp cases scale with it. */
+const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
+const SEEDS = Math.max(12, Math.floor(RUNS / 500));
+const WARPS = Math.max(48, Math.floor(RUNS / 100));
+
 /** The cost bar's constant: distinct faces the suite reads per touched face (and per batch where it touched none). */
 const FACES_PER_TOUCHED = 12;
 
 describe('B-FUZZ: the suite on every batch of the fuzz runs', () => {
-  const seeds = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
-  for (const seed of seeds) {
+  for (let seed = 1; seed <= SEEDS; seed++) {
     it(`seed ${seed}: no batch the oracles accept is refused by the suite; every arena passes the CI sweep`, () => {
       let checked = 0;
       const mix = seed % 2 === 0 ? ALONG_MIX : DEFAULT_MIX;
@@ -96,10 +101,10 @@ describe('§13.2 cost model: a count that grows with the arena fails', () => {
 
 describe('B-FUZZ: the suite on warp steps (M0-a-13\'s moves), the held set and the moved vertices as its context', () => {
   const kinds: BrushKind[] = ['displace', 'pinch', 'bloat', 'swirl', 'jitter'];
-  it('48 warp cases over random arrangements: no valid step refused by the suite; every arena passes the CI sweep', () => {
+  it(`${WARPS} warp cases over random arrangements: no valid step refused by the suite; every arena passes the CI sweep`, () => {
     let moved = 0;
     let heldCases = 0;
-    for (let c = 1; c <= 48; c++) {
+    for (let c = 1; c <= WARPS; c++) {
       const r = rng(c * 15_485_863);
       const p = framed();
       const live: Live = { ways: [], kerbs: [], next: 0 };
@@ -138,7 +143,7 @@ describe('B-FUZZ: the suite on warp steps (M0-a-13\'s moves), the held set and t
       expect(allProblems(p)).toEqual([]);
       expect(hardProblems(checkCI(p))).toEqual([]);
     }
-    expect(moved).toBeGreaterThan(48);
+    expect(moved).toBeGreaterThan(WARPS);
     expect(heldCases).toBeGreaterThan(0);
   }, 300_000);
 });

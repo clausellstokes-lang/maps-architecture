@@ -3,6 +3,8 @@
 // the plaza and the destinations. No arena is written here; the commits are M0-c-02's. Created empty by the scaffold
 // (M0-s-01, C-0013); this index and its folder belong to M0-c-01.
 export * from './types.js';
+/** §4.2 S3 (13)'s typed destinations and §4.12's gate sites (the records are @plat/model's, M0-m-01). */
+export type { Destination, GateSite } from '@plat/model';
 export { angularGap, bearingCdeg, compactnessOf, insideRing, ringIsSimple } from './geom.js';
 export { buildLattice, edgeBetween, edgeCost, latticeSpacing, siteCosts } from './lattice.js';
 export { fieldSources, fieldT, roadSet, stageThreshold, type FieldOptions, type WaterPull } from './field.js';

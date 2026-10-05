@@ -1,10 +1,10 @@
 // The main plaza (§4.2 S3 (2); C-0032; M0-c-01): a compact polygon at the nucleus, compactness ≥ 0.8, its area in the
 // rung's band, its vertices the attach points routes end at.
-import { streamFromKey } from '@plat/kernel';
+import { CONCERNS, streamFromKey } from '@plat/kernel';
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { area2Of } from '../../src/siting/geom.js';
-import { angularGap, bearingCdeg, compactnessOf, plaza, PLAZA_AREA_BAND_HA, PLAZA_COMPACTNESS_MIN, ringIsSimple } from '../../src/index.js';
+import { angularGap, bearingCdeg, compactnessOf, flatFixture, plaza, PLAZA_AREA_BAND_HA, PLAZA_COMPACTNESS_MIN, ringIsSimple } from '../../src/index.js';
 import { P, SEEDS, sliceOf } from './support.js';
 
 const key = fc.array(fc.integer({ min: 0, max: 0xffffffff }), { minLength: 4, maxLength: 4 });
@@ -51,7 +51,7 @@ describe('the main plaza (§4.2 S3 (2))', () => {
     let lo = Infinity;
     let hi = -Infinity;
     for (let i = 0; i < 200; i += 1) {
-      const p = plaza(P(0, 0), streamFromKey([i, 1, 2, 3]));
+      const p = plaza(P(0, 0), flatFixture(i).stream(CONCERNS['reserve.plaza']));
       counts.add(p.vertices);
       lo = Math.min(lo, p.areaCm2);
       hi = Math.max(hi, p.areaCm2);
