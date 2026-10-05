@@ -65,6 +65,26 @@ describe('offsetFace (§3.7: face − ⋃ buffer(edgeᵢ, dᵢ))', () => {
     expect(areaOutside(out, [L_FACE])).toBe(0);
   });
 
+  it('a run of edges shorter than the setback: every point kept lies at least d from every edge (round ends, C-0196 (3))', () => {
+    // a sawtooth of 40 cm teeth set back 60 cm: each vertex's disc must be covered whole — the strips cover a join's
+    // inner side only where both edges are at least d long, so here each edge's round end caps the vertex instead
+    const top: [number, number][] = [];
+    for (let x = 2000; x > 0; x -= 80) top.push([x, 1000], [x - 40, 1030]);
+    const saw = R([0, 0], [2000, 0], ...top, [0, 1000]);
+    const { tx, face } = arenaFace([saw]);
+    const n = faceEdges(tx, face).length;
+    const out = rings(offsetFace(tx, face, new Array<number>(n).fill(60)));
+    for (const r of out) {
+      for (const p of r) {
+        let d = Infinity;
+        for (let i = 0; i < saw.length; i += 1) d = Math.min(d, distToSegment(p.x, p.y, saw[i], saw[(i + 1) % saw.length]));
+        expect(d).toBeGreaterThanOrEqual(60 - 2);
+      }
+    }
+    // between two valleys the kept band's top reaches 1000 − √(60² − 40²) ≈ 955 cm, never closer to the teeth
+    expect(Math.max(...out.flat().map((p) => p.y))).toBeLessThanOrEqual(1000 - Math.sqrt(60 * 60 - 40 * 40) + 2);
+  });
+
   it('a face with a hole is set back from the hole too', () => {
     const { tx, face } = arenaFace([rect(0, 0, 3000, 3000), rect(1000, 1000, 2000, 2000).reverse()]);
     const n = faceEdges(tx, face).length;

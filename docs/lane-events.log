@@ -5575,3 +5575,9 @@
 2026-10-05 03:35 filler/m1-wbs-skeleton CHECKPOINT started; reading docs/build-prep/M1/scope.json volume-shares.md m0-deferrals.md
 2026-10-05 03:35 filler/v-m0-scope CHECKPOINT started; clean-room gate passed (V07 is the volume V-M0 builds)
 2026-10-05 03:36 filler/v-m0-scope CHECKPOINT V07 §8 and dependent sections read; writing scope file
+2026-10-05 03:37 filler/m1-wbs-skeleton CHECKPOINT inputs read (scope.json 132 clauses, volume-shares.md, m0-deferrals.md, ARCHITECTURE.md §14 package rows, plat/docs/build/M0.md layout); grouping into families next
+2026-10-05 03:37 filler/v-m0-scope LANDED docs/build-prep/M1/V-M0-scope.md
+2026-10-05 03:41 filler/m1-wbs-skeleton LANDED docs/build-prep/M1/wbs-skeleton.md (28 families over 132 clauses; family-level only, no owners or files bound)
+2026-10-05 03:42 build/M0-a-08 CHECKPOINT self-check: M01-M03 killed, M04 (glueWalks off) survived, M05 (balanceFlow off) survived, M06-M19 killed (M11 only by the offsetFace agreement), M20 (round join on short edges) survived -> sawtooth test added, still survives: equivalent (an inner-disc point beyond the short edge lies within d of its far vertex), M21-M22 killed; next: M04/M05 at PLAT_FUZZ_RUNS=1000; install 0, lint 0 (probe-red ok), build 0; choices C-0198 and CLEAN-ROOM L-0162 appended
+2026-10-05 03:42 filler/w18-twin-check LANDED docs/calibration/results/W-18-twin.json checked: twin scan re-run both lists over the ten files, 0 hits, per-file DIFFS 0; record file scans clean both lists; checker control caught; M0-scanner half NOT RUN stands; two minor problems reported (note wording; control receipt); scratch maps-scratch/filler/w18-twin-check/
+2026-10-05 03:44 check/M0-a-13-close-r1 CHECKPOINT verdict drafted (PASS pending testkit); testkit project still running; next: testkit result, verdict file, landed records
