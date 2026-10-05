@@ -5848,3 +5848,4 @@
 2026-10-05 17:38 build/M0-a-08-fix1 CHECKPOINT gates install 0, lint 0 (probe-red ok), build 0; next: near at PR size (kernel arr folder + testkit agreement folder), related
 2026-10-05 17:39 build/M0-a-08-fix1 CHECKPOINT CLEAN-ROOM L-0189 appended; no choices row (no new decision: the test pins C-0196 (5) as written); near at PR size running since 17:41; next: its verdict, related, landed
 2026-10-05 17:40 build/M0-a-05-fix-s3 CHECKPOINT digest seed 777 emulated-S2 == final byte for byte (99 803 lines); C-0210 appended, L-0185 updated; mirror deleted; next: full gate re-run in tree (lint, build, kernel, importers, testkit)
+2026-10-05 17:52 build/M0-a-05-fix-s3 CHECKPOINT gates after C-0210: install 0, lint 0 (693 files, probe-red ok), build 0, item step3-5 PR size 136/136 (E_INVARIANT line 0), kernel 1390/1390, model 177, tables 240, site 120, layout 135, bench 14 red all five J176 files; next: testkit project, landed
