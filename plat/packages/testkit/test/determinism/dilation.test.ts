@@ -183,4 +183,13 @@ describe('the negative control: an output that follows the clock is caught', () 
     expect(r.reads[0]).toBeGreaterThan(0);
     expect(r.reads[1]).toBeGreaterThan(0);
   });
+
+  it('each factor is compared on its own: × 10 alone and × 0.1 alone each catch it', () => {
+    for (const f of [10, 0.1]) {
+      const r = dilationCompare(clocked(), [f]);
+      expect(r.identical, `× ${f}`).toBe(false);
+      expect(r.divergence?.run).toBe(`dilation × ${f}`);
+      expect(r.factors).toEqual([f]);
+    }
+  });
 });

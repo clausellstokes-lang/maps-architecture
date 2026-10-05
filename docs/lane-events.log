@@ -5538,3 +5538,4 @@
 2026-10-05 02:53 filler/w20-check LANDED docs/calibration/results/W-20-dryrun.json checked: 4 baselines:check re-runs and 2 probe re-runs reproduce every exit code; twin scan 0 hits over the record and outputs; mirror restored to the record's state; nothing under plat/
 2026-10-05 02:55 build/M0-a-13-fix1 CHECKPOINT testkit project still running (other seats contending); next: bench, LANDED
 2026-10-05 02:55 filler/e19-check CHECKPOINT started; reading E19 md/json, candidates, registry, E15, C-0116/C-0180 working copy
+2026-10-05 02:59 filler/e19-check LANDED docs/calibration/E19-known-defects.md docs/calibration/E19-known-defects.json checked: own recount equals the record on all 19 entries, 203 failed members, 107 partial rows, 33 M0-set rows, 8 no-row cells; twin scan of both files on both lists 0 unreviewed, exit 0; 3 problems reported to the session (1 on section 4, 2 wording); scratch under maps-scratch/filler/e19-check/; nothing under plat/, no git
