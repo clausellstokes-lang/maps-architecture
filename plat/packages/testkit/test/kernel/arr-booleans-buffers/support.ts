@@ -13,6 +13,7 @@ import {
   createPlat,
   faceEdges,
   faceHoles,
+  faceRings,
   insertChain,
   insertTx,
   insetRing,
@@ -115,20 +116,21 @@ export interface BufferCase {
 const joinArb = fc.constantFrom<JoinKind>('round', 'square', 'miter');
 const endArb = fc.constantFrom<EndKind>('round', 'square', 'flat');
 
-const chainArb: fc.Arbitrary<LatticePoint[]> = fc.oneof(
-  { weight: 4, arbitrary: arb.chain({ limitCm: LIMIT_CM, vertices: [2, 12], sizeCm: [50, 5_000] }) },
-  { weight: 2, arbitrary: arb.stroke({ limitCm: LIMIT_CM, sizeCm: [200, 16_000] }) },
-  { weight: 1, arbitrary: arb.thin({ limitCm: LIMIT_CM, shape: 'chain' }) },
-  { weight: 1, arbitrary: arb.nearCollinear({ limitCm: LIMIT_CM, shape: 'chain' }) },
-);
+/** M0-k-01's chain families for buffers, each drawn whole for one case (its source names it). */
+const chainFamilies: readonly { name: string; weight: number; arb: fc.Arbitrary<LatticePoint[]> }[] = [
+  { name: 'chain', weight: 4, arb: arb.chain({ limitCm: LIMIT_CM, vertices: [2, 12], sizeCm: [50, 5_000] }) },
+  { name: 'stroke', weight: 2, arb: arb.stroke({ limitCm: LIMIT_CM, sizeCm: [200, 16_000] }) },
+  { name: 'thin', weight: 1, arb: arb.thin({ limitCm: LIMIT_CM, shape: 'chain' }) },
+  { name: 'near-collinear', weight: 1, arb: arb.nearCollinear({ limitCm: LIMIT_CM, shape: 'chain' }) },
+];
 
-/** Buffer cases: 1–3 chains, one half-width or one per point, every join and end; and M0-k-02's buffer cases. */
+/** Buffer cases: 1–3 chains of one family, one half-width or one per point, every join and end; and M0-k-02's buffer cases. */
 export const bufferCaseArb: fc.Arbitrary<BufferCase> = fc.oneof(
-  {
-    weight: 8,
+  ...chainFamilies.map((f) => ({
+    weight: f.weight * 2,
     arbitrary: fc
       .record({
-        chains: fc.array(chainArb, { minLength: 1, maxLength: 3 }),
+        chains: fc.array(f.arb, { minLength: 1, maxLength: 3 }),
         uniform: fc.boolean(),
         w: fc.integer({ min: 1, max: 2_000 }),
         ws: fc.array(fc.integer({ min: 1, max: 2_000 }), { minLength: 128, maxLength: 128 }),
@@ -138,11 +140,11 @@ export const bufferCaseArb: fc.Arbitrary<BufferCase> = fc.oneof(
       .map(({ chains, uniform, w, ws, joins, ends }) => {
         const n = chains.reduce((s, c) => s + c.length, 0);
         const per = Array.from({ length: n }, (_, i) => ws[i % ws.length]);
-        return { chains, w: uniform ? w : per, joins, ends, source: 'arb' };
+        return { chains, w: uniform ? w : per, joins, ends, source: `arb-${f.name}` };
       }),
-  },
+  })),
   {
-    weight: 2,
+    weight: 4,
     arbitrary: fc
       .record({ id: fc.constantFrom('further/buffer-miter-joins', 'further/buffer-square-joins', 'further/buffer-flat-ends', 'limit/no-input-buffer-empty'), seed: seedArb })
       .map(({ id, seed }) => {
@@ -226,13 +228,28 @@ export function arenaFace(rings: readonly (readonly LatticePoint[])[]): { tx: In
     const r = insertChain(tx, rings[i].slice(), [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', { closed: true });
     if (!r.ok) return null;
   }
+  // The face the rings bound: its outer ring runs through the first ring's lowest-leftmost point (the arena's own frame
+  // face holds that ring as a hole, never as its outer ring); among such faces the one holding the most holes, then the
+  // one with the smallest outer area.
+  let low = rings[0][0];
+  for (const p of rings[0]) if (p.y < low.y || (p.y === low.y && p.x < low.x)) low = p;
   let face = -1;
-  let best = -1;
+  let bestHoles = -1;
+  let bestArea = Infinity;
   for (let f = 0; f < plat.slots.face[0].top; f += 1) {
     if (!isFaceLive(plat, 0, f)) continue;
+    const outer = faceRings(plat, 0, f)[0];
+    if (!outer.some((p) => p.x === low.x && p.y === low.y)) continue;
+    let a = 0;
+    for (let i = 0; i < outer.length; i += 1) {
+      const q = outer[(i + 1) % outer.length];
+      a += outer[i].x * q.y - q.x * outer[i].y;
+    }
+    if (!(a > 0)) continue;
     const h = faceHoles(plat, 0, f).length;
-    if (h > best) {
-      best = h;
+    if (h > bestHoles || (h === bestHoles && a < bestArea)) {
+      bestHoles = h;
+      bestArea = a;
       face = f;
     }
   }
@@ -294,6 +311,22 @@ export function oracleOffset(rings: readonly Ring[], edges: readonly { a: Lattic
     }
   });
   if (chains.length === 0) return { ok: true, engine, rings: rings.map((r) => r.slice()), perimeterCm: 2 * perimeterOf(rings) };
+  // An edge set back by at least the diagonal of the face's box covers the face (every point of the face lies within
+  // that diagonal of every point of the edge), so the exact result is empty — read from the geometry, not from our
+  // engine; the oracle's buffer would reach past the lattice there.
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  for (const r of rings) {
+    for (const p of r) {
+      x0 = Math.min(x0, p.x);
+      y0 = Math.min(y0, p.y);
+      x1 = Math.max(x1, p.x);
+      y1 = Math.max(y1, p.y);
+    }
+  }
+  if (d.some((di) => di >= Math.hypot(x1 - x0, y1 - y0))) return { ok: true, engine, rings: [], perimeterCm: perimeterOf(rings) };
   const buf = oracleBuffer(chains, ws, 'round', 'round', engine);
   if (!buf.ok) return buf;
   const res = oracleBoolean('difference', rings, buf.rings, 'nonzero', engine);
@@ -317,13 +350,44 @@ export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): Orac
     x1 = Math.max(x1, p.x);
     y1 = Math.max(y1, p.y);
   }
-  const E = 1 << 21;
-  const box: Ring = [snapped(x0 - E, y0 - E), snapped(x1 + E, y0 - E), snapped(x1 + E, y1 + E), snapped(x0 - E, y1 + E)];
+  // The construction runs about the ring's box centre (an exact integer translation; the inset commutes with it), so a
+  // ring near the lattice's edge keeps its strips inside the range.
+  const cx = Math.round((x0 + x1) / 2);
+  const cy = Math.round((y0 + y1) / 2);
+  const local = ring.map((p) => ({ x: p.x - cx, y: p.y - cy }));
+  const diag = Math.hypot(x1 - x0, y1 - y0);
+  // How far the result reaches beyond the ring: outward, a corner of interior angle θ moves |d| ÷ sin(θ/2).
+  let spike = 0;
+  const n = local.length;
+  if (dCm < 0) {
+    for (let i = 0; i < n; i += 1) {
+      const a = local[(i + n - 1) % n];
+      const v = local[i];
+      const b = local[(i + 1) % n];
+      const la = Math.hypot(a.x - v.x, a.y - v.y);
+      const lb = Math.hypot(b.x - v.x, b.y - v.y);
+      if (la === 0 || lb === 0) continue;
+      const cos = ((a.x - v.x) * (b.x - v.x) + (a.y - v.y) * (b.y - v.y)) / (la * lb);
+      const sinHalf = Math.sqrt(Math.max(0, (1 - cos) / 2));
+      spike = Math.max(spike, sinHalf > 0 ? -dCm / sinHalf : Infinity);
+    }
+  }
+  const E = Math.ceil(diag / 2 + spike + Math.abs(dCm) + 1_000);
+  const lx0 = x0 - cx;
+  const ly0 = y0 - cy;
+  const lx1 = x1 - cx;
+  const ly1 = y1 - cy;
+  const L = 2 * (diag + 2 * E);
+  if (!(Number.isFinite(L) && L + diag < 4_000_000)) return { ok: false, engine, error: 'inset oracle: the outward corner reaches past the lattice', refused: true };
+  // inward the result lies inside the ring; outward inside a box beyond the ring by the corners' reach
+  const base: Ring =
+    dCm > 0
+      ? local.map((p) => snapped(p.x, p.y))
+      : [snapped(lx0 - E, ly0 - E), snapped(lx1 + E, ly0 - E), snapped(lx1 + E, ly1 + E), snapped(lx0 - E, ly1 + E)];
   const strips: Ring[] = [];
-  const n = ring.length;
   for (let i = 0; i < n; i += 1) {
-    const a = ring[i];
-    const b = ring[(i + 1) % n];
+    const a = local[i];
+    const b = local[(i + 1) % n];
     const len = Math.hypot(b.x - a.x, b.y - a.y);
     if (len === 0) continue;
     const ux = (b.x - a.x) / len;
@@ -331,13 +395,13 @@ export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): Orac
     // the inward (left) normal of a counter-clockwise ring
     const nx = -uy;
     const ny = ux;
-    const L = 4 * E;
     const p = (s: number, t: number): LatticePoint => snapped(a.x + s * ux + t * nx, a.y + s * uy + t * ny);
     strips.push([p(-L, dCm - L), p(len + L, dCm - L), p(len + L, dCm), p(-L, dCm)]);
   }
-  const res = oracleBoolean('difference', [box], strips, 'nonzero', engine);
+  const res = oracleBoolean('difference', [base], strips, 'nonzero', engine);
   if (!res.ok) return res;
-  return { ...res, perimeterCm: perimeterOf([ring]) + perimeterOf(res.rings) };
+  const back = res.rings.map((r) => r.map((p) => ({ x: (p.x + cx) as Cm, y: (p.y + cy) as Cm })));
+  return { ...res, rings: back, perimeterCm: perimeterOf([ring]) + perimeterOf(back) };
 }
 
 // ── snapping the oracle's rings (§3.7: "equal face counts after both are snapped") ──
@@ -541,7 +605,7 @@ export function judgeInset(h: Harness, c: FaceCase): void {
     }
   }
   const ring = rings[0];
-  judge(h, 'insetRing', c.source, mine, (e) => oracleInset(ring, dCm, e), ours.ok ? ours.warnings : [], () => JSON.stringify({ rings, dCm }));
+  judge(h, 'insetRing', c.source, mine, (e) => oracleInset(ring, dCm, e), warningsOf(ours), () => JSON.stringify({ rings, dCm }));
 }
 
 /** The guard's draw count for a run of `runs` cases (C-0193 (6)): min(10⁵, ⌈share × runs⌉). */

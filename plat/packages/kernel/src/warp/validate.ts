@@ -183,6 +183,82 @@ export function stepProblem(view: StepView, movers: readonly VertexId[], held: R
     }
   }
   for (const v of reached) if (!rotationKept(view, v)) return `rotation: the edges at (${X[v]}, ${Y[v]}) change their order`;
+  return nestingProblem(view, movers);
+}
+
+/** The winding number of the point about the closed ring of points (Sunday's crossing rule; exact on lattice points). */
+function winding(px: number, py: number, xs: readonly number[], ys: readonly number[]): number {
+  let w = 0;
+  const n = xs.length;
+  for (let i = 0; i < n; i++) {
+    const ax = xs[i];
+    const ay = ys[i];
+    const bx = xs[(i + 1) % n];
+    const by = ys[(i + 1) % n];
+    if (ay <= py) {
+      if (by > py && orient2d(ax, ay, bx, by, px, py) > 0) w++;
+    } else if (by <= py && orient2d(ax, ay, bx, by, px, py) < 0) w--;
+  }
+  return w;
+}
+
+/**
+ * Nesting kept when a mover and a ring both move (C-0193 (4)): the swept triangles keep every unmoved vertex on its side
+ * of every moved ring, and the path check keeps every mover on its side of every unmoved edge, but a mover can still
+ * pass a ring that moves with it — a free chain (a hole) carried over an edge whose end slides crosses neither an
+ * unmoved edge nor a swept triangle's unmoved vertex, and lands in the next face (B-FUZZ seed −17487670). So every mover
+ * keeps its winding number about every finest-level ring that carries a moved edge and does not pass through it, read
+ * before the step at the arena's points and after it at the view's. Rings are walked from the moved half-edges, so the
+ * cost is the touched rings' length times the movers near them (bounding boxes first).
+ */
+export function nestingProblem(view: StepView, movers: readonly VertexId[]): string | null {
+  const p = view.p;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const seen = new Set<number>();
+  for (const e of view.movedPairs()) {
+    for (const h0 of [2 * e, 2 * e + 1]) {
+      if (seen.has(h0)) continue;
+      const ring: number[] = [];
+      let h = h0;
+      do {
+        seen.add(h);
+        ring.push(O[h]);
+        h = p.halfEdges.next[h];
+      } while (h !== h0 && ring.length <= O.length);
+      const on = new Set<VertexId>(ring);
+      const xs0 = ring.map((v) => X[v]);
+      const ys0 = ring.map((v) => Y[v]);
+      const xs1 = ring.map((v) => view.x(v));
+      const ys1 = ring.map((v) => view.y(v));
+      const b0 = [Infinity, Infinity, -Infinity, -Infinity];
+      const b1 = [Infinity, Infinity, -Infinity, -Infinity];
+      for (let i = 0; i < ring.length; i++) {
+        b0[0] = Math.min(b0[0], xs0[i]);
+        b0[1] = Math.min(b0[1], ys0[i]);
+        b0[2] = Math.max(b0[2], xs0[i]);
+        b0[3] = Math.max(b0[3], ys0[i]);
+        b1[0] = Math.min(b1[0], xs1[i]);
+        b1[1] = Math.min(b1[1], ys1[i]);
+        b1[2] = Math.max(b1[2], xs1[i]);
+        b1[3] = Math.max(b1[3], ys1[i]);
+      }
+      for (const v of movers) {
+        if (on.has(v)) continue;
+        const x0 = X[v];
+        const y0 = Y[v];
+        const x1 = view.x(v);
+        const y1 = view.y(v);
+        const in0 = x0 >= b0[0] && x0 <= b0[2] && y0 >= b0[1] && y0 <= b0[3];
+        const in1 = x1 >= b1[0] && x1 <= b1[2] && y1 >= b1[1] && y1 <= b1[3];
+        if (!in0 && !in1) continue;
+        if (winding(x0, y0, xs0, ys0) !== winding(x1, y1, xs1, ys1)) {
+          return `nesting: the vertex (${x0}, ${y0}) moved to (${x1}, ${y1}) changes its side of the ring through (${xs0[0]}, ${ys0[0]})`;
+        }
+      }
+    }
+  }
   return null;
 }
 

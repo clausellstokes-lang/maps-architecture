@@ -12,14 +12,15 @@
 // inward, from a box enclosing the lattice outward), the result's points snapped to the lattice and the ring passed
 // through the scratch arrangement (`winding.ts`), so it re-enters through `insertChain` like every output. Where nothing
 // is left the inset has collapsed: the refusal carries the largest whole distance below dCm whose inset is not empty
-// (`lastCm`, found by bisection on the same path; 0 is the face itself) and that inset as its `partial` (C-0216 (5)).
+// (`lastCm`, found by bisection on the same path; 0 is the face itself) and that inset as its `partial`, and the
+// warnings of the inset at dCm (C-0195 (3)).
 // Readings (C-0216 (3), (5)): like `offsetFace` it takes the open transaction first and reads the face at its level;
 // a dCm that is not a whole number of centimetres is the caller's error (a RangeError). §3.11's row lists `insetRing`
 // among the operations whose empty result is `empty`; §3.7 and this item name the inset past the inradius — the one
 // way an inset of a face can come out empty — `collapsed`, which this function returns.
 import { type FaceId } from '../arena/index.js';
 import type { InsertTx } from '../insert/classes.js';
-import { degenerate, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult } from '../num/index.js';
+import { degenerate, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { unitOf, type XY } from '../geom/common.js';
 import { canonicalFaceRings } from './offsetFace.js';
@@ -32,6 +33,11 @@ export type InsetCollapsed = Extract<KernelResult<Ring[]>, { ok: false }> & {
   readonly lastCm: Cm;
   /** That inset's rings. */
   readonly partial: Ring[];
+  /**
+   * The warnings of the inset at dCm on its way to nothing (C-0195 (3)): a half-plane inset that is not empty in doubles
+   * but thinner than the insertion rules keep is emptied by attraction (W_ATTRACTED), an attracted case of §3.7's split.
+   */
+  readonly warnings: Warning[];
 };
 
 /** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
@@ -132,6 +138,12 @@ export function insetRing(tx: InsertTx, face: FaceId, dCm: Cm | number): KernelR
       lastRings = m.value;
     } else hi = mid;
   }
-  const collapsed: InsetCollapsed = { ...degenerate<Ring[]>('collapsed', lastRings), detail: 'collapsed', lastCm: lo as Cm, partial: lastRings };
+  const collapsed: InsetCollapsed = {
+    ...degenerate<Ring[]>('collapsed', lastRings),
+    detail: 'collapsed',
+    lastCm: lo as Cm,
+    partial: lastRings,
+    warnings: r.warnings.map((w) => ({ ...w })),
+  };
   return collapsed;
 }

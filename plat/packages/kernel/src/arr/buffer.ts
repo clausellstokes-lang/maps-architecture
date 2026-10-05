@@ -20,7 +20,8 @@
 // chord keeps a sagitta of at most 2 cm. Half-widths are one non-negative number, or one per input point of the chains
 // in order (§3.4: "per input point of these transient chains"); anything else is the caller's error (a RangeError).
 import { dmath } from '../dmath/index.js';
-import { area2, orient2d, ratio, snap, ok, type KernelResult } from '../num/index.js';
+import { area2, orient2d, ratio, snap, ok, type KernelResult, type Warning } from '../num/index.js';
+import { foldWarnings } from '../insert/classes.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { offLattice, PI, unitOf, type XY } from '../geom/common.js';
 import { emptyResult, overlayRegion, type Ring } from './winding.js';
@@ -353,8 +354,47 @@ export function buffer(
 ): KernelResult<Ring[]> {
   const parts = bufferParts(chains, halfWidthCm, joins, ends);
   if (!parts.ok) return parts;
-  const r = overlayRegion([parts.value], (w) => w[0] !== 0);
+  const r = unionParts(parts.value);
   if (!r.ok) return r;
   if (r.value.length === 0) return emptyResult(r.warnings);
   return ok(r.value, r.warnings);
+}
+
+/** How many ring sets one overlay of `unionParts` unites. */
+export const UNION_FAN_IN = 8;
+
+/**
+ * The union of counter-clockwise parts under the non-zero rule, on the scratch arrangement, as a tree of overlays
+ * (C-0195 (4)): the parts in input order are taken UNION_FAN_IN at a time, each group united on its own overlay, and
+ * the groups' results — simple rings, outer counter-clockwise and holes clockwise, so winding 1 inside and 0 outside —
+ * united the same way, level after level, until one ring set is left. Union is associative and the non-zero rule adds
+ * winding numbers, so the region is the one overlay of every part would give; each overlay sees only the vertices
+ * that survived the groups below it — a stroke's strips overlap their neighbours almost everywhere — so the
+ * arrangement inserts far fewer segments. The warnings of every overlay are folded by code. The grouping is fixed by
+ * the input order alone.
+ */
+export function unionParts(parts: readonly Ring[]): KernelResult<Ring[]> {
+  const warnings: Warning[] = [];
+  let level: Ring[][] = parts.map((p) => [p]);
+  for (;;) {
+    const next: Ring[][] = [];
+    for (let i = 0; i < level.length; i += UNION_FAN_IN) {
+      const group = level.slice(i, i + UNION_FAN_IN);
+      if (group.length === 1 && level.length > 1) {
+        next.push(group[0]);
+        continue;
+      }
+      const rings: Ring[] = [];
+      for (const g of group) for (const r of g) rings.push(r);
+      const r = overlayRegion([rings], (w) => w[0] !== 0);
+      if (!r.ok) {
+        foldWarnings(warnings, (r as { warnings?: Warning[] }).warnings ?? []);
+        return { ...r, warnings } as KernelResult<Ring[]>;
+      }
+      foldWarnings(warnings, r.warnings);
+      if (r.value.length > 0) next.push(r.value);
+    }
+    if (next.length <= 1) return ok(next.length === 0 ? [] : next[0], warnings);
+    level = next;
+  }
 }

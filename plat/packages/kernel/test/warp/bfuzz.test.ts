@@ -130,4 +130,13 @@ describe('B-FUZZ: random fields over random arrangements (warp)', () => {
     oneCase(17, 8, 3, 'displace', 115099409, 0, 487, 0, 293, -295, 0, false);
     expect(tally.halved).toBe(1);
   });
+
+  it('a found case: a hole carried over an edge whose end slides halves (each mover keeps its side of every moved ring)', () => {
+    // fast-check seed −17487670, shrunk: the L2 hole (1694, 3495)–(1599, 3533) dragged 283 cm up over the L1 edge
+    // (1072, 3523)–(2387, 3751) while that edge's end slid to (2388, 3751): its path met no unmoved edge and the edge swept
+    // no unmoved vertex, and the hole landed in the next face (the face records then disagreed). It commits at ⅛.
+    tally.halved = 0;
+    oneCase(742479849, 7, 3, 'displace', 0, 0, 746, 0, 0, 283, 0, false);
+    expect(tally.halved).toBe(1);
+  });
 });
