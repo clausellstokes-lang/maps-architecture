@@ -6,9 +6,7 @@
 // crossing next to a vertex 25.0 – 25.7 cm from the crossed edge, and `insert.crossings` charged (C-0177 (5), (6)).
 // Fix round 1 (the check's F-1: CC1, XC1) pinned the chain's corner rule at its minEdge bound — arms crossing 24.9 cm
 // apart are a wedge; 25.6 cm apart no wedge (step 3 routes the second arm through the first crossing); 30.0 and 34.0 cm
-// apart two crossings — and the one `insert.crossings` a corner charges. Fix round S1 (the session's ruling N-38,
-// C-0200): wedge routing applies only where it moves the chain at most `attractCm`; the 40 cm, 60 cm and s = 220 cases
-// below, which wedge-routed before it, now have their crossings placed in turn (farWedge.test.ts holds the far cases).
+// apart two crossings — and the one `insert.crossings` a corner charges.
 import { describe, expect, it } from 'vitest';
 import { outgoing, roleIdOf, rowsOn } from '../../../src/arena/index.js';
 import { INSERT_CROSSINGS } from '../../../src/insert/crossings.js';
@@ -66,25 +64,18 @@ describe('step 4: exact crossings placed by the placement rule', () => {
 });
 
 describe('wedge routing at the arrangement\'s acute corner (two crossings along one new segment closer than minEdge)', () => {
-  it('a mandatory chain 40 cm from the 30° corner (crossings 21.4 cm apart): the wedge would move it 40 cm > attractCm, so its crossings are placed in turn — the second a step across the tip at least minEdge from the first (N-38)', () => {
+  it('a mandatory chain 40 cm from the 30° corner (crossings 21.4 cm apart) is routed through the corner: W_WEDGE_ROUTED, moved ≤ minEdge / (2 tan 15°)', () => {
     const p = corner();
-    const t = tx(p, 2);
-    const r = ins(t, [[1500, 1040], [2500, 1040]], [{ role: 'kerb', entity: 'way:k' }]);
+    const r = ins(tx(p, 2), [[1500, 1040], [2500, 1040]], [{ role: 'kerb', entity: 'way:k' }]);
     expect(r.ok).toBe(true);
     expect(allProblems(p)).toEqual([]);
     if (!r.ok) return;
-    expect(r.warnings.map((w) => w.code)).not.toContain('W_WEDGE_ROUTED');
+    expect(r.warnings.map((w) => w.code)).toContain('W_WEDGE_ROUTED');
+    const k = vertexAtPoint(p, 2000, 1000);
     const kerb = roleIdOf('kerb');
-    // The corner is not on the chain …
-    expect(outgoing(p, vertexAtPoint(p, 2000, 1000)).filter((h) => rowsOn(p, 'edge', h).some((row) => p.roles.kind[row] === kerb))).toHaveLength(0);
-    // … which crosses each arm once, the span between the two crossing vertices at least minEdge, every vertex of it
-    // within √2 · attractCm of its line (§3.6 *Existing geometry wins*).
-    const onArms = liveVertices(p).filter((v) => p.vertices.level[v] === 2 && p.vertices.y[v] > 1000 && p.vertices.y[v] < 1100 && Math.abs(p.vertices.x[v] - 2000) < 100);
-    expect(onArms).toHaveLength(2);
-    const [u, w] = onArms;
-    expect(SQ(p.vertices.x[u] - p.vertices.x[w]) + SQ(p.vertices.y[u] - p.vertices.y[w])).toBeGreaterThanOrEqual(625);
-    for (const v of onArms) expect(Math.abs(p.vertices.y[v] - 1040)).toBeLessThanOrEqual(26 * Math.SQRT2);
-    expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(2);
+    expect(outgoing(p, k).filter((h) => rowsOn(p, 'edge', h).some((row) => p.roles.kind[row] === kerb))).toHaveLength(2);
+    // No vertex was made on either arm: the chain passes through the corner.
+    expect(liveVertices(p).filter((v) => p.vertices.level[v] === 2 && p.vertices.y[v] > 1000 && p.vertices.y[v] < 1100 && Math.abs(p.vertices.x[v] - 2000) < 100)).toHaveLength(0);
     expect(40).toBeLessThanOrEqual(wedgeBound(3000));
   });
 
@@ -140,23 +131,24 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
     return p;
   }
 
-  it('a V whose tip stands 60 cm past the street, its arms crossing it 17 cm apart: the wedge would move the tip 60 cm > attractCm, so the mandatory V keeps its tip and its crossings are placed in turn — the second arm routed through the first crossing (N-38)', () => {
+  it('a V whose tip stands 60 cm past the street, its arms crossing it 17 cm apart: the tip moves onto the street at its foot (W_WEDGE_ROUTED), ≤ the bound; the corner charges one insert.crossings', () => {
     const p = streetY();
     const t = tx(p, 2);
     const r = ins(t, [[1850, 1000], [2000, 2060], [2150, 1000]], [{ role: 'kerb', entity: 'way:v' }]);
     expect(r.ok).toBe(true);
+    // The two crossings resolved at the chain's corner are one crossing resolved (C-0177 (5)): the tip lands on the street,
+    // so neither arm crosses it afterwards.
+    expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(1);
     expect(allProblems(p)).toEqual([]);
     if (!r.ok) return;
-    const codes = r.warnings.map((w) => w.code);
-    expect(codes).not.toContain('W_WEDGE_ROUTED');
-    expect(codes).toContain('W_ATTRACTED');
-    expect(p.vertices.y[r.value.placed[1]]).toBe(2060);
-    // The street is cut once: one new vertex on it, both arms through it.
-    const onStreet = liveVertices(p).filter((v) => Math.abs(p.vertices.y[v] - 2000) <= 0.71 && p.vertices.level[v] === 2);
-    expect(onStreet).toHaveLength(1);
-    expect(Math.abs(p.vertices.x[onStreet[0]] - 2000)).toBeLessThanOrEqual(26);
+    expect(r.warnings.map((w) => w.code)).toContain('W_WEDGE_ROUTED');
+    const tip = r.value.placed[1];
+    expect(Math.abs(p.vertices.y[tip] - 2000)).toBeLessThanOrEqual(0.71);
+    expect(Math.abs(p.vertices.x[tip] - 2000)).toBeLessThanOrEqual(1);
     const theta = 2 * Math.atan2(150, 1060); // the V's angle
     expect(60).toBeLessThanOrEqual(wedgeBound(Math.round((theta * 18000) / Math.PI)));
+    // The street is not cut twice: one new vertex on it.
+    expect(liveVertices(p).filter((v) => Math.abs(p.vertices.y[v] - 2000) <= 0.71 && p.vertices.level[v] === 2)).toHaveLength(1);
   });
 
   it('the same V as an optional chain moves 60 cm > attractCm: E_BELOW_MIN_EDGE, nothing written', () => {
@@ -174,11 +166,9 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
   // geometry (C-0177 (1)) — within attractCm up to about 26.6 cm apart (25.2 cm from it at s = 226), and is routed through
   // it by step 3 (W_ATTRACTED, one crossing vertex both arms share); farther apart the arms make two crossings with a (d)
   // edge between them.
-  // A wedge would move the tip 60 cm > attractCm, so since N-38 a mandatory V below 25 cm apart is routed as the 'through'
-  // case: its tip kept, the second arm through the first crossing (s = 220, which wedge-routed before the ruling).
-  for (const [s, kind] of [[220, 'through'], [226, 'through'], [265, 'two'], [300, 'two']] as const) {
+  for (const [s, kind] of [[220, 'wedge'], [226, 'through'], [265, 'two'], [300, 'two']] as const) {
     const apart = (120 * s) / 1060;
-    const title = kind === 'through' ? 'no wedge: its tip free, the second arm routed through the first crossing (step 3)' : 'no wedge: two crossings, its tip free';
+    const title = kind === 'wedge' ? 'a wedge: its tip moves onto the street' : kind === 'through' ? 'no wedge: its tip free, the second arm routed through the first crossing (step 3)' : 'no wedge: two crossings, its tip free';
     it(`a V whose arms cross the street ${apart.toFixed(2)} cm apart (s = ${s}) is ${title}`, () => {
       const p = streetY();
       const t = tx(p, 2);
@@ -187,14 +177,14 @@ describe('wedge routing at the chain\'s own acute corner (two crossings along on
       expect(allProblems(p)).toEqual([]);
       if (!r.ok) return;
       const codes = r.warnings.map((w) => w.code);
-      expect(codes).not.toContain('W_WEDGE_ROUTED');
-      expect(p.vertices.y[r.value.placed[1]]).toBe(2060);
+      expect(codes.includes('W_WEDGE_ROUTED')).toBe(kind === 'wedge');
+      if (kind === 'wedge') expect(Math.abs(p.vertices.y[r.value.placed[1]] - 2000)).toBeLessThanOrEqual(0.71);
+      else expect(p.vertices.y[r.value.placed[1]]).toBe(2060);
       const onStreet = liveVertices(p).filter((v) => Math.abs(p.vertices.y[v] - 2000) <= 0.71 && p.vertices.level[v] === 2);
       expect(onStreet).toHaveLength(kind === 'two' ? 2 : 1);
       if (kind === 'through') expect(codes).toContain('W_ATTRACTED');
-      // The first arm's crossing (the second arm routed through its vertex), else one per arm; below 25 cm apart the
-      // second arm's segment meets the first crossing's wedge test once more before step 3 routes it (s = 220).
-      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' || s === 220 ? 2 : 1);
+      // One crossing resolved: at the corner, or the first arm's (the second routed through its vertex); else one per arm.
+      expect(t.work.counts.get(INSERT_CROSSINGS)).toBe(kind === 'two' ? 2 : 1);
       if (kind === 'two') {
         const [u, w] = onStreet;
         expect(SQ(p.vertices.x[u] - p.vertices.x[w]) + SQ(p.vertices.y[u] - p.vertices.y[w])).toBeGreaterThanOrEqual(625);

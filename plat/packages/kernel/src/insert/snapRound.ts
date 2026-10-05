@@ -17,7 +17,9 @@
 // lets two vertices sharing their neighbours come that close — takes no new edge (any edge there would break clearance):
 // the chain leaves or reaches it along an existing edge (C-0177 (7)). Each segment's route is checked for clearance as
 // it is written, with a strict route and a route along existing edges as its fallbacks (insertChain's `routeSegment`,
-// `routeAlongExisting` here). Readings: C-0177 (1), (2), (5) – (7), (13).
+// `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
+// every such commit reports W_PLACED). A mandatory chain is wedge-routed only where the move is at most 2 · √2 ·
+// `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13); C-0200.
 import {
   addRole,
   allocEdgePair,
@@ -622,7 +624,8 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
         if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
         return via(k, pass);
       }
-      // Beyond attractCm a mandatory chain is not wedge-routed: its crossings are placed in turn, the first here (N-38).
+      // Beyond 2 · √2 · attractCm a mandatory chain is not wedge-routed: its crossings are placed in turn, the first here
+      // (N-38, N-40).
     }
     const c = fc.kind === 'wedge' ? fc.first : fc.crossing;
     if (ctx.endpointCrossings === true) {

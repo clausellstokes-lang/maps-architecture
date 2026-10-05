@@ -15,7 +15,10 @@
 // 0, ± 1 and 24 – 28 cm, rings, self-touching zig-zags with duplicated and sub-minEdge points, the endpoint rule's band,
 // and the chain's own acute V over an edge — in multi-level sequences. The listed test "§13.1: mandatory chains never
 // rejected for precision over 10⁶ random chains" is the third property: its size is PLAT_FUZZ_RUNS (10⁶ is the nightly
-// tier's), and every refusal of a mandatory chain in the other two families is held to it as well.
+// tier's), and every refusal of a mandatory chain in the other two families is held to it as well. A mandatory chain
+// refused E_INVARIANT — a segment no route keeps clear, a gap in the router (N-37) — is counted on its own line of that
+// property, never folded into its precision count, and the count must be 0 (N-40, C-0200); in the other two families
+// it fails the property as an unknown refusal.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat } from '../../../src/arena/index.js';
@@ -63,14 +66,14 @@ interface Outcome {
  * the batch's per input point; the arena valid after either (`validate` false skips the whole-arena oracles — the
  * mandatory-only property's base chains, judged once at its end).
  */
-function insertJudged(p: Plat, c: Case, entity: string, validate = true): Outcome {
+function insertJudged(p: Plat, c: Case, entity: string, validate = true, countInvariant = false): Outcome {
   const t: InsertTx = tx(p, c.level);
   t.warnings.push({ code: 'W_PLACED', count: 1 }); // a warning an earlier op of the batch reported: a refusal keeps it
   const warningsBefore = copy(t.warnings);
   const before = validate ? contentPrint(p) : '';
   const r = ins(t, c.points, [{ role: 'way', entity }], c.cls, { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) });
   if (!r.ok) {
-    expect(CODES.has(r.code), `an unknown refusal ${r.code} (${r.detail})`).toBe(true);
+    if (!(countInvariant && r.code === 'E_INVARIANT')) expect(CODES.has(r.code), `an unknown refusal ${r.code} (${r.detail})`).toBe(true);
     if (c.cls === 'mandatory') expect(PRECISION.has(r.code), `a mandatory chain refused for precision: ${r.code} ${r.detail}`).toBe(false);
     expect(t.warnings).toEqual(warningsBefore);
     if (validate) expect(contentPrint(p)).toBe(before);
@@ -212,18 +215,24 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
 describe('§13.1: mandatory chains never rejected for precision over 10⁶ random chains (PLAT_FUZZ_RUNS: 10⁴ PR, 10⁶ nightly)', () => {
   it('a mandatory random chain into an arena holding up to two earlier chains: refused only for a non-precision code, never a throw; the arena valid', () => {
     const codes = new Map<string, number>();
+    let invariant = 0;
     fc.assert(
       fc.property(fc.array(chainCase(coarseLevel, 0), { maxLength: 2 }), chainCase(anyLevel, 0), (base, c0) => {
         const c: Case = { ...c0, cls: 'mandatory' };
         const p = framed(SIDE);
-        [...base].sort((a, b) => a.level - b.level).forEach((b, i) => insertJudged(p, b, `way:b${i}`, false));
-        const o = insertJudged(p, c, 'way:m', false);
+        [...base].sort((a, b) => a.level - b.level).forEach((b, i) => {
+          if (insertJudged(p, b, `way:b${i}`, false, true).code === 'E_INVARIANT') invariant += 1; // a base chain's too
+        });
+        const o = insertJudged(p, c, 'way:m', false, true);
         const k = o.ok ? 'ok' : (o.code as string);
-        codes.set(k, (codes.get(k) ?? 0) + 1);
+        if (k === 'E_INVARIANT') invariant += 1;
+        else codes.set(k, (codes.get(k) ?? 0) + 1);
         expect(allProblems(p)).toEqual([]);
       }),
     );
     console.log(`mandatory chains: ${[...codes].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
+    console.log(`chains refused E_INVARIANT (a router gap, N-37; its own line, N-40): ${invariant}`);
     for (const k of PRECISION) expect(codes.get(k) ?? 0).toBe(0);
+    expect(invariant, 'chains refused E_INVARIANT (a router gap)').toBe(0);
   }, hardTimeout(15));
 });

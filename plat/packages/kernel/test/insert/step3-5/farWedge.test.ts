@@ -1,11 +1,13 @@
-// M0-a-05 fix round S1: the session's ruling N-38 (J186; C-0200). §3.6 step 4 resolves two consecutive crossings closer
-// than `minEdge` at the acute corner they straddle, a move of at most minEdge / (2 tan(θ/2)) — a bound with no limit as
-// θ → 0. Wedge routing therefore applies only where it moves the chain at most `attractCm`; otherwise a mandatory chain's
-// crossings are placed in turn by the placement rule (the second at least `minEdge` from the first, a step across the
-// sliver) or by its endpoint fallback, and an optional chain is still refused E_BELOW_MIN_EDGE. Each far case below is a
-// sliver corner whose wedge route would move the chain metres; its negative control is the optional twin, whose refusal
-// reports the move the wedge route would make (the route the code took before the ruling). The near case — a wedge route
-// moving the chain at most `attractCm` — is unchanged.
+// M0-a-05 fix round S1: the session's rulings N-38 as amended by N-40 (J186, J188; C-0200). §3.6 step 4 resolves two
+// consecutive crossings closer than `minEdge` at the acute corner they straddle, a move of at most minEdge / (2 tan(θ/2))
+// — a bound with no limit as θ → 0. A mandatory chain is therefore wedge-routed only where the move is at most
+// 2 · √2 · `attractCm` ≈ 73.5 cm (θ ≥ 19.3° at minEdge 25), the largest move under which §3.7's attracted bound still
+// holds; beyond it its crossings are placed in turn by the placement rule (the second at least `minEdge` from the first,
+// a step across the sliver) or by its endpoint fallback. An optional chain is still refused E_BELOW_MIN_EDGE above
+// `attractCm` (unchanged). Each far case below is a sliver corner whose wedge route would move the chain metres; its
+// negative control is the optional twin, whose refusal reports the move the wedge route would make (the route the code
+// took before the ruling). At the cap: a 73 cm move keeps its wedge route, a 74 cm move is placed in turn. A wedge route
+// moving the chain at most `attractCm` is unchanged.
 import { describe, expect, it } from 'vitest';
 import { outgoing, type Plat } from '../../../src/arena/index.js';
 import { allProblems, contentPrint, edgeRows, indexed, ins, liveEdges, tx, vertexAtPoint } from './support.js';
@@ -13,6 +15,8 @@ import { allProblems, contentPrint, edgeRows, indexed, ins, liveEdges, tx, verte
 const ATTRACT = 26;
 /** §3.6 *Existing geometry wins*: an incoming chain vertex moves at most √2 · attractCm (the attracted bound of §3.7). */
 const ATTRACTED_BOUND = Math.SQRT2 * ATTRACT;
+/** N-40: the largest wedge move a mandatory chain takes, 2 · √2 · attractCm ≈ 73.54 cm. */
+const WEDGE_CAP = 2 * Math.SQRT2 * ATTRACT;
 
 /** The distance from (px, py) to the segment a–b. */
 function segDist(px: number, py: number, ax: number, ay: number, bx: number, by: number): number {
@@ -56,7 +60,7 @@ function sliver(h: number): Plat {
   return b.plat;
 }
 
-describe('N-38: wedge routing only where it moves the chain at most attractCm (the arrangement\'s sliver corner)', () => {
+describe('N-38/N-40: no wedge route beyond 2 · √2 · attractCm (the arrangement\'s sliver corner)', () => {
   // N-38 asks for a 0.5° sliver crossed 100 m from its corner; two crossings of a 0.5° corner closer than minEdge lie
   // within 28.6 m of it (25 / tan 0.5°), so both figures are kept in two cases (C-0200): a 0.12° sliver crossed 100 m
   // from its corner (crossings 21 cm apart) and a 0.5° sliver crossed 25 m from it (21.9 cm apart).
@@ -103,7 +107,7 @@ describe('N-38: wedge routing only where it moves the chain at most attractCm (t
   }
 });
 
-describe('N-38 at the chain\'s own corner: a V whose tip stands 100 m past a street, its arms crossing it 13 cm apart', () => {
+describe('N-38/N-40 at the chain\'s own corner: a V whose tip stands 100 m past a street, its arms crossing it 13 cm apart', () => {
   const street = (): Plat => {
     const b = indexed({
       vertices: [[-30000, -30000, 0], [30000, -30000, 0], [30000, 30000, 0], [-30000, 30000, 0], [-10000, 0, 1], [10000, 0, 1]],
@@ -137,7 +141,7 @@ describe('N-38 at the chain\'s own corner: a V whose tip stands 100 m past a str
   });
 });
 
-describe('N-38: a wedge route moving the chain at most attractCm is unchanged', () => {
+describe('N-38/N-40: a wedge route moving the chain at most attractCm is unchanged', () => {
   it('a segment leaving a vertex 26 cm along one arm of a 30° corner crosses the other arm 15 cm from its start: routed through the corner (W_WEDGE_ROUTED, a move of 26 cm), the arm unsplit', () => {
     // The corner k = (0, 0); one arm k – (26, 0) – (4000, 0), the other k – (3464, 2000) at 30°. The segment from (26, 0)
     // straight up crosses the second arm at (26, 15.0): closer than minEdge to its start, the corner beside it (C-0177
@@ -157,5 +161,64 @@ describe('N-38: a wedge route moving the chain at most attractCm is unchanged', 
     expect(edgeRows(p, [0, 0], [26, 2000])).toEqual(['way/way:w']);
     expect(edgeRows(p, [0, 0], [3464, 2000])).not.toBeNull(); // the arm unsplit
     expect(edgeRows(p, [0, 0], [3464, 2000])).not.toContain('way/way:w');
+  });
+});
+
+describe('N-40 at the cap: a 73 cm wedge move keeps its route, a 74 cm move is placed in turn', () => {
+  // A 19° corner k = (0, 0) of two L1 arms to (4000, ±669); a vertical L1 chain at x = d crosses both arms 2 · d ·
+  // 669 / 4000 apart (24.4 cm at 73, 24.8 cm at 74: closer than minEdge, so step 4's wedge test reads the corner), and
+  // the wedge route through k would move it d. The cap is 2 · √2 · attractCm ≈ 73.54 cm.
+  const corner = (): Plat => {
+    const b = indexed({
+      vertices: [[-6000, -6000, 0], [6000, -6000, 0], [6000, 6000, 0], [-6000, 6000, 0], [0, 0, 1], [4000, 669, 1], [4000, -669, 1]],
+      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [4, 6, 1]],
+    });
+    expect(allProblems(b.plat)).toEqual([]);
+    return b.plat;
+  };
+
+  it('d = 73 cm (≤ the cap): the mandatory chain is routed through the corner (W_WEDGE_ROUTED), the arms unsplit; the optional twin is refused E_BELOW_MIN_EDGE (73 > attractCm, unchanged)', () => {
+    expect(73).toBeLessThanOrEqual(WEDGE_CAP);
+    const p = corner();
+    const input = [[73, -2000], [73, 2000]] as const;
+    const r = ins(tx(p, 1), input, [{ role: 'way', entity: 'way:c' }]);
+    expect(r.ok).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+    if (!r.ok) return;
+    expect(r.warnings.map((w) => w.code)).toContain('W_WEDGE_ROUTED');
+    expect(edgeRows(p, [73, -2000], [0, 0])).toEqual(['way/way:c']);
+    expect(edgeRows(p, [0, 0], [73, 2000])).toEqual(['way/way:c']);
+    expect(edgeRows(p, [0, 0], [4000, 669])).not.toBeNull();
+    expect(edgeRows(p, [0, 0], [4000, -669])).not.toBeNull();
+    expect(Math.abs(chainMove(p, 'way:c', input) - 73)).toBeLessThanOrEqual(0.01);
+
+    const q = corner();
+    const before = contentPrint(q);
+    const o = ins(tx(q, 1), input, [{ role: 'way', entity: 'way:c' }], 'optional');
+    expect(o.ok).toBe(false);
+    if (o.ok) return;
+    expect(o.code).toBe('E_BELOW_MIN_EDGE');
+    expect(Math.abs(reportedMove(o.detail) - 73)).toBeLessThanOrEqual(0.1);
+    expect(contentPrint(q)).toBe(before);
+  });
+
+  it('d = 74 cm (> the cap): the mandatory chain has its crossings placed in turn — no wedge route, the corner not on it, every edge ≥ minEdge, the chain within the attracted bound', () => {
+    expect(74).toBeGreaterThan(WEDGE_CAP);
+    const p = corner();
+    const input = [[74, -2000], [74, 2000]] as const;
+    const r = ins(tx(p, 1), input, [{ role: 'way', entity: 'way:c' }]);
+    expect(r.ok).toBe(true);
+    expect(allProblems(p)).toEqual([]);
+    if (!r.ok) return;
+    expect(r.warnings.map((w) => w.code)).not.toContain('W_WEDGE_ROUTED');
+    const k = vertexAtPoint(p, 0, 0);
+    for (const g of outgoing(p, k)) {
+      const w = p.halfEdges.origin[g ^ 1];
+      expect(edgeRows(p, [0, 0], [p.vertices.x[w], p.vertices.y[w]])).not.toContain('way/way:c');
+    }
+    expect(chainMove(p, 'way:c', input)).toBeLessThanOrEqual(ATTRACTED_BOUND);
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    for (const [a, b] of liveEdges(p)) expect((X[a] - X[b]) ** 2 + (Y[a] - Y[b]) ** 2).toBeGreaterThanOrEqual(625);
   });
 });

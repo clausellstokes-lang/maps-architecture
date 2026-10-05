@@ -5,10 +5,11 @@
 // crossings along one new segment — the chain is routed through the corner's vertex; when it is the chain's own — two
 // crossings along one existing edge — the chain's corner vertex moves onto that edge at the placement point of its foot.
 // Either way the chain moves at most minEdge / (2 tan(θ/2)) for a corner of angle θ (0.47 m at the 30° junction floor,
-// 1.2 m at the 12° plot floor) — a bound with no limit as θ → 0, so wedge routing applies only where the move is at
-// most `attractCm` (the session's ruling N-38): an optional chain that would move more is rejected with
-// E_BELOW_MIN_EDGE (the class table's `wedgeBeyondAttract`), a mandatory one has its crossings placed in turn instead.
-// Readings: C-0177 (6), C-0200.
+// 1.2 m at the 12° plot floor) — a bound with no limit as θ → 0. An optional chain that would move more than
+// `attractCm` is rejected with E_BELOW_MIN_EDGE (the class table's `wedgeBeyondAttract`, §3.6); a mandatory chain is
+// wedge-routed only where the move is at most 2 · √2 · `attractCm` ≈ 73.5 cm (θ ≥ 19.3° at minEdge 25), the largest
+// move under which §3.7's attracted bound still holds — the session's rulings N-38 as amended by N-40 — and beyond it
+// has its crossings placed in turn instead. Readings: C-0177 (6), C-0200.
 import { type VertexId } from '../arena/index.js';
 import { query } from '../index/index.js';
 import { dmath } from '../dmath/index.js';
@@ -21,6 +22,11 @@ import { footOnSegment, pieceOf, segmentBox, segmentDistance, type ChainCtx, typ
 const MIN_EDGE = LATTICE.minEdgeCm;
 const MIN_EDGE_SQ = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
 const ATTRACT = LATTICE.attractCm;
+/**
+ * The square of the largest wedge move a mandatory chain takes, (2 · √2 · attractCm)² = 8 · attractCm² (N-40: 73.54 cm
+ * at attractCm 26). Compared squared, so the cap is exact in integers: a 73 cm move keeps its wedge route, 74 cm does not.
+ */
+export const WEDGE_CAP_SQ = 8 * LATTICE.attractCm * LATTICE.attractCm;
 /** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist, C-0125). */
 const PI = 3.141592653589793;
 
@@ -39,19 +45,20 @@ export function wedgeBound(thetaCdeg: number): number {
 const SCALE = 1_048_576;
 
 /**
- * The decision for a wedge route that moves the chain `moveCm` (N-38, C-0200): within `attractCm` the corner takes the
- * chain — true, with W_WEDGE_ROUTED reported (at the corner's point); beyond it an optional chain is refused
- * E_BELOW_MIN_EDGE (§3.6, the class table's `wedgeBeyondAttract`), and a mandatory chain is not wedge-routed at all —
- * false: its crossings are placed in turn by the placement rule (the second at least `minEdge` from the first under
- * (ii), a step across the sliver) or by the rule's endpoint fallback, and a corner below `minFaceAngle` that this leaves
- * commits with W_ACUTE_CORNER. §3.6's bound minEdge / (2 tan(θ/2)) grows without bound as θ → 0, so a sliver corner far
- * away would otherwise pull the chain by the length of its arms.
+ * The decision for a wedge route that moves the chain `moveCm` (N-38 as amended by N-40, C-0200): within `attractCm`
+ * the corner takes the chain — true, with W_WEDGE_ROUTED reported (at the corner's point); beyond it an optional chain
+ * is refused E_BELOW_MIN_EDGE (§3.6, the class table's `wedgeBeyondAttract`, unchanged); a mandatory chain is still
+ * wedge-routed up to 2 · √2 · `attractCm` (`WEDGE_CAP_SQ`: the 30° junction floor's 0.47 m keeps its route) and beyond
+ * that is not wedge-routed at all — false: its crossings are placed in turn by the placement rule (the second at least
+ * `minEdge` from the first under (ii), a step across the sliver) or by the rule's endpoint fallback, and a corner below
+ * `minFaceAngle` that this leaves commits with W_ACUTE_CORNER. §3.6's bound minEdge / (2 tan(θ/2)) grows without bound
+ * as θ → 0, so a sliver corner far away would otherwise pull the chain by the length of its arms.
  */
 export function wedgeOutcome(ctx: ChainCtx, moveCm: number, at: LatticePoint): KernelResult<boolean> {
   if (moveCm > ATTRACT) {
     const o = classOutcome(ctx.cls, 'wedgeBeyondAttract');
     if ('refuse' in o) return { ok: false, code: o.refuse, detail: `${o.detail} (${moveCm.toFixed(1)} cm)` };
-    return ok(false);
+    if (moveCm * moveCm > WEDGE_CAP_SQ) return ok(false);
   }
   warn(ctx.tx, ctx.warnings, 'W_WEDGE_ROUTED', at);
   return ok(true);
