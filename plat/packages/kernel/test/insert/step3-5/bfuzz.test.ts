@@ -196,9 +196,11 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   }, hardTimeout(60));
 
   // N-42 (b), the named regression (C-0207): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
-  // close-r1 note 23) — one L0 mandatory random walk refused E_INVARIANT "no route from (313, 244) to (341, 251) keeps
-  // clearance": the route step 3 gives the last segment, through (332, 226) and (361, 234), passes 24.3 cm from its own
-  // free end. That case, replayed (fast-check's path 8345 at that seed), now commits valid, the end re-landed.
+  // close-r1 note 23) — three earlier chains, then an L2 mandatory random walk of 320 points refused E_INVARIANT; shrunk,
+  // one L0 walk refused "no route from (313, 244) to (341, 251) keeps clearance" (routerGapS3.test.ts pins it): the route
+  // step 3 gives the last segment, through (332, 226) and (361, 234), passes 24.3 cm from its own free end. The case
+  // itself, replayed (fast-check's path 8345 at that seed), now commits valid, a free end re-landed (W_PLACED at (3624,
+  // 3034)).
   it('the random family\'s seed −1863295922, its 8 346th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: -1863295922, path: '8345', numRuns: 1 });
