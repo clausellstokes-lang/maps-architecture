@@ -2,11 +2,12 @@
 // land, its two constants walls.json's `gateLaw` cells (the waterfront and closed-arc reductions are M1's: no water on
 // the flat fixture, C-0032). Picks are sequential nested picks from the `gate.pick` stream on the pick contour (the
 // level set of stage 1's land in the terrain-only field, a = 1): pick i scores every candidate — the contour's inside
-// nodes — by its angular gap to the earlier picks (seen from the nucleus), its nearness to a requested bearing, the
-// terrain (steep ground down) and a jitter, one uniform per candidate per pick, so the draws of pick i never depend on
-// N and a smaller N is always a prefix of a larger one. Each gate is the first point at which its solved route, walked
-// outward from the plaza, reaches T = t₁: the midpoint of the first route edge leaving the selection, which is the
-// contour's own crossing there (C-0017), so every gate is a contour vertex. Choices: C-0201.
+// land nodes, never the water its selection reaches (C-0204) — by its angular gap to the earlier picks (seen from the
+// nucleus), its nearness to a requested bearing, the terrain (steep ground down) and a jitter, one uniform per
+// candidate per pick, so the draws of pick i never depend on N and a smaller N is always a prefix of a larger one.
+// Each gate is the first point at which its solved route, walked outward from the plaza, reaches T = t₁: the midpoint
+// of the first route edge leaving the selection, which is the contour's own crossing there (C-0017), so every gate is
+// a contour vertex. Choices: C-0201, C-0204.
 import { type LatticePoint, type Stream } from '@plat/kernel';
 import type { TableView } from '@plat/tables';
 import { angularGap, bearingCdeg, latticeAt } from './geom.js';
@@ -34,10 +35,16 @@ export interface PickOptions {
   centre?: LatticePoint;
 }
 
-/** The pick contour's candidates: the selection's nodes on its contour (inside ends of the crossed edges), by index. */
+/**
+ * The pick contour's candidates: the selection's land nodes on its contour (the inside ends of the crossed edges that
+ * are interior and not water), by index. The water the selection reaches over a river (C-0201 (8)) is never a pick: S3
+ * (4) picks on stage 1's land, a river takes water gates (C-0087), and the plaza tree never reaches a water node
+ * (C-0204).
+ */
 export function pickCandidates(contour: LevelSet): number[] {
+  const { interior, water } = contour.field.lattice;
   const set = new Set<number>();
-  for (const [u] of contour.contourEdges) set.add(u);
+  for (const [u] of contour.contourEdges) if (interior[u] === 1 && water[u] === 0) set.add(u);
   return [...set].sort((a, b) => a - b);
 }
 

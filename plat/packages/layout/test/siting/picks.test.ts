@@ -13,11 +13,12 @@ import {
   levelSet,
   pickCandidates,
   plaza,
+  s3Slice,
   siteCosts,
   stageThreshold,
   type LevelSet,
 } from '../../src/index.js';
-import { sliceOf, smallSite } from './support.js';
+import { P, sliceOf, smallSite } from './support.js';
 
 /** The pick contour of a small site (a 30 ha walled area in a 4 km² frame). */
 function pickContour(seed: number): LevelSet {
@@ -104,4 +105,55 @@ describe('nested picks (§4.2 S3 (4))', () => {
     expect(gatePicks(CONTOUR, 0, streamFromKey([1, 1, 1, 1]))).toEqual([]);
     expect(() => gatePicks(CONTOUR, 2.5, streamFromKey([1, 1, 1, 1]))).toThrow(RangeError);
   });
+});
+
+describe('picks on a river site: land only (§4.2 S3 (4); C-0201 (8), C-0204)', () => {
+  // A 40 m river band across the small site, its deck placed so the pick contour's selection reaches over the water.
+  // Before C-0204 the inside ends of the contour's crossings over the water were candidates: a pick landed in the
+  // river, the plaza tree never reached it, and the town got N − 1 gates (check M0-c-01 B-1, probes P5 and P7).
+  // The second layout's stage spans the river along its deck: one route leaves the stage at the far bridgehead, the
+  // midpoint of the deck's last water node and the east bank (C-0204 (2)).
+  const layouts: readonly { seed: number; x0: number; deckY: number; bridgehead: boolean }[] = [
+    { seed: 21, x0: 10_000, deckY: 20_000, bridgehead: false },
+    { seed: 25, x0: 20_000, deckY: 0, bridgehead: true },
+  ];
+  for (const { seed, x0, deckY, bridgehead } of layouts) {
+    it(`seed ${String(seed)}, river at x ${String(x0 / 100)}–${String(x0 / 100 + 40)} m, deck at y ${String(deckY / 100)} m: no pick or gate on water, every route served, N gates`, () => {
+      const band = [P(x0, -100_000), P(x0 + 4_000, -100_000), P(x0 + 4_000, 100_000), P(x0, 100_000)];
+      const water = { faces: [band], decks: [{ id: 'bridge:0', a: P(x0, deckY), b: P(x0 + 4_000, deckY) }] };
+      const s = s3Slice(smallSite(seed, { water }), { requestedN: 3 });
+      const L = s.lattice;
+      const contour = s.pickSet;
+      // The premise: the pick contour's selection reaches over the river, and the contour crosses edges out of water.
+      let wetSelected = 0;
+      for (let i = 0; i < L.points.length; i += 1) if (L.water[i] === 1 && contour.selected[i] === 1) wetSelected += 1;
+      expect(wetSelected).toBeGreaterThan(0);
+      expect(contour.contourEdges.some(([u]) => L.water[u] === 1)).toBe(true);
+      // The candidates are exactly the land inside ends of the contour's crossings.
+      const land = new Set<number>();
+      for (const [u] of contour.contourEdges) if (L.interior[u] === 1 && L.water[u] === 0) land.add(u);
+      expect(pickCandidates(contour)).toEqual([...land].sort((a, b) => a - b));
+      // No pick, re-draw candidate or gate's inside node lies on water; every route is served; N gates.
+      for (const p of s.picks) {
+        expect(L.water[p.node]).toBe(0);
+        for (const r of p.ranked) expect(L.water[r]).toBe(0);
+      }
+      let heads = 0;
+      for (const g of s.gates) {
+        const [u, v] = g.edge;
+        if (L.water[u] === 0) continue;
+        // A gate whose inside end is water stands at a bridgehead: along the deck (within one spacing), its outside
+        // end on land.
+        heads += 1;
+        expect(L.water[v]).toBe(0);
+        expect(Math.abs(L.points[u].y - deckY)).toBeLessThanOrEqual(L.spacingCm);
+        expect(Math.abs(L.points[v].y - deckY)).toBeLessThanOrEqual(L.spacingCm);
+      }
+      expect(heads).toBe(bridgehead ? 1 : 0);
+      expect(s.report.unserved).toEqual([]);
+      expect(s.n).toBe(3);
+      expect(s.gates.length).toBe(s.n);
+      expect(s.report.gatesDropped).toBe(0);
+    });
+  }
 });

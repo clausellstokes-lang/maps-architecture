@@ -64,6 +64,37 @@ describe("F-WALL's gate rungs (C-0085)", () => {
     expect(s.gateSites.map((g) => g.ordinal)).toEqual([0]);
   });
 
+  it('re-draws walk the ranked list in score order: a coinciding next candidate is tried, then the one after it (C-0201 (6))', () => {
+    // ranked [a, a, c, d]: attempt 1 re-draws to a (coincides again), attempt 2 to c (stands); d is never reached.
+    const a = PLAIN.picks[0].node;
+    const c = farFrom(PLAIN, a);
+    const d = farFrom(PLAIN, a, c);
+    expect(new Set([a, c, d]).size).toBe(3);
+    const s = s3Slice(SITE, { requestedN: 2, picks: [pick(0, a, [a], PLAIN), pick(1, a, [a, a, c, d], PLAIN)] });
+    expect(s.report.gateRungs).toEqual([
+      { rung: 'redraw', ordinal: 1, with: 0, attempt: 1, from: a, to: a },
+      { rung: 'redraw', ordinal: 1, with: 0, attempt: 2, from: a, to: c },
+    ]);
+    expect(s.picks.map((p) => p.node)).toEqual([a, c]);
+    expect(s.gates.length).toBe(2);
+    expect(s.report.gatesDropped).toBe(0);
+  });
+
+  it(`GATE_REDRAWS itself caps the re-draws: a pick ranking more coinciding candidates is dropped after ${String(GATE_REDRAWS)}`, () => {
+    // ranked [a, a, a, a, a, c]: a fourth re-draw (to a) or a fifth (to c) would pass the cap.
+    const a = PLAIN.picks[0].node;
+    const c = farFrom(PLAIN, a);
+    const s = s3Slice(SITE, { requestedN: 2, picks: [pick(0, a, [a], PLAIN), pick(1, a, [a, a, a, a, a, c], PLAIN)] });
+    expect(s.report.gateRungs.map((r) => [r.rung, r.attempt, r.to])).toEqual([
+      ['redraw', 1, a],
+      ['redraw', 2, a],
+      ['redraw', 3, a],
+      ['drop', 0, -1],
+    ]);
+    expect(s.picks.map((p) => p.node)).toEqual([a]);
+    expect(s.report.gatesDropped).toBe(1);
+  });
+
   it('a pick with fewer ranked candidates than the cap is dropped once they run out', () => {
     const a = PLAIN.picks[0].node;
     const s = s3Slice(SITE, { requestedN: 2, picks: [pick(0, a, [a], PLAIN), pick(1, a, [a, a], PLAIN)] });
