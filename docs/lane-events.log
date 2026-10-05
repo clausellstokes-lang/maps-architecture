@@ -5747,3 +5747,4 @@
 2026-10-05 09:38 check/M0-a-14 CHECKPOINT kernel gate 1328/1328 exit 0; probes A (placed: 141 subjects, 0 false) B (300 nudges, 17 oracle breaks, 0 missed) C (nested islands) pass; bundle probe done; next: 45 mutants
 2026-10-05 09:39 check/M0-a-05-close-s2 CHECKPOINT kernel 122/1328, model 177, tables 240, site 120, layout 135 green; bench 14 red all five J176 files (Apple M1, launchd, arch -x86_64, battery, Chromium 1223); next: testkit project (long), verdict
 2026-10-05 09:41 check/M0-a-05-close-s2 CHECKPOINT testkit project running; mirror rebuilt for a probe of C-0205 (3)'s spur (mirror only); next: testkit result, spur probe, verdict
+2026-10-05 09:45 check/M0-a-14 CHECKPOINT 46 mutants: 33 killed by the item's tests; survivors K02 K16 equivalent, K03 K08 K09 verdict-equivalent, K13 off-promise; K02b K10 K23 K31 K32 K33 K38 killed only by checker controls; next: importer project gates
