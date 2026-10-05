@@ -39,7 +39,8 @@ const seat = async (key, prompt, opts) => {
   await acquire(key)
   try { return await agent(prompt, { effort: 'high', ...opts }) } finally { release() } // J187: work and critic seats at high effort
 }
-const fable = async (key, prompt, opts) => (await seat(key, prompt, { ...opts, model: 'fable' })) || seat(`${key}-opus`, prompt, opts)
+// J190 (owner 2026-10-05: "in place of using fable for anything, use opus 5.5"): the former Fable seats run on Opus 5.5.
+const fable = (key, prompt, opts) => seat(key, prompt, { ...opts, model: 'opus' })
 
 const COMMON = `PROJECT ${ROOT} (the Maps program; WSL2 Ubuntu, 20 CPUs, shared with the M0 flow build run wf_8f7c7489-304, whose seats write plat/ in this same tree). FILLER RULES (owner 2026-10-05; scope wf_2dccb46b-5d7): write NOTHING under plat/ and nothing outside the paths your task names (scratch work under ${S}/); run NO git command; run no vitest; keep any tool run to one process at a time; read HEAD state of plat/ files with git show HEAD:<path> is NOT allowed (no git) — where you need a plat/ file's checked state, the session gave it to you or you read the working copy and say so; append to docs/lane-events.log only lines "$(date '+%Y-%m-%d %H:%M') filler/<key> CHECKPOINT|LANDED <paths or a content-free note>" (keys and paths only, never a listed token). The design is a reference, not a contract (J156): add no design.`
 const RESEARCH = ` CLEAN-ROOM ROLE: RESEARCH-SIDE. You may read research/, docs/calibration/, docs/validation/ and the design. Nothing you write may contain a token from the deny-list (research/baselines/denylist/) or any reference generator's code, names or strings: your words and counts only.`
