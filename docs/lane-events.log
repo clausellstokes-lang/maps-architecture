@@ -5720,3 +5720,6 @@
 2026-10-05 08:05 build/M0-c-01-fix1 CHECKPOINT self-check (fix): B-1, B-2 pinned (F1 the wet-candidate fault fails picks.test.ts river test, also with its candidate-list line removed; K26 and K25 fail the new fwall fixtures; mirror isolated, restored by cmp, deleted); next: gates
 2026-10-05 08:07 build/M0-c-01-fix1 CHECKPOINT C-0204, L-0172 appended; gates: install 0, lint 0 probe-red ok, build 0, layout 135/135; next: bench, testkit projects, landed
 2026-10-05 08:08 build/M0-c-01-fix1 CHECKPOINT bench 14 red all in the five J176 files (101/115, = baseline); testkit project running; next: its result, landed record
+2026-10-05 08:14 build/M0-a-14 CHECKPOINT testkit project gate still running (started 06:40)
+2026-10-05 08:17 check/M0-a-05-close-s1 CHECKPOINT K7 non-equivalent: repro's 7th chain lands its endpoint 66.2 cm off its segment (fix: 4.3 cm), > the attracted bound, no test red -> BLOCKER; K9 digest == after (path unreached); E_INVARIANT search 12 000 buffer cases seed 2027: 0 throws 0 E_INVARIANT, 60 endpoint commits; landed:verify ok, install 0, lint 0 (670 files, probe-red ok), build 0; next: kernel + importer projects, verdict
+2026-10-05 08:18 build/M0-c-01-fix1 CHECKPOINT testkit project still running; next: its result, landed record
