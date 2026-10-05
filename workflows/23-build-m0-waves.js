@@ -236,6 +236,20 @@ if (FLOW) {
   const doneSet = new Set(FLOW.done || [])
   doneSet.forEach((id) => passed.add(id))
   const HOLD = FLOW.hold || []
+  // J189: waitFor { id: { cmd, why } } — the item starts only once a shell test (exit 0 = ready) passes, e.g. a session fix
+  // of a dependency outside the run committed on main; a Haiku probe polls it (zero judgment, J187's tiers) and the rest
+  // of the flow runs meanwhile. A probe that never sees it ready after its tries fails the item for the session.
+  const WAIT_FOR = FLOW.waitFor || {}
+  const waitOk = new Set()
+  const waiting4 = new Set()
+  const waitProbe = async (id) => {
+    const w = WAIT_FOR[id]
+    for (let tries = 0; tries < 80; tries++) {
+      const p = await agent(`Run exactly this one bash command and nothing else (it polls for up to 9 minutes): for i in $(seq 54); do if ${w.cmd}; then echo READY; break; fi; sleep 10; done; echo DONE. Return ready = true only if it printed READY.`, { label: `wait:${id}:${tries + 1}`, phase: 'Build', schema: { type: 'object', properties: { ready: { type: 'boolean' } }, required: ['ready'] }, model: 'haiku', effort: 'low' })
+      if (p && p.ready) return true
+    }
+    return false
+  }
   const EVERY = FLOW.commitEvery || 4
   const est = FLOW.est || {}
   const HANDS = FLOW.handsOver || {} // giver -> [successors]: a successor starts only once its giver is committed
@@ -385,6 +399,17 @@ if (FLOW) {
     if (halt) return
     for (const id of all) {
       if (started.has(id) || doneSet.has(id) || failed.has(id) || !ready(id)) continue
+      if (WAIT_FOR[id] && !waitOk.has(id)) {
+        if (!waiting4.has(id)) {
+          waiting4.add(id)
+          log(`flow ${L}: ${id} is ready but waits for: ${WAIT_FOR[id].why}`)
+          running.push(waitProbe(id).then((ok) => {
+            if (ok) { waitOk.add(id); log(`flow ${L}: ${id}'s wait is over`) } else { failed.set(id, 'waitFor never ready: ' + WAIT_FOR[id].why); log(`flow ${L}: ${id} FAILED (its wait never ended); its dependents will not start`) }
+            launch()
+          }))
+        }
+        continue
+      }
       started.add(id)
       log(`flow ${L}: ${id} starts (group ${groupOf[id]}; chain ${cp[id]} h${leaf(id) ? '; leaf' : ''})`)
       running.push(runItem(id, groupOf[id]).catch((e) => ({ id, ok: false, why: 'error: ' + e })).then(onDone(id)))
@@ -405,7 +430,7 @@ if (FLOW) {
     await commitChain // a commit can unblock a hand-over successor, which pushes new work
     if (seen === running.length) break
   }
-  const waiting = all.filter((id) => !started.has(id) && !doneSet.has(id))
+  const waiting = all.filter((id) => !started.has(id) && !doneSet.has(id) && !failed.has(id))
   const intOk = Object.values(integrations).every((v) => v === 'pass' || v === 'single')
   const ok = !halt && failed.size === 0 && waiting.length === 0 && intOk
   if (ok) await commit(true)

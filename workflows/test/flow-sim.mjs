@@ -19,6 +19,7 @@ let now = 0, tseq = 0
 const timers = []
 const sleep = (d) => new Promise((r) => timers.push({ t: now + d, s: tseq++, r }))
 let live = 0, maxLive = 0, stewardN = 0
+let waitReadyT
 const intWin = {} // id -> [{start, end, pass}]
 const trace = []
 const passT = {} // id -> time its item passed (last passing check)
@@ -31,6 +32,15 @@ const agent = async (prompt, opts) => {
   const id = itemOf(label)
   let d, res
   const isInt = label.startsWith('check/integration-')
+  if (label.startsWith('wait:')) {
+    // J189: a waitFor probe; READY from probe number WAIT_READY_AT on (0 = never)
+    const n = Number(label.split(':')[2]); const at = Number(process.env.WAIT_READY_AT || '3')
+    await sleep(0.15); live--
+    const ready = at > 0 && n >= at
+    if (ready && waitReadyT === undefined) waitReadyT = now
+    trace.push({ t: now, kind: 'wait', label, ready })
+    return { ready }
+  }
   if (label.startsWith('steward/')) {
     d = 0.1
     stewardN++
@@ -91,7 +101,11 @@ for (const id of X.done || []) passT[id] = 0
 for (const id of X.hold || []) { const gi = waves.findIndex((w) => w.items.includes(id)); for (const w of waves.slice(0, gi)) for (const x of w.items) if (!(passT[x] <= startT[id])) problems.push(`hold ${id} started at ${startT[id]} before earlier-group ${x} passed (${passT[x]})`) }
 const runIds = waves.flatMap((w) => w.items)
 for (const id of Object.keys(startT)) for (const d of DEPS[id] || []) if (runIds.includes(d) && !(passT[d] <= startT[id])) problems.push(`${id} started at ${startT[id].toFixed(2)} before dep ${d} passed (${passT[d]})`)
-if (maxLive > 4) problems.push('maxLive ' + maxLive)
+if (maxLive > 5) problems.push('maxLive ' + maxLive) // 4 seats + at most one waitFor probe (J189)
+for (const id of Object.keys((X.waitFor || {}))) {
+  if (startT[id] !== undefined && !(waitReadyT <= startT[id])) problems.push(`${id} started at ${startT[id]} before its waitFor was ready (${waitReadyT})`)
+  if (process.env.WAIT_READY_AT === '0' && startT[id] !== undefined) problems.push(`${id} started though its wait never ended`)
+}
 const notPassed = runIds.filter((id) => passT[id] === undefined)
 const commitsT = trace.filter((e) => e.kind === 'steward' && /-(commit|close)/.test(e.label))
 const flatC = commitsT.flatMap((e) => e.ids)
