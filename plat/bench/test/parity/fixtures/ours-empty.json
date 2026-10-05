@@ -1,0 +1,15 @@
+{
+  "schema": "plat.parity-ours/1",
+  "date": "2026-10-04",
+  "outputVersion": "m0",
+  "generatorVersion": "m0-k-05-bench-test",
+  "rung": "CITY",
+  "preset": "default",
+  "setting": {
+    "population": 20000,
+    "water": "none",
+    "seedFamily": "bench/k05",
+    "seeds": 0
+  },
+  "entries": []
+}

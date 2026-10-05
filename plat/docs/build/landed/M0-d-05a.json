@@ -1,0 +1,36 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-d-05a",
+  "lane": "build/M0-d-05a-fix1",
+  "lanes": ["build/M0-d-05a", "build/M0-d-05a-fix1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-04T22:20:56.803Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/model/src/identity/", "plat/packages/model/test/identity/"],
+  "counts": { "created": 7, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/model/src/identity/address.ts", "status": "created", "sha256": "12337140ecf1995b887a3bcdfe2cbd88f1edd7a588fbd2b5ba41617e58daf0f6", "size": 6054 },
+    { "path": "plat/packages/model/src/identity/index.ts", "status": "changed", "sha256": "04c92a326093a510efdb836387fcc1e4c56f4f52722c04e9c5b32a1186d0610c", "size": 771 },
+    { "path": "plat/packages/model/src/identity/lineage.ts", "status": "created", "sha256": "94ddc08db1b04e606f39499d24d7dc045affbb0c1c0a6feb6a5fab4bb4f3cb15", "size": 5288 },
+    { "path": "plat/packages/model/src/identity/mint.ts", "status": "created", "sha256": "b78242c7d1b1dbd50a7a3a65e087230a1d01f799b94dd1a99f5ccdf95af35e69", "size": 13879 },
+    { "path": "plat/packages/model/test/identity/address.test.ts", "status": "created", "sha256": "b802fca30cd0870bf2c74d03a042763c62041fd8eaeefcef3678dec7f0d74365", "size": 8422 },
+    { "path": "plat/packages/model/test/identity/city.test.ts", "status": "created", "sha256": "c562e0d506d7e75e3583fff1efab9fc0e7c6a4a1e620c9db23a513adc5d9d0c9", "size": 7458 },
+    { "path": "plat/packages/model/test/identity/lineage.test.ts", "status": "created", "sha256": "c0bca63b5d124722e0bc64fc8b93ef9672b9292f8c9763510e15acd93c5eb85c", "size": 6545 },
+    { "path": "plat/packages/model/test/identity/mint.test.ts", "status": "created", "sha256": "32100545136d0c9a5a384c7a3258cb1ba527a86fc57f79e947f82ba45854cce7", "size": 26094 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0122", "L-0126"],
+      "lines": ["55c0b293040d8b56", "6c0e7bb823478ec6"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0179", "C-0184"],
+      "lines": ["5a91001f5fabd6bd", "94d63c39bc7050e4"],
+      "removed": []
+    }
+  ]
+}

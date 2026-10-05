@@ -1,0 +1,14 @@
+[
+  {
+    "file": "bench/test/baselines-check/fixtures/deny/denylist.json",
+    "sha256": "4011e64fcf06becacbad16b008d1fc8f4f5b2c52cfe9cf8d3b69d801d4370c98",
+    "rows": 12,
+    "date": "2026-10-05",
+    "checks": [
+      "C1",
+      "C3"
+    ],
+    "checkerSeat": "L-0900",
+    "statement": "synthetic record for the bench test; read only the file"
+  }
+]

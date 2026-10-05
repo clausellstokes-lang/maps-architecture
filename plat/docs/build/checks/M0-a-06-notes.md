@@ -1,0 +1,14 @@
+# M0-a-06 — the closing check's notes (not failing lines)
+
+These notes come from the closing check of item M0-a-06 (lane `check/M0-a-06-close-r1`, flow flow-7, 2026-10-04).
+Under the session's rulings J162 and J169, the closing check fails the item only on a blocker. None of the findings
+below is a blocker: one is an equivalent survivor, one is a PLAUSIBLE-equivalent survivor that the author has already
+declared, and one is a cost constant to restate. Each row names its handling and the milestone or item where it
+belongs. The verdict and its evidence are in `checks/M0-a-06.md`, in the closing round at the top. The first check's
+notes N-1 – N-6 stay in `checks/M0-a-06.md`, and the ids below continue that numbering.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-7 | Mutant A07 drops `materialise`'s early skip of a side that the face pass has since given a record (`relevel.ts`, `… \|\| recordOn(plan.level, plan.h) !== undefined) continue;`). It survives the tx folder (174 of 174). It is **equivalent**: the same plan reaches the later guard `if ([outer, ...holes].some((i) => cycles[i].some((g) => recordOn(lv, g) !== undefined))) continue;`. The side's half-edge lies on `cycles[0]`, and `cycles[0]` is the outer ring itself or a hole of the chosen outer, so the later guard skips every case the early test skips. The only difference is the work charged for the probe walk. | No test needed (J169: an equivalent survivor takes a one-line note). The early skip saves the walk, and it may stay. | — |
+| N-8 | Mutant M18 (dissolution without C-0185 (4)'s on-run test) still survives (174 of 174). C-0189 (6) declares it PLAUSIBLE equivalent: the two can differ only after an earlier dissolution on the same run changes a far end, and no test reached that case, nor did 2 900 fuzz sequences or this round's further 1 100 (Q1). The first check asked for "a red test or a one-line equivalence note", and the note is in C-0189 (6), which refines C-0185. | Build an arena where two split vertices on one run dissolve in one batch and the second pair stops being on-run only after the first dissolution. Then either make M18 red there or upgrade the note to CONFIRMED equivalent. | M4 (hardening) |
+| N-9 | The cost bar's constant (160 per touched face, `cost.test.ts`) is fitted to its 24 seeds. This round's fresh wide fuzz (Q1, multipliers 999 983 and 1 299 709, 1 100 sequences) reached a worst ratio of **224** in the default mix, 217 in the along mix and 191 in the lane-heavy mix. That is within the first check's 246 (N-4) and C-0189 (6)'s statement that the ratio is ring-length-bound. The test's 160 holds on its own seeds and is not a narrowed bar, but it is not a bound for other seeds. | When M0-d-08 reuses the bar, restate it per touched face *and* edge (as C-0189 (6) says), or quote the 246 / 224 worst cases with the constant. | M0-d-08 |

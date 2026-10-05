@@ -1,0 +1,17 @@
+# M0-d-05a — the closing check's notes (not failing lines)
+
+These notes come from the closing check of item M0-d-05a (lane `check/M0-d-05a-close-r1`, 2026-10-04). Under the
+session's rulings J162 and J169, the closing check fails the item only on a blocker. None of the findings below is a
+blocker. Each needs a malformed input, a deliberate writer, or a later milestone's address form. Each row names its
+handling and where it belongs. The verdict and its evidence are in `checks/M0-d-05a.md`, with the closing round at the
+top. The probes are `scratchpad/close05a/probe4.mjs`, run on the package built from the landed sources.
+
+The first check's notes (N-1 – N-5) are bullets in `checks/M0-d-05a.md` round 1. They are: the types test's 5 s limit,
+routing C-0147 and C-0179 into the twin, the lenient token, the two `TOWN_ROOT` exports, and what succession must hand
+the mint. This file starts its own numbering at N-1.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-1 | **The handed-on kind's exact comparison is unpinned.** The code compares the address's kind and the record's kind exactly. `probe4`: `N1 kind Plot handed plot:: threw RangeError: … is of kind plot, the record's kind is Plot`. But mutant Q2 compares them without case (`p.kind.toLowerCase() !== rec.kind.toLowerCase()`), and it survives the item's 44 tests. Kinds are case-sensitive under C-0179 (3)'s kind rule (`[A-Za-z][A-Za-z0-9._-]*`), so `Plot` and `plot` are two kinds. | Add one refusal case to "checks a handed-on record's kind …": a record of kind `Plot` handed a `plot:` address. Its expected message is `/is of kind plot, the record's kind is Plot/`. | M4 (hardening); or M0-d-05b, if it touches the mint's tests |
+| N-2 | **A live set that lists one id twice lets a hand-on reach a survivor's address.** `mint` builds `retiredIds` from every entry flagged `retired`. Suppose `live` holds `{ id: x, retired: true }` and also a survivor `{ id: x }`. Then a record handed `x` is accepted, and the batch gives a second live entity the survivor's address. `probe4`: `N2 two live entries with one id, one retired: hand-on to it: ok -> "plot:3p7t2a00nw1xg"`. §6.3 never reuses an address, so a correct live set holds each id once, and this input is malformed. | Either `mint` refuses a `live` that repeats an id (a RangeError, like C-0184's other input checks, with a test), or M0-d-05b's live-set builder states and tests that each id appears once. | M0-d-05b (it builds the live set the mint reads); else M4 |
+| N-3 | **The fix's `parent` check refuses the design's room id form.** `checkRecord` parses `rec.parent` with `parseAddress`. Its token class `[^:/\s]+` refuses §2.6's `Room.id` form `room:<building id>/<level>/<i>`. `probe4`: `N3 … room:<building id>/<level>/<i>: threw RangeError: address: not an address: room:building:abc/0/2`. M0 cannot reach this. §2.8 says that "an address whose prefix is `room:`" resolves through its building's plan, "so plan parts need no registry entry". So no entity M0 mints has a room as its `Identity.parent`. | When V03's stored plans land, decide whether a minted entity's containment parent can be a room. If it can, widen the parent check (and `parseAddress`, or a room-aware variant) to the room form, with a choices row naming §2.6 and §2.8 and a test. If it cannot, state that in a row. | the item that builds V03's stored plans (rooms); else M4 |
