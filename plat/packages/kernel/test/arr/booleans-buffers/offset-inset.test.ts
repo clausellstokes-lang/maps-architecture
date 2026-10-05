@@ -75,6 +75,39 @@ describe('offsetFace (§3.7: face − ⋃ buffer(edgeᵢ, dᵢ))', () => {
     expect(area2Exact(out[1]) < 0n).toBe(true);
   });
 
+  it('distances follow faceEdges’ order across holes: the outer ring, then each hole from its lowest-leftmost vertex, in that vertex order', () => {
+    const A = rect(1000, 1000, 2000, 2000).reverse();
+    const B = rect(4000, 1000, 5000, 2000).reverse();
+    // B entered before A: the order is the lattice points', never the insertion's or the slots'
+    const { tx, face } = arenaFace([rect(0, 0, 6000, 3000), B, A]);
+    const edges = faceEdges(tx, face);
+    expect(edges.map((e) => [e.a.x, e.a.y])).toEqual([
+      [0, 0], [6000, 0], [6000, 3000], [0, 3000],
+      [1000, 1000], [1000, 2000], [2000, 2000], [2000, 1000],
+      [4000, 1000], [4000, 2000], [5000, 2000], [5000, 1000],
+    ]);
+    // only hole A's edges set back by 1 m: hole A grows into a rounded square, hole B and the outer ring stay
+    const out = rings(offsetFace(tx, face, [0, 0, 0, 0, 100, 100, 100, 100, 0, 0, 0, 0]));
+    expect(out).toHaveLength(3);
+    expect(out[0]).toEqual(rect(0, 0, 6000, 3000));
+    expect(out).toContainEqual(R([4000, 1000], [4000, 2000], [5000, 2000], [5000, 1000]));
+    const grown = out.find((r) => r.some((p) => p.x < 1000));
+    expect(grown).toBeDefined();
+    const xs = (grown ?? []).map((p) => p.x);
+    expect(Math.min(...xs)).toBe(900);
+    expect(Math.max(...xs)).toBe(2100);
+    // 1 m² + the four 10 m × 1 m strips + a disc of 1 m radius less its chords' segments
+    const want = 1_000_000 + 400_000 + Math.PI * 10_000;
+    expect(-areaOf([grown ?? []])).toBeLessThanOrEqual(want + 1_000);
+    expect(-areaOf([grown ?? []])).toBeGreaterThan(want - 2 * Math.PI * 100 * 2 - 1_000);
+  });
+
+  it('a setback deeper than half the face but short of its reach leaves the face beyond it (the empty shortcut only past the reach)', () => {
+    const { tx, face } = arenaFace([rect(0, 0, 1000, 1000)]);
+    expect(rings(offsetFace(tx, face, [800, 0, 0, 0]))).toEqual([rect(0, 800, 1000, 1000)]);
+    expect(rings(offsetFace(tx, face, [990, 0, 0, 0]))).toEqual([rect(0, 990, 1000, 1000)]);
+  });
+
   it('a setback past the middle is E_DEGENERATE empty; a wrong distance list is the caller’s error', () => {
     const { tx, face } = arenaFace([rect(0, 0, 1000, 1000)]);
     expect(offsetFace(tx, face, [600, 600, 600, 600])).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
@@ -121,6 +154,17 @@ describe('insetRing (§3.7 Insets; §13.1 further limits)', () => {
     expect(c.lastCm).toBeLessThan(300);
     expect(insetRing(tx, face, c.lastCm)).toMatchObject({ ok: true, value: c.partial });
     expect(insetRing(tx, face, c.lastCm + 1).ok).toBe(false);
+  });
+
+  it('an inset the half-planes leave thinner than attraction keeps is collapsed, carrying the move (C-0196 (5))', () => {
+    // a 1 m wide rectangle inset by 45 cm leaves a 10 cm strip in doubles, which attraction folds to nothing
+    const { tx, face } = arenaFace([rect(0, 0, 1000, 100)]);
+    const r = insetRing(tx, face, 45);
+    expect(r).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'collapsed' });
+    const c = r as InsetCollapsed;
+    expect(c.warnings.some((w) => MOVES.includes(w.code) && w.count > 0)).toBe(true);
+    expect(c.lastCm).toBeLessThan(45);
+    expect(insetRing(tx, face, c.lastCm)).toMatchObject({ ok: true, value: c.partial });
   });
 
   it('a whole number of centimetres only', () => {

@@ -76,6 +76,28 @@ describe('booleans: holes, pinches and fill rules', () => {
     expect(cancel.ok).toBe(false);
   });
 
+  it('rings come out in canonical order: by start vertex (lowest-leftmost), the outer ring before its hole', () => {
+    expect(rings(booleans('union', [rect(1000, 1000, 2000, 2000)], [rect(0, 0, 1000, 1000)], 'nonzero'))).toEqual([rect(0, 0, 1000, 1000), rect(1000, 1000, 2000, 2000)]);
+    expect(rings(booleans('difference', [rect(0, 0, 3000, 3000)], [rect(1000, 1000, 2000, 2000)], 'nonzero'))).toEqual([
+      rect(0, 0, 3000, 3000),
+      R([1000, 1000], [1000, 2000], [2000, 2000], [2000, 1000]),
+    ]);
+  });
+
+  it('a ring that encloses one inserted before it takes it as its hole (the scratch frame, C-0196 (1))', () => {
+    expect(rings(booleans('union', [rect(1000, 1000, 2000, 2000)], [rect(0, 0, 3000, 3000)], 'nonzero'))).toEqual([rect(0, 0, 3000, 3000)]);
+    expect(booleans('difference', [rect(1000, 1000, 2000, 2000)], [rect(0, 0, 3000, 3000)], 'nonzero')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+    const hole = rings(booleans('difference', [rect(0, 0, 3000, 3000)], [rect(1000, 1000, 2000, 2000)], 'evenodd'));
+    expect(areaOf(hole)).toBe(8_000_000);
+  });
+
+  it('a run of sub-minEdge segments spanning minEdge or more is bridged, so the ring stays closed (C-0196 (1))', () => {
+    // the left side runs down from (0, 1000) in 10 cm steps to (0, 960): each step collapses alone, the run spans 40 cm
+    const stair = R([0, 0], [1000, 0], [1000, 1000], [0, 1000], [0, 990], [0, 980], [0, 970], [0, 960]);
+    const r = rings(booleans('union', [stair], [], 'nonzero'));
+    expect(r).toEqual([rect(0, 0, 1000, 1000)]);
+  });
+
   it('a self-crossing bow-tie: both lobes under either rule', () => {
     const bow = R([0, 0], [2000, 2000], [2000, 0], [0, 2000]);
     const nz = rings(booleans('union', [bow], [], 'nonzero'));
@@ -106,6 +128,21 @@ describe('the empty result and the lattice door (§3.11)', () => {
     expect(covered).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
     expect(booleans('union', [], [], 'evenodd')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
     expect('warnings' in disjoint).toBe(true);
+  });
+
+  it('an empty result attraction made carries the move (C-0196 (4)); one where nothing moved carries none', () => {
+    const moves = (r: ReturnType<typeof booleans>): number =>
+      ((r as { warnings?: { code: string; count: number }[] }).warnings ?? []).filter((w) => MOVES.includes(w.code)).reduce((s, w) => s + w.count, 0);
+    // a 10 cm sliver, narrower than attractCm: its two sides are attracted together and nothing is left
+    const sliver = booleans('intersection', [rect(0, 0, 1000, 1000)], [rect(990, 0, 2000, 1000)], 'nonzero');
+    expect(sliver).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+    expect(moves(sliver)).toBeGreaterThan(0);
+    // a ring all of whose segments are shorter than minEdge collapses: the collapse alone is the move (C-0196 (1))
+    const speck = booleans('union', [R([0, 0], [10, 0], [0, 10])], [], 'nonzero');
+    expect(speck).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+    expect(moves(speck)).toBeGreaterThan(0);
+    const disjoint = booleans('intersection', [rect(0, 0, 1000, 1000)], [rect(2000, 0, 3000, 1000)], 'nonzero');
+    expect(moves(disjoint)).toBe(0);
   });
 
   it('a coordinate off the lattice is E_OUT_OF_RANGE', () => {

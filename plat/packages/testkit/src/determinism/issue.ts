@@ -10,7 +10,7 @@
 // compares every batch's slot-free outcome (outcomePrint: the refusal code, or the commit record, the arena and the
 // five level digests). The pool-size clause (sizes 0–3) is M1's: the pool and its overlays are M1's (§4b).
 import { tx, type Committed, type KernelResult, type KernelTx, type Overlay, type Plat, type TxEnv } from '@plat/kernel';
-import { digestText, firstDifference, outcomePrint } from './print.js';
+import { arenaPrint, digestText, firstDifference, outcomePrint } from './print.js';
 import { renumberSlots, type RenumberMode } from './renumber.js';
 
 /** One batch as the arena it runs on sees it: its spec (declared ops in `spec.ops`, or none) and its callback. */
@@ -84,7 +84,14 @@ export function runSequenceOutcomes(seq: DeterminismSequence, opts: SequenceRunO
   const out: BatchOutcome[] = [];
   seq.batches.forEach((b, i) => {
     if (opts.renumber !== undefined) p = renumberSlots(p, opts.renumber.seed + i, { mode: opts.renumber.mode });
-    const print = outcomePrint(p, runBatch(p, b.build(p)));
+    let print: string;
+    try {
+      print = outcomePrint(p, runBatch(p, b.build(p)));
+    } catch {
+      // A programming error (a kernel assertion): tx() put the arena back and rethrew. Its message may name a slot, so
+      // the outcome is the throw and the arena, never the text.
+      print = `threw\n${arenaPrint(p)}`;
+    }
     out.push({ batch: b.name, digest: digestText(print), print });
   });
   return out;

@@ -156,6 +156,39 @@ describe('buffer: joins (§3.7; §13.1 further limits)', () => {
     }
   });
 
+  /** The largest projection of the output's vertices on the outer bisector of a left turn at v (u1 in, u2 out). */
+  function bisectorReach(r: readonly Ring[], v: LatticePoint, u1: { x: number; y: number }, u2: { x: number; y: number }): number {
+    const bis = { x: u1.x - u2.x, y: u1.y - u2.y };
+    const bl = Math.hypot(bis.x, bis.y);
+    return Math.max(...vertices(r).map((p) => ((p.x - v.x) * bis.x + (p.y - v.y) * bis.y) / bl));
+  }
+
+  it('the miter limit on both sides of its bound: a 110° turn keeps its miter point (w ÷ cos 55° ≈ 1.74 w), a 125° turn is cut at 2 w', () => {
+    // the miter point lies w ÷ cos(θ/2) from the vertex: nearer than 2 w below a 120° turn, farther above it (§3.7)
+    const at = (deg: number): { chain: LatticePoint[]; u2: { x: number; y: number } } => {
+      const t = (deg * Math.PI) / 180;
+      const q = pt(1000 + Math.round(1000 * Math.cos(t)), Math.round(1000 * Math.sin(t)));
+      const len = Math.hypot(q.x - 1000, q.y);
+      return { chain: [pt(0, 0), pt(1000, 0), q], u2: { x: (q.x - 1000) / len, y: q.y / len } };
+    };
+    const kept = at(110);
+    const reachKept = bisectorReach(rings(buffer([kept.chain], 100, 'miter', 'flat')), pt(1000, 0), { x: 1, y: 0 }, kept.u2);
+    const miter = 100 / Math.cos((55 * Math.PI) / 180);
+    expect(reachKept).toBeGreaterThanOrEqual(miter - 1.5);
+    expect(reachKept).toBeLessThanOrEqual(miter + 1.5);
+    const cut = at(125);
+    const reachCut = bisectorReach(rings(buffer([cut.chain], 100, 'miter', 'flat')), pt(1000, 0), { x: 1, y: 0 }, cut.u2);
+    expect(reachCut).toBeGreaterThanOrEqual(200 - 1);
+    expect(reachCut).toBeLessThanOrEqual(200 + 1);
+  });
+
+  it('with per-point half-widths a join uses its vertex’s own half-width (C-0196 (2))', () => {
+    // the join at (1000, 0) is the miter of the vertex's 300 cm: its point (1300, −300), beyond both neighbours' 100 cm
+    const r = rings(buffer([[pt(0, 0), pt(1000, 0), pt(1000, 1000)]], [100, 300, 100], 'miter', 'flat'));
+    expect(r).toHaveLength(1);
+    expect(hasVertex(r, 1300, -300)).toBe(true);
+  });
+
   it('a straight-on vertex has no join: the strip is the one rectangle', () => {
     expect(rings(buffer([[pt(0, 0), pt(500, 0), pt(1000, 0)]], 100, 'miter', 'flat'))).toEqual([rect(0, -100, 1000, 100)]);
   });
@@ -198,7 +231,10 @@ describe('buffer: the empty result (§3.11)', () => {
     const chain = [pt(-3825, -6840), pt(-3800, -6890), pt(-7297, -4449), pt(-10660, -2472), pt(-10618, -2507)];
     const parts = bufferParts([chain], 3, 'square', 'round');
     expect(parts.ok && parts.value.length % 8).toBe(1);
-    expect(buffer([chain], 3, 'square', 'round')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+    const r = buffer([chain], 3, 'square', 'round');
+    expect(r).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+    // emptied by attraction: the refusal carries the move, so §3.7's split reads the case as attracted (C-0196 (4))
+    expect(((r as { warnings?: { code: string; count: number }[] }).warnings ?? []).some((w) => MOVES.includes(w.code) && w.count > 0)).toBe(true);
   });
 });
 

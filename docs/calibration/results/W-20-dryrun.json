@@ -1,0 +1,155 @@
+{
+ "id": "W-20-dryrun",
+ "status": "dry-run",
+ "date": "2026-10-05",
+ "ranAgainst": {
+  "item": "M0-k-05",
+  "commit": "3e6f5971/2315b4df",
+  "commitNote": "as named by the task; not verified here (filler rules forbid git). The mirror is a cp -a of the plat/ working copy at 2026-10-05, so it reflects the working tree, which may hold uncommitted seat edits from the parallel M0 build run (wf_8f7c7489-304)."
+ },
+ "mirror": {
+  "path": "maps-scratch/filler/w20/plat",
+  "isolation": {
+   "command": "find /home/cstokes111/maps-scratch/filler/w20 -type l -lname '/home/cstokes111/Maps*'",
+   "exit": 0,
+   "printed": "nothing",
+   "note": "390 symlinks in the copy, 0 absolute",
+   "output": "maps-scratch/filler/w20/out-01-isolation.txt"
+  },
+  "nodeModulesRemoved": true
+ },
+ "files": [
+  {
+   "file": "baselines.json",
+   "from": "research/baselines/candidates/baselines.json",
+   "sha256": "784e2373b4da9032ea0b5fe816dceec3d4d4247b4ee8e4b6a528492160b15320",
+   "rows": 491
+  },
+  {
+   "file": "ng-faces.json",
+   "from": "research/baselines/candidates/ng-faces.json",
+   "sha256": "eb0be05983efbc625dadd1d51907274028c8db174a9c91cee0576f797f514fcc",
+   "rows": 374,
+   "note": "ng-faces.hoods.json beside it in candidates/ was not copied (not a crossing file)"
+  },
+  {
+   "file": "denylist.json",
+   "from": "research/baselines/denylist/denylist.json",
+   "sha256": "7b3d79936f32dccd0770bf37cf7381a747555a1a0a543b185749842f18c223c6",
+   "rows": 1274849
+  }
+ ],
+ "checks": [
+  {
+   "file": "baselines.json",
+   "check": "baselines:check, first pass (crossings.json [])",
+   "command": "(cd w20/plat) corepack pnpm baselines:check -- packages/testkit/baselines/baselines.json",
+   "exit": 1,
+   "output": "maps-scratch/filler/w20/out-03-check-baselines.txt",
+   "report": "maps-scratch/filler/w20/out-03-check-baselines.report.json",
+   "summary": "C1-C7 pass (C4: first crossing, no earlier record); C8-C10 not run at M0; the only failure is record missing, the expected state before the checker seat appends its record",
+   "confirms": [
+    "N-24 (C1 admits the upper-case metric ids)",
+    "N-22 (C3 reads colours inside strings only; passes)",
+    "N-32 partial (C2 length and character-set half passes; token-scan half NOT RUN)"
+   ]
+  },
+  {
+   "file": "ng-faces.json",
+   "check": "baselines:check, first pass",
+   "command": "(cd w20/plat) corepack pnpm baselines:check -- packages/testkit/baselines/ng-faces.json",
+   "exit": 1,
+   "output": "maps-scratch/filler/w20/out-04-check-ngfaces.txt",
+   "report": "maps-scratch/filler/w20/out-04-check-ngfaces.report.json",
+   "summary": "C1-C7 pass (C1 is the attachment-B structural check; C2 notes the file holds no note); C8-C10 not run; only failure record missing (expected)",
+   "confirms": [
+    "N-21 (C1 accepts the file in schema plat.ng-faces/1)",
+    "N-22 (C3 passes on nine-digit integer values)"
+   ]
+  },
+  {
+   "file": "denylist.json",
+   "check": "baselines:check, first pass",
+   "command": "(cd w20/plat) corepack pnpm baselines:check -- packages/testkit/baselines/denylist.json",
+   "exit": 1,
+   "output": "maps-scratch/filler/w20/out-05-check-denylist.txt",
+   "report": "maps-scratch/filler/w20/out-05-check-denylist.report.json",
+   "summary": "C1 and C3 pass; C2, C4-C7 not applicable (nothing to read in a deny-list); C8-C10 not run; only failure record missing (expected)",
+   "confirms": [
+    "N-22 (baselines:check covers denylist.json with C1 and C3 only; C3 does not refuse hex digests or the salt)"
+   ]
+  },
+  {
+   "file": "baselines.json",
+   "check": "load through the parity CLI's loader (readBaselines, as runParity calls it)",
+   "command": "(cd w20/plat) ./node_modules/.bin/tsx --conditions=plat-source w20-probe.ts baselines",
+   "exit": 0,
+   "output": "maps-scratch/filler/w20/out-06-load-baselines.txt",
+   "summary": "loaded 491 rows, no stop, 0 information lines; 81 distinct row metric ids, 20 of them in the M0 registry (24 registry ids, 20 with a row); 166 rows carry an upper-case metric id; 56 rows list captures without indices; 19 rows with n 0, all with every member failed; 109 plain-family and 6 stress-family rows",
+   "confirms": [
+    "N-20 (20 of the registry's ids pair with rows by id)",
+    "N-24 (upper-case ids read without refusal)",
+    "N-25 (rows that differ by subset and field load with unique ids)",
+    "N-31 (forms 1 and 3 accepted by the loader; form 2's plain/stress pairs present and loaded; the selection half is the CLI's report step, not run here)"
+   ]
+  },
+  {
+   "file": "ng-faces.json",
+   "check": "load through loadNgFaces (loadNgFacesFile)",
+   "command": "(cd w20/plat) ./node_modules/.bin/tsx --conditions=plat-source w20-probe.ts ng-faces",
+   "exit": 0,
+   "output": "maps-scratch/filler/w20/out-07-load-ngfaces.txt",
+   "summary": "loaded whole, no refusal: 7 top-level keys, 20 hoods, 374 faces; one referenceBuild value across top, hoods and faces; 0 faces lacking it",
+   "confirms": [
+    "N-21 (the loader's refusal of a face without referenceBuild never fires)"
+   ]
+  },
+  {
+   "file": "all three",
+   "check": "record round: the three proposed records appended to the MIRROR's crossings.json with a placeholder ledger row id (L-9999, not a real countersignature), then baselines:check re-run per file",
+   "command": "(cd w20/plat) corepack pnpm baselines:check -- packages/testkit/baselines/<file>, for each file",
+   "exit": 0,
+   "output": [
+    "maps-scratch/filler/w20/out-08-records-appended.txt",
+    "maps-scratch/filler/w20/out-09-recheck-baselines.txt",
+    "maps-scratch/filler/w20/out-09-recheck-ng-faces.txt",
+    "maps-scratch/filler/w20/out-09-recheck-denylist.txt"
+   ],
+   "summary": "each file: every check passes and record pass, exit 0 — the README's two-pass crossing flow works end to end in the mirror",
+   "confirms": [
+    "N-22",
+    "N-21",
+    "N-24"
+   ]
+  },
+  {
+   "file": "baselines.json",
+   "check": "negative control: one byte appended after the record round, check re-run, original restored",
+   "command": "(cd w20/plat) corepack pnpm baselines:check -- packages/testkit/baselines/baselines.json",
+   "exit": 1,
+   "output": "maps-scratch/filler/w20/out-10-negcontrol-stale.txt",
+   "summary": "record stale (the record names the old sha256): the check refuses a changed file; restored file's sha256 matches again",
+   "confirms": []
+  }
+ ],
+ "notRun": [
+  {
+   "check": "C2's note-token scan (corepack pnpm scan over the baselines folder)",
+   "owner": "M0-k-06",
+   "why": "not built: packages/testkit/src/scanner/index.ts is an empty stub; recorded as NOT RUN, not as pass",
+   "rows": [
+    "N-32 scanner half",
+    "N-26"
+   ]
+  },
+  {
+   "check": "parity CLI end to end (corepack pnpm parity -- --ours <file>)",
+   "why": "no our-side plat.parity-ours/1 file exists for a dry run; only the CLI's loader was exercised"
+  },
+  {
+   "check": "C8-C10",
+   "why": "named by the tool as not run at M0 (M1)"
+  }
+ ],
+ "verdict": "CONFIRMED by executed runs: all three candidate files pass every check M0-k-05 runs, and both loaders accept their files; nothing was placed under plat/ and no real CrossingRecord was written. The real crossing still needs the checker seat's ledger row, and the token-scan half waits on M0-k-06."
+}

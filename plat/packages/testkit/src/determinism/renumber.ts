@@ -9,8 +9,11 @@
 //   moves);
 // * every column that names one — `out`, `origin` / `next` / `prev`, a face's `outer`, holes and `parent`, a row set's
 //   links and its element mark, the role-head and owner tables, `vertexFirst` / `edgeFirst`, the home column;
-// * the slot-like choices among equivalents (the kernel's own, never an output): which outgoing half-edge a vertex's
-//   `out` names, which half-edge of its ring a face's `outer` and each hole entry name — re-drawn;
+// * on request (`starts: true`, off by default), the slot-like choices among equivalents: which outgoing half-edge a
+//   vertex's `out` names, which half-edge of its ring a face's `outer` and each hole entry name — re-drawn. This goes
+//   past the design's clause (a renumbering renames slots; it does not move a record's stored start), so the bar runs
+//   without it; with it, the arena after the next op is identical and only the commit record's created / changed split
+//   can move (C-0198 (2));
 // * the lists whose order is a history of allocations, not a canonical order — an owner's face list, a role key's
 //   same-key chain — re-linked in the new slot order, as a load would link them; the role-head and owner hash tables
 //   rebuilt in that order; the free lists rebuilt in ascending slot order;
@@ -64,7 +67,7 @@ export type RenumberMode = 'random' | 'reverse';
 export interface RenumberOptions {
   /** Default 'random'. */
   readonly mode?: RenumberMode;
-  /** Re-draw `out`, `outer` and the hole entries among their equivalents (default true). */
+  /** Also re-draw `out`, `outer` and the hole entries among their equivalents (default false; C-0198 (2)). */
   readonly starts?: boolean;
 }
 
@@ -105,7 +108,7 @@ function filled32(n: number, v: number): Int32Array {
  */
 export function renumbering(p: Plat, seed: number, opts: RenumberOptions = {}): { plat: Plat; maps: SlotMaps } {
   const mode = opts.mode ?? 'random';
-  const starts = opts.starts ?? true;
+  const starts = opts.starts ?? false;
   const r = harnessRng(seed);
   if (p.index !== undefined && p.index.log !== null) throw new Error('renumberSlots: a batch is open on the arena');
   const topV = p.slots.vertex.top;

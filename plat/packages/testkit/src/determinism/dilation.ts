@@ -11,6 +11,8 @@
 // A model output that reads a clock — a time-budgeted ladder, a timeout that picks a rung — changes under the shim;
 // one that does not is byte-identical (the harness compares per-stage digests, `dilationCompare`).
 
+import { compareOutcomes, runSequenceOutcomes, type DeterminismSequence, type Divergence } from './issue.js';
+
 /** What one dilation saw: `fn`'s value and the clock reads the shim answered while it ran. */
 export interface Dilated<T> {
   readonly value: T;
@@ -144,4 +146,36 @@ export function withDilation<T>(factor: number, fn: () => T): T {
   const r = withDilationCounted(factor, fn) as Dilated<T> | Promise<Dilated<unknown>>;
   if (r instanceof Promise) return r.then((d) => d.value) as T;
   return (r as Dilated<T>).value;
+}
+
+
+/** §6.5 (9)'s factors: every clock read scaled × 10 and × 0.1. */
+export const DILATION_FACTORS: readonly number[] = [10, 0.1];
+
+/** The time-dilation harness's verdict on one sequence. */
+export interface DilationReport {
+  readonly name: string;
+  readonly factors: readonly number[];
+  /** Per factor, the clock reads the shim answered while the sequence ran (0: nothing it ran read a clock). */
+  readonly reads: readonly number[];
+  /** Per batch, the undilated run's outcome digest (the per-stage digests). */
+  readonly digests: readonly string[];
+  readonly identical: boolean;
+  readonly divergence: Divergence | null;
+}
+
+/**
+ * §6.5 (9)'s time-dilation test on one sequence: run with the true clocks, then under each factor (default × 10 and
+ * × 0.1); every batch's slot-free outcome under a dilated clock equals the undilated one, byte for byte.
+ */
+export function dilationCompare(seq: DeterminismSequence, factors: readonly number[] = DILATION_FACTORS): DilationReport {
+  const ref = runSequenceOutcomes(seq);
+  const reads: number[] = [];
+  let divergence: Divergence | null = null;
+  for (const f of factors) {
+    const d = withDilationCounted(f, () => runSequenceOutcomes(seq)) as Dilated<ReturnType<typeof runSequenceOutcomes>>;
+    reads.push(d.reads);
+    divergence ??= compareOutcomes(`dilation × ${f}`, ref, d.value);
+  }
+  return { name: seq.name, factors: factors.slice(), reads, digests: ref.map((o) => o.digest), identical: divergence === null, divergence };
 }

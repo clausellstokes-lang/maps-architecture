@@ -1,0 +1,682 @@
+{
+ "schema": "m1.e19/1",
+ "record": "docs/calibration/E19-known-defects.md",
+ "lane": "filler/e19-known-defects",
+ "status": "draft",
+ "date": "2026-10-05",
+ "inputs": [
+  {
+   "path": "research/baselines/candidates/baselines.json",
+   "sha256": "784e2373b4da9032ea0b5fe816dceec3d4d4247b4ee8e4b6a528492160b15320"
+  },
+  {
+   "path": "research/baselines/metrics.m-1.json",
+   "sha256": "ee191172382520f4485961db8a9293ac646340e95c96c33c727cf87e621e4a92"
+  },
+  {
+   "path": "docs/calibration/E15-baselines.json",
+   "sha256": "2ca99a4a684828473608a7572587087529a4d9aa39972af1523bfa65336f5adc"
+  }
+ ],
+ "choicesRead": {
+  "path": "plat/docs/build/choices.md",
+  "rows": [
+   "C-0116",
+   "C-0180"
+  ],
+  "state": "working copy, read only (no git)"
+ },
+ "form": "C-0116: role descriptive, provenance present, values.n 0 allowed, sample.failed carrying each attempt reason; verdict reported with a known-defects entry",
+ "counts": {
+  "candidateRows": 491,
+  "entries": 19,
+  "byReference": {
+   "FTG": 8,
+   "MFCG": 7,
+   "NG": 4
+  },
+  "byCause": {
+   "thin-class": 1,
+   "time-contended": 9,
+   "time-unmeasured": 9
+  },
+  "failedByReason": {
+   "contended": 80,
+   "no-export": 2,
+   "retry": 2,
+   "setting": 2,
+   "thin-class": 20,
+   "unmeasured": 97
+  },
+  "entriesInC0116Form": 19,
+  "entriesEveryMemberFailed": 19,
+  "entriesInM0M1Set": 0,
+  "entriesRegistryM1": 19,
+  "rowsPartialFailedNAbove0": 107,
+  "entriesDesignClauseWithoutReference": 2,
+  "e15M1CellCoverage": "26 of 26 (E15 section 3, its check; cited, not re-run here)",
+  "mfcgDerivedGraphCvRule": "0 rows fired (E14; cited)",
+  "noRowCells": 8
+ },
+ "entries": [
+  {
+   "row": "ng/medium/cut.sigma/class-holed",
+   "metric": "cut.sigma",
+   "reference": "NG",
+   "family": "capture/NG",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 20,
+   "members": 20,
+   "failed": 20,
+   "failedByReason": {
+    "thin-class": 20
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-09"
+   ],
+   "cause": "thin-class",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true,
+   "companionRows": [
+    "ng/medium/cut.cornerMid/class-holed",
+    "ng/medium/cut.arrival85/class-holed",
+    "ng/medium/cut.fillet/class-holed"
+   ],
+   "companionRowsN": [
+    2,
+    10,
+    2
+   ]
+  },
+  {
+   "row": "mfcg/40/plain/time.model/all",
+   "metric": "time.model",
+   "reference": "MFCG",
+   "family": "capture/MFCG/40/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "contended": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/40/plain/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "MFCG",
+   "family": "capture/MFCG/40/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "unmeasured": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/80/plain/time.model/all",
+   "metric": "time.model",
+   "reference": "MFCG",
+   "family": "capture/MFCG/80/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "contended": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/80/plain/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "MFCG",
+   "family": "capture/MFCG/80/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "unmeasured": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/130/plain/time.model/all",
+   "metric": "time.model",
+   "reference": "MFCG",
+   "family": "capture/MFCG/130/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 11,
+   "members": 11,
+   "failed": 11,
+   "failedByReason": {
+    "contended": 10,
+    "no-export": 1
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/130/plain/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "MFCG",
+   "family": "capture/MFCG/130/plain",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 11,
+   "members": 11,
+   "failed": 11,
+   "failedByReason": {
+    "no-export": 1,
+    "unmeasured": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "mfcg/80/river+coast/time.worst/all",
+   "metric": "time.worst",
+   "reference": "MFCG",
+   "family": "capture/MFCG/80/river+coast",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 5,
+   "members": 5,
+   "failed": 5,
+   "failedByReason": {
+    "contended": 3,
+    "retry": 2
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ng/medium/time.model/all",
+   "metric": "time.model",
+   "reference": "NG",
+   "family": "capture/NG",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 20,
+   "members": 20,
+   "failed": 20,
+   "failedByReason": {
+    "contended": 20
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-21",
+    "R-44"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ng/medium/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "NG",
+   "family": "capture/NG",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 20,
+   "members": 20,
+   "failed": 20,
+   "failedByReason": {
+    "unmeasured": 20
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ng/medium/time.worst/all",
+   "metric": "time.worst",
+   "reference": "NG",
+   "family": "capture/NG",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 20,
+   "members": 20,
+   "failed": 20,
+   "failedByReason": {
+    "unmeasured": 20
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/BIG_TOWN/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "FTG",
+   "family": "capture/FTG/BIG_TOWN",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "contended": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-47 (e)"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true,
+   "designClauseWithoutReference": "ARCHITECTURE 13.5 generation-time bar, FTG first-map clause at BIG_TOWN and BIG_CITY (M-1 plan section 8 (5))"
+  },
+  {
+   "row": "ftg/BIG_TOWN/time.worst/all",
+   "metric": "time.worst",
+   "reference": "FTG",
+   "family": "capture/FTG/BIG_TOWN",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "unmeasured": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/BIG_CITY/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "FTG",
+   "family": "capture/FTG/BIG_CITY",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "contended": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-47 (e)"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true,
+   "designClauseWithoutReference": "ARCHITECTURE 13.5 generation-time bar, FTG first-map clause at BIG_TOWN and BIG_CITY (M-1 plan section 8 (5))"
+  },
+  {
+   "row": "ftg/BIG_CITY/time.worst/all",
+   "metric": "time.worst",
+   "reference": "FTG",
+   "family": "capture/FTG/BIG_CITY",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 10,
+   "members": 10,
+   "failed": 10,
+   "failedByReason": {
+    "unmeasured": 10
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/METROPOLIS/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "FTG",
+   "family": "capture/FTG/METROPOLIS",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 4,
+   "members": 4,
+   "failed": 4,
+   "failedByReason": {
+    "contended": 4
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-47 (e)"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/METROPOLIS/time.worst/all",
+   "metric": "time.worst",
+   "reference": "FTG",
+   "family": "capture/FTG/METROPOLIS",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 4,
+   "members": 4,
+   "failed": 4,
+   "failedByReason": {
+    "unmeasured": 4
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/CITY/time.firstMap/all",
+   "metric": "time.firstMap",
+   "reference": "FTG",
+   "family": "capture/FTG/CITY",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 4,
+   "members": 4,
+   "failed": 4,
+   "failedByReason": {
+    "contended": 3,
+    "setting": 1
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-47 (e)"
+   ],
+   "cause": "time-contended",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  },
+  {
+   "row": "ftg/CITY/time.worst/all",
+   "metric": "time.worst",
+   "reference": "FTG",
+   "family": "capture/FTG/CITY",
+   "role": "descriptive",
+   "valuesN": 0,
+   "seeds": 4,
+   "members": 4,
+   "failed": 4,
+   "failedByReason": {
+    "setting": 1,
+    "unmeasured": 3
+   },
+   "provenancePresent": true,
+   "everyMemberFailed": true,
+   "otherValues": [],
+   "rulings": [
+    "R-44"
+   ],
+   "cause": "time-unmeasured",
+   "registryM1": true,
+   "m0M1Set": false,
+   "c0116Form": true
+  }
+ ],
+ "m0M1Set": {
+  "sgd.tShare": {
+   "rows": 3,
+   "rowsN0": 0,
+   "rowsWithFailed": 1,
+   "roles": {
+    "target": 3
+   }
+  },
+  "sgd.deadEnds": {
+   "rows": 3,
+   "rowsN0": 0,
+   "rowsWithFailed": 1,
+   "roles": {
+    "target": 3
+   }
+  },
+  "blockc.perHa": {
+   "rows": 3,
+   "rowsN0": 0,
+   "rowsWithFailed": 1,
+   "roles": {
+    "target": 3
+   }
+  },
+  "block.courtShare": {
+   "rows": 8,
+   "rowsN0": 0,
+   "rowsWithFailed": 1,
+   "roles": {
+    "target": 8
+   }
+  },
+  "block.area": {
+   "rows": 5,
+   "rowsN0": 0,
+   "rowsWithFailed": 0,
+   "roles": {
+    "target": 5
+   }
+  },
+  "block.countTemplate": {
+   "rows": 4,
+   "rowsN0": 0,
+   "rowsWithFailed": 0,
+   "roles": {
+    "target": 4
+   }
+  },
+  "cut.length": {
+   "rows": 7,
+   "rowsN0": 0,
+   "rowsWithFailed": 4,
+   "roles": {
+    "target": 7
+   }
+  }
+ },
+ "noRowCells": [
+  {
+   "source": "registry m1NoRow",
+   "metric": "plot.spearman",
+   "reference": "NG",
+   "rulings": [
+    "R-23"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "registry m1NoRow",
+   "metric": "alley.gradient",
+   "reference": "FTG",
+   "rulings": [
+    "R-23"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "registry m1NoRow",
+   "metric": "label.*",
+   "reference": "MFCG",
+   "rulings": [
+    "R-23"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "registry m1NoRow",
+   "metric": "label.*",
+   "reference": "NG",
+   "rulings": [
+    "R-23"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "E15 noRow",
+   "metric": "street.runs",
+   "field": "alley",
+   "family": null,
+   "reference": "FTG",
+   "rulings": [],
+   "m0M1Set": false
+  },
+  {
+   "source": "E15 noRow",
+   "metric": "*",
+   "field": null,
+   "family": "capture/FTG/TOWN",
+   "reference": "FTG",
+   "rulings": [
+    "R-34"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "E15 noRow",
+   "metric": "every other stress-family value",
+   "field": null,
+   "family": "capture/MFCG/80/river+coast",
+   "reference": "MFCG",
+   "rulings": [
+    "R-23"
+   ],
+   "m0M1Set": false
+  },
+  {
+   "source": "M-1 plan section 8 (1); E06 section 10",
+   "metric": "FTG plot depth, frontage and plot share (no registry id)",
+   "reference": "FTG",
+   "rulings": [
+    "R-25"
+   ],
+   "m0M1Set": false,
+   "registryId": null,
+   "rowsInCandidate": 0,
+   "open": true
+  }
+ ]
+}
