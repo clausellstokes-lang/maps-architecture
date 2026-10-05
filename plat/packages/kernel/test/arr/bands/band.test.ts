@@ -33,7 +33,7 @@ describe('bandUnion (§3.4, §3.7 Insets)', () => {
     expect(v.band.map((f) => normals(ringsOf(p, 3, f))[0]).sort()).toEqual(['0,1850 4000,1850 4000,2000 0,2000', '0,2000 4000,2000 4000,2150 0,2150']);
     // the band is the FaceRef (enceinte:1, L3): its two per-side parts, each inside one strip — never straddling the wall
     expect(facesOfOwner(p, 3, handleOf(p, 'enceinte:1')).sort((a, b) => a - b)).toEqual(v.band.slice().sort((a, b) => a - b));
-    const anc = v.band.map((f) => p.faces[1].parent[p.faces[2].parent[f]]).sort((a, b) => a - b);
+    const anc = v.band.map((f) => p.faces[2].parent[p.faces[3].parent[f]]).sort((a, b) => a - b);
     expect(anc).toEqual([inner, outer].sort((a, b) => a - b));
     for (const f of v.band) expect(idOf(p, p.faces[3].owner[f])).toBe('enceinte:1');
     expect(edgesWithRole(p, 'band')).toEqual(['0,1850-4000,1850', '0,2150-4000,2150']);

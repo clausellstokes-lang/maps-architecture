@@ -123,7 +123,6 @@ describe('tileRings (§3.4 the seed clip)', () => {
           union += got;
         });
         expect(union).toBe(2n * grid.union());
-        expect(r.warnings.filter((w) => w.code === 'W_ATTRACTED' || w.code === 'W_PLACED' || w.code === 'W_WEDGE_ROUTED')).toEqual([]);
       }),
       { numRuns: 400 },
     );

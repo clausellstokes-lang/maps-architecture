@@ -169,26 +169,36 @@ export function edgesWithRole(p: Plat, role: string): string[] {
   return out.sort();
 }
 
+/** The live records of `level` whose parent is the face `parent` of level − 1. */
+function kidsOf(p: Plat, level: Level, parent: FaceId): FaceId[] {
+  const out: FaceId[] = [];
+  for (let c = 0; c < p.slots.face[level].top; c += 1) if (isFaceLive(p, level, c) && p.faces[level].parent[c] === parent) out.push(c);
+  return out;
+}
+
 /**
- * §13.1's "corridorUnion faces disjoint and covering", read on the arena: the records of `level` inside each L1 face
- * sum to its area exactly (integer area2), each is simple-area positive and nests in it, and no two overlap (their
- * areas sum to the parent's while each lies inside it — a planar subdivision's faces are interior-disjoint, and the
- * oracle `healthy` holds the subdivision).
+ * §13.1's "corridorUnion faces disjoint and covering", read on the arena down to `level`: under each L1 face, the
+ * records of every finer level down to `level` — a record with no child standing as its own child (§2.2 rule 2) — sum
+ * to their parent's area exactly (integer area2), each with a positive area, so the faces cover their parent with no
+ * overlap (a planar subdivision's faces are interior-disjoint, which the oracle `healthy` holds).
  */
 export function tilesExactly(p: Plat, level: Level, faces: readonly FaceId[]): string[] {
   const out: string[] = [];
-  for (const f of faces) {
-    const kids = childrenOf(p, level, f);
-    const parent = faceArea2(p, 1, f);
-    if (kids.length === 0) continue;
+  const check = (l: Level, f: FaceId): void => {
+    if (l >= level) return;
+    const kids = kidsOf(p, (l + 1) as Level, f);
+    if (kids.length === 0) return;
     let sum = 0n;
     for (const c of kids) {
-      const a = faceArea2(p, level, c);
-      if (a <= 0n) out.push(`face ${String(c)} at L${String(level)} has area2 ${String(a)}`);
+      const a = faceArea2(p, (l + 1) as Level, c);
+      if (a <= 0n) out.push(`face ${String(c)} at L${String(l + 1)} has area2 ${String(a)}`);
       sum += a;
+      check((l + 1) as Level, c);
     }
-    if (sum !== parent) out.push(`L1 face ${String(f)}: its L${String(level)} faces sum to ${String(sum)}, not ${String(parent)}`);
-  }
+    const parent = faceArea2(p, l, f);
+    if (sum !== parent) out.push(`L${String(l)} face ${String(f)}: its L${String(l + 1)} faces sum to ${String(sum)}, not ${String(parent)}`);
+  };
+  for (const f of faces) check(1, f);
   return out;
 }
 

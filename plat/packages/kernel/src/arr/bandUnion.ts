@@ -107,6 +107,54 @@ function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed: boolea
   return out;
 }
 
+/**
+ * Is the face (a record of level n) inside the kerb? Read at the centroid of an ear of its outer ring — a convex
+ * corner whose triangle holds no other vertex of the face, so its centroid lies strictly inside the face — by the
+ * non-zero winding of the kerb rings there (exact: coordinates tripled, orient2d on integers). Null where no ear is
+ * free of the face's other vertices.
+ */
+function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]): boolean | null {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const rings = faceWalk(p, level, c).map((r) => r.map((h) => O[h]));
+  const outer = rings[0];
+  const m = outer.length;
+  const all = rings.flat();
+  for (let i = 0; i < m; i += 1) {
+    const a = outer[(i + m - 1) % m];
+    const v = outer[i];
+    const b = outer[(i + 1) % m];
+    if (orient2d(X[a], Y[a], X[v], Y[v], X[b], Y[b]) <= 0) continue;
+    let clean = true;
+    for (const w of all) {
+      if (w === a || w === v || w === b) continue;
+      if ((X[w] === X[a] && Y[w] === Y[a]) || (X[w] === X[v] && Y[w] === Y[v]) || (X[w] === X[b] && Y[w] === Y[b])) continue;
+      if (orient2d(X[a], Y[a], X[v], Y[v], X[w], Y[w]) >= 0 && orient2d(X[v], Y[v], X[b], Y[b], X[w], Y[w]) >= 0 && orient2d(X[b], Y[b], X[a], Y[a], X[w], Y[w]) >= 0) {
+        clean = false;
+        break;
+      }
+    }
+    if (!clean) continue;
+    const qx = X[a] + X[v] + X[b];
+    const qy = Y[a] + Y[v] + Y[b];
+    let wind = 0;
+    for (const r of kerbRings) {
+      for (let k = 0; k < r.length; k += 1) {
+        const s = r[k];
+        const t = r[(k + 1) % r.length];
+        const sy = 3 * s.y;
+        const ty = 3 * t.y;
+        if (sy <= qy) {
+          if (ty > qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) > 0) wind += 1;
+        } else if (ty <= qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) < 0) wind -= 1;
+      }
+    }
+    return wind !== 0;
+  }
+  return null;
+}
+
 /** The L1 ancestor of a face record of level n (its parent chain). */
 function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
   let g = f;
@@ -175,6 +223,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
   const blocks: FaceId[] = [];
   const R = p.roles;
   const splitRole = roleIdOf('corridor_split');
+  const outlineRole = roleIdOf(spec.edgeRole);
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
     if (kids.length === 0) {
@@ -189,8 +238,10 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
       let split = false;
       for (const ring of faceWalk(p, n, c)) {
         for (const h of ring) {
-          for (const r of rowsOn(p, 'edge', h)) {
-            if (R.kind[r] === splitRole && R.level[r] === n) split = true;
+          const rows = rowsOn(p, 'edge', h);
+          // a split edge the outline shares (attraction laid them on one stretch) is the outline's
+          if (rows.some((r) => R.kind[r] === splitRole && R.level[r] === n) && !rows.some((r) => R.kind[r] === outlineRole && R.level[r] === n)) split = true;
+          for (const r of rows) {
             if (R.level[r] > 1 || R.ordinal[r] !== 0) continue;
             const k = `${String(R.kind[r])}:${String(R.entity[r])}`;
             if (read.spines.has(k)) touched.add(k);
@@ -198,7 +249,9 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
         }
       }
       // a corridor_split edge lies inside the band, so a face it bounds is a band face even where no spine bounds it
-      if (touched.size === 0 && !split) blocks.push(c);
+      // inside kerb(F) or not, read at a point strictly inside the face; where no ear gives one, by its bounds
+      const inside = insideKerb(p, n, c, read.kerb);
+      if (inside === null ? touched.size === 0 && !split : inside) blocks.push(c);
       else {
         band.push(c);
         if (touched.size >= 2) wedges.push(c);

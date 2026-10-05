@@ -12,10 +12,10 @@
 // there (a crossing, or another ring's vertex on the side) — such a vertex stays a vertex of every piece through it.
 // "A piece left with a hole — earlier rings lying inside a later one without reaching its sides — is refused (detail
 // `overlap`, naming a vertex of the hole)": `TileOverlap` names the ring (its index) and the hole's lowest-leftmost
-// vertex. No rings → []. A ring whose pieces the overlay left with no area has none. The warnings are the overlay's
+// vertex, and carries the overlay's warnings. No rings → []. A ring whose pieces the overlay left with no area has none. The warnings are the overlay's
 // (§13.1's split). Readings: C-0212.
 import { isHalfEdgeLive, type FaceId, type Plat, type VertexId } from '../arena/index.js';
-import { area2, err, ok, orient2d, type KernelResult } from '../num/index.js';
+import { area2, err, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { buildOverlay, canonicalRing, compareRings, windingLabels, type Ring } from './winding.js';
 
@@ -26,6 +26,8 @@ export type TileOverlap = Extract<KernelResult<Ring[][]>, { ok: false }> & {
   readonly ring: number;
   /** The hole's lowest-leftmost vertex. */
   readonly at: LatticePoint;
+  /** The overlay's warnings (§3.7's split reads a refusal's case by them, as an empty boolean's, C-0196 (4)). */
+  readonly warnings: Warning[];
 };
 
 /** A closed vertex walk cut into simple loops at every vertex it visits twice (each loop in walk order). */
@@ -153,7 +155,7 @@ export function tileRings(rings: readonly (readonly LatticePoint[])[]): KernelRe
     const hole = mine.find((r) => area2(r) < 0);
     if (hole !== undefined) {
       const at = canonicalRing(hole)[0];
-      const refusal: TileOverlap = { ok: false, code: 'E_DEGENERATE', detail: 'overlap', ring: i, at: { x: at.x, y: at.y } };
+      const refusal: TileOverlap = { ok: false, code: 'E_DEGENERATE', detail: 'overlap', ring: i, at: { x: at.x, y: at.y }, warnings: ov.value.warnings.map((w) => ({ ...w })) };
       return refusal;
     }
     pieces.push(mine);
