@@ -45,6 +45,23 @@ describe('work limits (§3.3)', () => {
     expect(r.ok).toBe(false);
     expect(codes).toEqual(['E_WORK_LIMIT', 'E_WORK_LIMIT']);
   });
+
+  it('a batch an insertion took past its limit is doomed: a partitioner after it refuses E_WORK_LIMIT before any other check', () => {
+    const p = halves();
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 1000), pt(4000, 1000)], DB, 'mandatory'));
+    const ell = faceAt(p, 1, 500, 500);
+    const codes: string[] = [];
+    const r = tx(p, spec(1, { workLimit: 3 }), (o) => {
+      const a = insertChain(o, [pt(500, 500), pt(1500, 500), pt(1500, 1500)], DB, 'mandatory');
+      if (!a.ok) codes.push(a.code);
+      // Not convex: without the doom this is E_NON_CONVEX.
+      const b = ringBand(o, ell, 100, { rows: DB });
+      if (!b.ok) codes.push(b.code);
+      return b;
+    });
+    expect(r.ok).toBe(false);
+    expect(codes).toEqual(['E_WORK_LIMIT', 'E_WORK_LIMIT']);
+  });
 });
 
 describe('each partitioner charges its count (§3.4)', () => {
@@ -88,5 +105,26 @@ describe('a refused multi-cut op leaves nothing of its earlier cuts, in a batch 
     });
     expect(c.record).toBeNull();
     expect(content(p)).toBe(before);
+  });
+});
+
+describe('a refused multi-cut op puts the arena back itself (its savepoint), in a batch that writes after it', () => {
+  it('radialSplit refused at its third ray, then a pin: the arena holds the pin only', () => {
+    const arena = (): Plat => {
+      const p = halves();
+      commit(p, 1, (o) => insertChain(o, [pt(0, 1000), pt(2000, 1000), pt(4000, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory', { knots: [{ index: 1, role: 'junction', ordinal: 0 }] }));
+      return p;
+    };
+    const pin = (o: Overlay) => pinVertices(o, [{ role: 'junction', entity: 'way:2' }]);
+    const ref = arena();
+    commit(ref, 1, pin);
+    const p = arena();
+    const f = faceAt(p, 1, 100, 100);
+    commit(p, 1, (o) => {
+      const r = radialSplit(o, f, pt(2000, 500), [0, 18_000, 18_001], { rows: DB });
+      expect(!r.ok && r.code).toBe('E_NOT_TWO_CROSSINGS');
+      return pin(o);
+    });
+    expect(content(p)).toBe(content(ref));
   });
 });

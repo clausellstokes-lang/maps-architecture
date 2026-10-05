@@ -37,7 +37,7 @@ import { chargeTx, check, notBuilt } from '../tx/state.js';
 import type { Overlay } from '../tx/types.js';
 import { setOwner } from '../tx/writers.js';
 import type { FaceRef, Id, LatticePoint, VertexRef } from '../types/index.js';
-import { compareFaceKeys, enter, opSave, overLimit, refuse, rollback, segmentsTouch } from './common.js';
+import { compareFaceKeys, enter, lp, opSave, overLimit, refuse, rollback, segmentsTouch } from './common.js';
 
 /** §3.4's score raster (`RasterRef`): S7b's, M1 — declared by shape only. */
 export type ScoreRaster = unknown;
@@ -109,7 +109,7 @@ function simpleCycle(p: Plat, cyc: readonly HalfEdgeId[]): boolean {
     if (hs.has(h ^ 1) || vs.has(O[h])) return false;
     vs.add(O[h]);
   }
-  return cyc.length >= 3 && area2(cyc.map((h) => ({ x: p.vertices.x[O[h]], y: p.vertices.y[O[h]] }))) > 0;
+  return cyc.length >= 3 && area2(cyc.map((h) => lp(p.vertices.x[O[h]], p.vertices.y[O[h]]))) > 0;
 }
 
 /**

@@ -340,6 +340,85 @@ export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): Orac
   return { ...res, perimeterCm: perimeterOf([ring]) + perimeterOf(res.rings) };
 }
 
+// ── snapping the oracle's rings (§3.7: "equal face counts after both are snapped") ──
+
+/** Does the segment p → q meet the closed unit pixel centred on (cx, cy)? (Liang–Barsky against the pixel's box.) */
+function meetsPixel(px: number, py: number, qx: number, qy: number, cx: number, cy: number): number | null {
+  let t0 = 0;
+  let t1 = 1;
+  const dx = qx - px;
+  const dy = qy - py;
+  const clip = (p: number, q: number): boolean => {
+    if (p === 0) return q >= 0;
+    const r = q / p;
+    if (p < 0) {
+      if (r > t1) return false;
+      if (r > t0) t0 = r;
+    } else {
+      if (r < t0) return false;
+      if (r < t1) t1 = r;
+    }
+    return true;
+  };
+  const h = 0.5;
+  if (!clip(-dx, px - (cx - h)) || !clip(dx, cx + h - px) || !clip(-dy, py - (cy - h)) || !clip(dy, cy + h - py)) return null;
+  return (t0 + t1) / 2;
+}
+
+/**
+ * The oracle's rings snap-rounded (C-0195 (2)): the hot pixels are the unit pixels centred on every vertex of the rings and
+ * on every crossing of two of their edges, rounded to the nearest lattice point; each edge is replaced by the path
+ * through the centres of the hot pixels it meets, in order along it (Hobby's snap rounding). The oracle's doubles are
+ * rounded point by point, so where the exact result has two pieces touching at a point inside an edge the rounded
+ * rings may cross or overlap that point by a fraction of a centimetre, and the face count reads one face where the
+ * region has two. Our engine's rings are snap-rounded by the insertion rules, so this is the oracle's half of "after
+ * both are snapped". The area is unchanged within ½ cm × the perimeter.
+ */
+export function snapRoundRings(rings: readonly Ring[]): Ring[] {
+  const segs: [LatticePoint, LatticePoint][] = [];
+  for (const r of rings) for (let i = 0; i < r.length; i += 1) segs.push([r[i], r[(i + 1) % r.length]]);
+  const hot = new Map<string, LatticePoint>();
+  const addHot = (x: number, y: number): void => {
+    const rx = Math.round(x);
+    const ry = Math.round(y);
+    hot.set(`${String(rx)},${String(ry)}`, { x: rx as Cm, y: ry as Cm });
+  };
+  for (const r of rings) for (const p of r) addHot(p.x, p.y);
+  for (let i = 0; i < segs.length; i += 1) {
+    const [a, b] = segs[i];
+    for (let j = i + 1; j < segs.length; j += 1) {
+      const [c, d] = segs[j];
+      const den = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+      if (den === 0) continue;
+      const t = ((c.x - a.x) * (d.y - c.y) - (c.y - a.y) * (d.x - c.x)) / den;
+      const u = ((c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x)) / den;
+      if (t > 0 && t < 1 && u > 0 && u < 1) addHot(a.x + t * (b.x - a.x), a.y + t * (b.y - a.y));
+    }
+  }
+  const pixels = [...hot.values()];
+  const out: Ring[] = [];
+  for (const r of rings) {
+    const ring: LatticePoint[] = [];
+    for (let i = 0; i < r.length; i += 1) {
+      const a = r[i];
+      const b = r[(i + 1) % r.length];
+      const on: [number, LatticePoint][] = [];
+      for (const h of pixels) {
+        const t = meetsPixel(a.x, a.y, b.x, b.y, h.x, h.y);
+        if (t !== null) on.push([t, h]);
+      }
+      on.sort((x, y) => x[0] - y[0]);
+      for (const [, h] of on) {
+        const last = ring[ring.length - 1];
+        if (last === undefined || last.x !== h.x || last.y !== h.y) ring.push(h);
+      }
+    }
+    while (ring.length > 1 && ring[0].x === ring[ring.length - 1].x && ring[0].y === ring[ring.length - 1].y) ring.pop();
+    if (ring.length >= 3) out.push(ring);
+  }
+  return out;
+}
+
 // ── the judge ──
 
 /** Faults of ours found on any case, attracted or not: a typed failure we must not give, an invalid ring set. */
@@ -365,10 +444,12 @@ export interface Harness {
   /** Cases settled without an oracle (E_NON_CONVEX on a face the exact check calls non-convex; an arena refusal of the setup). */
   settled: Record<string, number>;
   sources: Record<string, number>;
+  /** Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone (C-0195 (2)). */
+  snapRounded: Record<string, number>;
 }
 
 export function newHarness(): Harness {
-  return { report: new OracleReport(), invalid: [], failures: [], settled: {}, sources: {} };
+  return { report: new OracleReport(), invalid: [], failures: [], settled: {}, sources: {}, snapRounded: {} };
 }
 
 const MAX_KEPT = 20;
@@ -382,7 +463,14 @@ export function judge(h: Harness, op: string, source: string, ours: KernelResult
   h.sources[source] = (h.sources[source] ?? 0) + 1;
   const own = ownProblems(ours);
   if (own.length > 0) keep(h.invalid, `${op} [${source}]: ${own.join(', ')} — ${what()}`);
-  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => compareSplit(ours, oracle(e), warnings));
+  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
+    const or = oracle(e);
+    const v = compareSplit(ours, or, warnings);
+    // an unattracted case that fails on the face count alone is judged again on the oracle's rings snap-rounded (C-0195 (2))
+    if (!or.ok || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
+    h.snapRounded[e] = (h.snapRounded[e] ?? 0) + 1;
+    return compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings);
+  });
   h.report.record(op, verdicts);
   const bad = verdicts.find((v) => !v.pass && !v.refused);
   if (bad !== undefined) {
