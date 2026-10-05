@@ -80,6 +80,8 @@ Ultimate purpose: a settlement-map layer module for SettlementForge. Order of wo
    neighbourhoods. The base keeps the hooks: stable addressable ids, an assignment input that overrides class rules,
    drift bounds, a placement-solver interface.
 
+**Hardening (owner, 2026-10-05, J202):** "the only way we will ever get a full and completely bug free program is after most of it is all built and everything is singing to each other". During the build an item fixes only fail-safety, anything persisted or locked in, contracts between items and its exit bars; every other finding is a known issue (docs/KNOWN-ISSUES.md) drained by a whole-system hardening pass in M4 once M1–M3b are built, by a pass at the close of each later gating milestone (M5, M6, M-CAL), and fully before M-SF's release (rule N-45).
+
 ## Ground rules
 - **Improve, not just recreate (owner directive 2026-09-21):** parity with the four references is the floor. Every
   design must state which reference weakness each improvement answers and how the gain would be measured.
