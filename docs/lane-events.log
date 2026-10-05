@@ -5717,3 +5717,6 @@
 2026-10-05 08:00 check/M0-c-01 LANDED plat/docs/build/checks/M0-c-01.md plat/docs/build/checks/M0-c-01-notes.md plat/docs/build/landed/check-M0-c-01.json plat/CLEAN-ROOM.md (L-0171) — verdict FAIL: B-1 gate picks on river water nodes (route unserved, N-1 gates); B-2 F-WALL next-candidate re-draw untested (K26 survives); notes N-1..N-12
 2026-10-05 08:01 build/M0-c-01-fix1 CHECKPOINT started (fresh: no prior fix1 LANDED/CHECKPOINT); read check M0-c-01.md (B-1, B-2); next: gates.ts, slice.ts, tests
 2026-10-05 08:04 build/M0-c-01-fix1 CHECKPOINT B-1 fixed (pickCandidates land only) + river test (2 layouts) in picks.test.ts; B-2 fixtures ([a,a,c,d], GATE_REDRAWS cap) in fwall.test.ts; 17/17 green; next: mirror, re-introduce P7 fault, K26, K25
+2026-10-05 08:05 build/M0-c-01-fix1 CHECKPOINT self-check (fix): B-1, B-2 pinned (F1 the wet-candidate fault fails picks.test.ts river test, also with its candidate-list line removed; K26 and K25 fail the new fwall fixtures; mirror isolated, restored by cmp, deleted); next: gates
+2026-10-05 08:07 build/M0-c-01-fix1 CHECKPOINT C-0204, L-0172 appended; gates: install 0, lint 0 probe-red ok, build 0, layout 135/135; next: bench, testkit projects, landed
+2026-10-05 08:08 build/M0-c-01-fix1 CHECKPOINT bench 14 red all in the five J176 files (101/115, = baseline); testkit project running; next: its result, landed record
