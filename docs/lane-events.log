@@ -5559,3 +5559,19 @@
 2026-10-05 03:16 check/M0-a-13-close-r1 CHECKPOINT mirror built, baseline warp+tx 228/228; 23 targeted mutants K01-K23 running one at a time; next: probes, gates
 2026-10-05 03:21 build/M0-a-08 CHECKPOINT the kernel §13.1 round-trip property was flaky-red on the real code (seed -59632742: a heptagon set back 36 cm, the strips' inner corners 22 cm from the neighbour edges attracted, the inset displaced ≤ √2·attractCm as §3.7 allows; the test's bound used one set's perimeter) -> bound read as §3.7's summed perimeter of both sets (C-0197 to append); two drafted tests corrected (hole lookup, a 10 cm strip is rightly attracted away); kernel arr 57/57 over 4 seeds; mirror isolated (no absolute links, realpath inside), buffer agreement it.skip in the mirror only (red at baseline on M0-a-05's router throw); next: mutants M01-M22 at PLAT_FUZZ_RUNS=100
 2026-10-05 03:24 check/M0-a-13-close-r1 CHECKPOINT 23 mutants: 21 killed, K10 (held clamp lower side) and K15 (closure one round) survive, probes P2/P3 show real code correct (notes); P1/P4 moved ok; next: gates
+2026-10-05 03:28 session/handoff-4 LANDED plat/docs/build/checks/M0-spec-notes.md plat/docs/build/landed/session-handoff-4.json — rows N-33 (3-gram hit = run of three or more), N-34 (colour-literal prefixes), N-35 (list words), N-36 (list size and load) for M0-k-06 from E16 §9.7 (drafted research-side, checked: filler run wf_a23cf698-682); item (2) left for M0-k-07 with R-17
+2026-10-05 03:29 filler/w18-twin-half CHECKPOINT started; target absent; reading make_denylist.py scan mode
+2026-10-05 03:29 filler/w19-ledger-preaudit CHECKPOINT started; ledger copy present
+2026-10-05 03:30 filler/w18-twin-half CHECKPOINT twin scan done both lists, counts in scratch; planted control caught; writing record
+2026-10-05 03:30 filler/w18-twin-half LANDED docs/calibration/results/W-18-twin.json twin scan both W-16b lists over the ten digest-candidate files: 0 hits every class; planted control caught; M0-scanner half NOT RUN (M0-k-06); doc_checks NOT RUN (corpus absent)
+2026-10-05 03:30 filler/w19-ledger-preaudit CHECKPOINT ledger rows and M-1 lane keys tabulated in scratch; reading rulings for seat roles
+2026-10-05 03:31 check/M0-a-13-close-r1 CHECKPOINT gates: landed:verify ok, install 0, lint 0 probe-red ok, build 0, kernel 1223/1223; next: importer projects model/tables/site/layout/testkit/bench
+2026-10-05 03:31 filler/m1-deferral-ledger CHECKPOINT started; inputs present
+2026-10-05 03:32 filler/m1-deferral-ledger CHECKPOINT sources extracted
+2026-10-05 03:32 filler/w19-ledger-preaudit CHECKPOINT seat table built in scratch (107 keys); writing docs/calibration/E18-ledger-preaudit.md
+2026-10-05 03:33 check/M0-a-13-close-r1 CHECKPOINT model/tables/site/layout 585/585, bench 14 red all J176; notes 10-12 appended, L-0163 signed; testkit running; next: verdict, landed records
+2026-10-05 03:34 filler/w19-ledger-preaudit LANDED docs/calibration/E18-ledger-preaudit.md (pre-audit; no ledger row written; nothing under plat/; no git)
+2026-10-05 03:34 filler/m1-deferral-ledger LANDED docs/build-prep/M1/m0-deferrals.md
+2026-10-05 03:35 filler/m1-wbs-skeleton CHECKPOINT started; reading docs/build-prep/M1/scope.json volume-shares.md m0-deferrals.md
+2026-10-05 03:35 filler/v-m0-scope CHECKPOINT started; clean-room gate passed (V07 is the volume V-M0 builds)
+2026-10-05 03:36 filler/v-m0-scope CHECKPOINT V07 §8 and dependent sections read; writing scope file

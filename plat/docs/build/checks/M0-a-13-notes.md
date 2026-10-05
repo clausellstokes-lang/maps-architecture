@@ -38,3 +38,27 @@ PLAT_FUZZ_RUNS=2000).
    and an edited gate) are not among the item's listed tests; the fixtures run every warp with `rederivesFrom` = 0 and
    cover `gate_end` holding with a knot fixture only. A warp batch opened at a later `rederivesFrom` over kept content is
    the caller's misuse (§3.6: a move batch's `rederivesFrom` is the first stage), so this is coverage, not a defect.
+
+## Closing round (check/M0-a-13-close-r1, 2026-10-05) — new minor notes (none fails the item)
+
+Mutant ids K01 – K23 are this round's (`checks/M0-a-13.md`, closing round); probes P2 and P3 ran in a scratch mirror
+outside the tree (deleted afterwards).
+
+10. **The held-vertex slide clamp is tested on one side only.** Mutant K10 (`warp.ts` `projected()`: `if (tw < t0) lo =
+    Math.max(lo, tw)` → `Math.max(lo, 0)`, i.e. a held vertex *behind* the slider along its route is ignored) survives
+    every test, B-FUZZ included. The item's code is right on the mirrored input: probe P2 (L0 shore (0, 2000)–(4000,
+    2000), L1 way:1 foot at (2000, 2000), locked L1 way:2 foot at (1900, 2000), the foot dragged −90 cm) gives `slide
+    1926,2000` (26 cm clear); under K10 it gives `slide 1925,2000`. Suggested handling: add P2 beside the fixture "a slide
+    keeps attractCm from every held vertex on its fixed route". M4.
+11. **held (5)'s closure is tested to one round only.** Mutant K15 (`held.ts` `frontier = next` → `frontier = []`, the
+    closure stops after its first round) survives every test. The item's code is right on a two-round input: probe P3
+    (L2 kerb (1000, 1000)–(2000, 1000), L3 plot line (1500, 1000)–(1500, 1500), L4 wall (1500, 1250)–(1700, 1250) locked,
+    an L2 drag (0, 40)) holds the kerb's ends, `halvings` 0, nothing moves. Under K15 the kerb's ends are not held, the
+    step halves 7 times on "held placement bound: (1500, 1000) …" (C-0197 (2)'s check catches it — no invalid arena is
+    committed) and the report's held list differs. Suggested handling: add P3 as a fixture asserting the held list and
+    `halvings` 0. M4.
+12. **The tx doc comment is attributed by row, not by hash.** `tx/tx.ts` and `tx/state.ts` with C-0197's lines reverted
+    hash to M0-a-06's landed sha256 exactly (4fb14c0d…, 22eec609…), so those two files changed only on the re-assigned
+    lines. `tx/types.ts`'s original doc comment could not be reconstructed (the file grew 61 bytes, comment only by
+    reading); `landed:verify --item M0-a-06` names the three files until the steward attributes them (C-0197 (1)).
+    Suggested handling: the steward's commit names the three lines under build/M0-a-13-fix1. Session (this flow's commit).
