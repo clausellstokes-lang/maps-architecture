@@ -18,8 +18,10 @@
 // the chain leaves or reaches it along an existing edge (C-0177 (7)). Each segment's route is checked for clearance as
 // it is written, with a strict route and a route along existing edges as its fallbacks (insertChain's `routeSegment`,
 // `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
-// every such commit reports W_PLACED). A mandatory chain is wedge-routed only where the move is at most 2 · √2 ·
-// `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13); C-0202.
+// every such commit reports W_PLACED) and after it a route that places a crossing on the near side of a sliver across
+// it (N-42 (a), C-0207: crossings.ts `placeAcross`, W_PLACED). A mandatory chain is wedge-routed only where the move is
+// at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13);
+// C-0202; C-0207.
 import {
   addRole,
   allocEdgePair,
@@ -43,7 +45,7 @@ import type { Level } from '../types/index.js';
 import { charge, check, classOutcome, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit } from './classes.js';
 import { segmentsMeet } from './decimate.js';
 import { segmentCloserThan } from './placement.js';
-import { resolveCrossings } from './crossings.js';
+import { placeAcross, resolveCrossings, sliverPartner } from './crossings.js';
 import {
   applyLanding,
   attractStretch,
@@ -638,6 +640,17 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     const l = planLanding(tx, c.piece, c.x, c.y, { c: pointOf(p, a), d: pointOf(p, b) });
     if (!l.ok) return passOn(l);
     let landing = l.value;
+    if (ctx.acrossSlivers === true && landing.kind === 'vertex' && landing.onto === 'fallback') {
+      // N-42 (a)'s route: a crossing the placement can only send to its endpoint fallback, on the near side of a sliver,
+      // is placed across it; the far side's crossing is placed in its turn, at least minEdge away (C-0207).
+      const partner = sliverPartner(ctx, a, b, c);
+      if (!partner.ok) return passOn(partner);
+      if (partner.value !== null) {
+        const across = placeAcross(ctx, a, b, c, partner.value);
+        if (!across.ok) return passOn(across);
+        if (across.value !== null) landing = across.value;
+      }
+    }
     if (landing.kind === 'vertex' && onPath(landing.vertex)) {
       // The placement's fallback (or an end within attractCm) would send the segment back onto its own path: the other
       // end of the sub-edge the crossing falls on takes it (C-0177 (7)).

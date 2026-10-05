@@ -606,6 +606,8 @@ export interface ChunkSummary {
   readonly holes: number;
   /** References to vertices another chunk holds (by lattice point). */
   readonly foreignRefs: number;
+  /** The lattice points of the vertices the chunk holds, in its (y, x) order. */
+  readonly points: readonly (readonly [number, number])[];
 }
 
 /** The summary of one chunk's bytes; throws a ChunkFormatError when they do not parse. */
@@ -657,5 +659,6 @@ export function describeChunk(bytes: Uint8Array): ChunkSummary {
     faces: c.faces.length,
     holes,
     foreignRefs: foreign,
+    points: c.vertices.map((v) => [v.x, v.y] as const),
   };
 }

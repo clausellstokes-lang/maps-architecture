@@ -6,11 +6,17 @@
 // * the PR run's xor whose hole touches its outline inside an outline edge (C-0206 (1)): the face count compared 3 to 2
 //   at |Δ| 0 while the touch point was no vertex of the outline;
 // * the seven-chain ring of M0-a-05's router repro (N-37, N-41 (3)), whose seventh segment walks a retraced spur: its
-//   region under either fill rule against both oracles.
+//   region under either fill rule against both oracles;
+// * the gate run's union of a holed quadrilateral and its translate, where b's vertex lies 0.48 cm inside a's edge
+//   (C-0206 (8)): our engine routes a's edge through that vertex (a move inside the hot pixel), so the two faces touch
+//   there, while the oracle's exact union joins them through a sliver 0.5 cm wide that its snap rounding keeps — equal
+//   once faces touching at a point count as one;
+// * the gate run's outward inset of a face at the lattice's edge (C-0206 (9)): E_OUT_OF_RANGE, settled because the
+//   exact answer leaves the lattice.
 import { faceEdges, offsetFace, type Cm, type LatticePoint } from '@plat/kernel';
 import { beforeAll, describe, expect, it } from 'vitest';
 import { loadOracles } from '../../../src/oracles/index.js';
-import { arenaFace, judgeBoolean, judgeOffset, newHarness, warningsOf, type Harness } from './support.js';
+import { arenaFace, judgeBoolean, judgeInset, judgeOffset, newHarness, warningsOf, type Harness } from './support.js';
 
 const P = (xy: [number, number][]): LatticePoint[] => xy.map(([x, y]) => ({ x: x as Cm, y: y as Cm }));
 
@@ -64,5 +70,34 @@ describe('pinned agreement cases (§3.7 (i))', () => {
     clean(h, 'union', 2);
     expect(h.report.line('union').attracted).toBe(2);
     expect(h.placed.cases).toBe(2);
+  });
+
+  it('the union whose faces touch after snapping: equal once faces touching at a point count as one (C-0206 (8))', () => {
+    const h = newHarness();
+    const a = [
+      P([[28747, 48699], [26991, 48908], [27122, 46646], [29459, 46403]]),
+      P([[27748, 47375], [27496, 47328], [27227, 47472], [27245, 47648], [27458, 47733], [27558, 47720], [27696, 47663]]),
+    ];
+    const b = [
+      P([[31005, 48709], [29249, 48918], [29380, 46656], [31717, 46413]]),
+      P([[30006, 47385], [29754, 47338], [29485, 47482], [29503, 47658], [29716, 47743], [29816, 47730], [29954, 47673]]),
+    ];
+    judgeBoolean(h, { op: 'union', fill: 'nonzero', a, b, source: 'pin/gate-union-touch' });
+    clean(h, 'union', 1);
+    expect(h.report.line('union').unattracted).toBe(1);
+    expect(h.snapRounded['clipper2/touch']).toBe(1);
+  });
+
+  it('an outward inset leaving the lattice is E_OUT_OF_RANGE, settled (C-0206 (9))', () => {
+    const h = newHarness();
+    const ring = P([[8222703, 1266939], [8388126, 1419952], [8371635, 1644687], [8185648, 1771914], [7970217, 1705829], [7887566, 1496194], [7999933, 1300870]]);
+    judgeInset(h, { rings: [ring], dists: [-634], source: 'pin/gate-inset-edge' });
+    expect(h.failures).toEqual([]);
+    expect(h.settled).toEqual({ 'E_OUT_OF_RANGE: the outward inset leaves the lattice': 1 });
+    // a step inward of the lattice's edge the same face is judged, not settled
+    const h2 = newHarness();
+    judgeInset(h2, { rings: [ring.map((p) => ({ x: (p.x - 10_000) as Cm, y: p.y }))], dists: [-634], source: 'pin/gate-inset-edge' });
+    expect(h2.settled).toEqual({});
+    clean(h2, 'insetRing', 1);
   });
 });

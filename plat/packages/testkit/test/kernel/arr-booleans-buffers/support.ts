@@ -19,6 +19,7 @@ import {
   insertTx,
   insetRing,
   isFaceLive,
+  LATTICE,
   offsetFace,
   snap,
   type Cm,
@@ -45,6 +46,7 @@ import {
   type OracleResult,
   type Verdict,
 } from '../../../src/oracles/index.js';
+import { polygonClippingRaw } from '../../../src/oracles/polygon-clipping.js';
 import { dedupe, ringProblems, perimeterOf } from '../../../src/oracles/rings.js';
 import { ORACLE_ENGINES, type BooleanOp, type EndKind, type FillRule, type JoinKind, type OracleEngine, type Ring } from '../../../src/oracles/types.js';
 
@@ -505,6 +507,23 @@ function meetsPixel(px: number, py: number, qx: number, qy: number, cx: number, 
  * centimetre apart one vertex without a reported move. The area is unchanged within 1½ cm × the perimeter.
  */
 export function snapRoundRings(rings: readonly Ring[]): Ring[] {
+  const route = hotPixelRouter(rings);
+  const out: Ring[] = [];
+  for (const r of rings) {
+    // a ring that passes one lattice point twice (two pieces touching there, written as one ring) is cut into its
+    // simple loops there, as our engine's trace cuts its own; zero-area loops dropped
+    for (const loop of simpleLoopsOf(route(r))) if (loop.length >= 3 && signedArea2(loop) !== 0) out.push(loop);
+  }
+  return out;
+}
+
+/**
+ * Hobby's snap rounding of a ring set as a router: the hot pixels are the unit pixels centred on every vertex of the
+ * rings and on every crossing of two of their edges, rounded to the nearest lattice point, hot pixels that are lattice
+ * neighbours clustered through their lowest-leftmost pixel (C-0196 (7)); a ring is routed edge by edge through the
+ * centres of the hot pixels each edge meets, in order along it, consecutive repeats and the closing repeat dropped.
+ */
+function hotPixelRouter(rings: readonly Ring[]): (r: Ring) => Ring {
   const segs: [LatticePoint, LatticePoint][] = [];
   for (const r of rings) for (let i = 0; i < r.length; i += 1) segs.push([r[i], r[(i + 1) % r.length]]);
   const hot = new Map<string, LatticePoint>();
@@ -555,8 +574,7 @@ export function snapRoundRings(rings: readonly Ring[]): Ring[] {
     if (cur === undefined || h.y < cur.y || (h.y === cur.y && h.x < cur.x)) rep.set(root, h);
   }
   const repOf = (h: LatticePoint): LatticePoint => rep.get(find(keyOf(h))) as LatticePoint;
-  const out: Ring[] = [];
-  for (const r of rings) {
+  return (r: Ring): Ring => {
     const ring: LatticePoint[] = [];
     for (let i = 0; i < r.length; i += 1) {
       const a = r[i];
@@ -574,11 +592,55 @@ export function snapRoundRings(rings: readonly Ring[]): Ring[] {
       }
     }
     while (ring.length > 1 && ring[0].x === ring[ring.length - 1].x && ring[0].y === ring[ring.length - 1].y) ring.pop();
-    // a ring that passes one lattice point twice (two pieces touching there, written as one ring) is cut into its
-    // simple loops there, as our engine's trace cuts its own; zero-area loops dropped
-    for (const loop of simpleLoopsOf(ring)) if (loop.length >= 3 && signedArea2(loop) !== 0) out.push(loop);
+    return ring;
+  };
+}
+
+/**
+ * The face count with faces that touch at a point counted as one (C-0206 (8)), or null when the canonicalising union
+ * refuses: the region's faces as polygon-clipping's non-zero union writes them (C-0144 (3)), joined wherever two of them
+ * share a boundary point — a vertex of one on the other's boundary, exactly. A sub-centimetre overlap of two operands is
+ * a face's neck the oracle keeps and snapping may close to a point (our engine moving nothing beyond the hot pixel), so
+ * the count read this way is the same on both sides.
+ */
+export function touchMergedFaceCount(rings: readonly Ring[]): number | null {
+  const rs = rings.map(dedupe).filter((r) => r.length >= 3);
+  if (rs.length === 0) return 0;
+  let mp: [number, number][][][];
+  try {
+    mp = polygonClippingRaw('union', rs, [], 'nonzero');
+  } catch {
+    return null;
   }
-  return out;
+  const faces = mp.filter((poly) => poly[0] !== undefined && signedArea2(poly[0].map(([x, y]) => ({ x: x as Cm, y: y as Cm }))) > 0);
+  const parent = faces.map((_, i) => i);
+  const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+  const ringsOf = (poly: [number, number][][]): [number, number][][] => poly;
+  for (let i = 0; i < faces.length; i += 1) {
+    for (let j = i + 1; j < faces.length; j += 1) {
+      if (find(i) === find(j)) continue;
+      if (touches(ringsOf(faces[i]), ringsOf(faces[j]))) parent[find(i)] = find(j);
+    }
+  }
+  return new Set(faces.map((_, i) => find(i))).size;
+}
+
+/** Do two polygons' boundaries share a point — a vertex of either on an edge (or vertex) of the other, exactly? */
+function touches(p: readonly [number, number][][], q: readonly [number, number][][]): boolean {
+  const onBoundary = (x: number, y: number, poly: readonly [number, number][][]): boolean => {
+    for (const r of poly) {
+      for (let i = 0; i < r.length; i += 1) {
+        const [ax, ay] = r[i];
+        const [bx, by] = r[(i + 1) % r.length];
+        if ((bx - ax) * (y - ay) - (by - ay) * (x - ax) !== 0) continue;
+        if (Math.min(ax, bx) <= x && x <= Math.max(ax, bx) && Math.min(ay, by) <= y && y <= Math.max(ay, by)) return true;
+      }
+    }
+    return false;
+  };
+  for (const r of p) for (const [x, y] of r) if (onBoundary(x, y, q)) return true;
+  for (const r of q) for (const [x, y] of r) if (onBoundary(x, y, p)) return true;
+  return false;
 }
 
 /** Twice the signed area of a ring. */
@@ -650,7 +712,11 @@ export interface Harness {
   /** Cases settled without an oracle (E_NON_CONVEX on a face the exact check calls non-convex; an arena refusal of the setup). */
   settled: Record<string, number>;
   sources: Record<string, number>;
-  /** Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone (C-0196 (7)). */
+  /**
+   * Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone
+   * (C-0196 (7)); under `<engine>/touch`, those whose counts agree only once faces touching at a point are counted as one
+   * (C-0206 (8)).
+   */
   snapRounded: Record<string, number>;
   /** Refused verdicts by `<engine>/<step>` (N-39). */
   refusalSteps: Record<string, number>;
@@ -744,7 +810,15 @@ export function farthestVertexCm(mine: readonly Ring[], theirs: readonly Ring[])
  * passes the hard ring checks (C-0150 (4)); the third condition — cases every oracle refused on its own operands stay
  * ≤ 1 % per family — is the caller's assertion on `allOwnRefused`.
  */
-export function judge(h: Harness, op: string, source: string, ours: KernelResult<Ring[]> | Ring[], oracle: (e: OracleEngine) => OracleResult, warnings: readonly Warning[], what: () => string): void {
+export function judge(
+  h: Harness,
+  op: string,
+  source: string,
+  ours: KernelResult<Ring[]> | Ring[],
+  oracle: (e: OracleEngine) => OracleResult,
+  warnings: readonly Warning[],
+  what: () => string,
+): void {
   h.sources[source] = (h.sources[source] ?? 0) + 1;
   const own = ownProblems(ours);
   if (own.length > 0) keep(h.invalid, `${op} [${source}]: ${own.join(', ')} — ${what()}`);
@@ -754,7 +828,13 @@ export function judge(h: Harness, op: string, source: string, ours: KernelResult
     // an unattracted case that fails on the face count alone is judged again on the oracle's rings snap-rounded (C-0196 (7))
     if (!or.ok || v0.split !== 'unattracted' || v0.failures.length !== 1 || v0.failures[0] !== 'faces') return { e, or, v: v0 };
     h.snapRounded[e] = (h.snapRounded[e] ?? 0) + 1;
-    return { e, or, v: compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings) };
+    const v1 = compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings);
+    if (v1.pass || v1.failures.length !== 1 || v1.failures[0] !== 'faces') return { e, or, v: v1 };
+    // still the face count alone: equal once faces touching at a point are counted as one on both sides (C-0206 (8))
+    const mineTouch = touchMergedFaceCount(oursRings(ours));
+    if (mineTouch === null || mineTouch !== touchMergedFaceCount(or.rings)) return { e, or, v: v1 };
+    h.snapRounded[`${e}/touch`] = (h.snapRounded[`${e}/touch`] ?? 0) + 1;
+    return { e, or, v: { ...v1, pass: true, faces: { ours: mineTouch, oracle: mineTouch }, failures: [] } };
   });
   const verdicts: Verdict[] = results.map((r) => r.v);
   h.report.record(op, verdicts);
@@ -849,6 +929,15 @@ export function judgeInset(h: Harness, c: FaceCase): void {
     return;
   }
   let mine: KernelResult<Ring[]> | Ring[] = ours;
+  if (!ours.ok && ours.code === 'E_OUT_OF_RANGE' && dCm < 0) {
+    // an outward inset of a face near the lattice's edge leaves the lattice (§3.2 (1), (7)): settled when the exact
+    // answer (the oracle's construction, built about the ring's centre) has a coordinate at or beyond 2²³ (C-0206 (9))
+    const exact = oracleInset(rings[0], dCm, 'clipper2');
+    if (exact.ok && exact.rings.some((r) => r.some((p) => Math.abs(p.x) >= LATTICE.rangeCm || Math.abs(p.y) >= LATTICE.rangeCm))) {
+      settle(h, 'E_OUT_OF_RANGE: the outward inset leaves the lattice');
+      return;
+    }
+  }
   if (!ours.ok) {
     if (ours.code === 'E_DEGENERATE' && ours.detail === 'collapsed' && dCm > 0) {
       const last = (ours as { lastCm?: number }).lastCm;

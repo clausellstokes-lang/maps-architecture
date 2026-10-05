@@ -10,7 +10,7 @@ import type { Cm, LatticePoint } from '@plat/kernel';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
-import { farthestVertexCm, judge, newHarness, verdict, type Harness } from './support.js';
+import { farthestVertexCm, judge, newHarness, touchMergedFaceCount, verdict, type Harness } from './support.js';
 
 /** Which engine's measuring xor refuses (null: none) — the planted measurement refusal. */
 const plant: { measureRefuses: OracleEngine | null } = { measureRefuses: null };
@@ -180,5 +180,35 @@ describe('the far-stretch measure (N-41 (2))', () => {
     expect(farthestVertexCm([[pt(0, 0), pt(1000, 0), pt(500, 40)]], [SQUARE])).toBeCloseTo(40, 9);
     expect(farthestVertexCm([SQUARE], [])).toBe(Infinity);
     expect(farthestVertexCm([], [SQUARE])).toBe(0);
+  });
+});
+
+describe('faces touching at a point counted as one (C-0206 (8))', () => {
+  const sq = (x: number, y: number, s: number): LatticePoint[] => [pt(x, y), pt(x + s, y), pt(x + s, y + s), pt(x, y + s)];
+  it('joins faces that share a vertex or meet at a vertex inside an edge, and nothing else', () => {
+    expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1000, 1000, 1000)])).toBe(1);
+    expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(1000, 500), pt(1500, 0), pt(2000, 500), pt(1500, 1000)]])).toBe(1);
+    expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1001, 1001, 1000)])).toBe(2);
+    expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1000, 1000, 1000), sq(5000, 0, 10)])).toBe(2);
+    expect(touchMergedFaceCount([])).toBe(0);
+  });
+
+  it('excuses an unattracted face-count mismatch only when the touch-merged counts agree', () => {
+    const touching = [sq(0, 0, 1000), sq(1000, 1000, 1000)];
+    const joined: OracleResult[] = (['clipper2', 'polygon-clipping'] as const).map((e) => ({
+      ok: true,
+      engine: e,
+      // the same two squares joined by an 18 cm² neck at the corner, its corners 3 cm apart (no hot-pixel cluster): one face
+      rings: [[pt(0, 0), pt(1000, 0), pt(1000, 997), pt(1003, 1000), pt(2000, 1000), pt(2000, 2000), pt(1000, 2000), pt(1000, 1003), pt(997, 1000), pt(0, 1000)]],
+      perimeterCm: 16_000,
+    }));
+    const h = newHarness();
+    judge(h, 'op', 'fam', touching, (e) => joined[e === 'clipper2' ? 0 : 1], [], () => 'case');
+    expect(h.failures).toEqual([]);
+    expect(h.snapRounded).toMatchObject({ 'clipper2/touch': 1, 'polygon-clipping/touch': 1 });
+    // two faces apart against one: not excused
+    const h2 = newHarness();
+    judge(h2, 'op', 'fam', [sq(0, 0, 1000), sq(1002, 1002, 1000)], (e) => joined[e === 'clipper2' ? 0 : 1], [], () => 'case');
+    expect(h2.failures).toHaveLength(1);
   });
 });
