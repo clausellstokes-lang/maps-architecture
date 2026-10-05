@@ -5769,3 +5769,4 @@
 2026-10-05 12:51 check/M0-a-14-close-r1 CHECKPOINT started closing check; next: read section 3, previous check, fixtures and sources
 2026-10-05 12:52 check/M0-c-01-close-r1 CHECKPOINT bench 14 red all J176 (101/115); notes N-13, N-14 appended; CLEAN-ROOM L-0179 appended; testkit project running; next: its result, verdict file, landed records
 2026-10-05 12:53 check/M0-a-14-close-r1 CHECKPOINT install/lint(probe-red ok)/build exit 0; landed:verify ok; next: kernel project gate, then mirror mutants
+2026-10-05 13:03 check/M0-a-14-close-r1 CHECKPOINT kernel gate: 1337/1338, the one failure is M0-a-05's insert B-FUZZ (random seed -1863295922 replays: insertChain E_INVARIANT 'no route … keeps clearance', N-37 class; import graph has no invariants file) - a session note; next: mirror mutants
