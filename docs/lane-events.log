@@ -5728,3 +5728,4 @@
 2026-10-05 08:38 build/M0-c-01-fix1 CHECKPOINT testkit project still running (~30 min); next: its result, landed record
 2026-10-05 08:56 check/M0-a-05-close-s1 CHECKPOINT testkit project gate still running (oracle agreement files); mirror deleted (node_modules first); next: testkit result, CLEAN-ROOM row, landed
 2026-10-05 08:57 build/M0-c-01-fix1 CHECKPOINT testkit project still running (~50 min, other seats' runs beside it); next: its result, landed record
+2026-10-05 09:05 build/M0-a-14 CHECKPOINT the whole-testkit run sat 2h20m on M0-a-08's in-flight arr-booleans-buffers agreement test (as M0-d-08-fix1 recorded) and was stopped; re-running testkit excluding that folder
