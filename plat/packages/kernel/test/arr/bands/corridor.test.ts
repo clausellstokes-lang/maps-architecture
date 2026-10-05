@@ -66,6 +66,7 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(v.strips.length).toBe(8);
     expect(v.band).toEqual([...v.strips, ...v.wedges].sort((a, b) => v.band.indexOf(a) - v.band.indexOf(b)));
     expect(v.whole).toEqual([]);
+    expect(v.wholeBand).toEqual([]);
     // the wedges are the junction's four corner squares (half the crossed street's width short of J on each side)
     expect(v.wedges.map((w) => normals(ringsOf(p, 2, w))[0]).sort()).toEqual(
       ['1700,1700 2000,1700 2000,2000 1700,2000', '2000,1700 2300,1700 2300,2000 2000,2000', '1700,2000 2000,2000 2000,2300 1700,2300', '2000,2000 2300,2000 2300,2300 2000,2300'].sort(),
@@ -141,11 +142,8 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         const faces = l1Faces(p);
         commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
         const ws = widthsOf(table);
-        const k = new Map<FaceId, string[]>();
-        for (const f of faces) {
-          const kr = kerbRead(p, f, ws);
-          k.set(f, kr);
-        }
+        const k = new Map<FaceId, { rings: string[]; moved: boolean }>();
+        for (const f of faces) k.set(f, kerbRead(p, f, ws));
         const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
         if (!r.ok) {
           // the insertion's own refusal on a degenerate network (a kerb within attractCm of a far feature): written nothing
@@ -158,12 +156,16 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         const blocks = blocksByFace(p, faces, v);
         // §3.7's split: where the commit moved nothing (no attraction warning), the blocks are kerb(F) exactly; where it
         // attracted a kerb vertex onto a feature within attractCm, the blocks stay within √2 · attractCm of it
-        const moved = (r.value.record?.warnings ?? []).some((w) => ['W_ATTRACTED', 'W_PLACED', 'W_WEDGE_ROUTED', 'W_STRETCH_SHARED'].includes(w.code));
-        tally.cases += 1;
-        if (!moved) tally.exact += 1;
+        const committedMoved = attracted(r.value.record?.warnings ?? []);
         for (const f of faces) {
-          const want = k.get(f) as string[];
+          const read = k.get(f) as { rings: string[]; moved: boolean };
+          const want = read.rings;
+          // the kerb's own overlay and the commit both read: either moving a vertex makes the face an attracted case
+          const moved = committedMoved || read.moved;
+          tally.cases += 1;
+          if (!moved) tally.exact += 1;
           if (v.whole.includes(f)) expect(want).toEqual(normals(ringsOf(p, 1, f)));
+          else if (v.wholeBand.includes(f)) expect(want).toEqual([]);
           else if (!moved) expect(blocks.get(f)).toEqual(want);
           else {
             const got = (blocks.get(f) ?? []).map(parseRing);
@@ -176,6 +178,7 @@ describe('corridorUnion (§3.4, §3.7)', () => {
       { numRuns: 150 },
     );
     // the exact comparison is not vacuous: most networks move nothing
+    console.info(`corridorUnion networks: ${String(tally.cases)} faces, ${String(tally.exact)} compared exactly`);
     expect(tally.exact).toBeGreaterThanOrEqual(Math.ceil(tally.cases / 2));
   });
 
@@ -302,13 +305,18 @@ function l1Faces(p: Plat): FaceId[] {
   return out;
 }
 
-/** kerb(F)'s normal forms, read in a batch that writes nothing. */
-function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): string[] {
-  let out: string[] = [];
+/** §3.7's four warnings that mark a case attracted. */
+function attracted(ws: readonly { code: string }[]): boolean {
+  return ws.some((w) => ['W_ATTRACTED', 'W_PLACED', 'W_WEDGE_ROUTED', 'W_STRETCH_SHARED'].includes(w.code));
+}
+
+/** kerb(F)'s normal forms and whether its overlay moved a vertex, read in a batch that writes nothing. */
+function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): { rings: string[]; moved: boolean } {
+  let out = { rings: [] as string[], moved: false };
   commit(p, 1, (o) => {
     const k = kerb(o, f, ws);
     if (!k.ok) return k;
-    out = normals(k.value);
+    out = { rings: normals(k.value), moved: attracted(k.warnings) };
     return { ok: true, value: null, warnings: [] };
   });
   return out;

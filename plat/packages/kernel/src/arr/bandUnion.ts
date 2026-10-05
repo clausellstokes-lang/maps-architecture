@@ -25,7 +25,7 @@
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
 // E_INVARIANT — puts the batch back as the op found it. Readings: C-0212.
-import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, outgoing, rowsOn, type FaceId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
+import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, outgoing, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
 import { TX_FACES_WALKED } from '../insert/index.js';
@@ -34,7 +34,7 @@ import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level } from '../types/index.js';
-import { readKerb, type KerbRead, type RouteEdge, type Spine, type SpineEnd, type SpineWidths } from './kerb.js';
+import { nearestOn, readKerb, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -50,8 +50,10 @@ export interface BandResult {
   readonly wedges: FaceId[];
   /** The faces outside the band: corridorUnion's built blocks (bandUnion's remainder of each face). */
   readonly blocks: FaceId[];
-  /** The L1 faces with no bounding spine: each one built block, its own child at the batch's level (§2.2 rule 2). */
+  /** The L1 faces left whole as one built block — no bounding spine, or a kerb equal to F: its own child at the batch's level (§2.2 rule 2). */
   readonly whole: FaceId[];
+  /** The L1 faces wholly within their bands (an empty kerb): each one band face, its own child at the batch's level. */
+  readonly wholeBand: FaceId[];
 }
 
 /** One chain of `bandUnion` (§3.4). */
@@ -61,48 +63,8 @@ export interface BandChain {
   readonly ends: SpineEnd;
 }
 
-const ATTRACT = LATTICE.attractCm;
 /** A kerb edge lies on the face's boundary where its ends and midpoint stand within the hot pixel of it (cm²: 1 cm). */
 const ON_BOUNDARY_SQ = 1;
-/** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
-const SCALE = 1_048_576;
-
-type XY = { x: number; y: number };
-
-function div(num: number, den: number): number | null {
-  const r = ratio(num * SCALE, den * SCALE, 'length');
-  return r.ok ? r.value : null;
-}
-
-/** The point of segment a–b nearest q (doubles), and its squared distance. */
-function nearestOn(q: XY, a: XY, b: XY): { p: XY; d2: number } {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l2 = dx * dx + dy * dy;
-  let t = 0;
-  if (l2 > 0) {
-    const s = div((q.x - a.x) * dx + (q.y - a.y) * dy, l2);
-    t = s === null ? 0 : Math.max(0, Math.min(1, s));
-  }
-  const p = { x: a.x + t * dx, y: a.y + t * dy };
-  return { p, d2: (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y) };
-}
-
-/** The kerb point nearest q (ties: the lower y, then x). */
-function nearestKerbPoint(kerbRings: readonly Ring[], q: XY): XY | null {
-  let best: XY | null = null;
-  let bd = Infinity;
-  for (const r of kerbRings) {
-    for (let i = 0; i < r.length; i += 1) {
-      const c = nearestOn(q, r[i], r[(i + 1) % r.length]);
-      if (best === null || c.d2 < bd || (c.d2 === bd && (c.p.y < best.y || (c.p.y === best.y && c.p.x < best.x)))) {
-        best = c.p;
-        bd = c.d2;
-      }
-    }
-  }
-  return best;
-}
 
 /** Is the point within the hot pixel of the face's boundary (any route edge)? */
 function onBoundary(rings: readonly LatticePoint[][], q: XY): boolean {
@@ -145,98 +107,6 @@ function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed: boolea
   return out;
 }
 
-/** The unit direction a → b, or null. */
-function unit(a: XY, b: XY): XY | null {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l = Math.sqrt(dx * dx + dy * dy);
-  const ux = div(dx, l);
-  const uy = div(dy, l);
-  return ux === null || uy === null ? null : { x: ux, y: uy };
-}
-
-/** The meeting point of the line through a along u and the line through b along v (doubles), or null when all but parallel. */
-function meet(a: XY, u: XY, b: XY, v: XY): XY | null {
-  const den = u.x * v.y - u.y * v.x;
-  const t = div((b.x - a.x) * v.y - (b.y - a.y) * v.x, den);
-  if (t === null || Math.abs(den) < 1e-9) return null;
-  return { x: a.x + t * u.x, y: a.y + t * u.y };
-}
-
-/** One junction of a face: its vertex, the route edges into and out of it, and whether F turns left between two spines there. */
-interface Junction {
-  readonly j: VertexId;
-  readonly prev: VertexId;
-  readonly next: VertexId;
-  readonly hwIn: number;
-  readonly hwOut: number;
-  readonly corner: boolean;
-}
-
-/** The junctions of a face's boundary (see the module comment), in walk order ring by ring. */
-function junctionsOf(p: Plat, read: KerbRead): Junction[] {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const T = p.halfEdges;
-  const out: Junction[] = [];
-  for (const es of read.edges) {
-    const m = es.length;
-    for (let i = 0; i < m; i += 1) {
-      const ein: RouteEdge = es[(i + m - 1) % m];
-      const eout: RouteEdge = es[i];
-      if (ein.spines.length === 0 || eout.spines.length === 0) continue;
-      const j = eout.a;
-      const shared = ein.spines.some((k) => eout.spines.includes(k));
-      let degree = 0;
-      for (const h of outgoing(p, j)) if (T.level[h >> 1] <= 1) degree += 1;
-      if (shared && degree < 3) continue;
-      const hwOf = (keys: readonly string[]): number => {
-        let w = 0;
-        for (const k of keys) w = Math.max(w, (read.spines.get(k) as Spine).hwAt.get(j) ?? 0);
-        return w;
-      };
-      const o = orient2d(X[ein.a], Y[ein.a], X[j], Y[j], X[eout.b], Y[eout.b]);
-      out.push({ j, prev: ein.a, next: eout.b, hwIn: hwOf(ein.spines), hwOut: hwOf(eout.spines), corner: !shared && o > 0 });
-    }
-  }
-  return out;
-}
-
-/** The corridor_split chain at one junction (see the module comment), or null when the kerb has no point to reach. */
-function splitChain(p: Plat, read: KerbRead, jn: Junction): XY[] | null {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const J: XY = { x: X[jn.j], y: Y[jn.j] };
-  const A: XY = { x: X[jn.prev], y: Y[jn.prev] };
-  const B: XY = { x: X[jn.next], y: Y[jn.next] };
-  const u = unit(A, J);
-  const v = unit(J, B);
-  if (u === null || v === null) return null;
-  // The left normals (the face lies on the left of its walk).
-  const nu: XY = { x: -u.y, y: u.x };
-  const nv: XY = { x: -v.y, y: v.x };
-  let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
-  if (jn.corner) {
-    const m = meet({ x: A.x + nu.x * jn.hwIn, y: A.y + nu.y * jn.hwIn }, u, { x: J.x + nv.x * jn.hwOut, y: J.y + nv.y * jn.hwOut }, v);
-    if (m !== null) aim = m;
-  } else {
-    const b = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
-    if (b !== null) aim = { x: J.x + b.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + b.y * Math.max(jn.hwIn, jn.hwOut) };
-  }
-  const K = nearestKerbPoint(read.kerb, aim);
-  if (K === null) return null;
-  if (!jn.corner) return [J, K];
-  const fa = nearestOn(K, A, J).p;
-  const fb = nearestOn(K, J, B).p;
-  const nearJ = (q: XY): boolean => (q.x - J.x) * (q.x - J.x) + (q.y - J.y) * (q.y - J.y) <= ATTRACT * ATTRACT;
-  const a = nearJ(fa);
-  const b = nearJ(fb);
-  if (a && b) return [J, K];
-  if (a) return [J, K, fb];
-  if (b) return [fa, K, J];
-  return [fa, K, fb];
-}
-
 /** The L1 ancestor of a face record of level n (its parent chain). */
 function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
   let g = f;
@@ -271,6 +141,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     reads.push(r.value);
   }
   const whole: FaceId[] = [];
+  const wholeBand: FaceId[] = [];
   for (const read of reads) {
     if (read.spines.size === 0) continue;
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
@@ -280,17 +151,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
       warnings.push(...ins.warnings);
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
-    for (const jn of junctionsOf(p, read)) {
-      const chain = splitChain(p, read, jn);
-      if (chain === null) continue;
-      const pts: LatticePoint[] = [];
-      for (const q of chain) {
-        const s = snap(q.x, q.y);
-        if (!s.ok) return rollback(t, save, err(s.code, s.detail));
-        const last = pts[pts.length - 1];
-        if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
-      }
-      if (pts.length < 2) continue;
+    for (const pts of read.splits) {
       const ins = insertChain(t, pts, split, 'mandatory');
       if (!ins.ok) {
         // A split whose two ends attraction folds onto one vertex adds nothing (the kerb meets the junction there).
@@ -313,24 +174,31 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
   const wedges: FaceId[] = [];
   const blocks: FaceId[] = [];
   const R = p.roles;
+  const splitRole = roleIdOf('corridor_split');
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
     if (kids.length === 0) {
-      if (read.spines.size === 0) whole.push(read.face);
+      // no edge written inside it: a spine-less face, or one whose kerb is F itself, is one built block; an empty kerb
+      // leaves it all band
+      if (read.kerb.length > 0) whole.push(read.face);
+      else wholeBand.push(read.face);
       continue;
     }
     for (const c of kids) {
       const touched = new Set<string>();
+      let split = false;
       for (const ring of faceWalk(p, n, c)) {
         for (const h of ring) {
           for (const r of rowsOn(p, 'edge', h)) {
+            if (R.kind[r] === splitRole && R.level[r] === n) split = true;
             if (R.level[r] > 1 || R.ordinal[r] !== 0) continue;
             const k = `${String(R.kind[r])}:${String(R.entity[r])}`;
             if (read.spines.has(k)) touched.add(k);
           }
         }
       }
-      if (touched.size === 0) blocks.push(c);
+      // a corridor_split edge lies inside the band, so a face it bounds is a band face even where no spine bounds it
+      if (touched.size === 0 && !split) blocks.push(c);
       else {
         band.push(c);
         if (touched.size >= 2) wedges.push(c);
@@ -339,7 +207,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     }
   }
   const byKey = (a: FaceId, b: FaceId): number => compareFaces(p, n, a, b);
-  const result: BandResult = { band: band.sort(byKey), strips: strips.sort(byKey), wedges: wedges.sort(byKey), blocks: blocks.sort(byKey), whole };
+  const result: BandResult = { band: band.sort(byKey), strips: strips.sort(byKey), wedges: wedges.sort(byKey), blocks: blocks.sort(byKey), whole, wholeBand };
   if (spec.owner !== null && result.band.length > 0) {
     const o = setOwner(t, result.band, spec.owner);
     if (!o.ok) return rollback(t, save, o);

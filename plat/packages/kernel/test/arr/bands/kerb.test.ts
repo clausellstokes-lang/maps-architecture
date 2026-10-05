@@ -51,7 +51,7 @@ describe('kerb(F) (§3.7)', () => {
     const before = edgesWithRole(p, 'district_bound');
     const r = commit(p, 2, (o) => corridorUnion(o, [f], W300), AT_S9);
     expect(r.record).toBeNull();
-    expect(r.value).toEqual({ band: [], strips: [], wedges: [], blocks: [], whole: [f] });
+    expect(r.value).toEqual({ band: [], strips: [], wedges: [], blocks: [], whole: [f], wholeBand: [] });
     expect(edgesWithRole(p, 'kerb')).toEqual([]);
     expect(edgesWithRole(p, 'corridor_split')).toEqual([]);
     expect(edgesWithRole(p, 'district_bound')).toEqual(before);
