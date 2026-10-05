@@ -143,6 +143,33 @@ describe('the verdict’s refusal and tally bounds', () => {
   });
 });
 
+describe('the W_PLACED and far-stretch tallies (N-40, N-41 (2))', () => {
+  const pushed = [pt(0, 0), pt(1000, 0), pt(1050, 1050), pt(0, 1000)];
+  it('a W_PLACED case is tallied, and failed when a verdict fails', () => {
+    const h = newHarness();
+    judge(h, 'op', 'fam', [SQUARE], answer, [{ code: 'W_PLACED', count: 1 }], () => 'case');
+    judge(h, 'op', 'fam', [SQUARE], answer, [{ code: 'W_ATTRACTED', count: 2 }], () => 'case');
+    expect(h.placed).toMatchObject({ cases: 1, failed: 0 });
+    // ours 3 × 10⁶ cm² off the oracle's square: beyond the attracted bound (perimeter 8 000 cm × 36.8 cm ≈ 294 000 cm²)
+    judge(h, 'op', 'fam', [[pt(0, 0), pt(2000, 0), pt(2000, 2000), pt(0, 2000)]], answer, [{ code: 'W_PLACED', count: 1 }], () => 'case');
+    expect(h.placed).toMatchObject({ cases: 2, failed: 1 });
+  });
+
+  it('a W_STRETCH_SHARED case is tallied when a vertex of ours lies beyond √2 · attractCm of the oracle’s boundary', () => {
+    const h = newHarness();
+    // 50·√2 ≈ 70.7 cm out: tallied; the area (≈ 50 000 cm²) within the attracted bound, so it passes
+    judge(h, 'op', 'fam', [pushed], answer, [{ code: 'W_STRETCH_SHARED', count: 1 }], () => 'case');
+    // 20·√2 ≈ 28.3 cm out: within √2 · attractCm (36.8 cm), not tallied
+    judge(h, 'op', 'fam', [[pt(0, 0), pt(1000, 0), pt(1020, 1020), pt(0, 1000)]], answer, [{ code: 'W_STRETCH_SHARED', count: 1 }], () => 'case');
+    // far, but no shared stretch reported: not tallied
+    judge(h, 'op', 'fam', [pushed], answer, [{ code: 'W_ATTRACTED', count: 1 }], () => 'case');
+    expect(h.stretchFar.cases).toBe(1);
+    expect(h.stretchFar.failed).toBe(0);
+    expect(h.stretchFar.maxCm).toBeCloseTo(50 * Math.SQRT2, 9);
+    expect(h.failures).toEqual([]);
+  });
+});
+
 describe('the far-stretch measure (N-41 (2))', () => {
   it('is the farthest vertex of ours from the oracle’s boundary', () => {
     expect(farthestVertexCm([SQUARE], [SQUARE])).toBe(0);
