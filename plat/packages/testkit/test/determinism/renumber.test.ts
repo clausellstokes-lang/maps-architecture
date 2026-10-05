@@ -20,6 +20,12 @@ import {
   query,
   setOwner,
   insertChain,
+  itemKey,
+  ITEM_EDGE,
+  ITEM_FACE,
+  ITEM_VERTEX,
+  keyKind,
+  keySlot,
   type Overlay,
   type Plat,
 } from '@plat/kernel';
@@ -160,6 +166,46 @@ describe('renumberSlots(plat, seed): the same arena under other slot numbers', (
     const next = KERNEL_SEQUENCES[0].batches[1];
     const a = renumberSlots(p, 23);
     expect(outcomePrint(a, runBatch(a, next.build(a)))).toBe(outcomePrint(p, runBatch(p, next.build(p))));
+  });
+
+  it('a partial tombstone set (a proper subset of its partition; vertices, edges and faces): every key renamed through the slot maps, index state and queries carried', () => {
+    // M0-a-07's partitioners: the static partitions rebuilt after the first declared batch, then the merge + split
+    // batch tombstones some of the partition's items, not all (so a set left unrenamed is not the renamed set).
+    const s = partitionerSequence();
+    const p = built(s, 3);
+    expect(rebuildAtStageEnd(p)).toBeGreaterThan(0);
+    const last = runBatch(p, s.batches[3].build(p));
+    expect(last.ok).toBe(true);
+    const idx = p.index;
+    if (idx === undefined) throw new Error('support: the fixture arena is indexed');
+    let partial = 0;
+    const kinds = new Set<number>();
+    for (const l of LEVELS) {
+      idx.levels[l].tombstones.forEach((t, pos) => {
+        if (t.size > 0 && t.size < idx.levels[l].static[pos].keys.length) partial++;
+        for (const k of t) kinds.add(keyKind(k));
+      });
+    }
+    expect(partial).toBeGreaterThan(0);
+    expect([...kinds].sort()).toEqual([ITEM_VERTEX, ITEM_EDGE, ITEM_FACE]);
+    const sorted = (xs: Iterable<number>): number[] => [...xs].sort((a, b) => a - b);
+    for (const [seed, mode] of [[31, 'random'], [32, 'reverse'], [33, 'random']] as const) {
+      const { plat: q, maps } = renumbering(p, seed, { mode });
+      const slotOf = (kind: number, l: number, slot: number): number => (kind === ITEM_VERTEX ? maps.vertex[slot] : kind === ITEM_EDGE ? maps.pair[slot] : maps.face[l][slot]);
+      let moved = 0;
+      for (const l of LEVELS) {
+        idx.levels[l].tombstones.forEach((t, pos) => {
+          const want = sorted([...t].map((k) => itemKey(keyKind(k), slotOf(keyKind(k), l, keySlot(k)))));
+          const got = q.index?.levels[l].tombstones[pos];
+          expect(got === undefined ? [] : sorted(got), `${mode} ${seed} L${l} partition ${pos}`).toEqual(want);
+          if (want.join() !== sorted(t).join()) moved++;
+        });
+      }
+      // the renaming moves the set: a set kept as it was would fail the equality above
+      expect(moved).toBeGreaterThan(0);
+      expect(checkIndexState(q)).toEqual([]);
+      for (const l of LEVELS) expect(answer(q, l)).toBe(answer(p, l));
+    }
   });
 
   it('the print sees every field it names: a point, a level, a flag, a vertex row, an edge row, an owner, a kind, a stage, a parent', () => {
