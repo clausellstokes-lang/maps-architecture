@@ -1,0 +1,2263 @@
+{
+ "file": "docs/build-prep/M1/scope.json",
+ "twin": "docs/build-prep/M1/scope.md",
+ "written": "2026-10-05",
+ "lane": "filler/m1-scope-inventory",
+ "role": "implementer-side (clean room); reads docs/ARCHITECTURE.md, docs/volumes/INDEX.md, V01/V09/V11/V12 §8, plat/ working copy",
+ "authority": "an inventory, not design (J156 (1)); where it and the design differ the design governs",
+ "statusRule": {
+  "needs-M-1": "a number, threshold or file the clause's spec or verdict must state is an M-1 deliverable",
+  "M0-dependent": "the clause extends, re-runs or reads the outcome of an M0 item that had no landed record when read, or an M0 bar's verdict (fallback applied or not)",
+  "specifiable-now": "neither: the design alone fixes it; M0 items it reads already had a landed record",
+  "precedence": "needs-M-1 over M0-dependent over specifiable-now; secondary dependencies stay listed in m0Items / m1Needs",
+  "universalVehicles": "the pipeline (M0-x-02, M0-x-04) and the tier runner and timing script (M0-f-02a/b, M0-t-00) are carried by clauses 4 and 20 and not repeated on every stage or bar clause",
+  "landedSnapshot": "plat/docs/build/landed/ working copy 2026-10-05, run wf_8f7c7489-304 in flight; a landed record is not a checker verdict"
+ },
+ "counts": {
+  "M0-dependent": 49,
+  "specifiable-now": 61,
+  "needs-M-1": 13
+ },
+ "clauseCount": 123,
+ "discrepancies": [
+  "transient arenas: §16 M1 names them; plat/docs/build/M0.md §4b stages them to M6-P",
+  "S12a–c: M0.md §4b stages them to M1; §16 places S12's rules and S12c at M2b",
+  "II.5's M1-exit readiness uses New random, a named action §16 builds at M2a",
+  "docs/IMPROVEMENTS.md §5.1 (the gate list §16 M1 cites) lies outside this seat's clean room; letters taken from §16's cell, meanings from §15.2",
+  "§13.5 says M-1 recomputed baselines on 2026-10-04, but plat/ held no baselines.json, ng-faces.json, denylist.json or digest when read: needs-M-1 clauses wait on the crossing, not the measurement"
+ ],
+ "clauses": [
+  {
+   "kind": "preamble",
+   "clause": "M1 ends on executed evidence and writes its MilestoneRecord with its declared shifts; an undeclared shift fails the exit",
+   "sources": [
+    "ARCHITECTURE.md §16 preamble",
+    "ARCHITECTURE.md §13.3"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-01 (the exitCriteria shape, C-0042)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 1,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "preamble",
+   "clause": "M1's bars are those §13.8's schedule gives M1; its volumes' bars are their §7's at the steps their §8 names (V01 §8.1, V09 AP1, V11 C0/C1/C9, V12 W2/W7)",
+   "sources": [
+    "ARCHITECTURE.md §16 preamble",
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "the run vehicle (tier runner M0-f-02a/b) is clause 20's dependency, not repeated per bar",
+   "n": 2,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "preamble",
+   "clause": "A milestone that lands a calibratable column exits with `plat calibrate register --check` green over it",
+   "sources": [
+    "ARCHITECTURE.md §16 preamble",
+    "V12 §3.11",
+    "V11 §8 (the register at every exit)",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-s-02 (calibratable-cell census, C-0070)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 3,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "S0–S11 at all three rungs (TOWN, CITY, METROPOLIS) on the one pipeline",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §1.1",
+    "ARCHITECTURE.md §4.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-02 (StrategyRegistry, runner, generation report)",
+    "M0-x-04 (base registration table)",
+    "M0-a-16 (Kernel façade)"
+   ],
+   "m1Needs": [],
+   "note": "universal vehicle: later stage clauses do not repeat this dependency",
+   "n": 4,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "Site plans for row, detached and hovel types, and heights (compounds deferred to M2b)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.7 S11",
+    "ARCHITECTURE.md §2.6"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-08 (offsetFace, buffers)",
+    "M0-a-10 (obb, lir)",
+    "M0-k-04 (S11 geometry-share bar, C-0107)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 5,
+   "m0ItemsLanded": [
+    "M0-a-10"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "METROPOLIS is in the goldens, B-CITY, the determinism tests and the diagnostic panel; M2b measures and tunes it (its core statistics reported from M1, gating from M2b)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §1.1",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-s-02 (ladder rows, landed)",
+    "M0-d-06 (cross-host harness)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 6,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "S3 reservations and gate sites (S3 (1), (2), (8), (10), (11), (12)'s market score, (13)'s typed destinations; polycentric forms; F-SITE's nuclei rungs)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.2 S3",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-01 (S3 slice as data)",
+    "M0-c-02 (trace and the slice's commits)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 7,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "S5 with each trace before its stage's growth",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.4"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-02",
+    "M0-c-04 (S5a/S5b)",
+    "M0-c-05 (S5c/S5d)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 8,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "S7 walls, gates, towers, castle (wall strips, band, gatehouses, gate plazas)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.8",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-02 (strip stand-in, C-0033)",
+    "M0-m-01 (minimal Enceinte/Gate, landed)",
+    "M0-a-08/M0-a-09 (buffers, bands)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 9,
+   "m0ItemsLanded": [
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "The eager allocation (S7b), including claimSubFace's score form",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.5 S7b",
+    "ARCHITECTURE.md §2.5"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-04 (S6 districts)",
+    "M0-a-07 (claimSubFace ring form, landed; score form notBuilt('M1'))"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 10,
+   "m0ItemsLanded": [
+    "M0-a-07"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "S13a names with the quarter merge tree: quarter labels at the city band, district names at the district band",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.10",
+    "ARCHITECTURE.md §9.6"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-04 (quarter merge tree)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 11,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "The `ink` preset at the city and district bands on the Canvas2D tile pyramid (close-up and building bands at M2b)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §8.2",
+    "ARCHITECTURE.md §8.5",
+    "ARCHITECTURE.md §8.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 12,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "SVG and PNG export",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §11.1",
+    "ARCHITECTURE.md §12.7"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 13,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "The `.plat` writer and reader for generated towns: the manifest, content-addressed chunks with §3.9's geometry layout, gzip compression and an empty log",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §2.9",
+    "ARCHITECTURE.md §3.9",
+    "plat/docs/build/M0.md §5 Q7 (C-0037)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15 (arena block encode/decode)",
+    "M0-d-04 (Merkle digest, landed)"
+   ],
+   "m1Needs": [],
+   "note": "zod schemas and the unit lint are staged to M1 with the document (C-0012, C-0044)",
+   "n": 14,
+   "m0ItemsLanded": [
+    "M0-d-04"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "The root check of a document of the running output version, with its corrupt-cache regeneration",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §2.9 steps 3 and 5"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15",
+    "M0-d-04 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 15,
+   "m0ItemsLanded": [
+    "M0-d-04"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "§2.9 step 2's frozen view of a document of another output version (its `frozenImport` rebase arrives with M3a's rebases)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §2.9 step 2"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 16,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "boundary",
+   "clause": "The records digest joins the snapshot at M2a, not M1; an M1-format document of the running version is regenerated from its recipe when it arrives",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §2.9 step 5",
+    "J-I19"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "scope boundary: names what M1 does NOT build",
+   "n": 17,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "Permalinks marked *preview* with the preview notice and `o=` until M4 fixes output version 1",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §13.3 (From M1)",
+    "ARCHITECTURE.md §6.4"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 18,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "The report panel with delivery tiers",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §5.4"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-02 (generation report)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 19,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "The B-CITY harness in the PR and nightly tiers (B-CITY-lite in PR; B-CITY nightly)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §13.2",
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-f-02a (tier runner, PR tier)",
+    "M0-f-02b (nightly/milestone contents)",
+    "M0-c-06, M0-e-06 (spike-city harnesses, C-0015)"
+   ],
+   "m1Needs": [],
+   "note": "universal vehicle for every bar clause below",
+   "n": 20,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "content",
+   "clause": "The output-version stamp; shift, cascade and milestone records in `plat/goldens/`; the stage-isolated golden tooling with per-stop placement digests; golden suite 12 seeds × 3 rungs × 4 water settings",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §13.3"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-01 (record shape)",
+    "M0-x-02 (stage isolation runs on the pipeline)",
+    "M0-d-02 (H32 seeds, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 21,
+   "m0ItemsLanded": [
+    "M0-d-02"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "`SeamContract` on every district",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §2.5",
+    "ARCHITECTURE.md §4.12",
+    "ARCHITECTURE.md II.1",
+    "ARCHITECTURE.md §15.2 S1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-m-01 (minimal Seam, C-0046, landed)",
+    "M0-b-03 (seam portals)"
+   ],
+   "m1Needs": [],
+   "note": "§15.2: at M1 the check is schema completeness only (field flat until M2b)",
+   "n": 22,
+   "m0ItemsLanded": [
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "content",
+   "clause": "The derivation pool (overlays and merge; pool sizes 1–3 in the contract tests)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §3.3",
+    "ARCHITECTURE.md §4.1",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-06 (overlay, pool-size-0 path, landed)",
+    "M0-x-02 (runner)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 23,
+   "m0ItemsLanded": [
+    "M0-a-06"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O2 deterministic recipe",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O2",
+    "ARCHITECTURE.md §6.1",
+    "ARCHITECTURE.md §6.3"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-06 (cross-host)",
+    "M0-d-08 (time-dilation/op-order harness)",
+    "M0-d-09 (determinism spike runner)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 24,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O6 metric units, furniture, statistics (unit lint at M1, core statistics record)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O6",
+    "ARCHITECTURE.md §2.1",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-07 (lint host, landed)",
+    "M0-k-05 (metrics, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 25,
+   "m0ItemsLanded": [
+    "M0-d-07",
+    "M0-k-05"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O3 robust kernel, typed ladders, report",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O3",
+    "ARCHITECTURE.md §3",
+    "ARCHITECTURE.md §5"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-k-04 (B-FUZZ runner)",
+    "M0-x-05 (ladder coverage)",
+    "M0-a-14 (invariant suite)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 26,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O11 schema (registry round trip, containment) + PNG / SVG",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O11",
+    "ARCHITECTURE.md §2",
+    "ARCHITECTURE.md §11"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-m-01 (landed)",
+    "M0-a-15"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 27,
+   "m0ItemsLanded": [
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O1 terrain and hydrology first (S1 (2) coast, (4) islands, (6) harbour, (7) bank classes, `Terrain.mining` added at M1)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O1",
+    "ARCHITECTURE.md §4.2 S1",
+    "plat/docs/build/M0.md §4b (C-0048)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-01, M0-e-02 (landed)",
+    "M0-e-03 (L0 batch, water faces, crossing sites)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 28,
+   "m0ItemsLanded": [
+    "M0-e-01",
+    "M0-e-02"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O4 two-tier street network",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O4",
+    "ARCHITECTURE.md §4.3",
+    "ARCHITECTURE.md §4.4",
+    "ARCHITECTURE.md §4.6"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-03",
+    "M0-c-04",
+    "M0-c-05",
+    "M0-b-03"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 29,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O5 frontage-first plots",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O5",
+    "ARCHITECTURE.md §4.7 S10"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-b-03 (Block/Frontage records written by S8)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 30,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O18 with a flat field",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O18",
+    "ARCHITECTURE.md §4.5"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-05 (fields pass 1, FieldBands)",
+    "M0-b-01 (granularity bands, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 31,
+   "m0ItemsLanded": [
+    "M0-b-01"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O17 basic (plot model, site plans, heights)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O17",
+    "ARCHITECTURE.md §2.5–§2.6",
+    "ARCHITECTURE.md §4.7 S11"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-08",
+    "M0-a-10 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 32,
+   "m0ItemsLanded": [
+    "M0-a-10"
+   ]
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O8 basic (fortification network)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O8",
+    "ARCHITECTURE.md §4.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-02 (strip stand-in)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 33,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O12 `ink`",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O12",
+    "ARCHITECTURE.md §8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 34,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "gate-list",
+   "clause": "Milestone-1 gate letter O16-core report and honest controls",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 (docs/IMPROVEMENTS.md §5.1, not opened: clean room)",
+    "ARCHITECTURE.md §15.2 O16-core",
+    "ARCHITECTURE.md §5.4",
+    "ARCHITECTURE.md §7.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-02 (generation report)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 35,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "M1 content authored fresh: roster rows for the M1 classes, households, the naming grammar and word lists, the era table, the `ink` palette (≈ 3–4 pw); V11 C1's rows (housing, food, crafts, trade, lodging, civic, worship, outside classes; district kinds; greenery and climate; era and materials)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §10.2",
+    "ARCHITECTURE.md §10.4",
+    "V11 §8 C1"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-s-02 (loader, landed)",
+    "M0-k-06 (content scanner)"
+   ],
+   "m1Needs": [
+    "denylist.json (for the PR deny-list scan that judges it)"
+   ],
+   "note": "marked needs-M-1 because its clean-room verdict (0 deny-list hits, §17.1 (5)) reads M-1's deny-list; what to author is fixed by the design now",
+   "n": 36,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The app shell (V09 AP1): one click, basic panel, report, gazetteer and \"features in view\", the keymap, the accessibility contract, context-help skeleton, chrome tokens and themes, the empty-state card, the message catalogue's first rows and coverage test, open and download of generated towns; exits T-V9-1 (shell), T-V9-15, T-V9-21 (shell)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "V09 §8.1 AP1"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 37,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "The transient arena's open, read-back and release",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §3.4"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-02/M0-a-07 (TransientKey, ArenaKey declared, C-0041)",
+    "M0-a-09 (tileRings)"
+   ],
+   "m1Needs": [],
+   "note": "DISCREPANCY: plat/docs/build/M0.md §4b stages transient arenas, readBack, release and the re-cut to M6-P; §16 names them M1 work",
+   "n": 38,
+   "m0ItemsLanded": [
+    "M0-a-02",
+    "M0-a-07"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "`RungProfile.layers` with `Features.sewers` resolved at S0",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §1.1",
+    "ARCHITECTURE.md II.7.1"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-s-02 (ladder.json, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 39,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The emulation marker on every default cell",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §7.6"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-s-02 (cell check, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 40,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The parity presets `MFCG` / `FTG`",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §7.6"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-s-02 (presets column, C-0153, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 41,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "`factTier` over the registry's dossier paths; the derivation table as an index and its totality bar",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §7.7",
+    "item 20 (h)"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-m-01 (registry types, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 42,
+   "m0ItemsLanded": [
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The geology flag's S0 draw and S1 resolution with the relief toggle's S0 pick, so `Terrain.geology` and the relief class are in the first golden",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §4.2 S0",
+    "ARCHITECTURE.md §4.2 S1 (10)",
+    "item 65",
+    "J-A65.49",
+    "J-A65.02"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-e-01 (landed)",
+    "M0-d-01 (streams, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 43,
+   "m0ItemsLanded": [
+    "M0-d-01",
+    "M0-e-01"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The `ink` palette on the owner-opened corpus targets with its measurement code (the bands are figures inside the design; no corpus file is read)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §8.2 (Palette targets)",
+    "item 69"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 44,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "`@plat/port` in the tests only: `DossierDigest`, one SettlementForge adapter for `fp-integration-2026-09-23` and the creation half, the binding table's shape and key law, `tables/dossier/*` rows, the typed circumstance slices, `Institution.powers` and `Assignment.state` as schema, the one-way seed, the inert-export bar, the ignore-list, the refusal below 1 500 and above the cap (≈ 2.5–3 pw)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §14 (dossier port, halves)",
+    "ARCHITECTURE.md §7.7",
+    "items 73–86"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-02 (H32, landed)",
+    "M0-m-01 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 45,
+   "m0ItemsLanded": [
+    "M0-d-02",
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The frozen dossier fixtures copied into `plat/tests/fixtures/dossier/` with their manifest, and B-DOSSIER-lite",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §13.2 (dossier port bars)",
+    "item 84"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "external input, not an M-1 deliverable: fixtures cut from SettlementForge line fp/integration-2026-09-23 at commit 5d699cc68",
+   "n": 46,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "The oasis and spring features at S0–S1; V11 C9's item-111 dry-country cells beside them",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "item 111",
+    "V11 §8 C9",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-e-01, M0-e-02 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 47,
+   "m0ItemsLanded": [
+    "M0-e-01",
+    "M0-e-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "§8.8's per-map zoom-out limit on the pyramid with §9.5's framing, and the exports framed within it; V11 C9's item-116 margin cell; V12 W7's `view.limitStop`",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §8.8",
+    "ARCHITECTURE.md §9.5",
+    "item 116",
+    "V12 §8.2 W7"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 48,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "§12's comfort-level timing at TOWN and CITY (item 119), judged by T119-1 and T119-2 in §12.1's timing phase",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §12",
+    "ARCHITECTURE.md §13.8 (T119-1, T119-2)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-t-00 (timing-phase script)",
+    "M0-f-01 (timing harness, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 49,
+   "m0ItemsLanded": [
+    "M0-f-01"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "Volume 1's M1 schema: `Block.content` (always `ordinary`), `Block.overrides`, `HoodPlace`'s registry row (no producer), `DistrictContext`, `Recipe.product` (`town`), the three concerns' ids and the `S8.seed` stage id reserved (append-only)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "V01 §8.1",
+    "file f item 345"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-01 (concern and stage-id registries, landed)",
+    "M0-m-01 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 50,
+   "m0ItemsLanded": [
+    "M0-d-01",
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The way-naming context's features in S13a with the M1 grammar; `hood.constants`' one settings row shipped whole (four naming columns read; every calibratable column takes its register entry here)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "V01 §8.1",
+    "V01 §3.7.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 51,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "Volume 12's rig share (W2): `@plat/testkit/metrics` with `METRICS`, `plat measure`, `plat baselines check / aggregate`, `plat parity` to V12 §3.5 with dashboard and CSV; `@plat/testkit/seeds`; the panel engine (`PanelSpec`, `plat d5 verdict` reading only crossed files); `history.jsonl`; the register with §13.7's letters and the M1–M2b constants and `plat calibrate register --defaults --milestone`",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "V12 §8.2 W2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-k-05 (metrics, parity CLI, landed)",
+    "M0-s-02 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 52,
+   "m0ItemsLanded": [
+    "M0-k-05",
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "V12 W2's M-1 metric rows' product side (`street.detour` … `draw.hairline`), including street-edge recoverability cross-checked against the research-side implementation on M1's golden renders within 0.01",
+   "sources": [
+    "ARCHITECTURE.md §16 M1",
+    "ARCHITECTURE.md §16 M-1",
+    "V12 §8.2 W2",
+    "ARCHITECTURE.md §8.5"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [],
+   "m1Needs": [
+    "the M-1 metric scripts and their measured rows (baselines.json)"
+   ],
+   "note": "",
+   "n": 53,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "V12's forms of the band rule (sign-indefinite metrics, metric floors), checks C8–C10 and the full `CrossingRecord`",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0092)",
+    "ARCHITECTURE.md §13.5",
+    "ARCHITECTURE.md §17.1 (4)"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-k-05 (M0 form, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 54,
+   "m0ItemsLanded": [
+    "M0-k-05"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "V12 W7 at M1: item 111's rate specs and pin; the `--trial` entry; the edge suite's M1 rows",
+   "sources": [
+    "V12 §8.2 W7"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 55,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "V11 C0/C1 exits: a compile of the M1 tables byte-identical on two hosts; register green over the C1 rows; the seat landing C1 registers T16-4 with the `detourFactor` entry (measured at M1 against the way-graph Dijkstra on B-CITY)",
+   "sources": [
+    "V11 §8 C0, C1",
+    "ARCHITECTURE.md §4.7 S10b",
+    "ARCHITECTURE.md §13.2 T16-4"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-s-02 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 56,
+   "m0ItemsLanded": [
+    "M0-s-02"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "Per-name naming records (M1 writes them; renames stored at M3a)",
+   "sources": [
+    "ARCHITECTURE.md §16 (six new components)",
+    "ARCHITECTURE.md §2.8",
+    "ARCHITECTURE.md §6.3",
+    "ARCHITECTURE.md §7.1"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-05a (identity, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 57,
+   "m0ItemsLanded": [
+    "M0-d-05a"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "`carryWings` and the wing check decided by pairing, in generation",
+   "sources": [
+    "ARCHITECTURE.md §16 (six new components)",
+    "ARCHITECTURE.md §2.6"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 58,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "Crossing sites as a `Bridge` in state `site` (generation side)",
+   "sources": [
+    "ARCHITECTURE.md §16 (six new components)",
+    "ARCHITECTURE.md §2.7"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-03 (crossing sites as pinned decks, C-0076)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 59,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "Resumable raster jobs, S13b as a resumable placement job, the tile worker's four-class queue",
+   "sources": [
+    "ARCHITECTURE.md §16 (six new components)",
+    "ARCHITECTURE.md §8.9",
+    "ARCHITECTURE.md §9.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 60,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "The shipped stamp-tile asset with its shared seam band, and its build tool `plat/tools/stamptiles/`",
+   "sources": [
+    "ARCHITECTURE.md §16 (six new components)",
+    "ARCHITECTURE.md §8.10"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 61,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The D-5 protocol's first run (diagnostic, recorded, not gating; all three rungs) with its threshold panel; MFCG pairs by formula, FTG pairs one per panel capture",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.6 (1), (2)"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-d-02 (H32, landed)"
+   ],
+   "m1Needs": [
+    "ftg-captures.json (numbers-only, from the FTG programmes)",
+    "the research-side panel script's MFCG renders"
+   ],
+   "note": "",
+   "n": 62,
+   "m0ItemsLanded": [
+    "M0-d-02"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "B-CITY-lite (200 seeds × 4 water settings): 0 tier-6 omissions of requested features and degraded ≤ 5 %",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.7 (requested features)"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 63,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "B-CITY-lite: plots with access 100 %",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §15.2 O5"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-b-03 (frontage records)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 64,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "B-CITY-lite: population ± 5 %",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §15.2 O7"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 65,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The fusion gate re-run on B-CITY-lite's river, coast and relief configurations with the reordered stages, with pre-decided fallbacks (time: §4.4's class-boundary move, then the CITY model budget re-declared at the measured p95 as a D-18 amendment for the owner's veto; statistics: the infill band table gains a slope class calibrated on NG's faces)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §4.4",
+    "ARCHITECTURE.md §1.4"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-c-06 (fusion gate harness and M0 (c)'s verdict)",
+    "M0-c-07 (statistics harness)"
+   ],
+   "m1Needs": [
+    "baselines.json NG bands and MFCG street-signature rows",
+    "ng-faces.json (for the slope-class calibration)"
+   ],
+   "note": "",
+   "n": 66,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "Model within §12.3 at TOWN and CITY with the pool measurement (§12.3's pool rule and its pre-decided outcomes); the in-Chrome re-measure (nightly)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.3",
+    "ARCHITECTURE.md §12.10 R12-1",
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-06 (browser runner)",
+    "M0-t-00"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 67,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The label-composition measurement",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.9",
+    "ARCHITECTURE.md §12.10 R12-16"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 68,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The figure-ground metrics against MFCG's M-1 recoverability; contrast matrix; `ink` symbolisation census; label floors and counts (quarter labels at MFCG's count); hairline fidelity",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.3",
+    "ARCHITECTURE.md §8.5",
+    "ARCHITECTURE.md §9.4"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [],
+   "m1Needs": [
+    "MFCG street-edge recoverability baseline",
+    "MFCG quarter-label count rows"
+   ],
+   "note": "",
+   "n": 69,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "B-ZOOM's role continuity across `ink`'s city → district switch",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.4"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 70,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "Placement digests identical on Node x86 and in the nightly five-engine run",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.3 (Placement digests)",
+    "ARCHITECTURE.md §9.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-06 (cross-host harness)",
+    "M0-d-07 (allowlist lint, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 71,
+   "m0ItemsLanded": [
+    "M0-d-07"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "The walled share and extramural ribbon share in MFCG's band",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.5"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [],
+   "m1Needs": [
+    "baselines.json rows (MFCG sweep, walled and ribbon shares)"
+   ],
+   "note": "",
+   "n": 72,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The between-seed dispersion against MFCG's and FTG's",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §16 M-1"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [],
+   "m1Needs": [
+    "the variety dispersions of MFCG and FTG"
+   ],
+   "note": "",
+   "n": 73,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The B-EDIT-lite identity fixtures ≥ 99.9 % (1 cm perturbations keep addresses); the matching routine on real anchors",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §6.3"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-05a, M0-d-05b (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 74,
+   "m0ItemsLanded": [
+    "M0-d-05a",
+    "M0-d-05b"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "The document-size test: ≤ 320 B per building at CITY (per rung in B-CITY-lite)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §2.9",
+    "ARCHITECTURE.md §3.9"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 75,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The generated-town round trip: save → load → save byte-identical over the canonical form on B-CITY-lite's towns",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §2.9"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 76,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "A document saved by a test build labelled with an earlier output version opens as a frozen view with no mismatch message",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §2.9 step 2"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-15"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 77,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The control-continuity sweep",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §7.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 78,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The parity report by the band rule (ParityReport at plat/goldens/parity/M1.json)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.5",
+    "ARCHITECTURE.md §13.3"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-k-05 (parity CLI, landed)"
+   ],
+   "m1Needs": [
+    "baselines.json committed into plat/"
+   ],
+   "note": "",
+   "n": 79,
+   "m0ItemsLanded": [
+    "M0-k-05"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "Every district carries a complete `SeamContract`; II.5's stage-2 readiness (every boundary run in one Seam, typed seam edges, portals resolve, baseLane ↔ lane-end 100 %; a New random on 20 districts per city changes nothing outside its seam exception)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md II.5",
+    "ARCHITECTURE.md II.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-b-03 (seam portals)"
+   ],
+   "m1Needs": [],
+   "note": "DISCREPANCY: II.5's M1-exit clause uses New random, a named action §16 places at M2a",
+   "n": 80,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The scripted tasks of §13.4 that M1 supports, keyboard-only included (§13.7 O16 (c) at M1: link, SVG, coast side, variants)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.4",
+    "ARCHITECTURE.md §13.7 O16 (c)"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 81,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "First-map, settle and re-raster runs at TOWN and CITY band bottom / default / top",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.5",
+    "ARCHITECTURE.md §12.10 R12-6, R12-7"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-06 (browser runs)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 82,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The model max clause at TOWN and CITY, judged on confirmed outliers",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.3",
+    "ARCHITECTURE.md §12.10 R12-3"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 83,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The furniture and snap query round trip (p95 ≤ 16 ms during a settle)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.9"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 84,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The sliced-raster census rows",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.3"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 85,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The pan-and-zoom run during an A2 300-dpi CITY export; the sliced-placement census row and the export's placement stepped in class 4 during it",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.3",
+    "ARCHITECTURE.md §8.9",
+    "ARCHITECTURE.md §12.7",
+    "ARCHITECTURE.md §12.10 R12-20"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 86,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The stamp-tile asset load (≤ 5 ms per worker per session) and the stamp tiles' seam check",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §8.3",
+    "ARCHITECTURE.md §8.10",
+    "ARCHITECTURE.md §12.7",
+    "ARCHITECTURE.md §12.10 R12-21"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 87,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The pin-pass B-ZOOM fixture",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §9.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 88,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The harbour pick's measurement on B-CITY walled coastal seeds: p99 of harbour route ÷ least-cost path (wall ignored) ≤ 1.5, else the detour guard becomes the default",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §4.2 S3 (4), (7)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-e-03 (coast, water faces)",
+    "M0-c-01 (S3 slice)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 89,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The SVG export's transient-list peak; the export-time peak at TOWN and CITY",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.8",
+    "ARCHITECTURE.md §12.10 R12-26"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 90,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "Memory within §12.8's lines at TOWN and CITY on generated towns at pool sizes 0 and 3 (load verification is M2a's)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.8",
+    "ARCHITECTURE.md §12.10 R12-25"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-06 (browser runs)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 91,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The font-feature test (PR tier, each bundled label face)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §9.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 92,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The SVG and PNG export budgets (size, element and time) on B-CITY-lite's TOWN and CITY seeds",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §12.7",
+    "ARCHITECTURE.md §12.10 R12-19"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 93,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "The `ink` palette inside its corpus targets on the measurement render (the scripted chroma-scale sweep re-signs the values)",
+   "sources": [
+    "ARCHITECTURE.md §16 M1 exit",
+    "ARCHITECTURE.md §13.4",
+    "ARCHITECTURE.md §8.2",
+    "item 69"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 94,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "V12 W2's exit: T-V12-1 – T-V12-7, T-V12-16 – T-V12-20, T-V12-22, T-V12-32's MFCG clauses, T-V12-51; the M1 panel sat or *provisional — not rated*",
+   "sources": [
+    "V12 §8.2 W2"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [],
+   "m1Needs": [
+    "crossed numbers-only files (baselines.json, ftg-captures.json)"
+   ],
+   "note": "",
+   "n": 95,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T13-1; T14-1 but its hidden-render clause; T16-4; T23-1's registry test; T43-1 – T43-5; T45-1; T54-1; T55-1; T111-2, T111-3, T111-5 (PR; T14-1's S0 draws, T16-4, T111-3 nightly)",
+   "sources": [
+    "ARCHITECTURE.md §13.8",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 96,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T46-1, T47-1 (nightly, walled B-CITY seeds)",
+   "sources": [
+    "ARCHITECTURE.md §13.8",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 97,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T20-7, T20-11, T20-12, T20-13; T73-1 – T73-9; T77-1's slice clause; T81-2's creation clause; T85-1, T85-2 (PR on B-DOSSIER-lite; T73-8 nightly five-engine)",
+   "sources": [
+    "ARCHITECTURE.md §13.8",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "needs the frozen dossier fixtures (external input)",
+   "n": 98,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T88-1, each reader from the milestone that lands its stage (PR on the golden suite)",
+   "sources": [
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 99,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T20-10, T73-10 (nightly: the totality files and the culture towns)",
+   "sources": [
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 100,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T65-7 but its sky-island clause (nightly relief-class sweeps)",
+   "sources": [
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 101,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T116-1, T116-2, T116-4 (PR on golden fixtures; T116-1's sweep nightly in B-ZOOM; village fixtures with volume 7)",
+   "sources": [
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 102,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "T-RIG-1 – T-RIG-5 (PR; T-RIG-3 with M1's first panel; T-RIG-6 is M-CAL's)",
+   "sources": [
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 103,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "B-EDGE rows and T-ER rows (§8.11, §9.7, §11.6) whose mechanisms land at M1; EP-20's island, fjord and narrow-valley fixtures; EP-23's S5b / S5c part; the rung and preset sweeps; the cliff × frame drawn clause",
+   "sources": [
+    "ARCHITECTURE.md §13.8",
+    "ARCHITECTURE.md §4.13",
+    "plat/docs/build/M0.md §4b (C-0100, C-0118)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-06 (edge suite, coverage table)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 104,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "bar",
+   "clause": "§13.7 thresholds due at M1: O12 (a) legibility floors with the 6 / 7 / 8 px strip; O13 (a) label curvature; O13 (c) name–feature consistency within 250 m; O14 (e) built / map area 0.06–0.25; requested features degraded ≤ 5 %; O16 (c) M1 tasks — each with its pre-decided fallback",
+   "sources": [
+    "ARCHITECTURE.md §13.7"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 105,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "cited-measurement",
+   "clause": "The stored `market.siting` cell `portRef` set by a scripted pass at M1 and checked against S0–S2 on every B-CITY harbour seed",
+   "sources": [
+    "ARCHITECTURE.md §4.2 S3",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 106,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "cited-measurement",
+   "clause": "The district base weights fitted at M1 on B-CITY so every rung's districts meet their scaled targets",
+   "sources": [
+    "ARCHITECTURE.md §4.6"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 107,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "cited-measurement",
+   "clause": "Confirmation of the F-WORK hit rate per stage, flat across each rung (M1, then every nightly cost-model run)",
+   "sources": [
+    "ARCHITECTURE.md §5.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-f-03b (work-limit coefficients, F-WORK report)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 108,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "cited-measurement",
+   "clause": "Entity registry ≤ 64 B per entity at CITY, and the arena and pool-copy sizes (PLAUSIBLE until M1) measured, with §2.2's pre-decided fallback",
+   "sources": [
+    "ARCHITECTURE.md §2.8",
+    "ARCHITECTURE.md §2.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-a-02, M0-a-06 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 109,
+   "m0ItemsLanded": [
+    "M0-a-02",
+    "M0-a-06"
+   ]
+  },
+  {
+   "kind": "cited-measurement",
+   "clause": "Text in SVG as outlines by default, measured at M1 against §12.7",
+   "sources": [
+    "ARCHITECTURE.md §8.9"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 110,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "S2 roster and need propagation (M0 used synthetic demand, C-0035)",
+   "sources": [
+    "plat/docs/build/M0.md §4b",
+    "ARCHITECTURE.md §4.2 S2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "",
+   "n": 111,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "S9, S10 (step (0) and plots), S10b, S11 and S14 on M0's hooks (`corridorUnion`; `Block` / `Frontage` written by S8)",
+   "sources": [
+    "plat/docs/build/M0.md §4b",
+    "ARCHITECTURE.md §4.7",
+    "ARCHITECTURE.md §8.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-a-09 (corridorUnion)",
+    "M0-b-03"
+   ],
+   "m1Needs": [
+    "D",
+    "I",
+    "S",
+    "C",
+    "R",
+    "E",
+    "P",
+    "A",
+    "N",
+    "C",
+    "Y",
+    ":",
+    " ",
+    "M",
+    "0",
+    ".",
+    "m",
+    "d",
+    " ",
+    "§",
+    "4",
+    "b",
+    " ",
+    "a",
+    "l",
+    "s",
+    "o",
+    " ",
+    "l",
+    "i",
+    "s",
+    "t",
+    "s",
+    " ",
+    "S",
+    "1",
+    "2",
+    "a",
+    "–",
+    "c",
+    " ",
+    "t",
+    "o",
+    " ",
+    "M",
+    "1",
+    ";",
+    " ",
+    "§",
+    "1",
+    "6",
+    " ",
+    "p",
+    "l",
+    "a",
+    "c",
+    "e",
+    "s",
+    " ",
+    "S",
+    "1",
+    "2",
+    "'",
+    "s",
+    " ",
+    "h",
+    "i",
+    "n",
+    "t",
+    "e",
+    "r",
+    "l",
+    "a",
+    "n",
+    "d",
+    ",",
+    " ",
+    "g",
+    "r",
+    "e",
+    "e",
+    "n",
+    "e",
+    "r",
+    "y",
+    " ",
+    "r",
+    "u",
+    "l",
+    "e",
+    "s",
+    " ",
+    "a",
+    "n",
+    "d",
+    " ",
+    "S",
+    "1",
+    "2",
+    "c",
+    " ",
+    "(",
+    "i",
+    "t",
+    "e",
+    "m",
+    " ",
+    "7",
+    "2",
+    ")",
+    " ",
+    "a",
+    "t",
+    " ",
+    "M",
+    "2",
+    "b"
+   ],
+   "note": "",
+   "n": 112,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The deck strip's geometry (S9's band on a span), the extra-bridge rung and the rest of F-ROUTE; later rungs of F-RIVER and F-WALL and every §5.2 ladder of an M1 stage",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0076, C-0085)",
+    "ARCHITECTURE.md §5.2"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-03",
+    "M0-x-05 (coverage table)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 113,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The waterfront policy's quay-access water gates and sea gates (M1 part)",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0087)",
+    "ARCHITECTURE.md §4.4"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-02"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 114,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "`TradeFlow` and the presets `ringed` / `american`",
+   "sources": [
+    "plat/docs/build/M0.md §4b"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-c-03 (ways.json crossing matrix)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 115,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "§13.8's nightly timing-phase contents (cost-model sweeps with the F-WORK flatness check, first-map runs, in-Chrome re-measure, flagged re-timing)",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0088)",
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-f-02b",
+    "M0-t-00"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 116,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The MFCG street-signature rows that measure lots: R4 and wall alignment as gates; lots per block",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0072)",
+    "ARCHITECTURE.md §13.5"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-c-07a"
+   ],
+   "m1Needs": [
+    "baselines.json MFCG street-signature rows"
+   ],
+   "note": "",
+   "n": 117,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The S11 geometry bar's frontage-band intersection, re-measured on B-CITY-lite's S11",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0107)",
+    "ARCHITECTURE.md §3.7"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-k-04"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 118,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The `plat` bin — one CLI for `plat parity`, `plat baselines check` and the scan (`@plat/api` headless CLI)",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0113)",
+    "ARCHITECTURE.md §14"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-k-05 (landed)",
+    "M0-k-06 (scanner)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 119,
+   "m0ItemsLanded": [
+    "M0-k-05"
+   ]
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "`known-defects.json` for the descriptive ⟨M-1⟩ cells (`@plat/docs`)",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0116)",
+    "ARCHITECTURE.md §13.5 (⟨M-1⟩ rule)"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-x-03"
+   ],
+   "m1Needs": [
+    "M-1's statement of which ⟨M-1⟩ cells it could not measure"
+   ],
+   "note": "",
+   "n": 120,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The PR tier's budget with the deny-list scan inside it, first timed at M1",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0121)",
+    "ARCHITECTURE.md §13.8",
+    "ARCHITECTURE.md §17.1 (5)"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-k-07"
+   ],
+   "m1Needs": [
+    "denylist.json"
+   ],
+   "note": "",
+   "n": 121,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The nightly parity report inside a timed `tier:nightly`",
+   "sources": [
+    "plat/docs/build/M0.md §4b (C-0102, C-0121)",
+    "ARCHITECTURE.md §13.8"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-b-05a",
+    "M0-c-07a"
+   ],
+   "m1Needs": [
+    "baselines.json"
+   ],
+   "note": "",
+   "n": 122,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The Poisson sampler deferred by M0-a-10",
+   "sources": [
+    "plat/docs/build/choices.md C-0182"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-a-10 (landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 123,
+   "m0ItemsLanded": [
+    "M0-a-10"
+   ]
+  }
+ ]
+}

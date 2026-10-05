@@ -5529,3 +5529,12 @@
 2026-10-05 02:45 filler/phase-c-workflow LANDED workflows/32-m1-phase-c.js workflows/lane-prompts/m1-phase-c-args.json (written only, not launched; node --check 0; stub render of 12 prompts over 8 scenarios, 0 problems; nothing under plat/)
 2026-10-05 02:45 filler/m1-scope-inventory CHECKPOINT clause list drafted; writing docs/build-prep/M1/scope.md scope.json
 2026-10-05 02:46 filler/m1-volume-shares CHECKPOINT clean-room check done; reading volume section-8 build plans
+2026-10-05 02:47 filler/m1-volume-shares LANDED docs/build-prep/M1/volume-shares.md (V08 not read: no M1 share in section 16, clean-room)
+2026-10-05 02:47 filler/m1-spec-workflow CHECKPOINT started; reading workflows/20-build-m0-spec.js
+2026-10-05 02:48 filler/m1-scope-inventory LANDED docs/build-prep/M1/scope.md docs/build-prep/M1/scope.json
+2026-10-05 02:48 filler/m1-spec-workflow CHECKPOINT read 20, 23, 32 and volume-shares; checking conventions, then writing 33
+2026-10-05 02:51 filler/m1-spec-workflow CHECKPOINT workflows/33-build-m1-spec.js and workflows/lane-prompts/m1-spec-args.json written; stub render next
+2026-10-05 02:52 filler/m1-spec-workflow LANDED workflows/33-build-m1-spec.js workflows/lane-prompts/m1-spec-args.json (written only, not launched; node --check 0; stub render of 5 scenarios, 0 problems; nothing under plat/)
+2026-10-05 02:53 filler/w20-check LANDED docs/calibration/results/W-20-dryrun.json checked: 4 baselines:check re-runs and 2 probe re-runs reproduce every exit code; twin scan 0 hits over the record and outputs; mirror restored to the record's state; nothing under plat/
+2026-10-05 02:55 build/M0-a-13-fix1 CHECKPOINT testkit project still running (other seats contending); next: bench, LANDED
+2026-10-05 02:55 filler/e19-check CHECKPOINT started; reading E19 md/json, candidates, registry, E15, C-0116/C-0180 working copy
