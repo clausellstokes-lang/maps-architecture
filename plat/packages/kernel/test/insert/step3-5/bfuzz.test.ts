@@ -58,6 +58,8 @@ interface Case {
 interface Outcome {
   readonly ok: boolean;
   readonly code?: string;
+  /** A commit's warnings (the same-seed pins read them). */
+  readonly warnings?: readonly Warning[];
 }
 
 /**
@@ -85,7 +87,7 @@ function insertJudged(p: Plat, c: Case, entity: string, validate = true, countIn
     }
   }
   if (validate) expect(allProblems(p)).toEqual([]);
-  return r.ok ? { ok: true } : { ok: false, code: r.code };
+  return r.ok ? { ok: true, warnings: r.warnings } : { ok: false, code: r.code };
 }
 
 // ---- the random family --------------------------------------------------------------------------------------------
@@ -204,7 +206,8 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   it('the random family\'s seed −1863295922, its 8 346th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: -1863295922, path: '8345', numRuns: 1 });
-    expect(seen).toEqual([{ ok: true }]);
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 3624, y: 3034 } }]);
   });
 
   // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0207): at seed 13 the
@@ -213,7 +216,20 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   it('the random family\'s seed 13, its 7 265th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: 13, path: '7264', numRuns: 1 });
-    expect(seen).toEqual([{ ok: true }]);
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 2953, y: 109 } }]);
+  });
+
+  // N-42's routes come last (C-0207): a chain the S1/S2 router commits keeps its outputs. At seed 777 the random
+  // family's 421st case — an L0 chain, then an L2 mandatory chain of 9 points — commits on the design route with a
+  // crossing on the near side of a sliver sent to the placement's endpoint fallback (W_PLACED 4 in all); the route across
+  // slivers, taken there instead, would place it across (W_PLACED 6) — a one-time shift N-42 does not ask for (measured
+  // over seed 777's 30 000 cases: 38 cases would move).
+  it('same seed, same output: seed 777\'s 421st case commits as on the S1/S2 router (W_PLACED 4 at (3714, 2690)), the sliver route not taken', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: 777, path: '420', numRuns: 1 });
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 4, at: { x: 3714, y: 2690 } }]);
   });
 
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {

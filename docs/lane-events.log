@@ -5800,3 +5800,4 @@
 2026-10-05 14:58 build/M0-a-05-fix-s3 CHECKPOINT mirror BASE step3-5 at 10^3 131/131; K1 (no across route) red, K2 (no partner exemption) red, K3 (no re-landing) red; next K4-K13
 2026-10-05 15:08 build/M0-a-05-fix-s3 CHECKPOINT K4 K6 K7 K9 K10 K11 K12 red; K13 red after the new placeAcross unit test; K3 turns both seed replays red; survivors K5 (equivalent while placeAcross keeps (iii)), K8 (across in every route) -> digest; next: K8 digest, 20 seeds, gates
 2026-10-05 15:12 build/M0-a-15 CHECKPOINT gates: install frozen exit 0, lint exit 0 (probe-red ok), build exit 0; local test gate (kernel model tables site layout testkit bench) running; CLEAN-ROOM L-0182 appended; next: gate verdict, landed record
+2026-10-05 15:17 build/M0-a-05-fix-s3 CHECKPOINT K8 killed by a same-seed pin (seed 777 path 420; K8 shifts 38 of 30 000 cases); 20 fresh-seed B-FUZZ runs going in the mirror; next: install/lint/build in tree, choices row, CLEAN-ROOM
