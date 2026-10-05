@@ -45,3 +45,25 @@ which also uses the mutant ids (C…) and probe ids (P…, KP…, TP…) below.
 12. **The roundtrip test's header says promotions and demotions occur but does not assert it.** KP1 counted 2
     promotions and 388 demotions over the 48 arenas, so the claim is true. A tally assertion like the existing
     `seen.splits` one would hold it.
+
+## Closing check (lane `check/M0-a-15-close-r1`, 2026-10-05)
+
+These notes do not fail the item either. The mutant ids (K…) and the probe id (CP2) are in `checks/M0-a-15.md`'s
+closing section. The probe's file is kept outside the tree at
+`~/maps-scratch/waves/check-M0-a-15/close-r1/zz-close-probe2.test.ts.keep`.
+
+13. **K12 survives: the item's tests carry no non-zero face kind at L4.** The fix round's test puts residue faces at
+    L0 – L3, which meets B1's required change ("at least one L2 – L4 partition chunk"). A load that drops the kind at
+    L4 only (`kind: level === 4 ? 0 : f.kind` at `decode.ts:583`) passes all 31 kernel io tests. The real code is right
+    there: probe CP2 builds an L4 residue sliver on the honest path (`absorbSliver` between two L4 `setback` chains), and
+    it round-trips with its kind through an L4 partition chunk. CP2 fails under K12 and under K1. Suggested handling:
+    add CP2's two L4 chains and the L4 sliver to the face-kind test in `kernel/test/io/roundtrip.test.ts`, so the test
+    covers every level. This is M4, or earlier if the file's owner touches it again.
+14. **K9 is equivalent on M0's inputs: a load that clamps a kind to {0, 1} passes.** M0 writes only two face kinds: 0
+    (the default) and `FACE_KIND_RESIDUE` (1), which `faces/merge.ts:165` writes. Every other writer copies an existing
+    kind (`rewalk.ts:385/420`, `relevel.ts:984/1034`, testkit `renumber.ts:218`). The column is a `u16`. When a later
+    milestone adds a third kind, its round trip should carry a kind above 1. That belongs to the milestone that adds the
+    kind, not to M4.
+15. **Note 8 is partly met.** The new kernel test asserts its residue faces before it round-trips them, so the kind column
+    cannot silently drop out of the kernel-side coverage. The testkit-side bar arenas (the constructive set, the fuzz
+    arenas and CITY) still carry no non-zero kind. Note 8's census precondition stays with M4.
