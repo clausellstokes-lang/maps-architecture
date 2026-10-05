@@ -3,7 +3,7 @@
 // numbered, the original untouched, and the next random batch does the same on both (the slot-renumbering property
 // through M0-d-08's harness is the testkit-side test, C-0122).
 import { describe, expect, it } from 'vitest';
-import { idOf, LEVELS, type Plat } from '../../src/arena/index.js';
+import { faceHoles, idOf, isFaceLive, isVertexLive, LEVELS, type Plat } from '../../src/arena/index.js';
 import { compactSlots, encodeArena } from '../../src/io/index.js';
 import { tx, type CommitRecord } from '../../src/tx/index.js';
 import { ALONG_MIX, DEFAULT_MIX, randomBatch, rng, type Live } from '../tx/fuzzgen.js';
@@ -66,6 +66,26 @@ describe('compactSlots (§3.9, §3.3)', () => {
         for (const l of LEVELS) expect(q.faces[l].outer.length).toBeGreaterThan(q.slots.face[l].top);
         expect(q.vertices.x.length % 64).toBe(0);
       }
+    }
+  });
+
+  it('keeps every stored start, renamed: each vertex\'s out, each face\'s outer half-edge and hole entries (C-0207 (10))', () => {
+    const ends = (p: Plat, h: number): string => `${p.vertices.x[p.halfEdges.origin[h]]},${p.vertices.y[p.halfEdges.origin[h]]}>${p.vertices.x[p.halfEdges.origin[h ^ 1]]},${p.vertices.y[p.halfEdges.origin[h ^ 1]]}`;
+    const starts = (p: Plat): string[] => {
+      const out: string[] = [];
+      for (let v = 0; v < p.slots.vertex.top; v++) if (isVertexLive(p, v) && p.vertices.out[v] >= 0) out.push(`v ${ends(p, p.vertices.out[v])}`);
+      for (const l of LEVELS) {
+        for (let f = 0; f < p.slots.face[l].top; f++) {
+          if (!isFaceLive(p, l, f)) continue;
+          out.push(`f${l} ${ends(p, p.faces[l].outer[f])} [${faceHoles(p, l, f).map((h) => ends(p, h)).join(' ')}]`);
+        }
+      }
+      return out.sort();
+    };
+    for (let seed = 1; seed <= 8; seed++) {
+      const p = framed();
+      grow(seed, 60, { ways: [], kerbs: [], next: 0 }, rng(seed * 101), p, ALONG_MIX);
+      expect(starts(compactSlots(p))).toEqual(starts(p));
     }
   });
 

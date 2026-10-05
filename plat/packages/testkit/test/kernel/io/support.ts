@@ -258,5 +258,8 @@ export function cityArena(): { plat: Plat; tally: CityTally } {
       }
     }
   }
+  // A frontage along the middle north–south way, a district boundary (§3.3): its L3 row's faces lie in district:ne to
+  // the east and district:nw to the west, so it goes to the smaller key, district:ne (C-0207 (4)).
+  count(chain(p, 3, [[0, 130_000], [0, 150_000]], [{ role: 'frontage', entity: 'plot:boundary' }]), 'frontages');
   return { plat: p, tally: t };
 }

@@ -186,6 +186,33 @@ describe('the crafted chunks (positive control of the hand-written format)', () 
   });
 });
 
+describe('splits from several partitions on one edge (§3.9 *Load*: "its splits first, sorted along each coarser edge by position")', () => {
+  it('two partitions split the square\'s south edge, their vertices out of positional order: the load sorts them along it', () => {
+    // Partition 'a' (taken first) splits at x = 3000, partition 'b' at x = 1000: in chunk order the splits run backwards.
+    const a = craft({ routes: false, level: 2, key: 'a', vertices: [[3000, 0, 2, 6]], splits: [[0, [0, 0], [4000, 0]]] });
+    const b = craft({ routes: false, level: 2, key: 'b', vertices: [[1000, 0, 2, 6]], splits: [[0, [0, 0], [4000, 0]]] });
+    const r = decodeArena([craft(square()), a, b], GROUND, { index: { gridCellCm: CELLS } });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const q = r.value;
+    const ends = (x: number, y: number): string[] => {
+      const out: string[] = [];
+      for (let h = 0; h < 2 * q.slots.pair.top; h++) {
+        const o = q.halfEdges.origin[h];
+        const d = q.halfEdges.origin[h ^ 1];
+        if (q.vertices.x[o] === x && q.vertices.y[o] === y) out.push(`${q.vertices.x[d]},${q.vertices.y[d]}`);
+      }
+      return out.sort();
+    };
+    expect(ends(0, 0)).toEqual(['0,4000', '1000,0']);
+    expect(ends(1000, 0)).toEqual(['0,0', '3000,0']);
+    expect(ends(3000, 0)).toEqual(['1000,0', '4000,0']);
+    // The split pieces keep the edge's level and its margin row (§2.2 rule 5).
+    expect(q.slots.pair.live).toBe(6);
+    expect(q.slots.face[0].live).toBe(1);
+  });
+});
+
 describe('the corrupt cache (§3.9, §3.11)', () => {
   const p = randomArena(4242, 60, ALONG_MIX);
   const block = encodeArena(p);

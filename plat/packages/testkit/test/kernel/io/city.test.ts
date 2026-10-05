@@ -16,7 +16,7 @@ describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
     expect(tally.lanes).toBe(35);
     expect(tally.courts).toBeGreaterThanOrEqual(17);
     expect(tally.plotLines).toBe(105);
-    expect(tally.frontages).toBe(35);
+    expect(tally.frontages).toBe(36);
     expect(tally.footprints).toBeGreaterThanOrEqual(100);
     expect(tally.owners).toBeGreaterThanOrEqual(200);
     expect(tally.refused).toBe(0);
@@ -43,8 +43,11 @@ describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
     // and every district's L3 chunk carries its own blocks' frontages (35 rows, plot lines and frontages alike).
     const l3 = chunks.slice(1).map((c) => describeChunk(c.bytes)).filter((s) => s.level === 3);
     expect(l3.map((s) => s.key).sort()).toEqual(['district:ne', 'district:nw', 'district:se', 'district:sw']);
-    expect(l3.reduce((n, s) => n + s.edgeRows, 0)).toBe(105 + 35);
-    for (const s of l3) expect(s.edgeRows).toBeGreaterThanOrEqual(25);
+    expect(l3.reduce((n, s) => n + s.edgeRows, 0)).toBe(105 + 36);
+    // Per district: three plot lines and a frontage per block (ne has eight blocks beside the lake's), and the boundary
+    // frontage on the middle way in ne, the smaller of its faces' keys (nw's faces are on its other side).
+    const rows = Object.fromEntries(l3.map((s) => [s.key, s.edgeRows]));
+    expect(rows).toEqual({ 'district:ne': 8 * 4 + 1, 'district:nw': 9 * 4, 'district:se': 9 * 4, 'district:sw': 9 * 4 });
   });
 
   it('a vertex on a shared L1 edge goes to the partition with the smaller key (§3.3, §3.9)', () => {

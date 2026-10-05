@@ -7,7 +7,11 @@ import { describe, expect, it } from 'vitest';
 import { decodeArena, describeChunk, encodeArena } from '../../src/io/index.js';
 import { roomFor } from '../../src/io/format.js';
 import { ALONG_MIX, DEFAULT_MIX } from '../tx/fuzzgen.js';
-import { CELLS, framed, print, randomArena, roundTrip } from './support.js';
+import type { Plat } from '../../src/arena/index.js';
+import { tx } from '../../src/tx/index.js';
+import { randomBatch, rng, type Live } from '../tx/fuzzgen.js';
+import { spec } from '../tx/support.js';
+import { CELLS, framed, load, print, randomArena, roundTrip } from './support.js';
 
 describe('the arena block round trip (§13.1, §3.9)', () => {
   it('loads the chunks in any order: partitions are taken level by level, key by key (§3.9 *Load*)', () => {
@@ -21,6 +25,34 @@ describe('the arena block round trip (§13.1, §3.9)', () => {
         expect(print(r.value)).toBe(print(p));
         encodeArena(r.value).forEach((c, i) => expect(c.bytes).toEqual(chunks[i].bytes));
       }
+    }
+  });
+
+  it('a loaded arena takes further batches as the original does: same arena after each, and round-trips again', () => {
+    for (let seed = 1; seed <= 10; seed++) {
+      const r0 = rng(seed * 4099);
+      const p = framed();
+      const live: Live = { ways: [], kerbs: [], next: 0 };
+      const grow = (q: Plat, l: Live, r: () => number): boolean => {
+        const snap: Live = { ways: l.ways.slice(), kerbs: l.kerbs.slice(), next: l.next };
+        const b = randomBatch(q, l, r, ALONG_MIX);
+        const ok = tx(q, spec(b.level, { rederivesFrom: 0 as never }), b.fn).ok;
+        if (!ok) {
+          l.ways = snap.ways;
+          l.kerbs = snap.kerbs;
+        }
+        return ok;
+      };
+      for (let i = 0; i < 60; i++) grow(p, live, r0);
+      const q = load(encodeArena(p), p);
+      const liveQ: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
+      for (let i = 0; i < 40; i++) {
+        const okP = grow(p, live, rng(seed * 7 + i));
+        const okQ = grow(q, liveQ, rng(seed * 7 + i));
+        expect(okQ).toBe(okP);
+        expect(print(q)).toBe(print(p));
+      }
+      roundTrip(q);
     }
   });
 
