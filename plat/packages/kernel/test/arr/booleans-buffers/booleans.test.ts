@@ -107,11 +107,15 @@ describe('booleans: holes, pinches and fill rules', () => {
     // touch inside an edge made polygon-clipping refuse our rings)
     const outer = R([0, 0], [2000, 0], [2000, 2000], [0, 2000]);
     const hole = R([1000, 2000], [500, 1000], [1500, 1000]);
-    for (const fill of ['evenodd', 'nonzero'] as const) {
-      const r = rings(booleans('difference', [outer], [hole.slice().reverse()], fill));
+    // the hole given either way round (its edges then lie on the overlay's even or its odd half-edges)
+    for (const [fill, b] of [['evenodd', hole.slice().reverse()], ['nonzero', hole.slice().reverse()], ['nonzero', hole]] as const) {
+      const r = rings(booleans('difference', [outer], [b], fill));
       expect(r).toEqual([R([0, 0], [2000, 0], [2000, 2000], [1000, 2000], [0, 2000]), R([500, 1000], [1000, 2000], [1500, 1000])]);
       expect(areaOf(r)).toBe(4_000_000 - 500_000);
     }
+    // two faces touching at a point inside an edge: a diamond's corner on the square's right side
+    const touching = rings(booleans('union', [rect(0, 0, 1000, 1000)], [R([1000, 500], [1500, 0], [2000, 500], [1500, 1000])], 'nonzero'));
+    expect(touching).toEqual([R([0, 0], [1000, 0], [1000, 500], [1000, 1000], [0, 1000]), R([1500, 0], [2000, 500], [1500, 1000], [1000, 500])]);
     // the xor of the PR run (2026-10-05): a's hole touches a's outline at (−227, 237), inside the edge (4943, −2326)–(−4457, 2334)
     const a = [
       R([4943, -2326], [-4457, 2334], [-9920, 1893], [-13586, -4727], [-17800, -11712], [-8407, -16825], [-1636, -14164], [1813, -10947]),
