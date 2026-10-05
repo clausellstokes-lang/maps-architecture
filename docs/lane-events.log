@@ -5678,3 +5678,6 @@
 2026-10-05 05:57 build/M0-c-01 CHECKPOINT self-check: 32 mutants, 31 killed, 1 equivalent (M27); choices C-0201 and CLEAN-ROOM L-0167 appended; mirror deleted; next: final gates (install, lint, build, layout, testkit, bench)
 2026-10-05 05:59 build/M0-c-01 CHECKPOINT gates: install 0, lint 0 probe-red ok, build 0, layout 131/131, bench 14 red all in the five J176 files; testkit project running; next: landed record
 2026-10-05 06:00 check/M0-d-08 CHECKPOINT verdict drafted (FAIL: B-1 C04 permutationCompare unpinned, B-2 C24/C25 outcome print coverage unpinned, B-3 C19 tombstone rename unpinned; notes N-1..N-9); testkit project run in progress; next: bench project, CLEAN-ROOM row, landed record
+2026-10-05 06:09 build/M0-c-01 CHECKPOINT testkit project still running; next: its result, landed record
+2026-10-05 06:10 build/M0-a-05-fix-s1 CHECKPOINT self-check (fix): N-37, N-38, N-40 pinned (mutants M1 endpoint route, M2 run walk, M3 26 cm cap, M4 no cap, M5 endpoint W_PLACED, M6 optional under cap: all killed; E_INVARIANT line: equivalent on the corpus, no occurrence); next: README offsetFace probe, gates
+2026-10-05 06:11 build/M0-a-05-fix-s1 CHECKPOINT README offsetFace case passes §3.7 (i) vs both oracles in the mirror (no cap: |Δ| 62.7e6 > 5.27e6, reproduced); gates: install 0, lint 0 (probe-red ok), build 0; next: kernel project, importers
