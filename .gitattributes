@@ -1,0 +1,3 @@
+# Never convert line endings (J181): landed records, vendor.lock.json and the digests hash raw bytes,
+# so a Windows checkout with core.autocrlf would break every hash. Files stay byte-identical on every OS.
+* -text
