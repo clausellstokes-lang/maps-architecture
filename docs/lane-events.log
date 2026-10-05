@@ -5637,3 +5637,11 @@
 2026-10-05 04:21 filler/m1-open-findings CHECKPOINT draft written docs/calibration/M1-open-findings-draft.md; running deny-list scan
 2026-10-05 04:21 filler/m1-open-findings LANDED docs/calibration/M1-open-findings-draft.md (deny-list scan research+m0: 0 unreviewed; doc_checks.py not run, corpus absent)
 2026-10-05 04:22 filler/m1-exit-preaudit LANDED docs/calibration/E21-exit-preaudit.md
+2026-10-05 04:23 filler/m1-exit-preaudit LANDED docs/calibration/E22-exit-preaudit.md (renamed from E21-exit-preaudit.md; E21 is reserved for W-21)
+2026-10-05 04:25 check/M0-a-13-close-r1 CHECKPOINT re-run: landed:verify ok, install 0, lint 0 probe-red ok, build 0, kernel 1224/1224; next: importers, testkit
+2026-10-05 04:27 check/M0-a-13-close-r1 CHECKPOINT importers model/tables/site/layout 585/585, bench 14 red all J176; mirror deleted; testkit running; next: verdict file, landed records
+2026-10-05 04:30 filler/m1-needs-from-m-1 CHECKPOINT revision start
+2026-10-05 04:31 filler/m1-needs-from-m-1 LANDED docs/build-prep/M1/needs-from-M-1.md (revision)
+2026-10-05 04:31 filler/m1-open-findings CHECKPOINT revision pass started
+2026-10-05 04:32 filler/m1-open-findings LANDED docs/calibration/M1-open-findings-draft.md (revision)
+2026-10-05 04:33 filler/m1-exit-preaudit CHECKPOINT revision: fixing checker items in docs/calibration/E22-exit-preaudit.md

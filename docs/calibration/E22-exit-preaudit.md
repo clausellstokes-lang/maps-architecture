@@ -1,7 +1,7 @@
-# E21 — M-1 exit-record pre-audit (record level)
+# E22 — M-1 exit-record pre-audit (record level)
 
 Lane `filler/m1-exit-preaudit` (Opus, research-side; workflow wf_2dccb46b-5d7), 2026-10-05. **E-number:** the task
-named E20, but `E20-ng-draw-census.md` (W-22) already holds it, so this record takes the next free number, E21.
+named E20, but `E20-ng-draw-census.md` (W-22) already holds it, and E21 is reserved for W-21's timing record (`M-1-work.json`, record `E21-timing.md`), so this record takes the next free number, E22.
 
 This is a research-side record (`plat/CLEAN-ROOM.md` rule 2: implementer seats do not read it). It is a **pre-audit**
 of M-1's exit record, done at the level of the records. It is not the exit record itself, and it re-measures nothing. It
@@ -11,8 +11,9 @@ time. The design is a reference, not a contract (J156), and this record adds no 
 
 ## 0 Verdict
 
-The exit has six clauses in §16's M-1 row (X1–X6) and five content deliverables in plan section 4 wave 3 (5) and §16's
-content column that the exit record has to show crossed or closed (P1–P5). Of these eleven:
+The exit has six clauses in §16's M-1 row (X1–X6) and five content deliverables, from §16's
+content column (P1, P3, P4, P5) and the plan's deliverable ledger (D17, D31, D20, D16 / D22; P2 from D29, M0's
+request), that the exit record has to show crossed or closed (P1–P5). Of these eleven:
 
 * **3 stand complete in the records today:** X2 (bands), X6 (depth rows) and P5 (the dispersions and the
   rig share).
@@ -27,8 +28,9 @@ content column that the exit record has to show crossed or closed (P1–P5). Of 
   optional.
 
 Two clauses in §16's preamble apply to every milestone: the `MilestoneRecord`, and `plat calibrate register --check`
-when a milestone lands a calibratable column. No M-1 record shows either. Whether either one binds M-1's exit is a
-reading for the session (section 3). The labels follow the user's rules: **CONFIRMED** means this lane executed or
+when a milestone lands a calibratable column. No M-1 record shows either. The design's own text places the first at
+M1 (section 3, CONFIRMED by text read); whether the register clause binds M-1's exit is a reading for the session
+(section 3). The labels follow the user's rules: **CONFIRMED** means this lane executed or
 counted it. **RECORD** means a record states it and this lane did not re-execute it. **PLAUSIBLE** means it rests on
 reasoning only.
 
@@ -38,14 +40,14 @@ reasoning only.
 |---|---|---|---|---|---|
 | X1 | every §13.5 baseline row present with provenance; an ⟨M-1⟩ number M-1 could not measure is made descriptive and entered in `known-defects.json` | E15 (491 rows; 26 of 26 ⟨M-1⟩ cells have a target or a descriptive row); E19 (all 19 rows with `values.n` 0 are in C-0116's form, none in M0's ⟨M-1⟩ set; 8 cells have no row and read `missingBaseline`, one of them owed notes only); W-20-dryrun (the file passes M0-k-05's checks C1–C7) | W-20, which places the file; **`known-defects.json` is M1's file** (M0-x-03 defers it), and E19 is its entry draft; M0-k-06 for the T-V12-28 reading (whole text fails on 140 number-run hits until the strings-and-keys reading of R-52 / R-54, vetoable, is applied) | optional: re-running the 19 timing and thin-class rows on an uncontended machine — NOT POSSIBLE HERE | research half shown; crossing half waits |
 | X2 | every band computed by the band rule | E15 §4 and `E15-baselines.json` (a `bands` list of 491 entries, one per row); wave3-verify-ab W-15 (band self-test 11 / 11, rows re-check SAME); R-50's stability markers on 60 flagged rows (E15 §13.3) | nothing at record level; E15 §7's passing-to-failing list goes to the shift record when the file crosses | no | **shown** |
-| X3 | a `docs/calibration/` record per experiment | E01–E20 are all present; every D1–D35 row of the plan names an existing record | **E17** still owes W-18's appended check section (its §6 hand-off); **D20's record is E18, a pre-audit only**, and W-19's own exit check has no record yet | no | open (two closing sections owed) |
+| X3 | a `docs/calibration/` record per experiment | E01–E20 are all present; every D1–D35 row of the plan names an existing record | **E17** still owes W-18's appended check section (the plan's W-18 row and `M-1-work.json` name E17 as W-18's record; `W-18-twin.json` lists the append as not covered); **D20's record is E18, a pre-audit only**, and W-19's own exit check has no record yet | no | open (two closing sections owed) |
 | X4 | every slot of both FTG programmes decoded or recorded failed; each decoded capture carries its resident count or the nominal fallback, marked | E02 JSON (28 of 28 slots taken, programme 1 at 6 of 6 and programme 2 at 22 of 22, `failed` empty, 3 stopped attempts that created nothing); E02 holds a population-source line for each slot (28); E06 §13 (the last face pass after the programme closed: check 3 PASS); wave3-verify-ab (W-05b's slot-27 addendum confirmed) | nothing at record level; the D-5 panel's `ftg-captures.json` is written at M1 from these records | the per-folder README check (id, water setting, population marked) — NOT POSSIBLE HERE | research half shown |
 | X5 | the digest checker's report shows 0 code excerpts, 0 reference word lists / palettes / tables, 0 deny-list hits | E17 §4 (twin scan, both lists, 0 hits in every class on the ten crossing files); W-18-twin (0 hits on both lists, a planted control caught by both); wave3-verify-ab (W-17's draft re-scanned, 0 hits) | **W-18's M0-scanner half**, which needs M0-k-06; the working copy's scanner module is still a stub of 227 bytes (read here, working copy, not HEAD); W-18's reading review for code excerpts and word lists; the Fable read; the §3 report in `CLEAN-ROOM.md`, written by the digest-checker seat at W-20 | the full-corpus `doc_checks.py` run — NOT POSSIBLE HERE (W-18-twin `docChecks`: NOT RUN for the same reason) | open |
 | X6 | the re-fitted depth rows recorded with provenance "M-1 ⟨date⟩" | E12 Part II (the numbers table signed "M-1 2026-10-04"); wave3-verify-ab W-12 confirmed (12 / 12 checks, JSON byte-identical on re-execution); the design's depth rows cite it | nothing | a re-execution would need NG's vertex captures (NOT POSSIBLE HERE), but none is owed: the verifier has already re-executed it | **shown** |
 
 ## 2 Deliverables the exit record has to show crossed or closed
 
-These come from wave 3 item 5 of plan section 4 and from §16's content column. Each must reach `plat/` or be
+These come from plan section 1's deliverable ledger (D16, D17, D20, D22, D29, D31) and from §16's content column. Each must reach `plat/` or be
 closed before the exit record can read "done".
 
 | # | deliverable | shown by | waits for | state |
@@ -59,11 +61,16 @@ closed before the exit record can read "done".
 These are not exit clauses: the street-edge recoverability cross-check against the product within 0.01 runs on M1's
 golden renders, so it is M1's work. W-21 runs only on an owner go.
 
-## 3 Clauses this pre-audit cannot place (for the session)
+## 3 Preamble clauses
 
-* **§16's preamble, `MilestoneRecord`.** "Every exit writes its `MilestoneRecord`" (§13.3). No M-1 record or plan row
-  names one for M-1. The golden tooling that writes these records is M1's content. Whether M-1's exit owes one, and if
-  so in what form, is a reading for the session. PLAUSIBLE that it does not bind M-1.
+**Placed by the design's text: `MilestoneRecord`.** §16's preamble says "every exit writes its `MilestoneRecord` with
+the milestone's declared shifts and fails on an undeclared one (§13.3)". §13.3, which it points to, restricts this:
+the milestone records "are built at M1, not at hardening", and "Every milestone from M1 on writes its
+`MilestoneRecord`". So the clause first binds at M1 by the design's own text, and M-1's exit owes none. CONFIRMED
+(text read, `docs/ARCHITECTURE.md` §13.3 and §16's preamble).
+
+**Clause this pre-audit cannot place (for the session):**
+
 * **§16's preamble, `plat calibrate register --check`.** The calibration register is V12's rig share, and §16's M1 row
   builds it (its lint included). M-1 lands rows, not product columns. PLAUSIBLE that this clause first binds at M1.
   No record states either way.
@@ -77,7 +84,7 @@ clause above reads "shown". Nothing in the order needs `captures/`.
 
 ## 5 Receipts
 
-* `ls docs/calibration/`: E01–E20 present and E20 taken, so this record is E21. CONFIRMED.
+* `ls docs/calibration/`: E01–E20 present and E20 taken, E21 reserved for W-21, so this record is E22. CONFIRMED.
 * `ls captures reference`: both absent in this clone. CONFIRMED.
 * `python3 research/baselines/cross_check.py research/baselines/candidates/baselines.json --kind baselines`: exit 0,
   C1–C10 PASS, ACCEPTED (output in `maps-scratch/filler/m1-exit-preaudit/cc-baselines.txt`). CONFIRMED.
@@ -86,8 +93,8 @@ clause above reads "shown". Nothing in the order needs `captures/`.
   entries. CONFIRMED.
 * sha256 prefixes of the three crossing candidates: equal to W-20-dryrun's. CONFIRMED.
 * E02 JSON: `slotsTaken` 28 of 28, `failed` empty, 3 stopped attempts, none created. CONFIRMED (read).
-* `plat/` working copy (not HEAD; no git): `plat/packages/testkit/baselines/` holds `README.md` and `crossings.json`
-  only; `plat/docs/digest/` holds `README.md` only; the scanner module is 227 bytes; the landed folder lists M0-k-05
+* `plat/` working copy (not HEAD; no git): `plat/packages/testkit/baselines/` holds `crossings.json` and the
+  scaffold's note only; `plat/docs/digest/` holds the scaffold's note only; the scanner module is 227 bytes; the landed folder lists M0-k-05
   and its check. CONFIRMED for the working copy at this lane's run.
 * Every other entry in the "shown by" columns: RECORD (stated by the cited record or verifier file, not re-executed
   here).
