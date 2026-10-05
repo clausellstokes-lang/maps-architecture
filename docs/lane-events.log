@@ -5749,3 +5749,4 @@
 2026-10-05 09:41 check/M0-a-05-close-s2 CHECKPOINT testkit project running; mirror rebuilt for a probe of C-0205 (3)'s spur (mirror only); next: testkit result, spur probe, verdict
 2026-10-05 09:45 check/M0-a-14 CHECKPOINT 46 mutants: 33 killed by the item's tests; survivors K02 K16 equivalent, K03 K08 K09 verdict-equivalent, K13 off-promise; K02b K10 K23 K31 K32 K33 K38 killed only by checker controls; next: importer project gates
 2026-10-05 09:58 check/M0-a-14 CHECKPOINT gates: model/tables/site/layout 672/672, bench 14 failures all J176 Mac-reference; testkit running; notes file written; next: verdict
+2026-10-05 10:10 check/M0-a-05-close-s2 CHECKPOINT testkit project still running (oracle agreement files); next: its result, spur probe, verdict
