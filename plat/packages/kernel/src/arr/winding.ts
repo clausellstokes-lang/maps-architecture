@@ -8,7 +8,7 @@
 // digested, gone when the call returns — so every output vertex and edge obeys the insertion rules (attraction,
 // placement, `minEdge`, clearance) with no re-snap round trip.
 //
-// How the orientation is kept (C-0216 (1)): every input segment is inserted as its own two-point mandatory chain under
+// How the orientation is kept (C-0196 (1)): every input segment is inserted as its own two-point mandatory chain under
 // one scratch `invisible` row whose entity names the segment, so after every insertion the edges a segment became —
 // split by later crossings, routed through hot pixels, shared with another chain — are exactly the edges carrying its
 // row; their direction is the path they give from the vertex the segment's first point became to the vertex its last
@@ -160,7 +160,7 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
   const plat = createPlat(SCRATCH_KEY, { widthCm: (2 * LATTICE.rangeCm) as Cm, heightCm: (2 * LATTICE.rangeCm) as Cm, aspect: 1, marginShare: 0 });
   attachIndex(plat, { gridCellCm: segments.length === 0 ? 64 : gridCellFor(minX, minY, maxX, maxY, segments.length) });
   const tx: InsertTx = insertTx(plat, 0);
-  // The frame (C-0193 (1)): a box FRAME_MARGIN_CM beyond the inputs, inserted first, so every input ring lands inside one
+  // The frame (C-0196 (1)): a box FRAME_MARGIN_CM beyond the inputs, inserted first, so every input ring lands inside one
   // bounded face record and a ring that encloses an earlier one takes it as its hole (the unbounded outside of an L0
   // without a frame keeps no ring list to re-home). Its row names no segment, so it carries no winding.
   if (segments.length > 0) {
@@ -201,7 +201,7 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
 }
 
 /**
- * Bridges every gap of a ring's walk at least `minEdge` long (the bridge reading of the overlay, C-0195 (1)): where a
+ * Bridges every gap of a ring's walk at least `minEdge` long (the bridge reading of the overlay, C-0196 (1)): where a
  * run of consecutive segments each shorter than `minEdge` collapsed (step 1's `empty`, so nothing was inserted for
  * them) while together they span `minEdge` or more, the segment before the run ends on one vertex and the segment after
  * it starts on another with no edge of the ring between them — the ring's overlay is an open path, and the shortest
@@ -263,7 +263,7 @@ function bridgeGaps(
 
 /**
  * Each segment's net traversals: +1 or −1 on the edges of the one path its edges give from the vertex its first point
- * became to the vertex its last point became, 0 on any other edge it carries (C-0193 (1)); multiplied by the segment's
+ * became to the vertex its last point became, 0 on any other edge it carries (C-0196 (1)); multiplied by the segment's
  * multiplicities and summed per pair.
  */
 function orientSegments(p: Plat, segments: readonly Segment[], starts: readonly VertexId[], ends: readonly VertexId[], k: number): Int32Array {
@@ -450,7 +450,7 @@ function shortestPath(p: Plat, u: VertexId, v: VertexId): number[] {
 }
 
 /**
- * Closes every ring's walk on the overlay (C-0193 (1)): where attraction left a ring's consecutive segments ending and
+ * Closes every ring's walk on the overlay (C-0196 (1)): where attraction left a ring's consecutive segments ending and
  * starting on different vertices — a segment shorter than `minEdge` collapsed to nothing, or two insertions of one
  * lattice point placed apart — the shortest overlay path between them carries the ring's operand, so every ring stays a
  * closed walk and the flow's divergence is 0 at every vertex: the winding walk is consistent by construction.
@@ -482,7 +482,7 @@ function glueWalks(
 }
 
 /**
- * Balances what gluing could not (C-0193 (1)): where attraction split a ring's overlay into pieces with no edge between
+ * Balances what gluing could not (C-0196 (1)): where attraction split a ring's overlay into pieces with no edge between
  * them, a gap of its walk that leaves one piece and the gap that re-enters it cannot be routed, and the flow keeps a
  * source and a sink in that piece. A closed walk leaves every piece as often as it enters it, so within each connected
  * piece of the overlay the residual divergence sums to 0; each sink is joined to a source of its piece by the shortest
@@ -715,7 +715,7 @@ export function overlayRegion(
 
 /**
  * §3.11's empty result, `E_DEGENERATE` (`empty`), carrying the warnings the overlay reported on its way to nothing — a
- * result that attraction emptied is an attracted case of §3.7's split, so the refusal keeps what moved (C-0216 (4)).
+ * result that attraction emptied is an attracted case of §3.7's split, so the refusal keeps what moved (C-0196 (4)).
  */
 export type EmptyResult = Extract<KernelResult<Ring[]>, { ok: false }> & { readonly warnings: Warning[] };
 

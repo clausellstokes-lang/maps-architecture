@@ -6,7 +6,7 @@
 // removed. The result is the kept region's rings: outer rings counter-clockwise, holes clockwise, integer in and integer
 // out, every output edge an edge the insertion rules produced. An empty result is `E_DEGENERATE` (`empty`); a coordinate
 // off the lattice `E_OUT_OF_RANGE`. The warnings are the overlay insertions' — what §3.7's split reads; an empty
-// result's refusal carries them too (`EmptyResult`, C-0216 (4)).
+// result's refusal carries them too (`EmptyResult`, C-0196 (4)).
 import { ok, type KernelResult } from '../num/index.js';
 import { emptyResult, overlayRegion, type Ring } from './winding.js';
 

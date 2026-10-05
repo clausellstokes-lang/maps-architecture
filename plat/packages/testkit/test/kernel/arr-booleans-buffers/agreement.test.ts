@@ -5,8 +5,8 @@
 // hard ring check and |Δ| ≤ perimeter × √2 · attractCm. Our output is also held to the ring checks on every case
 // (0 invalid outputs) and a throw fails the property (0 crashes). The cases are M0-k-01's arbitraries and the
 // booleans, buffer, offsetFace and inset cases of M0-k-02's constructive set (support.ts). The size is PLAT_FUZZ_RUNS
-// per operation (10⁴ on a PR, 10⁶ nightly; C-0057); the vacuity guard asserts min(10⁵, ⌈¼ × runs⌉) unattracted draws
-// per operation, so the nightly run asserts §13.1's 10⁵ and every run reports its count (C-0193 (6), the spec note
+// per operation (10⁴ on a PR, 10⁶ nightly; C-0057); the vacuity guard asserts min(10⁵, ⌈⅒ × runs⌉) unattracted draws
+// per operation, so the nightly run asserts §13.1's 10⁵ and every run reports its count (C-0196 (7), the spec note
 // N-14). The placement is C-0122's: the one package test project that sees the oracles.
 import fc from 'fast-check';
 import { beforeAll, describe, expect, it } from 'vitest';
@@ -49,7 +49,7 @@ function verdict(h: Harness, op: string): void {
   expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
   expect(line.draws + line.unjudged + settled).toBe(RUNS);
   expect(refusals).toBeLessThanOrEqual(Math.ceil(MAX_REFUSAL_SHARE * RUNS));
-  // §13.1's vacuity guard (C-0193 (6)): 10⁵ unattracted draws at the nightly size, a quarter of the draws below it
+  // §13.1's vacuity guard (C-0196 (7)): 10⁵ unattracted draws at the nightly size, a tenth of the draws below it
   expect(line.unattracted).toBeGreaterThanOrEqual(guardFor(RUNS, UNATTRACTED_DRAW_MIN));
   expect(h.report.meetsDrawCount(op, guardFor(RUNS, UNATTRACTED_DRAW_MIN))).toBe(true);
 }

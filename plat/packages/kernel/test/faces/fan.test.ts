@@ -103,6 +103,20 @@ describe('radialSplit: refusals, nothing written', () => {
     expect(refusal(p, (o) => radialSplit(o, f, pt(2000, 0), [4500, 4600], { rows: DB }))).toBe('E_NOT_TWO_CROSSINGS');
   });
 
+  it('two rays from an interior apex closer than minFaceAngle: refused, not thrown (B-FUZZ seed -1225756674)', () => {
+    // The found case: a regular decagon (radius 754 about (2000, 1000), phase 76.79°), apex (1960.25, 1038.5), rays 2.11° apart.
+    const p = halves();
+    const deca = Array.from({ length: 10 }, (_, i) => polar(2000, 1000, 7679 + i * 3600, 754));
+    commit(p, 1, (o) => insertChain(o, pts(deca), [{ role: 'district_bound', entity: 'star:1' }], 'mandatory', { closed: true }));
+    const f = faceAt(p, 1, 2300, 1000);
+    expect(refusal(p, (o) => radialSplit(o, f, pt(1960.25, 1038.5), [41_856, 42_067], { rows: DB }))).toBe('E_NOT_TWO_CROSSINGS');
+    // In the plain lower half: 2° refused, 6° a fan of two sectors (the negative control).
+    const q = halves();
+    const g = faceAt(q, 1, 100, 100);
+    expect(refusal(q, (o) => radialSplit(o, g, pt(2000, 1000), [9000, 9200], { rows: DB }))).toBe('E_NOT_TWO_CROSSINGS');
+    expect(commit(q, 1, (o) => radialSplit(o, g, pt(2000, 1000), [9000, 9600], { rows: DB })).value).toHaveLength(2);
+  });
+
   it('a ray into a hole from an interior apex: E_HOLE_CONTACT', () => {
     const p = withHoles([[[2500, 800], [3000, 800], [3000, 1200], [2500, 1200]]]);
     const f = faceAt(p, 1, 100, 100);

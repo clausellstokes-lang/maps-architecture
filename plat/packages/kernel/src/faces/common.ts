@@ -340,7 +340,11 @@ export function planCut(t: OpenTx, r: Region, cutIn: readonly { readonly x: numb
     }
     for (let j = i + 1; j < k - 1; j++) {
       if (j === i + 1) {
-        if (overlapBeyond(q[j].x, q[j].y, q[i].x, q[i].y, q[j + 1].x, q[j + 1].y)) return refuse(NOT_TWO, 'the cut folds back on itself (§3.6 (2))');
+        // A fold sharper than minFaceAngle: insertion would share the two segments as one stretch, bending the cut
+        // into an antenna (B-FUZZ seed -1225756674: two rays 2.11° apart from an interior apex).
+        if (overlapBeyond(q[j].x, q[j].y, q[i].x, q[i].y, q[j + 1].x, q[j + 1].y) || sameWayNear(q[j], q[j + 1], q[i].x, q[i].y)) {
+          return refuse(NOT_TWO, 'the cut folds back on itself (§3.6 (2))');
+        }
         continue;
       }
       if (segmentsTouch(q[i].x, q[i].y, q[i + 1].x, q[i + 1].y, q[j].x, q[j].y, q[j + 1].x, q[j + 1].y)) return refuse(NOT_TWO, 'the cut crosses itself (§3.6 (2))');

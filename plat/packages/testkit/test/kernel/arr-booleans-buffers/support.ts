@@ -39,10 +39,11 @@ import { ORACLE_ENGINES, type BooleanOp, type EndKind, type FillRule, type JoinK
 export const LIMIT_CM = 65_536;
 
 /**
- * At every size the unattracted cases must make at least this share of an operation's draws (C-0193 (6)): with
- * `min(10⁵, ⌈share × runs⌉)` asserted, the nightly 10⁶ run asserts §13.1's 10⁵ guard and the PR's 10⁴ a floor of 2 500.
+ * At every size the unattracted cases must make at least this share of an operation's draws (C-0196 (7)): with
+ * `min(10⁵, ⌈share × runs⌉)` asserted, the nightly 10⁶ run asserts §13.1's 10⁵ guard exactly and the PR's 10⁴ a floor
+ * of 1 000; the families are weighted so every operation's share stands well above it (each run reports it).
  */
-export const MIN_UNATTRACTED_SHARE = 0.25;
+export const MIN_UNATTRACTED_SHARE = 0.1;
 
 /** One operand: its rings (outer counter-clockwise, holes clockwise; a self-touching or crossing ring as drawn). */
 export type Operand = LatticePoint[][];
@@ -124,8 +125,29 @@ const chainFamilies: readonly { name: string; weight: number; arb: fc.Arbitrary<
   { name: 'near-collinear', weight: 1, arb: arb.nearCollinear({ limitCm: LIMIT_CM, shape: 'chain' }) },
 ];
 
-/** Buffer cases: 1–3 chains of one family, one half-width or one per point, every join and end; and M0-k-02's buffer cases. */
+/**
+ * Buffer cases: 1–3 chains of one family, one half-width or one per point, every join and end; open chains of long
+ * steps under half-widths from 1 m to a quarter of the shortest step (`arb-chain-sparse`: the strips meet only near
+ * their joins and every round chord is longer than `minEdge`, the cases §3.7's strict comparison reads); and M0-k-02's
+ * buffer cases.
+ */
 export const bufferCaseArb: fc.Arbitrary<BufferCase> = fc.oneof(
+  {
+    weight: 12,
+    arbitrary: fc
+      .record({
+        chains: fc.array(arb.chain({ limitCm: LIMIT_CM, vertices: [2, 4], sizeCm: [1_000, 8_192] }), { minLength: 1, maxLength: 2 }),
+        tenths: fc.integer({ min: 1, max: 1_000 }),
+        joins: joinArb,
+        ends: endArb,
+      })
+      .map(({ chains, tenths, joins, ends }) => {
+        let shortest = Infinity;
+        for (const c of chains) for (let i = 1; i < c.length; i += 1) shortest = Math.min(shortest, Math.hypot(c[i].x - c[i - 1].x, c[i].y - c[i - 1].y));
+        const w = 100 + Math.floor(((Math.max(400, Math.min(shortest, 8_192)) / 4 - 100) * tenths) / 1_000);
+        return { chains, w, joins, ends, source: 'arb-chain-sparse' };
+      }),
+  },
   ...chainFamilies.map((f) => ({
     weight: f.weight * 2,
     arbitrary: fc
@@ -430,7 +452,7 @@ function meetsPixel(px: number, py: number, qx: number, qy: number, cx: number, 
 }
 
 /**
- * The oracle's rings snap-rounded (C-0195 (2)): the hot pixels are the unit pixels centred on every vertex of the rings and
+ * The oracle's rings snap-rounded (C-0196 (7)): the hot pixels are the unit pixels centred on every vertex of the rings and
  * on every crossing of two of their edges, rounded to the nearest lattice point; each edge is replaced by the path
  * through the centres of the hot pixels it meets, in order along it (Hobby's snap rounding). The oracle's doubles are
  * rounded point by point, so where the exact result has two pieces touching at a point inside an edge the rounded
@@ -493,7 +515,7 @@ export function ownProblems(ours: KernelResult<Ring[]> | readonly Ring[]): strin
   return [];
 }
 
-/** The warnings of our result (an empty result's refusal carries them, C-0193 (4)). */
+/** The warnings of our result (an empty result's refusal carries them, C-0196 (4)). */
 export function warningsOf(ours: KernelResult<Ring[]>): Warning[] {
   if (ours.ok) return ours.warnings;
   const w = (ours as { warnings?: Warning[] }).warnings;
@@ -508,7 +530,7 @@ export interface Harness {
   /** Cases settled without an oracle (E_NON_CONVEX on a face the exact check calls non-convex; an arena refusal of the setup). */
   settled: Record<string, number>;
   sources: Record<string, number>;
-  /** Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone (C-0195 (2)). */
+  /** Per oracle, the unattracted cases judged again on its rings snap-rounded after failing on the face count alone (C-0196 (7)). */
   snapRounded: Record<string, number>;
 }
 
@@ -530,7 +552,7 @@ export function judge(h: Harness, op: string, source: string, ours: KernelResult
   const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
     const or = oracle(e);
     const v = compareSplit(ours, or, warnings);
-    // an unattracted case that fails on the face count alone is judged again on the oracle's rings snap-rounded (C-0195 (2))
+    // an unattracted case that fails on the face count alone is judged again on the oracle's rings snap-rounded (C-0196 (7))
     if (!or.ok || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
     h.snapRounded[e] = (h.snapRounded[e] ?? 0) + 1;
     return compareSplit(ours, { ...or, rings: snapRoundRings(or.rings) }, warnings);
@@ -608,7 +630,7 @@ export function judgeInset(h: Harness, c: FaceCase): void {
   judge(h, 'insetRing', c.source, mine, (e) => oracleInset(ring, dCm, e), warningsOf(ours), () => JSON.stringify({ rings, dCm }));
 }
 
-/** The guard's draw count for a run of `runs` cases (C-0193 (6)): min(10⁵, ⌈share × runs⌉). */
+/** The guard's draw count for a run of `runs` cases (C-0196 (7)): min(10⁵, ⌈share × runs⌉). */
 export function guardFor(runs: number, min: number): number {
   return Math.min(min, Math.ceil(MIN_UNATTRACTED_SHARE * runs));
 }

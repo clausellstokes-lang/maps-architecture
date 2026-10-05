@@ -184,6 +184,17 @@ describe('splitFace: contacts refused E_NOT_TWO_CROSSINGS, nothing written (§3.
     expect(refused(p, f, [[1000, 0], [1000, 1500], [1010, 400], [3000, 2000]])).toBe('E_NOT_TWO_CROSSINGS');
     expect(refused(p, f, [[1000, 0], [1500, 1500], [2000, 500], [500, 1000], [0, 1500]])).toBe('E_NOT_TWO_CROSSINGS');
   });
+
+  it('a cut folding back at an interior point sharper than minFaceAngle (insertion would share the arms into an antenna)', () => {
+    const p = halves();
+    const f = faceAt(p, 1, 500, 500);
+    // Arms 1000 cm long, ends 80 cm apart: 4.58° at the fold, within minFaceAngle (5°) — refused, nothing written.
+    expect(refused(p, f, [[1960, 0], [2000, 1000], [2040, 0]])).toBe('E_NOT_TWO_CROSSINGS');
+    // 120 cm apart: 6.87°, wider than minFaceAngle — a split whose children tile the face (the negative control).
+    const area = faceArea2Big(p, 1, f);
+    const [a, b] = split(p, f, [[1940, 0], [2000, 1000], [2060, 0]]);
+    expect(faceArea2Big(p, 1, a) + faceArea2Big(p, 1, b)).toBe(area);
+  });
 });
 
 describe('splitFace: antennae count as boundary (§3.6 (3))', () => {

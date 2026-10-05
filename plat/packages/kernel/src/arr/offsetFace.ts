@@ -4,11 +4,11 @@
 // usual face of organic growth — has one correct construction." Each edge of the face is buffered by its own distance
 // with round ends — so every point left lies at least dᵢ from edge i, a reflex corner rounded and a convex one kept
 // sharp — built as each edge's strip and, at each vertex, one disc of the larger of its two edges' distances (the union
-// of the two round ends there; `ringEdgeParts`, C-0193 (3)), and the union is taken from the face on the scratch
+// of the two round ends there; `ringEdgeParts`, C-0196 (3)), and the union is taken from the face on the scratch
 // arrangement in one overlay (the face's rings one operand, every part the other, kept where the first is inside and
 // the second is not). An edge whose distance is 0 adds nothing.
 //
-// Readings (C-0193 (3)): `offsetFace` is a service that reads the open transaction's arena (§3.4 *Arenas, keys and
+// Readings (C-0196 (3)): `offsetFace` is a service that reads the open transaction's arena (§3.4 *Arenas, keys and
 // services*: "kerb, offsetFace, insetRing … read the open transaction's arena and are called only inside one"), so it
 // takes that transaction first — `offsetFace(tx, face, perEdgeCm)`, the façade (M0-a-16) binding the design's
 // two-argument form — and reads the face at the transaction's level. The face's edges, in `perEdgeCm`'s order, are
@@ -22,7 +22,7 @@ import { faceRings } from '../geom/boundary.js';
 import type { InsertTx } from '../insert/classes.js';
 import { ok, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
-import { ringEdgeParts, SAGITTA_CM } from './buffer.js';
+import { partsOutline, ringEdgeParts, SAGITTA_CM } from './buffer.js';
 import { canonicalRing, compareRings, emptyResult, overlayRegion, type Ring } from './winding.js';
 
 /** One edge of a face, in `faceEdges`' order: its two lattice points, the face on its left. */
@@ -94,14 +94,16 @@ export function offsetFace(tx: InsertTx, face: FaceId, perEdgeCm: readonly (Cm |
   for (const d of perEdgeCm) {
     if (!(d >= 0 && d < Infinity)) throw new RangeError(`offsetFace: a distance is a finite number ≥ 0, got ${String(d)}`);
   }
-  // An edge set back by the face's whole reach takes the whole face (C-0193 (3)): every point of the face lies within
+  // An edge set back by the face's whole reach takes the whole face (C-0196 (3)): every point of the face lies within
   // its box's diagonal of every edge, and a round part loses at most its sagitta and a snap to its chords, so a distance
   // beyond diagonal + SAGITTA_CM + 2 leaves nothing — the result the overlay would give, without parts that could
   // reach past the lattice.
   if (perEdgeCm.some((d) => d >= reachOf(rings) + SAGITTA_CM + 2)) return emptyResult([]);
   const parts = ringEdgeParts(rings, perEdgeCm);
   if (!parts.ok) return parts;
-  const r = overlayRegion([rings, parts.value], (w) => w[0] !== 0 && w[1] === 0);
+  // The parts enter as their summed boundary (`partsOutline`): the same winding numbers, so the same region, with the
+  // segments neighbouring parts share cancelled (C-0196 (6)).
+  const r = overlayRegion([rings, partsOutline(parts.value)], (w) => w[0] !== 0 && w[1] === 0);
   if (!r.ok) return r;
   if (r.value.length === 0) return emptyResult(r.warnings);
   return ok(r.value, r.warnings);

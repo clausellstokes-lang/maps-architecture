@@ -10,7 +10,7 @@
 // lattice by `snap`'s rounding, every part counter-clockwise, and united on the scratch arrangement (`winding.ts`) under
 // the non-zero rule, so the output obeys the insertion rules like every other chain.
 //
-// The construction's readings (C-0216 (2)): a chain is open — its first and last points are its ends even when they
+// The construction's readings (C-0196 (2)): a chain is open — its first and last points are its ends even when they
 // coincide; consecutive repeated points are dropped (the first one's half-width kept), and a chain left with fewer than
 // two distinct points adds nothing; every part carries its chain point as a vertex and computes each offset point by the
 // one expression its neighbours use, so neighbouring parts meet along identical lattice segments; a square join's cut is
@@ -105,7 +105,7 @@ const RANGE_IN = 8_388_607;
  * A convex part clipped to the lattice's box |x|, |y| ≤ 2²³ − 1 (Sutherland–Hodgman on the box's four sides, in
  * doubles; every new point lies on a side, its other coordinate rounded later by `snap`). Used only where the region
  * that matters lies inside the lattice — `offsetFace`'s parts are subtracted from a face, which lies inside it — so
- * the clip changes nothing a caller keeps (C-0193 (3)).
+ * the clip changes nothing a caller keeps (C-0196 (3)).
  */
 function clipToLattice(points: readonly XY[]): XY[] {
   let pts = points.slice();
@@ -125,7 +125,7 @@ function clipToLattice(points: readonly XY[]): XY[] {
       const fq = ax * q.x + ay * q.y - lim;
       if (fp <= 0) out.push(p);
       if ((fp < 0 && fq > 0) || (fp > 0 && fq < 0)) {
-        const t = fp / (fp - fq);
+        const t = div(fp, fp - fq) ?? 0;
         const x = p.x + t * (q.x - p.x);
         const y = p.y + t * (q.y - p.y);
         out.push(ax !== 0 ? { x: ax * lim, y } : { x, y: ay * lim });
@@ -250,24 +250,20 @@ export function bufferParts(
     if (n < 2) return;
     const dirs: XY[] = [];
     for (let i = 0; i + 1 < n; i += 1) dirs.push(unitOf({ x: pts[i + 1].x - pts[i].x, y: pts[i + 1].y - pts[i].y }) as XY);
+    if (ws[0] > 0) push(endPoints(pts[0], { x: -dirs[0].x, y: -dirs[0].y }, ws[0], ends));
     for (let i = 0; i + 1 < n; i += 1) {
       const p = pts[i];
       const q = pts[i + 1];
       const u = dirs[i];
+      if (i > 0 && ws[i] > 0) {
+        const a = pts[i - 1];
+        const o = orient2d(a.x, a.y, p.x, p.y, q.x, q.y);
+        const forward = (p.x - a.x) * (q.x - p.x) + (p.y - a.y) * (q.y - p.y);
+        // straight on: no join
+        if (!(o === 0 && forward > 0)) push(joinPoints(p, dirs[i - 1], u, o > 0 ? 1 : o < 0 ? -1 : 0, ws[i], joins));
+      }
       push([left(p, u, ws[i]), p, right(p, u, ws[i]), right(q, u, ws[i + 1]), q, left(q, u, ws[i + 1])]);
     }
-    for (let i = 1; i + 1 < n; i += 1) {
-      const w = ws[i];
-      if (!(w > 0)) continue;
-      const a = pts[i - 1];
-      const v = pts[i];
-      const b = pts[i + 1];
-      const o = orient2d(a.x, a.y, v.x, v.y, b.x, b.y);
-      const forward = (v.x - a.x) * (b.x - v.x) + (v.y - a.y) * (b.y - v.y);
-      if (o === 0 && forward > 0) continue; // straight on: no join
-      push(joinPoints(v, dirs[i - 1], dirs[i], o > 0 ? 1 : o < 0 ? -1 : 0, w, joins));
-    }
-    if (ws[0] > 0) push(endPoints(pts[0], { x: -dirs[0].x, y: -dirs[0].y }, ws[0], ends));
     if (ws[n - 1] > 0) push(endPoints(pts[n - 1], dirs[n - 2], ws[n - 1], ends));
   });
   if (range) return { ok: false, code: 'E_OUT_OF_RANGE', detail: 'buffer' };
@@ -275,7 +271,7 @@ export function bufferParts(
 }
 
 /**
- * The parts of ⋃ buffer(edgeᵢ, dᵢ) with round ends over closed rings (`offsetFace`'s, C-0193 (3)). A segment widened
+ * The parts of ⋃ buffer(edgeᵢ, dᵢ) with round ends over closed rings (`offsetFace`'s, C-0196 (3)). A segment widened
  * with round ends is its strip and a disc at each end point, so the union is every edge's strip at its own distance and,
  * at every vertex, the two edges' discs. Where the vertex's two distances are equal and neither edge is shorter than
  * that distance, the two strips already cover the disc but for the sector on the outer side of the turn, so that sector
@@ -360,18 +356,83 @@ export function buffer(
   return ok(r.value, r.warnings);
 }
 
+/**
+ * The parts' boundaries summed as one chain (C-0196 (6)): every directed lattice segment of every part, a segment and
+ * its exact reverse cancelled, the rest cut into closed walks. Winding numbers add, so the sum's winding number at a
+ * point is the number of parts covering it — at least 0, every part being counter-clockwise — and the union of the
+ * parts is exactly where it is not 0. Neighbouring parts meet along identical lattice segments by construction (the
+ * strips' spokes, the joins' and ends' radii), so those cancel and never enter the arrangement. The walks start at
+ * their lowest-leftmost unused segment's origin and leave each vertex by its lowest-leftmost unused outgoing segment's
+ * far end (slot-free, input-order-free in the region they bound).
+ */
+export function partsOutline(parts: readonly Ring[]): Ring[] {
+  const key = (a: LatticePoint, b: LatticePoint): string => `${String(a.x)},${String(a.y)},${String(b.x)},${String(b.y)}`;
+  const count = new Map<string, number>();
+  const seg = new Map<string, [LatticePoint, LatticePoint]>();
+  for (const r of parts) {
+    const n = r.length;
+    for (let i = 0; i < n; i += 1) {
+      const a = r[i];
+      const b = r[i + 1 === n ? 0 : i + 1];
+      if (a.x === b.x && a.y === b.y) continue;
+      const back = key(b, a);
+      const c = count.get(back);
+      if (c !== undefined && c > 0) {
+        count.set(back, c - 1);
+        continue;
+      }
+      const k = key(a, b);
+      count.set(k, (count.get(k) ?? 0) + 1);
+      seg.set(k, [a, b]);
+    }
+  }
+  const out = new Map<string, LatticePoint[]>();
+  const vkey = (p: LatticePoint): string => `${String(p.x)},${String(p.y)}`;
+  const all: [LatticePoint, LatticePoint][] = [];
+  for (const [k, c] of count) {
+    const ab = seg.get(k) as [LatticePoint, LatticePoint];
+    for (let i = 0; i < c; i += 1) all.push(ab);
+  }
+  const lower = (p: LatticePoint, q: LatticePoint): number => p.y - q.y || p.x - q.x;
+  all.sort((s1, s2) => lower(s1[0], s2[0]) || lower(s1[1], s2[1]));
+  for (const ab of all) {
+    const l = out.get(vkey(ab[0]));
+    if (l === undefined) out.set(vkey(ab[0]), [ab[1]]);
+    else l.push(ab[1]);
+  }
+  const rings: Ring[] = [];
+  for (const ab of all) {
+    const l0 = out.get(vkey(ab[0])) as LatticePoint[];
+    if (l0.length === 0) continue;
+    const start = ab[0];
+    const ring: LatticePoint[] = [];
+    let v = start;
+    for (;;) {
+      const l = out.get(vkey(v));
+      if (l === undefined || l.length === 0) break;
+      ring.push(v);
+      v = l.shift() as LatticePoint;
+      if (v.x === start.x && v.y === start.y && (out.get(vkey(v)) ?? []).length === 0) break;
+    }
+    if (ring.length >= 2) rings.push(ring);
+  }
+  return rings;
+}
+
 /** How many ring sets one overlay of `unionParts` unites. */
 export const UNION_FAN_IN = 8;
 
 /**
  * The union of counter-clockwise parts under the non-zero rule, on the scratch arrangement, as a tree of overlays
- * (C-0195 (4)): the parts in input order are taken UNION_FAN_IN at a time, each group united on its own overlay, and
+ * (C-0196 (6)): the parts in input order are taken UNION_FAN_IN at a time, each group united on its own overlay, and
  * the groups' results — simple rings, outer counter-clockwise and holes clockwise, so winding 1 inside and 0 outside —
  * united the same way, level after level, until one ring set is left. Union is associative and the non-zero rule adds
  * winding numbers, so the region is the one overlay of every part would give; each overlay sees only the vertices
  * that survived the groups below it — a stroke's strips overlap their neighbours almost everywhere — so the
- * arrangement inserts far fewer segments. The warnings of every overlay are folded by code. The grouping is fixed by
- * the input order alone.
+ * arrangement inserts far fewer segments. Each group enters its overlay as its summed boundary (`partsOutline`), so the
+ * segments two of its parts share cancel; `bufferParts` lists a chain's parts in chain order (start end, then each
+ * vertex's join before the strip leaving it, then the far end), so a group is a run of neighbouring parts. The warnings
+ * of every overlay are folded by code. The grouping is fixed by the input order alone.
  */
 export function unionParts(parts: readonly Ring[]): KernelResult<Ring[]> {
   const warnings: Warning[] = [];
@@ -386,7 +447,7 @@ export function unionParts(parts: readonly Ring[]): KernelResult<Ring[]> {
       }
       const rings: Ring[] = [];
       for (const g of group) for (const r of g) rings.push(r);
-      const r = overlayRegion([rings], (w) => w[0] !== 0);
+      const r = overlayRegion([partsOutline(rings)], (w) => w[0] !== 0);
       if (!r.ok) {
         foldWarnings(warnings, (r as { warnings?: Warning[] }).warnings ?? []);
         return { ...r, warnings } as KernelResult<Ring[]>;

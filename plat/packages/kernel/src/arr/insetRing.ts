@@ -13,8 +13,8 @@
 // through the scratch arrangement (`winding.ts`), so it re-enters through `insertChain` like every output. Where nothing
 // is left the inset has collapsed: the refusal carries the largest whole distance below dCm whose inset is not empty
 // (`lastCm`, found by bisection on the same path; 0 is the face itself) and that inset as its `partial`, and the
-// warnings of the inset at dCm (C-0195 (3)).
-// Readings (C-0216 (3), (5)): like `offsetFace` it takes the open transaction first and reads the face at its level;
+// warnings of the inset at dCm (C-0196 (5)).
+// Readings (C-0196 (5)): like `offsetFace` it takes the open transaction first and reads the face at its level;
 // a dCm that is not a whole number of centimetres is the caller's error (a RangeError). §3.11's row lists `insetRing`
 // among the operations whose empty result is `empty`; §3.7 and this item name the inset past the inradius — the one
 // way an inset of a face can come out empty — `collapsed`, which this function returns.
@@ -34,7 +34,7 @@ export type InsetCollapsed = Extract<KernelResult<Ring[]>, { ok: false }> & {
   /** That inset's rings. */
   readonly partial: Ring[];
   /**
-   * The warnings of the inset at dCm on its way to nothing (C-0195 (3)): a half-plane inset that is not empty in doubles
+   * The warnings of the inset at dCm on its way to nothing (C-0196 (5)): a half-plane inset that is not empty in doubles
    * but thinner than the insertion rules keep is emptied by attraction (W_ATTRACTED), an attracted case of §3.7's split.
    */
   readonly warnings: Warning[];
