@@ -1,98 +1,107 @@
 # What M1 needs from M-1 — the implementer half
 
-Written 2026-10-05 by lane `filler/m1-needs-from-m-1` (implementer-side, clean room). **An inventory, not design**
-(J156 (1)): it cross-references what the design already says and adds no rule, band or mechanism. Where it and the
-design differ, the design governs.
+Written 2026-10-05 by filler lane `filler/m1-needs-from-m-1` (implementer side, clean room). This is an inventory, not
+design (J156 (1)): where it and the design differ, the design governs. No design is added here.
 
-**Read:** `docs/build-prep/M1/scope.json` (its 14 `needs-M-1` clauses and every clause's `m1Needs`), `docs/build-prep/M1/scope.md`,
-`docs/ARCHITECTURE.md` §13.5 (whole), §16's M-1 and M1 rows, §17.1 (4)–(5), §8.2's palette targets; `docs/volumes/INDEX.md`;
-`docs/volumes/V12-calibration.md` §8.1–§8.2; the plat/ working copy (a file search inside `plat/` only). No research,
-reference, capture, calibration, validation or `docs/design/` path was opened; the M-1 experiment records the design
-cites (E05, E10–E12, E15, E20) are named for traceability only and were not followed. **Clean-room note:** one `ls`
-of `docs/` (file names only, nothing opened) was run at the start of this lane before the CLEAN_ROOM constant's
-"never ls from docs/" line was read; it is recorded here, not hidden.
+## What was read
 
-## 1. The W-ids
+- `docs/build-prep/M1/scope.json` (twin `scope.md`): the 14 clauses marked `needs-M-1` and their `m1Needs`.
+- `docs/ARCHITECTURE.md` §13.5 (the B-REF table and the ⟨M-1⟩ rule), §13.6 (2) (the D-5 inputs), §16's M-1 and M1 rows,
+  §17.1 (4)–(5) (the crossing files and the content scan), §8.2's *Palette targets* (item 69).
+- `docs/volumes/V12-calibration.md` §8.2 (the W-steps), which M1 builds a share of (W2, W7).
+- The `plat/` **working copy** (not HEAD; no git was run): `plat/packages/testkit/baselines/README.md` and
+  `crossings.json`. No `docs/calibration/`, `docs/validation/`, `research/`, `captures/` or `reference/` file was opened;
+  the E-ids below are cited from §13.5's cells for traceability only.
 
-V12 §8.2 gives M-1 one step, **W1 — the capture plan and the crossing** (the seed families' twin, the capture plan, the
-MFCG ten-seed sweep plus five stress seeds, the adapters, the M-1 metric scripts for every ⟨M-1⟩ and baseline row, the
-cross-check, the pins and the first `CrossingRecord`; exit: every §13.5 baseline row present by the ⟨M-1⟩ rule). The
-other M-1 deliverables sit only in §16's M-1 row and have no W-id: the FTG capture programmes, the sanitised digest, the
-hashed deny-list, `CLEAN-ROOM.md`'s seat ledger and the plot-depth re-fit. The scope inventory names each deliverable by
-its file or measurement, not by W-id; the W-id column below is this lane's mapping to V12 §8.2 and §16, labelled so.
+## The M-1 deliverables these needs name
 
-M1's own side of the same rig is **W2** (M1); every need below is consumed by a W2 part or an M1 exit, never produced by it.
+The scope inventory names files (`baselines.json`, `ng-faces.json`, `denylist.json`, `ftg-captures.json`,
+`known-defects.json`) and measurements, **not W-ids**: no `W-` id appears in `scope.json`, `scope.md` or §16. The only
+W-step the design places at M-1 is **V12 §8.2 W1** (the capture plan and the crossing); the other deliverables are named
+in §16's M-1 row or §17.1. The column "M-1 deliverable" below therefore gives the §16 / §17.1 name and, where one
+exists, the V12 step.
 
-## 2. The needs, one row per (M1 clause, M-1 deliverable)
+| key | M-1 deliverable | where the design names it | lands in `plat/` as |
+|---|---|---|---|
+| D1 | `baselines.json`: every §13.5 row with provenance, bands by the band rule, generated research-side and crossed | §16 M-1 (content and exit); §13.5; §17.1 (4); V12 W1 ("the M-1 metric scripts for every ⟨M-1⟩ and baseline row … the pins and the first `CrossingRecord`") | `plat/packages/testkit/baselines/baselines.json` + a `crossings.json` record |
+| D2 | the MFCG sweep, ten seeds per matched size (40 / 80 / 130), plain plus river-and-coast | §16 M-1; V12 W1 ("MFCG at ten seeds per matched size plus five stress seeds") | rows of D1 |
+| D3 | street-edge recoverability implemented research-side, cross-checked against the product's on M1's golden renders within 0.01 | §16 M-1; V12 W1's metric scripts | a row of D1; the cross-check itself runs at M1 |
+| D4 | the variety dispersions of MFCG and FTG | §16 M-1 | rows of D1 |
+| D5 | the FTG captures, programmes 1 and 2 (28 slots), each capture's id, `WaterSetting` and recorded population in its README | §16 M-1; §13.6 (2) | not directly: at M1 the research-side panel script writes `plat/goldens/d5/M1/ftg-captures.json` from these records |
+| D6 | `ng-faces.json`: NG's recorded hood outlines and faces with per-cut records | §17.1 (4) ("M-1 adds one file of measured geometry") | `plat/packages/testkit/baselines/ng-faces.json` |
+| D7 | the hashed content deny-list | §16 M-1; §17.1 (5) | `plat/packages/testkit/baselines/denylist.json` (the `plat/` name, C-0101; the design names no file) |
+| D8 | the ⟨M-1⟩ statement: which ⟨M-1⟩ cells M-1 could not measure, made descriptive with a reason | §16 M-1 exit; §13.5's ⟨M-1⟩ rule | `known-defects.json` entries (M1 clause 120 writes the file) |
+| D9 | the plot-depth rows and regime block-depth minimums re-fitted (item 34; J-A34.01) | §16 M-1; §13.5's blocks row (E12) | rows the blocks band reads; with D1 |
+| D10 | the sanitised implementer digest and `CLEAN-ROOM.md`'s seat ledger | §16 M-1; §17.1 | `plat/docs/digest/` |
 
-Clause numbers are `scope.json`'s `n`. "§13.5 row" names the row of §13.5's table the clause reads; "—" means the need
-is not a §13.5 row (a clean-room or panel file).
+State as read (working copy, 2026-10-05 04:18): `plat/packages/testkit/baselines/` holds `README.md` and
+`crossings.json`, which is `[]`; no `baselines.json`, `ng-faces.json` or `denylist.json` is there, and
+`plat/goldens/d5/` does not exist. §13.5 says M-1 recomputed the baselines on 2026-10-04 (E15), so the measurement
+exists research-side; the M1 needs below wait on the **crossing**, not the measurement (the scope inventory's
+discrepancy 5). D10 is no clause's `m1Needs` and is listed for completeness only.
 
-| M1 clause (n) | what the clause does | §13.5 row(s) it reads | M-1 deliverable (scope inventory's words) | W-id / design home |
+## The needs, by §13.5 row
+
+Each §13.5 row an M1 `needs-M-1` clause reads, the clause numbers (`scope.json` `n`), and the deliverable. A row
+marked ⟨M-1⟩ in §13.5 holds at least one cell that falls under the ⟨M-1⟩ rule (D8): if M-1 could not measure it, the
+cell is descriptive and the clause reads it as *reported*, not *pass*.
+
+| §13.5 row | ⟨M-1⟩ cells | class | M1 clauses that use it | M-1 deliverable |
 |---|---|---|---|---|
-| 36 | M1 content authored fresh (roster rows, households, naming grammar and word lists, era table, `ink` palette; V11 C1) — judged by 0 deny-list hits | — | `denylist.json` | §16 M-1 "the hashed content deny-list"; §17.1 (5); no W-id |
-| 53 | V12 W2's M-1 metric rows' product side (`street.detour` … `draw.hairline`); recoverability cross-checked against the research-side implementation within 0.01 on M1's golden renders | every row carrying an M-1 measurement; the cross-check is the figure-ground and streetwall row | the M-1 metric scripts and their measured rows (`baselines.json`) | W1 (the M-1 metric scripts); §16 M-1 (recoverability implemented research-side) |
-| 62 | D-5 first run (diagnostic, all three rungs) with its threshold panel; MFCG pairs by formula, FTG one pair per panel capture | — (§13.6 (1), (2)) | `ftg-captures.json` (numbers-only, from the FTG programmes); the research-side panel script's MFCG renders | §16 M-1 FTG programmes 1 and 2; W1 (capture plan); file path per §17.1 (4): `plat/goldens/d5/⟨milestone⟩/` |
-| 66 | Fusion gate re-run on B-CITY-lite's river, coast and relief configurations; statistics fallback: a slope class calibrated on NG's faces | junction arm angles and degrees (NG 4-way share); blocks; bent-cut signature; MFCG street signature | `baselines.json` NG bands and MFCG street-signature rows; `ng-faces.json` | W1; `ng-faces.json` per §17.1 (4) into `plat/packages/testkit/baselines/`; §16 M-1 depth re-fit (item 34) behind the blocks row |
-| 69 | Figure-ground metrics against MFCG's M-1 recoverability; contrast matrix; `ink` census; label floors and counts (quarter labels at MFCG's count); hairline fidelity | figure-ground and streetwall (recoverability ⟨M-1⟩); MFCG anchors (district / quarter count); labels (its count clause reads the anchors row) | MFCG street-edge recoverability baseline; MFCG quarter-label count rows | W1 (MFCG sweep, ten seeds per matched size) |
-| 72 | Walled share and extramural ribbon share in MFCG's band | walled share and ribbons | `baselines.json` rows (MFCG sweep, walled and ribbon shares) | W1 |
-| 73 | Between-seed dispersion against MFCG's and FTG's | between-seed variety (⟨M-1⟩ on both references) | the variety dispersions of MFCG and FTG | W1; §16 M-1 "the variety dispersions of MFCG and FTG" |
-| 79 | Parity report by the band rule (`plat/goldens/parity/M1.json`) | every row M1 measures | `baselines.json` committed into `plat/` | W1 (the crossing and first `CrossingRecord`) |
-| 95 | V12 W2's exit: T-V12-1 – 7, 16 – 20, 22, T-V12-32's MFCG clauses, T-V12-51; M1 panel sat or *provisional — not rated* | every row the T-V12 bars read | crossed numbers-only files (`baselines.json`, `ftg-captures.json`) | W1 (crossing); §16 M-1 FTG programmes |
-| 117 | MFCG street-signature rows that measure lots: R4 and wall alignment as gates; lots per block (staged from M0, C-0072) | MFCG street signature (lots per block ⟨M-1⟩) | `baselines.json` MFCG street-signature rows | W1 |
-| 120 | `known-defects.json` for the descriptive ⟨M-1⟩ cells (staged from M0, C-0116) | every ⟨M-1⟩ cell (list in §3) | M-1's statement of which ⟨M-1⟩ cells it could not measure | W1's exit ("every §13.5 baseline row present by the ⟨M-1⟩ rule"); §16 M-1's exit |
-| 121 | PR tier's budget with the deny-list scan inside it, first timed at M1 (staged from M0, C-0121) | — | `denylist.json` | §16 M-1; §17.1 (5); no W-id |
-| 122 | Nightly parity report inside a timed `tier:nightly` (staged from M0, C-0102, C-0121) | every row the nightly run reports | `baselines.json` | W1 |
-| 130 | Bent-cut signature bars re-run on B-CITY's districts (M0-b-04, M0-b-05, M0-b-05a/b) | bent-cut signature (σ, bend, corner, arrival, fillet share; cut lengths ⟨M-1⟩); blocks | `baselines.json`; `ng-faces.json` (M0-b-05a/b read both) | W1; §17.1 (4) |
+| street turning | 1 (FTG turning per 100 m, E15) | P | 66 (no turn cliff), 79, 120, 122 | D1 (FTG rows from D5's captures) |
+| junction arm angles and degrees | 0 | P | 66 (junction-degree distribution), 79, 122 | D1 |
+| MFCG street signature | 1 (T / Y share, dead ends, blocks per ha, lots per block) | P | 66, 79, 117 (R4, wall alignment, lots per block), 120, 122 | D1 + D2 |
+| blocks | 1 (NG block counts per template, E15) | P | 66 (block-area distribution), 79, 120, 122, 130 | D1, D6, D9 |
+| deep block interiors | 2 (NG court share; MFCG inner-lot removal) | P | 79, 120, 122 | D1 + D2 |
+| bent-cut signature | 1 (NG cut lengths, E15) | P | 79, 120, 122, 130 (σ, corner, arrival, fillet share, cut-length KS) | D1, D6 |
+| figure-ground and streetwall | 2 (MFCG recoverability; MFCG streetwall continuity) | O | 53 (recoverability cross-check ≤ 0.01), 69 (figure-ground against MFCG's recoverability), 79, 120, 122 | D1, D2, D3 |
+| walled share and ribbons | 0 | P | 72, 79, 122 | D1 + D2 |
+| MFCG anchors | 0 | P | 69 (city-zoom quarter labels at MFCG's count), 79, 122 | D1 + D2 |
+| labels | 0 | O | 69 (label counts read the anchors row) | D1 + D2 (through the anchors row) |
+| between-seed variety | 2 (MFCG and FTG dispersions) | O | 73, 79, 120, 122 | D1 + D4 |
+| markets | 1 (MFCG 0 secondary markets, E07) | P | 79, 120, 122 | D1 |
+| wealth bands | 1 (FTG lifestyle tiers, descriptive) | P | 79, 120, 122 | D1 |
+| every other row with a `baselines.json` reference (street runs, plots and footprints, party walls, plot-area gradient, outline anisotropy, towers and gates, water, tree scatter, population, generation time, draw style) | 0 | — | 79, 95, 122 (the whole report, and the parity-preset runs) | D1 |
+| rows with no reference number (growth drift, entrance rule, alleys, vacancy runs, quays, ladder use, hidden plots' default, …) | 0 | C / O | none: no M-1 need | — |
+| Fantasy Manor rows | 0 | P | none at M1 (stage 3, M6) | — |
 
-No clause outside these 14 carries a non-empty `m1Needs` in `scope.json` (checked by script over all 132 clauses).
+## The needs, by M1 clause
 
-## 3. §13.5's rows from the other side
+The 14 `needs-M-1` clauses, with the §13.5 row (or the section that holds the need where it is not a §13.5 row).
 
-The ⟨M-1⟩ cells of §13.5 (measured by M-1; descriptive and entered in `known-defects.json` if M-1 could not measure
-them — clause 120) and the M1 clauses that read each. Rows without an ⟨M-1⟩ mark that still cite an M-1 measurement
-reach M1 through `baselines.json` in clauses 79 and 122 only, unless named here.
+| n | M1 clause (short) | §13.5 row(s) | needs (scope inventory) | M-1 deliverable |
+|---|---|---|---|---|
+| 36 | M1 content authored fresh (roster, grammar, word lists, era table, `ink` palette) | none — §17.1 (5)'s content scan | `denylist.json` for the PR scan that judges it (0 hits) | D7 |
+| 53 | V12 W2's M-1 metric rows' product side, recoverability cross-checked within 0.01 | figure-ground and streetwall; the product side of every M-1 metric row (`street.detour` … `draw.hairline`) | the M-1 metric scripts and `baselines.json` | D1, D3 (V12 W1) |
+| 62 | D-5's first run (diagnostic) with its threshold panel | none — §13.6 (1), (2) | `ftg-captures.json`; the research-side panel script's MFCG renders | D5 (the MFCG renders are made at M1 by formula; they are not an M-1 output) |
+| 66 | fusion gate re-run on river, coast and relief, with its fallbacks | blocks; junction arm angles and degrees; MFCG street signature; street turning (no cliff) — the rows §16 M0 (c) names | `baselines.json` NG bands and MFCG street-signature rows; `ng-faces.json` for the slope-class fallback | D1, D2, D6, D9 |
+| 69 | figure-ground against MFCG's M-1 recoverability; quarter labels at MFCG's count | figure-ground and streetwall; MFCG anchors; labels | MFCG recoverability baseline; MFCG quarter-label count rows | D1, D2, D3 |
+| 72 | walled share and extramural ribbon share in MFCG's band | walled share and ribbons | `baselines.json` MFCG sweep rows | D1, D2 |
+| 73 | between-seed dispersion against MFCG's and FTG's | between-seed variety | the variety dispersions | D1, D4 |
+| 79 | the parity report by the band rule (`plat/goldens/parity/M1.json`) | every row with a baseline | `baselines.json` crossed into `plat/` | D1 (its `CrossingRecord`), D8 |
+| 95 | V12 W2's exit (T-V12-1 – 7, 16 – 20, 22, 32's MFCG clauses, 51); panel sat or *provisional* | every crossed row (T-V12-32's MFCG clauses not resolved to rows by this seat) | crossed `baselines.json` and `ftg-captures.json` | D1, D5 (V12 W1's crossing) |
+| 117 | MFCG street-signature rows that measure lots (R4, wall alignment as gates; lots per block) | MFCG street signature | `baselines.json` MFCG street-signature rows | D1, D2 |
+| 120 | `known-defects.json` for the descriptive ⟨M-1⟩ cells | the 9 rows above with ⟨M-1⟩ cells (12 cells) | M-1's statement of the cells it could not measure | D8 |
+| 121 | the PR tier's budget with the deny-list scan inside it | none — §13.8, §17.1 (5) | `denylist.json` | D7 |
+| 122 | the nightly parity report inside a timed `tier:nightly` | every row with a baseline, plus one run per parity preset | `baselines.json` | D1 |
+| 130 | the bent-cut signature bars re-run on B-CITY's districts | bent-cut signature; blocks | `baselines.json`; `ng-faces.json` | D1, D6, D9 |
 
-| §13.5 row | ⟨M-1⟩ cell(s) | M1 clauses that read it |
-|---|---|---|
-| street turning | FTG median turning per 100 m after 10 m resampling | 79, 122 (parity); 53 (metric product side) |
-| junction arm angles and degrees | — (NG 4-way share is an M-1 row, unmarked) | 66, 79, 122 |
-| MFCG street signature | T / Y share, intramural dead ends, blocks per ha, lots per block | 66, 117, 79, 122 |
-| blocks | NG block counts per template at `medium` | 66, 130, 79, 122 |
-| deep block interiors | NG hollow-block frequency; MFCG inner-lot removal | 79, 122 |
-| bent-cut signature | NG cut lengths per face | 130, 66, 79, 122 |
-| figure-ground and streetwall | MFCG recoverability; MFCG streetwall continuity | 69, 53 (cross-check within 0.01), 79, 122 |
-| walled share and ribbons | — (M-1 ten-seed rows, unmarked) | 72, 79, 122 |
-| MFCG anchors | — (M-1 ten-seed rows, unmarked) | 69 (quarter-label count), 79, 122 |
-| between-seed variety | MFCG and FTG dispersions | 73, 79, 122 |
-| markets | MFCG 0 secondary markets (E07) | 79, 122 |
-| wealth bands | FTG six-tier distribution (descriptive) | 79, 122 (reported only) |
-| every ⟨M-1⟩ cell above | — | 120 (which cells became descriptive) |
+## Item 69's corpus targets — need a corpus not on this machine
 
-## 4. Item 69's corpus targets — not an M-1 need, and the corpus is not on this machine
+Item 69's clauses (scope `n` 44, the `ink` palette with its measurement code, and `n` 94, the palette inside its corpus
+targets on the measurement render) are **not** `needs-M-1`: the bands are figures inside §8.2's table, and the program
+reads no corpus file. What they cannot do on this machine is anything that needs the corpus itself: a definitional
+mismatch between our measure and the corpus's own instrument is re-signed at the reconciliation stage (§13.9, M-CAL),
+never by opening the corpus earlier. **Marked: corpus not on this machine** (the task's statement; this seat did not
+look and may not). M1 can build and judge both clauses against §8.2's bands; it cannot confirm the bands' definitions
+against the corpus. M-1 supplies nothing to either.
 
-Clauses 44 ("the `ink` palette on the owner-opened corpus targets with its measurement code") and 94 ("the `ink`
-palette inside its corpus targets on the measurement render") are `specifiable-now` in the scope inventory and need
-nothing from M-1: §8.2's palette-target table carries the bands as figures inside the design (paper luma 226–244,
-warmth 20–50 pinned at 36, darkest-0.5 % luma ≤ 45, ink warmth 15–25, plate chroma 18–70 with `ink` 20–30), and the
-program reads no corpus file for them. **Marked: any measurement of these targets against the historical corpus itself
-— the corpus the bands were measured from, and M-CAL's "palette re-check" (V12 §8.2) — needs a corpus that is not on
-this machine.** That status is taken from this lane's brief and was not verified here (verifying it would mean searching
-outside `plat/`, which the clean room forbids). M1's checks on these targets measure our own render against the
-design's numbers and need no corpus.
+## Notes
 
-## 5. What plat/ holds today (working copy, 2026-10-05, read by a file search inside `plat/` only)
-
-The 14 needs-M-1 clauses wait on the **crossing**, not the measurement (the scope inventory's discrepancy line; §13.5
-says M-1 recomputed the baselines on 2026-10-04). Observed in the working copy, not at HEAD (no git was run):
-
-- `plat/packages/testkit/baselines/` holds `README.md` and `crossings.json`, whose content is `[]` — no `baselines.json`,
-  no `ng-faces.json`, no `CrossingRecord`.
-- No `denylist.json` exists under `plat/` except the test fixture `plat/bench/test/baselines-check/fixtures/deny/denylist.json`;
-  every `baselines.json` under `plat/` is a test fixture under `plat/bench/test/`.
-- No `ftg-captures.json` was found; `plat/goldens/` does not exist yet.
-- `plat/docs/digest/` holds only `README.md` (the sanitised digest has not crossed).
-- `plat/CLEAN-ROOM.md` exists (its ledger was not read for this note).
-
-So every row of §2 is open on the crossing today; the run `wf_8f7c7489-304` was in flight when read, and this snapshot
-can go stale.
+- `ftg-captures.json` (clauses 62, 95) is not an M-1 file: §13.6 (2) has the research-side panel script write it at
+  each D-5 milestone, from the capture ids, water settings and resident counts M-1 records (D5). Clause 62's need is
+  M-1's records plus an M1-time research-side write.
+- The deny-list has no file name in the design; `denylist.json` is the name `plat/` gave it (C-0101, the baselines
+  README).
+- No `needs-M-1` clause reads D10 (the digest); the implementer seats read it, so it gates M1's work rather than any
+  one clause.
