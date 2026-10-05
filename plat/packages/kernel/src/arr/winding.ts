@@ -192,10 +192,73 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
       addWarning(tx.warnings, 'W_ATTRACTED', seg.a);
     } else return err(r.code, r.detail);
   }
+  const bridged = bridgeGaps(tx, segments, walks, starts, ends, k);
+  if (bridged !== null) return bridged;
   const net = orientSegments(plat, segments, starts, ends, k);
   glueWalks(plat, walks, starts, ends, k, net);
   balanceFlow(plat, k, net);
   return ok({ plat, operands: k, net, warnings: tx.warnings.map((w) => ({ ...w })) }, []);
+}
+
+/**
+ * Bridges every gap of a ring's walk at least `minEdge` long (the bridge reading of the overlay, C-0195 (1)): where a
+ * run of consecutive segments each shorter than `minEdge` collapsed (step 1's `empty`, so nothing was inserted for
+ * them) while together they span `minEdge` or more, the segment before the run ends on one vertex and the segment after
+ * it starts on another with no edge of the ring between them — the ring's overlay is an open path, and the shortest
+ * overlay path joining the two ends is the ring itself walked back, which would cancel the operand's whole winding.
+ * Each such gap is closed by one more two-point chain from the vertex the walk left on to the vertex it re-enters on,
+ * inserted through `insertChain` like every segment and spliced into the walk, so the ring stays one closed walk of
+ * inserted edges; a gap shorter than `minEdge` is left to `glueWalks`' shortest path (a bridge would collapse). The
+ * collapse already reported its move (W_ATTRACTED), so the case stays attracted under §3.7's split.
+ */
+function bridgeGaps(
+  tx: InsertTx,
+  segments: Segment[],
+  walks: { operand: number; steps: number[] }[],
+  starts: VertexId[],
+  ends: VertexId[],
+  k: number,
+): KernelResult<ScratchOverlay> | null {
+  const p = tx.plat;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const minSq = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
+  for (const walk of walks) {
+    const kept = walk.steps.filter((st) => starts[Math.abs(st) - 1] >= 0);
+    const m = kept.length;
+    if (m === 0) continue;
+    const out: number[] = [];
+    for (let i = 0; i < m; i += 1) {
+      const st = kept[i];
+      out.push(st);
+      const s = Math.abs(st) - 1;
+      const nx = kept[i + 1 === m ? 0 : i + 1];
+      const t = Math.abs(nx) - 1;
+      const from = st > 0 ? ends[s] : starts[s];
+      const to = nx > 0 ? starts[t] : ends[t];
+      if (from === to) continue;
+      const dx = X[to] - X[from];
+      const dy = Y[to] - Y[from];
+      if (dx * dx + dy * dy < minSq) continue;
+      const a: LatticePoint = { x: X[from] as Cm, y: Y[from] as Cm };
+      const b: LatticePoint = { x: X[to] as Cm, y: Y[to] as Cm };
+      const mult = new Int32Array(k);
+      mult[walk.operand] = 1;
+      const id = segments.length;
+      segments.push({ a, b, mult });
+      const r = insertChain(tx, [a, b], [{ role: SCRATCH_ROLE, entity: `arr:s${id}` }], 'mandatory');
+      if (r.ok) {
+        starts.push(r.value.placed[0]);
+        ends.push(r.value.placed[r.value.placed.length - 1]);
+        out.push(id + 1);
+      } else if (r.code === 'E_DEGENERATE' && r.detail === 'empty') {
+        starts.push(-1);
+        ends.push(-1);
+      } else return err(r.code, r.detail);
+    }
+    walk.steps = out;
+  }
+  return null;
 }
 
 /**

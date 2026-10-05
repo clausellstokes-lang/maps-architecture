@@ -92,6 +92,13 @@ describe('mergeFaces refusals, nothing written', () => {
     expect(refusal(p, 1, (o) => mergeFaces(o, l, far))).toBe('E_DEGENERATE');
     expect(refusal(p, 1, (o) => mergeFaces(o, l, l))).toBe('E_DEGENERATE');
   });
+  it('a face with itself across its own antenna: E_DEGENERATE, the antenna kept', () => {
+    const p = halves();
+    commit(p, 1, (o) => insertChain(o, pts([[1000, 0], [1000, 1000]]), DB, 'mandatory'));
+    const f = faceAt(p, 1, 500, 500);
+    expect(faceAt(p, 1, 1500, 500)).toBe(f);
+    expect(refusal(p, 1, (o) => mergeFaces(o, f, f))).toBe('E_DEGENERATE');
+  });
 });
 
 describe('absorbSliver (§3.6\'s sliver rule)', () => {
@@ -125,6 +132,35 @@ describe('absorbSliver (§3.6\'s sliver rule)', () => {
     expect(sliver).toBeGreaterThanOrEqual(0);
     commit(p, 1, (o) => absorbSliver(o, sliver, { minWidthCm: 0, minAreaCm2: 50_000 }));
     expect(facesAt(p, 1)).toHaveLength(2);
+    content(p);
+  });
+
+  it('the area floor is exact: a face of area A is below a floor of A + 1 cm² and not below one of A', () => {
+    // The lower half, 4000 × 2000 cm, bounded by the frame and the way only: below its floor it is retyped residue.
+    const p = halves();
+    const f = faceAt(p, 1, 100, 100);
+    const at = commit(p, 1, (o) => absorbSliver(o, f, { minWidthCm: 0, minAreaCm2: 8_000_000 }));
+    expect(at.record).toBeNull();
+    const below = commit(p, 1, (o) => absorbSliver(o, f, { minWidthCm: 0, minAreaCm2: 8_000_001 }));
+    expect(below.record?.warnings.map((w) => w.code)).toContain('W_SLIVER_RETYPED');
+    expect(p.faces[1].kind[f]).toBe(FACE_KIND_RESIDUE);
+    content(p);
+  });
+
+  it('of two partition boundaries the sliver merges across the longer one', () => {
+    // A strip x ∈ [1000, 1100]: 2000 cm shared with the face left of it, 500 and 1500 cm with the two right of it.
+    const p = halves();
+    split(p, faceAt(p, 1, 100, 100), [[1000, 0], [1000, 2000]]);
+    split(p, faceAt(p, 1, 2000, 1000), [[1100, 2000], [1100, 0]]);
+    split(p, faceAt(p, 1, 2000, 1000), [[1100, 500], [4000, 500]]);
+    const sliver = faceAt(p, 1, 1050, 1000);
+    const left = faceAt(p, 1, 500, 1000);
+    const m = commit(p, 1, (o) => absorbSliver(o, sliver, { minWidthCm: 200, minAreaCm2: 0 })).value as FaceId;
+    expect(faceAt(p, 1, 1050, 1000)).toBe(m);
+    expect(faceAt(p, 1, 500, 1000)).toBe(m);
+    expect(faceAt(p, 1, 2000, 250)).not.toBe(m);
+    expect(faceAt(p, 1, 2000, 1000)).not.toBe(m);
+    expect([sliver, left]).toContain(m);
     content(p);
   });
 

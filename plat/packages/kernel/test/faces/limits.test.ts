@@ -2,10 +2,12 @@
 // limit a partitioner passes is refused E_WORK_LIMIT with the arena at its version, and every later op of a doomed
 // batch refuses with it; a refused multi-cut op leaves nothing of its earlier cuts.
 import { describe, expect, it } from 'vitest';
-import { absorbSliver, claimSubFace, mergeFaces, radialSplit, ringBand, splitFace } from '../../src/faces/index.js';
-import type { KernelResult } from '../../src/num/index.js';
+import type { Plat } from '../../src/arena/index.js';
+import { absorbSliver, claimSubFace, mergeFaces, pinVertices, radialSplit, ringBand, splitFace } from '../../src/faces/index.js';
+import { insertChain } from '../../src/insert/index.js';
+import { ok, type KernelResult } from '../../src/num/index.js';
 import { tx, type Overlay } from '../../src/tx/index.js';
-import { faceAt, halves, pt, spec, state } from './support.js';
+import { commit, content, faceAt, halves, pt, spec, state } from './support.js';
 
 const DB = [{ role: 'district_bound', entity: 'd:1' }];
 
@@ -42,5 +44,49 @@ describe('work limits (§3.3)', () => {
     });
     expect(r.ok).toBe(false);
     expect(codes).toEqual(['E_WORK_LIMIT', 'E_WORK_LIMIT']);
+  });
+});
+
+describe('each partitioner charges its count (§3.4)', () => {
+  /** The lower half cut by a way along y = 1000 with a `junction` on (2000, 1000), and optionally a hole in the face below it. */
+  function arena(hole: boolean): Plat {
+    const p = halves();
+    commit(p, 1, (o) => insertChain(o, [pt(0, 1000), pt(2000, 1000), pt(4000, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory', { knots: [{ index: 1, role: 'junction', ordinal: 0 }] }));
+    if (hole) commit(p, 1, (o) => insertChain(o, [pt(1500, 300), pt(2500, 300), pt(2500, 700), pt(1500, 700)], DB, 'mandatory', { closed: true }));
+    return p;
+  }
+  const pin = (o: Overlay) => pinVertices(o, [{ role: 'junction', entity: 'way:2' }]);
+
+  it('pinVertices charges one operation per vertex it pins', () => {
+    const p = arena(false);
+    expect(commit(p, 1, pin).record?.work).toBe(1);
+  });
+
+  it('splitFace charges one face walk per ring of its face, even when it refuses (a cut of one point)', () => {
+    for (const [hole, rings] of [[false, 1], [true, 2]] as const) {
+      const p = arena(hole);
+      const f = faceAt(p, 1, 100, 100);
+      const c = commit(p, 1, (o) => {
+        const r = splitFace(o, f, [pt(1000, 0)], { rows: DB });
+        expect(!r.ok && r.code).toBe('E_NOT_TWO_CROSSINGS');
+        return pin(o);
+      });
+      expect(c.record?.work).toBe(rings + 1);
+    }
+  });
+});
+
+describe('a refused multi-cut op leaves nothing of its earlier cuts, in a batch that goes on (C-0185 (1))', () => {
+  it('radialSplit refused at its third ray (along its first cut): the batch commits with the face whole', () => {
+    const p = halves();
+    const f = faceAt(p, 1, 100, 100);
+    const before = content(p);
+    const c = commit(p, 1, (o) => {
+      const r = radialSplit(o, f, pt(2000, 1000), [0, 18_000, 18_001], { rows: DB });
+      expect(!r.ok && r.code).toBe('E_NOT_TWO_CROSSINGS');
+      return ok(undefined);
+    });
+    expect(c.record).toBeNull();
+    expect(content(p)).toBe(before);
   });
 });

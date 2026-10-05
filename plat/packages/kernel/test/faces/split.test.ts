@@ -163,6 +163,14 @@ describe('splitFace: contacts refused E_NOT_TWO_CROSSINGS, nothing written (§3.
     expect(refused(p, f, [[1000, 0], [1000, 2000], [1000, 3000], [1000, 4000]])).toBe('E_NOT_TWO_CROSSINGS');
   });
 
+  it('a cut between two landings of a concave face running outside it (across a U\'s mouth)', () => {
+    const p = halves();
+    commit(p, 1, (o) => insertChain(o, pts([[1500, 2000], [1500, 800], [2500, 800], [2500, 2000]]), [{ role: 'district_bound', entity: 'd:0' }], 'mandatory'));
+    const u = faceAt(p, 1, 500, 500);
+    expect(faceAt(p, 1, 2000, 1500)).not.toBe(u);
+    expect(refused(p, u, [[1500, 1500], [2500, 1500]])).toBe('E_NOT_TWO_CROSSINGS');
+  });
+
   it('a cut leaving its end along the boundary edge (closer than minFaceAngle)', () => {
     const p = halves();
     const f = faceAt(p, 1, 500, 500);
