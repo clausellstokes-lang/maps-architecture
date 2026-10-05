@@ -17,7 +17,7 @@
 
 *Revised 2026-10-05 on an independent check: clauses 1–123 keep their numbers; clauses 124 onward were added by the revision and sit in their sections out of numeric order.*
 
-**Totals:** M0-dependent 52, specifiable-now 65, needs-M-1 14; 131 clauses.
+**Totals:** M0-dependent 53, specifiable-now 65, needs-M-1 14; 132 clauses.
 
 ## Discrepancies found (recorded, not resolved)
 
@@ -117,6 +117,7 @@
 | 61 | The shipped stamp-tile asset with its shared seam band, and its build tool `plat/tools/stamptiles/` | ARCHITECTURE.md §16 (six new components); ARCHITECTURE.md §8.10 | **specifiable-now** | — | — |  |
 | 127 | The relation store's schema (family units, relations, memberships, postings), facilities, factions, religions and offices as base schema, and D-32's economy / personality / stat-block schema stubs in the base registry, empty until M4b | ARCHITECTURE.md §16 M4b row; ARCHITECTURE.md §10.1 (Base schema from M1); ARCHITECTURE.md §10.3 (Economy, personality and stat-block schema stubs) | **specifiable-now** | — | — | §16 states it in the M4b row ("after the relation store's schema, which is in the base from M1"), not in the M1 row |
 | 131 | The dossier port's adapter-boundary key scan over `@plat/port` | plat/docs/build/M0-work.json M0-d-07, M0-k-06 defers; ARCHITECTURE.md §14 (dossier port) | **M0-dependent** | M0-d-07 (import-closure walk, landed; defers the scan to M1); M0-k-06 (content scanner; defers the key scan to M1; not landed) | — | split from clause 45 |
+| 132 | The §2.8 archive and tombstone store (staged from M0): the store M1's matching routine on real anchors (clause 74) writes tombstones into, carried by the `.plat` document (clause 14) as its archive chunk | plat/docs/build/M0-work.json M0-d-05a defers; ARCHITECTURE.md §2.8 | **M0-dependent** | M0-d-05a (landed; defers the store to M1); M0-d-05b (landed) | — | added by the session after the closing re-check of filler run wf_a23cf698-682 |
 
 ## §16 M1 — exit criteria
 

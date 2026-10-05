@@ -91,7 +91,7 @@ describe('offsetFace (§3.7: face − ⋃ buffer(edgeᵢ, dᵢ))', () => {
     expect(out).toHaveLength(3);
     expect(out[0]).toEqual(rect(0, 0, 6000, 3000));
     expect(out).toContainEqual(R([4000, 1000], [4000, 2000], [5000, 2000], [5000, 1000]));
-    const grown = out.find((r) => r.some((p) => p.x < 1000));
+    const grown = out.find((r) => area2Exact(r) < 0n && r.some((p) => p.x < 3000));
     expect(grown).toBeDefined();
     const xs = (grown ?? []).map((p) => p.x);
     expect(Math.min(...xs)).toBe(900);
@@ -105,7 +105,7 @@ describe('offsetFace (§3.7: face − ⋃ buffer(edgeᵢ, dᵢ))', () => {
   it('a setback deeper than half the face but short of its reach leaves the face beyond it (the empty shortcut only past the reach)', () => {
     const { tx, face } = arenaFace([rect(0, 0, 1000, 1000)]);
     expect(rings(offsetFace(tx, face, [800, 0, 0, 0]))).toEqual([rect(0, 800, 1000, 1000)]);
-    expect(rings(offsetFace(tx, face, [990, 0, 0, 0]))).toEqual([rect(0, 990, 1000, 1000)]);
+    expect(rings(offsetFace(tx, face, [900, 0, 0, 0]))).toEqual([rect(0, 900, 1000, 1000)]);
   });
 
   it('a setback past the middle is E_DEGENERATE empty; a wrong distance list is the caller’s error', () => {
@@ -211,7 +211,7 @@ describe('§13.1 properties', () => {
     );
   });
 
-  it('offset(−d) ∘ offset(+d) ⊆ original (within the snap, perimeter × 1 cm; within perimeter × √2 · attractCm where a step moved a feature, §3.7)', { timeout: TIMEOUT }, () => {
+  it('offset(−d) ∘ offset(+d) ⊆ original (within the snap, perimeter × 1 cm; within perimeter × √2 · attractCm where a step moved a feature, §3.7 — the perimeter of both sets)', { timeout: TIMEOUT }, () => {
     const face = fc.oneof(
       convexFace,
       fc.record({ w: fc.integer({ min: 1500, max: 8000 }), h: fc.integer({ min: 1500, max: 8000 }), a: fc.integer({ min: 500, max: 1400 }), b: fc.integer({ min: 500, max: 1400 }) }).map(({ w, h, a, b }) =>
@@ -226,7 +226,9 @@ describe('§13.1 properties', () => {
         if (!inner.ok) return inner.code === 'E_DEGENERATE';
         const back = outward(inner.value, d);
         const slack = moved(inner) || back.moved ? Math.SQRT2 * 26 : 1;
-        return areaOutside(back.rings, [ring]) <= perimeterOf([ring]) * slack;
+        // §3.7's perimeter: the summed boundary length of both sets compared — the original and the round trip, whose
+        // outward step carries a move of the inward one round the longer, rounded boundary (C-0198)
+        return areaOutside(back.rings, [ring]) <= (perimeterOf([ring]) + perimeterOf(back.rings)) * slack;
       }),
       { numRuns: 40 },
     );

@@ -14,11 +14,11 @@
   "landedSnapshot": "plat/docs/build/landed/ working copy 2026-10-05, run wf_8f7c7489-304 in flight; a landed record is not a checker verdict"
  },
  "counts": {
-  "M0-dependent": 52,
+  "M0-dependent": 53,
   "specifiable-now": 65,
   "needs-M-1": 14
  },
- "clauseCount": 131,
+ "clauseCount": 132,
  "discrepancies": [
   "transient arenas: §16 M1 names them; plat/docs/build/M0.md §4b stages them to M6-P",
   "S12a–c: M0.md §4b stages them to M1; §16 places S12's rules and S12c at M2b",
@@ -2300,6 +2300,26 @@
    "n": 131,
    "m0ItemsLanded": [
     "M0-d-07"
+   ]
+  },
+  {
+   "kind": "named-work",
+   "clause": "The §2.8 archive and tombstone store (staged from M0): the store M1's matching routine on real anchors (clause 74) writes tombstones into, carried by the `.plat` document (clause 14) as its archive chunk",
+   "sources": [
+    "plat/docs/build/M0-work.json M0-d-05a defers (\"the archive and tombstone store → M1\")",
+    "ARCHITECTURE.md §2.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-05a (lineage; landed; defers the store to M1)",
+    "M0-d-05b (succession and carry-over; landed)"
+   ],
+   "m1Needs": [],
+   "note": "added by the session after the closing re-check of filler run wf_a23cf698-682 found it missing",
+   "n": 132,
+   "m0ItemsLanded": [
+    "M0-d-05a",
+    "M0-d-05b"
    ]
   }
  ]
