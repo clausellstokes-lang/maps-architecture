@@ -55,6 +55,20 @@ describe('compactSlots (§3.9, §3.3)', () => {
     }
   });
 
+  it('leaves no table full: the loaded and the compacted arena take their next allocation without a growth (C-0207)', () => {
+    for (let seed = 1; seed <= 6; seed++) {
+      const p = framed();
+      grow(seed, 60, { ways: [], kerbs: [], next: 0 }, rng(seed * 13), p, ALONG_MIX);
+      for (const q of [compactSlots(p), load(encodeArena(p), p)]) {
+        expect(q.vertices.x.length).toBeGreaterThan(q.slots.vertex.top);
+        expect(q.halfEdges.level.length).toBeGreaterThan(q.slots.pair.top);
+        expect(q.roles.kind.length).toBeGreaterThan(q.slots.role.top);
+        for (const l of LEVELS) expect(q.faces[l].outer.length).toBeGreaterThan(q.slots.face[l].top);
+        expect(q.vertices.x.length % 64).toBe(0);
+      }
+    }
+  });
+
   it('numbers slots canonically: an arena and its reload compact to the same tables', () => {
     for (let seed = 1; seed <= 8; seed++) {
       const p = framed();

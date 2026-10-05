@@ -171,17 +171,22 @@ const chainCase = (levels: fc.Arbitrary<Level>, walks = 1): fc.Arbitrary<Case> =
 const anyLevel = fc.integer({ min: 0, max: 4 }) as fc.Arbitrary<Level>;
 const coarseLevel = fc.integer({ min: 0, max: 2 }) as fc.Arbitrary<Level>;
 
+/** The random family's property: earlier random chains (coarse first), then one more, each judged; `seen` counts the last. */
+const randomFamily = (seen: (o: Outcome) => void): fc.IPropertyWithHooks<[Case[], Case]> =>
+  fc.property(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel), (base, c) => {
+    const p = framed(SIDE);
+    // Earlier chains coarse first, as a stage order builds them (a finer one first would make later coarser chains
+    // meet kept content — E_KEPT, judged all the same).
+    [...base].sort((a, b) => a.level - b.level).forEach((b, i) => insertJudged(p, b, `way:b${i}`));
+    seen(insertJudged(p, c, 'way:x'));
+  });
+
 describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   it('random chains into arenas holding up to three earlier random chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
     let commits = 0;
     let refusals = 0;
     fc.assert(
-      fc.property(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel), (base, c) => {
-        const p = framed(SIDE);
-        // Earlier chains coarse first, as a stage order builds them (a finer one first would make later coarser chains
-        // meet kept content — E_KEPT, judged all the same).
-        [...base].sort((a, b) => a.level - b.level).forEach((b, i) => insertJudged(p, b, `way:b${i}`));
-        const o = insertJudged(p, c, 'way:x');
+      randomFamily((o) => {
         if (o.ok) commits += 1;
         else refusals += 1;
       }),
@@ -189,6 +194,16 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused`);
     expect(commits).toBeGreaterThan(refusals);
   }, hardTimeout(60));
+
+  // N-42 (b), the named regression (C-0207): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
+  // close-r1 note 23) — one L0 mandatory random walk refused E_INVARIANT "no route from (313, 244) to (341, 251) keeps
+  // clearance": the route step 3 gives the last segment, through (332, 226) and (361, 234), passes 24.3 cm from its own
+  // free end. That case, replayed (fast-check's path 8345 at that seed), now commits valid, the end re-landed.
+  it('the random family\'s seed −1863295922, its 8 346th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: -1863295922, path: '8345', numRuns: 1 });
+    expect(seen).toEqual([{ ok: true }]);
+  });
 
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
     const kinds = new Map<string, number>();

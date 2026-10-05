@@ -75,3 +75,14 @@ export function ringKey(p: Plat, level: Level, ring: readonly HalfEdgeId[]): [Ve
   }
   return [first, second];
 }
+
+/**
+ * A table's capacity for `n` items in an arena the block or a compaction builds: the smallest 64 · 2ᵏ above n — what the
+ * arena's own doubling from its default 64 leaves (createPlat), never a full table, so the first allocation after a load
+ * or a compaction does not grow it (C-0207: a growth inside M0-a-04's split writes through a stale half-edge table).
+ */
+export function roomFor(n: number): number {
+  let c = 64;
+  while (c <= n) c *= 2;
+  return c;
+}

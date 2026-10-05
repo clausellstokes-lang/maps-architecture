@@ -16,6 +16,7 @@ describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
     expect(tally.lanes).toBe(35);
     expect(tally.courts).toBeGreaterThanOrEqual(17);
     expect(tally.plotLines).toBe(105);
+    expect(tally.frontages).toBe(35);
     expect(tally.footprints).toBeGreaterThanOrEqual(100);
     expect(tally.owners).toBeGreaterThanOrEqual(200);
     expect(tally.refused).toBe(0);
@@ -34,6 +35,16 @@ describe('the CITY-shaped synthetic arena (§13.1, §3.9, §3.3)', () => {
     expect(parts.reduce((n, s) => n + s.splits, 0)).toBeGreaterThan(100);
     expect(parts.reduce((n, s) => n + s.holes, 0)).toBeGreaterThan(10);
     expect(parts.reduce((n, s) => n + s.foreignRefs, 0)).toBeGreaterThan(100);
+  });
+
+  it('a finer row on a coarser route edge goes to the partition of the faces beside it (C-0207 (4))', () => {
+    const chunks = encodeArena(plat);
+    // The frontages' L3 rows lie on the L2 lanes' route: written in the L3 district chunks, so no L3 OUTSIDE chunk exists
+    // and every district's L3 chunk carries its own blocks' frontages (35 rows, plot lines and frontages alike).
+    const l3 = chunks.slice(1).map((c) => describeChunk(c.bytes)).filter((s) => s.level === 3);
+    expect(l3.map((s) => s.key).sort()).toEqual(['district:ne', 'district:nw', 'district:se', 'district:sw']);
+    expect(l3.reduce((n, s) => n + s.edgeRows, 0)).toBe(105 + 35);
+    for (const s of l3) expect(s.edgeRows).toBeGreaterThanOrEqual(25);
   });
 
   it('a vertex on a shared L1 edge goes to the partition with the smaller key (§3.3, §3.9)', () => {

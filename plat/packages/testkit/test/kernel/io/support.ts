@@ -191,6 +191,7 @@ export interface CityTally {
   lanes: number;
   courts: number;
   plotLines: number;
+  frontages: number;
   footprints: number;
   owners: number;
   pins: number;
@@ -201,7 +202,7 @@ export interface CityTally {
 export function cityArena(): { plat: Plat; tally: CityTally } {
   const p = createPlat(FIXTURE_KEY, CITY_FRAME);
   attachIndex(p, { gridCellCm: [4000, 2000, 800, 400, 200], partitionOf: cityDistricts });
-  const t: CityTally = { ways: 0, lanes: 0, courts: 0, plotLines: 0, footprints: 0, owners: 0, pins: 0, refused: 0 };
+  const t: CityTally = { ways: 0, lanes: 0, courts: 0, plotLines: 0, frontages: 0, footprints: 0, owners: 0, pins: 0, refused: 0 };
   const count = (ok: boolean, k: keyof CityTally): void => {
     if (ok) t[k]++;
     else t.refused++;
@@ -240,6 +241,9 @@ export function cityArena(): { plat: Plat; tally: CityTally } {
         const x = Math.round(x0 + ((x1 - x0) * k) / 4);
         count(chain(p, 3, [[x, ym], [x, y1]], [{ role: 'plot_line', entity: `plot:${id}.${k}` }]), 'plotLines');
       }
+      // A frontage along a stretch of the lane: an L3 chain on the L2 lane's route, so a finer row on a coarser route
+      // edge (§2.2 rule 3), its ends L3 Steiner vertices on the lane.
+      count(chain(p, 3, [[Math.round(x0 + (x1 - x0) * 0.3), ym], [Math.round(x0 + (x1 - x0) * 0.45), ym]], [{ role: 'frontage', entity: `plot:${id}:1` }]), 'frontages');
       for (let k = 0; k < 4; k++) {
         const x = Math.round(x0 + ((x1 - x0) * (2 * k + 1)) / 8);
         count(own(p, 3, [x, Math.round((ym + y1) / 2)], `plot:${id}:${k}`), 'owners');

@@ -4,11 +4,30 @@
 // occur — saved, loaded and saved again byte for byte, the loaded arena equal to the original and passing every hard
 // invariant.
 import { describe, expect, it } from 'vitest';
-import { describeChunk, encodeArena } from '../../src/io/index.js';
+import { decodeArena, describeChunk, encodeArena } from '../../src/io/index.js';
+import { roomFor } from '../../src/io/format.js';
 import { ALONG_MIX, DEFAULT_MIX } from '../tx/fuzzgen.js';
-import { framed, randomArena, roundTrip } from './support.js';
+import { CELLS, framed, print, randomArena, roundTrip } from './support.js';
 
 describe('the arena block round trip (§13.1, §3.9)', () => {
+  it('loads the chunks in any order: partitions are taken level by level, key by key (§3.9 *Load*)', () => {
+    for (let seed = 1; seed <= 12; seed++) {
+      const p = randomArena(seed * 31_337, 120, ALONG_MIX);
+      const chunks = encodeArena(p);
+      const shuffled = chunks.slice().reverse();
+      const r = decodeArena(shuffled, p.key, { index: { gridCellCm: CELLS } });
+      expect(r.ok).toBe(true);
+      if (r.ok) {
+        expect(print(r.value)).toBe(print(p));
+        encodeArena(r.value).forEach((c, i) => expect(c.bytes).toEqual(chunks[i].bytes));
+      }
+    }
+  });
+
+  it('sizes a loaded table at the smallest 64 · 2ᵏ above its count (C-0207 (11))', () => {
+    expect([0, 1, 63, 64, 65, 127, 128, 129, 1000].map(roomFor)).toEqual([64, 64, 64, 128, 128, 128, 256, 256, 1024]);
+  });
+
   it('the framed square alone: one routes chunk, one face, byte-identical', () => {
     const p = framed();
     const { chunks, loaded } = roundTrip(p);

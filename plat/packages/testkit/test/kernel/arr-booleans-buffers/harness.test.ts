@@ -10,7 +10,7 @@ import type { Cm, LatticePoint } from '@plat/kernel';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
-import { farthestVertexCm, judge, newHarness, touchMergedFaceCount, verdict, type Harness } from './support.js';
+import { farthestVertexCm, insetLeavesLattice, judge, newHarness, touchMergedFaceCount, verdict, type Harness } from './support.js';
 
 /** Which engine's measuring xor refuses (null: none) — the planted measurement refusal. */
 const plant: { measureRefuses: OracleEngine | null } = { measureRefuses: null };
@@ -191,6 +191,9 @@ describe('faces touching at a point counted as one (C-0206 (8))', () => {
     expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1001, 1001, 1000)])).toBe(2);
     expect(touchMergedFaceCount([sq(0, 0, 1000), sq(1000, 1000, 1000), sq(5000, 0, 10)])).toBe(2);
     expect(touchMergedFaceCount([])).toBe(0);
+    // a corner of the first face on an edge of the second (the edge x + y = 2 000 through (1 000, 1 000))
+    expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(500, 1500), pt(1500, 500), pt(2000, 2000)]])).toBe(1);
+    expect(touchMergedFaceCount([sq(0, 0, 1000), [pt(500, 1501), pt(1500, 501), pt(2000, 2000)]])).toBe(2);
   });
 
   it('excuses an unattracted face-count mismatch only when the touch-merged counts agree', () => {
@@ -210,5 +213,15 @@ describe('faces touching at a point counted as one (C-0206 (8))', () => {
     const h2 = newHarness();
     judge(h2, 'op', 'fam', [sq(0, 0, 1000), sq(1002, 1002, 1000)], (e) => joined[e === 'clipper2' ? 0 : 1], [], () => 'case');
     expect(h2.failures).toHaveLength(1);
+  });
+});
+
+describe('an outward inset that leaves the lattice (C-0206 (9))', () => {
+  const ring = [pt(8222703, 1266939), pt(8388126, 1419952), pt(8371635, 1644687), pt(8185648, 1771914), pt(7970217, 1705829), pt(7887566, 1496194), pt(7999933, 1300870)];
+  it('is settled only when the exact inset reaches 2²³', () => {
+    expect(insetLeavesLattice(ring, -634)).toBe(true);
+    // the face's rightmost vertex stands 481 cm inside the lattice's edge: an outward inset of 400 cm stays inside
+    expect(insetLeavesLattice(ring, -400)).toBe(false);
+    expect(insetLeavesLattice(ring.map((p) => pt(p.x - 10_000, p.y)), -634)).toBe(false);
   });
 });

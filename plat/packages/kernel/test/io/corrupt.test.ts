@@ -218,6 +218,17 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
     expectCorrupt(decodeArena([craft(square({ trailing: [7] }))], GROUND), /bytes after the last section/);
   });
 
+  it('a varint not in its minimal form, or past 32 bits, fails to decode', () => {
+    // The crafted square with its part number written as the two bytes 0x80 0x00 (0 in a non-minimal form).
+    const good = craft(square()).bytes;
+    const at = MAGIC.length + 4; // magic, version, kind, registry version, layer: the part's varint follows
+    expect(good[at]).toBe(0);
+    const long = Uint8Array.from([...good.slice(0, at), 0x80, 0x00, ...good.slice(at + 1)]);
+    expectCorrupt(decodeArena([{ ref: H128(long), bytes: long }], GROUND), /minimal form/);
+    const huge = Uint8Array.from([...good.slice(0, at), 0xff, 0xff, 0xff, 0xff, 0x7f, ...good.slice(at + 1)]);
+    expectCorrupt(decodeArena([{ ref: H128(huge), bytes: huge }], GROUND), /exceeds 32 bits/);
+  });
+
   it('a dangling lattice-point reference is a corrupt cache, never a partial arena', () => {
     const dangling = craft({ routes: false, level: 2, vertices: [[1000, 2000, 2, 0]], edges: [[0, [1500, 2500], 2]] });
     expectCorrupt(decodeArena([craft(square()), dangling], GROUND), /lattice-point reference \(1500, 2500\) finds no vertex/);

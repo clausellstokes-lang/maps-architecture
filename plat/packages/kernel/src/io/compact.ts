@@ -31,6 +31,7 @@ import {
 } from '../arena/index.js';
 import { attachLevelDigests, hasLevelDigests } from '../digest/index.js';
 import { attachIndex } from '../index/index.js';
+import { roomFor } from './format.js';
 
 function fail(message: string): never {
   throw new Error(`compactSlots: ${message}`);
@@ -88,14 +89,13 @@ export function compactSlots(plat: Plat): Plat {
   const nv = verts.length;
   const np = pairs.length;
   const nr = rows.length;
-  const one = (n: number): number => (n > 0 ? n : 1);
   const q = createPlat(p.key, p.frame, {
-    vertices: one(nv),
-    edgePairs: one(np),
-    faces: faces.map((fs) => one(fs.length)) as Five<number>,
-    roleRows: one(nr),
-    roleKeys: one(R.head.count),
-    owners: LEVELS.map((l) => one(p.faces[l].ownerHead.count)) as Five<number>,
+    vertices: roomFor(nv),
+    edgePairs: roomFor(np),
+    faces: faces.map((fs) => roomFor(fs.length)) as Five<number>,
+    roleRows: roomFor(nr),
+    roleKeys: roomFor(R.head.count),
+    owners: LEVELS.map((l) => roomFor(p.faces[l].ownerHead.count)) as Five<number>,
     handles: 1,
     idUnits: 1,
     holes: 16,

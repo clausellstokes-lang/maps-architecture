@@ -35,7 +35,7 @@ import { attachIndex } from '../index/index.js';
 import { area2Big, ok, orient2d, type Frame, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint, Level, PlatKey } from '../types/index.js';
 import { ByteReader, ChunkFormatError, need } from './bytes.js';
-import { FORMAT_VERSION, inRange, KIND_PARTITION, KIND_ROUTES, layerOfCode, MAGIC, MAX_ID_UNITS, pointKey, ringKey } from './format.js';
+import { FORMAT_VERSION, inRange, KIND_PARTITION, KIND_ROUTES, layerOfCode, MAGIC, MAX_ID_UNITS, pointKey, ringKey, roomFor } from './format.js';
 import { corruptCache, type Chunk, type DecodeOptions } from './types.js';
 
 /** A vertex reference inside a chunk: one of its own vertices (by position), or another chunk's by lattice point. */
@@ -290,17 +290,16 @@ function rebuild(parsed: readonly Parsed[], key: PlatKey, opts: DecodeOptions): 
     }
   }
   ids.sort(compareKeys);
-  const at1 = (n: number): number => (n > 0 ? n : 1);
   const p = createPlat(key, routes.frame as Frame, {
-    vertices: at1(nv),
-    edgePairs: at1(np),
-    faces: nf.map(at1) as [number, number, number, number, number],
-    roleRows: at1(nr),
-    roleKeys: at1(nr),
-    owners: nf.map(at1) as [number, number, number, number, number],
-    handles: at1(ids.length),
-    idUnits: at1(units),
-    holes: 16,
+    vertices: roomFor(nv),
+    edgePairs: roomFor(np),
+    faces: nf.map(roomFor) as [number, number, number, number, number],
+    roleRows: roomFor(nr),
+    roleKeys: roomFor(nr),
+    owners: nf.map(roomFor) as [number, number, number, number, number],
+    handles: roomFor(ids.length),
+    idUnits: roomFor(units),
+    holes: 64,
   });
   // Handles in address-id order (they are not output; this only makes the load's tables one function of the chunks).
   for (let i = 0; i < ids.length; i++) if (i === 0 || ids[i] !== ids[i - 1]) internId(p.handles, ids[i]);
@@ -308,7 +307,7 @@ function rebuild(parsed: readonly Parsed[], key: PlatKey, opts: DecodeOptions): 
   const vAt = new Map<number, VertexId>();
   const vertexIds: VertexId[][] = ordered.map(() => []);
   const handlesOf: number[][] = ordered.map((c) => c.entities.map((id) => handleOfId(p.handles, id)));
-  const span = at1(nv);
+  const span = nv + 1;
   const pairAt = new Map<number, number>();
   const pairKey = (a: VertexId, b: VertexId): number => (a < b ? a * span + b : b * span + a);
 

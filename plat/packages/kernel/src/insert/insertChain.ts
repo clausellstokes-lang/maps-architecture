@@ -20,8 +20,10 @@
 // E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT — and an acute corner commits with its warning (a wedge route beyond
 // 2 · √2 · `attractCm` is not taken: its crossings are placed in turn, N-38, N-40); an optional chain is also rejected E_BELOW_MIN_EDGE
 // (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
-// *Chain classes*). A segment no route keeps clear — a gap in the router, never reached in the runs of C-0202 — is
-// refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
+// *Chain classes*). A segment no route keeps clear — the design route, the strict route, the route along existing edges,
+// N-37's endpoint route and N-42 (a)'s route across a sliver all tried — whose end is a free vertex the chain just
+// placed has that end re-landed onto an existing vertex within √2 · `attractCm` (N-42 (b), W_PLACED; C-0207); one that
+// still keeps no route clear is refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
 // shell of C-0169 (1)). Readings: C-0177.
@@ -538,7 +540,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         return ok({ a, b: x.value });
       }
     }
-    if (aMark !== null) {
+    if (aMark !== null && p.vertices.out[a] === -1) {
       rollback(ctx, log, aMark);
       const cs = relandCandidates(ctx, dec.points[aIdx], -1);
       if (!cs.ok) return passOn(cs);
@@ -591,6 +593,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       const idx = vs[j];
       let v = landed[idx];
       let mark: Mark | null = null;
+      const landedNow = v < 0;
       const nextIdx = j + 1 < k ? vs[j + 1] : run.closed ? vs[0] : -1;
       const nextPt = nextIdx >= 0 ? (landed[nextIdx] >= 0 ? pointOf(p, landed[nextIdx]) : dec.points[nextIdx]) : null;
       if (v < 0) {
@@ -607,7 +610,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       if (prev >= 0 && v !== prev) {
         const r = routeSegment(ctx, log, prev, v);
         if (!r.ok) {
-          if (r.code !== 'E_INVARIANT' || (mark === null && prevMark === null)) return refuse(r);
+          if (r.code !== 'E_INVARIANT' || !landedNow || (mark === null && prevMark === null)) return refuse(r);
           const re = reland(prev, prevIdx, prevMark, idx, mark, nextPt, r);
           if (!re.ok) return refuse(re);
           v = re.value.b;
@@ -615,7 +618,8 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       }
       prev = v;
       prevIdx = idx;
-      prevMark = mark;
+      // Re-landable later only while still free: the run's first vertex, before its first segment.
+      prevMark = mark !== null && p.vertices.out[v] === -1 ? mark : null;
     }
     if (run.closed && prev >= 0 && prev !== landed[vs[0]]) {
       const r = routeSegment(ctx, log, prev, landed[vs[0]]);

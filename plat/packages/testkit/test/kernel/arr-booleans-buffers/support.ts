@@ -909,6 +909,12 @@ export function judgeOffset(h: Harness, c: FaceCase): void {
   judge(h, 'offsetFace', c.source, ours, (e) => oracleOffset(rings, edges, d, e), warningsOf(ours), () => JSON.stringify({ rings, d }));
 }
 
+/** Does the exact inset of the convex ring by dCm (the oracle's construction) have a coordinate at or beyond 2²³? */
+export function insetLeavesLattice(ring: Ring, dCm: number): boolean {
+  const exact = oracleInset(ring, dCm, 'clipper2');
+  return exact.ok && exact.rings.some((r) => r.some((p) => Math.abs(p.x) >= LATTICE.rangeCm || Math.abs(p.y) >= LATTICE.rangeCm));
+}
+
 /**
  * One insetRing case judged: on a face the exact check calls non-convex (or holed) our answer must be E_NON_CONVEX
  * and the case is settled without an oracle; on a convex face the collapsed refusal reads as the empty set (the
@@ -932,8 +938,7 @@ export function judgeInset(h: Harness, c: FaceCase): void {
   if (!ours.ok && ours.code === 'E_OUT_OF_RANGE' && dCm < 0) {
     // an outward inset of a face near the lattice's edge leaves the lattice (§3.2 (1), (7)): settled when the exact
     // answer (the oracle's construction, built about the ring's centre) has a coordinate at or beyond 2²³ (C-0206 (9))
-    const exact = oracleInset(rings[0], dCm, 'clipper2');
-    if (exact.ok && exact.rings.some((r) => r.some((p) => Math.abs(p.x) >= LATTICE.rangeCm || Math.abs(p.y) >= LATTICE.rangeCm))) {
+    if (insetLeavesLattice(rings[0], dCm)) {
       settle(h, 'E_OUT_OF_RANGE: the outward inset leaves the lattice');
       return;
     }
