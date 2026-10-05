@@ -88,6 +88,19 @@ TASKS.push(
     work: `V-M0 scope prep: extract V07 §8's V-M0 items (docs/volumes/V07*.md) into docs/build-prep/M1/V-M0-scope.md with ids, one-line summaries and source lines; mark which wait for M0-b-05a/b's final tables. Confirm first that CLEAN_ROOM lets an implementer-side seat read V07; if not, stop and return blocked.`,
     check: `You are the independent implementer-side CHECKER of docs/build-prep/M1/V-M0-scope.md. Re-scan V07 §8 for V-M0 items and compare ids and line ranges; refute omissions and wrong ranges.` },
 )
+// ROUND 3 (J184, 2026-10-05 ~04:05): the last runnable items of the scope critic's list.
+TASKS.push(
+  { key: 'm1-open-findings', role: RESEARCH, tier: 'opus', est: 45,
+    work: `Research-side DRAFT of the open findings M1 must carry: from docs/validation/ (the fix-list) and docs/IMPROVEMENTS.md §5.1, list every open finding whose milestone is M1 (or unassigned but in M1's scope by docs/build-prep/M1/scope.md), each with id, one-line statement in your own words, source path and line. Write docs/calibration/M1-open-findings-draft.md (ls first). Note at the top that doc_checks.py's authoritative run needs the local corpus absent here, and that carrying this into plat/ is a session act after the M0 flow closes (with a CLEAN-ROOM row then). No listed token.`,
+    check: `You are the independent research-side CHECKER of docs/calibration/M1-open-findings-draft.md. Re-scan the fix-list and IMPROVEMENTS §5.1 for M1-scoped open findings yourself; refute omissions, closed findings listed as open, wrong sources, and any listed token (twin scan).` },
+  { key: 'm1-needs-from-m-1', role: IMPL, tier: 'opus', est: 40,
+    work: `The implementer half of "what M1 needs from M-1": from docs/build-prep/M1/scope.json's needs-M-1 clauses and ARCHITECTURE.md §13.5's rows, list each need by its §13.5 row and the M1 clause that uses it, with the M-1 deliverable (W-ids) named in the scope inventory. Write docs/build-prep/M1/needs-from-M-1.md. Item 69's corpus targets need a corpus not on this machine: mark them so. Add no design.`,
+    check: `You are the independent implementer-side CHECKER of docs/build-prep/M1/needs-from-M-1.md. Check every needs-M-1 clause of scope.json appears, every §13.5 row cited exists and says what the file claims; refute omissions and invented needs.` },
+  { key: 'm1-exit-preaudit', role: RESEARCH, tier: 'opus', est: 45,
+    work: `M-1 exit-record PRE-AUDIT (record level only): for each M-1 exit clause (ARCHITECTURE.md §16 M-1 exit; the M-1 plan in docs/calibration/), say which record already shows it (E05, E06, E12, E15, the candidate baselines, W-18-twin, W-20-dryrun, E18, E19), which waits for W-18's M0-scanner half / W-20's crossing / W-19 (M0-k-06), and which needs a re-measure from captures/ (absent here: mark NOT POSSIBLE HERE). Write docs/calibration/E20-exit-preaudit.md (ls first; pick the next free E-number if 20 is taken and say so). Content-free, no listed token.`,
+    check: `You are the independent research-side CHECKER of the M-1 exit pre-audit (docs/calibration/E2*-exit-preaudit.md). Re-check five clause-to-record claims against the records; refute any clause called shown whose record does not show it, and any listed token.` },
+)
+const ROUND3 = ['m1-open-findings', 'm1-needs-from-m-1', 'm1-exit-preaudit']
 const ROUND2 = ['w18-twin-half', 'w19-ledger-preaudit', 'm1-deferral-ledger', 'm1-wbs-skeleton', 'v-m0-scope']
 
 const run = async (t) => {
