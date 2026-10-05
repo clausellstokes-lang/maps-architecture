@@ -276,7 +276,7 @@ if (FLOW) {
   const commit = (final) => {
     commitChain = commitChain.then(async () => {
       if (halt) return
-      const ids = uncommitted.filter((id) => !fixing.has(id) && !failed.has(id))
+      const ids = uncommitted.filter((id) => !fixing.has(id) && !failed.has(id) && !committed.has(id))
       const ints = intUncommitted
       if (!final && !ids.length && !ints.length) return
       uncommitted = uncommitted.filter((id) => !ids.includes(id))
@@ -365,7 +365,8 @@ if (FLOW) {
     results[id] = r
     if (r && r.ok) {
       passed.add(id)
-      uncommitted.push(id)
+      // J185: an item a relaunch names as committed returns PASS from disk; it is never queued for another commit
+      if (!committed.has(id) && !uncommitted.includes(id)) uncommitted.push(id)
       maybeIntegrate(groups[gIndex[groupOf[id]]])
       // a hand-over giver commits at once so its successor can start on committed ground
       if (uncommitted.length >= EVERY || (HANDS[id] || []).some((s) => inRun.has(s))) commit(false)
