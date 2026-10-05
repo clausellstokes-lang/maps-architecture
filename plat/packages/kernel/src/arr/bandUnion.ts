@@ -195,7 +195,11 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
     for (const piece of outlinePieces(read)) {
       const ins = insertChain(t, piece.points, rows, 'mandatory', piece.closed ? { closed: true } : {});
-      if (!ins.ok) return rollback(t, save, ins);
+      if (!ins.ok) {
+        // A piece shorter than minEdge collapses to one point (step 1's E_DEGENERATE `empty`) and adds nothing.
+        if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') continue;
+        return rollback(t, save, ins);
+      }
       warnings.push(...ins.warnings);
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];

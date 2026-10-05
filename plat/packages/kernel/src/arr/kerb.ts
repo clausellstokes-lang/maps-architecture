@@ -213,8 +213,12 @@ function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: num
       );
     }
     const runs: number[][] = [];
+    let whole = false;
     if (line.closed && keep.every(Boolean)) {
-      runs.push([...Array.from({ length: n }, (_, i) => i), 0]);
+      // a ring: once round and on over its first segment again, with flat ends — every vertex a join, no end cap
+      // (its first segment's strip is one part twice, which the overlay enters once)
+      runs.push([...Array.from({ length: n }, (_, i) => i), 0, n > 1 ? 1 : 0]);
+      whole = true;
     } else {
       // From a segment that is not kept (a ring), or from the first (an open run): maximal runs of kept segments.
       const start = line.closed ? (keep.indexOf(false) + 1) % segs : 0;
@@ -234,7 +238,7 @@ function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: num
     for (const idx of runs) {
       const pts = idx.map((i) => line.points[i]);
       const ws = idx.map((i) => line.hw[i]);
-      const parts = bufferParts([pts], ws, 'round', line.closed ? 'round' : s.ends);
+      const parts = bufferParts([pts], ws, 'round', whole ? 'flat' : line.closed ? 'round' : s.ends);
       if (!parts.ok) return parts;
       for (const q of parts.value) out.push(q);
     }

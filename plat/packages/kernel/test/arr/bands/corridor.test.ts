@@ -7,6 +7,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { createPlat, idOf, roleInfo, rowsOn, type FaceId, type Plat } from '../../../src/arena/index.js';
 import { attachIndex } from '../../../src/index/index.js';
+import { err, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import { setOwner, tx } from '../../../src/tx/index.js';
 import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
@@ -99,16 +100,16 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     const s8 = new Map<string, string[]>();
     commit(p, 1, (o) => {
       const a = insertChain(o, [pt(900, 0), pt(1400, 900), pt(1100, 2000)], [{ role: 'way', entity: 'lane:1' }], 'mandatory');
-      if (!a.ok) return a;
+      if (!a.ok) return err(a.code, a.detail);
       const b = insertChain(o, [pt(0, 900), pt(1290, 720)], [{ role: 'way', entity: 'lane:2' }], 'mandatory');
-      if (!b.ok) return b;
+      if (!b.ok) return err(b.code, b.detail);
       for (const [x, y] of [[300, 300], [300, 1500], [2000, 1000]] as const) {
         const f = faceAt(p, 1, x, y);
         const k = kerb(o, f, ws);
-        if (!k.ok) return k;
+        if (!k.ok) return err(k.code, k.detail);
         s8.set(`${String(x)},${String(y)}`, normals(k.value));
       }
-      return { ok: true, value: null, warnings: [] };
+      return ok(null);
     });
     expect(low).toBeGreaterThanOrEqual(0);
     const kids = [[300, 300], [300, 1500], [2000, 1000]].map(([x, y]) => faceAt(p, 1, x, y));
@@ -316,9 +317,9 @@ function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): { rings:
   let out = { rings: [] as string[], moved: false };
   commit(p, 1, (o) => {
     const k = kerb(o, f, ws);
-    if (!k.ok) return k;
+    if (!k.ok) return err(k.code, k.detail);
     out = { rings: normals(k.value), moved: attracted(k.warnings) };
-    return { ok: true, value: null, warnings: [] };
+    return ok(null);
   });
   return out;
 }

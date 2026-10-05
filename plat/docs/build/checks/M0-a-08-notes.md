@@ -62,3 +62,49 @@ Lane `check/M0-a-08`, 2026-10-05. These notes do not fail the item (J180). The o
     (48295, 57125), 1 572.9 cm off its segment. The result is identical on S2's code. Files: `new-off-case.json`,
     `new-off-segs.json`, `scan-routes.mts` in `~/maps-scratch/waves/check-M0-a-08/s3/`. N-43's fidelity bound covers
     it.
+
+## Closing check (lane `check/M0-a-08-close-r1`, 2026-10-05): notes 13 – 16
+
+13. **K35t survives: the exactness of insetRing's convexity check is pinned on the accepting side only.** B-1's new
+    test pins that a straight-through vertex is accepted. The L-face and the holed face pin the refusal side, but only
+    for a deep concavity. Mutant K35t changes `insetRing.ts:54` from `orient2d(…) < 0` to `orient2d(…) < -2000`, a
+    tolerance. It survives the kernel folder (62/62) and testkit `pins`, `harness`, `guard` and `agreement-faces` at
+    300 cases (23/23). On the real code, a 1 cm dent is refused `E_NON_CONVEX` (CONFIRMED in the mirror):
+    `R([0,0],[500,1],[1000,0],[1000,600],[0,600])` and `R([0,0],[1000,0],[999,300],[1000,600],[0,600])`. Under K35t
+    the first face gets a five-vertex inset. The real code is correct, so this is a hardening test and not a blocker.
+    Suggested pin for M4 (or for M0-a-09 if it touches `insetRing`): both rings, inset 100, `toMatchObject({ ok: false,
+    code: 'E_NON_CONVEX' })`. The probe is `~/maps-scratch/waves/check-M0-a-08/close-r1/probe/zz-dent.test.ts`.
+14. **Note 2 still stands on hand-built stress inputs.** The probe `close-r1/probe/zz-glue.mts` ran 1 200 cases in an
+    instrumented mirror: rectangles with corners 0 – 40 cm apart, rings with 1 – 30 cm chamfers, triangle tips 0 – 30 cm
+    from an edge, and buffers of chains with 1 – 60 cm steps. `glueWalks` and `balanceFlow` were never reached. The
+    off-path rule was reached once, and K14, K15 and K16 changed no output. The probe `zz-area.mts` ran 2 000
+    near-coincident rectangle booleans against the exact overlap areas. The worst case was |Δ| / perimeter = 12.5 cm,
+    an xor of 14 cm and 26 cm slivers that attraction (attractCm 26) folds to empty. That is inside the attracted bound
+    of √2 · 26 = 36.8 cm. M4's suggestion in note 2 is unchanged.
+15. **For the session (PENDING-S3 line A): fix round 1's two cases replay on `insertChain` alone.** The segments were
+    re-derived from the arr code into `close-r1/s3/case{1,2}-segs.json`. In a fresh arena with the frame first,
+    `insertChain` refuses s36 of 37 and s31 of 36 with E_INVARIANT 'insert: no route from (−17146, 12375) to
+    (−17837, 10679) keeps clearance (§3.10)' and '… from (−48618, −42484) to (−47975, −44198) …'. That message is raised
+    only at `insert/insertChain.ts:467`. The replay script is `close-r1/probe/zz-replay.mts`. This check's PR-size run
+    (18:40 – 19:20) added one more case of each PENDING-S3 line. The files are in `close-r1/s3/`.
+    * **Line A:** an `arb-stroke` buffer, w 89, round joins, square ends, attracted (`near-buffer-case.json`). `buffer`
+      refuses E_INVARIANT 'insert: no route from (−65118, 64460) to (−65062, 64544) keeps clearance (§3.10)'. The
+      refusing overlay group has 217 segments (`near-buffer-segs.json`, dumped by `probe/zz-dumpbuf.mts` in an
+      instrumented mirror). On `insertChain` alone, s174 of 217 is refused with the same message.
+    * **Line B:** an offsetFace `arb` case, attracted (`near-off-case.json`). The face has a pinch vertex
+      (13286, −4124). Its |Δ| is 4 980 085.9 against a bound of 2 687 207.8. On `insertChain` alone
+      (`probe/zz-off.mts`, 1 053 segments, 40 collapsed `E_DEGENERATE empty`, none refused otherwise), s90,
+      (15090, −11467) → (5586, −8576), commits `W_ATTRACTED + W_PLACED + W_ACUTE_CORNER + W_STRETCH_SHARED` along a
+      route 1 933.2 cm off its segment. The route-to-segment polygon is 6.72 × 10⁶ cm², which exceeds the
+      2.29 × 10⁶ cm² excess. The next route is s69 at 910.0 cm (`W_PLACED + W_WEDGE_ROUTED`), and every other route
+      is within 62.6 cm. This is N-43 B's far landing.
+16. **For the session, not this item: a red in M0-a-09's in-flight test.** The related run (PLAT_FUZZ_RUNS=1000,
+    19:23 – 19:27) was red only in `kernel/test/arr/bands/bfuzz.test.ts` ("kerb, corridorUnion and bandUnion on random
+    street networks"), seed −1799559882. `corridorUnion` refused with `E_DEGENERATE`, which the test's
+    `CORRIDOR_CODES` ['E_KEPT', 'E_INVARIANT'] does not list. The counterexample is
+    `[[{"a":327,"b":4515,"hw":30,"knots":[60,5],"ends":"round"},{"a":702,"b":7960,"hw":1,"knots":null,"ends":"round"},{"a":4181,"b":0,"hw":1,"knots":null,"ends":"round"}]]`.
+    The test, its import path's new files (`kerb`, `bandUnion`, `corridorUnion`, `tileRings`) and the refusal list
+    are all M0-a-09's, and M0-a-09 is still being built (its 19:26 CHECKPOINT). None of M0-a-08's files changed: they
+    are SHA-equal to its landed record. So the red is not this item's gate (J193 (3)). It is passed to M0-a-09's
+    builder and checker, who should decide whether `booleans`' documented `E_DEGENERATE empty` should reach
+    `corridorUnion`'s caller.
