@@ -190,6 +190,16 @@ describe('buffer: the empty result (§3.11)', () => {
     expect(buffer([[pt(0, 0), pt(1000, 0)]], 0, 'round', 'round')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
     expect(buffer([[pt(5, 5), pt(5, 5)]], 100, 'round', 'round')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
   });
+
+  it('a part the first union level would leave alone still passes the insertion rules: a 3 cm buffer collapses to empty, no sub-minEdge ring', () => {
+    // nine parts (four strips, three square joins, two round ends): the ninth, the far end's 3 cm cap, is a group of
+    // one at the union tree's first level; it must enter an overlay (where its sub-minEdge segments collapse) rather
+    // than reach the result as drawn (C-0196 (6))
+    const chain = [pt(-3825, -6840), pt(-3800, -6890), pt(-7297, -4449), pt(-10660, -2472), pt(-10618, -2507)];
+    const parts = bufferParts([chain], 3, 'square', 'round');
+    expect(parts.ok && parts.value.length % 8).toBe(1);
+    expect(buffer([chain], 3, 'square', 'round')).toMatchObject({ ok: false, code: 'E_DEGENERATE', detail: 'empty' });
+  });
 });
 
 describe('a property over random chains: valid output covering every chain point, inside the half-width', () => {

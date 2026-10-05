@@ -437,11 +437,13 @@ export const UNION_FAN_IN = 8;
 export function unionParts(parts: readonly Ring[]): KernelResult<Ring[]> {
   const warnings: Warning[] = [];
   let level: Ring[][] = parts.map((p) => [p]);
-  for (;;) {
+  // every part enters an overlay at the first level — a raw part never reaches the result without the insertion rules;
+  // above it a lone group's result, already an overlay's, passes up unchanged
+  for (let depth = 0; ; depth += 1) {
     const next: Ring[][] = [];
     for (let i = 0; i < level.length; i += UNION_FAN_IN) {
       const group = level.slice(i, i + UNION_FAN_IN);
-      if (group.length === 1 && level.length > 1) {
+      if (group.length === 1 && level.length > 1 && depth > 0) {
         next.push(group[0]);
         continue;
       }
