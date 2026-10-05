@@ -1,0 +1,45 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-a-08",
+  "lane": "build/M0-a-08-fix1",
+  "lanes": ["build/M0-a-08", "build/M0-a-08-fix1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-05T22:17:38.077Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/kernel/src/arr/winding.ts", "plat/packages/kernel/src/arr/booleans.ts", "plat/packages/kernel/src/arr/buffer.ts", "plat/packages/kernel/src/arr/offsetFace.ts", "plat/packages/kernel/src/arr/insetRing.ts", "plat/packages/kernel/test/arr/booleans-buffers/", "plat/packages/testkit/test/kernel/arr-booleans-buffers/ (the §3.7 (i) oracle-agreement tests: they import @plat/testkit — M0-k-03's oracles, M0-k-01's arbitraries, M0-k-02's cases — which only the testkit test project sees; C-0122)", "plat/packages/kernel/src/arr/index.ts (the re-export lines of this item's five files; created empty by the scaffold, C-0013; handed over to M0-a-09, which appends its four lines — C-0122, in C-0095's form)"],
+  "counts": { "created": 16, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/kernel/src/arr/booleans.ts", "status": "created", "sha256": "c439db3984d0b65f218051d7f6b245a43fc9a098878a86dc3785b1a41ed18dc6", "size": 2443 },
+    { "path": "plat/packages/kernel/src/arr/buffer.ts", "status": "created", "sha256": "d62787931e4fcb48d8a038cc2e86e1952a8d5f8d150a555ae1d6cad63d91d59c", "size": 18965 },
+    { "path": "plat/packages/kernel/src/arr/index.ts", "status": "changed", "sha256": "8d01c0eb62b11b8026bdbc0bae298e494e2409655af9f8cf96837ec82a3b0130", "size": 827 },
+    { "path": "plat/packages/kernel/src/arr/insetRing.ts", "status": "created", "sha256": "498b1e67a60b6cab3c12d02aaa455a9f8e99f8af42c1c8580726f042224005c3", "size": 7188 },
+    { "path": "plat/packages/kernel/src/arr/offsetFace.ts", "status": "created", "sha256": "7306ce7c2614ba0f0faa8bb7afa3697f9b2d9f1ae8b8eab37fc728404b18449d", "size": 5848 },
+    { "path": "plat/packages/kernel/src/arr/winding.ts", "status": "created", "sha256": "9e4c5505880a276f3967a864356b01a447711adbb7f6b83098b04d1b6e8bfebc", "size": 31646 },
+    { "path": "plat/packages/kernel/test/arr/booleans-buffers/booleans.test.ts", "status": "created", "sha256": "4eaec6fd1822d0ef8008f6ae340db0acd906a41370b7bcd0412e3a256994327b", "size": 16741 },
+    { "path": "plat/packages/kernel/test/arr/booleans-buffers/buffer.test.ts", "status": "created", "sha256": "9e90b434cbd5660cf56fb472e1ab52fe6dde35174d700e98eadfa94df88a1718", "size": 14906 },
+    { "path": "plat/packages/kernel/test/arr/booleans-buffers/offset-inset.test.ts", "status": "created", "sha256": "92f9a6934867d26984b3b2218222bfb065b6b79b01d44d344e116ad347b9df2f", "size": 14714 },
+    { "path": "plat/packages/kernel/test/arr/booleans-buffers/support.ts", "status": "created", "sha256": "91aca20bcac9f8c394962f93653ef9471db0045ddc7c6a49ee5340d4f65cdfc8", "size": 5427 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/agreement-booleans.test.ts", "status": "created", "sha256": "4667c21f6e960ca553a561d6439082aa80527e2854c566ac658231959ee6c26a", "size": 2047 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/agreement-buffer.test.ts", "status": "created", "sha256": "e8de19bdcf40112b68297e8d235cc5a9a74f662c4be96f273b99a037ddd5f437", "size": 1355 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/agreement-faces.test.ts", "status": "created", "sha256": "8f9b55012659afee2175f5ffce9112c0a386201abe269dddaf520f4045507efd", "size": 1764 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/guard.test.ts", "status": "created", "sha256": "5ebb9ad123b8fd1eb609a8ace4406ffb9c88f81aefcd481c5bdf8aa81376d845", "size": 1996 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/harness.test.ts", "status": "created", "sha256": "2844c25ec10441896c5b1ebd0cfb34a9eca8b2f23c342a7a8a02c8a4a983c70e", "size": 12946 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/pins.test.ts", "status": "created", "sha256": "48d49592ecb61cba424ebdda29d78430266c460f4ee4e1a941eaf94d500f7774", "size": 6322 },
+    { "path": "plat/packages/testkit/test/kernel/arr-booleans-buffers/support.ts", "status": "created", "sha256": "3c04a8b8e1d6c0dab616355296c94786e6fbe602d26f2352d4ac7170e28309d9", "size": 46789 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0153", "L-0162", "L-0181", "L-0183", "L-0189"],
+      "lines": ["9b69ac7552cb5c9c", "b4d45d2f7348e6dc", "2047d0a4d7462f56", "284ca1a12910a10e", "e118ffb8e010de45"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0196", "C-0198", "C-0206", "C-0208", "C-0211"],
+      "lines": ["a536ce286cbcd5bb", "b07ef3544998ec6a", "83226f5f0267e649", "21d039a1a6e3b0fc", "a29bf85aca34b2a2"],
+      "removed": []
+    }
+  ]
+}
