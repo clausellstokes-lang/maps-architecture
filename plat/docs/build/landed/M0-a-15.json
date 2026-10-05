@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-a-15",
-  "lane": "build/M0-a-15",
-  "lanes": ["build/M0-a-15"],
+  "lane": "build/M0-a-15-fix1",
+  "lanes": ["build/M0-a-15", "build/M0-a-15-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-05T19:22:01.728Z",
+  "date": "2026-10-05T21:01:41.434Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/io/", "plat/packages/kernel/test/io/", "plat/packages/testkit/test/kernel/io/ (the round trip over M0-k-02's constructive arenas and M0-k-01's fuzz arenas, and the renumbering property through M0-d-08's harness; C-0122)"],
   "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -22,7 +22,7 @@
     { "path": "plat/packages/kernel/test/io/digests.test.ts", "status": "created", "sha256": "c62f22b96268933a06311a7f04a83d328342a3718464f800edb83795f7989a05", "size": 1985 },
     { "path": "plat/packages/kernel/test/io/format.test.ts", "status": "created", "sha256": "ae37799d8a1dd335ef7dde1fd9beaa4bf992f493fa089dab4876513bae47c3a8", "size": 3877 },
     { "path": "plat/packages/kernel/test/io/outer-ring.test.ts", "status": "created", "sha256": "e5a319de24634878ed4820d668f71efc4cdb8c81591473f58ded7750195c3618", "size": 2180 },
-    { "path": "plat/packages/kernel/test/io/roundtrip.test.ts", "status": "created", "sha256": "adeb8e8f52dae66e08348b8e91135370959e8fd4a27e2273fabd989d7b8e4a2d", "size": 4582 },
+    { "path": "plat/packages/kernel/test/io/roundtrip.test.ts", "status": "created", "sha256": "b6fabeb2464d44f9850385cce9c4b8db58db728b7c4504523e80440bc2d883e2", "size": 7154 },
     { "path": "plat/packages/kernel/test/io/support.ts", "status": "created", "sha256": "94e1d2378329d46ab12b5df7731f25f75dbbddb578c096a7f6cf543fba9c5847", "size": 6541 },
     { "path": "plat/packages/testkit/test/kernel/io/city.test.ts", "status": "created", "sha256": "20615cf7f644666fc16a5f1372225c6ca0dd4a5e0753448552a8ff17392811fb", "size": 5359 },
     { "path": "plat/packages/testkit/test/kernel/io/constructive.test.ts", "status": "created", "sha256": "f7567b6bd2077825776c7fb49d587f271f9aded993b517cd7284f4ac09404014", "size": 5743 },
@@ -33,8 +33,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0182"],
-      "lines": ["6a5bb2841739b649"],
+      "ids": ["L-0182", "L-0186"],
+      "lines": ["6a5bb2841739b649", "bdcf9dd156fe9af4"],
       "removed": []
     },
     {
