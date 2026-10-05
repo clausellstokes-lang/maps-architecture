@@ -48,7 +48,7 @@ V01 is built at M5. Its M1 share is schema and naming only (≈ 0.5 pw inside M1
 |---|---|---|
 | V12-M1-1 | The panels of later milestones (M5, M6, V-M4 and the volumes' steps) register on the panel engine that M1 builds | V12-calibration.md:3226 |
 | W2 | Measure, parity and panels at M1: `@plat/testkit/metrics` with `METRICS`, `measureInputOf` with the enclosure profile, the MFCG shore split, `plat measure`, `plat baselines check / aggregate`, `plat parity` with dashboard and CSV; `@plat/testkit/seeds` with B-CITY's and the goldens' formulas (item 491); the panel engine (`PanelSpec`, `plat d5 verdict`, the widened `D5Record`) and `build_sitting.py`; the research-side checks `check_t3.py` and `check_t6.py`; `history.jsonl`; the M-1 metric rows' product side; the register with §13.7's letters and the M1–M2b constants, and `plat calibrate register --defaults --milestone <id>`. Exit T-V12-1 – T-V12-7, T-V12-16 – T-V12-20, T-V12-22, T-V12-32's MFCG clauses, T-V12-51; the M1 panel sat or *provisional — not rated*. 1.75–2.25 pw | V12-calibration.md:3237 |
-| W7 (M1 part) | Owner rules at M1: item 111's rate specs and pin; item 116's `view.limitStop`; the `--trial` entry; the edge suite's M1 rows. Exit: the T-V12-42 – T-V12-59 tests due at M1 | V12-calibration.md:3242 |
+| W7 (M1 part) | Owner rules at M1: item 111's rate specs and pin; item 116's `view.limitStop`; the `--trial` entry; the edge suite's M1 rows. Exit: those of T-V12-42 – T-V12-50 and T-V12-52 – T-V12-59 due at M1 (T-V12-51 is W2's) | V12-calibration.md:3242 |
 
 Note: W2 names research-side scripts (`check_t3.py`, `check_t6.py`, `build_sitting.py`). Their location and who writes
 them is a clean-room question for the M1 build spec; this file only records that W2 names them.
@@ -66,7 +66,7 @@ them is a clean-room question for the M1 build spec; this file only records that
 | V11-M1-5 | `roster.settings`' `detourFactor` (owner `base`): `measure` at M1 by T16-4 (`bar.T16-4`) | V11-content.md:5099 |
 | V11-M1-6 | The M1 template families' footprint and plot budgets and the role table's `footprintShare`: `measure` at M1's gate against §13.5's footprint rows, with a one-move pre-decided fallback | V11-content.md:5100 |
 | V11-M1-7 | The C1 entries for `undergroundAccess.prob` (panel at V4-U5), `roster.districtKinds` weights (measure at M2b), `heights` (corpus at M-CAL) and "the rest" (corpus at M-CAL) | V11-content.md:5101–5105 |
-| V11-M1-8 | Display cells: `label` and `synonyms` land with the C1 class rows; the labels of district kinds land with their table at C1; the compiler's `commonness` and `icon` from C1; the shipped style sheets' labels with §16's M1 sheet (≈ 0.1 pw inside C1) | V11-content.md:5148–5153 |
+| V11-M1-8 | Display cells: `label` and `synonyms` land with the C1 class rows; the labels of district kinds land with their table at C1; the compiler's `commonness` and `icon` from C1; the shipped style sheets' labels with §16's M1 sheet (the words ≈ 0.1 pw inside C1's and C3's ranges; the C1 share is M1's) | V11-content.md:5148–5157 |
 | V11-M1-9 | Dependency: C1 lands before M1's gate. Risk R4: C1 is scoped to the M1 classes so M1 never waits on the full ladder | V11-content.md:5159, 5166 |
 
 ## V07 — the village, V-M0 (§8; beside M1)
@@ -78,7 +78,7 @@ V-M0 is its own milestone, right after M0 and beside M1. It is not an M1 item.
 | V-M0 | The tracker spike: VS2 + VS3 + VS4 and the slot race on flat, river and coast sites at the VILLAGE target, headless, on the spike's own fixtures (no M2b input); `village.json` whole (three rung rows, every column of V07 §2.2 and §2.2a) with its register entries; the `VG` preset file (item 377) with V11's five `presets.VG` entries and every village-read `presetsRequired` cell's `VG` entry; the source manifest's `productStages.village`. Exit: 0 whole-map retries on 1 000 seeds; VS2 + VS4 ≤ 8 ms at VILLAGE; road-topology shares under `VG` within ± 5 % of VG's roll; the legibility check on 20 renders; the V11 preset check green; the register check green. 1.25–1.75 pw | V07-village.md:3765 |
 | V07-VM0-1 | Slot and dependencies: after M0, on M0's kernel, M0 (b)'s tables and its own synthetic fixtures; beside M1 | V07-village.md:3757–3759 |
 | V07-VM0-2 | Register at V-M0: `village.json` (registry row 61); the named entry `cal.village.*.rules.race.densityPower@VG` (method `tune`, due V-M4) is written first, then every other calibratable column by the default line (owner `V07`) | V07-village.md:3800 |
-| V07-VM0-3 | Risk (1) spike: V-M0's 20 renders at 1 400 people against §8.5's figure-ground metrics. Pre-decided fallback above 800 people: the `nucleated` law, and the base's bent-cut lanes on faces larger than 4 ha | V07-village.md:3806–3811 |
+| V07-VM0-3 | Risk (1) spike: V-M0's 20 renders at 1 400 people against §8.5's figure-ground metrics. Pre-decided fallback above 800 people: the `nucleated` law, and the base's bent-cut lanes on faces larger than 4 ha | V07-village.md:3807–3811 |
 | V07-VM0-4 | The same V-M0 change writes V11's `presets.VG` entries and `productStages.village` (the V11 side of the same rule) | V11-content.md:5107–5111 |
 
 ## V08 — the SettlementForge connection

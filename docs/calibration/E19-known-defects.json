@@ -667,7 +667,7 @@
    "m0M1Set": false
   },
   {
-   "source": "M-1 plan section 8 (1); E06 section 10",
+   "source": "V12 section 3.4.2 (ftg.ringBlock line); M-1 plan section 8 (1); E06 section 10",
    "metric": "FTG plot depth, frontage and plot share (no registry id)",
    "reference": "FTG",
    "rulings": [
@@ -676,7 +676,10 @@
    "m0M1Set": false,
    "registryId": null,
    "rowsInCandidate": 0,
-   "open": true
+   "withdrawnBy": "item 49",
+   "knownDefectsNote": true,
+   "open": false,
+   "wordingMismatch": "M-1 plan section 8 (1) and E06 section 10 say descriptive rows; V12 section 3.4.2 says withdrawn, each a known-defects.json note"
   }
  ]
 }

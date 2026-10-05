@@ -14,8 +14,9 @@ every member of the sample listed in `sample.failed` (indices 0 to members − 1
 entry below. **None of the 19 belongs to M0's ⟨M-1⟩ set** (C-0180 (15)), so none can make M0's parity CLI read
 `fail`; each reads `reported` by C-0180 (8) ("a row with `values.n` 0 reads `reported`"). Separately, **eight cells
 have no row at all** (section 3); none is in M0's ⟨M-1⟩ set either, so M0 reads them `missingBaseline`, not `fail`. One
-of those eight (FTG plot depth, frontage and plot share) is listed by the M-1 plan as owing a descriptive row and has
-none; it is the one open item (section 4).
+of those eight (FTG plot depth, frontage and plot share) is withdrawn by the design's catalogue (V12 §3.4.2, the
+`ftg.ringBlock` line: item 49, each a `known-defects.json` note), so it owes notes, not rows; the M-1 plan and E06 still
+call them "descriptive rows", a wording mismatch only (section 4).
 
 ## 1 The form (C-0116, as C-0180 (8) and (15) read it)
 
@@ -29,7 +30,8 @@ An `m1` cell with no row reports `fail` (note "⟨M-1⟩ row missing"); a non-`m
 ## 2 The entries (rows with `values.n` 0)
 
 Cause codes are this record's grouping: *time, contended* (every member timed under contention, or contended with a
-retry or a member with no export) and *time, unmeasured* (no run of that timing at M-1); *thin class* (too few bounded
+retry, a member with no export or a member excluded for its setting (the 2026-09-25 CITY capture, R-04)) and *time,
+unmeasured* (no run of that timing at M-1; a setting-excluded member counted with it); *thin class* (too few bounded
 cuts for the fit). The reason columns count `sample.failed` members by their code as the row stores it.
 
 | # | row | cause | members | failed by reason | rulings in the row's note |
@@ -82,21 +84,26 @@ Entry 1 clears only with more `holed` faces than the 20 `medium` formula seeds g
 | E15 `noRow` | `street.runs`, field `alley` | FTG | the field has no value on any payload (E05) | no |
 | E15 `noRow` | every metric on `capture/FTG/TOWN` | FTG | R-34 (no TOWN size) | no |
 | E15 `noRow` | the stress family's other values | MFCG | R-23 | no |
-| M-1 plan section 8 (1); E06 section 10 | FTG plot depth, frontage and plot share (no registry id) | FTG | no plot reaches the client (E06 section 5) | no |
+| V12 §3.4.2 (`ftg.ringBlock` line); M-1 plan section 8 (1); E06 section 10 | FTG plot depth, frontage and plot share (no registry id) | FTG | withdrawn by item 49, each a `known-defects.json` note; no plot reaches the client (E06 section 5) | no |
 
-M0 reads each of these `missingBaseline` (C-0116, last case), not `fail`. The first seven were ruled to have no row and
-need no `known-defects.json` entry by C-0116's form; they may still be listed by M1 as known gaps (M1's call).
+M0 reads each of these `missingBaseline` (C-0116, last case), not `fail`. Six of the first seven were ruled to have no row
+(R-23, R-34) and the seventh (`street.runs` field `alley`) is a stated no-row of E15 section 9; none needs a
+`known-defects.json` entry by C-0116's form, and they may still be listed by M1 as known gaps (M1's call). The eighth is
+withdrawn to notes by the design (section 4).
 
-## 4 The open item
+## 4 FTG plot depth, frontage and plot share: withdrawn to notes
 
-**FTG plot depth, frontage and plot share.** The M-1 plan (section 8 (1), deliverable D1) and E06 (section 10, its E19
-line) say these "stay descriptive rows in C-0116's form". The candidate holds **0 rows** for them, and the registry holds
-**no metric id** for them (its `plot.area` lists no reference). E15's coverage check counts 26 of 26 ⟨M-1⟩ cells
-covered, so these three are not among the cells §13.5 and V12 §3.4.2 mark ⟨M-1⟩. The PLAUSIBLE reading is that no
-crossing row is owed (no registered metric, no ⟨M-1⟩ mark) and the plan's phrase is stale; the other reading is a
-missing registry entry plus three `n` 0 rows. A ruling seat should pick one; until then, M1's `known-defects.json` should
-carry the three as a stated gap with E06 section 5 as the evidence. This record leaves it undecided: either answer is a
-registry and crossing-file change, outside this lane.
+**The design states the outcome.** V12 §3.4.2's catalogue line for `ftg.ringBlock` (docs/volumes/V12-calibration.md,
+line 1238) reads: FTG face recovery (descriptive); plot depth, frontage and plot share "withdrawn by item 49 ('the client
+receives none'), each a `known-defects.json` note". The catalogue is the registry's source (`metrics.m-1.json`,
+`source`), and the counts agree with it: the candidate holds **0 rows** for the three, the registry holds **no metric
+id** for them (its `plot.area` lists no reference) and no `m1Uncovered` cell, and E15's coverage check counts 26 of 26
+⟨M-1⟩ cells covered. So no crossing row is owed; **CONFIRMED by text** (V12 §3.4.2) and by the counts above. M1's
+`known-defects.json` carries the three as notes, with E06 section 5 as the evidence (no plot reaches the client).
+
+**What remains is wording only.** The M-1 plan (section 8 (1), deliverable D1) and E06 (section 10, its E19 line) say
+the three "stay descriptive rows in C-0116's form"; the catalogue says withdrawn, each a note. The plan's and E06's
+phrase should read as notes; that is an edit to those records, outside this lane, and changes no count or verdict here.
 
 ## 5 Rows and checks outside the list
 
@@ -115,5 +122,6 @@ registry and crossing-file change, outside this lane.
 count; each row's form (role, provenance, `n`, `seeds`, every member in `failed`); the reason counts; the 107 partial
 rows; M0's seven metrics' 33 rows and their roles; the eight no-row cells as the registry and E15 list them; 0 candidate
 rows and 0 registry ids for FTG plot depth, frontage and plot share. **Read, not re-run:** E15's 26 of 26 coverage
-check and E14's CV result. **PLAUSIBLE:** section 4's preferred answer; that each entry reads `reported`
+check and E14's CV result. **CONFIRMED by text:** section 4's outcome
+(V12 §3.4.2's `ftg.ringBlock` line withdraws the three to notes). **PLAUSIBLE:** that each entry reads `reported`
 under M0's parity CLI (from C-0180 (8), not run; M0's CLI is plat/'s and was not executed here).

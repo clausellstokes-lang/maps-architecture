@@ -14,17 +14,20 @@
   "landedSnapshot": "plat/docs/build/landed/ working copy 2026-10-05, run wf_8f7c7489-304 in flight; a landed record is not a checker verdict"
  },
  "counts": {
-  "M0-dependent": 49,
-  "specifiable-now": 61,
-  "needs-M-1": 13
+  "M0-dependent": 52,
+  "specifiable-now": 65,
+  "needs-M-1": 14
  },
- "clauseCount": 123,
+ "clauseCount": 131,
  "discrepancies": [
   "transient arenas: §16 M1 names them; plat/docs/build/M0.md §4b stages them to M6-P",
   "S12a–c: M0.md §4b stages them to M1; §16 places S12's rules and S12c at M2b",
   "II.5's M1-exit readiness uses New random, a named action §16 builds at M2a",
   "docs/IMPROVEMENTS.md §5.1 (the gate list §16 M1 cites) lies outside this seat's clean room; letters taken from §16's cell, meanings from §15.2",
-  "§13.5 says M-1 recomputed baselines on 2026-10-04, but plat/ held no baselines.json, ng-faces.json, denylist.json or digest when read: needs-M-1 clauses wait on the crossing, not the measurement"
+  "§13.5 says M-1 recomputed baselines on 2026-10-04, but plat/ held no baselines.json, ng-faces.json, denylist.json or digest when read: needs-M-1 clauses wait on the crossing, not the measurement",
+  "full GranularityLaw: M0-work.json M0-b-01 defers \"the full GranularityLaw (areaM2, joinMax, vacancyRunShare, the manifested band) → M1's @plat/plots (C-0006)\"; §16's M2b row lists \"the full granularity law with the rung modifiers (§1.1)\" and §16's M1 gate list has \"O18 with a flat field\"",
+  "roof readers: M0-work.json M0-a-11 defers \"roof readers (RoofSpec) → M1\"; §16's M2b row lists \"compound site plans with the packer; roofs\"",
+  "rebuild-partition-on-first-query fallback: M0-work.json M0-a-15 defers it \"→ M1's open-to-editable bar\"; §16 puts \"open-to-editable within T(B) at TOWN and CITY\" in M2a's exit"
  ],
  "clauses": [
   {
@@ -394,13 +397,15 @@
    "m0Items": [
     "M0-x-01 (record shape)",
     "M0-x-02 (stage isolation runs on the pipeline)",
-    "M0-d-02 (H32 seeds, landed)"
+    "M0-d-02 (H32 seeds, landed)",
+    "M0-d-04 (goldens' canonical text form serialiser, landed; defers the form to M1)"
    ],
    "m1Needs": [],
    "note": "",
    "n": 21,
    "m0ItemsLanded": [
-    "M0-d-02"
+    "M0-d-02",
+    "M0-d-04"
    ]
   },
   {
@@ -437,7 +442,8 @@
    "status": "M0-dependent",
    "m0Items": [
     "M0-a-06 (overlay, pool-size-0 path, landed)",
-    "M0-x-02 (runner)"
+    "M0-x-02 (runner)",
+    "M0-a-16 (defers the pool to M1; not landed)"
    ],
    "m1Needs": [],
    "note": "",
@@ -604,7 +610,7 @@
     "M0-b-01 (granularity bands, landed)"
    ],
    "m1Needs": [],
-   "note": "",
+   "note": "M0-b-01's record defers the full GranularityLaw to M1's @plat/plots (C-0006), while §16 keeps M1 at \"O18 with a flat field\" and puts the full granularity law at M2b (see Discrepancies)",
    "n": 31,
    "m0ItemsLanded": [
     "M0-b-01"
@@ -723,18 +729,19 @@
    "clause": "The transient arena's open, read-back and release",
    "sources": [
     "ARCHITECTURE.md §16 M1",
-    "ARCHITECTURE.md §3.4"
+    "ARCHITECTURE.md §3.4",
+    "plat/docs/build/choices.md C-0041"
    ],
    "status": "M0-dependent",
    "m0Items": [
-    "M0-a-02/M0-a-07 (TransientKey, ArenaKey declared, C-0041)",
-    "M0-a-09 (tileRings)"
+    "M0-a-16 (façade stubs transientArena / readBack / release, notBuilt('M6-P'), C-0041; not landed)",
+    "M0-a-07 (defers the transient arena's writers to M6-P)",
+    "M0-a-09 (tileRings, not landed)"
    ],
    "m1Needs": [],
-   "note": "DISCREPANCY: plat/docs/build/M0.md §4b stages transient arenas, readBack, release and the re-cut to M6-P; §16 names them M1 work",
+   "note": "DISCREPANCY: plat/docs/build/M0.md §4b, M0-a-07 and M0-a-16 stage transient arenas, readBack, release and the re-cut to M6-P; §16 names them M1 work. Building them at M1 re-tags M0-a-16's notBuilt('M6-P') stubs, which needs a choices row",
    "n": 38,
    "m0ItemsLanded": [
-    "M0-a-02",
     "M0-a-07"
    ]
   },
@@ -803,7 +810,7 @@
    ],
    "status": "specifiable-now",
    "m0Items": [
-    "M0-m-01 (registry types, landed)"
+    "M0-m-01 (landed; defers the entity registry and its path-completeness test to M1)"
    ],
    "m1Needs": [],
    "note": "",
@@ -866,7 +873,7 @@
     "M0-m-01 (landed)"
    ],
    "m1Needs": [],
-   "note": "",
+   "note": "the dossier port's adapter-boundary key scan over `@plat/port` (M0-d-07, M0-k-06) is split into its own clause 131, which is M0-dependent",
    "n": 45,
    "m0ItemsLanded": [
     "M0-d-02",
@@ -911,13 +918,15 @@
   },
   {
    "kind": "named-work",
-   "clause": "§8.8's per-map zoom-out limit on the pyramid with §9.5's framing, and the exports framed within it; V11 C9's item-116 margin cell; V12 W7's `view.limitStop`",
+   "clause": "§8.8's per-map zoom-out limit on the pyramid with §9.5's framing, and the exports framed within it; V11 C9's item-116 margin cell; V12 W7's `view.limitStop`; V09 AP11's zoom-out stop on screen (AP11's base part at M1)",
    "sources": [
     "ARCHITECTURE.md §16 M1",
     "ARCHITECTURE.md §8.8",
     "ARCHITECTURE.md §9.5",
     "item 116",
-    "V12 §8.2 W7"
+    "V12 §8.2 W7",
+    "V09 §8.1 AP11 (the zoom-out stop at M1)",
+    "ARCHITECTURE.md §16 (carried row: AP11's base parts)"
    ],
    "status": "specifiable-now",
    "m0Items": [],
@@ -928,11 +937,13 @@
   },
   {
    "kind": "named-work",
-   "clause": "§12's comfort-level timing at TOWN and CITY (item 119), judged by T119-1 and T119-2 in §12.1's timing phase",
+   "clause": "§12's comfort-level timing at TOWN and CITY (item 119), judged by T119-1 and T119-2 in §12.1's timing phase; V11 §8 C9: item 119's `perf.qualitySpend` row (registry row 106, shipped empty, calibratable: false)",
    "sources": [
     "ARCHITECTURE.md §16 M1",
     "ARCHITECTURE.md §12",
-    "ARCHITECTURE.md §13.8 (T119-1, T119-2)"
+    "ARCHITECTURE.md §13.8 (T119-1, T119-2)",
+    "V11 §8 C9 (item 119's `perf.qualitySpend`)",
+    "ARCHITECTURE.md §16 (carried row: V11 C9 beside each item's base milestone)"
    ],
    "status": "M0-dependent",
    "m0Items": [
@@ -1945,126 +1956,8 @@
     "M0-a-09 (corridorUnion)",
     "M0-b-03"
    ],
-   "m1Needs": [
-    "D",
-    "I",
-    "S",
-    "C",
-    "R",
-    "E",
-    "P",
-    "A",
-    "N",
-    "C",
-    "Y",
-    ":",
-    " ",
-    "M",
-    "0",
-    ".",
-    "m",
-    "d",
-    " ",
-    "§",
-    "4",
-    "b",
-    " ",
-    "a",
-    "l",
-    "s",
-    "o",
-    " ",
-    "l",
-    "i",
-    "s",
-    "t",
-    "s",
-    " ",
-    "S",
-    "1",
-    "2",
-    "a",
-    "–",
-    "c",
-    " ",
-    "t",
-    "o",
-    " ",
-    "M",
-    "1",
-    ";",
-    " ",
-    "§",
-    "1",
-    "6",
-    " ",
-    "p",
-    "l",
-    "a",
-    "c",
-    "e",
-    "s",
-    " ",
-    "S",
-    "1",
-    "2",
-    "'",
-    "s",
-    " ",
-    "h",
-    "i",
-    "n",
-    "t",
-    "e",
-    "r",
-    "l",
-    "a",
-    "n",
-    "d",
-    ",",
-    " ",
-    "g",
-    "r",
-    "e",
-    "e",
-    "n",
-    "e",
-    "r",
-    "y",
-    " ",
-    "r",
-    "u",
-    "l",
-    "e",
-    "s",
-    " ",
-    "a",
-    "n",
-    "d",
-    " ",
-    "S",
-    "1",
-    "2",
-    "c",
-    " ",
-    "(",
-    "i",
-    "t",
-    "e",
-    "m",
-    " ",
-    "7",
-    "2",
-    ")",
-    " ",
-    "a",
-    "t",
-    " ",
-    "M",
-    "2",
-    "b"
-   ],
-   "note": "",
+   "m1Needs": [],
+   "note": "DISCREPANCY: M0.md §4b also lists S12a–c to M1; §16 places S12's hinterland, greenery rules and S12c (item 72) at M2b",
    "n": 112,
    "m0ItemsLanded": []
   },
@@ -2257,6 +2150,156 @@
    "n": 123,
    "m0ItemsLanded": [
     "M0-a-10"
+   ]
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "The entity registry (§2.8) with §13.2's path-completeness test, and the §2.5–§2.7 records M0 does not read (Building, Passage, Castle, RaisedWayRecord, …)",
+   "sources": [
+    "plat/docs/build/M0-work.json M0-m-01 defers",
+    "ARCHITECTURE.md §2.8",
+    "ARCHITECTURE.md §13.2"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-m-01 (landed; defers both to M1)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 124,
+   "m0ItemsLanded": [
+    "M0-m-01"
+   ]
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "`RH32(tag, key, salt[, ordinal or cell][, style id])`, §8.1's render hash, over M0-d-02's H32/H128",
+   "sources": [
+    "plat/docs/build/M0.md §4b",
+    "plat/docs/build/M0-work.json M0-d-02 defers",
+    "ARCHITECTURE.md §8.1 item 5"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [
+    "M0-d-02 (H128/H32, landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 125,
+   "m0ItemsLanded": [
+    "M0-d-02"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "B-ZOOM's no-pop check (footprint hash identical across bands) at the band entry stops 0, 16, 20 and 24 on `ink`'s city and district bands",
+   "sources": [
+    "ARCHITECTURE.md §8.8 (Band entry stops)",
+    "ARCHITECTURE.md §13.4"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "the role-continuity half of B-ZOOM is clause 70",
+   "n": 126,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "The relation store's schema (family units, relations, memberships, postings), facilities, factions, religions and offices as base schema, and D-32's economy / personality / stat-block schema stubs in the base registry, empty until M4b",
+   "sources": [
+    "ARCHITECTURE.md §16 M4b row",
+    "ARCHITECTURE.md §10.1 (Base schema from M1)",
+    "ARCHITECTURE.md §10.3 (Economy, personality and stat-block schema stubs)"
+   ],
+   "status": "specifiable-now",
+   "m0Items": [],
+   "m1Needs": [],
+   "note": "§16 states it in the M4b row (\"after the relation store's schema, which is in the base from M1\"), not in the M1 row",
+   "n": 127,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "staged-from-M0",
+   "clause": "§5.1 (8)'s fault-injection hook on B-CITY-lite: each of the three aborts forced, the batch rolled back, one `bugs` entry with a replayable key, tier 6 for the entity, every other leaf digest unchanged",
+   "sources": [
+    "plat/docs/build/M0-work.json M0-x-05, M0-k-04 defers",
+    "ARCHITECTURE.md §5.1 (8)",
+    "ARCHITECTURE.md §13.1"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-x-05 (defers the hook's B-CITY-lite form to M1; not landed)",
+    "M0-k-04 (defers B-CITY-lite's fault injection to M1 / M2a; not landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 128,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "exit",
+   "clause": "M0's spike-city bars re-run on B-CITY / B-CITY-lite (C-0015): the determinism spike's bars (M0-d-09), the digest bars at §6.2's CITY counts (M0-d-06), the matching routine (M0-d-05b), the skeleton corpus bar (M0-a-12)",
+   "sources": [
+    "plat/docs/build/choices.md C-0015",
+    "plat/docs/build/M0-work.json M0-d-09, M0-a-12 defers",
+    "ARCHITECTURE.md §6.2",
+    "ARCHITECTURE.md §3.8"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-09 (determinism spike runner; defers B-CITY's real city to M1; not landed)",
+    "M0-d-06 (digest bars at CITY counts; not landed)",
+    "M0-d-05b (matching routine, landed)",
+    "M0-a-12 (skeleton corpus bar; defers B-CITY-lite's footprints and faces to M1; landed)"
+   ],
+   "m1Needs": [],
+   "note": "",
+   "n": 129,
+   "m0ItemsLanded": [
+    "M0-a-12",
+    "M0-d-05b"
+   ]
+  },
+  {
+   "kind": "exit",
+   "clause": "The bent-cut signature bars re-run on B-CITY's districts (M0-b-04, M0-b-05, M0-b-05a/b)",
+   "sources": [
+    "plat/docs/build/M0-work.json M0-b-05, M0-b-05a, M0-b-05b defers",
+    "plat/docs/build/choices.md C-0015"
+   ],
+   "status": "needs-M-1",
+   "m0Items": [
+    "M0-b-04",
+    "M0-b-05",
+    "M0-b-05a",
+    "M0-b-05b (none landed)"
+   ],
+   "m1Needs": [
+    "baselines.json",
+    "ng-faces.json (M0-b-05a/b read both)"
+   ],
+   "note": "",
+   "n": 130,
+   "m0ItemsLanded": []
+  },
+  {
+   "kind": "named-work",
+   "clause": "The dossier port's adapter-boundary key scan over `@plat/port`",
+   "sources": [
+    "plat/docs/build/M0-work.json M0-d-07, M0-k-06 defers",
+    "ARCHITECTURE.md §14 (dossier port)"
+   ],
+   "status": "M0-dependent",
+   "m0Items": [
+    "M0-d-07 (import-closure walk, landed; defers the scan to M1)",
+    "M0-k-06 (content scanner; defers the key scan to M1; not landed)"
+   ],
+   "m1Needs": [],
+   "note": "split from clause 45",
+   "n": 131,
+   "m0ItemsLanded": [
+    "M0-d-07"
    ]
   }
  ]
