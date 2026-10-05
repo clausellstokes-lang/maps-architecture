@@ -5743,3 +5743,7 @@
 2026-10-05 09:31 check/M0-a-05-close-s2 CHECKPOINT K7 verbatim red (step3-5 at 10^3: 1 failed | 116 passed (117), routerGap W_PLACED at -48080,46354 vs expected -48450,45728); bound assertion alone red under K7 (66.21 > 36.77), fix 20.10; mirror deleted; next: gates in tree
 2026-10-05 09:31 check/M0-a-14 CHECKPOINT brief, design §3.10/§5.3/§3.3/§3.4/§13.2, C-0200 and all 13 files read; next: landed:verify and gates
 2026-10-05 09:31 check/M0-a-05-close-s2 CHECKPOINT landed:verify ok, install 0, lint 0 (670 files, probe-red ok), build 0; next: kernel + importer projects
+2026-10-05 09:35 check/M0-a-14 CHECKPOINT landed:verify ok; install/lint(probe-red ok)/build exit 0; kernel project gate running; mirror and 45 mutants + probes A-C prepared; next: mutants after the gate
+2026-10-05 09:38 check/M0-a-14 CHECKPOINT kernel gate 1328/1328 exit 0; probes A (placed: 141 subjects, 0 false) B (300 nudges, 17 oracle breaks, 0 missed) C (nested islands) pass; bundle probe done; next: 45 mutants
+2026-10-05 09:39 check/M0-a-05-close-s2 CHECKPOINT kernel 122/1328, model 177, tables 240, site 120, layout 135 green; bench 14 red all five J176 files (Apple M1, launchd, arch -x86_64, battery, Chromium 1223); next: testkit project (long), verdict
+2026-10-05 09:41 check/M0-a-05-close-s2 CHECKPOINT testkit project running; mirror rebuilt for a probe of C-0205 (3)'s spur (mirror only); next: testkit result, spur probe, verdict
