@@ -14,9 +14,9 @@
 //    points and every other moved vertex at its rounded target; a slide or re-seat no lattice point qualifies for fails
 //    the step. The order is a function of positions alone, never of slots.
 // 4. **Whole-step validation** (validate.ts), then the placement bound of every slide and re-seat on its route as
-//    placed, then the edit layer's `recordCheck`. On failure the strength is halved globally (`warp.halvings`), at most
+//    placed and of every held finer vertex on its run, then the edit layer's `recordCheck`. On failure the strength is halved globally (`warp.halvings`), at most
 //    8 times, after which the step is a reported no-op.
-// 5. **Commit.** The points are written, the split flags cleared — (b) on every moved vertex but a slide or re-seat,
+// 5. **Commit.** The points are written, the movers journalled for the commit record's `moved`, the split flags cleared — (b) on every moved vertex but a slide or re-seat,
 //    (b′) on every flagged unmoved vertex of the level of a run it split whose nearest vertex of that level or coarser
 //    along the run moved — and every index item the move changed re-indexed (§3.3: no item changes in place).
 //
@@ -25,6 +25,7 @@ import {
   compareVertices,
   dest,
   faceWalk,
+  isVertexLive,
   outgoing,
   rowsOn,
   VERTEX_SPLIT,
@@ -40,7 +41,7 @@ import type { Overlay } from '../tx/types.js';
 import type { Cm, LatticePoint, Level, Point } from '../types/index.js';
 import { candidates, check, computeHeld, routeOf, type RouteOf } from './held.js';
 import { MAX_HALVINGS, WARP_HALVINGS, type DisplacementField, type HeldSet, type Move, type MoveKind, type MoveReport, type WarpOptions } from './types.js';
-import { placementBoundProblem, stepProblem, vertexProblem } from './validate.js';
+import { heldRunProblem, placementBoundProblem, stepProblem, vertexProblem } from './validate.js';
 import { padBox, StepView } from './view.js';
 
 const ATTRACT = 26;
@@ -151,7 +152,7 @@ function displacementAt(field: DisplacementField, x: number, y: number): { dx: n
 }
 
 /** The step at strength `s` on its view: targets, placement in canonical order, validation. Writes nothing. */
-function attempt(t: OpenTx, plans: readonly Plan[], byLevel: readonly Plan[], byPosition: readonly Plan[], held: ReadonlySet<VertexId>, s: number,
+function attempt(t: OpenTx, plans: readonly Plan[], byLevel: readonly Plan[], byPosition: readonly Plan[], held: ReadonlySet<VertexId>, heldRoutes: readonly { readonly v: VertexId; readonly route: RouteOf }[], s: number,
   recordCheck: ((step: MoveReport) => boolean) | undefined, report: (view: StepView, movers: VertexId[], warnings: Warning[]) => MoveReport): Attempt {
   const p = t.plat;
   const X = p.vertices.x;
@@ -213,6 +214,10 @@ function attempt(t: OpenTx, plans: readonly Plan[], byLevel: readonly Plan[], by
   // §3.10's placement bound: every slid and re-seated vertex within the hot pixel of its route as the step leaves it.
   const bound = placementBoundProblem(view, plans.filter((pl) => pl.kind !== 'free' && view.moving(pl.v)).map((pl) => ({ v: pl.v, route: pl.route as RouteOf })));
   if (bound !== null) return { ok: false, reason: bound };
+  // A held finer vertex stays within the hot pixel of its run as the step leaves it (§3.6 held (5) keeps the run's ends,
+  // so this holds whenever the closure is complete; checked, not assumed — C-0197).
+  const heldBound = heldRunProblem(view, heldRoutes);
+  if (heldBound !== null) return { ok: false, reason: heldBound };
   if (recordCheck !== undefined && !recordCheck(report(view, movers, warnings))) return { ok: false, reason: 'recordCheck: the edit layer\'s record check failed' };
   return { ok: true, view, movers, warnings };
 }
@@ -337,6 +342,12 @@ export function warp(o: Overlay, field: DisplacementField, fromLevel: Level, reg
     if (route !== null) kind = route.m < fromLevel || (H.set.has(route.a) && H.set.has(route.b)) ? 'slide' : 'reseat';
     plans.push({ v, x0: X[v], y0: Y[v], kind, dx: d.dx, dy: d.dy, route });
   }
+  const heldRoutes: { v: VertexId; route: RouteOf }[] = [];
+  for (const v of H.vertices) {
+    if (!isVertexLive(p, v)) continue;
+    const route = routeOf(p, v);
+    if (route !== null) heldRoutes.push({ v, route });
+  }
   const byPosition = plans.slice(); // `all` is by lattice position already
   const byLevel = plans.slice().sort((a, b) => lv[a.v] - lv[b.v] || compareVertices(p, a.v, b.v));
   const kindOf = new Map<VertexId, MoveKind>(plans.map((pl) => [pl.v, pl.kind]));
@@ -363,7 +374,7 @@ export function warp(o: Overlay, field: DisplacementField, fromLevel: Level, reg
       if (!chargeTx(t, WARP_HALVINGS, 1)) return err('E_WORK_LIMIT', WARP_HALVINGS);
       s *= 0.5; // the global halving: exact in binary
     }
-    const a = attempt(t, plans, byLevel, byPosition, H.set, s, recordCheck, (view, movers, ws) => report(view, movers, ws, k, s));
+    const a = attempt(t, plans, byLevel, byPosition, H.set, heldRoutes, s, recordCheck, (view, movers, ws) => report(view, movers, ws, k, s));
     if (a.ok) {
       const done = commitStep(t, a.view, a.movers, fromLevel, kindOf);
       for (const w of a.warnings) for (let i = 0; i < w.count; i++) addWarning(t.warnings, w.code, w.at);
@@ -429,6 +440,9 @@ function commitStep(t: OpenTx, view: StepView, movers: readonly VertexId[], from
   // The journals: the moved vertices and edges (the commit's clearance and level rows read them), the role keys whose
   // chains moved, the (b′) vertices.
   const R = p.roles;
+  // §3.3's `moved` (§3.6: "the commit record lists every moved vertex"): every mover, slides and re-seats included; the
+  // record orders them by lattice position (C-0197).
+  t.log.moved.push(...movers);
   for (const v of movers) {
     t.log.vertices.push(v);
     for (const r of rowsOn(p, 'vertex', v)) noteRow(t, R.kind[r], R.entity[r], R.ordinal[r]);

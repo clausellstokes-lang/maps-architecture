@@ -318,6 +318,15 @@ function snapped(x: number, y: number): LatticePoint {
   return s.value;
 }
 
+/** The distance from p to the segment a–b (doubles; the harness's own geometry). */
+function distPointSegment(p: LatticePoint, a: LatticePoint, b: LatticePoint): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len2 = dx * dx + dy * dy;
+  const t = len2 === 0 ? 0 : Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2));
+  return Math.hypot(p.x - (a.x + t * dx), p.y - (a.y + t * dy));
+}
+
 /**
  * The oracle's offsetFace: the face less the union of every edge's round-ended buffer at its own distance, both
  * through the engine's own boolean (§3.4's definition, "face − ⋃ buffer(edgeᵢ, dᵢ)"). The perimeter is the face's and
@@ -333,9 +342,10 @@ export function oracleOffset(rings: readonly Ring[], edges: readonly { a: Lattic
     }
   });
   if (chains.length === 0) return { ok: true, engine, rings: rings.map((r) => r.slice()), perimeterCm: 2 * perimeterOf(rings) };
-  // An edge set back by at least the diagonal of the face's box covers the face (every point of the face lies within
-  // that diagonal of every point of the edge), so the exact result is empty — read from the geometry, not from our
-  // engine; the oracle's buffer would reach past the lattice there.
+  // An edge set back by at least its farthest distance from the face covers the face — the distance to a segment is
+  // convex, so over the face (inside its vertices' hull) it is largest at a vertex — and the exact result is empty:
+  // read from the geometry, not from our engine (the oracles' buffers would reach far past the face there, where
+  // polygon-clipping is fragile).
   let x0 = Infinity;
   let y0 = Infinity;
   let x1 = -Infinity;
@@ -348,7 +358,12 @@ export function oracleOffset(rings: readonly Ring[], edges: readonly { a: Lattic
       y1 = Math.max(y1, p.y);
     }
   }
-  if (d.some((di) => di >= Math.hypot(x1 - x0, y1 - y0))) return { ok: true, engine, rings: [], perimeterCm: perimeterOf(rings) };
+  const covers = edges.some((e, i) => {
+    let far = 0;
+    for (const r of rings) for (const p of r) far = Math.max(far, distPointSegment(p, e.a, e.b));
+    return d[i] > 0 && d[i] >= far;
+  });
+  if (covers || d.some((di) => di >= Math.hypot(x1 - x0, y1 - y0))) return { ok: true, engine, rings: [], perimeterCm: perimeterOf(rings) };
   // The construction runs about the face's box centre (an exact integer translation; the offset commutes with it), so
   // a face near the lattice's edge keeps the edges' buffers inside the range.
   const cx = Math.round((x0 + x1) / 2);
@@ -472,8 +487,9 @@ function meetsPixel(px: number, py: number, qx: number, qy: number, cx: number, 
  * rings may cross or overlap that point by a fraction of a centimetre, and the face count reads one face where the
  * region has two. Our engine's rings are snap-rounded by the insertion rules, so this is the oracle's half of "after
  * both are snapped". A rounded ring that passes one lattice point twice — two pieces touching there, which Clipper2 may
- * write as one ring — is cut into its simple loops there, as our engine's trace cuts its own. The area is unchanged
- * within ½ cm × the perimeter.
+ * write as one ring — is cut into its simple loops there, as our engine's trace cuts its own; hot pixels that are
+ * lattice neighbours are one cluster, routed through its lowest-leftmost pixel, as our engine makes crossings under a
+ * centimetre apart one vertex without a reported move. The area is unchanged within 1½ cm × the perimeter.
  */
 export function snapRoundRings(rings: readonly Ring[]): Ring[] {
   const segs: [LatticePoint, LatticePoint][] = [];
@@ -497,6 +513,35 @@ export function snapRoundRings(rings: readonly Ring[]): Ring[] {
     }
   }
   const pixels = [...hot.values()];
+  // hot pixels that are lattice neighbours (|dx|, |dy| ≤ 1) are one cluster, routed through its lowest-leftmost pixel:
+  // two crossings under a centimetre apart are one vertex in our engine without any move beyond the hot pixel, so the
+  // oracle's two pieces meeting there touch at that point instead of sharing a 1 cm stretch
+  const rep = new Map<string, LatticePoint>();
+  const keyOf = (p: LatticePoint): string => `${String(p.x)},${String(p.y)}`;
+  const parent = new Map<string, string>();
+  const find = (k: string): string => {
+    let r = k;
+    while (parent.get(r) !== r) r = parent.get(r) as string;
+    return r;
+  };
+  for (const h of pixels) parent.set(keyOf(h), keyOf(h));
+  for (const h of pixels) {
+    for (let dx = -1; dx <= 1; dx += 1) {
+      for (let dy = -1; dy <= 1; dy += 1) {
+        const k = `${String(h.x + dx)},${String(h.y + dy)}`;
+        if (!parent.has(k)) continue;
+        const a = find(keyOf(h));
+        const b = find(k);
+        if (a !== b) parent.set(a, b);
+      }
+    }
+  }
+  for (const h of pixels) {
+    const root = find(keyOf(h));
+    const cur = rep.get(root);
+    if (cur === undefined || h.y < cur.y || (h.y === cur.y && h.x < cur.x)) rep.set(root, h);
+  }
+  const repOf = (h: LatticePoint): LatticePoint => rep.get(find(keyOf(h))) as LatticePoint;
   const out: Ring[] = [];
   for (const r of rings) {
     const ring: LatticePoint[] = [];
@@ -509,7 +554,8 @@ export function snapRoundRings(rings: readonly Ring[]): Ring[] {
         if (t !== null) on.push([t, h]);
       }
       on.sort((x, y) => x[0] - y[0]);
-      for (const [, h] of on) {
+      for (const [, h0] of on) {
+        const h = repOf(h0);
         const last = ring[ring.length - 1];
         if (last === undefined || last.x !== h.x || last.y !== h.y) ring.push(h);
       }

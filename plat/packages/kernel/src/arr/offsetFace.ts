@@ -22,7 +22,7 @@ import { faceRings } from '../geom/boundary.js';
 import type { InsertTx } from '../insert/classes.js';
 import { ok, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
-import { partsOutline, ringEdgeParts, SAGITTA_CM } from './buffer.js';
+import { ringEdgeParts, SAGITTA_CM } from './buffer.js';
 import { canonicalRing, compareRings, emptyResult, overlayRegion, type Ring } from './winding.js';
 
 /** One edge of a face, in `faceEdges`' order: its two lattice points, the face on its left. */
@@ -101,9 +101,7 @@ export function offsetFace(tx: InsertTx, face: FaceId, perEdgeCm: readonly (Cm |
   if (perEdgeCm.some((d) => d >= reachOf(rings) + SAGITTA_CM + 2)) return emptyResult([]);
   const parts = ringEdgeParts(rings, perEdgeCm);
   if (!parts.ok) return parts;
-  // The parts enter as their summed boundary (`partsOutline`): the same winding numbers, so the same region, with the
-  // segments neighbouring parts share cancelled (C-0196 (6)).
-  const r = overlayRegion([rings, partsOutline(parts.value)], (w) => w[0] !== 0 && w[1] === 0);
+  const r = overlayRegion([rings, parts.value], (w) => w[0] !== 0 && w[1] === 0);
   if (!r.ok) return r;
   if (r.value.length === 0) return emptyResult(r.warnings);
   return ok(r.value, r.warnings);

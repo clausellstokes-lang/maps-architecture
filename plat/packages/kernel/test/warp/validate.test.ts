@@ -4,7 +4,7 @@
 import { describe, expect, it } from 'vitest';
 import { insertChain } from '../../src/insert/index.js';
 import { routeOf } from '../../src/warp/held.js';
-import { closerThan, inTriangle, placementBoundProblem, rotationKept, stepProblem, vertexProblem } from '../../src/warp/validate.js';
+import { closerThan, heldRunProblem, inTriangle, placementBoundProblem, rotationKept, stepProblem, vertexProblem } from '../../src/warp/validate.js';
 import { StepView } from '../../src/warp/view.js';
 import { commit, framed, must, pt, vertexAtPoint } from './support.js';
 
@@ -56,6 +56,26 @@ describe('the view\'s checks', () => {
     // The route's far end lifted by 1.4 cm: (1 500, 1 001) is now 0.3 cm off the line (1 000, 1 000)–(2 000, 1 001.4…).
     view.set(vertexAtPoint(p, 2000, 1000), 2000, 1001);
     expect(placementBoundProblem(view, [{ v: s, route: route as NonNullable<typeof route> }])).toBeNull();
+  });
+
+  it('a held finer vertex whose run\'s end moves off its line fails (§3.6 held (5)); with its run\'s ends unmoved it passes', () => {
+    const p = kerb();
+    const s = vertexAtPoint(p, 1500, 1000);
+    const route = routeOf(p, s) as NonNullable<ReturnType<typeof routeOf>>;
+    const held = [{ v: s, route }];
+    const view = new StepView(p, G);
+    expect(heldRunProblem(view, held)).toBeNull();
+    view.set(vertexAtPoint(p, 1500, 600), 1500, 640); // a move off the run: no matter
+    expect(heldRunProblem(view, held)).toBeNull();
+    view.set(vertexAtPoint(p, 2000, 1000), 2000, 1040); // one end moved: 20 cm off the line
+    expect(heldRunProblem(view, held)).toMatch(/^held placement bound: \(1500, 1000\)/);
+    view.set(vertexAtPoint(p, 1000, 1000), 1000, 1040);
+    expect(heldRunProblem(view, held)).toMatch(/^held placement bound: \(1500, 1000\)/);
+    view.set(vertexAtPoint(p, 1000, 1000), 1000, 1001); // both ends lifted 1 cm: (1 500, 1 000) 1 cm off the line
+    view.set(vertexAtPoint(p, 2000, 1000), 2000, 1001);
+    expect(heldRunProblem(view, held)).toMatch(/^held placement bound/);
+    view.set(vertexAtPoint(p, 2000, 1000), 2000, 1000); // one end lifted 1 cm: 0.5 cm off the line, inside the hot pixel
+    expect(heldRunProblem(view, held)).toBeNull();
   });
 
   it('the rotation: a degree-3 vertex whose edge swings past another keeps no order', () => {

@@ -6,7 +6,7 @@ import { describe, expect, it } from 'vitest';
 import { VERTEX_PINNED } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { smoothCommitted } from '../../src/warp/index.js';
-import { commit, framed, healthy, pt, vertexAtPoint } from './support.js';
+import { commit, framed, healthy, movedLists, pt, vertexAtPoint } from './support.js';
 
 const ZIG = [[500, 1000], [1000, 1300], [1500, 1000], [2000, 1300], [2500, 1000]] as const;
 
@@ -29,7 +29,10 @@ describe('smoothCommitted: the pinned-vertex Laplacian as warp steps', () => {
     const last = c.value[2].moves.map((m) => m.to.y);
     expect(amplitude(last)).toBeLessThan(amplitude([1300, 1000, 1300]));
     expect(amplitude(last)).toBeLessThan(amplitude(moved));
-    expect(c.record?.moved).toBeDefined();
+    // The commit record lists every vertex the three passes moved, once, by lattice position (§3.3, §3.6).
+    const m = movedLists(p, c.record?.moved, c.value);
+    expect(m.record.length).toBe(3);
+    expect(m.record).toEqual(m.reported);
     healthy(p);
   });
 

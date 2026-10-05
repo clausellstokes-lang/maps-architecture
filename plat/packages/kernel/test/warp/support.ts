@@ -3,7 +3,7 @@
 // arena builders and oracles are M0-a-04 … M0-a-06's test support, read-only.
 import type { MoveReport, WarpOptions, DisplacementField } from '../../src/warp/index.js';
 import { warp } from '../../src/warp/index.js';
-import type { Plat } from '../../src/arena/index.js';
+import { compareVertices, type Plat } from '../../src/arena/index.js';
 import { tx, type Committed, type KernelTx, type TxEnv } from '../../src/tx/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import type { Cm, Level, Point } from '../../src/types/index.js';
@@ -81,4 +81,14 @@ export function report(r: KernelResult<Committed<MoveReport>>): { report: MoveRe
 /** The point of a vertex as "x,y". */
 export function at(p: Plat, v: number): string {
   return `${p.vertices.x[v]},${p.vertices.y[v]}`;
+}
+
+/**
+ * The commit record's `moved` against the step's reports (§3.3, §3.6 "the commit record lists every moved vertex"): the
+ * record's list, and every vertex the reports moved (slides and re-seats included) by lattice position now, as "x,y".
+ */
+export function movedLists(p: Plat, recordMoved: readonly number[] | undefined, reports: readonly MoveReport[]): { record: string[]; reported: string[] } {
+  const vs = [...new Set(reports.flatMap((r) => r.moves.map((m) => m.vertex)))];
+  vs.sort((a, b) => compareVertices(p, a, b));
+  return { record: (recordMoved ?? []).map((v) => at(p, v)), reported: vs.map((v) => at(p, v)) };
 }

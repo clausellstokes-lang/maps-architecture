@@ -5,7 +5,8 @@
 // bloat, swirl, jitter) over a random region. A committed step leaves the arena valid by every oracle (§3.10's half-edge
 // links, minEdge from any writer, one vertex per lattice point, no crossing, clearance ≥ minEdge, level consistency,
 // the face records, nesting, Euler per level, the index state), no held vertex moved, every reported move where the
-// arena now has it, and at most 8 halvings; a step that halves to its end is a reported no-op that leaves the arena as
+// arena now has it, the commit record's `moved` equal to the reported moves (by lattice position), §3.10's placement
+// bound on every finer vertex the step touched, and at most 8 halvings; a step that halves to its end is a reported no-op that leaves the arena as
 // it was (§3.6). The item's own fast-check properties meet the bar (the spec note N-16).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
@@ -13,7 +14,10 @@ import { isVertexLive, type Plat } from '../../src/arena/index.js';
 import { tx } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { randomBatch, rng, type Live } from '../tx/fuzzgen.js';
-import { allProblems, box, brush, framed, spec, state, warpBatch, type BrushKind } from './support.js';
+import { allProblems, box, brush, framed, movedLists, spec, state, warpBatch, type BrushKind } from './support.js';
+import { routeOf } from '../../src/warp/held.js';
+import { placementBoundProblem } from '../../src/warp/validate.js';
+import { StepView } from '../../src/warp/view.js';
 import { checkIndexState } from '../../src/index/index.js';
 import { MAX_HALVINGS } from '../../src/warp/index.js';
 
@@ -34,6 +38,7 @@ function arrangement(seed: number, n: number): { p: Plat; live: Live } {
   return { p, live };
 }
 
+const G = { layer: 'ground' as const, part: 0 };
 const kinds: BrushKind[] = ['displace', 'pinch', 'bloat', 'swirl', 'jitter'];
 const tally = { committed: 0, halved: 0, noops: 0, moved: 0 };
 
@@ -87,6 +92,18 @@ function oneCase(seed: number, n: number, wanted: Level, kind: BrushKind, centre
   for (const m of rep.moves) {
     expect(X[m.vertex]).toBe(m.to.x);
     expect(Y[m.vertex]).toBe(m.to.y);
+  }
+  // The commit record lists every moved vertex, slides and re-seats included, by lattice position (§3.3, §3.6).
+  const listed = movedLists(p, r.value.record?.moved, [rep]);
+  expect(listed.record).toEqual(listed.reported);
+  // §3.10's placement bound on every finer vertex the step touched — moved, or on a run an end of which moved — held
+  // ones included (a held finer vertex whose run's end moved would leave its route; §3.6 held (5)).
+  const movedSet = new Set(rep.moves.map((m) => m.vertex));
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (!isVertexLive(p, v)) continue;
+    const route = routeOf(p, v);
+    if (route === null || !(movedSet.has(v) || movedSet.has(route.a) || movedSet.has(route.b))) continue;
+    expect(placementBoundProblem(new StepView(p, G), [{ v, route }])).toBeNull();
   }
   expect(allProblems(p)).toEqual([]);
   expect(checkIndexState(p)).toEqual([]);

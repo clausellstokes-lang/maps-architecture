@@ -297,7 +297,7 @@ function assemble(t: OpenTx, version: number): CommitRecord {
     steinerAdded: t.journal.steiner,
     steinerDissolved: t.log.steinerDissolved,
     work: t.work.total,
-    moved: [],
+    moved: byPosition(p, t.log.moved),
     promoted: byPosition(p, [...C.promoted, ...t.log.promoted]),
     demoted: { vertices: byPosition(p, t.log.demotedVertices), edges: demotedEdges },
     unflagged: byPosition(p, t.log.unflagged),

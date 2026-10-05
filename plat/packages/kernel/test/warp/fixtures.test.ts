@@ -11,7 +11,8 @@ import { pointLocate } from '../../src/index/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { clearFiner, removeEdges, setOwner } from '../../src/tx/index.js';
 import { closerThan } from '../../src/warp/validate.js';
-import { at, box, brush, commit, contentPrint, drag, edgeRows, framed, healthy, must, P, pointwise, pt, report, S4, S8, state, vertexAtPoint, warpBatch } from './support.js';
+import { heldSet, warp } from '../../src/warp/index.js';
+import { at, box, brush, commit, contentPrint, drag, edgeRows, framed, healthy, movedLists, must, P, pointwise, pt, report, S4, S8, state, vertexAtPoint, warpBatch } from './support.js';
 
 const noVersion = (s: string): string => s.replace(/#v\d+$/, '');
 const G = { layer: 'ground' as const, part: 0 };
@@ -56,12 +57,20 @@ describe('§13.1: a pinch that would shorten an edge below minEdge, and a step s
     const p = framed();
     commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(1200, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
     const before = state(p);
-    const r = report(warpBatch(p, 1, drag(40, 0), box(990, 1990, 1010, 2010), { record: () => false }));
+    // The strengths tried, as the record check sees them: 1, ½, … 2⁻⁸ — nine tries, eight halvings.
+    const tried: string[] = [];
+    const r = report(warpBatch(p, 1, drag(40, 0), box(990, 1990, 1010, 2010), { record: (step) => (tried.push(`${step.strength}/${step.halvings}`), false) }));
+    expect(tried).toEqual([0, 1, 2, 3, 4, 5, 6, 7, 8].map((k) => `${2 ** -k}/${k}`));
     expect(r.report.applied).toBe(false);
     expect(r.report.halvings).toBe(8);
     expect(r.report.moves).toEqual([]);
     expect(r.report.lastFailure).toMatch(/^recordCheck/);
     expect(r.committed).toBe(false);
+    expect(state(p)).toBe(before);
+    // Exactly eight `warp.halvings` charged (the step's only work: its vertex is free, so no placement candidate): a work
+    // limit of 8 allows the no-op, a limit of 7 refuses at the eighth halving.
+    expect(report(warpBatch(p, 1, drag(40, 0), box(990, 1990, 1010, 2010), { record: () => false, spec: { workLimit: 8 } })).report.applied).toBe(false);
+    expect(warpBatch(p, 1, drag(40, 0), box(990, 1990, 1010, 2010), { record: () => false, spec: { workLimit: 7 } })).toMatchObject({ ok: false, code: 'E_WORK_LIMIT', detail: 'warp.halvings' });
     expect(state(p)).toBe(before);
   });
 });
@@ -93,6 +102,117 @@ describe('§3.6: a slide keeps attractCm from its fixed route\'s ends', () => {
     const r = report(warpBatch(p, 1, pointwise([[2000, 2000, -1990, 0]]), box(1900, 1900, 2100, 2100)));
     expect(r.report.halvings).toBe(0);
     expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 26,2000']);
+    healthy(p);
+  });
+});
+
+describe('§3.6: a slide keeps attractCm from every held vertex on its fixed route', () => {
+  it('the shore junction dragged 90 cm towards a locked way\'s foot 100 cm along the shore stops 26 cm short of it', () => {
+    const p = framed();
+    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
+    commit(p, 1, (o) => {
+      must(insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+      return insertChain(o, [pt(2100, 2000), pt(2100, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
+    });
+    const foot = vertexAtPoint(p, 2100, 2000);
+    const r = report(warpBatch(p, 1, pointwise([[2000, 2000, 90, 0]]), box(1900, 1900, 2200, 2100), { warp: { held: [{ entity: 'way:2', ref: { role: 'way', entity: 'way:2' } }] } }));
+    expect(r.report.held).toContain(foot);
+    expect(r.report.halvings).toBe(0);
+    // Clamped to 100 − 26 = 74 cm (unclamped, the placement rule would take (2 075, 2 000), 25 cm from the held foot).
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 2074,2000']);
+    expect(at(p, foot)).toBe('2100,2000');
+    healthy(p);
+  });
+
+  it('control: the same drag with way:2 unlocked (its foot outside the region) lands 25 cm from the foot', () => {
+    const p = framed();
+    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
+    commit(p, 1, (o) => {
+      must(insertChain(o, [pt(2000, 2000), pt(2000, 3000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+      return insertChain(o, [pt(2100, 2000), pt(2100, 1000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
+    });
+    const r = report(warpBatch(p, 1, pointwise([[2000, 2000, 90, 0]]), box(1900, 1900, 2050, 2100)));
+    expect(r.report.held).toEqual([]);
+    // The foot (outside the region) stays but is not held: the placement rule takes the point nearest 2 090 that keeps
+    // minEdge from it.
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['slide 2075,2000']);
+    healthy(p);
+  });
+});
+
+describe('§3.6 held (5): the downward closure holds the ends of a coarser run carrying a held finer vertex', () => {
+  /** An L2 kerb (1 000, 1 000)–(2 000, 1 000) and an L3 plot line ending on it at (1 500, 1 000), locked. */
+  function lockedOnKerb() {
+    const p = framed();
+    commit(p, 2, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000)], [{ role: 'kerb', entity: 'block:1' }], 'mandatory'));
+    commit(p, 3, (o) => insertChain(o, [pt(1500, 1000), pt(1500, 1500)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'));
+    return p;
+  }
+
+  it('an L2 drag over a locked L3 plot line ending on an L2 kerb: the kerb\'s ends are held and nothing moves', () => {
+    const p = lockedOnKerb();
+    const pts = [[1000, 1000], [1500, 1000], [2000, 1000], [1500, 1500]] as const;
+    const ids = pts.map(([x, y]) => vertexAtPoint(p, x, y));
+    expect(ids.every((v) => v >= 0)).toBe(true);
+    const lock = { held: [{ entity: 'plot:1', ref: { role: 'plot_line', entity: 'plot:1' } }] };
+    const c = commit(p, 2, (o) => ({ ok: true as const, value: heldSet(o, box(900, 900, 2100, 1600), lock), warnings: [] }));
+    // The plot line's two vertices (held (1)) and, by the closure, the kerb's two ends.
+    expect(c.value.vertices.map((v) => at(p, v))).toEqual(['1000,1000', '1500,1000', '2000,1000', '1500,1500']);
+    const r = report(warpBatch(p, 2, drag(0, 40), box(900, 900, 2100, 1600), { warp: lock }));
+    expect(r.report.held.map((v) => at(p, v))).toEqual(['1000,1000', '1500,1000', '2000,1000', '1500,1500']);
+    expect(r.report.moves).toEqual([]);
+    expect(ids.map((v) => at(p, v))).toEqual(pts.map(([x, y]) => `${x},${y}`));
+    healthy(p);
+  });
+
+  it('control: unlocked, the same drag moves the kerb\'s ends and the plot line, re-seating its foot on the kerb', () => {
+    const p = lockedOnKerb();
+    const r = report(warpBatch(p, 2, drag(0, 40), box(900, 900, 2100, 1600)));
+    expect(r.report.held).toEqual([]);
+    expect(r.report.moves.map((m) => `${m.kind} ${m.to.x},${m.to.y}`)).toEqual(['free 1000,1040', 'reseat 1500,1040', 'free 2000,1040', 'free 1500,1540']);
+    healthy(p);
+  });
+});
+
+describe('§3.3, §3.6: the commit record lists every moved vertex', () => {
+  it('a step of free moves and slides (the locked plot): record.moved is the report\'s moved vertices, by position', () => {
+    const p = plots();
+    const w = warpBatch(p, 3, drag(40, 30), box(900, 900, 2300, 1700), { warp: { held: [{ entity: 'plot:A', ref: { owner: 'plot:A', level: 3 } }] } });
+    const r = report(w);
+    expect(r.report.moves.some((m) => m.kind === 'slide')).toBe(true);
+    expect(r.report.moves.some((m) => m.kind === 'free')).toBe(true);
+    const m = movedLists(p, w.ok ? w.value.record?.moved : undefined, [r.report]);
+    expect(m.reported.length).toBe(r.report.moves.length);
+    expect(m.record).toEqual(m.reported);
+    healthy(p);
+  });
+
+  it('a step with a re-seat (the kerb fixture): the re-seated Steiner vertex is in record.moved', () => {
+    const p = kerbArena();
+    const s = vertexAtPoint(p, 1517, 1000);
+    const w = warpBatch(p, 2, shear, box(990, 400, 2010, 1001));
+    const r = report(w);
+    const record = w.ok ? w.value.record?.moved ?? [] : [];
+    expect(record).toContain(s);
+    const m = movedLists(p, record, [r.report]);
+    expect(m.record).toEqual(m.reported);
+  });
+
+  it('a step that moves nothing commits no record; a no-op after 8 halvings commits none either', () => {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(1200, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    expect(report(warpBatch(p, 1, drag(0.2, 0), box(990, 1990, 1010, 2010))).committed).toBe(false);
+    expect(report(warpBatch(p, 1, drag(40, 0), box(990, 1990, 1010, 2010), { record: () => false })).committed).toBe(false);
+  });
+
+  it('two warps in one batch: record.moved lists each moved vertex once, by its final position', () => {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(1200, 2000), pt(1400, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    const c = commit(p, 1, (o) => {
+      must(warp(o, drag(0, 30), 1, box(990, 1990, 1210, 2010)));
+      return warp(o, drag(0, 30), 1, box(1190, 2020, 1410, 2040));
+    });
+    expect((c.record?.moved ?? []).map((v) => at(p, v))).toEqual(['1000,2030', '1200,2060']);
     healthy(p);
   });
 });

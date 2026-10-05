@@ -282,3 +282,13 @@ export function placementBoundProblem(view: StepView, onRoutes: readonly { reado
   }
   return null;
 }
+
+/**
+ * §3.6 held (5) checked on the view: every held finer vertex stays within the hot pixel of its run as the step leaves the
+ * run's ends. The closure holds both ends of such a run, so a complete closure never fails this; it is checked, not
+ * assumed, so an incomplete one fails the step instead of committing a held vertex off its route (C-0197).
+ */
+export function heldRunProblem(view: StepView, heldRoutes: readonly { readonly v: VertexId; readonly route: RouteOf }[]): string | null {
+  const r = placementBoundProblem(view, heldRoutes.filter((hr) => view.moving(hr.route.a) || view.moving(hr.route.b)));
+  return r === null ? null : `held ${r}`;
+}

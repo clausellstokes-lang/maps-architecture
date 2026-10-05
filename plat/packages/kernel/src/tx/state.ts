@@ -35,6 +35,8 @@ export interface TxLog {
   /** Vertices and edge pairs this item's writers touched: level consistency is checked on them at commit. */
   readonly vertices: VertexId[];
   readonly pairs: number[];
+  /** Vertices a warp or smoothing step moved (§3.3's `moved`; journalled by M0-a-13's commit, C-0197). */
+  readonly moved: VertexId[];
 }
 
 /** The open transaction: the overlay of §3.3 with its spec, environment, before-image and journals. */
@@ -93,6 +95,7 @@ export function emptyLog(): TxLog {
     removedKeys: new Map(),
     vertices: [],
     pairs: [],
+    moved: [],
   };
 }
 
