@@ -1,4 +1,4 @@
-// M0-a-05 session fix round S3: the session's ruling N-42 (J192; C-0207). Two mandatory chains that the S1/S2 router
+// M0-a-05 session fix round S3: the session's ruling N-42 (J192; C-0209). Two mandatory chains that the S1/S2 router
 // (N-37's endpoint route included) still refused E_INVARIANT "insert: no route … keeps clearance (§3.10)"; §13.1 and
 // C-0177 (14): a mandatory chain is never rejected for precision. Each now commits, §3.10 kept, through a fallback that
 // reports W_PLACED (N-40), and moves no vertex beyond §3.6's bounds.

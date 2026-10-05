@@ -6,6 +6,11 @@
 import { describe, expect, it } from 'vitest';
 import { decodeArena, describeChunk, encodeArena } from '../../src/io/index.js';
 import { roomFor } from '../../src/io/format.js';
+import { absorbSliver, FACE_KIND_RESIDUE } from '../../src/faces/index.js';
+import { insertChain } from '../../src/insert/index.js';
+import { setOwner } from '../../src/tx/index.js';
+import type { Level } from '../../src/types/index.js';
+import { commit, faceAt, pt } from '../faces/support.js';
 import { ALONG_MIX, DEFAULT_MIX } from '../tx/fuzzgen.js';
 import type { Plat } from '../../src/arena/index.js';
 import { tx } from '../../src/tx/index.js';
@@ -54,6 +59,43 @@ describe('the arena block round trip (§13.1, §3.9)', () => {
       }
       roundTrip(q);
     }
+  });
+
+  it('carries the face kind column: residue faces at L0, L1 (routes chunk) and L2, L3 (partition chunks) round-trip (§3.9 faces row; fix round 1, check B1)', () => {
+    // The honest path (M0-a-07): absorbSliver retypes a sliver whose every boundary is structural or coarser as
+    // `residue` (FACE_KIND_RESIDUE, 1) and leaves its edges. At each level two structural chains of that level 100 cm
+    // apart bound a sliver below the floor; the L1 sliver also takes its neighbour's owner (the setOwner door).
+    const p = framed();
+    const chain = (level: Level, y: number, role: string, entity: string, x0 = 0, x1 = 4000): void => {
+      commit(p, level, (o) => insertChain(o, [pt(x0, y), pt(x1, y)], [{ role, entity }], 'mandatory'));
+    };
+    chain(0, 3000, 'shore', 'water:1');
+    chain(0, 3100, 'shore', 'water:2');
+    chain(1, 2000, 'way', 'way:1');
+    chain(1, 2100, 'way', 'way:2');
+    commit(p, 1, (o) => setOwner(o, [faceAt(p, 1, 2000, 1000)], 'block:1'));
+    chain(2, 1000, 'wall', 'wall:1');
+    chain(2, 1100, 'wall', 'wall:2');
+    chain(3, 500, 'setback', 'setback:1', 0, 4000);
+    chain(3, 600, 'setback', 'setback:2', 0, 4000);
+    const slivers: [Level, number][] = [[0, 3050], [1, 2050], [2, 1050], [3, 550]];
+    for (const [level, y] of slivers) {
+      const f = faceAt(p, level, 2000, y);
+      expect(f, `the L${level} sliver`).toBeGreaterThanOrEqual(0);
+      const c = commit(p, level, (o) => absorbSliver(o, f, { minWidthCm: 200, minAreaCm2: 0 }));
+      expect(c.value).toBe(f);
+      expect(p.faces[level].kind[f]).toBe(FACE_KIND_RESIDUE);
+    }
+    const kinds = (q: Plat): string =>
+      slivers.map(([level, y]) => `L${level}:${q.faces[level].kind[faceAt(q, level, 2000, y)]}`).join(' ');
+    expect(kinds(p)).toBe('L0:1 L1:1 L2:1 L3:1');
+    // Non-zero kinds sit in the routes chunk (L0, L1) and in partition chunks (L2, L3).
+    const levels = encodeArena(p).slice(1).map((c) => describeChunk(c.bytes).level);
+    expect(levels).toEqual(expect.arrayContaining([2, 3]));
+    const { loaded } = roundTrip(p);
+    expect(kinds(loaded)).toBe('L0:1 L1:1 L2:1 L3:1');
+    // The other faces keep kind 0: the column is carried per face, not per level.
+    expect(loaded.faces[1].kind[faceAt(loaded, 1, 2000, 1000)]).toBe(0);
   });
 
   it('sizes a loaded table at the smallest 64 · 2ᵏ above its count (C-0207 (11))', () => {

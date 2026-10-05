@@ -15,7 +15,7 @@
 // charged to `insert.crossings`. The segment is then re-routed through the placed vertex — iterated snap rounding
 // (snapRound.ts). Readings: C-0177 (5).
 //
-// The step across a sliver (N-42 (a), C-0207): two consecutive crossings closer than `minEdge` whose crossed pieces share
+// The step across a sliver (N-42 (a), C-0209): two consecutive crossings closer than `minEdge` whose crossed pieces share
 // no end — two edges of one acute corner bridged by a short edge, a sliver between them narrower than `minEdge` where
 // the segment meets it — leave the placement rule no point for the first crossing, because (iii) reads the second
 // crossed edge, not yet joined to it, as outside the new vertex's one-ring; its fallback then lands the crossing on the
@@ -169,7 +169,7 @@ export function resolveCrossings(ctx: ChainCtx, a: VertexId, b: VertexId): Kerne
   return ok({ kind: 'crossing', crossing: first });
 }
 
-// ---- the step across a sliver (N-42 (a), C-0207) -------------------------------------------------------------------------
+// ---- the step across a sliver (N-42 (a), C-0209) -------------------------------------------------------------------------
 
 /**
  * The physical sub-edge of a route piece that holds the exact position (x, y) on it, as its two end vertices (by the
@@ -220,7 +220,7 @@ function inSweptWedge(fx: number, fy: number, tx: number, ty: number, ex: number
 }
 
 /**
- * `placeAcross` (N-42 (a), C-0207; see the module comment): the first crossing `first` of the segment a → b, whose next
+ * `placeAcross` (N-42 (a), C-0209; see the module comment): the first crossing `first` of the segment a → b, whose next
  * crossing `second` lies closer than `minEdge` on another piece, placed by the placement rule's tests (§3.6) with the
  * sub-edge holding `second` left out of (iii): (i) within 0.71 cm of the crossed run's own-level route; (ii) at least
  * `minEdge` from the split sub-edge's ends and from a and b; (iii) every vertex at least `minEdge` from it and from each

@@ -22,7 +22,7 @@
 // (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
 // *Chain classes*). A segment no route keeps clear — the design route, the strict route, the route along existing edges,
 // N-37's endpoint route and N-42 (a)'s route across a sliver all tried — whose end is a free vertex the chain just
-// placed has that end re-landed onto an existing vertex within √2 · `attractCm` (N-42 (b), W_PLACED; C-0207); one that
+// placed has that end re-landed onto an existing vertex within √2 · `attractCm` (N-42 (b), W_PLACED; C-0209); one that
 // still keeps no route clear is refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
@@ -403,7 +403,7 @@ function clearSince(ctx: ChainCtx, m: Mark): boolean {
 /**
  * §3.10's clearance over everything written since the mark, whole: as `clearSince`, and also every edge at a new vertex —
  * the two sub-edges of each split among them — against the vertices round it, so a split whose placement relaxed (iii)
- * (`placeAcross`, N-42) is judged on the arena as it stands (C-0207).
+ * (`placeAcross`, N-42) is judged on the arena as it stands (C-0209).
  */
 function clearWholeSince(ctx: ChainCtx, m: Mark): boolean {
   const p = ctx.p;
@@ -427,7 +427,7 @@ function clearWholeSince(ctx: ChainCtx, m: Mark): boolean {
  * only through vertices within `minEdge`); where that fails too, the route along existing edges (`routeAlongExisting`);
  * and before any refusal the route with every crossing on the placement rule's endpoint fallback (§3.6: "each such
  * re-route lands on an existing vertex, so the loop ends"; N-37, C-0202); last, the design route with a crossing on the
- * near side of a sliver placed across it (N-42 (a), C-0207), judged by §3.10's clearance whole (`clearWholeSince`). A
+ * near side of a sliver placed across it (N-42 (a), C-0209), judged by §3.10's clearance whole (`clearWholeSince`). A
  * refusal of the design or strict route is the segment's; a gap no fallback closes is refused E_INVARIANT (insertChain
  * then re-lands a free end of the segment, N-42 (b)), never thrown.
  */
@@ -513,7 +513,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
    * and an end of it is a free vertex this op just placed (its mark before that landing given): that end is re-landed
    * onto an existing vertex within √2 · `attractCm` of its input point — the far end first, then the near one (with the
    * far end landed again after it) — nearest first, each reported W_PLACED (and W_ATTRACTED at the input point), the
-   * first whose segment routes with clearance kept taken (C-0207); a candidate refused for any other reason is passed
+   * first whose segment routes with clearance kept taken (C-0209); a candidate refused for any other reason is passed
    * over (E_WORK_LIMIT ends the op). Returns the segment's two ends as they stand; the failure as it was when no
    * candidate routes (everything back to the marks).
    */

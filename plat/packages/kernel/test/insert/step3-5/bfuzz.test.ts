@@ -197,7 +197,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(commits).toBeGreaterThan(refusals);
   }, hardTimeout(60));
 
-  // N-42 (b), the named regression (C-0207): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
+  // N-42 (b), the named regression (C-0209): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
   // close-r1 note 23) — three earlier chains, then an L2 mandatory random walk of 320 points refused E_INVARIANT; shrunk,
   // one L0 walk refused "no route from (313, 244) to (341, 251) keeps clearance" (routerGapS3.test.ts pins it): the route
   // step 3 gives the last segment, through (332, 226) and (361, 234), passes 24.3 cm from its own free end. The case
@@ -210,7 +210,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 3624, y: 3034 } }]);
   });
 
-  // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0207): at seed 13 the
+  // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0209): at seed 13 the
   // random family's 7 265th case — an L1 chain, then an L4 mandatory random walk of 331 points — refused the walk
   // E_INVARIANT; its free end is now re-landed (W_PLACED at (2953, 109)).
   it('the random family\'s seed 13, its 7 265th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
@@ -220,7 +220,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 2953, y: 109 } }]);
   });
 
-  // N-42's routes come last (C-0207): a chain the S1/S2 router commits keeps its outputs. At seed 777 the random
+  // N-42's routes come last (C-0209): a chain the S1/S2 router commits keeps its outputs. At seed 777 the random
   // family's 421st case — an L0 chain, then an L2 mandatory chain of 9 points — commits on the design route with a
   // crossing on the near side of a sliver sent to the placement's endpoint fallback (W_PLACED 4 in all); the route across
   // slivers, taken there instead, would place it across (W_PLACED 6) — a one-time shift N-42 does not ask for (measured

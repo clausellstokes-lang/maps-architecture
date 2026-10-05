@@ -135,7 +135,7 @@ export interface ChainCtx {
    */
   endpointCrossings?: boolean;
   /**
-   * The router's reading after that (N-42 (a), C-0207): a crossing the placement rule can only send to its endpoint
+   * The router's reading after that (N-42 (a), C-0209): a crossing the placement rule can only send to its endpoint
    * fallback, whose next crossing lies closer than `minEdge` on another piece (a sliver), is placed across the sliver
    * instead (crossings.ts `placeAcross`, W_PLACED). Unset: crossings are placed as §3.6 states.
    */
