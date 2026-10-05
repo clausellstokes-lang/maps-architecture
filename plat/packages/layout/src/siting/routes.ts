@@ -134,3 +134,55 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
   }
   return { routes, unserved, charged };
 }
+
+/**
+ * A gate route's outward stretch re-solved outside the stage (§4.2 S3 (7) with §4.3's wallCrossingPenalty, "only at
+ * gates"; C-0201 (6)): from the node just outside its gate, heap A* to the frame with every selected node impassable,
+ * so the road leaves the walled stage once, at its gate. The inward part up to the gate is kept; the bearing becomes
+ * the direction from the gate to the rim node reached. Null when no such path exists or the search reaches `limit`.
+ */
+export function rerouteOutside(
+  lattice: Lattice,
+  route: GateRoute,
+  gateIndex: number,
+  selected: Uint8Array,
+  gateAt: { x: number; y: number },
+  limit = Infinity,
+): { route: GateRoute; charged: number } | null {
+  const g = lattice.graph;
+  const weights = new Float64Array(g.weights.length);
+  for (let u = 0; u < g.n; u += 1) {
+    for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) weights[e] = selected[u] === 1 || selected[g.targets[e]] === 1 ? Infinity : g.weights[e];
+  }
+  const from = route.nodes[gateIndex + 1];
+  const rimNodes: number[] = [];
+  for (let i = 0; i < lattice.points.length; i += 1) if (lattice.rim[i] === 1) rimNodes.push(i);
+  let count = 0;
+  const h = (v: number): number => {
+    count += 1;
+    if (count >= limit) throw new WorkLimitReached(count);
+    const p = lattice.points[v];
+    return lattice.minCostPerCm * Math.max(0, toFrame(lattice, p.x, p.y) - lattice.rimInsetCm);
+  };
+  let out;
+  try {
+    out = astar({ n: g.n, offsets: g.offsets, targets: g.targets, weights }, from, rimNodes, h);
+  } catch (e) {
+    if (e instanceof WorkLimitReached) return null;
+    throw e;
+  }
+  if (!out.ok) return null;
+  const outward = out.value.nodes;
+  const end = lattice.points[outward[outward.length - 1]];
+  const nodes = route.nodes.slice(0, gateIndex + 1).concat(outward);
+  let cost = 0;
+  for (let k = 1; k < nodes.length; k += 1) {
+    const u = nodes[k - 1];
+    const v = nodes[k];
+    for (let d = 0; d < 6; d += 1) if (lattice.adjacency[6 * u + d] === v) cost += g.weights[lattice.slot[6 * u + d]];
+  }
+  return {
+    route: { ...route, nodes, pickAt: Math.min(route.pickAt, gateIndex), bearingCdeg: bearingCdeg(end.x - gateAt.x, end.y - gateAt.y), cost, charged: route.charged + count },
+    charged: count,
+  };
+}

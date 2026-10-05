@@ -85,7 +85,7 @@ describe("t₁ by accumulated cell areas (§4.2 S3 (6); C-0017's 'exact to one c
     const asked = S.site.land.stagesHa[0] * 1e8;
     expect(th.askedCm2).toBe(asked);
     expect(Math.abs(th.landCm2 - asked)).toBeLessThanOrEqual(L.cellAreaCm2);
-    // The nearest whole cell (C-XXXX (7)): within half a cell, so one node more or fewer would be farther.
+    // The nearest whole cell (C-0201 (7)): within half a cell, so one node more or fewer would be farther.
     expect(Math.abs(th.landCm2 - asked)).toBeLessThanOrEqual(L.cellAreaCm2 / 2);
     expect(th.capped).toBe(false);
     expect(th.shortfallCm2).toBe(0);

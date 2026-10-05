@@ -6,7 +6,10 @@
 // F-WALL's gate rungs (§4.2 S3 (7), §5.2; C-0085): two routes that first reach T = t₁ at one point cannot both be
 // gates; the later pick is re-drawn from its next ranked candidate (≤ 3 attempts), then dropped and reported. Each
 // re-draw or drop re-solves the routes and re-derives T and the level set from the routes that stand, so T's road set
-// is always the gates' own routes (C-XXXX (6)); the loop ends because every round re-draws or drops one pick.
+// is always the gates' own routes (C-0201 (6)). A route that re-enters the stage after its gate (relief can bend it
+// back in) has its outward stretch re-solved outside the stage, so roads leaving the walled stage = N (§13.2; §4.3's
+// wallCrossingPenalty, only at gates), reported as a `reroute`, ≤ 3 per route. The loop ends because every round
+// re-draws, drops or reroutes within those caps.
 import { CONCERNS, STAGES, type LatticePoint } from '@plat/kernel';
 import type { Destination, GateSite } from '@plat/model';
 import { workLimitOf, loadWorkLimits } from '@plat/tables';
@@ -16,7 +19,7 @@ import { bearingCdeg, quot } from './geom.js';
 import { buildLattice, siteCosts } from './lattice.js';
 import { levelSet } from './levelset.js';
 import { plaza as drawPlaza } from './plaza.js';
-import { gateRoutes, plazaTree } from './routes.js';
+import { gateRoutes, plazaTree, rerouteOutside } from './routes.js';
 import type { Gate, GatePick, GateRoute, GateRung, Lattice, LevelSet, S3Slice, Site, Threshold, UnservedRoute } from './types.js';
 
 /** The slice's options: a requested N₁, requested bearings, the water pull, route.nodes' limit, F-WALL's attempts. */
@@ -99,36 +102,68 @@ export function s3Slice(site: Site, opts: SliceOptions = {}): S3Slice {
   const drawn = opts.picks ?? gatePicks(pickSet, n, site.stream(CONCERNS['gate.pick']), pickOpts);
   let picks: GatePick[] = drawn.map((p) => ({ ...p, ranked: [...p.ranked] }));
 
-  // (5) – (7) with F-WALL's gate rungs.
+  // (5) – (7) with F-WALL's gate rungs and the reroute of a route that re-enters the stage after its gate.
   const tree = plazaTree(lattice);
   const rungs: GateRung[] = [];
   const attempts = new Map<number, number>();
+  const reroutes = new Map<number, number>();
   let work = tree.settled;
-  let unserved: UnservedRoute[] = [];
+  const first = gateRoutes(tree, picks, { nodeLimit: limit });
+  work += first.charged;
+  const unserved: UnservedRoute[] = [...first.unserved];
+  let routes = first.routes;
+  picks = picks.filter((p) => routes.some((r) => r.ordinal === p.ordinal));
   for (;;) {
-    const solved = gateRoutes(tree, picks, { nodeLimit: limit });
-    work += solved.charged;
-    unserved = solved.unserved;
-    const routes = solved.routes;
     const b = boundaryOf(lattice, routes, a1, areaCm2, opts.pull);
     const hit = coincidence(b.gates);
-    if (hit === null) {
-      return finish(site, thePlaza, lattice, pickSet, n, picks, routes, b, rungs, unserved, work, limit, drawn.length);
+    if (hit !== null) {
+      const earlier = routes[hit[0]].ordinal;
+      const later = routes[hit[1]].ordinal;
+      const at = picks.findIndex((p) => p.ordinal === later);
+      const p = picks[at];
+      const tried = attempts.get(later) ?? 0;
+      let solved: GateRoute | null = null;
+      if (tried < GATE_REDRAWS && tried + 1 < p.ranked.length) {
+        attempts.set(later, tried + 1);
+        const to = p.ranked[tried + 1];
+        rungs.push({ rung: 'redraw', ordinal: later, with: earlier, attempt: tried + 1, from: p.node, to });
+        const moved = { ...p, node: to, at: lattice.points[to] };
+        const again = gateRoutes(tree, [moved], { nodeLimit: limit });
+        work += again.charged;
+        unserved.push(...again.unserved);
+        if (again.routes.length === 1) {
+          solved = again.routes[0];
+          picks = picks.map((q, i) => (i === at ? moved : q));
+        }
+      }
+      if (solved === null) {
+        rungs.push({ rung: 'drop', ordinal: later, with: earlier, attempt: 0, from: p.node, to: -1 });
+        picks = picks.filter((_, i) => i !== at);
+        routes = routes.filter((r) => r.ordinal !== later);
+      } else {
+        routes = routes.map((r) => (r.ordinal === later ? (solved as GateRoute) : r));
+      }
+      continue;
     }
-    const earlier = routes[hit[0]].ordinal;
-    const later = routes[hit[1]].ordinal;
-    const at = picks.findIndex((p) => p.ordinal === later);
-    const p = picks[at];
-    const tried = attempts.get(later) ?? 0;
-    if (tried < GATE_REDRAWS && tried + 1 < p.ranked.length) {
-      attempts.set(later, tried + 1);
-      const to = p.ranked[tried + 1];
-      rungs.push({ rung: 'redraw', ordinal: later, with: earlier, attempt: tried + 1, from: p.node, to });
-      picks = picks.map((q, i) => (i === at ? { ...q, node: to, at: lattice.points[to] } : q));
-    } else {
-      rungs.push({ rung: 'drop', ordinal: later, with: earlier, attempt: 0, from: p.node, to: -1 });
-      picks = picks.filter((_, i) => i !== at);
+    // A route that re-enters the stage after its gate: its outward stretch re-solved outside (≤ 3 times per route).
+    let rerouted = false;
+    for (let k = 0; k < routes.length && !rerouted; k += 1) {
+      const g = b.gates[k];
+      const r = routes[k];
+      if (g === null || !r.nodes.slice(g.routeIndex + 1).some((v) => b.set.selected[v] === 1)) continue;
+      const tried = reroutes.get(r.ordinal) ?? 0;
+      if (tried >= GATE_REDRAWS) continue;
+      reroutes.set(r.ordinal, tried + 1);
+      const re = rerouteOutside(lattice, r, g.routeIndex, b.set.selected, g.at, limit);
+      rungs.push({ rung: 'reroute', ordinal: r.ordinal, with: -1, attempt: tried + 1, from: r.nodes[r.nodes.length - 1], to: re === null ? -1 : re.route.nodes[re.route.nodes.length - 1] });
+      if (re !== null) {
+        work += re.charged;
+        routes = routes.map((q) => (q.ordinal === r.ordinal ? re.route : q));
+        rerouted = true;
+      }
     }
+    if (rerouted) continue;
+    return finish(site, thePlaza, lattice, pickSet, n, picks, routes, b, rungs, unserved, work, limit);
   }
 }
 
@@ -145,7 +180,6 @@ function finish(
   unserved: UnservedRoute[],
   work: number,
   limit: number,
-  drawnCount: number,
 ): S3Slice {
   // The gates (a route that never leaves the selection gives none: reported with the unserved).
   const gates: Gate[] = [];
@@ -156,7 +190,6 @@ function finish(
   const destinations: Destination[] = [];
   thePlaza.ring.forEach((p: LatticePoint, i: number) => destinations.push({ id: `plaza:0/attach:${String(i)}`, kind: 'plaza_attach', at: p }));
   for (const g of gates) destinations.push({ id: `gate:${String(g.ordinal)}`, kind: 'gate', at: g.at, bearingCdeg: g.bearingCdeg as GateSite['bearingCdeg'] });
-  const dropped = rungs.filter((r) => r.rung === 'drop').length;
   return {
     site,
     plaza: thePlaza,
@@ -177,7 +210,7 @@ function finish(
       gateRungs: rungs,
       unserved,
       shortfallCm2: b.threshold.shortfallCm2,
-      gatesDropped: dropped + (drawnCount < n ? n - drawnCount : 0),
+      gatesDropped: Math.max(0, n - gates.length),
     },
   };
 }

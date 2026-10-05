@@ -6,17 +6,17 @@
 // terrain (steep ground down) and a jitter, one uniform per candidate per pick, so the draws of pick i never depend on
 // N and a smaller N is always a prefix of a larger one. Each gate is the first point at which its solved route, walked
 // outward from the plaza, reaches T = t₁: the midpoint of the first route edge leaving the selection, which is the
-// contour's own crossing there (C-0017), so every gate is a contour vertex. Choices: C-XXXX.
+// contour's own crossing there (C-0017), so every gate is a contour vertex. Choices: C-0201.
 import { type LatticePoint, type Stream } from '@plat/kernel';
 import type { TableView } from '@plat/tables';
 import { angularGap, bearingCdeg, latticeAt } from './geom.js';
 import type { Gate, GatePick, GateRoute, LevelSet } from './types.js';
 
-/** The jitter's weight in a pick's score (an own pick, C-XXXX (2)): at most 900 cdeg of angular gap. */
+/** The jitter's weight in a pick's score (an own pick, C-0201 (2)): at most 900 cdeg of angular gap. */
 export const PICK_JITTER = 0.05;
-/** The requested bearing's weight (C-XXXX (2)). */
+/** The requested bearing's weight (C-0201 (2)). */
 export const PICK_BEARING_WEIGHT = 0.5;
-/** The terrain term's weight on the candidate's slope (rise over run; C-XXXX (2)). */
+/** The terrain term's weight on the candidate's slope (rise over run; C-0201 (2)). */
 export const PICK_SLOPE_WEIGHT = 1;
 /** The candidates kept per pick for F-WALL's re-draw: the pick and three more (§4.2 S3 (7): ≤ 3 attempts). */
 export const PICK_RANKED = 4;

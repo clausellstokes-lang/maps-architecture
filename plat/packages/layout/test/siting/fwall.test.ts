@@ -1,7 +1,7 @@
 // F-WALL's gate rungs by fixture (§4.2 S3 (7), §5.2; C-0085; M0-c-01): two routes reaching T = t₁ at one point
 // re-draw the later pick from its next candidate (≤ 3 attempts), then drop it and report.
 import { describe, expect, it } from 'vitest';
-import { angularGap, bearingCdeg, fieldT, GATE_REDRAWS, pickCandidates, s3Slice, type GatePick, type S3Slice } from '../../src/index.js';
+import { angularGap, bearingCdeg, fieldT, flatFixture, GATE_REDRAWS, pickCandidates, s3Slice, type GatePick, type S3Slice } from '../../src/index.js';
 import { smallSite } from './support.js';
 
 const SITE = smallSite(11);
@@ -81,5 +81,36 @@ describe("F-WALL's gate rungs (C-0085)", () => {
     expect(s.report.gateRungs).toEqual([{ rung: 'redraw', ordinal: 2, with: 0, attempt: 1, from: p0.node, to: c }]);
     expect(s.picks.map((p) => p.node)).toEqual([p0.node, p1.node, c]);
     expect(s.gates.length).toBe(3);
+  });
+
+  it('a route that re-enters the stage after its gate has its outward stretch re-solved outside: roads leaving = N (C-0201 (6))', () => {
+    // A tilted site (8 % east, 3 % north) bends one route of seed 5 back into the stage beyond its gate.
+    const site = flatFixture(5);
+    const t = site.terrain;
+    for (let j = 0; j < t.rows; j += 1) {
+      for (let i = 0; i < t.cols; i += 1) t.heightCm[j * t.cols + i] = Math.round(0.08 * (t.originX + (i + 0.5) * t.cellCm) + 0.03 * (t.originY + (j + 0.5) * t.cellCm));
+    }
+    const s = s3Slice(site);
+    const re = s.report.gateRungs.filter((r) => r.rung === 'reroute');
+    expect(re.length).toBeGreaterThan(0);
+    for (const r of re) {
+      expect(r.to).not.toBe(-1);
+      expect(r.attempt).toBeGreaterThanOrEqual(1);
+      expect(r.attempt).toBeLessThanOrEqual(3);
+    }
+    expect(s.gates.length).toBe(s.n);
+    let leaving = 0;
+    s.routes.forEach((r, k) => {
+      const g = s.gates[k];
+      // Leaves once, at its gate, and never comes back.
+      for (let i = 0; i <= g.routeIndex; i += 1) expect(s.levelSet.selected[r.nodes[i]]).toBe(1);
+      for (let i = g.routeIndex + 1; i < r.nodes.length; i += 1) expect(s.levelSet.selected[r.nodes[i]]).toBe(0);
+      expect(s.lattice.rim[r.nodes[r.nodes.length - 1]]).toBe(1);
+      expect(s.levelSet.contour.some((q) => q.x === g.at.x && q.y === g.at.y)).toBe(true);
+      leaving += 1;
+    });
+    expect(leaving).toBe(s.n);
+    // T is the field of the routes that stand.
+    expect(Buffer.from(s.field.T.buffer).equals(Buffer.from(fieldT(s.lattice, s.routes, 1.3).T.buffer))).toBe(true);
   });
 });

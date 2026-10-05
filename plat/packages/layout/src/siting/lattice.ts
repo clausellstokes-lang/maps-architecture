@@ -4,13 +4,13 @@
 // water impassable except along a crossing site's deck segment (C-0076), a reservation impassable inside and reached
 // only at its attach points. The wall, existing-fabric and land-value factors are 1 at S3 at epoch 0 (no wall, no
 // fabric yet; the land value's rows are M1's), and the water pull multiplies the field T only, never a route (§4.3).
-// Choices: C-XXXX.
+// Choices: C-0201.
 import { CONCERNS, hexLattice, type LatticePoint, type SearchGraph, type Stream } from '@plat/kernel';
 import { terrainSampler } from '@plat/site';
 import { distToSegment, insideRing, quot, segmentMeetsRing, type XY } from './geom.js';
 import type { Costs, Lattice, PlannedReservation, Site } from './types.js';
 
-/** cos 30°: a deck edge runs within 30° of its deck's direction (C-XXXX (4)). */
+/** cos 30°: a deck edge runs within 30° of its deck's direction (C-0201 (4)). */
 const COS30 = 0.8660254037844387;
 
 /** √3 ÷ 2: a triangular lattice node's cell is s² · √3 ÷ 2. */
@@ -29,7 +29,7 @@ export function latticeSpacing(site: Site): { spacingCm: number; jitterCm: numbe
 
 /**
  * Is the edge ab, which meets water, an edge along a deck segment (C-0076)? Both ends within one spacing of the deck
- * and the edge within 30° of its direction (C-XXXX (4)).
+ * and the edge within 30° of its direction (C-0201 (4)).
  */
 function alongDeck(costs: Costs, a: XY, b: XY, spacingCm: number): boolean {
   for (const d of costs.water.decks) {

@@ -71,7 +71,7 @@ describe('the stage-1 level set (C-0017)', () => {
     });
   }
 
-  it('fills a pocket the selection encloses, so the boundary is one ring (C-XXXX (5))', () => {
+  it('fills a pocket the selection encloses, so the boundary is one ring (C-0201 (5))', () => {
     const s = sliceOf(1);
     const field = s.field;
     const t = s.threshold.t;
@@ -114,7 +114,7 @@ describe('the stage-1 level set (C-0017)', () => {
     for (let i = 0; i < s.lattice.points.length; i += 1) if (s.lattice.rim[i] === 1) expect(set.selected[i]).toBe(0);
   });
 
-  it('spans a river: the water the selection reaches from its banks is selected, never counted as land, and the boundary crosses the river (C-XXXX (8))', () => {
+  it('spans a river: the water the selection reaches from its banks is selected, never counted as land, and the boundary crosses the river (C-0201 (8))', () => {
     const band = [P(10_000, -100_000), P(14_000, -100_000), P(14_000, 100_000), P(10_000, 100_000)];
     const water = { faces: [band], decks: [{ id: 'bridge:0', a: P(10_000, 0), b: P(14_000, 0) }] };
     const s = s3Slice(smallSite(21, { water }), { requestedN: 3 });
@@ -188,7 +188,7 @@ describe('the stage-1 level set (C-0017)', () => {
     expect(b.landCm2).toBeGreaterThan(a.landCm2);
   });
 
-  it('the outline keeps every node on its side: a Chaikin pass that would cut a node off is not applied (C-XXXX (5))', () => {
+  it('the outline keeps every node on its side: a Chaikin pass that would cut a node off is not applied (C-0201 (5))', () => {
     const square = [P(0, 0), P(10_000, 0), P(10_000, 10_000), P(0, 10_000)];
     const points = [P(5_000, 5_000), P(300, 300), P(20_000, 20_000)];
     // Only the centre and a far node guarded: both passes stand.

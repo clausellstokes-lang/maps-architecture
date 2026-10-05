@@ -66,7 +66,7 @@ export interface Costs {
   kSlope: number;
   water: WaterPlan;
   reservations: PlannedReservation[];
-  /** The factor an edge along a deck segment costs (C-0076; C-XXXX): 1, the crossing priced by its detour alone. */
+  /** The factor an edge along a deck segment costs (C-0076; C-0201): 1, the crossing priced by its detour alone. */
   deckPenalty: number;
 }
 
@@ -77,12 +77,12 @@ export interface Lattice {
   points: LatticePoint[];
   /** Six per point (E, NE, NW, W, SW, SE), −1 where that lattice point is not kept (the kernel's hexLattice). */
   adjacency: Int32Array;
-  /** 1 where the node has all six neighbours: only such a node is the town's land (C-XXXX). */
+  /** 1 where the node has all six neighbours: only such a node is the town's land (C-0201). */
   interior: Uint8Array;
   /** 1 where the node lies on the lattice's edge (fewer than six neighbours): the frame's nodes the gate routes end at. */
   rim: Uint8Array;
   /** 1 where the node lies inside a planned water face: never the town's land, reached by the level set only across
-   * the water from its banks (C-XXXX (8)). */
+   * the water from its banks (C-0201 (8)). */
   water: Uint8Array;
   /** Per node, the terrain's slope there (rise over run, the TerrainSampler's): the pick score's terrain term. */
   slope: Float64Array;
@@ -137,7 +137,7 @@ export interface GateRoute {
   attachIndex: number;
   /** The lattice nodes from the attach node through the pick to the rim. */
   nodes: number[];
-  /** Index of the pick within `nodes`. */
+  /** Index of the pick within `nodes` (after a reroute, at most the gate's inside node). */
   pickAt: number;
   /** The least-cost outward direction from the pick to the frame (cdeg), or the requested bearing. */
   bearingCdeg: number;
@@ -179,7 +179,7 @@ export interface Threshold {
 export interface LevelSet {
   field: Field;
   t: number;
-  /** 1 on the selected nodes: interior nodes with T ≤ t, and any unselected pocket they enclose (filled, C-XXXX). */
+  /** 1 on the selected nodes: interior nodes with T ≤ t, and any unselected pocket they enclose (filled, C-0201). */
   selected: Uint8Array;
   /** The pocket nodes filled into the selection. */
   filled: number;
@@ -192,7 +192,7 @@ export interface LevelSet {
   rings: number;
   /** The contour simplified and Chaikin-smoothed with the pins kept (§4.4 S5a, C-0017). */
   outline: LatticePoint[];
-  /** The Chaikin passes the outline kept (a pass that would move a node across it is not applied, C-XXXX). */
+  /** The Chaikin passes the outline kept (a pass that would move a node across it is not applied, C-0201). */
   smoothPasses: number;
 }
 
@@ -209,14 +209,16 @@ export interface Gate {
 
 /** F-WALL's gate rungs as they ran (§4.2 S3 (7), C-0085): each re-draw and each drop, reported. */
 export interface GateRung {
-  rung: 'redraw' | 'drop';
+  /** redraw / drop: F-WALL's gate rungs; reroute: a route's outward stretch re-solved outside the stage (C-0201 (6)). */
+  rung: 'redraw' | 'drop' | 'reroute';
   ordinal: number;
-  /** The pick ordinal whose gate it coincided with. */
+  /** The pick ordinal whose gate it coincided with (−1 for a reroute). */
   with: number;
-  /** The re-draw's attempt (1 … 3); 0 for a drop. */
+  /** The re-draw's or reroute's attempt (1 … 3); 0 for a drop. */
   attempt: number;
+  /** The pick node (re-draw, drop) or the route's old rim node (reroute). */
   from: number;
-  /** The new candidate node (re-draw), or −1 (drop). */
+  /** The new candidate node (re-draw), −1 (drop), or the route's new rim node (reroute; −1 when none was found). */
   to: number;
 }
 
@@ -257,6 +259,6 @@ export interface S3Report {
   unserved: UnservedRoute[];
   /** The stage-1 land's shortfall when t₁ was capped (cm²; requestedVsBuilt). */
   shortfallCm2: number;
-  /** Gates dropped, so main gates < N (reported, F-WALL). */
+  /** N less the gates placed: picks dropped by F-WALL or left unserved (main gates < N, reported). */
   gatesDropped: number;
 }

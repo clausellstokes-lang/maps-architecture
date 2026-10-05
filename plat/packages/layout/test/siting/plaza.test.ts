@@ -61,7 +61,7 @@ describe('the main plaza (§4.2 S3 (2))', () => {
     expect(hi).toBeGreaterThan(0.55e8);
   });
 
-  it('no quadrilateral reaches compactness 0.8 — why the plaza draws 5 or 6 vertices (C-XXXX (3))', () => {
+  it('no quadrilateral reaches compactness 0.8 — why the plaza draws 5 or 6 vertices (C-0201 (3))', () => {
     expect(compactnessOf([P(0, 0), P(1000, 0), P(1000, 1000), P(0, 1000)])).toBeLessThan(0.8);
     expect(compactnessOf([P(0, 0), P(1000, 0), P(1000, 1000), P(0, 1000)])).toBeCloseTo(Math.PI / 4, 9);
   });

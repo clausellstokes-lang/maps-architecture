@@ -1,15 +1,15 @@
 // The stage's level set (§4.2 S3 (6), §4.4 S5a; C-0017; M0-c-01): the selected nodes are the land nodes with T ≤ t
-// (an unselected pocket they enclose filled in, so the boundary is one ring, C-XXXX (5)); the outline is traced by
+// (an unselected pocket they enclose filled in, so the boundary is one ring, C-0201 (5)); the outline is traced by
 // marching triangles over the lattice's triangle mesh — the indicator of the selected nodes contoured at ½, the
 // crossings at edge midpoints (snapped, §3.2 (7)) — then simplified (the kernel's topology-preserving Visvalingam,
 // §3.4, every node beside the contour an obstacle so none changes side) and Chaikin-smoothed between the pins (the
 // gates, which stay its vertices). A Chaikin pass that would move a node across the outline or make it touch itself is
-// not applied (C-XXXX (5)). Only interior nodes are land, so the contour always closes inside the frame.
+// not applied (C-0201 (5)). Only interior nodes are land, so the contour always closes inside the frame.
 import { BinaryHeap, chaikin, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
 import { area2Of, insideRing, latticeAt, ringIsSimple, type XY } from './geom.js';
 import type { Field, LevelSet } from './types.js';
 
-/** The Chaikin passes the outline is smoothed with (C-XXXX (5): §4.3's two passes of a way's chain, read for the line). */
+/** The Chaikin passes the outline is smoothed with (C-0201 (5): §4.3's two passes of a way's chain, read for the line). */
 export const OUTLINE_CHAIKIN_PASSES = 2;
 
 /** The level set's options: the points the outline keeps as vertices (the gates, which lie on the contour). */
@@ -20,7 +20,7 @@ export interface LevelSetOptions {
 /**
  * The selection of `field` at `t`: the land nodes (interior, not in water) with T ≤ t; then the water the selection
  * reaches across from its banks — a water node whose least bank T plus the distance across the water to it is ≤ t, the
- * water never carrying cost back to land (C-XXXX (8)), so the stage's boundary crosses a river where its reach ends;
+ * water never carrying cost back to land (C-0201 (8)), so the stage's boundary crosses a river where its reach ends;
  * then every unselected node not connected (through unselected nodes) to the lattice's rim filled in. Returns the
  * selection and the filled count.
  */
@@ -58,7 +58,7 @@ export function selectNodes(field: Field, t: number): { selected: Uint8Array; fi
   return { selected, filled };
 }
 
-/** The water the selection reaches from its banks (C-XXXX (8)): a Dijkstra over the water nodes alone. */
+/** The water the selection reaches from its banks (C-0201 (8)): a Dijkstra over the water nodes alone. */
 function spreadOverWater(field: Field, t: number, selected: Uint8Array): void {
   const { lattice, T } = field;
   const { points, adjacency, water, interior } = lattice;
@@ -186,7 +186,7 @@ function keepsSides(ring: readonly XY[], points: readonly LatticePoint[], g: { i
 }
 
 /**
- * The Chaikin smoothing of a simplified ring between its pins (C-XXXX (5)): `OUTLINE_CHAIKIN_PASSES` passes, or fewer
+ * The Chaikin smoothing of a simplified ring between its pins (C-0201 (5)): `OUTLINE_CHAIKIN_PASSES` passes, or fewer
  * when a deeper one would carry a guard node across the ring or make it touch itself; 0 passes keeps the ring.
  */
 export function smoothOutline(

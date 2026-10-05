@@ -1,7 +1,7 @@
 // The main plaza (§4.2 S3 (2), MFP-3; M0-c-01): "a compact 4–6-vertex polygon at the nucleus aligned to the contours,
 // compactness ≥ 0.8, whose vertices are the attach points arterials end at", in the rung's area band (TOWN 0.25–0.45 ha,
 // CITY 0.35–0.6, METROPOLIS 0.45–0.8). No quadrilateral reaches 4π·A ÷ P² ≥ 0.8 (the square's π ÷ 4 ≈ 0.785 is the
-// most), so the plaza draws 5 or 6 vertices (C-XXXX (3)). The draws come from the `reserve.plaza` stream in a fixed
+// most), so the plaza draws 5 or 6 vertices (C-0201 (3)). The draws come from the `reserve.plaza` stream in a fixed
 // order: the vertex count, the area, the phase (when no contour bearing aligns it), then per vertex an angle and a
 // radius jitter; the polygon is scaled about the nucleus to the drawn area and snapped (§3.2 (7)).
 import { dmath, type LatticePoint, type Stream } from '@plat/kernel';
@@ -11,7 +11,7 @@ import type { Plaza } from './types.js';
 
 /**
  * §4.2 S3 (2)'s plaza area bands (ha) by rung — design values held here until M1's reservation rows (the tables'
- * files are M0-s-02's; C-XXXX (3)).
+ * files are M0-s-02's; C-0201 (3)).
  */
 export const PLAZA_AREA_BAND_HA: Readonly<Record<BaseRung, readonly [number, number]>> = Object.freeze({
   TOWN: Object.freeze([0.25, 0.45] as const),
@@ -22,10 +22,10 @@ export const PLAZA_AREA_BAND_HA: Readonly<Record<BaseRung, readonly [number, num
 /** §4.2 S3 (2)'s compactness floor of the main plaza (4π·A ÷ P²). */
 export const PLAZA_COMPACTNESS_MIN = 0.8;
 
-/** The vertex counts the plaza draws among (C-XXXX (3): the design's 4–6 less the quadrilateral). */
+/** The vertex counts the plaza draws among (C-0201 (3): the design's 4–6 less the quadrilateral). */
 export const PLAZA_VERTICES: readonly [number, number] = Object.freeze([5, 6] as const);
 
-/** The per-vertex jitter: ± 3° of angle and ± 5 % of radius (an own pick, C-XXXX (3); compactness stays ≥ 0.83). */
+/** The per-vertex jitter: ± 3° of angle and ± 5 % of radius (an own pick, C-0201 (3); compactness stays ≥ 0.83). */
 const ANGLE_JITTER = (3 * PI) / 180;
 const RADIUS_JITTER = 0.05;
 

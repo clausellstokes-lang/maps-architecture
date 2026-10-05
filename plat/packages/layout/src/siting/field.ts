@@ -6,7 +6,7 @@
 // set of edges, so the field is a function of the lattice and the routes alone, never of the routes' order. The
 // threshold t sorts the land nodes by T (ties by index) and accumulates their cell areas to the stage's land, exact to
 // one cell; capped at the largest T the nucleus reaches inside the frame (the shortfall reported). A node inside water
-// is never land (a deck's nodes included). Choices: C-XXXX.
+// is never land (a deck's nodes included). Choices: C-0201.
 import { dijkstraTree } from '@plat/kernel';
 import { quot, type XY } from './geom.js';
 import type { Field, GateRoute, Lattice, Threshold } from './types.js';
