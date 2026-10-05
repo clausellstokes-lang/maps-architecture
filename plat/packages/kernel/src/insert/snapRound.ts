@@ -660,7 +660,15 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     const v = applyLanding(ctx, landing);
     return via(v, pass + 1);
   }
-  // Nothing left between a and b: one new edge.
+  // Nothing left between a and b: one new edge — unless an edge of level ≤ n already runs from a (or b) along it, ending
+  // at a vertex on it that the path's exclusion hid from step 3 (a wedge route back over the segment's own start, C-0210):
+  // step 3 routes the segment through that vertex, sharing the edge.
+  const along = alongEdge(ctx, a, b);
+  if (along >= 0) {
+    if (L[along] > n) promote(tx, along, n, ctx.warnings, ctx.undo);
+    warn(tx, ctx.warnings, 'W_ATTRACTED', pointOf(p, along));
+    return via(along, pass);
+  }
   const ce = checkEdge(ctx, a, b);
   if (!ce.ok) return passOn(ce);
   writeEdge(ctx, a, b, ce.acute);
@@ -768,6 +776,33 @@ function fallbackEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: V
   const far = near === vs[i] ? vs[i + 1] : vs[i];
   if (!onPath(near)) return near;
   return onPath(far) ? -1 : far;
+}
+
+/**
+ * A vertex strictly inside the segment a → b that an edge of level ≤ n joins to a or to b along the segment itself (the
+ * edge and the segment collinear, the same way), or −1. On a valid arena only a vertex the router excluded from step 3 —
+ * one already on the chain's path — can stand there (C-0210); the segment is routed through it, never written over the
+ * edge (an overlap §3.10 forbids).
+ */
+function alongEdge(ctx: ChainCtx, a: VertexId, b: VertexId): VertexId {
+  const { p, n } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  for (const [s, o] of [[a, b], [b, a]] as const) {
+    const ox = X[o] - X[s];
+    const oy = Y[o] - Y[s];
+    const l2 = ox * ox + oy * oy;
+    for (const h of outgoing(p, s)) {
+      if (edgeLevel(p, h) > n) continue;
+      const t = O[h ^ 1];
+      const tx = X[t] - X[s];
+      const ty = Y[t] - Y[s];
+      const dot = tx * ox + ty * oy;
+      if (orient2d(X[s], Y[s], X[o], Y[o], X[t], Y[t]) === 0 && dot > 0 && dot < l2) return t;
+    }
+  }
+  return -1;
 }
 
 /** A set with more members. */

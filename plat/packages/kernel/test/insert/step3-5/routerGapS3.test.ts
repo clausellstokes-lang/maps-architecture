@@ -233,3 +233,36 @@ describe('N-42 (b): a free end no route reaches with clearance is re-landed', ()
     expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([]);
   });
 });
+
+// ---- the gate's throw (C-0210) ------------------------------------------------------------------------------------------
+
+// Found by this round's testkit gate (M0-a-08's buffer agreement, seed −1969745361, an `arb-stroke` round buffer of
+// 610 cm): the S1/S2 router THREW "the router planned an edge overlapping an edge at (−64719, −64412)" — pre-existing (the
+// same throw with N-42's routes off). Reduced to four two-point mandatory chains. The fourth, (−64721, −64385) →
+// (−64261, −64493), lands its start on (−64728, −64387), is routed by step 3 through (−64719, −64412), and from there
+// wedge-routed to the corner (−64737, −64362) (53.1 cm, under N-40's cap) — straight back over its own start, which the
+// path's exclusion hid from step 3, so the planned edge overlapped the existing (−64719, −64412)–(−64728, −64387). The
+// router now routes such a segment through the vertex the edge joins it to, sharing the edge (`alongEdge`).
+const OVERLAP: readonly (readonly [readonly [number, number], readonly [number, number]])[] = [
+  [[-64719, -64412], [-64737, -64362]],
+  [[-64310, -64613], [-64737, -64362]],
+  [[-64737, -64362], [-64325, -64638]],
+  [[-64721, -64385], [-64261, -64493]],
+];
+
+describe('C-0210: a route that would run back over an edge of its own path shares it', () => {
+  for (const cell of [64, 256, 512]) {
+    it(`grid ${cell} cm: the four chains commit, the arena valid after each (§3.10); the fourth shares (−64719, −64412)–(−64728, −64387)–(−64737, −64362) and writes one edge on to its end`, () => {
+      const p = wideArena(cell);
+      const t = tx(p, 0);
+      for (let i = 0; i < OVERLAP.length; i++) {
+        const r = ins(t, OVERLAP[i], [{ role: 'invisible', entity: `o${i}` }]);
+        expect(r.ok, `chain ${i}: ${r.ok ? '' : `${r.code} ${r.detail}`}`).toBe(true);
+        expect(allProblems(p)).toEqual([]);
+      }
+      expect(edgeRows(p, [-64719, -64412], [-64728, -64387])).toEqual(expect.arrayContaining(['invisible/o0', 'invisible/o3']));
+      expect(edgeRows(p, [-64728, -64387], [-64737, -64362])).toEqual(expect.arrayContaining(['invisible/o0', 'invisible/o3']));
+      expect(edgeRows(p, [-64737, -64362], [-64261, -64493])).toEqual(['invisible/o3']);
+    });
+  }
+});
