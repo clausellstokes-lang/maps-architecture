@@ -205,6 +205,15 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(seen).toEqual([{ ok: true }]);
   });
 
+  // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0207): at seed 13 the
+  // random family's 7 265th case — an L1 chain, then an L4 mandatory random walk of 331 points — refused the walk
+  // E_INVARIANT; its free end is now re-landed (W_PLACED at (2953, 109)).
+  it('the random family\'s seed 13, its 7 265th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: 13, path: '7264', numRuns: 1 });
+    expect(seen).toEqual([{ ok: true }]);
+  });
+
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
     const kinds = new Map<string, number>();
     fc.assert(

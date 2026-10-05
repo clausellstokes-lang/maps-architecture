@@ -5,9 +5,9 @@
 //
 // (a) M0-a-08's PR-size buffer agreement (~/maps-scratch/M0-a-08-blockers/einvariant-repro.json): eight two-point
 // mandatory chains, then a ninth, (32070, 35526) → (30953, 35363). Its segment crosses the edges (31868, 35406)–(30183,
-// 35876) and (31926, 35390)–(30615, 35718) 19 cm apart: two edges of a 1.4° corner at (31926, 35390) bridged by the
+// 35876) and (31926, 35390)–(30615, 35718) 19.4 cm apart: two edges of a 1.4° corner at (31926, 35390) bridged by the
 // 60 cm edge to (31868, 35406), a sliver narrower than minEdge where the segment meets it. The placement rule finds no
-// point for the first crossing — (iii) reads the second edge, 19 cm off, as outside the new vertex's one-ring — and its
+// point for the first crossing — (iii) reads the second edge, 19.4 cm off, as outside the new vertex's one-ring — and its
 // fallback lands it on (31868, 35406), 212 cm along the edge and 90 cm off the segment; the route from there wedges to
 // (31926, 35390), step 3 takes it through (31895, 35384), and the last edge passes 22.6 cm from (31868, 35406). The
 // strict route, the route along existing edges and the endpoint route end the same way. The fix places the first
@@ -85,7 +85,7 @@ function cross(a: readonly [number, number], b: readonly [number, number], u: re
 }
 
 describe('N-42 (a): a crossing on the near side of a sliver is placed across it', () => {
-  it('the premise: after the eighth chain the ninth segment meets the edges (31868, 35406)–(30183, 35876) and (31926, 35390)–(30615, 35718) 19 cm apart, both standing in the arena', () => {
+  it('the premise: after the eighth chain the ninth segment meets the edges (31868, 35406)–(30183, 35876) and (31926, 35390)–(30615, 35718) 19.4 cm apart, both standing in the arena', () => {
     const p = wideArena(64);
     const t = tx(p, 0);
     for (let i = 0; i < 8; i++) expect(ins(t, CHAINS[i], [{ role: 'invisible', entity: `s${i}` }]).ok).toBe(true);
@@ -94,13 +94,13 @@ describe('N-42 (a): a crossing on the near side of a sliver is placed across it'
     const c1 = cross(CHAINS[8][0], CHAINS[8][1], [31868, 35406], [30183, 35876]);
     const c2 = cross(CHAINS[8][0], CHAINS[8][1], [31926, 35390], [30615, 35718]);
     expect(Math.hypot(c1[0] - c2[0], c1[1] - c2[1])).toBeLessThan(25);
-    expect(Math.hypot(c1[0] - c2[0], c1[1] - c2[1])).toBeCloseTo(19.2, 1);
+    expect(Math.hypot(c1[0] - c2[0], c1[1] - c2[1])).toBeCloseTo(19.42, 2);
   });
 
   for (const cell of [64, 512]) {
     for (const frame of [false, true]) {
       for (const reversed of [false, true]) {
-        it(`grid ${cell} cm, ${frame ? 'with' : 'without'} the frame, the ninth chain ${reversed ? 'reversed' : 'as drawn'}: all nine commit, the arena valid after each (§3.10); the ninth reports W_PLACED once, at its crossing placed across the sliver, and stays within √2 · attractCm of its segment`, () => {
+        it(`grid ${cell} cm, ${frame ? 'with' : 'without'} the frame, the ninth chain ${reversed ? 'reversed' : 'as drawn'}: all nine commit, the arena valid after each (§3.10); the ninth reports W_PLACED, first at its crossing placed across the sliver, and stays within √2 · attractCm of its segment`, () => {
           const p = wideArena(cell);
           const t = tx(p, 0);
           if (frame) expect(ins(t, FRAME, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
@@ -110,8 +110,10 @@ describe('N-42 (a): a crossing on the near side of a sliver is placed across it'
             expect(r.ok, `chain ${i}: ${r.ok ? '' : `${r.code} ${r.detail}`}`).toBe(true);
             expect(allProblems(p)).toEqual([]);
             if (i === 8 && r.ok) {
+              // Two placements away from their nearest lattice points: the crossing placed across the sliver (first, so
+              // the folded warning's point) and the far side's crossing, placed in its turn at least minEdge from it.
               const at = reversed ? { x: 31637, y: 35462 } : { x: 31656, y: 35465 };
-              expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at }]);
+              expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 2, at }]);
             }
           }
           const move = chainMove(p, 's8', CHAINS[8][0], CHAINS[8][1]);
@@ -165,6 +167,19 @@ describe('N-42 (b): a free end no route reaches with clearance is re-landed', ()
     }
     expect(most).toBeLessThanOrEqual(2 * ATTRACTED_BOUND);
     expect(most).toBeCloseTo(42.06, 2);
+  });
+
+  it('the start re-landed: after the walk without its last point, a chain from the free point (341, 251) to the walk\'s (313, 244) commits valid, its start on (361, 234) (W_PLACED)', () => {
+    const p = framed(4000);
+    const cut = WALK_POINTS.findIndex(([x, y]) => x === 341 && y === 251);
+    expect(cut).toBe(76);
+    expect(ins(tx(p, 0), WALK_POINTS.slice(0, cut), [{ role: 'way', entity: 'way:x' }]).ok).toBe(true);
+    const r = ins(tx(p, 0), [[341, 251], [313, 244]], [{ role: 'way', entity: 'way:y' }]);
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    expect(allProblems(p)).toEqual([]);
+    expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 361, y: 234 } }]);
+    expect(r.value.placed.map((v) => [p.vertices.x[v], p.vertices.y[v]])).toEqual([[361, 234], [313, 244]]);
   });
 
   it('the same walk reversed commits valid with no fallback (the router reaches (341, 251) first, as a start)', () => {

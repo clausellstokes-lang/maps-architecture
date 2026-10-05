@@ -513,8 +513,9 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
    * and an end of it is a free vertex this op just placed (its mark before that landing given): that end is re-landed
    * onto an existing vertex within √2 · `attractCm` of its input point — the far end first, then the near one (with the
    * far end landed again after it) — nearest first, each reported W_PLACED (and W_ATTRACTED at the input point), the
-   * first whose segment routes with clearance kept taken (C-0207). Returns the segment's two ends as they stand; the
-   * failure as it was when no candidate routes (everything back to the marks).
+   * first whose segment routes with clearance kept taken (C-0207); a candidate refused for any other reason is passed
+   * over (E_WORK_LIMIT ends the op). Returns the segment's two ends as they stand; the failure as it was when no
+   * candidate routes (everything back to the marks).
    */
   const reland = (a: VertexId, aIdx: number, aMark: Mark | null, bIdx: number, bMark: Mark | null, nextPt: LatticePoint | null, failure: { readonly code: Parameters<typeof passOn>[0]['code']; readonly detail: string }): KernelResult<{ a: VertexId; b: VertexId }> => {
     const tryEnds = (from: VertexId): KernelResult<VertexId | null> => {
@@ -527,7 +528,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         const r = routeSegment(ctx, log, from, x);
         if (r.ok) return ok(x);
         rollback(ctx, log, m0);
-        if (r.code !== 'E_INVARIANT') return passOn(r);
+        if (r.code === 'E_WORK_LIMIT') return passOn(r);
       }
       return ok(null);
     };
@@ -549,7 +550,11 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
         warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
         warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[aIdx]);
         const l = land(ctx, dec.points[bIdx], y, pointOf(p, y), nextPt);
-        if (!l.ok) return passOn(l);
+        if (!l.ok) {
+          rollback(ctx, log, m1);
+          if (l.code === 'E_WORK_LIMIT') return passOn(l);
+          continue;
+        }
         const bv = l.value.vertex;
         if (l.value.merged || bv === y) {
           landed[aIdx] = y;
@@ -562,8 +567,8 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
           landed[bIdx] = bv;
           return ok({ a: y, b: bv });
         }
-        if (r.code !== 'E_INVARIANT') return passOn(r);
-        if (freeSince(ctx, m1, bv)) {
+        if (r.code === 'E_WORK_LIMIT') return passOn(r);
+        if (r.code === 'E_INVARIANT' && freeSince(ctx, m1, bv)) {
           // b's own landing undone (and y's reports with it), then b's candidates from y.
           rollback(ctx, log, m1);
           warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
