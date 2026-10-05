@@ -27,7 +27,7 @@ describe('§6.3\'s synthetic anchor sets (reported here; gating in the timing ph
     expect(SYNTHETIC_ANCHORS.find((s) => s.kind === 'building')).toMatchObject({ anchor: 'point', radiusM: 0.5 });
     expect(SYNTHETIC_ANCHORS.some((s) => s.kind === 'bridge')).toBe(false);
     expect(() => syntheticSet('town' as never, 1)).toThrow(/no synthetic set/);
-  });
+  }, 120_000);
 
   it('the outcomes: a related re-derivation hands on all but the churned share; an unrelated town hands on next to nothing; 0 duplicate ids', () => {
     for (const name of ['district', 'city', 'city-unrelated', 'metropolis'] as const) {
@@ -42,7 +42,7 @@ describe('§6.3\'s synthetic anchor sets (reported here; gating in the timing ph
       else expect(r.counts.succeed).toBeGreaterThan(0.93 * n);
       console.log(`[M0-d-05b] ${name}: ${JSON.stringify(r.counts)}`);
     }
-  });
+  }, 120_000);
 
   it('runs each set through the harness and reports per-entity time in the record shape (CONTENDED; nothing asserted on a time)', () => {
     for (const name of ['district', 'city', 'city-unrelated', 'metropolis'] as const) {
@@ -60,7 +60,7 @@ describe('§6.3\'s synthetic anchor sets (reported here; gating in the timing ph
       }
       expect(rec.counts.succeed + rec.counts.tombstone).toBe(set.old.length);
     }
-  });
+  }, 120_000);
 
   it('the harness reads only the clock it is handed: a fake clock gives exact per-entity values and medians, the whole call counted', () => {
     const set = syntheticSet('district', 2);
@@ -152,5 +152,5 @@ describe('§6.3\'s synthetic anchor sets (reported here; gating in the timing ph
       const sum = rec.point.samplesUs[r] * rec.point.entities + rec.overlap.samplesUs[r] * rec.overlap.entities;
       expect(sum).toBeCloseTo(rec.callMs[r] * 1000, 6);
     }
-  });
+  }, 120_000);
 });

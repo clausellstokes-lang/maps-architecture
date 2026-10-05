@@ -5,7 +5,7 @@
   "lanes": ["build/M0-d-05b", "build/M0-d-05b-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-04T23:54:01.532Z",
+  "date": "2026-10-05T03:08:01.414Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/model/src/match/", "plat/packages/model/test/match/"],
   "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -26,20 +26,20 @@
     { "path": "plat/packages/model/test/match/source.test.ts", "status": "created", "sha256": "44a2718bb0b7b424448306229705e443e14f61998c807ced990d6142db343c53", "size": 6481 },
     { "path": "plat/packages/model/test/match/split.test.ts", "status": "created", "sha256": "a45f7cb933c85ab5c32a9884b30552c79e2205844c91aa9203919c3f6021fefc", "size": 4928 },
     { "path": "plat/packages/model/test/match/support.ts", "status": "created", "sha256": "cd74b029eb97ed27442ae4cce5af45cdf333c500f5e90a012e78ef2563316f08", "size": 2698 },
-    { "path": "plat/packages/model/test/match/synthetic.test.ts", "status": "created", "sha256": "c038f562f4dad0fdf2622a7ec081186159f5262d78ec038266b6caaa8b395286", "size": 8880 },
+    { "path": "plat/packages/model/test/match/synthetic.test.ts", "status": "created", "sha256": "25c3cf1cf1bdc113bd46dd32c65b15a9186c9cd6fdfd1f3a1a6f9e13e0be9ff7", "size": 8916 },
     { "path": "plat/packages/model/test/match/way.test.ts", "status": "created", "sha256": "7c0fddc5be2830cc002de0b9cf6a801374d963e4dcd2656e1f0290a06eca04d2", "size": 10645 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0136", "L-0139"],
-      "lines": ["3a88e60c71143b41", "8c2ce707cdd16989"],
+      "ids": ["L-0136", "L-0139", "L-0150"],
+      "lines": ["3a88e60c71143b41", "8c2ce707cdd16989", "b43b1343d91c9422"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0188", "C-0190"],
-      "lines": ["15935cee08d74265", "86fe1ca46fe8ad5f"],
+      "ids": ["C-0188", "C-0190", "C-0195"],
+      "lines": ["15935cee08d74265", "86fe1ca46fe8ad5f", "1f5ff4f64c4e368b"],
       "removed": []
     }
   ]
