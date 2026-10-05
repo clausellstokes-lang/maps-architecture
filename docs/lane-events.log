@@ -5726,3 +5726,5 @@
 2026-10-05 08:35 build/M0-a-14 CHECKPOINT testkit project gate still running (started 06:43, one worker busy)
 2026-10-05 08:36 check/M0-a-05-close-s1 CHECKPOINT gates kernel 122/1327, model 177, tables 240, site 120, layout 135 green; bench 14 red all J176 files; testkit running; verdict FAIL (K7) drafted, notes N-2..N-7 appended; next: testkit result, CLEAN-ROOM row, landed records
 2026-10-05 08:38 build/M0-c-01-fix1 CHECKPOINT testkit project still running (~30 min); next: its result, landed record
+2026-10-05 08:56 check/M0-a-05-close-s1 CHECKPOINT testkit project gate still running (oracle agreement files); mirror deleted (node_modules first); next: testkit result, CLEAN-ROOM row, landed
+2026-10-05 08:57 build/M0-c-01-fix1 CHECKPOINT testkit project still running (~50 min, other seats' runs beside it); next: its result, landed record
