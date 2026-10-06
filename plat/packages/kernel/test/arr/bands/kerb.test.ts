@@ -197,8 +197,8 @@ describe('kerb(F) (§3.7)', () => {
     expect(k.ok && normals(k.value)).toEqual(['0,0 2000,0 2000,1700 0,1700']);
     commit(q, 2, (o) => corridorUnion(o, faces, ws), { stage: 9 as never, rederivesFrom: 9 as never });
     healthy(q);
-    // way:1 passes straight through the crossing for every face (way:2 bounds them with no band): one split each side
-    expect(edgesWithRole(q, 'corridor_split')).toEqual(['2000,1700-2000,2000', '2000,2000-2000,2300']);
+    // way:2 bounds the faces with no band: each face's boundary turns from way:2 onto way:1 at the crossing, no junction
+    expect(edgesWithRole(q, 'corridor_split')).toEqual([]);
   });
 
   it('an acute corner whose strip is shorter than the crossed half-width: one split from J to the kerb corner, no wedge', () => {
@@ -206,8 +206,8 @@ describe('kerb(F) (§3.7)', () => {
     way(p, 'way:1', [[0, 4000], [6000, 4000]]);
     // way:3 ends on way:1 from above at A = (2400, 4000): a route vertex 400 cm from J on the face below
     way(p, 'way:3', [[2400, 6000], [2400, 4000]]);
-    // way:2 leaves J = (2000, 4000) down and right at 30° below way:1: the corner below way:1 is 30°
-    way(p, 'way:2', [[2000, 4000], [5464, 2000]]);
+    // way:2 leaves J = (2000, 4000) down and right at 30° below way:1 to the frame: the corner below way:1 is 30°
+    way(p, 'way:2', [[2000, 4000], [6000, 1691]]);
     const faces = own(p, 'district:1', [[3500, 3800], [1000, 5000]]);
     const ws = widthsOf({ 'way:1': 300, 'way:2': 300, 'way:3': 100 });
     commit(p, 2, (o) => corridorUnion(o, faces, ws), { stage: 9 as never, rederivesFrom: 9 as never });

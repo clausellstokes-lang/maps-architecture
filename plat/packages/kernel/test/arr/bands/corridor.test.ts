@@ -173,7 +173,8 @@ describe('corridorUnion (§3.4, §3.7)', () => {
           else {
             const got = have.map(parseRing);
             const exp = want.map(parseRing);
-            const per = exp.reduce((t, q) => t + perimeter(q), 0) + got.reduce((t, q) => t + perimeter(q), 0);
+            // §3.7's attracted bound: perimeter × √2 · attractCm, the perimeter the operands' (F's) and both results'
+            const per = ringsOf(p, 1, f).reduce((t, q) => t + perimeter(q), 0) + exp.reduce((t, q) => t + perimeter(q), 0) + got.reduce((t, q) => t + perimeter(q), 0);
             expect(Math.abs(Number(area2Of(got) - area2Of(exp))) / 2).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
           }
         }
