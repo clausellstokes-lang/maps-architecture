@@ -24,6 +24,7 @@ import {
   handleOf,
   insertChain,
   isFaceLive,
+  isVertexLive,
   ok,
   roleIdOf,
   rowElement,
@@ -163,13 +164,16 @@ export function siteFeatures(p: Plat, from: { readonly reservations?: readonly R
   return out;
 }
 
-/** The batch's work limit (§5.1 (5)): the insert counters' laws over the arena's vertices and twice its L1 faces. */
+/** The batch's work limit (§5.1 (5)): the insert counters' laws over the arena's live vertices (and the perimeter's, twice) and twice its L1 faces. */
 export function s6WorkLimit(p: Plat, perimeterPoints: number, wl: WorkLimitsTable = loadWorkLimits()): number {
   let faces = 0;
   for (let f = 0; f < p.slots.face[1].top; f += 1) if (isFaceLive(p, 1, f)) faces += 1;
+  // live vertices, never the slot table's top: the limit is a function of the committed arena alone (§5.1 (5))
+  let vertices = 0;
+  for (let v = 0; v < p.slots.vertex.top; v += 1) if (isVertexLive(p, v)) vertices += 1;
   const scope = { kind: 'stage' as const, stage: S6 };
   let sum = 0;
-  for (const c of S6_COUNTERS) sum += workLimitOf(wl.law(c), scope, { vertices: p.slots.vertex.top + 2 * perimeterPoints, faces: 2 * faces + 2 });
+  for (const c of S6_COUNTERS) sum += workLimitOf(wl.law(c), scope, { vertices: vertices + 2 * perimeterPoints, faces: 2 * faces + 2 });
   return sum;
 }
 

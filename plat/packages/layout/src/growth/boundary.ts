@@ -574,7 +574,9 @@ export function squareGates(outline: readonly LatticePoint[], gates: readonly La
     const p1 = lat({ x: g.x + s * d.x * reach, y: g.y + s * d.y * reach });
     const kept: LatticePoint[] = [];
     for (let i = (b + 1) % n; i !== a; i = (i + 1) % n) kept.push(ring[i]);
-    const next = [...kept, p0, g, p1];
+    const next: LatticePoint[] = [];
+    for (const q of [...kept, p0, g, p1]) if (next.length === 0 || !(next[next.length - 1].x === q.x && next[next.length - 1].y === q.y)) next.push(q);
+    while (next.length > 1 && next[0].x === next[next.length - 1].x && next[0].y === next[next.length - 1].y) next.pop();
     if (ringIsSimple(next)) ring = next;
   });
   return ring;

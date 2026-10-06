@@ -106,7 +106,7 @@ export interface MainRoadPick {
   readonly bearingCdeg: number;
   /** The candidate edges' inside nodes in score order, the pick first. */
   readonly ranked: readonly number[];
-  /** The ranked candidates themselves (the pick first): S5b's re-draws read them. */
+  /** The best `ALTERNATIVES` candidates in score order (the pick first): S5b's re-draws read them. */
   readonly alternatives: readonly { readonly at: LatticePoint; readonly edge: readonly [number, number]; readonly bearingCdeg: number }[];
 }
 
@@ -122,10 +122,16 @@ export interface SpawnOptions {
   readonly edgeOpen?: (u: number, v: number) => boolean;
 }
 
+/** The candidates a pick keeps in score order for S5b's re-draws (those an earlier road of the batch blocks are passed). */
+export const ALTERNATIVES = 16;
+
+/** cos 35°: a destination's lattice edge runs within 35° of the outward radial direction (C-S5AB). */
+export const RADIAL_COS = 0.8191520442889918;
+
 /**
  * S5b's spawned destinations (§4.4 S5b): `n − crossings.length` (none when n ≤ c) nested picks on the boundary's contour
- * from `stream`. Candidates: the contour's crossed edges whose inside node is interior dry land (and in `mask`), the
- * destination the edge's contour vertex; pick i scores every candidate by its angular gap (from the nucleus) to the
+ * from `stream`. Candidates: the contour's crossed edges whose inside node is interior dry land (and in `mask`), running
+ * within 35° of the outward radial direction, the destination the edge's contour vertex; pick i scores every candidate by its angular gap (from the nucleus) to the
  * crossings and the earlier picks (largest gaps first), the terrain (steep ground down) and a jitter — one uniform per
  * candidate per pick, as S3's gate picks (C-0201 (2)), so the picks for a smaller count are a prefix of a larger one's.
  */
@@ -143,6 +149,14 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
     if (opts.mask !== undefined && opts.mask[u] !== 1) return;
     if (opts.outerMask !== undefined && opts.outerMask[v] !== 1) return;
     if (opts.edgeOpen !== undefined && !opts.edgeOpen(u, v)) return;
+    // The road leaves along its edge: an edge within RADIAL_COS of the outward radial direction (the hexagonal lattice
+    // has one within 30° of every direction), never one running along the boundary (C-S5AB).
+    const ex = lattice.points[v].x - lattice.points[u].x;
+    const ey = lattice.points[v].y - lattice.points[u].y;
+    const at0 = set.contour[i];
+    const rx = at0.x - centre.x;
+    const ry = at0.y - centre.y;
+    if (ex * rx + ey * ry < RADIAL_COS * Math.sqrt((ex * ex + ey * ey) * (rx * rx + ry * ry))) return;
     const key = u * lattice.points.length + v;
     if (seen.has(key)) return;
     seen.add(key);
@@ -172,8 +186,15 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
     const best = cands[scored[0].c];
     used.add(scored[0].c);
     taken.push(best.bearing);
-    const top = scored.slice(0, PICK_RANKED).filter((s) => s.score > -Infinity).map((s) => cands[s.c]);
-    picks.push({ ordinal: k, at: best.at, edge: [best.u, best.v], bearingCdeg: best.bearing, ranked: top.map((c) => c.u), alternatives: top.map((c) => ({ at: c.at, edge: [c.u, c.v] as const, bearingCdeg: c.bearing })) });
+    const top = scored.filter((s) => s.score > -Infinity).map((s) => cands[s.c]);
+    picks.push({
+      ordinal: k,
+      at: best.at,
+      edge: [best.u, best.v],
+      bearingCdeg: best.bearing,
+      ranked: top.slice(0, PICK_RANKED).map((c) => c.u),
+      alternatives: top.slice(0, ALTERNATIVES).map((c) => ({ at: c.at, edge: [c.u, c.v] as const, bearingCdeg: c.bearing })),
+    });
   }
   return picks;
 }
@@ -605,7 +626,11 @@ function blockEdges(weights: Float64Array, lattice: Lattice, grid: NodeGrid, seg
         for (const u of grid.buckets.get(cy * grid.cols + cx) ?? []) {
           for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
             if (weights[e] === Infinity) continue;
-            if (segmentsMeet(pts[u], pts[g.targets[e]], sg[0], sg[1])) weights[e] = Infinity;
+            const v = g.targets[e];
+            if (!segmentsMeet(pts[u], pts[v], sg[0], sg[1])) continue;
+            // Both directions: the edge's other end may lie beyond the cells scanned.
+            weights[e] = Infinity;
+            for (let f = g.offsets[v]; f < g.offsets[v + 1]; f += 1) if (g.targets[f] === u) weights[f] = Infinity;
           }
         }
       }
@@ -863,13 +888,24 @@ function courses(
     return { why: 'invalid', faults };
   };
   const pins: LatticePoint[] = picks.map((p) => p.at);
+  const edgeOpenNow = (u: number, v: number): boolean => {
+    for (let d = 0; d < 6; d += 1) if (lattice.adjacency[6 * u + d] === v) return lattice.slot[6 * u + d] !== -1 && weights[lattice.slot[6 * u + d]] < Infinity;
+    return false;
+  };
   for (const pick of picks) {
-    // F-ROUTE's `unserved` for a destination only after its re-draws: the next ranked candidates, ≤ GATE_REDRAWS
-    // (as §4.2 S3 (7) re-draws a gate pick; C-S5AB), each on the boundary with its point kept as an outline vertex.
+    // F-ROUTE's `unserved` for a destination only after its re-draws: the next candidates in score order, ≤ GATE_REDRAWS
+    // routed (as §4.2 S3 (7) re-draws a gate pick; C-S5AB), each on the boundary with its point kept as an outline vertex.
+    // A candidate whose edge an earlier road of the batch now crosses is passed over without counting as a re-draw.
     let miss: Omit<Unserved, 'stage' | 'pick'> | null = null;
-    for (let a = 0; a < pick.alternatives.length && a <= GATE_REDRAWS; a += 1) {
+    let tries = 0;
+    for (let a = 0; a < pick.alternatives.length && tries <= GATE_REDRAWS; a += 1) {
       const alt = pick.alternatives[a];
       if (a > 0 && out.some((x) => x.pick.edge[0] === alt.edge[0] && x.pick.edge[1] === alt.edge[1])) continue;
+      if (!edgeOpenNow(alt.edge[0], alt.edge[1])) {
+        miss = { why: 'invalid', faults: ['way'] };
+        continue;
+      }
+      tries += 1;
       const tried: MainRoadPick = a === 0 ? pick : { ...pick, at: alt.at, edge: alt.edge, bearingCdeg: alt.bearingCdeg };
       const outline = !walled ? null : a === 0 ? boundary.set.outline : outlineOf([...pins, alt.at]);
       const r = attempt(tried, outline);

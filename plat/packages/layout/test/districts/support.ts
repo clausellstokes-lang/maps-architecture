@@ -11,13 +11,18 @@ import {
   createKernel,
   createPlat,
   err,
+  faceWalk,
   idOf,
   isFaceLive,
+  isHalfEdgeLive,
+  rowKey,
+  rowsOn,
   seedKey,
   STAGES,
   type Cm,
   type Frame,
   type Kernel,
+  type KernelResult,
   type KernelTx,
   type LatticePoint,
   type Plat,
@@ -26,7 +31,7 @@ import {
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
 import { parseTable, tableView, type TableView } from '@plat/tables';
-import { commitS3Slice, flatFixture, runS4, runS6, s3Slice, settlementPerimeter, siteFeatures, type S3Commit, type S3Slice, type S6Input, type S6Output } from '../../src/index.js';
+import { commitS3Slice, flatFixture, runS4, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type S3Commit, type S3Slice, type S6Input, type S6Output } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -98,7 +103,7 @@ export interface Town {
 
 /** Inserts one chain in its own L1 (or L0) batch; throws on a refusal. */
 function lay(k: Kernel, level: 0 | 1, stage: number, pts: readonly LatticePoint[], rows: { role: string; entity: string }[], opts: { closed?: boolean; knots?: { index: number; role: string; ordinal: number; entity: string }[] } = {}, own?: { at: LatticePoint; owner: Id }): void {
-  const r = k.tx(spec(level, stage), (o) => {
+  const r = k.tx(spec(level, stage), (o): KernelResult<unknown> => {
     const ins = k.geom.insertChain(o, pts, rows, 'mandatory', { ...(opts.closed === true ? { closed: true } : {}), ...(opts.knots === undefined ? {} : { knots: opts.knots, pinned: opts.knots.map((x) => x.index) }) });
     if (!ins.ok) return err(ins.code, ins.detail);
     if (own !== undefined) {
@@ -268,6 +273,7 @@ export function median(xs: readonly number[]): number {
 /** A run of the flat CITY fixture through S3's commits and S4, then the stand-in grid; S6's input over it. */
 export interface CityRun {
   readonly seed: number;
+  readonly widths: Map<Id, number>;
   readonly plat: Plat;
   readonly k: Kernel;
   readonly input: S6Input;
@@ -282,12 +288,12 @@ export interface CityRun {
  * `secondary` ways (`gridM`) over the outline's land and its 50 m band, clear of the plaza, the wall strips and the
  * gates' corridors.
  */
-export function cityRun(seed: number, gridM = 150, ringM = 180): CityRun {
+export function cityRun(seed: number, gridM = 150, ringM = 180, widths: Map<Id, number> = new Map()): CityRun {
   const site = flatFixture(seed);
   const slice = s3Slice(site, {});
   const plat = createPlat(GROUND, site.frame);
   attachIndex(plat, { gridCellCm: 5000 });
-  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: spineWidthsOf(widths) });
   const c = commitS3Slice(slice, k, {});
   if (!c.ok) throw new Error(`support: S3's commits were refused: ${c.code} ${c.detail}`);
   const r = runS4({ slice, commit: c.value, water: { bodies: [], bridges: [] }, kernel: k });
@@ -373,6 +379,7 @@ export function cityRun(seed: number, gridM = 150, ringM = 180): CityRun {
       flush();
     }
   }
+  for (const w of ways) widths.set(w.id, typeof w.width === 'number' ? w.width : 600);
   const features = siteFeatures(plat, { reservations: [c.value.plaza], gates: c.value.gates, ways, wall });
   const input: S6Input = {
     kernel: k,
@@ -387,7 +394,7 @@ export function cityRun(seed: number, gridM = 150, ringM = 180): CityRun {
     reservations: [c.value.plaza],
     wall,
   };
-  return { seed, plat, k, input, ways, slice, commit: c.value };
+  return { seed, widths, plat, k, input, ways, slice, commit: c.value };
 }
 
 // ---- small grids for the grower's unit tests ------------------------------------------------------------------------------
@@ -487,4 +494,80 @@ export function ringDist(ring: readonly { x: number; y: number }[], q: { x: numb
   let best = Infinity;
   for (let i = 0; i < ring.length; i += 1) best = Math.min(best, segPointDist(q, ring[i], ring[(i + 1) % ring.length]));
   return best;
+}
+
+// ---- readers of the committed arena (its own tables, never the code under test) ----------------------------------------
+
+/** One live edge pair at L1 or coarser: its ends, its rows, and the L1 faces on its two sides (−1: none). */
+export interface EdgeL1 {
+  readonly h: number;
+  readonly a: LatticePoint;
+  readonly b: LatticePoint;
+  readonly rows: readonly { role: string; entity: string }[];
+  readonly left: number;
+  readonly right: number;
+}
+
+/** Every live edge of level ≤ 1 with its rows and its two L1 faces (read through faceWalk, the arena's level view). */
+export function edgesL1(p: Plat): EdgeL1[] {
+  const faceOf = new Map<number, number>();
+  for (let f = 0; f < p.slots.face[1].top; f += 1) {
+    if (!isFaceLive(p, 1, f)) continue;
+    for (const ring of faceWalk(p, 1, f)) for (const h of ring) faceOf.set(h, f);
+  }
+  const out: EdgeL1[] = [];
+  for (let h = 0; h < 2 * p.slots.pair.top; h += 2) {
+    if (!isHalfEdgeLive(p, h) || p.halfEdges.level[h >> 1] > 1) continue;
+    const o = p.halfEdges.origin;
+    out.push({
+      h,
+      a: P(p.vertices.x[o[h]], p.vertices.y[o[h]]),
+      b: P(p.vertices.x[o[h ^ 1]], p.vertices.y[o[h ^ 1]]),
+      rows: rowsOn(p, 'edge', h).map((r) => rowKey(p, r)),
+      left: faceOf.get(h) ?? -1,
+      right: faceOf.get(h ^ 1) ?? -1,
+    });
+  }
+  return out;
+}
+
+/** The owner id of an L1 face slot (or null; −1 → null). */
+export function ownerOfL1(p: Plat, f: number): Id | null {
+  if (f < 0) return null;
+  const h = p.faces[1].owner[f];
+  return h >= 0 ? idOf(p, h) : null;
+}
+
+/** The live L1 faces' count. */
+export function liveL1(p: Plat): number {
+  let n = 0;
+  for (let f = 0; f < p.slots.face[1].top; f += 1) if (isFaceLive(p, 1, f)) n += 1;
+  return n;
+}
+
+/** The owner at L1 of the face holding point q, or undefined when q lies on an edge or a vertex. */
+export function ownerAt(t: { k: Kernel; plat: Plat }, q: LatticePoint): Id | null | undefined {
+  const loc = t.k.geom.pointLocate(GROUND, 1, q);
+  if (loc.on !== 'face') return undefined;
+  if (loc.level !== 1) return null;
+  return ownerOfL1(t.plat, loc.face);
+}
+
+/** The area of the convex hull of points (monotone chain), cm². */
+export function hullArea(points: readonly { x: number; y: number }[]): number {
+  const s = points.slice().sort((a, b) => a.x - b.x || a.y - b.y);
+  const cr = (o: { x: number; y: number }, a: { x: number; y: number }, b: { x: number; y: number }): number => (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+  const lower: { x: number; y: number }[] = [];
+  for (const q of s) {
+    while (lower.length >= 2 && cr(lower[lower.length - 2], lower[lower.length - 1], q) <= 0) lower.pop();
+    lower.push(q);
+  }
+  const upper: { x: number; y: number }[] = [];
+  for (let i = s.length - 1; i >= 0; i -= 1) {
+    const q = s[i];
+    while (upper.length >= 2 && cr(upper[upper.length - 2], upper[upper.length - 1], q) <= 0) upper.pop();
+    upper.push(q);
+  }
+  const hull = [...lower.slice(0, -1), ...upper.slice(0, -1)];
+  return Math.abs(area2Of(hull)) / 2;
 }

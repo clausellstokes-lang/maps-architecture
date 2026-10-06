@@ -82,8 +82,16 @@ describe('the perimeter: the boundary offset outward by 50 m and rounded (§4.5)
       expect(simpleCcw(r.value)).toBe(true);
       // The notch's middle, 300 m up: inside the perimeter when filled, outside when followed.
       expect(insidePoly(r.value, { x: 20_000, y: 30_000 })).toBe(filled);
-      const b = settlementPerimeterByBuffer(u, k);
-      if (b.ok) expect(xorArea(k, r.value, b.value)).toBeLessThan(10 * 10_000);
+      // The Minkowski sum by its definition: a sample point nearer the boundary's region than 50 m less 5 cm lies
+      // inside the perimeter, one farther than 50 m and 5 cm outside it (a 5 m grid over the box).
+      for (let x = -6000; x <= 46_000; x += 500) {
+        for (let y = -6000; y <= 46_000; y += 500) {
+          const q = { x, y };
+          const d = insidePoly(u, q) ? 0 : ringDist(u, q);
+          if (d < 4995) expect(insidePoly(r.value, q)).toBe(true);
+          else if (d > 5005) expect(insidePoly(r.value, q)).toBe(false);
+        }
+      }
     }
   });
 

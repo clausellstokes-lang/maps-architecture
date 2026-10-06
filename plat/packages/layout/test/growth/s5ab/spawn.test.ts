@@ -30,12 +30,16 @@ function bearing(dx: number, dy: number): number {
 }
 
 /** The candidate edges counted here: the contour's crossed edges whose inside node is interior dry land, once each. */
-function candidates(b: StageBoundary, mask?: Uint8Array): { u: number; v: number; at: { x: number; y: number } }[] {
+function candidates(b: StageBoundary, centre: { x: number; y: number }, mask?: Uint8Array): { u: number; v: number; at: { x: number; y: number } }[] {
   const L = b.set.field.lattice;
   const seen = new Set<string>();
   const out: { u: number; v: number; at: { x: number; y: number } }[] = [];
   b.set.contourEdges.forEach(([u, v], i) => {
     if (L.interior[u] !== 1 || L.water[u] !== 0 || (mask !== undefined && mask[u] !== 1)) return;
+    // Within 35° of the outward radial direction.
+    const e = { x: L.points[v].x - L.points[u].x, y: L.points[v].y - L.points[u].y };
+    const r = { x: b.set.contour[i].x - centre.x, y: b.set.contour[i].y - centre.y };
+    if (e.x * r.x + e.y * r.y < Math.cos((35 * Math.PI) / 180) * Math.hypot(e.x, e.y) * Math.hypot(r.x, r.y)) return;
     const key = `${String(u)},${String(v)}`;
     if (seen.has(key)) return;
     seen.add(key);
@@ -88,13 +92,21 @@ describe('spawnPrimaries', () => {
       expect(p.bearingCdeg).toBe(bearing(p.at.x - s.site.centre.x, p.at.y - s.site.centre.y));
       expect(p.ranked[0]).toBe(p.edge[0]);
       expect(p.alternatives[0]).toEqual({ at: p.at, edge: p.edge, bearingCdeg: p.bearingCdeg });
-      expect(p.alternatives.length).toBe(4);
+      expect(p.alternatives.length).toBe(16);
+      expect(p.ranked).toEqual(p.alternatives.slice(0, 4).map((a) => a.edge[0]));
+      // Every candidate leaves along an edge within 35° of radial.
+      for (const a of p.alternatives) {
+        const L = s.lattice;
+        const e = { x: L.points[a.edge[1]].x - L.points[a.edge[0]].x, y: L.points[a.edge[1]].y - L.points[a.edge[0]].y };
+        const r = { x: a.at.x - s.site.centre.x, y: a.at.y - s.site.centre.y };
+        expect(e.x * r.x + e.y * r.y).toBeGreaterThanOrEqual(Math.cos((35 * Math.PI) / 180) * Math.hypot(e.x, e.y) * Math.hypot(r.x, r.y) - 1e-6);
+      }
     });
   });
 
   it('largest angular gaps first: each pick\'s gap within the jitter of the best candidate\'s', { timeout: 60_000 }, () => {
     const { s, b2 } = city();
-    const cands = candidates(b2).map((c) => bearing(c.at.x - s.site.centre.x, c.at.y - s.site.centre.y));
+    const cands = candidates(b2, s.site.centre).map((c) => bearing(c.at.x - s.site.centre.x, c.at.y - s.site.centre.y));
     const picks = spawnPrimaries(b2, 12, SEVEN, mainRoadStream(s), { centre: s.site.centre });
     const taken = SEVEN.map((c) => c.bearingCdeg);
     for (const p of picks) {
@@ -117,7 +129,7 @@ describe('spawnPrimaries', () => {
     const many = spawnPrimaries(b2, 13, SEVEN, mainRoadStream(s), { centre: s.site.centre });
     expect(many.slice(0, few.length).map((p) => [p.at, p.edge])).toEqual(few.map((p) => [p.at, p.edge]));
     // The stream's draws: exactly picks × candidates.
-    const n = candidates(b2).length;
+    const n = candidates(b2, s.site.centre).length;
     const used: Stream = mainRoadStream(s);
     spawnPrimaries(b2, 10, SEVEN, used, { centre: s.site.centre });
     const fresh = mainRoadStream(s);

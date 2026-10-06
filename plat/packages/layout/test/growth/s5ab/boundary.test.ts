@@ -178,22 +178,30 @@ describe('squareGates', () => {
   const ring: LatticePoint[] = [P(0, 0), ...bottom, P(10_000, 0), P(10_000, 10_000), P(0, 10_000)];
 
   it('a way square to the side: the vertices within the reach replaced by the two points on its normal', () => {
-    const out = squareGates(ring, [P(5_000, 0)], [{ x: 0, y: 700 }], 1_500);
+    const out = squareGates(ring, [P(5_000, 0)], [{ x: 0, y: 700 }], 1_400);
+    const n = out.length;
     const at = out.findIndex((q) => q.x === 5_000 && q.y === 0);
-    expect(out[at - 1]).toEqual(P(3_500, 0));
-    expect(out[at + 1]).toEqual(P(6_500, 0));
-    for (const q of out) if (q.y === 0 && q.x !== 5_000) expect(Math.abs(q.x - 5_000)).toBeGreaterThanOrEqual(1_500);
-    expect(out.length).toBe(ring.length - 5 + 2);
+    expect(out[(at - 1 + n) % n]).toEqual(P(3_600, 0));
+    expect(out[(at + 1) % n]).toEqual(P(6_400, 0));
+    for (const q of out) if (q.y === 0 && q.x !== 5_000) expect(Math.abs(q.x - 5_000)).toBeGreaterThanOrEqual(1_400);
+    expect(n).toBe(ring.length - 4 + 2);
+    // A reach landing on the outline's own vertices: no point doubled.
+    const on = squareGates(ring, [P(5_000, 0)], [{ x: 0, y: 700 }], 1_500);
+    expect(on.length).toBe(ring.length - 4);
+    for (let i = 0; i < on.length; i += 1) expect(on[i]).not.toEqual(on[(i + 1) % on.length]);
   });
 
   it('an oblique way: the wall crosses it square, the points along its normal in the outline\'s direction', () => {
     const out = squareGates(ring, [P(5_000, 0)], [{ x: 300, y: 300 }], 1_500);
+    const n = out.length;
     const at = out.findIndex((q) => q.x === 5_000 && q.y === 0);
     const r = 1_500 / Math.SQRT2;
-    expect(out[at - 1]).toEqual(P(Math.round(5_000 - r), Math.round(r)));
-    expect(out[at + 1]).toEqual(P(Math.round(5_000 + r), Math.round(-r)));
+    const before = out[(at - 1 + n) % n];
+    const after = out[(at + 1) % n];
+    expect(before).toEqual(P(Math.round(5_000 - r), Math.round(r)));
+    expect(after).toEqual(P(Math.round(5_000 + r), Math.round(-r)));
     // The way's direction and the wall's sides at the gate are square.
-    const u = { x: out[at + 1].x - out[at - 1].x, y: out[at + 1].y - out[at - 1].y };
+    const u = { x: after.x - before.x, y: after.y - before.y };
     expect(Math.abs(u.x * 300 + u.y * 300)).toBeLessThan(2 * 300);
   });
 

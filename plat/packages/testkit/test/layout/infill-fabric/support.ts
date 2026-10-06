@@ -3,6 +3,7 @@
 // districts sharing an arterial — the S8 input over them, and a read-only kerb (a callback batch that writes nothing,
 // §3.3: a batch with no op commits nothing). The package is reached only through `@plat/layout` (C-0122).
 import {
+  area2,
   attachIndex,
   createKernel,
   createPlat,
@@ -119,6 +120,56 @@ export function faceCase(polygon: PolygonCm, seed: number): FaceCase {
     return k.geom.setOwner(o, [face], d.district.id);
   });
   if (!r2.ok) throw new Error(`faceCase: owners: ${r2.code} ${r2.detail}`);
+  const sd: S8District = { district: d.district, lineage: d.lineage, prosperity: 0.3, density: 0.5, bands: granularityBands(0.3, rungProfile('CITY')) };
+  return { plat, k, district: d.district.id, input: { kernel: k, key: GROUND, seedKey: sk, rung: 'CITY', districts: [sd], ways: [], seams: [], widths, live } };
+}
+
+/**
+ * A face as a one-face district the way F-CUT's whole-district runs build it (M0-b-04's bench, C-0242): the outer ring
+ * an L1 `district_bound` chain, each hole a `reserved` ring; the district face found as the largest L1 face inside the
+ * frame (never by ring equality, which the insertion's snapping can defeat — the check's note N-14), every other inner
+ * face a reservation's. The district is minted at index 0 under seedKey(seed); prosperity 0.3, density 0.5, CITY.
+ */
+export function districtCase(polygon: PolygonCm, seed: number): FaceCase {
+  const side = 600_000;
+  const { plat, k, widths } = arena(side);
+  const r1 = k.tx(spec(1, STAGES.S5), (o) => {
+    const a = k.geom.insertChain(o, polygon[0].map((q) => P(q.x, q.y)), [{ role: 'district_bound', entity: 'district_bound:f' }], 'mandatory', { closed: true });
+    if (!a.ok) return { ok: false as const, code: a.code, detail: a.detail };
+    for (let i = 1; i < polygon.length; i += 1) {
+      const h = k.geom.insertChain(o, polygon[i].map((q) => P(q.x, q.y)), [{ role: 'reserved', entity: `reservation:h${String(i)}` }], 'mandatory', { closed: true });
+      if (!h.ok) return { ok: false as const, code: h.code, detail: h.detail };
+    }
+    return { ok: true as const, value: undefined, warnings: [] };
+  });
+  if (!r1.ok) throw new Error(`districtCase: the rings: ${r1.code} ${r1.detail}`);
+  const frameArea2 = 2 * side * side;
+  let face: FaceId = -1;
+  let best = -1;
+  const inner: FaceId[] = [];
+  for (let f = 0; f < plat.slots.face[1].top; f += 1) {
+    if (!isFaceLive(plat, 1, f)) continue;
+    const a = Math.abs(area2(faceRings(plat, 1, f)[0]));
+    if (a >= frameArea2) continue;
+    inner.push(f);
+    if (a > best) {
+      best = a;
+      face = f;
+    }
+  }
+  if (face < 0) throw new Error('districtCase: no district face');
+  const holes = inner.filter((f) => f !== face);
+  const sk = seedKey(seed);
+  const live: LiveEntry[] = [];
+  const d = districtOf(sk, 0, live);
+  const r2 = k.tx(spec(1, STAGES.S6), (o) => {
+    for (let i = 0; i < holes.length; i += 1) {
+      const r = k.geom.setOwner(o, [holes[i]], `reservation:h${String(i + 1)}`);
+      if (!r.ok) return r;
+    }
+    return k.geom.setOwner(o, [face], d.district.id);
+  });
+  if (!r2.ok) throw new Error(`districtCase: owners: ${r2.code} ${r2.detail}`);
   const sd: S8District = { district: d.district, lineage: d.lineage, prosperity: 0.3, density: 0.5, bands: granularityBands(0.3, rungProfile('CITY')) };
   return { plat, k, district: d.district.id, input: { kernel: k, key: GROUND, seedKey: sk, rung: 'CITY', districts: [sd], ways: [], seams: [], widths, live } };
 }
