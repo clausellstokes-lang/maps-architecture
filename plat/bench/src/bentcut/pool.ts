@@ -1,4 +1,4 @@
-// The task pool (M0-b-04; C-XB04 (7)): tasks run in order in this thread (one worker), or in chunks across worker
+// The task pool (M0-b-04; C-0242 (7)): tasks run in order in this thread (one worker), or in chunks across worker
 // threads, each chunk's records put back at the chunk's place — so the records, and every fold over them, are the same
 // for any number of workers. A worker thread loads worker.ts through the loader the dispatcher runs under (tsx with the
 // plat-source condition; Node hands a worker the parent's execArgv); a vitest run uses one worker (in this thread).

@@ -3,7 +3,7 @@
 // M0-k-01's generator `arb.faceSet(kind)` — this module only fixes how a face's index and the set's seed choose its
 // draw: face i of (kind, seed) is the first sample of `arb.faceSet(kind)` at the fast-check seed
 // H32("bentcut/<kind>/<seed>/<i>") (M0-k-01's `seedFamily`), so any face of a set is drawn on its own, in any order and
-// in any worker, and the set is the same on every run (C-XB04 (2)).
+// in any worker, and the set is the same on every run (C-0242 (2)).
 import fc from 'fast-check';
 import { arb, seedFamily, type FuzzFace, type FuzzFaceKind } from '@plat/testkit';
 

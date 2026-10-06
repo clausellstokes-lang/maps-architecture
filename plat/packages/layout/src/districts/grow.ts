@@ -116,7 +116,7 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
       const f = g.faces[j];
       const area = d.areaCm2 + f.areaCm2;
       if (area > top) continue;
-      if ((globalThis as any).__NOC !== true && hullCompactness(g, [...d.faces, j], area) < opts.compactnessMin) continue;
+      if (hullCompactness(g, [...d.faces, j], area) < opts.compactnessMin) continue;
       if (boundaryLoops(g, [...d.faces, j], (i) => i === j || owner[i] === me) > 1) continue;
       out.push(j);
     }
@@ -144,19 +144,6 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
       return true;
     }
     const adm = admissible(d);
-    if (adm.length === 0 && (globalThis as any).__DBG) {
-      const reasons: string[] = [];
-      for (const m of d.faces) for (const [j, l] of g.links[m]) {
-        if (!faces.claimable[j]) { reasons.push(`${j}:notclaim`); continue; }
-        if (owner[j] >= 0) { reasons.push(`${j}:own${owner[j]}`); continue; }
-        if (!passes(l, d.seed.kind)) { reasons.push(`${j}:barrier${l.barriers}`); continue; }
-        const f = g.faces[j]; const area = d.areaCm2 + f.areaCm2;
-        if (area > top) { reasons.push(`${j}:top`); continue; }
-        if (hullCompactness(g, [...d.faces, j], area) < opts.compactnessMin) { reasons.push(`${j}:compact`); continue; }
-        reasons.push(`${j}:hole${boundaryLoops(g, [...d.faces, j], (i) => i === j || owner[i] === d.seed.order)}`);
-      }
-      console.log('DONE', d.seed.order, 'round-ish', turns, reasons.join(' '));
-    }
     if (adm.length === 0) {
       log.push({ seed: d.seed.order, turn: t, what: 'done' });
       return false;

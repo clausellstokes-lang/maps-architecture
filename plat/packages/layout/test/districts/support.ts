@@ -25,7 +25,7 @@ import {
   type StageId,
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
-import { runS6, siteFeatures, type S6Input, type S6Output } from '../../src/index.js';
+import { commitS3Slice, flatFixture, runS4, runS6, s3Slice, settlementPerimeter, siteFeatures, type S3Commit, type S3Slice, type S6Input, type S6Output } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -218,7 +218,7 @@ export function town(seed: number, opts: TownOptions = {}): Town {
       }
     }
   }
-  const features = siteFeatures(plat, { reservations: [plaza], gates, ways });
+  const features = siteFeatures(plat, { reservations: [plaza], gates, ways, wall });
   const input: S6Input = {
     kernel: k,
     key: GROUND,
@@ -260,4 +260,131 @@ export function median(xs: readonly number[]): number {
   const n = s.length;
   if (n === 0) return NaN;
   return n % 2 === 1 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+}
+
+// ---- the real pipeline's S3 slice and S4 (M0-c-01 … M0-c-03) with S5c's stand-in grid ------------------------------------
+
+/** A run of the flat CITY fixture through S3's commits and S4, then the stand-in grid; S6's input over it. */
+export interface CityRun {
+  readonly seed: number;
+  readonly plat: Plat;
+  readonly k: Kernel;
+  readonly input: S6Input;
+  readonly ways: Way[];
+  readonly slice: S3Slice;
+  readonly commit: S3Commit;
+}
+
+/**
+ * The flat CITY fixture at `seed` through S3's commits and S4 (their public stages), the last stage's boundary stage 1's
+ * outline grown by `ringM` (the land S5's later stages add — M0-c-04's and M0-c-05's), and S5c's stand-in: the jittered grid of
+ * `secondary` ways (`gridM`) over the outline's land and its 50 m band, clear of the plaza, the wall strips and the
+ * gates' corridors.
+ */
+export function cityRun(seed: number, gridM = 150, ringM = 180): CityRun {
+  const site = flatFixture(seed);
+  const slice = s3Slice(site, {});
+  const plat = createPlat(GROUND, site.frame);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+  const c = commitS3Slice(slice, k, {});
+  if (!c.ok) throw new Error(`support: S3's commits were refused: ${c.code} ${c.detail}`);
+  const r = runS4({ slice, commit: c.value, water: { bodies: [], bridges: [] }, kernel: k });
+  if (!r.ok) throw new Error(`support: S4 was refused: ${r.code} ${r.detail}`);
+  const ways: Way[] = r.value.network.ways.slice();
+  const wall = c.value.traced.line.slice();
+  // The last stage's boundary: stage 1's outline grown by the ring later stages add (≈ 180 m at CITY: 137.5 → 220 ha).
+  const grown = settlementPerimeter(slice.levelSet.outline, k, { offsetCm: ringM * 100, frame: site.frameRing });
+  if (!grown.ok) throw new Error(`support: the last stage's boundary: ${grown.code}`);
+  const outline = grown.value;
+  const clear = Math.max(c.value.strips.widthsCm.inner, c.value.strips.widthsCm.outer) + 1500;
+  const plaza = slice.plaza.ring;
+  const gatesAt = slice.gates.map((g) => g.at);
+  const s = gridM * 100;
+  let xmin = Infinity;
+  let xmax = -Infinity;
+  let ymin = Infinity;
+  let ymax = -Infinity;
+  for (const q of outline) {
+    xmin = Math.min(xmin, q.x);
+    xmax = Math.max(xmax, q.x);
+    ymin = Math.min(ymin, q.y);
+    ymax = Math.max(ymax, q.y);
+  }
+  const near = (ring: readonly LatticePoint[], a: LatticePoint, b: LatticePoint, d: number): boolean => {
+    for (let i = 0; i < ring.length; i += 1) {
+      const p = ring[i];
+      const q = ring[(i + 1) % ring.length];
+      // segment–segment distance by endpoint–segment distances (the segments do not cross when all are > 0 and no crossing)
+      if (segPointDist(p, a, b) < d || segPointDist(q, a, b) < d || segPointDist(a, p, q) < d || segPointDist(b, p, q) < d) return true;
+      const o = (u: LatticePoint, v: LatticePoint, w: LatticePoint): number => Math.sign((v.x - u.x) * (w.y - u.y) - (v.y - u.y) * (w.x - u.x));
+      if (o(a, b, p) !== o(a, b, q) && o(p, q, a) !== o(p, q, b)) return true;
+    }
+    return false;
+  };
+  const inLand = (q: LatticePoint): boolean => {
+    let inside = false;
+    for (let i = 0, j = outline.length - 1; i < outline.length; j = i, i += 1) {
+      const a = outline[i];
+      const b = outline[j];
+      if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
+    }
+    return inside;
+  };
+  const node = (i: number, j: number): LatticePoint | null => {
+    const rr = fixtureRandom(seed * 7919 + (i + 1000) * 10000 + (j + 1000));
+    const q = P(i * s + (rr() - 0.5) * 0.3 * s, j * s + (rr() - 0.5) * 0.3 * s);
+    return inLand(q) ? q : null;
+  };
+  const okSeg = (a: LatticePoint, b: LatticePoint): boolean => {
+    if (near(plaza, a, b, 1500)) return false;
+    if (near(wall, a, b, clear)) return false;
+    for (const g of gatesAt) if (segPointDist(g, a, b) < clear + 4000) return false;
+    return true;
+  };
+  let gi = 0;
+  const i0 = Math.floor(xmin / s) - 1;
+  const i1 = Math.ceil(xmax / s) + 1;
+  const j0 = Math.floor(ymin / s) - 1;
+  const j1 = Math.ceil(ymax / s) + 1;
+  for (const dir of [0, 1]) {
+    const [a0, a1, b0, b1] = dir === 0 ? [j0, j1, i0, i1] : [i0, i1, j0, j1];
+    for (let a = a0; a <= a1; a += 1) {
+      let run: LatticePoint[] = [];
+      const flush = (): void => {
+        if (run.length >= 2) {
+          const id = `way:g${String(gi)}`;
+          gi += 1;
+          lay(k, 1, STAGES.S5, run, [{ role: 'way', entity: id }]);
+          ways.push(wayRecord(id, 'secondary', 500));
+        }
+        run = [];
+      };
+      for (let b = b0; b <= b1; b += 1) {
+        const q = dir === 0 ? node(b, a) : node(a, b);
+        if (q === null) {
+          flush();
+          continue;
+        }
+        if (run.length > 0 && !okSeg(run[run.length - 1], q)) flush();
+        run.push(q);
+      }
+      flush();
+    }
+  }
+  const features = siteFeatures(plat, { reservations: [c.value.plaza], gates: c.value.gates, ways, wall });
+  const input: S6Input = {
+    kernel: k,
+    key: GROUND,
+    seedKey: seedKey(seed),
+    rung: 'CITY',
+    boundary: outline,
+    frame: site.frameRing,
+    stageBoundaries: [slice.levelSet.outline.slice(), outline],
+    ways,
+    features,
+    reservations: [c.value.plaza],
+    wall,
+  };
+  return { seed, plat, k, input, ways, slice, commit: c.value };
 }

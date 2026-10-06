@@ -50,7 +50,7 @@ describe('S5a, k = 1', () => {
     expect(st.boundary?.set).toBe(slice.levelSet);
     expect(st.boundary?.threshold).toBe(slice.threshold);
     expect(st.wall).toBe(c.value.traced.line);
-    expect(st.count).toEqual({ n: slice.n, walled: true, rule: 'gateLaw' });
+    expect(st.count).toEqual({ n: slice.n, measure: slice.threshold.landCm2, walled: true, rule: 'gateLaw' });
     expect(st.roads).toEqual([]);
     expect(st.gates).toEqual(s4.value.gates);
     expect(g.ways).toEqual(s4.value.network.ways);

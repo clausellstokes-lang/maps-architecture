@@ -70,6 +70,8 @@ import {
 /** N_k as S5b counts it (§4.4 S5b). */
 export interface MainRoadCount {
   readonly n: number;
+  /** What the rule read: the land inside the enceinte (cm², gate law) or the boundary's length (cm, spacing). */
+  readonly measure: number;
   readonly walled: boolean;
   /** `gateLaw`: the land law on the land inside the enceinte; `spacing`: one per `mainRoadSpacingM` of boundary. */
   readonly rule: 'gateLaw' | 'spacing';
@@ -86,10 +88,10 @@ export function stageWalled(site: S3Slice['site'], k: number): boolean {
  * length, rounded to the nearest whole road (C-S5AB).
  */
 export function mainRoadCount(site: S3Slice['site'], k: number, boundary: StageBoundary): MainRoadCount {
-  if (stageWalled(site, k)) return { n: gateCount(quot(boundary.landCm2, HA_CM2, 'count', 'land in ha'), site.tables), walled: true, rule: 'gateLaw' };
+  if (stageWalled(site, k)) return { n: gateCount(quot(boundary.landCm2, HA_CM2, 'count', 'land in ha'), site.tables), measure: boundary.landCm2, walled: true, rule: 'gateLaw' };
   const spacing = site.tables.table('regimes').num(site.land.regimes[k - 1], `mainRoadSpacingM.${site.rung}`) * 100;
   const per = outlineMeasures(boundary.set.outline).perimeterCm;
-  return { n: Math.round(quot(per, spacing, 'length', 'main-road spacing')), walled: false, rule: 'spacing' };
+  return { n: Math.round(quot(per, spacing, 'length', 'main-road spacing')), measure: per, walled: false, rule: 'spacing' };
 }
 
 // ---- the picks ------------------------------------------------------------------------------------------------------------
@@ -310,7 +312,7 @@ export function growthStart(input: GrowthInput): GrowthState {
     walled: stageWalled(site, 1),
     boundary: b1,
     foldedInto: null,
-    count: { n: slice.n, walled: stageWalled(site, 1), rule: 'gateLaw' },
+    count: { n: slice.n, measure: slice.threshold.landCm2, walled: stageWalled(site, 1), rule: 'gateLaw' },
     crossings: [],
     picks: [],
     redraws: 0,
@@ -984,7 +986,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
     walled,
     boundary: b0,
     foldedInto: null,
-    count: { n: 0, walled, rule: walled ? 'gateLaw' : 'spacing' },
+    count: { n: 0, measure: 0, walled, rule: walled ? 'gateLaw' : 'spacing' },
     crossings: [],
     picks: [],
     redraws: 0,

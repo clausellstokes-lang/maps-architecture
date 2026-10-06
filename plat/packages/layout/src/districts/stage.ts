@@ -136,16 +136,16 @@ function vertexOf(p: Plat, role: string, entity: Id, ordinal = 0): LatticePoint 
 
 /**
  * The sited features M0 has, in seed order (§4.5 *Grower*): every plaza or market reservation (a `market` seed at its
- * barrier face), every main gate (at its `gate` vertex), both deck ends of every built bridge whose way is of class
+ * barrier face), every main gate (at its `gate` vertex, its ward behind the wall when `wall` is given), both deck ends of every built bridge whose way is of class
  * ≥ the edge test's (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0242 (4).
  */
-export function siteFeatures(p: Plat, from: { readonly reservations?: readonly Reservation[]; readonly gates?: readonly Gate[]; readonly bridges?: readonly Bridge[]; readonly ways?: readonly Way[]; readonly water?: WaterSet }): SeedFeature[] {
+export function siteFeatures(p: Plat, from: { readonly reservations?: readonly Reservation[]; readonly gates?: readonly Gate[]; readonly bridges?: readonly Bridge[]; readonly ways?: readonly Way[]; readonly water?: WaterSet; readonly wall?: readonly LatticePoint[] }): SeedFeature[] {
   const out: SeedFeature[] = [];
   for (const r of from.reservations ?? []) if (r.kind === 'plaza' || r.kind === 'market') out.push({ id: r.id, kind: 'market', anchor: { kind: 'owner', owner: r.id } });
   for (const g of from.gates ?? []) {
     if (g.kind !== 'main') continue;
     const at = vertexOf(p, 'gate', g.id);
-    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at } });
+    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, ...(from.wall === undefined ? {} : { prefer: from.wall }) } });
   }
   const top = minBarrierClass();
   const order = ['through', 'primary', 'secondary'];

@@ -14,7 +14,13 @@ export function barSeeds(first: number, last: number): void {
       const bad: string[] = [];
       const rows: string[] = [];
       for (let seed = first; seed <= last; seed += 1) {
-        const g = grow(flatFixture(seed));
+        let g;
+        try {
+          g = grow(flatFixture(seed));
+        } catch (e) {
+          bad.push(`seed ${String(seed)}: ${String(e)}`);
+          continue;
+        }
         bad.push(...violations(g));
         const st = s5bStatistics(g);
         rows.push(`${String(seed)}: ${st.primaryKmPerKm2.toFixed(3)} km/km², gates on primaries ${String(st.gateShare)} of ${String(st.gates)}`);

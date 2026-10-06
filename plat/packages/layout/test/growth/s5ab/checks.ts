@@ -64,7 +64,9 @@ export function violations(g: Grown): string[] {
       let per = 0;
       const o = b.set.outline;
       for (let i = 0; i < o.length; i += 1) per += Math.hypot(o[(i + 1) % o.length].x - o[i].x, o[(i + 1) % o.length].y - o[i].y);
-      if (st.count.n !== Math.round(per / 45_000)) say(`stage ${String(st.k)}: N_k ${String(st.count.n)} is not one per 450 m of ${String(per)} cm`);
+      // N_k reads the boundary as picked (before its destinations were pinned): its length within 1 % of the final one's.
+      if (st.count.n !== Math.round(st.count.measure / 45_000)) say(`stage ${String(st.k)}: N_k ${String(st.count.n)} is not one per 450 m of ${String(st.count.measure)} cm`);
+      if (Math.abs(st.count.measure - per) > 0.01 * per) say(`stage ${String(st.k)}: the length N_k read, ${String(st.count.measure)} cm, is not the boundary's ${String(per)} cm`);
     }
     const c = st.crossings.length;
     const want = Math.max(0, st.count.n - c);

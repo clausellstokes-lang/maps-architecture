@@ -19,11 +19,12 @@ export type SeedKind = 'market' | 'gate' | 'castle' | 'bridgehead' | 'riverbank'
 /**
  * Where a sited feature seeds its district (C-0242 (4)): the claimable coarse face sharing the longest boundary with
  * the faces an entity owns (a reservation: the market's plaza); the claimable face nearest a point (a gate's vertex, a
- * bridgehead's landward deck end); or the claimable face with the longest shore or bank of a water body (a river bank).
+ * bridgehead's landward deck end) — among the faces whose centroid lies inside `prefer` when any does (a gate's ward
+ * behind its wall); or the claimable face with the longest shore or bank of a water body (a river bank).
  */
 export type SeedAnchor =
   | { readonly kind: 'owner'; readonly owner: Id }
-  | { readonly kind: 'point'; readonly at: XY }
+  | { readonly kind: 'point'; readonly at: XY; readonly prefer?: readonly XY[] }
   | { readonly kind: 'shore'; readonly body: Id };
 
 /** A sited feature that seeds a district (§4.5 *Grower*'s "Seeds = the sited features"). */

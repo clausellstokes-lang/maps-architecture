@@ -51,13 +51,13 @@ describe('mainRoadCount', () => {
     const { s, b2, b3 } = city();
     expect([1, 2, 3].map((k) => stageWalled(s.site, k))).toEqual([true, true, false]);
     const c2 = mainRoadCount(s.site, 2, b2);
-    expect(c2).toEqual({ n: Math.round(1 + 0.47 * Math.sqrt(b2.landCm2 / HA_CM2)), walled: true, rule: 'gateLaw' });
+    expect(c2).toEqual({ n: Math.round(1 + 0.47 * Math.sqrt(b2.landCm2 / HA_CM2)), measure: b2.landCm2, walled: true, rule: 'gateLaw' });
     expect(c2.n).toBe(8);
     const o = b3.set.outline;
     let per = 0;
     for (let i = 0; i < o.length; i += 1) per += Math.hypot(o[(i + 1) % o.length].x - o[i].x, o[(i + 1) % o.length].y - o[i].y);
     const c3 = mainRoadCount(s.site, 3, b3);
-    expect(c3).toEqual({ n: Math.round(per / 45_000), walled: false, rule: 'spacing' });
+    expect(c3).toEqual({ n: Math.round(per / 45_000), measure: per, walled: false, rule: 'spacing' });
     expect(c3.n).toBeGreaterThan(8);
   });
 });

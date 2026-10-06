@@ -5,7 +5,7 @@
 // hole"). The district is minted as S6's first district and given the CITY band at prosperity 0.3, density 0.5 — the
 // shipped bands' values M0-b-03's tests use (C-0162 (1)). The district face is found by area, not by ring equality:
 // the insertion may move a vertex onto the lattice's attraction (checks/M0-b-03-notes.md N-14), so the face is the
-// largest L1 face other than the frame's (C-XB04 (3)).
+// largest L1 face other than the frame's (C-0242 (3)).
 import {
   area2,
   attachIndex,

@@ -1,12 +1,12 @@
 // One face's runs (M0-b-04): a task names a face of a set and a phase, and returns a small record of plain numbers, so
 // it can run in a worker thread and the harness folds the records in task order — the same report for any number of
-// workers (C-XB04 (7)).
+// workers (C-0242 (7)).
 //
 //   fcut   §4.6 step 8's F-CUT bar on one random face: the face as a one-face district through S8 (`runS8`) with its
 //          recursion bounded at depth 1 — a test-side work-limits table whose `cut.recursionDepth` law is fixed at 1,
 //          and a deep factor no block reaches, so the children stand as blocks without a spine — so the face's own
 //          ladder runs exactly as in a full run (the depth-0 ladder reads no recursion limit; a test pins it) and the
-//          run costs one ladder, not a whole district (C-XB04 (1)). Its record: the depth-0 ladder's kernel calls and
+//          run costs one ladder, not a whole district (C-0242 (1)). Its record: the depth-0 ladder's kernel calls and
 //          outcome, its face count after, and the district's L1 faces before and after.
 //   full   the whole district through S8: its stop draws (T34-1's g), its substitution residue, its work counters and
 //          the unit count its laws read (C-0091), every ladder's calls and face counts, and — with `replay` — the
@@ -73,7 +73,7 @@ export interface FullRecord {
 
 export type FaceRecord = FcutRecord | FullRecord;
 
-/** The F-CUT phase's work-limits table: the shipped one, `cut.recursionDepth` fixed at 1 (C-XB04 (1)). */
+/** The F-CUT phase's work-limits table: the shipped one, `cut.recursionDepth` fixed at 1 (C-0242 (1)). */
 export function depthOneLimits(base: WorkLimitsTable = loadWorkLimits()): WorkLimitsTable {
   return {
     table: base.table,

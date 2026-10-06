@@ -108,3 +108,43 @@ Lane `check/M0-a-08`, 2026-10-05. These notes do not fail the item (J180). The o
     are SHA-equal to its landed record. So the red is not this item's gate (J193 (3)). It is passed to M0-a-09's
     builder and checker, who should decide whether `booleans`' documented `E_DEGENERATE empty` should reach
     `corridorUnion`'s caller.
+
+## Closing check of session fix round S1 (lane `check/M0-a-08-close-s1`, 2026-10-06): notes 17 – 21
+
+The mutant ids (Q…) are defined in `checks/M0-a-08-s1.md`. None of these notes fails the item (N-45, J202).
+
+17. **KI: Q07 survives, because the per-family binding of the refusal cap is not pinned.** The mutant has `verdict`
+    apply `insertChainRefusalCap('buffer', runs)` for every operation. It passes both item folders at 1 000, because
+    `harness.test.ts:324` exercises `verdict` for `buffer` only and no family comes near buffer's cap. The real code is
+    right: `support.ts:1339` binds `op`, and probe `close-s1/m2/packages/testkit/zz-percap.mts` executed `verdict` for
+    all seven operations at cap and cap + 1 (union … insetRing 1 / 2:CAP, buffer 105 / 106:CAP, offsetFace 56 /
+    57:CAP). *Suggested handling:* in `harness.test.ts`, loop over `Object.keys(REFUSAL_MEASURE)` and assert that
+    `verdict(h, op, 10_000)` throws the "measured cap" message at `insertChainRefusalCap(op, 10_000) + 1` and only the
+    guard at the cap. This is one loop. Hardening milestone M4, or the next round that touches the harness.
+18. **KI: Q11 survives, because the ratchet's baseline is not pinned against a raise.** `REFUSAL_MEASURE` (buffer 830
+    in 12 seeds, offsetFace 413 in 13) is the ratchet baseline of N-46 (4), and "a cap only falls". However, a raise
+    of a count (Q11: offsetFace 413 → 826) passes every test, so only review of C-0231's table guards it. *Suggested
+    handling:* a pin test asserting each family's per-10⁴ rate ≤ C-0231's measured value (69.17 and 31.77; 0 for the
+    rest), so that a raise needs an explicit test edit under a session ruling, as for M0-a-05's `caps.ts`, if the
+    session wants the ratchet enforced mechanically. M4, or the session.
+19. **Q09 is equivalent on the drawn domain.** The mutant counts a face service's setup refusal of any code
+    (`faceOf`) as insertChain's, not only `E_INVARIANT` and `E_BELOW_MIN_EDGE`. Probe `zz-setup.mts` ran
+    `arenaFaceOr` on 2 × 10⁴ offsetFace cases (seeds 7101 and −7203): 19 994 were `ok`, 6 had no bounded face
+    (settled under both versions) and 0 were refused with any code. The mutant's direction is also stricter: it would
+    count more refusals against the cap, never fewer. No action.
+20. **Observation: offsetFace's rate on this check's seeds sits near its rate cap.** At the PR size, seeds 7013,
+    7101, −7203, 7307 and −7409 gave offsetFace 39, 42, 34, 33 and 31 insertChain refusals. That is 35.8 per 10⁴,
+    against the round's 31.77 and its rate cap of 36.46. The Poisson deviation is +1.6 σ, not significant. Pooled
+    with the round's 13 seeds, the rate is 592 in 18 seeds = 32.9 per 10⁴. The largest single run is 42, against the
+    run cap of 56. Buffer gave 78, 60, 72, 69 and 72 (70.2 per 10⁴ against 69.17, rate cap 76.37, run cap 105). Every
+    one of the 413 probe refusals replays exactly on insertChain alone (exact-call replay, `close-s1/meas/`).
+    *Suggested handling:* when the ratchet is next re-measured (KI-1, M0-a-05's to lower), pool these five seeds with
+    the round's. Both families stay far above N-44's target of 1 per 10⁴ (KI-1).
+21. **For the session, sooner than M4: the oracle hang is a gate flake.** C-0231 records polygon-clipping not
+    terminating on about 1 offsetFace case in 1.2 × 10⁵ (register `oracleHang`). A PR-size near run draws a fresh
+    fast-check seed each time unless `PLAT_FUZZ_SEED` is set, so about one run in 12 hits the hang and times out
+    after 1 h. That makes a gate exit non-zero for a cause outside the code under test. This seat's 5 × 10⁴
+    offsetFace cases (near run seed 7013 and four probe seeds) met no hang. *Suggested handling:* bound the oracle
+    call before M0's milestone whole-suite run. C-0231's own remedy fits: a time-limited call read as the oracle's
+    own-operand refusal, which C-0150 / N-40 already count. Owner: M0-k-03's oracle or this item's harness, as the
+    session decides.

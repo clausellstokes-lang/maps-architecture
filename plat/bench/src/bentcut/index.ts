@@ -1,6 +1,6 @@
 // bench/src/bentcut — the F-CUT bars and the bent-cut signature harness, measured on ours (M0-b-04; §4.6 step 8's bars,
 // §13.5's bent-cut signature row, §13.8's T34-1 mean, §16 M0 (b)'s corner and arrival clauses; C-0067, C-0073, C-0091,
-// C-0108; readings C-XB04). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-b-04.
+// C-0108; readings C-0242). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-b-04.
 //
 //   corepack pnpm bench -- bentcut [--seed N] [--fcut N] [--districts N] [--sig N] [--t34 N] [--workers W]
 //                                  [--only fcut,residue,signature,t34] [--summary]

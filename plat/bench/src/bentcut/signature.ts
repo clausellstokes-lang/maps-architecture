@@ -3,7 +3,7 @@
 //
 // What a cut is measured on. A committed S8 cut leaves no record of the face it was planned on — S8 recurses inside one
 // transaction, and its report carries each face's stop draw, ladder and rungs but no geometry. So the harness REPLAYS
-// each district (C-XB04 (4)): it runs the district's own batch (BentCutFabric's `districtBatch`, the very callback S8's
+// each district (C-0242 (4)): it runs the district's own batch (BentCutFabric's `districtBatch`, the very callback S8's
 // `partition` hands the façade) in a transaction it rejects at the end, and once the batch has returned, it takes the
 // district's lanes out again in the reverse of their insertion order (`removeEdges`, the writer S8's own undo uses).
 // Taking lane i out after every later lane restores the face lane i split, so the kerb (§3.7) S8 planned that cut on
@@ -14,9 +14,9 @@
 //
 // Which cuts. The signature is §4.6's restated law, so it is measured on the cuts the planner made — rung (a), every
 // frame (attempt 0, 1, 2); the ladder's own straight cuts (the reflex pre-cut, the antenna split, rungs (b) and (c))
-// and the deep-interior spines are counted and their share of all committed cuts reported beside it (C-XB04 (5)).
+// and the deep-interior spines are counted and their share of all committed cuts reported beside it (C-0242 (5)).
 //
-// The measures (C-XB04 (6)), on the lattice (each planned point snapped as S8 snaps the chain it inserts):
+// The measures (C-0242 (6)), on the lattice (each planned point snapped as S8 snaps the chain it inserts):
 //   startT       the snapped start A's place along the working major axis of the frame the cut was planned in (the
 //                recorded frame: attempt k's frame is turned k × 36°), (s − sMin) / L, 0 – 1; `startT0` the same in
 //                the first, unturned frame;
@@ -325,7 +325,7 @@ function reach(a: readonly XY[], b: readonly XY[]): number {
   return worst;
 }
 
-/** The replay's landing tolerance (cm): the insertion's attraction radius and a centimetre (C-XB04 (4)). */
+/** The replay's landing tolerance (cm): the insertion's attraction radius and a centimetre (C-0242 (4)). */
 export const LAND_TOL_CM = LATTICE.attractCm + 1;
 
 /** Does a planned chain land on a committed polyline (both ways within the tolerance)? */

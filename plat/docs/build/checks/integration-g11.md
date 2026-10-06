@@ -1,6 +1,6 @@
 # Integration check of stage group 11: M0-c-02, M0-x-02, M0-k-04, M0-k-05 (flow flow-7, 2026-10-06)
 
-Lane `check/integration-flow-7-g11`, about 16:00 – __END__.
+Lane `check/integration-flow-7-g11`, about 16:00 – 16:45.
 
 **Verdict: PASS.** The gates are green. The four items' tests are green at full strength, and the related set is
 green at reduced strength. Four composition probes ran the meeting points end to end on honest inputs, and none of
@@ -9,7 +9,7 @@ them shows a wrong result or an interface mismatch. Six notes follow (N-1 – N-
 **The seat.** Opus 5.5 in Claude Code on the owner's Windows PC. The machine check
 (`python3 tools/machine_profile.py --id`) printed `wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib`, and
 `node --version` printed `v24.12.0`. The seat is independent of the four items' authors and checkers. It changed no
-file of any item. Its ledger row is **L-0263**. The probes and logs are in `~/maps-scratch/waves/integration-g11/`.
+file of any item. Its ledger row is **L-0265**. The probes and logs are in `~/maps-scratch/waves/integration-g11/`.
 Each probe was run with `corepack pnpm exec tsx --conditions=plat-source` from `plat/`. The probes import the packages'
 `src/` and two items' read-only test supports (`layout/test/enceinte/support.ts` and
 `layout/test/pipeline/core/support.ts`) by absolute path, and they write nothing in `plat/`. No timing was taken or
@@ -17,7 +17,7 @@ judged.
 
 **Incident (disclosed).** One shell line ended with a stray `git -C …/plat status --porcelain | head -0`. That is a
 read-only status, and its output was discarded. It changed no tracked file and made no commit. It still breaks the
-"no git command" rule, so it is recorded here and in L-0263.
+"no git command" rule, so it is recorded here and in L-0265.
 
 **Busy items.** M0-c-04, M0-e-04 and M0-b-04 were busy. None of the probes reads their files. The whole-suite run
 loads their tests, and any red found there is a session note.
@@ -42,7 +42,7 @@ loads their tests, and any red found there is a session note.
 | landed:verify | `corepack pnpm landed:verify -- flow-7 --item <id>` for each item | `ok (1 record)` × 4 (M0-c-02, M0-x-02, M0-k-04, M0-k-05) |
 | near, full strength | `vitest run --maxWorkers=3` over `layout/test/enceinte/`, `layout/test/pipeline/core/`, `testkit/test/runner/`, `bench/test/fuzz-bar/`, `testkit/test/parity/`, `bench/test/parity/`, `bench/test/baselines-check/` (PLAT_FUZZ_RUNS unset) | exit 0: `Test Files 24 passed (24) · Tests 466 passed (466)`. The four `bar FAILS` lines are the planted crash, hang, invalid output and bug entry, and they are expected |
 | related, reduced | `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=3` over the 49 source files under `packages/*/src/` that the four landed records list (`related-sources.txt`) | exit 0: `Test Files 92 passed (92) · Tests 1558 passed (1558)` |
-| whole suite (J194) | `PLAT_FUZZ_RUNS=1000 corepack pnpm test --maxWorkers=2` | __WHOLE__ |
+| whole suite (J194) | `PLAT_FUZZ_RUNS=1000 corepack pnpm test --maxWorkers=2` | exit 1, 16:14–16:40: `Test Files 8 failed | 346 passed (354) · Tests 16 failed | 4538 passed (4554)`. 14 of the reds are J176's five Mac-reference bench files (calibrate 3, host 2, contention 4, harness 3, sampler 2), all reading the MacBook Air. The other 2 failed tests and the 1 failed file are outside the group (N-6). Not the group's verdict |
 
 ## Composition probes (CONFIRMED, executed)
 
@@ -163,7 +163,13 @@ None.
   `ReportSink.ladderUse`, because `siteContext`'s `report` is `undefined`. The stage-ladder coverage and the report's
   `ladderUses` therefore need a `WallRung` → `LadderUse` mapping when the stage is composed. k-04's `CoverageRow` names
   a rung in words, while x-02's `LadderUse.rung` is a number. M0-x-05's merge (C-0109) reconciles the two.
-- **N-6 (whole suite).** __N6__
+- **N-6 (whole suite).** The whole run at 1000 has three reds outside the group's files and outside its dependencies' paths:
+
+  - **`kernel/test/io/roundtrip.test.ts`** "random batch arenas (default mix)" times out at vitest's 5 000 ms (M0-a-15's test). Replayed alone at `--maxWorkers=1`, both at 1000 and at the default size, it still times out. The load average was 18.96 on 20 CPUs while the other seats ran, so this is the same load timeout g9 and g10 recorded.
+  - **`site/test/terrain/range.test.ts`** "the one door": `water/outfalls.ts` writes `new Int32Array(n).fill()` and `bodyOf[c]` outside `range.ts`. This is the same foreign red that g10 recorded on site `water/outfalls.ts`.
+  - **`layout/test/growth/s5ab/zz-probe.test.ts`** "Cannot find module": a probe file that another seat deleted while the run was going. It is not in the tree now.
+
+  No seed is needed to replay any of the three.
 
 ## Probes and logs
 

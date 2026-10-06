@@ -1,18 +1,22 @@
 // The grower's seeds (M0-e-04; §4.5 *Grower*: "Seeds = the sited features … plus a density-guided remainder, N_d seeds
 // in all"; readings C-0242 (4), (5), (11)):
 //   * each sited feature, in its given order, takes the claimable face its anchor names (the longest boundary with the
-//     faces an entity owns; the face nearest a point; the longest shore or bank of a water body), ties by canonical
-//     face order, a face an earlier seed took passed over; a feature with no such face left is dropped and reported;
+//     faces an entity owns; the face nearest a point, a preferred side's faces first — a gate's ward behind its wall;
+//     the longest shore or bank of a water body), ties by canonical face order, a face an earlier seed took passed
+//     over; a feature with no such face left is dropped and reported;
 //   * the remainder — N_d less the features — goes compartment by compartment (the claimable faces' connected runs
-//     across edges that pass the edge test, which no grower crosses): each next seed to the compartment whose land
-//     share of N_d (A_c ÷ (A ÷ N_d)) most exceeds the growth its seeds already carry (each seed counted at its rate,
-//     so a slow gate ward leaves its compartment's land to the others), ties by the compartment's first face; inside a
-//     compartment the first seed takes the face nearest the compartment's centroid, each later one the face farthest
-//     from the compartment's seeds (centroid distance), ties by face order. The density the design guides the
-//     remainder by is pass 1's (M0-e-05's, after S6 at M0): uniform here (C-0242 (11));
-//   * a feature seed's lineage is its address's hash, a remainder seed's its first face's key (§4.5).
+//     across edges that pass the edge test, which no grower crosses): first one to each compartment without a seed,
+//     the largest first (every compartment yields a district whatever it is given); then each next seed to the
+//     compartment whose land share of N_d (A_c ÷ (A ÷ N_d)) most exceeds the growth its seeds already carry (each seed
+//     counted at its rate, so a slow gate ward leaves its compartment's land to the others), ties by the compartment's
+//     first face; inside a compartment the first fast seed (rate ≥ the remainder's) takes the face nearest the
+//     compartment's centroid, each later one the face farthest from its fast seeds (centroid distance), ties by face
+//     order; then LLOYD_ROUNDS rounds of Lloyd's relaxation move each remainder seed to the free face nearest the
+//     centroid of the faces nearest it, the sited features fixed. The density the design guides the remainder by is
+//     pass 1's (M0-e-05's, after S6 at M0): uniform here (C-0242 (11));
+//   * a feature seed's lineage is its address's hash, a remainder seed's its face's key (§4.5).
 import { type Id } from '@plat/model';
-import { quot } from '../siting/geom.js';
+import { insideRing, quot } from '../siting/geom.js';
 import { EDGE_TEST_BARRIERS, faceLineage, textLineage, type FaceGraph } from './faces.js';
 import type { GrowSeed, SeedFeature, SeedKind, XY } from './types.js';
 
@@ -21,6 +25,9 @@ export interface PlacedSeeds {
   readonly seeds: GrowSeed[];
   readonly dropped: Id[];
 }
+
+/** What a face off a point anchor's preferred side loses (cm², squared distance): more than any frame's diagonal. */
+const PREFER_PENALTY = 1e16;
 
 /** The squared distance of a point to a segment. */
 function segDist2(p: XY, a: XY, b: XY): number {
@@ -109,8 +116,9 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
         score = g.shores[i].get(a.body) ?? 0;
         if (score <= 0) continue;
       } else {
-        // the nearest: the negated squared distance, so larger is better
+        // the nearest (the negated squared distance, so larger is better), a preferred side's faces first
         score = -faceDist2(g, i, a.at);
+        if (a.prefer !== undefined && a.prefer.length >= 3 && !insideRing(a.prefer, g.faces[i].centroid)) score -= PREFER_PENALTY;
       }
       if (best < 0 || score > bestScore) {
         best = i;
@@ -150,13 +158,18 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
     let pick = -1;
     let pickDeficit = 0;
     // First every compartment without a seed, the largest first: each yields a district whatever it is given.
+    const mode = (globalThis as any).__ALLOC ?? 'first';
+    const floorCm2 = 0.5 * land / nd;
     comps.forEach((c, ci) => {
+      if (mode === 'deficit') return;
       if (members[ci].length > 0 || !c.some(free)) return;
+      if (mode === 'firstFloor' && area[ci] < floorCm2) return;
       if (pick < 0 || area[ci] > area[pick]) pick = ci;
     });
     if (pick < 0)
     comps.forEach((c, ci) => {
       if (!c.some(free)) return;
+      if (mode !== 'first' && area[ci] < floorCm2) return;
       // the deficit: the compartment's share of N_d (A_c · N_d ÷ A, scaled by A to stay exact) less its carried growth
       const deficit = area[ci] * nd - carried[ci] * land;
       if (pick < 0 || deficit > pickDeficit) {
@@ -239,14 +252,8 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
         taken.delete(sd.face);
         let face = sd.face;
         let bd = d2(g.faces[face].centroid, cen);
-        const nearSeed = (i: number): boolean => {
-          for (const j of g.links[i].keys()) if (j !== sd.face && taken.has(j)) return true;
-          return false;
-        };
-        if ((globalThis as any).__ADJ === true && nearSeed(face)) bd = Infinity;
         for (const i of c) {
           if (!free(i)) continue;
-          if ((globalThis as any).__ADJ === true && nearSeed(i)) continue;
           const d = d2(g.faces[i].centroid, cen);
           if (d < bd || (d === bd && i < face)) {
             bd = d;
@@ -256,14 +263,6 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
         taken.add(face);
         if (face !== sd.face) seeds[sd.order] = { ...sd, face, lineage: faceLineage(g.faces[face].key) };
       }
-    });
-  }
-  if ((globalThis as any).__DBG) {
-    comps.forEach((c, ci) => {
-      const own = seeds.filter((sd) => compOf[sd.face] === ci);
-      const ar = new Map<number, number>();
-      for (const i of c) { let best = own[0]; let bd = Infinity; for (const sd of own) { const d = d2(g.faces[i].centroid, g.faces[sd.face].centroid); if (d < bd) { bd = d; best = sd; } } if (best) ar.set(best.order, (ar.get(best.order) ?? 0) + g.faces[i].areaCm2); }
-      console.log('comp', ci, 'area ha', (area[ci] / 1e8).toFixed(1), own.map((sd) => `${sd.order}${sd.kind[0]}:${((ar.get(sd.order) ?? 0) / 1e8).toFixed(1)}`).join(' '));
     });
   }
   return { seeds, dropped };

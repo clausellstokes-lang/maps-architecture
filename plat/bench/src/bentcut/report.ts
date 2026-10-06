@@ -50,7 +50,7 @@ export interface FcutSummary {
   readonly decreases: number;
   readonly pass: boolean;
   /**
-   * Every ladder at every depth of the whole districts of the same faces (C-XB04 (1)): judged with the depth-0 ladders —
+   * Every ladder at every depth of the whole districts of the same faces (C-0242 (1)): judged with the depth-0 ladders —
    * a district S8 refused or threw on is a ladder that did not end.
    */
   readonly allDepths: { readonly districts: number; readonly ladders: number; readonly maxKernelCalls: number; readonly decreases: number; readonly refused: number };
@@ -229,7 +229,7 @@ export interface SignatureSummary {
   readonly all: SignatureRow;
   readonly byKind: Readonly<Record<string, SignatureRow>>;
   readonly replay: { readonly cuts: number; readonly planner: number; readonly fallback: number; readonly deep: number; readonly matched: number; readonly missed: number; readonly notReplayed: number };
-  /** The ladder's own cuts' share of every committed cut (C-XB04 (5)). */
+  /** The ladder's own cuts' share of every committed cut (C-0242 (5)). */
   readonly fallbackShare: number;
   readonly corner: { readonly share: number | null; readonly bound: number; readonly n: number; readonly pass: boolean };
   readonly arrival: { readonly share: number | null; readonly bound: number; readonly n: number; readonly pass: boolean };
