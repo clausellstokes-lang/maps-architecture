@@ -1,4 +1,4 @@
-// N-44 (3) as the session applied it to insertChain (J204, J207, J208; N-46 (3), (4); C-0217, C-0220): the refusals
+// N-44 (3) as the session applied it to insertChain (J204, J207, J208; N-46 (3), (4); C-0217, C-0221): the refusals
 // N-43 B's bound causes — E_INVARIANT, and an optional chain's E_BELOW_MIN_EDGE naming N-43 (N-46 (3): counted whatever
 // their code, `countedRefusal`) — are capped per B-FUZZ property and for the fidelity bound's own property at the
 // residual round S6 measured, after the systematic causes were fixed (S5's third pass: the endpoint fallback in a thin
@@ -6,7 +6,7 @@
 // stays the target: KI-1 carries the remainder to the hardening pass, and a refusal is never hidden — every one is
 // counted, and each new cause found is a register case.
 //
-// The measure (C-0220's table): S6's code on 31 seeds at the PR size — the S5 closing check's own fresh seeds, so S5
+// The measure (C-0221's table): S6's code on 31 seeds at the PR size — the S5 closing check's own fresh seeds, so S5
 // and S6 compare seed by seed — 10⁴ cases per property per seed, counted as N-46 (3) says (B-FUZZ's tally; a run writes
 // its counts to PLAT_FUZZ_COUNTS). N-46 (4)'s cap per family is the measured rate plus 3 · √count on the 31-seed total;
 // the cap of one run is the 99.9 % point of a Poisson count whose mean is that cap scaled to the run size (one seed's
@@ -53,7 +53,7 @@ export function countedRefusal(code: string, detail: string): boolean {
   return code === 'E_INVARIANT' || (code === 'E_BELOW_MIN_EDGE' && detail.includes('(N-43)'));
 }
 
-/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S6, C-0220). */
+/** The refusals N-43 B's bound caused (N-46 (3)) per 10⁴ cases, per property: the table's sums over its 31 seeds (S6, C-0221). */
 export const MEASURED_PER_1E4 = {
   random: 107 / 31,
   constructive: 46 / 31,
@@ -87,7 +87,7 @@ export function poissonCap(mean: number): number {
   return Math.max(1, c);
 }
 
-/** The cap on the bound-caused refusals of one run of the family's property over `runs` cases (N-44 (3), N-46 (4), C-0220). */
+/** The cap on the bound-caused refusals of one run of the family's property over `runs` cases (N-44 (3), N-46 (4), C-0221). */
 export function refusalCap(family: keyof typeof MEASURED_COUNT, runs: number): number {
   return poissonCap((capPer1e4(family) * runs) / 10_000);
 }

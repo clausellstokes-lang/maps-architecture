@@ -1,4 +1,4 @@
-// M0-a-05 session fix round S6 (C-0220), on the S5 closing check's failing lines (checks/M0-a-05-s3.md, S5 round):
+// M0-a-05 session fix round S6 (C-0221), on the S5 closing check's failing lines (checks/M0-a-05-s3.md, S5 round):
 //   F1 / F2 — N-46 (3): an optional chain whose every route keeping §3.10 leaves N-43 B's bound is refused
 //     E_BELOW_MIN_EDGE with detail 'N-43'; it is a refusal the bound caused, counted with E_INVARIANT (caps.ts
 //     `countedRefusal`), and the router's further readings — S4's split route, N-42 (b)'s re-landing, S5's third pass —

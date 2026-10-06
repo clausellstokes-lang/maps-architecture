@@ -29,7 +29,7 @@
 // a counted, capped refusal, never a throw and never a commit out of bound (N-44 (1) – (3); B-FUZZ counts it on its own
 // line, N-40). The first pass is that router; a chain it refuses E_INVARIANT is tried again with S4's further routes
 // (C-0215), and a chain both refuse with S5's third pass (C-0217) — an optional chain refused E_BELOW_MIN_EDGE for the
-// bound (N-43) as a mandatory one refused E_INVARIANT (S6, C-0220; N-46 (3)), its code kept when no pass commits it: a
+// bound (N-43) as a mandatory one refused E_INVARIANT (S6, C-0221; N-46 (3)), its code kept when no pass commits it: a
 // crossing or a step-2 vertex the placement rule can only send to its endpoint fallback beyond the bound is kept within
 // the bound instead (the step across a thin strip, the nearest in-bound point of the run, the nearest in-bound vertex,
 // a free in-bound spot for step 2), and a wedge corner beyond the bound of the input is not taken; a second reading
@@ -528,9 +528,8 @@ const BOUND_DETAIL = 'leaves the fidelity bound (N-43)';
 
 /**
  * Is the refusal one N-43 B's bound caused (N-46 (3))? E_INVARIANT — no route keeps §3.10 within the bound — or an
- * optional chain's E_BELOW_MIN_EDGE whose every route keeping clearance leaves the bound. The router's further readings
- * — S4's split route, N-42 (b)'s re-landing, S5's third pass — serve both alike, and a refusal keeps the code it was
- * given when none of them commits (S6, C-0220).
+ * optional chain's E_BELOW_MIN_EDGE whose every route keeping clearance leaves the bound. S4's split route and S5's
+ * third pass serve both alike, and a refusal keeps the code it was given when neither commits (S6, C-0221).
  */
 export function boundRefusal(r: Refusal): boolean {
   return r.code === 'E_INVARIANT' || (r.code === 'E_BELOW_MIN_EDGE' && r.detail.endsWith(BOUND_DETAIL));
@@ -940,7 +939,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
             return ok({ a: y, b: bv });
           }
           if (r.code === 'E_WORK_LIMIT') return passOn(r);
-          if (boundRefusal(r) && freeSince(ctx, m1, bv)) {
+          if (r.code === 'E_INVARIANT' && freeSince(ctx, m1, bv)) {
             // b's own landing undone (and y's reports with it), then b's candidates from y.
             rollback(ctx, log, m1);
             warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
@@ -1021,7 +1020,9 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
           const r0 = routeSegment(ctx, log, prev, v, dec.points[prevIdx], dec.points[idx]);
           const r = r0.ok || !boundRefusal(r0) || ctx.extended !== true ? r0 : splitRoute(prev, dec.points[prevIdx], v, dec.points[idx], SPLIT_DEPTH, r0);
           if (!r.ok) {
-            if (!boundRefusal(r) || !landedNow || (mark === null && prevMark === null)) return refuse(r);
+            // N-42 (b)'s re-landing serves E_INVARIANT alone: an optional chain's refusal for the bound reached it in none
+            // of 40 000 scanned B-FUZZ cases, so S6 leaves it as S5 had it (C-0221).
+            if (r.code !== 'E_INVARIANT' || !landedNow || (mark === null && prevMark === null)) return refuse(r);
             const re = reland(prev, prevIdx, prevMark, idx, mark, nextPt, r);
             if (!re.ok) return refuse(re);
             v = re.value.b;
@@ -1088,7 +1089,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   let result = attempt(false);
   if (!result.ok && result.code === 'E_INVARIANT') result = attempt(true);
   // S5's third pass (C-0217): only a chain both passes refuse for N-43 B's bound — E_INVARIANT, or an optional chain's
-  // E_BELOW_MIN_EDGE 'N-43' (S6, C-0220: N-46 (3)'s class gets the same readings) — so every commit of S4's two passes
+  // E_BELOW_MIN_EDGE 'N-43' (S6, C-0221: N-46 (3)'s class gets the same readings) — so every commit of S4's two passes
   // stands; its second reading (step 2's free spot first) only a chain the first reading does not commit. A refusal of
   // either keeps the second pass's refusal and its code, counted (N-44 (3), N-46 (3)): the third pass never turns a
   // refusal into another code.

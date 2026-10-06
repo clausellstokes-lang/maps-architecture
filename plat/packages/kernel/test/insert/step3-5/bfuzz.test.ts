@@ -27,7 +27,7 @@
 // an optional chain's E_BELOW_MIN_EDGE naming N-43 (every route keeping clearance leaves the bound; N-46 (3): a refusal
 // the bound caused is counted whatever its code — `Tally`, caps.ts `countedRefusal`); each property asserts its
 // family's cap — N-46 (4)'s cap from the residual round S6 measured, plus one run's noise (caps.ts; J207, J208, C-0217,
-// C-0220), 1 per 10⁴ the target (KI-1); with PLAT_FUZZ_COUNTS set a run writes its counts there. (4) Each refused case
+// C-0221), 1 per 10⁴ the target (KI-1); with PLAT_FUZZ_COUNTS set a run writes its counts there. (4) Each refused case
 // found is kept in a register (register.test.ts, routerGapS5.test.ts, routerGapS6.test.ts: seed, input, refusal code).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
@@ -248,7 +248,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
         },
       ),
     );
-    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; bound-caused ${bound} (cap ${CAP.random}, N-44, N-46 (3), C-0220)`);
+    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; bound-caused ${bound} (cap ${CAP.random}, N-44, N-46 (3), C-0221)`);
     recordCounts('random', RUNS, bound.invariant, bound.optional, CAP.random);
     expect(commits).toBeGreaterThan(refusals);
     expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the random family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.random);
@@ -323,7 +323,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
         }
       }),
     );
-    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; bound-caused ${bound} (cap ${CAP.constructive}, N-44, N-46 (3), C-0220)`);
+    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; bound-caused ${bound} (cap ${CAP.constructive}, N-44, N-46 (3), C-0221)`);
     recordCounts('constructive', RUNS, bound.invariant, bound.optional, CAP.constructive);
     expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the constructive family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.constructive);
     for (const k of ['random', 'collinear', 'coincident', 'shallow', 'graze', 'ring', 'zigzag', 'endpoint', 'vee']) expect(kinds.get(k) ?? 0).toBeGreaterThan(0);
@@ -348,7 +348,7 @@ describe('§13.1: mandatory chains never rejected for precision over 10⁶ rando
       }),
     );
     console.log(`mandatory chains: ${[...codes].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
-    console.log(`chains refused for N-43 B's bound (no route in bound, N-37, N-43, N-44; its own line, N-40): ${bound} (cap ${CAP.mandatory}, N-46 (3), C-0220)`);
+    console.log(`chains refused for N-43 B's bound (no route in bound, N-37, N-43, N-44; its own line, N-40): ${bound} (cap ${CAP.mandatory}, N-46 (3), C-0221)`);
     recordCounts('mandatory', RUNS, bound.invariant, bound.optional, CAP.mandatory);
     for (const k of PRECISION) expect(codes.get(k) ?? 0).toBe(0);
     expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the mandatory-only family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.mandatory);

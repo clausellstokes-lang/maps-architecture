@@ -6,7 +6,7 @@
 // a segment the op routed; every routed segment within it of the chain's edges), the arena valid after each, a refusal
 // E_INVARIANT writing nothing and counted (`countedRefusal`, N-46 (3): its chains are mandatory, so E_INVARIANT is the
 // only bound-caused code here), within the property's cap — N-46 (4)'s cap from S6's measured residual plus one run's
-// noise (caps.ts; N-44 (3) as J207 / J208 apply it, C-0217, C-0220).
+// noise (caps.ts; N-44 (3) as J207 / J208 apply it, C-0217, C-0221).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Level } from '../../../src/types/index.js';

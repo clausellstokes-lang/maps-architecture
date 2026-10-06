@@ -26,7 +26,7 @@
 //
 // Every angle test is a dot or cross product against a table cell (no inverse trigonometric call); every power goes
 // through dmath.pow and every division through ratio() (§6.5 (3), §3.2 (8)). Every constant is a cut.json cell read
-// with its preset value (§7.6) or the design's arithmetic. Readings and open cases: C-0216.
+// with its preset value (§7.6) or the design's arithmetic. Readings and open cases: C-0222.
 import {
   CONCERNS,
   dmath,
@@ -134,9 +134,9 @@ export interface PlanContext {
   readonly preset?: PresetId;
   /** The cut table (default the shipped cut.json). */
   readonly table?: Table;
-  /** The width of the lane being planned, for the portal gap (cm); default the lane band's top (C-0216 (9)). */
+  /** The width of the lane being planned, for the portal gap (cm); default the lane band's top (C-0222 (9)). */
   readonly newLaneWidthCm?: number;
-  /** The kerb's corner scale, sideRuns' `arcMaxCm` (cm); default the face's widest spine half-width (C-0216 (4)). */
+  /** The kerb's corner scale, sideRuns' `arcMaxCm` (cm); default the face's widest spine half-width (C-0222 (3)). */
   readonly cornerScaleCm?: number;
 }
 
@@ -338,7 +338,7 @@ class Draws {
 /**
  * τ = e_lo · (e_hi / e_lo)^g (§4.6 step 1; the power by dmath.pow), for g ∈ [0, 1] and 0 < e_lo ≤ e_hi (cm). The
  * result is clamped to [e_lo, e_hi]: e_lo · (e_hi / e_lo) rounds one ulp above e_hi in about 5 % of pairs (C-0137
- * (4)), and §4.6 states τ ∈ [e_lo, e_hi] (C-0216 (5)).
+ * (4)), and §4.6 states τ ∈ [e_lo, e_hi] (C-0222 (4)).
  */
 export function stopThreshold(eLoCm: number, eHiCm: number, g: number): number {
   if (!(eLoCm >= LATTICE.unitCm && eHiCm >= eLoCm && eHiCm < Infinity)) {
@@ -391,7 +391,7 @@ export function slopeWeight(slope: number, cells: CutCells['slope']): number {
 }
 
 /**
- * The OBB major axis rotated toward the contour line by the weight (C-0216 (6)): by weight × the signed angle from
+ * The OBB major axis rotated toward the contour line by the weight (C-0222 (5)): by weight × the signed angle from
  * the axis line to the contour line, taken in (−90°, 90°] — lines, not directions — through dmath.atan2.
  */
 export function towardContour(major: XY, contour: XY, weight: number): XY {
@@ -559,7 +559,7 @@ export interface CutPlanned extends PlanBase {
   readonly cut: CutGeometry;
   /**
    * Under straightFirst, when the straight cut was taken: the cut planned as under flatten, which the transaction
-   * takes when the straight one fails step 8's checks (C-0216 (7)).
+   * takes when the straight one fails step 8's checks (C-0222 (8)).
    */
   readonly alternate: CutGeometry | null;
 }
@@ -611,7 +611,7 @@ function checkContext(ctx: PlanContext, cells: CutCells): { eLo: number; eHi: nu
   return { eLo, eHi, wMin, attempt };
 }
 
-/** The face's widest spine half-width (cm): the scale of its kerb's round-joined corners (C-0216 (4)). */
+/** The face's widest spine half-width (cm): the scale of its kerb's round-joined corners (C-0222 (3)). */
 function cornerScale(face: KerbFace): number {
   let w = 0;
   for (const s of face.spines ?? []) if (s.halfWidthCm > w) w = s.halfWidthCm;
@@ -682,7 +682,7 @@ export function startOf(sides: FaceSides, frame: WorkingFrame, f: number): Omit<
 const FOOT_STEPS = 60;
 
 /**
- * The perpendicular foot from K on a run (§4.6 step 5; C-0216 (8)): the point p of the run's own vertices' polyline
+ * The perpendicular foot from K on a run (§4.6 step 5; C-0222 (8)): the point p of the run's own vertices' polyline
  * where K − p is perpendicular to the run's direction there — its chord, or on a curved run its tangent over the ±
  * window (*Sides*) — found by bisection on arc length between samples (every vertex and edge midpoint) where
  * (K − p) · direction changes sign; the root nearest K (ties: the lower arc length). A foot within half a lattice unit
@@ -782,7 +782,7 @@ function arrivalDot2(cells: CutCells): number {
   return Math.max(a * a, b * b);
 }
 
-/** The first spine the ray from an end crosses within reach (C-0216 (10)): 2 × its half-width + attractCm. */
+/** The first spine the ray from an end crosses within reach (C-0222 (9)): 2 × its half-width + attractCm. */
 function spineHit(face: KerbFace, from: XY, dir: XY): { spine: number; t: number; point: XY; seg: number } | null {
   let best: { spine: number; t: number; point: XY; seg: number } | null = null;
   (face.spines ?? []).forEach((sp, si) => {
@@ -823,7 +823,7 @@ function arrivesSquare(spineDir: XY, from: XY, at: XY, bound: number): boolean {
 /**
  * The portal-gap slide of one spine end (§4.6 step 7): an end inside max(6 m, 2 × the wider lane's width) of an
  * existing portal on a district-bounding spine moves along the spine to the gap's edge, toward the side that keeps
- * its arrival within the band (both: the nearer slide, then the lower arc length; C-0216 (9)), its kerb point where
+ * its arrival within the band (both: the nearer slide, then the lower arc length; C-0222 (9)), its kerb point where
  * the new leg meets the kerb. Null when neither side does; the end unchanged when it lies in no gap.
  */
 function slideEnd(face: KerbFace, sides: FaceSides, end: EndPlan, from: XY, cells: CutCells, newLaneCm: number): EndPlan | null {

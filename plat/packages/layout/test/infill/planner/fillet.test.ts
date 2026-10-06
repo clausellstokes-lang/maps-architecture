@@ -97,6 +97,19 @@ describe('the arc (fitFillet)', () => {
     }
   });
 
+  it('holds every straight chord at the floor where sampling by arc length would fall short', () => {
+    // A right angle with legs t: radius t, arc t · π / 2. With t · π / 2 just above 3 × 400, the kernel takes three
+    // pieces of ≈ 400 cm of arc — straight chords of 2t · sin 15° ≈ 395 cm, under w_min: the sampling chord is raised.
+    const t = (1200 * (1 + 1e-6)) / (Math.PI / 2);
+    const A = { x: 0, y: 0 };
+    const K = { x: 0, y: t };
+    const B = { x: t, y: t };
+    const f = fitFillet(face, A, K, B, 400, 3);
+    expect(f.filleted).toBe(true);
+    expect(f.chordCm).toBeGreaterThan(400);
+    checkArc(A, K, B, f.arc, 400);
+  });
+
   it('leaves the corner sharp when the arc would leave the face', () => {
     // A hole inside the corner's wedge, between K and where the arc would run.
     const A = { x: 0, y: 0 };

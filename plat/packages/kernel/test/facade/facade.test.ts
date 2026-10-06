@@ -342,20 +342,36 @@ describe('the view and the lattice-point signature on finer and reordered arenas
     expect(s.v[0]).toMatchObject({ role: 'entrance', entity: 'block:1' });
   });
 
-  it('faces() is canonical where slot order is not (the ways inserted in the other order)', () => {
-    const p = framed();
-    commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
-    commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
-    const k = kernelOver([p]);
-    const fs = k.view(GROUND, 1).faces();
-    const slots = [...fs].sort((a, b) => a - b);
-    const corner = (f: FaceId): string => {
+  it('faces() is canonical where slot order is not (slots freed and reused by a removal and a re-insertion)', () => {
+    const corner = (p: Plat, f: FaceId): string => {
       const r = faceRings(p, 1, f)[0].map((q) => [q.y, q.x] as [number, number]).sort((a, b) => a[0] - b[0] || a[1] - b[1]);
       return `${r[0][0]},${r[0][1]}`;
     };
-    expect(fs.map(corner)).toEqual(['0,0', '0,2000', '2000,0', '2000,2000']);
-    // the fixture's precondition: slot order differs from the canonical order
-    expect(slots.map(corner)).not.toEqual(fs.map(corner));
+    const builds: (() => Plat)[] = [
+      () => crossing().p,
+      () => {
+        const { p } = crossing();
+        commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'way:1' }));
+        commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+        return p;
+      },
+      () => {
+        const { p } = crossing();
+        commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'way:2' }));
+        commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
+        return p;
+      },
+    ];
+    let reordered = 0;
+    for (const build of builds) {
+      const p = build();
+      const fs = kernelOver([p]).view(GROUND, 1).faces();
+      expect(fs.map((f) => corner(p, f))).toEqual(['0,0', '0,2000', '2000,0', '2000,2000']);
+      const slots = [...fs].sort((a, b) => a - b);
+      if (slots.map((f) => corner(p, f)).join(' ') !== fs.map((f) => corner(p, f)).join(' ')) reordered += 1;
+    }
+    // the fixtures' precondition: at least one arena's slot order differs from the canonical order
+    expect(reordered).toBeGreaterThan(0);
   });
 
   it('owner() names the entity whose interned handle is 0', () => {

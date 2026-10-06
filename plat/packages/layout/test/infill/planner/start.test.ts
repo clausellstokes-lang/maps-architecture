@@ -96,6 +96,29 @@ describe('T36-1: A lies on the run most nearly parallel to the working major axi
   });
 });
 
+describe('step 3: the segment around the OBB centre\'s projection', () => {
+  it('a concave face whose start line misses the centre takes the nearest segment, ties the lower', () => {
+    // The C-shape's notch holds its OBB centre (6 500, 5 000): a start line west of x = 7 000 meets the face in
+    // [0, 3 500] and [6 500, 10 000], 1 500 from the centre each — the lower one is taken.
+    let west = 0;
+    for (let seed = 1; seed <= SEEDS * 2; seed += 1) {
+      const r = planCut(FACES.cShape, CTX, streamsFor(seed));
+      if (!r.ok || r.value.kind !== 'cut') continue;
+      const { start, frame } = r.value;
+      expect(frame.centre).toEqual({ x: 6500, y: 5000 });
+      if (start.A.x < 7000) {
+        west += 1;
+        expect(Math.max(start.A.y, start.other.y)).toBeLessThanOrEqual(3500);
+      } else {
+        // East of the notch the line crosses the whole face, the centre's projection inside.
+        expect(Math.min(start.A.y, start.other.y)).toBe(0);
+        expect(Math.max(start.A.y, start.other.y)).toBe(10000);
+      }
+    }
+    expect(west).toBeGreaterThan(5);
+  });
+});
+
 describe('the first leg leaves A exactly perpendicular to its run (§4.6 step 3)', () => {
   for (const name of FACE_NAMES) {
     it(`${name}`, () => {

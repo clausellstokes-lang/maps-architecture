@@ -1,4 +1,4 @@
-// N-46 (6) (e) (the session's ruling J211; fix round S6, C-0220): the undo and remove paths of every kind of commit the
+// N-46 (6) (e) (the session's ruling J211; fix round S6, C-0221): the undo and remove paths of every kind of commit the
 // router's fallbacks make restore the arena (§2.2 rule 3). Each fixture of register/s6-lifecycle.json is a B-FUZZ case
 // whose last chain commits through one kind — an ordinary commit (the control), a shared stretch (W_STRETCH_SHARED), a
 // first-pass W_PLACED commit (a step-2 or crossing fallback), N-42 (a)'s route across a sliver, N-42 (b)'s re-landed

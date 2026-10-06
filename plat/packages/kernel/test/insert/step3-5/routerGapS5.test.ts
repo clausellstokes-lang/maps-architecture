@@ -225,7 +225,7 @@ describe('N-44 (4): S5\'s residual register (register/s5-register.json) — one 
   }
 });
 
-describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C-0220): each property\'s cap is N-46\'s cap per family plus one run\'s noise', () => {
+describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C-0221): each property\'s cap is N-46\'s cap per family plus one run\'s noise', () => {
   it('poissonCap is the 99.9 % point of a Poisson count, at least 1', () => {
     expect(poissonCap(0)).toBe(1);
     expect(poissonCap(0.1)).toBe(2);

@@ -6,7 +6,7 @@
 // corner when the caller gives its kerb's corner scale, C-0159 (4); M0-a-10's check note N-1), a side's direction at a
 // point — its chord, or on a curved run the tangent over a ± 5 m window (§4.6 *Sides*) — and the line, ray and segment
 // tests the recipe's steps 3–7 run on the rings. Values are doubles in centimetres; every division goes through the
-// kernel's `ratio()` (§3.2 (8)); no trigonometric call is made here. Readings: C-0216.
+// kernel's `ratio()` (§3.2 (8)); no trigonometric call is made here. Readings: C-0222.
 import { orient, ratio, runTangent, sideRuns, type LatticePoint, type Run } from '@plat/kernel';
 
 /** A point or a direction in doubles (cm), never an arena coordinate. */
@@ -66,7 +66,7 @@ function canonicalRing(ring: readonly LatticePoint[], want: 1 | -1): LatticePoin
 }
 
 /**
- * The face's rings in canonical form (C-0216 (1)): the outer ring counter-clockwise, the holes clockwise (the face on
+ * The face's rings in canonical form (C-0222 (1)): the outer ring counter-clockwise, the holes clockwise (the face on
  * the left of every edge), each started at its lowest-leftmost vertex, the holes sorted by that vertex; a ring of
  * fewer than 3 distinct points or of no area dropped (a dropped outer ring leaves no face: []).
  */
@@ -139,7 +139,7 @@ export function leftOf(v: XY): XY {
   return { x: -v.y, y: v.x };
 }
 
-/** Is the run curved — do its edge directions spread at all (C-0216 (2))? A straight run is read by its chord. */
+/** Is the run curved — do its edge directions spread at all (C-0222 (2))? A straight run is read by its chord. */
 export function isCurved(run: Run): boolean {
   return run.spreadCdeg > 0;
 }
@@ -163,7 +163,7 @@ export function nearestOnSegment(q: XY, a: XY, b: XY): { p: XY; t: number; d2: n
 }
 
 /**
- * The run of ring `ring` nearest to a boundary point (C-0216 (3)): least distance to its vertices' polyline, ties to
+ * The run of ring `ring` nearest to a boundary point (C-0222 (2)): least distance to its vertices' polyline, ties to
  * the earlier run in boundary order — a point on an arc piece the virtual corner replaced goes to the nearer of the
  * two runs beside it. −1 when the ring has no run.
  */
