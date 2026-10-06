@@ -5976,3 +5976,5 @@
 2026-10-06 04:30 build/M0-a-05-fix-s6 CHECKPOINT started (fresh: no fix-s6 lines); next: read check M0-a-05-s5, N-43..N-46, C-0217, insert src, tests
 2026-10-06 04:36 build/M0-a-05-fix-s6 CHECKPOINT dev mirror: boundRefusal gates S4's split route, N-42 (b)'s re-landing and S5's third pass on E_INVARIANT or optional E_BELOW_MIN_EDGE 'N-43' (code kept); B-FUZZ/fidelity tally N-46 (3) (countedRefusal, PLAT_FUZZ_COUNTS); 31-seed measure (the S5 checker's seeds) running; next: F3 lifecycle tests, F4 unit tests
 2026-10-06 04:40 check/M0-a-09-close-r1 CHECKPOINT near at PR size running in the tree (kernel arr/bands + testkit arr-bands, W=8); next: related at 1000, verdict
+2026-10-06 04:43 build/M0-a-06-fix-s1 CHECKPOINT started: machine check ok, reading N-47 + relevel.ts; next diagnose on probe
+2026-10-06 04:47 build/M0-a-06-fix-s1 CHECKPOINT diagnosed: probe confirms f1/f2 own-child residue (faces [1,0,0,0,0]->[1,1,1,0,0]); ancestors never gathered by saveRecord; next fix facePass + tests
