@@ -265,3 +265,16 @@ export function crossingDeg(a: LatticePoint, b: LatticePoint, c: LatticePoint, d
   const cos = Math.abs(ux * vx + uy * vy) / (Math.hypot(ux, uy) * Math.hypot(vx, vy));
   return (Math.acos(Math.min(1, cos)) * 180) / Math.PI;
 }
+
+/** The kerb of an L1 face, read inside a callback batch that writes nothing (§3.3: a batch with no op commits nothing). */
+export function kerbNow(k: Kernel, face: FaceId): LatticePoint[][] {
+  let out: LatticePoint[][] = [];
+  const r = k.tx(spec(1, STAGES.S8), () => {
+    const kr = k.geom.kerb(face);
+    if (!kr.ok) return kr;
+    out = kr.value.map((ring) => ring.slice());
+    return { ok: true as const, value: undefined, warnings: [] };
+  });
+  if (!r.ok) throw new Error(`kerbNow: ${r.code} ${r.detail}`);
+  return out;
+}

@@ -67,6 +67,17 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
       }
       expect(setback.size).toBeGreaterThan(0);
       for (const e of edgesWith(run.plat, 'way')) for (const p of [e.a, e.b]) expect(setback.has(key(p)), `way vertex ${key(p)} on a setback line`).toBe(false);
+      // The corridor's centreline is held: the route's lattice nodes within four of the gate edge are way vertices.
+      const wayV = new Set<string>();
+      for (const e of edgesWith(run.plat, 'way')) {
+        wayV.add(key(e.a));
+        wayV.add(key(e.b));
+      }
+      for (const g of run.slice.gates) {
+        const r = run.slice.routes.find((q) => q.ordinal === g.ordinal);
+        if (r === undefined) continue;
+        for (const v of r.nodes.slice(Math.max(1, g.routeIndex - 4), g.routeIndex + 6)) expect(wayV.has(key(run.slice.lattice.points[v])), `node ${String(v)} near gate ${String(g.ordinal)}`).toBe(true);
+      }
     });
 
     it(`seed ${String(seed)}: through-roads run to the frame's edge with their bearings (§4.3 *Result*)`, () => {

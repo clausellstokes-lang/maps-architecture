@@ -29,6 +29,7 @@ export {
   antennaCut,
   antennaTips,
   contactClear,
+  continuationVerdict,
   judge,
   kerbEndsSquare,
   longestRun,

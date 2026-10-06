@@ -446,10 +446,9 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     const { r, work } = writer(p, 1, (o) => k.geom.splitFace(o, face, cut, { rows: [{ role: 'plot_line', entity: 'plot_line:cut' }] }), (c) => (c.startsWith('insert.') ? cut.length : liveFaces(p, 1)), { ctx, op: 'splitFace' });
     if (!r.ok) return { code: r.code, problems: topology(p) !== before ? ['the refused split changed the arena'] : [], warnings: [], work };
     const [c1, c2] = r.value.value as [FaceId, FaceId];
-    const problems: string[] = [];
+    const problems = ciProblems(p);
     const tiling = childrenTileParent(parent, p, 1, c1, c2);
     if (tiling !== null) problems.push(`splitFace children do not tile the parent: ${tiling}`);
-    problems.push(...ciProblems(p));
     // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0238 (2)).
     const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)));
     if (!m.ok) problems.push(`mergeFaces after splitFace refused: ${m.code} ${m.detail}`);

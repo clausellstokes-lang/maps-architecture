@@ -95,7 +95,8 @@ describe('a planted throw, a planted hang and a planted self-intersecting output
     let planted = 0;
     const r = runFuzz('insertChain', 30, {
       plant: {
-        afterInsert: (p) => {
+        afterCommit: (op, p) => {
+          if (op !== 'insertChain') return;
           // A vertex the insertion made, with a neighbour inside the frame, jumps 5 m beyond the frame's west side: its
           // edge to that neighbour now crosses the frame ring — a self-intersecting arena the transaction never saw.
           let west = Infinity;
@@ -124,6 +125,16 @@ describe('a planted throw, a planted hang and a planted self-intersecting output
     expect(r.invalid).toBe(1);
     expect(r.failures).toEqual([{ primitive: 'orient (one problem)', index: 2, kind: 'invalid', reason: 'a planted broken property' }]);
     expect(r.ok).toBe(6);
+  });
+
+  it('a planted bug abort on one input: one `bugs` entry and one failure, named by index (§5.1 (8))', () => {
+    const real = fuzzPrimitive('orient');
+    const bug = { cls: 'F-NUM', entity: 'way:fuzz', key: 'bfuzz/orient#4', stage: 'B-FUZZ' };
+    const one: FuzzPrimitive<unknown> = { ...real, name: 'orient (bug)', run: (input, ctx) => (ctx.index === 4 ? { ...real.run(input, ctx), bug } : real.run(input, ctx)) };
+    const r = runFuzz(one, 8);
+    expect(r.bugs).toEqual([bug]);
+    expect(r.failures).toEqual([{ primitive: 'orient (bug)', index: 4, kind: 'bug', reason: 'a bug abort: F-NUM on way:fuzz' }]);
+    expect([r.crashes, r.hangs, r.invalid]).toEqual([0, 0, 0]);
   });
 
   it("each service's judge catches its planted wrong output (a value the service never returns)", () => {

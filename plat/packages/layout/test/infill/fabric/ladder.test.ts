@@ -7,6 +7,7 @@ import { describe, expect, it } from 'vitest';
 import {
   antennaTips,
   contactClear,
+  continuationVerdict,
   cutCells,
   judge,
   kerbEndsSquare,
@@ -151,5 +152,21 @@ describe('the judgement before any kernel call', () => {
     expect(c?.chain[0]).toEqual(P(5_000, -300));
     expect(c?.ends[1].kind).toBe('kerb');
     expect(c?.chain[c.chain.length - 1]).toEqual(P(5_000, 4_000));
+  });
+});
+
+describe('step 10: continuation across an existing junction (J-P11, GEO-42)', () => {
+  const cos6 = Math.cos((6 * Math.PI) / 180);
+  const base = { bounding: false, spineClass: 'lane', cutClass: 'lane', arrival: { x: 0, y: 1 }, leaving: [{ x: 0, y: 1 }, { x: 1, y: 0 }, { x: -1, y: 0 }], cosTol: cos6 };
+  it('admits a crossroads on an interior spine of a lower-or-equal class, collinear within 6°', { timeout: 120_000 }, () => {
+    expect(continuationVerdict(base)).toBeNull();
+    expect(continuationVerdict({ ...base, spineClass: 'alley' })).toBeNull();
+    expect(continuationVerdict({ ...base, leaving: [{ x: Math.sin(0.1), y: Math.cos(0.1) }] })).toBeNull();
+  });
+  it('refuses one across a district-boundary edge, a higher class, or off collinear', { timeout: 120_000 }, () => {
+    expect(continuationVerdict({ ...base, bounding: true })).toBe('continuation-boundary');
+    expect(continuationVerdict({ ...base, spineClass: 'secondary' })).toBe('continuation-class');
+    expect(continuationVerdict({ ...base, spineClass: 'primary', cutClass: 'secondary' })).toBe('continuation-class');
+    expect(continuationVerdict({ ...base, leaving: [{ x: Math.sin(0.12), y: Math.cos(0.12) }, { x: 1, y: 0 }] })).toBe('continuation-angle');
   });
 });

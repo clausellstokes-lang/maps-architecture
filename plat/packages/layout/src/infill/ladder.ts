@@ -573,6 +573,20 @@ export function kerbEndsSquare(rings: readonly (readonly LatticePoint[])[], chai
   return true;
 }
 
+/**
+ * Step 10's continuation rule at an end landing on an existing junction (§4.6; J-P11, GEO-42; C-0237 (14)): a crossroads
+ * is admitted only on an interior spine (never across a district-boundary edge), of a lower-or-equal class than the
+ * cut, and collinear within the tolerance (`cosTol`, cos of cut.settings.continuationCdeg) with a way leaving the
+ * junction along the arrival. Returns the refusal's reason, or null when the crossroads is admitted.
+ */
+export function continuationVerdict(c: { bounding: boolean; spineClass: string; cutClass: string; arrival: XY; leaving: readonly XY[]; cosTol: number }): 'continuation-boundary' | 'continuation-class' | 'continuation-angle' | null {
+  if (c.bounding) return 'continuation-boundary';
+  const rank = (k: string): number => (k === 'alley' ? 0 : k === 'lane' ? 1 : k === 'secondary' ? 2 : 3);
+  if (rank(c.spineClass) > rank(c.cutClass)) return 'continuation-class';
+  if (!c.leaving.some((d) => d.x * c.arrival.x + d.y * c.arrival.y >= c.cosTol)) return 'continuation-angle';
+  return null;
+}
+
 /** The cut's length on the kerb (the width law's L): its kerb points' polyline length. */
 export function kerbLength(points: readonly XY[]): number {
   return lineLength(points);

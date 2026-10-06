@@ -9,7 +9,7 @@
 // them, so a child's kerb reads the lane that made it), the seams (C-0046's minimal records) and the entities live
 // before it. A district whose transaction is refused stays uncut and is reported, never silently: the stage goes on
 // with the next (§5.1 (1): no restart above a district).
-import { STAGES, ok, type Hash128, type Invariant, type Kernel, type KernelResult, type LineageHash, type PlatKey } from '@plat/kernel';
+import { STAGES, err, ok, type Hash128, type Invariant, type Kernel, type KernelResult, type LineageHash, type PlatKey } from '@plat/kernel';
 import { compareLineage, type Block, type District, type Id, type Junction, type LiveEntry, type Rung, type Scope, type Seam, type Stage, type StageContext, type Way, type WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, rungProfile, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
 import { BLOCK_FLOOR_ROW, BentCutFabric, BENT_CUT, S8_COUNTERS, type BlockFaces, type DistrictContext, type DistrictReport, type FabricStrategy, type PartitionResult } from './bentCutFabric.js';
@@ -155,7 +155,7 @@ export const SEAM_PORTAL_ROW: Invariant = Object.freeze({ name: 'seam-portals', 
  * the block floor (batch) and the seam-portal row (stage end). Its input is the model's record for the stage (S8Input,
  * checked for its fields).
  */
-export function s8Stage(opts: { workLimits?: WorkLimitsTable } = {}): Stage<S8Input, S8Output> {
+export function s8Stage(opts: { workLimits?: WorkLimitsTable } = {}): Stage<S8Input | null, S8Output | Record<string, never>> {
   const wl = opts.workLimits ?? loadWorkLimits();
   return Object.freeze({
     id: STAGES.S8,
@@ -174,15 +174,19 @@ export function s8Stage(opts: { workLimits?: WorkLimitsTable } = {}): Stage<S8In
     lineageUnit: 'cell',
     lazy: false,
     txForm: 'callback' as const,
-    inputsOf(model: unknown, _scope: Scope): S8Input {
+    inputsOf(model: unknown, _scope: Scope): S8Input | null {
       const m = model as { get?: (k: string) => unknown } | Partial<S8Input> | null | undefined;
-      const rec = (m !== null && m !== undefined && typeof (m as { get?: unknown }).get === 'function' ? (m as { get: (k: string) => unknown }).get('districts') : m) as Partial<S8Input> | undefined;
-      if (rec === undefined || rec === null || rec.kernel === undefined || rec.districts === undefined || rec.widths === undefined || rec.seedKey === undefined) {
-        throw new TypeError('s8Stage.inputsOf: the model hands S8 its record — the façade, the seed key, the districts, the ways, the seams and the width map (C-0237 (9))');
-      }
+      const viaView = m !== null && m !== undefined && typeof (m as { get?: unknown }).get === 'function';
+      const rec = (viaView ? (m as { get: (k: string) => unknown }).get('districts') : m) as Partial<S8Input> | null | undefined;
+      // No districts written (an earlier stage produced none): S8 has nothing to cut (§5.4: the stage decides; the report stays whole).
+      if (rec === undefined || rec === null) return null;
       return rec as S8Input;
     },
-    run(input: S8Input, ctx: StageContext): KernelResult<S8Output> {
+    run(input: S8Input | null, ctx: StageContext): KernelResult<S8Output | Record<string, never>> {
+      if (input === null) return ok({});
+      if (input.kernel === undefined || input.districts === undefined || input.widths === undefined || input.seedKey === undefined || input.ways === undefined || input.seams === undefined) {
+        return err('E_INVARIANT', 'S8: its record lacks the façade, the seed key, the districts, the ways, the seams or the width map (C-0237 (9))');
+      }
       return runS8(input, ctx);
     },
   });

@@ -5,7 +5,8 @@
 import { checkCI, CONCERNS, createRng, entityKey, isFaceLive, STAGES } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { blockDepthRange, stopThreshold, type S8Output } from '../../../src/index.js';
-import { GROUND, ownerOf, runFixture, twoDistricts, waySegments } from './support.js';
+import { GROUND, kerbNow, ownerOf, runFixture, twoDistricts, waySegments } from './support.js';
+import { faceRings, pointLocate } from '@plat/kernel';
 
 function fingerprint(out: S8Output, f: ReturnType<typeof twoDistricts>): string {
   const lanes = out.lanes.map((w) => ({ id: w.id, cls: w.class, width: w.width, from: w.from, to: w.to, segs: waySegments(f.plat, w.id).map(([a, b]) => `${a.x},${a.y}>${b.x},${b.y}`).sort() }));
@@ -89,6 +90,37 @@ describe('S8 over two districts sharing an arterial', () => {
         }
       }
     }
+  });
+
+  it('each lane’s width reaches the kerb: the width map holds it, and every block’s kerb keeps half of it off the lane’s centreline', { timeout: 120_000 }, () => {
+    let checked = 0;
+    for (const w of out.lanes) expect(f.widths.get(w.id)).toBe(w.width);
+    for (const bf of out.infill.blockFaces) {
+      if (bf.seeds.length !== 1) continue;
+      const at = pointLocate(f.plat, GROUND, 1, bf.seeds[0]);
+      if (at.on !== 'face') continue;
+      const kerb = kerbNow(f.k, at.face)[0] ?? [];
+      // The lanes bounding this face: their edges on its L1 ring.
+      const ring = faceRings(f.plat, 1, at.face)[0];
+      const onRing = (q: { x: number; y: number }): boolean => ring.some((r) => r.x === q.x && r.y === q.y);
+      for (const w of out.lanes) {
+        const half = (w.width as number) / 2;
+        for (const [a, b] of waySegments(f.plat, w.id)) {
+          if (!onRing(a) || !onRing(b)) continue;
+          for (const p of kerb) {
+            const dx = b.x - a.x;
+            const dy = b.y - a.y;
+            const t = Math.max(0, Math.min(1, ((p.x - a.x) * dx + (p.y - a.y) * dy) / (dx * dx + dy * dy)));
+            const d = Math.hypot(a.x + t * dx - p.x, a.y + t * dy - p.y);
+            // Within 25 cm: the kernel's kerb corner at a lane's end junction sits up to ≈ 9 cm inside the offset line
+            // (a kernel observation noted for the session); a lane missing from the width map would put it on the centreline.
+            expect(d).toBeGreaterThanOrEqual(half - 25);
+            checked += 1;
+          }
+        }
+      }
+    }
+    expect(checked).toBeGreaterThan(100);
   });
 
   it('two runs of one input give equal outputs and equal arenas', { timeout: 300_000 }, () => {

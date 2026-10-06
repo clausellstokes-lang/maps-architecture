@@ -68,4 +68,15 @@ describe('S8’s declaration (§4.1, §4.12) and the fabric slot (§4.6)', () =>
     expect(BentCutFabric.terracedEdges).toBe(true);
     expect(typeof BentCutFabric.partition).toBe('function');
   });
+
+  it('reads its record from the model: none written, nothing to cut; a record lacking a field refused E_INVARIANT', { timeout: 120_000 }, () => {
+    const s = s8Stage();
+    const view = (v: unknown) => ({ get: (k: string) => (k === 'districts' ? v : undefined), has: () => v !== undefined });
+    expect(s.inputsOf(view(undefined) as never, { kind: 'all' })).toBeNull();
+    expect(s.run(null, {} as never)).toEqual({ ok: true, value: {}, warnings: [] });
+    const bad = s.inputsOf(view({ districts: [] }) as never, { kind: 'all' });
+    const r = s.run(bad, {} as never);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.code).toBe('E_INVARIANT');
+  });
 });

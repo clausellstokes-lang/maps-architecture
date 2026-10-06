@@ -20,6 +20,7 @@ import {
   runnerSpec,
   type ConstructiveCase,
   type ConstructiveInput,
+  type ConstructiveStepOutcome,
 } from '@plat/testkit';
 import { absorbSliver, classFloorRow, isVertexLive, pointLocate, type KernelTx } from '@plat/kernel';
 import { CASE_DRAWS, HEAVY_DRAWS, lp } from './support.js';
@@ -156,6 +157,63 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     const v = constructiveKernelJudge(c, moved);
     expect(v.ok).toBe(false);
     expect(!v.ok && v.reason).toMatch(/lands-on-target/);
+  });
+
+  it("lands-on-target fails where a vertex stands at the target but the incoming chain's end does not (it ends 1 m short)", () => {
+    const c = constructiveCase('move/vertex-near-endpoint') as ConstructiveCase;
+    const g = input(c, 0);
+    const [far, v] = g.chains.incoming;
+    const short = { ...g, chains: { ...g.chains, incoming: [far, lp(Math.round((far.x + v.x) / 2), Math.round((far.y + v.y) / 2))] } };
+    const r = constructiveKernelJudge(c, short);
+    expect(r.ok).toBe(false);
+    expect(!r.ok && r.reason).toMatch(/^lands-on-target: the incoming chain's end is not the target vertex$/);
+  });
+
+  /** The last step's outcome replaced by `out` without running it (the arena as the step before left it). */
+  const lastStep = (g: ConstructiveInput, out: ConstructiveStepOutcome) => ({
+    step: (_op: string, i: number, run: () => ConstructiveStepOutcome) => (i === g.steps.length - 1 ? out : run()),
+  });
+  const refusal = (code: string, detail: string): ConstructiveStepOutcome => ({ kind: 'refused', code, detail, refusal: { ok: false, code, detail } as never });
+
+  it("§3.6 (2)'s graze pre-emption needs the draw's geometry: a 'runs along' refusal of a cut that does not graze fails", () => {
+    const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
+    expect(c.expect.outcome).toBe('ok');
+    for (let s = 0; s < CASE_DRAWS; s++) {
+      const g = input(c, s);
+      expect(constructiveKernelJudge(c, g).ok).toBe(true);
+      const r = constructiveKernelJudge(c, g, 60_000, lastStep(g, refusal('E_NOT_TWO_CROSSINGS', 'the cut runs along the boundary edge (planted)')));
+      expect(r.ok, `seed ${String(s)}`).toBe(false);
+      expect(!r.ok && r.reason).toMatch(/^expected ok, got E_NOT_TWO_CROSSINGS the cut runs along the boundary edge/);
+    }
+  });
+
+  it("the role-consistency reading needs the case's simple-runs: a role-consistency refusal of an ok insertion without it fails", () => {
+    const c = constructiveCase('move/vertex-near-endpoint') as ConstructiveCase;
+    expect(c.expect.holds).not.toContain('simple-runs');
+    const g = input(c, 0);
+    const r = constructiveKernelJudge(c, g, 60_000, lastStep(g, refusal('E_INVARIANT', 'role-consistency: (way, entity:planted) branches')));
+    expect(r.ok).toBe(false);
+    expect(!r.ok && r.reason).toMatch(/^expected ok, got E_INVARIANT role-consistency/);
+  });
+
+  it('children-tile-parent fails where a child is shrunk behind the split (C-0238 (1))', () => {
+    const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
+    expect(c.expect.holds).toContain('children-tile-parent');
+    const g = input(c, 0);
+    const v = constructiveKernelJudge(c, g, 60_000, {
+      afterStep: (p, i) => {
+        if (i !== g.steps.length - 1) return;
+        // the lowest L1 vertex — on the parent's ring — moved 1 cm up behind the transaction
+        let best = -1;
+        for (let w = 0; w < p.slots.vertex.top; w++) {
+          if (!isVertexLive(p, w) || p.vertices.level[w] !== 1) continue;
+          if (best < 0 || p.vertices.y[w] < p.vertices.y[best] || (p.vertices.y[w] === p.vertices.y[best] && p.vertices.x[w] < p.vertices.x[best])) best = w;
+        }
+        p.vertices.y[best] += 1;
+      },
+    });
+    expect(v.ok).toBe(false);
+    expect(!v.ok && v.reason).toMatch(/^children-tile-parent: the children do not tile the parent: /);
   });
 
   it('an ok case whose outcome is a downgrade fails where the skeleton path is due (skel/notched-rectangle holds skeleton-valid)', () => {

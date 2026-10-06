@@ -10,9 +10,11 @@ import {
   constructiveTally,
   countsReport,
   countsSummary,
+  fuzzCountsPass,
   ladderCoverage,
   loadOracles,
   runConstructiveOnKernel,
+  runFuzz,
 } from '@plat/testkit';
 
 beforeAll(async () => {
@@ -57,6 +59,27 @@ describe("the report's deferred counts equal M0-k-02's tags (C-0038)", () => {
     expect(countsReport(1, [], { ...base, staleKnown: ['geom/antenna'] }, ladders).pass).toBe(false);
     expect(countsReport(1, [], { ...base, pending: ['geom/antenna'] }, ladders).pass).toBe(false);
     expect(countsReport(1, [], base, { ...ladders, covered: false }).pass).toBe(false);
+  }, 60_000);
+
+  it('the bar fails on 1 crash, 1 hang, 1 invalid output or 1 bugs entry in a primitive report, each on its own (§13.1; §5.1 (8))', () => {
+    const base = constructiveRun(runConstructiveOnKernel(CONSTRUCTIVE_SET.filter((c) => c.id === 'geom/antenna'), 1));
+    const ladders = ladderCoverage({ draws: 1 });
+    const clean = runFuzz('obb', 3);
+    expect([clean.crashes, clean.hangs, clean.invalid, clean.bugs.length]).toEqual([0, 0, 0, 0]);
+    expect(countsReport(1, [clean], base, ladders).pass).toBe(true);
+    const bug = { cls: 'F-NUM', entity: 'way:fuzz', key: 'bfuzz/obb#1', stage: 'B-FUZZ' };
+    const planted: [string, typeof clean][] = [
+      ['crash', { ...clean, crashes: 1 }],
+      ['hang', { ...clean, hangs: 1 }],
+      ['invalid', { ...clean, invalid: 1 }],
+      ['bug', { ...clean, bugs: [bug] }],
+    ];
+    for (const [what, r] of planted) {
+      const report = countsReport(1, [clean, r], base, ladders);
+      expect([what, report.pass]).toEqual([what, false]);
+      expect([what, fuzzCountsPass(report.totals, report.bugs)]).toEqual([what, false]);
+    }
+    expect(countsReport(1, [clean, { ...clean, bugs: [bug] }], base, ladders).bugs).toEqual([bug]);
   }, 60_000);
 
   it('a deferred stub that returns an input instead of its tag is a failure, still counted by its milestone', () => {

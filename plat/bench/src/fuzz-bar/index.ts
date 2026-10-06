@@ -21,6 +21,7 @@ import {
   countsReport,
   countsSummary,
   FUZZ_PRIMITIVES,
+  fuzzCountsPass,
   fuzzRuns,
   ladderCoverage,
   loadOracles,
@@ -53,6 +54,8 @@ const USAGE = 'usage: corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--
 export interface FuzzBarContext {
   out: string;
   summary?: string;
+  /** Replaces `runFuzz` (the entry's own tests plant a primitive report: the bar's decision and exit read it). */
+  runFuzz?: typeof runFuzz;
 }
 
 function intArg(args: readonly string[], name: string, lo: number, hi: number): number | undefined | null {
@@ -110,7 +113,7 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
   for (const p of FUZZ_PRIMITIVES) {
     if (only !== undefined && p.name !== only) continue;
     const t = performance.now();
-    const r = runFuzz(p.name, runs, { first: first ?? 0 });
+    const r = (ctx.runFuzz ?? runFuzz)(p.name, runs, { first: first ?? 0 });
     reports.push(r);
     say(`fuzz-bar: ${p.name.padEnd(14)} ${String(r.runs)} inputs: ${String(r.crashes)} crashes, ${String(r.hangs)} hangs, ${String(r.invalid)} invalid; refused ${JSON.stringify(r.refused)}; notes ${JSON.stringify(r.notes)}; ${String(r.downgrades)} downgrades; ${String(r.workLimitHits)} work-limit hits${r.oracle === null ? '' : `; oracle split ${JSON.stringify(r.oracle)}`} (${((performance.now() - t) / 1000).toFixed(1)} s CONTENDED)`);
     for (const f of r.failures.slice(0, 5)) say(`fuzz-bar:   ${f.kind} #${String(f.index)}: ${f.reason}`);
@@ -128,7 +131,7 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
   const s11Bad = s11Problems(s11.calls);
   say(`fuzz-bar: S11 workload ${String(s11.calls.length)} plots, call lists ${s11Bad.length === 0 ? 'as listed' : `off on ${String(s11Bad.length)} plots`}${s11.timings === null ? '' : `; ${s11.timings.value.toFixed(1)} ${s11.timings.unit} per plot median, ${s11.timings.authority}`}`);
   const report: CountsReport = countsReport(runs, reports, constructiveRun(cons), ladders);
-  const pass = (only === undefined ? report.pass : report.totals.crashes + report.totals.hangs + report.totals.invalid + report.bugs.length === 0) && s11Bad.length === 0;
+  const pass = (only === undefined ? report.pass : fuzzCountsPass(report.totals, report.bugs)) && s11Bad.length === 0;
   const full = writeJson(dir, 'report.json', { ...report, s11: { plots: s11.calls.length, problems: s11Bad, timing: s11.timings }, seconds: (performance.now() - t0) / 1000 });
   if (whole && !args.includes('--no-summary')) {
     const path = ctx.summary ?? SUMMARY_PATH;

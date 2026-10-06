@@ -76,7 +76,7 @@ import { arenaPrint, renumberSlots } from '../determinism/index.js';
 import { compareSplit, oracleBoolean, oracleBuffer, ORACLE_ENGINES } from '../oracles/index.js';
 import { ringProblems } from '../oracles/rings.js';
 import { guarded, HANG_TIMEOUT_MS } from './guard.js';
-import { roofOutside } from './primitives.js';
+import { childrenTileParent, roofOutside } from './primitives.js';
 import { area2Exact, boxOf, ciProblems, cross, FRAME_ENTITY, inRegionApprox, inRing, interiorPoint, kernelOn, layFrame, lpt, onSegment, RANGE, rowProblems, spec, type Pt } from './support.js';
 
 const GREEN: ConstructiveVerdict = { ok: true };
@@ -93,6 +93,7 @@ const CELLS: [number, number, number, number, number] = [800, 400, 200, 100, 50]
 const PAD = 5_000;
 
 /** What one step came to. */
+export type StepOutcome = Step;
 type Step =
   | { readonly kind: 'ok'; readonly value: unknown; readonly warnings: readonly Warning[] }
   | { readonly kind: 'refused'; readonly code: string; readonly detail: string; readonly refusal: KernelResult<unknown> }
@@ -895,7 +896,16 @@ function envFor(g: ConstructiveInput, ownersParts: ReadonlyMap<string, number>):
   };
 }
 
-function play(c: ConstructiveCase, raw: ConstructiveInput, afterStep?: (p: Plat, i: number) => void): Run | string {
+/**
+ * A planted fault for the judge's own tests (C-0238 (3)): a write behind a step's transaction (`afterStep`), or a step's
+ * outcome replaced (`step`: `run` performs the real step; the outcome the judge reads is the plant's).
+ */
+export interface JudgePlant {
+  readonly afterStep?: (p: Plat, i: number) => void;
+  readonly step?: (op: string, i: number, run: () => Step) => Step;
+}
+
+function play(c: ConstructiveCase, raw: ConstructiveInput, plant: JudgePlant = {}): Run | string {
   const g = centred(raw);
   let scene: Scene | null = null;
   const resolver = districtResolver(() => scene);
@@ -920,9 +930,9 @@ function play(c: ConstructiveCase, raw: ConstructiveInput, afterStep?: (p: Plat,
     const versionBefore = s.p.version;
     const printBefore = isLast ? topology(s.p) : '';
     const faceCountBefore = s.p.slots.face[1].live;
-    const r = runStep(s, st, i);
+    const r = plant.step === undefined ? runStep(s, st, i) : plant.step(st.op, i, () => runStep(s, st, i));
     if (!isLast && r.kind !== 'ok') return `step ${String(i)} (${st.op}) ${r.kind === 'threw' ? `threw: ${r.message}` : `refused ${r.code} ${r.detail}`} — every step before the last returns ok`;
-    if (r.kind === 'ok') afterStep?.(s.p, i);
+    if (r.kind === 'ok') plant.afterStep?.(s.p, i);
     if (r.kind === 'ok' && WRITERS.has(st.op)) {
       const ci = sweep(s);
       if (ci.length > 0) return `invalid output after step ${String(i)} (${st.op}): ${ci.slice(0, 3).join('; ')}`;
@@ -1142,7 +1152,9 @@ function property(prop: string, run: Run): string | null {
       if (parent === undefined || val === null) return 'no split';
       const [l, r] = val as [FaceId, FaceId];
       const level = g.steps[g.steps.length - 1].args.level !== undefined ? (Number(g.steps[g.steps.length - 1].args.level) as Level) : parent.level;
-      return tilesExactly(p, level, l, r) ? null : 'the children do not tile the parent exactly (integer area2)';
+      // The children against the parent's rings as they stood before the split (C-0238 (1)).
+      const why = childrenTileParent(parent.rings, p, level, l, r);
+      return why === null ? null : `the children do not tile the parent: ${why}`;
     }
     case 'face-count-unchanged':
       return p.slots.face[1].live === run.faceCountBefore ? null : `the L1 faces went from ${String(run.faceCountBefore)} to ${String(p.slots.face[1].live)}`;
@@ -1513,19 +1525,6 @@ function chainOrder(ins: Inserted): readonly LatticePoint[] {
   return [...ccw.slice(i0), ...ccw.slice(0, i0)];
 }
 
-/** The children tile their parent exactly: their area2 sums to the area2 of their joint boundary less the cut. */
-function tilesExactly(p: Plat, level: Level, a: FaceId, b: FaceId): boolean {
-  const all = new Set<number>([...faceWalk(p, level, a).flat(), ...faceWalk(p, level, b).flat()]);
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const t = (h: number) => BigInt(X[O[h]]) * BigInt(Y[O[h ^ 1]]) - BigInt(X[O[h ^ 1]]) * BigInt(Y[O[h]]);
-  let s = 0n;
-  for (const h of all) if (!all.has(h ^ 1)) s += t(h);
-  const own = (f: FaceId) => faceWalk(p, level, f).reduce((u, ring) => u + ring.reduce((w, h) => w + t(h), 0n), 0n);
-  return own(a) + own(b) === s && s > 0n;
-}
-
 /** An empty query (§3.11 *no input*): no vertex and no edge in the box — a face around it is no geometry of the case. */
 function emptyQuery(q: { vertices: number[]; edges: number[]; faces: number[] }): string | null {
   return q.vertices.length > 0 || q.edges.length > 0 ? `${String(q.vertices.length)} vertices and ${String(q.edges.length)} edges met` : null;
@@ -1726,7 +1725,7 @@ function kernelReadsNoModel(): string | null {
  * The judge of one M0 draw against the kernel (C-0110): the numeric-core cases by their own `run`, every other by its
  * scenario under the hard timeout, its outcome and every property it holds.
  */
-export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, timeoutMs = CONSTRUCTIVE_TIMEOUT_MS, plant: { readonly afterStep?: (p: Plat, i: number) => void } = {}): ConstructiveVerdict {
+export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, timeoutMs = CONSTRUCTIVE_TIMEOUT_MS, plant: JudgePlant = {}): ConstructiveVerdict {
   if (c.run !== undefined) return c.run(input);
   if (c.expect.outcome === 'static') {
     for (const prop of c.expect.holds) {
@@ -1736,7 +1735,7 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
     return GREEN;
   }
   const out = guarded(() => {
-    const run = play(c, input, plant.afterStep);
+    const run = play(c, input, plant);
     if (typeof run === 'string') return fail(run);
     const o = outcomeProblem(c, run);
     if (o !== null) return fail(o);
@@ -1773,18 +1772,8 @@ export interface KnownFinding {
  * turns green is reported stale (the list is then corrected).
  */
 export const CONSTRUCTIVE_KNOWN: readonly KnownFinding[] = Object.freeze([
-  {
-    id: 'index/slot-reuse-stage',
-    owner: 'M0-a-06 (removeEdges) / M0-a-03 (the index)',
-    pattern: /index-freshness: an L\d batch wrote the L\d index/,
-    finding: "KI-1: removing an L2 chain that floats in a coarser face writes that face's L1 index entry (its delete or tombstone), so the transaction's index-freshness row refuses the removal E_INVARIANT — the slot is never freed, the case's reuse never reached",
-  },
-  {
-    id: 'index/slot-reuse-districts',
-    owner: 'M0-a-06 (removeEdges) / M0-a-03 (the index)',
-    pattern: /index-freshness: an L\d batch wrote the L\d index/,
-    finding: "KI-1: removing the district's L3 plot line writes the L2 face record's index entry (a tombstone) in the L3 batch; refused E_INVARIANT index-freshness",
-  },
+  // KI-1 (index-freshness on removal: index/slot-reuse-stage, index/slot-reuse-districts) was M0-a-14's filter, ruling
+  // N-49, fixed by M0-a-14-fix-s1 (C-0235); both cases are green and judged as every other (C-0238 (5)).
   {
     id: 'limit/cap-move-halvings',
     owner: 'M0-k-02 (the case data)',

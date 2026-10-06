@@ -21,6 +21,14 @@ export function constructiveRun(r: KernelConstructiveReport): ConstructiveRun {
   };
 }
 
+/**
+ * The bar's first promise over the primitives' runs (§13.1: 0 crashes, 0 hangs (hard timeout), 0 invalid outputs; §5.1
+ * (8): `bugs` empty) — one decision for the whole run's `countsReport` and the bench's one-primitive runs (C-0238 (4)).
+ */
+export function fuzzCountsPass(totals: { readonly crashes: number; readonly hangs: number; readonly invalid: number }, bugs: readonly unknown[]): boolean {
+  return totals.crashes === 0 && totals.hangs === 0 && totals.invalid === 0 && bugs.length === 0;
+}
+
 /** Folds the parts into the counts report and decides the bar (§13.1; §16 M0 (a)). */
 export function countsReport(runsPerPrimitive: number, primitives: readonly FuzzReport[], constructive: ConstructiveRun, ladders: CoverageReport): CountsReport {
   const warnings = new Map<string, number>();
@@ -40,7 +48,7 @@ export function countsReport(runsPerPrimitive: number, primitives: readonly Fuzz
   const w: Record<string, number> = {};
   for (const k of [...warnings.keys()].sort()) w[k] = warnings.get(k) as number;
   const bugs = primitives.flatMap((p) => p.bugs);
-  const pass = crashes === 0 && hangs === 0 && invalid === 0 && bugs.length === 0 && constructive.failedCases === 0 && constructive.staleKnown.length === 0 && constructive.pending.length === 0 && constructive.judged > 0 && ladders.covered;
+  const pass = fuzzCountsPass({ crashes, hangs, invalid }, bugs) && constructive.failedCases === 0 && constructive.staleKnown.length === 0 && constructive.pending.length === 0 && constructive.judged > 0 && ladders.covered;
   return { runsPerPrimitive, primitives: [...primitives], totals: { crashes, hangs, invalid, warnings: w, downgrades, workLimitHits }, constructive, ladders, bugs, pass };
 }
 

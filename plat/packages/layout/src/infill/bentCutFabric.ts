@@ -81,6 +81,7 @@ import {
   antennaCut,
   antennaTips,
   div,
+  continuationVerdict,
   judge,
   kerbEndsSquare,
   kerbLength,
@@ -830,12 +831,25 @@ function continuationRefused(run: Run, fv: FaceView, cand: Candidate, cls: CutCl
     if (near === null) continue;
     const wayId = fv.spineIds[end.index] ?? null;
     const way = wayId === null ? undefined : (run.ctx.ways.get(wayId) ?? run.ways.find((w) => w.id === wayId));
-    const spineClass = way?.class ?? 'secondary';
-    if (wayId !== null && seamOfSpine(run.seams, wayId) !== undefined) return 'continuation-boundary';
-    const rank = (c: string): number => (c === 'alley' ? 0 : c === 'lane' ? 1 : c === 'secondary' ? 2 : 3);
-    if (rank(spineClass) > rank(cls)) return 'continuation-class';
-    const cosTol = dmath.cos(continuationCdeg(run) * RAD_PER_CDEG);
-    if (!collinearThrough(run, near, end.arrival, cosTol)) return 'continuation-angle';
+    const o = point(run.p, near);
+    const leaving: XY[] = [];
+    for (const h of outgoing(run.p, near)) {
+      const q = point(run.p, run.p.halfEdges.origin[h ^ 1]);
+      const d = { x: q.x - o.x, y: q.y - o.y };
+      const l = Math.sqrt(d.x * d.x + d.y * d.y);
+      const x = div(d.x, l);
+      const y = div(d.y, l);
+      if (x !== null && y !== null) leaving.push({ x, y });
+    }
+    const why = continuationVerdict({
+      bounding: wayId !== null && seamOfSpine(run.seams, wayId) !== undefined,
+      spineClass: way?.class ?? 'secondary',
+      cutClass: cls,
+      arrival: end.arrival,
+      leaving,
+      cosTol: dmath.cos(continuationCdeg(run) * RAD_PER_CDEG),
+    });
+    if (why !== null) return why;
   }
   return null;
 }
@@ -865,22 +879,6 @@ function nearestJunction(run: Run, p: LatticePoint): VertexId | null {
     if (outgoing(run.p, v).length >= 3) return v;
   }
   return null;
-}
-
-/** Does an existing non-spine edge at v continue the arrival within the tolerance (its direction ≈ −arrival reversed)? */
-function collinearThrough(run: Run, v: VertexId, arrival: XY, cosTol: number): boolean {
-  const o = point(run.p, v);
-  for (const h of outgoing(run.p, v)) {
-    const q = point(run.p, run.p.halfEdges.origin[h ^ 1]);
-    const d = { x: q.x - o.x, y: q.y - o.y };
-    const l = Math.sqrt(d.x * d.x + d.y * d.y);
-    const x = div(d.x, l);
-    const y = div(d.y, l);
-    if (x === null || y === null) continue;
-    // The existing lane leaves v on the far side: the same direction as the arrival.
-    if (x * arrival.x + y * arrival.y >= cosTol) return true;
-  }
-  return false;
 }
 
 /** The generated lifecycle (§2.8). */

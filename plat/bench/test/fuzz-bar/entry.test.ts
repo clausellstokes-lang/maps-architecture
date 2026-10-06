@@ -6,6 +6,7 @@ import { mkdtempSync, readFileSync, existsSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
+import { runFuzz } from '@plat/testkit';
 import { run, SUMMARY_PATH } from '../../src/fuzz-bar/index.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'fuzz-bar-'));
@@ -25,6 +26,21 @@ describe('bench -- fuzz-bar', () => {
     const report = JSON.parse(readFileSync(join(dir, 'fuzz-bar', 'report.json'), 'utf8')) as { primitives: { primitive: string; runs: number }[] };
     expect(report.primitives.map((p) => [p.primitive, p.runs])).toEqual([['obb', 20]]);
   }, 300_000);
+
+  it('exits 1 on a primitive report with 1 crash, 1 hang, 1 invalid output or 1 bugs entry, each on its own (a planted runFuzz)', async () => {
+    const bug = { cls: 'F-NUM', entity: 'way:fuzz', key: 'bfuzz/obb#0', stage: 'B-FUZZ' };
+    const planted: [string, Record<string, unknown>][] = [
+      ['crash', { crashes: 1 }],
+      ['hang', { hangs: 1 }],
+      ['invalid', { invalid: 1 }],
+      ['bug', { bugs: [bug] }],
+    ];
+    for (const [what, over] of planted) {
+      const fake: typeof runFuzz = (name, n, opts) => ({ ...runFuzz(name, n, opts), ...over });
+      expect([what, await run(['--primitive', 'obb', '--runs', '3', '--s11', '1'], { out: dir, runFuzz: fake })]).toEqual([what, 1]);
+    }
+    expect(await run(['--primitive', 'obb', '--runs', '3', '--s11', '1'], { out: dir, runFuzz })).toBe(0);
+  }, 600_000);
 
   it('a whole toy run: the counts report, the numbers-only summary (the same bytes twice), the bar decided', async () => {
     const summary = join(dir, 'whole.json');
