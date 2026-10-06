@@ -1,6 +1,6 @@
 // M0-c-02: §4.4 S5a *Trace* (2), pull and pin — the boundary pulled to defensible ground within the 40 m search band by
 // a cost-surface path, the gates pinned. On a flat site the pull is the identity but for the pins; here a synthetic
-// cost field moves the line within the band and never moves a pinned gate (C-0224 (3)).
+// cost field moves the line within the band and never moves a pinned gate (C-0226 (3)).
 import { describe, expect, it } from 'vitest';
 import { outwardNormals, PULL_STEPS, pullAndPin, s3Slice, terrainCost } from '../../src/index.js';
 import { lat, openRing } from '../../src/enceinte/plane.js';

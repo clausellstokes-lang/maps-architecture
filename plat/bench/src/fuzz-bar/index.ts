@@ -2,7 +2,7 @@
 // C-0107, C-0110). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-k-04.
 //
 // `corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N]
-//  [--s11-timing] [--no-summary]` runs every kernel primitive's B-FUZZ at N inputs (PLAT_FUZZ_RUNS, 10⁴ when unset —
+//  [--s11-timing] [--no-sweeps] [--no-summary]` runs every kernel primitive's B-FUZZ at N inputs (PLAT_FUZZ_RUNS, 10⁴ when unset —
 // the PR size; the nightly sets 10⁶), the whole constructive set against the kernel (every M0 case at its draws, the
 // sweeps whole; every deferred case counted by its milestone), the kernel ladders' coverage table and the S11
 // workload's call-list check, folds them into the counts report, writes the full report to
@@ -40,14 +40,14 @@ export const PLAT_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..', '..
 /** The numbers-only summary (C-0067). */
 export const SUMMARY_PATH = join(PLAT_ROOT, 'docs', 'build', 'summaries', 'M0-k-04.json');
 
-/** Constructive draws per M0 case in a run (the sweeps run whole): the PR tier's, and the nightly's at 10⁶ (C-0225 (13)). */
+/** Constructive draws per M0 case in a run (the sweeps run whole): the PR tier's, and the nightly's at 10⁶ (C-0227 (13)). */
 export const CONSTRUCTIVE_SEEDS_PR = 10;
 export const CONSTRUCTIVE_SEEDS_NIGHTLY = 100;
 
 /** S11 plots checked per run (the call list's; the timing phase's own size is M0-t-01's). */
 export const S11_PLOTS = 50;
 
-const USAGE = 'usage: corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N] [--s11-timing] [--no-summary]';
+const USAGE = 'usage: corepack pnpm bench -- fuzz-bar [--runs N] [--first I] [--primitive NAME] [--constructive-seeds N] [--s11 N] [--s11-timing] [--no-sweeps] [--no-summary]';
 
 /** The dispatcher's context, with the summary path a test may redirect. */
 export interface FuzzBarContext {
@@ -76,13 +76,14 @@ export function s11Problems(plots: readonly S11Plot[]): string[] {
 
 /** The dispatcher's entry. */
 export async function run(args: string[], ctx: FuzzBarContext): Promise<number> {
-  const known = new Set(['--runs', '--first', '--primitive', '--constructive-seeds', '--s11', '--s11-timing', '--no-summary']);
+  const known = new Set(['--runs', '--first', '--primitive', '--constructive-seeds', '--s11', '--s11-timing', '--no-sweeps', '--no-summary']);
+  const flags = new Set(['--s11-timing', '--no-sweeps', '--no-summary']);
   for (let i = 0; i < args.length; i++) {
     if (!known.has(args[i])) {
       say(`fuzz-bar: unknown argument ${JSON.stringify(args[i])}; ${USAGE}`);
       return 64;
     }
-    if (args[i] !== '--s11-timing' && args[i] !== '--no-summary') i++;
+    if (!flags.has(args[i])) i++;
   }
   let runs: number | undefined | null;
   try {
@@ -113,10 +114,11 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
     say(`fuzz-bar: ${p.name.padEnd(14)} ${String(r.runs)} inputs: ${String(r.crashes)} crashes, ${String(r.hangs)} hangs, ${String(r.invalid)} invalid; refused ${JSON.stringify(r.refused)}; notes ${JSON.stringify(r.notes)}; ${String(r.downgrades)} downgrades; ${String(r.workLimitHits)} work-limit hits${r.oracle === null ? '' : `; oracle split ${JSON.stringify(r.oracle)}`} (${((performance.now() - t) / 1000).toFixed(1)} s CONTENDED)`);
     for (const f of r.failures.slice(0, 5)) say(`fuzz-bar:   ${f.kind} #${String(f.index)}: ${f.reason}`);
   }
+  // The summary is a whole run's: every primitive from its first input (it records the draws and whether the sweeps ran whole).
   const whole = only === undefined && (first ?? 0) === 0;
   const perCase = seeds ?? (runs >= 1_000_000 ? CONSTRUCTIVE_SEEDS_NIGHTLY : CONSTRUCTIVE_SEEDS_PR);
   const t1 = performance.now();
-  const cons = only === undefined ? runConstructiveOnKernel(CONSTRUCTIVE_SET, perCase, { sweeps: true }) : runConstructiveOnKernel(CONSTRUCTIVE_SET.filter((c) => c.milestone !== 'M0'), 1);
+  const cons = only === undefined ? runConstructiveOnKernel(CONSTRUCTIVE_SET, perCase, { sweeps: !args.includes('--no-sweeps') }) : runConstructiveOnKernel(CONSTRUCTIVE_SET.filter((c) => c.milestone !== 'M0'), 1);
   say(`fuzz-bar: constructive set ${String(cons.cases)} cases (${String(casesAt('M0').length)} M0): ${String(cons.judged)} judged over ${String(cons.draws)} draws, ${String(cons.green)} green, ${String(cons.failedCases)} failing, ${String(cons.known.length)} known findings (${cons.known.map((k) => k.id).join(', ')}), ${String(cons.staleKnown.length)} stale, ${String(cons.pending.length)} pending; deferred ${JSON.stringify(cons.deferred)} (${((performance.now() - t1) / 1000).toFixed(1)} s)`);
   for (const f of cons.failures.slice(0, 12)) say(`fuzz-bar:   ${f.id} #${String(f.seed)}: ${f.reason}`);
   const ladders = ladderCoverage();
@@ -130,7 +132,7 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
   if (whole && !args.includes('--no-summary')) {
     const path = ctx.summary ?? SUMMARY_PATH;
     mkdirSync(dirname(path), { recursive: true });
-    writeFileSync(path, `${JSON.stringify({ ...countsSummary(report), s11: { plots: s11.calls.length, callListsAsListed: s11Bad.length === 0 } }, null, 2)}\n`);
+    writeFileSync(path, `${JSON.stringify({ ...countsSummary(report), constructiveDraws: { perCase: perCase, sweepsWhole: !args.includes('--no-sweeps') }, s11: { plots: s11.calls.length, callListsAsListed: s11Bad.length === 0 } }, null, 2)}\n`);
     say(`fuzz-bar: summary ${relative(PLAT_ROOT, path)}`);
   }
   say(`fuzz-bar: bar ${pass ? 'HOLDS' : 'FAILS'} — ${String(report.totals.crashes)} crashes, ${String(report.totals.hangs)} hangs, ${String(report.totals.invalid)} invalid outputs, ${String(report.bugs.length)} bugs; full report ${full.path}`);

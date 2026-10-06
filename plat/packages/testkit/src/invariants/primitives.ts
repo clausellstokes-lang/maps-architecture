@@ -5,7 +5,7 @@
 // result: the whole-arena sweep (`checkCI`: every hard §3.10 row, the Euler characteristic) after every writer, remove ∘
 // insert ≡ id, the split's integer area2 tiling and merge ∘ split, the skeleton validator and no roof line outside, OBB
 // containing the hull, LIR inside the face, the inset's monotone emptying, and the oracle comparison (M0-k-03) for
-// booleans, buffers and tileRings, split by attraction (§3.7). Readings: C-0225.
+// booleans, buffers and tileRings, split by attraction (§3.7). Readings: C-0227.
 import fc from 'fast-check';
 import {
   area2,
@@ -54,7 +54,7 @@ import { compareSplit, oracleBoolean, oracleBuffer, ORACLE_ENGINES, type OracleE
 import { clipper2Loaded } from '../oracles/clipper2.js';
 import { isLatticeRing, ringProblems } from '../oracles/rings.js';
 import { arenaPrint, determinismPoint, fixtureSpec, permutationCompare, runTwiceCompare, type DeterminismSequence } from '../determinism/index.js';
-import { area2Exact, boxOf, ciProblems, cross, framedAround, inRegionApprox, inRing, interiorPoint, kernelOn, lpt, RANGE, RUNNER_KEY, spec, type Pt } from './support.js';
+import { area2Exact, boxOf, ciProblems, cross, framedAround, inRegionApprox, inRing, interiorPoint, kernelOn, lpt, RANGE, RUNNER_KEY, spec } from './support.js';
 import type { BugEntry, WorkUnit } from './types.js';
 
 /** One operation's outcome on one input, as the runner classifies it. */
@@ -77,7 +77,7 @@ export interface OpOutcome {
   /** The input never reached the operation (no room for a frame, a degenerate set-up ring): counted apart. */
   readonly skipped?: boolean;
   /**
-   * Counted findings that judge no output (C-0225 (4)): a follow-up operation a property needs that returned a typed
+   * Counted findings that judge no output (C-0227 (4)): a follow-up operation a property needs that returned a typed
    * refusal — e.g. the removal of remove ∘ insert refused — by name; reported, never invalid (it fails safely).
    */
   readonly notes?: readonly string[];
@@ -136,7 +136,7 @@ const LIMIT = 1 << 20; // the fuzz shapes' coordinate bound: a framed arena arou
 const SMALL = 1 << 16;
 
 const ok = (warnings: readonly Warning[] = [], extra: Partial<OpOutcome> = {}): OpOutcome => ({ code: 'ok', problems: [], warnings, ...extra });
-/** An input that never reached its operation (C-0225 (2)). */
+/** An input that never reached its operation (C-0227 (2)). */
 const skip = (): OpOutcome => ({ code: 'ok', problems: [], warnings: [], skipped: true });
 const refusedOf = (r: KernelResult<unknown>, problems: readonly string[] = []): OpOutcome => (r.ok ? ok(r.warnings) : { code: r.code, problems, warnings: [] });
 
@@ -271,7 +271,7 @@ const insertChainPrimitive: Primitive<InsertInput> = {
     const rm = k1.tx(spec(input.level), (o) => removeEdges(o, { role, entity }));
     const notes: string[] = [];
     if (!rm.ok) {
-      // A typed refusal of the removal fails safely (the arena kept): a counted finding, the property unjudged (C-0225 (4)).
+      // A typed refusal of the removal fails safely (the arena kept): a counted finding, the property unjudged (C-0227 (4)).
       notes.push(`remove-after-insert refused ${rm.code}${rm.detail.startsWith('index-freshness') ? ' index-freshness' : ''}`);
       if (topology(p) !== inserted) problems.push('the refused removal changed the arena');
     } else {

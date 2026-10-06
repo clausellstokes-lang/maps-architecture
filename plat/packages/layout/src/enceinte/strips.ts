@@ -2,10 +2,10 @@
 // chains carrying the structural `setback` role on the enceinte — the inner setback line at the band's half plus the
 // inner setback (8 m at the default era row) and the outer glacis line at the band's half plus the outer setback and
 // glacis (15 m), both read from walls.json's era row, never inlined — each stopping at the corridor of the way through
-// each gate, so each strip between two stops is one L1 face, owned by `wall_strip:<enceinte>-<side>` (C-0224 (9)).
+// each gate, so each strip between two stops is one L1 face, owned by `wall_strip:<enceinte>-<side>` (C-0226 (9)).
 //
 // The lines are the kernel's `buffer` of the committed trace at each width (round joins; the inner line the buffer's
-// hole, the outer its outer ring), cut by the stops (C-0224 (10)): a main gate's stop is its way's corridor, a band of
+// hole, the outer its outer ring), cut by the stops (C-0226 (10)): a main gate's stop is its way's corridor, a band of
 // the corridor's half-width about the way's centreline near the gate (the band's two edges are the strip's two ends: a
 // cap from the line's end back to where the trace crosses the same edge, on the same side of the way, closes the strip); a water gate's stop is the water itself
 // (the river is its corridor, C-0087: the line ends on the shore and the shore closes the strip); and, given the frame,
@@ -31,7 +31,7 @@ export interface LayStripsOptions {
   readonly wayHalfWidthCm?: number;
   /** The frame rectangle: the glacis line stops at the map border (default: no stop there). */
   readonly frame?: readonly XY[];
-  /** The batch's stage (default S5, the trace's; C-0224 (2)). */
+  /** The batch's stage (default S5, the trace's; C-0226 (2)). */
   readonly batchStage?: number;
 }
 

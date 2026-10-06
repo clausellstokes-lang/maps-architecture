@@ -271,45 +271,60 @@ function starRing(s: Stream, n: number, cx: number, cy: number, r: number, cw: b
 }
 
 /** A kernel result as digestible data: the value (and warnings), or the refusal's code and detail. */
-function resultData<T>(r: KernelResult<T>): unknown {
+export function crossHostResultData<T>(r: KernelResult<T>): unknown {
   return r.ok ? { ok: true, value: r.value, warnings: r.warnings } : { ok: false, code: r.code, detail: r.detail };
+}
+
+/** The regularFit stage's rings at a seed: 16 star rings of 3 … 24 vertices, radius 1 m … 1 km, either orientation. */
+export function crossHostRegularFitRings(seed: number): LatticePoint[][] {
+  const s = crossHostStream('regularFit', seed);
+  const rings: LatticePoint[][] = [];
+  for (let k = 0; k < 16; k += 1) {
+    const n = s.int(3, 24);
+    const r = 100 + s.float01() * 99_900;
+    rings.push(starRing(s, n, (s.float01() * 2 - 1) * 1e6, (s.float01() * 2 - 1) * 1e6, r, s.bool(0.5)));
+  }
+  return rings;
 }
 
 const regularFitStage: CrossHostStage = {
   id: 'regularFit',
   run(seed) {
-    const s = crossHostStream('regularFit', seed);
     const w = new CrossHostDigestWriter();
-    for (let k = 0; k < 16; k += 1) {
-      const n = s.int(3, 24);
-      const r = 100 + s.float01() * 99_900;
-      const ring = starRing(s, n, (s.float01() * 2 - 1) * 1e6, (s.float01() * 2 - 1) * 1e6, r, s.bool(0.5));
-      w.value(ring).value(resultData(regularFit(ring)));
-    }
+    for (const ring of crossHostRegularFitRings(seed)) w.value(ring).value(crossHostResultData(regularFit(ring)));
     return done(w);
   },
 };
 
+/** The circumcentre stage's point sets at a seed: a lattice grid (cocircular sites) and seven random sets. */
+export function crossHostCircumcentreSets(seed: number): LatticePoint[][] {
+  const s = crossHostStream('circumcentres', seed);
+  const sets: LatticePoint[][] = [];
+  for (let k = 0; k < 8; k += 1) {
+    const pts: LatticePoint[] = [];
+    const extent = s.int(100, 1_000_000);
+    const n = s.int(3, 160);
+    if (k === 0) {
+      // a lattice grid: four cocircular sites per cell, the triangulation's degenerate case
+      const side = s.int(2, 9);
+      const step = s.int(25, 5000);
+      for (let i = 0; i < side; i += 1) for (let j = 0; j < side; j += 1) pts.push({ x: i * step, y: j * step } as LatticePoint);
+    } else {
+      for (let i = 0; i < n; i += 1) {
+        const p = lpt((s.float01() * 2 - 1) * extent, (s.float01() * 2 - 1) * extent);
+        if (p !== null) pts.push(p);
+      }
+    }
+    sets.push(pts);
+  }
+  return sets;
+}
+
 const circumcentreStage: CrossHostStage = {
   id: 'circumcentres',
   run(seed) {
-    const s = crossHostStream('circumcentres', seed);
     const w = new CrossHostDigestWriter();
-    for (let k = 0; k < 8; k += 1) {
-      const pts: LatticePoint[] = [];
-      const extent = s.int(100, 1_000_000);
-      const n = s.int(3, 160);
-      if (k === 0) {
-        // a lattice grid: four cocircular sites per cell, the triangulation's degenerate case
-        const side = s.int(2, 9);
-        const step = s.int(25, 5000);
-        for (let i = 0; i < side; i += 1) for (let j = 0; j < side; j += 1) pts.push({ x: i * step, y: j * step } as LatticePoint);
-      } else {
-        for (let i = 0; i < n; i += 1) {
-          const p = lpt((s.float01() * 2 - 1) * extent, (s.float01() * 2 - 1) * extent);
-          if (p !== null) pts.push(p);
-        }
-      }
+    for (const pts of crossHostCircumcentreSets(seed)) {
       const d = delaunay(pts);
       if (!d.ok) {
         w.value({ ok: false, code: d.code, detail: d.detail });
@@ -332,10 +347,10 @@ function servicesOn(input: ConstructiveInput, w: CrossHostDigestWriter): void {
   const ringNames = Object.getOwnPropertyNames(input.rings).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
   for (const name of ringNames) {
     const ring = input.rings[name];
-    w.str(name).value(resultData(hull(ring))).value(resultData(obb(ring))).value(resultData(lir(ring))).value(resultData(regularFit(ring)));
+    w.str(name).value(crossHostResultData(hull(ring))).value(crossHostResultData(obb(ring))).value(crossHostResultData(lir(ring))).value(crossHostResultData(regularFit(ring)));
   }
   const setNames = Object.getOwnPropertyNames(input.pointSets).sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
-  for (const name of setNames) w.str(name).value(resultData(hull(input.pointSets[name])));
+  for (const name of setNames) w.str(name).value(crossHostResultData(hull(input.pointSets[name])));
 }
 
 const constructiveStage: CrossHostStage = {

@@ -3,7 +3,7 @@
 // trace crosses the water exactly once per crossing at a water gate whose two gate_end vertices lie on the shores and
 // resolve by VertexRef('gate_end', gate, 0 | 1); Gate.banks set and way null; N unchanged; the strips end at the banks;
 // the wall's edge between the banks lies across the water. Where the boundary only runs along a bank, the trace follows
-// the shore there (a graze, C-0224 (7)) and no gate is written.
+// the shore there (a graze, C-0226 (7)) and no gate is written.
 import { describe, expect, it } from 'vitest';
 import { crossWater, GRAZE_RATIO, waterGates } from '../../src/index.js';
 import { closedChain, edgesWith, GROUND, incidentRows, insideRing, P, RIVER, riverCommitted, ringDist, verticesWith } from './support.js';
@@ -136,7 +136,7 @@ describe('the water gate on a synthetic river (C-0087)', () => {
   }, 120_000);
 });
 
-describe('crossings and grazes (C-0224 (7))', () => {
+describe('crossings and grazes (C-0226 (7))', () => {
   const square = (x0: number, y0: number, x1: number, y1: number) => [P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)];
   const river = [{ body: 'r', ring: square(-2000, -50000, 2000, 50000) }];
 

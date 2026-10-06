@@ -7,7 +7,7 @@
 // kept. A guarded call that throws is a `crash` with its message; a value is returned as is.
 import vm from 'node:vm';
 
-/** The default hard timeout per operation (ms): a kernel primitive on a fuzz input takes milliseconds (C-0225 (2)). */
+/** The default hard timeout per operation (ms): a kernel primitive on a fuzz input takes milliseconds (C-0227 (1)). */
 export const HANG_TIMEOUT_MS = 10_000;
 
 /** What one guarded call came to. */

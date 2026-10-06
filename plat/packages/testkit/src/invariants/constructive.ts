@@ -5,7 +5,7 @@
 // static), with every property its `holds` names checked on the result. Every step before the last must return ok, and
 // after every writer step the whole arena is swept (`checkCI`: every hard §3.10 row and the Euler characteristic) —
 // §13.1's "Properties (checked after every operation)". A whole draw runs under the hard timeout. The numeric-core
-// cases keep their own `run` (M0-a-01, judged by M0-k-02). Readings: C-0225.
+// cases keep their own `run` (M0-a-01, judged by M0-k-02). Readings: C-0227.
 import { existsSync, readdirSync, readFileSync, statSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -17,7 +17,6 @@ import {
   createPlat,
   decodeArena,
   delaunay,
-  describeChunk,
   encodeArena,
   faceRings,
   faceWalk,
@@ -28,7 +27,6 @@ import {
   indexOf,
   isCorruptCache,
   isFaceLive,
-  isHalfEdgeLive,
   isVertexLive,
   ITEM_EDGE,
   ITEM_VERTEX,
@@ -75,7 +73,7 @@ import {
 import { runConstructive, type ConstructiveJudge, type ConstructiveReport } from '../constructive/set.js';
 import type { ConstructiveCase, ConstructiveInput, ConstructiveStep, ConstructiveVerdict } from '../constructive/types.js';
 import { arenaPrint, renumberSlots } from '../determinism/index.js';
-import { compareSplit, oracleBoolean, oracleBuffer, ORACLE_ENGINES, symDiffArea } from '../oracles/index.js';
+import { compareSplit, oracleBoolean, oracleBuffer, ORACLE_ENGINES } from '../oracles/index.js';
 import { ringProblems } from '../oracles/rings.js';
 import { guarded, HANG_TIMEOUT_MS } from './guard.js';
 import { roofOutside } from './primitives.js';
@@ -119,7 +117,7 @@ interface Scene {
   readonly others: Map<string, Plat>;
   k: Kernel;
   readonly inserted: Map<string, Inserted>;
-  /** The L1 face each district ring bounds (C-0225 (6)), by its owner name. */
+  /** The L1 face each district ring bounds (C-0227 (6)), by its owner name. */
   readonly districts: Map<string, { face: FaceId; ring: readonly LatticePoint[] }>;
   readonly records: Map<string, unknown>;
   /** The last warp's report and the arena before it (the renumbering identity re-runs it). */
@@ -169,7 +167,7 @@ function geometry(g: ConstructiveInput, name: string): { pts: readonly LatticePo
 }
 
 /**
- * S6's district membership for the cases that partition by district (C-0225 (6)): an L2 – L4 item belongs to the
+ * S6's district membership for the cases that partition by district (C-0227 (6)): an L2 – L4 item belongs to the
  * current owner of the district ring it lies in — both owners where it lies on two rings' shared side — read from the
  * arena at every call, so a re-owned block moves its items (§3.3).
  */
@@ -583,14 +581,8 @@ function entitiesOn(p: Plat, h: HalfEdgeId): string[] {
 
 function stepRebuild(s: Scene, st: ConstructiveStep): Step {
   const d = st.args.district;
-  const before = (s.records.get('queries') as { level: number; vertices: number[]; edges: number[]; faces: number[] }[] | undefined) ?? [];
   const n = s.k.index.rebuildAtStageEnd(s.p.key, typeof d === 'string' ? `district:${d}` : undefined);
   s.records.set('rebuilt', ((s.records.get('rebuilt') as number | undefined) ?? 0) + n);
-  // query-equals-rebuild: every query asked so far answers the same after this rebuild (§3.3).
-  for (const q of before) {
-    const box = (q as unknown as { box?: unknown }).box;
-    void box;
-  }
   return { kind: 'ok', value: n, warnings: [] };
 }
 
@@ -898,7 +890,7 @@ function envFor(g: ConstructiveInput, ownersParts: ReadonlyMap<string, number>):
     floors: (cls) => (cls === 'constructive' ? floor : undefined),
     checks: { maxFaceCount: (view) => (view.faces.length > max ? `${String(view.faces.length)} faces, at most ${String(max)}` : null) },
     repair: (o, face, f) => absorbSliver(o, face, f),
-    // An owner named by k insertions of a linear role declares k parts (C-0225 (5); integration-g7 N-1).
+    // An owner named by k insertions of a linear role declares k parts (C-0227 (5); integration-g7 N-1).
     chainParts: (role, entity) => ownersParts.get(entity) ?? (role === 'way' || role === 'wall' || role === 'tunnel' ? 1 : null),
   };
 }
@@ -941,7 +933,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput): Run | string {
 
 /**
  * The whole-arena sweep after a writer (§13.1): `checkCI`'s hard problems, less role consistency's part-count lines for
- * an entity whose declared count the case's transactions carried (an owner named by k insertions, C-0225 (5)) — the CI
+ * an entity whose declared count the case's transactions carried (an owner named by k insertions, C-0227 (5)) — the CI
  * sweep reads the default part counts.
  */
 function sweep(s: Scene): string[] {
@@ -953,12 +945,12 @@ function sweep(s: Scene): string[] {
   });
 }
 
-/** §3.11's `empty` for insetRing is C-0196 (5)'s `collapsed` (C-0225 (7)). */
+/** §3.11's `empty` for insetRing is C-0196 (5)'s `collapsed` (C-0227 (7)). */
 function sameDetail(op: string, want: string, got: string): boolean {
   return want === got || (op === 'insetRing' && want === 'empty' && got === 'collapsed');
 }
 
-/** `profile-unchanged`'s tolerance (C-0225 (12)). */
+/** `profile-unchanged`'s tolerance (C-0227 (12)). */
 export const PROFILE_UNCHANGED_CM = 1e-6;
 
 /** A minFaceAngle in radians (§3.2's 500 cdeg). */
@@ -966,7 +958,7 @@ const MIN_FACE_ANGLE = (LATTICE.minFaceAngleCdeg * Math.PI) / 18_000;
 
 /**
  * §3.6 (2)'s contact rule pre-empts a cut that arrives at the face's boundary at less than minFaceAngle: it would run
- * along the edge it arrives on, so the cut is refused E_NOT_TWO_CROSSINGS before any class floor is measured (C-0225
+ * along the edge it arrives on, so the cut is refused E_NOT_TWO_CROSSINGS before any class floor is measured (C-0227
  * (10)). True when an end segment of the draw's cut meets the boundary edge its end lies on at below minFaceAngle.
  */
 function cutGrazes(s: Scene): boolean {
@@ -1001,13 +993,13 @@ function outcomeProblem(c: ConstructiveCase, run: Run): string | null {
   const e = c.expect;
   const last = run.last;
   const op = run.scene.g.steps[run.scene.g.steps.length - 1].op;
-  // A grazing cut: §3.6 (2)'s refusal is the outcome the design states for this draw (C-0225 (10)).
-  if (op === 'splitFace' && last.kind === 'refused' && last.code === 'E_NOT_TWO_CROSSINGS' && (e.outcome === 'ok' || e.code === 'E_BELOW_MIN_ANGLE') && cutGrazes(run.scene)) {
+  // A grazing cut: §3.6 (2)'s refusal is the outcome the design states for this draw (C-0227 (10)).
+  if (op === 'splitFace' && last.kind === 'refused' && last.code === 'E_NOT_TWO_CROSSINGS' && /runs along the boundary edge/.test(last.detail) && (e.outcome === 'ok' || e.code === 'E_BELOW_MIN_ANGLE') && cutGrazes(run.scene)) {
     run.scene.records.set('preempted', true);
     return null;
   }
   // §3.11's degenerate-geometry row: the simple runs of a self-touching chain whose linear role declares one part break
-  // role consistency, so the batch returns that row's code (C-0225 (11)); the split itself is judged by the companion run.
+  // role consistency, so the batch returns that row's code (C-0227 (11)); the split itself is judged by the companion run.
   if (op === 'insertChain' && e.outcome === 'ok' && e.holds.includes('simple-runs') && roleConsistency(last)) {
     run.scene.records.set('roleRefused', true);
     return null;
@@ -1094,7 +1086,7 @@ function partsMatch(before: readonly number[], a: readonly number[], b: readonly
   return false;
 }
 
-/** The property checks (C-0225 (8)): null when the property holds, else why not. */
+/** The property checks (C-0227 (8)): null when the property holds, else why not. */
 function property(prop: string, run: Run): string | null {
   const s = run.scene;
   const g = s.g;
@@ -1258,7 +1250,7 @@ function property(prop: string, run: Run): string | null {
       const b = s.records.get('sample:before') as { values: number[]; length: number; knots: number };
       const a = s.records.get('sample:after') as { values: number[]; length: number; knots: number };
       // The T-junction carries no knot (§2.2 rule 5) and changes no sampled half-width — up to the arc-length shift a
-      // foot the placement rule seats ≤ 0.71 cm off the spine's line makes (C-0225 (12)): each sample by arc length moves
+      // foot the placement rule seats ≤ 0.71 cm off the spine's line makes (C-0227 (12)): each sample by arc length moves
       // by at most the profile's steepest slope × the route's length change, + 10⁻⁶ cm.
       if (a.knots !== b.knots) return `the T-junction changed the knot rows (${String(b.knots)} → ${String(a.knots)})`;
       let slope = 0;
@@ -1380,7 +1372,7 @@ function property(prop: string, run: Run): string | null {
       return null;
     }
     case 'cross-host-identical': {
-      // The same input twice in this process gives the same doubles (C-0225 (9)); the hosts' legs are M0-d-06's.
+      // The same input twice in this process gives the same doubles (C-0227 (9)); the hosts' legs are M0-d-06's.
       const again = regularFit(g.rings.ring);
       return again.ok && JSON.stringify(again.value) === JSON.stringify(val) ? null : 'a second fit differs';
     }
@@ -1444,7 +1436,7 @@ function property(prop: string, run: Run): string | null {
 }
 
 /**
- * The companion run of a self-touching chain refused by its linear role's consistency (C-0225 (11)): the same chain
+ * The companion run of a self-touching chain refused by its linear role's consistency (C-0227 (11)): the same chain
  * under a partition role that declares no part count (`field_bound`, L1) commits as simple runs, every hard row holding.
  */
 function companionRuns(s: Scene): string | null {
@@ -1577,11 +1569,9 @@ function queryEqualsRebuild(s: Scene): string | null {
   for (let i = 0; i < qs.length; i++) {
     const st = boxes[i];
     const r = s.k.index.query(s.p.key, qs[i].level as Level, boxArg(g.rings[String(st.args.box)]));
-    const before = JSON.stringify([qs[i].vertices.length, qs[i].edges.map((h) => entitiesOn(s.p, h).join('|')), qs[i].faces.length]);
     s.k.index.rebuildAtStageEnd(s.p.key);
     const r2 = s.k.index.query(s.p.key, qs[i].level as Level, boxArg(g.rings[String(st.args.box)]));
     if (JSON.stringify([r.vertices, r.edges, r.faces]) !== JSON.stringify([r2.vertices, r2.edges, r2.faces])) return `query ${String(i)} changed across a rebuild`;
-    void before;
   }
   return null;
 }
@@ -1645,7 +1635,6 @@ function piecesTile(s: Scene, pieces: LatticePoint[][][]): string | null {
       }
     }
   }
-  void symDiffArea;
   return null;
 }
 
@@ -1745,7 +1734,7 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
     const o = outcomeProblem(c, run);
     if (o !== null) return fail(o);
     if (run.scene.problems.length > 0 && !c.expect.holds.includes('renumbering-identity')) return fail(run.scene.problems[0]);
-    // A pre-empted cut is judged by §3.6 (2)'s outcome: refused, the version kept, the arena valid (C-0225 (10)).
+    // A pre-empted cut is judged by §3.6 (2)'s outcome: refused, the version kept, the arena valid (C-0227 (10)).
     const holds = run.scene.records.get('preempted') === true ? ['version-kept', 'hard-invariants'] : c.expect.holds;
     for (const prop of holds) {
       const why = property(prop, run);
@@ -1761,7 +1750,7 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
 /** M0-k-02's iteration with this item's judge (C-0181 (5)): the whole set, deferred cases counted by milestone. */
 export const kernelJudge: ConstructiveJudge = (c, input) => judgeOnKernel(c, input);
 
-/** A known finding (C-0225 (14); FAIL SAFE NOW, N-45 / J202): a case that fails for a reason owned by another item. */
+/** A known finding (C-0227 (14); FAIL SAFE NOW, N-45 / J202): a case that fails for a reason owned by another item. */
 export interface KnownFinding {
   readonly id: string;
   /** The item that owns the fix. */

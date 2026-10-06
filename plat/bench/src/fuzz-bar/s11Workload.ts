@@ -168,14 +168,17 @@ function prepare(ring: readonly LatticePoint[]): { k0: Kernel; face: number } | 
   return { k0, face: at.face };
 }
 
-/** The per-plot S11 run (untimed): the call list each plot made through the façade. */
-export function s11Calls(seed: number, n: number): S11Plot[] {
+/**
+ * The per-plot S11 run (untimed): the call list each plot made through the façade. `wrap` (a test's own spy) wraps each
+ * plot's S11 façade before the workload's recorder does, so a second, independent count sees the same calls.
+ */
+export function s11Calls(seed: number, n: number, opts: { readonly wrap?: (k: Kernel, plot: number) => Kernel } = {}): S11Plot[] {
   return s11Plots(seed, n).map((plot, index) => {
     const calls: S11Call[] = [];
     const prep = prepare(plot.ring);
     let us = 0;
     if (prep !== null) {
-      const k = spyKernel(prep.k0, calls);
+      const k = spyKernel(opts.wrap === undefined ? prep.k0 : opts.wrap(prep.k0, index), calls);
       const t0 = performance.now();
       plotCalls(k, prep.face, plot.ring, seed * 1_000_003 + index);
       us = (performance.now() - t0) * 1000;

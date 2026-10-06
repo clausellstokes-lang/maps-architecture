@@ -52,13 +52,13 @@ export interface FuzzReport {
   readonly invalid: number;
   /** Ok results (a downgrade among them). */
   readonly ok: number;
-  /** Inputs that never reached the operation (no room for a frame, a degenerate set-up ring; C-0225 (2)). */
+  /** Inputs that never reached the operation (no room for a frame, a degenerate set-up ring; C-0227 (2)). */
   readonly skipped: number;
   /** Typed refusals per §3.1 code — each a valid outcome (never a throw for a geometric reason). */
   readonly refused: Readonly<Record<string, number>>;
   /** Warnings per §3.1 code, summed over the run (§5.4 `kernel.warnings`). */
   readonly warnings: Readonly<Record<string, number>>;
-  /** Counted findings that judge no output — a follow-up op's typed refusal (C-0225 (4)) — by name. */
+  /** Counted findings that judge no output — a follow-up op's typed refusal (C-0227 (4)) — by name. */
   readonly notes: Readonly<Record<string, number>>;
   /** Typed downgrades (§3.8 W_DOWNGRADE; §5.4 `kernel.downgrades`). */
   readonly downgrades: number;
@@ -88,7 +88,7 @@ export interface ConstructiveRun {
   /** Deferred cases by milestone — the counts report's "deferred constructive cases by milestone". */
   readonly deferred: Readonly<Record<ConstructiveMilestone, number>>;
   readonly failures: readonly { readonly id: string; readonly seed: number; readonly reason: string }[];
-  /** Known findings (C-0225 (14)): failing as known, owned by another item, listed — never green, never hidden. */
+  /** Known findings (C-0227 (14)): failing as known, owned by another item, listed — never green, never hidden. */
   readonly known: readonly { readonly id: string; readonly draws: number; readonly finding: string }[];
   /** Known findings whose case is green now (the list is stale: the bar fails until it is corrected). */
   readonly staleKnown: readonly string[];

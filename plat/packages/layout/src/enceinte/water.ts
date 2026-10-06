@@ -6,7 +6,7 @@
 // on the L0 shores, or L0 shore vertices where the insertion attracts them (§3.6) — carrying ('gate_end', gate, 0 | 1),
 // and between them the trace is one straight edge across the water (the wall's edge between the banks lies across the
 // water, §2.2 rule 7) wherever that chord keeps inside the water; where it would not, or where a main gate stands in the
-// water between them (C-0204 (2)'s bridgehead gate), the boundary's own course between the banks is kept (C-0224 (7)).
+// water between them (C-0204 (2)'s bridgehead gate), the boundary's own course between the banks is kept (C-0226 (7)).
 // The bank points are pinned through the pull, the smoothing and the simplify, so the pull keeps each crossing where
 // the boundary crosses (C-0087). Each crossing writes a `Gate` of kind `water` with `way` null and `banks` set, not
 // counted in N and carrying no route.
@@ -33,7 +33,7 @@ export interface WaterCrossing {
 
 /**
  * A stretch over water whose two ends lie on one water ring with the shorter way along the shore between them at most
- * this many times the chord is a graze, not a crossing (C-0224 (7)): a river crossed bank to bank has its ends a whole
+ * this many times the chord is a graze, not a crossing (C-0226 (7)): a river crossed bank to bank has its ends a whole
  * shore round apart.
  */
 export const GRAZE_RATIO = 2;
@@ -181,7 +181,7 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
     // A stretch over water. A graze — both ends on one water ring, the shorter way along its shore between them at
     // most GRAZE_RATIO times the chord — is the boundary running along a bank: the trace follows the shore there,
     // every point of that stretch kept (§4.4 *Trace* (3): "on a shore or bank the trace is attracted onto the outline";
-    // C-0224 (7)). Otherwise a crossing from the bank point at `a` to the one at `b`.
+    // C-0226 (7)). Otherwise a crossing from the bank point at `a` to the one at `b`.
     const entry = out[out.length - 1];
     if (a.w === b.w) {
       const arc = shoreArc(waters[a.w].ring, a.j, a.u, b.j, b.u);
@@ -225,7 +225,7 @@ export function waterGateOf(i: number, c: WaterCrossing, enceinte: Id, epoch: nu
   return {
     id,
     enceinte,
-    // The gate's own address (C-0224 (8)): the junction S4 would name is no water gate's — no way passes it.
+    // The gate's own address (C-0226 (8)): the junction S4 would name is no water gate's — no way passes it.
     junction: id,
     way: null,
     kind: 'water',

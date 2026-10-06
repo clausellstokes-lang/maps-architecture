@@ -1,6 +1,6 @@
 // M0-c-02: F-WALL's trace rungs M0 builds (§5.2 F-WALL; C-0085): a boundary with a notch narrower than twice the 40 m
 // band, its walls pulled together by the cost surface, makes the smoothed trace self-touch; the re-offset rung (the
-// closing by the band's radius, C-0224 (6)), then the topology-preserving union-simplify rung, each reached by its own
+// closing by the band's radius, C-0226 (6)), then the topology-preserving union-simplify rung, each reached by its own
 // fixture and reported; a trace neither repairs is refused (the later rungs are M1's). A notch twice the band or wider
 // takes no rung.
 import { describe, expect, it } from 'vitest';

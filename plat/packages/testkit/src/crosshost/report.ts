@@ -89,3 +89,41 @@ export function crossHostReportLines(r: CrossHostReport): string[] {
   lines.push(`verdict: ${r.verdict}`);
   return lines;
 }
+
+/** One run's timing-mode figures: per stage, one figure per seed (ms, in the fixture's seed order) and their median. */
+export interface CrossHostRunTimes {
+  readonly leg: CrossHostLegId;
+  readonly workers: CrossHostWorkers;
+  readonly stages: { readonly stage: string; readonly seeds: readonly (number | null)[]; readonly ms: readonly number[]; readonly medianMs: number }[];
+}
+
+function median(xs: readonly number[]): number {
+  const s = [...xs].sort((a, b) => a - b);
+  const n = s.length;
+  if (n === 0) return Number.NaN;
+  return n % 2 === 1 ? s[(n - 1) / 2] : (s[n / 2 - 1] + s[n / 2]) / 2;
+}
+
+/**
+ * The timing mode's figures by run and stage (C-0082: the per-stage wall-clock the harness took inside the worker or
+ * thread, for the timing phase's Chromium-worker figures). Refused for a report run without the timing mode, and for a
+ * ran run whose cell lacks its figure.
+ */
+export function crossHostTimes(r: CrossHostReport): CrossHostRunTimes[] {
+  if (!r.timing) throw new Error('crosshost: the report was run without the timing mode (--timing)');
+  const out: CrossHostRunTimes[] = [];
+  for (const run of r.runs) {
+    if (run.status !== 'ran' || run.cells === undefined) continue;
+    const stages: CrossHostRunTimes['stages'][number][] = [];
+    for (const stage of r.stages) {
+      const cells = run.cells.filter((c) => c.stage === stage);
+      const ms = cells.map((c) => {
+        if (typeof c.ms !== 'number' || !(c.ms >= 0)) throw new Error(`crosshost: ${run.leg} workers ${run.workers}: stage ${stage} seed ${String(c.seed)} carries no figure`);
+        return c.ms;
+      });
+      stages.push({ stage, seeds: cells.map((c) => c.seed), ms, medianMs: median(ms) });
+    }
+    out.push({ leg: run.leg, workers: run.workers, stages });
+  }
+  return out;
+}

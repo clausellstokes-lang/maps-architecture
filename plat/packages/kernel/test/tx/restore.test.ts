@@ -7,8 +7,9 @@
 // with the level digests beside them. Fix round S2 (checks/M0-a-06-s1.md B-1, B-2; C-0223): a chain crossing one run
 // twice dissolves both crossings whatever the order (the on-run test decided before the batch), split restoration alike,
 // and a coarser batch's record lists the own-child ancestors it frees in key order. Fix round S3
-// (checks/M0-a-06-s2.md B-1, C-0224): a chain crossing one EDGE three or more times — a middle crossing judged against
-// every piece of the stretch it could have split, so cases 817 and 1526 restore; the zigzag property draws that class.
+// (checks/M0-a-06-s2.md B-1, C-0225): a chain crossing one EDGE three or more times — a middle crossing judged against
+// every piece of the stretch it could have split, so cases 817 and 1526 restore; the zigzag property draws that class and
+// the targeted property screens candidates for its rare cases.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { faceKey, isFaceLive, isVertexLive, outgoing, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
@@ -209,7 +210,7 @@ describe('B-1: remove(insert(x)) dissolves every crossing of one run, whatever t
       // checks/M0-a-06-s2.md B-1 (probe-double.mts, seeds c × 104 729 + 31 337): the chain crosses the kerb's edge
       // (0,3687)–(2834,2004) four times, inserted in the order (1022,3080), (1489,2803), (2108,2436), (2751,2053).
       // (2108,2436) split the piece (1489,2803)–(2834,2004) and lies 0.62 cm from it, but 0.75 cm from its pre-batch
-      // neighbours' segment and 0.74 cm from the restored edge: on-run only against that piece (onStretch, C-0224).
+      // neighbours' segment and 0.74 cm from the restored edge: on-run only against that piece (onStretch, C-0225).
       name: 'the S2 check\'s case 817: an L2 chain crossing one L2 kerb edge four times, removed by an L2 batch',
       bases: [{ level: 2, i: 0, pts: [[0, 3687], [2834, 2004], [4000, 443]] }],
       level: 2,

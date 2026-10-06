@@ -1,5 +1,5 @@
 // The trace strategy's types (M0-c-02; §4.12 `EnceinteStrategy`, §2.7 `Enceinte` minimal and `Gate`, §4.4 S5a *Trace*
-// and *Water and the waterfront*, §4.8 the strips, §5.2 F-WALL; C-0032, C-0033, C-0085, C-0087; readings C-0224).
+// and *Water and the waterfront*, §4.8 the strips, §5.2 F-WALL; C-0032, C-0033, C-0085, C-0087; readings C-0226).
 // Types only.
 import type { Kernel, LatticePoint, Plat, PlatKey, Polygon, Stream } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, StageContext, StageEnv, Terrain, WaterSet } from '@plat/model';
@@ -34,7 +34,7 @@ export interface TracePolicy {
 /**
  * The pull's cost surface (§4.4 S5a *Trace* (2): "a cost-surface path around the town with a penalty for leaving high
  * ground"): the cost of standing at a point, any finite number (only differences along a vertex's normal matter);
- * +∞ bars the point. The base's default is the terrain's: lower ground costs more (C-0224 (3)).
+ * +∞ bars the point. The base's default is the terrain's: lower ground costs more (C-0226 (3)).
  */
 export type CostField = (p: XY) => number;
 
@@ -52,7 +52,7 @@ export interface TraceOptions {
   readonly core?: readonly (readonly XY[])[];
   /**
    * The stage whose rank the trace batch carries (default S5: §4.1's S5 row, k = 1, commits S3's trace through S5a;
-   * C-0224 (2)).
+   * C-0226 (2)).
    */
   readonly batchStage?: number;
 }
@@ -62,7 +62,7 @@ export interface WallRung {
   readonly rung: 'reoffset' | 'union_simplify';
   /** What the trace showed before the rung: a self-touch, or a crossing of the core. */
   readonly cause: 'self_touch' | 'core';
-  /** The rung's radius (re-offset: the band, C-0224 (6)); 0 for the union-simplify. */
+  /** The rung's radius (re-offset: the band, C-0226 (6)); 0 for the union-simplify. */
   readonly radiusCm: number;
   /** Did the rung's trace pass every check (simple, the core enclosed, every pin on it, within the band)? */
   readonly held: boolean;

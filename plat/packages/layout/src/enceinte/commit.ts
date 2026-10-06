@@ -151,7 +151,7 @@ export interface S3Commit {
 /**
  * The S3 slice's commits (see the module comment): the outer ring (unless present), S3's L1 batch, the trace through
  * the registered strategy and the strips — the strips stopping at each main gate's way, taken along the gate route's
- * own lattice edge at the gate with half the `through` class's widest corridor at the rung (C-0224 (10)), and at each
+ * own lattice edge at the gate with half the `through` class's widest corridor at the rung (C-0226 (10)), and at each
  * water gate's water, and the glacis at the map border.
  */
 export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {}): KernelResult<S3Commit> {
@@ -185,7 +185,7 @@ export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {
   const stops: StripStop[] = [];
   slice.gates.forEach((g, i) => {
     // The way's centreline near the gate: its route's lattice nodes within WAY_SPAN_NODES of the gate's edge on each
-    // side (the route S4 commits, C-0224 (10)).
+    // side (the route S4 commits, C-0226 (10)).
     const route = slice.routes.find((r) => r.ordinal === g.ordinal);
     const nodes = route === undefined ? [g.edge[0], g.edge[1]] : route.nodes.slice(Math.max(0, g.routeIndex - WAY_SPAN_NODES), g.routeIndex + 2 + WAY_SPAN_NODES);
     stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path: nodes.map((n) => slice.lattice.points[n]), halfWidthCm: half });

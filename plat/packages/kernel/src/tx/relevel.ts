@@ -261,7 +261,7 @@ function dissolvable(p: Plat, u: VertexId): boolean {
 /**
  * Does v, of its edges' level, lie on the stretch its edges ha, hb form — within the hot pixel of the segment a–b for SOME
  * a on ha's side and b on hb's side, each a vertex the dissolution walks through (a split vertex with no row, no pin,
- * degree 2, one level, identical rows) or the first vertex each way it cannot remove (C-0223, C-0224)? A split vertex
+ * degree 2, one level, identical rows) or the first vertex each way it cannot remove (C-0223, C-0225)? A split vertex
  * was placed within the hot pixel of the PIECE of the edge it split, and that piece's ends were the edge's ends or
  * earlier splits of it, all still on the stretch before the batch (only a removal dissolves them): one of these segments
  * is that piece, whatever the order the splits came in — no history read. The neighbours' segment (an earlier split
@@ -644,7 +644,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   const faceWrites = pass.writes;
   faceWrites.push(...materialise(t, materialisePlan, pass.successor, pass.coveredBy));
 
-  // The on-run test's second reading (C-0223, C-0224), on the arena the deletions left and before any flag, level or
+  // The on-run test's second reading (C-0223, C-0225), on the arena the deletions left and before any flag, level or
   // merge changes: a surviving same-level pair of a split vertex of its level lies on its run when the vertex is within
   // the hot pixel of a segment joining a vertex of the stretch on one side to one on the other (onStretch: every piece it
   // could have split) — beside onRunBefore's pre-batch neighbour test.

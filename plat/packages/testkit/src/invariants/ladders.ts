@@ -280,7 +280,8 @@ export function ladderCoverage(opts: { readonly draws?: number } = {}): Coverage
   const rows: CoverageRow[] = ROWS.map((r) => {
     const { reach, draws, ...row } = r;
     if (reach === null) return { ...row, exercised: null };
-    const total = Math.min(draws ?? n, Math.max(n, draws === undefined ? n : Math.min(draws, n * 125)));
+    // A row that names its own draw count (the 1 000 holed polygons) runs whole; every other row at `draws`.
+    const total = draws ?? n;
     let reached = 0;
     for (let s = 0; s < total; s++) if (reach(s)) reached++;
     return { ...row, exercised: { draws: total, reached } };

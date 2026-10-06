@@ -3,7 +3,7 @@
 // Detection: the smoothed trace self-intersects (two sides within the attraction distance, or folding back) or crosses
 // the core (a reservation, or the previous enceinte at k ≥ 2).
 //
-// * The re-offset (C-0224 (6)): the trace's region re-offset out and back by the band's radius — the closing of the
+// * The re-offset (C-0226 (6)): the trace's region re-offset out and back by the band's radius — the closing of the
 //   region by a disc of radius `searchBandM` (the union of the region with its buffer, less the buffer of that union's
 //   boundary), whose outer ring fills every notch narrower than twice the band and departs from the trace by at most
 //   the band; each pin must still lie on it (within the attraction distance), where it is put back as a vertex.

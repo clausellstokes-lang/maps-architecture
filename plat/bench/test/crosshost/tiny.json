@@ -1,0 +1,7 @@
+{
+  "$comment": "The bench runner tests' fixture (M0-d-06): tiny-stages.ts over three seeds.",
+  "id": "tiny",
+  "entry": "bench/test/crosshost/tiny-stages.ts",
+  "seeds": [1, 2, 3],
+  "stages": ["once", "per-seed"]
+}

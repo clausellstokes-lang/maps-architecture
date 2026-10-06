@@ -15,9 +15,9 @@
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
 import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
-import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringsDist2, segDist2, type Reach } from './geometry.js';
+import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringGap, ringsDist2, segDist2, type Reach } from './geometry.js';
 import { ESTUARY_SPLIT_M, SEED_DEPTH_CM, SLIVER_AREA_CM2 } from './params.js';
-import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, snapRing, type Cap } from './offset.js';
+import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, refusal, RING_CLEAR_CM, ringsApart, snapRing, type Cap } from './offset.js';
 import type { DroppedBody, WaterPart, WaterReach } from './types.js';
 
 /** The estuary's id beside its river's (M0-e-02's `water:<kind>:<n>` form until §6.3's mint, C-0173 (1)). */
@@ -337,14 +337,30 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
   const raw = chain.joined
     ? mouthRing(simple.pts, simple.half, startCap, covered)
     : offsetRing(simple.pts, simple.half, [startCap, endCap], { ...(startNormal !== undefined ? { start: startNormal } : {}), ...(endNormal !== undefined ? { end: endNormal } : {}) });
-  if (raw === null) return chain.joined ? 'mouth' : 'offset';
-  const snapped = snapRing(clipToArena(raw, reach));
-  const ring = snapped === null ? null : cleanRing(snapped);
+  if (raw === null) return `${chain.joined ? 'mouth' : 'offset'}: ${refusal()}`;
+  const snapped = snapRing(clipToArena(raw.ring, reach));
+  // the vertices on the arena's edge (the clip's) and on an earlier ring (a mouth's, the estuary's cut) stay
+  const fixed = (q: XY): boolean => onRing(reach, q) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
+  const ring = snapped === null ? null : cleanRing(snapped, fixed);
   if (ring === null) return 'empty';
-  if (!isSimple(ring)) return 'not simple';
-  if (!clearRing(ring)) return 'near-touch';
-  if (!clearOf(ring, covered)) return 'meets an earlier body';
-  return [ring];
+  // a vertex near the arena's edge but off it would be drawn onto the outer ring
+  if (ring.some((q) => !onRing(reach, q) && ringGap(reach, q) < RING_CLEAR_CM)) return 'near the edge';
+  const rings: Ring[] = [ring];
+  for (const h of raw.holes) {
+    if (h.some((q) => Math.abs(q.x) >= reach.x || Math.abs(q.y) >= reach.y)) return 'hole at the edge';
+    const sh = snapRing(h);
+    const hole = sh === null ? null : cleanRing(sh);
+    if (hole === null || Math.abs(area2(hole)) < 2 * SLIVER_AREA_CM2) continue;
+    if (!insideRings([ring], hole[0])) return 'hole outside';
+    rings.push(area2(hole) > 0 ? hole.reverse() : hole);
+  }
+  for (let i = 0; i < rings.length; i += 1) {
+    if (!isSimple(rings[i])) return 'not simple';
+    if (!clearRing(rings[i])) return 'near-touch';
+    for (let j = i + 1; j < rings.length; j += 1) if (!ringsApart(rings[i], rings[j])) return 'rings meet';
+    if (!clearOf(rings[i], covered)) return 'meets an earlier body';
+  }
+  return rings;
 }
 
 /** Warnings folded by code (counts summed), in first-seen order. */

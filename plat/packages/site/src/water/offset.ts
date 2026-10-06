@@ -82,12 +82,13 @@ function offsets(pts: readonly XY[], half: readonly number[], startNormal?: XY, 
 
 /**
  * An offset line with the loops of its inner bends erased — a loop the line makes where the bend is tighter than the
- * half-width lies inside the buffer — or null when a loop's inside is not covered: a sample of points inside it (a 5 × 5
- * grid over its box, those inside it) each within its chain's greatest half-width of the chain, else the loop would
- * fill a pocket of land the buffer leaves (the kernel's union takes that case).
+ * half-width lies inside the buffer when a sample of points inside it (a 5 × 5 grid over its box, those inside it) lies
+ * within 1.5 times the chain's greatest half-width of the chain — and each loop that is not so covered kept as a hole:
+ * a pocket of land a meander closes round (its own tight bends erased; a pocket inside a pocket refused, null).
  */
-function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number): XY[] | null {
+function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number, depth = 0): { line: XY[]; holes: XY[][] } | null {
   let q = line.slice();
+  const holes: XY[][] = [];
   for (let guard = 0; guard < 10_000; guard += 1) {
     let cut: { i: number; j: number; at: XY } | null = null;
     outer: for (let i = 0; i + 1 < q.length; i += 1) {
@@ -99,12 +100,30 @@ function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number): XY[] | n
         }
       }
     }
-    if (cut === null) return q;
+    if (cut === null) return { line: q, holes };
     const loop = [cut.at, ...q.slice(cut.i + 1, cut.j + 1)];
-    if (!covered(loop, chain, maxHalf)) return null;
+    if (!covered(loop, chain, maxHalf)) {
+      // a pocket of land the river closes round: a hole of the polygon, its own tight bends erased
+      if (depth > 0) {
+        why = 'a pocket inside a pocket';
+        return null;
+      }
+      const inner = eraseLoops([...loop, cut.at], chain, maxHalf, depth + 1);
+      if (inner === null) return null;
+      holes.push(inner.line.slice(0, inner.line.length - 1));
+    }
     q = [...q.slice(0, cut.i + 1), cut.at, ...q.slice(cut.j + 1)];
   }
+  why = 'too many loops';
   return null;
+}
+
+/** Why the last offset or mouth ring was refused (for the stage's report). */
+let why = '';
+
+/** The reason the last `offsetRing` or `mouthRing` returned null. */
+export function refusal(): string {
+  return why;
 }
 
 /** Is the loop's inside within 1.5 `h` of the chain, on a 5 × 5 sample (a mitre reaches past `h`; a pocket of land is farther)? */
@@ -151,23 +170,29 @@ function cap(c: XY, from: XY, h: number, outward: XY): XY[] {
 export type Cap = 'round' | 'flat';
 
 /** The ring of a chain (counter-clockwise, doubles) or null (see the header). */
-export function offsetRing(pts: readonly XY[], half: readonly number[], caps: [Cap, Cap], normals: { start?: XY; end?: XY } = {}): XY[] | null {
+export function offsetRing(pts: readonly XY[], half: readonly number[], caps: [Cap, Cap], normals: { start?: XY; end?: XY } = {}): { ring: XY[]; holes: XY[][] } | null {
   const n = pts.length;
   if (n < 2) return null;
+  why = '';
   const off = offsets(pts, half, normals.start, normals.end);
-  if (off === null) return null;
+  if (off === null) {
+    why = 'a repeated point';
+    return null;
+  }
   let maxH = 0;
   for (const h of half) if (h > maxH) maxH = h;
-  const left = eraseLoops(off.left, pts, maxH);
-  const right = eraseLoops(off.right, pts, maxH);
-  if (left === null || right === null) return null;
+  const l = eraseLoops(off.left, pts, maxH);
+  const r = eraseLoops(off.right, pts, maxH);
+  if (l === null || r === null) return null;
+  const left = l.line;
+  const right = r.line;
   const ring: XY[] = [...right];
   const endDir = unitOf(sub(pts[n - 1], pts[n - 2])) as XY;
   if (caps[1] === 'round') ring.push(...cap(pts[n - 1], right[right.length - 1], half[n - 1], endDir));
   for (let i = left.length - 1; i >= 0; i -= 1) ring.push(left[i]);
   const startDir = unitOf(sub(pts[0], pts[1])) as XY;
   if (caps[0] === 'round') ring.push(...cap(pts[0], left[0], half[0], startDir));
-  return area2(ring) < 0 ? ring.reverse() : ring;
+  return { ring: area2(ring) < 0 ? ring.reverse() : ring, holes: [...l.holes, ...r.holes] };
 }
 
 /** The ring clipped to the arena's rectangle (Sutherland–Hodgman; the window is convex). */
@@ -347,16 +372,22 @@ export function clearOf(ring: readonly XY[], earlier: readonly (readonly XY[])[]
  * the two crossings, the shorter way; the start capped. Null when a line never crosses, the two cross different rings,
  * or a line is refused (a loop over land).
  */
-export function mouthRing(pts: readonly XY[], half: readonly number[], startCap: Cap, earlier: readonly (readonly XY[])[]): XY[] | null {
+export function mouthRing(pts: readonly XY[], half: readonly number[], startCap: Cap, earlier: readonly (readonly XY[])[]): { ring: XY[]; holes: XY[][] } | null {
   const n = pts.length;
   if (n < 2) return null;
+  why = '';
   const off = offsets(pts, half);
-  if (off === null) return null;
+  if (off === null) {
+    why = 'a repeated point';
+    return null;
+  }
   let maxH = 0;
   for (const h of half) if (h > maxH) maxH = h;
-  const left = eraseLoops(off.left, pts, maxH);
-  const right = eraseLoops(off.right, pts, maxH);
-  if (left === null || right === null) return null;
+  const l = eraseLoops(off.left, pts, maxH);
+  const rr = eraseLoops(off.right, pts, maxH);
+  if (l === null || rr === null) return null;
+  const left = l.line;
+  const right = rr.line;
   const first = (line: XY[]): { i: number; ring: number; seg: number; at: XY } | null => {
     for (let i = 0; i + 1 < line.length; i += 1) {
       let best: { ring: number; seg: number; t: number; at: XY } | null = null;
@@ -374,7 +405,10 @@ export function mouthRing(pts: readonly XY[], half: readonly number[], startCap:
   };
   const hl = first(left);
   const hr = first(right);
-  if (hl === null || hr === null || hl.ring !== hr.ring) return null;
+  if (hl === null || hr === null || hl.ring !== hr.ring) {
+    why = 'no mouth';
+    return null;
+  }
   const river = earlier[hl.ring];
   const m = river.length;
   // the river's vertices from HR to HL: forward (hr.seg + 1 … hl.seg) or backward (hr.seg … hl.seg + 1), the shorter
@@ -395,7 +429,7 @@ export function mouthRing(pts: readonly XY[], half: readonly number[], startCap:
   for (let i = hl.i; i >= 0; i -= 1) ring.push(left[i]);
   const startDir = unitOf(sub(pts[0], pts[1])) as XY;
   if (startCap === 'round') ring.push(...cap(pts[0], left[0], half[0], startDir));
-  return area2(ring) < 0 ? ring.reverse() : ring;
+  return { ring: area2(ring) < 0 ? ring.reverse() : ring, holes: [...l.holes, ...rr.holes] };
 }
 
 /** The ring's own tolerance (cm): a vertex within it of the chord around it is dropped (Douglas–Peucker on the ring). */
@@ -409,7 +443,7 @@ export const RING_CLEAR_CM = 60;
  * from it), which drops the tiny zig-zags the mitres and the loop cuts leave, then every vertex closer than
  * RING_CLEAR_CM ÷ 2 to the one before it dropped. Null below three vertices.
  */
-export function cleanRing(ring: readonly LatticePoint[]): LatticePoint[] | null {
+export function cleanRing(ring: readonly LatticePoint[], fixed: (q: XY) => boolean = () => false): LatticePoint[] | null {
   const n = ring.length;
   if (n < 4) return n === 3 ? ring.slice() : null;
   let far = 0;
@@ -425,6 +459,7 @@ export function cleanRing(ring: readonly LatticePoint[]): LatticePoint[] | null 
   const keep = new Uint8Array(n);
   keep[0] = 1;
   keep[far] = 1;
+  for (let i = 0; i < n; i += 1) if (fixed(ring[i])) keep[i] = 1;
   const tol2 = RING_TOL_CM * RING_TOL_CM;
   const stack: [number, number][] = [
     [0, far],
@@ -444,7 +479,16 @@ export function cleanRing(ring: readonly LatticePoint[]): LatticePoint[] | null 
         worst = i;
       }
     }
-    if (worst < 0) continue;
+    if (worst < 0) {
+      // the fixed vertices between a and b split the stretch
+      for (let i = a + 1; i < b; i += 1) {
+        if (keep[i] === 1) {
+          stack.push([i, b], [a, i]);
+          break;
+        }
+      }
+      continue;
+    }
     keep[worst] = 1;
     stack.push([worst, b], [a, worst]);
   }
@@ -453,14 +497,14 @@ export function cleanRing(ring: readonly LatticePoint[]): LatticePoint[] | null 
   for (let i = 0; i < n; i += 1) {
     if (keep[i] === 0) continue;
     const last = out[out.length - 1];
-    if (last !== undefined) {
+    if (last !== undefined && !fixed(ring[i])) {
       const dx = ring[i].x - last.x;
       const dy = ring[i].y - last.y;
       if (dx * dx + dy * dy < min2) continue;
     }
     out.push(ring[i]);
   }
-  while (out.length > 3) {
+  while (out.length > 3 && !fixed(out[out.length - 1])) {
     const dx = out[0].x - out[out.length - 1].x;
     const dy = out[0].y - out[out.length - 1].y;
     if (dx * dx + dy * dy >= min2) break;
@@ -477,9 +521,30 @@ export function clearRing(ring: readonly XY[]): boolean {
   for (let v = 0; v < n; v += 1) {
     const q = ring[v];
     for (let s = 0; s < n; s += 1) {
-      if (s === v || (s + 1) % n === v) continue;
+      // the vertex's one-ring: the segments incident to it or to its two neighbours (§3.10's clearance row)
+      if (s === v || (s + 1) % n === v || s === (v + 1) % n || (s + 2) % n === v) continue;
       if (b[4 * s] - RING_CLEAR_CM > q.x || b[4 * s + 2] + RING_CLEAR_CM < q.x || b[4 * s + 1] - RING_CLEAR_CM > q.y || b[4 * s + 3] + RING_CLEAR_CM < q.y) continue;
       if (segDist2(q, ring[s], ring[(s + 1) % n]) < c2) return false;
+    }
+  }
+  return true;
+}
+
+/** Do two rings keep RING_CLEAR_CM between every vertex of one and every segment of the other (and never meet)? */
+export function ringsApart(a: readonly XY[], b: readonly XY[]): boolean {
+  if (meetsAny(a, [b])) return false;
+  const c2 = RING_CLEAR_CM * RING_CLEAR_CM;
+  for (const [p, q] of [
+    [a, b],
+    [b, a],
+  ] as const) {
+    const bq = boxes(q);
+    const m = q.length;
+    for (const v of p) {
+      for (let s = 0; s < m; s += 1) {
+        if (bq[4 * s] - RING_CLEAR_CM > v.x || bq[4 * s + 2] + RING_CLEAR_CM < v.x || bq[4 * s + 1] - RING_CLEAR_CM > v.y || bq[4 * s + 3] + RING_CLEAR_CM < v.y) continue;
+        if (segDist2(v, q[s], q[(s + 1) % m]) < c2) return false;
+      }
     }
   }
   return true;

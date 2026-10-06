@@ -2,10 +2,10 @@
 // §13.1 states for it (C-0110)" — each M0 case of M0-k-02's set on its first draws (the sweeps' first draws; the bar's
 // run is the bench's `fuzz-bar`, every case at the tier's draws and every sweep whole), judged by the runner's judge:
 // the scenario through the façade, every step before the last ok, the whole-arena sweep after every writer step, the
-// last step's outcome and every property the case holds. The known findings (C-0225 (14)) fail as known — owned by
+// last step's outcome and every property the case holds. The known findings (C-0227 (14)) fail as known — owned by
 // another item, listed, never green. Negative controls show the judge can fail: a wrong expected outcome, a wrong code,
 // a property on the wrong geometry. And the runner's own fixtures for the two §3.3 / §3.11 clauses the case data
-// cannot reach (C-0225 (10), KI-2): a class floor's angle refusal under reject and repair, and the halving cap's no-op.
+// cannot reach (C-0227 (10), KI-2): a class floor's angle refusal under reject and repair, and the halving cap's no-op.
 import { beforeAll, describe, expect, it } from 'vitest';
 import {
   casesAt,
@@ -102,8 +102,8 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
   it('an ok case whose outcome is a downgrade fails where the skeleton path is due (skel/notched-rectangle holds skeleton-valid)', () => {
     const c = constructiveCase('skel/notched-rectangle') as ConstructiveCase;
     const g = input(c, 0);
-    // A 2° sliver of a notch: the contract refuses it, a downgrade where the case states the skeleton path.
-    const sharp = { ...g, rings: { outer: [lp(0, 0), lp(2000, 0), lp(2000, 70), lp(0, 1)] } };
+    // A 2° corner: the contract refuses it, a downgrade where the case states the skeleton path.
+    const sharp = { ...g, rings: { outer: [lp(0, 0), lp(2000, 0), lp(2000, 70)] } };
     const v = constructiveKernelJudge(c, sharp);
     expect(v.ok).toBe(false);
   });
@@ -152,8 +152,8 @@ describe("the runner's own fixtures for clauses the case data cannot reach", () 
   });
 
   it('§3.11 the caps: a move every halving of which would shorten an edge below minEdge — 8 halvings, then a reported no-op', () => {
-    // The moved vertex 30 cm from its neighbour (beyond attractCm, so it stands), dragged 600 cm toward it: even 600 / 2⁸
-    // ≈ 2.3 cm takes the edge below minEdge, so every strength fails validation.
+    // The moved vertex 30 cm from its neighbour (beyond attractCm, so it stands), dragged 2 000 cm toward it: even
+    // 2 000 / 2⁸ ≈ 7.8 cm takes the edge below minEdge, so every strength fails validation.
     const chain = [lp(0, 0), lp(30, 0), lp(30, 900)];
     const p = runnerFramedAround(chain);
     if (p === null) throw new Error('no frame');
@@ -162,7 +162,7 @@ describe("the runner's own fixtures for clauses the case data cannot reach", () 
     const v = p.version;
     let report: { applied: boolean; halvings: number; moves: unknown[] } | null = null;
     const r = k.tx(runnerSpec(1), (o) => {
-      const w = k.geom.warp(o, { displacement: () => ({ x: -600, y: 0 }) }, 1, [lp(20, -10), lp(40, -10), lp(40, 10), lp(20, 10)]);
+      const w = k.geom.warp(o, { displacement: () => ({ x: -2000, y: 0 }) }, 1, [lp(20, -10), lp(40, -10), lp(40, 10), lp(20, 10)]);
       if (w.ok) report = w.value;
       return w;
     });

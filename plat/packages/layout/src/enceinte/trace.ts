@@ -7,9 +7,9 @@
 //       interior angle < 100°; a removal that would touch the trace itself, cross the water, enter a reservation or the
 //       core, or move a pin is refused), then `insertChain` on L1 as a `mandatory` chain carrying `wall` on the
 //       enceinte, each main gate's vertex carrying ('gate', gate) and each water gate's two bank vertices
-//       ('gate_end', gate, 0 | 1), the wall's edge between them taking ('wall_gate', gate) (C-0224 (1)).
+//       ('gate_end', gate, 0 | 1), the wall's edge between them taking ('wall_gate', gate) (C-0226 (1)).
 // Every value it reads is a walls.json cell (`trace/*`, the era row). The trace is laid `standing` (no condition is
-// written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0224 (2)).
+// written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0226 (2)).
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
@@ -175,7 +175,7 @@ export function traceBase(
   }
 
   // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept, and held within the
-  // band (C-0224 (4)); its result unused only when it still shows a defect.
+  // band (C-0226 (4)); its result unused only when it still shows a defect.
   const before = line.length;
   const simp = simplifyInBand(line, ring, band, cells, barred, pins);
   let skipped = true;
@@ -259,7 +259,7 @@ function segmentDeparture(a: XY, b: XY, ring: readonly XY[]): number {
  * The kernel's topology-preserving simplify (§3.4) at walls.json's minimum segment and angle, with the barred rings as
  * its obstacles and the pins kept, held within the band of the boundary `ring`: where a side of its result departs
  * from the ring by more than the band, the removed vertex farthest from that side is pinned and the simplify runs again
- * (C-0224 (4)). Null when the kernel refuses the line.
+ * (C-0226 (4)). Null when the kernel refuses the line.
  */
 export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[], band: number, cells: WallCells, barred: readonly Polygon[], pins: ReadonlySet<string>): LatticePoint[] | null {
   const held = new Set(pins);
@@ -295,7 +295,7 @@ export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[
   return null;
 }
 
-/** The owner a side's strip faces take (§4.8 "typed `wall_strip`"; C-0224 (9)): `wall_strip:<enceinte token>-<side>`. */
+/** The owner a side's strip faces take (§4.8 "typed `wall_strip`"; C-0226 (9)): `wall_strip:<enceinte token>-<side>`. */
 export function stripOwner(enceinte: Id, side: 'inner' | 'outer'): Id {
   const at = enceinte.indexOf(':');
   return `wall_strip:${at < 0 ? enceinte : enceinte.slice(at + 1)}-${side}`;

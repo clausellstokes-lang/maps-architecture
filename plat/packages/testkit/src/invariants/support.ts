@@ -64,7 +64,7 @@ export function boxOf(points: readonly Pt[]): [number, number, number, number] |
 export const FRAME_ENTITY = 'frame:';
 
 /**
- * Lays the runner's frame on an arena (C-0225 (3)): the ring at L0 (`margin`, S1's outer ring), at L1 (`border`, S3's map
+ * Lays the runner's frame on an arena (C-0227 (3)): the ring at L0 (`margin`, S1's outer ring), at L1 (`border`, S3's map
  * border, §4.1) and at L2 (`kerb`, the level S9's blocks give every district before S10 writes L3), each its own
  * transaction — so every level a case or an input writes has a record above it, as in the pipeline, and no batch
  * materialises a coarser record it would later have to remove.

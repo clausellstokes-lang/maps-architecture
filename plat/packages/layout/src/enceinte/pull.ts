@@ -1,4 +1,4 @@
-// Pull and pin, smooth (§4.4 S5a *Trace* (2), (3); M0-c-02; readings C-0224 (3), (4)).
+// Pull and pin, smooth (§4.4 S5a *Trace* (2), (3); M0-c-02; readings C-0226 (3), (4)).
 //
 // The pull: the boundary is pulled to defensible ground within the search band (walls.json `trace/searchBandM`, 40 m)
 // by a cost-surface path around the town — each vertex may move along its outward normal by whole steps, an eighth of
@@ -6,14 +6,14 @@
 // never move. The path through the candidates of least summed cost wins — its offset changing between neighbours by at
 // most their distance apart, so it leaves the boundary at 45° at the most and approaches a pin by a ramp, never a
 // spike — ties broken by the least summed change of offset and then the least summed offset, so on a cost surface that
-// does not vary along the normals (a flat site) the pull is the identity but for the pins (C-0224 (3)). A candidate
+// does not vary along the normals (a flat site) the pull is the identity but for the pins (C-0226 (3)). A candidate
 // inside the water or a reservation is barred. The base's cost surface is the terrain's — lower ground costs more,
 // §4.4's "penalty for leaving high ground".
 //
 // The smoothing: `smoothPasses` (walls.json `trace/smoothPasses`, 3) passes of the kernel's pinned-vertex Laplacian
 // (λ ½), the pins never moving; a vertex a pass would carry out of the band, into the water or into a reservation keeps
 // its place for that pass (§4.4 (3): "no vertex moved where its line … would take a shape" the laws do not admit;
-// C-0224 (4)); the band less the attraction distance, as the pull's. The result is rounded to the lattice.
+// C-0226 (4)); the band less the attraction distance, as the pull's. The result is rounded to the lattice.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
@@ -23,7 +23,7 @@ import type { CostField, XY } from './types.js';
 /** The pull's candidate offsets on each side: the band in this many steps (an eighth of 40 m: 5 m). */
 export const PULL_STEPS = 8;
 
-/** The base's cost surface: the terrain's height read at the nearest raster cell, in metres, negated (C-0224 (3)). */
+/** The base's cost surface: the terrain's height read at the nearest raster cell, in metres, negated (C-0226 (3)). */
 export function terrainCost(terrain: Pick<Terrain, 'cellCm' | 'cols' | 'rows' | 'originX' | 'originY' | 'heightCm'>): CostField {
   return (p: XY): number => {
     let col = Math.floor(quot(p.x - terrain.originX, terrain.cellCm, 'length', 'terrain column'));
@@ -80,7 +80,7 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
   const n = ring.length;
   const K = 2 * PULL_STEPS + 1;
   // The candidates reach the band less the attraction distance, so the line stays within the band after the lattice's
-  // rounding and the insertion's attraction (§3.6) move a vertex (C-0224 (3)).
+  // rounding and the insertion's attraction (§3.6) move a vertex (C-0226 (3)).
   const step = quot(Math.max(0, bandCm - TOUCH_CM), PULL_STEPS, 'count', 'pull step');
   const normals = outwardNormals(ring);
   // Node costs: the cost of standing at the candidate less the cost at the boundary vertex itself (+∞ barred).
