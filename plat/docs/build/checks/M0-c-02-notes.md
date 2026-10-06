@@ -40,3 +40,40 @@ N-45). The blockers are in `M0-c-02.md`. The probe and mutant names refer to tha
 7. **N-7 `departure()` samples every metre.** At 50 cm the measure can read slightly higher. In PC, seed 12 inward
    measured 4 000.07 cm against a reported 3 999.75 cm. B-1's check should use a small stated tolerance or an exact
    measure.
+
+## Closing check (`check/M0-c-02-close-r1`, 2026-10-06)
+
+The first check's B-1, B-2 and B-3 are fixed (`M0-c-02.md`, closing round). These notes come from the closing
+round's mutants and probes. None of them fails the item (J180, N-45).
+
+8. **N-8 The in-batch band re-proof has no test that can fail on it (mutant N04; M4, or earlier with M0-e-06).**
+   * Observation: removing `traceBase`'s check after `insertChain` survives the near set and the related set. That
+     check proves every side again on the placed vertices against the boundary as given, at the band, and rolls the
+     batch back `E_INVARIANT` `band` (C-0232 (2)). The pre-commit proof holds sides to the band less 1 cm, while the
+     insertion's attraction can move a vertex 26 cm. The honest probes Q1 and Q2 put sides at up to 3 993.8 cm, about
+     6 cm inside the band. A trace vertex attracted outward onto a shore vertex within 26 cm there could carry a side
+     over 40 m. Removing the guard would let that commit. The guard is present and correct as read, so it fails safe.
+     **CONFIRMED** (survival); reachability **PLAUSIBLE** (reasoned, not built).
+   * **Hardening:** a test that plants an L0 or L1 vertex (through `commitSite`'s `prepare` hook) within 26 cm outside
+     a trace vertex that the outward field takes to the band's edge. It asserts the batch refused `band` with nothing
+     written. M0-e-06's real water near pulled traces is where this first becomes likely.
+9. **N-9 Internal margins and reference rings of the band are not pinned by tests (mutants N06, N10, N12, N13, N17; M4).**
+   * Observation: each of these survives. N06 measures the smoothing against the water-spliced ring. N10 drops
+     `bandLimit`'s 1 cm. N12 loosens the smoothing's per-vertex guard from the band − 26 cm to the band + 10 m. N13
+     measures `report.departureCm` against the spliced ring. N17 skips the union rung's simplify before its verdict.
+     The pre-commit proof (N01, N05 killed) and the in-batch check (N-8) still hold the committed trace within 40 m of
+     the boundary as given. So each changes only which traces refuse, a report figure, or the margin N-8 protects,
+     never the bar. A related edge: the smoothing proves its sides on doubles at the band − 1 cm and rounds to the
+     lattice afterwards, so a side can end up to 0.71 cm past the limit. The pre-commit proof then refuses it (fail
+     safe, not seen in 141 + 72 commits). **CONFIRMED** (survival); the effects **PLAUSIBLE**.
+   * **Hardening:** C-0232 (3)'s "measured from the boundary as given" for the smoothing and the report could take a
+     chorded-crossing fixture under an outward field. The proof's 1 cm margin and the rounding order could be settled
+     together, for example by proving the rounded points.
+10. **N-10 The chord-in-water test is sampled (mutant N14; M4).**
+    * Observation: `crossWater` takes the chord when nine points at t = 0.1 … 0.9 lie in the water. With only t = 0.1,
+      the mutant survives, because the bend fixture's chord leaves the water before t = 0.1. The probe Q5 (the bend
+      turned 180°) is right on the original. Two cases remain open: a chord leaving the water only between samples
+      (a narrow spit), and a chord over an island, since `waterRings` reads only each water face's outer ring.
+      **CONFIRMED** (survival); the spit and island cases **PLAUSIBLE**.
+    * **Hardening:** an exact test (the chord crosses no edge of any of the water face's rings, holes included). Add
+      fixtures where the chord leaves the water late and where it crosses an island.
