@@ -2,11 +2,11 @@
   "item": "M0-k-04",
   "bar": "B-FUZZ (§13.1; §16 M0 (a))",
   "runsPerPrimitive": 10000,
-  "pass": false,
+  "pass": true,
   "totals": {
     "crashes": 0,
     "hangs": 0,
-    "invalid": 1,
+    "invalid": 0,
     "warnings": {
       "W_ACUTE_CORNER": 16515,
       "W_ATTRACTED": 1203659,
@@ -652,7 +652,7 @@
       "runs": 10000,
       "crashes": 0,
       "hangs": 0,
-      "invalid": 1,
+      "invalid": 0,
       "ok": 7186,
       "skipped": 0,
       "refused": {
