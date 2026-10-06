@@ -6,7 +6,7 @@ import { createRng, entityKey, CONCERNS, STAGES, type LineageHash, type Stream }
 import { lineageHash } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { boundaryLoops, faceGraph, grow, hullCompactness, textLineage, type FaceGraph, type GrowOptions, type GrowSeed, type SeedKind, type TurnStream } from '../../src/index.js';
-import { GROUND, gridArena, type GridArena } from './support.js';
+import { GROUND, gridArena, rectArena, type GridArena } from './support.js';
 
 const S6 = STAGES.S6;
 
@@ -110,6 +110,17 @@ describe('the edge test (§4.5): no arterial of class ≥ primary, no wall, no w
       // Beyond the barrier the leftover rule seeds its own district.
       expect(r.leftovers.length).toBe(cls === 'secondary' ? 0 : 1);
     }
+  });
+
+  it('every edge a face shares with the patch must pass: one secondary side does not admit a face across a primary one', () => {
+    // 2 × 2: the vertical line primary below, secondary above; the horizontal line secondary. The patch {(0,0), (0,1),
+    // (1,1)} meets (1,0) across the primary segment (from (0,0)) and a secondary one (from (1,1)): refused.
+    const a = gridArena(2, 2, 100, (dir, _i, sg) => (dir === 'x' && sg === 0 ? 'primary' : 'secondary'));
+    const g = graphOf(a);
+    const c00 = cell(a, g, 0, 0);
+    const r = grow([seed(0, c00)], { graph: g, claimable: claimableOf(g) }, realStream(), { ...OPEN, compactnessMin: 0 });
+    expect(r.grown[0].faces.slice().sort((x, y) => x - y)).toEqual([c00, cell(a, g, 0, 1), cell(a, g, 1, 1)].sort((x, y) => x - y));
+    expect(r.owner[cell(a, g, 1, 0)]).not.toBe(0);
   });
 
   it('a reservation boundary stops growth (the reserved cell is no claimable face, its ring no shared edge)', () => {
@@ -227,6 +238,21 @@ describe('the leftover rule and the merge rule (§4.5)', () => {
     expect(m.sharedCm).toBe(10_000);
     expect(r.grown[m.into].mergedInto).toBe(-1);
     for (const f of r.grown[m.from].faces) expect(r.owner[f]).toBe(m.into);
+  });
+
+  it('the merge partner is the neighbour sharing the longest edge (300 m against 100 m)', () => {
+    // Columns 1 000 m and 300 m wide, rows 100 m and 400 m high; the cell right of the wide one is reserved, so the
+    // three claimable cells are A (0,0) 10 ha, S (1,0) 3 ha and B (1,1) 12 ha, each a seed. S, below a 5 ha floor,
+    // shares 100 m with A and 300 m with B: it merges into B (A too is below no floor: it stays).
+    const a = rectArena([0, 1000, 1300], [0, 100, 500], () => 'secondary', [{ i: 0, j: 1, owner: 'plaza:0' }]);
+    const g = graphOf(a);
+    const A = cell(a, g, 0, 0);
+    const S = cell(a, g, 1, 0);
+    const B = cell(a, g, 1, 1);
+    const seeds = [seed(0, A), seed(1, S), seed(2, B)];
+    const r = grow(seeds, { graph: g, claimable: claimableOf(g) }, realStream(), { ...OPEN, bandCm2: [5 * CELL, 1e15] });
+    expect(r.merges).toEqual([{ from: 1, into: 2, sharedCm: 30_000, areaCm2: 30_000 * 10_000 }]);
+    expect(r.owner[S]).toBe(2);
   });
 
   it('a seed of rate < 1 keeps its seed face: its district is never merged away below the floor', () => {

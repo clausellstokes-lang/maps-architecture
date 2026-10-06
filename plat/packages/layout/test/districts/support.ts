@@ -399,7 +399,7 @@ export function cityRun(seed: number, gridM = 150, ringM = 180, widths: Map<Id, 
 
 // ---- small grids for the grower's unit tests ------------------------------------------------------------------------------
 
-/** A grid arena: n × m square cells of side `cellM`, the outer ring the map border, the inner lines ways by `lineClass`. */
+/** A grid arena: rectangular cells, the outer ring the map border, the inner lines ways by `lineClass`. */
 export interface GridArena {
   readonly plat: Plat;
   readonly k: Kernel;
@@ -409,33 +409,52 @@ export interface GridArena {
 }
 
 /**
- * The grid (lines x = i · s for i = 1 … n − 1 and y = j · s for j = 1 … m − 1, each one way of `lineClass(dir, index)`
- * — dir 'x' for the vertical line at x = i · s, 'y' for the horizontal one), inside the border ring [0, n·s] × [0, m·s]
- * and the arena's outer ring; the cells listed in `owned` given to their owner (a reservation's barrier face).
+ * The grid of n × m square cells of side `cellM` (see rectArena): `lineClass(dir, index, segment)` classes each line's
+ * segment between two crossing lines — dir 'x' for the vertical line at x = i · s, 'y' for the horizontal one.
  */
-export function gridArena(n: number, m: number, cellM: number, lineClass: (dir: 'x' | 'y', index: number) => Way['class'], owned: readonly { i: number; j: number; owner: Id }[] = []): GridArena {
-  const s = cellM * 100;
-  const w = n * s;
-  const h = m * s;
+export function gridArena(n: number, m: number, cellM: number, lineClass: (dir: 'x' | 'y', index: number, segment: number) => Way['class'], owned: readonly { i: number; j: number; owner: Id }[] = []): GridArena {
+  return rectArena(
+    Array.from({ length: n + 1 }, (_, i) => i * cellM),
+    Array.from({ length: m + 1 }, (_, j) => j * cellM),
+    lineClass,
+    owned,
+  );
+}
+
+/**
+ * A rectangular grid with lines at `xsM` and `ysM` (metres, ascending, the outer two the border): every inner line laid
+ * segment by segment between its crossing lines, each segment one way of `lineClass(dir, index, segment)`, inside the
+ * border ring and the arena's outer ring; the cells listed in `owned` given to their owner (a reservation's barrier face).
+ */
+export function rectArena(xsM: readonly number[], ysM: readonly number[], lineClass: (dir: 'x' | 'y', index: number, segment: number) => Way['class'], owned: readonly { i: number; j: number; owner: Id }[] = []): GridArena {
+  const xs = xsM.map((v) => v * 100);
+  const ys = ysM.map((v) => v * 100);
+  const w = xs[xs.length - 1];
+  const h = ys[ys.length - 1];
+  const pad = Math.max(w, h);
   const side = Math.max(w, h) * 3;
   const frame: Frame = { widthCm: side as Cm, heightCm: side as Cm, aspect: 1, marginShare: 0.3 };
   const plat = createPlat(GROUND, frame);
   attachIndex(plat, { gridCellCm: 5000 });
   const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
-  lay(k, 0, STAGES.S1, [P(-s, -s), P(w + s, -s), P(w + s, h + s), P(-s, h + s)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
+  lay(k, 0, STAGES.S1, [P(-pad, -pad), P(w + pad, -pad), P(w + pad, h + pad), P(-pad, h + pad)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
   lay(k, 1, STAGES.S3, [P(0, 0), P(w, 0), P(w, h), P(0, h)], [{ role: 'border', entity: 'terrain:t' }], { closed: true });
   const ways: Way[] = [];
-  for (let i = 1; i < n; i += 1) {
-    const id = `way:x${String(i)}`;
-    lay(k, 1, STAGES.S4, [P(i * s, 0), P(i * s, h)], [{ role: 'way', entity: id }]);
-    ways.push(wayRecord(id, lineClass('x', i)));
+  for (let i = 1; i < xs.length - 1; i += 1) {
+    for (let sg = 0; sg + 1 < ys.length; sg += 1) {
+      const id = `way:x${String(i)}.${String(sg)}`;
+      lay(k, 1, STAGES.S4, [P(xs[i], ys[sg]), P(xs[i], ys[sg + 1])], [{ role: 'way', entity: id }]);
+      ways.push(wayRecord(id, lineClass('x', i, sg)));
+    }
   }
-  for (let j = 1; j < m; j += 1) {
-    const id = `way:y${String(j)}`;
-    lay(k, 1, STAGES.S4, [P(0, j * s), P(w, j * s)], [{ role: 'way', entity: id }]);
-    ways.push(wayRecord(id, lineClass('y', j)));
+  for (let j = 1; j < ys.length - 1; j += 1) {
+    for (let sg = 0; sg + 1 < xs.length; sg += 1) {
+      const id = `way:y${String(j)}.${String(sg)}`;
+      lay(k, 1, STAGES.S4, [P(xs[sg], ys[j]), P(xs[sg + 1], ys[j])], [{ role: 'way', entity: id }]);
+      ways.push(wayRecord(id, lineClass('y', j, sg)));
+    }
   }
-  const centre = (i: number, j: number): LatticePoint => P(i * s + s / 2, j * s + s / 2);
+  const centre = (i: number, j: number): LatticePoint => P((xs[i] + xs[i + 1]) / 2, (ys[j] + ys[j + 1]) / 2);
   for (const o of owned) {
     const r = k.tx(spec(1, STAGES.S3), (ov) => {
       const loc = k.geom.pointLocate(GROUND, 1, centre(o.i, o.j));
@@ -445,55 +464,6 @@ export function gridArena(n: number, m: number, cellM: number, lineClass: (dir: 
     if (!r.ok) throw new Error(`support: a cell's owner was refused: ${r.code}`);
   }
   return { plat, k, ways, centre };
-}
-
-/** A TableView whose table `id` has one cell's value replaced (the stages read their cells; nothing is inlined). */
-export function tableWith(id: string, row: string, cell: string, value: unknown, base: TableView = tableView()): TableView {
-  const t = base.table(id);
-  const rows: Record<string, Record<string, unknown>> = {};
-  for (const [rk, cells] of t.rows) {
-    const r: Record<string, unknown> = {};
-    for (const [ck, c] of cells) r[ck] = { ...c, ...(rk === row && ck === cell ? { value } : {}) };
-    rows[rk] = r;
-  }
-  const changed = parseTable(id, { table: id, version: t.version, section: t.section, rows });
-  return {
-    hash: base.hash,
-    version: (x) => base.version(x),
-    get: (x, key) => (x === id ? changed.rows.get(key) : base.get(x, key)),
-    rows: (x) => (x === id ? changed.rows : base.rows(x)),
-    slice: (x, kind, key) => base.slice(x, kind, key),
-    table: (x) => (x === id ? changed : base.table(x)),
-  };
-}
-
-/** Twice the signed area of a ring (counter-clockwise positive). */
-export function area2Of(ring: readonly { x: number; y: number }[]): number {
-  let s = 0;
-  for (let i = 0; i < ring.length; i += 1) {
-    const a = ring[i];
-    const b = ring[(i + 1) % ring.length];
-    s += a.x * b.y - b.x * a.y;
-  }
-  return s;
-}
-
-/** Is q inside the ring (even-odd, q off the ring)? */
-export function insidePoly(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): boolean {
-  let inside = false;
-  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
-    const a = ring[i];
-    const b = ring[j];
-    if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
-  }
-  return inside;
-}
-
-/** The distance of q to a closed ring's edges. */
-export function ringDist(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): number {
-  let best = Infinity;
-  for (let i = 0; i < ring.length; i += 1) best = Math.min(best, segPointDist(q, ring[i], ring[(i + 1) % ring.length]));
-  return best;
 }
 
 // ---- readers of the committed arena (its own tables, never the code under test) ----------------------------------------
@@ -570,4 +540,53 @@ export function hullArea(points: readonly { x: number; y: number }[]): number {
   }
   const hull = [...lower.slice(0, -1), ...upper.slice(0, -1)];
   return Math.abs(area2Of(hull)) / 2;
+}
+
+/** A TableView whose table `id` has one cell's value replaced (the stages read their cells; nothing is inlined). */
+export function tableWith(id: string, row: string, cell: string, value: unknown, base: TableView = tableView()): TableView {
+  const t = base.table(id);
+  const rows: Record<string, Record<string, unknown>> = {};
+  for (const [rk, cells] of t.rows) {
+    const r: Record<string, unknown> = {};
+    for (const [ck, c] of cells) r[ck] = { ...c, ...(rk === row && ck === cell ? { value } : {}) };
+    rows[rk] = r;
+  }
+  const changed = parseTable(id, { table: id, version: t.version, section: t.section, rows });
+  return {
+    hash: base.hash,
+    version: (x) => base.version(x),
+    get: (x, key) => (x === id ? changed.rows.get(key) : base.get(x, key)),
+    rows: (x) => (x === id ? changed.rows : base.rows(x)),
+    slice: (x, kind, key) => base.slice(x, kind, key),
+    table: (x) => (x === id ? changed : base.table(x)),
+  };
+}
+
+/** Twice the signed area of a ring (counter-clockwise positive). */
+export function area2Of(ring: readonly { x: number; y: number }[]): number {
+  let s = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    s += a.x * b.y - b.x * a.y;
+  }
+  return s;
+}
+
+/** Is q inside the ring (even-odd, q off the ring)? */
+export function insidePoly(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): boolean {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
+    const a = ring[i];
+    const b = ring[j];
+    if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
+  }
+  return inside;
+}
+
+/** The distance of q to a closed ring's edges. */
+export function ringDist(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): number {
+  let best = Infinity;
+  for (let i = 0; i < ring.length; i += 1) best = Math.min(best, segPointDist(q, ring[i], ring[(i + 1) % ring.length]));
+  return best;
 }

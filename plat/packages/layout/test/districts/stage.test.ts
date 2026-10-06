@@ -4,7 +4,7 @@
 // patch test on every patch the grower held, the merge rule's records, the minimal seams and their `district_bound`
 // rows (laid over the edges already there: no geometry added), typing on the stage, the quarter tree, the District
 // records, F-WORK's work_cut, a single coarse face, determinism, and the Stage object itself.
-import { insertChain, STAGES, type KernelTx, type LatticePoint } from '@plat/kernel';
+import { CONCERNS, createRng, entityKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint } from '@plat/kernel';
 import { addressOf, lineageHash, TOWN_ROOT, type District } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { boundaryLoops, faceGraph, runS6, s6Stage, settlementPerimeter, type S6Output } from '../../src/index.js';
@@ -122,6 +122,32 @@ describe('the edge test and the patch test (§4.5)', () => {
         checked += 1;
       }
       expect(checked).toBeGreaterThan(50);
+    }
+  });
+
+  it('N_d seeds in all; each turn’s skip is district.seed keyed by (the grower’s seed lineage, its turn number)', { timeout: 120_000 }, () => {
+    for (const seed of SEEDS) {
+      const t = run(seed);
+      expect(t.out.report.seeds).toBe(t.out.report.nd);
+      const rng = createRng();
+      const bySeed = new Map(t.out.grow.grown.map((d) => [d.seed.order, d.seed]));
+      let skips = 0;
+      let takes = 0;
+      for (const l of t.out.grow.log) {
+        if (l.what === 'done') continue;
+        const sd = bySeed.get(l.seed);
+        if (sd === undefined) throw new Error('no seed');
+        const key = entityKey(seedKey(seed), lineageHash({ arena: GROUND, unit: sd.lineage, stage: STAGES.S6, epoch: 0, index: l.turn, reroll: 0 }), GROUND);
+        const skip = !rng.stream(key, STAGES.S6, CONCERNS['district.seed'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 }).bool(sd.rate);
+        expect(skip).toBe(l.what === 'skip');
+        if (sd.rate < 1) {
+          if (skip) skips += 1;
+          else takes += 1;
+        }
+      }
+      // the slow (gate) growers both skip and take: the check has teeth on both sides
+      expect(skips).toBeGreaterThan(10);
+      expect(takes).toBeGreaterThan(2);
     }
   });
 
@@ -248,6 +274,16 @@ describe('F-WORK (C-0085), the edges of the input, determinism, the Stage', () =
       if (o === undefined || o === 'plaza:0') continue;
       if (inside) expect(o !== null && ids.has(o)).toBe(true);
       else expect(o).toBe(t.out.hinterland);
+    }
+    // the work-cut districts pass the edge test too: none holds both sides of an arterial ≥ primary or the wall
+    const classOf = new Map(t.ways.map((w) => [w.id, w.class]));
+    for (const e of edgesL1(t.plat)) {
+      const l = ownerOfL1(t.plat, e.left);
+      if (l === null || l !== ownerOfL1(t.plat, e.right) || !ids.has(l)) continue;
+      for (const r of e.rows) {
+        expect(r.role === 'way' && ARTERIAL.has(classOf.get(r.entity) as string)).toBe(false);
+        expect(['wall', 'reserved', 'border']).not.toContain(r.role);
+      }
     }
     expect(run(SEEDS[0]).out.report.workCut).toBeNull();
   });
