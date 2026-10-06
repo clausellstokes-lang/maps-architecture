@@ -149,6 +149,12 @@ export interface ChainCtx {
    */
   anchor?: { readonly a: LatticePoint; readonly b: LatticePoint; readonly reach: number } | null;
   /**
+   * insertChain's second pass (S4, C-0213): set only for a chain the first pass — the S1 – S3 router with every route
+   * judged by §3.10 whole and N-43 B's fidelity bound — refused E_INVARIANT; it adds the anchored routes, the split
+   * route, and an optional chain's precision refusal for a route beyond the bound.
+   */
+  extended?: boolean;
+  /**
    * The inverse of every arena write the chain made, in order: a refused chain runs them backwards so the op writes
    * nothing (C-0177 (8)).
    */

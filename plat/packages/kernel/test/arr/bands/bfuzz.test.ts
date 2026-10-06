@@ -121,6 +121,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       { numRuns: RUNS },
     );
     console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed, ${String(pendingS3)} with a kerb the overlay's insertion refused (N-43, PENDING-S3)`);
+    expect(pendingS3).toBeLessThanOrEqual(Math.ceil(RUNS / 100));
     expect(committed).toBeGreaterThanOrEqual(Math.ceil(RUNS * 0.9));
   });
 
@@ -134,10 +135,17 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       fc.tuple(fc.integer({ min: 1000, max: 7000 }), fc.integer({ min: 1000, max: 7000 }), fc.integer({ min: 100, max: 3000 }), fc.integer({ min: 100, max: 3000 }), fc.integer({ min: -1000, max: 1000 })).map(([cx, cy, w, h, s]) => [P(cx - w, cy - h + s), P(cx + w, cy - h - s), P(cx + w - s, cy + h), P(cx - w + s, cy + h)]),
     );
     let refused = 0;
+    let pending = 0;
     fc.assert(
       fc.property(fc.array(ringArb, { minLength: 1, maxLength: 4 }), (rings) => {
         const r = tileRings(rings);
         if (!r.ok) {
+          if (r.code === 'E_INVARIANT') {
+            // the overlay's insertion refusing a route (N-43, insertChain's PENDING-S3 line B): typed, counted apart
+            expect(r.detail.startsWith('insert:')).toBe(true);
+            pending += 1;
+            return;
+          }
           expect(r.code).toBe('E_DEGENERATE');
           expect(r.detail).toBe('overlap');
           refused += 1;
@@ -153,6 +161,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(refused)} refused (overlap)`);
+    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(refused)} refused (overlap), ${String(pending)} the overlay's insertion refused (N-43, PENDING-S3)`);
+    expect(pending).toBeLessThanOrEqual(Math.ceil(RUNS / 100));
   });
 });
