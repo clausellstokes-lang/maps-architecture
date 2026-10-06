@@ -84,6 +84,11 @@ describe('a planted throw, a planted hang and a planted self-intersecting output
     expect(r.invalid).toBe(10);
     expect(r.crashes + r.hangs).toBe(0);
     expect(r.failures.every((f) => f.kind === 'invalid' && /crossing edges|faces|area/.test(f.reason))).toBe(true);
+    // A simple, valid ring in the wrong place: only the oracle comparison (§3.7's split) can see it.
+    const square = () => ({ ok: true as const, value: [[lp(5_000_000, 5_000_000), lp(5_001_000, 5_000_000), lp(5_001_000, 5_001_000), lp(5_000_000, 5_001_000)]], warnings: [] });
+    const o = runFuzz('buffer', 10, { plant: { buffer: square as never } });
+    expect(o.invalid).toBe(10);
+    expect(o.failures.every((f) => /clipper2: .*area|polygon-clipping: .*area/.test(f.reason))).toBe(true);
   });
 
   it('a planted write behind the transaction (an edge pulled across the frame after the commit): caught by the sweep', () => {
@@ -110,6 +115,64 @@ describe('a planted throw, a planted hang and a planted self-intersecting output
     expect(planted).toBe(r.ok);
     expect(r.invalid).toBe(planted);
     expect(r.failures.every((f) => f.kind === 'invalid' && /simple-faces|crossing|cross/.test(f.reason))).toBe(true);
+  });
+
+  it('one broken property on one input is one invalid output, named with its reason (the runner counts every problem list)', () => {
+    const real = fuzzPrimitive('orient');
+    const one: FuzzPrimitive<unknown> = { ...real, name: 'orient (one problem)', run: (input, ctx) => (ctx.index === 2 ? { ...real.run(input, ctx), problems: ['a planted broken property'] } : real.run(input, ctx)) };
+    const r = runFuzz(one, 6);
+    expect(r.invalid).toBe(1);
+    expect(r.failures).toEqual([{ primitive: 'orient (one problem)', index: 2, kind: 'invalid', reason: 'a planted broken property' }]);
+    expect(r.ok).toBe(6);
+  });
+
+  it("each service's judge catches its planted wrong output (a value the service never returns)", () => {
+    type XY = { x: number; y: number };
+    const cases: [string, (v: unknown) => unknown, RegExp][] = [
+      ['obb', (v) => ({ ...(v as object), majorCm: (v as { majorCm: number }).majorCm * 0.9 }), /outside the OBB/],
+      ['lir', (v) => {
+        const L = v as { centre: XY; corners: XY[] };
+        return { ...L, corners: L.corners.map((c) => ({ x: L.centre.x + 3 * (c.x - L.centre.x), y: L.centre.y + 3 * (c.y - L.centre.y) })) };
+      }, /LIR corner .* outside the face/],
+      ['hull', (v) => (v as XY[]).slice(1), /outside the hull|not strictly convex/],
+      ['simplify', (v) => [...(v as XY[]), { x: 123_457, y: -98_765 }], /not in the chain/],
+      ['snap', (v) => ({ x: (v as XY).x + 1, y: (v as XY).y }), /snap\(/],
+      ['regularFit', (v) => ({ ...(v as object), compactness: 2 }), /compactness/],
+      ['hexLattice', (v) => {
+        const h = v as { points: XY[]; adjacency: Int32Array };
+        return h.points.length === 0 ? h : { ...h, points: [{ x: h.points[0].x + 10_000_000, y: h.points[0].y }, ...h.points.slice(1)] };
+      }, /outside the region/],
+      ['skeleton', (v) => {
+        const g = v as { kind: string; nodes: { x: number; y: number; t: number }[] };
+        return g.kind !== 'skeleton' ? g : { ...g, nodes: [{ ...g.nodes[g.nodes.length - 1], x: g.nodes[g.nodes.length - 1].x + 1e7 }, ...g.nodes.slice(0, -1)].reverse().reverse() };
+      }, /validator|outside the footprint/],
+    ];
+    for (const [name, wrong, why] of cases) {
+      const clean = runFuzz(name, 25);
+      const r = runFuzz(name, 25, { plant: { result: (p, v) => (p === name ? wrong(v) : v) } });
+      expect([name, clean.invalid]).toEqual([name, 0]);
+      expect(r.invalid, name).toBeGreaterThan(0);
+      expect(r.failures[0].reason, name).toMatch(why);
+    }
+  }, 120_000);
+
+  it('remove ∘ insert: a write left behind the removal is caught as "not the identity on the topology"', () => {
+    const r = runFuzz('insertChain', 20, {
+      plant: {
+        afterRemove: (p) => {
+          for (let v = 0; v < p.slots.vertex.top; v++) {
+            if (isVertexLive(p, v) && p.vertices.level[v] === 0) {
+              p.vertices.flags[v] |= 1; // pinned behind the batch's back: the print changes, no row reads it
+              return;
+            }
+          }
+        },
+      },
+    });
+    const judged = r.ok - (r.notes['remove-after-insert refused E_INVARIANT index-freshness'] ?? 0);
+    expect(judged).toBeGreaterThan(5);
+    expect(r.invalid).toBe(judged);
+    expect(r.failures.every((f) => /not the identity on the topology/.test(f.reason))).toBe(true);
   });
 
   it('negative controls: nothing planted, nothing counted', () => {

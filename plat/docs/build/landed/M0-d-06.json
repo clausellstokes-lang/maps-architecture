@@ -1,0 +1,58 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-d-06",
+  "lane": "build/M0-d-06",
+  "lanes": ["build/M0-d-06"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-06T13:10:15.433Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/testkit/src/crosshost/", "plat/bench/src/crosshost/", "plat/packages/testkit/test/crosshost/", "plat/docs/build/summaries/M0-d-06.json", "plat/bench/test/crosshost/"],
+  "counts": { "created": 28, "changed": 2, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/src/crosshost/fixtures/kernel.json", "status": "created", "sha256": "1e8c0e431762c6fb88a3b0c23ad37e964669bd6d2a501b7f1cf704b09ac19a03", "size": 1653 },
+    { "path": "plat/bench/src/crosshost/index.ts", "status": "changed", "sha256": "a2d89714e86b305f827dc52e608303e0568dce93a299025c99d43bf15a0e6b42", "size": 8204 },
+    { "path": "plat/bench/test/crosshost/runner.test.ts", "status": "created", "sha256": "a330ca07c14ad7c048b23095bb20a91cc341e59008d20dcd3264ec809be56451", "size": 8397 },
+    { "path": "plat/bench/test/crosshost/tiny-stages.ts", "status": "created", "sha256": "267b4cba9875c32705f4da7176b4a6eb281e866b925d4bf9927364fd70e59b74", "size": 609 },
+    { "path": "plat/bench/test/crosshost/tiny.json", "status": "created", "sha256": "869e5d09adb923b7d50c06a4b9c72e7b5d67915385a36571146684001ae9332b", "size": 218 },
+    { "path": "plat/docs/build/summaries/M0-d-06.json", "status": "created", "sha256": "f6a580380e115c472b1f468577dd55fd846ab2888f73b90736255e64ea6c9a74", "size": 1415 },
+    { "path": "plat/packages/testkit/src/crosshost/browser-main.ts", "status": "created", "sha256": "c2e080af5192806c1b91776a19cbd4c00b7d66055d13ddd427cacca49eda8079", "size": 2068 },
+    { "path": "plat/packages/testkit/src/crosshost/bundle.ts", "status": "created", "sha256": "f6f67ebdafa4f2de657ad1b7cfcc21da36e0953a5fbc9e937d4dea276baa0fc9", "size": 2947 },
+    { "path": "plat/packages/testkit/src/crosshost/digest.ts", "status": "created", "sha256": "7eee7cb90f6d9fdaf97dd2cdee020edf15a84d518cc46731064b97382e89c3c5", "size": 5858 },
+    { "path": "plat/packages/testkit/src/crosshost/fixture.ts", "status": "created", "sha256": "361ca17cce832e4caf773d776d8fbb1d1a652d18b6e2864a428591f45d868ec1", "size": 4791 },
+    { "path": "plat/packages/testkit/src/crosshost/index.ts", "status": "changed", "sha256": "07f9844105153992f4ae9ac4384deeac3302fb0b83c039e722da2e2aa777a90c", "size": 2806 },
+    { "path": "plat/packages/testkit/src/crosshost/kernel-stages.ts", "status": "created", "sha256": "8d68f94b8f1f42dde4ac4e029d9c7e07ff90e4c3977570abd6ac00f7cf838516", "size": 17136 },
+    { "path": "plat/packages/testkit/src/crosshost/leg.ts", "status": "created", "sha256": "59cb51a3e1e710e9cd26ba035e9a050d757ca219ae4d023b8897f34bfeaa8b59", "size": 3655 },
+    { "path": "plat/packages/testkit/src/crosshost/legs.ts", "status": "created", "sha256": "c223de9d627840b34853e7b85a9d8a9b1ee5b885a2d172bd83815b3841043d01", "size": 7225 },
+    { "path": "plat/packages/testkit/src/crosshost/node-main.ts", "status": "created", "sha256": "dee0a731c04270842b7833785a5a8eb66f94dc144d593151db42120abb771e22", "size": 4672 },
+    { "path": "plat/packages/testkit/src/crosshost/report.ts", "status": "created", "sha256": "b446b3041a5583764cc95585deb0396a407fc3d62017882121880fdb3c601347", "size": 7661 },
+    { "path": "plat/packages/testkit/src/crosshost/runner.ts", "status": "created", "sha256": "a48297baa9e318019e2bdcf6292fb50233bedc06eecffa8a23beaf8b929e7333", "size": 13728 },
+    { "path": "plat/packages/testkit/src/crosshost/types.ts", "status": "created", "sha256": "a092bfed45dc3fb6d31dc940d5b7d4537e9c7e1ba19dab1413776cfc0b0f2bb0", "size": 9363 },
+    { "path": "plat/packages/testkit/test/crosshost/blocked.test.ts", "status": "created", "sha256": "980754b6a93bdc4a5aaeedf6e9c5f7636f1af305c60230d7001d016b70af33ec", "size": 3675 },
+    { "path": "plat/packages/testkit/test/crosshost/carried.test.ts", "status": "created", "sha256": "b205a90b6f288fcb865143022e37cac9b1f6d2ad3f1db16fac849460e4c2b08e", "size": 2690 },
+    { "path": "plat/packages/testkit/test/crosshost/digest.test.ts", "status": "created", "sha256": "e02670084f74a78789fcf7872950dff701bdb8229beb18ab48a597b0f87ea764", "size": 3059 },
+    { "path": "plat/packages/testkit/test/crosshost/fixture.test.ts", "status": "created", "sha256": "bee2c036dbb5cfdce256ddffe62e3679c53fb6b90051467b1fef47b8cdf17087", "size": 3624 },
+    { "path": "plat/packages/testkit/test/crosshost/legs.test.ts", "status": "created", "sha256": "1eb145789b2aa96da4b1f09570aa9cdf0b22baf40ca0966eed841d78ebb8084d", "size": 6576 },
+    { "path": "plat/packages/testkit/test/crosshost/plans.test.ts", "status": "created", "sha256": "b214c4bc6b4c89357527399a4368c88e3acb1f7cf0ceed7cccaab911544afabb", "size": 3842 },
+    { "path": "plat/packages/testkit/test/crosshost/planted-stages.ts", "status": "created", "sha256": "71c9575181a85834e1a636c8ad7099d99fe4809d3019682952d9e90bcf5e6a37", "size": 1262 },
+    { "path": "plat/packages/testkit/test/crosshost/planted.test.ts", "status": "created", "sha256": "655d91791117c9123b6ceb404d19c48aa241e436501de535598a18879e8f131e", "size": 3816 },
+    { "path": "plat/packages/testkit/test/crosshost/report.test.ts", "status": "created", "sha256": "cf8960b4e3b0c50d0c6d1934bf9a3d4672b0324ea4be35226483428efffb7abf", "size": 6876 },
+    { "path": "plat/packages/testkit/test/crosshost/stages.test.ts", "status": "created", "sha256": "082026db5fa7db393c1605fa1a09470b0b15dd3b03512fce5e352e3ade65b626", "size": 9927 },
+    { "path": "plat/packages/testkit/test/crosshost/support.ts", "status": "created", "sha256": "bf313641a372ef791d478c58b9670f18d6a0f2039047a0dd8449cc44e773f067", "size": 1799 },
+    { "path": "plat/packages/testkit/test/crosshost/timing.test.ts", "status": "created", "sha256": "dce25e2bde3741c58aedd3b42e1c64d89ba6ebb8258abc04cb6613184b2472d3", "size": 3110 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0227"],
+      "lines": ["46d05750578899b3"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0228"],
+      "lines": ["6693d4f205f69921"],
+      "removed": []
+    }
+  ]
+}

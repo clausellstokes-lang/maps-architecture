@@ -90,6 +90,17 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     expect(!v2.ok && v2.reason).toMatch(/expected E_LEVEL, got E_NOT_TWO_CROSSINGS/);
   });
 
+  it("version-kept fails where the last step moved the arena (an empty transaction's case given a committing step)", () => {
+    const c = constructiveCase('limit/no-input-empty-tx') as ConstructiveCase;
+    const g = input(c, 0);
+    const f = g.rings.face;
+    const inner = [lp(f[0].x + 100, f[0].y + 100), lp(f[0].x + 300, f[0].y + 100), lp(f[0].x + 300, f[0].y + 300), lp(f[0].x + 100, f[0].y + 300)];
+    const moved = { ...g, rings: { ...g.rings, inner }, steps: [g.steps[0], { op: 'insertChain', args: { ring: 'inner', level: 1, cls: 'mandatory', role: 'way' } }] };
+    const v = constructiveKernelJudge(c, moved);
+    expect(v.ok).toBe(false);
+    expect(!v.ok && v.reason).toMatch(/version-kept/);
+  });
+
   it('a property checked on geometry that does not hold it fails (the target moved one centimetre)', () => {
     const c = constructiveCase('move/vertex-near-endpoint') as ConstructiveCase;
     const g = input(c, 0);

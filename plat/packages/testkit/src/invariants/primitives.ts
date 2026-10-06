@@ -92,6 +92,16 @@ export interface Plant {
   readonly buffer?: typeof buffer;
   /** Runs on the arena after insertChain's commit, before the sweep (a write the transaction never saw). */
   readonly afterInsert?: (p: Plat) => void;
+  /** Runs on the arena after remove ∘ insert's removal commits (a write behind the removal). */
+  readonly afterRemove?: (p: Plat) => void;
+  /** Replaces a service's ok value before its judge reads it (`value` as the service returned it). */
+  readonly result?: (primitive: string, value: unknown) => unknown;
+}
+
+/** A service's result with a planted value, if any (the runner's own tests). */
+function planted<T>(ctx: OpContext, name: string, r: KernelResult<T>): KernelResult<T> {
+  const f = ctx.plant?.result;
+  return f === undefined || !r.ok ? r : { ok: true, value: f(name, r.value) as T, warnings: r.warnings };
 }
 
 /** The run context of one input: its index in the run (sampling and replay) and a planted fault, if any. */
@@ -275,6 +285,7 @@ const insertChainPrimitive: Primitive<InsertInput> = {
       notes.push(`remove-after-insert refused ${rm.code}${rm.detail.startsWith('index-freshness') ? ' index-freshness' : ''}`);
       if (topology(p) !== inserted) problems.push('the refused removal changed the arena');
     } else {
+      ctx.plant?.afterRemove?.(p);
       problems.push(...ciProblems(p).map((x) => `after remove: ${x}`));
       if (topology(p) !== before) problems.push('remove(insert(x)) is not the identity on the topology');
     }
@@ -600,8 +611,8 @@ const snapPrimitive: Primitive<[number, number]> = {
     );
     return fc.tuple(v, v);
   },
-  run([x, y]) {
-    const r = snap(x, y);
+  run([x, y], ctx) {
+    const r = planted(ctx, 'snap', snap(x, y));
     const want = (v: number) => (v < 0 ? -Math.round(-v) : Math.round(v)) + 0;
     const out = (v: number) => !(Math.abs(want(v)) < 8_388_608);
     if (!r.ok) {
@@ -658,8 +669,8 @@ const hullPrimitive: Primitive<LatticePoint[]> = {
   name: 'hull',
   family: 'bfuzz/hull',
   arbitrary: () => ringArb(),
-  run(points) {
-    const r = hull(points);
+  run(points, ctx) {
+    const r = planted(ctx, 'hull', hull(points));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' && collinearSet(points) ? [] : [`hull refused ${r.code} ${r.detail}`], warnings: [] };
     const h = r.value;
     const problems: string[] = [];
@@ -673,8 +684,8 @@ const obbPrimitive: Primitive<LatticePoint[]> = {
   name: 'obb',
   family: 'bfuzz/obb',
   arbitrary: () => ringArb(),
-  run(ring) {
-    const r = obb(ring);
+  run(ring, ctx) {
+    const r = planted(ctx, 'obb', obb(ring));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' && collinearSet(ring) ? [] : [`obb refused ${r.code} ${r.detail}`], warnings: [] };
     const problems: string[] = [];
     if (collinearSet(ring)) problems.push('obb of collinear input did not return E_DEGENERATE');
@@ -698,8 +709,8 @@ const lirPrimitive: Primitive<LatticePoint[]> = {
   name: 'lir',
   family: 'bfuzz/lir',
   arbitrary: () => simpleRingArb(SMALL).map(ccw),
-  run(ring) {
-    const r = lir(ring);
+  run(ring, ctx) {
+    const r = planted(ctx, 'lir', lir(ring));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' ? [] : [`lir refused ${r.code} ${r.detail}`], warnings: [] };
     const problems: string[] = [];
     const L = r.value;
@@ -713,8 +724,8 @@ const regularFitPrimitive: Primitive<LatticePoint[]> = {
   name: 'regularFit',
   family: 'bfuzz/regularFit',
   arbitrary: () => ringArb(),
-  run(ring) {
-    const r = regularFit(ring);
+  run(ring, ctx) {
+    const r = planted(ctx, 'regularFit', regularFit(ring));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' ? [] : [`regularFit refused ${r.code} ${r.detail}`], warnings: [] };
     const f = r.value;
     const problems: string[] = [];
@@ -737,8 +748,8 @@ const skeletonPrimitive: Primitive<SkeletonInput> = {
       { weight: 2, arbitrary: arb.holedPolygon({ limitCm: SMALL }).map((h) => ({ rings: h.polygon.map((r) => r.slice()) })) },
       { weight: 1, arbitrary: ringArb(SMALL).map((r) => ({ rings: [r] })) },
     ),
-  run(input) {
-    const r = skeleton(input.rings as Polygon[], 'roof');
+  run(input, ctx) {
+    const r = planted(ctx, 'skeleton', skeleton(input.rings as Polygon[], 'roof'));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' || r.code === 'E_OUT_OF_RANGE' ? [] : [`skeleton refused ${r.code} ${r.detail}`], warnings: [] };
     const s = r.value;
     if (s.kind === 'downgrade') {
@@ -763,8 +774,8 @@ const simplifyPrimitive: Primitive<{ chain: LatticePoint[]; seg: number; ang: nu
   name: 'simplify',
   family: 'bfuzz/simplify',
   arbitrary: () => fc.record({ chain: chainArb(), seg: fc.integer({ min: 0, max: 2000 }), ang: fc.integer({ min: 0, max: 9000 }) }),
-  run(input) {
-    const r = simplify(input.chain, input.seg as Cm, input.ang, [], []);
+  run(input, ctx) {
+    const r = planted(ctx, 'simplify', simplify(input.chain, input.seg as Cm, input.ang, [], []));
     if (!r.ok) return { code: r.code, problems: r.code === 'E_DEGENERATE' ? [] : [`simplify refused ${r.code} ${r.detail}`], warnings: [] };
     const out = r.value;
     const problems: string[] = [];
@@ -800,9 +811,9 @@ const hexLatticePrimitive: Primitive<{ region: LatticePoint[]; spacing: number; 
       spacing: Math.max(x.spacing, Math.ceil(Math.sqrt(Math.abs(Number(area2Exact(x.region))) / 2 / 20_000))),
       jitter: Math.floor((x.jitter * Math.max(x.spacing, 25)) / 2000) % Math.max(1, Math.ceil(x.spacing / 2) - 1),
     })),
-  run(input) {
+  run(input, ctx) {
     const rng = new Stream(H128(utf8Bytes(`bfuzz/hexLattice/${String(input.spacing)}`)));
-    const h = hexLattice([input.region], input.spacing, input.jitter, rng);
+    const h = (ctx.plant?.result?.('hexLattice', hexLattice([input.region], input.spacing, input.jitter, rng)) ?? hexLattice([input.region], input.spacing, input.jitter, rng)) as ReturnType<typeof hexLattice>;
     const problems: string[] = [];
     if (h.adjacency.length !== 6 * h.points.length) problems.push('the adjacency does not hold six entries per point');
     for (const q of h.points) {
@@ -828,8 +839,8 @@ const delaunayPrimitive: Primitive<LatticePoint[]> = {
   name: 'delaunay',
   family: 'bfuzz/delaunay',
   arbitrary: () => ringArb(),
-  run(points) {
-    const r = delaunay(points);
+  run(points, ctx) {
+    const r = planted(ctx, 'delaunay', delaunay(points));
     if (!r.ok) return { code: r.code, problems: [`delaunay refused ${r.code} ${r.detail}`], warnings: [] };
     const d = r.value;
     const problems: string[] = [];

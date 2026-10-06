@@ -4,7 +4,7 @@
   "seeds": 16,
   "stages": 9,
   "cellsPerRun": 99,
-  "timing": true,
+  "timing": false,
   "reference": "node-arm64/off",
   "comparedWith": "node-x64-rosetta/off",
   "runs": [

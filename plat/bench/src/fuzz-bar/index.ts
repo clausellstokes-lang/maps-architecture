@@ -87,7 +87,8 @@ export async function run(args: string[], ctx: FuzzBarContext): Promise<number> 
   }
   let runs: number | undefined | null;
   try {
-    runs = intArg(args, '--runs', 1, 10_000_000) ?? fuzzRuns();
+    const given = intArg(args, '--runs', 1, 10_000_000);
+    runs = given === undefined ? fuzzRuns() : given; // a malformed --runs is refused below, never read as the default
   } catch (e) {
     say(`fuzz-bar: ${e instanceof Error ? e.message : String(e)}`);
     return 64;
