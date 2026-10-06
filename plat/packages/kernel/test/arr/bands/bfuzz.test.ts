@@ -51,10 +51,18 @@ const chordArb = fc.record({
 
 const CORRIDOR_CODES = ['E_KEPT', 'E_INVARIANT'];
 
+/** N-44 (3): at most 1 refusal per 10⁴ cases per operation (PR size 10⁴: 1; nightly 10⁶: 100). Never raised without the owner. */
+const REFUSAL_CAP = Math.ceil(RUNS / 10_000);
+
+/** A refused case's line for the refusal register (N-44 (4)): the operation, its code and detail, the input. */
+function registerLine(op: string, code: string, detail: string, input: unknown): void {
+  console.info(`REFUSAL ${op} ${code} ${detail.slice(0, 120)} INPUT ${JSON.stringify(input)}`);
+}
+
 describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
   it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
     let committed = 0;
-    let pendingS3 = 0;
+    const refusals = { kerb: 0, corridorUnion: 0, bandUnion: 0 };
     fc.assert(
       fc.property(fc.array(chordArb, { minLength: 1, maxLength: 3 }), (chords) => {
         const p = framed();
@@ -77,10 +85,11 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
           for (const f of faces) {
             const k = kerb(o, f, ws);
             if (!k.ok) {
-              // the scratch overlay's insertion refusing a route (N-43, insertChain's PENDING-S3 line B, C-0212):
-              // a typed refusal, never a crash — counted on its own line; the batch below meets it again
+              // the scratch overlay's insertion refusing a route (N-43; N-44 (1)): a typed refusal, never a crash —
+              // counted per operation under N-44's cap and logged for the register
               expect(k.code).toBe('E_INVARIANT');
               expect(k.detail.startsWith('insert:')).toBe(true);
+              if (!refusedRead) registerLine('kerb', k.code, k.detail, chords);
               refusedRead = true;
               continue;
             }
@@ -90,12 +99,14 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
           }
           return { ok: true, value: null, warnings: [] };
         });
-        if (refusedRead) pendingS3 += 1;
+        if (refusedRead) refusals.kerb += 1;
         const before = state(p);
         const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
         if (!r.ok) {
           expect(CORRIDOR_CODES).toContain(r.code);
           expect(state(p)).toBe(before);
+          refusals.corridorUnion += 1;
+          registerLine('corridorUnion', r.code, r.detail, chords);
           return;
         }
         committed += 1;
@@ -113,6 +124,8 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         if (!b.ok) {
           expect(CORRIDOR_CODES).toContain(b.code);
           expect(state(p)).toBe(b0);
+          refusals.bandUnion += 1;
+          registerLine('bandUnion', b.code, b.detail, chords);
           return;
         }
         healthy(p);
@@ -120,9 +133,10 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed, ${String(pendingS3)} with a kerb the overlay's insertion refused (N-43, PENDING-S3)`);
-    expect(pendingS3).toBeLessThanOrEqual(Math.ceil(RUNS / 100));
-    expect(committed).toBeGreaterThanOrEqual(Math.ceil(RUNS * 0.9));
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (N-44 cap ${String(REFUSAL_CAP)})`);
+    expect(refusals.kerb).toBeLessThanOrEqual(REFUSAL_CAP);
+    expect(refusals.corridorUnion).toBeLessThanOrEqual(REFUSAL_CAP);
+    expect(refusals.bandUnion).toBeLessThanOrEqual(REFUSAL_CAP);
   });
 
   it('tileRings on random ring lists: 0 crashes, every piece simple and counter-clockwise, or the overlap refusal', { timeout: HARD }, () => {
@@ -141,9 +155,10 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         const r = tileRings(rings);
         if (!r.ok) {
           if (r.code === 'E_INVARIANT') {
-            // the overlay's insertion refusing a route (N-43, insertChain's PENDING-S3 line B): typed, counted apart
+            // the overlay's insertion refusing a route (N-43; N-44 (1)): typed, counted under N-44's cap
             expect(r.detail.startsWith('insert:')).toBe(true);
             pending += 1;
+            registerLine('tileRings', r.code, r.detail, rings);
             return;
           }
           expect(r.code).toBe('E_DEGENERATE');
@@ -161,7 +176,8 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(refused)} refused (overlap), ${String(pending)} the overlay's insertion refused (N-43, PENDING-S3)`);
-    expect(pending).toBeLessThanOrEqual(Math.ceil(RUNS / 100));
+    // the overlap refusal is the design's answer to a holed piece (§3.4), a correct result, not an N-44 refusal
+    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(refused)} overlap results; N-44 refusals ${String(pending)} (cap ${String(REFUSAL_CAP)})`);
+    expect(pending).toBeLessThanOrEqual(REFUSAL_CAP);
   });
 });
