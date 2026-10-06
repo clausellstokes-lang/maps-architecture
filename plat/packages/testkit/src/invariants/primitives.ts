@@ -883,7 +883,15 @@ const sideRunsPrimitive: Primitive<LatticePoint[]> = {
 /** Our result judged against every oracle (§3.7: each oracle); the case's split, or `refused` when none could judge. */
 function judged(ours: KernelResult<LatticePoint[][]>, oracle: (e: OracleEngine) => ReturnType<typeof oracleBoolean>): { problems: string[]; split: 'attracted' | 'unattracted' | 'refused' } {
   const warnings = ours.ok ? ours.warnings : 'warnings' in ours && Array.isArray((ours as { warnings?: unknown }).warnings) ? ((ours as { warnings: Warning[] }).warnings) : [];
-  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => compareSplit(ours, oracle(e), warnings));
+  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
+    const or = oracle(e);
+    const v = compareSplit(ours, or, warnings);
+    // An unattracted case failing on the face count alone: equal once faces touching at a point are counted as one on
+    // both sides (M0-a-08's reading, C-0206 (8); C-0227 (2)) — our engine splits a region pinched at a vertex in two.
+    if (!or.ok || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
+    const mine = ours.ok ? ours.value : [];
+    return touchMergedFaces(mine) === touchMergedFaces(or.rings) ? { ...v, pass: true, failures: [] } : v;
+  });
   const problems: string[] = [];
   let judgedAny = false;
   for (const v of verdicts) {
@@ -892,6 +900,16 @@ function judged(ours: KernelResult<LatticePoint[][]>, oracle: (e: OracleEngine) 
     if (!v.pass) problems.push(`${v.engine}: ${v.split} ${v.failures.join(', ')} (Δ ${v.symDiffCm2.toFixed(1)} cm², bound ${v.boundCm2.toFixed(1)})`);
   }
   return { problems, split: judgedAny ? verdicts[0].split : 'refused' };
+}
+
+/** The face count with faces that touch at a point counted as one (outer rings by their exact signed area, holes apart). */
+export function touchMergedFaces(rings: readonly (readonly LatticePoint[])[]): number {
+  const faces = rings.filter((r) => area2Exact(r) > 0n);
+  const parent = faces.map((_, i) => i);
+  const find = (i: number): number => (parent[i] === i ? i : (parent[i] = find(parent[i])));
+  const keys = faces.map((r) => new Set(r.map((q) => `${String(q.x)},${String(q.y)}`)));
+  for (let i = 0; i < faces.length; i++) for (let j = i + 1; j < faces.length; j++) if ([...keys[i]].some((k) => keys[j].has(k))) parent[find(i)] = find(j);
+  return new Set(faces.map((_, i) => find(i))).size;
 }
 
 function needOracles(): void {

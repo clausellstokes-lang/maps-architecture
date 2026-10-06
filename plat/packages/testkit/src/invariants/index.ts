@@ -5,7 +5,7 @@
 // it belongs to M0-k-04. The package index re-exports this folder with `export *`, so every exported name but the
 // design's `runFuzz` and `ladderCoverage` names the runner.
 export { guarded as fuzzGuarded, HANG_TIMEOUT_MS, thrownText as fuzzThrownText, type Guarded as FuzzGuarded } from './guard.js';
-export { COUNTER_UNITS as FUZZ_COUNTER_UNITS, PRIMITIVES as FUZZ_PRIMITIVES, primitiveNamed as fuzzPrimitive, SAMPLE_EVERY as FUZZ_SAMPLE_EVERY, type OpContext as FuzzOpContext, type OpOutcome as FuzzOpOutcome, type Plant as FuzzPlant, type Primitive as FuzzPrimitive } from './primitives.js';
+export { COUNTER_UNITS as FUZZ_COUNTER_UNITS, PRIMITIVES as FUZZ_PRIMITIVES, primitiveNamed as fuzzPrimitive, SAMPLE_EVERY as FUZZ_SAMPLE_EVERY, touchMergedFaces as fuzzTouchMergedFaces, type OpContext as FuzzOpContext, type OpOutcome as FuzzOpOutcome, type Plant as FuzzPlant, type Primitive as FuzzPrimitive } from './primitives.js';
 export { FUZZ_CHUNK, runFuzz, type RunFuzzOptions } from './runFuzz.js';
 export { CONSTRUCTIVE_KNOWN, CONSTRUCTIVE_TIMEOUT_MS, judgeOnKernel as constructiveKernelJudge, type KernelConstructiveReport, type KnownFinding as ConstructiveKnownFinding, kernelJudge as constructiveOnKernel, PROFILE_UNCHANGED_CM, runConstructiveOnKernel } from './constructive.js';
 export { coverageReport as ladderCoverageReport, ladderCoverage } from './ladders.js';

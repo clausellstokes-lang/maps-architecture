@@ -6,7 +6,7 @@
   "totals": {
     "crashes": 0,
     "hangs": 0,
-    "invalid": 8,
+    "invalid": 1,
     "warnings": {
       "W_ACUTE_CORNER": 16515,
       "W_ATTRACTED": 1203659,
@@ -684,7 +684,7 @@
       "runs": 10000,
       "crashes": 0,
       "hangs": 0,
-      "invalid": 7,
+      "invalid": 0,
       "ok": 8173,
       "skipped": 0,
       "refused": {
@@ -750,11 +750,9 @@
     "cases": 185,
     "judged": 134,
     "draws": 20323,
-    "green": 130,
-    "failedCases": 1,
-    "failing": [
-      "geom/collinear-overlap-same"
-    ],
+    "green": 131,
+    "failedCases": 0,
+    "failing": [],
     "pending": 0,
     "known": [
       "index/slot-reuse-stage",

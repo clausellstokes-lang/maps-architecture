@@ -68,7 +68,8 @@ describe('§4.2 S3 (9)\'s band held on every side, measured from the arena (C-02
     expect(r.ok).toBe(false);
     if (r.ok) return;
     expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toMatch(/^band: /);
+    // Refused before the batch, by the proof on the line (not left to the batch's own check after the insertion).
+    expect(r.detail).toMatch(/^band: the trace departs from its boundary by more than 4000 cm on \d+ side\(s\)/);
     expect(edgesWith(plat, 'wall')).toEqual([]);
   }, 60_000);
 });

@@ -1,45 +1,45 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-02",
-  "lane": "build/M0-c-02",
-  "lanes": ["build/M0-c-02"],
+  "lane": "build/M0-c-02-fix1",
+  "lanes": ["build/M0-c-02", "build/M0-c-02-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T12:56:44.019Z",
+  "date": "2026-10-06T15:21:50.776Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/enceinte/", "plat/packages/layout/test/enceinte/"],
   "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/enceinte/closure.ts", "status": "created", "sha256": "eaed5b713b3ae48fb8b689f59b118fb456cd80d1d01c6f3a6f4636fa71e6abd6", "size": 2373 },
     { "path": "plat/packages/layout/src/enceinte/commit.ts", "status": "created", "sha256": "540e46047bc920e8b3ebcaf2a035d4625d22e737c77329c59e5ac9fe0f218533", "size": 10645 },
-    { "path": "plat/packages/layout/src/enceinte/index.ts", "status": "changed", "sha256": "6b9b171d42c76a8d49e0ca2a21c1afc955beba52889687b1b0b047b46713d9d3", "size": 1634 },
-    { "path": "plat/packages/layout/src/enceinte/plane.ts", "status": "created", "sha256": "91e42d983529ea6e58e309da42defe5f402c6ad61935c9e42bf81d20b10277aa", "size": 13061 },
-    { "path": "plat/packages/layout/src/enceinte/pull.ts", "status": "created", "sha256": "171f7147417ffa72a1431f0a1b3bbf08116cc1de6e0ad456c6fdf511f63e6e19", "size": 9646 },
-    { "path": "plat/packages/layout/src/enceinte/rungs.ts", "status": "created", "sha256": "43adf6f040ae7be7ee0fe4fa01873c84317971daeee4bb755e370e0f25ec21a1", "size": 6760 },
+    { "path": "plat/packages/layout/src/enceinte/index.ts", "status": "changed", "sha256": "ea25dc6d4f27a6627aa294e2d12f6624ea595b88b5a5ead0a6afa8b1867b75ff", "size": 1693 },
+    { "path": "plat/packages/layout/src/enceinte/plane.ts", "status": "created", "sha256": "9a5bb138fbafa4b642391084fd849921152931fdb5d0cad38089ebf6267f023d", "size": 15254 },
+    { "path": "plat/packages/layout/src/enceinte/pull.ts", "status": "created", "sha256": "cffd1636d09080386a9f63209e7b09aacf82dbbeffef1c6ff0c3bb197bffda9f", "size": 10959 },
+    { "path": "plat/packages/layout/src/enceinte/rungs.ts", "status": "created", "sha256": "dffafb4736fcadebc6c759bc3c12ff4c0033463c65c6be61406c260adc1a80f8", "size": 6837 },
     { "path": "plat/packages/layout/src/enceinte/strips.ts", "status": "created", "sha256": "23cdbed12bb3e4478ef302091f45d0ba6893d54aa25e6ba39049dd688fd384e1", "size": 19277 },
-    { "path": "plat/packages/layout/src/enceinte/trace.ts", "status": "created", "sha256": "45a09d53de45b22f9c4183e38711abde6150a9d2137f18256c458813f5261025", "size": 15639 },
-    { "path": "plat/packages/layout/src/enceinte/types.ts", "status": "created", "sha256": "de1ec74315871033ee202cc334e782c44d3771d51cad7f248898c2cc1af77829", "size": 7509 },
+    { "path": "plat/packages/layout/src/enceinte/trace.ts", "status": "created", "sha256": "6c197f849c1823911da800858c1894d0e223d7e90dfe2f96d313bad331f9946b", "size": 17277 },
+    { "path": "plat/packages/layout/src/enceinte/types.ts", "status": "created", "sha256": "08af2cbabe8b3ac49a1807e067bf8fc20bb9afef25dbeb7d78af5d6bc4af09ff", "size": 7527 },
     { "path": "plat/packages/layout/src/enceinte/water.ts", "status": "created", "sha256": "98c990f091ca82b2c5e8450d84c808a0f010e056da40231e170c3f1b27242c88", "size": 10556 },
     { "path": "plat/packages/layout/test/enceinte/commit.test.ts", "status": "created", "sha256": "1b150454cff642344e9dfa0f8d9e574e97e4c58ff024c998cf6df3ee4de6bcba", "size": 7565 },
     { "path": "plat/packages/layout/test/enceinte/fwall.test.ts", "status": "created", "sha256": "1c440d8aaffa5bb0d58b60dadc0c7cc61f1e0478f3504ed8586c3dafeaf216e1", "size": 7303 },
-    { "path": "plat/packages/layout/test/enceinte/pull.test.ts", "status": "created", "sha256": "559876bb346c600f72c7004057dd4c7ac4d28ecb5f6acae316ebb792be65e18e", "size": 8784 },
-    { "path": "plat/packages/layout/test/enceinte/simplify.test.ts", "status": "created", "sha256": "8b77c8c257491db2cca836c189c2cbbeb100a6305d077723f0e9abb1a787660e", "size": 4483 },
+    { "path": "plat/packages/layout/test/enceinte/pull.test.ts", "status": "created", "sha256": "42f71cdd68906156e0a0177555769178de6b3a412723544e0c6afeba6c940e81", "size": 11776 },
+    { "path": "plat/packages/layout/test/enceinte/simplify.test.ts", "status": "created", "sha256": "56bb3df45d1a18686bb6b9875f58f254fa747744fd0ff99d42f8c732576f6960", "size": 6766 },
     { "path": "plat/packages/layout/test/enceinte/strips.test.ts", "status": "created", "sha256": "6ce1cddd495d0e5e33718a5c0d95f075209d29f2d9d1b045abf3c8f4db08e112", "size": 21873 },
-    { "path": "plat/packages/layout/test/enceinte/support.ts", "status": "created", "sha256": "027610dab1ea988c14e42b2b3452e785e0652da5091d347ddb5b9e11f14bd5a6", "size": 13600 },
-    { "path": "plat/packages/layout/test/enceinte/trace.test.ts", "status": "created", "sha256": "ffe9c2027f86762a15ecdb20fd17a89822b64664b226b227f12b4e3bab18dddb", "size": 12100 },
-    { "path": "plat/packages/layout/test/enceinte/water.test.ts", "status": "created", "sha256": "ede2a913edbf792caf548133727fddea3e901d17ef7d151ae49e7fc826971ed8", "size": 10831 }
+    { "path": "plat/packages/layout/test/enceinte/support.ts", "status": "created", "sha256": "085cf459d713040125b106c7c06349a396aea9f37d80d5a9c5ae16bcde8fbd31", "size": 13771 },
+    { "path": "plat/packages/layout/test/enceinte/trace.test.ts", "status": "created", "sha256": "eaef7459f062dde7ad4fc88ff7ffb3ce389bd9944ad80df86ac46104c04ec3d1", "size": 14979 },
+    { "path": "plat/packages/layout/test/enceinte/water.test.ts", "status": "created", "sha256": "bb76bd43fbd857201ed1c65290c81a080001de1fa07fe1e0b3ca5a88e2eded56", "size": 15661 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0224"],
-      "lines": ["280a019e57f34af9"],
+      "ids": ["L-0224", "L-0243"],
+      "lines": ["280a019e57f34af9", "9c0e54beadd96c67"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0226"],
-      "lines": ["7db1ed31c5c3d9fc"],
+      "ids": ["C-0226", "C-0232"],
+      "lines": ["7db1ed31c5c3d9fc", "a4766984c183a59f"],
       "removed": []
     }
   ]

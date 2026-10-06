@@ -6,7 +6,7 @@
 // to 0 (a walls.json cell) so the simplify meets the fixture's corners as drawn.
 import { describe, expect, it } from 'vitest';
 import type { GateSite } from '@plat/model';
-import { bandBreaches, commitOuterRing, selfTouches, simplifyInBand, siteContext, traceBase, wallCells } from '../../src/index.js';
+import { bandBreaches, commitOuterRing, segmentDepartureBound, selfTouches, sideHolds, simplifyInBand, siteContext, traceBase, wallCells } from '../../src/index.js';
 import { closedChain, densify, handBuildWater, kernelFor, P, smallSite, wallsWith } from './support.js';
 
 type Corner = readonly [number, number];
@@ -84,5 +84,25 @@ describe('the simplify held within the band (C-0226 (4), C-0232 (1))', () => {
     const whole = simplifyInBand(ring0, ring0, 4000, cells, [], new Set());
     expect(whole).not.toBeNull();
     if (whole !== null) expect(bandBreaches(whole, ring0, 3999)).toEqual([]);
+  });
+});
+
+describe('the band\'s proof on a side (C-0232 (2))', () => {
+  // A long rectangle x −40…140 cm, y ±100 m, and a side along y = 0 from x 0 to 150 cm: its distance from the ring is
+  // min(x + 40, 140 − x) inside, x − 140 beyond, largest (90 cm) at x = 50 — between the 1 m samples (x 0, 75, 150).
+  const rect = [P(-40, -10000), P(140, -10000), P(140, 10000), P(-40, 10000)];
+  const a = { x: 0, y: 0 };
+  const b = { x: 150, y: 0 };
+
+  it('the bound is never below the side\'s true largest distance (samples plus half their spacing)', () => {
+    const bound = segmentDepartureBound(a, b, rect, 100);
+    expect(bound).toBeGreaterThanOrEqual(90);
+    expect(bound).toBeLessThanOrEqual(90 + 75);
+    expect(segmentDepartureBound(a, b, rect, 10)).toBeGreaterThanOrEqual(90);
+  });
+
+  it('a side holds only where the proof reaches the limit: refined to 10 cm samples near it', () => {
+    expect(sideHolds(a, b, rect, 89)).toBe(false);
+    expect(sideHolds(a, b, rect, 96)).toBe(true);
   });
 });

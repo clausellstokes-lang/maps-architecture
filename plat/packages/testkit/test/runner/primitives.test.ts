@@ -5,7 +5,7 @@
 // their unit counts. A run is a function of (family, index): run twice it gives the same report, and a run of [first,
 // first + n) is the corresponding slice of a longer run (the nightly's partitions). The bar's own size is the bench's.
 import { beforeAll, describe, expect, it } from 'vitest';
-import { FUZZ_COUNTER_UNITS, FUZZ_PRIMITIVES, FUZZ_SAMPLE_EVERY, fuzzPrimitive, loadOracles, runFuzz, type FuzzPrimitive } from '@plat/testkit';
+import { FUZZ_COUNTER_UNITS, FUZZ_PRIMITIVES, FUZZ_SAMPLE_EVERY, fuzzPrimitive, fuzzTouchMergedFaces, loadOracles, runFuzz, type FuzzPrimitive } from '@plat/testkit';
 
 beforeAll(async () => {
   await loadOracles();
@@ -82,6 +82,18 @@ describe('B-FUZZ over every kernel primitive (§13.1)', () => {
     expect(sum(whole) + sum(tail)).toBe(sum(head));
     expect(whole.ok + tail.ok).toBe(head.ok);
   }, 300_000);
+
+  it('the touch-merged face count (C-0206 (8)): faces sharing a vertex count once, holes never', () => {
+    const P = (x: number, y: number) => ({ x, y }) as never;
+    const t1 = [P(0, 0), P(100, 0), P(50, 80)];
+    const t2 = [P(100, 0), P(200, 0), P(150, 80)];
+    const t3 = [P(300, 0), P(400, 0), P(350, 80)];
+    const hole = [P(10, 10), P(20, 30), P(30, 10)];
+    expect(fuzzTouchMergedFaces([t1, t2])).toBe(1);
+    expect(fuzzTouchMergedFaces([t1, t3])).toBe(2);
+    expect(fuzzTouchMergedFaces([t1, t2, t3, hole])).toBe(2);
+    expect(fuzzTouchMergedFaces([])).toBe(0);
+  });
 
   it('refuses an empty run and an unknown primitive (§13.8 Edges: never a vacuous pass)', () => {
     expect(() => runFuzz('obb', 0)).toThrow(RangeError);
