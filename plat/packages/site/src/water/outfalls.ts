@@ -89,8 +89,10 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
   const n = g.cols * g.rows;
   if (terrain.flowDir.length !== n || terrain.flowAccum.length !== n) throw new RangeError('outfalls: the terrain carries no hydrology for its grid');
   if (!(opts.stretchCm >= 1)) throw new RangeError(`outfalls: a stretch of ${String(opts.stretchCm)} cm`);
-  // the body of each cell (−1: land): by centre inside a polygon, then by the course's cells, in body order
-  const bodyOf = new Int32Array(n).fill(-1);
+  // the body of each cell (−1: land): by centre inside a polygon, then by the course's cells, in body order — a plain
+  // array, never an Int32Array: terrain/range.ts is @plat/site's one door for Int32Array cell writes (M0-e-01,
+  // test/terrain/range.test.ts; held here by test/water/one-door.test.ts)
+  const bodyOf: number[] = Array.from({ length: n }, () => -1);
   for (let ri = 0; ri < bodies.length; ri += 1) {
     const rings = bodies[ri].parts.flatMap((p) => p.rings);
     for (let j = 0; j < g.rows; j += 1) {
