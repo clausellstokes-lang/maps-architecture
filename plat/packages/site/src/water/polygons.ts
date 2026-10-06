@@ -15,7 +15,7 @@
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
 import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
-import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringGap, ringsDist2, segDist2, type Reach } from './geometry.js';
+import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, rayHit, ringGap, ringsDist2, segDist2, type Reach } from './geometry.js';
 import { ESTUARY_SPLIT_M, SEED_DEPTH_CM, SLIVER_AREA_CM2 } from './params.js';
 import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, refusal, RING_CLEAR_CM, ringsApart, snapRing, type Cap } from './offset.js';
 import type { DroppedBody, WaterPart, WaterReach } from './types.js';
@@ -236,12 +236,116 @@ function onBoundary(ring: readonly XY[], q: XY): boolean {
   return ringsDist2([ring], q) === 0;
 }
 
+/** A body's parts from its rings: grouped outer and holes, each part keeping its seeds (the course points ≥ SEED_DEPTH_CM inside). */
+function partsWithSeeds(body: WaterBody, rings: readonly Ring[]): WaterPart[] {
+  const course = body.course ?? [];
+  const depth2 = SEED_DEPTH_CM * SEED_DEPTH_CM;
+  const parts: WaterPart[] = [];
+  for (const part of partsOf(rings)) {
+    const seeds: LatticePoint[] = [];
+    for (const q of course) {
+      if (!insideRings(part, q)) continue;
+      if (ringsDist2(part, q) < depth2) continue;
+      seeds.push(lp(q));
+    }
+    if (seeds.length > 0) parts.push({ rings: part, seeds });
+  }
+  return parts;
+}
+
+/** A ring with point q inserted on segment `seg` (or that vertex's index when q is one of its ends): the new ring and q's index. */
+function withVertex(ring: readonly LatticePoint[], seg: number, q: LatticePoint): { ring: LatticePoint[]; at: number } {
+  const n = ring.length;
+  const a = ring[seg];
+  const b = ring[(seg + 1) % n];
+  if (a.x === q.x && a.y === q.y) return { ring: ring.slice(), at: seg };
+  if (b.x === q.x && b.y === q.y) return { ring: ring.slice(), at: (seg + 1) % n };
+  return { ring: [...ring.slice(0, seg + 1), q, ...ring.slice(seg + 1)], at: seg + 1 };
+}
+
+/**
+ * The basic estuary's two polygons (C-0225 (4)): the river and its estuary as one fast ring along their joined course,
+ * cut across at the estuary's first course point along the original segment's normal — the cut's two ends inserted
+ * where that line first meets the ring on each side — into the river's side (holding the river's course) and the
+ * estuary's; each side simple and clear. A reason when it cannot be made (the caller keeps the river whole).
+ */
+function estuaryPair(river: WaterBody, estuary: WaterBody, reach: Reach, earlier: readonly WaterBody[], covered: readonly Ring[]): { river: Ring[]; estuary: Ring[] } | string {
+  const rc = river.course ?? [];
+  const ec = estuary.course ?? [];
+  const rw = river.widthProfile;
+  const ew = estuary.widthProfile;
+  if (rc.length < 2 || ec.length < 2 || rw === undefined || ew === undefined) return 'course';
+  const joined: WaterBody = { ...river, course: [...rc, ...ec.slice(1)], widthProfile: Int32Array.from([...Array.from(rw), ...Array.from(ew).slice(1)]) as CmArray };
+  if (estuary.flowTo !== undefined) joined.flowTo = estuary.flowTo;
+  else delete joined.flowTo;
+  const chain = chainOf(joined, reach, earlier);
+  if (chain === null) return 'course';
+  const simple = simplifyChain(chain.pts, chain.half);
+  const fast = fastRings(joined, simple, chain, [], reach, covered);
+  if (typeof fast === 'string') return fast;
+  const cut = ec[0];
+  const n = leftNormal(rc[rc.length - 2], ec[1]);
+  if (n === undefined) return 'cut';
+  const outer = fast[0];
+  const l = rayHit([outer], cut, n);
+  const r = rayHit([outer], cut, { x: -n.x, y: -n.y });
+  if (l === null || r === null) return 'cut';
+  const L = lp(l.at);
+  const R = lp(r.at);
+  // insert the later segment's point first, so the earlier index stays put
+  let ring = outer;
+  let iL: number;
+  let iR: number;
+  if (l.seg > r.seg) {
+    const a = withVertex(ring, l.seg, L);
+    const b = withVertex(a.ring, r.seg, R);
+    ring = b.ring;
+    iR = b.at;
+    iL = a.at + (b.ring.length > a.ring.length && b.at <= a.at ? 1 : 0);
+  } else {
+    const a = withVertex(ring, r.seg, R);
+    const b = withVertex(a.ring, l.seg, L);
+    ring = b.ring;
+    iL = b.at;
+    iR = a.at + (b.ring.length > a.ring.length && b.at <= a.at ? 1 : 0);
+  }
+  if (iL === iR) return 'cut';
+  const m = ring.length;
+  const side = (from: number, to: number): LatticePoint[] => {
+    const out: LatticePoint[] = [];
+    for (let k = from; ; k = (k + 1) % m) {
+      out.push(ring[k]);
+      if (k === to) break;
+    }
+    return out;
+  };
+  const a = side(iL, iR);
+  const b = side(iR, iL);
+  const mid = rc[rc.length >> 1];
+  const riverSide = insideRings([a], mid) ? a : insideRings([b], mid) ? b : null;
+  if (riverSide === null) return 'cut';
+  const estSide = riverSide === a ? b : a;
+  const holes = fast.slice(1);
+  const out: { river: Ring[]; estuary: Ring[] } = { river: [riverSide], estuary: [estSide] };
+  for (const h of holes) (insideRings([riverSide], h[0]) ? out.river : out.estuary).push(h);
+  for (const q of [riverSide, estSide]) {
+    if (area2(q) === 0 || !isSimple(q) || !clearRing(q)) return 'cut';
+  }
+  return out;
+}
+
 /**
  * The polygons of `bodies` in order (see the header): one WaterReach per body that keeps a part, the bodies dropped
- * with their reason, and the booleans' warnings. A refusal of a boolean other than an empty result (E_OUT_OF_RANGE)
- * is the caller's.
+ * with their reason, the bodies whose ring took the kernel's buffer and booleans (`slowOnly`: every body) with the fast
+ * ring's refusal, and the booleans' warnings. With `mouth` `estuary` or `delta` the river's last reach is split off as
+ * its estuary (`splitEstuary`) on the fast ring's cut — and the river kept whole when that cannot be made. A refusal of
+ * a boolean other than an empty result (E_OUT_OF_RANGE) is the caller's.
  */
-export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): KernelResult<{ reaches: WaterReach[]; dropped: DroppedBody[]; fallbacks: { id: Id; why: string }[] }> {
+export function waterPolygons(
+  bodies: readonly WaterBody[],
+  reach: Reach,
+  opts: { slowOnly?: boolean; mouth?: 'none' | 'estuary' | 'delta' } = {},
+): KernelResult<{ reaches: WaterReach[]; dropped: DroppedBody[]; fallbacks: { id: Id; why: string }[] }> {
   const frameRing: Ring[] = [outerRing(reach)];
   const reaches: WaterReach[] = [];
   const dropped: DroppedBody[] = [];
@@ -249,7 +353,40 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
   const warnings: Warning[] = [];
   let covered: Ring[] = [];
   const earlier: WaterBody[] = [];
-  for (const body of bodies) {
+  const split = splitEstuary(bodies, reach, opts.mouth);
+  const keep = (body: WaterBody, rings: readonly Ring[]): boolean => {
+    const parts = partsWithSeeds(body, rings);
+    if (parts.length === 0) {
+      dropped.push({ id: body.id, reason: 'empty' });
+      return false;
+    }
+    reaches.push({ body, parts });
+    covered = [...covered, ...parts.flatMap((p) => p.rings)];
+    return true;
+  };
+  for (let bi = 0; bi < split.length; bi += 1) {
+    let body = split[bi];
+    const next = split[bi + 1];
+    if (next !== undefined && next.kind === 'estuary' && next.flowFrom === body.id && body.flowTo === next.id) {
+      // the river and its estuary, cut from one ring
+      bi += 1;
+      const original = bodies.find((b) => b.id === body.id) as WaterBody;
+      const pair = opts.slowOnly === true ? 'slow only' : estuaryPair(body, next, reach, earlier, covered);
+      if (typeof pair !== 'string') {
+        earlier.push(body, next);
+        const before = reaches.length;
+        if (keep(body, pair.river) && keep(next, pair.estuary)) continue;
+        // a side without a seed: keep the river whole instead
+        reaches.length = before;
+        const others = dropped.filter((d) => d.id !== body.id && d.id !== next.id);
+        dropped.length = 0;
+        dropped.push(...others);
+        covered = reaches.flatMap((r) => r.parts.flatMap((p) => p.rings));
+        earlier.length -= 2;
+      }
+      fallbacks.push({ id: next.id, why: `estuary not split: ${typeof pair === 'string' ? pair : 'a side without a seed'}` });
+      body = original;
+    }
     const chain = chainOf(body, reach, earlier);
     earlier.push(body);
     if (chain === null) {
@@ -257,7 +394,7 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
       continue;
     }
     const simple = simplifyChain(chain.pts, chain.half);
-    const fast = fastRings(body, simple, chain, bodies, reach, covered);
+    const fast = opts.slowOnly === true ? 'slow only' : fastRings(body, simple, chain, split, reach, covered);
     let rings: Ring[];
     if (typeof fast !== 'string') rings = fast;
     else {
@@ -274,24 +411,7 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
       warnings.push(...slow.warnings);
       rings = slow.value;
     }
-    const course = body.course ?? [];
-    const depth2 = SEED_DEPTH_CM * SEED_DEPTH_CM;
-    const parts: WaterPart[] = [];
-    for (const part of partsOf(rings)) {
-      const seeds: LatticePoint[] = [];
-      for (const q of course) {
-        if (!insideRings(part, q)) continue;
-        if (ringsDist2(part, q) < depth2) continue;
-        seeds.push(lp(q));
-      }
-      if (seeds.length > 0) parts.push({ rings: part, seeds });
-    }
-    if (parts.length === 0) {
-      dropped.push({ id: body.id, reason: 'empty' });
-      continue;
-    }
-    reaches.push({ body, parts });
-    covered = [...covered, ...parts.flatMap((p) => p.rings)];
+    keep(body, rings);
   }
   return ok({ reaches, dropped, fallbacks }, foldWarnings(warnings));
 }
@@ -340,7 +460,12 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
   if (raw === null) return `${chain.joined ? 'mouth' : 'offset'}: ${refusal()}`;
   const snapped = snapRing(clipToArena(raw.ring, reach));
   // the vertices on the arena's edge (the clip's) and on an earlier ring (a mouth's, the estuary's cut) stay
-  const fixed = (q: XY): boolean => onRing(reach, q) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
+  // the estuary's cut: both bodies keep its two bank points, so they share that edge exactly
+  const cuts: XY[] = [];
+  const n = simple.pts.length;
+  if (endNormal !== undefined) for (const sgn of [1, -1]) cuts.push({ x: Math.round(simple.pts[n - 1].x + sgn * endNormal.x * simple.half[n - 1]), y: Math.round(simple.pts[n - 1].y + sgn * endNormal.y * simple.half[n - 1]) });
+  if (startNormal !== undefined) for (const sgn of [1, -1]) cuts.push({ x: Math.round(simple.pts[0].x + sgn * startNormal.x * simple.half[0]), y: Math.round(simple.pts[0].y + sgn * startNormal.y * simple.half[0]) });
+  const fixed = (q: XY): boolean => onRing(reach, q) || cuts.some((c) => Math.abs(c.x - q.x) <= 2 && Math.abs(c.y - q.y) <= 2) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
   const ring = snapped === null ? null : cleanRing(snapped, fixed);
   if (ring === null) return 'empty';
   // a vertex near the arena's edge but off it would be drawn onto the outer ring

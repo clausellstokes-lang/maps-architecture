@@ -45,7 +45,7 @@ export {
 export { crossHostNodeHost, crossHostNodeKind } from './node-main.js';
 export { CROSSHOST_BROWSER_GLOBAL } from './browser-main.js';
 export { compareCrossHostRuns, crossHostFirstDifference, crossHostReportLines, crossHostRunOrder, crossHostTimes, formatCrossHostDifference, type CrossHostRunTimes } from './report.js';
-export { crossHostJobOf, runCrossHost, type CrossHostRunOptions } from './runner.js';
+export { crossHostJobOf, crossHostThreadProblem, runCrossHost, type CrossHostRunOptions } from './runner.js';
 export {
   CROSSHOST_DMATH_ROUTINES,
   CROSSHOST_LANES_FILE,
@@ -53,6 +53,8 @@ export {
   crosshostStages as CROSSHOST_KERNEL_STAGES,
   crossHostCircumcentreSets,
   crossHostKatExpected,
+  crossHostLaneStreams,
+  type CrossHostLaneOp,
   crossHostRegularFitRings,
   crossHostResultData,
   crossHostStream,

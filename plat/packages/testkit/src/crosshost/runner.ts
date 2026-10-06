@@ -44,9 +44,14 @@ function firstLine(e: unknown): string {
   return (e instanceof Error ? e.message : String(e)).split('\n')[0] ?? '';
 }
 
-function checkThread(leg: CrossHostLegId, workers: CrossHostWorkers, result: CrossHostLegResult): string | null {
+/** Why a run's thread is wrong (the stages ran on the main thread with workers on, or in a worker with them off), or null. */
+export function crossHostThreadProblem(leg: CrossHostLegId, workers: CrossHostWorkers, thread: 'main' | 'worker'): string | null {
   const want = workers === 'on' ? 'worker' : 'main';
-  return result.thread === want ? null : `${leg} workers ${workers}: the stages ran on the ${result.thread} thread, not the ${want}`;
+  return thread === want ? null : `${leg} workers ${workers}: the stages ran on the ${thread} thread, not the ${want}`;
+}
+
+function checkThread(leg: CrossHostLegId, workers: CrossHostWorkers, result: CrossHostLegResult): string | null {
+  return crossHostThreadProblem(leg, workers, result.thread);
 }
 
 /** A Node leg's answer line. */

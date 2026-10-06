@@ -3,12 +3,13 @@
 // kernel's own calls, so a stage that dropped an input from its digest would differ; and the leg runtime's order,
 // refusals and timing switch.
 import { describe, expect, it } from 'vitest';
-import { circumcentres, delaunay, hull, lir, obb, regularFit } from '@plat/kernel';
+import { circumcentres, delaunay, hull, LaneWriter, lir, obb, regularFit } from '@plat/kernel';
 import {
   CONSTRUCTIVE_SET,
   CROSSHOST_KERNEL_STAGES,
   CrossHostDigestWriter,
   crossHostCircumcentreSets,
+  crossHostLaneStreams,
   crossHostRegularFitRings,
   crossHostResultData,
   runCrossHostJob,
@@ -171,5 +172,47 @@ describe('the leg runtime', () => {
     expect(() => runCrossHostJob([...table, table[0]], job(), 'main')).toThrow(/twice/);
     expect(() => runCrossHostJob(table, job({ seeds: [-1] }), 'main')).toThrow(RangeError);
     expect(() => runCrossHostJob(table, job({ seeds: [2 ** 32] }), 'main')).toThrow(RangeError);
+  });
+});
+
+describe("the lanes stage carries M0-d-02's four lane kinds", () => {
+  it('its streams hold u32, i32, f64 (−0, ±∞, subnormals among them) and UTF-8 (astral code points among them) ops', () => {
+    const kinds = new Set<string>();
+    let negZero = false;
+    let infinite = false;
+    let astral = false;
+    for (const seed of SEEDS) {
+      const streams = crossHostLaneStreams(seed);
+      expect(streams.length).toBe(64);
+      for (const ops of streams) {
+        expect(ops.length).toBeGreaterThanOrEqual(1);
+        for (const op of ops) {
+          kinds.add(op[0]);
+          if (op[0] === 'f64' && Object.is(op[1], -0)) negZero = true;
+          if (op[0] === 'f64' && !Number.isFinite(op[1])) infinite = true;
+          if (op[0] === 'utf8' && [...op[1]].some((c) => (c.codePointAt(0) ?? 0) > 0xffff)) astral = true;
+        }
+      }
+    }
+    expect(kinds).toEqual(new Set(['u32', 'i32', 'f64', 'utf8']));
+    expect(infinite && astral).toBe(true);
+    expect(negZero).toBe(true);
+  });
+  it('equals the digest of each stream’s lane count and H128 by LaneWriter, recomputed', () => {
+    for (const seed of SEEDS) {
+      const w = new CrossHostDigestWriter();
+      for (const ops of crossHostLaneStreams(seed)) {
+        const lw = new LaneWriter();
+        for (const [k, v] of ops) {
+          if (k === 'u32') lw.u32(v);
+          else if (k === 'i32') lw.i32(v);
+          else if (k === 'f64') lw.f64(v);
+          else lw.utf8(v);
+        }
+        w.u32(lw.lanes);
+        for (const h of lw.digest()) w.u32(h);
+      }
+      expect(stage('lanes').run(seed, ctx())).toEqual({ model: w.hex(), records: null });
+    }
   });
 });

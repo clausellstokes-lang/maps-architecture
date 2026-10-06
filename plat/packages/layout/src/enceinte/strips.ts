@@ -7,14 +7,18 @@
 // The lines are the kernel's `buffer` of the committed trace at each width (round joins; the inner line the buffer's
 // hole, the outer its outer ring), cut by the stops (C-0226 (10)): a main gate's stop is its way's corridor, a band of
 // the corridor's half-width about the way's centreline near the gate (the band's two edges are the strip's two ends: a
-// cap from the line's end back to where the trace crosses the same edge, on the same side of the way, closes the strip); a water gate's stop is the water itself
-// (the river is its corridor, C-0087: the line ends on the shore and the shore closes the strip); and, given the frame,
-// the map border (the glacis line ends on it). An enceinte with no gate keeps both lines whole: each strip a ring face
-// with the trace on one side.
+// cap from the line's end back to where the trace crosses the same edge, on the same side of the way, closes the
+// strip); a water gate's stop is the water itself (the river is its corridor, C-0087: the line ends on the shore and
+// the shore closes the strip); and, given the frame,
+// the map border (the glacis line ends on it; where the border cut it short of a corridor, a cap runs from the trace out
+// along the way to the border). An enceinte with no gate keeps both lines whole: each strip a ring face with the trace
+// on one side. Each strip's face is found from its line and from its arc of the trace and taken only when it lies within
+// the strip's width of the trace and outside every corridor (C-0226 (10)).
 import { buffer, err, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
-import { area2, ccw, clipOutside, crossParams, d2, footOn, lat, openRing, unitOf, type Piece } from './plane.js';
+import { quot } from '../siting/geom.js';
+import { area2, ccw, clipOutside, crossParams, d2, distToRing, footOn, inside, lat, openRing, unitOf, type Piece } from './plane.js';
 import { l1Spec, stripOwner } from './trace.js';
 import type { StripsLaid, StripStop, XY } from './types.js';
 import { GROUND } from './water.js';
@@ -78,6 +82,47 @@ function crossingsOf(trace: readonly XY[], rings: readonly (readonly XY[])[]): X
     }
   }
   return out;
+}
+
+/** "x,y" of a lattice point. */
+function keyOf(p: XY): string {
+  return `${String(p.x)},${String(p.y)}`;
+}
+
+/** The way's outward direction at the path's side nearest p (the path runs inward to outward). */
+function outwardOf(path: readonly XY[], p: XY): XY {
+  let best = Infinity;
+  let at = 0;
+  for (let i = 0; i + 1 < path.length; i += 1) {
+    const f = footOn(p, path[i], path[i + 1]);
+    if (f.d2 < best) {
+      best = f.d2;
+      at = i;
+    }
+  }
+  return unitOf({ x: path[at + 1].x - path[at].x, y: path[at + 1].y - path[at].y }) ?? { x: 0, y: 1 };
+}
+
+/** Where the ray from p along the unit d first leaves the frame rectangle (its ring's box), or null. */
+export function toFrame(p: XY, d: XY, frame: readonly XY[]): XY | null {
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const q of frame) {
+    minX = Math.min(minX, q.x);
+    minY = Math.min(minY, q.y);
+    maxX = Math.max(maxX, q.x);
+    maxY = Math.max(maxY, q.y);
+  }
+  let t = Infinity;
+  // d is a unit vector: a component below 10⁻⁶ runs along that side and meets it nowhere ahead.
+  if (d.x > 1e-6) t = Math.min(t, quot((maxX - p.x) * 1_000_000, d.x * 1_000_000, 'length', 'frame ray'));
+  if (d.x < -1e-6) t = Math.min(t, quot((minX - p.x) * 1_000_000, d.x * 1_000_000, 'length', 'frame ray'));
+  if (d.y > 1e-6) t = Math.min(t, quot((maxY - p.y) * 1_000_000, d.y * 1_000_000, 'length', 'frame ray'));
+  if (d.y < -1e-6) t = Math.min(t, quot((minY - p.y) * 1_000_000, d.y * 1_000_000, 'length', 'frame ray'));
+  if (!Number.isFinite(t) || t < 0) return null;
+  return { x: p.x + d.x * t, y: p.y + d.y * t };
 }
 
 /** The side of the way's centreline a point lies on: the sign of its orientation against the nearest side of the path. */
@@ -227,31 +272,85 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
   const regionsInner = regions.slice(0, frameAt);
   const innerChains = inW.inner.flatMap((ring) => chainsOf(clipOutside(ring, true, regionsInner), stops, caps, trace));
   const outerChains = outW.outer.flatMap((ring) => chainsOf(clipOutside(ring, true, regions), stops, caps, trace));
+  // Where the frame cut the glacis line short of a corridor (a capped boundary near the map border), the outer strip
+  // still stops at the way: a cap from the trace's crossing of the corridor out along the way to the border.
+  const used = new Set<string>();
+  for (const c of outerChains) {
+    if (c.closed || c.points.length === 0) continue;
+    used.add(keyOf(c.points[0]));
+    used.add(keyOf(c.points[c.points.length - 1]));
+  }
+  const borderCaps: { points: LatticePoint[]; closed: boolean }[] = [];
+  if (opts.frame !== undefined) {
+    stops.forEach((s, i) => {
+      if (s.kind !== 'way') return;
+      for (const t of caps[i]) {
+        const T = lat(t);
+        if (used.has(keyOf(T))) continue;
+        const F = toFrame(T, outwardOf(s.path, T), opts.frame as readonly XY[]);
+        if (F !== null && d2(T, F) <= reach * reach && d2(T, F) >= 1) borderCaps.push({ points: [T, lat(F)], closed: false });
+      }
+    });
+  }
+  // A probe per arc of the trace between its stops, a metre to each side: every strip's face is found even where its
+  // line was cut away (by the border) — and none in the water or beyond the frame.
+  const arcProbes = clipOutside(trace, true, regions).map((piece) => {
+    const pts = piece.points;
+    let total = 0;
+    for (let i = 0; i + 1 < pts.length; i += 1) total += Math.sqrt(d2(pts[i], pts[i + 1]));
+    let run = 0;
+    for (let i = 0; i + 1 < pts.length; i += 1) {
+      const l = Math.sqrt(d2(pts[i], pts[i + 1]));
+      if (run + l >= total * 0.5 && l > 0) {
+        const t = quot(total * 0.5 - run, l, 'length', 'arc middle');
+        const m = { x: pts[i].x + t * (pts[i + 1].x - pts[i].x), y: pts[i].y + t * (pts[i + 1].y - pts[i].y) };
+        const u = unitOf({ x: pts[i + 1].x - pts[i].x, y: pts[i + 1].y - pts[i].y }) ?? { x: 1, y: 0 };
+        return { inner: { x: m.x - u.y * 100, y: m.y + u.x * 100 }, outer: { x: m.x + u.y * 100, y: m.y - u.x * 100 } };
+      }
+      run += l;
+    }
+    return null;
+  });
+  const wet = (q: XY): boolean => stops.some((s) => s.kind === 'water' && inside(s.ring, q));
+  const framed = (q: XY): boolean => opts.frame === undefined || inside(opts.frame, q);
+  const innerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.inner) ? [] : [a.inner]));
+  const outerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.outer) || !framed(a.outer) ? [] : [a.outer]));
   const owners = { inner: stripOwner(enceinte.id, 'inner'), outer: stripOwner(enceinte.id, 'outer') };
   const row = { role: 'setback', entity: enceinte.id };
   const committed = k.tx(l1Spec(key, opts.batchStage ?? STAGES.S5), (o) => {
-    for (const c of [...innerChains, ...outerChains]) {
+    for (const c of [...innerChains, ...outerChains, ...borderCaps]) {
       const r = k.geom.insertChain(o, c.points, [row], 'mandatory', { closed: c.closed });
       if (!r.ok) return err(r.code, r.detail);
     }
-    const facesOf = (chains: readonly { probe: XY }[]): KernelResult<number[]> => {
-      const fs: number[] = [];
-      for (const c of chains) {
-        const loc = k.geom.pointLocate(key, 1, lat(c.probe));
-        if (loc.on !== 'face' || loc.level !== 1) return { ok: false, code: 'E_INVARIANT', detail: `layStrips: no L1 strip face at (${String(Math.round(c.probe.x))}, ${String(Math.round(c.probe.y))})` };
-        fs.push(loc.face);
-      }
-      return { ok: true, value: fs, warnings: [] };
+    // Each line's probe and each arc's probe (a metre off the trace) finds a strip's face only where that face lies
+    // wholly within the strip's width of the trace and outside every way's corridor (beyond a 5 cm rounding at its
+    // edge): the strip itself, also where the border cut its line away — never the open ground or a corridor beyond.
+    const isStrip = (face: number, widthCm: number): boolean => {
+      const ring = k.view(key, 1).rings(face)[0];
+      const inCorridor = (v: XY): boolean =>
+        stops.some((st, i) => st.kind === 'way' && ((v.x === st.at.x && v.y === st.at.y) || regions[i].some((r) => inside(r, v) && distToRing(v, r) > 5)));
+      return ring.every((v) => distToRing(v, trace) <= widthCm + 100 && !inCorridor(v));
     };
-    const fi = facesOf(innerChains);
-    if (!fi.ok) return err(fi.code, fi.detail);
-    const fo = facesOf(outerChains);
-    if (!fo.ok) return err(fo.code, fo.detail);
-    const si = k.geom.setOwner(o, fi.value, owners.inner);
+    const facesOf = (probes: readonly XY[], widthCm: number): number[] => {
+      const fs: number[] = [];
+      for (const q of probes) {
+        const loc = k.geom.pointLocate(key, 1, lat(q));
+        if (loc.on !== 'face' || loc.level !== 1 || fs.includes(loc.face)) continue;
+        if (isStrip(loc.face, widthCm)) fs.push(loc.face);
+      }
+      return fs;
+    };
+    const fi = facesOf([...innerChains.map((c) => c.probe), ...innerArcProbes], widths.inner);
+    const fo = facesOf([...outerChains.map((c) => c.probe), ...outerArcProbes], widths.outer);
+    // A side with a line and no strip face, or a face both sides found, is no strip: the lines did not close it
+    // (refused, never a strip across the wall or none at all).
+    if ((innerChains.length > 0 && fi.length === 0) || (outerChains.length > 0 && fo.length === 0)) return { ok: false, code: 'E_INVARIANT', detail: 'layStrips: a side\'s lines closed no strip face' };
+    if (fi.some((f) => fo.includes(f))) return { ok: false, code: 'E_INVARIANT', detail: 'layStrips: one face on both sides of the wall' };
+    const si = k.geom.setOwner(o, fi, owners.inner);
     if (!si.ok) return err(si.code, si.detail);
-    const so = k.geom.setOwner(o, fo.value, owners.outer);
+    const so = k.geom.setOwner(o, fo, owners.outer);
     if (!so.ok) return err(so.code, so.detail);
-    return { ok: true, value: { inner: new Set(fi.value).size, outer: new Set(fo.value).size }, warnings: [] };
+    return { ok: true, value: { inner: fi.length, outer: fo.length }, warnings: [] };
   });
   if (!committed.ok) return err(committed.code, committed.detail);
   const faces = committed.value.value as { inner: number; outer: number };
@@ -260,7 +359,7 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
     value: {
       owners,
       faces,
-      lines: { inner: innerChains.map((c) => c.points), outer: outerChains.map((c) => c.points) },
+      lines: { inner: innerChains.map((c) => c.points), outer: [...outerChains.map((c) => c.points), ...borderCaps.map((c) => c.points)] },
       widthsCm: widths,
     },
     warnings: committed.warnings,

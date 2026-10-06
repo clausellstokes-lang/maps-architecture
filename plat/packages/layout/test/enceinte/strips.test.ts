@@ -6,8 +6,9 @@
 // "0 lanes cross a strip" bar on real cuts is M0-b-03's and M0-c-06's.
 import { describe, expect, it } from 'vitest';
 import { booleans, buffer, roleNamed, STAGES, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
-import { stripWidths, WAY_SPAN_NODES } from '../../src/index.js';
-import { closedChain, commitSite, edgesWith, GROUND, insideRing, ringDist, segDist, smallCommitted, smallSite, wallsWith, type Committed } from './support.js';
+import type { GateSite } from '@plat/model';
+import { commitOuterRing, commitS3Batch, flatFixture, layStrips, s3Slice, siteContext, stripWidths, traceBase, WAY_SPAN_NODES } from '../../src/index.js';
+import { closedChain, commitSite, densify, edgesWith, GROUND, insideRing, kernelFor, ringDist, segDist, smallCommitted, smallSite, wallsWith, type Committed } from './support.js';
 
 const WALL = { role: 'wall', entity: 'enceinte:1' };
 
@@ -187,6 +188,81 @@ describe('the strips (C-0033)', () => {
     const wall = closedChain(c.plat, WALL);
     expect(insideRing(wall, c.commit.strips.lines.inner[0][0])).toBe(true);
     expect(insideRing(wall, c.commit.strips.lines.outer[0][0])).toBe(false);
+  }, 60_000);
+});
+
+describe('the strips at the map border and from the arena alone', () => {
+  it('a capped boundary near the border (EP-20\'s too-small frame): the glacis stops at the border, the outer strips still one face per arc, none taking a gate\'s corridor', () => {
+    const c = commitSite(flatFixture(3, { frameAreaHa: 20, walledHa: 60 }));
+    expect(c.slice.threshold.capped).toBe(true);
+    const n = c.slice.gates.length;
+    expect(n).toBeGreaterThan(1);
+    expect(ownedFaces(c, 'wall_strip:1-inner')).toHaveLength(n);
+    // The outer strips: at least one face per arc (where the wall nears the border closer than the glacis, the border
+    // itself cuts an arc's strip in two — a note for M4, not a merge across a gate).
+    expect(ownedFaces(c, 'wall_strip:1-outer').length).toBeGreaterThanOrEqual(n);
+    // Some setback edge ends on the map border (the frame rectangle).
+    const half = c.site.frame.widthCm / 2;
+    const onBorder = edgesWith(c.plat, 'setback').filter((e) => [e.a, e.b].some((q) => Math.max(Math.abs(q.x), Math.abs(q.y)) >= half - 1));
+    expect(onBorder.length).toBeGreaterThan(0);
+    // No outer strip takes a way's corridor: no strip vertex inside it.
+    const strips = ownedFaces(c, 'wall_strip:1-outer');
+    for (const way of ways(c)) for (const { ring } of strips) for (const q of ring) expect(pathDist(q, way.path)).toBeGreaterThanOrEqual(way.h - 10);
+  }, 60_000);
+
+  it('a gate within the glacis width of the border: the outer strips stop at its way all the same (a cap out to the border)', () => {
+    const site = smallSite(2);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    // The map border on L1 (S3's chain), then a town 10 m inside the frame's west side, a gate there and one east.
+    const spec = { key: GROUND, level: 1 as const, ops: [], expect: [], onFail: 'reject' as const, batch: { kind: 'stage' as const, stage: STAGES.S3 as StageId }, stage: STAGES.S3 as StageId, rederivesFrom: STAGES.S3 as StageId, workLimit: 1_000_000 };
+    expect(k.tx(spec, (o) => k.geom.insertChain(o, site.frameRing, [{ role: 'border', entity: site.terrain.id }], 'mandatory', { closed: true })).ok).toBe(true);
+    const west = -site.frame.widthCm / 2 + 1000;
+    const boundary = densify([[west, -30000], [-40000, -30000], [-40000, 30000], [west, 30000]]);
+    const gates = [[west, 0], [-40000, 0]].map(([x, y], i) => ({ ordinal: i, at: { x, y } as LatticePoint, bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main' as const, forced: false }));
+    const t = traceBase(boundary, gates, [], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k, { costField: () => 0 });
+    expect(t.ok).toBe(true);
+    if (!t.ok) return;
+    const stops = [
+      { kind: 'way' as const, gate: 'gate:0', at: gates[0].at, path: [{ x: west + 5000, y: 0 }, gates[0].at, { x: west - 1000, y: 0 }], halfWidthCm: 700 },
+      { kind: 'way' as const, gate: 'gate:1', at: gates[1].at, path: [{ x: -45000, y: 0 }, gates[1].at, { x: -35000, y: 0 }], halfWidthCm: 700 },
+    ];
+    const r = layStrips(t.value, site.tables.table('walls').row('era.default'), k, { stops, frame: site.frameRing });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.faces).toEqual({ inner: 2, outer: 2 });
+    // The two caps out to the border at the west gate: setback chains from the trace's corridor crossings to the frame.
+    const toBorder = r.value.lines.outer.filter((l) => l.length === 2 && l.some((q) => q.x === -site.frame.widthCm / 2));
+    expect(toBorder).toHaveLength(2);
+    const v = k.view(GROUND, 1);
+    for (const f of v.faces().filter((g) => v.owner(g) === 'wall_strip:1-outer')) {
+      for (const q of v.rings(f)[0]) expect(Math.abs(q.y) >= 690 || q.x > west + 100).toBe(true);
+    }
+  }, 60_000);
+
+  it('layStrips reads its stops from the arena when none are given: each main gate\'s way along the trace\'s normal', () => {
+    const site = smallSite(5);
+    const slice = s3Slice(site);
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const b = commitS3Batch(slice, k);
+    expect(b.ok).toBe(true);
+    if (!b.ok) return;
+    const t = traceBase(slice.levelSet.outline, slice.gateSites, [b.value.plaza], site.terrain, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(t.ok).toBe(true);
+    if (!t.ok) return;
+    const row = site.tables.table('walls').row('era.default');
+    expect(() => layStrips(t.value, row, k)).toThrow(RangeError);
+    const r = layStrips(t.value, row, k, { wayHalfWidthCm: 700, frame: site.frameRing });
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const n = slice.gates.length;
+    expect(r.value.faces).toEqual({ inner: n, outer: n });
+    const v = k.view(GROUND, 1);
+    const strips = v.faces().filter((f) => (v.owner(f) ?? '').startsWith('wall_strip')).map((f) => v.rings(f)[0]);
+    expect(strips).toHaveLength(2 * n);
+    // No strip comes within 7 m (less the buffer's rounding) of a gate.
+    for (const g of slice.gates) for (const ring of strips) for (const q of ring) expect(Math.hypot(q.x - g.at.x, q.y - g.at.y)).toBeGreaterThanOrEqual(690);
   }, 60_000);
 });
 

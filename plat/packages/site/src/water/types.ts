@@ -19,10 +19,13 @@ export interface WaterReach {
   parts: WaterPart[];
 }
 
-/** A body S1's water could not give a polygon (a course of fewer than two points, or no part left past the slivers). */
+/**
+ * A body S1's water left out: a course of fewer than two points, no part left past the slivers, or a shore the kernel
+ * refused on both polygon paths (C-0225 (2)) — each reported, never silent.
+ */
 export interface DroppedBody {
   id: Id;
-  reason: 'course' | 'empty';
+  reason: 'course' | 'empty' | 'refused';
 }
 
 /** A deck already standing (`existingDecks`): its two bank points. */
@@ -94,6 +97,8 @@ export interface S1Report {
   dropped: DroppedBody[];
   /** The bodies whose polygon took the kernel's buffer and booleans, with the fast ring's refusal (C-0225 (2)). */
   fallbacks: { id: Id; why: string }[];
+  /** The water batch was re-run on the kernel's own polygons after the kernel refused it on the fast rings. */
+  retried: boolean;
   /** The arena's version after the outer ring's batch and after the water's. */
   versions: [number, number];
   /** §3.10's stage-end rows (`checkStageEnd`), each holding. */

@@ -1,0 +1,888 @@
+{
+  "item": "M0-k-04",
+  "bar": "B-FUZZ (§13.1; §16 M0 (a))",
+  "runsPerPrimitive": 1000,
+  "pass": false,
+  "totals": {
+    "crashes": 0,
+    "hangs": 0,
+    "invalid": 0,
+    "warnings": {
+      "W_ACUTE_CORNER": 1722,
+      "W_ATTRACTED": 122710,
+      "W_DOWNGRADE": 376,
+      "W_PLACED": 702,
+      "W_STRETCH_SHARED": 43669,
+      "W_WEDGE_ROUTED": 1168
+    },
+    "downgrades": 376,
+    "workLimitHits": 0,
+    "bugs": 0
+  },
+  "primitives": {
+    "insertChain": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 795,
+      "skipped": 69,
+      "refused": {
+        "E_BELOW_MIN_ANGLE": 4,
+        "E_BELOW_MIN_EDGE": 51,
+        "E_DEGENERATE": 50,
+        "E_INVARIANT": 31
+      },
+      "warnings": {
+        "W_ACUTE_CORNER": 5,
+        "W_ATTRACTED": 393,
+        "W_STRETCH_SHARED": 534
+      },
+      "notes": {
+        "remove-after-insert refused E_INVARIANT index-freshness": 293
+      },
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 9,
+        "permutation": 9
+      },
+      "bugs": 0,
+      "work": {
+        "insert.attractQueries": {
+          "unit": "vertices",
+          "n": 840,
+          "p50": 4.4,
+          "p99": 9.5,
+          "p999": 13.2,
+          "max": 13.2,
+          "units": 8846
+        },
+        "insert.crossings": {
+          "unit": "vertices",
+          "n": 62,
+          "p50": 0.11764705882352941,
+          "p99": 0.8,
+          "p999": 0.8,
+          "max": 0.8,
+          "units": 758
+        },
+        "insert.placementCandidates": {
+          "unit": "vertices",
+          "n": 146,
+          "p50": 0.15789473684210525,
+          "p99": 0.6666666666666666,
+          "p999": 0.8,
+          "max": 0.8,
+          "units": 1491
+        },
+        "insert.points": {
+          "unit": "vertices",
+          "n": 931,
+          "p50": 1,
+          "p99": 1,
+          "p999": 1,
+          "max": 1,
+          "units": 9670
+        },
+        "tx.facesWalked": {
+          "unit": "faces",
+          "n": 826,
+          "p50": 0.5,
+          "p99": 2.25,
+          "p999": 5.666666666666667,
+          "max": 5.666666666666667,
+          "units": 8689
+        }
+      }
+    },
+    "splitFace": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 347,
+      "skipped": 149,
+      "refused": {
+        "E_NOT_TWO_CROSSINGS": 504
+      },
+      "warnings": {
+        "W_ATTRACTED": 1
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {
+        "insert.attractQueries": {
+          "unit": "vertices",
+          "n": 851,
+          "p50": 1.3333333333333333,
+          "p99": 7,
+          "p999": 7,
+          "max": 7,
+          "units": 2541
+        },
+        "insert.placementCandidates": {
+          "unit": "vertices",
+          "n": 736,
+          "p50": 0.6666666666666666,
+          "p99": 1.3333333333333333,
+          "p999": 2,
+          "max": 2,
+          "units": 2198
+        },
+        "insert.points": {
+          "unit": "vertices",
+          "n": 347,
+          "p50": 1,
+          "p99": 1,
+          "p999": 1,
+          "max": 1,
+          "units": 1038
+        },
+        "tx.facesWalked": {
+          "unit": "faces",
+          "n": 851,
+          "p50": 0.5,
+          "p99": 4,
+          "p999": 4,
+          "max": 4,
+          "units": 1954
+        }
+      }
+    },
+    "warp": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 933,
+      "skipped": 67,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "corridorUnion": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {
+        "W_ACUTE_CORNER": 1,
+        "W_ATTRACTED": 19,
+        "W_STRETCH_SHARED": 2
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {
+        "insert.attractQueries": {
+          "unit": "vertices",
+          "n": 864,
+          "p50": 30.346153846153847,
+          "p99": 146.5,
+          "p999": 167.5,
+          "max": 167.5,
+          "units": 13129
+        },
+        "insert.placementCandidates": {
+          "unit": "vertices",
+          "n": 11,
+          "p50": 0.14285714285714285,
+          "p99": 0.2222222222222222,
+          "p999": 0.2222222222222222,
+          "max": 0.2222222222222222,
+          "units": 177
+        },
+        "insert.points": {
+          "unit": "vertices",
+          "n": 864,
+          "p50": 4.346153846153846,
+          "p99": 21,
+          "p999": 24,
+          "max": 24,
+          "units": 13129
+        },
+        "tx.facesWalked": {
+          "unit": "faces",
+          "n": 1000,
+          "p50": 5,
+          "p99": 14,
+          "p999": 17,
+          "max": 18.5,
+          "units": 2000
+        }
+      }
+    },
+    "offsetFace": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 316,
+      "skipped": 143,
+      "refused": {
+        "E_DEGENERATE": 537,
+        "E_INVARIANT": 4
+      },
+      "warnings": {
+        "W_ACUTE_CORNER": 239,
+        "W_ATTRACTED": 20115,
+        "W_PLACED": 151,
+        "W_STRETCH_SHARED": 7078,
+        "W_WEDGE_ROUTED": 85
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "insetRing": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 334,
+      "skipped": 151,
+      "refused": {
+        "E_DEGENERATE": 73,
+        "E_NON_CONVEX": 442
+      },
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "kerb": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 876,
+      "skipped": 124,
+      "refused": {},
+      "warnings": {
+        "W_ACUTE_CORNER": 468,
+        "W_ATTRACTED": 35207,
+        "W_PLACED": 435,
+        "W_STRETCH_SHARED": 13341,
+        "W_WEDGE_ROUTED": 820
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "query": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "encodeArena": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "snap": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 529,
+      "skipped": 0,
+      "refused": {
+        "E_OUT_OF_RANGE": 471
+      },
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "orient": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "area2": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "hull": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 967,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 33
+      },
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "obb": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 974,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 26
+      },
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "lir": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "regularFit": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 923,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 77
+      },
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "skeleton": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {
+        "W_DOWNGRADE": 376
+      },
+      "notes": {},
+      "downgrades": 376,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {
+        "skeleton.events": {
+          "unit": "vertices",
+          "n": 1000,
+          "p50": 0.5,
+          "p99": 1.0952380952380953,
+          "p999": 1.1538461538461537,
+          "max": 1.1538461538461537,
+          "units": 12772
+        }
+      }
+    },
+    "simplify": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "hexLattice": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "delaunay": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "sideRuns": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 1000,
+      "skipped": 0,
+      "refused": {},
+      "warnings": {},
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": null,
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "booleans": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 711,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 289
+      },
+      "warnings": {
+        "W_ACUTE_CORNER": 30,
+        "W_ATTRACTED": 1769,
+        "W_STRETCH_SHARED": 552
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": {
+        "unattracted": 504,
+        "attracted": 496,
+        "refused": 0
+      },
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "buffer": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 825,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 175
+      },
+      "warnings": {
+        "W_ACUTE_CORNER": 932,
+        "W_ATTRACTED": 61977,
+        "W_PLACED": 116,
+        "W_STRETCH_SHARED": 21055,
+        "W_WEDGE_ROUTED": 262
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": {
+        "unattracted": 44,
+        "attracted": 956,
+        "refused": 0
+      },
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    },
+    "tileRings": {
+      "runs": 1000,
+      "crashes": 0,
+      "hangs": 0,
+      "invalid": 0,
+      "ok": 888,
+      "skipped": 0,
+      "refused": {
+        "E_DEGENERATE": 112
+      },
+      "warnings": {
+        "W_ACUTE_CORNER": 47,
+        "W_ATTRACTED": 3229,
+        "W_STRETCH_SHARED": 1107,
+        "W_WEDGE_ROUTED": 1
+      },
+      "notes": {},
+      "downgrades": 0,
+      "workLimitHits": 0,
+      "oracle": {
+        "unattracted": 394,
+        "attracted": 494,
+        "refused": 0
+      },
+      "sampled": {
+        "renumbering": 0,
+        "permutation": 0
+      },
+      "bugs": 0,
+      "work": {}
+    }
+  },
+  "constructive": {
+    "cases": 185,
+    "judged": 134,
+    "draws": 20323,
+    "green": 130,
+    "failedCases": 1,
+    "failing": [
+      "geom/collinear-overlap-same"
+    ],
+    "pending": 0,
+    "known": [
+      "index/slot-reuse-stage",
+      "index/slot-reuse-districts",
+      "limit/cap-move-halvings"
+    ],
+    "staleKnown": [],
+    "deferred": {
+      "M0": 0,
+      "M1": 8,
+      "M2a": 2,
+      "M2b": 3,
+      "M3a": 14,
+      "M4": 5,
+      "M5": 5,
+      "M6-P": 9,
+      "M6-U": 5
+    }
+  },
+  "ladders": {
+    "covered": true,
+    "rows": [
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE plainRoof (contract sharpCorner)",
+        "fixture": "limit/degen-skeleton-sharp-corner",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE plainRoof (contract holeContact)",
+        "fixture": "limit/degen-skeleton-hole-touch",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE medialAxis",
+        "fixture": "limit/degen-skeleton-sharp-corner",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE plainRoof / medialAxis (E_WORK_LIMIT)",
+        "fixture": "packages/kernel/test/skeleton/worklimit.test.ts",
+        "status": "built",
+        "reached": null,
+        "draws": null
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE (validator)",
+        "fixture": "packages/kernel/test/skeleton/downgrade.test.ts",
+        "status": "built",
+        "reached": null,
+        "draws": null
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "ok / W_DOWNGRADE",
+        "fixture": "skel/holed-polygons",
+        "status": "built",
+        "reached": 1000,
+        "draws": 1000
+      },
+      {
+        "failureClass": "F-SKELETON",
+        "code": "W_DOWNGRADE reflexPreCut",
+        "fixture": "F-PLOT,",
+        "status": {
+          "deferredTo": "M1"
+        },
+        "reached": null,
+        "draws": null
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "E_BELOW_MIN_EDGE",
+        "fixture": "limit/one-item-chain-optional",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "E_BELOW_MIN_ANGLE",
+        "fixture": "ladder/optional-acute",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "W_ACUTE_CORNER",
+        "fixture": "ladder/mandatory-acute",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "E_BELOW_MIN_EDGE / W_WEDGE_ROUTED",
+        "fixture": "packages/kernel/test/insert/step3-5/",
+        "status": "built",
+        "reached": null,
+        "draws": null
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "E_OUT_OF_RANGE",
+        "fixture": "ladder/optional-out-of-range",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "bug",
+        "fixture": "ladder/mandatory-out-of-range",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "E_SELF_INTERSECT",
+        "fixture": "ladder/claim-bowtie",
+        "status": "built",
+        "reached": 8,
+        "draws": 8
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "W_SNAP_PASSES",
+        "fixture": "packages/kernel/test/insert/step3-5/snapRound.test.ts",
+        "status": "built",
+        "reached": null,
+        "draws": null
+      },
+      {
+        "failureClass": "F-NUM",
+        "code": "bug",
+        "fixture": "B-CITY-lite",
+        "status": {
+          "deferredTo": "M1"
+        },
+        "reached": null,
+        "draws": null
+      }
+    ],
+    "degenerate": 10
+  },
+  "constructiveDraws": {
+    "perCase": 10,
+    "sweepsWhole": true
+  },
+  "s11": {
+    "plots": 50,
+    "callListsAsListed": true
+  }
+}

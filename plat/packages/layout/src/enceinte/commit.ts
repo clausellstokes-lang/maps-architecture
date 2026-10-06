@@ -15,9 +15,10 @@ import { arenaReach } from '@plat/site';
 import { quot } from '../siting/geom.js';
 import { PLAZA_AREA_BAND_HA } from '../siting/plaza.js';
 import type { S3Slice, Site } from '../siting/types.js';
-import { layStrips } from './strips.js';
+import { lat, unitOf } from './plane.js';
+import { layStrips, toFrame } from './strips.js';
 import { baseEnceinte } from './trace.js';
-import type { CostField, EnceinteContext, StripsLaid, StripStop, Traced, WaterGate } from './types.js';
+import type { CostField, EnceinteContext, StripsLaid, StripStop, Traced, WaterGate, XY } from './types.js';
 import { GROUND, generated, waterRings } from './water.js';
 
 /** The route nodes on each side of a gate's edge its way's corridor is taken along (4 × 25 m: past both strips). */
@@ -188,7 +189,17 @@ export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {
     // side (the route S4 commits, C-0226 (10)).
     const route = slice.routes.find((r) => r.ordinal === g.ordinal);
     const nodes = route === undefined ? [g.edge[0], g.edge[1]] : route.nodes.slice(Math.max(0, g.routeIndex - WAY_SPAN_NODES), g.routeIndex + 2 + WAY_SPAN_NODES);
-    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path: nodes.map((n) => slice.lattice.points[n]), halfWidthCm: half });
+    const path: XY[] = nodes.map((n) => slice.lattice.points[n]);
+    // A route ending at the rim within the span runs on to the frame's edge (S4's through-road to the margin): the
+    // corridor follows it there.
+    if (route !== undefined && nodes[nodes.length - 1] === route.nodes[route.nodes.length - 1] && path.length >= 2) {
+      const a = path[path.length - 2];
+      const b = path[path.length - 1];
+      const d = unitOf({ x: b.x - a.x, y: b.y - a.y });
+      const f = d === null ? null : toFrame(b, d, site.frameRing);
+      if (f !== null && (f.x !== b.x || f.y !== b.y)) path.push(lat(f));
+    }
+    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path, halfWidthCm: half });
   });
   const rings = waterRings(water, k, arena);
   // Every water face stops the strips (the river is a water gate's corridor, C-0087; a shore the trace follows carries

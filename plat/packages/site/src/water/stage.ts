@@ -8,18 +8,18 @@
 // a failing hard row refuses the stage E_INVARIANT — then writes Terrain.outfalls (S1 (9)). The stage draws nothing
 // (no stream key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel
 // parameter and the StageContext no kernel slot (C-0225 (1)).
-import { checkStageEnd, err, ok, STAGES, type KernelResult, type Warning } from '@plat/kernel';
-import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterSet, WorkLimitLaw } from '@plat/model';
+import { checkStageEnd, err, ok, STAGES, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
+import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
 import { GROUND_KEY } from '../terrain/heightfield.js';
 import type { SiteEnv } from '../terrain/types.js';
 import { siteCrossings } from './crossings.js';
 import { bridgeId, outerRingBatch, waterFaces } from './faces.js';
-import { reachOf } from './geometry.js';
+import { reachOf, type Reach } from './geometry.js';
 import { outfalls } from './outfalls.js';
-import { waterParams } from './params.js';
-import { splitEstuary, waterPolygons } from './polygons.js';
-import type { S1Input, S1Output } from './types.js';
+import { waterParams, type WaterParams } from './params.js';
+import { waterPolygons } from './polygons.js';
+import type { CrossingSite, DroppedBody, S1Input, S1Output } from './types.js';
 
 /** The work-limit counters an L0 batch charges (M0.md §2.2's insert and tx rows). */
 export const S1_COUNTERS = Object.freeze(['insert.points', 'insert.attractQueries', 'insert.placementCandidates', 'insert.crossings', 'tx.facesWalked'] as const);
@@ -42,6 +42,32 @@ export function l0WorkLimit(vertices: number, faces: number): number {
   return sum;
 }
 
+type Attempt =
+  | { ok: true; polys: Extract<ReturnType<typeof waterPolygons>, { ok: true }>; sites: CrossingSite[]; faces: Extract<ReturnType<typeof waterFaces>, { ok: true }>; retried: boolean }
+  | { ok: false; code: KernelError; detail: string; fast: boolean };
+
+/** One try at the water: the polygons (fast, or the kernel's only), the sites on them, the water batch. */
+function water(input: S1Input, bodies: readonly WaterBody[], mouth: S1Input['mouth'], reach: Reach, params: WaterParams, k: Kernel, ctx: StageContext<SiteEnv>, opts: S1StageOptions, slowOnly: boolean): Attempt {
+  const polys = waterPolygons(bodies, reach, { slowOnly, ...(mouth !== undefined ? { mouth } : {}) });
+  if (!polys.ok) return { ok: false, code: polys.code, detail: `S1 water polygons: ${polys.detail}`, fast: false };
+  const reaches = polys.value.reaches;
+  const fast = polys.value.fallbacks.length < reaches.length;
+  const sites = siteCrossings(reaches, params.searchBandCm * 0.01, input.existingDecks ?? [], { reach, minSpacingCm: params.minSpacingCm, fordMaxWidthCm: params.fordMaxWidthCm });
+  const first = input.water.bridges.length;
+  const ids = sites.map((_, i) => bridgeId(first + i));
+  let points = 2 * sites.length;
+  let rings = 1;
+  for (const r of reaches) {
+    for (const p of r.parts) {
+      for (const q of p.rings) points += q.length;
+      rings += p.rings.length;
+    }
+  }
+  const faces = waterFaces(reaches, k, { key: GROUND_KEY, stage: STAGES.S1, workLimit: opts.workLimit ?? l0WorkLimit(points, 2 * rings + 2), sites, bridgeIds: ids, epoch: ctx.epoch });
+  if (!faces.ok) return { ok: false, code: faces.code, detail: faces.detail, fast };
+  return { ok: true, polys, sites, faces, retried: slowOnly };
+}
+
 /** S1's L0 batch (see the header). The terrain record takes its outfalls in place. */
 export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageOptions = {}): KernelResult<S1Output> {
   const k = input.kernel;
@@ -49,37 +75,45 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   const reach = reachOf(plat.frame);
   const params = waterParams(ctx.tables);
   const warnings: Warning[] = [];
-  const bodies = splitEstuary(input.water.bodies, reach, input.mouth);
-  const polys = waterPolygons(bodies, reach);
-  if (!polys.ok) return err(polys.code, `S1 water polygons: ${polys.detail}`);
-  warnings.push(...polys.warnings);
-  const reaches = polys.value.reaches;
-  const sites = siteCrossings(reaches, params.searchBandCm * 0.01, input.existingDecks ?? [], {
-    reach,
-    minSpacingCm: params.minSpacingCm,
-    fordMaxWidthCm: params.fordMaxWidthCm,
-  });
-  const first = input.water.bridges.length;
-  const ids = sites.map((_, i) => bridgeId(first + i));
-  let points = 4 + 2 * sites.length;
-  let rings = 1;
-  for (const r of reaches) {
-    for (const p of r.parts) {
-      for (const ring of p.rings) points += ring.length;
-      rings += p.rings.length;
-    }
-  }
-  const limitRing = opts.workLimit ?? l0WorkLimit(4, 2);
-  const limitWater = opts.workLimit ?? l0WorkLimit(points, 2 * rings + 2);
-  const batch = { key: GROUND_KEY, stage: STAGES.S1 };
-  const ring = outerRingBatch(k, input.terrain.id, reach, { ...batch, workLimit: limitRing });
+  const bodies = input.water.bodies.slice();
+  const ring = outerRingBatch(k, input.terrain.id, reach, { key: GROUND_KEY, stage: STAGES.S1, workLimit: opts.workLimit ?? l0WorkLimit(4, 2) });
   if (!ring.ok) return err(ring.code, ring.detail);
   warnings.push(...ring.warnings);
-  const water = waterFaces(reaches, k, { ...batch, workLimit: limitWater, sites, bridgeIds: ids, epoch: ctx.epoch });
-  if (!water.ok) return err(water.code, water.detail);
-  warnings.push(...water.warnings);
+  // the water: the fast rings first; a batch the kernel refuses on them is re-run on the kernel's own polygons (the
+  // refused batch wrote nothing), so a ring the fast path's checks passed but the insertion could not keep never
+  // decides the outcome (C-0225 (2))
+  // A body the kernel refuses on both (its shore not a simple ring once inserted — a tributary meeting its river at a
+  // grazing angle) is left out, reported `refused`, and the water re-run without it; the first body (the river) never
+  // is: its refusal is the stage's (detect and refuse).
+  const refused: DroppedBody[] = [];
+  let standing = bodies;
+  let mouth = input.mouth;
+  let attempt = water(input, standing, mouth, reach, params, k, ctx, opts, false);
+  for (let guard = 0; !attempt.ok && attempt.code === 'E_INVARIANT' && guard <= bodies.length + 1; guard += 1) {
+    if (attempt.fast) {
+      attempt = water(input, standing, mouth, reach, params, k, ctx, opts, true);
+      if (attempt.ok || attempt.code !== 'E_INVARIANT') break;
+    }
+    const named = /\(shore, ([^)]+)\)/.exec(attempt.detail)?.[1];
+    if (named !== undefined && named.startsWith('water:estuary:') && mouth !== undefined && mouth !== 'none') {
+      // the estuary refused: the river kept whole
+      refused.push({ id: named, reason: 'refused' });
+      mouth = 'none';
+    } else {
+      const at = named === undefined ? -1 : standing.findIndex((b) => b.id === named);
+      if (at <= 0) break;
+      refused.push({ id: standing[at].id, reason: 'refused' });
+      standing = standing.filter((_, i) => i !== at);
+    }
+    attempt = water(input, standing, mouth, reach, params, k, ctx, opts, false);
+  }
+  if (!attempt.ok) return err(attempt.code, attempt.detail);
+  const { polys, sites, faces } = attempt;
+  warnings.push(...polys.warnings, ...faces.warnings);
+  const reaches = polys.value.reaches;
+  const committed = faces;
   const version = plat.version;
-  const bridges = water.value.bridges;
+  const bridges = committed.value.bridges;
   const kept = reaches.map((r) => r.body);
   const out: WaterSet = { bodies: kept, bridges: [...input.water.bridges, ...bridges] };
   // the stage's end: the L0 partitions rebuilt (§3.3), then §3.10's stored references
@@ -94,7 +128,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     refs.push(...b.deck);
     live.add(b.id);
   }
-  for (const c of water.value.land) {
+  for (const c of committed.value.land) {
     refs.push(c.face);
     live.add(c.id);
   }
@@ -107,11 +141,12 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     {
       terrain: input.terrain,
       water: out,
-      land: water.value.land,
+      land: committed.value.land,
       sites,
       report: {
-        dropped: polys.value.dropped,
+        dropped: [...refused, ...polys.value.dropped],
         fallbacks: polys.value.fallbacks,
+        retried: attempt.retried,
         versions: [ring.value, version],
         stageEnd: rows.map((r) => ({ name: r.name, holds: r.holds, count: r.subjects })),
         warnings,

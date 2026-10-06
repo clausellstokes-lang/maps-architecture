@@ -187,27 +187,46 @@ function codePoint(s: Stream): number {
   }
 }
 
+/** One lane op of the seeded lanes stage: the four kinds of §6.2's lane encoding. */
+export type CrossHostLaneOp = readonly ['u32', number] | readonly ['i32', number] | readonly ['f64', number] | readonly ['utf8', string];
+
+/** The lanes stage's streams at a seed: 64 streams of 1 … 24 ops (u32, i32, f64 bit patterns, UTF-8 with astral code points). */
+export function crossHostLaneStreams(seed: number): CrossHostLaneOp[][] {
+  const s = crossHostStream('lanes', seed);
+  const streams: CrossHostLaneOp[][] = [];
+  for (let k = 0; k < 64; k += 1) {
+    const ops: CrossHostLaneOp[] = [];
+    const n = s.int(1, 24);
+    for (let i = 0; i < n; i += 1) {
+      const kind = s.int(0, 3);
+      if (kind === 0) ops.push(['u32', s.u32()]);
+      else if (kind === 1) ops.push(['i32', s.u32() | 0]);
+      else if (kind === 2) {
+        const d = drawDouble(s);
+        ops.push(['f64', Number.isNaN(d) ? 0.25 : d]);
+      } else {
+        const m = s.int(0, 9);
+        const cps: number[] = [];
+        for (let j = 0; j < m; j += 1) cps.push(codePoint(s));
+        ops.push(['utf8', String.fromCodePoint(...cps)]);
+      }
+    }
+    streams.push(ops);
+  }
+  return streams;
+}
+
 const laneStage: CrossHostStage = {
   id: 'lanes',
   run(seed) {
-    const s = crossHostStream('lanes', seed);
     const w = new CrossHostDigestWriter();
-    for (let k = 0; k < 64; k += 1) {
+    for (const ops of crossHostLaneStreams(seed)) {
       const lw = new LaneWriter();
-      const ops = s.int(1, 24);
-      for (let i = 0; i < ops; i += 1) {
-        const kind = s.int(0, 3);
-        if (kind === 0) lw.u32(s.u32());
-        else if (kind === 1) lw.i32(s.u32() | 0);
-        else if (kind === 2) {
-          const d = drawDouble(s);
-          lw.f64(Number.isNaN(d) ? 0.25 : d);
-        } else {
-          const n = s.int(0, 9);
-          const cps: number[] = [];
-          for (let j = 0; j < n; j += 1) cps.push(codePoint(s));
-          lw.utf8(String.fromCodePoint(...cps));
-        }
+      for (const op of ops) {
+        if (op[0] === 'u32') lw.u32(op[1]);
+        else if (op[0] === 'i32') lw.i32(op[1]);
+        else if (op[0] === 'f64') lw.f64(op[1]);
+        else lw.utf8(op[1]);
       }
       w.u32(lw.lanes);
       for (const h of lw.digest()) w.u32(h);
