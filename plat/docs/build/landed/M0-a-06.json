@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-a-06",
-  "lane": "build/M0-a-06-fix-s1",
-  "lanes": ["build/M0-a-06", "build/M0-a-06-fix1", "build/M0-a-06-fix-s1"],
+  "lane": "build/M0-a-06-fix-s2",
+  "lanes": ["build/M0-a-06", "build/M0-a-06-fix1", "build/M0-a-06-fix-s1", "build/M0-a-06-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T09:12:47.587Z",
+  "date": "2026-10-06T11:10:25.741Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/tx/", "plat/packages/kernel/test/tx/"],
   "counts": { "created": 26, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -14,7 +14,7 @@
     { "path": "plat/packages/kernel/src/tx/index.ts", "status": "changed", "sha256": "160241f03579ebdd2fb13d77d17747ec643587b0ec002419980515426b1827f9", "size": 1539 },
     { "path": "plat/packages/kernel/src/tx/ops.ts", "status": "created", "sha256": "b41542db52d012e1e7838ed5e165112f1122b4eb156e4b74c4db9627ce31eee8", "size": 7393 },
     { "path": "plat/packages/kernel/src/tx/profile.ts", "status": "created", "sha256": "a8cf0637ebacc3e1e98db34928b84b2b2bd598020d4dd80d65933dde9159bc71", "size": 15113 },
-    { "path": "plat/packages/kernel/src/tx/relevel.ts", "status": "created", "sha256": "a10e2f451df66ee94556107f6bc373f6f68c948afdc86f229d1dab7065f8909f", "size": 54133 },
+    { "path": "plat/packages/kernel/src/tx/relevel.ts", "status": "created", "sha256": "67878a1dc81cf9cb6fba56c80d85634b8bf85bb0b588d599898e52a107462c37", "size": 59468 },
     { "path": "plat/packages/kernel/src/tx/savepoint.ts", "status": "created", "sha256": "46635bb1d69537a72f0fa09d5d885bc5b2c97c0b8e4ea3a9f9bba6d3aa1a1924", "size": 9164 },
     { "path": "plat/packages/kernel/src/tx/state.ts", "status": "created", "sha256": "dd35bce409db6215f1fbf3a28dbe5184fef0bc662e1b74a2f80f575cf83a736a", "size": 6482 },
     { "path": "plat/packages/kernel/src/tx/tx.ts", "status": "created", "sha256": "f3078eca93dc554d13729f4948de8f9e0638e7f7409228e5125672f7652c97f6", "size": 33093 },
@@ -33,7 +33,7 @@
     { "path": "plat/packages/kernel/test/tx/profiles.test.ts", "status": "created", "sha256": "fa6185a90fd3747ca3aa1c24c0686f168cc48fd1b5e6f10394e361d972cfbed6", "size": 14797 },
     { "path": "plat/packages/kernel/test/tx/record.test.ts", "status": "created", "sha256": "27adb8bff006cee9cdf4180c8882177940f86426f9af6e2884402b2707fd7b1f", "size": 6617 },
     { "path": "plat/packages/kernel/test/tx/removals.test.ts", "status": "created", "sha256": "4661c40070435a7b873a7c8c88b9fe4d67883986b9e425e901bab77157c34478", "size": 23406 },
-    { "path": "plat/packages/kernel/test/tx/restore.test.ts", "status": "created", "sha256": "d5f560c46b1bec878ee7e5d1b5a171b10f6743bb002f578b419d55adeca5fe68", "size": 11228 },
+    { "path": "plat/packages/kernel/test/tx/restore.test.ts", "status": "created", "sha256": "309ab2ae81c716d87669f9ef75461f270fd4083a4a5a197eb54dfa73248075a5", "size": 23616 },
     { "path": "plat/packages/kernel/test/tx/smoke.test.ts", "status": "created", "sha256": "2e85061776ed20b1c99b91ad234e26a8d6c84203ec432c43a76ff8acaf0006a5", "size": 1811 },
     { "path": "plat/packages/kernel/test/tx/source.test.ts", "status": "created", "sha256": "df516c80321723b71afc3730eb29f53f6d64b930359af2b88161a01ba9a780b2", "size": 1814 },
     { "path": "plat/packages/kernel/test/tx/support.ts", "status": "created", "sha256": "1b8948606aef5eaa009158c4af8b1b36481bbbdb5807b1cb49d57e7c61982148", "size": 4585 }
@@ -41,14 +41,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0129", "L-0138", "L-0203"],
-      "lines": ["1241ddf06b8a2937", "5b4bb47d99c006fa", "5aef32ec06e9a2af"],
+      "ids": ["L-0129", "L-0138", "L-0203", "L-0217"],
+      "lines": ["1241ddf06b8a2937", "5b4bb47d99c006fa", "5aef32ec06e9a2af", "7acfea57dde17932"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0185", "C-0189", "C-0219"],
-      "lines": ["2729e53ec298cd78", "3604319b667d0a73", "57ce5ec689d269ca"],
+      "ids": ["C-0185", "C-0189", "C-0219", "C-0223"],
+      "lines": ["2729e53ec298cd78", "3604319b667d0a73", "57ce5ec689d269ca", "5459e96c06f9d0a9"],
       "removed": []
     }
   ]

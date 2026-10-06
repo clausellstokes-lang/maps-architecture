@@ -5,7 +5,7 @@
 // Every writer and every keyed service is judged against the module that builds it on a twin arena: the façade adds no
 // geometry of its own.
 import { describe, expect, it } from 'vitest';
-import { faceWalk, isFaceLive, resolve as resolveOn, signature as signatureOn, type FaceId, type Plat } from '../../src/arena/index.js';
+import { compareVertices, faceKey, faceWalk, isFaceLive, resolve as resolveOn, signature as signatureOn, type FaceId, type Plat } from '../../src/arena/index.js';
 import { bandUnion, corridorUnion, insetRing, kerb, offsetFace } from '../../src/arr/index.js';
 import { absorbSliver, claimSubFace, connectHole, mergeFaces, pinVertices, radialSplit, ringBand, splitFace } from '../../src/faces/index.js';
 import { createKernel, type Kernel } from '../../src/facade/index.js';
@@ -670,5 +670,93 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
       }
     }
     expect(refused).toBeGreaterThan(0);
+  });
+});
+
+// ---- fix round 3 (check/M0-a-16-close-r2: R03, R10, R06) --------------------------------------------------------------
+// §14 `view(key, level).faces()` lists the live faces of ITS level in that level's canonical order (§3.4 canonical face
+// key), and §3.4 `signature(key, v)` locates a lattice point at the finest level (L4). Each test first shows that the
+// level below (or L1, or slot order) would give another answer, so a door that read a coarser level fails.
+
+/** The level's canonical face order (§3.4: by each face's key, its lowest and next vertex), spelled out from faceKey. */
+const canonAt = (p: Plat, l: Level) => (a: FaceId, b: FaceId): number => {
+  const ka = faceKey(p, l, a);
+  const kb = faceKey(p, l, b);
+  return compareVertices(p, ka[0], kb[0]) || compareVertices(p, ka[1], kb[1]);
+};
+
+/** layered() plus two more closed L4 party walls: L4's live face slots are a strict superset of L3's. */
+function walled(): Plat {
+  const p = layered();
+  commit(p, 4, (o) => insertChain(o, rect(1200, 1200, 1600, 1600), [{ role: 'party_wall', entity: 'bldg:2' }], 'mandatory', { closed: true }));
+  commit(p, 4, (o) => insertChain(o, rect(2400, 2400, 2800, 2800), [{ role: 'party_wall', entity: 'bldg:3' }], 'mandatory', { closed: true }));
+  return p;
+}
+
+/**
+ * A seven-line arena at `level`: seven lines across the lower-left quad, inserted top-down, so the level's face slots
+ * run past L1's top and its canonical order (bottom-up) reverses its slot order.
+ */
+function sevenLines(level: 2 | 3 | 4): Plat {
+  const { p } = crossing();
+  const role = level === 2 ? 'district_bound' : level === 3 ? 'plot_line' : 'party_wall';
+  for (const y of [1750, 1500, 1250, 1000, 750, 500, 250]) {
+    commit(p, level, (o) => insertChain(o, [pt(0, y), pt(2000, y)], [{ role, entity: `d:${y}` }], 'mandatory'));
+  }
+  return p;
+}
+
+describe('view(key, level).faces() and the lattice-point signature at their own level (fix round 3)', () => {
+  it('view(GROUND, 4).faces() lists exactly L4\'s live faces where L4\'s differ from L3\'s', () => {
+    const p = walled();
+    healthy(p);
+    const k = kernelOver([p]);
+    const l3 = liveAt(p, 3);
+    const l4 = liveAt(p, 4);
+    // the precondition: L4's live slots are not L3's (nor L2's)
+    expect(l4).not.toEqual(l3);
+    expect(l4).not.toEqual(liveAt(p, 2));
+    expect(l4.length).toBeGreaterThan(l3.length);
+    const fs = k.view(GROUND, 4).faces();
+    expect([...fs].sort((a, b) => a - b)).toEqual(l4);
+    expect(fs).toEqual([...l4].sort(canonAt(p, 4)));
+    // and each level's view lists its own level's faces
+    for (const l of LEVELS) expect([...k.view(GROUND, l).faces()].sort((a, b) => a - b), `L${l}`).toEqual(liveAt(p, l));
+  });
+
+  it('faces() at L2, L3 and L4 is the level\'s canonical order, compared unsorted (arenas whose order is not slot order)', () => {
+    // per level, how many arenas list their faces in a canonical order that is not slot order (the precondition)
+    const reordered = new Map<Level, number>();
+    let pastL1Top = 0;
+    for (const p of [sevenLines(2), sevenLines(3), sevenLines(4), layered(), walled()]) {
+      healthy(p);
+      const k = kernelOver([p]);
+      for (const l of [2, 3, 4] as const) {
+        const live = liveAt(p, l);
+        const want = [...live].sort(canonAt(p, l));
+        if (want.join(',') !== live.join(',')) reordered.set(l, (reordered.get(l) ?? 0) + 1);
+        if (live.some((f) => !isFaceLive(p, 1, f))) pastL1Top += 1;
+        expect(k.view(GROUND, l).faces(), `L${l} faces in canonical order`).toEqual(want);
+      }
+    }
+    for (const l of [2, 3, 4] as const) expect(reordered.get(l) ?? 0, `L${l}: some arena's canonical order is not slot order`).toBeGreaterThan(0);
+    // and some level lists faces that are not live at L1 (an order read at L1 cannot sort them)
+    expect(pastL1Top).toBeGreaterThan(0);
+  });
+
+  it('signature of a lattice point finds an L4-only vertex (an L4 party-wall entrance knot) as the scan does', () => {
+    const p = layered();
+    commit(p, 4, (o) => insertChain(o, [pt(1200, 1200), pt(1600, 1200)], [{ role: 'party_wall', entity: 'bldg:9' }], 'mandatory', { knots: [{ index: 0, role: 'entrance', ordinal: 0 }] }));
+    healthy(p);
+    expect(p.index).toBeDefined();
+    const at = pt(1200, 1200);
+    // the precondition: the vertex is L4's alone; L3 (and coarser) locates the point inside a face
+    for (const l of [1, 2, 3] as const) expect(pointLocate(p, GROUND, l, at).on, `L${l} locate`).not.toBe('vertex');
+    expect(pointLocate(p, GROUND, 4, at).on).toBe('vertex');
+    const k = kernelOver([p]);
+    const s = k.geom.signature(GROUND, at);
+    expect(s).toEqual(signatureOn(p, at, GROUND));
+    expect(s.v.length + s.e.length).toBeGreaterThan(0);
+    expect(s.v).toContainEqual({ role: 'entrance', entity: 'bldg:9', ordinal: 0 });
   });
 });
