@@ -170,8 +170,8 @@ function boxOf(r: readonly LatticePoint[]): { x0: number; y0: number; x1: number
 const lp = (x: number, y: number): LatticePoint => ({ x: Math.round(x) as Cm, y: Math.round(y) as Cm });
 
 /**
- * Corridor cases: M0-k-01's simple polygons (3 – 7 vertices; a way across in three of ten), rectilinear blocks (a way
- * across, along an axis, in three of ten) and block faces (§16 M0 (b)'s set: curved, round-joined, triangular,
+ * Corridor cases: M0-k-01's simple polygons (3 – 7 vertices; a way across in three of ten; and 3 – 5 vertices ringed
+ * by a wide street) and block faces (§16 M0 (b)'s set: curved, round-joined, triangular,
  * C-shaped, concave; a way across in half), each bounded by one closed way, the way across through its box centre; half-widths from 0.5 m to an eighth of the face's smaller extent (at
  * most 6 m); and M0-k-02's tunnel fixture. A face with many short edges or a way across is mostly an attracted case
  * (a join of a small turn and the strips' crossings place vertices within attractCm), so the simple polygons carry
@@ -202,12 +202,19 @@ export const corridorCaseArb: fc.Arbitrary<CorridorCase> = fc.oneof(
       .map(({ face, across, turn, tenths }) => corridorOf(face.polygon[0].slice(), across, turn, tenths, `faceSet-${face.kind}`)),
   },
   {
-    // rectilinear blocks (a gridded quarter's): their strips meet on the lattice, so most are unattracted — with the
-    // simple polygons they carry the share §13.1's guard reads clear of the guard at every run size
-    weight: 3,
+    // a block ringed by a wide street (half-width 3.5 – 6 m, at most a quarter of its smaller extent), no way across:
+    // the joins' chords are long, so about half of these move no vertex — with the simple polygons they carry the
+    // unattracted share §13.1's guard reads well clear of it (about a fifth of the draws)
+    weight: 4,
     arbitrary: fc
-      .record({ x: fc.integer({ min: -30_000, max: 30_000 }), y: fc.integer({ min: -30_000, max: 30_000 }), w: fc.integer({ min: 3_000, max: 30_000 }), h: fc.integer({ min: 3_000, max: 30_000 }), across: fc.integer({ min: 0, max: 9 }).map((k) => k < 3), turn: fc.constantFrom(0, 9_000), tenths: fc.integer({ min: 0, max: 1000 }) })
-      .map(({ x, y, w, h, across, turn, tenths }) => corridorOf([lp(x, y), lp(x + w, y), lp(x + w, y + h), lp(x, y + h)], across, turn, tenths, 'rect')),
+      .record({ ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 5] }), tenths: fc.integer({ min: 0, max: 1000 }) })
+      .map(({ ring, tenths }) => {
+        const r = ccwRing(ring.slice());
+        const b = boxOf(r);
+        const hi = Math.max(50, Math.min(600, Math.floor(Math.min(b.x1 - b.x0, b.y1 - b.y0) / 4)));
+        const lo = Math.min(350, hi);
+        return { ring: r, chord: null, hw: lo + Math.floor(((hi - lo) * tenths) / 1000), role: 'way', key: GROUND, source: 'polygon-wide' };
+      }),
   },
   {
     weight: 1,
