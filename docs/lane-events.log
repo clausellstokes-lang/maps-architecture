@@ -6014,3 +6014,5 @@
 2026-10-06 05:37 check/integration-flow-7-g9 CHECKPOINT related at 1000 (34 sources, 05:25-05:37): 2217/2219, 145/147 files; 2 reds = M0-a-08 buffer + offsetFace agreements on insertChain E_INVARIANT 'insert: no route ... (N-43)' (M0-a-05, fix-s6 in flight; same as g8 N-6) - notes; whole J194 at 1000 running (W=1)
 2026-10-06 05:38 check/M0-b-02 CHECKPOINT brief+code read; install/lint/build green; next near+related tests
 2026-10-06 05:43 check/M0-b-02 CHECKPOINT gates+near+related green; random-face probe run (no throws; 5 slid-flatten shortfalls, 5 flattened legs across holes); next targeted mutants in mirror
+2026-10-06 05:55 check/M0-a-16 CHECKPOINT gates: install 0, lint 0 probe-red ok, build 0, near 67/67, related 1987/1989 (2 reds = testkit agreement-buffer/-faces insertChain N-43, M0-a-05 fix-s6 in flight, foreign); probes P1-P10 run (P6 stale overlay writes outside a tx: note); next: 41 targeted mutants
+2026-10-06 05:57 check/M0-b-02 CHECKPOINT 46 targeted mutants run: survivors m16 m29 m37 m40 m43 m46; next confirm survivors by direct probes
