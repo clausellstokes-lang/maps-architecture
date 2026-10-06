@@ -897,7 +897,7 @@ function envFor(g: ConstructiveInput, ownersParts: ReadonlyMap<string, number>):
 }
 
 /**
- * A planted fault for the judge's own tests (C-0238 (3)): a write behind a step's transaction (`afterStep`), or a step's
+ * A planted fault for the judge's own tests (C-0240 (3)): a write behind a step's transaction (`afterStep`), or a step's
  * outcome replaced (`step`: `run` performs the real step; the outcome the judge reads is the plant's).
  */
 export interface JudgePlant {
@@ -1152,7 +1152,7 @@ function property(prop: string, run: Run): string | null {
       if (parent === undefined || val === null) return 'no split';
       const [l, r] = val as [FaceId, FaceId];
       const level = g.steps[g.steps.length - 1].args.level !== undefined ? (Number(g.steps[g.steps.length - 1].args.level) as Level) : parent.level;
-      // The children against the parent's rings as they stood before the split (C-0238 (1)).
+      // The children against the parent's rings as they stood before the split (C-0240 (1)).
       const why = childrenTileParent(parent.rings, p, level, l, r);
       return why === null ? null : `the children do not tile the parent: ${why}`;
     }
@@ -1773,7 +1773,7 @@ export interface KnownFinding {
  */
 export const CONSTRUCTIVE_KNOWN: readonly KnownFinding[] = Object.freeze([
   // KI-1 (index-freshness on removal: index/slot-reuse-stage, index/slot-reuse-districts) was M0-a-14's filter, ruling
-  // N-49, fixed by M0-a-14-fix-s1 (C-0235); both cases are green and judged as every other (C-0238 (5)).
+  // N-49, fixed by M0-a-14-fix-s1 (C-0235); both cases are green and judged as every other (C-0240 (5)).
   {
     id: 'limit/cap-move-halvings',
     owner: 'M0-k-02 (the case data)',

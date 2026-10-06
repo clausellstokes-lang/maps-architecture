@@ -23,7 +23,7 @@ export function constructiveRun(r: KernelConstructiveReport): ConstructiveRun {
 
 /**
  * The bar's first promise over the primitives' runs (§13.1: 0 crashes, 0 hangs (hard timeout), 0 invalid outputs; §5.1
- * (8): `bugs` empty) — one decision for the whole run's `countsReport` and the bench's one-primitive runs (C-0238 (4)).
+ * (8): `bugs` empty) — one decision for the whole run's `countsReport` and the bench's one-primitive runs (C-0240 (4)).
  */
 export function fuzzCountsPass(totals: { readonly crashes: number; readonly hangs: number; readonly invalid: number }, bugs: readonly unknown[]): boolean {
   return totals.crashes === 0 && totals.hangs === 0 && totals.invalid === 0 && bugs.length === 0;

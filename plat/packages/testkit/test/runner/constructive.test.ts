@@ -196,7 +196,7 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     expect(!r.ok && r.reason).toMatch(/^expected ok, got E_INVARIANT role-consistency/);
   });
 
-  it('children-tile-parent fails on a child and an unrelated face given as the split (C-0238 (1))', () => {
+  it('children-tile-parent fails on a child and an unrelated face given as the split (C-0240 (1))', () => {
     const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
     expect(c.expect.holds).toContain('children-tile-parent');
     for (let s = 0; s < CASE_DRAWS; s++) {

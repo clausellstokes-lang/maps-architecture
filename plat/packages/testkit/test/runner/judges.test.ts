@@ -1,9 +1,9 @@
 // Negative controls for every judge the B-FUZZ runner states (M0-k-04 fix round 1; §13.1 *Properties (checked after
-// every operation)*; C-0238): for each property a primitive checks, a fault the property exists to catch is planted
+// every operation)*; C-0240): for each property a primitive checks, a fault the property exists to catch is planted
 // into a run of the real runner — a write behind a writer's commit, a writer's result replaced, a service's ok value
 // replaced, a sampled harness's report replaced — and the run must count every reached input invalid, for that
 // property's reason. Each judge also has its clean run elsewhere (primitives.test.ts: 0 invalid on every primitive).
-// The splitFace tiling reading (C-0238 (1)) is tested directly on an arena: the children against the parent's rings.
+// The splitFace tiling reading (C-0240 (1)) is tested directly on an arena: the children against the parent's rings.
 import { beforeAll, describe, expect, it } from 'vitest';
 import { faceRings, faceWalk, isVertexLive, outgoing, pointLocate, type FaceId, type KernelResult, type LatticePoint, type Plat } from '@plat/kernel';
 import { childrenTileParent, fuzzTouchMergedRelaxed, loadOracles, runFuzz, runnerFramedAround, runnerKernelOn, runnerSpec, type FuzzPlant, type FuzzReport } from '@plat/testkit';
@@ -96,7 +96,7 @@ function pinFrameVertex(p: Plat): void {
 const shift = (rings: Rings, dx: number): Rings => rings.map((r) => r.map((q) => lp(q.x + dx, q.y)));
 const N = 25;
 
-describe('splitFace: the children tile the PARENT (C-0238 (1); §13.1 integer area2 equality)', () => {
+describe('splitFace: the children tile the PARENT (C-0240 (1); §13.1 integer area2 equality)', () => {
   /** A framed arena with an L1 square face and a second, unrelated square; the square's face split by a straight cut. */
   function splitSquare(cut: LatticePoint[]) {
     const face = [lp(0, 0), lp(4000, 0), lp(4000, 4000), lp(0, 4000)];
@@ -168,7 +168,7 @@ describe('splitFace: the children tile the PARENT (C-0238 (1); §13.1 integer ar
   }, 120_000);
 });
 
-describe('mergeFaces ∘ splitFace restores the id and the arena (§13.1; C-0238 (2))', () => {
+describe('mergeFaces ∘ splitFace restores the id and the arena (§13.1; C-0240 (2))', () => {
   it('a merge result naming another face is caught', () => {
     const tx: FuzzPlant['tx'] = (op, commit) => {
       const r = commit();

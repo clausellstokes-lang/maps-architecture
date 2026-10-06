@@ -41,9 +41,7 @@
         "W_STRETCH_SHARED": 5690,
         "W_WEDGE_ROUTED": 1
       },
-      "notes": {
-        "remove-after-insert refused E_INVARIANT index-freshness": 2819
-      },
+      "notes": {},
       "downgrades": 0,
       "workLimitHits": 0,
       "oracle": null,
@@ -750,13 +748,11 @@
     "cases": 185,
     "judged": 134,
     "draws": 20323,
-    "green": 131,
+    "green": 133,
     "failedCases": 0,
     "failing": [],
     "pending": 0,
     "known": [
-      "index/slot-reuse-stage",
-      "index/slot-reuse-districts",
       "limit/cap-move-halvings"
     ],
     "staleKnown": [],

@@ -86,7 +86,7 @@ export interface OpOutcome {
 /**
  * A planted fault (the runner's own tests, §13.1's bar "caught and counted"): an operation replaced, or a write made
  * behind the transaction's back after a commit — the runner's judges stay the real ones. Every judge of a primitive has
- * a plant that reaches it (C-0238 (3)).
+ * a plant that reaches it (C-0240 (3)).
  */
 export interface Plant {
   /** Replaces `buffer` (an output the oracle comparison and the ring checks judge). */
@@ -374,7 +374,7 @@ function alongEdge(r: readonly LatticePoint[], i: number, t: number): LatticePoi
 }
 
 /**
- * §13.1's "splitFace children tile the parent exactly (integer area2 equality)", read against the PARENT (C-0238 (1),
+ * §13.1's "splitFace children tile the parent exactly (integer area2 equality)", read against the PARENT (C-0240 (1),
  * superseding C-0227 (8)'s joint-boundary identity): `parent` is the parent face's rings as `faceRings` gave them before
  * the split (signed: the outer ring counter-clockwise, holes clockwise). The children's joint boundary is the half-edges
  * of their walks whose twin is in neither walk (the cut's pairs cancel, and so does an antenna's — a chain dangling into
@@ -455,7 +455,7 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     const tiling = childrenTileParent(parent, p, 1, c1, c2);
     if (tiling !== null) problems.push(`splitFace children do not tile the parent: ${tiling}`);
     problems.push(...ciProblems(p));
-    // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0238 (2)).
+    // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0240 (2)).
     const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)));
     if (!m.ok) problems.push(`mergeFaces after splitFace refused: ${m.code} ${m.detail}`);
     else {
