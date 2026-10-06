@@ -79,7 +79,7 @@ function onBoundary(rings: readonly LatticePoint[][], q: XY): boolean {
 }
 
 /** The kerb's outline pieces off F's boundary: closed rings, or open runs between two boundary contacts. */
-function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed: boolean }[] {
+export function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed: boolean }[] {
   const out: { points: LatticePoint[]; closed: boolean }[] = [];
   for (const ring of read.kerb) {
     const n = ring.length;
@@ -169,7 +169,7 @@ function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]
 }
 
 /** Is there a vertex at the lattice point with an incident edge carrying the outline's role? */
-function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: number): boolean {
+export function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: number): boolean {
   const vs = query(p, key, 4, { minX: q.x, minY: q.y, maxX: q.x, maxY: q.y }, { vertices: true }).vertices;
   for (const v of vs) {
     if (!isVertexLive(p, v) || p.vertices.x[v] !== q.x || p.vertices.y[v] !== q.y) continue;

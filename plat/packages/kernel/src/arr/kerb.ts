@@ -252,13 +252,11 @@ function spineParts(s: Spine, box: { x0: number; y0: number; x1: number; y1: num
   return ok(out);
 }
 
-/** kerb(F) from a face's reading (see the module comment). */
-export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
-  if (spines.size === 0) {
-    const outer = canonicalRing(rings[0]);
-    const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
-    return ok([outer, ...holes]);
-  }
+/**
+ * The second operand of kerb(F)'s overlay: every part of the face's spines' buffers that can reach it, spine by spine in
+ * key order (the first operand is F's route rings). Empty where no spine reaches F.
+ */
+export function kerbParts(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
   const box = boxOf(rings);
   const parts: Ring[] = [];
   const keys = [...spines.keys()].sort(byText);
@@ -267,6 +265,19 @@ export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<str
     if (!r.ok) return r;
     for (const q of r.value) parts.push(q);
   }
+  return ok(parts);
+}
+
+/** kerb(F) from a face's reading (see the module comment). */
+export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<string, Spine>): KernelResult<Ring[]> {
+  if (spines.size === 0) {
+    const outer = canonicalRing(rings[0]);
+    const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
+    return ok([outer, ...holes]);
+  }
+  const pr = kerbParts(rings, spines);
+  if (!pr.ok) return pr;
+  const parts = pr.value;
   if (parts.length === 0) return kerbOf(rings, new Map());
   const r = overlayRegion([rings, parts], (w) => w[0] !== 0 && w[1] === 0);
   if (!r.ok) return r;

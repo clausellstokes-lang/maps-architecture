@@ -1,18 +1,22 @@
 // M0-a-09's refusal register (N-44 (4)): every refused case found at PR or nightly size kept as a fixture — its seed,
 // its input and its refusal code — with a test that it refuses cleanly: no throw, a typed KernelResult refusal, the
-// arena as it was (§2.2 rule 8). Each is the scratch overlay's insertion refusing a route (N-43's fidelity bound) and
-// replays on insertChain alone (C-0212): insertChain's PENDING-S4 (M0-a-05's round S4). A case a later routing round
-// turns into a commit passes here too, as a commit within the bars the other tests check (N-44: better routing is the
-// post-M0 item's); its row then leaves the register.
+// arena as it was (§2.2 rule 8). Each refusal still met is classed by replay (replay.ts; C-0212 (10) as amended): one
+// that replays on insertChain alone is insertChain's (counted against its measured cap — M0-a-05's round S5 sets it —
+// never gated here); the register asserts every registered case it still meets is of that class, so a refusal caused in
+// the item's own code cannot hide here. A case a later routing round turns into a commit passes too, as a commit
+// within the bars the other tests check (N-44: better routing is insertChain's); its row then leaves the register.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { insertChain } from '../../../src/insert/index.js';
-import { setOwner, tx } from '../../../src/tx/index.js';
+import { idOf } from '../../../src/arena/index.js';
+import { tx } from '../../../src/tx/index.js';
 import { kerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
 import { bandUnion } from '../../../src/arr/bandUnion.js';
-import { AT_S9, commit, framed, P, profile, pt, spec, state, widthsOf } from './support.js';
+import { insertChain } from '../../../src/insert/index.js';
+import { setOwner } from '../../../src/tx/index.js';
+import { AT_S9, commit, firstBand, framed, network, P, profile, pt, spec, state, widthsOf, type Chord, type ChordWidth } from './support.js';
+import { classify, replayCommit, replayKerb, replayTile, type RefusalClass } from './replay.js';
 
 const K = { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }] };
 
@@ -30,130 +34,98 @@ const CLIPS: { id: string; seed: string; rings: [number, number][][] }[] = [
   { id: 'R2', seed: 'B-FUZZ tileRings PR run 2026-10-05 21:0x', rings: [[[2267, 0], [797, 3800], [0, 5704]], [[-342, 241], [2342, -863], [1790, 2311], [210, 2311]], [[900, 900], [1100, 900], [1100, 1100], [900, 1100]]] },
 ];
 
-describe('the refusal register (N-44 (4)): each case refuses cleanly', () => {
-  for (const n of NETWORKS) {
-    it(`${n.id} (seed ${n.seed}): kerb and corridorUnion — typed, no throw, nothing written`, () => {
-      const p = framed();
-      const table: Record<string, ReturnType<typeof profile> | number> = {};
-      n.chords.forEach(([a, b, w], i) => {
-        const r = tx(p, spec(1), (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', Array.isArray(w) ? K : {}));
-        expect(r.ok).toBe(true);
-        table[`way:${String(i)}`] = Array.isArray(w) ? profile(w) : w;
-      });
-      const faces: number[] = [];
-      for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) faces.push(f);
-      commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
-      const ws = widthsOf(table);
-      let refused = 0;
-      const before = state(p);
-      for (const f of faces) {
-        const r = tx(p, spec(1), (o) => kerb(o, f, ws));
-        if (!r.ok) {
-          expect(r.code).toBe('E_INVARIANT');
-          expect(r.detail.startsWith('insert:')).toBe(true);
-          refused += 1;
-        }
-        expect(state(p)).toBe(before);
-      }
-      const c = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
-      if (!c.ok) {
-        expect(c.code).toBe('E_INVARIANT');
-        expect(state(p)).toBe(before);
-      }
-      console.info(`register ${n.id}: kerb refused on ${String(refused)} of ${String(faces.length)} faces; corridorUnion ${c.ok ? 'committed' : c.code}`);
-    });
-  }
-  for (const c of CLIPS) {
-    it(`${c.id} (seed ${c.seed}): tileRings — typed, no throw`, () => {
-      const r = tileRings(c.rings.map((ring) => ring.map(([x, y]) => P(x, y))));
-      if (!r.ok) {
-        expect(r.code).toBe('E_INVARIANT');
-        expect(r.detail.startsWith('insert:')).toBe(true);
-      }
-      console.info(`register ${c.id}: tileRings ${r.ok ? 'committed' : r.code}`);
-    });
-  }
-
-  it('every case refused in the PR-size B-FUZZ run (refusals.json): typed, no throw, nothing written', { timeout: 600_000 }, () => {
-    const reg = JSON.parse(readFileSync(new URL('./refusals.json', import.meta.url), 'utf8')) as { cases: { op: string; code: string; input: unknown }[] };
-    const still: Record<string, number> = {};
-    for (const c of reg.cases) {
-      expect(c.code).toBe('E_INVARIANT');
-      let refused = false;
-      if (c.op === 'tileRings') {
-        const r = tileRings((c.input as { x: number; y: number }[][]).map((ring) => ring.map((q) => P(q.x, q.y))));
-        if (!r.ok) {
-          expect(r.code).toBe('E_INVARIANT');
-          refused = true;
-        }
-      } else {
-        const { p, faces, table } = network(c.input as Chord[]);
-        const ws = widthsOf(table);
-        const before = state(p);
-        if (c.op === 'kerb') {
-          for (const f of faces) {
-            const r = tx(p, spec(1), (o) => kerb(o, f, ws));
-            if (!r.ok) {
-              expect(r.code).toBe('E_INVARIANT');
-              refused = true;
-            }
-            expect(state(p)).toBe(before);
-          }
-        } else {
-          const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
-          if (!r.ok) {
-            expect(r.code).toBe('E_INVARIANT');
-            expect(state(p)).toBe(before);
-            refused = c.op === 'corridorUnion';
-          } else if (c.op === 'bandUnion') {
-            const first = Object.keys(table).sort()[0];
-            const w = table[first];
-            const b0 = state(p);
-            const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, [{ ref: { role: 'way', entity: first }, halfWidthCm: typeof w === 'number' ? w : 'knotRole' in w ? w : Math.max(1, Math.floor(w.halfWidthCm / 2)), ends: typeof w === 'number' || 'knotRole' in w ? 'round' : w.ends }], faces, 'band', 'band:1'));
-            if (!b.ok) {
-              expect(b.code).toBe('E_INVARIANT');
-              expect(state(p)).toBe(b0);
-              refused = true;
-            }
-          }
-        }
-      }
-      if (refused) still[c.op] = (still[c.op] ?? 0) + 1;
-    }
-    console.info(`register refusals.json: ${String(reg.cases.length)} cases; still refused per operation ${JSON.stringify(still)}`);
-  });
-});
-
-/** A B-FUZZ chord: arc positions on the frame [0, 4000]², a half-width or a two-knot profile, the ends. */
-interface Chord {
-  a: number;
-  b: number;
-  hw: number;
-  knots: [number, number] | null;
-  ends: 'round' | 'square';
-}
-
-function onFrame(s: number): [number, number] {
-  if (s < 4000) return [s, 0];
-  if (s < 8000) return [4000, s - 4000];
-  if (s < 12_000) return [12_000 - s, 4000];
-  return [0, 16_000 - s];
-}
-
-/** B-FUZZ's street network from its chords (bfuzz.test.ts's construction, step for step). */
-function network(chords: readonly Chord[]): { p: ReturnType<typeof framed>; faces: number[]; table: Record<string, ReturnType<typeof profile> | { halfWidthCm: number; ends: 'round' | 'square' }> } {
+/** R1's network: its two chords as given (points, not arc positions). */
+function r1(chords: (typeof NETWORKS)[number]['chords']): ReturnType<typeof network> {
   const p = framed();
-  const table: Record<string, ReturnType<typeof profile> | { halfWidthCm: number; ends: 'round' | 'square' }> = {};
-  chords.forEach((c, i) => {
-    const a = onFrame(c.a);
-    const b = onFrame(c.b);
-    if (Math.hypot(a[0] - b[0], a[1] - b[1]) < 300 || (a[0] === b[0] && (a[0] === 0 || a[0] === 4000)) || (a[1] === b[1] && (a[1] === 0 || a[1] === 4000))) return;
-    const r = tx(p, spec(1), (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', c.knots === null ? {} : K));
-    if (!r.ok) return;
-    table[`way:${String(i)}`] = c.knots === null ? { halfWidthCm: c.hw, ends: c.ends } : profile([c.knots[0], c.knots[1]]);
+  const table: Record<string, ChordWidth> = {};
+  chords.forEach(([a, b, w], i) => {
+    const r = tx(p, spec(1), (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', Array.isArray(w) ? K : {}));
+    expect(r.ok).toBe(true);
+    table[`way:${String(i)}`] = Array.isArray(w) ? profile(w) : { halfWidthCm: w, ends: 'round' };
   });
   const faces: number[] = [];
   for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) faces.push(f);
   commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
   return { p, faces, table };
 }
+
+/**
+ * Runs one registered network through the operation it refused (kerb on every face, corridorUnion at L2, bandUnion at
+ * L3 after it) and returns the refusals met with their class; every refusal typed and the arena as it was.
+ */
+function rerun(op: string, build: () => ReturnType<typeof network>): RefusalClass[] {
+  const { p, faces, table } = build();
+  const ws = widthsOf(table);
+  const before = state(p);
+  const out: RefusalClass[] = [];
+  if (op === 'kerb') {
+    for (const f of faces) {
+      const r = tx(p, spec(1), (o) => kerb(o, f, ws));
+      if (!r.ok) out.push(classify(r, replayKerb(p, f, ws)));
+      expect(state(p)).toBe(before);
+    }
+    return out;
+  }
+  const c = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
+  if (!c.ok) {
+    expect(state(p)).toBe(before);
+    if (op === 'corridorUnion') out.push(classify(c, replayCommit({ build, level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) })));
+    return out;
+  }
+  if (op !== 'bandUnion') return out;
+  const chain = firstBand(table);
+  if (chain.length === 0) return out;
+  const b0 = state(p);
+  const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
+  if (!b.ok) {
+    expect(state(p)).toBe(b0);
+    const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
+    const rebuilt = (): ReturnType<typeof network> => {
+      const n = build();
+      commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
+      return n;
+    };
+    out.push(classify(b, replayCommit({ build: rebuilt, level: 3, over: AT_S9, widths: bw, edgeRole: 'band', entityOf: () => 'band:1' })));
+  }
+  return out;
+}
+
+describe('the refusal register (N-44 (4)): each case refuses cleanly, and every refusal still met replays on insertChain alone', () => {
+  for (const n of NETWORKS) {
+    it(`${n.id} (seed ${n.seed}): kerb and corridorUnion — typed, no throw, nothing written, insertChain's`, () => {
+      const k = rerun('kerb', () => r1(n.chords));
+      const c = rerun('corridorUnion', () => r1(n.chords));
+      for (const cls of [...k, ...c]) expect(cls).toBe('insertChain');
+      console.info(`register ${n.id}: kerb refused on ${String(k.length)} faces; corridorUnion ${c.length === 0 ? 'committed' : 'refused'}`);
+    });
+  }
+  for (const c of CLIPS) {
+    it(`${c.id} (seed ${c.seed}): tileRings — typed, no throw, insertChain's`, () => {
+      const rings = c.rings.map((ring) => ring.map(([x, y]) => P(x, y)));
+      const r = tileRings(rings);
+      if (!r.ok) expect(classify(r, replayTile(rings))).toBe('insertChain');
+      console.info(`register ${c.id}: tileRings ${r.ok ? 'committed' : r.code}`);
+    });
+  }
+
+  it('every case refused in a PR-size B-FUZZ run (refusals.json): typed, no throw, nothing written, insertChain\'s', { timeout: 1_800_000 }, () => {
+    const reg = JSON.parse(readFileSync(new URL('./refusals.json', import.meta.url), 'utf8')) as { cases: { op: string; code: string; input: unknown }[] };
+    const still: Record<string, Record<RefusalClass, number>> = {};
+    for (const c of reg.cases) {
+      expect(c.code).toBe('E_INVARIANT');
+      let met: RefusalClass[] = [];
+      if (c.op === 'tileRings') {
+        const rings = (c.input as { x: number; y: number }[][]).map((ring) => ring.map((q) => P(q.x, q.y)));
+        const r = tileRings(rings);
+        if (!r.ok) met = [classify(r, replayTile(rings))];
+      } else met = rerun(c.op, () => network(c.input as Chord[]));
+      // a kerb refusal is counted once per case, as B-FUZZ counts it
+      for (const cls of c.op === 'kerb' ? met.slice(0, 1) : met) {
+        still[c.op] ??= { insertChain: 0, own: 0 };
+        still[c.op][cls] += 1;
+      }
+    }
+    console.info(`register refusals.json: ${String(reg.cases.length)} cases; still refused per operation and class ${JSON.stringify(still)}`);
+    for (const op of Object.keys(still)) expect(still[op].own).toBe(0);
+  });
+});

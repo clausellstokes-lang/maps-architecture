@@ -1,0 +1,598 @@
+// Support for M0-a-09's oracle-agreement tests (§3.7 (i) "Oracles, not fallbacks"; §13.1's differential agreement on
+// `tileRings` and the band operations; the placement of C-0122): the cases — M0-k-01's arbitraries (the face set, the
+// polygon families) and M0-k-02's band and seed-clip cases — and the judges that run our operation (reached only
+// through @plat/kernel's export: the arr/index.ts lines M0-a-09 appends, C-0123), each oracle (M0-k-03), the split
+// comparison and the report. Every case records its verdict against each oracle in an `OracleReport`, so the report
+// carries both shares per operation and the unattracted draw count §13.1's vacuity guard reads (N-14: asserted at
+// min(10⁵, ⌈⅒ × runs⌉), so the nightly 10⁶ run asserts the guard exactly and the PR's 10⁴ a floor of 1 000).
+import fc from 'fast-check';
+import { expect } from 'vitest';
+import {
+  attachIndex,
+  corridorUnion,
+  createPlat,
+  faceRings,
+  insertChain,
+  isFaceLive,
+  kerb,
+  routeLines,
+  setOwner,
+  tileRings,
+  tx,
+  type BandResult,
+  type Cm,
+  type FaceId,
+  type KernelResult,
+  type KernelTx,
+  type LatticePoint,
+  type Plat,
+  type PlatKey,
+  type SpineWidths,
+  type StageId,
+  type TileOverlap,
+  type Warning,
+} from '@plat/kernel';
+import { arb, fuzzRuns } from '../../../src/fuzz/index.js';
+import { constructiveCase } from '../../../src/constructive/index.js';
+import type { ConstructiveInput } from '../../../src/constructive/types.js';
+import {
+  compareSplit,
+  oracleBoolean,
+  oracleBuffer,
+  OracleReport,
+  splitOf,
+  UNATTRACTED_DRAW_MIN,
+  type OracleResult,
+  type Verdict,
+} from '../../../src/oracles/index.js';
+import { dedupe, ringProblems } from '../../../src/oracles/rings.js';
+import { ORACLE_ENGINES, type OracleEngine, type Ring } from '../../../src/oracles/types.js';
+
+/** The size of an agreement run: PLAT_FUZZ_RUNS cases per operation (10⁴ on a PR, 10⁶ nightly; C-0057). */
+export const RUNS = fuzzRuns();
+
+/** A run's hard timeout (0 hangs): an hour, or 300 ms a case where the run is longer. */
+export const TIMEOUT = Math.max(3_600_000, RUNS * 300);
+
+/** The unattracted share every operation must keep (C-0196 (7)'s rule, N-14). */
+export const MIN_UNATTRACTED_SHARE = 0.1;
+
+/** The guard asserted at a run of `runs` cases: min(10⁵, ⌈share × runs⌉). */
+export function guardFor(runs: number, min: number = UNATTRACTED_DRAW_MIN): number {
+  return Math.min(min, Math.ceil(MIN_UNATTRACTED_SHARE * runs));
+}
+
+/** The harness: the report, the failures the comparison cannot hold, and the settled cases (refusals judged apart). */
+export interface Harness {
+  readonly report: OracleReport;
+  readonly failures: string[];
+  /** Cases judged without a draw: a refusal of ours read against the oracle (tileRings' overlap), by kind. */
+  readonly settled: Record<string, number>;
+  readonly sources: Record<string, number>;
+  /** Counted findings that judge no case (an attracted case's dangling edge): reported, no bar (N-45 KI notes). */
+  readonly notes: Record<string, number>;
+}
+
+export function newHarness(): Harness {
+  return { report: new OracleReport(), failures: [], settled: {}, sources: {}, notes: {} };
+}
+
+const MAX_KEPT = 20;
+
+function keep(h: Harness, s: string): void {
+  if (h.failures.length < MAX_KEPT) h.failures.push(s);
+}
+
+/** Our rings' own faults that need no oracle (§3.7 (i): "0 invalid outputs"), on every case. */
+function own(rings: readonly Ring[]): string[] {
+  return ringProblems(rings.map(dedupe));
+}
+
+/** One case under `op`: our rings against each oracle's, by our warnings (§3.7's split); our own faults on every case. */
+export function judge(h: Harness, op: string, source: string, ours: readonly Ring[], oracle: (e: OracleEngine) => OracleResult, warnings: readonly Warning[]): void {
+  h.sources[source] = (h.sources[source] ?? 0) + 1;
+  const bad = own(ours);
+  if (bad.length > 0) keep(h, `${op} ${source}: ours invalid: ${bad.join('; ')}`);
+  const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => compareSplit(ours, oracle(e), warnings));
+  for (const v of verdicts) if (!v.pass && !v.refused) keep(h, `${op} ${source} [${v.engine}, ${v.split}]: ${v.failures.join(', ')}`);
+  h.report.record(op, verdicts);
+}
+
+/** Records a case judged without a draw. */
+export function settle(h: Harness, kind: string): void {
+  h.settled[kind] = (h.settled[kind] ?? 0) + 1;
+}
+
+/** The verdict of a run of one operation: every judged case passed, nothing invalid, and §13.1's vacuity guard. */
+export function verdict(h: Harness, op: string, runs: number = RUNS): void {
+  const line = h.report.line(op);
+  const guard = guardFor(runs);
+  console.info(
+    `arr-bands/${op}: ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)}; unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; notes ${JSON.stringify(h.notes)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}`,
+  );
+  expect(h.failures).toEqual([]);
+  expect(line.failures).toEqual({});
+  expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
+  // an oracle's refusal judges nothing; it may never be what most cases end in
+  expect(line.unjudged).toBeLessThanOrEqual(Math.ceil(0.01 * runs));
+  // N-44 (3) as amended (J203/J207/J208; C-0212 (10) as amended): a refusal is excluded from the comparison only as a
+  // typed refusal, and counted. insertChain's own refusal (its detail `insert: …` — the kernel's B-FUZZ and register
+  // replay that class on insertChain alone, kernel/test/arr/bands/replay.ts) counts against insertChain's measured cap,
+  // not here; any other refusal is the item's own, at most 1 per 10⁴ cases (PR size: 1; nightly 10⁶: 100) — never
+  // raised without the owner
+  expect(h.settled['refused-own'] ?? 0).toBeLessThanOrEqual(Math.ceil(runs / 10_000));
+  // an attracted case's dangling kerb or split edge is a valid result short of ideal (N-45: a KI note, counted, no bar)
+  expect(line.unattracted).toBeGreaterThanOrEqual(guard);
+  expect(h.report.meetsDrawCount(op, guard)).toBe(true);
+}
+
+// ── the corridor cases ──
+
+/** A corridor case: a block face bounded by one closed way (its ring, counter-clockwise), an optional way across it, the half-width. */
+export interface CorridorCase {
+  readonly ring: LatticePoint[];
+  readonly chord: LatticePoint[] | null;
+  readonly hw: number;
+  /** The chains' declared role (`way`, or `tunnel` for the underground fixture). */
+  readonly role: string;
+  readonly key: PlatKey;
+  readonly source: string;
+}
+
+const seedArb = fc.integer({ min: 0, max: 0x7fff_ffff });
+
+/** The constructive case's draw (an M0 case: an input), by id and fast-check's seed. */
+export function drawCase(id: string, seed: number): ConstructiveInput {
+  const c = constructiveCase(id);
+  if (c === undefined) throw new Error(`support: no constructive case ${id}`);
+  const d = c.generate(seed);
+  if (d.kind !== 'input') throw new Error(`support: ${id} is deferred`);
+  return d;
+}
+
+const GROUND: PlatKey = { layer: 'ground', part: 0 };
+
+/** The polygon's box. */
+function boxOf(r: readonly LatticePoint[]): { x0: number; y0: number; x1: number; y1: number } {
+  let x0 = Infinity;
+  let y0 = Infinity;
+  let x1 = -Infinity;
+  let y1 = -Infinity;
+  for (const q of r) {
+    x0 = Math.min(x0, q.x);
+    y0 = Math.min(y0, q.y);
+    x1 = Math.max(x1, q.x);
+    y1 = Math.max(y1, q.y);
+  }
+  return { x0, y0, x1, y1 };
+}
+
+const lp = (x: number, y: number): LatticePoint => ({ x: Math.round(x) as Cm, y: Math.round(y) as Cm });
+
+/**
+ * Corridor cases: M0-k-01's simple polygons (3 – 7 vertices; a way across in three of ten), rectilinear blocks (a way
+ * across, along an axis, in three of ten) and block faces (§16 M0 (b)'s set: curved, round-joined, triangular,
+ * C-shaped, concave; a way across in half), each bounded by one closed way, the way across through its box centre; half-widths from 0.5 m to an eighth of the face's smaller extent (at
+ * most 6 m); and M0-k-02's tunnel fixture. A face with many short edges or a way across is mostly an attracted case
+ * (a join of a small turn and the strips' crossings place vertices within attractCm), so the simple polygons carry
+ * the unattracted share §13.1's guard reads.
+ */
+export const corridorCaseArb: fc.Arbitrary<CorridorCase> = fc.oneof(
+  {
+    weight: 8,
+    arbitrary: fc
+      .record({ ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 7] }), across: fc.integer({ min: 0, max: 9 }).map((k) => k < 3), turn: fc.integer({ min: 0, max: 35_999 }), tenths: fc.integer({ min: 0, max: 1000 }) })
+      .map(({ ring, across, turn, tenths }) => corridorOf(ccwRing(ring.slice()), across, turn, tenths, 'polygon')),
+  },
+  {
+    weight: 2,
+    arbitrary: fc
+      .record({
+        face: fc.oneof(
+          arb.faceSet('curved'),
+          arb.faceSet('round-joined'),
+          arb.faceSet('triangular'),
+          arb.faceSet('C-shaped'),
+          arb.faceSet('concave'),
+        ),
+        across: fc.boolean(),
+        turn: fc.integer({ min: 0, max: 35_999 }),
+        tenths: fc.integer({ min: 0, max: 1000 }),
+      })
+      .map(({ face, across, turn, tenths }) => corridorOf(face.polygon[0].slice(), across, turn, tenths, `faceSet-${face.kind}`)),
+  },
+  {
+    // rectilinear blocks (a gridded quarter's): their strips meet on the lattice, so most are unattracted — with the
+    // simple polygons they carry the share §13.1's guard reads clear of the guard at every run size
+    weight: 3,
+    arbitrary: fc
+      .record({ x: fc.integer({ min: -30_000, max: 30_000 }), y: fc.integer({ min: -30_000, max: 30_000 }), w: fc.integer({ min: 3_000, max: 30_000 }), h: fc.integer({ min: 3_000, max: 30_000 }), across: fc.integer({ min: 0, max: 9 }).map((k) => k < 3), turn: fc.constantFrom(0, 9_000), tenths: fc.integer({ min: 0, max: 1000 }) })
+      .map(({ x, y, w, h, across, turn, tenths }) => corridorOf([lp(x, y), lp(x + w, y), lp(x + w, y + h), lp(x, y + h)], across, turn, tenths, 'rect')),
+  },
+  {
+    weight: 1,
+    arbitrary: seedArb.map((seed) => {
+      const d = drawCase('fix/tunnel-corridor', seed);
+      const ring = d.rings.face.slice();
+      // the trunk as the tunnel across the face (the branch's junction is the kernel test's)
+      return { ring, chord: d.chains.trunk.slice(), hw: Number(d.params.halfWidthCm), role: 'tunnel', key: { layer: 'underground', part: 0 } as PlatKey, source: 'fix/tunnel-corridor' };
+    }),
+  },
+);
+
+/** The ring counter-clockwise. */
+function ccwRing(r: LatticePoint[]): LatticePoint[] {
+  let a = 0;
+  for (let i = 0; i < r.length; i += 1) a += r[i].x * r[(i + 1) % r.length].y - r[(i + 1) % r.length].x * r[i].y;
+  return a < 0 ? r.reverse() : r;
+}
+
+/** A corridor case on a ring: the half-width from 0.5 m to an eighth of its smaller extent (≤ 6 m), the way across through its box centre. */
+function corridorOf(ring: LatticePoint[], across: boolean, turn: number, tenths: number, source: string): CorridorCase {
+  const b = boxOf(ring);
+  const span = Math.min(b.x1 - b.x0, b.y1 - b.y0);
+  const hw = 50 + Math.floor(((Math.max(50, Math.min(600, span / 8)) - 50) * tenths) / 1000);
+  const t = (turn * Math.PI) / 18_000;
+  const cx = (b.x0 + b.x1) / 2;
+  const cy = (b.y0 + b.y1) / 2;
+  const reach = Math.hypot(b.x1 - b.x0, b.y1 - b.y0) + 400;
+  const chord = across ? [lp(cx - reach * Math.cos(t), cy - reach * Math.sin(t)), lp(cx + reach * Math.cos(t), cy + reach * Math.sin(t))] : null;
+  return { ring, chord, hw, role: 'way', key: GROUND, source: `${source}${across ? '+chord' : ''}` };
+}
+
+/** A transaction spec at `level` on `key`. */
+function spec(level: 0 | 1 | 2, key: PlatKey): KernelTx {
+  return {
+    key,
+    level,
+    ops: [],
+    expect: [],
+    onFail: 'reject',
+    batch: { kind: 'stage', stage: 9 as StageId },
+    stage: 9 as StageId,
+    rederivesFrom: 9 as StageId,
+    workLimit: 100_000_000,
+  };
+}
+
+/**
+ * What a corridor case gives: our blocks and bands, the warnings §3.7's split reads, and the geometry the kerb is
+ * defined on as the arena holds it — the ring way's committed route (F's outline) and every way's own-level route (the
+ * spines), which insertion may have routed through a vertex within attractCm of the input — or null when the arena
+ * refused the input.
+ */
+export interface CorridorOurs {
+  readonly blocks: Ring[];
+  readonly bands: Ring[];
+  readonly warnings: Warning[];
+  readonly face: Ring;
+  readonly spines: LatticePoint[][];
+}
+
+function ringsAt(p: Plat, level: 1 | 2, f: FaceId): Ring[] {
+  return faceRings(p, level, f).map((r) => r.slice());
+}
+
+/** A typed refusal of the operation under test: its code and detail. */
+export interface Refused {
+  readonly refused: string;
+  readonly detail: string;
+}
+
+/** insertChain's own refusal — the insertion's detail `insert: …` (its route refusal of N-43, its final checks). */
+export function insertChainsRefusal(code: string, detail: string): boolean {
+  return code === 'E_INVARIANT' && detail.startsWith('insert:');
+}
+
+/** Counts a refusal by its class and logs it for the register (N-44 (4)). */
+function refused(h: Harness, op: string, code: string, detail: string, input: unknown): void {
+  const cls = insertChainsRefusal(code, detail) ? 'insertChain' : 'own';
+  settle(h, `refused-${cls}`);
+  console.info(`REFUSAL ${op} ${cls} ${code} ${detail.slice(0, 120)} INPUT ${JSON.stringify(input)}`);
+}
+
+/**
+ * Our side of a corridor case: an arena framed far beyond the face, the face's ring a closed L1 chain, the way across
+ * it (if any) an L1 chain, the faces inside the ring owned, kerb(F) read on each, corridorUnion over them at L2. Null
+ * where the arena refused the input (not the operation under test).
+ */
+export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
+  const b = boxOf(c.ring);
+  const m = 20_000;
+  const p = createPlat(c.key, { widthCm: (1 << 24) as Cm, heightCm: (1 << 24) as Cm, aspect: 1, marginShare: 0 });
+  attachIndex(p, { gridCellCm: 1_024 });
+  const frame = [lp(b.x0 - m, b.y0 - m), lp(b.x1 + m, b.y0 - m), lp(b.x1 + m, b.y1 + m), lp(b.x0 - m, b.y1 + m)];
+  const f0 = tx(p, spec(0, c.key), (o) => insertChain(o, frame, [{ role: 'margin', entity: 'terrain:1' }], 'mandatory', { closed: true }));
+  if (!f0.ok) return null;
+  const w = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring, [{ role: c.role, entity: 'way:0' }], 'mandatory', { closed: true }));
+  if (!w.ok) return null;
+  if (c.chord !== null) {
+    const r = tx(p, spec(1, c.key), (o) => insertChain(o, c.chord as LatticePoint[], [{ role: c.role, entity: 'way:1' }], 'mandatory'));
+    if (!r.ok) return null;
+  }
+  // the faces inside the ring: every L1 face but the one holding the frame's corner on its outer ring
+  const corner = frame[0];
+  const faces: FaceId[] = [];
+  for (let f = 0; f < p.slots.face[1].top; f += 1) {
+    if (!isFaceLive(p, 1, f)) continue;
+    const rings = faceRings(p, 1, f);
+    if (rings[0].some((q) => q.x === corner.x && q.y === corner.y)) continue;
+    if (!insideRing(c.ring, rings)) continue;
+    faces.push(f);
+  }
+  if (faces.length === 0) return null;
+  const own = tx(p, spec(1, c.key), (o) => setOwner(o, faces, 'district:1'));
+  if (!own.ok) return null;
+  const widths: SpineWidths = (ch) => (ch.role === c.role && (ch.entity === 'way:0' || ch.entity === 'way:1') ? { halfWidthCm: c.hw } : null);
+  const warnings: Warning[] = [];
+  const read = tx(p, spec(1, c.key), (o) => {
+    for (const f of faces) {
+      const k = kerb(o, f, widths);
+      if (!k.ok) return k;
+      warnings.push(...k.warnings);
+    }
+    return { ok: true, value: null, warnings: [] };
+  });
+  // a typed refusal of kerb or corridorUnion (N-44 (1)): the judge counts it by its class
+  if (!read.ok) return { refused: read.code, detail: read.detail };
+  const r = tx(p, spec(2, c.key), (o) => corridorUnion(o, faces, widths));
+  if (!r.ok) return { refused: r.code, detail: r.detail };
+  warnings.push(...(r.value.record?.warnings ?? []));
+  const v = r.value.value as BandResult;
+  const blocks: Ring[] = [];
+  const bands: Ring[] = [];
+  for (const f of v.blocks) blocks.push(...ringsAt(p, 2, f));
+  for (const f of v.whole) blocks.push(...ringsAt(p, 1, f));
+  for (const f of v.band) bands.push(...ringsAt(p, 2, f));
+  for (const f of v.wholeBand) bands.push(...ringsAt(p, 1, f));
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const spines: LatticePoint[][] = [];
+  let face: Ring = c.ring.slice();
+  for (const entity of ['way:0', 'way:1']) {
+    for (const ln of routeLines(p, { role: c.role, entity }, c.key)) {
+      const pts = ln.vertices.map((v) => lp(X[v], Y[v]));
+      if (ln.closed) {
+        if (entity === 'way:0') face = pts.slice();
+        pts.push(pts[0]);
+      }
+      spines.push(pts);
+    }
+  }
+  return { blocks, bands, warnings, face, spines };
+}
+
+/**
+ * Is the face inside the ring? Read at a point strictly inside the face — the centroid of an ear of its outer ring (a
+ * convex corner whose triangle holds no other vertex of the face) — by the ring's winding number there.
+ */
+function insideRing(ring: readonly LatticePoint[], rings: readonly LatticePoint[][]): boolean {
+  const outer = rings[0];
+  const all = rings.flat();
+  const m = outer.length;
+  const cross = (a: LatticePoint, b: LatticePoint, c: LatticePoint): number => (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
+  for (let i = 0; i < m; i += 1) {
+    const a = outer[(i + m - 1) % m];
+    const v = outer[i];
+    const b = outer[(i + 1) % m];
+    if (cross(a, v, b) <= 0) continue;
+    const blocked = all.some((w) => !(w.x === a.x && w.y === a.y) && !(w.x === v.x && w.y === v.y) && !(w.x === b.x && w.y === b.y) && cross(a, v, w) >= 0 && cross(v, b, w) >= 0 && cross(b, a, w) >= 0);
+    if (blocked) continue;
+    return windingAt(ring, (a.x + v.x + b.x) / 3, (a.y + v.y + b.y) / 3) !== 0;
+  }
+  return false;
+}
+
+function windingAt(ring: readonly LatticePoint[], x: number, y: number): number {
+  let w = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    const side = (b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x);
+    if (a.y <= y) {
+      if (b.y > y && side > 0) w += 1;
+    } else if (b.y <= y && side < 0) w -= 1;
+  }
+  return w;
+}
+
+/** The oracle's buffer of the spines (each a way's committed route; a ring closed on itself), round joins and ends — §3.7's kerb definition. */
+function oracleWays(o: CorridorOurs, hw: number, e: OracleEngine): OracleResult {
+  return oracleBuffer(o.spines, hw, 'round', 'round', e);
+}
+
+/** The oracle's kerb: F less the spines' buffer (§3.7: F − ⋃ buffer(spineᵢ, half-widthᵢ)). */
+export function oracleKerb(o: CorridorOurs, hw: number, e: OracleEngine): OracleResult {
+  const buf = oracleWays(o, hw, e);
+  if (!buf.ok) return buf;
+  return oracleBoolean('difference', [o.face], buf.rings, 'nonzero', e);
+}
+
+/** The oracle's bands: F within the spines' buffer. */
+export function oracleBands(o: CorridorOurs, hw: number, e: OracleEngine): OracleResult {
+  const buf = oracleWays(o, hw, e);
+  if (!buf.ok) return buf;
+  return oracleBoolean('intersection', [o.face], buf.rings, 'nonzero', e);
+}
+
+/** A closed ring cut into simple loops at every point it visits twice (each loop in ring order). */
+export function loopsOf(ring: readonly LatticePoint[]): LatticePoint[][] {
+  const loops: LatticePoint[][] = [];
+  const stack: LatticePoint[] = [];
+  const at = new Map<string, number>();
+  for (const q of ring) {
+    const k = `${String(q.x)},${String(q.y)}`;
+    const i = at.get(k);
+    if (i !== undefined) {
+      const loop = stack.splice(i);
+      for (const u of loop) at.delete(`${String(u.x)},${String(u.y)}`);
+      loops.push(loop);
+    }
+    at.set(k, stack.length);
+    stack.push(q);
+  }
+  if (stack.length > 0) loops.push(stack);
+  return loops;
+}
+
+/** Our band faces united by the engine's own boolean (adjacent strips and wedges as one region, the comparison's form). */
+export function unitedBy(rings: readonly Ring[], e: OracleEngine): Ring[] | null {
+  if (rings.length === 0) return [];
+  const u = oracleBoolean('union', rings, [], 'nonzero', e);
+  return u.ok ? u.rings : null;
+}
+
+/**
+ * Judges one corridor case: the committed blocks against the oracle's kerb, the band faces against its bands. Our
+ * faces are arena faces — adjacent ones share edges — so each is held to the ring checks on its own and the region
+ * they make is compared, united by the engine's own boolean (the arena's validity is the kernel B-FUZZ's, §3.10).
+ */
+export function judgeCorridor(h: Harness, c: CorridorCase): void {
+  const ours = oursCorridor(c);
+  if (ours === null) {
+    settle(h, 'input-refused');
+    return;
+  }
+  if ('refused' in ours) {
+    refused(h, 'corridorUnion', ours.refused, ours.detail, c);
+    return;
+  }
+  const attracted = splitOf(ours.warnings) === 'attracted';
+  let dangling = false;
+  for (const r of [...ours.blocks, ...ours.bands]) {
+    // an arena face's ring may meet itself at a vertex (a face pinched between two that touch there): each simple
+    // loop of it is held to the ring checks; a loop of two points is an edge dangling into the face — legal in an
+    // arena (§13.1's antennae), and left only where attraction moved the kerb an edge was planned to reach (C-0212 (8))
+    for (const loop of loopsOf(dedupe(r))) {
+      if (loop.length < 3 && attracted) {
+        dangling = true;
+        continue;
+      }
+      const bad = loop.length < 3 ? ['an edge dangling into the face'] : ringProblems([loop]);
+      if (bad.length > 0) keep(h, `corridorUnion ${c.source}: a face ring of ours invalid: ${bad.join('; ')} ${JSON.stringify(loop).slice(0, 200)}`);
+    }
+  }
+  if (dangling) h.notes['dangling-attracted'] = (h.notes['dangling-attracted'] ?? 0) + 1;
+  const blocks = unitedBy(ours.blocks, 'clipper2');
+  const bands = unitedBy(ours.bands, 'clipper2');
+  if (blocks === null || bands === null) {
+    settle(h, 'not-united');
+    return;
+  }
+  judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings);
+  judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings);
+}
+
+// ── the tileRings cases ──
+
+/** A seed clip case: rings in the clip order, and where they came from. */
+export interface TileCase {
+  readonly rings: LatticePoint[][];
+  readonly source: string;
+}
+
+const LIMIT_CM = 65_536;
+const sized = { limitCm: LIMIT_CM, sizeCm: [300, 30_000] as const };
+
+/** One ring: a simple polygon, a snapped regular ring, a thin ring or a rectangle (counter-clockwise). */
+const ringArb: fc.Arbitrary<LatticePoint[]> = fc.oneof(
+  { weight: 4, arbitrary: arb.polygon({ ...sized, vertices: [3, 12] }) },
+  { weight: 2, arbitrary: arb.regularSnapped({ limitCm: LIMIT_CM, sizeCm: [300, 30_000] }) },
+  { weight: 1, arbitrary: arb.thin({ limitCm: LIMIT_CM }) },
+  {
+    weight: 2,
+    arbitrary: fc.tuple(fc.integer({ min: -30_000, max: 30_000 }), fc.integer({ min: -30_000, max: 30_000 }), fc.integer({ min: 300, max: 20_000 }), fc.integer({ min: 300, max: 20_000 })).map(([x, y, w, hh]) => [lp(x, y), lp(x + w, y), lp(x + w, y + hh), lp(x, y + hh)]),
+  },
+);
+
+function translated(r: readonly LatticePoint[], dx: number, dy: number): LatticePoint[] {
+  return r.map((q) => lp(q.x + dx, q.y + dy));
+}
+
+function ccw(r: LatticePoint[]): LatticePoint[] {
+  let a = 0;
+  for (let i = 0; i < r.length; i += 1) a += r[i].x * r[(i + 1) % r.length].y - r[(i + 1) % r.length].x * r[i].y;
+  return a < 0 ? r.slice().reverse() : r;
+}
+
+/** Seed clip cases: 2 – 4 rings, each later one a draw or an earlier one shifted (so they overlap); and M0-k-02's. */
+export const tileCaseArb: fc.Arbitrary<TileCase> = fc.oneof(
+  {
+    weight: 9,
+    arbitrary: fc
+      .record({
+        first: ringArb,
+        rest: fc.array(fc.oneof(ringArb.map((r) => ({ r, shift: null })), fc.record({ dx: fc.integer({ min: -4000, max: 4000 }), dy: fc.integer({ min: -4000, max: 4000 }), of: fc.nat() }).map((s) => ({ r: null, shift: s }))), { minLength: 1, maxLength: 3 }),
+      })
+      .map(({ first, rest }) => {
+        const rings: LatticePoint[][] = [ccw(first.slice())];
+        for (const x of rest) {
+          if (x.r !== null) rings.push(ccw(x.r.slice()));
+          else {
+            const s = x.shift as { dx: number; dy: number; of: number };
+            rings.push(translated(rings[s.of % rings.length], s.dx, s.dy));
+          }
+        }
+        return { rings, source: 'arb' };
+      }),
+  },
+  {
+    weight: 1,
+    arbitrary: fc
+      .record({ id: fc.constantFrom('fix/tilerings-covered', 'fix/tilerings-cut-in-two', 'fix/tilerings-hole-refused', 'fix/seed-clip-rotated-t'), seed: seedArb })
+      .map(({ id, seed }) => {
+        const d = drawCase(id, seed);
+        const order = (d.params.order as unknown as readonly string[] | undefined) ?? Object.keys(d.rings).sort();
+        return { rings: order.map((k) => ccw(d.rings[k].slice())), source: id };
+      }),
+  },
+);
+
+/** Is any of the rings a hole (clockwise)? */
+function hasHole(rings: readonly Ring[]): boolean {
+  return rings.some((r) => {
+    let a = 0;
+    for (let i = 0; i < r.length; i += 1) a += r[i].x * r[(i + 1) % r.length].y - r[(i + 1) % r.length].x * r[i].y;
+    return a < 0;
+  });
+}
+
+/** The oracle's piece of ring i: the ring less every earlier ring (§3.4's seed clip). */
+export function oracleTile(rings: readonly LatticePoint[][], i: number, e: OracleEngine): OracleResult {
+  if (i === 0) return oracleBoolean('union', [rings[0]], [], 'nonzero', e);
+  return oracleBoolean('difference', [rings[i]], rings.slice(0, i), 'nonzero', e);
+}
+
+/**
+ * Judges one seed clip case: each ring's pieces against the oracle's ring less every earlier ring (one draw each); a
+ * refusal (detail `overlap`) only where the oracle's result for that ring has a hole — on an unattracted case exactly
+ * there, and an unattracted success never where the oracle's result has one (§13.1).
+ */
+export function judgeTile(h: Harness, c: TileCase): void {
+  const ours: KernelResult<Ring[][]> = tileRings(c.rings);
+  if (!ours.ok) {
+    if (!(ours.code === 'E_DEGENERATE' && ours.detail === 'overlap')) {
+      // a typed refusal other than the design's overlap answer (N-44 (1)): counted by its class, logged for the register
+      refused(h, 'tileRings', ours.code, ours.detail, c.rings);
+      return;
+    }
+    const o = ours as TileOverlap;
+    const holed = ORACLE_ENGINES.map((e) => {
+      const r = oracleTile(c.rings, o.ring, e);
+      return r.ok ? hasHole(r.rings) : null;
+    });
+    const split = splitOf(o.warnings);
+    if (holed.every((x) => x === false) && split === 'unattracted') keep(h, `tileRings ${c.source}: overlap refused at ring ${String(o.ring)} with no hole in either oracle's result`);
+    settle(h, `overlap-${split}`);
+    return;
+  }
+  ours.value.forEach((pieces, i) => {
+    if (splitOf(ours.warnings) === 'unattracted') {
+      for (const e of ORACLE_ENGINES) {
+        const r = oracleTile(c.rings, i, e);
+        if (r.ok && hasHole(r.rings)) keep(h, `tileRings ${c.source}: ring ${String(i)} cut without the overlap refusal where ${e}'s result has a hole`);
+      }
+    }
+    judge(h, 'tileRings', c.source, pieces, (e) => oracleTile(c.rings, i, e), ours.warnings);
+  });
+}

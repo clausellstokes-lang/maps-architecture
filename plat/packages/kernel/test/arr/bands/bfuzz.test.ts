@@ -8,39 +8,28 @@
 // is valid when the arena passes every oracle (§3.10's links, minEdge, one vertex per lattice point, no crossing,
 // clearance, level consistency, the face records against the level views, nesting, Euler per level, the index
 // state), the faces of the batch's level tile each L1 face exactly, every kerb ring and every piece is simple with the
-// face on its left, and a refusal is one of the op's codes and writes nothing.
+// face on its left, and a refusal is typed and writes nothing. Refusals are counted per operation and classed by
+// replay (replay.ts; N-44 as amended by J203/J207/J208, C-0212 (10) as amended): one that replays on insertChain alone
+// is insertChain's — counted, logged for the register (a REFUSAL line), never gated here; any other is the item's own
+// and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import type { FaceId, Plat } from '../../../src/arena/index.js';
-import { insertChain } from '../../../src/insert/index.js';
-import { setOwner, tx } from '../../../src/tx/index.js';
+import { idOf } from '../../../src/arena/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { kerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandUnion, type BandResult } from '../../../src/arr/bandUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
-import { area2, commit, framed, healthy, P, profile, pt, simpleRing, spec, state, tilesExactly, widthsOf, AT_S9 } from './support.js';
+import { area2, commit, firstBand, healthy, network, P, simpleRing, spec, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
+import { tx } from '../../../src/tx/index.js';
+import { classify, replayCommit, replayKerb, replayTile, type RefusalClass } from './replay.js';
 import { TIMEOUT } from '../../insert/step3-5/support.js';
 
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
 /** The hard timeout (0 hangs): 600 s, or a few times the CONTENDED cost per case where the run is longer. */
 const HARD = Math.max(TIMEOUT, RUNS * 200);
 
-/** A point on the frame [0, 4000]²'s boundary by its arc position (counter-clockwise from (0, 0)). */
-function onFrame(s: number): [number, number] {
-  if (s < 4000) return [s, 0];
-  if (s < 8000) return [4000, s - 4000];
-  if (s < 12_000) return [12_000 - s, 4000];
-  return [0, 16_000 - s];
-}
-
-function l1Faces(p: Plat): FaceId[] {
-  const out: FaceId[] = [];
-  for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) out.push(f);
-  return out;
-}
-
-const chordArb = fc.record({
+const chordArb: fc.Arbitrary<Chord> = fc.record({
   a: fc.integer({ min: 0, max: 15_999 }),
   // near-parallel to the first, near a corner, or anywhere
   b: fc.oneof(fc.integer({ min: 0, max: 15_999 }), fc.integer({ min: 0, max: 60 }), fc.integer({ min: 7_960, max: 8_040 })),
@@ -49,48 +38,39 @@ const chordArb = fc.record({
   ends: fc.constantFrom<'round' | 'square'>('round', 'square'),
 });
 
-const CORRIDOR_CODES = ['E_KEPT', 'E_INVARIANT'];
+/**
+ * N-44 (3) for a refusal caused in the item's own code: at most 1 per 10⁴ cases per operation (PR size 10⁴: 1; nightly
+ * 10⁶: 100). Never raised without the owner.
+ */
+const OWN_CAP = Math.ceil(RUNS / 10_000);
 
-/** N-44 (3): at most 1 refusal per 10⁴ cases per operation (PR size 10⁴: 1; nightly 10⁶: 100). Never raised without the owner. */
-const REFUSAL_CAP = Math.ceil(RUNS / 10_000);
+type Tally = Record<RefusalClass, number>;
+const tally = (): Tally => ({ insertChain: 0, own: 0 });
 
-/** A refused case's line for the refusal register (N-44 (4)): the operation, its code and detail, the input. */
-function registerLine(op: string, code: string, detail: string, input: unknown): void {
-  console.info(`REFUSAL ${op} ${code} ${detail.slice(0, 120)} INPUT ${JSON.stringify(input)}`);
+/** A refused case's line for the refusal register (N-44 (4)): the operation, its class, code and detail, the input. */
+function registerLine(op: string, cls: RefusalClass, code: string, detail: string, input: unknown): void {
+  console.info(`REFUSAL ${op} ${cls} ${code} ${detail.slice(0, 120)} INPUT ${JSON.stringify(input)}`);
 }
 
 describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
   it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
     let committed = 0;
-    const refusals = { kerb: 0, corridorUnion: 0, bandUnion: 0 };
+    const refusals = { kerb: tally(), corridorUnion: tally(), bandUnion: tally() };
     fc.assert(
       fc.property(fc.array(chordArb, { minLength: 1, maxLength: 3 }), (chords) => {
-        const p = framed();
-        const table: Record<string, ReturnType<typeof profile> | { halfWidthCm: number; ends: 'round' | 'square' }> = {};
-        chords.forEach((c, i) => {
-          const a = onFrame(c.a);
-          const b = onFrame(c.b);
-          if (Math.hypot(a[0] - b[0], a[1] - b[1]) < 300 || (a[0] === b[0] && (a[0] === 0 || a[0] === 4000)) || (a[1] === b[1] && (a[1] === 0 || a[1] === 4000))) return;
-          const knots = c.knots === null ? {} : { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }] };
-          const r = tx(p, spec(1), (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', knots));
-          if (!r.ok) return;
-          table[`way:${String(i)}`] = c.knots === null ? { halfWidthCm: c.hw, ends: c.ends } : profile([c.knots[0], c.knots[1]]);
-        });
-        const faces = l1Faces(p);
-        commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
+        const { p, faces, table } = network(chords);
         const ws = widthsOf(table);
         // kerb on every face, read on the open overlay: typed, and every ring simple with the kerb on its left
-        let refusedRead = false;
+        const read: { cls: RefusalClass | null } = { cls: null };
+        const b0 = state(p);
         commit(p, 1, (o) => {
           for (const f of faces) {
             const k = kerb(o, f, ws);
             if (!k.ok) {
-              // the scratch overlay's insertion refusing a route (N-43; N-44 (1)): a typed refusal, never a crash —
-              // counted per operation under N-44's cap and logged for the register
-              expect(k.code).toBe('E_INVARIANT');
-              expect(k.detail.startsWith('insert:')).toBe(true);
-              if (!refusedRead) registerLine('kerb', k.code, k.detail, chords);
-              refusedRead = true;
+              // a typed refusal, never a crash (N-44 (1)); classed by replay, counted once per case
+              const cls = classify(k, replayKerb(p, f, ws));
+              if (read.cls === null) registerLine('kerb', cls, k.code, k.detail, chords);
+              if (read.cls !== 'own') read.cls = cls;
               continue;
             }
             for (const r of k.value) expect(simpleRing(r)).toBe(true);
@@ -99,14 +79,16 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
           }
           return { ok: true, value: null, warnings: [] };
         });
-        if (refusedRead) refusals.kerb += 1;
+        // the read-only service writes nothing
+        expect(state(p)).toBe(b0);
+        if (read.cls !== null) refusals.kerb[read.cls] += 1;
         const before = state(p);
         const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
         if (!r.ok) {
-          expect(CORRIDOR_CODES).toContain(r.code);
           expect(state(p)).toBe(before);
-          refusals.corridorUnion += 1;
-          registerLine('corridorUnion', r.code, r.detail, chords);
+          const cls = classify(r, replayCommit({ build: () => network(chords), level: 2, over: AT_S9, widths: ws, edgeRole: 'kerb', entityOf: (q, f) => idOf(q, q.faces[1].owner[f]) }));
+          refusals.corridorUnion[cls] += 1;
+          registerLine('corridorUnion', cls, r.code, r.detail, chords);
           return;
         }
         committed += 1;
@@ -115,17 +97,30 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         const v = r.value.value as BandResult;
         expect(new Set([...v.band, ...v.blocks]).size).toBe(v.band.length + v.blocks.length);
         // a wall band along the first chain at L3, inside every L1 face
-        const first = Object.keys(table).sort()[0];
-        if (first === undefined) return;
-        const w = table[first];
-        const chain = [{ ref: { role: 'way', entity: first }, halfWidthCm: 'knotRole' in w ? w : Math.max(1, Math.floor(w.halfWidthCm / 2)), ends: 'knotRole' in w ? ('round' as const) : w.ends }];
-        const b0 = state(p);
+        const chain = firstBand(table);
+        if (chain.length === 0) return;
+        const b1 = state(p);
         const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
         if (!b.ok) {
-          expect(CORRIDOR_CODES).toContain(b.code);
-          expect(state(p)).toBe(b0);
-          refusals.bandUnion += 1;
-          registerLine('bandUnion', b.code, b.detail, chords);
+          expect(state(p)).toBe(b1);
+          const bw = widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } });
+          const cls = classify(
+            b,
+            replayCommit({
+              build: () => {
+                const n = network(chords);
+                commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
+                return n;
+              },
+              level: 3,
+              over: AT_S9,
+              widths: bw,
+              edgeRole: 'band',
+              entityOf: () => 'band:1',
+            }),
+          );
+          refusals.bandUnion[cls] += 1;
+          registerLine('bandUnion', cls, b.code, b.detail, chords);
           return;
         }
         healthy(p);
@@ -133,10 +128,10 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (N-44 cap ${String(REFUSAL_CAP)})`);
-    expect(refusals.kerb).toBeLessThanOrEqual(REFUSAL_CAP);
-    expect(refusals.corridorUnion).toBeLessThanOrEqual(REFUSAL_CAP);
-    expect(refusals.bandUnion).toBeLessThanOrEqual(REFUSAL_CAP);
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)})`);
+    expect(refusals.kerb.own).toBeLessThanOrEqual(OWN_CAP);
+    expect(refusals.corridorUnion.own).toBeLessThanOrEqual(OWN_CAP);
+    expect(refusals.bandUnion.own).toBeLessThanOrEqual(OWN_CAP);
   });
 
   it('tileRings on random ring lists: 0 crashes, every piece simple and counter-clockwise, or the overlap refusal', { timeout: HARD }, () => {
@@ -148,22 +143,20 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       fc.tuple(fc.integer({ min: 1000, max: 7000 }), fc.integer({ min: 1000, max: 7000 }), fc.integer({ min: 100, max: 3000 }), fc.integer({ min: 100, max: 3000 }), fc.integer({ min: -1000, max: 1000 })).map(([cx, cy, w, h, s]) => [P(cx - w, cy - h + s), P(cx + w, cy - h - s), P(cx + w - s, cy + h), P(cx - w + s, cy + h)]),
     );
-    let refused = 0;
-    let pending = 0;
+    let overlap = 0;
+    const refusals = tally();
     fc.assert(
       fc.property(fc.array(ringArb, { minLength: 1, maxLength: 4 }), (rings) => {
         const r = tileRings(rings);
         if (!r.ok) {
-          if (r.code === 'E_INVARIANT') {
-            // the overlay's insertion refusing a route (N-43; N-44 (1)): typed, counted under N-44's cap
-            expect(r.detail.startsWith('insert:')).toBe(true);
-            pending += 1;
-            registerLine('tileRings', r.code, r.detail, rings);
+          // the overlap refusal is the design's answer to a holed piece (§3.4), a correct result, not an N-44 refusal
+          if (r.code === 'E_DEGENERATE' && r.detail === 'overlap') {
+            overlap += 1;
             return;
           }
-          expect(r.code).toBe('E_DEGENERATE');
-          expect(r.detail).toBe('overlap');
-          refused += 1;
+          const cls = classify(r, replayTile(rings));
+          refusals[cls] += 1;
+          registerLine('tileRings', cls, r.code, r.detail, rings);
           return;
         }
         expect(r.value.length).toBe(rings.length);
@@ -176,8 +169,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    // the overlap refusal is the design's answer to a holed piece (§3.4), a correct result, not an N-44 refusal
-    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(refused)} overlap results; N-44 refusals ${String(pending)} (cap ${String(REFUSAL_CAP)})`);
-    expect(pending).toBeLessThanOrEqual(REFUSAL_CAP);
+    console.info(`B-FUZZ tileRings: ${String(RUNS)} cases, ${String(overlap)} overlap results; refusals ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)})`);
+    expect(refusals.own).toBeLessThanOrEqual(OWN_CAP);
   });
 });

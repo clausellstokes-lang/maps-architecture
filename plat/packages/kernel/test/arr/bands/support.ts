@@ -272,3 +272,53 @@ export function simpleRing(r: readonly LatticePoint[]): boolean {
   }
   return true;
 }
+
+/** A B-FUZZ chord: arc positions on the frame [0, 4000]², a half-width or a two-knot profile, the ends. */
+export interface Chord {
+  readonly a: number;
+  readonly b: number;
+  readonly hw: number;
+  readonly knots: readonly [number, number] | null;
+  readonly ends: 'round' | 'square';
+}
+
+/** A point on the frame [0, 4000]²'s boundary by its arc position (counter-clockwise from (0, 0)). */
+export function onFrame(s: number): [number, number] {
+  if (s < 4000) return [s, 0];
+  if (s < 8000) return [4000, s - 4000];
+  if (s < 12_000) return [12_000 - s, 4000];
+  return [0, 16_000 - s];
+}
+
+/** A chord's width declaration: its scalar half-width and ends, or its two-knot profile. */
+export type ChordWidth = ChainProfile<number> | { halfWidthCm: number; ends: 'round' | 'square' };
+
+/**
+ * B-FUZZ's street network from its chords (a fresh arena each call): each chord far enough from the frame's own sides
+ * inserted as an L1 way (its two knots on its ends where it carries a profile), the L1 faces owned by district:1.
+ */
+export function network(chords: readonly Chord[]): { p: Plat; faces: FaceId[]; table: Record<string, ChordWidth> } {
+  const p = framed();
+  const table: Record<string, ChordWidth> = {};
+  chords.forEach((c, i) => {
+    const a = onFrame(c.a);
+    const b = onFrame(c.b);
+    if (Math.hypot(a[0] - b[0], a[1] - b[1]) < 300 || (a[0] === b[0] && (a[0] === 0 || a[0] === 4000)) || (a[1] === b[1] && (a[1] === 0 || a[1] === 4000))) return;
+    const knots = c.knots === null ? {} : { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }] };
+    const r = tx(p, spec(1), (o) => insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', knots));
+    if (!r.ok) return;
+    table[`way:${String(i)}`] = c.knots === null ? { halfWidthCm: c.hw, ends: c.ends } : profile([c.knots[0], c.knots[1]]);
+  });
+  const faces: FaceId[] = [];
+  for (let f = 0; f < p.slots.face[1].top; f += 1) if (p.faces[1].kind[f] !== 0xffff) faces.push(f);
+  commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
+  return { p, faces, table };
+}
+
+/** B-FUZZ's wall band along the network's first chain (in key order): half its half-width (≥ 1) or its profile. */
+export function firstBand(table: Readonly<Record<string, ChordWidth>>): { ref: ChainRef; halfWidthCm: number | ChainProfile<number>; ends: 'round' | 'square' }[] {
+  const first = Object.keys(table).sort()[0];
+  if (first === undefined) return [];
+  const w = table[first];
+  return 'knotRole' in w ? [{ ref: { role: 'way', entity: first }, halfWidthCm: w, ends: 'round' }] : [{ ref: { role: 'way', entity: first }, halfWidthCm: Math.max(1, Math.floor(w.halfWidthCm / 2)), ends: w.ends }];
+}
