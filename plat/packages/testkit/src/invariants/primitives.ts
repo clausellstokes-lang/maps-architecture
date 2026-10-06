@@ -919,7 +919,7 @@ const booleansPrimitive: Primitive<{ a: LatticePoint[]; b: LatticePoint[]; op: '
   run(input) {
     needOracles();
     const ours = booleans(input.op, [input.a], [input.b], input.fill);
-    if (!ours.ok && !(ours.code === 'E_DEGENERATE' && ours.detail === 'empty')) return { code: ours.code, problems: ours.code === 'E_OUT_OF_RANGE' ? [] : [`booleans refused ${ours.code} ${ours.detail}`], warnings: [] };
+    if (!ours.ok && !(ours.code === 'E_DEGENERATE' && ours.detail === 'empty')) return { code: ours.code, problems: [], warnings: [] }; // a typed refusal (N-43's fidelity refusal among them)
     const j = judged(ours, (e) => oracleBoolean(input.op, [input.a], [input.b], input.fill, e));
     return { code: ours.ok ? 'ok' : ours.code, problems: [...(ours.ok ? outputProblems(ours.value) : []), ...j.problems], warnings: ours.ok ? ours.warnings : [], split: j.split };
   },
@@ -939,7 +939,7 @@ const bufferPrimitive: Primitive<{ chains: LatticePoint[][]; w: number; joins: '
   run(input, ctx) {
     needOracles();
     const ours = (ctx.plant?.buffer ?? buffer)(input.chains, input.w, input.joins, input.ends);
-    if (!ours.ok && !(ours.code === 'E_DEGENERATE' && ours.detail === 'empty')) return { code: ours.code, problems: [`buffer refused ${ours.code} ${ours.detail}`], warnings: [] };
+    if (!ours.ok && !(ours.code === 'E_DEGENERATE' && ours.detail === 'empty')) return { code: ours.code, problems: [], warnings: [] }; // a typed refusal (N-43's fidelity refusal among them)
     const j = judged(ours, (e) => oracleBuffer(input.chains, input.w, input.joins, input.ends, e));
     return { code: ours.ok ? 'ok' : ours.code, problems: [...(ours.ok ? outputProblems(ours.value) : []), ...j.problems], warnings: ours.ok ? ours.warnings : [], split: j.split };
   },
@@ -957,10 +957,7 @@ const tileRingsPrimitive: Primitive<{ rings: LatticePoint[][] }> = {
   run(input) {
     needOracles();
     const ours = tileRings(input.rings);
-    if (!ours.ok) {
-      if (ours.code !== 'E_DEGENERATE') return { code: ours.code, problems: [`tileRings refused ${ours.code} ${ours.detail}`], warnings: [] };
-      return { code: ours.code, problems: [], warnings: [] };
-    }
+    if (!ours.ok) return { code: ours.code, problems: [], warnings: [] }; // a typed refusal: the overlap answer, or N-43's
     const problems: string[] = [];
     let split: 'attracted' | 'unattracted' | 'refused' = 'refused';
     ours.value.forEach((pieces, i) => {
