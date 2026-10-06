@@ -363,7 +363,8 @@ if (FLOW) {
           hit.forEach((id) => fixing.delete(id))
           if (r && r.verdict === 'pass' && !refused.length) {
             verdict = 'pass'
-            hit.forEach((id) => { if (!uncommitted.includes(id)) uncommitted.push(id) })
+            // J217: an integration fix on an item committed earlier (M0-a-07 g8, M0-a-09 g10) is new work: commit it again
+            hit.forEach((id) => { committed.delete(id); if (!uncommitted.includes(id)) uncommitted.push(id) })
           } else {
             verdict = 'fail'
             hit.forEach((id) => { passed.delete(id); failed.set(id, `group ${g.group} integration still failing`) })
