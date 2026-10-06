@@ -137,6 +137,18 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     expect(!v.ok && v.reason).toMatch(/version-kept/);
   });
 
+  it('held-unmoved fails when a named point moved (every named point is checked, not the first)', () => {
+    const c = constructiveCase('limit/cap-held-closure') as ConstructiveCase;
+    const g = input(c, 0);
+    expect(constructiveKernelJudge(c, g).ok).toBe(true);
+    // The finer chain's far end moves with the drag; named as held (after the real held point), the judge must see it.
+    const b = g.chains.l2[1];
+    const twisted = { ...g, points: { ...g.points, moved: b }, params: { ...g.params, held: ['held', 'moved'] } };
+    const v = constructiveKernelJudge(c, twisted);
+    expect(v.ok).toBe(false);
+    expect(!v.ok && v.reason).toMatch(/held-unmoved: a held vertex/);
+  });
+
   it('a property checked on geometry that does not hold it fails (the target moved one centimetre)', () => {
     const c = constructiveCase('move/vertex-near-endpoint') as ConstructiveCase;
     const g = input(c, 0);

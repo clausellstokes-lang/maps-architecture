@@ -49,6 +49,16 @@ describe("the report's deferred counts equal M0-k-02's tags (C-0038)", () => {
     expect(report.pass).toBe(false);
   });
 
+  it('the bar fails on a failing M0 case, a stale known finding or an uncovered ladder, and holds otherwise (countsReport)', () => {
+    const base = constructiveRun(runConstructiveOnKernel(CONSTRUCTIVE_SET.filter((c) => c.id === 'geom/antenna'), 1));
+    const ladders = ladderCoverage({ draws: 1 });
+    expect(countsReport(1, [], base, ladders).pass).toBe(true);
+    expect(countsReport(1, [], { ...base, failedCases: 1 }, ladders).pass).toBe(false);
+    expect(countsReport(1, [], { ...base, staleKnown: ['geom/antenna'] }, ladders).pass).toBe(false);
+    expect(countsReport(1, [], { ...base, pending: ['geom/antenna'] }, ladders).pass).toBe(false);
+    expect(countsReport(1, [], base, { ...ladders, covered: false }).pass).toBe(false);
+  }, 60_000);
+
   it('a deferred stub that returns an input instead of its tag is a failure, still counted by its milestone', () => {
     const c = CONSTRUCTIVE_SET.find((x) => x.milestone === 'M2b');
     if (c === undefined) throw new Error('no M2b case');

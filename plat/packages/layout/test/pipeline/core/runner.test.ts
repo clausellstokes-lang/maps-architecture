@@ -404,6 +404,31 @@ describe('per-stage rerolls (C-0090; §6.1 the reroll component)', () => {
     expect(report.stages[1].attempts).toBe(1);
   });
 
+  it("under rerolls { S5: n } a bound entity keeps its own Identity.reroll r ≠ n: only the town root's streams take n (C-0090, C-0224 (6))", () => {
+    const N = 3;
+    const R = 4;
+    const c = CONCERNS['growth.heading'];
+    let seen: { entity: number; town: number; first: number; townFirst: number } | undefined;
+    let fresh: number | undefined;
+    const { model } = run(registryOf([stage({ id: STAGES.S5, streamKeys: ['growth.heading'], run: (_i, ctx) => {
+      const [m] = mint([{ kind: 'plot', key: { arena: { layer: 'ground', part: 0 }, unit: null, stage: STAGES.S5, epoch: 0, index: 7, reroll: 0 }, reroll: R }], [], [], ctx.seedKey);
+      const h = ctx.bind(m);
+      expect(h).not.toBe(0);
+      const opts = ctx.streamOpts(c, h);
+      const townOpts = ctx.streamOpts(c, 0);
+      seen = { entity: opts.reroll, town: townOpts.reroll, first: ctx.stream(c, h, opts).u32(), townFirst: ctx.stream(c, 0, townOpts).u32() };
+      // The bound entity's stream is its cached key's at its own reroll R, never the run's N.
+      fresh = createRng().stream(m.entityKey, STAGES.S5, c, { reroll: R, attempt: 0, epoch: 0, salt: 0 }).u32();
+      return ok({});
+    } })]), bp(13), ALL, { rerolls: { S5: N } });
+    expect(seen?.entity).toBe(R);
+    expect(seen?.town).toBe(N);
+    expect(seen?.first).toBeDefined();
+    expect(seen?.first).toBe(fresh);
+    const townFresh = createRng().stream(model.town.entityKey, STAGES.S5, c, { reroll: N, attempt: 0, epoch: 0, salt: 0 });
+    expect(seen?.townFirst).toBe(townFresh.u32());
+  });
+
   it('a rerolls entry naming no stage of the order, or a count that is no u16, is refused', () => {
     expect(() => runDrawn(1, { rerolls: { S9: 1 } })).toThrow(/rerolls names 'S9'/);
     expect(() => runDrawn(1, { rerolls: { S5a: 1 } })).toThrow(/rerolls names 'S5a'/);

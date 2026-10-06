@@ -5,7 +5,7 @@
 // their unit counts. A run is a function of (family, index): run twice it gives the same report, and a run of [first,
 // first + n) is the corresponding slice of a longer run (the nightly's partitions). The bar's own size is the bench's.
 import { beforeAll, describe, expect, it } from 'vitest';
-import { FUZZ_COUNTER_UNITS, FUZZ_PRIMITIVES, FUZZ_SAMPLE_EVERY, loadOracles, runFuzz } from '@plat/testkit';
+import { FUZZ_COUNTER_UNITS, FUZZ_PRIMITIVES, FUZZ_SAMPLE_EVERY, fuzzPrimitive, loadOracles, runFuzz, type FuzzPrimitive } from '@plat/testkit';
 
 beforeAll(async () => {
   await loadOracles();
@@ -62,6 +62,13 @@ describe('B-FUZZ over every kernel primitive (§13.1)', () => {
     expect(sk.work.map((w) => w.counter)).toEqual(['skeleton.events']);
     expect(sk.work[0].unit).toBe('vertices');
   }, 300_000);
+
+  it('the quantiles are nearest-rank over the per-op ratios, with the unit count summed (a planted work charge)', () => {
+    const real = fuzzPrimitive('orient');
+    const charged: FuzzPrimitive<unknown> = { ...real, name: 'orient (charged)', run: (input, ctx) => ({ ...real.run(input, ctx), work: [{ counter: 'insert.points', charged: 2 * (ctx.index + 1), units: 2 }] }) };
+    const r = runFuzz(charged, 1000);
+    expect(r.work).toEqual([{ counter: 'insert.points', unit: 'vertices', n: 1000, p50: 500, p99: 990, p999: 999, max: 1000, units: 2000 }]);
+  }, 60_000);
 
   it('a run is a function of (family, index): twice the same report, and [first, first + n) a slice of a longer run', () => {
     const a = runFuzz('obb', 30);
