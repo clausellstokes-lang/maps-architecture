@@ -37,3 +37,30 @@ fails the item. The blockers are in `checks/M0-c-03.md`.
    consecutive edges in half-edge order. On seeds 1–12 this gave the same worst run as an ordered walk (probe P2), but
    a later split or re-insertion could reorder the edges and hide or invent a run. Harden: walk `wayLine(...)`.
    CONFIRMED (equal on the seeds run), PLAUSIBLE (the risk).
+
+## The closing checker's notes (lane `check/M0-c-03-close-r1`, 2026-10-06), for M4
+
+The blockers B-6 and B-7 are in `checks/M0-c-03.md`. The notes below are minor under N-45 and J180.
+
+9. **The T band's edges are not pinned (mutant N04 survives).** Widening the band from 75°–105° to 70°–110°
+   (`commit.ts:247`) changes no kind on CITY seeds 1–12 or `smallSite` 1–6, because none of them has a three-arm
+   junction within 5° outside the band. It survives near (63/63), the seeds 4–12 probe (73/73) and related at 1 000
+   (356/356). Harden: a synthetic `commitRoutes` fixture with branches at 74° and 76°, and at 104° and 106°, from a
+   straight through pair, asserting Y, T, T, Y. CONFIRMED (survival), PLAUSIBLE (the fixture).
+10. **A way whose first chain is not its highest, and a class run of several chains before a change, never occur on
+    the honest sites (mutants N08 and N09 survive).** N08 sets a way's class to its first chain's (`commit.ts:431`).
+    N09 puts the knot pair on the end of the run's first chain instead of its last (`commit.ts:448`). Both survive
+    near, seeds 4–12 and related. `backbone.test.ts`'s assertions on the class and the knot vertex are general (they
+    walk the chains in way order), so they would catch either mutant on an input with that shape. No such input lies
+    in the 18 sites run. Harden: a synthetic `commitRoutes` fixture where two inward routes share only their gate end,
+    so one way runs primary → through, with a two-chain run before the change. CONFIRMED (survival), PLAUSIBLE (the
+    fixture).
+11. **`stretchShared = w.count` versus `+= w.count` (mutant N12) is equivalent.** The kernel's `addWarning`
+    (`kernel/src/insert/classes.ts:164`) merges a transaction's warnings by code, so the batch carries at most one
+    `W_STRETCH_SHARED` entry. No test is needed.
+12. **The junction kinds are read from the smoothed courses even when the batch falls back to the lattice courses.**
+    `junctionKind` runs on `finalPolys`, built from `course()` (`commit.ts:400–417`), before the batch. When the kernel
+    refuses the smoothed batch and the re-run on `raw` succeeds (`commit.ts:534–541`), the committed arms are the
+    lattice courses, and a T or Y can disagree with the arena's arms. The fallback is rare: no run here took it. Its
+    result is otherwise valid, so this is a quality shortfall that fails safely. Harden: recompute the kinds from the
+    committed courses after a fallback, or report the fallback's kinds as provisional. PLAUSIBLE (read, not run).

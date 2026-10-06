@@ -10,7 +10,9 @@ import type { NodeRef, Way } from '@plat/model';
 import { cityRun, edgesOf, edgesWith, GROUND, incidentEdgeRows, insideRing, segDist, angleDeg, verticesWith, wayEdges, wayLine, vertexRows, runSite, type Run } from './support.js';
 import { flatFixture } from '../../src/index.js';
 
-const SEEDS = [1, 2, 3];
+// Seed 5 holds three-arm junctions whose widest pair of arms is under THROUGH_MIN_CDEG (no through line), so the
+// junction-kind check holds the Y guard there (checks/M0-c-03.md B-6).
+const SEEDS = [1, 2, 3, 5];
 const WAYS = tableView().table('ways');
 const SPACING_CM = tableView().table('lattice').num('route', 'spacingM') * 100;
 
@@ -18,6 +20,8 @@ const key = (p: { x: number; y: number }): string => `${String(p.x)},${String(p.
 
 /** The seeds whose fixture has a way that changes class (a width profile): the knot and class checks bite there. */
 const PROFILE_SEEDS = new Set([1, 3]);
+/** The seeds whose fixture has a three-arm junction with no pair of arms ≥ 150° apart (Y by the guard, never T). */
+const NO_THROUGH_SEEDS = new Set([5]);
 /** The classes, highest first (§4.3's class order; written here). */
 const CLASS_ORDER = ['through', 'primary', 'secondary', 'track', 'path'];
 
@@ -249,6 +253,7 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
       // Each three-arm junction's kind from its committed arms (C-0236 (11), C-0239): T where the branch leaves the
       // through line — the widest pair, at least 150° apart, along the difference of its unit directions — at 75°–105°.
       const kinds: Record<string, number> = {};
+      let noThrough = 0;
       for (const j of run.s4.network.junctions) {
         if (j.kind !== 'T' && j.kind !== 'Y') continue;
         const at = verticesWith(run.plat, 'junction', j.id)[0];
@@ -261,6 +266,7 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
         ] as const;
         const gaps = pairs.map(([a, b]) => angleDeg(ds[a], ds[b]));
         const widest = Math.max(...gaps);
+        if (widest < 150) noThrough += 1;
         let want = 'Y';
         pairs.forEach(([a, b], p) => {
           if (gaps[p] !== widest || widest < 150) return;
@@ -274,6 +280,8 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
       }
       // Seed 1 has both kinds (two T, one Y), so the rule is held both ways.
       if (seed === 1) expect(kinds).toEqual({ T: 2, Y: 1 });
+      // The no-through-line case is met, so the guard (Y below 150°, whatever the branch's angle) is held.
+      if (NO_THROUGH_SEEDS.has(seed)) expect(noThrough, 'three-arm junctions with no through pair').toBeGreaterThan(0);
     });
 
     it(`seed ${String(seed)}: width_knot rows at every class change and nowhere else; the widths are ways.widths cells (§4.3, §2.2 rule 5)`, () => {
@@ -295,6 +303,8 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
           const [lo, hi] = band(w.class);
           expect(w.width).toBeGreaterThanOrEqual(lo);
           expect(w.width).toBeLessThanOrEqual(hi);
+          // One class run: its width is its widest chain's (C-0236 (10); checks/M0-c-03.md B-7).
+          expect(w.width, `${w.id}'s width: its widest chain's`).toBe(Math.max(...inOrder.map((c) => c.width)));
           expect(verticesWith(run.plat, 'width_knot', w.id)).toHaveLength(0);
           continue;
         }

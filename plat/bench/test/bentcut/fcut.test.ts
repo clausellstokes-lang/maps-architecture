@@ -17,6 +17,7 @@ import {
   residueTasks,
   runFcut,
   runFull,
+  runTask,
   type FcutRecord,
   type FullRecord,
 } from '../../src/bentcut/index.js';
@@ -97,6 +98,17 @@ describe('the F-CUT fold judges the bar as §4.6 step 8 states it', () => {
     const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 3, minFacesAfter: 1, decreases: 0 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
     const lost = { ...full, ladders: { n: 2, maxCalls: 1, minFacesAfter: 0, decreases: 1 }, facesAfter: 0 } as FullRecord;
     expect(foldFcut([rec()], [full, lost]).allDepths).toEqual({ ladders: 7, maxKernelCalls: 3, decreases: 2 });
+  });
+});
+
+describe('a throw on a face', () => {
+  it('is recorded on that face as a refusal that fails the bar, and the run goes on', () => {
+    const bad = runTask({ phase: 'fcut', kind: 'no-such-kind' as never, i: 0, seed: 1 });
+    expect(bad.phase).toBe('fcut');
+    expect((bad as FcutRecord).refused).toMatch(/^threw: /);
+    expect(foldFcut([rec(), bad as FcutRecord], []).pass).toBe(false);
+    const whole = runTask({ phase: 'full', kind: 'no-such-kind' as never, i: 0, seed: 1 }) as FullRecord;
+    expect(whole.refused).toMatch(/^threw: /);
   });
 });
 

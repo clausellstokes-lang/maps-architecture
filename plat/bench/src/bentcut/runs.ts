@@ -205,7 +205,16 @@ export function runFull(t: Task): FullRecord {
   return fullOf(t, fd, r.report, r.facesAfter, r.cuts, r.counts);
 }
 
-/** Runs one task. */
+/**
+ * Runs one task. A throw from S8 or the kernel on a generated face is recorded on that face — `refused` "threw: …", a
+ * failure of the bar it runs for — and never stops the run (fail-safe: every other face is still measured).
+ */
 export function runTask(t: Task): FaceRecord {
-  return t.phase === 'fcut' ? runFcut(t) : runFull(t);
+  try {
+    return t.phase === 'fcut' ? runFcut(t) : runFull(t);
+  } catch (e) {
+    const why = `threw: ${e instanceof Error ? e.message : String(e)}`;
+    if (t.phase === 'fcut') return { phase: 'fcut', kind: t.kind, i: t.i, setup: null, refused: why, kernelCalls: 0, outcome: 'threw', facesAfterLadder: 0, facesBefore: 0, facesAfter: 0 };
+    return refusedFull(t, null, why);
+  }
 }
