@@ -150,8 +150,15 @@ describe('the portal gap: a planned end inside a portal’s gap slides out, else
     // Rung (b) follows the three frames, reported.
     const ib = rungs.findIndex((r) => r.rung === 'b');
     expect(ib).toBeGreaterThan(rungs.findIndex((r) => r.rung === 'a' && r.attempt === 2));
-    // The face ends as a block (the court of rung (d) for a face this size), its stop test passed.
-    expect(['court', 'unresolved']).toContain(first.outcome);
+    // The face ends as a block: the court of rung (d) (a face ≤ 2 · e_hi²), its stop test passed, counted as residue —
+    // the district's whole built land, so its share is 1 and the soft bound (≤ 5 %) is flagged (C-0036).
+    expect(first.outcome).toBe('court');
+    expect(rep.rungs.some((r) => r.face === first.face && r.rung === 'd' && r.outcome === 'block')).toBe(true);
+    expect(out.blocks.map((b) => b.interior)).toEqual(['court']);
+    expect(rep.residueAreaCm2).toBeGreaterThan(0);
+    expect(rep.residueAreaCm2).toBe(rep.builtAreaCm2);
+    expect(rep.residueShare).toBe(1);
+    expect(rep.residueSoftExceeded).toBe(true);
     expect(rep.stops[0].outcome).toBe('cut');
     expect(portalInvariant(f.plat, GROUND, out.infill.seams, out.lanes, CELLS).filter((p) => p.what !== 'not-a-lane-end')).toEqual([]);
   });

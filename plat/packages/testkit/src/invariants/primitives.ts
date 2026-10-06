@@ -85,17 +85,40 @@ export interface OpOutcome {
 
 /**
  * A planted fault (the runner's own tests, §13.1's bar "caught and counted"): an operation replaced, or a write made
- * behind the transaction's back after a commit — the runner's judges stay the real ones.
+ * behind the transaction's back after a commit — the runner's judges stay the real ones. Every judge of a primitive has
+ * a plant that reaches it (C-0238 (3)).
  */
 export interface Plant {
   /** Replaces `buffer` (an output the oracle comparison and the ring checks judge). */
   readonly buffer?: typeof buffer;
-  /** Runs on the arena after insertChain's commit, before the sweep (a write the transaction never saw). */
-  readonly afterInsert?: (p: Plat) => void;
+  /**
+   * Runs on the arena after a writer's commit (`op`: insertChain, splitFace, warp, corridorUnion), before its judges —
+   * a write the transaction never saw.
+   */
+  readonly afterCommit?: (op: string, p: Plat) => void;
   /** Runs on the arena after remove ∘ insert's removal commits (a write behind the removal). */
   readonly afterRemove?: (p: Plat) => void;
-  /** Replaces a service's ok value before its judge reads it (`value` as the service returned it). */
+  /** Runs on the arena after mergeFaces ∘ splitFace's merge commits (a write behind the merge). */
+  readonly afterMerge?: (p: Plat) => void;
+  /**
+   * Wraps a writer's transaction (`op`: insertChain, splitFace, mergeFaces, warp, corridorUnion): `commit` runs the real
+   * one, and the result the runner judges is the wrapper's — a refusal planted without committing, or after it.
+   */
+  readonly tx?: (op: string, commit: () => KernelResult<unknown>) => KernelResult<unknown>;
+  /**
+   * Replaces a service's ok value before its judge reads it (`value` as the service returned it). The names: the pure
+   * services by their own names; offsetFace, insetRing (its smaller distance), `insetRing@d2` (its larger), kerb;
+   * `query` (the answer after the rebuild), `encodeArena` (the second save), tileRings.
+   */
   readonly result?: (primitive: string, value: unknown) => unknown;
+  /** Replaces a sampled determinism harness's report (M0-d-08) before its judge reads it. */
+  readonly sampled?: (harness: 'renumbering' | 'permutation', report: SampledReport) => SampledReport;
+}
+
+/** The part of a sampled harness's report its judge reads. */
+export interface SampledReport {
+  readonly identical: boolean;
+  readonly divergence: unknown;
 }
 
 /** A service's result with a planted value, if any (the runner's own tests). */
@@ -216,16 +239,31 @@ function ccw(r: readonly LatticePoint[]): LatticePoint[] {
 
 // ---- the arena writers ----------------------------------------------------------------------------------------------
 
-/** One writer batch on a fresh façade over `p`: the result, the overlay's work and the problems of the sweep after it. */
-function writer<T>(p: Plat, level: Level, fn: (o: Overlay) => KernelResult<T>, units: (counter: string) => number, opts: { spineWidths?: SpineWidths } = {}) {
-  const k = kernelOn([p], opts);
+/** A writer's transaction through the plant's `tx` wrapper, if any (the runner's own tests). */
+function planTx<R extends KernelResult<unknown>>(ctx: OpContext | undefined, op: string, commit: () => R): R {
+  const f = ctx?.plant?.tx;
+  return f === undefined ? commit() : (f(op, commit) as R);
+}
+
+/** One writer batch on a fresh façade over `p`: the result and the overlay's work. */
+function writer<T>(p: Plat, level: Level, fn: (o: Overlay) => KernelResult<T>, units: (counter: string) => number, opts: { spineWidths?: SpineWidths; ctx?: OpContext; op?: string } = {}) {
+  const k = kernelOn([p], opts.spineWidths === undefined ? {} : { spineWidths: opts.spineWidths });
   let work: { counter: string; charged: number; units: number }[] = [];
-  const r = k.tx(spec(level), (o) => {
-    const v = fn(o);
-    work = workOf(o, units);
-    return v;
-  });
+  const r = planTx(opts.ctx, opts.op ?? '', () =>
+    k.tx(spec(level), (o) => {
+      const v = fn(o);
+      work = workOf(o, units);
+      return v;
+    }),
+  );
+  if (r.ok) opts.ctx?.plant?.afterCommit?.(opts.op ?? '', p);
   return { r, work };
+}
+
+/** A sampled harness's report through the plant's `sampled`, if any. */
+function sampledOf(ctx: OpContext, harness: 'renumbering' | 'permutation', report: SampledReport): SampledReport {
+  const f = ctx.plant?.sampled;
+  return f === undefined ? report : f(harness, report);
 }
 
 /** The L1 face a lattice point lies in (null outside every L1 face). */
@@ -263,9 +301,8 @@ const insertChainPrimitive: Primitive<InsertInput> = {
     const before = topology(p);
     const role = input.level === 1 ? 'way' : input.level === 2 ? 'kerb' : 'plot_line';
     const entity = `${role}:fuzz`;
-    const { r, work } = writer(p, input.level, (o) => k0.geom.insertChain(o, input.chain, [{ role, entity }], input.cls, input.closed ? { closed: true } : {}), () => input.chain.length);
+    const { r, work } = writer(p, input.level, (o) => k0.geom.insertChain(o, input.chain, [{ role, entity }], input.cls, input.closed ? { closed: true } : {}), () => input.chain.length, { ctx, op: 'insertChain' });
     const problems: string[] = [];
-    if (r.ok) ctx.plant?.afterInsert?.(p);
     if (!r.ok) {
       if (input.cls === 'mandatory' && r.code === 'E_OUT_OF_RANGE') {
         return { code: r.code, problems: [], warnings: [], bug: { cls: 'F-NUM', entity, key: `bfuzz/insertChain#${String(ctx.index)}`, stage: 'B-FUZZ' } };
@@ -292,9 +329,9 @@ const insertChainPrimitive: Primitive<InsertInput> = {
     let sampled: OpOutcome['sampled'];
     if (ctx.index % SAMPLE_EVERY === 0 && problems.length === 0) {
       const seq = insertSequence(input);
-      const rep = runTwiceCompare(seq, { seed: ctx.index + 1 });
+      const rep = sampledOf(ctx, 'renumbering', runTwiceCompare(seq, { seed: ctx.index + 1 }));
       if (!rep.identical) problems.push(`renumbering: ${JSON.stringify(rep.divergence)}`.slice(0, 400));
-      const per = permutationCompare(seq, { count: 3, seed: ctx.index + 1 });
+      const per = sampledOf(ctx, 'permutation', permutationCompare(seq, { count: 3, seed: ctx.index + 1 }));
       if (!per.identical) problems.push(`op permutation: ${JSON.stringify(per.divergence)}`.slice(0, 400));
       sampled = 'renumbering';
     }
@@ -336,16 +373,45 @@ function alongEdge(r: readonly LatticePoint[], i: number, t: number): LatticePoi
   return lpt(Math.round(a.x + ((b.x - a.x) * t) / 1000), Math.round(a.y + ((b.y - a.y) * t) / 1000));
 }
 
-/** The children tile the parent exactly: their area2 sums to the area2 of their joint boundary less the cut (M0-a-07's reading). */
-function tiles(p: Plat, level: Level, a: FaceId, b: FaceId): boolean {
+/**
+ * §13.1's "splitFace children tile the parent exactly (integer area2 equality)", read against the PARENT (C-0238 (1),
+ * superseding C-0227 (8)'s joint-boundary identity): `parent` is the parent face's rings as `faceRings` gave them before
+ * the split (signed: the outer ring counter-clockwise, holes clockwise). The children's joint boundary — the half-edges of
+ * their walks whose twin is in neither walk, the cut's pairs cancelling — must hold exactly the parent's area2. Where a
+ * cut end landed on a slanted ring edge, its lattice point lies in the hot pixel of the true crossing, so the edge bends
+ * by at most √2/2 cm: then every parent vertex must stand on the joint boundary and the area2 differ by at most √2 × the
+ * length of each parent edge the joint boundary does not keep whole. Null when the children tile the parent, else why
+ * not. Two unrelated faces, or a child changed behind the transaction, fail.
+ */
+export function childrenTileParent(parent: readonly (readonly LatticePoint[])[], p: Plat, level: Level, a: FaceId, b: FaceId): string | null {
   const all = new Set<number>([...faceWalk(p, level, a).flat(), ...faceWalk(p, level, b).flat()]);
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const O = p.halfEdges.origin;
+  const key = (x: number, y: number) => `${String(x)},${String(y)}`;
   let s = 0n;
-  for (const h of all) if (!all.has(h ^ 1)) s += BigInt(X[O[h]]) * BigInt(Y[O[h ^ 1]]) - BigInt(X[O[h ^ 1]]) * BigInt(Y[O[h]]);
-  const own = (f: FaceId) => faceWalk(p, level, f).reduce((t, ring) => t + ring.reduce((u, h) => u + BigInt(X[O[h]]) * BigInt(Y[O[h ^ 1]]) - BigInt(X[O[h ^ 1]]) * BigInt(Y[O[h]]), 0n), 0n);
-  return own(a) + own(b) === s;
+  const vertices = new Set<string>();
+  const edges = new Set<string>();
+  for (const h of all) {
+    if (all.has(h ^ 1)) continue;
+    const [u, v] = [O[h], O[h ^ 1]];
+    s += BigInt(X[u]) * BigInt(Y[v]) - BigInt(X[v]) * BigInt(Y[u]);
+    vertices.add(key(X[u], Y[u]));
+    edges.add(`${key(X[u], Y[u])}>${key(X[v], Y[v])}`);
+  }
+  const want = parent.reduce((t, ring) => t + area2Exact(ring), 0n);
+  if (s === want) return null;
+  let bound = 0;
+  for (const ring of parent) {
+    for (let i = 0; i < ring.length; i++) {
+      const u = ring[i];
+      const v = ring[(i + 1) % ring.length];
+      if (!vertices.has(key(u.x, u.y))) return `a parent vertex (${String(u.x)}, ${String(u.y)}) is not on the children's joint boundary`;
+      if (!edges.has(`${key(u.x, u.y)}>${key(v.x, v.y)}`)) bound += Math.SQRT2 * Math.hypot(v.x - u.x, v.y - u.y);
+    }
+  }
+  const d = s > want ? s - want : want - s;
+  return Number(d) <= bound ? null : `the children's joint boundary holds area2 ${String(s)}, the parent ${String(want)} (the landings' bound ${bound.toFixed(1)})`;
 }
 
 const splitFacePrimitive: Primitive<SplitInput> = {
@@ -360,7 +426,7 @@ const splitFacePrimitive: Primitive<SplitInput> = {
       tb: fc.integer({ min: 0, max: 1000 }),
       bend: fc.integer({ min: -300, max: 300 }),
     }),
-  run(input) {
+  run(input, ctx) {
     const p = framedAround(input.face);
     if (p === null) return skip();
     const k = kernelOn([p]);
@@ -377,19 +443,21 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     const mid = lpt(Math.round((e1.x + e2.x) / 2 + (input.bend * (e2.y - e1.y)) / 1000), Math.round((e1.y + e2.y) / 2 - (input.bend * (e2.x - e1.x)) / 1000));
     const cut = input.bend === 0 ? [e1, e2] : [e1, mid, e2];
     const before = topology(p);
-    const { r, work } = writer(p, 1, (o) => k.geom.splitFace(o, face, cut, { rows: [{ role: 'plot_line', entity: 'plot_line:cut' }] }), (c) => (c.startsWith('insert.') ? cut.length : liveFaces(p, 1)));
+    const { r, work } = writer(p, 1, (o) => k.geom.splitFace(o, face, cut, { rows: [{ role: 'plot_line', entity: 'plot_line:cut' }] }), (c) => (c.startsWith('insert.') ? cut.length : liveFaces(p, 1)), { ctx, op: 'splitFace' });
     if (!r.ok) return { code: r.code, problems: topology(p) !== before ? ['the refused split changed the arena'] : [], warnings: [], work };
-    const problems = ciProblems(p);
     const [c1, c2] = r.value.value as [FaceId, FaceId];
-    if (!tiles(p, 1, c1, c2)) problems.push('splitFace children do not tile the parent exactly (integer area2 of their joint boundary)');
-    // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena as it was before the split.
-    const afterSplit = topology(p);
-    const m = k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2));
+    const problems: string[] = [];
+    const tiling = childrenTileParent(parent, p, 1, c1, c2);
+    if (tiling !== null) problems.push(`splitFace children do not tile the parent: ${tiling}`);
+    problems.push(...ciProblems(p));
+    // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0238 (2)).
+    const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)));
     if (!m.ok) problems.push(`mergeFaces after splitFace refused: ${m.code} ${m.detail}`);
     else {
+      ctx.plant?.afterMerge?.(p);
       const merged = m.value.value as FaceId;
       if (merged !== face) problems.push(`mergeFaces ∘ splitFace gave face ${String(merged)}, not ${String(face)}`);
-      if (topology(p) !== before && topology(p) !== afterSplit) problems.push('mergeFaces ∘ splitFace did not restore the arena');
+      if (topology(p) !== before) problems.push('mergeFaces ∘ splitFace did not restore the arena');
       problems.push(...ciProblems(p).map((x) => `after merge: ${x}`));
     }
     return { code: 'ok', problems, warnings: r.warnings, work };
@@ -407,7 +475,7 @@ const warpPrimitive: Primitive<WarpInput> = {
   family: 'bfuzz/warp',
   arbitrary: () =>
     fc.record({ face: simpleRingArb(SMALL).map(ccw), chain: arb.chain({ limitCm: SMALL }), field: arb.field({ limitCm: SMALL, sizeCm: [500, 16_000] }) }),
-  run(input) {
+  run(input, ctx) {
     const p = framedAround([...input.face, ...input.chain, ...input.field.region]);
     if (p === null) return skip();
     const k = kernelOn([p]);
@@ -415,7 +483,7 @@ const warpPrimitive: Primitive<WarpInput> = {
     if (!f.ok) return skip();
     k.tx(spec(1), (o) => k.geom.insertChain(o, input.chain, [{ role: 'way', entity: 'way:chain' }], 'mandatory'));
     const before = topology(p);
-    const { r, work } = writer(p, 1, (o) => k.geom.warp(o, input.field, 1, input.field.region), () => 1);
+    const { r, work } = writer(p, 1, (o) => k.geom.warp(o, input.field, 1, input.field.region), () => 1, { ctx, op: 'warp' });
     if (!r.ok) return { code: r.code, problems: topology(p) !== before ? ['the refused warp changed the arena'] : [], warnings: [], work };
     return { code: 'ok', problems: ciProblems(p), warnings: r.warnings, work };
   },
@@ -455,12 +523,13 @@ const offsetFacePrimitive: Primitive<ArenaFaceInput> = {
   name: 'offsetFace',
   family: 'bfuzz/offsetFace',
   arbitrary: () => fc.record({ face: simpleRingArb(SMALL).map(ccw), d: fc.array(fc.integer({ min: 0, max: 3000 }), { minLength: 64, maxLength: 64 }) }),
-  run(input) {
-    const { r, region } = faceService(input, 'way', (k, face) => {
+  run(input, ctx) {
+    const { r: r0, region } = faceService(input, 'way', (k, face) => {
       const n = faceRings(k.plat(RUNNER_KEY), 1, face).reduce((s, ring) => s + ring.length, 0);
       return k.geom.offsetFace(face, Array.from({ length: n }, (_, i) => input.d[i % input.d.length]));
     });
-    if (r === null) return skip();
+    if (r0 === null) return skip();
+    const r = planted(ctx, 'offsetFace', r0);
     if (!r.ok) return { code: r.code, problems: [], warnings: [] }; // a typed refusal (§3.11; N-43's fidelity refusal among them)
     return { code: 'ok', problems: [...outputProblems(r.value), ...insideProblems(r.value, region, 'offset(−d)')], warnings: r.warnings };
   },
@@ -470,15 +539,16 @@ const insetRingPrimitive: Primitive<ArenaFaceInput> = {
   name: 'insetRing',
   family: 'bfuzz/insetRing',
   arbitrary: () => fc.record({ face: fc.oneof(arb.regularSnapped({ limitCm: SMALL }), arb.polygon({ limitCm: SMALL })).map(ccw), d: fc.array(fc.integer({ min: -2000, max: 6000 }), { minLength: 2, maxLength: 2 }) }),
-  run(input) {
+  run(input, ctx) {
     const [d1, d2] = [Math.min(input.d[0], input.d[1]), Math.max(input.d[0], input.d[1])];
     let second: KernelResult<LatticePoint[][]> | null = null;
-    const { r, region } = faceService(input, 'way', (k, face) => {
+    const { r: r0, region } = faceService(input, 'way', (k, face) => {
       second = k.geom.insetRing(face, d2);
       return k.geom.insetRing(face, d1);
     });
-    if (r === null) return skip();
-    const r2 = second as KernelResult<LatticePoint[][]> | null;
+    if (r0 === null) return skip();
+    const r = planted(ctx, 'insetRing', r0);
+    const r2 = second === null ? null : planted(ctx, 'insetRing@d2', second as KernelResult<LatticePoint[][]>);
     if (!r.ok) {
       if (r.code === 'E_NON_CONVEX' || r.code === 'E_DEGENERATE') {
         // insetRing empties monotonically: a collapsed inset stays collapsed at a larger distance.
@@ -503,10 +573,11 @@ const kerbPrimitive: Primitive<ArenaFaceInput> = {
   name: 'kerb',
   family: 'bfuzz/kerb',
   arbitrary: () => fc.record({ face: simpleRingArb(SMALL).map(ccw), d: fc.array(fc.integer({ min: 0, max: 1500 }), { minLength: 1, maxLength: 1 }) }),
-  run(input) {
+  run(input, ctx) {
     const widths: SpineWidths = (c) => (c.role === 'way' ? { halfWidthCm: input.d[0] } : null);
-    const { r, region } = faceService(input, 'way', (k, face) => k.geom.kerb(face), { spineWidths: widths });
-    if (r === null) return skip();
+    const { r: r0, region } = faceService(input, 'way', (k, face) => k.geom.kerb(face), { spineWidths: widths });
+    if (r0 === null) return skip();
+    const r = planted(ctx, 'kerb', r0);
     if (!r.ok) return { code: r.code, problems: [], warnings: [] };
     return { code: 'ok', problems: [...outputProblems(r.value), ...insideProblems(r.value, region, 'the kerb')], warnings: r.warnings };
   },
@@ -522,7 +593,7 @@ const corridorUnionPrimitive: Primitive<CorridorInput> = {
   name: 'corridorUnion',
   family: 'bfuzz/corridorUnion',
   arbitrary: () => fc.record({ face: arb.polygon({ limitCm: SMALL, sizeCm: [3000, 30_000] }).map(ccw), ways: fc.array(arb.chain({ limitCm: SMALL }), { minLength: 1, maxLength: 3 }), hw: fc.integer({ min: 50, max: 800 }) }),
-  run(input) {
+  run(input, ctx) {
     const p = framedAround([...input.face, ...input.ways.flat()]);
     if (p === null) return skip();
     const widths: SpineWidths = (c) => (c.role === 'way' ? { halfWidthCm: input.hw } : null);
@@ -535,7 +606,7 @@ const corridorUnionPrimitive: Primitive<CorridorInput> = {
     // S9 runs on district faces (§4.1): every L1 face owned, as S6 leaves them.
     k.tx(spec(1), (o) => k.geom.setOwner(o, faces, 'district:d'));
     const before = topology(p);
-    const { r, work } = writer(p, 2, (o) => k.geom.corridorUnion(o, faces), (c) => (c.startsWith('tx.') ? liveFaces(p, 1) : input.ways.reduce((s, w) => s + w.length, 0)), { spineWidths: widths });
+    const { r, work } = writer(p, 2, (o) => k.geom.corridorUnion(o, faces), (c) => (c.startsWith('tx.') ? liveFaces(p, 1) : input.ways.reduce((s, w) => s + w.length, 0)), { spineWidths: widths, ctx, op: 'corridorUnion' });
     if (!r.ok) return { code: r.code, problems: topology(p) !== before ? ['the refused corridorUnion changed the arena'] : [], warnings: [], work };
     return { code: 'ok', problems: ciProblems(p), warnings: r.warnings, work };
   },
@@ -558,7 +629,7 @@ const queryPrimitive: Primitive<QueryInput> = {
       box: fc.array(fc.integer({ min: -SMALL, max: SMALL }), { minLength: 4, maxLength: 4 }),
       level: fc.constantFrom(0 as Level, 1 as Level, 2 as Level),
     }),
-  run(input) {
+  run(input, ctx) {
     const p = framedAround([...input.face, ...input.chain]);
     if (p === null) return skip();
     const k = kernelOn([p]);
@@ -569,7 +640,8 @@ const queryPrimitive: Primitive<QueryInput> = {
     const q1 = k.index.query(RUNNER_KEY, input.level, box);
     const s1 = JSON.stringify([q1.vertices, q1.edges, q1.faces]);
     k.index.rebuildAtStageEnd(RUNNER_KEY);
-    const q2 = k.index.query(RUNNER_KEY, input.level, box);
+    const q2raw = k.index.query(RUNNER_KEY, input.level, box);
+    const q2 = (ctx.plant?.result === undefined ? q2raw : ctx.plant.result('query', q2raw)) as typeof q2raw;
     const s2 = JSON.stringify([q2.vertices, q2.edges, q2.faces]);
     const problems = s1 === s2 ? [] : ["a query's answer changed across a rebuild of the partitions it reads"];
     problems.push(...ciProblems(p));
@@ -581,7 +653,7 @@ const roundTripPrimitive: Primitive<QueryInput> = {
   name: 'encodeArena',
   family: 'bfuzz/encodeArena',
   arbitrary: () => queryPrimitive.arbitrary(),
-  run(input) {
+  run(input, ctx) {
     const p = framedAround([...input.face, ...input.chain]);
     if (p === null) return skip();
     const k = kernelOn([p]);
@@ -590,7 +662,8 @@ const roundTripPrimitive: Primitive<QueryInput> = {
     const chunks = encodeArena(p);
     const loaded = decodeArena(chunks, p.key, { index: { gridCellCm: [800, 400, 200, 100, 50] } });
     if (!loaded.ok) return { code: loaded.code, problems: [`decodeArena refused its own save: ${loaded.code} ${loaded.detail}`], warnings: [] };
-    const again = encodeArena(loaded.value);
+    const againRaw = encodeArena(loaded.value);
+    const again = (ctx.plant?.result === undefined ? againRaw : ctx.plant.result('encodeArena', againRaw)) as typeof againRaw;
     const same = again.length === chunks.length && again.every((c, i) => c.bytes.length === chunks[i].bytes.length && c.bytes.every((x, j) => x === chunks[i].bytes[j]));
     const problems = same ? [] : ['save → load → save is not byte-identical'];
     problems.push(...ciProblems(loaded.value).map((x) => `loaded: ${x}`));
@@ -885,12 +958,7 @@ function judged(ours: KernelResult<LatticePoint[][]>, oracle: (e: OracleEngine) 
   const warnings = ours.ok ? ours.warnings : 'warnings' in ours && Array.isArray((ours as { warnings?: unknown }).warnings) ? ((ours as { warnings: Warning[] }).warnings) : [];
   const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => {
     const or = oracle(e);
-    const v = compareSplit(ours, or, warnings);
-    // An unattracted case failing on the face count alone: equal once faces touching at a point are counted as one on
-    // both sides (M0-a-08's reading, C-0206 (8); C-0227 (2)) — our engine splits a region pinched at a vertex in two.
-    if (!or.ok || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
-    const mine = ours.ok ? ours.value : [];
-    return touchMergedFaces(mine) === touchMergedFaces(or.rings) ? { ...v, pass: true, failures: [] } : v;
+    return touchMergedRelaxed(compareSplit(ours, or, warnings), ours.ok ? ours.value : [], or.ok ? or.rings : null);
   });
   const problems: string[] = [];
   let judgedAny = false;
@@ -900,6 +968,17 @@ function judged(ours: KernelResult<LatticePoint[][]>, oracle: (e: OracleEngine) 
     if (!v.pass) problems.push(`${v.engine}: ${v.split} ${v.failures.join(', ')} (Δ ${v.symDiffCm2.toFixed(1)} cm², bound ${v.boundCm2.toFixed(1)})`);
   }
   return { problems, split: judgedAny ? verdicts[0].split : 'refused' };
+}
+
+/**
+ * An unattracted verdict failing on the face count alone passes when the counts are equal once faces touching at a
+ * point are counted as one on both sides (M0-a-08's reading, C-0206 (8); C-0227 (2)) — our engine splits a region
+ * pinched at a vertex in two. Any other verdict (another failure beside `faces`, an attracted or refused split, no oracle
+ * rings, unequal touch-merged counts) is returned as it is.
+ */
+export function touchMergedRelaxed(v: Verdict, mine: readonly (readonly LatticePoint[])[], oracleRings: readonly (readonly LatticePoint[])[] | null): Verdict {
+  if (oracleRings === null || v.split !== 'unattracted' || v.failures.length !== 1 || v.failures[0] !== 'faces') return v;
+  return touchMergedFaces(mine) === touchMergedFaces(oracleRings) ? { ...v, pass: true, failures: [] } : v;
 }
 
 /** The face count with faces that touch at a point counted as one (outer rings by their exact signed area, holes apart). */
@@ -972,9 +1051,9 @@ const tileRingsPrimitive: Primitive<{ rings: LatticePoint[][] }> = {
       const [x, y] = overlapping(ccw(a), ccw(b), dx, dy);
       return { rings: [x, y] };
     }),
-  run(input) {
+  run(input, ctx) {
     needOracles();
-    const ours = tileRings(input.rings);
+    const ours = planted(ctx, 'tileRings', tileRings(input.rings));
     if (!ours.ok) return { code: ours.code, problems: [], warnings: [] }; // a typed refusal: the overlap answer, or N-43's
     const problems: string[] = [];
     let split: 'attracted' | 'unattracted' | 'refused' = 'refused';

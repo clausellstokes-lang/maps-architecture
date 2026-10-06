@@ -141,8 +141,9 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
   it('no other site within the band: the extra-bridge rung is listed notBuilt(M1), then unserved', () => {
     const lattice = riverLattice([TILTED, FAR]);
     const rg = routeGraph(lattice);
-    const from = nearest(lattice, P(20000, -15000));
-    const to = nearest(lattice, P(80000, -15000));
+    // The ends on the far site's line: only the band keeps the route from taking it.
+    const from = nearest(lattice, P(20000, -40000));
+    const to = nearest(lattice, P(80000, -40000));
     const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([FAR.id]) });
     expect(given.ok).toBe(true);
     if (!given.ok) return;
@@ -154,6 +155,14 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
       { route: 'test', rung: 'extra_bridge', held: false, why: 'notBuilt(M1)' },
       { route: 'test', rung: 'unserved', held: true, why: 'approach' },
     ]);
+    // The far site itself is usable from there: it is the band, not its approach, that rules it out.
+    const direct = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([TILTED.id]) });
+    expect(direct.ok).toBe(true);
+    if (direct.ok) {
+      const cs = crossingsOf(rg, direct.nodes);
+      expect(cs.map((c) => c.deck.id)).toEqual([FAR.id]);
+      expect(approachUsable(rg, direct.nodes, cs[0], radius('through'))).toBe(true);
+    }
   });
 
   it('a route with no path across the water (no site at all) is unserved', () => {
