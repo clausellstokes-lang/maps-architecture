@@ -388,9 +388,12 @@ describe('the view and the lattice-point signature on finer and reordered arenas
 // ---- argument forwarding off L1 and off the default arguments (fix round 1 of check/M0-a-16, B-1) -------------------
 // §3.4's `faceNeighbours(key, face, level)`, `sampleProfile(p, owner, key, atCm)`, `sampleBoundary(face, stepCm)`,
 // `sideRuns(face, turnTolCdeg, opts)`, §14's `view(key, level)` and the index's `query` / `rebuildAtStageEnd(key,
-// district)`: each door hands its module the level and the arguments it was given. The fixture has content at L2 and
-// L3, and each test first shows that the values it compares differ from L1's (or from the default argument's), so a
-// door that read L1 or dropped an argument fails.
+// district)`: each door hands its module the level and the arguments it was given. The fixture has content at L2, L3
+// and L4, and each test first shows that the values it compares differ from L1's and from the level below's (or from
+// the default argument's), so a door that read L1, clamped a level to a coarser one or dropped an argument fails.
+// Fix round 2 (check/M0-a-16-close-r1): L4 content and level-below preconditions; an arena whose L2 face slots run past
+// L1's top (liveness checked at the view's own level); `sideRuns`' turnTolCdeg, `offsetFace`'s per-edge distances and
+// `insetRing`'s dCm at values that change the answer.
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
 const BOXES = [
@@ -398,13 +401,13 @@ const BOXES = [
   { minX: 400, minY: 400, maxX: 1200, maxY: 900 },
   { minX: 0, minY: 2500, maxX: 4000, maxY: 4000 },
 ];
-const POINTS = [pt(500, 500), pt(1500, 500), pt(1000, 500), pt(500, 1500), pt(1000, 1000), pt(1000, 3000), pt(3000, 3000)];
+const POINTS = [pt(400, 400), pt(200, 400), pt(500, 500), pt(1500, 500), pt(1000, 500), pt(500, 1500), pt(1000, 1000), pt(1000, 3000), pt(3000, 3000)];
 const KNOTTED = { knotRole: 'width_knot', values: [300, 500], interp: 'linear' as const };
 
 /**
  * The crossing (four L1 faces of district:1) plus an L2 district line across the lower-left quad (y = 1000), an L3
- * plot line in its lower half (x = 1000), an L1 way:5 along y = 3000 with two width knots, and owners set at L2
- * ('blk:2') and L3 ('lot:3') that no L1 face has.
+ * plot line in its lower half (x = 1000), an L1 way:5 along y = 3000 with two width knots, owners set at L2
+ * ('blk:2') and L3 ('lot:3') that no L1 face has, and an L4 closed party wall (200 … 600 square) inside the L3 lot.
  */
 function layered(): Plat {
   const { p } = crossing();
@@ -417,6 +420,7 @@ function layered(): Plat {
   );
   commit(p, 2, (o) => setOwner(o, [faceAt(p, 2, 1000, 500)], 'blk:2'));
   commit(p, 3, (o) => setOwner(o, [faceAt(p, 3, 500, 500)], 'lot:3'));
+  commit(p, 4, (o) => insertChain(o, rect(200, 200, 600, 600), [{ role: 'party_wall', entity: 'bldg:1' }], 'mandatory', { closed: true }));
   return p;
 }
 
@@ -437,10 +441,16 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     const k = kernelOver([p]);
     // how often a level's answer differs from L1's for the same arguments (the fixture's precondition, below)
     const off = { rings: 0, neighbours: 0, query: 0, locate: 0 };
+    // and how often it differs from the level below's (L2 vs L1, L3 vs L2, L4 vs L3), so a door that clamps a level to
+    // a coarser one fails at every level
+    const below = new Map<Level, { rings: number; neighbours: number; query: number; locate: number }>();
     const owners = new Map<Level, Set<string>>();
     for (const l of LEVELS) {
       const v = k.view(GROUND, l);
       expect(v.level).toBe(l);
+      const lb = (l - 1) as Level;
+      const down = { rings: 0, neighbours: 0, query: 0, locate: 0 };
+      if (l >= 2) below.set(l, down);
       const fs = v.faces();
       expect([...fs].sort((a, b) => a - b)).toEqual(liveAt(p, l));
       for (const box of BOXES) {
@@ -450,6 +460,7 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
         expect(v.query(box, { vertices: true })).toEqual(query(p, GROUND, l, box, { vertices: true }));
         expect(k.index.query(GROUND, l, box, { vertices: true })).toEqual(query(p, GROUND, l, box, { vertices: true }));
         if (l !== 1 && differs(() => want, () => query(p, GROUND, 1, box))) off.query += 1;
+        if (l >= 2 && differs(() => want, () => query(p, GROUND, lb, box))) down.query += 1;
       }
       for (const at of POINTS) {
         const want = pointLocate(p, GROUND, l, at);
@@ -457,6 +468,7 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
         expect(k.geom.pointLocate(GROUND, l, at)).toEqual(want);
         expect(k.index.pointLocate(GROUND, l, at)).toEqual(want);
         if (l !== 1 && differs(() => want, () => pointLocate(p, GROUND, 1, at))) off.locate += 1;
+        if (l >= 2 && differs(() => want, () => pointLocate(p, GROUND, lb, at))) down.locate += 1;
       }
       const named = new Set<string>();
       for (const f of fs) {
@@ -474,6 +486,8 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
         }
         if (l !== 1 && differs(() => rings, () => faceRings(p, 1, f))) off.rings += 1;
         if (l !== 1 && differs(() => nb, () => faceNeighbours(p, GROUND, f, 1))) off.neighbours += 1;
+        if (l >= 2 && differs(() => rings, () => faceRings(p, lb, f))) down.rings += 1;
+        if (l >= 2 && differs(() => nb, () => faceNeighbours(p, GROUND, f, lb))) down.neighbours += 1;
       }
       owners.set(l, named);
     }
@@ -482,6 +496,11 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     expect(off.neighbours).toBeGreaterThan(0);
     expect(off.query).toBeGreaterThan(0);
     expect(off.locate).toBeGreaterThan(0);
+    for (const l of [2, 3, 4] as const) {
+      const d = below.get(l);
+      expect(d, `L${l} vs L${l - 1}`).toBeDefined();
+      for (const [what, n] of Object.entries(d ?? {})) expect(n, `L${l} ${what} differs from L${l - 1}'s`).toBeGreaterThan(0);
+    }
     // the owners are each level's own: L2's and L3's are not L1's
     expect([...(owners.get(1) ?? [])]).toEqual(['district:1']);
     expect(owners.get(2)?.has('blk:2')).toBe(true);
@@ -491,12 +510,13 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     expect(k.view(GROUND, 3).owner(faceAt(p, 3, 500, 500))).toBe('lot:3');
   });
 
-  it('sideRuns and sampleBoundary handed a face read it at the open transaction\'s level (L2, L3), with the stepCm and opts given', () => {
+  it('sideRuns and sampleBoundary handed a face read it at the open transaction\'s level (L2, L3, L4), with the stepCm and opts given', () => {
     const p = layered();
     const k = kernelOver([p]);
     let offLevel = 0;
     let offStep = 0;
-    for (const l of [2, 3] as const) {
+    const offBelow = new Map<Level, number>();
+    for (const l of [2, 3, 4] as const) {
       const fs = liveAt(p, l);
       let got: unknown[] = [];
       k.tx(spec(l), () => {
@@ -506,6 +526,7 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
       const want = fs.map((f) => {
         const rings = faceRings(p, l, f);
         if (differs(() => rings, () => faceRings(p, 1, f))) offLevel += 1;
+        if (differs(() => rings, () => faceRings(p, (l - 1) as Level, f))) offBelow.set(l, (offBelow.get(l) ?? 0) + 1);
         if (differs(() => sampleBoundary(rings, 250), () => sampleBoundary(rings, 100))) offStep += 1;
         return [sideRuns(rings, 500), sideRuns(rings, 500, { arcMaxCm: 400 }), sampleBoundary(rings, 250), sampleBoundary(rings, 100)];
       });
@@ -513,6 +534,7 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     }
     expect(offLevel).toBeGreaterThan(0);
     expect(offStep).toBeGreaterThan(0);
+    for (const l of [2, 3, 4] as const) expect(offBelow.get(l) ?? 0, `L${l} rings differ from L${l - 1}'s`).toBeGreaterThan(0);
   });
 
   it('sideRuns forwards its opts and sampleBoundary its stepCm (rings as values, and a face inside a transaction)', () => {
@@ -525,6 +547,13 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     expect(k.geom.sideRuns(filleted, 500)).toEqual(sideRuns(filleted, 500));
     // the precondition: the opts change the answer
     expect(differs(() => sideRuns(filleted, 500, opts), () => sideRuns(filleted, 500))).toBe(true);
+    // turnTolCdeg is forwarded: 2000 (the fillet's 15° turns read as one side) is not 500's answer
+    for (const tol of [0, 2000, 9000]) {
+      expect(k.geom.sideRuns(filleted, tol), `turnTol ${tol}`).toEqual(sideRuns(filleted, tol));
+      expect(k.geom.sideRuns(filleted, tol, opts), `turnTol ${tol} opts`).toEqual(sideRuns(filleted, tol, opts));
+    }
+    expect(differs(() => sideRuns(filleted, 2000), () => sideRuns(filleted, 500))).toBe(true);
+    expect(() => k.geom.sideRuns(filleted, 9001)).toThrow(RangeError);
     // an opts the module refuses is refused through the façade
     expect(() => k.geom.sideRuns(filleted, 500, { arcMaxCm: -1 })).toThrow(RangeError);
     for (const step of [1, 250, 777]) expect(k.geom.sampleBoundary(filleted, step)).toEqual(sampleBoundary(filleted, step));
@@ -563,5 +592,83 @@ describe('the keyed and levelled doors forward their level and arguments (L0 …
     expect(k.index.rebuildAtStageEnd(GROUND)).toBe(rest);
     expect(state(A)).toBe(state(B));
     healthy(A);
+  });
+  it('sideRuns handed a face inside a transaction forwards its turnTolCdeg (a filleted L2 face at 2000, not 500)', () => {
+    // the upper-right quad gets an L2 district ring whose top-right corner is filleted by six 15° chords (radius 600)
+    const arc = [0, 15, 30, 45, 60, 75, 90].map((d) => pt(3200 + Math.round(600 * Math.cos((d * Math.PI) / 180)), 3200 + Math.round(600 * Math.sin((d * Math.PI) / 180))));
+    const ring = [pt(2200, 2200), pt(3800, 2200), ...arc, pt(2200, 3800)];
+    const { p } = crossing();
+    commit(p, 2, (o) => insertChain(o, ring, [{ role: 'district_bound', entity: 'd:fil' }], 'mandatory', { closed: true }));
+    healthy(p);
+    const k = kernelOver([p]);
+    const f = faceAt(p, 2, 2600, 2600);
+    const rings = faceRings(p, 2, f);
+    // the precondition: the face is the filleted ring, and its tolerance changes the answer
+    expect(rings[0]).toHaveLength(ring.length);
+    expect(differs(() => sideRuns(rings, 2000), () => sideRuns(rings, 500))).toBe(true);
+    let got: unknown[] = [];
+    k.tx(spec(2), () => {
+      got = [k.geom.sideRuns(f, 2000), k.geom.sideRuns(f, 2000, { arcMaxCm: 300 }), k.geom.sideRuns(f, 0)];
+      return okv(0);
+    });
+    expect(got).toEqual([sideRuns(rings, 2000), sideRuns(rings, 2000, { arcMaxCm: 300 }), sideRuns(rings, 0)]);
+  });
+
+  it('offsetFace forwards non-uniform per-edge distances and insetRing its dCm (values that change the answer)', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const f = LL(p);
+    const n = faceRings(p, 1, f)[0].length;
+    const per = Array.from({ length: n }, (_q, i) => (i % 2 === 0 ? 50 : 250));
+    const uniform = per.map(() => 100);
+    let got: string[] = [];
+    let want: string[] = [];
+    let pre: boolean[] = [];
+    k.tx(spec(1), (o) => {
+      got = [k.geom.offsetFace(f, per), k.geom.offsetFace(f, per.map((d) => d * 2)), k.geom.insetRing(f, 250), k.geom.insetRing(f, 37)].map((r) => JSON.stringify(r));
+      want = [offsetFace(o, f, per), offsetFace(o, f, per.map((d) => d * 2)), insetRing(o, f, 250), insetRing(o, f, 37)].map((r) => JSON.stringify(r));
+      // the precondition: these values are not the uniform 100 cm answer
+      pre = [
+        differs(() => offsetFace(o, f, per), () => offsetFace(o, f, uniform)),
+        differs(() => offsetFace(o, f, per), () => offsetFace(o, f, per.map((d) => d * 2))),
+        differs(() => insetRing(o, f, 250), () => insetRing(o, f, 100)),
+        differs(() => insetRing(o, f, 37), () => insetRing(o, f, 100)),
+      ];
+      return okv(0);
+    });
+    expect(pre).toEqual([true, true, true, true]);
+    expect(got).toEqual(want);
+    expect(got.every((r) => r.startsWith('{"ok":true'))).toBe(true);
+  });
+
+  it('view(key, level) checks liveness at its own level: L2 face slots past L1\'s top are read; an L1-live slot dead at the level is refused', () => {
+    // seven L2 district lines across the lower-left quad: L2 holds more face slots than L1
+    const { p } = crossing();
+    for (const y of [250, 500, 750, 1000, 1250, 1500, 1750]) {
+      commit(p, 2, (o) => insertChain(o, [pt(0, y), pt(2000, y)], [{ role: 'district_bound', entity: `d:${y}` }], 'mandatory'));
+    }
+    healthy(p);
+    const deadAtL1 = liveAt(p, 2).filter((f) => !isFaceLive(p, 1, f));
+    // the precondition: some live L2 slots lie past L1's top
+    expect(p.slots.face[2].top).toBeGreaterThan(p.slots.face[1].top);
+    expect(deadAtL1.length).toBeGreaterThan(0);
+    commit(p, 2, (o) => setOwner(o, deadAtL1, 'blk:hi'));
+    const k = kernelOver([p]);
+    const v2 = k.view(GROUND, 2);
+    for (const f of liveAt(p, 2)) expect(v2.rings(f), `L2 rings ${f}`).toEqual(faceRings(p, 2, f));
+    for (const f of deadAtL1) expect(v2.owner(f), `L2 owner ${f}`).toBe('blk:hi');
+    // and the reverse: a slot live at L1 but dead at the view's level is refused there (here and on the layered arena)
+    let refused = 0;
+    for (const q of [p, layered()]) {
+      const kq = kernelOver([q]);
+      for (const l of [2, 3, 4] as const) {
+        for (const f of liveAt(q, 1).filter((g) => !isFaceLive(q, l, g))) {
+          refused += 1;
+          expect(() => kq.view(GROUND, l).rings(f)).toThrow(new RegExp(`not live at L${l}`));
+          expect(() => kq.view(GROUND, l).owner(f)).toThrow(new RegExp(`not live at L${l}`));
+        }
+      }
+    }
+    expect(refused).toBeGreaterThan(0);
   });
 });
