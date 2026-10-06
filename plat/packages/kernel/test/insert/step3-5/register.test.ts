@@ -13,7 +13,8 @@
 //   n43a-buffer        N-43 A (s3-inflight seed 770804368)               s157 left the arena invalid, s160    all 161 commit, valid
 //                                                                        threw at the final clearance check
 //   n43b-s60           N-43 B (offsetFace off-case.json)                 s60 committed 2 711 cm off           s60 commits in bound
-//   n43b-s25           N-43 B (offsetFace off-case-4b.json)              s25 committed 2 175 cm off           s25 refused E_INVARIANT
+//   n43b-s25           N-43 B (offsetFace off-case-4b.json)              s25 committed 2 175 cm off           s25 refused E_INVARIANT;
+//                                                                                                              S5 (C-0217): commits in bound
 //
 // Refused here means no route the router has keeps both §3.10's clearance and the fidelity bound (N-44: refused and
 // counted, never committed out of bound); better routing that turns these into commits is deferred past M0 (N-44 (4) —
@@ -86,13 +87,13 @@ describe('N-44 (4): the insertChain refusal register — each case refuses clean
   it('fix1-case2 (M0-a-08 fix1, buffer case 2): s31 (−48618, −42484) → (−47975, −44198) is refused E_INVARIANT and writes nothing', () => {
     expect(replay(load('fix1-case2'), new Map([[31, 'E_INVARIANT']]))).toEqual([31]);
   }, TIMEOUT);
-
-  it('n43b-s25 (N-43 B, offsetFace 4b): s25 (2899, 31966) → (12964, 42476), which the S1 – S3 router committed 2 175 cm off, is refused E_INVARIANT and writes nothing', () => {
-    expect(replay(load('n43b-s25'), new Map([[25, 'E_INVARIANT']]))).toEqual([25]);
-  }, TIMEOUT);
 });
 
-describe('N-43: the S3 closing check\'s repros, on the S4 router', () => {
+describe('N-43: the S3 closing check\'s repros, on the S4 router (and S5\'s third pass, C-0217)', () => {
+  it('n43b-s25 (N-43 B, offsetFace 4b): s25 (2899, 31966) → (12964, 42476), which the S1 – S3 router committed 2 175 cm off and S4 refused, commits within the bound on S5\'s third pass (C-0217)', () => {
+    expect(replay(load('n43b-s25'), new Map())).toEqual([]);
+  }, TIMEOUT);
+
   it('N-43 A (n43a-buffer, the buffer group of s3-inflight seed 770804368): all 161 chains commit within the bound, the arena valid — s157 no longer leaves a vertex within minEdge of a split edge, s160 no longer throws', () => {
     expect(replay(load('n43a-buffer'), new Map())).toEqual([]);
   }, TIMEOUT);

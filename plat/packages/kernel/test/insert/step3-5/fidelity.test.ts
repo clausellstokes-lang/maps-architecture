@@ -4,16 +4,18 @@
 // after another into one arena, crossing and grazing each other at every angle in a small square, then a mandatory
 // polyline across them — each commit judged by fidelity.ts's two halves (every route vertex within 2 · √2 · attractCm of
 // a segment the op routed; every routed segment within it of the chain's edges), the arena valid after each, a refusal
-// E_INVARIANT writing nothing and counted, at most 1 per 10⁴ cases (N-44 (3)).
+// E_INVARIANT writing nothing and counted, within the property's cap — S5's measured residual plus seed noise (caps.ts;
+// N-44 (3) as J207 / J208 apply it, C-0217).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Level } from '../../../src/types/index.js';
+import { refusalCap } from './caps.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
-/** N-44 (3): 1 per 10⁴ cases (1 at the PR size, 100 nightly). */
-const CAP = Math.max(1, Math.floor(RUNS / 10_000));
+/** N-44 (3): the property's cap (caps.ts, C-0217). */
+const CAP = refusalCap('fidelity', RUNS);
 
 describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a property of its own)', () => {
   it('two-point mandatory chains crossing in a 1 200 cm square, then a mandatory polyline across them: every commit within 2 · √2 · attractCm of its input, the arena valid, E_INVARIANT refusals writing nothing and capped', () => {
@@ -53,6 +55,6 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
     );
     console.log(`fidelity property: ${commits} committed; E_INVARIANT ${invariant} (cap ${CAP}); ${[...other].map(([c, n]) => `${c} ${n}`).join(', ')}`);
     expect(commits).toBeGreaterThan(0);
-    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): at most 1 per 10⁴ cases)').toBeLessThanOrEqual(CAP);
+    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the property\'s cap, caps.ts)').toBeLessThanOrEqual(CAP);
   }, Math.max(TIMEOUT, RUNS * 40));
 });

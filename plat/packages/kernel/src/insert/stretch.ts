@@ -155,6 +155,20 @@ export interface ChainCtx {
    */
   extended?: boolean;
   /**
+   * insertChain's third pass (S5, C-0217), set only for a chain the first two refused E_INVARIANT: its reading (`variant`
+   * 0, then 1 — step 2's free spot first — for a chain 0 does not commit) and the input segment pa → pb the segment being
+   * routed came from (null in step 2, which reads the chain point itself). Set, a landing the placement rule can only send
+   * to its endpoint fallback beyond N-43 B's bound of that input is kept within it: a crossing is placed across the thin
+   * strip the segment crosses (the far side's sub-edge left out of (iii), as N-42 (a)'s step across a sliver:
+   * `stripPartner`, `placeOnRun`), or at the nearest point of the run within the bound that qualifies under the
+   * placement rule's tests, or routed through the nearest existing vertex within the bound; a step-2 vertex as
+   * insertChain's `stepTwoStrip` says; and a wedge corner
+   * beyond the bound of the input is not taken (its crossings placed in turn, as N-38 / N-40 do beyond the wedge cap).
+   * Every such landing reports W_PLACED; every route is still judged whole and against the bound before it commits.
+   * Unset: §3.6 as written.
+   */
+  strip?: { readonly variant: 0 | 1; readonly a: LatticePoint | null; readonly b: LatticePoint | null } | null;
+  /**
    * The inverse of every arena write the chain made, in order: a refused chain runs them backwards so the op writes
    * nothing (C-0177 (8)).
    */
@@ -162,6 +176,26 @@ export interface ChainCtx {
 }
 
 // ---- small exact helpers -----------------------------------------------------------------------------------------------
+
+/** N-43 B's fidelity bound, squared (exact): (2 · √2 · `attractCm`)² = 8 · `attractCm`² — N-40's wedge cap, ≈ 73.5 cm. */
+export const FIDELITY_SQ = 8 * ATTRACT_SQ;
+
+/**
+ * Is the lattice point (x, y) within N-43 B's bound of the input segment a → b (C-0217)? Integer arithmetic, exact while
+ * the squares stay below 2⁵³ (every arena B-FUZZ builds; a 2²⁴ cm overlay arena rounds the cross term's square near the
+ * bound's edge only).
+ */
+export function inInputBound(a: LatticePoint, b: LatticePoint, x: number, y: number): boolean {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const l2 = dx * dx + dy * dy;
+  const dot = (x - a.x) * dx + (y - a.y) * dy;
+  if (dot <= 0 || l2 === 0) return (x - a.x) * (x - a.x) + (y - a.y) * (y - a.y) <= FIDELITY_SQ;
+  if (dot >= l2) return (x - b.x) * (x - b.x) + (y - b.y) * (y - b.y) <= FIDELITY_SQ;
+  const o = dx * (y - a.y) - dy * (x - a.x);
+  return o * o <= FIDELITY_SQ * l2;
+}
+
 
 /** A box around a segment padded by `pad`, clamped to the index's range. */
 export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: number): Box {
@@ -631,6 +665,29 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
       o = { kind: 'contact', piece: pc, at, t: band.lo };
     }
     if (better(o)) best = o;
+  }
+  return ok(best);
+}
+
+/**
+ * The live vertex of level ≤ n nearest the point within N-43 B's bound of it, other than those `skip` names (ties y then
+ * x), or −1 (S5's in-bound landing on an existing vertex, C-0217). One index query (`insert.attractQueries`).
+ */
+export function nearestVertexWithin(ctx: ChainCtx, pt: { readonly x: number; readonly y: number }, skip: (v: VertexId) => boolean): KernelResult<VertexId> {
+  const { tx, p, n } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  if (!charge(tx, INSERT_ATTRACT_QUERIES, 1)) return workLimitHit(INSERT_ATTRACT_QUERIES);
+  let best = -1;
+  let bestD = Infinity;
+  for (const w of query(p, tx.key, n, segmentBox(pt.x, pt.y, pt.x, pt.y, Math.ceil(Math.sqrt(FIDELITY_SQ))), { vertices: true }).vertices) {
+    if (skip(w) || p.vertices.level[w] > n) continue;
+    const d = (X[w] - pt.x) * (X[w] - pt.x) + (Y[w] - pt.y) * (Y[w] - pt.y);
+    if (d > FIDELITY_SQ) continue;
+    if (d < bestD || (d === bestD && (Y[w] < Y[best] || (Y[w] === Y[best] && X[w] < X[best])))) {
+      best = w;
+      bestD = d;
+    }
   }
   return ok(best);
 }

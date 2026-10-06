@@ -20,7 +20,9 @@
 // `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
 // every such commit reports W_PLACED) and after it a route that places a crossing on the near side of a sliver across
 // it (N-42 (a), C-0209: crossings.ts `placeAcross`, W_PLACED); insertChain's second pass adds the anchored reading of step
-// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0215). Every route is judged by §3.10's
+// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0215), and its third pass the in-bound
+// landings (`ctx.strip`: a crossing whose placement falls back beyond the bound of the input placed across a thin strip,
+// within the bound on the run, or on the nearest in-bound vertex; a wedge corner beyond the bound not taken, C-0217). Every route is judged by §3.10's
 // clearance whole and N-43 B's fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
 // where the move is at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2),
 // (5) – (7), (13); C-0202; C-0209; C-0215.
@@ -47,11 +49,14 @@ import type { Level } from '../types/index.js';
 import { charge, check, classOutcome, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit } from './classes.js';
 import { segmentsMeet } from './decimate.js';
 import { segmentCloserThan } from './placement.js';
-import { acrossApplies, placeAcross, resolveCrossings, sliverPartner } from './crossings.js';
+import { acrossApplies, placeAcross, placeOnRun, resolveCrossings, sliverPartner, stripPartner, subEdgeOf, type ExactCrossing } from './crossings.js';
 import {
   applyLanding,
   attractStretch,
   COS_MIN_ANGLE,
+  FIDELITY_SQ,
+  inInputBound,
+  nearestVertexWithin,
   nearerVertex,
   onRouteOfLevel,
   planLanding,
@@ -62,6 +67,7 @@ import {
   SIN_MIN_ANGLE,
   withinSegment,
   type ChainCtx,
+  type Landing,
 } from './stretch.js';
 import { TX_FACES_WALKED } from './rewalk.js';
 import { cornerMove, wedgeOutcome } from './wedge.js';
@@ -74,6 +80,12 @@ const MIN_EDGE_SQ = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
 const ATTRACT = LATTICE.attractCm;
 /** A guard on the router's recursion: far beyond any real chain, it turns a routing loop into a programming error. */
 const MAX_DEPTH = 4096;
+/**
+ * The same guard in S5's third pass (C-0217), tighter: its in-bound landings can send a segment back and forth across one
+ * strip, and the guard must end that as a refusal of the route ('the router does not converge', E_INVARIANT) well before
+ * the recursion exhausts the stack.
+ */
+const MAX_DEPTH_THIRD = 512;
 
 // ---- the arena's rotations --------------------------------------------------------------------------------------------
 
@@ -525,7 +537,7 @@ export function routeAlongExisting(ctx: ChainCtx, a: VertexId, b: VertexId): Ker
 }
 
 function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: ReadonlySet<VertexId>, depth: number): KernelResult<null> {
-  check(depth <= MAX_DEPTH, 'the router does not converge');
+  check(depth <= (ctx.strip != null ? MAX_DEPTH_THIRD : MAX_DEPTH), 'the router does not converge');
   if (a === b) return ok(null);
   const { tx, p, n } = ctx;
   const X = p.vertices.x;
@@ -616,7 +628,9 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const k = fc.corner;
       const w = wedgeOutcome(ctx, cornerMove(ctx, a, b, k), pointOf(p, k));
       if (!w.ok) return passOn(w);
-      if (w.value) {
+      // S5's third pass (C-0217): a corner beyond the bound of the chain's input segment is not taken.
+      const st = ctx.strip ?? null;
+      if (w.value && (st === null || st.a === null || st.b === null || inInputBound(st.a, st.b, X[k], Y[k]))) {
         if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
         return via(k, pass);
       }
@@ -644,6 +658,13 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
         if (!across.ok) return passOn(across);
         if (across.value !== null) landing = across.value;
       }
+    }
+    if (ctx.strip != null && acrossApplies(landing)) {
+      // S5's third pass (C-0217): a fallback beyond the bound of the chain's input — the step across the strip, else
+      // the nearest in-bound point of the run.
+      const s5 = stripLanding(ctx, a, b, c, landing, onPath);
+      if (!s5.ok) return passOn(s5);
+      landing = s5.value;
     }
     if (landing.kind === 'vertex' && onPath(landing.vertex)) {
       // The placement's fallback (or an end within attractCm) would send the segment back onto its own path: the other
@@ -797,6 +818,51 @@ function alongEdge(ctx: ChainCtx, a: VertexId, b: VertexId): VertexId {
     }
   }
   return -1;
+}
+
+/** 2 · √2 · `attractCm`, the reach of S5's in-bound placements (N-43 B's bound). */
+const BOUND = Math.sqrt(FIDELITY_SQ);
+
+/**
+ * S5's third pass (C-0217; `ctx.strip`) for a crossing c of the segment a → b whose placement fell back on a vertex beyond
+ * the bound of the chain's input segment: placed across the thin strip it crosses — the far side's sub-edge (the sliver
+ * partner of N-42 (a), or `stripPartner`'s) left out of (iii), first within `attractCm`, then within the bound — or, with
+ * no strip, at the nearest point of the run within the bound that qualifies (`placeOnRun`, W_PLACED); the landing as
+ * given when nothing qualifies. Nothing written; refuses only E_WORK_LIMIT.
+ */
+function stripLanding(ctx: ChainCtx, a: VertexId, b: VertexId, c: ExactCrossing, l: Landing, onPath: (v: VertexId) => boolean): KernelResult<Landing> {
+  const st = ctx.strip ?? null;
+  if (st === null || st.a === null || st.b === null || l.kind !== 'vertex') return ok(l);
+  const { a: ia, b: ib } = st;
+  const P = ctx.p.vertices;
+  if (inInputBound(ia, ib, P.x[l.vertex], P.y[l.vertex])) return ok(l);
+  const admit = (qx: number, qy: number): boolean => inInputBound(ia, ib, qx, qy);
+  let partner: readonly [VertexId, VertexId] | null = null;
+  const sp = sliverPartner(ctx, a, b, c);
+  if (!sp.ok) return passOn(sp);
+  if (sp.value !== null) partner = subEdgeOf(ctx, sp.value);
+  if (partner === null) {
+    const tp = stripPartner(ctx, a, b, c);
+    if (!tp.ok) return passOn(tp);
+    partner = tp.value;
+  }
+  if (partner !== null) {
+    for (const reach of [ATTRACT, BOUND]) {
+      const r = placeOnRun(ctx, c.piece.edge, c, { a, b, partner, reach, passOver: true, admit });
+      if (!r.ok) return passOn(r);
+      if (r.value !== null) return ok(r.value);
+    }
+  }
+  const r = placeOnRun(ctx, c.piece.edge, c, { a, b, partner: null, reach: BOUND, passOver: true, admit });
+  if (!r.ok) return passOn(r);
+  if (r.value !== null) return ok(r.value);
+  // Nothing on the run: the nearest existing vertex within the bound of the crossing and of the input segment, other
+  // than the segment's own ends (the endpoint fallback's own kind of landing, on the nearest vertex).
+  const w = nearestVertexWithin(ctx, c, (u) => u === l.vertex || onPath(u) || !inInputBound(ia, ib, P.x[u], P.y[u]));
+  if (!w.ok) return passOn(w);
+  const v = w.value;
+  if (v < 0 || onPath(v) || !inInputBound(ia, ib, P.x[v], P.y[v])) return ok(l);
+  return ok({ kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(ctx.p, v) }] });
 }
 
 /** A set with more members. */

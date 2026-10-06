@@ -27,7 +27,12 @@
 // within √2 · `attractCm` (N-42 (b), W_PLACED; C-0209); one that still keeps no route is refused E_INVARIANT, as is a
 // chain whose final arena fails §3.10's clearance round its writes, and an invariant check that throws inside the op:
 // a counted, capped refusal, never a throw and never a commit out of bound (N-44 (1) – (3); B-FUZZ counts it on its own
-// line, N-40). The op is atomic: every write it makes is undone on
+// line, N-40). The first pass is that router; a chain it refuses E_INVARIANT is tried again with S4's further routes
+// (C-0215), and a chain both refuse with S5's third pass (C-0217): a crossing or a step-2 vertex the placement rule can
+// only send to its endpoint fallback beyond the bound is kept within the bound instead (the step across a thin strip, the nearest in-bound point of the run, the nearest in-bound vertex, a
+// free in-bound spot for step 2), and a wedge corner beyond the bound of the input is not taken; a second reading tries
+// step 2's free spot first. Only a pass's commit replaces the refusal before it. The op is atomic: every write it makes
+// is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
 // shell of C-0169 (1)). Readings: C-0177.
@@ -52,14 +57,18 @@ import { beginIndexBatch, endIndexBatch, indexAdd, indexChange, indexDelete, ind
 import { belowMinEdge, err, LATTICE, ok, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { LatticePoint } from '../types/index.js';
 import { applyAttraction, planAttraction } from './attractVertex.js';
-import { charge, check, classOutcome, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
-import { decimate, type Knot } from './decimate.js';
+import { charge, check, classOutcome, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, INSERT_PLACEMENT_CANDIDATES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
+import { placeOnRun } from './crossings.js';
+import { segmentCloserThan } from './placement.js';
+import { decimate, segmentsMeet, type Knot } from './decimate.js';
 import { rewalk, TX_FACES_WALKED } from './rewalk.js';
 import { clearanceProblem, OVER_LIMIT, recordHolding, routeAlongExisting, snapRound } from './snapRound.js';
 import {
   applyLanding,
   chainJournal,
+  FIDELITY_SQ,
   footOnSegment,
+  nearestVertexWithin,
   landingPoint,
   lattice,
   nearerVertex,
@@ -74,6 +83,7 @@ import {
   splitBreaksClearance,
   withinSegment,
   type ChainCtx,
+  type Piece,
   type Landing,
 } from './stretch.js';
 import { chainCorner, wedgeOutcome } from './wedge.js';
@@ -140,12 +150,35 @@ function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePo
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: prev, merged: true });
   };
+  // S5's third pass (C-0217): an in-bound landing in place of a far fallback, written as a split (W_PLACED, W_ATTRACTED).
+  const landS5 = (l: S5Landing): KernelResult<{ vertex: VertexId; merged: boolean }> => {
+    if (merges(l.kind === 'free' ? l.at : landingPoint(p, l))) return merged();
+    let v: VertexId;
+    if (l.kind === 'free') {
+      v = allocVertex(p, l.at, n, 0);
+      const fresh = v;
+      ctx.undo.push(() => {
+        p.vertices.out[fresh] = -1;
+        freeVertex(p, fresh);
+      });
+      indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });
+      tx.journal.vertices.push(v);
+      warn(tx, ctx.warnings, 'W_PLACED', l.at);
+    } else v = applyLanding(ctx, l);
+    warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
+    return ok({ vertex: v, merged: false });
+  };
   const plan = planAttraction(tx, pt);
   if (!plan.ok) {
     if (plan.code !== 'E_LEVEL') return passOn(plan);
     // Candidate (b): the vertex lands on a route beside a finer vertex (C-0169 (5), (6) left it here).
     const l = landBesideFiner(ctx, pt);
     if (!l.ok) return passOn(l);
+    if (l.value.kind === 'vertex' && l.value.onto === 'fallback') {
+      const s5 = stepTwoStrip(ctx, pt, l.value.vertex, prevPt, nextPt);
+      if (!s5.ok) return passOn(s5);
+      if (s5.value !== null) return landS5(s5.value);
+    }
     if (merges(landingPoint(p, l.value))) return merged();
     const v = applyLanding(ctx, l.value);
     if (p.vertices.x[v] !== pt.x || p.vertices.y[v] !== pt.y) warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
@@ -156,11 +189,19 @@ function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePo
     // No point of that sub-edge keeps clearance at its ends (C-0177 (11)): the placement's fallback, its nearer end.
     const O = p.halfEdges.origin;
     const v = nearerVertex(p, O[pl.split.sub], O[pl.split.sub ^ 1], pl.at.x, pl.at.y);
+    const s5 = stepTwoStrip(ctx, pt, v, prevPt, nextPt);
+    if (!s5.ok) return passOn(s5);
+    if (s5.value !== null) return landS5(s5.value);
     const fb: Landing = { kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, v) }] };
     if (merges(pointOf(p, v))) return merged();
     applyLanding(ctx, fb);
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: v, merged: false });
+  }
+  if (pl.kind === 'split' && pl.split.kind === 'existing') {
+    const s5 = stepTwoStrip(ctx, pt, pl.split.vertex, prevPt, nextPt);
+    if (!s5.ok) return passOn(s5);
+    if (s5.value !== null) return landS5(s5.value);
   }
   if (pl.kind !== 'free') {
     if (merges(pl.at)) return merged();
@@ -217,6 +258,23 @@ function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePo
  * endpoint rule, the finer vertex promoted, or the placement). Nothing written.
  */
 function landBesideFiner(ctx: ChainCtx, pt: LatticePoint): KernelResult<Landing> {
+  const best = nearestPiece(ctx, pt);
+  if (!best.ok) return passOn(best);
+  check(best.value !== null, 'a landing refused E_LEVEL stands within attractCm of a route piece');
+  const pc = best.value;
+  const X = ctx.p.vertices.x;
+  const Y = ctx.p.vertices.y;
+  // The vertex's foot on the piece: the endpoint rule reads it (§3.6 step 2); planLanding re-projects it on the run's
+  // own-level route for the placement.
+  const foot = footOnSegment(X[pc.a], Y[pc.a], X[pc.b], Y[pc.b], pt.x, pt.y);
+  return planLanding(ctx.tx, pc, foot.x, foot.y);
+}
+
+/**
+ * The nearest level-n route piece within `attractCm` of the point, its foot strictly inside it (ties by the query's
+ * canonical order), or null. One index query (`insert.attractQueries`).
+ */
+function nearestPiece(ctx: ChainCtx, pt: LatticePoint): KernelResult<Piece | null> {
   const { tx, p, n } = ctx;
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -240,12 +298,181 @@ function landBesideFiner(ctx: ChainCtx, pt: LatticePoint): KernelResult<Landing>
       bestL2 = l2;
     }
   }
-  check(best !== null, 'a landing refused E_LEVEL stands within attractCm of a route piece');
-  // The vertex's foot on the piece: the endpoint rule reads it (§3.6 step 2); planLanding re-projects it on the run's
-  // own-level route for the placement.
-  const foot = footOnSegment(X[best.a], Y[best.a], X[best.b], Y[best.b], pt.x, pt.y);
-  return planLanding(tx, best, foot.x, foot.y);
+  return ok(best);
 }
+
+/** The 16 directions `freeSpot` searches along (integer vectors, every 22.5° to within a degree). */
+const FREE_DIRS: readonly (readonly [number, number])[] = [
+  [1, 0], [12, 5], [1, 1], [5, 12], [0, 1], [-5, 12], [-1, 1], [-12, 5], [-1, 0], [-12, -5], [-1, -1], [-5, -12], [0, -1], [5, -12], [1, -1], [12, -5],
+];
+
+/** S5's step-2 landing: an existing vertex or a split (`Landing`), or a free vertex of the chain's own at `at`. */
+type S5Landing = Landing | { readonly kind: 'free'; readonly at: LatticePoint };
+
+/**
+ * S5's free spot for a chain point at `pt` (C-0217): the lattice point nearest `pt` within N-43 B's bound (ties y then x)
+ * where a free vertex of the chain's own keeps §3.10's clearance — at least `minEdge` from every vertex and every edge —
+ * and keeps the kept-content rule (no finer vertex or edge within `attractCm`, no finer face record holding it); null
+ * when none does. One index query (`insert.attractQueries`), each point tried charged to `insert.placementCandidates`.
+ * Nothing written.
+ */
+function freeSpot(ctx: ChainCtx, pt: LatticePoint): KernelResult<LatticePoint | null> {
+  const { tx, p, n } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const L = p.vertices.level;
+  const O = p.halfEdges.origin;
+  const r = Math.floor(BOUND);
+  if (!charge(tx, INSERT_ATTRACT_QUERIES, 1)) return workLimitHit(INSERT_ATTRACT_QUERIES);
+  const near = query(p, tx.key, 4, segmentBox(pt.x, pt.y, pt.x, pt.y, r + ATTRACT), { vertices: true, edges: true });
+  // The points tried: pt itself, then along 16 directions every centimetre out to the bound — nearest first (ties y then
+  // x), each once — so a spot just beyond a strip's far side is found without testing every lattice point of the disc.
+  const seen = new Set<string>();
+  const pts: { x: number; y: number; d: number }[] = [];
+  for (let k = 0; k <= r; k++) {
+    for (const [ux, uy] of FREE_DIRS) {
+      const len = Math.sqrt(ux * ux + uy * uy);
+      const x = pt.x + Math.floor((k * ux) / len + 0.5);
+      const y = pt.y + Math.floor((k * uy) / len + 0.5);
+      const d = (x - pt.x) * (x - pt.x) + (y - pt.y) * (y - pt.y);
+      const key = `${x},${y}`;
+      if (d > FIDELITY_SQ || seen.has(key)) continue;
+      seen.add(key);
+      pts.push({ x, y, d });
+    }
+  }
+  pts.sort((u, w) => u.d - w.d || u.y - w.y || u.x - w.x);
+  const edges = near.edges.map((h) => [O[h], O[h ^ 1], p.halfEdges.level[h >> 1]] as const);
+  for (const q of pts) {
+    if (!charge(tx, INSERT_PLACEMENT_CANDIDATES, 1)) return workLimitHit(INSERT_PLACEMENT_CANDIDATES);
+    let fine = true;
+    for (const v of near.vertices) {
+      const d = (X[v] - q.x) * (X[v] - q.x) + (Y[v] - q.y) * (Y[v] - q.y);
+      if (belowMinEdge(X[v], Y[v], q.x, q.y) || (L[v] > n && d <= ATTRACT_SQ)) {
+        fine = false;
+        break;
+      }
+    }
+    if (!fine) continue;
+    for (const [u, w, m] of edges) {
+      if (m > n ? withinSegment(q.x, q.y, X[u], Y[u], X[w], Y[w], ATTRACT) : segmentCloserThan(q.x, q.y, X[u], Y[u], X[w], Y[w], LATTICE.minEdgeCm)) {
+        fine = false;
+        break;
+      }
+    }
+    if (!fine) continue;
+    if (n < 4) {
+      const held = recordHolding(ctx, n + 1, 2 * q.x, 2 * q.y);
+      if (held === OVER_LIMIT) return workLimitHit(TX_FACES_WALKED);
+      if (held >= 0) continue;
+    }
+    return ok(lattice(q.x, q.y));
+  }
+  return ok(null);
+}
+
+/** The reach of S5's in-bound placements: N-43 B's bound, 2 · √2 · `attractCm`. */
+const BOUND = Math.sqrt(FIDELITY_SQ);
+
+/**
+ * S5's third pass for step 2 (C-0217; `ctx.strip`): a chain vertex at `pt` whose landing is the placement rule's endpoint
+ * fallback `v` beyond N-43 B's bound of `pt` — no route through `v` can keep the bound — lands within the bound instead,
+ * by the first of these that finds a place (the first reading in this order, the second with the free spot first):
+ * across the thin strip — on a level-n route piece within the bound of `pt` (nearest first), the far side's sub-edge left
+ * out of (iii): an edge the chain's segment from `prevPt` or to `nextPt` crosses there, which the router then joins to
+ * the new vertex (`placeOnRun`, within `attractCm`, then within the bound); the nearer to `pt` of the nearest piece's
+ * nearest qualifying point within the bound and the nearest existing vertex of level ≤ n within it; a free spot
+ * (`freeSpot`). Every one reports W_PLACED. Null outside the third pass, when `v` is within the bound, or when nothing
+ * qualifies. Nothing written; refuses only E_WORK_LIMIT.
+ */
+function stepTwoStrip(ctx: ChainCtx, pt: LatticePoint, v: VertexId, prevPt: LatticePoint | null, nextPt: LatticePoint | null): KernelResult<S5Landing | null> {
+  if (ctx.strip == null) return ok(null);
+  const { tx, p, n } = ctx;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  if ((X[v] - pt.x) * (X[v] - pt.x) + (Y[v] - pt.y) * (Y[v] - pt.y) <= FIDELITY_SQ) return ok(null);
+  const admit = (qx: number, qy: number): boolean => (qx - pt.x) * (qx - pt.x) + (qy - pt.y) * (qy - pt.y) <= FIDELITY_SQ;
+  // The edges round pt (every level: clearance reads them all) and the level-n route pieces within the bound of pt.
+  if (!charge(tx, INSERT_ATTRACT_QUERIES, 2)) return workLimitHit(INSERT_ATTRACT_QUERIES);
+  const box = segmentBox(pt.x, pt.y, pt.x, pt.y, Math.ceil(BOUND));
+  const pieces: { pc: Piece; d: number }[] = [];
+  for (const h of query(p, tx.key, n, box, { edges: true }).edges) {
+    const pc = pieceOf(p, h, n);
+    const d = segmentDistance(pt.x, pt.y, X[pc.a], Y[pc.a], X[pc.b], Y[pc.b]);
+    if (d * d <= FIDELITY_SQ) pieces.push({ pc, d });
+  }
+  pieces.sort((u, w) => u.d - w.d || Y[u.pc.a] - Y[w.pc.a] || X[u.pc.a] - X[w.pc.a] || Y[u.pc.b] - Y[w.pc.b] || X[u.pc.b] - X[w.pc.b]);
+  // The edges a chain segment at pt crosses within the bound of pt, nearest pt first: a strip's far side.
+  const crossed: { e: [VertexId, VertexId]; d: number }[] = [];
+  for (const h of query(p, tx.key, 4, box, { edges: true }).edges) {
+    const u = O[h];
+    const w = O[h ^ 1];
+    for (const q of [prevPt, nextPt]) {
+      if (q === null || !segmentsMeet(pt.x, pt.y, q.x, q.y, X[u], Y[u], X[w], Y[w])) continue;
+      crossed.push({ e: [u, w], d: segmentDistance(pt.x, pt.y, X[u], Y[u], X[w], Y[w]) });
+      break;
+    }
+  }
+  crossed.sort((u, w) => u.d - w.d);
+  // Across the strip: the vertex on a piece near pt, the far side's sub-edge — an edge the chain crosses there, not of
+  // the piece's own route — left out of (iii); the nearest piece first, within attractCm and then the bound.
+  const across = (): KernelResult<Landing | null> => {
+    for (const { pc } of pieces) {
+      const route = routeBetween(p, pc.a, pc.b, n);
+      const own = new Set<number>((route ?? []).map((h) => h >> 1));
+      const partner = crossed.find((c) => {
+        for (const h of outgoing(p, c.e[0])) if (O[h ^ 1] === c.e[1]) return !own.has(h >> 1);
+        return false;
+      });
+      if (partner === undefined) continue;
+      const foot = footOnSegment(X[pc.a], Y[pc.a], X[pc.b], Y[pc.b], pt.x, pt.y);
+      for (const reach of [ATTRACT, BOUND]) {
+        const r = placeOnRun(ctx, pc.edge, foot, { a: -1, b: -1, partner: partner.e, reach, passOver: true, admit });
+        if (!r.ok) return passOn(r);
+        if (r.value !== null) return ok(r.value);
+      }
+    }
+    return ok(null);
+  };
+  // The nearer to pt of the nearest piece's nearest qualifying point within the bound and the nearest existing vertex of
+  // level ≤ n within it (the endpoint fallback's own kind of landing, on the nearest vertex instead of the sub-edge's far
+  // end).
+  const nearest = (): KernelResult<Landing | null> => {
+    let placed: Landing | null = null;
+    if (pieces.length > 0) {
+      const pc = pieces[0].pc;
+      const foot = footOnSegment(X[pc.a], Y[pc.a], X[pc.b], Y[pc.b], pt.x, pt.y);
+      const r = placeOnRun(ctx, pc.edge, foot, { a: -1, b: -1, partner: null, reach: BOUND, passOver: true, admit });
+      if (!r.ok) return passOn(r);
+      placed = r.value;
+    }
+    const w = nearestVertexWithin(ctx, pt, (u) => u === v);
+    if (!w.ok) return passOn(w);
+    if (w.value < 0) return ok(placed);
+    const wd = (X[w.value] - pt.x) * (X[w.value] - pt.x) + (Y[w.value] - pt.y) * (Y[w.value] - pt.y);
+    if (placed !== null) {
+      const at = landingPoint(p, placed);
+      if ((at.x - pt.x) * (at.x - pt.x) + (at.y - pt.y) * (at.y - pt.y) <= wd) return ok(placed);
+    }
+    return ok({ kind: 'vertex', vertex: w.value, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, w.value) }] });
+  };
+  const free = (): KernelResult<S5Landing | null> => {
+    const f = freeSpot(ctx, pt);
+    if (!f.ok) return passOn(f);
+    return ok(f.value === null ? null : { kind: 'free', at: f.value });
+  };
+  // The first reading tries the strip, then the nearest landing, then a free spot; the second (a chain the first refused)
+  // the free spot first.
+  const order = ctx.strip.variant === 1 ? [free, nearest, across] : [across, nearest, free];
+  for (const f of order) {
+    const r = f();
+    if (!r.ok) return passOn(r);
+    if (r.value !== null) return ok(r.value);
+  }
+  return ok(null);
+}
+
 
 /**
  * The finer geometry round a free vertex: the nearest finer vertex on a route of level ≤ n within `attractCm` (candidate
@@ -408,10 +635,10 @@ function rollback(ctx: ChainCtx, log: IndexLog, m: Mark): void {
  * judged here too: the S1–S3 test read only the chain's own new edges and let such a split commit an invalid arena
  * (M0-a-08's buffer group, s157). The first problem found, or null.
  */
-function wholeProblem(ctx: ChainCtx, m: Mark): string | null {
+function wholeProblem(ctx: ChainCtx, m: Mark, also: readonly VertexId[] = []): string | null {
   const p = ctx.p;
   const pairs = new Set<number>(ctx.journal.newPairs.slice(m.newPairs));
-  const ends: VertexId[] = [];
+  const ends: VertexId[] = [...also];
   for (const v of ctx.tx.journal.vertices.slice(m.vertices)) {
     if (!isVertexLive(p, v)) continue;
     ends.push(v);
@@ -423,8 +650,7 @@ function wholeProblem(ctx: ChainCtx, m: Mark): string | null {
   return clearanceProblem(ctx, [...pairs], ends);
 }
 
-/** N-43 B's fidelity bound, squared (exact): (2 · √2 · `attractCm`)² = 8 · `attractCm`² — N-40's wedge cap, ≈ 73.5 cm. */
-export const FIDELITY_SQ = 8 * ATTRACT_SQ;
+export { FIDELITY_SQ };
 const FIDELITY = Math.sqrt(FIDELITY_SQ);
 /** How many distance evaluations the segment-to-route half of the bound may take before it judges the route out of it. */
 const FIDELITY_EVALS = 4096;
@@ -516,15 +742,29 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
  * on the placement rule's endpoint fallback (§3.6: "each such re-route lands on an existing vertex, so the loop ends";
  * N-37, C-0202); last, the design route with a crossing on the near side of a sliver placed across it (N-42 (a),
  * C-0209). Every route is judged by §3.10's clearance whole (`wholeProblem`) and by the fidelity bound (`inFidelity`,
- * N-43 B, N-44 (2); C-0215) before it commits. A refusal of the design or strict route is the segment's; a gap no
+ * N-43 B, N-44 (2); C-0215) before it commits; in S5's third pass the segment's two ends are judged too, and every route
+ * reads the input segment pa → pb for its in-bound landings (`ctx.strip`, C-0217). A refusal of the design or strict route is the segment's; a gap no
  * fallback closes is refused E_INVARIANT (insertChain then re-lands a free end of the segment, N-42 (b)), never thrown.
  */
 function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: LatticePoint, pb: LatticePoint): KernelResult<null> {
+  // S5's third pass reads the input segment being routed (C-0217); restored after, as the segment's routes may nest.
+  const st = ctx.strip ?? null;
+  if (st === null) return routeOne(ctx, log, a, b, pa, pb);
+  ctx.strip = { variant: st.variant, a: pa, b: pb };
+  const r = routeOne(ctx, log, a, b, pa, pb);
+  ctx.strip = st;
+  return r;
+}
+
+function routeOne(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: LatticePoint, pb: LatticePoint): KernelResult<null> {
   const m = markOf(ctx, log);
   // Whether some route kept §3.10 but left the fidelity bound: an optional chain is then refused for precision.
   let outOfBound = false;
+  // S5's third pass judges the segment's two ends too (C-0217): a vertex step 2 placed across a strip keeps clearance
+  // only once a route joins it to the strip's far side, which this segment's route must do.
+  const ends: readonly VertexId[] = ctx.strip != null ? [a, b] : [];
   const kept = (): boolean => {
-    if (wholeProblem(ctx, m) !== null) return false;
+    if (wholeProblem(ctx, m, ends) !== null) return false;
     if (inFidelity(ctx, m, pa, pb)) return true;
     outOfBound = true;
     return false;
@@ -808,8 +1048,14 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     return ok({ placed }, ctx.warnings);
   };
   // One pass of the op from its start: step 1's merges go on with the chain (N-7, C-0170 (2)), then `run`.
-  const attempt = (extended: boolean): KernelResult<ChainInsert> => {
+  const attempt = (extended: boolean, strip: 0 | 1 | null = null): KernelResult<ChainInsert> => {
     ctx.extended = extended;
+    // Every pass starts from §3.6's own readings (a throw caught below may have left a route's reading set).
+    ctx.strict = false;
+    ctx.endpointCrossings = false;
+    ctx.acrossSlivers = false;
+    ctx.anchor = null;
+    ctx.strip = strip === null ? null : { variant: strip, a: null, b: null };
     landed.fill(-1);
     foldWarnings(tx.warnings, d.warnings);
     foldWarnings(ctx.warnings, d.warnings);
@@ -825,6 +1071,17 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   // output (the one-time shift is the chains whose earlier commit broke the bound or the arena).
   let result = attempt(false);
   if (!result.ok && result.code === 'E_INVARIANT') result = attempt(true);
+  // S5's third pass (C-0217): only a chain both passes refuse E_INVARIANT, so every commit of S4's two passes stands; its
+  // second reading (step 2's free spot first) only a chain the first reading does not commit. A refusal of either keeps
+  // the second pass's E_INVARIANT, counted (N-44 (3)): S5's readings never turn a refusal into another code.
+  if (!result.ok && result.code === 'E_INVARIANT') {
+    const third = attempt(true, 0);
+    if (third.ok) result = third;
+    else {
+      const fourth = attempt(true, 1);
+      if (fourth.ok) result = fourth;
+    }
+  }
   if (openedLog) endIndexBatch(p);
   return result;
 }

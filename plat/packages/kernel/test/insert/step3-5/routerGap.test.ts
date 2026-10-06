@@ -133,10 +133,11 @@ const CHAINS_391: readonly (readonly (readonly [number, number])[])[] = [
 
 describe('N-37: a stretch whose join point\'s route split the piece before its leave point is walked along the run', () => {
   // The S1 – S3 router committed the 29th chain by the run walk (W_STRETCH_SHARED 4, W_ATTRACTED 4) with route vertices
-  // up to 84 cm from its segment — beyond N-43 B's fidelity bound of 2 · √2 · attractCm. The S4 router refuses it
-  // E_INVARIANT, writing nothing (a register case, N-44 (4); C-0215). The walk stays pinned by the same chain 10 cm west,
-  // which commits within the bound through it.
-  it('M0-a-08\'s buffer case 391: the first 28 chains commit (or collapse, E_DEGENERATE empty), the arena valid; the 29th, beyond the fidelity bound on every route, is refused E_INVARIANT and writes nothing', () => {
+  // up to 84 cm from its segment — beyond N-43 B's fidelity bound of 2 · √2 · attractCm. The S4 router refused it
+  // E_INVARIANT (a register case, N-44 (4); C-0215). S5's third pass (C-0217) commits it within the bound, its far
+  // fallbacks placed in bound (W_PLACED 4). The walk stays pinned by the same chain 10 cm west, which commits within the
+  // bound through it.
+  it('M0-a-08\'s buffer case 391: the first 28 chains commit (or collapse, E_DEGENERATE empty), the arena valid; the 29th, beyond the fidelity bound on every route of the first two passes, commits within it on the third (C-0217)', () => {
     const p = wideArena();
     const t = tx(p, 0);
     expect(ins(t, FRAME_391, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
@@ -148,10 +149,11 @@ describe('N-37: a stretch whose join point\'s route split the piece before its l
         if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
         return;
       }
-      expect(r.ok).toBe(false);
-      if (r.ok) return;
-      expect(r.code).toBe('E_INVARIANT');
-      expect(contentPrint(p)).toBe(before);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      if (!r.ok) return;
+      expect(before.length).toBeGreaterThan(0);
+      expect(r.warnings.map((w) => [w.code, w.count])).toEqual([['W_PLACED', 4], ['W_ATTRACTED', 3], ['W_ACUTE_CORNER', 5], ['W_STRETCH_SHARED', 2]]);
+      expect(fidelityProblems(p, 0, 'mandatory', c, {}, r.value.placed, `arr:s${i}`)).toEqual([]);
     });
     expect(allProblems(p)).toEqual([]);
   });

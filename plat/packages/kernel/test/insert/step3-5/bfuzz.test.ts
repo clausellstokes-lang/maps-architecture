@@ -24,14 +24,16 @@
 // among its rows) and by N-43 B's fidelity bound (fidelity.ts: every route within 2 · √2 · attractCm of its input
 // segment, Hausdorff both ways). (3) A counted, capped refusal rate: E_INVARIANT — no route in bound, or an invariant
 // check's throw turned into a refusal — is a lawful refusal in every family, writes nothing, and is counted; each
-// property asserts at most 1 per 10⁴ cases (PLAT_FUZZ_RUNS / 10⁴, at least 1). (4) Each refused case found is kept in
-// register.test.ts (seed, input, refusal code).
+// property asserts its family's cap — the residual round S5 measured plus seed noise (caps.ts; J207, J208, C-0217), 1 per
+// 10⁴ the target (KI-1). (4) Each refused case found is kept in a register (register.test.ts, routerGapS5.test.ts:
+// seed, input, refusal code).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat } from '../../../src/arena/index.js';
 import type { InsertTx } from '../../../src/insert/classes.js';
 import type { Warning } from '../../../src/num/index.js';
 import type { Level } from '../../../src/types/index.js';
+import { refusalCap } from './caps.js';
 import { genChain } from './gen.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
@@ -50,8 +52,8 @@ const SIDE = 4000;
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
 const hardTimeout = (msPerCase: number): number => Math.max(TIMEOUT, RUNS * msPerCase);
 
-/** N-44 (3): the cap on E_INVARIANT refusals per property — 1 per 10⁴ cases (1 at the PR size, 100 nightly). */
-const INVARIANT_CAP = Math.max(1, Math.floor(RUNS / 10_000));
+/** N-44 (3): the cap on E_INVARIANT refusals per property — the family's measured residual plus seed noise (caps.ts, C-0217). */
+const CAP = { random: refusalCap('random', RUNS), constructive: refusalCap('constructive', RUNS), mandatory: refusalCap('mandatory', RUNS) };
 
 /** A copy of a warning list. */
 const copy = (ws: readonly Warning[]): Warning[] => ws.map((w) => ({ ...w, ...(w.at === undefined ? {} : { at: { ...w.at } }) }));
@@ -220,9 +222,9 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
         },
       ),
     );
-    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; E_INVARIANT ${invariant} (cap ${INVARIANT_CAP}, N-44)`);
+    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; E_INVARIANT ${invariant} (cap ${CAP.random}, N-44, C-0217)`);
     expect(commits).toBeGreaterThan(refusals);
-    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): at most 1 per 10⁴ cases)').toBeLessThanOrEqual(INVARIANT_CAP);
+    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the random family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.random);
   }, hardTimeout(60));
 
   // N-42 (b), the named regression (C-0209): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
@@ -267,12 +269,13 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   // N-43 B (C-0215; a register case, N-44 (4)): at seed 777 the random family's 421st case — an L0 chain, then an L2
   // mandatory ring of 9 points — committed on the S1 – S3 router with a crossing on the near side of a sliver sent to the
   // placement's endpoint fallback (W_PLACED 4 at (3714, 2690)): its segment (3919, 2339) → (2004, 1853) then lay 244.9
-  // cm from its route. No route keeps it within 2 · √2 · attractCm (the anchored and split routes of the second pass
-  // included): it is refused E_INVARIANT, writing nothing, and counted.
-  it('register: seed 777\'s 421st case is refused E_INVARIANT and writes nothing (its S1 – S3 commit lay 244.9 cm off its segment, N-43 B)', () => {
+  // cm from its route. No route of the first two passes kept it within 2 · √2 · attractCm (the anchored and split routes
+  // of the second included): S4 refused it E_INVARIANT. S5's third pass (C-0217) commits it within the bound — the wedge
+  // corner kept, the far fallbacks placed within the bound (W_PLACED 7) — and the arena valid (insertJudged).
+  it('register: seed 777\'s 421st case — its S1 – S3 commit 244.9 cm off its segment, refused by S4 (N-43 B) — commits within the bound on the third pass (C-0217)', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: 777, path: '420', numRuns: 1 });
-    expect(seen).toEqual([{ ok: false, code: 'E_INVARIANT' }]);
+    expect(seen.map((o) => [o.ok, o.warnings?.map((w) => [w.code, w.count])])).toEqual([[true, [['W_WEDGE_ROUTED', 1], ['W_PLACED', 7], ['W_ATTRACTED', 2]]]]);
   });
 
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
@@ -294,8 +297,8 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
         }
       }),
     );
-    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; E_INVARIANT ${invariant} (cap ${INVARIANT_CAP}, N-44)`);
-    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): at most 1 per 10⁴ cases)').toBeLessThanOrEqual(INVARIANT_CAP);
+    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; E_INVARIANT ${invariant} (cap ${CAP.constructive}, N-44, C-0217)`);
+    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the constructive family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.constructive);
     for (const k of ['random', 'collinear', 'coincident', 'shallow', 'graze', 'ring', 'zigzag', 'endpoint', 'vee']) expect(kinds.get(k) ?? 0).toBeGreaterThan(0);
   }, hardTimeout(20));
 });
@@ -319,8 +322,8 @@ describe('§13.1: mandatory chains never rejected for precision over 10⁶ rando
       }),
     );
     console.log(`mandatory chains: ${[...codes].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
-    console.log(`chains refused E_INVARIANT (no route in bound, N-37, N-43, N-44; its own line, N-40): ${invariant} (cap ${INVARIANT_CAP})`);
+    console.log(`chains refused E_INVARIANT (no route in bound, N-37, N-43, N-44; its own line, N-40): ${invariant} (cap ${CAP.mandatory}, C-0217)`);
     for (const k of PRECISION) expect(codes.get(k) ?? 0).toBe(0);
-    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): at most 1 per 10⁴ cases)').toBeLessThanOrEqual(INVARIANT_CAP);
+    expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the mandatory-only family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.mandatory);
   }, hardTimeout(15));
 });

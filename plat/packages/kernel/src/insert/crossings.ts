@@ -24,6 +24,12 @@
 // router joins the new vertex to the second crossing, placed in its turn at least `minEdge` away under (ii), so both its
 // sub-edges lie in the new vertex's one-ring (§3.10) — N-38's "a step across the sliver". Every route through it is
 // checked whole for §3.10's clearance before it commits (insertChain's `routeSegment`).
+//
+// The step across a thin strip (S5, C-0217): a strip narrower than `minEdge` between two edges joined at one end, crossed
+// at a shallow angle, puts the two crossings farther apart than `minEdge` while every candidate for the first still stands
+// within `minEdge` of the far side; `stripPartner` names the far side's sub-edge and `placeOnRun` — the placement rule's
+// tests with one sub-edge left out of (iii), a reach of its own and an extra admission test — places the crossing as
+// `placeAcross` does. insertChain's third pass reads them (snapRound's `stripLanding`).
 import { outgoing, type HalfEdgeId, type VertexId } from '../arena/index.js';
 import { HOT_PIXEL_CM, query, routeRun, type Box } from '../index/index.js';
 import { belowMinEdge, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
@@ -39,7 +45,6 @@ export const INSERT_CROSSINGS = 'insert.crossings';
 const MIN_EDGE = LATTICE.minEdgeCm;
 const MIN_EDGE_SQ = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
 const ATTRACT = LATTICE.attractCm;
-const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
 /** A query box's coordinates stay within ±2²⁴ (the index's bound). */
 const BOX_RANGE = 16_777_216;
 
@@ -192,6 +197,11 @@ function subEdgeAt(ctx: ChainCtx, pc: Piece, x: number, y: number): readonly [Ve
   return [vs[i], vs[i + 1]];
 }
 
+/** The physical sub-edge holding a crossing, as its two end vertices (`subEdgeAt` on its piece). */
+export function subEdgeOf(ctx: ChainCtx, c: ExactCrossing): readonly [VertexId, VertexId] | null {
+  return subEdgeAt(ctx, c.piece, c.x, c.y);
+}
+
 /**
  * Does N-42 (a)'s step across a sliver apply to a crossing's landing (C-0209)? Only where the placement rule found no
  * point and fell back on its endpoint — a landing within `attractCm` of a piece's end, or on a finer vertex of the piece
@@ -218,6 +228,33 @@ export function sliverPartner(ctx: ChainCtx, a: VertexId, b: VertexId, c: ExactC
   return ok(gx * gx + gy * gy < MIN_EDGE_SQ ? d : null);
 }
 
+/**
+ * S5's step across a thin strip (C-0217): the sub-edge of the first crossing after `c` along the segment a → b, on another
+ * piece, that passes within `minEdge` + `attractCm` of c — the far side of a strip narrower than `minEdge` the segment
+ * crosses, however obliquely (N-42 (a)'s sliver asks the two crossings to lie within `minEdge` of each other; a strip
+ * crossed at a shallow angle puts them farther apart, while every candidate for c still stands within `minEdge` of the
+ * far side) — or null. One index query (`exactCrossings`). Nothing written.
+ */
+export function stripPartner(ctx: ChainCtx, a: VertexId, b: VertexId, c: ExactCrossing): KernelResult<readonly [VertexId, VertexId] | null> {
+  const all = exactCrossings(ctx, a, b);
+  if (!all.ok) return passOn(all);
+  const cs = all.value;
+  const i = cs.findIndex((x) => x.edge === c.edge && x.t === c.t);
+  if (i < 0) return ok(null);
+  const X = ctx.p.vertices.x;
+  const Y = ctx.p.vertices.y;
+  for (let j = i + 1; j < cs.length; j++) {
+    const d = cs[j];
+    if (d.piece.edge === c.piece.edge) continue;
+    const sub = subEdgeAt(ctx, d.piece, d.x, d.y);
+    if (sub === null) continue;
+    if (segmentCloserThan(c.x, c.y, X[sub[0]], Y[sub[0]], X[sub[1]], Y[sub[1]], MIN_EDGE + ATTRACT)) return ok(sub);
+    // A later crossing farther than that from c: the strip, if any, is not crossed next.
+    return ok(null);
+  }
+  return ok(null);
+}
+
 /** Is the direction e (from a vertex) inside the thin wedge an edge sweeps turning from `from` to `to` (as the placement rule's test)? */
 function inSweptWedge(fx: number, fy: number, tx: number, ty: number, ex: number, ey: number): boolean {
   const turn = orient2d(0, 0, fx, fy, tx, ty);
@@ -241,15 +278,43 @@ function inSweptWedge(fx: number, fy: number, tx: number, ty: number, ex: number
  * `planLanding`). Nothing written; refuses only E_WORK_LIMIT.
  */
 export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: ExactCrossing, second: ExactCrossing): KernelResult<Landing | null> {
+  const partner = subEdgeAt(ctx, second.piece, second.x, second.y);
+  if (partner === null) return ok(null);
+  return placeOnRun(ctx, first.piece.edge, first, { a, b, partner, reach: ATTRACT });
+}
+
+/** What `placeOnRun` keeps the new vertex clear of besides the split sub-edge: a crossing segment's ends, a sub-edge left out of (iii), how far it searches. */
+export interface RunPlacement {
+  /** The crossing segment's two ends (vertices), kept `minEdge` from and joined to the new vertex; −1 for none (a vertex landing). */
+  readonly a: VertexId;
+  readonly b: VertexId;
+  /** A sub-edge left out of (iii)'s new-vertex-to-edge test (N-42 (a)'s far side of a sliver), or null. */
+  readonly partner: readonly [VertexId, VertexId] | null;
+  /** The search's reach from the exact position, in cm. */
+  readonly reach: number;
+  /** An extra test each candidate must pass (S5's fidelity reach: within the bound of the chain's input), or none. */
+  readonly admit?: (x: number, y: number) => boolean;
+  /** Pass over a qualifying point whose sub-edge cannot be split with clearance kept (S5); unset, the search ends there with null (`placeAcross`, as `planLanding`). */
+  readonly passOver?: boolean;
+}
+
+/**
+ * The placement rule's tests (§3.6 (i) – (iii), as `placePoint`) for a new vertex on the run of `edge` near the exact
+ * position, the nearest qualifying lattice point within `opts.reach` (ties y then x), each charged to
+ * `insert.placementCandidates`; a candidate whose sub-edge cannot be split with clearance kept at its ends is passed
+ * over when `opts.passOver` (else the search ends with null). `placeAcross` (reach `attractCm`, the partner left out)
+ * and S5's in-bound placements (reach `attractCm` or 2 · √2 · `attractCm`, admitted within the bound of the chain's input,
+ * C-0217) read it. Always reported W_PLACED. Null when no point qualifies. Nothing written; refuses only E_WORK_LIMIT.
+ */
+export function placeOnRun(ctx: ChainCtx, edge: HalfEdgeId, exactIn: { readonly x: number; readonly y: number }, opts: RunPlacement): KernelResult<Landing | null> {
   const { tx, p } = ctx;
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const O = p.halfEdges.origin;
-  const partner = subEdgeAt(ctx, second.piece, second.x, second.y);
-  if (partner === null) return ok(null);
-  const [u2, w2] = partner;
+  const { a, b, reach: R } = opts;
+  const [u2, w2] = opts.partner ?? [-1, -1];
   // The crossed run, its vertices from its handle end, and its own-level route A–B (as the placement rule reads it).
-  const run = routeRun(p, first.piece.edge).halfEdges;
+  const run = routeRun(p, edge).halfEdges;
   const k = run.length;
   const V: VertexId[] = run.map((h) => O[h]);
   V.push(O[run[k - 1] ^ 1]);
@@ -269,14 +334,14 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
     }
     return lo;
   };
-  const exact = footOnSegment(ax, ay, ax + ux, ay + uy, first.x, first.y);
+  const exact = footOnSegment(ax, ay, ax + ux, ay + uy, exactIn.x, exactIn.y);
   // The neighbourhood: the candidates' reach, the sub-edges they can fall on, and the segment's two ends.
   const tE = (exact.x - ax) * ux + (exact.y - ay) * uy;
-  const reach = ATTRACT * Math.sqrt(len2);
-  let minX = exact.x - ATTRACT;
-  let minY = exact.y - ATTRACT;
-  let maxX = exact.x + ATTRACT;
-  let maxY = exact.y + ATTRACT;
+  const reach = R * Math.sqrt(len2);
+  let minX = exact.x - R;
+  let minY = exact.y - R;
+  let maxX = exact.x + R;
+  let maxY = exact.y + R;
   const grow = (x: number, y: number): void => {
     if (x < minX) minX = x;
     if (x > maxX) maxX = x;
@@ -284,8 +349,8 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
     if (y > maxY) maxY = y;
   };
   for (let j = subAt(tE - reach); j <= subAt(tE + reach) + 1; j++) grow(X[V[j]], Y[V[j]]);
-  grow(X[a], Y[a]);
-  grow(X[b], Y[b]);
+  if (a >= 0) grow(X[a], Y[a]);
+  if (b >= 0) grow(X[b], Y[b]);
   const clamp = (v: number): number => Math.max(-BOX_RANGE, Math.min(BOX_RANGE, v));
   const box: Box = { minX: clamp(Math.floor(minX) - ATTRACT), minY: clamp(Math.floor(minY) - ATTRACT), maxX: clamp(Math.ceil(maxX) + ATTRACT), maxY: clamp(Math.ceil(maxY) + ATTRACT) };
   if (!charge(tx, INSERT_ATTRACT_QUERIES, 1)) return workLimitHit(INSERT_ATTRACT_QUERIES);
@@ -301,7 +366,7 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
     }
     return set;
   };
-  const meetsSegment = (u: VertexId, w: VertexId): boolean => segmentsMeet(X[a], Y[a], X[b], Y[b], X[u], Y[u], X[w], Y[w]);
+  const meetsSegment = (u: VertexId, w: VertexId): boolean => a >= 0 && b >= 0 && segmentsMeet(X[a], Y[a], X[b], Y[b], X[u], Y[u], X[w], Y[w]);
 
   const qualifies = (qx: number, qy: number): number => {
     const tq = (qx - ax) * ux + (qy - ay) * uy;
@@ -311,9 +376,9 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
     const j = subAt(tq);
     const s = V[j];
     const t = V[j + 1];
-    const ends = [s, t, a, b];
+    const ends = [s, t, ...(a >= 0 ? [a] : []), ...(b >= 0 ? [b] : [])];
     for (const e of ends) if (belowMinEdge(qx, qy, X[e], Y[e])) return -1; // (ii)
-    const isEnd = (v: VertexId): boolean => v === s || v === t || v === a || v === b;
+    const isEnd = (v: VertexId): boolean => v === s || v === t || (v >= 0 && (v === a || v === b));
     const isSplit = (u: VertexId, w: VertexId): boolean => (u === s && w === t) || (u === t && w === s);
     const isPartner = (u: VertexId, w: VertexId): boolean => (u === u2 && w === w2) || (u === w2 && w === u2);
     // (iii): every vertex at least minEdge from the new vertex …
@@ -337,7 +402,7 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
           if (orient2d(X[e], Y[e], qx, qy, X[other], Y[other]) === 0 && (X[other] - X[e]) * (qx - X[e]) + (Y[other] - Y[e]) * (qy - Y[e]) > 0) return -1;
           continue;
         }
-        if ((e === a || e === b) && meetsSegment(u, w)) continue;
+        if (e >= 0 && (e === a || e === b) && meetsSegment(u, w)) continue;
         if (segmentsMeet(qx, qy, X[e], Y[e], X[u], Y[u], X[w], Y[w])) return -1;
       }
     }
@@ -362,13 +427,14 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
   const a0 = shallow ? ax : ay;
   const b0 = shallow ? ay : ax;
   const candidates: { x: number; y: number; d: number }[] = [];
-  for (let i = Math.ceil(e0 - ATTRACT); i <= Math.floor(e0 + ATTRACT); i++) {
+  const R2 = R * R;
+  for (let i = Math.ceil(e0 - R); i <= Math.floor(e0 + R); i++) {
     const mid = b0 + (i - a0) * slope.value;
     for (let j = Math.ceil(mid - half.value); j <= Math.floor(mid + half.value); j++) {
       const qx = (shallow ? i : j) + 0;
       const qy = (shallow ? j : i) + 0;
       const d = (qx - exact.x) * (qx - exact.x) + (qy - exact.y) * (qy - exact.y);
-      if (d <= ATTRACT_SQ) candidates.push({ x: qx, y: qy, d });
+      if (d <= R2 && (opts.admit === undefined || opts.admit(qx, qy))) candidates.push({ x: qx, y: qy, d });
     }
   }
   candidates.sort((u, v) => u.d - v.d || u.y - v.y || u.x - v.x);
@@ -377,7 +443,10 @@ export function placeAcross(ctx: ChainCtx, a: VertexId, b: VertexId, first: Exac
     const j = qualifies(c.x, c.y);
     if (j < 0) continue;
     const sub = run[j];
-    if (splitBreaksClearance(p, O[sub], O[sub ^ 1])) return ok(null);
+    if (splitBreaksClearance(p, O[sub], O[sub ^ 1])) {
+      if (opts.passOver === true) continue;
+      return ok(null);
+    }
     const at = { x: c.x as Cm, y: c.y as Cm };
     const warnings: Warning[] = [{ code: 'W_PLACED', count: 1, at }];
     return ok({ kind: 'split', plan: { kind: 'new', at, sub, row: null, warnings }, warnings });
