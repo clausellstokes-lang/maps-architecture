@@ -20,10 +20,14 @@
 // E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT — and an acute corner commits with its warning (a wedge route beyond
 // 2 · √2 · `attractCm` is not taken: its crossings are placed in turn, N-38, N-40); an optional chain is also rejected E_BELOW_MIN_EDGE
 // (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
-// *Chain classes*). A segment no route keeps clear — the design route, the strict route, the route along existing edges,
-// N-37's endpoint route and N-42 (a)'s route across a sliver all tried — whose end is a free vertex the chain just
-// placed has that end re-landed onto an existing vertex within √2 · `attractCm` (N-42 (b), W_PLACED; C-0209); one that
-// still keeps no route clear is refused E_INVARIANT, never thrown (N-37; B-FUZZ counts it on its own line, N-40). The op is atomic: every write it makes is undone on
+// *Chain classes*). Every route a segment commits keeps §3.10's clearance, judged whole, and N-43 B's fidelity bound —
+// within 2 · √2 · `attractCm` of the input segment, Hausdorff both ways (N-44 (2), C-0213). A segment no route keeps so —
+// the design route, the strict route, the route along existing edges, N-37's endpoint route and N-42 (a)'s route across
+// a sliver all tried — whose end is a free vertex the chain just placed has that end re-landed onto an existing vertex
+// within √2 · `attractCm` (N-42 (b), W_PLACED; C-0209); one that still keeps no route is refused E_INVARIANT, as is a
+// chain whose final arena fails §3.10's clearance round its writes, and an invariant check that throws inside the op:
+// a counted, capped refusal, never a throw and never a commit out of bound (N-44 (1) – (3); B-FUZZ counts it on its own
+// line, N-40). The op is atomic: every write it makes is undone on
 // a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170 (2), C-0177 (8),
 // refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction; until then the
 // shell of C-0169 (1)). Readings: C-0177.
@@ -51,7 +55,7 @@ import { applyAttraction, planAttraction } from './attractVertex.js';
 import { charge, check, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
 import { decimate, type Knot } from './decimate.js';
 import { rewalk, TX_FACES_WALKED } from './rewalk.js';
-import { checkClearance, clearanceProblem, OVER_LIMIT, recordHolding, routeAlongExisting, snapRound } from './snapRound.js';
+import { clearanceProblem, OVER_LIMIT, recordHolding, routeAlongExisting, snapRound } from './snapRound.js';
 import {
   applyLanding,
   chainJournal,
@@ -65,6 +69,7 @@ import {
   reservePair,
   routeBetween,
   segmentBox,
+  segmentDistance,
   splitBreaksClearance,
   withinSegment,
   type ChainCtx,
@@ -74,6 +79,8 @@ import { chainCorner, wedgeOutcome } from './wedge.js';
 
 const ATTRACT = LATTICE.attractCm;
 const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
+/** The kernel's invariant checks this op runs (insert's `check`, the arena's and the index's): their throws become E_INVARIANT (N-44 (1)). */
+const INVARIANT_THROW = /^(insert|arena|index): /;
 
 /** §3.4's `insertChain` options: `closed`, `pinned` (decimation exemptions) and `knots` (the chain's vertex role rows). */
 export interface InsertChainOpts {
@@ -290,7 +297,7 @@ const RELAND_MAX = 8;
  * to it without a route piece joining them (no edge could join them); nearest first, ties y then x, at most 8. One index
  * query (`insert.attractQueries`).
  */
-function relandCandidates(ctx: ChainCtx, pt: LatticePoint, other: VertexId): KernelResult<VertexId[]> {
+export function relandCandidates(ctx: ChainCtx, pt: LatticePoint, other: VertexId): KernelResult<VertexId[]> {
   const { tx, p, n } = ctx;
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -309,12 +316,12 @@ function relandCandidates(ctx: ChainCtx, pt: LatticePoint, other: VertexId): Ker
 }
 
 /** Did the op place v free since the mark — a new vertex of its own with no edge yet (N-42 (b))? */
-function freeSince(ctx: ChainCtx, m: Mark, v: VertexId): boolean {
+export function freeSince(ctx: ChainCtx, m: Pick<Mark, 'vertices'>, v: VertexId): boolean {
   return ctx.p.vertices.out[v] === -1 && ctx.tx.journal.vertices.slice(m.vertices).includes(v);
 }
 
 /** Where a chain's writes stand: the undo log, the journals, the index log, the warnings — what `rollback` returns to. */
-interface Mark {
+export interface Mark {
   readonly undo: number;
   readonly vertices: number;
   readonly pairs: number;
@@ -388,24 +395,15 @@ function rollback(ctx: ChainCtx, log: IndexLog, m: Mark): void {
   for (const w of copyWarnings(m.own)) ctx.warnings.push(w);
 }
 
-/** §3.10's clearance over what the chain wrote since the mark: its new edges, its new vertices and their neighbours. */
-function clearSince(ctx: ChainCtx, m: Mark): boolean {
-  const p = ctx.p;
-  const ends: VertexId[] = [];
-  for (const v of ctx.tx.journal.vertices.slice(m.vertices)) {
-    if (!isVertexLive(p, v)) continue;
-    ends.push(v);
-    for (const h of outgoing(p, v)) ends.push(p.halfEdges.origin[h ^ 1]);
-  }
-  return clearanceProblem(ctx, ctx.journal.newPairs.slice(m.newPairs), ends) === null;
-}
-
 /**
- * §3.10's clearance over everything written since the mark, whole: as `clearSince`, and also every edge at a new vertex —
- * the two sub-edges of each split among them — against the vertices round it, so a split whose placement relaxed (iii)
- * (`placeAcross`, N-42) is judged on the arena as it stands (C-0209).
+ * §3.10's clearance over everything written since the mark, whole (C-0209; S4, C-0213): every new edge and every edge at a
+ * new vertex — the two sub-edges of each split among them — against the vertices round it, and every new vertex and its
+ * neighbours against the edges round them; read on the arena as it stands. A split takes its sub-edge's ends out of each
+ * other's one-ring, so a third vertex beside the split edge (its one-ring reached the far end through a neighbour) is
+ * judged here too: the S1–S3 test read only the chain's own new edges and let such a split commit an invalid arena
+ * (M0-a-08's buffer group, s157). The first problem found, or null.
  */
-function clearWholeSince(ctx: ChainCtx, m: Mark): boolean {
+function wholeProblem(ctx: ChainCtx, m: Mark): string | null {
   const p = ctx.p;
   const pairs = new Set<number>(ctx.journal.newPairs.slice(m.newPairs));
   const ends: VertexId[] = [];
@@ -417,54 +415,141 @@ function clearWholeSince(ctx: ChainCtx, m: Mark): boolean {
       ends.push(p.halfEdges.origin[h ^ 1]);
     }
   }
-  return clearanceProblem(ctx, [...pairs], ends) === null;
+  return clearanceProblem(ctx, [...pairs], ends);
+}
+
+/** N-43 B's fidelity bound, squared (exact): (2 · √2 · `attractCm`)² = 8 · `attractCm`² — N-40's wedge cap, ≈ 73.5 cm. */
+export const FIDELITY_SQ = 8 * ATTRACT_SQ;
+const FIDELITY = Math.sqrt(FIDELITY_SQ);
+/** How many distance evaluations the segment-to-route half of the bound may take before it judges the route out of it. */
+const FIDELITY_EVALS = 4096;
+
+/**
+ * N-43 B (J199; N-44 (2)): does the route written since the mark — the segment's new and shared edges, every stretch join
+ * and leave point and every finer vertex of a shared piece among their ends — stay within 2 · √2 · `attractCm` of the
+ * input segment pa → pb, as a Hausdorff distance both ways? Route to segment: the distance to a segment is convex along
+ * an edge, so the route's vertices decide it (exactly, on lattice points: every squared distance and dot product here
+ * is an integer below 2⁵³). Segment to route: the route is one connected path from a to b whose vertices all stand
+ * within the bound, so every point of the segment whose foot lies between the route's two extreme feet has a route point
+ * on its perpendicular, within the bound by the first half; the two end pieces beyond those feet are bisected on the
+ * distance to the route (1-Lipschitz along the segment: an interval [t₀, t₁] is within the bound when (d₀ + d₁ + its
+ * length) / 2 is), at most 4 096 evaluations, after which the route is judged out of the bound — never committed on a
+ * guess (C-0213).
+ */
+export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, pa: LatticePoint, pb: LatticePoint): boolean {
+  const p = ctx.p;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const pairs = [...ctx.journal.newPairs.slice(m.newPairs), ...ctx.journal.sharedPairs.slice(m.shared)];
+  const dx = pb.x - pa.x;
+  const dy = pb.y - pa.y;
+  const l2 = dx * dx + dy * dy;
+  let tMin = Infinity;
+  let tMax = -Infinity;
+  for (const e of pairs) {
+    for (const v of [O[2 * e], O[2 * e + 1]]) {
+      const vx = X[v] - pa.x;
+      const vy = Y[v] - pa.y;
+      const dot = vx * dx + vy * dy;
+      let d2: number;
+      if (dot <= 0 || l2 === 0) d2 = vx * vx + vy * vy;
+      else if (dot >= l2) d2 = (X[v] - pb.x) * (X[v] - pb.x) + (Y[v] - pb.y) * (Y[v] - pb.y);
+      else {
+        const o = vx * dy - vy * dx;
+        if (o * o > FIDELITY_SQ * l2) return false;
+        d2 = 0;
+      }
+      if (d2 > FIDELITY_SQ) return false;
+      if (dot < tMin) tMin = dot;
+      if (dot > tMax) tMax = dot;
+    }
+  }
+  if (pairs.length === 0) return false;
+  if (l2 === 0) return true;
+  const len = Math.sqrt(l2);
+  const dist = (t: number): number => {
+    const qx = pa.x + t * dx;
+    const qy = pa.y + t * dy;
+    let best = Infinity;
+    for (const e of pairs) {
+      const d = segmentDistance(qx, qy, X[O[2 * e]], Y[O[2 * e]], X[O[2 * e + 1]], Y[O[2 * e + 1]]);
+      if (d < best) best = d;
+    }
+    return best;
+  };
+  let evals = 0;
+  const covered = (t0: number, t1: number): boolean => {
+    const stack: [number, number, number, number][] = [[t0, dist(t0), t1, dist(t1)]];
+    evals += 2;
+    while (stack.length > 0) {
+      const [u0, d0, u1, d1] = stack.pop() as [number, number, number, number];
+      if (d0 > FIDELITY || d1 > FIDELITY) return false;
+      if (d0 + d1 + (u1 - u0) * len <= 2 * FIDELITY) continue;
+      if (evals >= FIDELITY_EVALS) return false;
+      const um = 0.5 * (u0 + u1);
+      const dm = dist(um);
+      evals += 1;
+      stack.push([u0, d0, um, dm], [um, dm, u1, d1]);
+    }
+    return true;
+  };
+  if (tMin > 0 && !covered(0, Math.min(1, tMin / l2))) return false;
+  if (tMax < l2 && !covered(Math.max(0, tMax / l2), 1)) return false;
+  return true;
 }
 
 /**
  * One chain segment a → b routed and checked (C-0177 (13)): the design route of steps 3 – 4 (`snapRound`); where it leaves
  * §3.10's clearance broken — a tight cluster where step 3's band routes the chain through a vertex whose sub-route then
- * bends away from a vertex the first part was written beside — it is undone and the strict route tried (step 3 routing
- * only through vertices within `minEdge`); where that fails too, the route along existing edges (`routeAlongExisting`);
- * and before any refusal the route with every crossing on the placement rule's endpoint fallback (§3.6: "each such
- * re-route lands on an existing vertex, so the loop ends"; N-37, C-0202); last, the design route with a crossing on the
- * near side of a sliver placed across it (N-42 (a), C-0209), judged by §3.10's clearance whole (`clearWholeSince`). A
- * refusal of the design or strict route is the segment's; a gap no fallback closes is refused E_INVARIANT (insertChain
- * then re-lands a free end of the segment, N-42 (b)), never thrown.
+ * bends away from a vertex the first part was written beside — or runs beyond N-43's fidelity bound of the input segment
+ * pa → pb, it is undone and the strict route tried (step 3 routing only through vertices within `minEdge`); where that
+ * fails too, the route along existing edges (`routeAlongExisting`); and before any refusal the route with every crossing
+ * on the placement rule's endpoint fallback (§3.6: "each such re-route lands on an existing vertex, so the loop ends";
+ * N-37, C-0202); last, the design route with a crossing on the near side of a sliver placed across it (N-42 (a),
+ * C-0209). Every route is judged by §3.10's clearance whole (`wholeProblem`) and by the fidelity bound (`inFidelity`,
+ * N-43 B, N-44 (2); C-0213) before it commits. A refusal of the design or strict route is the segment's; a gap no
+ * fallback closes is refused E_INVARIANT (insertChain then re-lands a free end of the segment, N-42 (b)), never thrown.
  */
-function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId): KernelResult<null> {
+function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: LatticePoint, pb: LatticePoint): KernelResult<null> {
   const m = markOf(ctx, log);
+  const kept = (): boolean => wholeProblem(ctx, m) === null && inFidelity(ctx, m, pa, pb);
   const r1 = snapRound(ctx, a, b);
-  if (!r1.ok || clearSince(ctx, m)) return r1;
+  if (!r1.ok) return r1;
+  if (kept()) return r1;
   rollback(ctx, log, m);
   ctx.strict = true;
   const r2 = snapRound(ctx, a, b);
   ctx.strict = false;
-  if (r2.ok && clearSince(ctx, m)) return r2;
+  if (r2.ok && kept()) return r2;
   rollback(ctx, log, m);
   const r3 = routeAlongExisting(ctx, a, b);
   if (!r3.ok) return passOn(r3);
-  if (r3.value) return ok(null);
+  if (r3.value) {
+    if (kept()) return ok(null);
+    rollback(ctx, log, m);
+  }
   if (!r2.ok) return r2;
   // §3.6's own fallback before any refusal (N-37): the segment re-routed with every crossing on the placement's
   // endpoint fallback, never split — each such re-route lands on an existing vertex, so the loop ends. A commit here
-  // always reports W_PLACED (N-40): without a crossing this route is the design route, which failed clearance above.
+  // always reports W_PLACED (N-40): without a crossing this route is the design route, which failed above.
   ctx.endpointCrossings = true;
   const r4 = snapRound(ctx, a, b);
   ctx.endpointCrossings = false;
-  if (r4.ok && clearSince(ctx, m)) return r4;
+  if (r4.ok && kept()) return r4;
   rollback(ctx, log, m);
   // N-42 (a): a sliver's near crossing, which the placement can only send to its endpoint fallback — however far along
-  // the edge — is placed across the sliver; the route is judged whole. A commit here always reports W_PLACED: without
-  // such a crossing this route is the design route, which failed clearance above.
+  // the edge — is placed across the sliver. A commit here always reports W_PLACED: without such a crossing this route is
+  // the design route, which failed above.
   ctx.acrossSlivers = true;
   const r5 = snapRound(ctx, a, b);
   ctx.acrossSlivers = false;
-  if (r5.ok && clearWholeSince(ctx, m)) return r5;
+  if (r5.ok && kept()) return r5;
   rollback(ctx, log, m);
   if (!r4.ok && r4.code !== 'E_INVARIANT') return r4;
   const X = ctx.p.vertices.x;
   const Y = ctx.p.vertices.y;
-  return err('E_INVARIANT', `insert: no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance (§3.10)`);
+  return err('E_INVARIANT', `insert: no route from (${X[a]}, ${Y[a]}) to (${X[b]}, ${Y[b]}) keeps clearance (§3.10) within the fidelity bound (N-43)`);
 }
 
 /**
@@ -486,7 +571,6 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   const journal = chainJournal(tx);
   const ctx: ChainCtx = { tx, p, n, cls, rows: roles, warnings: [], journal, maxPass: 0, strict: false, undo: [] };
   const pairsFrom = journal.newPairs.length;
-  const vertsFrom = tx.journal.vertices.length;
   const landed = new Array<VertexId>(dec.points.length).fill(-1);
 
   // The index writes this op makes are read from the batch's log (the transaction's when open, else one opened here).
@@ -508,156 +592,163 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     return passOn(r);
   };
 
-  /**
-   * N-42 (b): the segment from `a` (input index `aIdx`) to the vertex of input index `bIdx` keeps clearance on no route,
-   * and an end of it is a free vertex this op just placed (its mark before that landing given): that end is re-landed
-   * onto an existing vertex within √2 · `attractCm` of its input point — the far end first, then the near one (with the
-   * far end landed again after it) — nearest first, each reported W_PLACED (and W_ATTRACTED at the input point), the
-   * first whose segment routes with clearance kept taken (C-0209); a candidate refused for any other reason is passed
-   * over (E_WORK_LIMIT ends the op). Returns the segment's two ends as they stand; the failure as it was when no
-   * candidate routes (everything back to the marks).
-   */
-  const reland = (a: VertexId, aIdx: number, aMark: Mark | null, bIdx: number, bMark: Mark | null, nextPt: LatticePoint | null, failure: { readonly code: Parameters<typeof passOn>[0]['code']; readonly detail: string }): KernelResult<{ a: VertexId; b: VertexId }> => {
-    const tryEnds = (from: VertexId): KernelResult<VertexId | null> => {
-      const m0 = markOf(ctx, log);
-      const cs = relandCandidates(ctx, dec.points[bIdx], from);
-      if (!cs.ok) return passOn(cs);
-      for (const x of cs.value) {
-        warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, x));
-        warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[bIdx]);
-        const r = routeSegment(ctx, log, from, x);
-        if (r.ok) return ok(x);
-        rollback(ctx, log, m0);
-        if (r.code === 'E_WORK_LIMIT') return passOn(r);
+  // The op itself (steps 2 – 5). An invariant check's throw inside it — a gap in the router or in a structure it reads —
+  // becomes the op's E_INVARIANT refusal with the check's message, everything undone (N-44 (1), C-0213); any other throw
+  // (a staged branch's notBuilt, a programming error) is not caught.
+  const run = (): KernelResult<ChainInsert> => {
+    /**
+     * N-42 (b): the segment from `a` (input index `aIdx`) to the vertex of input index `bIdx` keeps clearance on no route,
+     * and an end of it is a free vertex this op just placed (its mark before that landing given): that end is re-landed
+     * onto an existing vertex within √2 · `attractCm` of its input point — the far end first, then the near one (with the
+     * far end landed again after it) — nearest first, each reported W_PLACED (and W_ATTRACTED at the input point), the
+     * first whose segment routes with clearance kept taken (C-0209); a candidate refused for any other reason is passed
+     * over (E_WORK_LIMIT ends the op). Returns the segment's two ends as they stand; the failure as it was when no
+     * candidate routes (everything back to the marks).
+     */
+    const reland = (a: VertexId, aIdx: number, aMark: Mark | null, bIdx: number, bMark: Mark | null, nextPt: LatticePoint | null, failure: { readonly code: Parameters<typeof passOn>[0]['code']; readonly detail: string }): KernelResult<{ a: VertexId; b: VertexId }> => {
+      const tryEnds = (from: VertexId): KernelResult<VertexId | null> => {
+        const m0 = markOf(ctx, log);
+        const cs = relandCandidates(ctx, dec.points[bIdx], from);
+        if (!cs.ok) return passOn(cs);
+        for (const x of cs.value) {
+          warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, x));
+          warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[bIdx]);
+          const r = routeSegment(ctx, log, from, x, dec.points[aIdx], dec.points[bIdx]);
+          if (r.ok) return ok(x);
+          rollback(ctx, log, m0);
+          if (r.code === 'E_WORK_LIMIT') return passOn(r);
+        }
+        return ok(null);
+      };
+      if (bMark !== null) {
+        rollback(ctx, log, bMark);
+        const x = tryEnds(a);
+        if (!x.ok) return passOn(x);
+        if (x.value !== null) {
+          landed[bIdx] = x.value;
+          return ok({ a, b: x.value });
+        }
       }
-      return ok(null);
-    };
-    if (bMark !== null) {
-      rollback(ctx, log, bMark);
-      const x = tryEnds(a);
-      if (!x.ok) return passOn(x);
-      if (x.value !== null) {
-        landed[bIdx] = x.value;
-        return ok({ a, b: x.value });
-      }
-    }
-    if (aMark !== null && p.vertices.out[a] === -1) {
-      rollback(ctx, log, aMark);
-      const cs = relandCandidates(ctx, dec.points[aIdx], -1);
-      if (!cs.ok) return passOn(cs);
-      for (const y of cs.value) {
-        const m1 = markOf(ctx, log);
-        warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
-        warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[aIdx]);
-        const l = land(ctx, dec.points[bIdx], y, pointOf(p, y), nextPt);
-        if (!l.ok) {
-          rollback(ctx, log, m1);
-          if (l.code === 'E_WORK_LIMIT') return passOn(l);
-          continue;
-        }
-        const bv = l.value.vertex;
-        if (l.value.merged || bv === y) {
-          landed[aIdx] = y;
-          landed[bIdx] = y;
-          return ok({ a: y, b: y });
-        }
-        const r = routeSegment(ctx, log, y, bv);
-        if (r.ok) {
-          landed[aIdx] = y;
-          landed[bIdx] = bv;
-          return ok({ a: y, b: bv });
-        }
-        if (r.code === 'E_WORK_LIMIT') return passOn(r);
-        if (r.code === 'E_INVARIANT' && freeSince(ctx, m1, bv)) {
-          // b's own landing undone (and y's reports with it), then b's candidates from y.
-          rollback(ctx, log, m1);
+      if (aMark !== null && p.vertices.out[a] === -1) {
+        rollback(ctx, log, aMark);
+        const cs = relandCandidates(ctx, dec.points[aIdx], -1);
+        if (!cs.ok) return passOn(cs);
+        for (const y of cs.value) {
+          const m1 = markOf(ctx, log);
           warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
           warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[aIdx]);
-          const x = tryEnds(y);
-          if (!x.ok) return passOn(x);
-          if (x.value !== null) {
+          const l = land(ctx, dec.points[bIdx], y, pointOf(p, y), nextPt);
+          if (!l.ok) {
+            rollback(ctx, log, m1);
+            if (l.code === 'E_WORK_LIMIT') return passOn(l);
+            continue;
+          }
+          const bv = l.value.vertex;
+          if (l.value.merged || bv === y) {
             landed[aIdx] = y;
-            landed[bIdx] = x.value;
-            return ok({ a: y, b: x.value });
+            landed[bIdx] = y;
+            return ok({ a: y, b: y });
+          }
+          const r = routeSegment(ctx, log, y, bv, dec.points[aIdx], dec.points[bIdx]);
+          if (r.ok) {
+            landed[aIdx] = y;
+            landed[bIdx] = bv;
+            return ok({ a: y, b: bv });
+          }
+          if (r.code === 'E_WORK_LIMIT') return passOn(r);
+          if (r.code === 'E_INVARIANT' && freeSince(ctx, m1, bv)) {
+            // b's own landing undone (and y's reports with it), then b's candidates from y.
+            rollback(ctx, log, m1);
+            warn(tx, ctx.warnings, 'W_PLACED', pointOf(p, y));
+            warn(tx, ctx.warnings, 'W_ATTRACTED', dec.points[aIdx]);
+            const x = tryEnds(y);
+            if (!x.ok) return passOn(x);
+            if (x.value !== null) {
+              landed[aIdx] = y;
+              landed[bIdx] = x.value;
+              return ok({ a: y, b: x.value });
+            }
+          }
+          rollback(ctx, log, m1);
+        }
+      }
+      return passOn(failure);
+    };
+
+    for (const run of dec.runs) {
+      const vs = run.vertices;
+      const k = vs.length;
+      let prev = -1;
+      let prevIdx = -1;
+      // The mark before prev's own landing, when this op placed it free (N-42 (b)'s re-landing reads it).
+      let prevMark: Mark | null = null;
+      for (let j = 0; j < k; j++) {
+        const idx = vs[j];
+        let v = landed[idx];
+        let mark: Mark | null = null;
+        const landedNow = v < 0;
+        const nextIdx = j + 1 < k ? vs[j + 1] : run.closed ? vs[0] : -1;
+        const nextPt = nextIdx >= 0 ? (landed[nextIdx] >= 0 ? pointOf(p, landed[nextIdx]) : dec.points[nextIdx]) : null;
+        if (v < 0) {
+          const pt = dec.points[idx];
+          const prevPt = prev >= 0 ? pointOf(p, prev) : null;
+          const before = markOf(ctx, log);
+          const l = land(ctx, pt, prev, prevPt, nextPt);
+          if (!l.ok) return refuse(l);
+          v = l.value.vertex;
+          landed[idx] = v;
+          if (l.value.merged) continue;
+          if (freeSince(ctx, before, v)) mark = before;
+        }
+        if (prev >= 0 && v !== prev) {
+          const r = routeSegment(ctx, log, prev, v, dec.points[prevIdx], dec.points[idx]);
+          if (!r.ok) {
+            if (r.code !== 'E_INVARIANT' || !landedNow || (mark === null && prevMark === null)) return refuse(r);
+            const re = reland(prev, prevIdx, prevMark, idx, mark, nextPt, r);
+            if (!re.ok) return refuse(re);
+            v = re.value.b;
           }
         }
-        rollback(ctx, log, m1);
+        prev = v;
+        prevIdx = idx;
+        // Re-landable later only while still free: the run's first vertex, before its first segment.
+        prevMark = mark !== null && p.vertices.out[v] === -1 ? mark : null;
+      }
+      if (run.closed && prev >= 0 && prev !== landed[vs[0]]) {
+        const r = routeSegment(ctx, log, prev, landed[vs[0]], dec.points[prevIdx], dec.points[vs[0]]);
+        if (!r.ok) return refuse(r);
       }
     }
-    return passOn(failure);
+    const placed = dec.of.map((i) => landed[i]);
+    // A chain that attraction collapsed onto one vertex is left with fewer than two distinct points: the class's code, as
+    // step 1's (C-0177 (12)) — nothing written.
+    if (placed.every((v) => v === placed[0])) {
+      const c = classRefusal<ChainInsert>(cls, 'belowOneEdge');
+      check(c !== null, 'a chain below one edge is refused by both classes');
+      return refuse(c);
+    }
+    // §3.10's clearance on the final arena round everything the chain wrote, whole: a gap no route closed is refused
+    // E_INVARIANT, never committed and never thrown (N-43 A, N-44 (1) – (2); C-0213).
+    const problem = wholeProblem(ctx, start);
+    if (problem !== null) return refuse({ code: 'E_INVARIANT', detail: `insert: ${problem}` });
+    const rw = rewalk(tx, { pairs: journal.newPairs.slice(pairsFrom) }, ctx.undo);
+    if (!rw.ok) return refuse(rw);
+    if (ctx.maxPass > 3) warn(tx, ctx.warnings, 'W_SNAP_PASSES', pointOf(p, placed[0]));
+    // The knot rows onto the vertices their points became (carried by attraction, §3.4).
+    const own = roles.length > 0 ? roles[0].entity : '';
+    for (const kn of dec.knots) {
+      const v = landed[kn.index];
+      const entity = kn.entity ?? own;
+      if (vertexCarries(p, v, kn.role, entity, kn.ordinal)) continue;
+      addRole(p, v, { role: kn.role, entity, ordinal: kn.ordinal }, n);
+    }
+    done();
+    return ok({ placed }, ctx.warnings);
   };
-
-  for (const run of dec.runs) {
-    const vs = run.vertices;
-    const k = vs.length;
-    let prev = -1;
-    let prevIdx = -1;
-    // The mark before prev's own landing, when this op placed it free (N-42 (b)'s re-landing reads it).
-    let prevMark: Mark | null = null;
-    for (let j = 0; j < k; j++) {
-      const idx = vs[j];
-      let v = landed[idx];
-      let mark: Mark | null = null;
-      const landedNow = v < 0;
-      const nextIdx = j + 1 < k ? vs[j + 1] : run.closed ? vs[0] : -1;
-      const nextPt = nextIdx >= 0 ? (landed[nextIdx] >= 0 ? pointOf(p, landed[nextIdx]) : dec.points[nextIdx]) : null;
-      if (v < 0) {
-        const pt = dec.points[idx];
-        const prevPt = prev >= 0 ? pointOf(p, prev) : null;
-        const before = markOf(ctx, log);
-        const l = land(ctx, pt, prev, prevPt, nextPt);
-        if (!l.ok) return refuse(l);
-        v = l.value.vertex;
-        landed[idx] = v;
-        if (l.value.merged) continue;
-        if (freeSince(ctx, before, v)) mark = before;
-      }
-      if (prev >= 0 && v !== prev) {
-        const r = routeSegment(ctx, log, prev, v);
-        if (!r.ok) {
-          if (r.code !== 'E_INVARIANT' || !landedNow || (mark === null && prevMark === null)) return refuse(r);
-          const re = reland(prev, prevIdx, prevMark, idx, mark, nextPt, r);
-          if (!re.ok) return refuse(re);
-          v = re.value.b;
-        }
-      }
-      prev = v;
-      prevIdx = idx;
-      // Re-landable later only while still free: the run's first vertex, before its first segment.
-      prevMark = mark !== null && p.vertices.out[v] === -1 ? mark : null;
-    }
-    if (run.closed && prev >= 0 && prev !== landed[vs[0]]) {
-      const r = routeSegment(ctx, log, prev, landed[vs[0]]);
-      if (!r.ok) return refuse(r);
-    }
+  try {
+    return run();
+  } catch (e) {
+    if (e instanceof Error && INVARIANT_THROW.test(e.message)) return refuse({ code: 'E_INVARIANT', detail: e.message });
+    throw e;
   }
-  const placed = dec.of.map((i) => landed[i]);
-  // A chain that attraction collapsed onto one vertex is left with fewer than two distinct points: the class's code, as
-  // step 1's (C-0177 (12)) — nothing written.
-  if (placed.every((v) => v === placed[0])) {
-    const c = classRefusal<ChainInsert>(cls, 'belowOneEdge');
-    check(c !== null, 'a chain below one edge is refused by both classes');
-    return refuse(c);
-  }
-  // §3.10's clearance on the final arena round everything the chain wrote (a gap in the router throws).
-  const ends: VertexId[] = [];
-  for (const v of tx.journal.vertices.slice(vertsFrom)) {
-    if (!isVertexLive(p, v)) continue;
-    ends.push(v);
-    for (const h of outgoing(p, v)) ends.push(p.halfEdges.origin[h ^ 1]);
-  }
-  checkClearance(ctx, journal.newPairs.slice(pairsFrom), ends);
-  const rw = rewalk(tx, { pairs: journal.newPairs.slice(pairsFrom) }, ctx.undo);
-  if (!rw.ok) return refuse(rw);
-  if (ctx.maxPass > 3) warn(tx, ctx.warnings, 'W_SNAP_PASSES', pointOf(p, placed[0]));
-  // The knot rows onto the vertices their points became (carried by attraction, §3.4).
-  const own = roles.length > 0 ? roles[0].entity : '';
-  for (const kn of dec.knots) {
-    const v = landed[kn.index];
-    const entity = kn.entity ?? own;
-    if (vertexCarries(p, v, kn.role, entity, kn.ordinal)) continue;
-    addRole(p, v, { role: kn.role, entity, ordinal: kn.ordinal }, n);
-  }
-  done();
-  return ok({ placed }, ctx.warnings);
 }

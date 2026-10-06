@@ -112,8 +112,8 @@ function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed: boolea
 }
 
 /**
- * Is the face (a record of level n) inside the kerb? Read at the centroid of an ear of its outer ring — a convex
- * corner whose triangle holds no other vertex of the face, so its centroid lies strictly inside the face — by the
+ * Is the face (a record of level n) inside the kerb? Read at the centroid of the largest ear of its outer ring — a
+ * convex corner whose triangle holds no other vertex of the face, so its centroid lies strictly inside the face — by the
  * non-zero winding of the kerb rings there (exact: coordinates tripled, orient2d on integers). Null where no ear is
  * free of the face's other vertices.
  */
@@ -125,11 +125,15 @@ function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]
   const outer = rings[0];
   const m = outer.length;
   const all = rings.flat();
+  // the largest clean ear: the one least likely to sit in a sliver beside a vertex attraction moved
+  let best = -1;
+  let bestArea = 0;
   for (let i = 0; i < m; i += 1) {
     const a = outer[(i + m - 1) % m];
     const v = outer[i];
     const b = outer[(i + 1) % m];
-    if (orient2d(X[a], Y[a], X[v], Y[v], X[b], Y[b]) <= 0) continue;
+    const turn = orient2d(X[a], Y[a], X[v], Y[v], X[b], Y[b]);
+    if (turn <= bestArea) continue;
     let clean = true;
     for (const w of all) {
       if (w === a || w === v || w === b) continue;
@@ -140,23 +144,28 @@ function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]
       }
     }
     if (!clean) continue;
-    const qx = X[a] + X[v] + X[b];
-    const qy = Y[a] + Y[v] + Y[b];
-    let wind = 0;
-    for (const r of kerbRings) {
-      for (let k = 0; k < r.length; k += 1) {
-        const s = r[k];
-        const t = r[(k + 1) % r.length];
-        const sy = 3 * s.y;
-        const ty = 3 * t.y;
-        if (sy <= qy) {
-          if (ty > qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) > 0) wind += 1;
-        } else if (ty <= qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) < 0) wind -= 1;
-      }
-    }
-    return wind !== 0;
+    best = i;
+    bestArea = turn;
   }
-  return null;
+  if (best < 0) return null;
+  const a = outer[(best + m - 1) % m];
+  const v = outer[best];
+  const b = outer[(best + 1) % m];
+  const qx = X[a] + X[v] + X[b];
+  const qy = Y[a] + Y[v] + Y[b];
+  let wind = 0;
+  for (const r of kerbRings) {
+    for (let k = 0; k < r.length; k += 1) {
+      const s = r[k];
+      const t = r[(k + 1) % r.length];
+      const sy = 3 * s.y;
+      const ty = 3 * t.y;
+      if (sy <= qy) {
+        if (ty > qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) > 0) wind += 1;
+      } else if (ty <= qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) < 0) wind -= 1;
+    }
+  }
+  return wind !== 0;
 }
 
 /** Is there a vertex at the lattice point with an incident edge carrying the outline's role? */
