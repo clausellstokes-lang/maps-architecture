@@ -9,7 +9,8 @@
 //   fcut       §4.6 step 8's F-CUT bar on --fcut random faces (10⁵; half concave, half holed): each face's ladder ends
 //              in ≤ 6 kernel calls and the face count never decreases (runs.ts);
 //   residue    --districts whole districts of the same faces (1 000): each district's substitution residue share
-//              against the soft 5 % (reported, never gating), and every ladder at every depth (reported);
+//              against the soft 5 % (reported, never gating), and every ladder at every depth, judged with F-CUT (a
+//              district S8 refuses or throws on fails it);
 //   signature  --sig faces of each of §16 M0 (b)'s five kinds (100): every cut the planner made, replayed and measured
 //              (signature.ts) — σ and the fillet share reported, the corner clause (within 0.10 of mid-course on
 //              ≥ 80 % of bent cuts) and the arrival clause (≥ 85° on ≥ 95 %) judged (C-0073);
@@ -177,8 +178,16 @@ export async function bentcut(a: BentCutArgs, log: (line: string) => void = () =
   const note = (s: string): void => {
     if (notes.length < 12) notes.push(s);
   };
-  const tick = (label: string) => (done: number, total: number): void => {
-    if (total >= 1000 && done % Math.max(1, Math.floor(total / 10)) < 50) log(`bentcut: ${label} ${String(done)} / ${String(total)}`);
+  // Progress at each tenth of a long phase (one line per tenth crossed).
+  const tick = (label: string) => {
+    let shown = 0;
+    return (done: number, total: number): void => {
+      const tenth = Math.floor((10 * done) / total);
+      if (total >= 200 && tenth > shown) {
+        shown = tenth;
+        log(`bentcut: ${label} ${String(done)} / ${String(total)}`);
+      }
+    };
   };
   // F-CUT.
   let fcutRecords: FcutRecord[] = [];
@@ -269,7 +278,7 @@ export async function run(args: string[], ctx: BentCutContext): Promise<number> 
   if (r.fcut !== null) {
     const f = r.fcut;
     say(`bentcut: F-CUT ${String(f.run)} faces run of ${String(f.faces)} (${String(f.setupRefused)} not built, ${String(f.s8Refused)} refused by S8): the ladder ends in ≤ ${String(f.maxKernelCalls)} kernel calls (calls ${JSON.stringify(f.callsHistogram)}), ${String(f.decreases)} face-count decreases; outcomes ${JSON.stringify(f.outcomes)} — ${f.pass ? 'HOLDS' : 'FAILS'}`);
-    say(`bentcut: F-CUT at every depth of the whole districts: ${String(f.allDepths.ladders)} ladders, ≤ ${String(f.allDepths.maxKernelCalls)} kernel calls, ${String(f.allDepths.decreases)} decreases`);
+    say(`bentcut: F-CUT at every depth of ${String(f.allDepths.districts)} whole districts of the same faces: ${String(f.allDepths.ladders)} ladders, ≤ ${String(f.allDepths.maxKernelCalls)} kernel calls, ${String(f.allDepths.decreases)} decreases, ${String(f.allDepths.refused)} districts refused or thrown on by S8`);
   }
   if (r.residue !== null) {
     const x = r.residue;

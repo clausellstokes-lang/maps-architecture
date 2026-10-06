@@ -94,10 +94,20 @@ describe('the F-CUT fold judges the bar as §4.6 step 8 states it', () => {
     expect([setup.setupRefused, setup.run, setup.faces]).toEqual([1, 1, 2]);
   });
 
-  it('every depth of the whole districts is reported beside it', () => {
-    const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 3, minFacesAfter: 1, decreases: 0 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
+  it('every depth of the whole districts is judged with it: a decrease, a ladder over 6 calls or a refused district fails', () => {
+    const full = { phase: 'full', setup: null, refused: null, ladders: { n: 5, maxCalls: 6, minFacesAfter: 1, decreases: 0 }, facesBefore: 1, facesAfter: 4 } as unknown as FullRecord;
+    expect(foldFcut([rec()], [full, full]).pass).toBe(true);
     const lost = { ...full, ladders: { n: 2, maxCalls: 1, minFacesAfter: 0, decreases: 1 }, facesAfter: 0 } as FullRecord;
-    expect(foldFcut([rec()], [full, lost]).allDepths).toEqual({ ladders: 7, maxKernelCalls: 3, decreases: 2 });
+    const both = foldFcut([rec()], [full, lost]);
+    expect(both.allDepths).toEqual({ districts: 2, ladders: 7, maxKernelCalls: 6, decreases: 2, refused: 0 });
+    expect(both.pass).toBe(false);
+    expect(foldFcut([rec()], [full, { ...full, ladders: { ...full.ladders, maxCalls: 7 } } as FullRecord]).pass).toBe(false);
+    expect(foldFcut([rec()], [full, { ...full, facesAfter: 0 } as FullRecord]).pass).toBe(false);
+    const threw = foldFcut([rec()], [full, { ...full, refused: 'threw: tx: face 4 is not live at L1' } as FullRecord]);
+    expect(threw.allDepths.refused).toBe(1);
+    expect(threw.pass).toBe(false);
+    // A face the kernel would not build stays outside.
+    expect(foldFcut([rec()], [full, { ...full, setup: 'E_X' } as FullRecord]).pass).toBe(true);
   });
 });
 

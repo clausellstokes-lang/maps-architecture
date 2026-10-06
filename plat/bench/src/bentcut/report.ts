@@ -49,8 +49,11 @@ export interface FcutSummary {
   /** Ladders that left fewer faces than they began with (the report's or the arena's count). */
   readonly decreases: number;
   readonly pass: boolean;
-  /** The full runs' ladders at every depth (reported). */
-  readonly allDepths: { readonly ladders: number; readonly maxKernelCalls: number; readonly decreases: number };
+  /**
+   * Every ladder at every depth of the whole districts of the same faces (C-XB04 (1)): judged with the depth-0 ladders —
+   * a district S8 refused or threw on is a ladder that did not end.
+   */
+  readonly allDepths: { readonly districts: number; readonly ladders: number; readonly maxKernelCalls: number; readonly decreases: number; readonly refused: number };
 }
 
 function bump(m: Record<string, number>, k: string, n = 1): void {
@@ -89,8 +92,15 @@ export function foldFcut(records: readonly FcutRecord[], full: readonly FullReco
   let ladders = 0;
   let maxAll = 0;
   let decAll = 0;
+  let refAll = 0;
+  let districts = 0;
   for (const f of full) {
-    if (f.setup !== null || f.refused !== null) continue;
+    if (f.setup !== null) continue;
+    if (f.refused !== null) {
+      refAll += 1;
+      continue;
+    }
+    districts += 1;
     ladders += f.ladders.n;
     if (f.ladders.maxCalls > maxAll) maxAll = f.ladders.maxCalls;
     decAll += f.ladders.decreases + (f.facesAfter < f.facesBefore ? 1 : 0);
@@ -106,8 +116,8 @@ export function foldFcut(records: readonly FcutRecord[], full: readonly FullReco
     callsHistogram: sortedRecord(hist),
     outcomes: sortedRecord(outcomes),
     decreases,
-    pass: run > 0 && refused === 0 && max <= FCUT_MAX_CALLS && decreases === 0,
-    allDepths: { ladders, maxKernelCalls: maxAll, decreases: decAll },
+    pass: run > 0 && refused === 0 && max <= FCUT_MAX_CALLS && decreases === 0 && refAll === 0 && maxAll <= FCUT_MAX_CALLS && decAll === 0,
+    allDepths: { districts, ladders, maxKernelCalls: maxAll, decreases: decAll, refused: refAll },
   };
 }
 
