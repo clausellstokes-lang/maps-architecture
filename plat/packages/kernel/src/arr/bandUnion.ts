@@ -28,7 +28,8 @@
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
 // E_INVARIANT — puts the batch back as the op found it. Readings: C-0212.
-import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow } from '../arena/index.js';
+import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, isVertexLive, outgoing, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow } from '../arena/index.js';
+import { query } from '../index/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
 import { TX_FACES_WALKED } from '../insert/index.js';
@@ -36,7 +37,7 @@ import { ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
-import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level } from '../types/index.js';
+import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
 import { nearestOn, readKerb, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
@@ -158,6 +159,16 @@ function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]
   return null;
 }
 
+/** Is there a vertex at the lattice point with an incident edge carrying the outline's role? */
+function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: number): boolean {
+  const vs = query(p, key, 4, { minX: q.x, minY: q.y, maxX: q.x, maxY: q.y }, { vertices: true }).vertices;
+  for (const v of vs) {
+    if (!isVertexLive(p, v) || p.vertices.x[v] !== q.x || p.vertices.y[v] !== q.y) continue;
+    for (const h of outgoing(p, v)) if (rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === outlineRole)) return true;
+  }
+  return false;
+}
+
 /** The L1 ancestor of a face record of level n (its parent chain). */
 function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
   let g = f;
@@ -191,6 +202,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     if (!r.ok) return rollback(t, save, r);
     reads.push(r.value);
   }
+  const outlineRole = roleIdOf(spec.edgeRole);
   const whole: FaceId[] = [];
   const wholeBand: FaceId[] = [];
   for (const read of reads) {
@@ -207,6 +219,9 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
     for (const pts of read.splits) {
+      // the split ends on the kerb: where the kerb's insertion left no outline vertex at its kerb point (attraction
+      // moved the kerb there), a split would dangle in the face — it is not drawn
+      if (!onOutline(p, t.key, pts[1], outlineRole)) continue;
       const ins = insertChain(t, pts, split, 'mandatory');
       if (!ins.ok) {
         // A split whose two ends attraction folds onto one vertex adds nothing (the kerb meets the junction there).
@@ -230,7 +245,6 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
   const blocks: FaceId[] = [];
   const R = p.roles;
   const splitRole = roleIdOf('corridor_split');
-  const outlineRole = roleIdOf(spec.edgeRole);
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
     if (kids.length === 0) {
