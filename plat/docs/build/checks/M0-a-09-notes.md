@@ -70,3 +70,20 @@ Lane `check/M0-a-09`, 2026-10-06. These notes do not fail the item (J180, N-45).
 16. **Housekeeping, for the session.** `plat/undefined.cur` (599 bytes, dated 2026-10-05 00:09, an M0-a-08-era
     agreement-case dump) is an untracked file at `plat/`'s root and is in no record. It is not this item's. C-0218 is
     dated 2026-10-05 but sits after C-0217, dated 2026-10-06 (cosmetic).
+
+## Closing check (lane `check/M0-a-09-close-r1`, 2026-10-06)
+
+17. **Note 2 is closed by fix round 1.** The turn-away fixture beside §13.2's S8 ≡ S9 test
+    (`corridor.test.ts:129`) now kills K06 (the turn-away treated as a corner) and K36 (the splice threshold). Both
+    fail on that test in this seat's mirror at `PLAT_FUZZ_RUNS=1000`. No handling is left.
+18. **R04 — the order and spike drop of kerb()'s final rings are not pinned.** Mutant R04 removes `readKerb`'s last
+    `unspiked` pass and its `sort(compareRings)`. It survives `corridor.test.ts` and `kerb.test.ts` at 1000, because
+    `normals()` re-normalises every comparison, and kerb() and the commit read the same rings (so S8 ≡ S9 still holds).
+    The spike half is note 5's class. The order half is a cosmetic contract: the module promises rings counter-clockwise
+    from the lowest-leftmost vertex in `compareRings` order. Suggested hardening (M4): one raw `toEqual` on kerb()'s
+    output for the turn-away face, where the splice inserts a vertex.
+19. **The turn-away fixture pins insertChain-dependent coordinates.** These are the spliced vertex `2308,1823` and the
+    three `corridor_split` edges. They are lattice results of insertChain's routing. A later legitimate insertChain round
+    (M0-a-05's) may move them by a lattice step. That is a re-pin with its cause stated, not a defect of this item. The
+    S8 ≡ S9 line (`:166`) is coordinate-free and carries the contract. Note 12's vacuous line has moved to
+    `kerb.test.ts:204`.

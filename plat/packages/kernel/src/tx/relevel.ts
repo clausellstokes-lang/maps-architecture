@@ -14,7 +14,9 @@
 //   other one a hole of the smallest such face holding it; each new face keeps the record of its old regions with the
 //   smallest canonical key (§3.3's face key, read on lattice positions — never a slot), the others freed and their
 //   children re-parented to it; a level-l face left with no level-l edge on its rings and no surviving child is its
-//   parent's own child again and keeps no record (rule 2) — C-0185 (3);
+//   parent's own child again and keeps no record (rule 2) — C-0185 (3); the rule climbs: a coarser own child (no edge of
+//   its level on its rings, so no vanishing edge gathers it) whose every child the pass frees is freed too, up to L1,
+//   listed among the batch's removed records and its index item tombstoned (N-47, C-0219);
 // * a dissolved vertex's two edges become one: the edge pair at the run's start end is kept (the run's handle never
 //   changes, §3.3), and every record that stored the dropped pair's half-edges stores the kept pair's;
 // * the index is written only where an item changed (§3.3's "no item changes in place", §3.10's freshness row): a
@@ -377,10 +379,10 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   }
   // The records beside every edge that vanishes from a level's view, and the cleared records.
   const old: Map<FaceId, OldRecord>[] = LV.map(() => new Map());
-  const saveRecord = (level: Level, f: FaceId): void => {
-    if (f < 0 || old[level].has(f)) return;
-    const rings = faceWalk(p, level, f);
-    chargeTx(t, TX_FACES_WALKED, rings.length);
+  const saveRecord = (level: Level, f: FaceId, into: Map<FaceId, OldRecord>[] = old, walked?: HalfEdgeId[][]): void => {
+    if (f < 0 || into[level].has(f)) return;
+    const rings = walked ?? faceWalk(p, level, f);
+    if (walked === undefined) chargeTx(t, TX_FACES_WALKED, rings.length);
     const k = faceKey(p, level, f);
     const children: FaceId[] = [];
     if (level < 4) {
@@ -388,7 +390,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       const Fu = p.faces[up];
       for (const c of query(p, t.key, up, ringBox(p, rings), { faces: true }).faces) if (Fu.parent[c] === f) children.push(c);
     }
-    old[level].set(f, {
+    into[level].set(f, {
       f,
       level,
       rings,
@@ -488,6 +490,35 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       materialisePlan.push({ h, level: nl, probes, bases });
     }
   }
+  // The own-child ancestors of every saved record (N-47; rule 2, C-0185 (3)'s keep rule): a record coarser than the
+  // vanishing edges with no edge of its own level on its rings has no edge the rewrite deletes or demotes, so no side
+  // gathers it — yet where the face pass frees its every child it is its parent's own child again and keeps no record.
+  // Gathered now, before any write (its children by the index): each saved record's parent chain, finest first, up to
+  // L1, while the parent is an own child (a parent with an edge of its level keeps its record whatever). A coarser
+  // record a demoted edge's own children will hang from (a materialise base) is never a candidate.
+  const ancestors: Map<FaceId, OldRecord>[] = LV.map(() => new Map());
+  const based = new Set<string>();
+  for (const plan of materialisePlan) for (const b of plan.bases) based.add(`${b.level}:${b.f}`);
+  const ownLevelEdge = new Set<string>();
+  for (let l = 4; l >= 2; l--) {
+    const up = (l - 1) as Level;
+    const F = p.faces[l];
+    for (const f of [...old[l].keys(), ...ancestors[l].keys()]) {
+      const q = F.parent[f];
+      if (q < 0) continue;
+      const k = `${up}:${q}`;
+      if (old[up].has(q) || ancestors[up].has(q) || ownLevelEdge.has(k) || based.has(k)) continue;
+      check(isFaceLive(p, up, q), `an L${l} record's parent is a live L${up} record`);
+      const rings = faceWalk(p, up, q);
+      chargeTx(t, TX_FACES_WALKED, rings.length);
+      if (rings.some((ring) => ring.some((h) => T.level[h >> 1] === up))) {
+        ownLevelEdge.add(k);
+        continue;
+      }
+      saveRecord(up, q, ancestors, rings);
+    }
+  }
+  for (const l of LV) for (const f of ancestors[l].keys()) noteHome(l, f);
   for (const l of LV) for (const f of old[l].keys()) noteHome(l, f);
   for (const list of aroundV.values()) for (const a of list) noteHome(a.level, a.f);
   if (t.work.total > t.workLimit) return false;
@@ -538,7 +569,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   }
 
   // ---- the faces the deleted and demoted edges no longer bound (C-0185 (3)) ----
-  const pass = facePass(t, old, seeds, clear, holdsDemoted);
+  const pass = facePass(t, old, seeds, clear, holdsDemoted, ancestors);
   const faceWrites = pass.writes;
   faceWrites.push(...materialise(t, materialisePlan, pass.successor, pass.coveredBy));
 
@@ -708,8 +739,9 @@ interface NewFace {
 /**
  * Re-walks, at every level, the faces round the old records (see the module comment): new cycles from the records'
  * surviving half-edges, faces by exact area and containment, each old record mapped to the face its region joined;
- * then, finest level first, which faces must keep a record (an edge of their level on a ring, or a surviving child);
- * then, coarsest first, the records written: the survivor by canonical key, the others freed, children re-parented.
+ * then, finest level first, which faces must keep a record (an edge of their level on a ring, or a surviving child),
+ * an own-child ancestor of the re-walked records keeping its record only while a child survives (N-47); then, coarsest
+ * first, the records written: the survivor by canonical key, the others freed, children re-parented.
  * Writes the arena's face tables only; returns the records whose index items the caller writes.
  */
 function facePass(
@@ -718,6 +750,7 @@ function facePass(
   seeds: readonly HalfEdgeId[][][],
   clear: Five<ReadonlySet<FaceId>> | undefined,
   holdsDemoted: readonly ReadonlySet<FaceId>[],
+  ancestors: readonly ReadonlyMap<FaceId, OldRecord>[],
 ): { writes: FaceWrite[]; successor: Map<string, FaceId>; coveredBy: Map<HalfEdgeId, FaceId>[] } {
   const p = t.plat;
   const T = p.halfEdges;
@@ -846,11 +879,30 @@ function facePass(
       const sv = keep ? survivorRec(l, fi) : null;
       for (const r of f.recs) survives[l].set(r.f, sv !== null && r.f === sv.f);
     });
+    // An own-child ancestor (N-47): its rings are unchanged and hold no edge of its level, so it keeps its record only
+    // while a child survives.
+    if (l > 0 && l < 4) {
+      const up = (l + 1) as Level;
+      for (const r of ancestors[l].values()) {
+        const child = r.children.some((c) => isFaceLive(p, up, c) && survives[up].get(c) !== false);
+        survives[l].set(r.f, child);
+      }
+    }
   }
 
   // Coarsest level first: write the records.
   for (const l of LV) {
     const F = p.faces[l];
+    // The own-child ancestors left with no child: freed, listed and tombstoned like any freed record (N-47), in key order.
+    for (const r of [...ancestors[l].values()].sort(keyCmp)) {
+      if (survives[l].get(r.f) !== false) continue;
+      successor.set(`${l}:${r.f}`, -1);
+      noteOwner(t, l, r.f);
+      t.log.removedKeys.set(`${l}:${r.f}`, r.key);
+      freeFace(p, l, r.f);
+      t.log.faces[l].removed.push(r.f);
+      writes.push({ level: l, f: r.f, keep: false });
+    }
     for (const r of dropped[l]) {
       successor.set(`${l}:${r.f}`, -1);
       noteOwner(t, l, r.f);

@@ -614,9 +614,11 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   if (t.indexLog !== null) {
     // §3.10's freshness row allows a batch's coarser index writes for its promotions and demotions; the own children
     // §2.2 rule 2 materialises for a finer level's records (the re-walk's, and a demoted edge's) are new records of a
-    // coarser level and are allowed too (C-0185 (12)).
+    // coarser level and are allowed too (C-0185 (12)); so is the delete of a coarser own child a removal freed, its last
+    // child gone (N-47, C-0219): the only records this item's writers free below the batch's level.
     const own = new Set<string>(chainJournal(t).materialised.map((m) => `${m.level}:${m.face}`));
     for (let l = 0; l <= 4; l++) for (const f of t.log.faces[l].created) own.add(`${l}:${f}`);
+    for (let l = 0; l < t.level; l++) for (const f of t.log.faces[l].removed) own.add(`${l}:${f}`);
     const writes = t.indexLog.writes.filter((w) => !(w.kind === ITEM_FACE && own.has(`${w.level}:${w.slot}`)));
     // The journal is a log over the batch's ops: an item an earlier op changed and a later one deleted answers as deleted.
     const changed = t.journal.changed.map((c) => (c.successor !== null && !isItemLive(p, c.successor) ? { ...c, successor: null } : c));
