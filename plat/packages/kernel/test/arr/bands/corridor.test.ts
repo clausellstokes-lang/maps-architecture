@@ -25,6 +25,7 @@ import {
   faceAt,
   framed,
   healthy,
+  normalHot,
   normals,
   own,
   profile,
@@ -167,7 +168,8 @@ describe('corridorUnion (§3.4, §3.7)', () => {
           if (!moved) tally.exact += 1;
           // the committed block: F itself where nothing was written inside it, else the L2 blocks
           const have = v.whole.includes(f) ? normals(ringsOf(p, 1, f)) : v.wholeBand.includes(f) ? [] : (blocks.get(f) ?? []);
-          if (!moved) expect(have).toEqual(want);
+          // exact up to a same-level split a neighbouring face's batch placed on a boundary the two share (§2.2 rule 3)
+          if (!moved) expect(have.map((r) => normalHot(parseRing(r))).sort()).toEqual(want.map((r) => normalHot(parseRing(r))).sort());
           else {
             const got = have.map(parseRing);
             const exp = want.map(parseRing);
@@ -240,10 +242,48 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     const e = crossingFaces();
     commit(e.p, 2, (o) => corridorUnion(o, e.faces.slice().reverse(), W), AT_S9);
     expect(state(e.p)).toBe(state(a.p));
+    // where two faces' wedge feet fall within attractCm of each other on one spine, the later attracts onto the earlier:
+    // the canonical face order, not the caller's, decides which (two T-junctions 40 cm apart across way:1)
+    const tee = (): { p: Plat; faces: FaceId[] } => {
+      const q = framed();
+      way(q, 'way:1', [[0, 2000], [4000, 2000]]);
+      way(q, 'way:2', [[2000, 4000], [2000, 2000]]);
+      way(q, 'way:3', [[2040, 0], [2040, 2000]]);
+      return { p: q, faces: own(q, 'district:1', [[1000, 1000], [3000, 1000], [1000, 3000], [3000, 3000]]) };
+    };
+    const tw = widthsOf({ 'way:1': 300, 'way:2': 300, 'way:3': 280 });
+    const t1 = tee();
+    const t2 = tee();
+    commit(t1.p, 2, (o) => corridorUnion(o, t1.faces, tw), AT_S9);
+    commit(t2.p, 2, (o) => corridorUnion(o, t2.faces.slice().reverse(), tw), AT_S9);
+    healthy(t1.p);
+    expect(state(t2.p)).toBe(state(t1.p));
+    for (const order of [[1, 0, 3, 2], [2, 3, 0, 1], [3, 1, 2, 0]]) {
+      const t3 = tee();
+      commit(t3.p, 2, (o) => corridorUnion(o, order.map((i) => t3.faces[i]), tw), AT_S9);
+      expect(state(t3.p)).toBe(state(t1.p));
+    }
     // a FaceRef of L1 faces names its owner's faces
     const c = crossingFaces();
     commit(c.p, 2, (o) => corridorUnion(o, { owner: 'district:1', level: 1 }, W), AT_S9);
     expect(state(c.p)).toBe(state(a.p));
+  });
+
+  it('a kerb meeting a slanted boundary that declares no half-width ends on it: that boundary is never inserted again as kerb', () => {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(0, 500), pt(4000, 3700)], [{ role: 'district_bound', entity: 'district:2' }], 'mandatory'));
+    way(p, 'way:1', [[1700, 4000], [2600, 0]]);
+    const faces = own(p, 'district:1', [[300, 3000], [3500, 3900], [3500, 500], [600, 300]]);
+    const ws = widthsOf({ 'way:1': 300 });
+    commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
+    healthy(p);
+    // no edge carries both the boundary's row and a kerb row: the kerb ends on the boundary where its strip line meets it
+    for (let e = 0; e < p.slots.pair.top; e += 1) {
+      if (p.halfEdges.origin[2 * e] < 0) continue;
+      const names = rowsOn(p, 'edge', 2 * e).map((r) => roleInfo(p.roles.kind[r]).name);
+      expect(names.includes('district_bound') && names.includes('kerb')).toBe(false);
+    }
+    expect(tilesExactly(p, 2, faces)).toEqual([]);
   });
 
   it('the same function on another arena, by its key: tunnel chains on the underground’s part 0, a gallery on part 1 (J-A12.31)', () => {

@@ -136,6 +136,36 @@ export function normal(ring: readonly LatticePoint[]): string {
   return [...pts.slice(k), ...pts.slice(0, k)].map((q) => `${String(q.x)},${String(q.y)}`).join(' ');
 }
 
+/**
+ * A ring's normal form up to the hot pixel: as `normal`, and a vertex within the hot pixel (0.71 cm) of the segment
+ * its two neighbours span dropped too — the vertex a same-level split places on a route (§2.2 rule 3: it moves the
+ * route by at most the hot pixel), which a neighbouring face's batch may leave on a boundary two faces share.
+ */
+export function normalHot(ring: readonly LatticePoint[]): string {
+  let pts = ring.slice();
+  let changed = true;
+  while (changed && pts.length > 3) {
+    changed = false;
+    const n = pts.length;
+    for (let i = 0; i < n; i += 1) {
+      const a = pts[(i + n - 1) % n];
+      const v = pts[i];
+      const b = pts[(i + 1) % n];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const l2 = dx * dx + dy * dy;
+      const t = l2 === 0 ? -1 : ((v.x - a.x) * dx + (v.y - a.y) * dy) / l2;
+      const d = l2 === 0 ? Infinity : Math.abs((v.x - a.x) * dy - (v.y - a.y) * dx) / Math.sqrt(l2);
+      if (t > 0 && t < 1 && d <= 0.71) {
+        pts = [...pts.slice(0, i), ...pts.slice(i + 1)];
+        changed = true;
+        break;
+      }
+    }
+  }
+  return normal(pts);
+}
+
 /** A ring set's normal form, sorted (the point set of a region's boundary). */
 export function normals(rings: readonly (readonly LatticePoint[])[]): string[] {
   return rings.map(normal).sort();
