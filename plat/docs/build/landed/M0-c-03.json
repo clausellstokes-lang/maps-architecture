@@ -5,7 +5,7 @@
   "lanes": ["build/M0-c-03"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T17:35:15.725Z",
+  "date": "2026-10-06T17:35:54.984Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/backbone/", "plat/packages/layout/test/backbone/"],
   "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -31,6 +31,12 @@
     { "path": "plat/packages/layout/test/backbone/support.ts", "status": "created", "sha256": "05cf88e711ba29bb6d275683fa15d4e6726c6d066f402b89f27cd4147e97d9a9", "size": 14239 }
   ],
   "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0252"],
+      "lines": ["3f41a305868958e9"],
+      "removed": []
+    },
     {
       "file": "plat/docs/build/choices.md",
       "ids": ["C-0236"],

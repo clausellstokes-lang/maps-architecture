@@ -22,7 +22,7 @@ import {
   type ConstructiveInput,
   type ConstructiveStepOutcome,
 } from '@plat/testkit';
-import { absorbSliver, classFloorRow, isVertexLive, pointLocate, type KernelTx } from '@plat/kernel';
+import { absorbSliver, classFloorRow, isFaceLive, isVertexLive, pointLocate, type KernelTx, type Plat } from '@plat/kernel';
 import { CASE_DRAWS, HEAVY_DRAWS, lp } from './support.js';
 
 beforeAll(async () => {
@@ -196,14 +196,38 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     expect(!r.ok && r.reason).toMatch(/^expected ok, got E_INVARIANT role-consistency/);
   });
 
-  it('children-tile-parent fails where a child is shrunk behind the split (C-0238 (1))', () => {
+  it('children-tile-parent fails on a child and an unrelated face given as the split (C-0238 (1))', () => {
     const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
     expect(c.expect.holds).toContain('children-tile-parent');
+    for (let s = 0; s < CASE_DRAWS; s++) {
+      const g = input(c, s);
+      let arena: Plat | null = null;
+      const v = constructiveKernelJudge(c, g, 60_000, {
+        afterStep: (p) => {
+          arena = p;
+        },
+        step: (_op, i, run) => {
+          const r = run();
+          if (i !== g.steps.length - 1 || r.kind !== 'ok' || arena === null) return r;
+          // the split's second child swapped for another live L1 face (the frame's): the arena untouched, the sweep clean
+          const [c1, c2] = r.value as [number, number];
+          const p = arena as Plat;
+          let other = -1;
+          for (let f = 0; f < p.slots.face[1].top && other < 0; f++) if (isFaceLive(p, 1, f) && f !== c1 && f !== c2) other = f;
+          return { ...r, value: [c1, other] };
+        },
+      });
+      expect(v.ok, `seed ${String(s)}`).toBe(false);
+      expect(!v.ok && v.reason).toMatch(/^children-tile-parent: the children do not tile the parent: /);
+    }
+  });
+
+  it('a child shrunk behind the split (a parent vertex moved 1 cm) fails the judge', () => {
+    const c = constructiveCase('geom/cut-ends-at-vertex') as ConstructiveCase;
     const g = input(c, 0);
     const v = constructiveKernelJudge(c, g, 60_000, {
       afterStep: (p, i) => {
         if (i !== g.steps.length - 1) return;
-        // the lowest L1 vertex — on the parent's ring — moved 1 cm up behind the transaction
         let best = -1;
         for (let w = 0; w < p.slots.vertex.top; w++) {
           if (!isVertexLive(p, w) || p.vertices.level[w] !== 1) continue;
@@ -213,7 +237,8 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
       },
     });
     expect(v.ok).toBe(false);
-    expect(!v.ok && v.reason).toMatch(/^children-tile-parent: the children do not tile the parent: /);
+    // the sweep after the split sees the moved vertex first (its index box no longer holds it)
+    expect(!v.ok && v.reason).toMatch(/^invalid output after step \d+ \(splitFace\): index-freshness/);
   });
 
   it('an ok case whose outcome is a downgrade fails where the skeleton path is due (skel/notched-rectangle holds skeleton-valid)', () => {

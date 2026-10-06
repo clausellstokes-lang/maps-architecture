@@ -5,7 +5,7 @@
 // property's reason. Each judge also has its clean run elsewhere (primitives.test.ts: 0 invalid on every primitive).
 // The splitFace tiling reading (C-0238 (1)) is tested directly on an arena: the children against the parent's rings.
 import { beforeAll, describe, expect, it } from 'vitest';
-import { faceRings, isVertexLive, outgoing, pointLocate, type FaceId, type KernelResult, type LatticePoint, type Plat } from '@plat/kernel';
+import { faceRings, faceWalk, isVertexLive, outgoing, pointLocate, type FaceId, type KernelResult, type LatticePoint, type Plat } from '@plat/kernel';
 import { childrenTileParent, fuzzTouchMergedRelaxed, loadOracles, runFuzz, runnerFramedAround, runnerKernelOn, runnerSpec, type FuzzPlant, type FuzzReport } from '@plat/testkit';
 import { lp } from './support.js';
 
@@ -15,12 +15,23 @@ beforeAll(async () => {
 
 type Rings = LatticePoint[][];
 
-/** A line of the whole-arena sweep (`checkCI`'s hard rows, by name): the reason starts with one. */
-const SWEEP = /^[a-z][a-z-]*: /;
+/** A line of the whole-arena sweep (`checkCI`'s hard rows, by name) among the reason's lines (never `after merge: …`). */
+const SWEEP = /(^|; )[a-z][a-z-]*: /;
 
-/** Every failing input of a run is invalid for the reason `why`, and the run had inputs to judge. */
-function allInvalidFor(r: FuzzReport, why: RegExp, judged: number, least = 4): void {
+/**
+ * Every failing input of a run is invalid for the reason `why`, and the run had inputs to judge. With `crashes`, an
+ * arena the plant corrupted may also make a later operation throw (a crash — counted, never a pass).
+ */
+function allInvalidFor(r: FuzzReport, why: RegExp, judged: number, least = 4, crashes = false): void {
   expect(judged, `${r.primitive}: inputs judged`).toBeGreaterThanOrEqual(least);
+  if (crashes) {
+    expect(r.invalid + r.crashes, `${r.primitive}: invalid + crashes`).toBe(judged);
+    expect(r.invalid, `${r.primitive}: invalid`).toBeGreaterThanOrEqual(least);
+    expect(r.hangs).toBe(0);
+    const off = r.failures.filter((f) => f.kind === 'invalid' && !why.test(f.reason));
+    expect(off.slice(0, 2), `${r.primitive}: failures for another reason`).toEqual([]);
+    return;
+  }
   expect(r.invalid, `${r.primitive}: invalid`).toBe(judged);
   expect(r.crashes + r.hangs).toBe(0);
   const off = r.failures.filter((f) => f.kind !== 'invalid' || !why.test(f.reason));
@@ -40,14 +51,31 @@ function pullOut(p: Plat): boolean {
   return false;
 }
 
-/** The lowest L1 vertex (by y, then x) moved 1 cm up: a vertex of the parent's ring (the lowest point of the face) shifted. */
-function shrinkChild(p: Plat): void {
-  let best = -1;
-  for (let v = 0; v < p.slots.vertex.top; v++) {
-    if (!isVertexLive(p, v) || p.vertices.level[v] !== 1) continue;
-    if (best < 0 || p.vertices.y[v] < p.vertices.y[best] || (p.vertices.y[v] === p.vertices.y[best] && p.vertices.x[v] < p.vertices.x[best])) best = v;
-  }
-  if (best >= 0) p.vertices.y[best] += 1;
+/**
+ * A child shrunk behind the split: the lowest vertex (by y, then x) of the children's joint boundary — the lowest point
+ * of the parent, one of its ring's vertices — moved 1 cm up. The children come from the split's own result.
+ */
+function shrinkPlant(): FuzzPlant {
+  let children: [FaceId, FaceId] | null = null;
+  return {
+    tx: (op, commit) => {
+      const r = commit();
+      if (op === 'splitFace' && r.ok) children = (r.value as { value: [FaceId, FaceId] }).value;
+      return r;
+    },
+    afterCommit: (op, p) => {
+      if (op !== 'splitFace' || children === null) return;
+      const all = new Set<number>([...faceWalk(p, 1, children[0]).flat(), ...faceWalk(p, 1, children[1]).flat()]);
+      let best = -1;
+      for (const h of all) {
+        if (all.has(h ^ 1)) continue;
+        const v = p.halfEdges.origin[h];
+        if (best < 0 || p.vertices.y[v] < p.vertices.y[best] || (p.vertices.y[v] === p.vertices.y[best] && p.vertices.x[v] < p.vertices.x[best])) best = v;
+      }
+      if (best >= 0) p.vertices.y[best] += 1;
+      children = null;
+    },
+  };
 }
 
 /** A pin flag set on an L0 vertex behind the batch's back: the arena's print changes, no row reads it. */
@@ -119,8 +147,8 @@ describe('splitFace: the children tile the PARENT (C-0238 (1); §13.1 integer ar
   });
 
   it('the fuzz primitive: a child shrunk behind the split is invalid on every split, for the tiling', () => {
-    const r = runFuzz('splitFace', 40, { plant: { afterCommit: (op, p) => (op === 'splitFace' ? shrinkChild(p) : undefined) } });
-    allInvalidFor(r, /splitFace children do not tile the parent: a parent vertex \(-?\d+, -?\d+\) is not on the children's joint boundary/, r.ok);
+    const r = runFuzz('splitFace', 40, { plant: shrinkPlant() });
+    allInvalidFor(r, /^splitFace children do not tile the parent: a parent vertex \(-?\d+, -?\d+\) is not on the children's joint boundary/, r.ok, 4, true);
   }, 120_000);
 });
 
@@ -159,10 +187,7 @@ describe('the whole-arena sweep after every writer (§13.1 "checked after every 
   it('splitFace: a write behind the commit is caught by the sweep first (a later merge on that arena may throw: a crash, never a pass)', () => {
     let pulled = 0;
     const r = runFuzz('splitFace', N, { plant: { afterCommit: (op, p) => (op === 'splitFace' && pullOut(p) ? pulled++ : undefined) } });
-    expect(pulled).toBeGreaterThanOrEqual(4);
-    expect(r.invalid + r.crashes).toBe(pulled);
-    expect(r.invalid).toBeGreaterThanOrEqual(3);
-    expect(r.failures.filter((f) => f.kind === 'invalid' && !SWEEP.test(f.reason))).toEqual([]);
+    allInvalidFor(r, SWEEP, pulled, 3, true);
   }, 120_000);
 });
 

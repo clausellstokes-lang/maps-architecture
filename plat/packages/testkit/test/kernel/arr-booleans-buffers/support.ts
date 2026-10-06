@@ -1258,15 +1258,19 @@ export const MAX_ALL_OWN_REFUSED_SHARE = 0.01;
  * insertChain's refusals each operation's agreement met at the PR size, measured by fix round S1 (C-0231; N-46 (4) and
  * (5)): the seeds measured (10⁴ cases per operation each) and the refusals classed insertChain's over all of them — the
  * ratchet's baseline. A cap only falls: a later measure that finds fewer lowers it; raising one is the session's call.
+ * The seeds: 5101, −5203, 5309, −5407, 5501, −5623, 5701, −5801, 5903, −6007, 6101, −6203 (the S5 closing check's first
+ * twelve); offsetFace's 6101 never finished — polygon-clipping, an oracle, did not terminate on one case — so −6421 and
+ * 6521 stand in. Per seed: buffer 77 68 67 65 78 56 69 69 66 75 58 82; offsetFace 27 31 29 26 42 41 29 35 38 30 30 25 30;
+ * every other operation 0 on every seed. Every refused case replays on insertChain alone (0 of this item's own).
  */
 export const REFUSAL_MEASURE: Readonly<Record<string, { readonly seeds: number; readonly count: number }>> = {
-  union: { seeds: 1, count: 0 },
-  intersection: { seeds: 1, count: 0 },
-  difference: { seeds: 1, count: 0 },
-  xor: { seeds: 1, count: 0 },
-  buffer: { seeds: 4, count: 266 },
-  offsetFace: { seeds: 4, count: 125 },
-  insetRing: { seeds: 1, count: 0 },
+  union: { seeds: 12, count: 0 },
+  intersection: { seeds: 12, count: 0 },
+  difference: { seeds: 12, count: 0 },
+  xor: { seeds: 12, count: 0 },
+  buffer: { seeds: 12, count: 830 },
+  offsetFace: { seeds: 13, count: 413 },
+  insetRing: { seeds: 12, count: 0 },
 };
 
 /**
@@ -1281,17 +1285,18 @@ export function refusalCapPer1e4(op: string): number | null {
 
 /**
  * The smallest count c with P(X ≤ c) ≥ 0.999 for X Poisson with mean `mean`, at least 1 — one run's noise about the
- * cap (caps.ts's `poissonCap`, M0-a-05; the terms summed in order).
+ * cap (caps.ts's `poissonCap`, M0-a-05). The terms are carried as logarithms and summed in order: at the nightly size
+ * buffer's mean is about 7 600, where exp(−mean) underflows to 0 and a product of terms would never reach 0.999.
  */
 export function poissonCap(mean: number): number {
   if (mean <= 0) return 1;
-  let term = Math.exp(-mean);
-  let sum = term;
+  let logTerm = -mean;
+  let sum = Math.exp(logTerm);
   let c = 0;
   while (sum < 0.999) {
     c += 1;
-    term *= mean / c;
-    sum += term;
+    logTerm += Math.log(mean / c);
+    sum += Math.exp(logTerm);
   }
   return Math.max(1, c);
 }

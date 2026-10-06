@@ -376,12 +376,14 @@ function alongEdge(r: readonly LatticePoint[], i: number, t: number): LatticePoi
 /**
  * §13.1's "splitFace children tile the parent exactly (integer area2 equality)", read against the PARENT (C-0238 (1),
  * superseding C-0227 (8)'s joint-boundary identity): `parent` is the parent face's rings as `faceRings` gave them before
- * the split (signed: the outer ring counter-clockwise, holes clockwise). The children's joint boundary — the half-edges of
- * their walks whose twin is in neither walk, the cut's pairs cancelling — must hold exactly the parent's area2. Where a
- * cut end landed on a slanted ring edge, its lattice point lies in the hot pixel of the true crossing, so the edge bends
- * by at most √2/2 cm: then every parent vertex must stand on the joint boundary and the area2 differ by at most √2 × the
- * length of each parent edge the joint boundary does not keep whole. Null when the children tile the parent, else why
- * not. Two unrelated faces, or a child changed behind the transaction, fail.
+ * the split (signed: the outer ring counter-clockwise, holes clockwise). The children's joint boundary is the half-edges
+ * of their walks whose twin is in neither walk (the cut's pairs cancel, and so does an antenna's — a chain dangling into
+ * the face, walked on both its sides); the parent's boundary is its rings' edges whose reverse is not also in its rings.
+ * Every vertex of the parent's boundary must stand on the joint boundary (an insertion never moves a vertex, §3.6), and
+ * the joint boundary must hold exactly the parent's area2 — or, where a cut end landed on a slanted ring edge (its
+ * lattice point in the hot pixel of the true crossing, the edge bent by at most √2/2 cm), differ by at most √2 × the
+ * length of each parent boundary edge the joint boundary does not keep whole. Null when the children tile the parent,
+ * else why not. Two unrelated faces, or a child changed behind the transaction, fail.
  */
 export function childrenTileParent(parent: readonly (readonly LatticePoint[])[], p: Plat, level: Level, a: FaceId, b: FaceId): string | null {
   const all = new Set<number>([...faceWalk(p, level, a).flat(), ...faceWalk(p, level, b).flat()]);
@@ -399,17 +401,20 @@ export function childrenTileParent(parent: readonly (readonly LatticePoint[])[],
     vertices.add(key(X[u], Y[u]));
     edges.add(`${key(X[u], Y[u])}>${key(X[v], Y[v])}`);
   }
-  const want = parent.reduce((t, ring) => t + area2Exact(ring), 0n);
-  if (s === want) return null;
+  const parentEdges = new Set<string>();
+  for (const ring of parent) for (let i = 0; i < ring.length; i++) parentEdges.add(`${key(ring[i].x, ring[i].y)}>${key(ring[(i + 1) % ring.length].x, ring[(i + 1) % ring.length].y)}`);
   let bound = 0;
   for (const ring of parent) {
     for (let i = 0; i < ring.length; i++) {
       const u = ring[i];
       const v = ring[(i + 1) % ring.length];
-      if (!vertices.has(key(u.x, u.y))) return `a parent vertex (${String(u.x)}, ${String(u.y)}) is not on the children's joint boundary`;
+      if (parentEdges.has(`${key(v.x, v.y)}>${key(u.x, u.y)}`)) continue; // an antenna: walked both ways, no boundary
+      for (const q of [u, v]) if (!vertices.has(key(q.x, q.y))) return `a parent vertex (${String(q.x)}, ${String(q.y)}) is not on the children's joint boundary`;
       if (!edges.has(`${key(u.x, u.y)}>${key(v.x, v.y)}`)) bound += Math.SQRT2 * Math.hypot(v.x - u.x, v.y - u.y);
     }
   }
+  const want = parent.reduce((t, ring) => t + area2Exact(ring), 0n);
+  if (s === want) return null;
   const d = s > want ? s - want : want - s;
   return Number(d) <= bound ? null : `the children's joint boundary holds area2 ${String(s)}, the parent ${String(want)} (the landings' bound ${bound.toFixed(1)})`;
 }
@@ -446,9 +451,10 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     const { r, work } = writer(p, 1, (o) => k.geom.splitFace(o, face, cut, { rows: [{ role: 'plot_line', entity: 'plot_line:cut' }] }), (c) => (c.startsWith('insert.') ? cut.length : liveFaces(p, 1)), { ctx, op: 'splitFace' });
     if (!r.ok) return { code: r.code, problems: topology(p) !== before ? ['the refused split changed the arena'] : [], warnings: [], work };
     const [c1, c2] = r.value.value as [FaceId, FaceId];
-    const problems = ciProblems(p);
+    const problems: string[] = [];
     const tiling = childrenTileParent(parent, p, 1, c1, c2);
     if (tiling !== null) problems.push(`splitFace children do not tile the parent: ${tiling}`);
+    problems.push(...ciProblems(p));
     // mergeFaces ∘ splitFace restores the ring and the id (§13.1): the arena exactly as it was before the split (C-0238 (2)).
     const m = planTx(ctx, 'mergeFaces', () => k.tx(spec(1), (o) => k.geom.mergeFaces(o, c1, c2)));
     if (!m.ok) problems.push(`mergeFaces after splitFace refused: ${m.code} ${m.detail}`);

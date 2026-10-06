@@ -16,6 +16,7 @@ import {
   judgeInset,
   judgeOffset,
   newHarness,
+  REFUSAL_MEASURE,
   type BooleanCase,
   type BufferCase,
   type FaceCase,
@@ -30,7 +31,11 @@ interface Registered {
   input: unknown;
 }
 
-const REGISTER = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8')) as { pending: Registered[]; refused: Registered[] };
+/** One case's run and its replay take seconds on a loaded machine (the slowest seen: 6 s); a hang still fails. */
+const CASE_TIMEOUT = 120_000;
+
+// `oracleHang` holds a case on which polygon-clipping (an oracle) does not terminate: kept as a repro, never run (C-0231)
+const REGISTER = JSON.parse(readFileSync(new URL('./register.json', import.meta.url), 'utf8')) as { pending: Registered[]; refused: Registered[]; oracleHang: Registered[] };
 
 beforeAll(async () => {
   await loadOracles();
@@ -67,7 +72,7 @@ function cleanOutcome(c: Registered, h: Harness): 'refused' | 'committed' {
 
 describe('the PENDING-S3 lines (N-43 A and B; N-44): every repro refuses as insertChain’s or commits within the bars', () => {
   for (const c of REGISTER.pending) {
-    it(`${c.id} (${c.op}): ${c.note}`, () => {
+    it(`${c.id} (${c.op}): ${c.note}`, { timeout: CASE_TIMEOUT }, () => {
       const h = rerun(c);
       const outcome = cleanOutcome(c, h);
       console.info(`register ${c.id}: ${outcome} ${JSON.stringify(h.engineRefusals.byCode)}`);
@@ -77,10 +82,12 @@ describe('the PENDING-S3 lines (N-43 A and B; N-44): every repro refuses as inse
 
 describe('the refusal register (N-44 (4)): each case refuses cleanly as insertChain’s, or commits and agrees', () => {
   it('holds a case of every family that refused in the round’s measure', () => {
-    expect(REGISTER.refused.length).toBeGreaterThan(0);
+    for (const [op, m] of Object.entries(REFUSAL_MEASURE)) {
+      if (m.count > 0) expect(REGISTER.refused.some((c) => c.op === op), op).toBe(true);
+    }
   });
   for (const c of REGISTER.refused) {
-    it(`${c.id} (${c.op}): ${c.note}`, () => {
+    it(`${c.id} (${c.op}): ${c.note}`, { timeout: CASE_TIMEOUT }, () => {
       cleanOutcome(c, rerun(c));
     });
   }

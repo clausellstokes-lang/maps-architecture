@@ -304,6 +304,13 @@ describe('the refusal caps (N-44 (3); N-46 (4), (5); C-0231)', () => {
     expect(poissonCap(0)).toBe(1);
     expect(poissonCap(1)).toBe(5);
     expect(poissonCap(10)).toBe(21);
+    // the nightly size: a mean where exp(−mean) underflows still ends, near the normal 99.9 % point mean + 3.09 · √mean
+    for (const mean of [700, 7_637, 36_459]) {
+      const c = poissonCap(mean);
+      expect(c).toBeGreaterThan(mean + 3 * Math.sqrt(mean));
+      expect(c).toBeLessThan(mean + 3.3 * Math.sqrt(mean));
+    }
+    expect(insertChainRefusalCap('buffer', 1_000_000)).toBe(poissonCap(refusalCapPer1e4('buffer')! * 100));
     for (const [op, m] of Object.entries(REFUSAL_MEASURE)) {
       expect(m.seeds, op).toBeGreaterThanOrEqual(12);
       expect(refusalCapPer1e4(op)).toBeCloseTo((m.count + 3 * Math.sqrt(m.count)) / m.seeds, 12);
