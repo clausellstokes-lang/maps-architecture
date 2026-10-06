@@ -11,7 +11,9 @@
 //   two knots at each class change (the run before, the run after), linear, so the profile steps there;
 // * junctions: every chain end, numbered by its point (lower, then leftmost; §6.3's canonical vertex order),
 //   `junction:<n>`, its row ('junction', id, 0) on the vertex; kind `gate`, `bridgehead` (a deck end), `square` (a
-//   plaza attach point), `end` (a frame end or a dead end), `X` (four or more arms), else `T` or `Y` by its arms;
+//   plaza attach point), `end` (a frame end or a dead end), `X` (four or more arms), else `T` or `Y` by its arms —
+//   `T` where the branch leaves the through line (the widest pair, ≥ `THROUGH_MIN_CDEG`, along the difference of its
+//   two unit directions, as the Y → T rule's line) at 75°–105°, independent of the arms' order (C-0239);
 // * the chains are validated before the batch — none meets another but at a shared end, none meets the water but a
 //   span at its deck ends, the plaza but at its attach end, the wall but at its gate end, and each lies on its side of
 //   the wall — and a chain that fails falls back to its simplified course, then to its lattice course (reported
@@ -222,13 +224,27 @@ function junctionKind(g: ArterialGraph, polys: readonly Simplified[], v: number,
   if (arms >= 4) return 'X';
   if (arms === 2) return 'end';
   const as = armsAt(g, polys, v);
-  for (let i = 0; i < as.length; i += 1) {
-    for (let j = i + 1; j < as.length; j += 1) {
-      if (angleBetweenCdeg(as[i].dir, as[j].dir) < THROUGH_MIN_CDEG) continue;
-      const k = 3 - i - j;
-      const bi = angleBetweenCdeg(as[k].dir, as[i].dir);
-      if (bi >= 7_500 && bi <= 10_500) return 'T';
-    }
+  if (as.length !== 3) return 'Y';
+  // The through line: the widest pair of arms (every pair as wide, on an exact tie), ≥ THROUGH_MIN_CDEG apart.
+  const pairs: [number, number][] = [
+    [0, 1],
+    [0, 2],
+    [1, 2],
+  ];
+  const gaps = pairs.map(([i, j]) => angleBetweenCdeg(as[i].dir, as[j].dir));
+  const widest = Math.max(...gaps);
+  if (widest < THROUGH_MIN_CDEG) return 'Y';
+  for (let p = 0; p < 3; p += 1) {
+    if (gaps[p] !== widest) continue;
+    const [i, j] = pairs[p];
+    const di = as[i].dir;
+    const dj = as[j].dir;
+    // ui − uj, scaled by |di|·|dj| (no division): the line's direction.
+    const li = Math.sqrt(di.x * di.x + di.y * di.y);
+    const lj = Math.sqrt(dj.x * dj.x + dj.y * dj.y);
+    const line = { x: di.x * lj - dj.x * li, y: di.y * lj - dj.y * li };
+    const off = angleBetweenCdeg(as[3 - i - j].dir, line);
+    if (off >= 7_500 && off <= 10_500) return 'T';
   }
   return 'Y';
 }

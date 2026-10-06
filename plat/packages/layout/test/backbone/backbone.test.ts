@@ -5,7 +5,9 @@
 import { describe, expect, it } from 'vitest';
 import { tableView } from '@plat/tables';
 import type { ChainProfile } from '@plat/model';
-import { cityRun, edgesOf, edgesWith, GROUND, incidentEdgeRows, insideRing, segDist, angleDeg, verticesWith, wayEdges, wayLine, vertexRows, runSite } from './support.js';
+import type { LatticePoint } from '@plat/kernel';
+import type { NodeRef, Way } from '@plat/model';
+import { cityRun, edgesOf, edgesWith, GROUND, incidentEdgeRows, insideRing, segDist, angleDeg, verticesWith, wayEdges, wayLine, vertexRows, runSite, type Run } from './support.js';
 import { flatFixture } from '../../src/index.js';
 
 const SEEDS = [1, 2, 3];
@@ -13,6 +15,67 @@ const WAYS = tableView().table('ways');
 const SPACING_CM = tableView().table('lattice').num('route', 'spacingM') * 100;
 
 const key = (p: { x: number; y: number }): string => `${String(p.x)},${String(p.y)}`;
+
+/** The seeds whose fixture has a way that changes class (a width profile): the knot and class checks bite there. */
+const PROFILE_SEEDS = new Set([1, 3]);
+/** The classes, highest first (§4.3's class order; written here). */
+const CLASS_ORDER = ['through', 'primary', 'secondary', 'track', 'path'];
+
+/** A compass bearing (cdeg clockwise from +y, [0, 36 000)), written here. */
+function compassCdeg(dx: number, dy: number): number {
+  const b = (Math.atan2(dx, dy) * 18_000) / Math.PI;
+  return b < 0 ? b + 36_000 : b;
+}
+
+/** The unsigned gap of two bearings (cdeg). */
+function bearingGap(a: number, b: number): number {
+  const d = Math.abs(a - b) % 36_000;
+  return d > 18_000 ? 36_000 - d : d;
+}
+
+/** The S3 gate (its point and bearing) of a main gate's id. */
+function sliceGate(run: Run, id: string): { at: LatticePoint; bearingCdeg: number } {
+  const mains = run.commit.gates.filter((g) => g.kind === 'main');
+  const i = mains.findIndex((g) => g.id === id);
+  expect(i).toBeGreaterThanOrEqual(0);
+  return run.slice.gates[i];
+}
+
+/** The point a way end names, where the arena or the slice fixes one (a gate, a junction); else null. */
+function refPoint(run: Run, ref: NodeRef): LatticePoint | null {
+  if (ref.kind === 'gate') return sliceGate(run, ref.id).at;
+  if (ref.kind === 'junction') return verticesWith(run.plat, 'junction', ref.id)[0] ?? null;
+  return null;
+}
+
+/** A way's chains in way order (from its `from` end), each with its class, width and its two end points in that order. */
+function chainsInWayOrder(run: Run, w: Way): { i: number; cls: string; width: number; a: LatticePoint; b: LatticePoint }[] {
+  const mine = run.s4.chainWay.map((id, i) => ({ id, i })).filter((x) => x.id === w.id).map((x) => x.i);
+  const endsOf = (i: number): [LatticePoint, LatticePoint] => [run.s4.spines[i][0], run.s4.spines[i][run.s4.spines[i].length - 1]];
+  const count = new Map<string, number>();
+  for (const i of mine) for (const p of endsOf(i)) count.set(key(p), (count.get(key(p)) ?? 0) + 1);
+  const pathEnds = mine.flatMap((i) => endsOf(i)).filter((p) => count.get(key(p)) === 1);
+  expect(pathEnds, `${w.id}'s chains form one open path`).toHaveLength(2);
+  const from = refPoint(run, w.from);
+  const to = refPoint(run, w.to);
+  let start: LatticePoint;
+  if (from !== null && pathEnds.some((p) => key(p) === key(from))) start = from;
+  else if (to !== null && pathEnds.some((p) => key(p) === key(to))) start = pathEnds.find((p) => key(p) !== key(to)) as LatticePoint;
+  else throw new Error(`${w.id}: neither end fixes the way's direction`);
+  const out: { i: number; cls: string; width: number; a: LatticePoint; b: LatticePoint }[] = [];
+  const left = new Set(mine);
+  let at = start;
+  while (left.size > 0) {
+    const i = [...left].find((c) => endsOf(c).some((p) => key(p) === key(at)));
+    expect(i, `${w.id}: a chain continues from ${key(at)}`).toBeDefined();
+    const [p, q] = endsOf(i as number);
+    const [a, b] = key(p) === key(at) ? [p, q] : [q, p];
+    out.push({ i: i as number, cls: run.s4.classes[i as number].class, width: run.s4.classes[i as number].widthCm, a, b });
+    left.delete(i as number);
+    at = b;
+  }
+  return out;
+}
 
 describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 }, () => {
   for (const seed of SEEDS) {
@@ -94,6 +157,13 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
         const pl = wayLine(ways.get(w.id) ?? []);
         const end = [pl[0], pl[pl.length - 1]].find((p) => border.has(key(p)));
         expect(end, `${w.id} ends on the border`).toBeDefined();
+        // Its bearing (C-0236 (18)): the compass bearing from its gate to that frame end (whole cdeg), and so within 2°
+        // of the gate's own S3 bearing (the through-road runs on along its route's last edge).
+        expect(w.from.kind).toBe('gate');
+        if (w.from.kind !== 'gate' || w.to.kind !== 'bearing' || end === undefined) continue;
+        const g = sliceGate(run, w.from.id);
+        expect(bearingGap(w.to.bearingCdeg, compassCdeg(end.x - g.at.x, end.y - g.at.y)), `${w.id}'s bearing`).toBeLessThanOrEqual(1);
+        expect(bearingGap(w.to.bearingCdeg, g.bearingCdeg), `${w.id}'s bearing against its gate's`).toBeLessThanOrEqual(200);
       }
     });
 
@@ -176,13 +246,46 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
         for (let i = 0; i < sorted.length; i += 1) expect(angleDeg(sorted[i], sorted[(i + 1) % sorted.length])).toBeGreaterThanOrEqual(minCrossing - 0.5);
       }
       expect(junctions3).toBe(run.s4.network.junctions.filter((j) => ['T', 'X', 'Y'].includes(j.kind)).length);
+      // Each three-arm junction's kind from its committed arms (C-0236 (11), C-0239): T where the branch leaves the
+      // through line — the widest pair, at least 150° apart, along the difference of its unit directions — at 75°–105°.
+      const kinds: Record<string, number> = {};
+      for (const j of run.s4.network.junctions) {
+        if (j.kind !== 'T' && j.kind !== 'Y') continue;
+        const at = verticesWith(run.plat, 'junction', j.id)[0];
+        const ds = arms.get(key(at)) ?? [];
+        expect(ds, `${j.id}'s arms`).toHaveLength(3);
+        const pairs = [
+          [0, 1],
+          [0, 2],
+          [1, 2],
+        ] as const;
+        const gaps = pairs.map(([a, b]) => angleDeg(ds[a], ds[b]));
+        const widest = Math.max(...gaps);
+        let want = 'Y';
+        pairs.forEach(([a, b], p) => {
+          if (gaps[p] !== widest || widest < 150) return;
+          const ua = Math.hypot(ds[a].x, ds[a].y);
+          const ub = Math.hypot(ds[b].x, ds[b].y);
+          const off = angleDeg(ds[3 - a - b], { x: ds[a].x / ua - ds[b].x / ub, y: ds[a].y / ua - ds[b].y / ub });
+          if (off >= 75 && off <= 105) want = 'T';
+        });
+        expect(j.kind, `${j.id}'s kind`).toBe(want);
+        kinds[j.kind] = (kinds[j.kind] ?? 0) + 1;
+      }
+      // Seed 1 has both kinds (two T, one Y), so the rule is held both ways.
+      if (seed === 1) expect(kinds).toEqual({ T: 2, Y: 1 });
     });
 
     it(`seed ${String(seed)}: width_knot rows at every class change and nowhere else; the widths are ways.widths cells (§4.3, §2.2 rule 5)`, () => {
       const run = cityRun(seed);
       const band = (c: string): [number, number] => WAYS.pair(c, 'widthM.CITY').map((v) => v * 100) as [number, number];
       let knots = 0;
+      let profiles = 0;
       for (const w of run.s4.network.ways) {
+        // The way's class is the highest of its chains' (C-0236 (10)).
+        const inOrder = chainsInWayOrder(run, w);
+        const top = CLASS_ORDER[Math.min(...inOrder.map((c) => CLASS_ORDER.indexOf(c.cls)))];
+        expect(w.class, `${w.id}'s class`).toBe(top);
         // The way's chains in order, and its class runs.
         const chains = run.s4.chainWay.map((id, i) => ({ id, i })).filter((x) => x.id === w.id);
         const classes = chains.map((x) => run.s4.classes[x.i].class);
@@ -196,8 +299,25 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
           continue;
         }
         const prof = w.width as ChainProfile<number>;
+        profiles += 1;
         expect(prof.knotRole).toBe('width_knot');
         expect(prof.values.length % 2).toBe(0);
+        // In way order, the class runs (each at its widest chain's width) and the vertex each run ends at: knot pair r
+        // stands on the vertex the run r's last chain and run r + 1's first chain share, its values those two widths.
+        const runs: { cls: string; width: number; end: LatticePoint }[] = [];
+        for (const c of inOrder) {
+          const last = runs[runs.length - 1];
+          if (last !== undefined && last.cls === c.cls) {
+            last.width = Math.max(last.width, c.width);
+            last.end = c.b;
+          } else runs.push({ cls: c.cls, width: c.width, end: c.b });
+        }
+        expect(runs.length).toBeGreaterThan(1);
+        expect(prof.values).toEqual(runs.slice(0, -1).flatMap((r, i) => [r.width, runs[i + 1].width]));
+        for (let r = 0; r + 1 < runs.length; r += 1) {
+          expect(verticesWith(run.plat, 'width_knot', w.id, 2 * r), `${w.id}'s knot pair ${String(r)}`).toEqual([runs[r].end]);
+          expect(verticesWith(run.plat, 'width_knot', w.id, 2 * r + 1)).toEqual([runs[r].end]);
+        }
         for (let i = 0; i < prof.values.length; i += 2) {
           // A knot pair at one vertex: the run before, the run after, in two different class bands.
           const at0 = verticesWith(run.plat, 'width_knot', w.id, i);
@@ -217,6 +337,7 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
         expect(samples.length).toBeGreaterThan(2);
         for (const s of samples) expect(prof.values).toContain(s);
       }
+      if (PROFILE_SEEDS.has(seed)) expect(profiles).toBeGreaterThan(0);
       // Nowhere else: the arena holds exactly these knot rows.
       let rows = 0;
       for (const w of run.s4.network.ways) rows += verticesWith(run.plat, 'width_knot', w.id).length;
