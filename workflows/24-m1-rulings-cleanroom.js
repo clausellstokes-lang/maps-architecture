@@ -12,7 +12,7 @@ const ARGS = (typeof args === 'object' && args) ? args : {}
 const ROOT = ARGS.root || '/Users/cstokes/Desktop/Maps'
 const SCRATCH = ARGS.scratch || '/tmp/maps-scratch/m1r'
 const MODEL = ARGS.model || 'opus'
-const RULE_MODEL = ARGS.ruleModel || 'opus' // J190 (owner 2026-10-05: "in place of using fable for anything, use opus 5.5")
+const RULE_MODEL = ARGS.ruleModel || 'fable' // J210 (owner 2026-10-05 ~23:20: "feel free to use fable now where appropriate"; J190 lifted)
 const MAX = ARGS.maxLanes || 3
 const ONLY = ARGS.only || ['cleanroom', 'rulings', 'mfcg']
 
