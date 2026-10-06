@@ -6,7 +6,9 @@
 // slot-free content print, the live records per level and the encoded chunks (`encodeArena` writes every live record),
 // with the level digests beside them. Fix round S2 (checks/M0-a-06-s1.md B-1, B-2; C-0223): a chain crossing one run
 // twice dissolves both crossings whatever the order (the on-run test decided before the batch), split restoration alike,
-// and a coarser batch's record lists the own-child ancestors it frees in key order.
+// and a coarser batch's record lists the own-child ancestors it frees in key order. Fix round S3
+// (checks/M0-a-06-s2.md B-1, C-0224): a chain crossing one EDGE three or more times — a middle crossing judged against
+// every piece of the stretch it could have split, so cases 817 and 1526 restore; the zigzag property draws that class.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { faceKey, isFaceLive, isVertexLive, outgoing, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
@@ -202,6 +204,26 @@ describe('B-1: remove(insert(x)) dissolves every crossing of one run, whatever t
       level: 2,
       pts: [[1008, 1861], [3196, 3062], [277, 3015], [983, 332]],
       removeAt: 2,
+    },
+    {
+      // checks/M0-a-06-s2.md B-1 (probe-double.mts, seeds c × 104 729 + 31 337): the chain crosses the kerb's edge
+      // (0,3687)–(2834,2004) four times, inserted in the order (1022,3080), (1489,2803), (2108,2436), (2751,2053).
+      // (2108,2436) split the piece (1489,2803)–(2834,2004) and lies 0.62 cm from it, but 0.75 cm from its pre-batch
+      // neighbours' segment and 0.74 cm from the restored edge: on-run only against that piece (onStretch, C-0224).
+      name: 'the S2 check\'s case 817: an L2 chain crossing one L2 kerb edge four times, removed by an L2 batch',
+      bases: [{ level: 2, i: 0, pts: [[0, 3687], [2834, 2004], [4000, 443]] }],
+      level: 2,
+      pts: [[553, 3657], [1299, 2739], [1845, 2922], [2605, 1514], [2761, 2090]],
+      removeAt: 2,
+    },
+    {
+      // The same class at L3 (seeds c × 15 485 863 + 31 337): (1816,2154) is 0.64 cm from the piece it split,
+      // (1375,2475)–(2692,1514), 0.79 cm from its neighbours' segment and 0.73 cm from the restored edge.
+      name: 'the S2 check\'s case 1526: an L3 chain crossing one L3 plot line edge four times, removed by an L3 batch',
+      bases: [{ level: 3, i: 0, pts: [[0, 3478], [2692, 1514], [4000, 531]] }],
+      level: 3,
+      pts: [[1244, 2928], [1599, 1703], [1957, 2448], [2762, 740], [3409, 1160]],
+      removeAt: 3,
     },
   ];
   for (const k of CASES) {
@@ -423,6 +445,136 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
     expect(tally.refusedRemove).toBe(0);
     expect(tally.exact).toBeGreaterThan(tally.inserted * 0.95);
     expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, tally.inserted / 200));
+    expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
+  }, 600_000);
+});
+
+/** Does segment p1–p2 cross segment q1–q2 properly (each strictly separates the other's ends; exact on lattice points)? */
+function crosses(p1: readonly number[], p2: readonly number[], q1: readonly number[], q2: readonly number[]): boolean {
+  const o = (a: readonly number[], b: readonly number[], c: readonly number[]): number => Math.sign((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0]));
+  return o(p1, p2, q1) * o(p1, p2, q2) < 0 && o(q1, q2, p1) * o(q1, q2, p2) < 0;
+}
+
+/** The most times the polyline `chain` crosses any one segment of the polyline `base`. */
+function maxCrossingsOfOneEdge(base: Pts, chain: Pts): number {
+  let most = 0;
+  for (let i = 0; i + 1 < base.length; i++) {
+    let n = 0;
+    for (let j = 0; j + 1 < chain.length; j++) if (crosses(base[i], base[i + 1], chain[j], chain[j + 1])) n++;
+    most = Math.max(most, n);
+  }
+  return most;
+}
+
+/**
+ * checks/M0-a-06-s2.md B-1: the zigzag property. A base run across the frame with one interior bend (L0 – L3; in 30 % of
+ * the cases a second, crossing it), then a chain of 4 – 7 points at the base's level or finer zigzagging across the
+ * base, so most cases cross ONE base edge three or more times — the class whose middle crossings stand within the hot
+ * pixel only of the piece they split. Removed by a later batch (30 % coarser), in 15 % after a second zigzag inserted and
+ * removed on top (LIFO). The arena must come back: records per level, encoded chunk refs, level digests, content print.
+ */
+const ZCASES = Math.max(200, Math.floor(RUNS / 5));
+
+describe(`B-1 zigzag property: ${ZCASES} chains crossing one base edge repeatedly, each removed by a later batch, restore the arena`, () => {
+  it('the records per level, the encoded chunk refs, the level digests and the content print as before the insert', () => {
+    const tally = { inserted: 0, refusedInsert: 0, refusedRemove: 0, threePlus: 0, exact: 0, rotated: 0, sharedEnd: 0, foldedBase: 0, coarserBatch: 0, lifo: 0 };
+    const byLevel = LEVELS.map(() => 0);
+    const clamp = (x: number): number => Math.max(120, Math.min(3880, Math.round(x)));
+    for (let c = 1; c <= ZCASES; c++) {
+      const r = rng((c * 2_246_822_519 + 7_919) >>> 0);
+      const p = framed();
+      const lb = Math.floor(r() * 4) as Level;
+      const y0 = 300 + Math.floor(r() * 3400);
+      const y1 = 300 + Math.floor(r() * 3400);
+      const ym = 300 + Math.floor(r() * 3400);
+      const xm = 800 + Math.floor(r() * 2400);
+      const base: Pts = [[0, y0], [xm, ym], [4000, y1]];
+      commit(p, lb, (o) => insertChain(o, base.map(([x, y]) => pt(x, y)), [{ role: roleAt(lb), entity: 'base:0' }], 'mandatory'), { rederivesFrom: 0 as never });
+      if (r() < 0.3) {
+        const l2 = Math.floor(r() * 4) as Level;
+        const x0 = 300 + Math.floor(r() * 3400);
+        const x1 = 300 + Math.floor(r() * 3400);
+        tx(p, spec(l2, { rederivesFrom: 0 as never }), (o) => insertChain(o, [pt(x0, 0), pt(x1, 4000)], [{ role: roleAt(l2), entity: 'base:1' }], 'mandatory'));
+      }
+      const yAt = (x: number): number => (x <= xm ? y0 + ((ym - y0) * x) / xm : ym + ((y1 - ym) * (x - xm)) / (4000 - xm));
+      const lt = (lb + Math.floor(r() * (5 - lb))) as Level;
+      const n = 4 + Math.floor(r() * 4);
+      const sign = r() < 0.5 ? 1 : -1;
+      const chain: [number, number][] = [];
+      let x = 200 + Math.floor(r() * 1000);
+      for (let i = 0; i < n; i++) {
+        const d = 30 + Math.floor(r() * 600);
+        chain.push([clamp(x), clamp(yAt(x) + sign * (i % 2 === 0 ? 1 : -1) * d)]);
+        x += 120 + Math.floor(r() * 500);
+        if (x > 3850) x = 3850 - Math.floor(r() * 2000);
+      }
+      const removeAt = (r() < 0.3 ? Math.floor(r() * (lt + 1)) : lt) as Level;
+      const lifo = r() < 0.15;
+      const before = snapshot(p);
+      const folded = holdsDissolvable(p);
+      const role = roleAt(lt);
+      const a = tx(p, spec(lt, { rederivesFrom: 0 as never }), (o) => insertChain(o, chain.map(([u, w]) => pt(u, w)), [{ role, entity: 'x:1' }], 'mandatory'));
+      if (!a.ok) {
+        tally.refusedInsert++;
+        continue;
+      }
+      tally.inserted++;
+      byLevel[lt]++;
+      if (maxCrossingsOfOneEdge(base, chain) >= 3) tally.threePlus++;
+      if (removeAt < lt) tally.coarserBatch++;
+      let shared = (a.value.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED');
+      if (lifo) {
+        tally.lifo++;
+        const mid = snapshot(p);
+        const q = chain.map(([u, w]) => pt(clamp(u + 97), clamp(w + 61)));
+        const b2 = tx(p, spec(lt, { rederivesFrom: 0 as never }), (o) => insertChain(o, q, [{ role, entity: 'x:2' }], 'mandatory'));
+        if (b2.ok) {
+          const shared2 = (b2.value.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED');
+          shared ||= shared2;
+          commit(p, lt, (o) => removeEdges(o, { role, entity: 'x:2' }), { rederivesFrom: 0 as never });
+          healthy(p);
+          const back = snapshot(p);
+          expect(back.faces, `case ${c}: LIFO records per level`).toEqual(mid.faces);
+          if (!shared2) {
+            expect(back.refs, `case ${c}: LIFO chunk refs`).toBe(mid.refs);
+            expect(back.digests, `case ${c}: LIFO level digests`).toBe(mid.digests);
+          }
+        }
+      }
+      const b = tx(p, spec(removeAt, { rederivesFrom: 0 as never }), (o) => removeEdges(o, { role, entity: 'x:1' }));
+      if (!b.ok) {
+        tally.refusedRemove++;
+        continue;
+      }
+      healthy(p);
+      const after = snapshot(p);
+      expect(after.faces, `case ${c}: live records per level`).toEqual(before.faces);
+      if (shared && after.refs !== before.refs) {
+        tally.sharedEnd++; // C-0219 (4), the session's open case: counted, not judged
+        continue;
+      }
+      if (folded && after.refs !== before.refs) {
+        tally.foldedBase++; // C-0223 (5): counted, not judged
+        continue;
+      }
+      expect(after.refs, `case ${c}: encoded chunk refs (base ${JSON.stringify(base)}, chain ${JSON.stringify(chain)}, L${lt} at L${removeAt})`).toBe(before.refs);
+      expect(after.digests, `case ${c}: level digests`).toBe(before.digests);
+      if (after.print === before.print) tally.exact++;
+      else {
+        tally.rotated++;
+        expect(canonPrint(after.print), `case ${c}: content print`).toBe(canonPrint(before.print));
+      }
+    }
+    console.info(`B-1 zigzag property: ${JSON.stringify({ cases: ZCASES, ...tally, byLevel })}`);
+    // Not vacuous: most inserted chains cross one base edge three or more times; every chain level, coarser batches and
+    // LIFO pairs drawn; every removal committed.
+    expect(tally.threePlus).toBeGreaterThan(tally.inserted / 2);
+    for (const l of LEVELS) expect(byLevel[l], `insertions at L${l}`).toBeGreaterThan(0);
+    expect(tally.coarserBatch).toBeGreaterThan(ZCASES / 20);
+    expect(tally.lifo).toBeGreaterThan(ZCASES / 20);
+    expect(tally.refusedRemove).toBe(0);
+    expect(tally.exact).toBeGreaterThan(tally.inserted * 0.95);
+    expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, tally.inserted / 100));
     expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
   }, 600_000);
 });

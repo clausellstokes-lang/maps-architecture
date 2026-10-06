@@ -1,0 +1,197 @@
+// Pull and pin, smooth (§4.4 S5a *Trace* (2), (3); M0-c-02; readings C-0224 (3), (4)).
+//
+// The pull: the boundary is pulled to defensible ground within the search band (walls.json `trace/searchBandM`, 40 m)
+// by a cost-surface path around the town — each vertex may move along its outward normal by a whole step of the band
+// (an eighth of it) in either direction, the pinned vertices (the gates; C-0087's bank points) never; the path through
+// the candidates of least summed cost wins, ties broken by the least summed change of offset between neighbours and
+// then the least summed offset, so on a cost surface that does not vary along the normals (a flat site) the pull is
+// the identity but for the pins (C-0224 (3)). A candidate inside the water or a reservation is barred. The base's
+// cost surface is the terrain's — lower ground costs more, §4.4's "penalty for leaving high ground".
+//
+// The smoothing: `smoothPasses` (walls.json `trace/smoothPasses`, 3) passes of the kernel's pinned-vertex Laplacian
+// (λ ½), the pins never moving; a vertex a pass would carry out of the band, into the water or into a reservation keeps
+// its place for that pass (§4.4 (3): "no vertex moved where its line … would take a shape" the laws do not admit;
+// C-0224 (4)). The result is rounded to the lattice.
+import { laplacianPinned, type LatticePoint } from '@plat/kernel';
+import type { Terrain } from '@plat/model';
+import { quot } from '../siting/geom.js';
+import { dist, distToRing, inside, lat, unitOf } from './plane.js';
+import type { CostField, XY } from './types.js';
+
+/** The pull's candidate offsets on each side: the band in this many steps (an eighth of 40 m: 5 m). */
+export const PULL_STEPS = 8;
+
+/** The base's cost surface: the terrain's height read at the nearest raster cell, in metres, negated (C-0224 (3)). */
+export function terrainCost(terrain: Pick<Terrain, 'cellCm' | 'cols' | 'rows' | 'originX' | 'originY' | 'heightCm'>): CostField {
+  return (p: XY): number => {
+    let col = Math.floor(quot(p.x - terrain.originX, terrain.cellCm, 'length', 'terrain column'));
+    let row = Math.floor(quot(p.y - terrain.originY, terrain.cellCm, 'length', 'terrain row'));
+    if (col < 0) col = 0;
+    if (row < 0) row = 0;
+    if (col >= terrain.cols) col = terrain.cols - 1;
+    if (row >= terrain.rows) row = terrain.rows - 1;
+    return -terrain.heightCm[row * terrain.cols + col] * 0.01;
+  };
+}
+
+/** Each vertex's outward unit normal on a counter-clockwise ring (the right of the chord through its two neighbours). */
+export function outwardNormals(ring: readonly XY[]): XY[] {
+  const n = ring.length;
+  const out: XY[] = [];
+  for (let i = 0; i < n; i += 1) {
+    const a = ring[i === 0 ? n - 1 : i - 1];
+    const b = ring[i + 1 === n ? 0 : i + 1];
+    const t = unitOf({ x: b.x - a.x, y: b.y - a.y });
+    out.push(t === null ? { x: 0, y: 0 } : { x: t.y, y: -t.x });
+  }
+  return out;
+}
+
+/** The pull's result. */
+export interface Pulled {
+  /** The pulled ring, one point per input vertex (doubles; the pins exact). */
+  readonly line: XY[];
+  /** Per vertex, the offset taken (cm, outward positive). */
+  readonly offsetsCm: number[];
+  readonly moved: number;
+  readonly maxOffsetCm: number;
+}
+
+/** A DP label: the summed cost, then the summed change of offset (steps), then the summed |offset| (steps). */
+interface Label {
+  c: number;
+  s: number;
+  o: number;
+}
+
+function better(a: Label, b: Label): boolean {
+  if (a.c !== b.c) return a.c < b.c;
+  if (a.s !== b.s) return a.s < b.s;
+  return a.o < b.o;
+}
+
+/**
+ * Pull and pin (see the module comment) on a counter-clockwise ring: `pinned[i]` 1 keeps vertex i; `barred` rings bar a
+ * candidate inside them. Returns the pulled ring.
+ */
+export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[]): Pulled {
+  const n = ring.length;
+  const K = 2 * PULL_STEPS + 1;
+  const step = quot(bandCm, PULL_STEPS, 'count', 'pull step');
+  const normals = outwardNormals(ring);
+  // Node costs: the cost of standing at the candidate less the cost at the boundary vertex itself (+∞ barred).
+  const node = new Float64Array(n * K);
+  for (let i = 0; i < n; i += 1) {
+    const p = ring[i];
+    const base = cost(p);
+    for (let j = 0; j < K; j += 1) {
+      const s = (j - PULL_STEPS) * step;
+      if (pinned[i] === 1 || (normals[i].x === 0 && normals[i].y === 0)) {
+        node[i * K + j] = j === PULL_STEPS ? 0 : Infinity;
+        continue;
+      }
+      if (s === 0) {
+        node[i * K + j] = 0;
+        continue;
+      }
+      const q = { x: p.x + s * normals[i].x, y: p.y + s * normals[i].y };
+      const c = cost(q);
+      node[i * K + j] = !Number.isFinite(c) || !Number.isFinite(base) || barred.some((r) => inside(r, q)) ? Infinity : c - base;
+    }
+  }
+  // The cycle is opened at a pinned vertex when there is one (its offset is 0); otherwise every start offset is tried.
+  let start = -1;
+  for (let i = 0; i < n && start < 0; i += 1) if (pinned[i] === 1) start = i;
+  const starts = start >= 0 ? [PULL_STEPS] : Array.from({ length: K }, (_, j) => j);
+  const at = start >= 0 ? start : 0;
+  let bestLabel: Label | null = null;
+  let bestPath: number[] = [];
+  const lab = new Array<Label>(n * K);
+  const prev = new Int32Array(n * K);
+  for (const j0 of starts) {
+    if (!Number.isFinite(node[at * K + j0])) continue;
+    for (let j = 0; j < K; j += 1) lab[j] = j === j0 ? { c: node[at * K + j], s: 0, o: Math.abs(j - PULL_STEPS) } : { c: Infinity, s: 0, o: 0 };
+    for (let r = 1; r < n; r += 1) {
+      const i = (at + r) % n;
+      for (let j = 0; j < K; j += 1) {
+        let best: Label = { c: Infinity, s: 0, o: 0 };
+        let arg = -1;
+        const nc = node[i * K + j];
+        if (Number.isFinite(nc)) {
+          for (let h = 0; h < K; h += 1) {
+            const pl = lab[(r - 1) * K + h];
+            if (!Number.isFinite(pl.c)) continue;
+            const cand: Label = { c: pl.c + nc, s: pl.s + Math.abs(j - h), o: pl.o + Math.abs(j - PULL_STEPS) };
+            if (arg < 0 || better(cand, best)) {
+              best = cand;
+              arg = h;
+            }
+          }
+        }
+        lab[r * K + j] = best;
+        prev[r * K + j] = arg;
+      }
+    }
+    // Close the cycle back to the start's offset.
+    let endJ = -1;
+    let endLabel: Label = { c: Infinity, s: 0, o: 0 };
+    for (let j = 0; j < K; j += 1) {
+      const l = lab[(n - 1) * K + j];
+      if (!Number.isFinite(l.c)) continue;
+      const cand: Label = { c: l.c, s: l.s + Math.abs(j - j0), o: l.o };
+      if (endJ < 0 || better(cand, endLabel)) {
+        endLabel = cand;
+        endJ = j;
+      }
+    }
+    if (endJ < 0) continue;
+    if (bestLabel === null || better(endLabel, bestLabel)) {
+      bestLabel = endLabel;
+      const path = new Array<number>(n);
+      let j = endJ;
+      for (let r = n - 1; r >= 1; r -= 1) {
+        path[r] = j;
+        j = prev[r * K + j];
+      }
+      path[0] = j0;
+      bestPath = path;
+    }
+  }
+  const line: XY[] = ring.map((p) => ({ x: p.x, y: p.y }));
+  const offsets = new Array<number>(n).fill(0);
+  if (bestLabel === null) return { line, offsetsCm: offsets, moved: 0, maxOffsetCm: 0 };
+  let moved = 0;
+  let maxOff = 0;
+  for (let r = 0; r < n; r += 1) {
+    const i = (at + r) % n;
+    const s = (bestPath[r] - PULL_STEPS) * step;
+    offsets[i] = s;
+    if (s !== 0) {
+      moved += 1;
+      line[i] = { x: ring[i].x + s * normals[i].x, y: ring[i].y + s * normals[i].y };
+      if (Math.abs(s) > maxOff) maxOff = Math.abs(s);
+    }
+  }
+  return { line, offsetsCm: offsets, moved, maxOffsetCm: maxOff };
+}
+
+/**
+ * The pinned smoothing (see the module comment): `passes` passes over the ring; a vertex a pass would carry beyond
+ * `bandCm` of the boundary `ring0`, or into a barred ring, keeps its place. Returns lattice points.
+ */
+export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[]): LatticePoint[] {
+  const pins: number[] = [];
+  for (let i = 0; i < pinned.length; i += 1) if (pinned[i] === 1) pins.push(i);
+  let cur: XY[] = line.map((p) => ({ x: p.x, y: p.y }));
+  for (let r = 0; r < passes; r += 1) {
+    const next = laplacianPinned(cur, { closed: true, pinned: pins, iterations: 1, lambda: 0.5 });
+    for (let i = 0; i < next.length; i += 1) {
+      if (pinned[i] === 1) continue;
+      const q = next[i];
+      if (dist(q, cur[i]) === 0) continue;
+      if (distToRing(q, ring0) > bandCm || barred.some((b) => inside(b, q))) next[i] = cur[i];
+    }
+    cur = next;
+  }
+  return cur.map((p, i) => (pinned[i] === 1 ? { x: line[i].x, y: line[i].y } as LatticePoint : lat(p)));
+}

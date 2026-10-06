@@ -220,7 +220,7 @@ export class ReportBuilder {
   private readonly unservedIds: Id[] = [];
   private readonly unplacedIds: Id[] = [];
   private readonly bugRows: BugRow[] = [];
-  private readonly kernelWarnings = new Map<string, number>();
+  private readonly kernelCodes = new Map<string, number>();
   private downgrades = 0;
   private workLimitHits = 0;
 
@@ -308,7 +308,7 @@ export class ReportBuilder {
   kernelWarnings(ws: readonly Warning[]): void {
     for (const w of ws) {
       checkCount(w.count, `kernel warning ${w.code}`);
-      countUp(this.kernelWarnings, w.code, w.count);
+      countUp(this.kernelCodes, w.code, w.count);
       if (w.code === 'W_DOWNGRADE') this.downgrades += w.count;
     }
   }
@@ -348,7 +348,7 @@ export class ReportBuilder {
       dossierNotes: [],
       epochs: [],
       changes: [],
-      kernel: { engine: ENGINE_ID, warnings: sortedRecord(this.kernelWarnings), downgrades: this.downgrades, workLimitHits: this.workLimitHits },
+      kernel: { engine: ENGINE_ID, warnings: sortedRecord(this.kernelCodes), downgrades: this.downgrades, workLimitHits: this.workLimitHits },
     };
   }
 }

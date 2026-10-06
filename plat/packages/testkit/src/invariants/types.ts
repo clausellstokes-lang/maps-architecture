@@ -56,6 +56,8 @@ export interface FuzzReport {
   readonly refused: Readonly<Record<string, number>>;
   /** Warnings per §3.1 code, summed over the run (§5.4 `kernel.warnings`). */
   readonly warnings: Readonly<Record<string, number>>;
+  /** Counted findings that judge no output — a follow-up op's typed refusal (C-0225 (4)) — by name. */
+  readonly notes: Readonly<Record<string, number>>;
   /** Typed downgrades (§3.8 W_DOWNGRADE; §5.4 `kernel.downgrades`). */
   readonly downgrades: number;
   /** E_WORK_LIMIT results (§5.4 `kernel.workLimitHits`). */

@@ -1,0 +1,201 @@
+// The S3 slice's commits through the façade (M0-c-02; §4.1's S1 and S3 batch rows, §4.2 S3 (9), §4.4 S5a for k = 1;
+// C-0032, C-0033, C-0087):
+//   L0 (S1's first batch): the arena's outer ring — the frame plus its context margin (§3.2 (9)) — one closed chain
+//      carrying the structural `margin` role on the arena's Terrain entity, so every L0 face has a boundary before any
+//      water exists;
+//   L1 (S3's, one declared batch of independent ops): the map border — the frame rectangle, one closed chain carrying
+//      the structural `border` role on the Terrain entity, laid across land and water alike (no L0 edge is added) —
+//      and the main plaza as a barrier face: its closed ring carrying the structural `reserved` role, its vertices the
+//      reservation's `attach` rows, the face owned by the reservation (C-0032 (12));
+//   L1 (S5a, k = 1): the trace by the registered EnceinteStrategy `base`, then the strip stand-in (C-0033).
+// The slice is M0-c-01's data (`s3Slice`); nothing here re-solves it.
+import { createRng, kernelOp, STAGES, type ConcernId, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
+import type { ChainRef, Enceinte, Gate, Handle, Reservation, StreamOpts, WaterSet } from '@plat/model';
+import { arenaReach } from '@plat/site';
+import { quot } from '../siting/geom.js';
+import { PLAZA_AREA_BAND_HA } from '../siting/plaza.js';
+import type { S3Slice, Site } from '../siting/types.js';
+import { unitOf } from './plane.js';
+import { layStrips } from './strips.js';
+import { baseEnceinte } from './trace.js';
+import type { CostField, EnceinteContext, StripsLaid, StripStop, Traced, WaterGate } from './types.js';
+import { GROUND, generated, waterRings } from './water.js';
+
+/** The plaza reservation's address (M0-c-01's `plaza:0`, the slice's single main plaza). */
+export const PLAZA_ID = 'plaza:0';
+
+/** The context the trace runs in, for a site (§14's StageContext over the site's tables, rung and town key). */
+export function siteContext(site: Site): EnceinteContext {
+  const rng = createRng();
+  return {
+    doc: undefined,
+    plats: {},
+    stream: (concern: ConcernId, _entity: Handle, opts: StreamOpts) => rng.stream(site.townKey, STAGES.S3, concern, opts),
+    streamOpts: (_concern: ConcernId, _entity: Handle, attempt = 0) => ({ reroll: 0, attempt, epoch: 0, salt: 0 }),
+    tables: site.tables,
+    rung: site.rungProfile,
+    report: undefined,
+    epoch: 0,
+  };
+}
+
+function spec(arena: PlatKey, level: 0 | 1, stage: number, ops: KernelTx['ops'] = []): KernelTx {
+  return {
+    key: arena,
+    level,
+    ops,
+    expect: [],
+    onFail: 'reject',
+    batch: { kind: 'stage', stage: stage as StageId },
+    stage: stage as StageId,
+    rederivesFrom: stage as StageId,
+    workLimit: 10_000_000,
+  };
+}
+
+/** The arena's outer ring: the frame plus its margin on every side (§3.2 (9); @plat/site's `arenaReach`), counter-clockwise. */
+export function outerRing(site: Pick<Site, 'frame'>): LatticePoint[] {
+  const r = arenaReach(site.frame);
+  return [
+    { x: -r.x, y: -r.y },
+    { x: r.x, y: -r.y },
+    { x: r.x, y: r.y },
+    { x: -r.x, y: r.y },
+  ] as LatticePoint[];
+}
+
+/**
+ * S1's first L0 batch (§4.1): the outer ring, one closed `margin` chain on the arena's Terrain entity. Returns its
+ * ChainRef.
+ */
+export function commitOuterRing(site: Site, k: Kernel, arena: PlatKey = GROUND): KernelResult<ChainRef> {
+  const chain: ChainRef = { role: 'margin', entity: site.terrain.id };
+  const r = k.tx(spec(arena, 0, STAGES.S1), (o) => k.geom.insertChain(o, outerRing(site), [chain], 'mandatory', { closed: true }));
+  if (!r.ok) return r;
+  return { ok: true, value: chain, warnings: r.warnings };
+}
+
+/** What S3's L1 batch wrote: the border's chain and the plaza's reservation record. */
+export interface S3Batch {
+  readonly border: ChainRef;
+  readonly plaza: Reservation;
+}
+
+/**
+ * S3's L1 batch (§4.1; C-0032 (12)): the map border and the plaza's barrier face, independent ops of one declared batch
+ * (the border's and the plaza's insertChain, the plaza face's setOwner, in the batch's canonical order).
+ */
+export function commitS3Batch(slice: S3Slice, k: Kernel, arena: PlatKey = GROUND): KernelResult<S3Batch> {
+  const site = slice.site;
+  const border: ChainRef = { role: 'border', entity: site.terrain.id };
+  const ring = slice.plaza.ring;
+  const knots = ring.map((_p, i) => ({ index: i, role: 'attach', ordinal: i, entity: PLAZA_ID }));
+  // A point well inside the plaza (its vertices' mean: the plaza is convex), where its face is found after the insert.
+  let cx = 0;
+  let cy = 0;
+  for (const p of ring) {
+    cx += p.x;
+    cy += p.y;
+  }
+  const inner = { x: Math.round(quot(cx, ring.length, 'count', 'plaza centre')), y: Math.round(quot(cy, ring.length, 'count', 'plaza centre')) } as LatticePoint;
+  const ops = [
+    kernelOp('insertChain', [1, 0], 0, (o) => k.geom.insertChain(o, site.frameRing, [border], 'mandatory', { closed: true })),
+    kernelOp('insertChain', [2, 0], 0, (o) => k.geom.insertChain(o, ring, [{ role: 'reserved', entity: PLAZA_ID }], 'mandatory', { closed: true, knots })),
+    kernelOp('setOwner', [2, 0], 1, (o) => {
+      const loc = k.geom.pointLocate(arena, 1, inner);
+      if (loc.on !== 'face' || loc.level !== 1) return { ok: false, code: 'E_INVARIANT', detail: 'S3: the plaza\'s barrier face was not found inside its ring' };
+      return k.geom.setOwner(o, [loc.face], PLAZA_ID);
+    }),
+  ];
+  const r = k.tx(spec(arena, 1, STAGES.S3, ops));
+  if (!r.ok) return r;
+  const band = PLAZA_AREA_BAND_HA[site.rung];
+  const plaza: Reservation = {
+    id: PLAZA_ID,
+    kind: 'plaza',
+    face: { owner: PLAZA_ID, level: 1 },
+    areaBandM2: [band[0] * 10_000, band[1] * 10_000],
+    attach: ring.map((_p, i) => ({ role: 'attach', entity: PLAZA_ID, ordinal: i })),
+    stage: STAGES.S3 as Reservation['stage'],
+    lifecycle: generated(0),
+  };
+  return { ok: true, value: { border, plaza }, warnings: r.warnings };
+}
+
+/** The options of `commitS3Slice`. */
+export interface CommitOptions {
+  /** `present`: the arena already holds the outer ring (and any L0 water S1 laid); default `commit`. */
+  readonly outerRing?: 'commit' | 'present';
+  /** The water S1 laid on L0 (the trace's crossings, C-0087); default none. */
+  readonly water?: WaterSet;
+  /** The pull's cost surface (default the terrain's). */
+  readonly costField?: CostField;
+  readonly key?: PlatKey;
+}
+
+/** Everything the slice's commits wrote. */
+export interface S3Commit {
+  readonly margin: ChainRef;
+  readonly border: ChainRef;
+  readonly plaza: Reservation;
+  readonly enceinte: Enceinte;
+  /** Main gates (one per gate site, in order), then the water gates. */
+  readonly gates: readonly Gate[];
+  readonly waterGates: readonly WaterGate[];
+  readonly traced: Traced;
+  readonly strips: StripsLaid;
+}
+
+/**
+ * The S3 slice's commits (see the module comment): the outer ring (unless present), S3's L1 batch, the trace through
+ * the registered strategy and the strips — the strips stopping at each main gate's way, taken along the gate route's
+ * own lattice edge at the gate with half the `through` class's widest corridor at the rung (C-0224 (10)), and at each
+ * water gate's water, and the glacis at the map border.
+ */
+export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {}): KernelResult<S3Commit> {
+  const site = slice.site;
+  const arena = opts.key ?? GROUND;
+  const water: WaterSet = opts.water ?? { bodies: [], bridges: [] };
+  let margin: ChainRef = { role: 'margin', entity: site.terrain.id };
+  if (opts.outerRing !== 'present') {
+    const m = commitOuterRing(site, k, arena);
+    if (!m.ok) return m;
+    margin = m.value;
+  }
+  const s3 = commitS3Batch(slice, k, arena);
+  if (!s3.ok) return s3;
+  const ctx = siteContext(site);
+  const traced = baseEnceinte.trace(
+    slice.levelSet.outline,
+    slice.gateSites,
+    [s3.value.plaza],
+    site.terrain,
+    water,
+    { waterfront: 'open', placement: 'aroundAll' },
+    ctx,
+    k,
+    { key: arena, ...(opts.costField === undefined ? {} : { costField: opts.costField }) },
+  );
+  if (!traced.ok) return traced;
+  const t = traced.value.traced;
+  // The stops: each main gate's way along its route's lattice edge at the gate, each water gate's water.
+  const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
+  const stops: StripStop[] = [];
+  slice.gates.forEach((g, i) => {
+    const a = slice.lattice.points[g.edge[0]];
+    const b = slice.lattice.points[g.edge[1]];
+    const dir = unitOf({ x: b.x - a.x, y: b.y - a.y }) ?? { x: 0, y: 1 };
+    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, dir, halfWidthCm: half });
+  });
+  const rings = waterRings(water, k, arena);
+  for (const w of t.waterGates) {
+    for (const r of rings.filter((x) => x.body === w.body)) stops.push({ kind: 'water', gate: w.id, ring: r.ring });
+  }
+  const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), k, { key: arena, stops, frame: site.frameRing });
+  if (!strips.ok) return strips;
+  return {
+    ok: true,
+    value: { margin, border: s3.value.border, plaza: s3.value.plaza, enceinte: t.enceinte, gates: t.gates, waterGates: t.waterGates, traced: t, strips: strips.value },
+    warnings: [...traced.warnings, ...strips.warnings],
+  };
+}
