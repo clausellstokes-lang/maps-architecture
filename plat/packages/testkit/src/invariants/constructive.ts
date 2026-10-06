@@ -1069,11 +1069,17 @@ const samePt = (a: Pt, b: Pt) => a.x === b.x && a.y === b.y;
 /** Does every point of the input chain lie on a vertex its entity's edges reach (the chain's roles survive, §13.1)? */
 function rolesPreserved(s: Scene, ins: Inserted): string | null {
   const pts = runsOf(s, ins.role, ins.entity).flat();
-  for (const q of ins.points) {
+  const d2 = (u: Pt, q: Pt) => (u.x - q.x) ** 2 + (u.y - q.y) ** 2;
+  const n = ins.points.length;
+  for (let i = 0; i < n; i++) {
+    const q = ins.points[i];
     if (pts.some((u) => samePt(u, q))) continue;
-    // A point decimated or attracted onto a neighbour: it must stand within attractCm of the entity's route.
-    const near = pts.some((u) => (u.x - q.x) ** 2 + (u.y - q.y) ** 2 <= LATTICE.attractCm ** 2);
-    if (!near) return `${ins.name}: the point (${String(q.x)}, ${String(q.y)}) is on no vertex of its entity's edges`;
+    // A point attracted onto a vertex stands within attractCm of one (§3.6 step 2); a point within minEdge of its
+    // neighbour along the chain is decimated (§3.6 step 1) — a shared run shorter than minEdge collapses so.
+    if (pts.some((u) => d2(u, q) <= LATTICE.attractCm ** 2)) continue;
+    const nb = [ins.points[i - 1], ins.points[i + 1], ...(ins.closed ? [ins.points[(i + n - 1) % n], ins.points[(i + 1) % n]] : [])].filter((u): u is LatticePoint => u !== undefined);
+    if (nb.some((u) => d2(u, q) < LATTICE.minEdgeCm ** 2)) continue;
+    return `${ins.name}: the point (${String(q.x)}, ${String(q.y)}) is on no vertex of its entity's edges`;
   }
   return null;
 }
