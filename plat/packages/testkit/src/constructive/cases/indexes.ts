@@ -10,7 +10,11 @@ const SOURCE = '§13.1 indexes, slots and the pool';
 
 function buildSlotReuseStage(d: Draw): ConstructiveInput {
   const L = d.log(500, 1 << 16);
-  const gap = d.log(1000, 1 << 18);
+  // The case promises the query returns the new item and never the freed one: its last query over boxOld (local
+  // x ∈ [−50, L + 50]) must be able to return 'none', so `fresh` (from x = gap) is drawn clear of it by ≥ 50 cm —
+  // gap ≥ L + 100 (N-49: seed 2 drew gap 7 624 < L + 50 and put fresh's first vertex inside boxOld). The upper bound
+  // stays 2¹⁸, so the construction's extent is unchanged; the draw count is too (Draw.log draws twice either way).
+  const gap = d.log(L + 100, 1 << 18);
   const placed = place(d, {
     chains: { old: [{ x: 0, y: 0 }, { x: L, y: 0 }], fresh: [{ x: gap, y: 0 }, { x: gap + L, y: d.int(-200, 200) }] },
     rings: { boxOld: rect(-50, -50, L + 100, 100), boxFresh: rect(gap - 50, -300, L + 100, 600) },
