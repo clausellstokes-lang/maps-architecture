@@ -3,11 +3,14 @@
 // flagged long-batch (a planted 90 s unit), a planted drift re-run at most twice then flagged throttled, the summed
 // wall-clock and CPU time equal to the planted sums, a pending job in no batch; whole — one run with its two scores and
 // the drift, the detector's sampler through it, the job processes counted as the runner's own.
-import { afterAll, describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it, vi } from 'vitest';
 import { runTier } from '../../src/tiers/runner.js';
 import type { MachineSample } from '../../src/timing/contention.js';
+import { IDLE_MS } from '../../src/timing/harness.js';
+import { SAMPLE_EVERY_MS, type Sampler } from '../../src/timing/sampler.js';
 import type { Unit } from '../../src/tiers/types.js';
 import { HOST, fixtureManifest, job, plantedExec, quiet, readings, removeTrees, scoreQueue, stubSampler, tree } from './fixture.js';
+// (the batched tests below pass idleMs: 0 through readings(); one test runs the batched mode with §12.1's defaults)
 
 afterAll(removeTrees);
 
@@ -105,7 +108,55 @@ describe('the batched timing mode (C-0097)', () => {
     expect(clean.authority).toBe('authoritative');
   });
 
-  it('the idle wait precedes every batch (30 s by default; the fixture passes 0) and the batch cap is 60 s by default', async () => {
+  it('§12.1 by default: 30 s idle before every batch attempt (re-runs included) and the detector sampling every 30 s (C-0097, C-0103)', async () => {
+    // The caller passes neither idleMs nor sampleEveryMs (the gating tier:pr figure, M0-t-00). setTimeout and Date are
+    // faked, every other reading is a stub that takes no time, so the fake clock moves only by the idle waits: each
+    // attempt's sampler must start ≥ 30 000 ms after the previous attempt's sampler stopped (or the run began).
+    vi.useFakeTimers({ toFake: ['setTimeout', 'clearTimeout', 'Date'] });
+    try {
+      const t0 = Date.now();
+      const log: string[] = [];
+      const sampler = (everyMs: number): Promise<Sampler> => {
+        log.push(`start ${String(everyMs)} @${String(Date.now() - t0)}`);
+        return Promise.resolve({
+          stop: () => {
+            log.push(`stop @${String(Date.now() - t0)}`);
+            return Promise.resolve([]);
+          },
+        });
+      };
+      // u1 drifts once (100 → 110) and is re-run: the idle wait precedes the re-run attempt too
+      const { idleMs: _noIdle, ...rest } = readings([0]);
+      expect(_noIdle).toBe(0); // the fixture's helper sets it; this run drops it
+      let settled = false;
+      const run = runTier(fixtureManifest([job('a', { unitNames: ['u1', 'u2'] })]), {
+        root: root(),
+        out: tree({}),
+        mode: 'batched',
+        exec: plantedExec(),
+        ...rest,
+        sampler,
+        calibrate: scoreQueue([100, 110, 100, 100, 100, 100]),
+      }).finally(() => {
+        settled = true;
+      });
+      for (let i = 0; i < 1_000 && !settled; i++) {
+        await new Promise((r) => setImmediate(r)); // let real I/O (the status probe, the log files) move
+        await vi.advanceTimersToNextTimerAsync();
+      }
+      const r = await run;
+      expect(log).toEqual(['start 30000 @30000', 'stop @30000', 'start 30000 @60000', 'stop @60000', 'start 30000 @90000', 'stop @90000']);
+      expect(r.batches.map((b) => [b.unit, b.calibration.attempts])).toEqual([
+        ['u1', 2],
+        ['u2', 1],
+      ]);
+      expect([IDLE_MS, SAMPLE_EVERY_MS]).toEqual([30_000, 30_000]);
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it('the batch cap is 60 s by default: a unit at 60 s is not flagged, one at 60.001 s is long-batch', async () => {
     const r = await runTier(fixtureManifest([job('a', { unitNames: ['at60', 'over60'] })]), {
       root: root(),
       out: tree({}),
