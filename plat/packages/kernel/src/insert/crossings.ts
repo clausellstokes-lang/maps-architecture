@@ -193,6 +193,15 @@ function subEdgeAt(ctx: ChainCtx, pc: Piece, x: number, y: number): readonly [Ve
 }
 
 /**
+ * Does N-42 (a)'s step across a sliver apply to a crossing's landing (C-0209)? Only where the placement rule found no
+ * point and fell back on its endpoint — a landing within `attractCm` of a piece's end, or on a finer vertex of the piece
+ * (candidate (b)), or a split, stands as §3.6 places it.
+ */
+export function acrossApplies(l: Landing): boolean {
+  return l.kind === 'vertex' && l.onto === 'fallback';
+}
+
+/**
  * The crossing after `c` along the segment a → b when it lies closer than `minEdge` to c on another piece — the far side
  * of a sliver the segment crosses — or null. One index query (`exactCrossings`). Nothing written.
  */

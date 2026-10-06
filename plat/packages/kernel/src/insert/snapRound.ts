@@ -45,7 +45,7 @@ import type { Level } from '../types/index.js';
 import { charge, check, classOutcome, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit } from './classes.js';
 import { segmentsMeet } from './decimate.js';
 import { segmentCloserThan } from './placement.js';
-import { placeAcross, resolveCrossings, sliverPartner } from './crossings.js';
+import { acrossApplies, placeAcross, resolveCrossings, sliverPartner } from './crossings.js';
 import {
   applyLanding,
   attractStretch,
@@ -640,7 +640,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     const l = planLanding(tx, c.piece, c.x, c.y, { c: pointOf(p, a), d: pointOf(p, b) });
     if (!l.ok) return passOn(l);
     let landing = l.value;
-    if (ctx.acrossSlivers === true && landing.kind === 'vertex' && landing.onto === 'fallback') {
+    if (ctx.acrossSlivers === true && acrossApplies(landing)) {
       // N-42 (a)'s route: a crossing the placement can only send to its endpoint fallback, on the near side of a sliver,
       // is placed across it; the far side's crossing is placed in its turn, at least minEdge away (C-0209).
       const partner = sliverPartner(ctx, a, b, c);

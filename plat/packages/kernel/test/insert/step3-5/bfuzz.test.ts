@@ -88,7 +88,6 @@ function insertJudged(p: Plat, c: Case, entity: string, validate = true): Outcom
   const r = ins(t, c.points, [{ role: 'way', entity }], c.cls, { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) });
   if (!r.ok) {
     if (r.code !== 'E_INVARIANT') expect(CODES.has(r.code), `an unknown refusal ${r.code} (${r.detail})`).toBe(true);
-    if (r.code === 'E_INVARIANT' && process.env.TMP_LOG_INV !== undefined) console.log(`TMPINV ${JSON.stringify({ level: c.level, cls: c.cls, closed: c.closed, points: c.points, pinned: c.pinned, detail: r.detail, base: (globalThis as { TMPBASE?: unknown }).TMPBASE })}`);
     if (c.cls === 'mandatory') expect(PRECISION.has(r.code), `a mandatory chain refused for precision: ${r.code} ${r.detail}`).toBe(false);
     expect(t.warnings).toEqual(warningsBefore);
     if (validate) expect(contentPrint(p)).toBe(before);
@@ -195,7 +194,6 @@ const coarseLevel = fc.integer({ min: 0, max: 2 }) as fc.Arbitrary<Level>;
 const randomFamily = (seen: (o: Outcome) => void, invariant: () => void = () => {}): fc.IPropertyWithHooks<[Case[], Case]> =>
   fc.property(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel), (base, c) => {
     const p = framed(SIDE);
-    (globalThis as { TMPBASE?: unknown }).TMPBASE = [...base].sort((a, b) => a.level - b.level);
     // Earlier chains coarse first, as a stage order builds them (a finer one first would make later coarser chains
     // meet kept content — E_KEPT, judged all the same).
     [...base].sort((a, b) => a.level - b.level).forEach((b, i) => {
@@ -250,16 +248,31 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 2953, y: 109 } }]);
   });
 
-  // N-42's routes come last (C-0209): a chain the S1/S2 router commits keeps its outputs. At seed 777 the random
-  // family's 421st case — an L0 chain, then an L2 mandatory chain of 9 points — commits on the design route with a
-  // crossing on the near side of a sliver sent to the placement's endpoint fallback (W_PLACED 4 in all); the route across
-  // slivers, taken there instead, would place it across (W_PLACED 6) — a one-time shift N-42 does not ask for (measured
-  // over seed 777's 30 000 cases: 38 cases would move).
-  it('same seed, same output: seed 777\'s 421st case commits as on the S1/S2 router (W_PLACED 4 at (3714, 2690)), the sliver route not taken', () => {
+  // N-43 A's class, found by the S3 closing check (M0-a-05-s3.md part 1): at PLAT_FUZZ_SEED=31337 this family's 3 624th
+  // case threw "the chain's edge (2214, 3944)–(2229, 3922) stands within minEdge of the vertex (2197, 3925)" from
+  // insertChain's final clearance check (a base chain; the same on S2 code). The S1 – S3 router judged a route by the
+  // chain's new edges only, so a split that took a third vertex out of its one-ring passed (C-0213). Now every route is
+  // judged whole and the final check refuses instead of throwing: the case commits, every chain valid and in bound.
+  it('the random family\'s seed 31337, its 3 624th case replayed (N-43 A, C-0213): 0 crashes, 0 invalid outputs, every chain committed in bound', () => {
+    const seen: Outcome[] = [];
+    let invariant = 0;
+    fc.assert(randomFamily((o) => seen.push(o), () => {
+      invariant += 1;
+    }), { seed: 31337, path: '3623', numRuns: 1 });
+    expect(invariant).toBe(0);
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.map((w) => [w.code, w.count])).toEqual([['W_STRETCH_SHARED', 6], ['W_ATTRACTED', 4]]);
+  });
+
+  // N-43 B (C-0213; a register case, N-44 (4)): at seed 777 the random family's 421st case — an L0 chain, then an L2
+  // mandatory ring of 9 points — committed on the S1 – S3 router with a crossing on the near side of a sliver sent to the
+  // placement's endpoint fallback (W_PLACED 4 at (3714, 2690)): its segment (3919, 2339) → (2004, 1853) then lay 244.9
+  // cm from its route. No route keeps it within 2 · √2 · attractCm (the anchored and split routes of the second pass
+  // included): it is refused E_INVARIANT, writing nothing, and counted.
+  it('register: seed 777\'s 421st case is refused E_INVARIANT and writes nothing (its S1 – S3 commit lay 244.9 cm off its segment, N-43 B)', () => {
     const seen: Outcome[] = [];
     fc.assert(randomFamily((o) => seen.push(o)), { seed: 777, path: '420', numRuns: 1 });
-    expect(seen.map((o) => o.ok)).toEqual([true]);
-    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 4, at: { x: 3714, y: 2690 } }]);
+    expect(seen).toEqual([{ ok: false, code: 'E_INVARIANT' }]);
   });
 
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {

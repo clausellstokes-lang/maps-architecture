@@ -10,14 +10,17 @@
 // face's owner's `plot_line` (C-0192). Where the face is a record, the child that keeps it is the one whose canonical key
 // is the smaller, so `mergeFaces ∘ splitFace` restores the ring and the id (§13.1): the removal's re-walk keeps the
 // record with the smallest key (C-0185 (3)).
+// A judged cut comes back from the insertion unbent — every consecutive pair of its points joined by one edge — or the
+// op refuses E_NOT_TWO_CROSSINGS with the insertion undone (its own savepoint, taken once the cut is judged), never a
+// throw (C-0214; integration g8 B-1).
 import { faceHoles, isFaceLive, type FaceId, type HalfEdgeId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
 import { insertChain } from '../insert/index.js';
-import { ok, type KernelResult } from '../num/index.js';
+import { err, ok, type KernelResult } from '../num/index.js';
 import { recordLeftOf } from '../tx/relevel.js';
 import { check, type OpenTx } from '../tx/state.js';
 import type { Overlay } from '../tx/types.js';
 import type { Level, LatticePoint } from '../types/index.js';
-import { comparePoints, cutRows, enter, halfEdgeFromTo, planCut, regionOf, refuse, type CutPlan, type Region } from './common.js';
+import { comparePoints, cutRows, enter, halfEdgeFromTo, opSave, planCut, regionOf, refuse, rollback, type CutPlan, type Region } from './common.js';
 
 /** Options of the partitioners that insert a cut: the face's level when coarser than the batch's (an own child), the rows. */
 export interface CutOpts {
@@ -118,11 +121,19 @@ function keeperHalf(p: Plat, r: Region, plan: CutPlan): HalfEdgeId | null {
   return null;
 }
 
-/** The cut inserted (the door) and its first half-edge along the directed cut; the record's stored half-edge put back on a refusal. */
-function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[], keeper: HalfEdgeId | null): KernelResult<HalfEdgeId> {
+/**
+ * The cut inserted (the door) and its first half-edge along the directed cut; the record's stored half-edge put back on a
+ * refusal. The cut must come back unbent: each consecutive pair of its judged points joined by one edge. Where it does
+ * not — an attraction the contact decision did not foresee — the op refuses E_NOT_TWO_CROSSINGS (§3.6 (2): "never lets
+ * attraction bend a cut into a pinch") rather than throw; with `atomic` the insertion is undone here (an op savepoint
+ * taken after the judgement, so a cut refused by the judgement costs none), else the caller's own savepoint undoes it
+ * (radialSplit, ringBand). C-0214.
+ */
+function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[], keeper: HalfEdgeId | null, atomic: boolean): KernelResult<HalfEdgeId> {
   const p = t.plat;
   const F = p.faces[r.level];
   const stored = r.record >= 0 ? F.outer[r.record] : -1;
+  const save = atomic ? opSave(t) : null;
   if (r.record >= 0 && keeper !== null) F.outer[r.record] = keeper;
   const ins = insertChain(t, plan.points, rows, 'mandatory');
   if (!ins.ok) {
@@ -131,9 +142,14 @@ function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[]
   }
   const placed = ins.value.placed;
   check(placed.length === plan.points.length, 'insertChain places every judged point');
-  const h = halfEdgeFromTo(p, placed[0], placed[1]);
-  check(h >= 0, 'a judged cut is inserted unbent: its first two points are joined by one edge');
-  return ok(h, ins.warnings);
+  for (let i = 0; i + 1 < placed.length; i++) {
+    if (halfEdgeFromTo(p, placed[i], placed[i + 1]) >= 0) continue;
+    const a = plan.points[i];
+    const b = plan.points[i + 1];
+    const bent = err<HalfEdgeId>('E_NOT_TWO_CROSSINGS', `the insertion bent the judged cut between (${a.x}, ${a.y}) and (${b.x}, ${b.y}): never into a pinch (§3.6 (2); C-0214)`);
+    return save === null ? bent : rollback<HalfEdgeId>(t, save, bent);
+  }
+  return ok(halfEdgeFromTo(p, placed[0], placed[1]), ins.warnings);
 }
 
 /**
@@ -144,11 +160,14 @@ function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[]
 export function splitFace(o: Overlay, face: FaceId, cut: readonly { readonly x: number; readonly y: number }[], opts: CutOpts = {}): KernelResult<[FaceId, FaceId]> {
   const { t, refused } = enter<[FaceId, FaceId]>(o);
   if (refused !== null) return refused;
-  return splitCore(t, face, opts.faceLevel ?? t.level, cut, opts.rows);
+  return splitCore(t, face, opts.faceLevel ?? t.level, cut, opts.rows, true);
 }
 
-/** splitFace on the open transaction (the partitioners that cut several times call it per cut). */
-export function splitCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readonly { readonly x: number; readonly y: number }[], rowsIn?: readonly RoleRow[]): KernelResult<[FaceId, FaceId]> {
+/**
+ * splitFace on the open transaction (the partitioners that cut several times call it per cut, under their own
+ * savepoint; `atomic` undoes a bent insertion here, C-0214).
+ */
+export function splitCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readonly { readonly x: number; readonly y: number }[], rowsIn?: readonly RoleRow[], atomic = false): KernelResult<[FaceId, FaceId]> {
   const p = t.plat;
   const r = regionOf(t, face, faceLevel);
   const rows = cutRows(p, r, rowsIn);
@@ -158,7 +177,7 @@ export function splitCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readon
     return refuse('E_HOLE_CONTACT', 'the cut joins two rings of the face: a slit, connectHole\'s (§3.6 (4))');
   }
   const keeper = r.record >= 0 ? keeperHalf(p, r, plan.value) : null;
-  const h = insertCut(t, r, plan.value, rows, keeper);
+  const h = insertCut(t, r, plan.value, rows, keeper, atomic);
   if (!h.ok) return refuse(h.code, h.detail);
   const left = recordLeftOf(t, r.level, h.value);
   const right = recordLeftOf(t, r.level, h.value ^ 1);
@@ -174,11 +193,11 @@ export function splitCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readon
 export function connectHole(o: Overlay, face: FaceId, cut: readonly { readonly x: number; readonly y: number }[], opts: CutOpts = {}): KernelResult<FaceId> {
   const { t, refused } = enter<FaceId>(o);
   if (refused !== null) return refused;
-  return holeCore(t, face, opts.faceLevel ?? t.level, cut, opts.rows);
+  return holeCore(t, face, opts.faceLevel ?? t.level, cut, opts.rows, true);
 }
 
-/** connectHole on the open transaction. */
-export function holeCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readonly { readonly x: number; readonly y: number }[], rowsIn?: readonly RoleRow[]): KernelResult<FaceId> {
+/** connectHole on the open transaction (`atomic` as splitCore's). */
+export function holeCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readonly { readonly x: number; readonly y: number }[], rowsIn?: readonly RoleRow[], atomic = false): KernelResult<FaceId> {
   const p = t.plat;
   const r = regionOf(t, face, faceLevel);
   if (r.rings.length < 2) return refuse('E_HOLE_CONTACT', 'the face has no hole to connect (§3.6 (4))');
@@ -191,7 +210,7 @@ export function holeCore(t: OpenTx, face: FaceId, faceLevel: Level, cut: readonl
     return refuse('E_HOLE_CONTACT', 'the cut does not join the outer ring to a hole (§3.6 (4))');
   }
   const holesBefore = r.record >= 0 ? faceHoles(p, r.level, r.record).length : r.rings.length - 1;
-  const h = insertCut(t, r, plan.value, rows, null);
+  const h = insertCut(t, r, plan.value, rows, null, atomic);
   if (!h.ok) return refuse(h.code, h.detail);
   const left = recordLeftOf(t, r.level, h.value);
   check(left >= 0 && left === recordLeftOf(t, r.level, h.value ^ 1), 'a slit leaves one face on both sides of the cut');
