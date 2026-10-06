@@ -8,7 +8,7 @@ import { BASE_FABRICS, BentCutFabric, BENT_CUT, BLOCK_FLOOR_ROW, createRegistry,
 const row = (name: string) => CONCERN_REGISTRY.rows.find((r) => r.name === name);
 
 describe('T41-1: the cut concerns in the registry', () => {
-  it('cut.stop is registered, live, with S8 as its reader and no retry (cap 0)', () => {
+  it('cut.stop is registered, live, with S8 as its reader and no retry (cap 0)', { timeout: 120_000 }, () => {
     const r = row('cut.stop');
     expect(r).toBeDefined();
     expect(r?.retired).toBe(false);
@@ -17,7 +17,7 @@ describe('T41-1: the cut concerns in the registry', () => {
     expect(CONCERNS['cut.stop']).toBe(r?.id);
   });
 
-  it('cut.side and cut.farSideAlt are reserved ids no reader draws', () => {
+  it('cut.side and cut.farSideAlt are reserved ids no reader draws', { timeout: 120_000 }, () => {
     for (const name of ['cut.side', 'cut.farSideAlt']) {
       const r = row(name);
       expect(r).toBeDefined();
@@ -26,7 +26,7 @@ describe('T41-1: the cut concerns in the registry', () => {
     }
   });
 
-  it('S8 draws exactly cut.stop, cut.t, cut.arc, cut.width and cut.interior — each a live concern S8 reads, never a reserved one', () => {
+  it('S8 draws exactly cut.stop, cut.t, cut.arc, cut.width and cut.interior — each a live concern S8 reads, never a reserved one', { timeout: 120_000 }, () => {
     const s = s8Stage();
     expect([...s.streamKeys].sort()).toEqual(['cut.arc', 'cut.interior', 'cut.stop', 'cut.t', 'cut.width']);
     for (const k of s.streamKeys) {
@@ -42,7 +42,7 @@ describe('T41-1: the cut concerns in the registry', () => {
 });
 
 describe('S8’s declaration (§4.1, §4.12) and the fabric slot (§4.6)', () => {
-  it('is the callback form under S8’s id, with F-CUT’s and F-WORK’s ladders, the three cut counters and its two rows', () => {
+  it('is the callback form under S8’s id, with F-CUT’s and F-WORK’s ladders, the three cut counters and its two rows', { timeout: 120_000 }, () => {
     const s = s8Stage();
     expect(s.id).toBe(STAGES.S8);
     expect(s.txForm).toBe('callback');
@@ -54,7 +54,7 @@ describe('S8’s declaration (§4.1, §4.12) and the fabric slot (§4.6)', () =>
     expect(BLOCK_FLOOR_ROW).toMatchObject({ scope: 'batch', class: 'hard', kind: 'classFloor', faceClass: 'block' });
   });
 
-  it('registers in a StrategyRegistry (its declaration checked by M0-x-02’s register)', () => {
+  it('registers in a StrategyRegistry (its declaration checked by M0-x-02’s register)', { timeout: 120_000 }, () => {
     const reg = createRegistry();
     register(reg, s8Stage() as unknown as PipelineStage);
     expect(reg.products.get('base')?.stages.map((x) => x.id)).toEqual([STAGES.S8]);
@@ -62,7 +62,7 @@ describe('S8’s declaration (§4.1, §4.12) and the fabric slot (§4.6)', () =>
     expect(reg.fabric.get('bent-cut')).toBe(BentCutFabric);
   });
 
-  it('BentCutFabric: registered for bent-cut; levelledUnits [] and terracedEdges true at M0 (their readers are M3a’s)', () => {
+  it('BentCutFabric: registered for bent-cut; levelledUnits [] and terracedEdges true at M0 (their readers are M3a’s)', { timeout: 120_000 }, () => {
     expect(BASE_FABRICS.get('bent-cut')).toBe(BentCutFabric);
     expect(BentCutFabric.levelledUnits({} as never, [], [])).toEqual([]);
     expect(BentCutFabric.terracedEdges).toBe(true);

@@ -1,22 +1,22 @@
 {
   "schema": "plat-landed-record/1",
   "item": "check-M0-a-14-notes",
-  "lane": "check/M0-a-14-close-r1",
-  "lanes": ["check/M0-a-14-close-r1"],
+  "lane": "check/M0-a-14-close-s1",
+  "lanes": ["check/M0-a-14-close-r1", "check/M0-a-14-close-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-05T17:56:04.499Z",
+  "date": "2026-10-06T17:14:04.423Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-a-14-notes.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-a-14-notes.md", "status": "created", "sha256": "4b5dfe9916a99c4a045e993dd97efef97d1c9bc3b4409fbff13e5395049ccc5e", "size": 11938 }
+    { "path": "plat/docs/build/checks/M0-a-14-notes.md", "status": "created", "sha256": "3ce0438b71b99b777fa73683dc6537de6886393599472f87caae22cfb643d43a", "size": 13003 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0180"],
-      "lines": ["bd69527af9c82dbf"],
+      "ids": ["L-0180", "L-0248"],
+      "lines": ["bd69527af9c82dbf", "b2510976cbc8b7a9"],
       "removed": []
     }
   ]

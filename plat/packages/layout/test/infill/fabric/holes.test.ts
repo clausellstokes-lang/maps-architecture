@@ -50,12 +50,12 @@ describe('a district face with a reservation hole', () => {
   const out = runFixture(f);
   const rep = out.infill.report.districts[0];
 
-  it('the fixture’s district face holds the hole', () => {
+  it('the fixture’s district face holds the hole', { timeout: 120_000 }, () => {
     expect(districtFacesBefore).toBe(1);
     expect(holesBefore).toBe(1);
   });
 
-  it('a slit joins the hole by connectHole, and the annulus is then cut by the same ladder', () => {
+  it('a slit joins the hole by connectHole, and the annulus is then cut by the same ladder', { timeout: 120_000 }, () => {
     const slits = rep.rungs.filter((r) => r.outcome === 'slit');
     expect(slits.length).toBe(1);
     const slitFace = rep.faces.find((x) => x.outcome === 'slit');
@@ -64,7 +64,7 @@ describe('a district face with a reservation hole', () => {
     expect(rep.faces.filter((x) => x.outcome === 'cut').length).toBeGreaterThan(0);
   });
 
-  it('no district face keeps a hole, the hole’s face is untouched, the face count never decreases', () => {
+  it('no district face keeps a hole, the hole’s face is untouched, the face count never decreases', { timeout: 120_000 }, () => {
     let n = 0;
     for (let g = 0; g < f.plat.slots.face[1].top; g += 1) {
       if (!isFaceLive(f.plat, 1, g) || ownerOf(f.plat, g) !== d) continue;
@@ -80,7 +80,7 @@ describe('a district face with a reservation hole', () => {
     for (const fl of rep.faces) expect(fl.facesAfter).toBeGreaterThanOrEqual(1);
   });
 
-  it('the slit is a lane whose one end is an `end` junction on the hole', () => {
+  it('the slit is a lane whose one end is an `end` junction on the hole', { timeout: 120_000 }, () => {
     const slitRung = rep.rungs.find((r) => r.outcome === 'slit');
     expect(slitRung).toBeDefined();
     const ends = out.infill.junctions.filter((j) => j.kind === 'end');

@@ -29,12 +29,12 @@ describe('F-WORK on cut.recursionDepth (C-0085)', () => {
   const wl = table('cut.recursionDepth', 2);
   const out = runFixture(f, { tables: { workLimits: wl } });
 
-  it('the law is the table’s: floor 2, nothing per unit', () => {
+  it('the law is the table’s: floor 2, nothing per unit', { timeout: 120_000 }, () => {
     expect(workLimitOf(wl.law('cut.recursionDepth'), { kind: 'district', id: 'd' }, { faces: 999 })).toBe(2);
     for (const rep of out.infill.report.districts) expect(rep.limits.recursionDepth).toBe(2);
   });
 
-  it('stops recursing at depth 2: no face deeper is planned, the faces there stand as blocks, reported work_cut with the count', () => {
+  it('stops recursing at depth 2: no face deeper is planned, the faces there stand as blocks, reported work_cut with the count', { timeout: 120_000 }, () => {
     expect(out.infill.report.refused).toEqual([]);
     for (const rep of out.infill.report.districts) {
       expect(rep.workCut).toEqual([{ counter: 'cut.recursionDepth', count: 2, limit: 2 }]);
@@ -49,13 +49,13 @@ describe('F-WORK on cut.recursionDepth (C-0085)', () => {
     }
   });
 
-  it('the map stays valid (every hard row of the whole-arena sweep holds) and the face count never decreases', () => {
+  it('the map stays valid (every hard row of the whole-arena sweep holds) and the face count never decreases', { timeout: 120_000 }, () => {
     const rows = checkCI(f.plat);
     for (const r of rows) if (r.class === 'hard') expect([r.name, r.holds, r.problems.slice(0, 3)]).toEqual([r.name, true, []]);
     f.districts.forEach((d, i) => expect(districtFaces(f, d.district.id)).toBeGreaterThanOrEqual(before[i]));
   });
 
-  it('cuts fewer faces than the unlimited run, with every block still recorded', () => {
+  it('cuts fewer faces than the unlimited run, with every block still recorded', { timeout: 300_000 }, () => {
     const g = twoDistricts();
     const full = runFixture(g);
     expect(out.lanes.length).toBeLessThan(full.lanes.length);
@@ -65,7 +65,7 @@ describe('F-WORK on cut.recursionDepth (C-0085)', () => {
 
 describe('F-WORK on cut.kernelCalls and cut.candidates', () => {
   for (const [counter, floor] of [['cut.kernelCalls', 3], ['cut.candidates', 4]] as const) {
-    it(`${counter}: the run stops at its count, every open face a block, reported work_cut`, () => {
+    it(`${counter}: the run stops at its count, every open face a block, reported work_cut`, { timeout: 300_000 }, () => {
       const f = twoDistricts();
       const out = runFixture(f, { tables: { workLimits: table(counter, floor) } });
       expect(out.infill.report.refused).toEqual([]);

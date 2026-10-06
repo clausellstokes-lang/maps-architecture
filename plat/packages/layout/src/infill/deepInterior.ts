@@ -16,7 +16,7 @@
 //     nothing.
 // The deep factor 0.6 is the design's number since E12 (§4.6); interior.json's `settings.deepFactor` still holds the
 // superseded 2 and is M0-c-07a's to re-fit (its hand-over), so the rule reads the design's factor and a test pins it
-// (N-27; C-0239 (6)). The lanes a `back_lane` or `through_alley` asks for are cut by bentCutFabric.ts in the district's
+// (N-27; C-0237 (6)). The lanes a `back_lane` or `through_alley` asks for are cut by bentCutFabric.ts in the district's
 // batch (`interiorSpine`).
 import { BinaryHeap, obb, type LatticePoint, type Stream } from '@plat/kernel';
 import type { Block } from '@plat/model';

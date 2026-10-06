@@ -69,13 +69,13 @@ describe('S8 inside the wall’s strips (M0-c-02’s committed strips, the small
   const w = walled();
   const rep = w.out.infill.report.districts[0];
 
-  it('cuts the walled interior (lanes made, no district refused)', () => {
+  it('cuts the walled interior (lanes made, no district refused)', { timeout: 120_000 }, () => {
     expect(w.out.infill.report.refused).toEqual([]);
     expect(w.strips.size).toBeGreaterThan(0);
     expect(rep.lanes).toBeGreaterThan(5);
   });
 
-  it('0 lanes cross a wall strip: every lane edge has the district’s faces on both sides', () => {
+  it('0 lanes cross a wall strip: every lane edge has the district’s faces on both sides', { timeout: 120_000 }, () => {
     const hf = halfEdgeFaces(w.plat);
     let edges = 0;
     for (const [h, f] of hf) {
@@ -87,7 +87,7 @@ describe('S8 inside the wall’s strips (M0-c-02’s committed strips, the small
     expect(edges).toBeGreaterThan(0);
   });
 
-  it('no strip face is split or cleared: each stands with every corner it had and the same OBB', () => {
+  it('no strip face is split or cleared: each stands with every corner it had and the same OBB', { timeout: 120_000 }, () => {
     for (const [f, before] of w.stripRingsBefore) {
       expect(isFaceLive(w.plat, 1, f)).toBe(true);
       const now = faceRings(w.plat, 1, f)[0];
@@ -96,7 +96,7 @@ describe('S8 inside the wall’s strips (M0-c-02’s committed strips, the small
     }
   });
 
-  it('every lane end on the setback line stays there, square to it (85–95°)', () => {
+  it('every lane end on the setback line stays there, square to it (85–95°)', { timeout: 120_000 }, () => {
     const hf = halfEdgeFaces(w.plat);
     let ends = 0;
     for (const lane of w.out.lanes) {

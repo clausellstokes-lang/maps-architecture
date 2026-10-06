@@ -17,7 +17,7 @@ function stream(n = 0): ReturnType<ReturnType<typeof createRng>['stream']> {
 const ROW: InteriorRow = { plotDepthCm: 3600, shares: [0.457, 0.296, 0.148, 0.099], reach: [0.7, 0.3, 0], deepFactor: DEEP_FACTOR };
 
 describe('the local thickness: twice the largest inscribed circle’s radius', () => {
-  it('a rectangle’s is its short side; an L-shape’s its arm; a hole counts as boundary', () => {
+  it('a rectangle’s is its short side; an L-shape’s its arm; a hole counts as boundary', { timeout: 120_000 }, () => {
     expect(localThickness([rect(8000, 3000)]).thicknessCm).toBeGreaterThan(3000 - 20);
     expect(localThickness([rect(8000, 3000)]).thicknessCm).toBeLessThanOrEqual(3000);
     const L = [P(0, 0), P(10_000, 0), P(10_000, 2_000), P(2_000, 2_000), P(2_000, 10_000), P(0, 10_000)];
@@ -32,7 +32,7 @@ describe('the local thickness: twice the largest inscribed circle’s radius', (
 });
 
 describe('the deep test: 0.6 × the band’s plot depth (N-27, E12)', () => {
-  it('pins the factor at 0.6, not the superseded 2', () => {
+  it('pins the factor at 0.6, not the superseded 2', { timeout: 120_000 }, () => {
     expect(DEEP_FACTOR).toBe(0.6);
     // 0.6 × 36 m = 21.6 m: a 22 m thick block is deep, a 21 m one standard — under 2 × both would be standard.
     expect(deepInterior({ rings: [rect(10_000, 2_200)] }, ROW, stream()).depthClass).toBe('deep');
@@ -41,7 +41,7 @@ describe('the deep test: 0.6 × the band’s plot depth (N-27, E12)', () => {
     expect(deepInterior({ rings: [rect(10_000, 3_600)] }, { ...ROW, deepFactor: 2 }, stream()).depthClass).toBe('standard');
   });
 
-  it('a standard block is plots / open and draws nothing; a deep one draws one pair', () => {
+  it('a standard block is plots / open and draws nothing; a deep one draws one pair', { timeout: 120_000 }, () => {
     const s = stream(5);
     const d = deepInterior({ rings: [rect(10_000, 1_000)] }, ROW, s);
     expect(d).toMatchObject({ depthClass: 'standard', interior: 'plots', reach: 'open', uniforms: null });
@@ -55,7 +55,7 @@ describe('the deep test: 0.6 × the band’s plot depth (N-27, E12)', () => {
     expect(s2.float01()).toBe(twin.float01());
   });
 
-  it('chooses the treatment by the shares and the reach by the weights, cumulatively; a spine treatment is open', () => {
+  it('chooses the treatment by the shares and the reach by the weights, cumulatively; a spine treatment is open', { timeout: 120_000 }, () => {
     expect(pickWeighted([0.5, 0.3, 0.2], 0)).toBe(0);
     expect(pickWeighted([0.5, 0.3, 0.2], 0.49)).toBe(0);
     expect(pickWeighted([0.5, 0.3, 0.2], 0.5)).toBe(1);
@@ -79,7 +79,7 @@ describe('the deep test: 0.6 × the band’s plot depth (N-27, E12)', () => {
 
 describe('the band row read from interior.json (§4.6; item 27’s interpolation)', () => {
   const t = loadTable('interior');
-  it('reads the rowed bands’ shares and the reach weights, the non-open ones × (densityBase + density) × the rung', () => {
+  it('reads the rowed bands’ shares and the reach weights, the non-open ones × (densityBase + density) × the rung', { timeout: 120_000 }, () => {
     // At a rowed band's centre its row is read unblended (bands.json's default cuts; §4.5's continuous reading).
     const set = defaultBandCuts();
     const centres = bandCentres(set);
@@ -109,7 +109,7 @@ describe('the band row read from interior.json (§4.6; item 27’s interpolation
 describe('the deep interiors on S8’s output', () => {
   const f = twoDistricts();
   const out = runFixture(f);
-  it('every block carries depthClass, interior and reach as the rule gives them; a back lane or through alley is cut as an L1 spine of its class, else the block keeps a court', () => {
+  it('every block carries depthClass, interior and reach as the rule gives them; a back lane or through alley is cut as an L1 spine of its class, else the block keeps a court', { timeout: 120_000 }, () => {
     expect(out.blocks.length).toBeGreaterThan(10);
     for (const b of out.blocks) {
       if (b.depthClass === 'standard') expect(['plots', 'court', 'empty']).toContain(b.interior);

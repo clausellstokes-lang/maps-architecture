@@ -18,7 +18,7 @@ import {
   type VertexId,
 } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildForFreeze } from '../../src/index/index.js';
+import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildAtStageEnd, rebuildForFreeze } from '../../src/index/index.js';
 import {
   checkBatch,
   checkCI,
@@ -687,6 +687,31 @@ describe('index-freshness: a removal that frees coarser own children (N-49, C-02
       const coarser = writes.filter((w) => w.kind === ITEM_FACE && w.level < level);
       expect(coarser.length).toBeGreaterThan(0);
       expect(new Set(coarser.map((w) => w.level))).toEqual(new Set(level === 3 ? [1, 2] : [1]));
+      for (const w of coarser) {
+        expect(['tombstone', 'delete']).toContain(w.op);
+        expect(isFaceLive(p, w.level, w.slot)).toBe(false);
+      }
+    });
+
+    it(`the L${level} chain inserted, the partitions rebuilt at the stage end, then removed through tx with the suite: the freed own children are tombstoned and admitted`, () => {
+      // The regeneration path (N-49's own evidence, B-1 of checks/M0-a-14-s1.md): after rebuildAtStageEnd the own
+      // children sit in a static partition, so the removal writes a coarser 'tombstone' (not only a grid 'delete').
+      const p = way();
+      const before = contentPrint(p);
+      const role = roleAt(level);
+      const a = suiteTx(p, level, (o: Overlay) => insertChain(o, chain, [{ role, entity: 'x:1' }], 'mandatory'));
+      expect(a.res.ok, a.res.ok ? '' : `${a.res.code} ${a.res.detail}`).toBe(true);
+      expect(rebuildAtStageEnd(p)).toBeGreaterThan(0);
+      expect(allProblems(p)).toEqual([]);
+      const writes: Write[] = [];
+      const b = suiteTx(p, level, (o: Overlay) => removeEdges(o, { role, entity: 'x:1' }), { rederivesFrom: 0 as never }, {}, logged(writes));
+      expect(b.res.ok, b.res.ok ? '' : `${b.res.code} ${b.res.detail}`).toBe(true);
+      expect(allProblems(p)).toEqual([]);
+      expect(contentPrint(p)).toBe(before);
+      const row = holds(b.report.batches[0].results, 'index-freshness');
+      expect(row.subjects).toBeGreaterThan(0);
+      const coarser = writes.filter((w) => w.kind === ITEM_FACE && w.level < level);
+      expect(coarser.some((w) => w.op === 'tombstone'), JSON.stringify(coarser)).toBe(true);
       for (const w of coarser) {
         expect(['tombstone', 'delete']).toContain(w.op);
         expect(isFaceLive(p, w.level, w.slot)).toBe(false);

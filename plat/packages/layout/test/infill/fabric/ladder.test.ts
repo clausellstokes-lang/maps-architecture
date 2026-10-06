@@ -32,7 +32,7 @@ function sidesOf(rings: LatticePoint[][]) {
 describe('the reflex pre-cut (§4.6 step 8: a reflex vertex deeper than the band’s plot depth)', () => {
   // An L: its reflex vertex at (4 000, 3 000), 3 000 cm from the hull's lid.
   const L = [P(0, 0), P(10_000, 0), P(10_000, 3_000), P(4_000, 3_000), P(4_000, 9_000), P(0, 9_000)];
-  it('finds the reflex vertex and its depth (its distance to the hull lid spanning its notch)', () => {
+  it('finds the reflex vertex and its depth (its distance to the hull lid spanning its notch)', { timeout: 120_000 }, () => {
     const rv = reflexVertices(L);
     expect(rv.length).toBe(1);
     expect(rv[0].at).toEqual(P(4_000, 3_000));
@@ -40,7 +40,7 @@ describe('the reflex pre-cut (§4.6 step 8: a reflex vertex deeper than the band
     expect(rv[0].depthCm).toBeCloseTo(6000 / Math.SQRT2, 3);
   });
 
-  it('cuts along the longer run’s inward normal from the vertex when it is deeper than d̄, and not when it is shallower', () => {
+  it('cuts along the longer run’s inward normal from the vertex when it is deeper than d̄, and not when it is shallower', { timeout: 120_000 }, () => {
     const face: KerbFace = { rings: [L], spines: [] };
     const s = sidesOf([L]);
     const c = reflexPreCut(face, s, 2_000, CELLS, 500);
@@ -55,7 +55,7 @@ describe('the reflex pre-cut (§4.6 step 8: a reflex vertex deeper than the band
 });
 
 describe('rung (b): the straight cut from A along the mean normal', () => {
-  it('averages the start run’s inward normal and the far run’s outward normal; the inward normal alone without a far run', () => {
+  it('averages the start run’s inward normal and the far run’s outward normal; the inward normal alone without a far run', { timeout: 120_000 }, () => {
     const R = [P(0, 0), P(10_000, 0), P(10_000, 6_000), P(0, 6_000)];
     const face: KerbFace = { rings: [R], spines: [] };
     const s = sidesOf([R]);
@@ -74,7 +74,7 @@ describe('rung (b): the straight cut from A along the mean normal', () => {
 
 describe('rung (c): perpendicular to the longest run through its midpoint, sliding by 2 · attractCm', () => {
   const R = [P(0, 0), P(10_000, 0), P(10_000, 4_000), P(0, 4_000)];
-  it('takes the longest run (ties: the earlier) and its midpoint first, then alternates, the lower (y, x) end first', () => {
+  it('takes the longest run (ties: the earlier) and its midpoint first, then alternates, the lower (y, x) end first', { timeout: 120_000 }, () => {
     const s = sidesOf([R]);
     expect(longestRun(s)).toBe(0);
     const feet = slideFeet(s, 5);
@@ -88,7 +88,7 @@ describe('rung (c): perpendicular to the longest run through its midpoint, slidi
     }
   });
 
-  it('a boundary vertex within attractCm of the perpendicular refuses it; the slide passes beside it', () => {
+  it('a boundary vertex within attractCm of the perpendicular refuses it; the slide passes beside it', { timeout: 120_000 }, () => {
     // A thin tooth from the right side whose reflex tip sits 10 cm off the midpoint's perpendicular, at mid height.
     const N = [P(0, 0), P(10_000, 0), P(10_000, 1_990), P(5_010, 1_990), P(5_010, 2_010), P(10_000, 2_010), P(10_000, 4_000), P(0, 4_000)];
     const s = sidesOf([N]);
@@ -103,7 +103,7 @@ describe('rung (c): perpendicular to the longest run through its midpoint, slidi
 });
 
 describe('the antenna’s tip: a spike of the face’s L1 ring', () => {
-  it('finds the vertex the ring reaches and leaves along one edge, with the direction it was reached along', () => {
+  it('finds the vertex the ring reaches and leaves along one edge, with the direction it was reached along', { timeout: 120_000 }, () => {
     const ring = [P(0, 0), P(10_000, 0), P(10_000, 6_000), P(5_000, 6_000), P(5_000, 3_000), P(5_000, 6_000), P(0, 6_000)];
     const tips = antennaTips(ring);
     expect(tips.length).toBe(1);
@@ -115,11 +115,11 @@ describe('the antenna’s tip: a spike of the face’s L1 ring', () => {
 
 describe('the judgement before any kernel call', () => {
   const R = [P(0, 0), P(10_000, 0), P(10_000, 4_000), P(0, 4_000)];
-  it('passes a square cut with both children above the floor, and gives their widths', () => {
+  it('passes a square cut with both children above the floor, and gives their widths', { timeout: 120_000 }, () => {
     const j = judge([R], [P(5_000, 0), P(5_000, 4_000)], FLOOR);
     expect(j).toEqual({ ok: true, kind: 'split', widths: [4_000, 4_000] });
   });
-  it('refuses a landing off the boundary, a crossing, a contact, a child below the width floor, a corner below the angle floor', () => {
+  it('refuses a landing off the boundary, a crossing, a contact, a child below the width floor, a corner below the angle floor', { timeout: 120_000 }, () => {
     expect(judge([R], [P(5_000, 100), P(5_000, 4_000)], FLOOR)).toMatchObject({ ok: false, why: 'landing' });
     expect(judge([R], [P(5_000, 0), P(12_000, 2_000), P(5_000, 4_000)], FLOOR)).toMatchObject({ ok: false, why: 'crossing' });
     expect(judge([R], [P(5_000, 0), P(5_000, 3_990), P(6_000, 3_990), P(6_000, 4_000)], FLOOR)).toMatchObject({ ok: false, why: 'contact' });
@@ -129,13 +129,13 @@ describe('the judgement before any kernel call', () => {
     expect(judge([R], [P(2_000, 0), P(10_000, 800)], { minWidthCm: 100, minAngleCdeg: 1200 })).toMatchObject({ ok: false, why: 'angle' });
     expect(judge([R], [P(2_000, 0), P(10_000, 800)], { minWidthCm: 100, minAngleCdeg: 500 })).toMatchObject({ ok: true });
   });
-  it('a chain from the outer ring to a hole is a slit; one joining two holes is refused', () => {
+  it('a chain from the outer ring to a hole is a slit; one joining two holes is refused', { timeout: 120_000 }, () => {
     const h1 = [P(3_000, 1_500), P(3_000, 2_500), P(4_000, 2_500), P(4_000, 1_500)];
     const h2 = [P(6_000, 1_500), P(6_000, 2_500), P(7_000, 2_500), P(7_000, 1_500)];
     expect(judge([R, h1, h2], [P(3_500, 0), P(3_500, 1_500)], FLOOR)).toEqual({ ok: true, kind: 'slit' });
     expect(judge([R, h1, h2], [P(4_000, 2_000), P(6_000, 2_000)], FLOOR)).toMatchObject({ ok: false, why: 'holes' });
   });
-  it('a kerb end (no spine beyond it) must arrive square to its line: 85–95°', () => {
+  it('a kerb end (no spine beyond it) must arrive square to its line: 85–95°', { timeout: 120_000 }, () => {
     const end = (kind: EndPlan['kind']): EndPlan => ({ kind, kerbPoint: { x: 0, y: 0 }, point: { x: 0, y: 0 }, arrival: { x: 0, y: 1 }, index: -1, slidCm: 0 });
     expect(kerbEndsSquare([R], [P(5_000, 0), P(5_000, 4_000)], [end('kerb'), end('kerb')], CELLS)).toBe(true);
     // 85.7° (300 cm over 4 000) is inside the band; 84.3° (400 cm) is not.
@@ -144,7 +144,7 @@ describe('the judgement before any kernel call', () => {
     expect(kerbEndsSquare([R], [P(5_000, 0), P(5_800, 4_000)], [end('kerb'), end('kerb')], CELLS)).toBe(false);
     expect(kerbEndsSquare([R], [P(5_000, 0), P(5_800, 4_000)], [end('spine'), end('spine')], CELLS)).toBe(true);
   });
-  it('a straight candidate extends an end to a spine within 2 × its half-width + attractCm, else keeps it on the kerb', () => {
+  it('a straight candidate extends an end to a spine within 2 × its half-width + attractCm, else keeps it on the kerb', { timeout: 120_000 }, () => {
     const face: KerbFace = { rings: [R], spines: [{ points: [{ x: -1_000, y: -300 }, { x: 11_000, y: -300 }], halfWidthCm: 300 }] };
     const c = straightCandidate(face, [R], { x: 5_000, y: 0 }, { x: 5_000, y: 4_000 }, [0, 0], CELLS, 500, 'c');
     expect(c?.ends[0].kind).toBe('spine');

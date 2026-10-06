@@ -47,13 +47,14 @@ describe('the arterial graph (§4.3; C-0236 (3))', () => {
     expect(g.nodes.some((n) => n.at.x === 3700 && n.at.y === 0)).toBe(false);
     const deg4 = g.nodes.filter((n) => n.edges.length === 4);
     expect(deg4.map((n) => n.at)).toEqual([P(3000, 0)]);
-    // 8 m apart: two junctions.
-    const a8 = route('a', 0, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [3800, 0], [5000, 0], pin(6000, 0, 'gate', 'gate:a')]);
-    const c8 = route('c', 2, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [3800, 0], [3800, -2000], pin(3800, -4000, 'gate', 'gate:c')]);
+    // 8 m apart (a diagonal pair: 480 × 640 cm): two junctions; 7.99 m (479 × 640): one.
+    const at = (x: number, y: number): [S4Route, S4Route] => [
+      route('a', 0, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [x, y], [5000, y], pin(6000, y, 'gate', 'gate:a')]),
+      route('c', 2, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [x, y], [x, -2000], pin(x, -4000, 'gate', 'gate:c')]),
+    ];
+    const [a8, c8] = at(3480, 640);
     expect(arterialGraph([a8, b, c8], MERGE).merges).toEqual([]);
-    // 7.99 m: merged.
-    const a7 = route('a', 0, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [3799, 0], [5000, 0], pin(6000, 0, 'gate', 'gate:a')]);
-    const c7 = route('c', 2, [pin(0, 0), [1000, 0], [2000, 0], [3000, 0], [3799, 0], [3799, -2000], pin(3799, -4000, 'gate', 'gate:c')]);
+    const [a7, c7] = at(3479, 640);
     expect(arterialGraph([a7, b, c7], MERGE).merges).toHaveLength(1);
   });
 

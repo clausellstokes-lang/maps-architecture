@@ -1,9 +1,9 @@
 // The S8 Stage (§4.6, §4.1: callback form; §14 `Stage`, `StrategyRegistry.fabric`; M0-b-03): the per-district loop that
 // calls each district's registered FabricStrategy — `BentCutFabric` for `bent-cut` — in lineage order, one callback L1
 // transaction per district (the strategy's), over the kernel façade the runner hands it. Its registration into the base
-// table is M0-x-04's. Readings: C-0239.
+// table is M0-x-04's. Readings: C-0237.
 //
-// The stage's input is the record the runner's model hands it (C-0239 (9), as S1's L0 batch takes its own, C-0229 (1)):
+// The stage's input is the record the runner's model hands it (C-0237 (9), as S1's L0 batch takes its own, C-0229 (1)):
 // the façade and the arena key, the seed key, the districts with their pass-1 values and lineage, the ways that bound
 // their faces with their widths (the map the kernel's `spineWidths` reads — S8 writes its lanes into it as it inserts
 // them, so a child's kerb reads the lane that made it), the seams (C-0046's minimal records) and the entities live
@@ -34,7 +34,7 @@ export interface S8District {
   readonly laneLengthM?: readonly [number, number];
 }
 
-/** S8's input record (C-0239 (9)). */
+/** S8's input record (C-0237 (9)). */
 export interface S8Input {
   readonly kernel: Kernel;
   readonly key?: PlatKey;
@@ -178,7 +178,7 @@ export function s8Stage(opts: { workLimits?: WorkLimitsTable } = {}): Stage<S8In
       const m = model as { get?: (k: string) => unknown } | Partial<S8Input> | null | undefined;
       const rec = (m !== null && m !== undefined && typeof (m as { get?: unknown }).get === 'function' ? (m as { get: (k: string) => unknown }).get('districts') : m) as Partial<S8Input> | undefined;
       if (rec === undefined || rec === null || rec.kernel === undefined || rec.districts === undefined || rec.widths === undefined || rec.seedKey === undefined) {
-        throw new TypeError('s8Stage.inputsOf: the model hands S8 its record — the façade, the seed key, the districts, the ways, the seams and the width map (C-0239 (9))');
+        throw new TypeError('s8Stage.inputsOf: the model hands S8 its record — the façade, the seed key, the districts, the ways, the seams and the width map (C-0237 (9))');
       }
       return rec as S8Input;
     },

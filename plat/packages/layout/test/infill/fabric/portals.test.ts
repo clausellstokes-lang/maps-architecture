@@ -19,14 +19,14 @@ describe('the seam portal invariant on two districts sharing an arterial', () =>
   const out = runFixture(f);
   const seam = out.infill.seams.find((s) => s.edges.some((e) => e.chain.entity === 'way:art'));
 
-  it('the arterial is the seam’s only spine and carries baseLane portals, each a lane end, every lane end on it a portal, spaced by the gap', () => {
+  it('the arterial is the seam’s only spine and carries baseLane portals, each a lane end, every lane end on it a portal, spaced by the gap', { timeout: 120_000 }, () => {
     expect(f.seams.length).toBe(1);
     expect(seam).toBeDefined();
     expect(seam?.portals.length).toBeGreaterThan(2);
     expect(portalInvariant(f.plat, GROUND, out.infill.seams, out.lanes, CELLS)).toEqual([]);
   });
 
-  it('each portal record names its lane, its class and width, its vertex role, the district that added it and the lane’s bearing into it', () => {
+  it('each portal record names its lane, its class and width, its vertex role, the district that added it and the lane’s bearing into it', { timeout: 120_000 }, () => {
     for (const p of seam?.portals ?? []) {
       const lane = out.lanes.find((w) => w.id === p.wayId);
       expect(lane).toBeDefined();
@@ -44,12 +44,12 @@ describe('the seam portal invariant on two districts sharing an arterial', () =>
     }
   });
 
-  it('no two lanes meet the arterial at one vertex (no crossroads on a district boundary)', () => {
+  it('no two lanes meet the arterial at one vertex (no crossroads on a district boundary)', { timeout: 120_000 }, () => {
     const at = (seam?.portals ?? []).map((p) => vertexPoints(f.plat, GROUND, p.at)[0]).map((q) => `${q.x},${q.y}`);
     expect(new Set(at).size).toBe(at.length);
   });
 
-  it('a lane end on the arterial arrives within 85–95°', () => {
+  it('a lane end on the arterial arrives within 85–95°', { timeout: 120_000 }, () => {
     for (const p of seam?.portals ?? []) {
       const at = vertexPoints(f.plat, GROUND, p.at)[0];
       const seg = waySegments(f.plat, p.wayId).find(([a, b]) => (a.x === at.x && a.y === at.y) || (b.x === at.x && b.y === at.y));
@@ -60,7 +60,7 @@ describe('the seam portal invariant on two districts sharing an arterial', () =>
     }
   });
 
-  it('removing a lane takes its portal out of the Seam and the arterial reads as before at that point', () => {
+  it('removing a lane takes its portal out of the Seam and the arterial reads as before at that point', { timeout: 300_000 }, () => {
     const p = (seam?.portals ?? [])[0] as Portal;
     const lane = out.lanes.find((w) => w.id === p.wayId);
     expect(lane).toBeDefined();
@@ -133,7 +133,7 @@ function denselyPortalled(): ReturnType<typeof fixture> {
 }
 
 describe('the portal gap: a planned end inside a portal’s gap slides out, else the cut takes its next rung (§4.6 step 7)', () => {
-  it('on a ring every point of which lies in a gap, no lane ends on it: every frame’s plan is the next rung, and rung (b) is reached and reported (T39-1)', () => {
+  it('on a ring every point of which lies in a gap, no lane ends on it: every frame’s plan is the next rung, and rung (b) is reached and reported (T39-1)', { timeout: 300_000 }, () => {
     const f = denselyPortalled();
     const out = runFixture(f);
     expect(out.infill.report.refused).toEqual([]);

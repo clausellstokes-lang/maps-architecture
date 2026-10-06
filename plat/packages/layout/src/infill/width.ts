@@ -7,7 +7,7 @@
 // draw per district on `cut.width`: ln p uniform between ln pMin and ln pMax, p = pMin · (pMax / pMin)^u — the design's
 // p = 0.5 · 4^u with the cells' 0.5 and 2 (both powers by dmath.pow, §6.5 (3)). Longer cuts are wider, saturating at
 // the band's top. In a walled regime a cut longer than the lane length band is typed `secondary` (§4.6 step 9); no
-// M0 table holds that band (C-0239 (5)), so a caller passes it or every S8 cut is a lane. "Never narrower than a lower
+// M0 table holds that band (C-0237 (5)), so a caller passes it or every S8 cut is a lane. "Never narrower than a lower
 // class" (O4 c) holds by the bands' order, alley ≤ lane ≤ secondary, which `classBands` checks.
 import { dmath, ratio, type Stream } from '@plat/kernel';
 import { loadTable, type Table } from '@plat/tables';
@@ -107,7 +107,7 @@ export function widthOf(L: number, Lref: number, p: number, band: WidthBand): nu
 
 /**
  * A cut's class (§4.6 step 9): `lane`, or `secondary` in a walled regime when its length exceeds the lane length band's
- * top. `laneLengthM` is that band; no M0 table holds it (C-0239 (5)), so without it every cut is a lane.
+ * top. `laneLengthM` is that band; no M0 table holds it (C-0237 (5)), so without it every cut is a lane.
  */
 export function cutClass(lengthCm: number, walled: boolean, laneLengthM?: readonly [number, number]): CutClass {
   if (!walled || laneLengthM === undefined) return 'lane';

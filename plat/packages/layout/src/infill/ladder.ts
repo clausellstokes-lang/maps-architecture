@@ -7,7 +7,7 @@
 //   pre      the reflex pre-cut: a kerb vertex deeper than the band's plot depth d̄ (its distance to the hull lid that
 //            spans it) splits the face along its longer run's inward normal (§4.6 step 8, FTG's "internal corners");
 //   antenna  a dead end inside the face (its L1 ring visits the tip as a spike) is split off: the cut leaves the tip
-//            along the antenna's last direction to the far side, so no child wraps it (C-0239 (4));
+//            along the antenna's last direction to the far side, so no child wraps it (C-0237 (4));
 //   (a)      planCut at attempts 0, 1, 2 — frames turned k × 36° drawing afresh on the attempt component (the planner);
 //   (b)      the straight cut from A along the mean normal: the start run's inward normal and the far run's outward
 //            normal averaged, both as the unturned frame found them (the inward normal alone without a far run);
@@ -59,7 +59,7 @@ export function div(n: number, d: number): number | null {
   return r.ok ? r.value : null;
 }
 
-/** The class floor a child face meets (§3.3's `expect`; §4.7's class-floor row; C-0239 (2)). */
+/** The class floor a child face meets (§3.3's `expect`; §4.7's class-floor row; C-0237 (2)). */
 export interface BlockFloor {
   /** The minimum block width (cm): the band's shallowest plot depth, d_lo. */
   readonly minWidthCm: number;
@@ -409,7 +409,7 @@ export function antennaTips(ring: readonly LatticePoint[]): { tip: LatticePoint;
 }
 
 /**
- * The antenna split's candidate (C-0239 (4)): from the first antenna tip, a straight cut on along the antenna's
+ * The antenna split's candidate (C-0237 (4)): from the first antenna tip, a straight cut on along the antenna's
  * direction to the far side of the kerb, the tip itself the start junction. Null when the face has no antenna or the
  * cut is caught.
  */
@@ -552,7 +552,7 @@ export function judge(rings: readonly (readonly LatticePoint[])[], chain: readon
 /**
  * Does every `kerb` end of a chain — an end on a boundary with no spine: a wall strip's setback line, a reservation's
  * edge, a shore (§4.6 step 7) — arrive square to the line it stays on, within the arrival band (cut.settings'
- * portalArrivalCdeg, 85–95°, the design's one "square"; C-0239 (10))? Read against the L1 ring edge the end lies on.
+ * portalArrivalCdeg, 85–95°, the design's one "square"; C-0237 (10))? Read against the L1 ring edge the end lies on.
  */
 export function kerbEndsSquare(rings: readonly (readonly LatticePoint[])[], chain: readonly LatticePoint[], ends: readonly [EndPlan, EndPlan], cells: CutCells): boolean {
   const bound = arrivalDot2(cells);

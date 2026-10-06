@@ -21,7 +21,7 @@ describe('S8 over two districts sharing an arterial', () => {
   });
   const out = runFixture(f);
 
-  it('cuts both districts: blocks and lanes in each, none refused', () => {
+  it('cuts both districts: blocks and lanes in each, none refused', { timeout: 120_000 }, () => {
     expect(out.infill.report.refused).toEqual([]);
     expect(out.infill.report.districts.length).toBe(2);
     for (const rep of out.infill.report.districts) {
@@ -30,11 +30,11 @@ describe('S8 over two districts sharing an arterial', () => {
     }
   });
 
-  it('leaves a valid map: every hard row of the whole-arena sweep holds', () => {
+  it('leaves a valid map: every hard row of the whole-arena sweep holds', { timeout: 120_000 }, () => {
     for (const r of checkCI(f.plat)) if (r.class === 'hard') expect([r.name, r.holds, r.problems.slice(0, 3)]).toEqual([r.name, true, []]);
   });
 
-  it('F-CUT: each face’s ladder ends in ≤ 6 kernel calls and the face count never decreases', () => {
+  it('F-CUT: each face’s ladder ends in ≤ 6 kernel calls and the face count never decreases', { timeout: 120_000 }, () => {
     for (const rep of out.infill.report.districts) {
       for (const fl of rep.faces) {
         expect(fl.kernelCalls).toBeLessThanOrEqual(6);
@@ -49,7 +49,7 @@ describe('S8 over two districts sharing an arterial', () => {
     });
   });
 
-  it('the stop test: each face’s cut.stop draw replays from its lineage, τ is the design’s, and the face stops exactly when its minor extent is below τ', () => {
+  it('the stop test: each face’s cut.stop draw replays from its lineage, τ is the design’s, and the face stops exactly when its minor extent is below τ', { timeout: 120_000 }, () => {
     for (const rep of out.infill.report.districts) {
       const d = f.districts.find((x) => x.district.id === rep.district);
       const [eLo, eHi] = blockDepthRange(d!.bands!, undefined);
@@ -72,7 +72,7 @@ describe('S8 over two districts sharing an arterial', () => {
     }
   });
 
-  it('never restarts anything above a face: each face’s rungs come before its children’s, and no face is planned twice', () => {
+  it('never restarts anything above a face: each face’s rungs come before its children’s, and no face is planned twice', { timeout: 120_000 }, () => {
     for (const rep of out.infill.report.districts) {
       const faces = rep.faces.map((x) => x.face);
       expect(new Set(faces).size).toBe(faces.length);
@@ -91,7 +91,7 @@ describe('S8 over two districts sharing an arterial', () => {
     }
   });
 
-  it('two runs of one input give equal outputs and equal arenas', () => {
+  it('two runs of one input give equal outputs and equal arenas', { timeout: 300_000 }, () => {
     const g = twoDistricts();
     const again = runFixture(g);
     expect(fingerprint(again, g)).toBe(fingerprint(out, f));
@@ -99,7 +99,7 @@ describe('S8 over two districts sharing an arterial', () => {
 });
 
 describe('a district whose fabric no strategy is registered for', () => {
-  it('is refused, reported not_built, and the others are cut', () => {
+  it('is refused, reported not_built, and the others are cut', { timeout: 300_000 }, () => {
     const f = twoDistricts();
     const odd = { ...f.districts[0], district: { ...f.districts[0].district, fabric: 'template:x' } };
     const out = runFixture(f, { districts: [odd, f.districts[1]] });

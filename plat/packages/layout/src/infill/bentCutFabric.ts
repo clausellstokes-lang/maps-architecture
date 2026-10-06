@@ -1,6 +1,6 @@
 // BentCutFabric (§4.6 *The strategy slot*, steps 7–11, *The deep-interior rule*, *Holes*, the wall as a barrier; §14
 // `FabricStrategy`; §3.3 the callback form, `expect`, `onFail`; §5.1 (5), (6); §5.2 F-CUT and F-WORK; §6.3 the derivation
-// unit; C-0036, C-0046, C-0085; M0-b-03). Readings: C-0239.
+// unit; C-0036, C-0046, C-0085; M0-b-03). Readings: C-0237.
 //
 // `partition(district, seam, ctx, sc, k)` runs one callback-form L1 transaction per district (`districtBatch` builds
 // it, so the determinism harness can run the same batch on any arena). Inside it, for each of the district's coarse L1
@@ -106,7 +106,7 @@ import { cutClass, drawWidthExponent, widthCells, widthOf, type CutClass, type W
 export type LevelledUnit = { plot?: Id; block?: Id; outline: LatticePoint[]; excluded?: LatticePoint[][] };
 
 /**
- * The district's context as S8 reads it at M0 (V01 §2.3's `DistrictContext` is M1's, C-0239 (1)): its identity and
+ * The district's context as S8 reads it at M0 (V01 §2.3's `DistrictContext` is M1's, C-0237 (1)): its identity and
  * arena, its band at its pass-1 prosperity value (M0-b-01's bands), its density, rung, stage regime row and walled
  * flag, the ways that may bound its faces with their widths (the map the kernel's `spineWidths` reads; S8 adds its
  * lanes to it as it inserts them), and the entities already minted (for §6.3's collision rule).
@@ -129,7 +129,7 @@ export interface DistrictContext {
   readonly regime?: Row;
   /** A walled regime (§4.6 step 9's secondary typing). */
   readonly walled: boolean;
-  /** The lane length band (m) a walled regime's secondary typing reads; no M0 table holds it (C-0239 (5)). */
+  /** The lane length band (m) a walled regime's secondary typing reads; no M0 table holds it (C-0237 (5)). */
   readonly laneLengthM?: readonly [number, number];
   /** A parity preset (§7.6). */
   readonly preset?: PresetId;
@@ -145,7 +145,7 @@ export interface DistrictContext {
   readonly deepFactor?: number;
 }
 
-/** §14's FabricStrategy (C-0239 (1): `seam` is C-0046's minimal Seam records, `sc` a StageContext's report sink). */
+/** §14's FabricStrategy (C-0237 (1): `seam` is C-0046's minimal Seam records, `sc` a StageContext's report sink). */
 export interface FabricStrategy {
   partition(district: District, seam: readonly Seam[], ctx: DistrictContext, sc: FabricStageContext, k: Kernel): KernelResult<PartitionResult>;
   levelledUnits(district: District, plots: readonly unknown[], buildings: readonly unknown[]): LevelledUnit[];
@@ -242,7 +242,7 @@ export interface DistrictReport {
   readonly warnings: Readonly<Record<string, number>>;
 }
 
-/** A block with the L1 faces S8 left it and the points that find them again (its L2 face is S9's, C-0239 (3)). */
+/** A block with the L1 faces S8 left it and the points that find them again (its L2 face is S9's, C-0237 (3)). */
 export interface BlockFaces {
   readonly block: Id;
   /** A point inside each of its L1 faces (the inscribed circle's centre; two for a block a spine split). */
@@ -517,7 +517,7 @@ class Run {
     if (!kr.ok) return { error: `${kr.code} ${kr.detail}` };
     const outer = kr.value.filter((r) => area2(r) > 0);
     if (outer.length === 0 || rings1.length === 0) return { kf: { rings: [], spines: [] }, rings1, spineIds: [], empty: true };
-    // The largest component (C-0239 (7)); ties by its canonical first vertex.
+    // The largest component (C-0237 (7)); ties by its canonical first vertex.
     let pick = outer[0];
     for (const r of outer) if (area2(r) > area2(pick)) pick = r;
     const holes = kr.value.filter((r) => area2(r) < 0 && insideRing(pick, r[0]));
@@ -604,7 +604,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
   // A 2 cm margin over the floor: the insertion lands each end within a centimetre of where it was judged.
   const j = judge(fv.rings1, cand.chain, run.floor, 2 * LATTICE.unitCm);
   if (!j.ok) return { ok: false, why: j.why };
-  // An end with no spine beyond it stays on its line, square to it (§4.6 step 7; C-0239 (10)).
+  // An end with no spine beyond it stays on its line, square to it (§4.6 step 7; C-0237 (10)).
   if (!kerbEndsSquare(fv.rings1, cand.chain, cand.ends, run.cells)) return { ok: false, why: 'kerb-arrival' };
   // Continuation (step 10): an end landing on an existing junction of an interior lower-or-equal class spine makes a
   // crossroads, admitted only collinear within 6° and inside the district.
@@ -917,7 +917,7 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
   const seeds: LatticePoint[] = [];
   const s0 = seedOf(kerbRings);
   if (s0 !== null) seeds.push(s0);
-  // A back lane or a through alley: its spine in the same batch (§4.6); refused, the block keeps a court (C-0239 (8)).
+  // A back lane or a through alley: its spine in the same batch (§4.6); refused, the block keeps a court (C-0237 (8)).
   if ((interior === 'back_lane' || interior === 'through_alley') && fv !== null) {
     const treatment = interior;
     const sp = interiorSpine(kerbRings[0], d.centre, treatment);

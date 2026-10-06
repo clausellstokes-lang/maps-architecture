@@ -68,6 +68,22 @@ describe('class and width (§4.3; C-0236 (6))', () => {
     }
   });
 
+  it('a chain two route parts of different classes share takes the higher class', () => {
+    // Two outward parts from one gate share a run; one was relaxed to primary (F-ROUTE's slope rung). No plaza flow.
+    const g0 = gate(0, 0, 'gate:0');
+    const routes = [
+      route('a/out', 0, [g0, [2000, 0], [4000, 0], [6000, 2000], frame(8000, 4000)], 'outward', 'through', { kind: 'bearing', bearingCdeg: 4500 as never }, { kind: 'gate', id: 'gate:0' }),
+      route('b/out', 1, [g0, [2000, 0], [4000, 0], [6000, -2000], frame(8000, -4000)], 'outward', 'primary', { kind: 'bearing', bearingCdeg: 13500 as never }, { kind: 'gate', id: 'gate:0' }),
+    ];
+    const g = arterialGraph(routes, 800);
+    const cls = classify(g, { tables: T, rung: 'CITY' });
+    for (const c of g.chains) {
+      const want = c.routes.some((r) => g.routes[r].class === 'through') ? 'through' : 'primary';
+      expect(cls[c.index].class).toBe(want);
+    }
+    expect(cls.map((c) => c.class).sort()).toEqual(['primary', 'through', 'through']);
+  });
+
   it('reads the ways.widths cells: another CITY band gives other widths, another rung its own', () => {
     const g = arterialGraph(star(), 800);
     const t2 = waysWith('through', 'widthM.CITY', [20, 30]);
