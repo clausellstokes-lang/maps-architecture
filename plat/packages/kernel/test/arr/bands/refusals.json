@@ -1,0 +1,5139 @@
+{
+"note": "N-44 (4) refusal register of M0-a-09: every case refused at PR size (B-FUZZ, unseeded run 2026-10-05 ~22:00, tree code with M0-a-05's round S4 insertChain); each replays on insertChain alone (PENDING-S4). op: the operation refused; code: its refusal; input: B-FUZZ chords (arc positions on the frame [0,4000]^2) or tileRings rings.",
+"cases": [
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (98, 427) to (3625, 3674) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7206,
+"b": 25,
+"hw": 560,
+"knots": [
+600,
+476
+],
+"ends": "square"
+},
+{
+"a": 11515,
+"b": 52,
+"hw": 319,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 11268,
+"b": 39,
+"hw": 359,
+"knots": [
+113,
+568
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (42, 1251) to (5, 1402) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14414,
+"b": 8017,
+"hw": 28,
+"knots": [
+338,
+320
+],
+"ends": "round"
+},
+{
+"a": 13435,
+"b": 42,
+"hw": 398,
+"knots": [
+472,
+221
+],
+"ends": "square"
+},
+{
+"a": 1194,
+"b": 46,
+"hw": 25,
+"knots": [
+244,
+564
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (15, 1265) to (1594, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10018,
+"b": 29,
+"hw": 28,
+"knots": [
+348,
+355
+],
+"ends": "round"
+},
+{
+"a": 55,
+"b": 13360,
+"hw": 14,
+"knots": [
+247,
+231
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2639, 12) to (2491, 305) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15960,
+"b": 3769,
+"hw": 10,
+"knots": [
+448,
+211
+],
+"ends": "round"
+},
+{
+"a": 2617,
+"b": 7969,
+"hw": 4,
+"knots": [
+234,
+599
+],
+"ends": "round"
+},
+{
+"a": 7618,
+"b": 12,
+"hw": 244,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (29, 0) to (363, 737) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14522,
+"b": 29,
+"hw": 566,
+"knots": [
+228,
+466
+],
+"ends": "round"
+},
+{
+"a": 6371,
+"b": 26,
+"hw": 10,
+"knots": [
+120,
+519
+],
+"ends": "round"
+},
+{
+"a": 14583,
+"b": 42,
+"hw": 16,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (32, 0) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4175,
+"b": 0,
+"hw": 8,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 11991,
+"b": 8040,
+"hw": 588,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 15262,
+"b": 32,
+"hw": 152,
+"knots": [
+12,
+205
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 4000) to (0, 167) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 11885,
+"b": 20,
+"hw": 8,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 15833,
+"b": 7990,
+"hw": 565,
+"knots": [
+323,
+594
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2268, 4000) to (2919, 3633) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9732,
+"b": 7024,
+"hw": 3,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 10493,
+"b": 7971,
+"hw": 303,
+"knots": [
+463,
+275
+],
+"ends": "square"
+},
+{
+"a": 7635,
+"b": 8037,
+"hw": 39,
+"knots": [
+292,
+255
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (22, 844) to (0, 651) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3249,
+"b": 14226,
+"hw": 422,
+"knots": [
+310,
+270
+],
+"ends": "round"
+},
+{
+"a": 13119,
+"b": 43,
+"hw": 7,
+"knots": [
+473,
+346
+],
+"ends": "square"
+},
+{
+"a": 15349,
+"b": 46,
+"hw": 117,
+"knots": [
+197,
+180
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (22, 844) to (0, 651) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3249,
+"b": 14226,
+"hw": 422,
+"knots": [
+310,
+270
+],
+"ends": "round"
+},
+{
+"a": 13119,
+"b": 43,
+"hw": 7,
+"knots": [
+473,
+346
+],
+"ends": "square"
+},
+{
+"a": 15349,
+"b": 46,
+"hw": 117,
+"knots": [
+197,
+180
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 3362) to (3977, 2710) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4809,
+"b": 8039,
+"hw": 7,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7362,
+"b": 17,
+"hw": 454,
+"knots": [
+497,
+339
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 0) to (27, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3,
+"b": 4155,
+"hw": 15,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2620,
+"b": 5,
+"hw": 215,
+"knots": [
+474,
+487
+],
+"ends": "round"
+},
+{
+"a": 6458,
+"b": 27,
+"hw": 93,
+"knots": [
+361,
+295
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1845, 3995) to (2049, 3919) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 11419,
+"b": 14073,
+"hw": 35,
+"knots": [
+26,
+183
+],
+"ends": "round"
+},
+{
+"a": 10581,
+"b": 7973,
+"hw": 427,
+"knots": [
+85,
+40
+],
+"ends": "square"
+},
+{
+"a": 10130,
+"b": 18,
+"hw": 11,
+"knots": [
+223,
+469
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 3228) to (3971, 2999) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3880,
+"b": 7965,
+"hw": 304,
+"knots": [
+112,
+510
+],
+"ends": "round"
+},
+{
+"a": 11610,
+"b": 8018,
+"hw": 325,
+"knots": [
+370,
+240
+],
+"ends": "round"
+},
+{
+"a": 6960,
+"b": 44,
+"hw": 269,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 3228) to (3971, 2999) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3880,
+"b": 7965,
+"hw": 304,
+"knots": [
+112,
+510
+],
+"ends": "round"
+},
+{
+"a": 11610,
+"b": 8018,
+"hw": 325,
+"knots": [
+370,
+240
+],
+"ends": "round"
+},
+{
+"a": 6960,
+"b": 44,
+"hw": 269,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (417, 1105) to (20, 1424) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7724,
+"b": 8031,
+"hw": 526,
+"knots": [
+56,
+502
+],
+"ends": "square"
+},
+{
+"a": 12181,
+"b": 31,
+"hw": 20,
+"knots": [
+275,
+443
+],
+"ends": "square"
+},
+{
+"a": 14561,
+"b": 3671,
+"hw": 1,
+"knots": [
+119,
+385
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3919, 4081) to (-81, 81) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15993,
+"b": 37,
+"hw": 35,
+"knots": [
+260,
+550
+],
+"ends": "square"
+},
+{
+"a": 5,
+"b": 15173,
+"hw": 30,
+"knots": [
+14,
+47
+],
+"ends": "square"
+},
+{
+"a": 9,
+"b": 7984,
+"hw": 114,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3919, 4081) to (-81, 81) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15993,
+"b": 37,
+"hw": 35,
+"knots": [
+260,
+550
+],
+"ends": "square"
+},
+{
+"a": 5,
+"b": 15173,
+"hw": 30,
+"knots": [
+14,
+47
+],
+"ends": "square"
+},
+{
+"a": 9,
+"b": 7984,
+"hw": 114,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2290, 419) to (2027, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2027,
+"b": 4064,
+"hw": 366,
+"knots": [
+404,
+449
+],
+"ends": "round"
+},
+{
+"a": 2436,
+"b": 102,
+"hw": 16,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 11958,
+"b": 2082,
+"hw": 10,
+"knots": [
+529,
+389
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (106, 1463) to (12, 1571) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9572,
+"b": 13984,
+"hw": 156,
+"knots": [
+198,
+563
+],
+"ends": "round"
+},
+{
+"a": 12992,
+"b": 54,
+"hw": 293,
+"knots": [
+231,
+427
+],
+"ends": "square"
+},
+{
+"a": 7022,
+"b": 7978,
+"hw": 513,
+"knots": [
+310,
+158
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3774, 3811) to (4000, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12244,
+"b": 8008,
+"hw": 175,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 4166,
+"b": 8012,
+"hw": 455,
+"knots": [
+22,
+238
+],
+"ends": "round"
+},
+{
+"a": 4066,
+"b": 8039,
+"hw": 30,
+"knots": [
+142,
+33
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3794, -14) to (3962, -62) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3638,
+"b": 7963,
+"hw": 332,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3718,
+"b": 30,
+"hw": 255,
+"knots": [
+480,
+405
+],
+"ends": "round"
+},
+{
+"a": 4400,
+"b": 8007,
+"hw": 434,
+"knots": [
+463,
+57
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3794, -14) to (3962, -62) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3638,
+"b": 7963,
+"hw": 332,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3718,
+"b": 30,
+"hw": 255,
+"knots": [
+480,
+405
+],
+"ends": "round"
+},
+{
+"a": 4400,
+"b": 8007,
+"hw": 434,
+"knots": [
+463,
+57
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 292) to (3984, 1947) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3318,
+"b": 7982,
+"hw": 66,
+"knots": [
+133,
+532
+],
+"ends": "round"
+},
+{
+"a": 4292,
+"b": 8035,
+"hw": 464,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14617,
+"b": 2096,
+"hw": 428,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1205) to (2783, 3996) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14927,
+"b": 7968,
+"hw": 10,
+"knots": [
+100,
+531
+],
+"ends": "round"
+},
+{
+"a": 10085,
+"b": 8022,
+"hw": 19,
+"knots": [
+566,
+407
+],
+"ends": "round"
+},
+{
+"a": 9399,
+"b": 7969,
+"hw": 8,
+"knots": [
+441,
+47
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2332, 2598) to (447, 114) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7657,
+"b": 44,
+"hw": 406,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7835,
+"b": 43,
+"hw": 15,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 581,
+"b": 7989,
+"hw": 174,
+"knots": [
+176,
+482
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2332, 2598) to (447, 114) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7657,
+"b": 44,
+"hw": 406,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7835,
+"b": 43,
+"hw": 15,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 581,
+"b": 7989,
+"hw": 174,
+"knots": [
+176,
+482
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3990, 3062) to (355, 580) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14936,
+"b": 8022,
+"hw": 600,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 12634,
+"b": 1,
+"hw": 28,
+"knots": [
+118,
+303
+],
+"ends": "round"
+},
+{
+"a": 6747,
+"b": 8038,
+"hw": 595,
+"knots": [
+35,
+7
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3826, 3907) to (3741, 3892) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9441,
+"b": 7986,
+"hw": 13,
+"knots": [
+311,
+63
+],
+"ends": "round"
+},
+{
+"a": 14133,
+"b": 7986,
+"hw": 27,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3999, 3795) to (695, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3971,
+"b": 7987,
+"hw": 24,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 7820,
+"b": 11,
+"hw": 413,
+"knots": [
+504,
+476
+],
+"ends": "square"
+},
+{
+"a": 14579,
+"b": 11285,
+"hw": 176,
+"knots": [
+281,
+40
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1402, 2214) to (1610, 2339) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4581,
+"b": 12905,
+"hw": 353,
+"knots": [
+572,
+5
+],
+"ends": "round"
+},
+{
+"a": 4036,
+"b": 12611,
+"hw": 30,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 15642,
+"b": 8011,
+"hw": 29,
+"knots": [
+413,
+344
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 387) to (3973, 3973) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15988,
+"b": 7991,
+"hw": 138,
+"knots": [
+266,
+432
+],
+"ends": "round"
+},
+{
+"a": 10944,
+"b": 7973,
+"hw": 293,
+"knots": [
+34,
+5
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2235, 106) to (3295, 3997) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 6182,
+"b": 7980,
+"hw": 28,
+"knots": [
+365,
+267
+],
+"ends": "square"
+},
+{
+"a": 2520,
+"b": 7973,
+"hw": 19,
+"knots": [
+304,
+585
+],
+"ends": "square"
+},
+{
+"a": 8784,
+"b": 7966,
+"hw": 13,
+"knots": [
+397,
+298
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (22, 1861) to (0, 2394) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13606,
+"b": 7965,
+"hw": 4,
+"knots": [
+572,
+551
+],
+"ends": "round"
+},
+{
+"a": 11952,
+"b": 14,
+"hw": 6,
+"knots": [
+131,
+177
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2103, 3991) to (1269, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13162,
+"b": 8017,
+"hw": 22,
+"knots": [
+534,
+511
+],
+"ends": "round"
+},
+{
+"a": 10731,
+"b": 7972,
+"hw": 27,
+"knots": [
+221,
+234
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (359, -481) to (4259, 2583) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4092,
+"b": 8038,
+"hw": 21,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 6988,
+"b": 1,
+"hw": 106,
+"knots": [
+479,
+600
+],
+"ends": "square"
+},
+{
+"a": 7921,
+"b": 7966,
+"hw": 94,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (359, -481) to (4259, 2583) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4092,
+"b": 8038,
+"hw": 21,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 6988,
+"b": 1,
+"hw": 106,
+"knots": [
+479,
+600
+],
+"ends": "square"
+},
+{
+"a": 7921,
+"b": 7966,
+"hw": 94,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3936, 3954) to (3753, 3932) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13066,
+"b": 7962,
+"hw": 12,
+"knots": [
+534,
+14
+],
+"ends": "round"
+},
+{
+"a": 4458,
+"b": 11309,
+"hw": 571,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3849,
+"b": 7387,
+"hw": 596,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3936, 3954) to (3753, 3932) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13066,
+"b": 7962,
+"hw": 12,
+"knots": [
+534,
+14
+],
+"ends": "round"
+},
+{
+"a": 4458,
+"b": 11309,
+"hw": 571,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3849,
+"b": 7387,
+"hw": 596,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (42, 0) to (0, 1840) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13623,
+"b": 42,
+"hw": 6,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14160,
+"b": 8031,
+"hw": 22,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3639, 0) to (4000, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3859,
+"b": 7988,
+"hw": 21,
+"knots": [
+220,
+33
+],
+"ends": "square"
+},
+{
+"a": 15035,
+"b": 1,
+"hw": 12,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 15269,
+"b": 7964,
+"hw": 11,
+"knots": [
+546,
+164
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3973, 4000) to (165, 504) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15297,
+"b": 8027,
+"hw": 516,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 4996,
+"b": 8026,
+"hw": 533,
+"knots": [
+237,
+213
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3845, 3554) to (3972, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8667,
+"b": 767,
+"hw": 16,
+"knots": [
+189,
+192
+],
+"ends": "round"
+},
+{
+"a": 5564,
+"b": 8028,
+"hw": 20,
+"knots": [
+416,
+69
+],
+"ends": "round"
+},
+{
+"a": 684,
+"b": 6987,
+"hw": 18,
+"knots": [
+139,
+508
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (58, 61) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 0,
+"b": 8031,
+"hw": 20,
+"knots": [
+11,
+133
+],
+"ends": "square"
+},
+{
+"a": 15561,
+"b": 7991,
+"hw": 372,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (58, 61) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 0,
+"b": 8031,
+"hw": 20,
+"knots": [
+11,
+133
+],
+"ends": "square"
+},
+{
+"a": 15561,
+"b": 7991,
+"hw": 372,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (297, 1035) to (22, 1109) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12243,
+"b": 31,
+"hw": 354,
+"knots": [
+337,
+251
+],
+"ends": "square"
+},
+{
+"a": 14907,
+"b": 7991,
+"hw": 6,
+"knots": [
+231,
+20
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (37, 823) to (2, 1016) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14938,
+"b": 8037,
+"hw": 20,
+"knots": [
+242,
+135
+],
+"ends": "round"
+},
+{
+"a": 14507,
+"b": 49,
+"hw": 587,
+"knots": [
+346,
+370
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (179, 447) to (0, 272) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15728,
+"b": 8033,
+"hw": 73,
+"knots": [
+31,
+104
+],
+"ends": "round"
+},
+{
+"a": 15212,
+"b": 7996,
+"hw": 131,
+"knots": [
+376,
+147
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (179, 447) to (0, 272) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15728,
+"b": 8033,
+"hw": 73,
+"knots": [
+31,
+104
+],
+"ends": "round"
+},
+{
+"a": 15212,
+"b": 7996,
+"hw": 131,
+"knots": [
+376,
+147
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2406, 1370) to (2601, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2199,
+"b": 39,
+"hw": 400,
+"knots": [
+265,
+362
+],
+"ends": "round"
+},
+{
+"a": 6133,
+"b": 56,
+"hw": 28,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2760,
+"b": 9621,
+"hw": 1,
+"knots": [
+160,
+341
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2406, 1370) to (2601, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2199,
+"b": 39,
+"hw": 400,
+"knots": [
+265,
+362
+],
+"ends": "round"
+},
+{
+"a": 6133,
+"b": 56,
+"hw": 28,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2760,
+"b": 9621,
+"hw": 1,
+"knots": [
+160,
+341
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (113, 1810) to (16, 2121) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13879,
+"b": 40,
+"hw": 16,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 451,
+"b": 9135,
+"hw": 480,
+"knots": [
+508,
+558
+],
+"ends": "square"
+},
+{
+"a": 14531,
+"b": 315,
+"hw": 136,
+"knots": [
+359,
+282
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (113, 1810) to (16, 2121) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13879,
+"b": 40,
+"hw": 16,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 451,
+"b": 9135,
+"hw": 480,
+"knots": [
+508,
+558
+],
+"ends": "square"
+},
+{
+"a": 14531,
+"b": 315,
+"hw": 136,
+"knots": [
+359,
+282
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2207, 3991) to (2317, 3661) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10483,
+"b": 7968,
+"hw": 183,
+"knots": [
+231,
+534
+],
+"ends": "round"
+},
+{
+"a": 8002,
+"b": 10372,
+"hw": 30,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 9769,
+"b": 44,
+"hw": 579,
+"knots": [
+241,
+479
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 4000) to (112, 3925) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 11888,
+"b": 7975,
+"hw": 151,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3843,
+"b": 8024,
+"hw": 484,
+"knots": [
+577,
+591
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3687, 2708) to (3991, 1623) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4834,
+"b": 8036,
+"hw": 536,
+"knots": [
+84,
+435
+],
+"ends": "round"
+},
+{
+"a": 5599,
+"b": 10514,
+"hw": 10,
+"knots": [
+572,
+592
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 535) to (4000, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 252,
+"b": 8001,
+"hw": 25,
+"knots": [
+571,
+44
+],
+"ends": "square"
+},
+{
+"a": 13104,
+"b": 8004,
+"hw": 22,
+"knots": [
+546,
+151
+],
+"ends": "square"
+},
+{
+"a": 6717,
+"b": 8029,
+"hw": 441,
+"knots": [
+569,
+573
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3261, 3978) to (3573, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8427,
+"b": 47,
+"hw": 9,
+"knots": [
+208,
+479
+],
+"ends": "round"
+},
+{
+"a": 7491,
+"b": 24,
+"hw": 19,
+"knots": [
+415,
+117
+],
+"ends": "round"
+},
+{
+"a": 10074,
+"b": 7965,
+"hw": 9,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3968, 3758) to (3982, 3864) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3467,
+"b": 7976,
+"hw": 151,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2638,
+"b": 20,
+"hw": 205,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7882,
+"b": 9508,
+"hw": 20,
+"knots": [
+99,
+580
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3968, 3758) to (3982, 3864) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3467,
+"b": 7976,
+"hw": 151,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2638,
+"b": 20,
+"hw": 205,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7882,
+"b": 9508,
+"hw": 20,
+"knots": [
+99,
+580
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 895) to (19, 1911) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15105,
+"b": 8026,
+"hw": 176,
+"knots": [
+403,
+543
+],
+"ends": "round"
+},
+{
+"a": 12052,
+"b": 37,
+"hw": 589,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 806) to (3169, 3995) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7969,
+"b": 26,
+"hw": 77,
+"knots": [
+512,
+579
+],
+"ends": "round"
+},
+{
+"a": 8996,
+"b": 7975,
+"hw": 191,
+"knots": [
+60,
+432
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2975, 3572) to (4000, 3962) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10499,
+"b": 7962,
+"hw": 10,
+"knots": [
+569,
+293
+],
+"ends": "round"
+},
+{
+"a": 9500,
+"b": 7978,
+"hw": 446,
+"knots": [
+541,
+166
+],
+"ends": "round"
+},
+{
+"a": 622,
+"b": 8014,
+"hw": 525,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (265, 163) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1048,
+"b": 43,
+"hw": 113,
+"knots": [
+461,
+309
+],
+"ends": "square"
+},
+{
+"a": 4276,
+"b": 7,
+"hw": 10,
+"knots": [
+51,
+152
+],
+"ends": "round"
+},
+{
+"a": 11459,
+"b": 41,
+"hw": 364,
+"knots": [
+523,
+208
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (20, 1782) to (87, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13282,
+"b": 57,
+"hw": 30,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 14233,
+"b": 8029,
+"hw": 16,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (424, 256) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4062,
+"b": 9,
+"hw": 260,
+"knots": [
+96,
+268
+],
+"ends": "square"
+},
+{
+"a": 15376,
+"b": 56,
+"hw": 6,
+"knots": [
+538,
+318
+],
+"ends": "round"
+},
+{
+"a": 8087,
+"b": 7964,
+"hw": 222,
+"knots": [
+407,
+39
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1698) to (2806, 3986) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8177,
+"b": 14445,
+"hw": 209,
+"knots": [
+363,
+116
+],
+"ends": "square"
+},
+{
+"a": 10195,
+"b": 7970,
+"hw": 125,
+"knots": [
+186,
+379
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2756, 48) to (1654, 12) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4029,
+"b": 13,
+"hw": 28,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 4925,
+"b": 1623,
+"hw": 384,
+"knots": [
+311,
+407
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1674) to (5, 1869) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 11805,
+"b": 10107,
+"hw": 26,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 8187,
+"b": 14621,
+"hw": 467,
+"knots": [
+466,
+254
+],
+"ends": "square"
+},
+{
+"a": 197,
+"b": 14080,
+"hw": 592,
+"knots": [
+439,
+253
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3989, 3316) to (1231, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 667,
+"b": 8027,
+"hw": 178,
+"knots": [
+439,
+381
+],
+"ends": "round"
+},
+{
+"a": 6840,
+"b": 8028,
+"hw": 42,
+"knots": [
+100,
+50
+],
+"ends": "square"
+},
+{
+"a": 3040,
+"b": 10,
+"hw": 241,
+"knots": [
+162,
+49
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 3392) to (445, 2598) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12608,
+"b": 28,
+"hw": 33,
+"knots": [
+502,
+232
+],
+"ends": "round"
+},
+{
+"a": 10790,
+"b": 15,
+"hw": 506,
+"knots": [
+259,
+465
+],
+"ends": "square"
+},
+{
+"a": 13224,
+"b": 11990,
+"hw": 434,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3330, 3534) to (3498, 3561) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1,
+"b": 8040,
+"hw": 280,
+"knots": [
+175,
+14
+],
+"ends": "square"
+},
+{
+"a": 8463,
+"b": 7968,
+"hw": 283,
+"knots": [
+510,
+467
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3330, 3534) to (3498, 3561) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1,
+"b": 8040,
+"hw": 280,
+"knots": [
+175,
+14
+],
+"ends": "square"
+},
+{
+"a": 8463,
+"b": 7968,
+"hw": 283,
+"knots": [
+510,
+467
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (274, 552) to (20, 1018) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12090,
+"b": 27,
+"hw": 229,
+"knots": [
+397,
+227
+],
+"ends": "square"
+},
+{
+"a": 6807,
+"b": 8018,
+"hw": 30,
+"knots": [
+194,
+401
+],
+"ends": "square"
+},
+{
+"a": 4863,
+"b": 14967,
+"hw": 7,
+"knots": [
+22,
+490
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (14, 2223) to (0, 2969) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1504,
+"b": 12766,
+"hw": 22,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 11219,
+"b": 28,
+"hw": 12,
+"knots": [
+301,
+567
+],
+"ends": "square"
+},
+{
+"a": 13031,
+"b": 56,
+"hw": 15,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 180) to (12, 1515) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9225,
+"b": 15820,
+"hw": 368,
+"knots": [
+201,
+523
+],
+"ends": "round"
+},
+{
+"a": 13927,
+"b": 45,
+"hw": 146,
+"knots": [
+437,
+416
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (415, 259) to (4187, 3780) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15645,
+"b": 4154,
+"hw": 1,
+"knots": [
+8,
+173
+],
+"ends": "square"
+},
+{
+"a": 9,
+"b": 8035,
+"hw": 556,
+"knots": [
+94,
+312
+],
+"ends": "square"
+},
+{
+"a": 11535,
+"b": 11624,
+"hw": 21,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (415, 259) to (4187, 3780) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15645,
+"b": 4154,
+"hw": 1,
+"knots": [
+8,
+173
+],
+"ends": "square"
+},
+{
+"a": 9,
+"b": 8035,
+"hw": 556,
+"knots": [
+94,
+312
+],
+"ends": "square"
+},
+{
+"a": 11535,
+"b": 11624,
+"hw": 21,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1517, 3997) to (1401, 3935) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10827,
+"b": 41,
+"hw": 475,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 11872,
+"b": 7972,
+"hw": 20,
+"knots": [
+531,
+568
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1666, 3998) to (2066, 3670) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10476,
+"b": 7962,
+"hw": 476,
+"knots": [
+376,
+128
+],
+"ends": "round"
+},
+{
+"a": 9,
+"b": 8003,
+"hw": 576,
+"knots": [
+250,
+445
+],
+"ends": "round"
+},
+{
+"a": 10309,
+"b": 44,
+"hw": 286,
+"knots": [
+494,
+487
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3973, 4000) to (3921, 3543) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8122,
+"b": 12362,
+"hw": 24,
+"knots": [
+459,
+271
+],
+"ends": "round"
+},
+{
+"a": 4801,
+"b": 8027,
+"hw": 16,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 5710,
+"b": 37,
+"hw": 250,
+"knots": [
+502,
+58
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (447, 1448) to (14, 1607) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12737,
+"b": 27,
+"hw": 190,
+"knots": [
+354,
+494
+],
+"ends": "round"
+},
+{
+"a": 14414,
+"b": 6221,
+"hw": 21,
+"knots": [
+266,
+25
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3993, 1663) to (3817, 1143) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3967,
+"b": 6060,
+"hw": 278,
+"knots": [
+192,
+149
+],
+"ends": "round"
+},
+{
+"a": 2366,
+"b": 7993,
+"hw": 22,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 5687,
+"b": 8,
+"hw": 294,
+"knots": [
+423,
+307
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1570, 3999) to (2222, 3446) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10543,
+"b": 7965,
+"hw": 92,
+"knots": [
+523,
+592
+],
+"ends": "square"
+},
+{
+"a": 13027,
+"b": 1105,
+"hw": 28,
+"knots": [
+519,
+375
+],
+"ends": "square"
+},
+{
+"a": 2127,
+"b": 10455,
+"hw": 3,
+"knots": [
+596,
+564
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (52, 52) to (156, 42) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15129,
+"b": 55,
+"hw": 4,
+"knots": [
+321,
+93
+],
+"ends": "round"
+},
+{
+"a": 15986,
+"b": 8004,
+"hw": 30,
+"knots": [
+288,
+570
+],
+"ends": "round"
+},
+{
+"a": 15997,
+"b": 7960,
+"hw": 346,
+"knots": [
+419,
+252
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2394, 3738) to (2152, 3794) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12438,
+"b": 8038,
+"hw": 27,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14641,
+"b": 10141,
+"hw": 1,
+"knots": [
+8,
+596
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2394, 3738) to (2152, 3794) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12438,
+"b": 8038,
+"hw": 27,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14641,
+"b": 10141,
+"hw": 1,
+"knots": [
+8,
+596
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3560, 3925) to (3593, 3491) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 6275,
+"b": 7999,
+"hw": 3,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 13156,
+"b": 7965,
+"hw": 27,
+"knots": [
+68,
+11
+],
+"ends": "round"
+},
+{
+"a": 7522,
+"b": 8036,
+"hw": 408,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3560, 3925) to (3593, 3491) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 6275,
+"b": 7999,
+"hw": 3,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 13156,
+"b": 7965,
+"hw": 27,
+"knots": [
+68,
+11
+],
+"ends": "round"
+},
+{
+"a": 7522,
+"b": 8036,
+"hw": 408,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2886, 2999) to (2681, 2996) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 6806,
+"b": 10959,
+"hw": 292,
+"knots": [
+328,
+70
+],
+"ends": "square"
+},
+{
+"a": 7472,
+"b": 43,
+"hw": 24,
+"knots": [
+258,
+536
+],
+"ends": "square"
+},
+{
+"a": 15046,
+"b": 8003,
+"hw": 140,
+"knots": [
+273,
+184
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1589, 240) to (3965, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2104,
+"b": 8035,
+"hw": 7,
+"knots": [
+568,
+105
+],
+"ends": "square"
+},
+{
+"a": 12202,
+"b": 8026,
+"hw": 530,
+"knots": [
+566,
+465
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (225, 442) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4208,
+"b": 13,
+"hw": 19,
+"knots": [
+176,
+446
+],
+"ends": "round"
+},
+{
+"a": 12182,
+"b": 35,
+"hw": 369,
+"knots": [
+225,
+219
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3740, 3742) to (9, 56) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12867,
+"b": 39,
+"hw": 29,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 8801,
+"b": 7983,
+"hw": 172,
+"knots": [
+327,
+539
+],
+"ends": "round"
+},
+{
+"a": 7442,
+"b": 36,
+"hw": 15,
+"knots": [
+397,
+74
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3740, 3742) to (9, 56) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12867,
+"b": 39,
+"hw": 29,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 8801,
+"b": 7983,
+"hw": 172,
+"knots": [
+327,
+539
+],
+"ends": "round"
+},
+{
+"a": 7442,
+"b": 36,
+"hw": 15,
+"knots": [
+397,
+74
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (72, 81) to (0, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8908,
+"b": 15403,
+"hw": 4,
+"knots": [
+567,
+521
+],
+"ends": "round"
+},
+{
+"a": 14,
+"b": 11664,
+"hw": 164,
+"knots": [
+291,
+251
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (42, 479) to (-14, 556) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15241,
+"b": 51,
+"hw": 490,
+"knots": [
+454,
+349
+],
+"ends": "square"
+},
+{
+"a": 13484,
+"b": 26,
+"hw": 4,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 15496,
+"b": 1687,
+"hw": 484,
+"knots": [
+54,
+190
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (42, 479) to (-14, 556) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15241,
+"b": 51,
+"hw": 490,
+"knots": [
+454,
+349
+],
+"ends": "square"
+},
+{
+"a": 13484,
+"b": 26,
+"hw": 4,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 15496,
+"b": 1687,
+"hw": 484,
+"knots": [
+54,
+190
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (475, 1854) to (0, 2262) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13738,
+"b": 41,
+"hw": 33,
+"knots": [
+573,
+26
+],
+"ends": "square"
+},
+{
+"a": 9216,
+"b": 33,
+"hw": 171,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 13542,
+"b": 20,
+"hw": 11,
+"knots": [
+449,
+555
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3990, 2596) to (3838, 2453) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3973,
+"b": 8006,
+"hw": 151,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 6573,
+"b": 10793,
+"hw": 6,
+"knots": [
+188,
+50
+],
+"ends": "round"
+},
+{
+"a": 9004,
+"b": 8028,
+"hw": 174,
+"knots": [
+450,
+473
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1022, 3994) to (1209, 3534) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1407,
+"b": 45,
+"hw": 151,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 11583,
+"b": 7964,
+"hw": 133,
+"knots": [
+446,
+500
+],
+"ends": "square"
+},
+{
+"a": 10953,
+"b": 25,
+"hw": 25,
+"knots": [
+291,
+329
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3979, 2794) to (937, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7792,
+"b": 578,
+"hw": 354,
+"knots": [
+413,
+259
+],
+"ends": "square"
+},
+{
+"a": 4062,
+"b": 8030,
+"hw": 34,
+"knots": [
+225,
+428
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3927, 1085) to (699, 525) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7528,
+"b": 12,
+"hw": 314,
+"knots": [
+508,
+404
+],
+"ends": "round"
+},
+{
+"a": 675,
+"b": 7986,
+"hw": 356,
+"knots": [
+21,
+35
+],
+"ends": "round"
+},
+{
+"a": 4491,
+"b": 3,
+"hw": 13,
+"knots": [
+598,
+399
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3927, 1085) to (699, 525) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7528,
+"b": 12,
+"hw": 314,
+"knots": [
+508,
+404
+],
+"ends": "round"
+},
+{
+"a": 675,
+"b": 7986,
+"hw": 356,
+"knots": [
+21,
+35
+],
+"ends": "round"
+},
+{
+"a": 4491,
+"b": 3,
+"hw": 13,
+"knots": [
+598,
+399
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3474, 4000) to (3597, 3449) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1046,
+"b": 8001,
+"hw": 16,
+"knots": [
+37,
+23
+],
+"ends": "round"
+},
+{
+"a": 7434,
+"b": 8018,
+"hw": 30,
+"knots": [
+383,
+526
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3474, 4000) to (3597, 3449) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1046,
+"b": 8001,
+"hw": 16,
+"knots": [
+37,
+23
+],
+"ends": "round"
+},
+{
+"a": 7434,
+"b": 8018,
+"hw": 30,
+"knots": [
+383,
+526
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (27, 0) to (0, 203) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14848,
+"b": 27,
+"hw": 443,
+"knots": [
+584,
+185
+],
+"ends": "square"
+},
+{
+"a": 14632,
+"b": 47,
+"hw": 600,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 7034,
+"b": 5,
+"hw": 119,
+"knots": [
+228,
+203
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (27, 0) to (0, 203) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14848,
+"b": 27,
+"hw": 443,
+"knots": [
+584,
+185
+],
+"ends": "square"
+},
+{
+"a": 14632,
+"b": 47,
+"hw": 600,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 7034,
+"b": 5,
+"hw": 119,
+"knots": [
+228,
+203
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3935, 0) to (0, 1591) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4166,
+"b": 14409,
+"hw": 390,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 3564,
+"b": 41,
+"hw": 145,
+"knots": [
+94,
+397
+],
+"ends": "round"
+},
+{
+"a": 13614,
+"b": 47,
+"hw": 22,
+"knots": [
+455,
+408
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (66, 2328) to (1, 2426) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13491,
+"b": 7969,
+"hw": 6,
+"knots": [
+193,
+342
+],
+"ends": "square"
+},
+{
+"a": 2783,
+"b": 12085,
+"hw": 23,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 12053,
+"b": 36,
+"hw": 24,
+"knots": [
+533,
+149
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2616, 0) to (0, 1284) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2136,
+"b": 51,
+"hw": 26,
+"knots": [
+281,
+68
+],
+"ends": "square"
+},
+{
+"a": 2961,
+"b": 14716,
+"hw": 275,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 12045,
+"b": 30,
+"hw": 2,
+"knots": [
+269,
+279
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4042, 3879) to (3935, 3790) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2636,
+"b": 8022,
+"hw": 14,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7701,
+"b": 15199,
+"hw": 504,
+"knots": [
+183,
+475
+],
+"ends": "square"
+},
+{
+"a": 9672,
+"b": 8007,
+"hw": 3,
+"knots": [
+85,
+265
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4042, 3879) to (3935, 3790) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2636,
+"b": 8022,
+"hw": 14,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 7701,
+"b": 15199,
+"hw": 504,
+"knots": [
+183,
+475
+],
+"ends": "square"
+},
+{
+"a": 9672,
+"b": 8007,
+"hw": 3,
+"knots": [
+85,
+265
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3753, 3865) to (3884, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8116,
+"b": 11,
+"hw": 12,
+"knots": [
+34,
+327
+],
+"ends": "square"
+},
+{
+"a": 8658,
+"b": 7,
+"hw": 29,
+"knots": [
+440,
+509
+],
+"ends": "square"
+},
+{
+"a": 7440,
+"b": 7230,
+"hw": 151,
+"knots": [
+599,
+107
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3753, 3865) to (3884, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 8116,
+"b": 11,
+"hw": 12,
+"knots": [
+34,
+327
+],
+"ends": "square"
+},
+{
+"a": 8658,
+"b": 7,
+"hw": 29,
+"knots": [
+440,
+509
+],
+"ends": "square"
+},
+{
+"a": 7440,
+"b": 7230,
+"hw": 151,
+"knots": [
+599,
+107
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1604, 0) to (22, 955) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14423,
+"b": 1936,
+"hw": 53,
+"knots": [
+381,
+190
+],
+"ends": "round"
+},
+{
+"a": 13114,
+"b": 56,
+"hw": 26,
+"knots": [
+382,
+106
+],
+"ends": "round"
+},
+{
+"a": 4650,
+"b": 8039,
+"hw": 12,
+"knots": [
+460,
+19
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (503, 2551) to (4, 2663) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13078,
+"b": 46,
+"hw": 30,
+"knots": [
+544,
+181
+],
+"ends": "square"
+},
+{
+"a": 13362,
+"b": 7695,
+"hw": 27,
+"knots": [
+230,
+195
+],
+"ends": "square"
+},
+{
+"a": 7851,
+"b": 2989,
+"hw": 25,
+"knots": [
+327,
+245
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (108, 2115) to (0, 2383) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13617,
+"b": 7990,
+"hw": 578,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 1956,
+"b": 18,
+"hw": 16,
+"knots": [
+188,
+318
+],
+"ends": "square"
+},
+{
+"a": 12087,
+"b": 56,
+"hw": 24,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (114, 1192) to (0, 1365) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14635,
+"b": 7976,
+"hw": 415,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 13222,
+"b": 37,
+"hw": 28,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 12461,
+"b": 13101,
+"hw": 89,
+"knots": [
+536,
+75
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 3620) to (1460, 3992) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9093,
+"b": 12839,
+"hw": 21,
+"knots": [
+294,
+448
+],
+"ends": "square"
+},
+{
+"a": 14710,
+"b": 8012,
+"hw": 243,
+"knots": [
+446,
+243
+],
+"ends": "square"
+},
+{
+"a": 11149,
+"b": 7960,
+"hw": 30,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (24, 547) to (0, 294) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2190,
+"b": 2622,
+"hw": 12,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 15706,
+"b": 8014,
+"hw": 297,
+"knots": [
+154,
+570
+],
+"ends": "square"
+},
+{
+"a": 13224,
+"b": 31,
+"hw": 4,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1493) to (0, 1577) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13309,
+"b": 46,
+"hw": 219,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14423,
+"b": 8010,
+"hw": 401,
+"knots": [
+84,
+465
+],
+"ends": "round"
+},
+{
+"a": 797,
+"b": 2,
+"hw": 289,
+"knots": [
+317,
+474
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1493) to (0, 1577) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13309,
+"b": 46,
+"hw": 219,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14423,
+"b": 8010,
+"hw": 401,
+"knots": [
+84,
+465
+],
+"ends": "round"
+},
+{
+"a": 797,
+"b": 2,
+"hw": 289,
+"knots": [
+317,
+474
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (932, 3998) to (1370, 3440) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 1,
+"b": 7981,
+"hw": 368,
+"knots": [
+597,
+44
+],
+"ends": "round"
+},
+{
+"a": 11218,
+"b": 7964,
+"hw": 19,
+"knots": [
+566,
+495
+],
+"ends": "round"
+},
+{
+"a": 11043,
+"b": 22,
+"hw": 553,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 502) to (3229, 3982) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 107,
+"b": 7970,
+"hw": 337,
+"knots": [
+429,
+421
+],
+"ends": "square"
+},
+{
+"a": 9875,
+"b": 7980,
+"hw": 294,
+"knots": [
+483,
+5
+],
+"ends": "round"
+},
+{
+"a": 1995,
+"b": 6628,
+"hw": 4,
+"knots": [
+283,
+533
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1133, 3751) to (4000, 3428) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2937,
+"b": 10867,
+"hw": 537,
+"knots": [
+100,
+10
+],
+"ends": "square"
+},
+{
+"a": 1617,
+"b": 11810,
+"hw": 2,
+"knots": [
+267,
+157
+],
+"ends": "round"
+},
+{
+"a": 12002,
+"b": 7979,
+"hw": 24,
+"knots": [
+121,
+572
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1133, 3751) to (4000, 3428) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2937,
+"b": 10867,
+"hw": 537,
+"knots": [
+100,
+10
+],
+"ends": "square"
+},
+{
+"a": 1617,
+"b": 11810,
+"hw": 2,
+"knots": [
+267,
+157
+],
+"ends": "round"
+},
+{
+"a": 12002,
+"b": 7979,
+"hw": 24,
+"knots": [
+121,
+572
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1076, 0) to (1039, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4740,
+"b": 1,
+"hw": 305,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 1076,
+"b": 15922,
+"hw": 24,
+"knots": [
+241,
+584
+],
+"ends": "square"
+},
+{
+"a": 56,
+"b": 5,
+"hw": 85,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (621, 258) to (3029, 3989) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 961,
+"b": 7994,
+"hw": 19,
+"knots": [
+427,
+492
+],
+"ends": "round"
+},
+{
+"a": 9402,
+"b": 7964,
+"hw": 493,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3984, 2317) to (4000, 3541) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2903,
+"b": 7980,
+"hw": 12,
+"knots": [
+278,
+528
+],
+"ends": "round"
+},
+{
+"a": 4484,
+"b": 8030,
+"hw": 1,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2136, 2230) to (1994, 2020) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4065,
+"b": 12038,
+"hw": 276,
+"knots": [
+15,
+476
+],
+"ends": "round"
+},
+{
+"a": 8099,
+"b": 48,
+"hw": 43,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 12,
+"b": 8035,
+"hw": 38,
+"knots": [
+335,
+524
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1427, 4000) to (1581, 3417) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10573,
+"b": 297,
+"hw": 575,
+"knots": [
+304,
+325
+],
+"ends": "round"
+},
+{
+"a": 246,
+"b": 8003,
+"hw": 302,
+"knots": [
+145,
+100
+],
+"ends": "square"
+},
+{
+"a": 10720,
+"b": 7972,
+"hw": 581,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3969, 3932) to (2329, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 2191,
+"b": 7992,
+"hw": 2,
+"knots": [
+123,
+300
+],
+"ends": "square"
+},
+{
+"a": 6126,
+"b": 8032,
+"hw": 29,
+"knots": [
+478,
+558
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2290, 964) to (0, 2303) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13697,
+"b": 4296,
+"hw": 374,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 12762,
+"b": 55,
+"hw": 8,
+"knots": [
+295,
+540
+],
+"ends": "square"
+},
+{
+"a": 5701,
+"b": 23,
+"hw": 269,
+"knots": [
+115,
+586
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4022, 2417) to (3960, 2314) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3905,
+"b": 7974,
+"hw": 23,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 6337,
+"b": 18,
+"hw": 9,
+"knots": [
+83,
+25
+],
+"ends": "round"
+},
+{
+"a": 7210,
+"b": 7980,
+"hw": 14,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4022, 2417) to (3960, 2314) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 3905,
+"b": 7974,
+"hw": 23,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 6337,
+"b": 18,
+"hw": 9,
+"knots": [
+83,
+25
+],
+"ends": "round"
+},
+{
+"a": 7210,
+"b": 7980,
+"hw": 14,
+"knots": null,
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 2071) to (11, 1642) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7854,
+"b": 15185,
+"hw": 25,
+"knots": [
+337,
+568
+],
+"ends": "round"
+},
+{
+"a": 7849,
+"b": 0,
+"hw": 12,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 13929,
+"b": 52,
+"hw": 591,
+"knots": [
+224,
+83
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2723, 3993) to (2918, 3910) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9547,
+"b": 55,
+"hw": 437,
+"knots": [
+474,
+482
+],
+"ends": "square"
+},
+{
+"a": 11435,
+"b": 7962,
+"hw": 79,
+"knots": [
+413,
+530
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (683, 4000) to (2714, 2739) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 6035,
+"b": 11592,
+"hw": 264,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 2811,
+"b": 7976,
+"hw": 396,
+"knots": [
+181,
+182
+],
+"ends": "round"
+},
+{
+"a": 8,
+"b": 8036,
+"hw": 29,
+"knots": [
+120,
+8
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (237, 1086) to (5, 1333) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14407,
+"b": 30,
+"hw": 276,
+"knots": [
+249,
+182
+],
+"ends": "round"
+},
+{
+"a": 9659,
+"b": 22,
+"hw": 29,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 2859,
+"b": 14642,
+"hw": 23,
+"knots": [
+106,
+138
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 4000) to (2785, 3865) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9348,
+"b": 7985,
+"hw": 270,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 9215,
+"b": 60,
+"hw": 9,
+"knots": [
+407,
+396
+],
+"ends": "square"
+},
+{
+"a": 3707,
+"b": 7988,
+"hw": 6,
+"knots": [
+204,
+358
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 3739) to (3973, 4000) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 10682,
+"b": 7977,
+"hw": 14,
+"knots": [
+25,
+261
+],
+"ends": "square"
+},
+{
+"a": 1498,
+"b": 8027,
+"hw": 125,
+"knots": [
+146,
+411
+],
+"ends": "square"
+},
+{
+"a": 11502,
+"b": 8003,
+"hw": 411,
+"knots": [
+101,
+558
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2, 985) to (420, 828) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 14968,
+"b": 8015,
+"hw": 1,
+"knots": [
+235,
+509
+],
+"ends": "square"
+},
+{
+"a": 7681,
+"b": 8,
+"hw": 20,
+"knots": [
+72,
+373
+],
+"ends": "square"
+},
+{
+"a": 14465,
+"b": 45,
+"hw": 14,
+"knots": [
+269,
+571
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (403, -119) to (0, 323) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4,
+"b": 7980,
+"hw": 1,
+"knots": [
+7,
+117
+],
+"ends": "square"
+},
+{
+"a": 15677,
+"b": 7965,
+"hw": 3,
+"knots": [
+598,
+45
+],
+"ends": "round"
+},
+{
+"a": 10391,
+"b": 1,
+"hw": 3,
+"knots": [
+392,
+527
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (403, -119) to (0, 323) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 4,
+"b": 7980,
+"hw": 1,
+"knots": [
+7,
+117
+],
+"ends": "square"
+},
+{
+"a": 15677,
+"b": 7965,
+"hw": 3,
+"knots": [
+598,
+45
+],
+"ends": "round"
+},
+{
+"a": 10391,
+"b": 1,
+"hw": 3,
+"knots": [
+392,
+527
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 735) to (40, 40) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 9191,
+"b": 13570,
+"hw": 522,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 14431,
+"b": 41,
+"hw": 3,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 10,
+"b": 8011,
+"hw": 30,
+"knots": [
+573,
+6
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 187) to (36, 0) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 894,
+"b": 15996,
+"hw": 25,
+"knots": [
+241,
+187
+],
+"ends": "square"
+},
+{
+"a": 6410,
+"b": 8023,
+"hw": 39,
+"knots": [
+563,
+6
+],
+"ends": "square"
+},
+{
+"a": 4719,
+"b": 36,
+"hw": 98,
+"knots": [
+14,
+432
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (279, 269) to (0, 753) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7619,
+"b": 15,
+"hw": 13,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 15247,
+"b": 8020,
+"hw": 13,
+"knots": [
+540,
+304
+],
+"ends": "round"
+},
+{
+"a": 5124,
+"b": 8039,
+"hw": 6,
+"knots": [
+459,
+224
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (279, 269) to (0, 753) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7619,
+"b": 15,
+"hw": 13,
+"knots": null,
+"ends": "square"
+},
+{
+"a": 15247,
+"b": 8020,
+"hw": 13,
+"knots": [
+540,
+304
+],
+"ends": "round"
+},
+{
+"a": 5124,
+"b": 8039,
+"hw": 6,
+"knots": [
+459,
+224
+],
+"ends": "round"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1460, 3578) to (0, 3964) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7031,
+"b": 42,
+"hw": 572,
+"knots": [
+399,
+150
+],
+"ends": "square"
+},
+{
+"a": 12036,
+"b": 7977,
+"hw": 28,
+"knots": [
+510,
+205
+],
+"ends": "square"
+},
+{
+"a": 8756,
+"b": 7969,
+"hw": 19,
+"knots": [
+227,
+113
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (2702, 3890) to (2848, 3982) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 12062,
+"b": 8012,
+"hw": 9,
+"knots": [
+187,
+44
+],
+"ends": "round"
+},
+{
+"a": 9134,
+"b": 42,
+"hw": 22,
+"knots": [
+51,
+438
+],
+"ends": "square"
+},
+{
+"a": 5822,
+"b": 6139,
+"hw": 2,
+"knots": [
+134,
+294
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "kerb",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3265, 3529) to (445, 883) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13927,
+"b": 978,
+"hw": 363,
+"knots": [
+47,
+5
+],
+"ends": "round"
+},
+{
+"a": 6,
+"b": 7964,
+"hw": 594,
+"knots": [
+340,
+185
+],
+"ends": "square"
+},
+{
+"a": 9419,
+"b": 6942,
+"hw": 162,
+"knots": [
+262,
+595
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (3265, 3529) to (445, 883) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13927,
+"b": 978,
+"hw": 363,
+"knots": [
+47,
+5
+],
+"ends": "round"
+},
+{
+"a": 6,
+"b": 7964,
+"hw": 594,
+"knots": [
+340,
+185
+],
+"ends": "square"
+},
+{
+"a": 9419,
+"b": 6942,
+"hw": 162,
+"knots": [
+262,
+595
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (4000, 4000) to (3906, 3990) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 7709,
+"b": 8825,
+"hw": 469,
+"knots": null,
+"ends": "round"
+},
+{
+"a": 5586,
+"b": 13351,
+"hw": 572,
+"knots": [
+201,
+225
+],
+"ends": "round"
+},
+{
+"a": 12410,
+"b": 8005,
+"hw": 29,
+"knots": null,
+"ends": "square"
+}
+]
+},
+{
+"op": "bandUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (0, 1087) to (3, 998) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 15956,
+"b": 8040,
+"hw": 197,
+"knots": [
+552,
+149
+],
+"ends": "square"
+},
+{
+"a": 14913,
+"b": 35,
+"hw": 6,
+"knots": [
+242,
+561
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "corridorUnion",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (188, 260) to (104, 104) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+{
+"a": 13,
+"b": 7996,
+"hw": 186,
+"knots": [
+32,
+308
+],
+"ends": "round"
+},
+{
+"a": 72,
+"b": 14568,
+"hw": 483,
+"knots": [
+41,
+557
+],
+"ends": "square"
+},
+{
+"a": 15988,
+"b": 11,
+"hw": 4,
+"knots": [
+313,
+581
+],
+"ends": "square"
+}
+]
+},
+{
+"op": "tileRings",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (1769, 3533) to (5321, 3533) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+[
+{
+"x": 708,
+"y": 3531
+},
+{
+"x": 6154,
+"y": 1801
+},
+{
+"x": 5289,
+"y": 6790
+},
+{
+"x": 1573,
+"y": 6790
+}
+],
+[
+{
+"x": 3341,
+"y": 5092
+},
+{
+"x": 3919,
+"y": 3450
+},
+{
+"x": 3098,
+"y": 8499
+},
+{
+"x": 4162,
+"y": 8499
+}
+],
+[
+{
+"x": -925,
+"y": 4905
+},
+{
+"x": 3899,
+"y": 3439
+},
+{
+"x": 3166,
+"y": 5318
+},
+{
+"x": -192,
+"y": 5318
+}
+],
+[
+{
+"x": 1769,
+"y": 3533
+},
+{
+"x": 5321,
+"y": 3533
+},
+{
+"x": 5321,
+"y": 5048
+},
+{
+"x": 1769,
+"y": 5048
+}
+]
+]
+},
+{
+"op": "tileRings",
+"code": "E_INVARIANT",
+"detail": "insert: no route from (5827, 4111) to (5880, 3672) keeps clearance (\u00a73.10) within the fidelity bound (N-43)",
+"input": [
+[
+{
+"x": 7270,
+"y": 3243
+},
+{
+"x": 2465,
+"y": 5741
+},
+{
+"x": 298,
+"y": 6745
+}
+],
+[
+{
+"x": 4939,
+"y": 2844
+},
+{
+"x": 4017,
+"y": 4146
+},
+{
+"x": 4791,
+"y": 558
+}
+],
+[
+{
+"x": 1313,
+"y": 1171
+},
+{
+"x": 1552,
+"y": 1171
+},
+{
+"x": 1552,
+"y": 4155
+},
+{
+"x": 1313,
+"y": 4155
+}
+],
+[
+{
+"x": 5880,
+"y": 3672
+},
+{
+"x": 6892,
+"y": 3778
+},
+{
+"x": 6945,
+"y": 4111
+},
+{
+"x": 5827,
+"y": 4111
+}
+]
+]
+}
+]
+}
