@@ -1,20 +1,20 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-b-02",
-  "lane": "build/M0-b-02",
-  "lanes": ["build/M0-b-02"],
+  "lane": "build/M0-b-02-fix1",
+  "lanes": ["build/M0-b-02", "build/M0-b-02-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T09:34:32.321Z",
+  "date": "2026-10-06T10:07:29.120Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/infill/planner.ts", "plat/packages/layout/src/infill/sides.ts", "plat/packages/layout/test/infill/planner/"],
   "counts": { "created": 14, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/infill/planner.ts", "status": "created", "sha256": "c8c25492af4bfa23080195732d9f85787bf7e7e3bdba06d527e5ea668b3f1a9c", "size": 51075 },
     { "path": "plat/packages/layout/src/infill/sides.ts", "status": "created", "sha256": "5f3d133958ab6cd4063167711bf5d1ab384a4203531c4f5c241a4ad041981a89", "size": 13089 },
-    { "path": "plat/packages/layout/test/infill/planner/corner.test.ts", "status": "created", "sha256": "030f7edf4dac2ed0e5ca659266fa3ca232dd3ceefaaafb2f7bc00e7034bda5ae", "size": 12018 },
+    { "path": "plat/packages/layout/test/infill/planner/corner.test.ts", "status": "created", "sha256": "3060964f86e9dbc09900f2da3b5ea349742d699421b5f2ee90eb5aabb0ef66e3", "size": 12882 },
     { "path": "plat/packages/layout/test/infill/planner/determinism.test.ts", "status": "created", "sha256": "57aee716d0051a0890aa796bfb16598b87cb45ae2e7b762f20a02a84dec47e34", "size": 4197 },
-    { "path": "plat/packages/layout/test/infill/planner/ends.test.ts", "status": "created", "sha256": "2d2e5162c354cae222e15736f94f7d3417d4cf3782a6875588eb059d60d3ff4c", "size": 10364 },
+    { "path": "plat/packages/layout/test/infill/planner/ends.test.ts", "status": "created", "sha256": "611f37e378f2b93790de34bd71b2e3c232447016051ee0cab7c591e6af4d6f70", "size": 14998 },
     { "path": "plat/packages/layout/test/infill/planner/faces.ts", "status": "created", "sha256": "8d0fbda64e0666edffffabb6f35a4a37b66547cb4880fcab2bf216a045d85b8f", "size": 8477 },
     { "path": "plat/packages/layout/test/infill/planner/faceset.test.ts", "status": "created", "sha256": "beda31ffcc0ef026844aaa21447820dfadf5b65ed6f74903cfe7c77df5299de1", "size": 2327 },
     { "path": "plat/packages/layout/test/infill/planner/fillet.test.ts", "status": "created", "sha256": "e487e8c6a41be7baf3f4a72b69a7495c84bbdeb940cebc9f8d087bc24886348b", "size": 7320 },
@@ -22,14 +22,14 @@
     { "path": "plat/packages/layout/test/infill/planner/holed.test.ts", "status": "created", "sha256": "dd3e38f103661b8870dd46e958046b8f4f5bd4f6de16ebe9041f591b4a140c91", "size": 4130 },
     { "path": "plat/packages/layout/test/infill/planner/sides.test.ts", "status": "created", "sha256": "4f82e38d442151ca2318a910ca144bacdaa0818a64bfa9e366a5e48ad6174e81", "size": 6591 },
     { "path": "plat/packages/layout/test/infill/planner/start.test.ts", "status": "created", "sha256": "79645a2014c608e8f103bcbba7ac340333ac2b6dd4f65c2c8dd03a20d55f07ab", "size": 8220 },
-    { "path": "plat/packages/layout/test/infill/planner/support.ts", "status": "created", "sha256": "4f421d61b1704b90742daaa9091cc4ea2187b10c297960457b5ba9d253818c6b", "size": 4122 },
-    { "path": "plat/packages/layout/test/infill/planner/tau.test.ts", "status": "created", "sha256": "70f5fa83d3554f54ca14249e1e9b444f22e50b28c5ec4faa57161a9db0cfa39b", "size": 9485 }
+    { "path": "plat/packages/layout/test/infill/planner/support.ts", "status": "created", "sha256": "1c70f8b505e9cc766e6f85de036cfef6420bbe0b29e3f6ff4097e4760a5a8398", "size": 4826 },
+    { "path": "plat/packages/layout/test/infill/planner/tau.test.ts", "status": "created", "sha256": "d43e4cf38b5dea02a804420fb6e38e008f3163bae3bdd7947d2f3899afeee996", "size": 11075 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0206"],
-      "lines": ["561fb69b8a99dfca"],
+      "ids": ["L-0206", "L-0208"],
+      "lines": ["561fb69b8a99dfca", "76bc389b35eee276"],
       "removed": []
     },
     {

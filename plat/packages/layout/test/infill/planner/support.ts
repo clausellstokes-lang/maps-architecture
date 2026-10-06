@@ -2,10 +2,20 @@
 import { LATTICE } from '@plat/kernel';
 import { cutCells } from '../../../src/infill/planner.js';
 import { expect } from 'vitest';
-import type { CutGeometry, CutPlanned, PlanContext, XY } from '../../../src/infill/planner.js';
+import type { CutGeometry, CutPlanned, FarPlan, PlanContext, XY } from '../../../src/infill/planner.js';
+import { sideDir, type FaceSides } from '../../../src/infill/sides.js';
 import { cross, dot, latticeTol, norm, sub, unitV } from './faces.js';
 
 export * from './faces.js';
+
+/**
+ * The far run's direction at the foot, computed by the test and not read from the plan (T37-1; the check's B1): the
+ * run's chord, or on a curved run its tangent over the ± 5 m window at the foot (§4.6 *Sides*), by `sideDir` on the
+ * run the plan names — so a foot solved against the wrong direction (a chord on a curved run) cannot pass.
+ */
+export function farDirAt(sides: FaceSides, far: FarPlan): XY {
+  return sideDir(sides, sides.runs[far.run], far.foot);
+}
 
 /** The kept corner's shape clauses on one cut geometry (T37-1, T38-1), against the plan's own frame. */
 export function checkGeometry(plan: CutPlanned, g: CutGeometry, ctx: PlanContext): void {
@@ -19,11 +29,12 @@ export function checkGeometry(plan: CutPlanned, g: CutGeometry, ctx: PlanContext
       expect(corner.atCm).toBeGreaterThanOrEqual(corner.oCm - 1e-6);
       expect(corner.lambdaCm - corner.atCm).toBeGreaterThanOrEqual(corner.oCm - 1e-6);
     } else expect(corner.atCm).toBe(corner.lambdaCm / 2);
-    // The second leg meets its far run square within the lattice tolerance (T37-1).
+    // The second leg meets its far run square within the lattice tolerance (T37-1), against the run's direction at
+    // the foot as the test computes it (its tangent on a curved run), never the plan's own `far.dir`.
     expect(far).not.toBeNull();
     if (far !== null && F.x === far.foot.x && F.y === far.foot.y) {
       const u2 = unitV(sub(F, K));
-      expect(Math.abs(dot(u2, far.dir))).toBeLessThanOrEqual(latticeTol(norm(sub(F, K))));
+      expect(Math.abs(dot(u2, farDirAt(sides, far)))).toBeLessThanOrEqual(latticeTol(norm(sub(F, K))));
     }
     // Under flatten no kept corner's triangle is lower than max(cut.flattenM, 0.02 × |A–foot|) (T37-1).
     if (plan.mode === 'flatten' || g !== plan.cut) {

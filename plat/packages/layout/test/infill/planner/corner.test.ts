@@ -7,8 +7,8 @@
 // E_NOT_TWO_CROSSINGS when no far run qualifies.
 import { describe, expect, it } from 'vitest';
 import { cutCells, farSide, planCut } from '../../../src/infill/planner.js';
-import { faceSides } from '../../../src/infill/sides.js';
-import { asCut, checkGeometry, cross, CTX, dot, FACE_NAMES, FACES, latticeTol, norm, ring, streamsFor, sub, unitV } from './support.js';
+import { faceSides, isCurved } from '../../../src/infill/sides.js';
+import { asCut, checkGeometry, cross, CTX, dot, FACE_NAMES, FACES, farDirAt, latticeTol, norm, ring, streamsFor, sub, unitV } from './support.js';
 
 const SEEDS = 120;
 
@@ -88,22 +88,31 @@ describe('T37-1: the far run and the second leg', () => {
     }
   });
 
-  it('every second leg meets its far run square within the lattice tolerance, on the face set', () => {
+  it('every second leg meets its far run square within the lattice tolerance, on the face set (its tangent on a curved run)', () => {
+    // The run's direction at the foot is the test's own (`farDirAt`: the chord, or on a curved run the tangent over
+    // the ± 5 m window, §4.6 *Sides*), never the plan's `far.dir` — a foot solved against a curved run's chord is
+    // ≈ 5° off its tangent on the curved face and fails here (the check's B1, mutant m46).
+    const curvedFar = new Map<string, number>();
     for (const name of FACE_NAMES) {
       for (let seed = 1; seed <= SEEDS; seed += 1) {
         const r = planCut(FACES[name], CTX, streamsFor(seed));
         if (!r.ok || r.value.kind !== 'cut' || r.value.far === null) continue;
-        const { corner, far } = r.value;
+        const { corner, far, sides } = r.value;
+        const dir = farDirAt(sides, far);
+        if (isCurved(sides.runs[far.run])) curvedFar.set(name, (curvedFar.get(name) ?? 0) + 1);
         const leg = sub(far.foot, corner.K);
-        expect(Math.abs(dot(unitV(leg), far.dir))).toBeLessThanOrEqual(latticeTol(norm(leg)));
+        expect(Math.abs(dot(unitV(leg), dir))).toBeLessThanOrEqual(latticeTol(norm(leg)));
         // Snapped to the lattice, it stays square within the tolerance.
         const ks = { x: Math.round(corner.K.x), y: Math.round(corner.K.y) };
         const fs = { x: Math.round(far.foot.x), y: Math.round(far.foot.y) };
-        expect(Math.abs(dot(unitV(sub(fs, ks)), far.dir))).toBeLessThanOrEqual(latticeTol(norm(leg)) * 1.0001);
-        // The far run faces the first leg.
-        expect(dot({ x: -far.dir.y, y: far.dir.x }, r.value.start.normal)).toBeLessThan(0);
+        expect(Math.abs(dot(unitV(sub(fs, ks)), dir))).toBeLessThanOrEqual(latticeTol(norm(leg)) * 1.0001);
+        // The plan reports that direction, and the far run faces the first leg.
+        expect(far.dir).toEqual(dir);
+        expect(dot({ x: -dir.y, y: dir.x }, r.value.start.normal)).toBeLessThan(0);
       }
     }
+    // The curved cases are reached: the curved, Chaikin and round-joined faces each meet a curved far run.
+    for (const name of ['curved', 'chaikin', 'roundJoined']) expect(curvedFar.get(name) ?? 0).toBeGreaterThan(SEEDS / 4);
   });
 
   it('returns E_NOT_TWO_CROSSINGS when no run qualifies, with the steps found so far', () => {

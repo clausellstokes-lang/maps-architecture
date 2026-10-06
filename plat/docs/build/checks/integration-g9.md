@@ -5,7 +5,7 @@ Lane `check/integration-flow-7-g9`. **Verdict: PASS — no blocker.**
 **The seat.** This seat is Opus 5.5 in Claude Code on the owner's Windows PC. The machine check printed
 `wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib` and the Node version is 24.12.0. The seat is independent
 of the four items' authors, their fixers and their checkers. It changed no file of any item. It ran no git command.
-Its ledger row is **L-0203** (see `plat/CLEAN-ROOM.md`). It ran from 04:57 to __END__. The probes and logs are in
+Its ledger row is **L-0209** (see `plat/CLEAN-ROOM.md`). It ran from 04:57 to 06:12. The probes and logs are in
 `~/maps-scratch/waves/integration-g9/` (logs in `logs/`).
 
 **Busy state.** The brief lists no busy item. In practice two dependencies were being worked on in the tree during
@@ -43,7 +43,7 @@ and its commits are M0-c-02's. The real meeting points are these:
 | `landed:verify -- flow-7 --item` M0-a-09 / M0-a-14 / M0-c-01 / M0-d-08 | ok, 1 record each. Dependencies: M0-a-06, M0-a-07 and M0-a-13 ok. M0-a-05 FAIL on its in-flight files (fix-s6; a note, N-1). M0-a-08 FAIL only on `kernel/src/arr/index.ts`, which M0-a-08 handed over to M0-a-09 (C-0122). That is the brief's not-a-blocker case. |
 | near, full strength (PLAT_FUZZ_RUNS unset, W=2, 04:58–05:24): `kernel/test/arr/bands/`, `testkit/test/kernel/arr-bands/`, `kernel/test/invariants/`, `testkit/test/determinism/`, `layout/test/siting/` | **27/27 files, 266/266 tests passed.** |
 | related at PLAT_FUZZ_RUNS=1000 over the union of the group's 34 changed source files (M0-a-09's five `arr/` files, M0-a-14's eight `invariants/` files, M0-c-01's twelve `layout/src/{fixtures,siting}/` files, M0-d-08's nine `testkit/src/determinism/` files; W=2, 05:25–05:37) | 2217/2219 tests passed; 145/147 files passed. Both reds are M0-a-08's oracle agreements (`testkit/test/kernel/arr-booleans-buffers/agreement-buffer.test.ts` and `agreement-faces.test.ts` › offsetFace). **Every one of their 11 failure lines is `ours: E_INVARIANT insert: no route from … keeps clearance (§3.10) within the fidelity bound (N-43)`.** That refusal is M0-a-05's insertChain, which fix-s6 is reworking now. These are the same reds as integration-g8's N-6. M0-a-09's only change on their import path is the four re-export lines it appended to `arr/index.ts`. M0-a-09's checker ran a control at PLAT_FUZZ_SEED=4242 and got the same failures with and without those lines (lane log 02:36). This makes them a note (N-1), not the group's. |
-| whole suite once at reduced strength (J194: `PLAT_FUZZ_RUNS=1000 corepack pnpm test`, W=__WW__, __WHOLE_TIME__) | __WHOLE__ |
+| whole suite once at reduced strength (J194: `PLAT_FUZZ_RUNS=1000 corepack pnpm test`, W=1, 05:37–06:08) | 3766/3784 tests passed; 279/288 files passed. None of the 18 reds is in a group file. 14 are the J176 bench Mac-reference reds, in exactly the five files the brief names (calibrate 3, host 2, contention 4, harness 3, sampler 2), each failing for a Mac reason (`Apple M1`, `native-arm64`, `/sbin/launchd`, battery and pmset). 2 are N-1 (M0-a-08's agreements, as in the related run). The last 2 are vitest's 5 000 ms timeout under a load average of about 12: `model/test/types/types.test.ts` (the C-0112 reflection test) and `kernel/test/io/roundtrip.test.ts` (random batch arenas, default mix; integration-g8's N-7). **Replayed together alone at 06:08, both files pass, 16/16 tests (`logs/replay.log`).** These are notes for the session (N-5), not the group's verdict. |
 
 ## Composition probes
 
@@ -134,6 +134,11 @@ earlier batch's L3 ring in the SW face.
   related) and W=1 (whole). Timings in the logs are informative only (J198; this machine is not §12.1's reference).
   The whole run started when available memory was about 23 % (3.7 GiB). That is just under the quarter rule; with one
   worker it stayed well inside, and nothing else was started alongside it.
+- **N-5 (load timeouts).** In the whole run, `model/test/types/types.test.ts` › reflection and
+  `kernel/test/io/roundtrip.test.ts` › random batch arenas (default mix) hit the 5 s default timeout under load. Both
+  pass alone (replay 16/16). Neither file imports a group source on the failing path in a way the group changed: the
+  model re-export reflection reads `kernel/src/types` and `kernel/src/hash`, and roundtrip reads `io/` and insert's
+  `randomArena`. They are notes for the session, as integration-g8's N-7 was.
 
 ## Probes and logs
 

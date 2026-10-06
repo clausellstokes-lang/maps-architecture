@@ -164,6 +164,34 @@ describe('the draws (§6.1: cut.stop, cut.t, cut.arc)', () => {
     expect(() => planCut(FACES.trapezoid, { ...CTX, attempt: -1 }, st)).toThrow(RangeError);
   });
 
+  it('a later attempt draws cut.arc on its own attempt component: the value is the attempt-k twin\'s (C-0222 (12))', () => {
+    // §6.1 keys cut.arc by the face's lineage with the attempt component — a seed-to-output law: the uniform a kept
+    // corner draws at attempt k is the first float01 of the stream keyed (S8, cut.arc, attempt k), never attempt 0's
+    // (the check's B3, mutant m43), and the record's key says the attempt it was drawn on.
+    let kept = 0;
+    for (let seed = 1; seed <= 40; seed += 1) {
+      const st = streamsFor(seed);
+      const first = asCut(planCut(FACES.trapezoid, CTX, st));
+      for (const k of [1, 2]) {
+        const r = planCut(FACES.trapezoid, { ...CTX, attempt: k, stop: first.stop }, st);
+        if (!r.ok || r.value.kind !== 'cut' || !r.value.cut.bent) continue;
+        const arcs = r.value.draws.filter((d) => d.concern === 'cut.arc');
+        expect(arcs).toHaveLength(1);
+        kept += 1;
+        const twin = new Stream(streamKey(st.faceKey, STAGES.S8, CONCERNS['cut.arc'], { reroll: 0, attempt: k, epoch: 0, salt: 0 }));
+        const u = twin.float01();
+        expect(arcs[0].value).toBe(u);
+        expect(arcs[0].uniforms).toEqual([u]);
+        expect(arcs[0].key.attempt).toBe(k);
+        expect(r.value.cut.fillet?.u).toBe(u);
+        // Not the attempt-0 stream's uniform.
+        const zero = new Stream(streamKey(st.faceKey, STAGES.S8, CONCERNS['cut.arc'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 }));
+        expect(arcs[0].value).not.toBe(zero.float01());
+      }
+    }
+    expect(kept).toBeGreaterThan(20);
+  });
+
   it('renders each draw\'s key in textual form for the report', () => {
     const st = { ...streamsFor(3), entity: 'face:7kq2m9x4c1b0a' };
     const plan = asCut(planCut(FACES.trapezoid, CTX, st));

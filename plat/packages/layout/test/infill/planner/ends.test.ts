@@ -190,6 +190,88 @@ describe('step 7: the portal-gap slide', () => {
     if (r.value.kind === 'nextRung') expect(r.value.reason).toBe('portalGap');
   });
 
+  /** The point `s` cm along a spine's (straight) line from `at`, and the line's unit direction. */
+  const alongSpine = (sp: KerbSpine, at: { x: number; y: number }, s: number) => {
+    const d = unitV(sub(sp.points[1], sp.points[0]));
+    return { p: { x: at.x + d.x * s, y: at.y + d.y * s }, d };
+  };
+  const inBand = (deg: number) => deg >= 85 && deg <= 95;
+
+  it('returns the next rung for a bent cut whose far end lies in a gap that neither slide leaves within 85–95°', () => {
+    // The trapezoid's bent cuts: the second leg is 30–45 m, so a 10 m slide turns its arrival far out of the band on
+    // either side. slideEnd's own arrival test is what refuses it — a bent cut has no two-end re-check (the check's
+    // B2, mutant m37).
+    const T = FACES.trapezoid;
+    let n = 0;
+    for (let seed = 1; seed <= 60; seed += 1) {
+      const free = asCut(planCut(T, CTX, streamsFor(seed)));
+      if (!free.cut.bent) continue;
+      const e = free.cut.ends[1];
+      expect(e.kind).toBe('spine');
+      const K = free.cut.legs[1];
+      const spines = (T.spines ?? []).slice();
+      const sp = spines[e.index];
+      // A portal 1 cm along the spine from the planned junction; its gap is 10 m (lanes 4 m and the default 5 m).
+      const portal = alongSpine(sp, e.point, 1);
+      spines[e.index] = { ...sp, bounding: true, portals: [{ at: portal.p, laneWidthCm: 400 }] };
+      // Neither gap edge keeps the second leg within the band (the test's own geometry).
+      for (const s of [-1000, 1000]) expect(inBand(arrivalDeg(sub(alongSpine(sp, portal.p, s).p, K), portal.d))).toBe(false);
+      const r = planCut({ rings: T.rings, spines }, CTX, streamsFor(seed));
+      expect(r.ok).toBe(true);
+      if (!r.ok) continue;
+      expect(r.value.kind).toBe('nextRung');
+      if (r.value.kind === 'nextRung') expect(r.value.reason).toBe('portalGap');
+      n += 1;
+    }
+    expect(n).toBeGreaterThan(30);
+  });
+
+  it('slides a bent cut\'s far end to the farther gap edge when only that side keeps its arrival within 85–95°', () => {
+    // A deep block (second legs 130–250 m) whose north spine is tilted 6° off its kerb: the planned junction arrives
+    // at 84°. A portal 3 m along the spine puts the nearer edge 7 m back (turning the arrival further out) and the
+    // farther edge 13 m on (turning it back into the band): the planner must take the farther slide.
+    const outer: [number, number][] = [[0, 0], [40000, 0], [40000, 36000], [0, 32000]];
+    const base = withSpines(outer);
+    const kerbDir = unitV({ x: -40000, y: -4000 });
+    const tilt = (6 * Math.PI) / 180;
+    const sd = { x: kerbDir.x * Math.cos(tilt) - kerbDir.y * Math.sin(tilt), y: kerbDir.x * Math.sin(tilt) + kerbDir.y * Math.cos(tilt) };
+    let n = 0;
+    for (let seed = 1; seed <= 30; seed += 1) {
+      const plain = asCut(planCut(base, CTX, streamsFor(seed)));
+      if (!plain.cut.bent) continue;
+      const [, K, F] = plain.cut.legs;
+      const arr = unitV(sub(F, K));
+      const J = { x: F.x + arr.x * 300, y: F.y + arr.y * 300 };
+      const tilted: KerbSpine = { points: [{ x: J.x - sd.x * 5000, y: J.y - sd.y * 5000 }, { x: J.x + sd.x * 5000, y: J.y + sd.y * 5000 }], halfWidthCm: 300 };
+      const spines = (base.spines ?? []).slice();
+      spines[2] = tilted;
+      const free = asCut(planCut({ rings: base.rings, spines }, CTX, streamsFor(seed)));
+      const e = free.cut.ends[1];
+      expect(e.kind).toBe('spine');
+      expect(e.index).toBe(2);
+      expect(free.cut.legs[1]).toEqual(K);
+      // The side whose 7 m slide fails the band and whose 13 m slide passes it, by the test's own geometry.
+      const side = [1, -1].find((g) => {
+        const portal = alongSpine(tilted, e.point, 300 * g).p;
+        const nearer = arrivalDeg(sub(alongSpine(tilted, portal, -1000 * g).p, K), sd);
+        const farther = arrivalDeg(sub(alongSpine(tilted, portal, 1000 * g).p, K), sd);
+        return !inBand(nearer) && inBand(farther);
+      });
+      expect(side).toBeDefined();
+      if (side === undefined) continue;
+      const portal = alongSpine(tilted, e.point, 300 * side).p;
+      spines[2] = { ...tilted, bounding: true, portals: [{ at: portal, laneWidthCm: 400 }] };
+      const p = asCut(planCut({ rings: base.rings, spines }, CTX, streamsFor(seed)));
+      expect(p.cut.bent).toBe(true);
+      const s = p.cut.ends[1];
+      expect(s.slidCm).toBeCloseTo(1300, 6);
+      expect(norm(sub(s.point, alongSpine(tilted, portal, 1000 * side).p))).toBeLessThan(1e-6);
+      expect(inBand(arrivalDeg(sub(s.point, p.cut.legs[1]), sd))).toBe(true);
+      n += 1;
+    }
+    expect(n).toBeGreaterThan(20);
+  });
+
   it('slides the far end too', () => {
     for (let seed = 1; seed <= 10; seed += 1) {
       const free = asCut(planCut(deep([]), ctx, streamsFor(seed)));
