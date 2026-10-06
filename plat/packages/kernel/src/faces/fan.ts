@@ -17,7 +17,8 @@
 //   two sides moved inward by `widthCm` and met), inserted closed; then a slit from the lowest-leftmost corner to its
 //   inset corner (connectHole) and a cut from every other corner to its inset corner (splitFace) make one band face per
 //   side, counter-clockwise from that corner. A band no wider than `attractCm` would be attracted onto the face's
-//   boundary: E_BELOW_MIN_WIDTH; an inset ring that collapses or comes within `attractCm` of the boundary:
+//   boundary: E_BELOW_MIN_WIDTH; an inset ring that collapses or comes within `attractCm` of the boundary, or of a
+//   point inside the face on none of its rings (an isolated vertex, C-0214), or that the insertion bends all the same:
 //   E_DEGENERATE `collapsed`.
 import { dest, type FaceId, type HalfEdgeId, type RoleRow } from '../arena/index.js';
 import { dmath } from '../dmath/index.js';
@@ -41,6 +42,7 @@ import {
   refuse,
   regionOf,
   rollback,
+  strayNear,
   type Region,
 } from './common.js';
 import { holeCore, splitCore, type CutOpts } from './split.js';
@@ -283,6 +285,12 @@ export function ringBand(o: Overlay, face: FaceId, widthCm: Cm | number, opts: C
     core.push(sq.value);
   }
   if (!coreClear(t, r, core)) return err('E_DEGENERATE', 'collapsed');
+  // No side of the core passes a point inside the face on none of its rings: insertion would bend the ring through it.
+  for (let i = 0; i < k; i++) {
+    const stray = strayNear(t, r, core[i], core[(i + 1) % k]);
+    if (!stray.ok) return refuse(stray.code, stray.detail);
+    if (stray.value >= 0) return err('E_DEGENERATE', 'collapsed');
+  }
   const rows: readonly RoleRow[] | undefined = opts.rows;
   const save = opSave(t);
   const warnings: Warning[] = [];
@@ -297,8 +305,11 @@ export function ringBand(o: Overlay, face: FaceId, widthCm: Cm | number, opts: C
       return rollback(t, save, err('E_DEGENERATE', 'collapsed'));
     }
   }
+  // Unbent: every side one edge, else refused with the op's savepoint put back, never thrown (C-0214).
+  for (let i = 0; i < k; i++) {
+    if (halfEdgeFromTo(p, placed[i], placed[(i + 1) % k]) < 0) return rollback(t, save, err('E_DEGENERATE', 'collapsed'));
+  }
   const h0 = halfEdgeFromTo(p, placed[0], placed[1]);
-  check(h0 >= 0, 'an unbent core ring joins its first two points by one edge');
   const coreFace = recordLeftOf(t, n, h0);
   const annulus = recordLeftOf(t, n, h0 ^ 1);
   check(coreFace >= 0 && annulus >= 0 && coreFace !== annulus, 'a closed core ring bounds a face of its own');

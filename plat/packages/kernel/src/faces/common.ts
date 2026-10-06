@@ -14,9 +14,15 @@
 //   edge (an antenna is boundary: a cut may end on it but never cross it), no segment leaving its landing along a
 //   boundary edge there (closer than `minFaceAngle`, the near-parallel test insertion shares stretches by), the cut
 //   itself simple with no vertex of it within `attractCm` of another of its segments;
-// * every segment's midpoint lies strictly inside the face (exact, on doubled coordinates).
+// * every segment's midpoint lies strictly inside the face (exact, on doubled coordinates);
+// * no vertex on none of the face's rings — an isolated vertex-role point the face holds (a knot left by a removed
+//   chain), or any other candidate of insertion's step 3 off the rings — lies within `attractCm` of a segment where the
+//   router would route the cut through it (`passesWithin`), nor, inside the face, within `attractCm` of a closed
+//   segment (step 2 would draw a cut point onto it): a degenerate antenna the cut may neither cross nor pass, and ending
+//   on it splits nothing (C-0214; integration g8 B-1).
 // A cut that passes is inserted by `insertChain` (the door) at points that land exactly where they were judged, so the
-// insertion neither bends nor shares it: §3.6 (2)'s "never lets attraction bend a cut into a pinch".
+// insertion neither bends nor shares it: §3.6 (2)'s "never lets attraction bend a cut into a pinch". Where it comes
+// back bent all the same, the cut is refused, never thrown (split.ts `insertCut`).
 import {
   compareVertices,
   dest,
@@ -34,10 +40,10 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { obb } from '../geom/index.js';
-import { faceRouteRings } from '../index/index.js';
+import { faceRouteRings, query } from '../index/index.js';
 import { planAttraction } from '../insert/attractVertex.js';
-import { chainJournal, TX_FACES_WALKED } from '../insert/index.js';
-import { nearerVertex, nearParallel, passesWithin, splitBreaksClearance, withinSegment } from '../insert/stretch.js';
+import { chainJournal, charge, INSERT_ATTRACT_QUERIES, TX_FACES_WALKED } from '../insert/index.js';
+import { nearerVertex, nearParallel, onRouteOfLevel, passesWithin, segmentBox, splitBreaksClearance, withinSegment } from '../insert/stretch.js';
 import { area2, err, LATTICE, ok, orient2d, snap, type KernelError, type KernelResult, type Warning } from '../num/index.js';
 import { restoreSavepoint, takeSavepoint } from '../tx/savepoint.js';
 import { chargeTx, check, doomed, openTx, type OpenTx } from '../tx/state.js';
@@ -208,7 +214,14 @@ export function landEnd(t: OpenTx, r: Region, q: LatticePoint): KernelResult<Lan
   const O = p.halfEdges.origin;
   const asVertex = (v: VertexId): KernelResult<Landing> => {
     const rings = r.vertexRings.get(v);
-    if (rings === undefined) return refuse(NOT_TWO, `a cut end at (${q.x}, ${q.y}) lands on a vertex of another face (§3.6 (1))`);
+    if (rings === undefined) {
+      const X = p.vertices.x;
+      const Y = p.vertices.y;
+      if (insideRegion(p, r, 2 * X[v], 2 * Y[v])) {
+        return refuse(NOT_TWO, `a cut end at (${q.x}, ${q.y}) lands on the point (${X[v]}, ${Y[v]}) inside the face on none of its rings: it splits nothing (§3.6 (2), (3); C-0214)`);
+      }
+      return refuse(NOT_TWO, `a cut end at (${q.x}, ${q.y}) lands on a vertex of another face (§3.6 (1))`);
+    }
     return ok({ kind: 'vertex', at: lp(p.vertices.x[v], p.vertices.y[v]), vertex: v, rings });
   };
   if (pl.kind === 'vertex') return asVertex(pl.vertex);
@@ -227,6 +240,33 @@ export function landEnd(t: OpenTx, r: Region, q: LatticePoint): KernelResult<Lan
 /** The ends of a pair. */
 function ends(p: Plat, e: number): [VertexId, VertexId] {
   return [p.halfEdges.origin[2 * e], p.halfEdges.origin[2 * e + 1]];
+}
+
+/**
+ * The first vertex on none of the region's rings that the segment a–b may not come near (see the module comment; C-0214):
+ * a candidate of insertion's step 3 — of level ≤ the batch's, or finer on a route of level ≤ it — that the segment passes
+ * within `attractCm` (foot strictly inside it: the router would route through it), or that lies strictly inside the
+ * region within `attractCm` of the closed segment (step 2 would draw an end onto it). A finer vertex off every such
+ * route is kept content, insertion's own E_KEPT. −1 where there is none; E_WORK_LIMIT past the limit. One index query,
+ * charged to `insert.attractQueries` as insertion charges its own. Exact (`passesWithin`, `withinSegment`, crossing
+ * numbers on doubled coordinates); the query's order is the index's, the result the lowest point (y, then x).
+ */
+export function strayNear(t: OpenTx, r: Region, a: LatticePoint, b: LatticePoint): KernelResult<VertexId> {
+  const p = t.plat;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const L = p.vertices.level;
+  if (!charge(t, INSERT_ATTRACT_QUERIES, 1)) return refuse('E_WORK_LIMIT', INSERT_ATTRACT_QUERIES);
+  let best = -1;
+  for (const v of query(p, t.key, 4, segmentBox(a.x, a.y, b.x, b.y, ATTRACT), { vertices: true }).vertices) {
+    if (r.vertexRings.has(v)) continue;
+    if (L[v] > r.level && !onRouteOfLevel(p, v, r.level)) continue;
+    const near = passesWithin(X[v], Y[v], a.x, a.y, b.x, b.y, ATTRACT)
+      || (withinSegment(X[v], Y[v], a.x, a.y, b.x, b.y, ATTRACT) && insideRegion(p, r, 2 * X[v], 2 * Y[v]));
+    if (!near) continue;
+    if (best < 0 || Y[v] < Y[best] || (Y[v] === Y[best] && X[v] < X[best])) best = v;
+  }
+  return ok(best);
 }
 
 /** Does the landing hold the vertex (a vertex landing on it)? */
@@ -330,6 +370,13 @@ export function planCut(t: OpenTx, r: Region, cutIn: readonly { readonly x: numb
       if (!arrives && segmentsTouch(s0.x, s0.y, s1.x, s1.y, X[u], Y[u], X[w], Y[w])) {
         return refuse(NOT_TWO, `the cut touches or crosses the boundary edge (${X[u]}, ${Y[u]})–(${X[w]}, ${Y[w]}) (§3.6 (2), (3))`);
       }
+    }
+    // A point inside the face on none of its rings (an isolated vertex): a degenerate antenna, never passed (C-0214).
+    const stray = strayNear(t, r, s0, s1);
+    if (!stray.ok) return refuse(stray.code, stray.detail);
+    if (stray.value >= 0) {
+      const v = stray.value;
+      return refuse(NOT_TWO, `the cut passes through or within attractCm of the point (${X[v]}, ${Y[v]}) inside the face on none of its rings (§3.6 (2), (3); C-0214)`);
     }
   }
   // The cut itself: simple, and no vertex of it within attractCm of another of its segments.

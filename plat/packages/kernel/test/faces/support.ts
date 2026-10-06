@@ -2,10 +2,10 @@
 // holes, a face with an antenna), the face record holding a lattice point, a face's rings as lattice points, and the
 // exact area identity the children of a split are judged by (§13.1: integer area2 equality, BigInt here, written
 // without the code under test).
-import { faceWalk, isFaceLive, type FaceId, type HalfEdgeId, type Plat } from '../../src/arena/index.js';
+import { faceWalk, isFaceLive, isVertexLive, outgoing, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { setOwner, tx, type Overlay } from '../../src/tx/index.js';
+import { removeEdges, setOwner, tx, type Overlay } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { facesAt, ringArea2, strictlyInsideRing } from '../insert/step3-5/support.js';
 import { commit, framed, healthy, pt, spec, state } from '../tx/support.js';
@@ -83,4 +83,25 @@ export function withHoles(rings: readonly (readonly [number, number])[][]): Plat
 export function content(p: Plat): string {
   healthy(p);
   return state(p).replace(/#v\d+$/, '');
+}
+
+/** The live vertex at the lattice point with no edge (an isolated vertex), or −1. */
+export function isolatedAt(p: Plat, x: number, y: number): VertexId {
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (isVertexLive(p, v) && p.vertices.x[v] === x && p.vertices.y[v] === y && outgoing(p, v).length === 0) return v;
+  }
+  return -1;
+}
+
+/**
+ * An isolated vertex-role point at (x, y) (integration g8 B-1): an `entrance` knot at the start of a short L1 chain
+ * toward (x + dx, y + dy), the chain then removed, as mergeFaces, absorbSliver and claimSubFace leave a removed chain's
+ * knots inside the merged face. Each step its own batch; false where a step was refused or attraction put the knot
+ * elsewhere (no isolated point at (x, y)).
+ */
+export function isolate(p: Plat, x: number, y: number, entity = 'iso:1', dx = 150, dy = 90): boolean {
+  const a = tx(p, spec(1), (o) => insertChain(o, [pt(x, y), pt(x + dx, y + dy)], [{ role: 'district_bound', entity }], 'mandatory', { knots: [{ index: 0, role: 'entrance', ordinal: 0 }] }));
+  if (!a.ok) return false;
+  const b = tx(p, spec(1), (o) => removeEdges(o, { role: 'district_bound', entity }));
+  return b.ok && isolatedAt(p, x, y) >= 0;
 }
