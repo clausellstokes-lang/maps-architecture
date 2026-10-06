@@ -1,17 +1,25 @@
 // The water bodies' polygons (M0-e-03; §4.2 S1 (8): "water faces enter L0 with shore / bank edges"; M0-work.json's
 // builds: "the river reach polygons from the course and width profile (buffer of the course, M0-a-08) … typed river /
 // tributary / estuary"; §4.1's S1 row: "a sea or river reaching the arena's edge shares that ring"). Each body's course
-// is buffered by half its width profile (round joins and ends, §3.4's `buffer`), clipped to the arena (so a reach
-// reaching the edge ends on the outer ring), and the bodies made disjoint in order — a later body loses what an
-// earlier one covers, so a tributary ends on its river's shore. A body whose course ends on the arena's edge is first
-// prolonged past it, so the clip, not a round end, shapes it there; a joined tributary is prolonged to the nearest
-// point of the course it joins, so it meets that river with no gap. Parts below SLIVER_AREA_CM2 are a boolean's
-// slivers, dropped; a part keeps the body's course points that lie at least SEED_DEPTH_CM inside it (its seeds), and a
-// part with none is dropped too (C-0225 (2), (3)).
+// is buffered by half its width profile, clipped to the arena (so a reach reaching the edge ends on the outer ring),
+// and the bodies made disjoint in order — a later body loses what an earlier one covers, so a tributary ends on its
+// river's shore (C-0229 (2)):
 //
-// The basic estuary (§4.2 S1 (3) *Mouths*; C-0173 (7)): with `mouth` `estuary` or `delta`, the river's last
-// ESTUARY_SPLIT_M — the stretch M0-e-02 widened — is split off as a body of its own, kind `estuary`, flowing from the
-// river (C-0225 (4)).
+// * the chain: the course, prolonged past the arena's edge where it ends on it (the clip, not a cap, shapes that end),
+//   a joined tributary prolonged to the nearest point of the course it joins; simplified (Douglas–Peucker, SIMPLIFY_CM
+//   on the points and their half-widths) — S1 (3)'s Chaikin course carries a vertex every few metres;
+// * the fast ring first (./offset.ts): the two offset lines, the mouth cut along the joined river's shore, checked
+//   simple, clear of itself and of the earlier rings; a ring it refuses takes the kernel's own construction — §3.4's
+//   `buffer` (round joins and ends), `booleans` intersection with the arena and difference with the earlier bodies —
+//   reported in `fallbacks` with the refusal (the kernel's union costs tens of seconds on a CITY river, the fast ring
+//   milliseconds);
+// * the basic estuary (§4.2 S1 (3) *Mouths*; C-0173 (7)): with `mouth` `estuary` or `delta` the river's last
+//   ESTUARY_SPLIT_M — the stretch M0-e-02 widened — is a body of its own, kind `estuary`, flowing from the river: one
+//   fast ring along the joined course cut across at the split point (`estuaryPair`); where that cannot be made the
+//   river stays whole, reported (C-0229 (4)).
+//
+// Parts below SLIVER_AREA_CM2 are a boolean's slivers, dropped; a part keeps the body's course points that lie at least
+// SEED_DEPTH_CM inside it (its seeds), and a part with none is dropped too (C-0229 (3)).
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
 import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
@@ -160,7 +168,7 @@ export function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBo
 const JOIN_REACH_CM = 10_000;
 
 /**
- * The chain simplified for the buffer (C-0225 (2)): Douglas–Peucker on the points with their half-widths — a point is
+ * The chain simplified for the buffer (C-0229 (2)): Douglas–Peucker on the points with their half-widths — a point is
  * dropped only when it lies within SIMPLIFY_CM of the chord between the points kept around it and its half-width within
  * SIMPLIFY_CM of the chord's interpolated one. S1 (3)'s Chaikin-smoothed course carries a vertex every few metres; the
  * polygon keeps its shape within the tolerance and the buffer's union stays small. The ends are always kept.
@@ -264,7 +272,7 @@ function withVertex(ring: readonly LatticePoint[], seg: number, q: LatticePoint)
 }
 
 /**
- * The basic estuary's two polygons (C-0225 (4)): the river and its estuary as one fast ring along their joined course,
+ * The basic estuary's two polygons (C-0229 (4)): the river and its estuary as one fast ring along their joined course,
  * cut across at the estuary's first course point along the original segment's normal — the cut's two ends inserted
  * where that line first meets the ring on each side — into the river's side (holding the river's course) and the
  * estuary's; each side simple and clear. A reason when it cannot be made (the caller keeps the river whole).
@@ -399,7 +407,7 @@ export function waterPolygons(
     if (typeof fast !== 'string') rings = fast;
     else {
       fallbacks.push({ id: body.id, why: fast });
-      // the kernel's own: §3.4's buffer, clipped to the arena, less the earlier bodies (C-0225 (2))
+      // the kernel's own: §3.4's buffer, clipped to the arena, less the earlier bodies (C-0229 (2))
       const slow = slowRings(simple, frameRing, covered);
       if (!slow.ok) {
         if (slow.code === 'E_DEGENERATE') {

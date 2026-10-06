@@ -44,3 +44,15 @@ describe('the thread check', () => {
     expect(crossHostThreadProblem('webkit', 'off', 'worker')).toBe('webkit workers off: the stages ran on the worker thread, not the main');
   });
 });
+
+describe("the leg's host kind", () => {
+  it('arm64 is native-arm64; x64 on macOS is rosetta exactly when sysctl.proc_translated is 1; x64 elsewhere native-x64', async () => {
+    const { crossHostNodeKind } = await import('@plat/testkit');
+    expect(crossHostNodeKind('arm64', 'darwin', () => '0')).toBe('native-arm64');
+    expect(crossHostNodeKind('x64', 'darwin', () => '1')).toBe('rosetta');
+    expect(crossHostNodeKind('x64', 'darwin', () => '0')).toBe('native-x64');
+    expect(crossHostNodeKind('x64', 'darwin', () => null)).toBe('native-x64');
+    expect(crossHostNodeKind('x64', 'linux', () => '1')).toBe('native-x64');
+    expect(() => crossHostNodeKind('ia32', 'linux', () => null)).toThrow(/unsupported architecture/);
+  });
+});

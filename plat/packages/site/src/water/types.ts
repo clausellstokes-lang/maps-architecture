@@ -6,7 +6,7 @@ import type { Bridge, FaceRef, Id, Terrain, WaterBody, WaterSet } from '@plat/mo
 
 /**
  * One part of a water body's polygon: an outer ring (counter-clockwise) with its holes (clockwise), and the body's own
- * course points that lie inside it by at least SEED_DEPTH_CM — each names the part's L0 face in the arena (C-0225 (3)).
+ * course points that lie inside it by at least SEED_DEPTH_CM — each names the part's L0 face in the arena (C-0229 (3)).
  */
 export interface WaterPart {
   rings: LatticePoint[][];
@@ -21,7 +21,7 @@ export interface WaterReach {
 
 /**
  * A body S1's water left out: a course of fewer than two points, no part left past the slivers, or a shore the kernel
- * refused on both polygon paths (C-0225 (2)) — each reported, never silent.
+ * refused on both polygon paths (C-0229 (2)) — each reported, never silent.
  */
 export interface DroppedBody {
   id: Id;
@@ -79,7 +79,7 @@ export interface S1Input {
   mouth?: 'none' | 'estuary' | 'delta';
   /** Decks already standing on this water (S1's water operator re-run; none at generation). */
   existingDecks?: readonly Deck[];
-  /** The kernel façade over the ground arena (§14), handed by the runner (C-0225 (1)). */
+  /** The kernel façade over the ground arena (§14), handed by the runner (C-0229 (1)). */
   kernel: Kernel;
 }
 
@@ -95,7 +95,7 @@ export interface S1Output {
 /** The batch's report: dropped bodies, the commits' versions, the stage-end invariant rows, the kernel's warnings. */
 export interface S1Report {
   dropped: DroppedBody[];
-  /** The bodies whose polygon took the kernel's buffer and booleans, with the fast ring's refusal (C-0225 (2)). */
+  /** The bodies whose polygon took the kernel's buffer and booleans, with the fast ring's refusal (C-0229 (2)). */
   fallbacks: { id: Id; why: string }[];
   /** The water batch was re-run on the kernel's own polygons after the kernel refused it on the fast rings. */
   retried: boolean;

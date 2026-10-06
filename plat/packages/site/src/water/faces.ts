@@ -8,9 +8,9 @@
 // water in one callback batch (§4.1: S1 registers as callback, "always safe"): (1) each body's polygon rings, in body
 // order, as closed mandatory chains carrying `('shore', body)`, each crossing site's two ends inserted into the ring
 // they lie on as vertices carrying `('deck_end', bridge, 0 | 1)` (exempt from decimation); (2) each body's L0 faces —
-// the faces its seeds lie in (C-0225 (3)) — owned by the body; (3) the land components by flood fill, each owning its
+// the faces its seeds lie in (C-0229 (3)) — owned by the body; (3) the land components by flood fill, each owning its
 // faces; (4) `('bank', body)` on every shore edge of a river, tributary or estuary whose other side is land (a stretch
-// on the outer ring or between two bodies is shore only; C-0225 (6)); (5) the deck ends pinned. A face claimed by two
+// on the outer ring or between two bodies is shore only; C-0229 (6)); (5) the deck ends pinned. A face claimed by two
 // bodies, or a body left with no face, is refused E_INVARIANT (detect and refuse): the batch writes nothing.
 import {
   compareFaces,
@@ -60,10 +60,10 @@ export function outerRingBatch(k: Kernel, terrain: Id, reach: Reach, opts: L0Bat
   return ok(k.plat(opts.key).version, r.warnings);
 }
 
-/** The kinds whose shore carries `bank` where it meets land (§2.2 rule 7: a river's banks; C-0225 (6)). */
+/** The kinds whose shore carries `bank` where it meets land (§2.2 rule 7: a river's banks; C-0229 (6)). */
 export const BANKED_KINDS: ReadonlySet<WaterBody['kind']> = new Set(['river', 'tributary', 'estuary', 'distributary', 'islet_channel']);
 
-/** The bridge id of the n-th site (§6.3's mint is M0-d-05a's; M0-e-02's `<kind>:<n>` form, C-0225 (7)). */
+/** The bridge id of the n-th site (§6.3's mint is M0-d-05a's; M0-e-02's `<kind>:<n>` form, C-0229 (7)). */
 export function bridgeId(n: number): Id {
   return `bridge:${String(n)}`;
 }
@@ -72,7 +72,7 @@ function generated(epoch: number): Lifecycle {
   return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
 }
 
-/** A site's Bridge record in state `site` (§2.7): two pinned deck ends, no span, no way; a ford's kind `ford` (C-0225 (8)). */
+/** A site's Bridge record in state `site` (§2.7): two pinned deck ends, no span, no way; a ford's kind `ford` (C-0229 (8)). */
 export function siteBridge(site: CrossingSite, id: Id, epoch: number): Bridge {
   return {
     id,

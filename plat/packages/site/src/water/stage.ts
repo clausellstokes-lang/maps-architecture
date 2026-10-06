@@ -5,9 +5,12 @@
 // builds the bodies' polygons, sites the crossings over every reach (S1 (5)), commits the arena's outer ring alone and
 // then the water batch (shores, decks, owners, land, banks, pins), rebuilds the L0 index partitions at the stage's end
 // (§3.3) and checks §3.10's stage-end rows over every reference the water, the bridges, the land and the terrain hold —
-// a failing hard row refuses the stage E_INVARIANT — then writes Terrain.outfalls (S1 (9)). The stage draws nothing
+// a failing hard row refuses the stage E_INVARIANT — then writes Terrain.outfalls (S1 (9)). A water batch the kernel
+// refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and reported
+// (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first body, the
+// river, whose refusal is the stage's (C-0229 (2)). The stage draws nothing
 // (no stream key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel
-// parameter and the StageContext no kernel slot (C-0225 (1)).
+// parameter and the StageContext no kernel slot (C-0229 (1)).
 import { checkStageEnd, err, ok, STAGES, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
 import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
@@ -32,7 +35,7 @@ export interface S1StageOptions {
 
 /**
  * The batches' work limit (§5.1 (5)): the sum of the counters' laws over the batch — `vertices` the points it inserts,
- * `faces` its rings and the land around them (C-0225 (10)).
+ * `faces` its rings and the land around them (C-0229 (10)).
  */
 export function l0WorkLimit(vertices: number, faces: number): number {
   const t = loadWorkLimits();
@@ -81,7 +84,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   warnings.push(...ring.warnings);
   // the water: the fast rings first; a batch the kernel refuses on them is re-run on the kernel's own polygons (the
   // refused batch wrote nothing), so a ring the fast path's checks passed but the insertion could not keep never
-  // decides the outcome (C-0225 (2))
+  // decides the outcome (C-0229 (2))
   // A body the kernel refuses on both (its shore not a simple ring once inserted — a tributary meeting its river at a
   // grazing angle) is left out, reported `refused`, and the water re-run without it; the first body (the river) never
   // is: its refusal is the stage's (detect and refuse).
@@ -171,7 +174,7 @@ function laws(): WorkLimitLaw[] {
 
 /**
  * S1's L0 batch as §14's Stage: id S1, callback form, no stream key; its input is the runner's model record for the
- * batch (S1Input — the terrain, the water, the mouth, the façade), checked for its fields (C-0225 (1)).
+ * batch (S1Input — the terrain, the water, the mouth, the façade), checked for its fields (C-0229 (1)).
  */
 export function s1Stage(opts: S1StageOptions = {}): Stage<S1Input, S1Output, SiteEnv> {
   return Object.freeze({

@@ -30,7 +30,7 @@
 // (counter-clockwise from its lowest-leftmost vertex), then the holes in that vertex order.
 //
 // Representation-free (§3.3: "never a VertexId, HalfEdgeId or FaceId … identical results for the same next edit";
-// C-0207 (5); C-0219): every order this module makes is read from the geometry and the entity ids, never from a slot,
+// C-0207 (5); C-0230): every order this module makes is read from the geometry and the entity ids, never from a slot,
 // an intern handle or a record's stored start — a spine is keyed by its role's name and its entity's id (`spineKey`), and
 // each route ring of F is walked from its canonical start (`readFace`: its lowest-leftmost route vertex, a tie by the
 // next route vertex, as §3.3's face key), the holes after the outer ring in ring order. So the same arena after a save
@@ -107,7 +107,7 @@ function byText(a: string, b: string): number {
 }
 
 /**
- * The key a spine row is matched by: its role's name and its entity's id (C-0219) — slot- and handle-free, so the spines'
+ * The key a spine row is matched by: its role's name and its entity's id (C-0230) — slot- and handle-free, so the spines'
  * order (`kerbParts`, the overlay's second operand) and a boundary edge's spine set are the same on every copy of the
  * arena (a loaded block re-interns the ids, §3.9). A role name holds no ':', so the key is one-to-one.
  */
@@ -121,7 +121,7 @@ function comparePoints(a: LatticePoint, b: LatticePoint): number {
 }
 
 /**
- * The route half-edges of one ring rotated to the ring's canonical start (§3.3's face key, C-0219): the lowest-leftmost
+ * The route half-edges of one ring rotated to the ring's canonical start (§3.3's face key, C-0230): the lowest-leftmost
  * route vertex; where the ring visits it more than once, the visit whose following route vertices come first (y, then
  * x), one by one round the ring — never the record's stored start, which a load or a renumbering re-chooses.
  */

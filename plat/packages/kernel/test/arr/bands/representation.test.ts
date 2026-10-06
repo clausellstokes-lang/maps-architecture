@@ -1,6 +1,6 @@
 // M0-a-09: kerb(F), its corridor splits and corridorUnion are free of the arena's representation (§3.3: "never a
 // VertexId, HalfEdgeId or FaceId … identical results for the same next edit"; C-0207 (5): a loaded arena's next
-// operation equals the original's; C-0219). The integration check of group 10 (checks/integration-g10.md B-1) found
+// operation equals the original's; C-0230). The integration check of group 10 (checks/integration-g10.md B-1) found
 // the spines keyed by the entity's intern handle and the face's rings walked from the record's stored start, so a save
 // and load (ids re-interned, starts re-chosen) or a start re-draw changed the kerb and the S9 commit. Here one arena is
 // read three ways — as built, with every L1 face's stored starts re-drawn (another half-edge of each ring, the holes
@@ -95,7 +95,7 @@ function corridors(p: Plat): string {
   });
 }
 
-describe('the band ops read the geometry and the ids, never the representation (§3.3, C-0207 (5), C-0219)', () => {
+describe('the band ops read the geometry and the ids, never the representation (§3.3, C-0207 (5), C-0230)', () => {
   it('the same face reads, kerbs and splits (in order) with the stored starts re-drawn and after a save and load', () => {
     const p = build();
     const base = AT.map(([x, y]) => readText(p, faceAt(p, 1, x, y)));

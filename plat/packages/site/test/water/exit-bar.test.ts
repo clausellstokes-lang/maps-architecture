@@ -1,6 +1,6 @@
 // M0-e-03's exit bar, marked "here" (§4.2 S1 (5), (8), (9); §16 M0 (e)): "S1's L0 batch commits on 100 river seeds with
 // every hard invariant; every deck_end resolves; sites spaced ≥ 40 m". The 100 seeds run on the CITY rung over a 100 ha
-// frame (its arena 1.6 km; C-0225 (11)) — a river from the highest edge or a bearing, a tributary on even seeds, the
+// frame (its arena 1.6 km; C-0229 (11)) — a river from the highest edge or a bearing, a tributary on even seeds, the
 // basic estuary on every third — and three full CITY frames run the same checks. After each commit: the kernel's CI
 // sweep (§3.10 every hard row over the whole arena — the batch-local rows, the stored references, Euler per level),
 // each Bridge's two deck_end vertices resolving to one pinned vertex each, every pair of decks ≥ 40 m apart, and the
@@ -14,8 +14,8 @@ import { leftFaces, runS1, segSeg2 } from '../../src/water/index.js';
 import type { RiverRequest } from '../../src/hydro/index.js';
 import { ground, riverFixture } from './support.js';
 
-/** The checks on one seed; returns its site count. */
-function bar(seed: number, size: { areaHa?: number }): number {
+/** The checks on one seed; returns its site count and its report's degradations. */
+function bar(seed: number, size: { areaHa?: number }): { sites: number; refused: number; retried: boolean; slow: number } {
   const request: RiverRequest = {
     ...(seed % 4 === 1 ? { inflowBearingCdeg: (seed * 3700) % 36_000 } : {}),
     ...(seed % 2 === 0 ? { tributaries: [{}] } : {}),
@@ -62,7 +62,7 @@ function bar(seed: number, size: { areaHa?: number }): number {
     for (let j = i + 1; j < decks.length; j += 1) expect(Math.sqrt(segSeg2(decks[i][0], decks[i][1], decks[j][0], decks[j][1]))).toBeGreaterThanOrEqual(4000);
   }
   deckProperty(plat, out.water.bodies.map((b) => b.id), r.value.water.bodies.map((b) => kernel.resolve(b.face, GROUND_KEY)));
-  return out.sites.length;
+  return { sites: out.sites.length, refused: out.report.dropped.filter((d) => d.reason === 'refused').length, retried: out.report.retried, slow: out.report.fallbacks.length };
 }
 
 /** §2.2 rule 7 on the fixture: every L0 edge a shore or the ring, no deck edge, one face per body part. */
@@ -85,12 +85,24 @@ function deckProperty(plat: Plat, ids: string[], faces: ReturnType<ReturnType<ty
 describe('the exit bar: S1\'s L0 batch on 100 river seeds (§4.2 S1 (5), (8), (9); §16 M0 (e))', () => {
   it('100 seeds on the CITY rung (100 ha frame): every commit holds every hard invariant, every deck_end resolves, sites ≥ 40 m apart', () => {
     let sites = 0;
-    for (let seed = 1; seed <= 100; seed += 1) sites += bar(seed, { areaHa: 100 });
-    // the bar is not vacuous: the seeds site crossings
+    let refused = 0;
+    let retried = 0;
+    let slow = 0;
+    for (let seed = 1; seed <= 100; seed += 1) {
+      const r = bar(seed, { areaHa: 100 });
+      sites += r.sites;
+      refused += r.refused;
+      retried += r.retried ? 1 : 0;
+      slow += r.slow;
+    }
+    // the bar is not vacuous: the seeds site crossings; the degradations stay rare (reported, never silent)
     expect(sites).toBeGreaterThan(300);
+    expect(refused).toBeLessThanOrEqual(3);
+    expect(retried).toBeLessThanOrEqual(5);
+    process.env.PLAT_S1_TALLY = JSON.stringify({ sites, refused, retried, slow });
   }, 900_000);
 
   it('three full CITY frames, among them a ring the fast path refuses (the kernel\'s buffer takes it): the same checks', () => {
-    for (const seed of [4, 10, 3]) expect(bar(seed, {})).toBeGreaterThan(0);
+    for (const seed of [4, 10, 3]) expect(bar(seed, {}).sites).toBeGreaterThan(0);
   }, 900_000);
 });

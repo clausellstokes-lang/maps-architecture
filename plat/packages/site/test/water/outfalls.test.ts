@@ -1,6 +1,6 @@
 // M0-e-03's outfalls (§4.2 S1 (9): "per water body, each 50 m bank stretch (`outfallStretchM`) into which D8 flow from
 // land enters, and each 50 m of frame edge the flow leaves by, as one `Outfall` at its cell of largest accumulation";
-// §2.3's Outfall; C-0225 (9)) on hand-built hydrology: a river along y = 0 across a 500 m × 200 m arena on a 25 m grid,
+// §2.3's Outfall; C-0229 (9)) on hand-built hydrology: a river along y = 0 across a 500 m × 200 m arena on a 25 m grid,
 // the land's D8 set by hand, its accumulation varying cell by cell — so the expected outfalls are read off the layout.
 import type { Cm, CmArray, HydroGrid, Terrain, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';

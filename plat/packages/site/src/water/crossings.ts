@@ -4,7 +4,7 @@
 // `bridge_site`, with a minimum spacing (FTG's 40 m as the default). Each site is a pinned deck: a bank-to-bank segment
 // perpendicular to the local flow (the course tangent averaged over one channel width upstream and downstream)".
 //
-// Readings (C-0225 (5)): the search band is a window of `bandM` along each reach's course, from its first course point
+// Readings (C-0229 (5)): the search band is a window of `bandM` along each reach's course, from its first course point
 // — every window offers its narrowest deck; "shallowest" has no measure at M0 (`depthCm` stays absent, C-0173 (7)), so
 // the width alone ranks. A candidate stands at every interior course vertex whose one-width window up and downstream
 // lies on the course: the flow there is the unit chord from the course point one width upstream to the one a width

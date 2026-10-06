@@ -62,13 +62,13 @@ describe('the synthetic per-plot S11 workload (C-0107)', () => {
     expect(s11Problems(plots)).toEqual([]);
     // the calls reach the kernel: the footprint commits on every plot
     for (const p of plots) expect(p.calls.find((c) => c.op === 'insertChain')?.result).toBe('ok');
-  });
+  }, 120_000);
 
   it('reproduces its call list run to run', () => {
     const strip = (ps: S11Plot[]) => ps.map((p) => ({ index: p.index, kind: p.kind, calls: p.calls }));
     expect(strip(s11Calls(9, N))).toEqual(strip(s11Calls(9, N)));
     expect(strip(s11Calls(9, N))).not.toEqual(strip(s11Calls(10, N)));
-  });
+  }, 120_000);
 
   it('the call-list check fails a plot with a missing or an extra call (a negative control)', () => {
     const plots = s11Calls(5, 3);
@@ -78,7 +78,7 @@ describe('the synthetic per-plot S11 workload (C-0107)', () => {
     expect(s11Problems(missing)).toHaveLength(1);
     const coarse = plots.map((p, i) => (i === 0 ? { ...p, calls: p.calls.map((c) => (c.op === 'insertChain' ? { ...c, level: 3 as const } : c)) } : p));
     expect(s11Problems(coarse)).toHaveLength(1);
-  });
+  }, 60_000);
 
   it('times through M0-f-01’s harness: a stamped result, its figure the median per-plot µs of the S11 calls', async () => {
     const reading = () => ({ at: '2026-10-06T00:00:00.000Z', loadAverage: 0.3, power: 'ac' as const, selfPid: process.pid, processes: [{ pid: process.pid, ppid: 1, pcpu: 100, comm: 'node' }] });

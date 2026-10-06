@@ -1,4 +1,4 @@
-// The water polygon's fast construction (M0-e-03; C-0225 (2)): a body's shore ring as the two offset lines of its
+// The water polygon's fast construction (M0-e-03; C-0229 (2)): a body's shore ring as the two offset lines of its
 // (simplified) course at half its width — the left line out, the right line back — with mitred joins (a bevel past twice
 // the half-width), the small loops a tight inner bend makes erased, a round or flat cap at each end, clipped to the
 // arena's rectangle, and a tributary's mouth cut along the shore of the river it joins. It is the same region the

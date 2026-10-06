@@ -1,7 +1,7 @@
 // M0-e-03's siteCrossings (§4.2 S1 (5): "The narrowest and shallowest reaches within the search band … become crossing
 // sites, typed `ford` (width < table) or `bridge_site`, with a minimum spacing (FTG's 40 m as the default). Each site is
 // a pinned deck: a bank-to-bank segment perpendicular to the local flow (the course tangent averaged over one channel
-// width upstream and downstream)"; C-0225 (5)) on hand-built reaches — rectangles and bends whose banks are known.
+// width upstream and downstream)"; C-0229 (5)) on hand-built reaches — rectangles and bends whose banks are known.
 import type { LatticePoint } from '@plat/kernel';
 import type { Cm, CmArray, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';

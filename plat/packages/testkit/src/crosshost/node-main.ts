@@ -16,17 +16,21 @@ export interface CrossHostNodeRequest {
   readonly workers: CrossHostWorkers;
 }
 
+/** `sysctl -n sysctl.proc_translated` (macOS: 1 for a process Rosetta 2 translates), or null where there is none. */
+function procTranslated(): string | null {
+  try {
+    return execFileSync('/usr/sbin/sysctl', ['-n', 'sysctl.proc_translated'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
+  } catch {
+    return null;
+  }
+}
+
 /** The host kind of this process: arm64 native; x64 translated by Rosetta 2 (sysctl.proc_translated = 1); x64 native. */
-export function crossHostNodeKind(arch: string = process.arch, platform: string = process.platform): CrossHostKind {
+export function crossHostNodeKind(arch: string = process.arch, platform: string = process.platform, translated: () => string | null = procTranslated): CrossHostKind {
   if (arch === 'arm64') return 'native-arm64';
   if (arch !== 'x64') throw new Error(`crosshost: unsupported architecture ${JSON.stringify(arch)} (§12.1 names arm64 and x86-64 hosts)`);
   if (platform !== 'darwin') return 'native-x64';
-  try {
-    const t = execFileSync('/usr/sbin/sysctl', ['-n', 'sysctl.proc_translated'], { encoding: 'utf8', stdio: ['ignore', 'pipe', 'ignore'] }).trim();
-    return t === '1' ? 'rosetta' : 'native-x64';
-  } catch {
-    return 'native-x64';
-  }
+  return translated() === '1' ? 'rosetta' : 'native-x64';
 }
 
 /** §12.1's host record of this Node process. */

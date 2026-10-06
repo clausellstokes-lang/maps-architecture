@@ -1,6 +1,6 @@
 // M0-a-09's band ops are representation-free (§3.3: "Every tie-break in the kernel uses lattice positions (y, then x),
 // canonical item keys … or entity ids, never a VertexId, HalfEdgeId or FaceId … identical results for the same next
-// edit"; C-0207 (5): a loaded arena's next operation equals the original's; §4.6's S8 ≡ S9 on a loaded arena; C-0219).
+// edit"; C-0207 (5): a loaded arena's next operation equals the original's; §4.6's S8 ≡ S9 on a loaded arena; C-0230).
 // The integration check of group 10 (checks/integration-g10.md B-1) found kerb(F) and corridorUnion ordering their
 // spines by the entity's intern handle and their outline pieces and corridor splits by the face record's stored start,
 // so a save and load (the ids re-interned, the starts re-chosen, M0-a-15) or M0-d-08's start re-draw changed the kerb,
@@ -114,7 +114,7 @@ const named = (id: string): ConstructiveCase => {
   return c;
 };
 
-describe('kerb and corridorUnion read the geometry and the ids, never the representation (§3.3, C-0207 (5), C-0219)', () => {
+describe('kerb and corridorUnion read the geometry and the ids, never the representation (§3.3, C-0207 (5), C-0230)', () => {
   it('the integration check’s repros: the same kerb and the same S9 commit on the loaded and start-re-drawn copies', { timeout: 120_000 }, () => {
     // integration-g10 B-1: on-segment-split#0 (the kerb's hole and the commit after a load), one-point-touch#1 (a
     // refusal on the original against a commit on the loaded copy), collinear-overlap-same#1 (the start re-draw alone),

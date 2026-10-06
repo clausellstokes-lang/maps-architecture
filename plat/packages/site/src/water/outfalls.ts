@@ -3,7 +3,7 @@
 // accumulation"; §2.3's `Outfall`: `into` from the receiving water's kind, `water` the body (null at the frame), `at` the
 // bank point on the receiving body's shore or the frame-edge point, `cell` the `hydro` cell containing `at`).
 //
-// Readings (C-0225 (9)), on the hydrology grid S1 (3) left in the terrain record: a body's cells are those whose
+// Readings (C-0229 (9)), on the hydrology grid S1 (3) left in the terrain record: a body's cells are those whose
 // centre lies inside its polygon, and its course's cells (the river is often narrower than a cell); a cell of no body is
 // land. A land cell whose D8 step lands in a body's cell drains into that body; the bank point is the nearest point to
 // the cell's centre on the body's bank — its polygon's segments off the arena's outer ring — rounded to the centimetre;

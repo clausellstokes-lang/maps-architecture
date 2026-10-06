@@ -2,8 +2,8 @@
 // edges; land components by flood fill"; §2.2 rule 7: coincident features are one edge with several roles): the outer
 // ring first and alone; a river across the arena sharing the ring's edge where it reaches it; a tributary meeting its
 // river; the basic estuary; a closed channel round an island; the batch's refusal writing nothing.
-import { rowKey, rowsOn, STAGES, type Kernel, type Plat } from '@plat/kernel';
-import type { Cm, CmArray, Frame, WaterBody } from '@plat/model';
+import { rowKey, rowsOn, STAGES, type Frame, type Kernel, type Plat } from '@plat/kernel';
+import type { Cm, CmArray, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { GROUND_KEY } from '../../src/terrain/index.js';
 import { landComponents, leftFaces, outerRingBatch, reachOf, splitEstuary, waterFaces, waterPolygons, type WaterReach } from '../../src/water/index.js';
