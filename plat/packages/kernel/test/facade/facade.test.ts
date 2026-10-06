@@ -5,16 +5,16 @@
 // Every writer and every keyed service is judged against the module that builds it on a twin arena: the façade adds no
 // geometry of its own.
 import { describe, expect, it } from 'vitest';
-import { faceWalk, resolve as resolveOn, signature as signatureOn, type FaceId, type Plat } from '../../src/arena/index.js';
+import { faceWalk, isFaceLive, resolve as resolveOn, signature as signatureOn, type FaceId, type Plat } from '../../src/arena/index.js';
 import { bandUnion, corridorUnion, insetRing, kerb, offsetFace } from '../../src/arr/index.js';
 import { absorbSliver, claimSubFace, connectHole, mergeFaces, pinVertices, radialSplit, ringBand, splitFace } from '../../src/faces/index.js';
 import { createKernel, type Kernel } from '../../src/facade/index.js';
 import { faceNeighbours, faceRings, sampleBoundary, sideRuns } from '../../src/geom/index.js';
-import { pointLocate, query } from '../../src/index/index.js';
+import { OUTSIDE, pointLocate, query, rebuildAtStageEnd } from '../../src/index/index.js';
 import { insertChain, splitThrough } from '../../src/insert/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, setOwner, tx, type Overlay } from '../../src/tx/index.js';
-import type { Level, PlatKey } from '../../src/types/index.js';
+import type { Cm, Level, PlatKey } from '../../src/types/index.js';
 import { warp } from '../../src/warp/index.js';
 import { AT_S9 } from '../arr/bands/support.js';
 import { faceAt } from '../faces/support.js';
@@ -382,5 +382,186 @@ describe('the view and the lattice-point signature on finer and reordered arenas
     commit(q, 0, (o) => k.geom.setOwner(o, [f], 'd:0'), { key: RAISED });
     expect(q.faces[0].owner[f]).toBe(0);
     expect(k.view(RAISED, 0).owner(f)).toBe('d:0');
+  });
+});
+
+// ---- argument forwarding off L1 and off the default arguments (fix round 1 of check/M0-a-16, B-1) -------------------
+// §3.4's `faceNeighbours(key, face, level)`, `sampleProfile(p, owner, key, atCm)`, `sampleBoundary(face, stepCm)`,
+// `sideRuns(face, turnTolCdeg, opts)`, §14's `view(key, level)` and the index's `query` / `rebuildAtStageEnd(key,
+// district)`: each door hands its module the level and the arguments it was given. The fixture has content at L2 and
+// L3, and each test first shows that the values it compares differ from L1's (or from the default argument's), so a
+// door that read L1 or dropped an argument fails.
+
+const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
+const BOXES = [
+  { minX: 0, minY: 0, maxX: 2500, maxY: 2500 },
+  { minX: 400, minY: 400, maxX: 1200, maxY: 900 },
+  { minX: 0, minY: 2500, maxX: 4000, maxY: 4000 },
+];
+const POINTS = [pt(500, 500), pt(1500, 500), pt(1000, 500), pt(500, 1500), pt(1000, 1000), pt(1000, 3000), pt(3000, 3000)];
+const KNOTTED = { knotRole: 'width_knot', values: [300, 500], interp: 'linear' as const };
+
+/**
+ * The crossing (four L1 faces of district:1) plus an L2 district line across the lower-left quad (y = 1000), an L3
+ * plot line in its lower half (x = 1000), an L1 way:5 along y = 3000 with two width knots, and owners set at L2
+ * ('blk:2') and L3 ('lot:3') that no L1 face has.
+ */
+function layered(): Plat {
+  const { p } = crossing();
+  commit(p, 2, (o) => insertChain(o, [pt(0, 1000), pt(2000, 1000)], [{ role: 'district_bound', entity: 'd:2' }], 'mandatory'));
+  commit(p, 3, (o) => insertChain(o, [pt(1000, 0), pt(1000, 1000)], [{ role: 'plot_line', entity: 'b:3' }], 'mandatory'));
+  commit(p, 1, (o) =>
+    insertChain(o, [pt(0, 3000), pt(2000, 3000)], [{ role: 'way', entity: 'way:5' }], 'mandatory', {
+      knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }],
+    }),
+  );
+  commit(p, 2, (o) => setOwner(o, [faceAt(p, 2, 1000, 500)], 'blk:2'));
+  commit(p, 3, (o) => setOwner(o, [faceAt(p, 3, 500, 500)], 'lot:3'));
+  return p;
+}
+
+/** The live face slots of `level`, ascending. */
+function liveAt(p: Plat, level: Level): FaceId[] {
+  const out: FaceId[] = [];
+  for (let f = 0; f < p.slots.face[level].top; f += 1) if (isFaceLive(p, level, f)) out.push(f);
+  return out;
+}
+
+/** Do two reads give different outcomes (a value or a throw)? */
+const differs = (a: () => unknown, b: () => unknown): boolean => outcome(a) !== outcome(b);
+
+describe('the keyed and levelled doors forward their level and arguments (L0 … L4, non-default arguments)', () => {
+  it('view(key, level) reads rings, owner, neighbours, query and pointLocate at its level; geom.faceNeighbours, geom/index pointLocate and index.query at the level handed', () => {
+    const p = layered();
+    healthy(p);
+    const k = kernelOver([p]);
+    // how often a level's answer differs from L1's for the same arguments (the fixture's precondition, below)
+    const off = { rings: 0, neighbours: 0, query: 0, locate: 0 };
+    const owners = new Map<Level, Set<string>>();
+    for (const l of LEVELS) {
+      const v = k.view(GROUND, l);
+      expect(v.level).toBe(l);
+      const fs = v.faces();
+      expect([...fs].sort((a, b) => a - b)).toEqual(liveAt(p, l));
+      for (const box of BOXES) {
+        const want = query(p, GROUND, l, box);
+        expect(v.query(box), `L${l} view.query`).toEqual(want);
+        expect(k.index.query(GROUND, l, box), `L${l} index.query`).toEqual(want);
+        expect(v.query(box, { vertices: true })).toEqual(query(p, GROUND, l, box, { vertices: true }));
+        expect(k.index.query(GROUND, l, box, { vertices: true })).toEqual(query(p, GROUND, l, box, { vertices: true }));
+        if (l !== 1 && differs(() => want, () => query(p, GROUND, 1, box))) off.query += 1;
+      }
+      for (const at of POINTS) {
+        const want = pointLocate(p, GROUND, l, at);
+        expect(v.pointLocate(at), `L${l} view.pointLocate ${at.x},${at.y}`).toEqual(want);
+        expect(k.geom.pointLocate(GROUND, l, at)).toEqual(want);
+        expect(k.index.pointLocate(GROUND, l, at)).toEqual(want);
+        if (l !== 1 && differs(() => want, () => pointLocate(p, GROUND, 1, at))) off.locate += 1;
+      }
+      const named = new Set<string>();
+      for (const f of fs) {
+        const rings = faceRings(p, l, f);
+        expect(v.rings(f), `L${l} view.rings ${f}`).toEqual(rings);
+        const nb = faceNeighbours(p, GROUND, f, l);
+        expect(v.neighbours(f), `L${l} view.neighbours ${f}`).toEqual(nb);
+        expect(k.geom.faceNeighbours(GROUND, f, l), `L${l} geom.faceNeighbours ${f}`).toEqual(nb);
+        // the owner as the level's own record names it: resolve({ owner, level }) lists the face at that level
+        const o = v.owner(f);
+        if (o !== null) {
+          named.add(o);
+          const r = resolveOn(p, { owner: o, level: l }, GROUND);
+          expect(r.view === 'faces' ? r.faces : [], `L${l} owner ${o} of ${f}`).toContain(f);
+        }
+        if (l !== 1 && differs(() => rings, () => faceRings(p, 1, f))) off.rings += 1;
+        if (l !== 1 && differs(() => nb, () => faceNeighbours(p, GROUND, f, 1))) off.neighbours += 1;
+      }
+      owners.set(l, named);
+    }
+    // the fixture's precondition: every compared read has a level whose answer is not L1's
+    expect(off.rings).toBeGreaterThan(0);
+    expect(off.neighbours).toBeGreaterThan(0);
+    expect(off.query).toBeGreaterThan(0);
+    expect(off.locate).toBeGreaterThan(0);
+    // the owners are each level's own: L2's and L3's are not L1's
+    expect([...(owners.get(1) ?? [])]).toEqual(['district:1']);
+    expect(owners.get(2)?.has('blk:2')).toBe(true);
+    expect(owners.get(3)?.has('lot:3')).toBe(true);
+    expect(owners.get(1)?.has('blk:2')).toBe(false);
+    expect(k.view(GROUND, 2).owner(faceAt(p, 2, 1000, 500))).toBe('blk:2');
+    expect(k.view(GROUND, 3).owner(faceAt(p, 3, 500, 500))).toBe('lot:3');
+  });
+
+  it('sideRuns and sampleBoundary handed a face read it at the open transaction\'s level (L2, L3), with the stepCm and opts given', () => {
+    const p = layered();
+    const k = kernelOver([p]);
+    let offLevel = 0;
+    let offStep = 0;
+    for (const l of [2, 3] as const) {
+      const fs = liveAt(p, l);
+      let got: unknown[] = [];
+      k.tx(spec(l), () => {
+        got = fs.map((f) => [k.geom.sideRuns(f, 500), k.geom.sideRuns(f, 500, { arcMaxCm: 400 }), k.geom.sampleBoundary(f, 250), k.geom.sampleBoundary(f, 100)]);
+        return okv(0);
+      });
+      const want = fs.map((f) => {
+        const rings = faceRings(p, l, f);
+        if (differs(() => rings, () => faceRings(p, 1, f))) offLevel += 1;
+        if (differs(() => sampleBoundary(rings, 250), () => sampleBoundary(rings, 100))) offStep += 1;
+        return [sideRuns(rings, 500), sideRuns(rings, 500, { arcMaxCm: 400 }), sampleBoundary(rings, 250), sampleBoundary(rings, 100)];
+      });
+      expect(got, `L${l}`).toEqual(want);
+    }
+    expect(offLevel).toBeGreaterThan(0);
+    expect(offStep).toBeGreaterThan(0);
+  });
+
+  it('sideRuns forwards its opts and sampleBoundary its stepCm (rings as values, and a face inside a transaction)', () => {
+    // a square with its top-right corner filleted by six chords of about 261 cm turning 15° each
+    const arc = [0, 15, 30, 45, 60, 75, 90].map((d) => pt(3000 + Math.round(1000 * Math.cos((d * Math.PI) / 180)), 3000 + Math.round(1000 * Math.sin((d * Math.PI) / 180))));
+    const filleted = [[pt(0, 0), pt(4000, 0), ...arc, pt(0, 4000)]];
+    const k = kernelOver([layered()]);
+    const opts = { arcMaxCm: 300 };
+    expect(k.geom.sideRuns(filleted, 500, opts)).toEqual(sideRuns(filleted, 500, opts));
+    expect(k.geom.sideRuns(filleted, 500)).toEqual(sideRuns(filleted, 500));
+    // the precondition: the opts change the answer
+    expect(differs(() => sideRuns(filleted, 500, opts), () => sideRuns(filleted, 500))).toBe(true);
+    // an opts the module refuses is refused through the façade
+    expect(() => k.geom.sideRuns(filleted, 500, { arcMaxCm: -1 })).toThrow(RangeError);
+    for (const step of [1, 250, 777]) expect(k.geom.sampleBoundary(filleted, step)).toEqual(sampleBoundary(filleted, step));
+    expect(differs(() => sampleBoundary(filleted, 777), () => sampleBoundary(filleted, 100))).toBe(true);
+    expect(() => k.geom.sampleBoundary(filleted, 0)).toThrow(RangeError);
+  });
+
+  it('sampleProfile forwards a numeric atCm (as its module samples it; not the per-vertex answer)', () => {
+    const p = layered();
+    const k = kernelOver([p]);
+    const per = sampleProfile(p, KNOTTED, 'way:5', GROUND, 'perVertex');
+    expect(k.geom.sampleProfile(KNOTTED, 'way:5', GROUND, 'perVertex')).toEqual(per);
+    for (const at of [100, 250, 700] as const) {
+      const want = sampleProfile(p, KNOTTED, 'way:5', GROUND, at as Cm);
+      expect(k.geom.sampleProfile(KNOTTED, 'way:5', GROUND, at as Cm), `atCm ${at}`).toEqual(want);
+      expect(differs(() => want, () => per), `atCm ${at} differs from perVertex`).toBe(true);
+    }
+  });
+
+  it('index.rebuildAtStageEnd forwards its district: only that district\'s L2–L4 partitions are rebuilt, as the module does on a twin', () => {
+    const A = layered();
+    const B = layered();
+    const C = layered();
+    const k = kernelOver([A]);
+    const all = rebuildAtStageEnd(C);
+    const district = rebuildAtStageEnd(B, OUTSIDE);
+    // the precondition: the district's rebuild is a proper, non-empty part of the whole one
+    expect(district).toBeGreaterThan(0);
+    expect(all).toBeGreaterThan(district);
+    expect(k.index.rebuildAtStageEnd(GROUND, OUTSIDE)).toBe(district);
+    expect(state(A)).toBe(state(B));
+    expect(k.index.rebuildAtStageEnd(GROUND, 'district:none')).toBe(rebuildAtStageEnd(B, 'district:none'));
+    // the coarse partitions the district's rebuild left dirty are rebuilt by the stage's whole rebuild
+    const rest = rebuildAtStageEnd(B);
+    expect(rest).toBe(all - district);
+    expect(k.index.rebuildAtStageEnd(GROUND)).toBe(rest);
+    expect(state(A)).toBe(state(B));
+    healthy(A);
   });
 });
