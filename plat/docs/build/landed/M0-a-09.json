@@ -1,0 +1,46 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-a-09",
+  "lane": "build/M0-a-09",
+  "lanes": ["build/M0-a-09"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-06T05:20:13.744Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/kernel/src/arr/kerb.ts", "plat/packages/kernel/src/arr/corridorUnion.ts", "plat/packages/kernel/src/arr/bandUnion.ts", "plat/packages/kernel/src/arr/tileRings.ts", "plat/packages/kernel/src/arr/index.ts (handed over from M0-a-08: this item appends its four re-export lines — kerb, corridorUnion, bandUnion, tileRings — C-0122)", "plat/packages/kernel/test/arr/bands/", "plat/packages/testkit/test/kernel/arr-bands/ (the tileRings and corridorUnion oracle comparisons — M0-k-03's oracles, M0-k-01's arbitraries, M0-k-02's band cases; C-0122)"],
+  "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/kernel/src/arr/bandUnion.ts", "status": "created", "sha256": "0363473f8d8f8fbb9c8c99756190e394fbc9230f77669da5fcd4d7f2d3bbb4f7", "size": 18525 },
+    { "path": "plat/packages/kernel/src/arr/corridorUnion.ts", "status": "created", "sha256": "698092d3428f8cd0e377f02b01fa954ad1f9dda6a1408145b30c0f15e74c8e00", "size": 3762 },
+    { "path": "plat/packages/kernel/src/arr/index.ts", "status": "changed", "sha256": "2aef8a67d7a6491243fc7b3c3ec40f5bb31467663ab4ffdeaa62a8f224313416", "size": 1132 },
+    { "path": "plat/packages/kernel/src/arr/kerb.ts", "status": "created", "sha256": "265223264213ce99aa881ac221fa3a6af7b844ebca3d9e3f488fed188d323e27", "size": 25363 },
+    { "path": "plat/packages/kernel/src/arr/tileRings.ts", "status": "created", "sha256": "2e2d82169ad89d75f4e342bf00e84ab1b7a2bdaf6231943dd4d979b40704c0f3", "size": 7749 },
+    { "path": "plat/packages/kernel/test/arr/bands/band.test.ts", "status": "created", "sha256": "d07e1f93c0a0e04b96fa923e995c00e9fc400fe855e88e07fc92f1cc11ae33ab", "size": 5745 },
+    { "path": "plat/packages/kernel/test/arr/bands/bfuzz.test.ts", "status": "created", "sha256": "26f9df64303565807b43fcf022db8165cffe259abe1ba92d5a20380e38c37799", "size": 10086 },
+    { "path": "plat/packages/kernel/test/arr/bands/corridor.test.ts", "status": "created", "sha256": "80238fba82391f92c755a25822b480dba1189602ffa7c8e137b6c4bb29ed26c5", "size": 24672 },
+    { "path": "plat/packages/kernel/test/arr/bands/kerb.test.ts", "status": "created", "sha256": "0a8fc1a3c001d6d75257352bfe3de2981e44fc6fcdd8a372c5633f0c36b62262", "size": 12212 },
+    { "path": "plat/packages/kernel/test/arr/bands/refusals.json", "status": "created", "sha256": "a3eed5e7605c8f306a9f81cd8bc23c04fba20be8f4021d02f7d6768cb7a23a83", "size": 185969 },
+    { "path": "plat/packages/kernel/test/arr/bands/register.test.ts", "status": "created", "sha256": "6b1b32d9552853602adbc472f1371eadf80390266bc23faf1a918c212b62e67b", "size": 7588 },
+    { "path": "plat/packages/kernel/test/arr/bands/replay.ts", "status": "created", "sha256": "48a1a8dc14c0a036003459b51549959a0d8e019d66a713c71780f53ab5a51d2b", "size": 10787 },
+    { "path": "plat/packages/kernel/test/arr/bands/support.ts", "status": "created", "sha256": "0effcd2502bb081c8080f070f2e86abf23f7f71da18ed596ed124e78b09e0ab9", "size": 14845 },
+    { "path": "plat/packages/kernel/test/arr/bands/tileRings.test.ts", "status": "created", "sha256": "2c55f78fc3090e960956842dd07fd6a15c32e1911c0c74c0bc5d6cb348f351e1", "size": 8493 },
+    { "path": "plat/packages/testkit/test/kernel/arr-bands/agreement-corridor.test.ts", "status": "created", "sha256": "cb22ad2bf938240cc492420f2244ca23d35010a52aeaf0f650993ebc2f89f631", "size": 1281 },
+    { "path": "plat/packages/testkit/test/kernel/arr-bands/agreement-tilerings.test.ts", "status": "created", "sha256": "3f8cabaf97640f28c04a3d2705c2ae341f48be01570a82cc5a3ed368cec2b233", "size": 1200 },
+    { "path": "plat/packages/testkit/test/kernel/arr-bands/guard.test.ts", "status": "created", "sha256": "9e7278cf56e6a0d76b02d60d210792c3feaaef527f1ebc9cb120d7359e5e070f", "size": 2291 },
+    { "path": "plat/packages/testkit/test/kernel/arr-bands/support.ts", "status": "created", "sha256": "b817b6d1f1065b11dd7f4bf13669fdb7488731222ebd33d400bb05ac177408d5", "size": 27948 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0195", "L-0198"],
+      "lines": ["98bd64b81786b0c7", "59a63b2ab9ed8174"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0212", "C-0218"],
+      "lines": ["c740a925e702d944", "2174c419de3e3aa7"],
+      "removed": []
+    }
+  ]
+}
