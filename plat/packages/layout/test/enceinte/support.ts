@@ -6,6 +6,7 @@ import {
   createKernel,
   createPlat,
   dest,
+  err,
   isHalfEdgeLive,
   isVertexLive,
   outgoing,
@@ -269,7 +270,7 @@ export function handBuildWater(k: Kernel, ring: readonly LatticePoint[], id = 'r
   const inner = P(Math.round(cx / ring.length), Math.round(cy / ring.length));
   const r = k.tx(spec, (o) => {
     const a = k.geom.insertChain(o, ring, [{ role: 'shore', entity: id }, { role: 'bank', entity: id }], 'mandatory', { closed: true });
-    if (!a.ok) return a;
+    if (!a.ok) return err(a.code, a.detail);
     const loc = k.geom.pointLocate(GROUND, 0, inner);
     if (loc.on !== 'face') throw new Error('support: no water face');
     return k.geom.setOwner(o, [loc.face], id);

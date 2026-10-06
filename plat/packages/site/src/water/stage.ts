@@ -111,6 +111,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
       sites,
       report: {
         dropped: polys.value.dropped,
+        fallbacks: polys.value.fallbacks,
         versions: [ring.value, version],
         stageEnd: rows.map((r) => ({ name: r.name, holds: r.holds, count: r.subjects })),
         warnings,

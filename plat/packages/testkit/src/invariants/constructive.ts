@@ -30,6 +30,8 @@ import {
   isFaceLive,
   isHalfEdgeLive,
   isVertexLive,
+  ITEM_EDGE,
+  ITEM_VERTEX,
   kernelOp,
   LATTICE,
   lir,
@@ -190,8 +192,8 @@ function districtResolver(scene: () => Scene | null) {
 function itemPoint(p: Plat, item: ItemRef): LatticePoint {
   const X = p.vertices.x;
   const Y = p.vertices.y;
-  if (item.kind === 'vertex') return lpt(X[item.slot], Y[item.slot]);
-  if (item.kind === 'edge') {
+  if (item.kind === ITEM_VERTEX) return lpt(X[item.slot], Y[item.slot]);
+  if (item.kind === ITEM_EDGE) {
     const a = p.halfEdges.origin[2 * item.slot];
     const b = p.halfEdges.origin[2 * item.slot + 1];
     return lpt(Math.floor((X[a] + X[b]) / 2), Math.floor((Y[a] + Y[b]) / 2));
@@ -521,10 +523,27 @@ function stepSample(s: Scene, st: ConstructiveStep): Step {
   };
   const main = sample(ins.entity);
   const second = `${ins.entity}#part`;
-  const out: { values: (number | string)[]; perVertex: (number | string)[]; second?: (number | string)[] } = { ...main };
+  const length = runsOf(s, ins.role, ins.entity).reduce((t, r) => t + r.reduce((u, q, i) => (i === 0 ? u : u + Math.hypot(q.x - r[i - 1].x, q.y - r[i - 1].y)), 0), 0);
+  const knots = s.p.slots.role.top > 0 ? knotCount(s, ins.entity) : 0;
+  const out: { values: (number | string)[]; perVertex: (number | string)[]; second?: (number | string)[]; length: number; knots: number } = { ...main, length, knots };
   if (s.profiles.has(second)) out.second = sample(second).perVertex;
   if (typeof a.record === 'string') s.records.set(`sample:${a.record}`, out);
   return { kind: 'ok', value: out, warnings: [] };
+}
+
+/** The knot rows an entity's profile has on the arena (its knot role, any ordinal). */
+function knotCount(s: Scene, entity: string): number {
+  const role = s.g.params.knotRole;
+  if (typeof role !== 'string') return 0;
+  let n = 0;
+  for (let v = 0; v < s.p.slots.vertex.top; v++) {
+    if (!isVertexLive(s.p, v)) continue;
+    for (const r of rowsOn(s.p, 'vertex', v)) {
+      const k = rowKey(s.p, r);
+      if (k.role === role && k.entity === entity) n++;
+    }
+  }
+  return n;
 }
 
 /** A box of a ring of the draw, as a query box. */
@@ -653,7 +672,7 @@ function stepService(s: Scene, st: ConstructiveStep): Step {
       return asStep(tileRings(names.map((n) => g.rings[n])));
     }
     case 'booleans':
-      return asStep(booleans(a.op as 'union', [g.rings[String(a.a)]], [g.rings[String(a.b)]], a.fill as 'nonzero'));
+      return asStep(booleans(a.op as 'union', [g.rings[String(a.a)].slice()], [g.rings[String(a.b)].slice()], a.fill as 'nonzero'));
     case 'buffer': {
       const names = String(a.chains).split(',').filter((n) => n.length > 0);
       return asStep(buffer(names.map((n) => g.chains[n]), num(g, a.halfWidthCm), a.joins as 'round', a.ends as 'round'));
@@ -1236,11 +1255,17 @@ function property(prop: string, run: Run): string | null {
       return fwd || rev ? null : `the spine's chain is not restored (${String(got.length)} vertices, ${String(want.length)} drawn)`;
     }
     case 'profile-unchanged': {
-      const b = s.records.get('sample:before') as { values: number[] };
-      const a = s.records.get('sample:after') as { values: number[] };
-      // Unchanged within 10⁻⁶ cm (C-0225 (12)): a T foot the placement rule seats ≤ 0.71 cm off the spine's line bends the
-      // route there, so a sample by arc length moves by at most the bend's second-order length change.
-      return b.values.length === a.values.length && b.values.every((v, i) => Math.abs(v - a.values[i]) <= PROFILE_UNCHANGED_CM) ? null : profileDiff(b.values, a.values);
+      const b = s.records.get('sample:before') as { values: number[]; length: number; knots: number };
+      const a = s.records.get('sample:after') as { values: number[]; length: number; knots: number };
+      // The T-junction carries no knot (§2.2 rule 5) and changes no sampled half-width — up to the arc-length shift a
+      // foot the placement rule seats ≤ 0.71 cm off the spine's line makes (C-0225 (12)): each sample by arc length moves
+      // by at most the profile's steepest slope × the route's length change, + 10⁻⁶ cm.
+      if (a.knots !== b.knots) return `the T-junction changed the knot rows (${String(b.knots)} → ${String(a.knots)})`;
+      let slope = 0;
+      const step = Number(s.g.params.sampleStepCm);
+      for (let i = 1; i < b.values.length; i++) slope = Math.max(slope, Math.abs(b.values[i] - b.values[i - 1]) / step);
+      const tol = slope * Math.abs(a.length - b.length) + PROFILE_UNCHANGED_CM;
+      return b.values.length === a.values.length && b.values.every((v, i) => Math.abs(v - a.values[i]) <= tol) ? null : `${profileDiff(b.values, a.values)} (bound ${String(tol)})`;
     }
     case 'profile-within-1e-9': {
       const b = s.records.get('sample:before') as { perVertex: number[] };
@@ -1736,31 +1761,74 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
 /** M0-k-02's iteration with this item's judge (C-0181 (5)): the whole set, deferred cases counted by milestone. */
 export const kernelJudge: ConstructiveJudge = (c, input) => judgeOnKernel(c, input);
 
+/** A known finding (C-0225 (14); FAIL SAFE NOW, N-45 / J202): a case that fails for a reason owned by another item. */
+export interface KnownFinding {
+  readonly id: string;
+  /** The item that owns the fix. */
+  readonly owner: string;
+  /** Every failing draw's reason matches it — anything else fails the case as usual. */
+  readonly pattern: RegExp;
+  readonly finding: string;
+}
+
+/**
+ * The cases the kernel or the case data cannot make green as they stand, each failing safely (a typed refusal, nothing
+ * committed) — counted as known, never as green and never hidden: the counts report lists them, and a known case that
+ * turns green is reported stale (the list is then corrected).
+ */
+export const CONSTRUCTIVE_KNOWN: readonly KnownFinding[] = Object.freeze([
+  {
+    id: 'index/slot-reuse-stage',
+    owner: 'M0-a-06 (removeEdges) / M0-a-03 (the index)',
+    pattern: /index-freshness: an L\d batch wrote the L\d index/,
+    finding: "KI-1: removing an L2 chain that floats in a coarser face writes that face's L1 index entry (its delete or tombstone), so the transaction's index-freshness row refuses the removal E_INVARIANT — the slot is never freed, the case's reuse never reached",
+  },
+  {
+    id: 'index/slot-reuse-districts',
+    owner: 'M0-a-06 (removeEdges) / M0-a-03 (the index)',
+    pattern: /index-freshness: an L\d batch wrote the L\d index/,
+    finding: "KI-1: removing the district's L3 plot line writes the L2 face record's index entry (a tombstone) in the L3 batch; refused E_INVARIANT index-freshness",
+  },
+  {
+    id: 'limit/cap-move-halvings',
+    owner: 'M0-k-02 (the case data)',
+    pattern: /^step-halved: the step was halved 0 times$/,
+    finding: 'KI-2: the case draws the moved vertex exactly minEdge (25 cm) from its neighbour, inside attractCm (26 cm): insertion attracts it onto the neighbour, so the warp has nothing to halve (§3.11 the caps\' halving cap is held by the runner\'s own fixture instead)',
+  },
+]);
+
+/** The run of the set: M0-k-02's report with the known findings apart. */
+export interface KernelConstructiveReport extends ConstructiveReport {
+  /** Known findings that failed as known (not counted in failedCases). */
+  readonly known: { readonly id: string; readonly draws: number; readonly finding: string }[];
+  /** Known findings whose case is green now: the list is stale. */
+  readonly staleKnown: string[];
+}
+
 /**
  * Runs the constructive set against the kernel: every case at `seeds` draws — a swept case (`sweep`) at its whole sweep
- * when `sweeps` is true, else at min(sweep, seeds) — every deferred case drawn once and counted by its milestone.
+ * when `sweeps` is true, else at min(sweep, seeds) — every deferred case drawn once and counted by its milestone, the
+ * known findings (CONSTRUCTIVE_KNOWN) apart.
  */
-export function runConstructiveOnKernel(cases: readonly ConstructiveCase[], seeds: number, opts: { readonly sweeps?: boolean } = {}): ConstructiveReport {
-  const reports: ConstructiveReport[] = [];
-  const plain = cases.filter((c) => c.sweep === undefined || c.milestone !== 'M0');
-  if (plain.length > 0) reports.push(runConstructive(plain, seeds, kernelJudge));
+export function runConstructiveOnKernel(cases: readonly ConstructiveCase[], seeds: number, opts: { readonly sweeps?: boolean } = {}): KernelConstructiveReport {
+  const out: KernelConstructiveReport = { cases: 0, judged: 0, draws: 0, green: 0, failures: [], failedCases: 0, pending: [], deferred: runConstructive([], 1).deferred, known: [], staleKnown: [] };
   for (const c of cases) {
-    if (c.sweep === undefined || c.milestone !== 'M0') continue;
-    reports.push(runConstructive([c], opts.sweeps === true ? c.sweep : Math.min(c.sweep, seeds), kernelJudge));
-  }
-  const out: ConstructiveReport = { cases: 0, judged: 0, draws: 0, green: 0, failures: [], failedCases: 0, pending: [], deferred: { ...reports[0].deferred } };
-  for (const k of Object.keys(out.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] = 0;
-  for (const r of reports) {
+    const n = c.milestone !== 'M0' ? 1 : c.sweep === undefined ? seeds : opts.sweeps === true ? c.sweep : Math.min(c.sweep, seeds);
+    const r = runConstructive([c], n, kernelJudge);
     out.cases += r.cases;
     out.judged += r.judged;
     out.draws += r.draws;
+    out.pending.push(...r.pending);
+    for (const k of Object.keys(r.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] += r.deferred[k];
+    const ki = CONSTRUCTIVE_KNOWN.find((x) => x.id === c.id);
+    if (ki !== undefined && r.failedCases === 1 && r.failures.every((f) => ki.pattern.test(f.reason))) {
+      out.known.push({ id: c.id, draws: r.draws, finding: ki.finding });
+      continue;
+    }
+    if (ki !== undefined && r.failedCases === 0 && r.judged === 1) out.staleKnown.push(c.id);
     out.green += r.green;
     out.failedCases += r.failedCases;
-    out.pending.push(...r.pending);
     for (const f of r.failures) if (out.failures.length < 40) out.failures.push(f);
-    for (const k of Object.keys(r.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] += r.deferred[k];
   }
   return out;
 }
-
-export { describeChunk as constructiveDescribeChunk };

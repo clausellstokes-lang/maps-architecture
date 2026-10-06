@@ -65,6 +65,7 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
   let hangs = 0;
   let invalid = 0;
   let okCount = 0;
+  let skipped = 0;
   let downgrades = 0;
   let workLimitHits = 0;
   let failed = 0;
@@ -97,6 +98,10 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
       continue;
     }
     const out = g.value;
+    if (out.skipped === true) {
+      skipped++;
+      continue;
+    }
     if (out.code === 'ok') okCount++;
     else bump(refused, out.code);
     if (out.code === 'E_WORK_LIMIT') workLimitHits++;
@@ -132,6 +137,7 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
     hangs,
     invalid,
     ok: okCount,
+    skipped,
     refused: sortedCounts(refused),
     warnings: sortedCounts(warnings),
     notes: sortedCounts(notes),

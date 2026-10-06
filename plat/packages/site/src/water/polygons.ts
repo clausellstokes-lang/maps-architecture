@@ -17,7 +17,7 @@ import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
 import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringsDist2, segDist2, type Reach } from './geometry.js';
 import { ESTUARY_SPLIT_M, SEED_DEPTH_CM, SLIVER_AREA_CM2 } from './params.js';
-import { clearOf, clipToArena, isSimple, mouthRing, offsetRing, snapRing, type Cap } from './offset.js';
+import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, snapRing, type Cap } from './offset.js';
 import type { DroppedBody, WaterPart, WaterReach } from './types.js';
 
 /** The estuary's id beside its river's (M0-e-02's `water:<kind>:<n>` form until §6.3's mint, C-0173 (1)). */
@@ -241,10 +241,11 @@ function onBoundary(ring: readonly XY[], q: XY): boolean {
  * with their reason, and the booleans' warnings. A refusal of a boolean other than an empty result (E_OUT_OF_RANGE)
  * is the caller's.
  */
-export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): KernelResult<{ reaches: WaterReach[]; dropped: DroppedBody[] }> {
+export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): KernelResult<{ reaches: WaterReach[]; dropped: DroppedBody[]; fallbacks: { id: Id; why: string }[] }> {
   const frameRing: Ring[] = [outerRing(reach)];
   const reaches: WaterReach[] = [];
   const dropped: DroppedBody[] = [];
+  const fallbacks: { id: Id; why: string }[] = [];
   const warnings: Warning[] = [];
   let covered: Ring[] = [];
   const earlier: WaterBody[] = [];
@@ -256,8 +257,11 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
       continue;
     }
     const simple = simplifyChain(chain.pts, chain.half);
-    let rings: Ring[] | null = fastRings(body, simple, chain, bodies, reach, covered);
-    if (rings === null) {
+    const fast = fastRings(body, simple, chain, bodies, reach, covered);
+    let rings: Ring[];
+    if (typeof fast !== 'string') rings = fast;
+    else {
+      fallbacks.push({ id: body.id, why: fast });
       // the kernel's own: §3.4's buffer, clipped to the arena, less the earlier bodies (C-0225 (2))
       const slow = slowRings(simple, frameRing, covered);
       if (!slow.ok) {
@@ -289,7 +293,7 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
     reaches.push({ body, parts });
     covered = [...covered, ...parts.flatMap((p) => p.rings)];
   }
-  return ok({ reaches, dropped }, foldWarnings(warnings));
+  return ok({ reaches, dropped, fallbacks }, foldWarnings(warnings));
 }
 
 /** §3.4's buffer of the simplified chain (round joins and ends), clipped to the arena, less the earlier bodies. */
@@ -319,7 +323,7 @@ function leftNormal(a: XY, b: XY): XY | undefined {
  * estuary's cut (both bodies cut along one normal: the original course segment's), a joined body's mouth cut along the
  * shore it joins, round elsewhere; on the lattice, simple and clear of the earlier rings — else null.
  */
-export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: number[] }, chain: { startOut: boolean; endOut: boolean; joined: boolean }, bodies: readonly WaterBody[], reach: Reach, covered: readonly Ring[]): Ring[] | null {
+export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: number[] }, chain: { startOut: boolean; endOut: boolean; joined: boolean }, bodies: readonly WaterBody[], reach: Reach, covered: readonly Ring[]): Ring[] | string {
   const course = body.course ?? [];
   let startNormal: XY | undefined;
   let endNormal: XY | undefined;
@@ -333,9 +337,13 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
   const raw = chain.joined
     ? mouthRing(simple.pts, simple.half, startCap, covered)
     : offsetRing(simple.pts, simple.half, [startCap, endCap], { ...(startNormal !== undefined ? { start: startNormal } : {}), ...(endNormal !== undefined ? { end: endNormal } : {}) });
-  if (raw === null) return null;
-  const ring = snapRing(clipToArena(raw, reach));
-  if (ring === null || !isSimple(ring) || !clearOf(ring, covered)) return null;
+  if (raw === null) return chain.joined ? 'mouth' : 'offset';
+  const snapped = snapRing(clipToArena(raw, reach));
+  const ring = snapped === null ? null : cleanRing(snapped);
+  if (ring === null) return 'empty';
+  if (!isSimple(ring)) return 'not simple';
+  if (!clearRing(ring)) return 'near-touch';
+  if (!clearOf(ring, covered)) return 'meets an earlier body';
   return [ring];
 }
 

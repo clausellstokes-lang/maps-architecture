@@ -92,6 +92,8 @@ export interface S1Output {
 /** The batch's report: dropped bodies, the commits' versions, the stage-end invariant rows, the kernel's warnings. */
 export interface S1Report {
   dropped: DroppedBody[];
+  /** The bodies whose polygon took the kernel's buffer and booleans, with the fast ring's refusal (C-0225 (2)). */
+  fallbacks: { id: Id; why: string }[];
   /** The arena's version after the outer ring's batch and after the water's. */
   versions: [number, number];
   /** §3.10's stage-end rows (`checkStageEnd`), each holding. */

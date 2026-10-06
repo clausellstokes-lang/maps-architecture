@@ -52,6 +52,8 @@ export interface FuzzReport {
   readonly invalid: number;
   /** Ok results (a downgrade among them). */
   readonly ok: number;
+  /** Inputs that never reached the operation (no room for a frame, a degenerate set-up ring; C-0225 (2)). */
+  readonly skipped: number;
   /** Typed refusals per §3.1 code — each a valid outcome (never a throw for a geometric reason). */
   readonly refused: Readonly<Record<string, number>>;
   /** Warnings per §3.1 code, summed over the run (§5.4 `kernel.warnings`). */
@@ -86,8 +88,10 @@ export interface ConstructiveRun {
   /** Deferred cases by milestone — the counts report's "deferred constructive cases by milestone". */
   readonly deferred: Readonly<Record<ConstructiveMilestone, number>>;
   readonly failures: readonly { readonly id: string; readonly seed: number; readonly reason: string }[];
-  /** Outcomes seen per case outcome kind (ok, refused, typed, downgrade, assertion, static). */
-  readonly outcomes: Readonly<Record<string, number>>;
+  /** Known findings (C-0225 (14)): failing as known, owned by another item, listed — never green, never hidden. */
+  readonly known: readonly { readonly id: string; readonly draws: number; readonly finding: string }[];
+  /** Known findings whose case is green now (the list is stale: the bar fails until it is corrected). */
+  readonly staleKnown: readonly string[];
 }
 
 /** One row of the kernel ladders' coverage table (§13.1 *Ladder coverage*; C-0085, C-0109). */

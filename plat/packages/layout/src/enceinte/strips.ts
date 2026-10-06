@@ -6,19 +6,18 @@
 //
 // The lines are the kernel's `buffer` of the committed trace at each width (round joins; the inner line the buffer's
 // hole, the outer its outer ring), cut by the stops (C-0224 (10)): a main gate's stop is its way's corridor, a band of
-// the corridor's half-width about the line through the gate along the way (the band's two edges are the strip's two
-// ends: a cap on each edge from the line back to the trace closes the strip); a water gate's stop is the water itself
+// the corridor's half-width about the way's centreline near the gate (the band's two edges are the strip's two ends: a
+// cap from the line's end back to where the trace crosses the same edge, on the same side of the way, closes the strip); a water gate's stop is the water itself
 // (the river is its corridor, C-0087: the line ends on the shore and the shore closes the strip); and, given the frame,
 // the map border (the glacis line ends on it). An enceinte with no gate keeps both lines whole: each strip a ring face
 // with the trace on one side.
-import { buffer, err, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
+import { buffer, err, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
 import { area2, ccw, clipOutside, crossParams, d2, footOn, lat, openRing, unitOf, type Piece } from './plane.js';
 import { l1Spec, stripOwner } from './trace.js';
 import type { StripsLaid, StripStop, XY } from './types.js';
 import { GROUND } from './water.js';
-import { STAGES } from '@plat/kernel';
 
 /** The options of `layStrips`. */
 export interface LayStripsOptions {
@@ -81,11 +80,27 @@ function crossingsOf(trace: readonly XY[], rings: readonly (readonly XY[])[]): X
   return out;
 }
 
-/** The point of `pts` nearest e, or null. */
-function nearest(e: XY, pts: readonly XY[]): XY | null {
+/** The side of the way's centreline a point lies on: the sign of its orientation against the nearest side of the path. */
+function sideOf(p: XY, path: readonly XY[]): number {
+  let best = Infinity;
+  let at = 0;
+  for (let i = 0; i + 1 < path.length; i += 1) {
+    const f = footOn(p, path[i], path[i + 1]);
+    if (f.d2 < best) {
+      best = f.d2;
+      at = i;
+    }
+  }
+  return Math.sign(orient2d(path[at].x, path[at].y, path[at + 1].x, path[at + 1].y, p.x, p.y));
+}
+
+/** The point of `pts` on e's side of the way nearest e, or null. */
+function nearest(e: XY, pts: readonly XY[], path: readonly XY[]): XY | null {
+  const side = sideOf(e, path);
   let best: XY | null = null;
   let bestD = Infinity;
   for (const q of pts) {
+    if (sideOf(q, path) !== side) continue;
     const dd = d2(q, e);
     if (dd < bestD) {
       bestD = dd;
@@ -137,7 +152,7 @@ function chainsOf(pieces: readonly Piece[], stops: readonly StripStop[], caps: r
     const capAt = (end: XY, on: number): XY | null => {
       const s = on >= 0 && on < stops.length ? stops[on] : null;
       if (s === null || s.kind !== 'way') return null;
-      return nearest(end, caps[on]);
+      return nearest(end, caps[on], s.path);
     };
     const c0 = closed ? null : capAt(pts[0], piece.startOn);
     const c1 = closed ? null : capAt(pts[pts.length - 1], piece.endOn);

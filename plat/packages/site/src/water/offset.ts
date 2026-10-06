@@ -107,7 +107,7 @@ function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number): XY[] | n
   return null;
 }
 
-/** Is the loop's inside within `h` (plus a centimetre) of the chain, on a 5 × 5 sample? */
+/** Is the loop's inside within 1.5 `h` of the chain, on a 5 × 5 sample (a mitre reaches past `h`; a pocket of land is farther)? */
 function covered(loop: readonly XY[], chain: readonly XY[], h: number): boolean {
   let x0 = Infinity;
   let y0 = Infinity;
@@ -119,7 +119,7 @@ function covered(loop: readonly XY[], chain: readonly XY[], h: number): boolean 
     x1 = Math.max(x1, p.x);
     y1 = Math.max(y1, p.y);
   }
-  const lim = (h + 1) * (h + 1);
+  const lim = 2.25 * h * h;
   for (let a = 1; a <= 5; a += 1) {
     for (let b = 1; b <= 5; b += 1) {
       const p = { x: x0 + ((x1 - x0) * a) / 6, y: y0 + ((y1 - y0) * b) / 6 };
@@ -396,4 +396,91 @@ export function mouthRing(pts: readonly XY[], half: readonly number[], startCap:
   const startDir = unitOf(sub(pts[0], pts[1])) as XY;
   if (startCap === 'round') ring.push(...cap(pts[0], left[0], half[0], startDir));
   return area2(ring) < 0 ? ring.reverse() : ring;
+}
+
+/** The ring's own tolerance (cm): a vertex within it of the chord around it is dropped (Douglas–Peucker on the ring). */
+export const RING_TOL_CM = 20;
+
+/** The least clearance (cm) between a vertex of a fast ring and any segment of it not incident to the vertex. */
+export const RING_CLEAR_CM = 60;
+
+/**
+ * A lattice ring cleaned for insertion: Douglas–Peucker at RING_TOL_CM (from its first vertex and the vertex farthest
+ * from it), which drops the tiny zig-zags the mitres and the loop cuts leave, then every vertex closer than
+ * RING_CLEAR_CM ÷ 2 to the one before it dropped. Null below three vertices.
+ */
+export function cleanRing(ring: readonly LatticePoint[]): LatticePoint[] | null {
+  const n = ring.length;
+  if (n < 4) return n === 3 ? ring.slice() : null;
+  let far = 0;
+  let farD = -1;
+  for (let i = 1; i < n; i += 1) {
+    const dx = ring[i].x - ring[0].x;
+    const dy = ring[i].y - ring[0].y;
+    if (dx * dx + dy * dy > farD) {
+      farD = dx * dx + dy * dy;
+      far = i;
+    }
+  }
+  const keep = new Uint8Array(n);
+  keep[0] = 1;
+  keep[far] = 1;
+  const tol2 = RING_TOL_CM * RING_TOL_CM;
+  const stack: [number, number][] = [
+    [0, far],
+    [far, n],
+  ];
+  while (stack.length > 0) {
+    const [a, b] = stack.pop() as [number, number];
+    if (b - a < 2) continue;
+    const pa = ring[a];
+    const pb = ring[b % n];
+    let worst = -1;
+    let worstD = tol2;
+    for (let i = a + 1; i < b; i += 1) {
+      const d = segDist2(ring[i], pa, pb);
+      if (d > worstD) {
+        worstD = d;
+        worst = i;
+      }
+    }
+    if (worst < 0) continue;
+    keep[worst] = 1;
+    stack.push([worst, b], [a, worst]);
+  }
+  const out: LatticePoint[] = [];
+  const min2 = (RING_CLEAR_CM * RING_CLEAR_CM) / 4;
+  for (let i = 0; i < n; i += 1) {
+    if (keep[i] === 0) continue;
+    const last = out[out.length - 1];
+    if (last !== undefined) {
+      const dx = ring[i].x - last.x;
+      const dy = ring[i].y - last.y;
+      if (dx * dx + dy * dy < min2) continue;
+    }
+    out.push(ring[i]);
+  }
+  while (out.length > 3) {
+    const dx = out[0].x - out[out.length - 1].x;
+    const dy = out[0].y - out[out.length - 1].y;
+    if (dx * dx + dy * dy >= min2) break;
+    out.pop();
+  }
+  return out.length >= 3 && area2(out) !== 0 ? out : null;
+}
+
+/** Does every vertex keep RING_CLEAR_CM from every segment of the ring not incident to it? */
+export function clearRing(ring: readonly XY[]): boolean {
+  const n = ring.length;
+  const b = boxes(ring);
+  const c2 = RING_CLEAR_CM * RING_CLEAR_CM;
+  for (let v = 0; v < n; v += 1) {
+    const q = ring[v];
+    for (let s = 0; s < n; s += 1) {
+      if (s === v || (s + 1) % n === v) continue;
+      if (b[4 * s] - RING_CLEAR_CM > q.x || b[4 * s + 2] + RING_CLEAR_CM < q.x || b[4 * s + 1] - RING_CLEAR_CM > q.y || b[4 * s + 3] + RING_CLEAR_CM < q.y) continue;
+      if (segDist2(q, ring[s], ring[(s + 1) % n]) < c2) return false;
+    }
+  }
+  return true;
 }

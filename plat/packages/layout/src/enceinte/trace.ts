@@ -13,7 +13,7 @@
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
-import { ccw, departure, distToRing, lat, openRing, TOUCH_CM } from './plane.js';
+import { ccw, departure, distToRing, footOn, lat, openRing, TOUCH_CM } from './plane.js';
 import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
 import { defectOf, placePins, reoffset, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
@@ -160,8 +160,7 @@ export function traceBase(
       let unWhy: WallRung['why'] | null = un.ok ? null : un.detail === 'fixed' ? 'pin_lost' : 'empty';
       let cand: LatticePoint[] | null = null;
       if (un.ok) {
-        const s = simplify([...un.value, un.value[0]], cells.minSegmentCm as Cm, cells.minAngleCdeg, barred, indicesOf(un.value, pins));
-        cand = s.ok ? openRing(s.value) : un.value;
+        cand = simplifyInBand(un.value, ring, band, cells, barred, pins) ?? un.value;
         unWhy = accept(cand);
       }
       rungs.push(unWhy === null ? { rung: 'union_simplify', cause, radiusCm: 0, held: true } : { rung: 'union_simplify', cause, radiusCm: 0, held: false, why: unWhy });
@@ -175,17 +174,14 @@ export function traceBase(
     }
   }
 
-  // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept; skipped when its
-  // result would leave the band (C-0224 (4)).
+  // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept, and held within the
+  // band (C-0224 (4)); its result unused only when it still shows a defect.
   const before = line.length;
-  const simp = simplify([...line, line[0]], cells.minSegmentCm as Cm, cells.minAngleCdeg, barred, indicesOf(line, pins));
+  const simp = simplifyInBand(line, ring, band, cells, barred, pins);
   let skipped = true;
-  if (simp.ok) {
-    const cand = openRing(simp.value);
-    if (defectOf(cand, core) === null && departure(cand, ring) <= band) {
-      line = cand;
-      skipped = false;
-    }
+  if (simp !== null && defectOf(simp, core) === null) {
+    line = simp;
+    skipped = false;
   }
   const dep = departure(line, ring);
 
@@ -252,6 +248,51 @@ export function traceBase(
   };
   const traced: Traced = { enceinte, gates: [...mains, ...wgs], waterGates: wgs, line, report };
   return { ok: true, value: { ...enceinte, traced }, warnings: committed.warnings };
+}
+
+/** The largest distance from the ring of the points of segment ab, every metre along it. */
+function segmentDeparture(a: XY, b: XY, ring: readonly XY[]): number {
+  return departure([a, b], ring);
+}
+
+/**
+ * The kernel's topology-preserving simplify (§3.4) at walls.json's minimum segment and angle, with the barred rings as
+ * its obstacles and the pins kept, held within the band of the boundary `ring`: where a side of its result departs
+ * from the ring by more than the band, the removed vertex farthest from that side is pinned and the simplify runs again
+ * (C-0224 (4)). Null when the kernel refuses the line.
+ */
+export function simplifyInBand(line: readonly LatticePoint[], ring: readonly XY[], band: number, cells: WallCells, barred: readonly Polygon[], pins: ReadonlySet<string>): LatticePoint[] | null {
+  const held = new Set(pins);
+  for (let round = 0; round <= line.length; round += 1) {
+    const s = simplify([...line, line[0]], cells.minSegmentCm as Cm, cells.minAngleCdeg, barred, indicesOf(line, held));
+    if (!s.ok) return null;
+    const out = openRing(s.value);
+    // The kept vertices' places in the input, in order.
+    const at = out.map((q) => line.findIndex((p) => p.x === q.x && p.y === q.y));
+    let worst = -1;
+    let worstD = band;
+    for (let i = 0; i < out.length; i += 1) {
+      const a = out[i];
+      const b = out[i + 1 === out.length ? 0 : i + 1];
+      if (segmentDeparture(a, b, ring) <= band) continue;
+      // The removed vertices between a and b: pin the farthest from the side ab.
+      const from = at[i];
+      const to = at[i + 1 === out.length ? 0 : i + 1];
+      for (let j = from + 1; j !== to; j = j + 1 === line.length ? 0 : j + 1) {
+        if (j === line.length) j = 0;
+        if (j === to) break;
+        const d = Math.sqrt(footOn(line[j], a, b).d2);
+        if (d > worstD || worst < 0) {
+          worstD = d;
+          worst = j;
+        }
+      }
+      if (worst >= 0) break;
+    }
+    if (worst < 0) return out;
+    held.add(key(line[worst]));
+  }
+  return null;
 }
 
 /** The owner a side's strip faces take (§4.8 "typed `wall_strip`"; C-0224 (9)): `wall_strip:<enceinte token>-<side>`. */

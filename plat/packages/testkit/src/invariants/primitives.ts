@@ -74,6 +74,8 @@ export interface OpOutcome {
   readonly split?: 'attracted' | 'unattracted' | 'refused';
   /** The sampled determinism harness ran on this input. */
   readonly sampled?: 'renumbering' | 'permutation';
+  /** The input never reached the operation (no room for a frame, a degenerate set-up ring): counted apart. */
+  readonly skipped?: boolean;
   /**
    * Counted findings that judge no output (C-0225 (4)): a follow-up operation a property needs that returned a typed
    * refusal — e.g. the removal of remove ∘ insert refused — by name; reported, never invalid (it fails safely).
@@ -134,6 +136,8 @@ const LIMIT = 1 << 20; // the fuzz shapes' coordinate bound: a framed arena arou
 const SMALL = 1 << 16;
 
 const ok = (warnings: readonly Warning[] = [], extra: Partial<OpOutcome> = {}): OpOutcome => ({ code: 'ok', problems: [], warnings, ...extra });
+/** An input that never reached its operation (C-0225 (2)). */
+const skip = (): OpOutcome => ({ code: 'ok', problems: [], warnings: [], skipped: true });
 const refusedOf = (r: KernelResult<unknown>, problems: readonly string[] = []): OpOutcome => (r.ok ? ok(r.warnings) : { code: r.code, problems, warnings: [] });
 
 /** The live faces of a level (the law's `faces` count). */
@@ -242,10 +246,10 @@ const insertChainPrimitive: Primitive<InsertInput> = {
     }).map(({ face, chain, ring, closed, level, cls }) => ({ face: ccw(face), chain: closed ? ring : chain, closed, level, cls })),
   run(input, ctx) {
     const p = framedAround([...input.face, ...input.chain]);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const k0 = kernelOn([p]);
     const f = k0.tx(spec(1), (o) => k0.geom.insertChain(o, input.face, [{ role: 'way', entity: 'way:face' }], 'mandatory', { closed: true }));
-    if (!f.ok) return { code: 'ok', problems: [], warnings: [] }; // the face itself refused (a degenerate draw): the next input
+    if (!f.ok) return skip(); // the face itself refused (a degenerate draw)
     const before = topology(p);
     const role = input.level === 1 ? 'way' : input.level === 2 ? 'kerb' : 'plot_line';
     const entity = `${role}:fuzz`;
@@ -347,14 +351,14 @@ const splitFacePrimitive: Primitive<SplitInput> = {
     }),
   run(input) {
     const p = framedAround(input.face);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const k = kernelOn([p]);
     const f = k.tx(spec(1), (o) => k.geom.insertChain(o, input.face, [{ role: 'way', entity: 'way:face' }], 'mandatory', { closed: true }));
-    if (!f.ok) return ok();
+    if (!f.ok) return skip();
     const inner = interiorPoint(input.face);
-    if (inner === null) return ok();
+    if (inner === null) return skip();
     const face = faceAt(p, 1, inner);
-    if (face === null) return ok();
+    if (face === null) return skip();
     const parent = faceRings(p, 1, face);
     const n = parent[0].length;
     const e1 = alongEdge(parent[0], input.a % n, input.ta);
@@ -394,10 +398,10 @@ const warpPrimitive: Primitive<WarpInput> = {
     fc.record({ face: simpleRingArb(SMALL).map(ccw), chain: arb.chain({ limitCm: SMALL }), field: arb.field({ limitCm: SMALL, sizeCm: [500, 16_000] }) }),
   run(input) {
     const p = framedAround([...input.face, ...input.chain, ...input.field.region]);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const k = kernelOn([p]);
     const f = k.tx(spec(1), (o) => k.geom.insertChain(o, input.face, [{ role: 'way', entity: 'way:face' }], 'mandatory', { closed: true }));
-    if (!f.ok) return ok();
+    if (!f.ok) return skip();
     k.tx(spec(1), (o) => k.geom.insertChain(o, input.chain, [{ role: 'way', entity: 'way:chain' }], 'mandatory'));
     const before = topology(p);
     const { r, work } = writer(p, 1, (o) => k.geom.warp(o, input.field, 1, input.field.region), () => 1);
@@ -445,7 +449,7 @@ const offsetFacePrimitive: Primitive<ArenaFaceInput> = {
       const n = faceRings(k.plat(RUNNER_KEY), 1, face).reduce((s, ring) => s + ring.length, 0);
       return k.geom.offsetFace(face, Array.from({ length: n }, (_, i) => input.d[i % input.d.length]));
     });
-    if (r === null) return ok();
+    if (r === null) return skip();
     if (!r.ok) return { code: r.code, problems: [], warnings: [] }; // a typed refusal (§3.11; N-43's fidelity refusal among them)
     return { code: 'ok', problems: [...outputProblems(r.value), ...insideProblems(r.value, region, 'offset(−d)')], warnings: r.warnings };
   },
@@ -462,7 +466,7 @@ const insetRingPrimitive: Primitive<ArenaFaceInput> = {
       second = k.geom.insetRing(face, d2);
       return k.geom.insetRing(face, d1);
     });
-    if (r === null) return ok();
+    if (r === null) return skip();
     const r2 = second as KernelResult<LatticePoint[][]> | null;
     if (!r.ok) {
       if (r.code === 'E_NON_CONVEX' || r.code === 'E_DEGENERATE') {
@@ -491,7 +495,7 @@ const kerbPrimitive: Primitive<ArenaFaceInput> = {
   run(input) {
     const widths: SpineWidths = (c) => (c.role === 'way' ? { halfWidthCm: input.d[0] } : null);
     const { r, region } = faceService(input, 'way', (k, face) => k.geom.kerb(face), { spineWidths: widths });
-    if (r === null) return ok();
+    if (r === null) return skip();
     if (!r.ok) return { code: r.code, problems: [], warnings: [] };
     return { code: 'ok', problems: [...outputProblems(r.value), ...insideProblems(r.value, region, 'the kerb')], warnings: r.warnings };
   },
@@ -509,11 +513,11 @@ const corridorUnionPrimitive: Primitive<CorridorInput> = {
   arbitrary: () => fc.record({ face: arb.polygon({ limitCm: SMALL, sizeCm: [3000, 30_000] }).map(ccw), ways: fc.array(arb.chain({ limitCm: SMALL }), { minLength: 1, maxLength: 3 }), hw: fc.integer({ min: 50, max: 800 }) }),
   run(input) {
     const p = framedAround([...input.face, ...input.ways.flat()]);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const widths: SpineWidths = (c) => (c.role === 'way' ? { halfWidthCm: input.hw } : null);
     const k = kernelOn([p], { spineWidths: widths });
     const f = k.tx(spec(1), (o) => k.geom.insertChain(o, input.face, [{ role: 'district_bound', entity: 'district_bound:d' }], 'mandatory', { closed: true }));
-    if (!f.ok) return ok();
+    if (!f.ok) return skip();
     input.ways.forEach((w, i) => k.tx(spec(1), (o) => k.geom.insertChain(o, w, [{ role: 'way', entity: `way:w${String(i)}` }], 'mandatory')));
     const faces: FaceId[] = [];
     for (let fid = 0; fid < p.slots.face[1].top; fid++) if (isFaceLive(p, 1, fid)) faces.push(fid);
@@ -545,7 +549,7 @@ const queryPrimitive: Primitive<QueryInput> = {
     }),
   run(input) {
     const p = framedAround([...input.face, ...input.chain]);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const k = kernelOn([p]);
     k.tx(spec(1), (o) => k.geom.insertChain(o, input.face, [{ role: 'way', entity: 'way:face' }], 'mandatory', { closed: true }));
     k.tx(spec(2), (o) => k.geom.insertChain(o, input.chain, [{ role: 'kerb', entity: 'kerb:chain' }], 'mandatory'));
@@ -568,7 +572,7 @@ const roundTripPrimitive: Primitive<QueryInput> = {
   arbitrary: () => queryPrimitive.arbitrary(),
   run(input) {
     const p = framedAround([...input.face, ...input.chain]);
-    if (p === null) return ok();
+    if (p === null) return skip();
     const k = kernelOn([p]);
     k.tx(spec(1), (o) => k.geom.insertChain(o, input.face, [{ role: 'way', entity: 'way:face' }], 'mandatory', { closed: true }));
     k.tx(spec(2), (o) => k.geom.insertChain(o, input.chain, [{ role: 'kerb', entity: 'kerb:chain' }], 'mandatory'));
