@@ -14,7 +14,9 @@
 //   other one a hole of the smallest such face holding it; each new face keeps the record of its old regions with the
 //   smallest canonical key (§3.3's face key, read on lattice positions — never a slot), the others freed and their
 //   children re-parented to it; a level-l face left with no level-l edge on its rings and no surviving child is its
-//   parent's own child again and keeps no record (rule 2) — C-0185 (3);
+//   parent's own child again and keeps no record (rule 2) — C-0185 (3); the rule climbs: a coarser own child (no edge of
+//   its level on its rings, so no vanishing edge gathers it) whose every child the pass frees is freed too, up to L1,
+//   listed among the batch's removed records and its index item tombstoned (N-47, C-0219);
 // * a dissolved vertex's two edges become one: the edge pair at the run's start end is kept (the run's handle never
 //   changes, §3.3), and every record that stored the dropped pair's half-edges stores the kept pair's;
 // * the index is written only where an item changed (§3.3's "no item changes in place", §3.10's freshness row): a
@@ -222,6 +224,13 @@ function onRun(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
     a = dest(p, ha);
     b = dest(p, hb);
   }
+  return nearSegment(p, v, a, b);
+}
+
+/** Is v within the hot pixel of the segment a–b, its projection on it? Exact: integer orientation and dot products. */
+function nearSegment(p: Plat, v: VertexId, a: VertexId, b: VertexId): boolean {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
   if (a === b) return false;
   const dx = X[b] - X[a];
   const dy = Y[b] - Y[a];
@@ -234,6 +243,55 @@ function onRun(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
 
 /** The hot pixel's radius squared (0.71 cm, §3.2, §3.6). */
 const HOT_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
+
+/**
+ * Could the dissolution remove u — a `split` vertex with no vertex row and no pin whose two edges carry one level and
+ * identical rows (§2.2 rule 3's conditions, its flag as it stands and the on-run test aside)?
+ */
+function dissolvable(p: Plat, u: VertexId): boolean {
+  if (!isVertexLive(p, u)) return false;
+  const flags = p.vertices.flags[u];
+  if ((flags & VERTEX_SPLIT) === 0 || (flags & VERTEX_PINNED) !== 0 || p.roles.vertexFirst[u] !== -1) return false;
+  const inc = around(p, u);
+  if (inc.length !== 2 || inc[0] >> 1 === inc[1] >> 1) return false;
+  const T = p.halfEdges;
+  return T.level[inc[0] >> 1] === T.level[inc[1] >> 1] && sameList(pairRows(p, inc[0]), pairRows(p, inc[1]));
+}
+
+/**
+ * Does v, of its edges' level, lie on the stretch its edges ha, hb form — within the hot pixel of the segment a–b for SOME
+ * a on ha's side and b on hb's side, each a vertex the dissolution walks through (a split vertex with no row, no pin,
+ * degree 2, one level, identical rows) or the first vertex each way it cannot remove (C-0223, C-0225)? A split vertex
+ * was placed within the hot pixel of the PIECE of the edge it split, and that piece's ends were the edge's ends or
+ * earlier splits of it, all still on the stretch before the batch (only a removal dissolves them): one of these segments
+ * is that piece, whatever the order the splits came in — no history read. The neighbours' segment (an earlier split
+ * standing off its LATER neighbour's, the property's case 855) and the restored stretch's are two of them; an edge split
+ * four times places a middle split near a piece neither is (checks/M0-a-06-s2.md B-1: cases 817, 1526). Positions never
+ * change in a rewrite, so the segments are the pre-batch arena's; the walk reads the topology the deletions left (the
+ * removed chain's edges gone, its crossings of degree 2). A stretch that closes on v (a ring of such vertices) has no
+ * ends: false.
+ */
+function onStretch(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
+  const T = p.halfEdges;
+  const side = (h0: HalfEdgeId): VertexId[] | null => {
+    const out: VertexId[] = [];
+    let h = h0;
+    for (let guard = 0; ; guard++) {
+      check(guard <= T.origin.length, `the stretch through vertex ${v} does not end`);
+      const u = dest(p, h);
+      if (u === v) return null;
+      out.push(u);
+      if (!dissolvable(p, u)) return out;
+      const [g1, g2] = around(p, u);
+      h = g1 === (h ^ 1) ? g2 : g1;
+    }
+  };
+  const as = side(ha);
+  const bs = side(hb);
+  if (as === null || bs === null) return false;
+  for (const a of as) for (const b of bs) if (nearSegment(p, v, a, b)) return true;
+  return false;
+}
 
 /** Removes an edge pair (no row left on it) from both endpoints' rotations and frees it (§2.2's half-edge links). */
 function deletePair(p: Plat, e: number): void {
@@ -358,29 +416,44 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   for (const a of w.add) if (roleInfo(a.role).kind === 'vertex') vstar.add(a.element);
 
   // ---- the before-image of what the consequences read (every index read is here) ----
-  // (b): each split vertex's runs — pairs of its incident edges of its lowest incident level with identical rows there.
+  // C-0185 (4)'s on-run test, decided for every split vertex before the first merge: every pair of its incident edges of
+  // one level that it lies on — here against its neighbours before the batch, and (below, once the deletions are done)
+  // against the stretch the dissolution will restore. Rule 3 (b), dissolution and split restoration read these pairs
+  // (followed through the batch's earlier merges), never the geometry after a merge: dissolving one crossing of a run
+  // moves the far end of the next, which was placed within the hot pixel of the piece it split, not of the restored edge
+  // (checks/M0-a-06-s1.md B-1; C-0223).
+  const onRunBefore = new Map<VertexId, [number, number][]>();
+  // (b): each split vertex's run candidates — pairs of its incident edges of its lowest incident level with identical rows
+  // there; a pair is one of its runs when it is also on onRunBefore's list.
   const runsBefore = new Map<VertexId, [number, number][]>();
   for (const v of vstar) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
     const inc = around(p, v);
     if (inc.length === 0) continue;
+    const on: [number, number][] = [];
+    for (let i = 0; i < inc.length; i++) {
+      for (let j = i + 1; j < inc.length; j++) {
+        if (T.level[inc[i] >> 1] === T.level[inc[j] >> 1] && onRun(p, v, inc[i], inc[j])) on.push([inc[i] >> 1, inc[j] >> 1]);
+      }
+    }
+    onRunBefore.set(v, on);
     let m0 = 5;
     for (const h of inc) m0 = Math.min(m0, T.level[h >> 1]);
     const at = inc.filter((h) => T.level[h >> 1] === m0);
     const pairs: [number, number][] = [];
     for (let i = 0; i < at.length; i++) {
       for (let j = i + 1; j < at.length; j++) {
-        if (sameList(levelRows(p, at[i], m0), levelRows(p, at[j], m0)) && onRun(p, v, at[i], at[j])) pairs.push([at[i] >> 1, at[j] >> 1]);
+        if (sameList(levelRows(p, at[i], m0), levelRows(p, at[j], m0))) pairs.push([at[i] >> 1, at[j] >> 1]);
       }
     }
     runsBefore.set(v, pairs);
   }
   // The records beside every edge that vanishes from a level's view, and the cleared records.
   const old: Map<FaceId, OldRecord>[] = LV.map(() => new Map());
-  const saveRecord = (level: Level, f: FaceId): void => {
-    if (f < 0 || old[level].has(f)) return;
-    const rings = faceWalk(p, level, f);
-    chargeTx(t, TX_FACES_WALKED, rings.length);
+  const saveRecord = (level: Level, f: FaceId, into: Map<FaceId, OldRecord>[] = old, walked?: HalfEdgeId[][]): void => {
+    if (f < 0 || into[level].has(f)) return;
+    const rings = walked ?? faceWalk(p, level, f);
+    if (walked === undefined) chargeTx(t, TX_FACES_WALKED, rings.length);
     const k = faceKey(p, level, f);
     const children: FaceId[] = [];
     if (level < 4) {
@@ -388,7 +461,7 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       const Fu = p.faces[up];
       for (const c of query(p, t.key, up, ringBox(p, rings), { faces: true }).faces) if (Fu.parent[c] === f) children.push(c);
     }
-    old[level].set(f, {
+    into[level].set(f, {
       f,
       level,
       rings,
@@ -488,6 +561,35 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       materialisePlan.push({ h, level: nl, probes, bases });
     }
   }
+  // The own-child ancestors of every saved record (N-47; rule 2, C-0185 (3)'s keep rule): a record coarser than the
+  // vanishing edges with no edge of its own level on its rings has no edge the rewrite deletes or demotes, so no side
+  // gathers it — yet where the face pass frees its every child it is its parent's own child again and keeps no record.
+  // Gathered now, before any write (its children by the index): each saved record's parent chain, finest first, up to
+  // L1, while the parent is an own child (a parent with an edge of its level keeps its record whatever). A coarser
+  // record a demoted edge's own children will hang from (a materialise base) is never a candidate.
+  const ancestors: Map<FaceId, OldRecord>[] = LV.map(() => new Map());
+  const based = new Set<string>();
+  for (const plan of materialisePlan) for (const b of plan.bases) based.add(`${b.level}:${b.f}`);
+  const ownLevelEdge = new Set<string>();
+  for (let l = 4; l >= 2; l--) {
+    const up = (l - 1) as Level;
+    const F = p.faces[l];
+    for (const f of [...old[l].keys(), ...ancestors[l].keys()]) {
+      const q = F.parent[f];
+      if (q < 0) continue;
+      const k = `${up}:${q}`;
+      if (old[up].has(q) || ancestors[up].has(q) || ownLevelEdge.has(k) || based.has(k)) continue;
+      check(isFaceLive(p, up, q), `an L${l} record's parent is a live L${up} record`);
+      const rings = faceWalk(p, up, q);
+      chargeTx(t, TX_FACES_WALKED, rings.length);
+      if (rings.some((ring) => ring.some((h) => T.level[h >> 1] === up))) {
+        ownLevelEdge.add(k);
+        continue;
+      }
+      saveRecord(up, q, ancestors, rings);
+    }
+  }
+  for (const l of LV) for (const f of ancestors[l].keys()) noteHome(l, f);
   for (const l of LV) for (const f of old[l].keys()) noteHome(l, f);
   for (const list of aroundV.values()) for (const a of list) noteHome(a.level, a.f);
   if (t.work.total > t.workLimit) return false;
@@ -538,17 +640,36 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   }
 
   // ---- the faces the deleted and demoted edges no longer bound (C-0185 (3)) ----
-  const pass = facePass(t, old, seeds, clear, holdsDemoted);
+  const pass = facePass(t, old, seeds, clear, holdsDemoted, ancestors);
   const faceWrites = pass.writes;
   faceWrites.push(...materialise(t, materialisePlan, pass.successor, pass.coveredBy));
 
-  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
+  // The on-run test's second reading (C-0223, C-0225), on the arena the deletions left and before any flag, level or
+  // merge changes: a surviving same-level pair of a split vertex of its level lies on its run when the vertex is within
+  // the hot pixel of a segment joining a vertex of the stretch on one side to one on the other (onStretch: every piece it
+  // could have split) — beside onRunBefore's pre-batch neighbour test.
   const canonical = (vs: Iterable<VertexId>): VertexId[] => [...vs].filter((v) => isVertexLive(p, v)).sort((a, b) => compareVertices(p, a, b));
+  for (const v of canonical(vstar)) {
+    if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+    const on = onRunBefore.get(v) ?? [];
+    const inc = around(p, v);
+    for (let i = 0; i < inc.length; i++) {
+      for (let j = i + 1; j < inc.length; j++) {
+        const x = inc[i] >> 1;
+        const y = inc[j] >> 1;
+        if (T.level[x] !== T.level[y] || L[v] > T.level[x] || on.some(([a, b]) => (a === x && b === y) || (a === y && b === x))) continue;
+        if (onStretch(p, v, inc[i], inc[j])) on.push([x, y]);
+      }
+    }
+    onRunBefore.set(v, on);
+  }
+  const isOn = (v: VertexId, x: number, y: number): boolean => (onRunBefore.get(v) ?? []).some(([a, b]) => (a === x && b === y) || (a === y && b === x));
+  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
   for (const v of canonical(vstar)) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
     const before = runsBefore.get(v) ?? [];
     const survives = before.some(([x, y]) => isHalfEdgeLive(p, 2 * x) && isHalfEdgeLive(p, 2 * y) && T.level[x] === T.level[y]
-      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])));
+      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])) && isOn(v, x, y));
     if (!survives) {
       p.vertices.flags[v] &= ~VERTEX_SPLIT;
       t.log.unflagged.push(v);
@@ -594,19 +715,30 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   }
   // The dissolution rule, then split restoration.
   const moved = new Map<HalfEdgeId, HalfEdgeId>(); // a dropped half-edge → the kept one that replaces it
+  const follow = (h: HalfEdgeId): HalfEdgeId => {
+    let g = h;
+    for (let guard = 0; moved.has(g); guard++) {
+      check(guard <= moved.size, 'the replacement chain of dissolved half-edges does not end');
+      g = moved.get(g) as HalfEdgeId;
+    }
+    return g;
+  };
+  // Did v lie, before the batch, on the run its edges ha, hb form now — a pair of onRunBefore's, each edge followed
+  // through the merges made since (an edge a dissolution extended is the kept pair of the one v had)?
+  const wasOnRun = (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean => {
+    const ea = ha >> 1;
+    const eb = hb >> 1;
+    return (onRunBefore.get(v) ?? []).some(([x, y]) => {
+      const cx = follow(2 * x) >> 1;
+      const cy = follow(2 * y) >> 1;
+      return (cx === ea && cy === eb) || (cx === eb && cy === ea);
+    });
+  };
   const changedFaces: Around[] = [];
-  for (const v of canonical(vstar)) dissolve(t, v, aroundV.get(v) ?? [], moved, changedFaces);
-  for (const v of canonical(vstar)) restoreSplit(t, v, aroundV.get(v) ?? [], changedFaces);
+  for (const v of canonical(vstar)) dissolve(t, v, aroundV.get(v) ?? [], moved, changedFaces, wasOnRun);
+  for (const v of canonical(vstar)) restoreSplit(t, v, aroundV.get(v) ?? [], changedFaces, wasOnRun);
   // Every record that stored a dropped half-edge stores the kept one (the chain of replacements followed).
   if (moved.size > 0) {
-    const follow = (h: HalfEdgeId): HalfEdgeId => {
-      let g = h;
-      for (let guard = 0; moved.has(g); guard++) {
-        check(guard <= moved.size, 'the replacement chain of dissolved half-edges does not end');
-        g = moved.get(g) as HalfEdgeId;
-      }
-      return g;
-    };
     const fixed = new Set<string>();
     const fix = (level: Level, f: FaceId): void => {
       const k = `${level}:${f}`;
@@ -708,8 +840,9 @@ interface NewFace {
 /**
  * Re-walks, at every level, the faces round the old records (see the module comment): new cycles from the records'
  * surviving half-edges, faces by exact area and containment, each old record mapped to the face its region joined;
- * then, finest level first, which faces must keep a record (an edge of their level on a ring, or a surviving child);
- * then, coarsest first, the records written: the survivor by canonical key, the others freed, children re-parented.
+ * then, finest level first, which faces must keep a record (an edge of their level on a ring, or a surviving child),
+ * an own-child ancestor of the re-walked records keeping its record only while a child survives (N-47); then, coarsest
+ * first, the records written: the survivor by canonical key, the others freed, children re-parented.
  * Writes the arena's face tables only; returns the records whose index items the caller writes.
  */
 function facePass(
@@ -718,6 +851,7 @@ function facePass(
   seeds: readonly HalfEdgeId[][][],
   clear: Five<ReadonlySet<FaceId>> | undefined,
   holdsDemoted: readonly ReadonlySet<FaceId>[],
+  ancestors: readonly ReadonlyMap<FaceId, OldRecord>[],
 ): { writes: FaceWrite[]; successor: Map<string, FaceId>; coveredBy: Map<HalfEdgeId, FaceId>[] } {
   const p = t.plat;
   const T = p.halfEdges;
@@ -846,11 +980,30 @@ function facePass(
       const sv = keep ? survivorRec(l, fi) : null;
       for (const r of f.recs) survives[l].set(r.f, sv !== null && r.f === sv.f);
     });
+    // An own-child ancestor (N-47): its rings are unchanged and hold no edge of its level, so it keeps its record only
+    // while a child survives.
+    if (l > 0 && l < 4) {
+      const up = (l + 1) as Level;
+      for (const r of ancestors[l].values()) {
+        const child = r.children.some((c) => isFaceLive(p, up, c) && survives[up].get(c) !== false);
+        survives[l].set(r.f, child);
+      }
+    }
   }
 
   // Coarsest level first: write the records.
   for (const l of LV) {
     const F = p.faces[l];
+    // The own-child ancestors left with no child: freed, listed and tombstoned like any freed record (N-47), in key order.
+    for (const r of [...ancestors[l].values()].sort(keyCmp)) {
+      if (survives[l].get(r.f) !== false) continue;
+      successor.set(`${l}:${r.f}`, -1);
+      noteOwner(t, l, r.f);
+      t.log.removedKeys.set(`${l}:${r.f}`, r.key);
+      freeFace(p, l, r.f);
+      t.log.faces[l].removed.push(r.f);
+      writes.push({ level: l, f: r.f, keep: false });
+    }
     for (const r of dropped[l]) {
       successor.set(`${l}:${r.f}`, -1);
       noteOwner(t, l, r.f);
@@ -1045,12 +1198,20 @@ function materialise(t: OpenTx, plans: readonly MaterialisePlan[], successor: Re
 /**
  * The dissolution rule (§2.2 rule 3): a vertex left with degree 2 that carries the `split` flag, no vertex role row and
  * no pin, whose two edges carry identical role sets and one birth level, is removed and its two edges become one — the
- * edge it was created on, restored. The pair at the run's start end is kept (for a vertex finer than the run, the pair
+ * edge it was created on, restored. The two edges must be a pair the vertex lay on as the batch decided before its first
+ * merge (`wasOnRun`, C-0185 (4), C-0223), so the order of the dissolutions never changes which vertices go. The pair at the run's start end is kept (for a vertex finer than the run, the pair
  * first in the run's order; for one of the run's level, the pair toward the lower (y, x) neighbour), so the run's
  * handle and every coarser route stay as they were; `moved` maps the dropped pair's half-edges to the kept ones, which
  * every record that stored them takes (the caller). `near` are the records round v found before any write.
  */
-function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<HalfEdgeId, HalfEdgeId>, changedFaces: Around[]): void {
+function dissolve(
+  t: OpenTx,
+  v: VertexId,
+  near: readonly Around[],
+  moved: Map<HalfEdgeId, HalfEdgeId>,
+  changedFaces: Around[],
+  wasOnRun: (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId) => boolean,
+): void {
   const p = t.plat;
   const T = p.halfEdges;
   if (!isVertexLive(p, v)) return;
@@ -1064,7 +1225,7 @@ function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<Ha
   const eb = hb >> 1;
   if (ea === eb || T.level[ea] !== T.level[eb]) return;
   if (!sameList(pairRows(p, ha), pairRows(p, hb))) return;
-  if (!onRun(p, v, ha, hb)) return;
+  if (!wasOnRun(v, ha, hb)) return;
   const ua = dest(p, ha);
   const ub = dest(p, hb);
   if (ua === ub) return;
@@ -1115,8 +1276,15 @@ function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<Ha
  * exactly two, of one level, with identical rows of its level or coarser, which carries no vertex row of its level or
  * coarser and no pin, but still meets finer edges or carries finer vertex rows, takes the lowest level among those —
  * the vertex dissolution would take but for that finer geometry — and keeps its flag (now a Steiner vertex of the run).
+ * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223).
  */
-function restoreSplit(t: OpenTx, v: VertexId, near: readonly Around[], changedFaces: Around[]): void {
+function restoreSplit(
+  t: OpenTx,
+  v: VertexId,
+  near: readonly Around[],
+  changedFaces: Around[],
+  wasOnRun: (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId) => boolean,
+): void {
   const p = t.plat;
   const T = p.halfEdges;
   const R = p.roles;
@@ -1130,7 +1298,7 @@ function restoreSplit(t: OpenTx, v: VertexId, near: readonly Around[], changedFa
   const m = T.level[coarse[0] >> 1];
   if (T.level[coarse[1] >> 1] !== m) return;
   if (!sameList(pairRows(p, coarse[0], lv), pairRows(p, coarse[1], lv))) return;
-  if (!onRun(p, v, coarse[0], coarse[1])) return;
+  if (!wasOnRun(v, coarse[0], coarse[1])) return;
   const vr = rowsOn(p, 'vertex', v);
   if (vr.some((r) => R.level[r] <= lv)) return;
   let finer = 5;

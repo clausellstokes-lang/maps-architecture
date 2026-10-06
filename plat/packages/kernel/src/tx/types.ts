@@ -109,7 +109,7 @@ export interface CommitRecord {
   readonly steinerDissolved: number;
   /** The operations the batch charged (its work-limit total). */
   readonly work: number;
-  /** Vertices a warp or smoothing moved (warp is M0-a-13's: none at this item). */
+  /** Vertices a warp or smoothing moved, Steiner re-seats and slides included, by lattice position (M0-a-13's commit journals them, C-0197). */
   readonly moved: VertexId[];
   readonly promoted: VertexId[];
   readonly demoted: { readonly vertices: VertexId[]; readonly edges: HalfEdgeId[] };
