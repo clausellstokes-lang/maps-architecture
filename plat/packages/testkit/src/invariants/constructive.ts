@@ -895,7 +895,7 @@ function envFor(g: ConstructiveInput, ownersParts: ReadonlyMap<string, number>):
   };
 }
 
-function play(c: ConstructiveCase, raw: ConstructiveInput): Run | string {
+function play(c: ConstructiveCase, raw: ConstructiveInput, afterStep?: (p: Plat, i: number) => void): Run | string {
   const g = centred(raw);
   let scene: Scene | null = null;
   const resolver = districtResolver(() => scene);
@@ -922,6 +922,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput): Run | string {
     const faceCountBefore = s.p.slots.face[1].live;
     const r = runStep(s, st, i);
     if (!isLast && r.kind !== 'ok') return `step ${String(i)} (${st.op}) ${r.kind === 'threw' ? `threw: ${r.message}` : `refused ${r.code} ${r.detail}`} — every step before the last returns ok`;
+    if (r.kind === 'ok') afterStep?.(s.p, i);
     if (r.kind === 'ok' && WRITERS.has(st.op)) {
       const ci = sweep(s);
       if (ci.length > 0) return `invalid output after step ${String(i)} (${st.op}): ${ci.slice(0, 3).join('; ')}`;
@@ -1719,7 +1720,7 @@ function kernelReadsNoModel(): string | null {
  * The judge of one M0 draw against the kernel (C-0110): the numeric-core cases by their own `run`, every other by its
  * scenario under the hard timeout, its outcome and every property it holds.
  */
-export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, timeoutMs = CONSTRUCTIVE_TIMEOUT_MS): ConstructiveVerdict {
+export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, timeoutMs = CONSTRUCTIVE_TIMEOUT_MS, plant: { readonly afterStep?: (p: Plat, i: number) => void } = {}): ConstructiveVerdict {
   if (c.run !== undefined) return c.run(input);
   if (c.expect.outcome === 'static') {
     for (const prop of c.expect.holds) {
@@ -1729,7 +1730,7 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
     return GREEN;
   }
   const out = guarded(() => {
-    const run = play(c, input);
+    const run = play(c, input, plant.afterStep);
     if (typeof run === 'string') return fail(run);
     const o = outcomeProblem(c, run);
     if (o !== null) return fail(o);
@@ -1799,17 +1800,23 @@ export interface KernelConstructiveReport extends ConstructiveReport {
  * when `sweeps` is true, else at min(sweep, seeds) — every deferred case drawn once and counted by its milestone, the
  * known findings (CONSTRUCTIVE_KNOWN) apart.
  */
-export function runConstructiveOnKernel(cases: readonly ConstructiveCase[], seeds: number, opts: { readonly sweeps?: boolean } = {}): KernelConstructiveReport {
+export function runConstructiveOnKernel(
+  cases: readonly ConstructiveCase[],
+  seeds: number,
+  opts: { readonly sweeps?: boolean; readonly known?: readonly KnownFinding[]; readonly judge?: ConstructiveJudge } = {},
+): KernelConstructiveReport {
+  const knownList = opts.known ?? CONSTRUCTIVE_KNOWN;
+  const judge = opts.judge ?? kernelJudge;
   const out: KernelConstructiveReport = { cases: 0, judged: 0, draws: 0, green: 0, failures: [], failedCases: 0, pending: [], deferred: runConstructive([], 1).deferred, known: [], staleKnown: [] };
   for (const c of cases) {
     const n = c.milestone !== 'M0' ? 1 : c.sweep === undefined ? seeds : opts.sweeps === true ? c.sweep : Math.min(c.sweep, seeds);
-    const r = runConstructive([c], n, kernelJudge);
+    const r = runConstructive([c], n, judge);
     out.cases += r.cases;
     out.judged += r.judged;
     out.draws += r.draws;
     out.pending.push(...r.pending);
     for (const k of Object.keys(r.deferred) as (keyof typeof out.deferred)[]) out.deferred[k] += r.deferred[k];
-    const ki = CONSTRUCTIVE_KNOWN.find((x) => x.id === c.id);
+    const ki = knownList.find((x) => x.id === c.id);
     if (ki !== undefined && r.failedCases === 1 && r.failures.every((f) => ki.pattern.test(f.reason))) {
       out.known.push({ id: c.id, draws: r.draws, finding: ki.finding });
       continue;

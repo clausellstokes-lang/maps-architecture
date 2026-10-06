@@ -5,12 +5,21 @@
 // verdict against each oracle in an `OracleReport`, so the report carries both shares per operation and the
 // unattracted draw count §13.1's vacuity guard reads. Our output is also held to the hard ring checks on EVERY case
 // (§3.7 (i): "0 invalid outputs"), not only on the attracted side the comparison checks.
+//
+// N-44 (3) and N-46 (5) (fix round S1, C-0231): a case our engine REFUSES with E_INVARIANT or E_BELOW_MIN_EDGE is taken
+// out of the oracle comparison and classed by replay — insertChain's when the refusing overlay's insertions, fed straight
+// to `insertChain` on a fresh arena in `buildOverlay`'s order, meet the same refusal (code and detail); this item's own
+// otherwise. insertChain's are counted per family (operation) against the cap this round measured (`REFUSAL_MEASURE`),
+// this item's own are held to 1 per 10⁴, and every refused case can be logged for the register (`PLAT_REFUSALS_OUT`).
+// A committed result that disagrees with an oracle stays a failure, as before.
+import { appendFileSync } from 'node:fs';
 import fc from 'fast-check';
 import { expect } from 'vitest';
 import {
   attachIndex,
   booleans,
   buffer,
+  bufferParts,
   createPlat,
   faceEdges,
   faceHoles,
@@ -21,7 +30,9 @@ import {
   isFaceLive,
   LATTICE,
   offsetFace,
+  ringEdgeParts,
   snap,
+  UNION_FAN_IN,
   type Cm,
   type FaceId,
   type InsertTx,
@@ -258,12 +269,21 @@ const KEY: PlatKey = { layer: 'ground', part: 0 };
 
 /** The rings entered as closed chains into a fresh arena and the bounded face holding every hole; null when the arena refused them. */
 export function arenaFace(rings: readonly (readonly LatticePoint[])[]): { tx: InsertTx; face: FaceId } | null {
+  const r = arenaFaceOr(rings);
+  return r === null || 'refusal' in r ? null : r;
+}
+
+/**
+ * `arenaFace`, or the refusal `insertChain` met entering a ring (the case's setup: insertChain alone on a fresh arena,
+ * so such a refusal is insertChain's by construction); null when no bounded face holds the rings.
+ */
+export function arenaFaceOr(rings: readonly (readonly LatticePoint[])[]): { tx: InsertTx; face: FaceId } | { refusal: { code: string; detail: string } } | null {
   const plat = createPlat(KEY, { widthCm: (1 << 24) as Cm, heightCm: (1 << 24) as Cm, aspect: 1, marginShare: 0 });
   attachIndex(plat, { gridCellCm: 1_024 });
   const tx = insertTx(plat, 0);
   for (let i = 0; i < rings.length; i += 1) {
     const r = insertChain(tx, rings[i].slice(), [{ role: 'way', entity: `way:${String(i)}` }], 'mandatory', { closed: true });
-    if (!r.ok) return null;
+    if (!r.ok) return { refusal: { code: r.code, detail: r.detail } };
   }
   // The face the rings bound: its outer ring runs through the first ring's lowest-leftmost point (the arena's own frame
   // face holds that ring as a hole, never as its outer ring); among such faces the one holding the most holes, then the
@@ -730,6 +750,22 @@ export interface Harness {
   placed: CaseTally;
   /** Cases reporting W_STRETCH_SHARED with a vertex of ours more than √2 · attractCm from the oracle's boundary (N-41 (2)). */
   stretchFar: CaseTally;
+  /** Cases our engine refused, taken out of the oracle comparison and classed by replay (N-44 (3), N-46 (5)). */
+  engineRefusals: EngineRefusals;
+}
+
+/** The refused cases of a run (`separateRefusal`): insertChain's (counted against the family's cap) and this item's own. */
+export interface EngineRefusals {
+  /** Refusals that replay on insertChain alone — the operation's overlay, or the case's setup (`setup` counts those). */
+  insertChain: number;
+  /** Refusals that do not replay on insertChain alone: caused in arr/ (or by an operation without a replay), 1 per 10⁴. */
+  own: number;
+  /** Of `insertChain`: the face services' setup refusals (the face's rings entered through insertChain, `arenaFaceOr`). */
+  setup: number;
+  /** Per `<class>/<code>`. */
+  byCode: Record<string, number>;
+  /** The own refusals (the first few), for the report. */
+  ownCases: string[];
 }
 
 export function newHarness(): Harness {
@@ -746,6 +782,7 @@ export function newHarness(): Harness {
     allOwnRefused: {},
     placed: { cases: 0, failed: 0, maxCm: 0 },
     stretchFar: { cases: 0, failed: 0, maxCm: 0 },
+    engineRefusals: { insertChain: 0, own: 0, setup: 0, byCode: {}, ownCases: [] },
   };
 }
 
@@ -879,15 +916,191 @@ export function judge(
   }
 }
 
+// ── the refusals our engine gives: separated from the oracle comparison and classed by replay (N-44 (3), N-46 (5)) ──
+
+/** The refusal codes taken out of the oracle comparison: insertChain's bound class (N-46 (3)) and the overlay's invariant. */
+export const SEPARATED_CODES: ReadonlySet<string> = new Set(['E_INVARIANT', 'E_BELOW_MIN_EDGE']);
+
+/** What a replay on insertChain alone met: the refusal and the chain refused. */
+export interface OverlayReplay {
+  readonly code: string;
+  readonly detail: string;
+  readonly chain: LatticePoint[];
+  readonly closed: boolean;
+}
+
+/** A refused case's class: insertChain's (it replays on insertChain alone) or this item's own. */
+export type RefusalClass = 'insertChain' | 'own';
+
+/** The ring without consecutive repeats (the closing repeat included) — the overlay's reading of a ring. */
+function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
+  const out: LatticePoint[] = [];
+  for (const q of ring) {
+    const l = out[out.length - 1];
+    if (l === undefined || l.x !== q.x || l.y !== q.y) out.push(q);
+  }
+  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
+  return out;
+}
+
+/**
+ * The scratch overlay's insertions on insertChain alone, written from `buildOverlay`'s contract (C-0196 (1)) with no
+ * arrangement code in it, as M0-a-09's replay.ts writes it: a fresh L0 arena 2²⁴ cm wide, its index cell about one
+ * segment per cell over the inputs' box (64 cm … 2²⁰ cm), the frame 4 096 cm beyond the inputs as one closed mandatory
+ * chain, then every distinct segment of the operands (either direction) as a two-point mandatory chain in input order,
+ * each under its own `arr:s<i>` row. The first refusal other than a segment's collapse (E_DEGENERATE `empty`), or null.
+ */
+export function replayOverlay(operands: readonly (readonly (readonly LatticePoint[])[])[]): OverlayReplay | null {
+  const segs: [LatticePoint, LatticePoint][] = [];
+  const seen = new Set<string>();
+  let minX = Infinity;
+  let minY = Infinity;
+  let maxX = -Infinity;
+  let maxY = -Infinity;
+  for (const op of operands) {
+    for (const ringIn of op) {
+      const ring = distinctRing(ringIn);
+      const n = ring.length;
+      if (n < 2) continue;
+      for (let i = 0; i < n; i += 1) {
+        const a = ring[i];
+        const b = ring[(i + 1) % n];
+        minX = Math.min(minX, a.x);
+        minY = Math.min(minY, a.y);
+        maxX = Math.max(maxX, a.x);
+        maxY = Math.max(maxY, a.y);
+        const fw = a.x < b.x || (a.x === b.x && a.y < b.y);
+        const k = fw ? `${String(a.x)},${String(a.y)},${String(b.x)},${String(b.y)}` : `${String(b.x)},${String(b.y)},${String(a.x)},${String(a.y)}`;
+        if (seen.has(k)) continue;
+        seen.add(k);
+        segs.push([a, b]);
+      }
+    }
+  }
+  if (segs.length === 0) return null;
+  const q = createPlat(KEY, { widthCm: (2 * LATTICE.rangeCm) as Cm, heightCm: (2 * LATTICE.rangeCm) as Cm, aspect: 1, marginShare: 0 });
+  const area = (maxX - minX + 1) * (maxY - minY + 1);
+  let cell = 64;
+  while (cell < 1_048_576 && cell * cell * Math.max(1, segs.length) < area) cell *= 2;
+  attachIndex(q, { gridCellCm: cell });
+  const t = insertTx(q, 0);
+  const lim = LATTICE.rangeCm - 1;
+  const P = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
+  const x0 = Math.max(-lim, minX - 4096);
+  const y0 = Math.max(-lim, minY - 4096);
+  const x1 = Math.min(lim, maxX + 4096);
+  const y1 = Math.min(lim, maxY + 4096);
+  const frame = [P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)];
+  const f = insertChain(t, frame, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true });
+  if (!f.ok) return { code: f.code, detail: f.detail, chain: frame, closed: true };
+  for (let s = 0; s < segs.length; s += 1) {
+    const [a, b] = segs[s];
+    const r = insertChain(t, [a, b], [{ role: 'invisible', entity: `arr:s${String(s)}` }], 'mandatory');
+    if (!r.ok && !(r.code === 'E_DEGENERATE' && r.detail === 'empty')) return { code: r.code, detail: r.detail, chain: [a, b], closed: false };
+  }
+  return null;
+}
+
+/** A boolean's one overlay (its two operands) on insertChain alone. */
+export function replayBoolean(c: BooleanCase): OverlayReplay | null {
+  return replayOverlay([c.a, c.b]);
+}
+
+/**
+ * A buffer's overlays on insertChain alone, in `unionParts`' order (C-0196 (6)): its parts (`bufferParts`) taken
+ * UNION_FAN_IN at a time, level after level, a lone group above the first level passed up; each group's overlay
+ * replayed, the first that refuses returned. A group's union, the next level's input, is read from `booleans`' union
+ * of the group with nothing (the same overlay: the same segments, frame and cell); if that refuses where the replay did
+ * not, the refusal is not insertChain's (null).
+ */
+export function replayBuffer(c: BufferCase): OverlayReplay | null {
+  const parts = bufferParts(c.chains, c.w, c.joins, c.ends);
+  if (!parts.ok) return null;
+  let level: LatticePoint[][][] = parts.value.map((p) => [p]);
+  for (let depth = 0; ; depth += 1) {
+    const next: LatticePoint[][][] = [];
+    for (let i = 0; i < level.length; i += UNION_FAN_IN) {
+      const group = level.slice(i, i + UNION_FAN_IN);
+      if (group.length === 1 && level.length > 1 && depth > 0) {
+        next.push(group[0]);
+        continue;
+      }
+      const rings: LatticePoint[][] = [];
+      for (const g of group) for (const r of g) rings.push(r);
+      const rp = replayOverlay([rings]);
+      if (rp !== null) return rp;
+      const u = booleans('union', rings, [], 'nonzero');
+      if (u.ok) {
+        if (u.value.length > 0) next.push(u.value);
+      } else if (!(u.code === 'E_DEGENERATE' && u.detail === 'empty')) return null;
+    }
+    if (next.length <= 1) return null;
+    level = next;
+  }
+}
+
+/** offsetFace's one overlay on insertChain alone: the face's rings, then every edge's parts (`ringEdgeParts`, C-0196 (3)). */
+export function replayOffset(rings: readonly Ring[], d: readonly number[]): OverlayReplay | null {
+  const parts = ringEdgeParts(rings, d);
+  if (!parts.ok) return null;
+  return replayOverlay([rings, parts.value]);
+}
+
+/** The class of a refusal: insertChain's when the replay met the same code and detail on a chain of distinct points. */
+export function classifyRefusal(r: { code: string; detail: string }, replay: OverlayReplay | null): RefusalClass {
+  if (replay === null || replay.code !== r.code || replay.detail !== r.detail) return 'own';
+  return new Set(replay.chain.map((p) => `${String(p.x)},${String(p.y)}`)).size === replay.chain.length ? 'insertChain' : 'own';
+}
+
+/** One refused case, as the register keeps it (`PLAT_REFUSALS_OUT`, one JSON line each). */
+export interface RefusedCase {
+  op: string;
+  source: string;
+  cls: RefusalClass;
+  setup: boolean;
+  code: string;
+  detail: string;
+  seed: string | null;
+  input: unknown;
+}
+
+function logRefused(entry: RefusedCase): void {
+  const file = process.env.PLAT_REFUSALS_OUT;
+  if (file === undefined || file === '') return;
+  appendFileSync(file, `${JSON.stringify(entry)}\n`);
+}
+
+function tallyRefusal(h: Harness, op: string, source: string, r: { code: string; detail: string }, cls: RefusalClass, setup: boolean, input: unknown): void {
+  const t = h.engineRefusals;
+  t[cls] += 1;
+  if (setup) t.setup += 1;
+  const k = `${cls}${setup ? '/setup' : ''}/${r.code}`;
+  t.byCode[k] = (t.byCode[k] ?? 0) + 1;
+  if (cls === 'own') keep(t.ownCases, `${op} [${source}]: ${r.code} '${r.detail}' — ${JSON.stringify(input)}`);
+  logRefused({ op, source, cls, setup, code: r.code, detail: r.detail, seed: process.env.PLAT_FUZZ_SEED ?? null, input });
+}
+
+/**
+ * Takes a refused case out of the oracle comparison (N-44 (3)): when our result is a refusal in SEPARATED_CODES, it is
+ * classed by `replay` (run only then) and tallied; true when the case was taken out. Any other result goes to `judge`.
+ */
+export function separateRefusal(h: Harness, op: string, source: string, ours: KernelResult<Ring[]>, replay: () => OverlayReplay | null, input: unknown): boolean {
+  if (ours.ok || !SEPARATED_CODES.has(ours.code)) return false;
+  tallyRefusal(h, op, source, ours, classifyRefusal(ours, replay()), false, input);
+  return true;
+}
+
 /** One boolean case judged. */
 export function judgeBoolean(h: Harness, c: BooleanCase): void {
   const ours = booleans(c.op, c.a, c.b, c.fill);
+  if (separateRefusal(h, c.op, c.source, ours, () => replayBoolean(c), c)) return;
   judge(h, c.op, c.source, ours, (e) => oracleBoolean(c.op, c.a, c.b, c.fill, e), warningsOf(ours), () => JSON.stringify({ op: c.op, fill: c.fill, a: c.a, b: c.b }));
 }
 
 /** One buffer case judged. */
 export function judgeBuffer(h: Harness, c: BufferCase): void {
   const ours = buffer(c.chains, c.w, c.joins, c.ends);
+  if (separateRefusal(h, 'buffer', c.source, ours, () => replayBuffer(c), c)) return;
   judge(h, 'buffer', c.source, ours, (e) => oracleBuffer(c.chains, c.w, c.joins, c.ends, e), warningsOf(ours), () => JSON.stringify(c));
 }
 
@@ -895,17 +1108,28 @@ function settle(h: Harness, why: string): void {
   h.settled[why] = (h.settled[why] ?? 0) + 1;
 }
 
+/**
+ * The face of a face-service case, or false when the case is settled or counted without one: the arena refused the
+ * rings — counted as insertChain's when the refusal is in SEPARATED_CODES (the setup is insertChain alone on a fresh
+ * arena), settled otherwise — or no bounded face holds them (settled).
+ */
+function faceOf(h: Harness, op: string, c: FaceCase): { tx: InsertTx; face: FaceId } | false {
+  const af = arenaFaceOr(c.rings);
+  if (af !== null && !('refusal' in af)) return af;
+  if (af !== null && SEPARATED_CODES.has(af.refusal.code)) tallyRefusal(h, op, c.source, af.refusal, 'insertChain', true, c);
+  else settle(h, 'arena refused the face');
+  return false;
+}
+
 /** One offsetFace case judged (the face as the arena holds it; the distances cycled over its edges). */
 export function judgeOffset(h: Harness, c: FaceCase): void {
-  const af = arenaFace(c.rings);
-  if (af === null) {
-    settle(h, 'arena refused the face');
-    return;
-  }
+  const af = faceOf(h, 'offsetFace', c);
+  if (af === false) return;
   const edges = faceEdges(af.tx, af.face);
   const rings = ringsOfEdges(edges);
   const d = edges.map((_, i) => c.dists[i % c.dists.length]);
   const ours = offsetFace(af.tx, af.face, d);
+  if (separateRefusal(h, 'offsetFace', c.source, ours, () => replayOffset(rings, d), c)) return;
   judge(h, 'offsetFace', c.source, ours, (e) => oracleOffset(rings, edges, d, e), warningsOf(ours), () => JSON.stringify({ rings, d }));
 }
 
@@ -921,11 +1145,8 @@ export function insetLeavesLattice(ring: Ring, dCm: number): boolean {
  * oracle's result must then be empty too, within the bound), its `lastCm` checked to be below dCm.
  */
 export function judgeInset(h: Harness, c: FaceCase): void {
-  const af = arenaFace(c.rings);
-  if (af === null) {
-    settle(h, 'arena refused the face');
-    return;
-  }
+  const af = faceOf(h, 'insetRing', c);
+  if (af === false) return;
   const rings = ringsOfEdges(faceEdges(af.tx, af.face));
   const dCm = c.dists[0];
   const ours = insetRing(af.tx, af.face, dCm);
@@ -934,6 +1155,9 @@ export function judgeInset(h: Harness, c: FaceCase): void {
     else keep(h.failures, `insetRing [${c.source}]: a non-convex face not refused E_NON_CONVEX — ${JSON.stringify({ rings, dCm })}`);
     return;
   }
+  // on a convex face: insetRing's overlay is its half-plane ring, which only the kernel computes — no replay, so a
+  // refusal of it is held to this item's own cap (C-0231)
+  if (separateRefusal(h, 'insetRing', c.source, ours, () => null, c)) return;
   let mine: KernelResult<Ring[]> | Ring[] = ours;
   if (!ours.ok && ours.code === 'E_OUT_OF_RANGE' && dCm < 0) {
     // an outward inset of a face near the lattice's edge leaves the lattice (§3.2 (1), (7)): settled when the exact
@@ -974,27 +1198,101 @@ export const MAX_REFUSAL_SHARE = 0.001;
 export const MAX_ALL_OWN_REFUSED_SHARE = 0.01;
 
 /**
+ * insertChain's refusals each operation's agreement met at the PR size, measured by fix round S1 (C-0231; N-46 (4) and
+ * (5)): the seeds measured (10⁴ cases per operation each) and the refusals classed insertChain's over all of them — the
+ * ratchet's baseline. A cap only falls: a later measure that finds fewer lowers it; raising one is the session's call.
+ */
+export const REFUSAL_MEASURE: Readonly<Record<string, { readonly seeds: number; readonly count: number }>> = {
+  union: { seeds: 1, count: 0 },
+  intersection: { seeds: 1, count: 0 },
+  difference: { seeds: 1, count: 0 },
+  xor: { seeds: 1, count: 0 },
+  buffer: { seeds: 4, count: 266 },
+  offsetFace: { seeds: 4, count: 125 },
+  insetRing: { seeds: 1, count: 0 },
+};
+
+/**
+ * N-46 (4)'s cap per 10⁴ cases for an operation's insertChain refusals: the measured rate plus 3 · √count on the
+ * measured total, (count + 3 · √count) ÷ seeds — as M0-a-05's caps.ts reads it; null for an operation not measured.
+ */
+export function refusalCapPer1e4(op: string): number | null {
+  const m = Object.hasOwn(REFUSAL_MEASURE, op) ? REFUSAL_MEASURE[op] : undefined;
+  if (m === undefined) return null;
+  return (m.count + 3 * Math.sqrt(m.count)) / m.seeds;
+}
+
+/**
+ * The smallest count c with P(X ≤ c) ≥ 0.999 for X Poisson with mean `mean`, at least 1 — one run's noise about the
+ * cap (caps.ts's `poissonCap`, M0-a-05; the terms summed in order).
+ */
+export function poissonCap(mean: number): number {
+  if (mean <= 0) return 1;
+  let term = Math.exp(-mean);
+  let sum = term;
+  let c = 0;
+  while (sum < 0.999) {
+    c += 1;
+    term *= mean / c;
+    sum += term;
+  }
+  return Math.max(1, c);
+}
+
+/** N-44 (3) for a refusal caused in arr/ (or without a replay): at most 1 per 10⁴ cases (PR 10⁴: 1; nightly 10⁶: 100). */
+export function ownRefusalCap(runs: number): number {
+  return Math.ceil(runs / 10_000);
+}
+
+/**
+ * The cap on an operation's insertChain refusals in one run of `runs` cases: the 99.9 % Poisson point of its measured
+ * cap scaled to the run (N-44 (3), N-46 (4), (5)); an operation not measured is held to the own cap.
+ */
+export function insertChainRefusalCap(op: string, runs: number): number {
+  const r = refusalCapPer1e4(op);
+  return r === null ? ownRefusalCap(runs) : poissonCap((r * runs) / 10_000);
+}
+
+/** When PLAT_FUZZ_COUNTS names a file, one JSON line per verdict with the refusal counts (a re-measure reads them). */
+function recordCounts(op: string, runs: number, h: Harness, drawn: number): void {
+  const file = process.env.PLAT_FUZZ_COUNTS;
+  if (file === undefined || file === '') return;
+  const t = h.engineRefusals;
+  appendFileSync(file, `${JSON.stringify({ op, seed: process.env.PLAT_FUZZ_SEED ?? null, runs, drawn, insertChain: t.insertChain, own: t.own, setup: t.setup, byCode: t.byCode, failures: h.failures.length })}\n`);
+}
+
+/**
  * An operation's verdict after its run: the report line printed (both shares, the unattracted count against the
- * guard, the refusals by step, the W_PLACED and far-stretch tallies), then §3.7 (i)'s bar asserted — 0 crashes (a
- * throw fails the property before this), 0 invalid outputs, every judged case passing, every case accounted for,
- * refusals within C-0150's allowance as N-39 / N-40 classify them, and §13.1's vacuity guard (C-0196 (7)).
+ * guard, the refusals by step, the W_PLACED and far-stretch tallies, our engine's refusals by class), then §3.7 (i)'s
+ * bar asserted — 0 crashes (a throw fails the property before this), 0 invalid outputs, every judged case passing,
+ * every case accounted for (a refused case among them), the oracles' refusals within C-0150's allowance as N-39 / N-40
+ * classify them, our engine's refusals within N-44 (3)'s caps — this item's own at 1 per 10⁴, insertChain's at the
+ * family's measured cap (C-0231) — and §13.1's vacuity guard (C-0196 (7)).
  */
 export function verdict(h: Harness, op: string, runs: number = RUNS): void {
   const line = h.report.line(op);
   const settled = Object.values(h.settled).reduce((s, n) => s + n, 0);
   const guard = guardFor(runs, UNATTRACTED_DRAW_MIN);
+  const ref = h.engineRefusals;
+  const icCap = insertChainRefusalCap(op, runs);
+  const ownCap = ownRefusalCap(runs);
+  recordCounts(op, runs, h, line.draws);
   console.info(
-    `arr/${op}: ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}, share ${line.attractedShare.toFixed(3)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)} by step ${JSON.stringify(h.refusalSteps)} (counted ${String(h.refusalsCounted)}, excluded ${String(h.refusalsExcluded)}, every oracle on its own operands ${JSON.stringify(h.allOwnRefused)}); unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; W_PLACED cases ${String(h.placed.cases)} (failed ${String(h.placed.failed)}); stretch beyond √2·attractCm ${String(h.stretchFar.cases)} (failed ${String(h.stretchFar.failed)}, farthest ${h.stretchFar.maxCm.toFixed(1)} cm); snap-rounded ${JSON.stringify(h.snapRounded)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}`,
+    `arr/${op}: ${String(runs)} cases — drawn ${String(line.draws)} (unattracted ${String(line.unattracted)}, share ${line.unattractedShare.toFixed(3)}; attracted ${String(line.attracted)}, share ${line.attractedShare.toFixed(3)}); passed ${String(line.unattractedPass)} + ${String(line.attractedPass)}; refusals ${JSON.stringify(line.refusals)} by step ${JSON.stringify(h.refusalSteps)} (counted ${String(h.refusalsCounted)}, excluded ${String(h.refusalsExcluded)}, every oracle on its own operands ${JSON.stringify(h.allOwnRefused)}); unjudged ${String(line.unjudged)}; settled ${JSON.stringify(h.settled)}; W_PLACED cases ${String(h.placed.cases)} (failed ${String(h.placed.failed)}); stretch beyond √2·attractCm ${String(h.stretchFar.cases)} (failed ${String(h.stretchFar.failed)}, farthest ${h.stretchFar.maxCm.toFixed(1)} cm); snap-rounded ${JSON.stringify(h.snapRounded)}; sources ${JSON.stringify(h.sources)}; guard ${String(guard)}; refused by our engine: insertChain's ${String(ref.insertChain)} (setup ${String(ref.setup)}; cap ${String(icCap)}), own ${String(ref.own)} (cap ${String(ownCap)}) ${JSON.stringify(ref.byCode)}${ref.ownCases.length > 0 ? `; own: ${ref.ownCases.join(' | ')}` : ''}`,
   );
   expect(h.failures).toEqual([]);
   expect(h.invalid).toEqual([]);
   expect(line.failures).toEqual({});
   expect(line.unattractedPass + line.attractedPass).toBe(line.draws);
-  expect(line.draws + line.unjudged + settled).toBe(runs);
+  expect(line.draws + line.unjudged + settled + ref.insertChain + ref.own).toBe(runs);
   expect(h.refusalsCounted).toBeLessThanOrEqual(Math.ceil(MAX_REFUSAL_SHARE * runs));
   for (const [source, n] of Object.entries(h.allOwnRefused)) {
     expect(n, `cases every oracle refused on its own operands in ${source}`).toBeLessThanOrEqual(Math.ceil(MAX_ALL_OWN_REFUSED_SHARE * (h.sources[source] ?? 0)));
   }
+  // N-44 (3), N-46 (5): our engine's refusals, out of the comparison — this item's own at 1 per 10⁴, insertChain's at
+  // the family's measured cap
+  expect(ref.own, `refusals caused in arr/ (or without a replay) in ${op}`).toBeLessThanOrEqual(ownCap);
+  expect(ref.insertChain, `insertChain's refusals in ${op} against the measured cap`).toBeLessThanOrEqual(icCap);
   expect(h.placed.failed).toBe(0);
   expect(h.stretchFar.failed).toBe(0);
   // §13.1's vacuity guard (C-0196 (7)): 10⁵ unattracted draws at the nightly size, a tenth of the draws below it

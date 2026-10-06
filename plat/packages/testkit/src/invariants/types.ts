@@ -108,8 +108,8 @@ export interface CoverageRow {
   readonly fixture: string;
   /** Built at M0 (exercised by the fixture here), or the milestone that builds it. */
   readonly status: 'built' | { readonly deferredTo: string };
-  /** The fixture's run: draws exercised and how many reached the rung (null for a deferred row). */
-  readonly exercised: { readonly draws: number; readonly reached: number } | null;
+  /** The fixture's run: draws exercised, how many reached the rung, and what each draw came to (null for a row not run here). */
+  readonly exercised: { readonly draws: number; readonly reached: number; readonly observed: Readonly<Record<string, number>> } | null;
 }
 
 /** `ladderCoverage()`'s report (C-0109: M0-x-05's `stageLadderCoverage()` merges it unchanged). */

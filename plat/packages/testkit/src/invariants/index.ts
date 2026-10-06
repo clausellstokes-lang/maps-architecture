@@ -8,7 +8,7 @@ export { guarded as fuzzGuarded, HANG_TIMEOUT_MS, thrownText as fuzzThrownText, 
 export { COUNTER_UNITS as FUZZ_COUNTER_UNITS, PRIMITIVES as FUZZ_PRIMITIVES, primitiveNamed as fuzzPrimitive, SAMPLE_EVERY as FUZZ_SAMPLE_EVERY, type OpContext as FuzzOpContext, type OpOutcome as FuzzOpOutcome, type Plant as FuzzPlant, type Primitive as FuzzPrimitive } from './primitives.js';
 export { FUZZ_CHUNK, runFuzz, type RunFuzzOptions } from './runFuzz.js';
 export { CONSTRUCTIVE_KNOWN, CONSTRUCTIVE_TIMEOUT_MS, judgeOnKernel as constructiveKernelJudge, type KernelConstructiveReport, type KnownFinding as ConstructiveKnownFinding, kernelJudge as constructiveOnKernel, PROFILE_UNCHANGED_CM, runConstructiveOnKernel } from './constructive.js';
-export { ladderCoverage } from './ladders.js';
+export { coverageReport as ladderCoverageReport, ladderCoverage } from './ladders.js';
 export { bugAbort, type BugAbort } from './bugs.js';
 export { constructiveRun, countsReport, countsSummary } from './report.js';
 export {

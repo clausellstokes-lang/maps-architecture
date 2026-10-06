@@ -146,8 +146,12 @@ describe('§4.2 S1 (8): water faces with shore and bank edges; land components b
     for (const e of between) expect(e.rows).toEqual(['shore water:estuary:0', 'shore water:river:0']);
     // no estuary without the mouth, nor on a river shorter than twice its length
     expect(splitEstuary([river()], REACH, 'none')).toHaveLength(1);
-    const short = body('water:river:0', 'river', [[-50_000, 0], [-20_000, 0]], 2000);
+    // a 600 m river: its estuary would leave the river 200 m, under the estuary's own 400 m
+    const short = body('water:river:0', 'river', [[-10_000, 0], [50_000, 0]], 2000);
     expect(splitEstuary([short], REACH, 'estuary')).toHaveLength(1);
+    // an 800 m one splits
+    const long = body('water:river:0', 'river', [[-30_000, 0], [50_000, 0]], 2000);
+    expect(splitEstuary([long], REACH, 'estuary')).toHaveLength(2);
   });
 
   it('a channel round an island: two land components (the island and the land outside), bank on both of its rings', () => {

@@ -21,7 +21,7 @@ import {
   type ConstructiveCase,
   type ConstructiveInput,
 } from '@plat/testkit';
-import { absorbSliver, classFloorRow, pointLocate, type KernelTx } from '@plat/kernel';
+import { absorbSliver, classFloorRow, isVertexLive, pointLocate, type KernelTx } from '@plat/kernel';
 import { CASE_DRAWS, HEAVY_DRAWS, lp } from './support.js';
 
 beforeAll(async () => {
@@ -78,6 +78,21 @@ describe('every M0 case of the constructive set runs against the kernel and retu
   }, 300_000);
 });
 
+describe('the known findings are counted as known only for their own reason (C-0227 (14))', () => {
+  const two = ['geom/collinear-triple', 'geom/antenna'].map((id) => constructiveCase(id) as ConstructiveCase);
+  const failing = (reason: string) => () => ({ ok: false as const, reason });
+
+  it('a listed case failing for its pattern is known; for another reason it fails; a listed green case is stale', () => {
+    const known = [{ id: 'geom/antenna', owner: 'test', pattern: /^planted pattern$/, finding: 'test' }];
+    const k1 = runConstructiveOnKernel(two.slice(1), 1, { known, judge: failing('planted pattern') });
+    expect([k1.known.map((k) => k.id), k1.failedCases]).toEqual([['geom/antenna'], 0]);
+    const k2 = runConstructiveOnKernel(two.slice(1), 1, { known, judge: failing('another reason') });
+    expect([k2.known.length, k2.failedCases]).toEqual([0, 1]);
+    const k3 = runConstructiveOnKernel(two, 2, { known });
+    expect([k3.staleKnown, k3.known.length, k3.green]).toEqual([['geom/antenna'], 0, 2]);
+  }, 60_000);
+});
+
 describe('negative controls: the judge fails what is not the stated outcome', () => {
   /** A copy of a case with its expected outcome replaced. */
   const twisted = (id: string, expect2: ConstructiveCase['expect']): ConstructiveCase => ({ ...(constructiveCase(id) as ConstructiveCase), expect: expect2 });
@@ -88,6 +103,27 @@ describe('negative controls: the judge fails what is not the stated outcome', ()
     const v2 = constructiveKernelJudge(twisted('geom/cut-through-vertex', { outcome: 'refused', code: 'E_LEVEL', holds: [], clause: 'twisted' }), input(constructiveCase('geom/cut-through-vertex') as ConstructiveCase, 0));
     expect(v2.ok).toBe(false);
     expect(!v2.ok && v2.reason).toMatch(/expected E_LEVEL, got E_NOT_TWO_CROSSINGS/);
+  });
+
+  it('the whole-arena sweep after every writer step catches a write behind a step (a case whose final properties never look)', () => {
+    const c = constructiveCase('index/l3-order-after-l4') as ConstructiveCase;
+    expect(c.expect.holds).toEqual(['query-order-stable']);
+    const g = input(c, 0);
+    expect(constructiveKernelJudge(c, g).ok).toBe(true);
+    const v = constructiveKernelJudge(c, g, 60_000, {
+      afterStep: (p, i) => {
+        if (i !== 0) return;
+        // a vertex of the block's kerb pulled 50 m out behind the transaction: its edges now cross the frame's rings
+        for (let w = p.slots.vertex.top - 1; w >= 0; w--) {
+          if (isVertexLive(p, w) && p.vertices.level[w] === 2) {
+            p.vertices.x[w] += 5_000_000;
+            return;
+          }
+        }
+      },
+    });
+    expect(v.ok).toBe(false);
+    expect(!v.ok && v.reason).toMatch(/^invalid output after step 0 \(insertChain\)/);
   });
 
   it("version-kept fails where the last step moved the arena (an empty transaction's case given a committing step)", () => {

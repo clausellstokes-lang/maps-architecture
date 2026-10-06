@@ -14,12 +14,14 @@ import { bugAbort } from './bugs.js';
 import { framedAround, kernelOn, lpt, spec } from './support.js';
 import type { CoverageReport, CoverageRow } from './types.js';
 
-/** One row's run: how many of its draws reached the rung. */
-type Reach = (draw: number) => boolean;
+/** One draw of a row's fixture: what it came to (a code, a warning, a downgrade's path and cause). */
+type Reach = (draw: number) => string;
 
 interface RowSpec extends Omit<CoverageRow, 'exercised'> {
   /** null: a deferred row, or a rung a kernel test hook reaches (named in `fixture`). */
   readonly reach: Reach | null;
+  /** What a draw that reaches the rung comes to (default: the row's `code`). */
+  readonly expect?: string;
   readonly draws?: number;
 }
 
@@ -79,9 +81,10 @@ const ROWS: readonly RowSpec[] = [
     code: 'W_DOWNGRADE plainRoof (contract sharpCorner)',
     fixture: 'limit/degen-skeleton-sharp-corner',
     status: 'built',
+    expect: 'W_DOWNGRADE plainRoof (contract sharpCorner)',
     reach: (s) => {
       const d = skeletonDowngrade('limit/degen-skeleton-sharp-corner', s, 'roof');
-      return d !== null && d.to === 'plainRoof' && d.cause === 'contract sharpCorner' && d.reported;
+      return d === null ? 'no downgrade' : `${d.reported ? 'W_DOWNGRADE' : 'unreported'} ${d.to} (${d.cause})`;
     },
   },
   {
@@ -91,9 +94,10 @@ const ROWS: readonly RowSpec[] = [
     code: 'W_DOWNGRADE plainRoof (contract holeContact)',
     fixture: 'limit/degen-skeleton-hole-touch',
     status: 'built',
+    expect: 'W_DOWNGRADE plainRoof (contract holeContact)',
     reach: (s) => {
       const d = skeletonDowngrade('limit/degen-skeleton-hole-touch', s);
-      return d !== null && d.to === 'plainRoof' && d.cause === 'contract holeContact' && d.reported;
+      return d === null ? 'no downgrade' : `${d.reported ? 'W_DOWNGRADE' : 'unreported'} ${d.to} (${d.cause})`;
     },
   },
   {
@@ -105,7 +109,7 @@ const ROWS: readonly RowSpec[] = [
     status: 'built',
     reach: (s) => {
       const d = skeletonDowngrade('limit/degen-skeleton-sharp-corner', s, 'spine');
-      return d !== null && d.to === 'medialAxis' && d.reported;
+      return d === null ? 'no downgrade' : `${d.reported ? 'W_DOWNGRADE' : 'unreported'} ${d.to}`;
     },
   },
   {
@@ -138,7 +142,7 @@ const ROWS: readonly RowSpec[] = [
       const g = draw('skel/holed-polygons', s);
       const rings = String(g.steps[0].args.rings).split(',').map((n) => g.rings[n]) as Polygon[];
       const r = skeleton(rings, 'roof');
-      return r.ok && (r.value.kind === 'skeleton' || hasWarning(r.warnings, 'W_DOWNGRADE'));
+      return !r.ok ? r.code : r.value.kind === 'skeleton' || hasWarning(r.warnings, 'W_DOWNGRADE') ? 'ok / W_DOWNGRADE' : 'an unreported downgrade';
     },
   },
   {
@@ -161,11 +165,11 @@ const ROWS: readonly RowSpec[] = [
     reach: (s) => {
       const g = draw('limit/one-item-chain-optional', s);
       const p = framedAround(g.chains.chain);
-      if (p === null) return false;
+      if (p === null) return 'no frame';
       const k = kernelOn([p]);
       const v = p.version;
       const r = k.tx(spec(1), (o) => k.geom.insertChain(o, g.chains.chain, [{ role: 'way', entity: 'way:c' }], 'optional'));
-      return !r.ok && r.code === 'E_BELOW_MIN_EDGE' && p.version === v;
+      return r.ok ? 'committed' : p.version !== v ? 'refused, the arena changed' : r.code;
     },
   },
   {
@@ -173,12 +177,13 @@ const ROWS: readonly RowSpec[] = [
     rung: 'optional chain making a corner below minFaceAngle → E_BELOW_MIN_ANGLE',
     tier: 1,
     code: 'E_BELOW_MIN_ANGLE',
+    expect: 'E_BELOW_MIN_ANGLE',
     fixture: 'ladder/optional-acute (this module: a chain leaving a way at 1°–4°)',
     status: 'built',
     reach: (s) => {
       const d = acuteDraw(s, 100 + 75 * (s % 5));
       const out = besideWay(d.way, d.chain, 'optional');
-      return !out.r.ok && (out.r.code === 'E_BELOW_MIN_ANGLE' || out.r.code === 'E_BELOW_MIN_EDGE') && out.kept;
+      return out.r.ok ? 'committed' : !out.kept ? 'refused, the arena changed' : out.r.code;
     },
   },
   {
@@ -191,7 +196,7 @@ const ROWS: readonly RowSpec[] = [
     reach: (s) => {
       const d = acuteDraw(s, 100 + 75 * (s % 5));
       const out = besideWay(d.way, d.chain, 'mandatory');
-      return out.r.ok && (hasWarning(out.r.warnings, 'W_ACUTE_CORNER') || hasWarning(out.r.warnings, 'W_WEDGE_ROUTED') || hasWarning(out.r.warnings, 'W_STRETCH_SHARED'));
+      return !out.r.ok ? out.r.code : hasWarning(out.r.warnings, 'W_ACUTE_CORNER') ? 'W_ACUTE_CORNER' : `committed ${out.r.warnings.map((w) => w.code).join(',')}`;
     },
   },
   {
@@ -212,7 +217,7 @@ const ROWS: readonly RowSpec[] = [
     status: 'built',
     reach: (s) => {
       const out = besideWay([lpt(0, 0), lpt(10_000, 0)], [lpt(5_000 + s, 100), lpt(BEYOND, 200)], 'optional');
-      return !out.r.ok && out.r.code === 'E_OUT_OF_RANGE' && out.kept;
+      return out.r.ok ? 'committed' : !out.kept ? 'refused, the arena changed' : out.r.code;
     },
   },
   {
@@ -224,7 +229,7 @@ const ROWS: readonly RowSpec[] = [
     status: 'built',
     reach: (s) => {
       const out = bugAbort([lpt(5_000 + s, 100), lpt(BEYOND, 200)], s);
-      return out.code === 'E_OUT_OF_RANGE' && out.rolledBack && out.bug !== null && out.tier === 6;
+      return out.code === 'E_OUT_OF_RANGE' && out.rolledBack && out.bug !== null && out.tier === 6 ? 'bug' : `${out.code} rolledBack ${String(out.rolledBack)} tier ${String(out.tier)}`;
     },
   },
   {
@@ -236,12 +241,12 @@ const ROWS: readonly RowSpec[] = [
     status: 'built',
     reach: (s) => {
       const p = framedAround([lpt(-5000, -5000), lpt(5000, 5000)]);
-      if (p === null) return false;
+      if (p === null) return 'no frame';
       const k = kernelOn([p]);
       const w = 1000 + 10 * s;
       const v = p.version;
       const r = k.tx(spec(1), (o) => k.geom.claimSubFace(o, { ring: [lpt(0, 0), lpt(w, w), lpt(w, 0), lpt(0, 2 * w)] }, 'claim:bowtie'));
-      return !r.ok && r.code === 'E_SELF_INTERSECT' && p.version === v;
+      return r.ok ? 'committed' : p.version !== v ? 'refused, the arena changed' : r.code;
     },
   },
   {
@@ -278,14 +283,24 @@ function degenerateTable(): CoverageReport['degenerate'] {
 export function ladderCoverage(opts: { readonly draws?: number } = {}): CoverageReport {
   const n = opts.draws ?? 8;
   const rows: CoverageRow[] = ROWS.map((r) => {
-    const { reach, draws, ...row } = r;
+    const { reach, draws, expect, ...row } = r;
     if (reach === null) return { ...row, exercised: null };
     // A row that names its own draw count (the 1 000 holed polygons) runs whole; every other row at `draws`.
     const total = draws ?? n;
     let reached = 0;
-    for (let s = 0; s < total; s++) if (reach(s)) reached++;
-    return { ...row, exercised: { draws: total, reached } };
+    const observed: Record<string, number> = {};
+    for (let s = 0; s < total; s++) {
+      const o = reach(s);
+      observed[o] = (observed[o] ?? 0) + 1;
+      if (o === (expect ?? row.code)) reached++;
+    }
+    return { ...row, exercised: { draws: total, reached, observed } };
   });
-  const covered = rows.every((r) => r.status !== 'built' || r.exercised === null || r.exercised.reached === r.exercised.draws);
-  return { ladders: ['F-NUM', 'F-SKELETON'], rows, degenerate: degenerateTable(), covered };
+  return coverageReport(rows);
+}
+
+/** The report over rows: covered when every built row run here reached its rung on every draw it ran. */
+export function coverageReport(rows: readonly CoverageRow[]): CoverageReport {
+  const covered = rows.every((r) => r.status !== 'built' || r.exercised === null || (r.exercised.draws > 0 && r.exercised.reached === r.exercised.draws));
+  return { ladders: ['F-NUM', 'F-SKELETON'], rows: [...rows], degenerate: degenerateTable(), covered };
 }

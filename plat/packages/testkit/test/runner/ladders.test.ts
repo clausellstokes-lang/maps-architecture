@@ -11,7 +11,7 @@ import { existsSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
-import { bugAbort, CONSTRUCTIVE_SET, constructiveCase, ladderCoverage, type CoverageReport } from '@plat/testkit';
+import { bugAbort, CONSTRUCTIVE_SET, constructiveCase, ladderCoverage, ladderCoverageReport, type CoverageReport } from '@plat/testkit';
 import { lp } from './support.js';
 
 const PLAT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', '..', '..');
@@ -69,10 +69,29 @@ describe('the kernel ladders’ coverage table (§13.1; C-0085, C-0109)', () => 
       if (r.status !== 'built' || r.exercised === null) continue;
       expect(r.exercised.draws, r.rung).toBeGreaterThan(0);
       expect(r.exercised.reached, r.rung).toBe(r.exercised.draws);
+      // every draw came to the one outcome that is the rung — its code, its warning, or its downgrade's path and cause
+      expect(Object.keys(r.exercised.observed), r.rung).toHaveLength(1);
     }
+    const seen = (re: RegExp) => Object.keys(rows(re)[0].exercised?.observed ?? {});
+    expect(seen(/roof reader.*corner sharper/)).toEqual(['W_DOWNGRADE plainRoof (contract sharpCorner)']);
+    expect(seen(/roof reader.*hole touching/)).toEqual(['W_DOWNGRADE plainRoof (contract holeContact)']);
+    expect(seen(/spine reader/)).toEqual(['W_DOWNGRADE medialAxis']);
+    expect(seen(/optional chain making a corner/)).toEqual(['E_BELOW_MIN_ANGLE']);
+    expect(seen(/mandatory chain making a corner/)).toEqual(['W_ACUTE_CORNER']);
     expect(table().covered).toBe(true);
     // the 1 000 holed polygons run whole
     expect(rows(/1 000 holed polygons/)[0].exercised?.draws).toBe(1000);
+  });
+
+  it('a built row that misses its rung on one draw, or ran no draw, leaves the table uncovered (a negative control)', () => {
+    const row = table().rows.find((r) => r.exercised !== null && r.status === 'built');
+    if (row === undefined || row.exercised === null) throw new Error('no built row');
+    const missed = { ...row, exercised: { ...row.exercised, reached: row.exercised.draws - 1 } };
+    expect(ladderCoverageReport([missed]).covered).toBe(false);
+    expect(ladderCoverageReport([{ ...row, exercised: { draws: 0, reached: 0, observed: {} } }]).covered).toBe(false);
+    expect(ladderCoverageReport([row]).covered).toBe(true);
+    // a deferred row and a hook row are not run here and never uncover the table
+    expect(ladderCoverageReport(table().rows.filter((r) => r.exercised === null)).covered).toBe(true);
   });
 
   it("§5.1 (9)'s degenerate kinds: one input of each of the five kinds per kernel class, each an M0 case", () => {

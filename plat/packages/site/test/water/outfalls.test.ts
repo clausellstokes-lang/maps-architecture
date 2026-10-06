@@ -142,6 +142,18 @@ describe('§4.2 S1 (9): one outfall per 50 m bank stretch, at the cell of larges
     expect(dry.map((o) => o.at.x === 25_000 ? 'E' : o.at.y === 10_000 ? 'N' : '?')).toEqual(['E', ...Array<string>(10).fill('N')]);
   });
 
+  it('a corner cell stepping off diagonally drains off the side first in the order E, N, W, S', () => {
+    // the north-east corner cell steps NE (code 1): off the east side; the south-west corner steps SW (code 5): off the west side
+    const t = terrainOf((i, j) => (i === COLS - 1 && j === ROWS - 1 ? 1 : i === 0 && j === 0 ? 5 : narrowDir(i, j)), accOf);
+    const out = outfalls(t, [river(500)], { reach: REACH, stretchCm: 5000 });
+    const frame = out.filter((o) => o.into === 'frame');
+    expect(frame.filter((o) => o.at.x === 25_000).map((o) => o.at.y)).toEqual([8750]);
+    expect(frame.filter((o) => o.at.x === -25_000).map((o) => o.at.y)).toEqual([-8750]);
+    // E's before N's, W's after them
+    const sides = frame.map((o) => (o.at.x === 25_000 ? 'E' : o.at.x === -25_000 ? 'W' : o.at.y === 10_000 ? 'N' : 'S'));
+    expect(sides).toEqual(['E', ...Array<string>(10).fill('N'), 'W']);
+  });
+
   it('§2.3: `into` follows the receiving water\'s kind', () => {
     expect(['river', 'tributary', 'estuary', 'distributary', 'islet_channel'].map((k) => intoOf(k as WaterBody['kind']))).toEqual(['river', 'river', 'river', 'river', 'river']);
     expect(['sea', 'lake', 'pond', 'oxbow', 'canal', 'ditch', 'moat'].map((k) => intoOf(k as WaterBody['kind']))).toEqual(['sea', 'lake', 'lake', 'lake', 'canal', 'ditch', 'moat']);

@@ -6,11 +6,28 @@
 // their family; the far-stretch measure is the farthest vertex of ours from the oracle's boundary. The oracle answers
 // here are planted (a refused result; a measuring xor made to refuse through a mock of M0-k-03's `symDiffArea`), so
 // each rule meets the input that reaches it.
-import type { Cm, LatticePoint } from '@plat/kernel';
+import type { Cm, KernelResult, LatticePoint } from '@plat/kernel';
 import { afterEach, beforeAll, describe, expect, it, vi } from 'vitest';
 import { loadOracles, OracleRefusal, type OracleEngine, type OracleResult } from '../../../src/oracles/index.js';
 import { perimeterOf } from '../../../src/oracles/rings.js';
-import { farthestVertexCm, insetLeavesLattice, judge, newHarness, touchMergedFaceCount, verdict, type Harness } from './support.js';
+import {
+  classifyRefusal,
+  farthestVertexCm,
+  insertChainRefusalCap,
+  insetLeavesLattice,
+  judge,
+  newHarness,
+  ownRefusalCap,
+  poissonCap,
+  REFUSAL_MEASURE,
+  refusalCapPer1e4,
+  replayOverlay,
+  separateRefusal,
+  touchMergedFaceCount,
+  verdict,
+  type Harness,
+  type OverlayReplay,
+} from './support.js';
 
 /** Which engine's measuring xor refuses (null: none) — the planted measurement refusal. */
 const plant: { measureRefuses: OracleEngine | null } = { measureRefuses: null };
@@ -223,5 +240,94 @@ describe('an outward inset that leaves the lattice (C-0206 (9))', () => {
     // the face's rightmost vertex stands 481 cm inside the lattice's edge: an outward inset of 400 cm stays inside
     expect(insetLeavesLattice(ring, -400)).toBe(false);
     expect(insetLeavesLattice(ring.map((p) => pt(p.x - 10_000, p.y)), -634)).toBe(false);
+  });
+});
+
+describe('our engine’s refusals, out of the oracle comparison and classed by replay (N-44 (3), N-46 (5); C-0231)', () => {
+  const noRoute = { code: 'E_INVARIANT', detail: 'insert: no route from (0, 0) to (10, 0) keeps clearance (§3.10) within the fidelity bound (N-43)' };
+  const refused = (r: { code: string; detail: string }): KernelResult<LatticePoint[][]> => ({ ok: false, code: r.code as 'E_INVARIANT', detail: r.detail });
+  const replayed = (r: { code: string; detail: string }, chain = [pt(0, 0), pt(10, 0)]): OverlayReplay => ({ ...r, chain, closed: false });
+
+  it('a refusal insertChain alone meets again (same code and detail, a chain of distinct points) is insertChain’s', () => {
+    expect(classifyRefusal(noRoute, replayed(noRoute))).toBe('insertChain');
+    expect(classifyRefusal(noRoute, null)).toBe('own');
+    expect(classifyRefusal(noRoute, replayed({ ...noRoute, detail: `${noRoute.detail} ` }))).toBe('own');
+    expect(classifyRefusal(noRoute, replayed({ ...noRoute, code: 'E_BELOW_MIN_EDGE' }))).toBe('own');
+    expect(classifyRefusal(noRoute, replayed(noRoute, [pt(0, 0), pt(0, 0)]))).toBe('own');
+  });
+
+  it('takes out E_INVARIANT and E_BELOW_MIN_EDGE refusals only, tallied by class; a commit and any other refusal go to the judge', () => {
+    const h = newHarness();
+    let replays = 0;
+    const rp = (r: OverlayReplay | null) => (): OverlayReplay | null => {
+      replays += 1;
+      return r;
+    };
+    expect(separateRefusal(h, 'buffer', 'fam', refused(noRoute), rp(replayed(noRoute)), { case: 1 })).toBe(true);
+    expect(separateRefusal(h, 'buffer', 'fam', refused({ code: 'E_INVARIANT', detail: 'winding' }), rp(null), { case: 2 })).toBe(true);
+    expect(separateRefusal(h, 'buffer', 'fam', refused({ code: 'E_BELOW_MIN_EDGE', detail: 'x (N-43)' }), rp(replayed({ code: 'E_BELOW_MIN_EDGE', detail: 'x (N-43)' })), {})).toBe(true);
+    expect(replays).toBe(3);
+    // a committed result — even one far from the oracle — and an empty or out-of-range refusal are the judge's
+    expect(separateRefusal(h, 'buffer', 'fam', { ok: true, value: [SQUARE], warnings: [] }, rp(null), {})).toBe(false);
+    expect(separateRefusal(h, 'buffer', 'fam', refused({ code: 'E_DEGENERATE', detail: 'empty' }), rp(null), {})).toBe(false);
+    expect(separateRefusal(h, 'buffer', 'fam', refused({ code: 'E_OUT_OF_RANGE', detail: 'buffer' }), rp(null), {})).toBe(false);
+    expect(replays).toBe(3);
+    expect(h.engineRefusals).toMatchObject({ insertChain: 2, own: 1, setup: 0, byCode: { 'insertChain/E_INVARIANT': 1, 'own/E_INVARIANT': 1, 'insertChain/E_BELOW_MIN_EDGE': 1 } });
+    expect(h.engineRefusals.ownCases).toEqual([`buffer [fam]: E_INVARIANT 'winding' — {"case":2}`]);
+    expect(h.report.line('buffer').draws).toBe(0);
+    expect(h.failures).toEqual([]);
+  });
+
+  it('a committed result that disagrees with the oracle stays a failure', () => {
+    const h = newHarness();
+    const ours: KernelResult<LatticePoint[][]> = { ok: true, value: [[pt(0, 0), pt(2000, 0), pt(2000, 2000), pt(0, 2000)]], warnings: [] };
+    if (!separateRefusal(h, 'op', 'fam', ours, () => null, {})) judge(h, 'op', 'fam', ours, answer, [], () => 'case');
+    expect(h.failures).toHaveLength(1);
+    expect(h.engineRefusals).toMatchObject({ insertChain: 0, own: 0 });
+  });
+
+  it('the replay on insertChain alone commits a plain overlay and meets nothing (null)', () => {
+    expect(replayOverlay([[SQUARE], [[pt(500, 500), pt(1500, 500), pt(1500, 1500), pt(500, 1500)]]])).toBeNull();
+    expect(replayOverlay([[]])).toBeNull();
+  });
+});
+
+describe('the refusal caps (N-44 (3); N-46 (4), (5); C-0231)', () => {
+  it('this item’s own: 1 per 10⁴ cases', () => {
+    expect(ownRefusalCap(10_000)).toBe(1);
+    expect(ownRefusalCap(1_000)).toBe(1);
+    expect(ownRefusalCap(1_000_000)).toBe(100);
+    expect(ownRefusalCap(0)).toBe(0);
+  });
+
+  it('insertChain’s: (count + 3 · √count) ÷ seeds per 10⁴, one run’s 99.9 % Poisson point of it scaled to the run', () => {
+    expect(poissonCap(0)).toBe(1);
+    expect(poissonCap(1)).toBe(5);
+    expect(poissonCap(10)).toBe(21);
+    for (const [op, m] of Object.entries(REFUSAL_MEASURE)) {
+      expect(m.seeds, op).toBeGreaterThanOrEqual(12);
+      expect(refusalCapPer1e4(op)).toBeCloseTo((m.count + 3 * Math.sqrt(m.count)) / m.seeds, 12);
+      expect(insertChainRefusalCap(op, 10_000)).toBe(poissonCap(((m.count + 3 * Math.sqrt(m.count)) / m.seeds)));
+    }
+    // an operation not measured is held to the own cap
+    expect(refusalCapPer1e4('op')).toBeNull();
+    expect(insertChainRefusalCap('op', 10_000)).toBe(1);
+  });
+
+  it('the verdict counts both classes in its accounting and fails above either cap', () => {
+    const cap = insertChainRefusalCap('buffer', 10_000);
+    const run = (ic: number, own: number, settled = 10_000 - ic - own): (() => void) => () => {
+      const h = newHarness();
+      h.engineRefusals.insertChain = ic;
+      h.engineRefusals.own = own;
+      h.settled.planted = settled;
+      verdict(h, 'buffer', 10_000);
+    };
+    // within both caps: only the vacuity guard (no unattracted draw here) speaks
+    expect(run(cap, 1)).toThrow(/expected 0 to be greater than or equal to 1000/);
+    expect(run(cap + 1, 0)).toThrow(/insertChain's refusals in buffer against the measured cap/);
+    expect(run(0, 2)).toThrow(/refusals caused in arr\/ \(or without a replay\) in buffer/);
+    // a refused case is a case of the run: left out of the accounting, the sum misses it
+    expect(run(1, 0, 10_000)).toThrow(/expected 10001 to be 10000/);
   });
 });

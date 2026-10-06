@@ -116,6 +116,16 @@ describe('§4.2 S1 (5): siteCrossings', () => {
     for (const s of sites.filter((q) => q.water === 'water:river:0')) {
       for (const e of s.deck) expect(Math.abs(e.x) >= 3000 + DECK_CLEARANCE_CM || e.y < 0).toBe(true);
     }
+    // the river's narrowest point sits right under the other body: with the clearance its window's site moves off it
+    const neckRing = [lp(-100_000, -1000), lp(-3500, -1000), lp(0, -800), lp(3500, -1000), lp(100_000, -1000), lp(100_000, 1000), lp(3500, 1000), lp(0, 800), lp(-3500, 1000), lp(-100_000, 1000)];
+    const necked = siteCrossings([straight(2000, -100_000, 100_000, neckRing), other], 300, [], OPTS);
+    const neckWindow = Math.floor(100_000 / 30_000);
+    const atNeck = necked.find((q) => q.water === 'water:river:0' && Math.floor(q.arcCm / 30_000) === neckWindow);
+    expect(atNeck).toBeDefined();
+    for (const e of atNeck?.deck ?? []) expect(Math.abs(e.x)).toBeGreaterThanOrEqual(3000 + DECK_CLEARANCE_CM);
+    // without the other body the neck wins its window
+    const alone = siteCrossings([straight(2000, -100_000, 100_000, neckRing)], 300, [], OPTS);
+    expect(alone.find((q) => Math.floor(q.arcCm / 30_000) === neckWindow)?.at.x).toBe(0);
     // a reach hugging the ring (its banks 5 m from it) has no site
     const hug = straight(2000, -100_000, 100_000, [lp(-100_000, 47_500 - 1000), lp(100_000, 47_500 - 1000), lp(100_000, 49_500), lp(-100_000, 49_500)]);
     hug.body.course = hug.body.course?.map((q) => lp(q.x, 48_500));
