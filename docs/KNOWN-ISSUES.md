@@ -20,6 +20,8 @@ bugs to re-find.**
 | KI-2 | ARCHITECTURE amendments: §3.6/§3.7 for N-38, N-40, N-43, N-44, N-46 (incl. §3.6 *Chain classes*, §13.1 and C-0177 (14): a mandatory chain may be refused, counted); §16's M4 row for N-45 | J191–J211 | amendments land in one amendments round, not mid-flow | the next amendments round |
 | KI-3 | A consumer contract for a refused mandatory chain: what S4 / S9 (walls, kerbs) do when insertChain refuses one | N-46 (6f) | no stage consumes insertChain in M0 | M1's spec |
 | KI-5 | A non-LIFO removal (or one after an earlier batch dissolved a split) can leave a split vertex as a valid degree-2 vertex instead of dissolving it; remove(insert(x)) of the latest chain is exact | M0-a-06 C-0225 (3), N-17 | fails safe (valid arena); needs the edit log's history (M2a) | M2a / the hardening pass |
+| KI-6 | The polygon-clipping oracle (M0-k-03) does not terminate on one offsetFace case (seed 6101, ~draw 2633); a PR run meets it ~1 in 12 runs and the test times out at 1 h. Repro register.json `oracleHang` (no test runs it); seeds -6421/6521 replaced 6101 in the measure | M0-a-08 C-0231 (6) | an oracle's bug, not ours; ours commits in 665 ms | the hardening pass (or a guarded oracle timeout) |
+| KI-7 | insetRing's bisection reads an overlay refusal at a trial distance as an empty result (can lower lastCm on a collapsed refusal); 0 met in 1.2e5 cases | M0-a-08 C-0231 | not met in practice | the hardening pass |
 | KI-4 | A per-town refusal budget beside the per-case cap (a town makes ~10⁴–10⁵ insertChain calls, so 2 per 10⁴ is a refusal on most maps) | N-46 (6g) | needs real towns to measure | M1's first towns |
 
 ## The hardening pass
