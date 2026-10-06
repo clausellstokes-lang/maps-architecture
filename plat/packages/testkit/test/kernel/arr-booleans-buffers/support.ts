@@ -20,6 +20,7 @@ import {
   booleans,
   buffer,
   bufferParts,
+  canonicalFaceRings,
   createPlat,
   faceEdges,
   faceHoles,
@@ -945,14 +946,19 @@ function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
 
 /**
  * The scratch overlay's insertions on insertChain alone, written from `buildOverlay`'s contract (C-0196 (1)) with no
- * arrangement code in it, as M0-a-09's replay.ts writes it: a fresh L0 arena 2²⁴ cm wide, its index cell about one
- * segment per cell over the inputs' box (64 cm … 2²⁰ cm), the frame 4 096 cm beyond the inputs as one closed mandatory
- * chain, then every distinct segment of the operands (either direction) as a two-point mandatory chain in input order,
- * each under its own `arr:s<i>` row. The first refusal other than a segment's collapse (E_DEGENERATE `empty`), or null.
+ * arrangement code in it, as M0-a-09's replay.ts writes its overlay part: a fresh L0 arena 2²⁴ cm wide, its index cell
+ * about one segment per cell over the inputs' box (64 cm … 2²⁰ cm), the frame 4 096 cm beyond the inputs as one closed
+ * mandatory chain, then every distinct segment of the operands (either direction) as a two-point mandatory chain in
+ * input order, each under its own `arr:s<i>` row; then the bridges: for every ring's walk (its segments in order, a
+ * segment that collapsed left out), where the vertex one kept segment ends on and the vertex the next starts on differ
+ * by `minEdge` or more, one more two-point mandatory chain between them (`arr:s<i>` numbering on). The first refusal
+ * other than a chain's collapse (E_DEGENERATE `empty`), or null.
  */
 export function replayOverlay(operands: readonly (readonly (readonly LatticePoint[])[])[]): OverlayReplay | null {
   const segs: [LatticePoint, LatticePoint][] = [];
-  const seen = new Set<string>();
+  const byKey = new Map<string, number>();
+  /** Every ring's walk: its segments in order, signed (+ along the segment's first point → its second). */
+  const walks: number[][] = [];
   let minX = Infinity;
   let minY = Infinity;
   let maxX = -Infinity;
@@ -962,6 +968,8 @@ export function replayOverlay(operands: readonly (readonly (readonly LatticePoin
       const ring = distinctRing(ringIn);
       const n = ring.length;
       if (n < 2) continue;
+      const steps: number[] = [];
+      walks.push(steps);
       for (let i = 0; i < n; i += 1) {
         const a = ring[i];
         const b = ring[(i + 1) % n];
@@ -971,9 +979,15 @@ export function replayOverlay(operands: readonly (readonly (readonly LatticePoin
         maxY = Math.max(maxY, a.y);
         const fw = a.x < b.x || (a.x === b.x && a.y < b.y);
         const k = fw ? `${String(a.x)},${String(a.y)},${String(b.x)},${String(b.y)}` : `${String(b.x)},${String(b.y)},${String(a.x)},${String(a.y)}`;
-        if (seen.has(k)) continue;
-        seen.add(k);
-        segs.push([a, b]);
+        const at = byKey.get(k);
+        if (at === undefined) {
+          byKey.set(k, segs.length);
+          steps.push(segs.length + 1);
+          segs.push([a, b]);
+        } else {
+          const same = segs[at][0].x === a.x && segs[at][0].y === a.y;
+          steps.push(same ? at + 1 : -(at + 1));
+        }
       }
     }
   }
@@ -993,10 +1007,48 @@ export function replayOverlay(operands: readonly (readonly (readonly LatticePoin
   const frame = [P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)];
   const f = insertChain(t, frame, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true });
   if (!f.ok) return { code: f.code, detail: f.detail, chain: frame, closed: true };
+  const starts: number[] = [];
+  const ends: number[] = [];
   for (let s = 0; s < segs.length; s += 1) {
     const [a, b] = segs[s];
     const r = insertChain(t, [a, b], [{ role: 'invisible', entity: `arr:s${String(s)}` }], 'mandatory');
-    if (!r.ok && !(r.code === 'E_DEGENERATE' && r.detail === 'empty')) return { code: r.code, detail: r.detail, chain: [a, b], closed: false };
+    if (r.ok) {
+      starts.push(r.value.placed[0]);
+      ends.push(r.value.placed[r.value.placed.length - 1]);
+    } else if (r.code === 'E_DEGENERATE' && r.detail === 'empty') {
+      starts.push(-1);
+      ends.push(-1);
+    } else return { code: r.code, detail: r.detail, chain: [a, b], closed: false };
+  }
+  // the bridges, walk after walk
+  let id = segs.length;
+  const X = q.vertices.x;
+  const Y = q.vertices.y;
+  const minSq = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
+  for (const steps of walks) {
+    const kept = steps.filter((st) => starts[Math.abs(st) - 1] >= 0);
+    const m = kept.length;
+    for (let i = 0; i < m; i += 1) {
+      const st = kept[i];
+      const nx = kept[(i + 1) % m];
+      const from = st > 0 ? ends[st - 1] : starts[-st - 1];
+      const to = nx > 0 ? starts[nx - 1] : ends[-nx - 1];
+      if (from === to) continue;
+      const dx = X[to] - X[from];
+      const dy = Y[to] - Y[from];
+      if (dx * dx + dy * dy < minSq) continue;
+      const a = P(X[from], Y[from]);
+      const b = P(X[to], Y[to]);
+      const r = insertChain(t, [a, b], [{ role: 'invisible', entity: `arr:s${String(id)}` }], 'mandatory');
+      id += 1;
+      if (r.ok) {
+        starts.push(r.value.placed[0]);
+        ends.push(r.value.placed[r.value.placed.length - 1]);
+      } else if (r.code === 'E_DEGENERATE' && r.detail === 'empty') {
+        starts.push(-1);
+        ends.push(-1);
+      } else return { code: r.code, detail: r.detail, chain: [a, b], closed: false };
+    }
   }
   return null;
 }
@@ -1039,8 +1091,13 @@ export function replayBuffer(c: BufferCase): OverlayReplay | null {
   }
 }
 
-/** offsetFace's one overlay on insertChain alone: the face's rings, then every edge's parts (`ringEdgeParts`, C-0196 (3)). */
-export function replayOffset(rings: readonly Ring[], d: readonly number[]): OverlayReplay | null {
+/**
+ * offsetFace's one overlay on insertChain alone: the face's rings as offsetFace reads them (`canonicalFaceRings`: the
+ * ring split decides each vertex's two edges, so a ring read back from `faceEdges` alone may differ at a pinch), then
+ * every edge's parts (`ringEdgeParts`, C-0196 (3)).
+ */
+export function replayOffset(tx: InsertTx, face: FaceId, d: readonly number[]): OverlayReplay | null {
+  const rings = canonicalFaceRings(tx, face);
   const parts = ringEdgeParts(rings, d);
   if (!parts.ok) return null;
   return replayOverlay([rings, parts.value]);
@@ -1129,7 +1186,7 @@ export function judgeOffset(h: Harness, c: FaceCase): void {
   const rings = ringsOfEdges(edges);
   const d = edges.map((_, i) => c.dists[i % c.dists.length]);
   const ours = offsetFace(af.tx, af.face, d);
-  if (separateRefusal(h, 'offsetFace', c.source, ours, () => replayOffset(rings, d), c)) return;
+  if (separateRefusal(h, 'offsetFace', c.source, ours, () => replayOffset(af.tx, af.face, d), c)) return;
   judge(h, 'offsetFace', c.source, ours, (e) => oracleOffset(rings, edges, d, e), warningsOf(ours), () => JSON.stringify({ rings, d }));
 }
 

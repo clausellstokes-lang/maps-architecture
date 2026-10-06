@@ -51,3 +51,20 @@ Under J180 and N-45 none of these notes fails the item. Each one is a KI row for
      is a fair reading.
    * **Stricter test:** also compare the faces S6 and S8 create (for example, their chains' vertex positions read
      through `observe`), so a fixture change cannot make them depend on S5 unnoticed.
+
+## The closing check's note (lane `check/M0-x-02-close-r1`, 2026-10-06)
+
+This row comes from the closing check of M0-x-02 (verdict PASS, at the top of `checks/M0-x-02.md`). Under J162, J169
+and J202 it is not a blocker: the code is CONFIRMED correct and the row is a further hardening test. It is deliberately
+deferred: documented here, not a bug for a later seat to find again.
+
+9. **KI — B-1's test fixes n < r, so a `max(n, r)` rewrite passes it (mutant V04 survives; probes PD2 and PD3 CONFIRM
+   the code).**
+   * The test "under rerolls { S5: n } a bound entity keeps its own Identity.reroll r ≠ n …" uses n = 3, r = 4. Mutant
+     V04 (`Math.max(rerolls.get(id) ?? 0, keyOf(entity).reroll)` for a bound entity) gives 4 there and survives the 58
+     tests. It is a deliberate-writer escape, not a plausible slip.
+   * The item's code gives `[2, 7]` for r = 2 under `{ S5: 7 }` (PD2) and `[0, 1]` for r = 0 under `{ S5: 1 }` (PD3),
+     each with the bound stream equal to the fresh stream at reroll r. Both probes fail under V04.
+   * **Hardening test:** add a case with n > r (for example r = 0 under `{ S5: 1 }`, the common case of an unrerolled
+     entity in a rerolled stage) to the same test. **Milestone:** M4, or sooner if M0-d-09's re-derivation pairs touch
+     the runner.
