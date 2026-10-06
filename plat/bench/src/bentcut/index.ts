@@ -126,7 +126,9 @@ export function parseArgs(args: readonly string[], env: Readonly<Record<string, 
   const sig = intArg(args, '--sig', 1, 1_000_000);
   const t34 = intArg(args, '--t34', 2, 10_000_000);
   const envWorkers = env.PLAT_BENCH_WORKERS;
-  const workers = intArg(args, '--workers', 1, 64) ?? (envWorkers === undefined || envWorkers === '' ? 1 : /^[1-9][0-9]?$/.test(envWorkers) ? Number(envWorkers) : null);
+  const given = intArg(args, '--workers', 1, 64);
+  // A refused --workers stays refused (null), never read as the default.
+  const workers = given !== undefined ? given : envWorkers === undefined || envWorkers === '' ? 1 : /^[1-9][0-9]?$/.test(envWorkers) && Number(envWorkers) <= 64 ? Number(envWorkers) : null;
   if (seed === null || fcut === null || districts === null || sig === null || t34 === null || workers === null) return 'a size, seed or worker count is not a whole number in its range';
   let phases: Phase[] = [...PHASES];
   const oi = args.indexOf('--only');
