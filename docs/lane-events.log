@@ -6309,3 +6309,5 @@
 2026-10-06 14:33 build/M0-a-08-fix-s1 CHECKPOINT gates install 0, lint 0 (874 files, probe-red ok), build 0; near at PR size running (item's two folders, PLAT_FUZZ_RUNS unset); next: related at 1000 over arr/index.ts, CLEAN-ROOM, landed
 2026-10-06 14:33 check/M0-c-03-close-r1 CHECKPOINT gates: install 0, lint 0 (874 files, probe-red ok), build 0, landed:verify ok, near 9 files 63/63, related@1000 41 files 356/356; landed hashes equal tree; next: mirrors, re-run X11 X13 X28 X31 X33 + new mutants on the fix
 2026-10-06 14:33 build/M0-a-08-fix-s1 CHECKPOINT CLEAN-ROOM L-0257 signed; near at PR size running since 14:33
+2026-10-06 14:44 build/M0-b-04 CHECKPOINT harness drafted in bench/src/bentcut (faces, district, signature replay, runs, pool/worker, report, index); replay probe: 100% of planner cuts land, report identical to runS8; next: small end-to-end run, tests
+2026-10-06 14:45 check/M0-c-03-close-r1 CHECKPOINT mutants running in mirrors c1-c3 (X11 X13 X28b X31 X33 re-runs, N01-N12 new on the fix); next: survivors on related, probe seeds 4-12
