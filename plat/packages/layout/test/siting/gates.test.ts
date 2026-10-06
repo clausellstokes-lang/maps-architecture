@@ -145,9 +145,95 @@ describe('gate routes (§4.2 S3 (5))', () => {
         expect(r.bearingCdeg).toBe(bearingCdeg(b.x - a.x, b.y - a.y));
         // Consecutive nodes are lattice neighbours over passable edges.
         for (let k = 1; k < r.nodes.length; k += 1) expect(s.lattice.adjacency.subarray(6 * r.nodes[k - 1], 6 * r.nodes[k - 1] + 6)).toContain(r.nodes[k]);
+        // A simple path: S4 commits it as one way (C-0249).
+        expect(new Set(r.nodes).size).toBe(r.nodes.length);
       }
     });
   }
+
+  // C-0249 (the integration check g12's B-4): the outward A* stepping back onto the inward part (A → pick → A) left a
+  // spur that S4 cannot commit as a way. The route is solved again with the inward nodes before the pick impassable.
+  describe('a spur at the pick (C-0249)', () => {
+    const site = smallSite(1);
+    const s = s3Slice(site);
+    const L = s.lattice;
+    const rim: number[] = [];
+    for (let i = 0; i < L.points.length; i += 1) if (L.rim[i] === 1) rim.push(i);
+    /** The graph with every edge at a node of `blocked` impassable. */
+    const without = (blocked: ReadonlySet<number>): typeof L.graph => {
+      const g = L.graph;
+      const weights = new Float64Array(g.weights.length);
+      for (let u = 0; u < g.n; u += 1) for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) weights[e] = blocked.has(u) || blocked.has(g.targets[e]) ? Infinity : g.weights[e];
+      return { ...g, weights };
+    };
+    const pathTo = (prev: Int32Array, v: number): number[] => {
+      const out: number[] = [];
+      for (let u = v; u !== -1; u = prev[u]) out.push(u);
+      return out.reverse();
+    };
+
+    it('a pick whose least-cost way to its rim node doubles back is routed through the pick as a simple path', () => {
+      const tree = plazaTree(L);
+      // Picks a few spacings out from the plaza, each asking for the bearing back across the plaza: the least-cost
+      // way there starts back along the pick's own tree path.
+      const found: number[] = [];
+      for (let v = 0; v < L.points.length && found.length < 4; v += 1) {
+        if (!(tree.dist[v] < Infinity) || L.rim[v] === 1) continue;
+        const inward = pathTo(tree.prev, v);
+        if (inward.length < 4 || inward.length > 6) continue;
+        const p = L.points[v];
+        const bearing = bearingCdeg(site.centre.x - p.x, site.centre.y - p.y);
+        const pick = { ordinal: 0, node: v, at: p, ranked: [v], forced: false, requestedBearingCdeg: bearing };
+        const solved = gateRoutes(tree, [pick]);
+        if (solved.routes.length !== 1) continue;
+        const r = solved.routes[0];
+        const end = r.nodes[r.nodes.length - 1];
+        // The fixture: the plain least-cost path from the pick to that rim node revisits the inward part.
+        const plain = astar(L.graph, v, [end]);
+        if (!plain.ok || !plain.value.nodes.slice(1).some((u) => inward.includes(u))) continue;
+        found.push(v);
+        // The route: the tree path to the pick, then a path that never returns to it — every node once.
+        expect(new Set(r.nodes).size).toBe(r.nodes.length);
+        expect(r.nodes[r.pickAt]).toBe(v);
+        expect(r.nodes.slice(0, r.pickAt + 1)).toEqual(inward);
+        expect(L.rim[end]).toBe(1);
+        expect(r.bearingCdeg).toBe(bearing);
+        for (let k = 1; k < r.nodes.length; k += 1) expect(L.adjacency.subarray(6 * r.nodes[k - 1], 6 * r.nodes[k - 1] + 6)).toContain(r.nodes[k]);
+        // Its outward part is the least-cost path to the rim node with the inward nodes before the pick impassable.
+        const held = astar(without(new Set(inward.slice(0, -1))), v, [end]);
+        expect(held.ok).toBe(true);
+        if (held.ok) expect(r.cost - tree.dist[v]).toBeCloseTo(held.value.cost, 3);
+        // Both searches are charged.
+        expect(solved.charged).toBe(r.charged);
+      }
+      expect(found.length).toBeGreaterThan(0);
+    });
+
+    it('a pick whose only way out is back along its tree path takes the unserved rung (detect and refuse)', () => {
+      // A dead end: the pick keeps only its edge to its tree parent.
+      const tree0 = plazaTree(L);
+      const v = s.routes[0].nodes[s.routes[0].pickAt];
+      const parent = tree0.prev[v];
+      expect(parent).toBeGreaterThanOrEqual(0);
+      const g = L.graph;
+      const weights = Float64Array.from(g.weights);
+      for (let u = 0; u < g.n; u += 1) {
+        for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
+          const w = g.targets[e];
+          if ((u === v && w !== parent) || (w === v && u !== parent)) weights[e] = Infinity;
+        }
+      }
+      const dead = { ...L, graph: { ...g, weights } };
+      const tree = plazaTree(dead);
+      expect(tree.prev[v]).toBe(parent);
+      const pick = { ...s.picks[0], node: v, at: L.points[v] };
+      const solved = gateRoutes(tree, [pick]);
+      expect(solved.routes).toEqual([]);
+      expect(solved.unserved).toEqual([{ ordinal: pick.ordinal, code: 'unserved', count: solved.charged, limit: Infinity }]);
+      // The same pick on the open lattice is served.
+      expect(gateRoutes(plazaTree(L), [pick]).routes.length).toBe(1);
+    });
+  });
 
   it("charges route.nodes: the tree's settled nodes plus each A*'s labelled nodes, under the law's limit", () => {
     const s = sliceOf(1);

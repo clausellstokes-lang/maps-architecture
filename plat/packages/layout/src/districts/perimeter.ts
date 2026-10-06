@@ -7,11 +7,15 @@
 // `arcSteps`), whose region of positive winding is the sum (Kaul, Farouki and O'Connor's convolution theorem; the
 // boundary is CCW, so non-zero is positive), taken with the boundary through one overlay of the kernel's `booleans` —
 // the same region §3.4's `buffer` of the closed ring united with the boundary gives, at a small part of its cost
-// (`settlementPerimeterByBuffer` keeps that form for the test that holds the two equal). The ring is a value; S6's
+// (`settlementPerimeterByBuffer` keeps that form for the test that holds the two equal). Before the overlay two fast
+// rings are tried — the curve mitred at its reflex vertices, then mitred only where the miter lies on both its offset
+// segments — each with its local folds cut; a fast ring stands only when `isSumRing` finds it the sum's outer ring (a
+// miter beyond its edges cuts across land the sum holds, C-0245 (1)), and the overlay's ring is checked the same way
+// (a ring that fails is refused, never returned). The ring is a value; S6's
 // batch inserts it as an L1 chain carrying `district_bound`, closed against the arterials and shores it meets by the
 // insertion rules (§3.6).
-import { arcSteps, area2, dmath, err, ok, orient2d, type Kernel, type KernelResult, type LatticePoint } from '@plat/kernel';
-import { quot } from '../siting/geom.js';
+import { arcSteps, area2, dmath, err, LATTICE, ok, orient2d, type Kernel, type KernelResult, type LatticePoint } from '@plat/kernel';
+import { insideRing, quot } from '../siting/geom.js';
 import type { TableView } from '@plat/tables';
 import { districtCells } from './table.js';
 
@@ -41,7 +45,8 @@ function largestOuter(rings: readonly (readonly LatticePoint[])[]): LatticePoint
 /**
  * §4.5's settlement perimeter of `boundary` (a counter-clockwise ring of lattice points): the outer ring of the
  * boundary united with its buffer of the offset (round joins and ends), clipped to `opts.frame` when given. Refuses
- * E_DEGENERATE for a boundary of fewer than three points or of no area.
+ * E_DEGENERATE for a boundary of fewer than three points or of no area, and E_INVARIANT when no ring it builds passes
+ * the sum check (`isSumRing`): a wrong ring is never returned.
  */
 export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel, opts: PerimeterOptions = {}): KernelResult<LatticePoint[]> {
   if (boundary.length < 3 || area2(boundary as LatticePoint[]) <= 0) return err('E_DEGENERATE', 'settlementPerimeter: the boundary is no counter-clockwise ring of area above zero');
@@ -51,15 +56,24 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
   if (offsetCm > 0) {
     const raw = convolution(boundary, offsetCm, 'miter');
     if (raw === null) return err('E_DEGENERATE', 'settlementPerimeter: the boundary has fewer than three distinct points');
-    const curve = unloop(raw);
-    if (simpleCcw(curve)) ring = curve;
+    // A fast ring stands only where the check (`isSumRing`) finds it the sum's outer ring: first the mitred curve with
+    // its local folds cut, then the curve mitred only where a miter lies on both its offset segments (the reflex arc
+    // elsewhere), its folds cut; else (a fold the cut did not resolve, a curve that runs too near another part of the
+    // boundary) the sum's outer ring through one overlay of the full convolution, itself checked — a ring that fails is
+    // refused, never committed (C-0245 (1)).
+    let fast = unloop(raw);
+    if (!(simpleCcw(fast) && isSumRing(boundary, fast, offsetCm, SUM_TOLERANCE_CM))) {
+      fast = unloop(convolution(boundary, offsetCm, 'onSegments') as LatticePoint[]);
+      if (!(simpleCcw(fast) && isSumRing(boundary, fast, offsetCm, SUM_TOLERANCE_CM))) fast = [];
+    }
+    if (fast.length > 0) ring = fast;
     else {
-      // A concavity narrower than the offset folds the curve: the sum's outer ring through one overlay.
       const full = convolution(boundary, offsetCm, 'arc') as LatticePoint[];
       const u = k.geom.booleans('union', [boundary.slice()], [full], 'nonzero');
       if (!u.ok) return err(u.code, `settlementPerimeter: the union: ${u.detail}`);
       const outer = largestOuter(u.value);
       if (outer === null) return err('E_DEGENERATE', 'settlementPerimeter: the offset has no outer ring');
+      if (!isSumRing(boundary, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not the boundary\'s offset (the sum check failed)');
       ring = outer;
     }
   }
@@ -83,9 +97,10 @@ interface Pt {
  * The convolution curve of a counter-clockwise ring with a disc of radius d (see the module comment): one closed ring
  * of lattice points (consecutive repeats dropped), or null for fewer than three distinct points. `reflex` 'arc' runs
  * the arc backwards at a reflex vertex (the full convolution); 'miter' takes the two offset edges' meeting point there
- * instead — the sum's own boundary wherever the curve stays simple (the caller checks).
+ * instead, and 'onSegments' only where that point lies on both offset segments — neither is the sum's boundary unless
+ * the caller's check (`isSumRing`) finds it so.
  */
-export function convolution(boundary: readonly LatticePoint[], d: number, reflex: 'arc' | 'miter'): LatticePoint[] | null {
+export function convolution(boundary: readonly LatticePoint[], d: number, reflex: 'arc' | 'miter' | 'onSegments'): LatticePoint[] | null {
   const pts: Pt[] = [];
   for (const p of boundary) {
     const q = pts[pts.length - 1];
@@ -120,8 +135,11 @@ export function convolution(boundary: readonly LatticePoint[], d: number, reflex
     const dot = nx[j] * nx[i] + ny[j] * ny[i];
     const theta = dmath.atan2(cross, dot);
     const turn = orient2d(pts[j].x, pts[j].y, v.x, v.y, pts[(i + 1) % n].x, pts[(i + 1) % n].y);
-    if (turn < 0 && reflex === 'miter') {
-      // The offset lines' meeting point: v + d (n_j + n_i) ÷ (1 + n_j · n_i), scaled past ratio's floor.
+    if (turn < 0 && (1 + dot) * 1_000_000 >= 1 && (reflex === 'miter' || (reflex === 'onSegments' && miterOnBoth(pts[j], v, pts[(i + 1) % n], nx[j], ny[j], nx[i], ny[i], dot, d)))) {
+      // The offset lines' meeting point: v + d (n_j + n_i) ÷ (1 + n_j · n_i), scaled past ratio's floor (a notch so
+      // sharp that 1 + n_j · n_i falls below it takes the reflex arc) — under 'onSegments' only where it lies on both
+      // offset segments; else the reflex arc, as the full convolution runs it (the fold it makes is the cut's or the
+      // overlay's).
       push(v.x + quot(d * (nx[j] + nx[i]) * 1_000_000, (1 + dot) * 1_000_000, 'length', 'a miter'), v.y + quot(d * (ny[j] + ny[i]) * 1_000_000, (1 + dot) * 1_000_000, 'length', 'a miter'));
       continue;
     }
@@ -141,6 +159,111 @@ export function convolution(boundary: readonly LatticePoint[], d: number, reflex
   const last = out[out.length - 1];
   if (out.length > 1 && first.x === last.x && first.y === last.y) out.pop();
   return out.length >= 3 ? out : null;
+}
+
+/**
+ * Does the reflex miter at v (edges a→v and v→b, outward normals n_j and n_i, n_j · n_i = dot) lie on both offset
+ * segments — its foot along a→v within that edge and along v→b within that one? A miter whose foot runs past an edge
+ * would cut across the land beyond it (C-0245 (1)). Decided without the division: d (n_j + n_i) · u ÷ (1 + dot) against
+ * the edge's length, both sides times 1 + dot > 0.
+ */
+function miterOnBoth(a: Pt, v: Pt, b: Pt, njx: number, njy: number, nix: number, niy: number, dot: number, d: number): boolean {
+  const den = 1 + dot;
+  const ajx = v.x - a.x;
+  const ajy = v.y - a.y;
+  const aix = b.x - v.x;
+  const aiy = b.y - v.y;
+  const sx = d * (njx + nix);
+  const sy = d * (njy + niy);
+  // (m − v) · (v − a) = s · (v − a) ÷ den must lie in [−|v − a|², 0]; (m − v) · (b − v) = s · (b − v) ÷ den in [0, |b − v|²].
+  const tj = sx * ajx + sy * ajy;
+  const ti = sx * aix + sy * aiy;
+  const lj = ajx * ajx + ajy * ajy;
+  const li = aix * aix + aiy * aiy;
+  return tj <= 0 && -tj <= lj * den && ti >= 0 && ti <= li * den;
+}
+
+/**
+ * How far (cm) a ring may stray from the offset distance and still be the sum's boundary. The fast ring: its arcs'
+ * chords (2 cm sagitta) and its roundings. The overlay's ring: besides, the arrangement's booleans place every vertex
+ * by the insertion rules (attraction within `LATTICE.attractCm`, `minEdge`, hot pixels), which moved the ring by up
+ * to 60 cm on the notched, finger and grown outlines measured (C-0245 (1)); four attraction radii bound it, and a
+ * ring beyond that is refused.
+ */
+export const SUM_TOLERANCE_CM = 5;
+export const OVERLAY_TOLERANCE_CM = 4 * LATTICE.attractCm;
+
+/** The squared distance of p to the segment ab. */
+function segDist2(px: number, py: number, ax: number, ay: number, bx: number, by: number): number {
+  const dx = bx - ax;
+  const dy = by - ay;
+  const l2 = dx * dx + dy * dy;
+  let t = 0;
+  // the projection's parameter, clamped to the segment (l2 ≥ 1 cm² between two distinct lattice points)
+  if (l2 > 0) t = Math.max(0, Math.min(1, quot((px - ax) * dx + (py - ay) * dy, l2, 'area', 'a segment projection')));
+  const ex = ax + t * dx - px;
+  const ey = ay + t * dy - py;
+  return ex * ex + ey * ey;
+}
+
+/**
+ * Is `ring` the outer ring of the boundary's Minkowski sum with a disc of radius d (within `tolCm`)? The
+ * check (C-0245 (1)): no ring edge comes nearer the boundary than d less the tolerance (so it crosses no boundary edge
+ * and runs through no land of the sum's interior), each ring edge has both ends within d plus the tolerance of one
+ * boundary edge (the distance to a segment is convex, so the whole edge does), and the boundary's first vertex lies
+ * inside the ring (the boundary is connected and the ring meets it nowhere, so all of it does). A simple ring in that
+ * shell enclosing the boundary is the sum's outer boundary. Edges are bucketed on a grid of cells of d.
+ */
+export function isSumRing(boundary: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
+  const n = boundary.length;
+  const m = ring.length;
+  if (n < 2 || m < 3 || !(d > 0)) return false;
+  if (!insideRing(ring, boundary[0])) return false;
+  const lo = d - tolCm;
+  const hi = d + tolCm;
+  const lo2 = lo * lo;
+  const hi2 = hi * hi;
+  const cell = Math.max(d, 1);
+  const cellOf = (v: number): number => Math.floor(quot(v, cell, 'length', 'a grid cell'));
+  const grid = new Map<string, number[]>();
+  for (let i = 0; i < n; i += 1) {
+    const a = boundary[i];
+    const b = boundary[(i + 1) % n];
+    for (let cx = cellOf(Math.min(a.x, b.x)); cx <= cellOf(Math.max(a.x, b.x)); cx += 1) {
+      for (let cy = cellOf(Math.min(a.y, b.y)); cy <= cellOf(Math.max(a.y, b.y)); cy += 1) {
+        const key = `${String(cx)},${String(cy)}`;
+        const l = grid.get(key);
+        if (l === undefined) grid.set(key, [i]);
+        else l.push(i);
+      }
+    }
+  }
+  const seen = new Int32Array(n).fill(-1);
+  for (let r = 0; r < m; r += 1) {
+    const p = ring[r];
+    const q = ring[(r + 1) % m];
+    let near = false;
+    for (let cx = cellOf(Math.min(p.x, q.x) - hi); cx <= cellOf(Math.max(p.x, q.x) + hi); cx += 1) {
+      for (let cy = cellOf(Math.min(p.y, q.y) - hi); cy <= cellOf(Math.max(p.y, q.y) + hi); cy += 1) {
+        const l = grid.get(`${String(cx)},${String(cy)}`);
+        if (l === undefined) continue;
+        for (const i of l) {
+          if (seen[i] === r) continue;
+          seen[i] = r;
+          const a = boundary[i];
+          const b = boundary[(i + 1) % n];
+          // The segments' distance: 0 when they meet, else the least of the four end-to-segment distances.
+          if (meet(p, q, a, b)) return false;
+          const dp = segDist2(p.x, p.y, a.x, a.y, b.x, b.y);
+          const dq = segDist2(q.x, q.y, a.x, a.y, b.x, b.y);
+          if (dp < lo2 || dq < lo2 || segDist2(a.x, a.y, p.x, p.y, q.x, q.y) < lo2 || segDist2(b.x, b.y, p.x, p.y, q.x, q.y) < lo2) return false;
+          if (dp <= hi2 && dq <= hi2) near = true;
+        }
+      }
+    }
+    if (!near) return false;
+  }
+  return true;
 }
 
 /**

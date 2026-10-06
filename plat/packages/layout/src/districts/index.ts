@@ -6,7 +6,7 @@
 export type { DistrictTyping, GrowResult, GrowSeed, Grown, MergeRecord, QuarterNode, S6Output, S6Report, SeedAnchor, SeedFeature, SeedKind, TurnRecord } from './types.js';
 export { districtCells as s6DistrictCells, minBarrierClass, rosterBuildings, s6Table, typingCells, type DistrictCells, type KindRow, type RelationRow, type TypingCells } from './table.js';
 export { countLaw, quarterCount, type CountLaw } from './law.js';
-export { convolution, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, unloop, UNLOOP_WINDOW, type PerimeterOptions } from './perimeter.js';
+export { convolution, isSumRing, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop, UNLOOP_WINDOW, type PerimeterOptions } from './perimeter.js';
 export { BARRIER, boundaryLoops, districtOfFace, hullCompactness, polsbyPopper, EDGE_TEST_BARRIERS, faceGraph, faceLineage, textLineage, WAY_CLASS_ORDER, type CoarseFace, type FaceGraph, type FaceGraphOptions, type FaceLink, type FaceSide } from './faces.js';
 export { grow, type GrowFaces, type GrowOptions, type TurnStream } from './grow.js';
 export { compartments, placeSeeds, type PlacedSeeds } from './seeds.js';

@@ -3,11 +3,15 @@
 // hinterland's), the edge test (no district crosses an arterial ≥ primary, the wall or a reservation boundary), the
 // patch test on every patch the grower held, the merge rule's records, the minimal seams and their `district_bound`
 // rows (laid over the edges already there: no geometry added), typing on the stage, the quarter tree, the District
-// records, F-WORK's work_cut, a single coarse face, determinism, and the Stage object itself.
-import { CONCERNS, createRng, entityKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint } from '@plat/kernel';
-import { addressOf, lineageHash, TOWN_ROOT, type District } from '@plat/model';
+// records, F-WORK's work_cut, a single coarse face, determinism, and the Stage object itself. The identity laws S6
+// locks in — each grower's seed lineage (its feature's address; a remainder or leftover seed's face after Lloyd),
+// each district's creation index (its seed's order) and typing's `district.type` stream — are held by keys the test
+// derives from the input and the committed arena, never read back from S6's own records (C-0245 (5), (12), (17); fix
+// round 1 of the first check's B-2).
+import { CONCERNS, createRng, entityKey, faceKey, insertChain, seedKey, STAGES, type KernelTx, type LatticePoint, type LineageHash } from '@plat/kernel';
+import { addressOf, lineageHash, TOWN_ROOT, type District, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { boundaryLoops, faceGraph, runS6, s6Stage, settlementPerimeter, type S6Output } from '../../src/index.js';
+import { boundaryLoops, faceGraph, faceLineage, runS6, s6Stage, s6Table, settlementPerimeter, textLineage, typingCells, type S6Output } from '../../src/index.js';
 import { edgesL1, GROUND, gridArena, hullArea, insidePoly, liveL1, ownerAt, ownerOfL1, P, town, townS6, type Town } from './support.js';
 
 const RUNS = new Map<string, Town & { out: S6Output }>();
@@ -22,6 +26,74 @@ function run(seed: number): Town & { out: S6Output } {
 }
 
 const SEEDS = [4, 11];
+/** A town whose merge rule removes districts ahead of surviving ones (5 merges, 7 leftover seeds): a district's seed order is not its place among the survivors. */
+const MERGED = 121;
+
+/** The ground arena's L1 face graph after S6 (the district_bound runs add no geometry: the faces S6 grew over). */
+function graphOf(t: Town & { out: S6Output }) {
+  return faceGraph(t.plat, { ways: new Map(t.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: t.out.hinterland, water: new Set() });
+}
+
+/**
+ * Each grower's seed lineage as §4.5 keys it, derived from the input and the committed arena: a sited feature's —
+ * the features in input order less those reported dropped — is the H64 of its address; a remainder or leftover seed's
+ * is its seed face's canonical key (the face it holds after Lloyd, read from the arena through the kernel's faceKey).
+ */
+function seedLineages(t: Town & { out: S6Output }): Map<number, LineageHash> {
+  const g = graphOf(t);
+  const dropped = new Set(t.out.report.seedsDropped);
+  const featureSeeds = t.input.features.filter((f) => !dropped.has(f.id));
+  const out = new Map<number, LineageHash>();
+  let remainders = 0;
+  for (const d of t.out.grow.grown) {
+    const sd = d.seed;
+    expect(d.faces[0]).toBe(sd.face);
+    if (sd.order < featureSeeds.length) {
+      const f = featureSeeds[sd.order];
+      expect([sd.kind, sd.feature]).toEqual([f.kind, f.id]);
+      out.set(sd.order, textLineage(f.id));
+    } else {
+      expect(['remainder', 'leftover']).toContain(sd.kind);
+      const P0 = t.plat;
+      const [a, b] = faceKey(P0, 1, g.faces[sd.face].face);
+      out.set(sd.order, faceLineage([P0.vertices.x[a], P0.vertices.y[a], P0.vertices.x[b], P0.vertices.y[b]]));
+      remainders += 1;
+    }
+    expect(sd.lineage).toEqual(out.get(sd.order));
+  }
+  expect(remainders).toBeGreaterThan(3);
+  return out;
+}
+
+/** A district's lineage under the town (§6.3: S6 districts keyed by the town, in seed order). */
+function districtLineage(index: number): LineageHash {
+  return lineageHash({ arena: GROUND, unit: lineageHash(TOWN_ROOT), stage: STAGES.S6, epoch: 0, index, reroll: 0 });
+}
+
+/**
+ * Each district's seed order, from the input and the arena: the seed orders whose seed face the district owns in the
+ * committed arena (its own, and those of the districts merged into it), and among them the one whose address is its
+ * id — exactly one; a district named by a feature takes that feature's place among the features seeded.
+ */
+function districtOrders(t: Town & { out: S6Output }): Map<Id, number> {
+  const g = graphOf(t);
+  const dropped = new Set(t.out.report.seedsDropped);
+  const featureSeeds = t.input.features.filter((f) => !dropped.has(f.id));
+  const held = new Map<Id, number[]>();
+  for (const d of t.out.grow.grown) {
+    const owner = ownerOfL1(t.plat, g.faces[d.seed.face].face);
+    if (owner !== null) held.set(owner, [...(held.get(owner) ?? []), d.seed.order]);
+  }
+  const out = new Map<Id, number>();
+  for (const d of t.out.districts) {
+    const orders = held.get(d.id) ?? [];
+    const match = orders.filter((k) => addressOf('district', districtLineage(k)) === d.id);
+    expect(match.length).toBe(1);
+    if (d.namingFeature !== undefined) expect(match[0]).toBe(featureSeeds.findIndex((f) => f.id === d.namingFeature));
+    out.set(d.id, match[0]);
+  }
+  return out;
+}
 const ARTERIAL = new Set(['through', 'primary']);
 
 /** Sample points every `stepCm` over the frame: inside the perimeter or outside it. */
@@ -126,18 +198,21 @@ describe('the edge test and the patch test (§4.5)', () => {
   });
 
   it('N_d seeds in all; each turn’s skip is district.seed keyed by (the grower’s seed lineage, its turn number)', { timeout: 120_000 }, () => {
-    for (const seed of SEEDS) {
+    let skips = 0;
+    let takes = 0;
+    for (const seed of [...SEEDS, MERGED]) {
       const t = run(seed);
       expect(t.out.report.seeds).toBe(t.out.report.nd);
       const rng = createRng();
       const bySeed = new Map(t.out.grow.grown.map((d) => [d.seed.order, d.seed]));
-      let skips = 0;
-      let takes = 0;
+      // the lineage half of the key, from the input and the arena alone (never sd.lineage)
+      const lineageOf = seedLineages(t);
       for (const l of t.out.grow.log) {
         if (l.what === 'done') continue;
         const sd = bySeed.get(l.seed);
         if (sd === undefined) throw new Error('no seed');
-        const key = entityKey(seedKey(seed), lineageHash({ arena: GROUND, unit: sd.lineage, stage: STAGES.S6, epoch: 0, index: l.turn, reroll: 0 }), GROUND);
+        const unit = lineageOf.get(l.seed) as LineageHash;
+        const key = entityKey(seedKey(seed), lineageHash({ arena: GROUND, unit, stage: STAGES.S6, epoch: 0, index: l.turn, reroll: 0 }), GROUND);
         const skip = !rng.stream(key, STAGES.S6, CONCERNS['district.seed'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 }).bool(sd.rate);
         expect(skip).toBe(l.what === 'skip');
         if (sd.rate < 1) {
@@ -145,10 +220,10 @@ describe('the edge test and the patch test (§4.5)', () => {
           else takes += 1;
         }
       }
-      // the slow (gate) growers both skip and take: the check has teeth on both sides
-      expect(skips).toBeGreaterThan(10);
-      expect(takes).toBeGreaterThan(2);
     }
+    // the slow (gate) growers both skip and take: the check has teeth on both sides
+    expect(skips).toBeGreaterThan(30);
+    expect(takes).toBeGreaterThan(6);
   });
 
   it('the merge rule: every merged district was below the floor and of rate 1; none of rate < 1 merged away', { timeout: 120_000 }, () => {
@@ -162,6 +237,75 @@ describe('the edge test and the patch test (§4.5)', () => {
         expect(t.out.grow.grown[m.into].mergedInto).toBe(-1);
       }
       for (const d of t.out.grow.grown) if (d.seed.rate < 1) expect(d.mergedInto).toBe(-1);
+    }
+  });
+});
+
+describe('the identity laws S6 locks in, from keys the test derives (C-0245 (5), (12), (17))', () => {
+  it('every grower’s seed lineage: a feature’s address hashed; a remainder or leftover seed’s face after Lloyd, keyed from the arena', { timeout: 120_000 }, () => {
+    for (const seed of [SEEDS[0], MERGED]) {
+      const t = run(seed);
+      const lineages = seedLineages(t);
+      expect(lineages.size).toBe(t.out.grow.grown.length);
+      // no two growers share a lineage: each keys its own turns
+      expect(new Set([...lineages.values()].map((l) => JSON.stringify(l))).size).toBe(lineages.size);
+    }
+  });
+
+  it('every district’s id and lineage: (the town, S6, its seed’s order) — a merge ahead of it shifts no index', { timeout: 120_000 }, () => {
+    let shifted = 0;
+    for (const seed of [SEEDS[0], MERGED]) {
+      const t = run(seed);
+      const orders = districtOrders(t);
+      expect(orders.size).toBe(t.out.districts.length);
+      t.out.districts.forEach((d, place) => {
+        const k = orders.get(d.id) as number;
+        expect(d.id).toBe(addressOf('district', districtLineage(k)));
+        expect(t.out.lineages.get(d.id)).toEqual(districtLineage(k));
+        if (k !== place) shifted += 1;
+      });
+    }
+    // the case has teeth: some district's seed order is not its place among the survivors
+    expect(shifted).toBeGreaterThan(0);
+  });
+
+  it('typing’s scores replay from a district.type stream on each district’s lineage (one uniform per kind, in table order)', { timeout: 120_000 }, () => {
+    const cells = typingCells(s6Table());
+    for (const seed of [SEEDS[0], MERGED]) {
+      const t = run(seed);
+      const orders = districtOrders(t);
+      const g = graphOf(t);
+      // each district's land, from the committed arena's owners
+      const area = new Map<Id, number>();
+      for (const f of g.faces) if (f.owner !== null && orders.has(f.owner)) area.set(f.owner, (area.get(f.owner) ?? 0) + f.areaCm2);
+      let land = 0;
+      for (const a of area.values()) land += a;
+      const remaining = new Map(cells.kinds.map((k) => [k.kind, k.share * land]));
+      const typed = [...t.out.typing].sort((a, b) => (area.get(b.district) as number) - (area.get(a.district) as number) || (a.district < b.district ? -1 : a.district > b.district ? 1 : 0));
+      const rng = createRng();
+      let replayed = 0;
+      for (const x of typed) {
+        const k = orders.get(x.district) as number;
+        const s = rng.stream(entityKey(seedKey(seed), districtLineage(k), GROUND), STAGES.S6, CONCERNS['district.type'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
+        cells.kinds.forEach((kind, ki) => {
+          const u = s.float01();
+          const [name, score] = x.scores[ki];
+          expect(name).toBe(kind.kind);
+          if (score === -Infinity) {
+            expect(kind.relations.some((r) => r.mode === 'require')).toBe(true);
+            return;
+          }
+          // score − the random term − the demand term is the weight of the relation rows that hold: every require
+          // row's and some of the prefer rows'
+          const rest = score - cells.randomWeight * u - cells.demandWeight * (Math.max(0, remaining.get(kind.kind) as number) / land);
+          let sums = [kind.relations.filter((r) => r.mode === 'require').reduce((a, r) => a + r.weight, 0)];
+          for (const r of kind.relations) if (r.mode === 'prefer') sums = [...sums, ...sums.map((v) => v + r.weight)];
+          expect(sums.some((v) => Math.abs(rest - v) < 1e-9)).toBe(true);
+          replayed += 1;
+        });
+        remaining.set(x.kind, (remaining.get(x.kind) as number) - (area.get(x.district) as number));
+      }
+      expect(replayed).toBeGreaterThan(3 * t.out.districts.length);
     }
   });
 });
