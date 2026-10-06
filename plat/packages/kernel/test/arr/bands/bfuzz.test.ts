@@ -54,6 +54,7 @@ const CORRIDOR_CODES = ['E_KEPT', 'E_INVARIANT'];
 describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases each', () => {
   it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
     let committed = 0;
+    let pendingS3 = 0;
     fc.assert(
       fc.property(fc.array(chordArb, { minLength: 1, maxLength: 3 }), (chords) => {
         const p = framed();
@@ -71,17 +72,25 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
         const ws = widthsOf(table);
         // kerb on every face, read on the open overlay: typed, and every ring simple with the kerb on its left
+        let refusedRead = false;
         commit(p, 1, (o) => {
           for (const f of faces) {
             const k = kerb(o, f, ws);
-            expect(k.ok).toBe(true);
-            if (!k.ok) continue;
+            if (!k.ok) {
+              // the scratch overlay's insertion refusing a route (N-43, insertChain's PENDING-S3 line B, C-0212):
+              // a typed refusal, never a crash — counted on its own line; the batch below meets it again
+              expect(k.code).toBe('E_INVARIANT');
+              expect(k.detail.startsWith('insert:')).toBe(true);
+              refusedRead = true;
+              continue;
+            }
             for (const r of k.value) expect(simpleRing(r)).toBe(true);
             const outer = k.value.filter((r) => area2(r) > 0n);
             expect(outer.length > 0 || k.value.length === 0).toBe(true);
           }
           return { ok: true, value: null, warnings: [] };
         });
+        if (refusedRead) pendingS3 += 1;
         const before = state(p);
         const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
         if (!r.ok) {
@@ -111,7 +120,7 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed`);
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed, ${String(pendingS3)} with a kerb the overlay's insertion refused (N-43, PENDING-S3)`);
     expect(committed).toBeGreaterThanOrEqual(Math.ceil(RUNS * 0.9));
   });
 

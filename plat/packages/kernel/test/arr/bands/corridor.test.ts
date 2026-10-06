@@ -143,7 +143,7 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         const faces = l1Faces(p);
         commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
         const ws = widthsOf(table);
-        const k = new Map<FaceId, { rings: string[]; moved: boolean }>();
+        const k = new Map<FaceId, { rings: string[]; moved: boolean } | null>();
         for (const f of faces) k.set(f, kerbRead(p, f, ws));
         // each face in a batch of its own, so each face's commit warnings are its own (§3.7's split per case)
         for (const f of faces) {
@@ -156,7 +156,9 @@ describe('corridorUnion (§3.4, §3.7)', () => {
           }
           const v = r.value.value as BandResult;
           const blocks = blocksByFace(p, [f], v);
-          const read = k.get(f) as { rings: string[]; moved: boolean };
+          const read = k.get(f);
+          expect(read).not.toBeNull();
+          if (read === null || read === undefined) continue;
           const want = read.rings;
           // §3.7's split: where neither the kerb's overlay nor the commit moved a vertex, the blocks are kerb(F)
           // exactly; where either attracted one, they stay within √2 · attractCm × the perimeter of it
@@ -316,14 +318,21 @@ function attracted(ws: readonly { code: string }[]): boolean {
   return ws.some((w) => ['W_ATTRACTED', 'W_PLACED', 'W_WEDGE_ROUTED', 'W_STRETCH_SHARED'].includes(w.code));
 }
 
-/** kerb(F)'s normal forms and whether its overlay moved a vertex, read in a batch that writes nothing. */
-function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): { rings: string[]; moved: boolean } {
-  let out = { rings: [] as string[], moved: false };
-  commit(p, 1, (o) => {
+/**
+ * kerb(F)'s normal forms and whether its overlay moved a vertex, read in a batch that writes nothing; null where the
+ * overlay's insertion refused a route (N-43, insertChain's PENDING-S3 line B — a typed refusal the batch meets again).
+ */
+function kerbRead(p: Plat, f: FaceId, ws: ReturnType<typeof widthsOf>): { rings: string[]; moved: boolean } | null {
+  let out: { rings: string[]; moved: boolean } | null = null;
+  const r = tx(p, spec(1), (o) => {
     const k = kerb(o, f, ws);
     if (!k.ok) return err(k.code, k.detail);
     out = { rings: normals(k.value), moved: attracted(k.warnings) };
     return ok(null);
   });
+  if (!r.ok) {
+    expect(r.code).toBe('E_INVARIANT');
+    return null;
+  }
   return out;
 }

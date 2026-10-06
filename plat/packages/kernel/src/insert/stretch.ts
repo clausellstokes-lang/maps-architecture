@@ -141,6 +141,14 @@ export interface ChainCtx {
    */
   acrossSlivers?: boolean;
   /**
+   * The router's anchored reading (S4, C-0213; N-43 B): the input segment the chain's segment came from. Set, step 3
+   * routes through a vertex, shares a stretch or lands a contact only where it lies within `attractCm` of that input
+   * segment as well as of the segment being routed, so iterated step-3 contacts cannot carry the route away from its
+   * input — each contact may move the route up to `attractCm` from the sub-segment it bends, and a run of them along a
+   * near-parallel chain drifts beyond the fidelity bound. Unset (null): step 3 reads the segment being routed alone.
+   */
+  anchor?: { readonly a: LatticePoint; readonly b: LatticePoint; readonly reach: number } | null;
+  /**
    * The inverse of every arena write the chain made, in order: a refused chain runs them backwards so the op writes
    * nothing (C-0177 (8)).
    */
@@ -573,12 +581,16 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     return false;
   };
   const reach = ctx.strict ? MIN_EDGE : ATTRACT;
+  // The anchored reading (C-0213): a contact also lies within attractCm of the chain's input segment.
+  const anchor = ctx.anchor ?? null;
+  const nearInput = (x: number, y: number): boolean => anchor === null || withinSegment(x, y, anchor.a.x, anchor.a.y, anchor.b.x, anchor.b.y, anchor.reach);
   for (const v of query(p, tx.key, 4, box, { vertices: true }).vertices) {
     if (v === a || v === b || exclude.has(v)) continue;
     if (!passesWithin(X[v], Y[v], ax, ay, bx, by, reach)) continue;
     if (L[v] > n && !onRouteOfLevel(p, v, n)) {
       return err('E_KEPT', `the chain passes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) off every route of level ≤ L${n} (kept content)`);
     }
+    if (!nearInput(X[v], Y[v])) continue;
     const t = ratio((X[v] - ax) * dx + (Y[v] - ay) * dy, l2, 'area');
     check(t.ok, 'a segment spans at least minEdge');
     const o: StretchObstacle = { kind: 'vertex', vertex: v, t: t.value };
@@ -604,10 +616,13 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     const jl = (leave.x - join.x) * (leave.x - join.x) + (leave.y - join.y) * (leave.y - join.y);
     let o: StretchObstacle;
     if (jl >= MIN_EDGE_SQ) {
+      if (!nearInput(join.x, join.y) || !nearInput(leave.x, leave.y)) continue;
       o = { kind: 'stretch', piece: pc, join, leave, t: band.lo };
     } else {
       const tm = 0.5 * (band.lo + band.hi);
-      o = { kind: 'contact', piece: pc, at: footOnSegment(ux, uy, wx, wy, ax + tm * dx, ay + tm * dy), t: band.lo };
+      const at = footOnSegment(ux, uy, wx, wy, ax + tm * dx, ay + tm * dy);
+      if (!nearInput(at.x, at.y)) continue;
+      o = { kind: 'contact', piece: pc, at, t: band.lo };
     }
     if (better(o)) best = o;
   }
