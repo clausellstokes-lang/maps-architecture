@@ -7,7 +7,7 @@ import { STAGES, type ConcernId, type Stream } from '@plat/kernel';
 import type { StageContext } from '@plat/model';
 import { flatFixture, type EnceinteEnv } from '../../../src/index.js';
 import { growthStart, mainRoadsStep, mainRoadStream, runS5ab, s5aStage, s5bStage, traceStep, type GrowthState } from '../../../src/growth/mainRoads.js';
-import { s5bStatistics, violations } from './checks.js';
+import { recountC, s5bStatistics, violations } from './checks.js';
 import { baseRun, cityGrown, roleEdges, verticesWith } from './support.js';
 
 describe('S5a / S5b on the CITY fixture', () => {
@@ -53,7 +53,12 @@ describe('S5a / S5b on the CITY fixture', () => {
     expect(s3.trace).toBeNull();
     expect(s3.gates).toEqual([]);
     expect(s3.wall).toBeNull();
-    expect(s3.roads.length).toBe(Math.max(0, s3.count.n - s3.crossings.length));
+    // c recounted from the arena (the standing ways' meetings with the ribbon's boundary as picked), never the record.
+    const c3 = recountC(g, 3);
+    expect(c3).toBeGreaterThan(0);
+    expect(s3.crossings.length).toBe(c3);
+    expect(s3.roads.length).toBe(Math.max(0, s3.count.n - c3));
+    expect(s2.crossings.length).toBe(recountC(g, 2));
     // §13.2's statistics on this seed: every gate on a primary.
     expect(s5bStatistics(g).gateShare).toBe(1);
   });

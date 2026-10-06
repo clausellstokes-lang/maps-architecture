@@ -1,4 +1,4 @@
-// M0-k-06: the clean-room content scanner (§17.1 (5), (8); C-0101, C-0246; N-23, N-26, N-32 – N-36; attachment C of
+// M0-k-06: the clean-room content scanner (§17.1 (5), (8); C-0101, C-0247; N-23, N-26, N-32 – N-36; attachment C of
 // docs/build/checks/M0-handoff-M1.md), tested on synthetic deny-lists the test builds with its own salt. The item's
 // tests: a planted token, 3-gram run, colour, file and list are each found and named by file and line; a reviewed allow
 // entry silences exactly its hit and an unreviewed hit fails the run; no matched token is ever printed; a missing list
@@ -373,7 +373,7 @@ describe('the colour hit (N-34)', () => {
     expect(c(`#${COLOUR}a`).code).toBe(0);
     expect(c(`0X${COLOUR}`).code).toBe(0);
   });
-  it('in a source, a colour in code (a hex number) is found as well as one in a string (C-0246)', () => {
+  it('in a source, a colour in code (a hex number) is found as well as one in a string (C-0247)', () => {
     const r = scan(tree({ 'packages/kernel/src/k.ts': `export const K = 0x${COLOUR};\nconst s = '#${COLOUR}';\nconst n = 0x${COLOUR}ff;\n` }, syntheticList(SPEC)));
     expect(at(r)).toEqual([
       ['packages/kernel/src/k.ts', 1, 'colour'],
@@ -414,6 +414,17 @@ describe('the list hit (N-35; §17.1 (5): five or more distinct words of one lis
       { line: 1, cells: [' b ', ' e '] },
     ]);
   });
+  it('a column needs three cells: five listed words over two cells give 0 hits, over three cells one column hit', () => {
+    const two = `[\n  { "n": "${WORDS.slice(0, 3).join(' ')}" },\n  { "n": "${WORDS.slice(3, 5).join(' ')}" }\n]\n`;
+    expect(scan(tree({ 'packages/tables/data/two.json': two }, syntheticList(SPEC))).code).toBe(0);
+    const three = `[\n  { "n": "${WORDS.slice(0, 2).join(' ')}" },\n  { "n": "${WORDS.slice(2, 4).join(' ')}" },\n  { "n": "${WORDS[4] as string}" }\n]\n`;
+    expect(at(scan(tree({ 'packages/tables/data/three.json': three }, syntheticList(SPEC))))).toEqual([['packages/tables/data/three.json', 2, 'list', 41, 'column']]);
+    // a Markdown column's header is one of its cells: a header and one row are two cells (0 hits), with a second row three
+    const md = [`| ${WORDS.slice(0, 3).join(' ')} |`, '|---|', `| ${WORDS.slice(3, 5).join(' ')} |`];
+    expect(scan(tree({ 'docs/digest/t.md': `${md.join('\n')}\n` }, syntheticList(SPEC))).code).toBe(0);
+    expect(at(scan(tree({ 'docs/digest/t.md': `${[...md, '| x |'].join('\n')}\n` }, syntheticList(SPEC))))).toEqual([['docs/digest/t.md', 1, 'list', 41, 'column']]);
+  });
+
   it('a JSON table (one field across records) and a JSON list of strings, one item per line, are columns', () => {
     const recs = `[\n${WORDS.slice(0, 5).map((w, k) => `  { "name": "${w}", "n": ${k} }`).join(',\n')}\n]\n`;
     const arr = `{\n  "names": [\n${WORDS.slice(0, 5).map((w) => `    "${w}"`).join(',\n')}\n  ]\n}\n`;
@@ -431,7 +442,7 @@ describe('the list hit (N-35; §17.1 (5): five or more distinct words of one lis
   });
 });
 
-describe('what is read, and how (C-0246; N-26)', () => {
+describe('what is read, and how (C-0247; N-26)', () => {
   it('the read modes by place', () => {
     expect(readModeOf('packages/tables/data/x.json')).toBe('whole');
     expect(readModeOf('docs/digest/README.md')).toBe('whole');
@@ -489,9 +500,13 @@ describe('what is read, and how (C-0246; N-26)', () => {
     expect(r.text).not.toContain(TOKEN);
   });
 
-  it('in a crossing file no 3-gram spans two strings', () => {
-    const two = `{\n  "a": ["${RUN.slice(0, 3).join(' ')}", "${RUN.slice(3).join(' ')}"]\n}\n`;
+  it('in a crossing file no 3-gram spans two strings, in either order on a line', () => {
+    const head = RUN.slice(0, 3).join(' ');
+    const tail = RUN.slice(3).join(' ');
+    const two = `{\n  "a": [\n    "${head}", "${tail}",\n    "${tail}", "${head}"\n  ],\n  "${head}": "${tail}"\n}\n`;
     expect(scan(tree({ 'packages/testkit/baselines/baselines.json': two }, syntheticList(SPEC))).code).toBe(0);
+    // the control: the same file read whole (outside the folder) forms the run on the key line
+    expect(scan(tree({ 'packages/tables/data/two.json': `{\n  "${head} ${tail}": 1\n}\n` }, syntheticList(SPEC))).report?.counts.trigram).toBe(1);
   });
 
   it('a file that is not UTF-8 text is digested whole only; a file hit is found anywhere in plat/', () => {
@@ -504,7 +519,7 @@ describe('what is read, and how (C-0246; N-26)', () => {
   });
 });
 
-describe('the source reader: string literals and comments, never code (§17.1 (5); C-0246)', () => {
+describe('the source reader: string literals and comments, never code (§17.1 (5); C-0247)', () => {
   it('strings, templates (outside their substitutions), comments and regular expressions are read by line; code is not', () => {
     const src = [
       "import { a } from './x.js'; // line one",

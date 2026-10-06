@@ -1,7 +1,7 @@
 // The item's stated promises checked on a grown run, each from the arena's own tables and plane helpers written here
 // (never through the code under test): §4.4 S5a's nested stages and gates on their boundary, S5b's N_k − c primaries and
 // the gate count, the walls and roads, T one field re-settled; and §13.2's two S5b statistics.
-import { fieldT } from '../../../src/index.js';
+import { fieldT, levelSet } from '../../../src/index.js';
 import { area, insideRing, lengthInside, meetings, ringDist, roleEdges, segDist, verticesWith, type Grown } from './support.js';
 
 const HA = 100_000_000;
@@ -69,6 +69,9 @@ export function violations(g: Grown): string[] {
       if (Math.abs(st.count.measure - per) > 0.01 * per) say(`stage ${String(st.k)}: the length N_k read, ${String(st.count.measure)} cm, is not the boundary's ${String(per)} cm`);
     }
     const c = st.crossings.length;
+    // c recounted from the arena, never from the record (walled and unwalled alike): a miscounted c fails here.
+    const cArena = recountC(g, st.k, wayEdges);
+    if (cArena !== c) say(`stage ${String(st.k)}: c recorded ${String(c)} vs ${String(cArena)} meetings of the standing ways with the boundary as picked`);
     const want = Math.max(0, st.count.n - c);
     if (st.picks.length + st.short !== want) say(`stage ${String(st.k)}: ${String(st.picks.length)} picks and ${String(st.short)} short for N_k ${String(st.count.n)} − c ${String(c)}`);
     if (!b.capped && st.short !== 0) say(`stage ${String(st.k)}: ${String(st.short)} destinations short on an uncapped stage`);
@@ -167,6 +170,23 @@ export function violations(g: Grown): string[] {
   for (let i = 0; i < full.T.length; i += 1) if (!Object.is(full.T[i], growth.field.T[i])) diff += 1;
   if (diff > 0) say(`the final T differs from a full recompute at ${String(diff)} nodes`);
   return out;
+}
+
+/**
+ * Stage k's c recounted independently of the code under test (§4.4 S5b: the times the existing arterials cross the new
+ * boundary): the meetings, read from the arena's `way` edge rows and counted per way (two within 1 cm once), of the ways
+ * that stood before stage k's S5b (S4's and the earlier stages' S5b roads) with the stage's boundary as picked — S3's
+ * level set at the stage's threshold over its union field, no destination pinned. 0 for a folded stage.
+ */
+export function recountC(g: Grown, k: number, wayEdges: Map<string, [{ x: number; y: number }, { x: number; y: number }][]> = roleEdges(g.plat, 'way')): number {
+  const st = g.growth.stages[k - 1];
+  const b = st.boundary;
+  if (b === null) return 0;
+  const outline = levelSet(b.field, b.threshold.t).outline;
+  const standing = [...g.s4.network.ways.map((w) => w.id), ...g.growth.stages.filter((s) => s.k < k).flatMap((s) => s.roads.map((r) => r.way.id))];
+  let c = 0;
+  for (const id of standing) c += meetings(wayEdges.get(id) ?? [], outline).length;
+  return c;
 }
 
 /** §13.2's S5b statistics on a grown run: primary length per km² of the town's land, the share of gates on primaries. */

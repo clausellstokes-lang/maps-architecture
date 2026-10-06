@@ -1,10 +1,10 @@
-// What the content scan reads, and how (M0-k-06; §17.1 (5); N-26; C-0246). Every file under plat/ outside build
+// What the content scan reads, and how (M0-k-06; §17.1 (5); N-26; C-0247). Every file under plat/ outside build
 // output and installed packages is digested whole for the file check; its content is read by its place:
 //   * `packages/tables/data/`, `docs/digest/` and `assets/` — the whole text (every token, §17.1 (5)), a file that is
 //     not UTF-8 text by its bytes only;
 //   * `packages/testkit/baselines/*.json` — the crossing files, by their string values and keys only (N-26);
 //   * TypeScript and JavaScript under `packages/`, `bench/`, `tools/`, `scripts/` and plat/'s own root — their string
-//     literals and comments (and, for the colour check, their whole text, C-0246);
+//     literals and comments (and, for the colour check, their whole text, C-0247);
 //   * JSON there — its string values and keys (a JSON file's literals);
 //   * everything else (vendor/'s third-party code, the build records under docs/, Markdown, lock files) — bytes only.
 // The deny-list itself and the allow file are never scanned (the allow file holds the allowed texts by design). The

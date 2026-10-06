@@ -1,4 +1,4 @@
-// @plat/testkit's clean-room content scanner (M0-k-06; §17.1 (5), §13.8; C-0101, C-0113, C-0246): normalisation 1,
+// @plat/testkit's clean-room content scanner (M0-k-06; §17.1 (5), §13.8; C-0101, C-0113, C-0247): normalisation 1,
 // the salted digests, the token, 3-gram-run, colour, file and list checks, the reviewed allow entries and the report.
 // Built now and tested on synthetic deny-lists; its run over M-1's denylist.json is M0-k-07's (AFTER-M-1). The folder
 // was created empty by the scaffold's fix round (M0-s-01, C-0064) and belongs to M0-k-06.

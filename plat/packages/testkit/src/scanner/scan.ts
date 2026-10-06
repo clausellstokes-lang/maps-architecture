@@ -1,4 +1,4 @@
-// The content scan (M0-k-06; §17.1 (5); C-0101; N-23, N-26, N-33 – N-36; C-0246): every file in scope is digested
+// The content scan (M0-k-06; §17.1 (5); C-0101; N-23, N-26, N-33 – N-36; C-0247): every file in scope is digested
 // whole for the file check, and its texts — by its read mode (scope.ts) — for the token, 3-gram, colour and list checks,
 // each item as SHA-256(salt ‖ item) cut to the list's digest length.
 //   * token: a token whose digest is in `tokens` and not in `spell` (the spell-check exclusion, §17.1 (5));
@@ -122,7 +122,7 @@ export function fileTexts(rel: string, mode: ReadMode, bytes: Uint8Array): FileT
     }
     return { lines, colours, columns: j.columns };
   }
-  // source: literals and comments for the tokens, 3-grams and lists; the whole text for colours (C-0246)
+  // source: literals and comments for the tokens, 3-grams and lists; the whole text for colours (C-0247)
   const src = readSource(text);
   for (const l of src.lines) push(lines, l.line, l.text);
   splitLines(text).forEach((l, k) => {

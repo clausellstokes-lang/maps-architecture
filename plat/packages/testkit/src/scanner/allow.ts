@@ -1,5 +1,5 @@
 // The reviewed allow entries (M0-k-06; §17.1 (5): "a hit fails the build unless an allow entry with a written reason is
-// reviewed and added"; C-0101, C-0246). `plat/packages/testkit/baselines/denylist-allow.json` is a JSON array, `[]`
+// reviewed and added"; C-0101, C-0247). `plat/packages/testkit/baselines/denylist-allow.json` is a JSON array, `[]`
 // at M0-k-06's landing and filled by M0-k-07's review: each entry `{ check, text, reason, file? }` — the hit's check,
 // its exact text, a written reason, and optionally the one file (relative to plat/) it applies to. An entry silences a
 // hit of its check whose content its text gives exactly: a token hit whose one token its text is; a 3-gram run whose

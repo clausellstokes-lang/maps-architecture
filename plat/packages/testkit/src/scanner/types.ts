@@ -7,7 +7,7 @@ export type ScanCheck = 'token' | 'trigram' | 'colour' | 'file' | 'list';
 
 export const SCAN_CHECKS: readonly ScanCheck[] = ['token', 'trigram', 'colour', 'file', 'list'];
 
-/** How a file's content is read (C-0246): the whole text, its string literals and comments, or its JSON strings. */
+/** How a file's content is read (C-0247): the whole text, its string literals and comments, or its JSON strings. */
 export type ReadMode = 'whole' | 'source' | 'strings' | 'bytes';
 
 /** One hit: where and which check. `allowed` when a reviewed allow entry silences it. Never the matched text. */

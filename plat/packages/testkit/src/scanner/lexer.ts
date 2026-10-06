@@ -1,4 +1,4 @@
-// The source reader of the content scan (M0-k-06; §17.1 (5): "source string literals and comments"; C-0246): a small
+// The source reader of the content scan (M0-k-06; §17.1 (5): "source string literals and comments"; C-0247): a small
 // lexer for TypeScript and JavaScript that yields, per line, the text of every string literal, template literal's text
 // part, regular-expression literal and comment on that line — code (identifiers, keywords, numbers, punctuation) is
 // never scanned for tokens. Escapes in strings are decoded (`é` is the letter, `\x41` likewise; `\n` and `\r`

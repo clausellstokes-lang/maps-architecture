@@ -120,6 +120,22 @@ describe('a throw on a face', () => {
     const whole = runTask({ phase: 'full', kind: 'no-such-kind' as never, i: 0, seed: 1 }) as FullRecord;
     expect(whole.refused).toMatch(/^threw: /);
   });
+
+  it('the two whole districts the 10⁵ run found S8 throwing on (holed #330 and #464, seed 1) run whole and hold the bar', { timeout: 600_000 }, () => {
+    // The bar run's find (checkpoint 2026-10-06 15:37; M0-b-03's fix C-0243): a 'floor' refusal left the face under a
+    // new slot and the next candidate split the dead slot ('tx: face N is not live at L1'). Pinned here so the harness's
+    // own tests, not only the 10⁵ run, fail when S8 throws on them again.
+    const whole = [330, 464].map((i) => runTask({ phase: 'full', kind: 'holed', i, seed: 1 }) as FullRecord);
+    for (const w of whole) {
+      expect(w.setup).toBeNull();
+      expect(w.refused).toBeNull();
+      expect(w.ladders.n).toBeGreaterThan(1);
+    }
+    const f = foldFcut([rec()], whole);
+    expect(f.allDepths.districts).toBe(2);
+    expect(f.allDepths.refused).toBe(0);
+    expect(f.pass).toBe(true);
+  });
 });
 
 describe('the substitution residue per district (soft ≤ 5 %, reported)', () => {

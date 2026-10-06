@@ -1,4 +1,4 @@
-// The JSON reader of the content scan (M0-k-06; §17.1 (5); N-26; C-0246): every string value and every key of a JSON
+// The JSON reader of the content scan (M0-k-06; §17.1 (5); N-26; C-0247): every string value and every key of a JSON
 // text with its line, decoded, and the text's tables. A number, boolean or null forms no text. A table column is one
 // key's string values across three or more objects of one array (a JSON table, §17.1 (5)'s "a column of a table"), or
 // an array holding three or more strings (a list, which a one-item-per-line layout would otherwise hide from the line
