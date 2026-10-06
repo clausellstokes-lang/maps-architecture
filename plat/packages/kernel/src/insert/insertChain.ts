@@ -49,7 +49,7 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { beginIndexBatch, endIndexBatch, indexAdd, indexChange, indexDelete, indexOf, isItemLive, ITEM_VERTEX, query } from '../index/index.js';
-import { belowMinEdge, err, LATTICE, ok, type KernelResult, type Warning } from '../num/index.js';
+import { belowMinEdge, err, LATTICE, ok, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { LatticePoint } from '../types/index.js';
 import { applyAttraction, planAttraction } from './attractVertex.js';
 import { charge, check, classOutcome, classRefusal, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
@@ -499,8 +499,11 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
     }
     return true;
   };
-  if (tMin > 0 && !covered(0, Math.min(1, tMin / l2))) return false;
-  if (tMax < l2 && !covered(Math.max(0, tMax / l2), 1)) return false;
+  const lo = ratio(tMin, l2, 'area');
+  const hi = ratio(tMax, l2, 'area');
+  if (!lo.ok || !hi.ok) return false;
+  if (tMin > 0 && !covered(0, Math.min(1, lo.value))) return false;
+  if (tMax < l2 && !covered(Math.max(0, hi.value), 1)) return false;
   return true;
 }
 

@@ -15,7 +15,7 @@ import type { Overlay } from '../../src/tx/index.js';
 import { commit, content, faceAt, framed, pt } from './support.js';
 
 /** The planted fault: off, or on for the `nth` insertion (0-based) from now, bending its segment `seg`. */
-const fault = vi.hoisted(() => ({ on: false, nth: 0, seg: 0, seen: 0, bent: 0 }));
+const fault = vi.hoisted(() => ({ on: false, nth: 0, seg: 0, seen: 0, bent: 0, move: false }));
 
 vi.mock('../../src/insert/index.js', async (importOriginal) => {
   const k = await importOriginal<typeof Insert>();
@@ -23,6 +23,13 @@ vi.mock('../../src/insert/index.js', async (importOriginal) => {
     if (!fault.on || fault.seen++ !== fault.nth) return k.insertChain(tx, points, rows, cls, opts);
     const n = points.length;
     const i = fault.seg;
+    if (fault.move) {
+      // The interior point `seg` inserted 40 cm off where it was judged (as if drawn onto a vertex there); `placed` as given.
+      const moved = points.map((q, j) => (j === i ? { ...q, x: (q.x + 40) as typeof q.x } : q));
+      const r = k.insertChain(tx, moved, rows, cls, opts);
+      if (r.ok) fault.bent++;
+      return r;
+    }
     const a = points[i];
     const b = points[(i + 1) % n];
     // A point 60 cm left of the segment's midpoint: the chain no longer joins a and b by one edge.
@@ -56,13 +63,13 @@ const pin = (o: Overlay) => pinVertices(o, [{ role: 'junction', entity: 'r:1' }]
  * The op under the fault (its `nth` insertion bent at segment `seg`), in a batch that then pins the junction: the op
  * refuses with `code`, the fault fired, and the arena equals a twin that only pinned (nothing of the op left).
  */
-function bentRefused(hole: boolean, nth: number, seg: number, op: (o: Overlay, f: number) => KernelResult<unknown>): { code: string; detail: string } {
+function bentRefused(hole: boolean, nth: number, seg: number, op: (o: Overlay, f: number) => KernelResult<unknown>, move = false): { code: string; detail: string } {
   const twin = square(hole);
   commit(twin, 1, pin);
   const p = square(hole);
   const f = faceAt(p, 1, 1100, 600);
   let out = { code: 'ok', detail: '' };
-  Object.assign(fault, { on: true, nth, seg, seen: 0, bent: 0 });
+  Object.assign(fault, { on: true, nth, seg, seen: 0, bent: 0, move });
   try {
     commit(p, 1, (o) => {
       const r = op(o, f);
@@ -88,6 +95,12 @@ describe('a judged cut the insertion brings back bent is refused, never thrown (
     const r = bentRefused(false, 0, 1, (o, f) => splitFace(o, f, [pt(1500, 500), pt(1700, 1100), pt(1500, 1800)], { rows: DB }));
     expect(r.code).toBe('E_NOT_TWO_CROSSINGS');
     expect(r.detail).toMatch(/between \(1700, 1100\) and \(1500, 1800\)/);
+  });
+
+  it('splitFace whose interior point comes back off where it was judged (each segment still one edge): refused', () => {
+    const r = bentRefused(false, 0, 1, (o, f) => splitFace(o, f, [pt(1500, 500), pt(1700, 1100), pt(1500, 1800)], { rows: DB }), true);
+    expect(r.code).toBe('E_NOT_TWO_CROSSINGS');
+    expect(r.detail).toMatch(/between \(1500, 500\) and \(1700, 1100\)/);
   });
 
   it('connectHole: E_NOT_TWO_CROSSINGS, the slit put back', () => {

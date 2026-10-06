@@ -123,11 +123,11 @@ function keeperHalf(p: Plat, r: Region, plan: CutPlan): HalfEdgeId | null {
 
 /**
  * The cut inserted (the door) and its first half-edge along the directed cut; the record's stored half-edge put back on a
- * refusal. The cut must come back unbent: each consecutive pair of its judged points joined by one edge. Where it does
- * not — an attraction the contact decision did not foresee — the op refuses E_NOT_TWO_CROSSINGS (§3.6 (2): "never lets
- * attraction bend a cut into a pinch") rather than throw; with `atomic` the insertion is undone here (an op savepoint
- * taken after the judgement, so a cut refused by the judgement costs none), else the caller's own savepoint undoes it
- * (radialSplit, ringBand). C-0214.
+ * refusal. The cut must come back unbent: each judged point where it was judged and each consecutive pair joined by
+ * one edge. Where it does not — an attraction the contact decision did not foresee — the op refuses
+ * E_NOT_TWO_CROSSINGS (§3.6 (2): "never lets attraction bend a cut into a pinch") rather than throw; with `atomic` the
+ * insertion is undone here (an op savepoint taken after the judgement, so a cut refused by the judgement costs none),
+ * else the caller's own savepoint undoes it (radialSplit, ringBand). C-0214.
  */
 function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[], keeper: HalfEdgeId | null, atomic: boolean): KernelResult<HalfEdgeId> {
   const p = t.plat;
@@ -142,8 +142,18 @@ function insertCut(t: OpenTx, r: Region, plan: CutPlan, rows: readonly RoleRow[]
   }
   const placed = ins.value.placed;
   check(placed.length === plan.points.length, 'insertChain places every judged point');
-  for (let i = 0; i + 1 < placed.length; i++) {
-    if (halfEdgeFromTo(p, placed[i], placed[i + 1]) >= 0) continue;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const k = placed.length;
+  // Where it was judged: an interior point at its own lattice point (not drawn onto another vertex), a vertex landing
+  // on its vertex (a split landing is placed on its edge by the placement rule), each segment one edge.
+  const at = (i: number): boolean => {
+    const l = i === 0 ? plan.from : i === k - 1 ? plan.to : null;
+    if (l !== null) return l.kind !== 'vertex' || placed[i] === l.vertex;
+    return X[placed[i]] === plan.points[i].x && Y[placed[i]] === plan.points[i].y;
+  };
+  for (let i = 0; i + 1 < k; i++) {
+    if (at(i) && at(i + 1) && halfEdgeFromTo(p, placed[i], placed[i + 1]) >= 0) continue;
     const a = plan.points[i];
     const b = plan.points[i + 1];
     const bent = err<HalfEdgeId>('E_NOT_TWO_CROSSINGS', `the insertion bent the judged cut between (${a.x}, ${a.y}) and (${b.x}, ${b.y}): never into a pinch (§3.6 (2); C-0214)`);

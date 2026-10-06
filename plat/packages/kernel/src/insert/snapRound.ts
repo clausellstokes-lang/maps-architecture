@@ -19,9 +19,11 @@
 // it is written, with a strict route and a route along existing edges as its fallbacks (insertChain's `routeSegment`,
 // `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
 // every such commit reports W_PLACED) and after it a route that places a crossing on the near side of a sliver across
-// it (N-42 (a), C-0209: crossings.ts `placeAcross`, W_PLACED). A mandatory chain is wedge-routed only where the move is
-// at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2), (5) – (7), (13);
-// C-0202; C-0209.
+// it (N-42 (a), C-0209: crossings.ts `placeAcross`, W_PLACED); insertChain's second pass adds the anchored reading of step
+// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0213). Every route is judged by §3.10's
+// clearance whole and N-43 B's fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
+// where the move is at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2),
+// (5) – (7), (13); C-0202; C-0209; C-0213.
 import {
   addRole,
   allocEdgePair,
@@ -335,7 +337,8 @@ function checkEdge(ctx: ChainCtx, a: VertexId, b: VertexId): EdgeCheck {
     if (finerOff && withinSegment(X[v], Y[v], ax, ay, bx, by, ATTRACT)) {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };
     }
-    // Clearance against vertices of level ≤ n is checked once the chain's edges are all written (`checkClearance`):
+    // Clearance against vertices of level ≤ n is checked on each route and once the chain's edges are all written
+    // (insertChain's `wholeProblem`, a refusal — N-44 (1), C-0213):
     // a vertex the router is about to join to this edge's end may stand closer meanwhile (C-0177 (7)).
     if (L[v] > n && !na.has(v) && !nbb.has(v) && segmentCloserThan(X[v], Y[v], ax, ay, bx, by, MIN_EDGE)) {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within minEdge of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };
@@ -399,15 +402,6 @@ export function clearanceProblem(ctx: ChainCtx, pairs: readonly number[], splitE
     }
   }
   return null;
-}
-
-/**
- * §3.10's clearance row (as `clearanceProblem`) on the final arena: the router keeps it — each segment's route checked as
- * it is written, with its fallbacks (C-0177 (13)) — so a failure here is a gap in the router and throws.
- */
-export function checkClearance(ctx: ChainCtx, pairs: readonly number[], splitEnds: readonly VertexId[]): void {
-  const problem = clearanceProblem(ctx, pairs, splitEnds);
-  check(problem === null, problem ?? '');
 }
 
 /** Writes the new edge a → b (checked): linked, the chain's rows, its route-edge item, the journal. */
