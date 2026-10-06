@@ -18,7 +18,10 @@ import type { DerivedStatus, Job, Suite } from './types.js';
 export type HarnessProbe = (indexPath: string) => Promise<boolean>;
 
 export const importProbe: HarnessProbe = async (indexPath) => {
-  const mod = (await import(pathToFileURL(indexPath).href)) as Record<string, unknown>;
+  // the file's modification time and size key the import, so an index changed since an earlier probe in this process
+  // is read as it is now (the status is derived from the tree at the run, C-0099), and an unchanged one is not reloaded
+  const st = statSync(indexPath);
+  const mod = (await import(`${pathToFileURL(indexPath).href}?v=${String(st.mtimeMs)}-${String(st.size)}`)) as Record<string, unknown>;
   return typeof mod['run'] === 'function';
 };
 

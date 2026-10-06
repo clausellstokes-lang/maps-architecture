@@ -40,15 +40,16 @@ export const sha = (text: string): string => createHash('sha256').update(text).d
 /** A trivial job: one unit per name in `units`, named after the job when none is given. */
 export function job(name: string, extra: Partial<Job> & { unitNames?: string[] } = {}): Job {
   const { unitNames, ...rest } = extra;
-  return {
+  const j: Job = {
     name,
     kind: 'command',
     source: 'scripts/ok.mjs',
     inputs: [],
     item: 'M0-zz-09',
-    units: (size) => (unitNames ?? [name]).map((u) => ({ name: u, argv: ['fixture', u, ...(size === null ? [] : [String(size)])] })),
+    units: (size) => (unitNames ?? [j.name]).map((u) => ({ name: u, argv: ['fixture', u, ...(size === null ? [] : [String(size)])] })),
     ...rest,
   };
+  return j;
 }
 
 export function fixtureManifest(jobs: Job[], extra: Partial<TierManifest> = {}): TierManifest {
@@ -103,15 +104,25 @@ export function scoreQueue(queue: number[], log: number[] = []): () => number {
   };
 }
 
+/** A calibrate stub cycling through its scores (before, after, before, after, …); logs each call. */
+export function scoreCycle(scores: number[], log: number[] = []): () => number {
+  let i = 0;
+  return () => {
+    const s = scores[i++ % scores.length];
+    log.push(s);
+    return s;
+  };
+}
+
 export const HOST: HostRecord = hostRecord();
 
-/** The built timing readings: no idle, a quiet machine, a stub sampler, reference score 100, the given calibrations. */
+/** The built timing readings: no idle, a quiet machine, a stub sampler, reference score 100, the given calibrations cycling. */
 export function readings(scores: number[], extra: { log?: string[]; calls?: number[] } = {}) {
   return {
     idleMs: 0,
     machine: quiet,
     sampler: stubSampler(extra.log ?? []),
-    calibrate: scoreQueue(scores, extra.calls ?? []),
+    calibrate: scoreCycle(scores, extra.calls ?? []),
     referenceScore: 100,
     host: HOST,
   };

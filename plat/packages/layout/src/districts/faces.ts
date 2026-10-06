@@ -8,7 +8,9 @@
 // The patch test's hole check walks the boundary of a face set at L1 (`boundaryLoops`). Containment through `parent`
 // (§2.8, §5.3's row): `districtOfFace`.
 import {
+  area2,
   compareFaces,
+  hull,
   faceKey,
   faceWalk,
   idOf,
@@ -20,6 +22,7 @@ import {
   rowsOn,
   type FaceId,
   type HalfEdgeId,
+  type LatticePoint,
   type LineageHash,
   type Plat,
 } from '@plat/kernel';
@@ -320,8 +323,24 @@ export function boundaryLoops(g: FaceGraph, members: readonly number[], isMember
   return loops;
 }
 
-/** 4π·A ÷ P² (§4.5's patch test; the plaza's compactness, §4.2 S3 (2)); 0 for no perimeter. */
-export function compactness(areaCm2: number, perimeterCm: number): number {
+/**
+ * The patch test's compactness (§4.5: "compactness ≥ 0.5"; C-0242 (7)): the patch's area over the area of the convex
+ * hull of its faces' outer rings (the convex-hull ratio, 1 for a convex patch, falling as it bends round or snakes);
+ * 0 when the hull has no area.
+ */
+export function hullCompactness(g: FaceGraph, members: readonly number[], areaCm2: number): number {
+  const P = g.plat;
+  const O = P.halfEdges.origin;
+  const pts: LatticePoint[] = [];
+  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] } as LatticePoint);
+  const hr = hull(pts);
+  if (!hr.ok) return 0;
+  const r = ratio(2 * areaCm2, area2(hr.value), 'area');
+  return r.ok ? r.value : 0;
+}
+
+/** Polsby–Popper, 4π·A ÷ P² (reported beside the patch test's measure; the plaza's compactness, §4.2 S3 (2)). */
+export function polsbyPopper(areaCm2: number, perimeterCm: number): number {
   const r = ratio(4 * 3.141592653589793 * areaCm2, perimeterCm * perimeterCm, 'area');
   return r.ok ? r.value : 0;
 }

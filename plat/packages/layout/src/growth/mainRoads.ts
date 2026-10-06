@@ -47,6 +47,7 @@ import type { EnceinteEnv, XY } from '../enceinte/types.js';
 import { generated, GROUND } from '../enceinte/water.js';
 import type { WaterPull } from '../siting/field.js';
 import { PICK_JITTER, PICK_RANKED, PICK_SLOPE_WEIGHT, gateCount } from '../siting/gates.js';
+import { GATE_REDRAWS } from '../siting/slice.js';
 import { angularGap, bearingCdeg, insideRing, PI, quot, segmentsMeet } from '../siting/geom.js';
 import type { Field, Lattice, S3Slice } from '../siting/types.js';
 import {
@@ -103,6 +104,8 @@ export interface MainRoadPick {
   readonly bearingCdeg: number;
   /** The candidate edges' inside nodes in score order, the pick first. */
   readonly ranked: readonly number[];
+  /** The ranked candidates themselves (the pick first): S5b's re-draws read them. */
+  readonly alternatives: readonly { readonly at: LatticePoint; readonly edge: readonly [number, number]; readonly bearingCdeg: number }[];
 }
 
 /** spawnPrimaries' options. */
@@ -167,8 +170,8 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
     const best = cands[scored[0].c];
     used.add(scored[0].c);
     taken.push(best.bearing);
-    const ranked = scored.slice(0, PICK_RANKED).filter((s) => s.score > -Infinity).map((s) => cands[s.c].u);
-    picks.push({ ordinal: k, at: best.at, edge: [best.u, best.v], bearingCdeg: best.bearing, ranked });
+    const top = scored.slice(0, PICK_RANKED).filter((s) => s.score > -Infinity).map((s) => cands[s.c]);
+    picks.push({ ordinal: k, at: best.at, edge: [best.u, best.v], bearingCdeg: best.bearing, ranked: top.map((c) => c.u), alternatives: top.map((c) => ({ at: c.at, edge: [c.u, c.v] as const, bearingCdeg: c.bearing })) });
   }
   return picks;
 }
@@ -214,6 +217,8 @@ export interface GrowthStage {
   /** The crossings of the existing ways with the stage's boundary before S5b (c). */
   crossings: BoundaryCrossing[];
   picks: MainRoadPick[];
+  /** The destinations served by a re-drawn candidate. */
+  redraws: number;
   roads: MainRoad[];
   unserved: Unserved[];
   /** The nodes the stage's new roads lowered T at. */
@@ -303,6 +308,7 @@ export function growthStart(input: GrowthInput): GrowthState {
     count: { n: slice.n, walled: stageWalled(site, 1), rule: 'gateLaw' },
     crossings: [],
     picks: [],
+    redraws: 0,
     roads: [],
     unserved: [],
     lowered: 0,
@@ -354,24 +360,33 @@ function walls(state: GrowthState): (readonly LatticePoint[])[] {
  */
 export function ringMask(state: GrowthState, boundary: StageBoundary): Uint8Array {
   const lattice = state.slice.lattice;
-  const site = state.slice.site;
   const sel = boundary.set.selected;
-  const wall = lastWall(state);
-  const strips = stripWidths(site.tables.table('walls').row('era.default'));
-  const clear = strips.outer + widthBandCm(site.tables, 'primary', site.rung)[1] * 0.5;
-  let box: [number, number, number, number] | null = null;
-  if (wall !== null) {
-    const b = boxOf(wall);
-    box = [b[0] - clear, b[1] - clear, b[2] + clear, b[3] + clear];
-  }
+  const clearOf = wallClearance(state);
   const out = new Uint8Array(sel.length);
   for (let i = 0; i < sel.length; i += 1) {
     if (sel[i] !== 1 || state.enclosure[i] === 1 || lattice.interior[i] !== 1 || lattice.water[i] !== 0) continue;
-    const p = lattice.points[i];
-    if (wall !== null && box !== null && p.x >= box[0] && p.x <= box[2] && p.y >= box[1] && p.y <= box[3] && (insideRing(wall, p, true) || distToRing(p, wall) <= clear)) continue;
+    if (!clearOf(lattice.points[i])) continue;
     out[i] = 1;
   }
   return out;
+}
+
+/**
+ * Is a point clear of the previous wall (C-S5AB): outside it and farther from it than its outer strip (C-0033's glacis
+ * line) and a primary's half-width — where S5b's roads and their junctions may stand (never through an inner wall).
+ */
+export function wallClearance(state: GrowthState): (p: XY) => boolean {
+  const site = state.slice.site;
+  const wall = lastWall(state);
+  if (wall === null) return () => true;
+  const strips = stripWidths(site.tables.table('walls').row('era.default'));
+  const clear = strips.outer + widthBandCm(site.tables, 'primary', site.rung)[1] * 0.5;
+  const b = boxOf(wall);
+  const box = [b[0] - clear, b[1] - clear, b[2] + clear, b[3] + clear];
+  return (p: XY): boolean => {
+    if (p.x < box[0] || p.x > box[2] || p.y < box[1] || p.y > box[3]) return true;
+    return !insideRing(wall, p, true) && distToRing(p, wall) > clear;
+  };
 }
 
 /** The rim node nearest where the ray from p at the compass bearing leaves the frame (S3's "to the frame at its bearing"). */
@@ -542,6 +557,8 @@ interface Course {
   readonly from: { way: Id; at: LatticePoint };
   /** The way id the road takes (`way:<n>` after every standing way's). */
   readonly wayId: Id;
+  /** 0: the pick itself; n: its n-th ranked alternative (a re-draw). */
+  readonly redraw: number;
 }
 
 /** A bucket grid of the lattice's nodes, one spacing per cell. */
@@ -650,11 +667,12 @@ function routing(state: GrowthState, boundary: StageBoundary, lines: readonly Wa
   const outside = new Uint8Array(mask.length);
   for (let i = 0; i < outside.length; i += 1) outside[i] = boundary.set.selected[i] === 1 || lattice.water[i] === 1 ? 0 : 1;
   const taken = junctionPoints(state);
+  const clearOf = wallClearance(state);
   const cand: { way: Id; at: LatticePoint }[] = [];
   for (const line of lines) {
     for (const run of line.runs) {
       for (const q of run.points) {
-        if (taken.has(`${String(q.x)},${String(q.y)}`)) continue;
+        if (taken.has(`${String(q.x)},${String(q.y)}`) || !clearOf(q)) continue;
         cand.push({ way: line.way, at: q });
       }
     }
@@ -709,11 +727,21 @@ function routing(state: GrowthState, boundary: StageBoundary, lines: readonly Wa
  * `WAY_SPAN_NODES` of it held), taking its smoothest level that keeps the rules (`roadFault`; the simplified and the
  * lattice courses the fallbacks), else left out, reported `invalid`. Each kept road's vertices join the candidates.
  */
-function courses(state: GrowthState, k: number, boundary: StageBoundary, walled: boolean, picks: readonly MainRoadPick[], ctx: Routing, unserved: Unserved[]): Course[] {
+function courses(
+  state: GrowthState,
+  k: number,
+  boundary: StageBoundary,
+  walled: boolean,
+  picks: readonly MainRoadPick[],
+  ctx: Routing,
+  unserved: Unserved[],
+  outlineOf: (pins: readonly LatticePoint[]) => readonly XY[],
+): { courses: Course[]; pins: LatticePoint[] } {
   const slice = state.slice;
   const site = slice.site;
   const lattice = slice.lattice;
   const { mask, outside, cand, sourceOf, addSources, weights, rg, grid, standing, rims } = ctx;
+  const clearOf = wallClearance(state);
   let wayN = 0;
   for (const w of state.ways) wayN = Math.max(wayN, idNumber(w.id, 'way:') + 1);
   const limit = routeNodesLimit(lattice);
@@ -726,33 +754,24 @@ function courses(state: GrowthState, k: number, boundary: StageBoundary, walled:
   const minRadius = radius('primary');
   const obstacleRings = [...lattice.costs.water.faces.map((r) => r.slice()), slice.plaza.ring.slice(), ...walls(state).map((w) => w.slice())];
   const obstacles: Seg[] = [...lattice.costs.water.faces.flatMap((r) => segsOf(r, true)), ...segsOf(slice.plaza.ring, true), ...walls(state).flatMap((w) => segsOf(w, true))];
-  const outline = walled ? boundary.set.outline : null;
   const out: Course[] = [];
-  for (const pick of picks) {
+  const pts = lattice.points;
+  /** One candidate's course, or why it has none. */
+  const attempt = (pick: MainRoadPick, outline: readonly XY[] | null): Course | Omit<Unserved, 'stage' | 'pick'> => {
     const name = `s5b:${String(k)}/${String(pick.ordinal)}`;
     const sources = [...sourceOf.keys()].sort((a, b) => a - b);
-    if (sources.length === 0) {
-      unserved.push({ stage: k, pick: pick.ordinal, why: 'no_source' });
-      continue;
-    }
+    if (sources.length === 0) return { why: 'no_source' };
     const [u, v] = pick.edge;
     const inner = routeLadder(rg, sources, [u], { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/in`, mask, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
-    if (!inner.ok || inner.value === null) {
-      unserved.push({ stage: k, pick: pick.ordinal, why: 'inner' });
-      continue;
-    }
+    if (!inner.ok || inner.value === null) return { why: 'inner' };
     // Outward at the radial bearing, else to the nearest frame (S3 (5)'s least-cost outward direction).
     const ladder = (targets: number[], tag: string): ReturnType<typeof routeLadder> => routeLadder(rg, [v], targets, { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/${tag}`, mask: outside, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
     let outer = ladder([rimAtBearing(lattice, pick.at, pick.bearingCdeg)], 'out');
     if (outer.ok && outer.value === null) outer = ladder(rims, 'out-frame');
-    if (!outer.ok || outer.value === null) {
-      unserved.push({ stage: k, pick: pick.ordinal, why: 'outer' });
-      continue;
-    }
+    if (!outer.ok || outer.value === null) return { why: 'outer' };
     const inNodes = inner.value.nodes;
     const outNodes = outer.value.nodes;
     const from = cand[sourceOf.get(inNodes[0]) as number];
-    const pts = lattice.points;
     // The polyline: the way vertex in place of the course's first node (the node beside it), the rest of the inner
     // course, the destination, the outer course, the frame.
     const line: LatticePoint[] = [from.at];
@@ -790,28 +809,47 @@ function courses(state: GrowthState, k: number, boundary: StageBoundary, walled:
     const lat1 = inNodes.length > 1 && !same(from.at, pts[inNodes[0]]) ? [lat0[0], pts[inNodes[0]], ...lat0.slice(1)] : lat0;
     const levels = [fin.points, sm.points, lat0, lat1];
     const ways = [...standing, ...out.flatMap((x) => segsOf(x.points, false))];
-    let chosen = -1;
     const faults: RoadFault[] = [];
-    for (let l = 0; l < levels.length && chosen < 0; l += 1) {
+    for (let l = 0; l < levels.length; l += 1) {
       const fault = roadFault(levels[l], from.at, pick.at, obstacles, ways, outline);
-      if (fault === null) chosen = l;
-      else faults.push(fault);
+      if (fault !== null) {
+        faults.push(fault);
+        continue;
+      }
+      return { pick, nodes: [...inNodes, ...outNodes], points: levels[l].slice(), level: Math.min(l, 2) as 0 | 1 | 2, from, wayId: `way:${String(wayN + out.length)}`, redraw: 0 };
     }
-    if (chosen < 0) {
-      unserved.push({ stage: k, pick: pick.ordinal, why: 'invalid', faults });
-      continue;
+    return { why: 'invalid', faults };
+  };
+  const pins: LatticePoint[] = picks.map((p) => p.at);
+  for (const pick of picks) {
+    // F-ROUTE's `unserved` for a destination only after its re-draws: the next ranked candidates, ≤ GATE_REDRAWS
+    // (as §4.2 S3 (7) re-draws a gate pick; C-S5AB), each on the boundary with its point kept as an outline vertex.
+    let miss: Omit<Unserved, 'stage' | 'pick'> | null = null;
+    for (let a = 0; a < pick.alternatives.length && a <= GATE_REDRAWS; a += 1) {
+      const alt = pick.alternatives[a];
+      if (a > 0 && out.some((x) => x.pick.edge[0] === alt.edge[0] && x.pick.edge[1] === alt.edge[1])) continue;
+      const tried: MainRoadPick = a === 0 ? pick : { ...pick, at: alt.at, edge: alt.edge, bearingCdeg: alt.bearingCdeg };
+      const outline = !walled ? null : a === 0 ? boundary.set.outline : outlineOf([...pins, alt.at]);
+      const r = attempt(tried, outline);
+      if ('why' in r) {
+        miss = r;
+        continue;
+      }
+      if (a > 0) pins.push(alt.at);
+      const course: Course = { ...r, redraw: a };
+      out.push(course);
+      blockEdges(weights, lattice, grid, segsOf(course.points, false));
+      // The road stands for the later picks: its vertices (but its two junctions) are candidate junctions.
+      const at = cand.length;
+      for (let i = 1; i + 1 < course.points.length; i += 1) if (clearOf(course.points[i])) cand.push({ way: course.wayId, at: course.points[i] });
+      addSources(at);
+      miss = null;
+      break;
     }
-    const points = levels[chosen].slice();
-    const wayId = `way:${String(wayN + out.length)}`;
-    out.push({ pick, nodes: [...inNodes, ...outNodes], points, level: Math.min(chosen, 2) as 0 | 1 | 2, from, wayId });
-    blockEdges(weights, lattice, grid, segsOf(points, false));
-    // The road stands for the later picks: its vertices (but its two junctions) are candidate junctions.
-    const at = cand.length;
-    for (let i = 1; i + 1 < points.length; i += 1) cand.push({ way: wayId, at: points[i] });
-    addSources(at);
+    if (miss !== null) unserved.push({ stage: k, pick: pick.ordinal, ...miss });
   }
   state.report.work['route.nodes'] += work.n;
-  return out;
+  return { courses: out, pins };
 }
 
 /** The S5b batch's work limit (§5.1 (5)): the insert counters' laws over the batch, S5's scope. */
@@ -943,6 +981,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
     count: { n: 0, walled, rule: walled ? 'gateLaw' : 'spacing' },
     crossings: [],
     picks: [],
+    redraws: 0,
     roads: [],
     unserved: [],
     lowered: 0,
@@ -973,7 +1012,11 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
   // The boundary with the destinations kept as outline vertices (the selection unchanged).
   const b1 = picks.length === 0 ? b0 : withPins(b0, picks.map((p) => p.at));
   rec.boundary = b1;
-  const cs = courses(state, k, b1, walled, picks, ctx, rec.unserved);
+  const routed = courses(state, k, b1, walled, picks, ctx, rec.unserved, (pins) => withPins(b0, pins).set.outline);
+  const cs = routed.courses;
+  // A re-drawn destination is kept as an outline vertex too (the selection unchanged).
+  if (routed.pins.length > picks.length) rec.boundary = withPins(b0, routed.pins);
+  rec.redraws = cs.filter((c) => c.redraw > 0).length;
   const committed = commitRoads(state, k, cs);
   if (!committed.ok) return err(committed.code, committed.detail);
   rec.roads = committed.value;

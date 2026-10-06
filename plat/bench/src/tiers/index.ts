@@ -20,7 +20,7 @@ import { deriveStatus } from './status.js';
 import type { TierMode, TierName } from './types.js';
 
 export { CLEARED_ENV, OUTPUT_TAIL_BYTES, parseTimes, spawnExecutor, unitEnv } from './exec.js';
-export { FALLBACK_SIZES, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, applyFallback, judgeBudget, logName, manifestProblems, nestedTierCall, runTier } from './runner.js';
+export { FALLBACK_SIZES, OVER_BUDGET_TOLERANCE, PROJECTION_CORES, applyFallback, budgetGates, judgeBudget, logName, manifestProblems, nestedTierCall, runTier } from './runner.js';
 export type { RunTierOptions } from './runner.js';
 export { deriveStatus, holdsTest, importProbe, insideRoot, reviewPending, sha256File, suiteProblem } from './status.js';
 export type { HarnessProbe } from './status.js';

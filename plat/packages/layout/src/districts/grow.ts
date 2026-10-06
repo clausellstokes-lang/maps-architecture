@@ -8,7 +8,8 @@
 //     skip is drawn first — the admissible set only shrinks while a grower waits, so the order never changes a claim);
 //   * admissible: an unclaimed claimable face whose every shared edge with the patch passes the edge test (no barrier
 //     bit the kind is not allowed; no kind is allowed one at M0, C-0242 (3)), and the grown patch passes the patch
-//     test — area at most the band's top, compactness 4πA ÷ P² ≥ the floor, and no hole (one boundary loop); a face
+//     test — area at most the band's top, compactness ≥ the floor (the patch's area over its convex hull's, C-0242
+//     (7)), and no hole (one boundary loop); a face
 //     whose absorption would enclose a hole is refused, so the hole splits off (C-0242 (7));
 //   * the leftover rule: faces no grower could claim seed further districts in face-id order, each grown alone by the
 //     same turns to its end before the next unclaimed face seeds (C-0242 (8));
@@ -20,7 +21,7 @@
 //     unowned without turns — each connected run of them (across edges that pass the edge test) one district — and the
 //     result reports work_cut with the count (C-0242 (10)).
 import type { Stream } from '@plat/kernel';
-import { boundaryLoops, compactness, EDGE_TEST_BARRIERS, faceLineage, type FaceGraph, type FaceLink } from './faces.js';
+import { boundaryLoops, EDGE_TEST_BARRIERS, faceLineage, hullCompactness, type FaceGraph, type FaceLink } from './faces.js';
 import type { GrowResult, GrowSeed, Grown, MergeRecord, SeedKind, TurnRecord } from './types.js';
 
 /** The faces a grower may claim: the graph and, per face, whether it is claimable (inside, unowned, not water). */
@@ -46,32 +47,6 @@ export interface GrowOptions {
 /** The draws of one turn: a grower's seed lineage and its turn number → the turn's stream. */
 export type TurnStream = (lineage: GrowSeed['lineage'], turn: number) => Stream;
 
-import { hull } from '@plat/kernel';
-function solidity(g: FaceGraph, members: number[], area: number): number {
-  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
-  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
-  const hr = hull(pts); if (!hr.ok) return 0;
-  let a2 = 0; const r = hr.value; for (let i = 0; i < r.length; i++) { const a = r[i], b = r[(i+1)%r.length]; a2 += a.x*b.y - b.x*a.y; }
-  return area / (a2/2);
-}
-import { obb as obbK } from '@plat/kernel';
-function rect(g: FaceGraph, members: number[], area: number): number {
-  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
-  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
-  const b = obbK(pts); if (!b.ok) return 0; return area / (b.value.majorCm * b.value.minorCm);
-}
-function aspect(g: FaceGraph, members: number[]): number {
-  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
-  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
-  const b = obbK(pts); if (!b.ok) return 0; return b.value.minorCm / b.value.majorCm;
-}
-function reock(g: FaceGraph, members: number[], area: number): number {
-  const P = g.plat; const O = P.halfEdges.origin; let cx=0, cy=0, n=0; const pts: any[] = [];
-  for (const m of members) for (const h of g.rings[m][0]) { const p = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] }; pts.push(p); }
-  let a2=0; for (const m of members) { cx += g.faces[m].centroid.x*g.faces[m].areaCm2; cy += g.faces[m].centroid.y*g.faces[m].areaCm2; a2 += g.faces[m].areaCm2; }
-  cx/=a2; cy/=a2; let r2=0; for (const p of pts) r2 = Math.max(r2, (p.x-cx)**2+(p.y-cy)**2);
-  return area / (Math.PI*r2);
-}
 /** A degenerate face (§4.1's S6 row: "a degenerate district face merges into its neighbour"): area ≤ 0. */
 function degenerate(g: FaceGraph, i: number): boolean {
   return !(g.faces[i].areaCm2 > 0);
@@ -141,17 +116,7 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
       const f = g.faces[j];
       const area = d.areaCm2 + f.areaCm2;
       if (area > top) continue;
-      if ((globalThis as any).__S6_MEASURE === 'solidity') {
-        if (solidity(g, [...d.faces, j], area) < opts.compactnessMin) continue;
-      } else if ((globalThis as any).__S6_MEASURE === 'obb') {
-        if (rect(g, [...d.faces, j], area) < opts.compactnessMin) continue;
-      } else if ((globalThis as any).__S6_MEASURE === 'aspect') {
-        if (aspect(g, [...d.faces, j]) < opts.compactnessMin) continue;
-      } else if ((globalThis as any).__S6_MEASURE === 'reock') {
-        if (reock(g, [...d.faces, j], area) < opts.compactnessMin) continue;
-      } else if ((globalThis as any).__S6_MEASURE === 'none') {
-        // no compactness
-      } else if (compactness(area, d.perimeterCm + f.perimeterCm - 2 * shared) < opts.compactnessMin) continue;
+      if (hullCompactness(g, [...d.faces, j], area) < opts.compactnessMin) continue;
       if (boundaryLoops(g, [...d.faces, j], (i) => i === j || owner[i] === me) > 1) continue;
       out.push(j);
     }

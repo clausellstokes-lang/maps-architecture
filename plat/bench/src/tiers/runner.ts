@@ -132,6 +132,14 @@ export function logName(job: string, unit: string): string {
   return `${job}--${unit}`.replace(/[^A-Za-z0-9._-]+/g, '_').slice(0, 120) + '.log';
 }
 
+/**
+ * Whether a tier's budget verdict may gate: only a timed (whole or batched) run of a non-projected tier whose readings
+ * were measured and stamped authoritative, with a normalised figure (C-0025, C-0027, C-0047, C-0075).
+ */
+export function budgetGates(r: { mode: TierMode; projected: boolean; authority: Authority | null; readings: 'measured' | 'built' | null; verdict: BudgetRecord['verdict'] }): boolean {
+  return r.mode !== 'plain' && !r.projected && r.authority === 'authoritative' && r.readings === 'measured' && r.verdict !== 'unjudged';
+}
+
 function merge(into: string[], from: readonly string[]): void {
   for (const r of from) if (!into.includes(r)) into.push(r);
 }
@@ -405,7 +413,7 @@ export async function runTier(manifest: TierManifest, opts: RunTierOptions): Pro
     : judgeBudget(figureMs, normalisation, manifest.budget.ms);
   if (mode !== 'batched') normalised = judged.normalisedMs;
   const readings = mode === 'plain' ? null : readingsBuilt ? 'built' : 'measured';
-  const gating = mode !== 'plain' && !projected && authority === 'authoritative' && readings === 'measured' && judged.verdict !== 'unjudged';
+  const gating = budgetGates({ mode, projected, authority, readings, verdict: judged.verdict });
   const basis = projected ? 'cpu ÷ 16' : 'wall-clock';
   const budget: BudgetRecord = {
     ms: manifest.budget.ms,

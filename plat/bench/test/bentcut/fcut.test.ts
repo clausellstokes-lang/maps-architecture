@@ -142,6 +142,22 @@ describe('the substitution residue per district (soft ≤ 5 %, reported)', () =>
       expect(r.residue.share).toBeCloseTo(r.residue.areaCm2 / r.residue.builtCm2, 12);
       expect(r.residue.soft).toBe(r.residue.areaCm2 > 0.05 * r.residue.builtCm2);
     }
+    // The record's ladders are every depth of S8's own report (F-CUT judges them all): read against a direct runS8.
+    let deeper = 0;
+    for (const t of residueTasks(3, 5)) {
+      const r = runFull(t);
+      const fd = faceDistrict(faceAt(t.kind, t.i, t.seed).polygon, districtSeed(t.kind, t.seed, t.i));
+      const own = runS8(fd.input, NO_REPORT);
+      expect(own.ok).toBe(true);
+      if (!own.ok) continue;
+      const faces = own.value.infill.report.districts[0].faces;
+      expect(r.ladders.n).toBe(faces.length);
+      expect(r.ladders.maxCalls).toBe(Math.max(...faces.map((f) => f.kernelCalls)));
+      expect(r.work).toEqual(own.value.infill.report.districts[0].work);
+      if (faces.some((f) => f.depth > 0 && f.kernelCalls > faces[0].kernelCalls)) deeper += 1;
+      if (faces.length > 1) deeper += 1;
+    }
+    expect(deeper).toBeGreaterThan(0);
   });
 });
 
