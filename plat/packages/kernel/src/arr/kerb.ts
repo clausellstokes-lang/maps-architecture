@@ -356,7 +356,8 @@ const SCALE = 1_048_576;
 
 export type XY = { x: number; y: number };
 
-function div(num: number, den: number): number | null {
+/** num ÷ den through `ratio()` (the division rule, C-0044), or null. */
+export function div(num: number, den: number): number | null {
   const r = ratio(num * SCALE, den * SCALE, 'length');
   return r.ok ? r.value : null;
 }

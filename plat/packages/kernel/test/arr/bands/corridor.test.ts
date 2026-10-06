@@ -219,6 +219,40 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(v.blocks).toEqual([]);
   });
 
+  it('a block whose kerb edge the commit bent through a vertex of F within attractCm stays a built block', () => {
+    // §13.1's random networks, seed −1921412460 (shrunk): the kerb edge (0, 1720) – (3172, 4000) passes 25 cm from F's
+    // vertex (884, 2324) and the commit routes it through that vertex, so an ear's centroid beside the bend lay outside
+    // kerb(F) and the long thin block was read as band (C-0218 (10)); its widest cross-section is inside kerb(F)
+    const p = framed();
+    way(p, 'way:0', [[1, 0], [0, 1692]], [0, 1]);
+    way(p, 'way:1', [[3231, 4000], [0, 1718]]);
+    way(p, 'way:2', [[3059, 4000], [0, 2431]], [0, 1]);
+    // the property's order: every L1 face owned, each banded in a batch of its own in slot order (the face below first)
+    const all = own(p, 'district:1', [[3000, 1000], [600, 2300], [300, 3800]]);
+    const faces = [all[1]];
+    const ws = widthsOf({ 'way:0': profile([40, 40]), 'way:1': 34, 'way:2': profile([40, 166]) });
+    let k: ReturnType<typeof pt>[][] = [];
+    commit(p, 1, (o) => {
+      const r = kerb(o, faces[0], ws);
+      if (!r.ok) return err(r.code, r.detail);
+      k = r.value;
+      return ok(null);
+    });
+    // the precondition: one kerb ring, most of F
+    expect(k.length).toBe(1);
+    expect(all[0]).toBeLessThan(all[1]);
+    commit(p, 2, (o) => corridorUnion(o, [all[0]], ws), AT_S9);
+    const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
+    healthy(p);
+    const v = r.value as BandResult;
+    expect(v.blocks.length).toBe(1);
+    const got = Number(area2Of(ringsOf(p, 2, v.blocks[0]))) / 2;
+    const want = Number(area2Of(k)) / 2;
+    // §3.7's attracted bound, as the random property reads it
+    const per = [ringsOf(p, 1, faces[0])[0], k[0], ringsOf(p, 2, v.blocks[0])[0]].reduce((t, q) => t + perimeter(q), 0);
+    expect(Math.abs(got - want)).toBeLessThanOrEqual(per * Math.SQRT2 * 26);
+  });
+
   it('a face holding an earlier stage’s finer content refuses E_KEPT, writing nothing; kept content elsewhere is untouched', () => {
     // the insertion's kept-content rule (§3.3; C-0177 (4)): an L2 edge inside a finer face record of an earlier stage is
     // E_KEPT — the kept ring's residue face covers the rest of F, so no kerb can enter F (C-0212 (6))

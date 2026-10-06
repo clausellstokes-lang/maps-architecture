@@ -19,7 +19,7 @@
 // edge J → K; where the spine passes straight through J — or turns away from F there — there is no corner and no
 // wedge: one edge from J to its nearest kerb point (the foot of J's perpendicular on a straight spine) separates the two
 // strips (§3.7's T-junction clause); (3) the faces of the batch's level inside F are read back: a face whose interior
-// point (an ear's centroid) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
+// point (the middle of its widest cross-section) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
 // a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the
 // batch's level is its own child there (§2.2 rule 2): one built block when its kerb is not empty — a spine-less face,
 // with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
@@ -38,7 +38,7 @@ import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { nearestOn, readKerb, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+import { div, nearestOn, readKerb, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -57,7 +57,7 @@ export interface BandResult {
   /** The L1 faces left whole as one built block — no bounding spine, or a kerb equal to F: its own child at the batch's level (§2.2 rule 2). */
   readonly whole: FaceId[];
   /**
-   * The L1 faces wholly within their bands — an empty kerb, or a kerb sliver the commit folded onto F's boundary (C-0216
+   * The L1 faces wholly within their bands — an empty kerb, or a kerb sliver the commit folded onto F's boundary (C-0218
    * (7)): each one band face, its own child at the batch's level.
    */
   readonly wholeBand: FaceId[];
@@ -115,57 +115,61 @@ export function outlinePieces(read: KerbRead): { points: LatticePoint[]; closed:
 }
 
 /**
- * Is the face (a record of level n) inside the kerb? Read at the centroid of the largest ear of its outer ring — a
- * convex corner whose triangle holds no other vertex of the face, so its centroid lies strictly inside the face — by the
- * non-zero winding of the kerb rings there (exact: coordinates tripled, orient2d on integers). Null where no ear is
- * free of the face's other vertices.
+ * A point strictly inside the face (a record of level n), as far from its boundary across as the face allows: on each
+ * horizontal line halfway between two consecutive distinct vertex heights (never through a vertex), the face's
+ * crossings paired off (even-odd: outer ring and holes), and the midpoint of the widest interval over all those lines.
+ * A point deep in the face's widest cross-section stays inside the region the face stands for when attraction bent its
+ * outline by a few centimetres at one vertex — which an ear's centroid beside that vertex does not (C-0218 (10)). Null
+ * where the face has no interval (never for a face of positive area).
  */
-function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]): boolean | null {
+function interiorPoint(p: Plat, level: Level, c: FaceId): XY | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const O = p.halfEdges.origin;
-  const rings = faceWalk(p, level, c).map((r) => r.map((h) => O[h]));
-  const outer = rings[0];
-  const m = outer.length;
-  const all = rings.flat();
-  // the largest clean ear: the one least likely to sit in a sliver beside a vertex attraction moved
-  let best = -1;
-  let bestArea = 0;
-  for (let i = 0; i < m; i += 1) {
-    const a = outer[(i + m - 1) % m];
-    const v = outer[i];
-    const b = outer[(i + 1) % m];
-    const turn = orient2d(X[a], Y[a], X[v], Y[v], X[b], Y[b]);
-    if (turn <= bestArea) continue;
-    let clean = true;
-    for (const w of all) {
-      if (w === a || w === v || w === b) continue;
-      if ((X[w] === X[a] && Y[w] === Y[a]) || (X[w] === X[v] && Y[w] === Y[v]) || (X[w] === X[b] && Y[w] === Y[b])) continue;
-      if (orient2d(X[a], Y[a], X[v], Y[v], X[w], Y[w]) >= 0 && orient2d(X[v], Y[v], X[b], Y[b], X[w], Y[w]) >= 0 && orient2d(X[b], Y[b], X[a], Y[a], X[w], Y[w]) >= 0) {
-        clean = false;
-        break;
+  const rings = faceWalk(p, level, c).map((r) => r.map((h) => ({ x: X[O[h]], y: Y[O[h]] })));
+  const ys = [...new Set(rings.flatMap((r) => r.map((q) => q.y)))].sort((a, b) => a - b);
+  let best: XY | null = null;
+  let bestW = 0;
+  for (let k = 0; k + 1 < ys.length; k += 1) {
+    const qy = (ys[k] + ys[k + 1]) * 0.5;
+    const xs: number[] = [];
+    for (const r of rings) {
+      for (let i = 0; i < r.length; i += 1) {
+        const a = r[i];
+        const b = r[(i + 1) % r.length];
+        if (a.y < qy === b.y < qy) continue;
+        const t = div(qy - a.y, b.y - a.y);
+        if (t === null) continue;
+        xs.push(a.x + t * (b.x - a.x));
       }
     }
-    if (!clean) continue;
-    best = i;
-    bestArea = turn;
+    xs.sort((a, b) => a - b);
+    for (let i = 0; i + 1 < xs.length; i += 2) {
+      const w = xs[i + 1] - xs[i];
+      if (w > bestW) {
+        bestW = w;
+        best = { x: (xs[i] + xs[i + 1]) * 0.5, y: qy };
+      }
+    }
   }
-  if (best < 0) return null;
-  const a = outer[(best + m - 1) % m];
-  const v = outer[best];
-  const b = outer[(best + 1) % m];
-  const qx = X[a] + X[v] + X[b];
-  const qy = Y[a] + Y[v] + Y[b];
+  return best;
+}
+
+/**
+ * Is the face (a record of level n) inside the kerb? Read at its interior point (`interiorPoint`) by the non-zero
+ * winding of the kerb rings there (orient2d is exact on doubles). Null where the face has no interior point.
+ */
+function insideKerb(p: Plat, level: Level, c: FaceId, kerbRings: readonly Ring[]): boolean | null {
+  const q = interiorPoint(p, level, c);
+  if (q === null) return null;
   let wind = 0;
   for (const r of kerbRings) {
     for (let k = 0; k < r.length; k += 1) {
       const s = r[k];
       const t = r[(k + 1) % r.length];
-      const sy = 3 * s.y;
-      const ty = 3 * t.y;
-      if (sy <= qy) {
-        if (ty > qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) > 0) wind += 1;
-      } else if (ty <= qy && orient2d(3 * s.x, sy, 3 * t.x, ty, qx, qy) < 0) wind -= 1;
+      if (s.y <= q.y) {
+        if (t.y > q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) > 0) wind += 1;
+      } else if (t.y <= q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) < 0) wind -= 1;
     }
   }
   return wind !== 0;
@@ -262,7 +266,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     if (kids.length === 0) {
       // no edge written inside it: a spine-less face, or one whose kerb is F itself, is one built block; an empty kerb
       // leaves it all band — and so does a kerb sliver thinner than attractCm that the commit folded onto F's boundary
-      // (nothing of it left inside F): F is judged as its children are, at a point strictly inside it (C-0216 (7))
+      // (nothing of it left inside F): F is judged as its children are, at a point strictly inside it (C-0218 (7))
       const inside = read.kerb.length === 0 ? false : insideKerb(p, 1, read.face, read.kerb);
       if (inside !== false) whole.push(read.face);
       else wholeBand.push(read.face);
@@ -284,7 +288,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
         }
       }
       // a corridor_split edge lies inside the band, so a face it bounds is a band face even where no spine bounds it
-      // inside kerb(F) or not, read at a point strictly inside the face; where no ear gives one, by its bounds
+      // inside kerb(F) or not, read at a point strictly inside the face; where it has none, by its bounds
       const inside = insideKerb(p, n, c, read.kerb);
       if (inside === null ? touched.size === 0 && !split : inside) blocks.push(c);
       else {
