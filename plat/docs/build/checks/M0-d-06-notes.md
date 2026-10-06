@@ -42,3 +42,23 @@ mutant ids are the check's. Logs are in `~/maps-scratch/waves/check-M0-d-06/mut-
 The setTimeout global that the browser bundle needs at load, seen in my vm probe, comes from fast-check, which the
 stage table pulls into the bundle through testkit's constructive set (traced in the bundle text). Browsers provide that
 global, so this is noted for completeness and is not a finding.
+
+## Closing check (lane `check/M0-d-06-close-r1`, 2026-10-06)
+
+9. **The known-answer anchor alters one case per file, so a stage that reads the expected column for only part of a
+   file passes (R02–R05 survive).**
+   * Fix round 1's `kat-anchor.test.ts` closes B-1: under R01 (= M01, the whole stage hashes the expected column) it
+     fails 4 of 4. But it alters only the first line of `xoshiro128ss.txt`, of `fdlibm/pow.txt` and `h128[0]` of the
+     first lane vector. A stage that reads the expected column elsewhere still passes all 67 tests:
+     * R02: `xoshiro.kat` takes the long vectors' expected words;
+     * R03: `dmath.kat` computes pow only and takes the other six routines' expected results;
+     * R04: `lanes.kat` takes each vector's lane count from the file;
+     * R05: `xoshiro.kat` writes the expected value for each line's first word.
+   * These are deliberate-writer escapes: each needs a computed path that branches into the expected data. A whole-stage
+     slip (R01) is caught. Fail-safe today: none of the four changes what a leg computes for the seeded stages or the
+     cross-leg comparison, only how deep the C anchor goes.
+   * To harden: alter **every** expected value of every vector file (each word or result's lowest bit, each lane count
+     + 1, each h128 word ^ 1) and assert each stage's digest is unchanged and differs from `crossHostKatExpected` of
+     the altered inputs. The closing checker's probe of exactly this
+     (`~/maps-scratch/waves/check-M0-d-06/close-r1/probes/kat-all.test.ts`) passes on the clean code and kills R01–R05.
+   * Hardening milestone: M4.
