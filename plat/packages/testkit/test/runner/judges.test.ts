@@ -55,9 +55,10 @@ function pullOut(p: Plat): boolean {
  * A child shrunk behind the split: the lowest vertex (by y, then x) of the children's joint boundary — the lowest point
  * of the parent, one of its ring's vertices — moved 1 cm up. The children come from the split's own result.
  */
-function shrinkPlant(): FuzzPlant {
+function shrinkPlant(): { plant: FuzzPlant; shrunk: () => number } {
   let children: [FaceId, FaceId] | null = null;
-  return {
+  let n = 0;
+  const plant: FuzzPlant = {
     tx: (op, commit) => {
       const r = commit();
       if (op === 'splitFace' && r.ok) children = (r.value as { value: [FaceId, FaceId] }).value;
@@ -72,10 +73,14 @@ function shrinkPlant(): FuzzPlant {
         const v = p.halfEdges.origin[h];
         if (best < 0 || p.vertices.y[v] < p.vertices.y[best] || (p.vertices.y[v] === p.vertices.y[best] && p.vertices.x[v] < p.vertices.x[best])) best = v;
       }
-      if (best >= 0) p.vertices.y[best] += 1;
+      if (best >= 0) {
+        p.vertices.y[best] += 1;
+        n++;
+      }
       children = null;
     },
   };
+  return { plant, shrunk: () => n };
 }
 
 /** A pin flag set on an L0 vertex behind the batch's back: the arena's print changes, no row reads it. */
@@ -131,6 +136,16 @@ describe('splitFace: the children tile the PARENT (C-0238 (1); §13.1 integer ar
     }
   });
 
+  it('the area clause and the landing bound each fail alone: the parent reversed (same vertices, area negated); a landing moved 1 m', () => {
+    const { p, parent, c1, c2 } = splitSquare([lp(1500, 0), lp(2500, 4000)]);
+    // every parent vertex stands on the joint boundary, but the parent's area2 is the negation
+    expect(childrenTileParent(parent.map((r) => r.slice().reverse()), p, 1, c1, c2)).toMatch(/joint boundary holds area2 \d+, the parent -\d+/);
+    // the cut's landing (1500, 0) moved 1 m off the parent's bottom edge: the parent's vertices all kept, the area off by
+    // 4 000 × 100 cm (area2), far beyond √2 × the two cut edges' 8 000 cm
+    for (let v = 0; v < p.slots.vertex.top; v++) if (isVertexLive(p, v) && p.vertices.x[v] === 1500 && p.vertices.y[v] === 0) p.vertices.y[v] = -100;
+    expect(childrenTileParent(parent, p, 1, c1, c2)).toMatch(/joint boundary holds area2 \d+, the parent \d+ \(the landings' bound 11313\.7\)/);
+  });
+
   it('a cut landing on a slanted edge off the lattice: tiled within the landing bound, every parent vertex kept', () => {
     // The slanted side (4000, 0)–(3001, 3999) is crossed at a point no lattice point lies on; the landing bends it.
     const face = [lp(0, 0), lp(4000, 0), lp(3001, 3999), lp(0, 4000)];
@@ -147,8 +162,9 @@ describe('splitFace: the children tile the PARENT (C-0238 (1); §13.1 integer ar
   });
 
   it('the fuzz primitive: a child shrunk behind the split is invalid on every split, for the tiling', () => {
-    const r = runFuzz('splitFace', 40, { plant: shrinkPlant() });
-    allInvalidFor(r, /^splitFace children do not tile the parent: a parent vertex \(-?\d+, -?\d+\) is not on the children's joint boundary/, r.ok, 4, true);
+    const { plant, shrunk } = shrinkPlant();
+    const r = runFuzz('splitFace', 40, { plant });
+    allInvalidFor(r, /^splitFace children do not tile the parent: a parent vertex \(-?\d+, -?\d+\) is not on the children's joint boundary/, shrunk(), 4, true);
   }, 120_000);
 });
 
