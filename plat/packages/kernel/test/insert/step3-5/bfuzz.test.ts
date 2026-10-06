@@ -17,15 +17,27 @@
 // rejected for precision over 10⁶ random chains" is the third property: its size is PLAT_FUZZ_RUNS (10⁶ is the nightly
 // tier's), and every refusal of a mandatory chain in the other two families is held to it as well. A mandatory chain
 // refused E_INVARIANT — a segment no route keeps clear, a gap in the router (N-37) — is counted on its own line of that
-// property, never folded into its precision count, and the count must be 0 (N-40, C-0202); in the other two families
-// it fails the property as an unknown refusal.
+// property, never folded into its precision count (N-40, C-0202).
+//
+// N-44 (OWNER-APPROVED, J201; C-0215): the bar is how insertChain fails, not that it never does. (1) No throw: a throw
+// fails the property as before. (2) No silent wrong result: every commit is judged by the validator (§3.10's clearance
+// among its rows) and by N-43 B's fidelity bound (fidelity.ts: every route within 2 · √2 · attractCm of its input
+// segment, Hausdorff both ways). (3) A counted, capped refusal rate: E_INVARIANT — no route in bound, or an invariant
+// check's throw turned into a refusal — is a lawful refusal in every family, writes nothing, and is counted, and so is
+// an optional chain's E_BELOW_MIN_EDGE naming N-43 (every route keeping clearance leaves the bound; N-46 (3): a refusal
+// the bound caused is counted whatever its code — `Tally`, caps.ts `countedRefusal`); each property asserts its
+// family's cap — N-46 (4)'s cap from the residual round S6 measured, plus one run's noise (caps.ts; J207, J208, C-0217,
+// C-0221), 1 per 10⁴ the target (KI-1); with PLAT_FUZZ_COUNTS set a run writes its counts there. (4) Each refused case
+// found is kept in a register (register.test.ts, routerGapS5.test.ts, routerGapS6.test.ts: seed, input, refusal code).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat } from '../../../src/arena/index.js';
 import type { InsertTx } from '../../../src/insert/classes.js';
 import type { Warning } from '../../../src/num/index.js';
 import type { Level } from '../../../src/types/index.js';
+import { countedRefusal, recordCounts, refusalCap } from './caps.js';
 import { genChain } from './gen.js';
+import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
 /** §3.6 *Chain classes*: the precision codes — an optional chain's only (§3.1); a mandatory chain never takes one. */
@@ -41,6 +53,9 @@ const SIDE = 4000;
  */
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
 const hardTimeout = (msPerCase: number): number => Math.max(TIMEOUT, RUNS * msPerCase);
+
+/** N-44 (3): the cap on E_INVARIANT refusals per property — the family's measured residual plus seed noise (caps.ts, C-0217). */
+const CAP = { random: refusalCap('random', RUNS), constructive: refusalCap('constructive', RUNS), mandatory: refusalCap('mandatory', RUNS) };
 
 /** A copy of a warning list. */
 const copy = (ws: readonly Warning[]): Warning[] => ws.map((w) => ({ ...w, ...(w.at === undefined ? {} : { at: { ...w.at } }) }));
@@ -58,22 +73,27 @@ interface Case {
 interface Outcome {
   readonly ok: boolean;
   readonly code?: string;
+  /** A refusal's detail. */
+  readonly detail?: string;
+  /** A commit's warnings (the same-seed pins read them). */
+  readonly warnings?: readonly Warning[];
 }
 
 /**
- * Inserts one chain and judges it (the bar): no throw; a refusal is a known code, a mandatory chain's never a precision
- * code, and writes nothing (content and the transaction's warnings unchanged); a commit names a live vertex of level ≤
- * the batch's per input point; the arena valid after either (`validate` false skips the whole-arena oracles — the
- * mandatory-only property's base chains, judged once at its end).
+ * Inserts one chain and judges it (the bar): no throw; a refusal is a known code or E_INVARIANT (N-44: counted by the
+ * caller), a mandatory chain's never a precision code, and writes nothing (content and the transaction's warnings
+ * unchanged); a commit names a live vertex of level ≤ the batch's per input point and keeps N-43 B's fidelity bound;
+ * the arena valid after either (`validate` false skips the whole-arena oracles — the mandatory-only property's base
+ * chains, judged once at its end).
  */
-function insertJudged(p: Plat, c: Case, entity: string, validate = true, countInvariant = false): Outcome {
+function insertJudged(p: Plat, c: Case, entity: string, validate = true): Outcome {
   const t: InsertTx = tx(p, c.level);
   t.warnings.push({ code: 'W_PLACED', count: 1 }); // a warning an earlier op of the batch reported: a refusal keeps it
   const warningsBefore = copy(t.warnings);
   const before = validate ? contentPrint(p) : '';
   const r = ins(t, c.points, [{ role: 'way', entity }], c.cls, { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) });
   if (!r.ok) {
-    if (!(countInvariant && r.code === 'E_INVARIANT')) expect(CODES.has(r.code), `an unknown refusal ${r.code} (${r.detail})`).toBe(true);
+    if (r.code !== 'E_INVARIANT') expect(CODES.has(r.code), `an unknown refusal ${r.code} (${r.detail})`).toBe(true);
     if (c.cls === 'mandatory') expect(PRECISION.has(r.code), `a mandatory chain refused for precision: ${r.code} ${r.detail}`).toBe(false);
     expect(t.warnings).toEqual(warningsBefore);
     if (validate) expect(contentPrint(p)).toBe(before);
@@ -83,9 +103,33 @@ function insertJudged(p: Plat, c: Case, entity: string, validate = true, countIn
       expect(isVertexLive(p, v)).toBe(true);
       expect(p.vertices.level[v]).toBeLessThanOrEqual(c.level);
     }
+    const opts = { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) };
+    expect(fidelityProblems(p, c.level, c.cls, c.points, opts, r.value.placed, entity)).toEqual([]);
   }
   if (validate) expect(allProblems(p)).toEqual([]);
-  return r.ok ? { ok: true } : { ok: false, code: r.code };
+  return r.ok ? { ok: true, warnings: r.warnings } : { ok: false, code: r.code, detail: r.detail };
+}
+
+/**
+ * N-46 (3)'s tally of the refusals N-43 B's bound caused, whatever their code: E_INVARIANT and an optional chain's
+ * E_BELOW_MIN_EDGE naming N-43 — each counted against the family's cap (caps.ts), and printed apart.
+ */
+class Tally {
+  invariant = 0;
+  optional = 0;
+  /** Counts the outcome when its refusal is one N-43 B's bound caused (`countedRefusal`); true then. */
+  add(o: Outcome): boolean {
+    if (o.ok || !countedRefusal(o.code ?? '', o.detail ?? '')) return false;
+    if (o.code === 'E_INVARIANT') this.invariant += 1;
+    else this.optional += 1;
+    return true;
+  }
+  get total(): number {
+    return this.invariant + this.optional;
+  }
+  toString(): string {
+    return `counted ${this.total} (E_INVARIANT ${this.invariant}, optional E_BELOW_MIN_EDGE N-43 ${this.optional})`;
+  }
 }
 
 // ---- the random family --------------------------------------------------------------------------------------------
@@ -171,27 +215,99 @@ const chainCase = (levels: fc.Arbitrary<Level>, walks = 1): fc.Arbitrary<Case> =
 const anyLevel = fc.integer({ min: 0, max: 4 }) as fc.Arbitrary<Level>;
 const coarseLevel = fc.integer({ min: 0, max: 2 }) as fc.Arbitrary<Level>;
 
+/**
+ * The random family's property: earlier random chains (coarse first), then one more, each judged; `seen` counts the
+ * last, `bound` sees every chain of the case (N-44 (3), N-46 (3): the tally counts those N-43 B's bound refused).
+ */
+const randomFamily = (seen: (o: Outcome) => void, bound: (o: Outcome) => void = () => {}): fc.IPropertyWithHooks<[Case[], Case]> =>
+  fc.property(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel), (base, c) => {
+    const p = framed(SIDE);
+    // Earlier chains coarse first, as a stage order builds them (a finer one first would make later coarser chains
+    // meet kept content — E_KEPT, judged all the same).
+    [...base].sort((a, b) => a.level - b.level).forEach((b, i) => {
+      bound(insertJudged(p, b, `way:b${i}`));
+    });
+    const o = insertJudged(p, c, 'way:x');
+    bound(o);
+    seen(o);
+  });
+
 describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   it('random chains into arenas holding up to three earlier random chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
     let commits = 0;
     let refusals = 0;
+    const bound = new Tally();
     fc.assert(
-      fc.property(fc.array(chainCase(coarseLevel), { maxLength: 3 }), chainCase(anyLevel), (base, c) => {
-        const p = framed(SIDE);
-        // Earlier chains coarse first, as a stage order builds them (a finer one first would make later coarser chains
-        // meet kept content — E_KEPT, judged all the same).
-        [...base].sort((a, b) => a.level - b.level).forEach((b, i) => insertJudged(p, b, `way:b${i}`));
-        const o = insertJudged(p, c, 'way:x');
-        if (o.ok) commits += 1;
-        else refusals += 1;
-      }),
+      randomFamily(
+        (o) => {
+          if (o.ok) commits += 1;
+          else refusals += 1;
+        },
+        (o) => {
+          bound.add(o);
+        },
+      ),
     );
-    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused`);
+    console.log(`B-FUZZ insertChain random: ${commits} committed, ${refusals} refused; bound-caused ${bound} (cap ${CAP.random}, N-44, N-46 (3), C-0221)`);
+    recordCounts('random', RUNS, bound.invariant, bound.optional, CAP.random);
     expect(commits).toBeGreaterThan(refusals);
+    expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the random family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.random);
   }, hardTimeout(60));
+
+  // N-42 (b), the named regression (C-0209): this family at PLAT_FUZZ_SEED=−1863295922 failed its 8 346th case (M0-a-14
+  // close-r1 note 23) — three earlier chains, then an L2 mandatory random walk of 320 points refused E_INVARIANT; shrunk,
+  // one L0 walk refused "no route from (313, 244) to (341, 251) keeps clearance" (routerGapS3.test.ts pins it): the route
+  // step 3 gives the last segment, through (332, 226) and (361, 234), passes 24.3 cm from its own free end. The case
+  // itself, replayed (fast-check's path 8345 at that seed), now commits valid, a free end re-landed (W_PLACED at (3624,
+  // 3034)).
+  it('the random family\'s seed −1863295922, its 8 346th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: -1863295922, path: '8345', numRuns: 1 });
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 3624, y: 3034 } }]);
+  });
+
+  // The same class, found by fix round S3's own scan of 70 000 cases on the S1/S2 router (C-0209): at seed 13 the
+  // random family's 7 265th case — an L1 chain, then an L4 mandatory random walk of 331 points — refused the walk
+  // E_INVARIANT; its free end is now re-landed (W_PLACED at (2953, 109)).
+  it('the random family\'s seed 13, its 7 265th case replayed (N-42 (b)): 0 crashes, 0 invalid outputs', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: 13, path: '7264', numRuns: 1 });
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: { x: 2953, y: 109 } }]);
+  });
+
+  // N-43 A's class, found by the S3 closing check (M0-a-05-s3.md part 1): at PLAT_FUZZ_SEED=31337 this family's 3 624th
+  // case threw "the chain's edge (2214, 3944)–(2229, 3922) stands within minEdge of the vertex (2197, 3925)" from
+  // insertChain's final clearance check (a base chain; the same on S2 code). The S1 – S3 router judged a route by the
+  // chain's new edges only, so a split that took a third vertex out of its one-ring passed (C-0215). Now every route is
+  // judged whole and the final check refuses instead of throwing: the case commits, every chain valid and in bound.
+  it('the random family\'s seed 31337, its 3 624th case replayed (N-43 A, C-0215): 0 crashes, 0 invalid outputs, every chain committed in bound', () => {
+    const seen: Outcome[] = [];
+    const bound = new Tally();
+    fc.assert(randomFamily((o) => seen.push(o), (o) => {
+      bound.add(o);
+    }), { seed: 31337, path: '3623', numRuns: 1 });
+    expect(bound.total).toBe(0);
+    expect(seen.map((o) => o.ok)).toEqual([true]);
+    expect(seen[0].warnings?.map((w) => [w.code, w.count])).toEqual([['W_STRETCH_SHARED', 6], ['W_ATTRACTED', 4]]);
+  });
+
+  // N-43 B (C-0215; a register case, N-44 (4)): at seed 777 the random family's 421st case — an L0 chain, then an L2
+  // mandatory ring of 9 points — committed on the S1 – S3 router with a crossing on the near side of a sliver sent to the
+  // placement's endpoint fallback (W_PLACED 4 at (3714, 2690)): its segment (3919, 2339) → (2004, 1853) then lay 244.9
+  // cm from its route. No route of the first two passes kept it within 2 · √2 · attractCm (the anchored and split routes
+  // of the second included): S4 refused it E_INVARIANT. S5's third pass (C-0217) commits it within the bound — the wedge
+  // corner kept, the far fallbacks placed within the bound (W_PLACED 7) — and the arena valid (insertJudged).
+  it('register: seed 777\'s 421st case — its S1 – S3 commit 244.9 cm off its segment, refused by S4 (N-43 B) — commits within the bound on the third pass (C-0217)', () => {
+    const seen: Outcome[] = [];
+    fc.assert(randomFamily((o) => seen.push(o)), { seed: 777, path: '420', numRuns: 1 });
+    expect(seen.map((o) => [o.ok, o.warnings?.map((w) => [w.code, w.count])])).toEqual([[true, [['W_WEDGE_ROUTED', 1], ['W_PLACED', 7], ['W_ATTRACTED', 2]]]]);
+  });
 
   it('the constructive classes (gen.ts) in multi-level sequences of 1 – 8 chains: 0 crashes, 0 invalid outputs, refusals write nothing', () => {
     const kinds = new Map<string, number>();
+    const bound = new Tally();
     fc.assert(
       fc.property(fc.integer({ min: 1, max: 0x7fffffff }), (seed) => {
         const rnd = generator(seed);
@@ -203,11 +319,13 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
           const lv = rnd() < 0.1 ? (intIn(rnd, 0, 4) as Level) : level;
           const g = genChain(p, rnd, SIDE, lv);
           kinds.set(g.kind, (kinds.get(g.kind) ?? 0) + 1);
-          insertJudged(p, { level: lv, cls: g.cls, closed: g.closed, points: g.points, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) }, `way:${s}`);
+          bound.add(insertJudged(p, { level: lv, cls: g.cls, closed: g.closed, points: g.points, ...(g.pinned === undefined ? {} : { pinned: g.pinned }) }, `way:${s}`));
         }
       }),
     );
-    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
+    console.log(`B-FUZZ insertChain constructive: ${[...kinds].sort().map(([k, n]) => `${k} ${n}`).join(', ')}; bound-caused ${bound} (cap ${CAP.constructive}, N-44, N-46 (3), C-0221)`);
+    recordCounts('constructive', RUNS, bound.invariant, bound.optional, CAP.constructive);
+    expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the constructive family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.constructive);
     for (const k of ['random', 'collinear', 'coincident', 'shallow', 'graze', 'ring', 'zigzag', 'endpoint', 'vee']) expect(kinds.get(k) ?? 0).toBeGreaterThan(0);
   }, hardTimeout(20));
 });
@@ -215,24 +333,24 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
 describe('§13.1: mandatory chains never rejected for precision over 10⁶ random chains (PLAT_FUZZ_RUNS: 10⁴ PR, 10⁶ nightly)', () => {
   it('a mandatory random chain into an arena holding up to two earlier chains: refused only for a non-precision code, never a throw; the arena valid', () => {
     const codes = new Map<string, number>();
-    let invariant = 0;
+    const bound = new Tally();
     fc.assert(
       fc.property(fc.array(chainCase(coarseLevel, 0), { maxLength: 2 }), chainCase(anyLevel, 0), (base, c0) => {
         const c: Case = { ...c0, cls: 'mandatory' };
         const p = framed(SIDE);
         [...base].sort((a, b) => a.level - b.level).forEach((b, i) => {
-          if (insertJudged(p, b, `way:b${i}`, false, true).code === 'E_INVARIANT') invariant += 1; // a base chain's too
+          bound.add(insertJudged(p, b, `way:b${i}`, false)); // a base chain's too (optional ones among them)
         });
-        const o = insertJudged(p, c, 'way:m', false, true);
+        const o = insertJudged(p, c, 'way:m', false);
         const k = o.ok ? 'ok' : (o.code as string);
-        if (k === 'E_INVARIANT') invariant += 1;
-        else codes.set(k, (codes.get(k) ?? 0) + 1);
+        if (!bound.add(o)) codes.set(k, (codes.get(k) ?? 0) + 1);
         expect(allProblems(p)).toEqual([]);
       }),
     );
     console.log(`mandatory chains: ${[...codes].sort().map(([k, n]) => `${k} ${n}`).join(', ')}`);
-    console.log(`chains refused E_INVARIANT (a router gap, N-37; its own line, N-40): ${invariant}`);
+    console.log(`chains refused for N-43 B's bound (no route in bound, N-37, N-43, N-44; its own line, N-40): ${bound} (cap ${CAP.mandatory}, N-46 (3), C-0221)`);
+    recordCounts('mandatory', RUNS, bound.invariant, bound.optional, CAP.mandatory);
     for (const k of PRECISION) expect(codes.get(k) ?? 0).toBe(0);
-    expect(invariant, 'chains refused E_INVARIANT (a router gap)').toBe(0);
+    expect(bound.total, 'chains refused for N-43 B\'s bound (N-44 (3), N-46 (3): the mandatory-only family\'s cap, caps.ts)').toBeLessThanOrEqual(CAP.mandatory);
   }, hardTimeout(15));
 });

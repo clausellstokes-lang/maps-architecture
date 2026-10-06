@@ -10,6 +10,7 @@ import { faceWalk, VERTEX_SPLIT, VERTEX_STEINER, type Plat } from '../../../src/
 import { checkIndexState } from '../../../src/index/index.js';
 import { chainJournal, promote } from '../../../src/insert/stretch.js';
 import type { Level } from '../../../src/types/index.js';
+import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, facesAt, framed, indexed, ins, tx, vertexAtPoint } from './support.js';
 import type { ArenaSpec } from '../step1-2/support.js';
 
@@ -160,29 +161,35 @@ describe('the placement\'s fallback onto the nearer end of the sub-edge, on a ru
    * M0-a-04's thin wedge with an L2 vertex S = (181, 3 234) on the long L1 edge (723, 3 092)–(0, 3 282), 0.42 cm off its
    * line (the check's probe WEDGE_S): every band point beside (314, 3 190)'s foot fails clearance at the acute corner,
    * so the vertex falls back onto the nearer end of the sub-edge its exact position falls on — S, not the run's end.
+   * S lies 139.9 cm from (314, 3 190), beyond N-43 B's fidelity bound of 2 · √2 · attractCm: the S1 – S3 router committed
+   * the chain there (S promoted at L1); the S4 router refused it E_INVARIANT — no route from (1 500, 2 000) reached a
+   * vertex within the bound of its end (a register case, N-44 (4); C-0215). S5's third pass (C-0217) lands the end on
+   * the nearest existing vertex within the bound instead, the wedge's own (287, 3 214), 36.1 cm off (W_PLACED): the chain
+   * commits within the bound, S untouched.
    */
   const WEDGE_S: ArenaSpec = {
     vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [897, 4000, 1], [287, 3214, 1], [723, 3092, 1], [0, 3282, 1], [181, 3234, 2]],
     edges: [[0, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 7, 0], [7, 0, 0], [4, 5, 1], [5, 6, 1], [6, 8, 1], [8, 7, 1]],
   };
 
-  it('a chain ending at (314, 3 190) at L2 – L4 ends on S (W_PLACED, W_ATTRACTED); at L1 S is finer, candidate (b): promoted to L1 (W_PROMOTED)', () => {
+  it('a chain ending at (314, 3 190) at L1 – L4 — whose end falls back onto S, 139.9 cm off — lands instead on the nearest vertex within the bound, (287, 3 214), on the third pass (C-0217); S keeps its level, nothing is promoted', () => {
     for (const level of [1, 2, 3, 4] as Level[]) {
       const b = indexed(WEDGE_S);
       const p = b.plat;
       expect(allProblems(p)).toEqual([]);
+      expect(Math.hypot(181 - 314, 3234 - 3190)).toBeGreaterThan(2 * Math.SQRT2 * 26);
       const t = tx(p, level);
+      const before = contentPrint(p);
       const r = ins(t, [[1500, 2000], [314, 3190]], [{ role: 'way', entity: 'way:w' }]);
-      expect(r.ok).toBe(true);
-      expect(allProblems(p)).toEqual([]);
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
       if (!r.ok) continue;
-      expect(r.value.placed[1]).toBe(b.v[8]);
-      const codes = r.warnings.map((w) => w.code);
-      expect(codes).toContain('W_PLACED');
-      expect(codes).toContain('W_ATTRACTED');
-      expect(p.vertices.level[b.v[8]]).toBe(level === 1 ? 1 : 2);
-      expect(codes.includes('W_PROMOTED')).toBe(level === 1);
-      expect(chainJournal(t).promoted).toEqual(level === 1 ? [b.v[8]] : []);
+      expect(contentPrint(p)).not.toBe(before);
+      expect(r.value.placed.map((v) => [p.vertices.x[v], p.vertices.y[v]])).toEqual([[1500, 2000], [287, 3214]]);
+      expect(r.warnings).toEqual([{ code: 'W_PLACED', count: 2, at: { x: 287, y: 3214 } }, { code: 'W_ATTRACTED', count: 1, at: { x: 314, y: 3190 } }]);
+      expect(fidelityProblems(p, level, 'mandatory', [[1500, 2000], [314, 3190]], {}, r.value.placed, 'way:w')).toEqual([]);
+      expect(allProblems(p)).toEqual([]);
+      expect(p.vertices.level[b.v[8]]).toBe(2);
+      expect(chainJournal(t).promoted).toEqual([]);
     }
   });
 });

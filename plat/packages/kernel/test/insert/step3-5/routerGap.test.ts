@@ -11,7 +11,8 @@ import { createPlat, type Plat } from '../../../src/arena/index.js';
 import { attachIndex } from '../../../src/index/index.js';
 import type { Cm } from '../../../src/types/index.js';
 import { GROUND } from '../../arena/support.js';
-import { allProblems, edgeRows, ins, liveEdges, tx } from './support.js';
+import { fidelityProblems } from './fidelity.js';
+import { allProblems, contentPrint, edgeRows, ins, liveEdges, tx } from './support.js';
 
 /** M0-a-08's arena: a ground arena 2²⁴ cm wide (no margin), its index on a 64 cm grid. */
 function wideArena(): Plat {
@@ -131,25 +132,51 @@ const CHAINS_391: readonly (readonly (readonly [number, number])[])[] = [
 ];
 
 describe('N-37: a stretch whose join point\'s route split the piece before its leave point is walked along the run', () => {
-  // The walk shares the run's pieces from join to leave as they stand. Routing join → leave as any segment instead (the
-  // walk's own fallback) gives the same geometry here but re-attracts the vertex the join point's route split in — one
-  // W_ATTRACTED and one W_STRETCH_SHARED more (5 and 5, measured with the walk removed), which pins the walk.
-  it('M0-a-08\'s buffer case 391: every chain commits (or collapses, E_DEGENERATE empty), the arena valid; the last one shares a stretch by the run walk (W_STRETCH_SHARED 4, W_ATTRACTED 4)', () => {
+  // The S1 – S3 router committed the 29th chain by the run walk (W_STRETCH_SHARED 4, W_ATTRACTED 4) with route vertices
+  // up to 84 cm from its segment — beyond N-43 B's fidelity bound of 2 · √2 · attractCm. The S4 router refused it
+  // E_INVARIANT (a register case, N-44 (4); C-0215). S5's third pass (C-0217) commits it within the bound, its far
+  // fallbacks placed in bound (W_PLACED 4). The walk stays pinned by the same chain 10 cm west, which commits within the
+  // bound through it.
+  it('M0-a-08\'s buffer case 391: the first 28 chains commit (or collapse, E_DEGENERATE empty), the arena valid; the 29th, beyond the fidelity bound on every route of the first two passes, commits within it on the third (C-0217)', () => {
     const p = wideArena();
     const t = tx(p, 0);
     expect(ins(t, FRAME_391, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
     CHAINS_391.forEach((c, i) => {
+      const last = i === CHAINS_391.length - 1;
+      const before = last ? contentPrint(p) : '';
+      const r = ins(t, c, [{ role: 'invisible', entity: `arr:s${i}` }]);
+      if (!last) {
+        if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
+        return;
+      }
+      expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+      if (!r.ok) return;
+      expect(before.length).toBeGreaterThan(0);
+      expect(r.warnings.map((w) => [w.code, w.count])).toEqual([['W_PLACED', 4], ['W_ATTRACTED', 3], ['W_ACUTE_CORNER', 5], ['W_STRETCH_SHARED', 2]]);
+      expect(fidelityProblems(p, 0, 'mandatory', c, {}, r.value.placed, `arr:s${i}`)).toEqual([]);
+    });
+    expect(allProblems(p)).toEqual([]);
+  });
+
+  // The walk shares the run's pieces from join to leave as they stand. Routing join → leave as any segment instead (the
+  // walk's own fallback) re-attracts the vertices the join point's route split in — two W_ATTRACTED and two
+  // W_STRETCH_SHARED more (7 and 5, measured with the walk removed), which pins the walk.
+  it('the same 28 chains, then the 29th 10 cm west, (24 050, 58 576) → (24 915, 60 373): it commits within the fidelity bound, the arena valid, sharing a stretch by the run walk (W_STRETCH_SHARED 3, W_ATTRACTED 5)', () => {
+    const p = wideArena();
+    const t = tx(p, 0);
+    expect(ins(t, FRAME_391, [{ role: 'invisible', entity: 'arr:frame' }], 'mandatory', { closed: true }).ok).toBe(true);
+    CHAINS_391.slice(0, -1).forEach((c, i) => {
       const r = ins(t, c, [{ role: 'invisible', entity: `arr:s${i}` }]);
       if (!r.ok) expect(`${r.code} ${r.detail}`).toBe('E_DEGENERATE empty');
-      if (i === CHAINS_391.length - 1) {
-        expect(r.ok).toBe(true);
-        if (r.ok) {
-          const count = (code: string): number => r.warnings.find((w) => w.code === code)?.count ?? 0;
-          expect(count('W_STRETCH_SHARED')).toBe(4);
-          expect(count('W_ATTRACTED')).toBe(4);
-        }
-      }
     });
+    const west: [number, number][] = [[24050, 58576], [24915, 60373]];
+    const r = ins(t, west, [{ role: 'invisible', entity: 'arr:west' }]);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const count = (code: string): number => r.warnings.find((w) => w.code === code)?.count ?? 0;
+    expect(count('W_STRETCH_SHARED')).toBe(3);
+    expect(count('W_ATTRACTED')).toBe(5);
+    expect(fidelityProblems(p, 0, 'mandatory', west, {}, r.value.placed, 'arr:west')).toEqual([]);
     expect(allProblems(p)).toEqual([]);
   });
 });
