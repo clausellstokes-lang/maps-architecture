@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-03",
-  "lane": "build/M0-c-03-fix1",
-  "lanes": ["build/M0-c-03", "build/M0-c-03-fix1"],
+  "lane": "build/M0-c-03-fix2",
+  "lanes": ["build/M0-c-03", "build/M0-c-03-fix1", "build/M0-c-03-fix2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T18:29:57.521Z",
+  "date": "2026-10-06T19:24:40.149Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/backbone/", "plat/packages/layout/test/backbone/"],
   "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -19,7 +19,7 @@
     { "path": "plat/packages/layout/src/backbone/smooth.ts", "status": "created", "sha256": "ad6c8e1c5bdd7f31e4e5f26f06cb251efa7f0fd687a3bbde0b0f63e3ada5141d", "size": 8012 },
     { "path": "plat/packages/layout/src/backbone/stage.ts", "status": "created", "sha256": "5032b8120564cb014c8a0e696f8405ec2f46ae8264ca1c4d30203f945b0c2647", "size": 17117 },
     { "path": "plat/packages/layout/src/backbone/types.ts", "status": "created", "sha256": "5dfb1137df8076319b31826383ad76917db50473fad1a09c6870abdc19d35097", "size": 8494 },
-    { "path": "plat/packages/layout/test/backbone/backbone.test.ts", "status": "created", "sha256": "3abe229f5eac4afb76d5729c6ecf6cded8dfb472fed1d49e5f8e2abc7e6d1e60", "size": 21834 },
+    { "path": "plat/packages/layout/test/backbone/backbone.test.ts", "status": "created", "sha256": "9f03ddefad893f03d896fc8852c4a1c8460a276ebd29db64be0c9f0af1f1aa05", "size": 22689 },
     { "path": "plat/packages/layout/test/backbone/classify.test.ts", "status": "created", "sha256": "c38f5f4d2b4edf11d9dc3c005221920d2300986c6acd5e5343e96da0c19ab682", "size": 6578 },
     { "path": "plat/packages/layout/test/backbone/commit.test.ts", "status": "created", "sha256": "066a546f35c05a90f6d415ce478ee0fe95ebb62b52bab92c6914e421206781c2", "size": 4475 },
     { "path": "plat/packages/layout/test/backbone/graph.test.ts", "status": "created", "sha256": "05d7602456d5b876fb494550fcde75d4ca857d5c0f452ada69c32d2acbb405f1", "size": 9262 },
@@ -33,8 +33,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0252", "L-0256"],
-      "lines": ["3f41a305868958e9", "69cda9ca22ee4477"],
+      "ids": ["L-0252", "L-0256", "L-0260"],
+      "lines": ["3f41a305868958e9", "69cda9ca22ee4477", "a6bceb905a9cbdf4"],
       "removed": []
     },
     {
