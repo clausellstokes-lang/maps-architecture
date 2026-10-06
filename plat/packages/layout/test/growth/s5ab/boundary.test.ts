@@ -69,6 +69,25 @@ describe('stageBoundary', () => {
     }
   });
 
+  it('the union keeps the stages nested where T stands higher than t_k inside the previous enclosure (a moat\'s case)', { timeout: 60_000 }, () => {
+    const s = slice(2);
+    // An enclosure reaching a far patch whose T exceeds stage 2's threshold: the union still holds it.
+    const enclosure = Uint8Array.from(s.levelSet.selected);
+    let far = -1;
+    let farT = -1;
+    for (let i = 0; i < s.field.T.length; i += 1) {
+      if (s.lattice.interior[i] === 1 && s.field.T[i] < Infinity && s.field.T[i] > farT) {
+        farT = s.field.T[i];
+        far = i;
+      }
+    }
+    enclosure[far] = 1;
+    const b = stageBoundary(s.field, 2, s.site.land, { enclosure });
+    expect(farT).toBeGreaterThan(b.threshold.t);
+    expect(b.set.selected[far]).toBe(1);
+    expect(unionLand(s, s.field.T, b.threshold.t, enclosure)).toBe(b.landCm2);
+  });
+
   it('the union field: T held at 0 on the enclosure, unchanged elsewhere; null is T itself', { timeout: 60_000 }, () => {
     const s = slice(1);
     expect(unionField(s.field, null)).toBe(s.field);

@@ -138,6 +138,9 @@ describe('the steps and the Stage declarations', () => {
     expect(asked.length).toBe(1);
     const t = sa.run({ growth: state }, ctx);
     expect(t.ok).toBe(true);
+    // The stage's selection is the enclosure the next stage reads, and the stage the last with land.
+    expect(state.enclosure).toBe(state.stages[1].boundary?.set.selected);
+    expect(state.lastWithLand).toBe(2);
     for (let k = 3; k <= site.land.stagesHa.length; k += 1) {
       expect(mainRoadsStep(state, k, stream).ok).toBe(true);
       expect(traceStep(state, k).ok).toBe(true);
