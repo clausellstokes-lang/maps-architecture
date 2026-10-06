@@ -236,8 +236,8 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(refused.ok).toBe(false);
     if (!refused.ok) expect(refused.code).toBe('E_KEPT');
     expect(state(a.p)).toBe(before);
-    // the op is atomic inside its batch: refused after the faces before the kept one were written (the lower-left face
-    // is the first in canonical order, so the refusal comes there; the rest never start) — the batch commits nothing
+    // the op inside a batch that goes on: the lower-left face (the kept one) is the first in canonical order, so the
+    // refusal comes before anything is written and the rest never start — the batch commits nothing
     const again = commit(a.p, 2, (o) => {
       const c = corridorUnion(o, [a.faces[3], a.faces[0]], W);
       expect(c.ok).toBe(false);
@@ -245,6 +245,22 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     }, AT_S9);
     expect(again.record).toBeNull();
     expect(state(a.p)).toBe(before);
+    // atomic after writing: the kept ring in the upper-right face, the last in canonical order, so the three faces before
+    // it are written when its kerb refuses — the op puts the batch back as it found it, and the batch commits nothing
+    const late = framed();
+    way(late, 'way:1', [[0, 2000], [4000, 2000]]);
+    way(late, 'way:2', [[2000, 0], [2000, 4000]]);
+    const lf = own(late, 'district:1', [[1000, 1000], [3000, 1000], [1000, 3000], [3000, 3000]]);
+    commit(late, 3, (o) => insertChain(o, [pt(3200, 3200), pt(3800, 3200), pt(3800, 3800), pt(3200, 3800)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory', { closed: true }), { stage: 8 as StageId, rederivesFrom: 8 as StageId });
+    const lateBefore = state(late);
+    const third = commit(late, 2, (o) => {
+      const c = corridorUnion(o, lf, W);
+      expect(c.ok).toBe(false);
+      if (!c.ok) expect(c.code).toBe('E_KEPT');
+      return { ok: true, value: null, warnings: [] };
+    }, AT_S9);
+    expect(third.record).toBeNull();
+    expect(state(late)).toBe(lateBefore);
     // the three other faces band; the kept ring's faces are untouched
     const b = build();
     const keptBefore = normals(ringsOf(b.p, 3, faceAt(b.p, 3, 500, 500)));

@@ -332,8 +332,11 @@ function freeSpot(ctx: ChainCtx, pt: LatticePoint): KernelResult<LatticePoint | 
   for (let k = 0; k <= r; k++) {
     for (const [ux, uy] of FREE_DIRS) {
       const len = Math.sqrt(ux * ux + uy * uy);
-      const x = pt.x + Math.floor((k * ux) / len + 0.5);
-      const y = pt.y + Math.floor((k * uy) / len + 0.5);
+      const sx = ratio(k * ux, len, 'length');
+      const sy = ratio(k * uy, len, 'length');
+      check(sx.ok && sy.ok, 'a search direction has a length of at least 1');
+      const x = pt.x + Math.floor(sx.value + 0.5);
+      const y = pt.y + Math.floor(sy.value + 0.5);
       const d = (x - pt.x) * (x - pt.x) + (y - pt.y) * (y - pt.y);
       const key = `${x},${y}`;
       if (d > FIDELITY_SQ || seen.has(key)) continue;
