@@ -53,7 +53,7 @@ import type { FuzzField } from '../fuzz/field.js';
 import { compareSplit, oracleBoolean, oracleBuffer, ORACLE_ENGINES, type OracleEngine, type Verdict } from '../oracles/index.js';
 import { clipper2Loaded } from '../oracles/clipper2.js';
 import { isLatticeRing, ringProblems } from '../oracles/rings.js';
-import { arenaPrint, determinismPoint, fixtureSpec, framedArena, permutationCompare, runTwiceCompare, type DeterminismSequence } from '../determinism/index.js';
+import { arenaPrint, determinismPoint, fixtureSpec, permutationCompare, runTwiceCompare, type DeterminismSequence } from '../determinism/index.js';
 import { area2Exact, boxOf, ciProblems, cross, framedAround, inRegionApprox, inRing, interiorPoint, kernelOn, lpt, RANGE, RUNNER_KEY, spec, type Pt } from './support.js';
 import type { BugEntry, WorkUnit } from './types.js';
 
@@ -290,12 +290,10 @@ const insertChainPrimitive: Primitive<InsertInput> = {
 /** The input as a determinism sequence: the face, then the chain and the face's mirror chain in one declared batch. */
 function insertSequence(input: InsertInput): DeterminismSequence {
   const all = [...input.face, ...input.chain];
-  const b = boxOf(all) as number[];
-  const pad = 5_000;
   const role = input.level === 1 ? 'way' : input.level === 2 ? 'kerb' : 'plot_line';
   return {
     name: 'bfuzz/insertChain',
-    arena: () => framedArena(b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad),
+    arena: () => framedAround(all) as Plat,
     batches: [
       { name: 'face', build: () => ({ spec: fixtureSpec(1), fn: (o: Overlay) => insertFn(o, input.face, 'way', 'way:face', 'mandatory', true) }) },
       { name: 'chain', build: () => ({ spec: fixtureSpec(input.level), fn: (o: Overlay) => insertFn(o, input.chain, role, `${role}:fuzz`, input.cls, input.closed) }) },

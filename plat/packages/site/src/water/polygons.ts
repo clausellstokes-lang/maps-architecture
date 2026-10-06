@@ -15,8 +15,9 @@
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
 import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
-import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringsDist2, type Reach } from './geometry.js';
+import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, ringsDist2, segDist2, type Reach } from './geometry.js';
 import { ESTUARY_SPLIT_M, SEED_DEPTH_CM, SLIVER_AREA_CM2 } from './params.js';
+import { clearOf, clipToArena, isSimple, mouthRing, offsetRing, snapRing, type Cap } from './offset.js';
 import type { DroppedBody, WaterPart, WaterReach } from './types.js';
 
 /** The estuary's id beside its river's (M0-e-02's `water:<kind>:<n>` form until §6.3's mint, C-0173 (1)). */
@@ -113,14 +114,18 @@ function lp(q: XY): LatticePoint {
  * it ends on it (by its width plus a metre, so the clip shapes the end), and a joined body prolonged to the nearest
  * point of the course it flows into.
  */
-function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBody[]): { pts: LatticePoint[]; half: number[] } | null {
+export function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBody[]): { pts: LatticePoint[]; half: number[]; startOut: boolean; endOut: boolean; joined: boolean } | null {
   const course = body.course ?? [];
   const widths = body.widthProfile;
   if (course.length < 2 || widths === undefined || widths.length !== course.length) return null;
   const pts: LatticePoint[] = course.map((q) => lp(q));
   const half: number[] = Array.from(widths, (w) => w * 0.5);
+  let startOut = false;
+  let endOut = false;
+  let joined = false;
   const first = unit(course[1], course[0]);
   if (first !== null && onRing(reach, course[0])) {
+    startOut = true;
     const ext = widths[0] + 100;
     pts.unshift(lp({ x: course[0].x + first.x * ext, y: course[0].y + first.y * ext }));
     half.unshift(half[0]);
@@ -128,6 +133,7 @@ function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBody[]): 
   const n = course.length;
   const lastDir = unit(course[n - 2], course[n - 1]);
   if (lastDir !== null && onRing(reach, course[n - 1])) {
+    endOut = true;
     const ext = widths[n - 1] + 100;
     pts.push(lp({ x: course[n - 1].x + lastDir.x * ext, y: course[n - 1].y + lastDir.y * ext }));
     half.push(half[half.length - 1]);
@@ -144,13 +150,64 @@ function chainOf(body: WaterBody, reach: Reach, earlier: readonly WaterBody[]): 
     if (best !== null && best.d2 <= JOIN_REACH_CM * JOIN_REACH_CM) {
       pts.push(lp(best.p));
       half.push(half[half.length - 1]);
+      joined = true;
     }
   }
-  return { pts, half };
+  return { pts, half, startOut, endOut, joined };
 }
 
 /** A joined body is prolonged to the river it joins only from this near (cm): beside it, never across land. */
 const JOIN_REACH_CM = 10_000;
+
+/**
+ * The chain simplified for the buffer (C-0225 (2)): Douglas–Peucker on the points with their half-widths — a point is
+ * dropped only when it lies within SIMPLIFY_CM of the chord between the points kept around it and its half-width within
+ * SIMPLIFY_CM of the chord's interpolated one. S1 (3)'s Chaikin-smoothed course carries a vertex every few metres; the
+ * polygon keeps its shape within the tolerance and the buffer's union stays small. The ends are always kept.
+ */
+export function simplifyChain(pts: readonly LatticePoint[], half: readonly number[]): { pts: LatticePoint[]; half: number[] } {
+  const n = pts.length;
+  if (n <= 2) return { pts: pts.slice(), half: half.slice() };
+  const keep = new Uint8Array(n);
+  keep[0] = 1;
+  keep[n - 1] = 1;
+  const stack: [number, number][] = [[0, n - 1]];
+  const tol2 = SIMPLIFY_CM * SIMPLIFY_CM;
+  while (stack.length > 0) {
+    const [a, b] = stack.pop() as [number, number];
+    if (b - a < 2) continue;
+    const pa = pts[a];
+    const pb = pts[b];
+    const len = Math.sqrt((pb.x - pa.x) * (pb.x - pa.x) + (pb.y - pa.y) * (pb.y - pa.y));
+    let worst = -1;
+    let worstD = 0;
+    for (let i = a + 1; i < b; i += 1) {
+      const d2 = segDist2(pts[i], pa, pb);
+      // the half-width the chord interpolates at i's projection
+      const t = len >= 1 ? Math.min(1, Math.max(0, quot((pts[i].x - pa.x) * (pb.x - pa.x) + (pts[i].y - pa.y) * (pb.y - pa.y), len * len))) : 0;
+      const dw = Math.abs(half[a] + (half[b] - half[a]) * t - half[i]);
+      const over = Math.max(d2 > tol2 ? d2 : 0, dw > SIMPLIFY_CM ? dw * dw : 0);
+      if (over > worstD) {
+        worstD = over;
+        worst = i;
+      }
+    }
+    if (worst < 0) continue;
+    keep[worst] = 1;
+    stack.push([worst, b], [a, worst]);
+  }
+  const out: LatticePoint[] = [];
+  const hw: number[] = [];
+  for (let i = 0; i < n; i += 1) {
+    if (keep[i] === 0) continue;
+    out.push(pts[i]);
+    hw.push(half[i]);
+  }
+  return { pts: out, half: hw };
+}
+
+/** The buffer's tolerance on the course (cm): its points within it of the chord are not buffered one by one. */
+export const SIMPLIFY_CM = 50;
 
 /** Groups rings into parts: each outer ring (counter-clockwise) with the holes it holds; slivers dropped. */
 function partsOf(rings: readonly Ring[]): LatticePoint[][][] {
@@ -198,37 +255,20 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
       dropped.push({ id: body.id, reason: 'course' });
       continue;
     }
-    const buf = buffer([chain.pts], chain.half, 'round', 'round');
-    if (!buf.ok) {
-      if (buf.code === 'E_DEGENERATE') {
-        dropped.push({ id: body.id, reason: 'empty' });
-        continue;
-      }
-      return err(buf.code, `water ${body.id}: buffer ${buf.detail}`);
-    }
-    warnings.push(...buf.warnings);
-    let rings: Ring[] = buf.value;
-    const clip = booleans('intersection', rings, frameRing, 'nonzero');
-    if (!clip.ok) {
-      if (clip.code === 'E_DEGENERATE') {
-        dropped.push({ id: body.id, reason: 'empty' });
-        continue;
-      }
-      return err(clip.code, `water ${body.id}: clip ${clip.detail}`);
-    }
-    warnings.push(...clip.warnings);
-    rings = clip.value;
-    if (covered.length > 0) {
-      const diff = booleans('difference', rings, covered, 'nonzero');
-      if (!diff.ok) {
-        if (diff.code === 'E_DEGENERATE') {
+    const simple = simplifyChain(chain.pts, chain.half);
+    let rings: Ring[] | null = fastRings(body, simple, chain, bodies, reach, covered);
+    if (rings === null) {
+      // the kernel's own: §3.4's buffer, clipped to the arena, less the earlier bodies (C-0225 (2))
+      const slow = slowRings(simple, frameRing, covered);
+      if (!slow.ok) {
+        if (slow.code === 'E_DEGENERATE') {
           dropped.push({ id: body.id, reason: 'empty' });
           continue;
         }
-        return err(diff.code, `water ${body.id}: difference ${diff.detail}`);
+        return err(slow.code, `water ${body.id}: ${slow.detail}`);
       }
-      warnings.push(...diff.warnings);
-      rings = diff.value;
+      warnings.push(...slow.warnings);
+      rings = slow.value;
     }
     const course = body.course ?? [];
     const depth2 = SEED_DEPTH_CM * SEED_DEPTH_CM;
@@ -250,6 +290,53 @@ export function waterPolygons(bodies: readonly WaterBody[], reach: Reach): Kerne
     covered = [...covered, ...parts.flatMap((p) => p.rings)];
   }
   return ok({ reaches, dropped }, foldWarnings(warnings));
+}
+
+/** §3.4's buffer of the simplified chain (round joins and ends), clipped to the arena, less the earlier bodies. */
+function slowRings(simple: { pts: LatticePoint[]; half: number[] }, frameRing: Ring[], covered: Ring[]): KernelResult<Ring[]> {
+  const warnings: Warning[] = [];
+  const buf = buffer([simple.pts], simple.half, 'round', 'round');
+  if (!buf.ok) return buf;
+  warnings.push(...buf.warnings);
+  const clip = booleans('intersection', buf.value, frameRing, 'nonzero');
+  if (!clip.ok) return clip;
+  warnings.push(...clip.warnings);
+  if (covered.length === 0) return ok(clip.value, warnings);
+  const diff = booleans('difference', clip.value, covered, 'nonzero');
+  if (!diff.ok) return diff;
+  warnings.push(...diff.warnings);
+  return ok(diff.value, warnings);
+}
+
+/** The left normal of the direction from a to b. */
+function leftNormal(a: XY, b: XY): XY | undefined {
+  const u = unit(a, b);
+  return u === null ? undefined : { x: -u.y, y: u.x };
+}
+
+/**
+ * The fast ring of a body (./offset.ts): flat where the chain runs out of the arena (the clip shapes it) and at the
+ * estuary's cut (both bodies cut along one normal: the original course segment's), a joined body's mouth cut along the
+ * shore it joins, round elsewhere; on the lattice, simple and clear of the earlier rings — else null.
+ */
+export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: number[] }, chain: { startOut: boolean; endOut: boolean; joined: boolean }, bodies: readonly WaterBody[], reach: Reach, covered: readonly Ring[]): Ring[] | null {
+  const course = body.course ?? [];
+  let startNormal: XY | undefined;
+  let endNormal: XY | undefined;
+  // the river whose last reach is an estuary (and that estuary): flat at the cut, on the original segment's normal
+  const estuary = body.flowTo === undefined ? undefined : bodies.find((b) => b.id === body.flowTo && b.kind === 'estuary' && b.flowFrom === body.id);
+  if (estuary !== undefined && estuary.course !== undefined && estuary.course.length >= 2 && course.length >= 2) endNormal = leftNormal(course[course.length - 2], estuary.course[1]);
+  const from = body.kind === 'estuary' && body.flowFrom !== undefined ? bodies.find((b) => b.id === body.flowFrom) : undefined;
+  if (from !== undefined && from.course !== undefined && from.course.length >= 2 && course.length >= 2) startNormal = leftNormal(from.course[from.course.length - 2], course[1]);
+  const startCap: Cap = chain.startOut || startNormal !== undefined ? 'flat' : 'round';
+  const endCap: Cap = chain.endOut || endNormal !== undefined ? 'flat' : 'round';
+  const raw = chain.joined
+    ? mouthRing(simple.pts, simple.half, startCap, covered)
+    : offsetRing(simple.pts, simple.half, [startCap, endCap], { ...(startNormal !== undefined ? { start: startNormal } : {}), ...(endNormal !== undefined ? { end: endNormal } : {}) });
+  if (raw === null) return null;
+  const ring = snapRing(clipToArena(raw, reach));
+  if (ring === null || !isSimple(ring) || !clearOf(ring, covered)) return null;
+  return [ring];
 }
 
 /** Warnings folded by code (counts summed), in first-seen order. */

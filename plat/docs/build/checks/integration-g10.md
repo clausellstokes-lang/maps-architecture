@@ -6,7 +6,7 @@ busy.** None of the four group items' files has to change.
 **The seat.** This seat is Opus 5.5 in Claude Code on the owner's Windows PC. The machine check printed
 `wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib` and the Node version is 24.12.0. The seat is independent
 of the four items' authors, fixers and checkers. It changed no file of any item and ran no git command. Its ledger row
-is **L-0222** (see `plat/CLEAN-ROOM.md`). It ran from 07:31 to __END__. The probes and logs are in
+is **L-0222** (see `plat/CLEAN-ROOM.md`). It ran from 07:31 to 08:12. The probes and logs are in
 `~/maps-scratch/waves/integration-g10/` (logs in `logs/`).
 
 **Busy state.** The brief lists no busy item. During this check, `build/M0-x-02` (layout `pipeline/`), `build/M0-e-03`
@@ -37,9 +37,9 @@ test support (testkit `test/kernel/io/support.ts`'s `cityArena`, `indexConfigOf`
 | `corepack pnpm lint` (with `probe-red`) | exit 0. eslint checked 745 files with 0 errors and 0 warnings; `lint: probe-red ok`. |
 | `corepack pnpm build` | exit 0 |
 | `landed:verify -- flow-7 --item` M0-a-16 / M0-b-02 / M0-d-05b / M0-a-15 | ok, 1 record each (every record names flow-7). |
-| near, full strength (PLAT_FUZZ_RUNS unset, W=3, 07:33–07:39): `kernel/test/facade/`, `layout/test/infill/planner/`, `model/test/match/`, `kernel/test/io/`, `testkit/test/kernel/io/` | 30/31 files and 367/368 tests passed. The one red is `kernel/test/io/roundtrip.test.ts` › "random batch arenas (default mix)": "Test timed out in 5000ms" (5123 ms) under a load average near 10. __REPLAY__ |
+| near, full strength (PLAT_FUZZ_RUNS unset, W=3, 07:33–07:39): `kernel/test/facade/`, `layout/test/infill/planner/`, `model/test/match/`, `kernel/test/io/`, `testkit/test/kernel/io/` | 30/31 files and 367/368 tests passed. The one red is `kernel/test/io/roundtrip.test.ts` › "random batch arenas (default mix)": "Test timed out in 5000ms" (5123 ms) under a load average near 10. Replayed alone at 08:09 (W=1), the file passes 7/7 (`logs/replay.log`), and it also passed inside the whole run. This is a load timeout (N-1), not a red of the item. |
 | related at PLAT_FUZZ_RUNS=1000 over the union of the group's 26 changed source files (M0-a-16's six `facade/` files, M0-a-15's seven `io/` files, M0-b-02's `planner.ts` and `sides.ts`, M0-d-05b's eleven `match/` files; W=6, 07:51–07:57) | 133/138 files and 2103/2110 tests passed. None of the 7 reds is a group file or on a path a group item changed. 3 are `layout/test/pipeline/core/{order,runner}.test.ts`: M0-x-02, being built (lane log 07:52–07:58). 1 is `site/test/terrain/range.test.ts`, which names `water/outfalls.ts`, an untracked file of M0-e-03, being built. 2 are the testkit agreements `agreement-buffer` / `agreement-faces` (insertChain's N-43 refusal, M0-a-05; the same reds as integration g8 N-6 and g9 N-1). These are notes for the session (N-2), not the group's. |
-| whole suite once at reduced strength (J194: `PLAT_FUZZ_RUNS=1000 corepack pnpm test`, W=4, from 07:59) | __WHOLE__ |
+| whole suite once at reduced strength (J194: `PLAT_FUZZ_RUNS=1000 corepack pnpm test`, W=4, from 07:59) | 286/294 files and 3863/3880 tests passed (08:00–08:09). None of the 17 reds is in a group file. 14 are the J176 bench Mac-reference reds, in exactly the five files the brief names (calibrate 3, host 2, contention 4, harness 3, sampler 2), each failing for a Mac reason (`Apple M1`, Rosetta, `launchd`, pmset/battery). 1 is `site/test/terrain/range.test.ts` (M0-e-03's in-flight `water/outfalls.ts`), and 2 are the testkit agreements on insertChain's N-43 (M0-a-05). These are N-2, notes for the session. The layout pipeline reds of the related run are gone, because M0-x-02 finished between the two runs. `kernel/test/io/roundtrip.test.ts` passed. |
 
 ## Composition probes
 
@@ -166,7 +166,7 @@ save/load.
 
 ## Notes (not blockers)
 
-- **N-1 (the near red is a load timeout).** __REPLAYNOTE__
+- **N-1 (the near red is a load timeout).** `kernel/test/io/roundtrip.test.ts` › random batch arenas (default mix) hit vitest's 5 s default under a load average near 10 in the near run. It passed alone (7/7) and in the whole run. This is the same load timeout as integration g8's N-7 and g9's N-5. A test-level timeout (as M0-d-05b's N-3 suggests for its own property test) would end it; that is M0-a-15's to add at its next touch, or M4's.
 - **N-2 (foreign reds in the related and whole runs).** The reds are in M0-x-02's `layout/test/pipeline/core/`
   (being built), in M0-e-03's `site` water `outfalls.ts` (`site/test/terrain/range.test.ts`, being built), and the
   testkit agreements on insertChain's N-43 (M0-a-05, `check/M0-a-05-close-s6` running). No group file is on their

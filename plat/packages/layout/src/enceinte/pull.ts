@@ -1,21 +1,23 @@
 // Pull and pin, smooth (§4.4 S5a *Trace* (2), (3); M0-c-02; readings C-0224 (3), (4)).
 //
 // The pull: the boundary is pulled to defensible ground within the search band (walls.json `trace/searchBandM`, 40 m)
-// by a cost-surface path around the town — each vertex may move along its outward normal by a whole step of the band
-// (an eighth of it) in either direction, the pinned vertices (the gates; C-0087's bank points) never; the path through
-// the candidates of least summed cost wins, ties broken by the least summed change of offset between neighbours and
-// then the least summed offset, so on a cost surface that does not vary along the normals (a flat site) the pull is
-// the identity but for the pins (C-0224 (3)). A candidate inside the water or a reservation is barred. The base's
-// cost surface is the terrain's — lower ground costs more, §4.4's "penalty for leaving high ground".
+// by a cost-surface path around the town — each vertex may move along its outward normal by whole steps, an eighth of
+// the band less the attraction distance, in either direction; the pinned vertices (the gates; C-0087's bank points)
+// never move. The path through the candidates of least summed cost wins — its offset changing between neighbours by at
+// most their distance apart, so it leaves the boundary at 45° at the most and approaches a pin by a ramp, never a
+// spike — ties broken by the least summed change of offset and then the least summed offset, so on a cost surface that
+// does not vary along the normals (a flat site) the pull is the identity but for the pins (C-0224 (3)). A candidate
+// inside the water or a reservation is barred. The base's cost surface is the terrain's — lower ground costs more,
+// §4.4's "penalty for leaving high ground".
 //
 // The smoothing: `smoothPasses` (walls.json `trace/smoothPasses`, 3) passes of the kernel's pinned-vertex Laplacian
 // (λ ½), the pins never moving; a vertex a pass would carry out of the band, into the water or into a reservation keeps
 // its place for that pass (§4.4 (3): "no vertex moved where its line … would take a shape" the laws do not admit;
-// C-0224 (4)). The result is rounded to the lattice.
+// C-0224 (4)); the band less the attraction distance, as the pull's. The result is rounded to the lattice.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
-import { dist, distToRing, inside, lat, unitOf } from './plane.js';
+import { dist, distToRing, inside, lat, TOUCH_CM, unitOf } from './plane.js';
 import type { CostField, XY } from './types.js';
 
 /** The pull's candidate offsets on each side: the band in this many steps (an eighth of 40 m: 5 m). */
@@ -77,7 +79,9 @@ function better(a: Label, b: Label): boolean {
 export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[]): Pulled {
   const n = ring.length;
   const K = 2 * PULL_STEPS + 1;
-  const step = quot(bandCm, PULL_STEPS, 'count', 'pull step');
+  // The candidates reach the band less the attraction distance, so the line stays within the band after the lattice's
+  // rounding and the insertion's attraction (§3.6) move a vertex (C-0224 (3)).
+  const step = quot(Math.max(0, bandCm - TOUCH_CM), PULL_STEPS, 'count', 'pull step');
   const normals = outwardNormals(ring);
   // Node costs: the cost of standing at the candidate less the cost at the boundary vertex itself (+∞ barred).
   const node = new Float64Array(n * K);
@@ -99,6 +103,10 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
       node[i * K + j] = !Number.isFinite(c) || !Number.isFinite(base) || barred.some((r) => inside(r, q)) ? Infinity : c - base;
     }
   }
+  // The path's slope: between a vertex and the one before it the offset changes by at most the side's length (the pulled
+  // path leaves the boundary at 45° at the most, so a pinned vertex is approached by a ramp, never a spike).
+  const reach = new Float64Array(n);
+  for (let i = 0; i < n; i += 1) reach[i] = dist(ring[i === 0 ? n - 1 : i - 1], ring[i]) + 1e-6;
   // The cycle is opened at a pinned vertex when there is one (its offset is 0); otherwise every start offset is tried.
   let start = -1;
   for (let i = 0; i < n && start < 0; i += 1) if (pinned[i] === 1) start = i;
@@ -120,7 +128,7 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
         if (Number.isFinite(nc)) {
           for (let h = 0; h < K; h += 1) {
             const pl = lab[(r - 1) * K + h];
-            if (!Number.isFinite(pl.c)) continue;
+            if (!Number.isFinite(pl.c) || Math.abs(j - h) * step > reach[i]) continue;
             const cand: Label = { c: pl.c + nc, s: pl.s + Math.abs(j - h), o: pl.o + Math.abs(j - PULL_STEPS) };
             if (arg < 0 || better(cand, best)) {
               best = cand;
@@ -137,7 +145,7 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
     let endLabel: Label = { c: Infinity, s: 0, o: 0 };
     for (let j = 0; j < K; j += 1) {
       const l = lab[(n - 1) * K + j];
-      if (!Number.isFinite(l.c)) continue;
+      if (!Number.isFinite(l.c) || Math.abs(j - j0) * step > reach[at]) continue;
       const cand: Label = { c: l.c, s: l.s + Math.abs(j - j0), o: l.o };
       if (endJ < 0 || better(cand, endLabel)) {
         endLabel = cand;
@@ -189,7 +197,7 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
       if (pinned[i] === 1) continue;
       const q = next[i];
       if (dist(q, cur[i]) === 0) continue;
-      if (distToRing(q, ring0) > bandCm || barred.some((b) => inside(b, q))) next[i] = cur[i];
+      if (distToRing(q, ring0) > bandCm - TOUCH_CM || barred.some((b) => inside(b, q))) next[i] = cur[i];
     }
     cur = next;
   }

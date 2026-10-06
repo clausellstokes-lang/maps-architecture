@@ -14,7 +14,7 @@
 // of every other body's polygon. Within a window the candidates rank by span, then nearness to the window's middle,
 // then course order; the windows are served narrowest first (then reach order, then window order), each taking its
 // first candidate that keeps `minSpacingCm` from every deck taken and every existing deck (segment to segment). End 0 is
-// the left bank looking downstream. A site is a `ford` when its span is below `fordMaxWidthCm`.
+// the left bank looking downstream. A site is a `ford` when the reach's width there (its width profile) is below `fordMaxWidthCm`.
 import type { Cm } from '@plat/model';
 import type { LatticePoint } from '@plat/kernel';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
@@ -79,7 +79,7 @@ function candidates(reaches: readonly WaterReach[], ri: number, bandCm: number, 
     const window = Math.floor(quot(s, bandCm));
     const site: CrossingSite = {
       water: r.body.id,
-      type: span < opts.fordMaxWidthCm ? 'ford' : 'bridge_site',
+      type: w < opts.fordMaxWidthCm ? 'ford' : 'bridge_site',
       deck: [a, b],
       spanCm: Math.round(span),
       arcCm: Math.round(s),

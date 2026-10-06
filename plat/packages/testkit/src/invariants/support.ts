@@ -73,7 +73,7 @@ export function layFrame(p: Plat, ring: readonly LatticePoint[]): void {
   const k = kernelOn([p]);
   const rows: [Level, string][] = [[0, 'margin'], [1, 'border'], [2, 'kerb']];
   for (const [level, role] of rows) {
-    const r = k.tx(spec(level), (o) => k.geom.insertChain(o, ring, [{ role, entity: `${FRAME_ENTITY}${role}` }], 'mandatory', { closed: true }));
+    const r = k.tx(spec(level, { key: p.key }), (o) => k.geom.insertChain(o, ring, [{ role, entity: `${FRAME_ENTITY}${role}` }], 'mandatory', { closed: true }));
     if (!r.ok) throw new Error(`runner: the frame's L${String(level)} ring was refused ${r.code} ${r.detail}`);
   }
 }

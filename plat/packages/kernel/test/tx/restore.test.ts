@@ -578,3 +578,175 @@ describe(`B-1 zigzag property: ${ZCASES} chains crossing one base edge repeatedl
     expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
   }, 600_000);
 });
+
+// ---- the targeted property: crossings on the piece they split only ----------------------------------------------------
+
+type XY = readonly [number, number];
+
+/** The distance from v to the segment a–b when v projects onto it, else Infinity (as the kernel's on-run test reads). */
+function segmentDistance(v: XY, a: XY, b: XY): number {
+  const dx = b[0] - a[0];
+  const dy = b[1] - a[1];
+  const l2 = dx * dx + dy * dy;
+  const dot = (v[0] - a[0]) * dx + (v[1] - a[1]) * dy;
+  if (l2 === 0 || dot < 0 || dot > l2) return Infinity;
+  return Math.abs(dx * (v[1] - a[1]) - dy * (v[0] - a[0])) / Math.sqrt(l2);
+}
+
+/**
+ * The crossings a same-level chain makes with ONE base edge S–E, as a test-side model of insertion: each chain segment in
+ * order meets the edge's current pieces, each crossing rounded to the nearest lattice point and splitting the piece it
+ * lies on (case 817's four crossings and their pieces come out exactly). Returns each crossing with its stretch
+ * neighbours at the end and the piece it split.
+ */
+function modelCrossings(S: XY, E: XY, chain: readonly XY[]): { v: XY; prev: XY; next: XY; piece: [XY, XY] }[] | null {
+  const along: XY[] = [S, E];
+  const made: { v: XY; piece: [XY, XY] }[] = [];
+  for (let j = 0; j + 1 < chain.length; j++) {
+    const a = chain[j];
+    const b = chain[j + 1];
+    const hits: { t: number; q: XY }[] = [];
+    for (let i = 0; i + 1 < along.length; i++) {
+      const c = along[i];
+      const d = along[i + 1];
+      const den = (b[0] - a[0]) * (d[1] - c[1]) - (b[1] - a[1]) * (d[0] - c[0]);
+      if (den === 0) continue;
+      const t = ((c[0] - a[0]) * (d[1] - c[1]) - (c[1] - a[1]) * (d[0] - c[0])) / den;
+      const u = ((c[0] - a[0]) * (b[1] - a[1]) - (c[1] - a[1]) * (b[0] - a[0])) / den;
+      if (t <= 0 || t >= 1 || u <= 0 || u >= 1) continue;
+      hits.push({ t, q: [Math.round(a[0] + t * (b[0] - a[0])), Math.round(a[1] + t * (b[1] - a[1]))] });
+    }
+    hits.sort((x, y) => x.t - y.t);
+    for (const h of hits) {
+      if (along.some((q) => q[0] === h.q[0] && q[1] === h.q[1])) return null; // two crossings on one point: not modelled
+      let i = -1;
+      let best = Infinity;
+      for (let k = 0; k + 1 < along.length; k++) {
+        const dd = segmentDistance(h.q, along[k], along[k + 1]);
+        if (dd < best) {
+          best = dd;
+          i = k;
+        }
+      }
+      if (i < 0) return null;
+      made.push({ v: h.q, piece: [along[i], along[i + 1]] });
+      along.splice(i + 1, 0, h.q);
+    }
+  }
+  return made.map(({ v, piece }) => {
+    const i = along.findIndex((q) => q[0] === v[0] && q[1] === v[1]);
+    return { v, prev: along[i - 1], next: along[i + 1], piece };
+  });
+}
+
+/**
+ * Which reading of the on-run test a crossing needs (HOT = §3.6's 0.71 cm): 'neighbours' or 'ends' (the S2 code's two
+ * readings), 'near-end' (its nearest neighbour on one side, the stretch's end on the other — case 817's piece) or 'inner'
+ * (a piece whose ends are both other crossings, neither its nearest) — or null where no piece of the stretch holds it.
+ */
+function readingNeeded(c: { v: XY; prev: XY; next: XY }, S: XY, E: XY): 'neighbours' | 'ends' | 'near-end' | 'inner' {
+  const HOT = 0.71;
+  if (segmentDistance(c.v, c.prev, c.next) <= HOT) return 'neighbours';
+  if (segmentDistance(c.v, S, E) <= HOT) return 'ends';
+  if (segmentDistance(c.v, c.prev, E) <= HOT || segmentDistance(c.v, S, c.next) <= HOT) return 'near-end';
+  return 'inner';
+}
+
+/**
+ * checks/M0-a-06-s2.md B-1, aimed: crossings that stand within the hot pixel of the piece they split and off both readings
+ * the S2 code had arise about once in 5 000 random zigzags (the rounding must fall just so), too rarely for a PR-size
+ * draw to meet. So the candidates — a 3-point base across the frame at L0 – L3 and a zigzag of 3 – 6 points at the same
+ * level, probe-double.mts's shape — are screened by the test-side model above (no kernel call) until a crossing needs
+ * a reading other than the neighbours' or the ends'; each one kept is inserted, checked to have made the modelled
+ * crossings, and removed by a later batch (30 % coarser). Quotas: `HARD` cases needing 'near-end' or 'inner', and at
+ * least `INNER` needing 'inner' (rarer still, ~1 in 100 000 candidates).
+ */
+const HARD = Math.max(12, Math.floor(RUNS / 500));
+const INNER = Math.max(2, Math.floor(RUNS / 5000));
+
+describe(`B-1 targeted property: ${HARD} chains whose crossings lie only on the piece they split, removed, restore the arena`, () => {
+  it('every kept case restores the records per level, the encoded chunk refs, the level digests and the content print', () => {
+    const tally = { candidates: 0, nearEnd: 0, inner: 0, realised: 0, refused: 0, sharedEnd: 0, exact: 0, coarserBatch: 0 };
+    const clamp = (x: number): number => Math.max(120, Math.min(3880, Math.round(x)));
+    const r = rng(0x5eed_b1);
+    const cap = Math.max(4_000_000, RUNS * 400);
+    while ((tally.nearEnd + tally.inner < HARD || tally.inner < INNER) && tally.candidates < cap) {
+      tally.candidates++;
+      const y0 = 300 + Math.floor(r() * 3400);
+      const y1 = 300 + Math.floor(r() * 3400);
+      const ym = 300 + Math.floor(r() * 3400);
+      const xm = 800 + Math.floor(r() * 2400);
+      const yAt = (x: number): number => (x <= xm ? y0 + ((ym - y0) * x) / xm : ym + ((y1 - ym) * (x - xm)) / (4000 - xm));
+      const n = 3 + Math.floor(r() * 4);
+      const sign = r() < 0.5 ? 1 : -1;
+      const chain: XY[] = [];
+      let x = 200 + Math.floor(r() * 1200);
+      for (let i = 0; i < n; i++) {
+        const d = 30 + Math.floor(r() * 700);
+        chain.push([clamp(x), clamp(yAt(x) + sign * (i % 2 === 0 ? 1 : -1) * d)]);
+        x += 150 + Math.floor(r() * 700);
+        if (x > 3850) x = 3850 - Math.floor(r() * 2000);
+      }
+      const base: XY[] = [[0, y0], [xm, ym], [4000, y1]];
+      let need: 'near-end' | 'inner' | null = null;
+      const crossings: XY[] = [];
+      let modelled = true;
+      for (const [S, E] of [[base[0], base[1]], [base[1], base[2]]] as [XY, XY][]) {
+        const cs = modelCrossings(S, E, chain);
+        if (cs === null) {
+          modelled = false;
+          break;
+        }
+        for (const c of cs) {
+          crossings.push(c.v);
+          const k = readingNeeded(c, S, E);
+          if (k === 'inner') need = 'inner';
+          else if (k === 'near-end' && need === null) need = 'near-end';
+        }
+      }
+      if (!modelled || need === null) continue;
+      if (need === 'near-end' && tally.nearEnd + tally.inner >= HARD) continue;
+      // A kept candidate: build it in the kernel at one level, every lattice decision drawn from the case's own stream.
+      const q = rng(tally.candidates);
+      const level = Math.floor(q() * 4) as Level;
+      const removeAt = (q() < 0.3 ? Math.floor(q() * (level + 1)) : level) as Level;
+      const role = roleAt(level);
+      const p = framed();
+      commit(p, level, (o) => insertChain(o, base.map(([u, w]) => pt(u, w)), [{ role, entity: 'base:0' }], 'mandatory'), { rederivesFrom: 0 as never });
+      const before = snapshot(p);
+      const folded = holdsDissolvable(p);
+      const a = tx(p, spec(level, { rederivesFrom: 0 as never }), (o) => insertChain(o, chain.map(([u, w]) => pt(u, w)), [{ role, entity: 'x:1' }], 'mandatory'));
+      if (!a.ok) {
+        tally.refused++;
+        continue;
+      }
+      if (need === 'inner') tally.inner++;
+      else tally.nearEnd++;
+      // The kernel made the modelled crossings (each a vertex where the model put it).
+      if (crossings.every(([u, w]) => vertexAtPoint(p, u, w) >= 0)) tally.realised++;
+      if (removeAt < level) tally.coarserBatch++;
+      const shared = (a.value.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED');
+      commit(p, removeAt, (o) => removeEdges(o, { role, entity: 'x:1' }), { rederivesFrom: 0 as never });
+      healthy(p);
+      const after = snapshot(p);
+      const what = `candidate ${tally.candidates} (${need}; L${level} at L${removeAt}; base ${JSON.stringify(base)}, chain ${JSON.stringify(chain)})`;
+      expect(after.faces, `${what}: live records per level`).toEqual(before.faces);
+      if ((shared || folded) && after.refs !== before.refs) {
+        tally.sharedEnd++; // C-0219 (4) / C-0223 (5): counted, not judged
+        continue;
+      }
+      expect(after.refs, `${what}: encoded chunk refs`).toBe(before.refs);
+      expect(after.digests, `${what}: level digests`).toBe(before.digests);
+      expect(canonPrint(after.print), `${what}: content print`).toBe(canonPrint(before.print));
+      if (after.print === before.print) tally.exact++;
+    }
+    console.info(`B-1 targeted property: ${JSON.stringify({ HARD, INNER, ...tally })}`);
+    // Not vacuous: the quotas met, the model right about the kernel's crossings in most kept cases.
+    expect(tally.nearEnd + tally.inner).toBeGreaterThanOrEqual(HARD);
+    expect(tally.inner).toBeGreaterThanOrEqual(INNER);
+    // (The model ignores attraction and hot pixels of other vertices, so some kept cases place a crossing elsewhere: 18
+    // of 22 at the PR size, 163 of 211 at 10⁵ runs; those are still judged.)
+    expect(tally.realised).toBeGreaterThanOrEqual(0.6 * (tally.nearEnd + tally.inner));
+    expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, (tally.nearEnd + tally.inner) / 50));
+  }, 600_000);
+});

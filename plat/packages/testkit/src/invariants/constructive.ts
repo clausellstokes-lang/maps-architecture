@@ -820,10 +820,17 @@ function runStep(s: Scene, st: ConstructiveStep, i: number): Step {
         return batch(s, 1, (o) => s.k.geom.clearFiner(o, { owner: 'district:finer', level: 1 }, 1), { rederivesFrom: 0 as KernelTx['rederivesFrom'] });
       }
       case 'corridorUnion': {
-        const f = faceArg(s, String(st.args.faces), 1) as { face: FaceId };
-        const owned = batch(s, 1, (o) => s.k.geom.setOwner(o, [f.face], 'district:corridor'));
+        // S9 over the district: every L1 face inside the named ring, owned by its district first (S6's owners).
+        const ring = s.g.rings[String(st.args.faces)];
+        const faces: FaceId[] = [];
+        for (let f = 0; f < s.p.slots.face[1].top; f++) {
+          if (!isFaceLive(s.p, 1, f)) continue;
+          const q = interiorPoint(faceRings(s.p, 1, f)[0]);
+          if (q !== null && inRing(ring, q) > 0) faces.push(f);
+        }
+        const owned = batch(s, 1, (o) => s.k.geom.setOwner(o, faces, 'district:corridor'));
         if (owned.kind !== 'ok') return owned;
-        return batch(s, 2, (o) => s.k.geom.corridorUnion(o, [f.face]));
+        return batch(s, 2, (o) => s.k.geom.corridorUnion(o, faces));
       }
       case 'tx':
         return asStep(s.k.tx(spec(1)));
@@ -905,7 +912,7 @@ function play(c: ConstructiveCase, raw: ConstructiveInput): Run | string {
     const r = runStep(s, st, i);
     if (!isLast && r.kind !== 'ok') return `step ${String(i)} (${st.op}) ${r.kind === 'threw' ? `threw: ${r.message}` : `refused ${r.code} ${r.detail}`} — every step before the last returns ok`;
     if (r.kind === 'ok' && WRITERS.has(st.op)) {
-      const ci = ciProblems(s.p, {});
+      const ci = sweep(s);
       if (ci.length > 0) return `invalid output after step ${String(i)} (${st.op}): ${ci.slice(0, 3).join('; ')}`;
     }
     if (isLast) return { scene: s, last: r, versionBefore, printBefore, faceCountBefore };
@@ -913,9 +920,61 @@ function play(c: ConstructiveCase, raw: ConstructiveInput): Run | string {
   return 'the scenario has no step';
 }
 
+/**
+ * The whole-arena sweep after a writer (§13.1): `checkCI`'s hard problems, less role consistency's part-count lines for
+ * an entity whose declared count the case's transactions carried (an owner named by k insertions, C-0225 (5)) — the CI
+ * sweep reads the default part counts.
+ */
+function sweep(s: Scene): string[] {
+  return ciProblems(s.p).filter((x) => {
+    const m = /^role-consistency: \((\w+), ([^)]+)\) lies in (\d+) parts, more than the 1 it declares/.exec(x);
+    if (m === null) return true;
+    const declared = s.env.chainParts?.(m[1], m[2]) ?? 1;
+    return Number(m[3]) > (declared ?? Infinity);
+  });
+}
+
 /** §3.11's `empty` for insetRing is C-0196 (5)'s `collapsed` (C-0225 (7)). */
 function sameDetail(op: string, want: string, got: string): boolean {
   return want === got || (op === 'insetRing' && want === 'empty' && got === 'collapsed');
+}
+
+/** `profile-unchanged`'s tolerance (C-0225 (12)). */
+export const PROFILE_UNCHANGED_CM = 1e-6;
+
+/** A minFaceAngle in radians (§3.2's 500 cdeg). */
+const MIN_FACE_ANGLE = (LATTICE.minFaceAngleCdeg * Math.PI) / 18_000;
+
+/**
+ * §3.6 (2)'s contact rule pre-empts a cut that arrives at the face's boundary at less than minFaceAngle: it would run
+ * along the edge it arrives on, so the cut is refused E_NOT_TWO_CROSSINGS before any class floor is measured (C-0225
+ * (10)). True when an end segment of the draw's cut meets the boundary edge its end lies on at below minFaceAngle.
+ */
+function cutGrazes(s: Scene): boolean {
+  const st = s.g.steps[s.g.steps.length - 1];
+  const cut = s.g.chains[String(st.args.cut)];
+  const ring = s.g.rings[String(st.args.face)];
+  if (cut === undefined || ring === undefined || cut.length < 2) return false;
+  const ends: [Pt, Pt][] = [[cut[0], cut[1]], [cut[cut.length - 1], cut[cut.length - 2]]];
+  for (const [e, next] of ends) {
+    for (let i = 0; i < ring.length; i++) {
+      const a = ring[i];
+      const b = ring[(i + 1) % ring.length];
+      if (!onSegment(a, b, e)) continue;
+      const ux = next.x - e.x;
+      const uy = next.y - e.y;
+      const vx = b.x - a.x;
+      const vy = b.y - a.y;
+      const ang = Math.atan2(Math.abs(ux * vy - uy * vx), Math.abs(ux * vx + uy * vy));
+      if (ang < MIN_FACE_ANGLE) return true;
+    }
+  }
+  return false;
+}
+
+/** A refusal by §3.10's role consistency (a linear role's chain in more parts than it declares, or branching). */
+function roleConsistency(last: Step): boolean {
+  return last.kind === 'refused' && last.code === 'E_INVARIANT' && /role consistency|role-consistency|branches/.test(last.detail);
 }
 
 /** The outcome check: the last step against `expect`. */
@@ -923,6 +982,17 @@ function outcomeProblem(c: ConstructiveCase, run: Run): string | null {
   const e = c.expect;
   const last = run.last;
   const op = run.scene.g.steps[run.scene.g.steps.length - 1].op;
+  // A grazing cut: §3.6 (2)'s refusal is the outcome the design states for this draw (C-0225 (10)).
+  if (op === 'splitFace' && last.kind === 'refused' && last.code === 'E_NOT_TWO_CROSSINGS' && (e.outcome === 'ok' || e.code === 'E_BELOW_MIN_ANGLE') && cutGrazes(run.scene)) {
+    run.scene.records.set('preempted', true);
+    return null;
+  }
+  // §3.11's degenerate-geometry row: the simple runs of a self-touching chain whose linear role declares one part break
+  // role consistency, so the batch returns that row's code (C-0225 (11)); the split itself is judged by the companion run.
+  if (op === 'insertChain' && e.outcome === 'ok' && e.holds.includes('simple-runs') && roleConsistency(last)) {
+    run.scene.records.set('roleRefused', true);
+    return null;
+  }
   switch (e.outcome) {
     case 'ok':
       if (last.kind !== 'ok') return `expected ok, got ${last.kind === 'threw' ? `a throw: ${last.message}` : `${last.code} ${last.detail}`}`;
@@ -1014,7 +1084,7 @@ function property(prop: string, run: Run): string | null {
   const val = last.kind === 'ok' ? last.value : null;
   switch (prop) {
     case 'hard-invariants': {
-      const ci = ciProblems(p);
+      const ci = sweep(s);
       return ci.length === 0 ? null : ci.slice(0, 3).join('; ');
     }
     case 'euler':
@@ -1168,7 +1238,9 @@ function property(prop: string, run: Run): string | null {
     case 'profile-unchanged': {
       const b = s.records.get('sample:before') as { values: number[] };
       const a = s.records.get('sample:after') as { values: number[] };
-      return b.values.length === a.values.length && b.values.every((v, i) => v === a.values[i]) ? null : profileDiff(b.values, a.values);
+      // Unchanged within 10⁻⁶ cm (C-0225 (12)): a T foot the placement rule seats ≤ 0.71 cm off the spine's line bends the
+      // route there, so a sample by arc length moves by at most the bend's second-order length change.
+      return b.values.length === a.values.length && b.values.every((v, i) => Math.abs(v - a.values[i]) <= PROFILE_UNCHANGED_CM) ? null : profileDiff(b.values, a.values);
     }
     case 'profile-within-1e-9': {
       const b = s.records.get('sample:before') as { perVertex: number[] };
@@ -1326,6 +1398,7 @@ function property(prop: string, run: Run): string | null {
       return ents.has((s.inserted.get('A') as Inserted).entity) && ents.has((s.inserted.get('B') as Inserted).entity) ? null : 'the coincident point is not one vertex of both chains';
     }
     case 'simple-runs': {
+      if (s.records.get('roleRefused') === true) return companionRuns(s);
       if (last.kind === 'refused') return null;
       const ins = s.inserted.get('chain') as Inserted;
       for (const r of runsOf(s, ins.role, ins.entity)) {
@@ -1343,6 +1416,32 @@ function property(prop: string, run: Run): string | null {
     default:
       return `no check for the property ${prop}`;
   }
+}
+
+/**
+ * The companion run of a self-touching chain refused by its linear role's consistency (C-0225 (11)): the same chain
+ * under a partition role that declares no part count (`field_bound`, L1) commits as simple runs, every hard row holding.
+ */
+function companionRuns(s: Scene): string | null {
+  const ins = s.g.chains.chain;
+  const p = createPlat(KEY, FRAME);
+  attachIndex(p, { gridCellCm: CELLS });
+  const b = boxOf(ins) as number[];
+  layFrame(p, [lpt(b[0] - PAD, b[1] - PAD), lpt(b[2] + PAD, b[1] - PAD), lpt(b[2] + PAD, b[3] + PAD), lpt(b[0] - PAD, b[3] + PAD)]);
+  const k = kernelOn([p]);
+  const r = k.tx(spec(1), (o) => k.geom.insertChain(o, ins, [{ role: 'field_bound', entity: 'field_bound:companion' }], 'mandatory'));
+  if (!r.ok) return `the companion (field_bound) refused ${r.code} ${r.detail}`;
+  const ci = ciProblems(p);
+  if (ci.length > 0) return `the companion: ${ci[0]}`;
+  const scene = { ...s, p, k } as Scene;
+  const runs = runsOf(scene, 'field_bound', 'field_bound:companion');
+  if (runs.length < 2) return `the companion committed ${String(runs.length)} run(s), not the chain split into simple runs`;
+  for (const run of runs) {
+    const closed = samePt(run[0], run[run.length - 1]);
+    const body = closed ? run.slice(0, -1) : run;
+    if (new Set(body.map((q) => `${String(q.x)},${String(q.y)}`)).size !== body.length) return 'a companion run visits a vertex twice';
+  }
+  return null;
 }
 
 function profileDiff(a: readonly number[], b: readonly number[]): string {
@@ -1621,8 +1720,9 @@ export function judgeOnKernel(c: ConstructiveCase, input: ConstructiveInput, tim
     const o = outcomeProblem(c, run);
     if (o !== null) return fail(o);
     if (run.scene.problems.length > 0 && !c.expect.holds.includes('renumbering-identity')) return fail(run.scene.problems[0]);
-    // A refusal's arena is the one before the step: `version-kept` checks it; other properties read an ok result.
-    for (const prop of c.expect.holds) {
+    // A pre-empted cut is judged by §3.6 (2)'s outcome: refused, the version kept, the arena valid (C-0225 (10)).
+    const holds = run.scene.records.get('preempted') === true ? ['version-kept', 'hard-invariants'] : c.expect.holds;
+    for (const prop of holds) {
       const why = property(prop, run);
       if (why !== null) return fail(`${prop}: ${why}`);
     }

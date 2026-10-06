@@ -10,5 +10,5 @@ export { defectOf, placePins, reoffset, unionOuter } from './rungs.js';
 export { crossWater, waterGates, waterRings, type WaterCrossing, type WaterRing } from './water.js';
 export { baseEnceinte, ENCEINTE_STRATEGY_ID, stripOwner, traceBase, wallCells, type WallCells } from './trace.js';
 export { layStrips, stripWidths, traceLine, type LayStripsOptions } from './strips.js';
-export { commitOuterRing, commitS3Batch, commitS3Slice, outerRing, PLAZA_ID, siteContext, type CommitOptions, type S3Batch, type S3Commit } from './commit.js';
+export { commitOuterRing, commitS3Batch, commitS3Slice, outerRing, PLAZA_ID, siteContext, WAY_SPAN_NODES, type CommitOptions, type S3Batch, type S3Commit } from './commit.js';
 export { departure, selfTouches, TOUCH_CM } from './plane.js';
