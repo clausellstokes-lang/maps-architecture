@@ -18,7 +18,7 @@ import { chainJournal, FIDELITY_SQ, inInputBound, type ChainCtx } from '../../..
 import type { Cm, Level } from '../../../src/types/index.js';
 import { GROUND } from '../../arena/support.js';
 import type { ArenaSpec } from '../step1-2/support.js';
-import { MEASURED_PER_1E4, poissonCap, refusalCap } from './caps.js';
+import { capPer1e4, MEASURED_COUNT, MEASURED_PER_1E4, poissonCap, refusalCap } from './caps.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, indexed, ins, pt, TIMEOUT, tx } from './support.js';
 
@@ -225,7 +225,7 @@ describe('N-44 (4): S5\'s residual register (register/s5-register.json) — one 
   }
 });
 
-describe('N-44 (3) as J207 / J208 apply it (caps.ts, C-0217): each property\'s cap is its measured residual plus seed noise', () => {
+describe('N-44 (3) as J207 / J208 apply it, N-46 (3) – (4) (caps.ts, C-0217, C-0220): each property\'s cap is N-46\'s cap per family plus one run\'s noise', () => {
   it('poissonCap is the 99.9 % point of a Poisson count, at least 1', () => {
     expect(poissonCap(0)).toBe(1);
     expect(poissonCap(0.1)).toBe(2);
@@ -233,12 +233,18 @@ describe('N-44 (3) as J207 / J208 apply it (caps.ts, C-0217): each property\'s c
     expect(poissonCap(10)).toBe(21);
   });
 
-  it('the caps at the PR size are 7 (random), 4 (constructive), 8 (mandatory-only) and 4 (the fidelity property), each above the most any of the 31 measured seeds refused (6, 2, 6, 2); 2, 2, 3 and 1 at 10³; 227, 87, 259 and 67 nightly', () => {
+  it('N-46 (4)\'s cap per 10⁴ is the measured rate plus 3 · √count on the 31 seeds: 4.45 (random), 2.14 (constructive), 2.26 (mandatory-only), 0.26 (fidelity)', () => {
     const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
-    expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([7, 4, 8, 4]);
-    expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([2, 2, 3, 1]);
-    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([227, 87, 259, 67]);
-    const most = [6, 2, 6, 2];
+    expect(fams.map((f) => Math.round(capPer1e4(f) * 100) / 100)).toEqual([4.45, 2.14, 2.26, 0.26]);
+    for (const f of fams) expect(MEASURED_PER_1E4[f]).toBe(MEASURED_COUNT[f] / 31);
+  });
+
+  it('the caps at the PR size are 12 (random), 8 (constructive), 8 (mandatory-only) and 3 (the fidelity property), each above the most any of the 31 measured seeds refused (9, 3, 4, 2); 4, 3, 3 and 1 at 10³; 512, 261, 274 and 44 nightly', () => {
+    const fams = ['random', 'constructive', 'mandatory', 'fidelity'] as const;
+    expect(fams.map((f) => refusalCap(f, 10_000))).toEqual([12, 8, 8, 3]);
+    expect(fams.map((f) => refusalCap(f, 1_000))).toEqual([4, 3, 3, 1]);
+    expect(fams.map((f) => refusalCap(f, 1_000_000))).toEqual([512, 261, 274, 44]);
+    const most = [9, 3, 4, 2];
     fams.forEach((f, i) => expect(refusalCap(f, 10_000)).toBeGreaterThan(most[i]));
     // The target stays 1 per 10⁴ (KI-1): every measured mean is above it, none is below 0.
     for (const f of fams) expect(MEASURED_PER_1E4[f]).toBeGreaterThan(0);

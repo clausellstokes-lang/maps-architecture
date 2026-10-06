@@ -4,12 +4,13 @@
 // after another into one arena, crossing and grazing each other at every angle in a small square, then a mandatory
 // polyline across them — each commit judged by fidelity.ts's two halves (every route vertex within 2 · √2 · attractCm of
 // a segment the op routed; every routed segment within it of the chain's edges), the arena valid after each, a refusal
-// E_INVARIANT writing nothing and counted, within the property's cap — S5's measured residual plus seed noise (caps.ts;
-// N-44 (3) as J207 / J208 apply it, C-0217).
+// E_INVARIANT writing nothing and counted (`countedRefusal`, N-46 (3): its chains are mandatory, so E_INVARIANT is the
+// only bound-caused code here), within the property's cap — N-46 (4)'s cap from S6's measured residual plus one run's
+// noise (caps.ts; N-44 (3) as J207 / J208 apply it, C-0217, C-0220).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Level } from '../../../src/types/index.js';
-import { refusalCap } from './caps.js';
+import { countedRefusal, recordCounts, refusalCap } from './caps.js';
 import { fidelityProblems } from './fidelity.js';
 import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
@@ -43,7 +44,7 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
             commits += 1;
             expect(fidelityProblems(p, level, 'mandatory', c, {}, r.value.placed, entity)).toEqual([]);
           } else {
-            if (r.code === 'E_INVARIANT') invariant += 1;
+            if (countedRefusal(r.code, r.detail)) invariant += 1;
             else other.set(r.code, (other.get(r.code) ?? 0) + 1);
             expect(['E_INVARIANT', 'E_DEGENERATE', 'E_KEPT']).toContain(r.code);
             expect(contentPrint(p)).toBe(before);
@@ -54,6 +55,7 @@ describe('N-43 B: the fidelity bound on overlay-like mandatory chains (a propert
       }),
     );
     console.log(`fidelity property: ${commits} committed; E_INVARIANT ${invariant} (cap ${CAP}); ${[...other].map(([c, n]) => `${c} ${n}`).join(', ')}`);
+    recordCounts('fidelity', RUNS, invariant, 0, CAP);
     expect(commits).toBeGreaterThan(0);
     expect(invariant, 'chains refused E_INVARIANT (N-44 (3): the property\'s cap, caps.ts)').toBeLessThanOrEqual(CAP);
   }, Math.max(TIMEOUT, RUNS * 40));

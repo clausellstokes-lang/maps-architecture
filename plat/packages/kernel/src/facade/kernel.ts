@@ -1,6 +1,6 @@
 // createKernel — the façade the stages see (M0-a-16; §14 `interface Kernel`: plat, view, resolve, geom, index, tx;
 // §3.4's complete list on `geom`; §3.3 *Two op forms*; §3.4 *Arenas, keys and services*; §6.1 / §14 `Rng.stream`;
-// C-0041, C-0078, C-0089, C-0112; readings C-0219).
+// C-0041, C-0078, C-0089, C-0112; readings C-0220).
 //
 // Doc-less at M0: the kernel is handed a map of PlatKey → Plat (the document that owns the arenas is M1's, §4b) and the
 // services a transaction is injected with (`TxEnv`: class floors, checks, stage ranks, the repairer, the invariant
@@ -84,7 +84,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
   const widths = options.spineWidths;
   /**
    * The transactions this kernel has open, innermost last: each its overlay (set when its first op or its callback
-   * runs) and the values its ops returned, which the commit re-stamps (C-0219 (3)).
+   * runs) and the values its ops returned, which the commit re-stamps (C-0220 (3)).
    */
   const frames: { o: Overlay | null; readonly stamped: object[] }[] = [];
 
@@ -310,7 +310,7 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     } finally {
       frames.pop();
       // The batch's values: current at the version it committed (or kept, when it wrote nothing); never current when
-      // it was rejected or threw — the arena is back at its prior version and those slots name nothing (C-0219 (3)).
+      // it was rejected or threw — the arena is back at its prior version and those slots name nothing (C-0220 (3)).
       const at = r !== undefined && r.ok ? { key: p.key, version: p.version } : { key: p.key, version: -1 };
       for (const v of frame.stamped) stampWith(at, v);
     }

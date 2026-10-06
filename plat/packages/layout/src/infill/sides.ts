@@ -117,11 +117,19 @@ export function len(v: XY): number {
   return Math.sqrt(v.x * v.x + v.y * v.y);
 }
 
-/** The unit vector along v, or null for a vector shorter than 1 cm (ratio()'s length floor, §3.2 (8)). */
+/** 2²⁰: a vector is scaled by it before normalising (exact), so ratio()'s 1 cm floor reads any length ≥ 2⁻²⁰. */
+const DIR_SCALE = 1_048_576;
+
+/**
+ * The unit vector along v — v ÷ |v| to the bit, the division through ratio() on v scaled by 2²⁰ (as the kernel's
+ * directions are, M0-a-10) — or null for a vector shorter than 2⁻²⁰ or not finite.
+ */
 export function unit(v: XY): XY | null {
-  const l = len(v);
-  const x = ratio(v.x, l, 'length');
-  const y = ratio(v.y, l, 'length');
+  const s = { x: v.x * DIR_SCALE, y: v.y * DIR_SCALE };
+  const l = len(s);
+  if (!(l < Infinity)) return null;
+  const x = ratio(s.x, l, 'length');
+  const y = ratio(s.y, l, 'length');
   if (!x.ok || !y.ok) return null;
   return { x: x.value, y: y.value };
 }

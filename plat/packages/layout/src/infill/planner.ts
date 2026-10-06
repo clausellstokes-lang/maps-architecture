@@ -678,54 +678,67 @@ export function startOf(sides: FaceSides, frame: WorkingFrame, f: number): Omit<
   return { A: a.point, run, ring: a.ring, normal, other: b.point, otherRun: takeHi ? rLo : rHi };
 }
 
+/** Bisection steps for a foot: the run's length ÷ 2⁶⁰, far below a lattice unit. */
+const FOOT_STEPS = 60;
+
 /**
- * The perpendicular foot from K on a run (§4.6 step 5): the nearest point of the run's own vertices' polyline where
- * K–foot is perpendicular to the segment (the foot strictly inside the run's extent); on a curved run the foot is
- * moved until K–foot is perpendicular to the run's tangent over the ± window (C-0216 (8)). Null when no foot falls
- * inside the run.
+ * The perpendicular foot from K on a run (§4.6 step 5; C-0216 (8)): the point p of the run's own vertices' polyline
+ * where K − p is perpendicular to the run's direction there — its chord, or on a curved run its tangent over the ±
+ * window (*Sides*) — found by bisection on arc length between samples (every vertex and edge midpoint) where
+ * (K − p) · direction changes sign; the root nearest K (ties: the lower arc length). A foot within half a lattice unit
+ * of the run's ends falls outside it. Null when no foot falls inside the run.
  */
 function footOn(sides: FaceSides, r: number, K: XY): { foot: XY; dir: XY } | null {
   const run = sides.runs[r];
   const pts = run.points;
-  let best: XY | null = null;
-  let bestD = Infinity;
+  const total = lineLength(pts);
+  if (!(total > 2 * TOUCH_CM)) return null;
+  const at = (s: number): { p: XY; d: XY; g: number } | null => {
+    const q = pointAtLength(pts, s);
+    if (q === null) return null;
+    const d = sideDir(sides, run, q.p);
+    return { p: q.p, d, g: dot(sub(K, q.p), d) };
+  };
+  const samples: number[] = [];
+  let acc = 0;
   for (let i = 0; i + 1 < pts.length; i += 1) {
-    const n = nearestOnSegment(K, pts[i], pts[i + 1]);
-    const first = i === 0;
-    const last = i + 2 === pts.length;
-    // A foot at a run's own end is outside it; at an inner vertex of a polyline it is the run's.
-    if ((first && n.t <= 0) || (last && n.t >= 1)) continue;
-    if (n.d2 < bestD) {
-      bestD = n.d2;
-      best = n.p;
-    }
+    const l = len(sub(pts[i + 1], pts[i]));
+    samples.push(acc, acc + l / 2);
+    acc += l;
   }
-  if (best === null) return null;
-  let foot = best;
-  let dir = sideDir(sides, run, foot);
-  if (pts.length > 2 && run.spreadCdeg > 0) {
-    // On a curved run: K's perpendicular onto the tangent line at the foot, re-projected onto the run, until it settles.
-    for (let k = 0; k < 16; k += 1) {
-      const onTangent = along(foot, dir, dot(sub(K, foot), dir));
-      let next: XY | null = null;
-      let nd = Infinity;
-      for (let i = 0; i + 1 < pts.length; i += 1) {
-        const n = nearestOnSegment(onTangent, pts[i], pts[i + 1]);
-        if (n.d2 < nd) {
-          nd = n.d2;
-          next = n.p;
-        }
+  samples.push(total);
+  let best: { foot: XY; dir: XY; d2: number } | null = null;
+  let prev = at(samples[0]);
+  for (let i = 1; i < samples.length; i += 1) {
+    const cur = at(samples[i]);
+    if (prev === null || cur === null) {
+      prev = cur;
+      continue;
+    }
+    if (prev.g > 0 !== cur.g > 0) {
+      let lo = samples[i - 1];
+      let hi = samples[i];
+      let gLo = prev.g;
+      for (let k = 0; k < FOOT_STEPS; k += 1) {
+        const mid = (lo + hi) / 2;
+        const m = at(mid);
+        if (m === null) break;
+        if (m.g > 0 === gLo > 0) {
+          lo = mid;
+          gLo = m.g;
+        } else hi = mid;
       }
-      if (next === null) break;
-      const moved = len(sub(next, foot));
-      foot = next;
-      dir = sideDir(sides, run, foot);
-      if (moved < 0.01) break;
+      const s = (lo + hi) / 2;
+      const root = at(s);
+      if (root !== null && s > TOUCH_CM && s < total - TOUCH_CM) {
+        const e = sub(K, root.p);
+        const d2 = dot(e, e);
+        if (best === null || d2 < best.d2) best = { foot: root.p, dir: root.d, d2 };
+      }
     }
-    const ends = [pts[0], pts[pts.length - 1]];
-    for (const e of ends) if (len(sub(foot, e)) < TOUCH_CM) return null;
+    prev = cur;
   }
-  return { foot, dir };
+  return best === null ? null : { foot: best.foot, dir: best.dir };
 }
 
 /**

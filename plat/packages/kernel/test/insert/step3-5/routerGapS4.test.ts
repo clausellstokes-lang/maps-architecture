@@ -132,13 +132,18 @@ describe('insertChain\'s second pass (C-0215): a chain the first pass refuses E_
     expect(allProblems(p)).toEqual([]);
   }, TIMEOUT);
 
-  it('an optional chain whose every route keeping §3.10 leaves the bound is refused for precision, E_BELOW_MIN_EDGE (§3.6 *Chain classes*), writing nothing', () => {
-    const { p, r, before } = replayPass2('optional-out-of-bound');
-    expect(r.ok).toBe(false);
-    if (r.ok) return;
-    expect(r.code).toBe('E_BELOW_MIN_EDGE');
-    expect(r.detail).toContain('fidelity bound');
-    expect(contentPrint(p)).toBe(before);
+  // This optional chain's every route of S4's second pass kept §3.10 only beyond the bound, so S4 and S5 refused it
+  // E_BELOW_MIN_EDGE with detail 'N-43' (§3.6 *Chain classes*; a refusal the bound caused, counted, N-46 (3)). S6
+  // (C-0220) serves such a refusal with the router's further readings as it serves E_INVARIANT: the split route commits
+  // it within the bound, its split points W_PLACED. The class's residue is refused as before (routerGapS6.test.ts).
+  it('an optional chain whose every route of the first readings leaves the bound — refused E_BELOW_MIN_EDGE \'N-43\' by S4 and S5 — commits within the bound on S6\'s split route (C-0220)', () => {
+    const { p, r, c } = replayPass2('optional-out-of-bound');
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    if (!r.ok) return;
+    expect(c.cls).toBe('optional');
+    expect(codes(r)).toEqual([['W_ATTRACTED', 22], ['W_PLACED', 2], ['W_STRETCH_SHARED', 11]]);
+    expect(fidelityProblems(p, c.level, c.cls, c.points, { closed: c.closed }, r.value.placed, 'way:x')).toEqual([]);
+    expect(allProblems(p)).toEqual([]);
   }, TIMEOUT);
 });
 

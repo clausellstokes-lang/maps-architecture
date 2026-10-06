@@ -1,7 +1,7 @@
 // M0-a-16's slot-stamp tests (M0-work.json builds: "slot stamping of every result (key, version) in the debug build";
 // §3.4 *Arenas, keys and services*: every slot a caller holds comes from a result stamped with its ArenaKey and arena
 // version, valid until that arena's next commit, and a debug build asserts the key and the version wherever the slot is
-// passed; §3.11 "a stale or foreign slot: a debug-build assertion, never a silent read"; readings C-0219 (3)).
+// passed; §3.11 "a stale or foreign slot: a debug-build assertion, never a silent read"; readings C-0220 (3)).
 import { afterEach, describe, expect, it } from 'vitest';
 import { setDebugAssertions } from '../../src/arena/index.js';
 import { stampOf } from '../../src/facade/index.js';

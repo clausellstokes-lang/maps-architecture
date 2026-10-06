@@ -1,6 +1,6 @@
 // The façade's types (M0-a-16; §14 `interface Kernel`, §3.4 *Kernel operations the pipeline needs (complete list)*,
 // *Arenas, keys and services*, *Transient arenas*; §3.3 *Two op forms*; C-0041, C-0078, C-0089, C-0112; readings
-// C-0219). Types only.
+// C-0220). Types only.
 //
 // * `Kernel` is §14's six members — `plat(key)`, `view(key, level)`, `resolve(ref, key)`, `geom`, `index`, `tx` — plus
 //   the derivation's `rng()` (§14's `Rng`, M0-d-01's one mixer, wired here and declared nowhere else) and `pool`, the
@@ -119,7 +119,7 @@ export interface LevelView extends Stamp {
   readonly level: Level;
   /**
    * The live face records of this level, in canonical face order (§3.3's keys). A coarser face that is its own child
-   * here holds no record of this level (§2.2 rule 2) and is not listed: `pointLocate` names it (C-0219 (4)).
+   * here holds no record of this level (§2.2 rule 2) and is not listed: `pointLocate` names it (C-0220 (4)).
    */
   faces(): FaceId[];
   /** A face's rings in this view: the outer ring counter-clockwise, then the holes (values that outlive the commit). */

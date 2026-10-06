@@ -1,5 +1,6 @@
 // M0-b-02's test support: the fixtures (./faces.ts) and the shape clauses of T37-1 and T38-1 as assertions.
 import { LATTICE } from '@plat/kernel';
+import { cutCells } from '../../../src/infill/planner.js';
 import { expect } from 'vitest';
 import type { CutGeometry, CutPlanned, PlanContext, XY } from '../../../src/infill/planner.js';
 import { cross, dot, latticeTol, norm, sub, unitV } from './faces.js';
@@ -28,7 +29,8 @@ export function checkGeometry(plan: CutPlanned, g: CutGeometry, ctx: PlanContext
     if (plan.mode === 'flatten' || g !== plan.cut) {
       const base = norm(sub(F, A));
       const h = Math.abs(cross(sub(F, A), sub(K, A))) / base;
-      expect(h).toBeGreaterThanOrEqual(Math.max(70, 0.02 * base) * (1 - 1e-12));
+      const cells = cutCells(ctx.table, ctx.preset);
+      expect(h).toBeGreaterThanOrEqual(Math.max(cells.flattenCm, cells.flattenShare * base) * (1 - 1e-12));
     }
     const fl = g.fillet;
     expect(fl).not.toBeNull();

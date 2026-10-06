@@ -2,7 +2,7 @@
 // its ArenaKey and arena version … valid until that arena's next commit, and a debug build carries each such slot as a
 // handle stamped with both and asserts, wherever the slot is passed, that its key is the arena the call acts on … and
 // that its version is current"; §3.11 "a stale or foreign slot: a debug-build assertion, never a silent read"; readings
-// C-0219 (3)).
+// C-0220 (3)).
 //
 // In the debug build (M0-a-14's `debugMode()`: the build flag, then the arena's runtime switch) every value a façade call
 // returns that is an object — the KernelResult of an op or a service, the commit of a transaction, a resolved

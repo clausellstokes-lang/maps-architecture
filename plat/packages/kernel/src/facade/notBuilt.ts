@@ -1,5 +1,5 @@
 // notBuilt(milestone) stubs and the stub table (M0-a-16; J156 (2), M0.md §3 "a stub is a `notBuilt('<milestone>')` with a
-// choices row or a §4b entry", M0.md §4b; C-0041, C-0089, C-0185, C-0192, C-0045; readings C-0219).
+// choices row or a §4b entry", M0.md §4b; C-0041, C-0089, C-0185, C-0192, C-0045; readings C-0220).
 //
 // A façade member a later milestone builds is a `NotBuiltStub`: a frozen object, never a function, so no call reaches it
 // (calling it is a type error, TS2349; through a cast, a TypeError). A kernel BRANCH a later milestone builds — a
@@ -62,7 +62,7 @@ const ROWS: StubRow[] = [
   { member: 'geom.release', milestone: 'M6-P', form: 'stub', deferred: TRANSIENT, choices: ['C-0041'], sites: [] },
   { member: 'KernelTx.key (a TransientKey)', milestone: 'M6-P', form: 'refused', deferred: TRANSIENT, choices: ['C-0041', 'C-0185'], sites: ['tx/tx.ts'] },
   { member: 'geom.resolveVertexAt', milestone: 'M2a', form: 'stub', deferred: '`resolveVertexAt` (§3.4) — the log-position-to-vertex service', choices: ['C-0089'], sites: [] },
-  { member: 'pool', milestone: 'M1', form: 'stub', deferred: 'the derivation pool and overlays, pool sizes 1–3 in the contract tests (§3.3)', choices: ['C-0219'], sites: [] },
+  { member: 'pool', milestone: 'M1', form: 'stub', deferred: 'the derivation pool and overlays, pool sizes 1–3 in the contract tests (§3.3)', choices: ['C-0220'], sites: [] },
   { member: 'geom.claimSubFace (the score form)', milestone: 'M1', form: 'refused', deferred: 'S7b, S9, S10 (step (0) and plots), S10b, S11, S12a–c, S13a, S14', choices: ['C-0192'], sites: ['faces/claim.ts'] },
   { member: 'KernelTx.clearRegion', milestone: 'M3a', form: 'refused', deferred: CLEAR, choices: ['C-0185'], sites: ['tx/tx.ts'] },
   { member: 'KernelTx.prepared', milestone: 'M3a', form: 'refused', deferred: CLEAR, choices: ['C-0169', 'C-0185'], sites: ['tx/tx.ts', 'insert/attractVertex.ts'] },
