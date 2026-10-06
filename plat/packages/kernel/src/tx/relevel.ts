@@ -259,28 +259,38 @@ function dissolvable(p: Plat, u: VertexId): boolean {
 }
 
 /**
- * Does v, of its edges' level, lie within the hot pixel of the stretch its edges ha, hb form once the dissolution has
- * run — the segment joining the first vertex each way that the dissolution cannot remove (C-0223)? One edge split twice
- * places the second split within the hot pixel of the PIECE the first left, so the first may stand off the segment to
- * its later neighbour though it lies on the edge both split (checks/M0-a-06-s1.md B-1, the property's case 855); this is
- * the run as the removal restores it. A stretch that closes on v (a ring of such vertices) has no ends: false.
+ * Does v, of its edges' level, lie on the stretch its edges ha, hb form — within the hot pixel of the segment a–b for SOME
+ * a on ha's side and b on hb's side, each a vertex the dissolution walks through (a split vertex with no row, no pin,
+ * degree 2, one level, identical rows) or the first vertex each way it cannot remove (C-0223, C-0224)? A split vertex
+ * was placed within the hot pixel of the PIECE of the edge it split, and that piece's ends were the edge's ends or
+ * earlier splits of it, all still on the stretch before the batch (only a removal dissolves them): one of these segments
+ * is that piece, whatever the order the splits came in — no history read. The neighbours' segment (an earlier split
+ * standing off its LATER neighbour's, the property's case 855) and the restored stretch's are two of them; an edge split
+ * four times places a middle split near a piece neither is (checks/M0-a-06-s2.md B-1: cases 817, 1526). Positions never
+ * change in a rewrite, so the segments are the pre-batch arena's; the walk reads the topology the deletions left (the
+ * removed chain's edges gone, its crossings of degree 2). A stretch that closes on v (a ring of such vertices) has no
+ * ends: false.
  */
 function onStretch(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
   const T = p.halfEdges;
-  const end = (h0: HalfEdgeId): VertexId => {
+  const side = (h0: HalfEdgeId): VertexId[] | null => {
+    const out: VertexId[] = [];
     let h = h0;
     for (let guard = 0; ; guard++) {
       check(guard <= T.origin.length, `the stretch through vertex ${v} does not end`);
       const u = dest(p, h);
-      if (u === v) return -1;
-      if (!dissolvable(p, u)) return u;
+      if (u === v) return null;
+      out.push(u);
+      if (!dissolvable(p, u)) return out;
       const [g1, g2] = around(p, u);
       h = g1 === (h ^ 1) ? g2 : g1;
     }
   };
-  const a = end(ha);
-  const b = end(hb);
-  return a >= 0 && b >= 0 && nearSegment(p, v, a, b);
+  const as = side(ha);
+  const bs = side(hb);
+  if (as === null || bs === null) return false;
+  for (const a of as) for (const b of bs) if (nearSegment(p, v, a, b)) return true;
+  return false;
 }
 
 /** Removes an edge pair (no row left on it) from both endpoints' rotations and frees it (§2.2's half-edge links). */
@@ -634,9 +644,10 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   const faceWrites = pass.writes;
   faceWrites.push(...materialise(t, materialisePlan, pass.successor, pass.coveredBy));
 
-  // The on-run test's second reading (C-0223), on the arena the deletions left and before any flag, level or merge
-  // changes: a surviving same-level pair of a split vertex of its level lies on its run when the vertex is within the hot
-  // pixel of the stretch the dissolution will restore (onStretch) — beside onRunBefore's pre-batch neighbour test.
+  // The on-run test's second reading (C-0223, C-0224), on the arena the deletions left and before any flag, level or
+  // merge changes: a surviving same-level pair of a split vertex of its level lies on its run when the vertex is within
+  // the hot pixel of a segment joining a vertex of the stretch on one side to one on the other (onStretch: every piece it
+  // could have split) — beside onRunBefore's pre-batch neighbour test.
   const canonical = (vs: Iterable<VertexId>): VertexId[] => [...vs].filter((v) => isVertexLive(p, v)).sort((a, b) => compareVertices(p, a, b));
   for (const v of canonical(vstar)) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
