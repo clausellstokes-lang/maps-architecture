@@ -9,7 +9,7 @@
 // and a coarser batch's record lists the own-child ancestors it frees in key order.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { faceKey, isFaceLive, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
+import { faceKey, isFaceLive, isVertexLive, outgoing, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
 import { recomputeLevelDigest } from '../../src/digest/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { encodeArena } from '../../src/io/index.js';
@@ -316,13 +316,33 @@ function canonPrint(print: string): string {
     .join('\n');
 }
 
+/**
+ * Does the arena already hold a vertex the dissolution rule would remove the moment a batch touched it — `split`, no
+ * vertex row, no pin, degree 2, its edges of one level with identical rows? insertChain leaves one where a chain folds
+ * back over its own edge (its far point lands on it: the property's case 5317 at 20 000 cases); a later chain attached
+ * there and then removed leaves it to the dissolution, so the arena ends one vertex SIMPLER than before the insert —
+ * §2.2 rule 3 as worded (C-0223 (5)). Counted, not judged, like the shared-stretch end.
+ */
+function holdsDissolvable(p: Plat): boolean {
+  const T = p.halfEdges;
+  const rows = (h: number): string => rowsOn(p, 'edge', h).map((r) => `${p.roles.kind[r]}/${p.roles.entity[r]}/${p.roles.ordinal[r]}/${p.roles.level[r]}`).join(' ');
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (!isVertexLive(p, v)) continue;
+    const f = p.vertices.flags[v];
+    if ((f & VERTEX_SPLIT) === 0 || (f & VERTEX_PINNED) !== 0 || rowsOn(p, 'vertex', v).length > 0) continue;
+    const out = outgoing(p, v);
+    if (out.length === 2 && T.level[out[0] >> 1] === T.level[out[1] >> 1] && rows(out[0]) === rows(out[1])) return true;
+  }
+  return false;
+}
+
 /** PLAT_FUZZ_RUNS (10⁴ in the PR tier, 10⁶ nightly; C-0057): a quarter of it in cases. */
 const RUNS = fc.readConfigureGlobal().numRuns ?? 10_000;
 const CASES = Math.max(250, Math.floor(RUNS / 4));
 
 describe(`N-47 property: ${CASES} random insertions at every level, each removed by a later batch, restore the arena`, () => {
   it('the content print (rings at their least rotation), the records per level, the encoded chunk refs and the level digests as before', () => {
-    const tally = { inserted: 0, refusedInsert: 0, refusedRemove: 0, exact: 0, rotated: 0, sharedEnd: 0, ownChildren: 0, coarserBatch: 0, threeSegments: 0 };
+    const tally = { inserted: 0, refusedInsert: 0, refusedRemove: 0, exact: 0, rotated: 0, sharedEnd: 0, foldedBase: 0, ownChildren: 0, coarserBatch: 0, threeSegments: 0 };
     const byLevel = LEVELS.map(() => 0);
     const baseLevels = LEVELS.map(() => 0);
     for (let c = 1; c <= CASES; c++) {
@@ -347,6 +367,7 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
       if (r() < 0.3) pts[0] = r() < 0.5 ? pt(0, inner()) : pt(inner(), 0);
       const removeAt = (r() < 0.25 ? Math.floor(r() * (lt + 1)) : lt) as Level;
       const before = snapshot(p);
+      const folded = holdsDissolvable(p);
       const a = tx(p, spec(lt, { rederivesFrom: 0 as never }), (o) => insertChain(o, pts, [{ role: roleAt(lt), entity: 'x:1' }], 'mandatory'));
       if (!a.ok) {
         tally.refusedInsert++;
@@ -379,6 +400,10 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
         tally.sharedEnd++;
         continue;
       }
+      if (folded && after.refs !== before.refs) {
+        tally.foldedBase++;
+        continue;
+      }
       expect(after.refs, `case ${c}: encoded chunk refs`).toBe(before.refs);
       expect(after.digests, `case ${c}: level digests`).toBe(before.digests);
       if (after.print === before.print) tally.exact++;
@@ -398,5 +423,6 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
     expect(tally.refusedRemove).toBe(0);
     expect(tally.exact).toBeGreaterThan(tally.inserted * 0.95);
     expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, tally.inserted / 200));
+    expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
   }, 600_000);
 });
