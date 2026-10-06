@@ -18,7 +18,7 @@ import {
   type VertexId,
 } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildForFreeze } from '../../src/index/index.js';
+import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildAtStageEnd, rebuildForFreeze } from '../../src/index/index.js';
 import {
   checkBatch,
   checkCI,
@@ -37,12 +37,12 @@ import {
   type InvariantResult,
 } from '../../src/invariants/index.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { clearFiner, setOwner, type CommitRecord, type Overlay } from '../../src/tx/index.js';
+import { clearFiner, removeEdges, setOwner, type CommitRecord, type Overlay } from '../../src/tx/index.js';
 import type { Level, StageId } from '../../src/types/index.js';
 import { warp } from '../../src/warp/index.js';
 import { box, drag } from '../warp/support.js';
-import { vertexAtPoint } from '../tx/support.js';
-import { commit, framed, must, pt, rowOf, suiteTx } from './support.js';
+import { contentPrint, vertexAtPoint } from '../tx/support.js';
+import { allProblems, commit, framed, must, pt, rowOf, suiteTx } from './support.js';
 
 const done = (): KernelResult<null> => ({ ok: true, value: null, warnings: [] });
 
@@ -643,6 +643,117 @@ describe('index-freshness', () => {
     })();
     indexOf(p).levels[2].dynamic.entries.delete(itemKey(ITEM_FACE, f));
     fails(checkCI(p), 'index-freshness');
+  });
+});
+
+describe('index-freshness: a removal that frees coarser own children (N-49, C-0219 (2))', () => {
+  // N-13's example (checks/M0-a-05-notes.md): a framed square, an L0 way, a finer chain inside — its insertion
+  // materialises own children at the levels between (§2.2 rule 2), and its removal in a later batch frees them, their
+  // ITEM_FACE items tombstoned and deleted in the coarser grids (N-47). The suite admits those writes as tx.ts does: a
+  // coarser face write whose op is a tombstone or delete and whose slot is no longer live is a record the batch freed.
+  const way = (): Plat => {
+    const p = framed(4000);
+    commit(p, 0, (o) => insertChain(o, [pt(1553, 1708), pt(2317, 1842)], [{ role: 'way', entity: 'way:b0' }], 'mandatory'));
+    return p;
+  };
+  const chain = [pt(285, 882), pt(1317, 314), pt(2233, 691)];
+  const roleAt = (l: Level): string => (l === 2 ? 'kerb' : 'plot_line');
+  type Write = { op: string; kind: number; level: Level; slot: number };
+  /** The index log's writes as the batch's `invariants` hook sees them (the log still open). */
+  const logged = (into: Write[]) => ({ invariants: (q: Plat): string[] => {
+    into.push(...(indexOf(q).log?.writes ?? []).map((w) => ({ op: w.op, kind: w.kind, level: w.level, slot: w.slot })));
+    return [];
+  } });
+
+  for (const level of [3, 2] as const) {
+    it(`the L${level} chain inserted and removed through tx with the suite: both commit, the arena valid and its print restored`, () => {
+      const p = way();
+      const before = contentPrint(p);
+      const role = roleAt(level);
+      const a = suiteTx(p, level, (o: Overlay) => insertChain(o, chain, [{ role, entity: 'x:1' }], 'mandatory'));
+      expect(a.res.ok, a.res.ok ? '' : `${a.res.code} ${a.res.detail}`).toBe(true);
+      expect(allProblems(p)).toEqual([]);
+      const own = [1, 2].filter((l) => l < level).map((l) => [...Array(p.slots.face[l].top).keys()].filter((f) => isFaceLive(p, l as Level, f)).length);
+      expect(own).toEqual(level === 3 ? [1, 1] : [1]); // the insertion made one own child at each level between
+      const writes: Write[] = [];
+      const b = suiteTx(p, level, (o: Overlay) => removeEdges(o, { role, entity: 'x:1' }), { rederivesFrom: 0 as never }, {}, logged(writes));
+      expect(b.res.ok, b.res.ok ? '' : `${b.res.code} ${b.res.detail}`).toBe(true);
+      expect(allProblems(p)).toEqual([]);
+      expect(contentPrint(p)).toBe(before);
+      const row = holds(b.report.batches[0].results, 'index-freshness');
+      expect(row.subjects).toBeGreaterThan(0);
+      // Not vacuous: the batch did write the coarser index — the freed own children's tombstones / deletes, every one at
+      // a level coarser than the batch's, and of a slot now free.
+      const coarser = writes.filter((w) => w.kind === ITEM_FACE && w.level < level);
+      expect(coarser.length).toBeGreaterThan(0);
+      expect(new Set(coarser.map((w) => w.level))).toEqual(new Set(level === 3 ? [1, 2] : [1]));
+      for (const w of coarser) {
+        expect(['tombstone', 'delete']).toContain(w.op);
+        expect(isFaceLive(p, w.level, w.slot)).toBe(false);
+      }
+    });
+
+    it(`the L${level} chain inserted, the partitions rebuilt at the stage end, then removed through tx with the suite: the freed own children are tombstoned and admitted`, () => {
+      // The regeneration path (N-49's own evidence, B-1 of checks/M0-a-14-s1.md): after rebuildAtStageEnd the own
+      // children sit in a static partition, so the removal writes a coarser 'tombstone' (not only a grid 'delete').
+      const p = way();
+      const before = contentPrint(p);
+      const role = roleAt(level);
+      const a = suiteTx(p, level, (o: Overlay) => insertChain(o, chain, [{ role, entity: 'x:1' }], 'mandatory'));
+      expect(a.res.ok, a.res.ok ? '' : `${a.res.code} ${a.res.detail}`).toBe(true);
+      expect(rebuildAtStageEnd(p)).toBeGreaterThan(0);
+      expect(allProblems(p)).toEqual([]);
+      const writes: Write[] = [];
+      const b = suiteTx(p, level, (o: Overlay) => removeEdges(o, { role, entity: 'x:1' }), { rederivesFrom: 0 as never }, {}, logged(writes));
+      expect(b.res.ok, b.res.ok ? '' : `${b.res.code} ${b.res.detail}`).toBe(true);
+      expect(allProblems(p)).toEqual([]);
+      expect(contentPrint(p)).toBe(before);
+      const row = holds(b.report.batches[0].results, 'index-freshness');
+      expect(row.subjects).toBeGreaterThan(0);
+      const coarser = writes.filter((w) => w.kind === ITEM_FACE && w.level < level);
+      expect(coarser.some((w) => w.op === 'tombstone'), JSON.stringify(coarser)).toBe(true);
+      for (const w of coarser) {
+        expect(['tombstone', 'delete']).toContain(w.op);
+        expect(isFaceLive(p, w.level, w.slot)).toBe(false);
+      }
+    });
+  }
+
+  it('negative control: the same removal with a hand-logged coarser insert of the freed L1 slot still refuses, naming the row', () => {
+    const p = way();
+    must(suiteTx(p, 3, (o: Overlay) => insertChain(o, chain, [{ role: 'plot_line', entity: 'x:1' }], 'mandatory')).res);
+    const l1 = [...Array(p.slots.face[1].top).keys()].find((f) => isFaceLive(p, 1, f)) as FaceId;
+    const committed = contentPrint(p);
+    const { res, report } = suiteTx(p, 3, (o: Overlay) => {
+      const x = removeEdges(o, { role: 'plot_line', entity: 'x:1' });
+      indexOf(o.plat).log?.writes.push({ op: 'insert', kind: ITEM_FACE, level: 1, slot: l1, partition: -1 });
+      return x;
+    }, { rederivesFrom: 0 as never });
+    expect(res.ok).toBe(false);
+    expect(contentPrint(p)).toBe(committed);
+    const r = fails(report.batches[0].results, 'index-freshness');
+    expect(r.problems.some((x) => x.includes('wrote the L1 index (insert of'))).toBe(true);
+    expect(r.problems.some((x) => x.includes('(tombstone of') || x.includes('(delete of'))).toBe(false); // the lawful writes stay admitted
+  });
+
+  it('negative control: a removal beside live L1 faces with L1 edges — a hand-logged insert or tombstone of one still refuses, naming the row', () => {
+    // blocks(): four L1 blocks; an L3 chain in one materialises an L2 own child there; its removal frees it (a lawful
+    // coarser write), while a write of a live L1 block — a face with edges of its own level — is refused.
+    for (const op of ['insert', 'tombstone'] as const) {
+      const p = blocks();
+      must(suiteTx(p, 3, (o: Overlay) => insertChain(o, [pt(500, 500), pt(1500, 1500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory')).res);
+      const l1 = [...Array(p.slots.face[1].top).keys()].find((f) => isFaceLive(p, 1, f)) as FaceId;
+      const { res, report } = suiteTx(p, 3, (o: Overlay) => {
+        const x = removeEdges(o, { role: 'plot_line', entity: 'plots:1' });
+        indexOf(o.plat).log?.writes.push({ op, kind: ITEM_FACE, level: 1, slot: l1, partition: op === 'insert' ? -1 : 0 });
+        return x;
+      }, { rederivesFrom: 0 as never });
+      expect(res.ok, op).toBe(false);
+      expect(isFaceLive(p, 1, l1)).toBe(true);
+      const r = fails(report.batches[0].results, 'index-freshness');
+      expect(r.problems.some((x) => x.includes(`wrote the L1 index (${op} of`)), op).toBe(true);
+      expect(r.problems.some((x) => x.includes('wrote the L2 index')), op).toBe(false); // the freed L2 own child is admitted
+    }
   });
 });
 

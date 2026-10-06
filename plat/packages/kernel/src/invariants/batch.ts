@@ -585,10 +585,22 @@ function ownChild(p: Plat, level: Level, f: FaceId): boolean {
 }
 
 /**
+ * A coarser face write the transaction allows (tx.ts, C-0185 (12), C-0219 (2)): a write of a live own child the re-walk
+ * materialised (a new record of that level), or a tombstone or delete of a slot no longer live — an own child the
+ * batch's removal freed, its last child gone (N-47, N-49). A write of a live coarser face with edges of its own level,
+ * and an insert of a slot that is not live, stay refused.
+ */
+function lawfulCoarserFaceWrite(p: Plat, w: IndexBatchLog['writes'][number]): boolean {
+  if (ownChild(p, w.level, w.slot)) return true;
+  return (w.op === 'tombstone' || w.op === 'delete') && !isFaceLive(p, w.level, w.slot);
+}
+
+/**
  * Index levels and freshness, through M0-a-03's `checkIndexBatch`: the open batch's index log (while the batch is
  * open — the transaction's `invariants` hook — its coarser writes; a coarser face write of an own child the re-walk
- * materialised is a new record of that level, allowed as the transaction allows it, C-0185 (12)) and the changed items
- * the record names — its created faces, its moved, promoted and demoted vertices — each in its level's grid; or the
+ * materialised is a new record of that level, and the tombstone or delete of a coarser own child the batch freed is
+ * its inverse, each allowed as the transaction allows it, C-0185 (12), C-0219 (2), N-49) and the changed items the
+ * record names — its created faces, its moved, promoted and demoted vertices — each in its level's grid; or the
  * context's journal (C-0200 (6)).
  */
 function indexFreshness(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantResult {
@@ -599,7 +611,7 @@ function indexFreshness(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantR
     const live = indexOf(p).log;
     let log: IndexBatchLog = { level: r.level, writes: [] };
     if (live !== null && live.level === r.level) {
-      log = { level: live.level, writes: live.writes.filter((w) => !(w.kind === ITEM_FACE && w.level < r.level && ownChild(p, w.level, w.slot))) };
+      log = { level: live.level, writes: live.writes.filter((w) => !(w.kind === ITEM_FACE && w.level < r.level && lawfulCoarserFaceWrite(p, w))) };
     }
     let changed: ChangedItem[];
     if (ctx.indexChanged !== undefined) {

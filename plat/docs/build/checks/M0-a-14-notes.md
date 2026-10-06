@@ -117,3 +117,16 @@ The hardening milestone is M4, unless a row's subject arrives earlier (named in 
     imports reach no file of `src/invariants/`: the only importer of `invariants/` is `kernel/src/index.ts`, and the
     test imports by relative path. A re-run with another seed passed 1338/1338. The seed should go to M0-a-05's owner,
     as an N-37 case that the S1 fix (86fa8438) does not close.
+
+## Notes from the closing check of the session fix round S1 (lane `check/M0-a-14-close-s1`, 2026-10-06)
+
+The blocker of that check (B-1, the unpinned `tombstone` half of N-49's admission) is in `checks/M0-a-14-s1.md`. The
+mutant ids (X…) are the ones that file uses.
+
+24. **No negative control pins the `w.kind === ITEM_FACE` guard of `indexFreshness`'s coarser-write filter (mutant X10
+    survives near and is not equivalent).** Without the guard, a coarser ITEM_VERTEX write would be judged by the face
+    predicate `lawfulCoarserFaceWrite` (its slot read as a face slot). A hand-logged coarser vertex `tombstone` / `delete`
+    whose slot number is a free face slot would then be admitted. No M0 writer logs a coarser vertex write outside its
+    promotions and demotions, so this is a deliberate-writer escape, not an honest-path defect. Suggested handling: a
+    fixture that hand-logs a coarser ITEM_VERTEX `tombstone` of a live L1 vertex whose slot number is a free L1 face slot
+    in an L3 batch and expects the row to refuse naming it. Milestone M4.
