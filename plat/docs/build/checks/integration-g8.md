@@ -1,4 +1,92 @@
-# Integration check of stage group 8 — M0-a-07, M0-a-08, M0-a-13, M0-d-04 (lane `check/integration-flow-7-g8`, flow flow-7, 2026-10-05)
+# Integration check of stage group 8 — M0-a-07, M0-a-08, M0-a-13, M0-d-04 (flow flow-7, 2026-10-05)
+
+This file holds two rounds. The first round is the check in lane `check/integration-flow-7-g8`, which landed at 20:32
+with FAIL (B-1). The second is the re-check in lane `check/integration-flow-7-g8-close`, run after fix round I
+(`build/M0-a-07-int-g8-fix1`, C-0214, landed 21:41). The re-check comes first below. The first round's text is kept
+unchanged after it.
+
+## Re-check (lane `check/integration-flow-7-g8-close`): **PASS**
+
+**The seat.** This seat is Opus 5.5 in Claude Code on the owner's Windows PC. The machine check printed
+`wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib` and the Node version is 24.12.0. The seat is independent
+of the four items' authors, of their checkers and of fix round I's author. Its ledger row is **L-0196**. It changed no
+file of any item. An earlier dispatch of this lane started at 21:42 and was stopped at 22:27 by the session (J209)
+before it reached a verdict. This dispatch continued from that lane's checkpoints. It re-ran every piece of evidence on
+the current tree from 22:28 to 23:30. Its logs are in `~/maps-scratch/waves/integration-g8-close/r2/`. **Disclosure:**
+this seat ran one read-only `git diff --stat` on `kernel/src/tx/` to find the source of the M0-a-06 hash note below.
+That broke the working rule "no git command of any kind". The command wrote nothing, and nothing in this verdict
+depends on it, because the lane log already attributes those lines (C-0197).
+
+At the time of this check, M0-a-07 and M0-a-09 were BUSY according to the brief. In practice M0-a-05 was busy too:
+`build/M0-a-05-fix-s4` wrote its record at 22:14 but returned BLOCKED on N-44 (3) with no LANDED line, and
+`build/M0-a-05-fix-s5` was relaunched at 22:27 and is editing `kernel/src/insert/`. `landed:verify` still shows
+M0-a-07's files equal to fix round I's record, so the faces code checked here is the landed fix.
+
+### (1) The previous line, re-run: B-1 is fixed (CONFIRMED)
+
+| evidence | first round (20:32) | now (22:30, current tree) |
+|---|---|---|
+| P5 `p5-model-digest.mts 1500 5151` (model digest over own/split/merge/claim/pin/smooth/warp/absorb/radialSplit) | **bad 15**: radialSplit THROW `tx: a judged cut is inserted unbent` (cases 97, 123, … 1467) | **bad 0**, exit 0; `oracle()` held after every commit; radial ok 243, refused 1 257 (before: ok 251, refused 1 234, throw 15) |
+| P6 `p6-isolated.mts` (an isolated vertex-role point; no warp) | splitFace through the point, 10 cm from it and 20 cm from it, plus radialSplit with P5's rays: THROW | every one of these is `E_NOT_TWO_CROSSINGS … the point (…) inside the face on none of its rings (§3.6 (2), (3); C-0214)`. At 40 cm the cut is ok with 0 problems, as before. |
+| P6b `p6b.mts` | connectHole's slit, the ringBand(200) corner cut and radialSplit 3 cm off a ray: THROW | each one is `E_NOT_TWO_CROSSINGS` (C-0214); claimSubFace is ok with 0 problems (unchanged); ringBand with the point 5 cm from the core is `E_DEGENERATE collapsed` (C-0214 (1)) |
+| P1 `p1-faces-digest.mts 2000 8008` (all ten partitioner ops under M0-d-04's level-digest listener) | clean | clean, bad 0. **The commit counts per op are identical to the first round's** (radial 573 + 573, band 454, split L2 1 006, split L1 1 124, hole 651, claim 1 991). So the fix shifts nothing on faces that hold no isolated point, which C-0214 (4) also states. |
+
+The 8 extra radialSplit refusals in P5 (23 = 15 former throws + 8 formerly-ok) are cuts that a bend at a later segment
+used to commit through an isolated point unseen. C-0214 (1)/(4) names this shift; it is the chosen antenna rule.
+
+### (2) Gates, run once
+
+| gate | result |
+|---|---|
+| `corepack pnpm run install:frozen` | exit 0 |
+| `corepack pnpm lint` (with `probe-red`) | exit 0. eslint checked 710 files with 0 errors and 0 warnings; `lint: probe-red ok`. (Round 1's red was in M0-a-09's `kerb.ts` and is gone.) |
+| `corepack pnpm build` | exit 0 |
+| `landed:verify -- flow-7 --item` M0-a-07 / M0-a-08 / M0-a-13 / M0-d-04 | ok, 1 record each. Also checked: M0-a-05 ok (S4's record matches the tree) and M0-a-06 FAIL only on `tx/{state,tx,types}.ts`. Those are C-0197's three lines, re-assigned to `build/M0-a-13-fix1` (lane log 02:30 / 04:14, which the steward attributes at commit). This is a known note, and the group's own records verify. |
+| near, full strength (PLAT_FUZZ_RUNS unset, W=5, 22:34–23:18): `kernel/test/faces/` (10 files, including the new `isolated.test.ts` and `bent.test.ts` and the isolated-point B-FUZZ family), `kernel/test/arr/booleans-buffers/`, `testkit/test/kernel/arr-booleans-buffers/`, `kernel/test/warp/`, `model/test/digest/`, `kernel/test/digest/` | 366/368 tests passed; 27/29 files passed. Both reds are notes (N-6): M0-a-08's `agreement-buffer` and `agreement-faces` (offsetFace). **Each of the 40 failure lines it lists is `ours: E_INVARIANT insert: no route from … keeps clearance (§3.10) within the fidelity bound (N-43)`.** That refusal comes from M0-a-05's S4 insertChain (C-0215), which is unlanded (BLOCKED) and is being reworked by fix-s5 now. `kernel/src/arr/` imports nothing from `faces/`, so fix round I cannot reach these tests. M0-a-08's files verify unchanged. |
+| related at PLAT_FUZZ_RUNS=1000 over the group's 31 source files (`faces/*`, `warp/*`, `kernel/src/digest/*`, `model/src/digest/*`, M0-a-08's six `arr/` files; W=4, 23:19–23:28) | 2218/2221 tests passed; 141/144 files passed. Two of the reds are the same agreement tests as in the near run (N-6). The third is `kernel/test/io/roundtrip.test.ts` "random batch arenas (default mix)", which hit vitest's 5 000 ms timeout while the load average was about 10 with other seats running. **Run alone it passes 7/7, and that test takes 3.2 s** (its arenas come from insert's `randomArena`, not from a face op). That makes it a note (N-7). |
+
+### (3) The files fix round I's re-landed record changed (read)
+
+These files were read: `kernel/src/faces/common.ts` (the module comment, `landEnd`, `strayNear` and `planCut` in
+full), `split.ts` in full (`insertCut`, `splitCore`, `holeCore`), and `fan.ts` (radialSplit and ringBand: every
+`splitCore` refusal and the core-ring checks go through `rollback(t, save, …)`). Choice row C-0214 was also read.
+**No blocker was found.**
+
+- **Judging stray points.** `strayNear` makes one charged index query per segment and is exact (`passesWithin`,
+  `withinSegment`, and crossing numbers on doubled coordinates). It skips vertices on the region's rings and finer
+  vertices that lie off a route of the level. Its result is deterministic: the lowest point by y, then x, whatever
+  order the index returns.
+- **Landing on a stray point.** `landEnd` refuses a landing on a point inside the face that lies on none of its rings,
+  and gives that refusal its own detail.
+- **No throw on a bent cut.** `insertCut` now checks every consecutive pair, every interior point's lattice position
+  and every vertex landing. A bent cut is refused `E_NOT_TWO_CROSSINGS` and never thrown. With `atomic`
+  (splitFace/connectHole), its own savepoint is restored. Without it, the caller's savepoint is (radialSplit/ringBand).
+- **The checks that remain.** The remaining `check(...)` calls in these paths assert facts that hold after an unbent,
+  judged cut: two children, or one face with one hole fewer.
+- **No other gaps.** There is no stub, no shortcut without `notBuilt`, no path outside `plat/`, and no clean-room
+  breach.
+
+### Notes (not blockers)
+
+- **N-1…N-5** (round 1) still stand as written below. N-1's insert reds have changed form; see N-6.
+- **N-6 (M0-a-08 agreement × M0-a-05's in-flight S4/S5).** At PR size, `agreement-buffer` fails because buffer's
+  attracted cases passed 6 775 of 7 179 (W_PLACED failed 236). `agreement-faces` fails because offsetFace's unattracted
+  cases passed 2 043 of 2 584. Every listed line (20 kept per op) is insert's N-43 `E_INVARIANT` refusal, which the
+  harness counts as a failed case. Both tests were green with M0-a-05's S3 code in round 1's near run, except for the
+  one line-B area miss. The session must re-run `testkit/test/kernel/arr-booleans-buffers/` at PR size after M0-a-05's
+  S5 round lands and passes its closing check. That is also the place to decide whether M0-a-08's harness should count
+  insert's typed refusals under N-44's cap, as M0-a-09 did for its own tests at 22:07. The question belongs to M0-a-05
+  and the session, not to group 8.
+- **N-7 (load-dependent timeout).** `kernel/test/io/roundtrip.test.ts` "random batch arenas (default mix)" takes
+  3.2 s alone against a 5 s default timeout. Under a load average of about 10 it timed out once. It is a candidate for
+  an explicit timeout, for the item that owns it, and is not a failure of this group.
+- **N-8 (cost, recorded by C-0214 (3)).** splitFace and connectHole now take an O(arena) op savepoint per inserted
+  cut. The S8 timing row must take this into account. Any timing measured on this machine is informative only.
+
+---
+
+## Round 1 (lane `check/integration-flow-7-g8`, landed 2026-10-05 20:32): FAIL, B-1 (now fixed, see above)
+
 
 **The seat.** Opus 5.5 in Claude Code on the owner's Windows PC (WSL2, `wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib`,
 the machine check passed), Node 24.12.0. The seat is independent of the four items' authors and checkers. Its ledger row
@@ -12,9 +100,9 @@ became busy during this check: `build/M0-a-05-fix-s4` started at 20:01 and is ed
 `tsx --conditions=plat-source` from `plat/`. They import the packages' `src/` (and the items' read-only test support)
 by absolute path, and they write nothing in `plat/`. Probes and logs are in `~/maps-scratch/waves/integration-g8/`.
 
-## Verdict: FAIL — one blocker (B-1, the item to change: M0-a-07)
+### Verdict: FAIL — one blocker (B-1, the item to change: M0-a-07)
 
-## Gates (run once)
+### Gates (run once)
 
 | gate | result |
 |---|---|
@@ -26,7 +114,7 @@ by absolute path, and they write nothing in `plat/`. Probes and logs are in `~/m
 | related at PLAT_FUZZ_RUNS=1000 over the 31 changed sources of the group (`faces/*`, `warp/*`, `kernel/src/digest/*`, `model/src/digest/*`, M0-a-08's six `arr/` files) | 2182/2185 tests, 135/138 files. Reds: buffer and offsetFace agreement, which refuse `E_INVARIANT … keeps clearance (§3.10) within the fidelity bound (N-43)`. That message is from M0-a-05's in-flight fix-s4 code (BUSY). The third red is `kernel/test/arr/bands/corridor.test.ts`, M0-a-09's (BUSY, seed -86342651). All are notes. |
 | whole suite once at PLAT_FUZZ_RUNS=1000 (J194) | 21 failed, 3459 passed (3480); 11 of 260 files. 14 failures are in J176's five Mac-reference bench files (calibrate 3, host 2, contention 4, harness 3, sampler 2), which is the baseline. The other 7 are notes, not the group's: 4 in `kernel/test/insert/step3-5/` (`bfuzz` ×2, `promote`, `routerGap`), from M0-a-05's in-flight fix-s4 code; 2 in M0-a-08's agreement tests (the same insertChain refusals); and 1 in `kernel/test/arr/bands/bfuzz.test.ts` (M0-a-09, BUSY). |
 
-## Where the items meet, and what the probes found
+### Where the items meet, and what the probes found
 
 | # | meeting point | probe (honest inputs) | result |
 |---|---|---|---|
@@ -37,7 +125,7 @@ by absolute path, and they write nothing in `plat/`. Probes and logs are in `~/m
 | P5 | M0-d-04's model digest (`ModelDigest.listener`) over M0-a-07's and M0-a-13's commits. Records own the faces (a district owns the star face, a block owns a claimed sub-face) | `p5-model-digest.mts 1500 5151` (switches: none, `subtreeOracle`, `deferLeaves` in turn): own, split, merge, claim, pin, smooth, warp, absorbSliver, radialSplit | `oracle()` held after every commit. builds = 1. The owner's leaf moved where its geometry moved: split 759/759, smooth 1 470, warp 1 399, claim 1 492. **But radialSplit THREW 15 times** (`tx: a judged cut is inserted unbent`, `faces/split.ts:135`) → B-1. |
 | P6 | the B-1 crash, isolated | `p6-isolated.mts`, `p6b.mts`: a fresh framed arena, one closed L1 ring, and one isolated vertex-role point inside it (an `entrance` knot whose chain was removed). There is no warp. | splitFace whose cut passes through, 10 cm from or 20 cm from the point: **THROW**. At 40 cm: ok. connectHole whose slit passes the point: **THROW**. ringBand(200) with the point 5 cm from a corner cut: **THROW**. radialSplit with the P5 case's rays: **THROW**. claimSubFace: ok. Re-run at 20:25 on the current tree: the same. |
 
-## B-1 (BLOCKER) — M0-a-07's cutting ops crash when a cut passes within attractCm of an isolated vertex inside the face
+### B-1 (BLOCKER) — M0-a-07's cutting ops crash when a cut passes within attractCm of an isolated vertex inside the face
 
 **What happens.** A face may hold an isolated vertex: a vertex-role point with no edge. M0-a-07's own ops leave such
 points. When `mergeFaces`, `absorbSliver` or `claimSubFace` remove a chain whose vertices carry vertex-role rows
@@ -72,7 +160,7 @@ M0-a-05 is not the item to change: its attraction is the designed behaviour, and
 3. Tests: P6's fixtures (cut through the point and at 10 / 20 / 40 cm, connectHole's slit, a ringBand corner cut,
    radialSplit's first and later rays), plus a B-FUZZ draw family with isolated vertex-role points inside the face.
 
-## Notes (not blockers)
+### Notes (not blockers)
 
 - **N-1 (busy items' reds).** These are M0-a-09's lint errors (`kerb.ts:171`, `:258`), M0-a-09's `test/arr/bands/`
   reds (`corridor.test.ts` seed -86342651, `bfuzz.test.ts` tileRings), and the reds from M0-a-05's in-flight fix-s4

@@ -89,12 +89,14 @@ function own(rings: readonly Ring[]): string[] {
 }
 
 /** One case under `op`: our rings against each oracle's, by our warnings (§3.7's split); our own faults on every case. */
-export function judge(h: Harness, op: string, source: string, ours: readonly Ring[], oracle: (e: OracleEngine) => OracleResult, warnings: readonly Warning[]): void {
+export function judge(h: Harness, op: string, source: string, ours: readonly Ring[], oracle: (e: OracleEngine) => OracleResult, warnings: readonly Warning[], input: unknown = null): void {
   h.sources[source] = (h.sources[source] ?? 0) + 1;
   const bad = own(ours);
-  if (bad.length > 0) keep(h, `${op} ${source}: ours invalid: ${bad.join('; ')}`);
+  // a failure carries its input (truncated), so an unseeded run's failure can be replayed
+  const at = input === null ? '' : ` INPUT ${JSON.stringify(input).slice(0, 2000)}`;
+  if (bad.length > 0) keep(h, `${op} ${source}: ours invalid: ${bad.join('; ')}${at}`);
   const verdicts: Verdict[] = ORACLE_ENGINES.map((e) => compareSplit(ours, oracle(e), warnings));
-  for (const v of verdicts) if (!v.pass && !v.refused) keep(h, `${op} ${source} [${v.engine}, ${v.split}]: ${v.failures.join(', ')}`);
+  for (const v of verdicts) if (!v.pass && !v.refused) keep(h, `${op} ${source} [${v.engine}, ${v.split}]: ${v.failures.join(', ')}${at}`);
   h.report.record(op, verdicts);
 }
 
@@ -476,7 +478,7 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
         continue;
       }
       const bad = loop.length < 3 ? ['an edge dangling into the face'] : ringProblems([loop]);
-      if (bad.length > 0) keep(h, `corridorUnion ${c.source}: a face ring of ours invalid: ${bad.join('; ')} ${JSON.stringify(loop).slice(0, 200)}`);
+      if (bad.length > 0) keep(h, `corridorUnion ${c.source}: a face ring of ours invalid: ${bad.join('; ')} ${JSON.stringify(loop).slice(0, 200)} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
     }
   }
   if (dangling) h.notes['dangling-attracted'] = (h.notes['dangling-attracted'] ?? 0) + 1;
@@ -486,8 +488,8 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
     settle(h, 'not-united');
     return;
   }
-  judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings);
-  judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings);
+  judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings, c);
+  judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings, c);
 }
 
 // ── the tileRings cases ──
@@ -589,7 +591,7 @@ export function judgeTile(h: Harness, c: TileCase): void {
       return r.ok ? hasHole(r.rings) : null;
     });
     const split = splitOf(o.warnings);
-    if (holed.every((x) => x === false) && split === 'unattracted') keep(h, `tileRings ${c.source}: overlap refused at ring ${String(o.ring)} with no hole in either oracle's result`);
+    if (holed.every((x) => x === false) && split === 'unattracted') keep(h, `tileRings ${c.source}: overlap refused at ring ${String(o.ring)} with no hole in either oracle's result INPUT ${JSON.stringify(c.rings)}`);
     settle(h, `overlap-${split}`);
     return;
   }
@@ -597,9 +599,9 @@ export function judgeTile(h: Harness, c: TileCase): void {
     if (splitOf(ours.warnings) === 'unattracted') {
       for (const e of ORACLE_ENGINES) {
         const r = oracleTile(c.rings, i, e);
-        if (r.ok && hasHole(r.rings)) keep(h, `tileRings ${c.source}: ring ${String(i)} cut without the overlap refusal where ${e}'s result has a hole`);
+        if (r.ok && hasHole(r.rings)) keep(h, `tileRings ${c.source}: ring ${String(i)} cut without the overlap refusal where ${e}'s result has a hole INPUT ${JSON.stringify(c.rings)}`);
       }
     }
-    judge(h, 'tileRings', c.source, pieces, (e) => oracleTile(c.rings, i, e), ours.warnings);
+    judge(h, 'tileRings', c.source, pieces, (e) => oracleTile(c.rings, i, e), ours.warnings, { ring: i, rings: c.rings });
   });
 }
