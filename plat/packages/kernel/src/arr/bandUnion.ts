@@ -56,7 +56,10 @@ export interface BandResult {
   readonly blocks: FaceId[];
   /** The L1 faces left whole as one built block — no bounding spine, or a kerb equal to F: its own child at the batch's level (§2.2 rule 2). */
   readonly whole: FaceId[];
-  /** The L1 faces wholly within their bands (an empty kerb): each one band face, its own child at the batch's level. */
+  /**
+   * The L1 faces wholly within their bands — an empty kerb, or a kerb sliver the commit folded onto F's boundary (C-0216
+   * (7)): each one band face, its own child at the batch's level.
+   */
   readonly wholeBand: FaceId[];
 }
 
@@ -258,8 +261,10 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
     const kids = inFace.get(read.face) as FaceId[];
     if (kids.length === 0) {
       // no edge written inside it: a spine-less face, or one whose kerb is F itself, is one built block; an empty kerb
-      // leaves it all band
-      if (read.kerb.length > 0) whole.push(read.face);
+      // leaves it all band — and so does a kerb sliver thinner than attractCm that the commit folded onto F's boundary
+      // (nothing of it left inside F): F is judged as its children are, at a point strictly inside it (C-0216 (7))
+      const inside = read.kerb.length === 0 ? false : insideKerb(p, 1, read.face, read.kerb);
+      if (inside !== false) whole.push(read.face);
       else wholeBand.push(read.face);
       continue;
     }

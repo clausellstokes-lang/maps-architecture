@@ -189,6 +189,36 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     expect(tally.exact).toBeGreaterThanOrEqual(Math.ceil(tally.cases / 10));
   });
 
+  it('a kerb sliver thinner than attractCm that the commit folds onto F’s boundary leaves F all band, not one built block', () => {
+    // §13.1's random networks, seed 240394668 (shrunk): two profiled ways leave the face between them and the frame's
+    // east side a kerb sliver (area 2 613 cm², its inner vertex 26 cm from the side); attraction folds its one outline
+    // piece onto the side, so nothing is written inside F — F is its own child at L2, and it lies in the band
+    const p = framed();
+    way(p, 'way:0', [[4000, 317], [3599, 4000]], [0, 1]);
+    way(p, 'way:1', [[715, 0], [4000, 3513]], [0, 1]);
+    const faces = own(p, 'district:1', [[3950, 2000]]);
+    const ws = widthsOf({ 'way:0': profile([344, 183]), 'way:1': profile([494, 493]) });
+    let k: string[] = [];
+    commit(p, 1, (o) => {
+      const r = kerb(o, faces[0], ws);
+      if (!r.ok) return err(r.code, r.detail);
+      k = normals(r.value);
+      return ok(null);
+    });
+    // the precondition: kerb(F) is a sliver, a small fraction of F
+    expect(k.length).toBe(1);
+    const kArea = Number(area2Of(k.map((s) => s.split(' ').map((t) => pt(Number(t.split(',')[0]), Number(t.split(',')[1])))))) / 2;
+    const fArea = Number(area2Of(ringsOf(p, 1, faces[0]))) / 2;
+    expect(kArea).toBeGreaterThan(0);
+    expect(kArea).toBeLessThan(fArea / 100);
+    const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
+    healthy(p);
+    const v = r.value as BandResult;
+    expect(v.whole).toEqual([]);
+    expect(v.wholeBand).toEqual(faces);
+    expect(v.blocks).toEqual([]);
+  });
+
   it('a face holding an earlier stage’s finer content refuses E_KEPT, writing nothing; kept content elsewhere is untouched', () => {
     // the insertion's kept-content rule (§3.3; C-0177 (4)): an L2 edge inside a finer face record of an earlier stage is
     // E_KEPT — the kept ring's residue face covers the rest of F, so no kerb can enter F (C-0212 (6))
