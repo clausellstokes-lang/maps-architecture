@@ -6,7 +6,7 @@ import type { LatticePoint } from '@plat/kernel';
 import type { Cm, CmArray, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { DECK_CLEARANCE_CM, segSeg2, siteCrossings, type CrossingSite, type WaterReach } from '../../src/water/index.js';
-import { TABLES } from './support.js';
+import { flowNear, offNormalDeg, TABLES } from './support.js';
 import { waterParams } from '../../src/water/index.js';
 
 const REACH = { x: 100_000, y: 50_000 };
@@ -41,12 +41,9 @@ function deckLen(s: CrossingSite): number {
   return Math.hypot(s.deck[1].x - s.deck[0].x, s.deck[1].y - s.deck[0].y);
 }
 
-/** The angle (degrees, 0 – 90) between the deck and the normal of the flow. */
-function offNormalDeg(s: CrossingSite): number {
-  const dx = s.deck[1].x - s.deck[0].x;
-  const dy = s.deck[1].y - s.deck[0].y;
-  const along = Math.abs(dx * s.flow.x + dy * s.flow.y) / Math.hypot(dx, dy);
-  return (Math.asin(Math.min(1, along)) * 180) / Math.PI;
+/** The deck's angle (degrees) off the normal of the flow averaged over one channel width — `flowNear`, computed in the test, never the site's own `flow`. */
+function offFlowDeg(r: WaterReach, s: CrossingSite): number {
+  return offNormalDeg(s.deck[0], s.deck[1], flowNear(r.body, s.at));
 }
 
 describe('§4.2 S1 (5): siteCrossings', () => {
@@ -55,7 +52,8 @@ describe('§4.2 S1 (5): siteCrossings', () => {
   });
 
   it('a straight 20 m river: one bridge_site per 300 m window clear of the ring, mid-window on a uniform reach, each deck bank-to-bank and perpendicular', () => {
-    const sites = siteCrossings([straight(2000)], 300, [], OPTS);
+    const river = straight(2000);
+    const sites = siteCrossings([river], 300, [], OPTS);
     // windows of 300 m from the course's first point (x = −1 000 m): the deck ends must keep 10 m from the ring
     expect(sites.length).toBeGreaterThanOrEqual(6);
     for (const s of sites) {
@@ -64,7 +62,7 @@ describe('§4.2 S1 (5): siteCrossings', () => {
       expect(s.deck[0].y).toBe(1000); // end 0: the left bank looking downstream (east): north
       expect(s.deck[1].y).toBe(-1000);
       expect(s.deck[0].x).toBe(s.deck[1].x);
-      expect(offNormalDeg(s)).toBeLessThanOrEqual(10);
+      expect(offFlowDeg(river, s)).toBeLessThanOrEqual(10);
       expect(Math.abs(s.deck[0].x)).toBeLessThanOrEqual(REACH.x - DECK_CLEARANCE_CM);
       // a uniform window offers every vertex at one span: the one nearest the window's middle wins
       const w = Math.floor(s.arcCm / 30_000);
@@ -149,11 +147,39 @@ describe('§4.2 S1 (5): siteCrossings', () => {
     const sites = siteCrossings([reach], 300, [], OPTS);
     expect(sites.length).toBeGreaterThanOrEqual(2);
     for (const s of sites) {
-      expect(offNormalDeg(s)).toBeLessThanOrEqual(10);
+      expect(offFlowDeg(reach, s)).toBeLessThanOrEqual(10);
       expect(deckLen(s)).toBeGreaterThan(1900);
       expect(deckLen(s)).toBeLessThan(2100);
       expect(s.ends[0].ring).toBe(0);
       expect(s.ends[1].ring).toBe(0);
+    }
+  });
+
+  it('the flow is averaged over one channel width, not read off the next course segment: on a course zigzagging 1 m every 2 m (each segment 26.6° off the river\'s line) every deck stays within ±10° of the averaged flow\'s normal', () => {
+    // a straight 20 m river along y = 0 whose course points alternate y = 0 and y = 1 m every 2 m: the one-width chord
+    // (±20 m along the course) stays within 1.6° of the x axis, while each course segment runs at atan(1 / 2) = 26.6°
+    const course: LatticePoint[] = [];
+    for (let k = 0; k <= 1000; k += 1) course.push(lp(-100_000 + 200 * k, k % 2 === 0 ? 0 : 100));
+    const ring = [lp(-100_000, -1000), lp(100_000, -1000), lp(100_000, 1000), lp(-100_000, 1000)];
+    const reach: WaterReach = { body: body('water:river:0', course, course.map(() => 2000)), parts: [{ rings: [ring], seeds: [lp(0, 0)] }] };
+    // the course's own segments are far off the averaged flow: a deck across them would fail the bound
+    const seg = { x: 200 / Math.hypot(200, 100), y: 100 / Math.hypot(200, 100) };
+    for (const v of [300, 301, 500, 501]) {
+      const f = flowNear(reach.body, course[v]);
+      expect(Math.abs(f.y)).toBeLessThan(Math.sin((2 * Math.PI) / 180));
+      expect(offNormalDeg({ x: 0, y: 0 }, { x: -seg.y, y: seg.x }, f)).toBeGreaterThan(20);
+    }
+    const sites = siteCrossings([reach], 300, [], OPTS);
+    expect(sites.length).toBeGreaterThanOrEqual(6);
+    for (const s of sites) {
+      const f = flowNear(reach.body, s.at);
+      expect(offFlowDeg(reach, s)).toBeLessThanOrEqual(10);
+      // the site's flow is that average (C-0229 (5)), and its deck runs bank to bank across it
+      expect(Math.abs(s.flow.x * f.y - s.flow.y * f.x)).toBeLessThan(0.01);
+      expect(s.flow.x * f.x + s.flow.y * f.y).toBeGreaterThan(0);
+      expect(s.deck[0].y).toBe(1000);
+      expect(s.deck[1].y).toBe(-1000);
+      expect(deckLen(s)).toBeLessThan(2050);
     }
   });
 

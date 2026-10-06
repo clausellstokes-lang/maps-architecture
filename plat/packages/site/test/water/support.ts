@@ -3,7 +3,7 @@
 // and the river fixtures — S1 (1)'s terrain and S1 (3)'s river, built by M0-e-01's and M0-e-02's code, as the L0 batch
 // reads them.
 import { attachIndex, createKernel, createPlat, createRng, entityKey, seedKey, STAGES, streamFromKey, type Frame, type Hash128, type Kernel, type Plat } from '@plat/kernel';
-import type { Cm, StageContext, Terrain, WaterSet } from '@plat/model';
+import type { Cm, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
 import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
 import { buildTerrain, GROUND_KEY, siteFrame, terrainParams, TOWN_ROOT, type SiteEnv, type SiteRequest } from '../../src/terrain/index.js';
 import { runRivers, type RiverRequest } from '../../src/hydro/index.js';
@@ -76,4 +76,44 @@ export function riverFixture(seed: number, site: SiteRequest, river: RiverReques
 /** A lattice point. */
 export function pt(x: number, y: number): { x: Cm; y: Cm } {
   return { x: x as Cm, y: y as Cm };
+}
+
+/**
+ * §4.2 S1 (5)'s local flow, computed here independently of `siteCrossings`: at the course point nearest `q`, the unit
+ * chord from the course point one channel width (its width profile there) upstream to the one a width downstream, both
+ * found by walking the course's arc length in floating point. The ± 10° deck tests measure every deck against it, never
+ * against the site's own `flow` (M0-e-03 check B-1).
+ */
+export function flowNear(body: WaterBody, q: { x: number; y: number }): { x: number; y: number } {
+  const c = body.course ?? [];
+  const w = body.widthProfile ?? new Int32Array();
+  let best = 0;
+  let bd = Infinity;
+  c.forEach((p, i) => {
+    const d = Math.hypot(p.x - q.x, p.y - q.y);
+    if (d < bd) {
+      bd = d;
+      best = i;
+    }
+  });
+  const arcs = [0];
+  for (let i = 1; i < c.length; i += 1) arcs.push(arcs[i - 1] + Math.hypot(c[i].x - c[i - 1].x, c[i].y - c[i - 1].y));
+  const at = (s: number): { x: number; y: number } => {
+    let i = 1;
+    while (i < c.length - 1 && arcs[i] < s) i += 1;
+    const t = Math.min(1, Math.max(0, (s - arcs[i - 1]) / (arcs[i] - arcs[i - 1])));
+    return { x: c[i - 1].x + (c[i].x - c[i - 1].x) * t, y: c[i - 1].y + (c[i].y - c[i - 1].y) * t };
+  };
+  const a = at(arcs[best] - w[best]);
+  const b = at(arcs[best] + w[best]);
+  const len = Math.hypot(b.x - a.x, b.y - a.y);
+  return { x: (b.x - a.x) / len, y: (b.y - a.y) / len };
+}
+
+/** The angle (degrees, 0 – 90) between the segment a→b and the normal of the unit `flow`: 0 for a deck straight across it. */
+export function offNormalDeg(a: { x: number; y: number }, b: { x: number; y: number }, flow: { x: number; y: number }): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const along = Math.abs(dx * flow.x + dy * flow.y) / Math.hypot(dx, dy);
+  return (Math.asin(Math.min(1, along)) * 180) / Math.PI;
 }

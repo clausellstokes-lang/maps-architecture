@@ -248,8 +248,8 @@ export function riverRing(x0: number, x1: number, y0: number, y1: number): Latti
 
 const GENERATED: Lifecycle = { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
 
-/** The water face hand-built through the façade on L0 (its shore and bank rows, the face owned by the body). */
-export function handBuildWater(k: Kernel, ring: readonly LatticePoint[], id = 'river:1'): WaterSet {
+/** The water face hand-built through the façade on L0 (its shore and bank rows, the face owned by the body, found at `within`). */
+export function handBuildWater(k: Kernel, ring: readonly LatticePoint[], id = 'river:1', within?: LatticePoint): WaterSet {
   const spec: KernelTx = {
     key: GROUND,
     level: 0,
@@ -267,7 +267,8 @@ export function handBuildWater(k: Kernel, ring: readonly LatticePoint[], id = 'r
     cx += q.x;
     cy += q.y;
   }
-  const inner = P(Math.round(cx / ring.length), Math.round(cy / ring.length));
+  // A point of the water face: the one given (a ring whose vertices' mean lies on land, as a bend's), else that mean.
+  const inner = within ?? P(Math.round(cx / ring.length), Math.round(cy / ring.length));
   const r = k.tx(spec, (o) => {
     const a = k.geom.insertChain(o, ring, [{ role: 'shore', entity: id }, { role: 'bank', entity: id }], 'mandatory', { closed: true });
     if (!a.ok) return err(a.code, a.detail);

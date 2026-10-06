@@ -13,11 +13,13 @@
 // The smoothing: `smoothPasses` (walls.json `trace/smoothPasses`, 3) passes of the kernel's pinned-vertex Laplacian
 // (λ ½), the pins never moving; a vertex a pass would carry out of the band, into the water or into a reservation keeps
 // its place for that pass (§4.4 (3): "no vertex moved where its line … would take a shape" the laws do not admit;
-// C-0226 (4)); the band less the attraction distance, as the pull's. The result is rounded to the lattice.
+// C-0226 (4)); the band less the attraction distance, as the pull's. A side the pass changed that is not proved to keep
+// the band (`sideHolds`: a run of guarded vertices can still bow a side out of it) has its moved ends put back for that
+// pass (C-0232 (1)). The band is measured from the boundary as given. The result is rounded to the lattice.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
-import { dist, distToRing, inside, lat, TOUCH_CM, unitOf } from './plane.js';
+import { bandLimit, dist, distToRing, inside, lat, sideHolds, TOUCH_CM, unitOf } from './plane.js';
 import type { CostField, XY } from './types.js';
 
 /** The pull's candidate offsets on each side: the band in this many steps (an eighth of 40 m: 5 m). */
@@ -185,19 +187,43 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
 
 /**
  * The pinned smoothing (see the module comment): `passes` passes over the ring; a vertex a pass would carry beyond
- * `bandCm` of the boundary `ring0`, or into a barred ring, keeps its place. Returns lattice points.
+ * `bandCm` of the boundary `ring0`, or into a barred ring, keeps its place, and so do the moved ends of a side the pass
+ * would carry out of the band (C-0232 (1)). Returns lattice points.
  */
 export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[]): LatticePoint[] {
   const pins: number[] = [];
   for (let i = 0; i < pinned.length; i += 1) if (pinned[i] === 1) pins.push(i);
+  const n = line.length;
+  const limit = bandLimit(bandCm);
   let cur: XY[] = line.map((p) => ({ x: p.x, y: p.y }));
   for (let r = 0; r < passes; r += 1) {
     const next = laplacianPinned(cur, { closed: true, pinned: pins, iterations: 1, lambda: 0.5 });
+    const moved = new Uint8Array(n);
     for (let i = 0; i < next.length; i += 1) {
       if (pinned[i] === 1) continue;
       const q = next[i];
       if (dist(q, cur[i]) === 0) continue;
       if (distToRing(q, ring0) > bandCm - TOUCH_CM || barred.some((b) => inside(b, q))) next[i] = cur[i];
+      else moved[i] = 1;
+    }
+    // The sides too (C-0232 (1)): a side between two vertices that each keep the band can still leave it (a smoothed
+    // concave run bowing outward); its moved ends go back to where the pass found them, until every side the pass
+    // changed keeps the band. A side neither of whose ends moved is the pass's input's, and is left to it.
+    for (let guard = 0; guard <= n; guard += 1) {
+      let reverted = false;
+      for (let i = 0; i < n; i += 1) {
+        const j = i + 1 === n ? 0 : i + 1;
+        if (moved[i] === 0 && moved[j] === 0) continue;
+        if (sideHolds(next[i], next[j], ring0, limit)) continue;
+        for (const v of [i, j]) {
+          if (moved[v] === 1) {
+            next[v] = cur[v];
+            moved[v] = 0;
+            reverted = true;
+          }
+        }
+      }
+      if (!reverted) break;
     }
     cur = next;
   }

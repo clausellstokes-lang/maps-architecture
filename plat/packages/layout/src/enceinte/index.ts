@@ -11,4 +11,4 @@ export { crossWater, GRAZE_RATIO, shoreArc, waterGates, waterRings, type WaterCr
 export { baseEnceinte, ENCEINTE_STRATEGY_ID, simplifyInBand, stripOwner, traceBase, wallCells, type WallCells } from './trace.js';
 export { layStrips, stripWidths, traceLine, type LayStripsOptions } from './strips.js';
 export { commitOuterRing, commitS3Batch, commitS3Slice, outerRing, PLAZA_ID, siteContext, WAY_SPAN_NODES, type CommitOptions, type S3Batch, type S3Commit } from './commit.js';
-export { departure, selfTouches, TOUCH_CM } from './plane.js';
+export { bandBreaches, bandLimit, departure, segmentDepartureBound, selfTouches, sideHolds, TOUCH_CM } from './plane.js';

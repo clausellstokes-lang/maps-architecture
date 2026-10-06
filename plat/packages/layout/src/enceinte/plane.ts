@@ -150,6 +150,53 @@ export function departure(line: readonly XY[], ring: readonly XY[], stepCm = 100
 }
 
 /**
+ * An upper bound on the largest distance from the closed ring `ring` of the points of segment ab: the distance at
+ * samples no more than `stepCm` apart (both ends among them), plus half their spacing — a distance from a set changes
+ * by at most the distance moved, so no point of the segment lies farther than that (C-0232 (2)).
+ */
+export function segmentDepartureBound(a: XY, b: XY, ring: readonly XY[], stepCm: number): number {
+  const l = dist(a, b);
+  const n = Math.max(1, Math.ceil(quot(l, stepCm, 'length', 'departure step')));
+  let worst = 0;
+  for (let s = 0; s <= n; s += 1) {
+    const t = quot(s, n, 'count', 'departure sample');
+    const d = distToRing({ x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) }, ring);
+    if (d > worst) worst = d;
+  }
+  return worst + quot(l, 2 * n, 'length', 'departure spacing');
+}
+
+/**
+ * The limit a trace's side is held to: the band less one lattice unit, so a point rounded to the lattice afterwards
+ * (at most √½ cm) still lies within the band (C-0232 (2)).
+ */
+export function bandLimit(bandCm: number): number {
+  return bandCm - LATTICE.unitCm;
+}
+
+/** The coarse and fine sample spacings of the band check (cm): a side is resampled finely only near the limit. */
+export const BAND_STEP_COARSE_CM = 100;
+export const BAND_STEP_FINE_CM = 10;
+
+/**
+ * Does segment ab provably keep within `limitCm` of the ring? Its bound at 1 m first; where that is above the limit, its
+ * bound at 10 cm (C-0232 (2)). False means "not proved", never "proved outside".
+ */
+export function sideHolds(a: XY, b: XY, ring: readonly XY[], limitCm: number): boolean {
+  if (segmentDepartureBound(a, b, ring, BAND_STEP_COARSE_CM) <= limitCm) return true;
+  return segmentDepartureBound(a, b, ring, BAND_STEP_FINE_CM) <= limitCm;
+}
+
+/** The sides i (from line[i] to line[i + 1], the closed line wrapping) not proved to keep within `limitCm` of the ring. */
+export function bandBreaches(line: readonly XY[], ring: readonly XY[], limitCm: number): number[] {
+  const out: number[] = [];
+  for (let i = 0; i < line.length; i += 1) {
+    if (!sideHolds(line[i], line[i + 1 === line.length ? 0 : i + 1], ring, limitCm)) out.push(i);
+  }
+  return out;
+}
+
+/**
  * Does the closed line touch itself — two non-adjacent sides within `touchCm` (or crossing), or two adjacent sides
  * folding back over each other? F-WALL's detection "the trace self-intersects" (§5.2), with the attraction distance as
  * the touch (a side that close would be attracted onto the other at insertion, §3.6).

@@ -14,7 +14,7 @@
 // reported `held: false` and the next rung runs; the later rungs (open chains anchored on a barrier, arterial diversion,
 // posterns, the setback cut) are M1's and the raised-way rung M3a's (C-0085), so a trace no M0 rung repairs is refused.
 import { booleans, buffer, err, type KernelResult, type LatticePoint, type Ring } from '@plat/kernel';
-import { area2, ccw, crossesCore, d2, departure, footOn, inside, lat, openRing, selfTouches, TOUCH_CM } from './plane.js';
+import { area2, bandBreaches, bandLimit, ccw, crossesCore, d2, footOn, inside, lat, openRing, selfTouches, TOUCH_CM } from './plane.js';
 import type { XY } from './types.js';
 
 /** What the detection found on a line: null when it is a lawful trace. */
@@ -25,13 +25,14 @@ export function defectOf(line: readonly XY[], core: readonly (readonly XY[])[]):
 }
 
 /**
- * Does a rung's trace hold? Null when it is simple, encloses and does not cross the core and departs from the boundary
- * `ring` by at most the band (§4.2 S3 (9)'s 40 m); else what fails, in that order (C-0226 (6)).
+ * Does a rung's trace hold? Null when it is simple, encloses and does not cross the core and every side is proved to
+ * keep the band of the boundary `ring` (§4.2 S3 (9)'s 40 m; `bandBreaches`, C-0232 (2)); else what fails, in that order
+ * (C-0226 (6)).
  */
 export function rungVerdict(cand: readonly XY[], ring: readonly XY[], bandCm: number, core: readonly (readonly XY[])[]): 'self_touch' | 'core' | 'band' | null {
   const d = defectOf(cand, core);
   if (d !== null) return d;
-  return departure(cand, ring) > bandCm ? 'band' : null;
+  return bandBreaches(cand, ring, bandLimit(bandCm)).length > 0 ? 'band' : null;
 }
 
 /** The ring of `rings` that stands for the trace: the counter-clockwise one holding the core's first point, else the largest. */

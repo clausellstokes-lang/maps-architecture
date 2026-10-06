@@ -10,7 +10,7 @@ import { describe, expect, it } from 'vitest';
 import { cellAt } from '../../src/hydro/index.js';
 import { GROUND_KEY } from '../../src/terrain/index.js';
 import { leftFaces, runS1, s1Stage, type S1Input, type S1Output } from '../../src/water/index.js';
-import { ground, riverFixture, type RiverFixture } from './support.js';
+import { flowNear, ground, riverFixture, type RiverFixture } from './support.js';
 
 /** A 100 ha CITY frame with a river, a tributary and the basic estuary (seed 2: two fords, three bridge sites …). */
 function fixture(seed = 2): RiverFixture {
@@ -40,33 +40,6 @@ function rowsAt(p: Plat, v: number): string[] {
   const out = new Set<string>();
   for (const h of outgoing(p, v)) for (const r of rowsOn(p, 'edge', h)) out.add(`${rowKey(p, r).role} ${rowKey(p, r).entity}`);
   return [...out].sort();
-}
-
-/** The flow at the course point nearest q: the unit chord from one width upstream to one width downstream. */
-function flowNear(body: WaterBody, q: { x: number; y: number }): { x: number; y: number } {
-  const c = body.course ?? [];
-  const w = body.widthProfile ?? new Int32Array();
-  let best = 0;
-  let bd = Infinity;
-  c.forEach((p, i) => {
-    const d = Math.hypot(p.x - q.x, p.y - q.y);
-    if (d < bd) {
-      bd = d;
-      best = i;
-    }
-  });
-  const arcs = [0];
-  for (let i = 1; i < c.length; i += 1) arcs.push(arcs[i - 1] + Math.hypot(c[i].x - c[i - 1].x, c[i].y - c[i - 1].y));
-  const at = (s: number): { x: number; y: number } => {
-    let i = 1;
-    while (i < c.length - 1 && arcs[i] < s) i += 1;
-    const t = Math.min(1, Math.max(0, (s - arcs[i - 1]) / (arcs[i] - arcs[i - 1])));
-    return { x: c[i - 1].x + (c[i].x - c[i - 1].x) * t, y: c[i - 1].y + (c[i].y - c[i - 1].y) * t };
-  };
-  const a = at(arcs[best] - w[best]);
-  const b = at(arcs[best] + w[best]);
-  const len = Math.hypot(b.x - a.x, b.y - a.y);
-  return { x: (b.x - a.x) / len, y: (b.y - a.y) / len };
 }
 
 describe('§4.1\'s S1 row under a hand-built StageContext (C-0123)', () => {

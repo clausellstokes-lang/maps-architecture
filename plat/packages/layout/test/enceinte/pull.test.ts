@@ -2,10 +2,10 @@
 // a cost-surface path, the gates pinned. On a flat site the pull is the identity but for the pins; here a synthetic
 // cost field moves the line within the band and never moves a pinned gate (C-0226 (3)).
 import { describe, expect, it } from 'vitest';
-import { outwardNormals, PULL_STEPS, pullAndPin, s3Slice, smoothPinned, terrainCost } from '../../src/index.js';
+import { commitOuterRing, outwardNormals, PULL_STEPS, pullAndPin, s3Slice, siteContext, smoothPinned, terrainCost, traceBase } from '../../src/index.js';
 import { laplacianPinned, snap } from '@plat/kernel';
 import { lat, openRing } from '../../src/enceinte/plane.js';
-import { commitSite, closedChain, maxDeparture, smallSite, verticesWith } from './support.js';
+import { area2, commitSite, closedChain, kernelFor, maxDeparture, smallSite, verticesWith } from './support.js';
 
 const BAND = 4000;
 /** The pull's reach: the band less the attraction distance (26 cm), in eight steps. */
@@ -111,6 +111,63 @@ describe('pull and pin', () => {
     expect(dep).toBeLessThanOrEqual(BAND);
     expect(dep).toBeGreaterThan(1500);
     for (const g of c.slice.gates) expect(verticesWith(c.plat, 'gate', `gate:${String(g.ordinal)}`)).toEqual([g.at]);
+  }, 60_000);
+});
+
+describe('the base\'s default cost surface: the terrain\'s, high ground preferred (C-0226 (3); §4.4\'s "penalty for leaving high ground")', () => {
+  /** The site's terrain raster with the ground rising 1 m every 10 m toward +x (height in cm = x / 10 at the cell's centre). */
+  const t0 = slice.site.terrain;
+  const heightCm = new Int32Array(t0.cols * t0.rows);
+  for (let row = 0; row < t0.rows; row += 1) {
+    for (let col = 0; col < t0.cols; col += 1) heightCm[row * t0.cols + col] = Math.round((t0.originX + (col + 0.5) * t0.cellCm) / 10);
+  }
+  const slope = { ...t0, heightCm };
+  const heightAt = (q: { x: number; y: number }): number => {
+    const col = Math.min(t0.cols - 1, Math.max(0, Math.floor((q.x - t0.originX) / t0.cellCm)));
+    const row = Math.min(t0.rows - 1, Math.max(0, Math.floor((q.y - t0.originY) / t0.cellCm)));
+    return heightCm[row * t0.cols + col];
+  };
+
+  it('terrainCost reads the height negated, in metres: higher ground costs less', () => {
+    const cost = terrainCost(slope);
+    const lo = { x: -10000, y: 0 };
+    const hi = { x: 10000, y: 0 };
+    expect(cost(hi)).toBeLessThan(cost(lo));
+    expect(cost(lo)).toBe(-heightAt(lo) * 0.01);
+  });
+
+  it('the pull through terrainCost on a slope moves the line uphill', () => {
+    const r = pullAndPin(ring, mask, terrainCost(slope), BAND, []);
+    let up = 0;
+    let down = 0;
+    ring.forEach((q, i) => {
+      const dh = heightAt(r.line[i]) - heightAt(q);
+      if (dh > 0) up += 1;
+      if (dh < 0) down += 1;
+    });
+    expect(r.moved).toBeGreaterThan(ring.length / 4);
+    expect(up).toBeGreaterThan(9 * down);
+  });
+
+  it('the trace with no cost field given takes the terrain\'s: on the slope the committed line stands east (uphill) of its boundary', () => {
+    const site = { ...slice.site, terrain: slope };
+    const { k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const r = traceBase(slice.levelSet.outline, slice.gateSites, [], slope, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.traced.report.pull.moved).toBeGreaterThan(0);
+    /** The area centroid's x of a ring. */
+    const cx = (pts: readonly { x: number; y: number }[]): number => {
+      let sx = 0;
+      for (let i = 0; i < pts.length; i += 1) {
+        const a = pts[i];
+        const b = pts[(i + 1) % pts.length];
+        sx += (a.x + b.x) * (a.x * b.y - b.x * a.y);
+      }
+      return sx / (3 * area2(pts));
+    };
+    expect(cx(r.value.traced.line) - cx(slice.levelSet.outline)).toBeGreaterThan(1000);
   }, 60_000);
 });
 

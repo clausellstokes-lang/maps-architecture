@@ -6,7 +6,7 @@
 // to 0 (a walls.json cell) so the simplify meets the fixture's corners as drawn.
 import { describe, expect, it } from 'vitest';
 import type { GateSite } from '@plat/model';
-import { commitOuterRing, selfTouches, siteContext, traceBase } from '../../src/index.js';
+import { bandBreaches, commitOuterRing, selfTouches, simplifyInBand, siteContext, traceBase, wallCells } from '../../src/index.js';
 import { closedChain, densify, handBuildWater, kernelFor, P, smallSite, wallsWith } from './support.js';
 
 type Corner = readonly [number, number];
@@ -68,4 +68,21 @@ describe('the trace\'s simplify and its refusals', () => {
     const t = trace(boundary(), { gates: [...GATES, [0, 32000]] });
     expect(t.line.some((q) => q.x === 0 && q.y === 32000)).toBe(true);
   }, 60_000);
+});
+
+describe('the simplify held within the band (C-0226 (4), C-0232 (1))', () => {
+  const ring0 = densify([[-30000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]);
+  const cells = wallCells(siteContext(smallSite(2)));
+
+  it('a side of its input that leaves the band is not the simplify\'s to repair: it returns null (the line then refused), never a result with that side', () => {
+    // The square with its south-west corner cut by one straight side 100 m along each side from the corner: that side's
+    // middle lies 50 m from the boundary, and no vertex lies between its ends.
+    const cut = densify([[-20000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000], [-30000, -20000]]).filter((q) => !(q.x + q.y === -50000 && q.x > -30000 && q.x < -20000));
+    expect(bandBreaches(cut, ring0, 3999)).toHaveLength(1);
+    expect(simplifyInBand(cut, ring0, 4000, cells, [], new Set())).toBeNull();
+    // Without that side the same simplify returns a line, every side within the band.
+    const whole = simplifyInBand(ring0, ring0, 4000, cells, [], new Set());
+    expect(whole).not.toBeNull();
+    if (whole !== null) expect(bandBreaches(whole, ring0, 3999)).toEqual([]);
+  });
 });

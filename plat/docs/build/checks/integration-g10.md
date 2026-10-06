@@ -1,5 +1,95 @@
 # Integration check of stage group 10 — M0-a-16, M0-b-02, M0-d-05b, M0-a-15 (flow flow-7, 2026-10-06)
 
+## Re-check after the integration fix (lane `check/integration-flow-7-g10-close`, 09:37–10:45)
+
+**Verdict: PASS.** B-1 is fixed, the gates are green, and the files the fix changed hold no blocker. Round 1's FAIL
+is kept below as the record of what was fixed.
+
+**The seat.** Opus 5.5 in Claude Code on the owner's Windows PC. The machine check printed
+`wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib` and Node is 24.12.0. The seat did not write any item's
+files and ran no git command. Its ledger row is **L-0240**. Probes and logs are in
+`~/maps-scratch/waves/integration-g10/` (this round's logs are in `logs-close/`).
+
+**Busy state.** The brief listed M0-c-02, M0-x-02, M0-k-04, M0-e-03, M0-d-06 and M0-a-09 as busy. M0-a-09's files
+are byte-identical to its re-landed record (`build/M0-a-09-int-g10-fix1`, 09:31; sha256 checked for `kerb.ts`,
+`bandUnion.ts`, `arr/index.ts` and both `representation.test.ts`). No lane after 09:31 names M0-a-09. During this
+round, `build/M0-a-08-fix-s1` was writing the testkit `arr-booleans-buffers` measure, and `check/M0-e-03` and then
+`build/M0-e-03-fix1` were working on site `water/`.
+
+### (1) The previous failing line, re-run
+
+**B-1 (M0-a-09: kerb and corridorUnion depended on the arena's representation) — FIXED.**
+
+- **The fix as read.** `kerb.ts` now keys each spine as `spineKey(p, kind, entity)` = `${role name}:${entity id}`.
+  `bandUnion.ts`'s read-back uses the same function. `readFace` walks each L1 route ring from `canonicalStart`, which
+  is the lowest-leftmost route vertex, with ties broken by the following route vertices. The holes come after the
+  outer ring in `compareRings` order. So `junctionsOf`, the splices, `read.splits` and `outlinePieces` (over the
+  `compareRings`-sorted kerb rings) follow the geometry alone. The reading is recorded as C-0230.
+- **Minimal repros (`p2d-diff.mts`, `logs-close/p2d-repros.log`).**
+  - `geom/on-segment-split 0 dec`: "only orig 0, only dec 0" (it was 87/90).
+  - `geom/one-point-touch 1 dec`: both copies commit, "only orig 0, only dec 0". Before the fix, the original refused
+    with N-43 and the decoded copy committed.
+  - `geom/collinear-overlap-same 1 starts7`: "only orig 0, only dec 0" (it was 7/7).
+- **P2 (kerb → planner → S9 over five copies: decoded, compacted, renumbered with seed 7, reversed, and with starts
+  re-drawn at seeds 7 and 11).**
+  - Constructive set, 166 arenas and 388 faces: **bad 0** (it was 45). This covers 243 cuts, 99 empty plans,
+    39 blocks and 7 E_NOT_TWO_CROSSINGS. The S9 commit is ok on 162, E_INVARIANT on 1 and E_KEPT on 3.
+  - These counts are the one-time shift C-0230 (3) declares: ok 161 → 162, E_INVARIANT 2 → 1 and block 38 → 39.
+    The original arena now equals every copy.
+  - CITY: bad 0.
+- **P1 (every façade read over the decoded and compacted copies).**
+  - Random, 40 arenas: **bad 0** (it was 6).
+  - CITY: bad 0.
+  - Constructive, 166 arenas: the original probe prints 4 lines, all on `move/pinch-halves#1` and
+    `remove/two-part-way-refused#1`. Round 1 already named them as the probe's own artifact: its ring rotation is
+    ambiguous where a ring visits its lowest-leftmost point twice.
+  - The probe copy `p1-close.mts` (with `lib-close.mts`) rotates each ring to its lexicographically least rotation,
+    which removes that ambiguity. With it the constructive set gives **bad 0**
+    (`logs-close/p1-close-constructive.log`), with 388 kerbs, 0 refused and every next transaction equal.
+- **The required test exists and holds.**
+  - `kernel/test/arr/bands/representation.test.ts` reads one arena three ways: as built, with its starts re-drawn and
+    holes reversed, and decoded with way:b interned before way:a. It compares the face reads, kerbs, splits in order
+    and committed corridors.
+  - `testkit/test/kernel/arr-bands/representation.test.ts` runs the check's named repros and M0-k-02's M0 set at seeds
+    0 and 1 on the decoded copy and on `renumberSlots(…, { starts: true })` at seeds 7 and 11.
+  - Both pass in the near run below. The fixer's mirror negative controls (MA handle key, MB stored start, MC hole
+    order) are in its lane log at 09:00. They were not re-run here, because the probes above are this check's
+    evidence.
+
+### (2) Gates, run once
+
+| gate | result |
+|---|---|
+| `corepack pnpm install --frozen-lockfile` | exit 0 |
+| `corepack pnpm lint` | exit 0. eslint checked 831 files with 0 errors and 0 warnings; probe-red fired on every planted line. |
+| `corepack pnpm build` | exit 0 |
+| `landed:verify -- flow-7 --item` M0-a-16 / M0-b-02 / M0-d-05b / M0-a-15 / M0-a-09 | ok, 1 record each |
+| near, full strength (PLAT_FUZZ_RUNS unset; W=1 from `test_budget.py` with the machine busy, load 10–14): `kernel/test/facade/`, `layout/test/infill/planner/`, `model/test/match/`, `kernel/test/io/`, `testkit/test/kernel/io/`, `kernel/test/arr/bands/`, `testkit/test/kernel/arr-bands/` | **42/42 files, 410/410 tests** (3054 s) |
+| related at PLAT_FUZZ_RUNS=1000 over the 28-file union (the group's 26 changed source files plus the fix's `kerb.ts` and `bandUnion.ts`; W=4) | 177/180 files, 2580/2583 tests. All three reds are foreign (N-6). |
+
+### (3) The files the re-landed record changed
+
+The changed files are `kerb.ts`, `bandUnion.ts`, the two `representation.test.ts`, C-0230 and L-0228. They contain no
+stub, TODO, skip or only, and no path outside `plat/`. The change is a canonical ordering on the honest path, and its
+test names it. No blocker.
+
+### Notes from this round (not blockers)
+
+- **N-6 (foreign reds in the related run).**
+  - `site/test/terrain/range.test.ts` names `water/outfalls.ts` (M0-e-03, in fix round 1).
+  - `testkit/test/kernel/arr-booleans-buffers/harness.test.ts` ("union: expected 1 to be ≥ 12") and `register.test.ts`
+    ("REGISTER.refused.length expected > 0") come from `build/M0-a-08-fix-s1`. That lane is rewriting the measure and
+    register (C-0231 is still "being written"). Its `harness.test.ts` and `support.ts` are dirty in the tree.
+  - No file of the group or of the fix is among them. These are notes for the session.
+- **N-7 (probe hygiene).** Round 1's P1 rotation used the first lowest-leftmost visit. `p1-close.mts` replaces it for
+  any later re-run.
+- **N-8 (round 1 notes stand).** N-3 is the Rng-continuation hand-off to M0-b-03. N-4 is that insertChain is
+  order-sensitive; the callers now give it a canonical order (C-0230).
+
+---
+
+## Round 1 (lane `check/integration-flow-7-g10`, 07:31–08:12) — FAIL, kept as the record
+
 Lane `check/integration-flow-7-g10`. **Verdict: FAIL — one blocker (B-1), on M0-a-09, a passed dependency that is not
 busy.** None of the four group items' files has to change.
 

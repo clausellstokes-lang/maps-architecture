@@ -6,16 +6,18 @@
 // each Bridge's two deck_end vertices resolving to one pinned vertex each, every pair of decks ≥ 40 m apart, and the
 // checker's deck property (§2.2 rule 7): every L0 edge is a shore or the ring — so no L0 edge crosses water — no edge
 // carries a deck role, and each body keeps one L0 face per part of its polygon — so no deck splits a reach's face.
+// And every committed deck lies within ±10° of the normal of the flow averaged over one channel width up and downstream
+// (§4.2 S1 (5)), that flow computed by the test (support's `flowNear`), never read from the site (check B-1).
 import { checkCI, isVertexLive, rowKey, rowsOn, VERTEX_PINNED, type Plat } from '@plat/kernel';
 import type { GeomRef } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { GROUND_KEY } from '../../src/terrain/index.js';
 import { leftFaces, runS1, segSeg2 } from '../../src/water/index.js';
 import type { RiverRequest } from '../../src/hydro/index.js';
-import { ground, riverFixture } from './support.js';
+import { flowNear, ground, offNormalDeg, riverFixture } from './support.js';
 
 /** The checks on one seed; returns its site count and its report's degradations. */
-function bar(seed: number, size: { areaHa?: number }): { sites: number; refused: number; retried: boolean; slow: number } {
+function bar(seed: number, size: { areaHa?: number }): { sites: number; decks: number; offFlow: string[]; refused: number; retried: boolean; slow: number } {
   const request: RiverRequest = {
     ...(seed % 4 === 1 ? { inflowBearingCdeg: (seed * 3700) % 36_000 } : {}),
     ...(seed % 2 === 0 ? { tributaries: [{}] } : {}),
@@ -61,8 +63,23 @@ function bar(seed: number, size: { areaHa?: number }): { sites: number; refused:
   for (let i = 0; i < decks.length; i += 1) {
     for (let j = i + 1; j < decks.length; j += 1) expect(Math.sqrt(segSeg2(decks[i][0], decks[i][1], decks[j][0], decks[j][1]))).toBeGreaterThanOrEqual(4000);
   }
+  // each committed deck perpendicular to the one-width averaged flow within ±10°: the stage's new bridges follow its
+  // sites in order (bridge first + i is site i); the deck measured is the committed one, its two resolved ends
+  const offFlow: string[] = [];
+  const first = fx.water.bridges.length;
+  expect(out.water.bridges.length - first).toBe(out.sites.length);
+  out.water.bridges.slice(first).forEach((b, i) => {
+    const [p, q] = decks[first + i];
+    const site = out.sites[i];
+    expect(site, `seed ${String(seed)} ${b.id}: its site`).toBeDefined();
+    const body = out.water.bodies.find((w) => w.id === site?.water);
+    expect(body, `seed ${String(seed)} ${b.id}: its body`).toBeDefined();
+    if (site === undefined || body === undefined) return;
+    const deg = offNormalDeg(p, q, flowNear(body, site.at));
+    if (!(deg <= 10)) offFlow.push(`seed ${String(seed)} ${b.id} ${deg.toFixed(1)}°`);
+  });
   deckProperty(plat, out.water.bodies.map((b) => b.id), r.value.water.bodies.map((b) => kernel.resolve(b.face, GROUND_KEY)));
-  return { sites: out.sites.length, refused: out.report.dropped.filter((d) => d.reason === 'refused').length, retried: out.report.retried, slow: out.report.fallbacks.length };
+  return { sites: out.sites.length, decks: decks.length, offFlow, refused: out.report.dropped.filter((d) => d.reason === 'refused').length, retried: out.report.retried, slow: out.report.fallbacks.length };
 }
 
 /** §2.2 rule 7 on the fixture: every L0 edge a shore or the ring, no deck edge, one face per body part. */
@@ -83,26 +100,37 @@ function deckProperty(plat: Plat, ids: string[], faces: ReturnType<ReturnType<ty
 }
 
 describe('the exit bar: S1\'s L0 batch on 100 river seeds (§4.2 S1 (5), (8), (9); §16 M0 (e))', () => {
-  it('100 seeds on the CITY rung (100 ha frame): every commit holds every hard invariant, every deck_end resolves, sites ≥ 40 m apart', () => {
+  it('100 seeds on the CITY rung (100 ha frame): every commit holds every hard invariant, every deck_end resolves, sites ≥ 40 m apart, every deck within ±10° of the averaged flow\'s normal', () => {
     let sites = 0;
     let refused = 0;
     let retried = 0;
     let slow = 0;
+    let decks = 0;
+    const offFlow: string[] = [];
     for (let seed = 1; seed <= 100; seed += 1) {
       const r = bar(seed, { areaHa: 100 });
       sites += r.sites;
+      decks += r.decks;
+      offFlow.push(...r.offFlow);
       refused += r.refused;
       retried += r.retried ? 1 : 0;
       slow += r.slow;
     }
     // the bar is not vacuous: the seeds site crossings; the degradations stay rare (reported, never silent)
     expect(sites).toBeGreaterThan(300);
+    // every deck of every seed within ±10° of the averaged flow's normal
+    expect(decks).toBeGreaterThan(300);
+    expect(offFlow).toEqual([]);
     expect(refused).toBeLessThanOrEqual(3);
     expect(retried).toBeLessThanOrEqual(5);
     process.env.PLAT_S1_TALLY = JSON.stringify({ sites, refused, retried, slow });
   }, 900_000);
 
   it('three full CITY frames, among them a ring the fast path refuses (the kernel\'s buffer takes it): the same checks', () => {
-    for (const seed of [4, 10, 3]) expect(bar(seed, {}).sites).toBeGreaterThan(0);
+    for (const seed of [4, 10, 3]) {
+      const r = bar(seed, {});
+      expect(r.sites).toBeGreaterThan(0);
+      expect(r.offFlow).toEqual([]);
+    }
   }, 900_000);
 });

@@ -7,7 +7,7 @@ import { describe, expect, it } from 'vitest';
 import { STAGES, type Kernel } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { baseEnceinte, commitOuterRing, commitS3Slice, ENCEINTE_STRATEGY_ID, flatFixture, s3Slice, siteContext, traceBase } from '../../src/index.js';
-import { cityCommitted, closedChain, densify, edgesOf, edgesWith, GROUND, kernelFor, maxDeparture, P, ringDist, smallCommitted, smallSite, verticesWith, wallsWith } from './support.js';
+import { cityCommitted, closedChain, commitSite, densify, edgesOf, edgesWith, GROUND, handBuildWater, kernelFor, maxDeparture, P, ringDist, smallCommitted, smallSite, verticesWith, wallsWith } from './support.js';
 
 const WALL = { role: 'wall', entity: 'enceinte:1' };
 const SEEDS = [1, 7];
@@ -29,6 +29,48 @@ describe('§4.2 S3 (9)\'s test on the CITY flat fixture', () => {
       expect(Math.abs(dep - c.commit.traced.report.departureCm)).toBeLessThan(150);
     }, 60_000);
   }
+});
+
+describe('§4.2 S3 (9)\'s band held on every side, measured from the arena (C-0232; check B-1)', () => {
+  // Fields asking for more than the band: farther from the centre costs less (a town in a bowl), or nearer does. On the
+  // small site's seed 6 the smoothing used to bow sides between guarded vertices out of the band (41.6 m and 43.0 m).
+  const FIELDS = {
+    outward: (p: { x: number; y: number }): number => -Math.hypot(p.x, p.y) / 100,
+    inward: (p: { x: number; y: number }): number => Math.hypot(p.x, p.y) / 100,
+  };
+  for (const [name, field] of Object.entries(FIELDS)) {
+    it(`small seed 6, the ${name} field: the committed wall departs from the boundary by ≤ 40 m everywhere, every gate on it exactly`, () => {
+      const c = commitSite(smallSite(6), { costField: field });
+      const wall = closedChain(c.plat, WALL);
+      expect(maxDeparture(wall, c.slice.levelSet.outline, 25)).toBeLessThanOrEqual(4000);
+      expect(c.commit.traced.report.departureCm).toBeLessThanOrEqual(4000);
+      expect(c.commit.traced.report.pull.maxOffsetCm).toBeGreaterThan(3000);
+      for (const g of c.slice.gates) expect(verticesWith(c.plat, 'gate', `gate:${String(g.ordinal)}`)).toEqual([g.at]);
+    }, 120_000);
+  }
+
+  it('a trace that cannot keep the band is refused E_INVARIANT `band`, nothing committed: a boundary grazing a lake whose shore lies 100 m off it (the band measured from the boundary as given, not the water-spliced ring)', () => {
+    const site = smallSite(2);
+    const { plat, k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    // A lake of radius 100 m centred on the boundary's east side, its ring turned 7.5° so no vertex lies on that side.
+    const lake = Array.from({ length: 24 }, (_v, i) => {
+      const a = ((i + 0.5) * Math.PI) / 12;
+      return P(Math.round(30000 + 10000 * Math.cos(a)), Math.round(10000 * Math.sin(a)));
+    });
+    const water = handBuildWater(k, lake, 'lake:1', P(30000, 0));
+    const ring = densify([[-30000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]);
+    const gates: GateSite[] = [
+      { ordinal: 0, at: P(-30000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+      { ordinal: 1, at: P(0, -30000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+    ];
+    const r = traceBase(ring, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.code).toBe('E_INVARIANT');
+    expect(r.detail).toMatch(/^band: /);
+    expect(edgesWith(plat, 'wall')).toEqual([]);
+  }, 60_000);
 });
 
 describe('the committed trace (§4.4 S5a (3): a mandatory L1 chain carrying wall, gate vertices carrying their gate)', () => {

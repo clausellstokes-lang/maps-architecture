@@ -5,8 +5,9 @@
 // the wall's edge between the banks lies across the water. Where the boundary only runs along a bank, the trace follows
 // the shore there (a graze, C-0226 (7)) and no gate is written.
 import { describe, expect, it } from 'vitest';
-import { crossWater, GRAZE_RATIO, waterGates } from '../../src/index.js';
-import { closedChain, edgesWith, GROUND, incidentRows, insideRing, P, RIVER, riverCommitted, ringDist, verticesWith } from './support.js';
+import type { GateSite } from '@plat/model';
+import { commitOuterRing, crossWater, GRAZE_RATIO, siteContext, traceBase, waterGates } from '../../src/index.js';
+import { closedChain, densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, RIVER, riverCommitted, ringDist, smallSite, verticesWith } from './support.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
 
 const WALL = { role: 'wall', entity: 'enceinte:1' };
@@ -190,4 +191,77 @@ describe('crossings and grazes (C-0226 (7))', () => {
     expect(across?.chord).toBe(false);
     expect(r.ring.some((q) => q.x === 0 && q.y === -10000)).toBe(true);
   });
+});
+
+describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7)', () => {
+  // An L-shaped river: an arm x 200–240 m from the south turning east along y 320–360 m. The boundary crosses the bend
+  // obliquely, entering on the east arm's south shore (y 320 m, east of the inner corner at (240, 320) m) and leaving by
+  // the north arm's west shore (x 200 m): the straight chord between those banks passes south of the inner corner, over
+  // land. Its south side crosses the north arm square, where the chord stays in the water.
+  const BEND = [P(20000, -90000), P(24000, -90000), P(24000, 32000), P(90000, 32000), P(90000, 36000), P(20000, 36000)];
+  const CORNERS: [number, number][] = [[-30000, -30000], [30000, -30000], [30000, 31000], [22000, 34000], [16000, 26000], [-30000, 30000]];
+  const BOUNDARY = densify(CORNERS);
+  const k2 = (q: { x: number; y: number }): string => `${String(q.x)},${String(q.y)}`;
+  /** Is q over the water (inside the bend, or on its shore within 2 cm)? */
+  const wet = (q: { x: number; y: number }): boolean => insideRing(BEND, q) || ringDist(q, BEND) <= 2;
+
+  it('crossWater: the oblique crossing takes no chord and keeps the boundary\'s own course between its banks; the square crossing takes the chord', () => {
+    const ring = ccw(openRing(BOUNDARY.map(lat)));
+    const r = crossWater(ring, new Set(), [{ body: 'river:1', ring: BEND }]);
+    expect(r.crossings).toHaveLength(2);
+    const oblique = r.crossings.filter((c) => c.entry.y > 0);
+    const square = r.crossings.filter((c) => c.entry.y < 0);
+    expect(oblique).toHaveLength(1);
+    expect(square).toHaveLength(1);
+    expect(square[0].chord).toBe(true);
+    const c = oblique[0];
+    expect(c.chord).toBe(false);
+    // Its banks: on the east arm's south shore and on the north arm's west shore.
+    const banks = [c.entry, c.exit];
+    expect(banks.some((q) => q.y === 32000 && q.x > 24000)).toBe(true);
+    expect(banks.some((q) => q.x === 20000 && q.y < 32000)).toBe(true);
+    // The chord between them would cross land (the independent check of why it is refused).
+    const chordDry = Array.from({ length: 19 }, (_v, i) => (i + 1) / 20).some((t) => !wet({ x: c.entry.x + t * (c.exit.x - c.entry.x), y: c.entry.y + t * (c.exit.y - c.entry.y) }));
+    expect(chordDry).toBe(true);
+    // The boundary's own course is kept between the banks: every boundary vertex in the water there (the corner at
+    // (220, 340) m among them) is on the new ring and kept.
+    const between = ring.filter((q) => q.y > 0 && insideRing(BEND, q));
+    expect(between.some((q) => q.x === 22000 && q.y === 34000)).toBe(true);
+    const onRing = new Set(r.ring.map(k2));
+    for (const q of between) {
+      expect(onRing.has(k2(q))).toBe(true);
+      expect(r.keep.has(k2(q))).toBe(true);
+    }
+  });
+
+  it('through the strategy: every wall_gate edge of the oblique crossing lies over the water, the boundary\'s corner in the bend on the wall', () => {
+    const site = smallSite(2);
+    const { plat, k } = kernelFor(site);
+    expect(commitOuterRing(site, k).ok).toBe(true);
+    const water = handBuildWater(k, BEND, 'river:1', P(22000, 0));
+    const gates: GateSite[] = [
+      { ordinal: 0, at: P(-30000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+      { ordinal: 1, at: P(0, -30000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
+    ];
+    const r = traceBase(BOUNDARY, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const wgs = r.value.traced.waterGates;
+    expect(wgs).toHaveLength(2);
+    const oblique = wgs.filter((g) => g.bankAt[0].y > 0);
+    expect(oblique).toHaveLength(1);
+    const mine = edgesWith(plat, 'wall_gate', oblique[0].id);
+    // The boundary's course between the banks: more than one edge, the corner (220, 340) m a wall vertex.
+    expect(mine.length).toBeGreaterThan(1);
+    const wall = closedChain(plat, WALL);
+    expect(wall.some((q) => q.x === 22000 && q.y === 34000)).toBe(true);
+    // Every wall_gate edge (both crossings) over the water, sampled every twentieth of its length.
+    const all = edgesWith(plat, 'wall_gate');
+    expect(all.length).toBeGreaterThan(mine.length);
+    for (const e of all) {
+      for (let s = 1; s < 20; s += 1) expect(wet({ x: e.a.x + ((e.b.x - e.a.x) * s) / 20, y: e.a.y + ((e.b.y - e.a.y) * s) / 20 })).toBe(true);
+    }
+    // And the bank vertices are where the record puts them.
+    for (const g of wgs) for (const end of [0, 1] as const) expect(verticesWith(plat, 'gate_end', g.id, end)).toEqual([g.bankAt[end]]);
+  }, 120_000);
 });
