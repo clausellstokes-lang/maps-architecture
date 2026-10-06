@@ -90,6 +90,15 @@ describe('splitFace: a cut near an isolated point inside the face (P6)', () => {
     expect(r.detail).toMatch(/splits nothing/);
   });
 
+  it('a bent cut whose corner lies 10 cm from the point, beyond both its segments (no segment passes it)', () => {
+    // The corner (2000, 1100); the point above it, its foot beyond the end of both segments: step 2 would draw the
+    // corner onto it, so the closed-segment reading refuses it.
+    const { p, f } = square([[2000, 1110]]);
+    const r = refusal(p, (o) => splitFace(o, f, [pt(1500, 500), pt(2000, 1100), pt(2500, 500)], { rows: DB }));
+    expect(r.code).toBe('E_NOT_TWO_CROSSINGS');
+    expect(r.detail).toMatch(ON_NO_RING);
+  });
+
   it('P6b: a straight cut over the point 2 cm off it, and the control with no point', () => {
     const { p, f } = square([[2000, 1102]]);
     const r = refusal(p, (o) => splitFace(o, f, [pt(1000, 1100), pt(3000, 1100)], { rows: DB }));

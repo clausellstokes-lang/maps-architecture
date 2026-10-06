@@ -180,4 +180,44 @@ describe('kerb(F) (§3.7)', () => {
     expect(up.strips.length).toBe(2 + 3);
     expect(normal([pt(0, 2300), pt(4000, 2300), pt(4000, 4000), pt(0, 4000)])).toBe('0,2300 4000,2300 4000,4000 0,4000');
   });
+
+  it('a spine’s own bend is no junction; a way declaring half-width 0 is no spine (no split, no wedge at its crossing)', () => {
+    const p = framed();
+    way(p, 'way:1', [[0, 1500], [2000, 2500], [4000, 1500]]);
+    const [low] = own(p, 'district:1', [[2000, 500]]);
+    commit(p, 2, (o) => corridorUnion(o, [low], widthsOf({ 'way:1': 300 })), { stage: 9 as never, rederivesFrom: 9 as never });
+    healthy(p);
+    expect(edgesWithRole(p, 'corridor_split')).toEqual([]);
+    const q = framed();
+    way(q, 'way:1', [[0, 2000], [4000, 2000]]);
+    way(q, 'way:2', [[2000, 0], [2000, 4000]]);
+    const faces = own(q, 'district:1', [[1000, 1000], [3000, 1000], [1000, 3000], [3000, 3000]]);
+    const ws = widthsOf({ 'way:1': 300, 'way:2': 0 });
+    const k = kerbIn(q, faces[0], ws);
+    expect(k.ok && normals(k.value)).toEqual(['0,0 2000,0 2000,1700 0,1700']);
+    commit(q, 2, (o) => corridorUnion(o, faces, ws), { stage: 9 as never, rederivesFrom: 9 as never });
+    healthy(q);
+    // way:1 passes straight through the crossing for every face (way:2 bounds them with no band): one split each side
+    expect(edgesWithRole(q, 'corridor_split')).toEqual(['2000,1700-2000,2000', '2000,2000-2000,2300']);
+  });
+
+  it('an acute corner whose strip is shorter than the crossed half-width: one split from J to the kerb corner, no wedge', () => {
+    const p = framed(6000);
+    way(p, 'way:1', [[0, 4000], [6000, 4000]]);
+    // way:3 ends on way:1 from above at A = (2400, 4000): a route vertex 400 cm from J on the face below
+    way(p, 'way:3', [[2400, 6000], [2400, 4000]]);
+    // way:2 leaves J = (2000, 4000) down and right at 30° below way:1: the corner below way:1 is 30°
+    way(p, 'way:2', [[2000, 4000], [5464, 2000]]);
+    const faces = own(p, 'district:1', [[3500, 3800], [1000, 5000]]);
+    const ws = widthsOf({ 'way:1': 300, 'way:2': 300, 'way:3': 100 });
+    commit(p, 2, (o) => corridorUnion(o, faces, ws), { stage: 9 as never, rederivesFrom: 9 as never });
+    healthy(p);
+    const atJ = edgesWithRole(p, 'corridor_split').filter((e) => e.startsWith('2000,4000-') || e.endsWith('-2000,4000'));
+    // the face above way:1 sees a T (one split up to its kerb); the 30° corner below, whose strip along way:1 is
+    // 400 cm long against a foot 1 120 cm from J, gets the one split J → K (K about 1 159 cm from J on the bisector)
+    expect(atJ.length).toBe(2);
+    const k = atJ.map((e) => e.split('-').map((t) => t.split(',').map(Number))).map(([a, b]) => (a[0] === 2000 && a[1] === 4000 ? b : a)).filter(([, y]) => y < 4000);
+    expect(k.length).toBe(1);
+    expect(Math.abs(Math.hypot(k[0][0] - 2000, k[0][1] - 4000) - 300 / Math.sin(Math.PI / 12))).toBeLessThan(30);
+  });
 });
