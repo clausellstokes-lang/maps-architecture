@@ -137,12 +137,13 @@ export interface EnceinteStrategy {
 }
 
 /**
- * The corridor a strip stops at (§4.8; C-0033): a main gate's — the way through it, a band of `halfWidthCm` about the
- * line through the gate along `dir` — or a water gate's, the water itself (the river is its corridor, C-0087).
+ * The corridor a strip stops at (§4.8; C-0033): a main gate's — the way through it, the buffer of `halfWidthCm` about
+ * the way's centreline near the gate (`path`, through the gate) — or a water gate's, the water itself (the river is
+ * its corridor, C-0087).
  */
 export type StripStop =
-  | { readonly kind: 'way'; readonly gate: Id; readonly at: XY; readonly dir: XY; readonly halfWidthCm: number }
-  | { readonly kind: 'water'; readonly gate: Id; readonly ring: readonly XY[] };
+  | { readonly kind: 'way'; readonly gate: Id; readonly at: XY; readonly path: readonly XY[]; readonly halfWidthCm: number }
+  | { readonly kind: 'water'; /** The water body (or its gate). */ readonly gate: Id; readonly ring: readonly XY[] };
 
 /** The strips as laid (C-0033): per side, the setback chains and the strip faces' owner. */
 export interface StripsLaid {

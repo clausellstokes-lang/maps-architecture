@@ -12,7 +12,7 @@
 // counted in N and carrying no route.
 import type { Kernel, LatticePoint, PlatKey, Polygon } from '@plat/kernel';
 import type { Id, Lifecycle, WaterSet } from '@plat/model';
-import { ccw, crossParams, d2, inside, lat, openRing } from './plane.js';
+import { ccw, crossParams, d2, dist, inside, lat, openRing } from './plane.js';
 import type { WaterGate, XY } from './types.js';
 
 /** A water face's outer ring with its body. */
@@ -29,6 +29,60 @@ export interface WaterCrossing {
   readonly exit: LatticePoint;
   /** True when the trace crosses as one straight edge between the banks. */
   readonly chord: boolean;
+}
+
+/**
+ * A stretch over water whose two ends lie on one water ring with the shorter way along the shore between them at most
+ * this many times the chord is a graze, not a crossing (C-0224 (7)): a river crossed bank to bank has its ends a whole
+ * shore round apart.
+ */
+export const GRAZE_RATIO = 2;
+
+/**
+ * The shorter way along a ring between two points on its sides (side ja at parameter ua, side jb at ub): its length and
+ * the ring's vertices strictly between, in walking order.
+ */
+export function shoreArc(ring: readonly LatticePoint[], ja: number, ua: number, jb: number, ub: number): { lengthCm: number; vertices: LatticePoint[] } {
+  const n = ring.length;
+  const at = (j: number, u: number): XY => {
+    const a = ring[j];
+    const b = ring[j + 1 === n ? 0 : j + 1];
+    return { x: a.x + u * (b.x - a.x), y: a.y + u * (b.y - a.y) };
+  };
+  const pa = at(ja, ua);
+  const pb = at(jb, ub);
+  // Forward (in ring order) from a to b.
+  const fwd: LatticePoint[] = [];
+  let lf = 0;
+  if (ja === jb && ub >= ua) lf = dist(pa, pb);
+  else {
+    let prev: XY = pa;
+    let j = ja;
+    do {
+      j = j + 1 === n ? 0 : j + 1;
+      fwd.push(ring[j]);
+      lf += dist(prev, ring[j]);
+      prev = ring[j];
+    } while (j !== jb);
+    lf += dist(prev, pb);
+  }
+  // Backward from a to b.
+  const bwd: LatticePoint[] = [];
+  let lb = 0;
+  if (ja === jb && ub <= ua) lb = dist(pa, pb);
+  else {
+    let prev: XY = pa;
+    let j = ja;
+    for (;;) {
+      bwd.push(ring[j]);
+      lb += dist(prev, ring[j]);
+      prev = ring[j];
+      if (j === (jb + 1 === n ? 0 : jb + 1)) break;
+      j = j === 0 ? n - 1 : j - 1;
+    }
+    lb += dist(prev, pb);
+  }
+  return lf <= lb ? { lengthCm: lf, vertices: fwd } : { lengthCm: lb, vertices: bwd };
 }
 
 /** The ground arena's key. */
@@ -60,19 +114,19 @@ export function waterRings(water: WaterSet, k: Kernel, key: PlatKey = GROUND): W
 export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<string>, waters: readonly WaterRing[]): { ring: LatticePoint[]; crossings: WaterCrossing[]; keep: Set<string> } {
   const n = ring.length;
   const keep = new Set<string>();
-  const cuts: { s: number; t: number }[] = [];
+  const cuts: { s: number; t: number; w: number; j: number; u: number }[] = [];
   for (let s = 0; s < n; s += 1) {
     const a = ring[s];
     const b = ring[s + 1 === n ? 0 : s + 1];
-    for (const w of waters) {
+    waters.forEach((w, wi) => {
       for (let j = 0; j < w.ring.length; j += 1) {
         const x = crossParams(a, b, w.ring[j], w.ring[j + 1 === w.ring.length ? 0 : j + 1]);
-        if (x !== null) cuts.push({ s, t: x.t });
+        if (x !== null) cuts.push({ s, t: x.t, w: wi, j, u: x.u });
       }
-    }
+    });
   }
   if (cuts.length === 0) return { ring: [...ring], crossings: [], keep };
-  cuts.sort((p, q) => p.s - q.s || p.t - q.t);
+  cuts.sort((p, q) => p.s - q.s || p.t - q.t || p.w - q.w || p.j - q.j);
   const pointAt = (c: { s: number; t: number }): XY => {
     const a = ring[c.s];
     const b = ring[c.s + 1 === n ? 0 : c.s + 1];
@@ -124,8 +178,24 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
       push(end);
       continue;
     }
-    // A stretch over water: a crossing from the bank point at `a` to the one at `b`.
+    // A stretch over water. A graze — both ends on one water ring, the shorter way along its shore between them at
+    // most GRAZE_RATIO times the chord — is the boundary running along a bank: the trace follows the shore there,
+    // every point of that stretch kept (§4.4 *Trace* (3): "on a shore or bank the trace is attracted onto the outline";
+    // C-0224 (7)). Otherwise a crossing from the bank point at `a` to the one at `b`.
     const entry = out[out.length - 1];
+    if (a.w === b.w) {
+      const arc = shoreArc(waters[a.w].ring, a.j, a.u, b.j, b.u);
+      if (arc.lengthCm <= GRAZE_RATIO * dist(pa, pb)) {
+        keep.add(`${String(entry.x)},${String(entry.y)}`);
+        for (const v of arc.vertices) {
+          push(v);
+          keep.add(`${String(v.x)},${String(v.y)}`);
+        }
+        push(end);
+        keep.add(`${String(end.x)},${String(end.y)}`);
+        continue;
+      }
+    }
     const pinnedInside = between.some((v) => pins.has(`${String(v.x)},${String(v.y)}`));
     let chord = !pinnedInside;
     if (chord) {

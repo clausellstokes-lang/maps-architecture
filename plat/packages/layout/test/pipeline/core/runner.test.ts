@@ -183,7 +183,7 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
   it("the batch's workLimit is the stage's law for its counter over the batch's committed counts: exactly the work passes, one less is E_WORK_LIMIT", () => {
     const w = ringWork();
     expect(w).toBeGreaterThan(2);
-    const law = (counter: string) => ({ counter, unit: 'faces' as const, perUnit: 2, floor: w - 6 });
+    const law = (counter: string) => ({ counter, unit: 'faces' as const, perUnit: 1, floor: w - 3 });
     const at = (faces: number, counter = 'ring') => run(registryOf([stage({
       id: STAGES.S1,
       workLimits: [{ counter: 'other', unit: 'faces', perUnit: 0, floor: 0 }, law('ring')],
@@ -199,7 +199,7 @@ describe('work limits from the laws and expect from the invariants (§3.3, §5.1
     const short = at(2);
     expect(short.kernel.workLimitHits).toBe(1);
     expect(short.bugs.map((b) => b.cls)).toEqual(['E_WORK_LIMIT']);
-    expect(short.stages[0].work).toEqual({ other: 0, ring: w - 2 });
+    expect(short.stages[0].work).toEqual({ other: 0, ring: w - 1 });
     // The other law (floor 0) refuses the same batch.
     expect(at(3, 'other').kernel.workLimitHits).toBe(1);
   });
@@ -541,5 +541,7 @@ describe('no restart path (§5.1 (1)): a refused stage is a bug entry, never a r
       expect(isFaceLive(p, l as 0, f)).toBe(true);
     }
     expect(model.kernel.view({ layer: 'ground', part: 0 }, 1).faces()).toHaveLength(7);
+    // Each stage's end rebuilt the dirty index partitions (§3.3 moment (1)): none is left after the run.
+    expect(model.kernel.index.rebuildAtStageEnd({ layer: 'ground', part: 0 })).toBe(0);
   });
 });

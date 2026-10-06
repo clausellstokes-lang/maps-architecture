@@ -9,17 +9,19 @@
 //      reservation's `attach` rows, the face owned by the reservation (C-0032 (12));
 //   L1 (S5a, k = 1): the trace by the registered EnceinteStrategy `base`, then the strip stand-in (C-0033).
 // The slice is M0-c-01's data (`s3Slice`); nothing here re-solves it.
-import { createRng, kernelOp, STAGES, type ConcernId, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
+import { createRng, err, kernelOp, STAGES, type ConcernId, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, Handle, Reservation, StreamOpts, WaterSet } from '@plat/model';
 import { arenaReach } from '@plat/site';
 import { quot } from '../siting/geom.js';
 import { PLAZA_AREA_BAND_HA } from '../siting/plaza.js';
 import type { S3Slice, Site } from '../siting/types.js';
-import { unitOf } from './plane.js';
 import { layStrips } from './strips.js';
 import { baseEnceinte } from './trace.js';
 import type { CostField, EnceinteContext, StripsLaid, StripStop, Traced, WaterGate } from './types.js';
 import { GROUND, generated, waterRings } from './water.js';
+
+/** The route nodes on each side of a gate's edge its way's corridor is taken along (4 × 25 m: past both strips). */
+export const WAY_SPAN_NODES = 4;
 
 /** The plaza reservation's address (M0-c-01's `plaza:0`, the slice's single main plaza). */
 export const PLAZA_ID = 'plaza:0';
@@ -71,7 +73,7 @@ export function outerRing(site: Pick<Site, 'frame'>): LatticePoint[] {
 export function commitOuterRing(site: Site, k: Kernel, arena: PlatKey = GROUND): KernelResult<ChainRef> {
   const chain: ChainRef = { role: 'margin', entity: site.terrain.id };
   const r = k.tx(spec(arena, 0, STAGES.S1), (o) => k.geom.insertChain(o, outerRing(site), [chain], 'mandatory', { closed: true }));
-  if (!r.ok) return r;
+  if (!r.ok) return err(r.code, r.detail);
   return { ok: true, value: chain, warnings: r.warnings };
 }
 
@@ -108,7 +110,7 @@ export function commitS3Batch(slice: S3Slice, k: Kernel, arena: PlatKey = GROUND
     }),
   ];
   const r = k.tx(spec(arena, 1, STAGES.S3, ops));
-  if (!r.ok) return r;
+  if (!r.ok) return err(r.code, r.detail);
   const band = PLAZA_AREA_BAND_HA[site.rung];
   const plaza: Reservation = {
     id: PLAZA_ID,
@@ -159,11 +161,11 @@ export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {
   let margin: ChainRef = { role: 'margin', entity: site.terrain.id };
   if (opts.outerRing !== 'present') {
     const m = commitOuterRing(site, k, arena);
-    if (!m.ok) return m;
+    if (!m.ok) return err(m.code, m.detail);
     margin = m.value;
   }
   const s3 = commitS3Batch(slice, k, arena);
-  if (!s3.ok) return s3;
+  if (!s3.ok) return err(s3.code, s3.detail);
   const ctx = siteContext(site);
   const traced = baseEnceinte.trace(
     slice.levelSet.outline,
@@ -176,23 +178,24 @@ export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {
     k,
     { key: arena, ...(opts.costField === undefined ? {} : { costField: opts.costField }) },
   );
-  if (!traced.ok) return traced;
+  if (!traced.ok) return err(traced.code, traced.detail);
   const t = traced.value.traced;
   // The stops: each main gate's way along its route's lattice edge at the gate, each water gate's water.
   const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
   const stops: StripStop[] = [];
   slice.gates.forEach((g, i) => {
-    const a = slice.lattice.points[g.edge[0]];
-    const b = slice.lattice.points[g.edge[1]];
-    const dir = unitOf({ x: b.x - a.x, y: b.y - a.y }) ?? { x: 0, y: 1 };
-    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, dir, halfWidthCm: half });
+    // The way's centreline near the gate: its route's lattice nodes within WAY_SPAN_NODES of the gate's edge on each
+    // side (the route S4 commits, C-0224 (10)).
+    const route = slice.routes.find((r) => r.ordinal === g.ordinal);
+    const nodes = route === undefined ? [g.edge[0], g.edge[1]] : route.nodes.slice(Math.max(0, g.routeIndex - WAY_SPAN_NODES), g.routeIndex + 2 + WAY_SPAN_NODES);
+    stops.push({ kind: 'way', gate: t.gates[i].id, at: g.at, path: nodes.map((n) => slice.lattice.points[n]), halfWidthCm: half });
   });
   const rings = waterRings(water, k, arena);
-  for (const w of t.waterGates) {
-    for (const r of rings.filter((x) => x.body === w.body)) stops.push({ kind: 'water', gate: w.id, ring: r.ring });
-  }
+  // Every water face stops the strips (the river is a water gate's corridor, C-0087; a shore the trace follows carries
+  // no strip on its water side): the stop names the body.
+  for (const r of rings) stops.push({ kind: 'water', gate: r.body, ring: r.ring });
   const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), k, { key: arena, stops, frame: site.frameRing });
-  if (!strips.ok) return strips;
+  if (!strips.ok) return err(strips.code, strips.detail);
   return {
     ok: true,
     value: { margin, border: s3.value.border, plaza: s3.value.plaza, enceinte: t.enceinte, gates: t.gates, waterGates: t.waterGates, traced: t, strips: strips.value },

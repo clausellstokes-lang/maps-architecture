@@ -4,8 +4,10 @@
 // batch whose result breaks a hard §3.10 row is refused E_INVARIANT by the transaction itself — and after every
 // operation the runner sweeps the whole arena with `checkCI` (§13.1: "Properties (checked after every operation)").
 import {
+  attachIndex,
   checkCI,
   createKernel,
+  createPlat,
   hardProblems,
   LATTICE,
   suiteEnv,
@@ -20,7 +22,7 @@ import {
   type TxEnv,
   type WholeContext,
 } from '@plat/kernel';
-import { FIXTURE_KEY, fixtureSpec, framedArena } from '../determinism/index.js';
+import { FIXTURE_CELLS, FIXTURE_FRAME, FIXTURE_KEY, fixtureSpec } from '../determinism/index.js';
 
 /** The ground arena's key every runner arena carries. */
 export const RUNNER_KEY = FIXTURE_KEY;
@@ -58,16 +60,36 @@ export function boxOf(points: readonly Pt[]): [number, number, number, number] |
   return [x0, y0, x1, y1];
 }
 
+/** The entity prefix of the runner's frame rings (never a case's or an input's). */
+export const FRAME_ENTITY = 'frame:';
+
 /**
- * An indexed ground arena whose L0 outer ring is the box around `points` padded by `pad` (M0-d-08's `framedArena`),
- * or null where the padded box leaves the lattice (the caller translates its draw first).
+ * Lays the runner's frame on an arena (C-0225 (3)): the ring at L0 (`margin`, S1's outer ring), at L1 (`border`, S3's map
+ * border, §4.1) and at L2 (`kerb`, the level S9's blocks give every district before S10 writes L3), each its own
+ * transaction — so every level a case or an input writes has a record above it, as in the pipeline, and no batch
+ * materialises a coarser record it would later have to remove.
+ */
+export function layFrame(p: Plat, ring: readonly LatticePoint[]): void {
+  const k = kernelOn([p]);
+  const rows: [Level, string][] = [[0, 'margin'], [1, 'border'], [2, 'kerb']];
+  for (const [level, role] of rows) {
+    const r = k.tx(spec(level), (o) => k.geom.insertChain(o, ring, [{ role, entity: `${FRAME_ENTITY}${role}` }], 'mandatory', { closed: true }));
+    if (!r.ok) throw new Error(`runner: the frame's L${String(level)} ring was refused ${r.code} ${r.detail}`);
+  }
+}
+
+/**
+ * An indexed ground arena framed at L0 – L2 by the box around `points` padded by `pad` (`layFrame`), or null where the
+ * padded box leaves the lattice (the caller translates its draw first).
  */
 export function framedAround(points: readonly Pt[], pad = FRAME_PAD_CM): Plat | null {
-  const b = boxOf(points);
-  if (b === null) return framedArena(-pad, -pad, pad, pad);
+  const b = boxOf(points) ?? [0, 0, 0, 0];
   const [x0, y0, x1, y1] = [b[0] - pad, b[1] - pad, b[2] + pad, b[3] + pad];
   if (x0 < -RANGE || y0 < -RANGE || x1 > RANGE || y1 > RANGE) return null;
-  return framedArena(x0, y0, x1, y1);
+  const p = createPlat(RUNNER_KEY, FIXTURE_FRAME);
+  attachIndex(p, { gridCellCm: FIXTURE_CELLS });
+  layFrame(p, [lpt(x0, y0), lpt(x1, y0), lpt(x1, y1), lpt(x0, y1)]);
+  return p;
 }
 
 /** What `kernelOn` wires besides the suite. */

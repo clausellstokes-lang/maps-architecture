@@ -11,7 +11,7 @@
 // (the river is its corridor, C-0087: the line ends on the shore and the shore closes the strip); and, given the frame,
 // the map border (the glacis line ends on it). An enceinte with no gate keeps both lines whole: each strip a ring face
 // with the trace on one side.
-import { buffer, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
+import { buffer, err, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
 import { area2, ccw, clipOutside, crossParams, d2, footOn, lat, openRing, unitOf, type Piece } from './plane.js';
@@ -58,33 +58,34 @@ export function traceLine(enceinte: Pick<Enceinte, 'trace'>, k: Kernel, key: Pla
   return ccw(openRing(pts));
 }
 
-/** A main gate's corridor as a region: the rectangle of half-width h about the way's line, long enough for both strips. */
-function corridorRing(s: Extract<StripStop, { kind: 'way' }>, lengthCm: number): XY[] {
-  const d = unitOf(s.dir) ?? { x: 0, y: 1 };
-  const n = { x: -d.y, y: d.x };
-  const h = s.halfWidthCm;
-  const L = lengthCm;
-  const c = s.at;
-  return ccw([
-    { x: c.x - d.x * L - n.x * h, y: c.y - d.y * L - n.y * h },
-    { x: c.x + d.x * L - n.x * h, y: c.y + d.y * L - n.y * h },
-    { x: c.x + d.x * L + n.x * h, y: c.y + d.y * L + n.y * h },
-    { x: c.x - d.x * L + n.x * h, y: c.y - d.y * L + n.y * h },
-  ]);
+/** A main gate's corridor as a region: the buffer of the way's centreline near the gate by its half-width (flat ends). */
+function corridorRings(s: Extract<StripStop, { kind: 'way' }>): KernelResult<XY[][]> {
+  const b = buffer([s.path.map((q) => lat(q))], s.halfWidthCm, 'round', 'flat');
+  if (!b.ok) return err(b.code, b.detail);
+  return { ok: true, value: b.value.map((r) => openRing(r)), warnings: [] };
 }
 
-/** The trace point where the line through `e` along `dir` first meets the trace (nearest to e), or null. */
-function capFoot(e: XY, dir: XY, trace: readonly XY[], reachCm: number): XY | null {
-  const d = unitOf(dir);
-  if (d === null) return null;
-  const a = { x: e.x - d.x * reachCm, y: e.y - d.y * reachCm };
-  const b = { x: e.x + d.x * reachCm, y: e.y + d.y * reachCm };
+/** Where the trace crosses a region's rings (doubles). */
+function crossingsOf(trace: readonly XY[], rings: readonly (readonly XY[])[]): XY[] {
+  const out: XY[] = [];
+  for (let i = 0; i < trace.length; i += 1) {
+    const a = trace[i];
+    const b = trace[i + 1 === trace.length ? 0 : i + 1];
+    for (const ring of rings) {
+      for (let j = 0; j < ring.length; j += 1) {
+        const x = crossParams(a, b, ring[j], ring[j + 1 === ring.length ? 0 : j + 1]);
+        if (x !== null) out.push({ x: a.x + x.t * (b.x - a.x), y: a.y + x.t * (b.y - a.y) });
+      }
+    }
+  }
+  return out;
+}
+
+/** The point of `pts` nearest e, or null. */
+function nearest(e: XY, pts: readonly XY[]): XY | null {
   let best: XY | null = null;
   let bestD = Infinity;
-  for (let i = 0; i < trace.length; i += 1) {
-    const x = crossParams(a, b, trace[i], trace[i + 1 === trace.length ? 0 : i + 1]);
-    if (x === null) continue;
-    const q = { x: a.x + x.t * (b.x - a.x), y: a.y + x.t * (b.y - a.y) };
+  for (const q of pts) {
     const dd = d2(q, e);
     if (dd < bestD) {
       bestD = dd;
@@ -95,7 +96,7 @@ function capFoot(e: XY, dir: XY, trace: readonly XY[], reachCm: number): XY | nu
 }
 
 /** The stops read from the arena (see `LayStripsOptions.stops`). */
-function stopsFromArena(enceinte: Enceinte, k: Kernel, key: PlatKey, trace: readonly LatticePoint[], halfWidthCm: number | undefined): StripStop[] {
+function stopsFromArena(enceinte: Enceinte, k: Kernel, key: PlatKey, trace: readonly LatticePoint[], halfWidthCm: number | undefined, reachCm: number): StripStop[] {
   const p = k.plat(key);
   const at = (v: number): XY => ({ x: p.vertices.x[v], y: p.vertices.y[v] });
   const one = (ref: { role: string; entity: Id; ordinal?: number }): number => {
@@ -111,7 +112,9 @@ function stopsFromArena(enceinte: Enceinte, k: Kernel, key: PlatKey, trace: read
       const i = trace.findIndex((t) => t.x === q.x && t.y === q.y);
       const a = trace[i <= 0 ? trace.length - 1 : i - 1];
       const b = trace[i + 1 >= trace.length ? 0 : i + 1];
-      out.push({ kind: 'way', gate: g, at: q, dir: { x: b.y - a.y, y: -(b.x - a.x) }, halfWidthCm });
+      // The way taken along the trace's outward normal at the gate, as far as both strips reach on each side.
+      const n = unitOf({ x: b.y - a.y, y: -(b.x - a.x) }) ?? { x: 0, y: 1 };
+      out.push({ kind: 'way', gate: g, at: q, path: [{ x: q.x - n.x * reachCm, y: q.y - n.y * reachCm }, q, { x: q.x + n.x * reachCm, y: q.y + n.y * reachCm }], halfWidthCm });
       continue;
     }
     const b0 = one({ role: 'gate_end', entity: g, ordinal: 0 });
@@ -126,7 +129,7 @@ function stopsFromArena(enceinte: Enceinte, k: Kernel, key: PlatKey, trace: read
 }
 
 /** The line's pieces with their caps (see the module comment), as lattice chains with their closed flag. */
-function chainsOf(pieces: readonly Piece[], stops: readonly StripStop[], trace: readonly XY[], reachCm: number): { points: LatticePoint[]; closed: boolean; probe: XY }[] {
+function chainsOf(pieces: readonly Piece[], stops: readonly StripStop[], caps: readonly (readonly XY[])[], trace: readonly XY[]): { points: LatticePoint[]; closed: boolean; probe: XY }[] {
   const out: { points: LatticePoint[]; closed: boolean; probe: XY }[] = [];
   for (const piece of pieces) {
     const closed = piece.startOn < 0 && piece.endOn < 0;
@@ -134,7 +137,7 @@ function chainsOf(pieces: readonly Piece[], stops: readonly StripStop[], trace: 
     const capAt = (end: XY, on: number): XY | null => {
       const s = on >= 0 && on < stops.length ? stops[on] : null;
       if (s === null || s.kind !== 'way') return null;
-      return capFoot(end, s.dir, trace, reachCm);
+      return nearest(end, caps[on]);
     };
     const c0 = closed ? null : capAt(pts[0], piece.startOn);
     const c1 = closed ? null : capAt(pts[pts.length - 1], piece.endOn);
@@ -170,9 +173,20 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
   const widths = stripWidths(eraRow);
   const trace = traceLine(enceinte, k, key);
   const closedTrace = [...trace, trace[0]];
-  const stops = opts.stops ?? stopsFromArena(enceinte, k, key, trace, opts.wayHalfWidthCm);
   const reach = 4 * (widths.inner + widths.outer);
-  const regions: XY[][][] = stops.map((s) => (s.kind === 'way' ? [corridorRing(s, reach)] : [[...s.ring]]));
+  const stops = opts.stops ?? stopsFromArena(enceinte, k, key, trace, opts.wayHalfWidthCm, reach);
+  const regions: XY[][][] = [];
+  for (const s of stops) {
+    if (s.kind === 'water') {
+      regions.push([[...s.ring]]);
+      continue;
+    }
+    const c = corridorRings(s);
+    if (!c.ok) return err(c.code, c.detail);
+    regions.push(c.value);
+  }
+  // Each way's caps: where the trace crosses its corridor's rings (a strip's end closes on the nearest one).
+  const caps = regions.map((rings, i) => (stops[i].kind === 'way' ? crossingsOf(trace, rings) : []));
   const frameAt = regions.length;
   if (opts.frame !== undefined) {
     // Outside the frame: the frame within a ring far beyond it (even–odd).
@@ -196,14 +210,14 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
     return { ok: false, code: 'E_DEGENERATE', detail: 'collapsed' };
   }
   const regionsInner = regions.slice(0, frameAt);
-  const innerChains = inW.inner.flatMap((ring) => chainsOf(clipOutside(ring, true, regionsInner), stops, trace, reach));
-  const outerChains = outW.outer.flatMap((ring) => chainsOf(clipOutside(ring, true, regions), stops, trace, reach));
+  const innerChains = inW.inner.flatMap((ring) => chainsOf(clipOutside(ring, true, regionsInner), stops, caps, trace));
+  const outerChains = outW.outer.flatMap((ring) => chainsOf(clipOutside(ring, true, regions), stops, caps, trace));
   const owners = { inner: stripOwner(enceinte.id, 'inner'), outer: stripOwner(enceinte.id, 'outer') };
   const row = { role: 'setback', entity: enceinte.id };
   const committed = k.tx(l1Spec(key, opts.batchStage ?? STAGES.S5), (o) => {
     for (const c of [...innerChains, ...outerChains]) {
       const r = k.geom.insertChain(o, c.points, [row], 'mandatory', { closed: c.closed });
-      if (!r.ok) return r;
+      if (!r.ok) return err(r.code, r.detail);
     }
     const facesOf = (chains: readonly { probe: XY }[]): KernelResult<number[]> => {
       const fs: number[] = [];
@@ -215,16 +229,16 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
       return { ok: true, value: fs, warnings: [] };
     };
     const fi = facesOf(innerChains);
-    if (!fi.ok) return fi;
+    if (!fi.ok) return err(fi.code, fi.detail);
     const fo = facesOf(outerChains);
-    if (!fo.ok) return fo;
+    if (!fo.ok) return err(fo.code, fo.detail);
     const si = k.geom.setOwner(o, fi.value, owners.inner);
-    if (!si.ok) return si;
+    if (!si.ok) return err(si.code, si.detail);
     const so = k.geom.setOwner(o, fo.value, owners.outer);
-    if (!so.ok) return so;
+    if (!so.ok) return err(so.code, so.detail);
     return { ok: true, value: { inner: new Set(fi.value).size, outer: new Set(fo.value).size }, warnings: [] };
   });
-  if (!committed.ok) return committed;
+  if (!committed.ok) return err(committed.code, committed.detail);
   const faces = committed.value.value as { inner: number; outer: number };
   return {
     ok: true,

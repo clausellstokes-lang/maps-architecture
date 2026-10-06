@@ -13,7 +13,7 @@
 // Both build only through the kernel's `buffer` and `booleans` (§3.7); a rung whose result fails the caller's checks is
 // reported `held: false` and the next rung runs; the later rungs (open chains anchored on a barrier, arterial diversion,
 // posterns, the setback cut) are M1's and the raised-way rung M3a's (C-0085), so a trace no M0 rung repairs is refused.
-import { booleans, buffer, type KernelResult, type LatticePoint, type Ring } from '@plat/kernel';
+import { booleans, buffer, err, type KernelResult, type LatticePoint, type Ring } from '@plat/kernel';
 import { area2, ccw, crossesCore, d2, footOn, inside, lat, openRing, selfTouches, TOUCH_CM } from './plane.js';
 import type { XY } from './types.js';
 
@@ -75,15 +75,15 @@ function closedChain(ring: readonly LatticePoint[]): LatticePoint[] {
  */
 export function reoffset(line: readonly LatticePoint[], radiusCm: number, pins: readonly LatticePoint[], core: readonly (readonly XY[])[]): KernelResult<LatticePoint[]> {
   const region = booleans('union', [ccw(line)], [], 'nonzero');
-  if (!region.ok) return region;
+  if (!region.ok) return err(region.code, region.detail);
   const grown = buffer(region.value.map((r) => closedChain(openRing(r))), radiusCm, 'round', 'round');
-  if (!grown.ok) return grown;
+  if (!grown.ok) return err(grown.code, grown.detail);
   const dilated = booleans('union', region.value, grown.value, 'nonzero');
-  if (!dilated.ok) return dilated;
+  if (!dilated.ok) return err(dilated.code, dilated.detail);
   const rim = buffer(dilated.value.map((r) => closedChain(openRing(r))), radiusCm, 'round', 'round');
-  if (!rim.ok) return rim;
+  if (!rim.ok) return err(rim.code, rim.detail);
   const closed = booleans('difference', dilated.value, rim.value, 'nonzero');
-  if (!closed.ok) return closed;
+  if (!closed.ok) return err(closed.code, closed.detail);
   const outer = outerOf(closed.value, core);
   if (outer === null) return { ok: false, code: 'E_DEGENERATE', detail: 'empty' };
   const placed = placePins(outer, pins);
@@ -97,7 +97,7 @@ export function reoffset(line: readonly LatticePoint[], radiusCm: number, pins: 
  */
 export function unionOuter(line: readonly LatticePoint[], pins: readonly LatticePoint[], core: readonly (readonly XY[])[]): KernelResult<LatticePoint[]> {
   const region = booleans('union', [ccw(line)], [], 'nonzero');
-  if (!region.ok) return region;
+  if (!region.ok) return err(region.code, region.detail);
   const outer = outerOf(region.value, core);
   if (outer === null) return { ok: false, code: 'E_DEGENERATE', detail: 'empty' };
   const placed = placePins(outer, pins);

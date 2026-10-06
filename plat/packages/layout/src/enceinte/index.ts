@@ -3,7 +3,7 @@
 // C-0032, C-0033, C-0085, C-0087; readings C-0224): the registered trace strategy `base` with the strip stand-in, the
 // basic water gate and F-WALL's trace rungs, and the S3 slice's commits through the façade. Created empty by the
 // scaffold (M0-s-01, C-0013); this index and its folder belong to M0-c-02.
-export type { ClosureArc, CostField, Enceinte, EnceinteContext, EnceinteEnv, EnceinteStrategy, Gate, StripsLaid, StripStop, TraceOptions, TracePolicy, TraceReport, Traced, WallRung, WaterGate } from './types.js';
+export type { ClosureArc, CostField, Enceinte, EnceinteContext, EnceinteEnv, EnceinteStrategy, StripsLaid, StripStop, TraceOptions, TracePolicy, TraceReport, Traced, WallRung, WaterGate } from './types.js';
 export { classifyArcs, type BarrierKind, type BarrierRow, type BarrierRun } from './closure.js';
 export { PULL_STEPS, outwardNormals, pullAndPin, smoothPinned, terrainCost, type Pulled } from './pull.js';
 export { defectOf, placePins, reoffset, unionOuter } from './rungs.js';

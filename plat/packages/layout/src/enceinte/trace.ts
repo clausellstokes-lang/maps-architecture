@@ -10,7 +10,7 @@
 //       ('gate_end', gate, 0 | 1), the wall's edge between them taking ('wall_gate', gate) (C-0224 (1)).
 // Every value it reads is a walls.json cell (`trace/*`, the era row). The trace is laid `standing` (no condition is
 // written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0224 (2)).
-import { simplify, STAGES, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
+import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
 import { ccw, departure, distToRing, lat, openRing, TOUCH_CM } from './plane.js';
@@ -132,7 +132,7 @@ export function traceBase(
   const core: LatticePoint[][] = [];
   for (const r of reservations) core.push(...ringsOf(k, r.face, arena));
   for (const c of opts.core ?? []) core.push(c.map((p) => lat(p)));
-  const barred: (readonly XY[])[] = [...waters.map((w) => w.ring), ...core];
+  const barred: Polygon[] = [...waters.map((w) => [...w.ring]), ...core];
 
   // (2) Pull and pin.
   const mask = pinMask(ring, pins);
@@ -160,7 +160,7 @@ export function traceBase(
       let unWhy: WallRung['why'] | null = un.ok ? null : un.detail === 'fixed' ? 'pin_lost' : 'empty';
       let cand: LatticePoint[] | null = null;
       if (un.ok) {
-        const s = simplify([...un.value, un.value[0]], cells.minSegmentCm, cells.minAngleCdeg, barred, indicesOf(un.value, pins));
+        const s = simplify([...un.value, un.value[0]], cells.minSegmentCm as Cm, cells.minAngleCdeg, barred, indicesOf(un.value, pins));
         cand = s.ok ? openRing(s.value) : un.value;
         unWhy = accept(cand);
       }
@@ -178,7 +178,7 @@ export function traceBase(
   // The topology-preserving simplify: the water and the reservations its obstacles, the pins kept; skipped when its
   // result would leave the band (C-0224 (4)).
   const before = line.length;
-  const simp = simplify([...line, line[0]], cells.minSegmentCm, cells.minAngleCdeg, barred, indicesOf(line, pins));
+  const simp = simplify([...line, line[0]], cells.minSegmentCm as Cm, cells.minAngleCdeg, barred, indicesOf(line, pins));
   let skipped = true;
   if (simp.ok) {
     const cand = openRing(simp.value);
@@ -210,15 +210,15 @@ export function traceBase(
   const chain = { role: 'wall', entity: encId };
   const committed = k.tx(l1Spec(arena, opts.batchStage ?? STAGES.S5), (o) => {
     const ins = k.geom.insertChain(o, line, [chain], 'mandatory', { closed: true, pinned, knots });
-    if (!ins.ok) return ins;
+    if (!ins.ok) return err(ins.code, ins.detail);
     for (const w of wgs) {
       const banks = w.banks as [VertexRef, VertexRef];
       const r = k.geom.retypeEdges(o, { chain, from: banks[0], to: banks[1] }, [{ role: 'wall_gate', entity: w.id }], []);
-      if (!r.ok) return r;
+      if (!r.ok) return err(r.code, r.detail);
     }
     return { ok: true, value: ins.value, warnings: ins.warnings };
   });
-  if (!committed.ok) return committed;
+  if (!committed.ok) return err(committed.code, committed.detail);
 
   // Every gate on the committed trace exactly (lattice equality; §4.2 S3 (9)'s test), each bank vertex where it was put.
   const p = k.plat(arena);
