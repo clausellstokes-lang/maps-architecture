@@ -16,7 +16,7 @@ bugs to re-find.**
 ## Deferred designs
 | id | what | from | why deferred | drained by |
 |---|---|---|---|---|
-| KI-1 | insertChain routing that turns today's clean refusals into in-bound commits (the 1-in-10⁴ buffer and offsetFace cases of M0-a-08's PENDING-S3 lines A/B) | N-43, N-44 | the refusals are safe and counted; better routing is open-ended | the hardening pass |
+| KI-1 | insertChain routing that turns clean refusals into in-bound commits | N-43, N-44 | PULLED FORWARD by the owner (J204, "keep it to 1"): the rate must reach ≤ 1 per 10⁴ inside M0 (M0-a-05's round S5); only refusals under the cap remain for the hardening pass | M0-a-05 S5, then the hardening pass |
 | KI-2 | ARCHITECTURE §3.6/§3.7 text for N-38, N-40, N-43, N-44 and §16's M4 row for N-45 | J191–J202 | amendments land in one amendments round, not mid-flow | the next amendments round |
 
 ## The hardening pass
