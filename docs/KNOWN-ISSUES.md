@@ -16,8 +16,10 @@ bugs to re-find.**
 ## Deferred designs
 | id | what | from | why deferred | drained by |
 |---|---|---|---|---|
-| KI-1 | insertChain routing that turns clean refusals into in-bound commits | N-43, N-44 | PULLED FORWARD by the owner (J204, "keep it to 1"): the rate must reach ≤ 1 per 10⁴ inside M0 (M0-a-05's round S5); only refusals under the cap remain for the hardening pass | M0-a-05 S5, then the hardening pass |
-| KI-2 | ARCHITECTURE §3.6/§3.7 text for N-38, N-40, N-43, N-44 and §16's M4 row for N-45 | J191–J202 | amendments land in one amendments round, not mid-flow | the next amendments round |
+| KI-1 | insertChain refusals below the evidence-set caps (J207/J208 as made exact by N-46 (4)) | N-43, N-44, N-46 | M0 fixes the systematic classes (S5: the thin-strip endpoint fallback, wedge corners, drift); the residual under the caps, with a ratchet, waits for better routing | the hardening pass |
+| KI-2 | ARCHITECTURE amendments: §3.6/§3.7 for N-38, N-40, N-43, N-44, N-46 (incl. §3.6 *Chain classes*, §13.1 and C-0177 (14): a mandatory chain may be refused, counted); §16's M4 row for N-45 | J191–J211 | amendments land in one amendments round, not mid-flow | the next amendments round |
+| KI-3 | A consumer contract for a refused mandatory chain: what S4 / S9 (walls, kerbs) do when insertChain refuses one | N-46 (6f) | no stage consumes insertChain in M0 | M1's spec |
+| KI-4 | A per-town refusal budget beside the per-case cap (a town makes ~10⁴–10⁵ insertChain calls, so 2 per 10⁴ is a refusal on most maps) | N-46 (6g) | needs real towns to measure | M1's first towns |
 
 ## The hardening pass
 - **Base:** inside M4 ("hardening and the incremental path", ARCHITECTURE §16), once M1–M3b are built: run the whole chain
