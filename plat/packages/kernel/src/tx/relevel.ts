@@ -224,6 +224,13 @@ function onRun(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
     a = dest(p, ha);
     b = dest(p, hb);
   }
+  return nearSegment(p, v, a, b);
+}
+
+/** Is v within the hot pixel of the segment a–b, its projection on it? Exact: integer orientation and dot products. */
+function nearSegment(p: Plat, v: VertexId, a: VertexId, b: VertexId): boolean {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
   if (a === b) return false;
   const dx = X[b] - X[a];
   const dy = Y[b] - Y[a];
@@ -236,6 +243,45 @@ function onRun(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
 
 /** The hot pixel's radius squared (0.71 cm, §3.2, §3.6). */
 const HOT_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
+
+/**
+ * Could the dissolution remove u — a `split` vertex with no vertex row and no pin whose two edges carry one level and
+ * identical rows (§2.2 rule 3's conditions, its flag as it stands and the on-run test aside)?
+ */
+function dissolvable(p: Plat, u: VertexId): boolean {
+  if (!isVertexLive(p, u)) return false;
+  const flags = p.vertices.flags[u];
+  if ((flags & VERTEX_SPLIT) === 0 || (flags & VERTEX_PINNED) !== 0 || p.roles.vertexFirst[u] !== -1) return false;
+  const inc = around(p, u);
+  if (inc.length !== 2 || inc[0] >> 1 === inc[1] >> 1) return false;
+  const T = p.halfEdges;
+  return T.level[inc[0] >> 1] === T.level[inc[1] >> 1] && sameList(pairRows(p, inc[0]), pairRows(p, inc[1]));
+}
+
+/**
+ * Does v, of its edges' level, lie within the hot pixel of the stretch its edges ha, hb form once the dissolution has
+ * run — the segment joining the first vertex each way that the dissolution cannot remove (C-0223)? One edge split twice
+ * places the second split within the hot pixel of the PIECE the first left, so the first may stand off the segment to
+ * its later neighbour though it lies on the edge both split (checks/M0-a-06-s1.md B-1, the property's case 855); this is
+ * the run as the removal restores it. A stretch that closes on v (a ring of such vertices) has no ends: false.
+ */
+function onStretch(p: Plat, v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean {
+  const T = p.halfEdges;
+  const end = (h0: HalfEdgeId): VertexId => {
+    let h = h0;
+    for (let guard = 0; ; guard++) {
+      check(guard <= T.origin.length, `the stretch through vertex ${v} does not end`);
+      const u = dest(p, h);
+      if (u === v) return -1;
+      if (!dissolvable(p, u)) return u;
+      const [g1, g2] = around(p, u);
+      h = g1 === (h ^ 1) ? g2 : g1;
+    }
+  };
+  const a = end(ha);
+  const b = end(hb);
+  return a >= 0 && b >= 0 && nearSegment(p, v, a, b);
+}
 
 /** Removes an edge pair (no row left on it) from both endpoints' rotations and frees it (§2.2's half-edge links). */
 function deletePair(p: Plat, e: number): void {
@@ -360,19 +406,34 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   for (const a of w.add) if (roleInfo(a.role).kind === 'vertex') vstar.add(a.element);
 
   // ---- the before-image of what the consequences read (every index read is here) ----
-  // (b): each split vertex's runs — pairs of its incident edges of its lowest incident level with identical rows there.
+  // C-0185 (4)'s on-run test, decided for every split vertex before the first merge: every pair of its incident edges of
+  // one level that it lies on — here against its neighbours before the batch, and (below, once the deletions are done)
+  // against the stretch the dissolution will restore. Rule 3 (b), dissolution and split restoration read these pairs
+  // (followed through the batch's earlier merges), never the geometry after a merge: dissolving one crossing of a run
+  // moves the far end of the next, which was placed within the hot pixel of the piece it split, not of the restored edge
+  // (checks/M0-a-06-s1.md B-1; C-0223).
+  const onRunBefore = new Map<VertexId, [number, number][]>();
+  // (b): each split vertex's run candidates — pairs of its incident edges of its lowest incident level with identical rows
+  // there; a pair is one of its runs when it is also on onRunBefore's list.
   const runsBefore = new Map<VertexId, [number, number][]>();
   for (const v of vstar) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
     const inc = around(p, v);
     if (inc.length === 0) continue;
+    const on: [number, number][] = [];
+    for (let i = 0; i < inc.length; i++) {
+      for (let j = i + 1; j < inc.length; j++) {
+        if (T.level[inc[i] >> 1] === T.level[inc[j] >> 1] && onRun(p, v, inc[i], inc[j])) on.push([inc[i] >> 1, inc[j] >> 1]);
+      }
+    }
+    onRunBefore.set(v, on);
     let m0 = 5;
     for (const h of inc) m0 = Math.min(m0, T.level[h >> 1]);
     const at = inc.filter((h) => T.level[h >> 1] === m0);
     const pairs: [number, number][] = [];
     for (let i = 0; i < at.length; i++) {
       for (let j = i + 1; j < at.length; j++) {
-        if (sameList(levelRows(p, at[i], m0), levelRows(p, at[j], m0)) && onRun(p, v, at[i], at[j])) pairs.push([at[i] >> 1, at[j] >> 1]);
+        if (sameList(levelRows(p, at[i], m0), levelRows(p, at[j], m0))) pairs.push([at[i] >> 1, at[j] >> 1]);
       }
     }
     runsBefore.set(v, pairs);
@@ -573,13 +634,31 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   const faceWrites = pass.writes;
   faceWrites.push(...materialise(t, materialisePlan, pass.successor, pass.coveredBy));
 
-  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
+  // The on-run test's second reading (C-0223), on the arena the deletions left and before any flag, level or merge
+  // changes: a surviving same-level pair of a split vertex of its level lies on its run when the vertex is within the hot
+  // pixel of the stretch the dissolution will restore (onStretch) — beside onRunBefore's pre-batch neighbour test.
   const canonical = (vs: Iterable<VertexId>): VertexId[] => [...vs].filter((v) => isVertexLive(p, v)).sort((a, b) => compareVertices(p, a, b));
+  for (const v of canonical(vstar)) {
+    if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
+    const on = onRunBefore.get(v) ?? [];
+    const inc = around(p, v);
+    for (let i = 0; i < inc.length; i++) {
+      for (let j = i + 1; j < inc.length; j++) {
+        const x = inc[i] >> 1;
+        const y = inc[j] >> 1;
+        if (T.level[x] !== T.level[y] || L[v] > T.level[x] || on.some(([a, b]) => (a === x && b === y) || (a === y && b === x))) continue;
+        if (onStretch(p, v, inc[i], inc[j])) on.push([x, y]);
+      }
+    }
+    onRunBefore.set(v, on);
+  }
+  const isOn = (v: VertexId, x: number, y: number): boolean => (onRunBefore.get(v) ?? []).some(([a, b]) => (a === x && b === y) || (a === y && b === x));
+  // (b) flags: a split vertex keeps its flag only while a run it split survives whole.
   for (const v of canonical(vstar)) {
     if ((p.vertices.flags[v] & VERTEX_SPLIT) === 0) continue;
     const before = runsBefore.get(v) ?? [];
     const survives = before.some(([x, y]) => isHalfEdgeLive(p, 2 * x) && isHalfEdgeLive(p, 2 * y) && T.level[x] === T.level[y]
-      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])));
+      && sameList(levelRows(p, 2 * x, T.level[x]), levelRows(p, 2 * y, T.level[y])) && isOn(v, x, y));
     if (!survives) {
       p.vertices.flags[v] &= ~VERTEX_SPLIT;
       t.log.unflagged.push(v);
@@ -625,19 +704,30 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   }
   // The dissolution rule, then split restoration.
   const moved = new Map<HalfEdgeId, HalfEdgeId>(); // a dropped half-edge → the kept one that replaces it
+  const follow = (h: HalfEdgeId): HalfEdgeId => {
+    let g = h;
+    for (let guard = 0; moved.has(g); guard++) {
+      check(guard <= moved.size, 'the replacement chain of dissolved half-edges does not end');
+      g = moved.get(g) as HalfEdgeId;
+    }
+    return g;
+  };
+  // Did v lie, before the batch, on the run its edges ha, hb form now — a pair of onRunBefore's, each edge followed
+  // through the merges made since (an edge a dissolution extended is the kept pair of the one v had)?
+  const wasOnRun = (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId): boolean => {
+    const ea = ha >> 1;
+    const eb = hb >> 1;
+    return (onRunBefore.get(v) ?? []).some(([x, y]) => {
+      const cx = follow(2 * x) >> 1;
+      const cy = follow(2 * y) >> 1;
+      return (cx === ea && cy === eb) || (cx === eb && cy === ea);
+    });
+  };
   const changedFaces: Around[] = [];
-  for (const v of canonical(vstar)) dissolve(t, v, aroundV.get(v) ?? [], moved, changedFaces);
-  for (const v of canonical(vstar)) restoreSplit(t, v, aroundV.get(v) ?? [], changedFaces);
+  for (const v of canonical(vstar)) dissolve(t, v, aroundV.get(v) ?? [], moved, changedFaces, wasOnRun);
+  for (const v of canonical(vstar)) restoreSplit(t, v, aroundV.get(v) ?? [], changedFaces, wasOnRun);
   // Every record that stored a dropped half-edge stores the kept one (the chain of replacements followed).
   if (moved.size > 0) {
-    const follow = (h: HalfEdgeId): HalfEdgeId => {
-      let g = h;
-      for (let guard = 0; moved.has(g); guard++) {
-        check(guard <= moved.size, 'the replacement chain of dissolved half-edges does not end');
-        g = moved.get(g) as HalfEdgeId;
-      }
-      return g;
-    };
     const fixed = new Set<string>();
     const fix = (level: Level, f: FaceId): void => {
       const k = `${level}:${f}`;
@@ -1097,12 +1187,20 @@ function materialise(t: OpenTx, plans: readonly MaterialisePlan[], successor: Re
 /**
  * The dissolution rule (§2.2 rule 3): a vertex left with degree 2 that carries the `split` flag, no vertex role row and
  * no pin, whose two edges carry identical role sets and one birth level, is removed and its two edges become one — the
- * edge it was created on, restored. The pair at the run's start end is kept (for a vertex finer than the run, the pair
+ * edge it was created on, restored. The two edges must be a pair the vertex lay on as the batch decided before its first
+ * merge (`wasOnRun`, C-0185 (4), C-0223), so the order of the dissolutions never changes which vertices go. The pair at the run's start end is kept (for a vertex finer than the run, the pair
  * first in the run's order; for one of the run's level, the pair toward the lower (y, x) neighbour), so the run's
  * handle and every coarser route stay as they were; `moved` maps the dropped pair's half-edges to the kept ones, which
  * every record that stored them takes (the caller). `near` are the records round v found before any write.
  */
-function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<HalfEdgeId, HalfEdgeId>, changedFaces: Around[]): void {
+function dissolve(
+  t: OpenTx,
+  v: VertexId,
+  near: readonly Around[],
+  moved: Map<HalfEdgeId, HalfEdgeId>,
+  changedFaces: Around[],
+  wasOnRun: (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId) => boolean,
+): void {
   const p = t.plat;
   const T = p.halfEdges;
   if (!isVertexLive(p, v)) return;
@@ -1116,7 +1214,7 @@ function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<Ha
   const eb = hb >> 1;
   if (ea === eb || T.level[ea] !== T.level[eb]) return;
   if (!sameList(pairRows(p, ha), pairRows(p, hb))) return;
-  if (!onRun(p, v, ha, hb)) return;
+  if (!wasOnRun(v, ha, hb)) return;
   const ua = dest(p, ha);
   const ub = dest(p, hb);
   if (ua === ub) return;
@@ -1167,8 +1265,15 @@ function dissolve(t: OpenTx, v: VertexId, near: readonly Around[], moved: Map<Ha
  * exactly two, of one level, with identical rows of its level or coarser, which carries no vertex row of its level or
  * coarser and no pin, but still meets finer edges or carries finer vertex rows, takes the lowest level among those —
  * the vertex dissolution would take but for that finer geometry — and keeps its flag (now a Steiner vertex of the run).
+ * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223).
  */
-function restoreSplit(t: OpenTx, v: VertexId, near: readonly Around[], changedFaces: Around[]): void {
+function restoreSplit(
+  t: OpenTx,
+  v: VertexId,
+  near: readonly Around[],
+  changedFaces: Around[],
+  wasOnRun: (v: VertexId, ha: HalfEdgeId, hb: HalfEdgeId) => boolean,
+): void {
   const p = t.plat;
   const T = p.halfEdges;
   const R = p.roles;
@@ -1182,7 +1287,7 @@ function restoreSplit(t: OpenTx, v: VertexId, near: readonly Around[], changedFa
   const m = T.level[coarse[0] >> 1];
   if (T.level[coarse[1] >> 1] !== m) return;
   if (!sameList(pairRows(p, coarse[0], lv), pairRows(p, coarse[1], lv))) return;
-  if (!onRun(p, v, coarse[0], coarse[1])) return;
+  if (!wasOnRun(v, coarse[0], coarse[1])) return;
   const vr = rowsOn(p, 'vertex', v);
   if (vr.some((r) => R.level[r] <= lv)) return;
   let finer = 5;
