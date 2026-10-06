@@ -140,7 +140,8 @@ export function violations(g: Grown): string[] {
           return;
         }
         if (!line.some((q) => q.x === p.x && q.y === p.y)) say(`${x.id}: not a vertex of the committed trace`);
-        if (ringDist(p, b.set.outline) > 30) say(`${x.id}: ${String(ringDist(p, b.set.outline))} cm off the boundary it was picked on`);
+        // On the boundary it was picked on: the crossing, or the way's own vertex within twice the attraction distance.
+        if (ringDist(p, b.set.outline) > 53) say(`${x.id}: ${String(ringDist(p, b.set.outline))} cm off the boundary it was picked on`);
         const onWay = x.way === null ? [] : (wayEdges.get(x.way) ?? []);
         if (!onWay.some(([a, q]) => (a.x === p.x && a.y === p.y) || (q.x === p.x && q.y === p.y))) say(`${x.id}: not a vertex of its way ${String(x.way)}`);
       });

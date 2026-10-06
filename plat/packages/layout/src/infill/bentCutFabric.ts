@@ -401,6 +401,12 @@ class Run {
   readonly work = { kernelCalls: 0, recursionDepth: 0, candidates: 0 };
   readonly workCut: WorkCut[] = [];
   stopped: WorkCut['counter'] | null = null;
+  /**
+   * Detect-and-refuse (N-45; C-0243): set when the run cannot go on safely — a lane it could not take out again, or a
+   * face it cannot find again after a refusal re-walked it. The district's batch then returns a typed refusal and the
+   * transaction leaves the arena as it was (the stage reports the district refused); never a throw, never a commit.
+   */
+  abandoned: string | null = null;
   p_: number = 1;
   widthU = 0;
   lRef = 1;
@@ -479,6 +485,11 @@ class Run {
 
   warn(code: string, n = 1): void {
     this.warnings.set(code, (this.warnings.get(code) ?? 0) + n);
+  }
+
+  /** Abandons the district's run (the first reason is kept). */
+  abandon(why: string): void {
+    if (this.abandoned === null) this.abandoned = why;
   }
 
   // ---- work -----------------------------------------------------------------------------------------------------
@@ -578,8 +589,12 @@ interface FaceView {
   readonly spineIds: readonly Id[];
 }
 
-/** The outcome of one candidate tried on the face. */
-type TryResult = { readonly ok: true; readonly children: FaceId[]; readonly slit: boolean } | { readonly ok: false; readonly why: string };
+/**
+ * The outcome of one candidate tried on the face. A refusal after the kernel split (`touched`: the lane taken out again —
+ * 'floor', 'end-rows' — or not — their '-undo's) has re-walked the face: it stands merged back, possibly under a new slot,
+ * so the ladder reads its slot again before the next candidate reaches the kernel (C-0243).
+ */
+type TryResult = { readonly ok: true; readonly children: FaceId[]; readonly slit: boolean } | { readonly ok: false; readonly why: string; readonly touched?: true };
 
 /** Undoes a lane the run inserted (§3.4 `removeEdges`; its vertex rows first, then its chain) and forgets its ids. */
 function takeOut(run: Run, laneId: Id, rows: readonly { role: 'junction' | 'portal'; entity: Id }[], mintedBefore: number): boolean {
@@ -656,7 +671,8 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
         run.kernelCallsThisFace += 1;
         run.charge('kernelCalls');
         const fine = takeOut(run, lane.id, [], mintedBefore);
-        return { ok: false, why: fine ? 'floor' : 'floor-undo' };
+        if (!fine) run.abandon(`a lane refused by the floor could not be taken out again (face ${faceAddr})`);
+        return { ok: false, why: fine ? 'floor' : 'floor-undo', touched: true };
       }
     }
   }
@@ -709,7 +725,8 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
     run.kernelCallsThisFace += 1;
     const fine = takeOut(run, lane.id, added, mintedBefore);
     run.counters[cell] = countBefore;
-    return { ok: false, why: fine ? 'end-rows' : 'end-rows-undo' };
+    if (!fine) run.abandon(`a lane whose end rows failed could not be taken out again (face ${faceAddr})`);
+    return { ok: false, why: fine ? 'end-rows' : 'end-rows-undo', touched: true };
   }
   for (const j2 of newJunctions) run.junctions.push(j2);
   for (const pt of newPortals) {
@@ -965,6 +982,36 @@ function spineCandidate(run: Run, fv: FaceView, sp: { origin: XY; dir: XY }, tre
   return straightCandidate(fv.kf, sides.rings, back.point, fwd.point, [back.ring, fwd.ring], run.cells, width, 'deep');
 }
 
+/** Two canonical ring lists, point for point. */
+function sameRings(a: readonly (readonly LatticePoint[])[], b: readonly (readonly LatticePoint[])[]): boolean {
+  if (a.length !== b.length) return false;
+  for (let i = 0; i < a.length; i += 1) {
+    const r = a[i];
+    const q = b[i];
+    if (r.length !== q.length) return false;
+    for (let j = 0; j < r.length; j += 1) if (r[j].x !== q[j].x || r[j].y !== q[j].y) return false;
+  }
+  return true;
+}
+
+/**
+ * The face again after a refusal that re-walked it (C-0243): a lane taken out again (`removeEdges`) merges the two
+ * children back, and the merged face may stand under a new slot, so the view's slot can be dead (splitFace on it was
+ * the kernel's 'face N is not live' assert, F-CUT's holed #330 and #464). Its slot now is `Run.locate`'s (the slot
+ * itself while it is live, the district's and holds the face's seed point; else the face holding the seed point), and
+ * it must be the district's with its L1 rings as they were — `removeEdges` leaves the arena as before the insertion
+ * (§2.2 rule 3), so the kerb the ladder planned on stands. Null when the face cannot be found or did not come back as
+ * it was (the run is then abandoned: detect-and-refuse, N-45).
+ */
+function faceAgain(run: Run, item: Pending, fv: FaceView): FaceView | null {
+  const face = run.locate({ ...item, face: fv.face });
+  if (face === null || !isFaceLive(run.p, 1, face)) return null;
+  const h = run.p.faces[1].owner[face];
+  if (h < 0 || idOf(run.p, h) !== run.district.id) return null;
+  if (!sameRings(canonicalRings(faceRings(run.p, 1, face)), fv.rings1)) return null;
+  return face === fv.face ? fv : { ...fv, face };
+}
+
 /** The ladder on one face (see the module comment). Returns the faces to recurse on. */
 function ladderOn(run: Run, item: Pending): Pending[] {
   const face = run.locate(item);
@@ -985,7 +1032,7 @@ function ladderOn(run: Run, item: Pending): Pending[] {
     done('unresolved', 1);
     return [];
   }
-  const fv: FaceView = { face, kf: kr.kf, rings1: kr.rings1, spineIds: kr.spineIds };
+  let fv: FaceView = { face, kf: kr.kf, rings1: kr.rings1, spineIds: kr.spineIds };
   if (kr.empty) {
     makeBlock(run, fv, item, 'empty', null);
     done('empty', 1);
@@ -1017,19 +1064,38 @@ function ladderOn(run: Run, item: Pending): Pending[] {
     });
   };
 
+  // Every candidate through here: a refusal that re-walked the face reads its slot again before the next candidate
+  // (C-0243); a face that cannot be found again abandons the run (detect-and-refuse, N-45).
+  const tryOn = (cand: Candidate, attempt: number, extra?: Partial<RungUse>): TryResult => {
+    const t = tryCandidate(run, fv, cand, item.cell, faceAddr, attempt, undefined, extra);
+    if (!t.ok && t.touched === true && run.abandoned === null) {
+      const again = faceAgain(run, item, fv);
+      if (again === null) run.abandon(`the face ${faceAddr} was not found as it was after a '${t.why}' refusal`);
+      else fv = again;
+    }
+    return t;
+  };
+  const abandoned = (): Pending[] => {
+    run.rungs.push({ face: faceAddr, rung: 'unresolved', attempt: 0, outcome: 'none', why: 'abandoned' });
+    done('unresolved', 1);
+    return [];
+  };
+
   // The reflex pre-cut and the antenna split (before step 1).
   const pre = reflexPreCut(kf, sides, run.plotDepthCm, run.cells, newLane);
   if (pre !== null) {
-    const t = tryCandidate(run, fv, pre, item.cell, faceAddr, 0);
+    const t = tryOn(pre, 0);
     if (t.ok) return children(t);
     run.rungs.push({ face: faceAddr, rung: 'pre', attempt: 0, outcome: 'refused', why: t.why });
+    if (run.abandoned !== null) return abandoned();
   }
   if (antennaTips(fv.rings1[0] ?? []).length > 0) {
     const an = antennaCut(kf, sides, fv.rings1[0], run.cells, newLane);
     if (an !== null) {
-      const t = tryCandidate(run, fv, an, item.cell, faceAddr, 0);
+      const t = tryOn(an, 0);
       if (t.ok) return children(t);
       run.rungs.push({ face: faceAddr, rung: 'antenna', attempt: 0, outcome: 'refused', why: t.why });
+      if (run.abandoned !== null) return abandoned();
     } else run.rungs.push({ face: faceAddr, rung: 'antenna', attempt: 0, outcome: 'none' });
   }
 
@@ -1075,9 +1141,10 @@ function ladderOn(run: Run, item: Pending): Pending[] {
         const chain = snapChain(g.chain);
         if (chain === null) continue;
         const cand: Candidate = { rung: 'a', chain, kerbPoints: g.points, ends: [g.ends[0], g.ends[1]], slide: 0 };
-        const t = tryCandidate(run, fv, cand, item.cell, faceAddr, attempt, undefined, key);
+        const t = tryOn(cand, attempt, key);
         if (t.ok) return children(t);
         run.rungs.push({ face: faceAddr, rung: 'a', attempt, outcome: 'refused', why: t.why, ...key });
+        if (run.abandoned !== null) return abandoned();
       }
     } else {
       if (!run.charge('candidates')) break;
@@ -1089,9 +1156,10 @@ function ladderOn(run: Run, item: Pending): Pending[] {
   if (sf.start !== null && run.stopped === null) {
     const b = meanNormalCut(kf, sides, sf.start, sf.far, run.cells, newLane);
     if (b !== null) {
-      const t = tryCandidate(run, fv, b, item.cell, faceAddr, 0);
+      const t = tryOn(b, 0);
       if (t.ok) return children(t);
       run.rungs.push({ face: faceAddr, rung: 'b', attempt: 0, outcome: 'refused', why: t.why });
+      if (run.abandoned !== null) return abandoned();
     } else run.rungs.push({ face: faceAddr, rung: 'b', attempt: 0, outcome: 'none' });
   }
   // Rung (c), then (d): the slide; a small face becomes a court block, a larger one slides on (never a refused cut again).
@@ -1105,12 +1173,13 @@ function ladderOn(run: Run, item: Pending): Pending[] {
       if (!run.charge('candidates')) break;
       continue;
     }
-    const t = tryCandidate(run, fv, cand, item.cell, faceAddr, 0);
+    const t = tryOn(cand, 0);
     if (t.ok) {
       if (foot.k > 0) run.warn('W_CUT_SLID', foot.k);
       return children(t);
     }
     run.rungs.push({ face: faceAddr, rung: 'c', attempt: 0, outcome: 'refused', why: t.why, slide: foot.k });
+    if (run.abandoned !== null) return abandoned();
     if (first && area <= run.substitutionMaxCm2) break;
     first = false;
   }
@@ -1202,17 +1271,20 @@ export function districtBatch(p: Plat, district: District, seams: readonly Seam[
     for (const f of cells) for (const q of canonicalRings(faceRings(run.p, 1, f))[0] ?? []) pts.push(q);
     run.lRef = Math.max(1, majorExtent(pts));
     cells.forEach((f, ci) => {
+      if (run.abandoned !== null) return;
       run.cellHashes.push(lineageHash({ arena: ctx.key, unit: ctx.lineage, stage: S6, epoch: ctx.epoch, index: ci, reroll: ctx.reroll }));
       run.counters.push(1);
       const hash = run.hashIn(run.cellHashes[ci], 0);
       // Depth-first, issue order: the left child before the right (a stack, the right pushed first).
       const stack: Pending[] = [{ face: f, hash, index: 0, depth: 0, cell: ci, seed: seedOf(canonicalRings(faceRings(run.p, 1, f))) }];
-      while (stack.length > 0) {
+      while (stack.length > 0 && run.abandoned === null) {
         const item = stack.pop() as Pending;
         const next = ladderOn(run, item);
         for (let i = next.length - 1; i >= 0; i -= 1) stack.push(next[i]);
       }
     });
+    // Detect-and-refuse (C-0243): an abandoned run commits nothing; the transaction leaves the arena as it was.
+    if (run.abandoned !== null) return err('E_INVARIANT', `S8 ${district.id}: ${run.abandoned}`);
     const report: DistrictReport = {
       district: district.id,
       cells: cells.length,

@@ -17,13 +17,13 @@
 import { BinaryHeap, CONCERNS, err, ok, STAGES, type HalfEdgeId, type Kernel, type KernelResult, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
 import { commitS3Batch, PLAZA_ID, siteContext, WAY_SPAN_NODES, type S3Batch, type S3Commit } from '../enceinte/commit.js';
-import { crossParams, lat, unitOf } from '../enceinte/plane.js';
-import { layStrips, toFrame } from '../enceinte/strips.js';
+import { crossParams, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { layStrips, stripWidths, toFrame } from '../enceinte/strips.js';
 import { baseEnceinte, l1Spec } from '../enceinte/trace.js';
 import type { CostField, StripsLaid, StripStop, Traced, WaterGate, XY } from '../enceinte/types.js';
 import { GROUND, waterGates, waterRings } from '../enceinte/water.js';
 import { stageThreshold, type WaterPull } from '../siting/field.js';
-import { area2Of, bearingCdeg, perimeterOf, quot } from '../siting/geom.js';
+import { area2Of, bearingCdeg, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
 import { levelSet } from '../siting/levelset.js';
 import type { Field, LevelSet, S3Slice, Threshold } from '../siting/types.js';
 
@@ -440,28 +440,48 @@ export function traceStage(
   if ((opts.earlierWaterGates ?? 0) > 0 && waterGates(outline.slice(), water, kernel, { key: arena }).length > 0) {
     return err('E_INVARIANT', `notBuilt('M1'): stage ${String(k)}'s trace crosses water while an earlier enceinte holds water gates; their ids gate:w<i> would collide (C-S5AB)`);
   }
-  // The crossing vertices split onto their ways, in crossing order (each on the half-edge as the arena holds it now).
+  // The crossing vertices put on their ways, in crossing order: the way's own vertex where one lies within twice the
+  // attraction distance of the crossing (no sub-edge shorter than that beside a gate), else a vertex split onto the way's
+  // nearest half-edge (one L1 callback batch at S5's rank). Each gate keeps its way's direction there.
   const placed: LatticePoint[] = [];
+  const along: XY[] = [];
   const split = kernel.tx(l1Spec(arena, STAGES.S5), (o) => {
     for (const c of crossings) {
       const p = kernel.plat(arena);
       const r = kernel.resolve({ role: 'way', entity: c.way }, arena);
       if (r.view !== 'edges') return err('E_INVARIANT', `S5a: the way ${c.way} does not resolve to edges`);
-      // The half-edge of the way nearest the crossing point now (an earlier split may have cut the original).
       let best = -1;
       let bestD = Infinity;
+      let vtx = -1;
+      let vtxD = Infinity;
       for (const run of r.runs) {
         for (const h of run) {
-          const a = { x: p.vertices.x[p.halfEdges.origin[h]], y: p.vertices.y[p.halfEdges.origin[h]] };
+          const ia = p.halfEdges.origin[h];
+          const a = { x: p.vertices.x[ia], y: p.vertices.y[ia] };
           const b = { x: p.vertices.x[p.halfEdges.origin[h ^ 1]], y: p.vertices.y[p.halfEdges.origin[h ^ 1]] };
           const d = segD2(c.at, a, b);
           if (d < bestD) {
             bestD = d;
             best = h;
           }
+          for (const [iv, q] of [
+            [ia, a],
+            [p.halfEdges.origin[h ^ 1], b],
+          ] as const) {
+            const dv = (q.x - c.at.x) * (q.x - c.at.x) + (q.y - c.at.y) * (q.y - c.at.y);
+            if (dv < vtxD) {
+              vtxD = dv;
+              vtx = iv;
+            }
+          }
         }
       }
       if (best < 0 || bestD > 4) return err('E_INVARIANT', `S5a: the crossing (${String(c.at.x)}, ${String(c.at.y)}) lies off its way ${c.way}`);
+      along.push({ x: p.vertices.x[p.halfEdges.origin[best ^ 1]] - p.vertices.x[p.halfEdges.origin[best]], y: p.vertices.y[p.halfEdges.origin[best ^ 1]] - p.vertices.y[p.halfEdges.origin[best]] });
+      if (vtx >= 0 && vtxD <= 4 * TOUCH_CM * TOUCH_CM) {
+        placed.push({ x: p.vertices.x[vtx], y: p.vertices.y[vtx] } as LatticePoint);
+        continue;
+      }
       const v = kernel.geom.splitThrough(o, best as HalfEdgeId, c.at);
       if (!v.ok) return err(v.code, v.detail);
       const q = kernel.plat(arena);
@@ -470,11 +490,22 @@ export function traceStage(
     return ok(null);
   });
   if (!split.ok) return err(split.code, `S5a: the gate vertices could not be put on their ways: ${split.detail}`);
-  // The outline with the gate vertices in it (each within a centimetre of its crossing; the strategy pins it there).
-  const boundary = insertOnOutline(
-    outline,
-    crossings.map((c, i) => ({ at: placed[i], side: c.side, u: c.u })),
+  // The outline with the gate vertices in it, each crossed square to its way over the outer strip's width on both sides
+  // (the outline's vertices within that reach replaced), so the wall meets the way at its gate and nowhere beside it.
+  const reach = stripWidths(site.tables.table('walls').row('era.default')).outer;
+  const inserted = squareGates(
+    insertOnOutline(
+      outline,
+      crossings.map((c, i) => ({ at: placed[i], side: c.side, u: c.u })),
+    ),
+    placed,
+    along,
+    reach,
   );
+  // The closed chain starts at a vertex that is no gate (a gate is an existing vertex of its way; C-S5AB).
+  const isGate = (q: XY): boolean => placed.some((g) => g.x === q.x && g.y === q.y);
+  const start = inserted.findIndex((q, i) => !isGate(q) && !isGate(inserted[i === 0 ? inserted.length - 1 : i - 1]));
+  const boundary = start <= 0 ? inserted : [...inserted.slice(start), ...inserted.slice(0, start)];
   const sites: GateSite[] = crossings.map((c, i) => ({ ordinal: opts.firstOrdinal + i, at: placed[i], bearingCdeg: c.bearingCdeg as GateSite['bearingCdeg'], kind: 'main', forced: false }));
   const ctx = siteContext(site);
   const traced = baseEnceinte.trace(
@@ -507,6 +538,46 @@ export function traceStage(
     return i < 0 ? g : { ...g, way: gateWays[i] };
   });
   return ok({ enceinte: t.enceinte, gates, waterGates: t.waterGates, traced: t, strips: strips.value, gateWays, boundary }, [...split.warnings, ...traced.warnings, ...strips.warnings]);
+}
+
+/**
+ * Each gate crossed square to its way (C-S5AB): on the outline, the vertices within `reach` of a gate (none of them a
+ * gate) are replaced by the two points `reach` along the way's normal on either side of it, ordered as the outline
+ * runs. A gate whose reshaping would leave the outline non-simple keeps the outline as it was there.
+ */
+export function squareGates(outline: readonly LatticePoint[], gates: readonly LatticePoint[], along: readonly XY[], reach: number): LatticePoint[] {
+  let ring = outline.slice();
+  const isGate = (q: XY): boolean => gates.some((g) => g.x === q.x && g.y === q.y);
+  gates.forEach((g, gi) => {
+    const n = ring.length;
+    const at = ring.findIndex((q) => q.x === g.x && q.y === g.y);
+    const d = unitOf({ x: -along[gi].y, y: along[gi].x });
+    if (at < 0 || d === null || n < 6) return;
+    const far = (q: XY): boolean => (q.x - g.x) * (q.x - g.x) + (q.y - g.y) * (q.y - g.y) >= reach * reach;
+    let a = at;
+    let steps = 0;
+    while (steps < n - 3 && !far(ring[(a - 1 + n) % n]) && !isGate(ring[(a - 1 + n) % n])) {
+      a = (a - 1 + n) % n;
+      steps += 1;
+    }
+    let b = at;
+    while (steps < n - 3 && !far(ring[(b + 1) % n]) && !isGate(ring[(b + 1) % n])) {
+      b = (b + 1) % n;
+      steps += 1;
+    }
+    const before = ring[(a - 1 + n) % n];
+    const after = ring[(b + 1) % n];
+    // The normal pointing along the outline's run (from the vertex before the reach to the one after).
+    const run = { x: after.x - before.x, y: after.y - before.y };
+    const s = d.x * run.x + d.y * run.y >= 0 ? 1 : -1;
+    const p0 = lat({ x: g.x - s * d.x * reach, y: g.y - s * d.y * reach });
+    const p1 = lat({ x: g.x + s * d.x * reach, y: g.y + s * d.y * reach });
+    const kept: LatticePoint[] = [];
+    for (let i = (b + 1) % n; i !== a; i = (i + 1) % n) kept.push(ring[i]);
+    const next = [...kept, p0, g, p1];
+    if (ringIsSimple(next)) ring = next;
+  });
+  return ring;
 }
 
 /** The squared distance from p to the segment ab. */

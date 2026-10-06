@@ -5,7 +5,7 @@
 import { describe, expect, it } from 'vitest';
 import type { LatticePoint } from '@plat/kernel';
 import { flatFixture, s3Slice, type S3Slice } from '../../../src/index.js';
-import { boundaryCrossings, HA_CM2, insertOnOutline, landOf, stageBoundary, unionField, withPins, type WayLine } from '../../../src/growth/boundary.js';
+import { boundaryCrossings, HA_CM2, insertOnOutline, landOf, squareGates, stageBoundary, unionField, withPins, type WayLine } from '../../../src/growth/boundary.js';
 import { P } from './support.js';
 
 const SLICES = new Map<string, S3Slice>();
@@ -169,5 +169,42 @@ describe('insertOnOutline', () => {
       { at: P(0, 5_000), side: 3, u: 0.5 },
     ]);
     expect(out).toEqual([P(0, 0), P(2_000, 0), P(7_000, 0), P(10_000, 0), P(10_000, 10_000), P(0, 10_000), P(0, 5_000)]);
+  });
+});
+
+describe('squareGates', () => {
+  // A 100 m square, counter-clockwise, its bottom side cut every 5 m; a gate at (50 m, 0).
+  const bottom = Array.from({ length: 19 }, (_v, i) => P((i + 1) * 500, 0));
+  const ring: LatticePoint[] = [P(0, 0), ...bottom, P(10_000, 0), P(10_000, 10_000), P(0, 10_000)];
+
+  it('a way square to the side: the vertices within the reach replaced by the two points on its normal', () => {
+    const out = squareGates(ring, [P(5_000, 0)], [{ x: 0, y: 700 }], 1_500);
+    const at = out.findIndex((q) => q.x === 5_000 && q.y === 0);
+    expect(out[at - 1]).toEqual(P(3_500, 0));
+    expect(out[at + 1]).toEqual(P(6_500, 0));
+    for (const q of out) if (q.y === 0 && q.x !== 5_000) expect(Math.abs(q.x - 5_000)).toBeGreaterThanOrEqual(1_500);
+    expect(out.length).toBe(ring.length - 5 + 2);
+  });
+
+  it('an oblique way: the wall crosses it square, the points along its normal in the outline\'s direction', () => {
+    const out = squareGates(ring, [P(5_000, 0)], [{ x: 300, y: 300 }], 1_500);
+    const at = out.findIndex((q) => q.x === 5_000 && q.y === 0);
+    const r = 1_500 / Math.SQRT2;
+    expect(out[at - 1]).toEqual(P(Math.round(5_000 - r), Math.round(r)));
+    expect(out[at + 1]).toEqual(P(Math.round(5_000 + r), Math.round(-r)));
+    // The way's direction and the wall's sides at the gate are square.
+    const u = { x: out[at + 1].x - out[at - 1].x, y: out[at + 1].y - out[at - 1].y };
+    expect(Math.abs(u.x * 300 + u.y * 300)).toBeLessThan(2 * 300);
+  });
+
+  it('stops at another gate and keeps the outline where squaring would make it touch itself', () => {
+    const two = squareGates(ring, [P(5_000, 0), P(6_000, 0)], [{ x: 0, y: 1 }, { x: 0, y: 1 }], 1_500);
+    expect(two.some((q) => q.x === 6_000 && q.y === 0)).toBe(true);
+    expect(two.some((q) => q.x === 5_000 && q.y === 0)).toBe(true);
+    // A small ring whose squaring at the reach would cross its far side: kept as it was.
+    const tight: LatticePoint[] = [P(0, 0), P(500, 0), P(1_000, 0), P(1_000, 300), P(600, 300), P(400, 300), P(0, 300)];
+    expect(squareGates(tight, [P(500, 0)], [{ x: 0, y: 1 }], 1_500)).toEqual(tight);
+    const steep = squareGates(tight, [P(500, 0)], [{ x: 1, y: 1 }], 200);
+    expect(steep.some((q) => q.x === 500 && q.y === 0)).toBe(true);
   });
 });

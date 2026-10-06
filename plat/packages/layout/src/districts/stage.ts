@@ -234,7 +234,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     const landHa = landCm2 / 100_000_000;
     const law = countLaw(landHa, cells);
     // 3. Seeds and growth.
-    const placed = placeSeeds(g, claimable, input.features, law.n, cells.rate);
+    const placed = placeSeeds(g, claimable, input.features, law.n, cells.rate, law.bandHa[0] * 100_000_000);
     const turnStream = (lineage: Readonly<LineageHash>, turn: number) => {
       const tl = lineageHash({ arena: key, unit: lineage, stage: S6, epoch, index: turn, reroll });
       return rng.stream(entityKey(input.seedKey, tl, key), S6, CONCERNS['district.seed'], { reroll, attempt: 0, epoch, salt: 0 });

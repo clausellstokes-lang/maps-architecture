@@ -5,8 +5,9 @@
 //     the longest shore or bank of a water body), ties by canonical face order, a face an earlier seed took passed
 //     over; a feature with no such face left is dropped and reported;
 //   * the remainder — N_d less the features — goes compartment by compartment (the claimable faces' connected runs
-//     across edges that pass the edge test, which no grower crosses): first one to each compartment without a seed,
-//     the largest first (every compartment yields a district whatever it is given); then each next seed to the
+//     across edges that pass the edge test, which no grower crosses) whose land reaches the band's floor: first one to
+//     each such compartment without a seed, the largest first (every compartment yields a district whatever it is
+//     given); then each next seed to the
 //     compartment whose land share of N_d (A_c ÷ (A ÷ N_d)) most exceeds the growth its seeds already carry (each seed
 //     counted at its rate, so a slow gate ward leaves its compartment's land to the others), ties by the compartment's
 //     first face; inside a compartment the first fast seed (rate ≥ the remainder's) takes the face nearest the
@@ -93,9 +94,9 @@ export function compartments(g: FaceGraph, claimable: readonly boolean[]): numbe
 
 /**
  * The seeds (see the module comment): `features` in order, then the remainder up to `nd` seeds in all; `rate` the
- * kinds' `district.growthRate`.
+ * kinds' `district.growthRate`; `floorCm2` the band's floor (no remainder seed goes to a compartment below it).
  */
-export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features: readonly SeedFeature[], nd: number, rate: (kind: SeedKind) => number): PlacedSeeds {
+export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features: readonly SeedFeature[], nd: number, rate: (kind: SeedKind) => number, floorCm2 = 0): PlacedSeeds {
   const taken = new Set<number>();
   const seeds: GrowSeed[] = [];
   const dropped: Id[] = [];
@@ -157,26 +158,23 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
   for (let r = 0; r < remainder; r += 1) {
     let pick = -1;
     let pickDeficit = 0;
-    // First every compartment without a seed, the largest first: each yields a district whatever it is given.
-    const mode = (globalThis as any).__ALLOC ?? 'first';
-    const floorCm2 = 0.5 * land / nd;
+    // First every compartment without a seed whose land reaches the band's floor, the largest first: each yields a
+    // district whatever it is given; a compartment below the floor gets none (its land the leftover rule's).
     comps.forEach((c, ci) => {
-      if (mode === 'deficit') return;
-      if (members[ci].length > 0 || !c.some(free)) return;
-      if (mode === 'firstFloor' && area[ci] < floorCm2) return;
+      if (members[ci].length > 0 || area[ci] < floorCm2 || !c.some(free)) return;
       if (pick < 0 || area[ci] > area[pick]) pick = ci;
     });
-    if (pick < 0)
-    comps.forEach((c, ci) => {
-      if (!c.some(free)) return;
-      if (mode !== 'first' && area[ci] < floorCm2) return;
-      // the deficit: the compartment's share of N_d (A_c · N_d ÷ A, scaled by A to stay exact) less its carried growth
-      const deficit = area[ci] * nd - carried[ci] * land;
-      if (pick < 0 || deficit > pickDeficit) {
-        pick = ci;
-        pickDeficit = deficit;
-      }
-    });
+    if (pick < 0) {
+      comps.forEach((c, ci) => {
+        if (area[ci] < floorCm2 || !c.some(free)) return;
+        // the deficit: the compartment's share of N_d (A_c · N_d ÷ A, scaled by A to stay exact) less its carried growth
+        const deficit = area[ci] * nd - carried[ci] * land;
+        if (pick < 0 || deficit > pickDeficit) {
+          pick = ci;
+          pickDeficit = deficit;
+        }
+      });
+    }
     if (pick < 0) break;
     const c = comps[pick];
     let face = -1;

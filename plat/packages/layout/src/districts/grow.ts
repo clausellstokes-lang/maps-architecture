@@ -3,9 +3,9 @@
 //   * a round gives every unfinished grower one turn, in seed-id order; each turn's draws come from its own stream,
 //     keyed by the grower's seed lineage and the turn's number (`stream(lineage, turn)`), so a turn's draws depend on
 //     nothing but the grower and the turn — never on a slot, an arrival or another grower's draws;
-//   * a turn skips with probability 1 − rate (one uniform, `bool(rate)`), else takes the admissible neighbours in
-//     canonical face order and absorbs one drawn uniformly (`int`); a grower with none is finished (C-0242 (6): the
-//     skip is drawn first — the admissible set only shrinks while a grower waits, so the order never changes a claim);
+//   * a turn first takes the admissible neighbours in canonical face order — a grower with none is finished, so even a
+//     grower of rate 0 ends — then skips with probability 1 − rate (one uniform, `bool(rate)`), else absorbs one of
+//     them drawn uniformly (`int`) (C-0242 (6));
 //   * admissible: an unclaimed claimable face whose every shared edge with the patch passes the edge test (no barrier
 //     bit the kind is not allowed; no kind is allowed one at M0, C-0242 (3)), and the grown patch passes the patch
 //     test — area at most the band's top, compactness ≥ the floor (the patch's area over its convex hull's, C-0242
@@ -138,15 +138,15 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
     const t = d.turns;
     d.turns += 1;
     turns += 1;
-    const s = stream(d.seed.lineage, t);
-    if (!s.bool(d.seed.rate)) {
-      log.push({ seed: d.seed.order, turn: t, what: 'skip' });
-      return true;
-    }
     const adm = admissible(d);
     if (adm.length === 0) {
       log.push({ seed: d.seed.order, turn: t, what: 'done' });
       return false;
+    }
+    const s = stream(d.seed.lineage, t);
+    if (!s.bool(d.seed.rate)) {
+      log.push({ seed: d.seed.order, turn: t, what: 'skip' });
+      return true;
     }
     const j = adm[s.int(0, adm.length - 1)];
     absorb(d, j);

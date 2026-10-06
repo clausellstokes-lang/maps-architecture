@@ -25,6 +25,7 @@ import {
   type StageId,
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
+import { parseTable, tableView, type TableView } from '@plat/tables';
 import { commitS3Slice, flatFixture, runS4, runS6, s3Slice, settlementPerimeter, siteFeatures, type S3Commit, type S3Slice, type S6Input, type S6Output } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
@@ -387,4 +388,103 @@ export function cityRun(seed: number, gridM = 150, ringM = 180): CityRun {
     wall,
   };
   return { seed, plat, k, input, ways, slice, commit: c.value };
+}
+
+// ---- small grids for the grower's unit tests ------------------------------------------------------------------------------
+
+/** A grid arena: n × m square cells of side `cellM`, the outer ring the map border, the inner lines ways by `lineClass`. */
+export interface GridArena {
+  readonly plat: Plat;
+  readonly k: Kernel;
+  readonly ways: Way[];
+  /** The cell (i, j)'s centre. */
+  readonly centre: (i: number, j: number) => LatticePoint;
+}
+
+/**
+ * The grid (lines x = i · s for i = 1 … n − 1 and y = j · s for j = 1 … m − 1, each one way of `lineClass(dir, index)`
+ * — dir 'x' for the vertical line at x = i · s, 'y' for the horizontal one), inside the border ring [0, n·s] × [0, m·s]
+ * and the arena's outer ring; the cells listed in `owned` given to their owner (a reservation's barrier face).
+ */
+export function gridArena(n: number, m: number, cellM: number, lineClass: (dir: 'x' | 'y', index: number) => Way['class'], owned: readonly { i: number; j: number; owner: Id }[] = []): GridArena {
+  const s = cellM * 100;
+  const w = n * s;
+  const h = m * s;
+  const side = Math.max(w, h) * 3;
+  const frame: Frame = { widthCm: side as Cm, heightCm: side as Cm, aspect: 1, marginShare: 0.3 };
+  const plat = createPlat(GROUND, frame);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+  lay(k, 0, STAGES.S1, [P(-s, -s), P(w + s, -s), P(w + s, h + s), P(-s, h + s)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
+  lay(k, 1, STAGES.S3, [P(0, 0), P(w, 0), P(w, h), P(0, h)], [{ role: 'border', entity: 'terrain:t' }], { closed: true });
+  const ways: Way[] = [];
+  for (let i = 1; i < n; i += 1) {
+    const id = `way:x${String(i)}`;
+    lay(k, 1, STAGES.S4, [P(i * s, 0), P(i * s, h)], [{ role: 'way', entity: id }]);
+    ways.push(wayRecord(id, lineClass('x', i)));
+  }
+  for (let j = 1; j < m; j += 1) {
+    const id = `way:y${String(j)}`;
+    lay(k, 1, STAGES.S4, [P(0, j * s), P(w, j * s)], [{ role: 'way', entity: id }]);
+    ways.push(wayRecord(id, lineClass('y', j)));
+  }
+  const centre = (i: number, j: number): LatticePoint => P(i * s + s / 2, j * s + s / 2);
+  for (const o of owned) {
+    const r = k.tx(spec(1, STAGES.S3), (ov) => {
+      const loc = k.geom.pointLocate(GROUND, 1, centre(o.i, o.j));
+      if (loc.on !== 'face') return err('E_INVARIANT', 'support: no cell face');
+      return k.geom.setOwner(ov, [loc.face], o.owner);
+    });
+    if (!r.ok) throw new Error(`support: a cell's owner was refused: ${r.code}`);
+  }
+  return { plat, k, ways, centre };
+}
+
+/** A TableView whose table `id` has one cell's value replaced (the stages read their cells; nothing is inlined). */
+export function tableWith(id: string, row: string, cell: string, value: unknown, base: TableView = tableView()): TableView {
+  const t = base.table(id);
+  const rows: Record<string, Record<string, unknown>> = {};
+  for (const [rk, cells] of t.rows) {
+    const r: Record<string, unknown> = {};
+    for (const [ck, c] of cells) r[ck] = { ...c, ...(rk === row && ck === cell ? { value } : {}) };
+    rows[rk] = r;
+  }
+  const changed = parseTable(id, { table: id, version: t.version, section: t.section, rows });
+  return {
+    hash: base.hash,
+    version: (x) => base.version(x),
+    get: (x, key) => (x === id ? changed.rows.get(key) : base.get(x, key)),
+    rows: (x) => (x === id ? changed.rows : base.rows(x)),
+    slice: (x, kind, key) => base.slice(x, kind, key),
+    table: (x) => (x === id ? changed : base.table(x)),
+  };
+}
+
+/** Twice the signed area of a ring (counter-clockwise positive). */
+export function area2Of(ring: readonly { x: number; y: number }[]): number {
+  let s = 0;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    s += a.x * b.y - b.x * a.y;
+  }
+  return s;
+}
+
+/** Is q inside the ring (even-odd, q off the ring)? */
+export function insidePoly(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): boolean {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
+    const a = ring[i];
+    const b = ring[j];
+    if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
+  }
+  return inside;
+}
+
+/** The distance of q to a closed ring's edges. */
+export function ringDist(ring: readonly { x: number; y: number }[], q: { x: number; y: number }): number {
+  let best = Infinity;
+  for (let i = 0; i < ring.length; i += 1) best = Math.min(best, segPointDist(q, ring[i], ring[(i + 1) % ring.length]));
+  return best;
 }

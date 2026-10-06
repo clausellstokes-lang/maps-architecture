@@ -764,14 +764,48 @@ function courses(
   const obstacles: Seg[] = [...lattice.costs.water.faces.flatMap((r) => segsOf(r, true)), ...segsOf(slice.plaza.ring, true), ...walls(state).flatMap((w) => segsOf(w, true))];
   const out: Course[] = [];
   const pts = lattice.points;
+  const centre = site.centre;
+  /** From the inside node `u`, up to APPROACH_NODES steps inward: each the open ring neighbour most toward the nucleus. */
+  const approachOf = (u: number, at: XY): number[] => {
+    const g = lattice.graph;
+    const out0 = [u];
+    const rx = at.x - centre.x;
+    const ry = at.y - centre.y;
+    let cur = u;
+    for (let s = 0; s < APPROACH_NODES; s += 1) {
+      let best = -1;
+      let bestDot = 0;
+      for (let e = g.offsets[cur]; e < g.offsets[cur + 1]; e += 1) {
+        const w = g.targets[e];
+        if (mask[w] !== 1 || !(weights[e] < Infinity) || out0.includes(w)) continue;
+        // The step's inward component, against the radial direction (the most inward wins; ties the lower node).
+        const dot = -((pts[w].x - pts[cur].x) * rx + (pts[w].y - pts[cur].y) * ry);
+        if (dot > bestDot || (dot === bestDot && best >= 0 && w < best)) {
+          bestDot = dot;
+          best = w;
+        }
+      }
+      if (best < 0) break;
+      out0.push(best);
+      cur = best;
+    }
+    return out0;
+  };
   /** One candidate's course, or why it has none. */
   const attempt = (pick: MainRoadPick, outline: readonly XY[] | null): Course | Omit<Unserved, 'stage' | 'pick'> => {
     const name = `s5b:${String(k)}/${String(pick.ordinal)}`;
     const sources = [...sourceOf.keys()].sort((a, b) => a - b);
     if (sources.length === 0) return { why: 'no_source' };
     const [u, v] = pick.edge;
-    const inner = routeLadder(rg, sources, [u], { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/in`, mask, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
-    if (!inner.ok || inner.value === null) return { why: 'inner' };
+    // A walled stage's road reaches its gate square to the boundary: its last `APPROACH_NODES` steps run straight in
+    // from the destination's inside node, each the most inward open neighbour in the ring (C-S5AB), so the wall,
+    // which departs from the boundary by up to its band, crosses the road once, at its gate.
+    const approach = walled ? approachOf(u, pick.at) : [u];
+    const innerMask = approach.length > 1 ? Uint8Array.from(mask) : mask;
+    for (let i = 0; i + 1 < approach.length; i += 1) innerMask[approach[i]] = 0;
+    const found = routeLadder(rg, sources, [approach[approach.length - 1]], { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/in`, mask: innerMask, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
+    if (!found.ok || found.value === null) return { why: 'inner' };
+    const inner = { value: { nodes: [...found.value.nodes, ...approach.slice(0, -1).reverse()] } };
     // Outward at the radial bearing, else to the nearest frame (S3 (5)'s least-cost outward direction).
     const ladder = (targets: number[], tag: string): ReturnType<typeof routeLadder> => routeLadder(rg, [v], targets, { class: 'primary', radiusCm: radius, searchBandCm: band, route: `${name}/${tag}`, mask: outside, nodeLimit: limit, excludedDecks }, state.report.rungs, work);
     let outer = ladder([rimAtBearing(lattice, pick.at, pick.bearingCdeg)], 'out');
@@ -859,6 +893,9 @@ function courses(
   state.report.work['route.nodes'] += work.n;
   return { courses: out, pins };
 }
+
+/** The lattice steps a walled stage's road runs straight in from its gate (2 × 25 m: beyond the wall's 40 m band). */
+export const APPROACH_NODES = 2;
 
 /** The S5b batch's work limit (§5.1 (5)): the insert counters' laws over the batch, S5's scope. */
 export function s5bWorkLimit(vertices: number, faces: number): number {
