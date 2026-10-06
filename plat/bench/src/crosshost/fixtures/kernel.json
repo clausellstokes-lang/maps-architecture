@@ -1,0 +1,19 @@
+{
+  "$comment": "M0-d-06's kernel fixtures (§6.5 (9); the item's first test and its exit bar 'on the kernel fixtures now'): the stage table of packages/testkit/src/crosshost/kernel-stages.ts over 16 seeds (the u32 edges, small values, the two H32 check values of §13.6 (2)); the inputs are the committed known-answer vectors of the reference architecture (arm64; the x86_64 sets are byte-identical, C-0135, C-0143). Run: corepack pnpm bench -- crosshost run kernel",
+  "id": "kernel",
+  "entry": "packages/testkit/src/crosshost/kernel-stages.ts",
+  "seeds": [0, 1, 2, 3, 7, 42, 255, 256, 65535, 65536, 1221236157, 3998735106, 2147483647, 2147483648, 4294967294, 4294967295],
+  "stages": ["xoshiro.kat", "dmath.kat", "lanes.kat", "lanes", "xoshiro", "dmath", "regularFit", "circumcentres", "constructive"],
+  "inputs": {
+    "fdlibm/pow.txt": "packages/kernel/test/vectors/fdlibm/arm64/pow.txt",
+    "fdlibm/log.txt": "packages/kernel/test/vectors/fdlibm/arm64/log.txt",
+    "fdlibm/exp.txt": "packages/kernel/test/vectors/fdlibm/arm64/exp.txt",
+    "fdlibm/sin.txt": "packages/kernel/test/vectors/fdlibm/arm64/sin.txt",
+    "fdlibm/cos.txt": "packages/kernel/test/vectors/fdlibm/arm64/cos.txt",
+    "fdlibm/atan2.txt": "packages/kernel/test/vectors/fdlibm/arm64/atan2.txt",
+    "fdlibm/atan.txt": "packages/kernel/test/vectors/fdlibm/arm64/atan.txt",
+    "xoshiro/xoshiro128ss.txt": "packages/kernel/test/vectors/xoshiro/arm64/xoshiro128ss.txt",
+    "xoshiro/xoshiro128ss-long.txt": "packages/kernel/test/vectors/xoshiro/arm64/xoshiro128ss-long.txt",
+    "murmur/murmur3-x86-128.json": "packages/kernel/test/vectors/murmur/murmur3-x86-128.json"
+  }
+}

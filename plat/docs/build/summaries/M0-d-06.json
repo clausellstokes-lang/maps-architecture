@@ -1,0 +1,76 @@
+{
+  "item": "M0-d-06",
+  "fixture": "kernel",
+  "seeds": 16,
+  "stages": 9,
+  "cellsPerRun": 99,
+  "timing": false,
+  "reference": "node-arm64/off",
+  "comparedWith": "node-x64-rosetta/off",
+  "runs": [
+    {
+      "leg": "node-arm64",
+      "workers": "off",
+      "status": "blocked"
+    },
+    {
+      "leg": "node-arm64",
+      "workers": "on",
+      "status": "blocked"
+    },
+    {
+      "leg": "node-x64-rosetta",
+      "workers": "off",
+      "status": "ran",
+      "engine": "node v24.12.0",
+      "arch": "x64",
+      "kind": "native-x64",
+      "thread": "main"
+    },
+    {
+      "leg": "node-x64-rosetta",
+      "workers": "on",
+      "status": "ran",
+      "engine": "node v24.12.0",
+      "arch": "x64",
+      "kind": "native-x64",
+      "thread": "worker",
+      "agrees": true
+    },
+    {
+      "leg": "chromium",
+      "workers": "off",
+      "status": "blocked"
+    },
+    {
+      "leg": "chromium",
+      "workers": "on",
+      "status": "blocked"
+    },
+    {
+      "leg": "firefox",
+      "workers": "off",
+      "status": "blocked"
+    },
+    {
+      "leg": "firefox",
+      "workers": "on",
+      "status": "blocked"
+    },
+    {
+      "leg": "webkit",
+      "workers": "off",
+      "status": "blocked"
+    },
+    {
+      "leg": "webkit",
+      "workers": "on",
+      "status": "blocked"
+    }
+  ],
+  "ran": 2,
+  "blocked": 8,
+  "failed": 0,
+  "differences": 0,
+  "verdict": "incomplete"
+}
