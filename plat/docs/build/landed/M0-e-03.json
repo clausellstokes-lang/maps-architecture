@@ -1,0 +1,44 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-e-03",
+  "lane": "build/M0-e-03",
+  "lanes": ["build/M0-e-03"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-06T13:37:24.093Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/site/src/water/", "plat/packages/site/test/water/"],
+  "counts": { "created": 15, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/site/src/water/crossings.ts", "status": "created", "sha256": "bcba9f04b99805a039d9954124fa8ef54f987887b8e051b28840117f6368b795", "size": 7190 },
+    { "path": "plat/packages/site/src/water/faces.ts", "status": "created", "sha256": "bc1877e27a30c4b74ab3ffefff96a8bfad765c83b4699c1325c41d29cf61449f", "size": 15415 },
+    { "path": "plat/packages/site/src/water/geometry.ts", "status": "created", "sha256": "61b30f2c8733618ffa9d15ef768ece274500d027f2c51cfb4b0e04ee3e9708ad", "size": 7916 },
+    { "path": "plat/packages/site/src/water/index.ts", "status": "changed", "sha256": "6ea1ce6164ee65aff2d7993f84e50273592e3d33f0d9f37e0ac0c03d12e54130", "size": 1593 },
+    { "path": "plat/packages/site/src/water/offset.ts", "status": "created", "sha256": "2a41a62b4240aa6ce64d2c5fc8fc3b225419a9065b237dcdddb109cc13adff05", "size": 24122 },
+    { "path": "plat/packages/site/src/water/outfalls.ts", "status": "created", "sha256": "91d62757514a9a10ed1baeb8f61322e297d9f99c07457fdd2ec95edbc1dd4dd9", "size": 8497 },
+    { "path": "plat/packages/site/src/water/params.ts", "status": "created", "sha256": "e932db961a9b2eecc1a05f85e315df7cc1f88fb589d81ecd9bd2f7f489ff2f42", "size": 2564 },
+    { "path": "plat/packages/site/src/water/polygons.ts", "status": "created", "sha256": "9dca3de45a7ba45b7d74294cad5f9cec84326b659979d43da4abfa6d8e645430", "size": 25468 },
+    { "path": "plat/packages/site/src/water/stage.ts", "status": "created", "sha256": "6e6ae91694ee442c1336b6c04e2d0ab7e4e685565df05a4e3ba10adc71db7acc", "size": 11063 },
+    { "path": "plat/packages/site/src/water/types.ts", "status": "created", "sha256": "44f201d9a2c48ce4e840f8d94e45a325e12392f7f4635e401064653dc4e85fca", "size": 4644 },
+    { "path": "plat/packages/site/test/water/crossings.test.ts", "status": "created", "sha256": "d29b18265d625f1adf7d223a46a2d64c5900aad03b2cfeebc941e8a9317fab74", "size": 10544 },
+    { "path": "plat/packages/site/test/water/exit-bar.test.ts", "status": "created", "sha256": "b5d6381483e5e579d51671a3f5f3ada81c84a110f66d79127ba3a4ac4b1f6a59", "size": 5924 },
+    { "path": "plat/packages/site/test/water/faces.test.ts", "status": "created", "sha256": "e9485e244dbab730935c03f5c861a26a738e261df80e0787385d2ab82cdb91d6", "size": 11557 },
+    { "path": "plat/packages/site/test/water/outfalls.test.ts", "status": "created", "sha256": "3e3c65e0735f7710c146f86c9735a19f872d519267dc502b61f1697fe92a956c", "size": 8885 },
+    { "path": "plat/packages/site/test/water/stage.test.ts", "status": "created", "sha256": "461d2c124253b40ec5468c32ec8d6e4c22a9b4fd2b456307fff4d3345f3fd5e1", "size": 13811 },
+    { "path": "plat/packages/site/test/water/support.ts", "status": "created", "sha256": "f647f0396ad12c9b7cf23c694e7dae8fa9365fa0605a0c15cd3193c20bac87d2", "size": 3719 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0225", "P-0030", "P-0031"],
+      "lines": ["09172f5f92cbd14e", "0d36844d95bae9d4", "d16cec95503b11c7"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0229"],
+      "lines": ["f9981a60ba004bb1"],
+      "removed": []
+    }
+  ]
+}
