@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-a-09",
-  "lane": "build/M0-a-09",
-  "lanes": ["build/M0-a-09"],
+  "lane": "build/M0-a-09-fix1",
+  "lanes": ["build/M0-a-09", "build/M0-a-09-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T05:20:13.744Z",
+  "date": "2026-10-06T08:24:15.805Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/arr/kerb.ts", "plat/packages/kernel/src/arr/corridorUnion.ts", "plat/packages/kernel/src/arr/bandUnion.ts", "plat/packages/kernel/src/arr/tileRings.ts", "plat/packages/kernel/src/arr/index.ts (handed over from M0-a-08: this item appends its four re-export lines — kerb, corridorUnion, bandUnion, tileRings — C-0122)", "plat/packages/kernel/test/arr/bands/", "plat/packages/testkit/test/kernel/arr-bands/ (the tileRings and corridorUnion oracle comparisons — M0-k-03's oracles, M0-k-01's arbitraries, M0-k-02's band cases; C-0122)"],
   "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -17,8 +17,8 @@
     { "path": "plat/packages/kernel/src/arr/tileRings.ts", "status": "created", "sha256": "2e2d82169ad89d75f4e342bf00e84ab1b7a2bdaf6231943dd4d979b40704c0f3", "size": 7749 },
     { "path": "plat/packages/kernel/test/arr/bands/band.test.ts", "status": "created", "sha256": "d07e1f93c0a0e04b96fa923e995c00e9fc400fe855e88e07fc92f1cc11ae33ab", "size": 5745 },
     { "path": "plat/packages/kernel/test/arr/bands/bfuzz.test.ts", "status": "created", "sha256": "26f9df64303565807b43fcf022db8165cffe259abe1ba92d5a20380e38c37799", "size": 10086 },
-    { "path": "plat/packages/kernel/test/arr/bands/corridor.test.ts", "status": "created", "sha256": "80238fba82391f92c755a25822b480dba1189602ffa7c8e137b6c4bb29ed26c5", "size": 24672 },
-    { "path": "plat/packages/kernel/test/arr/bands/kerb.test.ts", "status": "created", "sha256": "0a8fc1a3c001d6d75257352bfe3de2981e44fc6fcdd8a372c5633f0c36b62262", "size": 12212 },
+    { "path": "plat/packages/kernel/test/arr/bands/corridor.test.ts", "status": "created", "sha256": "11b91eaa75b338e134c0dde17c797b01af0d2c880fc178d0b8c499182fda3cdb", "size": 27915 },
+    { "path": "plat/packages/kernel/test/arr/bands/kerb.test.ts", "status": "created", "sha256": "13fce92d8a802496f32266593caa35ad37af66dfde895eb4f996c663d4d84170", "size": 13549 },
     { "path": "plat/packages/kernel/test/arr/bands/refusals.json", "status": "created", "sha256": "a3eed5e7605c8f306a9f81cd8bc23c04fba20be8f4021d02f7d6768cb7a23a83", "size": 185969 },
     { "path": "plat/packages/kernel/test/arr/bands/register.test.ts", "status": "created", "sha256": "6b1b32d9552853602adbc472f1371eadf80390266bc23faf1a918c212b62e67b", "size": 7588 },
     { "path": "plat/packages/kernel/test/arr/bands/replay.ts", "status": "created", "sha256": "48a1a8dc14c0a036003459b51549959a0d8e019d66a713c71780f53ab5a51d2b", "size": 10787 },
@@ -32,8 +32,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0195", "L-0198"],
-      "lines": ["98bd64b81786b0c7", "59a63b2ab9ed8174"],
+      "ids": ["L-0195", "L-0198", "L-0200"],
+      "lines": ["98bd64b81786b0c7", "59a63b2ab9ed8174", "b504a10f4e5c3145"],
       "removed": []
     },
     {

@@ -5,18 +5,18 @@
   "lanes": ["check/M0-a-05-close-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-05T23:59:57.786Z",
+  "date": "2026-10-06T08:28:55.854Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-a-05-s3.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-a-05-s3.md", "status": "created", "sha256": "dc91593dca5bcd58c427cca8b3f34d78acda71434c5f8c53509a2207be6f2453", "size": 21212 }
+    { "path": "plat/docs/build/checks/M0-a-05-s3.md", "status": "created", "sha256": "8f14264104e586230e5081fead2c248369c6fbca094d5dc156b71ece7739e69f", "size": 39722 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0191"],
-      "lines": ["aaf6e3df42b41f75"],
+      "ids": ["L-0191", "L-0201"],
+      "lines": ["aaf6e3df42b41f75", "696b3434e5bebd5c"],
       "removed": []
     }
   ]
