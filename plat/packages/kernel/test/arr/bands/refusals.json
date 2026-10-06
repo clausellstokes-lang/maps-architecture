@@ -1,5 +1,5 @@
 {
- "note": "N-44 (4) refusal register of M0-a-09: every case refused at PR size in two unseeded B-FUZZ runs (2026-10-05 ~22:00, the first 157 rows, and ~22:50, rows tagged with their run), tree code with M0-a-05's round S4 insertChain. register.test.ts re-runs each and classes every refusal it still meets by replay (replay.ts): each must replay on insertChain alone (insertChain's measured cap, M0-a-05 S5; C-0212 as amended by C-0216). op: the operation refused; code: its refusal; input: B-FUZZ chords (arc positions on the frame [0,4000]^2) or tileRings rings.",
+ "note": "N-44 (4) refusal register of M0-a-09: every case refused at PR size in two unseeded B-FUZZ runs (2026-10-05 ~22:00, the first 157 rows, and ~22:50, rows tagged with their run), tree code with M0-a-05's round S4 insertChain. register.test.ts re-runs each and classes every refusal it still meets by replay (replay.ts): each must replay on insertChain alone (insertChain's measured cap, M0-a-05 S5; C-0212 as amended by C-0218). op: the operation refused; code: its refusal; input: B-FUZZ chords (arc positions on the frame [0,4000]^2) or tileRings rings.",
  "cases": [
   {
    "op": "bandUnion",
