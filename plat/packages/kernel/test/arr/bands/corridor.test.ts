@@ -11,7 +11,7 @@ import { err, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import { setOwner, tx } from '../../../src/tx/index.js';
 import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
-import { kerb } from '../../../src/arr/kerb.js';
+import { kerb, kerbOf, readFace } from '../../../src/arr/kerb.js';
 import { corridorUnion, opCorridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
 import { CELLS } from '../../insert/step1-2/support.js';
@@ -123,6 +123,58 @@ describe('corridorUnion (§3.4, §3.7)', () => {
       expect(s8.get(keys[i])?.length).toBeGreaterThan(0);
       expect(blocks.get(f)).toEqual(s8.get(keys[i]));
     });
+    expect(tilesExactly(p, 2, kids)).toEqual([]);
+  });
+
+  it('§13.2 at a junction where F turns away: the split end spliced into kerb(F) is in S8’s working block and in S9’s committed block', () => {
+    // two ways meeting end to end at a bend J = (2100, 2050) on slanted lines; the face below and right of them wraps
+    // round J (F turns away there, C-0212 (4)): its corridor_split runs from J to the nearest kerb point, which lies on
+    // the round join between two kerb vertices, so readKerb splices it into kerb(F) as a vertex (C-0212 (5)). kerb()
+    // must return the spliced ring — the one S9 commits — not the overlay's plain ring (one kerb, §3.7; §4.6's S8 ≡ S9)
+    const p = framed();
+    way(p, 'way:1', [[0, 1700], [2100, 2050]]);
+    const ws = widthsOf({ 'way:1': 310, 'way:2': 270 });
+    const keys = [[3000, 1000], [1000, 3000]] as const;
+    // S8: way:2 inserted at L1 in the open batch, then the two faces' kerbs read on the open overlay
+    const s8 = new Map<string, string[]>();
+    const plain = new Map<string, string[]>();
+    commit(p, 1, (o) => {
+      const a = insertChain(o, [pt(2100, 2050), pt(2600, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory');
+      if (!a.ok) return err(a.code, a.detail);
+      for (const [x, y] of keys) {
+        const f = faceAt(p, 1, x, y);
+        const k = kerb(o, f, ws);
+        if (!k.ok) return err(k.code, k.detail);
+        s8.set(`${String(x)},${String(y)}`, normals(k.value));
+        const read = readFace(p, f, ws);
+        const u = kerbOf(read.rings, read.spines);
+        if (!u.ok) return err(u.code, u.detail);
+        plain.set(`${String(x)},${String(y)}`, normals(u.value));
+      }
+      return ok(null);
+    });
+    const kids = keys.map(([x, y]) => faceAt(p, 1, x, y));
+    commit(p, 1, (o) => setOwner(o, kids, 'district:1'));
+    const r = commit(p, 2, (o) => corridorUnion(o, kids, ws), AT_S9);
+    healthy(p);
+    const v = r.value as BandResult;
+    const blocks = blocksByFace(p, kids, v);
+    // S8 ≡ S9: the block committed in each face is the kerb S8 read, by normal forms (Hausdorff 0)
+    kids.forEach((f, i) => {
+      const key = `${String(keys[i][0])},${String(keys[i][1])}`;
+      expect(s8.get(key)?.length).toBeGreaterThan(0);
+      expect(blocks.get(f)).toEqual(s8.get(key));
+    });
+    // not vacuous: the turned-away face's kerb is the overlay's ring with the split end spliced in — the fixture
+    // reaches the splice (no straight-through T does: the buffer's join already has a vertex there)
+    expect(s8.get('3000,1000')).not.toEqual(plain.get('3000,1000'));
+    expect(s8.get('3000,1000')?.[0].split(' ')).toContain('2308,1823');
+    expect(plain.get('3000,1000')?.[0].split(' ')).not.toContain('2308,1823');
+    // the face on J's convex side has no split end to splice
+    expect(s8.get('1000,3000')).toEqual(plain.get('1000,3000'));
+    // C-0212 (4): the turned-away face's one corridor_split runs from J to the spliced kerb point; the convex side's
+    // corner (the offset lines' meeting point (1893, 2330)) splits to its feet on way:1 and way:2
+    expect(edgesWithRole(p, 'corridor_split')).toEqual(['1944,2024-1893,2330', '2155,2263-1893,2330', '2308,1823-2100,2050']);
     expect(tilesExactly(p, 2, kids)).toEqual([]);
   });
 

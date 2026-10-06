@@ -22,11 +22,12 @@ Lane `check/M0-a-09`, 2026-10-06. These notes do not fail the item (J180, N-45).
    two near-parallel streets closer than a half-width (a contrived escape). Suggested fixture: a way that bounds F,
    leaves F's boundary, and runs back parallel to F's far side 1 cm farther than F's box, inside its half-width.
 4. **K35 — the boundary tolerance for "a kerb edge on F's boundary" is not pinned.** `ON_BOUNDARY_SQ = 1` (1 cm). A
-   10 cm tolerance survives the near tests at 1000 and **[K35-PR]**. A kerb edge 1 – 10 cm from a no-half-width
+   10 cm tolerance survives the near tests at 1000 and B-FUZZ + the corridor agreement at 10⁴. A kerb edge 1 – 10 cm from a no-half-width
    boundary is within `attractCm` and lands by attraction either way. Suggested fixture: a kerb parallel to a shore at
    5 cm, asserting the kerb edge is inserted.
 5. **K05 — `unspiked` has no deterministic fixture.** At 1000 cases nothing meets a zero-width spike, so disabling it
-   survives the near tests. **[K05-PR]**. The author also reports no deterministic spike fixture (C-0212 (8) found the
+   survives the near tests. It also survives B-FUZZ + the corridor agreement at 10⁴, and probe P24 (450 slivers of
+   1 – 30 cm folded onto the frame) finds no spike on S5's insertChain, with or without the guard. The author also reports no deterministic spike fixture (C-0212 (8) found the
    class at PR size). Suggested fixture: the PR-size seed that produced a spike, kept as a register row.
 6. **The tileRings judge accepts every attracted overlap refusal.** §13.1 allows a refusal on an attracted case only
    where the oracle's result has a hole or two of its boundary parts lie within `attractCm`. `judgeTile` settles any

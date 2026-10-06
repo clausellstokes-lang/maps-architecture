@@ -21,6 +21,7 @@ import {
   own,
   profile,
   pt,
+  ringsOf,
   way,
   widthsOf,
 } from './support.js';
@@ -56,6 +57,28 @@ describe('kerb(F) (§3.7)', () => {
     expect(edgesWithRole(p, 'corridor_split')).toEqual([]);
     expect(edgesWithRole(p, 'district_bound')).toEqual(before);
     healthy(p);
+    // with a hole: the frame's face round an inner district ring that declares no half-width — kerb(F) is F's two
+    // rings, the outer counter-clockwise and the hole clockwise, each from its lowest-leftmost vertex
+    const q = framed();
+    commit(q, 1, (o) => insertChain(o, [pt(1000, 1000), pt(3000, 1000), pt(3000, 3000), pt(1000, 3000)], [{ role: 'district_bound', entity: 'district:7' }], 'mandatory', { closed: true }));
+    const [g] = own(q, 'district:1', [[500, 500]]);
+    expect(ringsOf(q, 1, g).length).toBe(2);
+    const kh = kerbIn(q, g, widthsOf({}));
+    expect(kh.ok).toBe(true);
+    if (!kh.ok) return;
+    expect(kh.value).toEqual([
+      [pt(0, 0), pt(4000, 0), pt(4000, 4000), pt(0, 4000)],
+      [pt(1000, 1000), pt(1000, 3000), pt(3000, 3000), pt(3000, 1000)],
+    ]);
+    expect(normals(kh.value)).toEqual(normals(ringsOf(q, 1, g)));
+    expect(area2Of(kh.value)).toBe(area2Of(ringsOf(q, 1, g)));
+    const hb = edgesWithRole(q, 'district_bound');
+    const rh = commit(q, 2, (o) => corridorUnion(o, [g], widthsOf({})), AT_S9);
+    expect(rh.record).toBeNull();
+    expect(rh.value).toEqual({ band: [], strips: [], wedges: [], blocks: [], whole: [g], wholeBand: [] });
+    expect(edgesWithRole(q, 'kerb')).toEqual([]);
+    expect(edgesWithRole(q, 'district_bound')).toEqual(hb);
+    healthy(q);
   });
 
   it('a crossing: F less the two strips, the block corner sharp at the offset lines’ meeting point', () => {
