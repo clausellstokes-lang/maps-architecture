@@ -137,7 +137,9 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
   const area = comps.map((c) => c.reduce((s, i) => s + g.faces[i].areaCm2, 0));
   const carried = comps.map(() => 0);
   const members: number[][] = comps.map(() => []);
+  const rateAt = new Map<number, number>();
   for (const s of seeds) {
+    rateAt.set(s.face, s.rate);
     const ci = compOf[s.face];
     if (ci < 0) continue;
     carried[ci] += s.rate;
@@ -165,8 +167,10 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
     if (pick < 0) break;
     const c = comps[pick];
     let face = -1;
-    if (members[pick].length === 0) {
-      // the face nearest the compartment's area-weighted centroid
+    const fast = members[pick].filter((m) => (rateAt.get(m) ?? 0) >= remRate);
+    if (fast.length === 0) {
+      // the face nearest the compartment's area-weighted centroid (a slow seed's ward stays small: the first fast seed
+      // takes the middle)
       let sx = 0;
       let sy = 0;
       for (const i of c) {
@@ -188,7 +192,7 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
       for (const i of c) {
         if (!free(i)) continue;
         let near = Infinity;
-        for (const m of members[pick]) near = Math.min(near, d2(g.faces[i].centroid, g.faces[m].centroid));
+        for (const m of fast) near = Math.min(near, d2(g.faces[i].centroid, g.faces[m].centroid));
         if (near > best) {
           best = near;
           face = i;
@@ -198,8 +202,72 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
     if (face < 0) break;
     taken.add(face);
     members[pick].push(face);
+    rateAt.set(face, remRate);
     carried[pick] += remRate;
     seeds.push({ order: seeds.length, kind: 'remainder', face, lineage: faceLineage(g.faces[face].key), rate: remRate });
   }
+  // Lloyd's relaxation of the remainder (C-0242 (11)): each compartment's faces go to their nearest seed (centroids),
+  // and each remainder seed moves to the free face nearest the area-weighted centroid of its faces; the sited features
+  // stay. LLOYD_ROUNDS rounds, the seeds in seed-id order within a round.
+  for (let round = 0; round < LLOYD_ROUNDS; round += 1) {
+    comps.forEach((c, ci) => {
+      const own = seeds.filter((sd) => compOf[sd.face] === ci);
+      if (!own.some((sd) => sd.kind === 'remainder')) return;
+      const sx = new Map<number, number>();
+      const sy = new Map<number, number>();
+      const sa = new Map<number, number>();
+      for (const i of c) {
+        let best = own[0];
+        let bd = Infinity;
+        for (const sd of own) {
+          const d = d2(g.faces[i].centroid, g.faces[sd.face].centroid);
+          if (d < bd) {
+            bd = d;
+            best = sd;
+          }
+        }
+        const a = g.faces[i].areaCm2;
+        sx.set(best.order, (sx.get(best.order) ?? 0) + g.faces[i].centroid.x * a);
+        sy.set(best.order, (sy.get(best.order) ?? 0) + g.faces[i].centroid.y * a);
+        sa.set(best.order, (sa.get(best.order) ?? 0) + a);
+      }
+      for (const sd of own) {
+        if (sd.kind !== 'remainder') continue;
+        const a = sa.get(sd.order) ?? 0;
+        if (!(a >= 1)) continue;
+        const cen = { x: quot(sx.get(sd.order) as number, a, 'area', 'a seed region'), y: quot(sy.get(sd.order) as number, a, 'area', 'a seed region') };
+        taken.delete(sd.face);
+        let face = sd.face;
+        let bd = d2(g.faces[face].centroid, cen);
+        const nearSeed = (i: number): boolean => {
+          for (const j of g.links[i].keys()) if (j !== sd.face && taken.has(j)) return true;
+          return false;
+        };
+        if ((globalThis as any).__ADJ === true && nearSeed(face)) bd = Infinity;
+        for (const i of c) {
+          if (!free(i)) continue;
+          if ((globalThis as any).__ADJ === true && nearSeed(i)) continue;
+          const d = d2(g.faces[i].centroid, cen);
+          if (d < bd || (d === bd && i < face)) {
+            bd = d;
+            face = i;
+          }
+        }
+        taken.add(face);
+        if (face !== sd.face) seeds[sd.order] = { ...sd, face, lineage: faceLineage(g.faces[face].key) };
+      }
+    });
+  }
+  if ((globalThis as any).__DBG) {
+    comps.forEach((c, ci) => {
+      const own = seeds.filter((sd) => compOf[sd.face] === ci);
+      const ar = new Map<number, number>();
+      for (const i of c) { let best = own[0]; let bd = Infinity; for (const sd of own) { const d = d2(g.faces[i].centroid, g.faces[sd.face].centroid); if (d < bd) { bd = d; best = sd; } } if (best) ar.set(best.order, (ar.get(best.order) ?? 0) + g.faces[i].areaCm2); }
+      console.log('comp', ci, 'area ha', (area[ci] / 1e8).toFixed(1), own.map((sd) => `${sd.order}${sd.kind[0]}:${((ar.get(sd.order) ?? 0) / 1e8).toFixed(1)}`).join(' '));
+    });
+  }
   return { seeds, dropped };
 }
+
+/** The rounds of Lloyd's relaxation the remainder's seeds take. */
+export const LLOYD_ROUNDS = 4;

@@ -219,6 +219,11 @@ export interface GrowthStage {
   picks: MainRoadPick[];
   /** The destinations served by a re-drawn candidate. */
   redraws: number;
+  /**
+   * N_k − c less the picks: the destinations no approachable candidate was left for (the ring a junction reaches, the
+   * outside that reaches the frame; a capped stage along the frame has none) — reported, never invented (C-S5AB).
+   */
+  short: number;
   roads: MainRoad[];
   unserved: Unserved[];
   /** The nodes the stage's new roads lowered T at. */
@@ -309,6 +314,7 @@ export function growthStart(input: GrowthInput): GrowthState {
     crossings: [],
     picks: [],
     redraws: 0,
+    short: 0,
     roads: [],
     unserved: [],
     lowered: 0,
@@ -982,6 +988,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
     crossings: [],
     picks: [],
     redraws: 0,
+    short: 0,
     roads: [],
     unserved: [],
     lowered: 0,
@@ -1009,6 +1016,7 @@ export function mainRoadsStep(state: GrowthState, k: number, stream: Stream): Ke
   };
   const picks = spawnPrimaries(b0, rec.count.n, c0, stream, { centre, mask: ctx.innerReach, outerMask: ctx.outerReach, edgeOpen });
   rec.picks = picks;
+  rec.short = Math.max(0, rec.count.n - c0.length) - picks.length;
   // The boundary with the destinations kept as outline vertices (the selection unchanged).
   const b1 = picks.length === 0 ? b0 : withPins(b0, picks.map((p) => p.at));
   rec.boundary = b1;

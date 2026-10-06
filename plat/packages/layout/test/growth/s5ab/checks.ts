@@ -18,6 +18,10 @@ export function violations(g: Grown): string[] {
   const K = g.site.land.stagesHa.length;
   if (growth.stages.length !== K) say(`${String(growth.stages.length)} stages recorded, ${String(K)} asked`);
   const wayEdges = roleEdges(plat, 'way');
+  // The previous wall's clearance: its outer strip (band half + outer setback and glacis, C-0033) and a primary's half
+  // width at the rung, read from the tables.
+  const walls = g.site.tables.table('walls');
+  const clearCm = (walls.num('era.default', 'thicknessM') / 2 + walls.num('era.default', 'outerSetbackGlacisM') + g.site.tables.table('ways').pair('primary', `widthM.${g.site.rung}`)[1] / 2) * 100;
   const wallEdges = roleEdges(plat, 'wall');
   let prevSel = slice.levelSet.selected;
   let prevWall: readonly { x: number; y: number }[] = g.commit.traced.line;
@@ -64,8 +68,10 @@ export function violations(g: Grown): string[] {
     }
     const c = st.crossings.length;
     const want = Math.max(0, st.count.n - c);
-    if (st.picks.length !== want) say(`stage ${String(st.k)}: ${String(st.picks.length)} picks for N_k ${String(st.count.n)} − c ${String(c)}`);
-    if (st.roads.length !== want) say(`stage ${String(st.k)}: ${String(st.roads.length)} primaries added for N_k ${String(st.count.n)} − c ${String(c)} (unserved ${JSON.stringify(st.unserved)})`);
+    if (st.picks.length + st.short !== want) say(`stage ${String(st.k)}: ${String(st.picks.length)} picks and ${String(st.short)} short for N_k ${String(st.count.n)} − c ${String(c)}`);
+    if (!b.capped && st.short !== 0) say(`stage ${String(st.k)}: ${String(st.short)} destinations short on an uncapped stage`);
+    if (st.roads.length + st.unserved.length !== st.picks.length) say(`stage ${String(st.k)}: ${String(st.roads.length)} roads and ${String(st.unserved.length)} unserved for ${String(st.picks.length)} picks`);
+    if (st.roads.length !== want - st.short) say(`stage ${String(st.k)}: ${String(st.roads.length)} primaries added for N_k ${String(st.count.n)} − c ${String(c)} (unserved ${JSON.stringify(st.unserved)})`);
     // (4) Each destination lies on the boundary it was picked on (a contour vertex of the stage's selection).
     for (const r of st.roads) {
       if (!b.set.contour.some((q) => q.x === r.pick.at.x && q.y === r.pick.at.y)) say(`stage ${String(st.k)}: destination (${String(r.pick.at.x)}, ${String(r.pick.at.y)}) is no contour vertex`);
@@ -83,7 +89,7 @@ export function violations(g: Grown): string[] {
       const from = r.from.at;
       const fromEdges = wayEdges.get(r.from.way) ?? [];
       if (!fromEdges.some(([a, q]) => (a.x === from.x && a.y === from.y) || (q.x === from.x && q.y === from.y))) say(`${w.id}: its junction (${String(from.x)}, ${String(from.y)}) is no vertex of ${r.from.way}`);
-      if (insideRing(prevWall, from) || ringDist(from, prevWall) <= 1500) say(`${w.id}: its junction lies inside or within the strip of the previous wall`);
+      if (insideRing(prevWall, from) || ringDist(from, prevWall) <= clearCm) say(`${w.id}: its junction lies inside the previous wall or within ${String(clearCm)} cm of it`);
       const jFrom = verticesWith(plat, 'junction', r.from.junction);
       const jEnd = verticesWith(plat, 'junction', r.end);
       if (jFrom.length !== 1 || jFrom[0].x !== from.x || jFrom[0].y !== from.y) say(`${w.id}: the junction row ${r.from.junction} is not on its first vertex`);
@@ -119,6 +125,8 @@ export function violations(g: Grown): string[] {
       const line = tr.traced.line;
       const mains = st.gates.filter((x) => x.kind === 'main');
       if (mains.length < c) say(`stage ${String(st.k)}: ${String(mains.length)} gates for ${String(c)} crossings`);
+      // The crossings become the stage's main gates: N_k of them when N_k > c (each spawned primary one gate), else c.
+      if (st.short === 0 && st.unserved.length === 0 && mains.length !== Math.max(st.count.n, c)) say(`stage ${String(st.k)}: ${String(mains.length)} gates for max(N_k ${String(st.count.n)}, c ${String(c)})`);
       const gatePts = mains.map((x) => {
         const v = verticesWith(plat, 'gate', x.id);
         return v.length === 1 ? v[0] : null;
