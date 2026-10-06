@@ -156,5 +156,16 @@ describe('F-CUT on the PR tier’s sample', () => {
     expect(f.pass).toBe(true);
     expect(f.outcomes['cut'] ?? 0).toBeGreaterThan(20);
     expect(f.byKind).toEqual({ concave: 30, holed: 30 });
+    // The arena's count is read, not assumed: a cut leaves the district two L1 faces, a block or a slit one — the same
+    // count the ladder reports (the bounded run cuts nothing below depth 0).
+    for (const r of recs) {
+      expect(r.facesBefore).toBe(1);
+      expect(r.facesAfter).toBe(r.facesAfterLadder);
+      expect(r.facesAfter).toBe(r.outcome === 'cut' ? 2 : 1);
+    }
+  });
+
+  it('a face count read from the arena below the count before fails the bar (the arena’s count, not the report’s)', () => {
+    expect(foldFcut([rec({ facesBefore: 2, facesAfter: 1, facesAfterLadder: 2 })], []).decreases).toBe(1);
   });
 });
