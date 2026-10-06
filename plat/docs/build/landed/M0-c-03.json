@@ -1,17 +1,17 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-03",
-  "lane": "build/M0-c-03",
-  "lanes": ["build/M0-c-03"],
+  "lane": "build/M0-c-03-fix1",
+  "lanes": ["build/M0-c-03", "build/M0-c-03-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T17:35:54.984Z",
+  "date": "2026-10-06T18:29:57.521Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/backbone/", "plat/packages/layout/test/backbone/"],
   "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/backbone/classify.ts", "status": "created", "sha256": "4c22f05145ce2bfd5f919ee7b1c5d57091e2809c07bb232d6604d4ee324dc27f", "size": 7762 },
-    { "path": "plat/packages/layout/src/backbone/commit.ts", "status": "created", "sha256": "af1899f75bada4277fffc9f1f878d20f61a65d3874d2d760d691783755cef9ec", "size": 27998 },
+    { "path": "plat/packages/layout/src/backbone/commit.ts", "status": "created", "sha256": "eeb157fa8bc8944dfb8dc4c90015d178f4f81da92438bfbb220a281dd22af694", "size": 28827 },
     { "path": "plat/packages/layout/src/backbone/graph.ts", "status": "created", "sha256": "c1d6e16fe12931d4303327d27bcbc4dcad443a6512de9c5d70dbced333dde52e", "size": 16771 },
     { "path": "plat/packages/layout/src/backbone/index.ts", "status": "changed", "sha256": "7d48495b7e94dc83f69e938376bac70c94b0f7ef4cf359ad0ac072e90999fa2e", "size": 2102 },
     { "path": "plat/packages/layout/src/backbone/junctions.ts", "status": "created", "sha256": "de0cb6287799d4e101a0aafb433f07544becaddf817679351df9ee38fdd7eb0d", "size": 11878 },
@@ -19,9 +19,9 @@
     { "path": "plat/packages/layout/src/backbone/smooth.ts", "status": "created", "sha256": "ad6c8e1c5bdd7f31e4e5f26f06cb251efa7f0fd687a3bbde0b0f63e3ada5141d", "size": 8012 },
     { "path": "plat/packages/layout/src/backbone/stage.ts", "status": "created", "sha256": "5032b8120564cb014c8a0e696f8405ec2f46ae8264ca1c4d30203f945b0c2647", "size": 17117 },
     { "path": "plat/packages/layout/src/backbone/types.ts", "status": "created", "sha256": "5dfb1137df8076319b31826383ad76917db50473fad1a09c6870abdc19d35097", "size": 8494 },
-    { "path": "plat/packages/layout/test/backbone/backbone.test.ts", "status": "created", "sha256": "c5afa15af3404910ee123a3c603c3399a1c0b9826a54e41d632f4093af05d737", "size": 15019 },
+    { "path": "plat/packages/layout/test/backbone/backbone.test.ts", "status": "created", "sha256": "3abe229f5eac4afb76d5729c6ecf6cded8dfb472fed1d49e5f8e2abc7e6d1e60", "size": 21834 },
     { "path": "plat/packages/layout/test/backbone/classify.test.ts", "status": "created", "sha256": "c38f5f4d2b4edf11d9dc3c005221920d2300986c6acd5e5343e96da0c19ab682", "size": 6578 },
-    { "path": "plat/packages/layout/test/backbone/commit.test.ts", "status": "created", "sha256": "f75f52af049eb6762a7c47a3017ed85de81c1d023624979e18912f29a3434088", "size": 2340 },
+    { "path": "plat/packages/layout/test/backbone/commit.test.ts", "status": "created", "sha256": "066a546f35c05a90f6d415ce478ee0fe95ebb62b52bab92c6914e421206781c2", "size": 4475 },
     { "path": "plat/packages/layout/test/backbone/graph.test.ts", "status": "created", "sha256": "05d7602456d5b876fb494550fcde75d4ca857d5c0f452ada69c32d2acbb405f1", "size": 9262 },
     { "path": "plat/packages/layout/test/backbone/junctions.test.ts", "status": "created", "sha256": "c40882e22ef4869b5c2e2a59333033bfa742cfc7015d97ff45b7a557f54c27d6", "size": 4708 },
     { "path": "plat/packages/layout/test/backbone/route.test.ts", "status": "created", "sha256": "3815aa2ed6c3faa1b659849f48ced27f997b99ea53e456d1e33947fd1135ddf7", "size": 9940 },
@@ -33,14 +33,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0252"],
-      "lines": ["3f41a305868958e9"],
+      "ids": ["L-0252", "L-0256"],
+      "lines": ["3f41a305868958e9", "69cda9ca22ee4477"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0236"],
-      "lines": ["cd2cf02238778026"],
+      "ids": ["C-0236", "C-0239"],
+      "lines": ["cd2cf02238778026", "51baadf02141f75a"],
       "removed": []
     }
   ]
