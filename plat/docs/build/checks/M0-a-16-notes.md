@@ -50,3 +50,25 @@ Under J180 and N-45 none of these fails the item. Each is a KI row for the harde
 **Session note (not the item's).** Two reds in the related run, `testkit/test/kernel/arr-booleans-buffers/agreement-buffer.test.ts`
 and `agreement-faces.test.ts`, are insertChain N-43 ("no route … keeps clearance … within the fidelity bound"). That is
 M0-a-05's fix-s6 work in flight, and integration g9 logged the same two reds.
+
+## Closing round 3 (check/M0-a-16-close-r3, 2026-10-06): KI test-gap notes under N-48 (J214)
+
+10. **KI — mutant N11 survives: the lattice-point `signature` on an arena WITHOUT an index is tested only where it
+    finds nothing.**
+    * **Mutant N11** (`src/facade/kernel.ts`): in `geom.signature`'s no-index branch,
+      `return w === -1 ? { v: [], e: [] } : vertexSignature(p, w);` becomes `return { v: [], e: [] };`. It survives the
+      item's whole test set ("Test Files 5 passed (5) · Tests 78 passed (78)"), because the only unindexed test
+      ('signature routes a lattice point … scans one without an index') reads pt(5, 5) on a bare `createPlat`, which
+      has no vertex.
+    * **The code is correct (CONFIRMED).** Probe P14 (`~/maps-scratch/waves/check-M0-a-16/close/r3/probes/zz-r3-probe.test.ts`)
+      builds an indexed arena with an L1 `way:7` chain and an `entrance` knot at (500, 500), round-trips it through
+      `encodeArena` / `decodeArena` without `opts.index` (an honest unindexed arena with content; a transaction
+      refuses an arena without an index, so a decoded arena is the only way to get one), and asserts that
+      `k.geom.signature(GROUND, pt(500, 500))` equals the scan `signature(p, pt, GROUND)` and holds
+      `{ role: 'entrance', entity: 'way:7', ordinal: 0 }`. On the real code: "Tests 1 passed (1)". Under N11:
+      "Tests 1 failed (1)", "expected { v: [], e: [] } to deeply equal { …(2) }".
+    * **Why a note, not a blocker (N-48):** a new own mutant on probe-confirmed-correct code; no listed test id or exit
+      bar of M0-a-16 is left unproven, and the lattice-point signature contract is covered on indexed arenas (the
+      L3-knot and L4-only-knot tests).
+    * **Suggested handling (M4 hardening, or M1 when the document first loads arenas through `decodeArena`):** add
+      P14 as a façade test.
