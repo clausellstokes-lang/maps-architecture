@@ -21,7 +21,7 @@
 // 2 · √2 · `attractCm` is not taken: its crossings are placed in turn, N-38, N-40); an optional chain is also rejected E_BELOW_MIN_EDGE
 // (step 1's collapse, or a collapse by attraction, or a wedge route beyond `attractCm`) and E_BELOW_MIN_ANGLE (§3.6
 // *Chain classes*). Every route a segment commits keeps §3.10's clearance, judged whole, and N-43 B's fidelity bound —
-// within 2 · √2 · `attractCm` of the input segment, Hausdorff both ways (N-44 (2), C-0213). A segment no route keeps so —
+// within 2 · √2 · `attractCm` of the input segment, Hausdorff both ways (N-44 (2), C-0215). A segment no route keeps so —
 // the design route, the strict route, the route along existing edges, N-37's endpoint route and N-42 (a)'s route across
 // a sliver all tried — whose end is a free vertex the chain just placed has that end re-landed onto an existing vertex
 // within √2 · `attractCm` (N-42 (b), W_PLACED; C-0209); one that still keeps no route is refused E_INVARIANT, as is a
@@ -401,7 +401,7 @@ function rollback(ctx: ChainCtx, log: IndexLog, m: Mark): void {
 }
 
 /**
- * §3.10's clearance over everything written since the mark, whole (C-0209; S4, C-0213): every new edge and every edge at a
+ * §3.10's clearance over everything written since the mark, whole (C-0209; S4, C-0215): every new edge and every edge at a
  * new vertex — the two sub-edges of each split among them — against the vertices round it, and every new vertex and its
  * neighbours against the edges round them; read on the arena as it stands. A split takes its sub-edge's ends out of each
  * other's one-ring, so a third vertex beside the split edge (its one-ring reached the far end through a neighbour) is
@@ -439,7 +439,7 @@ const FIDELITY_EVALS = 4096;
  * on its perpendicular, within the bound by the first half; the two end pieces beyond those feet are bisected on the
  * distance to the route (1-Lipschitz along the segment: an interval [t₀, t₁] is within the bound when (d₀ + d₁ + its
  * length) / 2 is), at most 4 096 evaluations, after which the route is judged out of the bound — never committed on a
- * guess (C-0213).
+ * guess (C-0215).
  */
 export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, pa: LatticePoint, pb: LatticePoint): boolean {
   const p = ctx.p;
@@ -516,7 +516,7 @@ export function inFidelity(ctx: ChainCtx, m: Pick<Mark, 'newPairs' | 'shared'>, 
  * on the placement rule's endpoint fallback (§3.6: "each such re-route lands on an existing vertex, so the loop ends";
  * N-37, C-0202); last, the design route with a crossing on the near side of a sliver placed across it (N-42 (a),
  * C-0209). Every route is judged by §3.10's clearance whole (`wholeProblem`) and by the fidelity bound (`inFidelity`,
- * N-43 B, N-44 (2); C-0213) before it commits. A refusal of the design or strict route is the segment's; a gap no
+ * N-43 B, N-44 (2); C-0215) before it commits. A refusal of the design or strict route is the segment's; a gap no
  * fallback closes is refused E_INVARIANT (insertChain then re-lands a free end of the segment, N-42 (b)), never thrown.
  */
 function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: LatticePoint, pb: LatticePoint): KernelResult<null> {
@@ -561,7 +561,7 @@ function routeSegment(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa
   ctx.acrossSlivers = false;
   if (r5.ok && kept()) return r5;
   rollback(ctx, log, m);
-  // S4 (C-0213): the design route anchored to the input segment — step 3's contacts only where they also lie within
+  // S4 (C-0215): the design route anchored to the input segment — step 3's contacts only where they also lie within
   // attractCm of pa → pb, so a run of contacts along a near-parallel chain cannot carry the route beyond the bound.
   if (ctx.extended === true) {
     ctx.anchor = { a: pa, b: pb, reach: ATTRACT };
@@ -621,7 +621,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   };
 
   // The op itself (steps 2 – 5). An invariant check's throw inside it — a gap in the router or in a structure it reads —
-  // becomes the op's E_INVARIANT refusal with the check's message, everything undone (N-44 (1), C-0213); any other throw
+  // becomes the op's E_INVARIANT refusal with the check's message, everything undone (N-44 (1), C-0215); any other throw
   // (a staged branch's notBuilt, a programming error) is not caught.
   const run = (): KernelResult<ChainInsert> => {
     /**
@@ -704,7 +704,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     };
 
     /**
-     * S4 (C-0213; N-43 B's "the segment split at the obstruction"): the segment a → b (input pa → pb), which no route
+     * S4 (C-0215; N-43 B's "the segment split at the obstruction"): the segment a → b (input pa → pb), which no route
      * keeps in bound, split at its input midpoint — the midpoint landed as a chain point is (step 2: attraction, the
      * chain's own corner, kept content), reported W_PLACED — and each half routed in turn, a half that fails split again,
      * down to SPLIT_DEPTH levels; the whole is judged against pa → pb (§3.10's clearance whole, the fidelity bound) before
@@ -791,7 +791,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
       return refuse(c);
     }
     // §3.10's clearance on the final arena round everything the chain wrote, whole: a gap no route closed is refused
-    // E_INVARIANT, never committed and never thrown (N-43 A, N-44 (1) – (2); C-0213).
+    // E_INVARIANT, never committed and never thrown (N-43 A, N-44 (1) – (2); C-0215).
     const problem = wholeProblem(ctx, start);
     if (problem !== null) return refuse({ code: 'E_INVARIANT', detail: `insert: ${problem}` });
     const rw = rewalk(tx, { pairs: journal.newPairs.slice(pairsFrom) }, ctx.undo);
@@ -821,7 +821,7 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
     }
   };
   // The first pass is the router of S1 – S3 with every route judged by §3.10 whole and the fidelity bound; only a chain
-  // it refuses E_INVARIANT is tried again with S4's further routes (C-0213), so a chain the first pass commits keeps its
+  // it refuses E_INVARIANT is tried again with S4's further routes (C-0215), so a chain the first pass commits keeps its
   // output (the one-time shift is the chains whose earlier commit broke the bound or the arena).
   let result = attempt(false);
   if (!result.ok && result.code === 'E_INVARIANT') result = attempt(true);

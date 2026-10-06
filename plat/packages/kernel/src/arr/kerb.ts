@@ -24,12 +24,13 @@
 // as `offsetFace` does (the façade, M0-a-16, binds the design's one-argument form); (2) a spine is buffered over its whole
 // own-level route, read near F only: a segment whose box lies farther from F's box than twice its larger half-width plus
 // the sagitta and 4 cm adds nothing (no part of it, its joins or its ends can reach F), so the result is the one the
-// whole chain gives; (3) a face whose kerb is empty — wholly within its bands — gives `ok([])`, no refusal (it holds no
-// built block; §3.11's `empty` refusal is the booleans' and buffers'); (4) a spine-less face gives its own L1 route
-// rings, outer ring first (counter-clockwise from its lowest-leftmost vertex), then the holes in that vertex order.
+// whole chain gives — a ring way's route is buffered once round, every vertex a join and no end cap; (3) a face whose
+// kerb is empty — wholly within its bands — gives `ok([])`, no refusal (it holds no built block; §3.11's `empty`
+// refusal is the booleans' and buffers'); (4) a spine-less face gives its own L1 route rings, outer ring first
+// (counter-clockwise from its lowest-leftmost vertex), then the holes in that vertex order.
 import { faceWalk, idOf, isFaceLive, outgoing, roleInfo, rowsOn, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import type { InsertTx } from '../insert/classes.js';
-import { err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+import { area2, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
 import { cutKnot, knotLines, routeLines } from '../tx/profile.js';
 import { check } from '../tx/state.js';
 import type { ChainProfile, ChainRef, Cm, LatticePoint } from '../types/index.js';
@@ -267,7 +268,34 @@ export function kerbOf(rings: readonly LatticePoint[][], spines: ReadonlyMap<str
     for (const q of r.value) parts.push(q);
   }
   if (parts.length === 0) return kerbOf(rings, new Map());
-  return overlayRegion([rings, parts], (w) => w[0] !== 0 && w[1] === 0);
+  const r = overlayRegion([rings, parts], (w) => w[0] !== 0 && w[1] === 0);
+  if (!r.ok) return r;
+  return ok(r.value.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0).sort(compareRings), r.warnings);
+}
+
+/**
+ * A ring without its zero-width spikes: a vertex where the ring turns back exactly along itself (collinear, reversing)
+ * bounds no area, so it is dropped, again until none is left — what an overlay's trace can leave where attraction folded
+ * a strip thinner than `attractCm` onto the face's boundary (C-0212 (8)); the region is unchanged.
+ */
+function unspiked(ring: Ring): Ring {
+  let pts = ring.slice();
+  let changed = true;
+  while (changed && pts.length >= 3) {
+    changed = false;
+    const n = pts.length;
+    for (let i = 0; i < n; i += 1) {
+      const a = pts[(i + n - 1) % n];
+      const v = pts[i];
+      const b = pts[(i + 1) % n];
+      if (orient2d(a.x, a.y, v.x, v.y, b.x, b.y) === 0 && (v.x - a.x) * (b.x - v.x) + (v.y - a.y) * (b.y - v.y) < 0) {
+        pts = [...pts.slice(0, i), ...pts.slice(i + 1)];
+        changed = true;
+        break;
+      }
+    }
+  }
+  return canonicalRing(pts);
 }
 
 /** The face read and its kerb (`corridorUnion` and `bandUnion` read the same function, §3.7). */
@@ -291,7 +319,9 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
       if (pts.length >= 2) splits.push(pts);
     }
   }
-  return ok({ face, rings: f.rings, edges: f.edges, spines: f.spines, kerb: rings, splits, warnings: k.warnings.map((w) => ({ ...w })) }, k.warnings);
+  // a splice on a kerb edge collinear with its neighbour can fold the ring back on itself: spikes dropped again
+  const kerbRings = rings.map(unspiked).filter((q) => q.length >= 3 && area2(q) !== 0).sort(compareRings);
+  return ok({ face, rings: f.rings, edges: f.edges, spines: f.spines, kerb: kerbRings, splits, warnings: k.warnings.map((w) => ({ ...w })) }, k.warnings);
 }
 
 /**
@@ -305,6 +335,9 @@ export function kerb(tx: InsertTx, face: FaceId, widths: SpineWidths): KernelRes
 }
 
 // ---- the junctions and their corridor_split chains -------------------------------------------------------------------
+//
+// Computed with the kerb, so the kerb point each split reaches is a vertex of kerb(F) itself (C-0212 (4), (5)); the
+// rules are bandUnion.ts's module comment.
 
 const ATTRACT = LATTICE.attractCm;
 /** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */

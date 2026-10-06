@@ -1,5 +1,5 @@
 // N-43 B's fidelity bound, "asserted on every mandatory commit in B-FUZZ and in a property of its own" (the session's
-// ruling J199; N-44 (2) – (3); C-0213). B-FUZZ (bfuzz.test.ts) judges every commit of its three families by fidelity.ts;
+// ruling J199; N-44 (2) – (3); C-0215). B-FUZZ (bfuzz.test.ts) judges every commit of its three families by fidelity.ts;
 // this property is the bound's own: overlay-like inputs — the two-point mandatory chains M0-a-08's overlays insert, one
 // after another into one arena, crossing and grazing each other at every angle in a small square, then a mandatory
 // polyline across them — each commit judged by fidelity.ts's two halves (every route vertex within 2 · √2 · attractCm of

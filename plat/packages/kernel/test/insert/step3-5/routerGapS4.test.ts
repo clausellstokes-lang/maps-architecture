@@ -1,4 +1,4 @@
-// M0-a-05 session fix round S4 (C-0213): the S3 closing check's failing lines (checks/M0-a-05-s3.md) under the session's
+// M0-a-05 session fix round S4 (C-0215): the S3 closing check's failing lines (checks/M0-a-05-s3.md) under the session's
 // rulings N-43 (J199) and N-44 (OWNER-APPROVED, J201) — N-43 B's fidelity bound and its measure, the two passes of
 // insertChain (the S1 – S3 router judged by §3.10 whole and the bound; then, only for a chain it refuses, the anchored
 // routes, the split route and an optional chain's precision refusal), the safety nets that turn an invariant failure
@@ -45,7 +45,7 @@ const at = (p: Plat, v: VertexId): [number, number] => [p.vertices.x[v], p.verti
 
 // ---- N-43 B's fidelity bound: the measure ------------------------------------------------------------------------------
 
-describe('N-43 B: the fidelity bound insertChain judges every route by (inFidelity, C-0213)', () => {
+describe('N-43 B: the fidelity bound insertChain judges every route by (inFidelity, C-0215)', () => {
   it('the bound is 2 · √2 · attractCm, squared exactly: 8 · 26² = 5 408 (≈ 73.54 cm)', () => {
     expect(FIDELITY_SQ).toBe(5408);
     expect(Math.sqrt(FIDELITY_SQ)).toBeCloseTo(FIDELITY_CM, 12);
@@ -102,7 +102,7 @@ function replayPass2(name: string): { p: Plat; r: ReturnType<typeof ins>; c: Pas
 /** A commit's warnings as [code, count] pairs. */
 const codes = (r: ReturnType<typeof ins>): [string, number][] => (r.ok ? r.warnings.map((w) => [w.code, w.count] as [string, number]) : []);
 
-describe('insertChain\'s second pass (C-0213): a chain the first pass refuses E_INVARIANT is tried with the anchored routes and the split route', () => {
+describe('insertChain\'s second pass (C-0215): a chain the first pass refuses E_INVARIANT is tried with the anchored routes and the split route', () => {
   // Each case came from B-FUZZ's random family on this round's first pass (the S1 – S3 router judged by the bound): its
   // design route drifted beyond the bound along a near-parallel random walk, or a crossing fell back far along an edge.
   it('the anchored route (step 3\'s contacts within attractCm of the input segment): an L1 mandatory ring of 8 points commits within the bound', () => {

@@ -162,7 +162,7 @@ describe('the placement\'s fallback onto the nearer end of the sub-edge, on a ru
    * so the vertex falls back onto the nearer end of the sub-edge its exact position falls on — S, not the run's end.
    * S lies 139.9 cm from (314, 3 190), beyond N-43 B's fidelity bound of 2 · √2 · attractCm: the S1 – S3 router committed
    * the chain there (S promoted at L1); the S4 router refuses it E_INVARIANT, writing nothing — no route from (1 500,
-   * 2 000) reaches a vertex within the bound of its end (a register case, N-44 (4); C-0213).
+   * 2 000) reaches a vertex within the bound of its end (a register case, N-44 (4); C-0215).
    */
   const WEDGE_S: ArenaSpec = {
     vertices: [[0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], [897, 4000, 1], [287, 3214, 1], [723, 3092, 1], [0, 3282, 1], [181, 3234, 2]],

@@ -19,7 +19,7 @@
 // refused E_INVARIANT — a segment no route keeps clear, a gap in the router (N-37) — is counted on its own line of that
 // property, never folded into its precision count (N-40, C-0202).
 //
-// N-44 (OWNER-APPROVED, J201; C-0213): the bar is how insertChain fails, not that it never does. (1) No throw: a throw
+// N-44 (OWNER-APPROVED, J201; C-0215): the bar is how insertChain fails, not that it never does. (1) No throw: a throw
 // fails the property as before. (2) No silent wrong result: every commit is judged by the validator (§3.10's clearance
 // among its rows) and by N-43 B's fidelity bound (fidelity.ts: every route within 2 · √2 · attractCm of its input
 // segment, Hausdorff both ways). (3) A counted, capped refusal rate: E_INVARIANT — no route in bound, or an invariant
@@ -251,9 +251,9 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
   // N-43 A's class, found by the S3 closing check (M0-a-05-s3.md part 1): at PLAT_FUZZ_SEED=31337 this family's 3 624th
   // case threw "the chain's edge (2214, 3944)–(2229, 3922) stands within minEdge of the vertex (2197, 3925)" from
   // insertChain's final clearance check (a base chain; the same on S2 code). The S1 – S3 router judged a route by the
-  // chain's new edges only, so a split that took a third vertex out of its one-ring passed (C-0213). Now every route is
+  // chain's new edges only, so a split that took a third vertex out of its one-ring passed (C-0215). Now every route is
   // judged whole and the final check refuses instead of throwing: the case commits, every chain valid and in bound.
-  it('the random family\'s seed 31337, its 3 624th case replayed (N-43 A, C-0213): 0 crashes, 0 invalid outputs, every chain committed in bound', () => {
+  it('the random family\'s seed 31337, its 3 624th case replayed (N-43 A, C-0215): 0 crashes, 0 invalid outputs, every chain committed in bound', () => {
     const seen: Outcome[] = [];
     let invariant = 0;
     fc.assert(randomFamily((o) => seen.push(o), () => {
@@ -264,7 +264,7 @@ describe('B-FUZZ: insertChain (§13.1, the item\'s exit bar here)', () => {
     expect(seen[0].warnings?.map((w) => [w.code, w.count])).toEqual([['W_STRETCH_SHARED', 6], ['W_ATTRACTED', 4]]);
   });
 
-  // N-43 B (C-0213; a register case, N-44 (4)): at seed 777 the random family's 421st case — an L0 chain, then an L2
+  // N-43 B (C-0215; a register case, N-44 (4)): at seed 777 the random family's 421st case — an L0 chain, then an L2
   // mandatory ring of 9 points — committed on the S1 – S3 router with a crossing on the near side of a sliver sent to the
   // placement's endpoint fallback (W_PLACED 4 at (3714, 2690)): its segment (3919, 2339) → (2004, 1853) then lay 244.9
   // cm from its route. No route keeps it within 2 · √2 · attractCm (the anchored and split routes of the second pass

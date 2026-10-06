@@ -20,10 +20,10 @@
 // `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
 // every such commit reports W_PLACED) and after it a route that places a crossing on the near side of a sliver across
 // it (N-42 (a), C-0209: crossings.ts `placeAcross`, W_PLACED); insertChain's second pass adds the anchored reading of step
-// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0213). Every route is judged by §3.10's
+// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0215). Every route is judged by §3.10's
 // clearance whole and N-43 B's fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
 // where the move is at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2),
-// (5) – (7), (13); C-0202; C-0209; C-0213.
+// (5) – (7), (13); C-0202; C-0209; C-0215.
 import {
   addRole,
   allocEdgePair,
@@ -338,7 +338,7 @@ function checkEdge(ctx: ChainCtx, a: VertexId, b: VertexId): EdgeCheck {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };
     }
     // Clearance against vertices of level ≤ n is checked on each route and once the chain's edges are all written
-    // (insertChain's `wholeProblem`, a refusal — N-44 (1), C-0213):
+    // (insertChain's `wholeProblem`, a refusal — N-44 (1), C-0215):
     // a vertex the router is about to join to this edge's end may stand closer meanwhile (C-0177 (7)).
     if (L[v] > n && !na.has(v) && !nbb.has(v) && segmentCloserThan(X[v], Y[v], ax, ay, bx, by, MIN_EDGE)) {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within minEdge of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };

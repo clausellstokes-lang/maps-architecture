@@ -134,7 +134,7 @@ const CHAINS_391: readonly (readonly (readonly [number, number])[])[] = [
 describe('N-37: a stretch whose join point\'s route split the piece before its leave point is walked along the run', () => {
   // The S1 – S3 router committed the 29th chain by the run walk (W_STRETCH_SHARED 4, W_ATTRACTED 4) with route vertices
   // up to 84 cm from its segment — beyond N-43 B's fidelity bound of 2 · √2 · attractCm. The S4 router refuses it
-  // E_INVARIANT, writing nothing (a register case, N-44 (4); C-0213). The walk stays pinned by the same chain 10 cm west,
+  // E_INVARIANT, writing nothing (a register case, N-44 (4); C-0215). The walk stays pinned by the same chain 10 cm west,
   // which commits within the bound through it.
   it('M0-a-08\'s buffer case 391: the first 28 chains commit (or collapse, E_DEGENERATE empty), the arena valid; the 29th, beyond the fidelity bound on every route, is refused E_INVARIANT and writes nothing', () => {
     const p = wideArena();

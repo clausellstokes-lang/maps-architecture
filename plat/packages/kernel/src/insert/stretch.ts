@@ -141,7 +141,7 @@ export interface ChainCtx {
    */
   acrossSlivers?: boolean;
   /**
-   * The router's anchored reading (S4, C-0213; N-43 B): the input segment the chain's segment came from. Set, step 3
+   * The router's anchored reading (S4, C-0215; N-43 B): the input segment the chain's segment came from. Set, step 3
    * routes through a vertex, shares a stretch or lands a contact only where it lies within `attractCm` of that input
    * segment as well as of the segment being routed, so iterated step-3 contacts cannot carry the route away from its
    * input — each contact may move the route up to `attractCm` from the sub-segment it bends, and a run of them along a
@@ -149,7 +149,7 @@ export interface ChainCtx {
    */
   anchor?: { readonly a: LatticePoint; readonly b: LatticePoint; readonly reach: number } | null;
   /**
-   * insertChain's second pass (S4, C-0213): set only for a chain the first pass — the S1 – S3 router with every route
+   * insertChain's second pass (S4, C-0215): set only for a chain the first pass — the S1 – S3 router with every route
    * judged by §3.10 whole and N-43 B's fidelity bound — refused E_INVARIANT; it adds the anchored routes, the split
    * route, and an optional chain's precision refusal for a route beyond the bound.
    */
@@ -587,7 +587,7 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
     return false;
   };
   const reach = ctx.strict ? MIN_EDGE : ATTRACT;
-  // The anchored reading (C-0213): a contact also lies within attractCm of the chain's input segment.
+  // The anchored reading (C-0215): a contact also lies within attractCm of the chain's input segment.
   const anchor = ctx.anchor ?? null;
   const nearInput = (x: number, y: number): boolean => anchor === null || withinSegment(x, y, anchor.a.x, anchor.a.y, anchor.b.x, anchor.b.y, anchor.reach);
   for (const v of query(p, tx.key, 4, box, { vertices: true }).vertices) {

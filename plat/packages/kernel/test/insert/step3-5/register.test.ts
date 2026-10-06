@@ -1,5 +1,5 @@
 // N-44 (4)'s refusal register for insertChain (OWNER-APPROVED, J201) and the session's S4 fix round's repros (N-42, N-43;
-// C-0213). Each fixture under register/ is the input that found a case — an overlay group of M0-a-08's (its frame, then
+// C-0215). Each fixture under register/ is the input that found a case — an overlay group of M0-a-08's (its frame, then
 // its two-point mandatory chains inserted one by one into a fresh L0 arena 2²⁴ cm wide, as `buildOverlay` inserts them),
 // trimmed to the case — with the outcome this round gives it. Every chain is judged as B-FUZZ judges one: a commit keeps
 // N-43 B's fidelity bound (fidelity.ts); a refusal is the register's code and writes nothing (content and the

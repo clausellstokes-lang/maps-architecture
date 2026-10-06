@@ -1,4 +1,4 @@
-// N-43 B's fidelity bound as the tests judge it (the session's ruling J199, binding under N-44 (2); C-0213): every commit
+// N-43 B's fidelity bound as the tests judge it (the session's ruling J199, binding under N-44 (2); C-0215): every commit
 // of a chain segment keeps its route within 2 · √2 · attractCm (≈ 73.5 cm, N-40's wedge cap) of the input segment, as a
 // Hausdorff distance both ways, stretch join and leave points included. Written from the ruling, not from the code's
 // measure: the test reads only the op's input, step 1's plan (M0-a-04's `decimate`, tested on its own) and the
