@@ -150,10 +150,13 @@ describe('the base\'s default cost surface: the terrain\'s, high ground preferre
   });
 
   it('the trace with no cost field given takes the terrain\'s: on the slope the committed line stands east (uphill) of its boundary', () => {
-    const site = { ...slice.site, terrain: slope };
+    // The small site's seed 6 (its trace on this slope needs no F-WALL rung; on seed 11 the slope's pull folds the
+    // trace and it is refused E_SELF_INTERSECT, the declared end of M0's ladder).
+    const s6 = s3Slice(smallSite(6));
+    const site = { ...s6.site, terrain: slope };
     const { k } = kernelFor(site);
     expect(commitOuterRing(site, k).ok).toBe(true);
-    const r = traceBase(slice.levelSet.outline, slice.gateSites, [], slope, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    const r = traceBase(s6.levelSet.outline, s6.gateSites, [], slope, { bodies: [], bridges: [] }, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     expect(r.value.traced.report.pull.moved).toBeGreaterThan(0);
@@ -167,7 +170,8 @@ describe('the base\'s default cost surface: the terrain\'s, high ground preferre
       }
       return sx / (3 * area2(pts));
     };
-    expect(cx(r.value.traced.line) - cx(slice.levelSet.outline)).toBeGreaterThan(1000);
+    expect(r.value.traced.report.rungs).toEqual([]);
+    expect(cx(r.value.traced.line) - cx(s6.levelSet.outline)).toBeGreaterThan(1000);
   }, 60_000);
 });
 
