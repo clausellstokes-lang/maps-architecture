@@ -1133,7 +1133,7 @@ function tallyRefusal(h: Harness, op: string, source: string, r: { code: string;
   if (setup) t.setup += 1;
   const k = `${cls}${setup ? '/setup' : ''}/${r.code}`;
   t.byCode[k] = (t.byCode[k] ?? 0) + 1;
-  if (cls === 'own') keep(t.ownCases, `${op} [${source}]: ${r.code} '${r.detail}' — ${JSON.stringify(input)}`);
+  if (cls === 'own') keep(t.ownCases, `${op} [${source}]: ${r.code} '${r.detail}' — ${JSON.stringify(input).slice(0, 600)}`);
   logRefused({ op, source, cls, setup, code: r.code, detail: r.detail, seed: process.env.PLAT_FUZZ_SEED ?? null, input });
 }
 
