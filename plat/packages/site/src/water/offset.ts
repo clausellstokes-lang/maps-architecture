@@ -91,8 +91,11 @@ function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number, depth = 0
   const holes: XY[][] = [];
   for (let guard = 0; guard < 10_000; guard += 1) {
     let cut: { i: number; j: number; at: XY } | null = null;
+    const closed = q.length > 3 && q[0].x === q[q.length - 1].x && q[0].y === q[q.length - 1].y;
     outer: for (let i = 0; i + 1 < q.length; i += 1) {
       for (let j = i + 2; j + 1 < q.length; j += 1) {
+        // a closed line's first and last segments meet at its shared end, which is no crossing
+        if (closed && i === 0 && j === q.length - 2) continue;
         const x = segCross(q[i], q[i + 1], q[j], q[j + 1]);
         if (x !== null) {
           cut = { i, j, at: x.at };
@@ -435,13 +438,17 @@ export function mouthRing(pts: readonly XY[], half: readonly number[], startCap:
 /** The ring's own tolerance (cm): a vertex within it of the chord around it is dropped (Douglas–Peucker on the ring). */
 export const RING_TOL_CM = 20;
 
+/** cos 30°: a ring vertex whose two edges meet at a sharper angle is a needle (cleanRing drops it). */
+const NEEDLE_COS = 0.8660254037844386;
+
 /** The least clearance (cm) between a vertex of a fast ring and any segment of it not incident to the vertex. */
 export const RING_CLEAR_CM = 60;
 
 /**
  * A lattice ring cleaned for insertion: Douglas–Peucker at RING_TOL_CM (from its first vertex and the vertex farthest
  * from it), which drops the tiny zig-zags the mitres and the loop cuts leave, then every vertex closer than
- * RING_CLEAR_CM ÷ 2 to the one before it dropped. Null below three vertices.
+ * RING_CLEAR_CM ÷ 2 to the one before it dropped, then every needle (an angle below 30°); the `fixed` vertices (on the
+ * arena's edge, on an earlier ring) always stay. Null below three vertices.
  */
 export function cleanRing(ring: readonly LatticePoint[], fixed: (q: XY) => boolean = () => false): LatticePoint[] | null {
   const n = ring.length;
@@ -503,6 +510,26 @@ export function cleanRing(ring: readonly LatticePoint[], fixed: (q: XY) => boole
       if (dx * dx + dy * dy < min2) continue;
     }
     out.push(ring[i]);
+  }
+  // a needle — a vertex whose two edges fold back within NEEDLE_COS of each other — is dropped, again until none
+  for (let changed = true; changed && out.length > 3; ) {
+    changed = false;
+    for (let i = 0; i < out.length && out.length > 3; i += 1) {
+      const v = out[i];
+      if (fixed(v)) continue;
+      const a = out[(i + out.length - 1) % out.length];
+      const b = out[(i + 1) % out.length];
+      const ax = a.x - v.x;
+      const ay = a.y - v.y;
+      const bx = b.x - v.x;
+      const by = b.y - v.y;
+      const dot = ax * bx + ay * by;
+      if (dot > 0 && dot * dot > NEEDLE_COS * NEEDLE_COS * (ax * ax + ay * ay) * (bx * bx + by * by)) {
+        out.splice(i, 1);
+        changed = true;
+        i -= 1;
+      }
+    }
   }
   while (out.length > 3 && !fixed(out[out.length - 1])) {
     const dx = out[0].x - out[out.length - 1].x;

@@ -23,7 +23,7 @@ import {
 } from '@plat/kernel';
 import type { Lifecycle, WaterBody, WaterSet } from '@plat/model';
 import { parseTable, tableView, type TableView } from '@plat/tables';
-import { commitOuterRing, commitS3Slice, flatFixture, s3Slice, type CommitOptions, type FlatFixtureOptions, type S3Commit, type S3Slice, type Site } from '../../src/index.js';
+import { commitOuterRing, commitS3Slice, flatFixture, s3Slice, type CommitOptions, type CostField, type FlatFixtureOptions, type S3Commit, type S3Slice, type Site } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -285,8 +285,8 @@ export const RIVER = riverRing(30000, 34000, -200000, 200000);
 export const RIVER_DECK = { id: 'bridge:1', a: P(30000, 0), b: P(34000, 0) };
 
 /** The river site's slice committed (cached per seed): the outer ring, the hand-built water, then the slice's commits. */
-export function riverCommitted(seed: number): Committed & { water: WaterSet } {
-  const key = `river:${String(seed)}`;
+export function riverCommitted(seed: number, costField?: CostField, tag = ''): Committed & { water: WaterSet } {
+  const key = `river:${String(seed)}:${tag}`;
   let c = CACHE.get(key) as (Committed & { water: WaterSet }) | undefined;
   if (c === undefined) {
     const site = flatFixture(seed, { water: { faces: [RIVER], decks: [RIVER_DECK] } });
@@ -295,7 +295,7 @@ export function riverCommitted(seed: number): Committed & { water: WaterSet } {
     const m = commitOuterRing(site, k);
     if (!m.ok) throw new Error('support: the outer ring was refused');
     const water = handBuildWater(k, RIVER);
-    const r = commitS3Slice(slice, k, { outerRing: 'present', water });
+    const r = commitS3Slice(slice, k, { outerRing: 'present', water, ...(costField === undefined ? {} : { costField }) });
     if (!r.ok) throw new Error(`support: the river slice's commits were refused: ${r.code} ${r.detail}`);
     c = { site, slice, plat, k, commit: r.value, water };
     CACHE.set(key, c);

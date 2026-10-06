@@ -124,6 +124,21 @@ describe('the water gate on a synthetic river (C-0087)', () => {
     }, 120_000);
   }
 
+  it('the pull keeps each water crossing where the boundary crosses: under a field pulling the vertices about the crossings out, the bank points stay on the shores', () => {
+    const plain = riverCommitted(1);
+    // Farther from the centre costs less, about the two crossings (north and south of the town).
+    const pulled = riverCommitted(1, (q) => (q.y < -56000 || q.y > 53000 ? -Math.hypot(q.x, q.y) / 100 : 0), 'outward');
+    expect(pulled.commit.traced.report.pull.moved).toBeGreaterThan(0);
+    expect(pulled.commit.waterGates.map((g) => g.bankAt)).toEqual(plain.commit.waterGates.map((g) => g.bankAt));
+    for (const g of pulled.commit.waterGates) {
+      for (const end of [0, 1] as const) {
+        const at = verticesWith(pulled.plat, 'gate_end', g.id, end);
+        expect(at).toEqual([g.bankAt[end]]);
+        expect(ringDist(at[0], RIVER)).toBeLessThanOrEqual(1);
+      }
+    }
+  }, 120_000);
+
   it('waterGates(trace, water, k) reads the water through the façade: one gate per crossing, in trace order', () => {
     const c = riverCommitted(1);
     const gates = waterGates(c.slice.levelSet.outline, c.water, c.k);

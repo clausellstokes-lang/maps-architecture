@@ -11,7 +11,7 @@
 //   circumcentres M0-a-12's dual: the Delaunay triangles and our circumcentres of seeded point sets (+ − × ÷ only);
 //   constructive M0-k-02's constructive set: every M0 case's draw at the seed (the generators run xoshiro, dmath and
 //       snap), the numeric-core cases' verdicts, and the geometry services (hull, obb, lir, regularFit) on each closed
-//       ring and point set the draw holds (C-D06 (3)).
+//       ring and point set the draw holds (C-0228 (3)).
 // Every stage is a pure function of its seed and the fixture's inputs: no Node or DOM API, so the table is bundled for
 // every leg. Inputs (named as the fixture names them): fdlibm/<routine>.txt, xoshiro/xoshiro128ss.txt,
 // xoshiro/xoshiro128ss-long.txt, murmur/murmur3-x86-128.json.

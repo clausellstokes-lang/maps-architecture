@@ -5,7 +5,7 @@
 // takes no rung.
 import { describe, expect, it } from 'vitest';
 import type { CostField, GateSite } from '../../src/index.js';
-import { commitOuterRing, defectOf, selfTouches, siteContext, traceBase } from '../../src/index.js';
+import { commitOuterRing, defectOf, rungVerdict, selfTouches, siteContext, traceBase } from '../../src/index.js';
 import { closedChain, densify, kernelFor, maxDeparture, P, smallSite, verticesWith } from './support.js';
 
 type Corner = readonly [number, number];
@@ -93,5 +93,19 @@ describe('F-WALL\'s trace rungs (C-0085)', () => {
     expect(defectOf(slot(30), [])).toBeNull();
     // A figure of eight crosses itself.
     expect(defectOf([P(0, 0), P(10000, 10000), P(10000, 0), P(0, 10000)], [])).toBe('self_touch');
+  });
+
+  it('a rung holds only within the band: a repaired trace departing more than 40 m from the boundary is not taken', () => {
+    const boundary = [P(0, 0), P(60000, 0), P(60000, 60000), P(0, 60000)];
+    // 39 m out along the south side, on the boundary elsewhere: within.
+    const within = [P(0, -3900), P(60000, -3900), P(60000, 60000), P(0, 60000)];
+    expect(rungVerdict(within, boundary, 4000, [])).toBeNull();
+    // 41 m out along the south side: beyond the band.
+    const beyond = [P(0, -4100), P(60000, -4100), P(60000, 60000), P(0, 60000)];
+    expect(rungVerdict(beyond, boundary, 4000, [])).toBe('band');
+    expect(rungVerdict(beyond, boundary, 4200, [])).toBeNull();
+    // The defects come first.
+    expect(rungVerdict([P(0, 0), P(10000, 10000), P(10000, 0), P(0, 10000)], boundary, 4000, [])).toBe('self_touch');
+    expect(rungVerdict(within, boundary, 4000, [[P(70000, 70000), P(71000, 70000), P(71000, 71000)]])).toBe('core');
   });
 });

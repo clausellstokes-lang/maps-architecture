@@ -2,7 +2,8 @@
 // a cost-surface path, the gates pinned. On a flat site the pull is the identity but for the pins; here a synthetic
 // cost field moves the line within the band and never moves a pinned gate (C-0226 (3)).
 import { describe, expect, it } from 'vitest';
-import { outwardNormals, PULL_STEPS, pullAndPin, s3Slice, terrainCost } from '../../src/index.js';
+import { outwardNormals, PULL_STEPS, pullAndPin, s3Slice, smoothPinned, terrainCost } from '../../src/index.js';
+import { laplacianPinned, snap } from '@plat/kernel';
 import { lat, openRing } from '../../src/enceinte/plane.js';
 import { commitSite, closedChain, maxDeparture, smallSite, verticesWith } from './support.js';
 
@@ -111,4 +112,41 @@ describe('pull and pin', () => {
     expect(dep).toBeGreaterThan(1500);
     for (const g of c.slice.gates) expect(verticesWith(c.plat, 'gate', `gate:${String(g.ordinal)}`)).toEqual([g.at]);
   }, 60_000);
+});
+
+describe('the pinned smoothing (§4.4 S5a (3): 3 passes, the pins never moving)', () => {
+  /** A 600 m square densified every 10 m, with a gate at its north side's middle. */
+  const sq: { x: number; y: number }[] = [];
+  for (let i = 0; i < 60; i += 1) sq.push({ x: -30000 + i * 1000, y: -30000 });
+  for (let i = 0; i < 60; i += 1) sq.push({ x: 30000, y: -30000 + i * 1000 });
+  for (let i = 0; i < 60; i += 1) sq.push({ x: 30000 - i * 1000, y: 30000 });
+  for (let i = 0; i < 60; i += 1) sq.push({ x: -30000, y: 30000 - i * 1000 });
+  const pinned = new Uint8Array(sq.length);
+  pinned[150] = 1;
+
+  it("runs exactly the passes it is given, each the kernel's pinned Laplacian at λ ½, rounded to the lattice at the end", () => {
+    for (const passes of [1, 2, 3]) {
+      const got = smoothPinned(sq, pinned, passes, sq, 4000, []);
+      const want = laplacianPinned(sq, { closed: true, pinned: [150], iterations: passes, lambda: 0.5 }).map((q) => {
+        const l = snap(q.x, q.y);
+        if (!l.ok) throw new Error('off the lattice');
+        return { x: l.value.x, y: l.value.y };
+      });
+      expect(got.map((q) => ({ x: q.x, y: q.y }))).toEqual(want);
+    }
+    expect(smoothPinned(sq, pinned, 3, sq, 4000, [])[150]).toEqual(sq[150]);
+  });
+
+  it('keeps a vertex where a pass would carry it into a barred ring, or out of the band (less the attraction distance)', () => {
+    // The square's south-west corner moves inward along the diagonal: a barred box just inside it holds it back.
+    const free = smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 4000, []);
+    expect(free[0]).not.toEqual(sq[0]);
+    const box = [{ x: -29900, y: -29900 }, { x: -29000, y: -29900 }, { x: -29000, y: -29000 }, { x: -29900, y: -29000 }];
+    const held = smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 4000, [box]);
+    expect(held[0]).toEqual(sq[0]);
+    // A band of 2 m (less 26 cm): the corner's first move (about 2.5 m in) would leave it, so the corner stays.
+    const narrow = smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 200, []);
+    expect(narrow[0]).toEqual(sq[0]);
+    expect(smoothPinned(sq, new Uint8Array(sq.length), 1, sq, 300, [])[0]).toEqual(free[0]);
+  });
 });

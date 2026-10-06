@@ -15,7 +15,7 @@ import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } fro
 import { classifyArcs } from './closure.js';
 import { ccw, departure, distToRing, footOn, lat, openRing, TOUCH_CM } from './plane.js';
 import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
-import { defectOf, placePins, reoffset, unionOuter } from './rungs.js';
+import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
 import { crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
 
@@ -144,11 +144,7 @@ export function traceBase(
   let defect = defectOf(line, core);
   if (defect !== null) {
     const cause = defect;
-    const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'band' | null => {
-      const d = defectOf(cand, core);
-      if (d !== null) return d;
-      return departure(cand, ring) > band ? 'band' : null;
-    };
+    const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'band' | null => rungVerdict(cand, ring, band, core);
     const re = reoffset(line, band, pinPoints, core);
     const reWhy = re.ok ? accept(re.value) : re.detail === 'fixed' ? 'pin_lost' : 'empty';
     rungs.push(reWhy === null ? { rung: 'reoffset', cause, radiusCm: band, held: true } : { rung: 'reoffset', cause, radiusCm: band, held: false, why: reWhy });

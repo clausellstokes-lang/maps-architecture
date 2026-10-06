@@ -3,7 +3,7 @@
 // regularFit's doubles, the medial axis' circumcentres — and agree bit for bit. Every leg this machine can run runs;
 // a leg it cannot (no arm64 Node; a browser absent from the Playwright cache) is reported blocked with its reason and
 // never faked, which keeps the verdict `incomplete`, never a pass. On the reference Mac every leg runs and the verdict
-// must be `pass` (the Mac step, C-D06 (6)).
+// must be `pass` (the Mac step, C-0228 (6)).
 import { readFileSync } from 'node:fs';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import {

@@ -38,7 +38,7 @@ import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
 import type { ChainProfile, ChainRef, Cm, FaceRef, Id, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { div, nearestOn, readKerb, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
+import { div, nearestOn, readKerb, spineKey, type KerbRead, type Spine, type SpineEnd, type SpineWidths, type XY } from './kerb.js';
 import type { Ring } from './winding.js';
 
 /**
@@ -282,7 +282,7 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
           if (rows.some((r) => R.kind[r] === splitRole && R.level[r] === n) && !rows.some((r) => R.kind[r] === outlineRole && R.level[r] === n)) split = true;
           for (const r of rows) {
             if (R.level[r] > 1 || R.ordinal[r] !== 0) continue;
-            const k = `${String(R.kind[r])}:${String(R.entity[r])}`;
+            const k = spineKey(p, R.kind[r], R.entity[r]);
             if (read.spines.has(k)) touched.add(k);
           }
         }

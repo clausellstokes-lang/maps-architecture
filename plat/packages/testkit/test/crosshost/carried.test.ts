@@ -3,7 +3,7 @@
 //   independence": the committed lane streams (written on the reference Mac's arm64) replayed on every Node leg give
 //   the committed lane counts and H128s, and the seeded streams agree across the legs;
 //   M0-a-10's regularFit doubles and M0-a-12's circumcentres — "bit-identical across the five legs".
-// Every leg this machine can run runs; arm64 and the browsers are the Mac step where they cannot (C-D06 (6)): blocked
+// Every leg this machine can run runs; arm64 and the browsers are the Mac step where they cannot (C-0228 (6)): blocked
 // with their reason, never faked; on the reference Mac every leg must run.
 import { describe, expect, it } from 'vitest';
 import { CROSSHOST_LEGS, crossHostKatExpected, runCrossHost } from '@plat/testkit';

@@ -28,6 +28,14 @@
 // kerb is empty — wholly within its bands — gives `ok([])`, no refusal (it holds no built block; §3.11's `empty`
 // refusal is the booleans' and buffers'); (4) a spine-less face gives its own L1 route rings, outer ring first
 // (counter-clockwise from its lowest-leftmost vertex), then the holes in that vertex order.
+//
+// Representation-free (§3.3: "never a VertexId, HalfEdgeId or FaceId … identical results for the same next edit";
+// C-0207 (5); C-0219): every order this module makes is read from the geometry and the entity ids, never from a slot,
+// an intern handle or a record's stored start — a spine is keyed by its role's name and its entity's id (`spineKey`), and
+// each route ring of F is walked from its canonical start (`readFace`: its lowest-leftmost route vertex, a tie by the
+// next route vertex, as §3.3's face key), the holes after the outer ring in ring order. So the same arena after a save
+// and load (the ids re-interned, the starts re-chosen) or a slot renumbering gives the same kerb, the same splits and the
+// same insertion sequence in `corridorUnion`.
 import { faceWalk, idOf, isFaceLive, outgoing, roleInfo, rowsOn, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import type { InsertTx } from '../insert/classes.js';
 import { area2, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
@@ -57,7 +65,7 @@ export type SpineWidths = (chain: ChainRef) => SpineWidth | null | undefined;
 
 /** One buffered spine: its chain, its row key, its declared ends and its own-level route with the sampled half-widths. */
 export interface Spine {
-  /** `${role id}:${entity handle}` — the key a boundary edge's row is matched by. */
+  /** `${role name}:${entity id}` (`spineKey`) — the key a boundary edge's row is matched by; never a handle (§3.3). */
   readonly key: string;
   readonly chain: ChainRef;
   readonly ends: SpineEnd;
@@ -80,15 +88,15 @@ export interface RouteEdge {
 /** A face read for its kerb: its L1 route rings and edges, its spines, the kerb and the overlay's warnings. */
 export interface KerbRead {
   readonly face: FaceId;
-  /** The route rings, the face on their left (outer ring first), in walk order. */
+  /** The route rings, the face on their left (outer ring first, then the holes in ring order), each from its canonical start. */
   readonly rings: LatticePoint[][];
-  /** Per route ring, its route edges in walk order. */
+  /** Per route ring, its route edges in walk order from the ring's canonical start. */
   readonly edges: RouteEdge[][];
   /** The buffered spines by key. */
   readonly spines: ReadonlyMap<string, Spine>;
   /** kerb(F): outer rings counter-clockwise, holes clockwise; every junction's split end a vertex of it (C-0212 (5)). */
   readonly kerb: Ring[];
-  /** The corridor_split chains at the face's junctions, in walk order (bandUnion.ts's module comment). */
+  /** The corridor_split chains at the face's junctions, in walk order from each ring's canonical start (bandUnion.ts's module comment). */
   readonly splits: LatticePoint[][];
   readonly warnings: Warning[];
 }
@@ -98,9 +106,38 @@ function byText(a: string, b: string): number {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-/** The key a row is matched by. */
-function rowKeyOf(role: number, handle: number): string {
-  return `${String(role)}:${String(handle)}`;
+/**
+ * The key a spine row is matched by: its role's name and its entity's id (C-0219) — slot- and handle-free, so the spines'
+ * order (`kerbParts`, the overlay's second operand) and a boundary edge's spine set are the same on every copy of the
+ * arena (a loaded block re-interns the ids, §3.9). A role name holds no ':', so the key is one-to-one.
+ */
+export function spineKey(p: Plat, kind: number, entity: number): string {
+  return `${roleInfo(kind).name}:${idOf(p, entity)}`;
+}
+
+/** Two lattice points by position, y then x (§3.3's vertex key). */
+function comparePoints(a: LatticePoint, b: LatticePoint): number {
+  return a.y !== b.y ? a.y - b.y : a.x - b.x;
+}
+
+/**
+ * The route half-edges of one ring rotated to the ring's canonical start (§3.3's face key, C-0219): the lowest-leftmost
+ * route vertex; where the ring visits it more than once, the visit whose following route vertices come first (y, then
+ * x), one by one round the ring — never the record's stored start, which a load or a renumbering re-chooses.
+ */
+function canonicalStart(p: Plat, hs: readonly HalfEdgeId[]): HalfEdgeId[] {
+  const O = p.halfEdges.origin;
+  const pt = (h: HalfEdgeId): LatticePoint => ({ x: p.vertices.x[O[h]] as Cm, y: p.vertices.y[O[h]] as Cm });
+  const n = hs.length;
+  let best = 0;
+  for (let i = 1; i < n; i += 1) {
+    for (let k = 0; k < n; k += 1) {
+      const c = comparePoints(pt(hs[(i + k) % n]), pt(hs[(best + k) % n]));
+      if (c < 0) best = i;
+      if (c !== 0) break;
+    }
+  }
+  return [...hs.slice(best), ...hs.slice(0, best)];
 }
 
 /** A spine's half-width at every route vertex (a scalar, or the profile by arc length); null where it buffers nothing. */
@@ -148,21 +185,23 @@ export function readFace(p: Plat, face: FaceId, widths: SpineWidths, cache: Map<
   const spines = new Map<string, Spine>();
   const rings: LatticePoint[][] = [];
   const edges: RouteEdge[][] = [];
+  const read: { ring: LatticePoint[]; es: RouteEdge[] }[] = [];
   for (const walk of faceWalk(p, 1, face)) {
-    const at: number[] = [];
-    for (let i = 0; i < walk.length; i += 1) if (L[O[walk[i]]] <= 1) at.push(i);
-    check(at.length >= 2, 'kerb: an L1 ring has at least two route vertices');
+    const route: HalfEdgeId[] = [];
+    for (let i = 0; i < walk.length; i += 1) if (L[O[walk[i]]] <= 1) route.push(walk[i]);
+    check(route.length >= 2, 'kerb: an L1 ring has at least two route vertices');
+    const at = canonicalStart(p, route);
     const ring: LatticePoint[] = [];
     const es: RouteEdge[] = [];
     for (let j = 0; j < at.length; j += 1) {
-      const h = walk[at[j]];
+      const h = at[j];
       const a = O[h];
-      const b = O[walk[at[(j + 1) % at.length]]];
+      const b = O[at[(j + 1) % at.length]];
       ring.push({ x: X[a] as Cm, y: Y[a] as Cm });
       const keys: string[] = [];
       for (const r of rowsOn(p, 'edge', h)) {
         if (R.level[r] > 1 || R.ordinal[r] !== 0) continue;
-        const key = rowKeyOf(R.kind[r], R.entity[r]);
+        const key = spineKey(p, R.kind[r], R.entity[r]);
         let s = cache.get(key);
         if (s === undefined) {
           const chain: ChainRef = { role: roleInfo(R.kind[r]).name, entity: idOf(p, R.entity[r]) };
@@ -176,8 +215,13 @@ export function readFace(p: Plat, face: FaceId, widths: SpineWidths, cache: Map<
       }
       es.push({ a, b, h, spines: keys.sort(byText) });
     }
-    rings.push(ring);
-    edges.push(es);
+    read.push({ ring, es });
+  }
+  // the outer ring first, then the holes in ring order (each from its canonical start): never the record's hole order
+  const holes = read.slice(1).sort((u, w) => compareRings(u.ring, w.ring));
+  for (const r of [read[0], ...holes]) {
+    rings.push(r.ring);
+    edges.push(r.es);
   }
   return { rings, edges, spines };
 }

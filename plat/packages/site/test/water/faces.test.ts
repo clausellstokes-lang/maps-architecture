@@ -106,7 +106,7 @@ describe('§4.2 S1 (8): water faces with shore and bank edges; land components b
       }
     }
     expect(sharedWithRing).toBe(2);
-    expect(banks).toBeGreaterThan(2);
+    expect(banks).toBe(2); // a straight river: one bank edge on each side
     // the land faces are those landComponents finds again from the arena alone
     const again = landComponents(plat);
     expect(again.map((c) => c.id)).toEqual(['land:0', 'land:1']);

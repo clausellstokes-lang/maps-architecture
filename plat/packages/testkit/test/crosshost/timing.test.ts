@@ -1,7 +1,7 @@
 // M0-d-06's test "the timing mode returns one figure per stage per seed on the chromium leg, workers on, and changes no
 // digest (the digests with timing on equal those with it off)" (C-0082). The figure is the harness's wall-clock taken
 // around each stage call inside the worker (performance.now(), never in model code). Built and run here on every leg
-// this machine runs with workers on; the chromium leg's run is the Mac step (C-D06 (6)): where the cache holds no
+// this machine runs with workers on; the chromium leg's run is the Mac step (C-0228 (6)): where the cache holds no
 // chromium build the leg is reported blocked with that reason, and on the reference Mac it must run.
 import { describe, expect, it } from 'vitest';
 import { crossHostTimes, planCrossHostLeg, runCrossHost, type CrossHostLegId } from '@plat/testkit';
