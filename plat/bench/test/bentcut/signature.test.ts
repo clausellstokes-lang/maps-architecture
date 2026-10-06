@@ -234,6 +234,13 @@ describe('§16 M0 (b)’s corner and arrival clauses on the PR tier’s sample o
     expect(foldSignature([recOf([...mid(19), cut(0.5, 8499)])]).arrival.pass).toBe(true);
     expect(foldSignature([recOf([...mid(18), cut(0.5, 8500), cut(0.5, 8499), cut(0.5, 8000)])]).arrival.share).toBeCloseTo(19 / 21, 12);
     expect(foldSignature([recOf([...mid(18), cut(0.5, 8499), cut(0.5, 8000)])]).arrival.pass).toBe(false);
+    // Either side of each bound by one cut in a hundred (or two hundred): 0.79 and 0.945 fail, 0.80 and 0.95 pass.
+    const off = (n: number, bad: SignatureCut): SignatureCut[] => [...mid(100 - n), ...Array.from({ length: n }, () => bad)];
+    expect(foldSignature([recOf(off(21, cut(0.75, 9000)))]).corner.pass).toBe(false);
+    expect(foldSignature([recOf(off(20, cut(0.75, 9000)))]).corner.pass).toBe(true);
+    expect(foldSignature([recOf([...off(5, cut(0.5, 8000)), ...off(6, cut(0.5, 8000))])]).arrival.share).toBeCloseTo(189 / 200, 12);
+    expect(foldSignature([recOf([...off(5, cut(0.5, 8000)), ...off(6, cut(0.5, 8000))])]).arrival.pass).toBe(false);
+    expect(foldSignature([recOf(off(5, cut(0.5, 8000)))]).arrival.pass).toBe(true);
     // No cut: neither clause passes.
     const none = foldSignature([recOf([])]);
     expect([none.corner.pass, none.arrival.pass]).toEqual([false, false]);

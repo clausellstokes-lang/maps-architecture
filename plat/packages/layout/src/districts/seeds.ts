@@ -147,6 +147,12 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
   for (let r = 0; r < remainder; r += 1) {
     let pick = -1;
     let pickDeficit = 0;
+    // First every compartment without a seed, the largest first: each yields a district whatever it is given.
+    comps.forEach((c, ci) => {
+      if (members[ci].length > 0 || !c.some(free)) return;
+      if (pick < 0 || area[ci] > area[pick]) pick = ci;
+    });
+    if (pick < 0)
     comps.forEach((c, ci) => {
       if (!c.some(free)) return;
       // the deficit: the compartment's share of N_d (A_c · N_d ÷ A, scaled by A to stay exact) less its carried growth

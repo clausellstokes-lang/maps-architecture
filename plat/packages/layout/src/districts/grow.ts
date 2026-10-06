@@ -46,6 +46,32 @@ export interface GrowOptions {
 /** The draws of one turn: a grower's seed lineage and its turn number → the turn's stream. */
 export type TurnStream = (lineage: GrowSeed['lineage'], turn: number) => Stream;
 
+import { hull } from '@plat/kernel';
+function solidity(g: FaceGraph, members: number[], area: number): number {
+  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
+  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
+  const hr = hull(pts); if (!hr.ok) return 0;
+  let a2 = 0; const r = hr.value; for (let i = 0; i < r.length; i++) { const a = r[i], b = r[(i+1)%r.length]; a2 += a.x*b.y - b.x*a.y; }
+  return area / (a2/2);
+}
+import { obb as obbK } from '@plat/kernel';
+function rect(g: FaceGraph, members: number[], area: number): number {
+  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
+  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
+  const b = obbK(pts); if (!b.ok) return 0; return area / (b.value.majorCm * b.value.minorCm);
+}
+function aspect(g: FaceGraph, members: number[]): number {
+  const P = g.plat; const O = P.halfEdges.origin; const pts: any[] = [];
+  for (const m of members) for (const h of g.rings[m][0]) pts.push({ x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] });
+  const b = obbK(pts); if (!b.ok) return 0; return b.value.minorCm / b.value.majorCm;
+}
+function reock(g: FaceGraph, members: number[], area: number): number {
+  const P = g.plat; const O = P.halfEdges.origin; let cx=0, cy=0, n=0; const pts: any[] = [];
+  for (const m of members) for (const h of g.rings[m][0]) { const p = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] }; pts.push(p); }
+  let a2=0; for (const m of members) { cx += g.faces[m].centroid.x*g.faces[m].areaCm2; cy += g.faces[m].centroid.y*g.faces[m].areaCm2; a2 += g.faces[m].areaCm2; }
+  cx/=a2; cy/=a2; let r2=0; for (const p of pts) r2 = Math.max(r2, (p.x-cx)**2+(p.y-cy)**2);
+  return area / (Math.PI*r2);
+}
 /** A degenerate face (§4.1's S6 row: "a degenerate district face merges into its neighbour"): area ≤ 0. */
 function degenerate(g: FaceGraph, i: number): boolean {
   return !(g.faces[i].areaCm2 > 0);
@@ -115,7 +141,17 @@ export function grow(seeds: readonly GrowSeed[], faces: GrowFaces, stream: TurnS
       const f = g.faces[j];
       const area = d.areaCm2 + f.areaCm2;
       if (area > top) continue;
-      if (compactness(area, d.perimeterCm + f.perimeterCm - 2 * shared) < opts.compactnessMin) continue;
+      if ((globalThis as any).__S6_MEASURE === 'solidity') {
+        if (solidity(g, [...d.faces, j], area) < opts.compactnessMin) continue;
+      } else if ((globalThis as any).__S6_MEASURE === 'obb') {
+        if (rect(g, [...d.faces, j], area) < opts.compactnessMin) continue;
+      } else if ((globalThis as any).__S6_MEASURE === 'aspect') {
+        if (aspect(g, [...d.faces, j]) < opts.compactnessMin) continue;
+      } else if ((globalThis as any).__S6_MEASURE === 'reock') {
+        if (reock(g, [...d.faces, j], area) < opts.compactnessMin) continue;
+      } else if ((globalThis as any).__S6_MEASURE === 'none') {
+        // no compactness
+      } else if (compactness(area, d.perimeterCm + f.perimeterCm - 2 * shared) < opts.compactnessMin) continue;
       if (boundaryLoops(g, [...d.faces, j], (i) => i === j || owner[i] === me) > 1) continue;
       out.push(j);
     }
