@@ -59,17 +59,6 @@ export function kerbPortals(p: Plat, key: PlatKey, seam: Seam, wayId: Id, extra:
   return out;
 }
 
-/** Centidegrees per radian: 18 000 ÷ π (Math.PI is outside §6.5 (3)'s allowlist). */
-const CDEG_PER_RAD = 18000 / 3.141592653589793;
-
-/** A direction's bearing in whole centidegrees in [0, 36000), counter-clockwise from +x (§2.1's one angle unit). */
-export function bearingCdeg(dir: XY, atan2: (y: number, x: number) => number): number {
-  let a = atan2(dir.y, dir.x) * CDEG_PER_RAD;
-  if (a < 0) a += 36000;
-  const c = Math.round(a);
-  return c >= 36000 ? c - 36000 : c;
-}
-
 /** The portal gap at a portal (§4.6 step 7): max(cut.settings.portalGapMinM, factor × the wider lane's width), cm. */
 export function portalGap(cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>, widthA: number, widthB: number): number {
   return Math.max(cells.portalGapMinCm, cells.portalGapLaneFactor * Math.max(widthA, widthB));

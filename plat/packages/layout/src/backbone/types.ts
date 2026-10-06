@@ -164,6 +164,8 @@ export interface S4Report {
   /** route.nodes charged by S4's own searches (F-ROUTE's re-solves). */
   readonly work: { readonly 'route.nodes': number };
   readonly rungs: readonly RouteRung[];
+  /** Parallel runs laid along an earlier route (C-0234 (16)). */
+  readonly folds: readonly { readonly route: string; readonly onto: string; readonly from: LatticePoint; readonly to: LatticePoint; readonly lengthCm: number }[];
   readonly merges: readonly JunctionMerge[];
   readonly keptApart: readonly JunctionKeptApart[];
   readonly junctionRules: readonly JunctionRule[];

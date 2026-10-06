@@ -12,7 +12,7 @@
 //   midpoint, ≤ `CURVATURE_PASSES` passes, the ends, the held points and the points next to the ends never moved;
 //   what stays below is counted (`belowRadius`, soft, reported).
 // Each step works on values in cm; the result is rounded to whole cm (insertChain snaps it, §3.6 step 1).
-import { chaikin, simplify, type LatticePoint, type Polygon } from '@plat/kernel';
+import { chaikin, simplify, type Cm, type LatticePoint, type Polygon } from '@plat/kernel';
 
 /** The curvature limit's passes. */
 export const CURVATURE_PASSES = 64;
@@ -156,7 +156,7 @@ export function simplifyChain(points: readonly LatticePoint[], held: readonly bo
     if (i === 0 || i === n - 1 || held[i]) heldAt.add(`${String(p.x)},${String(p.y)}`);
   });
   if (n <= 3) return { points: points.slice(), anchor: points.map((p) => heldAt.has(`${String(p.x)},${String(p.y)}`)) };
-  const s = simplify(points, opts.minSegmentCm, 0, opts.obstacles as Polygon[], keptIndices(n, held));
+  const s = simplify(points, opts.minSegmentCm as Cm, 0, opts.obstacles as Polygon[], keptIndices(n, held));
   const out = s.ok ? s.value : points.slice();
   return { points: out, anchor: out.map((p) => heldAt.has(`${String(p.x)},${String(p.y)}`)) };
 }

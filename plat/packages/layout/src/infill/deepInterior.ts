@@ -6,7 +6,7 @@
 //     `standard`. The thickness is twice the radius of the largest circle inscribed in the block (the reference rows'
 //     own measure: "an inscribed circle's radius above 1.5 × the median footprint's short side, 21.6 m of thickness"),
 //     found by a best-first subdivision of the block's box (the pole of inaccessibility; Garcia-Castellanos and
-//     Lombardo's grid refinement as published) to 1 cm.
+//     Lombardo's grid refinement as published) to 5 cm.
 //   * a `deep` block's interior is drawn now, in S8, by the district's band row's target shares — court, back_lane,
 //     through_alley, rear_plots (interior.json `shares.*`, interpolated along the prosperity value between the rowed
 //     bands, item 27) — and its reach by the band's reach weights (`reach.open`, `.passage`, `.gated`, interpolated
@@ -18,7 +18,7 @@
 // superseded 2 and is M0-c-07a's to re-fit (its hand-over), so the rule reads the design's factor and a test pins it
 // (N-27; C-0239 (6)). The lanes a `back_lane` or `through_alley` asks for are cut by bentCutFabric.ts in the district's
 // batch (`interiorSpine`).
-import { BinaryHeap, LATTICE, obb, type LatticePoint, type Stream } from '@plat/kernel';
+import { BinaryHeap, obb, type LatticePoint, type Stream } from '@plat/kernel';
 import type { Block } from '@plat/model';
 import { bandInterpolate, defaultBandCuts, loadTable, type BandCuts, type Table } from '@plat/tables';
 import { div } from './ladder.js';
@@ -124,10 +124,13 @@ function signedDistance(rings: readonly (readonly LatticePoint[])[], p: XY): num
 const SQRT2 = 1.4142135623730951;
 
 /** The pole search's cell budget: past it the best centre found stands (a count, never a clock). */
-const MAX_CELLS = 20_000;
+const MAX_CELLS = 4_000;
+
+/** The pole search's precision (cm): the thickness is known to 2 × 5 cm — far inside the deep test's metres. */
+export const THICKNESS_PRECISION_CM = 5;
 
 /**
- * The block's local thickness (§4.6): twice the radius of the largest inscribed circle, found to 1 cm by a best-first
+ * The block's local thickness (§4.6): twice the radius of the largest inscribed circle, found to 5 cm by a best-first
  * subdivision of the outer ring's box (each cell bounded above by its centre's distance + half its diagonal); holes
  * count as boundary. Deterministic: cells are popped by bound, ties by creation order. Returns 0 for a ring with no area.
  */
@@ -161,7 +164,7 @@ export function localThickness(rings: readonly (readonly LatticePoint[])[]): { t
   for (let x = minX; x < maxX; x += size) for (let y = minY; y < maxY; y += size) push(x + half0, y + half0, half0);
   // The first guess: the box's centre (the area centroid would do as well; any interior start converges).
   let best: Cell = { x: (minX + maxX) / 2, y: (minY + maxY) / 2, half: 0, d: signedDistance(rings, { x: (minX + maxX) / 2, y: (minY + maxY) / 2 }), max: 0 };
-  const precision = LATTICE.unitCm;
+  const precision = THICKNESS_PRECISION_CM;
   while (heap.size > 0 && cells.length < MAX_CELLS) {
     const i = heap.pop();
     const c = cells[i];

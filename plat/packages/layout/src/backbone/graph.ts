@@ -10,6 +10,7 @@
 // * the routes are rewritten through the merge (a merged point becomes its keeper, a repeated point closes a loop that
 //   is cut out) and the graph rebuilt from them, so every chain is a run of whole route edges.
 import type { LatticePoint } from '@plat/kernel';
+import { quot } from '../siting/geom.js';
 import type { ArterialGraph, Chain, GraphEdge, GraphNode, JunctionKeptApart, JunctionMerge, RoutePoint, S4Route } from './types.js';
 
 /** The key of a point (its exact position). */
@@ -239,6 +240,148 @@ export function arterialGraph(routes: readonly S4Route[], mergeCm: number): Arte
   const { nodes, edges } = plan.merges.length === 0 ? first : union(rewritten);
   return { nodes, edges, chains: chainsOf(nodes, edges), routes: rewritten, merges: plan.merges, keptApart: plan.keptApart };
 }
+
+/** One fold of a parallel run (C-0234 (16)): the route, the earlier route it now follows, the points replaced. */
+export interface ParallelFold {
+  readonly route: string;
+  readonly onto: string;
+  /** The first and last of the route's points replaced, and the run's length (cm). */
+  readonly from: LatticePoint;
+  readonly to: LatticePoint;
+  readonly lengthCm: number;
+}
+
+type Seg = readonly [number, number, number, number];
+
+function footDist(p: LatticePoint, a: LatticePoint, b: LatticePoint): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const l2 = dx * dx + dy * dy;
+  let t = 0;
+  if (l2 > 0) {
+    t = quot((p.x - a.x) * dx + (p.y - a.y) * dy, l2, 'area', 'foot');
+    if (t < 0) t = 0;
+    if (t > 1) t = 1;
+  }
+  const fx = a.x + t * dx - p.x;
+  const fy = a.y + t * dy - p.y;
+  return Math.sqrt(fx * fx + fy * fy);
+}
+
+function orient(ax: number, ay: number, bx: number, by: number, cx: number, cy: number): number {
+  const v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
+  return v > 0 ? 1 : v < 0 ? -1 : 0;
+}
+
+/** Do the closed segments pq and s meet? */
+function meets(p: LatticePoint, q: LatticePoint, s: Seg): boolean {
+  const o1 = orient(p.x, p.y, q.x, q.y, s[0], s[1]);
+  const o2 = orient(p.x, p.y, q.x, q.y, s[2], s[3]);
+  const o3 = orient(s[0], s[1], s[2], s[3], p.x, p.y);
+  const o4 = orient(s[0], s[1], s[2], s[3], q.x, q.y);
+  if (o1 !== o2 && o3 !== o4) return true;
+  const on = (ax: number, ay: number, bx: number, by: number, cx: number, cy: number): boolean => Math.min(ax, bx) <= cx && cx <= Math.max(ax, bx) && Math.min(ay, by) <= cy && cy <= Math.max(ay, by);
+  return (o1 === 0 && on(p.x, p.y, q.x, q.y, s[0], s[1])) || (o2 === 0 && on(p.x, p.y, q.x, q.y, s[2], s[3])) || (o3 === 0 && on(s[0], s[1], s[2], s[3], p.x, p.y)) || (o4 === 0 && on(s[0], s[1], s[2], s[3], q.x, q.y));
+}
+
+/**
+ * Parallel runs folded into one street (C-0234 (16); §4.3: "routes sharing a run … become one street, never braided
+ * near-duplicates"; §13.2's separation test): in destination order, a route part's maximal run of free points (not
+ * pinned, not held) lying within the class separation (the larger of the two classes') of an earlier part of the same
+ * kind (inward with inward, outward with outward) — on no point of it — for more than one step along the route is laid
+ * along that earlier part instead: its points replaced by the earlier part's points between the vertices nearest the
+ * run's two ends, joined by straight segments that meet none of `avoid`'s sides (else the run stays, and the next is
+ * tried). ≤ `FOLDS_PER_ROUTE` folds per route part.
+ */
+export function foldParallel(routes: readonly S4Route[], sepCm: (r: S4Route) => number, stepCm: number, avoid: readonly Seg[]): { routes: S4Route[]; folds: ParallelFold[] } {
+  const out: S4Route[] = routes.map((r) => ({ ...r }));
+  const folds: ParallelFold[] = [];
+  for (let i = 0; i < out.length; i += 1) {
+    for (let f = 0; f < FOLDS_PER_ROUTE; f += 1) {
+      const r = out[i];
+      const earlier: number[] = [];
+      for (let e = 0; e < i; e += 1) if (out[e].part === r.part && out[e].points.length >= 2) earlier.push(e);
+      if (earlier.length === 0) break;
+      const pts = r.points;
+      const n = pts.length;
+      // Per point: the nearest earlier part within the separation (−1 none), 0 on it.
+      const near = new Int32Array(n).fill(-1);
+      for (let j = 1; j + 1 < n; j += 1) {
+        const p = pts[j];
+        if (p.pin !== undefined || p.held === true) continue;
+        let best = Infinity;
+        let who = -1;
+        for (const e of earlier) {
+          const q = out[e].points;
+          const sep = Math.max(sepCm(r), sepCm(out[e]));
+          for (let s = 0; s + 1 < q.length; s += 1) {
+            const a = q[s].at;
+            const b = q[s + 1].at;
+            if (Math.min(a.x, b.x) - sep > p.at.x || Math.max(a.x, b.x) + sep < p.at.x || Math.min(a.y, b.y) - sep > p.at.y || Math.max(a.y, b.y) + sep < p.at.y) continue;
+            const d = footDist(p.at, a, b);
+            if (d < sep && d < best) {
+              best = d;
+              who = e;
+            }
+          }
+        }
+        near[j] = best === 0 ? -1 : who;
+      }
+      let done = false;
+      let j = 1;
+      while (j + 1 < n && !done) {
+        if (near[j] === -1) {
+          j += 1;
+          continue;
+        }
+        const e = near[j];
+        let k = j;
+        while (k + 2 < n && near[k + 1] === e) k += 1;
+        let arc = 0;
+        for (let m = j; m < k; m += 1) arc += len(pts[m].at, pts[m + 1].at);
+        if (arc > stepCm) {
+          const q = out[e].points;
+          const nearest = (p: LatticePoint): number => {
+            let bi = 0;
+            let bd = Infinity;
+            q.forEach((x, xi) => {
+              const d = len(x.at, p);
+              if (d < bd) {
+                bd = d;
+                bi = xi;
+              }
+            });
+            return bi;
+          };
+          const qa = nearest(pts[j].at);
+          const qb = nearest(pts[k].at);
+          const along = qa <= qb ? q.slice(qa, qb + 1) : q.slice(qb, qa + 1).reverse();
+          const before = pts[j - 1].at;
+          const after = pts[k + 1].at;
+          const ok = along.length > 0 && !avoid.some((s) => meets(before, along[0].at, s) || meets(along[along.length - 1].at, after, s));
+          if (ok) {
+            const rewritten: RoutePoint[] = [...pts.slice(0, j), ...along.map((x) => ({ at: x.at, ...(x.pin === undefined ? {} : { pin: x.pin }), ...(x.pinId === undefined ? {} : { pinId: x.pinId }), ...(x.pinOrdinal === undefined ? {} : { pinOrdinal: x.pinOrdinal }) })), ...pts.slice(k + 1)];
+            const spans: { at: number; bridge: string }[] = [];
+            for (let m = 0; m + 1 < rewritten.length; m += 1) {
+              const a = rewritten[m];
+              const b = rewritten[m + 1];
+              if (a.pin === 'deck_end' && b.pin === 'deck_end' && a.pinId !== undefined && a.pinId === b.pinId) spans.push({ at: m, bridge: a.pinId });
+            }
+            out[i] = { ...r, points: rewritten, spans };
+            folds.push({ route: r.id, onto: out[e].id, from: pts[j].at, to: pts[k].at, lengthCm: arc });
+            done = true;
+          }
+        }
+        j = k + 1;
+      }
+      if (!done) break;
+    }
+  }
+  return { routes: out, folds };
+}
+
+/** The folds one route part may take (C-0234 (16)). */
+export const FOLDS_PER_ROUTE = 8;
 
 /** A chain's points in order, from its first node (or reversed). */
 export function chainPoints(g: ArterialGraph, c: Chain, reversed = false): LatticePoint[] {
