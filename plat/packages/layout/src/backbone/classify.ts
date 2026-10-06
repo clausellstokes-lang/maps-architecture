@@ -2,7 +2,7 @@
 // table `ways.widths` keyed by class and rung, the class by betweenness)"; §17.1 (8): U. Brandes, "A faster algorithm
 // for betweenness centrality", J. Math. Sociol. 25 (2001), and "On variants of shortest-path betweenness centrality and
 // their generic computation", Social Networks 30 (2008) — edge betweenness with source and target sets). Readings
-// C-0234 (6):
+// C-0236 (6):
 // * the betweenness of a chain is Brandes' edge betweenness on the chain graph (its ends the nodes, each chain an edge
 //   weighted by its length) over the flows the routes carry: from every plaza attach point a route starts at to every
 //   destination a route ends at (a frame end, a bridge, a landing), each pair counted once — the gates' trade to the
@@ -21,7 +21,7 @@ import type { ArterialGraph, ChainClass, RouteClass } from './types.js';
 /** The classes from the highest down (§4.3 F-ROUTE's slope order, with `secondary` in its place). */
 export const CLASS_ORDER: readonly RouteClass[] = Object.freeze(['through', 'primary', 'secondary', 'track', 'path']);
 
-/** A `primary` chain carrying at least this many plaza flows is `through` (C-0234 (6)). */
+/** A `primary` chain carrying at least this many plaza flows is `through` (C-0236 (6)). */
 export const PROMOTE_FLOWS = 2;
 
 /** The rank of a class (0 the highest). */
@@ -29,7 +29,7 @@ export function classRank(c: RouteClass): number {
   return CLASS_ORDER.indexOf(c);
 }
 
-/** The ways.json row a class's widths, radius and separation are read from (C-0234 (6)). */
+/** The ways.json row a class's widths, radius and separation are read from (C-0236 (6)). */
 export function wayRow(c: RouteClass): string {
   return c === 'track' || c === 'path' ? 'lane' : c;
 }

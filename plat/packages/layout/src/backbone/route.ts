@@ -1,7 +1,7 @@
 // S4's router and F-ROUTE's M0 rungs (M0-c-03; §4.3 *Lattice and costs*, *The class grade limit*, *Decks*; §5.2
 // F-ROUTE: "another crossing site on the reach within its search band … → one bridge at extra cost … → relax the slope
 // limit one class → route to the nearest reachable junction, the destination `unserved`"; §5.2 F-WORK with C-0085:
-// route.nodes reached → `unserved`, reported `work_cut` with the count; C-0076). Readings C-0234 (2), (4):
+// route.nodes reached → `unserved`, reported `work_cut` with the count; C-0076). Readings C-0236 (2), (4):
 // * the router is heap A* on M0-c-01's lattice with its §4.3 costs (water impassable except along a crossing site's
 //   deck, a reservation impassable inside), an edge steeper than the routed class's grade limit impassable, an excluded
 //   deck's edges impassable, and a node mask (a gate route's inward part stays in the walled stage, its outward part
@@ -87,7 +87,7 @@ export function routeGraph(lattice: Lattice, heights?: Float64Array): RouteGraph
 /** One search's options. */
 export interface SolveOptions {
   readonly class: RouteClass;
-  /** Per class, its grade limit (rise over run); a class with none is unlimited (C-0234 (2)). */
+  /** Per class, its grade limit (rise over run); a class with none is unlimited (C-0236 (2)). */
   readonly gradeLimits?: Partial<Record<RouteClass, number>>;
   /** Deck ids whose edges are impassable to this search. */
   readonly excludedDecks?: ReadonlySet<string>;
@@ -225,7 +225,7 @@ function pointAtArc(end: LatticePoint, pts: readonly LatticePoint[], r: number):
 }
 
 /**
- * Is a crossing usable by a route of minimum radius `r` (C-0234 (4))? Each approach — the route's points walked away
+ * Is a crossing usable by a route of minimum radius `r` (C-0236 (4))? Each approach — the route's points walked away
  * from a deck end — reaches its first point at least r along without entering a turning circle, and the segment from
  * the dry node to its deck end meets the water only at that end.
  */

@@ -4,7 +4,7 @@
 // order). The routes are committed as one graph: built, classified, each chain simplified, its junction rules run,
 // smoothed and curvature-limited once, then every chain inserted once — one `insertChain` op per chain, a mandatory
 // chain carrying its way's `way` row, in one declared L1 batch (§3.3: the ops independent, each computed before the
-// batch). Readings C-0234 (10)–(13):
+// batch). Readings C-0236 (10)–(13):
 // * ways in destination order: each route part claims, in order, the chains no earlier part claimed, and each maximal
 //   run of chains it claims is one way (`way:<n>`), so a run several routes share is one street, the first route's;
 //   its class the highest of its chains', its width a scalar where it keeps one class, else a `width_knot` profile —
@@ -64,7 +64,7 @@ export interface CommitRoutesOptions {
   readonly rungs?: S4Report['rungs'];
   readonly routeNodes?: number;
   readonly unserved?: readonly string[];
-  readonly trimmed?: number;
+  readonly offGate?: number;
 }
 
 type Seg = readonly [number, number, number, number];
@@ -246,7 +246,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   const sorted = routes.slice().sort((a, b) => a.order - b.order || (a.part === b.part ? 0 : a.part === 'inward' ? -1 : 1));
   const avoid: Seg[] = [...(opts.plaza === undefined ? [] : ringSegs(opts.plaza)), ...(opts.wall === undefined ? [] : ringSegs(opts.wall)), ...(opts.water ?? []).flatMap((r) => ringSegs(r))];
   // The fold reads each part's class; a part whose chains the betweenness promotes is folded again at the class it
-  // took (C-0234 (16)): two passes.
+  // took (C-0236 (16)): two passes.
   let folded = foldParallel(sorted, (r) => classGeometryCm(tables, r.class).separationCm, opts.spacingCm, avoid);
   let g = arterialGraph(folded.routes, mergeCm);
   let classes = classify(g, { tables, rung: opts.rung });
@@ -398,7 +398,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
       }
     }
     const id = junctionOf.get(v) as Id;
-    return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort(), kind: junctionKind(g, finalPolys, v, count), lifecycle: generated(epoch) };
+    return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), kind: junctionKind(g, finalPolys, v, count), lifecycle: generated(epoch) };
   });
 
   // Way records, with their width profiles.
@@ -562,7 +562,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     junctionRules: junctionRulesRun,
     belowRadius,
     unsmoothed,
-    trimmed: opts.trimmed ?? 0,
+    offGate: opts.offGate ?? 0,
     stretchShared,
     unserved: opts.unserved ?? [],
   };

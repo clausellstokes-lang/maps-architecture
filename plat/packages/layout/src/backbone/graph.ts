@@ -1,7 +1,7 @@
 // The arterial graph (M0-c-03; §4.3 *One graph, then one smoothing*): "all routes are solved first on the lattice; the
 // arterial graph is the union of the lattice edges they use, each carrying its multiplicity (how many routes share it).
 // The graph is split into chains at every node of degree ≠ 2 and at every pinned node (gates, attach points, deck ends,
-// landings); junctions closer than 8 m are merged on the graph". Readings C-0234 (3):
+// landings); junctions closer than 8 m are merged on the graph". Readings C-0236 (3):
 // * a node is a route point, keyed by its exact position; its pin is the first route's that names one (route order);
 // * a junction is a node of degree ≠ 2 or a pinned node; two junctions closer than `ways.json` `graph/junctionMergeM`
 //   merge into one, nearest pairs first: into the pinned one where one is pinned, else into the one of higher degree
@@ -241,7 +241,7 @@ export function arterialGraph(routes: readonly S4Route[], mergeCm: number): Arte
   return { nodes, edges, chains: chainsOf(nodes, edges), routes: rewritten, merges: plan.merges, keptApart: plan.keptApart };
 }
 
-/** One fold of a parallel run (C-0234 (16)): the route, the earlier route it now follows, the points replaced. */
+/** One fold of a parallel run (C-0236 (16)): the route, the earlier route it now follows, the points replaced. */
 export interface ParallelFold {
   readonly route: string;
   readonly onto: string;
@@ -285,7 +285,7 @@ function meets(p: LatticePoint, q: LatticePoint, s: Seg): boolean {
 }
 
 /**
- * Parallel runs folded into one street (C-0234 (16); §4.3: "routes sharing a run … become one street, never braided
+ * Parallel runs folded into one street (C-0236 (16); §4.3: "routes sharing a run … become one street, never braided
  * near-duplicates"; §13.2's separation test): in destination order, a route part's maximal run of free points (not
  * pinned, not held) lying within the class separation (the larger of the two classes') of an earlier part of the same
  * kind (inward with inward, outward with outward) — on no point of it — for more than one step along the route is laid
@@ -380,7 +380,7 @@ export function foldParallel(routes: readonly S4Route[], sepCm: (r: S4Route) => 
   return { routes: out, folds };
 }
 
-/** The folds one route part may take (C-0234 (16)). */
+/** The folds one route part may take (C-0236 (16)). */
 export const FOLDS_PER_ROUTE = 8;
 
 /** A chain's points in order, from its first node (or reversed). */

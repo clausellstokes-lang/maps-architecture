@@ -1,6 +1,6 @@
 // One smoothing per chain (M0-c-03; §4.3 *One graph, then one smoothing*: "each chain is simplified (Visvalingam) and
 // smoothed (Chaikin × 2, then curvature-limited to the class's minimum radius) once, with its end nodes pinned";
-// *Decks*: "smoothing never moves their vertices"). Readings C-0234 (5), (7):
+// *Decks*: "smoothing never moves their vertices"). Readings C-0236 (5), (7):
 // * simplify: §3.4's topology-preserving Visvalingam–Whyatt (`simplify`, M0-a-13) with a minimum segment of one
 //   lattice spacing and no angle floor (M0-c-01's reading for the level set, C-0201 (5)), the obstacles given (water,
 //   the plaza, the wall, the other chains), the ends, the held points and the two points next to the ends kept — so each

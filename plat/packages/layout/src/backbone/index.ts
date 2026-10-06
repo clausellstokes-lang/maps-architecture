@@ -1,6 +1,6 @@
 // @plat/layout's backbone module (M0-c-03; §4.3 S4 Backbone, §4.1's S4 row, §4.12 `NetworkStrategy` (the S4 part),
 // §2.4 `Way` / `Junction`, §2.7 `Bridge`, §5.2 F-ROUTE and F-WORK, §6.3, §13.2, §17.1 (8); C-0076, C-0085; readings
-// C-0234): S4 as a declared-form stage — S3's gate routes committed as one graph with one smoothing, class and width by
+// C-0236): S4 as a declared-form stage — S3's gate routes committed as one graph with one smoothing, class and width by
 // multiplicity and betweenness, width knots, Y → T and the 30° rule, through-roads to the frame, spans through crossing
 // sites' deck ends — and S4's router with F-ROUTE's M0 rungs. Created empty by the scaffold (M0-s-01, C-0013); this
 // index and its folder belong to M0-c-03.

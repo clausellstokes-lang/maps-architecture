@@ -1,5 +1,5 @@
 // S4's types (M0-c-03; §4.3, §4.1's S4 row, §4.12 `NetworkStrategy`, §2.4 `Way` / `Junction`, §2.7 `Bridge`, §5.2
-// F-ROUTE, §6.3; C-0076, C-0085; readings C-0234). Types only.
+// F-ROUTE, §6.3; C-0076, C-0085; readings C-0236). Types only.
 import type { LatticePoint } from '@plat/kernel';
 import type { Bridge, Gate, Id, Junction, NodeRef, Way, WayClass } from '@plat/model';
 
@@ -24,7 +24,7 @@ export interface RoutePoint {
   readonly pinId?: Id;
   /** The attach point's ordinal (attach pins) or the deck end's (0 | 1). */
   readonly pinOrdinal?: number;
-  /** Held: smoothing keeps the point where it is (a gate's way corridor, C-0226 (10); C-0234 (5)). */
+  /** Held: smoothing keeps the point where it is (a gate's way corridor, C-0226 (10); C-0236 (5)). */
   readonly held?: boolean;
 }
 
@@ -93,7 +93,7 @@ export interface JunctionMerge {
   readonly distanceCm: number;
 }
 
-/** Two junctions within the merge distance that were not merged: both pinned, or one a gate (C-0234 (3)). */
+/** Two junctions within the merge distance that were not merged: both pinned, or one a gate (C-0236 (3)). */
 export interface JunctionKeptApart {
   readonly a: LatticePoint;
   readonly b: LatticePoint;
@@ -117,7 +117,7 @@ export interface ChainClass {
   readonly class: RouteClass;
   /** The width the chain's multiplicity takes inside its class's band at the rung (cm). */
   readonly widthCm: number;
-  /** Brandes' edge betweenness of the chain over the plaza-to-destination flows (§17.1 (8); C-0234 (6)). */
+  /** Brandes' edge betweenness of the chain over the plaza-to-destination flows (§17.1 (8); C-0236 (6)). */
   readonly betweenness: number;
   readonly multiplicity: number;
 }
@@ -164,7 +164,7 @@ export interface S4Report {
   /** route.nodes charged by S4's own searches (F-ROUTE's re-solves). */
   readonly work: { readonly 'route.nodes': number };
   readonly rungs: readonly RouteRung[];
-  /** Parallel runs laid along an earlier route (C-0234 (16)). */
+  /** Parallel runs laid along an earlier route (C-0236 (16)). */
   readonly folds: readonly { readonly route: string; readonly onto: string; readonly from: LatticePoint; readonly to: LatticePoint; readonly lengthCm: number }[];
   readonly merges: readonly JunctionMerge[];
   readonly keptApart: readonly JunctionKeptApart[];
@@ -173,8 +173,8 @@ export interface S4Report {
   readonly belowRadius: number;
   /** Chains whose smoothing was given up for the simplified course (it would have crossed something). */
   readonly unsmoothed: number;
-  /** Route parts trimmed back to their gate so they meet the wall only there (C-0234 (9)). */
-  readonly trimmed: number;
+  /** Route parts whose lattice course meets the wall off their gate (C-0236 (9); 0 on the fixtures). */
+  readonly offGate: number;
   /** The commit's W_STRETCH_SHARED count: 0 when the graph merged every shared run (§4.3; the item's test). */
   readonly stretchShared: number;
   /** Route parts not committed (F-ROUTE's `unserved`), by id. */

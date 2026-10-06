@@ -1,6 +1,6 @@
 // S4 Backbone as a Stage and as the base NetworkStrategy's S4 part (M0-c-03; §4.3 *Routes*, *Decks*, *Result*; §4.1's
 // S4 row and *Registration and order* — S4 is declared-form; §4.12 `NetworkStrategy`; §5.2 F-ROUTE, F-WORK; §6.3;
-// C-0076, C-0085). Readings C-0234 (1), (9), (14), (15):
+// C-0076, C-0085). Readings C-0236 (1), (9), (14), (15):
 // * S4 commits M0-c-01's gate routes without re-solving (§4.3 *Routes*): each split at its gate into the inward
 //   street (the plaza attach point ↔ the gate, `primary`) and the outward arterial (the gate ↔ the frame at its bearing,
 //   `through`), the gate's point between the route's two lattice nodes, so roads leaving the walled stage = N;
@@ -46,7 +46,7 @@ export interface S4Input {
 
 /** S4's options. */
 export interface S4Options {
-  /** Per class, its grade limit (rise over run): none at M0 unless given (C-0234 (2)). */
+  /** Per class, its grade limit (rise over run): none at M0 unless given (C-0236 (2)). */
   readonly gradeLimits?: Partial<Record<RouteClass, number>>;
   /** route.nodes' per-route limit in place of the law's. */
   readonly routeNodesLimit?: number;
@@ -92,7 +92,7 @@ function sideOfRing(ring: readonly LatticePoint[], p: LatticePoint): boolean | n
 }
 
 /**
- * Does a route part meet the wall anywhere but at its gate (C-0234 (9))? Every point but the gate on its side, and no
+ * Does a route part meet the wall anywhere but at its gate (C-0236 (9))? Every point but the gate on its side, and no
  * segment meeting the wall but at the gate.
  */
 export function partLeavesWall(points: readonly RoutePoint[], wall: readonly LatticePoint[], inward: boolean): boolean {
@@ -240,7 +240,7 @@ export function runS4(input: S4Input, opts: S4Options = {}): KernelResult<S4Outp
     rungs: built.rungs,
     routeNodes: built.work,
     unserved: built.unserved,
-    trimmed: built.wallCrossings.length,
+    offGate: built.wallCrossings.length,
     ...(opts.workLimit === undefined ? {} : { workLimit: opts.workLimit }),
   });
   if (!r.ok) return err(r.code, r.detail);

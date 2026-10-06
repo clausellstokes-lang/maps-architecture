@@ -30,6 +30,7 @@ export {
   antennaTips,
   contactClear,
   judge,
+  kerbEndsSquare,
   longestRun,
   meanNormalCut,
   reflexPreCut,

@@ -1,6 +1,6 @@
 // Junction rules (M0-c-03; §4.3: "Junction rules: minimum crossing angle 30° (else deflect); Y → T conversion where
 // the acute arm can be bent within its class curvature limit (G-P5)"). They run on the simplified chains, before
-// Chaikin, at every node where three or more chains meet. Readings C-0234 (8):
+// Chaikin, at every node where three or more chains meet. Readings C-0236 (8):
 // * an arm is a chain leaving the junction, its direction that of its first segment;
 // * Y → T, at a node of three arms: the two arms nearest opposite (≥ `THROUGH_MIN_CDEG` apart) are the through line,
 //   the third the branch; a branch nearer than `ACUTE_MAX_CDEG` to a through arm is acute, and is bent to leave

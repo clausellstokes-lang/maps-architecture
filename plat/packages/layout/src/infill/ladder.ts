@@ -549,6 +549,30 @@ export function judge(rings: readonly (readonly LatticePoint[])[], chain: readon
   return { ok: true, kind: 'split', widths: [widths[0], widths[1]] };
 }
 
+/**
+ * Does every `kerb` end of a chain — an end on a boundary with no spine: a wall strip's setback line, a reservation's
+ * edge, a shore (§4.6 step 7) — arrive square to the line it stays on, within the arrival band (cut.settings'
+ * portalArrivalCdeg, 85–95°, the design's one "square"; C-0239 (10))? Read against the L1 ring edge the end lies on.
+ */
+export function kerbEndsSquare(rings: readonly (readonly LatticePoint[])[], chain: readonly LatticePoint[], ends: readonly [EndPlan, EndPlan], cells: CutCells): boolean {
+  const bound = arrivalDot2(cells);
+  const n = chain.length;
+  for (let e = 0; e < 2; e += 1) {
+    if (ends[e].kind !== 'kerb') continue;
+    const at = e === 0 ? chain[0] : chain[n - 1];
+    const inner = e === 0 ? chain[1] : chain[n - 2];
+    const loc = locateOnRings(rings, at);
+    if (loc.ring < 0) return false;
+    const ring = rings[loc.ring];
+    const d = unit(sub(ring[(loc.edge + 1) % ring.length], ring[loc.edge]));
+    const u = unit(sub(at, inner));
+    if (d === null || u === null) return false;
+    const c = dot(u, d);
+    if (c * c > bound) return false;
+  }
+  return true;
+}
+
 /** The cut's length on the kerb (the width law's L): its kerb points' polyline length. */
 export function kerbLength(points: readonly XY[]): number {
   return lineLength(points);

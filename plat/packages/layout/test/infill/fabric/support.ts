@@ -28,7 +28,7 @@ import {
 } from '@plat/kernel';
 import { lineageHash, mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
 import { rungProfile } from '@plat/tables';
-import { granularityBands, spineWidthsOf, type S8District, type S8Input } from '../../../src/index.js';
+import { granularityBands, runS8, spineWidthsOf, type S8District, type S8Input } from '../../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -247,4 +247,21 @@ export function twoDistricts(opts: { seed?: number; prosperity?: number } = {}):
     ],
     opts.seed === undefined ? {} : { seed: opts.seed },
   );
+}
+
+/** Runs S8 on a fixture's input; throws on a refusal of the stage itself. */
+export function runFixture(f: Fixture, patch: Partial<S8Input> = {}): import('../../../src/index.js').S8Output {
+  const r = runS8({ ...f.input, ...patch }, NO_CTX as never);
+  if (!r.ok) throw new Error(`S8 refused: ${r.code} ${r.detail}`);
+  return r.value;
+}
+
+/** The interior angle (degrees, in [0, 90]) between a segment's direction and a line's. */
+export function crossingDeg(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): number {
+  const ux = b.x - a.x;
+  const uy = b.y - a.y;
+  const vx = d.x - c.x;
+  const vy = d.y - c.y;
+  const cos = Math.abs(ux * vx + uy * vy) / (Math.hypot(ux, uy) * Math.hypot(vx, vy));
+  return (Math.acos(Math.min(1, cos)) * 180) / Math.PI;
 }

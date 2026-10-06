@@ -82,6 +82,7 @@ import {
   antennaTips,
   div,
   judge,
+  kerbEndsSquare,
   kerbLength,
   meanNormalCut,
   reflexPreCut,
@@ -220,6 +221,8 @@ export interface DistrictReport {
   readonly cells: number;
   readonly blocks: number;
   readonly lanes: number;
+  /** Each lane's kerb-to-kerb length L (the width law's input), class and width, in insertion order. */
+  readonly laneLengths: readonly { readonly lane: Id; readonly lengthCm: number; readonly cls: CutClass; readonly widthCm: number }[];
   /** The district's width exponent p and its cut.width uniform. */
   readonly p: number;
   readonly widthU: number;
@@ -403,6 +406,7 @@ class Run {
   readonly stops: StopUse[] = [];
   readonly rungs: RungUse[] = [];
   readonly faces: FaceLadder[] = [];
+  readonly laneLengths: { lane: Id; lengthCm: number; cls: CutClass; widthCm: number }[] = [];
   readonly warnings = new Map<string, number>();
   readonly blocks: Block[] = [];
   readonly blockFaces: BlockFaces[] = [];
@@ -600,6 +604,8 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
   // A 2 cm margin over the floor: the insertion lands each end within a centimetre of where it was judged.
   const j = judge(fv.rings1, cand.chain, run.floor, 2 * LATTICE.unitCm);
   if (!j.ok) return { ok: false, why: j.why };
+  // An end with no spine beyond it stays on its line, square to it (§4.6 step 7; C-0239 (10)).
+  if (!kerbEndsSquare(fv.rings1, cand.chain, cand.ends, run.cells)) return { ok: false, why: 'kerb-arrival' };
   // Continuation (step 10): an end landing on an existing junction of an interior lower-or-equal class spine makes a
   // crossroads, admitted only collinear within 6° and inside the district.
   const cont = continuationRefused(run, fv, cand, laneClass ?? 'lane');
@@ -711,6 +717,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
     run.portals.push(pt.portal);
     run.portalAt.push({ portal: pt.portal, at: pt.at, spine: pt.spine });
   }
+  run.laneLengths.push({ lane: lane.id, lengthCm: L, cls, widthCm: width });
   run.ways.push({
     id: lane.id,
     class: cls,
@@ -1213,6 +1220,7 @@ export function districtBatch(p: Plat, district: District, seams: readonly Seam[
       cells: cells.length,
       blocks: run.blocks.length,
       lanes: run.ways.length,
+      laneLengths: run.laneLengths,
       p: run.p_,
       widthU: run.widthU,
       lRefCm: run.lRef,
