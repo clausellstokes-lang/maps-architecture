@@ -54,3 +54,19 @@ KI row for the hardening pass. The probes and mutants live in `~/maps-scratch/wa
      My NEAR run took 116 s for the 103 bar runs. **PLAUSIBLE** (a timing on this machine is informative only).
    * **For waves T and T2:** M0-e-06's S1 + S4 + S6 ≤ 50 ms bar will meet this cost; the kernel-buffer fallback is the
      slow path to look at first.
+
+## Closing check (`check/M0-e-03-close-r1`, 2026-10-06)
+
+10. **KI — a site's `deck` can differ from the committed deck by centimetres (reported by the fix round in C-0233; M4).**
+    * Observation: C-0233 records bar seed 64 `bridge:7`, whose committed end 1 lies 25 cm from its site's `deck[1]`: the
+      insertion moved it. `stage.test.ts` asserts the two equal on its seed 2 only. This seat's oracle probe measured the
+      committed decks (948 over 103 runs) and found the worst 2.0° off the averaged flow's normal, so the ± 10° promise
+      holds on the committed geometry. **CONFIRMED** for the angle; the 25 cm figure is the author's (**PLAUSIBLE** here).
+    * Effect: it fails safely. The references resolve to the committed vertices; only the `CrossingSite` record can lag.
+    * **Hardening:** after the commit, re-read each site's `deck` from its resolved `deck_end` vertices, or bound the gap
+      by `attractCm` in a test over the bar's seeds. It belongs with note 1 (the same insertion attraction).
+11. **Informational — two of this seat's flow mutants are caught only by the full CITY frames.** F03 (the flow from the
+    adjacent-vertex chord) and F04 (averaged over half a width) pass the four fast files and the 100 bar seeds at 100 ha.
+    The three full CITY frames kill them ("seed 4 bridge:27 11.9°"; "seed 10 bridge:20 15.6°"). The bar holds, but its
+    margin rests on three frames. **Hardening (M4):** a hand-built course in `crossings.test.ts` whose adjacent-vertex
+    chord and half-width chord both lie over 10° off the one-width chord, such as a bend with a short kink at the vertex.
