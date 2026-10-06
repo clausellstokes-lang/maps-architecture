@@ -25,7 +25,7 @@ export function violations(g: Grown): string[] {
   const wallEdges = roleEdges(plat, 'wall');
   let prevSel = slice.levelSet.selected;
   let prevWall: readonly { x: number; y: number }[] = g.commit.traced.line;
-  const roadsSoFar: { nodes: readonly number[] }[] = [];
+  const roadsSoFar: { nodes: number[] }[] = [];
   for (const st of growth.stages) {
     if (st.k === 1) continue;
     const b = st.boundary;
@@ -114,7 +114,7 @@ export function violations(g: Grown): string[] {
           }
         }
       }
-      roadsSoFar.push({ nodes: r.nodes });
+      roadsSoFar.push({ nodes: [...r.nodes] });
     }
     // (6) The walled stage's gates: every meeting of a way with its committed wall is a gate vertex on that way, and the
     // gates are no fewer than the crossings c; each gate lies on the boundary it was picked on.

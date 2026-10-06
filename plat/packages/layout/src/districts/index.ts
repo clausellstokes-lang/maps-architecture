@@ -1,5 +1,5 @@
 // @plat/layout's districts module (M0-e-04; §4.5 S6 Districts and quarters, §4.1's S6 row, §6.1, §6.3, §9.1, §13.2,
-// §5.3; C-0035, C-0046, C-0085, C-0122; readings C-0242): S6 as a callback-form Stage — the settlement perimeter,
+// §5.3; C-0035, C-0046, C-0085, C-0122; readings C-0245): S6 as a callback-form Stage — the settlement perimeter,
 // the coarse-face graph, the seeds and the grower with its leftover and merge rules, the count law, the typing stand-in
 // over the synthetic demand table, the quarter merge tree and the minimal Seam records. Created empty by the scaffold
 // (M0-s-01, C-0013); this index and its folder belong to M0-e-04.

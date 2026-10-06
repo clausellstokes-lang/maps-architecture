@@ -1,25 +1,25 @@
 // The grower (M0-e-04; §4.5 *Grower* (CONFIDENCE B9; MFCG 12710731's district-builder idea, item 47, J-A47.41),
-// §6.1 `district.seed`, §5.2 F-WORK; C-0085; readings C-0242 (6)–(10)). Over the coarse-face graph's claimable faces:
+// §6.1 `district.seed`, §5.2 F-WORK; C-0085; readings C-0245 (6)–(10)). Over the coarse-face graph's claimable faces:
 //   * a round gives every unfinished grower one turn, in seed-id order; each turn's draws come from its own stream,
 //     keyed by the grower's seed lineage and the turn's number (`stream(lineage, turn)`), so a turn's draws depend on
 //     nothing but the grower and the turn — never on a slot, an arrival or another grower's draws;
 //   * a turn first takes the admissible neighbours in canonical face order — a grower with none is finished, so even a
 //     grower of rate 0 ends — then skips with probability 1 − rate (one uniform, `bool(rate)`), else absorbs one of
-//     them drawn uniformly (`int`) (C-0242 (6));
+//     them drawn uniformly (`int`) (C-0245 (6));
 //   * admissible: an unclaimed claimable face whose every shared edge with the patch passes the edge test (no barrier
-//     bit the kind is not allowed; no kind is allowed one at M0, C-0242 (3)), and the grown patch passes the patch
-//     test — area at most the band's top, compactness ≥ the floor (the patch's area over its convex hull's, C-0242
+//     bit the kind is not allowed; no kind is allowed one at M0, C-0245 (3)), and the grown patch passes the patch
+//     test — area at most the band's top, compactness ≥ the floor (the patch's area over its convex hull's, C-0245
 //     (7)), and no hole (one boundary loop); a face
-//     whose absorption would enclose a hole is refused, so the hole splits off (C-0242 (7));
+//     whose absorption would enclose a hole is refused, so the hole splits off (C-0245 (7));
 //   * the leftover rule: faces no grower could claim seed further districts in face-id order, each grown alone by the
-//     same turns to its end before the next unclaimed face seeds (C-0242 (8));
+//     same turns to its end before the next unclaimed face seeds (C-0245 (8));
 //   * the merge rule: a district whose area ends below the band's floor merges into the neighbour with the longest
 //     shared edge — among the neighbours across edges that pass the edge test, so no merge carries a district across
 //     a barrier; one with no such neighbour stays and is reported — smallest first; a district grown from a seed of
-//     rate < 1 is never merged away, so it keeps its seed face and the rates set its size (C-0242 (9));
+//     rate < 1 is never merged away, so it keeps its seed face and the rates set its size (C-0245 (9));
 //   * F-WORK (C-0085): when grower.turns reaches its limit, growth stops and the leftover rule assigns every face still
 //     unowned without turns — each connected run of them (across edges that pass the edge test) one district — and the
-//     result reports work_cut with the count (C-0242 (10)).
+//     result reports work_cut with the count (C-0245 (10)).
 import type { Stream } from '@plat/kernel';
 import { boundaryLoops, EDGE_TEST_BARRIERS, faceLineage, hullCompactness, type FaceGraph, type FaceLink } from './faces.js';
 import type { GrowResult, GrowSeed, Grown, MergeRecord, SeedKind, TurnRecord } from './types.js';

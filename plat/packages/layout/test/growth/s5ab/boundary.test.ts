@@ -1,4 +1,4 @@
-// S5a's boundary (§4.4 S5a *Boundary*; C-0017; C-S5AB): stage 1's is S3's contour; for k ≥ 2 the land of
+// S5a's boundary (§4.4 S5a *Boundary*; C-0017; C-0244): stage 1's is S3's contour; for k ≥ 2 the land of
 // {T ≤ t_k} ∪ enclosure(k − 1) equals stages 1 … k's land within one cell, the union holds the enclosure, the capped
 // case reports its shortfall and a capped stage that adds no land folds; the outline keeps its pins; the crossings of
 // ways with an outline and the outline with points put in. On slices only (no arena).

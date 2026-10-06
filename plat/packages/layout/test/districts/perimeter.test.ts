@@ -1,6 +1,6 @@
 // The settlement perimeter (M0-e-04; §4.5 *Perimeter and margin band*): the last stage's boundary offset outward by
 // 50 m (`district.perimeter.offsetM`) and rounded — every convex corner an arc of the offset's radius — clipped to the
-// frame; the convolution form held equal to §3.4's buffer of the closed ring united with the boundary (C-0242 (1)).
+// frame; the convolution form held equal to §3.4's buffer of the closed ring united with the boundary (C-0245 (1)).
 import { attachIndex, createKernel, createPlat, type Cm, type Kernel, type LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { convolution, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, unloop } from '../../src/index.js';

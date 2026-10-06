@@ -1,4 +1,4 @@
-// S5b's count and picks (§4.4 S5b; C-S5AB): N_k by the gate law on the land inside the stage's enceinte (walled) or one
+// S5b's count and picks (§4.4 S5b; C-0244): N_k by the gate law on the land inside the stage's enceinte (walled) or one
 // per mainRoadSpacingM of boundary (unwalled); N_k − c spawned destinations (none when N_k ≤ c), each a contour vertex
 // of the boundary, by sequential nested picks — largest angular gaps first, one uniform per candidate per pick, so a
 // smaller count is a prefix of a larger one — with the masks and the open-edge filter honoured. On slices only.

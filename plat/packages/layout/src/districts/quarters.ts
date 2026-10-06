@@ -1,16 +1,16 @@
 // The quarter merge tree (M0-e-04; §4.5 *Quarters* (MFP-10, VIS-4; J-P2, J-P28, J-I1); §9.1 `QuarterNode`; readings
-// C-0242 (13), (14)): built once per model after typing — from one leaf per district it repeatedly merges the adjacent
+// C-0245 (13), (14)): built once per model after typing — from one leaf per district it repeatedly merges the adjacent
 // pair of nodes with the smallest cost, combined area + `familyCostHa` (1 000 ha) when their kinds are of different
 // families + `barrierCostHa` (10 000 ha) when a wall or water barrier separates them, until one root remains; ties by
 // id (the pair's smaller id, then its larger). The quarters are the tree's cut at min(N_q, L) nodes — the roots after
 // L − min(N_q, L) merges (`cityCut`); every district stands alone when N_q ≥ L.
 //   * A merged node's families are its members' (a set); two nodes are "of different families" when their sets share
 //     none. Two nodes are adjacent when a member of one is adjacent to a member of the other; a barrier separates them
-//     when every such adjacency is across one (C-0242 (13)).
+//     when every such adjacency is across one (C-0245 (13)).
 //   * A model whose districts fall apart into parts no adjacency joins merges its parts' roots last, at the barrier
 //     cost (as if separated), so one root always remains.
 //   * Costs are integers in cm² (1 ha = 10⁸ cm²), so ties are exact.
-//   * `name` and `spine` are S13a's (§9.1: "named by S13a"; the label spine §9.3's): '' and [] at M0 (C-0242 (14)).
+//   * `name` and `spine` are S13a's (§9.1: "named by S13a"; the label spine §9.3's): '' and [] at M0 (C-0245 (14)).
 import type { Id } from '@plat/model';
 import type { QuarterNode } from './types.js';
 

@@ -1,5 +1,5 @@
 // S6's types (M0-e-04; §4.5 *Perimeter*, *Grower*, *Quarters*, *Typing*; §4.1's S6 row; §6.1 `district.seed`,
-// `district.type`; §6.3; §9.1 `QuarterNode`; C-0035, C-0046, C-0085; readings C-0242). Types only.
+// `district.type`; §6.3; §9.1 `QuarterNode`; C-0035, C-0046, C-0085; readings C-0245). Types only.
 import type { LatticePoint, LineageHash } from '@plat/kernel';
 import type { District, Id, NameRef, Seam } from '@plat/model';
 
@@ -17,7 +17,7 @@ export interface XY {
 export type SeedKind = 'market' | 'gate' | 'castle' | 'bridgehead' | 'riverbank' | 'temple' | 'harbour' | 'park' | 'remainder' | 'leftover';
 
 /**
- * Where a sited feature seeds its district (C-0242 (4)): the claimable coarse face sharing the longest boundary with
+ * Where a sited feature seeds its district (C-0245 (4)): the claimable coarse face sharing the longest boundary with
  * the faces an entity owns (a reservation: the market's plaza); the claimable face nearest a point (a gate's vertex, a
  * bridgehead's landward deck end) — among the faces whose centroid lies inside `prefer` when any does (a gate's ward
  * behind its wall); or the claimable face with the longest shore or bank of a water body (a river bank).
@@ -104,7 +104,7 @@ export interface GrowResult {
 export interface DistrictTyping {
   readonly district: Id;
   readonly kind: string;
-  /** The use mix: [kind, share] pairs, its own kind first, the shares summing to 1 (C-0242 (12)). */
+  /** The use mix: [kind, share] pairs, its own kind first, the shares summing to 1 (C-0245 (12)). */
   readonly mix: readonly (readonly [string, number])[];
   /** The scores the scorer read, per kind (−Infinity: a `require` row failed). */
   readonly scores: readonly (readonly [string, number])[];
@@ -112,7 +112,7 @@ export interface DistrictTyping {
 
 /**
  * §9.1's QuarterNode (built by S6, §4.5): its district members, its two children (null for a leaf), its name and
- * label spine (S13a's; empty at M0, C-0242 (14)), and whether it is one of the city cut's nodes.
+ * label spine (S13a's; empty at M0, C-0245 (14)), and whether it is one of the city cut's nodes.
  */
 export interface QuarterNode {
   id: Id;

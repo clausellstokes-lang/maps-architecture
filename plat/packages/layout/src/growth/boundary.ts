@@ -1,5 +1,5 @@
 // S5a for every growth stage k (M0-c-04; §4.4 S5a *Boundary* and *Trace*, §4.2 S3 (6), (7), (9), §4.1's S5 batch row;
-// C-0017, C-0032, C-0033, C-0087; readings C-S5AB):
+// C-0017, C-0032, C-0033, C-0087; readings C-0244):
 // * the boundary of stage k is a level set of the one field T as it stands when stage k begins: t_k by accumulated cell
 //   areas so that the land of {T ≤ t_k} ∪ the enclosure of stage k − 1 equals the land of stages 1 … k (exact to one
 //   cell; the union read as T held at 0 on the enclosure's nodes, so S3's threshold and level set run on it unchanged),
@@ -141,7 +141,7 @@ export interface ResettleOptions {
 
 /**
  * §4.4 S5a / S5b: the new main roads re-settle T incrementally (SCL-3) — their lattice edges join the road set at the
- * field's own road multiplier 1/a (C-S5AB), and a decrease-only Dijkstra from those edges lowers exactly the nodes
+ * field's own road multiplier 1/a (C-0244), and a decrease-only Dijkstra from those edges lowers exactly the nodes
  * whose cost they lower. The edge weights are computed as `fieldT` computes them (the road multiplier, then the water
  * pull), so the result equals a full recompute over the extended road set.
  */
@@ -422,7 +422,7 @@ export interface StageTraceResult extends StageTrace {
  * a gate (`gate:<ordinal>` from `firstOrdinal`), the previous enceinte's line as its core; then the strip stand-in, its
  * stops read from the arena at the gates (C-0033). Refused, nothing of the trace written, when a crossing cannot be put
  * on its way, or when the stage's trace would write water gates while an earlier enceinte holds some (their ids would
- * collide: `notBuilt('M1')`, C-S5AB).
+ * collide: `notBuilt('M1')`, C-0244).
  */
 export function traceStage(
   k: number,
@@ -438,7 +438,7 @@ export function traceStage(
   const arena = opts.key ?? GROUND;
   const water: WaterSet = opts.water ?? { bodies: [], bridges: [] };
   if ((opts.earlierWaterGates ?? 0) > 0 && waterGates(outline.slice(), water, kernel, { key: arena }).length > 0) {
-    return err('E_INVARIANT', `notBuilt('M1'): stage ${String(k)}'s trace crosses water while an earlier enceinte holds water gates; their ids gate:w<i> would collide (C-S5AB)`);
+    return err('E_INVARIANT', `notBuilt('M1'): stage ${String(k)}'s trace crosses water while an earlier enceinte holds water gates; their ids gate:w<i> would collide (C-0244)`);
   }
   // The crossing vertices put on their ways, in crossing order: the way's own vertex where one lies within twice the
   // attraction distance of the crossing (no sub-edge shorter than that beside a gate), else a vertex split onto the way's
@@ -502,7 +502,7 @@ export function traceStage(
     along,
     reach,
   );
-  // The closed chain starts at a vertex that is no gate (a gate is an existing vertex of its way; C-S5AB).
+  // The closed chain starts at a vertex that is no gate (a gate is an existing vertex of its way; C-0244).
   const isGate = (q: XY): boolean => placed.some((g) => g.x === q.x && g.y === q.y);
   const start = inserted.findIndex((q, i) => !isGate(q) && !isGate(inserted[i === 0 ? inserted.length - 1 : i - 1]));
   const boundary = start <= 0 ? inserted : [...inserted.slice(start), ...inserted.slice(0, start)];
@@ -541,7 +541,7 @@ export function traceStage(
 }
 
 /**
- * Each gate crossed square to its way (C-S5AB): on the outline, the vertices within `reach` of a gate (none of them a
+ * Each gate crossed square to its way (C-0244): on the outline, the vertices within `reach` of a gate (none of them a
  * gate) are replaced by the two points `reach` along the way's normal on either side of it, ordered as the outline
  * runs. A gate whose reshaping would leave the outline non-simple keeps the outline as it was there.
  */

@@ -1,7 +1,7 @@
 // The settlement perimeter (M0-e-04; §4.5 *Perimeter and margin band*; §4.1's S6 row): the last stage's boundary
 // offset outward by the ribbon regime's block-depth band top (50 m, `district.perimeter.offsetM`) and rounded — the
 // boundary's Minkowski sum with a disc of the offset, so every convex corner becomes an arc of the offset's radius
-// (C-0242 (1)) — clipped to the frame where it would leave it (the map border closes it there). The sum is built as the
+// (C-0245 (1)) — clipped to the frame where it would leave it (the map border closes it there). The sum is built as the
 // boundary's convolution curve with the disc (each edge offset outward; at a convex vertex the arc from one offset
 // edge to the next, at a reflex vertex the same arc run backwards; arcs in §3.7's chords of at most 2 cm sagitta,
 // `arcSteps`), whose region of positive winding is the sum (Kaul, Farouki and O'Connor's convolution theorem; the
@@ -145,7 +145,7 @@ export function convolution(boundary: readonly LatticePoint[], d: number, reflex
 
 /**
  * The perimeter through §3.4's `buffer` of the boundary's closed ring (round joins and ends) united with the boundary,
- * clipped to the frame: the reference the convolution form is held equal to by M0-e-04's test (C-0242 (1)).
+ * clipped to the frame: the reference the convolution form is held equal to by M0-e-04's test (C-0245 (1)).
  */
 export function settlementPerimeterByBuffer(boundary: readonly LatticePoint[], k: Kernel, opts: PerimeterOptions = {}): KernelResult<LatticePoint[]> {
   if (boundary.length < 3 || area2(boundary as LatticePoint[]) <= 0) return err('E_DEGENERATE', 'settlementPerimeter: the boundary is no counter-clockwise ring of area above zero');
@@ -263,7 +263,7 @@ function crossing(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticeP
 }
 
 /**
- * The curve with its local folds cut out (C-0242 (1)): started at its lowest-then-leftmost point (on the hull, so on
+ * The curve with its local folds cut out (C-0245 (1)): started at its lowest-then-leftmost point (on the hull, so on
  * the sum's outer ring and inside no fold), each edge is tested against the next UNLOOP_WINDOW; where the farthest
  * such edge crosses it, the vertices between are replaced by the crossing point (the swallowtail a concavity narrower
  * than the offset folds the curve into, which lies inside the sum). A fold the window cannot see is left for the

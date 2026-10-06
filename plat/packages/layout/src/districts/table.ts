@@ -1,4 +1,4 @@
-// S6's cells (M0-e-04; §4.5; C-0035, C-0242): the design's laws and rates are `district.json`'s (M0-s-02's table:
+// S6's cells (M0-e-04; §4.5; C-0035, C-0245): the design's laws and rates are `district.json`'s (M0-s-02's table:
 // `district.growthRate`, the count law, the patch test's compactness, the perimeter's offset, the quarter law and its
 // two penalties); the edge test's class, the typing stand-in's synthetic demand table and the synthetic roster's
 // building count are this folder's own table `s6.json`, checked by @plat/tables' `parseTable` like every table

@@ -1,7 +1,7 @@
 // M0-e-04's here-bars (§16 M0 (e); §4.5; §13.2 T47-1) on the district fixture at 100 seeds: containment 100 %; the
 // count law within ± 1 of N_d on every seed, the mean district area tracking √(10A) ÷ 3.5; the gate wards' median area
 // below the town's median district area on ≥ 90 % of seeds. (The fixture is S5c's stand-in grid over a synthetic
-// CITY town, C-0242 (18); M0-e-06's site spike re-runs the bar on the integrated pipeline.)
+// CITY town, C-0245 (18); M0-e-06's site spike re-runs the bar on the integrated pipeline.)
 import { describe, expect, it } from 'vitest';
 import { median, ownerAt, P, townS6 } from './support.js';
 

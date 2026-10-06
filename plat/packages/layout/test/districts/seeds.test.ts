@@ -1,5 +1,5 @@
 // The grower's seeds (M0-e-04; §4.5 *Grower*: "Seeds = the sited features … plus a density-guided remainder, N_d seeds
-// in all"; C-0243 (4), (11)): the features' anchors, the compartments, the remainder's first seed at a compartment's
+// in all"; C-0245 (4), (11)): the features' anchors, the compartments, the remainder's first seed at a compartment's
 // centroid and Lloyd's relaxation with the features fixed.
 import { describe, expect, it } from 'vitest';
 import { faceGraph, placeSeeds, s6DistrictCells, type FaceGraph } from '../../src/index.js';

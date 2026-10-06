@@ -1,5 +1,5 @@
 // The grower's seeds (M0-e-04; §4.5 *Grower*: "Seeds = the sited features … plus a density-guided remainder, N_d seeds
-// in all"; readings C-0242 (4), (5), (11)):
+// in all"; readings C-0245 (4), (5), (11)):
 //   * each sited feature, in its given order, takes the claimable face its anchor names (the longest boundary with the
 //     faces an entity owns; the face nearest a point, a preferred side's faces first — a gate's ward behind its wall;
 //     the longest shore or bank of a water body), ties by canonical face order, a face an earlier seed took passed
@@ -14,7 +14,7 @@
 //     compartment's centroid, each later one the face farthest from its fast seeds (centroid distance), ties by face
 //     order; then LLOYD_ROUNDS rounds of Lloyd's relaxation move each remainder seed to the free face nearest the
 //     centroid of the faces nearest it, the sited features fixed. The density the design guides the remainder by is
-//     pass 1's (M0-e-05's, after S6 at M0): uniform here (C-0242 (11));
+//     pass 1's (M0-e-05's, after S6 at M0): uniform here (C-0245 (11));
 //   * a feature seed's lineage is its address's hash, a remainder seed's its face's key (§4.5).
 import { type Id } from '@plat/model';
 import { insideRing, quot } from '../siting/geom.js';
@@ -217,7 +217,7 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
     carried[pick] += remRate;
     seeds.push({ order: seeds.length, kind: 'remainder', face, lineage: faceLineage(g.faces[face].key), rate: remRate });
   }
-  // Lloyd's relaxation of the remainder (C-0242 (11)): each compartment's faces go to their nearest seed (centroids),
+  // Lloyd's relaxation of the remainder (C-0245 (11)): each compartment's faces go to their nearest seed (centroids),
   // and each remainder seed moves to the free face nearest the area-weighted centroid of its faces; the sited features
   // stay. LLOYD_ROUNDS rounds, the seeds in seed-id order within a round.
   for (let round = 0; round < LLOYD_ROUNDS; round += 1) {

@@ -1,5 +1,5 @@
 // The coarse-face graph S6 grows over (M0-e-04; §4.5 *Grower*: "claims adjacent coarse faces of the L1 skeleton"; §3.3's
-// canonical face keys; C-0242 (2), (3)). Read from the arena at L1 inside S6's batch, after the perimeter is inserted:
+// canonical face keys; C-0245 (2), (3)). Read from the arena at L1 inside S6's batch, after the perimeter is inserted:
 // every live L1 face in canonical face order (§3.3's keys, never slot order), its area, perimeter and owner; whether it
 // is water (its L0 face a water body's), outside the frame (the margin), outside the perimeter (the hinterland's) or
 // inside; and per neighbour pair the shared boundary's length and the barriers on it — an arterial of class ≥ the
@@ -47,7 +47,7 @@ export const BARRIER = Object.freeze({
   MARGIN: 64,
 });
 
-/** Every bit the edge test refuses (no seed kind is granted an exception at M0, C-0242 (3)). */
+/** Every bit the edge test refuses (no seed kind is granted an exception at M0, C-0245 (3)). */
 export const EDGE_TEST_BARRIERS = BARRIER.ARTERIAL | BARRIER.WALL | BARRIER.WATER | BARRIER.RESERVED | BARRIER.PERIMETER | BARRIER.FRAME | BARRIER.MARGIN;
 
 /** The way classes in rank order (the highest first): the edge test's "class ≥ primary" reads this order. */
@@ -324,7 +324,7 @@ export function boundaryLoops(g: FaceGraph, members: readonly number[], isMember
 }
 
 /**
- * The patch test's compactness (§4.5: "compactness ≥ 0.5"; C-0242 (7)): the patch's area over the area of the convex
+ * The patch test's compactness (§4.5: "compactness ≥ 0.5"; C-0245 (7)): the patch's area over the area of the convex
  * hull of its faces' outer rings (the convex-hull ratio, 1 for a convex patch, falling as it bends round or snakes);
  * 0 when the hull has no area.
  */
@@ -345,7 +345,7 @@ export function polsbyPopper(areaCm2: number, perimeterCm: number): number {
   return r.ok ? r.value : 0;
 }
 
-/** The hash of a string as a lineage-shaped H64 (a feature's address keys its seed lineage, C-0242 (5)). */
+/** The hash of a string as a lineage-shaped H64 (a feature's address keys its seed lineage, C-0245 (5)). */
 export function textLineage(text: string): LineageHash {
   return new LaneWriter().utf8(text).digest64() as LineageHash;
 }

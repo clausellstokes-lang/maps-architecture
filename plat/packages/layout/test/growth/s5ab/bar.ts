@@ -2,7 +2,7 @@
 // boundary", §4.4; §16 M0 (c)) and §13.2's S5b test on the CITY fixture, seeds 1 – 100, five files of twenty (vitest
 // runs files in parallel). Every promise of ./checks.ts must hold on every seed; §13.2's two statistics are reported per
 // seed — the share of gates on primaries is 1 by the gate rule (every gate a crossing of a main road), the primary
-// length per km² is descriptive at M0: the design states no band for it (C-S5AB; C-0116's rule for a row with no band).
+// length per km² is descriptive at M0: the design states no band for it (C-0244; C-0116's rule for a row with no band).
 import { describe, expect, it } from 'vitest';
 import { flatFixture } from '../../../src/index.js';
 import { s5bStatistics, violations } from './checks.js';

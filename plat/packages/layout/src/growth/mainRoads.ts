@@ -1,5 +1,5 @@
 // S5b main roads and the growth stages' S5a / S5b driver (M0-c-04; §4.4 S5b, S5a, §4.1's S5 batch row, §4.3's router,
-// §5.2 F-ROUTE, §13.2's S5b test; C-0016, C-0017, C-0032; readings C-S5AB). For each growth stage k ≥ 2, in §4.1's order:
+// §5.2 F-ROUTE, §13.2's S5b test; C-0016, C-0017, C-0032; readings C-0244). For each growth stage k ≥ 2, in §4.1's order:
 //   S5a's boundary (./boundary.ts) from T as it stands;
 //   S5b: N_k by the gate law of §4.2 S3 (4) on the land inside the stage's enceinte (walled; no waterfront or closed-arc
 //        reduction at M0, C-0032's slice) or one primary per `mainRoadSpacingM` of boundary (unwalled); the crossings c of
@@ -85,7 +85,7 @@ export function stageWalled(site: S3Slice['site'], k: number): boolean {
 /**
  * N_k (§4.4 S5b): walled — §4.2 S3 (4)'s land law on the land inside the stage's enceinte (the boundary's land, stages
  * 1 … k), with no reduction at M0 (C-0032's slice); unwalled — one primary per `mainRoadSpacingM` of the boundary's
- * length, rounded to the nearest whole road (C-S5AB).
+ * length, rounded to the nearest whole road (C-0244).
  */
 export function mainRoadCount(site: S3Slice['site'], k: number, boundary: StageBoundary): MainRoadCount {
   if (stageWalled(site, k)) return { n: gateCount(quot(boundary.landCm2, HA_CM2, 'count', 'land in ha'), site.tables), measure: boundary.landCm2, walled: true, rule: 'gateLaw' };
@@ -125,7 +125,7 @@ export interface SpawnOptions {
 /** The candidates a pick keeps in score order for S5b's re-draws (those an earlier road of the batch blocks are passed). */
 export const ALTERNATIVES = 16;
 
-/** cos 35°: a destination's lattice edge runs within 35° of the outward radial direction (C-S5AB). */
+/** cos 35°: a destination's lattice edge runs within 35° of the outward radial direction (C-0244). */
 export const RADIAL_COS = 0.8191520442889918;
 
 /**
@@ -150,7 +150,7 @@ export function spawnPrimaries(boundary: StageBoundary, n: number, crossings: re
     if (opts.outerMask !== undefined && opts.outerMask[v] !== 1) return;
     if (opts.edgeOpen !== undefined && !opts.edgeOpen(u, v)) return;
     // The road leaves along its edge: an edge within RADIAL_COS of the outward radial direction (the hexagonal lattice
-    // has one within 30° of every direction), never one running along the boundary (C-S5AB).
+    // has one within 30° of every direction), never one running along the boundary (C-0244).
     const ex = lattice.points[v].x - lattice.points[u].x;
     const ey = lattice.points[v].y - lattice.points[u].y;
     const at0 = set.contour[i];
@@ -244,7 +244,7 @@ export interface GrowthStage {
   redraws: number;
   /**
    * N_k − c less the picks: the destinations no approachable candidate was left for (the ring a junction reaches, the
-   * outside that reaches the frame; a capped stage along the frame has none) — reported, never invented (C-S5AB).
+   * outside that reaches the frame; a capped stage along the frame has none) — reported, never invented (C-0244).
    */
   short: number;
   roads: MainRoad[];
@@ -384,7 +384,7 @@ function walls(state: GrowthState): (readonly LatticePoint[])[] {
 }
 
 /**
- * The stage's ring (C-S5AB): the boundary's selected interior dry nodes outside the previous enclosure, outside the
+ * The stage's ring (C-0244): the boundary's selected interior dry nodes outside the previous enclosure, outside the
  * previous wall and farther from it than its outer strip and the road's half-width (never through an inner wall).
  */
 export function ringMask(state: GrowthState, boundary: StageBoundary): Uint8Array {
@@ -401,7 +401,7 @@ export function ringMask(state: GrowthState, boundary: StageBoundary): Uint8Arra
 }
 
 /**
- * Is a point clear of the previous wall (C-S5AB): outside it and farther from it than its outer strip (C-0033's glacis
+ * Is a point clear of the previous wall (C-0244): outside it and farther from it than its outer strip (C-0033's glacis
  * line) and a primary's half-width — where S5b's roads and their junctions may stand (never through an inner wall).
  */
 export function wallClearance(state: GrowthState): (p: XY) => boolean {
@@ -480,7 +480,7 @@ function nodesNear(lattice: Lattice, mask: Uint8Array, points: readonly XY[]): n
   });
 }
 
-/** The junction vertices standing (every Junction's vertex, resolved): a road never starts on one (C-S5AB). */
+/** The junction vertices standing (every Junction's vertex, resolved): a road never starts on one (C-0244). */
 function junctionPoints(state: GrowthState): Set<string> {
   const p = state.kernel.plat(state.key);
   const out = new Set<string>();
@@ -535,7 +535,7 @@ const same = (a: XY, b: XY): boolean => a.x === b.x && a.y === b.y;
 export type RoadFault = 'start' | 'self' | 'obstacle' | 'way' | 'outline';
 
 /**
- * Why a road's polyline does not keep the rules (C-S5AB), or null when it does: It meets no wall, the plaza and the water nowhere, no standing way but
+ * Why a road's polyline does not keep the rules (C-0244), or null when it does: It meets no wall, the plaza and the water nowhere, no standing way but
  * at its first point (the junction, by its first segment only), no earlier road of the batch at all, and crosses the
  * stage's outline exactly once, at its destination.
  */
@@ -646,7 +646,7 @@ function blockEdges(weights: Float64Array, lattice: Lattice, grid: NodeGrid, seg
  * to the frame, smoothed as S4 smooths (simplify, Chaikin, the curvature limit; the junction, the destination and the
  * nodes within `WAY_SPAN_NODES` of it held), taking its smoothest level that keeps the rules (`roadFault`; the simplified
  * and the lattice courses the fallbacks), else left out, reported `invalid`. An unwalled stage's road may leave the ring
- * on its way to the destination (no wall, so no gate count to keep; C-S5AB).
+ * on its way to the destination (no wall, so no gate count to keep; C-0244).
  */
 /** S5b's routing context for one stage: the ring, the junction candidates, the router's graph with the ways blocked. */
 interface Routing {
@@ -689,7 +689,7 @@ function reach(lattice: Lattice, weights: Float64Array, mask: Uint8Array, from: 
 }
 
 /**
- * The stage's routing context (C-S5AB): the ring and the outside, the junction candidates (every standing way vertex in
+ * The stage's routing context (C-0244): the ring and the outside, the junction candidates (every standing way vertex in
  * the ring that is no junction or gate vertex, each by its nearest ring node), the router's graph with every lattice
  * edge across a standing way impassable, and what reaches what without crossing a way — a destination is approachable
  * when its inside node is reached from a junction and its outside node reaches the frame.
@@ -781,7 +781,7 @@ function courses(
   const band = site.tables.table('terrain').num('crossing', 'searchBandM') * 100;
   const radius = (c: Parameters<typeof classGeometryCm>[1]): number => classGeometryCm(site.tables, c).minRadiusCm;
   const work = { n: 0 };
-  // Decks are not taken by S5b's roads at M0 (the span through a site is S4's; C-S5AB): every deck excluded.
+  // Decks are not taken by S5b's roads at M0 (the span through a site is S4's; C-0244): every deck excluded.
   const excludedDecks = new Set<string>(state.rg.decks.map((d) => d.id));
   const chaikinPasses = site.tables.table('ways').num('graph', 'chaikinPasses');
   const minRadius = radius('primary');
@@ -823,7 +823,7 @@ function courses(
     if (sources.length === 0) return { why: 'no_source' };
     const [u, v] = pick.edge;
     // A walled stage's road reaches its gate square to the boundary: its last `APPROACH_NODES` steps run straight in
-    // from the destination's inside node, each the most inward open neighbour in the ring (C-S5AB), so the wall,
+    // from the destination's inside node, each the most inward open neighbour in the ring (C-0244), so the wall,
     // which departs from the boundary by up to its band, crosses the road once, at its gate.
     const approach = walled ? approachOf(u, pick.at) : [u];
     const innerMask = approach.length > 1 ? Uint8Array.from(mask) : mask;
@@ -894,7 +894,7 @@ function courses(
   };
   for (const pick of picks) {
     // F-ROUTE's `unserved` for a destination only after its re-draws: the next candidates in score order, ≤ GATE_REDRAWS
-    // routed (as §4.2 S3 (7) re-draws a gate pick; C-S5AB), each on the boundary with its point kept as an outline vertex.
+    // routed (as §4.2 S3 (7) re-draws a gate pick; C-0244), each on the boundary with its point kept as an outline vertex.
     // A candidate whose edge an earlier road of the batch now crosses is passed over without counting as a re-draw.
     let miss: Omit<Unserved, 'stage' | 'pick'> | null = null;
     let tries = 0;
@@ -1188,7 +1188,7 @@ function inputsOf(model: unknown, _scope: Scope): S5Input {
 /**
  * S5b as §14's Stage for stage k (declared form; F-ROUTE its ladder): S5a's boundary and the main roads, its picks from
  * the town root's `growth.mainroad` stream. Registered with S5a, S5c and S5d under the one S5 id by M0-x-04 (§4.1: each
- * stage k runs S5a – S5d in order; C-S5AB).
+ * stage k runs S5a – S5d in order; C-0244).
  */
 export function s5bStage(k: number): Stage<S5Input, GrowthStage, EnceinteEnv> {
   return Object.freeze({

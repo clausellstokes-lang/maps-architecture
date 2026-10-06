@@ -1,5 +1,5 @@
 // S5a / S5b on the CITY fixture's three stages (0.55 / 0.33 walled, ribbon 0.12; §4.4, §4.1's S5 row; C-0016;
-// C-S5AB): every stated promise (./checks.ts) on seeds 1 – 3, and the records, rows and declarations they rest on —
+// C-0244): every stated promise (./checks.ts) on seeds 1 – 3, and the records, rows and declarations they rest on —
 // the stage-2 enceinte and its gates, the S5b roads' ways and junctions, T one field re-settled (never recomputed per
 // stage), the run deterministic, the Stage declarations, a folded stage's bookkeeping.
 import { describe, expect, it } from 'vitest';

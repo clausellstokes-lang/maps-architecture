@@ -1,4 +1,4 @@
-// The typing stand-in (M0-e-04; §4.5 *Typing* (G-P5; MFP-7; J-P1); §6.1 `district.type`; C-0035; readings C-0242
+// The typing stand-in (M0-e-04; §4.5 *Typing* (G-P5; MFP-7; J-P1); §6.1 `district.type`; C-0035; readings C-0245
 // (12)): a data-driven scorer per district kind over the synthetic demand table (`s6.json`: the kinds central,
 // market, gate, riverbank, craft and sprawl, each with its land share and its relation rows) — the remaining demand,
 // the relation rows and a random term — with the districts typed greedily from the largest and a mixed-use floor.

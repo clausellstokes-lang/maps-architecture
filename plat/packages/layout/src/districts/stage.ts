@@ -1,13 +1,13 @@
 // S6 as a callback-form Stage (M0-e-04; §4.5; §4.1's S6 row — "L1: the settlement perimeter chain, then district
 // owners and `district_bound` roles (one batch)"; §4.1 *Registration and order*: S6 registers as callback; §6.1
-// `district.seed`, `district.type`; §6.3; §9.1; §5.3's containment row; C-0035, C-0046, C-0085; readings C-0242).
+// `district.seed`, `district.type`; §6.3; §9.1; §5.3's containment row; C-0035, C-0046, C-0085; readings C-0245).
 // One L1 callback batch, built from the arena it runs on (`s6Batch`, so M0-d-08's harness runs it on any slot
 // assignment):
 //   1. the perimeter (`settlementPerimeter`, a value computed before the batch) inserted as a closed chain carrying
 //      `district_bound` on the hinterland pseudo-district's id;
 //   2. the coarse-face graph read in canonical order (./faces.ts); the land A = the claimable faces (inside the
 //      perimeter, unowned before S6 — a reservation's and the wall strips' faces keep their owner —, not water);
-//      N_d and the band by the count law (C-0242 (16));
+//      N_d and the band by the count law (C-0245 (16));
 //   3. the seeds (./seeds.ts) and the grower (./grow.ts), its turns on `district.seed` keyed by (the seed lineage, the
 //      turn), grower.turns charged against its law (F-WORK);
 //   4. the districts minted — lineage (the town, S6, the seed's order) — and every face owned: setOwner per district,
@@ -80,7 +80,7 @@ const S6 = STAGES.S6 as StageId;
 /** The ground arena (§2.2). */
 const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
-/** The creation indices of the S6 run's own units under the town (C-0242 (17)): no seed order reaches them. */
+/** The creation indices of the S6 run's own units under the town (C-0245 (17)): no seed order reaches them. */
 export const HINTERLAND_INDEX = 0xffff_ffff;
 export const SEAM_RUN_INDEX = 0xffff_fffe;
 export const QUARTER_RUN_INDEX = 0xffff_fffd;
@@ -138,7 +138,7 @@ function vertexOf(p: Plat, role: string, entity: Id, ordinal = 0): LatticePoint 
 /**
  * The sited features M0 has, in seed order (§4.5 *Grower*): every plaza or market reservation (a `market` seed at its
  * barrier face), every main gate (at its `gate` vertex, its ward behind the wall when `wall` is given), both deck ends of every built bridge whose way is of class
- * ≥ the edge test's (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0242 (4).
+ * ≥ the edge test's (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0245 (4).
  */
 export function siteFeatures(p: Plat, from: { readonly reservations?: readonly Reservation[]; readonly gates?: readonly Gate[]; readonly bridges?: readonly Bridge[]; readonly ways?: readonly Way[]; readonly water?: WaterSet; readonly wall?: readonly LatticePoint[] }): SeedFeature[] {
   const out: SeedFeature[] = [];

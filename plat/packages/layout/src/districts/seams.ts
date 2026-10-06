@@ -1,5 +1,5 @@
 // The minimal Seam records (M0-e-04; C-0046; II.1's boundary runs; §6.3: "S6's run for Seam records (creation index by
-// the run's lowest-then-leftmost vertex)"; readings C-0242 (15)): one record per shared boundary run of a district —
+// the run's lowest-then-leftmost vertex)"; readings C-0245 (15)): one record per shared boundary run of a district —
 // with another district, with the hinterland across the perimeter, or one-sided (the frame, water, a reservation, the
 // wall strips: `sides[1]` null) — its edges one SeamEdge per chain the run follows (the way, wall, shore, reservation
 // boundary, perimeter or border it lies on), its portals empty (S8 adds its `baseLane` portals). A run is a maximal
@@ -125,7 +125,7 @@ const TYPE_OF: readonly (readonly [string, SeamEdge['type'], boolean])[] = [
 
 /**
  * The run's SeamEdges: per edge, the chain of its first row in II.1's type order (a way first; the perimeter's
- * `district_bound` row reads as a `field` run, C-0242 (15)); consecutive edges on one chain are one SeamEdge. An edge
+ * `district_bound` row reads as a `field` run, C-0245 (15)); consecutive edges on one chain are one SeamEdge. An edge
  * with none of these rows takes `own`, the seam's own `district_bound` chain.
  */
 export function seamEdges(p: Plat, run: SeamRun, ways: ReadonlyMap<Id, Way>, own: Id): SeamEdge[] {

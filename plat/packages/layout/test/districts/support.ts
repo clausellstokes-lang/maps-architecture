@@ -1,5 +1,5 @@
 // M0-e-04's test support: the district fixture — a synthetic town on an indexed ground arena, built through the kernel
-// the way S1, S3, S4 and S5 lay their chains (C-0242 (18)): the arena's outer ring (`margin`, L0), the map border
+// the way S1, S3, S4 and S5 lay their chains (C-0245 (18)): the arena's outer ring (`margin`, L0), the map border
 // (`border`, L1), the main plaza as a reservation's barrier face (`reserved`, owned by `plaza:0`), the wall as a
 // jittered closed ring (`wall`) with its gate vertices (`gate`), an inward `primary` street from the plaza to each gate
 // and an outward `through` road from each gate to the frame, and S5c's stand-in — a jittered street grid of

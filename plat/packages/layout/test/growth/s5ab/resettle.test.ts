@@ -1,5 +1,5 @@
 // T's re-settlement (§4.4 S5a / S5b: "each S5b's new main roads re-settle T incrementally, only at the nodes whose cost
-// they lower, so no stage computes a new field"; C-S5AB): on random road sets, the re-settled field equals a full
+// they lower, so no stage computes a new field"; C-0244): on random road sets, the re-settled field equals a full
 // recompute over the extended road set node for node (bitwise), lowers exactly the nodes whose T falls and leaves every
 // other node's T as it was; with the water pull too; idempotent and order-free.
 import { describe, expect, it } from 'vitest';
