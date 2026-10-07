@@ -6631,3 +6631,4 @@
 2026-10-07 03:22 build/M0-c-05-fix2 CHECKPOINT NEAR (tree) 14 files 122/122 exit 0; 1000-seed bar starting in the mirror; next: bar, mutants, choices row, gates
 2026-10-07 03:23 build/M0-s-01-fix-s1 CHECKPOINT E (API.md verified: 106 signatures, example re-run, dist exports; Appendix B 669 names; kernel files [dist, API.md]), C (L-0308..L-0313 corrections, L-0314 seat), C-0259 appended; next: gates, mutants, landed
 2026-10-07 03:26 build/M0-s-01-fix-s1 CHECKPOINT gates: install 0, build 0, lint 0 (9 checks, probe-red ok), NEAR 28 files 296/296; landed M0-s-01, M0-d-03 (build/M0-d-03-fix-s1), M0-d-07 (build/M0-d-07-fix-s1), session-kreuse written, landed:verify --item ok x3; RELATED@1000 running; next: mutants
+2026-10-07 03:43 build/M0-c-05-fix2 CHECKPOINT 1000-seed bar in the mirror at 710 seeds: 0 errors, per-seed clauses hold, chunk medians 92.2-94.0, both sides on every seed; next: finish bar, mutants
