@@ -1,6 +1,6 @@
 // FieldBands' cut points and the hysteresis (M0-e-05; §4.5 *Bands*: "the cut points are computed once per town so that
 // the share of built land in each band equals that band's share …", *The band set* (the middle band), §2.5 FieldBands;
-// C-0049; readings C-XXXX (5), (6)).
+// C-0049; readings C-0255 (5), (6)).
 //
 // `cutPoints(field, shares, land)`: the land is the cells whose centre lies in a district's face (the raster's measure of
 // the stage's land, one cell = cellCm²); its N values sorted; the cut after band b sits at the target index

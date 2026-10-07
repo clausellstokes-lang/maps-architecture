@@ -3,6 +3,11 @@
   "version": 1,
   "section": "§4.5 Fields (the pass-1 mechanism's own cells beside fields.json's weights: the ε fBm's shape, the main-street classes, the elevation and low-and-damp kernels' spans, the water term's q(x) radius, the district-type term per synthetic kind; M0-e-05, C-0049, C-0035)",
   "rows": {
+    "base": {
+      "prosperity": {"value": 0.25, "unit": "weight", "provenance": "own", "calibratable": true, "note": "the field's base level: a constant kernel 1 under fields.json's weights, which keeps the land inside [0, 1] (C-0255 (7))"},
+      "density": {"value": 0.2, "unit": "weight", "provenance": "own", "calibratable": true},
+      "greenery": {"value": 0.6, "unit": "weight", "provenance": "own", "calibratable": true}
+    },
     "chance": {
       "wavelengthM": {"value": 800, "unit": "m", "provenance": "own", "calibratable": true, "note": "ε's base wavelength: a low-frequency fBm (§4.5), well above the blur's one block width"},
       "octaves": {"value": 3, "unit": "count", "provenance": "own", "calibratable": true},

@@ -1,5 +1,5 @@
 // The fields' readers of the committed arena (M0-e-05; §4.5's driver kernels: "distance decay to the plaza and to every
-// market …, to main streets, gates, water …; walls (−)"; readings C-XXXX (2)). Read-only: they copy points out of the
+// market …, to main streets, gates, water …; walls (−)"; readings C-0255 (2)). Read-only: they copy points out of the
 // arena and write nothing.
 //   * `fieldDriverSources`: the plaza (its reservation's L1 faces), the markets (every `plaza` or `market` reservation — the
 //     principal market is the plaza's reservation at M0), the main streets (every edge carrying a `way` row of a listed

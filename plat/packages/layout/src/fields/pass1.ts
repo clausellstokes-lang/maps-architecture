@@ -1,7 +1,7 @@
 // The prosperity, density and greenery fields' pass 1 (M0-e-05; §4.5 *Fields*: P(x) = Σ_i w_i · kernel_i(x) +
 // characterOffset(district) + ε(x), clamped once to [0, 1]; *Soft terms*; *The band set*; *Bands*; the density and
 // greenery fields "by the same construction"; §6.1 `field.chance`; §12.4's S6 row; §5.2 F-WORK; R12-5; C-0049, C-0085;
-// readings C-XXXX).
+// readings C-0255).
 //
 // Pass 1 runs in two declared halves (§4.5, LC-2):
 //   * `fieldsDrivers(site, tables)` — the driver kernels that exist after S5, on 32 m cells over frame + margin: per
@@ -15,7 +15,7 @@
 //   * `fieldsPass1(site, districts, tables, stream)` — after typing, the district-type term (each cell's district's
 //     kind's offset, smoothed) and ε (each field's fBm from the `field.chance` stream — its samplers drawn in the order
 //     prosperity, density, greenery — normalised over the grid, smoothed, and scaled once so that it carries its declared
-//     share of the land's variance against the kernels': Var ε ÷ (Var ε + Var kernels) = 0.15, C-XXXX (3)) complete
+//     share of the land's variance against the kernels': Var ε ÷ (Var ε + Var kernels) = 0.15, C-0255 (3)) complete
 //     the field; it is clamped once and stored as a raster and per coarse face, and FieldBands' cuts are taken over the
 //     land at the default household shares (./cuts.ts), with the middle band and the hysteresis.
 // F-WORK (C-0085): `field.cells` is charged cols × rows per field before any field is computed; at its limit the grid
@@ -211,6 +211,10 @@ function addTerm(st: Omit<FieldsDriverState, 'fields'>, t: TermCells, out: Float
     return ok(true);
   }
   switch (t.term) {
+    case 'base': {
+      for (let i = 0; i < n; i += 1) out[i] += w;
+      return ok(true);
+    }
     case 'elevation': {
       const inv = invLength(c.elevationSpanCm, 'the elevation span');
       for (let i = 0; i < n; i += 1) out[i] += w * clamp01((st.heights[i] - st.flood[i]) * inv);
@@ -278,16 +282,16 @@ function heightsOf(g: FieldGrid, terrain: Terrain | null | undefined): Float64Ar
   return out;
 }
 
-/** The wells' yield at each cell centre (the resource grid's cell holding it; zeros without resources). */
-function wellsOf(g: FieldGrid, terrain: Terrain | null | undefined, res: SiteResources | null | undefined): Float64Array {
+/** The wells' yield at each cell centre (the resource grid's cell holding it; zeros without resources; refused without the terrain). */
+function wellsOf(g: FieldGrid, terrain: Terrain | null | undefined, res: SiteResources | null | undefined): KernelResult<Float64Array> {
   const out = new Float64Array(g.cols * g.rows);
-  if (res === null || res === undefined) return out;
-  if (terrain === null || terrain === undefined) throw new RangeError('fields: the resources need the terrain their grid lies on');
+  if (res === null || res === undefined) return ok(out);
+  if (terrain === null || terrain === undefined) return err('E_OUT_OF_RANGE', 'fields: the resources need the terrain their grid lies on');
   const rg = coveringGrid({ cellCm: terrain.cellCm, cols: terrain.cols, rows: terrain.rows, originX: terrain.originX, originY: terrain.originY }, res.cellCm);
-  if (res.wellYield.length !== rg.cols * rg.rows) throw new RangeError('fields: the wells raster does not match its grid');
+  if (res.wellYield.length !== rg.cols * rg.rows) return err('E_OUT_OF_RANGE', 'fields: the wells raster does not match its grid');
   const inv = invLength(rg.cellCm, 'the resource cell');
   for (let j = 0; j < g.rows; j += 1) for (let i = 0; i < g.cols; i += 1) out[j * g.cols + i] = res.wellYield[cellOf(rg, inv, { x: cx(g, i), y: cy(g, j) })];
-  return out;
+  return ok(out);
 }
 
 /** A driver field's reader over its raster: the cell holding p, clamped to the grid. */
@@ -332,7 +336,9 @@ export function fieldsDrivers(site: FieldSite, tables: TableView, opts: FieldsOp
     for (let i = 0; i < n; i += 1) if (heights[i] < lo) lo = heights[i];
     flood.fill(lo + cells.floodRiseCm);
   }
-  const wells = wellsOf(grid, site.terrain, site.resources);
+  const wellsR = wellsOf(grid, site.terrain, site.resources);
+  if (!wellsR.ok) return err(wellsR.code, wellsR.detail);
+  const wells = wellsR.value;
   const bearing = site.wealthBearingCdeg;
   const ramp = bearing === null || bearing === undefined ? null : wealthRamp(grid, bearing);
   const sigmaCm = cells.sigmaCm(site.rung ?? 'CITY');

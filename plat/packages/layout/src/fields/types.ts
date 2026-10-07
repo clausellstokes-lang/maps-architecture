@@ -1,5 +1,5 @@
 // The fields' types (M0-e-05; §4.5 *Fields*, *Soft terms*, *The band set*, *Bands*; §2.5 FieldBands; §6.1
-// `field.chance`; §12.4's S6 row; C-0049, C-0085; readings C-XXXX). Types only.
+// `field.chance`; §12.4's S6 row; C-0049, C-0085; readings C-0255). Types only.
 import type { LatticePoint } from '@plat/kernel';
 import type { FieldBands, Id } from '@plat/model';
 import type { CellGrid } from '@plat/site';
@@ -17,11 +17,13 @@ export type FieldName = 'prosperity' | 'density' | 'greenery';
 export const FIELD_NAMES: readonly FieldName[] = Object.freeze(['prosperity', 'density', 'greenery']);
 
 /**
- * A driver term of P(x) (§4.5), in the one order every sum and every report takes: the distance-decay kernels (one exact
+ * A driver term of P(x) (§4.5), in the one order every sum and every report takes: the field's base level (a constant
+ * kernel 1, its weight this folder's own cell, C-0255 (7)), the distance-decay kernels (one exact
  * distance transform per class), the elevation and low-and-damp kernels, the intent's wealth gradient, and the two soft
  * terms (daylight, water; C-0049). A field's table row names the terms it carries (`<term>.weight`).
  */
 export type DriverTerm =
+  | 'base'
   | 'plaza'
   | 'market'
   | 'mainStreet'
@@ -35,7 +37,7 @@ export type DriverTerm =
   | 'waterTerm';
 
 /** The driver terms in their one order (see DriverTerm). */
-export const DRIVER_TERMS: readonly DriverTerm[] = Object.freeze(['plaza', 'market', 'mainStreet', 'gate', 'water', 'elevation', 'lowDamp', 'wall', 'wealthGradient', 'daylight', 'waterTerm']);
+export const DRIVER_TERMS: readonly DriverTerm[] = Object.freeze(['base', 'plaza', 'market', 'mainStreet', 'gate', 'water', 'elevation', 'lowDamp', 'wall', 'wealthGradient', 'daylight', 'waterTerm']);
 
 /** The distance classes: each one exact Euclidean distance transform over the grid (§4.5, §17.1 (8)). */
 export type DistanceClass = 'plaza' | 'market' | 'mainStreet' | 'gate' | 'water' | 'wall';
@@ -202,7 +204,7 @@ export interface FieldsReport {
   readonly work: { readonly 'field.cells': number; readonly limit: number };
   readonly workCut: FieldsWorkCut | null;
   readonly sigmaM: number;
-  /** The extended box's radius and end weight per pass (C-XXXX (4)). */
+  /** The extended box's radius and end weight per pass (C-0255 (4)). */
   readonly blur: { readonly radius: number; readonly alpha: number };
   /** The distance classes that had a source (the rest measure nothing: their kernels are 0 everywhere). */
   readonly sourced: readonly DistanceClass[];

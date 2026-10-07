@@ -4,7 +4,7 @@
 // (`fieldDriverSources`, `fieldFaces`); the fixtures are M0-e-04's (read, never edited).
 import { seedKey, type Cm, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
-import { tableView, type TableView } from '@plat/tables';
+import { parseTable, tableView, type Table, type TableView } from '@plat/tables';
 import {
   fieldChanceStream,
   fieldDriverSources,
@@ -112,4 +112,71 @@ export function rect(x0: number, y0: number, x1: number, y1: number): LatticePoi
     { x: x1, y: y1 },
     { x: x0, y: y1 },
   ] as LatticePoint[];
+}
+
+/** A table's raw form (its rows and cells as the loader read them), for a test's variant. */
+export function rawOf(t: Table): { table: string; version: number; section: string; rows: Record<string, Record<string, Record<string, unknown>>> } {
+  const rows: Record<string, Record<string, Record<string, unknown>>> = {};
+  for (const [rk, row] of t.rows) {
+    rows[rk] = {};
+    for (const [ck, c] of row) rows[rk][ck] = { ...c, value: Array.isArray(c.value) ? [...(c.value as unknown[])] : c.value };
+  }
+  return { table: t.id, version: t.version, section: t.section, rows };
+}
+
+/** The run's view with some tables replaced (a test's variants of fields.json or bands.json). */
+export function viewWith(over: ReadonlyMap<string, Table>, base: TableView = TABLES): TableView {
+  return {
+    hash: base.hash,
+    version: (id) => base.version(id),
+    get: (id, key) => base.get(id, key),
+    rows: (id) => base.rows(id),
+    slice: (id, kind, key) => base.slice(id, kind, key),
+    table: (id) => over.get(id) ?? base.table(id),
+  };
+}
+
+/** fields.json with `edit` applied to its raw rows, as a view. */
+export function fieldsVariant(edit: (rows: Record<string, Record<string, Record<string, unknown>>>) => void): TableView {
+  const raw = rawOf(TABLES.table('fields'));
+  edit(raw.rows);
+  return viewWith(new Map([['fields', parseTable('fields', raw)]]));
+}
+
+/** This folder's own table with `edit` applied, parsed. */
+export function ownVariant(edit: (rows: Record<string, Record<string, Record<string, unknown>>>) => void): Table {
+  const raw = rawOf(fieldsOwnTable());
+  edit(raw.rows);
+  return parseTable('fieldsPass1', raw);
+}
+
+/** Every cell centre of the grid whose cell is land, as points. */
+export function landPoints(r: FieldsPass1): { x: number; y: number }[] {
+  const g = r.grid;
+  const out: { x: number; y: number }[] = [];
+  for (let j = 0; j < g.rows; j += 1) for (let i = 0; i < g.cols; i += 1) if (r.land[j * g.cols + i]) out.push({ x: g.originX + (i + 0.5) * g.cellCm, y: g.originY + (j + 0.5) * g.cellCm });
+  return out;
+}
+
+/** Population variance. */
+export function variance(xs: readonly number[]): number {
+  let m = 0;
+  for (const x of xs) m += x;
+  m /= xs.length;
+  let v = 0;
+  for (const x of xs) v += (x - m) ** 2;
+  return v / xs.length;
+}
+
+/** Even–odd point-in-rings (the test's own, independent of the code under test). */
+export function insideRings(rings: readonly (readonly { x: number; y: number }[])[], x: number, y: number): boolean {
+  let c = false;
+  for (const ring of rings) {
+    for (let a = 0, b = ring.length - 1; a < ring.length; b = a, a += 1) {
+      const p = ring[a];
+      const q = ring[b];
+      if (p.y > y !== q.y > y && x < ((q.x - p.x) * (y - p.y)) / (q.y - p.y) + p.x) c = !c;
+    }
+  }
+  return c;
 }

@@ -1,6 +1,6 @@
 // @plat/layout's fields module (M0-e-05; §4.5 *Fields*, *Soft terms*, *The band set*, *Bands*; §2.5 FieldBands; §6.1
 // `field.chance`; §12.4's S6 row; §17.1 (8)'s exact distance transform and three-box blur; §5.2 F-WORK; R12-5; C-0049,
-// C-0085; readings C-XXXX): the prosperity, density and greenery fields' pass 1 — the driver kernels on 32 m cells over
+// C-0085; readings C-0255): the prosperity, density and greenery fields' pass 1 — the driver kernels on 32 m cells over
 // frame + margin, the district-type term after typing, ε from the `field.chance` stream, the three-box Gaussian, the
 // clamp, the raster and the per-face values — FieldBands' cuts at the default household shares with the middle band and
 // the hysteresis, `drivers(points)` for the oracle, `field.cells` charged with F-WORK's coarser rung and R12-5's

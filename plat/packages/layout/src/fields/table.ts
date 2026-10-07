@@ -1,10 +1,12 @@
-// The fields' cells (M0-e-05; §4.5 *Fields*: "driver kernels from a table"; C-0049; readings C-XXXX (1)). Every weight and
+// The fields' cells (M0-e-05; §4.5 *Fields*: "driver kernels from a table"; C-0049; readings C-0255 (1)). Every weight and
 // radius is a cell of `fields.json` (M0-s-02's table: one row per field, `<term>.weight` and `<term>.radiusM`, and its
 // `settings` — the 32 m cell, R12-5's 48 m step, ε's share 0.15, the blur's σ per rung); the band set and its default
 // household shares are `bands.json`'s; the mechanism's own cells (ε's fBm shape, the main-street classes, the elevation
 // and low-and-damp spans, the water term's q radius, the district-type term per C-0035's synthetic kind) are this
 // folder's own table `pass1.json`, checked by @plat/tables' `parseTable` like every table. No weight or radius constant is
-// written in code; a cell of a field's row that names no known term is refused, never ignored.
+// written in code; a cell of a field's row that names no known term is refused, never ignored. Each field's base level —
+// the constant its kernels add to, which keeps the land inside [0, 1] so the clamp makes no plateau the cuts cannot
+// split (C-0255 (7)) — is this folder's own `base/<field>` cell.
 import { parseTable, type Table, type TableView } from '@plat/tables';
 import raw from './pass1.json';
 import { DRIVER_TERMS, DISTANCE_CLASSES, FIELD_NAMES, type DistanceClass, type DriverTerm, type FieldName } from './types.js';
@@ -59,7 +61,8 @@ function refuse(reason: string): never {
   throw new RangeError(`fields: ${reason}`);
 }
 
-const TERM_SET: ReadonlySet<string> = new Set(DRIVER_TERMS);
+/** The terms a row of fields.json may name: every driver term but the base level, which is this folder's own cell. */
+const TERM_SET: ReadonlySet<string> = new Set(DRIVER_TERMS.filter((t) => t !== 'base'));
 const DISTANCE_SET: ReadonlySet<string> = new Set(DISTANCE_CLASSES);
 
 /** A field's row of fields.json read as its terms (refusing a cell that names no known term or field). */
@@ -80,6 +83,8 @@ function fieldRow(t: Table, field: FieldName, own: Table): FieldCells {
     } else refuse(`fields.json ${field}/${cell}: a term's cell is its weight or its radiusM`);
   }
   const terms: TermCells[] = [];
+  // the base level (C-0255 (7)): pass1.json's `base/<field>`, a constant kernel 1
+  if (own.has('base', field)) weights.set('base', own.num('base', field));
   for (const term of DRIVER_TERMS) {
     const w = weights.get(term);
     if (w === undefined) {
@@ -134,7 +139,7 @@ export function fieldsCells(tables: TableView, own: Table = fieldsOwnTable()): F
     cellCm,
     coarseCellCm,
     epsilonShare,
-    // One block width per rung: CITY's row stands for a rung without its own (C-XXXX (4)).
+    // One block width per rung: CITY's row stands for a rung without its own (C-0255 (4)).
     sigmaCm: (rung: string) => sigma.get(rung) ?? city,
     chance: { wavelengthCm: own.num('chance', 'wavelengthM') * 100, octaves, lacunarity: own.num('chance', 'lacunarity'), gain: own.num('chance', 'gain') },
     mainStreetClasses,
