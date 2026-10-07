@@ -1,5 +1,5 @@
 // M0-x-05: F-ROUTE's M0 rungs and F-WORK's S4 rung on S4's real Stage, through the base chain on the small river town at
-// seed 2 (§5.2 F-ROUTE; §4.3; C-0076, C-0085, C-0236 (2), C-0268): its east gate's outward route meets a crossing site
+// seed 2 (§5.2 F-ROUTE; §4.3; C-0076, C-0085, C-0236 (2), C-0269): its east gate's outward route meets a crossing site
 // whose approach cannot meet the through class's radius, so the ladder gives the site up and re-solves — another
 // crossing site within the band; with through's grade limit (S4's option; none at M0 by default, C-0158) the re-solve
 // relaxes the slope one class; with every class limited no class reaches the frame and the destination is unserved;

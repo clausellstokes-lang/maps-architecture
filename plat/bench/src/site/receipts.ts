@@ -234,6 +234,51 @@ function inWater(p: Plat, bodies: ReadonlySet<number>, q: LatticePoint): boolean
   return loc.on === 'face' && bodies.has(p.faces[loc.level].owner[loc.face]);
 }
 
+/** A point counts as in the water only past this depth (cm): M0-c-02's own test's tolerance (C-0087). */
+export const WET_DEPTH_CM = 2;
+
+/** The water bodies' L0 faces of one arena: their owners' handles and their rings. */
+interface WaterIndex {
+  readonly bodies: ReadonlySet<number>;
+  readonly rings: readonly (readonly LatticePoint[])[];
+}
+
+function waterIndex(p: Plat, water: WaterSet): WaterIndex {
+  const bodies = waterHandles(p, water);
+  const rings: LatticePoint[][] = [];
+  for (let f = 0; f < p.slots.face[0].top; f += 1) if (isFaceLive(p, 0, f) && bodies.has(p.faces[0].owner[f])) rings.push(...faceRings(p, 0, f));
+  return { bodies, rings };
+}
+
+/** The distance (cm) from a point to the nearest edge of a set of rings. */
+function ringsDistance(q: LatticePoint, rings: readonly (readonly LatticePoint[])[]): number {
+  let best = Infinity;
+  for (const r of rings) {
+    for (let i = 0; i < r.length; i += 1) {
+      const a = r[i];
+      const b = r[(i + 1) % r.length];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const l = dx * dx + dy * dy;
+      let t = l === 0 ? 0 : ((q.x - a.x) * dx + (q.y - a.y) * dy) / l;
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const d = Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy);
+      if (d < best) best = d;
+    }
+  }
+  return best;
+}
+
+/** In the water deeper than WET_DEPTH_CM: inside a water body's L0 face and farther than that from its boundary. */
+function wetDeep(p: Plat, w: WaterIndex, q: LatticePoint): boolean {
+  return inWater(p, w.bodies, q) && ringsDistance(q, w.rings) > WET_DEPTH_CM;
+}
+
+/** An edge over water: its midpoint wet past the tolerance (an edge along a shore — a graze, C-0226 (7) — is not). */
+function edgeOverWater(p: Plat, w: WaterIndex, e: { a: LatticePoint; b: LatticePoint }): boolean {
+  return wetDeep(p, w, P((e.a.x + e.b.x) / 2, (e.a.y + e.b.y) / 2));
+}
+
 interface EdgeRow {
   readonly a: LatticePoint;
   readonly b: LatticePoint;
@@ -375,34 +420,12 @@ export function reliefReceipt(before: Int32Array, after: Terrain, rung: BaseRung
 
 // ---- S3: the water gates ------------------------------------------------------------------------------------------------------
 
-/** A strip vertex counts as in the water only past this depth (cm): M0-c-02's own test's tolerance (C-0087). */
-export const WET_DEPTH_CM = 2;
-
-/** The distance (cm) from a point to the nearest edge of a set of rings. */
-function ringsDistance(q: LatticePoint, rings: readonly (readonly LatticePoint[])[]): number {
-  let best = Infinity;
-  for (const r of rings) {
-    for (let i = 0; i < r.length; i += 1) {
-      const a = r[i];
-      const b = r[(i + 1) % r.length];
-      const dx = b.x - a.x;
-      const dy = b.y - a.y;
-      const l = dx * dx + dy * dy;
-      let t = l === 0 ? 0 : ((q.x - a.x) * dx + (q.y - a.y) * dy) / l;
-      t = t < 0 ? 0 : t > 1 ? 1 : t;
-      const d = Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy);
-      if (d < best) best = d;
-    }
-  }
-  return best;
-}
-
 /** C-0087's receipt on the committed arena: the wall over water only at water gates; the gate ends; the strips. */
 export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3Commit, slice: S3Slice): WaterGateReceipt {
-  const bodies = waterHandles(p, water);
+  const w = waterIndex(p, water);
   const wall = edgesWith(p, 'wall');
   const gateIds = new Set(commit.waterGates.map((g) => g.id));
-  const over = wall.filter((e) => inWater(p, bodies, P((e.a.x + e.b.x) / 2, (e.a.y + e.b.y) / 2)));
+  const over = wall.filter((e) => edgeOverWater(p, w, e));
   const gated = over.filter((e) => e.rows.filter((r) => r.role === 'wall_gate' && gateIds.has(r.entity)).length === 1);
   let one = 0;
   let resolved = 0;
@@ -427,15 +450,13 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     if (ends.length === 2 && mine.length === 1 && ((same(mine[0].a, ends[0]) && same(mine[0].b, ends[1])) || (same(mine[0].a, ends[1]) && same(mine[0].b, ends[0])))) one += 1;
   }
   // The strips: no strip face's vertex lies in the water deeper than WET_DEPTH_CM.
-  const wetRings: LatticePoint[][] = [];
-  for (let f = 0; f < p.slots.face[0].top; f += 1) if (isFaceLive(p, 0, f) && bodies.has(p.faces[0].owner[f])) wetRings.push(...faceRings(p, 0, f));
   const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer].map((id) => handleOf(p, id)).filter((h) => h >= 0));
   let stripFaces = 0;
   let wet = 0;
   for (let f = 0; f < p.slots.face[1].top; f += 1) {
     if (!isFaceLive(p, 1, f) || !owners.has(p.faces[1].owner[f])) continue;
     stripFaces += 1;
-    for (const ring of faceRings(p, 1, f)) for (const q of ring) if (inWater(p, bodies, q) && ringsDistance(q, wetRings) > WET_DEPTH_CM) wet += 1;
+    for (const ring of faceRings(p, 1, f)) for (const q of ring) if (wetDeep(p, w, q)) wet += 1;
   }
   const mains = commit.gates.filter((g: Gate) => g.kind === 'main').length;
   return {
@@ -457,7 +478,7 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
 
 /** C-0076's receipt: a built bridge's way spans its two deck ends; a site no route uses meets no way. */
 export function bridgeReceipt(k: Kernel, p: Plat, water: WaterSet, s4: S4Output): BridgeReceipt {
-  const bodies = waterHandles(p, water);
+  const w = waterIndex(p, water);
   const ways = edgesWith(p, 'way');
   const ends = (b: Bridge): LatticePoint[] => {
     const out: LatticePoint[] = [];
@@ -493,7 +514,7 @@ export function bridgeReceipt(k: Kernel, p: Plat, water: WaterSet, s4: S4Output)
   }
   let offSpan = 0;
   ways.forEach((e, i) => {
-    if (!spans.has(i) && inWater(p, bodies, P((e.a.x + e.b.x) / 2, (e.a.y + e.b.y) / 2))) offSpan += 1;
+    if (!spans.has(i) && edgeOverWater(p, w, e)) offSpan += 1;
   });
   return { sites: s4.bridges.length, built, builtWithSpan: span, builtWayNamed: named, sitesClear: clear, wayOverWaterOffSpan: offSpan };
 }

@@ -1,5 +1,5 @@
 // bench/src/fusion — the fusion gate harness (M0-c-06; §4.4's fusion risk gate, §16 M0 (c), §12.4, §13.5, §13.2,
-// §12.1; C-0016, C-0034, C-0067, C-0072, C-0080, C-0082, C-0084, C-0091, C-0094; readings C-0268). The folder was
+// §12.1; C-0016, C-0034, C-0067, C-0072, C-0080, C-0082, C-0084, C-0091, C-0094; readings C-0270). The folder was
 // created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-c-06.
 //
 //   corepack pnpm bench -- fusion [--from N] [--seeds N] [--runs fusion,integrated] [--workers W]

@@ -1,5 +1,5 @@
 // FusionGateReport — the fold of the seed records into the gate's report and its numbers-only summary (M0-c-06; §16
-// M0 (c), §4.4's gate, §13.5, §13.2, §12.4; C-0016, C-0067, C-0084, C-0091, C-0094; readings C-0268).
+// M0 (c), §4.4's gate, §13.5, §13.2, §12.4; C-0016, C-0067, C-0084, C-0091, C-0094; readings C-0270).
 //
 // The report holds no wall-clock: it is a function of the seed records' measurements alone, so the same seeds give the
 // same report byte for byte whatever the worker count (the item's test). The per-stage stamps are folded apart
@@ -19,7 +19,7 @@
 //   s8s9       — S8's working block ≡ S9's committed block, Hausdorff 0 on every block (§13.2);
 //   corpus     — the skeleton corpus bar on the district faces: downgrades ≤ 0.5 %, work-limit hits ≤ 0.1 %, no failure
 //                (§3.8; M0-a-12's runner, C-0067);
-//   sharedS5   — the two runs' S1 – S5 are one derivation (equal stage roots at S5's end; C-0268 (1)).
+//   sharedS5   — the two runs' S1 – S5 are one derivation (equal stage roots at S5's end; C-0270 (1)).
 // Reported, never gating here: the face counts beside §12.4's ≈ 1 500 cuts and ≈ 25 districts, the block-area and cut-
 // length distributions per band (judged AFTER-M-1 by M0-c-07a / M0-c-07b, C-0072), every ladder use, the work per unit.
 import { quantile7 } from '@plat/testkit';

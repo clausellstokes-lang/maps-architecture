@@ -1,5 +1,5 @@
 // The stage-rung registry (M0-x-05; §13.1 *Ladder coverage*: "every rung of every ladder in §5.2 is reachable by a
-// fixture"; §5.2's two tables; §5.4's report codes; §16 M0 (a); C-0085, C-0109, C-0268).
+// fixture"; §5.2's two tables; §5.4's report codes; §16 M0 (a); C-0085, C-0109, C-0269).
 //
 // `SECTION_5_2` names every failure class of §5.2 — its main table and its staged layers' table — in the design's order.
 // `STAGE_LADDERS` holds one row per rung of every stage ladder: the rungs M0 builds (F-CUT, F-ROUTE, F-NUM's re-propose

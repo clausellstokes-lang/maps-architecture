@@ -1,4 +1,4 @@
-// M0-x-05: the stage-rung registry (§13.1 *Ladder coverage*; §5.2's two tables; C-0085, C-0109, C-0268): every §5.2
+// M0-x-05: the stage-rung registry (§13.1 *Ladder coverage*; §5.2's two tables; C-0085, C-0109, C-0269): every §5.2
 // ladder appears in the table, built or with its milestone, and a table missing one fails; every rung of C-0085's list
 // M0 builds is a built row with its fixture; every later rung and every ladder of a stage M0 does not build carries the
 // milestone the item's brief gives it; the kernel ladders are M0-k-04's (merged, never re-listed).

@@ -2,7 +2,7 @@
 // re-propose and reject on a planted precision refusal; F-WORK's queue on a low growth.proposals floor; F-BUDGET-STAGE's
 // top-up and accepted shortfall on a raised demand) and S6's (F-WORK's leftover rule on a low grower.turns floor; the
 // fields one step coarser on a low field.cells floor), each through the base chain on the small flat town (400 ha,
-// 60 ha walled, seed 1) — and the same chain with nothing forced leaving none of them (§5.2; C-0085, C-0268).
+// 60 ha walled, seed 1) — and the same chain with nothing forced leaving none of them (§5.2; C-0085, C-0269).
 import { capacityCheck, type S3Slice, type S5cRecord, type S5dRecord, type S6Output } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
 import { LADDER_CONTROLS, LADDER_FIXTURES, ladderChain, ladderLowFloor, ladderSmallFlat, type ChainOverrides, type ChainSpec } from '@plat/testkit';

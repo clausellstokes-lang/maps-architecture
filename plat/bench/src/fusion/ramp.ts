@@ -1,5 +1,5 @@
 // C-0034's synthetic prosperity ramp, read per stand-in district (M0-c-06; §4.6 "S8 per district at its pass-1 band",
-// §16 M0 (c); C-0034, readings C-0268 (2)). The fusion run (a) has no S6: each walled S5 coarse face is its own stand-in
+// §16 M0 (c); C-0034, readings C-0270 (2)). The fusion run (a) has no S6: each walled S5 coarse face is its own stand-in
 // district, and its band is the band set's cuts (bands.json's default cuts, the cuts of a uniform field, C-0155) applied
 // to 1 − d ÷ R, d the distance from the face's centroid to the plaza and R the stage-1 level set's reach — so the infill
 // is exercised at every band. The value goes to S8 as the district's pass-1 prosperity (S8 reads its granularity bands

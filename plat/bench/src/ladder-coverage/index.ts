@@ -1,5 +1,5 @@
 // bench/src/ladder-coverage — the stage ladder-coverage check as a bench entry (M0-x-05; §13.1 *Ladder coverage*, §16 M0
-// (a); C-0067, C-0085, C-0095, C-0109, C-0268). The folder was created empty by the scaffold's second fix round (M0-s-01,
+// (a); C-0067, C-0085, C-0095, C-0109, C-0269). The folder was created empty by the scaffold's second fix round (M0-s-01,
 // C-0095) and belongs to M0-x-05.
 //
 // `corepack pnpm bench -- ladder-coverage [--plain SEED | --no-plain] [--kernel-draws N] [--no-summary]` runs

@@ -1,4 +1,4 @@
-// The rung fixtures (M0-x-05; §13.1 *Ladder coverage*; C-0085, C-0268): one per rung of `STAGE_LADDERS` M0 builds, each
+// The rung fixtures (M0-x-05; §13.1 *Ladder coverage*; C-0085, C-0269): one per rung of `STAGE_LADDERS` M0 builds, each
 // forcing its rung on the real stage — through the base chain (`runChain`: M0-x-04's registrations, the runner, a
 // stage's own Stage object with the forcing option where the rung is entered by one) or through the stage's own entry
 // (S8's Stage object on a hand-built district; S3's and S5a's registered EnceinteStrategy on a hand boundary; the kernel
@@ -161,10 +161,10 @@ const NORTH = Object.freeze({ inflowBearingCdeg: 0, mouth: 'none' as const });
 /** The small flat town the S3 – S6 fixtures and the plain chain run on: 400 ha, 60 ha walled (S5c grows streets). */
 const TOWN = smallFlat('flat', 60);
 
-/** The district of the small flat town at seed 2 whose face took rung (c) with its foot slid 30 steps (C-0268). */
+/** The district of the small flat town at seed 2 whose face took rung (c) with its foot slid 30 steps (C-0269). */
 export const SLID_DISTRICT = 'district:1cjkxbz67mrwc';
 
-/** The district of the small flat town at seed 6 whose face took the antenna split (C-0268). */
+/** The district of the small flat town at seed 6 whose face took the antenna split (C-0269). */
 export const ANTENNA_DISTRICT = 'district:47xb61jjvvnpd';
 
 /** Every rung fixture, by id (the registry's `fixture`). */

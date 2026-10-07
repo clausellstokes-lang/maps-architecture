@@ -12,13 +12,13 @@
 // Each run is judged on: the plant fired (the precondition), no restart, the arena valid after the stage (the kernel's
 // whole-arena sweep), and how the stage handled it — absorbed by §3.11's rule, laddered with the rung its record names,
 // left out and reported, or (pinned per cell, C-EDGE (6)) refused safe: typed, rolled back, one bugs entry.
-import { simpleCcw, type S5cRecord, type S6Output, type S8Output } from '@plat/layout';
+import { simpleCcw, type S5cRecord, type S6Output, type S8Output, type StreetGrowOptions } from '@plat/layout';
 import { loadTable } from '@plat/tables';
 import type { S1Output } from '@plat/site';
 import { s8Stage } from '@plat/layout';
 import { edgeChain, MID_FLAT, SMALL_FLAT, SMALL_RIVER, type ChainOptions, type ChainRun, type ChainStage, type S5Sub } from './chain.js';
 import { DEGENERATE_KINDS, degenerateRing, type DegenerateKind } from './kinds.js';
-import { arenaProblems, bugsOf, chainProblems, groundOf } from './observe.js';
+import { arenaProblems, bugsOf, chainProblems } from './observe.js';
 import type { PlantCall } from './plant.js';
 import { s8State } from './s8.js';
 import { outcome, type EdgeFixture, type EdgeHandling, type EdgeOutcome } from './types.js';
@@ -127,15 +127,33 @@ function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): {
   }
 }
 
+/** A cell run's extra: S5c's and S5d's growth options in place of the cell's (F-WORK's class cell lowers a work law). */
+export interface Ep01Extra {
+  readonly grow?: StreetGrowOptions;
+}
+
 /** One chain-stage cell's run. */
-function runChainCell(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKind, seed: number): EdgeOutcome {
+function runChainCell(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
   const site = SITES[stage];
-  const o = site.opts();
+  const base = site.opts();
+  const o: Omit<ChainOptions, 'plant'> = extra.grow === undefined ? base : { ...base, s5: { ...base.s5, grow: { ...(base.s5?.grow ?? {}), ...extra.grow } } };
   const run = edgeChain(seed, { ...o, plant: { stage: site.stage, ...(site.sub === undefined ? {} : { sub: site.sub }), ...(site.k === undefined ? {} : { k: site.k }), plant: { kind, select: site.select } } });
   const problems = chainProblems(run, o.upTo, site.stage);
   if (run.plant.fired === null) problems.push(`the plant never fired: ${site.what} was not met`);
   const h = chainHandling(stage, run);
-  return outcome(h.handling, h.rung, problems, { ...h.facts, ...(run.plant.batch === null ? {} : { batchCommitted: run.plant.batch.committed }) }, kernelAnswer(run));
+  const rec = stage === 'S5c' || stage === 'S5d' ? growthRecordOf(stage, run) : null;
+  const workCut = rec?.rungs.find((r) => r.cause === 'F-WORK');
+  return outcome(h.handling, h.rung, problems, { ...h.facts, ...(run.plant.batch === null ? {} : { batchCommitted: run.plant.batch.committed }), ...(workCut === undefined ? {} : { workCut: `${workCut.rung} ${workCut.counter} ${String(workCut.count)}/${String(workCut.limit)}` }) }, kernelAnswer(run));
+}
+
+/** EP-01's run of one (stage, kind) cell at `seed` (the class cells of ./classes.ts run the same cells). */
+export function runEp01(stage: Ep01Stage, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
+  return stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed) : runChainCell(stage, kind, seed, extra);
+}
+
+/** A cell's pinned refusal codes (C-EDGE (6)), or undefined where the stage's ladder takes every seed. */
+export function ep01Pinned(stage: Ep01Stage, kind: DegenerateKind): readonly string[] | undefined {
+  return PINNED[stage]?.[kind];
 }
 
 /** S6's cell: S5's last boundary with land made the kind before S6 offsets its perimeter from it. */
@@ -218,8 +236,7 @@ export function ep01Fixtures(): EdgeFixture[] {
       out.push({
         id: `EP-01/${stage}/${kind}`,
         home: `§4.13 EP-01; §4.1's transactions table (${stage}: ${EP01_CLASS[stage]}); §5.1 (9); §3.11 degenerate geometry`,
-        run: (seed) =>
-          stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed) : runChainCell(stage, kind, seed),
+        run: (seed) => runEp01(stage, kind, seed),
         expect: {
           outcome: `${kind} geometry at ${stage}: refused by the kernel (or taken by §3.11's rule) and handled by ${EP01_CLASS[stage]} — repair locally → retry that piece → simpler shape → leave out and report; never a crash, hang, invalid output or whole-map retry`,
           allowed: pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
@@ -230,6 +247,3 @@ export function ep01Fixtures(): EdgeFixture[] {
   }
   return out;
 }
-
-/** The ground arena a chain run left (re-exported for the tests' probes). */
-export { groundOf };

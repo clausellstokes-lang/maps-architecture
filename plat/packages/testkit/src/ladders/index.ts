@@ -1,4 +1,4 @@
-// The stage ladder-coverage check (M0-x-05; §13.1 *Ladder coverage*, §5.2, §5.4, §16 M0 (a); C-0085, C-0109, C-0268):
+// The stage ladder-coverage check (M0-x-05; §13.1 *Ladder coverage*, §5.2, §5.4, §16 M0 (a); C-0085, C-0109, C-0269):
 // the stage-rung registry `STAGE_LADDERS`, one fixture per rung M0 builds on the real stages, and
 // `stageLadderCoverage()`, which merges M0-k-04's `ladderCoverage()` (the kernel ladders) unchanged into one report over
 // §5.2. The package index re-exports this folder with `export *`, so every name but the design's two carries the folder.

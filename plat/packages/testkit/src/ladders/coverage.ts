@@ -1,11 +1,11 @@
 // stageLadderCoverage() (M0-x-05; §13.1 *Ladder coverage*: "every rung of every ladder in §5.2 is reachable by a
-// fixture, and each downgrade … is exercised"; §16 M0 (a); C-0085, C-0109, C-0268): M0-k-04's `ladderCoverage()` (the
+// fixture, and each downgrade … is exercised"; §16 M0 (a); C-0085, C-0109, C-0269): M0-k-04's `ladderCoverage()` (the
 // kernel ladders, merged unchanged — its file never edited, C-0109) and the stage rows of `STAGE_LADDERS`, each built
 // row's fixture run and its leaf counted, with the plain controls' counts beside it; every §5.2 ladder named once. A
 // built row is covered when its fixture left its code (count ≥ 1) and no plain control did (count 0): the code appears
 // exactly where its fixture forces it. The plain flat fixture's baseline (`runBase(FLAT_BLUEPRINT, seed)`, every built
 // leaf counted) is added on request — the CITY's 1 400 faces reach F-CUT's rungs, so it is a reported baseline, never
-// part of the verdict (C-0268).
+// part of the verdict (C-0269).
 import { FLAT_BLUEPRINT, runBase } from '@plat/layout';
 import { ladderCoverage } from '../invariants/ladders.js';
 import type { CoverageReport } from '../invariants/types.js';
@@ -37,7 +37,7 @@ function runFixtures(fixtures: readonly LadderFixture[], ids: ReadonlySet<string
   return out;
 }
 
-/** The plain flat fixture's baseline (C-0268): `runBase(FLAT_BLUEPRINT, seed)`, every built row's leaf counted. */
+/** The plain flat fixture's baseline (C-0269): `runBase(FLAT_BLUEPRINT, seed)`, every built row's leaf counted. */
 export function plainBaseline(seed: number, rows: readonly LadderRung[] = STAGE_LADDERS): PlainBaseline {
   const { model, report } = runBase(FLAT_BLUEPRINT, seed, { kind: 'all' });
   const read = readModel(model);

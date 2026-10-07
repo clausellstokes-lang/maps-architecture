@@ -1,12 +1,12 @@
 // One seed of the flat CITY fixture through M0-x-02's runner, twice (M0-c-06; §16 M0 (c), §4.4's fusion gate, §12.4;
-// C-0016, C-0034, C-0077, C-0084; readings C-0268):
+// C-0016, C-0034, C-0077, C-0084; readings C-0270):
 //   (a) the FUSION run — the base's registered S1 (the flat L0 batch: the outer ring), S3's slice, S4 and S5 (its three
 //       growth stages), then S8 over stand-in districts: each walled S5 coarse face its own district, its band read from
 //       the synthetic prosperity ramp (C-0034; ramp.ts) — no S6;
 //   (b) the INTEGRATED run — the base's six stages, S4 + S5 + S6 + S8 with S6's real districts and pass-1 field
 //       (M0-x-04's `registerBase`, M0-e-04, M0-e-05).
 // Both runs register through the base table, so S1 – S5 are the same stages on the same seed: the two runs' stage roots
-// through S5 are equal (C-0268 (1); the report quotes the check).
+// through S5 are equal (C-0270 (1); the report quotes the check).
 //
 // Every registered stage is instrumented here, not in the model: its run is wrapped to stamp its wall-clock (M0-f-01's
 // timing harness takes the timing-phase figure from these stamps, C-0084; outside it they are CONTENDED and never
@@ -183,7 +183,7 @@ function generated(): District['lifecycle'] {
   return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
 }
 
-/** A stand-in district's lineage key (§6.3's S6 keying: the town, S6, its canonical ordinal; C-0268 (3)). */
+/** A stand-in district's lineage key (§6.3's S6 keying: the town, S6, its canonical ordinal; C-0270 (3)). */
 function standInLineage(index: number): LineageHash {
   return lineageHash({ arena: GROUND, unit: lineageHash(TOWN_ROOT_KEY), stage: STAGES.S6 as StageId, epoch: 0, index, reroll: 0 });
 }
@@ -196,7 +196,7 @@ export function wallLines(state: GrowthState): { k: number; ring: readonly Latti
 }
 
 /**
- * The fusion run's S8 (C-0034, C-0268 (2), (3)): the walled S5 coarse faces — every live L1 face inside the outermost
+ * The fusion run's S8 (C-0034, C-0270 (2), (3)): the walled S5 coarse faces — every live L1 face inside the outermost
  * walled stage's wall line that S6 would take (no owner, or an S1 land component, `isS1LandOwner`) — each re-owned by a
  * stand-in district minted in canonical face order, its growth stage the innermost wall line holding it, its pass-1
  * prosperity C-0034's ramp at the face (density 0.5, M0-b-04's constant), its regime its stage's row; then S8 over them
@@ -344,7 +344,7 @@ export function derive(kind: RunKind, seed: number, opts: DeriveOptions = {}): D
   );
   const { model, report } = run(registry, blueprint, { kind: 'all' }, { arenas: () => [baseArena(blueprint)] });
   if (kind === 'integrated') {
-    // The integrated run's districts are grouped by the town's recorded prosperity bands (FieldBands, §4.5; C-0268 (4)).
+    // The integrated run's districts are grouped by the town's recorded prosperity bands (FieldBands, §4.5; C-0270 (4)).
     const fields = model.data.get('fields') as FieldsPass1 | undefined;
     const districts = (model.data.get('districts') as readonly District[] | undefined) ?? [];
     if (fields !== undefined) for (const d of districts) ins.bandOf.set(d.id, bandOfDistrict(fields, d.id));

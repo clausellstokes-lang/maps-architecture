@@ -1,5 +1,5 @@
 // M0-x-05: F-RIVER's M0 rungs and F-WORK's hydrology rung on S1's registered RiverStrategy through the base chain (§4.2 S1
-// (3), §5.2 F-RIVER and F-WORK; C-0085, C-0173, C-0268) — each on a test-side TerrainStrategy's analytic ground (a sink
+// (3), §5.2 F-RIVER and F-WORK; C-0085, C-0173, C-0269) — each on a test-side TerrainStrategy's analytic ground (a sink
 // carved deeper, a one-row ridge re-traced from the last good knot, ground falling east moving the inlet) or a low
 // hydro.cells floor (the coarser grid), each landing in the river report on S1's record and as a ladder use of S1 in the
 // generation report (§5.4); F-WALL's trace rungs on the registered EnceinteStrategy (a notch the pull closes: the

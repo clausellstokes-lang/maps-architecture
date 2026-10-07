@@ -1,5 +1,5 @@
 // One derivation measured (M0-c-06; §16 M0 (c), §13.5, §13.2, §4.4's gate, §12.4; C-0067, C-0091, C-0094; readings
-// C-0268). Everything here reads the derived model — the arena through the façade, the stages' records — and returns a
+// C-0270). Everything here reads the derived model — the arena through the façade, the stages' records — and returns a
 // numbers-only `SeedRecord` (a worker posts it back; the report folds them):
 //   * restarts: every registered stage run exactly once, in the model's order (§5.1 (1)); S5's sub-steps once per growth
 //     stage and at most one top-up each; every ladder use counted (the report's, S5's and S8's own records);
@@ -321,7 +321,7 @@ export function widthMap(d: Derivation): Map<Id, number> {
 export type KerbPlant = (block: Id, ring: readonly LatticePoint[]) => readonly LatticePoint[];
 
 /**
- * §13.2's contract test on one derivation (C-0268 (5)): S8's working block of every block — the kerb S8 stopped on
+ * §13.2's contract test on one derivation (C-0270 (5)): S8's working block of every block — the kerb S8 stopped on
  * (`blockFaces.kerb`) for a block of one L1 face; for a block a deep-interior spine split (two seeds), the kerb of each of
  * its L1 faces read after S8 — against S9's committed block: corridorUnion over each district's committed L1 faces in one
  * L2 batch per district (S9's kernel op, §3.7), the L2 face holding the block's seed. Hausdorff 0 on every block, or the

@@ -1,5 +1,5 @@
 // The S8 ≡ S9 contract's geometry (M0-c-06; §13.2 "S8's working block equals S9's committed block (Hausdorff 0; §3.7)",
-// §4.6: "S9's corridorUnion then commits exactly those kerbs"; readings C-0268 (5)).
+// §4.6: "S9's corridorUnion then commits exactly those kerbs"; readings C-0270 (5)).
 //
 // Two closed rings on the integer lattice bound the same point set exactly when their canonical forms are equal: the
 // closing duplicate and repeated vertices dropped, every vertex whose two edges are collinear (an exact integer cross

@@ -1,4 +1,4 @@
-// The base chain a rung fixture runs on (M0-x-05; C-0077, C-0085, C-0268): M0-x-04's registrations (`registerBase`) on
+// The base chain a rung fixture runs on (M0-x-05; C-0077, C-0085, C-0269): M0-x-04's registrations (`registerBase`) on
 // a fresh registry, the product cut after the stage the fixture reads (`until`: the later stages registered, run as no-ops), test-side TerrainStrategies registered
 // beside the base's, and — where a rung is forced through a stage's own option (a low work-limit floor, a planted
 // refusal, a raised demand, the grade limits) — that stage's registered adapter replaced by one that composes the
@@ -6,7 +6,7 @@
 // `waterPlanOf`, `baseS6Input`, `baseS8Input`, …). M0-x-02's runner (`run`) derives it over `baseArena`, so every rung
 // is reached on the real stages in the base's order and lands in their records and the generation report. The
 // replacements with no option reproduce the registered adapters exactly: the chain test compares the model digest's
-// root at every stage end (C-0268).
+// root at every stage end (C-0269).
 import { CONCERNS, err, ok, stageText, type Kernel, type KernelResult, type Seed, type Warning } from '@plat/kernel';
 import type { Bridge, Scope, Terrain, WaterSet } from '@plat/model';
 import {

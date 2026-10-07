@@ -1,5 +1,5 @@
 // M0-x-05: F-CUT's rungs and F-WORK's cut rung on S8's real Stage (§4.6 step 8, §5.2 F-CUT and F-WORK; C-0085,
-// C-0268): each rung reached by exactly its fixture and leaving its report code — the reflex pre-cut, the antenna split,
+// C-0269): each rung reached by exactly its fixture and leaving its report code — the reflex pre-cut, the antenna split,
 // rung (a)'s turned frame, (b)'s mean normal, (c)'s slid foot with W_CUT_SLID (in S8's record and in the generation
 // report), (d)'s court — and the recursion stopped at a low cut.recursionDepth floor, `work_cut` with the count; the
 // plain rectangle district leaves none of them. The reader counts a rung only where it took.
