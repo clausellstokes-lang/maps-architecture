@@ -125,3 +125,21 @@ mirrors only.
       simple ring. The fast rings pass `simpleCcw`. The overlay's ring is trusted to `booleans`' contract.
     * No failure was seen. PLAUSIBLE.
     * **Hardening (M4):** apply `simpleCcw` to the overlay's ring as well.
+
+## Session fix round S1 closing check (check/M0-e-04-close-s1, 2026-10-07): KI note 16 under N-45 (J202)
+
+The N-51 fix passes (`checks/M0-e-04-s1.md`). The row below is a test gap on code that this seat's probe confirms
+correct. The probe and the mutants are in `~/maps-scratch/waves/check-M0-e-04/close-s1/`, in mirrors only.
+
+16. **KI — no committed test pins the wall strips' exclusion when S1's `land:<n>` owners are present.**
+    * `land.test.ts`'s fixture (`support.ts` `town` with `landOwner`) has the plaza's reservation but no wall strips.
+      Its reservation test therefore covers the C-0245 (2) exclusion for the plaza only. `run.test.ts` (M0-x-04's)
+      asserts nothing about owners.
+    * Probe (this seat): `base.ts`'s S6 adapter was instrumented in a mirror to sum the area of each owner at L0 and L1
+      before and after S6's run, on the base run (900 ha, 30 ha walled), flat seeds 1–3 and river seeds 1 and 3. In
+      every run, each L1 area of `wall_strip:1-inner`, `-1-outer`, `-2-inner`, `-2-outer`, `plaza:0` and (river 1)
+      `water:river:0` was equal before and after S6. The L0 owner areas were identical. No owner other than the
+      districts and the hinterland appeared. **CONFIRMED.** Mutant K06 (`s6Takes` accepting any owner) is killed only
+      through the plaza.
+    * **Hardening test (M4, or M0-e-06 on the integrated pipeline):** a `land.test.ts` case on `cityRun` or
+      `growthRun` (both carry c-04's strips) with the land owner set, asserting that every strip face keeps its owner.
