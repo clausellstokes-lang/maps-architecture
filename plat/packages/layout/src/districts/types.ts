@@ -118,8 +118,12 @@ export interface DistrictTyping {
   readonly kind: string;
   /** The use mix: [kind, share] pairs, its own kind first, the shares summing to 1 (C-0245 (12)). */
   readonly mix: readonly (readonly [string, number])[];
-  /** The scores the scorer read, per kind (−Infinity: a `require` row failed). */
-  readonly scores: readonly (readonly [string, number])[];
+  /**
+   * The scores the scorer read, per kind in table order; null where a `require` row failed (the kind inadmissible, −∞
+   * to the scorer). The record is a model record (S6's `typing` output, §6.2's digest), whose canonical text has no
+   * non-finite number, so −∞ is never written into it (C-0265).
+   */
+  readonly scores: readonly (readonly [string, number | null])[];
 }
 
 /**

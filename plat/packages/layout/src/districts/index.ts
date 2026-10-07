@@ -7,7 +7,7 @@ export type { DistrictTyping, GrowResult, GrowSeed, Grown, MergeRecord, QuarterN
 export { districtCells as s6DistrictCells, minBarrierClass, rosterBuildings, s6Table, typingCells, type DistrictCells, type KindRow, type RelationRow, type TypingCells } from './table.js';
 export { countLaw, quarterCount, type CountLaw } from './law.js';
 export { convolution, isSumRing, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop, UNLOOP_WINDOW, type PerimeterOptions } from './perimeter.js';
-export { BARRIER, boundaryLoops, districtOfFace, hullCompactness, polsbyPopper, EDGE_TEST_BARRIERS, faceGraph, faceLineage, textLineage, WAY_CLASS_ORDER, type CoarseFace, type FaceGraph, type FaceGraphOptions, type FaceLink, type FaceSide } from './faces.js';
+export { BARRIER, boundaryLoops, districtOfFace, hullCompactness, polsbyPopper, EDGE_TEST_BARRIERS, faceGraph, faceLineage, isS1LandOwner, s6Takes, textLineage, WAY_CLASS_ORDER, type CoarseFace, type FaceGraph, type FaceGraphOptions, type FaceLink, type FaceSide } from './faces.js';
 export { grow, type GrowFaces, type GrowOptions, type TurnStream } from './grow.js';
 export { compartments, faceInRing, placeSeeds, SIDE_DECISIVE_CM, type PlacedSeeds } from './seeds.js';
 export { typeDistricts, type TypingDistrict, type TypingOptions } from './typing.js';

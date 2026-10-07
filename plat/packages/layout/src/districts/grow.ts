@@ -24,7 +24,7 @@ import type { Stream } from '@plat/kernel';
 import { boundaryLoops, EDGE_TEST_BARRIERS, faceLineage, hullCompactness, type FaceGraph, type FaceLink } from './faces.js';
 import type { GrowResult, GrowSeed, Grown, MergeRecord, SeedKind, TurnRecord } from './types.js';
 
-/** The faces a grower may claim: the graph and, per face, whether it is claimable (inside, unowned, not water). */
+/** The faces a grower may claim: the graph and, per face, whether it is claimable (`s6Takes(f, 'inside')`, C-0265). */
 export interface GrowFaces {
   readonly graph: FaceGraph;
   readonly claimable: readonly boolean[];
