@@ -1,23 +1,23 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-03",
-  "lane": "build/M0-c-03-fix2",
-  "lanes": ["build/M0-c-03", "build/M0-c-03-fix1", "build/M0-c-03-fix2"],
+  "lane": "build/M0-c-03-int-g12-fix1",
+  "lanes": ["build/M0-c-03", "build/M0-c-03-fix1", "build/M0-c-03-fix2", "build/M0-c-03-int-g12-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T19:24:40.149Z",
+  "date": "2026-10-07T00:30:19.121Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/backbone/", "plat/packages/layout/test/backbone/"],
-  "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 19, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/backbone/classify.ts", "status": "created", "sha256": "4c22f05145ce2bfd5f919ee7b1c5d57091e2809c07bb232d6604d4ee324dc27f", "size": 7762 },
-    { "path": "plat/packages/layout/src/backbone/commit.ts", "status": "created", "sha256": "eeb157fa8bc8944dfb8dc4c90015d178f4f81da92438bfbb220a281dd22af694", "size": 28827 },
+    { "path": "plat/packages/layout/src/backbone/commit.ts", "status": "created", "sha256": "bd45053457cfe595fdbc1306fc27c0498d8c121bac65a6cadbc045aa8511465e", "size": 31787 },
     { "path": "plat/packages/layout/src/backbone/graph.ts", "status": "created", "sha256": "c1d6e16fe12931d4303327d27bcbc4dcad443a6512de9c5d70dbced333dde52e", "size": 16771 },
     { "path": "plat/packages/layout/src/backbone/index.ts", "status": "changed", "sha256": "7d48495b7e94dc83f69e938376bac70c94b0f7ef4cf359ad0ac072e90999fa2e", "size": 2102 },
     { "path": "plat/packages/layout/src/backbone/junctions.ts", "status": "created", "sha256": "de0cb6287799d4e101a0aafb433f07544becaddf817679351df9ee38fdd7eb0d", "size": 11878 },
     { "path": "plat/packages/layout/src/backbone/route.ts", "status": "created", "sha256": "cbb0b624a3836a8c1e71c36c4fffd30859125a8967efaf941a95dc60b33ec6a8", "size": 16613 },
     { "path": "plat/packages/layout/src/backbone/smooth.ts", "status": "created", "sha256": "ad6c8e1c5bdd7f31e4e5f26f06cb251efa7f0fd687a3bbde0b0f63e3ada5141d", "size": 8012 },
-    { "path": "plat/packages/layout/src/backbone/stage.ts", "status": "created", "sha256": "5032b8120564cb014c8a0e696f8405ec2f46ae8264ca1c4d30203f945b0c2647", "size": 17117 },
+    { "path": "plat/packages/layout/src/backbone/stage.ts", "status": "created", "sha256": "7593d533c561fece996aaf3308f9ff305144c837c5c253a5a898885c9428123d", "size": 20855 },
     { "path": "plat/packages/layout/src/backbone/types.ts", "status": "created", "sha256": "5dfb1137df8076319b31826383ad76917db50473fad1a09c6870abdc19d35097", "size": 8494 },
     { "path": "plat/packages/layout/test/backbone/backbone.test.ts", "status": "created", "sha256": "9f03ddefad893f03d896fc8852c4a1c8460a276ebd29db64be0c9f0af1f1aa05", "size": 22689 },
     { "path": "plat/packages/layout/test/backbone/classify.test.ts", "status": "created", "sha256": "c38f5f4d2b4edf11d9dc3c005221920d2300986c6acd5e5343e96da0c19ab682", "size": 6578 },
@@ -28,19 +28,20 @@
     { "path": "plat/packages/layout/test/backbone/smooth.test.ts", "status": "created", "sha256": "75caf4dc33af4c32b693d5b3794c2ce1c3b7bea356f5ba13855952b325d8a498", "size": 4938 },
     { "path": "plat/packages/layout/test/backbone/span.test.ts", "status": "created", "sha256": "120751900b0e2f1951884aeaad2099d279684847cc39495b6f488999149a53fd", "size": 5560 },
     { "path": "plat/packages/layout/test/backbone/stage.test.ts", "status": "created", "sha256": "8dfe8b0ad6e00a43646aff967573379422ab7bbc6c9be6ae8711d81756ede776", "size": 4953 },
-    { "path": "plat/packages/layout/test/backbone/support.ts", "status": "created", "sha256": "05cf88e711ba29bb6d275683fa15d4e6726c6d066f402b89f27cd4147e97d9a9", "size": 14239 }
+    { "path": "plat/packages/layout/test/backbone/support.ts", "status": "created", "sha256": "05cf88e711ba29bb6d275683fa15d4e6726c6d066f402b89f27cd4147e97d9a9", "size": 14239 },
+    { "path": "plat/packages/layout/test/backbone/water.test.ts", "status": "created", "sha256": "aebb3dd070bea496561cf50285052dce64ae47200ee4b0963c4b19c37f72095f", "size": 14033 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0252", "L-0256", "L-0260"],
-      "lines": ["3f41a305868958e9", "69cda9ca22ee4477", "a6bceb905a9cbdf4"],
+      "ids": ["L-0252", "L-0256", "L-0260", "L-0284"],
+      "lines": ["3f41a305868958e9", "69cda9ca22ee4477", "a6bceb905a9cbdf4", "6b0313419c6888da"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0236", "C-0239"],
-      "lines": ["cd2cf02238778026", "51baadf02141f75a"],
+      "ids": ["C-0236", "C-0239", "C-0250"],
+      "lines": ["cd2cf02238778026", "51baadf02141f75a", "ebd4aeccd770534e"],
       "removed": []
     }
   ]

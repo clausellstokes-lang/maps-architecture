@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-01",
-  "lane": "build/M0-c-01-fix1",
-  "lanes": ["build/M0-c-01", "build/M0-c-01-fix1"],
+  "lane": "build/M0-c-01-int-g12-fix1",
+  "lanes": ["build/M0-c-01", "build/M0-c-01-fix1", "build/M0-c-01-int-g12-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-05T16:39:11.204Z",
+  "date": "2026-10-07T00:36:02.107Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/fixtures/", "plat/packages/layout/src/siting/", "plat/packages/layout/test/siting/"],
   "counts": { "created": 19, "changed": 2, "unchanged": 0, "deleted": 0 },
@@ -19,13 +19,13 @@
     { "path": "plat/packages/layout/src/siting/lattice.ts", "status": "created", "sha256": "67ea0157021ef5457a18ca4768bae709fca339f8d42416808096dac42107838a", "size": 10333 },
     { "path": "plat/packages/layout/src/siting/levelset.ts", "status": "created", "sha256": "427617b452c6c75269593f5d3322144996037b8f001240d32ad270150ada713d", "size": 12841 },
     { "path": "plat/packages/layout/src/siting/plaza.ts", "status": "created", "sha256": "2cdcbb32f484fcfdf0e0c416c963df8b8391c96b150b2d0fbd7d6773a880aee6", "size": 3918 },
-    { "path": "plat/packages/layout/src/siting/routes.ts", "status": "created", "sha256": "e7dff1f0b1fba221c80ac8acc65125620b33158b75ebf5ca65c0afaf1416781f", "size": 8392 },
+    { "path": "plat/packages/layout/src/siting/routes.ts", "status": "created", "sha256": "e52e04ae22a675ce95fb606434957b7bc1c8fa37e8dac2fae3d7a0f34b169508", "size": 9777 },
     { "path": "plat/packages/layout/src/siting/slice.ts", "status": "created", "sha256": "d42072be71b87fb01a5b491d2f83666ff71d9e1fb1c18378913ee234d402790e", "size": 10936 },
     { "path": "plat/packages/layout/src/siting/types.ts", "status": "created", "sha256": "e1e85448f048d32400136e68136591a83a80fbcaac8b09fdafe4b1f6e259ea2d", "size": 10672 },
     { "path": "plat/packages/layout/test/siting/field.test.ts", "status": "created", "sha256": "11ba8dd710b0a3c24ebb1f3d17bd4ba7e7a6896440fa0d211858ff7e6624d7de", "size": 5466 },
     { "path": "plat/packages/layout/test/siting/fixture.test.ts", "status": "created", "sha256": "b35f6e0d177ff26ae68eb73748737312197d8a43ac302ab29beaf0c03d08dc23", "size": 4373 },
     { "path": "plat/packages/layout/test/siting/fwall.test.ts", "status": "created", "sha256": "72dfa1931558944794c1d1567aa344cc7d8aeaf8def067ed82a95283003dfac7", "size": 7301 },
-    { "path": "plat/packages/layout/test/siting/gates.test.ts", "status": "created", "sha256": "468028d99f958b3247ac7f34561d14705d4dc334139b3bcf6a3028a92d679398", "size": 10710 },
+    { "path": "plat/packages/layout/test/siting/gates.test.ts", "status": "created", "sha256": "fc4943c8082ec50250f5b03ad430c7b510d22f348021f6e89c988d8659fea6ff", "size": 15453 },
     { "path": "plat/packages/layout/test/siting/lattice.test.ts", "status": "created", "sha256": "b8fec7083ff6c705b96139a2a27ee8fcbb2928972423d45d17d1db9133df3510", "size": 8779 },
     { "path": "plat/packages/layout/test/siting/levelset.test.ts", "status": "created", "sha256": "33115e458490723ad2590877fdc26e5552d59ac0a953de1feb4c8d5980016ec3", "size": 11584 },
     { "path": "plat/packages/layout/test/siting/picks.test.ts", "status": "created", "sha256": "c418ff98e1b5991de34997e194e5cfa217a0a15b3f2e8862f3c90f1f47718508", "size": 7812 },
@@ -35,14 +35,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0167", "L-0172"],
-      "lines": ["968044e6dfb821bb", "be3531ff3491a3d9"],
+      "ids": ["L-0167", "L-0172", "L-0280"],
+      "lines": ["968044e6dfb821bb", "be3531ff3491a3d9", "154307bb36f1c98f"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0201", "C-0204"],
-      "lines": ["47c1a613fc572824", "774ae6e1854c3938"],
+      "ids": ["C-0201", "C-0204", "C-0249"],
+      "lines": ["47c1a613fc572824", "774ae6e1854c3938", "6737bce98d79d19c"],
       "removed": []
     }
   ]
