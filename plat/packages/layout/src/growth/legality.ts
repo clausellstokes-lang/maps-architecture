@@ -17,7 +17,8 @@
 //     any spine, setback line, shore, reservation or the stage boundary and within 30° of parallel is illegal, so no
 //     strip thinner than a plot depth is left — a way across the way the step leaves (wholly on its far side) is no
 //     spine the step runs beside, since that way lies between them (C-0260 (1): both sides of an arterial grow; on a
-//     bent arterial, a street leaving it and ending across it where it leaves, C-0262 (1));
+//     bent arterial, a street leaving it and ending across it where it leaves, C-0262 (1)); and at every step of a
+//     street, a street that left the same way on the other side, the way lying between the two (C-0263 (1));
 //   * an illegal step is deflected once — turned the least way to 31° off the feature it met or ran beside, away from
 //     it, its goal heading taking the turn — and judged again; still illegal, it is rejected. A deflection needing a
 //     turn above the legal angle (30°) is a rejection (C-0258 (3)): a street's course takes no turn its walk would not;
@@ -50,6 +51,17 @@ export interface Feature {
   /** The S5c street (its proposal id) that laid it, and its step number there; absent for standing features. */
   readonly street?: number;
   readonly step?: number;
+  /** The way that street left and the side it left on (C-0263 (1)); absent for standing features. */
+  readonly origin?: StreetOrigin;
+}
+
+/**
+ * The way a street left and the side of it the street lies on (C-0263 (1)): +1 left, −1 right of the way's segment
+ * holding the street's origin, as that segment runs (`streetOrigin`). Recorded by its first step, held for its whole life.
+ */
+export interface StreetOrigin {
+  readonly way: Id;
+  readonly side: 1 | -1;
 }
 
 /**
@@ -180,6 +192,8 @@ export interface StepCandidate {
   readonly turn: number;
   /** The steps the proposal has laid (its own last two segments are not features to it). */
   readonly steps: number;
+  /** The way its street left and the side it lies on (C-0263 (1)): absent before its first step is laid. */
+  readonly origin?: StreetOrigin;
 }
 
 /** A crossing a step makes on its way (an X junction). */
@@ -420,6 +434,76 @@ function acrossOf(index: FeatureIndex, c: StepCandidate, to: XY): ((f: Feature) 
     });
 }
 
+/**
+ * The side of the way `way` a street leaving it at `at` lies on, read where it leaves (C-0263 (1)): its first step's end
+ * `to` against every segment of that way holding `at` (within 1 cm) — +1 left, −1 right of the segment as it runs, by
+ * ≥ 1 cm — or null where they disagree, where `to` lies within 1 cm of a line, or where no segment holds `at` (no side
+ * is recorded, so the street keeps every clearance: fail safe).
+ */
+export function streetOrigin(index: FeatureIndex, way: Id, at: XY, to: XY): StreetOrigin | null {
+  let side: 0 | 1 | -1 = 0;
+  for (const i of index.near(at.x - 1, at.y - 1, at.x + 1, at.y + 1)) {
+    const h = index.features[i];
+    if (h.kind !== 'way' || h.way !== way || footOn(at, h.a, h.b).d2 >= 1) continue;
+    const e = sideDist(h.a, h.b, to);
+    if (e === null) continue;
+    const s = e >= 1 ? 1 : e <= -1 ? -1 : 0;
+    if (s === 0 || (side !== 0 && s !== side)) return null;
+    side = s;
+  }
+  return side === 0 ? null : { way, side };
+}
+
+/** Are p and q strictly on opposite sides of a line (each by ≥ 1 cm, signed distances `sp` and `sq`)? */
+function opposite(sp: number | null, sq: number | null): boolean {
+  return sp !== null && sq !== null && ((sp >= 1 && sq <= -1) || (sp <= -1 && sq >= 1));
+}
+
+/**
+ * Does the way `way` lie between the step p0p1 and the feature f (C-0263 (1))? Read at their nearest points p (on the
+ * step) and q (on f): a segment of the way crosses pq with p and q strictly on opposite sides of its line (≥ 1 cm each),
+ * or q is an end of f lying on the way (within 1 cm) and, against every segment of the way holding q, p and f's other end
+ * lie strictly on opposite sides. A step meeting f, or nearer than 1 cm to it, is no separation; nor is a way wrapped
+ * around (the nearest points joined past the way's end): the identity of the far side is checked, never assumed.
+ */
+function wayBetween(index: FeatureIndex, way: Id, p0: XY, p1: XY, f: Feature): boolean {
+  if (crossParams(p0, p1, f.a, f.b) !== null) return false;
+  let p: XY = p0;
+  let q: XY = f.a;
+  let best = Infinity;
+  const take = (pp: XY, qq: XY): void => {
+    const d = (qq.x - pp.x) * (qq.x - pp.x) + (qq.y - pp.y) * (qq.y - pp.y);
+    if (d < best) {
+      best = d;
+      p = pp;
+      q = qq;
+    }
+  };
+  take(p0, footOn(p0, f.a, f.b).at);
+  take(p1, footOn(p1, f.a, f.b).at);
+  take(footOn(f.a, p0, p1).at, f.a);
+  take(footOn(f.b, p0, p1).at, f.b);
+  if (!(best >= 1)) return false;
+  // f's other end where q is one of its ends (null: q inside f).
+  const qa = (q.x - f.a.x) * (q.x - f.a.x) + (q.y - f.a.y) * (q.y - f.a.y) < 1;
+  const qb = (q.x - f.b.x) * (q.x - f.b.x) + (q.y - f.b.y) * (q.y - f.b.y) < 1;
+  const other: XY | null = qa ? f.b : qb ? f.a : null;
+  let held = 0;
+  let split = true;
+  for (const i of index.near(Math.min(p.x, q.x) - 1, Math.min(p.y, q.y) - 1, Math.max(p.x, q.x) + 1, Math.max(p.y, q.y) + 1)) {
+    const h = index.features[i];
+    if (h.kind !== 'way' || h.way !== way) continue;
+    const sp = sideDist(h.a, h.b, p);
+    if (footOn(q, h.a, h.b).d2 < 1) {
+      held += 1;
+      if (other === null || !opposite(sp, sideDist(h.a, h.b, other))) split = false;
+      continue;
+    }
+    if (crossParams(p, q, h.a, h.b) !== null && opposite(sp, sideDist(h.a, h.b, q))) return true;
+  }
+  return held > 0 && split;
+}
+
 interface Attempt {
   readonly v: Verdict;
   /** The feature an illegal step met or ran beside (its deflection's reference). */
@@ -641,12 +725,16 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
   const D = r.clearanceCm(c.class);
   const met = metFeature >= 0 ? F[metFeature] : null;
   const across = acrossOf(ctx.index, c, toL);
+  const o = c.origin;
   for (const i of ctx.index.near(Math.min(at.x, toL.x) - D, Math.min(at.y, toL.y) - D, Math.max(at.x, toL.x) + D, Math.max(at.y, toL.y) + D)) {
     const f = F[i];
     // The proposal's own street is no spine it runs beside (its curl back is met as a crossing, above).
     if (ignored(f, c) || i === metFeature || f.street === c.street) continue;
     // A way across the way the step leaves is no spine it runs beside: that way lies between them (C-0260 (1)).
     if (f.kind === 'way' && across !== null && across(f)) continue;
+    // Every step of a street: a street that left the same way on the other side, with that way between them where they
+    // come nearest, is no spine it runs beside (C-0263 (1)).
+    if (f.kind === 'way' && o !== undefined && f.origin !== undefined && f.street !== undefined && f.origin.way === o.way && f.origin.side === -o.side && wayBetween(ctx.index, o.way, at, toL, f)) continue;
     // The way the step ends on, the ways it crosses and the boundary it leaves are met, not run beside.
     if (met !== null && f.kind === met.kind && f.kind !== 'way' && f.kind !== 'band') continue;
     if (f.kind === 'way' && f.way !== undefined && (f.way === meets || crossings.some((x) => x.way === f.way))) continue;

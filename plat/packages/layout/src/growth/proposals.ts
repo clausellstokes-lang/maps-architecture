@@ -55,7 +55,7 @@ import { bearingCdeg, insideRing, PI, quot } from '../siting/geom.js';
 import type { S3Slice } from '../siting/types.js';
 import { HA_CM2, wayLines, type StageBoundary } from './boundary.js';
 import { headingModel, headingStep, initialCurvature, RAD_PER_CDEG, wrapAngle, type HeadingModel } from './heading.js';
-import { crossingMatrix, FeatureIndex, legal, type Accepted, type EndKind, type Feature, type LegalityContext, type LegalityRules, type XY } from './legality.js';
+import { crossingMatrix, FeatureIndex, legal, streetOrigin, type Accepted, type EndKind, type Feature, type LegalityContext, type LegalityRules, type StreetOrigin, type XY } from './legality.js';
 import { s5bWorkLimit, type GrowthStage, type GrowthState, type S5Input } from './mainRoads.js';
 
 /** The classes S5c grows (§4.4: district-scale secondaries in walled regimes; secondaries and lanes extramural). */
@@ -82,6 +82,11 @@ export interface Proposal {
   lengthCm: number;
   /** The street it lays (from its first accepted step). */
   street: GrownStreet | null;
+  /**
+   * The side of its origin way the street lies on, read by its first step where it leaves (`streetOrigin`, C-0263 (1)):
+   * every step and segment of it carries it; null before the first step, or where the side could not be read.
+   */
+  side: 1 | -1 | null;
 }
 
 /** A street S5c grew: its way, its lineage (the growth stage's unit, S5, the acceptance index) and its line as laid. */
@@ -560,6 +565,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         steps: 0,
         lengthCm: 0,
         street: null,
+        side: null,
       };
       all.push(P);
       queue.push(P.id, priority);
@@ -571,6 +577,8 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       make({ at: s.at, way: s.way }, base + s.side * PI * 0.5, 'secondary', area.maxSegments, 0);
     }
     const widthOf = (c: GrowthClass): number => rules.widthCm(c);
+    /** The way a proposal's street left and its side there, once its first step has read it (C-0263 (1)). */
+    const originOf = (P: Proposal): { origin?: StreetOrigin } => (P.side === null ? {} : { origin: { way: P.origin.way, side: P.side } });
     const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
       const id = `junction:${String(nextJunction)}`;
       nextJunction += 1;
@@ -663,7 +671,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       // The step is laid along the proposal's heading; the walk advances the heading after it (C-0254 (1)).
       let ds = stepLength(P, rules, streams.heading);
       let curvature = P.curvature;
-      let v = legal({ street: P.id, class: P.class, at: P.at, heading: P.heading, stepCm: ds, turn: P.turn, steps: P.steps }, ctx);
+      let v = legal({ street: P.id, class: P.class, at: P.at, heading: P.heading, stepCm: ds, turn: P.turn, steps: P.steps, ...originOf(P) }, ctx);
       if (v.verdict === 'reject') {
         rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
         deadEnd(P);
@@ -680,7 +688,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         ds = stepLength(P, rules, streams.retry);
         const hs = headingStep({ heading: P.heading, curvature: P.curvature, goalHeading: P.goalHeading, stepCm: ds, model: rules.model }, streams.retry);
         curvature = hs.curvature;
-        v = legal({ street: P.id, class: P.class, at: P.at, heading: hs.heading, stepCm: ds, turn: P.turn + hs.turn, steps: P.steps }, ctx);
+        v = legal({ street: P.id, class: P.class, at: P.at, heading: hs.heading, stepCm: ds, turn: P.turn + hs.turn, steps: P.steps, ...originOf(P) }, ctx);
         if (v.verdict === 'reject') {
           rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
           rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: `illegal:${v.why}` });
@@ -737,6 +745,8 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         };
         rec.streets.push(P.street);
       }
+      // The side of its origin way the street lies on, read where it leaves, held for its whole life (C-0263 (1)).
+      if (first) P.side = streetOrigin(index, P.origin.way, P.at, ins.points[1])?.side ?? null;
       const st = P.street as GrownStreet;
       const jIds = new Map<number, Id>();
       for (const i of [...ins.knotOf.keys()].sort((a, b) => a - b)) {
@@ -745,7 +755,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       }
       if (first) st.way.from = { kind: 'junction', id: jIds.get(0) ?? '' };
       for (let i = 1; i < ins.points.length; i += 1) {
-        index.add({ a: ins.points[i - 1], b: ins.points[i], kind: 'way', way: st.way.id, cls: P.class, street: P.id, step: P.steps });
+        index.add({ a: ins.points[i - 1], b: ins.points[i], kind: 'way', way: st.way.id, cls: P.class, street: P.id, step: P.steps, ...originOf(P) });
         st.points.push(ins.points[i]);
       }
       const stepLen = Math.sqrt((v.to.x - P.at.x) * (v.to.x - P.at.x) + (v.to.y - P.at.y) * (v.to.y - P.at.y));

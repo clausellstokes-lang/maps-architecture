@@ -8,7 +8,7 @@
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { tableView } from '@plat/tables';
-import { classRankOf, crossingMatrix, FeatureIndex, legal, type Feature, type LegalityContext, type LegalityRules, type StepCandidate } from '../../../src/growth/legality.js';
+import { classRankOf, crossingMatrix, FeatureIndex, legal, streetOrigin, type Feature, type LegalityContext, type LegalityRules, type StepCandidate } from '../../../src/growth/legality.js';
 import { growthRules } from '../../../src/growth/proposals.js';
 import { lineAngleDeg, P, properCross, segDist } from './support.js';
 
@@ -254,6 +254,36 @@ describe('a street across the arterial the step leaves (C-0260 (1))', () => {
     expect(w.verdict === 'reject' && w.why === 'parallel').toBe(true);
   });
 
+  it('on a bent arterial, a street across whose segment ENDS on the arterial (a T back onto it) is read as leaving it there: the step is accepted (C-0262 (1), both ends of f read)', () => {
+    // The bent test's street laid the other way round: its end b on the segment before the bend (2 m off y = 0 on the
+    // step's side), its start a across — a far-side street closing back onto the arterial in a T. Rule (a) fails (b lies
+    // on the step's side of the start segment's line), so only the reading from f's b end makes it across.
+    const before = way(P(-20_000, -1_200), P(4_000, 0), 'primary', 'way:0');
+    const after = way(P(4_000, 0), P(100_000, 0), 'primary', 'way:0');
+    const closing: Feature = { a: P(-200, 3_795), b: P(0, -200), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 3 };
+    const v = legal(first(8_000, -90 * DEG), ctxOf([before, after, closing], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict === 'accept') expect(v.to).toEqual(P(8_000, -4_000));
+  });
+
+  it('the far end is read against the segment h the street leaves, not the step’s segment g: across h but on the step’s side of g is across; on the step’s side of h but across g is not (C-0262 (1))', () => {
+    // The arterial climbs 1 in 2 to the bend at (4 000, 0), then runs along y = 0 (g, holding the step's start). A street
+    // leaves h at (0, −2 000) and ends at (−200, −200): left of h (across it) yet 2 m below y = 0 (the step's side of g).
+    const h = way(P(-20_000, -12_000), P(4_000, 0), 'primary', 'way:0');
+    const g = way(P(4_000, 0), P(100_000, 0), 'primary', 'way:0');
+    const leaves: Feature = { a: P(0, -2_000), b: P(-200, -200), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
+    const v = legal(first(8_000, -90 * DEG), ctxOf([h, g, leaves], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict === 'accept') expect(v.to).toEqual(P(8_000, -4_000));
+    // The converse (a reading pin): h climbing 2 in 1 to the bend; a street leaving h at (0, −8 000) on its right (the
+    // step's side) and ending at (4 200, 200), above y = 0 (across g's line). Read against h it is not across: it keeps
+    // the clearance (38 m off the step, 27° off parallel).
+    const steep = way(P(-20_000, -48_000), P(4_000, 0), 'primary', 'way:0');
+    const notAcross: Feature = { a: P(0, -8_000), b: P(4_200, 200), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
+    const w = legal(first(8_000, -90 * DEG), ctxOf([steep, g, notAcross], noBias));
+    expect(w.verdict === 'reject' && w.why === 'parallel').toBe(true);
+  });
+
   it('a street leaving a segment of the arterial that runs against the step’s segment (a hairpin) is not read as across: it keeps the clearance (C-0262 (1), fail safe)', () => {
     // way:0 along y = 0 to (20 000, 0), down to (20 000, −6 000) and back along y = −6 000: the step leaves the first leg
     // into the hairpin; a street leaves the return leg outward. The return leg runs against the first (dot < 0), so its
@@ -262,6 +292,71 @@ describe('a street across the arterial the step leaves (C-0260 (1))', () => {
     const out: Feature = { a: P(0, -6_000), b: P(0, -10_000), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
     const v = legal(first(8_000, -90 * DEG), ctxOf([...legs, out], noBias));
     expect(v.verdict === 'reject' && v.why === 'parallel').toBe(true);
+  });
+});
+
+describe('a street’s every step reads the far side of the way it left (C-0263 (1))', () => {
+  // The arterial along y = 0; a street on its left (origin way:0, side +1) leaving (0, 0). The step judged is a later step
+  // of a street on the right (origin way:0, side −1), 25 m off the arterial and 79 m from the left street's start — inside
+  // the 83 m clearance, parallel to it (the residual N-50 named: N-23's dead ends at step 2).
+  const arterial = way(P(-100_000, 0), P(100_000, 0), 'primary', 'way:0');
+  const left: Feature = { a: P(0, 0), b: P(0, 4_000), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0, origin: { way: 'way:0', side: 1 } };
+  const later = (x: number, extra: Partial<StepCandidate> = {}): StepCandidate => ({ street: 1, class: 'secondary', at: P(x, -2_500), heading: -90 * DEG, stepCm: 4_000, turn: 0, steps: 1, origin: { way: 'way:0', side: -1 }, ...extra });
+
+  it('a later step beside the street across the way its street left is accepted as proposed', () => {
+    const v = legal(later(7_500), ctxOf([arterial, left], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict === 'accept') {
+      expect(v.deflected).toBe(false);
+      expect(v.to).toEqual(P(7_500, -6_500));
+    }
+    // A later segment of that street, not touching the arterial: the arterial crosses the line joining their nearest points.
+    const beyond: Feature = { ...left, a: P(0, 1_500), b: P(0, 5_500), step: 1 };
+    const w = legal(later(6_500), ctxOf([arterial, beyond], noBias));
+    expect(w.verdict === 'accept' && !w.deflected).toBe(true);
+  });
+
+  it('without a recorded origin, the same step keeps the clearance (a street whose side was not read)', () => {
+    const { origin: _o, ...bare } = later(7_500);
+    const v = legal(bare, ctxOf([arterial, left], noBias));
+    expect(v.verdict === 'accept' && !v.deflected).toBe(false);
+  });
+
+  it('a street on the step’s own side, or one that left another way, keeps the clearance', () => {
+    // Same side: the street recorded side −1 and lies on the right, beside the step.
+    const same: Feature = { ...left, a: P(0, 0), b: P(0, -4_000), origin: { way: 'way:0', side: -1 } };
+    const v = legal(later(7_500), ctxOf([arterial, same], noBias));
+    expect(v.verdict === 'accept' && !v.deflected).toBe(false);
+    // Another way: the left street recorded as leaving way:7 (another arterial), though it stands where it does.
+    const other: Feature = { ...left, origin: { way: 'way:7', side: 1 } };
+    const w = legal(later(7_500), ctxOf([arterial, other], noBias));
+    expect(w.verdict === 'accept' && !w.deflected).toBe(false);
+    // A standing way (no street, no origin) across the arterial keeps it too: only streets carry a recorded side.
+    const standing: Feature = { a: P(0, 0), b: P(0, 4_000), kind: 'way', way: 'way:5', cls: 'secondary' };
+    const s = legal(later(7_500), ctxOf([arterial, standing], noBias));
+    expect(s.verdict === 'accept' && !s.deflected).toBe(false);
+  });
+
+  it('the recorded sides are checked against the geometry: with the arterial ending short of the pair (no way between them), the clearance holds (detect and refuse)', () => {
+    // The arterial stops at x = −10 m; the left street's later segment (0, 15 m) – (0, 55 m) and the step at x = 65 m:
+    // the line joining their nearest points crosses no segment of way:0, so the recorded sides are not trusted.
+    const short = way(P(-100_000, 0), P(-1_000, 0), 'primary', 'way:0');
+    const beyond: Feature = { ...left, a: P(0, 1_500), b: P(0, 5_500), step: 1 };
+    const v = legal(later(6_500), ctxOf([short, beyond], noBias));
+    expect(v.verdict === 'accept' && !v.deflected).toBe(false);
+    // A street whose recorded side contradicts where it stands: recorded left (+1) but laid on the right, beside the step.
+    const liar: Feature = { ...left, a: P(0, 0), b: P(0, -4_000) };
+    const w = legal(later(7_500), ctxOf([arterial, liar], noBias));
+    expect(w.verdict === 'accept' && !w.deflected).toBe(false);
+  });
+
+  it('streetOrigin reads the side where the street leaves: left +1, right −1, null on the line or where no segment holds it', () => {
+    const idx = ctxOf([arterial]).index;
+    expect(streetOrigin(idx, 'way:0', P(0, 0), P(0, 2_500))).toEqual({ way: 'way:0', side: 1 });
+    expect(streetOrigin(idx, 'way:0', P(0, 0), P(0, -2_500))).toEqual({ way: 'way:0', side: -1 });
+    expect(streetOrigin(idx, 'way:0', P(0, 0), P(2_500, 0))).toBeNull();
+    expect(streetOrigin(idx, 'way:0', P(0, 100), P(0, 2_500))).toBeNull();
+    expect(streetOrigin(idx, 'way:7', P(0, 0), P(0, 2_500))).toBeNull();
   });
 });
 
