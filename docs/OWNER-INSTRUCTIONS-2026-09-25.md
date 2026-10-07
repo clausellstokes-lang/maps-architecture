@@ -299,3 +299,9 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
 - (2026-10-02 ~17:50) After laws probe pass 8 (12 majors, falling about one a pass): "Valid-choice minor + repair
   (Recommended)" — where every reading gives a valid map the case is a minor the builder picks and fix-list.md lists; real
   defects stay major; the focused probes stop; the laws go into the design and the six family checks judge it (J151).
+
+## Irrigation channels (2026-10-07)
+
+- (2026-10-07) After the session reported that irrigation existed only as an oasis's gardens and an `irrigated` field label:
+  "Can you add it to M2b on GitHub?" and "And the other places on the GitHub architecture" — irrigation channels staged into
+  M2b and written into the architecture now, J156's backlog-until-M1 rule set aside for this item (item 128, file g).
