@@ -6727,3 +6727,4 @@
 2026-10-07 14:18 build/M0-x-04 CHECKPOINT resumed after N-51 fix (fcd555bc); files unchanged since record; next: NEAR re-run (built branch), tighten s6Outcome to built, gates, LANDED
 2026-10-07 14:27 build/M0-x-04 CHECKPOINT NEAR 33/33 (built branch now required on flat+river in run.test.ts; refusal moved to new guard.test.ts with the pre-fix rule mocked); next: gates, self-check of the built branch, LANDED
 2026-10-07 14:41 build/M0-x-04 CHECKPOINT gates: install 0, lint 0 (probe-red ok), build 0, RELATED 104 files/819 tests 0; added run.test.ts 'S6's second half' (fields = pass 1 recomputed from the records, flat+river) and guard.test.ts; mirror rebuilt (0 links out); next: probe + mutants B01-B12 on the built branch
+2026-10-07 14:56 build/M0-x-04 CHECKPOINT self-check: B01 B02 B04 killed, B03 survived (equivalent: one land component, the owner list is the detail's diagnostic); C-0266 appended; next B05-B16
