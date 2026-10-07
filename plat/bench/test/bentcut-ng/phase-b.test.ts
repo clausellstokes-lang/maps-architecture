@@ -112,7 +112,7 @@ describe('phase b on synthetic NG-shaped faces', () => {
     expect(r.clauses.find((c) => c.id === 'corner')?.ours).toBe(cutCornerMid(doc).get('all'));
     expect(r.clauses.find((c) => c.id === 'arrival')?.ours).toBe(cutArrival85(doc).get('all'));
     expect(r.ours.sigmaUnderRule['plain']).toBe(sigmaUnder(cuts, { frame: 'recorded', attempts: 3 }).get('plain'));
-    expect(r.ngRecorded).toMatchObject({ faces: 3, hoods: 3, cuts: 9, oneBend: 6 / 9, fillet: 3 / 6, arrival85: 1 });
+    expect(r.ngRecorded).toEqual({ faces: 3, hoods: 3, cuts: 9, oneBend: 6 / 9, cornerMidCourse: 1, fillet: 3 / 6, arrival85: 1 });
     // The ⟨M-1⟩ distributions without their rows fail, naming the missing row.
     const ks = r.clauses.filter((c) => c.metric === 'cut.length' || c.metric === 'block.area');
     expect(ks.length).toBeGreaterThanOrEqual(2);

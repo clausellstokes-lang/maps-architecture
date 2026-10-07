@@ -39,6 +39,18 @@ describe('the band-rule verdicts on planted rows (C-0092, C-0116)', () => {
     expect(judge(rows, [scalarEntry('cut.fillet', 'all', [0.59])])[0].verdict).toBe('fail');
     expect(bandRule(rows[0], { perSeed: [0.44], seeds: 1 }).verdict).toBe('fail');
     expect(judge(rows, [scalarEntry('cut.fillet', 'all', [0.48])])[0].verdict).toBe('pass');
+    // Just outside on either side: fail.
+    expect(judge(rows, [scalarEntry('cut.fillet', 'all', [0.5805])])[0].verdict).toBe('fail');
+    expect(judge(rows, [scalarEntry('cut.fillet', 'all', [0.4795])])[0].verdict).toBe('fail');
+  });
+
+  it('a σ or fillet row without p50 fails under the ± band, though the generic band would pass it (fail-safe)', () => {
+    const r = row('cut.sigma', 'plain', { p10: 0.07, p90: 0.1, n: 20, seeds: 20 });
+    expect(bandRule(r, { perSeed: [0.085], seeds: 1 }).verdict).toBe('pass');
+    const c = judge([r], [scalarEntry('cut.sigma', 'plain', [0.085])]);
+    expect([c[0].verdict, c[0].note]).toEqual(['fail', 'σ within ± 0.02 of the row (§13.5 bent-cut row; §16 M0 (b)); the row carries no p50 for the ± band (fail-safe)']);
+    const f = judge([row('cut.fillet', 'all', { p10: 0.5, p90: 0.56, n: 20, seeds: 20 })], [scalarEntry('cut.fillet', 'all', [0.53])]);
+    expect(f[0].verdict).toBe('fail');
   });
 
   it('a distribution row with spreadKS: ours ≤ 1.25 × spreadKS.p90 passes, beyond it fails', () => {

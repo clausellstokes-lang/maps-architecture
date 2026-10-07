@@ -170,8 +170,10 @@ describe('T36-1, T37-1, T38-1 on a plan', () => {
     const far = plan.far as NonNullable<typeof plan.far>;
     const d = Math.hypot(far.dir.x, far.dir.y);
     const along = (k: number) => ({ x: legs[2].x + (k * far.dir.x) / d, y: legs[2].y + (k * far.dir.y) / d });
-    expect(at({ ...plan, cut: { ...g, legs: [legs[0], legs[1], along(1.5)] } }).T37).toBe(1);
-    expect(at({ ...plan, cut: { ...g, legs: [legs[0], legs[1], along(0.5)] } }).T37).toBe(0);
+    const off0 = Math.abs(((legs[2].x - legs[1].x) * far.dir.x + (legs[2].y - legs[1].y) * far.dir.y) / d);
+    expect(off0).toBeLessThan(0.01);
+    expect(at({ ...plan, cut: { ...g, legs: [legs[0], legs[1], along(1.05 + off0)] } }).T37).toBe(1);
+    expect(at({ ...plan, cut: { ...g, legs: [legs[0], legs[1], along(0.95 - off0)] } }).T37).toBe(0);
     expect(at({ ...plan, far: null }).T37).toBe(1);
     expect(at({ ...plan, cut: { ...g, heightCm: g.flattenThresholdCm - 0.01 } }).T37).toBe(1);
   });
