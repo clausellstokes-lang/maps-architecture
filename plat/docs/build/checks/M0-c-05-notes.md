@@ -63,3 +63,16 @@ are in `M0-c-05.md`.
     streets, and the row is carried by the hand pool (`drift-grown.test.ts`). In that pool the ribbon sits at 0.9 %
     above 90°, against a 1 % limit (C-0258 (5), declared). M0-c-06's integrated run should report the window count with
     the row.
+
+## Closing check r2 (lane `check/M0-c-05-close-r2`, 2026-10-07)
+
+17. **N-17 C-0260 (1)'s "every way segment holding the step's start" is not pinned (S05).** Replacing `every` with
+    `some` in `acrossOf` passes the targeted tests. It also changes no fixture output (digest probe P2, 30 runs), because
+    a seed rarely lies exactly on an arterial vertex or on two ways. Suggested test: a step that starts at a vertex where
+    two segments of the arterial meet at an angle, with a street across one segment's line but not the other's. M4,
+    unless B-1's rework of `acrossOf` replaces the per-segment reading.
+18. **N-18 S10 and S20 are equivalent.** Dropping or skipping the `Math.abs(e) < 1` guard in `acrossOf` changes nothing.
+    A step whose end lies within 1 cm of the line of a way it starts on is already rejected `angle` by the start's
+    leaving test (`legality.ts:463–467`), because steps are ≥ 20 m long. No test is needed.
+19. **N-19 S19 is equivalent.** In `growthStep`, counting only the grown streets that are still live changes nothing,
+    because the prune has not run yet and every grown street is live. No test is needed.
