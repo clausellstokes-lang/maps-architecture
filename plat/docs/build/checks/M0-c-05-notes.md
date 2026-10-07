@@ -112,3 +112,35 @@ are in `M0-c-05.md`.
     street whose first segment left the arterial (read the side from that arterial within the clearance), or record a
     choices row accepting the stubs. That is the session's call, before M0-c-06 judges the integrated run, rather than
     M4.
+
+## Closing check S1 (lane `check/M0-c-05-close-s1`, 2026-10-07)
+
+24. **N-24 (KI, test gap) The whole-life part of C-0263 (1), beyond the second step, is not pinned. V02 survives.** V02
+    applies the skip only while `c.steps <= 1`. It passes `legality.test.ts` + `growth.test.ts` 58 / 58 and NEAR
+    136 / 136. It changes S5's output on 15 of 30 fixture runs (P2), and probe Q1 under it finds 39 + 39 arterial
+    streets dead at step 3 against the far-side street, where the tree has 0 + 0. The tree's behaviour is CONFIRMED by
+    probe Q1, so under N-48 this is a test gap and not a blocker. Suggested test, one assertion: in `growth.test.ts`'s
+    0.9-pitch test, also refuse stubs of three steps (`points.length <= 4`), or add a legality case with `steps: 2`
+    beside the far-side street. Cheap enough to land before M0-c-06 judges the integrated run; otherwise M4.
+25. **N-25 V08, V10, V12 and V12b survive and change 0 of 30 fixture runs (contrived shapes, M4).**
+    * V08: `wayBetween`'s crossing branch without the 1 cm sides. It matters only when p or q lies on the way's line,
+      for example a step ending on its own arterial in a T beside the far-side street. The mutant would then skip a
+      clearance that the code keeps (fail safe).
+    * V10: the nearest points taken from the step's start only. It differs only where the nearest pair lies at the
+      step's end or at f's end.
+    * V12: a q inside f accepted when the way holds it. That needs f lying along the way within 1 cm.
+    * V12b: the `best ≥ 1` guard removed. It differs only at sub-2 cm separations.
+    * Suggested tests: a step whose nearest point to f is its end, with the arterial crossing only there (V10), and a
+      step ending on the arterial in a T beside a far-side street (V08), which keeps the clearance.
+26. **N-26 V09, V19 and V14 are equivalent.** No test is needed.
+    * V09: the step-meets-f guard removed. A meeting gives `best = 0`, which the `best ≥ 1` guard already refuses.
+    * V19: the side read at the first step's last point rather than `points[1]`. Both lie on the one straight first
+      step from the origin, so they share a side.
+    * V14: `streetOrigin`'s 1 cm tolerance → 0. A first step is ≥ 25 m and leaves square, so its end never lies within
+      1 cm of the arterial's line.
+27. **N-27 The fixture's 1 000-seed drift pool fell from 35 to 6 windows (follows N-16).** The streets across now grow
+    past their first step and meet in T's sooner, so fewer S5c streets run 600 m unbroken. The six windows give p50
+    17.3° and none above 90°, but `driftRow` asserts the median band only from 20 windows. The row's assertable pools
+    are `drift-grown.test.ts` (dense_core 192 windows, p50 20.3°; ribbon 644, p50 17.3°) and M0-c-06's integrated run,
+    which re-judges the exit bar. Not a fail: the row holds on every pool. M0-c-06 should still see that the fixture
+    alone cannot judge the median.
