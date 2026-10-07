@@ -220,6 +220,20 @@ describe('the perimeter is the Minkowski sum on sharp reflex corners (C-0245 (1)
     }
   });
 
+  it('where the fully mitred ring fails the check, the ring mitred on its segments stands: the sum to 5 cm, no overlay (stars 2, 3, 7)', () => {
+    const k = kernel();
+    for (const seed of [2, 3, 7]) {
+      const ring = starRing(seed);
+      const mitred = unloop(convolution(ring, 5000, 'miter') as LatticePoint[]);
+      expect(simpleCcw(mitred) && isSumRing(ring, mitred, 5000, SUM_TOLERANCE_CM)).toBe(false);
+      const r = settlementPerimeter(ring, k);
+      expect(r.ok).toBe(true);
+      if (!r.ok) return;
+      expect(r.value).toEqual(unloop(convolution(ring, 5000, 'onSegments') as LatticePoint[]));
+      expect(isSumRing(ring, r.value, 5000, SUM_TOLERANCE_CM)).toBe(true);
+    }
+  });
+
   it('on generated notched stars and ribbon fingers, point by point: the land and every point within 50 m inside, none beyond it', { timeout: 600_000 }, () => {
     const k = kernel();
     const rings: LatticePoint[][] = [];

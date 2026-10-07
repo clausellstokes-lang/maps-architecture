@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-k-06",
-  "lane": "build/M0-k-06",
-  "lanes": ["build/M0-k-06"],
+  "lane": "build/M0-k-06-fix1",
+  "lanes": ["build/M0-k-06", "build/M0-k-06-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T23:37:44.753Z",
+  "date": "2026-10-07T00:25:59.414Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/scanner/ (created empty by the scaffold fix round, C-0064)", "plat/packages/testkit/test/scanner/", "plat/packages/testkit/baselines/denylist-allow.json (created empty here; handed over to M0-k-07, which fills the reviewed entries)", "plat/bench/src/scan/ (the thin entry; index.ts created empty by the scaffold's fourth fix round, C-0113)", "plat/bench/test/scan/"],
   "counts": { "created": 14, "changed": 2, "unchanged": 0, "deleted": 0 },
@@ -24,14 +24,14 @@
     { "path": "plat/packages/testkit/src/scanner/scan.ts", "status": "created", "sha256": "7c087fa2f4e258e6fe68ba683ba9d8f6644038612b8f75ded5fac6b8e7e2fd37", "size": 10985 },
     { "path": "plat/packages/testkit/src/scanner/scope.ts", "status": "created", "sha256": "16cb46b45af6430831a33610a6956ea37440f2b7aa5a111f0ef985fe748fcef0", "size": 3319 },
     { "path": "plat/packages/testkit/src/scanner/types.ts", "status": "created", "sha256": "9e748f4a15d7c3258aadc82a369a83f7348f2a3d305d0b7acd09053431103498", "size": 2302 },
-    { "path": "plat/packages/testkit/test/scanner/scanner.test.ts", "status": "created", "sha256": "33003b1012839853a5526e2b3820d5d4b50a1b8d62157f2417b1668103ecb65d", "size": 34789 },
+    { "path": "plat/packages/testkit/test/scanner/scanner.test.ts", "status": "created", "sha256": "df5d37fb28ddeba7abe5ae023c396168d0366794652f731d2ab2d62bbacbd883", "size": 37615 },
     { "path": "plat/packages/testkit/test/scanner/support.ts", "status": "created", "sha256": "f8ae6227ed53c3654bf1a083a671a764dca12a351b01c7d6ce0e39105c409866", "size": 3655 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0277"],
-      "lines": ["ac5dc18a381ac173"],
+      "ids": ["L-0277", "L-0283"],
+      "lines": ["ac5dc18a381ac173", "1e633254e81e2072"],
       "removed": []
     },
     {
