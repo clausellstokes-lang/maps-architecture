@@ -362,66 +362,6 @@
       "hang": 0,
       "offOutcome": 0
     },
-    "EP-01/S5d/coincident": {
-      "seeds": 10,
-      "absorbed": 10,
-      "laddered": 0,
-      "left-out": 0,
-      "refused-safe": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0
-    },
-    "EP-01/S5d/collinear": {
-      "seeds": 10,
-      "absorbed": 10,
-      "laddered": 0,
-      "left-out": 0,
-      "refused-safe": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0
-    },
-    "EP-01/S5d/self-touching": {
-      "seeds": 10,
-      "absorbed": 0,
-      "laddered": 0,
-      "left-out": 10,
-      "refused-safe": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0
-    },
-    "EP-01/S5d/zero-area": {
-      "seeds": 10,
-      "absorbed": 10,
-      "laddered": 0,
-      "left-out": 0,
-      "refused-safe": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0
-    },
-    "EP-01/S5d/zero-length": {
-      "seeds": 10,
-      "absorbed": 0,
-      "laddered": 10,
-      "left-out": 0,
-      "refused-safe": 0,
-      "defined": 0,
-      "off": 0,
-      "crash": 0,
-      "hang": 0,
-      "offOutcome": 0
-    },
     "EP-01/S6/coincident": {
       "seeds": 10,
       "absorbed": 10,
@@ -868,11 +808,11 @@
     }
   },
   "totals": {
-    "fixtures": 72,
-    "seeds": 720,
-    "absorbed": 257,
-    "laddered": 213,
-    "left-out": 20,
+    "fixtures": 67,
+    "seeds": 670,
+    "absorbed": 227,
+    "laddered": 203,
+    "left-out": 10,
     "refused-safe": 140,
     "defined": 90,
     "off": 0,

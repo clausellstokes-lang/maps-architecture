@@ -407,6 +407,13 @@ export const RELIEF_3000 = Object.freeze({
  */
 export const EP23_GRADES: Readonly<Partial<Record<RouteClass, number>>> = Object.freeze({ through: 0.3, primary: 0.6, track: 1.2, path: 2.4 });
 
+/** A route's grade against the limit of the class it was routed at (EP23_GRADES): null within it, else the reason. */
+export function gradeProblem(name: string, cls: RouteClass, steepest: number, limits: Readonly<Partial<Record<RouteClass, number>>> = EP23_GRADES): string | null {
+  const limit = limits[cls];
+  if (limit === undefined) return `${name}: routed at ${cls}, a class with no grade limit`;
+  return steepest > limit ? `${name}: routed at ${cls} (limit ${String(limit)}) climbs ${String(steepest)}` : null;
+}
+
 /**
  * EP-23's M0 part (§4.3 *The class grade limit*; §5.2 F-ROUTE's slope rung; C-0272 (12)): on the 3 000 m relief, S4's
  * router routes each gate's arterial from the plaza's attach point to the frame under the class grade limits: every
@@ -472,9 +479,8 @@ function runEp23(seed: number): EdgeOutcome {
       continue;
     }
     served += 1;
-    const limit = EP23_GRADES[out.value.class];
-    if (limit === undefined) problems.push(`${name}: routed at ${out.value.class}, a class with no grade limit`);
-    else if (steepest(out.value.nodes) > limit) problems.push(`${name}: routed at ${out.value.class} (limit ${String(limit)}) climbs ${String(steepest(out.value.nodes))}`);
+    const g = gradeProblem(name, out.value.class, steepest(out.value.nodes));
+    if (g !== null) problems.push(g);
     if (out.value.class !== cls) problems.push(`${name}: routed at ${out.value.class}, its slope rungs ended at ${cls}`);
   }
   return outcome('laddered', 'EP-23: within the class grade after the slope relaxation, else unserved reported', problems, { served, unserved, relaxed });

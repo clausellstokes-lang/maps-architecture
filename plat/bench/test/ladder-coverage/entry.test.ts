@@ -90,4 +90,16 @@ describe('bench -- ladder-coverage', () => {
     expect(report.stage.find((r) => r.fixture === victim.fixture)?.exercised).toEqual({ fixture: 0, control: 0 });
     expect(JSON.parse(readFileSync(summary, 'utf8')).builtReached).toBe(built.length - 1);
   });
+
+  it('exits 1 when the kernel ladders are not covered, every stage rung covered (C-0109: one verdict over §5.2)', () => {
+    const summary = join(dir, 'kernel-fail.json');
+    const coverage = (opts: StageCoverageOptions): StageCoverageReport => {
+      const r = planted()(opts);
+      const covered = false;
+      return { ...r, kernel: { ...r.kernel, covered }, covered: r.stageCovered && covered };
+    };
+    expect(run([], { out: dir, summary, coverage })).toBe(1);
+    const s = JSON.parse(readFileSync(summary, 'utf8')) as { stageCovered: boolean; kernelCovered: boolean; covered: boolean };
+    expect([s.stageCovered, s.kernelCovered, s.covered]).toEqual([true, false, false]);
+  });
 });

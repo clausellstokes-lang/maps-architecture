@@ -94,6 +94,9 @@ describe("the harness's pieces leave the base's run unchanged (the real stages, 
       expect(roots(a)).toEqual(roots(b));
       expect(JSON.stringify(a.model.root)).toBe(JSON.stringify(b.model.root));
       expect(JSON.stringify(a.report.stages)).toBe(JSON.stringify(b.report.stages));
+      // the whole report, the kernel's warning counts among them (every sub-stage's and the prune's warnings forwarded)
+      expect(JSON.stringify(a.report.kernel)).toBe(JSON.stringify(b.report.kernel));
+      expect(JSON.stringify(a.report)).toBe(JSON.stringify(b.report));
       expect(a.report.bugs).toEqual(b.report.bugs);
       for (const key of ['ways', 'junctions', 'gates', 's5']) expect(JSON.stringify(a.model.data.get(key)), key).toBe(JSON.stringify(b.model.data.get(key)));
       expect(restartFree(a, 'S6')).toBeNull();

@@ -624,9 +624,9 @@ export function bandReceipt(f: ScalarField, land: Uint8Array, shares: readonly n
 /**
  * The fields' receipt: the bands; the run's record recomputed from its records over the arena S6 left (the
  * composition, C-0266 (3)); and the same with the soft terms' rows removed — byte-identical by the fields' digest.
+ * `tables` is the run's table view (a test may pass a variant to show the receipt is not blind).
  */
-export function fieldsReceipt(d: SpikeDerivation, p: Plat, fields: FieldsPass1, coarse: boolean): FieldsReceipt {
-  const tables = tableView();
+export function fieldsReceipt(d: SpikeDerivation, p: Plat, fields: FieldsPass1, coarse: boolean, tables: TableView = tableView()): FieldsReceipt {
   const cells = fieldsCells(tables);
   const bands = [fields.prosperity, fields.density, fields.greenery].map((f) => bandReceipt(f, fields.land, cells.shares));
   const m = d.model;

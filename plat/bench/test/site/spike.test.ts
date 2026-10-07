@@ -6,11 +6,11 @@
 // * "the river fixture's trace crosses the river only at water gates; every gate_end vertex lies on a shore and
 //   resolves; the strips end at the banks (C-0087)" — the spike's relief-60 fixture (the river from the west), seed 2:
 //   stage 1's trace crosses the river twice.
-import { dest, isHalfEdgeLive, isVertexLive, outgoing, rowKey, rowsOn, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
+import { dest, idOf, isHalfEdgeLive, isVertexLive, outgoing, rowKey, rowsOn, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
 import type { Bridge, WaterSet } from '@plat/model';
-import type { S3Commit, S3Slice, S4Output } from '@plat/layout';
+import type { S3Commit, S3Slice, S4Output, S6Output } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
-import { bridgeReceipt, deriveSpike, fixtureNamed, RELIEF_60, riverOn, runRecord, waterGateReceipt, WET_DEPTH_CM, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
+import { bridgeReceipt, CONTAINMENT_STEP_CM, deriveSpike, districtReceipt, fixtureNamed, RELIEF_60, riverOn, runRecord, waterGateReceipt, WET_DEPTH_CM, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
 
 const GROUND: PlatKey = { layer: 'ground', part: 0 } as PlatKey;
 const HEAVY = 900_000;
@@ -265,3 +265,39 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     expect([off.endsResolved, off.endsOnShore]).toEqual([2 * commit.waterGates.length, 0]);
   });
 });
+
+describe('containment never counts an S1 land face as held (§4.5; C-0265)', () => {
+  it('relief-60, seed 2 (S5 refused, S6 not reached): over the arena S4 left, a perimeter at the frame meets land:<n> faces, each counted against the bar', { timeout: HEAVY }, () => {
+    const d = derivation(fixtureNamed('relief-60') as SiteFixture, 2);
+    expect(d.model.data.get('s6')).toBeUndefined();
+    const p = ground(d);
+    const k = d.model.kernel;
+    // the frame's rectangle inset by 137 cm (no 50 m sample on its edge)
+    const fr = (d.model.data.get('s3.slice') as S3Slice).site.frameRing;
+    const x0 = Math.min(...fr.map((q) => q.x)) + 137;
+    const x1 = Math.max(...fr.map((q) => q.x)) - 137;
+    const y0 = Math.min(...fr.map((q) => q.y)) + 137;
+    const y1 = Math.max(...fr.map((q) => q.y)) - 137;
+    const frame = [{ x: x0, y: y0 }, { x: x1, y: y0 }, { x: x1, y: y1 }, { x: x0, y: y1 }] as LatticePoint[];
+    const grid: LatticePoint[] = [];
+    for (let x = Math.ceil(x0 / CONTAINMENT_STEP_CM) * CONTAINMENT_STEP_CM; x <= x1; x += CONTAINMENT_STEP_CM) for (let y = Math.ceil(y0 / CONTAINMENT_STEP_CM) * CONTAINMENT_STEP_CM; y <= y1; y += CONTAINMENT_STEP_CM) grid.push({ x, y } as LatticePoint);
+    const s6 = { districts: [], perimeter: [...frame], hinterland: 'district:none', report: { landHa: 1, nd: 1, unowned: 0, leftovers: 0, belowFloor: 0, merges: 0 }, grow: { grown: [] } } as unknown as S6Output;
+    const r = districtReceipt(k, p, s6);
+    // the samples' owners, read independently: S1's land components, the faces S6 would not claim, none
+    let land = 0;
+    let other = 0;
+    for (const q of grid) {
+      const loc = k.geom.pointLocate({ layer: 'ground', part: 0 } as PlatKey, 1, q);
+      if (loc.on !== 'face') continue;
+      const h = p.faces[loc.level].owner[loc.face];
+      const owner = h >= 0 ? idOf(p, h) : null;
+      if (owner !== null && owner.startsWith('land:')) land += 1;
+      else if (owner !== null) other += 1;
+    }
+    expect(land).toBeGreaterThan(0);
+    expect(r.samples).toBeGreaterThan(land);
+    expect(r.samplesContained).toBe(other);
+    expect(r.samplesInDistricts).toBe(0);
+  });
+});
+

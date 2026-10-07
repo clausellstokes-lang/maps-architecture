@@ -115,13 +115,11 @@ export function edgeCoverageRows(): EdgeCoverageRow[] {
   return rows;
 }
 
-/** The keys the table must hold: every EP row, every cell, every (class, kind) pair and every EP-01 cell. */
+/** The keys the table must hold — every EP row of §4.13 (EP-01 – EP-27, drawn independently of EP_ROWS), every cell,
+ * every (class, kind) pair and every EP-01 cell. */
 export function requiredKeys(): string[] {
-  const out: string[] = EP_ROWS.map((r) => r.id);
-  for (let i = 1; i <= 27; i += 1) {
-    const id = `EP-${String(i).padStart(2, '0')}`;
-    if (!out.includes(id)) out.push(id);
-  }
+  const out: string[] = [];
+  for (let i = 1; i <= 27; i += 1) out.push(`EP-${String(i).padStart(2, '0')}`);
   for (const f of CELL_FEATURES) for (const c of CELL_COLUMNS) out.push(`cell/${f}×${c}`);
   for (const cls of EDGE_CLASSES) for (const k of DEGENERATE_KINDS) out.push(`class/${cls}/${k}`);
   for (const s of EP01_STAGES) for (const k of DEGENERATE_KINDS) out.push(`EP-01/${s}/${k}`);

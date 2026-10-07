@@ -85,8 +85,8 @@ function growthRecordOf(stage: 'S5c' | 'S5d', run: ChainRun): S5cRecord | null {
   return run.s5.capacity[run.s5.capacity.length - 1]?.rim ?? null;
 }
 
-/** How a chain stage handled its plant (see the header). */
-function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } {
+/** How a chain stage handled its plant (see the header); exported for its unit tests. */
+export function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } {
   const name = SITES[stage].stage;
   const bugs = bugsOf(run.report, name);
   if (bugs.length > 0) return { handling: 'refused-safe', rung: bugs[0].cls, facts: { bugs: bugs.length } };

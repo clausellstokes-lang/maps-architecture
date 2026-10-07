@@ -80,6 +80,16 @@ describe('the coverage table (edgeCoverage)', () => {
     expect(byKey.get('sweep/preset (the parity presets, each layer on and off)')?.milestone).toBe('M1');
   });
 
+  it("names each class's inputs at the stage §4.1's transactions table gives the class (C-0272 (11))", () => {
+    const byRef: Record<string, string> = { 'F-CUT': 'S8', 'F-RIVER': 'S1', 'F-ROUTE': 'S4', 'F-WALL': 'S5a', 'F-BUDGET-STAGE': 'S5d' };
+    for (const k of DEGENERATE_KINDS) {
+      for (const [cls, stage] of Object.entries(byRef)) expect(byKey.get(`class/${cls}/${k}`)?.fixtures, `${cls} ${k}`).toEqual([`EP-01/${stage}/${k}`]);
+      expect(byKey.get(`class/F-NUM/${k}`)?.fixtures).toEqual([`class/F-NUM/${k}`, `EP-01/S5c/${k}`]);
+      expect(byKey.get(`class/F-SKELETON/${k}`)?.fixtures).toEqual([`class/F-SKELETON/${k}`]);
+      expect(byKey.get(`class/F-WORK/${k}`)?.fixtures).toEqual([`class/F-WORK/${k}`]);
+    }
+  });
+
   it('fails a table missing a row, naming it — for every required key', () => {
     for (const k of requiredKeys()) {
       const p = coverageProblems(

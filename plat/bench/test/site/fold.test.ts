@@ -133,6 +133,8 @@ describe('the fold: each bar fails on one record that breaks it, naming its seed
     const many = { faces: 1000, skeletons: 995, downgrades: 5, workLimitHits: 1, failures: 0 };
     const at = (c: typeof many): RunRecord[] => SEEDS.map((s) => good(s, { corpus: { district: { roof: s === 1 ? c : C0, spine: C0 }, water: { roof: C0, spine: C0 } } }));
     expect(foldGroup('relief-60', 'default', at(many)).bars.corpus.verdict).toBe('pass');
+    // exactly at both bounds over the group (964 + 9 × 4 = 1 000 faces: 5 downgrades, 1 work-limit hit) still passes
+    expect(foldGroup('relief-60', 'default', at({ faces: 964, skeletons: 959, downgrades: 5, workLimitHits: 1, failures: 0 })).bars.corpus.verdict).toBe('pass');
     expect(foldGroup('relief-60', 'default', at({ ...many, downgrades: 6, skeletons: 994 })).bars.corpus.verdict).toBe('fail');
     expect(foldGroup('relief-60', 'default', at({ ...many, workLimitHits: 2 })).bars.corpus.verdict).toBe('fail');
     expect(foldGroup('relief-60', 'default', at({ ...many, failures: 1 })).bars.corpus.verdict).toBe('fail');

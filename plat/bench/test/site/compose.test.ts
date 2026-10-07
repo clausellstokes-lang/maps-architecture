@@ -7,7 +7,7 @@ import { canonicalText } from '@plat/model';
 import { BASE_ORDER, createRegistry, fieldsDigest, registerBase, runBase, stageOrder, type FieldsPass1, type S6Output } from '@plat/layout';
 import { hydroParams } from '@plat/site';
 import { stageText, type Hash128 } from '@plat/kernel';
-import { tableView } from '@plat/tables';
+import { parseTable, tableView, type TableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { corpusReceipt, deriveSpike, districtReceipt, fieldsReceipt, fixtureNamed, GATE_STAGES, hydroReceipt, riverReceipts, runRecord, sized, SPIKE_STAGES, spikeFaces, spikeRegistry, stageOutcomes, type RunCapture, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
 import type { Plat } from '@plat/kernel';
@@ -226,6 +226,36 @@ describe('the receipts on a derivation, each with its negative control (relief-6
     expect(rec.work['hydro.cells']).toEqual({ work: d.capture.river?.work['hydro.cells'], units: (d.model.data.get('terrain') as Terrain).hydro.cols * (d.model.data.get('terrain') as Terrain).hydro.rows });
     expect(rec.work['grower.turns'].units).toBe(d.capture.s6Faces);
     expect(rec.work['field.cells']).toEqual({ work: (d.model.data.get('fields') as FieldsPass1).report.work['field.cells'], units: (d.model.data.get('fields') as FieldsPass1).report.cols * (d.model.data.get('fields') as FieldsPass1).report.rows });
+    // route.nodes: S4's charged work per lattice node (C-0091), the unit the S3 slice's lattice
+    const slice = d.model.data.get('s3.slice') as S3Slice;
+    expect(rec.work['route.nodes']).toEqual({ work: (d.model.data.get('s4') as { report: { work: Record<string, number> } }).report.work['route.nodes'], units: slice.lattice.points.length });
+    // per stage: the batches committed and refused, and the largest share of a batch's limit its charged work reached
+    for (const s of SPIKE_STAGES) {
+      const bs = d.capture.batches.filter((b) => b.stage === s);
+      const share = Math.max(0, ...bs.filter((b) => b.limit > 0).map((b) => b.work / b.limit));
+      expect(rec.batches[s]).toEqual({ committed: bs.filter((b) => b.committed).length, refused: bs.filter((b) => !b.committed && b.code !== null).length, maxShare: share });
+      expect(share).toBeLessThanOrEqual(1);
+    }
+    expect(Math.max(...SPIKE_STAGES.map((s) => rec.batches[s].maxShare))).toBeGreaterThan(0);
+  });
+
+  it('weight 0: the receipt compares the run with the model without the soft rows — a non-zero water term is caught', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const p = d.model.plats.get('ground/0') as Plat;
+    const fields = d.model.data.get('fields') as FieldsPass1;
+    // fields.json with prosperity's water term at weight 0.5: recomputing the run under it differs, the model without the
+    // soft rows does not (it is the weight-0 model the run derived)
+    const base = tableView();
+    const t = base.table('fields');
+    const rows: Record<string, Record<string, Record<string, unknown>>> = {};
+    for (const [rk, row] of t.rows) {
+      rows[rk] = {};
+      for (const [ck, c] of row) rows[rk][ck] = { ...c, value: rk === 'prosperity' && ck === 'waterTerm.weight' ? 0.5 : Array.isArray(c.value) ? [...(c.value as unknown[])] : c.value };
+    }
+    const variant = parseTable('fields', { table: t.id, version: t.version, section: t.section, rows });
+    const heavy: TableView = { ...base, table: (id) => (id === 'fields' ? variant : base.table(id)) };
+    const r = fieldsReceipt(d, p, fields, false, heavy);
+    expect([r.recomputedEqual, r.weightZeroIdentical]).toEqual([false, true]);
   });
 });
 
