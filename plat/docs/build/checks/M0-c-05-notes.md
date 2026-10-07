@@ -37,3 +37,29 @@ N-45). The blockers are in `M0-c-05.md`, and the mutant and probe names refer to
 11. **N-11 The stand-in demand reduces S5d's per-band comparison.** With C-0254 (10)'s stand-in, the shortfall
     Σ_b max(0, d_b − l_b) equals built × max(0, quota ÷ land − 1). The band split only matters for a caller's demand,
     which `capacity.test.ts` drives. This is declared. Re-check it when M1's S2 supplies the demand.
+
+## Closing check `check/M0-c-05-close-r1` (2026-10-07): further notes
+
+These notes are for M4 unless a note names an earlier milestone. None of them fails the item. The blockers B-1 and B-4
+are in `M0-c-05.md`.
+
+12. **N-12 `metricDoc`'s origin reading is not pinned on the fixture (R14).** If `support.ts` reads the arena's order
+    instead, the four bar chunks still pass. On the fixture, both readings meet the row (1 000 seeds: origin p50 21.15°,
+    arena p50 21.08°, 0 above 90° either way). `drift-grown.test.ts` pins the origin reading with its own copy of the
+    reader. Share one reader between the two files, or pin `metricDoc` on a street whose arena run is reversed.
+13. **N-13 The seeds' quarter-spacing keep-away is not pinned (R15).** With the keep-away removed, `city.test.ts` and
+    `growth.test.ts` stay green. It only matters where two arterials' seeds come close (near a junction). Add a hand case
+    with two arterials meeting at a shallow angle.
+14. **N-14 The dead-end share has moved past its declared figure.** Over the checker's 1 000 seeds, 72.9 % of S5c's
+    33 389 streets end `dead`. C-0254 (14) declares about 55 – 65 %, a number from before C-0258's square first step
+    and deflection limit. The result fails safe. Update the row's figure when B-1's fix lands, or hand it to M0-c-07a's
+    dead-end row.
+15. **N-15 The acceptance tally is tied to the GrowthState object (contract for M0-x-04).** `acceptedStreets` and
+    `growthRecord` are WeakMaps keyed on the state object. A runner that ran S5d on a different object than S5c (a copied
+    model) would read 0 and reuse the stage's lineage keys without saying so. For example: refuse in `capacityStep` when
+    `acceptedStreets(state, k)` is 0 but the stage has an S5c record with streets, or carry the tally in the record.
+    M0-x-04 should register S5c and S5d on one shared state.
+16. **N-16 The fixture's drift pool is thin.** The 1 000 seeds give 59 windows, so the fixture's median rests on few
+    streets, and the row is carried by the hand pool (`drift-grown.test.ts`). In that pool the ribbon sits at 0.9 %
+    above 90°, against a 1 % limit (C-0258 (5), declared). M0-c-06's integrated run should report the window count with
+    the row.
