@@ -366,6 +366,9 @@ describe('a street’s every step reads the far side of the way it left (C-0263 
     expect(streetOrigin(idx, 'way:0', P(0, 0), P(2_500, 0))).toBeNull();
     expect(streetOrigin(idx, 'way:0', P(0, 100), P(0, 2_500))).toBeNull();
     expect(streetOrigin(idx, 'way:7', P(0, 0), P(0, 2_500))).toBeNull();
+    // At a sharp vertex the two segments holding the origin disagree on the side: none is recorded (fail safe).
+    const vee = ctxOf([way(P(-10_000, 0), P(0, 0), 'primary', 'way:0'), way(P(0, 0), P(-10_000, 1_000), 'primary', 'way:0')]).index;
+    expect(streetOrigin(vee, 'way:0', P(0, 0), P(0, 2_500))).toBeNull();
   });
 });
 

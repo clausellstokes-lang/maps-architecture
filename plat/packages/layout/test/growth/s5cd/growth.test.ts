@@ -151,23 +151,24 @@ describe('S5c on a walled hand case', () => {
     }
   });
 
-  it('at growthArea’s spacing, every street leaving the arterial grows past its first step (walled: past its second): every later step reads the far side of the way its street left (C-0263 (1))', () => {
-    for (const regime of ['dense_core', 'ribbon'] as const) {
-      const rules = handCase(regime).area.rules;
-      const half = rules.seedSpacingCm / 2;
-      const D = rules.legality.clearanceCm('secondary');
-      const m = Math.floor((40_000 - D - 100) / half);
-      const xs = Array.from({ length: 2 * m + 1 }, (_, i) => (i - m) * half);
+  it('walled, at growthArea’s spacing and at 0.9 of it, no street leaving the arterial dead-ends after one or two steps: every later step reads the far side of the way its street left (C-0263 (1))', () => {
+    // The seeds half a spacing apart (80 m) and at 0.9 of it (72 m): the flat fixture's pairs, lattice-rounded and on bent
+    // runs, lie 77 – 83 m apart, so a street's second step (from ≥ 25 m off the arterial) runs inside the 83 m clearance
+    // of the street across. Without the far side read at later steps, 3 – 6 streets per seed at 72 m stop after one step
+    // (N-23). The ribbon's 33 m clearance is beyond a second step there at its 30 m stagger.
+    const rules = handCase('dense_core').area.rules;
+    const D = rules.legality.clearanceCm('secondary');
+    for (const share of [1, 0.9]) {
+      const pitch = Math.round((rules.seedSpacingCm / 2) * share);
+      const m = Math.floor((40_000 - D - 100) / pitch);
+      const xs = Array.from({ length: 2 * m + 1 }, (_, i) => (i - m) * pitch);
       for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
-        const rec = grow(handCase(regime, { seeds: xs }), seed);
+        const rec = grow(handCase('dense_core', { seeds: xs }), seed);
         const firsts = rec.streets.filter((s) => s.parent === 'way:0');
-        expect(firsts.length, `${regime} ${String(seed)}`).toBe(xs.length);
-        // No street from the arterial dead-ends after one step (a rejected second step) — walled, nor after two (a rejected
-        // third); one may end at a band or on a way. (In the ribbon a third step may meet the boundary's clearance 400 m
-        // out: ribbon seed 2's way:1 turns toward it, rejected 'parallel' against the boundary, not a street.)
-        const most = regime === 'dense_core' ? 3 : 2;
-        const stubs = firsts.filter((s) => s.points.length <= most && s.ends === 'dead').map((s) => `${s.way.id}:${String(s.points.length - 1)}`);
-        expect(stubs, `${regime} ${String(seed)}: dead after < ${String(most)} steps`).toEqual([]);
+        expect(firsts.length, `${String(share)} ${String(seed)}`).toBe(xs.length);
+        // A street may end at the band or on a way; none is left a stub by a rejected second or third step.
+        const stubs = firsts.filter((s) => s.points.length <= 3 && s.ends === 'dead').map((s) => `${s.way.id}:${String(s.points.length - 1)}`);
+        expect(stubs, `${String(share)} ${String(seed)}: dead after one or two steps`).toEqual([]);
       }
     }
   });
