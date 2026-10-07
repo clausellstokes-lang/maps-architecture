@@ -6,6 +6,7 @@
 // CITY size is the harnesses' (M0-c-06, M0-e-06, M0-d-09).
 import { attachIndex, createKernel, createPlat, createRng, levelDigest, seedKey, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
 import { canonicalText, mintTownRoot, type Way } from '@plat/model';
+import { loadWorkLimits } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   BASE_OP_FORMS,
@@ -24,6 +25,7 @@ import {
   type BaseBlueprint,
   type GenerationReport,
   type PipelineModel,
+  type S1Record,
   type S3Record,
   type GrowthState,
   type S3Commit,
@@ -87,6 +89,8 @@ function s6Outcome(r: Run): 'refused' | 'built' {
   expect((r.model.data.get('districts') as unknown[]).length).toBeGreaterThan(0);
   expect((r.model.data.get('lanes') as unknown[]).length).toBeGreaterThan(0);
   expect(r.batches.filter((b) => b.stage === 'S8' && b.committed).length).toBeGreaterThan(0);
+  // S6's second half: pass 1's three fields, banded (C-0255 (12))
+  expect((r.model.data.get('fieldBands') as { field: string }[]).map((f) => f.field)).toEqual(['prosperity', 'density', 'greenery']);
   return 'built';
 }
 
@@ -309,5 +313,46 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     const gates = state.stages.flatMap((st) => st.gates).filter((g) => g.kind === 'main');
     expect(inp.features[0]).toMatchObject({ id: 'plaza:0', kind: 'market' });
     expect(inp.features.filter((f) => f.kind === 'gate').map((f) => f.id)).toEqual(gates.map((g) => g.id));
+  });
+});
+
+describe("S3's commits take S1's water: a stage-1 trace across the river gates it (C-0087; C-0264 (3))", () => {
+  it('river from the north at seed 1: the trace crosses the river and S3 commits its water gates on S1’s river body', { timeout: 900_000 }, () => {
+    const north: BaseBlueprint = { ...RIVER, site: { ...RIVER.site, river: { inflowBearingCdeg: 0, mouth: 'none' } } };
+    const r = runOf('river-north:1', north, 1);
+    const commit = r.model.data.get('s3.commit') as S3Commit;
+    const bodies = (r.model.data.get('water') as { bodies: { id: string }[] }).bodies.map((b) => b.id);
+    expect(commit.waterGates.length).toBeGreaterThan(0);
+    for (const g of commit.waterGates) {
+      expect(bodies).toContain(g.body);
+      expect(g.kind).toBe('water');
+    }
+    // S1, S3 and S4 committed (a later stage's refusal, if any, is reported as a bug of that stage, never S3's)
+    for (const s of ['S1', 'S3', 'S4']) expect(r.report.bugs.some((b) => b.stage === s), s).toBe(false);
+  });
+});
+
+describe("the river stage's F-WORK limit and report reach the run (C-0173 (8))", () => {
+  it('the river run keeps S1 (3)’s report on S1’s record and its requests in the report; no cut at the law’s limit', { timeout: 900_000 }, () => {
+    const r = runOf('river:1', RIVER, 1);
+    const s1 = r.model.data.get('s1') as S1Record;
+    expect(s1.river).not.toBeNull();
+    expect(s1.river?.workCut).toBeNull();
+    expect(s1.river?.work['hydro.cells']).toBeGreaterThan(0);
+    expect(s1.river?.rivers.length).toBeGreaterThan(0);
+    expect(r.report.requested).toEqual(s1.river?.requested);
+  });
+
+  it('a hydro.cells limit below the grid coarsens it once: work_cut on S1’s record and an F-WORK ladder use on the town root’s water.river', { timeout: 900_000 }, () => {
+    const wl = loadWorkLimits();
+    const tiny = { ...wl, law: (c: string) => (c === 'hydro.cells' ? { ...wl.law(c), unit: 'fixed' as const, perUnit: 0, floor: 100 } : wl.law(c)) };
+    const r = runBase(FLAT, 1, { kind: 'all' }, { workLimits: tiny as never });
+    const s1 = r.model.data.get('s1') as S1Record;
+    expect(s1.river?.workCut).toMatchObject({ counter: 'hydro.cells', limit: 100, coarsened: true });
+    const s1Stage = r.report.stages.find((s) => s.name === 'S1');
+    expect(s1Stage?.ladderUses).toEqual([expect.objectContaining({ cause: 'F-WORK', code: 'work_cut', rung: 1, tier: 4, entity: r.model.town.identity.id })]);
+    expect(s1Stage?.ladderUses[0].key).toContain('water.river');
+    // the flat run at the law's own limit cuts nothing
+    expect((runOf('flat:1', FLAT, 1).model.data.get('s1') as S1Record).river?.workCut).toBeNull();
   });
 });

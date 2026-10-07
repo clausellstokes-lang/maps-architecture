@@ -25,8 +25,8 @@
 // M1's and refused by name.
 import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
 import { mintTownRoot, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
-import { baseRivers, baseTerrain, flatTerrain, GROUND_KEY, s1Stage, siteFrame, terrainParams, TERRAIN_ID, TOWN_ROOT, type RiverRequest, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
-import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
+import { baseTerrain, cellCount, flatTerrain, GROUND_KEY, hydroGridOver, hydroParams, rasterGeom, riverStrategy, s1Stage, siteFrame, terrainParams, TERRAIN_ID, TOWN_ROOT, type RiverReport, type RiverRequest, type RiverStrategy, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
+import { loadWorkLimits, rungProfile, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { baseNetwork, NETWORK_STRATEGY_ID, s4Stage, type S4Output } from '../backbone/stage.js';
 import { s6Stage, siteFeatures, type S6Input } from '../districts/stage.js';
 import type { S6Output, WallLine } from '../districts/types.js';
@@ -120,6 +120,8 @@ export interface BaseBatch {
 /** registerBase's options: a watcher of every batch (a harness's or a test's). */
 export interface BaseOptions {
   readonly onBatch?: (batch: BaseBatch) => void;
+  /** The work-limit table the runner evaluates S1 (3)'s `hydro.cells` law from (default the shipped one; C-0173 (8)). */
+  readonly workLimits?: WorkLimitsTable;
 }
 
 // ---- the blueprint --------------------------------------------------------------------------------------------------------
@@ -173,11 +175,52 @@ export const flatTerrainStrategy: TerrainStrategy = Object.freeze({
   },
 }) as TerrainStrategy;
 
+/**
+ * S1 (3)'s F-WORK limit (C-0173 (8): "the runner, M0-x-04, evaluates and passes it"): `hydro.cells`' law over the
+ * hydrology grid the river stage builds — the terrain raster's extent (frame + margin) at the rung's hydrology cell.
+ */
+export function hydroCellsLimit(terrain: Terrain, tables: TableView, rung: BaseRung, wl: WorkLimitsTable = loadWorkLimits()): number {
+  const grid = hydroGridOver(rasterGeom(terrain), hydroParams(tables, rung).hydroCellCm);
+  return workLimitOf(wl.law('hydro.cells'), { kind: 'stage', stage: STAGES.S1 as StageId }, { frameCells: cellCount(grid) });
+}
+
+/** The river report's rows forwarded to the runner's sink (§5.4): each ladder use on the town root's `water.river`, each request. */
+function forwardRiverReport(report: RiverReport, ctx: PipelineContext): void {
+  const concern = CONCERNS['water.river'];
+  for (const u of report.ladderUses) {
+    const opts = ctx.streamOpts(concern, TOWN_ROOT, u.name === 'inlet' ? u.value : 0);
+    ctx.report.ladderUse({ cause: u.cause, ...(u.code === undefined ? {} : { code: u.code }), rung: u.rung, tier: u.tier, entity: TOWN_ROOT, concern, opts });
+  }
+  for (const q of report.requested) ctx.report.requested({ ...q });
+}
+
+/**
+ * The base RiverStrategy as the runner configures it (C-0173 (8)): M0-e-02's `riverStrategy` with the `hydro.cells`
+ * limit evaluated for the run's terrain and its report through the runner's sink (R12-5's switch off, its default).
+ * Registered as `base`; the run's report is kept on S1's record (`s1.river`).
+ */
+export function baseRiverStrategy(wl: WorkLimitsTable = loadWorkLimits(), onReport?: (r: RiverReport) => void): RiverStrategy {
+  return Object.freeze({
+    rivers(bp, terrain, water, ctx, k) {
+      const c = ctx as unknown as PipelineContext;
+      const limit = hydroCellsLimit(terrain, ctx.tables, ctx.rung.rung as BaseRung, wl);
+      const s = riverStrategy({
+        hydroCellsLimit: limit,
+        onReport: (report) => {
+          if (typeof c.report === 'object' && c.report !== null) forwardRiverReport(report, c);
+          onReport?.(report);
+        },
+      });
+      return s.rivers(bp, terrain, water, ctx, k);
+    },
+  } satisfies RiverStrategy);
+}
+
 /** The base's strategies by name (§4.12: every caller resolves the registered one). */
-function registerStrategies(registry: StrategyRegistry): void {
+function registerStrategies(registry: StrategyRegistry, opts: BaseOptions, rivers: RiverReport[]): void {
   registry.terrain.set('base', baseTerrain);
   registry.terrain.set('flat', flatTerrainStrategy);
-  registry.river.set('base', baseRivers);
+  registry.river.set('base', baseRiverStrategy(opts.workLimits, (r) => rivers.push(r)));
   registry.enceinte.set(ENCEINTE_STRATEGY_ID, baseEnceinte);
   registry.network.set(NETWORK_STRATEGY_ID, baseNetwork);
   registry.fabric.set(BENT_CUT, BentCutFabric);
@@ -211,8 +254,8 @@ function watched(kernel: Kernel, cursor: Cursor, onBatch: ((b: BaseBatch) => voi
 
 // ---- the stages' records --------------------------------------------------------------------------------------------------
 
-/** S1's record (data key `s1`): the L0 batch's output. */
-export type S1Record = S1Output;
+/** S1's record (data key `s1`): the L0 batch's output and the river stage's report (null for a strategy that gives none). */
+export type S1Record = S1Output & { readonly river: RiverReport | null };
 
 /** S5's record (data key `s5`): per stage k, S5c's record, its prune and trim, and S5d's record. */
 export interface S5Record {
@@ -298,7 +341,7 @@ interface S1In {
   readonly bp: BaseRunBlueprint;
 }
 
-function stageS1(registry: StrategyRegistry, opts: BaseOptions): PipelineStage<S1In | null, Record<string, unknown>> {
+function stageS1(registry: StrategyRegistry, opts: BaseOptions, riverReports: RiverReport[]): PipelineStage<S1In | null, Record<string, unknown>> {
   const item = s1Stage();
   return Object.freeze({
     ...declOf(item),
@@ -322,11 +365,13 @@ function stageS1(registry: StrategyRegistry, opts: BaseOptions): PipelineStage<S
       const terrain = strategy.terrain({ size: input.bp.size, site: input.bp.site }, sctx, k as never);
       if (!terrain.ok) return refused(terrain);
       const river = input.bp.site.river ?? null;
+      const before = riverReports.length;
       const water = rivers.rivers({ size: input.bp.size, site: { river } }, terrain.value, { bodies: [], bridges: [] }, sctx, k as never);
       if (!water.ok) return refused(water);
       const s1 = item.run(item.inputsOf({ terrain: terrain.value, water: water.value, ...(river?.mouth === undefined ? {} : { mouth: river.mouth }), kernel: k } as never, { kind: 'all' }), sctx);
       if (!s1.ok) return refused(s1);
-      return ok({ terrain: s1.value.terrain, water: s1.value.water, s1: s1.value }, [...terrain.warnings, ...water.warnings, ...s1.warnings]);
+      const record: S1Record = { ...s1.value, river: riverReports.length > before ? (riverReports[riverReports.length - 1] as RiverReport) : null };
+      return ok({ terrain: s1.value.terrain, water: s1.value.water, s1: record }, [...terrain.warnings, ...water.warnings, ...s1.warnings]);
     },
   }) as PipelineStage<S1In | null, Record<string, unknown>>;
 }
@@ -754,8 +799,10 @@ function declOf(item: { id: StageId; version: string; streamKeys: string[]; inva
 export function registerBase(registry: StrategyRegistry, opts: BaseOptions = {}): void {
   const product = registry.products.get('base');
   if (product !== undefined && product.stages.length > 0) throw new RangeError(`registerBase: the base product already holds ${String(product.stages.length)} stage(s)`);
-  registerStrategies(registry);
-  for (const s of [stageS1(registry, opts), stageS3(opts), stageS4(opts), stageS5(opts), stageS6(opts), stageS8(opts)]) register(registry, s as unknown as PipelineStage);
+  // The river reports of the run in hand (the base strategy's sink beside the runner's): S1 keeps the last on its record.
+  const rivers: RiverReport[] = [];
+  registerStrategies(registry, opts, rivers);
+  for (const s of [stageS1(registry, opts, rivers), stageS3(opts), stageS4(opts), stageS5(opts), stageS6(opts), stageS8(opts)]) register(registry, s as unknown as PipelineStage);
 }
 
 /** runBase's options: the runner's (its arenas are the base's) and the batch watcher. */
@@ -777,8 +824,8 @@ export function baseArena(bp: BaseBlueprint, tables: TableView = tableView()): P
 export function runBase(blueprint: BaseBlueprint, seed: Seed, scope: Scope, options: BaseRunOptions = {}): { model: PipelineModel; report: GenerationReport } {
   checkBaseBlueprint(blueprint);
   const registry = createRegistry();
-  registerBase(registry, options.onBatch === undefined ? {} : { onBatch: options.onBatch });
+  registerBase(registry, { ...(options.onBatch === undefined ? {} : { onBatch: options.onBatch }), ...(options.workLimits === undefined ? {} : { workLimits: options.workLimits }) });
   const bp: BaseRunBlueprint = { ...blueprint, seed };
-  const { onBatch: _onBatch, ...rest } = options;
+  const { onBatch: _onBatch, workLimits: _workLimits, ...rest } = options;
   return run(registry, bp, scope, { ...rest, arenas: () => [baseArena(blueprint, options.tables)] });
 }

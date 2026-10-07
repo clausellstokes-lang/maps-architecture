@@ -7,8 +7,8 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { err, ok, seedKey, STAGES, stageText } from '@plat/kernel';
-import { baseRivers, baseTerrain, s1Stage } from '@plat/site';
-import { tableView } from '@plat/tables';
+import { baseRivers, baseTerrain, cellCount, flatTerrain, hydroGridOver, hydroParams, rasterGeom, s1Stage, siteFrame, terrainParams } from '@plat/site';
+import { loadWorkLimits, rungProfile, tableView, workLimitOf } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   baseEnceinte,
@@ -22,6 +22,7 @@ import {
   createRegistry,
   districtValue,
   flatTerrainStrategy,
+  hydroCellsLimit,
   FLAT_BLUEPRINT,
   register,
   registerBase,
@@ -185,7 +186,9 @@ describe('the strategies the base registers by name (§4.12, §14)', () => {
     registerBase(reg);
     expect(reg.terrain.get('base')).toBe(baseTerrain);
     expect(reg.terrain.get('flat')).toBe(flatTerrainStrategy);
-    expect(reg.river.get('base')).toBe(baseRivers);
+    // the river strategy: M0-e-02's, configured by the runner with its evaluated hydro.cells limit (C-0173 (8))
+    expect(typeof reg.river.get('base')?.rivers).toBe('function');
+    expect(reg.river.get('base')).not.toBe(baseRivers);
     expect(reg.enceinte.get('base')).toBe(baseEnceinte);
     expect(reg.network.get('base')).toBe(baseNetwork);
     expect(reg.fabric.get('bent-cut')).toBe(BentCutFabric);
@@ -378,5 +381,23 @@ describe("S1 resolves the registered strategies by the blueprint's names (§4.12
     const rv = s1.run({ bp: { ...bp, river: 'nope' } }, ctx) as { ok: boolean; code?: string; detail?: string };
     expect([rv.ok, rv.code]).toEqual([false, 'E_INVARIANT']);
     expect(rv.detail).toMatch(/RiverStrategy is registered as 'nope'/);
+  });
+});
+
+describe("S1 (3)'s hydro.cells limit, evaluated by the runner (C-0173 (8))", () => {
+  it("is the law's value over the hydrology grid of the terrain's extent at the rung's cell, and above that grid's charge", () => {
+    const tables = tableView();
+    const profile = rungProfile('CITY');
+    const frame = siteFrame({ aspect: 1 }, profile, tables);
+    if (!frame.ok) throw new Error('frame');
+    const t = flatTerrain({ id: 'terrain:ground', key: { layer: 'ground', part: 0 }, frame: frame.value, params: terrainParams(tables, 'CITY'), epoch: 0 }, 0, 0);
+    if (!t.ok) throw new Error('terrain');
+    const cells = cellCount(hydroGridOver(rasterGeom(t.value), hydroParams(tables, 'CITY').hydroCellCm));
+    const wl = loadWorkLimits();
+    expect(hydroCellsLimit(t.value, tables, 'CITY')).toBe(workLimitOf(wl.law('hydro.cells'), { kind: 'stage', stage: STAGES.S1 }, { frameCells: cells }));
+    expect(hydroCellsLimit(t.value, tables, 'CITY')).toBeGreaterThan(cells);
+    // a variant law decides it
+    const fixed = { ...wl, law: (c: string) => (c === 'hydro.cells' ? { ...wl.law(c), unit: 'fixed' as const, perUnit: 0, floor: 123 } : wl.law(c)) };
+    expect(hydroCellsLimit(t.value, tables, 'CITY', fixed as never)).toBe(123);
   });
 });
