@@ -14,7 +14,8 @@
 //     unwalled stage is crossed by a provisional step, the proposal ending beyond it (the between-stage trim cuts it back);
 //   * clearance: a step running within `max(minimum block depth of the regime, separation / 2) + half its corridor` of
 //     any spine, setback line, shore, reservation or the stage boundary and within 30° of parallel is illegal, so no
-//     strip thinner than a plot depth is left;
+//     strip thinner than a plot depth is left — a way across the way the step leaves (wholly on its far side) is no
+//     spine the step runs beside, since that way lies between them (C-0259 (1): both sides of an arterial grow);
 //   * an illegal step is deflected once — turned the least way to 31° off the feature it met or ran beside, away from
 //     it, its goal heading taking the turn — and judged again; still illegal, it is rejected. A deflection needing a
 //     turn above the legal angle (30°) is a rejection (C-0258 (3)): a street's course takes no turn its walk would not;
@@ -340,6 +341,41 @@ function blocked(index: FeatureIndex, a: XY, b: XY, except: number, skip: (g: Fe
   return false;
 }
 
+/** The signed distance (cm) of p from the line of the segment ab, positive on its left; null for a degenerate segment. */
+function sideDist(a: XY, b: XY, p: XY): number | null {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const len = Math.sqrt(dx * dx + dy * dy);
+  if (len < 1) return null;
+  return quot(dx * (p.y - a.y) - dy * (p.x - a.x), len, 'length', 'side of a way');
+}
+
+/**
+ * The test "f lies across the way the step leaves" (C-0259 (1)), or null when the step leaves no way: every way segment
+ * (another street's) holding the step's start has the step's end strictly on one side of its line (by ≥ 1 cm) and both
+ * ends of f on the other side or on it (within 1 cm, the lattice's rounding). A street on the far side of its arterial —
+ * a seed's on the other side, half a spacing along — leaves no strip between the two: the arterial lies between them.
+ */
+function acrossOf(index: FeatureIndex, c: StepCandidate, to: XY): ((f: Feature) => boolean) | null {
+  const at = c.at;
+  const sides: { a: XY; b: XY; s: number }[] = [];
+  for (const i of index.near(at.x - 1, at.y - 1, at.x + 1, at.y + 1)) {
+    const g = index.features[i];
+    if (g.kind !== 'way' || g.street === c.street || footOn(at, g.a, g.b).d2 >= 1) continue;
+    const e = sideDist(g.a, g.b, to);
+    if (e === null) continue;
+    if (Math.abs(e) < 1) return null;
+    sides.push({ a: g.a, b: g.b, s: e > 0 ? 1 : -1 });
+  }
+  if (sides.length === 0) return null;
+  return (f: Feature): boolean =>
+    sides.every((g) => {
+      const ea = sideDist(g.a, g.b, f.a);
+      const eb = sideDist(g.a, g.b, f.b);
+      return ea !== null && eb !== null && g.s * ea <= 1 && g.s * eb <= 1;
+    });
+}
+
 interface Attempt {
   readonly v: Verdict;
   /** The feature an illegal step met or ran beside (its deflection's reference). */
@@ -557,10 +593,13 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
   // Clearance: no run within the clearance of a feature and within the legal angle of parallel.
   const D = r.clearanceCm(c.class);
   const met = metFeature >= 0 ? F[metFeature] : null;
+  const across = acrossOf(ctx.index, c, toL);
   for (const i of ctx.index.near(Math.min(at.x, toL.x) - D, Math.min(at.y, toL.y) - D, Math.max(at.x, toL.x) + D, Math.max(at.y, toL.y) + D)) {
     const f = F[i];
     // The proposal's own street is no spine it runs beside (its curl back is met as a crossing, above).
     if (ignored(f, c) || i === metFeature || f.street === c.street) continue;
+    // A way across the way the step leaves is no spine it runs beside: that way lies between them (C-0259 (1)).
+    if (f.kind === 'way' && across !== null && across(f)) continue;
     // The way the step ends on, the ways it crosses and the boundary it leaves are met, not run beside.
     if (met !== null && f.kind === met.kind && f.kind !== 'way' && f.kind !== 'band') continue;
     if (f.kind === 'way' && f.way !== undefined && (f.way === meets || crossings.some((x) => x.way === f.way))) continue;

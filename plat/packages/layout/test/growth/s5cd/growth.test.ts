@@ -129,6 +129,28 @@ describe('S5c on a walled hand case', () => {
     }
   });
 
+  it('at growthArea’s own spacing — seeds half a seed spacing apart, the sides alternating — every seed’s street grows, on both sides (C-0259 (1))', () => {
+    for (const regime of ['dense_core', 'ribbon'] as const) {
+      const rules = handCase(regime).area.rules;
+      const half = rules.seedSpacingCm / 2;
+      const D = rules.legality.clearanceCm('secondary');
+      // Every half spacing along the arterial, clear of the band or boundary (at ±400 m) by the clearance.
+      const m = Math.floor((40_000 - D - 100) / half);
+      const xs = Array.from({ length: 2 * m + 1 }, (_, i) => (i - m) * half);
+      expect(xs.length).toBeGreaterThanOrEqual(7);
+      for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+        const c = handCase(regime, { seeds: xs });
+        const rec = grow(c, seed);
+        const firsts = rec.streets.filter((s) => s.parent === 'way:0');
+        // Each seed's first step is legal, judged against the street across the arterial half a spacing back.
+        expect(firsts.length, `${regime} ${String(seed)}: streets from the arterial`).toBe(xs.length);
+        const left = firsts.filter((s) => s.points[1].y > s.points[0].y).length;
+        const right = firsts.filter((s) => s.points[1].y < s.points[0].y).length;
+        expect([left, right], `${regime} ${String(seed)}`).toEqual([m + 1, m]);
+      }
+    }
+  });
+
   it('branches: a walled regime grows secondaries only (its lanes are S8’s), branches leaving their parent streets', () => {
     const c = handCase('dense_core');
     const rec = grow(c, 4);

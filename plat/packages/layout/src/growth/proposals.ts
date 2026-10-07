@@ -220,8 +220,9 @@ export function growthRules(tables: TableView, regime: string, rung: Rung, opts:
 
 /**
  * A seed: a point on an arterial, the arterial's direction there and the side its one proposal leaves on (1: left of
- * `along`, −1: right). The seeds alternate sides along an arterial (C-0254 (3)), so both of its sides grow, in staggered
- * T's rather than a crossroads at every seed.
+ * `along`, −1: right). The seeds alternate sides along an arterial by their position on it (C-0258 (1)), and a street is
+ * judged clear of the other side's across the arterial (C-0259 (1)), so both of its sides grow, in staggered T's rather
+ * than a crossroads at every seed.
  */
 export interface GrowthSeed {
   readonly at: LatticePoint;
@@ -389,7 +390,8 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
   // The seeds (C-0254 (3)): along each arterial inside the region, every half seed spacing from half a spacing along its
   // run, the sides alternating — the left side's at S/2 + n·S, the right side's at S + n·S, so each side holds one seed
   // per spacing, staggered — clear of bands, reservations and shores by the clearance, of standing junctions by half a
-  // spacing and of other seeds by a quarter.
+  // spacing and of other seeds by a quarter. A seed's side is its position n's along the run, never the count of seeds
+  // kept before it (C-0259 (2)).
   const D = rules.legality.clearanceCm('secondary');
   const S = rules.seedSpacingCm;
   const clearOf = features.filter((f) => f.kind === 'band' || f.kind === 'reservation' || f.kind === 'shore');

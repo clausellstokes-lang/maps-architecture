@@ -185,7 +185,14 @@ describe('the top-up (F-BUDGET-STAGE)', () => {
       expect(main.length).toBeGreaterThan(0);
       main.forEach((s, i) => expect(s.index).toBe(i));
       // The tally counts every street S5c accepted, the pruned ones included.
-      expect(acceptedStreets(state, k)).toBe(main.length);
+      const before = acceptedStreets(state, k);
+      expect(before).toBe(main.length);
+      // The case discriminates (B-4): the stage's prune removed streets, so its live ways (S5b's primaries and the streets
+      // kept) are not the count accepted — a rim keyed from the live count would start at the wrong index.
+      const keptMain = growthRecord(state, k)!.streets.length;
+      expect(keptMain, `seed ${String(seed)}: the stage's prune removed streets`).toBeLessThan(main.length);
+      const liveCount = state.ways.filter((w) => w.growthStage === k).length;
+      expect(liveCount, `seed ${String(seed)}: live ways vs accepted`).not.toBe(before);
       const plain = capacityCheck({ state, k });
       const r = capacityStep(state, k, streams, { demand: { bandsCm2: plain.landByBand.map((l) => l * 2) } });
       expect(r.ok).toBe(true);
@@ -193,6 +200,14 @@ describe('the top-up (F-BUDGET-STAGE)', () => {
       expect(r.value.topUp).toBe('grown');
       const rim = r.value.rim!;
       expect(rim.streets.length).toBeGreaterThan(0);
+      // The exact continuation (C-0258 (4)): the rim's k-th accepted street takes the index before + k. Its acceptance
+      // order is its ways' creation order (way:<n> in acceptance order), the pruned ones included; the tally moves past
+      // every street the rim accepted.
+      const num = (id: string): number => Number(id.slice(4));
+      const rimWays = [...rim.streets.map((s) => s.way.id), ...r.value.rimPrune!.pruned.map((p) => p.way)];
+      const firstWay = Math.min(...rimWays.map(num));
+      for (const s of rim.streets) expect(s.index, `seed ${String(seed)} ${s.way.id}`).toBe(before + num(s.way.id) - firstWay);
+      expect(acceptedStreets(state, k)).toBe(before + rimWays.length);
       // Acceptance order continued after the stage's own streets (the rim's prune may leave gaps).
       expect(rim.streets[0].index).toBeGreaterThanOrEqual(main.length);
       for (let i = 1; i < rim.streets.length; i += 1) expect(rim.streets[i].index).toBeGreaterThan(rim.streets[i - 1].index);

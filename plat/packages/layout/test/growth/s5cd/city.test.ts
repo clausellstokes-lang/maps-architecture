@@ -112,6 +112,51 @@ describe('the seeds (C-0254 (3))', () => {
     expect(Math.min(left, right)).toBeGreaterThanOrEqual(Math.floor(area.seeds.length / 3));
   });
 
+  it('each seed’s side follows its position along its run — left at an even n, right at an odd one — never the count of seeds kept (C-0259 (2))', { timeout: 240_000 }, () => {
+    let byCountRun = 0;
+    let byCountAll = 0;
+    let seeds = 0;
+    for (const [seed, fx] of [
+      [1, SMALL],
+      [1, {}],
+      [2, {}],
+    ] as const) {
+      const b = baseRun(flatFixture(seed, fx));
+      const state = growthStart({ slice: b.slice, commit: b.commit, s4: b.s4, kernel: b.k });
+      const area = growthArea(state, 1);
+      const half = area.rules.seedSpacingCm / 2;
+      const runsOf = new Map(wayLines(b.k, state.ways.map((w) => w.id), GROUND).map((l) => [l.way, l.runs.map((r) => r.points)]));
+      const kept = new Map<string, number>();
+      area.seeds.forEach((s, gi) => {
+        // The seed's arc length along its run (the first run of its way it lies on).
+        let found: { run: number; arc: number } | null = null;
+        (runsOf.get(s.way) ?? []).forEach((pts, ri) => {
+          let walked = 0;
+          for (let i = 1; i < pts.length && found === null; i += 1) {
+            const len = Math.hypot(pts[i].x - pts[i - 1].x, pts[i].y - pts[i - 1].y);
+            if (segDist(s.at, pts[i - 1], pts[i]) < 1) found = { run: ri, arc: walked + Math.hypot(s.at.x - pts[i - 1].x, s.at.y - pts[i - 1].y) };
+            walked += len;
+          }
+        });
+        expect(found, `seed ${String(gi)} on its way`).not.toBeNull();
+        const { run, arc } = found as unknown as { run: number; arc: number };
+        const n = Math.round(arc / half) - 1;
+        expect(Math.abs(arc - (n + 1) * half)).toBeLessThan(2);
+        expect(s.side, `seed ${String(gi)} at n = ${String(n)}`).toBe(n % 2 === 0 ? 1 : -1);
+        const key = `${s.way}#${String(run)}`;
+        const c = kept.get(key) ?? 0;
+        kept.set(key, c + 1);
+        if (c % 2 !== n % 2) byCountRun += 1;
+        if (gi % 2 !== n % 2) byCountAll += 1;
+        seeds += 1;
+      });
+    }
+    // Not vacuous: positions are skipped (a junction, a band near), so a side by the count of seeds kept would differ.
+    expect(seeds).toBeGreaterThan(20);
+    expect(byCountRun).toBeGreaterThan(0);
+    expect(byCountAll).toBeGreaterThan(0);
+  });
+
   // The plain CITY fixture (the small one's core holds two seeds per radial, the outer one too near the wall to grow).
   for (const [seed, fx] of [
     [1, {}],

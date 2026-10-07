@@ -139,6 +139,41 @@ describe('the deflection’s limit and the first step (C-0258 (2), (3))', () => 
   });
 });
 
+describe('a street across the arterial the step leaves (C-0259 (1))', () => {
+  // The arterial along y = 0; a seed's street on its left side, leaving (0, 0) square to it. The next seed half a seed
+  // spacing along (80 m, inside the 83 m clearance) leaves on the right side, square too.
+  const arterial = way(P(-100_000, 0), P(100_000, 0), 'primary', 'way:0');
+  const leftStreet: Feature = { a: P(0, 0), b: P(0, 4_000), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
+  const first = (x: number, heading: number): StepCandidate => ({ street: 1, class: 'secondary', at: P(x, 0), heading, stepCm: 4_000, turn: 0, steps: 0 });
+
+  it('the right side’s first step half a spacing along, beside the left side’s street across the arterial, is accepted as proposed', () => {
+    for (const x of [8_000, 7_551, 3_000]) {
+      const v = legal(first(x, -90 * DEG), ctxOf([arterial, leftStreet], noBias));
+      expect(v.verdict, `${String(x)}`).toBe('accept');
+      if (v.verdict === 'accept') expect(v.to).toEqual(P(x, -4_000));
+    }
+    // Rounded off the arterial's line by the lattice (the seed is a lattice point within 1 cm of it), the same.
+    const near: Feature = { ...leftStreet, a: P(0, 1), b: P(0, 4_001) };
+    expect(legal(first(8_000, -90 * DEG), ctxOf([arterial, near], noBias)).verdict).toBe('accept');
+  });
+
+  it('a street on the step’s own side of the arterial still takes the clearance: rejected, parallel', () => {
+    const v = legal(first(8_000, 90 * DEG), ctxOf([arterial, leftStreet], noBias));
+    expect(v.verdict).toBe('reject');
+    if (v.verdict === 'reject') expect(v.why).toBe('parallel');
+    // A street straddling the arterial's line is not wholly across it: it takes the clearance.
+    const straddle: Feature = { ...leftStreet, a: P(0, -2_000), b: P(0, 4_000) };
+    const w = legal(first(8_000, -90 * DEG), ctxOf([arterial, straddle], noBias));
+    expect(w.verdict === 'reject' && w.why === 'parallel').toBe(true);
+  });
+
+  it('a step leaving no way (a later step) reads no far side: the same street beside it is a parallel run', () => {
+    const later: StepCandidate = { ...first(8_000, -90 * DEG), at: P(8_000, -10), steps: 2 };
+    const v = legal(later, ctxOf([arterial, { ...leftStreet, a: P(0, -10), b: P(0, -4_000) }], noBias));
+    expect(v.verdict === 'accept' && !v.deflected).toBe(false);
+  });
+});
+
 describe('the wall, shores and reservations', () => {
   it('a proposal reaching the setback band stops there', () => {
     const band: Feature = { a: P(2_000, -50_000), b: P(2_000, 50_000), kind: 'band' };
