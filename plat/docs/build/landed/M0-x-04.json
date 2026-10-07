@@ -1,32 +1,32 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-x-04",
-  "lane": "build/M0-x-04",
-  "lanes": ["build/M0-x-04"],
+  "lane": "build/M0-x-04-fix1",
+  "lanes": ["build/M0-x-04", "build/M0-x-04-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-07T19:21:53.860Z",
+  "date": "2026-10-07T21:15:22.950Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/pipeline/base.ts", "plat/packages/layout/test/pipeline/base/", "plat/packages/layout/src/pipeline/index.ts (handed over from M0-x-02: the base.ts re-export line, C-0095)"],
   "counts": { "created": 4, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/layout/src/pipeline/base.ts", "status": "created", "sha256": "ddefbca8e023d71c709c67c1fc1b5936a48b06a450f9729f95a59f2934af55da", "size": 47711 },
+    { "path": "plat/packages/layout/src/pipeline/base.ts", "status": "created", "sha256": "4ce0382b993c10371d7993d0d834bed82d49cdd262acdf7a0b5c448bce82744c", "size": 48256 },
     { "path": "plat/packages/layout/src/pipeline/index.ts", "status": "changed", "sha256": "0bb743c7defc818b87006f352307a4359aee664b69f97519741e365c7568f20f", "size": 1479 },
     { "path": "plat/packages/layout/test/pipeline/base/guard.test.ts", "status": "created", "sha256": "3176d8f8b02fba27d023677c857d9a7183572dc32dc3d9ca071f967fd0107f56", "size": 3456 },
-    { "path": "plat/packages/layout/test/pipeline/base/run.test.ts", "status": "created", "sha256": "79917be17136bcdd7aa116c6dee57b5e4160c5d2ccaa1f3d28da28aa19061772", "size": 27453 },
+    { "path": "plat/packages/layout/test/pipeline/base/run.test.ts", "status": "created", "sha256": "39480952f8d8db1c4a1f07b45658fb14ae1cdc1363f5f09e757c050366b9eb72", "size": 30065 },
     { "path": "plat/packages/layout/test/pipeline/base/table.test.ts", "status": "created", "sha256": "00fb5e501f3d3226e752d38f3533eff3206cc841b929c82bfbb39f2dc49de605", "size": 20200 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0325", "L-0328"],
-      "lines": ["1cac0684d57a7e20", "567b1650a863c65e"],
+      "ids": ["L-0325", "L-0328", "L-0330"],
+      "lines": ["1cac0684d57a7e20", "567b1650a863c65e", "91ce45ce497cba70"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0264", "C-0266"],
-      "lines": ["870618fadfd55301", "800f1efd1e6fb4f8"],
+      "ids": ["C-0264", "C-0266", "C-0267"],
+      "lines": ["870618fadfd55301", "800f1efd1e6fb4f8", "a42df08d10807ce2"],
       "removed": []
     }
   ]
