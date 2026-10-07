@@ -6535,3 +6535,5 @@
 2026-10-06 22:25 check/M0-c-05 CHECKPOINT started: machine id ok, Node 24.12.0; reading M0.md §3, brief, design; next: plan probes
 2026-10-06 22:26 check/M0-c-05 CHECKPOINT read brief, design §4.4/§4.1/§5.2/§6.1/§6.3/§13.5, choices C-0016/34/85/94/254, landed:verify ok, heading/legality/proposals read; next: prune, capacity, tests, probes plan
 2026-10-06 22:27 build/M0-e-05 CHECKPOINT tests written (fields: edt, blur, cuts, pass1, relief, work, sources, city) all green; choices row C-0255 appended; next: gates (install, lint, build, NEAR, RELATED), then self-check mutants
+2026-10-06 22:31 check/M0-c-05 CHECKPOINT gates: install 0, lint 0 (987 files, probe-red ok), build 0, NEAR 12 files 103/103 (135 s, W=5); next: city.test read, RELATED, probes + mutants
+2026-10-06 22:34 build/M0-e-05 CHECKPOINT gates: install 0, lint 0 (probe-red ok), build 0, NEAR 8 files 50/50, RELATED (1000) 88 files 681/681; self-check mirror built and isolated; next: 29 targeted mutants
