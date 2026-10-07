@@ -79,10 +79,12 @@ function ringDist2(ring: readonly XY[], p: XY): number {
 
 /**
  * Does face i lie inside the closed line `ring` (C-0257)? A wall line is an edge chain of the arena, so no coarse face
- * straddles it: every point of a face's closure lies on one side or on the line. The side is read at the face's first
- * boundary vertex (its rings in order) farther than SIDE_DECISIVE_CM from the line — never at the centroid, which an
- * annular or bent face can hold outside itself — or, on a sliver within that distance of the line, at its farthest
- * vertex (the first on a tie). `memo` caches the answer per face for one ring.
+ * straddles it: every point of a face's closure lies on one side or on the line. The side is read at the first sample
+ * of the face's boundary — each half-edge's origin, then its midpoint, its rings in order — farther than
+ * SIDE_DECISIVE_CM from the line, never at the centroid, which an annular or bent face can hold outside itself; on a
+ * sliver within that distance of the line, at its farthest sample (the first on a tie); a face whose every sample lies
+ * on the line has the line for its outer ring: it is the region the line encloses. `memo` caches the answer per face
+ * for one ring.
  */
 export function faceInRing(g: FaceGraph, i: number, ring: readonly XY[], memo?: Map<number, boolean>): boolean {
   const hit = memo?.get(i);
@@ -94,16 +96,19 @@ export function faceInRing(g: FaceGraph, i: number, ring: readonly XY[], memo?: 
   let farD = -1;
   outer: for (const r of g.rings[i]) {
     for (const h of r) {
-      const q = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] };
-      const d = ringDist2(ring, q);
-      if (d > farD) {
-        farD = d;
-        far = q;
+      const a = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] };
+      const b = { x: P.vertices.x[O[h ^ 1]], y: P.vertices.y[O[h ^ 1]] };
+      for (const q of [a, { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 }]) {
+        const d = ringDist2(ring, q);
+        if (d > farD) {
+          farD = d;
+          far = q;
+        }
+        if (d > decisive2) break outer;
       }
-      if (d > decisive2) break outer;
     }
   }
-  const inside = far !== null && insideRing(ring, far);
+  const inside = far === null ? false : farD > 0 ? insideRing(ring, far) : true;
   memo?.set(i, inside);
   return inside;
 }
