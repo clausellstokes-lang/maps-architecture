@@ -12,7 +12,8 @@ import { crossParams, lat } from '../enceinte/plane.js';
 import { generated } from '../enceinte/water.js';
 import { wayLines, type StageBoundary } from './boundary.js';
 import type { GrowthState } from './mainRoads.js';
-import { growthRecord, growthRules, idNumber, type GrownStreet, type S5cRecord, type XY } from './proposals.js';
+import type { XY } from './legality.js';
+import { growthRecord, growthRules, idNumber, type GrownStreet, type S5cRecord } from './proposals.js';
 
 /** A growth stage as the prune, the trim and S5d read it: the growth state, the stage and its S5c record. */
 export interface StageRef {
@@ -116,7 +117,7 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
         for (const st of rec.streets) {
           if (!st.provisional || st.way.class === 'through' || st.way.class === 'primary') continue;
           const line = wayLines(kernel, [st.way.id], key)[0];
-          const pts: XY[] = line.runs.length === 1 ? line.runs[0].points : st.points;
+          const pts: readonly XY[] = line.runs.length === 1 ? line.runs[0].points : st.points;
           const exit = firstExit(pts, boundary.set.outline);
           if (exit === null) continue;
           const cut = lat(exit.at);

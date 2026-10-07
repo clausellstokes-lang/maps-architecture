@@ -53,14 +53,8 @@ import { bearingCdeg, insideRing, PI, quot } from '../siting/geom.js';
 import type { S3Slice } from '../siting/types.js';
 import { HA_CM2, wayLines, type StageBoundary } from './boundary.js';
 import { headingModel, headingStep, initialCurvature, RAD_PER_CDEG, wrapAngle, type HeadingModel } from './heading.js';
-import { crossingMatrix, FeatureIndex, legal, type Accepted, type EndKind, type Feature, type LegalityContext, type LegalityRules } from './legality.js';
+import { crossingMatrix, FeatureIndex, legal, type Accepted, type EndKind, type Feature, type LegalityContext, type LegalityRules, type XY } from './legality.js';
 import { s5bWorkLimit, type GrowthStage, type GrowthState, type S5Input } from './mainRoads.js';
-
-/** A point in cm. */
-export interface XY {
-  readonly x: number;
-  readonly y: number;
-}
 
 /** The classes S5c grows (§4.4: district-scale secondaries in walled regimes; secondaries and lanes extramural). */
 export type GrowthClass = 'secondary' | 'lane';
@@ -117,7 +111,7 @@ export interface S5cRecord {
   readonly lanesInfillOnly: boolean;
   /** The seeds and the proposals they and the branches made. */
   readonly seeds: number;
-  readonly proposalsMade: number;
+  proposalsMade: number;
   readonly streets: GrownStreet[];
   readonly junctions: Junction[];
   /** The work charged (§5.1 (5)) and the laws' limits. */
@@ -347,7 +341,7 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
   // Every enceinte's wall and setback lines: a band never crossed.
   const enceintes = new Set<Id>();
   for (const s of state.stages) for (const g of s.gates) enceintes.add(g.enceinte);
-  for (const e of [...enceintes].sort()) {
+  for (const e of [...enceintes].sort((x, y) => (x < y ? -1 : x > y ? 1 : 0))) {
     for (const role of ['wall', 'setback']) for (const [a, b] of roleSegments(kernel, key, role, e)) features.push({ a, b, kind: 'band' });
   }
   // The ways standing, with their classes.
@@ -356,7 +350,7 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
   for (const l of lines) for (const run of l.runs) for (const [a, b] of segments(run.points, false)) features.push({ a, b, kind: 'way', way: l.way, cls: clsOf.get(l.way) ?? 'secondary' });
   // Shores and the reservations.
   for (const ring of state.slice.lattice.costs.water.faces) for (const [a, b] of segments(ring, true)) features.push({ a, b, kind: 'shore' });
-  for (const [a, b] of segments(state.plaza.ring, true)) features.push({ a, b, kind: 'reservation' });
+  for (const [a, b] of segments(state.slice.plaza.ring, true)) features.push({ a, b, kind: 'reservation' });
   // An unwalled stage's boundary: crossed only provisionally.
   if (ownWall === null) for (const [a, b] of segments(boundary.set.outline, true)) features.push({ a, b, kind: 'boundary' });
 
@@ -451,7 +445,7 @@ export function growthStreams(slice: S3Slice, reroll = 0): GrowthStreams {
 export const PRECISION_CODES: ReadonlySet<string> = new Set(['E_OUT_OF_RANGE', 'E_BELOW_MIN_EDGE', 'E_BELOW_MIN_ANGLE', 'E_SELF_INTERSECT']);
 
 /** The options of a growth run. */
-export interface GrowOptions {
+export interface StreetGrowOptions {
   /** The work-limit laws (default the shipped table; a test's low floor forces F-WORK). */
   readonly workLimits?: WorkLimitsTable;
   /**
@@ -485,7 +479,7 @@ function draw(P: Proposal, rules: GrowthRules, s: Stream): Drawn {
  * S5c on one stage's area (see the header): the proposals grown in one L1 callback batch at S5's rank. The record holds
  * every street and junction it laid; a batch the kernel refuses as a whole is the stage's refusal.
  */
-export function growStreets(kernel: Kernel, area: GrowthArea, streams: GrowthStreams, opts: GrowOptions = {}): KernelResult<S5cRecord> {
+export function growStreets(kernel: Kernel, area: GrowthArea, streams: GrowthStreams, opts: StreetGrowOptions = {}): KernelResult<S5cRecord> {
   const rules = area.rules;
   const wl = opts.workLimits ?? loadWorkLimits();
   const limits = { 'growth.proposals': limitOf(wl, 'growth.proposals', area.landHa), 'growth.candidates': limitOf(wl, 'growth.candidates', area.landHa) };
@@ -562,7 +556,7 @@ export function growStreets(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       batch: { kind: 'stage', stage: STAGES.S5 as StageId },
       stage: STAGES.S5 as StageId,
       rederivesFrom: STAGES.S5 as StageId,
-      workLimit: s5bWorkLimit(4 * limits['growth.candidates'] + 64, 2 * limits['growth.proposals'] + 64),
+      workLimit: s5bWorkLimit(Math.ceil(4 * limits['growth.candidates']) + 64, Math.ceil(2 * limits['growth.proposals']) + 64),
     },
     (o) => {
       const insertDefault = (points: readonly LatticePoint[], wayId: Id, knots: readonly Knot[]): KernelResult<unknown> =>
@@ -797,7 +791,7 @@ function same(a: XY, b: XY): boolean {
 // ---- the stage step -------------------------------------------------------------------------------------------------------
 
 /** The options of a stage's growth. */
-export interface GrowthStepOptions extends GrowthAreaOptions, GrowOptions {}
+export interface GrowthStepOptions extends GrowthAreaOptions, StreetGrowOptions {}
 
 /**
  * S5c for stage k (§4.4; see the header): the stage's area from the growth state, its streets grown in one callback
@@ -893,7 +887,7 @@ export function keepRecord(state: GrowthState, rec: S5cRecord): void {
  * the runner's reroll for S5 applying. Registered under the one S5 id by M0-x-04 (§4.1: each stage k runs S5a – S5d in
  * order; C-0244 (11)).
  */
-export function s5cStage(k: number, opts: GrowOptions = {}): Stage<S5cInput, S5cRecord, EnceinteEnv> {
+export function s5cStage(k: number, opts: StreetGrowOptions = {}): Stage<S5cInput, S5cRecord, EnceinteEnv> {
   const wl = opts.workLimits ?? loadWorkLimits();
   return Object.freeze({
     id: STAGES.S5 as StageId,

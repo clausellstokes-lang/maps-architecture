@@ -160,7 +160,7 @@ export type EndKind = 'T' | 'snap' | 'band' | 'shore' | 'reservation' | 'boundar
 export type RejectWhy = 'parallel' | 'angle' | 'short' | 'degenerate';
 
 /** The proposal at the step being judged (`legal`'s first argument). */
-export interface Candidate {
+export interface StepCandidate {
   /** The proposal's id (its street) and its class. */
   readonly street: number;
   readonly class: WayClass;
@@ -235,7 +235,7 @@ function segSegD2(a: XY, b: XY, c: XY, d: XY): number {
 }
 
 /** A feature that is no obstacle to this step: it holds the step's start, or it is one of the proposal's own last two segments. */
-function ignored(f: Feature, c: Candidate): boolean {
+function ignored(f: Feature, c: StepCandidate): boolean {
   if (f.street === c.street && f.step !== undefined && f.step >= c.steps - 2) return true;
   return footOn(c.at, f.a, f.b).d2 < 1;
 }
@@ -266,7 +266,7 @@ function reject(why: RejectWhy, deflected: boolean, against: Feature | null): At
 }
 
 /** One judgement of the step at `heading` (see the module comment); `deflected` marks the second. */
-function attempt(c: Candidate, heading: number, ctx: LegalityContext, deflected: boolean): Attempt {
+function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflected: boolean): Attempt {
   const r = ctx.rules;
   const L = c.stepCm;
   const dir = { x: dmath.cos(heading), y: dmath.sin(heading) };
@@ -310,11 +310,17 @@ function attempt(c: Candidate, heading: number, ctx: LegalityContext, deflected:
     let bestD2 = reach * reach;
     for (const j of ctx.junctions) {
       const d2 = (j.at.x - q.x) * (j.at.x - q.x) + (j.at.y - q.y) * (j.at.y - q.y);
-      const fromStart = (j.at.x - at.x) * (j.at.x - at.x) + (j.at.y - at.y) * (j.at.y - at.y);
-      if (d2 < bestD2 && fromStart >= 1) {
-        bestD2 = d2;
-        snapped = j;
+      const v = sub(j.at, at);
+      // Ahead of the step (no hook back), and met at ≥ the legal angle by every arm standing there.
+      if (!(d2 < bestD2) || v.x * v.x + v.y * v.y < 1 || v.x * dir.x + v.y * dir.y <= 0) continue;
+      let square = true;
+      for (const i of ctx.index.near(j.at.x - 1, j.at.y - 1, j.at.x + 1, j.at.y + 1)) {
+        const f = F[i];
+        if (f.kind === 'way' && footOn(j.at, f.a, f.b).d2 < 1 && lineAngle(v, sub(f.b, f.a)) < r.legalAngle) square = false;
       }
+      if (!square) continue;
+      bestD2 = d2;
+      snapped = j;
     }
     if (snapped !== null) {
       q = snapped.at;
@@ -398,6 +404,8 @@ function attempt(c: Candidate, heading: number, ctx: LegalityContext, deflected:
       if (f.kind !== 'way' || ignored(f, c) || crossings.some((x) => x.way === f.way)) continue;
       const foot = footOn(q, f.a, f.b);
       if (!(foot.d2 < bestD2)) continue;
+      // Ahead of the step's start (no hook back).
+      if ((foot.at.x - at.x) * dir.x + (foot.at.y - at.y) * dir.y <= 0) continue;
       best = i;
       bestD2 = foot.d2;
       bestAt = foot.at;
@@ -435,7 +443,8 @@ function attempt(c: Candidate, heading: number, ctx: LegalityContext, deflected:
   const met = metFeature >= 0 ? F[metFeature] : null;
   for (const i of ctx.index.near(Math.min(at.x, toL.x) - D, Math.min(at.y, toL.y) - D, Math.max(at.x, toL.x) + D, Math.max(at.y, toL.y) + D)) {
     const f = F[i];
-    if (ignored(f, c) || i === metFeature) continue;
+    // The proposal's own street is no spine it runs beside (its curl back is met as a crossing, above).
+    if (ignored(f, c) || i === metFeature || f.street === c.street) continue;
     // The way the step ends on, the ways it crosses and the boundary it leaves are met, not run beside.
     if (met !== null && f.kind === met.kind && f.kind !== 'way' && f.kind !== 'band') continue;
     if (f.kind === 'way' && f.way !== undefined && (f.way === meets || crossings.some((x) => x.way === f.way))) continue;
@@ -455,7 +464,7 @@ function attempt(c: Candidate, heading: number, ctx: LegalityContext, deflected:
  * features standing; an illegal step deflected once, the least way to 31° off what it met or ran beside, and judged
  * again; still illegal, rejected.
  */
-export function legal(proposal: Candidate, context: LegalityContext): Verdict {
+export function legal(proposal: StepCandidate, context: LegalityContext): Verdict {
   if (!(proposal.stepCm > 0 && Number.isFinite(proposal.stepCm))) return { verdict: 'reject', why: 'degenerate', deflected: false };
   const first = attempt(proposal, proposal.heading, context, false);
   if (first.v.verdict === 'accept' || first.against === null) return first.v;
