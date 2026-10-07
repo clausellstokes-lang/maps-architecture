@@ -14,7 +14,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "API.md"
   ],
   "dependencies": {
     "delaunator": "workspace:5.1.0",

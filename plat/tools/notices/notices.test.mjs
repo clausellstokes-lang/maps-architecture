@@ -1,10 +1,12 @@
 // M0-s-01's licence and notices tests (§17.4; C-0052, C-0058, C-0095).
-import { readFileSync } from 'node:fs';
+import { mkdtempSync, readFileSync, rmSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { describe, expect, it } from 'vitest';
 import { PLAT_ROOT, checkLicences, devClosure, permitted, productionClosure, walk } from './closure.mjs';
 import {
-  FDLIBM_HEADING, FDLIBM_PLACEHOLDER, NOTICES_FILE, fdlibmNotice, fdlibmState, normaliseNotice, noticesText,
+  FDLIBM_HEADING, FDLIBM_PLACEHOLDER, MURMUR3_HEADING, NOTICES_FILE, XOSHIRO_HEADING, XOSHIRO_SOURCE, fdlibmNotice,
+  fdlibmState, leadingComment, normaliseNotice, noticesText, publicDomainCredits,
 } from './generate.mjs';
 
 const production = productionClosure();
@@ -126,6 +128,36 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
     expect(fdlibmState('SUN\nSUN', 'SUN')).toBe('repeated');
     expect(fdlibmState(`x\n${FDLIBM_PLACEHOLDER}\n`, null)).toBe('placeholder');
     expect(fdlibmState('x\nSUN\n', 'SUN')).toBe('notice');
+  });
+
+  // The kernel reuse round (J224, line B; CLEAN-ROOM.md rule 7): the public-domain algorithms the kernel ports
+  // (xoshiro128**, vendored C) or implements (MurmurHash3) are credited after fdlibm, the dedication read from the C.
+  it('credits xoshiro128** with its authors\' dedication and MurmurHash3, after the fdlibm section', () => {
+    const rule = '='.repeat(78);
+    const iF = committed.indexOf(`\n${FDLIBM_HEADING}\n`);
+    const iX = committed.indexOf(`${rule}\n${XOSHIRO_HEADING}\n\n`);
+    const iM = committed.indexOf(`${rule}\n${MURMUR3_HEADING}\n\n`);
+    expect(iF).toBeGreaterThan(0);
+    expect(iX).toBeGreaterThan(iF);
+    expect(iM).toBeGreaterThan(iX);
+    const dedication = leadingComment(readFileSync(join(PLAT_ROOT, XOSHIRO_SOURCE), 'utf8'));
+    expect(dedication).toMatch(/^Written in 2018 by David Blackman and Sebastiano Vigna/);
+    expect(dedication).toContain('dedicated all copyright\nand related and neighboring rights to this software to the public domain');
+    expect(committed.slice(iX, iM)).toContain(`\n\n${dedication}\n`);
+    expect(committed.slice(iM)).toMatch(/Austin Appleby[\s\S]*public domain[\s\S]*src\/hash\/murmur3\.ts/);
+    for (const credit of [XOSHIRO_HEADING, MURMUR3_HEADING]) expect(committed.split(credit).length - 1).toBe(1);
+  });
+
+  it('reads a C file\'s leading comment, and refuses to drop a credit whose source is gone', () => {
+    expect(leadingComment('  /*  A\r\n  B  \r\n*/\nint x; /* later */')).toBe('A\n  B');
+    expect(leadingComment('int x; /* not leading */')).toBeNull();
+    const empty = mkdtempSync(join(tmpdir(), 'plat-notices-'));
+    try {
+      expect(() => publicDomainCredits(empty)).toThrow(/vendor\/xoshiro\/xoshiro128starstar\.c is missing/);
+    } finally {
+      rmSync(empty, { recursive: true, force: true });
+    }
+    expect(publicDomainCredits(PLAT_ROOT).map((c) => c.heading)).toEqual([XOSHIRO_HEADING, MURMUR3_HEADING]);
   });
 
   it('is committed as generated', () => {

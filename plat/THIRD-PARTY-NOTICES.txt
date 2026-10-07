@@ -161,3 +161,36 @@ software is freely granted, provided that this notice
 is preserved.
 ====================================================
 
+==============================================================================
+xoshiro128** 1.1 (David Blackman and Sebastiano Vigna), ported to TypeScript as the kernel stream
+
+xoshiro128** 1.1, by David Blackman and Sebastiano Vigna, public domain.
+Source: https://prng.di.unimi.it/ (read 2026-10-03; vendored unmodified in vendor/xoshiro/, each file's URL and
+SHA-256 in plat/CLEAN-ROOM.md section 5). packages/kernel/src/rng/stream.ts ports the generator's next().
+The authors' dedication, from vendor/xoshiro/xoshiro128starstar.c:
+
+Written in 2018 by David Blackman and Sebastiano Vigna (vigna@acm.org)
+
+To the extent possible under law, the author has dedicated all copyright
+and related and neighboring rights to this software to the public domain
+worldwide.
+
+Permission to use, copy, modify, and/or distribute this software for any
+purpose with or without fee is hereby granted.
+
+THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR
+ANY SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+
+==============================================================================
+MurmurHash3 (Austin Appleby), implemented in TypeScript as the kernel hash
+
+MurmurHash3 (x86 128-bit variant and its 32-bit finaliser), by Austin Appleby, published with the SMHasher
+project and placed in the public domain by its author. packages/kernel/src/hash/murmur3.ts is our own
+implementation of the published algorithm (plat/CLEAN-ROOM.md section 5, P-0001); no source file of it is
+vendored or copied.
+

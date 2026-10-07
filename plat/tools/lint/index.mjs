@@ -15,11 +15,16 @@
 // repository-path (links, ignored sources, build inputs), inline-directives (model code silences no rule but by
 // C-0125 (6)'s vetted division, C-0128), model-coverage (the tree lint reaches every model-code file with the whole
 // model rule set: no ignore, weaker setting or nested configuration takes it out, C-0130), no-bare-pnpm (package
-// scripts and Markdown command lines), licences (§17.4's allowlist over the production closure).
+// scripts and Markdown command lines), licences (§17.4's allowlist over the production closure), kernel-boundary
+// (@plat/kernel imports no town package and names no town noun beyond its shrink-only allowlist) and bench-boundary
+// (bench/manifest.json classifies every bench folder; a kernel bench reaches no town package) — the last two added by
+// the kernel reuse round (J223 / J224, build/M0-s-01-fix-s1).
 import tseslint from 'typescript-eslint';
+import { check as benchBoundary } from './bench-boundary.mjs';
 import { check as modelCoverage } from './coverage.mjs';
 import { digestClosure } from './digest-closure.mjs';
 import { check as inlineDirectives } from './directives.mjs';
+import { check as kernelBoundary } from './kernel-boundary.mjs';
 import { check as licences } from './licences.mjs';
 import repositoryPathCheck from './paths.mjs';
 import { check as probeRed } from './probe.mjs';
@@ -38,7 +43,7 @@ const plugin = {
   meta: { name: '@plat/lint', version: '0.1.0' },
   rules,
   configs: {},
-  checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, modelCoverage, noBarePnpm, licences],
+  checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, modelCoverage, noBarePnpm, licences, kernelBoundary, benchBoundary],
 };
 
 /**
