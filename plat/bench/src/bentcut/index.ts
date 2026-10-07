@@ -209,23 +209,27 @@ export async function bentcut(a: BentCutArgs, log: (line: string) => void = () =
   const t34Records: FullRecord[] = [];
   let g: number[] = [];
   if (on('t34')) {
+    // C-0242 (7), fix round S2: the faces are read in batches (a batch's missing faces run across the workers), but the phase
+    // keeps only the faces up to the one that supplies the n-th draw — so t34Records (t34.faces, the notes, the work
+    // block) is the same for every batch size, and so for every worker count.
+    const limit = 50 * sizes.t34; // no stop draws at all: the bar fails below on its count
     let j = 0;
-    while (g.length < sizes.t34) {
+    while (g.length < sizes.t34 && j < limit) {
       // The next batch of faces round the kinds: those the signature ran are read, the others run whole.
       const batch: Task[] = [];
-      const want = Math.max(10, 2 * workers);
+      const want = Math.min(Math.max(10, 2 * workers), limit - j);
       for (let b = 0; b < want; b += 1) batch.push(t34Task(j + b, sizes.seed));
       const missing = batch.filter((t) => !byKey.has(`${t.kind}#${String(t.i)}`));
       const ran = (await runTasks(missing, workers, 1, undefined, runner)) as FullRecord[];
       for (const r of ran) byKey.set(`${r.kind}#${String(r.i)}`, r);
       for (const t of batch) {
+        if (g.length >= sizes.t34) break;
         const r = byKey.get(`${t.kind}#${String(t.i)}`) as FullRecord;
         t34Records.push(r);
         if (r.setup !== null || r.refused !== null) note(`t34 ${r.kind} #${String(r.i)}: ${r.setup ?? r.refused ?? ''}`);
         for (const x of r.g) if (g.length < sizes.t34) g.push(x);
       }
       j += want;
-      if (j > 50 * sizes.t34) break; // no stop draws at all: the bar fails below on its count
     }
     g = g.slice(0, sizes.t34);
   }

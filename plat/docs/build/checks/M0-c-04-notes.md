@@ -47,3 +47,16 @@ N-45). The blocker is in `M0-c-04.md`, and the mutant and probe names refer to t
    `console.log`. The NEAR run's output (vitest 5, default reporter) holds no such row, only the 14-line summary. So
    C-0244 (12)'s "reports the length density per seed" leaves no durable record. Write the rows to a report file under
    `docs/build/`, or print them in a failing message on demand.
+
+## Closing round (lane `check/M0-c-04-close-r1`, 2026-10-06)
+
+9. **N-9 c counts a meeting, not a crossing, and the recount shares that reading.** `boundaryCrossings` counts every
+   point where a standing way's segment meets the outline (`crossParams` with endpoints included, two points on one way
+   within one lattice point counted once). `recountC` in `test/growth/s5ab/checks.ts` (C-0248) counts the same way
+   (`meetings()`, endpoints included, two within 1 cm once). A way that only grazes the outline at a vertex, touching it
+   without passing from inside to outside, therefore counts as one crossing in both, so the recount cannot tell a graze
+   from a crossing. Whether any of the 100 bar seeds has a graze is not known, because the two counts agree either way.
+   This reading is PLAUSIBLE (reasoned from the code, not executed). If a graze occurs, S5b spawns one primary fewer. That is a quality
+   shortfall that fails safe, with no throw and no wrong commit. Suggested handling: count a meeting as a crossing only
+   when the way's neighbouring vertices lie on opposite sides of the outline, in the code and in the recount, with a
+   fixture of a way tangent to a boundary vertex. Milestone M4.

@@ -1,5 +1,102 @@
 # Integration check of stage group 12: M0-c-03, M0-b-03, M0-e-03, M0-f-02a (flow flow-7, 2026-10-06)
 
+## Re-check after the integration fix (lane `check/integration-flow-7-g12-close`, about 20:37 – 21:20)
+
+**Verdict: PASS.** All four blockers of the first round are fixed: B-1 (M0-e-03), B-2 and B-3 (M0-c-03) and B-4
+(M0-c-01). Every gate is green. The S1 → S3 → S4 composition now commits S4 on all 30 river seeds with `bad: []`,
+and the S3 → S4 → S8 composition is byte-identical to the first round. The re-check found no new blocker in the files
+that the re-landed records changed. Two notes are added (N-8 and N-9). The first round below is kept as it was.
+
+**The seat.** Opus 5.5 in Claude Code on the owner's Windows PC. The machine check printed
+`wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib`, and `node --version` printed `v24.12.0`. The seat is
+independent of the three fix rounds' authors (L-0280, L-0282, L-0284) and of the items' checkers. It changed no file
+of any item. Its ledger row is **L-0287**. It ran no git command.
+
+The probes and logs are in `~/maps-scratch/waves/integration-g12-close/`. They are the first round's probes, copied
+unchanged. `p1-strict.mts` is P1 with one more check: no non-span way edge may properly cross a water side or have a
+quarter point inside a water face. `p1-diag-close.mts` and `p1-diag2.mts` are diagnostics. Every probe was run from
+`plat/` with `corepack pnpm exec tsx --conditions=plat-source`. They write nothing in `plat/`. No timing was taken or
+judged.
+
+**What the fixes changed (read in full).**
+
+- M0-e-03 (`build/M0-e-03-int-g12-fix1`): `packages/site/src/water/outfalls.ts` (`bodyOf` is a plain `number[]`), the
+  new `packages/site/test/water/one-door.test.ts`, and C-0251.
+- M0-c-03 (`build/M0-c-03-int-g12-fix1`): `packages/layout/src/backbone/stage.ts` (the dry frame stub, the
+  `partMeetsWater` guard that makes a wet part `unserved`, the corridor-masked re-solves and `simpleCourse`),
+  `packages/layout/src/backbone/commit.ts` (the water rule refused at the lattice course, one deck per way), the new
+  `packages/layout/test/backbone/water.test.ts`, and C-0250.
+- M0-c-01 (`build/M0-c-01-int-g12-fix1`): `packages/layout/src/siting/routes.ts` (on a revisit, the A\* beyond the
+  pick is re-solved with the tree path masked, and the route is `unserved` when that fails),
+  `packages/layout/test/siting/gates.test.ts`, and C-0249.
+
+None of these is a stub or a shortcut. Each changed behaviour has a choices row and a named test. Every path is inside
+`plat/`.
+
+### The previous failing lines, re-run (CONFIRMED, executed)
+
+| line | evidence re-run | result |
+|---|---|---|
+| **B-1** M0-e-03, `range.test.ts` red on `water/outfalls.ts` | `vitest run --reporter=verbose packages/site/test/terrain/range.test.ts packages/site/test/water/one-door.test.ts` (`b1-replay.log`) | **Fixed.** `✓ … the one door … no source of @plat/site writes an Int32Array's cells but range.ts (a type-checked scan)`, and both one-door tests pass: `Test Files 2 passed (2) · Tests 10 passed (10)`. `outfalls.ts:96` is now `const bodyOf: number[] = Array.from({ length: n }, () => -1)`. The rule itself is not narrowed. |
+| **B-2** M0-c-03, the frame stub committed inside the river (seeds 17, 21) | P1 `LIST=17,19,21,28` (`p1-list.log`), then P1 strict over seeds 1 – 30 (`p1-strict.log`) | **Fixed.** Seeds 17 and 21 commit S4 with `bad: []` under both the midpoint check and the strict check. Their S4 output digests changed, and only there; that is C-0250's recorded shift. |
+| **B-3** M0-c-03, the `another_site` re-solve doubles back and S4 is refused (seed 28) | the same runs | **Fixed.** Seed 28 commits S4 (`s4: ok`, 7 ways). The rung is `gate:0/out:another_site:true:bridge:27->`. The kernel's CI sweep, whose role-consistency row refused the branching way in the first round, holds. `gate:2/out` crosses two decks and is split into one way per deck: `bridge:10` and `bridge:29` are both `built`, and each built bridge's way names it. |
+| **B-4** M0-c-01, the A→pick→A spur and S4 refused (seed 19) | the same runs | **Fixed.** Seed 19 commits S4. Slice route 0 now runs `… (−16463, 14793) → pick (−18756, 15583) → (−19822, 12983) …` and repeats no node. `gate:1/out` is reported `unserved` (`why: 'approach'`), which is reported, never silent. |
+
+**P1 over seeds 1 – 30 (strict variant):** `{"probe":"P1","seeds":30,"s4ok":30,"builtTotal":7,"siteTotal":479,`
+`"notComposed":[]}`. The first round committed S4 on 28 of 30 seeds; this round commits it on 30 of 30. Determinism
+(two runs byte-identical) and the CI sweep hold on all 30. On 26 seeds the S4 output digest and the arena digest are
+identical to the first round. Only seeds 17, 19, 21 and 28 changed, which are the four cases the fixes name. The
+`unserved` parts are seed 4 `gate:2/out`, seed 19 `gate:1/out` and seed 22 `gate:2/out`, each with its rungs.
+
+**The strict check's five hits are not water crossings.** The new check flagged 5 edges, on seeds 19 and 28. The
+diagnostics (`p1-diag-close.err`, `p1-diag2.err`) show the following:
+
+- On every flagged edge, the quarter points and the midpoint are dry.
+- Four of the edges end at a `deck_end` vertex (seed 19 `bridge:11` ordinal 0; seed 28 `bridge:29` ordinals 0 and
+  1). That vertex lies on the shore, and the sign test against the pre-insertion ring reads it as a crossing. These are
+  the approach edges of built spans, which is what C-0076 asks for.
+- The fifth vertex is seed 19's pick. The lattice node (−18756, 15583) is dry, 19.6 cm from the shore. The kernel
+  attracted it onto the shore edge when the chain was inserted: the committed vertex (−18764, 15601) is 0.1 cm from the
+  ring, and S4's warnings carry `W_ATTRACTED` at (−18756, 15583). See N-8.
+
+### Gates, run once (CONFIRMED, executed; `gates.log`, `near.log`, `related.log`)
+
+| gate | result |
+|---|---|
+| install `--frozen-lockfile` | exit 0 |
+| lint | exit 0: `lint: eslint 950 files, 0 errors, 0 warnings`. Every planted probe line was listed, and it printed `lint: probe-red ok` |
+| build | exit 0 |
+| landed:verify `flow-7 --item` | `ok (1 record)` for M0-c-03, M0-b-03, M0-e-03, M0-f-02a and M0-c-01 |
+| near, full strength (`--maxWorkers=5`, PLAT_FUZZ_RUNS unset) | `layout/test/backbone/`, `layout/test/infill/fabric/`, `testkit/test/layout/infill-fabric/`, `site/test/water/`, `bench/test/tiers/`, `site/test/terrain/range.test.ts` and `layout/test/siting/`: exit 0, `Test Files 42 passed (42) · Tests 342 passed (342)` |
+| related, reduced (`PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=5`) | the first round's 32 group sources plus `layout/src/siting/routes.ts` (`related-sources2.txt`): exit 0, `Test Files 80 passed (80) · Tests 630 passed (630)`. The `bentcut: … FAILS` lines are M0-b-04's planted bar outputs, and their tests pass |
+
+The whole suite was not run. J193 reserves it for the milestone's end, and B-1's scan test is now in the item's own
+folder (`one-door.test.ts`), so the near run holds it.
+
+**P2 (S3 → S4 → S8), re-run because S4's files changed:** `{"probe":"P2","seeds":12,"lanes":1111,"blocks":1083,`
+`"refusedDistricts":0,"bad":[]}`. Every per-seed line is byte-identical to the first round's `p2-small.log`. P3 was
+not re-run, because no fix touched f-02a's files or the test folders' project roots.
+
+### Notes added by the re-check (not blockers)
+
+- **N-8 (M0-c-03 / the kernel's attraction; KI for the hardening pass).** On seed 19 the kernel attracted the pick's
+  lattice node, a dry point 19.6 cm from the shore, onto the shore edge when it inserted `way:0`. The way vertex now
+  lies on the river's boundary, 0.1 cm off the ring. No way edge enters the water: the quarter points are dry and the
+  CI sweep holds. This is reported (`W_ATTRACTED` 1 in S4's warnings). It is the same kernel snap as N-1's deck end.
+  A hardening test could keep a way's non-deck vertices off the shore by more than the attraction radius.
+- **N-9 (M0-c-03, KI, PLAUSIBLE, by reading only).** In `routesFromSlice`, when the frame stub is dropped or shorter
+  than 1 m, the last point is re-pinned `frame` (`points[points.length - 1] = { …, pin: 'frame' }`). If an outward
+  part's last lattice node were also a crossing's exit (a deck reaching the rim node), that line would overwrite the
+  `deck_end` pin. No P1 seed reaches this case. Refusing it, or keeping the deck end and ending one node earlier, is a
+  hardening row.
+
+The first round's notes N-1 – N-7 stand. N-2's `offGate` counts are unchanged on the seeds whose outputs are
+unchanged. Seed 28 now reports `offGate` 3 and `unsmoothed` 3, which are reported, not silent.
+
+---
+
+## First round (lane `check/integration-flow-7-g12`)
+
 Lane `check/integration-flow-7-g12`, about 19:10 – 20:15.
 
 **Verdict: FAIL.** The group has four blockers:

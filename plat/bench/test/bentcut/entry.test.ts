@@ -7,7 +7,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
-import { DEFAULT_SIZES, parseArgs, PLAT_ROOT, run, runFcut, runFull, SUMMARY_PATH, type BentCutReport } from '../../src/bentcut/index.js';
+import { bentcut, DEFAULT_SIZES, parseArgs, PLAT_ROOT, run, runFcut, runFull, runTask, SUMMARY_PATH, t34Task, type BentCutReport, type FaceRecord, type FullRecord, type Task } from '../../src/bentcut/index.js';
 
 const dir = mkdtempSync(join(tmpdir(), 'bentcut-'));
 afterAll(() => rmSync(dir, { recursive: true, force: true }));
@@ -94,5 +94,38 @@ describe('bench -- bentcut: a toy run', () => {
     expect([p.status, p.stderr.slice(0, 400)]).toEqual([0, '']);
     expect(p.stdout).toContain('2 worker(s)');
     expect(withoutSeconds(join(c, 'bentcut', 'report.json'))).toEqual(withoutSeconds(join(a, 'bentcut', 'report.json')));
+  });
+});
+
+describe('bench -- bentcut: T34-1 does not depend on the worker count (C-0242 (7); the closing check of round S1)', () => {
+  it('the report at 1 worker equals the one at 6 and 7 (batches of 10, 12, 14), and t34.faces counts the faces up to the n-th draw', { timeout: 600_000 }, async () => {
+    // An in-thread runner (the pool runs a test's runner in this thread) with a cache: each face runs whole once.
+    const cache = new Map<string, FaceRecord>();
+    const runner = (t: Task): FaceRecord => {
+      const k = JSON.stringify(t);
+      let r = cache.get(k);
+      if (r === undefined) {
+        r = runTask(t);
+        cache.set(k, r);
+      }
+      return r;
+    };
+    const at = async (w: number): Promise<BentCutReport> => {
+      const a = parseArgs(['--only', 't34', '--t34', '30', '--workers', String(w)], {});
+      if (typeof a === 'string') throw new Error(a);
+      return bentcut(a, () => {}, runner);
+    };
+    const one = await at(1);
+    for (const w of [6, 7]) expect([w, await at(w)]).toEqual([w, one]);
+    // The faces round the kinds, in order, up to the one that supplies the 30th draw — counted here, apart from bentcut.
+    let draws = 0;
+    let faces = 0;
+    while (draws < 30) {
+      draws += (runner(t34Task(faces, 1)) as FullRecord).g.length;
+      faces += 1;
+    }
+    expect(one.t34?.n).toBe(30);
+    expect(one.t34?.faces).toBe(faces);
+    expect(one.work?.counters['cut.kernelCalls']?.districts).toBe(faces);
   });
 });
