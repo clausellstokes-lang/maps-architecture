@@ -1,0 +1,51 @@
+{
+  "table": "s6",
+  "version": 1,
+  "section": "§4.5 (S6: the grower's edge test, the typing stand-in over the synthetic demand table, the quarter families; M0-e-04, C-0035)",
+  "rows": {
+    "edge": {
+      "minBarrierClass": {"value": "primary", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false, "note": "the edge test: no arterial of class >= primary (§4.5)"}
+    },
+    "typing": {
+      "kinds": {"value": ["central", "market", "gate", "riverbank", "craft", "sprawl"], "unit": "none", "provenance": "own", "calibratable": false, "note": "C-0035's synthetic kinds, feature-named; the roster's kinds replace them at M1"},
+      "mixedUseFloor": {"value": 0.2, "unit": "share", "provenance": "own", "calibratable": true, "note": "the mixed-use floor (R5): the share of a district's use mix outside its kind"},
+      "demandWeight": {"value": 1, "unit": "weight", "provenance": "own", "calibratable": true},
+      "randomWeight": {"value": 0.3, "unit": "weight", "provenance": "own", "calibratable": true}
+    },
+    "demand.central": {
+      "share": {"value": 0.15, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "core", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "relations": {"value": [["plaza", "prefer", 1]], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "demand.market": {
+      "share": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "core", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "relations": {"value": [["seed.market", "require", 10]], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "demand.gate": {
+      "share": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "gate", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "relations": {"value": [["seed.gate", "require", 10]], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "demand.riverbank": {
+      "share": {"value": 0.1, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "water", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "relations": {"value": [["water", "require", 1], ["seed.riverbank", "prefer", 10], ["seed.bridgehead", "prefer", 10]], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "demand.craft": {
+      "share": {"value": 0.3, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "craft", "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false},
+      "relations": {"value": [["water", "prefer", 0.5]], "unit": "none", "provenance": "architecture 2026-09-25", "calibratable": false}
+    },
+    "demand.sprawl": {
+      "share": {"value": 0.3, "unit": "share", "provenance": "own", "calibratable": true},
+      "family": {"value": "sprawl", "unit": "none", "provenance": "own", "calibratable": false},
+      "relations": {"value": [["extramural", "prefer", 0.5]], "unit": "none", "provenance": "own", "calibratable": false}
+    },
+    "roster": {
+      "buildings.TOWN": {"value": 1475, "unit": "count", "provenance": "ref:MFCG district counts by size", "calibratable": false, "note": "the synthetic roster's building count B for N_q (C-0035): MFCG's size-sweep anchor of the rung"},
+      "buildings.CITY": {"value": 5242, "unit": "count", "provenance": "ref:MFCG district counts by size", "calibratable": false},
+      "buildings.METROPOLIS": {"value": 13091, "unit": "count", "provenance": "ref:MFCG district counts by size", "calibratable": false}
+    }
+  }
+}
