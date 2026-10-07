@@ -1,0 +1,1134 @@
+{
+ "$comment": "kernel-boundary allowlist (tools/lint/kernel-boundary.mjs; owner directive J223, decisions J224). Each row lets one town noun appear in one kind of token (ident | string | data) of one file under packages/kernel/src, at most `max` times; comments are never scanned. class a-geometry: the design itself names this geometry in the kernel (§3.4/§3.7). class a-homonym: the word is used in a non-town sense. class b-debt: a town concept the design currently places in the kernel (KI-8: deliberately deferred, not refactored at M0); `clean` says what the town-free form would be. THIS LIST MAY ONLY SHRINK: lowering a max or removing a row needs no reason, and the check fails on slack until it is lowered. Adding a row or raising a max is a boundary change: a kernel change that adds a town noun must carry an owner-visible reason (a choices.md row naming the noun, the file and why the kernel needs it) and is reviewed as such.",
+ "version": 1,
+ "rows": [
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "band",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "corridor",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "district",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "field",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "gate",
+   "max": 4,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "kerb",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "plot",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "wall",
+   "max": 9,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arena/roles.json",
+   "kind": "data",
+   "noun": "way",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§2.2 rule 7's role registry is kernel data (C-0005): way, wall, gate_end, plot_line, district_bound …",
+   "clean": "a kernel role registry with only geometric roles (kerb, band, corridor_split, anchor, claim, knots) plus an append-only extension table registered by @plat/model at start-up"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 28,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "ident",
+   "noun": "block",
+   "max": 5,
+   "class": "a-geometry",
+   "reason": "BandResult.blocks: §3.4 corridorUnion/bandUnion return \"built blocks\" — the faces left between bands (geometric residue); a cleaner name would be `residue`/`cores`"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 14,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 12,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "string",
+   "noun": "corridor",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/bandUnion.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 6,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/corridorUnion.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 6,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/corridorUnion.ts",
+   "kind": "ident",
+   "noun": "corridor",
+   "max": 3,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/corridorUnion.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/corridorUnion.ts",
+   "kind": "string",
+   "noun": "corridor",
+   "max": 5,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/corridorUnion.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 3,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 4,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "ident",
+   "noun": "corridor",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "ident",
+   "noun": "tile",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "string",
+   "noun": "corridor",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/index.ts",
+   "kind": "string",
+   "noun": "tile",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "arr/kerb.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 20,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/kerb.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 8,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "arr/tileRings.ts",
+   "kind": "ident",
+   "noun": "tile",
+   "max": 3,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "arr/tileRings.ts",
+   "kind": "string",
+   "noun": "tile",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "digest/levelDigest.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 3,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 6,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "ident",
+   "noun": "corridor",
+   "max": 4,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "ident",
+   "noun": "district",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "a partition/overlay key parameter named `district` (rebuildAtStageEnd, OverlayScope.district)",
+   "clean": "rename to `partition` / `scope` (behaviour-free)"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 3,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "ident",
+   "noun": "tile",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "string",
+   "noun": "corridor",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/kernel.ts",
+   "kind": "string",
+   "noun": "kerb",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/notBuilt.ts",
+   "kind": "string",
+   "noun": "plot",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "the stub table's human-readable deferral prose (names pipeline steps it waits for); prose, like a comment"
+  },
+  {
+   "file": "facade/notBuilt.ts",
+   "kind": "string",
+   "noun": "water",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "the stub table's human-readable deferral prose (names pipeline steps it waits for); prose, like a comment"
+  },
+  {
+   "file": "facade/notBuilt.ts",
+   "kind": "string",
+   "noun": "way",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "the stub table's human-readable deferral prose (names pipeline steps it waits for); prose, like a comment"
+  },
+  {
+   "file": "facade/types.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 8,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/types.ts",
+   "kind": "ident",
+   "noun": "corridor",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/types.ts",
+   "kind": "ident",
+   "noun": "district",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "a partition/overlay key parameter named `district` (rebuildAtStageEnd, OverlayScope.district)",
+   "clean": "rename to `partition` / `scope` (behaviour-free)"
+  },
+  {
+   "file": "facade/types.ts",
+   "kind": "ident",
+   "noun": "kerb",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "facade/types.ts",
+   "kind": "ident",
+   "noun": "tile",
+   "max": 3,
+   "class": "a-geometry",
+   "reason": "§3.4 tileRings: the seed clip (rings tiling the plane) — \"tile\" as the geometric verb"
+  },
+  {
+   "file": "faces/common.ts",
+   "kind": "ident",
+   "noun": "way",
+   "max": 3,
+   "class": "a-homonym",
+   "reason": "sameWayNear: \"the same direction\" — way as manner, not a street"
+  },
+  {
+   "file": "faces/common.ts",
+   "kind": "string",
+   "noun": "plot",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "cutRows defaults a cut's edge rows to plot_line (C-0192)",
+   "clean": "require the caller's rows, or a geometric default role (`cut`)"
+  },
+  {
+   "file": "faces/fan.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 7,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "faces/fan.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 4,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "faces/index.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "faces/ops.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 4,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "faces/ops.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "§3.4/§3.7 name the kernel writers kerb(F), ringBand, corridorUnion, bandUnion and the edge roles kerb|band|corridor_split: buffer/union operations on the arrangement, defined geometrically (GEO-20)"
+  },
+  {
+   "file": "geom/hex-lattice.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 4,
+   "class": "a-homonym",
+   "reason": "a numeric tolerance band / interval band (§3.2, §3.6)"
+  },
+  {
+   "file": "hash/index.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "hash/index.ts",
+   "kind": "string",
+   "noun": "lane",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "hash/lanes.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 2,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "hash/lanes.ts",
+   "kind": "string",
+   "noun": "lane",
+   "max": 3,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "hash/murmur3.ts",
+   "kind": "ident",
+   "noun": "block",
+   "max": 3,
+   "class": "a-homonym",
+   "reason": "MurmurHash3's 4-byte block"
+  },
+  {
+   "file": "index/spatial.ts",
+   "kind": "ident",
+   "noun": "district",
+   "max": 3,
+   "class": "b-debt",
+   "reason": "a partition/overlay key parameter named `district` (rebuildAtStageEnd, OverlayScope.district)",
+   "clean": "rename to `partition` / `scope` (behaviour-free)"
+  },
+  {
+   "file": "insert/snapRound.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 5,
+   "class": "a-homonym",
+   "reason": "a numeric tolerance band / interval band (§3.2, §3.6)"
+  },
+  {
+   "file": "insert/splitThrough.ts",
+   "kind": "string",
+   "noun": "enceinte",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "firstAnchorOrdinal special-cases an enceinte's address kind (§3.3 rule 2, open-trace ends 0/1)",
+   "clean": "an `anchorBase` the caller declares per entity (or a registry column), so the kernel never reads an address kind"
+  },
+  {
+   "file": "insert/stretch.ts",
+   "kind": "ident",
+   "noun": "band",
+   "max": 14,
+   "class": "a-homonym",
+   "reason": "a numeric tolerance band / interval band (§3.2, §3.6)"
+  },
+  {
+   "file": "invariants/rows.ts",
+   "kind": "string",
+   "noun": "tile",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "\"faces tile its seed rings\" — tile as the geometric verb"
+  },
+  {
+   "file": "invariants/whole.ts",
+   "kind": "ident",
+   "noun": "district",
+   "max": 6,
+   "class": "b-debt",
+   "reason": "a partition/overlay key parameter named `district` (rebuildAtStageEnd, OverlayScope.district)",
+   "clean": "rename to `partition` / `scope` (behaviour-free)"
+  },
+  {
+   "file": "io/bytes.ts",
+   "kind": "string",
+   "noun": "block",
+   "max": 5,
+   "class": "a-homonym",
+   "reason": "the arena block chunk format and its byte fields: serialisation vocabulary (§3.9)"
+  },
+  {
+   "file": "io/bytes.ts",
+   "kind": "string",
+   "noun": "field",
+   "max": 4,
+   "class": "a-homonym",
+   "reason": "the arena block chunk format and its byte fields: serialisation vocabulary (§3.9)"
+  },
+  {
+   "file": "io/decode.ts",
+   "kind": "string",
+   "noun": "block",
+   "max": 2,
+   "class": "a-homonym",
+   "reason": "the arena block chunk format and its byte fields: serialisation vocabulary (§3.9)"
+  },
+  {
+   "file": "io/format.ts",
+   "kind": "string",
+   "noun": "block",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "the arena block chunk format and its byte fields: serialisation vocabulary (§3.9)"
+  },
+  {
+   "file": "io/index.ts",
+   "kind": "ident",
+   "noun": "block",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "the arena block chunk format and its byte fields: serialisation vocabulary (§3.9)"
+  },
+  {
+   "file": "noise/index.ts",
+   "kind": "ident",
+   "noun": "field",
+   "max": 13,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "band",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "block",
+   "max": 10,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "building",
+   "max": 18,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "district",
+   "max": 11,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "enceinte",
+   "max": 3,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "field",
+   "max": 4,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "gate",
+   "max": 4,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "lane",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "market",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "plot",
+   "max": 17,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "quarter",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "river",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "settlement",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "street",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "terrain",
+   "max": 6,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "tile",
+   "max": 8,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "town",
+   "max": 10,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "wall",
+   "max": 5,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "water",
+   "max": 11,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/concerns.json",
+   "kind": "data",
+   "noun": "way",
+   "max": 5,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "block",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "district",
+   "max": 3,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "field",
+   "max": 3,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "gate",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "market",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "plot",
+   "max": 4,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "quarter",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "river",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "terrain",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "tile",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "wall",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/ids.ts",
+   "kind": "string",
+   "noun": "water",
+   "max": 5,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "band",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "block",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "corridor",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "district",
+   "max": 4,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "field",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "gate",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "lane",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "plot",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "quarter",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "road",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "wall",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "registry/stages.json",
+   "kind": "data",
+   "noun": "way",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§6.1 places the concern and stage registries \"inside @plat/kernel\" (C-0005); their rows are the town pipeline's streams and stages",
+   "clean": "the kernel keeps the mechanism (ConcernId/StageId brands, laneKey, streamFromKey); the town table moves to @plat/model (or a registry package) and is passed in"
+  },
+  {
+   "file": "rng/index.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "rng/mixer.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 5,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "rng/text.ts",
+   "kind": "ident",
+   "noun": "lane",
+   "max": 2,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "rng/text.ts",
+   "kind": "string",
+   "noun": "lane",
+   "max": 2,
+   "class": "a-homonym",
+   "reason": "hash/RNG lanes (§6.1/§6.2 LaneWriter, laneKey): a digest lane, not a town lane"
+  },
+  {
+   "file": "tx/tx.ts",
+   "kind": "ident",
+   "noun": "wall",
+   "max": 2,
+   "class": "b-debt",
+   "reason": "LINEAR_PARTS hard-codes the town's linear roles (way, wall, chamber_wall, …) for §3.10 role consistency",
+   "clean": "a `parts` column in the role registry (or a caller-supplied table), read by name-free code"
+  },
+  {
+   "file": "tx/tx.ts",
+   "kind": "ident",
+   "noun": "way",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "LINEAR_PARTS hard-codes the town's linear roles (way, wall, chamber_wall, …) for §3.10 role consistency",
+   "clean": "a `parts` column in the role registry (or a caller-supplied table), read by name-free code"
+  },
+  {
+   "file": "tx/types.ts",
+   "kind": "string",
+   "noun": "band",
+   "max": 2,
+   "class": "a-geometry",
+   "reason": "OP_KINDS: §3.4's writer list names ringBand/corridorUnion/bandUnion"
+  },
+  {
+   "file": "tx/types.ts",
+   "kind": "string",
+   "noun": "block",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§3.3 BatchScope kinds district | block",
+   "clean": "a generic `{ kind: 'partition'; id }` scope; the town names its partitions district/block in @plat/model"
+  },
+  {
+   "file": "tx/types.ts",
+   "kind": "string",
+   "noun": "corridor",
+   "max": 1,
+   "class": "a-geometry",
+   "reason": "OP_KINDS: §3.4's writer list names ringBand/corridorUnion/bandUnion"
+  },
+  {
+   "file": "tx/types.ts",
+   "kind": "string",
+   "noun": "district",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "§3.3 BatchScope kinds district | block",
+   "clean": "a generic `{ kind: 'partition'; id }` scope; the town names its partitions district/block in @plat/model"
+  },
+  {
+   "file": "warp/held.ts",
+   "kind": "string",
+   "noun": "gate",
+   "max": 1,
+   "class": "b-debt",
+   "reason": "warp holds gate_end/deck_end/raised_foot vertices (§3.6: bridge and water-gate ends)",
+   "clean": "warp takes a `heldRoles` set from its caller (or a `held` registry flag)"
+  },
+  {
+   "file": "warp/index.ts",
+   "kind": "ident",
+   "noun": "field",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  },
+  {
+   "file": "warp/smooth.ts",
+   "kind": "ident",
+   "noun": "field",
+   "max": 6,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  },
+  {
+   "file": "warp/types.ts",
+   "kind": "ident",
+   "noun": "field",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  },
+  {
+   "file": "warp/warp.ts",
+   "kind": "ident",
+   "noun": "field",
+   "max": 7,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  },
+  {
+   "file": "warp/warp.ts",
+   "kind": "string",
+   "noun": "field",
+   "max": 1,
+   "class": "a-homonym",
+   "reason": "noise fields and DisplacementField: a scalar/vector field in the mathematical sense"
+  }
+ ]
+}

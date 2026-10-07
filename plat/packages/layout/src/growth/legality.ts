@@ -4,7 +4,8 @@
 // stage, the stage boundary) and either accepted, with the point it reaches and how the proposal ends there, or
 // rejected:
 //   * destination bias (switchable per regime): a spine within ≈ 1.5 step lengths ahead, met at ≥ 30°, turns the step
-//     toward its nearest point, and the proposal ends there in a T (ending cul-de-sacs deliberately). At M0 every S3
+//     toward its nearest point — a turn of at most the legal angle (C-0259 (3)) — and the proposal ends there in a T
+//     (ending cul-de-sacs deliberately). At M0 every S3
 //     destination (the plaza, the gates) is served by S4, so the spines are the targets (C-0254 (6));
 //   * a junction within `0.35 · step` of the step's end is snapped to, the proposal ending there; a way within that
 //     reach of the end (a near miss) is joined at its foot in a T;
@@ -414,6 +415,9 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       if (!(foot.d2 < bestD2) || foot.d2 < 1 || foot.t <= 0 || foot.t >= 1) continue;
       const v = sub(foot.at, at);
       if (v.x * dir.x + v.y * dir.y <= 0) continue;
+      // The bias turns the step at most the legal angle (C-0259 (3)), as a deflection does: a street's course takes no
+      // turn its walk would not (the growth-drift row).
+      if (dmath.atan2(Math.abs(dir.x * v.y - dir.y * v.x), v.x * dir.x + v.y * dir.y) > r.legalAngle) continue;
       if (lineAngle(v, sub(f.b, f.a)) < r.legalAngle || !armsSquare(ctx.index, foot.at, v, r.legalAngle, (g) => ignored(g, c))) continue;
       best = i;
       bestD2 = foot.d2;

@@ -139,6 +139,39 @@ describe('the deflection’s limit and the first step (C-0258 (2), (3))', () => 
   });
 });
 
+describe('the destination bias turns a step at most the legal angle (C-0259 (3))', () => {
+  // A spine whose perpendicular foot from the step's start lies 28 m away at `deg` off the step's heading (inside the
+  // 1.5-step reach of a 30 m step), the spine square to that direction.
+  const spineAt = (deg: number): Feature => {
+    const u = { x: Math.cos(deg * DEG), y: Math.sin(deg * DEG) };
+    const foot = { x: 2_800 * u.x, y: 2_800 * u.y };
+    return way(P(Math.round(foot.x + 50_000 * u.y), Math.round(foot.y - 50_000 * u.x)), P(Math.round(foot.x - 50_000 * u.y), Math.round(foot.y + 50_000 * u.x)), 'primary', 'way:7');
+  };
+
+  it('a spine 20° off the heading turns the step to its foot; one 45° or 60° off does not (no bias)', () => {
+    const near = legal(step(0, { steps: 1 }), ctxOf([spineAt(20)]));
+    expect(near.verdict === 'accept' && near.biased && near.ends === 'T').toBe(true);
+    if (near.verdict === 'accept') expect(near.heading).toBeCloseTo(20 * DEG, 2);
+    for (const deg of [45, -60]) {
+      const v = legal(step(0, { steps: 1 }), ctxOf([spineAt(deg)]));
+      if (v.verdict === 'accept') expect(v.biased, `${String(deg)}°`).toBe(false);
+    }
+  });
+
+  it('property: a biased step never turns more than the legal angle from its heading', () => {
+    fc.assert(
+      fc.property(fc.double({ min: -85, max: 85, noNaN: true }), fc.double({ min: -1, max: 1, noNaN: true }), (deg, heading) => {
+        const v = legal(step(heading, { steps: 1 }), ctxOf([spineAt(deg + (heading * 180) / Math.PI)]));
+        if (v.verdict !== 'accept' || !v.biased) return;
+        let turn = v.heading - heading;
+        while (turn > Math.PI) turn -= 2 * Math.PI;
+        while (turn <= -Math.PI) turn += 2 * Math.PI;
+        expect(Math.abs(turn)).toBeLessThanOrEqual(walled.legalAngle + 1e-3);
+      }),
+    );
+  });
+});
+
 describe('a street across the arterial the step leaves (C-0259 (1))', () => {
   // The arterial along y = 0; a seed's street on its left side, leaving (0, 0) square to it. The next seed half a seed
   // spacing along (80 m, inside the 83 m clearance) leaves on the right side, square too.

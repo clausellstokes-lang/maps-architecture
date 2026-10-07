@@ -6,6 +6,10 @@
 // its licence text; then Sun's fdlibm notice (vendor/fdlibm-5.3/NOTICE.txt, entered by M0-d-03 — a placeholder until
 // then; exactly one of the two, never both). THIRD-PARTY-NOTICES.txt passes to M0-d-03, which regenerates it with
 // `corepack pnpm notices` when the notice lands (C-0095). Fonts' OFL text joins at M1 with the fonts (§17.2).
+// Then the public-domain algorithms the kernel ports or implements, credited though they bind no licence (CLEAN-ROOM.md
+// rule 7; the kernel reuse round, J224): xoshiro128** 1.1 with the authors' dedication read from the vendored C, and
+// MurmurHash3 (no file vendored: our own implementation of the published algorithm). A credit whose source is missing
+// throws, so `notices` and `notices:check` fail rather than drop it.
 // Exit 1 on a production licence failure or a --check diff.
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
@@ -44,6 +48,48 @@ export function fdlibmState(text, notice) {
   return p === 1 ? 'placeholder' : 'notice';
 }
 
+export const XOSHIRO_SOURCE = 'vendor/xoshiro/xoshiro128starstar.c';
+export const XOSHIRO_HEADING = 'xoshiro128** 1.1 (David Blackman and Sebastiano Vigna), ported to TypeScript as the kernel stream';
+export const MURMUR3_HEADING = 'MurmurHash3 (Austin Appleby), implemented in TypeScript as the kernel hash';
+
+/** The first block comment of a C source, without its delimiters, normalised; null when the text opens with none. */
+export function leadingComment(raw) {
+  const m = /^\s*\/\*([\s\S]*?)\*\//.exec(raw.replace(/\r\n/g, '\n'));
+  return m ? m[1].split('\n').map((l) => l.trimEnd()).join('\n').trim() : null;
+}
+
+/**
+ * The credited public-domain algorithms, in order: [{ heading, body }]. xoshiro's body carries the authors' dedication
+ * as the vendored C states it; a missing or comment-less source throws (a credit is never silently dropped).
+ */
+export function publicDomainCredits(root = PLAT_ROOT) {
+  const file = join(root, XOSHIRO_SOURCE);
+  const dedication = existsSync(file) ? leadingComment(readFileSync(file, 'utf8')) : null;
+  if (!dedication) throw new Error(`notices: ${XOSHIRO_SOURCE} is missing or opens with no dedication comment`);
+  return [
+    {
+      heading: XOSHIRO_HEADING,
+      body: [
+        'xoshiro128** 1.1, by David Blackman and Sebastiano Vigna, public domain.',
+        'Source: https://prng.di.unimi.it/ (read 2026-10-03; vendored unmodified in vendor/xoshiro/, each file\'s URL and',
+        'SHA-256 in plat/CLEAN-ROOM.md section 5). packages/kernel/src/rng/stream.ts ports the generator\'s next().',
+        `The authors' dedication, from ${XOSHIRO_SOURCE}:`,
+        '',
+        dedication,
+      ].join('\n'),
+    },
+    {
+      heading: MURMUR3_HEADING,
+      body: [
+        'MurmurHash3 (x86 128-bit variant and its 32-bit finaliser), by Austin Appleby, published with the SMHasher',
+        'project and placed in the public domain by its author. packages/kernel/src/hash/murmur3.ts is our own',
+        'implementation of the published algorithm (plat/CLEAN-ROOM.md section 5, P-0001); no source file of it is',
+        'vendored or copied.',
+      ].join('\n'),
+    },
+  ];
+}
+
 function licenceText(dir) {
   const name = readdirSync(dir).sort().find((n) => /^(licen[cs]e|copying)(\.(md|txt))?$/i.test(n));
   return name ? readFileSync(join(dir, name), 'utf8').replace(/\r\n/g, '\n').trimEnd() : null;
@@ -53,7 +99,12 @@ function licenceText(dir) {
  * The notices text for the workspace at `root` (deterministic: sorted, LF line ends). `notice` is Sun's fdlibm notice
  * (read from `root` by default; null gives the placeholder) — a test passes it in memory to simulate M0-d-03's file.
  */
-export function noticesText(root = PLAT_ROOT, production = productionClosure(root), notice = fdlibmNotice(root)) {
+export function noticesText(
+  root = PLAT_ROOT,
+  production = productionClosure(root),
+  notice = fdlibmNotice(root),
+  credits = publicDomainCredits(root),
+) {
   const parts = [
     'THIRD-PARTY NOTICES — PLAT',
     '',
@@ -73,6 +124,7 @@ export function noticesText(root = PLAT_ROOT, production = productionClosure(roo
     parts.push('', text ?? '(the package ships no licence file; its package.json declares the licence above)', '');
   }
   parts.push(RULE, FDLIBM_HEADING, '', notice ?? FDLIBM_PLACEHOLDER, '');
+  for (const c of credits) parts.push(RULE, c.heading, '', c.body, '');
   return parts.join('\n') + '\n';
 }
 
