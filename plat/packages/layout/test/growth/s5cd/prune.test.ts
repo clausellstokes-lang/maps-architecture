@@ -30,6 +30,8 @@ interface StageRun {
   before: { arterials: Line[]; streets: Map<string, GrownStreet>; lines: Map<string, string> };
   rec: S5cRecord;
   pr: PruneRecord;
+  /** Each pruned way's runs left in the arena right after its prune (a later stage may re-take a pruned id, C-0244 (7)). */
+  left: Map<string, number>;
 }
 
 /** S5 through every stage's growth and its prune and trim (S5d aside), the arena read before and after each prune. */
@@ -57,7 +59,11 @@ function stepwise(seed: number): { state: GrowthState; stages: StageRun[] } {
     const pr = pruneAndTrim({ state, k, record: c.value });
     if (!pr.ok) throw new Error(`prune refused: ${pr.detail}`);
     expect(sameGround(before.arterials, wayLines(b.k, arterials, GROUND))).toBe(true);
-    out.push({ k, before, rec: c.value, pr: pr.value });
+    const left = new Map(pr.value.pruned.map((p) => {
+      const r = state.kernel.resolve({ role: 'way', entity: p.way }, GROUND);
+      return [p.way, r.view === 'edges' ? r.runs.length : 0] as const;
+    }));
+    out.push({ k, before, rec: c.value, pr: pr.value, left });
   }
   return { state, stages: out };
 }
@@ -97,9 +103,9 @@ describe('the prune and trim on the CITY town (frame 900 ha)', () => {
           expect(p.lengthCm).toBeLessThan(block);
           const was = s.before.streets.get(p.way);
           expect(was?.way.class).toBe('secondary');
-          const r = state.kernel.resolve({ role: 'way', entity: p.way }, GROUND);
-          expect(r.view === 'edges' ? r.runs.length : 0).toBe(0);
-          expect(state.ways.some((w) => w.id === p.way)).toBe(false);
+          expect(s.left.get(p.way)).toBe(0);
+          // Gone from the state's ways, unless a later stage's way re-took its id (`way:<n>` after every standing way).
+          expect(state.ways.some((w) => w.id === p.way && w.growthStage === s.k && w.class === 'secondary')).toBe(false);
         }
         // What stands: no dangling secondary under one block width is left.
         for (const st of s.rec.streets) {
