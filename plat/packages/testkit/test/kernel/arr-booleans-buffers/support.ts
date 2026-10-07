@@ -420,10 +420,37 @@ export function oracleOffset(rings: readonly Ring[], edges: readonly { a: Lattic
   return { ...res, rings: back, perimeterCm: perimeterOf(rings) + perimeterOf(back) };
 }
 
+/** The limit on a strip's reach plus the ring's diagonal in the construction's frame (§3.2 (1)'s 2²³ with room to spare). */
+export const INSET_FRAME_CM = 4_000_000;
+
+/** A coordinate rounded to the nearest centimetre, a half away from zero (the kernel's `snap` rule), never refused. */
+function roundHalfAwayCm(v: number): number {
+  return v < 0 ? -Math.round(-v) : Math.round(v);
+}
+
+/**
+ * The exponent k of the oracleInset construction's 2ᵏ-scaled frame: the largest k ≥ 0 with 2ᵏ · reachCm below
+ * `INSET_FRAME_CM`, or −1 when even the unscaled frame does not fit (C-0196 (7) as amended by this round's row).
+ */
+export function insetFrameExponent(reachCm: number): number {
+  if (!(Number.isFinite(reachCm) && reachCm >= 0 && reachCm < INSET_FRAME_CM)) return -1;
+  let k = 0;
+  while (k < 30 && 2 ** (k + 1) * reachCm < INSET_FRAME_CM) k += 1;
+  return k;
+}
+
 /**
  * The oracle's insetRing of a convex counter-clockwise ring by dCm (inward when positive, outward when negative): a box
  * well beyond the result less, for every edge, the half-plane strip on the far side of the edge's line moved by dCm —
- * a long quadrilateral, its corners snapped — through the engine's own boolean. No half-plane clipping of ours is used.
+ * a long quadrilateral — through the engine's own boolean. No half-plane clipping of ours is used.
+ *
+ * The construction runs in a frame scaled by S = 2ᵏ about the ring's box centre, k the largest that keeps the strips'
+ * reach inside `INSET_FRAME_CM` (`insetFrameExponent`): the strips' far corners lie ~L away from the ring, so snapping
+ * them to the lattice tilts the moved edge line by up to ~0.7 cm where it meets the result; in the scaled frame that
+ * error is ~0.7 / S cm, and the engine's own rounding of the crossings is ~0.7 / S too. The result is divided by S
+ * (exact: a power of two) and rounded to the nearest centimetre once — the exact inset's error is then about the one
+ * rounding our engine's answer also carries. Unscaled (S = 1), the double rounding could put an exact-mitred outward
+ * inset's vertices 0.6 cm off, all outward, past the unattracted bound on a correct answer of ours (fix round S2, J226).
  */
 export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): OracleResult {
   let x0 = Infinity;
@@ -459,21 +486,28 @@ export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): Orac
     }
   }
   const E = Math.ceil(diag / 2 + spike + Math.abs(dCm) + 1_000);
-  const lx0 = x0 - cx;
-  const ly0 = y0 - cy;
-  const lx1 = x1 - cx;
-  const ly1 = y1 - cy;
   const L = 2 * (diag + 2 * E);
-  if (!(Number.isFinite(L) && L + diag < 4_000_000)) return { ok: false, engine, error: 'inset oracle: the outward corner reaches past the lattice', refused: true };
+  const k = insetFrameExponent(L + diag);
+  if (k < 0) return { ok: false, engine, error: 'inset oracle: the outward corner reaches past the lattice', refused: true };
+  const S = 2 ** k;
+  // the ring, the box and the distances in the scaled frame (exact: integers times a power of two)
+  const sl = local.map((p) => ({ x: p.x * S, y: p.y * S }));
+  const sd = dCm * S;
+  const sE = E * S;
+  const sL = L * S;
+  const lx0 = (x0 - cx) * S;
+  const ly0 = (y0 - cy) * S;
+  const lx1 = (x1 - cx) * S;
+  const ly1 = (y1 - cy) * S;
   // inward the result lies inside the ring; outward inside a box beyond the ring by the corners' reach
   const base: Ring =
     dCm > 0
-      ? local.map((p) => snapped(p.x, p.y))
-      : [snapped(lx0 - E, ly0 - E), snapped(lx1 + E, ly0 - E), snapped(lx1 + E, ly1 + E), snapped(lx0 - E, ly1 + E)];
+      ? sl.map((p) => snapped(p.x, p.y))
+      : [snapped(lx0 - sE, ly0 - sE), snapped(lx1 + sE, ly0 - sE), snapped(lx1 + sE, ly1 + sE), snapped(lx0 - sE, ly1 + sE)];
   const strips: Ring[] = [];
   for (let i = 0; i < n; i += 1) {
-    const a = local[i];
-    const b = local[(i + 1) % n];
+    const a = sl[i];
+    const b = sl[(i + 1) % n];
     const len = Math.hypot(b.x - a.x, b.y - a.y);
     if (len === 0) continue;
     const ux = (b.x - a.x) / len;
@@ -482,11 +516,15 @@ export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): Orac
     const nx = -uy;
     const ny = ux;
     const p = (s: number, t: number): LatticePoint => snapped(a.x + s * ux + t * nx, a.y + s * uy + t * ny);
-    strips.push([p(-L, dCm - L), p(len + L, dCm - L), p(len + L, dCm), p(-L, dCm)]);
+    strips.push([p(-sL, sd - sL), p(len + sL, sd - sL), p(len + sL, sd), p(-sL, sd)]);
   }
   const res = oracleBoolean('difference', [base], strips, 'nonzero', engine);
   if (!res.ok) return res;
-  const back = res.rings.map((r) => r.map((p) => ({ x: (p.x + cx) as Cm, y: (p.y + cy) as Cm })));
+  // back to centimetres: divided by S (exact) and moved back by the integer centre, then rounded once; a ring the
+  // rounding leaves without area (a sliver under a centimetre) is dropped
+  const back = res.rings
+    .map((r) => dedupe(r.map((p) => ({ x: roundHalfAwayCm(p.x / S + cx) as Cm, y: roundHalfAwayCm(p.y / S + cy) as Cm }))))
+    .filter((r) => r.length >= 3 && signedArea2(r) !== 0);
   return { ...res, rings: back, perimeterCm: perimeterOf([ring]) + perimeterOf(back) };
 }
 

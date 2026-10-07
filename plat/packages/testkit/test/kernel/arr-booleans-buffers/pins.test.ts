@@ -12,11 +12,14 @@
 //   there, while the oracle's exact union joins them through a sliver 0.5 cm wide that its snap rounding keeps — equal
 //   once faces touching at a point count as one;
 // * the gate run's outward inset of a face at the lattice's edge (C-0206 (9)): E_OUT_OF_RANGE, settled because the
-//   exact answer leaves the lattice.
-import { faceEdges, offsetFace, type Cm, type LatticePoint } from '@plat/kernel';
+//   exact answer leaves the lattice;
+// * the regular octagon inset outward by 2 866 cm (fix round S2, J226; C-0261): our answer is the exact mitred inset
+//   rounded once (every vertex its nearest lattice point), but the unscaled oracle construction rounded twice and put
+//   clipper2's vertices 0.6 cm off, all outward — |Δ| 23 328 against the unattracted bound 22 843.7 on a correct answer.
+import { faceEdges, insetRing, offsetFace, type Cm, type LatticePoint } from '@plat/kernel';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { loadOracles } from '../../../src/oracles/index.js';
-import { arenaFace, judgeBoolean, judgeInset, judgeOffset, newHarness, warningsOf, type Harness } from './support.js';
+import { compareSplit, loadOracles } from '../../../src/oracles/index.js';
+import { arenaFace, judgeBoolean, judgeInset, judgeOffset, newHarness, oracleInset, ringsOfEdges, warningsOf, type Harness } from './support.js';
 
 const P = (xy: [number, number][]): LatticePoint[] => xy.map(([x, y]) => ({ x: x as Cm, y: y as Cm }));
 
@@ -86,6 +89,27 @@ describe('pinned agreement cases (§3.7 (i))', () => {
     clean(h, 'union', 1);
     expect(h.report.line('union').unattracted).toBe(1);
     expect(h.snapRounded['clipper2/touch']).toBe(1);
+  });
+
+  it('the octagon inset outward by 2 866 cm: an unattracted pass against both oracles, the oracle built in a scaled frame (C-0261)', () => {
+    const ring = P([[-14207, 9163], [-13985, 9255], [-13893, 9477], [-13985, 9699], [-14207, 9791], [-14429, 9699], [-14521, 9477], [-14429, 9255]]);
+    const h = newHarness();
+    judgeInset(h, { rings: [ring], dists: [-2866], source: 'pin/s2-octagon' });
+    clean(h, 'insetRing', 1);
+    expect(h.report.line('insetRing').unattracted).toBe(1);
+    // the oracles' constructions now carry one rounding, as ours does: each lies well inside the bound (it stood at
+    // 1.021 × the bound before the scaled frame)
+    const af = arenaFace([ring]);
+    expect(af).not.toBeNull();
+    if (af === null) return;
+    const ours = insetRing(af.tx, af.face, -2866);
+    expect(ours.ok).toBe(true);
+    const [face] = ringsOfEdges(faceEdges(af.tx, af.face));
+    for (const e of ['clipper2', 'polygon-clipping'] as const) {
+      const v = compareSplit(ours, oracleInset(face, -2866, e), warningsOf(ours));
+      expect(v.pass, e).toBe(true);
+      expect(v.symDiffCm2 / v.boundCm2, e).toBeLessThan(0.5);
+    }
   });
 
   it('an outward inset leaving the lattice is E_OUT_OF_RANGE, settled (C-0206 (9))', () => {

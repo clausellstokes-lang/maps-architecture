@@ -14,6 +14,8 @@ import {
   classifyRefusal,
   farthestVertexCm,
   insertChainRefusalCap,
+  INSET_FRAME_CM,
+  insetFrameExponent,
   insetLeavesLattice,
   judge,
   newHarness,
@@ -230,6 +232,22 @@ describe('faces touching at a point counted as one (C-0206 (8))', () => {
     const h2 = newHarness();
     judge(h2, 'op', 'fam', [sq(0, 0, 1000), sq(1002, 1002, 1000)], (e) => joined[e === 'clipper2' ? 0 : 1], [], () => 'case');
     expect(h2.failures).toHaveLength(1);
+  });
+});
+
+describe('the inset oracle’s scaled frame (C-0261)', () => {
+  it('takes the largest power of two that keeps the strips’ reach inside the frame, and refuses past it', () => {
+    expect(insetFrameExponent(INSET_FRAME_CM)).toBe(-1);
+    expect(insetFrameExponent(Number.POSITIVE_INFINITY)).toBe(-1);
+    expect(insetFrameExponent(Number.NaN)).toBe(-1);
+    expect(insetFrameExponent(INSET_FRAME_CM - 1)).toBe(0);
+    expect(insetFrameExponent(INSET_FRAME_CM / 2)).toBe(0);
+    expect(insetFrameExponent(INSET_FRAME_CM / 2 - 1)).toBe(1);
+    for (const reach of [1, 4_321, 123_456.7, 1_999_999]) {
+      const k = insetFrameExponent(reach);
+      expect(2 ** k * reach).toBeLessThan(INSET_FRAME_CM);
+      expect(2 ** (k + 1) * reach).toBeGreaterThanOrEqual(INSET_FRAME_CM);
+    }
   });
 });
 

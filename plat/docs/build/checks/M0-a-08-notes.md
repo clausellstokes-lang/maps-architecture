@@ -148,3 +148,37 @@ The mutant ids (Q…) are defined in `checks/M0-a-08-s1.md`. None of these notes
     call before M0's milestone whole-suite run. C-0231's own remedy fits: a time-limited call read as the oracle's
     own-operand refusal, which C-0150 / N-40 already count. Owner: M0-k-03's oracle or this item's harness, as the
     session decides.
+
+The rows below are from lane `check/M0-a-08-close-s2`, 2026-10-07: the closing check of session fix round S2 (J226,
+the insetRing oracle's scaled frame, C-0261). Mutant ids T01 – T11 are defined in `checks/M0-a-08-s2.md`.
+
+22. **KI: T03 survives, because `oracleInset`'s use of the largest k is not pinned.** The harness pins
+    `insetFrameExponent` alone. Mutant T03 (`S = k >= 4 ? 16 : 1`, the rejected fixed-16× frame with its fall-back)
+    passes the four inset-reaching files at 1 000. On the seat's seeds 8101, −8202, 8303, −8404 and 8505 (10⁴ each)
+    T03 gives 0 failing verdicts, but its worst ratio |Δ| ÷ bound is 0.744 0.629 0.563 0.717 0.675 against the real
+    code's 0.626 0.516 0.553 0.498 0.516, and each worst case has k < 4 (about 13 % of oracle calls). The real code
+    takes the largest k (CONFIRMED by reading `const S = 2 ** k` and by the lower ratios). *Suggested handling:* pin
+    one k ∈ 1..3 case whose ratio is far lower than with S = 1, or assert that `oracleInset` equals the construction
+    at 2^`insetFrameExponent`. Hardening, M4.
+23. **KI: T07 survives, because the dedupe and the zero-area drop after the final rounding are not pinned.** Without
+    them a ring that rounding collapses would stay in the oracle's answer as a degenerate face. That would cause a
+    false `faces` failure, which is a false red: it fails safe. Nothing in the seat's 5 × 10⁴ cases needed the drop.
+    *Suggested handling:* a unit pin of `oracleInset` on a sub-centimetre sliver. M4.
+24. **T08 is equivalent.** Rounding a half up instead of a half away from zero changes a vertex only at an exact tie.
+    Both lattice points are then nearest, and the promise "rounded to the nearest centimetre once" still holds.
+25. **T09 is equivalent on the lattice-range promise.** Sizing the frame on L instead of L + diag still keeps every
+    strip corner inside 2²³. With L = 2 · diag + 4 · E, E > diag ÷ 2 + |d| and S · L < 4 × 10⁶, a corner lies within
+    diag ÷ 2 + √2 · 1.25 · L < 7.6 × 10⁶ of the centre. C-0261's "+ diag" is margin. T11 (`INSET_FRAME_CM` 8 × 10⁶)
+    passes 2²³ and is killed.
+26. **Observation: the oracle still carries more than one rounding at very sharp vertices.** The seat measured
+    against an exact closed form (half-plane intersection in doubles). On thin triangles, the new oracle's vertices lie
+    up to 28.6 cm from the exact boundary (seed −8404; for example (−59223, −61396), (−64556, −59284),
+    (−60939, −60759) at d = −851 gives 7.8 cm). There are two causes. Outward, a large spike leaves k small. Inward,
+    the strips' residual tilt (about 0.7 ÷ S cm) is multiplied by 1 ÷ sin(θ ÷ 2) at the tip. The ratios on those
+    cases stay ≤ 0.50, and ours stays ≤ 0.703 cm from exact on every case. C-0261's sentence "the oracle carries the
+    one rounding ours carries" holds at moderate angles. *Suggested handling:* reword the sentence, or build the strip
+    edges from exact line coefficients. M4.
+27. **Observation for the session: oracle refusals shift a little.** On the seat's seeds, polygon-clipping's own
+    refusals went from 1 1 2 1 0 (pre-fix) to 0 2 1 0 0 (post-fix). That is within C-0150's allowance of 10 per 10⁴.
+    C-0261's "oracle refusals unchanged" holds on its own seeds only. Separately, the brief places ruling J226 in
+    `checks/M0-spec-notes.md`, but that file has no J226 entry. Only C-0261 names it.
