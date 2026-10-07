@@ -125,7 +125,7 @@ describe('gate wards on two enceintes (C-0257; the g13 integration check’s B-1
 
   it('the one-call form that cannot tell two enceintes apart, or a gate whose enceinte has no line, is refused', { timeout: 300_000 }, () => {
     const t = run(1);
-    expect(() => siteFeatures(t.plat, { gates: t.gates, wall: t.walls[0].line as LatticePoint[] })).toThrow(TypeError);
+    expect(() => siteFeatures(t.plat, { gates: t.gates, wall: t.walls[0].line as LatticePoint[] })).toThrow(/name 2 enceintes/);
     expect(() => siteFeatures(t.plat, { gates: t.gates, walls: [t.walls[1]] })).toThrow(/enceinte:1/);
     // each gate's anchor: touching its vertex, within its own line, outside exactly the lines inside that one
     const feats = siteFeatures(t.plat, { gates: t.gates, walls: t.walls });
