@@ -1,5 +1,5 @@
 // The edge suite's chain (M0-x-06; C-0100: "each the smallest state that reaches its home — the stage's own Stage object
-// on a prepared arena, or M0-x-04's runBase on a small frame"; C-0272 (4)). `edgeChain(seed, opts)` runs M0-x-04's base
+// on a prepared arena, or M0-x-04's runBase on a small frame"; C-0273 (4)). `edgeChain(seed, opts)` runs M0-x-04's base
 // registration through M0-x-02's runner (`run`) — the registered Stage objects of S1, S3, S4, S5, S6 (and S8 when asked)
 // in §4.1's order, each once — on a small frame (12 ha at CITY, 3 ha walled: the flat fixture's site, or a blueprint the
 // fixture names), stopping after the stage the fixture's home is. Two things are the harness's own:
@@ -50,7 +50,7 @@ export const CHAIN_ORDER: readonly ChainStage[] = Object.freeze(['S1', 'S3', 'S4
 export type S5Sub = 'S5a' | 'S5b' | 'S5c' | 'S5d';
 
 /**
- * The small flat frame (C-0272 (4)): CITY, 30 ha of frame at aspect 1, 6 ha walled — the smallest frame on which the
+ * The small flat frame (C-0273 (4)): CITY, 30 ha of frame at aspect 1, 6 ha walled — the smallest frame on which the
  * base's stage-2 trace stands on every seed surveyed (on 12 ha, F-WALL refuses stage 2's trace on about half the seeds,
  * its later rungs M1's: the frame, not the fixture, would decide).
  */

@@ -1,7 +1,7 @@
 // EP-01 on every M0 stage × the five degenerate kinds (M0-x-06; §4.13 EP-01: "every stage — zero-length, zero-area,
 // self-touching, collinear or coincident geometry — refused by the kernel; the stage's failure class (§4.1) — repair
 // locally → retry that piece → simpler shape → leave out and report"; §4.1's transactions table; §5.1 (9); C-0100;
-// C-0272 (3)–(6)). Forty-five fixtures `EP-01/<stage>/<kind>`, each the smallest state that reaches its stage:
+// C-0273 (3)–(6)). Forty-five fixtures `EP-01/<stage>/<kind>`, each the smallest state that reaches its stage:
 //   S1, S3, S4, S5a, S5b, S5c, S5d — the base's registered stages through the runner (./chain.ts) on a small frame, the
 //     stage's own chain planted with the kind on its way into the kernel (./plant.ts): S1 the river's shore (its water
 //     batch), S3 stage 1's trace (the slice's commit), S4 an arterial's spine, S5a stage 2's trace, S5b a main road, S5c
@@ -11,7 +11,7 @@
 //   S8 — M0-b-03's Stage on a two-district arena whose west district's faces carry the kind (./s8.ts).
 // Each run is judged on: the plant fired (the precondition), no restart, the arena valid after the stage (the kernel's
 // whole-arena sweep), and how the stage handled it — absorbed by §3.11's rule, laddered with the rung its record names,
-// left out and reported, or (pinned per cell, C-0272 (6)) refused safe: typed, rolled back, one bugs entry.
+// left out and reported, or (pinned per cell, C-0273 (6)) refused safe: typed, rolled back, one bugs entry.
 import { simpleCcw, type S5cRecord, type S6Output, type S8Output, type StreetGrowOptions } from '@plat/layout';
 import { loadTable, type WorkLimitsTable } from '@plat/tables';
 import type { S1Output } from '@plat/site';
@@ -155,7 +155,7 @@ export function runEp01(stage: Ep01Stage, kind: DegenerateKind, seed: number, ex
   return stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed, extra) : runChainCell(stage, kind, seed, extra);
 }
 
-/** A cell's pinned refusal codes (C-0272 (6)), or undefined where the stage's ladder takes every seed. */
+/** A cell's pinned refusal codes (C-0273 (6)), or undefined where the stage's ladder takes every seed. */
 export function ep01Pinned(stage: Ep01Stage, kind: DegenerateKind): readonly string[] | undefined {
   return PINNED[stage]?.[kind];
 }
@@ -218,7 +218,7 @@ function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): E
   return outcome('absorbed', 'S8: every face cut or stopped on its first rung', problems, { blocks: v.blocks.length, ...workCut });
 }
 
-/** The cells' pinned refusals (C-0272 (6)): the stage refuses safe where its ladder has no rung for the kind at M0. */
+/** The cells' pinned refusals (C-0273 (6)): the stage refuses safe where its ladder has no rung for the kind at M0. */
 const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
   S1: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
   S3: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
@@ -227,7 +227,7 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
   S6: { 'zero-area': ['E_INVARIANT'] },
 };
 
-/** The known-issue line a pinned cell is listed under (C-0272 (6); the hardening pass's). */
+/** The known-issue line a pinned cell is listed under (C-0273 (6); the hardening pass's). */
 export function ep01Known(stage: Ep01Stage, kind: DegenerateKind): string | null {
   const codes = PINNED[stage]?.[kind];
   return codes === undefined ? null : `KI EP-01/${stage}/${kind}: the stage refuses the planted ${kind} whole (${codes.join(' | ')}) — no rung of ${EP01_CLASS[stage]} takes it at M0; fail-safe (N-45), for the hardening pass`;

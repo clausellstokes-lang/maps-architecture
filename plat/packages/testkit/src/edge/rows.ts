@@ -1,4 +1,4 @@
-// §4.13's EP rows whose mechanisms M0 lands, beside EP-01 (M0-x-06; C-0100; C-0272 (7)–(12)): EP-04 (S5b, S5c), EP-05
+// §4.13's EP rows whose mechanisms M0 lands, beside EP-01 (M0-x-06; C-0100; C-0273 (7)–(12)): EP-04 (S5b, S5c), EP-05
 // (S5d), EP-06 (S6: a single coarse face; a degenerate district face), EP-16's stop-test end (§4.6 step 1), EP-20's M0
 // part (S3 (6), S5a, S5d) and EP-23's M0 part (§4.3's class grade, F-ROUTE's slope rung). Each fixture is the smallest
 // state that reaches its home and asserts the home's stated outcome, its rung "— (defined)" or the rung its row names.
@@ -292,7 +292,7 @@ function runEp06Degenerate(seed: number): EdgeOutcome {
 
 // ---- EP-16 ----------------------------------------------------------------------------------------------------------------
 
-/** A derivation Rng whose every stream returns `u` for every uniform (the fixture stream of C-0272 (10)). */
+/** A derivation Rng whose every stream returns `u` for every uniform (the fixture stream of C-0273 (10)). */
 function constantRng(u: number): Rng {
   const s = { float01: () => u } as unknown as Stream;
   return { stream: () => s } as unknown as Rng;
@@ -331,7 +331,7 @@ function runEp16(seed: number): EdgeOutcome {
     if (plan.stop.uniforms.some((x) => x !== u)) problems.push(`${name}: the stop test read uniforms ${plan.stop.uniforms.join(', ')}`);
     if (plan.stop.g !== g) problems.push(`${name}: g = ${String(plan.stop.g)}, expected ${String(g)}`);
     // g = 0: τ = e_lo exactly (the power is 1); g = 1: τ = e_lo · (e_hi / e_lo), e_hi to within a few ulps of the double
-    // product (C-0272 (10): the last ulp is the planner's arithmetic, a KI for the hardening pass, never the decision on a
+    // product (C-0273 (10): the last ulp is the planner's arithmetic, a KI for the hardening pass, never the decision on a
     // minor extent strictly inside the range)
     const tol = g === 0 ? 0 : tau * 2 ** -48;
     if (!(Math.abs(plan.stop.tauCm - tau) <= tol) || !(Math.abs(stopThreshold(eLo * 100, eHi * 100, g) - tau) <= tol)) problems.push(`${name}: τ = ${String(plan.stop.tauCm)} cm, expected ${String(tau)}`);
@@ -415,7 +415,7 @@ export function gradeProblem(name: string, cls: RouteClass, steepest: number, li
 }
 
 /**
- * EP-23's M0 part (§4.3 *The class grade limit*; §5.2 F-ROUTE's slope rung; C-0272 (12)): on the 3 000 m relief, S4's
+ * EP-23's M0 part (§4.3 *The class grade limit*; §5.2 F-ROUTE's slope rung; C-0273 (12)): on the 3 000 m relief, S4's
  * router routes each gate's arterial from the plaza's attach point to the frame under the class grade limits: every
  * route it returns climbs no edge steeper than the limit of the class it was routed at, after the slope rung relaxed the
  * class in F-ROUTE's order (each relaxation reported), else the destination is `unserved`, reported. The ridge between

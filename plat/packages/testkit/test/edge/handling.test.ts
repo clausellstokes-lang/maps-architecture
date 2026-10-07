@@ -1,6 +1,6 @@
-// How an EP-01 cell's run is classified (M0-x-06; C-0272 (6)): a refusal counts as laddered only when the stage's record
+// How an EP-01 cell's run is classified (M0-x-06; C-0273 (6)): a refusal counts as laddered only when the stage's record
 // names the rung, as left out only when the record reports the piece left out, and is otherwise off — never a pass by
-// default; and EP-23's grade judge (C-0272 (12)). Fabricated runs, so each branch is held whatever the stages do today.
+// default; and EP-23's grade judge (C-0273 (12)). Fabricated runs, so each branch is held whatever the stages do today.
 import { describe, expect, it } from 'vitest';
 import type { ChainRun } from '../../src/edge/chain.js';
 import { chainHandling } from '../../src/edge/ep01.js';
@@ -75,7 +75,7 @@ describe("EP-01's classification of a chain stage's run", () => {
   });
 });
 
-describe("EP-23's grade judge (C-0272 (12))", () => {
+describe("EP-23's grade judge (C-0273 (12))", () => {
   it('a route within its class grade passes; one above it, or at a class with no limit, is named', () => {
     for (const [cls, limit] of Object.entries(EP23_GRADES) as [keyof typeof EP23_GRADES, number][]) {
       expect(gradeProblem('gate:1', cls, limit)).toBeNull();

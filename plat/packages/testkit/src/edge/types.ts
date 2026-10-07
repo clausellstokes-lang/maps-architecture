@@ -12,7 +12,7 @@
  *   left-out      the piece was left out and reported (tier 6), the stage going on;
  *   refused-safe  the stage refused it as a whole — typed (a §3.1 code), the batch rolled back, one `bugs` entry naming
  *                 the stage, the next stages run (§5.1 (8)'s defined state) — the fail-safe end where the stage's ladder
- *                 has no rung for it at M0 (C-0272 (6): a known shortfall for the hardening pass, pinned per cell);
+ *                 has no rung for it at M0 (C-0273 (6): a known shortfall for the hardening pass, pinned per cell);
  *   defined       the home's stated outcome where its row's rung is "— (defined)";
  *   off           the outcome is none of the above: the fixture fails.
  */
@@ -36,7 +36,7 @@ export interface EdgeOutcome {
 export interface EdgeExpect {
   /** The home's stated outcome, in its words. */
   readonly outcome: string;
-  /** The handlings the home's outcome allows for this fixture (§4.13's ladder column; C-0272 (6) for refused-safe). */
+  /** The handlings the home's outcome allows for this fixture (§4.13's ladder column; C-0273 (6) for refused-safe). */
   readonly allowed: readonly EdgeHandling[];
   /** A refused-safe cell's pinned refusal (§3.1 codes) and the known-issue line it is listed under. */
   readonly refusal?: { readonly codes: readonly string[]; readonly known: string };
