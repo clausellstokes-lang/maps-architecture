@@ -171,6 +171,26 @@ describe('F-NUM (C-0085)', () => {
     expect(rec.streets.some((s) => s.proposal === 2)).toBe(true);
   });
 
+  it('the re-proposal draws from the next attempt stream: its step length is growth.heading at attempt 1’s first draw', () => {
+    const c = handCase('dense_core');
+    const [lo, hi] = c.area.rules.stepCm('secondary');
+    const u = createRng().stream(seedKey(7), STAGES.S5 as StageId, CONCERNS['growth.heading'], { reroll: 0, attempt: 1, epoch: 0, salt: 0 }).float01();
+    const expected = Math.round(lo + (hi - lo) * u);
+    let got = -1;
+    let planted = false;
+    grow(c, 7, {
+      insert: (o, points, wayId, knots, at) => {
+        if (!planted && at.proposal === 0 && at.attempt === 0) {
+          planted = true;
+          return err('E_BELOW_MIN_EDGE', 'planted');
+        }
+        if (got < 0 && at.proposal === 0 && at.attempt === 1) got = Math.hypot(points[points.length - 1].x - points[0].x, points[points.length - 1].y - points[0].y);
+        return c.k.geom.insertChain(o, points, [{ role: 'way', entity: wayId }], 'optional', { pinned: points.map((_, i) => i), knots });
+      },
+    });
+    expect(Math.abs(got - expected)).toBeLessThanOrEqual(2);
+  });
+
   it('refused again, the step is rejected with a report line: the proposal ends, the rest grows, the map valid', () => {
     const c = handCase('dense_core');
     const rec = grow(c, 7, {

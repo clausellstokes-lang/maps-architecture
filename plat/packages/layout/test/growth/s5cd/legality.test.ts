@@ -37,6 +37,12 @@ describe('the clearance and its rules', () => {
     expect(walled.snapShare).toBe(0.35);
     expect(walled.biasSteps).toBe(1.5);
     expect(walled.legalAngle).toBeCloseTo(30 * DEG, 12);
+    // Seeds every 2 × max(block depth, separation / 2): 160 m walled (district scale), 60 m in the ribbon (block scale).
+    expect(growthRules(tables, 'dense_core', 'CITY').seedSpacingCm).toBe(16_000);
+    expect(growthRules(tables, 'ribbon', 'CITY').seedSpacingCm).toBe(6_000);
+    expect(growthRules(tables, 'walled_rings', 'CITY').blockDepthCm).toBe(4_500);
+    expect(walled.minRadiusCm('secondary')).toBe(2_500);
+    expect(walled.minRadiusCm('lane')).toBe(1_200);
   });
 });
 

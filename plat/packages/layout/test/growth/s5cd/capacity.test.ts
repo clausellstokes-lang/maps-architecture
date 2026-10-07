@@ -79,6 +79,20 @@ describe('the plain fixture takes no top-up (the stand-in demand, C-0016)', () =
     expect(g.run.capacity[1].check.faces.some((f) => f.reserved === 'strip')).toBe(true);
   });
 
+  it('stage 2’s cut points split the built land of stages 1 and 2 together by the shares (over the land grown so far)', { timeout: 240_000 }, () => {
+    const g = fixtureGrown(1, {});
+    const [d1, d2] = g.run.capacity;
+    const faces = [...d1.check.faces, ...d2.check.faces].filter((f) => f.builtCm2 > 0);
+    const total = faces.reduce((a, f) => a + f.builtCm2, 0);
+    const largest = Math.max(...faces.map((f) => f.builtCm2));
+    let cum = 0;
+    for (let i = 0; i < 5; i += 1) {
+      cum += SHARES[i];
+      const below = faces.filter((f) => f.value < d2.check.cuts.cuts[i]).reduce((a, f) => a + f.builtCm2, 0);
+      expect(Math.abs(below - cum * total)).toBeLessThanOrEqual(largest + 1);
+    }
+  });
+
   it('the cut points split the built land grown so far by the household shares (within one face’s land)', { timeout: 240_000 }, () => {
     const g = fixtureGrown(1, {});
     const d = g.run.capacity[0];
@@ -140,6 +154,8 @@ describe('the top-up (F-BUDGET-STAGE)', () => {
     const nb = d.boundary!;
     expect(nb.landCm2).toBeGreaterThan(oldB.landCm2);
     expect(Math.abs(nb.landCm2 - oldB.landCm2 - d.extraCm2)).toBeLessThanOrEqual(state.slice.lattice.cellAreaCm2 * 2);
+    // The extra land: the shortfall at the stage's measured built share (§5.2: "at the stage's measured plot density").
+    expect(d.extraCm2).toBeCloseTo((d.check.shortfallCm2 * d.check.landCm2) / d.check.builtCm2, -1);
     for (let i = 0; i < oldB.set.selected.length; i += 1) if (oldB.set.selected[i] === 1) expect(nb.set.selected[i]).toBe(1);
     expect(state.stages[k - 1].boundary).toBe(nb);
     // S5c ran on the rim, its prune and trim with it; the check ran again on the same demand.

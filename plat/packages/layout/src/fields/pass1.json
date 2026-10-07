@@ -1,0 +1,49 @@
+{
+  "table": "fieldsPass1",
+  "version": 1,
+  "section": "§4.5 Fields (the pass-1 mechanism's own cells beside fields.json's weights: the ε fBm's shape, the main-street classes, the elevation and low-and-damp kernels' spans, the water term's q(x) radius, the district-type term per synthetic kind; M0-e-05, C-0049, C-0035)",
+  "rows": {
+    "chance": {
+      "wavelengthM": {"value": 800, "unit": "m", "provenance": "own", "calibratable": true, "note": "ε's base wavelength: a low-frequency fBm (§4.5), well above the blur's one block width"},
+      "octaves": {"value": 3, "unit": "count", "provenance": "own", "calibratable": true},
+      "lacunarity": {"value": 2, "unit": "ratio", "provenance": "own", "calibratable": true},
+      "gain": {"value": 0.5, "unit": "ratio", "provenance": "own", "calibratable": true}
+    },
+    "mainStreet": {
+      "classes": {"value": ["through", "primary"], "unit": "none", "provenance": "own", "calibratable": false, "note": "the way classes the main-street kernel measures from (§4.5 'main streets')"}
+    },
+    "flood": {
+      "riseM": {"value": 2, "unit": "m", "provenance": "own", "calibratable": true, "note": "the flood line: the nearest water's ground height plus this rise (the lowest ground of the grid when the site has no water)"}
+    },
+    "elevation": {
+      "spanM": {"value": 30, "unit": "m", "provenance": "own", "calibratable": true, "note": "the elevation kernel rises linearly from the flood line to 1 at this height above it"}
+    },
+    "lowDamp": {
+      "bandM": {"value": 3, "unit": "m", "provenance": "own", "calibratable": true, "note": "low ground: within this height of the flood line, falling linearly to 0 at it"},
+      "radiusM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "damp ground: within this distance of water, falling linearly; no water, no damp"}
+    },
+    "waterTerm": {
+      "radiusM": {"value": 300, "unit": "m", "provenance": "own", "calibratable": true, "note": "q(x)'s reach from a river bank or shore (§4.5 the water term, item 111 (b)); the term's weight is fields.json's waterTerm.weight (0 at M0, its rows M2b's, C-0049)"}
+    },
+    "characterOffset": {
+      "prosperity.central": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true, "note": "the district-type term per C-0035's synthetic kind (the roster's kinds replace them at M1)"},
+      "prosperity.market": {"value": 0.03, "unit": "share", "provenance": "own", "calibratable": true},
+      "prosperity.gate": {"value": -0.02, "unit": "share", "provenance": "own", "calibratable": true},
+      "prosperity.riverbank": {"value": 0, "unit": "share", "provenance": "own", "calibratable": true},
+      "prosperity.craft": {"value": -0.04, "unit": "share", "provenance": "own", "calibratable": true},
+      "prosperity.sprawl": {"value": -0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.central": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.market": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.gate": {"value": 0, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.riverbank": {"value": 0, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.craft": {"value": 0.02, "unit": "share", "provenance": "own", "calibratable": true},
+      "density.sprawl": {"value": -0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.central": {"value": -0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.market": {"value": -0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.gate": {"value": 0, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.riverbank": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.craft": {"value": -0.02, "unit": "share", "provenance": "own", "calibratable": true},
+      "greenery.sprawl": {"value": 0.05, "unit": "share", "provenance": "own", "calibratable": true}
+    }
+  }
+}

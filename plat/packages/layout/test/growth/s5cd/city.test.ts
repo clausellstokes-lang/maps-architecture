@@ -8,7 +8,8 @@ import { lineageHash, TOWN_ROOT } from '@plat/model';
 import { loadWorkLimits } from '@plat/tables';
 import { s5dStage } from '../../../src/growth/capacity.js';
 import { growthStageLineage, s5cStage } from '../../../src/growth/proposals.js';
-import { fixtureGrown, grownRun, GROUND, insideRing, properCross, roleEdges, SMALL } from './support.js';
+import { baseRun, fixtureGrown, grownRun, GROUND, insideRing, properCross, roleEdges, segDist, SMALL } from './support.js';
+import { growthArea, growthStart, wayLines } from '../../../src/growth/index.js';
 import { flatFixture } from '../../../src/index.js';
 
 describe('S5 on the flat fixture', () => {
@@ -80,6 +81,30 @@ describe('S5 on the flat fixture', () => {
     });
     const nums = rec.streets.map((s) => Number(s.way.id.slice(4)));
     for (let i = 1; i < nums.length; i += 1) expect(nums[i]).toBeGreaterThan(nums[i - 1]);
+  });
+});
+
+describe('the seeds (C-0254 (3))', () => {
+  it('lie on the arterials inside stage 1’s wall, a seed spacing apart along each, clear of the bands by the clearance', { timeout: 240_000 }, () => {
+    const b = baseRun(flatFixture(1, SMALL));
+    const state = growthStart({ slice: b.slice, commit: b.commit, s4: b.s4, kernel: b.k });
+    const area = growthArea(state, 1);
+    const S = area.rules.seedSpacingCm;
+    const D = area.rules.legality.clearanceCm('secondary');
+    expect(area.seeds.length).toBeGreaterThan(0);
+    const lines = new Map(wayLines(b.k, state.ways.map((w) => w.id), GROUND).map((l) => [l.way, l.runs.flatMap((r) => r.points)]));
+    const bands = area.features.filter((f) => f.kind === 'band');
+    for (const s of area.seeds) {
+      const cls = state.ways.find((w) => w.id === s.way)?.class;
+      expect(cls === 'through' || cls === 'primary').toBe(true);
+      const pts = lines.get(s.way)!;
+      let d = Infinity;
+      for (let i = 1; i < pts.length; i += 1) d = Math.min(d, segDist(s.at, pts[i - 1], pts[i]));
+      expect(d).toBeLessThan(1);
+      expect(insideRing(state.stages[0].wall!, s.at)).toBe(true);
+      for (const f of bands) expect(segDist(s.at, f.a, f.b)).toBeGreaterThanOrEqual(D - 1);
+      for (const t of area.seeds) if (t !== s) expect(Math.hypot(t.at.x - s.at.x, t.at.y - s.at.y)).toBeGreaterThanOrEqual(S / 2 - 1);
+    }
   });
 });
 
