@@ -4,15 +4,25 @@
 // S5 equals the items' own (M0-c-01 … M0-c-05's flat fixture, slice, commits, runS4 and runS5), and the run's rerolls
 // reach the stages they name (C-0090). The fixtures run on a 900 ha frame with 30 ha walled (C-0264 (10)): the full
 // CITY size is the harnesses' (M0-c-06, M0-e-06, M0-d-09).
-import { attachIndex, createKernel, createPlat, createRng, levelDigest, seedKey, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
-import { canonicalText, mintTownRoot, type Terrain, type WaterSet, type Way } from '@plat/model';
+import { attachIndex, CONCERNS, createKernel, createPlat, createRng, levelDigest, seedKey, stageText, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
+import { canonicalText, mintTownRoot, type Gate, type Terrain, type WaterSet, type Way } from '@plat/model';
 import { resourceGrid, terrainParams, WATER_CELL, type SiteResources } from '@plat/site';
 import { loadWorkLimits, tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
+  baseArena,
   BASE_OP_FORMS,
   BASE_ORDER,
   commitS3Slice,
+  createRegistry,
+  fieldDriverSources,
+  fieldFaces,
+  fieldsOwnTable,
+  fieldsPass1,
+  registerBase,
+  run,
+  type FieldsPass1,
+  type S6Output,
   flatFixture,
   FLAT_BLUEPRINT,
   RIVER_BLUEPRINT,
@@ -311,6 +321,55 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     expect(inp.features[0]).toMatchObject({ id: 'plaza:0', kind: 'market' });
     expect(inp.features.filter((f) => f.kind === 'gate').map((f) => f.id)).toEqual(gates.map((g) => g.id));
   });
+});
+
+describe("S6's second half: pass 1 over the arena S6 left, from the run's records (C-0255 (12); C-0264 (5), (11))", () => {
+  for (const [name, bp] of [
+    ['flat', FLAT],
+    ['river', RIVER],
+  ] as const) {
+    it(`${name}: the fields record equals fieldsPass1 recomputed from S5's ways and gates, the plaza, S1's water, terrain and resources; the bands in order`, { timeout: 900_000 }, () => {
+      // the base without S8: the arena stands as S6 left it
+      const registry = createRegistry();
+      registerBase(registry);
+      const stages = registry.products.get('base')?.stages ?? [];
+      stages.splice(
+        stages.findIndex((s) => stageText(s.id) === 'S8'),
+        1,
+      );
+      const { model: m, report } = run(registry, { ...bp, seed: 1 } as never, { kind: 'all' }, { arenas: () => [baseArena(bp)] });
+      expect(report.bugs).toEqual([]);
+      const p = ground(m);
+      const state = m.data.get('s5.growth') as GrowthState;
+      const commit = m.data.get('s3.commit') as S3Commit;
+      const slice = m.data.get('s3.slice') as S3Slice;
+      const water = m.data.get('water') as WaterSet;
+      const terrain = m.data.get('terrain') as Terrain;
+      const resources = m.data.get('resources') as SiteResources;
+      const s6 = m.data.get('s6') as S6Output;
+      expect(s6.districts.length).toBeGreaterThan(0);
+      if (name === 'river') expect(water.bodies.length).toBeGreaterThan(0);
+      const sources = fieldDriverSources(p, { reservations: [commit.plaza], ways: state.ways, gates: state.stages.flatMap((st) => st.gates), water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
+      const stream = createRng().stream(m.town.entityKey, STAGES.S6, CONCERNS['field.chance'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
+      const want = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources, sources }, { districts: s6.districts, faces: fieldFaces(p) }, tableView(), stream);
+      expect(want.ok).toBe(true);
+      if (!want.ok) return;
+      const got = m.data.get('fields') as FieldsPass1;
+      expect(canonicalText(got)).toBe(canonicalText(want.value));
+      expect(m.data.get('fieldBands')).toEqual([want.value.prosperity.bands, want.value.density.bands, want.value.greenery.bands]);
+      // the inputs matter: without the resources, the gates or the ways the record differs (no input is inert here)
+      const without = (o: Partial<{ resources: null; gates: Gate[]; ways: Way[] }>): string => {
+        const src = fieldDriverSources(p, { reservations: [commit.plaza], ways: o.ways ?? state.ways, gates: o.gates ?? state.stages.flatMap((st) => st.gates), water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
+        const s = createRng().stream(m.town.entityKey, STAGES.S6, CONCERNS['field.chance'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
+        const f = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources: o.resources === null ? null : resources, sources: src }, { districts: s6.districts, faces: fieldFaces(p) }, tableView(), s);
+        return f.ok ? canonicalText(f.value) : `refused ${f.code}`;
+      };
+      const all = canonicalText(want.value);
+      expect(without({ resources: null })).not.toBe(all);
+      expect(without({ gates: [] })).not.toBe(all);
+      expect(without({ ways: [] })).not.toBe(all);
+    });
+  }
 });
 
 describe("S3's commits take S1's water: a stage-1 trace across the river gates it (C-0087; C-0264 (3))", () => {
