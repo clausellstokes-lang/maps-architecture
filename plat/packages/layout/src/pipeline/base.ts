@@ -26,7 +26,7 @@
 // river variant at CITY (`FLAT_BLUEPRINT`, `RIVER_BLUEPRINT`); S0's expansion — any other rung, population or aspect — is
 // M1's and refused by name.
 import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, pointLocate, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
-import { mintTownRoot, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
+import { mintTownRoot, type Bridge, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
 import { baseTerrain, cellCount, centreX, centreY, flatTerrain, GROUND_KEY, hydroGridOver, hydroParams, LAND_CELL, rasterGeom, resourceGrid, riverStrategy, s1Stage, siteFrame, siteResources, terrainParams, terrainSampler, TERRAIN_ID, TOWN_ROOT, WATER_CELL, type RiverReport, type SiteResources, type TerrainParams, type RiverRequest, type RiverStrategy, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
 import { loadWorkLimits, rungProfile, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { baseNetwork, NETWORK_STRATEGY_ID, s4Stage, type S4Output } from '../backbone/stage.js';
@@ -603,6 +603,8 @@ interface S6In {
   readonly commit: S3Commit;
   readonly state: GrowthState;
   readonly water: WaterSet;
+  /** S4's bridges (data key `bridges`): S1's crossing sites, `built` where S4 spanned one (C-0267). */
+  readonly bridges?: readonly Bridge[];
   readonly terrain: Terrain;
   readonly resources?: SiteResources;
 }
@@ -628,7 +630,10 @@ export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineConte
   const ways: Way[] = input.state.ways.slice();
   const gates: Gate[] = input.state.stages.flatMap((st) => st.gates);
   const reservations = [input.commit.plaza];
-  const features = siteFeatures(p, { reservations, gates, bridges: input.water.bridges, ways, water: input.water, walls: o.walls });
+  // S6's bridges are S4's (C-0267, refining C-0264 (5)): S1 lays crossing sites only, S4 returns them `built` where it
+  // spanned one, and only a built bridge seeds bridgehead wards; S1's record stands in only when S4 wrote no `bridges`.
+  const bridges = input.bridges ?? input.water.bridges;
+  const features = siteFeatures(p, { reservations, gates, bridges, ways, water: input.water, walls: o.walls });
   return ok({
     kernel,
     key: GROUND,
@@ -681,7 +686,8 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
       const terrain = read<Terrain>(model, 'terrain');
       if (bp === undefined || slice === undefined || commit === undefined || state === undefined || water === undefined || terrain === undefined) return null;
       const resources = read<SiteResources>(model, 'resources');
-      return { bp, slice, commit, state, water, terrain, ...(resources === undefined ? {} : { resources }) };
+      const bridges = read<readonly Bridge[]>(model, 'bridges');
+      return { bp, slice, commit, state, water, terrain, ...(bridges === undefined ? {} : { bridges }), ...(resources === undefined ? {} : { resources }) };
     },
     run(input: S6In | null, ctx: PipelineContext): KernelResult<Record<string, unknown>> {
       if (input === null) return ok({});

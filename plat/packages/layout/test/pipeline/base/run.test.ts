@@ -5,7 +5,7 @@
 // reach the stages they name (C-0090). The fixtures run on a 900 ha frame with 30 ha walled (C-0264 (10)): the full
 // CITY size is the harnesses' (M0-c-06, M0-e-06, M0-d-09).
 import { attachIndex, CONCERNS, createKernel, createPlat, createRng, levelDigest, seedKey, stageText, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
-import { canonicalText, mintTownRoot, type Gate, type Terrain, type WaterSet, type Way } from '@plat/model';
+import { canonicalText, mintTownRoot, type Bridge, type Gate, type Terrain, type WaterSet, type Way } from '@plat/model';
 import { resourceGrid, terrainParams, WATER_CELL, type SiteResources } from '@plat/site';
 import { loadWorkLimits, tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
@@ -331,6 +331,48 @@ describe("S3's planned water and S6's input are composed from what S1 and S5 com
     const gates = state.stages.flatMap((st) => st.gates).filter((g) => g.kind === 'main');
     expect(inp.features[0]).toMatchObject({ id: 'plaza:0', kind: 'market' });
     expect(inp.features.filter((f) => f.kind === 'gate').map((f) => f.id)).toEqual(gates.map((g) => g.id));
+  });
+});
+
+describe("S6's bridges are S4's: a bridge S4 builds seeds bridgehead wards (§4.5 *Grower*; C-0267, refining C-0264 (5))", () => {
+  it('river at seed 5: S4 builds bridge:8 on a through way, both deck ends seed S6 as bridgeheads; withholding S4’s bridges moves S6 and only S6', { timeout: 900_000 }, () => {
+    const r = runOf('river:5', RIVER, 5);
+    expect(r.report.bugs).toEqual([]);
+    // S1 lays crossing sites only; S4 returns them one for one, `built` where it spanned one (C-0076)
+    const s1 = r.model.data.get('s1') as { water: WaterSet };
+    expect(s1.water.bridges.length).toBeGreaterThan(0);
+    expect(s1.water.bridges.every((b) => b.state === 'site')).toBe(true);
+    const bridges = r.model.data.get('bridges') as Bridge[];
+    expect(bridges.map((b) => b.id)).toEqual(s1.water.bridges.map((b) => b.id));
+    expect(bridges.filter((b) => b.state === 'built').map((b) => [b.id, b.way])).toEqual([['bridge:8', 'way:5']]);
+    expect((r.model.data.get('ways') as Way[]).find((w) => w.id === 'way:5')?.class).toBe('through');
+    // S6 seeded a bridgehead ward at each deck end of the built bridge
+    const s6 = r.model.data.get('s6') as S6Output;
+    const heads = (o: S6Output): (string | undefined)[] => o.grow.grown.filter((g) => g.seed.kind === 'bridgehead').map((g) => g.seed.feature);
+    expect(heads(s6)).toEqual(['bridge:8/end:0', 'bridge:8/end:1']);
+    // the same run with S6 given no `bridges` key: S1's sites stand in (C-0267's fallback), so no bridgehead is sited
+    const registry = createRegistry();
+    registerBase(registry);
+    const stages = registry.products.get('base')?.stages ?? [];
+    const i = stages.findIndex((s) => stageText(s.id) === 'S6');
+    const own = stages[i];
+    stages[i] = {
+      ...own,
+      inputsOf: (m, sc) => {
+        const x = own.inputsOf(m, sc) as { bridges?: unknown } | null;
+        if (x === null) return null;
+        const { bridges: _b, ...rest } = x;
+        return rest;
+      },
+    };
+    const w = run(registry, { ...RIVER, seed: 5 } as never, { kind: 'all' }, { arenas: () => [baseArena(RIVER)] });
+    expect(w.report.bugs).toEqual([]);
+    for (const s of ['S1', 'S3', 'S4', 'S5']) expect(w.model.stageRoots.get(s), s).toEqual(r.model.stageRoots.get(s));
+    const s6w = w.model.data.get('s6') as S6Output;
+    expect(heads(s6w)).toEqual([]);
+    expect(s6w.report.seeds).toBe(s6.report.seeds - 2);
+    expect(canonicalText(w.model.data.get('districts'))).not.toBe(canonicalText(r.model.data.get('districts')));
+    expect(w.model.stageRoots.get('S6')).not.toEqual(r.model.stageRoots.get('S6'));
   });
 });
 
