@@ -34,7 +34,8 @@ describe('§13.5 growth drift on S5c’s grown streets (a pool that can fail)', 
     ['dense_core', [1, 2, 3, 4]],
     ['ribbon', [1, 2, 3, 4, 5, 6, 7, 8]],
   ] as const) {
-    it(`${regime}: net turn over 600 m p50 in 15–30°, > 90° on ≤ 1 %, over ≥ 100 windows`, { timeout: 300_000 }, () => {
+    it(`${regime}: net turn over 600 m p50 in 15–30°, > 90° on ≤ 1 %, over ≥ 100 windows`, { timeout: 1_200_000 }, () => {
+      // Both sides of each arterial grow (C-0260): the ribbon pool takes about 150 s alone, twice that on a loaded machine.
       const w = windows(regime, seeds);
       expect(w.length).toBeGreaterThanOrEqual(100);
       const p50 = quantile7(w, 0.5);
