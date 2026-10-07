@@ -127,6 +127,18 @@ describe('gate wards on two enceintes (C-0257; the g13 integration check’s B-1
     const t = run(1);
     expect(() => siteFeatures(t.plat, { gates: t.gates, wall: t.walls[0].line as LatticePoint[] })).toThrow(TypeError);
     expect(() => siteFeatures(t.plat, { gates: t.gates, walls: [t.walls[1]] })).toThrow(/enceinte:1/);
+    // each gate's anchor: touching its vertex, within its own line, outside exactly the lines inside that one
+    const feats = siteFeatures(t.plat, { gates: t.gates, walls: t.walls });
+    for (const f of feats) {
+      const gate = t.gates.find((x) => x.id === f.id);
+      const own = t.walls.findIndex((w) => w.enceinte === gate?.enceinte);
+      expect(f.anchor.kind).toBe('point');
+      if (f.anchor.kind !== 'point') continue;
+      expect(f.anchor.touching).toBe(true);
+      expect(f.anchor.within).toBe(t.walls[own].line);
+      expect(f.anchor.outside).toEqual(t.walls.slice(0, own).map((w) => w.line));
+    }
+    expect(feats.length).toBe(t.gates.filter((x) => x.kind === 'main').length);
     // one enceinte's gates with its line alone: accepted
     const inner = t.gates.filter((x) => x.enceinte === t.walls[0].enceinte);
     expect(siteFeatures(t.plat, { gates: inner, wall: t.walls[0].line as LatticePoint[] }).length).toBe(inner.filter((x) => x.kind === 'main').length);

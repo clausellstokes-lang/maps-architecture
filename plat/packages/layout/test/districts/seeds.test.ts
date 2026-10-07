@@ -107,6 +107,13 @@ describe('the seeds (§4.5)', () => {
     expect(Math.abs(ug.faces[ui].centroid.x)).toBeLessThan(500);
     expect(faceInRing(ug, ui, notch)).toBe(false);
     expect(faceInRing(ug, ui, [P(-4000, -4000), P(4000, -4000), P(4000, 10000), P(-4000, 10000)])).toBe(true);
+    // a face in the U's notch, every vertex on the U's line (a road across a concave bay of a wall): read at a
+    // midpoint off the line, it lies outside the U
+    const na = ringArena(200, [[P(-1000, -1000), P(1000, -1000), P(1000, 9000), P(-1000, 9000)]]);
+    const ng = graphOf(na);
+    const nloc = na.k.geom.pointLocate(GROUND, 1, P(0, 4000));
+    if (nloc.on !== 'face') throw new Error('no notch face');
+    expect(faceInRing(ng, ng.faces.findIndex((f) => f.face === nloc.face), u)).toBe(false);
     // the memo answers as computed
     const memo = new Map<number, boolean>();
     expect(faceInRing(g, cell(a, g, 0, 0), ring, memo)).toBe(true);
