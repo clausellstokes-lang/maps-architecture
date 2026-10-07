@@ -1,0 +1,17 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "session-kreuse",
+  "lane": "session/kreuse-s1",
+  "lanes": ["session/kreuse-s1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-07T07:25:57.480Z",
+  "ownsSource": "declared",
+  "owns": ["plat/bench/manifest.json", "plat/packages/kernel/API.md"],
+  "counts": { "created": 2, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/manifest.json", "status": "created", "sha256": "ce1a9b9ba7e1870f747e8c25af736d6198d0aac42fdf0e6428aff0227562ba73", "size": 1142 },
+    { "path": "plat/packages/kernel/API.md", "status": "created", "sha256": "7b757baa18113136646754fa1250a1e32c63430386045d223ce72dbd65bdc958", "size": 84458 }
+  ],
+  "appends": []
+}
