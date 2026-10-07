@@ -1,20 +1,20 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-e-04",
-  "lane": "build/M0-e-04",
-  "lanes": ["build/M0-e-04"],
+  "lane": "build/M0-e-04-fix1",
+  "lanes": ["build/M0-e-04", "build/M0-e-04-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T21:46:58.079Z",
+  "date": "2026-10-07T00:43:12.619Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/districts/", "plat/packages/layout/test/districts/", "plat/packages/testkit/test/layout/districts/ (the grower's renumbering identity through M0-d-08's harness; C-0122)"],
   "counts": { "created": 24, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/layout/src/districts/faces.ts", "status": "created", "sha256": "7d0a59c41c34b48ead6b8f7e27f66d59a8448c8c2f4a342c0a1964bcd6cddcbf", "size": 14924 },
     { "path": "plat/packages/layout/src/districts/grow.ts", "status": "created", "sha256": "f4760bea54f81b8b5aa78df9bf49192dfe8038cf376f2d82e4da6383630f20b2", "size": 11941 },
-    { "path": "plat/packages/layout/src/districts/index.ts", "status": "changed", "sha256": "55245e5afd72890b1fd132552f77e1d279bc85295052bc4bcf1edff5ba870bde", "size": 2026 },
+    { "path": "plat/packages/layout/src/districts/index.ts", "status": "changed", "sha256": "dc99b7aa052b01bf944d2e68db6cc6acdb34ba9b4269164880acd9f16022be47", "size": 2077 },
     { "path": "plat/packages/layout/src/districts/law.ts", "status": "created", "sha256": "2eae040d677bfe6ffde018af47b0a35918a55af5ac750149704705b3c65869fa", "size": 2355 },
-    { "path": "plat/packages/layout/src/districts/perimeter.ts", "status": "created", "sha256": "1a733715f2011edea95a3872a5b0089b11b728dc8475691bf93d022ee3be0c57", "size": 14824 },
+    { "path": "plat/packages/layout/src/districts/perimeter.ts", "status": "created", "sha256": "c5f3d7ad381cf56f9b15daa35a9831ca28f222a513022d28750ec7988c752f81", "size": 21952 },
     { "path": "plat/packages/layout/src/districts/quarters.ts", "status": "created", "sha256": "8903b655731d758eba87e877141f3a714e0686f4ceb76c45a65480ddfa93d877", "size": 6612 },
     { "path": "plat/packages/layout/src/districts/s6.json", "status": "created", "sha256": "c0a90bdaef8bf27aa9311ae04269746ebd22872a5ffca6a5ece57bef0b1dd993", "size": 3866 },
     { "path": "plat/packages/layout/src/districts/seams.ts", "status": "created", "sha256": "d5324e100c64ed5262f380a3fbcde19a5d44586c27632971c23551154e2da2a3", "size": 7103 },
@@ -27,10 +27,10 @@
     { "path": "plat/packages/layout/test/districts/grow.test.ts", "status": "created", "sha256": "1dfcff2b4989a75d38303ac365f90eb8a854352672fae4e14d470f1aae95b413", "size": 19214 },
     { "path": "plat/packages/layout/test/districts/integration.test.ts", "status": "created", "sha256": "c8b0958a5a5d4be15d665cc8f3e6291b74414db84c99c3ac4459c08cbfb60335", "size": 5207 },
     { "path": "plat/packages/layout/test/districts/law.test.ts", "status": "created", "sha256": "c70c415d669452c3a4c927c38530e4498543b05b6a2a6524eb055e1d37811a1f", "size": 6142 },
-    { "path": "plat/packages/layout/test/districts/perimeter.test.ts", "status": "created", "sha256": "c82cbf3e040e4c53b2cbff8b37d3da35182a6551c48f20deb16a7eb30c6de15a", "size": 6356 },
+    { "path": "plat/packages/layout/test/districts/perimeter.test.ts", "status": "created", "sha256": "d6d5a2b5105b1e18b7b040a9904049ba45658e396385ff902b2955a5f5554bb9", "size": 15037 },
     { "path": "plat/packages/layout/test/districts/quarters.test.ts", "status": "created", "sha256": "646cfab15e28d41e895aafdd5a4ba32b8419b59c10d8ea88d396d695403b0ab5", "size": 5349 },
     { "path": "plat/packages/layout/test/districts/seeds.test.ts", "status": "created", "sha256": "77da414a696d273399d2b7daad27d3973ad3b8505b8f7bcb261240613e8d6f3e", "size": 3659 },
-    { "path": "plat/packages/layout/test/districts/stage.test.ts", "status": "created", "sha256": "1791bfbe009aae650a137d3bc34433d88b89014f35e465cb56248f4fb4c03773", "size": 17348 },
+    { "path": "plat/packages/layout/test/districts/stage.test.ts", "status": "created", "sha256": "cd8b702b5c8e7554b79bd0882fb44441b61242e4a00bbeaba382fc41db7794ba", "size": 25156 },
     { "path": "plat/packages/layout/test/districts/support.ts", "status": "created", "sha256": "af4342209de3750f0c8feae9e78685eba4e64c6ab62668a121e207bf4793c5b3", "size": 26605 },
     { "path": "plat/packages/layout/test/districts/typing.test.ts", "status": "created", "sha256": "fbb7d1969e147af1580974036e3dd7abb36adf8271687e84e781727eb3f549eb", "size": 5511 },
     { "path": "plat/packages/testkit/test/layout/districts/renumber.test.ts", "status": "created", "sha256": "fc3c8397e8a15a874d1a22ac62af7e22f0dc923226d400e4f2e2f5ca86ccf47a", "size": 3080 },
@@ -39,14 +39,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0269"],
-      "lines": ["fcdc76abb69a477f"],
+      "ids": ["L-0269", "L-0285"],
+      "lines": ["fcdc76abb69a477f", "c94bc23ef23ea507"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0245"],
-      "lines": ["0a9799feb54a71c5"],
+      "ids": ["C-0245", "C-0252"],
+      "lines": ["0a9799feb54a71c5", "f9c00c8b396d31a2"],
       "removed": []
     }
   ]

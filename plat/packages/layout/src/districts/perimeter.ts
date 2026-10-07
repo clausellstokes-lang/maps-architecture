@@ -10,7 +10,7 @@
 // (`settlementPerimeterByBuffer` keeps that form for the test that holds the two equal). Before the overlay two fast
 // rings are tried — the curve mitred at its reflex vertices, then mitred only where the miter lies on both its offset
 // segments — each with its local folds cut; a fast ring stands only when `isSumRing` finds it the sum's outer ring (a
-// miter beyond its edges cuts across land the sum holds, C-0245 (1)), and the overlay's ring is checked the same way
+// miter beyond its edges cuts across land the sum holds, C-0245 (1), C-0252), and the overlay's ring is checked the same way
 // (a ring that fails is refused, never returned). The ring is a value; S6's
 // batch inserts it as an L1 chain carrying `district_bound`, closed against the arterials and shores it meets by the
 // insertion rules (§3.6).
