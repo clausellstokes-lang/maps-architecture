@@ -101,6 +101,11 @@ function s6Outcome(r: Run): 'built' {
   expect((r.model.data.get('districts') as unknown[]).length).toBeGreaterThan(0);
   expect((r.model.data.get('lanes') as unknown[]).length).toBeGreaterThan(0);
   expect(r.batches.filter((b) => b.stage === 'S8' && b.committed).length).toBeGreaterThan(0);
+  // S8 took every district S6 wrote, through the bent-cut fabric, and refused none
+  const infill = r.model.data.get('infill') as { report: { districts: unknown[]; refused: unknown[] } };
+  expect(infill.report.refused).toEqual([]);
+  expect(infill.report.districts.length).toBe((r.model.data.get('districts') as unknown[]).length);
+  expect((r.model.data.get('blocks') as unknown[]).length).toBeGreaterThan(0);
   // S6's second half: pass 1's three fields, banded (C-0255 (12))
   expect((r.model.data.get('fieldBands') as { field: string }[]).map((f) => f.field)).toEqual(['prosperity', 'density', 'greenery']);
   return 'built';
