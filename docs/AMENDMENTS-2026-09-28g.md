@@ -1451,3 +1451,28 @@ vetoable interpretation.
      **HOMES:** §2.8 (the suppression bullet), §2.7's raised-way support step where it states the removal (the raised-way × wall
      family's laws, Part L), §7.1, §7.4, §7.6, §7.8, every stage that builds a listed kind, §13.2; V05, V06, V07, V08, V09, V10, V11,
      V12 and V04 for its optional systems. Applied through the build-time fix list (J153), not by a further coherence round.
+
+128. **OWNER RULE — Irrigation channels: fields watered by stored channels, staged into M2b (owner, 2026-10-07; J156's backlog
+     staging overridden for this item by the owner's word).** Owner, after the session found the architecture had irrigated gardens
+     only at an oasis and an `irrigated` field system with no water behind it: "Can you add it to M2b on GitHub?" — and then: "And the
+     other places on the GitHub architecture". Program's interpretation (vetoable):
+     **(a) ALREADY THE DESIGN, NOT RE-SPECIFIED.** Water mills at a reach with fall (§4.2 S12a), the village's mill seat and leat
+     (V07 §3.2 (7), W8, DR19 `river_mills`), weirs, races and millponds drawn (§8.2), canals and drainage ditches (§4.11 `carve`,
+     `digCanal`, item 25), aqueducts with their cisterns and fountains (item 110 (b)), and item 111's oasis gardens.
+     **(b) THE CHANNEL.** A `WaterBody` of kind `irrigation` (§2.3): taken off a river, stream or spring at a weir, run along a
+     falling contour on S1's terrain (a slight, steady fall; never uphill), with distributaries to the fields it serves; carved into
+     L0 by the same carve as a canal or ditch, bridged or culverted where a way crosses it, and read as water by every rule that
+     reads water. Written by S12a in M2b's hinterland when the field system is `irrigated` (V11 §3's climate rows; arid and
+     Mediterranean regions first) or where the dossier or the user asks; edited as a carve (§7.1).
+     **(c) WHAT IT FEEDS.** An irrigated `LandUse` field or `garden` names its channel in `fedBy` (item 111's link generalised);
+     irrigated land lies only where a channel reaches. Item 111's oasis channels become stored `irrigation` bodies of the same kind
+     instead of lines drawn from the links.
+     **(d) MILLS.** A TOWN's hinterland water mill gets a leat as the village's does (V07 §3.2 (7)'s rule read at town rungs);
+     to be checked against S12a when M2b is specified.
+     **(e) TIME.** The decay rows sewers and aqueducts already have: a channel silts, is abandoned with its fields, leaves a dry bed
+     as a trace, and is re-dug when the need and the means return (§4.11).
+     **(f) STAGING.** Town rungs at M2b (S12, the hinterland work); village rungs with V-M1 – V-M4 (V07). LATER, as climate or
+     culture content, not in M2b: qanats, terraces, paddies, water meadows and water rights.
+     **Where it touches:** base §2.3 (`WaterBody.kind`, `LandUse.fedBy`), §4.2 S12a, §16's M2b row; V07's mill row; V11's
+     `fieldSystem`. Estimate: inside M2b's hinterland line (PLAUSIBLE: a fraction of a person-week of generator work plus content
+     rows); no kernel change. Filed in `docs/BACKLOG.md` (2026-10-07) and `docs/OWNER-INSTRUCTIONS-2026-09-25.md`.
