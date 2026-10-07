@@ -73,6 +73,12 @@ function records(m: PipelineModel): string {
   return canonicalText(DATA_KEYS.map((k) => [k, m.data.get(k) ?? null]));
 }
 
+/** pass 1's record as text: each field's rasters, faces, bands and ε scale, the land and the report (its functions left out). */
+function fieldsText(f: FieldsPass1): string {
+  const one = (x: FieldsPass1['prosperity'] | FieldsPass1['density'] | FieldsPass1['greenery']) => [x.field, [...x.unclamped], [...x.values], x.faces, x.bands, x.chanceScale];
+  return canonicalText([f.grid, one(f.prosperity), one(f.density), one(f.greenery), [...f.land], f.report]);
+}
+
 function ground(m: PipelineModel): Plat {
   const p = m.plats.get('ground/0');
   if (p === undefined) throw new Error('no ground arena');
@@ -355,17 +361,18 @@ describe("S6's second half: pass 1 over the arena S6 left, from the run's record
       expect(want.ok).toBe(true);
       if (!want.ok) return;
       const got = m.data.get('fields') as FieldsPass1;
-      expect(canonicalText(got)).toBe(canonicalText(want.value));
+      expect(fieldsText(got)).toBe(fieldsText(want.value));
       expect(m.data.get('fieldBands')).toEqual([want.value.prosperity.bands, want.value.density.bands, want.value.greenery.bands]);
-      // the inputs matter: without the resources, the gates or the ways the record differs (no input is inert here)
+      // the inputs matter: without the gates or the ways the record differs. The resources reach pass 1 (above) but move
+      // nothing at M0: they enter only the water term's q(x), whose weight is 0 until M2b (fields.json, C-0049)
       const without = (o: Partial<{ resources: null; gates: Gate[]; ways: Way[] }>): string => {
         const src = fieldDriverSources(p, { reservations: [commit.plaza], ways: o.ways ?? state.ways, gates: o.gates ?? state.stages.flatMap((st) => st.gates), water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
         const s = createRng().stream(m.town.entityKey, STAGES.S6, CONCERNS['field.chance'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
         const f = fieldsPass1({ frame: p.frame, rung: slice.site.rung, terrain, resources: o.resources === null ? null : resources, sources: src }, { districts: s6.districts, faces: fieldFaces(p) }, tableView(), s);
-        return f.ok ? canonicalText(f.value) : `refused ${f.code}`;
+        return f.ok ? fieldsText(f.value) : `refused ${f.code}`;
       };
-      const all = canonicalText(want.value);
-      expect(without({ resources: null })).not.toBe(all);
+      const all = fieldsText(want.value);
+      expect(without({ resources: null })).toBe(all);
       expect(without({ gates: [] })).not.toBe(all);
       expect(without({ ways: [] })).not.toBe(all);
     });
