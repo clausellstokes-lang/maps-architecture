@@ -14,7 +14,7 @@
 //   reaches first first; the deck end `a` is ('deck_end', bridge, 0) and `b` is 1; an approach that cannot meet the
 //   class radius takes F-ROUTE's ladder (./route.ts) on the stretch beyond the gate's corridor, inside the walled stage
 //   for the inward part and outside it for the outward part;
-// * every route part reaches the commit as a simple path, dry off its decks (C-0249): a re-solve never steps back
+// * every route part reaches the commit as a simple path, dry off its decks (C-0250): a re-solve never steps back
 //   into the held corridor (the corridor's nodes are masked out of the ladder's search), a part that revisits a node
 //   is cut at its first repeated node (its crossings checked again, a failed approach making it `unserved`), a frame
 //   stub that would cross water is dropped (the through-road ends at its last lattice node, its frame end), and a part
@@ -91,7 +91,7 @@ function pointsOf(rg: RouteGraph, nodes: readonly number[], crossings: readonly 
 }
 
 /**
- * A route's nodes as a simple path (C-0249): at each node met again, the loop since its first visit is cut, so the
+ * A route's nodes as a simple path (C-0250): at each node met again, the loop since its first visit is cut, so the
  * path keeps its first and last nodes and every edge it keeps is one of its own.
  */
 export function simpleCourse(nodes: readonly number[]): number[] {
@@ -220,7 +220,7 @@ export function routesFromSlice(
       return at >= gi - WAY_SPAN_NODES && at <= gi + 1 + WAY_SPAN_NODES;
     };
     // The inward part: the stretch beyond the gate's corridor is the ladder's to keep or re-solve.
-    // A re-solve keeps out of the part's held corridor (C-0249).
+    // A re-solve keeps out of the part's held corridor (C-0250).
     const keepIn = Math.max(0, gi - WAY_SPAN_NODES);
     const inward = laddered(rg, r.nodes.slice(0, keepIn + 1), [r.nodes[0]], [r.nodes[keepIn]], without(inside, r.nodes.slice(keepIn + 1, gi + 1)), 'primary', `${gate.id}/in`);
     const outFrom = Math.min(r.nodes.length - 1, gi + 1 + WAY_SPAN_NODES);
@@ -256,7 +256,7 @@ export function routesFromSlice(
       const points: RoutePoint[] = [{ at: g.at, pin: 'gate', pinId: gate.id }, ...made.points];
       const fp = f === null ? null : ({ x: Math.round(f.x), y: Math.round(f.y) } as LatticePoint);
       // The stub to the frame runs on dry ground only: across water it is dropped, and the through-road ends at its
-      // last lattice node (C-0249).
+      // last lattice node (C-0250).
       const stubDry = fp !== null && !faces.some((ring) => segmentMeetsRing(ring, last, fp));
       if (fp !== null && stubDry && (Math.abs(fp.x - last.x) >= 100 || Math.abs(fp.y - last.y) >= 100)) points.push({ at: fp, pin: 'frame' });
       else points[points.length - 1] = { ...points[points.length - 1], pin: 'frame' };

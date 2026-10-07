@@ -6,7 +6,8 @@
 // chain carrying its way's `way` row, in one declared L1 batch (§3.3: the ops independent, each computed before the
 // batch). Readings C-0236 (10)–(13):
 // * ways in destination order: each route part claims, in order, the chains no earlier part claimed, and each maximal
-//   run of chains it claims is one way (`way:<n>`), so a run several routes share is one street, the first route's;
+//   run of chains it claims is one way (`way:<n>`), so a run several routes share is one street, the first route's —
+//   a run reaching a second deck span ends before it, one deck per way (§2.4 `Way.bridge`, C-0250);
 //   its class the highest of its chains', its width a scalar where it keeps one class, else a `width_knot` profile —
 //   two knots at each class change (the run before, the run after), linear, so the profile steps there;
 // * junctions: every chain end, numbered by its point (lower, then leftmost; §6.3's canonical vertex order),
@@ -18,7 +19,7 @@
 //   span at its deck ends, the plaza but at its attach end, the wall but at its gate end, and each lies on its side of
 //   the wall — and a chain that fails falls back to its simplified course, then to its lattice course (reported
 //   `unsmoothed`); a batch the kernel refuses is re-run once on every chain's lattice course, else refused;
-// * the water rule is never given up (§2.2 rule 7, C-0076; C-0249): a course that still meets the water off a deck end
+// * the water rule is never given up (§2.2 rule 7, C-0076; C-0250): a course that still meets the water off a deck end
 //   after the fallbacks falls to its lattice course, and a lattice course that does is refused (`E_INVARIANT`), never
 //   committed — S4's routes reach here dry (./stage.ts), so the refusal is a fail-safe, not a path.
 import { err, kernelOp, ok, STAGES, type Kernel, type KernelOp, type KernelResult, type LatticePoint, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
@@ -393,7 +394,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     }
     if (!changed) break;
   }
-  // The water rule on the courses as they stand (C-0249): down to the lattice course, then refused, never committed.
+  // The water rule on the courses as they stand (C-0250): down to the lattice course, then refused, never committed.
   for (const c of g.chains) {
     while (overWater(g, c, course(c.index), rules)) {
       if (level[c.index] === 2) return err('E_INVARIANT', waterRefusal(g, c));
@@ -419,7 +420,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     };
     for (const x of along) {
       if (owner[x.chain] === -1 && !run.some((y) => y.chain === x.chain)) {
-        // One deck per way (§2.4 `Way.bridge`, C-0249): a second span starts the next way.
+        // One deck per way (§2.4 `Way.bridge`, C-0250): a second span starts the next way.
         if (g.chains[x.chain].span !== null && run.some((y) => g.chains[y.chain].span !== null)) flush();
         run.push(x);
       } else flush();
@@ -579,7 +580,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   let committed = submit(course);
   let spines = g.chains.map((c) => course(c.index));
   if (!committed.ok && committed.code !== 'E_WORK_LIMIT') {
-    // Re-run once on the lattice courses (planar by construction), each of them dry (C-0249).
+    // Re-run once on the lattice courses (planar by construction), each of them dry (C-0250).
     for (const c of g.chains) if (overWater(g, c, raw[c.index], rules)) return err('E_INVARIANT', waterRefusal(g, c));
     const again = submit((ci) => raw[ci]);
     if (!again.ok) return err(again.code, `S4: the spines' batch was refused (${committed.code}: ${committed.detail}); on the lattice courses too: ${again.detail}`);
@@ -636,7 +637,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   );
 }
 
-/** The refusal of a chain whose lattice course meets the water off a deck end (C-0249). */
+/** The refusal of a chain whose lattice course meets the water off a deck end (C-0250). */
 function waterRefusal(g: ArterialGraph, c: Chain): string {
   const routes = c.routes.map((ri) => g.routes[ri].id).join(', ');
   return `S4: chain ${String(c.index)} (${routes}) meets the water off a deck on its lattice course; refused, never committed (§2.2 rule 7, C-0076)`;
