@@ -255,6 +255,48 @@ function deflectFrom(f: Feature, at: XY, heading: number, legalAngle: number): n
   return d1 < d0 ? cands[1] : cands[0];
 }
 
+/** Does the segment pq cross the line of f strictly (p and q on opposite sides)? */
+function strictlyAcross(p: XY, q: XY, f: Feature): boolean {
+  const s = (r: XY): number => Math.sign((f.b.x - f.a.x) * (r.y - f.a.y) - (f.b.y - f.a.y) * (r.x - f.a.x));
+  return s(p) * s(q) < 0;
+}
+
+/**
+ * The lattice point for a meeting at `pt` on feature f: its rounding, or — where the rounding falls across f's line from
+ * the step's start — the nearest of its eight neighbours that does not (on the line or short of it), so the step never
+ * passes what it ends at.
+ */
+function nearSide(at: XY, pt: XY, f: Feature): LatticePoint {
+  const r = lat(pt);
+  if (!strictlyAcross(at, r, f)) return r;
+  let best: LatticePoint = r;
+  let bestD = Infinity;
+  for (let dy = -1; dy <= 1; dy += 1) {
+    for (let dx = -1; dx <= 1; dx += 1) {
+      const q = lat({ x: r.x + dx, y: r.y + dy });
+      if (strictlyAcross(at, q, f)) continue;
+      const d = (q.x - pt.x) * (q.x - pt.x) + (q.y - pt.y) * (q.y - pt.y);
+      if (d < bestD) {
+        bestD = d;
+        best = q;
+      }
+    }
+  }
+  return best;
+}
+
+/** Every way segment within twice the attraction distance of a meeting point is met at ≥ the legal angle (its arms there). */
+function armsSquare(index: FeatureIndex, pt: XY, step: XY, legalAngle: number, skip: (f: Feature) => boolean): boolean {
+  const r = 52;
+  for (const i of index.near(pt.x - r, pt.y - r, pt.x + r, pt.y + r)) {
+    const f = index.features[i];
+    if (f.kind !== 'way' || skip(f)) continue;
+    if (footOn(pt, f.a, f.b).d2 > r * r) continue;
+    if (lineAngle(step, sub(f.b, f.a)) < legalAngle) return false;
+  }
+  return true;
+}
+
 interface Attempt {
   readonly v: Verdict;
   /** The feature an illegal step met or ran beside (its deflection's reference). */
@@ -290,7 +332,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       if (!(foot.d2 < bestD2) || foot.d2 < 1) continue;
       const v = sub(foot.at, at);
       if (v.x * dir.x + v.y * dir.y <= 0) continue;
-      if (lineAngle(v, sub(f.b, f.a)) < r.legalAngle) continue;
+      if (lineAngle(v, sub(f.b, f.a)) < r.legalAngle || !armsSquare(ctx.index, foot.at, v, r.legalAngle, (g) => ignored(g, c))) continue;
       best = i;
       bestD2 = foot.d2;
       bestAt = foot.at;
@@ -330,6 +372,12 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
 
   // Along the step: the features met, in order.
   const seg = sub(q, at);
+  // The step leaves its start at ≥ the legal angle to every other way standing there (a street another one ended on).
+  for (const i of ctx.index.near(at.x - 1, at.y - 1, at.x + 1, at.y + 1)) {
+    const f = F[i];
+    if (f.kind !== 'way' || f.street === c.street || footOn(at, f.a, f.b).d2 >= 1) continue;
+    if (lineAngle(seg, sub(f.b, f.a)) < r.legalAngle) return reject('angle', deflected, f);
+  }
   const hits: { t: number; i: number }[] = [];
   for (const i of ctx.index.near(Math.min(at.x, q.x) - 1, Math.min(at.y, q.y) - 1, Math.max(at.x, q.x) + 1, Math.max(at.y, q.y) + 1)) {
     const f = F[i];
@@ -371,8 +419,8 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       metFeature = hit.i;
       break;
     }
-    // A way.
-    if (angle < r.legalAngle) return reject('angle', deflected, f);
+    // A way: met at ≥ the legal angle by the segment hit and by every arm of a way standing at the meeting.
+    if (angle < r.legalAngle || !armsSquare(ctx.index, pt, seg, r.legalAngle, (g) => ignored(g, c))) return reject('angle', deflected, f);
     const act = r.matrix.act(c.class, f.cls ?? 'secondary', c.turn + wrapAngle(h - heading));
     if (act === 'cross' && !biased && hit.t < 1 && !crossings.some((x) => x.way === f.way)) {
       crossings.push({ way: f.way ?? '', at: lat(pt) });
@@ -414,7 +462,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       const f = F[best];
       const v = sub(bestAt, at);
       const vv = v.x * v.x + v.y * v.y;
-      let clear = vv >= 1 && lineAngle(v, sub(f.b, f.a)) >= r.legalAngle;
+      let clear = vv >= 1 && lineAngle(v, sub(f.b, f.a)) >= r.legalAngle && armsSquare(ctx.index, bestAt, v, r.legalAngle, (g) => ignored(g, c));
       if (clear) {
         for (const i of ctx.index.near(Math.min(at.x, bestAt.x) - 1, Math.min(at.y, bestAt.y) - 1, Math.max(at.x, bestAt.x) + 1, Math.max(at.y, bestAt.y) + 1)) {
           if (i === best || ignored(F[i], c)) continue;
@@ -434,7 +482,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       }
     }
   }
-  const toL = lat(to);
+  const toL = metFeature >= 0 && ends !== 'boundary' ? nearSide(at, to, F[metFeature]) : lat(to);
   const step = sub(toL, at);
   if (step.x * step.x + step.y * step.y < 1) return reject('short', deflected, null);
 

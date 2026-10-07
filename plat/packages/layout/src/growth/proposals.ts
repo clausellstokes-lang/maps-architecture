@@ -35,6 +35,7 @@ import {
   type HalfEdgeId,
   type Kernel,
   type Knot,
+  type KernelTx,
   type KernelResult,
   type LatticePoint,
   type LineageHash,
@@ -475,304 +476,322 @@ function draw(P: Proposal, rules: GrowthRules, s: Stream): Drawn {
   return { stepCm, heading: h.heading, curvature: h.curvature, turn: h.turn };
 }
 
+/** S5c's batch on one stage's area: its spec (one L1 callback batch at S5's rank) and its callback, which returns the record. */
+export interface GrowthBatch {
+  readonly spec: KernelTx;
+  readonly fn: (o: Overlay) => KernelResult<S5cRecord>;
+}
+
+/**
+ * S5c's one L1 callback batch on a stage's area (see the header): every draw and every op is the callback's, so the batch
+ * built afresh on any arena holding the same features — on any slot assignment — runs alike (§3.3 *Two op forms*; the
+ * issue-order harness of M0-d-08 runs it so).
+ */
+export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStreams, opts: StreetGrowOptions = {}): GrowthBatch {
+  const rules = area.rules;
+  const wl = opts.workLimits ?? loadWorkLimits();
+  const limits = { 'growth.proposals': limitOf(wl, 'growth.proposals', area.landHa), 'growth.candidates': limitOf(wl, 'growth.candidates', area.landHa) };
+  const key = area.key;
+  const spec: KernelTx = {
+    key,
+    level: 1,
+    ops: [],
+    expect: [],
+    onFail: 'reject',
+    batch: { kind: 'stage', stage: STAGES.S5 as StageId },
+    stage: STAGES.S5 as StageId,
+    rederivesFrom: STAGES.S5 as StageId,
+    workLimit: s5bWorkLimit(Math.ceil(4 * limits['growth.candidates']) + 64, Math.ceil(2 * limits['growth.proposals']) + 64),
+  };
+  const fn = (o: Overlay): KernelResult<S5cRecord> => {
+    const rec: S5cRecord = {
+      k: area.k,
+      regime: rules.regime,
+      walled: rules.walled,
+      lanesInfillOnly: rules.lanesInfillOnly,
+      seeds: area.seeds.length,
+      proposalsMade: 0,
+      streets: [],
+      junctions: [],
+      work: { 'growth.proposals': 0, 'growth.candidates': 0 },
+      limits,
+      steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
+      rungs: [],
+      refused: {},
+      workCut: null,
+    };
+    const index = new FeatureIndex();
+    for (const f of area.features) index.add(f);
+    const junctionPts: { id: Id; at: XY }[] = area.junctions.slice();
+    const ctx: LegalityContext = { index, junctions: junctionPts, rules: rules.legality };
+    let nextWay = area.firstWay;
+    let nextJunction = area.firstJunction;
+    const all: Proposal[] = [];
+    const queue = new BinaryHeap();
+    const make = (origin: { at: LatticePoint; way: Id }, heading: number, cls: GrowthClass, remaining: number, priority: number): Proposal => {
+      const P: Proposal = {
+        id: all.length,
+        origin,
+        heading: wrapAngle(heading),
+        curvature: initialCurvature(rules.model, streams.curvature),
+        goalHeading: wrapAngle(heading),
+        class: cls,
+        remainingSegments: remaining,
+        branchCounter: 0,
+        priority,
+        at: origin.at,
+        steps: 0,
+        lengthCm: 0,
+        street: null,
+      };
+      all.push(P);
+      queue.push(P.id, priority);
+      return P;
+    };
+    // The seeds' proposals, in seed order: left, then right, each ± the jitter.
+    for (const s of area.seeds) {
+      const base = dmath.atan2(s.along.y, s.along.x);
+      for (const side of [1, -1]) {
+        const jitter = (2 * streams.heading.float01() - 1) * rules.branch.jitterRad;
+        make({ at: s.at, way: s.way }, base + side * PI * 0.5 + jitter, 'secondary', area.maxSegments, 0);
+      }
+    }
+    const widthOf = (c: GrowthClass): number => rules.widthCm(c);
+    const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
+      const id = `junction:${String(nextJunction)}`;
+      nextJunction += 1;
+      const j: Junction = { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: arms.slice().sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), kind, lifecycle: generated(0) };
+      rec.junctions.push(j);
+      if (kind !== 'end') junctionPts.push({ id, at });
+      return j;
+    };
+
+    const insertDefault = (points: readonly LatticePoint[], wayId: Id, knots: readonly Knot[]): KernelResult<unknown> =>
+      kernel.geom.insertChain(o, points, [{ role: 'way', entity: wayId }], 'optional', { pinned: points.map((_, i) => i), knots });
+    /** A vertex of the way at `at` given a junction row (the doors' way to add a vertex row: splitThrough, §3.4). */
+    const mark = (wayId: Id, at: LatticePoint, jId: Id): boolean => {
+      const res = kernel.resolve({ role: 'way', entity: wayId }, key);
+      if (res.view !== 'edges') return false;
+      const p = kernel.plat(key);
+      for (const run of res.runs) {
+        for (const h of run) {
+          for (const e of [h, h ^ 1]) {
+            const v = p.halfEdges.origin[e];
+            if (p.vertices.x[v] !== at.x || p.vertices.y[v] !== at.y) continue;
+            const s = kernel.geom.splitThrough(o, e as HalfEdgeId, at, { role: 'junction', entity: jId, ordinal: 0 });
+            return s.ok;
+          }
+        }
+      }
+      return false;
+    };
+    /** The street's end at a dead end: an `end` junction at its last vertex. */
+    const deadEnd = (P: Proposal): void => {
+      const st = P.street;
+      if (st === null || st.ends !== null) return;
+      st.ends = 'dead';
+      const j = newJunction(P.at, [st.way.id], 'end');
+      if (!mark(st.way.id, P.at, j.id)) {
+        rec.junctions.pop();
+        st.way.to = { kind: 'bearing', bearingCdeg: bearingCdeg(dmath.cos(P.heading), dmath.sin(P.heading)) as Cdeg };
+        rec.refused['W_END_UNMARKED'] = (rec.refused['W_END_UNMARKED'] ?? 0) + 1;
+        return;
+      }
+      st.way.to = { kind: 'junction', id: j.id };
+    };
+    /** One attempt's insert of an accepted step: the knots its points take; the way id it would take. */
+    const tryInsert = (P: Proposal, v: Accepted, attempt: number): { res: KernelResult<unknown>; wayId: Id; points: LatticePoint[]; knotOf: Map<number, { kind: Junction['kind']; arms: Id[] }> } => {
+      const wayId = P.street?.way.id ?? `way:${String(nextWay)}`;
+      const points: LatticePoint[] = [P.at];
+      for (const c of v.crossings) if (!same(points[points.length - 1], c.at)) points.push(c.at);
+      if (!same(points[points.length - 1], v.to)) points.push(v.to);
+      const knotOf = new Map<number, { kind: Junction['kind']; arms: Id[] }>();
+      if (P.street === null) knotOf.set(0, { kind: 'T', arms: [P.origin.way, wayId] });
+      v.crossings.forEach((c) => {
+        const i = points.findIndex((q) => same(q, c.at));
+        if (i > 0 && i < points.length - 1) knotOf.set(i, { kind: 'X', arms: [c.way, wayId] });
+      });
+      const last = points.length - 1;
+      const willEnd = v.ends !== null || P.remainingSegments <= 1;
+      if (willEnd && v.ends !== 'snap') {
+        const meets = v.ends === 'T' ? v.meets : null;
+        knotOf.set(last, meets === null ? { kind: 'end', arms: [wayId] } : { kind: 'T', arms: [meets, wayId] });
+      }
+      let n = nextJunction;
+      const knots = [...knotOf.keys()]
+        .sort((a, b) => a - b)
+        .map((i): Knot => {
+          const entity = `junction:${String(n)}`;
+          n += 1;
+          return { index: i, role: 'junction', ordinal: 0, entity };
+        });
+      if (points.length < 2) return { res: err('E_DEGENERATE', 'empty'), wayId, points, knotOf };
+      const res = opts.insert === undefined ? insertDefault(points, wayId, knots) : opts.insert(o, points, wayId, knots, { proposal: P.id, attempt });
+      return { res, wayId, points, knotOf };
+    };
+    const charge = (counter: 'growth.proposals' | 'growth.candidates'): boolean => {
+      if (rec.work[counter] >= limits[counter]) {
+        rec.workCut = { counter, count: rec.work[counter], limit: limits[counter] };
+        rec.rungs.push({ cause: 'F-WORK', rung: 'work_cut', counter, count: rec.work[counter], limit: limits[counter] });
+        return false;
+      }
+      rec.work[counter] += 1;
+      return true;
+    };
+
+    while (queue.size > 0) {
+      if (!charge('growth.proposals')) break;
+      const P = all[queue.pop()];
+      if (!charge('growth.candidates')) {
+        queue.push(P.id, P.priority);
+        break;
+      }
+      let d = draw(P, rules, streams.heading);
+      let v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
+      if (v.verdict === 'reject') {
+        rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
+        deadEnd(P);
+        continue;
+      }
+      let ins = tryInsert(P, v, 0);
+      if (!ins.res.ok && PRECISION_CODES.has(ins.res.code)) {
+        // F-NUM: re-propose from the next attempt stream, then reject with a report line.
+        rec.rungs.push({ cause: 'F-NUM', rung: 're_propose', proposal: P.id, code: ins.res.code });
+        if (!charge('growth.candidates')) {
+          queue.push(P.id, P.priority);
+          break;
+        }
+        d = draw(P, rules, streams.retry);
+        v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
+        if (v.verdict === 'reject') {
+          rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
+          rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: `illegal:${v.why}` });
+          deadEnd(P);
+          continue;
+        }
+        ins = tryInsert(P, v, 1);
+        if (!ins.res.ok) {
+          rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: ins.res.code });
+          deadEnd(P);
+          continue;
+        }
+      } else if (!ins.res.ok) {
+        rec.refused[ins.res.code] = (rec.refused[ins.res.code] ?? 0) + 1;
+        if (ins.res.code === 'E_WORK_LIMIT') {
+          rec.workCut = { counter: 'kernel', count: rec.work['growth.candidates'], limit: limits['growth.candidates'] };
+          rec.rungs.push({ cause: 'F-WORK', rung: 'work_cut', counter: 'kernel', count: rec.work['growth.candidates'], limit: limits['growth.candidates'] });
+          deadEnd(P);
+          break;
+        }
+        deadEnd(P);
+        continue;
+      }
+      // The step stands: the street, its junctions, its features.
+      rec.steps.accepted += 1;
+      if (v.deflected) rec.steps.deflected += 1;
+      if (v.biased) rec.steps.biased += 1;
+      const first = P.street === null;
+      if (first) {
+        nextWay += 1;
+        const way: Way = {
+          id: ins.wayId,
+          class: P.class,
+          spine: { role: 'way', entity: ins.wayId },
+          width: widthOf(P.class) as Cm,
+          from: { kind: 'junction', id: '' },
+          to: { kind: 'junction', id: '' },
+          growthStage: area.k,
+          epoch: 0,
+          provisional: false,
+          lifecycle: generated(0),
+        };
+        const index = rec.streets.length;
+        P.street = {
+          way,
+          lineage: lineageHash({ arena: key, unit: area.unit, stage: STAGES.S5 as StageId, epoch: 0, index, reroll: area.reroll }),
+          index,
+          proposal: P.id,
+          parent: P.origin.way,
+          points: [P.at],
+          ends: null,
+          meets: null,
+          provisional: false,
+        };
+        rec.streets.push(P.street);
+      }
+      const st = P.street as GrownStreet;
+      const jIds = new Map<number, Id>();
+      for (const i of [...ins.knotOf.keys()].sort((a, b) => a - b)) {
+        const kn = ins.knotOf.get(i) as { kind: Junction['kind']; arms: Id[] };
+        jIds.set(i, newJunction(ins.points[i], kn.arms, kn.kind).id);
+      }
+      if (first) st.way.from = { kind: 'junction', id: jIds.get(0) ?? '' };
+      for (let i = 1; i < ins.points.length; i += 1) {
+        index.add({ a: ins.points[i - 1], b: ins.points[i], kind: 'way', way: st.way.id, cls: P.class, street: P.id, step: P.steps });
+        st.points.push(ins.points[i]);
+      }
+      const stepLen = Math.sqrt((v.to.x - P.at.x) * (v.to.x - P.at.x) + (v.to.y - P.at.y) * (v.to.y - P.at.y));
+      P.steps += 1;
+      P.lengthCm += stepLen;
+      P.priority += stepLen;
+      P.remainingSegments -= 1;
+      // The walk's state: the step's heading as taken (bias or deflection) is the new heading; a deflection is also
+      // the new goal (C-0253 (5)).
+      P.heading = v.heading;
+      P.curvature = v.deflected || v.biased ? 0 : d.curvature;
+      if (v.deflected) P.goalHeading = v.heading;
+      P.at = v.to;
+      if (v.provisional) {
+        st.provisional = true;
+        st.way.provisional = true;
+      }
+      const lastIdx = ins.points.length - 1;
+      if (v.ends !== null) {
+        st.ends = v.ends;
+        st.meets = v.meets;
+        if (v.ends === 'snap') {
+          st.way.to = { kind: 'junction', id: v.meets ?? '' };
+          snapArm(rec, v.meets ?? '', st.way.id);
+        } else st.way.to = { kind: 'junction', id: jIds.get(lastIdx) ?? '' };
+        continue;
+      }
+      if (P.remainingSegments <= 0) {
+        st.ends = 'dead';
+        st.way.to = { kind: 'junction', id: jIds.get(lastIdx) ?? '' };
+        continue;
+      }
+      // Branching (FTG's Continue): after `after` steps, with the class's probability.
+      P.branchCounter += 1;
+      if (P.branchCounter >= rules.branch.after) {
+        P.branchCounter = 0;
+        if (streams.branch.float01() < rules.branch.probability(P.class)) {
+          const side = streams.branch.float01() < 0.5 ? 1 : -1;
+          const jitter = (2 * streams.branch.float01() - 1) * rules.branch.jitterRad;
+          const cls = rules.branchClass(P.class);
+          if (cls !== null) make({ at: P.at, way: st.way.id }, P.heading + side * PI * 0.5 + jitter, cls, P.remainingSegments, P.priority);
+        }
+      }
+      queue.push(P.id, P.priority);
+    }
+    // The queue closed (empty, or F-WORK): every street still growing ends where it stands.
+    for (const P of all) if (P.street !== null && P.street.ends === null) deadEnd(P);
+    rec.proposalsMade = all.length;
+    return ok(rec);
+  };
+  return { spec, fn };
+}
+
 /**
  * S5c on one stage's area (see the header): the proposals grown in one L1 callback batch at S5's rank. The record holds
  * every street and junction it laid; a batch the kernel refuses as a whole is the stage's refusal.
  */
 export function growStreets(kernel: Kernel, area: GrowthArea, streams: GrowthStreams, opts: StreetGrowOptions = {}): KernelResult<S5cRecord> {
-  const rules = area.rules;
-  const wl = opts.workLimits ?? loadWorkLimits();
-  const limits = { 'growth.proposals': limitOf(wl, 'growth.proposals', area.landHa), 'growth.candidates': limitOf(wl, 'growth.candidates', area.landHa) };
-  const rec: S5cRecord = {
-    k: area.k,
-    regime: rules.regime,
-    walled: rules.walled,
-    lanesInfillOnly: rules.lanesInfillOnly,
-    seeds: area.seeds.length,
-    proposalsMade: 0,
-    streets: [],
-    junctions: [],
-    work: { 'growth.proposals': 0, 'growth.candidates': 0 },
-    limits,
-    steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
-    rungs: [],
-    refused: {},
-    workCut: null,
-  };
-  const index = new FeatureIndex();
-  for (const f of area.features) index.add(f);
-  const junctionPts: { id: Id; at: XY }[] = area.junctions.slice();
-  const ctx: LegalityContext = { index, junctions: junctionPts, rules: rules.legality };
-  const key = area.key;
-  let nextWay = area.firstWay;
-  let nextJunction = area.firstJunction;
-  const all: Proposal[] = [];
-  const queue = new BinaryHeap();
-  const make = (origin: { at: LatticePoint; way: Id }, heading: number, cls: GrowthClass, remaining: number, priority: number): Proposal => {
-    const P: Proposal = {
-      id: all.length,
-      origin,
-      heading: wrapAngle(heading),
-      curvature: initialCurvature(rules.model, streams.curvature),
-      goalHeading: wrapAngle(heading),
-      class: cls,
-      remainingSegments: remaining,
-      branchCounter: 0,
-      priority,
-      at: origin.at,
-      steps: 0,
-      lengthCm: 0,
-      street: null,
-    };
-    all.push(P);
-    queue.push(P.id, priority);
-    return P;
-  };
-  // The seeds' proposals, in seed order: left, then right, each ± the jitter.
-  for (const s of area.seeds) {
-    const base = dmath.atan2(s.along.y, s.along.x);
-    for (const side of [1, -1]) {
-      const jitter = (2 * streams.heading.float01() - 1) * rules.branch.jitterRad;
-      make({ at: s.at, way: s.way }, base + side * PI * 0.5 + jitter, 'secondary', area.maxSegments, 0);
-    }
-  }
-  const widthOf = (c: GrowthClass): number => rules.widthCm(c);
-  const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
-    const id = `junction:${String(nextJunction)}`;
-    nextJunction += 1;
-    const j: Junction = { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: arms.slice().sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), kind, lifecycle: generated(0) };
-    rec.junctions.push(j);
-    if (kind !== 'end') junctionPts.push({ id, at });
-    return j;
-  };
-
-  const r = kernel.tx(
-    {
-      key,
-      level: 1,
-      ops: [],
-      expect: [],
-      onFail: 'reject',
-      batch: { kind: 'stage', stage: STAGES.S5 as StageId },
-      stage: STAGES.S5 as StageId,
-      rederivesFrom: STAGES.S5 as StageId,
-      workLimit: s5bWorkLimit(Math.ceil(4 * limits['growth.candidates']) + 64, Math.ceil(2 * limits['growth.proposals']) + 64),
-    },
-    (o) => {
-      const insertDefault = (points: readonly LatticePoint[], wayId: Id, knots: readonly Knot[]): KernelResult<unknown> =>
-        kernel.geom.insertChain(o, points, [{ role: 'way', entity: wayId }], 'optional', { pinned: points.map((_, i) => i), knots });
-      /** A vertex of the way at `at` given a junction row (the doors' way to add a vertex row: splitThrough, §3.4). */
-      const mark = (wayId: Id, at: LatticePoint, jId: Id): boolean => {
-        const res = kernel.resolve({ role: 'way', entity: wayId }, key);
-        if (res.view !== 'edges') return false;
-        const p = kernel.plat(key);
-        for (const run of res.runs) {
-          for (const h of run) {
-            for (const e of [h, h ^ 1]) {
-              const v = p.halfEdges.origin[e];
-              if (p.vertices.x[v] !== at.x || p.vertices.y[v] !== at.y) continue;
-              const s = kernel.geom.splitThrough(o, e as HalfEdgeId, at, { role: 'junction', entity: jId, ordinal: 0 });
-              return s.ok;
-            }
-          }
-        }
-        return false;
-      };
-      /** The street's end at a dead end: an `end` junction at its last vertex. */
-      const deadEnd = (P: Proposal): void => {
-        const st = P.street;
-        if (st === null || st.ends !== null) return;
-        st.ends = 'dead';
-        const j = newJunction(P.at, [st.way.id], 'end');
-        if (!mark(st.way.id, P.at, j.id)) {
-          rec.junctions.pop();
-          st.way.to = { kind: 'bearing', bearingCdeg: bearingCdeg(dmath.cos(P.heading), dmath.sin(P.heading)) as Cdeg };
-          rec.refused['W_END_UNMARKED'] = (rec.refused['W_END_UNMARKED'] ?? 0) + 1;
-          return;
-        }
-        st.way.to = { kind: 'junction', id: j.id };
-      };
-      /** One attempt's insert of an accepted step: the knots its points take; the way id it would take. */
-      const tryInsert = (P: Proposal, v: Accepted, attempt: number): { res: KernelResult<unknown>; wayId: Id; points: LatticePoint[]; knotOf: Map<number, { kind: Junction['kind']; arms: Id[] }> } => {
-        const wayId = P.street?.way.id ?? `way:${String(nextWay)}`;
-        const points: LatticePoint[] = [P.at];
-        for (const c of v.crossings) if (!same(points[points.length - 1], c.at)) points.push(c.at);
-        if (!same(points[points.length - 1], v.to)) points.push(v.to);
-        const knotOf = new Map<number, { kind: Junction['kind']; arms: Id[] }>();
-        if (P.street === null) knotOf.set(0, { kind: 'T', arms: [P.origin.way, wayId] });
-        v.crossings.forEach((c) => {
-          const i = points.findIndex((q) => same(q, c.at));
-          if (i > 0 && i < points.length - 1) knotOf.set(i, { kind: 'X', arms: [c.way, wayId] });
-        });
-        const last = points.length - 1;
-        const willEnd = v.ends !== null || P.remainingSegments <= 1;
-        if (willEnd && v.ends !== 'snap') {
-          const meets = v.ends === 'T' ? v.meets : null;
-          knotOf.set(last, meets === null ? { kind: 'end', arms: [wayId] } : { kind: 'T', arms: [meets, wayId] });
-        }
-        let n = nextJunction;
-        const knots = [...knotOf.keys()]
-          .sort((a, b) => a - b)
-          .map((i): Knot => {
-            const entity = `junction:${String(n)}`;
-            n += 1;
-            return { index: i, role: 'junction', ordinal: 0, entity };
-          });
-        if (points.length < 2) return { res: err('E_DEGENERATE', 'empty'), wayId, points, knotOf };
-        const res = opts.insert === undefined ? insertDefault(points, wayId, knots) : opts.insert(o, points, wayId, knots, { proposal: P.id, attempt });
-        return { res, wayId, points, knotOf };
-      };
-      const charge = (counter: 'growth.proposals' | 'growth.candidates'): boolean => {
-        if (rec.work[counter] >= limits[counter]) {
-          rec.workCut = { counter, count: rec.work[counter], limit: limits[counter] };
-          rec.rungs.push({ cause: 'F-WORK', rung: 'work_cut', counter, count: rec.work[counter], limit: limits[counter] });
-          return false;
-        }
-        rec.work[counter] += 1;
-        return true;
-      };
-
-      while (queue.size > 0) {
-        if (!charge('growth.proposals')) break;
-        const P = all[queue.pop()];
-        if (!charge('growth.candidates')) {
-          queue.push(P.id, P.priority);
-          break;
-        }
-        let d = draw(P, rules, streams.heading);
-        let v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
-        if (v.verdict === 'reject') {
-          rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
-          deadEnd(P);
-          continue;
-        }
-        let ins = tryInsert(P, v, 0);
-        if (!ins.res.ok && PRECISION_CODES.has(ins.res.code)) {
-          // F-NUM: re-propose from the next attempt stream, then reject with a report line.
-          rec.rungs.push({ cause: 'F-NUM', rung: 're_propose', proposal: P.id, code: ins.res.code });
-          if (!charge('growth.candidates')) {
-            queue.push(P.id, P.priority);
-            break;
-          }
-          d = draw(P, rules, streams.retry);
-          v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
-          if (v.verdict === 'reject') {
-            rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
-            rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: `illegal:${v.why}` });
-            deadEnd(P);
-            continue;
-          }
-          ins = tryInsert(P, v, 1);
-          if (!ins.res.ok) {
-            rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: ins.res.code });
-            deadEnd(P);
-            continue;
-          }
-        } else if (!ins.res.ok) {
-          rec.refused[ins.res.code] = (rec.refused[ins.res.code] ?? 0) + 1;
-          if (ins.res.code === 'E_WORK_LIMIT') {
-            rec.workCut = { counter: 'kernel', count: rec.work['growth.candidates'], limit: limits['growth.candidates'] };
-            rec.rungs.push({ cause: 'F-WORK', rung: 'work_cut', counter: 'kernel', count: rec.work['growth.candidates'], limit: limits['growth.candidates'] });
-            deadEnd(P);
-            break;
-          }
-          deadEnd(P);
-          continue;
-        }
-        // The step stands: the street, its junctions, its features.
-        rec.steps.accepted += 1;
-        if (v.deflected) rec.steps.deflected += 1;
-        if (v.biased) rec.steps.biased += 1;
-        const first = P.street === null;
-        if (first) {
-          nextWay += 1;
-          const way: Way = {
-            id: ins.wayId,
-            class: P.class,
-            spine: { role: 'way', entity: ins.wayId },
-            width: widthOf(P.class) as Cm,
-            from: { kind: 'junction', id: '' },
-            to: { kind: 'junction', id: '' },
-            growthStage: area.k,
-            epoch: 0,
-            provisional: false,
-            lifecycle: generated(0),
-          };
-          const index = rec.streets.length;
-          P.street = {
-            way,
-            lineage: lineageHash({ arena: key, unit: area.unit, stage: STAGES.S5 as StageId, epoch: 0, index, reroll: area.reroll }),
-            index,
-            proposal: P.id,
-            parent: P.origin.way,
-            points: [P.at],
-            ends: null,
-            meets: null,
-            provisional: false,
-          };
-          rec.streets.push(P.street);
-        }
-        const st = P.street as GrownStreet;
-        const jIds = new Map<number, Id>();
-        for (const i of [...ins.knotOf.keys()].sort((a, b) => a - b)) {
-          const kn = ins.knotOf.get(i) as { kind: Junction['kind']; arms: Id[] };
-          jIds.set(i, newJunction(ins.points[i], kn.arms, kn.kind).id);
-        }
-        if (first) st.way.from = { kind: 'junction', id: jIds.get(0) ?? '' };
-        for (let i = 1; i < ins.points.length; i += 1) {
-          index.add({ a: ins.points[i - 1], b: ins.points[i], kind: 'way', way: st.way.id, cls: P.class, street: P.id, step: P.steps });
-          st.points.push(ins.points[i]);
-        }
-        const stepLen = Math.sqrt((v.to.x - P.at.x) * (v.to.x - P.at.x) + (v.to.y - P.at.y) * (v.to.y - P.at.y));
-        P.steps += 1;
-        P.lengthCm += stepLen;
-        P.priority += stepLen;
-        P.remainingSegments -= 1;
-        // The walk's state: the step's heading as taken (bias or deflection) is the new heading; a deflection is also
-        // the new goal (C-0253 (5)).
-        P.heading = v.heading;
-        P.curvature = v.deflected || v.biased ? 0 : d.curvature;
-        if (v.deflected) P.goalHeading = v.heading;
-        P.at = v.to;
-        if (v.provisional) {
-          st.provisional = true;
-          st.way.provisional = true;
-        }
-        const lastIdx = ins.points.length - 1;
-        if (v.ends !== null) {
-          st.ends = v.ends;
-          st.meets = v.meets;
-          if (v.ends === 'snap') {
-            st.way.to = { kind: 'junction', id: v.meets ?? '' };
-            snapArm(rec, v.meets ?? '', st.way.id);
-          } else st.way.to = { kind: 'junction', id: jIds.get(lastIdx) ?? '' };
-          continue;
-        }
-        if (P.remainingSegments <= 0) {
-          st.ends = 'dead';
-          st.way.to = { kind: 'junction', id: jIds.get(lastIdx) ?? '' };
-          continue;
-        }
-        // Branching (FTG's Continue): after `after` steps, with the class's probability.
-        P.branchCounter += 1;
-        if (P.branchCounter >= rules.branch.after) {
-          P.branchCounter = 0;
-          if (streams.branch.float01() < rules.branch.probability(P.class)) {
-            const side = streams.branch.float01() < 0.5 ? 1 : -1;
-            const jitter = (2 * streams.branch.float01() - 1) * rules.branch.jitterRad;
-            const cls = rules.branchClass(P.class);
-            if (cls !== null) make({ at: P.at, way: st.way.id }, P.heading + side * PI * 0.5 + jitter, cls, P.remainingSegments, P.priority);
-          }
-        }
-        queue.push(P.id, P.priority);
-      }
-      // The queue closed (empty, or F-WORK): every street still growing ends where it stands.
-      for (const P of all) if (P.street !== null && P.street.ends === null) deadEnd(P);
-      return ok(null);
-    },
-  );
+  const b = growthBatch(kernel, area, streams, opts);
+  const r = kernel.tx(b.spec, b.fn);
   if (!r.ok) return err(r.code, `S5c: stage ${String(area.k)}'s growth batch was refused: ${r.detail}`);
-  rec.proposalsMade = all.length;
+  const v = r.value.value as KernelResult<S5cRecord> | S5cRecord;
+  const rec = 'ok' in v ? (v.ok ? v.value : null) : v;
+  if (rec === null) return err('E_INVARIANT', `S5c: stage ${String(area.k)}'s growth batch returned no record`);
   return ok(rec, r.warnings);
 }
 

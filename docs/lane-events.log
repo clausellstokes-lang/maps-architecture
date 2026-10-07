@@ -6521,3 +6521,4 @@
 2026-10-06 21:36 check/M0-b-04-close-s2 CHECKPOINT --only t34 at --workers 7 (default 10^4): 486 districts, t34 block identical to the committed summary; mirror node_modules deleted; waiting on the --workers 2 t34 run and the full bar run (--workers 4); next: compare to summary, verdict
 2026-10-06 21:37 build/M0-c-05 CHECKPOINT src written (heading, legality, proposals, prune, capacity, index re-exports M0-c-04's files); tsc+eslint green on growth; CITY seed 1-2 probe: stage1 ~55 streets, no top-up on plain fixture; next: tests
 2026-10-06 21:38 check/M0-e-04-close-r1 CHECKPOINT mutants so far: M24 M33 M41 M43 M44 N01 N04 N12 N20 N22 N23 N24 killed; N02 N03 N04b N21 survive (to judge under N-48); lanes 2-3 running
+2026-10-06 21:40 check/M0-b-04-close-s2 CHECKPOINT --only t34 at --workers 2 and 7 (batches 10, 14): reports equal, 486 districts each; full bar run --workers 4 at fcut 60000; next: compare to summary, verdict
