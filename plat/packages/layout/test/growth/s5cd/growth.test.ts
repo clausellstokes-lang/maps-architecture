@@ -124,6 +124,8 @@ describe('S5c on a walled hand case', () => {
           expect(seedOf).toBeDefined();
           expect(Math.sign(st.points[1].y - st.points[0].y)).toBe(seedOf!.side);
           expect(st.points[1].x).toBe(st.points[0].x);
+          // The street records the side of the arterial it left, read where it leaves (C-0263 (1)).
+          expect(st.side).toBe(seedOf!.side);
         }
       }
     }

@@ -82,11 +82,6 @@ export interface Proposal {
   lengthCm: number;
   /** The street it lays (from its first accepted step). */
   street: GrownStreet | null;
-  /**
-   * The side of its origin way the street lies on, read by its first step where it leaves (`streetOrigin`, C-0263 (1)):
-   * every step and segment of it carries it; null before the first step, or where the side could not be read.
-   */
-  side: 1 | -1 | null;
 }
 
 /** A street S5c grew: its way, its lineage (the growth stage's unit, S5, the acceptance index) and its line as laid. */
@@ -98,6 +93,12 @@ export interface GrownStreet {
   readonly proposal: number;
   /** The way it leaves (an arterial, or its parent street). */
   readonly parent: Id;
+  /**
+   * The side of `parent` it lies on (+1 left, −1 right of the parent's segment where it leaves, as that runs), read by
+   * its first step (`streetOrigin`) and held for its whole life: each of its steps and segments carries it (C-0263 (1)).
+   * Absent where the side could not be read (the street then keeps every clearance).
+   */
+  side?: 1 | -1;
   readonly points: LatticePoint[];
   /** How it ends: as `legal` ended it, `dead` (a rejected step, its segments run out, the queue closed). */
   ends: EndKind | 'dead' | null;
@@ -565,7 +566,6 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         steps: 0,
         lengthCm: 0,
         street: null,
-        side: null,
       };
       all.push(P);
       queue.push(P.id, priority);
@@ -578,7 +578,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
     }
     const widthOf = (c: GrowthClass): number => rules.widthCm(c);
     /** The way a proposal's street left and its side there, once its first step has read it (C-0263 (1)). */
-    const originOf = (P: Proposal): { origin?: StreetOrigin } => (P.side === null ? {} : { origin: { way: P.origin.way, side: P.side } });
+    const originOf = (P: Proposal): { origin?: StreetOrigin } => (P.street?.side === undefined ? {} : { origin: { way: P.street.parent, side: P.street.side } });
     const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
       const id = `junction:${String(nextJunction)}`;
       nextJunction += 1;
@@ -745,9 +745,12 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         };
         rec.streets.push(P.street);
       }
-      // The side of its origin way the street lies on, read where it leaves, held for its whole life (C-0263 (1)).
-      if (first) P.side = streetOrigin(index, P.origin.way, P.at, ins.points[1])?.side ?? null;
       const st = P.street as GrownStreet;
+      if (first) {
+        // The side of its origin way the street lies on, read where it leaves, held for its whole life (C-0263 (1)).
+        const side = streetOrigin(index, st.parent, P.at, ins.points[1]);
+        if (side !== null) st.side = side.side;
+      }
       const jIds = new Map<number, Id>();
       for (const i of [...ins.knotOf.keys()].sort((a, b) => a - b)) {
         const kn = ins.knotOf.get(i) as { kind: Junction['kind']; arms: Id[] };
