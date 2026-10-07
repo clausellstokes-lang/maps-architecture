@@ -150,6 +150,27 @@ function edgeBarriers(p: Plat, h: HalfEdgeId, o: FaceGraphOptions, minRank: numb
   return bits;
 }
 
+/** S1's land components' owner ids, `land:<n>` (§4.2 S1 (8); C-0229 (3)). */
+const S1_LAND_OWNER = /^land:(0|[1-9][0-9]*)$/;
+
+/**
+ * Is `owner` S1's background owner — a land component `land:<n>` (C-0229 (3)), which owns every L0 land face and which
+ * the L1 faces inherit (§2.2 rule 4)? S6 re-owns those L1 faces like unowned ones (N-51; C-0265 refining C-0245 (2)).
+ */
+export function isS1LandOwner(owner: Id | null): boolean {
+  return owner !== null && S1_LAND_OWNER.test(owner);
+}
+
+/**
+ * The one rule by which S6 takes a coarse face on `side` (N-51; C-0265 refining C-0245 (2)): the face lies on that side
+ * (inside the perimeter: a district's land, the count law's A; outside it: the hinterland's), is no water, and is either
+ * unowned or owned by an S1 land component (`isS1LandOwner`). A reservation's barrier face, the wall strips' faces and
+ * any other owner keep their owner. Used at S6's three sites: the claimable faces and both hinterland rules.
+ */
+export function s6Takes(f: CoarseFace, side: 'inside' | 'outside'): boolean {
+  return f.side === side && !f.water && (f.owner === null || isS1LandOwner(f.owner));
+}
+
 function edgeLength(p: Plat, h: HalfEdgeId): number {
   const O = p.halfEdges.origin;
   const a = O[h];

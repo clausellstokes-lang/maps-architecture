@@ -5,13 +5,14 @@
 // assignment):
 //   1. the perimeter (`settlementPerimeter`, a value computed before the batch) inserted as a closed chain carrying
 //      `district_bound` on the hinterland pseudo-district's id;
-//   2. the coarse-face graph read in canonical order (./faces.ts); the land A = the claimable faces (inside the
-//      perimeter, unowned before S6 — a reservation's and the wall strips' faces keep their owner —, not water);
+//   2. the coarse-face graph read in canonical order (./faces.ts); the land A = the claimable faces (`s6Takes`: inside
+//      the perimeter, not water, and unowned before S6 or owned by an S1 land component `land:<n>` — C-0265, N-51; a
+//      reservation's and the wall strips' faces keep their owner);
 //      N_d and the band by the count law (C-0245 (16));
 //   3. the seeds (./seeds.ts) and the grower (./grow.ts), its turns on `district.seed` keyed by (the seed lineage, the
 //      turn), grower.turns charged against its law (F-WORK);
 //   4. the districts minted — lineage (the town, S6, the seed's order) — and every face owned: setOwner per district,
-//      the hinterland's id on every unowned land face outside the perimeter;
+//      the hinterland's id on every land face outside the perimeter that `s6Takes` (unowned or `land:<n>`);
 //   5. the boundary runs (./seams.ts) minted under the S6 run, each laid as a `district_bound` chain on its seam's id
 //      over the edges already there (the insertion shares them: no geometry is added);
 //   6. typing (./typing.ts, `district.type` keyed by the district) and the quarter tree (./quarters.ts).
@@ -64,7 +65,7 @@ import {
 import { loadWorkLimits, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { generated } from '../enceinte/water.js';
 import { insideRing } from '../siting/geom.js';
-import { BARRIER, faceGraph, type FaceGraph } from './faces.js';
+import { BARRIER, faceGraph, s6Takes, type FaceGraph } from './faces.js';
 import { grow } from './grow.js';
 import { countLaw, quarterCount } from './law.js';
 import { settlementPerimeter } from './perimeter.js';
@@ -279,7 +280,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     } catch (e) {
       return err('E_INVARIANT', (e as Error).message);
     }
-    const claimable = g.faces.map((f) => f.side === 'inside' && f.owner === null && !f.water);
+    const claimable = g.faces.map((f) => s6Takes(f, 'inside'));
     let landCm2 = 0;
     g.faces.forEach((f, i) => {
       if (claimable[i]) landCm2 += f.areaCm2;
@@ -306,7 +307,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
       const own = setOwner(o, d.faces.map((i) => g.faces[i].face), (ids.get(d.seed.order) as { id: Id }).id);
       if (!own.ok) return err(own.code, `S6: a district's owner: ${own.detail}`);
     }
-    const outside = g.faces.filter((f) => f.side === 'outside' && f.owner === null && !f.water).map((f) => f.face);
+    const outside = g.faces.filter((f) => s6Takes(f, 'outside')).map((f) => f.face);
     if (outside.length > 0) {
       const own = setOwner(o, outside, hinterland);
       if (!own.ok) return err(own.code, `S6: the hinterland's owner: ${own.detail}`);
@@ -317,8 +318,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     const districtIds = new Set([...ids.values()].map((x) => x.id));
     const sideOf = (i: number): Id | null => {
       if (sideIdx[i] >= 0) return (ids.get(sideIdx[i]) as { id: Id }).id;
-      const f = g.faces[i];
-      return f.side === 'outside' && f.owner === null && !f.water ? hinterland : null;
+      return s6Takes(g.faces[i], 'outside') ? hinterland : null;
     };
     const runs = seamRuns(g, sideOf, (id) => districtIds.has(id));
     const seamRun = townLineage(key, epoch, SEAM_RUN_INDEX, reroll);

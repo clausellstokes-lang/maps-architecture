@@ -85,6 +85,11 @@ export interface TownOptions {
   readonly frameM?: number;
   /** No street grid (the coarse faces are the arterials' wedges alone). */
   readonly noGrid?: boolean;
+  /**
+   * S1's land component (C-0229 (3); N-51): the L0 face inside the arena's outer ring is given this owner (`land:0`) in
+   * S1's batch, as the real S1 owns every L0 land face, so every L1 face laid after it inherits it (§2.2 rule 4).
+   */
+  readonly landOwner?: Id;
 }
 
 /** A built district fixture: the arena, its kernel and the records S6 reads. */
@@ -136,6 +141,15 @@ export function town(seed: number, opts: TownOptions = {}): Town {
   const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
   const reach = Math.round(half * 1.6);
   lay(k, 0, STAGES.S1, [P(-reach, -reach), P(reach, -reach), P(reach, reach), P(-reach, reach)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
+  if (opts.landOwner !== undefined) {
+    const owner = opts.landOwner;
+    const r = k.tx(spec(0, STAGES.S1), (o) => {
+      const loc = k.geom.pointLocate(GROUND, 0, P(0, 0));
+      if (loc.on !== 'face') return err('E_INVARIANT', 'support: no L0 face at the origin');
+      return k.geom.setOwner(o, [loc.face], owner);
+    });
+    if (!r.ok) throw new Error(`support: the land owner was refused: ${r.code} ${r.detail}`);
+  }
   const frameRing = [P(-half, -half), P(half, -half), P(half, half), P(-half, half)];
   lay(k, 1, STAGES.S3, frameRing, [{ role: 'border', entity: 'terrain:t' }], { closed: true });
   // The plaza: a hexagon of ≈ 0.5 ha at the centre.
