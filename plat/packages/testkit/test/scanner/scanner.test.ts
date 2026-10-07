@@ -189,7 +189,7 @@ describe('allow entries (§17.1 (5): a hit fails unless a reviewed allow entry w
     expect(r.report?.unusedAllow).toEqual([]);
   });
 
-  it('an entry of another check, another file, a part of the run or four of the five words silences nothing', () => {
+  it('an entry of another check, another file, an altered run or four of the five words silences nothing', () => {
     const entries = [
       { check: 'trigram', text: `${TOKEN} a b c d`, reason: 'wrong check' },
       { check: 'token', text: 'plox', reason: 'wrong file', file: 'packages/kernel/src/a.ts' },
@@ -202,6 +202,57 @@ describe('allow entries (§17.1 (5): a hit fails unless a reviewed allow entry w
     expect(r.code).toBe(1);
     expect(r.report?.counts.allowed).toBe(0);
     expect(r.report?.unusedAllow).toEqual([0, 1, 2, 3, 4, 5]);
+  });
+
+  // N-33: "an allow entry's exact text is the run" — a true part of a run, a run holding it, or a part of a token is
+  // not its text (check B-1 of M0-k-06: mutants matching a sub-run, a super-run or a sub-token survived the case above).
+  it('near misses stay unreviewed: a five-token entry inside a six-token run, a six-token entry holding a five-token run, a token entry inside or around a listed token', () => {
+    const RUN6 = [...RUN, 'lomvar'];
+    const windows6 = [0, 1, 2, 3].map((k) => RUN6.slice(k, k + 3).join(' '));
+    const cases: { name: string; files: Record<string, string>; spec: ListSpec; miss: object; exact: object; check: 'trigram' | 'token' }[] = [
+      {
+        name: 'sub-run',
+        files: { 'packages/kernel/src/a.ts': `// ${RUN6.join(' ')}\n` },
+        spec: { trigrams: windows6 },
+        miss: { check: 'trigram', text: RUN6.slice(0, 5).join(' '), reason: 'the first five of six' },
+        exact: { check: 'trigram', text: RUN6.join(' '), reason: 'the run' },
+        check: 'trigram',
+      },
+      {
+        name: 'super-run',
+        files: { 'packages/kernel/src/a.ts': `// ${RUN.join(' ')}\n` },
+        spec: { trigrams: RUN_WINDOWS },
+        miss: { check: 'trigram', text: RUN6.join(' '), reason: 'six tokens holding the five' },
+        exact: { check: 'trigram', text: RUN.join(' '), reason: 'the run' },
+        check: 'trigram',
+      },
+      {
+        name: 'sub-token',
+        files: { 'packages/kernel/src/a.ts': `const s = '${TOKEN}x';\n` },
+        spec: { tokens: [`${TOKEN}x`] },
+        miss: { check: 'token', text: TOKEN, reason: 'a part of the token' },
+        exact: { check: 'token', text: `${TOKEN}x`, reason: 'the token' },
+        check: 'token',
+      },
+      {
+        name: 'super-token',
+        files: { 'packages/kernel/src/a.ts': `const s = '${TOKEN}';\n` },
+        spec: { tokens: [TOKEN] },
+        miss: { check: 'token', text: `${TOKEN}x`, reason: 'a token holding the listed one' },
+        exact: { check: 'token', text: TOKEN, reason: 'the token' },
+        check: 'token',
+      },
+    ];
+    for (const c of cases) {
+      const miss = scan(tree(c.files, syntheticList(c.spec), [c.miss]));
+      expect([c.name, miss.code]).toEqual([c.name, 1]);
+      expect([c.name, miss.report?.counts[c.check], miss.report?.counts.hits]).toEqual([c.name, 1, 1]);
+      expect([c.name, miss.report?.counts.allowed, miss.report?.counts.unreviewed]).toEqual([c.name, 0, 1]);
+      expect([c.name, miss.report?.unusedAllow]).toEqual([c.name, [0]]);
+      // the control: the exact text silences the same hit, so the miss above is not vacuous
+      const exact = scan(tree(c.files, syntheticList(c.spec), [c.exact]));
+      expect([c.name, exact.code, exact.report?.counts.allowed, exact.report?.unusedAllow]).toEqual([c.name, 0, 1, []]);
+    }
   });
 
   it('a malformed entry stops the scan naming the allow file and the entry; so does a missing allow file', () => {
