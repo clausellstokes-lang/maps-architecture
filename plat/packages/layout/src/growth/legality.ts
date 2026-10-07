@@ -16,7 +16,8 @@
 //   * clearance: a step running within `max(minimum block depth of the regime, separation / 2) + half its corridor` of
 //     any spine, setback line, shore, reservation or the stage boundary and within 30° of parallel is illegal, so no
 //     strip thinner than a plot depth is left — a way across the way the step leaves (wholly on its far side) is no
-//     spine the step runs beside, since that way lies between them (C-0260 (1): both sides of an arterial grow);
+//     spine the step runs beside, since that way lies between them (C-0260 (1): both sides of an arterial grow; on a
+//     bent arterial, a street leaving it and ending across it where it leaves, C-0262 (1));
 //   * an illegal step is deflected once — turned the least way to 31° off the feature it met or ran beside, away from
 //     it, its goal heading taking the turn — and judged again; still illegal, it is rejected. A deflection needing a
 //     turn above the legal angle (30°) is a rejection (C-0258 (3)): a street's course takes no turn its walk would not;
@@ -351,29 +352,71 @@ function sideDist(a: XY, b: XY, p: XY): number | null {
   return quot(dx * (p.y - a.y) - dy * (p.x - a.x), len, 'length', 'side of a way');
 }
 
+/** A way segment holding a step's start, and the side (+1 left, −1 right of a → b) the step's end lies on. */
+interface HeldSide {
+  readonly a: XY;
+  readonly b: XY;
+  readonly way: Id | undefined;
+  readonly s: number;
+}
+
 /**
- * The test "f lies across the way the step leaves" (C-0260 (1)), or null when the step leaves no way: every way segment
- * (another street's) holding the step's start has the step's end strictly on one side of its line (by ≥ 1 cm) and both
- * ends of f on the other side or on it (within 1 cm, the lattice's rounding). A street on the far side of its arterial —
- * a seed's on the other side, half a spacing along — leaves no strip between the two: the arterial lies between them.
+ * Does f leave the way g lies on at one end and end strictly across it there (C-0262 (1))? One end of f lies on a
+ * segment of g's way (within 1 cm) and, against every such segment h — run the same way as g (their directions' dot
+ * product positive) — its other end lies on the side opposite the step's by ≥ 1 cm. So the far side is read from the
+ * arterial where f leaves it, not from the line of the segment holding the step's start: on a bent arterial the street
+ * across, half a spacing back, starts off that line on the step's side, yet the arterial still lies between the two.
+ */
+function leavesAcross(index: FeatureIndex, g: HeldSide, f: Feature): boolean {
+  if (g.way === undefined || f.way === g.way) return false;
+  const gx = g.b.x - g.a.x;
+  const gy = g.b.y - g.a.y;
+  for (const [p, q] of [
+    [f.a, f.b],
+    [f.b, f.a],
+  ] as const) {
+    let held = 0;
+    let across = true;
+    for (const i of index.near(p.x - 1, p.y - 1, p.x + 1, p.y + 1)) {
+      const h = index.features[i];
+      if (h.kind !== 'way' || h.way !== g.way || footOn(p, h.a, h.b).d2 >= 1) continue;
+      held += 1;
+      const e = sideDist(h.a, h.b, q);
+      if (!((h.b.x - h.a.x) * gx + (h.b.y - h.a.y) * gy > 0) || e === null || !(g.s * e <= -1)) {
+        across = false;
+        break;
+      }
+    }
+    if (held > 0 && across) return true;
+  }
+  return false;
+}
+
+/**
+ * The test "f lies across the way the step leaves" (C-0260 (1), C-0262 (1)), or null when the step leaves no way (its
+ * own street's segments are never read: a later step leaves no way): for every way segment g (another street's) holding
+ * the step's start — the step's end strictly on one side of its line (by ≥ 1 cm) — either both ends of f lie on the other
+ * side of g's line or on it (within 1 cm, the lattice's rounding), or f leaves g's way at one end and ends across it
+ * there (`leavesAcross`). A street on the far side of its arterial — a seed's on the other side, half a spacing along,
+ * on a straight or a bent run — leaves no strip between the two: the arterial lies between them.
  */
 function acrossOf(index: FeatureIndex, c: StepCandidate, to: XY): ((f: Feature) => boolean) | null {
   const at = c.at;
-  const sides: { a: XY; b: XY; s: number }[] = [];
+  const sides: HeldSide[] = [];
   for (const i of index.near(at.x - 1, at.y - 1, at.x + 1, at.y + 1)) {
     const g = index.features[i];
     if (g.kind !== 'way' || g.street === c.street || footOn(at, g.a, g.b).d2 >= 1) continue;
     const e = sideDist(g.a, g.b, to);
     if (e === null) continue;
     if (Math.abs(e) < 1) return null;
-    sides.push({ a: g.a, b: g.b, s: e > 0 ? 1 : -1 });
+    sides.push({ a: g.a, b: g.b, way: g.way, s: e > 0 ? 1 : -1 });
   }
   if (sides.length === 0) return null;
   return (f: Feature): boolean =>
     sides.every((g) => {
       const ea = sideDist(g.a, g.b, f.a);
       const eb = sideDist(g.a, g.b, f.b);
-      return ea !== null && eb !== null && g.s * ea <= 1 && g.s * eb <= 1;
+      return (ea !== null && eb !== null && g.s * ea <= 1 && g.s * eb <= 1) || leavesAcross(index, g, f);
     });
 }
 

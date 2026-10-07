@@ -62,14 +62,57 @@ export interface HandCase {
   area: GrowthArea;
 }
 
+/** A seed on a hand-laid arterial: its lattice point and the direction of the arterial's segment there. */
+export interface HandSeed {
+  at: LatticePoint;
+  along: { x: number; y: number };
+}
+
 /**
- * A square arena with a straight `primary` way:0 along the x axis and a closed region around it: walled (a `band`
+ * An arterial bending steadily left by `degPerSeg` degrees at each vertex, `segCm` long per segment (lattice-rounded
+ * vertices on the arc), its middle segment centred on the origin along +x, `count` segments; and the points every
+ * `spacingCm` of arc length along it (offset half a segment, so never at a vertex) inside |x|, |y| ≤ `withinCm`.
+ */
+export function bentArterial(segCm: number, degPerSeg: number, count: number, spacingCm: number, withinCm: number): { road: LatticePoint[]; seeds: HandSeed[] } {
+  const turn = (degPerSeg * Math.PI) / 180;
+  const mid = Math.floor(count / 2);
+  // Vertex i at heading (i − mid − ½) · turn from the middle segment's; the middle segment's midpoint at the origin.
+  const raw: { x: number; y: number }[] = [{ x: 0, y: 0 }];
+  for (let i = 0; i < count; i += 1) {
+    const h = (i - mid) * turn;
+    const last = raw[raw.length - 1];
+    raw.push({ x: last.x + segCm * Math.cos(h), y: last.y + segCm * Math.sin(h) });
+  }
+  const m0 = raw[mid];
+  const m1 = raw[mid + 1];
+  const c = { x: (m0.x + m1.x) / 2, y: (m0.y + m1.y) / 2 };
+  const road = raw.map((q) => P(Math.round(q.x - c.x), Math.round(q.y - c.y)));
+  const seeds: HandSeed[] = [];
+  for (let s = segCm / 2; ; s += spacingCm) {
+    const i = Math.floor(s / segCm);
+    if (i >= count) break;
+    const a = road[i];
+    const b = road[i + 1];
+    const t = (s - i * segCm) / segCm;
+    const at = P(Math.round(a.x + t * (b.x - a.x)), Math.round(a.y + t * (b.y - a.y)));
+    if (Math.abs(at.x) > withinCm || Math.abs(at.y) > withinCm) continue;
+    const len = Math.hypot(b.x - a.x, b.y - a.y);
+    seeds.push({ at, along: { x: (b.x - a.x) / len, y: (b.y - a.y) / len } });
+  }
+  return { road, seeds };
+}
+
+/**
+ * A square arena with a `primary` way:0 (straight along the x axis, or the polyline `road`) and a closed region around it: walled (a `band`
  * square at ±`reachCm`, laid as a setback line) for `dense_core`, unwalled (a `boundary` square) for `ribbon`.
  */
-export function handCase(regime: 'dense_core' | 'ribbon', opts: GrowthRuleOptions & { reachCm?: number; seeds?: number[]; extraFeatures?: Feature[]; landHa?: number } = {}): HandCase {
+export function handCase(
+  regime: 'dense_core' | 'ribbon',
+  opts: GrowthRuleOptions & { reachCm?: number; seeds?: number[]; extraFeatures?: Feature[]; landHa?: number; road?: readonly LatticePoint[]; seedsAlong?: readonly HandSeed[] } = {},
+): HandCase {
   const { plat, k } = squareArena();
   const reach = opts.reachCm ?? 40_000;
-  const road = [P(-reach - 20_000, 0), P(reach + 20_000, 0)];
+  const road = opts.road ?? [P(-reach - 20_000, 0), P(reach + 20_000, 0)];
   lay(k, road, 'way', 'way:0');
   const square = [P(-reach, -reach), P(reach, -reach), P(reach, reach), P(-reach, reach)];
   const features: Feature[] = [];
@@ -81,7 +124,10 @@ export function handCase(regime: 'dense_core' | 'ribbon', opts: GrowthRuleOption
   features.push(...(opts.extraFeatures ?? []));
   const rules = growthRules(tableView(), regime, 'CITY', opts);
   // The sides alternate along the arterial, as growthArea's seeds do (C-0254 (3)): left, right, left, …
-  const seeds: GrowthSeed[] = (opts.seeds ?? [-20_000, 0, 20_000]).map((x, i) => ({ at: P(x, 0), way: 'way:0', along: { x: 1, y: 0 }, side: i % 2 === 0 ? 1 : -1 }));
+  const seeds: GrowthSeed[] =
+    opts.seedsAlong !== undefined
+      ? opts.seedsAlong.map((q, i) => ({ at: q.at, way: 'way:0', along: q.along, side: i % 2 === 0 ? 1 : -1 }))
+      : (opts.seeds ?? [-20_000, 0, 20_000]).map((x, i) => ({ at: P(x, 0), way: 'way:0', along: { x: 1, y: 0 }, side: i % 2 === 0 ? 1 : -1 }));
   const area: GrowthArea = {
     k: 1,
     key: GROUND,

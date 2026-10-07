@@ -9,7 +9,7 @@ import { createRng, err, recomputeLevelDigest, seedKey, STAGES, CONCERNS, type K
 import { lineageHash } from '@plat/model';
 import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
 import { growStreets, type GrowthStreams, type S5cRecord, type StreetGrowOptions } from '../../../src/growth/proposals.js';
-import { GROUND, handCase, lineAngleDeg, P, properCross, roleEdges, type HandCase } from './support.js';
+import { bentArterial, GROUND, handCase, lineAngleDeg, P, properCross, roleEdges, type HandCase } from './support.js';
 
 function streams(seed: number): GrowthStreams {
   const rng = createRng();
@@ -147,6 +147,31 @@ describe('S5c on a walled hand case', () => {
         const left = firsts.filter((s) => s.points[1].y > s.points[0].y).length;
         const right = firsts.filter((s) => s.points[1].y < s.points[0].y).length;
         expect([left, right], `${regime} ${String(seed)}`).toEqual([m + 1, m]);
+      }
+    }
+  });
+
+  it('on a bent arterial at growthArea’s spacing — 8° (walled) and 6° (ribbon) per seed spacing, short segments — every seed’s street grows, on its own side (C-0262 (1))', () => {
+    for (const regime of ['dense_core', 'ribbon'] as const) {
+      const rules = handCase(regime).area.rules;
+      const half = rules.seedSpacingCm / 2;
+      const D = rules.legality.clearanceCm('secondary');
+      // Walled: 20 m segments turning 1° each (8° per 160 m spacing); ribbon: 10 m segments turning 1° (6° per 60 m).
+      const segCm = regime === 'dense_core' ? 2_000 : 1_000;
+      const bent = bentArterial(segCm, 1, Math.ceil(120_000 / segCm), half, 40_000 - D - 100);
+      expect(bent.seeds.length).toBeGreaterThanOrEqual(7);
+      for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+        const c = handCase(regime, { road: bent.road, seedsAlong: bent.seeds });
+        const rec = grow(c, seed);
+        const firsts = rec.streets.filter((s) => s.parent === 'way:0');
+        expect(firsts.length, `${regime} ${String(seed)}: streets from the arterial`).toBe(bent.seeds.length);
+        // Each seed's street leaves on the seed's own side of the arterial (the cross product with its segment there).
+        const sides = c.area.seeds.map((sd) => {
+          const st = firsts.find((s) => s.points[0].x === sd.at.x && s.points[0].y === sd.at.y);
+          if (st === undefined) return 0;
+          return Math.sign(sd.along.x * (st.points[1].y - st.points[0].y) - sd.along.y * (st.points[1].x - st.points[0].x));
+        });
+        expect(sides, `${regime} ${String(seed)}`).toEqual(c.area.seeds.map((sd) => sd.side));
       }
     }
   });

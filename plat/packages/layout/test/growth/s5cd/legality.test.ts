@@ -205,6 +205,54 @@ describe('a street across the arterial the step leaves (C-0260 (1))', () => {
     const v = legal(later, ctxOf([arterial, { ...leftStreet, a: P(0, -10), b: P(0, -4_000) }], noBias));
     expect(v.verdict === 'accept' && !v.deflected).toBe(false);
   });
+
+  it('a street whose start the lattice rounded 1 cm onto the step’s side of the arterial is still across it (the 1 cm tolerance)', () => {
+    const rounded: Feature = { ...leftStreet, a: P(0, -1), b: P(0, 4_000) };
+    const v = legal(first(8_000, -90 * DEG), ctxOf([arterial, rounded], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict === 'accept') expect(v.to).toEqual(P(8_000, -4_000));
+  });
+
+  it('a band, a shore, a reservation or a boundary wholly across the arterial still takes the clearance (only a way is across)', () => {
+    for (const kind of ['band', 'shore', 'reservation', 'boundary'] as const) {
+      const f: Feature = { a: P(0, 100), b: P(0, 50_000), kind };
+      const rules = kind === 'boundary' ? { ...ribbon, bias: false, clearanceCm: () => 8_300 } : noBias;
+      const v = legal(first(8_000, -90 * DEG), ctxOf([arterial, f], rules));
+      expect(v.verdict === 'reject' && v.why === 'parallel', kind).toBe(true);
+    }
+  });
+
+  it('a later step starting on its own street’s previous segment and turning reads no far side: a parallel street beyond that segment still rejects it', () => {
+    // Its own previous segment up the y axis to (0, 0); the step turns 20° right; another street parallel to the step,
+    // wholly on the far side of the own segment's line, 28 m off (inside the 83 m clearance).
+    const own: Feature = { a: P(0, -4_000), b: P(0, 0), kind: 'way', way: 'way:3', cls: 'secondary', street: 1, step: 2 };
+    const other: Feature = { a: P(-3_000, 0), b: P(-948, 5_638), kind: 'way', way: 'way:5', cls: 'secondary', street: 4, step: 1 };
+    const later: StepCandidate = { street: 1, class: 'secondary', at: P(0, 0), heading: 70 * DEG, stepCm: 4_000, turn: 20 * DEG, steps: 3 };
+    const v = legal(later, ctxOf([own, other], noBias));
+    expect(v.verdict === 'accept' && !v.deflected).toBe(false);
+    // The same step with the other street beyond the clearance is accepted as it was (the setting is otherwise legal).
+    const far: Feature = { ...other, a: P(-10_000, 0), b: P(-7_948, 5_638) };
+    const w = legal(later, ctxOf([own, far], noBias));
+    expect(w.verdict === 'accept' && !w.deflected).toBe(true);
+  });
+
+  it('on a bent arterial, the street across half a spacing back starts off the start segment’s line on the step’s side, yet is across: the step is accepted (C-0262 (1))', () => {
+    // The arterial bends at (4 000, 0): the segment holding the step's start runs along y = 0; the one before it climbs
+    // 1 in 20, so the previous seed at (0, −200) lies 2 m off y = 0 on the right (the step's) side. Its street leaves
+    // square to its own segment on the left and ends across the arterial there.
+    const before = way(P(-20_000, -1_200), P(4_000, 0), 'primary', 'way:0');
+    const after = way(P(4_000, 0), P(100_000, 0), 'primary', 'way:0');
+    const across: Feature = { a: P(0, -200), b: P(-200, 3_795), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
+    const v = legal(first(8_000, -90 * DEG), ctxOf([before, after, across], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict === 'accept') expect(v.to).toEqual(P(8_000, -4_000));
+    // A step on that street's own side still takes the clearance; and a street from another way there is not across.
+    const own = legal(first(8_000, 90 * DEG), ctxOf([before, after, across], noBias));
+    expect(own.verdict === 'reject' && own.why === 'parallel').toBe(true);
+    const otherWay = way(P(-20_000, -1_200), P(4_000, 0), 'primary', 'way:7');
+    const w = legal(first(8_000, -90 * DEG), ctxOf([otherWay, after, across], noBias));
+    expect(w.verdict === 'reject' && w.why === 'parallel').toBe(true);
+  });
 });
 
 describe('the wall, shores and reservations', () => {
