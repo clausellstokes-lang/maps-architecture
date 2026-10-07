@@ -29,14 +29,14 @@ export interface WallLine {
 /**
  * Where a sited feature seeds its district (C-0245 (4), C-0257): the claimable coarse face sharing the longest boundary
  * with the faces an entity owns (a reservation: the market's plaza); the claimable face nearest a point (a gate's
- * vertex, a bridgehead's landward deck end) — only among the faces lying inside `within` and outside every ring of
- * `outside` when they are given (a gate's ward behind its own wall and outside every inner enceinte; none left there:
- * the feature is dropped and reported); or the claimable face with the longest shore or bank of a water body (a river
- * bank).
+ * vertex, a bridgehead's landward deck end) — only among the faces whose boundary passes through the point when
+ * `touching` (a gate's ward at its gate), lying inside `within` and outside every ring of `outside` when they are given
+ * (a gate's ward behind its own wall and outside every inner enceinte); none left there: the feature is dropped and
+ * reported; or the claimable face with the longest shore or bank of a water body (a river bank).
  */
 export type SeedAnchor =
   | { readonly kind: 'owner'; readonly owner: Id }
-  | { readonly kind: 'point'; readonly at: XY; readonly within?: readonly XY[]; readonly outside?: readonly (readonly XY[])[] }
+  | { readonly kind: 'point'; readonly at: XY; readonly touching?: boolean; readonly within?: readonly XY[]; readonly outside?: readonly (readonly XY[])[] }
   | { readonly kind: 'shore'; readonly body: Id };
 
 /** A sited feature that seeds a district (§4.5 *Grower*'s "Seeds = the sited features"). */

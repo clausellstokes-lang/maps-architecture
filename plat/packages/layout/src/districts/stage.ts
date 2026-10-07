@@ -172,8 +172,8 @@ function gateSides(gates: readonly Gate[], walls: readonly WallLine[] | undefine
 
 /**
  * The sited features M0 has, in seed order (§4.5 *Grower*): every plaza or market reservation (a `market` seed at its
- * barrier face), every main gate (at its `gate` vertex; with `walls` or `wall`, its ward behind its own wall and outside
- * every inner enceinte — C-0257), both deck ends of every built bridge whose way is of class ≥ the edge test's
+ * barrier face), every main gate (at a face touching its `gate` vertex; with `walls` or `wall`, behind its own wall and
+ * outside every inner enceinte — C-0257), both deck ends of every built bridge whose way is of class ≥ the edge test's
  * (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0245 (4).
  */
 export function siteFeatures(
@@ -195,7 +195,7 @@ export function siteFeatures(
     if (g.kind !== 'main') continue;
     const at = vertexOf(p, 'gate', g.id);
     const side = sides.get(g.id);
-    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, ...(side === undefined ? {} : { within: side.within, outside: side.outside }) } });
+    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, touching: true, ...(side === undefined ? {} : { within: side.within, outside: side.outside }) } });
   }
   const top = minBarrierClass();
   const order = ['through', 'primary', 'secondary'];

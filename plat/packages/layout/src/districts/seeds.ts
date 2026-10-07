@@ -1,8 +1,8 @@
 // The grower's seeds (M0-e-04; §4.5 *Grower*: "Seeds = the sited features … plus a density-guided remainder, N_d seeds
 // in all"; readings C-0245 (4), (5), (11)):
 //   * each sited feature, in its given order, takes the claimable face its anchor names (the longest boundary with the
-//     faces an entity owns; the face nearest a point, only among the faces on the anchor's side — a gate's ward behind
-//     its own wall and outside every inner enceinte, C-0257; the longest shore or bank of a water body), ties by
+//     faces an entity owns; the face nearest a point, only among the faces on the anchor's side — a gate's ward at its
+//     gate, behind its own wall and outside every inner enceinte, C-0257; the longest shore or bank of a water body), ties by
 //     canonical face order, a face an earlier seed took passed over; a feature with no such face left is dropped and
 //     reported (never seeded across another wall);
 //   * the remainder — N_d less the features — goes compartment by compartment (the claimable faces' connected runs
@@ -174,7 +174,9 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
         if (score <= 0) continue;
       } else {
         // the nearest (the negated squared distance, so larger is better) on the anchor's side only (C-0257)
-        score = -faceDist2(g, i, a.at);
+        const dist2 = faceDist2(g, i, a.at);
+        if (a.touching === true && dist2 > 0) continue;
+        score = -dist2;
         if (best >= 0 && score <= bestScore) continue;
         if (a.within !== undefined && !inRing(i, a.within)) continue;
         if (a.outside !== undefined && a.outside.some((r) => inRing(i, r))) continue;
