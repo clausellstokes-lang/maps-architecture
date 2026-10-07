@@ -78,6 +78,9 @@ describe('the fieldsCoarsen switch (R12-5): only the cell size changes', () => {
     expect(b.report.cellCm).toBe(4800);
     expect(b.report.switchCoarsen).toBe(true);
     expect(b.report.workCut).toBeNull();
+    // the limit's law reads the frame's cells at the 32 m cell whatever the switch
+    expect(b.report.work.limit).toBe(a.report.work.limit);
+    expect(b.report.work['field.cells']).toBe(3 * b.grid.cols * b.grid.rows);
     expect(b.report.sigmaM).toBe(a.report.sigmaM);
     expect(b.grid.cols * b.grid.cellCm).toBeGreaterThanOrEqual(a.grid.cols * a.grid.cellCm - b.grid.cellCm);
     expect(b.grid.cols * b.grid.cellCm).toBeLessThanOrEqual(a.grid.cols * a.grid.cellCm + b.grid.cellCm);

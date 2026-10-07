@@ -155,6 +155,19 @@ describe('ε (§4.5: a low-frequency fBm from the field.chance stream with a dec
     }
   });
 
+  it('zero-mean over the grid: ε shifts no field as a whole (its mean over every cell ≈ 0 against its spread)', () => {
+    const r = pass1(fieldTown(2));
+    const g = r.grid;
+    const pts: { x: number; y: number }[] = [];
+    for (let j = 0; j < g.rows; j += 2) for (let i = 0; i < g.cols; i += 2) pts.push({ x: g.originX + (i + 0.5) * g.cellCm, y: g.originY + (j + 0.5) * g.cellCm });
+    for (const f of all(r)) {
+      const vals = pts.map((p) => f.drivers([p]).chance / f.chanceScale);
+      const m = vals.reduce((a, b) => a + b, 0) / vals.length;
+      expect(Math.abs(m)).toBeLessThan(0.02);
+      expect(variance(vals)).toBeGreaterThan(0.5);
+    }
+  });
+
   it('a share of 0 makes ε vanish; a larger share gives ε a larger part', () => {
     const ft = fieldTown(2);
     const none = pass1(ft, {}, ft.site, fieldsVariant((rows) => (rows.settings.epsilonShare = { ...rows.settings.epsilonShare, value: 0 })));
@@ -251,6 +264,14 @@ describe('drivers(points) (§4.5: each term separately; the terms sum, before th
     // the other fields keep theirs
     expect(up.density.drivers(cells).characterOffset).toBe(r.density.drivers(cells).characterOffset);
     expect(r.report.kindsWithoutOffset).toEqual([]);
+    // smoothed: across district boundaries the term takes values between the kinds' offsets, not only the table's own
+    const own = new Set(CELLS.fields[0].offset.values());
+    let between = 0;
+    for (const p of landPoints(r)) {
+      const o = r.prosperity.drivers([p]).characterOffset;
+      if (![...own].some((v) => Math.abs(o - v) < 1e-9)) between += 1;
+    }
+    expect(between).toBeGreaterThan(50);
   });
 });
 
@@ -260,17 +281,32 @@ describe('the per-face values and the driver-only state', () => {
     const r = pass1(ft);
     expect(r.prosperity.faces.length).toBe(ft.districts.faces.length);
     let some = 0;
+    let empties = 0;
     for (const f of all(r)) {
       f.faces.forEach((fv, k) => {
         expect(fv.key).toEqual(ft.districts.faces[k].key);
         expect(fv.owner).toBe(ft.districts.faces[k].owner);
         if (fv.cells === 0) {
-          expect(fv.value).toBeGreaterThanOrEqual(0);
-          expect(fv.value).toBeLessThanOrEqual(1);
+          empties += 1;
+          // the cell at the outer ring's area centroid (the test's own centroid)
+          const ring = ft.districts.faces[k].rings[0];
+          let a2 = 0;
+          let sx = 0;
+          let sy = 0;
+          for (let q = 0; q < ring.length; q += 1) {
+            const P = ring[q];
+            const Q = ring[(q + 1) % ring.length];
+            const c = P.x * Q.y - Q.x * P.y;
+            a2 += c;
+            sx += (P.x + Q.x) * c;
+            sy += (P.y + Q.y) * c;
+          }
+          expect(fv.value).toBe(f.valueAt({ x: sx / (3 * a2), y: sy / (3 * a2) }));
         } else some += 1;
       });
     }
     expect(some).toBeGreaterThan(0);
+    expect(empties).toBeGreaterThan(0);
     // one district face's mean read independently through its cells
     const fi = r.prosperity.faces.findIndex((fv) => fv.cells > 20);
     const face = ft.districts.faces[fi];

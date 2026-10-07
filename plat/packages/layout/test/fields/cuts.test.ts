@@ -113,5 +113,8 @@ describe('holdBand: the hysteresis (0.02)', () => {
     expect(holdBand(0.79, 'rich', fb)).toBe('rich');
     expect(holdBand(0.7799, 'rich', fb)).toBe('prosperous');
     expect(() => holdBand(0.5, 'gilded', fb)).toThrow(RangeError);
+    // a crossing by exactly the hysteresis keeps the band, on either side
+    expect(holdBand(fb.cuts[3] + fb.hysteresis, 'comfortable', fb)).toBe('comfortable');
+    expect(holdBand(fb.cuts[2] - fb.hysteresis, 'comfortable', fb)).toBe('comfortable');
   });
 });

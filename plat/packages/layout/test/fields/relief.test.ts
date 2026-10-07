@@ -50,6 +50,12 @@ describe('elevation and low, damp ground', () => {
     expect(term(r.greenery, { x: -155000, y: 0 }, 'lowDamp')).toBeGreaterThan(0.9 * w('greenery', 'lowDamp'));
     // 600 m from the river: beyond the 300 m damp radius and the blur
     expect(Math.abs(term(r.prosperity, { x: -90000, y: 0 }, 'lowDamp'))).toBeLessThan(1e-15);
+    // low ground 150 m from the water: half damp (the damp share falls linearly over 300 m)
+    const half = term(r.prosperity, { x: -175000, y: 0 }, 'lowDamp') / w('prosperity', 'lowDamp');
+    expect(half).toBeGreaterThan(0.4);
+    expect(half).toBeLessThan(0.6);
+    // low ground far from the water (1.4 km west of the river, at its level): low, but not damp
+    expect(Math.abs(term(r.prosperity, { x: -300000, y: 0 }, 'lowDamp'))).toBeLessThan(1e-15);
     // a dry site has no damp ground
     const dry = pass1(ft, {}, { ...site, sources: { ...site.sources, water: [] } });
     expect(Math.abs(term(dry.prosperity, { x: -155000, y: 0 }, 'lowDamp'))).toBeLessThan(1e-15);
