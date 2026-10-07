@@ -4,7 +4,7 @@
 // stage, the stage boundary) and either accepted, with the point it reaches and how the proposal ends there, or
 // rejected:
 //   * destination bias (switchable per regime): a spine within ≈ 1.5 step lengths ahead, met at ≥ 30°, turns the step
-//     toward its nearest point — a turn of at most the legal angle (C-0259 (3)) — and the proposal ends there in a T
+//     toward its nearest point — a turn of at most the legal angle (C-0260 (3)) — and the proposal ends there in a T
 //     (ending cul-de-sacs deliberately). At M0 every S3
 //     destination (the plaza, the gates) is served by S4, so the spines are the targets (C-0254 (6));
 //   * a junction within `0.35 · step` of the step's end is snapped to, the proposal ending there; a way within that
@@ -16,7 +16,7 @@
 //   * clearance: a step running within `max(minimum block depth of the regime, separation / 2) + half its corridor` of
 //     any spine, setback line, shore, reservation or the stage boundary and within 30° of parallel is illegal, so no
 //     strip thinner than a plot depth is left — a way across the way the step leaves (wholly on its far side) is no
-//     spine the step runs beside, since that way lies between them (C-0259 (1): both sides of an arterial grow);
+//     spine the step runs beside, since that way lies between them (C-0260 (1): both sides of an arterial grow);
 //   * an illegal step is deflected once — turned the least way to 31° off the feature it met or ran beside, away from
 //     it, its goal heading taking the turn — and judged again; still illegal, it is rejected. A deflection needing a
 //     turn above the legal angle (30°) is a rejection (C-0258 (3)): a street's course takes no turn its walk would not;
@@ -352,7 +352,7 @@ function sideDist(a: XY, b: XY, p: XY): number | null {
 }
 
 /**
- * The test "f lies across the way the step leaves" (C-0259 (1)), or null when the step leaves no way: every way segment
+ * The test "f lies across the way the step leaves" (C-0260 (1)), or null when the step leaves no way: every way segment
  * (another street's) holding the step's start has the step's end strictly on one side of its line (by ≥ 1 cm) and both
  * ends of f on the other side or on it (within 1 cm, the lattice's rounding). A street on the far side of its arterial —
  * a seed's on the other side, half a spacing along — leaves no strip between the two: the arterial lies between them.
@@ -415,7 +415,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       if (!(foot.d2 < bestD2) || foot.d2 < 1 || foot.t <= 0 || foot.t >= 1) continue;
       const v = sub(foot.at, at);
       if (v.x * dir.x + v.y * dir.y <= 0) continue;
-      // The bias turns the step at most the legal angle (C-0259 (3)), as a deflection does: a street's course takes no
+      // The bias turns the step at most the legal angle (C-0260 (3)), as a deflection does: a street's course takes no
       // turn its walk would not (the growth-drift row).
       if (dmath.atan2(Math.abs(dir.x * v.y - dir.y * v.x), v.x * dir.x + v.y * dir.y) > r.legalAngle) continue;
       if (lineAngle(v, sub(f.b, f.a)) < r.legalAngle || !armsSquare(ctx.index, foot.at, v, r.legalAngle, (g) => ignored(g, c))) continue;
@@ -602,7 +602,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     const f = F[i];
     // The proposal's own street is no spine it runs beside (its curl back is met as a crossing, above).
     if (ignored(f, c) || i === metFeature || f.street === c.street) continue;
-    // A way across the way the step leaves is no spine it runs beside: that way lies between them (C-0259 (1)).
+    // A way across the way the step leaves is no spine it runs beside: that way lies between them (C-0260 (1)).
     if (f.kind === 'way' && across !== null && across(f)) continue;
     // The way the step ends on, the ways it crosses and the boundary it leaves are met, not run beside.
     if (met !== null && f.kind === met.kind && f.kind !== 'way' && f.kind !== 'band') continue;

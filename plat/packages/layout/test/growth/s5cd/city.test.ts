@@ -112,7 +112,7 @@ describe('the seeds (C-0254 (3))', () => {
     expect(Math.min(left, right)).toBeGreaterThanOrEqual(Math.floor(area.seeds.length / 3));
   });
 
-  it('each seed’s side follows its position along its run — left at an even n, right at an odd one — never the count of seeds kept (C-0259 (2))', { timeout: 240_000 }, () => {
+  it('each seed’s side follows its position along its run — left at an even n, right at an odd one — never the count of seeds kept (C-0260 (2))', { timeout: 240_000 }, () => {
     let byCountRun = 0;
     let byCountAll = 0;
     let seeds = 0;

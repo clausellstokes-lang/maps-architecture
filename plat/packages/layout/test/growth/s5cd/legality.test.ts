@@ -139,7 +139,7 @@ describe('the deflection’s limit and the first step (C-0258 (2), (3))', () => 
   });
 });
 
-describe('the destination bias turns a step at most the legal angle (C-0259 (3))', () => {
+describe('the destination bias turns a step at most the legal angle (C-0260 (3))', () => {
   // A spine whose perpendicular foot from the step's start lies 28 m away at `deg` off the step's heading (inside the
   // 1.5-step reach of a 30 m step), the spine square to that direction.
   const spineAt = (deg: number): Feature => {
@@ -172,7 +172,7 @@ describe('the destination bias turns a step at most the legal angle (C-0259 (3))
   });
 });
 
-describe('a street across the arterial the step leaves (C-0259 (1))', () => {
+describe('a street across the arterial the step leaves (C-0260 (1))', () => {
   // The arterial along y = 0; a seed's street on its left side, leaving (0, 0) square to it. The next seed half a seed
   // spacing along (80 m, inside the 83 m clearance) leaves on the right side, square too.
   const arterial = way(P(-100_000, 0), P(100_000, 0), 'primary', 'way:0');

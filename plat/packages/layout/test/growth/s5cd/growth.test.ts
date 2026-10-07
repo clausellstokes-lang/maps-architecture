@@ -129,7 +129,7 @@ describe('S5c on a walled hand case', () => {
     }
   });
 
-  it('at growthArea’s own spacing — seeds half a seed spacing apart, the sides alternating — every seed’s street grows, on both sides (C-0259 (1))', () => {
+  it('at growthArea’s own spacing — seeds half a seed spacing apart, the sides alternating — every seed’s street grows, on both sides (C-0260 (1))', () => {
     for (const regime of ['dense_core', 'ribbon'] as const) {
       const rules = handCase(regime).area.rules;
       const half = rules.seedSpacingCm / 2;
