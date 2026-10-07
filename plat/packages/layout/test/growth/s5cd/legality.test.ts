@@ -253,6 +253,16 @@ describe('a street across the arterial the step leaves (C-0260 (1))', () => {
     const w = legal(first(8_000, -90 * DEG), ctxOf([otherWay, after, across], noBias));
     expect(w.verdict === 'reject' && w.why === 'parallel').toBe(true);
   });
+
+  it('a street leaving a segment of the arterial that runs against the step’s segment (a hairpin) is not read as across: it keeps the clearance (C-0262 (1), fail safe)', () => {
+    // way:0 along y = 0 to (20 000, 0), down to (20 000, −6 000) and back along y = −6 000: the step leaves the first leg
+    // into the hairpin; a street leaves the return leg outward. The return leg runs against the first (dot < 0), so its
+    // side is not compared and the street takes the clearance — conservative: a rejected step, never a thin strip.
+    const legs = [way(P(-20_000, 0), P(20_000, 0), 'primary', 'way:0'), way(P(20_000, 0), P(20_000, -6_000), 'primary', 'way:0'), way(P(20_000, -6_000), P(-20_000, -6_000), 'primary', 'way:0')];
+    const out: Feature = { a: P(0, -6_000), b: P(0, -10_000), kind: 'way', way: 'way:1', cls: 'secondary', street: 0, step: 0 };
+    const v = legal(first(8_000, -90 * DEG), ctxOf([...legs, out], noBias));
+    expect(v.verdict === 'reject' && v.why === 'parallel').toBe(true);
+  });
 });
 
 describe('the wall, shores and reservations', () => {
