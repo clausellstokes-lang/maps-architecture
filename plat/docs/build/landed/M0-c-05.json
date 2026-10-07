@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-c-05",
-  "lane": "build/M0-c-05-fix1",
-  "lanes": ["build/M0-c-05", "build/M0-c-05-fix1"],
+  "lane": "build/M0-c-05-fix2",
+  "lanes": ["build/M0-c-05", "build/M0-c-05-fix1", "build/M0-c-05-fix2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-07T06:05:26.043Z",
+  "date": "2026-10-07T08:38:50.990Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/growth/proposals.ts", "plat/packages/layout/src/growth/heading.ts", "plat/packages/layout/src/growth/legality.ts", "plat/packages/layout/src/growth/capacity.ts", "plat/packages/layout/src/growth/prune.ts", "plat/packages/layout/src/growth/index.ts", "plat/packages/layout/test/growth/s5cd/", "plat/packages/testkit/test/layout/growth-s5cd/ (the growth-drift, turn-cliff and junction clauses measured by M0-k-05's METRICS — one metricVersion — and the derivation-unit re-run through M0-d-08's harness; C-0122)"],
   "counts": { "created": 23, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -13,14 +13,14 @@
     { "path": "plat/packages/layout/src/growth/capacity.ts", "status": "created", "sha256": "6afb047291d855956fd7b0f2815646fb257b65380d0c1cc3b699904336dcd5a1", "size": 23384 },
     { "path": "plat/packages/layout/src/growth/heading.ts", "status": "created", "sha256": "589af8c5e2540cf56c135591770e9004d45bf60bfef9c0015a524952fd399e45", "size": 5247 },
     { "path": "plat/packages/layout/src/growth/index.ts", "status": "changed", "sha256": "4057a6849f1c521f280703ac9dcc1650e7f8b836bcc8c74c1a457c4d424c52cd", "size": 531 },
-    { "path": "plat/packages/layout/src/growth/legality.ts", "status": "created", "sha256": "2625376bcfd93c07fee1460c9458e91d010d2b6f82f70f683dabec47e33fc159", "size": 27815 },
-    { "path": "plat/packages/layout/src/growth/proposals.ts", "status": "created", "sha256": "9675297aac6953a51cd12df5304ec846e27ddf9149342a272cf6dd9d2b40a5cc", "size": 47668 },
+    { "path": "plat/packages/layout/src/growth/legality.ts", "status": "created", "sha256": "d319391cbee7df43441574d2e58e574b676b579db95154faa8e622eb6934245b", "size": 30261 },
+    { "path": "plat/packages/layout/src/growth/proposals.ts", "status": "created", "sha256": "6dc6a5f37e5ca821eedfd4e85ed6b89de3e8cb85714c6b1bc5478ad2870119d0", "size": 47886 },
     { "path": "plat/packages/layout/src/growth/prune.ts", "status": "created", "sha256": "27fbddd473ea61e550acad4afd1c07018feeb3b57e50a1f245b803937c3de93e", "size": 12254 },
-    { "path": "plat/packages/layout/test/growth/s5cd/capacity.test.ts", "status": "created", "sha256": "e41286c010b49bdc4aa71312b6c3e096408a568386e13fb8b3793f327f48cb25", "size": 14066 },
-    { "path": "plat/packages/layout/test/growth/s5cd/city.test.ts", "status": "created", "sha256": "012a6f4e26943802826079a46d496f447a7a7525ed371b5d5db36f05a041fd5f", "size": 10081 },
-    { "path": "plat/packages/layout/test/growth/s5cd/growth.test.ts", "status": "created", "sha256": "740a6c55e7e82e6589e350f344b04080afbdca78d0db1c17ffdeffbd8a2f28d5", "size": 16383 },
+    { "path": "plat/packages/layout/test/growth/s5cd/capacity.test.ts", "status": "created", "sha256": "afb40b3f59a11ca361499006f25d37ef613748594bfdcb05c8b54c128d3721db", "size": 15373 },
+    { "path": "plat/packages/layout/test/growth/s5cd/city.test.ts", "status": "created", "sha256": "ba90721068b6c28e77f0cc3c54b32b0b8164b3d6a35ce60c15520865b4e806fc", "size": 12310 },
+    { "path": "plat/packages/layout/test/growth/s5cd/growth.test.ts", "status": "created", "sha256": "0ada2354576eabeee2a11e89e066656e3f25c4105399a7e48e25eb03281ee4e4", "size": 17742 },
     { "path": "plat/packages/layout/test/growth/s5cd/heading.test.ts", "status": "created", "sha256": "df0cb93548cbcee48959dd3804bff559a78b8aa5c72af102c46f7fe873e2d62e", "size": 6202 },
-    { "path": "plat/packages/layout/test/growth/s5cd/legality.test.ts", "status": "created", "sha256": "53725902a58f3914ee52ef2db959b41c7fc12a00ed60fd06e10258dc12ffe16f", "size": 15476 },
+    { "path": "plat/packages/layout/test/growth/s5cd/legality.test.ts", "status": "created", "sha256": "763cb70dfd0b1b714c9fbf42af87a0f24cf6c3d6dcced3b31d6e53bc937ce141", "size": 19690 },
     { "path": "plat/packages/layout/test/growth/s5cd/prune.test.ts", "status": "created", "sha256": "0c738a199284c262a518ef93ef91084e93f7bbc1ab58bef27349f60c8b68b880", "size": 8890 },
     { "path": "plat/packages/layout/test/growth/s5cd/support.ts", "status": "created", "sha256": "af52a68d1343feba0fd728357c16c65b7ef25a1df3ec0b555703faa9e1199016", "size": 9763 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/bar-1.test.ts", "status": "created", "sha256": "a2fe43a1b8f3a36388cf95582a83f1be032f674139cda3cc80f4f72141c305f3", "size": 740 },
@@ -30,7 +30,7 @@
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/bar-row.test.ts", "status": "created", "sha256": "9addb55249fabad116a12340ad748862f23a7316b9cd391c78607175f8f7412f", "size": 1672 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/bar.ts", "status": "created", "sha256": "2ff30fa4878ad262a2c1a5a06021fdc1ddc683a9c1b237938c69257cf83b4177", "size": 4588 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/derivation-unit.test.ts", "status": "created", "sha256": "5fb37880d78f7a969f91771b6d6a0100c5cdb78d77ef5b67465ba9199b6a3780", "size": 4223 },
-    { "path": "plat/packages/testkit/test/layout/growth-s5cd/drift-grown.test.ts", "status": "created", "sha256": "a69288e6130336e5400b2c2b7139a78b50cfbb65a66505ff0db5373062b3e105", "size": 2612 },
+    { "path": "plat/packages/testkit/test/layout/growth-s5cd/drift-grown.test.ts", "status": "created", "sha256": "c8258e21be056d52416bc0184dff140e3b77cd04902d37f1b70fd517cdafbaed", "size": 2739 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/drift.test.ts", "status": "created", "sha256": "84aa2553b87f0baa096ca81fe28cdd9b6c7655609e2b6718ff8f225f087d5ac2", "size": 5746 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/hand.ts", "status": "created", "sha256": "42d5a8c3b9e4703ca41f5a0303af4effa2affa6a9301a339a9f584c6853a4792", "size": 4385 },
     { "path": "plat/packages/testkit/test/layout/growth-s5cd/support.ts", "status": "created", "sha256": "8ed5a964821ded530949114493606a3135082c7fc9bd707c95fa11e83c864186", "size": 3538 }
@@ -38,14 +38,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0293", "L-0305"],
-      "lines": ["c1c07c5d462fe1af", "89204c73d51ca1ff"],
+      "ids": ["L-0293", "L-0305", "L-0315"],
+      "lines": ["c1c07c5d462fe1af", "89204c73d51ca1ff", "8e41d75297615eef"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0254", "C-0258"],
-      "lines": ["ccf542e9661f9e5d", "69b850aa1de74b69"],
+      "ids": ["C-0254", "C-0258", "C-0260"],
+      "lines": ["ccf542e9661f9e5d", "69b850aa1de74b69", "2c282b50e5a779d8"],
       "removed": []
     }
   ]
