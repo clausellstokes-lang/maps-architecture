@@ -74,20 +74,14 @@ function levels(p: Plat): Hash128[] {
 }
 
 /**
- * S6's outcome while M0-e-03's land owners and M0-e-04's claimable rule disagree (C-0264 (9)): S6 refused E_INVARIANT
- * with W_LAND_UNCLAIMED, the one bug of the run; once they agree, no bug and S6's districts cut by S8.
+ * S6's outcome on the base fixtures now that S1's land owners and S6's claimable rule agree (N-51 fixed by C-0265): no
+ * bug, S6 claims land, writes districts and fields, and S8 cuts them. The refusal (C-0264 (9)) is guard.test.ts's.
  */
-function s6Outcome(r: Run): 'refused' | 'built' {
+function s6Outcome(r: Run): 'built' {
   const s6 = r.report.stages.find((s) => s.name === 'S6');
-  if (r.report.bugs.length > 0) {
-    expect(r.report.bugs.map((b) => [b.stage, b.cls])).toEqual([['S6', 'E_INVARIANT']]);
-    expect(s6?.warnings[W_LAND_UNCLAIMED]).toBe(1);
-    expect(r.model.data.has('districts')).toBe(false);
-    expect(r.model.data.has('lanes')).toBe(false);
-    expect(r.batches.filter((b) => b.stage === 'S8')).toEqual([]);
-    return 'refused';
-  }
+  expect(r.report.bugs).toEqual([]);
   expect(s6?.warnings[W_LAND_UNCLAIMED]).toBeUndefined();
+  expect((r.model.data.get('s6') as { report: { landHa: number } }).report.landHa).toBeGreaterThan(0);
   expect((r.model.data.get('districts') as unknown[]).length).toBeGreaterThan(0);
   expect((r.model.data.get('lanes') as unknown[]).length).toBeGreaterThan(0);
   expect(r.batches.filter((b) => b.stage === 'S8' && b.committed).length).toBeGreaterThan(0);
@@ -142,7 +136,8 @@ describe("the registered M0 stages run in §4.1's order through the façade with
       ]);
       // A batch's KernelTx.stage is its own stage's id but for S5a's at k = 1 (S5's rank, §4.1's S5 row).
       for (const b of r.batches) expect(b.txStage, `${b.stage}/${b.sub}`).toBe(b.sub.startsWith('S5') ? 'S5' : b.stage);
-      if (s6Outcome(r) === 'built') for (const b of r.batches.filter((x) => x.stage === 'S8')) expect(b.form).toBe('callback');
+      expect(s6Outcome(r)).toBe('built');
+      for (const b of r.batches.filter((x) => x.stage === 'S8')) expect(b.form).toBe('callback');
     });
   }
 });
