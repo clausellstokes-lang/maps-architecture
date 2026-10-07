@@ -23,8 +23,8 @@
 // the base registered, the ground arena over the blueprint's frame, M0-x-02's `run`. M0 builds the flat fixture and its
 // river variant at CITY (`FLAT_BLUEPRINT`, `RIVER_BLUEPRINT`); S0's expansion — any other rung, population or aspect — is
 // M1's and refused by name.
-import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, isFaceLive, compareFaces, ok, ratio, stageText, STAGES, type Committed, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
-import type { DataKey, District, Gate, Id, Invariant, Ladder, Rung, Scope, StageContext, Terrain, WaterSet, Way, WorkLimitLaw } from '@plat/model';
+import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
+import { mintTownRoot, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
 import { baseRivers, baseTerrain, flatTerrain, GROUND_KEY, s1Stage, siteFrame, terrainParams, TERRAIN_ID, TOWN_ROOT, type RiverRequest, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
 import { rungProfile, tableView, type BaseRung, type TableView } from '@plat/tables';
 import { baseNetwork, NETWORK_STRATEGY_ID, s4Stage, type S4Output } from '../backbone/stage.js';
@@ -43,6 +43,7 @@ import { s5cStage, type S5cRecord } from '../growth/proposals.js';
 import { pruneAndTrim, type PruneRecord } from '../growth/prune.js';
 import { BentCutFabric, BENT_CUT } from '../infill/bentCutFabric.js';
 import { s8Stage, type S8District, type S8Input } from '../infill/stage.js';
+import { insideRing } from '../siting/geom.js';
 import { s3Slice } from '../siting/slice.js';
 import type { DeckSegment, S3Slice, Site, WaterPlan } from '../siting/types.js';
 import { createRegistry, register, type ModelView, type PipelineContext, type PipelineStage, type StrategyRegistry } from './registry.js';
@@ -345,13 +346,17 @@ export interface S3Record {
 
 /**
  * The site S3 reads (C-0264 (2)): M0-c-01's flat fixture at the run's seed — its frame, land, nucleus and town key —
- * with S1's terrain and the water S1 committed, and its draws through the runner's streams (the town root under S3).
+ * with S1's terrain and the water S1 committed, its town key the runner's town root and its draws through the runner's
+ * streams (the town root under S3).
  */
-export function baseSite(bp: BaseRunBlueprint, terrain: Terrain, water: WaterPlan, ctx: Pick<PipelineContext, 'stream' | 'streamOpts' | 'tables'>): Site {
+export function baseSite(bp: BaseRunBlueprint, terrain: Terrain, water: WaterPlan, ctx: Pick<PipelineContext, 'stream' | 'streamOpts' | 'tables' | 'seedKey'>): Site {
   const fixture = flatFixture(bp.seed, { ...(bp.size.areaHa === undefined ? {} : { frameAreaHa: bp.size.areaHa }), ...(bp.walledHa === undefined ? {} : { walledHa: bp.walledHa }), water, tables: ctx.tables });
   return {
     ...fixture,
     terrain,
+    // §6.1: the town root's entity key, as the runner keys every town-root draw (mintTownRoot, C-0165 (6)) — every reader
+    // of the site's key draws under the same root as the stages' streams (C-0264 (3)).
+    townKey: [...mintTownRoot(ctx.seedKey).entityKey] as Hash128,
     stream: (concern, attempt = 0) => ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, attempt)),
   };
 }
@@ -560,6 +565,24 @@ export function baseS6Input(input: S6In, kernel: Kernel, ctx: Pick<PipelineConte
   });
 }
 
+/** The warning S6's refusal carries when S5's land holds no claimable face (C-0264 (9)): the report keeps the cause. */
+export const W_LAND_UNCLAIMED = 'W_LAND_UNCLAIMED';
+
+/** The owners of the live L1 faces whose centroid lies inside `ring` and which name an S1 land component (`land:<n>`). */
+function landOwnersInside(p: Plat, ring: readonly LatticePoint[]): string[] {
+  const out = new Set<string>();
+  for (let f = 0; f < p.slots.face[1].top; f += 1) {
+    if (!isFaceLive(p, 1, f)) continue;
+    const h = p.faces[1].owner[f];
+    if (h < 0) continue;
+    const id = idOf(p, h);
+    if (!id.startsWith('land:')) continue;
+    const r = faceRings(p, 1, f)[0];
+    if (r.length > 0 && insideRing(ring, r[0])) out.add(id);
+  }
+  return [...out].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
 function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, unknown>> {
   const item = s6Stage();
   return Object.freeze({
@@ -585,6 +608,14 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
       const r = item.run(item.inputsOf(s6in.value, { kind: 'all' }), ctx as never);
       if (!r.ok) return refused(r);
       const s6: S6Output = r.value;
+      // Detect and refuse (C-0264 (9)): S5's last boundary holds land, so a perimeter around it that claims none is a
+      // contract between S1 and S6 failing — S1's land components own every L0 land face (C-0229 (3)), the L1 faces
+      // inherit it (§2.2 rule 4), and S6 claims only faces with no owner (C-0245 (2)). Never a silently empty town.
+      if (s6.report.landHa === 0) {
+        const owners = landOwnersInside(k.plat(GROUND), s6.perimeter);
+        ctx.report.warning(W_LAND_UNCLAIMED);
+        return err('E_INVARIANT', `S6: no claimable land inside the perimeter of S5's last boundary${owners.length === 0 ? '' : ` — its L1 faces are owned by ${owners.join(', ')} (S1's land components, C-0229 (3)), and S6 claims only unowned faces (C-0245 (2))`} (C-0264 (9))`);
+      }
       // The second half (§4.5; C-0255 (12)): pass 1 after typing, over the arena S6 left.
       const p = k.plat(GROUND);
       const site = input.slice.site;
