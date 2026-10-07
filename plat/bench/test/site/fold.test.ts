@@ -235,6 +235,9 @@ describe('the receipts\' own arithmetic', () => {
     const after = { heightCm: Int32Array.from([100, 120, 950, 300]), reliefLimitCm: 1_000_000 } as never;
     const r = reliefReceipt(before, after, 'CITY', tableView(), 0);
     expect(r).toEqual({ deepestCutCm: 380, carveMaxCm: 400, raised: 1, reliefCm: 800, clampedCells: 0, limitCm: 1_000_000 });
+    // the carve only cuts: a cell raised by one centimetre counts; a cell left as it was does not
+    const one = reliefReceipt(Int32Array.from([100, 200]), { heightCm: Int32Array.from([101, 200]), reliefLimitCm: 1_000_000 } as never, 'CITY', tableView(), 0);
+    expect([one.raised, one.deepestCutCm]).toEqual([1, 0]);
   });
 });
 

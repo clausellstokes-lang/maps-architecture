@@ -71,6 +71,10 @@ describe('the check fails where it must (planted fixtures)', () => {
     const r = stageLadderCoverage({ kernel: kernel1(), fixtures: built.map(ok), controls: [] });
     expect(r.stageCovered).toBe(true);
     expect(r.covered).toBe(r.kernel.covered);
+    // C-0109: the kernel report's rows first, unchanged, then the stage rows.
+    expect(r.kernel).toBe(kernel1());
+    expect(r.rows.slice(0, r.kernel.rows.length)).toEqual(r.kernel.rows);
+    expect(r.rows.slice(r.kernel.rows.length)).toEqual(r.stage);
   });
 
   it('a planted fixture that reaches no rung fails the check, on its row alone', () => {
@@ -93,10 +97,14 @@ describe('the check fails where it must (planted fixtures)', () => {
   });
 
   it('a control leaving a rung’s code fails that row: the code must appear only where its fixture forces it', () => {
-    const leak: LadderFixture = { id: 'plain/leak', forces: 'planted', run: () => ({ [ladderLeafOf(built[5])]: 2 }) };
-    const r = stageLadderCoverage({ kernel: kernel1(), fixtures: built.map(ok), controls: [leak] });
-    expect(r.stage.find((s) => s.leaf === ladderLeafOf(built[5]))?.exercised).toEqual({ fixture: 1, control: 2 });
-    expect(r.stageCovered).toBe(false);
+    // A single leaked line fails as surely as two (the bound is 0, not "few").
+    for (const n of [1, 2]) {
+      const leak: LadderFixture = { id: 'plain/leak', forces: 'planted', run: () => ({ [ladderLeafOf(built[5])]: n }) };
+      const r = stageLadderCoverage({ kernel: kernel1(), fixtures: built.map(ok), controls: [leak] });
+      expect(r.stage.find((s) => s.leaf === ladderLeafOf(built[5]))?.exercised).toEqual({ fixture: 1, control: n });
+      expect(r.stageCovered).toBe(false);
+      expect(r.covered).toBe(false);
+    }
   });
 
   it('a table missing a ladder fails the check even when every fixture passes', () => {
@@ -140,5 +148,12 @@ describe('the check fails where it must (planted fixtures)', () => {
     expect(Object.values(s.deferredRows).reduce((a, b) => a + b, 0)).toBe(deferred.length);
     expect(s.deferredRows['M1']).toBe(deferred.filter((x) => x.milestone === 'M1').length);
     expect(JSON.stringify(s)).not.toMatch(/"(at|seconds|wallMs|cpuMs|ms)"/);
+    // One silent fixture and one leaking control: reached and clean each drop by one, the verdicts false.
+    const leak: LadderFixture = { id: 'plain/leak', forces: 'planted', run: () => ({ [ladderLeafOf(built[4])]: 1 }) };
+    const fx = built.map((x) => (x === built[7] ? { id: x.fixture, forces: 'planted: nothing', run: () => ({}) } : ok(x)));
+    const s2 = stageCoverageSummary(stageLadderCoverage({ kernel: kernel1(), fixtures: fx, controls: [leak] })) as typeof s & { stageCovered: boolean };
+    expect([s2.builtRows, s2.builtReached, s2.builtClean, s2.stageCovered]).toEqual([28, 27, 27, false]);
+    expect(s2.rungs[ladderLeafOf(built[4])]).toEqual({ fixture: 1, control: 1 });
+    expect(s2.rungs[ladderLeafOf(built[7])]).toEqual({ fixture: 0, control: 0 });
   });
 });

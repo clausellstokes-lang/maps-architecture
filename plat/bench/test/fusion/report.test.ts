@@ -54,6 +54,13 @@ describe('the report’s verdicts (one planted fault per clause)', () => {
     expect(binsCliff(edge, 1_000)).toBe(false);
     edge[20] = 11;
     expect(binsCliff(edge, 1_001)).toBe(true);
+    // the first bin judged is 15° (bin 15 empty under a full bin 14); bin 14 empty under bin 13 is below the clause
+    const at15 = new Array<number>(40).fill(0);
+    for (let i = 0; i < 15; i += 1) at15[i] = 100;
+    expect(binsCliff(at15, 1_500)).toBe(true);
+    const at14 = new Array<number>(40).fill(0);
+    for (let i = 0; i < 14; i += 1) at14[i] = 100;
+    expect(binsCliff(at14, 1_400)).toBe(false);
   });
 
   it('junction (the integrated run’s): a seed’s p5 below 30°, a seed’s 4-way share above 15 %, the pooled median outside 85–95°', () => {

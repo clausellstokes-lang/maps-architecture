@@ -7,8 +7,9 @@
 //                   drawn clause is S14's (M1);
 //   river × frame   "a water body reaching the ring shares its edge (§4.1's S1 row); no crossing site whose deck end
 //                   lies beyond it";
-//   bridge × frame  "a bridge's deck lies inside the frame (its site's two ends do)" — every crossing site S1 placed and
-//                   every span S4 built, its two deck ends inside the frame rectangle;
+//   bridge × frame  "a bridge's deck lies inside the frame (its site's two ends do)" — a crossing site whose deck end
+//                   lies beyond the frame (the river crosses the margin) is never a deck S4 can span nor built; every
+//                   deck S4 can span and every span it built has its two deck ends inside the frame rectangle;
 //   wall × frame    "the trace stays inside the frame (S3's lattice; a frame arc inset by the outer wall strip)" — on
 //                   EP-20's capped state, whose stage-1 boundary meets the frame: every trace and strip vertex inside the
 //                   frame (M0's strips are cut at the map border, C-0226; the inset clause is read in C-0272 (9)).
@@ -119,28 +120,32 @@ function runBridgeFrame(seed: number): EdgeOutcome {
   const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
   const bridges = run.model.data.get('bridges') as readonly Bridge[] | undefined;
   if (slice === undefined || bridges === undefined) return outcome('off', 'no bridges', [...problems, 'S4 wrote no bridges']);
-  if (bridges.length === 0) problems.push('the river holds no crossing site (the fixture\'s precondition)');
   const frame = ringBox(slice.site.frameRing);
-  // S1 sites crossings on every reach, the margin's included (§4.2 S1 (5)); a site becomes a bridge only when a way
-  // lays its span (S4 routes through its two ends as a fixed graph edge, §4.3): every deck S4's router can lay a span
-  // through — a deck with an edge of S3's lattice along it — and every span S4 built lies inside the frame
+  // S1 sites crossings on every reach, the margin's included (§4.2 S1 (5)); a site becomes a bridge only when a way lays
+  // its span (S4 routes through its two ends as a fixed graph edge, §4.3). The cell's meeting: a site whose deck end lies
+  // beyond the frame (the precondition) — never a deck S4's router can span (an edge of S3's lattice along it) and never
+  // built; every deck S4 can span, and every span S4 built, has both ends inside the frame (C-0272 (8)).
   const rg = routeGraph(slice.lattice);
-  const routable = new Set<number>();
-  for (let e = 0; e < rg.deckOf.length; e += 1) if (rg.deckOf[e] >= 0) routable.add(rg.deckOf[e]);
-  for (const di of routable) {
-    const d = rg.decks[di];
-    if (!inBox(d.a, frame) || !inBox(d.b, frame)) problems.push(`the deck ${d.id}, which S4 can span, has an end outside the frame`);
-  }
-  const built = bridges.filter((b) => b.state === 'built');
-  for (const b of built) {
+  const routable = new Set<string>();
+  for (let e = 0; e < rg.deckOf.length; e += 1) if (rg.deckOf[e] >= 0) routable.add(rg.decks[rg.deckOf[e]].id);
+  for (const d of rg.decks) if (routable.has(d.id) && (!inBox(d.a, frame) || !inBox(d.b, frame))) problems.push(`the deck ${d.id}, which S4 can span, has an end outside the frame`);
+  let beyond = 0;
+  let built = 0;
+  for (const b of bridges) {
     const ends = deckEnds(run.model.kernel, { layer: 'ground', part: 0 }, b);
     if (ends === null) {
       problems.push(`${b.id}'s deck ends resolve to no two vertices`);
       continue;
     }
-    for (const q of ends) if (!inBox(q, frame)) problems.push(`${b.id} (built): a deck end lies outside the frame`);
+    if (b.state === 'built') built += 1;
+    const out = ends.some((q) => !inBox(q, frame));
+    if (!out) continue;
+    beyond += 1;
+    if (b.state === 'built') problems.push(`${b.id} (built): a deck end lies outside the frame`);
+    if (routable.has(b.id)) problems.push(`${b.id}: a deck end lies outside the frame, yet S4 can span it`);
   }
-  return outcome('defined', "bridge × frame: every deck S4 can span, and every built span, inside the frame", problems, { sites: bridges.length, routable: routable.size, built: built.length });
+  if (beyond === 0) problems.push("no crossing site's deck end lies beyond the frame (the fixture's precondition: the river crosses the margin)");
+  return outcome('defined', 'bridge × frame: a site beyond the frame never spanned; every deck S4 can span, and every built span, inside the frame', problems, { sites: bridges.length, beyond, routable: routable.size, built });
 }
 
 /** wall × frame (see the header). */

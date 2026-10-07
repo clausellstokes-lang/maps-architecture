@@ -253,6 +253,10 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     const r = waterGateReceipt(d.model.kernel, p, water, swapped, slice);
     expect(r.endsResolved).toBe(2 * commit.waterGates.length - 1);
     expect(r.gatesWithOneEdge).toBe(commit.waterGates.length - 1);
+    // each end is the gate's own VertexRef('gate_end', gate, end): banks naming the gate's ends in the wrong order resolve neither
+    const reversed = { ...commit, waterGates: commit.waterGates.map((g) => (g.id === g0.id ? { ...g, banks: [g.banks?.[1], g.banks?.[0]] } : g)) } as unknown as S3Commit;
+    const rv = waterGateReceipt(d.model.kernel, p, water, reversed, slice);
+    expect([rv.endsResolved, rv.endsOnShore, rv.gatesWithOneEdge]).toEqual([2 * commit.waterGates.length - 2, 2 * commit.waterGates.length - 2, commit.waterGates.length - 1]);
     const fewer = waterGateReceipt(d.model.kernel, p, water, commit, { ...slice, gateSites: slice.gateSites.slice(1) });
     expect(fewer.mainGates).not.toBe(fewer.gateSites);
     // an end counts on the shore only beside the river's own shore or bank edge: with the river's id unknown, none does
