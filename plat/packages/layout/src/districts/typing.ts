@@ -4,7 +4,8 @@
 // the relation rows and a random term — with the districts typed greedily from the largest and a mixed-use floor.
 //   * score(kind) = demandWeight · (the kind's remaining demand ÷ A) + Σ the weights of its `prefer` rows that hold
 //     + randomWeight · u, u one uniform per kind in table order from the district's `district.type` stream; a
-//     `require` row that does not hold makes the kind inadmissible (−∞), one that holds adds its weight;
+//     `require` row that does not hold makes the kind inadmissible (−∞ to the scorer, null in the record — C-0265), one
+//     that holds adds its weight;
 //   * relations: 'plaza' (the district touches the main plaza's reservation), 'water' (it touches a shore or a bank),
 //     'extramural' (its seed face lies outside every wall line, C-0257), 'seed.<kind>' (its seed was of that kind);
 //   * greedy: the largest district first (ties by id), the best score wins (ties by table order), the kind's remaining
@@ -51,7 +52,7 @@ export function typeDistricts(districts: readonly TypingDistrict[], demand: Typi
   const out = new Array<DistrictTyping>(districts.length);
   for (const { d, i } of order) {
     const s = stream(d.id);
-    const scores: [string, number][] = [];
+    const scores: [string, number | null][] = [];
     let best = '';
     let bestScore = -Infinity;
     for (const k of demand.kinds) {
@@ -62,7 +63,8 @@ export function typeDistricts(districts: readonly TypingDistrict[], demand: Typi
         if (holds) score += r.weight;
         else if (r.mode === 'require') score = -Infinity;
       }
-      scores.push([k.kind, score]);
+      // the record holds null for an inadmissible kind: −∞ has no canonical text (§6.2; C-0265)
+      scores.push([k.kind, score === -Infinity ? null : score]);
       if (score > bestScore) {
         bestScore = score;
         best = k.kind;

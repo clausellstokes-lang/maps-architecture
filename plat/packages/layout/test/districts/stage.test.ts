@@ -291,7 +291,7 @@ describe('the identity laws S6 locks in, from keys the test derives (C-0245 (5),
           const u = s.float01();
           const [name, score] = x.scores[ki];
           expect(name).toBe(kind.kind);
-          if (score === -Infinity) {
+          if (score === null) {
             expect(kind.relations.some((r) => r.mode === 'require')).toBe(true);
             return;
           }

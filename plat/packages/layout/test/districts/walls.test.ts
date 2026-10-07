@@ -164,7 +164,7 @@ describe('gate wards on two enceintes (C-0257; the g13 integration check’s B-1
       const s = rng.stream(entityKey(seedKey(1), t.out.lineages.get(x.district) as [number, number], GROUND), STAGES.S6, CONCERNS['district.type'], { reroll: 0, attempt: 0, epoch: 0, salt: 0 });
       let u = 0;
       for (let i = 0; i <= sprawl; i += 1) u = s.float01();
-      const rest = x.scores[sprawl][1] - cells.randomWeight * u - cells.demandWeight * (Math.max(0, remaining.get('sprawl') as number) / land);
+      const rest = (x.scores[sprawl][1] as number) - cells.randomWeight * u - cells.demandWeight * (Math.max(0, remaining.get('sprawl') as number) / land);
       const regions = [...regionsOfOwner(t, x.district)];
       expect(regions.length).toBe(1);
       seen.set(regions[0], (seen.get(regions[0]) ?? 0) + 1);

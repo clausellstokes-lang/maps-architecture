@@ -6,7 +6,7 @@
 // the run on the same fixture with no S1 owner: the same report, the same District records, the same L1 owners face by
 // face once `land:0` reads as no owner.
 import { idOf, isFaceLive, type Plat } from '@plat/kernel';
-import type { Id } from '@plat/model';
+import { canonicalText, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { isS1LandOwner, runS6, s6Takes, type CoarseFace, type S6Output } from '../../src/index.js';
 import { ownerAt, ownersL1, P, town, type Town } from './support.js';
@@ -93,6 +93,18 @@ describe('S6 takes the L1 faces S1’s land components own (N-51; C-0265)', () =
     expect(ownerAt(land, P(0, 0))).toBe(land.plaza.id);
     const districtIds = new Set(landOut.districts.map((d) => d.id));
     expect(districtIds.has(land.plaza.id)).toBe(false);
+  });
+});
+
+describe('S6’s output records have a canonical text (§6.2: the model digest reads them; C-0265)', () => {
+  it('districts, seams, quarters and typing serialise; an inadmissible kind’s score is null, never −∞', { timeout: 120_000 }, () => {
+    const { landOut } = pair();
+    for (const [name, rec] of [['districts', landOut.districts], ['seams', landOut.seams], ['quarters', landOut.quarters], ['typing', landOut.typing]] as const) {
+      expect(() => canonicalText(rec), name).not.toThrow();
+    }
+    const scores = landOut.typing.flatMap((t) => t.scores.map(([, v]) => v));
+    expect(scores.some((v) => v === null)).toBe(true);
+    expect(scores.every((v) => v === null || Number.isFinite(v))).toBe(true);
   });
 });
 

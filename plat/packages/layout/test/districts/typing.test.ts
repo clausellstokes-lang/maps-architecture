@@ -30,10 +30,10 @@ describe('typing (§4.5; C-0035)', () => {
   it('one market district per market reservation: only the district seeded at it is `market`', () => {
     const t = typeDistricts(town, cells, streams());
     expect(t.filter((x) => x.kind === 'market').map((x) => x.district)).toEqual(['district:m']);
-    // without the seed relation no district may be market (the require row fails: −∞)
+    // without the seed relation no district may be market (the require row fails: −∞, recorded as null — C-0265)
     const t2 = typeDistricts(town.filter((x) => x.id !== 'district:m'), cells, streams());
     expect(t2.some((x) => x.kind === 'market')).toBe(false);
-    for (const x of t2) expect(x.scores.find(([k]) => k === 'market')?.[1]).toBe(-Infinity);
+    for (const x of t2) expect(x.scores.find(([k]) => k === 'market')?.[1]).toBe(null);
   });
 
   it('gate wards at gates: every district seeded at a gate is `gate`, and no other is', () => {
