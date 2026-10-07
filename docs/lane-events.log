@@ -6537,3 +6537,5 @@
 2026-10-06 22:27 build/M0-e-05 CHECKPOINT tests written (fields: edt, blur, cuts, pass1, relief, work, sources, city) all green; choices row C-0255 appended; next: gates (install, lint, build, NEAR, RELATED), then self-check mutants
 2026-10-06 22:31 check/M0-c-05 CHECKPOINT gates: install 0, lint 0 (987 files, probe-red ok), build 0, NEAR 12 files 103/103 (135 s, W=5); next: city.test read, RELATED, probes + mutants
 2026-10-06 22:34 build/M0-e-05 CHECKPOINT gates: install 0, lint 0 (probe-red ok), build 0, NEAR 8 files 50/50, RELATED (1000) 88 files 681/681; self-check mirror built and isolated; next: 29 targeted mutants
+2026-10-06 22:44 build/M0-e-05 CHECKPOINT self-check: 29 mutants, 23 killed, 6 survived (M08 M13 M15 M19 M23 M24) -> tests strengthened in cuts/relief/work/pass1.test.ts; re-running survivors
+2026-10-06 22:44 check/M0-c-05 CHECKPOINT RELATED@1000 88 files 681/681 exit 0 (716 s, W=3); mirror /home/cstokes111/maps-scratch/waves/check-M0-c-05 isolated; next: probes (timing, seed sides, stand-in, slot independence), 40 mutants
