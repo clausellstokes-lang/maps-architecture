@@ -19,11 +19,14 @@ import {
   runS5,
   s3Slice,
   W_LAND_UNCLAIMED,
+  baseS6Input,
   type BaseBatch,
   type BaseBlueprint,
   type GenerationReport,
   type PipelineModel,
   type S3Record,
+  type GrowthState,
+  type S3Commit,
   type S3Slice,
 } from '../../../src/index.js';
 
@@ -228,5 +231,83 @@ describe('the run option `rerolls` reaches the stage it names (C-0090) and no st
     expect(r3.model.stageRoots.get('S3')).not.toEqual(base.model.stageRoots.get('S3'));
     for (const s of ['S1', 'S3', 'S4']) expect(r5.model.stageRoots.get(s), s).toEqual(base.model.stageRoots.get(s));
     expect(r5.model.stageRoots.get('S5')).not.toEqual(base.model.stageRoots.get('S5'));
+  });
+});
+
+describe("S3's planned water and S6's input are composed from what S1 and S5 committed (C-0264 (3), (5))", () => {
+  it("river: S3's site plans each body's L0 faces as water and each S1 bridge's deck at its two deck_end vertices, in order", { timeout: 900_000 }, () => {
+    const r = runOf('river:1', RIVER, 1);
+    const site = (r.model.data.get('s3') as S3Record).site;
+    const s1 = r.model.data.get('s1') as { water: { bodies: { id: string }[]; bridges: { id: string; deck: { role: string; entity: string; ordinal?: number }[] }[] } };
+    const p = ground(r.model);
+    expect(s1.water.bodies.length).toBeGreaterThan(0);
+    expect(s1.water.bridges.length).toBeGreaterThan(0);
+    // the decks: one per S1 bridge, same ids in order, a = deck_end 0, b = deck_end 1, where the arena placed them
+    expect(site.water.decks.map((d) => d.id)).toEqual(s1.water.bridges.map((b) => b.id));
+    for (const d of site.water.decks) {
+      for (const [ordinal, at] of [
+        [0, d.a],
+        [1, d.b],
+      ] as const) {
+        const res = r.model.kernel.resolve({ role: 'deck_end', entity: d.id, ordinal }, p.key);
+        expect(res.view).toBe('vertices');
+        if (res.view !== 'vertices') continue;
+        expect(res.vertices).toHaveLength(1);
+        expect({ x: p.vertices.x[res.vertices[0]], y: p.vertices.y[res.vertices[0]] }).toEqual({ x: at.x, y: at.y });
+      }
+      expect(d.a).not.toEqual(d.b);
+    }
+    // the faces: every L0 face a body owns, as its outer ring; together they hold the course's points
+    expect(site.water.faces.length).toBeGreaterThan(0);
+    let area = 0;
+    for (const ring of site.water.faces) {
+      let a2 = 0;
+      for (let i = 0; i < ring.length; i += 1) {
+        const u = ring[i];
+        const v = ring[(i + 1) % ring.length];
+        a2 += u.x * v.y - v.x * u.y;
+      }
+      area += a2 / 2;
+    }
+    expect(area).toBeGreaterThan(0);
+    // S4 takes S1's water: it returns S1's bridges one for one (a site, or built where a route spans it, C-0076)
+    const s4 = r.model.data.get('s4') as { bridges: { id: string; state: string }[] };
+    expect(s4.bridges.map((b) => b.id)).toEqual(s1.water.bridges.map((b) => b.id));
+    expect((r.model.data.get('bridges') as { id: string }[]).map((b) => b.id)).toEqual(s1.water.bridges.map((b) => b.id));
+    // the flat fixture plans none
+    const flat = (runOf('flat:1', FLAT, 1).model.data.get('s3') as S3Record).site;
+    expect(flat.water).toEqual({ faces: [], decks: [] });
+  });
+
+  it("flat: S6's input is S5's last boundary with land, every stage's outline, the walls, the gates, the ways and the town root's reroll", { timeout: 900_000 }, () => {
+    const r = runOf('flat:1', FLAT, 1);
+    const state = r.model.data.get('s5.growth') as GrowthState;
+    const commit = r.model.data.get('s3.commit') as S3Commit;
+    const slice = r.model.data.get('s3.slice') as S3Slice;
+    const ctx = { seedKey: seedKey(1), streamOpts: (_c: ConcernId, _e: unknown, attempt = 0) => ({ reroll: 3, attempt, epoch: 0, salt: 0 }) };
+    const made = baseS6Input({ bp: { ...FLAT, seed: 1 }, slice, commit, state, water: { bodies: [], bridges: [] }, terrain: slice.site.terrain }, r.model.kernel, ctx as never);
+    expect(made.ok).toBe(true);
+    if (!made.ok) return;
+    const inp = made.value;
+    const last = state.stages[state.lastWithLand - 1].boundary;
+    expect(last).not.toBeNull();
+    expect(inp.boundary).toEqual(last?.set.outline);
+    expect(inp.stageBoundaries).toHaveLength(state.stages.length);
+    state.stages.forEach((st, i) => {
+      if (st.boundary !== null) expect(inp.stageBoundaries?.[i]).toEqual(st.boundary.set.outline);
+    });
+    const walled = state.stages.filter((st) => st.wall !== null);
+    expect(inp.walls?.map((w) => w.line)).toEqual(walled.map((st) => st.wall));
+    expect(inp.walls?.[0].enceinte).toBe(commit.enceinte.id);
+    expect(inp.ways.map((w) => w.id)).toEqual(state.ways.map((w) => w.id));
+    expect(inp.reroll).toBe(3);
+    expect(inp.seedKey).toEqual(seedKey(1));
+    expect(inp.frame).toEqual(slice.site.frameRing);
+    expect(inp.reservations).toEqual([commit.plaza]);
+    expect(inp.rung).toBe('CITY');
+    // the sited features: the plaza's market first, then a gate seed for each main gate of every stage
+    const gates = state.stages.flatMap((st) => st.gates).filter((g) => g.kind === 'main');
+    expect(inp.features[0]).toMatchObject({ id: 'plaza:0', kind: 'market' });
+    expect(inp.features.filter((f) => f.kind === 'gate').map((f) => f.id)).toEqual(gates.map((g) => g.id));
   });
 });

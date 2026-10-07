@@ -6,11 +6,13 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { STAGES, stageText } from '@plat/kernel';
+import { err, ok, seedKey, STAGES, stageText } from '@plat/kernel';
 import { baseRivers, baseTerrain, s1Stage } from '@plat/site';
+import { tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   baseEnceinte,
+  baseS8Input,
   baseNetwork,
   BASE_OP_FORMS,
   BASE_ORDER,
@@ -268,5 +270,113 @@ describe('base.ts is the one file that names every M0 stage (C-0077; the checker
       return factories.every((n) => new RegExp(`\\b${n}\\b`).test(text));
     });
     expect(naming.map((f) => relative(root, f))).toEqual(['layout/src/pipeline/base.ts']);
+  });
+});
+
+describe("S8's input from S5's and S6's records and the fields (C-0264 (6))", () => {
+  const tables = tableView();
+  const regimes = ['dense_core', 'walled_rings', 'ribbon'];
+  const field = (pairs: [string, number, number][]): ScalarField => ({ faces: pairs.map(([owner, cells, value], i) => ({ key: [i, 0, 0, 0], owner, cells, value })), valueAt: () => 0 }) as unknown as ScalarField;
+  const district = (id: string, growthStage: number) => ({ id, kind: 'craft', quarter: 'quarter:q', faces: { owner: id, level: 1 }, seams: [], growthStage, fabric: 'bent-cut', fabricParams: {}, lifecycle: {} });
+  const input = {
+    slice: { site: { tables, rung: 'CITY' } },
+    state: {
+      stages: regimes.map((regime, i) => ({ regime, walled: i < 2 })),
+      ways: [
+        { id: 'way:a', width: 600 },
+        { id: 'way:b', width: { knotRole: 'width_knot', values: [800, 1200, 1200, 1000], interp: 'linear' } },
+      ],
+    },
+    s6: {
+      districts: [district('district:1', 1), district('district:2', 3), district('district:3', 2)],
+      lineages: new Map([
+        ['district:1', [1, 2]],
+        ['district:2', [3, 4]],
+        ['district:3', [5, 6]],
+      ]),
+      seams: [{ id: 'seam:x', sides: ['district:1', 'district:2'], edges: [], portals: [] }],
+    },
+    fields: {
+      prosperity: field([
+        ['district:1', 2, 0.2],
+        ['district:1', 2, 0.4],
+        ['district:2', 1, 0.9],
+        ['district:3', 0, 0.5],
+      ]),
+      density: field([
+        ['district:1', 1, 0.7],
+        ['district:2', 3, 0.1],
+        ['district:3', 1, 0.3],
+      ]),
+    },
+  };
+  const ctx = { seedKey: seedKey(5), streamOpts: (_c: unknown, _e: unknown, attempt = 0) => ({ reroll: 2, attempt, epoch: 0, salt: 0 }) };
+
+  it("each district: S6's lineage, the town root's S8 reroll, its pass-1 values, its growth stage's regime row and walled flag", () => {
+    const kernel = {} as never;
+    const s8 = baseS8Input(input as never, kernel, ctx as never);
+    expect(s8.kernel).toBe(kernel);
+    expect(s8.seedKey).toEqual(seedKey(5));
+    expect(s8.rung).toBe('CITY');
+    expect(s8.epoch).toBe(0);
+    expect(s8.seams).toBe(input.s6.seams);
+    expect(s8.ways.map((w) => w.id)).toEqual(['way:a', 'way:b']);
+    expect(s8.districts.map((d) => d.district.id)).toEqual(['district:1', 'district:2', 'district:3']);
+    expect(s8.districts.map((d) => d.lineage)).toEqual([
+      [1, 2],
+      [3, 4],
+      [5, 6],
+    ]);
+    expect(s8.districts.map((d) => d.reroll)).toEqual([2, 2, 2]);
+    expect(s8.districts[0].prosperity).toBeCloseTo(0.3, 12);
+    expect(s8.districts[1].prosperity).toBeCloseTo(0.9, 12);
+    expect(s8.districts[2].prosperity).toBeCloseTo(0.5, 12);
+    expect(s8.districts[0].density).toBeCloseTo(0.7, 12);
+    expect(s8.districts[1].density).toBeCloseTo(0.1, 12);
+    expect(s8.districts[2].density).toBeCloseTo(0.3, 12);
+    expect(s8.districts.map((d) => d.regime)).toEqual([tables.table('regimes').row('dense_core'), tables.table('regimes').row('ribbon'), tables.table('regimes').row('walled_rings')]);
+    expect(s8.districts.map((d) => d.walled)).toEqual([true, false, true]);
+    expect([...s8.widths]).toEqual([
+      ['way:a', 600],
+      ['way:b', 1200],
+    ]);
+  });
+
+  it('a district S6 gave no lineage is a programming error', () => {
+    const bad = { ...input, s6: { ...input.s6, lineages: new Map([['district:1', [1, 2]]]) } };
+    expect(() => baseS8Input(bad as never, {} as never, ctx as never)).toThrow(/district:2 no lineage/);
+  });
+});
+
+describe("S1 resolves the registered strategies by the blueprint's names (§4.12: every caller resolves the registered one)", () => {
+  const bp = { size: { rung: 'CITY' as const, aspect: 1 }, site: { relief: 'plain' as const, river: { inflowBearingCdeg: 9000, mouth: 'estuary' as const } }, seed: 1 };
+  const ctx = { kernel: { tag: 'façade' } } as never;
+  it("terrain and river default to 'base'; the river strategy reads the blueprint's size and river on S1's terrain", () => {
+    const reg = createRegistry();
+    registerBase(reg);
+    const calls: unknown[] = [];
+    const terrain = { id: 'terrain:ground' };
+    reg.terrain.set('base', { terrain: (b: unknown) => (calls.push(['terrain', b]), ok(terrain as never)) } as never);
+    reg.river.set('base', { rivers: (b: unknown, t: unknown, w: unknown) => (calls.push(['river', b, t, w]), err('E_OUT_OF_RANGE', 'stub')) } as never);
+    const s1 = reg.products.get('base')?.stages[0] as PipelineStage;
+    const r = s1.run({ bp }, ctx);
+    expect(r).toEqual({ ok: false, code: 'E_OUT_OF_RANGE', detail: 'stub' });
+    expect(calls).toEqual([
+      ['terrain', { size: bp.size, site: bp.site }],
+      ['river', { size: bp.size, site: { river: bp.site.river } }, terrain, { bodies: [], bridges: [] }],
+    ]);
+  });
+
+  it('a name no strategy is registered under refuses S1 E_INVARIANT, naming it', () => {
+    const reg = createRegistry();
+    registerBase(reg);
+    const s1 = reg.products.get('base')?.stages[0] as PipelineStage;
+    const t = s1.run({ bp: { ...bp, terrain: 'nope' } }, ctx) as { ok: boolean; code?: string; detail?: string };
+    expect([t.ok, t.code]).toEqual([false, 'E_INVARIANT']);
+    expect(t.detail).toMatch(/TerrainStrategy is registered as 'nope'/);
+    reg.terrain.set('base', { terrain: () => ok({} as never) } as never);
+    const rv = s1.run({ bp: { ...bp, river: 'nope' } }, ctx) as { ok: boolean; code?: string; detail?: string };
+    expect([rv.ok, rv.code]).toEqual([false, 'E_INVARIANT']);
+    expect(rv.detail).toMatch(/RiverStrategy is registered as 'nope'/);
   });
 });
