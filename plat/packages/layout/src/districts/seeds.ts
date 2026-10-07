@@ -1,9 +1,10 @@
 // The grower's seeds (M0-e-04; §4.5 *Grower*: "Seeds = the sited features … plus a density-guided remainder, N_d seeds
 // in all"; readings C-0245 (4), (5), (11)):
 //   * each sited feature, in its given order, takes the claimable face its anchor names (the longest boundary with the
-//     faces an entity owns; the face nearest a point, a preferred side's faces first — a gate's ward behind its wall;
-//     the longest shore or bank of a water body), ties by canonical face order, a face an earlier seed took passed
-//     over; a feature with no such face left is dropped and reported;
+//     faces an entity owns; the face nearest a point, only among the faces on the anchor's side — a gate's ward behind
+//     its own wall and outside every inner enceinte, C-0257; the longest shore or bank of a water body), ties by
+//     canonical face order, a face an earlier seed took passed over; a feature with no such face left is dropped and
+//     reported (never seeded across another wall);
 //   * the remainder — N_d less the features — goes compartment by compartment (the claimable faces' connected runs
 //     across edges that pass the edge test, which no grower crosses) whose land reaches the band's floor: first one to
 //     each such compartment without a seed, the largest first (every compartment yields a district whatever it is
@@ -16,6 +17,7 @@
 //     centroid of the faces nearest it, the sited features fixed. The density the design guides the remainder by is
 //     pass 1's (M0-e-05's, after S6 at M0): uniform here (C-0245 (11));
 //   * a feature seed's lineage is its address's hash, a remainder seed's its face's key (§4.5).
+import { LATTICE } from '@plat/kernel';
 import { type Id } from '@plat/model';
 import { insideRing, quot } from '../siting/geom.js';
 import { EDGE_TEST_BARRIERS, faceLineage, textLineage, type FaceGraph } from './faces.js';
@@ -27,8 +29,11 @@ export interface PlacedSeeds {
   readonly dropped: Id[];
 }
 
-/** What a face off a point anchor's preferred side loses (cm², squared distance): more than any frame's diagonal. */
-const PREFER_PENALTY = 1e16;
+/**
+ * A face vertex farther than this from a wall line decides the face's side of it (C-0257): the arena's wall chain lies
+ * within the insertion rules' attraction of the line it was laid from (the bound C-0252 takes for the overlay).
+ */
+export const SIDE_DECISIVE_CM = 4 * LATTICE.attractCm;
 
 /** The squared distance of a point to a segment. */
 function segDist2(p: XY, a: XY, b: XY): number {
@@ -60,6 +65,47 @@ function faceDist2(g: FaceGraph, i: number, p: XY): number {
     }
   }
   return best;
+}
+
+/** The squared distance of a point to a closed ring's edges. */
+function ringDist2(ring: readonly XY[], p: XY): number {
+  let best = Infinity;
+  for (let i = 0; i < ring.length; i += 1) {
+    const d = segDist2(p, ring[i], ring[i + 1 === ring.length ? 0 : i + 1]);
+    if (d < best) best = d;
+  }
+  return best;
+}
+
+/**
+ * Does face i lie inside the closed line `ring` (C-0257)? A wall line is an edge chain of the arena, so no coarse face
+ * straddles it: every point of a face's closure lies on one side or on the line. The side is read at the face's first
+ * boundary vertex (its rings in order) farther than SIDE_DECISIVE_CM from the line — never at the centroid, which an
+ * annular or bent face can hold outside itself — or, on a sliver within that distance of the line, at its farthest
+ * vertex (the first on a tie). `memo` caches the answer per face for one ring.
+ */
+export function faceInRing(g: FaceGraph, i: number, ring: readonly XY[], memo?: Map<number, boolean>): boolean {
+  const hit = memo?.get(i);
+  if (hit !== undefined) return hit;
+  const P = g.plat;
+  const O = P.halfEdges.origin;
+  const decisive2 = SIDE_DECISIVE_CM * SIDE_DECISIVE_CM;
+  let far: XY | null = null;
+  let farD = -1;
+  outer: for (const r of g.rings[i]) {
+    for (const h of r) {
+      const q = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] };
+      const d = ringDist2(ring, q);
+      if (d > farD) {
+        farD = d;
+        far = q;
+      }
+      if (d > decisive2) break outer;
+    }
+  }
+  const inside = far !== null && insideRing(ring, far);
+  memo?.set(i, inside);
+  return inside;
 }
 
 function d2(a: XY, b: XY): number {
@@ -101,6 +147,16 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
   const seeds: GrowSeed[] = [];
   const dropped: Id[] = [];
   const free = (i: number): boolean => claimable[i] && !taken.has(i) && g.faces[i].areaCm2 > 0;
+  // Each ring's per-face side, computed once (a gate's own wall is another gate's inner wall).
+  const sides = new Map<readonly XY[], Map<number, boolean>>();
+  const inRing = (i: number, ring: readonly XY[]): boolean => {
+    let m = sides.get(ring);
+    if (m === undefined) {
+      m = new Map();
+      sides.set(ring, m);
+    }
+    return faceInRing(g, i, ring, m);
+  };
   for (const f of features) {
     let best = -1;
     let bestScore = 0;
@@ -117,9 +173,11 @@ export function placeSeeds(g: FaceGraph, claimable: readonly boolean[], features
         score = g.shores[i].get(a.body) ?? 0;
         if (score <= 0) continue;
       } else {
-        // the nearest (the negated squared distance, so larger is better), a preferred side's faces first
+        // the nearest (the negated squared distance, so larger is better) on the anchor's side only (C-0257)
         score = -faceDist2(g, i, a.at);
-        if (a.prefer !== undefined && a.prefer.length >= 3 && !insideRing(a.prefer, g.faces[i].centroid)) score -= PREFER_PENALTY;
+        if (best >= 0 && score <= bestScore) continue;
+        if (a.within !== undefined && !inRing(i, a.within)) continue;
+        if (a.outside !== undefined && a.outside.some((r) => inRing(i, r))) continue;
       }
       if (best < 0 || score > bestScore) {
         best = i;

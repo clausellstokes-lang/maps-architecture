@@ -1,6 +1,6 @@
 # Integration check of stage group 13: M0-c-04, M0-e-04, M0-b-04, M0-k-06 (flow flow-7, 2026-10-06)
 
-Lane `check/integration-flow-7-g13`, about 22:52 – 00:00.
+Lane `check/integration-flow-7-g13`, 2026-10-06 22:52 – 2026-10-07 00:10.
 
 **Verdict: FAIL.** The group has one blocker:
 
@@ -22,7 +22,7 @@ the group, and the deny-list job reads `after-M-1: denylist.json`. Notes N-1 –
 **The seat.** Opus 5.5 in Claude Code on the owner's Windows PC. The machine check
 (`python3 tools/machine_profile.py --id`) printed `wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib`, and
 `node --version` printed `v24.12.0`. The seat is independent of the four items' authors and checkers. It changed no
-file of any item. Its ledger row is **L-0295**. It ran no git command.
+file of any item. Its ledger row is **L-0296**. It ran no git command.
 
 The probes and logs are in `~/maps-scratch/waves/integration-g13/`. Each probe was run from `plat/` with
 `corepack pnpm exec tsx --conditions=plat-source`. The probes import the packages' `src/` and two read-only test
@@ -53,7 +53,7 @@ That red is a note, not the group's (N-7).
 | landed:verify | `corepack pnpm landed:verify -- flow-7 --item <id>` for each item | `ok (1 record)` × 4 |
 | near, full strength | `vitest run --maxWorkers=6` over `layout/test/growth/s5ab/`, `layout/test/districts/`, `testkit/test/layout/districts/`, `bench/test/bentcut/`, `testkit/test/scanner/` and `bench/test/scan/` (PLAT_FUZZ_RUNS unset), 22:54 – 23:01 | exit 0: `Test Files 27 passed (27) · Tests 213 passed (213)` |
 | related, reduced | `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=3` over the 34 `.ts` sources under `src/` that the four landed records list (`related-sources.txt`), 23:12 – 23:27 | exit 1: `Test Files 1 failed \| 138 passed (139) · Tests 2 failed \| 1941 passed (1943)`. The 2 reds are `bench/test/bentcut-ng/phase-a.test.ts`, the busy M0-b-05's file, written during the run. Replayed alone at 23:28: `Test Files 1 passed (1) · Tests 7 passed (7)`. They are not the group's (N-7). A first attempt (`related-try1-killed.log`) was killed by the task runner (exit 144) before any summary. It was re-run detached |
-| whole suite (J194) | `PLAT_FUZZ_RUNS=1000 corepack pnpm test --maxWorkers=2` | WHOLE_RESULT |
+| whole suite (J194) | `PLAT_FUZZ_RUNS=1000 corepack pnpm test --maxWorkers=2` | exit 1 (23:28 – 00:01, `whole.log`): `Test Files 5 failed \| 406 passed (411) · Tests 14 failed \| 4988 passed (5002)`. All **14** reds are J176's five Mac-reference bench files (calibrate 3, host 2, contention 4, harness 3, sampler 2), each for a Mac reason: `expected 'Intel(R) Core(TM) i9-10900K …' to be 'Apple M1'`, `/usr/bin/arch -x86_64`, `'native-x64' to be 'native-arm64'`, `'systemd' to be '/sbin/launchd'`, the pmset battery reading, and the Playwright browser absent here. No other file is red. The group's files and the busy M0-b-05's `bentcut-ng` tests are green in this run |
 | scan (real list) | `corepack pnpm scan` | exit 2: `scan stopped: packages/testkit/baselines/denylist.json: missing file — the scan never passes without its deny-list (C-0101)`. This is the designed stop |
 
 ## Composition probes (CONFIRMED, executed)

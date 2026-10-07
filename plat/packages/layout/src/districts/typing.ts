@@ -6,7 +6,7 @@
 //     + randomWeight · u, u one uniform per kind in table order from the district's `district.type` stream; a
 //     `require` row that does not hold makes the kind inadmissible (−∞), one that holds adds its weight;
 //   * relations: 'plaza' (the district touches the main plaza's reservation), 'water' (it touches a shore or a bank),
-//     'extramural' (its seed face lies outside the wall), 'seed.<kind>' (its seed was of that kind);
+//     'extramural' (its seed face lies outside every wall line, C-0257), 'seed.<kind>' (its seed was of that kind);
 //   * greedy: the largest district first (ties by id), the best score wins (ties by table order), the kind's remaining
 //     demand less the district's land;
 //   * the mixed-use floor (R5): no single-use district unless requested — the district's use mix gives its own kind
