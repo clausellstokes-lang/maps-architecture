@@ -6611,3 +6611,5 @@
 2026-10-07 01:24 check/integration-flow-7-g13-close CHECKPOINT started: machine id ok, node 24.12.0, fresh start (re-check); next: read integration-g13.md, e-04 fix record, rerun P1
 2026-10-07 01:24 check/integration-flow-7-g13-close CHECKPOINT read fix (seeds.ts, stage.ts, walls.test.ts, C-0257; record hashes match tree); writing P1r probe (walls form + independent side/touch/drop checks)
 2026-10-07 01:26 check/integration-flow-7-g13-close CHECKPOINT gates install 0, lint 0, build 0, landed:verify ok x4; P1r seeds 1-20 (walls), S8 1-3, WALL=1 running; next NEAR, RELATED
+2026-10-07 01:32 build/M0-c-05-fix1 CHECKPOINT NEAR (tree) 14 files 115/115; RELATED@1000 100 files 758/758 exit 0; 1000-seed bar holds (drift p50 21.2, 0 >90, chunk medians 92-94); C-0258 and L-0305 appended; next: mutants M1-M7 in the mirror
+2026-10-07 01:36 check/integration-flow-7-g13-close CHECKPOINT NEAR 28 files 219/219 exit 0; next RELATED@1000 over the group's changed sources; P1r results
