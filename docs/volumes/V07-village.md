@@ -584,7 +584,7 @@ interface VillageRuleCells {
 | `heart` | lattice 20 m over the frame's middle half (0.5); slope ≤ 0.1 (hard; F-V-HEART relaxes to 0.2); +0.6 within 150 m of a crossing site; +0.5 within 300 m of fresh water; `sun` +0.3 × (`D` − `D̄`); `wind` −0.3 × exposure; +0.2 × fertile share within 500 m; −0.5 within 300 m of the frame; `prominence` +0.2 × the relative height within 300 m; random share 0.15 |
 | `polyfocal` | extra-nucleus chance 0.35 (`k = 2 + (u < 0.35)`); spacing `max(250 m, 0.8 · R_s)` |
 | `settle` | settled share 0.5; street and row stretch 1.8 (major) and 0.55 (minor); the density box `max(1.6 · R_major, 150 m)` |
-| `mill` | fall ≥ 1 m within 300 m; 150–1 000 m from the heart; +0.5 downstream, +0.3 within 100 m of a crossing, +0.2 on the heart's side, random 0.1; leat ≤ 300 m (600 m on F-V-MILL's rung); take-off head 1 m |
+| `mill` | fall ≥ 1 m within 300 m; 150–1 000 m from the heart; +0.5 downstream, +0.3 within 100 m of a crossing, +0.2 on the heart's side, random 0.1; leat ≤ 300 m (600 m on F-V-MILL's rung); take-off head 1 m; an `irrigated` field system's channels are item 128's (base §2.3), taken with V-M1 – V-M4 |
 | `grade` | through 10 %, road 14 %, track 20 %; turn at most 60° |
 | `branch` | sides left / both / right ⅓ each (VG); continuation 0.9 after one side, 0.1 after two (VG); shore steer 20 steps; retreat 3 steps; crossing search 3 × `bridgeSnapM` |
 | `formRules` | street side spacing × 3, back lane 0.5; nucleated crossroads 0.6, branch × 0.7 within 0.6 · `R_s`, crossroads weight × 2; row straightness 5, back lanes 0.8, jitter 0.05; dispersed branch × 1.5, track limit × 2, isolated weight × 2, dial above 1.4 → weight 0; `organicDialFrom` 0.75; `districtDensity` 1.5 |

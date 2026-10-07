@@ -17,6 +17,16 @@ if [ -z "$(git diff --cached --name-only)" ]; then
 fi
 ahead=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
 behind=$(git rev-list --count HEAD..origin/main 2>/dev/null || echo 0)
-if [ "$behind" -gt 0 ]; then echo "autosave $ts: main is behind origin by $behind; not pushing"
+if [ "$behind" -gt 0 ]; then
+  # origin moved (e.g. the owner merged a PR from another session): merge it in when none of its files overlap uncommitted work
+  incoming=$(git diff --name-only HEAD...origin/main)
+  overlap=""
+  for f in $incoming; do [ -n "$(git status --porcelain -- "$f")" ] && overlap="$overlap $f"; done
+  if [ -z "$overlap" ] && [ -z "$(git diff --cached --name-only)" ] && git merge -q --no-edit -m "autosave $ts: merge origin/main (incoming: $(echo $incoming | wc -w) files, none overlapping uncommitted work)" origin/main; then
+    git push -q origin HEAD:main && echo "autosave $ts: merged origin/main ($behind incoming) and pushed"
+  else
+    git merge --abort 2>/dev/null
+    echo "autosave $ts: main is behind origin by $behind and the merge was not safe (overlap:$overlap); not pushing — the session must look"
+  fi
 elif [ "$ahead" -gt 0 ]; then git push -q origin HEAD:main && echo "autosave $ts: pushed $ahead commit(s)"
 else echo "autosave $ts: up to date"; fi
