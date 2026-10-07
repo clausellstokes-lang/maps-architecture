@@ -1,41 +1,41 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-b-04",
-  "lane": "build/M0-b-04-fix-s1",
-  "lanes": ["build/M0-b-04", "build/M0-b-04-fix-s1"],
+  "lane": "build/M0-b-04-fix-s2",
+  "lanes": ["build/M0-b-04", "build/M0-b-04-fix-s1", "build/M0-b-04-fix-s2"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T23:36:58.536Z",
+  "date": "2026-10-07T01:26:41.620Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/bentcut/", "plat/bench/test/bentcut/", "plat/docs/build/summaries/M0-b-04.json"],
   "counts": { "created": 13, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/bench/src/bentcut/district.ts", "status": "created", "sha256": "d7247006c1e2fee7ff75d1f251a8734bac308a537ab75806e16295c1c6bf8f1b", "size": 7583 },
     { "path": "plat/bench/src/bentcut/faces.ts", "status": "created", "sha256": "924114fcc3f94cc9e34eec8049b87f8a0da844d0b3d8c0a917596a04cbadfd47", "size": 2829 },
-    { "path": "plat/bench/src/bentcut/index.ts", "status": "changed", "sha256": "72f3c4715adb5859975b1bcd91f4baaa0b753de65805f883c2041cdf31787161", "size": 17547 },
+    { "path": "plat/bench/src/bentcut/index.ts", "status": "changed", "sha256": "499d9e574de850617d6e503ed1620218cba0e1aebb289de3d5398861da3b08be", "size": 17940 },
     { "path": "plat/bench/src/bentcut/pool.ts", "status": "created", "sha256": "5a1caba01c3a3ce0e83d416b56d31a0f2581bf1707677a34d27bed89923ed811", "size": 2536 },
     { "path": "plat/bench/src/bentcut/report.ts", "status": "created", "sha256": "e38cee69ae1b9a04d84bc014b8000e8584df757e82a4c1a50828ad78b2337b90", "size": 16460 },
     { "path": "plat/bench/src/bentcut/runs.ts", "status": "created", "sha256": "b3ac98127a0decc7c599ea961b231c17bde3de8bb2afa228faec7129ba17f77e", "size": 9716 },
     { "path": "plat/bench/src/bentcut/signature.ts", "status": "created", "sha256": "ad07b2c807d691d2aae92bb033bcbb4a261bed79cbfe2afc0473279cafecbc36", "size": 20996 },
     { "path": "plat/bench/src/bentcut/worker.ts", "status": "created", "sha256": "1094a1e53a81080b2347ff3093b18cfbeb553d41b082e4c2782426d4e821f68d", "size": 361 },
-    { "path": "plat/bench/test/bentcut/entry.test.ts", "status": "created", "sha256": "ffa6b029ef6def396d77cb1164959834ffd2b7938d7830f3315fc7b2f98b1e19", "size": 6054 },
+    { "path": "plat/bench/test/bentcut/entry.test.ts", "status": "created", "sha256": "9446062c98427bec5617caddf8524a2134504ac2175b688ebc61408b9a018266", "size": 7592 },
     { "path": "plat/bench/test/bentcut/faces.test.ts", "status": "created", "sha256": "a3eca0d980640dd1a334d23a11e9f09322c9dd54253831ae48f8ad125ac27947", "size": 3336 },
     { "path": "plat/bench/test/bentcut/fcut.test.ts", "status": "created", "sha256": "e719eb205681c5c7853f830eeacd0bfec6156b599495c757ab6e3f55ac3d3681", "size": 10766 },
     { "path": "plat/bench/test/bentcut/report.test.ts", "status": "created", "sha256": "f990997373a22bd09960dc7921cba04852d5b5dd82b4cbe5f0ad6aac798ccffc", "size": 4421 },
     { "path": "plat/bench/test/bentcut/signature.test.ts", "status": "created", "sha256": "403999de89ff536636c2f1d74ce462314474bdf5bdacce00889daf40bda47fd7", "size": 13109 },
-    { "path": "plat/docs/build/summaries/M0-b-04.json", "status": "created", "sha256": "b93c8f93eb5928d62ae0b4631df203c36f619eb9bafe768598f889f5d128e052", "size": 6679 }
+    { "path": "plat/docs/build/summaries/M0-b-04.json", "status": "created", "sha256": "89a5ea8f260fd878f4a6eaf14b8a2d02fee234452fd29c9c72073de015de59aa", "size": 6679 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0264", "L-0276"],
-      "lines": ["187b16a48b0940ab", "8833a7573727c506"],
+      "ids": ["L-0264", "L-0276", "L-0290"],
+      "lines": ["187b16a48b0940ab", "8833a7573727c506", "4cce3d5bc86f39a9"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0242", "C-0246"],
-      "lines": ["e62a1468a3f838e5", "7170a62c3bb642eb"],
+      "ids": ["C-0242", "C-0246", "C-0253"],
+      "lines": ["e62a1468a3f838e5", "7170a62c3bb642eb", "bfa01d56c59db69c"],
       "removed": []
     }
   ]

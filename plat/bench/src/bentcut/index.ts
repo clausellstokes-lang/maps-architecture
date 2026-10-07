@@ -209,7 +209,7 @@ export async function bentcut(a: BentCutArgs, log: (line: string) => void = () =
   const t34Records: FullRecord[] = [];
   let g: number[] = [];
   if (on('t34')) {
-    // C-0242 (7), fix round S2: the faces are read in batches (a batch's missing faces run across the workers), but the phase
+    // C-0242 (7), C-0253: the faces are read in batches (a batch's missing faces run across the workers), but the phase
     // keeps only the faces up to the one that supplies the n-th draw — so t34Records (t34.faces, the notes, the work
     // block) is the same for every batch size, and so for every worker count.
     const limit = 50 * sizes.t34; // no stop draws at all: the bar fails below on its count
