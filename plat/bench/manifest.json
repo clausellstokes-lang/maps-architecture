@@ -1,6 +1,6 @@
 {
  "$comment": "The bench separation manifest (the kernel reuse round, J224): every folder under bench/src and bench/test is KERNEL (a kernel benchmark: imports @plat/kernel and only the test kit's kernel parts), TOWN (imports layout/site/model/tables), or INFRA (harness: host, timing, tiers, calibration, scan/parity entries). tools/lint/bench-boundary.mjs (run by corepack pnpm lint) refuses an unlisted, doubly listed or absent folder and a KERNEL folder whose files import a town package. A new bench folder is classified here in the change that adds it.",
  "kernel": ["src/skeleton", "test/skeleton", "src/fuzz-bar", "test/fuzz-bar", "src/crosshost", "test/crosshost"],
- "town": ["src/bentcut", "test/bentcut", "src/bentcut-ng", "test/bentcut-ng", "src/fusion", "src/fusion-ng", "src/site", "src/determinism", "test/determinism", "src/worklimits", "test/scaffold"],
+ "town": ["src/bentcut", "test/bentcut", "src/bentcut-ng", "test/bentcut-ng", "src/fusion", "test/fusion", "src/fusion-ng", "src/site", "test/site", "src/determinism", "test/determinism", "src/worklimits", "test/scaffold"],
  "infra": ["src/calibrate", "test/calibrate", "src/host", "test/host", "src/timing", "test/timing", "src/timing-phase", "src/tiers", "test/tiers", "src/tier-jobs", "src/scan", "test/scan", "src/parity", "test/parity", "src/baselines-check", "test/baselines-check", "src/ladder-coverage", "test/ladder-coverage"]
 }

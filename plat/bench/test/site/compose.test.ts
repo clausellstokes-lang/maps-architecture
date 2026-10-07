@@ -1,4 +1,4 @@
-// M0-e-06's composition (compose.ts; C-0077, C-0080, C-0264, C-0268 (1), (2)): the spike derives M0-x-04's base
+// M0-e-06's composition (compose.ts; C-0077, C-0080, C-0264, C-0271 (1), (2)): the spike derives M0-x-04's base
 // registration through M0-x-02's runner — S1, the S3 slice, S4, S5, S6 with the fields, S8 left out — and only watches
 // it: every stage's declaration kept, the model's stage roots equal to `runBase`'s through S6; the capture (the heights
 // before the carve, the river report, the stage times, the batches); R12-5's switch (C-0080) changes the hydrology and
@@ -9,7 +9,10 @@ import { hydroParams } from '@plat/site';
 import { stageText, type Hash128 } from '@plat/kernel';
 import { tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { deriveSpike, fixtureNamed, GATE_STAGES, sized, SPIKE_STAGES, spikeRegistry, type RunCapture, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
+import { corpusReceipt, deriveSpike, districtReceipt, fieldsReceipt, fixtureNamed, GATE_STAGES, hydroReceipt, riverReceipts, runRecord, sized, SPIKE_STAGES, spikeFaces, spikeRegistry, stageOutcomes, type RunCapture, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
+import type { Plat } from '@plat/kernel';
+import type { S3Slice } from '@plat/layout';
+import type { Terrain, WaterSet } from '@plat/model';
 
 const HEAVY = 900_000;
 const F60 = fixtureNamed('relief-60') as SiteFixture;
@@ -128,3 +131,91 @@ describe('R12-5\'s coarsening switch (C-0080): one step coarser hydrology and fi
     expect(a.blueprint.river).toBeUndefined();
   });
 });
+
+describe('the receipts on a derivation, each with its negative control (relief-60, seed 1, the test size)', () => {
+  it('D8: every hydrology cell and every land cell has a direction and drains off the grid; one undefined land cell is counted', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const p = d.model.plats.get('ground/0') as Plat;
+    const t = d.model.data.get('terrain') as Terrain;
+    const w = d.model.data.get('water') as WaterSet;
+    const r = hydroReceipt(t, p, w);
+    expect(r.cells).toBe(t.hydro.cols * t.hydro.rows);
+    expect([r.defined, r.landDefined, r.drainsOff]).toEqual([r.cells, r.landCells, true]);
+    expect(r.landCells).toBeLessThan(r.cells);
+    expect(r.landCells).toBeGreaterThan(0.9 * r.cells);
+    // a land cell (the grid's first corner) without a direction, and an outlet's accumulation off by one
+    const flowDir = Uint8Array.from(t.flowDir);
+    flowDir[0] = 8;
+    const broken = hydroReceipt({ ...t, flowDir }, p, w);
+    expect([broken.defined, broken.landDefined]).toEqual([r.cells - 1, r.landCells - 1]);
+    const flowAccum = Uint32Array.from(t.flowAccum);
+    let outlet = -1;
+    for (let c = 0; c < t.hydro.cols && outlet < 0; c += 1) if (t.flowDir[c] <= 7 && flowAccum[c] > 0) outlet = c;
+    flowAccum[outlet] += 1;
+    expect(hydroReceipt({ ...t, flowAccum }, p, w).drainsOff).toBe(false);
+  });
+
+  it('the bed: monotone under the river\'s course; one course cell raised breaks it', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const t = d.model.data.get('terrain') as Terrain;
+    const w = d.model.data.get('water') as WaterSet;
+    const r = riverReceipts(t, w, d.capture.river);
+    expect(r).toHaveLength(1);
+    expect(r[0]).toMatchObject({ id: w.bodies[0].id, fits: true, bedMonotone: true });
+    expect(r[0].bedCells).toBeGreaterThan(100);
+    // raise the cell under the course's middle point above the cell before it
+    const course = w.bodies[0].course ?? [];
+    const q = course[Math.floor(course.length / 2)];
+    const i = Math.floor((q.x - t.originX) / t.cellCm);
+    const j = Math.floor((q.y - t.originY) / t.cellCm);
+    const heightCm = Int32Array.from(t.heightCm);
+    heightCm[j * t.cols + i] += 100_000;
+    expect(riverReceipts({ ...t, heightCm }, w, d.capture.river)[0].bedMonotone).toBe(false);
+  });
+
+  it('containment, sampled inside the perimeter; a perimeter widened to the frame reaches the hinterland and is caught', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const p = d.model.plats.get('ground/0') as Plat;
+    const s6 = d.model.data.get('s6') as S6Output;
+    const r = districtReceipt(d.model.kernel, p, s6);
+    expect(r.samples).toBeGreaterThan(50);
+    expect(r.samplesContained).toBe(r.samples);
+    expect(r.samplesInDistricts).toBeGreaterThan(0.5 * r.samples);
+    expect(r.unownedByStage).toBe(0);
+    expect(r.districts).toBe(s6.districts.length);
+    const frame = (d.model.data.get('s3.slice') as S3Slice).site.frameRing;
+    const wide = districtReceipt(d.model.kernel, p, { ...s6, perimeter: [...frame] });
+    expect(wide.samples).toBeGreaterThan(r.samples);
+    expect(wide.samplesContained).toBeLessThan(wide.samples);
+  });
+
+  it('the corpus takes every L1 face a district owns and every L0 face a water body owns; the fields\' receipts hold and see the switch', { timeout: HEAVY }, () => {
+    const d = derive('default');
+    const p = d.model.plats.get('ground/0') as Plat;
+    const s6 = d.model.data.get('s6') as S6Output;
+    const w = d.model.data.get('water') as WaterSet;
+    const ids = new Set(s6.districts.map((x) => x.id));
+    const v1 = d.model.kernel.view({ layer: 'ground', part: 0 } as never, 1);
+    const v0 = d.model.kernel.view({ layer: 'ground', part: 0 } as never, 0);
+    const wet = new Set(w.bodies.map((b) => b.id));
+    const f = spikeFaces(p, s6, w);
+    expect(f.district.length).toBe(v1.faces().filter((x) => ids.has(v1.owner(x) ?? '')).length);
+    expect(f.water.length).toBe(v0.faces().filter((x) => wet.has(v0.owner(x) ?? '')).length);
+    expect(f.district.length).toBeGreaterThanOrEqual(s6.districts.length);
+    expect(f.water.length).toBeGreaterThanOrEqual(1);
+    const c = corpusReceipt(p, s6, w);
+    expect(c?.district.roof.faces).toBe(f.district.length);
+    expect(c?.water.spine.faces).toBe(f.water.length);
+    const fr = fieldsReceipt(d, p, d.model.data.get('fields') as FieldsPass1, false);
+    expect([fr.recomputedEqual, fr.weightZeroIdentical, fr.cellCm]).toEqual([true, true, 3200]);
+    for (const b of fr.bands) expect([b.field, b.readBack, b.maxErrorCells <= 1, b.landCells > 0]).toEqual([b.field, true, true, true]);
+    // read as the coarse configuration, the default run's record is not what pass 1 recomputes
+    expect(fieldsReceipt(d, p, d.model.data.get('fields') as FieldsPass1, true).recomputedEqual).toBe(false);
+    expect(stageOutcomes(d)).toEqual({ S1: 'ok', S3: 'ok', S4: 'ok', S5: 'ok', S6: 'ok' });
+    const rec = runRecord(d);
+    expect(rec.work['hydro.cells']).toEqual({ work: d.capture.river?.work['hydro.cells'], units: (d.model.data.get('terrain') as Terrain).hydro.cols * (d.model.data.get('terrain') as Terrain).hydro.rows });
+    expect(rec.work['grower.turns'].units).toBe(d.capture.s6Faces);
+    expect(rec.work['field.cells']).toEqual({ work: (d.model.data.get('fields') as FieldsPass1).report.work['field.cells'], units: (d.model.data.get('fields') as FieldsPass1).report.cols * (d.model.data.get('fields') as FieldsPass1).report.rows });
+  });
+});
+

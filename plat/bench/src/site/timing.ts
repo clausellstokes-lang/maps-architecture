@@ -1,5 +1,5 @@
 // The site spike's stage times (M0-e-06; §12.1, §12.4, §12.10 R12-4 and R12-5, §16 M0 (e); C-0047, C-0080, C-0082,
-// C-0084, C-0268). Each derivation's per-stage wall-clock is taken by the harness around the registered stage's run
+// C-0084, C-0271). Each derivation's per-stage wall-clock is taken by the harness around the registered stage's run
 // (compose.ts; never by model code). Two modes: `informative` — the times of an ordinary run, folded to per-stage p50s
 // and never judged (no timing batch stamped them: `judge` is not asked, the verdict is `requeue`); and `timing-phase` —
 // one M0-f-01 batch per fixture and configuration (`timeBatch`: idle, calibrate before and after, the detector through
@@ -97,6 +97,7 @@ export function foldTimes(fixture: string, config: SpikeConfig, times: readonly 
     const v = stageP50[r.stage];
     return { stage: r.stage, row: r.row, figureMs: r.figureMs, p50: v ?? null, exceeds: v === undefined ? null : v > r.figureMs };
   });
+  const judgement = stamp === null ? null : judge(stamp, SITE_GATE_ROW);
   return {
     fixture,
     config,
@@ -107,14 +108,14 @@ export function foldTimes(fixture: string, config: SpikeConfig, times: readonly 
     gateRuns: gates.length,
     r12_4: r12,
     stamp,
-    judgement: stamp === null ? null : judge(stamp, SITE_GATE_ROW),
+    judgement,
     hydrology: hydrologyRow,
     note:
-      mode === 'informative'
+      judgement === null
         ? 'informative: taken outside a timing batch (no idle, no calibrate, no detector) — CONTENDED by C-0047, never judged'
-        : stamp !== null && stamp.authority === 'authoritative'
-          ? 'timing-phase batch, authoritative'
-          : `timing-phase batch, ${stamp?.authority ?? 'unstamped'}: ${stamp?.reasons.join('; ') ?? ''} — re-queued, never judged`,
+        : judgement.verdict === 'requeue'
+          ? `timing-phase batch, re-queued, never judged: ${judgement.reason}`
+          : `timing-phase batch, authoritative and measured: ${judgement.verdict} (${judgement.reason})`,
   };
 }
 

@@ -59,13 +59,15 @@ export interface S8State {
 }
 
 /**
- * The two-district state at `seed`, with the kind's geometry in the west district (none for `null`). Throws when the
+ * The two-district state at `seed`, with the kind's geometry in the west district (none for `null`), its land `scale`
+ * times the base size (1: 90 – 140 m by 70 – 110 m, a few cuts). Throws when the
  * fixture's own batches are refused — a fixture that cannot be built is the fixture's error, never S8's.
  */
-export function s8State(seed: number, kind: DegenerateKind | null): S8State {
+export function s8State(seed: number, kind: DegenerateKind | null, opts: { readonly scale?: number } = {}): S8State {
   const rand = fixtureRandom(seed);
-  const W = 9_000 + Math.round(rand() * 5_000);
-  const H = 7_000 + Math.round(rand() * 4_000);
+  const scale = opts.scale ?? 1;
+  const W = Math.round((9_000 + Math.round(rand() * 5_000)) * scale);
+  const H = Math.round((7_000 + Math.round(rand() * 4_000)) * scale);
   const ax = Math.round(W * (0.4 + 0.2 * rand()));
   const side = 2 * Math.max(W, H);
   const frame: Frame = { widthCm: side as Cm, heightCm: side as Cm, aspect: 1, marginShare: 0.3 };

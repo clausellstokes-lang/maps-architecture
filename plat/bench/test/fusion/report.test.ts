@@ -43,7 +43,7 @@ describe('the report’s verdicts (one planted fault per clause)', () => {
     for (let i = 0; i < 20; i += 1) bins[i] = 100;
     // bin 19 holds 100 / 2 000 = 5 % and bin 20 is empty: a cliff above 15°
     expect(binsCliff(bins, 2_000)).toBe(true);
-    expect(failing([...both(1), ...both(2, { turns: { steps: 2_000, bins, cliff: false } })])).toEqual(['cliff']);
+    expect(failing([...both(1, { turns: { steps: 2_000, bins, cliff: false } }), ...both(2, { turns: { steps: 2_000, bins, cliff: false } })])).toEqual(['cliff']);
     // below 15° an empty bin is no cliff; above it a bin below at exactly 1 % is none either
     const low = new Array<number>(40).fill(0);
     for (let i = 0; i < 10; i += 1) low[i] = 100;
@@ -98,7 +98,8 @@ describe('the report’s verdicts (one planted fault per clause)', () => {
   it('s8s9: one block whose working block is not S9’s committed block', () => {
     const h = goodRecord(1, 'fusion').hausdorff;
     expect(failing([...both(1), ...both(2, { hausdorff: { ...h, zero: 9, within1cm: 10, maxCm: 0.4 } })])).toEqual(['s8s9']);
-    expect(failing([...both(1), ...both(2, { hausdorff: { ...h, compared: 0, zero: 0 } }, { hausdorff: { ...h, compared: 0, zero: 0 } })])).toEqual(['s8s9']);
+    const none = { hausdorff: { ...h, compared: 0, zero: 0 } };
+    expect(failing([...both(1, none), ...both(2, none)])).toEqual(['s8s9']);
   });
 
   it('corpus: downgrades above 0.5 %, work-limit hits above 0.1 %, a failure (pooled over the run’s faces)', () => {

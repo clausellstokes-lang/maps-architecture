@@ -49,8 +49,8 @@ export function readTrace(t: Tally, rungs: readonly WallRung[] | null | undefine
 export function readRoutes(t: Tally, rungs: readonly { readonly rung: string; readonly held: boolean }[] | null | undefined): void {
   for (const r of rungs ?? []) {
     if (!r.held) continue;
-    if (r.rung === 'work_cut') bump(t, 'S4 F-WORK work_cut');
-    else bump(t, `S4 F-ROUTE ${r.rung}`);
+    if (r.rung === 'work_cut') bump(t, 'S4/S5b F-WORK work_cut');
+    else bump(t, `S4/S5b F-ROUTE ${r.rung}`);
   }
 }
 

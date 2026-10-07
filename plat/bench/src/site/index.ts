@@ -1,6 +1,6 @@
 // bench/src/site — the site spike harness (M0-e-06; §12.4's M0 site-and-fields spike, §12.10 R12-4 / R12-5, §16 M0 (e),
 // §12.1's authority stamp, §13.1's relief fixtures; C-0048, C-0049, C-0067, C-0076, C-0080, C-0082, C-0084, C-0087,
-// C-0091, C-0268). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-e-06.
+// C-0091, C-0271). The folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-e-06.
 //
 // `corepack pnpm bench -- site [--seeds N] [--first S] [--fixture relief-60|relief-3000|both] [--config default|coarse|both]
 // [--size city|test] [--workers W] [--timing [--idle-ms N] [--every-ms N]] [--summary]` derives each fixture (CITY, a

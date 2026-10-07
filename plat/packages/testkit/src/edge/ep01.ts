@@ -13,7 +13,7 @@
 // whole-arena sweep), and how the stage handled it — absorbed by §3.11's rule, laddered with the rung its record names,
 // left out and reported, or (pinned per cell, C-EDGE (6)) refused safe: typed, rolled back, one bugs entry.
 import { simpleCcw, type S5cRecord, type S6Output, type S8Output, type StreetGrowOptions } from '@plat/layout';
-import { loadTable } from '@plat/tables';
+import { loadTable, type WorkLimitsTable } from '@plat/tables';
 import type { S1Output } from '@plat/site';
 import { s8Stage } from '@plat/layout';
 import { edgeChain, MID_FLAT, SMALL_FLAT, SMALL_RIVER, type ChainOptions, type ChainRun, type ChainStage, type S5Sub } from './chain.js';
@@ -130,6 +130,10 @@ function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): {
 /** A cell run's extra: S5c's and S5d's growth options in place of the cell's (F-WORK's class cell lowers a work law). */
 export interface Ep01Extra {
   readonly grow?: StreetGrowOptions;
+  /** S8's work-limit table in place of the shipped one (F-WORK's class cell lowers cut.kernelCalls). */
+  readonly s8WorkLimits?: WorkLimitsTable;
+  /** S8's land scale (F-WORK's cell doubles it, so every seed's faces need cuts). */
+  readonly s8Scale?: number;
 }
 
 /** One chain-stage cell's run. */
@@ -148,7 +152,7 @@ function runChainCell(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKi
 
 /** EP-01's run of one (stage, kind) cell at `seed` (the class cells of ./classes.ts run the same cells). */
 export function runEp01(stage: Ep01Stage, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
-  return stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed) : runChainCell(stage, kind, seed, extra);
+  return stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed, extra) : runChainCell(stage, kind, seed, extra);
 }
 
 /** A cell's pinned refusal codes (C-EDGE (6)), or undefined where the stage's ladder takes every seed. */
@@ -185,10 +189,11 @@ function runS6Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
 }
 
 /** S8's cell: M0-b-03's Stage on the two-district arena whose west district carries the kind. */
-function runS8Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
-  const st = s8State(seed, kind);
-  const stage = s8Stage();
-  const r = stage.run(stage.inputsOf(st.input, { kind: 'all' }), { report: undefined } as never);
+function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
+  const st = s8State(seed, kind, extra.s8Scale === undefined ? {} : { scale: extra.s8Scale });
+  const stage = s8Stage(extra.s8WorkLimits === undefined ? {} : { workLimits: extra.s8WorkLimits });
+  const input = extra.s8WorkLimits === undefined ? st.input : { ...st.input, tables: { ...st.input.tables, workLimits: extra.s8WorkLimits } };
+  const r = stage.run(stage.inputsOf(input, { kind: 'all' }), { report: undefined } as never);
   const problems = arenaProblems(st.plat);
   if (!r.ok) return outcome('refused-safe', r.code, problems, {});
   const v = r.value as S8Output;
@@ -207,8 +212,10 @@ function runS8Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
     for (const f of d.faces) if (f.outcome === 'unresolved') problems.push(`face ${f.face} of ${d.district} is unresolved`);
   }
   if (v.blocks.length === 0) problems.push('S8 made no block');
-  if (refusedRungs > 0) return outcome('laddered', `S8: ${[...names].sort().join(', ')}`, problems, { blocks: v.blocks.length, refusedRungs });
-  return outcome('absorbed', 'S8: every face cut or stopped on its first rung', problems, { blocks: v.blocks.length });
+  const cuts = report.districts.flatMap((d) => d.workCut);
+  const workCut: Record<string, string> = cuts.length === 0 ? {} : { workCut: `work_cut ${cuts[0].counter} ${String(cuts[0].count)}/${String(cuts[0].limit)}` };
+  if (refusedRungs > 0) return outcome('laddered', `S8: ${[...names].sort().join(', ')}`, problems, { blocks: v.blocks.length, refusedRungs, ...workCut });
+  return outcome('absorbed', 'S8: every face cut or stopped on its first rung', problems, { blocks: v.blocks.length, ...workCut });
 }
 
 /** The cells' pinned refusals (C-EDGE (6)): the stage refuses safe where its ladder has no rung for the kind at M0. */

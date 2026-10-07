@@ -71,11 +71,11 @@ export const STAGE_LADDERS: readonly LadderRung[] = Object.freeze([
   built('F-CUT', 'S8', '(d) substitution: a face within step 8 (d)’s area bound becomes a court block', 'd', 'cut/court'),
   later('F-CUT', 'S8', '(d) the green, landmark and joined-plot substitutions (the allocation’s largest unplaced class, §4.7)', 'd', 'S10 / S10b’s allocation (§4.7); the court only at M0 (C-0036)', 'M1'),
   later('F-CUT', 'S10', 'the plot re-cuts of S10 on the bent cut’s ladder', 'pre … d', 'S10 (§4.7)', 'M1'),
-  // ---- F-ROUTE (§4.3; M0-c-03's S4, the router S5b reuses) ----
-  built('F-ROUTE', 'S4', 'another crossing site on the reach within its search band', 'another_site', 'route/another-site'),
-  later('F-ROUTE', 'S4', 'one bridge at extra cost (a new deck)', 'extra_bridge', 'S4’s extra-bridge rung (C-0076: listed held false, notBuilt(M1))', 'M1'),
-  built('F-ROUTE', 'S4', 'relax the slope limit one class', 'slope', 'route/slope'),
-  built('F-ROUTE', 'S4', 'route to the nearest reachable junction, the destination unserved', 'unserved', 'route/unserved'),
+  // ---- F-ROUTE (§4.3; M0-c-03's S4 and the router S5b reuses at stages k ≥ 2, M0-c-04: one ladder, one leaf) ----
+  built('F-ROUTE', 'S4/S5b', 'another crossing site on the reach within its search band', 'another_site', 'route/another-site'),
+  later('F-ROUTE', 'S4/S5b', 'one bridge at extra cost (a new deck)', 'extra_bridge', 'S4’s extra-bridge rung (C-0076: listed held false, notBuilt(M1))', 'M1'),
+  built('F-ROUTE', 'S4/S5b', 'relax the slope limit one class', 'slope', 'route/slope'),
+  built('F-ROUTE', 'S4/S5b', 'route to the nearest reachable junction, the destination unserved', 'unserved', 'route/unserved'),
   // ---- F-NUM, the stage side (§3.6 optional chains; M0-c-05's S5c) ----
   built('F-NUM', 'S5c', 're-propose from the next attempt stream', 're_propose', 'growth/re-propose'),
   built('F-NUM', 'S5c', 'reject the chain with a report line', 'reject', 'growth/reject'),
@@ -104,7 +104,7 @@ export const STAGE_LADDERS: readonly LadderRung[] = Object.freeze([
   built('F-WORK', 'S1', 'hydro.cells: hydrology coarsens (R12-5’s step) and the flood re-runs on the coarser grid', 'work_cut', 'work/hydro'),
   built('F-WORK', 'S6 fields', 'field.cells: the fields one step coarser', 'work_cut', 'work/fields'),
   built('F-WORK', 'S3', 'route.nodes on S3’s gate routes: F-ROUTE’s unserved rung for the route', 'work_cut', 'work/route-s3'),
-  built('F-WORK', 'S4', 'route.nodes on S4’s routes: F-ROUTE’s unserved rung for the route', 'work_cut', 'work/route-s4'),
+  built('F-WORK', 'S4/S5b', 'route.nodes on S4’s routes (and S5b’s, the router they share): F-ROUTE’s unserved rung for the route', 'work_cut', 'work/route-s4'),
   built('F-WORK', 'S5c', 'growth.proposals / growth.candidates: the proposal queue closes, the stage ends with what it accepted', 'work_cut', 'work/growth'),
   built('F-WORK', 'S6', 'grower.turns: the leftover rule assigns every face still unowned', 'work_cut', 'work/grower'),
   built('F-WORK', 'S8', 'cut.recursionDepth / cut.kernelCalls / cut.candidates: the recursion stops, the face stands as a block', 'work_cut', 'work/cut'),

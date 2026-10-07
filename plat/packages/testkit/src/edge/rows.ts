@@ -14,7 +14,9 @@ import {
   planCut,
   routeGraph,
   routeLadder,
+  flatFixture,
   runS6,
+  s3Slice,
   spawnPrimaries,
   stopThreshold,
   type FaceGraph,
@@ -25,13 +27,13 @@ import {
   type S3Slice,
   type S6Output,
 } from '@plat/layout';
-import type { Way } from '@plat/model';
+import type { Terrain, Way } from '@plat/model';
 import { terrainSampler } from '@plat/site';
 import { loadTable } from '@plat/tables';
 import { insetIn, ringBox } from './arena.js';
 import { edgeChain, SMALL_FLAT } from './chain.js';
 import { lp } from './kinds.js';
-import { arenaProblems, bugsOf, chainProblems, groundOf } from './observe.js';
+import { arenaProblems, bugsOf, chainProblems } from './observe.js';
 import { fixtureRandom } from './s8.js';
 import { outcome, type EdgeFixture, type EdgeOutcome } from './types.js';
 
@@ -209,25 +211,54 @@ function bare(side: number): { plat: Plat; kernel: Kernel } {
  * district across its longest shared edge that passes the edge test.
  */
 function runEp06Degenerate(seed: number): EdgeOutcome {
-  const run = edgeChain(seed, { blueprint: SMALL_FLAT, upTo: 'S6' });
-  const problems = chainProblems(run, 'S6', 'S6');
-  const s6 = run.model.data.get('s6') as S6Output | undefined;
-  const ways = run.model.data.get('ways') as readonly Way[] | undefined;
-  if (s6 === undefined || ways === undefined) return outcome('off', 'S6 wrote no record', [...problems, 'no S6 output']);
-  const plat = groundOf(run);
+  // a grid town: the bare arena, a boundary ring and a grid of secondaries across it — S6's coarse faces meet across
+  // edges the edge test passes (a secondary is below its class, §4.5)
+  const rand = fixtureRandom(seed);
+  const side = 400_000;
+  const key = { layer: 'ground', part: 0 } as const;
+  const { plat, kernel } = bare(side);
+  const R = Math.round(25_000 + rand() * 10_000);
+  const S = Math.round(8_000 + rand() * 3_000);
+  const n = 16 + Math.floor(rand() * 16);
+  const boundary: LatticePoint[] = [];
+  for (let i = 0; i < n; i += 1) boundary.push(lp(R * Math.cos((2 * Math.PI * i) / n), R * Math.sin((2 * Math.PI * i) / n)));
+  const ways: Way[] = [];
+  const lines: LatticePoint[][] = [];
+  const reach = R + 4_000;
+  for (let x = -Math.floor(reach / S) * S; x <= reach; x += S) lines.push([lp(x, -reach), lp(x, reach)]);
+  for (let y = -Math.floor(reach / S) * S; y <= reach; y += S) lines.push([lp(-reach, y), lp(reach, y)]);
+  const laid = kernel.tx({ key, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S5 as never }, stage: STAGES.S5 as never, rederivesFrom: STAGES.S5 as never, workLimit: 100_000_000 }, (o) => {
+    for (let i = 0; i < lines.length; i += 1) {
+      const id = `way:grid${String(i)}`;
+      const r = kernel.geom.insertChain(o, lines[i], [{ role: 'way', entity: id }], 'mandatory');
+      if (!r.ok) return r;
+      ways.push({ id, class: 'secondary', spine: { role: 'way', entity: id }, width: 600 as Cm, from: { kind: 'junction', id: 'junction:a' }, to: { kind: 'junction', id: 'junction:b' }, growthStage: 1, epoch: 0, provisional: false, lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } } } as Way);
+    }
+    return { ok: true as const, value: undefined, warnings: [] };
+  });
+  if (!laid.ok) throw new Error(`EP-06 grid town: the grid: ${laid.code} ${laid.detail}`);
+  const h = side / 2;
+  const frame = [lp(-h, -h), lp(h, -h), lp(h, h), lp(-h, h)];
+  const r6 = runS6({ kernel, key, seedKey: seedKey(seed), rung: 'CITY', boundary, frame, stageBoundaries: [boundary], ways, features: [] });
+  const problems = arenaProblems(plat);
+  if (!r6.ok) return outcome('off', `S6 refused ${r6.code}`, [...problems, `S6 refused the grid town: ${r6.code} ${r6.detail}`]);
+  const s6: S6Output = r6.value;
   const g = faceGraph(plat, { ways: new Map(ways.map((w) => [w.id, w.class])), minBarrierClass: minBarrierClass(), perimeter: s6.hinterland, water: new Set() });
   const districtIds = new Set(s6.districts.map((d) => d.id));
   const claimable = g.faces.map((f) => f.side === 'inside' && !f.water && f.owner !== null && districtIds.has(f.owner));
-  const seeds: GrowSeed[] = s6.grow.grown.map((d) => d.seed).filter((sd) => claimable[sd.face]).sort((a, b) => a.order - b.order);
-  const seeded = new Set(seeds.map((sd) => sd.face));
-  // the degenerate face: the first claimable, unseeded face with a claimable neighbour across an edge that passes
+  // the degenerate face: the first claimable face with a claimable neighbour across an edge that passes; a seed on it
+  // is withdrawn (a degenerate face seeds nothing)
   const passes = (barriers: number): boolean => (barriers & EDGE_TEST_BARRIERS) === 0;
   let j = -1;
   for (let i = 0; i < g.faces.length && j < 0; i += 1) {
-    if (!claimable[i] || seeded.has(i)) continue;
+    if (!claimable[i]) continue;
     for (const [m, l] of g.links[i]) if (claimable[m] && passes(l.barriers)) j = i;
   }
-  if (j < 0) return outcome('off', 'no face to degenerate', [...problems, 'no claimable unseeded face with a passing neighbour (the fixture\'s precondition)']);
+  if (j < 0) return outcome('off', 'no face to degenerate', [...problems, 'no claimable face with a claimable neighbour across a passing edge (the fixture\'s precondition)']);
+  const seeds: GrowSeed[] = s6.grow.grown
+    .map((d) => d.seed)
+    .filter((sd) => claimable[sd.face] && sd.face !== j)
+    .sort((a, b) => a.order - b.order);
   const g2: FaceGraph = { ...g, faces: g.faces.map((f, i) => (i === j ? { ...f, areaCm2: 0 } : f)) };
   const band = s6.report.bandHa;
   const turn = (_lineage: unknown, t: number): Stream => streamFromKey([seed >>> 0, t, 7, 0]);
@@ -379,10 +410,14 @@ export const EP23_GRADES: Readonly<Partial<Record<RouteClass, number>>> = Object
  * the plaza and a gate is the fixture's precondition: a solved gate route of S3 climbs an edge above the through grade.
  */
 function runEp23(seed: number): EdgeOutcome {
-  const run = edgeChain(seed, { blueprint: RELIEF_3000, upTo: 'S3' });
-  const problems = chainProblems(run, 'S3', 'S3');
-  const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
-  if (slice === undefined) return outcome('off', 'no slice', [...problems, 'S3 wrote no slice']);
+  // S1 on the relief through the runner; S3's slice (M0-c-01's s3Slice) on the flat fixture's site with S1's terrain —
+  // the slice is data, its lattice the one §4.3 builds once (S3's commits are not this row's home)
+  const run = edgeChain(seed, { blueprint: RELIEF_3000, upTo: 'S1' });
+  const problems = chainProblems(run, 'S1', 'S1');
+  const terrain = run.model.data.get('terrain') as Terrain | undefined;
+  if (terrain === undefined) return outcome('off', 'no terrain', [...problems, 'S1 wrote no terrain']);
+  const fixture = flatFixture(seed, { frameAreaHa: 30, walledHa: 6 });
+  const slice = s3Slice({ ...fixture, terrain });
   const site = slice.site;
   const sampler = terrainSampler(site.terrain, site.tables.table('terrain').num('settings', 'slopeQueryM') * 100);
   const heights = new Float64Array(slice.lattice.points.length);

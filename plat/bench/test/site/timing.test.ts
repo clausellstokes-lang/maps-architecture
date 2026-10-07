@@ -1,4 +1,4 @@
-// The site spike's timing-phase mode (M0-e-06; §12.1, §12.4, §12.10 R12-4 / R12-5; C-0047, C-0082, C-0084, C-0268 (4)):
+// The site spike's timing-phase mode (M0-e-06; §12.1, §12.4, §12.10 R12-4 / R12-5; C-0047, C-0082, C-0084, C-0271 (4)):
 // one M0-f-01 batch per fixture and configuration — the seeds derived in this thread, each stage timed by the harness,
 // the figure the p50 of S1 + S4 + S6, §12.4's hydrology row timed on the terrain before the carve — stamped by
 // `timeBatch` and judged against R12-5's row only when measured and AUTHORITATIVE (C-0047): here, with built readings

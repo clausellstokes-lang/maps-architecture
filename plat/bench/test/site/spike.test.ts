@@ -1,5 +1,5 @@
 // M0-e-06's two derivation tests (M0-work.json's tests 2 and 3), on the spike's river fixture at the test size (900 ha
-// frame, 30 ha walled; C-0268 (3)), each read twice — by the harness's receipt and directly from the committed arena
+// frame, 30 ha walled; C-0271 (3)), each read twice — by the harness's receipt and directly from the committed arena
 // through the kernel's own readers — with a negative control per receipt:
 // * "a route through a site's deck_end vertices lays the span and the Bridge becomes built; a site no route uses stays a
 //   site with no span (§4.2 S1 (5))" — 60 m relief, the river from the north, seed 3: S4 crosses at one site (C-0076);
@@ -126,6 +126,8 @@ describe('a route through a crossing site lays the span and the Bridge becomes b
     const r2 = bridgeReceipt(d.model.kernel, p, water, unbuilt);
     expect(r2.sitesClear).toBe(r2.sites - 1);
     expect(r2.built).toBe(0);
+    // and the span it kept is now a way over water off any span
+    expect(r2.wayOverWaterOffSpan).toBeGreaterThanOrEqual(1);
   });
 });
 
@@ -253,5 +255,9 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     expect(r.gatesWithOneEdge).toBe(commit.waterGates.length - 1);
     const fewer = waterGateReceipt(d.model.kernel, p, water, commit, { ...slice, gateSites: slice.gateSites.slice(1) });
     expect(fewer.mainGates).not.toBe(fewer.gateSites);
+    // an end counts on the shore only beside the river's own shore or bank edge: with the river's id unknown, none does
+    const other = { bodies: water.bodies.map((b) => ({ ...b, id: `${b.id}:other` })), bridges: water.bridges };
+    const off = waterGateReceipt(d.model.kernel, p, other, commit, slice);
+    expect([off.endsResolved, off.endsOnShore]).toEqual([2 * commit.waterGates.length, 0]);
   });
 });

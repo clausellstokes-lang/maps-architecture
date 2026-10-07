@@ -7,8 +7,12 @@
 //                      F-NUM's ladder (re-propose, reject), never a throw;
 //   F-CUT              S8 (EP-01/S8/<kind>'s run); F-RIVER S1's water batch (EP-01/S1); F-ROUTE S4 (EP-01/S4); F-WALL S5a's
 //                      trace (EP-01/S5a); F-BUDGET-STAGE S5d's top-up rim (EP-01/S5d);
-//   F-WORK             "the coarser rung's output made degenerate": S5c's growth with its proposals law lowered so the
-//                      queue closes on F-WORK's rung (`work_cut` with the count), the step it kept planted with the kind.
+//   F-WORK             "the coarser rung's output made degenerate": S8 on its two-district arena carrying the kind, its
+//                      cut.kernelCalls law lowered so the recursion stops on F-WORK's coarser rung (every face still open
+//                      stands as a block, `work_cut` with the count) — the faces it keeps carry the kind.
+// The stage-backed classes F-CUT, F-RIVER, F-ROUTE, F-WALL and F-BUDGET-STAGE are their stage's EP-01 cells by reference
+// (the coverage table names `EP-01/<stage>/<kind>` for them, as F-NUM's and F-SKELETON's kernel side names M0-k-02's
+// cases), so no seed runs twice; F-NUM's stage side is EP-01/S5c's cells.
 import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
 import { CONSTRUCTIVE_SET } from '../constructive/set.js';
 import type { ConstructiveCase } from '../constructive/types.js';
@@ -29,8 +33,18 @@ export const CLASS_STAGE: Readonly<Record<Exclude<EdgeClass, 'F-SKELETON'>, Ep01
   'F-ROUTE': 'S4',
   'F-WALL': 'S5a',
   'F-BUDGET-STAGE': 'S5d',
-  'F-WORK': 'S5c',
+  'F-WORK': 'S8',
 });
+
+/** The classes whose (class, kind) pair is its stage's EP-01 cell by reference (no fixture of its own). */
+export const BY_REFERENCE: readonly EdgeClass[] = Object.freeze(['F-CUT', 'F-RIVER', 'F-ROUTE', 'F-WALL', 'F-BUDGET-STAGE']);
+
+/** The fixture ids that run a (class, kind) pair: its own fixture, and its stage's EP-01 cell where that carries it. */
+export function classFixtureIds(cls: EdgeClass, kind: DegenerateKind): string[] {
+  if (BY_REFERENCE.includes(cls)) return [`EP-01/${CLASS_STAGE[cls as Exclude<EdgeClass, 'F-SKELETON'>]}/${kind}`];
+  if (cls === 'F-NUM') return [`class/F-NUM/${kind}`, `EP-01/S5c/${kind}`];
+  return [`class/${cls}/${kind}`];
+}
 
 /** M0-k-02's kernel-side case for (class, kind) — the one tagged `ladder` with that pair (C-0183 (6)). */
 export function kernelCase(cls: 'F-NUM' | 'F-SKELETON', kind: DegenerateKind): ConstructiveCase {
@@ -50,13 +64,11 @@ function kernelSide(cls: 'F-NUM' | 'F-SKELETON', kind: DegenerateKind, seed: num
   return { problem: v.ok ? null : `${c.id} on the kernel: ${v.reason}`, id: c.id, expect: c.expect.outcome };
 }
 
-/** F-WORK's lowered table: growth.proposals' law a floor of 3 and no per-unit term (the queue closes after 3 pops). */
+/** F-WORK's lowered table: cut.kernelCalls' law 0 (no floor, no per-unit term): S8's recursion stops at its first call. */
 export function lowWork(): WorkLimitsTable {
   const t = loadWorkLimits();
-  return Object.freeze({
-    ...t,
-    law: (counter: string) => (counter === 'growth.proposals' ? Object.freeze({ ...t.law(counter), perUnit: 0, floor: 3 }) : t.law(counter)),
-  }) as WorkLimitsTable;
+  const low = (counter: string) => (counter === 'cut.kernelCalls' ? Object.freeze({ ...t.law(counter), perUnit: 0, floor: 0 }) : t.law(counter));
+  return Object.freeze({ ...t, laws: t.laws.map((l) => (l.counter === 'cut.kernelCalls' ? low(l.counter) : l)), law: low }) as WorkLimitsTable;
 }
 
 /** One class cell's run at the seed. */
@@ -66,24 +78,24 @@ function runClassCell(cls: EdgeClass, kind: DegenerateKind, seed: number): EdgeO
     // the skeleton's readers: a validated skeleton (absorbed), or the reader's typed downgrade (laddered: tier 4)
     return outcome(k.expect === 'ok' ? 'absorbed' : 'laddered', `F-SKELETON: ${k.id} (${k.expect})`, k.problem === null ? [] : [k.problem], { kernelCase: k.id });
   }
-  const stage = CLASS_STAGE[cls];
-  const o = runEp01(stage, kind, seed, cls === 'F-WORK' ? { grow: { workLimits: lowWork() } } : {});
-  if (cls !== 'F-NUM') return o;
+  if (cls === 'F-WORK') return runEp01('S8', kind, seed, { s8WorkLimits: lowWork(), s8Scale: 3 });
+  // F-NUM's kernel side here; its stage side is EP-01/S5c's cells (by reference)
   const k = kernelSide('F-NUM', kind, seed);
-  return k.problem === null ? { ...o, facts: { ...o.facts, kernelCase: k.id } } : { ...o, problems: [...o.problems, k.problem] };
+  return outcome(k.expect === 'ok' ? 'absorbed' : 'laddered', `F-NUM: ${k.id} (${k.expect})`, k.problem === null ? [] : [k.problem], { kernelCase: k.id });
 }
 
 /** The class × kind fixtures (40). */
 export function classFixtures(): EdgeFixture[] {
   const out: EdgeFixture[] = [];
   for (const cls of EDGE_CLASSES) {
+    if (BY_REFERENCE.includes(cls)) continue;
     for (const kind of DEGENERATE_KINDS) {
-      const stage = cls === 'F-SKELETON' ? null : CLASS_STAGE[cls];
+      const stage = cls === 'F-SKELETON' || cls === 'F-NUM' ? null : CLASS_STAGE[cls];
       const pinned = stage === null ? undefined : ep01Pinned(stage, kind);
       const known = stage === null ? null : ep01Known(stage, kind);
       out.push({
         id: `class/${cls}/${kind}`,
-        home: `§13.1 *Ladder coverage*; §5.1 (9); §5.2 ${cls}${stage === null ? '' : ` (at ${stage}, §4.1's transactions table)`}${cls === 'F-NUM' || cls === 'F-SKELETON' ? '; M0-k-02\'s case by id (C-0183 (6))' : ''}`,
+        home: `§13.1 *Ladder coverage*; §5.1 (9); §5.2 ${cls}${stage === null ? '' : ` (at ${stage}'s coarser rung, §4.1's transactions table)`}${cls === 'F-NUM' || cls === 'F-SKELETON' ? "; M0-k-02's case by id (C-0183 (6))" : ''}`,
         run: (seed) => runClassCell(cls, kind, seed),
         expect: {
           outcome: `${cls}, ${kind}: refused by the kernel (or taken by §3.11's rule) and taken on ${cls}'s ladder, the rung named in the report; never a crash, hang, invalid output or whole-map retry`,

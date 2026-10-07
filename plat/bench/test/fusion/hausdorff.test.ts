@@ -47,7 +47,7 @@ describe('S8 ≡ S9 on the flat fixture (the test size)', () => {
     expect(base.compared).toBeGreaterThan(50);
     expect(base.zero).toBeGreaterThan(0);
     // Each ring's first turning vertex moved 1 cm east (a collinear vertex moved along its line would move no point).
-    const shifted = s8s9(derive('fusion', 1, TEST_SIZE), (_block, ring) => canonicalRing(ring).map((q, i) => (i === 0 ? { x: q.x + 1, y: q.y } : q)) as typeof ring);
+    const shifted = s8s9(derive('fusion', 1, TEST_SIZE), (_block, ring) => canonicalRing(ring).map((q, i) => (i === 0 ? { x: q.x + 1, y: q.y } : q)) as unknown as typeof ring);
     expect(shifted.compared).toBe(base.compared);
     // No block holds once its working block moved by 1 cm; the ones that held stand within the shift.
     expect(shifted.zero).toBe(0);

@@ -1,5 +1,5 @@
 // The site spike's composition (M0-e-06; §16 M0 (e), §12.4's S1, S2 / S3, S4 and S6 rows, §12.10 R12-5, §4.1's order;
-// C-0076, C-0077, C-0080, C-0087, C-0264, C-0268). One derivation is M0-x-04's base registration run by M0-x-02's
+// C-0076, C-0077, C-0080, C-0087, C-0264, C-0271). One derivation is M0-x-04's base registration run by M0-x-02's
 // runner — S1, the S3 slice with its commits, S4, S5 (the order's stage between S4 and S6: S6 reads S5's last
 // boundary, its ways and its walls, C-0264 (5)) and S6 with the fields' pass 1 — less S8 (the fusion spike's, M0-c-06),
 // so the arena stands as S6 left it for the receipts. The harness only watches: each registered stage's run is wrapped
@@ -174,7 +174,7 @@ interface S6In {
 /**
  * S6 composed as base.ts composes it (C-0264 (5), (9), C-0266, C-0267) — `baseS6Input`, M0-e-04's `s6Stage`, the
  * W_LAND_UNCLAIMED refusal, then the fields' pass 1 over the arena S6 left — with `fieldsCoarsen` passed to pass 1
- * (R12-5). With the switch off it is byte-identical to the base's S6 (held by the composition test, C-0268 (2)).
+ * (R12-5). With the switch off it is byte-identical to the base's S6 (held by the composition test, C-0271 (2)).
  */
 export function composedS6Run(fieldsCoarsen: boolean): (input: unknown, ctx: PipelineContext) => KernelResult<Record<string, unknown>> {
   const item = s6Stage();

@@ -61,7 +61,7 @@ describe('bench -- ladder-coverage', () => {
     expect(s.covered).toBe(true);
     expect(s.builtRows).toBe(built.length);
     expect(s.rungs['S8 F-CUT pre']).toEqual({ fixture: 1, control: 0, plain: 2 });
-    expect(s.rungs['S4 F-ROUTE slope']).toEqual({ fixture: 1, control: 0, plain: 0 });
+    expect(s.rungs['S4/S5b F-ROUTE slope']).toEqual({ fixture: 1, control: 0, plain: 0 });
     expect(s.plain).toEqual({ seed: 1, reached: built.filter((x) => x.ladder === 'F-CUT').length, bugs: 0 });
     expect(text).not.toMatch(/"(at|seconds|wallMs|cpuMs|ms)"/);
     expect(run([], { out: dir, summary, coverage: planted() })).toBe(0);

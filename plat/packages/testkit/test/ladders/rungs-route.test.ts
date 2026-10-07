@@ -28,7 +28,7 @@ describe('F-ROUTE on S4’s Stage object (the small river town, seed 2)', () => 
   it('route/another-site — the nearest site given up, the route re-solved: another_site held; the water-bound inward part unserved', { timeout: 300_000 }, () => {
     const r = riverTown();
     expect(r.bugs).toBe(0);
-    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4 F-ROUTE another_site': 1, 'S4 F-ROUTE unserved': 1 });
+    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4/S5b F-ROUTE another_site': 1, 'S4/S5b F-ROUTE unserved': 1 });
     expect(fixture('route/another-site').run()).toEqual(r.leaves);
     expect(r.rungs).toContainEqual({ route: 'gate:1/out', rung: 'another_site', from: 'bridge:6', to: null, held: true });
     expect(r.rungs).toContainEqual({ route: 'gate:0/in', rung: 'unserved', held: true, why: 'water' });
@@ -38,13 +38,13 @@ describe('F-ROUTE on S4’s Stage object (the small river town, seed 2)', () => 
 
   it('route/slope — through’s grade limit 0.01 %: the re-solve relaxes through → primary, held', { timeout: 300_000 }, () => {
     const r = riverTown({ gradeLimits: { through: 0.0001 } });
-    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4 F-ROUTE another_site': 1, 'S4 F-ROUTE slope': 1, 'S4 F-ROUTE unserved': 1 });
+    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4/S5b F-ROUTE another_site': 1, 'S4/S5b F-ROUTE slope': 1, 'S4/S5b F-ROUTE unserved': 1 });
     expect(r.rungs.filter((x) => x.rung === 'slope')).toEqual([{ route: 'gate:1/out', rung: 'slope', fromClass: 'through', toClass: 'primary', held: true }]);
   });
 
   it('route/unserved — every class limited: through → primary → track → path, then the destination unserved (no path)', { timeout: 300_000 }, () => {
     const r = riverTown({ gradeLimits: { through: 0.0001, primary: 0.0001, secondary: 0.0001, track: 0.0001, path: 0.0001 } });
-    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4 F-ROUTE slope': 3, 'S4 F-ROUTE unserved': 2 });
+    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4/S5b F-ROUTE slope': 3, 'S4/S5b F-ROUTE unserved': 2 });
     const out = r.rungs.filter((x) => x.route === 'gate:1/out');
     expect(out.filter((x) => x.rung === 'slope').map((x) => [x.fromClass, x.toClass])).toEqual([
       ['through', 'primary'],
@@ -56,7 +56,7 @@ describe('F-ROUTE on S4’s Stage object (the small river town, seed 2)', () => 
 
   it('work/route-s4 — route.nodes’ limit 1: the re-solve is cut, work_cut with the count, then unserved (F-WORK, C-0085)', { timeout: 300_000 }, () => {
     const r = riverTown({ routeNodesLimit: 1 });
-    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4 F-ROUTE unserved': 2, 'S4 F-WORK work_cut': 1 });
+    expect(r.leaves).toEqual({ ...RIVER_BASE, 'S4/S5b F-ROUTE unserved': 2, 'S4/S5b F-WORK work_cut': 1 });
     const cut = r.rungs.filter((x) => x.rung === 'work_cut');
     expect(cut).toHaveLength(1);
     expect(cut[0]).toMatchObject({ route: 'gate:1/out', limit: 1, held: true });

@@ -1,7 +1,8 @@
 // M0-x-05: the plain flat fixture's baseline (C-0269): `runBase(FLAT_BLUEPRINT, 1)` — the CITY flat fixture at one seed,
-// every stage of M0 in §4.1's order — reaches no rung of F-ROUTE, F-NUM's stage side, F-RIVER, F-WALL, F-BUDGET-STAGE or
-// F-WORK: the stage ladders are quiet on it but F-CUT's, whose rungs its 1 400 faces reach (the baseline count, rung (a)
-// at attempt ≥ 1 among them), reported beside each fixture and never part of the verdict; its bugs list is empty.
+// every stage of M0 in §4.1's order — reaches no rung of F-NUM's stage side, F-RIVER, F-WALL, F-BUDGET-STAGE or F-WORK;
+// it reaches F-CUT's rungs on its ≈ 1 400 faces (the baseline count, rung (a) at attempt ≥ 1 among them) and F-ROUTE's
+// unserved once (S5b's stage-3 main road `s5b:3/4/out`, no path) — measured 2026-10-07, reported beside each fixture,
+// never part of the verdict; its bugs list is empty.
 import { describe, expect, it } from 'vitest';
 import { ladderLeafOf, ladderPlainBaseline, STAGE_LADDERS } from '@plat/testkit';
 
@@ -12,15 +13,12 @@ describe('the plain flat fixture (runBase(FLAT_BLUEPRINT, 1))', () => {
     expect(b.bugs).toBe(0);
     const built = STAGE_LADDERS.filter((r) => r.milestone === undefined);
     expect(Object.keys(b.leaves).sort()).toEqual([...new Set(built.map(ladderLeafOf))].sort());
-    for (const r of built) {
-      const n = b.leaves[ladderLeafOf(r)];
-      if (r.ladder === 'F-CUT') continue;
-      expect([ladderLeafOf(r), n]).toEqual([ladderLeafOf(r), 0]);
-    }
-    expect(b.reached.every((leaf) => leaf.startsWith('S8 F-CUT '))).toBe(true);
-    // The baseline count: rung (a)'s turned frames, and the rest of F-CUT's ladder the CITY's faces take (measured
-    // 2026-10-07: pre 33, antenna 15, a ≥ 1 105, b 5, W_CUT_SLID 26, d 5 — C-0269).
-    expect(b.leaves['S8 F-CUT a@attempt>=1']).toBeGreaterThan(0);
-    expect(b.reached).toContain('S8 F-CUT a@attempt>=1');
+    const cut = built.filter((r) => r.ladder === 'F-CUT').map(ladderLeafOf);
+    // What it reaches: F-CUT's whole M0 ladder and S5b's one unserved road; every other built leaf 0.
+    expect([...b.reached].sort()).toEqual([...cut, 'S4/S5b F-ROUTE unserved'].sort());
+    for (const r of built) if (r.ladder !== 'F-CUT' && ladderLeafOf(r) !== 'S4/S5b F-ROUTE unserved') expect([ladderLeafOf(r), b.leaves[ladderLeafOf(r)]]).toEqual([ladderLeafOf(r), 0]);
+    expect(b.leaves['S4/S5b F-ROUTE unserved']).toBe(1);
+    // The baseline count (measured 2026-10-07: pre 33, antenna 15, a ≥ 1 105, b 5, W_CUT_SLID 26, d 5 — C-0269).
+    for (const leaf of cut) expect([leaf, b.leaves[leaf] > 0]).toEqual([leaf, true]);
   });
 });

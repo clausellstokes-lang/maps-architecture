@@ -11,7 +11,7 @@ export interface LadderRung {
   readonly ladder: string;
   /** The rung in the design's words. */
   readonly rung: string;
-  /** The stage (or sub-stage) whose record the rung leaves its code in: `S1`, `S3`, `S3 trace`, `S4`, `S5c`, `S5d`, `S6`, `S6 fields`, `S8`, `kernel`. */
+  /** The stage (or sub-stage) whose record the rung leaves its code in: `S1`, `S3`, `S3/S5a trace`, `S4/S5b` (the router S4 and S5b share), `S5c`, `S5d`, `S6`, `S6 fields`, `S8`, `kernel`. */
   readonly stage: string;
   /** The report code or warning the rung leaves (a §5.4 code, a kernel warning, or the rung's entry in the stage's record). */
   readonly code: string;

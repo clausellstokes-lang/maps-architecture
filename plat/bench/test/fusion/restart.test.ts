@@ -2,7 +2,7 @@
 // restarts on 1 000 seeds" (the pipeline has no restart path, §5.1 (1)): the harness counts every registered stage's
 // invocations, and a scratch stage that derives the whole map again makes every stage run twice.
 import { STAGES, type StageId } from '@plat/kernel';
-import { register, run, type PipelineStage } from '@plat/layout';
+import { baseArena, register, run, type PipelineStage } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
 import { derive, foldReport, measure, type SeedRecord } from '../../src/fusion/index.js';
 import { TEST_SIZE } from './support.js';
@@ -45,7 +45,7 @@ describe('the restart assertion', () => {
           run: () => {
             if (restarted === 0) {
               restarted += 1;
-              run(registry, blueprint, { kind: 'all' });
+              run(registry, blueprint, { kind: 'all' }, { arenas: () => [baseArena(blueprint)] });
             }
             return { ok: true, value: {}, warnings: [] };
           },

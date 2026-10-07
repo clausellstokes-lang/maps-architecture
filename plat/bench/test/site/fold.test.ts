@@ -26,6 +26,9 @@ import {
   type RunRecord,
 } from '../../src/site/index.js';
 import { tableView } from '@plat/tables';
+import { attachIndex, createKernel, createPlat, type PlatKey } from '@plat/kernel';
+import { fieldsCells, type S6Output } from '@plat/layout';
+import { districtReceipt, stageOutcomes, withoutSoftRows } from '../../src/site/index.js';
 
 const C0 = { faces: 4, skeletons: 4, downgrades: 0, workLimitHits: 0, failures: 0 };
 
@@ -290,3 +293,69 @@ describe('bench -- site: its arguments', () => {
     expect(typeof parseSiteArgs([], { PLAT_BENCH_WORKERS: 'many' })).toBe('string');
   });
 });
+
+describe('districtReceipt\'s arithmetic on a built S6 output (no samples: an empty perimeter)', () => {
+  const GROUND = { layer: 'ground', part: 0 } as PlatKey;
+  const plat = createPlat(GROUND, { widthCm: 100_000, heightCm: 100_000 } as never);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const k = createKernel(new Map([[GROUND, plat]]));
+  const grown = (kind: string, ha: number, merged = -1) => ({ seed: { kind }, faces: [], areaCm2: ha * 1e8, perimeterCm: 0, turns: 0, mergedInto: merged });
+  const s6 = (nd: number, kinds: [string, number, number?][]): S6Output =>
+    ({
+      districts: kinds.filter((x) => (x[2] ?? -1) < 0).map((_, i) => ({ id: `district:${String(i)}` })),
+      report: { landHa: 100, nd, unowned: 0, leftovers: 1, belowFloor: 2, merges: 3 },
+      grow: { grown: kinds.map(([kind, ha, m]) => grown(kind, ha, m)) },
+      perimeter: [],
+      hinterland: 'district:hinterland',
+    }) as unknown as S6Output;
+
+  it('the count law: |L − N_d| ≤ 1 in both directions, 2 off fails', () => {
+    const three: [string, number][] = [['market', 1], ['gate', 1], ['remainder', 1]];
+    expect(districtReceipt(k, plat, s6(3, three)).countLaw).toBe(true);
+    expect(districtReceipt(k, plat, s6(2, three)).countLaw).toBe(true);
+    expect(districtReceipt(k, plat, s6(4, three)).countLaw).toBe(true);
+    expect(districtReceipt(k, plat, s6(1, three)).countLaw).toBe(false);
+    expect(districtReceipt(k, plat, s6(5, three)).countLaw).toBe(false);
+    expect(districtReceipt(k, plat, s6(3, three))).toMatchObject({ landHa: 100, nd: 3, districts: 3, leftovers: 1, belowFloor: 2, merges: 3, unownedByStage: 0, samples: 0 });
+  });
+
+  it('the wards: gate and bridgehead wards (merged ones left out) against every alive district, by the median', () => {
+    // wards 1 and 3 ha (median 2), town 1, 3, 5, 7 ha (median 4): below
+    const r = districtReceipt(k, plat, s6(4, [['gate', 1], ['bridgehead', 3], ['market', 5], ['remainder', 7], ['gate', 0.1, 2]]));
+    expect([r.wards, r.wardMedianHa, r.townMedianHa, r.wardsBelow]).toEqual([2, 2, 4, true]);
+    // a bridgehead ward counts as a ward: alone and large, it is above the town
+    const b = districtReceipt(k, plat, s6(3, [['bridgehead', 9], ['market', 1], ['remainder', 2]]));
+    expect([b.wards, b.wardMedianHa, b.wardsBelow]).toEqual([1, 9, false]);
+    // equal medians are not below
+    const eq = districtReceipt(k, plat, s6(3, [['gate', 2], ['market', 1], ['remainder', 3]]));
+    expect([eq.wardMedianHa, eq.townMedianHa, eq.wardsBelow]).toEqual([2, 2, false]);
+    // no ward: unobserved for this run (null)
+    expect(districtReceipt(k, plat, s6(2, [['market', 1], ['remainder', 2]])).wardsBelow).toBeNull();
+    // a riverbank or market seed is no ward
+    expect(districtReceipt(k, plat, s6(2, [['riverbank', 1], ['market', 3]])).wards).toBe(0);
+  });
+});
+
+describe('the model without the soft terms (C-0049)', () => {
+  it('withoutSoftRows removes exactly the daylight and water terms\' weight rows of the three fields', () => {
+    const base = fieldsCells(tableView());
+    const bare = fieldsCells(withoutSoftRows(tableView()));
+    for (let i = 0; i < base.fields.length; i += 1) {
+      const terms = base.fields[i].terms.map((t) => t.term);
+      expect(terms).toContain('daylight');
+      expect(terms).toContain('waterTerm');
+      expect(bare.fields[i].terms.map((t) => t.term)).toEqual(terms.filter((t) => t !== 'daylight' && t !== 'waterTerm'));
+    }
+    expect(bare.shares).toEqual(base.shares);
+  });
+});
+
+describe('stageOutcomes: a refused stage by its bug\'s code, every later stage not reached', () => {
+  it('reads the runner\'s order and bug entries', () => {
+    const d = (bugs: { stage: string; cls: string }[]) => ({ model: { order: ['S1', 'S3', 'S4', 'S5', 'S6'] }, report: { bugs } }) as never;
+    expect(stageOutcomes(d([]))).toEqual({ S1: 'ok', S3: 'ok', S4: 'ok', S5: 'ok', S6: 'ok' });
+    expect(stageOutcomes(d([{ stage: 'S3', cls: 'E_INVARIANT' }]))).toEqual({ S1: 'ok', S3: 'refused E_INVARIANT', S4: 'not reached', S5: 'not reached', S6: 'not reached' });
+    expect(stageOutcomes(d([{ stage: 'S5', cls: 'E_SELF_INTERSECT' }]))).toEqual({ S1: 'ok', S3: 'ok', S4: 'ok', S5: 'refused E_SELF_INTERSECT', S6: 'not reached' });
+  });
+});
+

@@ -120,6 +120,8 @@ export interface ChainRun {
   readonly runs: ReadonlyMap<string, number>;
   /** The stages that ran, by name, in order. */
   readonly ran: readonly string[];
+  /** Each refused stage's refusal (its §3.1 code and detail), by name: the report keeps the code only. */
+  readonly refusals: ReadonlyMap<string, { readonly code: string; readonly detail: string }>;
 }
 
 interface S5In {
@@ -219,8 +221,8 @@ function idle(stage: PipelineStage): PipelineStage {
   }) as PipelineStage;
 }
 
-/** A registered stage whose run calls are counted. */
-function counted(stage: PipelineStage, name: string, runs: Map<string, number>, ran: string[]): PipelineStage {
+/** A registered stage whose run calls are counted and whose refusal is kept. */
+function counted(stage: PipelineStage, name: string, runs: Map<string, number>, ran: string[], refusals: Map<string, { code: string; detail: string }>): PipelineStage {
   return Object.freeze({
     ...stage,
     inputsOf(model: ModelView, scope: Scope): unknown {
@@ -229,7 +231,9 @@ function counted(stage: PipelineStage, name: string, runs: Map<string, number>, 
     run(input: unknown, ctx: PipelineContext): KernelResult<unknown> {
       runs.set(name, (runs.get(name) ?? 0) + 1);
       ran.push(name);
-      return stage.run(input, ctx);
+      const r = stage.run(input, ctx);
+      if (!r.ok) refusals.set(name, { code: r.code, detail: r.detail });
+      return r;
     },
   }) as PipelineStage;
 }
@@ -256,6 +260,7 @@ export function edgeChain(seed: number, opts: ChainOptions): ChainRun {
   const plog = plantLog(true);
   const runs = new Map<string, number>();
   const ran: string[] = [];
+  const refusals = new Map<string, { code: string; detail: string }>();
   const kept: PipelineStage[] = [];
   for (const s of product.stages) {
     const name = nameOf(s);
@@ -268,12 +273,12 @@ export function edgeChain(seed: number, opts: ChainOptions): ChainRun {
     }
     let stage: PipelineStage = name === 'S5' ? s5Driver(s, opts, log, plog) : s;
     if (opts.plant !== undefined && opts.plant.stage === name && name !== 'S5') stage = planted(stage, opts.plant.plant, plog);
-    kept.push(counted(stage, name, runs, ran));
+    kept.push(counted(stage, name, runs, ran, refusals));
   }
   product.stages.length = 0;
   product.stages.push(...kept);
   const { model, report } = run(registry, { ...bp, seed }, { kind: 'all' }, { arenas: () => [baseArena(bp)] });
-  return { model, report, plant: plog, s5: log, runs, ran };
+  return { model, report, plant: plog, s5: log, runs, ran, refusals };
 }
 
 /** The restart assertion (EP-01: "never a whole-map retry"): every stage ran at most once, none after `upTo`. */

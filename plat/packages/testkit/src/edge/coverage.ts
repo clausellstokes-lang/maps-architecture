@@ -5,7 +5,7 @@
 // cell and the two sweeps — each with the fixtures that run it now, or the milestone that lands its mechanism (a row may
 // hold both: its M0 part's fixtures and its later part's milestone). A row missing from the table, a fixture it names
 // that EDGE_FIXTURES lacks, or a built fixture no row names is a problem, and the table is incomplete.
-import { EDGE_CLASSES } from './classes.js';
+import { classFixtureIds, EDGE_CLASSES } from './classes.js';
 import { EP01_STAGES } from './ep01.js';
 import { DEGENERATE_KINDS } from './kinds.js';
 import type { EdgeFixture } from './types.js';
@@ -108,7 +108,7 @@ export function edgeCoverageRows(): EdgeCoverageRow[] {
   rows.push({ key: 'named/cliff across a district; two plots at a cliff\'s top and foot', kind: 'named fixture', what: 'the cliff × retaining-wall cell', fixtures: [], milestone: 'M3a' });
   rows.push({ key: 'named/a cliff-headland coast with the harbour-wall rows on', kind: 'named fixture', what: 'the cliff × deck-plot cell', fixtures: [], milestone: 'M1' });
   rows.push({ key: 'named/a CITY viaduct at M3a with stage 2 unregistered', kind: 'named fixture', what: 'the plots × raised-way cell', fixtures: [], milestone: 'M3a' });
-  for (const cls of EDGE_CLASSES) for (const k of DEGENERATE_KINDS) rows.push({ key: `class/${cls}/${k}`, kind: 'class × kind', what: `${cls}: one ${k} input`, fixtures: [`class/${cls}/${k}`] });
+  for (const cls of EDGE_CLASSES) for (const k of DEGENERATE_KINDS) rows.push({ key: `class/${cls}/${k}`, kind: 'class × kind', what: `${cls}: one ${k} input`, fixtures: classFixtureIds(cls, k) });
   for (const s of EP01_STAGES) for (const k of DEGENERATE_KINDS) rows.push({ key: `EP-01/${s}/${k}`, kind: 'EP-01 cell', what: `EP-01 at ${s}: ${k} geometry`, fixtures: [`EP-01/${s}/${k}`] });
   rows.push({ key: 'sweep/rung (TOWN, METROPOLIS)', kind: 'sweep', what: "B-EDGE's rung sweep: every row at every rung it names (the M0 fixtures run at CITY)", fixtures: [], milestone: 'M1' });
   rows.push({ key: 'sweep/preset (the parity presets, each layer on and off)', kind: 'sweep', what: "B-EDGE's preset sweep", fixtures: [], milestone: 'M1' });

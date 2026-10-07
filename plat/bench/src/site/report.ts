@@ -1,10 +1,10 @@
 // The site spike's report (M0-e-06; M0.md §1 (e)'s bars NOW, §16 M0 (e), §12.4, §12.10 R12-4 / R12-5; C-0067,
-// C-0084, C-0091, C-0268). `foldReport` folds the derivations' RunRecords — plain, deterministic data — into
+// C-0084, C-0091, C-0271). `foldReport` folds the derivations' RunRecords — plain, deterministic data — into
 // `SiteSpikeReport`: per fixture and configuration the stages' outcomes, every bar's receipt with its verdict
 // (`pass`, `fail`, or `unobserved` when no derivation reached the clause — never a silent pass), the work per unit per
 // counter (C-0091's `{ n, p50, p99, p999, max }`), and the records themselves. The report holds no time: two runs of
 // the harness on the same seeds write it byte for byte (the item's first test). The stage times are the timing block's
-// (timing.ts), kept beside the report, never in it (C-0268 (4)).
+// (timing.ts), kept beside the report, never in it (C-0271 (4)).
 import { quantile7 } from '@plat/testkit';
 import { CORPUS_BAR } from '../skeleton/runner.js';
 import type { SpikeConfig } from './compose.js';

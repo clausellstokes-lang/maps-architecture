@@ -14,7 +14,7 @@
 //                   frame (M0's strips are cut at the map border, C-0226; the inset clause is read in C-EDGE (9)).
 import { checkCI, type Plat } from '@plat/kernel';
 import type { Bridge } from '@plat/model';
-import { stripWidths, type S3Slice } from '@plat/layout';
+import { routeGraph, stripWidths, type S3Slice } from '@plat/layout';
 import { hydroGridOver, hydroParams, rasterGeom, type S1Output } from '@plat/site';
 import { tableView } from '@plat/tables';
 import { deckEnds, inBox, insetIn, liveEdges, liveVertices, marginBox, ringBox, roleVertices } from './arena.js';
@@ -37,7 +37,7 @@ export const RELIEF_CLIFF = Object.freeze({
     relief: 'hilly' as const,
     primitives: Object.freeze([
       Object.freeze({ kind: 'hill' as const, at: { x: 0, y: 0 }, radiusM: 1200, heightM: 3000 }),
-      Object.freeze({ kind: 'cliff' as const, at: { x: HALF_30HA_CM, y: 0 }, bearingCdeg: 0, lengthM: 1200, heightM: 120, widthM: 20 }),
+      Object.freeze({ kind: 'cliff' as const, at: { x: HALF_30HA_CM, y: 0 }, bearingCdeg: 0, lengthM: 1200, heightM: 1000, widthM: 20 }),
     ]),
     river: Object.freeze({ inflowBearingCdeg: 27_000, mouth: 'none' as const }),
   }),
@@ -80,8 +80,9 @@ function runCliffFrame(seed: number): EdgeOutcome {
     const j = Math.floor((y - t.originY) / t.cellCm);
     return t.heightCm[j * t.cols + i];
   };
-  const step = at(HALF_30HA_CM - 3000, 0) - at(HALF_30HA_CM + 3000, 0);
-  if (!(Math.abs(step) >= 5000)) problems.push(`no cliff across the frame's edge: the ground steps ${String(step)} cm there`);
+  // (the hill falls about 130 m eastward over those 60 m; the 1 000 m cliff raises the east side above it)
+  const step = at(HALF_30HA_CM + 3000, 0) - at(HALF_30HA_CM - 3000, 0);
+  if (!(step >= 50_000)) problems.push(`no cliff across the frame's edge: the ground steps ${String(step)} cm there`);
   // the outer ring first: the first insertChain of S1 is the closed margin ring at L0, alone before any water
   const first = calls[0];
   if (first === undefined || first.role !== 'margin' || !first.closed || first.level !== 0) problems.push(`S1's first chain is not the closed L0 outer ring: ${JSON.stringify(first ?? null)}`);
@@ -116,21 +117,30 @@ function runBridgeFrame(seed: number): EdgeOutcome {
   const run = edgeChain(seed, { blueprint: SMALL_RIVER, upTo: 'S4' });
   const problems = chainProblems(run, 'S4', 'S4');
   const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
-  const bridges = (run.model.data.get('bridges') ?? (run.model.data.get('water') as { bridges?: readonly Bridge[] } | undefined)?.bridges) as readonly Bridge[] | undefined;
+  const bridges = run.model.data.get('bridges') as readonly Bridge[] | undefined;
   if (slice === undefined || bridges === undefined) return outcome('off', 'no bridges', [...problems, 'S4 wrote no bridges']);
   if (bridges.length === 0) problems.push('the river holds no crossing site (the fixture\'s precondition)');
   const frame = ringBox(slice.site.frameRing);
-  let built = 0;
-  for (const b of bridges) {
+  // S1 sites crossings on every reach, the margin's included (§4.2 S1 (5)); a site becomes a bridge only when a way
+  // lays its span (S4 routes through its two ends as a fixed graph edge, §4.3): every deck S4's router can lay a span
+  // through — a deck with an edge of S3's lattice along it — and every span S4 built lies inside the frame
+  const rg = routeGraph(slice.lattice);
+  const routable = new Set<number>();
+  for (let e = 0; e < rg.deckOf.length; e += 1) if (rg.deckOf[e] >= 0) routable.add(rg.deckOf[e]);
+  for (const di of routable) {
+    const d = rg.decks[di];
+    if (!inBox(d.a, frame) || !inBox(d.b, frame)) problems.push(`the deck ${d.id}, which S4 can span, has an end outside the frame`);
+  }
+  const built = bridges.filter((b) => b.state === 'built');
+  for (const b of built) {
     const ends = deckEnds(run.model.kernel, { layer: 'ground', part: 0 }, b);
     if (ends === null) {
       problems.push(`${b.id}'s deck ends resolve to no two vertices`);
       continue;
     }
-    if (b.state === 'built') built += 1;
-    for (const q of ends) if (!inBox(q, frame)) problems.push(`${b.id} (${b.state}): a deck end lies outside the frame`);
+    for (const q of ends) if (!inBox(q, frame)) problems.push(`${b.id} (built): a deck end lies outside the frame`);
   }
-  return outcome('defined', "bridge × frame: every deck's two ends inside the frame", problems, { bridges: bridges.length, built });
+  return outcome('defined', "bridge × frame: every deck S4 can span, and every built span, inside the frame", problems, { sites: bridges.length, routable: routable.size, built: built.length });
 }
 
 /** wall × frame (see the header). */

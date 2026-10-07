@@ -60,7 +60,7 @@ export function chainProblems(run: ChainRun, upTo: ChainStage, home: ChainStage)
   if (r !== null) out.push(`restart: ${r}`);
   const before = CHAIN_ORDER.slice(0, CHAIN_ORDER.indexOf(home));
   for (const b of run.report.bugs) {
-    if (before.includes(b.stage as ChainStage)) out.push(`the prepared state did not stand: ${b.stage} refused ${b.cls}`);
+    if (before.includes(b.stage as ChainStage)) out.push(`the prepared state did not stand: ${b.stage} refused ${b.cls} (${run.refusals.get(b.stage)?.detail.slice(0, 160) ?? ''})`);
     if (!KERNEL_CODES.has(b.cls)) out.push(`${b.stage}'s refusal carries no §3.1 code: ${b.cls}`);
   }
   out.push(...arenaProblems(groundOf(run)));

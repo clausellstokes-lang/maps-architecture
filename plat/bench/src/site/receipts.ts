@@ -1,5 +1,5 @@
 // The site spike's receipts (M0-e-06; M0.md §1 (e)'s bars NOW, §16 M0 (e), §13.1, §2.3, §4.2 S1 (3), (5), §4.3,
-// §4.4 *Water and the waterfront*, §4.5; C-0048, C-0049, C-0067, C-0076, C-0087, C-0091, C-0268). Each receipt is read
+// §4.4 *Water and the waterfront*, §4.5; C-0048, C-0049, C-0067, C-0076, C-0087, C-0091, C-0271). Each receipt is read
 // from one derivation's committed state — the arena through the kernel's own readers, the stages' records, the
 // captured heights before the carve — never from the code under test's verdicts alone: D8 defined on the hydrology grid
 // (frame and margin) and on its land cells; the river's bed monotone to its outfall; the carve against `carveMaxCm`;

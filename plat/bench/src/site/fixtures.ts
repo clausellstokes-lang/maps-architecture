@@ -3,7 +3,7 @@
 // arriving from the west, mouth none) on two reliefs — S0's rolling class (amplitude 60 m) and a hill-acropolis site (a
 // 3 000 m hill under the town's centre on hilly ground), the two relief fixtures M0-e-01's and M0-e-02's exit bars name.
 // The spike runs at §12.2's CITY size (the base's frame law, 220 ha walled); the `test` size — M0-x-04's 900 ha frame
-// with 30 ha walled (C-0264 (10)) — is the harness's own test size, never a bar's (C-0268 (3)).
+// with 30 ha walled (C-0264 (10)) — is the harness's own test size, never a bar's (C-0271 (3)).
 import type { Cm } from '@plat/kernel';
 import { RIVER_BLUEPRINT, type BaseBlueprint } from '@plat/layout';
 import type { SiteRequest } from '@plat/site';
@@ -23,7 +23,7 @@ export const RELIEF_3000: SiteRequest = Object.freeze({
   primitives: Object.freeze([Object.freeze({ kind: 'hill' as const, at: Object.freeze({ x: 0 as Cm, y: 0 as Cm }), radiusM: 1200, heightM: 3000 })]),
 });
 
-/** The sizes the harness derives at: §12.2's CITY (the bars') and the test size (C-0264 (10); C-0268 (3)). */
+/** The sizes the harness derives at: §12.2's CITY (the bars') and the test size (C-0264 (10); C-0271 (3)). */
 export type SpikeSize = 'city' | 'test';
 
 /** The test size: a 900 ha frame with 30 ha walled (M0-x-04's run tests). */
