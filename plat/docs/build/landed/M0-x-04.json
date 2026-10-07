@@ -1,0 +1,32 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-x-04",
+  "lane": "build/M0-x-04",
+  "lanes": ["build/M0-x-04"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-07T17:12:03.641Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/layout/src/pipeline/base.ts", "plat/packages/layout/test/pipeline/base/", "plat/packages/layout/src/pipeline/index.ts (handed over from M0-x-02: the base.ts re-export line, C-0095)"],
+  "counts": { "created": 3, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/packages/layout/src/pipeline/base.ts", "status": "created", "sha256": "ddefbca8e023d71c709c67c1fc1b5936a48b06a450f9729f95a59f2934af55da", "size": 47711 },
+    { "path": "plat/packages/layout/src/pipeline/index.ts", "status": "changed", "sha256": "0bb743c7defc818b87006f352307a4359aee664b69f97519741e365c7568f20f", "size": 1479 },
+    { "path": "plat/packages/layout/test/pipeline/base/run.test.ts", "status": "created", "sha256": "71e5aba9096bccb2b426c5aa4598be8f90a3bfe144bbd5acc33d64c1dc3ad741", "size": 23126 },
+    { "path": "plat/packages/layout/test/pipeline/base/table.test.ts", "status": "created", "sha256": "00fb5e501f3d3226e752d38f3533eff3206cc841b929c82bfbb39f2dc49de605", "size": 20200 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0325"],
+      "lines": ["1cac0684d57a7e20"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0264"],
+      "lines": ["870618fadfd55301"],
+      "removed": []
+    }
+  ]
+}
