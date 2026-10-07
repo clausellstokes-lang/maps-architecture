@@ -2,7 +2,7 @@
 // or coincident geometry — refused by the kernel; the stage's failure class (§4.1)"; §3.11's *degenerate geometry* row;
 // §13.1's ladder coverage: "per failure class, one degenerate input of each kind"). Each maker turns a stage's own
 // geometry — a chain's points, a ring, a course — into the kind, on the lattice (whole centimetres, §3.2 (1)), near the
-// geometry it came from so it stays inside the arena (C-EDGE (2), the readings of each kind):
+// geometry it came from so it stays inside the arena (C-0272 (2), the readings of each kind):
 //   zero-length    the chain collapsed to one point, given twice: length 0;
 //   zero-area      a closed ring of three collinear points (out along a direction, back to its midpoint): area 0;
 //   self-touching  a closed ring visiting one vertex twice (two triangles meeting at it, a bow-tie), or an open chain
@@ -108,8 +108,8 @@ export function ringArea2(ring: readonly { x: number; y: number }[]): number {
  * A closed ring (counter-clockwise, its closing vertex not repeated) made the kind at its first vertex, the rest kept:
  * zero-length — that vertex given twice (a zero-length edge); zero-area — a spike out along its first edge's normal and
  * back (an antenna of zero area); self-touching — a loop leaving it and returning to it (the ring visits it twice);
- * collinear — every edge's midpoint added (collinear vertices); coincident — the ring given twice round (every vertex
- * coincident with another).
+ * collinear — on every edge with an interior lattice point, the one nearest its middle added (exactly collinear
+ * vertices); coincident — the ring given twice round (every vertex coincident with another).
  */
 export function degenerateRing(ring: readonly { x: number; y: number }[], kind: DegenerateKind): LatticePoint[] {
   const pts = ring.map((p) => lp(p.x, p.y));

@@ -75,9 +75,23 @@ describe('the five kinds (§5.1 (9))', () => {
       expect(same(st[0], st[3])).toBe(true);
       expect(st.slice(4)).toEqual(sq.slice(1));
       const co = degenerateRing(sq, 'collinear');
+      // the square's sides are whole metres or more: every side gains its interior point
       expect(co.length).toBe(2 * sq.length);
       for (let i = 1; i < co.length; i += 2) expect(cross(co[i - 1], co[i], co[(i + 1) % co.length])).toBe(0);
       expect(ringArea2(co)).toBe(a2);
+      // a slanted ring: each added vertex lies exactly on its edge, strictly inside it
+      const r = fixtureRandom(seed);
+      const tri = [{ x: 0, y: 0 }, { x: 2 * Math.round(1_000 + r() * 3_000), y: 2 * Math.round(r() * 2_000) + 1 }, { x: Math.round(r() * 1_000), y: 4_001 + Math.round(r() * 3_000) }] as LatticePoint[];
+      const ct = degenerateRing(tri, 'collinear');
+      expect(ringArea2(ct)).toBe(ringArea2(tri));
+      for (let i = 0; i < ct.length; i += 1) {
+        const p = ct[i];
+        const q = ct[(i + 1) % ct.length];
+        const t = ct[(i + 2) % ct.length];
+        if (tri.some((v) => same(v, q))) continue;
+        expect(cross(p, q, t)).toBe(0);
+        expect((q.x - p.x) * (t.x - q.x) + (q.y - p.y) * (t.y - q.y)).toBeGreaterThan(0);
+      }
       const cc = degenerateRing(sq, 'coincident');
       expect(cc).toEqual([...sq, ...sq]);
       for (const k of DEGENERATE_KINDS) expect(whole(degenerateRing(sq, k))).toBe(true);

@@ -1,5 +1,5 @@
 // The combination table's frame column at M0 (M0-x-06; §4.13's combination table, column "the frame (§3.2 (9))";
-// C-0100, C-0118; C-EDGE (8), (9)): four cells whose mechanisms M0 lands, each the smallest state reaching it:
+// C-0100, C-0118; C-0272 (8), (9)): four cells whose mechanisms M0 lands, each the smallest state reaching it:
 //   cliff × frame   "clipped at the arena's outer ring by S1; nothing drawn beyond it" — its M0 part (C-0118): on the
 //                   3 000 m relief with a cliff primitive across the frame's edge and a river, the height raster and
 //                   the hydrology grid cover frame + margin and nothing beyond, S1's L0 batch lays the outer ring first,
@@ -11,7 +11,7 @@
 //                   every span S4 built, its two deck ends inside the frame rectangle;
 //   wall × frame    "the trace stays inside the frame (S3's lattice; a frame arc inset by the outer wall strip)" — on
 //                   EP-20's capped state, whose stage-1 boundary meets the frame: every trace and strip vertex inside the
-//                   frame (M0's strips are cut at the map border, C-0226; the inset clause is read in C-EDGE (9)).
+//                   frame (M0's strips are cut at the map border, C-0226; the inset clause is read in C-0272 (9)).
 import { checkCI, type Plat } from '@plat/kernel';
 import type { Bridge } from '@plat/model';
 import { routeGraph, stripWidths, type S3Slice } from '@plat/layout';
@@ -161,12 +161,15 @@ function runWallFrame(seed: number): EdgeOutcome {
   const traceInset = insetIn(wall, frame);
   const stripInset = strips.length === 0 ? Infinity : insetIn(strips, frame);
   const outer = stripWidths(slice.site.tables.table('walls').row('era.default')).outer;
-  // the frame arc (the precondition): the trace runs closer to the frame than the outer strip's width
-  if (!(traceInset < outer)) problems.push(`the trace keeps ${String(traceInset)} cm off the frame, beyond the outer strip (${String(outer)} cm): no frame arc`);
+  // the frame arc (the precondition): the capped level set's boundary meets the frame (within two lattice spacings and
+  // the rim inset, as EP-20 reads it) — the trace then follows it, wherever its inset lands (C-0272 (9))
+  const reach = 2 * slice.lattice.spacingCm + slice.lattice.rimInsetCm;
+  const outlineInset = insetIn(slice.levelSet.outline, frame);
+  if (!(outlineInset <= reach)) problems.push(`the stage-1 boundary keeps ${String(outlineInset)} cm off the frame (more than ${String(reach)} cm): no frame arc`);
   if (!(traceInset >= 0)) problems.push(`the trace leaves the frame (inset ${String(traceInset)} cm)`);
   if (!(stripInset >= 0)) problems.push(`a strip line leaves the frame (inset ${String(stripInset)} cm)`);
   for (const r of checkCI(p)) if (r.class === 'hard' && !r.holds) problems.push(`the arena fails ${r.name}`);
-  return outcome('defined', 'wall × frame: the trace and its strips inside the frame', problems, { traceInsetCm: traceInset, stripInsetCm: Number.isFinite(stripInset) ? stripInset : -1, outerStripCm: outer });
+  return outcome('defined', 'wall × frame: the trace and its strips inside the frame', problems, { outlineInsetCm: outlineInset, traceInsetCm: traceInset, stripInsetCm: Number.isFinite(stripInset) ? stripInset : -1, outerStripCm: outer });
 }
 
 /** The four frame cells. */

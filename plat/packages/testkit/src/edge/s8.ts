@@ -1,9 +1,9 @@
-// S8's smallest state (M0-x-06; C-0100: "the stage's own Stage object on a prepared arena"; C-EDGE (5)). An indexed
+// S8's smallest state (M0-x-06; C-0100: "the stage's own Stage object on a prepared arena"; C-0272 (5)). An indexed
 // ground arena of a few hectares: its outer ring at L0, a ring road (secondary, 6 m) and a north–south arterial
 // (primary, 10 m) at L1 splitting the land inside into a west and an east district, each district's faces owned by it,
 // the minimal seam the arterial is between them (C-0046) — M0-b-03's S8 reads exactly these records (C-0237 (9)). The
 // size and the arterial's position are drawn from the fixture's seed (its own mulberry32 source, never the code under
-// test's). A degenerate kind adds, inside the west district, the geometry that carries it to S8's faces (C-EDGE (5)):
+// test's). A degenerate kind adds, inside the west district, the geometry that carries it to S8's faces (C-0272 (5)):
 //   zero-length    the arterial given with every point twice (zero-length segments the kernel decimates at insertion);
 //   zero-area      a dead-end way into the face — an antenna: the face's ring runs out along it and back (area 0);
 //   self-touching  a closed loop way touching the ring road at one vertex: the face between them pinched there;

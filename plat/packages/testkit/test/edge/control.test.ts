@@ -4,6 +4,9 @@
 import { describe, expect, it } from 'vitest';
 import { edgeSeeds, judgeEdgeOutcome, type EdgeFixture, type EdgeOutcome } from '../../src/edge/index.js';
 import { edgeChain, restartFree, type ChainRun } from '../../src/edge/chain.js';
+import { liveVertices } from '../../src/edge/arena.js';
+import { arenaProblems, chainProblems } from '../../src/edge/observe.js';
+import { s8State } from '../../src/edge/s8.js';
 import { mergeSummary, fixturesOf, runFixture, SEEDS, summaryWanted, type FixtureRun } from './support.js';
 
 const [EP16] = fixturesOf('EP-16/');
@@ -53,6 +56,31 @@ describe('the restart assertion (EP-01: never a whole-map retry)', () => {
     expect(restartFree(fake([['S1', 2]], ['S1']), 'S3')).toBe('stage S1 ran 2 times');
     expect(restartFree(fake([['S1', 1], ['S4', 1]], ['S1', 'S4']), 'S3')).toBe('stage S4 ran after S3');
     expect(restartFree(fake([['S1', 1]], ['S1', 'S1']), 'S3')).toMatch(/twice/);
+  });
+});
+
+describe("every run's fail-safety checks (EP-01: never an invalid output; the prepared state stands)", () => {
+  it('arenaProblems: none on a valid arena; a vertex moved behind the kernel is an invalid output', () => {
+    const st = s8State(5, null);
+    expect(arenaProblems(st.plat)).toEqual([]);
+    const v = liveVertices(st.plat).find((q) => q.level === 1);
+    expect(v).toBeDefined();
+    if (v === undefined) return;
+    st.plat.vertices.x[v.v] += 123_457;
+    const p = arenaProblems(st.plat);
+    expect(p.length).toBeGreaterThan(0);
+    expect(p[0]).toMatch(/^the arena fails /);
+  });
+
+  it('chainProblems: a stage before the home refused, a refusal with no §3.1 code, a restart — each named', () => {
+    const st = s8State(6, null);
+    const fake = (bugs: { stage: string; cls: string }[], runs: [string, number][]): ChainRun =>
+      ({ runs: new Map(runs), report: { stages: runs.map(([name]) => ({ name })), bugs }, model: { plats: new Map([['ground/0', st.plat]]) }, refusals: new Map() }) as unknown as ChainRun;
+    expect(chainProblems(fake([], [['S1', 1], ['S3', 1], ['S4', 1]]), 'S4', 'S4')).toEqual([]);
+    expect(chainProblems(fake([{ stage: 'S4', cls: 'E_INVARIANT' }], [['S1', 1], ['S3', 1], ['S4', 1]]), 'S4', 'S4')).toEqual([]);
+    expect(chainProblems(fake([{ stage: 'S3', cls: 'E_INVARIANT' }], [['S1', 1], ['S3', 1], ['S4', 1]]), 'S4', 'S4')[0]).toMatch(/^the prepared state did not stand: S3 refused E_INVARIANT/);
+    expect(chainProblems(fake([{ stage: 'S4', cls: 'W_SOMETHING' }], [['S1', 1], ['S3', 1], ['S4', 1]]), 'S4', 'S4')).toEqual(["S4's refusal carries no §3.1 code: W_SOMETHING"]);
+    expect(chainProblems(fake([], [['S1', 1], ['S3', 2]]), 'S4', 'S4')).toEqual(['restart: stage S3 ran 2 times']);
   });
 });
 

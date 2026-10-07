@@ -1,5 +1,5 @@
 // The edge suite B-EDGE at M0 (M0-x-06; §4.13, §13.2, §13.8's B-EDGE row, §13.1's per-class degenerate inputs; C-0100,
-// C-0118, C-EDGE). `EDGE_FIXTURES` holds every fixture — §4.13's EP-01 on every M0 stage × the five degenerate kinds,
+// C-0118, C-0272). `EDGE_FIXTURES` holds every fixture — §4.13's EP-01 on every M0 stage × the five degenerate kinds,
 // EP-04, EP-05, EP-06, EP-16's stop-test end, EP-20's and EP-23's M0 parts, the four frame cells (cliff, river, bridge,
 // wall) and §13.1's (class, kind) pairs — each run on the real stages at PLAT_EDGE_SEEDS seeds by `testkit/test/edge/`,
 // and a stub for every row, cell and sweep deferred to its milestone; `edgeCoverage()` is the coverage table. The folder

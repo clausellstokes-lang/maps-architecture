@@ -1,6 +1,6 @@
 // §13.1's per-class degenerate inputs (M0-x-06; §13.1 *Ladder coverage*: "the fixtures hold, per failure class, one
 // degenerate input of each kind — zero-length, zero-area, self-touching, collinear and coincident (§5.1 (9))"; §5.1 (9);
-// §5.2; C-0100, C-0183 (6); C-EDGE (11)). Forty fixtures `class/<class>/<kind>`:
+// §5.2; C-0100, C-0183 (6); C-0272 (11)). Forty fixtures `class/<class>/<kind>`:
 //   F-NUM, F-SKELETON  the kernel side by reference to M0-k-02's constructive cases tagged `ladder` (C-0183 (6)), each
 //                      drawn at the fixture's seed and judged on the kernel by M0-k-04's judge; F-NUM's stage side too —
 //                      an optional chain's step at S5c (EP-01/S5c/<kind>'s run): refused with its typed code and taken on

@@ -1,4 +1,4 @@
-// The plant (M0-x-06; §4.13 EP-01, §5.1 (9), §13.1's ladder coverage; C-EDGE (3)): a stage's own geometry made
+// The plant (M0-x-06; §4.13 EP-01, §5.1 (9), §13.1's ladder coverage; C-0272 (3)): a stage's own geometry made
 // degenerate on its way into the kernel. `plantKernel(kernel, plant)` is the façade the stage is handed — every member
 // the kernel's own — whose `geom.insertChain` turns ONE call the plant selects (the stage's own chain: its roles, its
 // class, inside its own batch at its level and stage id) into the plant's kind (./kinds.ts), and whose `tx` records the
