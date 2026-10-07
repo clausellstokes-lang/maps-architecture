@@ -4,7 +4,7 @@
 // reservation or a shore at ≥ 30° ends there, at a shallower angle it does not end there; a junction within 0.35 · step
 // is snapped to; destination bias within ≈ 1.5 steps; the organic crossing matrix (a lower-or-equal class collinear
 // within 6° is crossed, everything else stopped in a T); an unwalled stage's boundary crossed provisionally; a deflection
-// turns at most the legal angle and a first step is neither deflected nor biased (C-0257 (2), (3)).
+// turns at most the legal angle and a first step is neither deflected nor biased (C-0258 (2), (3)).
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { tableView } from '@plat/tables';
@@ -91,7 +91,7 @@ describe('no strip thinner than a plot depth between parallel spines', () => {
   });
 });
 
-describe('the deflection’s limit and the first step (C-0257 (2), (3))', () => {
+describe('the deflection’s limit and the first step (C-0258 (2), (3))', () => {
   // A spine 50 m off, inside the 83 m clearance.
   const spine = way(P(-100_000, 5_000), P(100_000, 5_000));
 

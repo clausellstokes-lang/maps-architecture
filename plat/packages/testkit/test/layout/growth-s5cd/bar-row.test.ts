@@ -1,4 +1,4 @@
-// The bar's growth-drift clause can fail at every chunk size (C-0257 (5); the checker's B-3): `driftRow` over synthetic
+// The bar's growth-drift clause can fail at every chunk size (C-0258 (5); the checker's B-3): `driftRow` over synthetic
 // chunks — one window above 90° fails a chunk of fewer than 100 windows, a median outside 15–30° fails a chunk of 20 or
 // more, and a small chunk inside the clause passes.
 import { describe, expect, it } from 'vitest';

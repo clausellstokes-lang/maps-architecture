@@ -32,7 +32,7 @@ export function fixtureRun(seed: number, fx: FlatFixtureOptions = {}): FixtureRu
 
 /**
  * The run as M0-k-05's MetricDoc: every way's committed runs, S5c's streets grown and organic, the outermost wall. A grown
- * street's line reads from its origin, as it grew (C-0254 (13), C-0257): the arena stores a run in either direction, and
+ * street's line reads from its origin, as it grew (C-0254 (13), C-0258): the arena stores a run in either direction, and
  * the growth-drift windows count from a line's start.
  */
 export function metricDoc(r: FixtureRun, opts: { readonly arenaOrder?: boolean } = {}): MetricDoc {

@@ -1,4 +1,4 @@
-// §13.5's growth-drift row on S5c's own grown streets (C-0254 (13), C-0257): the fixture's walled core holds few 600 m
+// §13.5's growth-drift row on S5c's own grown streets (C-0254 (13), C-0258): the fixture's walled core holds few 600 m
 // windows (about one per six seeds), so the row is asserted over a pool that can fail — S5c grown by `growStreets` on a
 // large hand-built area (./hand.ts: a 4 km square crossed by three primaries, seeded as growthArea seeds), walled
 // (`dense_core`, district scale) and extramural (`ribbon`, block scale), every legality rule acting — each street read

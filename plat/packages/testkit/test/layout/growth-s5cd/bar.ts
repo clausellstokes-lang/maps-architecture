@@ -63,7 +63,7 @@ export function pooledJunctions(rows: readonly BarRow[]): { p5: number; median: 
 }
 
 /**
- * The growth-drift row over the drift windows a chunk's grown streets hold (each street read from its origin, C-0257):
+ * The growth-drift row over the drift windows a chunk's grown streets hold (each street read from its origin, C-0258):
  * the > 90° clause asserted at every size — at most ⌊1 % of the windows⌋ above 90°, so none below 100 windows — and the
  * median band once the chunk holds 20 windows. The fixture holds about one window per six seeds, so the row's pool that
  * can fail at the PR size is ./drift-grown.test.ts's (S5c's streets on a large hand area); the 1 000-seed bar pools them.
