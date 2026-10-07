@@ -8,13 +8,14 @@
 //   bridge    S4's bridges (S1's crossing sites, built where S4 spanned one) — point: its deck's midpoint, on the water
 //             body whose L0 face holds that point (else the first body);
 //   enceinte  S3's and S5's — overlap: the ring its wall trace closes;
-//   gate      S3's, S4's and S5's — point: a water gate's banks' midpoint, else its junction's vertex;
+//   gate      S3's, S4's and S5's — point: a water gate's banks' midpoint, else its ('gate', id) vertex on the trace,
+//             else its junction's vertex;
 //   junction  S4's, S5's and S8's — point: its vertex;
 //   way       S4's, S5's and S8's lanes — ends: its two ends' addresses (a bearing end is null) and its spine's points;
 //   district  S6's — key: its seed feature's address (`namingFeature`; a remainder seed's district has none: null);
 //   seam      S6's (S8 adds portals) — key: its two districts' addresses as a set, its first chain's address;
 //   portal    S8's (on the seams) — point: its vertex;
-//   block     S8's — point: its L2 faces' area centroid;
+//   block     S8's — point: its faces' area centroid (at M0 the L1 faces holding S8's seed points for it, see below);
 //   cell      none: no M0 stage makes a Cell (§2.5's cells are S10's, M1) — the kind's sets are empty and say so.
 // A record whose geometry no longer resolves (a way S5 pruned, a face S8 consumed) has no anchor: it is left out and
 // counted per kind (`unanchored`), never given a made-up one. Lineage: the run's own where a stage exposes it (S6's
@@ -38,6 +39,8 @@ export type MadeBy = 'S1' | 'S3' | 'S4' | 'S5' | 'S6' | 'S8';
 export interface SpikeEntity {
   readonly entity: MatchEntity;
   readonly by: MadeBy;
+  /** Where its lineage came from: the run's own ('model') or its address's H64 ('address'). */
+  readonly lineageFrom: 'model' | 'address';
 }
 
 /** A run's entities, per kind. */
@@ -120,6 +123,25 @@ function facesOf(k: Kernel, p: Plat, ref: { owner: Id; level: number }): Lattice
   }
   if (r.view !== 'faces') return [];
   return r.faces.map((f) => faceRings(p, r.level, f)).filter((rings) => rings.length > 0 && rings[0].length >= 3);
+}
+
+/** The distinct live L1 faces holding the points, as rings (outer first), in the points' order. */
+function l1FacesAt(p: Plat, points: readonly LatticePoint[]): LatticePoint[][][] {
+  const seen = new Set<number>();
+  const out: LatticePoint[][][] = [];
+  for (const pt of points) {
+    let loc;
+    try {
+      loc = pointLocate(p, GROUND, 1, pt);
+    } catch {
+      continue;
+    }
+    if (loc.on !== 'face' || loc.level !== 1 || seen.has(loc.face)) continue;
+    seen.add(loc.face);
+    const rings = faceRings(p, 1, loc.face);
+    if (rings.length > 0 && rings[0].length >= 3) out.push(rings);
+  }
+  return out;
 }
 
 /** The largest face's rings (outer, then holes), or null. */
@@ -213,7 +235,7 @@ export function spikeEntities(r: SpikeRun): SpikeEntities {
     const l = lineages.get(id);
     if (l === undefined) fromAddress[kind] += 1;
     else fromModel[kind] += 1;
-    out.push({ entity: { id, kind, lineage: l ?? addressLineage(id), anchor }, by });
+    out.push({ entity: { id, kind, lineage: l ?? addressLineage(id), anchor }, by, lineageFrom: l === undefined ? 'address' : 'model' });
   };
 
   // water: the largest L0 face of each body.
@@ -263,7 +285,7 @@ export function spikeEntities(r: SpikeRun): SpikeEntities {
       const a = vertexAt(k, p, g.banks[0]);
       const c = vertexAt(k, p, g.banks[1]);
       at = a === null || c === null ? null : mid(a, c);
-    } else at = vertexAt(k, p, { role: 'junction', entity: g.junction });
+    } else at = vertexAt(k, p, { role: 'gate', entity: g.id }) ?? vertexAt(k, p, { role: 'junction', entity: g.junction });
     add('gate', g.id, at === null ? null : { point: at });
   }
   // junction: its vertex.
@@ -286,9 +308,14 @@ export function spikeEntities(r: SpikeRun): SpikeEntities {
     const at = vertexAt(k, p, pt.at);
     add('portal', pt.id, at === null ? null : { point: at });
   }
-  // block: its L2 faces' centroid.
+  // block: its faces' centroid. At M0 a block's record names L2 (`face`, its built block, §2.5) but S8 owns no face for
+  // it — L2 is S9's (M1) and its L1 faces keep their district — so its faces are the L1 faces holding the seed points S8
+  // records for it (`infill.blockFaces`: a point inside each of its L1 faces); the record's own reference is read first.
+  const seedsOf = new Map<Id, readonly LatticePoint[]>((infill?.blockFaces ?? []).map((bf) => [bf.block, bf.seeds]));
   for (const b of get<Block[]>('blocks') ?? []) {
-    const at = centroidOf(facesOf(k, p, b.face));
+    let faces = facesOf(k, p, b.face);
+    if (faces.length === 0) faces = l1FacesAt(p, seedsOf.get(b.id) ?? []);
+    const at = centroidOf(faces);
     add('block', b.id, at === null ? null : { point: at });
   }
 

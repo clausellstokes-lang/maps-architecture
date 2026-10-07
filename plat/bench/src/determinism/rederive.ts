@@ -97,16 +97,22 @@ export interface KindCounts {
 export interface PairResult {
   readonly spike: SpikeName;
   readonly seed: number;
-  /** The standing stages: their roots equal in both runs, and every entity they made identical (id, kind, anchor). */
+  /** The standing stages: their roots equal in both runs, and every entity they made present again (kind, id, lineage, stage). */
   readonly standing: {
     readonly rootsEqual: boolean;
     /** The standing stages' records (S1's water, S3's commit's entities, S4's network, bridges and gates) as text: equal. */
     readonly recordsEqual: boolean;
     readonly entities: number;
-    /** Standing entities whose fresh copy differs or is missing. */
-    readonly differing: number;
+    /** Standing entities with no fresh copy of the same kind, address, lineage and stage (each must survive identically). */
+    readonly missing: number;
     /** The first such, `kind:id`. */
-    readonly firstDiffering: string | null;
+    readonly firstMissing: string | null;
+    /**
+     * Standing entities whose anchor, read from the final arena, differs between the runs: a later, re-drawn stage edits
+     * a standing chain (S5 attaching a street to an S4 way moves or merges its vertices) — the entity survives, its
+     * address and lineage kept; informative.
+     */
+    readonly editedLater: number;
   };
   readonly perKind: readonly KindCounts[];
   readonly totals: { readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number };
@@ -183,15 +189,16 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
   const recText = (r: SpikeRun): string => canonicalText(STANDING_KEYS.map((k) => [k, standingRecord(r, k)]));
   const recordsEqual = recText(pair.old.run) === recText(pair.fresh.run);
   const freshById = new Map(pair.fresh.entities.entities.map((s) => [`${s.entity.kind}:${s.entity.id}`, s]));
-  let differing = 0;
-  let firstDiffering: string | null = null;
+  let missing = 0;
+  let firstMissing: string | null = null;
+  let editedLater = 0;
   for (const s of standing) {
     const key = `${s.entity.kind}:${s.entity.id}`;
     const f = freshById.get(key);
-    if (f === undefined || f.by !== s.by || anchorText(f.entity) !== anchorText(s.entity)) {
-      differing += 1;
-      if (firstDiffering === null) firstDiffering = key;
-    }
+    if (f === undefined || f.by !== s.by || f.entity.lineage[0] !== s.entity.lineage[0] || f.entity.lineage[1] !== s.entity.lineage[1]) {
+      missing += 1;
+      if (firstMissing === null) firstMissing = key;
+    } else if (anchorText(f.entity) !== anchorText(s.entity)) editedLater += 1;
   }
 
   const result = match(old, fresh, anchors);
@@ -224,7 +231,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
   return Object.freeze({
     spike: pair.spike,
     seed: pair.seed,
-    standing: Object.freeze({ rootsEqual, recordsEqual, entities: standing.length, differing, firstDiffering }),
+    standing: Object.freeze({ rootsEqual, recordsEqual, entities: standing.length, missing, firstMissing, editedLater }),
     perKind: Object.freeze(perKind),
     totals: Object.freeze({ ...result.counts }),
     duplicateIds,

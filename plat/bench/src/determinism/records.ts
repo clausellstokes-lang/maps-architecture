@@ -8,8 +8,7 @@
 // entries and the records entries one batch writes. With the oracle switch on, after the build and after every batch
 // both trees' maintained roots are compared with their full recomputation (§6.2's CI oracle; §5.3's CI-only row).
 import { buildDigests, rederiveDistrict, syntheticCity, type ModelDigest, type RecordsDigest } from '@plat/model';
-import { determinismHex128 } from '@plat/testkit';
-import type { OracleMiss } from './spike.js';
+import { hex128, type OracleMiss } from './spike.js';
 
 /** The district re-derivations applied as batches after the build. */
 export const RECORDS_BATCHES = 3;
@@ -64,8 +63,8 @@ export function recordsRun(seed: number, opts: { readonly oracle?: boolean; read
   }
   return Object.freeze({
     seed,
-    model: determinismHex128(model.finaliseRoot()),
-    records: determinismHex128(records.finaliseRoot()),
+    model: hex128(model.finaliseRoot()),
+    records: hex128(records.finaliseRoot()),
     batches,
     oracle: opts.oracle === true ? Object.freeze({ batches: checked, mismatches, first }) : null,
   });
