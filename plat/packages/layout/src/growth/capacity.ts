@@ -26,7 +26,7 @@ import { quot } from '../siting/geom.js';
 import { HA_CM2, stageBoundary, type StageBoundary } from './boundary.js';
 import { growthStart, mainRoadsStep, mainRoadStream, traceStep, type GrowthInput, type GrowthState, type S5Input } from './mainRoads.js';
 import type { XY } from './legality.js';
-import { growthStep, growthStreams, keepRecord, type GrowthRuleOptions, type GrowthStreams, type S5cRecord, type StreetGrowOptions } from './proposals.js';
+import { acceptedStreets, growthStep, growthStreams, keepRecord, type GrowthRuleOptions, type GrowthStreams, type S5cRecord, type StreetGrowOptions } from './proposals.js';
 import { pruneAndTrim, type PruneRecord, type StageRef } from './prune.js';
 
 /** The stage's tolerance before a top-up: 5 % of its demand (§4.4 S5d). */
@@ -353,7 +353,8 @@ export function capacityStep(state: GrowthState, k: number, streams: GrowthStrea
   stagesHa[k - 1] += quot(extra, HA_CM2, 'count', 'top-up ha');
   const grown = stageBoundary(state.field, k, { stagesHa }, { enclosure: b.set.selected });
   const rungs: BudgetRung[] = [{ cause: 'F-BUDGET-STAGE', rung: 'top_up', shortfallCm2: check.shortfallCm2 }];
-  const rim = growthStep(state, k, streams, { ...opts, boundary: grown, inner: b.set.outline });
+  // The rim's streets continue the stage's acceptance index (§6.3; no lineage key reused).
+  const rim = growthStep(state, k, streams, { ...opts, boundary: grown, inner: b.set.outline, firstIndex: acceptedStreets(state, k) });
   if (!rim.ok) return err(rim.code, rim.detail);
   const pr = pruneAndTrim({ state, k, record: rim.value }, { boundary: grown });
   if (!pr.ok) return err(pr.code, pr.detail);

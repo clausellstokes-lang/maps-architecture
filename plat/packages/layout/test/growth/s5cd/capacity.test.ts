@@ -4,18 +4,24 @@
 // stage short by > 5 % takes one top-up, a stage within 5 % takes none; the shortfall is reported, never a restart;
 // a walled stage's top-up is M1's (its shortfall accepted, reported); a capped stage takes none.
 import { describe, expect, it } from 'vitest';
+import { STAGES, type StageId } from '@plat/kernel';
+import { lineageHash } from '@plat/model';
 import { loadTable } from '@plat/tables';
 import { flatFixture } from '../../../src/index.js';
 import { capacityCheck, capacityStep, stageOneReach, syntheticRamp, type CapacityDemand } from '../../../src/growth/capacity.js';
 import { growthStart, mainRoadsStep, mainRoadStream, traceStep, type GrowthState } from '../../../src/growth/index.js';
-import { growthRecord, growthStep, growthStreams, keepRecord, type GrowthStreams } from '../../../src/growth/proposals.js';
+import { acceptedStreets, growthRecord, growthStageLineage, growthStep, growthStreams, keepRecord, type GrownStreet, type GrowthStreams } from '../../../src/growth/proposals.js';
 import { pruneAndTrim } from '../../../src/growth/prune.js';
 import { baseRun, fixtureGrown, SMALL } from './support.js';
 
 const SHARES = ['squalid', 'poor', 'modest', 'comfortable', 'prosperous', 'rich'].map((b) => loadTable('bands').num(b, 'share'));
 
-/** S5 up to stage `upTo`'s prune (its S5d not run), on the CITY town in a 900 ha frame. */
-function upToPrune(seed: number, upTo: number): { state: GrowthState; streams: GrowthStreams } {
+/**
+ * S5 up to stage `upTo`'s prune (its S5d not run), on the CITY town in a 900 ha frame; with each stage's streets as S5c
+ * accepted them (before the prune took any).
+ */
+function upToPrune(seed: number, upTo: number): { state: GrowthState; streams: GrowthStreams; accepted: GrownStreet[][] } {
+  const accepted: GrownStreet[][] = [];
   const b = baseRun(flatFixture(seed, { frameAreaHa: 900 }));
   const state = growthStart({ slice: b.slice, commit: b.commit, s4: b.s4, kernel: b.k });
   const mainroad = mainRoadStream(b.slice);
@@ -26,11 +32,12 @@ function upToPrune(seed: number, upTo: number): { state: GrowthState; streams: G
     }
     const c = growthStep(state, k, streams);
     if (!c.ok) throw new Error(c.detail);
+    accepted.push(c.value.streets.slice());
     keepRecord(state, c.value);
     if (!pruneAndTrim({ state, k, record: c.value }).ok) throw new Error('prune refused');
     if (k < upTo && !capacityStep(state, k, streams).ok) throw new Error('S5d refused');
   }
-  return { state, streams };
+  return { state, streams, accepted };
 }
 
 describe('the plain fixture takes no top-up (the stand-in demand, C-0016)', () => {
@@ -168,6 +175,41 @@ describe('the top-up (F-BUDGET-STAGE)', () => {
     if (d.shortfallCm2 > 0) expect(d.rungs[1]).toEqual({ cause: 'F-BUDGET-STAGE', rung: 'accept_shortfall', shortfallCm2: d.shortfallCm2, why: 'remainder' });
     // The rim's streets lie outside the old boundary (or start on an arterial at it).
     for (const s of d.rim!.streets) expect(s.way.growthStage).toBe(k);
+  });
+
+  it('the rim’s streets continue the stage’s acceptance index: their lineage keys are the stage’s next, none reused (§6.3)', { timeout: 240_000 }, () => {
+    for (const seed of [4, 5]) {
+      const { state, streams, accepted } = upToPrune(seed, 3);
+      const k = 3;
+      const main = accepted[k - 1];
+      expect(main.length).toBeGreaterThan(0);
+      main.forEach((s, i) => expect(s.index).toBe(i));
+      // The tally counts every street S5c accepted, the pruned ones included.
+      expect(acceptedStreets(state, k)).toBe(main.length);
+      const plain = capacityCheck({ state, k });
+      const r = capacityStep(state, k, streams, { demand: { bandsCm2: plain.landByBand.map((l) => l * 2) } });
+      expect(r.ok).toBe(true);
+      if (!r.ok) return;
+      expect(r.value.topUp).toBe('grown');
+      const rim = r.value.rim!;
+      expect(rim.streets.length).toBeGreaterThan(0);
+      // Acceptance order continued after the stage's own streets (the rim's prune may leave gaps).
+      expect(rim.streets[0].index).toBeGreaterThanOrEqual(main.length);
+      for (let i = 1; i < rim.streets.length; i += 1) expect(rim.streets[i].index).toBeGreaterThan(rim.streets[i - 1].index);
+      for (const s of rim.streets) {
+        expect(s.lineage).toEqual(lineageHash({ arena: state.key, unit: growthStageLineage(state.key, k), stage: STAGES.S5 as StageId, epoch: 0, index: s.index, reroll: 0 }));
+      }
+      // No lineage key of the growth stage is reused: the stage's streets (pruned ones included) and the rim's are distinct.
+      const keys = [...main, ...rim.streets].map((s) => JSON.stringify(s.lineage));
+      expect(new Set(keys).size).toBe(keys.length);
+      // And every live way of the stage holds its own key.
+      const live = state.ways.filter((w) => w.growthStage === k).map((w) => w.id);
+      const byWay = new Map([...main, ...rim.streets].map((s) => [s.way.id, JSON.stringify(s.lineage)]));
+      const liveKeys = live.map((id) => byWay.get(id)).filter((x) => x !== undefined);
+      expect(new Set(liveKeys).size).toBe(liveKeys.length);
+      // The tally moved past the rim's streets (a second growth of the stage would continue after them).
+      expect(acceptedStreets(state, k)).toBeGreaterThan(rim.streets[rim.streets.length - 1].index);
+    }
   });
 
   it('a stage within 5 % takes none', { timeout: 240_000 }, () => {

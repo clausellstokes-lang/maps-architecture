@@ -5,10 +5,11 @@
 // Inside the stage's land a priority queue of proposals grows streets FTG-style, lowest priority first. Each proposal is
 // {origin junction, heading, curvature, goalHeading, class, remainingSegments, branchCounter, priority}:
 //   * seeds (C-0254 (3)): the junctions S5c makes on the stage's arterials (S4's and S5b's `through` and `primary`
-//     ways) — one every seed spacing (twice the legality's clearance core, max(minimum block depth, separation ÷ 2): 160 m
-//     in a walled CITY regime, district scale; block scale in an extramural one) along each arterial inside the stage's
-//     land, clear of the wall's setback lines, the reservations and the junctions standing — each giving two proposals
-//     of class `secondary`, perpendicular to the arterial on either side ± the branch jitter;
+//     ways) — on each side one every seed spacing (twice the legality's clearance core, max(minimum block depth,
+//     separation ÷ 2): 160 m in a walled CITY regime, district scale; block scale in an extramural one), the two sides
+//     staggered by half a spacing, along each arterial inside the stage's land, clear of the wall's setback lines, the
+//     reservations and the junctions standing — each giving one proposal of class `secondary`, perpendicular to the
+//     arterial on its side (no jitter);
 //   * each pop is one step: its length drawn in the class's step range, its heading by the `ou` walk (./heading.ts), the
 //     step judged by `legal` (./legality.ts); an accepted step is one optional `insertChain` of the proposal's way, in one
 //     L1 callback batch for the stage (§4.1: S5c's ops read the faces earlier ops made); a refused insert re-proposes
@@ -217,11 +218,16 @@ export function growthRules(tables: TableView, regime: string, rung: Rung, opts:
 
 // ---- the stage's area -----------------------------------------------------------------------------------------------------
 
-/** A seed: a point on an arterial and the arterial's direction there. */
+/**
+ * A seed: a point on an arterial, the arterial's direction there and the side its one proposal leaves on (1: left of
+ * `along`, −1: right). The seeds alternate sides along an arterial (C-0254 (3)), so both of its sides grow, in staggered
+ * T's rather than a crossroads at every seed.
+ */
 export interface GrowthSeed {
   readonly at: LatticePoint;
   readonly way: Id;
   readonly along: XY;
+  readonly side: 1 | -1;
 }
 
 /** What one stage's growth reads (built from the growth state by `growthArea`, or by hand in a test). */
@@ -244,6 +250,11 @@ export interface GrowthArea {
   /** The growth stage's lineage (the unit its ways are keyed by) and the derivation unit's reroll. */
   readonly unit: LineageHash;
   readonly reroll: number;
+  /**
+   * The acceptance index the area's first street takes (default 0): S5d's rim continues the stage's own growth after
+   * every street it accepted, pruned ones included, so no lineage key of the growth stage is reused (§6.3).
+   */
+  readonly firstIndex?: number;
 }
 
 /** The number after an id's prefix (`way:12` → 12), −1 when it has another form. */
@@ -310,6 +321,8 @@ export interface GrowthAreaOptions extends GrowthRuleOptions {
   readonly inner?: readonly XY[];
   /** The derivation unit's reroll (the runner's for S5). */
   readonly reroll?: number;
+  /** The acceptance index the first street takes (S5d's rim: the stage's streets accepted so far; default 0). */
+  readonly firstIndex?: number;
 }
 
 /** The wall line of every stage standing, by stage (null: unwalled or folded). */
@@ -373,7 +386,10 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
     if (inRegion(at)) junctions.push({ id: j.id, at });
   }
 
-  // The seeds: along each arterial inside the region, one per seed spacing, clear of bands, reservations and junctions.
+  // The seeds (C-0254 (3)): along each arterial inside the region, every half seed spacing from half a spacing along its
+  // run, the sides alternating — the left side's at S/2 + n·S, the right side's at S + n·S, so each side holds one seed
+  // per spacing, staggered — clear of bands, reservations and shores by the clearance, of standing junctions by half a
+  // spacing and of other seeds by a quarter.
   const D = rules.legality.clearanceCm('secondary');
   const S = rules.seedSpacingCm;
   const clearOf = features.filter((f) => f.kind === 'band' || f.kind === 'reservation' || f.kind === 'shore');
@@ -382,15 +398,15 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
     const cls = clsOf.get(l.way);
     if (cls !== 'through' && cls !== 'primary') continue;
     for (const run of l.runs) {
-      for (let s = S * 0.5; ; s += S) {
-        const at = alongLine(run.points, s);
+      for (let n = 0; ; n += 1) {
+        const at = alongLine(run.points, S * 0.5 * (n + 1));
         if (at === null) break;
         const q = lat(at.at);
         if (!inRegion(q)) continue;
         if (clearOf.some((f) => footOn(q, f.a, f.b).d2 < D * D)) continue;
         if (junctions.some((j) => (j.at.x - q.x) * (j.at.x - q.x) + (j.at.y - q.y) * (j.at.y - q.y) < S * S * 0.25)) continue;
-        if (seeds.some((x) => (x.at.x - q.x) * (x.at.x - q.x) + (x.at.y - q.y) * (x.at.y - q.y) < S * S * 0.25)) continue;
-        seeds.push({ at: q, way: l.way, along: at.dir });
+        if (seeds.some((x) => (x.at.x - q.x) * (x.at.x - q.x) + (x.at.y - q.y) * (x.at.y - q.y) < S * S * 0.0625)) continue;
+        seeds.push({ at: q, way: l.way, along: at.dir, side: n % 2 === 0 ? 1 : -1 });
       }
     }
   }
@@ -425,6 +441,7 @@ export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOption
     firstJunction: jN,
     unit: growthStageLineage(key, k, reroll),
     reroll,
+    firstIndex: opts.firstIndex ?? 0,
   };
 }
 
@@ -546,10 +563,10 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       queue.push(P.id, priority);
       return P;
     };
-    // The seeds' proposals, in seed order: left, then right, each square to its arterial (C-0254 (3)).
+    // The seeds' proposals, in seed order: one each, square to its arterial on the seed's side (C-0254 (3)).
     for (const s of area.seeds) {
       const base = dmath.atan2(s.along.y, s.along.x);
-      for (const side of [1, -1]) make({ at: s.at, way: s.way }, base + side * PI * 0.5, 'secondary', area.maxSegments, 0);
+      make({ at: s.at, way: s.way }, base + s.side * PI * 0.5, 'secondary', area.maxSegments, 0);
     }
     const widthOf = (c: GrowthClass): number => rules.widthCm(c);
     const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
@@ -704,7 +721,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
           provisional: false,
           lifecycle: generated(0),
         };
-        const index = rec.streets.length;
+        const index = (area.firstIndex ?? 0) + rec.streets.length;
         P.street = {
           way,
           lineage: lineageHash({ arena: key, unit: area.unit, stage: STAGES.S5 as StageId, epoch: 0, index, reroll: area.reroll }),
@@ -835,6 +852,9 @@ function same(a: XY, b: XY): boolean {
 
 // ---- the stage step -------------------------------------------------------------------------------------------------------
 
+/** Per growth state and stage, the acceptance index its growth has reached (its streets accepted, pruned ones included). */
+const ACCEPTED = new WeakMap<GrowthState, Map<number, number>>();
+
 /** The options of a stage's growth. */
 export interface GrowthStepOptions extends GrowthAreaOptions, StreetGrowOptions {}
 
@@ -854,7 +874,23 @@ export function growthStep(state: GrowthState, k: number, streams: GrowthStreams
   const grown = growStreets(state.kernel, area, streams, opts);
   if (!grown.ok) return grown;
   joinState(state, grown.value);
+  // The stage's acceptance index so far (before any prune): the next growth of the stage (S5d's rim) continues it.
+  let m = ACCEPTED.get(state);
+  if (m === undefined) {
+    m = new Map();
+    ACCEPTED.set(state, m);
+  }
+  m.set(k, (area.firstIndex ?? 0) + grown.value.streets.length);
   return grown;
+}
+
+/**
+ * The number of streets stage k's growth has accepted on this state — S5c's, then the rim's, pruned ones included —
+ * the acceptance index its next street takes (§6.3: S5 ways keyed by the growth stage in acceptance order); 0 before
+ * S5c ran.
+ */
+export function acceptedStreets(state: GrowthState, k: number): number {
+  return ACCEPTED.get(state)?.get(k) ?? 0;
 }
 
 /** The record's ways and junctions joined to the growth state; a standing junction a street snapped to takes its arm. */

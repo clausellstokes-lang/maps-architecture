@@ -85,7 +85,7 @@ describe('S5 on the flat fixture', () => {
 });
 
 describe('the seeds (C-0254 (3))', () => {
-  it('lie on the arterials inside stage 1’s wall, a seed spacing apart along each, clear of the bands by the clearance', { timeout: 240_000 }, () => {
+  it('lie on the arterials inside stage 1’s wall, half a seed spacing apart along each, their sides alternating, clear of the bands', { timeout: 240_000 }, () => {
     const b = baseRun(flatFixture(1, SMALL));
     const state = growthStart({ slice: b.slice, commit: b.commit, s4: b.s4, kernel: b.k });
     const area = growthArea(state, 1);
@@ -103,9 +103,50 @@ describe('the seeds (C-0254 (3))', () => {
       expect(d).toBeLessThan(1);
       expect(insideRing(state.stages[0].wall!, s.at)).toBe(true);
       for (const f of bands) expect(segDist(s.at, f.a, f.b)).toBeGreaterThanOrEqual(D - 1);
-      for (const t of area.seeds) if (t !== s) expect(Math.hypot(t.at.x - s.at.x, t.at.y - s.at.y)).toBeGreaterThanOrEqual(S / 2 - 1);
+      for (const t of area.seeds) if (t !== s) expect(Math.hypot(t.at.x - s.at.x, t.at.y - s.at.y)).toBeGreaterThanOrEqual(S / 4 - 1);
     }
+    // The sides alternate along each arterial: both sides seeded, about equally.
+    const left = area.seeds.filter((s) => s.side === 1).length;
+    const right = area.seeds.filter((s) => s.side === -1).length;
+    expect(left + right).toBe(area.seeds.length);
+    expect(Math.min(left, right)).toBeGreaterThanOrEqual(Math.floor(area.seeds.length / 3));
   });
+
+  // The plain CITY fixture (the small one's core holds two seeds per radial, the outer one too near the wall to grow).
+  for (const [seed, fx] of [
+    [1, {}],
+    [2, {}],
+  ] as const) {
+    it(`seed ${String(seed)} ${JSON.stringify(fx)}: S5c's streets leave their arterials on both sides`, { timeout: 240_000 }, () => {
+      const g = fixtureGrown(seed, fx);
+      const st = g.run.state;
+      const cls = new Map(st.ways.map((w) => [w.id, w.class]));
+      const lines = new Map(wayLines(g.k, st.ways.map((w) => w.id), GROUND).map((l) => [l.way, l.runs.map((r) => r.points)]));
+      let left = 0;
+      let right = 0;
+      for (const rec of g.run.growth) {
+        for (const s of rec.streets) {
+          const c = cls.get(s.parent);
+          if (c !== 'through' && c !== 'primary') continue;
+          const o = s.points[0];
+          // The arterial's direction at the street's origin (a vertex of it): from its vertex before to its vertex after.
+          for (const run of lines.get(s.parent) ?? []) {
+            const i = run.findIndex((q) => q.x === o.x && q.y === o.y);
+            if (i <= 0 || i + 1 >= run.length) continue;
+            const d = { x: run[i + 1].x - run[i - 1].x, y: run[i + 1].y - run[i - 1].y };
+            const f = { x: s.points[1].x - o.x, y: s.points[1].y - o.y };
+            if (d.x * f.y - d.y * f.x > 0) left += 1;
+            else right += 1;
+          }
+        }
+      }
+      // Both sides grow (one proposal per seed, the sides alternating), neither below a fifth of the streets the arterials
+      // seeded (a seed's first step may be illegal: it is rejected there).
+      expect(left, `left ${String(left)} right ${String(right)}`).toBeGreaterThan(0);
+      expect(right, `left ${String(left)} right ${String(right)}`).toBeGreaterThan(0);
+      expect(Math.min(left, right) * 5, `left ${String(left)} right ${String(right)}`).toBeGreaterThanOrEqual(left + right);
+    });
+  }
 });
 
 describe('the Stage declarations', () => {

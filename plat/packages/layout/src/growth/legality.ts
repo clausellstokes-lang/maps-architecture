@@ -16,7 +16,10 @@
 //     any spine, setback line, shore, reservation or the stage boundary and within 30° of parallel is illegal, so no
 //     strip thinner than a plot depth is left;
 //   * an illegal step is deflected once — turned the least way to 31° off the feature it met or ran beside, away from
-//     it, its goal heading taking the turn — and judged again; still illegal, it is rejected.
+//     it, its goal heading taking the turn — and judged again; still illegal, it is rejected. A deflection needing a
+//     turn above the legal angle (30°) is a rejection (C-0257 (3)): a street's course takes no turn its walk would not;
+//   * a proposal's first step leaves its junction as proposed — square to its arterial, or its branch's heading — with
+//     neither the destination bias nor a deflection (C-0257 (2)): illegal, the proposal is rejected there.
 // Geometry in cm (values, never arena slots); angles in radians.
 import { dmath, type LatticePoint } from '@plat/kernel';
 import type { Id, WayClass } from '@plat/model';
@@ -359,10 +362,10 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
   let h = heading;
   const F = ctx.index.features;
 
-  // Destination bias: the nearest spine point ahead within reach, met at ≥ the legal angle.
+  // Destination bias: the nearest spine point ahead within reach, met at ≥ the legal angle (never on a first step).
   let biased = false;
   let biasWay: Id | null = null;
-  if (r.bias) {
+  if (r.bias && c.steps > 0) {
     const reach = r.biasSteps * L;
     let best = -1;
     let bestD2 = reach * reach;
@@ -575,13 +578,17 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
 /**
  * `legal(proposal, context)` (§4.4 S5c *Legality*; see the module comment): the candidate step judged against the
  * features standing; an illegal step deflected once, the least way to 31° off what it met or ran beside, and judged
- * again; still illegal, rejected.
+ * again; still illegal, rejected. A first step (`steps` 0) is never deflected, and a deflection turning more than the
+ * legal angle is a rejection (C-0257 (2), (3)).
  */
 export function legal(proposal: StepCandidate, context: LegalityContext): Verdict {
   if (!(proposal.stepCm > 0 && Number.isFinite(proposal.stepCm))) return { verdict: 'reject', why: 'degenerate', deflected: false };
   const first = attempt(proposal, proposal.heading, context, false);
-  if (first.v.verdict === 'accept' || first.against === null) return first.v;
+  if (first.v.verdict === 'accept' || first.against === null || proposal.steps === 0) return first.v;
   const h2 = deflectFrom(first.against, proposal.at, proposal.heading, context.rules.legalAngle);
   if (h2 === null) return first.v;
+  // A deflection turns the street at most the legal angle; one that needs more is a rejection (§4.4: "deflected or
+  // rejected"; C-0257 (3)) — so a street's course never takes a turn its heading walk would not (the growth-drift row).
+  if (Math.abs(wrapAngle(h2 - proposal.heading)) > context.rules.legalAngle) return first.v;
   return attempt({ ...proposal, turn: proposal.turn + wrapAngle(h2 - proposal.heading) }, h2, context, true).v;
 }

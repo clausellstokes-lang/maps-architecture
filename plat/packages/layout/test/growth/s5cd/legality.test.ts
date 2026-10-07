@@ -3,7 +3,8 @@
 // accepted as it was); a proposal reaching the setback band stops there and never crosses it; a proposal meeting a
 // reservation or a shore at ≥ 30° ends there, at a shallower angle it does not end there; a junction within 0.35 · step
 // is snapped to; destination bias within ≈ 1.5 steps; the organic crossing matrix (a lower-or-equal class collinear
-// within 6° is crossed, everything else stopped in a T); an unwalled stage's boundary crossed provisionally.
+// within 6° is crossed, everything else stopped in a T); an unwalled stage's boundary crossed provisionally; a deflection
+// turns at most the legal angle and a first step is neither deflected nor biased (C-0257 (2), (3)).
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { tableView } from '@plat/tables';
@@ -87,6 +88,54 @@ describe('no strip thinner than a plot depth between parallel spines', () => {
         expect(angle >= 30 - 1e-9 || d >= walled.clearanceCm('secondary') - 1).toBe(true);
       }),
     );
+  });
+});
+
+describe('the deflection’s limit and the first step (C-0257 (2), (3))', () => {
+  // A spine 50 m off, inside the 83 m clearance.
+  const spine = way(P(-100_000, 5_000), P(100_000, 5_000));
+
+  it('a step converging on a spine needs more than the legal angle to turn 31° off it: rejected, never deflected', () => {
+    for (const deg of [5, 20, 29]) {
+      const v = legal(step(deg * DEG), ctxOf([spine], noBias));
+      expect(v.verdict, `${String(deg)}°`).toBe('reject');
+      if (v.verdict === 'reject') expect(v.why).toBe('parallel');
+    }
+  });
+
+  it('a step already turning away by 10° is deflected by 21° to 31° off it (a turn within the legal angle)', () => {
+    const v = legal(step(-10 * DEG), ctxOf([spine], noBias));
+    expect(v.verdict).toBe('accept');
+    if (v.verdict !== 'accept') return;
+    expect(v.deflected).toBe(true);
+    expect(v.heading).toBeCloseTo(-31 * DEG, 9);
+    expect(v.to.y).toBeLessThan(0);
+  });
+
+  it('property: an accepted deflection never turns the step more than the legal angle', () => {
+    fc.assert(
+      fc.property(fc.integer({ min: 1_000, max: 8_000 }), fc.double({ min: -1.2, max: 1.2, noNaN: true }), (off, heading) => {
+        const s = way(P(-100_000, off), P(100_000, off));
+        const v = legal(step(heading), ctxOf([s], noBias));
+        if (v.verdict !== 'accept' || !v.deflected) return;
+        let turn = v.heading - heading;
+        while (turn > Math.PI) turn -= 2 * Math.PI;
+        while (turn <= -Math.PI) turn += 2 * Math.PI;
+        expect(Math.abs(turn)).toBeLessThanOrEqual(walled.legalAngle + 1e-12);
+      }),
+    );
+  });
+
+  it('a first step leaves as proposed: neither deflected (an illegal one is rejected) nor biased', () => {
+    const v = legal(step(-10 * DEG, { steps: 0 }), ctxOf([spine], noBias));
+    expect(v.verdict).toBe('reject');
+    if (v.verdict === 'reject') expect(v.deflected).toBe(false);
+    const target = way(P(4_400, -50_000), P(4_400, 50_000), 'primary', 'way:7');
+    const first = legal(step(10 * DEG, { steps: 0 }), ctxOf([target]));
+    expect(first.verdict === 'accept' && !first.biased && first.ends === null).toBe(true);
+    if (first.verdict === 'accept') expect(first.heading).toBe(10 * DEG);
+    const later = legal(step(10 * DEG, { steps: 1 }), ctxOf([target]));
+    expect(later.verdict === 'accept' && later.biased && later.ends === 'T').toBe(true);
   });
 });
 

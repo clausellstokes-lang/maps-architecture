@@ -30,16 +30,23 @@ export function fixtureRun(seed: number, fx: FlatFixtureOptions = {}): FixtureRu
   return { plat, k, run: run.value };
 }
 
-/** The run as M0-k-05's MetricDoc: every way's committed runs, S5c's streets grown and organic, the outermost wall. */
-export function metricDoc(r: FixtureRun): MetricDoc {
+/**
+ * The run as M0-k-05's MetricDoc: every way's committed runs, S5c's streets grown and organic, the outermost wall. A grown
+ * street's line reads from its origin, as it grew (C-0254 (13), C-0257): the arena stores a run in either direction, and
+ * the growth-drift windows count from a line's start.
+ */
+export function metricDoc(r: FixtureRun, opts: { readonly arenaOrder?: boolean } = {}): MetricDoc {
   const st = r.run.state;
-  const grown = new Set(r.run.growth.flatMap((g) => g.streets.map((s) => s.way.id)));
-  for (const d of r.run.capacity) if (d.rim !== null) for (const s of d.rim.streets) grown.add(s.way.id);
+  const streets = [...r.run.growth.flatMap((g) => g.streets), ...r.run.capacity.flatMap((d) => (d.rim === null ? [] : d.rim.streets))];
+  const origin = new Map(streets.map((s) => [s.way.id, s.points[0]]));
   const cls = new Map(st.ways.map((w) => [w.id, w.class]));
   const ways: MetricWay[] = [];
   for (const l of wayLines(r.k, st.ways.map((w) => w.id), GROUND)) {
+    const o = origin.get(l.way);
     l.runs.forEach((run, i) => {
-      ways.push({ id: l.runs.length === 1 ? l.way : `${l.way}#${String(i)}`, class: cls.get(l.way) ?? 'secondary', line: run.points, grown: grown.has(l.way), organic: true });
+      const z = run.points[run.points.length - 1];
+      const line = o !== undefined && opts.arenaOrder !== true && z.x === o.x && z.y === o.y ? run.points.slice().reverse() : run.points;
+      ways.push({ id: l.runs.length === 1 ? l.way : `${l.way}#${String(i)}`, class: cls.get(l.way) ?? 'secondary', line, grown: o !== undefined, organic: true });
     });
   }
   let wall: MetricDoc['wall'];

@@ -108,6 +108,27 @@ describe('S5c on a walled hand case', () => {
     }
   });
 
+  it('both sides of the arterial grow streets: the seeds alternate sides along it (C-0254 (3)), walled and ribbon', () => {
+    for (const regime of ['dense_core', 'ribbon'] as const) {
+      for (const seed of [1, 2, 3, 4]) {
+        const c = handCase(regime);
+        expect(c.area.seeds.map((s) => s.side)).toEqual([1, -1, 1]);
+        const rec = grow(c, seed);
+        // The side a street leaves the arterial (way:0, along +x) on: its first step's y.
+        const off = rec.streets.filter((s) => s.parent === 'way:0').map((s) => Math.sign(s.points[1].y - s.points[0].y));
+        expect(off.filter((x) => x > 0).length, `${regime} ${String(seed)} left`).toBeGreaterThan(0);
+        expect(off.filter((x) => x < 0).length, `${regime} ${String(seed)} right`).toBeGreaterThan(0);
+        // Each seed's one proposal leaves square to the arterial on its own side (a street leaves its junction square).
+        for (const st of rec.streets.filter((x) => x.parent === 'way:0')) {
+          const seedOf = c.area.seeds.find((x) => x.at.x === st.points[0].x && x.at.y === st.points[0].y);
+          expect(seedOf).toBeDefined();
+          expect(Math.sign(st.points[1].y - st.points[0].y)).toBe(seedOf!.side);
+          expect(st.points[1].x).toBe(st.points[0].x);
+        }
+      }
+    }
+  });
+
   it('branches: a walled regime grows secondaries only (its lanes are S8’s), branches leaving their parent streets', () => {
     const c = handCase('dense_core');
     const rec = grow(c, 4);

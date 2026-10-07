@@ -62,15 +62,20 @@ export function pooledJunctions(rows: readonly BarRow[]): { p5: number; median: 
   return { p5, median, share4 };
 }
 
-/** The growth-drift row over the drift windows a chunk's grown streets hold (descriptive below 20 windows). */
+/**
+ * The growth-drift row over the drift windows a chunk's grown streets hold (each street read from its origin, C-0257):
+ * the > 90° clause asserted at every size — at most ⌊1 % of the windows⌋ above 90°, so none below 100 windows — and the
+ * median band once the chunk holds 20 windows. The fixture holds about one window per six seeds, so the row's pool that
+ * can fail at the PR size is ./drift-grown.test.ts's (S5c's streets on a large hand area); the 1 000-seed bar pools them.
+ */
 export function driftRow(rows: readonly BarRow[]): { windows: number; p50: number; over90: number } {
   const all = rows.flatMap((r) => r.drift).sort((a, b) => a - b);
   const p50 = all.length === 0 ? Number.NaN : quantile7(all, 0.5);
-  const over90 = all.length === 0 ? 0 : all.filter((v) => v > 90).length / all.length;
+  const above = all.filter((v) => v > 90).length;
+  expect(above).toBeLessThanOrEqual(Math.floor(0.01 * all.length));
   if (all.length >= 20) {
     expect(p50).toBeGreaterThanOrEqual(15);
     expect(p50).toBeLessThanOrEqual(30);
-    expect(over90).toBeLessThanOrEqual(0.01);
   }
-  return { windows: all.length, p50, over90 };
+  return { windows: all.length, p50, over90: all.length === 0 ? 0 : above / all.length };
 }

@@ -80,7 +80,8 @@ export function handCase(regime: 'dense_core' | 'ribbon', opts: GrowthRuleOption
   } else for (const [a, b] of segs(square, true)) features.push({ a, b, kind: 'boundary' });
   features.push(...(opts.extraFeatures ?? []));
   const rules = growthRules(tableView(), regime, 'CITY', opts);
-  const seeds: GrowthSeed[] = (opts.seeds ?? [-20_000, 0, 20_000]).map((x) => ({ at: P(x, 0), way: 'way:0', along: { x: 1, y: 0 } }));
+  // The sides alternate along the arterial, as growthArea's seeds do (C-0254 (3)): left, right, left, …
+  const seeds: GrowthSeed[] = (opts.seeds ?? [-20_000, 0, 20_000]).map((x, i) => ({ at: P(x, 0), way: 'way:0', along: { x: 1, y: 0 }, side: i % 2 === 0 ? 1 : -1 }));
   const area: GrowthArea = {
     k: 1,
     key: GROUND,
