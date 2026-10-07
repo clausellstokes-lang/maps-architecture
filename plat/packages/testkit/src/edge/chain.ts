@@ -86,6 +86,8 @@ export interface ChainOptions {
   readonly blueprint?: BaseBlueprint;
   /** The last stage run (its home). */
   readonly upTo: ChainStage;
+  /** Run S5 as the base registered it (no driver): the driver's parity control (no plant into S5, no `s5` hooks). */
+  readonly registeredS5?: boolean;
   /** A plant into one stage's façade (S5: into one sub-stage, at stage k when given, else the first that fires). */
   readonly plant?: { readonly stage: ChainStage; readonly sub?: S5Sub; readonly k?: number; readonly plant: Plant };
   /** S5's hooks: before each sub-stage; stop after a sub-stage at stage k; S5c's and S5d's options (their insert hook). */
@@ -187,6 +189,7 @@ function s5Driver(base: PipelineStage, opts: ChainOptions, log: S5Log, plog: Pla
           log.refused = { sub: 'S5c', k, code: pr.code, detail: pr.detail };
           return err(pr.code, pr.detail);
         }
+        warnings.push(...pr.warnings);
         log.prune.push(pr.value);
         if (done('S5c', k)) return out();
         const sd = s5dStage(k, grow);
@@ -251,6 +254,7 @@ function nameOf(stage: PipelineStage): ChainStage {
  */
 export function edgeChain(seed: number, opts: ChainOptions): ChainRun {
   const bp = opts.blueprint ?? SMALL_FLAT;
+  if (opts.registeredS5 === true && (opts.s5 !== undefined || opts.plant?.stage === 'S5')) throw new Error('edgeChain: the registered S5 takes no plant and no hooks');
   const registry = createRegistry();
   registerBase(registry);
   const product = registry.products.get('base');
@@ -271,7 +275,7 @@ export function edgeChain(seed: number, opts: ChainOptions): ChainRun {
       if (name === 'S5') kept.push(idle(s));
       continue;
     }
-    let stage: PipelineStage = name === 'S5' ? s5Driver(s, opts, log, plog) : s;
+    let stage: PipelineStage = name === 'S5' && opts.registeredS5 !== true ? s5Driver(s, opts, log, plog) : s;
     if (opts.plant !== undefined && opts.plant.stage === name && name !== 'S5') stage = planted(stage, opts.plant.plant, plog);
     kept.push(counted(stage, name, runs, ran, refusals));
   }

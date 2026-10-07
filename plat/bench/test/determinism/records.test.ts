@@ -28,8 +28,11 @@ describe('the records tree', () => {
     expect(a.oracle).toBeNull();
   });
   it('runs the oracle after the build and every batch; the roots are the same with it on', { timeout: SLOW }, () => {
-    const r = recordsRun(5, { oracle: true });
+    const seen: number[] = [];
+    const r = recordsRun(5, { oracle: true, afterBatch: (_c, _m, _r, batch) => void seen.push(batch) });
     expect(r.oracle).toEqual({ batches: RECORDS_BATCHES + 1, mismatches: 0, first: null });
+    // the build is batch 0, then each batch in order, numbered from 1 (a miss names the batch the oracle read)
+    expect(seen).toEqual(Array.from({ length: RECORDS_BATCHES + 1 }, (_, i) => i));
     expect(r.model).toBe(at5().model);
     expect(r.records).toBe(at5().records);
   });

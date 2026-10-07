@@ -296,7 +296,7 @@ describe('bench -- site: its arguments', () => {
 
 describe('districtReceipt\'s arithmetic on a built S6 output (no samples: an empty perimeter)', () => {
   const GROUND = { layer: 'ground', part: 0 } as PlatKey;
-  const plat = createPlat(GROUND, { widthCm: 100_000, heightCm: 100_000 } as never);
+  const plat = createPlat(GROUND, { widthCm: 100_000, heightCm: 100_000, aspect: 1, marginShare: 0 } as never);
   attachIndex(plat, { gridCellCm: 5000 });
   const k = createKernel(new Map([[GROUND, plat]]));
   const grown = (kind: string, ha: number, merged = -1) => ({ seed: { kind }, faces: [], areaCm2: ha * 1e8, perimeterCm: 0, turns: 0, mergedInto: merged });
@@ -340,11 +340,14 @@ describe('the model without the soft terms (C-0049)', () => {
   it('withoutSoftRows removes exactly the daylight and water terms\' weight rows of the three fields', () => {
     const base = fieldsCells(tableView());
     const bare = fieldsCells(withoutSoftRows(tableView()));
+    expect(base.fields.map((f) => f.field)).toEqual(bare.fields.map((f) => f.field));
+    // fields.json carries the two soft rows on prosperity (at weight 0, C-0049); the variant drops them and nothing else
+    const prosperity = base.fields.find((f) => f.field === 'prosperity');
+    expect(prosperity?.terms.filter((t) => t.term === 'daylight' || t.term === 'waterTerm').map((t) => [t.term, t.weight])).toEqual([['daylight', 0], ['waterTerm', 0]]);
     for (let i = 0; i < base.fields.length; i += 1) {
       const terms = base.fields[i].terms.map((t) => t.term);
-      expect(terms).toContain('daylight');
-      expect(terms).toContain('waterTerm');
       expect(bare.fields[i].terms.map((t) => t.term)).toEqual(terms.filter((t) => t !== 'daylight' && t !== 'waterTerm'));
+      expect(bare.fields[i].terms.map((t) => t.weight)).toEqual(base.fields[i].terms.filter((t) => t.term !== 'daylight' && t.term !== 'waterTerm').map((t) => t.weight));
     }
     expect(bare.shares).toEqual(base.shares);
   });

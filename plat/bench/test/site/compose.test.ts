@@ -149,8 +149,18 @@ describe('the receipts on a derivation, each with its negative control (relief-6
     const broken = hydroReceipt({ ...t, flowDir }, p, w);
     expect([broken.defined, broken.landDefined]).toEqual([r.cells - 1, r.landCells - 1]);
     const flowAccum = Uint32Array.from(t.flowAccum);
+    // an outlet: a cell whose direction leaves the grid (its accumulation is what drains off)
+    const DX = [1, 1, 0, -1, -1, -1, 0, 1];
+    const DY = [0, 1, 1, 1, 0, -1, -1, -1];
     let outlet = -1;
-    for (let c = 0; c < t.hydro.cols && outlet < 0; c += 1) if (t.flowDir[c] <= 7 && flowAccum[c] > 0) outlet = c;
+    for (let c = 0; c < t.hydro.cols * t.hydro.rows && outlet < 0; c += 1) {
+      const k = t.flowDir[c];
+      if (k > 7) continue;
+      const i = (c % t.hydro.cols) + DX[k];
+      const j = Math.floor(c / t.hydro.cols) + DY[k];
+      if (i < 0 || j < 0 || i >= t.hydro.cols || j >= t.hydro.rows) outlet = c;
+    }
+    expect(outlet).toBeGreaterThanOrEqual(0);
     flowAccum[outlet] += 1;
     expect(hydroReceipt({ ...t, flowAccum }, p, w).drainsOff).toBe(false);
   });

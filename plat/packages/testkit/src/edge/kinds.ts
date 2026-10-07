@@ -34,6 +34,15 @@ export function legOf(points: readonly { x: number; y: number }[]): { dx: number
   return { dx: 1, dy: 0, s: 1000 };
 }
 
+/** The leg as a whole-centimetre vector (its direction times s, rounded) and its normal (the vector turned left): the
+ * kinds lay their points as whole multiples of these, so collinear points are exactly collinear on the lattice. */
+export function legVector(points: readonly { x: number; y: number }[]): { vx: number; vy: number; nx: number; ny: number } {
+  const { dx, dy, s } = legOf(points);
+  const vx = Math.round(s * dx);
+  const vy = Math.round(s * dy);
+  return { vx, vy, nx: -vy, ny: vx };
+}
+
 /** The chain collapsed to its first point, given twice (zero-length). */
 export function zeroLengthChain(points: readonly { x: number; y: number }[]): LatticePoint[] {
   const a = lp(points[0].x, points[0].y);
@@ -41,47 +50,37 @@ export function zeroLengthChain(points: readonly { x: number; y: number }[]): La
 }
 
 /**
- * A closed ring of three collinear points from the chain's first point along its first leg: out 2s, back to s (zero
- * area). Its points are distinct and every two meet only along the one line.
+ * A closed ring of three collinear points from the chain's first point along its first leg: out 2v, back to v (zero
+ * area, exactly: the points are whole multiples of one lattice vector). Its points are distinct.
  */
 export function zeroAreaRing(points: readonly { x: number; y: number }[]): LatticePoint[] {
-  const { dx, dy, s } = legOf(points);
+  const { vx, vy } = legVector(points);
   const a = lp(points[0].x, points[0].y);
-  return [a, lp(a.x + 2 * s * dx, a.y + 2 * s * dy), lp(a.x + s * dx, a.y + s * dy)];
+  return [a, lp(a.x + 2 * vx, a.y + 2 * vy), lp(a.x + vx, a.y + vy)];
 }
 
 /** A closed bow-tie ring at the chain's first point: two triangles meeting at it, the ring visiting it twice. */
 export function selfTouchingRing(points: readonly { x: number; y: number }[]): LatticePoint[] {
-  const { dx, dy, s } = legOf(points);
+  const { vx, vy, nx, ny } = legVector(points);
   const m = lp(points[0].x, points[0].y);
-  // the leg's normal
-  const nx = -dy;
-  const ny = dx;
-  const h = Math.max(100, Math.round(s / 2));
-  return [
-    m,
-    lp(m.x + s * dx - h * nx, m.y + s * dy - h * ny),
-    lp(m.x + s * dx + h * nx, m.y + s * dy + h * ny),
-    { ...m },
-    lp(m.x - s * dx + h * nx, m.y - s * dy + h * ny),
-    lp(m.x - s * dx - h * nx, m.y - s * dy - h * ny),
-  ];
+  // half the normal, rounded: the triangles' half-width
+  const hx = Math.round(nx / 2);
+  const hy = Math.round(ny / 2);
+  return [m, lp(m.x + vx - hx, m.y + vy - hy), lp(m.x + vx + hx, m.y + vy + hy), { ...m }, lp(m.x - vx + hx, m.y - vy + hy), lp(m.x - vx - hx, m.y - vy - hy)];
 }
 
 /** An open chain that passes back through its own first point (a loop, then on): self-touching at that point. */
 export function selfTouchingChain(points: readonly { x: number; y: number }[]): LatticePoint[] {
-  const { dx, dy, s } = legOf(points);
+  const { vx, vy, nx, ny } = legVector(points);
   const a = lp(points[0].x, points[0].y);
-  const nx = -dy;
-  const ny = dx;
-  return [a, lp(a.x + s * dx, a.y + s * dy), lp(a.x + s * dx + s * nx, a.y + s * dy + s * ny), { ...a }, lp(a.x - s * dx, a.y - s * dy)];
+  return [a, lp(a.x + vx, a.y + vy), lp(a.x + vx + nx, a.y + vy + ny), { ...a }, lp(a.x - vx, a.y - vy)];
 }
 
-/** An open chain folding back along itself: out 2s along the leg, back to s (collinear overlap). */
+/** An open chain folding back along itself: out 2v along the leg, back to v (an exact collinear overlap). */
 export function collinearChain(points: readonly { x: number; y: number }[]): LatticePoint[] {
-  const { dx, dy, s } = legOf(points);
+  const { vx, vy } = legVector(points);
   const a = lp(points[0].x, points[0].y);
-  return [a, lp(a.x + 2 * s * dx, a.y + 2 * s * dy), lp(a.x + s * dx, a.y + s * dy)];
+  return [a, lp(a.x + 2 * vx, a.y + 2 * vy), lp(a.x + vx, a.y + vy)];
 }
 
 /** The chain with every point given twice in a row (consecutive coincident points). */
@@ -115,28 +114,42 @@ export function ringArea2(ring: readonly { x: number; y: number }[]): number {
 export function degenerateRing(ring: readonly { x: number; y: number }[], kind: DegenerateKind): LatticePoint[] {
   const pts = ring.map((p) => lp(p.x, p.y));
   const a = pts[0];
-  const { dx, dy, s } = legOf(pts);
-  const nx = dy;
-  const ny = -dx;
+  const { vx, vy } = legVector(pts);
+  // the outward normal of a counter-clockwise ring's first edge (the leg turned right)
+  const nx = vy;
+  const ny = -vx;
   switch (kind) {
     case 'zero-length':
       return [a, { ...a }, ...pts.slice(1)];
     case 'zero-area':
-      return [a, lp(a.x + 2 * s * nx, a.y + 2 * s * ny), { ...a }, ...pts.slice(1)];
+      return [a, lp(a.x + 2 * nx, a.y + 2 * ny), { ...a }, ...pts.slice(1)];
     case 'self-touching':
-      return [a, lp(a.x + s * nx, a.y + s * ny), lp(a.x + s * nx + s * dx, a.y + s * ny + s * dy), { ...a }, ...pts.slice(1)];
+      return [a, lp(a.x + nx, a.y + ny), lp(a.x + nx + vx, a.y + ny + vy), { ...a }, ...pts.slice(1)];
     case 'collinear': {
+      // on each edge with an interior lattice point (gcd of its steps ≥ 2), the one nearest its middle: exactly collinear
       const out: LatticePoint[] = [];
       for (let i = 0; i < pts.length; i += 1) {
         const p = pts[i];
         const q = pts[i + 1 === pts.length ? 0 : i + 1];
         out.push(p);
-        const m = lp((p.x + q.x) / 2, (p.y + q.y) / 2);
-        if ((m.x !== p.x || m.y !== p.y) && (m.x !== q.x || m.y !== q.y)) out.push(m);
+        const dx = q.x - p.x;
+        const dy = q.y - p.y;
+        const g = gcd(Math.abs(dx), Math.abs(dy));
+        if (g >= 2) {
+          const t = Math.floor(g / 2);
+          out.push(lp(p.x + (dx / g) * t, p.y + (dy / g) * t));
+        }
       }
       return out;
     }
     case 'coincident':
       return [...pts, ...pts.map((p) => ({ ...p }))];
   }
+}
+
+function gcd(a: number, b: number): number {
+  let x = a;
+  let y = b;
+  while (y !== 0) [x, y] = [y, x % y];
+  return x;
 }
