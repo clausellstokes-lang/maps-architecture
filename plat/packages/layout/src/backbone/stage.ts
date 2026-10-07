@@ -14,6 +14,11 @@
 //   reaches first first; the deck end `a` is ('deck_end', bridge, 0) and `b` is 1; an approach that cannot meet the
 //   class radius takes F-ROUTE's ladder (./route.ts) on the stretch beyond the gate's corridor, inside the walled stage
 //   for the inward part and outside it for the outward part;
+// * every route part reaches the commit as a simple path, dry off its decks (C-0250): a re-solve never steps back
+//   into the held corridor (the corridor's nodes are masked out of the ladder's search), a part that revisits a node
+//   is cut at its first repeated node (its crossings checked again, a failed approach making it `unserved`), a frame
+//   stub that would cross water is dropped (the through-road ends at its last lattice node, its frame end), and a part
+//   still meeting the water off a deck end is `unserved` — only that part, never the stage;
 // * the stage is declared-form with its kernel in its input (as S1's, C-0229 (1): its input is the runner's model
 //   record — the slice, the commits, the water, the façade); its run commits through the façade's `tx`, its work limit
 //   the insert counters' laws over its batch; it declares the data keys `s3.slice`, `s3.commit`, `water` → `ways`,
@@ -28,11 +33,11 @@ import type { S3Commit } from '../enceinte/commit.js';
 import { WAY_SPAN_NODES } from '../enceinte/commit.js';
 import { toFrame } from '../enceinte/strips.js';
 import type { EnceinteEnv } from '../enceinte/types.js';
-import { bearingCdeg, insideRing, quot, segmentsMeet } from '../siting/geom.js';
+import { bearingCdeg, insideRing, quot, segmentMeetsRing, segmentsMeet } from '../siting/geom.js';
 import type { Gate as SliceGate, GateRoute, S3Slice, Site } from '../siting/types.js';
 import { classGeometryCm } from './classify.js';
-import { commitRoutes, S4_COUNTERS } from './commit.js';
-import { crossingsOf, routeGraph, routeLadder, type Crossing, type RouteGraph } from './route.js';
+import { commitRoutes, meetsWaterOff, S4_COUNTERS, waterSides, type Seg } from './commit.js';
+import { approachUsable, crossingsOf, routeGraph, routeLadder, type Crossing, type RouteGraph } from './route.js';
 import type { RouteClass, RoutePoint, RouteRung, S4Result, S4Route } from './types.js';
 
 /** S4's input: the S3 slice (M0-c-01), its commits (M0-c-02), the water set with its crossing sites, the façade. */
@@ -83,6 +88,38 @@ function pointsOf(rg: RouteGraph, nodes: readonly number[], crossings: readonly 
   }
   for (; k < nodes.length; k += 1) points.push(heldNode(nodes[k]) ? { at: pts[nodes[k]], held: true } : { at: pts[nodes[k]] });
   return { points, spans };
+}
+
+/**
+ * A route's nodes as a simple path (C-0250): at each node met again, the loop since its first visit is cut, so the
+ * path keeps its first and last nodes and every edge it keeps is one of its own.
+ */
+export function simpleCourse(nodes: readonly number[]): number[] {
+  const out: number[] = [];
+  const at = new Map<number, number>();
+  for (const n of nodes) {
+    const i = at.get(n);
+    if (i === undefined) {
+      at.set(n, out.length);
+      out.push(n);
+      continue;
+    }
+    for (let j = i + 1; j < out.length; j += 1) at.delete(out[j]);
+    out.length = i + 1;
+  }
+  return out;
+}
+
+/** Does a route part meet the water off its decks: a segment but a span meeting a water side off its deck-end ends? */
+export function partMeetsWater(points: readonly RoutePoint[], spans: readonly { readonly at: number }[], sides: readonly Seg[]): boolean {
+  if (sides.length === 0) return false;
+  const span = new Set(spans.map((s) => s.at));
+  for (let i = 0; i + 1 < points.length; i += 1) {
+    if (span.has(i)) continue;
+    const ends = [points[i], points[i + 1]].filter((p) => p.pin === 'deck_end').map((p) => p.at);
+    if (meetsWaterOff(points[i].at, points[i + 1].at, sides, ends)) return true;
+  }
+  return false;
 }
 
 /** Is a point strictly inside (true), strictly outside (false) the ring, or on it (null)? */
@@ -147,6 +184,31 @@ export function routesFromSlice(
   const wallCrossings: string[] = [];
   const routes: S4Route[] = [];
   const wall = commit.traced.line;
+  const faces = lattice.costs.water.faces;
+  const sides = waterSides(faces);
+  // Without `except`: the mask with those nodes closed (a held corridor the re-solve may not step back into).
+  const without = (mask: Uint8Array, except: readonly number[]): Uint8Array => {
+    if (except.length === 0) return mask;
+    const m = mask.slice();
+    for (const n of except) m[n] = 0;
+    return m;
+  };
+  // A part's nodes cut to a simple path; null when the cut leaves a crossing whose approach cannot meet the radius.
+  const simple = (nodes: readonly number[], cls: RouteClass, name: string): number[] | null => {
+    const cut = simpleCourse(nodes);
+    if (cut.length === nodes.length) return cut;
+    if (crossingsOf(rg, cut).some((c) => !approachUsable(rg, cut, c, radius(cls)))) {
+      rungs.push({ route: name, rung: 'unserved', held: true, why: 'approach' });
+      return null;
+    }
+    return cut;
+  };
+  const dry = (part: S4Route): boolean => {
+    if (!partMeetsWater(part.points, part.spans, sides)) return true;
+    rungs.push({ route: part.id, rung: 'unserved', held: true, why: 'water' });
+    unserved.push(part.id);
+    return false;
+  };
   const order = slice.gates.map((g, i) => ({ g, i })).sort((a, b) => a.g.ordinal - b.g.ordinal);
   order.forEach(({ g, i }, rank) => {
     const r = slice.routes.find((q) => q.ordinal === g.ordinal) as GateRoute | undefined;
@@ -158,12 +220,15 @@ export function routesFromSlice(
       return at >= gi - WAY_SPAN_NODES && at <= gi + 1 + WAY_SPAN_NODES;
     };
     // The inward part: the stretch beyond the gate's corridor is the ladder's to keep or re-solve.
+    // A re-solve keeps out of the part's held corridor (C-0250).
     const keepIn = Math.max(0, gi - WAY_SPAN_NODES);
-    const inward = laddered(rg, r.nodes.slice(0, keepIn + 1), [r.nodes[0]], [r.nodes[keepIn]], inside, 'primary', `${gate.id}/in`);
+    const inward = laddered(rg, r.nodes.slice(0, keepIn + 1), [r.nodes[0]], [r.nodes[keepIn]], without(inside, r.nodes.slice(keepIn + 1, gi + 1)), 'primary', `${gate.id}/in`);
     const outFrom = Math.min(r.nodes.length - 1, gi + 1 + WAY_SPAN_NODES);
-    const outward = laddered(rg, r.nodes.slice(outFrom), [r.nodes[outFrom]], rim, outside, 'through', `${gate.id}/out`);
-    if (inward !== null) {
-      const nodes = [...inward.nodes, ...r.nodes.slice(keepIn + 1, gi + 1)];
+    const outward = laddered(rg, r.nodes.slice(outFrom), [r.nodes[outFrom]], rim, without(outside, r.nodes.slice(gi + 1, outFrom)), 'through', `${gate.id}/out`);
+    const inNodes = inward === null ? null : simple([...inward.nodes, ...r.nodes.slice(keepIn + 1, gi + 1)], inward.class, `${gate.id}/in`);
+    const outNodes = outward === null ? null : simple([...r.nodes.slice(gi + 1, outFrom), ...outward.nodes], outward.class, `${gate.id}/out`);
+    if (inward !== null && inNodes !== null) {
+      const nodes = inNodes;
       const made = pointsOf(rg, nodes, crossingsOf(rg, nodes), heldNode);
       const points: RoutePoint[] = [{ at: r.attach, pin: 'attach', pinId: commit.plaza.id, pinOrdinal: r.attachIndex }, ...made.points, { at: g.at, pin: 'gate', pinId: gate.id }];
       const part: S4Route = {
@@ -176,11 +241,13 @@ export function routesFromSlice(
         from: { kind: 'plaza', id: commit.plaza.id },
         to: { kind: 'gate', id: gate.id },
       };
-      if (partLeavesWall(points, wall, true)) wallCrossings.push(part.id);
-      routes.push(part);
+      if (dry(part)) {
+        if (partLeavesWall(points, wall, true)) wallCrossings.push(part.id);
+        routes.push(part);
+      }
     } else unserved.push(`${gate.id}/in`);
-    if (outward !== null) {
-      const nodes = [...r.nodes.slice(gi + 1, outFrom), ...outward.nodes];
+    if (outward !== null && outNodes !== null) {
+      const nodes = outNodes;
       const made = pointsOf(rg, nodes, crossingsOf(rg, nodes), heldNode);
       const last = made.points[made.points.length - 1].at;
       const prev = made.points.length >= 2 ? made.points[made.points.length - 2].at : g.at;
@@ -188,7 +255,10 @@ export function routesFromSlice(
       const f = d === null ? null : toFrame(last, d, site.frameRing);
       const points: RoutePoint[] = [{ at: g.at, pin: 'gate', pinId: gate.id }, ...made.points];
       const fp = f === null ? null : ({ x: Math.round(f.x), y: Math.round(f.y) } as LatticePoint);
-      if (fp !== null && (Math.abs(fp.x - last.x) >= 100 || Math.abs(fp.y - last.y) >= 100)) points.push({ at: fp, pin: 'frame' });
+      // The stub to the frame runs on dry ground only: across water it is dropped, and the through-road ends at its
+      // last lattice node (C-0250).
+      const stubDry = fp !== null && !faces.some((ring) => segmentMeetsRing(ring, last, fp));
+      if (fp !== null && stubDry && (Math.abs(fp.x - last.x) >= 100 || Math.abs(fp.y - last.y) >= 100)) points.push({ at: fp, pin: 'frame' });
       else points[points.length - 1] = { ...points[points.length - 1], pin: 'frame' };
       const end = points[points.length - 1].at;
       const part: S4Route = {
@@ -201,8 +271,10 @@ export function routesFromSlice(
         from: { kind: 'gate', id: gate.id },
         to: { kind: 'bearing', bearingCdeg: bearingCdeg(end.x - g.at.x, end.y - g.at.y) as Cdeg },
       };
-      if (partLeavesWall(points, wall, false)) wallCrossings.push(part.id);
-      routes.push(part);
+      if (dry(part)) {
+        if (partLeavesWall(points, wall, false)) wallCrossings.push(part.id);
+        routes.push(part);
+      }
     } else unserved.push(`${gate.id}/out`);
   });
   return { routes, rungs, work: work.n, unserved, wallCrossings };

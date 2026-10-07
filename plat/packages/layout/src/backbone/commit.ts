@@ -6,7 +6,8 @@
 // chain carrying its way's `way` row, in one declared L1 batch (§3.3: the ops independent, each computed before the
 // batch). Readings C-0236 (10)–(13):
 // * ways in destination order: each route part claims, in order, the chains no earlier part claimed, and each maximal
-//   run of chains it claims is one way (`way:<n>`), so a run several routes share is one street, the first route's;
+//   run of chains it claims is one way (`way:<n>`), so a run several routes share is one street, the first route's —
+//   a run reaching a second deck span ends before it, one deck per way (§2.4 `Way.bridge`, C-0250);
 //   its class the highest of its chains', its width a scalar where it keeps one class, else a `width_knot` profile —
 //   two knots at each class change (the run before, the run after), linear, so the profile steps there;
 // * junctions: every chain end, numbered by its point (lower, then leftmost; §6.3's canonical vertex order),
@@ -17,7 +18,10 @@
 // * the chains are validated before the batch — none meets another but at a shared end, none meets the water but a
 //   span at its deck ends, the plaza but at its attach end, the wall but at its gate end, and each lies on its side of
 //   the wall — and a chain that fails falls back to its simplified course, then to its lattice course (reported
-//   `unsmoothed`); a batch the kernel refuses is re-run once on every chain's lattice course, else refused.
+//   `unsmoothed`); a batch the kernel refuses is re-run once on every chain's lattice course, else refused;
+// * the water rule is never given up (§2.2 rule 7, C-0076; C-0250): a course that still meets the water off a deck end
+//   after the fallbacks falls to its lattice course, and a lattice course that does is refused (`E_INVARIANT`), never
+//   committed — S4's routes reach here dry (./stage.ts), so the refusal is a fail-safe, not a path.
 import { err, kernelOp, ok, STAGES, type Kernel, type KernelOp, type KernelResult, type LatticePoint, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
 import { lineageHash, TOWN_ROOT, type Bridge, type ChainProfile, type Cm, type Gate, type Id, type Junction, type NodeRef, type Way } from '@plat/model';
 import { loadWorkLimits, workLimitOf, type BaseRung, type TableView } from '@plat/tables';
@@ -69,7 +73,8 @@ export interface CommitRoutesOptions {
   readonly offGate?: number;
 }
 
-type Seg = readonly [number, number, number, number];
+/** A side as a segment: x0, y0, x1, y1. */
+export type Seg = readonly [number, number, number, number];
 
 function ringSegs(ring: readonly LatticePoint[]): Seg[] {
   const out: Seg[] = [];
@@ -156,6 +161,41 @@ interface Rules {
   readonly wallRing: readonly LatticePoint[] | null;
 }
 
+/** The sides of rings (water faces) as segments, for `meetsWaterOff`. */
+export function waterSides(rings: readonly (readonly LatticePoint[])[]): Seg[] {
+  return rings.flatMap((r) => ringSegs(r));
+}
+
+/** Does the segment ab meet a water side anywhere but at one of `ends` (a deck end landing on that side)? */
+export function meetsWaterOff(a: LatticePoint, b: LatticePoint, sides: readonly Seg[], ends: readonly LatticePoint[]): boolean {
+  const x0 = Math.min(a.x, b.x);
+  const x1 = Math.max(a.x, b.x);
+  const y0 = Math.min(a.y, b.y);
+  const y1 = Math.max(a.y, b.y);
+  for (const s of sides) {
+    if (Math.max(s[0], s[2]) < x0 || Math.min(s[0], s[2]) > x1 || Math.max(s[1], s[3]) < y0 || Math.min(s[1], s[3]) > y1) continue;
+    if (meetsOff(a, b, s, ends)) return true;
+  }
+  return false;
+}
+
+/** A chain's end points pinned `deck_end`. */
+function deckEndsOf(g: ArterialGraph, c: Chain, pts: readonly LatticePoint[]): LatticePoint[] {
+  const out: LatticePoint[] = [];
+  for (const e of [pts[0], pts[pts.length - 1]]) {
+    for (const n of [c.nodes[0], c.nodes[c.nodes.length - 1]]) if (g.nodes[n].at.x === e.x && g.nodes[n].at.y === e.y && g.nodes[n].pin === 'deck_end') out.push(e);
+  }
+  return out;
+}
+
+/** Does a chain's polyline meet the water off its deck ends (a span never does: it is the deck)? */
+function overWater(g: ArterialGraph, c: Chain, pts: readonly LatticePoint[], rules: Rules): boolean {
+  if (c.span !== null || rules.water.length === 0) return false;
+  const ends = deckEndsOf(g, c, pts);
+  for (let i = 0; i + 1 < pts.length; i += 1) if (meetsWaterOff(pts[i], pts[i + 1], rules.water, ends)) return true;
+  return false;
+}
+
 /** Does a chain's polyline keep the obstacle rules (see the header)? */
 function chainKeeps(g: ArterialGraph, c: Chain, pts: readonly LatticePoint[], rules: Rules, inward: boolean | null): boolean {
   const ends = [pts[0], pts[pts.length - 1]];
@@ -163,14 +203,12 @@ function chainKeeps(g: ArterialGraph, c: Chain, pts: readonly LatticePoint[], ru
     for (const n of [c.nodes[0], c.nodes[c.nodes.length - 1]]) if (g.nodes[n].at.x === p.x && g.nodes[n].at.y === p.y) return g.nodes[n].pin;
     return null;
   };
-  const deckEnds = ends.filter((e) => pinOf(e) === 'deck_end');
   const attachEnds = ends.filter((e) => pinOf(e) === 'attach');
   const gateEnds = ends.filter((e) => pinOf(e) === 'gate');
-  const b = box(pts);
+  if (overWater(g, c, pts, rules)) return false;
   for (let i = 0; i + 1 < pts.length; i += 1) {
     const a = pts[i];
     const z = pts[i + 1];
-    if (c.span === null) for (const s of rules.water) if (boxesMeet(b, [Math.min(s[0], s[2]), Math.min(s[1], s[3]), Math.max(s[0], s[2]), Math.max(s[1], s[3])]) && meetsOff(a, z, s, deckEnds)) return false;
     for (const s of rules.plaza) if (meetsOff(a, z, s, attachEnds)) return false;
     for (const s of rules.wall) if (meetsOff(a, z, s, gateEnds)) return false;
   }
@@ -356,6 +394,13 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     }
     if (!changed) break;
   }
+  // The water rule on the courses as they stand (C-0250): down to the lattice course, then refused, never committed.
+  for (const c of g.chains) {
+    while (overWater(g, c, course(c.index), rules)) {
+      if (level[c.index] === 2) return err('E_INVARIANT', waterRefusal(g, c));
+      level[c.index] += 1;
+    }
+  }
   let unsmoothed = 0;
   for (const l of level) if (l > 0) unsmoothed += 1;
 
@@ -374,8 +419,11 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
       run = [];
     };
     for (const x of along) {
-      if (owner[x.chain] === -1 && !run.some((y) => y.chain === x.chain)) run.push(x);
-      else flush();
+      if (owner[x.chain] === -1 && !run.some((y) => y.chain === x.chain)) {
+        // One deck per way (§2.4 `Way.bridge`, C-0250): a second span starts the next way.
+        if (g.chains[x.chain].span !== null && run.some((y) => g.chains[y.chain].span !== null)) flush();
+        run.push(x);
+      } else flush();
     }
     flush();
   });
@@ -532,7 +580,8 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
   let committed = submit(course);
   let spines = g.chains.map((c) => course(c.index));
   if (!committed.ok && committed.code !== 'E_WORK_LIMIT') {
-    // Re-run once on the lattice courses (planar by construction).
+    // Re-run once on the lattice courses (planar by construction), each of them dry (C-0250).
+    for (const c of g.chains) if (overWater(g, c, raw[c.index], rules)) return err('E_INVARIANT', waterRefusal(g, c));
     const again = submit((ci) => raw[ci]);
     if (!again.ok) return err(again.code, `S4: the spines' batch was refused (${committed.code}: ${committed.detail}); on the lattice courses too: ${again.detail}`);
     committed = again;
@@ -586,6 +635,12 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
     { network, bridges, gates, graph: g, classes, spines, chainWay: g.chains.map((c) => wayIds[owner[c.index]]), report },
     committed.warnings,
   );
+}
+
+/** The refusal of a chain whose lattice course meets the water off a deck end (C-0250). */
+function waterRefusal(g: ArterialGraph, c: Chain): string {
+  const routes = c.routes.map((ri) => g.routes[ri].id).join(', ');
+  return `S4: chain ${String(c.index)} (${routes}) meets the water off a deck on its lattice course; refused, never committed (§2.2 rule 7, C-0076)`;
 }
 
 /** The class of each chain as `ChainClass` (re-exported for the stage's report). */

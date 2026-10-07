@@ -5,6 +5,9 @@
 // direction from the pick to the frame: the direction to the rim node the A* reaches. route.nodes is charged (§5.1 (5),
 // C-0085): the tree's settled nodes (`PlazaTree.settled`) and every node each A* labels (`charged`); a route whose search reaches the counter's limit
 // takes F-ROUTE's `unserved` rung, reported `work_cut` with the count, as does a route with no path (`unserved`).
+// A route is a simple path (S4 commits it as one way, §4.3): when the least-cost outward path steps back onto the
+// inward part (an A → pick → A spur), the A* beyond the pick is solved again with the inward nodes before the pick
+// impassable, so the route still runs through the pick; with no such path the route is `unserved` (C-0249).
 import { astar, dijkstraTree, dmath } from '@plat/kernel';
 import { bearingCdeg, PI } from './geom.js';
 import type { GatePick, GateRoute, Lattice, PlazaTree, UnservedRoute } from './types.js';
@@ -30,6 +33,23 @@ class WorkLimitReached extends Error {
   constructor(readonly count: number) {
     super('route.nodes reached');
   }
+}
+
+/** The lattice's graph with every edge at a node marked in `blocked` impassable (weight Infinity). */
+function blockedGraph(lattice: Lattice, blocked: Uint8Array): Lattice['graph'] {
+  const g = lattice.graph;
+  const weights = new Float64Array(g.weights.length);
+  for (let u = 0; u < g.n; u += 1) {
+    for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) weights[e] = blocked[u] === 1 || blocked[g.targets[e]] === 1 ? Infinity : g.weights[e];
+  }
+  return { ...g, weights };
+}
+
+/** True when the outward path (from the pick) steps on a node of the inward part other than the pick. */
+function revisits(inward: readonly number[], outward: readonly number[]): boolean {
+  const seen = new Set(inward);
+  for (let k = 1; k < outward.length; k += 1) if (seen.has(outward[k])) return true;
+  return false;
 }
 
 /** The distance from p to the frame's nearest side (≥ 0 inside the frame). */
@@ -104,6 +124,13 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
     let out;
     try {
       out = astar(lattice.graph, pick.node, targets, h);
+      // A spur at the pick (the outward path stepping back onto the inward part): solved again with the inward nodes
+      // before the pick impassable, so the joined route is a simple path through the pick (C-0249).
+      if (out.ok && revisits(inward, out.value.nodes)) {
+        const blocked = new Uint8Array(lattice.points.length);
+        for (let k = 0; k < inward.length - 1; k += 1) blocked[inward[k]] = 1;
+        out = astar(blockedGraph(lattice, blocked), pick.node, targets, h);
+      }
     } catch (e) {
       if (e instanceof WorkLimitReached) {
         charged += e.count;
@@ -150,10 +177,6 @@ export function rerouteOutside(
   limit = Infinity,
 ): { route: GateRoute; charged: number } | null {
   const g = lattice.graph;
-  const weights = new Float64Array(g.weights.length);
-  for (let u = 0; u < g.n; u += 1) {
-    for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) weights[e] = selected[u] === 1 || selected[g.targets[e]] === 1 ? Infinity : g.weights[e];
-  }
   const from = route.nodes[gateIndex + 1];
   const rimNodes: number[] = [];
   for (let i = 0; i < lattice.points.length; i += 1) if (lattice.rim[i] === 1) rimNodes.push(i);
@@ -166,7 +189,7 @@ export function rerouteOutside(
   };
   let out;
   try {
-    out = astar({ n: g.n, offsets: g.offsets, targets: g.targets, weights }, from, rimNodes, h);
+    out = astar(blockedGraph(lattice, selected), from, rimNodes, h);
   } catch (e) {
     if (e instanceof WorkLimitReached) return null;
     throw e;
