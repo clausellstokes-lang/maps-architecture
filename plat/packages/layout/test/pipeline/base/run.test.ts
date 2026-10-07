@@ -5,8 +5,9 @@
 // reach the stages they name (C-0090). The fixtures run on a 900 ha frame with 30 ha walled (C-0264 (10)): the full
 // CITY size is the harnesses' (M0-c-06, M0-e-06, M0-d-09).
 import { attachIndex, createKernel, createPlat, createRng, levelDigest, seedKey, STAGES, type ConcernId, type Hash128, type Plat } from '@plat/kernel';
-import { canonicalText, mintTownRoot, type Way } from '@plat/model';
-import { loadWorkLimits } from '@plat/tables';
+import { canonicalText, mintTownRoot, type Terrain, type WaterSet, type Way } from '@plat/model';
+import { resourceGrid, terrainParams, WATER_CELL, type SiteResources } from '@plat/site';
+import { loadWorkLimits, tableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import {
   BASE_OP_FORMS,
@@ -21,6 +22,7 @@ import {
   s3Slice,
   W_LAND_UNCLAIMED,
   baseS6Input,
+  waterMask,
   type BaseBatch,
   type BaseBlueprint,
   type GenerationReport,
@@ -354,5 +356,33 @@ describe("the river stage's F-WORK limit and report reach the run (C-0173 (8))",
     expect(s1Stage?.ladderUses[0].key).toContain('water.river');
     // the flat run at the law's own limit cuts nothing
     expect((runOf('flat:1', FLAT, 1).model.data.get('s1') as S1Record).river?.workCut).toBeNull();
+  });
+});
+
+describe('S1 (10) runs in the registered S1, after the water (C-0165 (5); C-0264 (11))', () => {
+  it("the resources cover the resource grid; on the river fixture the water's cells hold nothing and fish lie beside them; none on the flat", { timeout: 900_000 }, () => {
+    const river = runOf('river:1', RIVER, 1);
+    const flat = runOf('flat:1', FLAT, 1);
+    for (const r of [river, flat]) {
+      const res = r.model.data.get('resources') as SiteResources;
+      const terrain = r.model.data.get('terrain') as Terrain;
+      const g = resourceGrid(terrain, terrainParams(tableView(), 'CITY'));
+      expect(res.cellCm).toBe(g.cellCm);
+      for (const a of [res.ore, res.stone, res.timber, res.fish, res.clay, res.fertile, res.wellYield, res.slope]) expect(a.length).toBe(g.cols * g.rows);
+      expect(res.ore.every((v) => v === 0)).toBe(true); // plain relief: no ore
+    }
+    const rr = river.model.data.get('resources') as SiteResources;
+    const fr = flat.model.data.get('resources') as SiteResources;
+    const mask = waterMask(river.model.kernel, river.model.data.get('terrain') as Terrain, terrainParams(tableView(), 'CITY'), river.model.data.get('water') as WaterSet);
+    expect(mask).toBeDefined();
+    if (mask === undefined) return;
+    const wet = [...mask.keys()].filter((c) => mask[c] === WATER_CELL);
+    expect(wet.length).toBeGreaterThan(0);
+    for (const c of wet) expect([rr.wellYield[c], rr.timber[c], rr.fertile[c], rr.fish[c]]).toEqual([0, 0, 0, 0]);
+    expect(rr.fish.some((v) => v === 1)).toBe(true);
+    expect(rr.clay.some((v) => v === 1)).toBe(true);
+    expect(fr.fish.every((v) => v === 0)).toBe(true);
+    expect(fr.timber.every((v) => v === 1)).toBe(true);
+    expect(waterMask(flat.model.kernel, flat.model.data.get('terrain') as Terrain, terrainParams(tableView(), 'CITY'), { bodies: [], bridges: [] })).toBeUndefined();
   });
 });

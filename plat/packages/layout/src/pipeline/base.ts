@@ -3,10 +3,12 @@
 // 'base'; M0.md §5 item 25; C-0003, C-0020, C-0077, C-0095; readings C-0264).
 //
 // This is the one file that names every M0 stage. `registerBase(registry)` registers the base's strategies — S1's
-// TerrainStrategy (`base`, M0-e-01, and the flat fixture's `flat`, C-0016) and RiverStrategy (`base`, M0-e-02), the
+// TerrainStrategy (`base`, M0-e-01, and the flat fixture's `flat`, C-0016) and RiverStrategy (`base`: M0-e-02's, its
+// `hydro.cells` limit evaluated and its report taken by the runner, C-0173 (8)), the
 // EnceinteStrategy (`base`, M0-c-02), the NetworkStrategy's S4 part (`base`, M0-c-03) and the FabricStrategy
 // (`bent-cut`, M0-b-03) — and the six stages M0 builds, each composed from the Stage its item exports:
-//   S1  terrain (the registered TerrainStrategy) → water (the RiverStrategy) → S1's L0 batch (M0-e-03's `s1Stage`);
+//   S1  terrain (the registered TerrainStrategy) → water (the RiverStrategy) → S1's L0 batch (M0-e-03's `s1Stage`) →
+//       S1 (10)'s resources after the water (`siteResources`, C-0165 (5));
 //   S3  the slice (M0-c-01) on the flat fixture's site with S1's terrain and water, and its commits (M0-c-02): the
 //       border and the plaza as one declared batch, then stage 1's trace and strips — S5a's at k = 1 (C-0226 (2));
 //   S4  M0-c-03's `s4Stage`;
@@ -23,9 +25,9 @@
 // the base registered, the ground arena over the blueprint's frame, M0-x-02's `run`. M0 builds the flat fixture and its
 // river variant at CITY (`FLAT_BLUEPRINT`, `RIVER_BLUEPRINT`); S0's expansion — any other rung, population or aspect — is
 // M1's and refused by name.
-import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
+import { attachIndex, CONCERNS, createPlat, err, faceRings, handleOf, idOf, isFaceLive, compareFaces, ok, pointLocate, ratio, stageText, STAGES, type Committed, type Hash128, type Kernel, type KernelError, type KernelResult, type KernelTx, type LatticePoint, type Overlay, type Plat, type Seed, type StageId, type Warning } from '@plat/kernel';
 import { mintTownRoot, type DataKey, type District, type Gate, type Id, type Invariant, type Ladder, type Rung, type Scope, type StageContext, type Terrain, type WaterSet, type Way, type WorkLimitLaw } from '@plat/model';
-import { baseTerrain, cellCount, flatTerrain, GROUND_KEY, hydroGridOver, hydroParams, rasterGeom, riverStrategy, s1Stage, siteFrame, terrainParams, TERRAIN_ID, TOWN_ROOT, type RiverReport, type RiverRequest, type RiverStrategy, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
+import { baseTerrain, cellCount, centreX, centreY, flatTerrain, GROUND_KEY, hydroGridOver, hydroParams, LAND_CELL, rasterGeom, resourceGrid, riverStrategy, s1Stage, siteFrame, siteResources, terrainParams, terrainSampler, TERRAIN_ID, TOWN_ROOT, WATER_CELL, type RiverReport, type SiteResources, type TerrainParams, type RiverRequest, type RiverStrategy, type S1Output, type SiteRequest, type TerrainBlueprint, type TerrainStrategy } from '@plat/site';
 import { loadWorkLimits, rungProfile, tableView, workLimitOf, type BaseRung, type TableView, type WorkLimitsTable } from '@plat/tables';
 import { baseNetwork, NETWORK_STRATEGY_ID, s4Stage, type S4Output } from '../backbone/stage.js';
 import { s6Stage, siteFeatures, type S6Input } from '../districts/stage.js';
@@ -335,6 +337,31 @@ export function waterPlanOf(k: Kernel, water: WaterSet): KernelResult<WaterPlan>
   return ok({ faces, decks });
 }
 
+/**
+ * S1 (10)'s water mask (C-0165 (5)): per resource cell, WATER_CELL where its centre lies in an L0 face a water body of
+ * `water` owns, LAND_CELL elsewhere (a centre on a shore edge or vertex is land); undefined with no water (every cell
+ * land). M0 has no dry riverbed (lake typing's dry beds are M1's).
+ */
+export function waterMask(k: Kernel, terrain: Terrain, params: TerrainParams, water: WaterSet): Uint8Array | undefined {
+  if (water.bodies.length === 0) return undefined;
+  const p = k.plat(GROUND);
+  const bodies = new Set<number>();
+  for (const b of water.bodies) {
+    const h = handleOf(p, b.id);
+    if (h >= 0) bodies.add(h);
+  }
+  const g = resourceGrid(terrain, params);
+  const out = new Uint8Array(g.cols * g.rows).fill(LAND_CELL);
+  for (let j = 0; j < g.rows; j += 1) {
+    const y = Math.round(centreY(g, j));
+    for (let i = 0; i < g.cols; i += 1) {
+      const loc = pointLocate(p, GROUND, 0, { x: Math.round(centreX(g, i)), y } as LatticePoint);
+      if (loc.on === 'face' && bodies.has(p.faces[loc.level].owner[loc.face])) out[j * g.cols + i] = WATER_CELL;
+    }
+  }
+  return out;
+}
+
 // ---- S1 -------------------------------------------------------------------------------------------------------------------
 
 interface S1In {
@@ -346,7 +373,7 @@ function stageS1(registry: StrategyRegistry, opts: BaseOptions, riverReports: Ri
   return Object.freeze({
     ...declOf(item),
     inputs: ['blueprint'],
-    outputs: ['terrain', 'water', 's1'],
+    outputs: ['terrain', 'water', 'resources', 's1'],
     streamKeys: strs(item.streamKeys, ['terrain.noise', 'water.river']),
     inputsOf(model: ModelView, _scope: Scope): S1In | null {
       const bp = read<BaseRunBlueprint>(model, 'blueprint');
@@ -371,7 +398,16 @@ function stageS1(registry: StrategyRegistry, opts: BaseOptions, riverReports: Ri
       const s1 = item.run(item.inputsOf({ terrain: terrain.value, water: water.value, ...(river?.mouth === undefined ? {} : { mouth: river.mouth }), kernel: k } as never, { kind: 'all' }), sctx);
       if (!s1.ok) return refused(s1);
       const record: S1Record = { ...s1.value, river: riverReports.length > before ? (riverReports[riverReports.length - 1] as RiverReport) : null };
-      return ok({ terrain: s1.value.terrain, water: s1.value.water, s1: record }, [...terrain.warnings, ...water.warnings, ...s1.warnings]);
+      // S1 (10) after the water (C-0165 (5)): the resources on S1's terrain and committed water, the ore's sampler drawn
+      // from `terrain.noise` continued after the heightfield's (the stage run's one stream).
+      const rung = ctx.rung.rung as BaseRung;
+      const params = terrainParams(ctx.tables, rung);
+      const sampler = terrainSampler(s1.value.terrain, ctx.tables.table('terrain').num('settings', 'slopeQueryM') * 100);
+      const mask = waterMask(k, s1.value.terrain, params, s1.value.water);
+      const noise = CONCERNS['terrain.noise'];
+      const resources = siteResources(s1.value.terrain, sampler, params, { relief: input.bp.site.relief, ...(mask === undefined ? {} : { water: mask }) }, ctx.stream(noise, TOWN_ROOT, ctx.streamOpts(noise, TOWN_ROOT)));
+      if (!resources.ok) return refused(resources);
+      return ok({ terrain: s1.value.terrain, water: s1.value.water, resources: resources.value, s1: record }, [...terrain.warnings, ...water.warnings, ...s1.warnings]);
     },
   }) as PipelineStage<S1In | null, Record<string, unknown>>;
 }
@@ -568,6 +604,7 @@ interface S6In {
   readonly state: GrowthState;
   readonly water: WaterSet;
   readonly terrain: Terrain;
+  readonly resources?: SiteResources;
 }
 
 /** The stages' outlines k = 1 … K (a folded stage's is the stage before's), the last with land's, and the wall lines. */
@@ -632,7 +669,7 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
   const item = s6Stage();
   return Object.freeze({
     ...declOf(item),
-    inputs: strs(item.inputs, ['blueprint', 'terrain', 's3.slice', 's3.commit', 's5.growth']),
+    inputs: strs(item.inputs, ['blueprint', 'terrain', 'resources', 's3.slice', 's3.commit', 's5.growth']),
     outputs: strs(item.outputs, ['fieldBands', 'fields', 's6']),
     streamKeys: strs(item.streamKeys, ['field.chance']),
     inputsOf(model: ModelView, _scope: Scope): S6In | null {
@@ -643,7 +680,8 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
       const water = read<WaterSet>(model, 'water');
       const terrain = read<Terrain>(model, 'terrain');
       if (bp === undefined || slice === undefined || commit === undefined || state === undefined || water === undefined || terrain === undefined) return null;
-      return { bp, slice, commit, state, water, terrain };
+      const resources = read<SiteResources>(model, 'resources');
+      return { bp, slice, commit, state, water, terrain, ...(resources === undefined ? {} : { resources }) };
     },
     run(input: S6In | null, ctx: PipelineContext): KernelResult<Record<string, unknown>> {
       if (input === null) return ok({});
@@ -667,7 +705,7 @@ function stageS6(opts: BaseOptions): PipelineStage<S6In | null, Record<string, u
       const sources = fieldDriverSources(p, { reservations: [input.commit.plaza], ways: s6in.value.ways, gates: input.state.stages.flatMap((st) => st.gates), water: input.water, mainStreetClasses: fieldsOwnTable().strs('mainStreet', 'classes') });
       const concern = CONCERNS['field.chance'];
       const stream = ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT));
-      const fields = fieldsPass1({ frame: p.frame, rung: site.rung, terrain: input.terrain, sources }, { districts: s6.districts, faces: fieldFaces(p) }, ctx.tables, stream);
+      const fields = fieldsPass1({ frame: p.frame, rung: site.rung, terrain: input.terrain, resources: input.resources ?? null, sources }, { districts: s6.districts, faces: fieldFaces(p) }, ctx.tables, stream);
       if (!fields.ok) return refused(fields);
       const f = fields.value;
       return ok(

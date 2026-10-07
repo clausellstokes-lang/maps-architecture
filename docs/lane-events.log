@@ -6709,3 +6709,4 @@
 2026-10-07 12:38 build/M0-x-04 CHECKPOINT self-check: M01-M08 all killed; next M09-M25
 2026-10-07 12:40 build/M0-x-04 CHECKPOINT self-check: M09-M17 all killed; next M18-M25
 2026-10-07 12:53 build/M0-x-04 CHECKPOINT self-check: M18-M25: 7 killed, M24 survived -> test strengthened in run.test.ts (river from the north: S3's water gates), re-run killed; duty C-0173 (8) found unbuilt -> baseRiverStrategy + hydroCellsLimit + report forwarding added with tests; next M26-M29
+2026-10-07 13:02 build/M0-x-04 CHECKPOINT self-check: 30 mutants, 30 killed (M24 after a strengthened test), 0 equivalent run; duties found and built: C-0173 (8) river limit/report, C-0165 (5) S1 (10) resources; next: final gates, landed record, CLEAN-ROOM row
