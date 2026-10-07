@@ -1,3 +1,103 @@
+# Integration check of stage group 13: M0-c-04, M0-e-04, M0-b-04, M0-k-06 (flow flow-7) — re-check, 2026-10-07
+
+Lane `check/integration-flow-7-g13-close`, 2026-10-07 01:24 – 01:44. The first check (lane `check/integration-flow-7-g13`,
+verdict FAIL on B-1) is kept unchanged below this section.
+
+**Verdict: PASS.** B-1 is fixed. M0-e-04's integration fix round 1 (lane `build/M0-e-04-int-g13-fix1`, C-0257) gives
+`siteFeatures` and `S6Input` the wall lines by enceinte (`walls: WallLine[]`, read through `Gate.enceinte`). It seeds
+each main gate's ward only at a free face touching the gate's vertex, inside the gate's own wall line and outside every
+inner one. When no such face is left, it drops the gate and lists it in `seedsDropped`. The one-wall call with gates of
+two enceintes now throws a `TypeError` instead of seeding silently. Re-run on c-04's honest three-stage CITY output,
+every gate ward lies at its gate on its own side, and every dropped gate is reported. All gates are green. The files
+the fix changed hold no blocker.
+
+**The seat.** Opus 5.5 in Claude Code on the owner's Windows PC. `python3 tools/machine_profile.py --id` printed
+`wsl:Intel(R) Core(TM) i9-10900K CPU @ 3.70GHz:20cpu:16gib`, and `node --version` printed `v24.12.0`. The seat is
+independent of the items' authors and checkers, changed no file of any item, and ran no git command. Its ledger row is
+**L-0306**. Probes and logs are in `~/maps-scratch/waves/integration-g13-close/`. No timing was taken or judged.
+
+**Busy items.** The brief listed M0-c-05 and M0-e-04 as busy. M0-e-04's fix had landed at 01:23 (its LANDED line),
+and its files hash exactly as its re-landed record lists them (landed:verify `ok`), so this re-check judged them as
+landed. Nothing red was seen in either busy item's files.
+
+## (1) The previous failing line, re-run (CONFIRMED, executed)
+
+**B-1 (M0-e-04): fixed.** P1r (`p1r.mts`) is the first check's P1 with three changes:
+
+- A `WALL=walls` mode builds the composer's input as C-0257 (2) states it: `walls` = each walled stage's
+  `{ enceinte: stage 1 → the S3 commit's enceinte.id, later → stage.trace.enceinte.id, line: stage.wall }`. It passes
+  that to both `siteFeatures(…, { walls })` and `S6Input.walls`.
+- An independent per-gate check reads the committed arena with the probe's own geometry (ray casting, never
+  `faceInRing`). For each main gate it checks one of two things:
+  - **(a)** The gate has a ward that holds a side of an L1 edge ending at the gate's vertex. Every L1 edge the ward
+    holds, with its midpoint more than 2 m from every wall line, lies inside the gate's own wall and outside every inner
+    one. The ward's `growthStage` is its wall's stage.
+  - **(b)** The gate is in `seedsDropped`. Every district face that touches the gate's vertex on its own side is held by
+    the ward of a feature that comes before the gate in seed order. This is the only way the anchor can find no face.
+- A gate that has a ward and is also reported dropped, or that has no ward and is not reported, is counted bad.
+
+Results:
+
+| run | log | result |
+|---|---|---|
+| `WALL=walls`, seeds 1 – 20, grid 150 m, two runs each | `p1r-walls-1-10.log`, `p1r-walls-11-20.log` | S6 committed 20/20, deterministic 20/20 (S6 output digest and L0 / L1 level digests). Of 300 main gates, **261 wards satisfy (a)**: distance from gate 0 m for all 261, 141 of them outer-wall wards. **39 gates are dropped and reported, and 39/39 satisfy (b).** One stage-1 and one stage-2 gate are dropped per seed; seed 11 drops one. 0 gates are unreported, 0 are double-reported, and 0 wards lie in another region or carry another stage. `report.unowned` 0. Containment, the perimeter and `growthStage` ∈ 1 … 3 hold as in the first check |
+| the first check's own measure on the same runs | same | Each correct outer ward still shows 1 – 2 edges whose midpoints fall inside the stage-1 wall by raw ray casting. They are the `wall` edges at the inner gates: none survives the 2 m filter. C-0257 (6) says the same |
+| `WALL=1` (the one-call form with stage 1's wall), seeds 1 – 5 | `p1r-wall1.log` | Refused on 5/5: `TypeError: siteFeatures: the main gates name 2 enceintes (enceinte:1, enceinte:2); give each its wall line in \`walls\` (C-0257)`. This is the composer's error, raised before S6 runs. No silent wrong seed is possible |
+| `WALL=perStage` (one call per enceinte, each with its `wall`), seeds 1 – 2 | `p1r-perstage.log` | 13 wards per seed, every one at 0 m. 2 gates dropped and reported per seed. The touching rule alone stops a ward from crossing the wall |
+| S8 on every S6 district, seeds 1 – 3, `walls` | `p1r-s8.log` | `runS8` committed, no district refused. F-CUT: at most 3 kernel calls per ladder (2 324, 2 284 and 2 333 ladders), 0 ladders left < 1 face. Residue above 5 % (soft) in 3, 1 and 4 districts, with a maximum of 49 %, as in N-6. Every L1 face is still owned |
+
+The probe's other flags are the first check's known notes, unchanged by the fix:
+
+- the count law (`L` 32 – 39 against N_d 18; N-3);
+- the 28 – 29 cm `setback:enceinte:1` stub on seeds 5 and 19 (N-5);
+- the first probe's own "every gate seeds a ward" line, which drops now replace by design.
+
+## (2) Gates, run once (CONFIRMED, executed)
+
+| gate | command | result |
+|---|---|---|
+| install | `corepack pnpm install --frozen-lockfile` | exit 0 |
+| lint | `corepack pnpm lint` | exit 0: `lint: eslint 1013 files, 0 errors, 0 warnings`. Every planted probe line was listed, and it printed `lint: probe-red ok` |
+| build | `corepack pnpm build` | exit 0 |
+| landed:verify | `corepack pnpm landed:verify -- flow-7 --item <id>` for M0-c-04, M0-e-04, M0-b-04 and M0-k-06 | `ok (1 record)` × 4. The 9 files M0-e-04's fix changed hash exactly as its record lists them |
+| near, full strength | `vitest run --maxWorkers=3` over `layout/test/growth/s5ab/`, `layout/test/districts/` (now including `walls.test.ts`), `testkit/test/layout/districts/`, `bench/test/bentcut/`, `testkit/test/scanner/` and `bench/test/scan/` (PLAT_FUZZ_RUNS unset), 01:26 – 01:36 | exit 0: `Test Files 28 passed (28) · Tests 219 passed (219)` |
+| related, reduced | `PLAT_FUZZ_RUNS=1000 vitest related --run --maxWorkers=7` over the first check's 34 group sources (`related-sources.txt`; it includes every source the fix changed), 01:36 – 01:43 | exit 0: `Test Files 150 passed (150) · Tests 2012 passed (2012)` |
+
+The whole suite is not re-run. J193 keeps it for the milestone's end, and the first check's whole run (14 reds, all
+J176 Mac-reference) stands.
+
+## (3) The files the fix changed (read)
+
+The files read were:
+
+- `packages/layout/src/districts/seeds.ts` (whole), `stage.ts` (whole), `types.ts` (`WallLine`, `SeedAnchor`),
+  `index.ts` (exports) and `typing.ts` (the relation comment);
+- `packages/layout/test/districts/walls.test.ts` (whole) and `support.ts` (`growthRun`);
+- C-0257 and L-0304.
+
+No blocker was found:
+
+- There is no stub and no shortcut.
+- The new throws are `TypeError`s on a composer's malformed input: gates of two enceintes with one line, a gate whose
+  enceinte has no line, or a line of fewer than 3 points. They are not throws on valid input.
+- Drops are detect-and-refuse and are reported (J202).
+- `extramural` reads every line given (C-0257 (4)). `walls.test.ts` replays the sprawl score in all three regions.
+- The only `src/` caller of `siteFeatures` is S6's own module. The other callers are test supports, each with one
+  enceinte's gates, which the one-wall form still accepts.
+- Every path is inside `plat/`. L-0304 lists the reads.
+
+## Notes (not blockers; the first check's N-1 – N-8 stand)
+
+- **N-9 (M0-e-04, KI under J202; for the hardening pass and M0-c-06's report).** On c-04's three-stage CITY run,
+  39 of 300 main gates (13 %) are dropped: one per wall per seed (seed 11: one). The faces touching the gate on its side
+  all seed earlier features, usually a neighbouring gate's ward and the market. The drop is reported and its land goes
+  to the neighbouring wards. C-0257 (6) already records the make-it-succeed alternative (a matching over the shared
+  sectors) as KI. M0-c-06's integrated run should expect `seedsDropped` to be non-empty with S5's stages.
+- **N-10 (M0-e-04, informative).** `gateSides` decides that one wall line lies inside another by its first point
+  alone. That is sound for nested enceintes, which is what c-04 lays. Crossing wall lines are not a shape S5a produces.
+
+---
+
 # Integration check of stage group 13: M0-c-04, M0-e-04, M0-b-04, M0-k-06 (flow flow-7, 2026-10-06)
 
 Lane `check/integration-flow-7-g13`, 2026-10-06 22:52 – 2026-10-07 00:10.
