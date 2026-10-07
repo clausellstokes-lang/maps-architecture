@@ -31,7 +31,7 @@ import {
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
 import { parseTable, tableView, type TableView } from '@plat/tables';
-import { commitS3Slice, flatFixture, runS4, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type S3Commit, type S3Slice, type S6Input, type S6Output } from '../../src/index.js';
+import { commitS3Slice, flatFixture, runS4, runS5ab, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
@@ -397,7 +397,162 @@ export function cityRun(seed: number, gridM = 150, ringM = 180, widths: Map<Id, 
   return { seed, widths, plat, k, input, ways, slice, commit: c.value };
 }
 
+// ---- the three-stage CITY run: S3, S4, S5a/S5b (M0-c-04) and the stand-in grid, two enceintes --------------------------
+
+/** A run of the flat CITY fixture through S3, S4 and c-04's S5a/S5b (two walled stages and an open one), then S6's input. */
+export interface GrowthRun {
+  readonly seed: number;
+  readonly plat: Plat;
+  readonly k: Kernel;
+  readonly growth: GrowthState;
+  /** Every enceinte's wall line by id, innermost first (stage 1's: S3's trace; each later walled stage's: its trace). */
+  readonly walls: WallLine[];
+  /** Every stage's gates, in stage order. */
+  readonly gates: Gate[];
+  readonly ways: Way[];
+  readonly input: S6Input;
+}
+
+/**
+ * The flat CITY fixture at `seed` through S3's commits, S4 and M0-c-04's `runS5ab` (stage 1 walled, stage 2 walled, stage
+ * 3 open on the flat fixture), S5c's stand-in grid (`gridM`, 0: none) over the last outline clear of every wall, the
+ * plaza and every gate (cityRun's recipe over every enceinte), and S6's input as the composer reads c-04's state:
+ * the last stage with land's outline, each stage's outline, the ways, the sited features over the plaza and every
+ * stage's gates with every enceinte's wall line (`walls`, C-0257).
+ */
+export function growthRun(seed: number, gridM = 150): GrowthRun {
+  const site = flatFixture(seed);
+  const slice = s3Slice(site, {});
+  const plat = createPlat(GROUND, site.frame);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const widths = new Map<Id, number>();
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: spineWidthsOf(widths) });
+  const c = commitS3Slice(slice, k, {});
+  if (!c.ok) throw new Error(`support: S3's commits were refused: ${c.code} ${c.detail}`);
+  const s4 = runS4({ slice, commit: c.value, water: { bodies: [], bridges: [] }, kernel: k });
+  if (!s4.ok) throw new Error(`support: S4 was refused: ${s4.code} ${s4.detail}`);
+  const g5 = runS5ab({ slice, commit: c.value, s4: s4.value, kernel: k });
+  if (!g5.ok) throw new Error(`support: S5a/S5b were refused: ${g5.code} ${g5.detail}`);
+  const growth = g5.value;
+  const outlines: LatticePoint[][] = [];
+  for (const st of growth.stages) outlines.push(st.boundary !== null ? st.boundary.set.outline.slice() : outlines[outlines.length - 1].slice());
+  const last = growth.stages[growth.lastWithLand - 1].boundary;
+  if (last === null) throw new Error('support: no last boundary');
+  const boundary = last.set.outline.slice();
+  const walls: WallLine[] = growth.stages.filter((st) => st.wall !== null).map((st) => ({ enceinte: st.trace === null ? c.value.enceinte.id : st.trace.enceinte.id, line: (st.wall as LatticePoint[]).slice() }));
+  const gates = growth.stages.flatMap((st) => st.gates);
+  const ways = growth.ways.slice();
+  if (gridM > 0) {
+    const s = gridM * 100;
+    const clear = Math.max(c.value.strips.widthsCm.inner, c.value.strips.widthsCm.outer) + 1500;
+    let xmin = Infinity;
+    let xmax = -Infinity;
+    let ymin = Infinity;
+    let ymax = -Infinity;
+    for (const q of boundary) {
+      xmin = Math.min(xmin, q.x);
+      xmax = Math.max(xmax, q.x);
+      ymin = Math.min(ymin, q.y);
+      ymax = Math.max(ymax, q.y);
+    }
+    const gatePts: LatticePoint[] = [];
+    for (const gt of gates) {
+      const r = k.resolve({ role: 'gate', entity: gt.id }, GROUND);
+      if (r.view === 'vertices') for (const v of r.vertices) gatePts.push(P(plat.vertices.x[v], plat.vertices.y[v]));
+    }
+    const near = (ring: readonly LatticePoint[], a: LatticePoint, b: LatticePoint, d: number): boolean => {
+      for (let i = 0; i < ring.length; i += 1) {
+        const p = ring[i];
+        const q = ring[(i + 1) % ring.length];
+        if (segPointDist(p, a, b) < d || segPointDist(q, a, b) < d || segPointDist(a, p, q) < d || segPointDist(b, p, q) < d) return true;
+        const o = (u: LatticePoint, v: LatticePoint, w: LatticePoint): number => Math.sign((v.x - u.x) * (w.y - u.y) - (v.y - u.y) * (w.x - u.x));
+        if (o(a, b, p) !== o(a, b, q) && o(p, q, a) !== o(p, q, b)) return true;
+      }
+      return false;
+    };
+    const node = (i: number, j: number): LatticePoint | null => {
+      const rr = fixtureRandom(seed * 7919 + (i + 1000) * 10000 + (j + 1000));
+      const q = P(i * s + (rr() - 0.5) * 0.3 * s, j * s + (rr() - 0.5) * 0.3 * s);
+      return insidePoly(boundary, q) ? q : null;
+    };
+    const okSeg = (a: LatticePoint, b: LatticePoint): boolean => {
+      if (near(slice.plaza.ring, a, b, 1500)) return false;
+      for (const w of walls) if (near(w.line as LatticePoint[], a, b, clear)) return false;
+      for (const q of gatePts) if (segPointDist(q, a, b) < clear + 4000) return false;
+      return true;
+    };
+    let gi = 0;
+    const i0 = Math.floor(xmin / s) - 1;
+    const i1 = Math.ceil(xmax / s) + 1;
+    const j0 = Math.floor(ymin / s) - 1;
+    const j1 = Math.ceil(ymax / s) + 1;
+    for (const dir of [0, 1]) {
+      const [a0, a1, b0, b1] = dir === 0 ? [j0, j1, i0, i1] : [i0, i1, j0, j1];
+      for (let a = a0; a <= a1; a += 1) {
+        let run: LatticePoint[] = [];
+        const flush = (): void => {
+          if (run.length >= 2) {
+            const id = `way:g${String(gi)}`;
+            gi += 1;
+            lay(k, 1, STAGES.S5, run, [{ role: 'way', entity: id }]);
+            ways.push(wayRecord(id, 'secondary', 500));
+          }
+          run = [];
+        };
+        for (let b = b0; b <= b1; b += 1) {
+          const q = dir === 0 ? node(b, a) : node(a, b);
+          if (q === null) {
+            flush();
+            continue;
+          }
+          if (run.length > 0 && !okSeg(run[run.length - 1], q)) flush();
+          run.push(q);
+        }
+        flush();
+      }
+    }
+  }
+  for (const w of ways) widths.set(w.id, typeof w.width === 'number' ? w.width : 600);
+  const features = siteFeatures(plat, { reservations: [c.value.plaza], gates, ways, walls });
+  const input: S6Input = {
+    kernel: k,
+    key: GROUND,
+    seedKey: seedKey(seed),
+    rung: 'CITY',
+    boundary,
+    frame: site.frameRing,
+    stageBoundaries: outlines,
+    ways,
+    features,
+    reservations: [c.value.plaza],
+    walls,
+  };
+  return { seed, plat, k, growth, walls, gates, ways, input };
+}
+
 // ---- small grids for the grower's unit tests ------------------------------------------------------------------------------
+
+/**
+ * An arena of closed `secondary` way rings (each its own way, laid in order) inside a square border of side `sideM`
+ * centred on the origin: the faces their rings bound, for face-side tests.
+ */
+export function ringArena(sideM: number, rings: readonly (readonly LatticePoint[])[]): GridArena {
+  const half = (sideM * 100) / 2;
+  const frame: Frame = { widthCm: (sideM * 300) as Cm, heightCm: (sideM * 300) as Cm, aspect: 1, marginShare: 0.3 };
+  const plat = createPlat(GROUND, frame);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+  const pad = half * 2;
+  lay(k, 0, STAGES.S1, [P(-pad, -pad), P(pad, -pad), P(pad, pad), P(-pad, pad)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
+  lay(k, 1, STAGES.S3, [P(-half, -half), P(half, -half), P(half, half), P(-half, half)], [{ role: 'border', entity: 'terrain:t' }], { closed: true });
+  const ways: Way[] = [];
+  rings.forEach((r, i) => {
+    const id = `way:r${String(i)}`;
+    lay(k, 1, STAGES.S4, r, [{ role: 'way', entity: id }], { closed: true });
+    ways.push(wayRecord(id, 'secondary'));
+  });
+  return { plat, k, ways, centre: () => P(0, 0) };
+}
 
 /** A grid arena: rectangular cells, the outer ring the map border, the inner lines ways by `lineClass`. */
 export interface GridArena {

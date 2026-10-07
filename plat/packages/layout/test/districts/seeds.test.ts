@@ -2,8 +2,8 @@
 // in all"; C-0245 (4), (11)): the features' anchors, the compartments, the remainder's first seed at a compartment's
 // centroid and Lloyd's relaxation with the features fixed.
 import { describe, expect, it } from 'vitest';
-import { faceGraph, placeSeeds, s6DistrictCells, type FaceGraph } from '../../src/index.js';
-import { GROUND, gridArena, type GridArena } from './support.js';
+import { faceGraph, faceInRing, placeSeeds, s6DistrictCells, SIDE_DECISIVE_CM, type FaceGraph } from '../../src/index.js';
+import { GROUND, gridArena, P, ringArena, type GridArena } from './support.js';
 
 function graphOf(a: GridArena): FaceGraph {
   return faceGraph(a.plat, { ways: new Map(a.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: 'none', water: new Set() });
@@ -55,5 +55,68 @@ describe('the seeds (§4.5)', () => {
     expect(r0.seeds.length).toBe(4);
     // with N_d above the free faces the remainder stops short rather than seed a face twice
     expect(placeSeeds(g, land(g), f, 9, rate, 0).seeds.length).toBe(4);
+  });
+
+  it('a point anchor’s side (C-0257): only faces touching the point, inside `within`, outside every `outside` ring; none left there: dropped', () => {
+    // A 6 × 1 strip of 100 m cells; the gate's point on the line x = 200 m between cells 1 and 2. `within` holds cells
+    // 0 – 3 (its edges on the grid lines), `outside` cells 0 – 1: only cell 2 qualifies (cell 1 touches the point but
+    // lies inside the inner ring; cell 3 is inside and outside right but does not touch it).
+    const a = gridArena(6, 1, 100, () => 'secondary');
+    const g = graphOf(a);
+    const within = [P(0, 0), P(40000, 0), P(40000, 10000), P(0, 10000)];
+    const inner = [P(0, 0), P(20000, 0), P(20000, 10000), P(0, 10000)];
+    const at = { x: 20000, y: 5000 };
+    const gate = (id: string) => ({ id, kind: 'gate' as const, anchor: { kind: 'point' as const, at, touching: true, within, outside: [inner] } });
+    const r = placeSeeds(g, land(g), [gate('gate:0'), gate('gate:1')], 2, rate);
+    expect(r.seeds.filter((s) => s.kind === 'gate').map((s) => [s.feature, s.face])).toEqual([['gate:0', cell(a, g, 2, 0)]]);
+    // the second gate finds its one face taken: dropped and reported, never seeded at cell 3 (not touching) nor at
+    // cell 1 (behind the inner ring)
+    expect(r.dropped).toEqual(['gate:1']);
+    // without `touching` the second takes the nearest face on its side (cell 3); without the sides, the nearest (cell 1)
+    const loose = placeSeeds(g, land(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, within, outside: [inner] } }], 2, rate);
+    expect(loose.seeds.map((s) => s.face)).toEqual([cell(a, g, 2, 0), cell(a, g, 3, 0)]);
+    const free = placeSeeds(g, land(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, touching: true } }], 2, rate);
+    expect(free.seeds.map((s) => s.face)).toEqual([cell(a, g, 2, 0), cell(a, g, 1, 0)]);
+  });
+
+  it('a face’s side of a wall line: read at a boundary point off the line, points on the line never deciding (C-0257)', () => {
+    const a = gridArena(4, 1, 100, () => 'secondary');
+    const g = graphOf(a);
+    // a ring whose edges run along the grid lines around cells 0 – 1: every cell has vertices on it
+    const ring = [P(0, 0), P(20000, 0), P(20000, 10000), P(0, 10000)];
+    expect([0, 1, 2, 3].map((i) => faceInRing(g, cell(a, g, i, 0), ring))).toEqual([true, true, false, false]);
+    // clockwise, the same
+    expect([0, 1, 2, 3].map((i) => faceInRing(g, cell(a, g, i, 0), ring.slice().reverse()))).toEqual([true, true, false, false]);
+    // a line within the decisive distance of a cell's far side: that cell's far vertices still decide
+    const near = [P(0, 0), P(30000 - SIDE_DECISIVE_CM + 1, 0), P(30000 - SIDE_DECISIVE_CM + 1, 10000), P(0, 10000)];
+    expect(faceInRing(g, cell(a, g, 2, 0), near)).toBe(true);
+    expect(faceInRing(g, cell(a, g, 3, 0), near)).toBe(false);
+    // a face whose whole boundary is the line: the region the line encloses (a single cell, its own ring)
+    expect(faceInRing(g, cell(a, g, 1, 0), [P(10000, 0), P(20000, 0), P(20000, 10000), P(10000, 10000)])).toBe(true);
+    expect(faceInRing(g, cell(a, g, 2, 0), [P(10000, 0), P(20000, 0), P(20000, 10000), P(10000, 10000)])).toBe(false);
+    // a U-shaped face holds its centroid in its notch: read at its boundary, it lies outside a ring drawn in the notch
+    // (its centroid inside it) and inside a ring around the whole U
+    const u = [P(-3000, -3000), P(3000, -3000), P(3000, 9000), P(1000, 9000), P(1000, -1000), P(-1000, -1000), P(-1000, 9000), P(-3000, 9000)];
+    const ua = ringArena(200, [u]);
+    const ug = graphOf(ua);
+    const loc = ua.k.geom.pointLocate(GROUND, 1, P(-2000, 2000));
+    if (loc.on !== 'face') throw new Error('no U face');
+    const ui = ug.faces.findIndex((f) => f.face === loc.face);
+    const notch = [P(-500, 0), P(500, 0), P(500, 8000), P(-500, 8000)];
+    expect(ug.faces[ui].centroid.y).toBeGreaterThan(1000);
+    expect(Math.abs(ug.faces[ui].centroid.x)).toBeLessThan(500);
+    expect(faceInRing(ug, ui, notch)).toBe(false);
+    expect(faceInRing(ug, ui, [P(-4000, -4000), P(4000, -4000), P(4000, 10000), P(-4000, 10000)])).toBe(true);
+    // a face in the U's notch, every vertex on the U's line (a road across a concave bay of a wall): read at a
+    // midpoint off the line, it lies outside the U
+    const na = ringArena(200, [[P(-1000, -1000), P(1000, -1000), P(1000, 9000), P(-1000, 9000)]]);
+    const ng = graphOf(na);
+    const nloc = na.k.geom.pointLocate(GROUND, 1, P(0, 4000));
+    if (nloc.on !== 'face') throw new Error('no notch face');
+    expect(faceInRing(ng, ng.faces.findIndex((f) => f.face === nloc.face), u)).toBe(false);
+    // the memo answers as computed
+    const memo = new Map<number, boolean>();
+    expect(faceInRing(g, cell(a, g, 0, 0), ring, memo)).toBe(true);
+    expect(memo.get(cell(a, g, 0, 0))).toBe(true);
   });
 });

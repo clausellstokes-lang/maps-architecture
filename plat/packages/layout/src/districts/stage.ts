@@ -70,10 +70,10 @@ import { countLaw, quarterCount } from './law.js';
 import { settlementPerimeter } from './perimeter.js';
 import { quarterTree, type QuarterAdjacency } from './quarters.js';
 import { seamEdges, seamRuns } from './seams.js';
-import { placeSeeds } from './seeds.js';
+import { faceInRing, placeSeeds } from './seeds.js';
 import { districtCells, minBarrierClass, rosterBuildings, s6Table, typingCells } from './table.js';
 import { typeDistricts, type TypingDistrict } from './typing.js';
-import type { S6Output, S6Report, SeedFeature } from './types.js';
+import type { S6Output, S6Report, SeedFeature, WallLine, XY } from './types.js';
 
 const S6 = STAGES.S6 as StageId;
 
@@ -108,8 +108,16 @@ export interface S6Input {
   readonly features: readonly SeedFeature[];
   /** The reservations (the typing's 'plaza' relation reads the plaza's and the markets'). */
   readonly reservations?: readonly Reservation[];
-  /** The wall line (the typing's 'extramural' relation). */
+  /**
+   * The wall line of a one-enceinte town (the typing's 'extramural' relation); with `walls`, one more line among
+   * them (C-0257).
+   */
   readonly wall?: readonly LatticePoint[];
+  /**
+   * Every enceinte's wall line (each walled growth stage's, C-0257): a district is `extramural` when its seed face lies
+   * outside every wall line given (`walls` and `wall`).
+   */
+  readonly walls?: readonly WallLine[];
   readonly water?: WaterSet;
   readonly live?: readonly LiveEntry[];
   /** B for N_q (default the synthetic roster's, C-0035). */
@@ -136,17 +144,58 @@ function vertexOf(p: Plat, role: string, entity: Id, ordinal = 0): LatticePoint 
 }
 
 /**
- * The sited features M0 has, in seed order (§4.5 *Grower*): every plaza or market reservation (a `market` seed at its
- * barrier face), every main gate (at its `gate` vertex, its ward behind the wall when `wall` is given), both deck ends of every built bridge whose way is of class
- * ≥ the edge test's (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0245 (4).
+ * Each main gate's side (C-0257): its own enceinte's wall line (`within`) and the wall lines that line encloses — the
+ * inner enceintes (`outside`). `walls` is every enceinte's line by id; `wall` alone serves a town whose main gates all
+ * name one enceinte. A main gate naming an enceinte no line is given for, or `wall` alone with gates of two
+ * enceintes, is the composer's error (a TypeError): its ward's side could not be read.
  */
-export function siteFeatures(p: Plat, from: { readonly reservations?: readonly Reservation[]; readonly gates?: readonly Gate[]; readonly bridges?: readonly Bridge[]; readonly ways?: readonly Way[]; readonly water?: WaterSet; readonly wall?: readonly LatticePoint[] }): SeedFeature[] {
+function gateSides(gates: readonly Gate[], walls: readonly WallLine[] | undefined, wall: readonly LatticePoint[] | undefined): Map<Id, { within: readonly XY[]; outside: (readonly XY[])[] }> {
+  const out = new Map<Id, { within: readonly XY[]; outside: (readonly XY[])[] }>();
+  const main = gates.filter((g) => g.kind === 'main');
+  let lines: readonly WallLine[];
+  if (walls !== undefined) lines = walls;
+  else if (wall !== undefined) {
+    const named = [...new Set(main.map((g) => g.enceinte))];
+    if (named.length > 1) throw new TypeError(`siteFeatures: the main gates name ${String(named.length)} enceintes (${named.join(', ')}); give each its wall line in \`walls\` (C-0257)`);
+    lines = named.length === 1 ? [{ enceinte: named[0], line: wall }] : [];
+  } else return out;
+  for (const g of main) {
+    const own = lines.find((w) => w.enceinte === g.enceinte);
+    if (own === undefined) throw new TypeError(`siteFeatures: the gate ${g.id} names the enceinte ${g.enceinte}, whose wall line is not given (C-0257)`);
+    if (own.line.length < 3) throw new TypeError(`siteFeatures: the wall line of ${g.enceinte} has fewer than 3 points`);
+    // the inner enceintes: every other line lying inside this one (its first point inside the ring)
+    const inner = lines.filter((w) => w !== own && w.line.length >= 3 && insideRing(own.line, w.line[0])).map((w) => w.line);
+    out.set(g.id, { within: own.line, outside: inner });
+  }
+  return out;
+}
+
+/**
+ * The sited features M0 has, in seed order (§4.5 *Grower*): every plaza or market reservation (a `market` seed at its
+ * barrier face), every main gate (at a face touching its `gate` vertex; with `walls` or `wall`, behind its own wall and
+ * outside every inner enceinte — C-0257), both deck ends of every built bridge whose way is of class ≥ the edge test's
+ * (`bridgehead`), and every river (`riverbank`, at its longest bank) — C-0245 (4).
+ */
+export function siteFeatures(
+  p: Plat,
+  from: {
+    readonly reservations?: readonly Reservation[];
+    readonly gates?: readonly Gate[];
+    readonly bridges?: readonly Bridge[];
+    readonly ways?: readonly Way[];
+    readonly water?: WaterSet;
+    readonly wall?: readonly LatticePoint[];
+    readonly walls?: readonly WallLine[];
+  },
+): SeedFeature[] {
   const out: SeedFeature[] = [];
   for (const r of from.reservations ?? []) if (r.kind === 'plaza' || r.kind === 'market') out.push({ id: r.id, kind: 'market', anchor: { kind: 'owner', owner: r.id } });
+  const sides = gateSides(from.gates ?? [], from.walls, from.wall);
   for (const g of from.gates ?? []) {
     if (g.kind !== 'main') continue;
     const at = vertexOf(p, 'gate', g.id);
-    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, ...(from.wall === undefined ? {} : { prefer: from.wall }) } });
+    const side = sides.get(g.id);
+    if (at !== null) out.push({ id: g.id, kind: 'gate', anchor: { kind: 'point', at, touching: true, ...(side === undefined ? {} : { within: side.within, outside: side.outside }) } });
   }
   const top = minBarrierClass();
   const order = ['through', 'primary', 'secondary'];
@@ -290,6 +339,9 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
     }
     // 6. Typing and quarters.
     const reserved = new Set((input.reservations ?? []).filter((r) => r.kind === 'plaza' || r.kind === 'market').map((r) => r.id));
+    // 'extramural': the seed face outside every wall line given (C-0257)
+    const wallLines = [...(input.walls ?? []).map((w) => w.line), ...(input.wall === undefined ? [] : [input.wall])].filter((w) => w.length >= 3);
+    const wallSides = wallLines.map(() => new Map<number, boolean>());
     const typingInput: TypingDistrict[] = alive.map((d) => {
       const rel = new Set<string>([`seed.${d.seed.kind}`]);
       for (const i of d.faces) {
@@ -300,7 +352,7 @@ export function s6Batch(p: Plat, input: Omit<S6Input, 'kernel'>, perimeter: read
           if (g.faces[j].water) rel.add('water');
         }
       }
-      if (input.wall !== undefined && input.wall.length >= 3 && !insideRing(input.wall, g.faces[d.seed.face].centroid)) rel.add('extramural');
+      if (wallLines.length > 0 && wallLines.every((w, wi) => !faceInRing(g, d.seed.face, w, wallSides[wi]))) rel.add('extramural');
       return { id: (ids.get(d.seed.order) as { id: Id }).id, areaCm2: d.areaCm2, relations: rel };
     });
     const typing = typeDistricts(typingInput, typingCells(s6Table()), (id) => {

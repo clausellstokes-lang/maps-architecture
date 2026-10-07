@@ -17,14 +17,26 @@ export interface XY {
 export type SeedKind = 'market' | 'gate' | 'castle' | 'bridgehead' | 'riverbank' | 'temple' | 'harbour' | 'park' | 'remainder' | 'leftover';
 
 /**
- * Where a sited feature seeds its district (C-0245 (4)): the claimable coarse face sharing the longest boundary with
- * the faces an entity owns (a reservation: the market's plaza); the claimable face nearest a point (a gate's vertex, a
- * bridgehead's landward deck end) — among the faces whose centroid lies inside `prefer` when any does (a gate's ward
- * behind its wall); or the claimable face with the longest shore or bank of a water body (a river bank).
+ * One enceinte's wall line (C-0257): a walled growth stage's (§4.4 S5a; stage 1's S3's trace), by the enceinte's id —
+ * the id each of its gates names (`Gate.enceinte`).
+ */
+export interface WallLine {
+  readonly enceinte: Id;
+  /** The wall's closed line (lattice points, either orientation). */
+  readonly line: readonly XY[];
+}
+
+/**
+ * Where a sited feature seeds its district (C-0245 (4), C-0257): the claimable coarse face sharing the longest boundary
+ * with the faces an entity owns (a reservation: the market's plaza); the claimable face nearest a point (a gate's
+ * vertex, a bridgehead's landward deck end) — only among the faces whose boundary passes through the point when
+ * `touching` (a gate's ward at its gate), lying inside `within` and outside every ring of `outside` when they are given
+ * (a gate's ward behind its own wall and outside every inner enceinte); none left there: the feature is dropped and
+ * reported; or the claimable face with the longest shore or bank of a water body (a river bank).
  */
 export type SeedAnchor =
   | { readonly kind: 'owner'; readonly owner: Id }
-  | { readonly kind: 'point'; readonly at: XY; readonly prefer?: readonly XY[] }
+  | { readonly kind: 'point'; readonly at: XY; readonly touching?: boolean; readonly within?: readonly XY[]; readonly outside?: readonly (readonly XY[])[] }
   | { readonly kind: 'shore'; readonly body: Id };
 
 /** A sited feature that seeds a district (§4.5 *Grower*'s "Seeds = the sited features"). */
