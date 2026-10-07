@@ -6498,3 +6498,4 @@
 2026-10-06 20:46 check/M0-e-04-close-r1 CHECKPOINT gates: install 0, lint 0 (950 files, probe-red ok), build 0, landed:verify ok (1 record); mirrors m1-m3 under close-r1/ installed; next: NEAR, RELATED, B-1 probes, B-2 mutants
 2026-10-06 20:48 check/M0-b-04-close-s1 CHECKPOINT mutants 21/30 done; next: remaining mutants, write-up
 2026-10-06 20:48 check/M0-c-04-close-r1 CHECKPOINT C1 (=M22) killed by bar-1 (20/20 seeds 'c recorded 7 vs 8') and growth.test.ts (2 tests); C2-C5 running; next: related@1000, verdict
+2026-10-06 20:58 check/M0-e-04-close-r1 CHECKPOINT NEAR 10 files 79/79; RELATED (1000) 68 files 527/527 exit 0; next: B-1 probe (fresh families, m1) and 26 targeted mutants (m2/m3)
