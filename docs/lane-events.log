@@ -6706,3 +6706,5 @@
 2026-10-07 12:17 build/M0-x-04 CHECKPOINT confirmed in mirror: with S1's land:<n> read as unowned by S6, flat CITY gives 31 districts/1376 lanes and river 53/1447, bugs []; base adapter now detects-and-refuses S6 (W_LAND_UNCLAIMED); tests table.test.ts + run.test.ts written; next: run them, choices row, gates
 2026-10-07 12:20 build/M0-x-04 CHECKPOINT own tests 21/21 green (table + run); site keyed by the runner's town root; choices C-0264 appended; next: gates install/lint/build/related, then self-check
 2026-10-07 12:33 build/M0-x-04 CHECKPOINT gates: install 0, lint 0 (probe-red ok), build 0, own tests 27/27, related 102 files/800 tests 0; self-check: mirror rebuilt (0 links out), 25 mutants listed; next: baseline + mutants
+2026-10-07 12:38 build/M0-x-04 CHECKPOINT self-check: M01-M08 all killed; next M09-M25
+2026-10-07 12:40 build/M0-x-04 CHECKPOINT self-check: M09-M17 all killed; next M18-M25
