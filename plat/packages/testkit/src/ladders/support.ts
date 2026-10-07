@@ -88,9 +88,12 @@ export function heightStrategy(heightM: (x: number, y: number) => number): Terra
   }) as unknown as TerrainStrategy;
 }
 
-/** The small flat town: the flat fixture's site in a 400 ha frame with 30 ha walled (M0-c-02's and M0-c-03's small site). */
-export function smallFlat(terrain = 'flat'): BaseBlueprint {
-  return Object.freeze({ ...FLAT_BLUEPRINT, size: Object.freeze({ ...FLAT_BLUEPRINT.size, areaHa: 400 }), walledHa: 30, terrain });
+/**
+ * The small flat town: the flat fixture's site in a 400 ha frame with 30 ha walled (M0-c-02's and M0-c-03's small site),
+ * or 60 ha (M0-c-05's, whose S5c grows streets on both sides of its arterials).
+ */
+export function smallFlat(terrain = 'flat', walledHa = 30): BaseBlueprint {
+  return Object.freeze({ ...FLAT_BLUEPRINT, size: Object.freeze({ ...FLAT_BLUEPRINT.size, areaHa: 400 }), walledHa, terrain });
 }
 
 /** The small river town: the river fixture's site (a river from the west) in the same frame, on `terrain`. */
@@ -126,11 +129,6 @@ export function valleyWithRidge(x: number, y: number): number {
 /** Ground falling 2 % eastward: a river from the north turns east and leaves far from the core (F-RIVER's inlet rung). */
 export function eastward(x: number, y: number): number {
   return 50 - 0.02 * (x / 100) + 0.001 * (y / 100);
-}
-
-/** A plane rising `grade` northward (rise over run): every lattice edge with a northward run is that steep. */
-export function tilted(grade: number): (x: number, y: number) => number {
-  return (_x: number, y: number) => 100 + grade * (y / 100);
 }
 
 // ---- S8's districts on a hand-built arena ----------------------------------------------------------------------------------

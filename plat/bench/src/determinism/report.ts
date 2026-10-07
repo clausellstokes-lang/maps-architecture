@@ -129,7 +129,9 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
   const inProcess = inProcessAgainst(crosshost, seeds);
   if (inProcess.agrees === false) failures.push(`in-process: differs from ${String(inProcess.comparedWith)}`);
 
-  // Distinctness.
+  // Distinctness. (A bar the configuration did not ask for — no in-process seed, `--checks 0`, `--pairs 0` — passes
+  // vacuously and says so: its counts are 0 and `asked` in the summary is false.)
+  const asked = Math.max(cfg.pairs, cfg.checks);
   const sum = (f: (s: SeedResult) => number): number => seeds.reduce((n, s) => n + f(s), 0);
   const firstCol = seeds.map((s) => s.census.streams.firstCollision ?? s.census.lineages.firstCollision).find((c) => c !== null && c !== undefined) ?? null;
   const entityDups = sum((s) => s.entityLineages.duplicates);
@@ -141,7 +143,7 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
     entityLineages: { entities: sum((s) => s.entityLineages.entities), duplicates: entityDups, first: seeds.map((s) => s.entityLineages.first).find((x) => x !== null) ?? null },
     pass: false,
   };
-  distinctness.pass = seeds.length > 0 && distinctness.streams.collisions === 0 && distinctness.lineages.collisions === 0 && entityDups === 0 && distinctness.streams.distinct > 0 && distinctness.lineages.distinct > 0;
+  distinctness.pass = (seeds.length === 0 && asked === 0) || (seeds.length > 0 && distinctness.streams.collisions === 0 && distinctness.lineages.collisions === 0 && entityDups === 0 && distinctness.streams.distinct > 0 && distinctness.lineages.distinct > 0);
   if (!distinctness.pass) failures.push(`distinctness: ${String(distinctness.streams.collisions)} stream-key and ${String(distinctness.lineages.collisions)} lineage collisions, ${String(entityDups)} shared entity lineages${seeds.length === 0 ? ', no seed censused' : ''}`);
 
   // Oracle.
@@ -154,7 +156,7 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
     first: ofirst === undefined || ofirst.oracle.first === null ? null : { seed: ofirst.seed, spike: ofirst.oracle.first.spike, stage: ofirst.oracle.first.stage, batch: ofirst.oracle.first.batch },
     pass: false,
   };
-  oracle.pass = seeds.length > 0 && oracle.mismatches === 0 && oracle.endFailures === 0 && oracle.batches > 0;
+  oracle.pass = (seeds.length === 0 && asked === 0) || (seeds.length > 0 && oracle.mismatches === 0 && oracle.endFailures === 0 && oracle.batches > 0);
   if (!oracle.pass) failures.push(`oracle: ${String(oracle.mismatches)} of ${String(oracle.batches)} batches missed, ${String(oracle.endFailures)} end check(s) failed`);
 
   // Dilation and op order.
@@ -163,8 +165,8 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
   const ops = checked.flatMap((s) => (s.checks ?? []).filter((c) => c.what.startsWith('op order')).map((c) => ({ s, c })));
   const dfirst = firstOf(dil.filter((x) => x.c.first !== null).map((x) => ({ seed: x.s.seed, stage: (x.c.first as { stage: string }).stage, check: x.c.what })));
   const ofirstOp = firstOf(ops.filter((x) => x.c.first !== null).map((x) => ({ seed: x.s.seed, stage: (x.c.first as { stage: string }).stage, check: x.c.what })));
-  const dilation = { seeds: checked.length, factors: [...DILATION], runs: dil.length, differing: dil.filter((x) => !x.c.identical).length, reads: dil.reduce((n, x) => n + x.c.count, 0), first: dfirst, pass: dil.length > 0 && dil.every((x) => x.c.identical) };
-  const opOrder = { seeds: checked.length, runs: ops.length, differing: ops.filter((x) => !x.c.identical).length, permutedBatches: ops.reduce((n, x) => n + x.c.count, 0), first: ofirstOp, pass: ops.length > 0 && ops.every((x) => x.c.identical) };
+  const dilation = { seeds: checked.length, factors: [...DILATION], runs: dil.length, differing: dil.filter((x) => !x.c.identical).length, reads: dil.reduce((n, x) => n + x.c.count, 0), first: dfirst, pass: cfg.checks === 0 || (dil.length > 0 && dil.every((x) => x.c.identical)) };
+  const opOrder = { seeds: checked.length, runs: ops.length, differing: ops.filter((x) => !x.c.identical).length, permutedBatches: ops.reduce((n, x) => n + x.c.count, 0), first: ofirstOp, pass: cfg.checks === 0 || (ops.length > 0 && ops.every((x) => x.c.identical)) };
   if (!dilation.pass) failures.push(`dilation: ${String(dilation.differing)} of ${String(dilation.runs)} runs differ`);
   if (!opOrder.pass) failures.push(`op order: ${String(opOrder.differing)} of ${String(opOrder.runs)} runs differ`);
 
@@ -258,6 +260,7 @@ export function summaryOf(r: DeterminismSpikeReport): Record<string, unknown> {
     inProcess: { seeds: r.inProcess.seeds, agrees: r.inProcess.agrees },
     distinctness: { seeds: r.distinctness.seeds, streams: r.distinctness.streams, lineages: r.distinctness.lineages, entityLineages: { entities: r.distinctness.entityLineages.entities, duplicates: r.distinctness.entityLineages.duplicates }, pass: r.distinctness.pass },
     oracle: { seeds: r.oracle.seeds, batches: r.oracle.batches, mismatches: r.oracle.mismatches, endFailures: r.oracle.endFailures, pass: r.oracle.pass },
+    asked: { inProcessSeeds: r.inProcess.seeds, checkSeeds: r.dilation.seeds, pairs: r.matching.pairs },
     dilation: { seeds: r.dilation.seeds, runs: r.dilation.runs, differing: r.dilation.differing, reads: r.dilation.reads, pass: r.dilation.pass },
     opOrder: { seeds: r.opOrder.seeds, runs: r.opOrder.runs, differing: r.opOrder.differing, permutedBatches: r.opOrder.permutedBatches, pass: r.opOrder.pass },
     matching: {

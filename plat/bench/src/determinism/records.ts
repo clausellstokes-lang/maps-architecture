@@ -7,7 +7,7 @@
 // two trees, then RECORDS_BATCHES district re-derivations (`rederiveDistrict`) applied as batches, each the model
 // entries and the records entries one batch writes. With the oracle switch on, after the build and after every batch
 // both trees' maintained roots are compared with their full recomputation (§6.2's CI oracle; §5.3's CI-only row).
-import { buildDigests, rederiveDistrict, syntheticCity, type ModelDigest, type RecordsDigest } from '@plat/model';
+import { buildDigests, rederiveDistrict, syntheticCity, type ModelDigest, type RecordsDigest, type SyntheticCity } from '@plat/model';
 import { hex128, type OracleMiss } from './spike.js';
 
 /** The district re-derivations applied as batches after the build. */
@@ -33,7 +33,10 @@ function check(model: ModelDigest, records: RecordsDigest): boolean {
 }
 
 /** The records tree at `seed`, with the oracle after the build and every batch when asked. */
-export function recordsRun(seed: number, opts: { readonly oracle?: boolean; readonly batches?: number } = {}): RecordsRun {
+export function recordsRun(
+  seed: number,
+  opts: { readonly oracle?: boolean; readonly batches?: number; readonly afterBatch?: (city: SyntheticCity, model: ModelDigest, records: RecordsDigest, batch: number) => void } = {},
+): RecordsRun {
   if ((seed >>> 0) !== seed) throw new RangeError(`records: a seed is a u32, got ${String(seed)}`);
   const batches = opts.batches ?? RECORDS_BATCHES;
   const city = syntheticCity(seed);
@@ -42,6 +45,8 @@ export function recordsRun(seed: number, opts: { readonly oracle?: boolean; read
   let mismatches = 0;
   let first: OracleMiss | null = null;
   const oracle = (batch: number): void => {
+    // A test's hook (a negative control tampers with a tree here, before the oracle reads it).
+    opts.afterBatch?.(city, model, records, batch);
     if (opts.oracle !== true) return;
     checked += 1;
     if (!check(model, records)) {

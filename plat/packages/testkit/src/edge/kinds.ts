@@ -104,3 +104,39 @@ export function ringArea2(ring: readonly { x: number; y: number }[]): number {
   }
   return a;
 }
+
+/**
+ * A closed ring (counter-clockwise, its closing vertex not repeated) made the kind at its first vertex, the rest kept:
+ * zero-length — that vertex given twice (a zero-length edge); zero-area — a spike out along its first edge's normal and
+ * back (an antenna of zero area); self-touching — a loop leaving it and returning to it (the ring visits it twice);
+ * collinear — every edge's midpoint added (collinear vertices); coincident — the ring given twice round (every vertex
+ * coincident with another).
+ */
+export function degenerateRing(ring: readonly { x: number; y: number }[], kind: DegenerateKind): LatticePoint[] {
+  const pts = ring.map((p) => lp(p.x, p.y));
+  const a = pts[0];
+  const { dx, dy, s } = legOf(pts);
+  const nx = dy;
+  const ny = -dx;
+  switch (kind) {
+    case 'zero-length':
+      return [a, { ...a }, ...pts.slice(1)];
+    case 'zero-area':
+      return [a, lp(a.x + 2 * s * nx, a.y + 2 * s * ny), { ...a }, ...pts.slice(1)];
+    case 'self-touching':
+      return [a, lp(a.x + s * nx, a.y + s * ny), lp(a.x + s * nx + s * dx, a.y + s * ny + s * dy), { ...a }, ...pts.slice(1)];
+    case 'collinear': {
+      const out: LatticePoint[] = [];
+      for (let i = 0; i < pts.length; i += 1) {
+        const p = pts[i];
+        const q = pts[i + 1 === pts.length ? 0 : i + 1];
+        out.push(p);
+        const m = lp((p.x + q.x) / 2, (p.y + q.y) / 2);
+        if ((m.x !== p.x || m.y !== p.y) && (m.x !== q.x || m.y !== q.y)) out.push(m);
+      }
+      return out;
+    }
+    case 'coincident':
+      return [...pts, ...pts.map((p) => ({ ...p }))];
+  }
+}

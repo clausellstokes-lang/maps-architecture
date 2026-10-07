@@ -159,6 +159,19 @@ export function timedPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
   return Object.freeze({ name: `spike-${pair.spike}-${String(pair.seed)}`, seed: pair.seed, old, fresh, anchors });
 }
 
+/** Counts the addresses held more than once after the hand-on: the survivors' and every fresh entity's final one. */
+export function duplicateIds(result: MatchResult, old: readonly MatchEntity[], fresh: readonly MatchEntity[]): number {
+  const held = new Map<Id, number>();
+  for (const e of old) if (e.survives === true) held.set(e.id, (held.get(e.id) ?? 0) + 1);
+  for (const f of fresh) {
+    const a = result.addressOf.get(f.id) ?? f.id;
+    held.set(a, (held.get(a) ?? 0) + 1);
+  }
+  let n = 0;
+  for (const c of held.values()) if (c > 1) n += c - 1;
+  return n;
+}
+
 /** Counts the silent re-binds of a result over the entities matched (see the module comment). */
 export function silentRebinds(result: MatchResult, old: readonly MatchEntity[], fresh: readonly MatchEntity[]): { silent: number; reported: number } {
   let silent = 0;
@@ -217,15 +230,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
     });
   });
 
-  // Duplicate ids: every address held after the hand-on — the survivors' and each fresh entity's final one.
-  const held = new Map<Id, number>();
-  for (const e of old) if (e.survives === true) held.set(e.id, (held.get(e.id) ?? 0) + 1);
-  for (const f of fresh) {
-    const a = result.addressOf.get(f.id) ?? f.id;
-    held.set(a, (held.get(a) ?? 0) + 1);
-  }
-  let duplicateIds = 0;
-  for (const n of held.values()) if (n > 1) duplicateIds += n - 1;
+  const dups = duplicateIds(result, old, fresh);
   const rb = silentRebinds(result, old, fresh);
 
   return Object.freeze({
@@ -234,7 +239,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
     standing: Object.freeze({ rootsEqual, recordsEqual, entities: standing.length, missing, firstMissing, editedLater }),
     perKind: Object.freeze(perKind),
     totals: Object.freeze({ ...result.counts }),
-    duplicateIds,
+    duplicateIds: dups,
     silentRebinds: rb.silent,
     reportedRefs: rb.reported,
     carry: result.carry.length,

@@ -24,7 +24,7 @@ import { runSeedTask, type SeedTask } from './task.js';
 export { addressLineage, MATCH_KINDS, spikeEntities, type MadeBy, type MatchKind, type SpikeEntities, type SpikeEntity } from './entities.js';
 export { censusCounts, censusInstalled, withKeyCensus, type CensusCounts, type KeyCensusResult } from './census.js';
 export { RECORDS_BATCHES, recordsRun, type RecordsRun } from './records.js';
-export { anchorRefs, m0Anchors, matchPair, pairEntities, rederive, S5_REROLL, silentRebinds, STANDING, timedPair, type KindCounts, type PairResult, type PairSide, type RederivedPair, type RederiveOptions } from './rederive.js';
+export { anchorRefs, duplicateIds, m0Anchors, matchPair, pairEntities, rederive, S5_REROLL, silentRebinds, STANDING, timedPair, type KindCounts, type PairResult, type PairSide, type RederivedPair, type RederiveOptions } from './rederive.js';
 export { buildReport, firstOf, reportLines, reportText, summaryOf, type DeterminismSpikeReport, type FirstDifference, type KindTotals } from './report.js';
 export { canSpawnTasks, CITY_SEED_MS, defaultConfig, DEFAULTS, FIXTURE_ID, fixtureOf, harnessStamp, joinRuns, loadTable, pool, runCrossHostSharded, runDeterminism, runSeedTasks, shards, SIZES, SPIKE_ENTRY, taskConfig, tasksOf, TEST_SEED_MS, type DeterminismConfig, type SizeName } from './runner.js';
 export { CITY_SIZE, hex128, SPIKES, spikeBlueprint, spikeRun, textDigest, type OracleMiss, type OracleTally, type SpikeName, type SpikeRun, type SpikeRunOptions, type SpikeSize } from './spike.js';

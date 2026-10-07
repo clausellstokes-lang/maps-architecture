@@ -49,12 +49,32 @@ export const CHAIN_ORDER: readonly ChainStage[] = Object.freeze(['S1', 'S3', 'S4
 /** S5's sub-stages (§4.1's S5 row). */
 export type S5Sub = 'S5a' | 'S5b' | 'S5c' | 'S5d';
 
-/** The small flat frame (C-EDGE (4)): CITY, 12 ha of frame at aspect 1, 3 ha walled — the base's smallest state. */
+/**
+ * The small flat frame (C-EDGE (4)): CITY, 30 ha of frame at aspect 1, 6 ha walled — the smallest frame on which the
+ * base's stage-2 trace stands on every seed surveyed (on 12 ha, F-WALL refuses stage 2's trace on about half the seeds,
+ * its later rungs M1's: the frame, not the fixture, would decide).
+ */
 export const SMALL_FLAT: BaseBlueprint = Object.freeze({
-  size: Object.freeze({ rung: 'CITY', aspect: 1, areaHa: 12 }),
+  size: Object.freeze({ rung: 'CITY', aspect: 1, areaHa: 30 }),
   site: Object.freeze({ relief: 'plain' as const, river: null }),
   terrain: 'flat',
-  walledHa: 3,
+  walledHa: 6,
+}) as BaseBlueprint;
+
+/** The mid flat frame: CITY, 120 ha, 40 ha walled — S5b lays a main road at stage 2 and S5c grows from seeds at stage 1. */
+export const MID_FLAT: BaseBlueprint = Object.freeze({
+  size: Object.freeze({ rung: 'CITY', aspect: 1, areaHa: 120 }),
+  site: Object.freeze({ relief: 'plain' as const, river: null }),
+  terrain: 'flat',
+  walledHa: 40,
+}) as BaseBlueprint;
+
+/** The small river frame: the small flat frame with M0-x-04's river (from the west, no mouth) on the base terrain. */
+export const SMALL_RIVER: BaseBlueprint = Object.freeze({
+  size: Object.freeze({ rung: 'CITY', aspect: 1, areaHa: 30 }),
+  site: Object.freeze({ relief: 'plain' as const, river: Object.freeze({ inflowBearingCdeg: 27_000, mouth: 'none' as const }) }),
+  terrain: 'base',
+  walledHa: 6,
 }) as BaseBlueprint;
 
 /** What the S5 driver may do between sub-stages: act on the growth state before a sub-stage runs. */
@@ -71,6 +91,8 @@ export interface ChainOptions {
   /** S5's hooks: before each sub-stage; stop after a sub-stage at stage k; S5c's and S5d's options (their insert hook). */
   readonly s5?: {
     readonly before?: S5Hook;
+    /** After S5's last sub-stage, before its outputs are written (S6 reads the state as this leaves it). */
+    readonly after?: (state: GrowthState) => void;
     readonly stopAfter?: { readonly sub: S5Sub; readonly k: number };
     readonly grow?: StreetGrowOptions;
   };
@@ -171,6 +193,7 @@ function s5Driver(base: PipelineStage, opts: ChainOptions, log: S5Log, plog: Pla
         log.capacity.push(cap.value);
         if (done('S5d', k)) return out();
       }
+      opts.s5?.after?.(state);
       return out();
     },
   }) as PipelineStage;

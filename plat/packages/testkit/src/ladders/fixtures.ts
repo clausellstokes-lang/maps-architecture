@@ -10,7 +10,7 @@ import { baseEnceinte, capacityCheck, commitOuterRing, flatFixture, s3Slice, s8S
 import { arb, seedFamily } from '../fuzz/index.js';
 import { runChain, type ChainSpec } from './chain.js';
 import { readModel, readS8, readTrace, sumLeaves, bump, type Tally } from './readers.js';
-import { districtOf, eastward, GROUND, heightStrategy, lowFloor, P, smallFlat, smallRiver, tilted, valley, valleyWithRidge, valleyWithSink, waysCase, type S8Case } from './support.js';
+import { districtOf, eastward, GROUND, heightStrategy, lowFloor, P, smallFlat, smallRiver, valley, valleyWithRidge, valleyWithSink, waysCase, type S8Case } from './support.js';
 import type { Leaves } from './types.js';
 
 /** A fixture: its id, what it forces, and its run. */
@@ -34,7 +34,7 @@ function runS8Stage(c: S8Case, patch: Partial<S8Input> = {}): Leaves {
 }
 
 /** A face of M0-k-01's M0 (b) synthetic set at block scale, drawn at `seedFamily('x05/<kind>', i)` (M0-b-04's draw). */
-function familyFace(kind: 'curved' | 'round-joined' | 'triangular' | 'C-shaped' | 'holed', i: number): { polygon: PolygonCm; seed: number } {
+export function familyFace(kind: 'curved' | 'round-joined' | 'triangular' | 'C-shaped' | 'holed', i: number): { polygon: PolygonCm; seed: number } {
   const s = seedFamily(`x05/${kind}`, i);
   const [face] = fc.sample(arb.faceSet(kind, { scale: 'block' }), { seed: s | 0, numRuns: 1 });
   return { polygon: face.polygon, seed: s >>> 0 };
@@ -45,21 +45,6 @@ const L_SHAPE = [P(0, 0), P(30_000, 0), P(30_000, 12_000), P(12_000, 12_000), P(
 
 /** The plain district: a 200 m × 150 m rectangle (no reflex vertex, no antenna; its ladder takes rung (a) at attempt 0). */
 const RECT = [P(0, 0), P(20_000, 0), P(20_000, 15_000), P(0, 15_000)];
-
-/** A 400 m × 300 m ring road with a 100 m dead-end stub into the district from its south side: the face's antenna. */
-function antennaCase(seed: number): S8Case {
-  const W = 40_000;
-  const H = 30_000;
-  return waysCase(
-    60_000,
-    [
-      { id: 'way:ring', cls: 'secondary', widthCm: 600, points: [P(0, 0), P(W, 0), P(W, H), P(0, H)], closed: true },
-      { id: 'way:stub', cls: 'secondary', widthCm: 600, points: [P(W / 2, 0), P(W / 2, 10_000)] },
-    ],
-    [[P(W / 4, H / 2)]],
-    seed,
-  );
-}
 
 /** Two districts in a 400 m × 300 m ring road split by an arterial (M0-b-03's F-WORK fixture). */
 function twoDistricts(seed: number): S8Case {
@@ -167,46 +152,51 @@ function kernelWork(limit: number): Leaves {
   return sumLeaves(t);
 }
 
-const TILT = 'x05-tilt';
 const SINK = 'x05-sink';
 const RIDGE_T = 'x05-ridge';
 const EAST = 'x05-east';
 const VALLEY = 'x05-valley';
 const NORTH = Object.freeze({ inflowBearingCdeg: 0, mouth: 'none' as const });
 
+/** The small flat town the S3 – S6 fixtures and the plain chain run on: 400 ha, 60 ha walled (S5c grows streets). */
+const TOWN = smallFlat('flat', 60);
+
 /** The district of the small flat town at seed 2 whose face took rung (c) with its foot slid 30 steps (C-0268). */
 export const SLID_DISTRICT = 'district:1cjkxbz67mrwc';
+
+/** The district of the small flat town at seed 6 whose face took the antenna split (C-0268). */
+export const ANTENNA_DISTRICT = 'district:47xb61jjvvnpd';
 
 /** Every rung fixture, by id (the registry's `fixture`). */
 export const LADDER_FIXTURES: readonly LadderFixture[] = Object.freeze([
   // F-CUT on S8's Stage object.
   { id: 'cut/reflex', forces: 'an L-shaped one-face district (300 m arms, 120 m wide): its reflex vertex 127 m deep', run: () => runS8Stage(districtOf([L_SHAPE], 1)) },
-  { id: 'cut/antenna', forces: 'a ring road’s district with a 100 m dead-end way into it: the face’s ring has an antenna', run: () => runS8Stage(antennaCase(1)) },
+  { id: 'cut/antenna', forces: `the small flat town at seed 6 through S8, its district ${ANTENNA_DISTRICT}: a face whose ring carries a dead-end way’s antenna`, run: () => chain({ blueprint: smallFlat(), seed: 6, until: 'S8', override: { S8: { districts: [ANTENNA_DISTRICT] } } }) },
   { id: 'cut/turned-frame', forces: 'M0 (b)’s curved face x05/curved #4: its attempt-0 plan refused, the turned frame cuts', run: () => { const f = familyFace('curved', 4); return runS8Stage(districtOf(f.polygon, f.seed)); } },
   { id: 'cut/mean-normal', forces: 'M0 (b)’s round-joined face x05/round-joined #35: the three frames refused, rung (b) cuts', run: () => { const f = familyFace('round-joined', 35); return runS8Stage(districtOf(f.polygon, f.seed)); } },
   { id: 'cut/court', forces: 'M0 (b)’s round-joined face x05/round-joined #25: a face within (d)’s area bound no rung can cut', run: () => { const f = familyFace('round-joined', 25); return runS8Stage(districtOf(f.polygon, f.seed)); } },
   { id: 'cut/slide', forces: `the small flat town at seed 2 through S8, its district ${SLID_DISTRICT}: rung (c)’s foot slides 30 steps`, run: () => chain({ blueprint: smallFlat(), seed: 2, until: 'S8', override: { S8: { districts: [SLID_DISTRICT] } } }) },
   { id: 'work/cut', forces: 'two districts under a test-side cut.recursionDepth floor of 2', run: () => runS8Stage(twoDistricts(7), { tables: { workLimits: lowFloor('cut.recursionDepth', 2) } }) },
   // F-ROUTE on S4's Stage object.
-  { id: 'route/another-site', forces: 'the small river town (a river from the west) at seed 2 through S4: a gate route gives its nearest crossing site up', run: () => chain({ blueprint: smallRiver(), seed: 2, until: 'S4' }) },
-  { id: 'route/slope', forces: 'the small town on a plane rising 2 % northward, S4 with through’s grade limit at 1 %', run: () => chain({ blueprint: smallFlat(TILT), terrains: { [TILT]: heightStrategy(tilted(0.02)) }, seed: 1, until: 'S4', override: { S4: { gradeLimits: { through: 0.01 } } } }) },
-  { id: 'route/unserved', forces: 'the same plane, every class’s grade limit at 1 %: no class reaches the frame', run: () => chain({ blueprint: smallFlat(TILT), terrains: { [TILT]: heightStrategy(tilted(0.02)) }, seed: 1, until: 'S4', override: { S4: { gradeLimits: { through: 0.01, primary: 0.01, secondary: 0.01, track: 0.01, path: 0.01 } } } }) },
-  { id: 'work/route-s4', forces: 'the small flat town, S4 under route.nodes’ limit of 1', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S4', override: { S4: { routeNodesLimit: 1 } } }) },
-  { id: 'work/route-s3', forces: 'the small flat town, S3’s slice under route.nodes’ limit of 1', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S3', override: { S3: { slice: () => ({ routeNodesLimit: 1 }) } } }) },
+  { id: 'route/another-site', forces: 'the small river town (a river from the west) at seed 2 through S4: a gate route’s nearest crossing site cannot meet the class radius', run: () => chain({ blueprint: smallRiver(), seed: 2, until: 'S4' }) },
+  { id: 'route/slope', forces: 'the same town, S4 with through’s grade limit at 0.01 %: the re-solve after the site is given up relaxes one class', run: () => chain({ blueprint: smallRiver(), seed: 2, until: 'S4', override: { S4: { gradeLimits: { through: 0.0001 } } } }) },
+  { id: 'route/unserved', forces: 'the same town, every class’s grade limit at 0.01 %: no class reaches the frame, the destination unserved', run: () => chain({ blueprint: smallRiver(), seed: 2, until: 'S4', override: { S4: { gradeLimits: { through: 0.0001, primary: 0.0001, secondary: 0.0001, track: 0.0001, path: 0.0001 } } } }) },
+  { id: 'work/route-s4', forces: 'the same town, S4’s re-solve under route.nodes’ limit of 1', run: () => chain({ blueprint: smallRiver(), seed: 2, until: 'S4', override: { S4: { routeNodesLimit: 1 } } }) },
+  { id: 'work/route-s3', forces: 'the small flat town (60 ha walled), S3’s slice under route.nodes’ limit of 1', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S3', override: { S3: { slice: () => ({ routeNodesLimit: 1 }) } } }) },
   // F-WALL's gate rungs on S3's slice, its trace rungs on the registered EnceinteStrategy.
-  { id: 'wall/redraw', forces: 'the small flat town, S3’s two picks at one node, the later ranking a far candidate next', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S3', override: { S3: { slice: plantedPicks((a, c) => [a, c]) } } }) },
-  { id: 'wall/drop', forces: 'the small flat town, S3’s two picks at one node, the later ranking only that node', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S3', override: { S3: { slice: plantedPicks((a) => [a, a, a, a]) } } }) },
+  { id: 'wall/redraw', forces: 'the small flat town (60 ha walled), S3’s two picks at one node, the later ranking a far candidate next', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S3', override: { S3: { slice: plantedPicks((a, c) => [a, c]) } } }) },
+  { id: 'wall/drop', forces: 'the small flat town (60 ha walled), S3’s two picks at one node, the later ranking only that node', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S3', override: { S3: { slice: plantedPicks((a) => [a, a, a, a]) } } }) },
   { id: 'wall/reoffset', forces: 'a 600 m square with a 60 m notch whose walls a ridge pulls together (the trace self-touches)', run: () => traceRun(squareWith(NOTCH_TOP(6000)), SIDES, RIDGE) },
   { id: 'wall/union-simplify', forces: 'the notched square with a gate on a second, 70 m notch the re-offset would close over', run: () => traceRun(squareWith(NOTCH_TOP(6000), NOTCH_BOTTOM(7000)), [[-30_000, 0], [30_000, 0], [-3500, -25_000]], RIDGE) },
   // F-NUM's re-propose and reject, F-WORK's queue, F-BUDGET-STAGE on S5's Stage objects.
-  { id: 'growth/re-propose', forces: 'the small flat town, S5c’s insertion of proposal 2 at attempt 0 refused E_BELOW_MIN_EDGE (planted)', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S5', override: { S5: { growth: (k, kernel) => (k === 1 ? plantedInsert(kernel, 'E_BELOW_MIN_EDGE', (p, a) => p === 2 && a === 0) : {}) } } }) },
-  { id: 'growth/reject', forces: 'the small flat town, S5c’s insertion of proposal 2 refused E_SELF_INTERSECT at every attempt (planted)', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S5', override: { S5: { growth: (k, kernel) => (k === 1 ? plantedInsert(kernel, 'E_SELF_INTERSECT', (p) => p === 2) : {}) } } }) },
-  { id: 'work/growth', forces: 'the small flat town, S5c under a test-side growth.proposals floor of 12', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S5', override: { S5: { growth: () => ({ workLimits: lowFloor('growth.proposals', 12) }) } } }) },
-  { id: 'budget/top-up', forces: 'the small flat town, S5d’s demand at the unwalled stage 3 raised to 1.3 × its built land by band', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 3 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.3) } : undefined) } } }) },
-  { id: 'budget/accept', forces: 'the small flat town, S5d’s demand at the walled stage 1 raised to 1.5 × its built land by band', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 1 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.5) } : undefined) } } }) },
+  { id: 'growth/re-propose', forces: 'the small flat town (60 ha walled), S5c’s insertion of proposal 2 at attempt 0 refused E_BELOW_MIN_EDGE (planted)', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { growth: (k, kernel) => (k === 1 ? plantedInsert(kernel, 'E_BELOW_MIN_EDGE', (p, a) => p === 2 && a === 0) : {}) } } }) },
+  { id: 'growth/reject', forces: 'the small flat town (60 ha walled), S5c’s insertion of proposal 2 refused E_SELF_INTERSECT at every attempt (planted)', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { growth: (k, kernel) => (k === 1 ? plantedInsert(kernel, 'E_SELF_INTERSECT', (p) => p === 2) : {}) } } }) },
+  { id: 'work/growth', forces: 'the small flat town (60 ha walled), S5c under a test-side growth.proposals floor of 12', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { growth: () => ({ workLimits: lowFloor('growth.proposals', 12) }) } } }) },
+  { id: 'budget/top-up', forces: 'the small flat town (60 ha walled), S5d’s demand at the unwalled stage 3 raised to 1.3 × its built land by band', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 3 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.3) } : undefined) } } }) },
+  { id: 'budget/accept', forces: 'the small flat town (60 ha walled), S5d’s demand at the walled stage 1 raised to 1.5 × its built land by band', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S5', override: { S5: { demand: (k, state) => (k === 1 ? { bandsCm2: capacityCheck({ state, k }).landByBand.map((l) => l * 1.5) } : undefined) } } }) },
   // F-WORK on S6's Stage object and the fields' pass 1.
-  { id: 'work/grower', forces: 'the small flat town, S6 under a test-side grower.turns floor of 25', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S6', override: { S6: { workLimits: lowFloor('grower.turns', 25) } } }) },
-  { id: 'work/fields', forces: 'the small flat town, the fields’ pass 1 under a test-side field.cells floor of 1 000', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S6', override: { S6: { fields: { workLimits: lowFloor('field.cells', 1000) } } } }) },
+  { id: 'work/grower', forces: 'the small flat town (60 ha walled), S6 under a test-side grower.turns floor of 5', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6', override: { S6: { workLimits: lowFloor('grower.turns', 5) } } }) },
+  { id: 'work/fields', forces: 'the small flat town, the fields’ pass 1 under a test-side field.cells floor of 1 000', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6', override: { S6: { fields: { workLimits: lowFloor('field.cells', 1000) } } } }) },
   // F-RIVER and F-WORK on S1's registered RiverStrategy.
   { id: 'river/sink', forces: 'a river from the north down a valley with a 3 m sink on its axis (100 ha frame)', run: () => chain({ blueprint: smallRiver(SINK, 100, NORTH), terrains: { [SINK]: heightStrategy(valleyWithSink) }, seed: 1, until: 'S1' }) },
   { id: 'river/ridge', forces: 'a river from the north down a valley crossed by a one-row 6 m ridge (the carve plan fails past the second knot)', run: () => chain({ blueprint: smallRiver(RIDGE_T, 100, NORTH), terrains: { [RIDGE_T]: heightStrategy(valleyWithRidge) }, seed: 1, until: 'S1' }) },
@@ -222,7 +212,7 @@ export const LADDER_FIXTURES: readonly LadderFixture[] = Object.freeze([
  * square, a river down a plain valley, and the kernel insertion under an ample limit.
  */
 export const LADDER_CONTROLS: readonly LadderFixture[] = Object.freeze([
-  { id: 'plain/chain', forces: 'the small flat town at seed 1 through S6 and the fields’ pass 1', run: () => chain({ blueprint: smallFlat(), seed: 1, until: 'S6' }) },
+  { id: 'plain/chain', forces: 'the small flat town at seed 1 through S6 and the fields’ pass 1', run: () => chain({ blueprint: TOWN, seed: 1, until: 'S6' }) },
   { id: 'plain/s8', forces: 'a 200 m × 150 m rectangle district through S8', run: () => runS8Stage(districtOf([RECT], 1)) },
   { id: 'plain/trace', forces: 'a 600 m square traced (no notch)', run: () => traceRun(squareWith([]), SIDES) },
   { id: 'plain/river', forces: 'a river from the north down a plain valley (100 ha frame)', run: () => chain({ blueprint: smallRiver(VALLEY, 100, NORTH), terrains: { [VALLEY]: heightStrategy(valley) }, seed: 1, until: 'S1' }) },

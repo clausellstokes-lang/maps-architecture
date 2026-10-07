@@ -280,7 +280,7 @@ export function fusionS8Stage(ins: Instruments): PipelineStage<{ state: GrowthSt
       for (const w of state.ways) widths.set(w.id, wayWidthCm(w));
       const s8in: S8Input = { kernel: k, key: GROUND, seedKey: ctx.seedKey, epoch: 0, rung: 'CITY', districts, ways: state.ways.slice(), seams: [], widths, live };
       const r = runS8(s8in, ctx as never);
-      if (!r.ok) return r;
+      if (!r.ok) return { ok: false, code: r.code, detail: r.detail };
       return { ok: true, value: { ...r.value, 'fusion.districts': ins.standIns.slice() }, warnings: r.warnings };
     },
   }) as unknown as PipelineStage<{ state: GrowthState } | null, Record<string, unknown>>;
