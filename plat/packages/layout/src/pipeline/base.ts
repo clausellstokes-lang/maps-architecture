@@ -635,6 +635,18 @@ export function districtValue(field: ScalarField, district: Id): number {
   return r.ok ? r.value : field.valueAt({ x: 0, y: 0 });
 }
 
+/**
+ * A way's width as S8's width map holds it (one number per way, C-0237 (1)): its scalar width, or for a way whose width
+ * runs on `width_knot`s (S4's class runs, C-0236) its widest run's — the kerb then keeps every block clear of the widest
+ * stretch (C-0264 (6)).
+ */
+export function wayWidthCm(w: Pick<Way, 'width'>): number {
+  if (typeof w.width === 'number') return w.width;
+  let max = 0;
+  for (const v of w.width.values) if (v > max) max = v;
+  return max;
+}
+
 /** S8's input as the base composes it from S5's and S6's records and the fields (C-0264 (6)). */
 export function baseS8Input(input: S8In, kernel: Kernel, ctx: Pick<PipelineContext, 'seedKey' | 'streamOpts'>): S8Input {
   const site = input.slice.site;
@@ -655,7 +667,7 @@ export function baseS8Input(input: S8In, kernel: Kernel, ctx: Pick<PipelineConte
     };
   });
   const widths = new Map<Id, number>();
-  for (const w of input.state.ways) widths.set(w.id, w.width as number);
+  for (const w of input.state.ways) widths.set(w.id, wayWidthCm(w));
   return { kernel, key: GROUND, seedKey: ctx.seedKey, epoch: 0, rung: site.rung, districts, ways: input.state.ways.slice(), seams: input.s6.seams, widths };
 }
 
