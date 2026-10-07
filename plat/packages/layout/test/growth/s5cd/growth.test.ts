@@ -151,6 +151,27 @@ describe('S5c on a walled hand case', () => {
     }
   });
 
+  it('at growthArea’s spacing, every street leaving the arterial grows past its first step (walled: past its second): every later step reads the far side of the way its street left (C-0263 (1))', () => {
+    for (const regime of ['dense_core', 'ribbon'] as const) {
+      const rules = handCase(regime).area.rules;
+      const half = rules.seedSpacingCm / 2;
+      const D = rules.legality.clearanceCm('secondary');
+      const m = Math.floor((40_000 - D - 100) / half);
+      const xs = Array.from({ length: 2 * m + 1 }, (_, i) => (i - m) * half);
+      for (const seed of [1, 2, 3, 4, 5, 6, 7, 8]) {
+        const rec = grow(handCase(regime, { seeds: xs }), seed);
+        const firsts = rec.streets.filter((s) => s.parent === 'way:0');
+        expect(firsts.length, `${regime} ${String(seed)}`).toBe(xs.length);
+        // No street from the arterial dead-ends after one step (a rejected second step) — walled, nor after two (a rejected
+        // third); one may end at a band or on a way. (In the ribbon a third step may meet the boundary's clearance 400 m
+        // out: ribbon seed 2's way:1 turns toward it, rejected 'parallel' against the boundary, not a street.)
+        const most = regime === 'dense_core' ? 3 : 2;
+        const stubs = firsts.filter((s) => s.points.length <= most && s.ends === 'dead').map((s) => `${s.way.id}:${String(s.points.length - 1)}`);
+        expect(stubs, `${regime} ${String(seed)}: dead after < ${String(most)} steps`).toEqual([]);
+      }
+    }
+  });
+
   it('on a bent arterial at growthArea’s spacing — 8° (walled) and 6° (ribbon) per seed spacing, short segments — every seed’s street grows, on its own side (C-0262 (1))', () => {
     for (const regime of ['dense_core', 'ribbon'] as const) {
       const rules = handCase(regime).area.rules;

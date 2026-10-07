@@ -348,6 +348,15 @@ describe('a street’s every step reads the far side of the way it left (C-0263 
     const liar: Feature = { ...left, a: P(0, 0), b: P(0, -4_000) };
     const w = legal(later(7_500), ctxOf([arterial, liar], noBias));
     expect(w.verdict === 'accept' && !w.deflected).toBe(false);
+    // Recorded left but leaving the arterial on the right, its nearest point its start on the arterial: the step and the
+    // street's other end lie on one side of the arterial, so it is not between them.
+    const leaning: Feature = { ...left, a: P(0, 0), b: P(-2_300, -4_000) };
+    const u = legal(later(7_500), ctxOf([arterial, leaning], noBias));
+    expect(u.verdict === 'accept' && !u.deflected).toBe(false);
+    // Laid across but recorded on the step's own side: the recorded sides must be opposite, so the clearance holds.
+    const misread: Feature = { ...left, origin: { way: 'way:0', side: -1 } };
+    const t = legal(later(7_500), ctxOf([arterial, misread], noBias));
+    expect(t.verdict === 'accept' && !t.deflected).toBe(false);
   });
 
   it('streetOrigin reads the side where the street leaves: left +1, right −1, null on the line or where no segment holds it', () => {
