@@ -41,13 +41,13 @@ export function familyFace(kind: 'curved' | 'round-joined' | 'triangular' | 'C-s
 }
 
 /** An L of 300 m arms, 120 m wide: its reflex vertex 127 m from the hull's lid, deeper than any band's plot depth. */
-const L_SHAPE = [P(0, 0), P(30_000, 0), P(30_000, 12_000), P(12_000, 12_000), P(12_000, 30_000), P(0, 30_000)];
+export const L_SHAPE = [P(0, 0), P(30_000, 0), P(30_000, 12_000), P(12_000, 12_000), P(12_000, 30_000), P(0, 30_000)];
 
 /** The plain district: a 200 m × 150 m rectangle (no reflex vertex, no antenna; its ladder takes rung (a) at attempt 0). */
-const RECT = [P(0, 0), P(20_000, 0), P(20_000, 15_000), P(0, 15_000)];
+export const RECT = [P(0, 0), P(20_000, 0), P(20_000, 15_000), P(0, 15_000)];
 
 /** Two districts in a 400 m × 300 m ring road split by an arterial (M0-b-03's F-WORK fixture). */
-function twoDistricts(seed: number): S8Case {
+export function twoDistricts(seed: number): S8Case {
   const W = 40_000;
   const H = 30_000;
   return waysCase(
@@ -110,7 +110,7 @@ function chain(spec: ChainSpec): Leaves {
 }
 
 /** F-WALL's planted gate picks (M0-c-01's fixture form): two picks at one node, the later ranking `ranked` after it. */
-function plantedPicks(ranked: (a: number, c: number) => number[]): (site: Parameters<NonNullable<NonNullable<ChainSpec['override']>['S3']>['slice']>[0]) => SliceOptions {
+export function plantedPicks(ranked: (a: number, c: number) => number[]): (site: Parameters<NonNullable<NonNullable<ChainSpec['override']>['S3']>['slice']>[0]) => SliceOptions {
   return (site) => {
     const plain = s3Slice(site);
     const a = plain.picks[0].node;
@@ -131,7 +131,7 @@ function plantedPicks(ranked: (a: number, c: number) => number[]): (site: Parame
 }
 
 /** The S5c insert of the base (the kernel's optional insertChain), refusing `refuse(proposal, attempt)`'s steps with `code`. */
-function plantedInsert(kernel: Kernel, code: 'E_BELOW_MIN_EDGE' | 'E_SELF_INTERSECT', refuse: (proposal: number, attempt: number) => boolean) {
+export function plantedInsert(kernel: Kernel, code: 'E_BELOW_MIN_EDGE' | 'E_SELF_INTERSECT', refuse: (proposal: number, attempt: number) => boolean) {
   return {
     insert: (o: Parameters<Kernel['geom']['insertChain']>[0], points: Parameters<Kernel['geom']['insertChain']>[1], wayId: string, knots: readonly { index: number; role: string; ordinal: number; entity: string }[], at: { proposal: number; attempt: number }) =>
       refuse(at.proposal, at.attempt) ? err(code, 'planted (M0-x-05)') : kernel.geom.insertChain(o, points, [{ role: 'way', entity: wayId }], 'optional', { pinned: points.map((_, i) => i), knots: [...knots] }),

@@ -64,7 +64,7 @@ describe('the verdict', () => {
   });
   it('fails each bar on its own failure', () => {
     const x = xreport([ran('node-x64-rosetta', 'off', [1, 2, 3])], [1, 2, 3]);
-    const fail = (s: SeedResult, c: DeterminismConfig = cfg()): string[] => buildReport(c, x, [s]).failures;
+    const fail = (s: SeedResult, c: DeterminismConfig = cfg()): readonly string[] => buildReport(c, x, [s]).failures;
     expect(fail(seedResult(1, { census: { streams: { ...census, collisions: 1 }, lineages: census } }))[0]).toMatch(/^distinctness/);
     expect(fail(seedResult(1, { census: { streams: census, lineages: { ...census, collisions: 1 } } }))[0]).toMatch(/^distinctness/);
     expect(fail(seedResult(1, { entityLineages: { entities: 5, duplicates: 1, first: 'x' } }))[0]).toMatch(/^distinctness/);

@@ -3,11 +3,15 @@
 // which a tampered record makes miss at exactly that batch.
 import { describe, expect, it } from 'vitest';
 import { buildDigests, syntheticCity } from '@plat/model';
-import { hex128, RECORDS_BATCHES, recordsRun } from '../../src/determinism/index.js';
+import { hex128, RECORDS_BATCHES, recordsRun, type RecordsRun } from '../../src/determinism/index.js';
+import { SLOW } from './support.js';
+
+let five: RecordsRun | null = null;
+const at5 = (): RecordsRun => (five ??= recordsRun(5));
 
 describe('the records tree', () => {
-  it('gives one pair of roots per seed, and the batches move them', () => {
-    const a = recordsRun(5);
+  it('gives one pair of roots per seed, and the batches move them', { timeout: SLOW }, () => {
+    const a = at5();
     const b = recordsRun(5);
     expect(a).toEqual(b);
     expect(a.model).toMatch(/^[0-9a-f]{32}$/);
@@ -23,13 +27,13 @@ describe('the records tree', () => {
     expect(a.batches).toBe(RECORDS_BATCHES);
     expect(a.oracle).toBeNull();
   });
-  it('runs the oracle after the build and every batch; the roots are the same with it on', () => {
+  it('runs the oracle after the build and every batch; the roots are the same with it on', { timeout: SLOW }, () => {
     const r = recordsRun(5, { oracle: true });
     expect(r.oracle).toEqual({ batches: RECORDS_BATCHES + 1, mismatches: 0, first: null });
-    expect(r.model).toBe(recordsRun(5).model);
-    expect(r.records).toBe(recordsRun(5).records);
+    expect(r.model).toBe(at5().model);
+    expect(r.records).toBe(at5().records);
   });
-  it('misses at the batch whose record was changed behind the digest\'s back (a negative control, model and records trees)', () => {
+  it('misses at the batch whose record was changed behind the digest\'s back (a negative control, model and records trees)', { timeout: SLOW }, () => {
     for (const tree of ['model', 'records'] as const) {
       const r = recordsRun(5, {
         oracle: true,

@@ -21,7 +21,7 @@ export const crosshostStages: readonly CrossHostStage[] = [
   clean,
   {
     id: 'scratch.planted',
-    // eslint-disable-next-line plat/no-math-member -- the planted nondeterminism the test exists to catch
+    // the planted nondeterminism the test exists to catch (bench code: the model rules do not reach it)
     run: (seed) => ({ model: hexOf(seed, seed === PLANTED_SEED ? Math.floor(Math.random() * 0x7fffffff) : 2), records: null }),
   },
   { id: 'scratch.after', run: (seed) => ({ model: hexOf(seed, 3), records: hexOf(seed, 4) }) },

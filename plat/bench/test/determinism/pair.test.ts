@@ -4,6 +4,7 @@
 // per kind with 0 duplicate ids and 0 silent re-binds. Beside it: the entities' anchors read from the run's arena
 // (C-0268 (7)), the two contracts' counters on planted failures, and the pair's timing stamp (M0-f-01's harness).
 import { describe, expect, it } from 'vitest';
+import type { LatticePoint } from '@plat/kernel';
 import { match, type MatchEntity, type MatchResult } from '@plat/model';
 import type { Bridge, Junction, WaterSet } from '@plat/model';
 import {
@@ -129,7 +130,7 @@ describe('the entities read from the run', () => {
     expect(districts.some((d) => (d.entity.anchor as { key: { ref: string | null }[] }).key[0]?.ref !== null)).toBe(true);
     const ways = p.old.entities.entities.filter((e) => e.entity.kind === 'way');
     for (const w of ways) {
-      const a = w.entity.anchor as { ends: (string | null)[]; line: unknown[] };
+      const a = w.entity.anchor as unknown as { ends: (string | null)[]; line: unknown[] };
       expect(a.ends.length).toBe(2);
       expect(a.line.length).toBeGreaterThanOrEqual(2);
     }
@@ -140,7 +141,8 @@ describe('the entities read from the run', () => {
 });
 
 describe('the two contracts\' counters', () => {
-  const pt = (id: string, x: number, survives = false): MatchEntity => ({ id, kind: 'junction', lineage: [1, x], anchor: { point: { x, y: 0 } }, ...(survives ? { survives } : {}) });
+  const P = (x: number, y: number): LatticePoint => ({ x, y }) as unknown as LatticePoint;
+  const pt = (id: string, x: number, survives = false): MatchEntity => ({ id, kind: 'junction', lineage: [1, x], anchor: { point: P(x, 0) }, ...(survives ? { survives } : {}) });
   const old = [pt('junction:1', 0, true), pt('junction:2', 1000), pt('junction:3', 5000)];
   const fresh = [pt('junction:7', 1010), pt('junction:9', 90_000)];
   const anchors = m0Anchors();
@@ -167,7 +169,7 @@ describe('the two contracts\' counters', () => {
     // a fresh entity with no address
     expect(silentRebinds(tamper((m) => m.delete('junction:9')), old, fresh).silent).toBe(1);
     // an old reference kept through a successor that does not hold it
-    const way: MatchEntity = { id: 'way:5', kind: 'way', lineage: [2, 2], anchor: { ends: ['junction:2', 'junction:3'], line: [{ x: 1000, y: 0 }, { x: 5000, y: 0 }] } };
+    const way: MatchEntity = { id: 'way:5', kind: 'way', lineage: [2, 2], anchor: { ends: ['junction:2', 'junction:3'], line: [P(1000, 0), P(5000, 0)] } };
     const withWay = [...old, way];
     const r2 = match(withWay, fresh, anchors);
     expect(silentRebinds(r2, withWay, fresh)).toEqual({ silent: 0, reported: 1 }); // way:5's end junction:3 is a tombstone: reported, never re-bound

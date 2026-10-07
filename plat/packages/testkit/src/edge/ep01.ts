@@ -1,0 +1,235 @@
+// EP-01 on every M0 stage × the five degenerate kinds (M0-x-06; §4.13 EP-01: "every stage — zero-length, zero-area,
+// self-touching, collinear or coincident geometry — refused by the kernel; the stage's failure class (§4.1) — repair
+// locally → retry that piece → simpler shape → leave out and report"; §4.1's transactions table; §5.1 (9); C-0100;
+// C-EDGE (3)–(6)). Forty-five fixtures `EP-01/<stage>/<kind>`, each the smallest state that reaches its stage:
+//   S1, S3, S4, S5a, S5b, S5c, S5d — the base's registered stages through the runner (./chain.ts) on a small frame, the
+//     stage's own chain planted with the kind on its way into the kernel (./plant.ts): S1 the river's shore (its water
+//     batch), S3 stage 1's trace (the slice's commit), S4 an arterial's spine, S5a stage 2's trace, S5b a main road, S5c
+//     a growing street's step, S5d the top-up rim's street step (a demand the stage's land cannot meet makes S5d top up);
+//   S6 — the boundary S6 offsets its perimeter from (S5's last boundary with land) made the kind (./kinds.ts's
+//     `degenerateRing`): S6 commits through the kernel's free functions, so its input carries the kind;
+//   S8 — M0-b-03's Stage on a two-district arena whose west district's faces carry the kind (./s8.ts).
+// Each run is judged on: the plant fired (the precondition), no restart, the arena valid after the stage (the kernel's
+// whole-arena sweep), and how the stage handled it — absorbed by §3.11's rule, laddered with the rung its record names,
+// left out and reported, or (pinned per cell, C-EDGE (6)) refused safe: typed, rolled back, one bugs entry.
+import { simpleCcw, type S5cRecord, type S6Output, type S8Output } from '@plat/layout';
+import { loadTable } from '@plat/tables';
+import type { S1Output } from '@plat/site';
+import { s8Stage } from '@plat/layout';
+import { edgeChain, MID_FLAT, SMALL_FLAT, SMALL_RIVER, type ChainOptions, type ChainRun, type ChainStage, type S5Sub } from './chain.js';
+import { DEGENERATE_KINDS, degenerateRing, type DegenerateKind } from './kinds.js';
+import { arenaProblems, bugsOf, chainProblems, groundOf } from './observe.js';
+import type { PlantCall } from './plant.js';
+import { s8State } from './s8.js';
+import { outcome, type EdgeFixture, type EdgeHandling, type EdgeOutcome } from './types.js';
+
+/** EP-01's stages (§4.1's transactions table, the M0 set: S1's L0 batch, the S3 slice's commits, S4, S5a – S5d, S6, S8). */
+export type Ep01Stage = 'S1' | 'S3' | 'S4' | 'S5a' | 'S5b' | 'S5c' | 'S5d' | 'S6' | 'S8';
+export const EP01_STAGES: readonly Ep01Stage[] = Object.freeze(['S1', 'S3', 'S4', 'S5a', 'S5b', 'S5c', 'S5d', 'S6', 'S8']);
+
+/** Each stage's failure class (§4.1's transactions table; §5.2). */
+export const EP01_CLASS: Readonly<Record<Ep01Stage, string>> = Object.freeze({
+  S1: 'F-RIVER (F-OUTLINE, F-CONTOUR, F-SKELETON)',
+  S3: 'F-WALL (F-SITE, F-ROUTE, F-CASTLE, F-RIVER)',
+  S4: 'F-ROUTE',
+  S5a: 'F-WALL',
+  S5b: 'F-ROUTE',
+  S5c: 'F-NUM (optional chains), F-WORK',
+  S5d: 'F-BUDGET-STAGE',
+  S6: 'a degenerate district face merges (§4.5); F-ROUTE',
+  S8: 'F-CUT',
+});
+
+/** The bands' count (the demand S5d's cell hands it has one entry per band). */
+function bandCount(): number {
+  return loadTable('bands').strs('settings', 'order').length;
+}
+
+/** A plant site per chain stage: the stage the runner registers, the sub-stage and k, the call, the frame, the stop. */
+interface PlantSite {
+  readonly stage: ChainStage;
+  readonly sub?: S5Sub;
+  readonly k?: number;
+  readonly select: (c: PlantCall) => boolean;
+  readonly opts: () => Omit<ChainOptions, 'plant'>;
+  readonly what: string;
+}
+
+const SITES: Readonly<Record<Exclude<Ep01Stage, 'S6' | 'S8'>, PlantSite>> = {
+  S1: { stage: 'S1', select: (c) => c.role === 'shore', opts: () => ({ blueprint: SMALL_RIVER, upTo: 'S1' }), what: "the river's shore in S1's water batch (L0)" },
+  S3: { stage: 'S3', select: (c) => c.role === 'wall', opts: () => ({ blueprint: SMALL_FLAT, upTo: 'S3' }), what: "stage 1's trace in the slice's commits (L1)" },
+  S4: { stage: 'S4', select: (c) => c.role === 'way', opts: () => ({ blueprint: SMALL_FLAT, upTo: 'S4' }), what: "an arterial's spine in S4's batch (L1)" },
+  S5a: { stage: 'S5', sub: 'S5a', k: 2, select: (c) => c.role === 'wall', opts: () => ({ blueprint: SMALL_FLAT, upTo: 'S5', s5: { stopAfter: { sub: 'S5a', k: 2 } } }), what: "stage 2's trace in S5a's batch (L1)" },
+  S5b: { stage: 'S5', sub: 'S5b', k: 2, select: (c) => c.role === 'way', opts: () => ({ blueprint: MID_FLAT, upTo: 'S5', s5: { stopAfter: { sub: 'S5b', k: 2 } } }), what: "a main road in S5b's batch at stage 2 (L1)" },
+  S5c: { stage: 'S5', sub: 'S5c', k: 1, select: (c) => c.cls === 'optional', opts: () => ({ blueprint: MID_FLAT, upTo: 'S5', s5: { stopAfter: { sub: 'S5c', k: 1 } } }), what: "a growing street's step in S5c's batch at stage 1 (L1, optional)" },
+  S5d: {
+    stage: 'S5',
+    sub: 'S5d',
+    k: 3,
+    select: (c) => c.cls === 'optional',
+    opts: () => ({ blueprint: MID_FLAT, upTo: 'S5', s5: { stopAfter: { sub: 'S5d', k: 3 }, grow: { demand: { bandsCm2: new Array<number>(bandCount()).fill(2e11) } } as never } }),
+    what: "a street step of S5d's top-up rim at stage 3 (L1, optional; a demand above the stage's land makes it top up)",
+  },
+};
+
+/** The kernel's answer to the planted chain. */
+function kernelAnswer(run: ChainRun): string | undefined {
+  const i = run.plant.insert;
+  if (i === null) return undefined;
+  return i.ok ? `ok${i.warnings.length > 0 ? ` ${i.warnings.join(',')}` : ''}` : (i.code ?? 'refused');
+}
+
+/** S5c's or S5d's growth record the plant fired in. */
+function growthRecordOf(stage: 'S5c' | 'S5d', run: ChainRun): S5cRecord | null {
+  if (stage === 'S5c') return run.s5.growth[run.s5.growth.length - 1] ?? null;
+  return run.s5.capacity[run.s5.capacity.length - 1]?.rim ?? null;
+}
+
+/** How a chain stage handled its plant (see the header). */
+function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } {
+  const name = SITES[stage].stage;
+  const bugs = bugsOf(run.report, name);
+  if (bugs.length > 0) return { handling: 'refused-safe', rung: bugs[0].cls, facts: { bugs: bugs.length } };
+  const batch = run.plant.batch;
+  const refused = batch !== null && !batch.committed;
+  const insertRefused = run.plant.insert !== null && !run.plant.insert.ok;
+  switch (stage) {
+    case 'S1': {
+      const s1 = run.model.data.get('s1') as S1Output | undefined;
+      if (s1 === undefined) return { handling: 'off', rung: 'S1 wrote no record', facts: {} };
+      if (refused && s1.report.retried) return { handling: 'laddered', rung: "S1: the water batch re-run on the kernel's polygons (report.retried)", facts: { retried: true } };
+      const dropped = s1.report.dropped.filter((d) => d.reason === 'refused');
+      if (refused && dropped.length > 0) return { handling: 'left-out', rung: `S1: ${dropped.map((d) => d.id).join(', ')} left out, reported refused`, facts: { dropped: dropped.length } };
+      if (!refused) return { handling: 'absorbed', rung: 'S1: the water batch committed', facts: { bodies: s1.water.bodies.length } };
+      return { handling: 'off', rung: 'S1: its water batch was refused and its record names no rung', facts: {} };
+    }
+    case 'S4': {
+      const s4 = run.model.data.get('s4') as { report: { unsmoothed: number; stretchShared: number }; graph: { chains: unknown[] } } | undefined;
+      if (s4 === undefined) return { handling: 'off', rung: 'S4 wrote no record', facts: {} };
+      if (refused && s4.report.unsmoothed === s4.graph.chains.length) return { handling: 'laddered', rung: 'S4: the batch re-run on every chain\'s lattice course (report.unsmoothed = every chain)', facts: { unsmoothed: s4.report.unsmoothed } };
+      if (!refused) return { handling: 'absorbed', rung: `S4: the spines' batch committed (stretchShared ${String(s4.report.stretchShared)})`, facts: { stretchShared: s4.report.stretchShared } };
+      return { handling: 'off', rung: 'S4: its batch was refused and its report names no rung', facts: {} };
+    }
+    case 'S5c':
+    case 'S5d': {
+      const rec = growthRecordOf(stage, run);
+      if (rec === null) return { handling: 'off', rung: `${stage} wrote no growth record`, facts: {} };
+      const fnum = rec.rungs.filter((r) => r.cause === 'F-NUM');
+      const whole = (rec as S5cRecord & { batchRefused?: { code: string } }).batchRefused;
+      if (whole !== undefined) return { handling: 'left-out', rung: `${stage}: the growth batch left out, reported batchRefused ${whole.code}`, facts: { batchRefused: whole.code } };
+      if (insertRefused && fnum.length > 0) return { handling: 'laddered', rung: `${stage}: F-NUM ${fnum.map((r) => r.rung).join(' → ')}`, facts: { fnum: fnum.length } };
+      if (!refused && !insertRefused) return { handling: 'absorbed', rung: `${stage}: the step committed`, facts: { streets: rec.streets.length } };
+      return { handling: 'off', rung: `${stage}: the plant was refused and the record names no rung`, facts: {} };
+    }
+    default:
+      if (!refused) return { handling: 'absorbed', rung: `${stage}: the batch committed`, facts: {} };
+      return { handling: 'off', rung: `${stage}: its batch was refused and no rung or refusal names it`, facts: {} };
+  }
+}
+
+/** One chain-stage cell's run. */
+function runChainCell(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKind, seed: number): EdgeOutcome {
+  const site = SITES[stage];
+  const o = site.opts();
+  const run = edgeChain(seed, { ...o, plant: { stage: site.stage, ...(site.sub === undefined ? {} : { sub: site.sub }), ...(site.k === undefined ? {} : { k: site.k }), plant: { kind, select: site.select } } });
+  const problems = chainProblems(run, o.upTo, site.stage);
+  if (run.plant.fired === null) problems.push(`the plant never fired: ${site.what} was not met`);
+  const h = chainHandling(stage, run);
+  return outcome(h.handling, h.rung, problems, { ...h.facts, ...(run.plant.batch === null ? {} : { batchCommitted: run.plant.batch.committed }) }, kernelAnswer(run));
+}
+
+/** S6's cell: S5's last boundary with land made the kind before S6 offsets its perimeter from it. */
+function runS6Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
+  let degraded = 0;
+  const run = edgeChain(seed, {
+    blueprint: SMALL_FLAT,
+    upTo: 'S6',
+    s5: {
+      after: (state) => {
+        const b = state.stages[state.lastWithLand - 1]?.boundary;
+        if (b === null || b === undefined) return;
+        const before = b.set.outline.length;
+        (b.set as { outline: unknown }).outline = degenerateRing(b.set.outline, kind);
+        degraded = b.set.outline.length - before;
+      },
+    },
+  });
+  const problems = chainProblems(run, 'S6', 'S6');
+  if (degraded === 0 && kind !== 'zero-length') problems.push('the boundary was not made degenerate');
+  const bugs = bugsOf(run.report, 'S6');
+  if (bugs.length > 0) return outcome('refused-safe', bugs[0].cls, problems, { bugs: bugs.length });
+  const s6 = run.model.data.get('s6') as S6Output | undefined;
+  if (s6 === undefined) return outcome('off', 'S6 wrote no record', problems);
+  if (!simpleCcw(s6.perimeter)) problems.push('the perimeter S6 committed is not a simple counter-clockwise ring');
+  if (s6.report.unowned !== 0) problems.push(`${String(s6.report.unowned)} coarse faces inside the perimeter hold no district`);
+  if (s6.districts.length === 0) problems.push('S6 made no district');
+  return outcome('absorbed', 'S6: the perimeter offset from the degenerate boundary is a simple ring', problems, { districts: s6.districts.length, merges: s6.report.merges, perimeter: s6.perimeter.length });
+}
+
+/** S8's cell: M0-b-03's Stage on the two-district arena whose west district carries the kind. */
+function runS8Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
+  const st = s8State(seed, kind);
+  const stage = s8Stage();
+  const r = stage.run(stage.inputsOf(st.input, { kind: 'all' }), { report: undefined } as never);
+  const problems = arenaProblems(st.plat);
+  if (!r.ok) return outcome('refused-safe', r.code, problems, {});
+  const v = r.value as S8Output;
+  const report = v.infill.report;
+  if (report.districts.length + report.refused.length !== 2) problems.push(`S8 reported ${String(report.districts.length + report.refused.length)} of its 2 districts`);
+  if (report.refused.length > 0) return outcome('refused-safe', report.refused[0].code, problems, { refused: report.refused.length });
+  let refusedRungs = 0;
+  const names = new Set<string>();
+  for (const d of report.districts) {
+    for (const u of d.rungs) {
+      if (u.outcome === 'refused' || u.outcome === 'none') {
+        refusedRungs += 1;
+        names.add(`${u.rung}:${u.outcome}${u.why === undefined ? '' : `:${u.why}`}`);
+      }
+    }
+    for (const f of d.faces) if (f.outcome === 'unresolved') problems.push(`face ${f.face} of ${d.district} is unresolved`);
+  }
+  if (v.blocks.length === 0) problems.push('S8 made no block');
+  if (refusedRungs > 0) return outcome('laddered', `S8: ${[...names].sort().join(', ')}`, problems, { blocks: v.blocks.length, refusedRungs });
+  return outcome('absorbed', 'S8: every face cut or stopped on its first rung', problems, { blocks: v.blocks.length });
+}
+
+/** The cells' pinned refusals (C-EDGE (6)): the stage refuses safe where its ladder has no rung for the kind at M0. */
+const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
+  S1: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S3: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S5a: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S5b: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
+  S6: { 'zero-area': ['E_INVARIANT'] },
+};
+
+/** The known-issue line a pinned cell is listed under (C-EDGE (6); the hardening pass's). */
+export function ep01Known(stage: Ep01Stage, kind: DegenerateKind): string | null {
+  const codes = PINNED[stage]?.[kind];
+  return codes === undefined ? null : `KI EP-01/${stage}/${kind}: the stage refuses the planted ${kind} whole (${codes.join(' | ')}) — no rung of ${EP01_CLASS[stage]} takes it at M0; fail-safe (N-45), for the hardening pass`;
+}
+
+/** The EP-01 fixtures: every stage × every kind (45). */
+export function ep01Fixtures(): EdgeFixture[] {
+  const out: EdgeFixture[] = [];
+  for (const stage of EP01_STAGES) {
+    for (const kind of DEGENERATE_KINDS) {
+      const pinned = PINNED[stage]?.[kind];
+      const known = ep01Known(stage, kind);
+      out.push({
+        id: `EP-01/${stage}/${kind}`,
+        home: `§4.13 EP-01; §4.1's transactions table (${stage}: ${EP01_CLASS[stage]}); §5.1 (9); §3.11 degenerate geometry`,
+        run: (seed) =>
+          stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed) : runChainCell(stage, kind, seed),
+        expect: {
+          outcome: `${kind} geometry at ${stage}: refused by the kernel (or taken by §3.11's rule) and handled by ${EP01_CLASS[stage]} — repair locally → retry that piece → simpler shape → leave out and report; never a crash, hang, invalid output or whole-map retry`,
+          allowed: pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
+          ...(pinned === undefined || known === null ? {} : { refusal: { codes: pinned, known } }),
+        },
+      });
+    }
+  }
+  return out;
+}
+
+/** The ground arena a chain run left (re-exported for the tests' probes). */
+export { groundOf };

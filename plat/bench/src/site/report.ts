@@ -26,7 +26,7 @@ export function quantiles(values: readonly number[]): Quantiles {
   return { n: s.length, p50: quantile7(s, 0.5), p99: quantile7(s, 0.99), p999: quantile7(s, 0.999), max: s[s.length - 1] };
 }
 
-/** A bar's verdict: held on every observation, failed on one, or never reached by a derivation. */
+/** A bar's verdict: failed wherever a receipt broke it, else held on every observation, else never reached. */
 export type Verdict = 'pass' | 'fail' | 'unobserved';
 
 /** One bar's receipt: its verdict, how many derivations it was judged on, and its numbers. */
@@ -102,7 +102,7 @@ const COUNTERS: Readonly<Record<string, { stage: string; unit: string }>> = Obje
 });
 
 function bar(observed: number, of: string, failing: readonly number[], numbers: Record<string, number | null>): BarReceipt {
-  return { verdict: observed === 0 ? 'unobserved' : failing.length > 0 ? 'fail' : 'pass', observed, of, failing: failing.slice(0, 20), numbers };
+  return { verdict: failing.length > 0 ? 'fail' : observed === 0 ? 'unobserved' : 'pass', observed, of, failing: failing.slice(0, 20), numbers };
 }
 
 function sumCorpus(rs: readonly CorpusCounts[]): CorpusCounts {
@@ -200,6 +200,7 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     wallOverWater: wg.reduce((s, r) => s + W(r).wallOverWater, 0),
     wallOverWaterGated: wg.reduce((s, r) => s + W(r).wallOverWaterGated, 0),
     endsOnShore: wg.reduce((s, r) => s + W(r).endsOnShore, 0),
+    endsAtRecordedBank: wg.reduce((s, r) => s + W(r).endsAtRecordedBank, 0),
     stripVerticesInWater: wg.reduce((s, r) => s + W(r).stripVerticesInWater, 0),
     nUnchanged: wg.filter((r) => W(r).mainGates === W(r).gateSites).length,
   });

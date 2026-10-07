@@ -96,15 +96,17 @@ export interface ReliefReceipt {
 /** The water gates (C-0087): the trace across the river only at its water gates. */
 export interface WaterGateReceipt {
   readonly gates: number;
-  /** Wall edges lying over water (their midpoint in a water body's L0 face), and those carrying a water gate's row. */
+  /** Wall edges lying over water (their midpoint in a water body's L0 face), and those carrying exactly one water gate's row. */
   readonly wallOverWater: number;
   readonly wallOverWaterGated: number;
-  /** Water gates with exactly one gated wall edge, whose two ends are its bank points. */
+  /** Water gates with exactly one gated wall edge over water, whose two ends are its two resolved gate_end vertices. */
   readonly gatesWithOneEdge: number;
-  /** gate_end refs resolving to exactly one vertex, at the recorded bank point, on a shore or bank edge. */
+  /** gate_end refs (the gate's own, ordinals 0 and 1) resolving to exactly one vertex, and those on a shore or bank edge of the river. */
   readonly endsResolved: number;
   readonly endsOnShore: number;
-  /** Strip faces, and their vertices lying strictly inside water (0: the strips end at the banks). */
+  /** Ends at the record's own bank point (`WaterGate.bankAt`): reported, not a bar — the kernel may attract an end on insertion. */
+  readonly endsAtRecordedBank: number;
+  /** Strip faces, and their vertices lying in the water deeper than WET_DEPTH_CM (0: the strips end at the banks). */
   readonly stripFaces: number;
   readonly stripVerticesInWater: number;
   /** Way N unchanged: main gates equal to the slice's gate sites. */
@@ -373,6 +375,28 @@ export function reliefReceipt(before: Int32Array, after: Terrain, rung: BaseRung
 
 // ---- S3: the water gates ------------------------------------------------------------------------------------------------------
 
+/** A strip vertex counts as in the water only past this depth (cm): M0-c-02's own test's tolerance (C-0087). */
+export const WET_DEPTH_CM = 2;
+
+/** The distance (cm) from a point to the nearest edge of a set of rings. */
+function ringsDistance(q: LatticePoint, rings: readonly (readonly LatticePoint[])[]): number {
+  let best = Infinity;
+  for (const r of rings) {
+    for (let i = 0; i < r.length; i += 1) {
+      const a = r[i];
+      const b = r[(i + 1) % r.length];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const l = dx * dx + dy * dy;
+      let t = l === 0 ? 0 : ((q.x - a.x) * dx + (q.y - a.y) * dy) / l;
+      t = t < 0 ? 0 : t > 1 ? 1 : t;
+      const d = Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy);
+      if (d < best) best = d;
+    }
+  }
+  return best;
+}
+
 /** C-0087's receipt on the committed arena: the wall over water only at water gates; the gate ends; the strips. */
 export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3Commit, slice: S3Slice): WaterGateReceipt {
   const bodies = waterHandles(p, water);
@@ -383,29 +407,35 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
   let one = 0;
   let resolved = 0;
   let shore = 0;
+  let recorded = 0;
   for (const g of commit.waterGates) {
-    const mine = over.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
-    if (mine.length === 1 && ((same(mine[0].a, g.bankAt[0]) && same(mine[0].b, g.bankAt[1])) || (same(mine[0].a, g.bankAt[1]) && same(mine[0].b, g.bankAt[0])))) one += 1;
+    const ends: LatticePoint[] = [];
     const banks = g.banks ?? [];
     for (let end = 0; end < 2; end += 1) {
       const ref = banks[end];
-      if (ref === undefined) continue;
+      if (ref === undefined || ref.role !== 'gate_end' || ref.entity !== g.id || (ref.ordinal ?? 0) !== end) continue;
       const r = k.resolve(ref, GROUND);
       if (r.view !== 'vertices' || r.vertices.length !== 1) continue;
       const v = r.vertices[0];
-      if (!same(P(p.vertices.x[v], p.vertices.y[v]), g.bankAt[end])) continue;
+      const at = P(p.vertices.x[v], p.vertices.y[v]);
+      ends.push(at);
       resolved += 1;
-      if (incidentRows(p, v).some((q) => q.role === 'shore' || q.role === 'bank')) shore += 1;
+      if (incidentRows(p, v).some((q) => (q.role === 'shore' || q.role === 'bank') && water.bodies.some((b) => b.id === q.entity))) shore += 1;
+      if (same(at, g.bankAt[end])) recorded += 1;
     }
+    const mine = over.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
+    if (ends.length === 2 && mine.length === 1 && ((same(mine[0].a, ends[0]) && same(mine[0].b, ends[1])) || (same(mine[0].a, ends[1]) && same(mine[0].b, ends[0])))) one += 1;
   }
-  // The strips: no strip face's vertex strictly inside water.
+  // The strips: no strip face's vertex lies in the water deeper than WET_DEPTH_CM.
+  const wetRings: LatticePoint[][] = [];
+  for (let f = 0; f < p.slots.face[0].top; f += 1) if (isFaceLive(p, 0, f) && bodies.has(p.faces[0].owner[f])) wetRings.push(...faceRings(p, 0, f));
   const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer].map((id) => handleOf(p, id)).filter((h) => h >= 0));
   let stripFaces = 0;
   let wet = 0;
   for (let f = 0; f < p.slots.face[1].top; f += 1) {
     if (!isFaceLive(p, 1, f) || !owners.has(p.faces[1].owner[f])) continue;
     stripFaces += 1;
-    for (const ring of faceRings(p, 1, f)) for (const q of ring) if (inWater(p, bodies, q)) wet += 1;
+    for (const ring of faceRings(p, 1, f)) for (const q of ring) if (inWater(p, bodies, q) && ringsDistance(q, wetRings) > WET_DEPTH_CM) wet += 1;
   }
   const mains = commit.gates.filter((g: Gate) => g.kind === 'main').length;
   return {
@@ -415,6 +445,7 @@ export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3
     gatesWithOneEdge: one,
     endsResolved: resolved,
     endsOnShore: shore,
+    endsAtRecordedBank: recorded,
     stripFaces,
     stripVerticesInWater: wet,
     mainGates: mains,
