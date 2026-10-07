@@ -61,3 +61,67 @@ KI row for the hardening pass. The probes and mutants live in `~/maps-scratch/wa
    the frame). A ring road or a wall loop outside the perimeter that encloses land would separate such a region.
    Under the item's rule it is still outside (correct); no test holds it. **Hardening test:** an arterial loop between
    the perimeter and the frame; its enclosed faces take the hinterland's id.
+
+## Closing round 1 (check/M0-e-04-close-r1, 2026-10-06): KI notes 10–15 under N-45 (J202) and N-48 (J214)
+
+B-1 and B-2 are fixed, and the item passes (`checks/M0-e-04.md`). Each row below fails safely or is a test gap on code
+this seat's probes confirm correct. The probes and mutants are in `~/maps-scratch/waves/check-M0-e-04/close-r1/`, in
+mirrors only.
+
+10. **KI — the sum check falsely refuses correct overlay rings on boundaries with collinear vertices (route: M0-e-06 /
+    the M0 close, before S6 meets real stage outlines; M4 at the latest).**
+    * **The cause.** `isSumRing` passes a ring edge only when both its ends lie within d + tol of *one* boundary edge.
+      The overlay's arrangement merges collinear ring vertices, so one ring edge can run 50 m beside several collinear
+      boundary edges. Then no single edge is near both ends, and `settlementPerimeter` refuses `E_INVARIANT` ("the
+      overlay's outer ring is not the boundary's offset"). For example, comb 9 has a 684.59 m ring edge beside its
+      subdivided bottom (`pB2.txt`).
+    * **The rings it refuses are right.** On every refused case, the overlay's own outer ring and
+      `settlementPerimeterByBuffer` are right by the sum's definition: 0 boundary-land points outside, 0 near points
+      outside and 0 far points inside, on about 59 000 samples each. **CONFIRMED.**
+    * **Measured rates** (`pB1.txt`, `pB3.txt`):
+      * ribbon-finger outlines with each edge split in two: **18 of 18** refused, against 0 of 18 unsplit;
+      * combs with collinear-subdivided edges: 16 of 60, against 0 of 60 with the collinear vertices removed;
+      * stars with each edge split in two: 4 of 40; split in three: 3 of 40;
+      * flat-fixture outlines 1–30 at 50 m, 24 grown outlines, 90 jittered rings and towns 1–20: 0.
+    * **It fails safely.** The refusal is typed, and nothing wrong is committed. The fast rings are unaffected, because
+      the convolution keeps a vertex at every boundary vertex. It also contradicts C-0252's sentence that no overlay
+      ring fails the check (B1g "equivalent").
+    * **Suggested handling:** in `isSumRing`, merge collinear consecutive boundary edges before the near test, or test
+      the upper bound against the nearest boundary edges along the ring edge (split at most d apart). Add finger-split2
+      and comb rings to `perimeter.test.ts`, each asserting `ok` and the definition.
+11. **KI — the refusals at a large offset (C-0252 (5), confirmed).** At an offset of 180 m, 6 of 30 flat outlines (3,
+    8, 9, 10, 11, 16) refuse `E_INVARIANT` (`pB4.txt`). One dense slit blob (seed 22) at 50 m is refused by the
+    union's clearance rule (N-43): "no route … keeps clearance (§3.10) within the fidelity bound". Both are typed.
+    S6's 50 m cell is unaffected on every natural outline measured. **Hardening (M4):** a calibrated
+    `district.perimeter.offsetM` far above 50 m needs the overlay path to succeed.
+12. **KI — no test isolates three clauses of the sum check (mutants N02, N03, N04b survive).**
+    * The three clauses are the enclosure clause (the boundary's first vertex inside the ring), the crossing test
+      `meet`, and the lower bound's boundary-vertex-to-ring-edge terms.
+    * Each is a defence. The fast and overlay constructions never trip it on any ring measured, so the survivors are
+      equivalent at those inputs. That is PLAUSIBLE for N03 and N04b.
+    * Probe P5 confirms the enclosure clause. A C-shape whose mouth is 90 m has a hole in its sum. That hole's ring,
+      reversed, has every vertex 49.72–50.01 m from the boundary. The real code refuses it; under N02 P5 fails
+      ("expected true to be false").
+    * **Hardening test (M4):** P5's hole ring; a ring edge passing 30 m from a spike tip with its ends near one
+      boundary edge; an X crossing of a long ring edge and a long boundary edge.
+13. **KI — the run-unit keys have no pinning test (N21, N25, N26, N27 and N28 survive).**
+    * The keys are C-0245 (17)'s: the hinterland is (the town, S6, 2³² − 1); the seams are under (the town, S6,
+      2³² − 2), indexed by their run's lowest-then-leftmost vertex; the quarter nodes are under (the town, S6,
+      2³² − 3).
+    * `renumber.test.ts` holds them slot-free, but no test pins the key itself.
+    * Probe P5 (`pB5.txt`) derives every id from the arena on seeds 4 and 121, and all match. There are 0 mismatches
+      over 43 and 52 seams (ties matched as sets), and every one of the 33 and 37 quarter nodes is under its unit.
+      **CONFIRMED.**
+    * **Hardening (M1, when the hinterland unit lands; else M4):** P5's derivations as a stage test.
+14. **KI — `largestOuter`'s choice of the largest ring is untested (N14 survives).**
+    * The union of the boundary and the full convolution has one outer ring, so on the overlay the mutant is
+      equivalent (PLAUSIBLE).
+    * A frame clip can split the perimeter into pieces when it leaves the frame and re-enters it. The code then keeps
+      the largest piece. No test reaches that case, and dropping the smaller pieces is itself unspecified.
+    * **Hardening test (M4):** a boundary hugging the frame with a notch, so the clip splits the perimeter, together
+      with the rule for the pieces it drops.
+15. **KI — the overlay's outer ring is not checked for simplicity.**
+    * `isSumRing`'s argument (a simple ring in the shell, enclosing the boundary, is the sum's outer ring) assumes a
+      simple ring. The fast rings pass `simpleCcw`. The overlay's ring is trusted to `booleans`' contract.
+    * No failure was seen. PLAUSIBLE.
+    * **Hardening (M4):** apply `simpleCcw` to the overlay's ring as well.

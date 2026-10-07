@@ -1,5 +1,5 @@
 // S5d, the capacity check (M0-c-05; §4.4 S5d (FTG-2), §5.2 F-BUDGET-STAGE, §4.5 *Bands* (the cut points), §4.1's S5
-// row ("S5d: a top-up re-runs S5a's arc and S5c on the rim, each L1"); C-0016, C-0034, C-0049; readings C-0253 (9)–(12)).
+// row ("S5d: a top-up re-runs S5a's arc and S5c on the rim, each L1"); C-0016, C-0034, C-0049; readings C-0254 (9)–(12)).
 //
 // Right after S5c (and its prune and trim) the stage's new coarse faces are priced:
 //   * each L1 face holding land of the stage — its lattice cells (S3's measure of land: interior dry nodes, exact to
@@ -15,7 +15,7 @@
 //     built share, spread over the bands as its land is); a total shortfall above 5 % of the demand takes ONE top-up
 //     (F-BUDGET-STAGE): an unwalled stage's level set grows by the shortfall at the stage's measured built share and
 //     S5c grows the added rim (then its prune and trim); a walled stage's arc re-trace is M1's — its shortfall is
-//     accepted and reported (C-0253 (11)); a capped stage has no reachable land left, so it takes none. The remainder is
+//     accepted and reported (C-0254 (11)); a capped stage has no reachable land left, so it takes none. The remainder is
 //     reported, never a restart.
 import { area2, CONCERNS, err, faceRings, faceWalk, idOf, isFaceLive, ok, pointLocate, rowKey, rowsOn, STAGES, type FaceId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
 import type { Id, Rung, Scope, Stage, StageContext } from '@plat/model';
@@ -281,7 +281,7 @@ function clamp01(v: number): number {
 }
 
 /**
- * The stand-in demand of C-0016 at M0 (S2's is M1's; C-0253 (10)): the stage's quota (its share of the fixture's land,
+ * The stand-in demand of C-0016 at M0 (S2's is M1's; C-0254 (10)): the stage's quota (its share of the fixture's land,
  * with any quota folded into it) at the stage's own measured built share, spread over the bands as its built land is
  * (by the household shares when it has none).
  */
@@ -342,7 +342,7 @@ export function capacityStep(state: GrowthState, k: number, streams: GrowthStrea
   if (b === null) return ok({ ...base, topUp: 'skipped_no_land', shortfallCm2: check.shortfallCm2, rungs: [{ cause: 'F-BUDGET-STAGE', rung: 'accept_shortfall', shortfallCm2: check.shortfallCm2, why: 'no_land' }] });
   if (b.capped) return ok({ ...base, topUp: 'skipped_capped', shortfallCm2: check.shortfallCm2, rungs: [{ cause: 'F-BUDGET-STAGE', rung: 'accept_shortfall', shortfallCm2: check.shortfallCm2, why: 'capped' }] });
   if (gs.walled) {
-    // C-0253 (11): the walled arc's re-trace between its pinned gates is M1's; the shortfall is accepted and reported.
+    // C-0254 (11): the walled arc's re-trace between its pinned gates is M1's; the shortfall is accepted and reported.
     return ok({ ...base, topUp: 'skipped_walled', shortfallCm2: check.shortfallCm2, rungs: [{ cause: 'F-BUDGET-STAGE', rung: 'accept_shortfall', shortfallCm2: check.shortfallCm2, why: 'walled' }] });
   }
   // The level set grown by the shortfall at the stage's measured built share (§5.2's "at the stage's measured plot

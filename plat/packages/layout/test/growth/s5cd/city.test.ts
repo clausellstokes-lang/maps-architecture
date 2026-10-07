@@ -1,4 +1,4 @@
-// S5 whole on the flat fixture (§4.4 S5a – S5d in §4.1's order; C-0016; C-0253): S5c's streets stay in their stage's land
+// S5 whole on the flat fixture (§4.4 S5a – S5d in §4.1's order; C-0016; C-0254): S5c's streets stay in their stage's land
 // and never cross a wall, its records agree with the arena, the run is deterministic, the growth stage's ways are keyed
 // in acceptance order, each sub-step runs once per stage (no restart path: one S5c, one prune and trim, one S5d each, at
 // most one top-up), and the Stage declarations of S5c and S5d (callback form, their concerns and ladders).

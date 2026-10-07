@@ -1,5 +1,5 @@
 // S5c's growth on hand-built arenas (§4.4 S5c; §4.1 callback form; §6.3 ways keyed by the growth stage in acceptance
-// order; §5.2 F-NUM, F-WORK; C-0085; C-0253): the records agree with the arena (every street's way and junction read
+// order; §5.2 F-NUM, F-WORK; C-0085; C-0254): the records agree with the arena (every street's way and junction read
 // back from the arena's own rows), ids and lineages in acceptance order, the run deterministic, the wall never crossed,
 // junction arms ≥ 30° apart; F-WORK's low floor closes the queue (work_cut, the map valid); F-NUM's planted refusal
 // re-proposes from the next attempt stream, then rejects with a report line; the lanesInfillOnly switch changes only

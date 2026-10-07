@@ -1,5 +1,5 @@
 // S5c's heading model (M0-c-05; §4.4 S5c *Heading model per proposal class and preset* (FTG-17, FTG-6; J-P8), §6.1's
-// `growth.heading` and `growth.curvature` concerns, §6.5 (2) — every real function through dmath; readings C-0253):
+// `growth.heading` and `growth.curvature` concerns, §6.5 (2) — every real function through dmath; readings C-0254):
 //
 //   `ou`, a mean-reverting curvature walk: per step Δs
 //     κ ← ρ·κ + (1 − ρ)·κ_goal + s·√(1 − ρ²)·ξ,   ρ = e^(−Δs/ℓ),   κ_goal = (θ_goal − θ)/L_r,   θ ← θ + κ·Δs,
@@ -7,7 +7,7 @@
 //   `headingSigma` in degrees per 100 m (regimes.json's `heading.<preset>` row: organic 20° per 100 m, ℓ = 90 m,
 //   L_r = 250 m; planned 5° per 100 m).
 //
-// Units (C-0253 (1)): angles in radians (the math convention, counter-clockwise from +x, as the step vector
+// Units (C-0254 (1)): angles in radians (the math convention, counter-clockwise from +x, as the step vector
 // (cos θ, sin θ) reads them), lengths in cm, κ in radians per cm; s = headingSigma ÷ 100 m. ξ is one standard normal of
 // the heading stream per step (the stream's Irwin–Hall normal, §6.1); ρ goes through dmath.exp. A proposal's first
 // curvature is drawn from the walk's stationary law N(0, s²) on `growth.curvature` (`initialCurvature`), so every step

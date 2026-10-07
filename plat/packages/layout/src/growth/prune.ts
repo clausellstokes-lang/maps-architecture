@@ -1,5 +1,5 @@
 // The between-stage prune and trim (M0-c-05; §4.4 S5c *Between stages*, §4.1's S5 row "S5c L1: growth, then L1: the
-// between-stage prune and trim"; readings C-0253 (8)): one L1 callback batch at S5's rank after a stage's growth —
+// between-stage prune and trim"; readings C-0254 (8)): one L1 callback batch at S5's rank after a stage's growth —
 //   * trim: only S5-grown provisional spines that run beyond the stage's boundary (an unwalled stage's streets whose last
 //     step left it) are cut back where they first leave it, the cut vertex their new dead end — S4 and S5b arterials are
 //     never trimmed (only S5c's streets are candidates, and a `through` or `primary` way never is);
@@ -125,19 +125,23 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
         for (const st of rec.streets) {
           if (!st.provisional || st.way.class === 'through' || st.way.class === 'primary') continue;
           const line = wayLines(kernel, [st.way.id], key)[0];
-          const pts: readonly XY[] = line.runs.length === 1 ? line.runs[0].points : st.points;
+          if (line.runs.length !== 1) {
+            refuse('E_RUNS');
+            continue;
+          }
+          // The arena's run, read from the street's origin (a chain's run order is the arena's, not the insert's).
+          const run = line.runs[0];
+          const origin = st.points[0];
+          const fwd = run.points[0].x === origin.x && run.points[0].y === origin.y;
+          const pts: readonly XY[] = fwd ? run.points : run.points.slice().reverse();
+          const halfEdges = fwd ? run.halfEdges : run.halfEdges.slice().reverse();
           const exit = firstExit(pts, boundary.set.outline);
           if (exit === null) continue;
           const cut = lat(exit.at);
           const endAt = pts[pts.length - 1];
           // The cut vertex on the way, carrying the new end's junction row.
           const p = kernel.plat(key);
-          const res = kernel.resolve({ role: 'way', entity: st.way.id }, key);
-          if (res.view !== 'edges' || res.runs.length !== 1) {
-            refuse('E_RUNS');
-            continue;
-          }
-          const h = res.runs[0][exit.seg];
+          const h = halfEdges[exit.seg];
           if (h === undefined) {
             refuse('E_RUNS');
             continue;

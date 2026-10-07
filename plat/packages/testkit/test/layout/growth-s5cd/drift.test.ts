@@ -1,5 +1,5 @@
 // §13.5's growth-drift row and the street-turning row's no-cliff clause on the heading model (§4.4 S5c's `ou`; C-0122,
-// C-0253 (1)): 4 000 streets per setting walked by M0-c-05's `headingStep` from its `growth.heading` and
+// C-0254 (1)): 4 000 streets per setting walked by M0-c-05's `headingStep` from its `growth.heading` and
 // `growth.curvature` streams, measured by M0-k-05's METRICS — `growth.drift600m` (net turn over 600 m: p50 15–30°,
 // > 90° on ≤ 1 %), `street.turnStep10m` (10 m resampling: no empty bin above 15° while the bin below holds > 1 %) —
 // one metricVersion, never a second measurement. The settings: the secondary's and the lane's step ranges, and fixed

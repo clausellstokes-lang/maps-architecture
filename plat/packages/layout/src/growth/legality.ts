@@ -1,11 +1,11 @@
 // S5c's legality (M0-c-05; §4.4 S5c *Legality* (GEO-37), *Destination bias*, the crossing matrix (O4 b); readings
-// C-0253). One candidate step of a proposal — its start, its heading after the `ou` walk and its length — is judged
+// C-0254). One candidate step of a proposal — its start, its heading after the `ou` walk and its length — is judged
 // against the features standing (the ways, the wall and its setback lines, shores, reservations and, in an unwalled
 // stage, the stage boundary) and either accepted, with the point it reaches and how the proposal ends there, or
 // rejected:
 //   * destination bias (switchable per regime): a spine within ≈ 1.5 step lengths ahead, met at ≥ 30°, turns the step
 //     toward its nearest point, and the proposal ends there in a T (ending cul-de-sacs deliberately). At M0 every S3
-//     destination (the plaza, the gates) is served by S4, so the spines are the targets (C-0253 (6));
+//     destination (the plaza, the gates) is served by S4, so the spines are the targets (C-0254 (6));
 //   * a junction within `0.35 · step` of the step's end is snapped to, the proposal ending there; a way within that
 //     reach of the end (a near miss) is joined at its foot in a T;
 //   * along the step, the first feature met decides: a setback line or a wall stops the proposal there (a wall is never
@@ -306,15 +306,24 @@ function armsSquare(index: FeatureIndex, pt: XY, step: XY, legalAngle: number, s
  * `reach`, the turn from the step's heading within the class's curvature limit (turn ≤ step ÷ minimum radius) and met
  * square by every arm there — or null.
  */
-function squareFoot(f: Feature, at: XY, dir: XY, L: number, reach: number, maxTurn: number, legalAngle: number, index: FeatureIndex, skip: (g: Feature) => boolean): XY | null {
-  const foot = footOn(at, f.a, f.b);
-  if (foot.t <= 0 || foot.t >= 1 || foot.d2 < 1 || foot.d2 > reach * reach) return null;
-  const v = sub(foot.at, at);
-  if (v.x * dir.x + v.y * dir.y <= 0) return null;
-  const turn = dmath.atan2(Math.abs(dir.x * v.y - dir.y * v.x), dir.x * v.x + dir.y * v.y);
-  if (turn > maxTurn || !(L > 0)) return null;
-  if (!armsSquare(index, foot.at, v, legalAngle, skip)) return null;
-  return foot.at;
+function squareFoot(f: Feature, at: XY, dir: XY, L: number, reach: number, maxTurn: number, legalAngle: number, index: FeatureIndex, skip: (g: Feature) => boolean): { at: XY; i: number } | null {
+  // The met way's segments within reach (the meeting may lie at a corner of it, its square foot on a neighbour).
+  let best: { at: XY; i: number } | null = null;
+  let bestD2 = reach * reach;
+  for (const i of index.near(at.x - reach, at.y - reach, at.x + reach, at.y + reach)) {
+    const g = index.features[i];
+    if (g.kind !== 'way' || g.way !== f.way || skip(g)) continue;
+    const foot = footOn(at, g.a, g.b);
+    if (foot.t <= 0 || foot.t >= 1 || foot.d2 < 1 || !(foot.d2 < bestD2)) continue;
+    const v = sub(foot.at, at);
+    if (v.x * dir.x + v.y * dir.y <= 0) continue;
+    const turn = dmath.atan2(Math.abs(dir.x * v.y - dir.y * v.x), dir.x * v.x + dir.y * v.y);
+    if (turn > maxTurn || !(L > 0)) continue;
+    if (!armsSquare(index, foot.at, v, legalAngle, skip)) continue;
+    best = { at: foot.at, i };
+    bestD2 = foot.d2;
+  }
+  return best;
 }
 
 /** Does the segment ab cross a feature other than `except` (short of b)? */
@@ -473,9 +482,10 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     if (!biased) {
       // §4.3's Y → T: the meeting bent square within the class's curvature limit.
       const sq = squareFoot(f, at, dir, L, L, maxTurn, r.legalAngle, ctx.index, skipOf);
-      if (sq !== null && !blocked(ctx.index, at, sq, hit.i, skipOf)) {
-        to = sq;
-        h = dmath.atan2(sq.y - at.y, sq.x - at.x);
+      if (sq !== null && !blocked(ctx.index, at, sq.at, sq.i, skipOf)) {
+        to = sq.at;
+        metFeature = sq.i;
+        h = dmath.atan2(sq.at.y - at.y, sq.at.x - at.x);
       }
     }
     break;
@@ -510,7 +520,10 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     if (best >= 0) {
       const f = F[best];
       const sq = squareFoot(f, at, dir, L, L + reach, maxTurn, r.legalAngle, ctx.index, skipOf);
-      if (sq !== null) bestAt = sq;
+      if (sq !== null) {
+        bestAt = sq.at;
+        best = sq.i;
+      }
       const v = sub(bestAt, at);
       const vv = v.x * v.x + v.y * v.y;
       let clear = vv >= 1 && lineAngle(v, sub(f.b, f.a)) >= r.legalAngle && armsSquare(ctx.index, bestAt, v, r.legalAngle, (g) => ignored(g, c));

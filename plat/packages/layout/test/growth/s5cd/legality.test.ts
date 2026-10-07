@@ -1,4 +1,4 @@
-// S5c's legality (§4.4 S5c *Legality*, *Destination bias*, the crossing matrix; C-0253 (5)–(7)), on hand-built features:
+// S5c's legality (§4.4 S5c *Legality*, *Destination bias*, the crossing matrix; C-0254 (5)–(7)), on hand-built features:
 // no strip thinner than the clearance between parallel spines (a parallel run inside it is deflected or rejected, never
 // accepted as it was); a proposal reaching the setback band stops there and never crosses it; a proposal meeting a
 // reservation or a shore at ≥ 30° ends there, at a shallower angle it does not end there; a junction within 0.35 · step

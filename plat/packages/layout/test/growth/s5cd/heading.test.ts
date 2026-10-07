@@ -1,4 +1,4 @@
-// The `ou` heading model (§4.4 S5c *Heading model*; C-0253 (1)): its parameters read from regimes.json's heading rows,
+// The `ou` heading model (§4.4 S5c *Heading model*; C-0254 (1)): its parameters read from regimes.json's heading rows,
 // one step of the walk pinned against the design's formula (ρ = e^(−Δs/ℓ) through dmath.exp, κ_goal = (θ_goal − θ)/L_r,
 // s√(1 − ρ²)ξ), the reversion toward the goal heading, the stationary spread of the first curvature, and the walk's
 // refusal of a step that is no length. The 4 000-street drift distribution is measured by M0-k-05's metrics in

@@ -1,4 +1,4 @@
-// The between-stage prune and trim (§4.4 S5c *Between stages*; §4.1's S5 row; C-0253 (8)) on the flat fixture's town, S5
+// The between-stage prune and trim (§4.4 S5c *Between stages*; §4.1's S5 row; C-0254 (8)) on the flat fixture's town, S5
 // run stage by stage: S4 and S5b arterials are never trimmed (their committed lines identical before and after, even an
 // arterial handed to the trim as a provisional street); provisional streets are cut back where they first leave the
 // unwalled stage's boundary; dangling secondaries under one block width are pruned, and every dangling secondary left

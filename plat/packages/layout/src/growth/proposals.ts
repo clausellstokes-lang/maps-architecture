@@ -1,10 +1,10 @@
 // S5c growth of the secondaries (M0-c-05; §4.4 S5c, §4.1 (S5c's callback form; S5's batch row), §6.1 (`growth.heading`,
 // `growth.branch`, `growth.curvature`), §6.3 (S5 ways keyed by the growth stage in acceptance order), §5.2 (F-NUM for
-// optional chains, F-WORK); C-0085, C-0158; readings C-0253).
+// optional chains, F-WORK); C-0085, C-0158; readings C-0254).
 //
 // Inside the stage's land a priority queue of proposals grows streets FTG-style, lowest priority first. Each proposal is
 // {origin junction, heading, curvature, goalHeading, class, remainingSegments, branchCounter, priority}:
-//   * seeds (C-0253 (3)): the junctions S5c makes on the stage's arterials (S4's and S5b's `through` and `primary`
+//   * seeds (C-0254 (3)): the junctions S5c makes on the stage's arterials (S4's and S5b's `through` and `primary`
 //     ways) — one every seed spacing (twice the legality's clearance core, max(minimum block depth, separation ÷ 2): 160 m
 //     in a walled CITY regime, district scale; block scale in an extramural one) along each arterial inside the stage's
 //     land, clear of the wall's setback lines, the reservations and the junctions standing — each giving two proposals
@@ -133,7 +133,7 @@ export interface S5cRecord {
 
 // ---- the rules ------------------------------------------------------------------------------------------------------------
 
-/** The growth rules of a stage's regime (§4.4's regime table, regimes.json, ways.json; C-0158, C-0253 (2)). */
+/** The growth rules of a stage's regime (§4.4's regime table, regimes.json, ways.json; C-0158, C-0254 (2)). */
 export interface GrowthRules {
   readonly regime: string;
   readonly walled: boolean;
@@ -160,7 +160,7 @@ export interface GrowthRuleOptions {
 }
 
 /**
- * A regime's growth rules (C-0253 (2)): the separation the regime row gives at the rung (district scale, walled), else
+ * A regime's growth rules (C-0254 (2)): the separation the regime row gives at the rung (district scale, walled), else
  * the class's own (ways.json, block scale); the clearance max(minimum block depth, separation ÷ 2) + half the class's
  * corridor; the `ou` model of the base preset (`heading.organic`; a row with no `heading` cell — the ribbon — reads the
  * organic default); destination bias as the row's cell, on where it has none.
@@ -236,7 +236,7 @@ export interface GrowthArea {
   readonly seeds: readonly GrowthSeed[];
   /** The stage's land (ha): the work laws' unit. */
   readonly landHa: number;
-  /** The segments a proposal may lay (the region's diagonal over the shortest step, C-0253 (4)). */
+  /** The segments a proposal may lay (the region's diagonal over the shortest step, C-0254 (4)). */
   readonly maxSegments: number;
   /** The first way and junction numbers free. */
   readonly firstWay: number;
@@ -318,7 +318,7 @@ function wallLines(state: GrowthState): (readonly LatticePoint[] | null)[] {
 }
 
 /**
- * Stage k's growth area (C-0253 (3)): its land — inside its own wall (walled) or its boundary (unwalled), outside the
+ * Stage k's growth area (C-0254 (3)): its land — inside its own wall (walled) or its boundary (unwalled), outside the
  * previous stage's wall or boundary — the features standing, the snap junctions and the seeds.
  */
 export function growthArea(state: GrowthState, k: number, opts: GrowthAreaOptions = {}): GrowthArea {
@@ -546,7 +546,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       queue.push(P.id, priority);
       return P;
     };
-    // The seeds' proposals, in seed order: left, then right, each square to its arterial (C-0253 (3)).
+    // The seeds' proposals, in seed order: left, then right, each square to its arterial (C-0254 (3)).
     for (const s of area.seeds) {
       const base = dmath.atan2(s.along.y, s.along.x);
       for (const side of [1, -1]) make({ at: s.at, way: s.way }, base + side * PI * 0.5, 'secondary', area.maxSegments, 0);
@@ -641,7 +641,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         queue.push(P.id, P.priority);
         break;
       }
-      // The step is laid along the proposal's heading; the walk advances the heading after it (C-0253 (1)).
+      // The step is laid along the proposal's heading; the walk advances the heading after it (C-0254 (1)).
       let ds = stepLength(P, rules, streams.heading);
       let curvature = P.curvature;
       let v = legal({ street: P.id, class: P.class, at: P.at, heading: P.heading, stepCm: ds, turn: P.turn, steps: P.steps }, ctx);
@@ -734,7 +734,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       P.lengthCm += stepLen;
       P.priority += stepLen;
       P.remainingSegments -= 1;
-      // The step's heading as taken (bias or deflection); a deflection is also the new goal (C-0253 (5)).
+      // The step's heading as taken (bias or deflection); a deflection is also the new goal (C-0254 (5)).
       P.heading = v.heading;
       if (v.deflected) P.goalHeading = v.heading;
       P.at = v.to;

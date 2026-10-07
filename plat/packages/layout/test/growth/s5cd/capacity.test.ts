@@ -1,4 +1,4 @@
-// S5d, the capacity check (§4.4 S5d, §5.2 F-BUDGET-STAGE, §4.5 *Bands*; C-0016, C-0034; C-0253 (9)–(12)): built land per
+// S5d, the capacity check (§4.4 S5d, §5.2 F-BUDGET-STAGE, §4.5 *Bands*; C-0016, C-0034; C-0254 (9)–(12)): built land per
 // face (land − corridor reserve − reservations, floored at 0), the band by the field at the centroid cut by provisional
 // cut points over the land grown so far (each band's share of it the band's household share), the stand-in demand; a
 // stage short by > 5 % takes one top-up, a stage within 5 % takes none; the shortfall is reported, never a restart;
