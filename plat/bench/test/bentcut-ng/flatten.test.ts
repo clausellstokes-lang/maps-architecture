@@ -70,6 +70,16 @@ describe('flattenSearch(faces, row)', () => {
     expect(flattenFold({ ...row, n: 0, value: 0 }, grid, [0], [[rec(10, 0)]], 0.7).verdict).toBe('notMet');
   });
 
+  it('the row is NG\'s ONE-bend share: a two-bend recorded cut counts in n, never in bent (§4.6 step 5; C-0256 (8))', () => {
+    const cuts = [...PLANTED_CUTS, { lengthCm: 7_000, cornerT: -1, arrivalCdeg: 9_000, fillet: 0 as const, bends: 2 }, { lengthCm: 7_500, cornerT: -1, arrivalCdeg: 9_000, fillet: 0 as const, bends: 2 }];
+    const row = bendRowOf([ngFace(1, [rect(9_000, 5_000)], 'street', cuts)]);
+    expect([row.n, row.bent, row.value]).toEqual([5, 2, 2 / 5]);
+    // Our side likewise: a two-bend cut of ours is a cut of the share's denominator, not a one-bend one.
+    const two = { ...rec(4, 2), cuts: [...rec(4, 2).cuts, { bends: 2 } as unknown as NgRecord['cuts'][number]] };
+    const f = flattenFold(row, { lo: 0, hi: 0, step: 1 }, [0], [[two]], 0.7);
+    expect([f.candidates[0].cuts, f.candidates[0].bent, f.ours]).toEqual([5, 2, 2 / 5]);
+  });
+
   it('the grid: its values to the micrometre, refused when empty, reversed, non-positive in step, or too long', () => {
     expect(gridValues(DEFAULT_GRID)).toEqual(Array.from({ length: 21 }, (_, i) => Math.round(i * 0.1 * 1e6) / 1e6));
     expect(gridValues({ lo: 0.3, hi: 0.3, step: 0.1 })).toEqual([0.3]);

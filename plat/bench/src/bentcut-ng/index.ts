@@ -73,7 +73,7 @@ export { bendRowOf, bendTolerance, DEFAULT_GRID, flattenFold, flattenSearch, gri
 export { cutTableAt, kindOf, ngSeed, placedPolygon, runNgTask, type NgOurBlock, type NgOurCut, type NgRecord, type NgTask } from './ngruns.js';
 export { runNgTasks } from './pool.js';
 export { summaryOf, type InputFile, type NgComparisonReport, type NgRecordedSummary, type OursSummary, type WrittenTable } from './report.js';
-export { checkFacePlans, checkPlan, checkT34, checkT39, checkT40, checkT41Registry, checkT41Run, checksOf, tallies, T_BARS, type TBar, type TCheck, type TChecks } from './tbars.js';
+export { checkFacePlans, checkPlan, checkT34, checkT39, checkT40, checkT41Registry, checkT41Run, checksOf, plotCutSharp, tallies, T_BARS, type TBar, type TCheck, type TChecks } from './tbars.js';
 export {
   absoluteClause,
   ARRIVAL_MIN,

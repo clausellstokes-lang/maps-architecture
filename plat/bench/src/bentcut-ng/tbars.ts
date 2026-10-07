@@ -24,7 +24,7 @@
 // The full unit tests of each clause are M0-b-02's and M0-b-03's (`layout/test/infill/`); these checks re-run the
 // clauses on another face set and count each violation, naming the first few.
 import { CONCERN_REGISTRY, CONCERNS, createRng, entityKey, LATTICE, obb, STAGES, type Hash128, type LatticePoint, type PlatKey } from '@plat/kernel';
-import { CUT_CLASSES, planCut, stopThreshold, type BlockFaces, type ClassBands, type CutCells, type CutPlanned, type DistrictReport, type KerbFace, type PlanContext, type PlanStreams } from '@plat/layout';
+import { CUT_CLASSES, planCut, stopThreshold, type BlockFaces, type ClassBands, type CutCells, type CutPlan, type CutPlanned, type DistrictReport, type KerbFace, type PlanContext, type PlanStreams } from '@plat/layout';
 
 /** One bar's count on a run: clauses checked, violations, the first few named. */
 export interface TCheck {
@@ -214,19 +214,30 @@ export function checkPlan(t: Record<TBar, Tally>, p: CutPlanned, cells: CutCells
   }
 }
 
-/** The plans of one face at attempts 0 … maxFrames − 1 (a later frame holds the first plan's stop draw), each checked. */
-export function checkFacePlans(t: Record<TBar, Tally>, face: KerbFace, ctx: PlanContext, streams: PlanStreams, cells: CutCells, wMinCm: number, where: string): void {
-  const p0 = planCut(face, ctx, streams);
+/**
+ * The plans of one face at attempts 0 … maxFrames − 1 (a later frame holds the first plan's stop draw), each checked, and
+ * the face planned as a plot cut. `plan` is the planner (layout's planCut; a test plants a break through it).
+ */
+export function checkFacePlans(t: Record<TBar, Tally>, face: KerbFace, ctx: PlanContext, streams: PlanStreams, cells: CutCells, wMinCm: number, where: string, plan: typeof planCut = planCut): void {
+  const p0 = plan(face, ctx, streams);
   const first = p0.ok ? p0.value : p0.partial;
   if (first === undefined || first.kind === 'block') return;
   for (let k = 0; k < cells.maxFrames; k += 1) {
-    const pk = k === 0 ? p0 : planCut(face, { ...ctx, attempt: k, stop: first.stop }, streams);
+    const pk = k === 0 ? p0 : plan(face, { ...ctx, attempt: k, stop: first.stop }, streams);
     if (pk.ok && pk.value.kind === 'cut') checkPlan(t, pk.value, cells, wMinCm, `${where} frame ${String(k)}`);
   }
   // T38-1: the same face planned as a plot cut is never filleted.
-  const plot = planCut(face, { ...ctx, cutKind: 'plot' }, streams);
-  if (plot.ok && plot.value.kind === 'cut' && plot.value.cut.bent) {
-    const fl = plot.value.cut.fillet;
-    t['T38-1'].ok(fl !== null && !fl.filleted && fl.sharpBecause === 'plot', () => `${where}: a plot cut filleted`);
-  }
+  const plot = plan(face, { ...ctx, cutKind: 'plot' }, streams);
+  const sharp = plot.ok ? plotCutSharp(plot.value) : null;
+  if (sharp !== null) t['T38-1'].ok(sharp, () => `${where}: a plot cut filleted`);
+}
+
+/**
+ * T38-1's plot clause on a face planned as a plot cut: null when the plan keeps no corner to judge (a block, a straight
+ * cut, the next rung); else whether its corner was left sharp because it is a plot cut (§4.6 step 6: never filleted).
+ */
+export function plotCutSharp(plot: CutPlan): boolean | null {
+  if (plot.kind !== 'cut' || !plot.cut.bent) return null;
+  const fl = plot.cut.fillet;
+  return fl !== null && !fl.filleted && fl.sharpBecause === 'plot';
 }

@@ -4,10 +4,28 @@
 // a missing file stops the run naming it"; "the corner and arrival shares on synthetic NG-shaped faces are computed by
 // the same metric functions (metricVersion) as M0-b-04's"; "the report reproduces byte for byte (seeded)".
 import { describe, expect, it, vi } from 'vitest';
+import { H128, utf8Bytes } from '@plat/kernel';
 import { cutArrival85, cutCornerMid, cutFillet, cutLengths, metricById, type Baseline } from '@plat/testkit';
-import { signatureRow, signatureVersions } from '../../src/bentcut/index.js';
-import { run, runNgTask, sigmaUnder, type NgComparisonReport, type NgRecord, type NgTask } from '../../src/bentcut-ng/index.js';
-import { areaHistogram, baselinesText, got, lengthHistogram, MEM_ROOT, ngFacesText, ngFile, put, resetMem, row, scalar, threeFaces } from './support.js';
+import { FRAME_HALF_CM, signatureRow, signatureVersions } from '../../src/bentcut/index.js';
+import {
+  ARRIVAL_MIN,
+  bendRowOf,
+  CORNER_MIN,
+  flattenFold,
+  judgeB,
+  run,
+  runNgTask,
+  sigmaUnder,
+  T_BARS,
+  type BaselinesInput,
+  type FrameRule,
+  type NgComparisonReport,
+  type NgOurCut,
+  type NgRecord,
+  type NgTask,
+  type TChecks,
+} from '../../src/bentcut-ng/index.js';
+import { areaHistogram, baselinesText, got, lengthHistogram, MEM_ROOT, ngFace, ngFacesText, ngFile, PLANTED_CUTS, put, rect, resetMem, row, scalar, threeFaces } from './support.js';
 
 const mem = vi.hoisted(() => ({ root: '', files: new Map<string, Uint8Array>(), log: [] as { op: string; path: string; virtual: boolean }[] }));
 vi.mock('node:fs', async (orig) => (await import('./memfs.js')).memFs(await orig<typeof import('node:fs')>(), mem));
@@ -166,5 +184,198 @@ describe('phase b on synthetic NG-shaped faces', () => {
     for (const e of mem.log) expect([e.op, e.path === MEM_ROOT || e.path.startsWith(`${MEM_ROOT}/`), e.virtual]).toEqual([e.op, true, true]);
     const reads = new Set(mem.log.filter((e) => e.op === 'read').map((e) => e.path));
     expect([...reads].sort()).toEqual([`${MEM_ROOT}/b/baselines.json`, `${MEM_ROOT}/b/ng-faces.json`]);
+  });
+});
+
+// Phase b's gate on planted records (fix round 1 of the check, F-1 – F-3): judgeB is pure, so each gating clause is shown
+// failing the run on its own break, and the gating set is pinned whole (C-0256 (4); §16 M0 (b); C-0073; C-0256 (7)).
+describe('phase b\'s gate (judgeB on planted records)', () => {
+  const RULE_B: FrameRule = { frame: 'recorded', attempts: 3 };
+  const HOLE = [{ x: 3_000, y: 2_000 }, { x: 3_000, y: 3_000 }, { x: 4_000, y: 3_000 }, { x: 4_000, y: 2_000 }];
+  const NG = ngFile([ngFace(1, [rect(9_000, 5_000)], 'street', PLANTED_CUTS), ngFace(2, [rect(9_000, 5_000), HOLE], 'ring', PLANTED_CUTS, 2)]);
+  const NG_FILE = { path: '.mem-bentcut-ng/b/ng-faces.json', sha256: '0'.repeat(64), bytes: 1 };
+  const OK_CHECKS = Object.fromEntries(T_BARS.map((b) => [b, { checked: 2, failed: 0, first: [] }])) as unknown as TChecks;
+
+  /** A planted cut of ours: bent ones at mid-course unless `offMid`, arriving square unless `low`. */
+  function cut(face: 1 | 2, i: number, bent: boolean, offMid: boolean, low: boolean): NgOurCut {
+    const startT = 0.5 + 0.01 * (i - 6) * (face === 1 ? 1 : 1.5);
+    return {
+      faceKind: face === 1 ? 'plain' : 'ring',
+      template: face === 1 ? 'street' : 'ring',
+      startT,
+      startT0: startT,
+      bends: bent ? 1 : 0,
+      ...(bent ? { cornerT: offMid ? 0.75 : 0.5 } : {}),
+      arrivalCdeg: low ? 8_000 : 9_000,
+      arrivalChordCdeg: low ? 8_000 : 9_000,
+      fillet: bent && i % 2 === 0,
+      lengthCm: 3_000 + 250 * i,
+      kind: face === 1 ? 'concave' : 'holed',
+      attempt: 0,
+      turnCdeg: 0,
+      wMinCm: 600,
+    } as NgOurCut;
+  }
+
+  const box = (x: number, y: number, w: number, h: number) => [{ x, y }, { x: x + w, y }, { x: x + w, y: y + h }, { x, y: y + h }];
+
+  /** The planted records: per face 12 cuts (10 bent, 2 straight), 2 built blocks, every bar checked twice. */
+  function records(o: { offMid?: number; low?: number; checks?: (face: number) => TChecks | null } = {}): NgRecord[] {
+    let offMid = o.offMid ?? 0;
+    let low = o.low ?? 0;
+    return ([1, 2] as const).map((face) => {
+      const cuts: NgOurCut[] = [];
+      for (let i = 0; i < 12; i += 1) {
+        const bent = i < 10;
+        const off = bent && offMid > 0;
+        if (off) offMid -= 1;
+        const lo = low > 0;
+        if (lo) low -= 1;
+        cuts.push(cut(face, i, bent, off, lo));
+      }
+      return {
+        faceId: face,
+        template: face === 1 ? 'street' : 'ring',
+        holed: face === 2,
+        seedIndex: 0,
+        flattenM: null,
+        setup: null,
+        refused: null,
+        replayed: true,
+        cuts,
+        blocks: [{ ring: box(0, 0, 4_000, 3_000), content: 'ordinary' }, { ring: box(5_000, 0, 3_000, 2_500), content: 'ordinary' }],
+        missed: 0,
+        checks: o.checks === undefined ? OK_CHECKS : o.checks(face),
+      };
+    });
+  }
+
+  const ALL_CUTS = records().flatMap((r) => r.cuts);
+  const SIG = sigmaUnder(ALL_CUTS, RULE_B);
+  const FILLET = cutFillet({ ways: [], cuts: ALL_CUTS }).get('all') as number;
+
+  function baselines(rows: Baseline[]): BaselinesInput {
+    const text = baselinesText(rows);
+    return { rows, info: [], hash: H128(utf8Bytes(text)), file: { path: '.mem-bentcut-ng/b/baselines.json', sha256: '0'.repeat(64), bytes: text.length } };
+  }
+
+  const DESC_SAMPLE = { family: 'test/plain', indices: [0, 1] as [0, number], failed: [{ index: 0, reason: 'not reproducible' }] };
+  const KS_KEYS = { 'cut.length': ['all', 'plain', 'ring', 'template-ring', 'template-street'], 'block.area': ['all', 'template-ring', 'template-street'] };
+
+  /** The rows every clause passes on: σ and the fillet at ours, the corner and arrival rows beside, the KS cells descriptive. */
+  function rows(o: { sigmaRing?: number | null; sigmaPlain?: number | null; fillet?: number } = {}): Baseline[] {
+    const out: Baseline[] = [];
+    if (o.sigmaPlain !== null) out.push(row('cut.sigma', 'plain', scalar(o.sigmaPlain ?? (SIG.get('plain') as number))));
+    if (o.sigmaRing !== null) out.push(row('cut.sigma', 'ring', scalar(o.sigmaRing ?? (SIG.get('ring') as number))));
+    out.push(row('cut.fillet', 'all', scalar(o.fillet ?? FILLET)), row('cut.cornerMid', 'all', scalar(0.88)), row('cut.arrival85', 'all', scalar(0.97)));
+    for (const [metric, keys] of Object.entries(KS_KEYS)) for (const k of keys) out.push(row(metric, k, { n: 0, seeds: 0 }, { role: 'descriptive', sample: DESC_SAMPLE }));
+    return out;
+  }
+
+  const ROW = bendRowOf(NG.faces);
+  const flat = (bent: number) => flattenFold(ROW, { lo: 0.7, hi: 0.7, step: 0.1 }, [0.7], [[{ ...records()[0], cuts: [cut(1, 0, bent > 0, false, false), cut(1, 1, bent > 1, false, false), cut(1, 2, false, false, false)] }]], 0.7);
+  const MET = flat(2);
+
+  function judge(o: { rows?: Baseline[]; records?: NgRecord[]; flatten?: ReturnType<typeof flattenFold> | null } = {}): NgComparisonReport {
+    return judgeB({ baselines: baselines(o.rows ?? rows()), rule: RULE_B, ng: NG, ngFile: NG_FILE, records: o.records ?? records(), seed: 1, seeds: 1, flatten: o.flatten === undefined ? MET : o.flatten });
+  }
+
+  it('the planted run passes, and its gating clauses are exactly the ones C-0256 (4) names', () => {
+    expect([ROW.value, MET.verdict]).toEqual([2 / 3, 'met']);
+    const r = judge();
+    expect([r.pass, r.failing]).toEqual([true, []]);
+    expect(r.clauses.filter((c) => c.gating).map((c) => c.id)).toEqual([
+      'run',
+      'cut.sigma/plain',
+      'cut.sigma/ring',
+      'cut.fillet/all',
+      'cut.length/all',
+      'cut.length/plain',
+      'cut.length/ring',
+      'cut.length/template-ring',
+      'cut.length/template-street',
+      'block.area/all',
+      'block.area/template-ring',
+      'block.area/template-street',
+      'corner',
+      'arrival',
+      'T34-1',
+      'T36-1',
+      'T37-1',
+      'T38-1',
+      'T39-1',
+      'T40-1',
+      'T41-1',
+      'flatten',
+    ]);
+    // Measured but not gating: σ over all cuts and per template, the corner and arrival rows beside, the fillet subsets.
+    for (const id of ['cut.sigma/all', 'cut.sigma/template-street', 'cut.cornerMid/all', 'cut.arrival85/all', 'cut.fillet/plain']) expect([id, r.clauses.find((c) => c.id === id)?.gating]).toEqual([id, false]);
+  });
+
+  it('the fillet share outside ± 0.05 of its row fails the run (inside passes)', () => {
+    expect(judge({ rows: rows({ fillet: FILLET + 0.06 }) }).failing).toEqual(['cut.fillet/all']);
+    expect(judge({ rows: rows({ fillet: FILLET - 0.06 }) }).failing).toEqual(['cut.fillet/all']);
+    expect(judge({ rows: rows({ fillet: FILLET + 0.04 }) }).pass).toBe(true);
+  });
+
+  it('the corner clause: ≥ 0.80 of bent cuts within 0.10 of mid-course — 16 of 20 pass, 15 of 20 fail (F-2)', () => {
+    expect(CORNER_MIN).toBe(0.8);
+    const at = judge({ records: records({ offMid: 4 }) });
+    const c = at.clauses.find((x) => x.id === 'corner');
+    expect([c?.ours, c?.reference, c?.verdict, c?.gating, at.pass]).toEqual([0.8, 0.8, 'pass', true, true]);
+    const below = judge({ records: records({ offMid: 5 }) });
+    expect([below.clauses.find((x) => x.id === 'corner')?.ours, below.pass, below.failing]).toEqual([0.75, false, ['corner']]);
+  });
+
+  it('the arrival clause: ≥ 0.95 of cuts at ≥ 85° — 23 of 24 pass, 22 of 24 fail', () => {
+    expect(ARRIVAL_MIN).toBe(0.95);
+    const ok = judge({ records: records({ low: 1 }) });
+    expect([ok.clauses.find((x) => x.id === 'arrival')?.reference, ok.pass]).toEqual([0.95, true]);
+    const below = judge({ records: records({ low: 2 }) });
+    expect([below.pass, below.failing]).toEqual([false, ['arrival']]);
+  });
+
+  it('σ on ring faces (and on plain ones) out of its ± 0.02 band, or without a row, fails the run', () => {
+    expect(judge({ rows: rows({ sigmaRing: (SIG.get('ring') as number) + 0.03 }) }).failing).toEqual(['cut.sigma/ring']);
+    expect(judge({ rows: rows({ sigmaRing: (SIG.get('ring') as number) + 0.015 }) }).pass).toBe(true);
+    const none = judge({ rows: rows({ sigmaRing: null }) });
+    expect([none.failing, none.clauses.find((c) => c.id === 'cut.sigma/ring')?.verdict]).toEqual([['cut.sigma/ring'], 'missingBaseline']);
+    expect(judge({ rows: rows({ sigmaPlain: (SIG.get('plain') as number) - 0.03 }) }).failing).toEqual(['cut.sigma/plain']);
+    expect(judge({ rows: rows({ sigmaPlain: null }) }).failing).toEqual(['cut.sigma/plain']);
+  });
+
+  it('a cut.flattenM search that misses its row (or never ran) fails the run', () => {
+    const miss = flat(0);
+    expect(miss.verdict).toBe('notMet');
+    const r = judge({ flatten: miss });
+    expect([r.failing, r.clauses.find((c) => c.id === 'flatten')?.verdict]).toEqual([['flatten'], 'fail']);
+    const none = judge({ flatten: null });
+    expect([none.failing, none.clauses.find((c) => c.id === 'flatten')?.verdict]).toEqual([['flatten'], 'notApplicable']);
+  });
+
+  it('one NG face refused at setup (beyond the bench frame), or refused by S8, fails the run clause', () => {
+    const wide = ngFace(3, [rect(2 * (FRAME_HALF_CM - 10_000) + 2, 1_000)], 'street', PLANTED_CUTS);
+    const refused = runNgTask({ face: wide, seed: 1, seedIndex: 0, bars: true });
+    expect(refused.setup).toContain('beyond the bench frame');
+    const r = judge({ records: [...records(), refused] });
+    expect([r.pass, r.failing, r.clauses[0].note?.startsWith('3 faces: 1 not built')]).toEqual([false, ['run'], true]);
+    const s8 = { ...records()[1], faceId: 4, cuts: [], blocks: [], checks: null, replayed: false, refused: 'E_TEST planted' };
+    expect(judge({ records: [...records(), s8] }).failing).toEqual(['run']);
+  });
+
+  it('a T-bar with no check reads notApplicable and fails the gate; a failed check fails it (F-3)', () => {
+    // Records whose checks are null (no run checked anything): every bar but T41-1 (its registry clause runs once per
+    // report) reads notApplicable, never pass.
+    const none = judge({ records: records({ checks: () => null }) });
+    expect(none.failing).toEqual(['T34-1', 'T36-1', 'T37-1', 'T38-1', 'T39-1', 'T40-1']);
+    for (const b of ['T34-1', 'T36-1', 'T37-1', 'T38-1', 'T39-1', 'T40-1']) expect([b, none.clauses.find((c) => c.id === b)?.verdict, none.tbars?.[b as 'T34-1'].checked]).toEqual([b, 'notApplicable', 0]);
+    expect(none.clauses.find((c) => c.id === 'T41-1')?.verdict).toBe('pass');
+    // One bar with checked 0 on every record.
+    const zero = { ...OK_CHECKS, 'T37-1': { checked: 0, failed: 0, first: [] } };
+    expect(judge({ records: records({ checks: () => zero }) }).failing).toEqual(['T37-1']);
+    // A failed check on one face fails its bar.
+    const failed = { ...OK_CHECKS, 'T38-1': { checked: 2, failed: 1, first: ['planted'] } };
+    const f = judge({ records: records({ checks: (face) => (face === 2 ? failed : OK_CHECKS) }) });
+    expect([f.failing, f.clauses.find((c) => c.id === 'T38-1')?.verdict]).toEqual([['T38-1'], 'fail']);
   });
 });

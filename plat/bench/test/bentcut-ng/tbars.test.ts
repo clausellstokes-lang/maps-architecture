@@ -3,10 +3,10 @@
 // could never fail is caught here, not on M-1's faces.
 import { describe, expect, it } from 'vitest';
 import { createRng, entityKey, seedKey, type Cm, type Hash64, type LatticePoint } from '@plat/kernel';
-import { blockDepthRange, cutCells, minFrontage, planCut, widthCells, type BlockFaces, type CutPlanned, type DistrictReport, type KerbFace, type PlanContext } from '@plat/layout';
+import { blockDepthRange, cutCells, minFrontage, planCut, widthCells, type BlockFaces, type CutPlanned, type DistrictReport, type KerbFace, type PlanContext, type PlanStreams } from '@plat/layout';
 import { loadTable } from '@plat/tables';
 import { faceDistrict, GROUND, replayDistrict, type FaceDistrict } from '../../src/bentcut/index.js';
-import { checkPlan, checkT34, checkT39, checkT40, checkT41Registry, checkT41Run, checksOf, placedPolygon, tallies } from '../../src/bentcut-ng/index.js';
+import { checkFacePlans, checkPlan, checkT34, checkT39, checkT40, checkT41Registry, checkT41Run, checksOf, placedPolygon, plotCutSharp, tallies } from '../../src/bentcut-ng/index.js';
 import { genRings, ngFace, PLANTED_CUTS } from './support.js';
 
 const CELLS = cutCells(loadTable('cut'));
@@ -188,5 +188,102 @@ describe('T36-1, T37-1, T38-1 on a plan', () => {
     const K = g.legs[1];
     const far = { x: K.x + 1e6, y: K.y };
     expect(at({ ...plan, cut: { ...g, fillet: { ...fl, arc: [...fl.arc, far] } } }).T38).toBe(1);
+  });
+});
+
+/**
+ * A real face whose plans at attempts 0, 1 and 2 are all cuts and whose plot-cut plan keeps its corner (fix round 1 of
+ * the check's F-4: the plans of frames 1 and 2 and the plot clause must be reachable by a planted break).
+ */
+function threeFrameFace(): { face: KerbFace; ctx: PlanContext; streams: () => PlanStreams; wMinCm: number; plans: CutPlanned[]; plot: CutPlanned; wayFillet: NonNullable<CutPlanned['cut']['fillet']> } {
+  const fd = D.fd;
+  const [eLo, eHi] = blockDepthRange(fd.bands, undefined);
+  const ctx: PlanContext = { depthRangeM: [eLo, eHi], minFrontageM: minFrontage(fd.bands), cutKind: 'way', table: loadTable('cut') };
+  for (const kind of ['round-joined', 'curved', 'C-shaped', 'holed'] as const) {
+    for (let i = 0; i < 4; i += 1) {
+      const face: KerbFace = { rings: genRings(kind, i).map((r) => r.map((p) => ({ x: p.x as Cm, y: p.y as Cm }))) };
+      for (let s = 1; s <= 60; s += 1) {
+        // A fresh Rng each time: a stream asked for again continues where it stopped, so every pass over the face plans
+        // on its own Rng, in checkFacePlans' order (frames 0, 1, 2, then the plot cut).
+        const mk = (): PlanStreams => ({ rng: createRng(), faceKey: entityKey(seedKey(s), [s, 9] as unknown as Hash64, GROUND), entity: `face:${String(s)}`, reroll: 0, epoch: 0 });
+        const streams = mk();
+        const p0 = planCut(face, ctx, streams);
+        if (!p0.ok || p0.value.kind !== 'cut' || !p0.value.cut.bent) continue;
+        const wayFillet = p0.value.cut.fillet;
+        if (wayFillet === null || !wayFillet.filleted) continue;
+        const plans: CutPlanned[] = [p0.value];
+        for (let k = 1; k < CELLS.maxFrames; k += 1) {
+          const pk = planCut(face, { ...ctx, attempt: k, stop: p0.value.stop }, streams);
+          if (pk.ok && pk.value.kind === 'cut') plans.push(pk.value);
+        }
+        if (plans.length !== CELLS.maxFrames) continue;
+        const plot = planCut(face, { ...ctx, cutKind: 'plot' }, streams);
+        if (!plot.ok || plot.value.kind !== 'cut' || !plot.value.cut.bent) continue;
+        return { face, ctx, streams: mk, wMinCm: minFrontage(fd.bands) * 100, plans, plot: plot.value, wayFillet };
+      }
+    }
+  }
+  throw new Error('no face planned a cut at every frame with a bent plot plan');
+}
+
+describe('checkFacePlans: the plans at attempts 0 – 2 and the plot clause (C-0256 (7))', () => {
+  const F = threeFrameFace();
+  const run = (plan?: typeof planCut) => {
+    const t = tallies();
+    checkFacePlans(t, F.face, F.ctx, F.streams(), CELLS, F.wMinCm, 'face', plan);
+    return checksOf(t);
+  };
+  const perPlan = (p: CutPlanned) => {
+    const t = tallies();
+    checkPlan(t, p, CELLS, F.wMinCm, 'one');
+    return checksOf(t);
+  };
+
+  it('checks every frame\'s plan and the plot plan: the counts are the three plans\' sum (+ 1 plot clause), none failing', () => {
+    expect(CELLS.maxFrames).toBe(3);
+    const c = run();
+    const sum = (b: 'T36-1' | 'T37-1' | 'T38-1') => F.plans.reduce((a, p) => a + perPlan(p)[b].checked, 0);
+    for (const p of F.plans) expect(perPlan(p)['T36-1'].checked).toBeGreaterThanOrEqual(3);
+    expect([c['T36-1'].checked, c['T37-1'].checked, c['T38-1'].checked]).toEqual([sum('T36-1'), sum('T37-1'), sum('T38-1') + 1]);
+    expect([c['T36-1'].failed, c['T37-1'].failed, c['T38-1'].failed]).toEqual([0, 0, 0]);
+    // The frames are the turned ones: attempt k's plan is frame k's.
+    expect(F.plans.map((p) => p.attempt)).toEqual([0, 1, 2]);
+  });
+
+  it('a break planted in frame 1\'s plan alone fails T36-1, named at frame 1', () => {
+    const broken: typeof planCut = (face, ctx, streams) => {
+      const r = planCut(face, ctx, streams);
+      if ((ctx.attempt ?? 0) !== 1 || (ctx.cutKind ?? 'way') !== 'way' || !r.ok || r.value.kind !== 'cut') return r;
+      const draws = [...r.value.draws];
+      const pos = draws.findIndex((d) => d.step === 'position');
+      draws.splice(pos + 1, 0, r.value.draws[pos]);
+      return { ...r, value: { ...r.value, draws } };
+    };
+    const c = run(broken);
+    expect(c['T36-1'].failed).toBe(1);
+    expect(c['T36-1'].first[0]).toContain('face frame 1:');
+  });
+
+  it('T38-1 fails when the face planned as a plot cut comes back filleted', () => {
+    const filleted: typeof planCut = (face, ctx, streams) => {
+      const r = planCut(face, ctx, streams);
+      if (ctx.cutKind !== 'plot' || !r.ok || r.value.kind !== 'cut') return r;
+      return { ...r, value: { ...r.value, cut: { ...r.value.cut, fillet: F.wayFillet } } };
+    };
+    const c = run(filleted);
+    expect([c['T38-1'].failed, c['T38-1'].first]).toEqual([1, ['face: a plot cut filleted']]);
+  });
+
+  it('plotCutSharp: sharp because plot holds; a filleted, otherwise-sharp or fillet-less plot corner fails; no corner, no clause', () => {
+    const p = F.plot;
+    const fl = p.cut.fillet as NonNullable<typeof p.cut.fillet>;
+    expect([fl.filleted, fl.sharpBecause]).toEqual([false, 'plot']);
+    expect(plotCutSharp(p)).toBe(true);
+    expect(plotCutSharp({ ...p, cut: { ...p.cut, fillet: F.wayFillet } })).toBe(false);
+    expect(plotCutSharp({ ...p, cut: { ...p.cut, fillet: { ...fl, filleted: true } } })).toBe(false);
+    expect(plotCutSharp({ ...p, cut: { ...p.cut, fillet: { ...fl, sharpBecause: 'drawn' } } })).toBe(false);
+    expect(plotCutSharp({ ...p, cut: { ...p.cut, fillet: null } })).toBe(false);
+    expect(plotCutSharp({ ...p, cut: { ...p.cut, bent: false } })).toBeNull();
+    expect(plotCutSharp({ kind: 'block', stop: p.stop, minorCm: p.minorCm, draws: p.draws, attempt: 0 })).toBeNull();
   });
 });
