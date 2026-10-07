@@ -532,6 +532,28 @@ export function growthRun(seed: number, gridM = 150): GrowthRun {
 
 // ---- small grids for the grower's unit tests ------------------------------------------------------------------------------
 
+/**
+ * An arena of closed `secondary` way rings (each its own way, laid in order) inside a square border of side `sideM`
+ * centred on the origin: the faces their rings bound, for face-side tests.
+ */
+export function ringArena(sideM: number, rings: readonly (readonly LatticePoint[])[]): GridArena {
+  const half = (sideM * 100) / 2;
+  const frame: Frame = { widthCm: (sideM * 300) as Cm, heightCm: (sideM * 300) as Cm, aspect: 1, marginShare: 0.3 };
+  const plat = createPlat(GROUND, frame);
+  attachIndex(plat, { gridCellCm: 5000 });
+  const k = createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+  const pad = half * 2;
+  lay(k, 0, STAGES.S1, [P(-pad, -pad), P(pad, -pad), P(pad, pad), P(-pad, pad)], [{ role: 'margin', entity: 'terrain:t' }], { closed: true });
+  lay(k, 1, STAGES.S3, [P(-half, -half), P(half, -half), P(half, half), P(-half, half)], [{ role: 'border', entity: 'terrain:t' }], { closed: true });
+  const ways: Way[] = [];
+  rings.forEach((r, i) => {
+    const id = `way:r${String(i)}`;
+    lay(k, 1, STAGES.S4, r, [{ role: 'way', entity: id }], { closed: true });
+    ways.push(wayRecord(id, 'secondary'));
+  });
+  return { plat, k, ways, centre: () => P(0, 0) };
+}
+
 /** A grid arena: rectangular cells, the outer ring the map border, the inner lines ways by `lineClass`. */
 export interface GridArena {
   readonly plat: Plat;

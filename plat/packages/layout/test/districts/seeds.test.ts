@@ -3,7 +3,7 @@
 // centroid and Lloyd's relaxation with the features fixed.
 import { describe, expect, it } from 'vitest';
 import { faceGraph, faceInRing, placeSeeds, s6DistrictCells, SIDE_DECISIVE_CM, type FaceGraph } from '../../src/index.js';
-import { GROUND, gridArena, P, type GridArena } from './support.js';
+import { GROUND, gridArena, P, ringArena, type GridArena } from './support.js';
 
 function graphOf(a: GridArena): FaceGraph {
   return faceGraph(a.plat, { ways: new Map(a.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: 'none', water: new Set() });
@@ -94,6 +94,19 @@ describe('the seeds (§4.5)', () => {
     // a face whose whole boundary is the line: the region the line encloses (a single cell, its own ring)
     expect(faceInRing(g, cell(a, g, 1, 0), [P(10000, 0), P(20000, 0), P(20000, 10000), P(10000, 10000)])).toBe(true);
     expect(faceInRing(g, cell(a, g, 2, 0), [P(10000, 0), P(20000, 0), P(20000, 10000), P(10000, 10000)])).toBe(false);
+    // a U-shaped face holds its centroid in its notch: read at its boundary, it lies outside a ring drawn in the notch
+    // (its centroid inside it) and inside a ring around the whole U
+    const u = [P(-3000, -3000), P(3000, -3000), P(3000, 9000), P(1000, 9000), P(1000, -1000), P(-1000, -1000), P(-1000, 9000), P(-3000, 9000)];
+    const ua = ringArena(200, [u]);
+    const ug = graphOf(ua);
+    const loc = ua.k.geom.pointLocate(GROUND, 1, P(-2000, 2000));
+    if (loc.on !== 'face') throw new Error('no U face');
+    const ui = ug.faces.findIndex((f) => f.face === loc.face);
+    const notch = [P(-500, 0), P(500, 0), P(500, 8000), P(-500, 8000)];
+    expect(ug.faces[ui].centroid.y).toBeGreaterThan(1000);
+    expect(Math.abs(ug.faces[ui].centroid.x)).toBeLessThan(500);
+    expect(faceInRing(ug, ui, notch)).toBe(false);
+    expect(faceInRing(ug, ui, [P(-4000, -4000), P(4000, -4000), P(4000, 10000), P(-4000, 10000)])).toBe(true);
     // the memo answers as computed
     const memo = new Map<number, boolean>();
     expect(faceInRing(g, cell(a, g, 0, 0), ring, memo)).toBe(true);
