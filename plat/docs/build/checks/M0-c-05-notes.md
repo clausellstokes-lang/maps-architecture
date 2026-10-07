@@ -76,3 +76,39 @@ are in `M0-c-05.md`.
     leaving test (`legality.ts:463–467`), because steps are ≥ 20 m long. No test is needed.
 19. **N-19 S19 is equivalent.** In `growthStep`, counting only the grown streets that are still live changes nothing,
     because the prune has not run yet and every grown street is live. No test is needed.
+
+## Closing check r3 (lane `check/M0-c-05-close-r3`, 2026-10-07)
+
+20. **N-20 U05 is equivalent.** Without the `f.way === g.way` guard in `leavesAcross`, a segment f of the arterial
+    itself is still never read as across. Each end of f is held by f itself (`footOn` distance 0). Against f, the other
+    end lies on the line (side 0, not ≤ −1 cm), so `across` turns false at once. The probe P2 digest is unchanged on
+    30 of 30 fixture runs. No test is needed. Keep the guard as documentation.
+21. **N-21 U06 (the side margin `≤ −1 cm` → `≤ +1 cm`) survives NEAR (128 / 128). It changes 0 of 30 fixture runs.**
+    It matters only when f leaves the arterial and ends within 1 cm of the line of the arterial segment h where it
+    leaves, so f runs collinear with h (for example a way continuing the arterial past a junction). The clearance then
+    also needs the step to lie within 30° of parallel to f. A first step is square to g, so h must turn 60 – 90° from g
+    within about one clearance (83 m) of the seed. Rule (a) already gives g's own line the same 1 cm tolerance.
+    The fixer's MB2 "equivalent" label is not quite right: the case is contrived, not impossible. Suggested test (M4):
+    an arterial bending about 70° within 60 m of a seed, with another way continuing collinear from the bend. The step
+    parallel to that way keeps the clearance.
+22. **N-22 U09 (the "on the way" tolerance 1 cm → 10 m in `leavesAcross`) survives NEAR (128 / 128). It changes 0 of
+    30 fixture runs.** It matters only when a way segment ends within 10 m of g's way without touching it and its other
+    end lies across. A secondary never crosses a `primary` or a `through`. A branch's first step leaves a secondary,
+    though, and a secondary can be crossed (organic, collinear within 6°). So a crossing segment near a branch seed is
+    the reachable shape, and it is rare. Suggested test (M4): a street segment crossing the parent street with its start
+    5 m off it on the step's side. That segment keeps the clearance.
+23. **N-23 Later steps still read no far side, so about a third of the streets leaving arterials stop after one
+    step (declared, fail safe; triage before M0-c-06's statistics).** C-0260 (1) and C-0262 (1) state the limit "a step
+    leaving no way (a later step) keeps the clearance", and `legality.test.ts` pins it (*a step leaving no way (a later
+    step) reads no far side*). The design's literal clearance clause also supports it. On the flat fixture, though, the
+    far-side street half a spacing along (77 – 83 m off, so inside the 83 m clearance) rejects the second step of
+    the street opposite. The checker's probe P1c (a hook in a diagnostic copy that logs every `legal` call's first
+    attempt and its final verdict; plain and 900 ha, seeds 1 – 10) found 823 streets leaving arterials with a later
+    step. For 314 of them the first attempt was rejected `parallel` against the far-side street. 39 of those were
+    deflected and accepted. **275 were rejected, so the street dead-ended: 270 at its second step and 5 at its third.**
+    No thin strip is left, because the arterial lies between the two, so the rejection is conservative. It is
+    not a wrong committed result, and every here-bar holds (the checker's 1 000-seed re-run: 0 misses; 25.9 % of all S5c streets there are single-segment). But it is not rare, and M0-c-06's integrated statistics
+    (block sizes, dead-end share) will see it. Suggested handling: extend the far-side reading to a later step of a
+    street whose first segment left the arterial (read the side from that arterial within the clearance), or record a
+    choices row accepting the stubs. That is the session's call, before M0-c-06 judges the integrated run, rather than
+    M4.
