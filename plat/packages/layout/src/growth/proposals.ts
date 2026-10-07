@@ -74,6 +74,8 @@ export interface Proposal {
   priority: number;
   /** The point the next step starts from. */
   at: LatticePoint;
+  /** The turn from its last step's direction to `heading` (radians; 0 before its first step). */
+  turn: number;
   /** Steps laid and their length (cm). */
   steps: number;
   lengthCm: number;
@@ -93,8 +95,9 @@ export interface GrownStreet {
   readonly points: LatticePoint[];
   /** How it ends: as `legal` ended it, `dead` (a rejected step, its segments run out, the queue closed). */
   ends: EndKind | 'dead' | null;
-  /** The way or junction it ends on (a T, a snap). */
+  /** The way or junction it ends on (a T, a snap), and how its last step reached it. */
   meets: Id | null;
+  endVia?: Accepted['via'];
   /** Its last step left the unwalled stage's boundary (the trim's to cut). */
   provisional: boolean;
 }
@@ -124,6 +127,8 @@ export interface S5cRecord {
   /** Kernel refusals other than F-NUM's codes, by code (each step left out). */
   readonly refused: Record<string, number>;
   workCut: { readonly counter: string; readonly count: number; readonly limit: number } | null;
+  /** The batch refused as a whole at its commit (nothing of it written; the stage stands ungrown, reported). */
+  batchRefused?: { readonly code: string; readonly detail: string };
 }
 
 // ---- the rules ------------------------------------------------------------------------------------------------------------
@@ -183,6 +188,7 @@ export function growthRules(tables: TableView, regime: string, rung: Rung, opts:
     biasSteps: reg.num(g, 'destinationBiasSteps'),
     legalAngle: reg.num(g, 'legalAngleCdeg') * RAD_PER_CDEG,
     matrix: crossingMatrix('organic', reg.num('crossing.organic', 'collinearCdeg')),
+    minRadiusCm: (c) => ways.num(c === 'lane' ? 'lane' : 'secondary', 'minRadiusM') * 100,
   };
   return {
     regime,
@@ -461,19 +467,10 @@ function limitOf(t: WorkLimitsTable, counter: string, landHa: number): number {
   return workLimitOf(t.law(counter), { kind: 'stage', stage: STAGES.S5 as StageId }, { landHa });
 }
 
-/** One drawn step: its length and the heading state the walk gives. */
-interface Drawn {
-  readonly stepCm: number;
-  readonly heading: number;
-  readonly curvature: number;
-  readonly turn: number;
-}
-
-function draw(P: Proposal, rules: GrowthRules, s: Stream): Drawn {
+/** A step's length: one uniform of the stream in the class's step range (cm, whole). */
+function stepLength(P: Proposal, rules: GrowthRules, s: Stream): number {
   const [lo, hi] = rules.stepCm(P.class);
-  const stepCm = Math.round(lo + (hi - lo) * s.float01());
-  const h = headingStep({ heading: P.heading, curvature: P.curvature, goalHeading: P.goalHeading, stepCm, model: rules.model }, s);
-  return { stepCm, heading: h.heading, curvature: h.curvature, turn: h.turn };
+  return Math.round(lo + (hi - lo) * s.float01());
 }
 
 /** S5c's batch on one stage's area: its spec (one L1 callback batch at S5's rank) and its callback, which returns the record. */
@@ -540,6 +537,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         branchCounter: 0,
         priority,
         at: origin.at,
+        turn: 0,
         steps: 0,
         lengthCm: 0,
         street: null,
@@ -548,13 +546,10 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       queue.push(P.id, priority);
       return P;
     };
-    // The seeds' proposals, in seed order: left, then right, each ± the jitter.
+    // The seeds' proposals, in seed order: left, then right, each square to its arterial (C-0253 (3)).
     for (const s of area.seeds) {
       const base = dmath.atan2(s.along.y, s.along.x);
-      for (const side of [1, -1]) {
-        const jitter = (2 * streams.heading.float01() - 1) * rules.branch.jitterRad;
-        make({ at: s.at, way: s.way }, base + side * PI * 0.5 + jitter, 'secondary', area.maxSegments, 0);
-      }
+      for (const side of [1, -1]) make({ at: s.at, way: s.way }, base + side * PI * 0.5, 'secondary', area.maxSegments, 0);
     }
     const widthOf = (c: GrowthClass): number => rules.widthCm(c);
     const newJunction = (at: LatticePoint, arms: Id[], kind: Junction['kind']): Junction => {
@@ -646,8 +641,10 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         queue.push(P.id, P.priority);
         break;
       }
-      let d = draw(P, rules, streams.heading);
-      let v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
+      // The step is laid along the proposal's heading; the walk advances the heading after it (C-0253 (1)).
+      let ds = stepLength(P, rules, streams.heading);
+      let curvature = P.curvature;
+      let v = legal({ street: P.id, class: P.class, at: P.at, heading: P.heading, stepCm: ds, turn: P.turn, steps: P.steps }, ctx);
       if (v.verdict === 'reject') {
         rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
         deadEnd(P);
@@ -661,8 +658,10 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
           queue.push(P.id, P.priority);
           break;
         }
-        d = draw(P, rules, streams.retry);
-        v = legal({ street: P.id, class: P.class, at: P.at, heading: d.heading, stepCm: d.stepCm, turn: d.turn, steps: P.steps }, ctx);
+        ds = stepLength(P, rules, streams.retry);
+        const hs = headingStep({ heading: P.heading, curvature: P.curvature, goalHeading: P.goalHeading, stepCm: ds, model: rules.model }, streams.retry);
+        curvature = hs.curvature;
+        v = legal({ street: P.id, class: P.class, at: P.at, heading: hs.heading, stepCm: ds, turn: P.turn + hs.turn, steps: P.steps }, ctx);
         if (v.verdict === 'reject') {
           rec.steps.rejected[v.why] = (rec.steps.rejected[v.why] ?? 0) + 1;
           rec.rungs.push({ cause: 'F-NUM', rung: 'reject', proposal: P.id, code: `illegal:${v.why}` });
@@ -735,10 +734,8 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       P.lengthCm += stepLen;
       P.priority += stepLen;
       P.remainingSegments -= 1;
-      // The walk's state: the step's heading as taken (bias or deflection) is the new heading; a deflection is also
-      // the new goal (C-0253 (5)).
+      // The step's heading as taken (bias or deflection); a deflection is also the new goal (C-0253 (5)).
       P.heading = v.heading;
-      P.curvature = v.deflected || v.biased ? 0 : d.curvature;
       if (v.deflected) P.goalHeading = v.heading;
       P.at = v.to;
       if (v.provisional) {
@@ -749,6 +746,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       if (v.ends !== null) {
         st.ends = v.ends;
         st.meets = v.meets;
+        st.endVia = v.via;
         if (v.ends === 'snap') {
           st.way.to = { kind: 'junction', id: v.meets ?? '' };
           snapArm(rec, v.meets ?? '', st.way.id);
@@ -760,6 +758,11 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
         st.way.to = { kind: 'junction', id: jIds.get(lastIdx) ?? '' };
         continue;
       }
+      // The walk advances the heading over the step laid (a deflected or biased step restarts its curvature at 0).
+      const walk = headingStep({ heading: v.heading, curvature: v.deflected || v.biased ? 0 : curvature, goalHeading: P.goalHeading, stepCm: Math.max(1, stepLen), model: rules.model }, streams.heading);
+      P.heading = walk.heading;
+      P.curvature = walk.curvature;
+      P.turn = walk.turn;
       // Branching (FTG's Continue): after `after` steps, with the class's probability.
       P.branchCounter += 1;
       if (P.branchCounter >= rules.branch.after) {
@@ -788,11 +791,34 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
 export function growStreets(kernel: Kernel, area: GrowthArea, streams: GrowthStreams, opts: StreetGrowOptions = {}): KernelResult<S5cRecord> {
   const b = growthBatch(kernel, area, streams, opts);
   const r = kernel.tx(b.spec, b.fn);
-  if (!r.ok) return err(r.code, `S5c: stage ${String(area.k)}'s growth batch was refused: ${r.detail}`);
+  if (!r.ok) {
+    // Fail safe (N-45): the batch refused as a whole writes nothing; the stage stands ungrown and says why.
+    return ok({ ...emptyRecord(area.k, area.rules), seeds: area.seeds.length, batchRefused: { code: r.code, detail: r.detail } });
+  }
   const v = r.value.value as KernelResult<S5cRecord> | S5cRecord;
   const rec = 'ok' in v ? (v.ok ? v.value : null) : v;
   if (rec === null) return err('E_INVARIANT', `S5c: stage ${String(area.k)}'s growth batch returned no record`);
   return ok(rec, r.warnings);
+}
+
+/** A record of no growth (a folded stage; a batch refused whole). */
+function emptyRecord(k: number, rules: GrowthRules): S5cRecord {
+  return {
+    k,
+    regime: rules.regime,
+    walled: rules.walled,
+    lanesInfillOnly: rules.lanesInfillOnly,
+    seeds: 0,
+    proposalsMade: 0,
+    streets: [],
+    junctions: [],
+    work: { 'growth.proposals': 0, 'growth.candidates': 0 },
+    limits: { 'growth.proposals': 0, 'growth.candidates': 0 },
+    steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
+    rungs: [],
+    refused: {},
+    workCut: null,
+  };
 }
 
 /** The junctions S5c snapped to that it made itself take the new arm here (a standing one's record is updated by the caller). */
@@ -822,23 +848,7 @@ export function growthStep(state: GrowthState, k: number, streams: GrowthStreams
   if (rec === undefined || rec.k !== k) throw new RangeError(`growthStep: stage ${String(k)} has no S5a / S5b record`);
   if (rec.boundary === null && opts.boundary === undefined) {
     const site = state.slice.site;
-    const rules = growthRules(site.tables, rec.regime, site.rung, opts);
-    return ok({
-      k,
-      regime: rec.regime,
-      walled: rec.walled,
-      lanesInfillOnly: rules.lanesInfillOnly,
-      seeds: 0,
-      proposalsMade: 0,
-      streets: [],
-      junctions: [],
-      work: { 'growth.proposals': 0, 'growth.candidates': 0 },
-      limits: { 'growth.proposals': 0, 'growth.candidates': 0 },
-      steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
-      rungs: [],
-      refused: {},
-      workCut: null,
-    });
+    return ok(emptyRecord(k, growthRules(site.tables, rec.regime, site.rung, opts)));
   }
   const area = growthArea(state, k, opts);
   const grown = growStreets(state.kernel, area, streams, opts);

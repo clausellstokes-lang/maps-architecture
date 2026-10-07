@@ -6,7 +6,7 @@
 //   * prune: a dangling `secondary` street — a dead end that no other way meets but at its origin — shorter than one
 //     block width (the regime's minimum block depth) is removed with its junctions, children before parents, until none
 //     is left (a parent left dangling by its pruned children is pruned in turn when short).
-import { err, ok, STAGES, type HalfEdgeId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
+import { ok, STAGES, type HalfEdgeId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
 import type { Id, Junction } from '@plat/model';
 import { crossParams, lat } from '../enceinte/plane.js';
 import { generated } from '../enceinte/water.js';
@@ -99,6 +99,14 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
   };
   const junctionOf = (id: Id): Junction | undefined => state.junctions.find((j) => j.id === id) ?? rec.junctions.find((j) => j.id === id);
 
+  // The records as they stand: a batch refused at its commit writes nothing, and they are put back (fail safe).
+  const saved = {
+    streets: rec.streets.slice(),
+    junctions: rec.junctions.slice(),
+    ways: state.ways.slice(),
+    stateJunctions: state.junctions.slice(),
+    each: rec.streets.map((st) => ({ st, points: st.points.slice(), way: { ...st.way }, ends: st.ends, meets: st.meets, provisional: st.provisional })),
+  };
   const r = kernel.tx(
     {
       key,
@@ -214,6 +222,19 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
       return ok(null);
     },
   );
-  if (!r.ok) return err(r.code, `S5c: stage ${String(k)}'s prune and trim were refused: ${r.detail}`);
+  if (!r.ok) {
+    rec.streets.splice(0, rec.streets.length, ...saved.streets);
+    rec.junctions.splice(0, rec.junctions.length, ...saved.junctions);
+    state.ways.splice(0, state.ways.length, ...saved.ways);
+    state.junctions.splice(0, state.junctions.length, ...saved.stateJunctions);
+    for (const e of saved.each) {
+      e.st.points.splice(0, e.st.points.length, ...e.points);
+      Object.assign(e.st.way, e.way);
+      e.st.ends = e.ends;
+      e.st.meets = e.meets;
+      e.st.provisional = e.provisional;
+    }
+    return ok({ k, trimmed: [], pruned: [], blockWidthCm: out.blockWidthCm, refused: { [`batch:${r.code}`]: 1 } });
+  }
   return ok(out, r.warnings);
 }

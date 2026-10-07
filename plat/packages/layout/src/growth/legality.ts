@@ -151,6 +151,8 @@ export interface LegalityRules {
   /** The least angle of a junction, an ending and a parallel run (30°), radians. */
   readonly legalAngle: number;
   readonly matrix: CrossingMatrix;
+  /** The class's minimum radius (cm): the curvature limit within which a meeting is bent square (§4.3's Y → T). */
+  readonly minRadiusCm: (c: WayClass) => number;
 }
 
 /** How an accepted step ends its proposal (null: the proposal goes on). */
@@ -193,6 +195,8 @@ export interface Accepted {
   readonly crossings: readonly StepCrossing[];
   readonly deflected: boolean;
   readonly biased: boolean;
+  /** How a T or a snap was reached: the bias, a meeting along the step, a near miss joined at its foot, a snap. */
+  readonly via: 'bias' | 'hit' | 'nearMiss' | 'snap' | null;
   /** The step leaves an unwalled stage's boundary (provisional: the trim cuts it back). */
   readonly provisional: boolean;
 }
@@ -297,6 +301,33 @@ function armsSquare(index: FeatureIndex, pt: XY, step: XY, legalAngle: number, s
   return true;
 }
 
+/**
+ * §4.3's Y → T conversion for a meeting with f: the perpendicular foot of the step's start on f — inside f, ahead, within
+ * `reach`, the turn from the step's heading within the class's curvature limit (turn ≤ step ÷ minimum radius) and met
+ * square by every arm there — or null.
+ */
+function squareFoot(f: Feature, at: XY, dir: XY, L: number, reach: number, maxTurn: number, legalAngle: number, index: FeatureIndex, skip: (g: Feature) => boolean): XY | null {
+  const foot = footOn(at, f.a, f.b);
+  if (foot.t <= 0 || foot.t >= 1 || foot.d2 < 1 || foot.d2 > reach * reach) return null;
+  const v = sub(foot.at, at);
+  if (v.x * dir.x + v.y * dir.y <= 0) return null;
+  const turn = dmath.atan2(Math.abs(dir.x * v.y - dir.y * v.x), dir.x * v.x + dir.y * v.y);
+  if (turn > maxTurn || !(L > 0)) return null;
+  if (!armsSquare(index, foot.at, v, legalAngle, skip)) return null;
+  return foot.at;
+}
+
+/** Does the segment ab cross a feature other than `except` (short of b)? */
+function blocked(index: FeatureIndex, a: XY, b: XY, except: number, skip: (g: Feature) => boolean): boolean {
+  const len = Math.sqrt((b.x - a.x) * (b.x - a.x) + (b.y - a.y) * (b.y - a.y));
+  for (const i of index.near(Math.min(a.x, b.x) - 1, Math.min(a.y, b.y) - 1, Math.max(a.x, b.x) + 1, Math.max(a.y, b.y) + 1)) {
+    if (i === except || skip(index.features[i])) continue;
+    const x = crossParams(a, b, index.features[i].a, index.features[i].b);
+    if (x !== null && x.t < 1 - 1e-9 && x.t * len >= 1) return true;
+  }
+  return false;
+}
+
 interface Attempt {
   readonly v: Verdict;
   /** The feature an illegal step met or ran beside (its deflection's reference). */
@@ -312,6 +343,8 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
   const r = ctx.rules;
   const L = c.stepCm;
   const dir = { x: dmath.cos(heading), y: dmath.sin(heading) };
+  const maxTurn = quot(L, r.minRadiusCm(c.class), 'length', 'curvature limit');
+  const skipOf = (g: Feature): boolean => ignored(g, c);
   const at = c.at;
   let q: XY = { x: at.x + dir.x * L, y: at.y + dir.y * L };
   let h = heading;
@@ -329,7 +362,8 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       const f = F[i];
       if (f.kind !== 'way' || f.street === c.street || ignored(f, c)) continue;
       const foot = footOn(at, f.a, f.b);
-      if (!(foot.d2 < bestD2) || foot.d2 < 1) continue;
+      // The spine's own perpendicular foot (T-preference, §4.3's Y → T): never a corner or a tip of it.
+      if (!(foot.d2 < bestD2) || foot.d2 < 1 || foot.t <= 0 || foot.t >= 1) continue;
       const v = sub(foot.at, at);
       if (v.x * dir.x + v.y * dir.y <= 0) continue;
       if (lineAngle(v, sub(f.b, f.a)) < r.legalAngle || !armsSquare(ctx.index, foot.at, v, r.legalAngle, (g) => ignored(g, c))) continue;
@@ -356,6 +390,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       // Ahead of the step (no hook back), and met at ≥ the legal angle by every arm standing there.
       if (!(d2 < bestD2) || v.x * v.x + v.y * v.y < 1 || v.x * dir.x + v.y * dir.y <= 0) continue;
       let square = true;
+      for (const i of ctx.index.near(j.at.x - 1, j.at.y - 1, j.at.x + 1, j.at.y + 1)) if (F[i].street === c.street && footOn(j.at, F[i].a, F[i].b).d2 < 1) square = false;
       for (const i of ctx.index.near(j.at.x - 1, j.at.y - 1, j.at.x + 1, j.at.y + 1)) {
         const f = F[i];
         if (f.kind === 'way' && footOn(j.at, f.a, f.b).d2 < 1 && lineAngle(v, sub(f.b, f.a)) < r.legalAngle) square = false;
@@ -393,6 +428,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
   let to: XY = q;
   let provisional = false;
   let metFeature = -1;
+  let via: Accepted['via'] = null;
   for (const hit of hits) {
     const f = F[hit.i];
     const pt = { x: at.x + hit.t * seg.x, y: at.y + hit.t * seg.y };
@@ -419,6 +455,8 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       metFeature = hit.i;
       break;
     }
+    // Its own street: a street never meets itself (a linear role forms a simple chain, §3.10).
+    if (f.street === c.street) return reject('angle', deflected, f);
     // A way: met at ≥ the legal angle by the segment hit and by every arm of a way standing at the meeting.
     if (angle < r.legalAngle || !armsSquare(ctx.index, pt, seg, r.legalAngle, (g) => ignored(g, c))) return reject('angle', deflected, f);
     const act = r.matrix.act(c.class, f.cls ?? 'secondary', c.turn + wrapAngle(h - heading));
@@ -428,17 +466,28 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     }
     if (act === 'deflect') return reject('angle', deflected, f);
     ends = 'T';
+    via = biased ? 'bias' : 'hit';
     meets = f.way ?? null;
     to = pt;
     metFeature = hit.i;
+    if (!biased) {
+      // §4.3's Y → T: the meeting bent square within the class's curvature limit.
+      const sq = squareFoot(f, at, dir, L, L, maxTurn, r.legalAngle, ctx.index, skipOf);
+      if (sq !== null && !blocked(ctx.index, at, sq, hit.i, skipOf)) {
+        to = sq;
+        h = dmath.atan2(sq.y - at.y, sq.x - at.x);
+      }
+    }
     break;
   }
   if (ends === null && biased) {
     ends = 'T';
+    via = 'bias';
     meets = biasWay;
   }
   if (ends === null && snapped !== null) {
     ends = 'snap';
+    via = 'snap';
     meets = snapped.id;
   }
   // A near miss: a way within the snap reach of the end is joined at its foot (no crossing on the way there).
@@ -449,7 +498,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     let bestAt: XY = q;
     for (const i of ctx.index.near(q.x - reach, q.y - reach, q.x + reach, q.y + reach)) {
       const f = F[i];
-      if (f.kind !== 'way' || ignored(f, c) || crossings.some((x) => x.way === f.way)) continue;
+      if (f.kind !== 'way' || f.street === c.street || ignored(f, c) || crossings.some((x) => x.way === f.way)) continue;
       const foot = footOn(q, f.a, f.b);
       if (!(foot.d2 < bestD2)) continue;
       // Ahead of the step's start (no hook back).
@@ -460,6 +509,8 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     }
     if (best >= 0) {
       const f = F[best];
+      const sq = squareFoot(f, at, dir, L, L + reach, maxTurn, r.legalAngle, ctx.index, skipOf);
+      if (sq !== null) bestAt = sq;
       const v = sub(bestAt, at);
       const vv = v.x * v.x + v.y * v.y;
       let clear = vv >= 1 && lineAngle(v, sub(f.b, f.a)) >= r.legalAngle && armsSquare(ctx.index, bestAt, v, r.legalAngle, (g) => ignored(g, c));
@@ -475,6 +526,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
       }
       if (clear) {
         ends = 'T';
+        via = 'nearMiss';
         meets = f.way ?? null;
         to = bestAt;
         h = dmath.atan2(v.y, v.x);
@@ -502,7 +554,7 @@ function attempt(c: StepCandidate, heading: number, ctx: LegalityContext, deflec
     if (segSegD2(at, toL, f.a, f.b) < D * D) return reject('parallel', deflected, f);
   }
   return {
-    v: { verdict: 'accept', to: toL, heading: h, ends, meets, crossings, deflected, biased, provisional },
+    v: { verdict: 'accept', to: toL, heading: h, ends, meets, crossings, deflected, biased, via, provisional },
     against: null,
   };
 }
