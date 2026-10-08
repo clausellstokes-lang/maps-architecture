@@ -17,7 +17,7 @@ export function debugAssertions(): boolean {
   return assertions;
 }
 
-// The tiny-tables mode (N-53 (4), C-XXXX): a test switch that makes `createPlat` start EVERY table it makes at capacity 1
+// The tiny-tables mode (N-53 (4), C-0286): a test switch that makes `createPlat` start EVERY table it makes at capacity 1
 // — the vertex and edge-pair columns, every level's face columns and hole pool, the role rows, the role-head and owner
 // hash tables and the interned-handle table — whatever capacity is asked, and makes the slot tables (vertices, pairs,
 // faces, role rows, a level's hole pool) grow by exactly what an allocation needs instead of doubling, so they are

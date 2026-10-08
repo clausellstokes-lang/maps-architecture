@@ -166,7 +166,7 @@ export interface Plat {
 /**
  * Initial table sizes; each grows by doubling.
  *
- * THE RE-READ RULE (N-53 (4), C-XXXX). A doubling REPLACES the table it grows: `allocVertex` assigns a new
+ * THE RE-READ RULE (N-53 (4), C-0286). A doubling REPLACES the table it grows: `allocVertex` assigns a new
  * `p.vertices` (and new `p.roles.vertexFirst`, `p.indexHome.vertex`), `allocEdgePair` a new `p.halfEdges` (and
  * `p.roles.edgeFirst`, `p.indexHome.edge`), `allocFace` new columns of `p.faces[level]` (and `p.indexHome.face[level]`),
  * a role row new columns of the one `p.roles` object, `setFaceHoles` a new `holes` pool, an owner, role-head or handle
@@ -254,7 +254,7 @@ export function sameKey(a: PlatKey, b: PlatKey): boolean {
  * An empty arena for `key` over `frame`, with the fixed lattice (§3.2 (1)): no vertex, no edge, no face, no role row,
  * version 0. Its outer ring is written by the first batch (S1's, §4.1). `capacity` sizes the tables (each still grows
  * by doubling — mind the re-read rule above `PlatCapacity`); the defaults are small. In the tiny-tables mode every
- * table starts at capacity 1 whatever `capacity` asks (N-53 (4), C-XXXX); a malformed `capacity` is still refused.
+ * table starts at capacity 1 whatever `capacity` asks (N-53 (4), C-0286); a malformed `capacity` is still refused.
  */
 export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCapacity> = {}): Plat {
   check(isPlatKey(key), 'a PlatKey is a layer and a part number ≥ 0');
@@ -318,7 +318,7 @@ export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCap
 // ---- growth -------------------------------------------------------------------------------------------------------
 // Each grow function REPLACES the arrays it grows (content copied, the new slots filled free / empty): a writer
 // re-reads the tables after any allocation — the re-read rule above `PlatCapacity` (N-53 (4)). A slot table doubles;
-// in the tiny-tables mode it grows by exactly one slot, so it is always full and EVERY allocation replaces it (C-XXXX).
+// in the tiny-tables mode it grows by exactly one slot, so it is always full and EVERY allocation replaces it (C-0286).
 
 /** A slot table's next capacity: double, or one more slot in the tiny-tables mode. */
 function grownCap(length: number): number {
@@ -712,7 +712,7 @@ export function setFaceHoles(p: Plat, level: Level, f: FaceId, holes: readonly H
   if (top + need > t.holes.length) {
     top = compactHoles(p, level, f);
     if (top + need > t.holes.length) {
-      // doubled until the run fits — or exactly the run's room in the tiny-tables mode (C-XXXX)
+      // doubled until the run fits — or exactly the run's room in the tiny-tables mode (C-0286)
       let cap = tinyTables() ? top + need : t.holes.length * 2;
       while (cap < top + need) cap *= 2;
       t.holes = grow32(t.holes, cap, -1);

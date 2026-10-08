@@ -32,7 +32,7 @@ export function hashId(id: string): number {
   return mix32(h);
 }
 
-/** An empty table sized for `ids` handles and `units` code units (its index at 1 slot in the tiny-tables mode, C-XXXX). */
+/** An empty table sized for `ids` handles and `units` code units (its index at 1 slot in the tiny-tables mode, C-0286). */
 export function createHandleTable(ids: number = MIN_TABLE_CAPACITY, units: number = ids * 16): HandleTable {
   check(Number.isInteger(ids) && ids >= 1 && Number.isInteger(units) && units >= 1, 'handle-table sizes are positive integers');
   return {

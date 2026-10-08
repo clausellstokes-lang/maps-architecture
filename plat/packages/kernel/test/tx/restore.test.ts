@@ -9,7 +9,7 @@
 // and a coarser batch's record lists the own-child ancestors it frees in key order. Fix round S3
 // (checks/M0-a-06-s2.md B-1, C-0225): a chain crossing one EDGE three or more times — a middle crossing judged against
 // every piece of the stretch it could have split, so cases 817 and 1526 restore; the zigzag property draws that class and
-// the targeted property screens candidates for its rare cases. Session round S4 (N-55 (1), C-0300): a chain sharing a
+// the targeted property screens candidates for its rare cases. Session round S4 (N-55 (1), C-0287): a chain sharing a
 // stretch of a run AT THE RUN'S OWN LEVEL (same-level W_STRETCH_SHARED) and then removed restores the run — rule 3 (b)'s
 // "identical rows before the batch" read with the batch's stripped rows left out; cases 1630 and 2337 pinned, the
 // quay-on-shore inverse control beside them, and the three properties no longer count a shared-stretch end.
@@ -318,7 +318,7 @@ describe('B-2: a coarser batch\'s record lists the own-child ancestors it frees,
  * W_STRETCH_SHARED) splits the run at the stretch's ends; at each end the run's two edges carried {R} and {R, X} before
  * the removing batch (X's row on the shared side only), so rule 3 (b) read on the raw pre-batch rows saw no run, cleared
  * the flag and left the end as an unflagged degree-2 vertex — chunks and level digests differing. Read with the batch's
- * stripped rows left out (C-0300), the run survives whole and the end dissolves. The cases are C-0219 (4)'s, from the
+ * stripped rows left out (C-0287), the run survives whole and the end dissolves. The cases are C-0219 (4)'s, from the
  * S1-round generator (bases the kernel refused are left out: a refused batch leaves the arena as it was).
  */
 describe('N-55 (1): a chain sharing a run at the run\'s own level, removed, restores the run (rule 3 (b) without the stripped rows)', () => {
@@ -496,7 +496,7 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
         expect(mid[d.level] - after.faces[d.level], `case ${c}: the record's L${d.level} removed − created`).toBe(d.removed.length - d.created.length);
       }
       const shared = (a.value.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED');
-      // A shared stretch's end is judged like any other case since N-55 (1) (C-0300 supersedes C-0219 (4)'s count): the
+      // A shared stretch's end is judged like any other case since N-55 (1) (C-0287 supersedes C-0219 (4)'s count): the
       // tally only names the class of a failing case in the printed line.
       if (shared && after.refs !== before.refs) tally.sharedEnd++;
       if (folded && after.refs !== before.refs) {
@@ -626,7 +626,7 @@ describe(`B-1 zigzag property: ${ZCASES} chains crossing one base edge repeatedl
       healthy(p);
       const after = snapshot(p);
       expect(after.faces, `case ${c}: live records per level`).toEqual(before.faces);
-      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0300); named in the printed line
+      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0287); named in the printed line
       if (folded && after.refs !== before.refs) {
         tally.foldedBase++; // C-0223 (5): counted, not judged — until N-55 (5)'s M0-a-05 round s7 (Q10)
         continue;
@@ -805,7 +805,7 @@ describe(`B-1 targeted property: ${HARD} chains whose crossings lie only on the 
       const after = snapshot(p);
       const what = `candidate ${tally.candidates} (${need}; L${level} at L${removeAt}; base ${JSON.stringify(base)}, chain ${JSON.stringify(chain)})`;
       expect(after.faces, `${what}: live records per level`).toEqual(before.faces);
-      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0300); named in the printed line
+      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0287); named in the printed line
       if (folded && after.refs !== before.refs) {
         tally.foldedBase++; // C-0223 (5): counted, not judged — until N-55 (5)'s M0-a-05 round s7 (Q10)
         continue;

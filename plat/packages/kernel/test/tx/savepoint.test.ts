@@ -1,4 +1,4 @@
-// M0-a-06, session round S4 (N-55 (6), C-0300): the before-image every batch keeps, exported from @plat/kernel for the
+// M0-a-06, session round S4 (N-55 (6), C-0287): the before-image every batch keeps, exported from @plat/kernel for the
 // pipeline runner's stage image (M0-x-02). Taken before a stage, put back after committed batches: the arena bit for bit,
 // its version, slot counters, handles and index state as at the image; the next batch opens and commits. Putting it
 // back sets the version back, so maintained level digests are re-attached afterwards (the consumer's protocol, pinned).
@@ -58,7 +58,7 @@ describe('N-55 (6): takeSavepoint / restoreSavepoint / Savepoint through @plat/k
   it('maintained level digests: re-attached after the restore, they read the restored arena — and the next commits keep them current', () => {
     // A digest state that saw the rolled-back commits matches the restored version again once a new commit brings the
     // version back to where it was, and then reads stale (CONFIRMED in the round's mirror: L1 differs without the
-    // re-attach); re-attaching after the restore (the consumer's protocol, C-0300) rebuilds it.
+    // re-attach); re-attaching after the restore (the consumer's protocol, C-0287) rebuilds it.
     const env: TxEnv = { onCommit: (q, dirty, record) => updateLevelDigests(q, dirty, record) };
     const p = framed();
     commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:0' }], 'mandatory'), {}, env);

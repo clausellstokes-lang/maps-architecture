@@ -1,6 +1,6 @@
 // M0-a-02: an empty arena from a Frame and the LatticeSpec (§2.2, §3.2 (1), (9)), slot allocation and free lists,
 // growth by doubling that keeps every column's content, the face records' owner lists and hole runs, and the raw
-// primitives' refusals (programming errors, in every build). N-53 (4) (C-XXXX): the tiny-tables mode (every table at
+// primitives' refusals (programming errors, in every build). N-53 (4) (C-0286): the tiny-tables mode (every table at
 // capacity 1, the slot tables growing by one slot so every allocation replaces its table), growth-preserves-content
 // against a roomy reference after every operation, the rotation across every growth, and the re-read rule's premise
 // (a growth replaces the table, so a capture taken before it is dead).

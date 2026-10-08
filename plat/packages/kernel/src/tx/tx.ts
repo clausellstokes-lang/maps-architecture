@@ -11,7 +11,7 @@
 //   commits nothing and keeps the version. A throw anywhere in the batch (an op's, the callback's, a check's — §3.11's
 //   assertion class, a programming error or a corrupted arena) puts the image back too and is rethrown, never turned
 //   into a refusal, its message prefixed `tx <stage>/L<level>/<form>/<op>: ` and the original kept as its `cause`
-//   (N-53 (3), C-0300).
+//   (N-53 (3), C-0287).
 // * **Work limits.** Every op charges operation counts to the batch (§3.3); a batch whose total exceeds `workLimit`
 //   returns E_WORK_LIMIT and commits nothing — a count, never a clock (C-0185 (5)).
 // * **Checks at commit.** `expect`'s class floors (E_BELOW_MIN_WIDTH / _AREA / _ANGLE) and named checks (E_INVARIANT)
