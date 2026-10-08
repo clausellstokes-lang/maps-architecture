@@ -401,7 +401,7 @@ export function kerb(tx: InsertTx, face: FaceId, widths: SpineWidths): KernelRes
 // ---- the junctions and their corridor_split chains -------------------------------------------------------------------
 //
 // Computed with the kerb, so the kerb point each split reaches is a vertex of kerb(F) itself (C-0212 (4), (5)); the
-// rules are bandUnion.ts's module comment. N-52 (2) (J239; C-0272): a junction's split stays within its REACH —
+// rules are bandUnion.ts's module comment. N-52 (2) (J239; C-0277): a junction's split stays within its REACH —
 // 2·max(hwIn, hwOut) + attractCm of J — so a corner is geometric: F turns left between two spines AND the strips'
 // inner edges meet within reach (or, at a corner sharper than a right angle, at a vertex the kerb holds there); a
 // left turn whose inner edges meet beyond reach or nowhere (all but parallel: a width step between two nearly
