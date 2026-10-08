@@ -9,7 +9,7 @@
 // The receipt's own readings carry controls of their own (C-0275 (3)): the strip count is shown counting (the town's
 // land face read as the water, every strip vertex inside it counted as the arena reads it), and the 2 cm tolerance is
 // pinned on both sides (1 cm inside the river is not in the water; 10 cm and 50 cm inside are).
-// Every enceinte is read against its own water gates (N-54 (4); C-0290): on relief-60 at CITY, seed 9, stage 2's wall
+// Every enceinte is read against its own water gates (N-54 (4); C-0291): on relief-60 at CITY, seed 9, stage 2's wall
 // crosses the river at stage 2's water gates (S5's output) and reads gated, while stage 1's records alone read the same
 // edges ungated; a stage-2 chord without its gate, a gate of another enceinte and a chord not between its gate's two
 // bank pins each still read ungated.
@@ -483,7 +483,7 @@ describe('every enceinte\'s wall over water is read against its own water gates 
     expect(r.enceintes.map((e) => e.enceinte)).toEqual(s5.enceintes.map((e) => e.id));
     const rec = runRecord(d);
     expect(rec.waterGates).toEqual(r);
-    // a gate that is no chord, or a wet edge that is none, fails the bar (cross-item; C-0290 (4) names seed 9's)
+    // a gate that is no chord, or a wet edge that is none, fails the bar (cross-item; C-0291 (4) names seed 9's)
     const verdict = foldGroup('relief-60', 'default', [rec]).bars.waterGates.verdict;
     if (chords.length < gates.length || chordEdges.length < over.length || over.length !== gates.length) expect(verdict).toBe('fail');
     else expect(verdict).not.toBe('unobserved');
