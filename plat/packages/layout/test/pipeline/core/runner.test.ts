@@ -2,19 +2,26 @@
 // content; §5.1 (1), (5), (8); §5.4; §6.1; §6.2 through M0-d-04; C-0077, C-0090, C-0147, C-0224).
 import { readFileSync } from 'node:fs';
 import {
+  checkIndexState,
   CONCERNS,
   createRng,
   ENGINE_ID,
   err,
   isFaceLive,
+  levelDigest,
+  levelDigestBuilds,
   ok,
   opInsertChain,
+  recomputeLevelDigest,
   STAGES,
   type CommitRecord,
   type Hash128,
   type Handle,
   type Invariant,
   type KernelResult,
+  type Level,
+  type Plat,
+  type PlatKey,
   type Stream,
 } from '@plat/kernel';
 import { mint } from '@plat/model';
@@ -29,7 +36,7 @@ import {
   type PipelineContext,
   type RunOptions,
 } from '../../../src/index.js';
-import { ALL, ARENAS, bp, CALLS, COUNTS, drawn, LAW, liveFaces, pt, registerAll, SIDE, stage, townStream, type Inputs } from './support.js';
+import { ALL, arena, ARENAS, bits, bp, CALLS, contentPrint, COUNTS, drawn, GROUND, LAW, liveFaces, pt, registerAll, SIDE, stage, townStream, type Inputs } from './support.js';
 
 /** A registry holding `stages`. */
 function registryOf(stages: Parameters<typeof registerAll>[1]) {
@@ -568,5 +575,112 @@ describe('no restart path (§5.1 (1)): a refused stage is a bug entry, never a r
     expect(model.kernel.view({ layer: 'ground', part: 0 }, 1).faces()).toHaveLength(7);
     // Each stage's end rebuilt the dirty index partitions (§3.3 moment (1)): none is left after the run.
     expect(model.kernel.index.rebuildAtStageEnd({ layer: 'ground', part: 0 })).toBe(0);
+  });
+
+  // N-55 (6), C-0292 refining C-0224 (5): a refused stage rolls back whole — its committed batches too (§5.1 (8) "nothing
+  // it wrote commits", at the unit the runner refuses). Two arenas; S1 rings both; S3 commits an L0 and an L1 batch on
+  // the ground arena and an L1 batch on the second, then returns `refuse` (or ok, the twin); S6 commits two batches on
+  // the ground arena and one on the second — so each arena's version comes back to where S3 had taken it, the case in
+  // which a level-digest state that saw the rolled-back commits would read as current (C-0287 (2)).
+  describe('a refused stage leaves its arenas as at its start (N-55 (6))', () => {
+    const SECOND: PlatKey = { layer: 'ground', part: 1 };
+    const KEYS: readonly PlatKey[] = [GROUND, SECOND];
+    const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
+    const ring = [pt(0, 0), pt(SIDE, 0), pt(SIDE, SIDE), pt(0, SIDE)];
+    const hex = (h: ArrayLike<number>): string => Array.from(h).join(',');
+    interface Seen { readonly bits: string; readonly print: string; readonly version: number; readonly index: string[] }
+    const look = (p: Plat): Seen => ({ bits: bits(p), print: contentPrint(p), version: p.version, index: checkIndexState(p) });
+    const line = (ctx: PipelineContext, key: PlatKey, level: Level, entity: string, x: number): void => {
+      const r = ctx.batch({ key, level, counter: LAW.counter, counts: COUNTS }, (o) => ctx.kernel.geom.insertChain(o, [pt(x, 0), pt(x, SIDE)], [{ role: 'way', entity }], 'mandatory'));
+      if (!r.ok) throw new Error(`fixture: ${entity} refused: ${r.code} ${r.detail}`);
+    };
+
+    /** Runs S1, S3 (when `s3` is given: 'refuse' or 'ok') and S6; returns the model, the report and what each stage saw at its start. */
+    function rolled(s3: 'refuse' | 'ok' | null) {
+      CALLS.clear();
+      const atStart = new Map<string, Seen[]>();
+      const capture = (name: string, ctx: PipelineContext): void => void atStart.set(name, KEYS.map((k) => look(ctx.kernel.plat(k))));
+      const stages = [
+        stage({ id: STAGES.S1, outputs: ['land'], run: (_i, ctx) => {
+          for (const key of KEYS) {
+            const r = ctx.batch({ key, level: 0, counter: LAW.counter, counts: COUNTS }, (o) => ctx.kernel.geom.insertChain(o, ring, [{ role: 'margin', entity: 'terrain:ground' }], 'mandatory', { closed: true }));
+            if (!r.ok) throw new Error(`fixture: ring refused: ${r.code}`);
+          }
+          return ok({ land: 1 });
+        } }),
+        stage({ id: STAGES.S6, inputs: ['land', 'trace'], outputs: ['districts'], run: (_i, ctx) => {
+          capture('S6', ctx);
+          line(ctx, GROUND, 1, 'district:a', 5_000);
+          line(ctx, GROUND, 1, 'district:b', 9_000);
+          line(ctx, SECOND, 1, 'district:c', 7_000);
+          return ok({ districts: 1 });
+        } }),
+      ];
+      if (s3 !== null) {
+        stages.push(stage({ id: STAGES.S3, inputs: ['land'], outputs: ['trace'], run: (_i, ctx) => {
+          capture('S3', ctx);
+          line(ctx, GROUND, 0, 'river:r', 20_000);
+          line(ctx, GROUND, 1, 'way:w', 30_000);
+          line(ctx, SECOND, 1, 'way:v', 12_000);
+          return s3 === 'refuse' ? err('E_DEGENERATE', 'fixture: refused after three commits') : ok({ trace: 1 });
+        } }));
+      }
+      const { model, report } = run(registryOf(stages), bp(1), ALL, { arenas: () => KEYS.map((k) => arena(k)) });
+      return { model, report, atStart };
+    }
+
+    it('two committed levels then a refusal: every arena bit for bit as at the stage start (print, index state, version), one bug entry, every stage once', () => {
+      const { model, report, atStart } = rolled('refuse');
+      expect(model.order).toEqual(['S1', 'S3', 'S6']);
+      expect([...CALLS.values()]).toEqual([1, 1, 1]);
+      const before = atStart.get('S3');
+      const after = atStart.get('S6');
+      expect(before).toHaveLength(2);
+      expect(after).toEqual(before);
+      for (const s of after ?? []) expect(s.index).toEqual([]);
+      expect(report.bugs).toEqual([{ cls: 'E_DEGENERATE', entity: model.town.identity.id, key: `S3@${model.town.identity.id}`, stage: 'S3' }]);
+      expect(model.data.has('trace')).toBe(false);
+      // The work the rolled-back batches charged stays in the report (spent; C-0292).
+      expect(report.stages[1].work[LAW.counter]).toBe(rolled('ok').report.stages[1].work[LAW.counter]);
+      expect(report.stages[1].work[LAW.counter]).toBeGreaterThan(0);
+    });
+
+    it("the refused stage's root equals the root before it, and the run's roots equal the run without the stage", () => {
+      const refused = rolled('refuse').model;
+      const without = rolled(null).model;
+      expect(without.order).toEqual(['S1', 'S6']);
+      expect(hex(refused.stageRoots.get('S3') ?? [])).toBe(hex(refused.stageRoots.get('S1') ?? []));
+      expect(hex(refused.stageRoots.get('S1') ?? [])).toBe(hex(without.stageRoots.get('S1') ?? []));
+      expect(hex(refused.stageRoots.get('S6') ?? [])).toBe(hex(without.stageRoots.get('S6') ?? []));
+      expect(hex(refused.root)).toBe(hex(without.root));
+      for (const key of KEYS) expect(contentPrint(refused.kernel.plat(key)).replace(/ s\d+$/gm, '')).toBe(contentPrint(without.kernel.plat(key)).replace(/ s\d+$/gm, ''));
+    });
+
+    it('after a refused stage and a committed one the maintained level digests equal the recomputed ones on every level, and the root the oracle', () => {
+      const { model } = rolled('refuse');
+      for (const key of KEYS) {
+        const p = model.kernel.plat(key);
+        for (const l of LEVELS) expect(hex(levelDigest(p, l)), `${key.layer}/${String(key.part)} L${String(l)}`).toBe(hex(recomputeLevelDigest(p, l)));
+        // The rollback re-attached the state (C-0287 (2)'s protocol: a fresh build, its count back to 1); it never rests on
+        // the kernel's lazy missed-commit rebuild (counted), which only a read before the version catches up triggers.
+        expect(levelDigestBuilds(p), `${key.layer}/${String(key.part)} builds`).toBe(1);
+      }
+      expect(hex(model.root)).toBe(hex(model.digest.recomputeRoot()));
+    });
+
+    it('the ok twin keeps its batches: its arenas moved, its output written, its root its own', () => {
+      const { model, report, atStart } = rolled('ok');
+      const before = atStart.get('S3') ?? [];
+      const after = atStart.get('S6') ?? [];
+      expect(after).toHaveLength(2);
+      for (let i = 0; i < 2; i++) {
+        expect(after[i].print).not.toBe(before[i].print);
+        expect(after[i].version).toBe(before[i].version + (i === 0 ? 2 : 1));
+        expect(after[i].index).toEqual([]);
+      }
+      expect(report.bugs).toEqual([]);
+      expect(model.data.get('trace')).toBe(1);
+      expect(hex(model.stageRoots.get('S3') ?? [])).not.toBe(hex(model.stageRoots.get('S1') ?? []));
+    });
   });
 });
