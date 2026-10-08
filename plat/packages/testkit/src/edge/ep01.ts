@@ -272,11 +272,16 @@ function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): E
  * has no rung for the kind at M0 (a known shortfall for the hardening pass).
  */
 const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
-  S1: { 'zero-length': ['E_DEGENERATE'] },
+  // S1 self-touching: on ~3 % of seeds the planted shore's insert is ok, the water batch is refused at its end and S1
+  // refuses whole without its retry (rolled back) — measured at 1 000 seeds, C-0278 (4)
+  S1: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
   S3: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
-  S5a: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
+  // S5a coincident: ~0.5 % of seeds, rolled back (C-0278 (4))
+  S5a: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'], coincident: ['E_INVARIANT'] },
   S5b: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
-  S6: { 'zero-area': ['E_INVARIANT'] },
+  // S6 self-touching, collinear, coincident: S6 refuses the degenerate boundary before its batch on < 1 % of seeds
+  // (nothing committed; the same state unplanted stands) — C-0278 (4)
+  S6: { 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'], coincident: ['E_INVARIANT'] },
 };
 
 /**
