@@ -6970,3 +6970,8 @@
 2026-10-08 06:41 check/M0-a-11-close-s1 CHECKPOINT RELATED at 1000 still running; next: RELATED verdict, verdict file, records
 2026-10-08 06:42 build/M0-a-04-fix-s1 LANDED plat/packages/kernel/src/insert/splitThrough.ts plat/packages/kernel/test/insert/step1-2/splitThrough.test.ts plat/docs/build/choices.md(C-0279) plat/CLEAN-ROOM.md(L-0347) plat/docs/build/landed/M0-a-04.json
 2026-10-08 06:43 check/M0-a-04-close-s1 CHECKPOINT started fresh (no prior close-s1 lines; machine id ok, Node v24.12.0); reading N-53, M0.md §3, splitThrough.ts; next: mirror, pins red-on-old, mutants, seeds, gates
+2026-10-08 06:48 build/M0-a-09-fix-s2 CHECKPOINT NEAR at PR size green: 12 files 52/52 (kernel arr/bands + testkit arr-bands), 1589 s at W=2; RELATED at PR size started (kerb.ts, bandUnion.ts, W=1)
+2026-10-08 06:50 check/M0-a-04-close-s1 CHECKPOINT gates: install 0, lint 0 (1126 files, probe-red ok), build 0, landed:verify flow-7 --item M0-a-04 ok, NEAR step1-2 7 files 98/98; mirror ~/maps-scratch/waves/check-M0-a-04: old line 4 N-53 pins red (rotation at vertex 8/19 does not close; property fingerprint), fix green; RELATED at 1000 running; next: mutants MA-MG, edge replays, clearance probe (C-0279 (4))
+2026-10-08 06:52 check/M0-d-09-close-r1 CHECKPOINT NEAR 9 files 51/51 exit 0; RELATED@1000 9 files 51/51 exit 0; mutants so far C1 C2 C3 C4 T1 T1b RD1 RP1 killed; next: rest of sweep, fusion CITY reroll probe
+2026-10-08 06:52 check/M0-a-11-close-s1 CHECKPOINT verdict drafted in checks/M0-a-11-s1.md (RELATED line pending); RELATED at 1000 still running; next: fill RELATED, CLEAN-ROOM row, landed records
+2026-10-08 06:53 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 9/72 fixtures done; next: finish run, landed record
