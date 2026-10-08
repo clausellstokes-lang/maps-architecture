@@ -7,8 +7,24 @@ import { existsSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
-import { REPORT_NAME, reportText, run, runDeterminism, spikeStageIds, type DeterminismSpikeReport } from '../../src/determinism/index.js';
-import { nodeLeg, PLANTED_ENTRY, PLANTED_STAGES, SLOW, testConfig } from './support.js';
+import { baseArena } from '@plat/layout';
+import { renumberSlots, type CrossHostStage } from '@plat/testkit';
+import {
+  exitCodeOf,
+  OPTIONS_KEY,
+  RECORDS_BATCHES,
+  REPORT_NAME,
+  reportText,
+  run,
+  runDeterminism,
+  runSeedTask,
+  spikeBlueprint,
+  spikeRun,
+  spikeStageIds,
+  type DeterminismSpikeReport,
+  type SpikeRunOptions,
+} from '../../src/determinism/index.js';
+import { blockedLeg, nodeLeg, PLANTED_ENTRY, PLANTED_STAGES, SLOW, TEST_SIZE, testConfig } from './support.js';
 
 const scratch = mkdtempSync(join(tmpdir(), 'plat-determinism-'));
 afterAll(() => rmSync(scratch, { recursive: true, force: true }));
@@ -38,7 +54,43 @@ describe('the runner reproduces its own report', () => {
     expect(a.matching).toMatchObject({ pairs: 1, duplicateIds: 0, silentRebinds: 0, pass: true });
     expect(a.matching.perPair).toEqual([expect.objectContaining({ seed: 1, spike: 'fusion' })]);
     expect(a.matching.totals.survive).toBeGreaterThan(0);
+    // the pair's fresh side is C-0090's { S5: 1 } re-derivation, never the old run matched with itself: some re-drawn
+    // entity is retired or new (check B-2)
+    const pp = a.matching.perPair[0];
+    expect((pp?.tombstone ?? 0) + (pp?.fresh ?? 0)).toBeGreaterThan(0);
+    // the oracle's tally is every committed batch of the spike plus the records tree's build and each of its batches
+    // (C-0268 (5); check B-3)
+    expect(a.oracle.batches).toBe(spikeRun('fusion', 1, { size: TEST_SIZE }).commits + RECORDS_BATCHES + 1);
     expect(a.timings).toEqual({ taken: false, stamps: [], contended: 0, authoritative: 0 });
+  });
+});
+
+describe('the in-process checks hand their switches to the runs', () => {
+  it('the instrumented run the oracle, the dilation runs none, the op-order run M0-d-08\'s permutation and renumbering at the seed (check B-5)', async () => {
+    const seen: (Omit<SpikeRunOptions, 'size'> | undefined)[] = [];
+    const spy: CrossHostStage = {
+      id: 'spy',
+      run: (_seed, ctx) => {
+        seen.push(ctx.carry.get(OPTIONS_KEY) as Omit<SpikeRunOptions, 'size'> | undefined);
+        return { model: '0'.repeat(32), records: null };
+      },
+    };
+    const r = await runSeedTask([spy], { stages: ['spy'], inputs: {}, timing: false, idleMs: 0, repeats: 1 }, { seed: 5, pair: false, check: true });
+    expect(r.checks?.map((c) => c.what)).toEqual(['dilation x10', 'dilation x0.1', 'op order (ops permuted, slots renumbered)']);
+    expect(seen).toHaveLength(4);
+    expect(seen[0]).toEqual({ oracle: true });
+    expect(seen[1]).toBeUndefined();
+    expect(seen[2]).toBeUndefined();
+    const op = seen[3];
+    expect(op?.oracle).toBeUndefined();
+    expect(op?.permute?.seed).toBe(5);
+    expect(op?.renumber?.seed).toBe(5);
+    // the renumbering is M0-d-08's: a copy of the arena under other slot numbers
+    const ground = baseArena(spikeBlueprint('fusion', TEST_SIZE));
+    const renumbered = op?.renumber?.apply(ground, 5);
+    expect(renumbered).toBeDefined();
+    expect(renumbered).not.toBe(ground);
+    expect(renumbered).toEqual(renumberSlots(ground, 5));
   });
 });
 
@@ -55,6 +107,18 @@ describe('the command', () => {
     const s = JSON.parse(readFileSync(summary, 'utf8')) as { item: string; seeds: number; verdict: string; firstDifference: unknown };
     expect(s).toMatchObject({ item: 'M0-d-09', seeds: 4, verdict: 'fail', firstDifference: { seed: 3, stage: 'scratch.planted' } });
     expect(await run(['--seeds', 'x'], { out: scratch })).toBe(64);
+    // the verdict's exits: 0 pass, 1 fail, 3 incomplete — an incomplete run is never a pass (C-0228 (5), C-0268 (9); check B-4)
+    expect([exitCodeOf('pass'), exitCodeOf('fail'), exitCodeOf('incomplete')]).toEqual([0, 1, 3]);
+    const control = ['--seeds', '1,2,4,5', '--pairs', '0', '--checks', '0', '--workers', 'off', '--no-timing', '--entry', PLANTED_ENTRY, '--stages', PLANTED_STAGES.join(',')];
+    expect(await run([...control, '--legs', leg], { out: scratch })).toBe(0);
+    expect((JSON.parse(readFileSync(join(scratch, REPORT_NAME), 'utf8')) as DeterminismSpikeReport).verdict).toBe('pass');
+    const blocked = await blockedLeg();
+    if (blocked !== null) {
+      expect(await run([...control, '--legs', `${leg},${blocked}`], { out: scratch })).toBe(3);
+      const inc = JSON.parse(readFileSync(join(scratch, REPORT_NAME), 'utf8')) as DeterminismSpikeReport;
+      expect(inc.verdict).toBe('incomplete');
+      expect(inc.crosshost.runs).toContainEqual(expect.objectContaining({ run: `${blocked}/off`, status: 'blocked' }));
+    }
     expect(await run(['--entry', 'nowhere/at-all.ts', '--stages', 'a', '--seeds', '1', '--pairs', '0', '--checks', '0', '--legs', leg], { out: scratch })).toBe(64);
   });
 });

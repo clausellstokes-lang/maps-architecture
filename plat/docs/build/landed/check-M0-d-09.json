@@ -1,0 +1,17 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "check-M0-d-09",
+  "lane": "check/M0-d-09",
+  "lanes": ["check/M0-d-09"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-08T09:06:01.941Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/M0-d-09.md", "plat/docs/build/checks/M0-d-09-notes.md"],
+  "counts": { "created": 2, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/M0-d-09-notes.md", "status": "created", "sha256": "4cf81894ac54c2e13dc6f848251d8218384e3ed2f5a599ce6212891272b4b493", "size": 4420 },
+    { "path": "plat/docs/build/checks/M0-d-09.md", "status": "created", "sha256": "32e3525e8318fdb829609d869c613e12c4a7ce95693a73a94d61246acd379307", "size": 20048 }
+  ],
+  "appends": []
+}

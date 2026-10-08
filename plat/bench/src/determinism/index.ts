@@ -177,6 +177,11 @@ async function runTask(payload: string | undefined): Promise<number> {
   }
 }
 
+/** The command's exit by the report's verdict: 0 pass, 1 fail, 3 incomplete (never a pass; C-0228 (5), C-0268 (9)). */
+export function exitCodeOf(verdict: DeterminismSpikeReport['verdict']): 0 | 1 | 3 {
+  return verdict === 'pass' ? 0 : verdict === 'fail' ? 1 : 3;
+}
+
 /** The dispatcher's entry (C-0059). */
 export async function run(args: string[], ctx: DeterminismContext): Promise<number> {
   if (args[0] === 'task') return runTask(args[1]);
@@ -202,5 +207,5 @@ export async function run(args: string[], ctx: DeterminismContext): Promise<numb
     say(`determinism: summary ${rel.startsWith('..') || rel === '' ? path : rel}`);
   }
   say(`determinism: full report ${full.path}${full.dropped > 0 ? ` (truncated: ${String(full.dropped)} bytes dropped)` : ''}`);
-  return report.verdict === 'pass' ? 0 : report.verdict === 'fail' ? 1 : 3;
+  return exitCodeOf(report.verdict);
 }

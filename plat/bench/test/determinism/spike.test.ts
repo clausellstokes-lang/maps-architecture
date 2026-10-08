@@ -3,7 +3,7 @@
 // the digest's back; the op-order switches apply M0-d-08's functions and leave every root as it was, while a switch that
 // really changes the batches is seen; C-0090's reroll moves S5 on and leaves S1 – S4.
 import { describe, expect, it } from 'vitest';
-import { isVertexLive } from '@plat/kernel';
+import { isVertexLive, type Plat } from '@plat/kernel';
 import { runBase, type BaseBatch } from '@plat/layout';
 import { canonicalText } from '@plat/model';
 import { permuteOps, renumberSlots } from '@plat/testkit';
@@ -102,19 +102,32 @@ describe('op order', () => {
     }
     expect(threw || (r as SpikeRun | null)?.root !== plain().root).toBe(true);
   });
-  it('renumbers the arena\'s slots before S1 and gives the same roots', { timeout: SLOW }, () => {
+  it('renumbers the arena\'s slots before S1, derives on the renumbered arena, and gives the same roots', { timeout: SLOW }, () => {
     let applied = 0;
+    let given: Plat | null = null;
+    let made: Plat | null = null;
+    const watched = new Set<Plat>();
     const r = spikeRun('fusion', 1, {
       size: TEST_SIZE,
       renumber: {
         seed: 11,
         apply: (p, s) => {
           applied += 1;
-          return renumberSlots(p, s, { mode: 'reverse' });
+          given = p;
+          made = renumberSlots(p, s, { mode: 'reverse' });
+          return made;
         },
       },
+      afterBatch: (p) => watched.add(p),
     });
     expect(applied).toBe(1);
+    // the run's arena is the one the renumbering returned (a copy), never the ground arena it was given (check B-5)
+    expect(made).not.toBeNull();
+    expect(made).not.toBe(given);
+    expect(r.model.plats.size).toBe(1);
+    expect([...r.model.plats.values()][0]).toBe(made);
+    expect(watched.size).toBe(1);
+    expect(made !== null && watched.has(made)).toBe(true);
     expect(r.root).toBe(plain().root);
     expect(r.stageRoots).toEqual(plain().stageRoots);
   });
