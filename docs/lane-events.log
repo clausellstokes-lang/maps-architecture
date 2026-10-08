@@ -6939,3 +6939,6 @@
 2026-10-08 05:07 build/M0-d-09-fix1 CHECKPOINT machine check ok, Node 24.12; reading check verdict and code; next: tests for B-1..B-5
 2026-10-08 05:10 build/M0-d-09-fix1 CHECKPOINT tests written for B-1 (census.test planted mixer/digest64), B-2/B-3/B-4/B-5 (runner.test, spike.test), index.ts exports exitCodeOf; next: run them, then the mirror self-check
 2026-10-08 05:13 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 0/72 fixtures done; next: finish run, landed record
+2026-10-08 05:18 check/M0-a-09-close-s1 CHECKPOINT related at 1000 still running; waiting
+2026-10-08 05:23 build/M0-d-09-fix1 CHECKPOINT found: the fusion spike's {S5:1} reroll moves no stage root at seed 1 (test frame) - its pairs are the old run matched with itself; added PairResult.redrawn + report matching.unmoved (fail only when no pair re-drew), runner test pair moved to the site spike; next: NEAR re-run, mirror self-check
+2026-10-08 05:23 check/M0-a-11-close-s1 CHECKPOINT notes file written (N-1..N-4); RELATED at 1000 still running; next: RELATED verdict, verdict file, records
