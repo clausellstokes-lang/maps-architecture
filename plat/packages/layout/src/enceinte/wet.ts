@@ -12,7 +12,7 @@
 // on a stretch of half-length h about a point of depth d no point lies deeper than d + h; a stretch is halved until its
 // middle is found deeper than the tolerance (over) or the bound clears it (not over), stretches under a centimetre
 // cleared at the tolerance plus half a centimetre. Each ring's sides sit in a packed grid (CSR) so a side far from every
-// ring costs one box test, a side near one a few cells (the cost measured at CITY, C-0287).
+// ring costs one box test, a side near one a few cells (the cost measured at CITY, C-0282).
 import { orient2d } from '@plat/kernel';
 import { quot } from '../siting/geom.js';
 import type { XY } from './types.js';
