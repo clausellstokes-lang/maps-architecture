@@ -88,7 +88,7 @@ describe('a district face with a reservation hole', () => {
   });
 });
 
-// N-52 (4) (C-0285): a block that stops while holding a hole and draws a back lane or a through alley — its spine,
+// N-52 (4) (C-0288): a block that stops while holding a hole and draws a back lane or a through alley — its spine,
 // through the inscribed circle's centre, can run onto the hole, which the judge reads as a slit. The spine must halve
 // its block, so a slit is refused before the kernel: the block keeps a court (W_DEEP_SPINE_REFUSED, its 'deep' rung
 // refused 'slit') and no lane stays in the arena. Before the fix the slit lane stayed inserted (a Way, its junction
@@ -164,7 +164,7 @@ function expectWaysAgree(f: Fixture, out: ReturnType<typeof runFixture>): void {
   }
 }
 
-describe('a deep block holding a hole: its spine never slits (N-52 (4), C-0285)', () => {
+describe('a deep block holding a hole: its spine never slits (N-52 (4), C-0288)', () => {
   it('the 120 × 45 m land with a 6 × 10 m hole at seed 1: the spine runs onto the hole, is refused, no lane stays', { timeout: 120_000 }, () => {
     const f = deepHoled(12_000, 4_500, 600, 1);
     const d = f.districts[0].district.id;

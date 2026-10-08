@@ -615,7 +615,7 @@ function takeOut(run: Run, laneId: Id, rows: readonly { role: 'junction' | 'port
  * out again by removeEdges when one fails), then the ends' junction rows and portals (the lane taken out when one cannot
  * be written: a junction or a portal never names a vertex that does not carry it). `slitAllowed` false (a deep block's
  * back lane or through alley, which must halve its block) refuses a slit judgement before the kernel: a spine that
- * would only join a hole is no spine (N-52 (4); C-0285).
+ * would only join a hole is no spine (N-52 (4); C-0288).
  */
 function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, faceAddr: string, attempt: number, laneClass?: CutClass, extra: Partial<RungUse> = {}, slitAllowed = true): TryResult {
   if (!run.charge('candidates')) return { ok: false, why: 'work_cut' };
@@ -938,7 +938,7 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
   // A back lane or a through alley: its spine in the same batch (§4.6); refused, the block keeps a court (C-0237 (8)).
   // A spine the judge reads as a slit (one end on a hole of a block that stopped holding it) is refused before the
   // kernel: a slit would stay inserted as a lane while the block is recorded a court with its pre-slit kerb (N-52 (4),
-  // detect-and-refuse; C-0285), so the ways and the blocks' interiors always agree.
+  // detect-and-refuse; C-0288), so the ways and the blocks' interiors always agree.
   if ((interior === 'back_lane' || interior === 'through_alley') && fv !== null) {
     const treatment = interior;
     const sp = interiorSpine(kerbRings[0], d.centre, treatment);
