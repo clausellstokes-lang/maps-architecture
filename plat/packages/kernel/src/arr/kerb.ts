@@ -536,7 +536,7 @@ export function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: Read
 }
 
 /** The kerb vertex nearest q within `r` cm of it, or null. */
-function kerbVertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
+function vertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
   let best: LatticePoint | null = null;
   let bd = r * r;
   for (const ring of rings) {
@@ -594,7 +594,9 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
   const min = ATTRACT * ATTRACT;
   if (da <= min || db <= min) {
     const end = da <= db ? a : b;
-    return within(end, J, reach) ? { v: end, spliced: null } : null;
+    if (within(end, J, reach)) return { v: end, spliced: null };
+    // the end lies beyond reach: the point itself where it is a vertex apart from the end (≥ minEdge) and within reach
+    if (Math.min(da, db) < LATTICE.minEdgeCm * LATTICE.minEdgeCm) return null;
   }
   if (!within(v, J, reach)) return null;
   ring.splice(bi + 1, 0, v);
@@ -614,7 +616,7 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * N-52 (2) and C-0280): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
  * its strips by the straight-through split where that one fits.
  */
-function splitChain(p: Plat, region: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
+function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const J: XY = { x: X[jn.j], y: Y[jn.j] };
@@ -640,7 +642,7 @@ function splitChain(p: Plat, region: LatticePoint[][], jn: Junction): KernelResu
       const last = pts[pts.length - 1];
       if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
     }
-    if (pts.length >= 2 && !entersRegion(region, pts)) return ok(pts);
+    if (pts.length >= 2 && !entersRegion(kerbRings, pts)) return ok(pts);
     if (spliced !== null) {
       const at = spliced.ring.indexOf(spliced.v);
       if (at >= 0) spliced.ring.splice(at, 1);
@@ -648,20 +650,20 @@ function splitChain(p: Plat, region: LatticePoint[][], jn: Junction): KernelResu
     return ok(null);
   };
   if (jn.corner && jn.meet !== null) {
-    const near = kerbVertexNear(region, jn.meet, ATTRACT);
+    const near = vertexNear(kerbRings, jn.meet, ATTRACT);
     if (near !== null && (jn.acute || within(near, J, jn.reach))) {
       const r = fit(wedge(J, A, B, near), null);
       if (!r.ok || r.value !== null) return r;
     }
     if (within(jn.meet, J, jn.reach)) {
-      const K = spliceAt(region, jn.meet, J, jn.reach);
+      const K = spliceAt(kerbRings, jn.meet, J, jn.reach);
       if (K !== null) {
         const r = fit(wedge(J, A, B, K.v), K.spliced);
         if (!r.ok || r.value !== null) return r;
       }
     }
   }
-  const K = spliceAt(region, aim, J, jn.reach);
+  const K = spliceAt(kerbRings, aim, J, jn.reach);
   return K === null ? ok(null) : fit([J, K.v], K.spliced);
 }
 
