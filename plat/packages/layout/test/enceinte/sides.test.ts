@@ -93,6 +93,23 @@ describe('the pull bars a step whose side lies over a barred ring (N-54 (1))', (
     expect(wet.firstOver(before.line)).toBeGreaterThanOrEqual(0);
   });
 
+  it('the step that closes the cycle onto its first pin is tested too: no vertex beside a lake\'s end closes onto the pin across the water', () => {
+    // A lake 10 m east of the town's east side from y −200 m to 20 m; the east side's vertex at y 50 m pinned and first
+    // (the cycle opens there): below the lake's end the east side may step onto the far side of the lake (dry), and the
+    // vertex before the pin would close onto it across the water.
+    const lake = [P(31000, -20000), P(33200, -20000), P(33200, 2000), P(31000, 2000)];
+    const at = ring.findIndex((q) => q.x === 30000 && q.y === 5000);
+    const rot = [...ring.slice(at), ...ring.slice(0, at)];
+    const pins = new Uint8Array(rot.length);
+    pins[0] = 1;
+    const wet = wetSides([lake], 1);
+    const r = pullAndPin(rot, pins, outward, 4000, [lake], wet);
+    expect(r.line[0]).toEqual({ x: 30000, y: 5000 });
+    expect(wet.firstOver(r.line)).toBe(-1);
+    // Below the lake's end the east side still takes the far ground: the pull is barred only where a side would wet.
+    expect(r.line.some((q) => q.x > 33200)).toBe(true);
+  });
+
   it('with no barred ring near, the pull is the one it was (the side test only bars)', () => {
     const r = pullAndPin(ring, new Uint8Array(ring.length), outward, 4000, []);
     expect(r.maxOffsetCm).toBeCloseTo(4000 - 26, 9);
