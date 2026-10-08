@@ -7098,3 +7098,8 @@
 2026-10-08 12:43 build/M0-b-03-fix-s2 LANDED plat/packages/layout/src/infill/bentCutFabric.ts plat/packages/layout/test/infill/fabric/holes.test.ts plat/docs/build/landed/M0-b-03.json (choices C-0288, CLEAN-ROOM L-0363); gates: install 0, lint 0 (probe-red), build 0, NEAR 12 files 75/75, RELATED at 1000 203/204 files (only red fusion/hausdorff exact-0, identical pre/post fix: not this item's)
 2026-10-08 12:44 check/M0-b-03-close-s2 CHECKPOINT started; machine id ok, node 24.12; next read N-52, code, probes
 2026-10-08 12:45 check/M0-c-01-close-s1 CHECKPOINT NEAR siting 8 files 92/92; own mutants Y01-Y12 all killed on the siting folder (mirror control 92/92, restored by cmp); 1000-seed after sweep 263/1000; next: RELATED@1000, sweep verdict
+2026-10-08 12:46 check/M0-c-01-close-s1 CHECKPOINT RELATED@1000 running (W=3); after sweep 292/1000: 0 wet edges passable via a beyond-only deck, 0 beyond decks in costs/rg, 0 built out, 0 errors; next: RELATED verdict, finish sweep, before-control subset, verdict
+2026-10-08 12:46 check/M0-b-03-close-s2 CHECKPOINT mirror m1 built (close-s2/), own probe written (off-centre/two holes/parallelograms, 450 runs); next run probe on fix and pre-fix
+2026-10-08 12:48 check/M0-b-03-close-s2 CHECKPOINT N-52 (4) reproduced on pre-fix (own probe: 18/450 runs keep a deep slit lane bridging the court block's face, seed on the lane), 0/450 on fix (18 refused 'slit'); next mutants
+2026-10-08 12:49 build/M0-c-04-fix-s1 CHECKPOINT RELATED@1000 still running (W=1; 1 red so far: hausdorff, known); next: verdict, landed
+2026-10-08 12:51 build/M0-a-02-fix-s1 CHECKPOINT RELATED@1000 still running; next: verdict, landed
