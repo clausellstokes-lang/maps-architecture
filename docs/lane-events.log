@@ -6886,3 +6886,4 @@
 2026-10-08 01:42 check/M0-x-06 CHECKPOINT redo EP-05/bridge at 1000 running
 2026-10-08 01:48 check/M0-d-09 CHECKPOINT waiting on Y and X2
 2026-10-08 01:49 check/M0-d-09 CHECKPOINT Y done (exit 0 on its one asked leg): 20 seeds in-process agree; 293783 stream keys / 248229 lineage hashes, 0 collisions, 174930 entity lineages 0 shared; oracle 1619 batches 0 mismatches; dilation 4 runs 0 differ; op order 2 runs 0 differ; 40 pairs dup ids 0 (47949 suffixed) silent re-binds 0, standing missing 0; 10 site refusals (upstream S3/S5, known); 40 stamps all contended; X2 (35..67) and X3 (68..100) running
+2026-10-08 01:53 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running; next: RELATED verdict, LANDED
