@@ -11,19 +11,46 @@
 // * T is one field, re-settled incrementally after each S5b at the nodes the new roads lower (`resettleT`): never a
 //   new field per stage (SCL-3);
 // * for k ≥ 2 the trace is the strategy's, right after S5b, every arterial crossing of the stage's boundary on ground
-//   part 0 pinned as a gate: each crossing's vertex is split onto its way first (one L1 callback batch), so the wall
-//   chain meets the way exactly at its gate vertex, then the trace (with the previous enceinte as its core) and the
-//   strip stand-in (C-0033), its stops read from the arena at the gates.
-import { BinaryHeap, CONCERNS, err, ok, STAGES, type HalfEdgeId, type Kernel, type KernelResult, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
+//   part 0 pinned as a gate: each crossing's vertex is split onto its way, so the wall chain meets the way exactly at
+//   its gate vertex, then the trace (with the previous enceinte as its core) and the strip stand-in (C-0033), its stops
+//   read from the arena at the gates. The gate splits run inside the trace's own L1 batch, before its insertion, so a
+//   refused trace leaves no split behind (N-54 (3)); where the gates stand is planned first in a batch that is always
+//   rejected, and the trace's batch refuses if the splits land anywhere else. A crossing on a bridge's span (the way's
+//   edge between the bridge's two `deck_end` vertices) is no split: its gate is the bridgehead, the deck end on the
+//   stage's side of the boundary, and a crossing in the water off every span, or a span with no single deck end on the
+//   stage's side, refuses the trace (E_INVARIANT, detect-and-refuse); the trace's batch refuses too when it leaves a
+//   vertex between the two deck ends of any span that stood before it.
+import {
+  BinaryHeap,
+  CONCERNS,
+  dest,
+  err,
+  ok,
+  outgoing,
+  rowKey,
+  rowsOn,
+  STAGES,
+  type Committed,
+  type HalfEdgeId,
+  type Kernel,
+  type KernelResult,
+  type KernelTx,
+  type LatticePoint,
+  type Overlay,
+  type Plat,
+  type PlatKey,
+  type StageId,
+  type VertexId,
+} from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
 import { commitS3Batch, PLAZA_ID, siteContext, WAY_SPAN_NODES, type S3Batch, type S3Commit } from '../enceinte/commit.js';
-import { crossParams, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { crossParams, distToRing, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
 import { layStrips, stripWidths, toFrame } from '../enceinte/strips.js';
 import { baseEnceinte, l1Spec } from '../enceinte/trace.js';
 import type { CostField, StripsLaid, StripStop, Traced, WaterGate, XY } from '../enceinte/types.js';
-import { GROUND, waterGates, waterRings } from '../enceinte/water.js';
+import { GROUND, waterGates, waterRings, type WaterRing } from '../enceinte/water.js';
 import { stageThreshold, type WaterPull } from '../siting/field.js';
-import { area2Of, bearingCdeg, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
+import { area2Of, bearingCdeg, insideRing, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
 import { levelSet } from '../siting/levelset.js';
 import type { Field, LevelSet, S3Slice, Threshold } from '../siting/types.js';
 
