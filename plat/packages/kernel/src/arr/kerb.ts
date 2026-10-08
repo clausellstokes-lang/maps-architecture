@@ -550,7 +550,7 @@ export function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: Read
 }
 
 /** The kerb vertex nearest q within `r` cm of it, or null. */
-function vertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
+function kerbVertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
   let best: LatticePoint | null = null;
   let bd = r * r;
   for (const ring of rings) {
@@ -616,7 +616,7 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * The corridor_split chain at one junction (bandUnion.ts's module comment), with the kerb vertex spliced in for it, or
  * null when the kerb has no point within the junction's reach.
  */
-function splitChain(p: Plat, outline: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
+function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const J: XY = { x: X[jn.j], y: Y[jn.j] };
@@ -628,23 +628,26 @@ function splitChain(p: Plat, outline: LatticePoint[][], jn: Junction): { chain: 
   // The left normals (the face lies on the left of its walk).
   const nu: XY = { x: -u.y, y: u.x };
   const nv: XY = { x: -v.y, y: v.x };
-  if (jn.corner && jn.meet !== null) {
-    // The two strips' inner edges meet at the kerb corner: the kerb's vertex there — within reach, or on the bisector of
-    // a corner sharper than a right angle — else the kerb point nearest the meeting point, within reach.
-    const m = jn.meet;
-    const near = vertexNear(outline, m, ATTRACT);
-    const K: Reached | null = near !== null && (jn.acute || within(near, J, jn.reach)) ? { v: near, spliced: null } : within(m, J, jn.reach) ? spliceAt(outline, m, J, jn.reach) : null;
-    if (K !== null) return { chain: wedge(J, A, B, K.v), spliced: K.spliced };
-    // no kerb corner within reach: the straight-through reading below
-  }
   // Straight through J, turning away from F, or a corner whose kerb corner is out of reach: one split from J to its
   // nearest kerb point — the foot of J's perpendicular on the kerb, aimed along the normals' bisector.
   let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
   const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
   if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
-  const K = spliceAt(outline, aim, J, jn.reach);
-  if (K === null) return null;
-  return { chain: [J, K.v], spliced: K.spliced };
+  // The targets in turn: at a corner the strips' inner edges' meeting point m first — the kerb's vertex within
+  // attractCm of it (within reach, or anywhere on the bisector of a corner sharper than a right angle), else the kerb
+  // point nearest m within reach — then the straight-through aim; each kerb point accepted only within reach of J.
+  const targets: { q: XY; corner: boolean }[] = [];
+  if (jn.corner && jn.meet !== null) {
+    const near = kerbVertexNear(kerbRings, jn.meet, ATTRACT);
+    if (near !== null && (jn.acute || within(near, J, jn.reach))) return { chain: wedge(J, A, B, near), spliced: null };
+    if (within(jn.meet, J, jn.reach)) targets.push({ q: jn.meet, corner: true });
+  }
+  targets.push({ q: aim, corner: false });
+  for (const t of targets) {
+    const K = spliceAt(kerbRings, t.q, J, jn.reach);
+    if (K !== null) return { chain: t.corner ? wedge(J, A, B, K.v) : [J, K.v], spliced: K.spliced };
+  }
+  return null;
 }
 
 /** A corner's chain: from the kerb corner K to the foot of its perpendicular on each spine edge at J (C-0212 (4)). */
