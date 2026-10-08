@@ -343,6 +343,90 @@ export function chordSpec(rnd: () => number): ArenaSpec | null {
   return null;
 }
 
+/**
+ * A random valid arena spec (or null) whose chords meet the frame at shallow corners — the case where a split ends a
+ * one-ring exemption (C-0279 (4), C-0284): the L0 frame [0, W]² and 1 – 3 L1 chords, each starting at a point E on a
+ * side whose next vertex P stands d = 8 – 24 cm inside the frame and 30 – 11·d cm along it (so the corner at E is
+ * 5.2° – 75°, above `minFaceAngle`, and P lies within `minEdge` of the frame edges at E, which its one-ring exempts while
+ * P–E stands), then through an interior bend to a second such end or a plain point on a side. Validated as chordSpec's.
+ */
+export function nearFrameSpec(rnd: () => number): ArenaSpec | null {
+  for (let attempt = 0; attempt < 50; attempt++) {
+    const verts: [number, number, Level][] = [[0, 0, 0], [W, 0, 0], [W, W, 0], [0, W, 0]];
+    const onSide: number[][] = [[], [], [], []];
+    const chords: number[][] = [];
+    // A side's point at u along it, d inward (bottom, right, top, left).
+    const at = (side: number, u: number, d: number): [number, number] =>
+      side === 0 ? [u, d] : side === 1 ? [W - d, u] : side === 2 ? [u, W - d] : [d, u];
+    const end = (chain: number[], first: boolean): void => {
+      const side = intIn(rnd, 0, 3);
+      const u = intIn(rnd, 300, W - 300);
+      const d = intIn(rnd, 8, 24);
+      const along = intIn(rnd, 30, 11 * d) * (rnd() < 0.5 ? -1 : 1);
+      const e = verts.length;
+      verts.push([...at(side, u, 0), 1]);
+      onSide[side].push(e);
+      const q = verts.length;
+      verts.push([...at(side, u + along, d), 1]);
+      if (first) chain.push(e, q);
+      else chain.push(q, e);
+    };
+    const k = intIn(rnd, 1, 3);
+    for (let c = 0; c < k; c++) {
+      const chain: number[] = [];
+      end(chain, true);
+      chain.push(verts.length);
+      verts.push([intIn(rnd, 400, W - 400), intIn(rnd, 400, W - 400), 1]);
+      if (rnd() < 0.5) end(chain, false);
+      else {
+        const side = intIn(rnd, 0, 3);
+        const t = intIn(rnd, 80, W - 80);
+        chain.push(verts.length);
+        onSide[side].push(verts.length);
+        verts.push([...at(side, t, 0), 1]);
+      }
+      chords.push(chain);
+    }
+    const spec = assemble(verts, onSide, chords);
+    if (spec !== null) return spec;
+  }
+  return null;
+}
+
+/** The frame's sides cut at the chords' ends, the chords' edges, validated (null when invalid). */
+function assemble(verts: [number, number, Level][], onSide: number[][], chords: number[][]): ArenaSpec | null {
+  const segs: Seg[] = [];
+  const corners = [[0, 1], [1, 2], [2, 3], [3, 0]];
+  for (let s = 0; s < 4; s++) {
+    const [c0, c1] = corners[s];
+    const along = (v: number): number => (s === 0 || s === 2 ? verts[v][0] : verts[v][1]);
+    const list = [...onSide[s]].sort((u, w) => along(u) - along(w));
+    if (s === 2 || s === 3) list.reverse();
+    const path = [c0, ...list, c1];
+    for (let i = 0; i + 1 < path.length; i++) segs.push({ a: path[i], b: path[i + 1], level: 0 });
+  }
+  for (const chain of chords) for (let i = 0; i + 1 < chain.length; i++) segs.push({ a: chain[i], b: chain[i + 1], level: 1 });
+  return valid(verts, segs) ? { vertices: verts, edges: segs.map((s) => [s.a, s.b, s.level] as const) } : null;
+}
+
+/**
+ * Would splitting the edge s–t leave s or t within minEdge of an edge outside its one-ring (§3.10's clearance read on
+ * the arena after the split, where v — not t — is s's neighbour)? Judged from the definition by exact BigInt distances:
+ * an edge at t whose far end is no neighbour of s, against s; and the same at s against t.
+ */
+export function splitEndsBreach(p: Plat, s: VertexId, t: VertexId): boolean {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  for (const [x, y] of [[s, t], [t, s]] as const) {
+    const ring = new Set(neighboursOf(p, x));
+    for (const w of neighboursOf(p, y)) {
+      if (w === x || ring.has(w)) continue;
+      if (closerThan(X[x], Y[x], X[y], Y[y], X[w], Y[w], 25)) return true;
+    }
+  }
+  return false;
+}
+
 function valid(verts: [number, number, Level][], segs: Seg[]): boolean {
   const X = (v: number): number => verts[v][0];
   const Y = (v: number): number => verts[v][1];

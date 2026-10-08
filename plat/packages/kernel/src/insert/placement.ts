@@ -7,17 +7,20 @@
 // no more than its hot pixel; (ii) lie at least `minEdge` from the endpoints of the edge being split — the sub-edge of
 // the run the point falls on — and, for a crossing, from the endpoints of the crossing segment; and (iii) keep every
 // vertex and edge around the split at least `minEdge` from the new vertex and from every edge incident to it
-// (clearance, checked in the index); ties y then x. The search runs outward from the exact position, never beyond
-// `attractCm`, and charges each candidate to `insert.placementCandidates`. If no candidate qualifies, the incoming
-// vertex moves onto the nearer endpoint of the edge (a crossing routes its segment through it). W_PLACED reports a point
-// placed away from its nearest lattice point and an incoming vertex moved onto the endpoint. The fallback is reached on
-// valid arenas (an acute corner within a vertex's one-ring can refuse every candidate under (iii); C-0170 (1)).
+// (clearance, checked in the index) — read as §3.10's clearance after the split, which includes the split sub-edge's
+// own ends: once s and t are no longer joined, each must clear the edges at the other (`splitEndsBreachClearance`;
+// where they cannot, no point of that sub-edge qualifies, C-0284); ties y then x. The search runs outward from the
+// exact position, never beyond `attractCm`, and charges each candidate to `insert.placementCandidates` (a candidate
+// that can only fall on such sub-edges is not tried). If no candidate qualifies, the incoming vertex moves onto the
+// nearer endpoint of the edge (a crossing routes its segment through it). W_PLACED reports a point placed away from its
+// nearest lattice point and an incoming vertex moved onto the endpoint. The fallback is reached on valid arenas (an
+// acute corner within a vertex's one-ring can refuse every candidate under (iii); C-0170 (1), C-0284).
 //
 // Every distance test here uses + − × ÷ √ only (§3.2 (3)) — on lattice points `orient2d` and the dot products are exact
 // integers, and a comparison is written without a division where it can be — so every IEEE engine decides alike.
 // `placePoint` writes nothing: its result is a plan the writer that commits it (`splitThrough`, M0-a-05's crossings)
-// applies and reports to the transaction. Readings: C-0169 (4).
-import { isHalfEdgeLive, outgoing, type HalfEdgeId, type VertexId } from '../arena/index.js';
+// applies and reports to the transaction. Readings: C-0169 (4), C-0284.
+import { isHalfEdgeLive, outgoing, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import { HOT_PIXEL_CM, query, routeRun, type Box } from '../index/index.js';
 import { belowMinEdge, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
@@ -76,6 +79,32 @@ export function segmentCloserThan(px: number, py: number, ax: number, ay: number
   if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) < r2;
   const o = orient2d(ax, ay, bx, by, px, py);
   return o * o < r2 * l2;
+}
+
+/**
+ * Would a split of the sub-edge s–t, at any point, leave s or t within `minEdge` of an edge outside its one-ring
+ * (§3.10's clearance)? While s and t are joined each lies in the other's one-ring, so s may stand nearer than `minEdge`
+ * to an edge at t — an acute corner, which `minFaceAngle` governs — and t to an edge at s. A split ends that exemption
+ * (the new vertex, not t, is then s's neighbour), so s must clear every edge t–w whose far end w is not one of s's
+ * neighbours, and t every such edge at s. The answer reads no candidate: where it is yes, no point of s–t qualifies
+ * under (iii) and the placement falls back onto the nearer endpoint (C-0284; the hole C-0279 (4) found). + − × only.
+ */
+export function splitEndsBreachClearance(p: Plat, s: VertexId, t: VertexId): boolean {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  for (const [x, y] of [[s, t], [t, s]] as const) {
+    let ring: Set<VertexId> | null = null;
+    for (const h of outgoing(p, y)) {
+      const w = O[h ^ 1];
+      if (w === x) continue;
+      // x against the edge y–w: the edges at x's neighbours stay in its one-ring after the split.
+      if (!segmentCloserThan(X[x], Y[x], X[y], Y[y], X[w], Y[w], MIN_EDGE)) continue;
+      ring ??= new Set(outgoing(p, x).map((g) => O[g ^ 1]));
+      if (!ring.has(w)) return true;
+    }
+  }
+  return false;
 }
 
 /**
@@ -175,6 +204,16 @@ export function placePoint(tx: InsertTx, edge: HalfEdgeId, exact: { readonly x: 
     }
     return s;
   };
+  // (iii) at the split sub-edge's own ends, per sub-edge (it reads no candidate).
+  const endsBreak = new Map<number, boolean>();
+  const breaks = (j: number): boolean => {
+    let b = endsBreak.get(j);
+    if (b === undefined) {
+      b = splitEndsBreachClearance(p, V[j], V[j + 1]);
+      endsBreak.set(j, b);
+    }
+    return b;
+  };
 
   /** The sub-edge index a candidate qualifies on under (i) – (iii), or −1. */
   const qualifies = (qx: number, qy: number): number => {
@@ -192,6 +231,8 @@ export function placePoint(tx: InsertTx, edge: HalfEdgeId, exact: { readonly x: 
       if (belowMinEdge(qx, qy, cEnd.x, cEnd.y) || belowMinEdge(qx, qy, dEnd.x, dEnd.y)) return -1;
       ends.push(cEnd, dEnd);
     }
+    // (iii) at the split's own ends: s and t, no longer joined, each clear the edges at the other.
+    if (breaks(j)) return -1;
     const isEnd = (v: VertexId): boolean => {
       for (const e of ends) if (e.vertex === v) return true;
       return false;
@@ -256,6 +297,22 @@ export function placePoint(tx: InsertTx, edge: HalfEdgeId, exact: { readonly x: 
     if (!nearest) addWarning(warnings, 'W_PLACED', at);
     return ok({ kind: 'placed', at, sub: run[j], nearest, tried }, warnings);
   };
+  // No candidate qualifies: the nearer endpoint of the sub-edge the exact position falls on (ties y then x).
+  const fallback = (): KernelResult<Placement> => {
+    const j = subAt(Math.max(0, Math.min(len2, tE)));
+    const s = V[j];
+    const t = V[j + 1];
+    const ds = (X[s] - exact.x) * (X[s] - exact.x) + (Y[s] - exact.y) * (Y[s] - exact.y);
+    const dt = (X[t] - exact.x) * (X[t] - exact.x) + (Y[t] - exact.y) * (Y[t] - exact.y);
+    const vertex = ds < dt || (ds === dt && (Y[s] < Y[t] || (Y[s] === Y[t] && X[s] < X[t]))) ? s : t;
+    addWarning(warnings, 'W_PLACED', { x: X[vertex], y: Y[vertex] } as LatticePoint);
+    return ok({ kind: 'endpoint', vertex, tried }, warnings);
+  };
+  // Every candidate (within attractCm, so on a sub-edge between jlo and jhi) falls on a sub-edge whose ends cannot clear
+  // each other's edges once split: none can qualify, so none is tried (the answer is the fallback either way).
+  let splittable = false;
+  for (let j = Math.max(0, jlo - 1); j <= Math.min(k - 1, jhi) && !splittable; j++) splittable = !breaks(j);
+  if (!splittable) return fallback();
 
   // The nearest lattice point first (one of the four around the exact position; ties y then x): it qualifies almost
   // always (§3.6).
@@ -306,14 +363,5 @@ export function placePoint(tx: InsertTx, edge: HalfEdgeId, exact: { readonly x: 
     if (!r.ok) return passOn(r);
     if (r.value >= 0) return placed(c.x, c.y, r.value, false);
   }
-
-  // No candidate qualifies: the nearer endpoint of the sub-edge the exact position falls on (ties y then x).
-  const j = subAt(Math.max(0, Math.min(len2, tE)));
-  const s = V[j];
-  const t = V[j + 1];
-  const ds = (X[s] - exact.x) * (X[s] - exact.x) + (Y[s] - exact.y) * (Y[s] - exact.y);
-  const dt = (X[t] - exact.x) * (X[t] - exact.x) + (Y[t] - exact.y) * (Y[t] - exact.y);
-  const vertex = ds < dt || (ds === dt && (Y[s] < Y[t] || (Y[s] === Y[t] && X[s] < X[t]))) ? s : t;
-  addWarning(warnings, 'W_PLACED', { x: X[vertex], y: Y[vertex] } as LatticePoint);
-  return ok({ kind: 'endpoint', vertex, tried }, warnings);
+  return fallback();
 }
