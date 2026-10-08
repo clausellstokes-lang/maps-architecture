@@ -32,6 +32,7 @@ import {
   pt,
   ringsOf,
   spec,
+  splitsBetweenBlocks,
   state,
   tilesExactly,
   TIMEOUT,
@@ -208,6 +209,8 @@ describe('corridorUnion (§3.4, §3.7)', () => {
             continue;
           }
           const v = r.value.value as BandResult;
+          // N-52 (2): a corridor_split lies in the band — never between two built blocks, attracted or not
+          expect(splitsBetweenBlocks(p, 2, v.blocks)).toEqual([]);
           const blocks = blocksByFace(p, [f], v);
           const read = k.get(f);
           expect(read).not.toBeNull();

@@ -199,6 +199,24 @@ export function edgesWithRole(p: Plat, role: string): string[] {
   return out.sort();
 }
 
+/**
+ * The corridor_split edges with a built block on both sides — a split laid across a block, which §3.7 never makes (a
+ * split lies in the band; N-52 (2)) — each as "x,y-x,y" from its even half-edge's origin. `blocks` are faces of `level`.
+ */
+export function splitsBetweenBlocks(p: Plat, level: Level, blocks: readonly FaceId[]): string[] {
+  const side = new Map<number, FaceId>();
+  for (const b of blocks) for (const ring of faceWalk(p, level, b)) for (const h of ring) side.set(h, b);
+  const O = p.halfEdges.origin;
+  const out: string[] = [];
+  for (const [h, b] of side) {
+    const o = side.get(h ^ 1);
+    if (o === undefined || o === b || (h & 1) === 1) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => roleInfo(p.roles.kind[r]).name === 'corridor_split')) continue;
+    out.push(`${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+  }
+  return out.sort();
+}
+
 /** The live records of `level` whose parent is the face `parent` of level − 1. */
 function kidsOf(p: Plat, level: Level, parent: FaceId): FaceId[] {
   const out: FaceId[] = [];

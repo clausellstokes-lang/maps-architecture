@@ -376,7 +376,7 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
       // and the kerb point it spliced in for it is taken out again (C-0212 (5) as refined by N-52 (2)): never a split
       // across a block, whatever the junction's geometry.
       if (pts.length < 2) continue;
-      if (!entersKerb(rings, pts)) splits.push(pts);
+      if (!entersRegion(rings, pts)) splits.push(pts);
       else if (sc.spliced !== null) {
         const at = sc.spliced.ring.indexOf(sc.spliced.v);
         if (at >= 0) sc.spliced.ring.splice(at, 1);
@@ -550,7 +550,7 @@ export function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: Read
 }
 
 /** The kerb vertex nearest q within `r` cm of it, or null. */
-function kerbVertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
+function vertexNear(rings: readonly LatticePoint[][], q: XY, r: number): LatticePoint | null {
   let best: LatticePoint | null = null;
   let bd = r * r;
   for (const ring of rings) {
@@ -616,7 +616,7 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * The corridor_split chain at one junction (bandUnion.ts's module comment), with the kerb vertex spliced in for it, or
  * null when the kerb has no point within the junction's reach.
  */
-function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
+function splitChain(p: Plat, outline: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const J: XY = { x: X[jn.j], y: Y[jn.j] };
@@ -632,8 +632,8 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain
     // The two strips' inner edges meet at the kerb corner: the kerb's vertex there — within reach, or on the bisector of
     // a corner sharper than a right angle — else the kerb point nearest the meeting point, within reach.
     const m = jn.meet;
-    const near = kerbVertexNear(kerbRings, m, ATTRACT);
-    const K: Reached | null = near !== null && (jn.acute || within(near, J, jn.reach)) ? { v: near, spliced: null } : within(m, J, jn.reach) ? spliceAt(kerbRings, m, J, jn.reach) : null;
+    const near = vertexNear(outline, m, ATTRACT);
+    const K: Reached | null = near !== null && (jn.acute || within(near, J, jn.reach)) ? { v: near, spliced: null } : within(m, J, jn.reach) ? spliceAt(outline, m, J, jn.reach) : null;
     if (K !== null) return { chain: wedge(J, A, B, K.v), spliced: K.spliced };
     // no kerb corner within reach: the straight-through reading below
   }
@@ -642,7 +642,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain
   let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
   const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
   if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
-  const K = spliceAt(kerbRings, aim, J, jn.reach);
+  const K = spliceAt(outline, aim, J, jn.reach);
   if (K === null) return null;
   return { chain: [J, K.v], spliced: K.spliced };
 }
@@ -693,7 +693,7 @@ function strictlyInside(rings: readonly LatticePoint[][], q: XY): boolean {
  * middle (a piece between two boundary contacts lies wholly inside or wholly outside a simple ring set). Exact on the
  * lattice points (orient2d).
  */
-export function entersKerb(rings: readonly LatticePoint[][], chain: readonly LatticePoint[]): boolean {
+export function entersRegion(rings: readonly LatticePoint[][], chain: readonly LatticePoint[]): boolean {
   for (let i = 0; i + 1 < chain.length; i += 1) {
     const a = chain[i];
     const b = chain[i + 1];

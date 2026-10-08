@@ -18,7 +18,11 @@
 // `attractCm` of J is J, and a foot beyond its spine edge (a strip shorter than the crossed half-width) leaves the one
 // edge J → K; where the spine passes straight through J — or turns away from F there — there is no corner and no
 // wedge: one edge from J to its nearest kerb point (the foot of J's perpendicular on a straight spine) separates the two
-// strips (§3.7's T-junction clause); (3) the faces of the batch's level inside F are read back: a face whose interior
+// strips (§3.7's T-junction clause). N-52 (2): every split stays within its junction's reach, 2·max(hwIn, hwOut) +
+// attractCm of J — a left turn whose strips' inner edges meet beyond it or nowhere (a width step between two nearly
+// collinear spines) is the straight-through case, a junction with no kerb point within reach draws no split, and a
+// split that would enter kerb(F)'s interior is never drawn (kerb.ts, `junctionsOf` / `splitChain` /
+// `entersRegion`); (3) the faces of the batch's level inside F are read back: a face whose interior
 // point (the middle of its widest cross-section) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
 // a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the
 // batch's level is its own child there (§2.2 rule 2): one built block when its kerb is not empty — a spine-less face,

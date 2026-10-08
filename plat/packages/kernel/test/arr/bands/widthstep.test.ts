@@ -13,10 +13,10 @@ import { type FaceId, type Plat } from '../../../src/arena/index.js';
 import { err, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
-import { entersKerb, kerb, readKerb, type SpineWidths } from '../../../src/arr/kerb.js';
+import { entersRegion, kerb, readKerb, type SpineWidths } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
-import { AT_S9, commit, faceAt, framed, healthy, normals, own, pt, ringsOf, tilesExactly, TIMEOUT, way, widthsOf } from './support.js';
+import { AT_S9, commit, faceAt, framed, healthy, normals, own, pt, ringsOf, splitsBetweenBlocks, tilesExactly, TIMEOUT, way, widthsOf } from './support.js';
 
 const ATTRACT = 26;
 
@@ -33,6 +33,23 @@ const PROBE = {
   J: { x: 1900, y: 6000 },
   /** The far kerb corner the old splice took (the probe's (19 223, −7 049)), 53 m from J. */
   farK: { x: 7223, y: 6451 },
+};
+
+/**
+ * The probe's second face (the same dump, L1 face 150), translated by (+23 000, −1 000): a long face between two nearly
+ * parallel ways 345 cm apart (half-widths 179 and 178 cm), all band but a small kerb piece where it widens 60 m away —
+ * the old splice joined four junctions at its narrow end to that piece (splits of 16 – 69 m, inside the band).
+ */
+const PROBE2 = {
+  ways: {
+    'way:dnsm': [[10295, 1235], [10607, 1387]],
+    'way:83hh': [[10607, 1387], [10526, 1552], [8280, 6101], [7424, 7834], [4474, 8456], [1062, 9176]],
+    'way:fag1': [[954, 8663], [7356, 7313], [8345, 5267], [10215, 1401], [10295, 1235]],
+  } as Record<string, [number, number][]>,
+  hw: { 'way:dnsm': 183.5421283797202, 'way:83hh': 179.08591019555453, 'way:fag1': 178.32657723601366 } as Record<string, number>,
+  /** The edge (−21 938, 10 176) – (−22 046, 9 663): a boundary that declares no half-width. */
+  bound: [[1062, 9176], [954, 8663]] as [number, number][],
+  inside: [6000, 7900] as [number, number],
 };
 
 /** The longest segment of each split chain of F's reading. */
@@ -74,6 +91,8 @@ function s8s9(p: Plat, inside: readonly [number, number], late: { entity: string
   healthy(p);
   expect(tilesExactly(p, 2, [f])).toEqual([]);
   const result = r.value as BandResult;
+  // no corridor_split between two built blocks (a split lies in the band)
+  expect(splitsBetweenBlocks(p, 2, result.blocks)).toEqual([]);
   return { s8, s9: blocksOf(p, f, result), splits: read.value.splits, lengths: chainLengths(read.value), result, face: f };
 }
 
@@ -98,7 +117,20 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
     expect(r.s8.length).toBe(1);
     expect(r.s9).toEqual(r.s8);
     expect(r.result.blocks.length).toBe(1);
-    for (const c of r.splits) expect(entersKerb([r.s8[0].split(' ').map((t) => pt(Number(t.split(',')[0]), Number(t.split(',')[1])))], c)).toBe(false);
+    for (const c of r.splits) expect(entersRegion([r.s8[0].split(' ').map((t) => pt(Number(t.split(',')[0]), Number(t.split(',')[1])))], c)).toBe(false);
+  });
+
+  it('the probe’s second face: a junction with no kerb within its reach draws no split (never a far kerb piece)', () => {
+    const p = framed(12_000);
+    for (const [entity, pts] of Object.entries(PROBE2.ways)) way(p, entity, pts);
+    commit(p, 1, (o) => insertChain(o, PROBE2.bound.map(([x, y]) => pt(x, y)), [{ role: 'district_bound', entity: 'district:9' }], 'mandatory'));
+    const ws = widthsOf(PROBE2.hw);
+    const r = s8s9(p, PROBE2.inside, null, ws);
+    for (const len of r.lengths) expect(len).toBeLessThanOrEqual(2 * 184 + ATTRACT);
+    // the kerb is the small piece where the face widens: no split reaches it from the narrow end's junctions
+    expect(r.s8.length).toBe(1);
+    for (const c of r.splits) for (const q of c) expect(q.x).toBeLessThan(9000);
+    expect(r.s9).toEqual(r.s8);
   });
 
   it('§13.2 at a width step swept over 0.01°–5° (both turns, both width orders): every split within reach, S8’s working block ≡ S9’s block', { timeout: TIMEOUT }, () => {
@@ -143,20 +175,20 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
   });
 });
 
-describe('entersKerb: a split never crosses a block (N-52 (2))', () => {
+describe('entersRegion: a split never crosses a block (N-52 (2))', () => {
   const sq: LatticePoint[][] = [[pt(0, 0), pt(1000, 0), pt(1000, 1000), pt(0, 1000)]];
   it('a chain outside or along the kerb does not enter it; one through its interior does', () => {
-    expect(entersKerb(sq, [pt(-100, -100), pt(0, 0)])).toBe(false);
-    expect(entersKerb(sq, [pt(-100, 500), pt(0, 500)])).toBe(false);
-    expect(entersKerb(sq, [pt(0, -100), pt(0, 0), pt(0, 1000)])).toBe(false);
-    expect(entersKerb(sq, [pt(-100, -100), pt(1000, 1000)])).toBe(true);
-    expect(entersKerb(sq, [pt(-100, 500), pt(500, 500)])).toBe(true);
+    expect(entersRegion(sq, [pt(-100, -100), pt(0, 0)])).toBe(false);
+    expect(entersRegion(sq, [pt(-100, 500), pt(0, 500)])).toBe(false);
+    expect(entersRegion(sq, [pt(0, -100), pt(0, 0), pt(0, 1000)])).toBe(false);
+    expect(entersRegion(sq, [pt(-100, -100), pt(1000, 1000)])).toBe(true);
+    expect(entersRegion(sq, [pt(-100, 500), pt(500, 500)])).toBe(true);
     // entering through a vertex, no proper crossing: the piece past the vertex is read at its middle
-    expect(entersKerb(sq, [pt(-500, -500), pt(0, 0), pt(500, 500)])).toBe(true);
-    expect(entersKerb(sq, [pt(-500, -500), pt(500, 500)])).toBe(true);
+    expect(entersRegion(sq, [pt(-500, -500), pt(0, 0), pt(500, 500)])).toBe(true);
+    expect(entersRegion(sq, [pt(-500, -500), pt(500, 500)])).toBe(true);
     // a hole (clockwise) is outside the kerb
     const holed: LatticePoint[][] = [sq[0], [pt(300, 300), pt(300, 700), pt(700, 700), pt(700, 300)]];
-    expect(entersKerb(holed, [pt(400, 400), pt(600, 600)])).toBe(false);
-    expect(entersKerb(holed, [pt(400, 400), pt(200, 200)])).toBe(true);
+    expect(entersRegion(holed, [pt(400, 400), pt(600, 600)])).toBe(false);
+    expect(entersRegion(holed, [pt(400, 400), pt(200, 200)])).toBe(true);
   });
 });
