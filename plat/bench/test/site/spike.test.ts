@@ -73,6 +73,9 @@ function riverRings(d: SpikeDerivation): { x: number; y: number }[][] {
   return v.faces().filter((f) => ids.has(v.owner(f) ?? '')).flatMap((f) => v.rings(f).map((r) => r.map((q) => ({ x: q.x as number, y: q.y as number }))));
 }
 
+/** C-0271 (6)'s tolerance, written out here so that a changed WET_DEPTH_CM is caught by the readings, not followed. */
+const TOLERANCE_CM = 2;
+
 /** Even–odd containment over a set of rings (strict; independent of the receipts' locator). */
 function insideRings(rings: readonly (readonly { x: number; y: number }[])[], q: { x: number; y: number }): boolean {
   let c = false;
@@ -326,7 +329,7 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     const v0 = k.view(GROUND, 0);
     const landRings = v0.faces().filter((f) => v0.owner(f) === land).flatMap((f) => v0.rings(f).map((r) => r.map((q) => ({ x: q.x as number, y: q.y as number }))));
     let inside = 0;
-    for (const f of strips) for (const ring of v1.rings(f)) for (const q of ring) if (insideRings(landRings, q) && ringsDist(landRings, q) > WET_DEPTH_CM) inside += 1;
+    for (const f of strips) for (const ring of v1.rings(f)) for (const q of ring) if (insideRings(landRings, q) && ringsDist(landRings, q) > TOLERANCE_CM) inside += 1;
     expect(inside).toBeGreaterThan(0);
     const asWater = { ...water, bodies: [{ ...water.bodies[0], id: land as string }] } as WaterSet;
     const r = waterGateReceipt(k, p, asWater, commit, slice);
@@ -368,7 +371,7 @@ describe('the water-gate receipt\'s own readings: the strip count counts, and th
     const out10 = at(-10);
     expect(insideRings(rings, q1)).toBe(true);
     expect(ringsDist(rings, q1)).toBeGreaterThan(0);
-    expect(ringsDist(rings, q1)).toBeLessThanOrEqual(WET_DEPTH_CM);
+    expect(ringsDist(rings, q1)).toBeLessThanOrEqual(TOLERANCE_CM);
     for (const q of [q10, q50]) {
       expect(insideRings(rings, q)).toBe(true);
       expect(ringsDist(rings, q)).toBeGreaterThan(5);
