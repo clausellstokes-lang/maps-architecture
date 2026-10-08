@@ -7085,3 +7085,6 @@
 2026-10-08 11:58 build/M0-b-03-fix-s2 CHECKPOINT bench old vs new done (all bars HOLD both; shift recorded in C-0288 (4)); choices C-0288 appended (C-0285 was M0-c-04-fix-s1's; comments renumbered); CLEAN-ROOM L-0363; RELATED rerun running; next: install/lint/build/NEAR, landed
 2026-10-08 12:01 build/M0-a-02-fix-s1 CHECKPOINT gates: install 0, lint 0 (1129 files, probe-red ok), build 0, NEAR arena 12 files 98/98; C-0286 and L-0361 appended; RELATED@1000 running; next: verdict, landed
 2026-10-08 12:01 build/M0-a-06-fix-s4 CHECKPOINT choices C-0287 appended, CLEAN-ROOM L-0362 signed; related at 1000 running
+2026-10-08 12:09 build/M0-c-04-fix-s1 CHECKPOINT RELATED@1000 running (W=2; so far 1 red: bench fusion/hausdorff, the known M0-c-06/N-8 red); next: RELATED verdict, landed
+2026-10-08 12:09 build/M0-a-04-fix-s2 CHECKPOINT RELATED@1000 still running (1 red so far = hausdorff, N-8); next: verdict, landed
+2026-10-08 12:11 build/M0-c-01-fix-s1 CHECKPOINT RELATED@1000 still running (75 min; 1 red so far: bench fusion/hausdorff, M0-c-06's known red); choices row drafted; next: RELATED verdict, row + C-id refs, landed
