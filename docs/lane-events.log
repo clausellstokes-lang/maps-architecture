@@ -6838,3 +6838,6 @@
 2026-10-07 22:04 check/M0-e-06-close-r1 CHECKPOINT started: machine id ok, node v24.12.0, fresh (no prior close-r1 lines); next: check file, fix diff, re-run B-1..B-4
 2026-10-07 22:06 check/M0-e-06-close-r1 CHECKPOINT gates: install 0, lint 0 (1118 files, probe-red ok, bench-boundary ok), build 0, landed:verify ok x3; record hashes equal; next: NEAR in tree, mirror close-r1, mutants K13 K16 K16z K38 K39 + new
 2026-10-07 22:10 check/M0-e-06-close-r1 CHECKPOINT NEAR bench/test/site 5 files 66/66 exit 0 (210 s); summary unchanged e2f50113; mirror close-r1 built (0 links out); next: 16 mutants (5 re-runs + 11 new) one at a time
+2026-10-07 22:20 check/M0-e-06-close-r1 CHECKPOINT mutants: K13 K16 K16z K38 killed by the fix's new tests (real assertions); K39 + 11 new running; next: verdict
+2026-10-07 22:24 check/M0-d-09 CHECKPOINT mutants: 15 targeted, 4 killed (P1 P8 P9 MO), 11 survived targeted files (C1 C2 T1 T5 ST1 R4 T8 S2 TP P10 E1); C1/C2 confirmed by a planted-collision probe; survivors re-run on remaining files; X1 (seeds 1..34 cross-host, jobs 3) started beside Y; next: X2/X3, RELATED, verdict
+2026-10-07 22:24 check/M0-x-06 CHECKPOINT 1000-seed run 43/72
