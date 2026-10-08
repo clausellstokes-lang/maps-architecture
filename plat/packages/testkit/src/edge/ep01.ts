@@ -226,6 +226,7 @@ function s6Attempt(kind: DegenerateKind, seed: number): Attempt {
     const committed = run.plant.batches.filter((b) => b.committed).length;
     return { outcome: outcome(committed === 0 ? 'refused-safe' : 'refused-residue', bugs[0].cls, problems, { bugs: bugs.length, s6Batches: run.plant.batches.length, s6Committed: committed }), unmet };
   }
+  if (unmet.length > 0) return { outcome: outcome('absorbed', 'S6: (the state did not stand)', problems), unmet };
   const s6 = run.model.data.get('s6') as S6Output | undefined;
   if (s6 === undefined) return { outcome: outcome('off', 'S6 wrote no record', problems), unmet };
   if (!simpleCcw(s6.perimeter)) problems.push('the perimeter S6 committed is not a simple counter-clockwise ring');

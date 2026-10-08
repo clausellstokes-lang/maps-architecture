@@ -2,6 +2,8 @@
 // (S5d), EP-06 (S6: a single coarse face; a degenerate district face), EP-16's stop-test end (§4.6 step 1), EP-20's M0
 // part (S3 (6), S5a, S5d) and EP-23's M0 part (§4.3's class grade, F-ROUTE's slope rung). Each fixture is the smallest
 // state that reaches its home and asserts the home's stated outcome, its rung "— (defined)" or the rung its row names.
+// A chain-backed row runs on the first of its seed's states that stands (./standing.ts, C-0278 (2)): the stages before
+// its home unrefused and its own precondition met; a refusal or a broken outcome of the home itself is never retried.
 import { attachIndex, createKernel, createPlat, seedKey, streamFromKey, STAGES, type Cm, type Frame, type Hash128, type Kernel, type KernelTx, type LatticePoint, type Plat, type Rng, type Stream } from '@plat/kernel';
 import {
   CLASS_ORDER,
@@ -31,10 +33,11 @@ import type { Terrain, Way } from '@plat/model';
 import { terrainSampler } from '@plat/site';
 import { loadTable } from '@plat/tables';
 import { insetIn, ringBox } from './arena.js';
-import { edgeChain, SMALL_FLAT } from './chain.js';
+import { edgeChain, SMALL_FLAT, type ChainRun, type S5Sub } from './chain.js';
 import { lp } from './kinds.js';
-import { arenaProblems, bugsOf, chainProblems } from './observe.js';
+import { arenaProblems, bugsOf, chainCheck } from './observe.js';
 import { fixtureRandom } from './s8.js';
+import { firstStanding, type Attempt } from './standing.js';
 import { outcome, type EdgeFixture, type EdgeOutcome } from './types.js';
 
 // ---- shared ---------------------------------------------------------------------------------------------------------------
@@ -60,17 +63,36 @@ function counting(s: Stream): { stream: Stream; draws: () => number } {
   return { stream, draws: () => n };
 }
 
+/**
+ * S5's refusal split by where it fell (C-0278 (2)): in the home's sub-stage, a problem of the run; in another sub-stage,
+ * the prepared state did not stand (another sub-stage's typed refusal on the small frame, its owner's).
+ */
+function s5Refusal(run: ChainRun, home: S5Sub, problems: string[], unmet: string[]): void {
+  const r = run.s5.refused;
+  for (const b of bugsOf(run.report, 'S5')) {
+    const where = r === null ? '' : ` at ${r.sub}:${String(r.k)} (${r.detail.slice(0, 120)})`;
+    if (r !== null && r.sub !== home) unmet.push(`the prepared state did not stand: S5 refused ${b.cls}${where}`);
+    else problems.push(`S5 refused ${b.cls}${where}`);
+  }
+}
+
 // ---- EP-04 ----------------------------------------------------------------------------------------------------------------
 
 /** EP-04/S5b (§4.4 S5b): N_k ≤ c adds no primary — no pick, no road, nothing short, and the stream not drawn. */
 function runEp04S5b(seed: number): EdgeOutcome {
+  return firstStanding(seed, ep04S5bAttempt);
+}
+
+function ep04S5bAttempt(seed: number): Attempt {
   const run = edgeChain(seed, { blueprint: SMALL_FLAT, upTo: 'S5' });
-  const problems = chainProblems(run, 'S5', 'S5');
-  for (const b of bugsOf(run.report, 'S5')) problems.push(`S5 refused ${b.cls}`);
+  const c = chainCheck(run, 'S5', 'S5');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
+  s5Refusal(run, 'S5b', problems, unmet);
   const state = run.s5.state;
-  if (state === null) return outcome('off', 'no growth state', [...problems, 'S5 ran no stage']);
+  if (state === null) return { outcome: outcome('off', 'no growth state', problems), unmet: [...unmet, 'S5 ran no stage'] };
   const owed = state.stages.filter((g) => g.k >= 2 && g.boundary !== null && g.count.n <= g.crossings.length);
-  if (owed.length === 0) problems.push('no stage k ≥ 2 with land had N_k ≤ c (the fixture\'s precondition)');
+  if (owed.length === 0) unmet.push('no stage k ≥ 2 with land had N_k ≤ c (the fixture\'s precondition)');
   const slice = run.model.data.get('s3.slice') as S3Slice;
   let calls = 0;
   for (const g of owed) {
@@ -83,11 +105,15 @@ function runEp04S5b(seed: number): EdgeOutcome {
       if (picks.length !== 0 || c.draws() !== 0) problems.push(`spawnPrimaries(N_k ${String(n)} ≤ c ${String(g.crossings.length)}) gave ${String(picks.length)} picks and drew ${String(c.draws())} times`);
     }
   }
-  return outcome('defined', 'S5b: N_k ≤ c adds none', problems, { stages: owed.length, calls });
+  return { outcome: outcome('defined', 'S5b: N_k ≤ c adds none', problems, { stages: owed.length, calls }), unmet };
 }
 
 /** EP-04/S5c (§4.4 S5c): a stage with no seed inside its boundary grows nothing, commits nothing, and says so. */
 function runEp04S5c(seed: number): EdgeOutcome {
+  return firstStanding(seed, ep04S5cAttempt);
+}
+
+function ep04S5cAttempt(seed: number): Attempt {
   const versions = new Map<string, number>();
   let plat: { version: number } | null = null;
   const run = edgeChain(seed, {
@@ -100,9 +126,11 @@ function runEp04S5c(seed: number): EdgeOutcome {
       },
     },
   });
-  const problems = chainProblems(run, 'S5', 'S5');
+  const c = chainCheck(run, 'S5', 'S5');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
   const state = run.s5.state;
-  if (state === null) return outcome('off', 'no growth state', [...problems, 'S5 ran no stage']);
+  if (state === null) return { outcome: outcome('off', 'no growth state', problems), unmet: [...unmet, 'S5 ran no stage'] };
   let none = 0;
   for (const rec of run.s5.growth) {
     const g = state.stages[rec.k - 1];
@@ -113,8 +141,8 @@ function runEp04S5c(seed: number): EdgeOutcome {
     const b = versions.get(`S5d:${String(rec.k)}`);
     if (a === undefined || b === undefined || a !== b) problems.push(`stage ${String(rec.k)}: no seed, yet the arena moved from version ${String(a)} to ${String(b)} across S5c and its prune`);
   }
-  if (none === 0) problems.push('no stage with land had no seed inside its boundary (the fixture\'s precondition)');
-  return outcome('defined', 'S5c: no seed — nothing grown, the record reports seeds 0', problems, { stages: none });
+  if (none === 0) unmet.push('no stage with land had no seed inside its boundary (the fixture\'s precondition)');
+  return { outcome: outcome('defined', 'S5c: no seed — nothing grown, the record reports seeds 0', problems, { stages: none }), unmet };
 }
 
 // ---- EP-05 ----------------------------------------------------------------------------------------------------------------
@@ -125,6 +153,10 @@ function runEp04S5c(seed: number): EdgeOutcome {
  * is floored at 0 (never negative), ONE top-up runs, and the shortfall left is reported.
  */
 function runEp05(seed: number): EdgeOutcome {
+  return firstStanding(seed, ep05Attempt);
+}
+
+function ep05Attempt(seed: number): Attempt {
   let K = 0;
   const run = edgeChain(seed, {
     blueprint: SMALL_FLAT,
@@ -141,11 +173,16 @@ function runEp05(seed: number): EdgeOutcome {
       grow: { demand: { bandsCm2: new Array<number>(bandCount()).fill(5e10) } } as never,
     },
   });
-  const problems = chainProblems(run, 'S5', 'S5');
-  const rec = run.s5.capacity.find((c) => c.k === K);
-  if (rec === undefined) return outcome('off', 'S5d ran no last stage', [...problems, `no S5d record for stage ${String(K)}`]);
+  const c = chainCheck(run, 'S5', 'S5');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
+  s5Refusal(run, 'S5d', problems, unmet);
+  const rec = run.s5.capacity.find((x) => x.k === K);
+  if (rec === undefined) return { outcome: outcome('off', 'S5d ran no last stage', problems), unmet: [...unmet, `no S5d record for stage ${String(K)}`] };
   const covered = rec.check.faces.filter((f) => f.reserved === null && f.reserveCm2 >= f.landCm2 && f.landCm2 > 0);
-  if (covered.length === 0) problems.push('no face of the stage has its reserves covering its land (the fixture\'s precondition)');
+  if (covered.length === 0) unmet.push('no face of the stage has its reserves covering its land (the fixture\'s precondition)');
+  // the home's outcome is judged on a state that stands only (its fail-safety checks above hold on every state)
+  if (unmet.length > 0) return { outcome: outcome('laddered', 'S5d: (the state did not stand)', problems), unmet };
   for (const f of rec.check.faces) {
     if (!(f.builtCm2 >= 0)) problems.push(`face ${f.key}: built land ${String(f.builtCm2)} below 0`);
     if (f.reserved === null && f.reserveCm2 >= f.landCm2 && f.builtCm2 !== 0) problems.push(`face ${f.key}: reserves ${String(f.reserveCm2)} cover land ${String(f.landCm2)}, built ${String(f.builtCm2)} not floored at 0`);
@@ -159,7 +196,7 @@ function runEp05(seed: number): EdgeOutcome {
   if (!(rec.shortfallCm2 > 0) || last === undefined || last.rung !== 'accept_shortfall' || last.why !== 'remainder' || last.shortfallCm2 !== rec.shortfallCm2) {
     problems.push(`the shortfall left (${String(rec.shortfallCm2)} cm²) is not reported as accept_shortfall remainder: ${JSON.stringify(rec.rungs)}`);
   }
-  return outcome('laddered', 'S5d: built land floored at 0 → one top-up → the shortfall reported', problems, { covered: covered.length, shortfallCm2: Math.round(rec.shortfallCm2) });
+  return { outcome: outcome('laddered', 'S5d: built land floored at 0 → one top-up → the shortfall reported', problems, { covered: covered.length, shortfallCm2: Math.round(rec.shortfallCm2) }), unmet };
 }
 
 // ---- EP-06 ----------------------------------------------------------------------------------------------------------------
@@ -354,14 +391,29 @@ export const EP20_BLUEPRINT = Object.freeze({ ...SMALL_FLAT, size: Object.freeze
  * is M1's list, written [] at M0 — C-0224 (7)).
  */
 function runEp20(seed: number): EdgeOutcome {
+  return firstStanding(seed, ep20Attempt);
+}
+
+function ep20Attempt(seed: number): Attempt {
   const run = edgeChain(seed, { blueprint: EP20_BLUEPRINT, upTo: 'S5' });
-  const problems = chainProblems(run, 'S5', 'S5');
-  for (const b of run.report.bugs) problems.push(`${b.stage} refused ${b.cls}`);
+  // the home is S3 (6), S5a and S5d: S3's or S5's refusal is a problem; S1's or S4's, the prepared state not standing
+  const c = chainCheck(run, 'S5', 'S1');
+  const problems = [...c.problems];
+  const unmet: string[] = [];
+  for (const b of run.report.bugs) {
+    const line = `${b.stage} refused ${b.cls} (${run.refusals.get(b.stage)?.detail.slice(0, 120) ?? ''})`;
+    if (b.stage === 'S1' || b.stage === 'S4') unmet.push(`the prepared state did not stand: ${line}`);
+    else problems.push(line);
+  }
   const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
   const commit = run.model.data.get('s3.commit') as S3Commit | undefined;
   const state = run.s5.state;
-  if (slice === undefined || commit === undefined || state === null) return outcome('off', 'the chain stopped', [...problems, 'no slice, commit or growth state']);
-  if (!slice.threshold.capped) problems.push('t₁ was not capped (the fixture\'s precondition: less reachable land than stage 1 asks)');
+  if (slice === undefined || commit === undefined || state === null) {
+    if (unmet.length === 0) problems.push('no slice, commit or growth state');
+    return { outcome: outcome('off', 'the chain stopped', problems), unmet };
+  }
+  if (!slice.threshold.capped) unmet.push('t₁ was not capped (the fixture\'s precondition: less reachable land than stage 1 asks)');
+  if (unmet.length > 0) return { outcome: outcome('laddered', 'EP-20: (the state did not stand)', problems), unmet };
   if (!(slice.threshold.shortfallCm2 > 0) || slice.report.shortfallCm2 !== slice.threshold.shortfallCm2) problems.push(`the shortfall ${String(slice.threshold.shortfallCm2)} cm² is not S3's reported ${String(slice.report.shortfallCm2)}`);
   const box = ringBox(slice.site.frameRing);
   const outlineInset = insetIn(slice.levelSet.outline, box);
@@ -376,7 +428,8 @@ function runEp20(seed: number): EdgeOutcome {
     if (g.boundary !== null || g.foldedInto !== last) problems.push(`stage ${String(g.k)} has ${g.boundary === null ? 'no land' : 'land'} and folds into ${String(g.foldedInto)}, not the last stage with land ${String(last)}`);
     else folded += 1;
   }
-  if (folded === 0) problems.push('no stage folded (the fixture\'s precondition)');
+  if (folded === 0) unmet.push('no stage folded (the fixture\'s precondition)');
+  if (unmet.length > 0) return { outcome: outcome('laddered', 'EP-20: (the state did not stand)', problems), unmet };
   const quota = slice.site.land.stagesHa.slice(last).reduce((a, b) => a + b, 0);
   if (Math.abs((state.folded[last - 1] ?? 0) - quota) > 1e-6) problems.push(`the folded quota ${String(state.folded[last - 1])} ha is not the later stages' ${String(quota)} ha`);
   for (const c of run.s5.capacity) {
@@ -387,7 +440,7 @@ function runEp20(seed: number): EdgeOutcome {
     }
   }
   if (run.report.requestedVsBuilt.length !== 0) problems.push('requestedVsBuilt written at M0 (M1\'s list, C-0224 (7))');
-  return outcome('laddered', 'EP-20: the capped level set (simpler shape) → the shortfall reported (F-BUDGET-STAGE)', problems, { folded, shortfallHa: Math.round(slice.threshold.shortfallCm2 / 1e4) / 1e4, outlineInsetCm: outlineInset, traceInsetCm: traceInset });
+  return { outcome: outcome('laddered', 'EP-20: the capped level set (simpler shape) → the shortfall reported (F-BUDGET-STAGE)', problems, { folded, shortfallHa: Math.round(slice.threshold.shortfallCm2 / 1e4) / 1e4, outlineInsetCm: outlineInset, traceInsetCm: traceInset }), unmet };
 }
 
 // ---- EP-23 ----------------------------------------------------------------------------------------------------------------
@@ -425,7 +478,8 @@ function runEp23(seed: number): EdgeOutcome {
   // S1 on the relief through the runner; S3's slice (M0-c-01's s3Slice) on the flat fixture's site with S1's terrain —
   // the slice is data, its lattice the one §4.3 builds once (S3's commits are not this row's home)
   const run = edgeChain(seed, { blueprint: RELIEF_3000, upTo: 'S1' });
-  const problems = chainProblems(run, 'S1', 'S1');
+  const c = chainCheck(run, 'S1', 'S1');
+  const problems = [...c.unmet, ...c.problems];
   const terrain = run.model.data.get('terrain') as Terrain | undefined;
   if (terrain === undefined) return outcome('off', 'no terrain', [...problems, 'S1 wrote no terrain']);
   const fixture = flatFixture(seed, { frameAreaHa: 30, walledHa: 6 });

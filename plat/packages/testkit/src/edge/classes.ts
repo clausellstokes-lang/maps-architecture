@@ -17,7 +17,7 @@ import { loadWorkLimits, type WorkLimitsTable } from '@plat/tables';
 import { CONSTRUCTIVE_SET } from '../constructive/set.js';
 import type { ConstructiveCase } from '../constructive/types.js';
 import { judgeOnKernel } from '../invariants/constructive.js';
-import { ep01Known, ep01Pinned, runEp01, type Ep01Stage } from './ep01.js';
+import { ep01Known, ep01Pinned, ep01Residue, runEp01, type Ep01Stage } from './ep01.js';
 import { DEGENERATE_KINDS, type DegenerateKind } from './kinds.js';
 import { outcome, type EdgeFixture, type EdgeOutcome } from './types.js';
 
@@ -92,6 +92,7 @@ export function classFixtures(): EdgeFixture[] {
     for (const kind of DEGENERATE_KINDS) {
       const stage = cls === 'F-SKELETON' || cls === 'F-NUM' ? null : CLASS_STAGE[cls];
       const pinned = stage === null ? undefined : ep01Pinned(stage, kind);
+      const residue = stage === null ? undefined : ep01Residue(stage, kind);
       const known = stage === null ? null : ep01Known(stage, kind);
       out.push({
         id: `class/${cls}/${kind}`,
@@ -99,8 +100,9 @@ export function classFixtures(): EdgeFixture[] {
         run: (seed) => runClassCell(cls, kind, seed),
         expect: {
           outcome: `${cls}, ${kind}: refused by the kernel (or taken by §3.11's rule) and taken on ${cls}'s ladder, the rung named in the report; never a crash, hang, invalid output or whole-map retry`,
-          allowed: pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
+          allowed: residue !== undefined ? ['refused-residue'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
           ...(pinned === undefined || known === null ? {} : { refusal: { codes: pinned, known } }),
+          ...(residue === undefined || known === null ? {} : { residue: { codes: residue, known } }),
           ...(cls === 'F-WORK' ? { judge: (o: EdgeOutcome) => (typeof o.facts.workCut === 'string' && o.facts.workCut.startsWith('work_cut') ? null : 'F-WORK: the coarser rung (work_cut) was not taken') } : {}),
         },
       });

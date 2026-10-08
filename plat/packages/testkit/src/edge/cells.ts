@@ -13,6 +13,8 @@
 //   wall × frame    "the trace stays inside the frame (S3's lattice; a frame arc inset by the outer wall strip)" — on
 //                   EP-20's capped state, whose stage-1 boundary meets the frame: every trace and strip vertex inside the
 //                   frame (M0's strips are cut at the map border, C-0226; the inset clause is read in C-0273 (9)).
+// Each cell runs on the first of its seed's states that stands (./standing.ts, C-0278 (2)): the stages before its home
+// unrefused, its water body or frame arc present; the home's outcome on that state is never retried.
 import { checkCI, type Plat } from '@plat/kernel';
 import type { Bridge } from '@plat/model';
 import { routeGraph, stripWidths, type S3Slice } from '@plat/layout';
@@ -20,9 +22,10 @@ import { hydroGridOver, hydroParams, rasterGeom, type S1Output } from '@plat/sit
 import { tableView } from '@plat/tables';
 import { deckEnds, inBox, insetIn, liveEdges, liveVertices, marginBox, ringBox, roleVertices } from './arena.js';
 import { edgeChain, SMALL_RIVER } from './chain.js';
-import { chainProblems, groundOf } from './observe.js';
+import { bugsOf, chainCheck, groundOf } from './observe.js';
 import type { PlantCall } from './plant.js';
 import { EP20_BLUEPRINT, RELIEF_3000 } from './rows.js';
+import { firstStanding, type Attempt } from './standing.js';
 import { outcome, type EdgeFixture, type EdgeOutcome } from './types.js';
 
 /** The shipped tables (S1 reads the same view). */
@@ -57,14 +60,26 @@ function recorded(calls: PlantCall[]): { kind: 'zero-length'; select: (c: PlantC
 
 /** cliff × frame's M0 part (see the header). */
 function runCliffFrame(seed: number): EdgeOutcome {
+  return firstStanding(seed, cliffAttempt);
+}
+
+/** S1 refusing the frame's whole water batch, unplanted: the state did not stand (S1's typed refusal, M0-e-03's). */
+function s1Refused(run: ReturnType<typeof edgeChain>): string[] {
+  return bugsOf(run.report, 'S1').map((b) => `S1 refuses this frame unplanted: ${b.cls} (${run.refusals.get('S1')?.detail.slice(0, 120) ?? ''})`);
+}
+
+function cliffAttempt(seed: number): Attempt {
   const calls: PlantCall[] = [];
   const run = edgeChain(seed, { blueprint: RELIEF_CLIFF, upTo: 'S1', plant: { stage: 'S1', plant: recorded(calls) } });
-  const problems = chainProblems(run, 'S1', 'S1');
+  const c = chainCheck(run, 'S1', 'S1');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet, ...s1Refused(run)];
+  if (unmet.length > 0) return { outcome: outcome('defined', 'cliff × frame: (the state did not stand)', problems), unmet };
   const s1 = run.model.data.get('s1') as S1Output | undefined;
-  if (s1 === undefined) return outcome('off', 'S1 wrote no record', [...problems, 'no S1 output']);
+  if (s1 === undefined) return { outcome: outcome('off', 'S1 wrote no record', [...problems, 'no S1 output']), unmet };
   const p = groundOf(run);
   const box = marginBox(p);
-  if (box === null) return outcome('off', 'no outer ring', [...problems, 'the arena holds no margin ring']);
+  if (box === null) return { outcome: outcome('off', 'no outer ring', [...problems, 'the arena holds no margin ring']), unmet };
   // the rasters: frame + margin, and nothing beyond (less than one cell past the ring on each side)
   const t = s1.terrain;
   const r = rasterGeom(t);
@@ -95,31 +110,46 @@ function runCliffFrame(seed: number): EdgeOutcome {
     if (!inBox(e.a, box) || !inBox(e.b, box)) problems.push('a shore or bank edge lies beyond the outer ring');
   }
   for (const d of roleVertices(p, 'deck_end')) if (!inBox(d, box)) problems.push(`the deck end of ${d.entity} lies beyond the outer ring`);
-  return outcome('defined', 'cliff × frame: clipped at the outer ring by S1 (the drawn clause: M1)', problems, { bodies: s1.water.bodies.length, cliffStepCm: Math.round(step) });
+  return { outcome: outcome('defined', 'cliff × frame: clipped at the outer ring by S1 (the drawn clause: M1)', problems, { bodies: s1.water.bodies.length, cliffStepCm: Math.round(step) }), unmet };
 }
 
 /** river × frame (see the header). */
 function runRiverFrame(seed: number): EdgeOutcome {
+  return firstStanding(seed, riverAttempt);
+}
+
+function riverAttempt(seed: number): Attempt {
   const run = edgeChain(seed, { blueprint: SMALL_RIVER, upTo: 'S1' });
-  const problems = chainProblems(run, 'S1', 'S1');
+  const c = chainCheck(run, 'S1', 'S1');
+  const problems = [...c.problems];
+  // the cell's subject is a water body reaching the ring: S1 refusing the water batch whole leaves none (C-0278 (2))
+  const unmet = [...c.unmet, ...s1Refused(run)];
+  if (unmet.length > 0) return { outcome: outcome('defined', 'river × frame: (the state did not stand)', problems), unmet };
   const p = groundOf(run);
   const box = marginBox(p);
-  if (box === null) return outcome('off', 'no outer ring', [...problems, 'the arena holds no margin ring']);
+  if (box === null) return { outcome: outcome('off', 'no outer ring', [...problems, 'the arena holds no margin ring']), unmet };
   let shared = 0;
   for (const e of liveEdges(p)) if (e.roles.some((x) => x.role === 'margin') && e.roles.some((x) => x.role === 'shore')) shared += 1;
   if (shared === 0) problems.push('the river reaching the outer ring shares no edge with it (one edge, both roles)');
   const decks = roleVertices(p, 'deck_end');
   for (const d of decks) if (!inBox(d, box)) problems.push(`the deck end of ${d.entity} lies beyond the outer ring`);
-  return outcome('defined', 'river × frame: one edge both roles; no deck end beyond the ring', problems, { sharedEdges: shared, deckEnds: decks.length });
+  return { outcome: outcome('defined', 'river × frame: one edge both roles; no deck end beyond the ring', problems, { sharedEdges: shared, deckEnds: decks.length }), unmet };
 }
 
 /** bridge × frame (see the header). */
 function runBridgeFrame(seed: number): EdgeOutcome {
+  return firstStanding(seed, bridgeAttempt);
+}
+
+function bridgeAttempt(seed: number): Attempt {
   const run = edgeChain(seed, { blueprint: SMALL_RIVER, upTo: 'S4' });
-  const problems = chainProblems(run, 'S4', 'S4');
+  const c = chainCheck(run, 'S4', 'S4');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
+  if (unmet.length > 0) return { outcome: outcome('defined', 'bridge × frame: (the state did not stand)', problems), unmet };
   const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
   const bridges = run.model.data.get('bridges') as readonly Bridge[] | undefined;
-  if (slice === undefined || bridges === undefined) return outcome('off', 'no bridges', [...problems, 'S4 wrote no bridges']);
+  if (slice === undefined || bridges === undefined) return { outcome: outcome('off', 'no bridges', [...problems, 'S4 wrote no bridges']), unmet };
   const frame = ringBox(slice.site.frameRing);
   // S1 sites crossings on every reach, the margin's included (§4.2 S1 (5)); a site becomes a bridge only when a way lays
   // its span (S4 routes through its two ends as a fixed graph edge, §4.3). The cell's meeting: a site whose deck end lies
@@ -144,16 +174,23 @@ function runBridgeFrame(seed: number): EdgeOutcome {
     if (b.state === 'built') problems.push(`${b.id} (built): a deck end lies outside the frame`);
     if (routable.has(b.id)) problems.push(`${b.id}: a deck end lies outside the frame, yet S4 can span it`);
   }
-  if (beyond === 0) problems.push("no crossing site's deck end lies beyond the frame (the fixture's precondition: the river crosses the margin)");
-  return outcome('defined', 'bridge × frame: a site beyond the frame never spanned; every deck S4 can span, and every built span, inside the frame', problems, { sites: bridges.length, beyond, routable: routable.size, built });
+  if (beyond === 0) unmet.push("no crossing site's deck end lies beyond the frame (the fixture's precondition: the river crosses the margin)");
+  return { outcome: outcome('defined', 'bridge × frame: a site beyond the frame never spanned; every deck S4 can span, and every built span, inside the frame', problems, { sites: bridges.length, beyond, routable: routable.size, built }), unmet };
 }
 
 /** wall × frame (see the header). */
 function runWallFrame(seed: number): EdgeOutcome {
+  return firstStanding(seed, wallAttempt);
+}
+
+function wallAttempt(seed: number): Attempt {
   const run = edgeChain(seed, { blueprint: EP20_BLUEPRINT, upTo: 'S5' });
-  const problems = chainProblems(run, 'S5', 'S5');
+  const c = chainCheck(run, 'S5', 'S5');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
+  if (unmet.length > 0) return { outcome: outcome('defined', 'wall × frame: (the state did not stand)', problems), unmet };
   const slice = run.model.data.get('s3.slice') as S3Slice | undefined;
-  if (slice === undefined) return outcome('off', 'no slice', [...problems, 'S3 wrote no slice']);
+  if (slice === undefined) return { outcome: outcome('off', 'no slice', [...problems, 'S3 wrote no slice']), unmet };
   const frame = ringBox(slice.site.frameRing);
   const p: Plat = groundOf(run);
   const wall: { x: number; y: number }[] = [];
@@ -170,11 +207,11 @@ function runWallFrame(seed: number): EdgeOutcome {
   // the rim inset, as EP-20 reads it) — the trace then follows it, wherever its inset lands (C-0273 (9))
   const reach = 2 * slice.lattice.spacingCm + slice.lattice.rimInsetCm;
   const outlineInset = insetIn(slice.levelSet.outline, frame);
-  if (!(outlineInset <= reach)) problems.push(`the stage-1 boundary keeps ${String(outlineInset)} cm off the frame (more than ${String(reach)} cm): no frame arc`);
+  if (!(outlineInset <= reach)) unmet.push(`the stage-1 boundary keeps ${String(outlineInset)} cm off the frame (more than ${String(reach)} cm): no frame arc`);
   if (!(traceInset >= 0)) problems.push(`the trace leaves the frame (inset ${String(traceInset)} cm)`);
   if (!(stripInset >= 0)) problems.push(`a strip line leaves the frame (inset ${String(stripInset)} cm)`);
   for (const r of checkCI(p)) if (r.class === 'hard' && !r.holds) problems.push(`the arena fails ${r.name}`);
-  return outcome('defined', 'wall × frame: the trace and its strips inside the frame', problems, { outlineInsetCm: outlineInset, traceInsetCm: traceInset, stripInsetCm: Number.isFinite(stripInset) ? stripInset : -1, outerStripCm: outer });
+  return { outcome: outcome('defined', 'wall × frame: the trace and its strips inside the frame', problems, { outlineInsetCm: outlineInset, traceInsetCm: traceInset, stripInsetCm: Number.isFinite(stripInset) ? stripInset : -1, outerStripCm: outer }), unmet };
 }
 
 /** The four frame cells. */

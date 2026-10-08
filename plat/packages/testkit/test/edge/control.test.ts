@@ -47,6 +47,20 @@ describe('the negative controls', () => {
     expect(judgeEdgeOutcome(pinned, 7, { ...rs, handling: 'off' })).toMatch(/handled off/);
     expect(judgeEdgeOutcome(pinned, 7, { ...rs, rung: 'E_DEGENERATE', problems: ['p'] })).toBe('c/x at seed 7: p');
   });
+
+  it('the judge: a refused-residue outcome passes only where pinned as a residue, with a pinned code (C-0278 (1))', () => {
+    const rr: EdgeOutcome = { handling: 'refused-residue', rung: 'E_INVARIANT', problems: [], facts: {} };
+    const open: EdgeFixture = { id: 'c/y', home: 'h', run: () => ok, expect: { outcome: 'o', allowed: ['refused-residue'] } };
+    expect(judgeEdgeOutcome(open, 3, rr)).toBe('c/y at seed 3: refused after its batch committed (the planted geometry stays, no record) with no pinned residue');
+    // a refused-safe pin does not admit a residue
+    const safeOnly: EdgeFixture = { ...open, expect: { ...open.expect, allowed: ['refused-safe', 'refused-residue'], refusal: { codes: ['E_INVARIANT'], known: 'KI' } } };
+    expect(judgeEdgeOutcome(safeOnly, 3, rr)).toMatch(/with no pinned residue$/);
+    const pinned: EdgeFixture = { ...open, expect: { ...open.expect, residue: { codes: ['E_INVARIANT'], known: 'KI residue' } } };
+    expect(judgeEdgeOutcome(pinned, 3, rr)).toBeNull();
+    expect(judgeEdgeOutcome(pinned, 3, { ...rr, rung: 'E_DEGENERATE' })).toMatch(/^c\/y at seed 3: refused E_DEGENERATE after commit, pinned E_INVARIANT/);
+    // a residue pin is not a refused-safe pin: a rolled-back refusal on a residue-only cell is off its allowed set
+    expect(judgeEdgeOutcome(pinned, 3, { ...rr, handling: 'refused-safe' })).toMatch(/handled refused-safe/);
+  });
 });
 
 describe('the restart assertion (EP-01: never a whole-map retry)', () => {
@@ -117,7 +131,7 @@ describe("the harness's pieces leave the base's run unchanged (the real stages, 
 
 describe('the numbers-only summary (C-0067)', () => {
   it('carries counts only, per fixture the seed count and the outcome counts, replacing a summary at another size', () => {
-    const run: FixtureRun = { id: 'EP-16/stop-test', seeds: 3, counts: { absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, defined: 3, off: 0, crash: 0, hang: 0, offOutcome: 0 }, failures: [], rungs: { 'a rung': 3 } };
+    const run: FixtureRun = { id: 'EP-16/stop-test', seeds: 3, counts: { absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, 'refused-residue': 0, defined: 3, off: 0, crash: 0, hang: 0, offOutcome: 0 }, failures: [], rungs: { 'a rung': 3 } };
     const s = mergeSummary(null, [run], 3);
     expect(s.seedsPerFixture).toBe(3);
     expect(s.fixtures['EP-16/stop-test']).toEqual({ seeds: 3, ...run.counts });

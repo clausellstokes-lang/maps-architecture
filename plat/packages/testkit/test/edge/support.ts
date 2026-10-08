@@ -25,7 +25,7 @@ export interface FixtureRun {
 }
 
 function zero(): FixtureRun['counts'] {
-  return { absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, defined: 0, off: 0, crash: 0, hang: 0, offOutcome: 0 };
+  return { absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, 'refused-residue': 0, defined: 0, off: 0, crash: 0, hang: 0, offOutcome: 0 };
 }
 
 /** Runs a fixture at its first `n` seeds (default PLAT_EDGE_SEEDS) and judges every run. */
@@ -102,7 +102,7 @@ export function mergeSummary(prev: EdgeSummary | null, runs: readonly FixtureRun
   for (const r of runs) fixtures[r.id] = summaryCounts(r);
   const sorted: Record<string, SummaryCounts> = {};
   for (const k of Object.keys(fixtures).sort()) sorted[k] = fixtures[k];
-  const totals = { fixtures: 0, seeds: 0, absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, defined: 0, off: 0, crash: 0, hang: 0, offOutcome: 0 };
+  const totals = { fixtures: 0, seeds: 0, absorbed: 0, laddered: 0, 'left-out': 0, 'refused-safe': 0, 'refused-residue': 0, defined: 0, off: 0, crash: 0, hang: 0, offOutcome: 0 };
   for (const c of Object.values(sorted)) {
     totals.fixtures += 1;
     for (const k of Object.keys(c) as (keyof SummaryCounts)[]) totals[k] += c[k];
