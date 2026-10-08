@@ -5,7 +5,7 @@
   "lanes": ["check/M0-d-09", "check/M0-d-09-close-r1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-08T11:34:29.041Z",
+  "date": "2026-10-08T18:18:28.939Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-d-09.md"],
   "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
