@@ -6992,3 +6992,5 @@
 2026-10-08 07:34 check/M0-d-09-close-r1 LANDED plat/docs/build/checks/M0-d-09.md plat/docs/build/checks/M0-d-09-notes.md (rows 9-10) plat/docs/build/landed/check-M0-d-09.json plat/docs/build/landed/check-M0-d-09-notes.json plat/CLEAN-ROOM.md (L-0355) — verdict PASS: B-1..B-5 fixed (C1 C2 T1 T5 ST1 R4 S2 T8 and variants C3 C4 T1b RD1 RP1 R4b T8b killed, 15/16); gates install 0, lint 0 probe-red ok, build 0, NEAR 9 files 51/51, RELATED@1000 9 files 51/51, landed:verify ok; notes: T5b (records mismatch wiring untested, M4), fusion test-frame reroll unmoved confirmed (session)
 2026-10-08 07:36 build/M0-c-02-fix-s1 CHECKPOINT RELATED at 1000 still running (1 red so far: bench fusion/hausdorff, known M0-c-06/N-52 red); next: NEAR, landed
 2026-10-08 07:43 build/M0-a-11-fix-s2 CHECKPOINT RELATED at 1000 still running (one red so far: bench hausdorff.test.ts, M0-c-06's listed red); next: RELATED verdict, landed
+2026-10-08 07:53 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 21/72 fixtures done; next: finish run, landed record
+2026-10-08 07:53 check/M0-a-04-close-s1 CHECKPOINT RELATED still running (1 red so far = N-8); next: RELATED verdict, records
