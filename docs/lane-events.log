@@ -6876,3 +6876,4 @@
 2026-10-08 00:50 build/M0-a-09-fix-s1 CHECKPOINT choices C-0277 and CLEAN-ROOM L-0344 appended; mirror plat deleted (logs kept until related ends); related at PR size running (W=4)
 2026-10-08 00:52 check/M0-d-09 CHECKPOINT X1 on its workers-on legs; Y tasks continuing
 2026-10-08 00:59 check/M0-x-06 CHECKPOINT redo of EP-05/bridge at 1000 running; failure table built; next: crash replay, related run, verdict
+2026-10-08 01:02 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running; next: RELATED verdict, LANDED
