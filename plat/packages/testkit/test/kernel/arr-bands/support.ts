@@ -12,10 +12,13 @@ import {
   corridorUnion,
   createPlat,
   faceRings,
+  faceWalk,
   insertChain,
   isFaceLive,
   kerb,
+  roleIdOf,
   routeLines,
+  rowsOn,
   setOwner,
   tileRings,
   tx,
@@ -320,8 +323,8 @@ export interface CorridorOurs {
   readonly spines: LatticePoint[][];
   /** Each spine's half-width (way:0's the case's; a width step's way:1 its own). */
   readonly spineHw: number[];
-  /** Our built block faces (L2 blocks and whole L1 faces), each one region. */
-  readonly blockFaces: number;
+  /** The committed corridor_split edges with a built block on both sides (N-52 (2): a split never cuts a block). */
+  readonly splitsInBlocks: string[];
 }
 
 function ringsAt(p: Plat, level: 1 | 2, f: FaceId): Ring[] {
@@ -427,11 +430,40 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
       spineHw.push(hwOf(entity));
     }
   }
-  // a width step's F: way:1's route (ring[0] → J) then way:0's (J → ring[0]), as the arena committed them
+  // a width step's F: way:1's route (ring[0] – J) and way:0's (J – ring[0]) joined end to end, as the arena committed
+  // them (a route runs either way), counter-clockwise
   const w0 = open['way:0'];
   const w1 = open['way:1'];
-  if (c.step !== undefined && w0 !== undefined && w1 !== undefined) face = [...w1.slice(0, -1), ...w0.slice(0, -1)];
-  return { blocks, bands, warnings, face, spines, spineHw, blockFaces: v.blocks.length + v.whole.length };
+  if (c.step !== undefined && w0 !== undefined && w1 !== undefined) {
+    const same = (u: LatticePoint, w: LatticePoint): boolean => u.x === w.x && u.y === w.y;
+    let a = w1.slice();
+    let b = w0.slice();
+    if (same(a[0], b[0])) a = a.reverse();
+    else if (same(a[a.length - 1], b[b.length - 1])) b = b.reverse();
+    else if (same(a[0], b[b.length - 1])) [a, b] = [b, a];
+    face = ccwRing([...a.slice(0, -1), ...b.slice(0, -1)]);
+  }
+  return { blocks, bands, warnings, face, spines, spineHw, splitsInBlocks: splitsInBlocks(p, v.blocks) };
+}
+
+/**
+ * The corridor_split edges of the batch's level (L2) whose two sides are both built blocks — a split laid across a
+ * block (N-52 (2)); each as "x,y-x,y". A split lies in the band (§3.7), so a block may border one only where the split
+ * shares the kerb's stretch.
+ */
+function splitsInBlocks(p: Plat, blocks: readonly FaceId[]): string[] {
+  const split = roleIdOf('corridor_split');
+  const side = new Map<number, FaceId>();
+  for (const b of blocks) for (const ring of faceWalk(p, 2, b)) for (const h of ring) side.set(h, b);
+  const out: string[] = [];
+  const O = p.halfEdges.origin;
+  for (const [h, b] of side) {
+    const o = side.get(h ^ 1);
+    if (o === undefined || o === b || (h & 1) === 1) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === split)) continue;
+    out.push(`${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+  }
+  return out;
 }
 
 /**
@@ -511,13 +543,6 @@ export function loopsOf(ring: readonly LatticePoint[]): LatticePoint[][] {
   return loops;
 }
 
-/** Twice a ring's signed area (doubles; the sign is what is read). */
-function ringArea2(r: readonly { x: number; y: number }[]): number {
-  let s = 0;
-  for (let i = 0; i < r.length; i += 1) s += r[i].x * r[(i + 1) % r.length].y - r[(i + 1) % r.length].x * r[i].y;
-  return s;
-}
-
 /** Our band faces united by the engine's own boolean (adjacent strips and wedges as one region, the comparison's form). */
 export function unitedBy(rings: readonly Ring[], e: OracleEngine): Ring[] | null {
   if (rings.length === 0) return [];
@@ -563,16 +588,9 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
     return;
   }
   judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings, c);
-  // N-52 (2): a corridor_split never cuts a block — at a width step where nothing moved, each piece of the oracle's
-  // kerb is one block face of ours (a far split across the block leaves the region whole but in two faces)
-  if (c.step !== undefined && !attracted) {
-    h.notes['width-step-unattracted'] = (h.notes['width-step-unattracted'] ?? 0) + 1;
-    const k = oracleKerb(ours, c.hw, 'clipper2');
-    if (k.ok) {
-      const pieces = k.rings.filter((r) => ringArea2(r) > 0).length;
-      if (pieces !== ours.blockFaces) keep(h, `corridorUnion ${c.source}: ${String(ours.blockFaces)} block faces for the oracle kerb's ${String(pieces)} pieces INPUT ${JSON.stringify(c).slice(0, 2000)}`);
-    }
-  }
+  // N-52 (2): a corridor_split never cuts a block, attracted or not — a far split across the block leaves the blocks'
+  // region whole (the area comparison cannot see it) but in two faces with the split between them
+  if (ours.splitsInBlocks.length > 0) keep(h, `corridorUnion ${c.source}: corridor_split edges between two built blocks ${ours.splitsInBlocks.join(' ')} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
   judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings, c);
 }
 
