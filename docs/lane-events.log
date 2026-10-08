@@ -6996,3 +6996,6 @@
 2026-10-08 07:53 check/M0-a-04-close-s1 CHECKPOINT RELATED still running (1 red so far = N-8); next: RELATED verdict, records
 2026-10-08 07:56 build/M0-c-02-fix-s1 CHECKPOINT RELATED at 1000 still running; waiting
 2026-10-08 08:03 build/M0-a-11-fix-s2 CHECKPOINT RELATED at 1000 still running; next: RELATED verdict, landed
+2026-10-08 08:13 check/M0-a-04-close-s1 CHECKPOINT RELATED still running; next: RELATED verdict, records
+2026-10-08 08:13 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 25/72 fixtures done; next: finish run, landed record
+2026-10-08 08:14 build/M0-a-11-fix-s2 CHECKPOINT RELATED at 1000 still running; next: RELATED verdict, landed
