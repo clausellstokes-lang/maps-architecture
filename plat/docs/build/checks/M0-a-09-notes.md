@@ -87,3 +87,52 @@ Lane `check/M0-a-09`, 2026-10-06. These notes do not fail the item (J180, N-45).
     (M0-a-05's) may move them by a lattice step. That is a re-pin with its cause stated, not a defect of this item. The
     S8 ≡ S9 line (`:166`) is coordinate-free and carries the contract. Note 12's vacuous line has moved to
     `kerb.test.ts:204`.
+
+## Closing check of session fix round S1 (lane `check/M0-a-09-close-s1`, 2026-10-08)
+
+The mutant ids (X…) and the differential probe are defined in `checks/M0-a-09-s1.md`. The blockers of this check are
+there. These rows do not fail the item (N-45).
+
+20. **X01 / X04 / X06 — the corner flag's reach and the corner vertex's reach are each redundant to within
+    `attractCm`.** Removing the reach from `junctionsOf`'s corner flag (X01), putting the flag back to the orient2d sign
+    (X04), or accepting the corner's kerb vertex wherever it lies (X06) each changes 1 of the probe's 4 977 faces, and
+    every split drawn stays within its junction's reach: the other check catches the rest. Each one alone is equivalent
+    up to an `attractCm` margin. Together (X07) they are not; X07 is a blocker in the s1 file. Hardening (M4): none
+    owed beyond the s1 file's reach pin.
+21. **X11 — the spliced kerb point is left in the kerb when the guard drops its chain.** The mutant keeps the vertex.
+    It changes the kerb's vertex list on 385 of the 4 977 faces, by a dent of at most the hot pixel (the snapped point
+    sits ≤ 0.71 cm off the kerb edge; for example chord case 43 face 3 keeps `3253,3690` on the edge
+    `0,404 – 3274,3711`). S8 and S9 read the same function, so they still agree. Suggested hardening (M4): a fixture
+    where the guard fires (chord case 43 face 3 of the probe) asserting the kerb equals the kerb with no splice.
+22. **KI (N-45) — a junction whose corner chain the guard drops gets no split at all.** After `entersRegion` rejects
+    a corner chain, `splitChain` does not try the straight-through aim, so the junction draws nothing. The strips of
+    the two streets and the corner's wedge then commit as one band face. The blocks stay exact. This row records the
+    quality side; s1 file line 4 covers the record. Repro: chord case 43 face 3. The kerb's acute tip
+    `3274,3711` lies 29.5 cm from the inner edges' meeting point `3253.7,3689.6`, which is beyond `attractCm`, so the
+    splice lands on the edge 29 cm short of the tip and the wedge crosses the tip. Suggested handling: retry the
+    straight-through aim after a guard drop, or take the kerb's own vertex nearest the meeting point within reach.
+    Milestone: the M0 hardening phase (J237/J238), because it touches S9's band partition before M1 reads it.
+23. **Note 22 is closed by C-0281 (1); the residue is counted (check/M0-a-09-close-s2).** `splitChain` now tries the
+    next target after the guard drops a candidate, and chord case 43 face 3 draws `3915,3645 3241,3677` (pinned in
+    `widthstep.test.ts`). This seat's instrumented mirror on the s1 probe's 4 977 faces counted 13 316 junctions, 664
+    dropped candidates (471 by the guard, 193 that snap to one point), 449 junctions drawn by a later target and 100
+    junctions with no split after a candidate. Of those 100, 92 had only collapsed candidates (the kerb passes through
+    J, C-0281 (2)) and 8 had every target dropped by the guard. Fusion seed 1 at CITY: 3 guard drops, all 3 redrawn;
+    integrated seed 1 at the test size: none. The blocks stay exact at the 100. Milestone: the M0 hardening phase
+    (J237/J238), as C-0281 (1) records.
+24. **XR1 — the retry after the first corner target is not pinned (check/M0-a-09-close-s2).** The mutant returns no
+    split when the guard drops the wedge through the kerb's own vertex near the meeting point (C-0281 (1), target (i)),
+    instead of trying the spliced point and the straight-through aim. It survives `kernel/test/arr/bands`
+    (widthstep, kerb, corridor, band), B-FUZZ and the corridor agreement at 1 000. On the probe it changes 14 of 4 977
+    faces (1 chord face, 13 polygon faces), each by losing one split, for example chord case 214 face 4
+    (`3746,3936 3834,3790`) and polygon case 158 face 1 (`7128,11916 7342,11617`). The outcome is the "no split"
+    behaviour that the s1 file's line 4 allowed as a counted KI, so the blocks stay exact and it is not a wrong result.
+    The retry after target (ii) is pinned (XR2 and XR are killed by chord case 43 face 3). Suggested hardening: one of
+    those two faces as a fixture asserting the redrawn split. Milestone: the M0 hardening phase (J237/J238).
+25. **XF / XG — the end-beyond-reach fallback in `spliceAt` (check/M0-a-09-close-s2).** When the kerb edge's end
+    within `attractCm` lies beyond reach, `spliceAt` splices the point itself if it lies at least `minEdge` from that
+    end. XF (always refuse there) changes none of the 4 977 probe faces, so it is equivalent on the probe, as C-0281 (2)
+    says. XG (splice even within `minEdge` of the end) changes 1 face: chord case 1046 face 2 draws
+    `110,181 33,47 30,49` instead of `110,181 158,132`, within reach either way, a chain whose last two points lie 3.6 cm apart.
+    That is a quality gap with no safety effect. Hardening: none owed beyond a fixture if the hardening phase wants
+    one (M4).

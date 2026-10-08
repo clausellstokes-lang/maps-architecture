@@ -12,10 +12,13 @@ import {
   corridorUnion,
   createPlat,
   faceRings,
+  faceWalk,
   insertChain,
   isFaceLive,
   kerb,
+  roleIdOf,
   routeLines,
+  rowsOn,
   setOwner,
   tileRings,
   tx,
@@ -139,6 +142,12 @@ export interface CorridorCase {
   readonly role: string;
   readonly key: PlatKey;
   readonly source: string;
+  /**
+   * A width step (N-52 (2)): the ring's edges before vertex `at` are way:1's, of half-width `hw`, and the rest way:0's
+   * (half-width the case's) — two open ways meeting at ring[0] and ring[at], so F's boundary passes from one spine to
+   * the other at ring[at], a vertex where the boundary turns by 0.01°–5° either way (or runs straight on).
+   */
+  readonly step?: { readonly at: number; readonly hw: number };
 }
 
 const seedArb = fc.integer({ min: 0, max: 0x7fff_ffff });
@@ -219,6 +228,20 @@ export const corridorCaseArb: fc.Arbitrary<CorridorCase> = fc.oneof(
       }),
   },
   {
+    // a width step at a near-straight junction (N-52 (2)): a simple polygon's first edge bent at its middle by
+    // 0.01°–5° (either way, or rounded straight on), the half before the bend a second way of another half-width
+    weight: 3,
+    arbitrary: fc
+      .record({
+        ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 6] }),
+        hundredths: fc.integer({ min: 1, max: 500 }),
+        out: fc.boolean(),
+        tenths: fc.integer({ min: 0, max: 1000 }),
+        stepTenths: fc.integer({ min: 0, max: 1000 }),
+      })
+      .map(({ ring, hundredths, out, tenths, stepTenths }) => widthStepOf(ccwRing(ring.slice()), hundredths, out, tenths, stepTenths)),
+  },
+  {
     weight: 1,
     arbitrary: seedArb.map((seed) => {
       const d = drawCase('fix/tunnel-corridor', seed);
@@ -249,6 +272,28 @@ function corridorOf(ring: LatticePoint[], across: boolean, turn: number, tenths:
   return { ring, chord, hw, role: 'way', key: GROUND, source: `${source}${across ? '+chord' : ''}` };
 }
 
+/**
+ * A width-step case: the ring's first edge bent at its middle J by `hundredths` / 100 degrees (outward or inward; the
+ * lattice may round a small bend straight), way:1 from ring[0] to J and way:0 from J round the ring back to ring[0];
+ * way:0's half-width as `corridorOf` draws it, way:1's another from 0.5 m to the same cap (never equal).
+ */
+function widthStepOf(ring: LatticePoint[], hundredths: number, out: boolean, tenths: number, stepTenths: number): CorridorCase {
+  const base = corridorOf(ring, false, 0, tenths, 'width-step');
+  const a = ring[0];
+  const b = ring[1];
+  const len = Math.hypot(b.x - a.x, b.y - a.y);
+  // each half leaves the chord by half the turn, so the walk turns by hundredths / 100 degrees at J
+  const d = (len / 2) * Math.tan((hundredths * Math.PI) / 36_000) * (out ? -1 : 1);
+  // the left normal of a → b points into a counter-clockwise ring: + moves J inward (F turns right there, away from
+  // the spines), − outward (F turns left: the near-straight corner of N-52 (2))
+  const J = lp((a.x + b.x) / 2 - ((b.y - a.y) / len) * d, (a.y + b.y) / 2 + ((b.x - a.x) / len) * d);
+  const span = Math.max(base.hw, 50);
+  const cap = Math.max(50, Math.min(600, 2 * span));
+  let hw = 50 + Math.floor(((cap - 50) * stepTenths) / 1000);
+  if (hw === base.hw) hw += 37;
+  return { ...base, ring: [a, J, ...ring.slice(1)], step: { at: 1, hw } };
+}
+
 /** A transaction spec at `level` on `key`. */
 function spec(level: 0 | 1 | 2, key: PlatKey): KernelTx {
   return {
@@ -276,6 +321,10 @@ export interface CorridorOurs {
   readonly warnings: Warning[];
   readonly face: Ring;
   readonly spines: LatticePoint[][];
+  /** Each spine's half-width (way:0's the case's; a width step's way:1 its own). */
+  readonly spineHw: number[];
+  /** The committed corridor_split edges with a built block on both sides (N-52 (2): a split never cuts a block). */
+  readonly splitsInBlocks: string[];
 }
 
 function ringsAt(p: Plat, level: 1 | 2, f: FaceId): Ring[] {
@@ -313,8 +362,17 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const frame = [lp(b.x0 - m, b.y0 - m), lp(b.x1 + m, b.y0 - m), lp(b.x1 + m, b.y1 + m), lp(b.x0 - m, b.y1 + m)];
   const f0 = tx(p, spec(0, c.key), (o) => insertChain(o, frame, [{ role: 'margin', entity: 'terrain:1' }], 'mandatory', { closed: true }));
   if (!f0.ok) return null;
-  const w = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring, [{ role: c.role, entity: 'way:0' }], 'mandatory', { closed: true }));
-  if (!w.ok) return null;
+  if (c.step === undefined) {
+    const w = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring, [{ role: c.role, entity: 'way:0' }], 'mandatory', { closed: true }));
+    if (!w.ok) return null;
+  } else {
+    // two open ways meeting at ring[0] and ring[at]: way:0 from ring[at] round to ring[0], way:1 from ring[0] to ring[at]
+    const at = c.step.at;
+    const w0 = tx(p, spec(1, c.key), (o) => insertChain(o, [...c.ring.slice(at), c.ring[0]], [{ role: c.role, entity: 'way:0' }], 'mandatory'));
+    if (!w0.ok) return null;
+    const w1 = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring.slice(0, at + 1), [{ role: c.role, entity: 'way:1' }], 'mandatory'));
+    if (!w1.ok) return null;
+  }
   if (c.chord !== null) {
     const r = tx(p, spec(1, c.key), (o) => insertChain(o, c.chord as LatticePoint[], [{ role: c.role, entity: 'way:1' }], 'mandatory'));
     if (!r.ok) return null;
@@ -332,7 +390,8 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   if (faces.length === 0) return null;
   const own = tx(p, spec(1, c.key), (o) => setOwner(o, faces, 'district:1'));
   if (!own.ok) return null;
-  const widths: SpineWidths = (ch) => (ch.role === c.role && (ch.entity === 'way:0' || ch.entity === 'way:1') ? { halfWidthCm: c.hw } : null);
+  const hwOf = (entity: string): number => (entity === 'way:1' && c.step !== undefined ? c.step.hw : c.hw);
+  const widths: SpineWidths = (ch) => (ch.role === c.role && (ch.entity === 'way:0' || ch.entity === 'way:1') ? { halfWidthCm: hwOf(ch.entity) } : null);
   const warnings: Warning[] = [];
   const read = tx(p, spec(1, c.key), (o) => {
     for (const f of faces) {
@@ -357,18 +416,54 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const spines: LatticePoint[][] = [];
+  const spineHw: number[] = [];
   let face: Ring = c.ring.slice();
+  const open: Record<string, LatticePoint[]> = {};
   for (const entity of ['way:0', 'way:1']) {
     for (const ln of routeLines(p, { role: c.role, entity }, c.key)) {
       const pts = ln.vertices.map((v) => lp(X[v], Y[v]));
       if (ln.closed) {
         if (entity === 'way:0') face = pts.slice();
         pts.push(pts[0]);
-      }
+      } else if (c.step !== undefined) open[entity] = pts.slice();
       spines.push(pts);
+      spineHw.push(hwOf(entity));
     }
   }
-  return { blocks, bands, warnings, face, spines };
+  // a width step's F: way:1's route (ring[0] – J) and way:0's (J – ring[0]) joined end to end, as the arena committed
+  // them (a route runs either way), counter-clockwise
+  const w0 = open['way:0'];
+  const w1 = open['way:1'];
+  if (c.step !== undefined && w0 !== undefined && w1 !== undefined) {
+    const same = (u: LatticePoint, w: LatticePoint): boolean => u.x === w.x && u.y === w.y;
+    let a = w1.slice();
+    let b = w0.slice();
+    if (same(a[0], b[0])) a = a.reverse();
+    else if (same(a[a.length - 1], b[b.length - 1])) b = b.reverse();
+    else if (same(a[0], b[b.length - 1])) [a, b] = [b, a];
+    face = ccwRing([...a.slice(0, -1), ...b.slice(0, -1)]);
+  }
+  return { blocks, bands, warnings, face, spines, spineHw, splitsInBlocks: splitsInBlocks(p, v.blocks) };
+}
+
+/**
+ * The corridor_split edges of the batch's level (L2) whose two sides are both built blocks — a split laid across a
+ * block (N-52 (2)); each as "x,y-x,y". A split lies in the band (§3.7), so a block may border one only where the split
+ * shares the kerb's stretch.
+ */
+function splitsInBlocks(p: Plat, blocks: readonly FaceId[]): string[] {
+  const split = roleIdOf('corridor_split');
+  const side = new Map<number, FaceId>();
+  for (const b of blocks) for (const ring of faceWalk(p, 2, b)) for (const h of ring) side.set(h, b);
+  const out: string[] = [];
+  const O = p.halfEdges.origin;
+  for (const [h, b] of side) {
+    const o = side.get(h ^ 1);
+    if (o === undefined || o === b || (h & 1) === 1) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => p.roles.kind[r] === split)) continue;
+    out.push(`${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+  }
+  return out;
 }
 
 /**
@@ -405,9 +500,13 @@ function windingAt(ring: readonly LatticePoint[], x: number, y: number): number 
   return w;
 }
 
-/** The oracle's buffer of the spines (each a way's committed route; a ring closed on itself), round joins and ends — §3.7's kerb definition. */
+/**
+ * The oracle's buffer of the spines (each a way's committed route; a ring closed on itself), round joins and ends —
+ * §3.7's kerb definition; each spine at its own half-width (a width step's two ways differ), else at `hw`.
+ */
 function oracleWays(o: CorridorOurs, hw: number, e: OracleEngine): OracleResult {
-  return oracleBuffer(o.spines, hw, 'round', 'round', e);
+  if (o.spineHw.every((w) => w === hw)) return oracleBuffer(o.spines, hw, 'round', 'round', e);
+  return oracleBuffer(o.spines, o.spines.flatMap((s, i) => s.map(() => o.spineHw[i])), 'round', 'round', e);
 }
 
 /** The oracle's kerb: F less the spines' buffer (§3.7: F − ⋃ buffer(spineᵢ, half-widthᵢ)). */
@@ -489,6 +588,9 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
     return;
   }
   judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings, c);
+  // N-52 (2): a corridor_split never cuts a block, attracted or not — a far split across the block leaves the blocks'
+  // region whole (the area comparison cannot see it) but in two faces with the split between them
+  if (ours.splitsInBlocks.length > 0) keep(h, `corridorUnion ${c.source}: corridor_split edges between two built blocks ${ours.splitsInBlocks.join(' ')} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
   judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings, c);
 }
 

@@ -8,7 +8,7 @@ import { insertChain } from '../../../src/insert/index.js';
 import type { KernelResult } from '../../../src/num/index.js';
 import { setOwner, tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
 import type { ChainProfile, ChainRef, Cm, LatticePoint, Level, StageId } from '../../../src/types/index.js';
-import type { SpineWidth, SpineWidths } from '../../../src/arr/kerb.js';
+import type { KerbRead, Spine, SpineWidth, SpineWidths } from '../../../src/arr/kerb.js';
 import { commit, framed, healthy, pt, spec, state } from '../../tx/support.js';
 import { faceAt } from '../../faces/support.js';
 
@@ -197,6 +197,77 @@ export function edgesWithRole(p: Plat, role: string): string[] {
     out.push(`${String(u[0])},${String(u[1])}-${String(w[0])},${String(w[1])}`);
   }
   return out.sort();
+}
+
+/**
+ * The corridor_split edges with a built block on both sides — a split laid across a block, which §3.7 never makes (a
+ * split lies in the band; N-52 (2)) — each as "x,y-x,y" from its even half-edge's origin. `blocks` are faces of `level`.
+ */
+export function splitsBetweenBlocks(p: Plat, level: Level, blocks: readonly FaceId[]): string[] {
+  const side = new Map<number, FaceId>();
+  for (const b of blocks) for (const ring of faceWalk(p, level, b)) for (const h of ring) side.set(h, b);
+  const O = p.halfEdges.origin;
+  const out: string[] = [];
+  for (const [h, b] of side) {
+    const o = side.get(h ^ 1);
+    if (o === undefined || o === b || (h & 1) === 1) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => roleInfo(p.roles.kind[r]).name === 'corridor_split')) continue;
+    out.push(`${String(p.vertices.x[O[h]])},${String(p.vertices.y[O[h]])}-${String(p.vertices.x[O[h ^ 1]])},${String(p.vertices.y[O[h ^ 1]])}`);
+  }
+  return out.sort();
+}
+
+/**
+ * The split chains of a face's reading that lie beyond every junction's reach (N-52 (2); C-0277 (1), (2)), each as
+ * "x,y x,y …", written here from the definition, never with the code under test. A junction J is a route vertex of F's
+ * boundary between two route edges that carry buffered spines; hwIn / hwOut are the widest half-widths those edges'
+ * spines sample at J, and its reach is 2·max(hwIn, hwOut) + attractCm. At a corner sharper than a right angle (F's walk
+ * turning left by more than 90°) the kerb corner lies out on the bisector, so the bound there is also the distance to
+ * the strips' inner edges' meeting point plus attractCm — the two lines offset to F's side by their ends' half-widths
+ * (the trapezoid). A chain is held when one junction has every point of it within its bound (+ 1 cm for the snap).
+ */
+export function splitsBeyondReach(p: Plat, read: KerbRead): string[] {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const hwAt = (keys: readonly string[], v: number): number => keys.reduce((w, k) => Math.max(w, (read.spines.get(k) as Spine).hwAt.get(v) ?? 0), 0);
+  const bounds: { x: number; y: number; r: number }[] = [];
+  for (const es of read.edges) {
+    for (let i = 0; i < es.length; i += 1) {
+      const ein = es[(i + es.length - 1) % es.length];
+      const eout = es[i];
+      if (ein.spines.length === 0 || eout.spines.length === 0) continue;
+      const A = { x: X[ein.a], y: Y[ein.a] };
+      const J = { x: X[eout.a], y: Y[eout.a] };
+      const B = { x: X[eout.b], y: Y[eout.b] };
+      const hwA = hwAt(ein.spines, ein.a);
+      const hwIn = hwAt(ein.spines, eout.a);
+      const hwOut = hwAt(eout.spines, eout.a);
+      const hwB = hwAt(eout.spines, eout.b);
+      let r = 2 * Math.max(hwIn, hwOut) + 26;
+      const cross = (J.x - A.x) * (B.y - J.y) - (J.y - A.y) * (B.x - J.x);
+      const dot = (J.x - A.x) * (B.x - J.x) + (J.y - A.y) * (B.y - J.y);
+      if (cross > 0 && dot < 0) {
+        const lu = Math.hypot(J.x - A.x, J.y - A.y);
+        const lv = Math.hypot(B.x - J.x, B.y - J.y);
+        const nu = { x: -(J.y - A.y) / lu, y: (J.x - A.x) / lu };
+        const nv = { x: -(B.y - J.y) / lv, y: (B.x - J.x) / lv };
+        const a0 = { x: A.x + nu.x * hwA, y: A.y + nu.y * hwA };
+        const a1 = { x: J.x + nu.x * hwIn, y: J.y + nu.y * hwIn };
+        const b0 = { x: J.x + nv.x * hwOut, y: J.y + nv.y * hwOut };
+        const b1 = { x: B.x + nv.x * hwB, y: B.y + nv.y * hwB };
+        const d = (a1.x - a0.x) * (b1.y - b0.y) - (a1.y - a0.y) * (b1.x - b0.x);
+        if (d !== 0) {
+          const t = ((b0.x - a0.x) * (b1.y - b0.y) - (b0.y - a0.y) * (b1.x - b0.x)) / d;
+          const m = { x: a0.x + t * (a1.x - a0.x), y: a0.y + t * (a1.y - a0.y) };
+          r = Math.max(r, Math.hypot(m.x - J.x, m.y - J.y) + 26);
+        }
+      }
+      bounds.push({ x: J.x, y: J.y, r: r + 1 });
+    }
+  }
+  return read.splits
+    .filter((c) => !bounds.some((b) => c.every((q) => Math.hypot(q.x - b.x, q.y - b.y) <= b.r)))
+    .map((c) => c.map((q) => `${String(q.x)},${String(q.y)}`).join(' '));
 }
 
 /** The live records of `level` whose parent is the face `parent` of level − 1. */
