@@ -21,7 +21,7 @@
 // strips (§3.7's T-junction clause). N-52 (2): every split stays within its junction's reach, 2·max(hwIn, hwOut) +
 // attractCm of J — a left turn whose strips' inner edges meet beyond it or nowhere (a width step between two nearly
 // collinear spines) is the straight-through case, a junction with no kerb point within reach draws no split, and a
-// split that would enter kerb(F)'s interior is never drawn (kerb.ts, `junctionsOf` / `splitChain` /
+// split that would enter kerb(F)'s interior is never drawn, the junction's next target tried instead (kerb.ts, `junctionsOf` / `splitChain` /
 // `entersRegion`); (3) the faces of the batch's level inside F are read back: a face whose interior
 // point (the middle of its widest cross-section) lies inside kerb(F) is outside the band — corridorUnion's built blocks — and every other is
 // a band face: a junction wedge when two different spines bound it, a strip otherwise. A face with no record at the

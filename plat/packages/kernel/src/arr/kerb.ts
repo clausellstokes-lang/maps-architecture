@@ -363,24 +363,10 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
   const splits: LatticePoint[][] = [];
   if (f.spines.size > 0 && rings.length > 0) {
     for (const jn of junctionsOf(p, f.edges, f.spines)) {
+      // each split in the band, never across a block (`splitChain`'s guard; C-0212 (5), N-52 (2), C-0280)
       const sc = splitChain(p, rings, jn);
-      if (sc === null) continue;
-      const pts: LatticePoint[] = [];
-      for (const q of sc.chain) {
-        const s = snap(q.x, q.y);
-        if (!s.ok) return err(s.code, s.detail);
-        const last = pts[pts.length - 1];
-        if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
-      }
-      // A corridor_split lies in the band (§3.7): a chain that would enter kerb(F)'s interior — a block — is not drawn,
-      // and the kerb point it spliced in for it is taken out again (C-0212 (5) as refined by N-52 (2)): never a split
-      // across a block, whatever the junction's geometry.
-      if (pts.length < 2) continue;
-      if (!entersRegion(rings, pts)) splits.push(pts);
-      else if (sc.spliced !== null) {
-        const at = sc.spliced.ring.indexOf(sc.spliced.v);
-        if (at >= 0) sc.spliced.ring.splice(at, 1);
-      }
+      if (!sc.ok) return err(sc.code, sc.detail);
+      if (sc.value !== null) splits.push(sc.value);
     }
   }
   // a splice on a kerb edge collinear with its neighbour can fold the ring back on itself: spikes dropped again
@@ -407,7 +393,7 @@ export function kerb(tx: InsertTx, face: FaceId, widths: SpineWidths): KernelRes
 // left turn whose inner edges meet beyond reach or nowhere (all but parallel: a width step between two nearly
 // collinear spines) is §3.7's straight-through case, one split from J to the foot of its perpendicular on the kerb; a
 // kerb point is accepted only within reach of J (never a far vertex), and a chain that would enter kerb(F)'s interior is
-// not drawn (readKerb).
+// not drawn — the junction's next target is tried instead (`splitChain`; C-0280).
 
 const ATTRACT = LATTICE.attractCm;
 /** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
@@ -613,10 +599,19 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
 }
 
 /**
- * The corridor_split chain at one junction (bandUnion.ts's module comment), with the kerb vertex spliced in for it, or
- * null when the kerb has no point within the junction's reach.
+ * The corridor_split chain at one junction (bandUnion.ts's module comment), snapped, its kerb end a vertex of the kerb
+ * (spliced in for it where it was not one), or null when no target gives a chain that stays in the band.
+ *
+ * The targets in turn (C-0277 (4)): at a corner, (i) the kerb's vertex within attractCm of the strips' inner edges'
+ * meeting point m (within reach of J, or anywhere at a corner sharper than a right angle, C-0277 (2)), the wedge through
+ * it; (ii) the kerb point nearest m, where m lies within reach, the wedge through it; then at every junction (iii) the
+ * straight-through aim, one split from J to the kerb point nearest it — each kerb point accepted only within reach of J.
+ * A corridor_split lies in the band (§3.7): a candidate chain that would enter kerb(F)'s interior — a block — is not
+ * drawn, the kerb point spliced in for it is taken out again, and the next target is tried (C-0212 (5) as refined by
+ * N-52 (2) and C-0280): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
+ * its strips by the straight-through split where that one fits.
  */
-function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
+function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const J: XY = { x: X[jn.j], y: Y[jn.j] };
@@ -624,7 +619,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain
   const B: XY = { x: X[jn.next], y: Y[jn.next] };
   const u = unit(A, J);
   const v = unit(J, B);
-  if (u === null || v === null) return null;
+  if (u === null || v === null) return ok(null);
   // The left normals (the face lies on the left of its walk).
   const nu: XY = { x: -u.y, y: u.x };
   const nv: XY = { x: -v.y, y: v.x };
@@ -633,21 +628,38 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain
   let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
   const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
   if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
-  // The targets in turn: at a corner the strips' inner edges' meeting point m first — the kerb's vertex within
-  // attractCm of it (within reach, or anywhere on the bisector of a corner sharper than a right angle), else the kerb
-  // point nearest m within reach — then the straight-through aim; each kerb point accepted only within reach of J.
-  const targets: { q: XY; corner: boolean }[] = [];
+  // A candidate snapped and guarded: kept where it stays in the band, else its splice taken out (null: try the next).
+  const fit = (chain: readonly XY[], spliced: Reached['spliced']): KernelResult<LatticePoint[] | null> => {
+    const pts: LatticePoint[] = [];
+    for (const q of chain) {
+      const s = snap(q.x, q.y);
+      if (!s.ok) return err(s.code, s.detail);
+      const last = pts[pts.length - 1];
+      if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
+    }
+    if (pts.length >= 2 && !entersRegion(kerbRings, pts)) return ok(pts);
+    if (spliced !== null) {
+      const at = spliced.ring.indexOf(spliced.v);
+      if (at >= 0) spliced.ring.splice(at, 1);
+    }
+    return ok(null);
+  };
   if (jn.corner && jn.meet !== null) {
     const near = kerbVertexNear(kerbRings, jn.meet, ATTRACT);
-    if (near !== null && (jn.acute || within(near, J, jn.reach))) return { chain: wedge(J, A, B, near), spliced: null };
-    if (within(jn.meet, J, jn.reach)) targets.push({ q: jn.meet, corner: true });
+    if (near !== null && (jn.acute || within(near, J, jn.reach))) {
+      const r = fit(wedge(J, A, B, near), null);
+      if (!r.ok || r.value !== null) return r;
+    }
+    if (within(jn.meet, J, jn.reach)) {
+      const K = spliceAt(kerbRings, jn.meet, J, jn.reach);
+      if (K !== null) {
+        const r = fit(wedge(J, A, B, K.v), K.spliced);
+        if (!r.ok || r.value !== null) return r;
+      }
+    }
   }
-  targets.push({ q: aim, corner: false });
-  for (const t of targets) {
-    const K = spliceAt(kerbRings, t.q, J, jn.reach);
-    if (K !== null) return { chain: t.corner ? wedge(J, A, B, K.v) : [J, K.v], spliced: K.spliced };
-  }
-  return null;
+  const K = spliceAt(kerbRings, aim, J, jn.reach);
+  return K === null ? ok(null) : fit([J, K.v], K.spliced);
 }
 
 /** A corner's chain: from the kerb corner K to the foot of its perpendicular on each spine edge at J (C-0212 (4)). */
