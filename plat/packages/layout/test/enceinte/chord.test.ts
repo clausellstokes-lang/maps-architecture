@@ -192,6 +192,22 @@ describe('a synthetic graze: a shore vertex 27 cm from the bank and 10 cm off th
     expect(fc?.entry).toEqual(V);
   });
 
+  it('the chord is tested from where the insertion lands its banks: a vertex 22 cm from the bank takes it, and the chord from there passes a vertex the bank\'s own chord does not', () => {
+    // A straight river x 200–240 m crossed square by the boundary's south side: bank (200, −300) m, exit (240, −300) m.
+    // U lies 22 cm from the bank behind it (the bank lands on U, §3.6 step 2; U's foot is off the chord, so no contact);
+    // X lies 35 cm off the bank's chord but 25 cm off the chord from U: the chord the insertion lays passes X.
+    const ring = ccw(openRing(BOUNDARY.map(lat)));
+    const STRAIGHT = [P(20000, -50000), P(24000, -50000), P(24000, 50000), P(20000, 50000)];
+    const U = P(19990, -29980);
+    const X = P(22000, -29965);
+    const src = (extra: readonly Pt[]) => (box: { minX: number; minY: number; maxX: number; maxY: number }) =>
+      [...STRAIGHT, ...extra].filter((q) => q.x >= box.minX && q.x <= box.maxX && q.y >= box.minY && q.y <= box.maxY);
+    const south = (r: ReturnType<typeof crossWater>) => r.crossings.find((c) => c.entry.y === -30000 && c.exit.y === -30000);
+    expect(south(crossWater(ring, new Set(), [{ body: 'river:2', ring: STRAIGHT }], src([X])))?.clear).toBe(true);
+    expect(south(crossWater(ring, new Set(), [{ body: 'river:2', ring: STRAIGHT }], src([U])))?.clear).toBe(true);
+    expect(south(crossWater(ring, new Set(), [{ body: 'river:2', ring: STRAIGHT }], src([U, X])))?.clear).toBe(false);
+  });
+
   it('through the strategy: the trace commits with gate_end 0 on V and the chord V → exit one wall_gate edge; no wall edge leaves the old bank point', () => {
     const site = smallSite(2);
     const { plat, k } = kernelFor(site);
