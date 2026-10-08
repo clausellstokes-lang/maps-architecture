@@ -30,8 +30,8 @@ const scratch = mkdtempSync(join(tmpdir(), 'plat-determinism-'));
 afterAll(() => rmSync(scratch, { recursive: true, force: true }));
 
 describe('the runner reproduces its own report', () => {
-  it('byte for byte on a second run (seeded): the fusion spike and the records tree at seed 1, a pair and the check runs', { timeout: SLOW }, async () => {
-    const cfg = await testConfig({ seeds: [1], pairs: 1, checks: 1, stages: [...spikeStageIds('fusion'), 'records'] });
+  it('byte for byte on a second run (seeded): the site spike and the records tree at seed 1, a pair and the check runs', { timeout: SLOW }, async () => {
+    const cfg = await testConfig({ seeds: [1], pairs: 1, checks: 1, stages: [...spikeStageIds('site'), 'records'] });
     const a: DeterminismSpikeReport = await runDeterminism(cfg);
     const b: DeterminismSpikeReport = await runDeterminism(cfg);
     expect(reportText(b)).toBe(reportText(a));
@@ -52,15 +52,16 @@ describe('the runner reproduces its own report', () => {
     expect(a.opOrder.permutedBatches).toBeGreaterThan(0);
     expect(a.opOrder).toMatchObject({ runs: 1, differing: 0, pass: true });
     expect(a.matching).toMatchObject({ pairs: 1, duplicateIds: 0, silentRebinds: 0, pass: true });
-    expect(a.matching.perPair).toEqual([expect.objectContaining({ seed: 1, spike: 'fusion' })]);
+    expect(a.matching.perPair).toEqual([expect.objectContaining({ seed: 1, spike: 'site' })]);
     expect(a.matching.totals.survive).toBeGreaterThan(0);
-    // the pair's fresh side is C-0090's { S5: 1 } re-derivation, never the old run matched with itself: some re-drawn
-    // entity is retired or new (check B-2)
-    const pp = a.matching.perPair[0];
-    expect((pp?.tombstone ?? 0) + (pp?.fresh ?? 0)).toBeGreaterThan(0);
+    // the pair's fresh side is C-0090's { S5: 1 } re-derivation, never the old run matched with itself: its S5, S6 and S8
+    // roots moved (check B-2, C-0280; the site spike's, whose S5 draws on the rerolled streams — the fusion spike's does
+    // not at the test frame, C-0280)
+    expect(a.matching.unmoved).toBe(0);
+    expect(a.matching.perPair[0]?.redrawn).toEqual(['S5', 'S6', 'S8']);
     // the oracle's tally is every committed batch of the spike plus the records tree's build and each of its batches
     // (C-0268 (5); check B-3)
-    expect(a.oracle.batches).toBe(spikeRun('fusion', 1, { size: TEST_SIZE }).commits + RECORDS_BATCHES + 1);
+    expect(a.oracle.batches).toBe(spikeRun('site', 1, { size: TEST_SIZE }).commits + RECORDS_BATCHES + 1);
     expect(a.timings).toEqual({ taken: false, stamps: [], contended: 0, authoritative: 0 });
   });
 });

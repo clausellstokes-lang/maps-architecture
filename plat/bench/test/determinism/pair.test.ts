@@ -44,6 +44,7 @@ describe('the re-derivation pair at one seed (C-0090)', () => {
     const p = pair();
     const r = matchPair(p);
     expect(r.standing).toMatchObject({ rootsEqual: true, recordsEqual: true, missing: 0, firstMissing: null });
+    expect(r.redrawn).toEqual(['S5', 'S6', 'S8']);
     const standing = p.old.entities.entities.filter((e) => STANDING.includes(e.by));
     expect(standing.length).toBe(r.standing.entities);
     // the S1 and S4 entities are there, each kind S1 – S4 makes in a river city

@@ -92,6 +92,7 @@ describe('the verdict', () => {
       spike: 'site' as const,
       seed: 1,
       standing: { rootsEqual: true, recordsEqual: true, entities: 4, missing: 0, firstMissing: null, editedLater: 1 },
+      redrawn: ['S5', 'S6', 'S8'],
       perKind: [{ kind: 'way' as const, old: 3, fresh: 2, survive: 1, succeed: 2, tombstone: 0, freshOutcome: 0, unanchored: { old: 0, fresh: 0 }, lineage: 'mixed' }],
       totals: { survive: 1, succeed: 2, tombstone: 0, fresh: 0 },
       duplicateIds: 0,
@@ -113,6 +114,15 @@ describe('the verdict', () => {
       expect(r.verdict).toBe('fail');
     }
     expect(buildReport(cfg({ pairs: 1 }), x, [seedResult(1)]).matching.pass).toBe(false);
+    // a pair that re-drew no stage is no re-derivation (C-0280): counted; the bar fails when no pair re-drew one
+    expect(ok.matching).toMatchObject({ unmoved: 0, perPair: [expect.objectContaining({ redrawn: ['S5', 'S6', 'S8'] })] });
+    const still = { ...pair, redrawn: [] };
+    const none = buildReport(cfg({ pairs: 1 }), x, [seedResult(1, { pairs: [still] })]);
+    expect(none.matching).toMatchObject({ unmoved: 1, pass: false });
+    expect(none.failures).toEqual([expect.stringMatching(/^matching: .*no pair re-drew a stage$/)]);
+    expect(none.verdict).toBe('fail');
+    const some = buildReport(cfg({ pairs: 2 }), x, [seedResult(1, { pairs: [still] }), seedResult(2, { pairs: [pair] })]);
+    expect(some.matching).toMatchObject({ pairs: 2, unmoved: 1, pass: true });
   });
 });
 

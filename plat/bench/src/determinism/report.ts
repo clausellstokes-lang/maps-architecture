@@ -7,7 +7,8 @@
 // for byte; `timings` holds measurements (empty, `taken: false`, when the run takes none). The verdict:
 //   fail        a leg differs or failed; the in-process run differs from the legs; a stream key or lineage hash
 //               collides, or two entities share a lineage; the oracle misses a batch; a dilation or op-order run differs;
-//               a pair holds a duplicate id or a silent re-bind, or a standing entity does not survive;
+//               a pair holds a duplicate id or a silent re-bind, or a standing entity does not survive; pairs were asked
+//               and none re-drew a stage (no re-derivation: the matching workload would be the old run against itself);
 //   incomplete  none of those, but a leg asked for cannot run on this machine (the cross-host verdict `incomplete`) —
 //               never a pass (C-0228 (5));
 //   pass        every bar holds on every leg asked for.
@@ -76,7 +77,9 @@ export interface DeterminismSpikeReport {
     readonly reportedRefs: number;
     readonly carry: number;
     readonly standing: { readonly entities: number; readonly rootsDiffering: number; readonly recordsDiffering: number; readonly missing: number; readonly editedLater: number; readonly firstMissing: string | null };
-    readonly perPair: readonly { readonly seed: number; readonly spike: string; readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number; readonly duplicateIds: number; readonly suffixed: number; readonly silentRebinds: number }[];
+    /** Pairs whose re-drawn stages all kept their roots (no re-derivation; C-0280: informative unless every pair is). */
+    readonly unmoved: number;
+    readonly perPair: readonly { readonly seed: number; readonly spike: string; readonly redrawn: readonly string[]; readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number; readonly duplicateIds: number; readonly suffixed: number; readonly silentRebinds: number }[];
     readonly pass: boolean;
   };
   readonly bugs: { readonly runs: number; readonly refused: number; readonly list: readonly string[] };
@@ -208,11 +211,12 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
     reportedRefs: pairs.reduce((n, p) => n + p.reportedRefs, 0),
     carry: pairs.reduce((n, p) => n + p.carry, 0),
     standing,
-    perPair: pairs.map((p) => ({ seed: p.seed, spike: p.spike, survive: p.totals.survive, succeed: p.totals.succeed, tombstone: p.totals.tombstone, fresh: p.totals.fresh, duplicateIds: p.duplicateIds, suffixed: p.suffixed, silentRebinds: p.silentRebinds })),
+    unmoved: pairs.filter((p) => p.redrawn.length === 0).length,
+    perPair: pairs.map((p) => ({ seed: p.seed, spike: p.spike, redrawn: p.redrawn, survive: p.totals.survive, succeed: p.totals.succeed, tombstone: p.totals.tombstone, fresh: p.totals.fresh, duplicateIds: p.duplicateIds, suffixed: p.suffixed, silentRebinds: p.silentRebinds })),
     pass: false,
   };
-  matching.pass = cfg.pairs === 0 || (pairs.length > 0 && matching.duplicateIds === 0 && matching.silentRebinds === 0 && standing.rootsDiffering === 0 && standing.recordsDiffering === 0 && standing.missing === 0);
-  if (!matching.pass) failures.push(`matching: ${String(matching.duplicateIds)} duplicate ids, ${String(matching.silentRebinds)} silent re-binds, ${String(standing.missing)} standing entities missing, ${String(standing.rootsDiffering + standing.recordsDiffering)} pair(s) whose standing stages moved${pairs.length === 0 ? ', no pair matched' : ''}`);
+  matching.pass = cfg.pairs === 0 || (pairs.length > 0 && matching.unmoved < pairs.length && matching.duplicateIds === 0 && matching.silentRebinds === 0 && standing.rootsDiffering === 0 && standing.recordsDiffering === 0 && standing.missing === 0);
+  if (!matching.pass) failures.push(`matching: ${String(matching.duplicateIds)} duplicate ids, ${String(matching.silentRebinds)} silent re-binds, ${String(standing.missing)} standing entities missing, ${String(standing.rootsDiffering + standing.recordsDiffering)} pair(s) whose standing stages moved${pairs.length === 0 ? ', no pair matched' : matching.unmoved === pairs.length ? ', no pair re-drew a stage' : ''}`);
 
   // Refusals (deterministic, so not a determinism failure; reported, C-0264 (13)).
   const bugList = seeds.flatMap((s) => s.bugs.map((b) => `${String(s.seed)}:${b}`));

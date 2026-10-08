@@ -117,6 +117,11 @@ export interface PairResult {
      */
     readonly editedLater: number;
   };
+  /**
+   * The stages after the standing ones whose root moved between the runs, in run order (C-0090's `{ S5: 1 }` re-draws S5,
+   * S6 and S8): the evidence that the fresh side is a re-derivation, not the old run again (check M0-d-09 B-2, C-0280).
+   */
+  readonly redrawn: readonly string[];
   readonly perKind: readonly KindCounts[];
   readonly totals: { readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number };
   readonly duplicateIds: number;
@@ -242,6 +247,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
   // The standing stages stand: their roots and records equal, every entity they made identical in the fresh run.
   const rootOf = (r: SpikeRun, stage: string): string | undefined => r.stageRoots.find(([n]) => n === stage)?.[1];
   const rootsEqual = STANDING.every((s) => rootOf(pair.old.run, s) !== undefined && rootOf(pair.old.run, s) === rootOf(pair.fresh.run, s));
+  const redrawn = pair.fresh.run.stageRoots.filter(([n, h]) => !STANDING.includes(n) && rootOf(pair.old.run, n) !== h).map(([n]) => n);
   const recText = (r: SpikeRun): string => canonicalText(STANDING_KEYS.map((k) => [k, standingRecord(r, k)]));
   const recordsEqual = recText(pair.old.run) === recText(pair.fresh.run);
   const freshById = new Map(pair.fresh.entities.entities.map((s) => [`${s.entity.kind}:${s.entity.id}`, s]));
@@ -281,6 +287,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
     spike: pair.spike,
     seed: pair.seed,
     standing: Object.freeze({ rootsEqual, recordsEqual, entities: standing.length, missing, firstMissing, editedLater }),
+    redrawn: Object.freeze(redrawn),
     perKind: Object.freeze(perKind),
     totals: Object.freeze({ ...result.counts }),
     duplicateIds: dups,
