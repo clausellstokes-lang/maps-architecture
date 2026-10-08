@@ -15,7 +15,7 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | Q1 | splitThrough writes into a stale half-edge table when a split doubles it (20 crashes) | C-0177 (10), M0-a-05 N-6, M0-x-06 B4 | M0-a-04 | ROUND (N-53 (1), build/M0-a-04-fix-s1) |
 | Q2 | splitChain splices a far kerb corner at width steps (S9 commits a block fragment) | C-0270 (18) | M0-a-09 | ROUND (N-52 (2); closing check) |
 | Q3 | exact zero-width spurs refused as sharpCorner (corpus bar) | C-0270 | M0-a-11 | DONE b8e03416 (N-52 (3), rounds S1+S2) |
-| Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | OPEN (round s2 queued) |
+| Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | ROUND (N-52 (4), build/M0-b-03-fix-s2) |
 | Q5 | S5a wall trace crosses the river on 6 wall edges 10-13 m deep with no water gate and commits (seed 9) — silently wrong | M0-e-06 check §5 #3, C-0271 (11); integration-g12 N-2 | M0-c-02 (+ M0-e-06 receipt) | DONE (M0-c-02 part, see git log 'M0-c-02 session round S1'); M0-e-06 receipt OPEN (N-54 (4)) |
 | Q6 | a committed setback line lies outside the frame (wall × frame, seed 496296019) | M0-x-06 check, C-0278 (5) | M0-c-02 | DONE (same commit as Q5) |
 | Q7 | a crossing site with a deck end outside the frame can still be spanned by S4 (21 seeds) | M0-x-06 check, C-0278 (5) | M0-c-01 | ROUND (N-54 (2), build/M0-c-01-fix-s1) |
@@ -29,6 +29,10 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | Q15 | the hard stage-end row seam-portals is declared but never evaluated (the report shows pass) | M0-b-03 notes N-9 | M0-x-04 / M0-c-06 | OPEN |
 | Q16 | warp.halvings floor test-pinned yet marked calibratable (persisted table metadata M1 reads) | M0-f-03a N2 | M0-f-03b / tables | OPEN |
 | Q17 | splitThrough fix retires M0-a-05's reservePair; tiny-table guard; tx throw-rollback pin; bridgeGaps re-read | N-53 (2)-(5) | M0-a-05, M0-a-02, M0-a-06, M0-a-08 | OPEN (after Q1 commits) |
+| Q20 | S1 water batch refused without retry on self-touching plants (~3 % of EP-01 seeds) and SMALL_RIVER refused unplanted on some seeds (676291635, 1595424233) — fail-safe typed refusals | M0-x-06 fix1 result, C-0278 (2) | M0-e-03 | OPEN (bedrock: judge fix vs carry in hardening) |
+| Q21 | S6 refuses a degenerate boundary before its batch (< 1 %) | M0-x-06 fix1 result | M0-e-04 | OPEN (hardening triage) |
+| Q22 | S5a coincident plant refused (~0.5 %) | M0-x-06 fix1 result | M0-c-04 | OPEN (hardening triage) |
+| Q23 | CLEAN-ROOM ledger rows appended at the file's end (under §5's table) are invisible to landed's appends (L-0335, L-0337, L-0346, L-0348 seen) | several seats | tools/landed + session | OPEN |
 | Q18 | S8 ≈ 100 ms per cut vs 12 µs (kerb read rebuilds a scratch arena per face) | KI-12 | M0-a-09 / M0-b-03 | HARDENING (perf; before M0-t-01) |
 | Q19 | S8 ≡ S9 exact-0 share (commit attraction within 73.5 cm) | KI-13, N-52 (1) | M0-a-09 | HARDENING |
 

@@ -5,7 +5,7 @@
   "lanes": ["build/M0-x-06", "build/M0-x-06-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-08T13:56:42.198Z",
+  "date": "2026-10-08T13:57:12.878Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/edge/", "plat/packages/testkit/test/edge/", "plat/docs/build/summaries/M0-x-06.json"],
   "counts": { "created": 33, "changed": 0, "unchanged": 0, "deleted": 0 },
@@ -47,8 +47,8 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0336"],
-      "lines": ["7b671a58100442ee"],
+      "ids": ["L-0336", "L-0346"],
+      "lines": ["7b671a58100442ee", "667468c30b107ca6"],
       "removed": []
     },
     {
