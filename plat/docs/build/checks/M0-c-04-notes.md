@@ -60,3 +60,32 @@ N-45). The blocker is in `M0-c-04.md`, and the mutant and probe names refer to t
    shortfall that fails safe, with no throw and no wrong commit. Suggested handling: count a meeting as a crossing only
    when the way's neighbouring vertices lie on opposite sides of the outline, in the code and in the recount, with a
    fixture of a way tangent to a boundary vertex. Milestone M4.
+
+## Closing check of session fix round S1 (lane `check/M0-c-04-close-s1`, 2026-10-08)
+
+The blockers F-1 and F-2 are in `M0-c-04-s1.md`; the probe and mutant names (P1 – P7, X01 – X14) refer to that file.
+
+10. **N-10 KI: the always-rejected planning batch shows as a refused S5 batch.** `traceStage` plans the gate vertices in
+    an L1 batch that always returns `E_INVARIANT`. Every batch watcher sees it: the bench's `watchedKernel` records it,
+    so `runRecord(d).batches.S5.refused` rises by one per walled stage k ≥ 2 (relief-60 seed 15: 0 → 1; the 16-seed
+    probe's S5 sequence `ok E_INVARIANT ok ok ok`), and its work is spent twice. C-0285 states the version shift but not
+    this one. Suggested handling: plan without a batch (C-0285's own `TraceOptions` prelude hook in M0-c-02's trace), or
+    mark the planning batch so that receipts do not count it. M4. CONFIRMED.
+11. **N-11 KI: the two-gates-at-one-bridgehead guard has no pin.** X11 (the guard off) survives NEAR. The only input the
+    seat found that reaches it is P6, an outline with a 10 cm slot beside the bridgehead; there both codes refuse with
+    nothing written (`E_INVARIANT` vs `E_SELF_INTERSECT`). Add P6 as a pin of the guard's message. M4. CONFIRMED.
+12. **N-12 KI: two equivalent survivors leave dead or redundant code.** (a) X09: the bridgehead gate's recomputed
+    `bearingCdeg` is never read — `baseEnceinte.trace` does not read `GateSite.bearingCdeg` and the gate record carries no
+    bearing. (b) X08: the gate splits re-made in the trace batch are redundant on every observed input — without them
+    insertChain's own crossing vertex stands at the same point (16 flat CITY seeds' prints identical; span.test 5/5).
+    Either pin a case where the split matters, or record both as defensive in C-0285. M4. CONFIRMED.
+13. **N-13 KI: a crossing within 2·TOUCH_CM of the far deck end gates at the far deck end.** The way-vertex snap runs
+    before the span rule, so an outline crossing the span 20 cm from the east deck end (P4) puts the gate at (52000, 0),
+    outside the outline as given. The result is lawful (the span stays whole, the gate on land, the outline moves at most
+    26 cm), but it departs from C-0285 (1)'s wording "the deck end strictly inside the stage's outline". Record the
+    precedence in C-0285, or apply the span rule first. M4. CONFIRMED.
+14. **N-14 KI: the trace-batch seam assumes one callback batch.** `withinTraceBatch` arms only the first callback batch
+    of the kernel it hands `baseEnceinte.trace` (M0-c-02's). Today that is the commit (`trace.ts:229`). If M0-c-02's trace
+    ever opens an earlier callback batch (a probe, a dry run), the splits and the span proof would run there and be
+    lost, and the item's tests would likely still pass for dry crossings (N-12 (b)). Add a test that the trace makes one
+    callback batch, or take the prelude hook C-0285 names. M4. PLAUSIBLE (reasoned from the code).

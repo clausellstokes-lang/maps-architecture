@@ -1,4 +1,4 @@
-// M0-c-04 session round s1 (N-54 (3); C-0285): a stage boundary that crosses a bridge's span. The gate is the bridgehead
+// M0-c-04 session rounds s1 (N-54 (3); C-0285) and s2 (F-1, F-2; C-0292): a stage boundary that crosses a bridge's span. The gate is the bridgehead
 // — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate splits run inside
 // the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be put lawfully (two
 // deck ends on one side, the water off every span) refuses, nothing written. On a hand-built site: the small flat site,
@@ -172,6 +172,26 @@ function liveVertices(p: Plat): number {
   return n;
 }
 
+/** The live vertices on a `setback` edge of `enceinte`, and those deeper than 2 cm inside the pond (the receipt's depth). */
+function setbackOf(p: Plat, enceinte: string): { total: number; wet: number } {
+  let total = 0;
+  let wet = 0;
+  for (let v = 0; v < p.slots.vertex.top; v += 1) {
+    if (!isVertexLive(p, v)) continue;
+    if (!outgoing(p, v as never).some((h) => rowsOn(p, 'edge', h).some((r) => rowKey(p, r).role === 'setback' && rowKey(p, r).entity === enceinte))) continue;
+    total += 1;
+    const x = p.vertices.x[v];
+    const y = p.vertices.y[v];
+    if (x > POND[0].x + 2 && x < POND[1].x - 2 && y > POND[0].y + 2 && y < POND[2].y - 2) wet += 1;
+  }
+  return { total, wet };
+}
+
+/** An outline whose east side is the line x = x0 + y (45°): it crosses the way (y = 0) at x0. */
+function slanted(x0: number): LatticePoint[] {
+  return densify([P(-40_000, -40_000), P(x0 - 40_000, -40_000), P(x0 + 40_000, 40_000), P(-40_000, 40_000)]);
+}
+
 describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
   it('the gate is the bridgehead on the stage\'s side, the span stays one edge between its deck ends', { timeout: 120_000 }, () => {
     const f = fixture();
@@ -254,6 +274,56 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(t.code).toBe('E_INVARIANT');
     expect(t.detail).toMatch(/put a vertex on bridge:1's span/);
     expect(f.plat.version).toBe(version);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  // Session round s2 (the closing check's F-1 and F-2; C-0292): the stage's strips keep off the water as stage 1's do,
+  // and a crossing on the dry approach edge (one deck end) is split where it lies.
+  it('an outline crossing the dry approach edge 3 m before the bridgehead: the gate split at the crossing, the strips off the pond, the span whole', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(slanted(49_700), wayLines(f.k, f.ways), f.site.centre);
+    expect(xs).toHaveLength(2);
+    const east = xs.findIndex((c) => Math.abs(c.at.y) <= 1);
+    expect(xs[east].at).toEqual(P(49_700, 0));
+    const t = traceStage(2, slanted(49_700), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
+    if (!t.ok) return;
+    // F-2: the approach edge (49 000, 0) – (50 000, 0) carries one deck end: no span, so the way is split at the crossing
+    // and the gate stands there, not at a way vertex or the bridgehead.
+    expect(verticesWith(f.plat, 'gate', `gate:${String(100 + east)}`)).toEqual([P(49_700, 0)]);
+    expect(t.value.gates.find((g) => g.id === `gate:${String(100 + east)}`)?.way).toBe(xs[east].way);
+    // F-1: both sides' strips laid, no setback vertex in the pond, the span one edge.
+    expect(t.value.strips.faces.inner).toBeGreaterThan(0);
+    expect(t.value.strips.faces.outer).toBeGreaterThan(0);
+    const sb = setbackOf(f.plat, 'enceinte:2');
+    expect(sb.total).toBeGreaterThan(0);
+    expect(sb.wet).toBe(0);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  it('an outline crossing the way 20 m before the bridge: the strips end at the banks, none in the pond', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(slanted(48_000), wayLines(f.k, f.ways), f.site.centre);
+    const t = traceStage(2, slanted(48_000), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
+    expect(t.ok, t.ok ? '' : `${t.code} ${t.detail}`).toBe(true);
+    if (!t.ok) return;
+    expect(t.value.waterGates).toHaveLength(0);
+    const sb = setbackOf(f.plat, 'enceinte:2');
+    expect(sb.total).toBeGreaterThan(0);
+    expect(sb.wet).toBe(0);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+  });
+
+  it('strips that would break a span are refused in their own batch, no setback line written (the pond withheld: a caller\'s miss)', { timeout: 120_000 }, () => {
+    const f = fixture();
+    const xs = boundaryCrossings(slanted(49_700), wayLines(f.k, f.ways), f.site.centre);
+    // The bridge given, its pond not: the strips get no water stop and their lines run over the deck.
+    const t = traceStage(2, slanted(49_700), xs, f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: { bodies: [], bridges: f.water.bridges }, firstOrdinal: 100 });
+    expect(t.ok).toBe(false);
+    if (t.ok) return;
+    expect(t.code).toBe('E_INVARIANT');
+    expect(t.detail).toMatch(/S5a's strips: .*bridge:1's span/);
+    expect(setbackOf(f.plat, 'enceinte:2').total).toBe(0);
     expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
   });
 });
