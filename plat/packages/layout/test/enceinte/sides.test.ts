@@ -219,7 +219,8 @@ describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and b
   const pts = (l: readonly [number, number][]): LatticePoint[] => l.map(([x, y]) => P(x, y));
 
   it('every committed wall edge is dry or a water gate\'s course edge; the four crossings are its four water gates', () => {
-    const site = { ...smallSite(1), frame: fx.frame };
+    const base = smallSite(1);
+    const site = { ...base, frame: fx.frame as unknown as typeof base.frame };
     const { plat, k } = kernelFor(site);
     expect(commitOuterRing(site, k).ok).toBe(true);
     const RING = pts(fx.water.ring);
