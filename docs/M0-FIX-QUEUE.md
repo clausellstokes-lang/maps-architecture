@@ -29,6 +29,10 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | Q15 | the hard stage-end row seam-portals is declared but never evaluated (the report shows pass) | M0-b-03 notes N-9 | M0-x-04 / M0-c-06 | OPEN |
 | Q16 | warp.halvings floor test-pinned yet marked calibratable (persisted table metadata M1 reads) | M0-f-03a N2 | M0-f-03b / tables | OPEN |
 | Q17 | splitThrough fix retires M0-a-05's reservePair; tiny-table guard; tx throw-rollback pin; bridgeGaps re-read | N-53 (2)-(5) | M0-a-05, M0-a-02, M0-a-06, M0-a-08 | OPEN (after Q1 commits) |
+| Q20 | S1 water batch refused without retry on self-touching plants (~3 % of EP-01 seeds) and SMALL_RIVER refused unplanted on some seeds (676291635, 1595424233) — fail-safe typed refusals | M0-x-06 fix1 result, C-0278 (2) | M0-e-03 | OPEN (bedrock: judge fix vs carry in hardening) |
+| Q21 | S6 refuses a degenerate boundary before its batch (< 1 %) | M0-x-06 fix1 result | M0-e-04 | OPEN (hardening triage) |
+| Q22 | S5a coincident plant refused (~0.5 %) | M0-x-06 fix1 result | M0-c-04 | OPEN (hardening triage) |
+| Q23 | CLEAN-ROOM ledger rows appended at the file's end (under §5's table) are invisible to landed's appends (L-0335, L-0337, L-0346, L-0348 seen) | several seats | tools/landed + session | OPEN |
 | Q18 | S8 ≈ 100 ms per cut vs 12 µs (kerb read rebuilds a scratch arena per face) | KI-12 | M0-a-09 / M0-b-03 | HARDENING (perf; before M0-t-01) |
 | Q19 | S8 ≡ S9 exact-0 share (commit attraction within 73.5 cm) | KI-13, N-52 (1) | M0-a-09 | HARDENING |
 
