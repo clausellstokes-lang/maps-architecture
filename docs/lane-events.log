@@ -6947,3 +6947,5 @@
 2026-10-08 05:29 build/M0-a-09-fix-s2 CHECKPOINT start session fix round S2 (4 lines of check M0-a-09-s1): machine id ok, Node 24.12.0; next: read s1.md, kerb.ts, tests
 2026-10-08 05:31 build/M0-d-09-fix1 CHECKPOINT NEAR 9 files 51/51 (pre-control), lint 0 probe-red ok, build 0, C-0280 appended; mutant sweep (11) running in ~/maps-scratch/waves/selfcheck-build-M0-d-09-fix1; next: results, RELATED, landed
 2026-10-08 05:33 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 0/72 fixtures done; next: finish run, landed record
+2026-10-08 05:39 build/M0-a-09-fix-s2 CHECKPOINT kerb.ts: splitChain tries the next target after a guard drop (retry, KI 22 closed), spliceAt takes a kerb edge's end within attractCm (S8≡S9 exact at the 10° 300→163 step); tests: splitsBeyondReach helper, widthstep sweep to 20°, X02 near-equal step, chord fixtures 23/67/766/43; kernel bands (no B-FUZZ) green at 1000 in mirror; next: corridor/B-FUZZ reach assertions, mutants, diff probe
+2026-10-08 05:43 check/M0-a-11-close-s1 CHECKPOINT RELATED at 1000 still running (1 worker, machine loaded); next: RELATED verdict, verdict file, records

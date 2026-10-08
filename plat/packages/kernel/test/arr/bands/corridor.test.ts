@@ -11,7 +11,7 @@ import { err, ok } from '../../../src/num/index.js';
 import { insertChain } from '../../../src/insert/index.js';
 import { setOwner, tx } from '../../../src/tx/index.js';
 import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
-import { kerb, kerbOf, readFace } from '../../../src/arr/kerb.js';
+import { kerb, kerbOf, readFace, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion, opCorridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
 import { CELLS } from '../../insert/step1-2/support.js';
@@ -33,6 +33,7 @@ import {
   ringsOf,
   spec,
   splitsBetweenBlocks,
+  splitsBeyondReach,
   state,
   tilesExactly,
   TIMEOUT,
@@ -198,7 +199,12 @@ describe('corridorUnion (§3.4, §3.7)', () => {
         commit(p, 1, (o) => setOwner(o, faces, 'district:1'));
         const ws = widthsOf(table);
         const k = new Map<FaceId, { rings: string[]; moved: boolean } | null>();
-        for (const f of faces) k.set(f, kerbRead(p, f, ws));
+        for (const f of faces) {
+          k.set(f, kerbRead(p, f, ws));
+          // N-52 (2), C-0277 (1): every split chain within its junction's reach (none to a far kerb vertex)
+          const rk = readKerb(p, f, ws);
+          if (rk.ok) expect(splitsBeyondReach(p, rk.value)).toEqual([]);
+        }
         // each face in a batch of its own, so each face's commit warnings are its own (§3.7's split per case)
         for (const f of faces) {
           const r = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, [f], ws));

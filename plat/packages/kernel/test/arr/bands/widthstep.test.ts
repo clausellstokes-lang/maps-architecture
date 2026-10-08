@@ -16,7 +16,7 @@ import type { LatticePoint } from '../../../src/types/index.js';
 import { entersRegion, kerb, readKerb, type SpineWidths } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import type { BandResult } from '../../../src/arr/bandUnion.js';
-import { AT_S9, commit, faceAt, framed, healthy, normals, own, pt, ringsOf, splitsBetweenBlocks, tilesExactly, TIMEOUT, way, widthsOf } from './support.js';
+import { AT_S9, commit, faceAt, framed, healthy, network, normals, own, pt, ringsOf, splitsBetweenBlocks, splitsBeyondReach, tilesExactly, TIMEOUT, way, widthsOf, type Chord } from './support.js';
 
 const ATTRACT = 26;
 
@@ -87,6 +87,8 @@ function s8s9(p: Plat, inside: readonly [number, number], late: { entity: string
   const read = readKerb(p, f, ws);
   expect(read.ok).toBe(true);
   if (!read.ok) throw new Error(read.detail);
+  // every split chain within its junction's reach (C-0277 (1), (2))
+  expect(splitsBeyondReach(p, read.value)).toEqual([]);
   const r = commit(p, 2, (o) => corridorUnion(o, [f], ws), AT_S9);
   healthy(p);
   expect(tilesExactly(p, 2, [f])).toEqual([]);
@@ -133,15 +135,22 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
     expect(r.s9).toEqual(r.s8);
   });
 
-  it('§13.2 at a width step swept over 0.01°–5° (both turns, both width orders): every split within reach, S8’s working block ≡ S9’s block', { timeout: TIMEOUT }, () => {
+  it('§13.2 at a width step swept over 0.01°–20° (both turns, both width orders): every split within reach, S8’s working block ≡ S9’s block', { timeout: TIMEOUT }, () => {
     // a trapezoid face: way:a from P0 to J along y = 1000, way:b from J on to P1 (the step's turn: dy over 6 000 cm),
     // then up the slanted east side, across the top and down the slanted west side back to P0 — the slants put the far
-    // kerb corners across the block from J. way:a is S8's: inserted at L1 in the open batch, kerb(F) read there.
+    // kerb corners across the block from J. way:a is S8's: inserted at L1 in the open batch, kerb(F) read there. Past
+    // 5° the sweep runs on to where the inner edges meet between one and two reaches out (≈ 8°–15° at 163 / 300) and
+    // then within reach (a wedge): every point of the step's split within 2·max(hw) + attractCm of J — a reach of
+    // 4·max(hw) would draw a wedge there 816 cm out at 10° (checks/M0-a-09-s1.md line 1).
     const P0: [number, number] = [3000, 1000];
     const J: [number, number] = [9000, 1000];
     const cases: { dy: number; hwA: number; hwB: number }[] = [];
-    for (const dy of [1, 2, 5, 10, 52, 105, 210, 314, 420, 524, 525]) for (const sign of [1, -1]) for (const [hwA, hwB] of [[163, 300], [300, 163], [120, 450]]) cases.push({ dy: sign * dy, hwA, hwB });
+    for (const dy of [1, 2, 5, 10, 52, 105, 210, 314, 420, 524, 525, 631, 843, 1063, 1275, 1393, 1608, 2183]) {
+      // a turn away from F past 8° would take way:b below the frame (it turns away: no corner, the reach's other side)
+      for (const sign of dy < 1000 ? [1, -1] : [1]) for (const [hwA, hwB] of [[163, 300], [300, 163], [120, 450]]) cases.push({ dy: sign * dy, hwA, hwB });
+    }
     let corners = 0;
+    const wedges = new Set<string>();
     for (const c of cases) {
       const p = framed(20_000);
       way(p, 'way:b', [J, [15_000, 1000 + c.dy], [17_000, 9000], [1000, 9000], P0]);
@@ -152,12 +161,19 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
       // the step's junction has its one split from J
       const atJ = r.splits.filter((s) => s.some((q) => q.x === J[0] && q.y === J[1]));
       expect(atJ.length, label).toBe(1);
+      for (const q of atJ[0]) expect(Math.hypot(q.x - J[0], q.y - J[1]), label).toBeLessThanOrEqual(2 * Math.max(c.hwA, c.hwB) + ATTRACT);
+      if (atJ[0].length === 3) wedges.add(label);
       if (c.dy > 0) corners += 1;
       expect(r.s8.length, label).toBe(1);
       expect(r.s9, label).toEqual(r.s8);
       expect(r.result.blocks.length, label).toBe(1);
     }
-    expect(corners).toBe(33);
+    console.info(`width-step sweep: ${String(cases.length)} cases, ${String(corners)} left turns, wedges at ${JSON.stringify([...wedges])}`);
+    expect(corners).toBe(54);
+    // not vacuous on either side of the reach: at 15° and 20° the inner edges of 163 / 300 meet within reach (a wedge);
+    // from 6° to 13° they meet between one and two reaches out — straight-through, where a reach of 4·max(hw) would
+    // already draw the wedge (816 cm from J at 10°)
+    expect([...wedges].sort()).toEqual(['dy 1608, hw 163 → 300', 'dy 1608, hw 300 → 163', 'dy 2183, hw 163 → 300', 'dy 2183, hw 300 → 163']);
   });
 
   it('a right-angle corner and an acute corner keep their kerb-corner splits (the reach changes nothing there)', () => {
@@ -172,6 +188,115 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
     expect(r.splits.some((s) => s.length === 3 && s[1].x === 4700 && s[1].y === 1163)).toBe(true);
     expect(r.s9).toEqual(r.s8);
     expect(r.result.wedges.length).toBeGreaterThanOrEqual(1);
+  });
+});
+
+/** The trapezoid width step of the sweep: way:b from J bent by dy over 6 000 cm; way:a (S8's) from P0 to J. */
+function step(dy: number, hwA: number, hwB: number): ReturnType<typeof s8s9> {
+  const p = framed(20_000);
+  way(p, 'way:b', [[9000, 1000], [15_000, 1000 + dy], [17_000, 9000], [1000, 9000], [3000, 1000]]);
+  return s8s9(p, [9000, 5000], { entity: 'way:a', pts: [[3000, 1000], [9000, 1000]] }, widthsOf({ 'way:a': hwA, 'way:b': hwB }));
+}
+
+/**
+ * A B-FUZZ chord network (support.ts `network`, the chords of the differential probe of checks/M0-a-09-s1.md, drawn by
+ * B-FUZZ's own arbitrary): the L1 face holding `inside` read (kerb and splits), then corridorUnion over every face at
+ * L2 — healthy, tiling, no split between two blocks, every split of every face within its junction's reach.
+ */
+function chordFace(chords: readonly Chord[], inside: readonly [number, number]): { kerb: string[]; splits: string[] } {
+  const n = network(chords);
+  const ws = widthsOf(n.table);
+  const f = faceAt(n.p, 1, inside[0], inside[1]);
+  const read = readKerb(n.p, f, ws);
+  if (!read.ok) throw new Error(read.detail);
+  for (const g of n.faces) {
+    const rg = readKerb(n.p, g, ws);
+    if (!rg.ok) throw new Error(rg.detail);
+    expect(splitsBeyondReach(n.p, rg.value)).toEqual([]);
+  }
+  const r = commit(n.p, 2, (o) => corridorUnion(o, n.faces, ws), AT_S9);
+  healthy(n.p);
+  expect(tilesExactly(n.p, 2, n.faces)).toEqual([]);
+  expect(splitsBetweenBlocks(n.p, 2, (r.value as BandResult).blocks)).toEqual([]);
+  const text = (c: readonly LatticePoint[]): string => c.map((q) => `${String(q.x)},${String(q.y)}`).join(' ');
+  return { kerb: read.value.kerb.map(text), splits: read.value.splits.map(text) };
+}
+
+describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0280)', () => {
+  it('a near-straight width step of nearly equal half-widths (1°–4°, both turns): the two-point split at J, no wedge — meet’s near-parallel tolerance', { timeout: TIMEOUT }, () => {
+    // without the tolerance the inner edges of 290 / 300 meet within reach at 2° and the junction becomes a wedge
+    // [8709,1000] [8709,1290] [9000,1000]; within minFaceAngle the lines meet nowhere — §3.7's straight-through case
+    for (const dy of [105, 210, 314, 420]) {
+      for (const sign of [1, -1]) {
+        for (const [hwA, hwB] of [[290, 300], [300, 290], [280, 300]]) {
+          const label = `dy ${String(sign * dy)}, hw ${String(hwA)} → ${String(hwB)}`;
+          const r = step(sign * dy, hwA, hwB);
+          const near = r.splits.filter((c) => c.some((q) => Math.hypot(q.x - 9000, q.y - 1000) <= 2 * 300 + ATTRACT));
+          expect(near.length, label).toBe(1);
+          expect(near[0].length, label).toBe(2);
+          expect(near[0][0], label).toEqual(pt(9000, 1000));
+          expect(Math.hypot(near[0][1].x - 9000, near[0][1].y - 1000), label).toBeLessThanOrEqual(Math.max(hwA, hwB) + 1);
+          expect(r.s9, label).toEqual(r.s8);
+        }
+      }
+    }
+    // the left turn of 2° at 290 → 300: the foot of J's perpendicular on way:a's kerb
+    expect(step(210, 290, 300).splits.filter((c) => c.length === 2 && c[0].x === 9000 && c[0].y === 1000)[0]).toEqual([pt(9000, 1000), pt(9000, 1290)]);
+  });
+
+  it('a corner whose kerb corner lies off the meeting point (more than attractCm): the wedge through the kerb point nearest it', () => {
+    // B-FUZZ chords (probe case 23), face 3: J = (2908, 0) and (2970, 224) turn left at corners whose inner edges meet
+    // at (3056, 32) and (3054, 23), each within reach; the kerb's vertex (3117, 27) lies 61 and 64 cm from them, so
+    // the kerb point nearest the meeting point is the corner — the wedge through it, never a single split
+    const chords: Chord[] = [
+      { a: 4302, b: 27, hw: 26, knots: [94, 559], ends: 'square' },
+      { a: 4015, b: 40, hw: 398, knots: [10, 103], ends: 'round' },
+      { a: 2908, b: 7971, hw: 434, knots: [134, 140], ends: 'round' },
+    ];
+    const r = chordFace(chords, [3700, 100]);
+    expect(r.kerb).toEqual(['4000,0 4000,208 3117,27']);
+    expect(r.splits.sort()).toEqual(['2930,79 3117,27 3117,0', '3101,234 3117,27 2930,79']);
+  });
+
+  it('an acute corner of small half-width whose meeting point lies beyond reach: the one straight-through split', () => {
+    // B-FUZZ chords (probe case 67), face 0: J = (1743, 1981), half-widths 35 / 21, reach 96; the inner edges meet
+    // ≈ 110 cm out and no kerb vertex lies within attractCm of that point — the straight-through aim's split to the
+    // kerb's corner (1772, 1916), never no split
+    const chords: Chord[] = [
+      { a: 11_146, b: 2616, hw: 21, knots: null, ends: 'round' },
+      { a: 12_731, b: 4314, hw: 35, knots: null, ends: 'square' },
+    ];
+    const r = chordFace(chords, [3500, 100]);
+    expect(r.kerb).toEqual(['2616,0 4000,0 4000,265 1772,1916']);
+    expect(r.splits).toEqual(['1743,1981 1772,1916']);
+  });
+
+  it('a left turn whose inner edges meet far beyond reach, a kerb vertex near that point: no split to it (the corner path has a reach)', () => {
+    // B-FUZZ chords (probe case 766), face 2: J = (130, 27); a corner flag or a kerb-vertex acceptance without the
+    // reach draws 2972,609 2994,501 130,27 — 2 903 cm from J against a reach of 850; no kerb point lies within reach
+    const chords: Chord[] = [
+      { a: 15_964, b: 18, hw: 15, knots: [135, 271], ends: 'square' },
+      { a: 4819, b: 16, hw: 113, knots: null, ends: 'square' },
+      { a: 5184, b: 41, hw: 7, knots: [367, 413], ends: 'round' },
+    ];
+    const r = chordFace(chords, [3000, 100]);
+    expect(r.kerb).toEqual(['1410,0 4000,0 4000,708 2994,501']);
+    expect(r.splits).toEqual([]);
+  });
+
+  it('a corner wedge the guard drops: the junction’s straight-through split instead, the dropped splice taken out of the kerb (C-0280)', () => {
+    // B-FUZZ chords (probe case 43), face 3: J = (3915, 3645) turns sharply left; the kerb's tip (3274, 3711) lies
+    // 29.5 cm from the inner edges' meeting point, so the corner target is the kerb point nearest it, (3253, 3690),
+    // on the edge short of the tip — and the wedge through it would cross the tip into the block. The guard drops it,
+    // takes (3253, 3690) out of the kerb again, and the straight-through aim gives the split J → (3241, 3677)
+    const chords: Chord[] = [
+      { a: 11_553, b: 7636, hw: 23, knots: null, ends: 'round' },
+      { a: 2363, b: 5128, hw: 27, knots: [222, 480], ends: 'round' },
+      { a: 263, b: 7730, hw: 174, knots: [471, 502], ends: 'round' },
+    ];
+    const r = chordFace(chords, [300, 2000]);
+    expect(r.kerb).toEqual(['0,404 3241,3677 3274,3711 447,4000 0,4000']);
+    expect(r.splits).toEqual(['3915,3645 3241,3677']);
   });
 });
 

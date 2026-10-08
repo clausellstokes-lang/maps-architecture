@@ -7,8 +7,9 @@
 // random rings (rectangles, triangles, rotated quads). A crash is a throw; a hang fails the hard timeout; an output
 // is valid when the arena passes every oracle (§3.10's links, minEdge, one vertex per lattice point, no crossing,
 // clearance, level consistency, the face records against the level views, nesting, Euler per level, the index
-// state), the faces of the batch's level tile each L1 face exactly, every kerb ring and every piece is simple with the
-// face on its left, and a refusal is typed and writes nothing. Refusals are counted per operation and classed by
+// state), the faces of the batch's level tile each L1 face exactly, every split chain the kerb reading draws lies within
+// its junction's reach (N-52 (2), C-0277 (1)), every kerb ring and every piece is simple with the face on its left, and
+// a refusal is typed and writes nothing. Refusals are counted per operation and classed by
 // replay (replay.ts; N-44 as amended by J203/J207/J208, C-0212 (10) as amended): one that replays on insertChain alone
 // is insertChain's — counted, logged for the register (a REFUSAL line), never gated here; any other is the item's own
 // and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100).
@@ -16,11 +17,11 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { idOf } from '../../../src/arena/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
-import { kerb } from '../../../src/arr/kerb.js';
+import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
 import { bandUnion, type BandResult } from '../../../src/arr/bandUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
-import { area2, commit, firstBand, healthy, network, P, simpleRing, spec, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
+import { area2, commit, firstBand, healthy, network, P, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
 import { tx } from '../../../src/tx/index.js';
 import { classify, replayCommit, replayKerb, replayTile, type RefusalClass } from './replay.js';
 import { TIMEOUT } from '../../insert/step3-5/support.js';
@@ -76,6 +77,9 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
             for (const r of k.value) expect(simpleRing(r)).toBe(true);
             const outer = k.value.filter((r) => area2(r) > 0n);
             expect(outer.length > 0 || k.value.length === 0).toBe(true);
+            // N-52 (2), C-0277 (1): every split chain the kerb reading draws lies within its junction's reach
+            const rk = readKerb(o.plat, f, ws);
+            if (rk.ok) expect(splitsBeyondReach(o.plat, rk.value)).toEqual([]);
           }
           return { ok: true, value: null, warnings: [] };
         });
