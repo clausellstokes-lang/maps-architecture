@@ -323,9 +323,11 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
 /**
  * §3.4's `splitThrough(tx, at, p, row?)`: the vertex at p on the edge of half-edge `at` (see the module comment), with
  * `row` on it. Refusals write nothing: E_OUT_OF_RANGE (p), E_LEVEL (a finer edge, or a landing on a vertex finer than
- * the batch), E_WORK_LIMIT.
+ * the batch), E_WORK_LIMIT. A closed transaction (a stale overlay of a committed or rejected batch) throws before
+ * anything is read or charged — a programming error, as tx's own writers (N-55 (5), N-53 (3); C-0294).
  */
 export function splitThrough(tx: InsertTx, at: HalfEdgeId, p: LatticePoint, row?: RoleRow): KernelResult<VertexId> {
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const plan = planSplitThrough(tx, at, p, row);
   if (!plan.ok) return passOn(plan);
   const v = applySplitPlan(tx, plan.value);

@@ -118,6 +118,12 @@ export interface InsertTx {
    * non-empty list is refused with notBuilt('M3a') by the attraction (C-0169 (6)).
    */
   readonly prepared?: readonly VertexRef[];
+  /**
+   * Set by M0-a-06's transaction when it commits or rejects (and when a throw rolls it back): a writer handed a closed
+   * transaction throws (N-55 (5); §3.3 — an overlay outlives its batch only as a programming error, never a silent
+   * write). `OpenTx.closed` satisfies it; the shell `insertTx` leaves it unset (open).
+   */
+  readonly closed?: boolean;
 }
 
 /** A shell transaction on `plat` at `level` — what tests and, until M0-a-06, M0-a-05's harness hand the writers. */
