@@ -234,7 +234,9 @@ describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7
     }
   });
 
-  it('through the strategy: every wall_gate edge of the oblique crossing lies over the water, the boundary\'s corner in the bend on the wall', () => {
+  it('through the strategy: the oblique crossing has no chord, so the trace is refused E_INVARIANT `water`, nothing written (N-54 (1) strict; C-0295)', () => {
+    // Before session round s2 the trace kept the boundary's own course between the banks, several wall_gate edges over
+    // the water, none of them a chord between the gate's two bank pins; a water gate's wet side is now that chord alone.
     const site = smallSite(2);
     const { plat, k } = kernelFor(site);
     expect(commitOuterRing(site, k).ok).toBe(true);
@@ -243,25 +245,22 @@ describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7
       { ordinal: 0, at: P(-30000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
       { ordinal: 1, at: P(0, -30000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
     ];
+    const edgesBefore = edgesWith(plat, 'shore').length;
     const r = traceBase(BOUNDARY, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
-    expect(r.ok).toBe(true);
-    if (!r.ok) return;
-    const wgs = r.value.traced.waterGates;
-    expect(wgs).toHaveLength(2);
-    const oblique = wgs.filter((g) => g.bankAt[0].y > 0);
-    expect(oblique).toHaveLength(1);
-    const mine = edgesWith(plat, 'wall_gate', oblique[0].id);
-    // The boundary's course between the banks: more than one edge, the corner (220, 340) m a wall vertex.
-    expect(mine.length).toBeGreaterThan(1);
-    const wall = closedChain(plat, WALL);
-    expect(wall.some((q) => q.x === 22000 && q.y === 34000)).toBe(true);
-    // Every wall_gate edge (both crossings) over the water, sampled every twentieth of its length.
-    const all = edgesWith(plat, 'wall_gate');
-    expect(all.length).toBeGreaterThan(mine.length);
-    for (const e of all) {
-      for (let s = 1; s < 20; s += 1) expect(wet({ x: e.a.x + ((e.b.x - e.a.x) * s) / 20, y: e.a.y + ((e.b.y - e.a.y) * s) / 20 })).toBe(true);
-    }
-    // And the bank vertices are where the record puts them.
-    for (const g of wgs) for (const end of [0, 1] as const) expect(verticesWith(plat, 'gate_end', g.id, end)).toEqual([g.bankAt[end]]);
+    expect(r.ok).toBe(false);
+    if (r.ok) return;
+    expect(r.code).toBe('E_INVARIANT');
+    expect(r.detail).toMatch(/^water: the crossing from \S+ to \S+ has no clear chord between its two bank pins \(its chord would leave the water/);
+    expect(edgesWith(plat, 'wall')).toEqual([]);
+    expect(edgesWith(plat, 'wall_gate')).toEqual([]);
+    expect(edgesWith(plat, 'shore')).toHaveLength(edgesBefore);
+    // With the oblique corner taken out (a square crossing the arm twice, south of the bend) both crossings are chords
+    // and the trace commits: one wall_gate edge per water gate.
+    const square = densify([[-30000, -30000], [30000, -30000], [30000, 30000], [-30000, 30000]]);
+    const ok = traceBase(square, gates, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
+    expect(ok.ok).toBe(true);
+    if (!ok.ok) return;
+    expect(ok.value.traced.waterGates).toHaveLength(2);
+    for (const g of ok.value.traced.waterGates) expect(edgesWith(plat, 'wall_gate', g.id)).toHaveLength(1);
   }, 120_000);
 });
