@@ -45,7 +45,7 @@ import type { ChainRef, EdgeSetRef, FaceRef, Id, Level, RoleName, StretchRef, Ve
 import { linesOfRuns, pairsOfKey, resolveStretch, runsOfPairs, type Span } from './chains.js';
 import { chainLevel, cutKnot, JOIN_TOLERANCE_CM, knotLines, profileOut, routeLines, sameValue, type AnyProfile, type KnotLine, type RouteLine } from './profile.js';
 import { recordLeftOf, rewriteRows, type AddRow } from './relevel.js';
-import { chargeTx, check, doomed, noteRole, openTx, roleId, type OpenTx } from './state.js';
+import { asOp, chargeTx, check, doomed, noteRole, openTx, roleId, type OpenTx } from './state.js';
 import type { Conflict, Overlay, ProfileOut, ProfileValue, RemoveResult, RetypeResult } from './types.js';
 
 /** The open transaction, or the refusal of a doomed one (E_WORK_LIMIT reached by an earlier op). */
@@ -272,6 +272,10 @@ function isStretch(ref: ChainRef | EdgeSetRef | StretchRef | VertexRef): ref is 
  * `stretch`, E_LEVEL, E_KEPT, E_WORK_LIMIT.
  */
 export function removeEdges(o: Overlay, ref: ChainRef | EdgeSetRef | StretchRef | VertexRef, profiles: readonly AnyProfile[] = []): KernelResult<RemoveResult> {
+  return asOp(o, 'removeEdges', () => removeEdgesIn(o, ref, profiles));
+}
+
+function removeEdgesIn(o: Overlay, ref: ChainRef | EdgeSetRef | StretchRef | VertexRef, profiles: readonly AnyProfile[]): KernelResult<RemoveResult> {
   const { t, refused } = enter<RemoveResult>(o);
   if (refused !== null) return refused;
   const p = t.plat;
@@ -366,6 +370,16 @@ function promoteEnds(t: OpenTx, span: Span, n: Level, warnings: Warning[]): void
  * E_WORK_LIMIT.
  */
 export function retypeEdges(
+  o: Overlay,
+  ref: ChainRef | EdgeSetRef | StretchRef,
+  add: readonly RoleRow[],
+  remove: readonly RoleName[],
+  rekey?: { from: Id; to: Id; profiles?: { from?: AnyProfile; to?: AnyProfile }[] },
+): KernelResult<RetypeResult> {
+  return asOp(o, 'retypeEdges', () => retypeEdgesIn(o, ref, add, remove, rekey));
+}
+
+function retypeEdgesIn(
   o: Overlay,
   ref: ChainRef | EdgeSetRef | StretchRef,
   add: readonly RoleRow[],
@@ -544,6 +558,10 @@ function childrenOf(t: OpenTx, level: Level, f: FaceId): FaceId[] {
  * Returns the conflicts: locks and pins are M2a's, so the list is always empty at M0.
  */
 export function clearFiner(o: Overlay, faces: FaceRef, level: Level): KernelResult<Conflict[]> {
+  return asOp(o, 'clearFiner', () => clearFinerIn(o, faces, level));
+}
+
+function clearFinerIn(o: Overlay, faces: FaceRef, level: Level): KernelResult<Conflict[]> {
   const { t, refused } = enter<Conflict[]>(o);
   if (refused !== null) return refused;
   const p = t.plat;
@@ -609,6 +627,10 @@ export function clearFiner(o: Overlay, faces: FaceRef, level: Level): KernelResu
  * an L2 – L4 item to another district's partition, §3.3).
  */
 export function setOwner(o: Overlay, faces: readonly FaceId[], owner: Id): KernelResult<void> {
+  return asOp(o, 'setOwner', () => setOwnerIn(o, faces, owner));
+}
+
+function setOwnerIn(o: Overlay, faces: readonly FaceId[], owner: Id): KernelResult<void> {
   const { t, refused } = enter<void>(o);
   if (refused !== null) return refused;
   const p = t.plat;

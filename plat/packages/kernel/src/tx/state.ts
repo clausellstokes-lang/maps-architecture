@@ -60,8 +60,18 @@ export interface OpenTx extends Overlay {
   readonly log: TxLog;
   /** A refusal that dooms the whole batch (E_WORK_LIMIT): every later op refuses with it, and the batch rejects. */
   failed: { readonly code: KernelError; readonly detail: string } | null;
-  /** Closed after commit or reject: a writer handed a closed overlay throws. */
+  /**
+   * Closed after commit or reject (and after a throw rolled the batch back). The contract (N-55 (5)): every writer taking
+   * an overlay checks it first and throws on a closed one — tx's own writers, faces' and warp's through `openTx`, and the
+   * insertion shell's (`InsertTx.closed`, M0-a-04 / M0-a-05) — so a stale overlay never writes outside a transaction.
+   */
   closed: boolean;
+  /**
+   * The op the batch is running, for a rethrown error's prefix (N-53 (3)): a declared op's kind, `fn` while a callback
+   * runs (one of this module's writers names itself while it runs: `removeEdges`, `clearFiner`, `retypeEdges`,
+   * `setOwner`), `commit` for the expectations, the kernel rows and the commit.
+   */
+  op: string;
 }
 
 const open = new WeakSet<object>();
@@ -77,6 +87,20 @@ export function openTx(o: Overlay): OpenTx {
   const t = o as OpenTx;
   check(!t.closed, 'the transaction is closed (committed or rejected)');
   return t;
+}
+
+/**
+ * Runs one of this module's writers with the batch's `op` naming it (N-53 (3)): put back when the writer returns, left
+ * naming it when the writer throws, so the transaction's rethrown error names the op that threw. A nested writer call
+ * (a writer calling another) keeps the outer name.
+ */
+export function asOp<T>(o: Overlay, kind: string, run: () => T): T {
+  const t = openTx(o);
+  const was = t.op;
+  if (was === 'fn') t.op = kind;
+  const r = run();
+  t.op = was;
+  return r;
 }
 
 /** A fresh journal. */

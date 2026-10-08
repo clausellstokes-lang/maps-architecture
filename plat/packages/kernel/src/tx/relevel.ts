@@ -443,7 +443,10 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     const pairs: [number, number][] = [];
     for (let i = 0; i < at.length; i++) {
       for (let j = i + 1; j < at.length; j++) {
-        if (sameList(levelRows(p, at[i], m0), levelRows(p, at[j], m0))) pairs.push([at[i] >> 1, at[j] >> 1]);
+        // "Identical rows before the batch" is read with the rows this batch strips left out (N-55 (1), C-0300): a run a
+        // removed chain shared at the run's own level carried that chain's row on the shared side only, yet the run it
+        // split survives whole. The pre-batch arena and the batch's own strip set decide — no history is needed.
+        if (sameList(levelRows(p, at[i], m0, strip), levelRows(p, at[j], m0, strip))) pairs.push([at[i] >> 1, at[j] >> 1]);
       }
     }
     runsBefore.set(v, pairs);
@@ -817,9 +820,12 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
   return t.work.total <= t.workLimit;
 }
 
-/** The rows of a pair of exactly one level, as texts (the rows a run's identity reads, rule 3 (b)). */
-function levelRows(p: Plat, h: HalfEdgeId, level: number): string[] {
-  return rowsOn(p, 'edge', h).filter((r) => p.roles.level[r] === level).map((r) => rowText(p, r));
+/**
+ * The rows of a pair of exactly one level, as texts (the rows a run's identity reads, rule 3 (b)), leaving out the row
+ * slots in `except` (the batch's strip set, where rule 3 (b) reads the pre-batch arena; N-55 (1)).
+ */
+function levelRows(p: Plat, h: HalfEdgeId, level: number, except?: ReadonlySet<number>): string[] {
+  return rowsOn(p, 'edge', h).filter((r) => p.roles.level[r] === level && !(except?.has(r) ?? false)).map((r) => rowText(p, r));
 }
 
 // ---- the face pass ----------------------------------------------------------------------------------------------------

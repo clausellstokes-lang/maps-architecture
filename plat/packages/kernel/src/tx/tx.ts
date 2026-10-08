@@ -8,7 +8,10 @@
 //   overlay and each op it issues applies at once, in issue order. Both at once is a programming error (an assertion).
 // * **Atomic.** The overlay is the arena written in place over a before-image (savepoint.ts, C-0185 (1)); a rejected
 //   batch puts the image back, so the arena, its index and its version are as they were. A batch that writes nothing
-//   commits nothing and keeps the version.
+//   commits nothing and keeps the version. A throw anywhere in the batch (an op's, the callback's, a check's — §3.11's
+//   assertion class, a programming error or a corrupted arena) puts the image back too and is rethrown, never turned
+//   into a refusal, its message prefixed `tx <stage>/L<level>/<form>/<op>: ` and the original kept as its `cause`
+//   (N-53 (3), C-0300).
 // * **Work limits.** Every op charges operation counts to the batch (§3.3); a batch whose total exceeds `workLimit`
 //   returns E_WORK_LIMIT and commits nothing — a count, never a clock (C-0185 (5)).
 // * **Checks at commit.** `expect`'s class floors (E_BELOW_MIN_WIDTH / _AREA / _ANGLE) and named checks (E_INVARIANT)
@@ -111,6 +114,7 @@ function open(p: Plat, spec: KernelTx, env: TxEnv): OpenTx {
     log: emptyLog(),
     failed: null,
     closed: false,
+    op: 'open',
   };
   markOpen(t);
   return t;
@@ -551,13 +555,21 @@ export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => Kernel
   try {
     return run(t, fn);
   } catch (e) {
-    // A programming error anywhere in the batch (an op's, the callback's, a check's): the arena as it was, then the error.
+    // A programming error anywhere in the batch (an op's, the callback's, a check's) or a corrupted arena (§3.11's
+    // assertion class stays a throw, N-53 (3)): the arena, its index and its version as they were, the batch closed, the
+    // error rethrown with where it arose. A throw after the commit (the digest listener's) leaves the commit standing.
     if (!t.closed) {
       restoreSavepoint(t.savepoint);
       t.closed = true;
     }
-    throw e;
+    throw rethrown(t, fn === undefined ? 'declared' : 'callback', e);
   }
+}
+
+/** The error a throw inside a batch is rethrown as: `tx <stage>/L<level>/<form>/<op>: <message>`, the original its cause. */
+function rethrown(t: OpenTx, form: 'declared' | 'callback', e: unknown): Error {
+  const message = e instanceof Error ? e.message : String(e);
+  return new Error(`tx ${String(t.spec.stage)}/L${t.level}/${form}/${t.op}: ${message}`, { cause: e });
 }
 
 /** The batch on its open overlay: the ops or the callback, the expectations, the kernel rows, the commit. */
@@ -568,10 +580,15 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   let value: T | KernelResult<unknown>[];
   if (fn === undefined) {
     const results: KernelResult<unknown>[] = spec.ops.map(() => err('E_INVARIANT', 'not applied'));
+    t.op = 'order';
     const order = canonicalOrder(spec.ops);
     // Every op reads the arena as the batch found it before any applies (C-0189).
-    for (const i of order) spec.ops[i].prepare?.(t);
     for (const i of order) {
+      t.op = `${spec.ops[i].kind} (prepare)`;
+      spec.ops[i].prepare?.(t);
+    }
+    for (const i of order) {
+      t.op = spec.ops[i].kind;
       const r = spec.ops[i].apply(t);
       results[i] = r;
       if (!r.ok) {
@@ -581,11 +598,13 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
     }
     value = results;
   } else {
+    t.op = 'fn';
     const r = fn(t);
     if (overWork(t)) return reject(t, 'E_WORK_LIMIT', workDetail(t, 'the batch exceeded its work limit'));
     if (!r.ok) return reject(t, r.code, r.detail);
     value = r.value;
   }
+  t.op = 'commit';
   if (overWork(t)) return reject(t, 'E_WORK_LIMIT', workDetail(t, 'the batch exceeded its work limit'));
   sweepVertexRows(t);
   if (!wroteAnything(t)) {
