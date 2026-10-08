@@ -84,6 +84,47 @@ describe('an exact zero-width spur is pre-cleaned: the face skeletonises as the 
     }
   });
 
+  it('a spur continuing a boundary edge straight on past its root, or on the backward extension of the next edge (session fix S2, M13)', () => {
+    // the street runs on past the face's corner and stops: the tip's two neighbours are one lattice point (N-52 (3)), so
+    // the spur goes — the spur pass runs before the collinear merge in each round, or the merge would eat the root's
+    // first visit (straight on from (0, 0) to the tip) and leave the tip a 0° corner refused `sharpCorner`
+    const onIncoming = [pt(0, 0), pt(2_000, 0), pt(2_600, 0), pt(2_000, 0), pt(2_000, 1_000), pt(0, 1_000)];
+    const onOutgoingBack = [pt(0, 0), pt(2_000, 0), pt(2_000, -500), pt(2_000, 0), pt(2_000, 1_000), pt(0, 1_000)];
+    for (const ring of [onIncoming, onOutgoingBack]) {
+      const g = graph([ring]);
+      expect(shape(g)).toEqual(shape(PLAIN));
+      expect(g.rings).toEqual([RECT]);
+      // the root's first visit (caller vertex 1) is kept; the tip (2) and the second visit (3) lie inside the edge 1 → 4
+      expect(g.edges).toEqual([
+        { ring: 0, from: 0, to: 1 },
+        { ring: 0, from: 1, to: 4 },
+        { ring: 0, from: 4, to: 5 },
+        { ring: 0, from: 5, to: 0 },
+      ]);
+      for (let k = 0; k < ring.length; k += 1) {
+        const rotated = [...ring.slice(k), ...ring.slice(0, k)];
+        expect(shape(graph([rotated]))).toEqual(shape(PLAIN));
+        expect(shape(graph([[...rotated].reverse()]))).toEqual(shape(PLAIN));
+      }
+    }
+  });
+
+  it('a spur whose tip is the walk’s last vertex: the seam keeps the root’s last visit, the edge map spans the spur (session fix S2, M14)', () => {
+    // walk [R, P1, P2, P3, R, T]: T's neighbours are R (index 4) and R (index 0, across the seam); the tip and the walk's
+    // first vertex go, the root keeps index 4, so the cleaned ring R(4) P1(1) P2(2) P3(3) has the edges 4 → 1 … 3 → 4
+    // (C-0276 (1), (3): the first visit in walk order is the one kept — across the seam that is the walk's last visit)
+    const walk = [pt(0, 0), pt(2_000, 0), pt(2_000, 1_000), pt(0, 1_000), pt(0, 0), pt(-500, -300)];
+    const g = graph([walk]);
+    expect(shape(g)).toEqual(shape(PLAIN));
+    expect(g.rings).toEqual([RECT]);
+    expect(g.edges).toEqual([
+      { ring: 0, from: 4, to: 1 },
+      { ring: 0, from: 1, to: 2 },
+      { ring: 0, from: 2, to: 3 },
+      { ring: 0, from: 3, to: 4 },
+    ]);
+  });
+
   it('a spur on a hole, and a spur from the outer ring reaching into the face, take the holed face’s skeleton', () => {
     const hole: Ring = [pt(600, 300), pt(1_000, 300), pt(1_000, 700), pt(600, 700)];
     const base = graph([RECT, hole]);
