@@ -112,10 +112,24 @@ function attachNodesOf(points: readonly LatticePoint[], passable: Uint8Array, re
 }
 
 /**
- * §4.3's lattice over the site's frame with its edge costs (§4.2 S3 (3)), the jitter drawn from `stream` (the `route`
- * concern, `site.stream(CONCERNS.route)` when omitted).
+ * The costs with `water.decks` cut to the decks whose two ends lie inside the frame ring, its line included (C-0289,
+ * refining C-0201 (4); N-54 (2)): a crossing site with a deck end beyond the frame is never one S4 can span (§4.2 S3 (6),
+ * §4.13 bridge × frame: "a bridge's deck lies inside the frame (its site's two ends do)"). The same object when no deck
+ * is cut, so a site with every deck inside builds byte-identically.
  */
-export function buildLattice(site: Site, costs: Costs, stream?: Stream): Lattice {
+export function framedCosts(frameRing: readonly XY[], costs: Costs): Costs {
+  const decks = costs.water.decks.filter((d) => insideRing(frameRing, d.a, true) && insideRing(frameRing, d.b, true));
+  if (decks.length === costs.water.decks.length) return costs;
+  return { ...costs, water: { faces: costs.water.faces, decks } };
+}
+
+/**
+ * §4.3's lattice over the site's frame with its edge costs (§4.2 S3 (3)), the jitter drawn from `stream` (the `route`
+ * concern, `site.stream(CONCERNS.route)` when omitted). The lattice stores `costs` cut to the decks inside the frame
+ * (`framedCosts`, C-0289): the one chokepoint `edgeCost`, `alongDeck` and S4's `routeGraph` read.
+ */
+export function buildLattice(site: Site, given: Costs, stream?: Stream): Lattice {
+  const costs = framedCosts(site.frameRing, given);
   const { spacingCm, jitterCm } = latticeSpacing(site);
   const rng = stream ?? site.stream(CONCERNS.route);
   const hex = hexLattice([site.frameRing], spacingCm, jitterCm, rng);

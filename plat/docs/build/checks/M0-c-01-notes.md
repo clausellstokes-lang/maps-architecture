@@ -64,3 +64,23 @@ None of these notes fails the item; the blockers are in `checks/M0-c-01.md` (B-1
     list's length) are both killed. N-3 has new evidence and stays open: every one of the 460 river layouts gave
     `rings` 1, so no probe has yet produced a second component. *Suggested handling:* none for N-9; N-3 as before.
     *Milestone:* M4.
+15. **N-15 The `deckOf` pin in M0-c-03's `backbone/route.test.ts` is still missing (lane `check/M0-c-01-close-s1`,
+    2026-10-08).** N-54 (2) names two pins: one in `siting/lattice.test.ts` and one in `backbone/route.test.ts`
+    (`deckOf` −1 for a deck beyond the frame, seed 2220711574). Round S1 added only the first. The second file belongs to
+    M0-c-03, and C-0289 reports it for M0-c-03. M0-c-01's own pin already checks `routeGraph(L).deckOf` and `rg.decks`
+    from the lattice side. This check's mutants Y03 – Y05 show that test is red when the stored costs and the weights
+    disagree. *Suggested handling:* M0-c-03 adds the pin in its own file, and the session puts a row in
+    docs/M0-FIX-QUEUE.md for it. *Milestone:* M0 (M0-c-03's next round), earlier than M4.
+16. **N-16 Only `buildLattice` applies the frame rule; `edgeCost` does not.** `edgeCost` is exported, and it reads
+    whatever `Costs` a caller gives it. `framedCosts` cuts the decks only inside `buildLattice`. Today `buildLattice` is
+    the only caller in any package's `src/` (`siting/lattice.ts:165`), and `slice.ts:93` is the only caller of
+    `buildLattice`, so nothing goes around the cut. A later caller that builds costs itself would. *Suggested
+    handling:* a source-scan test that `edgeCost` is called only from `buildLattice`, or `edgeCost` taking the frame.
+    *Milestone:* M4.
+17. **N-17 The frame test and the fixture's test differ, but not yet in practice.** C-0289 tests the frame ring
+    (`insideRing(…, true)`). M0-x-06's `cell/bridge×frame` tests the ring's bounding box (`ringBox`/`inBox`). They give
+    the same answer while every frame is an axis-aligned rectangle, which is true of every M0 frame
+    (`fixtures/flat.ts:70`). This check's own probe also uses the box. With a frame of another shape, a deck end could
+    be inside the box but outside the ring. The lattice would then cut a deck that the fixture still calls in-frame,
+    which is the safe direction. *Suggested handling:* the fixture reads the ring when frames of other shapes arrive.
+    *Milestone:* M4.
