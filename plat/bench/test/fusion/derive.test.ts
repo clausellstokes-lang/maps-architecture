@@ -9,7 +9,7 @@ import { stageOneReach, districtValue, type FieldsPass1, type GrowthState, type 
 import type { District, Way } from '@plat/model';
 import { bandOf, defaultBandCuts, loadWorkLimits } from '@plat/tables';
 import { beforeAll, describe, expect, it } from 'vitest';
-import { derive, measure, metricDocOf, ringCentroid, stripFaces, wallLines, type Derivation, type SeedRecord } from '../../src/fusion/index.js';
+import { derive, measure, metricDocOf, ringCentroid, roadsLeaving, stripFaces, wallLines, type Derivation, type SeedRecord } from '../../src/fusion/index.js';
 import { faceInside } from '../../src/fusion/runs.js';
 import { TEST_SIZE } from './support.js';
 
@@ -135,6 +135,19 @@ describe('both runs', () => {
       }
       expect(grown).toBeGreaterThan(0);
       expect(doc.wall).toEqual(wallLines(state(d)).at(-1)?.ring);
+      // A street whose committed run ends at its origin is read reversed (C-0258 (5)): plant one by recording the
+      // first single-run street's points end-first, so its origin is the run's last vertex.
+      const one = s5.growth.flatMap((g) => g.streets).find((s) => doc.ways.filter((w) => w.id.split('#')[0] === s.way.id).length === 1);
+      expect(one).toBeDefined();
+      if (one === undefined) return;
+      const flipped = { ...s5, growth: s5.growth.map((g) => ({ ...g, streets: g.streets.map((s) => (s === one ? { ...s, points: s.points.slice().reverse() } : s)) })) };
+      const data = new Map(d.model.data);
+      data.set('s5', flipped);
+      const doc2 = metricDocOf({ ...d, model: { ...d.model, data, kernel: d.model.kernel } as typeof d.model });
+      const w2 = doc2.ways.find((w) => w.id === one.way.id);
+      const w1 = doc.ways.find((w) => w.id === one.way.id);
+      expect(w2?.line[0]).toEqual(one.points[one.points.length - 1]);
+      expect(w2?.line).toEqual(w1?.line.slice().reverse());
     });
 
     it(`${kind}: roads leaving each walled stage counted against its main gates; no lane in a wall strip`, () => {
@@ -147,6 +160,10 @@ describe('both runs', () => {
         expect(x.n).toBe(main);
         expect(x.leaving, `stage ${String(x.k)}`).toBe(x.n);
       }
+      // N counts the main gates alone: a postern added to a stage changes no N.
+      const k0 = r.roads[0].k;
+      const planted = { ...st, stages: st.stages.map((x, i) => (i === k0 - 1 ? { ...x, gates: [...x.gates, { ...x.gates[0], kind: 'postern' as const }] } : x)) } as GrowthState;
+      expect(roadsLeaving(planted, metricDocOf(d))[0].n).toBe(r.roads[0].n);
       const strips = stripFaces(d);
       expect(r.strips.faces).toBe(strips.length);
       expect(strips.length).toBeGreaterThan(0);
