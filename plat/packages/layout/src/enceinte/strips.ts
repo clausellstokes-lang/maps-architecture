@@ -13,11 +13,13 @@
 // the map border (the glacis line ends on it; where the border cut it short of a corridor, a cap runs from the trace out
 // along the way to the border). An enceinte with no gate keeps both lines whole: each strip a ring face with the trace
 // on one side. Each strip's face is found from its line and from its arc of the trace and taken only when it lies within
-// the strip's width of the trace and outside every corridor (C-0226 (10)).
+// the strip's width of the trace and outside every corridor (C-0226 (10)). Given the frame, a setback vertex beyond it
+// refuses the strips E_INVARIANT, nothing written (N-54 (1) Q6: the wall × frame cell's law, never a line past the map
+// border).
 import { buffer, err, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
-import { quot } from '../siting/geom.js';
+import { insideRing, quot } from '../siting/geom.js';
 import { area2, ccw, clipOutside, crossParams, d2, distToRing, footOn, inside, lat, openRing, unitOf, type Piece } from './plane.js';
 import { l1Spec, stripOwner } from './trace.js';
 import type { StripsLaid, StripStop, XY } from './types.js';
@@ -315,12 +317,25 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
   const framed = (q: XY): boolean => opts.frame === undefined || inside(opts.frame, q);
   const innerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.inner) ? [] : [a.inner]));
   const outerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.outer) || !framed(a.outer) ? [] : [a.outer]));
+  // Given the frame, every setback vertex inside it or on the border (N-54 (1) Q6), before the batch and again where the
+  // insertion placed it.
+  const beyond = (q: XY): boolean => opts.frame !== undefined && !insideRing(opts.frame, q, true);
+  const frameRefusal = (q: XY): { ok: false; code: 'E_INVARIANT'; detail: string } => ({ ok: false, code: 'E_INVARIANT', detail: `layStrips: a setback vertex (${String(q.x)}, ${String(q.y)}) lies beyond the frame (§4.13 wall × frame; N-54 (1))` });
+  for (const c of [...innerChains, ...outerChains, ...borderCaps]) {
+    const off = c.points.find(beyond);
+    if (off !== undefined) return frameRefusal(off);
+  }
   const owners = { inner: stripOwner(enceinte.id, 'inner'), outer: stripOwner(enceinte.id, 'outer') };
   const row = { role: 'setback', entity: enceinte.id };
   const committed = k.tx(l1Spec(key, opts.batchStage ?? STAGES.S5), (o) => {
     for (const c of [...innerChains, ...outerChains, ...borderCaps]) {
       const r = k.geom.insertChain(o, c.points, [row], 'mandatory', { closed: c.closed });
       if (!r.ok) return err(r.code, r.detail);
+      const pl = k.plat(key);
+      for (const v of r.value.placed) {
+        const q = { x: pl.vertices.x[v], y: pl.vertices.y[v] };
+        if (beyond(q)) return frameRefusal(q);
+      }
     }
     // Each line's probe and each arc's probe (a metre off the trace) finds a strip's face only where that face lies
     // wholly within the strip's width of the trace and outside every way's corridor (beyond a 5 cm rounding at its

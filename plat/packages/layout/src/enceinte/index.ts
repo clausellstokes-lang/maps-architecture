@@ -12,3 +12,4 @@ export { baseEnceinte, ENCEINTE_STRATEGY_ID, simplifyInBand, stripOwner, traceBa
 export { layStrips, stripWidths, traceLine, type LayStripsOptions } from './strips.js';
 export { commitOuterRing, commitS3Batch, commitS3Slice, outerRing, PLAZA_ID, siteContext, WAY_SPAN_NODES, type CommitOptions, type S3Batch, type S3Commit } from './commit.js';
 export { bandBreaches, bandLimit, departure, segmentDepartureBound, selfTouches, sideHolds, TOUCH_CM } from './plane.js';
+export { WET_TOL_CM, wetSides, type WetSides } from './wet.js';
