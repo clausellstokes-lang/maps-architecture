@@ -6932,3 +6932,6 @@
 2026-10-08 04:44 check/M0-a-11-close-s1 CHECKPOINT mirror replay: measure() test size seeds 1-2 both runs, S8=S9 hausdorff identical before/after prepare.ts (off 55/62/53/63) -> hausdorff.test.ts red independent of the item; corpus downgrades 1->0 (fusion1, integrated1); RELATED still running; next: RELATED verdict, verdict files
 2026-10-08 04:48 check/M0-a-09-close-s1 CHECKPOINT related at 1000 still running (W=3); verdict drafted FAIL (4 lines); next: write s1.md, CLEAN-ROOM row, landed
 2026-10-08 04:53 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 0/72 fixtures done; next: finish run, landed record
+2026-10-08 04:56 check/M0-d-09 CHECKPOINT X2's last leg running
+2026-10-08 05:03 build/M0-a-04-fix-s1 CHECKPOINT related run timed out at my 58-min cap (4 red files: bench fusion/hausdorff, layout perimeter, s5cd/growth, siting/lattice); C-0279 and L-0347 appended; next: read the 4 reds, attribute old vs fix in mirror, full related rerun
+2026-10-08 05:04 check/M0-a-11-close-s1 CHECKPOINT RELATED at 1000 still running (1 worker); verdict drafted: fail on M13 survivor (no pin for exact spur continuing a boundary edge); next: RELATED verdict, write files
