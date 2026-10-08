@@ -6861,3 +6861,4 @@
 2026-10-07 23:22 build/M0-a-09-fix-s1 CHECKPOINT gates install 0, lint 0 (probe-red ok, kernel-boundary ok after keeping the kerb-noun count at its cap 20: new helpers named entersRegion), build run; mutants running in mirror (M00 baseline 41/41); fusion 1 city after-run in background; next: near at PR size, related at PR size
 2026-10-07 23:23 check/M0-x-06 CHECKPOINT 1000-seed run 56/72
 2026-10-07 23:31 build/M0-a-11-fix-s1 CHECKPOINT landed record re-written (flow-7: 1 created, 3 changed; appends L-0342, C-0276), landed:verify flow-7 --item M0-a-11 ok; RELATED at PR size still running at --maxWorkers=1 (budget 1, machine loaded); bench fusion hausdorff.test.ts red so far (M0-c-06's known listed red, C-0270 (18), not reached by prepare.ts); next: RELATED verdict, LANDED
+2026-10-07 23:43 check/M0-x-06 CHECKPOINT 1000-seed run 57/72
