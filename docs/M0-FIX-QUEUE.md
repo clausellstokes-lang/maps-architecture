@@ -12,7 +12,7 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 
 | # | defect | reported in | target | status |
 |---|---|---|---|---|
-| Q1 | splitThrough writes into a stale half-edge table when a split doubles it (20 crashes) | C-0177 (10), M0-a-05 N-6, M0-x-06 B4 | M0-a-04 | ROUND (N-53 (1), build/M0-a-04-fix-s1) |
+| Q1 | splitThrough writes into a stale half-edge table when a split doubles it (20 crashes) | C-0177 (10), M0-a-05 N-6, M0-x-06 B4 | M0-a-04 | DONE fe0e4a36 (N-53 (1) + F-1; closing check PASS; M0-a-04 s3 — InsertTx.closed and the tiny-only test-side reds — launched next) |
 | Q2 | splitChain splices a far kerb corner at width steps (S9 commits a block fragment) | C-0270 (18) | M0-a-09 | ROUND s2 relaunched 16:02 (wf_85c2e5ae-0c4): the s2 builder had returned 'blocked' at 11:03 only because its RELATED at PR size was still running; that run finished 15:59 at 3753/3754 (the one red is M0-c-06's hausdorff exact-0); the builder lands under the CONTINUE rule, then the s2 closing check |
 | Q3 | exact zero-width spurs refused as sharpCorner (corpus bar) | C-0270 | M0-a-11 | DONE b8e03416 (N-52 (3), rounds S1+S2) |
 | Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | DONE 663f20b9 (N-52 (4) REPRODUCED by the builder and the checker, fixed; shift C-0288 (4): 39/600 holed districts; all bench bars hold) |
