@@ -8,7 +8,7 @@
 // test size, translated by (−12 000, +13 500) cm) and on a synthetic width step swept over 0.01°–5°, both turns and
 // both width orders, read S8's way (kerb on the open overlay, the step's second way inserted in the batch) and
 // committed S9's way (corridorUnion) — the blocks equal kerb(F) by normal forms (Hausdorff 0, §13.2).
-// Session fix round S2 (checks/M0-a-09-s1.md lines 1–3; C-0280): the sweep runs on to 20° (both sides of the reach),
+// Session fix round S2 (checks/M0-a-09-s1.md lines 1–3; C-0281): the sweep runs on to 20° (both sides of the reach),
 // a near-equal width step pins meet's near-parallel tolerance, and B-FUZZ chord networks pin each target of a junction
 // (the corner's spliced meeting point, the straight-through fallback, the reach of the corner path, the retry after the
 // guard drops a corner wedge).
@@ -146,7 +146,7 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
     // 5° the sweep runs on to where the inner edges meet between one and two reaches out (≈ 8°–15° at 163 / 300) and
     // then within reach (a wedge): every point of the step's split within 2·max(hw) + attractCm of J — a reach of
     // 4·max(hw) would draw a wedge there 816 cm out at 10° (checks/M0-a-09-s1.md line 1). At 10° with 300 → 163 the
-    // split's nearest kerb point lies 26 cm from the kerb corner (9000, 1300): taken at the corner (C-0280), else S9's
+    // split's nearest kerb point lies 26 cm from the kerb corner (9000, 1300): taken at the corner (C-0281), else S9's
     // commit attracts the corner onto the splice and its block differs from S8's by a sliver.
     const P0: [number, number] = [3000, 1000];
     const J: [number, number] = [9000, 1000];
@@ -228,7 +228,7 @@ function chordFace(chords: readonly Chord[], inside: readonly [number, number]):
   return { kerb: read.value.kerb.map(text), splits: read.value.splits.map(text) };
 }
 
-describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0280)', () => {
+describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-0277 (2)–(4), C-0281)', () => {
   it('a near-straight width step of nearly equal half-widths (1°–4°, both turns): the two-point split at J, no wedge — meet’s near-parallel tolerance', { timeout: TIMEOUT }, () => {
     // without the tolerance the inner edges of 290 / 300 meet within reach at 2° and the junction becomes a wedge
     // [8709,1000] [8709,1290] [9000,1000]; within minFaceAngle the lines meet nowhere — §3.7's straight-through case
@@ -290,7 +290,7 @@ describe('each target of a junction pinned (checks/M0-a-09-s1.md lines 1–3; C-
     expect(r.splits).toEqual([]);
   });
 
-  it('a corner wedge the guard drops: the junction’s straight-through split instead, the dropped splice taken out of the kerb (C-0280)', () => {
+  it('a corner wedge the guard drops: the junction’s straight-through split instead, the dropped splice taken out of the kerb (C-0281)', () => {
     // B-FUZZ chords (probe case 43), face 3: J = (3915, 3645) turns sharply left; the kerb's tip (3274, 3711) lies
     // 29.5 cm from the inner edges' meeting point, so the corner target is the kerb point nearest it, (3253, 3690),
     // on the edge short of the tip — and the wedge through it would cross the tip into the block. The guard drops it,

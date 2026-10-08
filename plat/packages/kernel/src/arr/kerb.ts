@@ -363,7 +363,7 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
   const splits: LatticePoint[][] = [];
   if (f.spines.size > 0 && rings.length > 0) {
     for (const jn of junctionsOf(p, f.edges, f.spines)) {
-      // each split in the band, never across a block (`splitChain`'s guard; C-0212 (5), N-52 (2), C-0280)
+      // each split in the band, never across a block (`splitChain`'s guard; C-0212 (5), N-52 (2), C-0281)
       const sc = splitChain(p, rings, jn);
       if (!sc.ok) return err(sc.code, sc.detail);
       if (sc.value !== null) splits.push(sc.value);
@@ -393,7 +393,7 @@ export function kerb(tx: InsertTx, face: FaceId, widths: SpineWidths): KernelRes
 // left turn whose inner edges meet beyond reach or nowhere (all but parallel: a width step between two nearly
 // collinear spines) is §3.7's straight-through case, one split from J to the foot of its perpendicular on the kerb; a
 // kerb point is accepted only within reach of J (never a far vertex), and a chain that would enter kerb(F)'s interior is
-// not drawn — the junction's next target is tried instead (`splitChain`; C-0280).
+// not drawn — the junction's next target is tried instead (`splitChain`; C-0281).
 
 const ATTRACT = LATTICE.attractCm;
 /** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
@@ -559,7 +559,7 @@ interface Reached {
 
 /**
  * The kerb point a split reaches, made a vertex of the kerb (C-0212 (5)): the point of the kerb nearest `q`, snapped; an
- * end of its kerb edge where it lands there or within `attractCm` of one (C-0280), else spliced into the ring between them — so
+ * end of its kerb edge where it lands there or within `attractCm` of one (C-0281), else spliced into the ring between them — so
  * the kerb `kerb` returns and the kerb `corridorUnion` commits carry the split's end as one vertex (§4.6's S8 ≡ S9).
  * Accepted only within `reach` of the junction J (N-52 (2): never a far vertex); else null, the rings untouched.
  */
@@ -589,7 +589,7 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
   const da = (v.x - a.x) * (v.x - a.x) + (v.y - a.y) * (v.y - a.y);
   const db = (v.x - b.x) * (v.x - b.x) + (v.y - b.y) * (v.y - b.y);
   // within attractCm of an end the insertion would attract the one onto the other (§3.6), so the end is the point
-  // (C-0280: an end within minEdge only left a splice 25–26 cm off a kerb corner that S9's commit then pulled the
+  // (C-0281: an end within minEdge only left a splice 25–26 cm off a kerb corner that S9's commit then pulled the
   // corner onto — S9's block a sliver off S8's)
   const min = ATTRACT * ATTRACT;
   if (da <= min || db <= min) {
@@ -613,7 +613,7 @@ function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached
  * straight-through aim, one split from J to the kerb point nearest it — each kerb point accepted only within reach of J.
  * A corridor_split lies in the band (§3.7): a candidate chain that would enter kerb(F)'s interior — a block — is not
  * drawn, the kerb point spliced in for it is taken out again, and the next target is tried (C-0212 (5) as refined by
- * N-52 (2) and C-0280): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
+ * N-52 (2) and C-0281): never a split across a block, and a corner whose wedge would cross a kerb tip still separates
  * its strips by the straight-through split where that one fits.
  */
 function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): KernelResult<LatticePoint[] | null> {
