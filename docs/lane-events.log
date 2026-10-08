@@ -7279,3 +7279,6 @@
 2026-10-08 19:24 check/M0-a-04-close-s3 CHECKPOINT RELATED@1000 still running (started 19:05, worker alive); next: RELATED verdict, records
 2026-10-08 19:27 check/M0-x-02-close-s1 CHECKPOINT gates: install frozen 0, lint 0 (1131 files, probe-red ok), build 0, near 62/62, landed:verify flow-7 --item M0-x-02 ok; related@1000 on runner.ts running (W=1, load ~13); next: verdict draft, then related verdict
 2026-10-08 19:27 build/M0-a-08-fix-s3 CHECKPOINT near at PR size 11 files 185/185 exit 0 (5251 s, 1 worker; buffer ic 60 cap 105 own 0, offsetFace ic 32 cap 56 own 0, insetRing/booleans 0); next: related at 1000 on winding.ts
+2026-10-08 19:37 build/M0-a-08-fix-s3 CHECKPOINT related at 1000 on winding.ts running; next: verify landed, LANDED line
+2026-10-08 19:44 check/M0-c-04-close-s2 CHECKPOINT snapshot RELATED@1000 and Y06 RELATED still running (load high); next: verdict
+2026-10-08 19:44 check/M0-a-04-close-s3 CHECKPOINT RELATED@1000 still running (worker alive); next: RELATED verdict, records
