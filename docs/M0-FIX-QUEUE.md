@@ -15,7 +15,7 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | Q1 | splitThrough writes into a stale half-edge table when a split doubles it (20 crashes) | C-0177 (10), M0-a-05 N-6, M0-x-06 B4 | M0-a-04 | ROUND (N-53 (1), build/M0-a-04-fix-s1) |
 | Q2 | splitChain splices a far kerb corner at width steps (S9 commits a block fragment) | C-0270 (18) | M0-a-09 | ROUND (N-52 (2); closing check) |
 | Q3 | exact zero-width spurs refused as sharpCorner (corpus bar) | C-0270 | M0-a-11 | DONE b8e03416 (N-52 (3), rounds S1+S2) |
-| Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | OPEN (round s2 queued) |
+| Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | ROUND (N-52 (4), build/M0-b-03-fix-s2) |
 | Q5 | S5a wall trace crosses the river on 6 wall edges 10-13 m deep with no water gate and commits (seed 9) — silently wrong | M0-e-06 check §5 #3, C-0271 (11); integration-g12 N-2 | M0-c-02 (+ M0-e-06 receipt) | DONE (M0-c-02 part, see git log 'M0-c-02 session round S1'); M0-e-06 receipt OPEN (N-54 (4)) |
 | Q6 | a committed setback line lies outside the frame (wall × frame, seed 496296019) | M0-x-06 check, C-0278 (5) | M0-c-02 | DONE (same commit as Q5) |
 | Q7 | a crossing site with a deck end outside the frame can still be spanned by S4 (21 seeds) | M0-x-06 check, C-0278 (5) | M0-c-01 | ROUND (N-54 (2), build/M0-c-01-fix-s1) |
