@@ -317,6 +317,15 @@ export function widthMap(d: Derivation): Map<Id, number> {
   return m;
 }
 
+/**
+ * S8's working block at one seed of a block (C-0270 (5)): the kerb S8 stopped on (`blockFaces.kerb`) for a block of one
+ * L1 face; for a block a deep-interior spine split (two seeds), the kerb of the seed's own L1 face read after S8 — the
+ * stop kerb is the face before the spine split it.
+ */
+export function workingBlock(b: { readonly seeds: readonly unknown[]; readonly kerb: readonly LatticePoint[] }, final: readonly LatticePoint[]): readonly LatticePoint[] {
+  return b.seeds.length === 1 ? b.kerb : final;
+}
+
 /** A planted change for the contract test (the tests' 1 cm shift): the working block read, changed before it is compared. */
 export type KerbPlant = (block: Id, ring: readonly LatticePoint[]) => readonly LatticePoint[];
 
@@ -354,7 +363,7 @@ export function s8s9(d: Derivation, plant?: KerbPlant): SeedRecord['hausdorff'] 
           // The component holding the seed (a kerb of several parts keeps each, C-0237 (7)).
           if (kr.ok) final = kr.value.find((r) => r.length >= 3 && sideOfRing(s, r) === 'in') ?? [];
         }
-        rows.push({ block: b.block, seed: s, working: b.seeds.length === 1 ? b.kerb : final, final });
+        rows.push({ block: b.block, seed: s, working: workingBlock(b, final), final });
       }
     }
     return { ok: true as const, value: undefined, warnings: [] };

@@ -2,7 +2,7 @@
 // "S8's working block equals S9's committed block (Hausdorff 0; §3.7)", read through corridorUnion over every district's
 // committed L1 faces (S9's kernel op) — and the ring geometry it rests on.
 import { describe, expect, it } from 'vitest';
-import { canonicalRing, derive, hausdorffCm, measure, s8s9, sameRing, type SeedRecord } from '../../src/fusion/index.js';
+import { canonicalRing, derive, hausdorffCm, measure, s8s9, sameRing, workingBlock, type SeedRecord } from '../../src/fusion/index.js';
 import { TEST_SIZE } from './support.js';
 
 const sq = [
@@ -38,6 +38,15 @@ describe('the ring geometry (canonical forms, Hausdorff)', () => {
     expect(hausdorffCm([sq[0], sq[1], { x: 1_000, y: 1_500 }, sq[3]], sq)).toBeGreaterThan(350);
     // An inserted vertex 1 cm off an edge: a new turning vertex, > 0.
     expect(hausdorffCm([sq[0], { x: 500, y: 1 }, sq[1], sq[2], sq[3]], sq)).toBeGreaterThan(0);
+  });
+});
+
+describe('S8’s working block (C-0270 (5))', () => {
+  it('the kerb S8 stopped on for a block of one face; the kerb of each child face for a block a spine split', () => {
+    const stop = sq as never;
+    const child = [sq[0], { x: 500, y: 0 }, { x: 500, y: 1_000 }, sq[3]] as never;
+    expect(workingBlock({ seeds: [{ x: 1, y: 1 }], kerb: stop }, child)).toBe(stop);
+    expect(workingBlock({ seeds: [{ x: 1, y: 1 }, { x: 900, y: 900 }], kerb: stop }, child)).toBe(child);
   });
 });
 

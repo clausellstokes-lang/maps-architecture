@@ -41,6 +41,7 @@ import {
 import { lineageHash, mint, TOWN_ROOT as TOWN_ROOT_KEY, type District, type Id, type LiveEntry, type Seed } from '@plat/model';
 import { TOWN_ROOT } from '@plat/site';
 import { bandOf, defaultBandCuts, type BandCuts } from '@plat/tables';
+import { DENSITY } from '../bentcut/district.js';
 import { ringCentroid, syntheticBandRamp } from './ramp.js';
 
 /** The ground arena (§2.2). */
@@ -199,7 +200,7 @@ export function wallLines(state: GrowthState): { k: number; ring: readonly Latti
  * The fusion run's S8 (C-0034, C-0270 (2), (3)): the walled S5 coarse faces — every live L1 face inside the outermost
  * walled stage's wall line that S6 would take (no owner, or an S1 land component, `isS1LandOwner`) — each re-owned by a
  * stand-in district minted in canonical face order, its growth stage the innermost wall line holding it, its pass-1
- * prosperity C-0034's ramp at the face (density 0.5, M0-b-04's constant), its regime its stage's row; then S8 over them
+ * prosperity C-0034's ramp at the face (density 0.5, M0-b-04's `DENSITY`), its regime its stage's row; then S8 over them
  * (M0-b-03's `runS8`), under S8's own declaration.
  */
 export function fusionS8Stage(ins: Instruments): PipelineStage<{ state: GrowthState } | null, Record<string, unknown>> {
@@ -273,7 +274,7 @@ export function fusionS8Stage(ins: Instruments): PipelineStage<{ state: GrowthSt
         const district: District = { id: x.id, kind: 'craft', quarter: 'quarter:fusion', faces: { owner: x.id, level: 1 }, seams: [], growthStage: x.k, fabric: 'bent-cut', fabricParams: {}, lifecycle: generated() };
         ins.bandOf.set(x.id, x.ramp.band);
         ins.standIns.push({ id: x.id, k: x.k, value: x.ramp.value, band: x.ramp.band, centroid: x.ramp.centroid });
-        return { district, lineage: [plan[i].lineage[0], plan[i].lineage[1]] as LineageHash, reroll: ctx.streamOpts(CONCERNS['cut.stop'], TOWN_ROOT).reroll, prosperity: x.ramp.value, density: 0.5, regime: regimes.row(gs.regime), walled: gs.walled };
+        return { district, lineage: [plan[i].lineage[0], plan[i].lineage[1]] as LineageHash, reroll: ctx.streamOpts(CONCERNS['cut.stop'], TOWN_ROOT).reroll, prosperity: x.ramp.value, density: DENSITY, regime: regimes.row(gs.regime), walled: gs.walled };
       });
       ins.districtFaces = plan.flatMap((x) => ownedFaces(p, x.id));
       const widths = new Map<Id, number>();

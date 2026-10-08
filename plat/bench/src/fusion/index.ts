@@ -32,7 +32,7 @@ import { timeFusionGate } from './timing.js';
 export { syntheticBandRamp, ringCentroid, type RampReading } from './ramp.js';
 export { canonicalRing, hausdorffCm, sameRing } from './hausdorff.js';
 export { derive, fixtureBlueprint, fusionS8Stage, instrument, newInstruments, runRegistry, RUN_KINDS, sideOfRing, wallLines, type Derivation, type DeriveOptions, type FixtureSize, type Instruments, type RunKind, type StandIn } from './runs.js';
-export { junctionRow, lanesInStrips, measure, metricDocOf, ringPassages, roadsLeaving, s8s9, segmentEnters, stripFaces, turnRow, unitsOf, widthMap, workRows, type CorpusCounts, type HausdorffMiss, type KerbPlant, type MeasureOptions, type SeedRecord, type WorkRow } from './measure.js';
+export { junctionRow, lanesInStrips, measure, metricDocOf, ringPassages, roadsLeaving, s8s9, segmentEnters, stripFaces, turnRow, unitsOf, widthMap, workingBlock, workRows, type CorpusCounts, type HausdorffMiss, type KerbPlant, type MeasureOptions, type SeedRecord, type WorkRow } from './measure.js';
 export { binsCliff, CITY_FIGURES, DRIFT, foldReport, foldRun, foldStamps, foldWork, JUNCTION, quantiles, spread, summaryOf, type FusionGateReport, type FusionSizes, type Quantiles, type RunSummary, type Spread, type StampFold, type Verdicts, type WorkCounter } from './report.js';
 export { runTask, runTasks, type Task } from './pool.js';
 export { GATE_ROW, R12_4_ROWS, timeFusionGate, type FusionTiming, type FusionTimingOptions } from './timing.js';
