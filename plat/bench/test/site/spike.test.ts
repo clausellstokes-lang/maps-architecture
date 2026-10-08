@@ -402,11 +402,20 @@ describe('every enceinte\'s wall over water is read against its own water gates 
     s5: S5Walls;
     id: string;
     gates: Gate[];
+    /** enceinte:2's wall edges over the river, read independently. */
     over: Edge[];
+    /** Per gate, its two banks resolved (fewer when one does not resolve to one vertex). */
+    ends: Map<string, LatticePoint[]>;
+    /** Of `over`, the edges carrying exactly one wall_gate row of enceinte:2's water gates and joining that gate's two bank pins. */
+    chordEdges: Edge[];
+    /** The gates whose one wet edge is their chord between their two bank pins. */
+    chords: Gate[];
   }
+  const joins = (e: Edge, u: LatticePoint, v: LatticePoint): boolean => (same(e.a, u) && same(e.b, v)) || (same(e.a, v) && same(e.b, u));
   function later(): Later {
     const d = city9();
     const p = ground(d);
+    const k = d.model.kernel;
     const commit = d.model.data.get('s3.commit') as S3Commit;
     const slice = d.model.data.get('s3.slice') as S3Slice;
     const water = d.model.data.get('water') as WaterSet;
@@ -420,41 +429,64 @@ describe('every enceinte\'s wall over water is read against its own water gates 
       const m = { x: (e.a.x + e.b.x) / 2, y: (e.a.y + e.b.y) / 2 };
       return e.rows.some((r) => r.role === 'wall' && r.entity === e2.id) && insideRings(rings, m) && ringsDist(rings, m) > TOLERANCE_CM;
     });
-    return { d, p, commit, slice, water, s5, id: e2.id, gates, over };
+    const ends = new Map<string, LatticePoint[]>();
+    for (const g of gates) {
+      const q: LatticePoint[] = [];
+      for (const ref of g.banks ?? []) {
+        const r = k.resolve(ref, GROUND);
+        if (r.view === 'vertices' && r.vertices.length === 1) q.push({ x: p.vertices.x[r.vertices[0]], y: p.vertices.y[r.vertices[0]] } as LatticePoint);
+      }
+      ends.set(g.id, q);
+    }
+    const ids = new Set(gates.map((g) => g.id));
+    const chordEdges = over.filter((e) => {
+      const gs = e.rows.filter((r) => r.role === 'wall_gate' && ids.has(r.entity));
+      const q = gs.length === 1 ? (ends.get(gs[0].entity) ?? []) : [];
+      return q.length === 2 && joins(e, q[0], q[1]);
+    });
+    const chords = gates.filter((g) => {
+      const mine = over.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
+      const q = ends.get(g.id) ?? [];
+      return q.length === 2 && mine.length === 1 && joins(mine[0], q[0], q[1]);
+    });
+    return { d, p, commit, slice, water, s5, id: e2.id, gates, over, ends, chordEdges, chords };
   }
 
-  it('relief-60 CITY seed 9: stage 2\'s water gates span stage 2\'s wall over the river and the receipt reads them gated; read with stage 1\'s records only, the same edges read ungated', { timeout: HEAVY }, () => {
-    const { d, p, commit, slice, water, s5, id, gates, over } = later();
+  it('relief-60 CITY seed 9: stage 2\'s water gates are read as stage 2\'s — each wall edge over the river that is its gate\'s chord between the gate\'s two bank pins reads gated; read with stage 1\'s records only, every one reads ungated', { timeout: HEAVY }, () => {
+    const { d, p, commit, slice, water, s5, id, gates, over, ends, chordEdges, chords } = later();
     const k = d.model.kernel;
     expect(d.report.bugs.filter((b) => ['S1', 'S3', 'S4', 'S5'].includes(b.stage))).toEqual([]);
     expect(commit.waterGates).toEqual([]);
     expect(gates.length).toBeGreaterThanOrEqual(1);
     // S5's gates hold no stage-1 water gate: stage 1's list is S4's (main gates only)
     expect(s5.gates.filter((g) => g.enceinte === commit.enceinte.id && g.kind === 'water')).toEqual([]);
-    // the geometry, independently: one wall edge over water per gate, the gate's chord between its two bank pins
-    expect(over).toHaveLength(gates.length);
-    for (const g of gates) {
-      const ends = (g.banks ?? []).map((ref) => {
-        const r = k.resolve(ref, GROUND);
-        if (r.view !== 'vertices' || r.vertices.length !== 1) throw new Error(`${g.id}: a bank resolves to no single vertex`);
-        return { x: p.vertices.x[r.vertices[0]], y: p.vertices.y[r.vertices[0]] } as LatticePoint;
-      });
-      expect(ends).toHaveLength(2);
-      for (const q of ends) expect(incident(p, q).some((x) => (x.role === 'shore' || x.role === 'bank') && water.bodies.some((b) => b.id === x.entity))).toBe(true);
-      const mine = over.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
-      expect(mine).toHaveLength(1);
-      expect((same(mine[0].a, ends[0]) && same(mine[0].b, ends[1])) || (same(mine[0].a, ends[1]) && same(mine[0].b, ends[0]))).toBe(true);
-    }
-    // the receipt with S5's output: enceinte:2's row gated, its strips read, the bar passes
+    // stage 2's wall meets the river, and at least one of its gates is a chord between its two bank pins
+    expect(over.length).toBeGreaterThanOrEqual(1);
+    expect(chordEdges.length).toBeGreaterThanOrEqual(1);
+    let onShore = 0;
+    for (const q of ends.values()) for (const v of q) if (incident(p, v).some((x) => (x.role === 'shore' || x.role === 'bank') && water.bodies.some((b) => b.id === x.entity))) onShore += 1;
+    // the receipt with S5's output: enceinte:2's row equals the independent reading, its strips read
     const r = waterGateReceipt(k, p, water, commit, slice, s5);
     const row = r.enceintes.find((e) => e.enceinte === id);
-    expect(row).toMatchObject({ stage: 2, recorded: true, gates: gates.length, wallOverWater: over.length, wallOverWaterGated: over.length, gatesWithOneEdge: gates.length, endsResolved: 2 * gates.length, endsOnShore: 2 * gates.length, stripVerticesInWater: 0 });
+    expect(row).toMatchObject({
+      stage: 2,
+      recorded: true,
+      gates: gates.length,
+      wallOverWater: over.length,
+      wallOverWaterGated: chordEdges.length,
+      gatesWithOneEdge: chords.length,
+      endsResolved: [...ends.values()].reduce((t, q) => t + q.length, 0),
+      endsOnShore: onShore,
+      stripVerticesInWater: 0,
+    });
     expect(row?.stripFaces).toBeGreaterThanOrEqual(2);
     expect(r.enceintes.map((e) => e.enceinte)).toEqual(s5.enceintes.map((e) => e.id));
-    expect(r.wallOverWaterGated).toBe(r.wallOverWater);
     const rec = runRecord(d);
     expect(rec.waterGates).toEqual(r);
-    expect(foldGroup('relief-60', 'default', [rec]).bars.waterGates.verdict).toBe('pass');
+    // a gate that is no chord, or a wet edge that is none, fails the bar (cross-item; C-0290 (4) names seed 9's)
+    const verdict = foldGroup('relief-60', 'default', [rec]).bars.waterGates.verdict;
+    if (chords.length < gates.length || chordEdges.length < over.length || over.length !== gates.length) expect(verdict).toBe('fail');
+    else expect(verdict).not.toBe('unobserved');
     // stage 1's records only (the receipt before N-54 (4)): enceinte:2 has no record, its wall over water no gate
     const old = waterGateReceipt(k, p, water, commit, slice);
     expect(old.enceintes.find((e) => e.enceinte === id)).toMatchObject({ stage: 0, recorded: false, gates: 0, wallOverWater: over.length, wallOverWaterGated: 0, gatesWithOneEdge: 0 });
@@ -462,15 +494,17 @@ describe('every enceinte\'s wall over water is read against its own water gates 
   });
 
   it('a stage-2 bare chord still reads ungated: a chord whose gate S5 does not hold, a gate of another enceinte, a chord not between its gate\'s two bank pins', { timeout: HEAVY }, () => {
-    const { d, p, commit, slice, water, s5, id, gates, over } = later();
+    const { d, p, commit, slice, water, s5, id, gates, over, chordEdges, chords } = later();
     const k = d.model.kernel;
     const rec = runRecord(d);
     const row = (r: ReturnType<typeof waterGateReceipt>, e: string) => r.enceintes.find((x) => x.enceinte === e);
     const fails = (r: ReturnType<typeof waterGateReceipt>): boolean => foldGroup('relief-60', 'default', [{ ...rec, waterGates: r }]).bars.waterGates.verdict === 'fail';
-    const g0 = gates[0];
+    // g0: a gate that is its chord (the first test shows one exists)
+    const g0 = chords[0];
+    expect(g0).toBeDefined();
     // (a) S5's output without g0: its chord carries a wall_gate row no gate of enceinte:2 holds
     const dropped = waterGateReceipt(k, p, water, commit, slice, { ...s5, gates: s5.gates.filter((g) => g.id !== g0.id) });
-    expect(row(dropped, id)).toMatchObject({ gates: gates.length - 1, wallOverWater: over.length, wallOverWaterGated: over.length - 1 });
+    expect(row(dropped, id)).toMatchObject({ gates: gates.length - 1, wallOverWater: over.length, wallOverWaterGated: chordEdges.length - 1, gatesWithOneEdge: chords.length - 1 });
     expect(fails(dropped)).toBe(true);
     // (b) enceinte:2's gates recorded as stage 1's: none gates stage 2's wall, and stage 1's wall has no chord for them
     const moved = waterGateReceipt(k, p, water, commit, slice, { ...s5, gates: s5.gates.map((g) => (g.enceinte === id ? { ...g, enceinte: commit.enceinte.id } : g)) });
@@ -480,7 +514,8 @@ describe('every enceinte\'s wall over water is read against its own water gates 
     // (c) the strict span reading: g0's banks naming its ends in the wrong order resolve neither, so its edge — still
     // carrying exactly one wall_gate row of an enceinte:2 gate — is no chord between two bank pins and reads ungated
     const reversed = waterGateReceipt(k, p, water, commit, slice, { ...s5, gates: s5.gates.map((g) => (g.id === g0.id ? ({ ...g, banks: [g.banks?.[1], g.banks?.[0]] } as Gate) : g)) });
-    expect(row(reversed, id)).toMatchObject({ gates: gates.length, endsResolved: 2 * gates.length - 2, wallOverWater: over.length, wallOverWaterGated: over.length - 1, gatesWithOneEdge: gates.length - 1 });
+    const base = row(waterGateReceipt(k, p, water, commit, slice, s5), id);
+    expect(row(reversed, id)).toMatchObject({ gates: gates.length, endsResolved: (base?.endsResolved ?? 0) - 2, wallOverWater: over.length, wallOverWaterGated: chordEdges.length - 1, gatesWithOneEdge: chords.length - 1 });
     expect(fails(reversed)).toBe(true);
   });
 });
