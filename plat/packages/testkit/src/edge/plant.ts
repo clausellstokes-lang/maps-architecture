@@ -43,6 +43,8 @@ export interface PlantLog {
   batch: { readonly committed: boolean; readonly code?: string } | null;
   /** Every batch the façade ran after the plant fired, in order: committed or refused (its code). */
   after: { readonly committed: boolean; readonly code?: string; readonly level: number }[];
+  /** Every batch the façade ran, fired or not, in order: committed or refused (its code) — a stage's whole batch log. */
+  batches: { readonly committed: boolean; readonly code?: string; readonly level: number }[];
   /** insertChain calls seen. */
   calls: number;
   /** Is the plant armed (a switch a driver may hold off while other sub-stages run)? */
@@ -51,7 +53,7 @@ export interface PlantLog {
 
 /** A fresh log, armed. */
 export function plantLog(armed = true): PlantLog {
-  return { fired: null, insert: null, batch: null, after: [], calls: 0, armed };
+  return { fired: null, insert: null, batch: null, after: [], batches: [], calls: 0, armed };
 }
 
 type InsertArgs = Parameters<Kernel['geom']['insertChain']>;
@@ -120,6 +122,7 @@ export function plantKernel(kernel: Kernel, plant: Plant | null, log: PlantLog):
       current = outer;
     }
     const end = r.ok ? { committed: r.value.record !== null } : { committed: false, code: r.code };
+    log.batches.push({ ...end, level: spec.level });
     if (firedHere) log.batch = end;
     else if (log.fired !== null) log.after.push({ ...end, level: spec.level });
     firedHere = before;

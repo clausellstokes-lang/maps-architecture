@@ -12,11 +12,16 @@
  *   left-out      the piece was left out and reported (tier 6), the stage going on;
  *   refused-safe  the stage refused it as a whole — typed (a §3.1 code), the batch rolled back, one `bugs` entry naming
  *                 the stage, the next stages run (§5.1 (8)'s defined state) — the fail-safe end where the stage's ladder
- *                 has no rung for it at M0 (C-0273 (6): a known shortfall for the hardening pass, pinned per cell);
+ *                 has no rung for it at M0 (C-0273 (6): a known shortfall for the hardening pass, pinned per cell). Held,
+ *                 not assumed: the planted batch was refused and no batch of the stage committed after it (C-0278 (1));
+ *   refused-residue  the stage refused, typed, one `bugs` entry — but the planted batch (or a later batch of the stage)
+ *                 had committed first, so the planted geometry stays in the arena with no record: NOT §5.1 (8)'s rolled-
+ *                 back state. Never a pass by default: allowed only on a cell pinned with its codes as a known issue
+ *                 routed to the stage's owner (C-0278 (1));
  *   defined       the home's stated outcome where its row's rung is "— (defined)";
  *   off           the outcome is none of the above: the fixture fails.
  */
-export type EdgeHandling = 'absorbed' | 'laddered' | 'left-out' | 'refused-safe' | 'defined' | 'off';
+export type EdgeHandling = 'absorbed' | 'laddered' | 'left-out' | 'refused-safe' | 'refused-residue' | 'defined' | 'off';
 
 /** One run of a fixture at one seed: how it was handled, the rung or code that names it, and its fail-safety problems. */
 export interface EdgeOutcome {
@@ -40,6 +45,8 @@ export interface EdgeExpect {
   readonly allowed: readonly EdgeHandling[];
   /** A refused-safe cell's pinned refusal (§3.1 codes) and the known-issue line it is listed under. */
   readonly refusal?: { readonly codes: readonly string[]; readonly known: string };
+  /** A refused-residue cell's pinned refusal (§3.1 codes) and the known-issue line naming the residue (C-0278 (1)). */
+  readonly residue?: { readonly codes: readonly string[]; readonly known: string };
   /** The fixture's own check of the outcome's facts: null when it holds, else the reason. */
   readonly judge?: (o: EdgeOutcome) => string | null;
 }
@@ -68,6 +75,11 @@ export function judgeOutcome(f: EdgeFixture, seed: number, o: EdgeOutcome): stri
     const r = f.expect.refusal;
     if (r === undefined) return `${at}: refused-safe with no pinned refusal`;
     if (!r.codes.includes(o.rung)) return `${at}: refused ${o.rung}, pinned ${r.codes.join(' | ')} (${r.known})`;
+  }
+  if (o.handling === 'refused-residue') {
+    const r = f.expect.residue;
+    if (r === undefined) return `${at}: refused after its batch committed (the planted geometry stays, no record) with no pinned residue`;
+    if (!r.codes.includes(o.rung)) return `${at}: refused ${o.rung} after commit, pinned ${r.codes.join(' | ')} (${r.known})`;
   }
   const own = f.expect.judge?.(o) ?? null;
   return own === null ? null : `${at}: ${own}`;

@@ -51,18 +51,27 @@ export function bugsOf(report: GenerationReport, stage: string): GenerationRepor
 }
 
 /**
- * A chain run's fail-safety problems for a fixture whose home is `home`: a restart, an invalid arena, a stage before the
- * home refused (the prepared state did not stand), a bugs entry that is not a §3.1 code.
+ * A chain run's checks for a fixture whose home is `home`, split in two (C-0278 (2)): `problems` — fail-safety
+ * violations that fail the run whatever state it stood on (a restart, an invalid arena, a refusal that is not a §3.1
+ * code) — and `unmet` — the prepared state did not stand (a stage before the home refused), which makes the state the
+ * fixture's to replace (./standing.ts), never the home's outcome.
  */
-export function chainProblems(run: ChainRun, upTo: ChainStage, home: ChainStage): string[] {
-  const out: string[] = [];
+export function chainCheck(run: ChainRun, upTo: ChainStage, home: ChainStage): { problems: string[]; unmet: string[] } {
+  const problems: string[] = [];
+  const unmet: string[] = [];
   const r = restartFree(run, upTo);
-  if (r !== null) out.push(`restart: ${r}`);
+  if (r !== null) problems.push(`restart: ${r}`);
   const before = CHAIN_ORDER.slice(0, CHAIN_ORDER.indexOf(home));
   for (const b of run.report.bugs) {
-    if (before.includes(b.stage as ChainStage)) out.push(`the prepared state did not stand: ${b.stage} refused ${b.cls} (${run.refusals.get(b.stage)?.detail.slice(0, 160) ?? ''})`);
-    if (!KERNEL_CODES.has(b.cls)) out.push(`${b.stage}'s refusal carries no §3.1 code: ${b.cls}`);
+    if (before.includes(b.stage as ChainStage)) unmet.push(`the prepared state did not stand: ${b.stage} refused ${b.cls} (${run.refusals.get(b.stage)?.detail.slice(0, 160) ?? ''})`);
+    if (!KERNEL_CODES.has(b.cls)) problems.push(`${b.stage}'s refusal carries no §3.1 code: ${b.cls}`);
   }
-  out.push(...arenaProblems(groundOf(run)));
-  return out;
+  problems.push(...arenaProblems(groundOf(run)));
+  return { problems, unmet };
+}
+
+/** A chain run's unmet preparation and fail-safety problems in one list (chainCheck's two, unmet first). */
+export function chainProblems(run: ChainRun, upTo: ChainStage, home: ChainStage): string[] {
+  const c = chainCheck(run, upTo, home);
+  return [...c.unmet, ...c.problems];
 }

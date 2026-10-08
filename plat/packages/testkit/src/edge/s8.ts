@@ -9,7 +9,7 @@
 //   self-touching  a closed loop way touching the ring road at one vertex: the face between them pinched there;
 //   collinear      a way along the ring road's south side and on past its corner, folded back on itself;
 //   coincident     the west half of the ring road laid again as a way of its own (one shared stretch, merged rows).
-import { attachIndex, createKernel, createPlat, err, ok, pointLocate, seedKey, STAGES, type Cm, type FaceId, type Frame, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
+import { attachIndex, createKernel, createPlat, dest, err, faceWalk, ok, pointLocate, rowKey, rowsOn, seedKey, STAGES, type Cm, type FaceId, type Frame, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
 import { lineageHash, mint, type District, type Id, type LiveEntry, type Seam, type Way } from '@plat/model';
 import { granularityBands, spineWidthsOf, type S8District, type S8Input } from '@plat/layout';
 import { rungProfile } from '@plat/tables';
@@ -56,6 +56,9 @@ export interface S8State {
   readonly arterialX: number;
   /** The extra ways the kind laid (their ids). */
   readonly extra: readonly Id[];
+  /** The kinds' anchors (cm): the arterial's midpoint (zero-length) and the ring road's west point the antenna and the
+   * loop start from (zero-area, self-touching) — the same for every kind, so a kindless state is read at the same places. */
+  readonly anchors: { readonly arterialMid: { readonly x: number; readonly y: number }; readonly ringWest: { readonly x: number; readonly y: number } };
 }
 
 /**
@@ -157,7 +160,7 @@ export function s8State(seed: number, kind: DegenerateKind | null, opts: { reado
   const lh = lineageHash({ arena: GROUND, unit: null, stage: STAGES.S6, epoch: 0, index: 1000, reroll: 0 });
   const seams: Seam[] = [{ id: `seam:${String(lh[0])}`, sides: [pair[0], pair[1]], edges: [{ chain: { role: 'way', entity: 'way:art' }, type: 'way', wayClass: 'primary', widthCm: 1000 as Cm, hard: false }], portals: [] }];
   const input: S8Input = { kernel, key: GROUND, seedKey: sk, rung: 'CITY', districts, ways: records, seams, widths, live };
-  return { plat, kernel, input, box: [0, 0, W, H], arterialX: ax, extra: extra.map((w) => w.id) };
+  return { plat, kernel, input, box: [0, 0, W, H], arterialX: ax, extra: extra.map((w) => w.id), anchors: { arterialMid: { x: ax, y: my }, ringWest: { x: 0, y: my } } };
 }
 
 /** The live L1 faces inside the ring road on each side of the arterial (by a point inside each, read from the arena). */
@@ -175,4 +178,69 @@ function facesInside(plat: Plat, W: number, H: number, ax: number): [FaceId[], F
   }
   for (const f of west) east.delete(f);
   return [[...west].sort((a, b) => a - b), [...east].sort((a, b) => a - b)];
+}
+
+/** The way entities on a half-edge's edge (both its halves' rows). */
+function waysOn(p: Plat, h: number): Set<string> {
+  const out = new Set<string>();
+  for (const r of [...rowsOn(p, 'edge', h), ...rowsOn(p, 'edge', h ^ 1)]) {
+    const k = rowKey(p, r);
+    if (k.role === 'way') out.add(k.entity);
+  }
+  return out;
+}
+
+/**
+ * Did the kind reach the faces S8 receives (C-0278 (3))? Read from the arena, on the west district's faces as S8 resolves
+ * them (its `faces` reference, L1), never from the fixture's own geometry list:
+ *   zero-length    a live vertex at the arterial's midpoint on a west face's ring, between two arterial edges (the
+ *                  doubled points decimated, the extra collinear vertex kept);
+ *   zero-area      an antenna edge walked on both its sides by one west face's ring (a dangling edge: area 0);
+ *   self-touching  a west face's ring visiting the loop's touch vertex on the ring road twice (the pinch);
+ *   collinear      a west face's ring edge carrying both the folded way's and the ring road's rows (merged);
+ *   coincident     a west face's ring edge carrying both the twin's and the ring road's rows (one shared stretch).
+ * Null when it did, else the reason.
+ */
+export function s8KindProblem(st: S8State, kind: DegenerateKind): string | null {
+  const p = st.plat;
+  const west = st.input.districts[0];
+  const r = st.kernel.resolve(west.district.faces, GROUND);
+  if (r.view !== 'faces' || r.faces.length === 0) return 'the west district resolves to no face';
+  const rings = r.faces.map((f) => faceWalk(p, 1, f)[0]);
+  const at = (v: number, q: { x: number; y: number }): boolean => p.vertices.x[v] === q.x && p.vertices.y[v] === q.y;
+  const mid = st.anchors.arterialMid;
+  const touch = st.anchors.ringWest;
+  switch (kind) {
+    case 'zero-length': {
+      for (const ring of rings) {
+        for (let i = 0; i < ring.length; i += 1) {
+          const h = ring[i];
+          const g = ring[(i + 1) % ring.length];
+          if (at(dest(p, h), mid) && waysOn(p, h).has('way:art') && waysOn(p, g).has('way:art')) return null;
+        }
+      }
+      return `no vertex at the arterial's midpoint (${String(mid.x)}, ${String(mid.y)}) between two arterial edges on a west face`;
+    }
+    case 'zero-area': {
+      for (const ring of rings) {
+        const set = new Set(ring);
+        for (const h of ring) if (set.has(h ^ 1) && waysOn(p, h).has('way:antenna')) return null;
+      }
+      return "no antenna edge walked on both sides by a west face's ring (no dangling edge, area 0)";
+    }
+    case 'self-touching': {
+      for (const ring of rings) {
+        let n = 0;
+        for (const h of ring) if (at(p.halfEdges.origin[h], touch)) n += 1;
+        if (n >= 2) return null;
+      }
+      return `no west face's ring visits the loop's touch vertex (${String(touch.x)}, ${String(touch.y)}) twice (no pinch)`;
+    }
+    case 'collinear':
+    case 'coincident': {
+      const way = kind === 'collinear' ? 'way:fold' : 'way:twin';
+      for (const ring of rings) for (const h of ring) if (waysOn(p, h).has(way) && waysOn(p, h).has('way:ring')) return null;
+      return `no west face's ring edge carries both ${way}'s and the ring road's rows (no merged stretch)`;
+    }
+  }
 }

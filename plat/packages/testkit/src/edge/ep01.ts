@@ -11,16 +11,21 @@
 //   S8 — M0-b-03's Stage on a two-district arena whose west district's faces carry the kind (./s8.ts).
 // Each run is judged on: the plant fired (the precondition), no restart, the arena valid after the stage (the kernel's
 // whole-arena sweep), and how the stage handled it — absorbed by §3.11's rule, laddered with the rung its record names,
-// left out and reported, or (pinned per cell, C-0273 (6)) refused safe: typed, rolled back, one bugs entry.
+// left out and reported, or (pinned per cell, C-0273 (6)) refused safe: typed, one bugs entry, and rolled back — held on
+// the plant's batch log: the planted batch refused and no batch of the stage committed after it (C-0278 (1)); a refusal
+// after a commit is `refused-residue`, a pass only where pinned as a known issue. A run's state is the fixture's first
+// that stands (./standing.ts, C-0278 (2)): the plant fired, the stages before the home unrefused, and — when the home
+// refuses — the same state run unplanted not refused by the home too (else the refusal is the state's, not the kind's).
 import { simpleCcw, type S5cRecord, type S6Output, type S8Output, type StreetGrowOptions } from '@plat/layout';
 import { loadTable, type WorkLimitsTable } from '@plat/tables';
 import type { S1Output } from '@plat/site';
 import { s8Stage } from '@plat/layout';
 import { edgeChain, MID_FLAT, SMALL_FLAT, SMALL_RIVER, type ChainOptions, type ChainRun, type ChainStage, type S5Sub } from './chain.js';
 import { DEGENERATE_KINDS, degenerateRing, type DegenerateKind } from './kinds.js';
-import { arenaProblems, bugsOf, chainProblems } from './observe.js';
+import { arenaProblems, bugsOf, chainCheck } from './observe.js';
 import type { PlantCall } from './plant.js';
-import { s8State } from './s8.js';
+import { s8KindProblem, s8State } from './s8.js';
+import { firstStanding, type Attempt } from './standing.js';
 import { outcome, type EdgeFixture, type EdgeHandling, type EdgeOutcome } from './types.js';
 
 /** EP-01's stages (§4.1's transactions table, the M0 set: S1's L0 batch, the S3 slice's commits, S4, S5a – S5d, S6, S8). */
@@ -85,11 +90,26 @@ function growthRecordOf(stage: 'S5c' | 'S5d', run: ChainRun): S5cRecord | null {
   return run.s5.capacity[run.s5.capacity.length - 1]?.rim ?? null;
 }
 
+/**
+ * How a stage's refusal ended (C-0278 (1); §5.1 (8)): `refused-safe` only when the planted batch was refused and no
+ * batch of the stage committed after the plant fired; `refused-residue` when the planted batch, or a later batch of the
+ * stage, committed before the refusal (the planted geometry stays, with no record); off when no planted batch was
+ * logged. Exported for its unit tests.
+ */
+export function refusalHandling(run: ChainRun, code: string, bugs: number): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } {
+  const b = run.plant.batch;
+  const later = run.plant.after.filter((a) => a.committed).length;
+  const facts = { bugs, batchCommitted: b === null ? 'none' : b.committed, laterCommitted: later };
+  if (b === null) return { handling: 'off', rung: `${code}: the stage refused, and no planted batch was logged`, facts };
+  if (!b.committed && later === 0) return { handling: 'refused-safe', rung: code, facts };
+  return { handling: 'refused-residue', rung: code, facts };
+}
+
 /** How a chain stage handled its plant (see the header); exported for its unit tests. */
 export function chainHandling(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, run: ChainRun): { handling: EdgeHandling; rung: string; facts: Record<string, number | string | boolean> } {
   const name = SITES[stage].stage;
   const bugs = bugsOf(run.report, name);
-  if (bugs.length > 0) return { handling: 'refused-safe', rung: bugs[0].cls, facts: { bugs: bugs.length } };
+  if (bugs.length > 0) return refusalHandling(run, bugs[0].cls, bugs.length);
   const batch = run.plant.batch;
   const refused = batch !== null && !batch.committed;
   const insertRefused = run.plant.insert !== null && !run.plant.insert.ok;
@@ -136,23 +156,33 @@ export interface Ep01Extra {
   readonly s8Scale?: number;
 }
 
-/** One chain-stage cell's run. */
-function runChainCell(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
+/** One chain-stage cell's attempt on one state (./standing.ts): its outcome and its unmet preparation. */
+function chainCellAttempt(stage: Exclude<Ep01Stage, 'S6' | 'S8'>, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): Attempt {
   const site = SITES[stage];
   const base = site.opts();
   const o: Omit<ChainOptions, 'plant'> = extra.grow === undefined ? base : { ...base, s5: { ...base.s5, grow: { ...(base.s5?.grow ?? {}), ...extra.grow } } };
-  const run = edgeChain(seed, { ...o, plant: { stage: site.stage, ...(site.sub === undefined ? {} : { sub: site.sub }), ...(site.k === undefined ? {} : { k: site.k }), plant: { kind, select: site.select } } });
-  const problems = chainProblems(run, o.upTo, site.stage);
-  if (run.plant.fired === null) problems.push(`the plant never fired: ${site.what} was not met`);
+  const plantAt = (select: (c: PlantCall) => boolean): ChainOptions['plant'] => ({ stage: site.stage, ...(site.sub === undefined ? {} : { sub: site.sub }), ...(site.k === undefined ? {} : { k: site.k }), plant: { kind, select } });
+  const run = edgeChain(seed, { ...o, plant: plantAt(site.select) });
+  const c = chainCheck(run, o.upTo, site.stage);
+  const unmet = [...c.unmet];
+  if (run.plant.fired === null) unmet.push(`the plant never fired: ${site.what} was not met`);
   const h = chainHandling(stage, run);
+  if (unmet.length === 0 && bugsOf(run.report, site.stage).length > 0) {
+    // the unplanted control: the same state, the same façade, a plant that never fires
+    const control = edgeChain(seed, { ...o, plant: plantAt(() => false) });
+    const cb = bugsOf(control.report, site.stage);
+    if (cb.length > 0) unmet.push(`the home stage refuses this state unplanted: ${site.stage} ${cb[0].cls} (${control.refusals.get(site.stage)?.detail.slice(0, 120) ?? ''})`);
+  }
   const rec = stage === 'S5c' || stage === 'S5d' ? growthRecordOf(stage, run) : null;
   const workCut = rec?.rungs.find((r) => r.cause === 'F-WORK');
-  return outcome(h.handling, h.rung, problems, { ...h.facts, ...(run.plant.batch === null ? {} : { batchCommitted: run.plant.batch.committed }), ...(workCut === undefined ? {} : { workCut: `${workCut.rung} ${workCut.counter} ${String(workCut.count)}/${String(workCut.limit)}` }) }, kernelAnswer(run));
+  const facts = { ...h.facts, ...(run.plant.batch === null ? {} : { batchCommitted: run.plant.batch.committed }), ...(workCut === undefined ? {} : { workCut: `${workCut.rung} ${workCut.counter} ${String(workCut.count)}/${String(workCut.limit)}` }) };
+  return { outcome: outcome(h.handling, h.rung, c.problems, facts, kernelAnswer(run)), unmet };
 }
 
 /** EP-01's run of one (stage, kind) cell at `seed` (the class cells of ./classes.ts run the same cells). */
 export function runEp01(stage: Ep01Stage, kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
-  return stage === 'S6' ? runS6Cell(kind, seed) : stage === 'S8' ? runS8Cell(kind, seed, extra) : runChainCell(stage, kind, seed, extra);
+  if (stage === 'S8') return runS8Cell(kind, seed, extra);
+  return firstStanding(seed, (s) => (stage === 'S6' ? s6Attempt(kind, s) : chainCellAttempt(stage, kind, s, extra)));
 }
 
 /** A cell's pinned refusal codes (C-0273 (6)), or undefined where the stage's ladder takes every seed. */
@@ -160,12 +190,17 @@ export function ep01Pinned(stage: Ep01Stage, kind: DegenerateKind): readonly str
   return PINNED[stage]?.[kind];
 }
 
-/** S6's cell: S5's last boundary with land made the kind before S6 offsets its perimeter from it. */
-function runS6Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
+/**
+ * S6's cell on one state: S5's last boundary with land made the kind before S6 offsets its perimeter from it. S6's
+ * batches are logged through a façade whose plant never fires (its run otherwise S6's own), so a refusal is judged on
+ * them: refused-safe when none committed, refused-residue otherwise (C-0278 (1)).
+ */
+function s6Attempt(kind: DegenerateKind, seed: number): Attempt {
   let degraded = 0;
   const run = edgeChain(seed, {
     blueprint: SMALL_FLAT,
     upTo: 'S6',
+    plant: { stage: 'S6', plant: { kind, select: () => false } },
     s5: {
       after: (state) => {
         const b = state.stages[state.lastWithLand - 1]?.boundary;
@@ -176,25 +211,38 @@ function runS6Cell(kind: DegenerateKind, seed: number): EdgeOutcome {
       },
     },
   });
-  const problems = chainProblems(run, 'S6', 'S6');
-  if (degraded === 0 && kind !== 'zero-length') problems.push('the boundary was not made degenerate');
+  const c = chainCheck(run, 'S6', 'S6');
+  const problems = [...c.problems];
+  const unmet = [...c.unmet];
+  // every kind adds vertices to the ring (zero-length one, coincident the ring again): none added, the kind was not laid
+  if (degraded === 0) unmet.push('the boundary was not made degenerate (no stage with land, or no edge to carry the kind)');
   const bugs = bugsOf(run.report, 'S6');
-  if (bugs.length > 0) return outcome('refused-safe', bugs[0].cls, problems, { bugs: bugs.length });
+  if (bugs.length > 0) {
+    if (unmet.length === 0) {
+      const control = edgeChain(seed, { blueprint: SMALL_FLAT, upTo: 'S6' });
+      const cb = bugsOf(control.report, 'S6');
+      if (cb.length > 0) unmet.push(`the home stage refuses this state unplanted: S6 ${cb[0].cls} (${control.refusals.get('S6')?.detail.slice(0, 120) ?? ''})`);
+    }
+    const committed = run.plant.batches.filter((b) => b.committed).length;
+    return { outcome: outcome(committed === 0 ? 'refused-safe' : 'refused-residue', bugs[0].cls, problems, { bugs: bugs.length, s6Batches: run.plant.batches.length, s6Committed: committed }), unmet };
+  }
   const s6 = run.model.data.get('s6') as S6Output | undefined;
-  if (s6 === undefined) return outcome('off', 'S6 wrote no record', problems);
+  if (s6 === undefined) return { outcome: outcome('off', 'S6 wrote no record', problems), unmet };
   if (!simpleCcw(s6.perimeter)) problems.push('the perimeter S6 committed is not a simple counter-clockwise ring');
   if (s6.report.unowned !== 0) problems.push(`${String(s6.report.unowned)} coarse faces inside the perimeter hold no district`);
   if (s6.districts.length === 0) problems.push('S6 made no district');
-  return outcome('absorbed', 'S6: the perimeter offset from the degenerate boundary is a simple ring', problems, { districts: s6.districts.length, merges: s6.report.merges, perimeter: s6.perimeter.length });
+  return { outcome: outcome('absorbed', 'S6: the perimeter offset from the degenerate boundary is a simple ring', problems, { districts: s6.districts.length, merges: s6.report.merges, perimeter: s6.perimeter.length }), unmet };
 }
 
 /** S8's cell: M0-b-03's Stage on the two-district arena whose west district carries the kind. */
 function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): EdgeOutcome {
   const st = s8State(seed, kind, extra.s8Scale === undefined ? {} : { scale: extra.s8Scale });
+  // the precondition, read before S8 runs (C-0278 (3)): the kind stands in the west district's faces S8 receives
+  const reached = s8KindProblem(st, kind);
   const stage = s8Stage(extra.s8WorkLimits === undefined ? {} : { workLimits: extra.s8WorkLimits });
   const input = extra.s8WorkLimits === undefined ? st.input : { ...st.input, tables: { ...st.input.tables, workLimits: extra.s8WorkLimits } };
   const r = stage.run(stage.inputsOf(input, { kind: 'all' }), { report: undefined } as never);
-  const problems = arenaProblems(st.plat);
+  const problems = [...(reached === null ? [] : [`the kind never reached S8's faces: ${reached}`]), ...arenaProblems(st.plat)];
   if (!r.ok) return outcome('refused-safe', r.code, problems, {});
   const v = r.value as S8Output;
   const report = v.infill.report;
@@ -218,19 +266,44 @@ function runS8Cell(kind: DegenerateKind, seed: number, extra: Ep01Extra = {}): E
   return outcome('absorbed', 'S8: every face cut or stopped on its first rung', problems, { blocks: v.blocks.length, ...workCut });
 }
 
-/** The cells' pinned refusals (C-0273 (6)): the stage refuses safe where its ladder has no rung for the kind at M0. */
+/**
+ * The cells' pinned refusals (C-0273 (6), C-0278 (1), (4)): the stage refuses safe — typed, rolled back — where its ladder
+ * has no rung for the kind at M0 (a known shortfall for the hardening pass).
+ */
 const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
-  S1: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
-  S3: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
-  S5a: { 'zero-length': ['E_DEGENERATE'], 'zero-area': ['E_INVARIANT'], 'self-touching': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S1: { 'zero-length': ['E_DEGENERATE'] },
+  S3: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
+  S5a: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
   S5b: { 'zero-length': ['E_DEGENERATE'], 'self-touching': ['E_INVARIANT'] },
   S6: { 'zero-area': ['E_INVARIANT'] },
 };
 
-/** The known-issue line a pinned cell is listed under (C-0273 (6); the hardening pass's). */
+/**
+ * The cells pinned as refused after commit (C-0278 (1)): the kernel takes the planted kind by §3.11's rule (one shared
+ * stretch; its batch commits), then the stage refuses at its own later check — typed, one bugs entry — and the planted
+ * geometry stays committed with no record. Not §5.1 (8)'s rolled-back state: a known issue routed to the stage's owner
+ * (S1 M0-e-03; S3 and S5a's trace M0-c-01 / M0-c-02). Pinned alone, so the cell fails if the outcome changes.
+ */
+const RESIDUE: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
+  S1: { 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S3: { 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+  S5a: { 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
+};
+
+/** A cell's pinned residue codes (C-0278 (1)), or undefined. */
+export function ep01Residue(stage: Ep01Stage, kind: DegenerateKind): readonly string[] | undefined {
+  return RESIDUE[stage]?.[kind];
+}
+
+/** The owners a residue is routed to (C-0278 (1)). */
+const RESIDUE_OWNER: Readonly<Partial<Record<Ep01Stage, string>>> = { S1: 'M0-e-03', S3: 'M0-c-01 / M0-c-02', S5a: 'M0-c-01 / M0-c-02' };
+
+/** The known-issue line a pinned cell is listed under (C-0273 (6), C-0278 (1); the hardening pass's). */
 export function ep01Known(stage: Ep01Stage, kind: DegenerateKind): string | null {
+  const residue = RESIDUE[stage]?.[kind];
+  if (residue !== undefined) return `KI EP-01/${stage}/${kind}: the kernel takes the planted ${kind} by §3.11's rule and its batch commits, then ${stage} refuses at its own later check (${residue.join(' | ')}) — the planted geometry stays committed with no record, not §5.1 (8)'s rolled-back state; a fail-safety question routed to ${RESIDUE_OWNER[stage] ?? stage}'s owner`;
   const codes = PINNED[stage]?.[kind];
-  return codes === undefined ? null : `KI EP-01/${stage}/${kind}: the stage refuses the planted ${kind} whole (${codes.join(' | ')}) — no rung of ${EP01_CLASS[stage]} takes it at M0; fail-safe (N-45), for the hardening pass`;
+  return codes === undefined ? null : `KI EP-01/${stage}/${kind}: the stage refuses the planted ${kind} whole (${codes.join(' | ')}), rolled back — no rung of ${EP01_CLASS[stage]} takes it at M0; fail-safe (N-45), for the hardening pass`;
 }
 
 /** The EP-01 fixtures: every stage × every kind (45). */
@@ -239,6 +312,7 @@ export function ep01Fixtures(): EdgeFixture[] {
   for (const stage of EP01_STAGES) {
     for (const kind of DEGENERATE_KINDS) {
       const pinned = PINNED[stage]?.[kind];
+      const residue = RESIDUE[stage]?.[kind];
       const known = ep01Known(stage, kind);
       out.push({
         id: `EP-01/${stage}/${kind}`,
@@ -246,8 +320,9 @@ export function ep01Fixtures(): EdgeFixture[] {
         run: (seed) => runEp01(stage, kind, seed),
         expect: {
           outcome: `${kind} geometry at ${stage}: refused by the kernel (or taken by §3.11's rule) and handled by ${EP01_CLASS[stage]} — repair locally → retry that piece → simpler shape → leave out and report; never a crash, hang, invalid output or whole-map retry`,
-          allowed: pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
+          allowed: residue !== undefined ? ['refused-residue'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
           ...(pinned === undefined || known === null ? {} : { refusal: { codes: pinned, known } }),
+          ...(residue === undefined || known === null ? {} : { residue: { codes: residue, known } }),
         },
       });
     }
