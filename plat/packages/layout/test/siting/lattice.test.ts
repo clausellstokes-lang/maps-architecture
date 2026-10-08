@@ -3,7 +3,7 @@
 // along a crossing site's deck segment; a reservation impassable inside and reached at its attach points.
 import { CONCERNS, dijkstraTree, type LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { buildLattice, edgeCost, insideRing, siteCosts, type Costs, type Lattice, type WaterPlan } from '../../src/index.js';
+import { buildLattice, edgeCost, insideRing, routeGraph, siteCosts, type Costs, type Lattice, type WaterPlan } from '../../src/index.js';
 import { distToSegment, segmentMeetsRing } from '../../src/siting/geom.js';
 import { terrainSampler } from '@plat/site';
 import { P, sliceOf, smallSite } from './support.js';
@@ -152,6 +152,74 @@ describe("the lattice's water rule (C-0076)", () => {
       expect(wetPassable).toBeGreaterThanOrEqual(2);
       expect(wetBlocked).toBeGreaterThan(100);
     }
+  });
+
+  // N-54 (2), C-0285: a deck with an end beyond the frame is no deck the lattice reads (§4.2 S3 (6), §4.13 bridge ×
+  // frame). The river band crosses the frame's north edge; the deck spans it slanting up to the north-east, its east end
+  // 1 m beyond the frame line. The control moves the same deck 2 m south (its east end 1 m inside) and nothing else.
+  describe('a deck with an end beyond the frame (N-54 (2), C-0285)', () => {
+    const band: LatticePoint[] = [P(-2000, -60_000), P(2000, -60_000), P(2000, 60_000), P(-2000, 60_000)];
+    const top = smallSite(9, { frameAreaHa: 100 }).frameRing.reduce((m, q) => Math.max(m, q.y), -Infinity);
+    /** The deck across the band, its east end `dy` cm north of the frame's north line (reversed: the far end first). */
+    const deckAt = (dy: number, reversed = false): WaterPlan['decks'][number] => {
+      const west = P(-2000, top + dy - 1200);
+      const east = P(2000, top + dy);
+      return reversed ? { id: 'bridge:0', a: east, b: west } : { id: 'bridge:0', a: west, b: east };
+    };
+    const latticeWith = (decks: WaterPlan['decks']): Lattice => {
+      const site = smallSite(9, { frameAreaHa: 100, water: { faces: [band], decks } });
+      return buildLattice(site, siteCosts(site));
+    };
+    /** The wet edges (meeting the band) by passability. */
+    const wetEdges = (L: Lattice): { passable: number; blocked: number } => {
+      let passable = 0;
+      let blocked = 0;
+      for (const [u, v, w] of edges(L)) {
+        if (!segmentMeetsRing(band, L.points[u], L.points[v])) continue;
+        if (w < Infinity) passable += 1;
+        else blocked += 1;
+      }
+      return { passable, blocked };
+    };
+
+    it('beyond by 1 m, either end: every wet edge impassable, the stored costs and S4’s route graph hold no deck', () => {
+      for (const reversed of [false, true]) {
+        const L = latticeWith([deckAt(100, reversed)]);
+        const wet = wetEdges(L);
+        expect(wet.passable).toBe(0);
+        expect(wet.blocked).toBeGreaterThan(100);
+        expect(L.costs.water.decks).toEqual([]);
+        expect(L.costs.water.faces).toEqual([band]);
+        const rg = routeGraph(L);
+        expect(rg.decks).toEqual([]);
+        expect(rg.deckOf.every((d) => d === -1)).toBe(true);
+      }
+    });
+
+    it('the same deck moved inside (1 m inside, or its end on the frame line): passable along it, kept in the costs', () => {
+      for (const dy of [-100, 0]) {
+        for (const reversed of [false, true]) {
+          const deck = deckAt(dy, reversed);
+          const L = latticeWith([deck]);
+          const wet = wetEdges(L);
+          expect(wet.passable).toBeGreaterThanOrEqual(2);
+          expect(L.costs.water.decks).toEqual([deck]);
+          expect(routeGraph(L).deckOf.some((d) => d === 0)).toBe(true);
+        }
+      }
+    });
+
+    it('cuts only the deck beyond: a second deck inside the frame stays, and a site with no deck cut keeps its costs object', () => {
+      const inner = { id: 'bridge:1', a: P(-2000, 1000), b: P(2000, 1000) };
+      const L = latticeWith([deckAt(100), inner]);
+      expect(L.costs.water.decks).toEqual([inner]);
+      const rg = routeGraph(L);
+      expect(rg.decks.map((d) => d.id)).toEqual(['bridge:1']);
+      expect(rg.deckOf.some((d) => d === 0)).toBe(true);
+      const site = smallSite(9, { frameAreaHa: 100, water: { faces: [band], decks: [inner] } });
+      const costs = siteCosts(site);
+      expect(buildLattice(site, costs).costs).toBe(costs);
+    });
   });
 
   it('a search from the west bank reaches the east bank only across the deck', () => {
