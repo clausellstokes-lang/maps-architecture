@@ -46,7 +46,7 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | L4 | QuarterNode declared in layout, not @plat/model | C-0245 (14) | M0-m-01 |
 | L5 | the twin's skeleton timing row stale; C-0026's downgrade switch described as built but not built | M0-a-12 N-1, N-2 | spec lane (M0-work.json) |
 | L6 | C-0147 missing from M0-d-05a's and M0-x-02's choices in M0-work.json | M0-d-01 N8/N16, M0-d-05a N-2 | spec lane |
-| L7 | stray plat/undefined.cur (599 B, 2026-10-05) — find the writer, then remove | a-09 notes, d-08 N-9, s-01 N-10 | session |
+| L7 | stray plat/undefined.cur (599 B, 2026-10-05) — find the writer, then remove | a-09 notes, d-08 N-9, s-01 N-10 | session — DONE 2026-10-08 ~11:10 (J247): no writer exists in the tree or in history (`git log -S` over plat finds only the three notes rows; the only `.cur` writers ever are none — the JSON is one arr-booleans fuzz case, `{"i":199,"c":{"op":"difference","fill":"nonzero",…}}`, written 2026-10-05 00:09 by an uncommitted probe of an M0-a-08-era seat under a name built from an undefined variable); every copy in the mirrors is a `cp -a` copy (same mtime and md5); the file was removed from plat/ (a copy kept at ~/maps-scratch/undefined.cur.removed-2026-10-08) |
 | L8 | split faces take the split face's stage rank, not the batch's — judge | integration-g9 N-3 | M0-a-05 / M0-a-06 |
 | L9 | one bugs list uses three key vocabularies | integration-g11 N-4 | session |
 | L10 | agreement tests call fc.assert unseeded (N-43 counts vary run to run) | M0-a-06-s3 | M0-a-06 / M0-k-01 |
