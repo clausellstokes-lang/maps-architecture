@@ -16,10 +16,10 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 | Q2 | splitChain splices a far kerb corner at width steps (S9 commits a block fragment) | C-0270 (18) | M0-a-09 | ROUND (N-52 (2); closing check) |
 | Q3 | exact zero-width spurs refused as sharpCorner (corpus bar) | C-0270 | M0-a-11 | ROUND (N-52 (3); closing check) |
 | Q4 | deep-spine slit lane kept while the block is recorded court (PLAUSIBLE) | N-52 (4) | M0-b-03 | OPEN (round s2 queued) |
-| Q5 | S5a wall trace crosses the river on 6 wall edges 10-13 m deep with no water gate and commits (seed 9) — silently wrong | M0-e-06 check §5 #3, C-0271 (11); integration-g12 N-2 | M0-c-02 (M0-c-03) | RULING (J243 seat A) |
-| Q6 | a committed setback line lies outside the frame (wall × frame, seed 496296019) | M0-x-06 check, C-0278 (5) | M0-c-02 | RULING (J243 seat A) |
-| Q7 | a crossing site with a deck end outside the frame can still be spanned by S4 (21 seeds) | M0-x-06 check, C-0278 (5) | M0-c-01 / M0-c-03 | RULING (J243 seat A) |
-| Q8 | bridge:41's way runs over water off its span (CONFIRMED geometry) | M0-e-06 check §5 #4, e-06 notes row 7 | M0-c-03 | RULING (J243 seat A) |
+| Q5 | S5a wall trace crosses the river on 6 wall edges 10-13 m deep with no water gate and commits (seed 9) — silently wrong | M0-e-06 check §5 #3, C-0271 (11); integration-g12 N-2 | M0-c-02 (+ M0-e-06 receipt) | ROUND (N-54 (1), build/M0-c-02-fix-s1); M0-e-06 receipt after (N-54 (4)) |
+| Q6 | a committed setback line lies outside the frame (wall × frame, seed 496296019) | M0-x-06 check, C-0278 (5) | M0-c-02 | ROUND (N-54 (1), same round) |
+| Q7 | a crossing site with a deck end outside the frame can still be spanned by S4 (21 seeds) | M0-x-06 check, C-0278 (5) | M0-c-01 | OPEN (N-54 (2); round s1 queued for a seat) |
+| Q8 | bridge:41's way runs over water off its span (CONFIRMED geometry) | M0-e-06 check §5 #4, e-06 notes row 7 | M0-c-04 (not M0-c-03) | OPEN (N-54 (3); round s1 queued for a seat) |
 | Q9 | remove(insert(x)) after W_STRETCH_SHARED leaves the coarser run split — encoded chunks differ (N-46 (6)(e) vs §2.2 rule 3 (b)); ruling asked "now" 2026-10-06, never given | C-0219 (4), a-06 notes N-11 | session ruling → M0-a-05/M0-a-06 | OPEN (seat B queued) |
 | Q10 | insertChain leaves a dissolvable vertex where a chain folds back over its own edge (case 5317/20 000), counted under foldedBase | C-0223 (5), M0-a-06-s2 | same ruling as Q9 | OPEN (seat B) |
 | Q11 | removing every live chain leaves a content print ≠ the bare frame (seeds 25-27, 30, 32, 36), never investigated | M0-a-14-s1 | same ruling as Q9 | OPEN (seat B) |
