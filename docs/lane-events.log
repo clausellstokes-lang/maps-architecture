@@ -6930,3 +6930,5 @@
 2026-10-08 04:24 check/M0-a-11-close-s1 CHECKPOINT M13 corpus probe CITY fusion 1: M13 36/36 ok (0 collinear-root spurs in corpus); crossing-spur and spur-into-hole probes accepted (KI notes); RELATED at 1000 running (1 worker; hausdorff.test.ts red so far, M0-c-06 listed); next: RELATED verdict, before/after hausdorff replay, verdict files
 2026-10-08 04:37 check/M0-d-09 CHECKPOINT waiting on X2's last leg
 2026-10-08 04:44 check/M0-a-11-close-s1 CHECKPOINT mirror replay: measure() test size seeds 1-2 both runs, S8=S9 hausdorff identical before/after prepare.ts (off 55/62/53/63) -> hausdorff.test.ts red independent of the item; corpus downgrades 1->0 (fusion1, integrated1); RELATED still running; next: RELATED verdict, verdict files
+2026-10-08 04:48 check/M0-a-09-close-s1 CHECKPOINT related at 1000 still running (W=3); verdict drafted FAIL (4 lines); next: write s1.md, CLEAN-ROOM row, landed
+2026-10-08 04:53 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 0/72 fixtures done; next: finish run, landed record
