@@ -7265,3 +7265,5 @@
 2026-10-08 18:51 build/M0-x-02-fix-s1 CHECKPOINT related@1000 still running (1122 green; edge suite under way; one red bench fusion/hausdorff); next: verdict, choices, CLEAN-ROOM, landed
 2026-10-08 18:52 check/M0-a-04-close-s3 CHECKPOINT gates in tree: install 0, lint 0 (1131 files, probe-red ok), build 0 (tsc -b ok), landed:verify flow-7 --item M0-a-04 ok; mirror s3 installed; next: NEAR, tiny/default 3 folders in mirror
 2026-10-08 18:53 build/M0-c-02-fix-s2 CHECKPOINT NEAR enceinte 10 files 95/95 exit 0 (W=1); RELATED@1000 still running (one red so far: bench fusion/hausdorff, the known N-8/N-52 in-flight file); next: before/after site runs
+2026-10-08 19:00 build/M0-a-08-fix-s3 CHECKPOINT landed record written (19 created, 1 changed; appends C-0293, L-0373); near re-run (1 worker by budget) still in progress; next: related
+2026-10-08 19:07 check/M0-c-04-close-s2 CHECKPOINT Y06 RELATED and snapshot RELATED@1000 still running; next: Y07 derive.test re-confirm, verdict
