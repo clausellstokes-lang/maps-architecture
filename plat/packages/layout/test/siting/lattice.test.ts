@@ -154,10 +154,10 @@ describe("the lattice's water rule (C-0076)", () => {
     }
   });
 
-  // N-54 (2), C-0285: a deck with an end beyond the frame is no deck the lattice reads (§4.2 S3 (6), §4.13 bridge ×
+  // N-54 (2), C-0289: a deck with an end beyond the frame is no deck the lattice reads (§4.2 S3 (6), §4.13 bridge ×
   // frame). The river band crosses the frame's north edge; the deck spans it slanting up to the north-east, its east end
   // 1 m beyond the frame line. The control moves the same deck 2 m south (its east end 1 m inside) and nothing else.
-  describe('a deck with an end beyond the frame (N-54 (2), C-0285)', () => {
+  describe('a deck with an end beyond the frame (N-54 (2), C-0289)', () => {
     const band: LatticePoint[] = [P(-2000, -60_000), P(2000, -60_000), P(2000, 60_000), P(-2000, 60_000)];
     const top = smallSite(9, { frameAreaHa: 100 }).frameRing.reduce((m, q) => Math.max(m, q.y), -Infinity);
     /** The deck across the band, its east end `dy` cm north of the frame's north line (reversed: the far end first). */
