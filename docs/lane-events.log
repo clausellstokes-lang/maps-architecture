@@ -7255,3 +7255,4 @@
 2026-10-08 18:20 check/M0-a-09-close-s2 CHECKPOINT survivors judged: X01/X04/X06 1 face each within reach (note 20 stands), XF 0 faces (equivalent on probe), XG 1 face (quality), XR1 14/4977 faces lose a split (note); reach probe: splitsBeyondReach empty on all 3477 probe chord faces; node_modules of mut/s1/inst/m2 deleted; RELATED at 1000 running
 2026-10-08 18:23 check/M0-a-16-close-s1 CHECKPOINT related still running (~70 min, load high); next verdict
 2026-10-08 18:32 check/M0-a-16-close-s1 LANDED plat/docs/build/checks/M0-a-16-s1.md plat/docs/build/checks/M0-a-16-notes.md(11-13) plat/CLEAN-ROOM.md(L-0377) plat/docs/build/landed/check-M0-a-16-s1.json plat/docs/build/landed/check-M0-a-16-notes.json
+2026-10-08 18:33 build/M0-a-04-fix-s3 CHECKPOINT RELATED@1000 still running (pid 365307 alive; 11 FAIL lines so far); next: RELATED verdict, landed
