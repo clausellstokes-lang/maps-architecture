@@ -9,17 +9,20 @@
 // and a coarser batch's record lists the own-child ancestors it frees in key order. Fix round S3
 // (checks/M0-a-06-s2.md B-1, C-0225): a chain crossing one EDGE three or more times — a middle crossing judged against
 // every piece of the stretch it could have split, so cases 817 and 1526 restore; the zigzag property draws that class and
-// the targeted property screens candidates for its rare cases.
+// the targeted property screens candidates for its rare cases. Session round S4 (N-55 (1), C-0287): a chain sharing a
+// stretch of a run AT THE RUN'S OWN LEVEL (same-level W_STRETCH_SHARED) and then removed restores the run — rule 3 (b)'s
+// "identical rows before the batch" read with the batch's stripped rows left out; cases 1630 and 2337 pinned, the
+// quay-on-shore inverse control beside them, and the three properties no longer count a shared-stretch end.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { faceKey, isFaceLive, isVertexLive, outgoing, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
+import { faceKey, isFaceLive, isVertexLive, outgoing, roleIdOf, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
 import { recomputeLevelDigest } from '../../src/digest/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { encodeArena } from '../../src/io/index.js';
 import { removeEdges, tx, type CommitRecord } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { rng } from './fuzzgen.js';
-import { commit, contentPrint, degreeAt, framed, healthy, pt, spec, vertexAtPoint } from './support.js';
+import { between, commit, contentPrint, degreeAt, edgeRows, framed, healthy, pt, spec, vertexAtPoint } from './support.js';
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
 
@@ -308,6 +311,83 @@ describe('B-2: a coarser batch\'s record lists the own-child ancestors it frees,
   });
 });
 
+// ---- session round S4: the same-level shared stretch (N-55 (1)) ------------------------------------------------------
+
+/**
+ * N-55 (1), Q9 of docs/M0-FIX-QUEUE.md: a chain that shares a stretch of a run at the run's OWN level (same-level
+ * W_STRETCH_SHARED) splits the run at the stretch's ends; at each end the run's two edges carried {R} and {R, X} before
+ * the removing batch (X's row on the shared side only), so rule 3 (b) read on the raw pre-batch rows saw no run, cleared
+ * the flag and left the end as an unflagged degree-2 vertex — chunks and level digests differing. Read with the batch's
+ * stripped rows left out (C-0287), the run survives whole and the end dissolves. The cases are C-0219 (4)'s, from the
+ * S1-round generator (bases the kernel refused are left out: a refused batch leaves the arena as it was).
+ */
+describe('N-55 (1): a chain sharing a run at the run\'s own level, removed, restores the run (rule 3 (b) without the stripped rows)', () => {
+  const CASES: { name: string; bases: { level: Level; pts: Pts; i: number }[]; level: Level; pts: Pts; ends: Pts }[] = [
+    {
+      name: 'case 1630: an L0 chain sharing the L0 way base:0 from (271,330) to (523,1158), removed by an L0 batch',
+      bases: [
+        { level: 0, i: 0, pts: [[170, 0], [1082, 2992], [3594, 4000]] },
+        { level: 0, i: 1, pts: [[898, 0], [958, 352], [106, 4000]] },
+      ],
+      level: 0,
+      pts: [[218, 0], [1023, 3346]],
+      ends: [[271, 330], [523, 1158]],
+    },
+    {
+      name: 'case 2337: an L1 chain sharing the L1 way base:0 from (1076,1911) to (2942,2070), removed by an L1 batch',
+      bases: [{ level: 1, i: 0, pts: [[0, 3277], [1076, 1911], [4000, 2160]] }],
+      level: 1,
+      pts: [[726, 3204], [327, 1904], [3580, 2078]],
+      ends: [[2942, 2070]],
+    },
+  ];
+  for (const k of CASES) {
+    it(`${k.name}: the print, records per level, chunk refs and level digests as before the insert; nothing unflagged`, () => {
+      const p = based(k.bases);
+      const { removal } = roundTrip(p, k.level, xy(k.pts), k.level, (q) => {
+        // Between the batches: the chain shares the run at its level, and each stretch end is a split vertex of degree 3.
+        for (const [x, y] of k.ends) {
+          const v = vertexAtPoint(q, x, y);
+          expect(v, `the stretch end (${x},${y})`).toBeGreaterThanOrEqual(0);
+          expect(q.vertices.flags[v] & VERTEX_SPLIT, `(${x},${y}) split`).toBe(VERTEX_SPLIT);
+          expect(degreeAt(q, x, y), `(${x},${y}) degree`).toBe(3);
+        }
+      });
+      expect(removal.unflagged).toEqual([]);
+      for (const [x, y] of k.ends) expect(vertexAtPoint(p, x, y), `(${x},${y}) dissolved`).toBe(-1);
+    });
+  }
+
+  it('the inverse control (§2.2 rule 3 (b)\'s quay): an L0 shore, an L1 way sharing a stretch and leaving; the SHORE removed — the leave point stays the way\'s shape vertex', () => {
+    // With the shore's rows left out, the shore's two L0 edges at the leave point read as one run before the batch, but
+    // the batch deletes one of them: the run does not survive, so the flag is cleared and the way keeps its corner. The
+    // amended reading cannot straighten a surviving chain.
+    const p = framed();
+    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'shore', entity: 'water:1' }], 'mandatory'));
+    const way = commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(2500, 2000), pt(3000, 3500)], [{ role: 'way', entity: 'quay:1' }], 'mandatory'));
+    healthy(p);
+    expect((way.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED')).toBe(true);
+    const v = vertexAtPoint(p, 2500, 2000);
+    expect(v).toBeGreaterThanOrEqual(0);
+    expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
+    expect(degreeAt(p, 2500, 2000)).toBe(3);
+    expect(edgeRows(p, [1000, 2000], [2500, 2000])).toEqual(['shore/water:1', 'way/quay:1']);
+    const c = commit(p, 0, (o) => removeEdges(o, { role: 'shore', entity: 'water:1' }), { rederivesFrom: 0 as never });
+    healthy(p);
+    // The leave point survives as a degree-2 vertex whose two L1 edges carry identical rows: only its cleared flag keeps
+    // the dissolution from straightening the way's corner.
+    expect(vertexAtPoint(p, 2500, 2000)).toBe(v);
+    expect(degreeAt(p, 2500, 2000)).toBe(2);
+    expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(0);
+    expect(c.record?.unflagged).toContain(v);
+    expect(edgeRows(p, [1000, 2000], [2500, 2000])).toEqual(['way/quay:1']);
+    expect(edgeRows(p, [2500, 2000], [3000, 3500])).toEqual(['way/quay:1']);
+    const h = between(p, [1000, 2000], [2500, 2000]);
+    expect(p.halfEdges.level[h >> 1]).toBe(1); // demoted (rule 3 (a))
+    expect(rowsOn(p, 'edge', h).map((r) => p.roles.kind[r])).toEqual([roleIdOf('way')]);
+  });
+});
+
 // ---- the property ----------------------------------------------------------------------------------------------------
 
 /** A ring of a face line, rotated to its least rotation (a ring through one vertex twice prints from either visit). */
@@ -344,7 +424,7 @@ function canonPrint(print: string): string {
  * vertex row, no pin, degree 2, its edges of one level with identical rows? insertChain leaves one where a chain folds
  * back over its own edge (its far point lands on it: the property's case 5317 at 20 000 cases); a later chain attached
  * there and then removed leaves it to the dissolution, so the arena ends one vertex SIMPLER than before the insert —
- * §2.2 rule 3 as worded (C-0223 (5)). Counted, not judged, like the shared-stretch end.
+ * §2.2 rule 3 as worded (C-0223 (5)). Counted, not judged, until N-55 (5)'s M0-a-05 round s7 clears the flag (Q10).
  */
 function holdsDissolvable(p: Plat): boolean {
   const T = p.halfEdges;
@@ -416,13 +496,9 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
         expect(mid[d.level] - after.faces[d.level], `case ${c}: the record's L${d.level} removed − created`).toBe(d.removed.length - d.created.length);
       }
       const shared = (a.value.record?.warnings ?? []).some((w) => w.code === 'W_STRETCH_SHARED');
-      if (shared && after.refs !== before.refs) {
-        // A shared stretch's end where the chain left the run it shared: rule 3 (b) as §2.2 words it clears the end's
-        // split flag (no pair of its edges carried identical rows before the batch), so the run stays split there — the
-        // arena valid, the run's route unchanged. A design question for the session (C-0219 (4)), counted, not judged.
-        tally.sharedEnd++;
-        continue;
-      }
+      // A shared stretch's end is judged like any other case since N-55 (1) (C-0287 supersedes C-0219 (4)'s count): the
+      // tally only names the class of a failing case in the printed line.
+      if (shared && after.refs !== before.refs) tally.sharedEnd++;
       if (folded && after.refs !== before.refs) {
         tally.foldedBase++;
         continue;
@@ -445,7 +521,7 @@ describe(`N-47 property: ${CASES} random insertions at every level, each removed
     expect(tally.ownChildren).toBeGreaterThan(CASES / 20);
     expect(tally.refusedRemove).toBe(0);
     expect(tally.exact).toBeGreaterThan(tally.inserted * 0.95);
-    expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, tally.inserted / 200));
+    expect(tally.sharedEnd).toBe(0);
     expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
   }, 600_000);
 });
@@ -550,12 +626,9 @@ describe(`B-1 zigzag property: ${ZCASES} chains crossing one base edge repeatedl
       healthy(p);
       const after = snapshot(p);
       expect(after.faces, `case ${c}: live records per level`).toEqual(before.faces);
-      if (shared && after.refs !== before.refs) {
-        tally.sharedEnd++; // C-0219 (4), the session's open case: counted, not judged
-        continue;
-      }
+      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0287); named in the printed line
       if (folded && after.refs !== before.refs) {
-        tally.foldedBase++; // C-0223 (5): counted, not judged
+        tally.foldedBase++; // C-0223 (5): counted, not judged — until N-55 (5)'s M0-a-05 round s7 (Q10)
         continue;
       }
       expect(after.refs, `case ${c}: encoded chunk refs (base ${JSON.stringify(base)}, chain ${JSON.stringify(chain)}, L${lt} at L${removeAt})`).toBe(before.refs);
@@ -575,7 +648,7 @@ describe(`B-1 zigzag property: ${ZCASES} chains crossing one base edge repeatedl
     expect(tally.lifo).toBeGreaterThan(ZCASES / 20);
     expect(tally.refusedRemove).toBe(0);
     expect(tally.exact).toBeGreaterThan(tally.inserted * 0.95);
-    expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, tally.inserted / 100));
+    expect(tally.sharedEnd).toBe(0);
     expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, tally.inserted / 1000));
   }, 600_000);
 });
@@ -667,7 +740,7 @@ const INNER = Math.max(2, Math.floor(RUNS / 5000));
 
 describe(`B-1 targeted property: ${HARD} chains whose crossings lie only on the piece they split, removed, restore the arena`, () => {
   it('every kept case restores the records per level, the encoded chunk refs, the level digests and the content print', () => {
-    const tally = { candidates: 0, nearEnd: 0, inner: 0, realised: 0, refused: 0, sharedEnd: 0, exact: 0, coarserBatch: 0 };
+    const tally = { candidates: 0, nearEnd: 0, inner: 0, realised: 0, refused: 0, sharedEnd: 0, foldedBase: 0, exact: 0, coarserBatch: 0 };
     const clamp = (x: number): number => Math.max(120, Math.min(3880, Math.round(x)));
     const r = rng(0x5eed_b1);
     const cap = Math.max(4_000_000, RUNS * 400);
@@ -732,8 +805,9 @@ describe(`B-1 targeted property: ${HARD} chains whose crossings lie only on the 
       const after = snapshot(p);
       const what = `candidate ${tally.candidates} (${need}; L${level} at L${removeAt}; base ${JSON.stringify(base)}, chain ${JSON.stringify(chain)})`;
       expect(after.faces, `${what}: live records per level`).toEqual(before.faces);
-      if ((shared || folded) && after.refs !== before.refs) {
-        tally.sharedEnd++; // C-0219 (4) / C-0223 (5): counted, not judged
+      if (shared && after.refs !== before.refs) tally.sharedEnd++; // judged since N-55 (1) (C-0287); named in the printed line
+      if (folded && after.refs !== before.refs) {
+        tally.foldedBase++; // C-0223 (5): counted, not judged — until N-55 (5)'s M0-a-05 round s7 (Q10)
         continue;
       }
       expect(after.refs, `${what}: encoded chunk refs`).toBe(before.refs);
@@ -748,6 +822,7 @@ describe(`B-1 targeted property: ${HARD} chains whose crossings lie only on the 
     // (The model ignores attraction and hot pixels of other vertices, so some kept cases place a crossing elsewhere: 18
     // of 22 at the PR size, 163 of 211 at 10⁵ runs; those are still judged.)
     expect(tally.realised).toBeGreaterThanOrEqual(0.6 * (tally.nearEnd + tally.inner));
-    expect(tally.sharedEnd).toBeLessThanOrEqual(Math.max(2, (tally.nearEnd + tally.inner) / 50));
+    expect(tally.sharedEnd).toBe(0);
+    expect(tally.foldedBase).toBeLessThanOrEqual(Math.max(2, (tally.nearEnd + tally.inner) / 50));
   }, 600_000);
 });

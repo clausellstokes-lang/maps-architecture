@@ -58,6 +58,43 @@ export function state(p: Plat): string {
   return `${contentPrint(p)}\n#v${p.version}`;
 }
 
+/**
+ * The arena bit for bit (N-53 (3), N-55 (6)): every typed column of §2.2's tables up to its capacity (the doubling
+ * capacity included), the slot counters, the handle table, the frame and the version, and the index's mutable state —
+ * the dynamic grids, tombstones, partition keys, pending sets and trees' identity, the partition lists and the batch log.
+ */
+export function bits(p: Plat): string {
+  const col = (a: ArrayLike<number>): string => `${a.length}:${Array.from(a).join(',')}`;
+  const out: string[] = [`v${p.version}`, JSON.stringify(p.frame), JSON.stringify(p.slots)];
+  const V = p.vertices;
+  const T = p.halfEdges;
+  const R = p.roles;
+  for (const a of [V.x, V.y, V.out, V.level, V.flags, T.origin, T.next, T.prev, T.level]) out.push(col(a));
+  for (const a of [R.edgeFirst, R.vertexFirst, R.kind, R.entity, R.level, R.ordinal, R.nextInSet, R.nextSameKey, R.head.k0, R.head.k1, R.head.first]) out.push(col(a));
+  out.push(`h${R.head.count}`);
+  for (const F of p.faces) {
+    for (const a of [F.outer, F.holesStart, F.holes, F.kind, F.owner, F.parent, F.stage, F.nextOfOwner, F.ownerHead.owner, F.ownerHead.head]) out.push(col(a));
+    out.push(`o${F.ownerHead.count}`);
+  }
+  out.push(col(p.indexHome.vertex), col(p.indexHome.edge), ...p.indexHome.face.map(col));
+  const H = p.handles;
+  out.push(col(H.units), col(H.start), col(H.hash), col(H.slots), `n${H.count}`);
+  const idx = p.index;
+  if (idx !== undefined) {
+    out.push(`log ${idx.log === null ? 'none' : 'open'}`, `work ${idx.work.rebuilds}/${idx.work.items}`);
+    for (const L of idx.levels) {
+      out.push(`static ${L.static.map((q) => q.id).join(',')}`);
+      out.push(`tomb ${L.tombstones.map((t) => [...t].join(',')).join('|')}`);
+      out.push(`cells ${JSON.stringify([...L.dynamic.cells].map(([k, v]) => [k, [...v]]))}`);
+      out.push(`large ${[...L.dynamic.large].join(',')}`);
+      out.push(`entries ${JSON.stringify([...L.dynamic.entries])}`);
+    }
+    for (const q of idx.partitions) out.push(`part ${q.id} ${q.key} ${q.tree === null ? 'empty' : 'tree'} ${col(q.keys)} ${[...q.pending].join(',')}`);
+    for (const m of idx.byKey) out.push(`byKey ${JSON.stringify([...m])}`);
+  }
+  return out.join('\n');
+}
+
 /** Every oracle at once: the arena's validity (M0-a-04 / M0-a-05's) and the index state (M0-a-03's). */
 export function healthy(p: Plat): void {
   expect(allProblems(p)).toEqual([]);
