@@ -1,4 +1,4 @@
-// M0-a-08 under the re-read rule (N-53 (4), (5); plat.ts's growth header; C-0292): the scratch overlay's writers read
+// M0-a-08 under the re-read rule (N-53 (4), (5); plat.ts's growth header; C-0293): the scratch overlay's writers read
 // the arena's vertex columns only after their last allocation, so a table that grows mid-call — and a growth REPLACES
 // the arrays it grows — never feeds them a dead copy. The guard plants the growth and makes a dead copy loud: every
 // arena this file makes runs in the tiny-tables mode (M0-a-02's `setTinyTables`: every table starts at capacity 1 and
@@ -8,7 +8,7 @@
 // this item's five files (N-53's census; this round's audit of winding.ts, booleans.ts, buffer.ts, offsetFace.ts and
 // insetRing.ts found no other function that both holds a table or column and allocates): the case below inserts two
 // bridges in one ring, the first crossing an edge of the other operand, so the vertex table grows between the two gap
-// readings. Each result equals the default-size result and its hand answer.
+// readings. Each result equals the default-size result (the two-bridge case its hand answer too).
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { setTinyTables, tinyTables } from '../../../src/arena/debug.js';
 import { handleOf } from '../../../src/arena/index.js';
@@ -111,8 +111,11 @@ describe('the scratch overlay reads the vertex columns after its last allocation
     const A = [rect(0, 0, 1000, 1000)];
     const B = [rect(500, 500, 1500, 1500)];
     for (const op of ['union', 'intersection', 'difference', 'xor'] as const) {
-      const r = both(() => booleans(op, A, B, 'evenodd'));
-      expect(r.grown).toEqual(r.plain);
+      for (const fill of ['nonzero', 'evenodd'] as const) {
+        const r = both(() => booleans(op, A, B, fill));
+        expect(r.plain.ok).toBe(true);
+        expect(r.grown).toEqual(r.plain);
+      }
     }
     const chain = R([0, 0], [3000, 0], [3000, 2000], [500, 2500]);
     for (const joins of ['round', 'square', 'miter'] as const) {

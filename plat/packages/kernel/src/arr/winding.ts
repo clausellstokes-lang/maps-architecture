@@ -236,7 +236,7 @@ function bridgeGaps(
       const to = nx > 0 ? starts[t] : ends[t];
       if (from === to) continue;
       // read the coordinate columns here, after the last allocation: the bridge inserted on an earlier pass may have
-      // grown the vertex table, which replaces the columns (plat.ts's re-read rule, N-53 (4), (5); C-0290)
+      // grown the vertex table, which replaces the columns (plat.ts's re-read rule, N-53 (4), (5); C-0293)
       const X = p.vertices.x;
       const Y = p.vertices.y;
       const dx = X[to] - X[from];
