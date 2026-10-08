@@ -1,4 +1,4 @@
-// M0-c-04 session round s1 (N-54 (3); C-0291): a stage boundary that crosses a bridge's span. The gate is the bridgehead
+// M0-c-04 session round s1 (N-54 (3); C-0285): a stage boundary that crosses a bridge's span. The gate is the bridgehead
 // — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate splits run inside
 // the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be put lawfully (two
 // deck ends on one side, the water off every span) refuses, nothing written. On a hand-built site: the small flat site,

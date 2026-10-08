@@ -14,8 +14,8 @@
 //   part 0 pinned as a gate: each crossing's vertex is split onto its way, so the wall chain meets the way exactly at
 //   its gate vertex, then the trace (with the previous enceinte as its core) and the strip stand-in (C-0033), its stops
 //   read from the arena at the gates. The gate splits run inside the trace's own L1 batch, before its insertion, so a
-//   refused trace leaves no split behind (N-54 (3)); where the gates stand is planned first in a batch that is always
-//   rejected, and the trace's batch refuses if the splits land anywhere else. A crossing on a bridge's span (the way's
+//   refused trace leaves no split behind (N-54 (3); C-0285); where the gates stand is planned first in a batch that is
+//   always rejected, and the trace's batch refuses if the splits land anywhere else. A crossing on a bridge's span (the way's
 //   edge between the bridge's two `deck_end` vertices) is no split: its gate is the bridgehead, the deck end on the
 //   stage's side of the boundary, and a crossing in the water off every span, or a span with no single deck end on the
 //   stage's side, refuses the trace (E_INVARIANT, detect-and-refuse); the trace's batch refuses too when it leaves a
