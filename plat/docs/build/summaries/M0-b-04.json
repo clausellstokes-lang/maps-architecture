@@ -41,7 +41,7 @@
     "pass": true,
     "allDepths": {
       "districts": 1000,
-      "ladders": 20798,
+      "ladders": 20810,
       "maxKernelCalls": 5,
       "decreases": 0,
       "refused": 0
@@ -49,9 +49,9 @@
   },
   "residue": {
     "districts": 1000,
-    "softExceeded": 65,
-    "exceededShare": 0.065,
-    "landShare": 0.012116298352641877,
+    "softExceeded": 64,
+    "exceededShare": 0.064,
+    "landShare": 0.012002796284573477,
     "perDistrict": {
       "n": 1000,
       "p50": 0,
@@ -59,7 +59,7 @@
       "p999": 1,
       "max": 1
     },
-    "mean": 0.020714238075071167,
+    "mean": 0.02057447279615593,
     "verdict": "reported"
   },
   "signature": {
@@ -73,20 +73,20 @@
     "setupRefused": 0,
     "s8Refused": 0,
     "all": {
-      "cuts": 4798,
-      "bent": 3402,
+      "cuts": 4799,
+      "bent": 3403,
       "ring": 219,
-      "sigma": 0.0849556544777937,
-      "sigmaPlain": 0.08543226612853594,
+      "sigma": 0.08494185266098357,
+      "sigmaPlain": 0.08541786939260061,
       "sigmaRing": 0.07443707431337894,
-      "sigmaFirstFrame": 0.10484113512875685,
-      "sigmaAttempt0": 0.08482944829242806,
-      "cornerMid": 0.9682539682539683,
+      "sigmaFirstFrame": 0.10479246529929011,
+      "sigmaAttempt0": 0.08483686069857273,
+      "cornerMid": 0.9682632970908023,
       "arrival85": 1,
-      "fillet": 0.6616696061140506,
-      "cornerMidCourse": 0.8927101704879483,
-      "arrival85Chord": 0.9931221342225928,
-      "retried": 271
+      "fillet": 0.6614751689685572,
+      "cornerMidCourse": 0.8927416985013223,
+      "arrival85Chord": 0.9931235674098771,
+      "retried": 270
     },
     "byKind": {
       "curved": {
@@ -154,42 +154,42 @@
         "retried": 56
       },
       "holed": {
-        "cuts": 884,
-        "bent": 681,
+        "cuts": 885,
+        "bent": 682,
         "ring": 219,
-        "sigma": 0.08476140280641115,
-        "sigmaPlain": 0.08792380662652143,
+        "sigma": 0.08469116572748696,
+        "sigmaPlain": 0.08783516807615352,
         "sigmaRing": 0.07443707431337894,
-        "sigmaFirstFrame": 0.10810885560113134,
-        "sigmaAttempt0": 0.08574138940782672,
-        "cornerMid": 0.9515418502202643,
+        "sigmaFirstFrame": 0.10785857777121445,
+        "sigmaAttempt0": 0.08578219764250154,
+        "cornerMid": 0.9516129032258065,
         "arrival85": 1,
-        "fillet": 0.6284875183553598,
-        "cornerMidCourse": 0.8472834067547724,
-        "arrival85Chord": 0.9932126696832579,
-        "retried": 80
+        "fillet": 0.6275659824046921,
+        "cornerMidCourse": 0.8475073313782991,
+        "arrival85Chord": 0.9932203389830508,
+        "retried": 79
       }
     },
     "replay": {
       "cuts": 5353,
-      "planner": 4798,
+      "planner": 4799,
       "fallback": 177,
-      "deep": 378,
-      "matched": 4798,
+      "deep": 377,
+      "matched": 4799,
       "missed": 0,
       "notReplayed": 0
     },
-    "fallbackShare": 0.10368017933868859,
+    "fallbackShare": 0.103493368204745,
     "corner": {
-      "share": 0.9682539682539683,
+      "share": 0.9682632970908023,
       "bound": 0.8,
-      "n": 3402,
+      "n": 3403,
       "pass": true
     },
     "arrival": {
       "share": 1,
       "bound": 0.95,
-      "n": 4798,
+      "n": 4799,
       "pass": true
     },
     "sigmaAndFillet": "reported"
@@ -198,11 +198,11 @@
     "n": 10000,
     "wanted": 10000,
     "faces": 486,
-    "mean": 0.23327439485490323,
-    "sd": 0.17065606843587014,
-    "se": 0.0017065606843587014,
+    "mean": 0.23325689100921154,
+    "sd": 0.1706442489542126,
+    "se": 0.0017064424895421259,
     "seTheory": 0.0016996731711975948,
-    "z": -0.034536409381924565,
+    "z": -0.04479630845473493,
     "target": 0.23333333333333334,
     "bound": 3,
     "pass": true
@@ -228,7 +228,7 @@
           "p50": 0.75,
           "p99": 1.5,
           "p999": 2.100199999999995,
-          "max": 2.5
+          "max": 2.25
         }
       },
       "cut.recursionDepth": {
