@@ -7282,3 +7282,4 @@
 2026-10-08 19:37 build/M0-a-08-fix-s3 CHECKPOINT related at 1000 on winding.ts running; next: verify landed, LANDED line
 2026-10-08 19:44 check/M0-c-04-close-s2 CHECKPOINT snapshot RELATED@1000 and Y06 RELATED still running (load high); next: verdict
 2026-10-08 19:44 check/M0-a-04-close-s3 CHECKPOINT RELATED@1000 still running (worker alive); next: RELATED verdict, records
+2026-10-08 19:48 check/M0-c-04-close-s2 CHECKPOINT RELATED@1000 (snapshot mirror) 204 files 2482/2484: reds bench fusion/hausdorff (known N-8/N-52) and ladder-coverage/entry (mirror path; 6/6 green in the tree); Y06 RELATED running; next: verdict
