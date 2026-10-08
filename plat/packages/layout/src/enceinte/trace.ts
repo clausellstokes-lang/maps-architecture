@@ -10,10 +10,15 @@
 //       ('gate_end', gate, 0 | 1), the wall's edge between them taking ('wall_gate', gate) (C-0226 (1)).
 // §4.2 S3 (9)'s band (40 m from the boundary as given, never the ring after the water splice) is held on every side by
 // the smoothing and the simplify and proved before the commit and again on the line the insertion placed; a trace not
-// proved within it is refused E_INVARIANT `band`, never committed (C-0232).
+// proved within it is refused E_INVARIANT `band`, never committed (C-0232). So is the water (N-54 (1); §4.4 *Water and
+// the waterfront*: the trace crosses water only at a water gate): every SIDE, not only every vertex, is kept off the
+// water and the reservations by the pull, the smoothing, F-WALL's verdict and the simplify (`wet.ts`), and proved
+// before the commit (no side over water or a reservation unless it is a side of a water gate's course between its
+// bank pins) and again inside it on the committed wall edges (an edge over water carries its gate's `wall_gate`); a
+// trace that fails is refused E_INVARIANT `water`, nothing written.
 // Every value it reads is a walls.json cell (`trace/*`, the era row). The trace is laid `standing` (no condition is
 // written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0226 (2)).
-import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
+import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
 import type { Enceinte, Gate, GateSite, Id, Reservation, Terrain, WaterSet } from '@plat/model';
 import { classifyArcs } from './closure.js';
 import { bandBreaches, bandLimit, ccw, departure, distToRing, footOn, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
@@ -21,6 +26,7 @@ import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
 import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
 import { crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
+import { wetSides } from './wet.js';
 
 /** The registered name of the base's strategy (§4.12). */
 export const ENCEINTE_STRATEGY_ID = 'base';
@@ -136,19 +142,21 @@ export function traceBase(
   for (const r of reservations) core.push(...ringsOf(k, r.face, arena));
   for (const c of opts.core ?? []) core.push(c.map((p) => lat(p)));
   const barred: Polygon[] = [...waters.map((w) => [...w.ring]), ...core];
+  // The sides' test over the barred rings, each water gate's course exempt over the water (N-54 (1)).
+  const wet = wetSides(barred, waters.length, crossed.crossings.map((c) => c.course));
 
   // (2) Pull and pin.
   const mask = pinMask(ring, pins);
-  const pulled = pullAndPin(ring, mask, opts.costField ?? terrainCost(terrain), band, barred);
+  const pulled = pullAndPin(ring, mask, opts.costField ?? terrainCost(terrain), band, barred, wet);
 
   // (3) Smooth, then F-WALL's trace rungs where the smoothed trace self-touches or crosses the core. The band is held
   // against the boundary as given (`ring0`), never the ring after the water splice (C-0232 (3)).
-  let line: LatticePoint[] = openRing(smoothPinned(pulled.line, mask, cells.smoothPasses, ring0, band, barred));
+  let line: LatticePoint[] = openRing(smoothPinned(pulled.line, mask, cells.smoothPasses, ring0, band, barred, wet));
   const rungs: WallRung[] = [];
   let defect = defectOf(line, core);
   if (defect !== null) {
     const cause = defect;
-    const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'band' | null => rungVerdict(cand, ring0, band, core);
+    const accept = (cand: LatticePoint[]): 'self_touch' | 'core' | 'water' | 'band' | null => rungVerdict(cand, ring0, band, core, wet);
     const re = reoffset(line, band, pinPoints, core);
     const reWhy = re.ok ? accept(re.value) : re.detail === 'fixed' ? 'pin_lost' : 'empty';
     rungs.push(reWhy === null ? { rung: 'reoffset', cause, radiusCm: band, held: true } : { rung: 'reoffset', cause, radiusCm: band, held: false, why: reWhy });
@@ -179,7 +187,7 @@ export function traceBase(
   const before = line.length;
   const simp = simplifyInBand(line, ring0, band, cells, barred, pins);
   let skipped = true;
-  if (simp !== null && defectOf(simp, core) === null) {
+  if (simp !== null && defectOf(simp, core) === null && wet.firstOver(simp) < 0) {
     line = simp;
     skipped = false;
   }
@@ -189,6 +197,13 @@ export function traceBase(
   const over = bandBreaches(line, ring0, limit);
   if (over.length > 0) {
     return { ok: false, code: 'E_INVARIANT', detail: `band: the trace departs from its boundary by more than ${String(band)} cm on ${String(over.length)} side(s), first from ${key(line[over[0]])} (§4.2 S3 (9); C-0232)` };
+  }
+  // The water and the reservations, proved on every side before the commit (N-54 (1)): a side over either that is no
+  // side of a water gate's course refuses the trace, nothing written.
+  const wetAt = wet.firstOver(line);
+  if (wetAt >= 0) {
+    const b = line[wetAt + 1 === line.length ? 0 : wetAt + 1];
+    return { ok: false, code: 'E_INVARIANT', detail: `water: the trace's side ${key(line[wetAt])} → ${key(b)} lies over water or a reservation and is no water gate's course (§4.4 *Water and the waterfront*; N-54 (1))` };
   }
   const dep = departure(line, ring0);
 
@@ -225,6 +240,10 @@ export function traceBase(
       const r = k.geom.retypeEdges(o, { chain, from: banks[0], to: banks[1] }, [{ role: 'wall_gate', entity: w.id }], []);
       if (!r.ok) return err(r.code, r.detail);
     }
+    // The water once more on the wall's edges as committed (the insertion's attraction and its Steiner vertices
+    // included): an edge over water carries its water gate's `wall_gate`, or the batch is refused (N-54 (1)).
+    const wetEdge = committedWetEdge(k, arena, chain, wgs.map((w) => w.id), barred, waters.length);
+    if (wetEdge !== null) return err('E_INVARIANT', `water: the committed wall edge ${wetEdge} lies over water or a reservation and carries no wall_gate (§4.4 *Water and the waterfront*; N-54 (1))`);
     return { ok: true, value: ins.value, warnings: ins.warnings };
   });
   if (!committed.ok) return err(committed.code, committed.detail);
@@ -316,6 +335,32 @@ function indicesOf(ring: readonly XY[], pins: ReadonlySet<string>): number[] {
     if (pins.has(key(p))) out.push(i);
   });
   return out;
+}
+
+/**
+ * The first committed edge of `chain` lying over a barred ring ("x,y → x,y"), or null — an edge of a `wall_gate` run of
+ * `gates` tested against the reservations only (the first `waterCount` rings are the water it may cross); read through
+ * the façade inside the open batch (N-54 (1)).
+ */
+function committedWetEdge(k: Kernel, arena: PlatKey, chain: { role: string; entity: Id }, gates: readonly Id[], barred: readonly Polygon[], waterCount: number): string | null {
+  const r = k.resolve(chain, arena);
+  if (r.view !== 'edges') return `(the wall ${chain.entity} does not resolve to edges)`;
+  const gated = new Set<number>();
+  for (const g of gates) {
+    const q = k.resolve({ role: 'wall_gate', entity: g }, arena);
+    if (q.view === 'edges') for (const run of q.runs) for (const h of run) gated.add(h >> 1);
+  }
+  const every = wetSides(barred, 0);
+  const reserved = wetSides(barred.slice(waterCount), 0);
+  const p = k.plat(arena);
+  for (const run of r.runs) {
+    for (const h of run) {
+      const a = { x: p.vertices.x[p.halfEdges.origin[h]], y: p.vertices.y[p.halfEdges.origin[h]] };
+      const b = { x: p.vertices.x[p.halfEdges.origin[h ^ 1]], y: p.vertices.y[p.halfEdges.origin[h ^ 1]] };
+      if ((gated.has(h >> 1) ? reserved : every).over(a, b)) return `${key(a)} → ${key(b)}`;
+    }
+  }
+  return null;
 }
 
 /** The registered strategy (§4.12's `EnceinteStrategy`, name `base`). */

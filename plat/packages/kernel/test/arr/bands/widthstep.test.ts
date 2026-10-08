@@ -8,6 +8,10 @@
 // test size, translated by (−12 000, +13 500) cm) and on a synthetic width step swept over 0.01°–5°, both turns and
 // both width orders, read S8's way (kerb on the open overlay, the step's second way inserted in the batch) and
 // committed S9's way (corridorUnion) — the blocks equal kerb(F) by normal forms (Hausdorff 0, §13.2).
+// Session fix round S2 (checks/M0-a-09-s1.md lines 1–3; C-0280): the sweep runs on to 20° (both sides of the reach),
+// a near-equal width step pins meet's near-parallel tolerance, and B-FUZZ chord networks pin each target of a junction
+// (the corner's spliced meeting point, the straight-through fallback, the reach of the corner path, the retry after the
+// guard drops a corner wedge).
 import { describe, expect, it } from 'vitest';
 import { type FaceId, type Plat } from '../../../src/arena/index.js';
 import { err, ok } from '../../../src/num/index.js';
@@ -141,7 +145,9 @@ describe('N-52 (2): a junction’s corridor_split stays within its reach; a widt
     // kerb corners across the block from J. way:a is S8's: inserted at L1 in the open batch, kerb(F) read there. Past
     // 5° the sweep runs on to where the inner edges meet between one and two reaches out (≈ 8°–15° at 163 / 300) and
     // then within reach (a wedge): every point of the step's split within 2·max(hw) + attractCm of J — a reach of
-    // 4·max(hw) would draw a wedge there 816 cm out at 10° (checks/M0-a-09-s1.md line 1).
+    // 4·max(hw) would draw a wedge there 816 cm out at 10° (checks/M0-a-09-s1.md line 1). At 10° with 300 → 163 the
+    // split's nearest kerb point lies 26 cm from the kerb corner (9000, 1300): taken at the corner (C-0280), else S9's
+    // commit attracts the corner onto the splice and its block differs from S8's by a sliver.
     const P0: [number, number] = [3000, 1000];
     const J: [number, number] = [9000, 1000];
     const cases: { dy: number; hwA: number; hwB: number }[] = [];

@@ -352,7 +352,10 @@ export function clipOutside(line: readonly XY[], closed: boolean, regions: reado
   for (let i = 0; i < cuts.length; i += 1) {
     const a = cuts[i];
     const b = cuts[(i + 1) % cuts.length];
-    const wrap = i + 1 === cuts.length || (a.s === b.s && b.t <= a.t);
+    // Only the last cut wraps round to the first: two cuts at one point (two regions' boundaries crossing the line
+    // there — a gate corridor's flat cap lying on the map border) are a stretch of no length, never the whole line
+    // again (N-54 (1) Q6: EP-20 seed 496296019 kept the whole glacis ring and committed it 125 cm beyond the frame).
+    const wrap = i + 1 === cuts.length;
     const pts = stretch(a, b, wrap);
     if (long(pts) && outside(mid(pts))) pieces.push({ points: pts, startOn: a.r, endOn: b.r });
   }

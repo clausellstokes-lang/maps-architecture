@@ -64,10 +64,10 @@ export interface WallRung {
   readonly cause: 'self_touch' | 'core';
   /** The rung's radius (re-offset: the band, C-0226 (6)); 0 for the union-simplify. */
   readonly radiusCm: number;
-  /** Did the rung's trace pass every check (simple, the core enclosed, every pin on it, within the band)? */
+  /** Did the rung's trace pass every check (simple, the core enclosed, every pin on it, no side over water but a water gate's course, within the band)? */
   readonly held: boolean;
   /** Why it did not hold, when it did not. */
-  readonly why?: 'self_touch' | 'core' | 'pin_lost' | 'band' | 'empty';
+  readonly why?: 'self_touch' | 'core' | 'water' | 'pin_lost' | 'band' | 'empty';
 }
 
 /**

@@ -7,20 +7,25 @@
 // most their distance apart, so it leaves the boundary at 45° at the most and approaches a pin by a ramp, never a
 // spike — ties broken by the least summed change of offset and then the least summed offset, so on a cost surface that
 // does not vary along the normals (a flat site) the pull is the identity but for the pins (C-0226 (3)). A candidate
-// inside the water or a reservation is barred. The base's cost surface is the terrain's — lower ground costs more,
-// §4.4's "penalty for leaving high ground".
+// inside the water or a reservation is barred, and so is a step of the path whose SIDE lies over one (`wet.ts`; N-54
+// (1): a vertex pulled across a river onto the far bank's land left its two sides over the water) — a side of a water
+// gate's course excepted over the water; the identity path is never barred, so the pull has a path whenever its ring
+// is lawful. The base's cost surface is the terrain's — lower ground costs more, §4.4's "penalty for leaving high
+// ground".
 //
 // The smoothing: `smoothPasses` (walls.json `trace/smoothPasses`, 3) passes of the kernel's pinned-vertex Laplacian
 // (λ ½), the pins never moving; a vertex a pass would carry out of the band, into the water or into a reservation keeps
 // its place for that pass (§4.4 (3): "no vertex moved where its line … would take a shape" the laws do not admit;
 // C-0226 (4)); the band less the attraction distance, as the pull's. A side the pass changed that is not proved to keep
-// the band (`sideHolds`: a run of guarded vertices can still bow a side out of it) has its moved ends put back for that
-// pass (C-0232 (1)). The band is measured from the boundary as given. The result is rounded to the lattice.
+// the band (`sideHolds`: a run of guarded vertices can still bow a side out of it), or that lies over a barred ring
+// (N-54 (1)), has its moved ends put back for that pass (C-0232 (1)). The band is measured from the boundary as given.
+// The result is rounded to the lattice.
 import { laplacianPinned, type LatticePoint } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { quot } from '../siting/geom.js';
 import { bandLimit, dist, distToRing, inside, lat, sideHolds, TOUCH_CM, unitOf } from './plane.js';
 import type { CostField, XY } from './types.js';
+import { WET_TOL_CM, wetSides, type WetSides } from './wet.js';
 
 /** The pull's candidate offsets on each side: the band in this many steps (an eighth of 40 m: 5 m). */
 export const PULL_STEPS = 8;
@@ -76,9 +81,10 @@ function better(a: Label, b: Label): boolean {
 
 /**
  * Pull and pin (see the module comment) on a counter-clockwise ring: `pinned[i]` 1 keeps vertex i; `barred` rings bar a
- * candidate inside them. Returns the pulled ring.
+ * candidate inside them and a step whose side lies over them — through `wet` when given (its water gates' courses
+ * exempt over the water), else every barred ring a reservation. Returns the pulled ring.
  */
-export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[]): Pulled {
+export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostField, bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): Pulled {
   const n = ring.length;
   const K = 2 * PULL_STEPS + 1;
   // The candidates reach the band less the attraction distance, so the line stays within the band after the lattice's
@@ -109,6 +115,38 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
   // path leaves the boundary at 45° at the most, so a pinned vertex is approached by a ramp, never a spike).
   const reach = new Float64Array(n);
   for (let i = 0; i < n; i += 1) reach[i] = dist(ring[i === 0 ? n - 1 : i - 1], ring[i]) + 1e-6;
+  // The steps' sides (N-54 (1)): the side from vertex i − 1 at candidate h to vertex i at candidate j, tested once
+  // (0 untested, 1 clear, 2 over a barred ring); a vertex pair whose candidates' box meets no barred ring's side is
+  // clear throughout (its candidates are outside every ring, so a side between them is).
+  const cand = (i: number, j: number): XY => {
+    const s = (j - PULL_STEPS) * step;
+    return s === 0 ? ring[i] : { x: ring[i].x + s * normals[i].x, y: ring[i].y + s * normals[i].y };
+  };
+  const nearPair = new Uint8Array(n);
+  for (let i = 0; i < n; i += 1) {
+    const ip = i === 0 ? n - 1 : i - 1;
+    let x0 = Infinity;
+    let y0 = Infinity;
+    let x1 = -Infinity;
+    let y1 = -Infinity;
+    for (const v of [ip, i]) {
+      for (const j of [0, K - 1, PULL_STEPS]) {
+        const q = cand(v, j);
+        if (q.x < x0) x0 = q.x;
+        if (q.y < y0) y0 = q.y;
+        if (q.x > x1) x1 = q.x;
+        if (q.y > y1) y1 = q.y;
+      }
+    }
+    nearPair[i] = wet.near(x0 - WET_TOL_CM, y0 - WET_TOL_CM, x1 + WET_TOL_CM, y1 + WET_TOL_CM) ? 1 : 0;
+  }
+  const sideMemo = new Uint8Array(n * K * K);
+  const sideClear = (i: number, h: number, j: number): boolean => {
+    if (nearPair[i] === 0) return true;
+    const at = (i * K + h) * K + j;
+    if (sideMemo[at] === 0) sideMemo[at] = wet.over(cand(i === 0 ? n - 1 : i - 1, h), cand(i, j)) ? 2 : 1;
+    return sideMemo[at] === 1;
+  };
   // The cycle is opened at a pinned vertex when there is one (its offset is 0); otherwise every start offset is tried.
   let start = -1;
   for (let i = 0; i < n && start < 0; i += 1) if (pinned[i] === 1) start = i;
@@ -130,7 +168,7 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
         if (Number.isFinite(nc)) {
           for (let h = 0; h < K; h += 1) {
             const pl = lab[(r - 1) * K + h];
-            if (!Number.isFinite(pl.c) || Math.abs(j - h) * step > reach[i]) continue;
+            if (!Number.isFinite(pl.c) || Math.abs(j - h) * step > reach[i] || !sideClear(i, h, j)) continue;
             const cand: Label = { c: pl.c + nc, s: pl.s + Math.abs(j - h), o: pl.o + Math.abs(j - PULL_STEPS) };
             if (arg < 0 || better(cand, best)) {
               best = cand;
@@ -147,7 +185,7 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
     let endLabel: Label = { c: Infinity, s: 0, o: 0 };
     for (let j = 0; j < K; j += 1) {
       const l = lab[(n - 1) * K + j];
-      if (!Number.isFinite(l.c) || Math.abs(j - j0) * step > reach[at]) continue;
+      if (!Number.isFinite(l.c) || Math.abs(j - j0) * step > reach[at] || !sideClear(at, j, j0)) continue;
       const cand: Label = { c: l.c, s: l.s + Math.abs(j - j0), o: l.o };
       if (endJ < 0 || better(cand, endLabel)) {
         endLabel = cand;
@@ -188,9 +226,10 @@ export function pullAndPin(ring: readonly XY[], pinned: Uint8Array, cost: CostFi
 /**
  * The pinned smoothing (see the module comment): `passes` passes over the ring; a vertex a pass would carry beyond
  * `bandCm` of the boundary `ring0`, or into a barred ring, keeps its place, and so do the moved ends of a side the pass
- * would carry out of the band (C-0232 (1)). Returns lattice points.
+ * would carry out of the band (C-0232 (1)) or over a barred ring (through `wet` when given, else every barred ring a
+ * reservation; N-54 (1)). Returns lattice points.
  */
-export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[]): LatticePoint[] {
+export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: number, ring0: readonly XY[], bandCm: number, barred: readonly (readonly XY[])[], wet: WetSides = wetSides(barred, 0)): LatticePoint[] {
   const pins: number[] = [];
   for (let i = 0; i < pinned.length; i += 1) if (pinned[i] === 1) pins.push(i);
   const n = line.length;
@@ -207,14 +246,15 @@ export function smoothPinned(line: readonly XY[], pinned: Uint8Array, passes: nu
       else moved[i] = 1;
     }
     // The sides too (C-0232 (1)): a side between two vertices that each keep the band can still leave it (a smoothed
-    // concave run bowing outward); its moved ends go back to where the pass found them, until every side the pass
-    // changed keeps the band. A side neither of whose ends moved is the pass's input's, and is left to it.
+    // concave run bowing outward), and a side between two dry vertices can still lie over the water (N-54 (1)); its
+    // moved ends go back to where the pass found them, until every side the pass changed keeps the band and lies over
+    // no barred ring. A side neither of whose ends moved is the pass's input's, and is left to it.
     for (let guard = 0; guard <= n; guard += 1) {
       let reverted = false;
       for (let i = 0; i < n; i += 1) {
         const j = i + 1 === n ? 0 : i + 1;
         if (moved[i] === 0 && moved[j] === 0) continue;
-        if (sideHolds(next[i], next[j], ring0, limit)) continue;
+        if (sideHolds(next[i], next[j], ring0, limit) && !wet.over(next[i], next[j])) continue;
         for (const v of [i, j]) {
           if (moved[v] === 1) {
             next[v] = cur[v];

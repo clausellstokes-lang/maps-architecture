@@ -29,6 +29,11 @@ export interface WaterCrossing {
   readonly exit: LatticePoint;
   /** True when the trace crosses as one straight edge between the banks. */
   readonly chord: boolean;
+  /**
+   * The crossing's course on the ring, entry to exit: the two banks for a chord, else the banks with the boundary's own
+   * points kept between them — the sides the wall may lay over the water (its `wall_gate` edges; N-54 (1)).
+   */
+  readonly course: readonly LatticePoint[];
 }
 
 /**
@@ -147,7 +152,9 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
   for (let i = 0; i < cuts.length; i += 1) {
     const a = cuts[i];
     const b = cuts[(i + 1) % cuts.length];
-    const wrap = i + 1 === cuts.length || (a.s === b.s && b.t <= a.t);
+    // Only the last cut wraps round to the first: two cuts at one point (a side through a shore vertex meets both of its
+    // shore sides there) are a stretch of no length, never the whole ring again (N-54 (1) Q6).
+    const wrap = i + 1 === cuts.length;
     // The boundary's vertices strictly between the two cuts.
     const between: LatticePoint[] = [];
     if (a.s !== b.s || wrap) {
@@ -204,6 +211,7 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
         if (!inside(w.ring, { x: entry.x + t * (end.x - entry.x), y: entry.y + t * (end.y - entry.y) })) chord = false;
       }
     }
+    const from = out.length - 1;
     if (!chord) {
       for (const v of between) {
         push(v);
@@ -214,7 +222,10 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
     if (entry.x === end.x && entry.y === end.y) continue;
     keep.add(`${String(entry.x)},${String(entry.y)}`);
     keep.add(`${String(end.x)},${String(end.y)}`);
-    crossings.push({ body: w.body, entry, exit: end, chord });
+    // The last crossing's exit is the ring's first point (pushed at the start, not again).
+    const course = out.slice(from);
+    if (course[course.length - 1].x !== end.x || course[course.length - 1].y !== end.y) course.push(end);
+    crossings.push({ body: w.body, entry, exit: end, chord, course });
   }
   return { ring: openRing(out), crossings, keep };
 }

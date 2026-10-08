@@ -16,6 +16,7 @@
 import { booleans, buffer, err, type KernelResult, type LatticePoint, type Ring } from '@plat/kernel';
 import { area2, bandBreaches, bandLimit, ccw, crossesCore, d2, footOn, inside, lat, openRing, selfTouches, TOUCH_CM } from './plane.js';
 import type { XY } from './types.js';
+import type { WetSides } from './wet.js';
 
 /** What the detection found on a line: null when it is a lawful trace. */
 export function defectOf(line: readonly XY[], core: readonly (readonly XY[])[]): 'self_touch' | 'core' | null {
@@ -25,13 +26,14 @@ export function defectOf(line: readonly XY[], core: readonly (readonly XY[])[]):
 }
 
 /**
- * Does a rung's trace hold? Null when it is simple, encloses and does not cross the core and every side is proved to
- * keep the band of the boundary `ring` (§4.2 S3 (9)'s 40 m; `bandBreaches`, C-0232 (2)); else what fails, in that order
- * (C-0226 (6)).
+ * Does a rung's trace hold? Null when it is simple, encloses and does not cross the core, has no side over a barred ring
+ * but a water gate's course over its water (`wet`, when given; N-54 (1)) and every side is proved to keep the band of
+ * the boundary `ring` (§4.2 S3 (9)'s 40 m; `bandBreaches`, C-0232 (2)); else what fails, in that order (C-0226 (6)).
  */
-export function rungVerdict(cand: readonly XY[], ring: readonly XY[], bandCm: number, core: readonly (readonly XY[])[]): 'self_touch' | 'core' | 'band' | null {
+export function rungVerdict(cand: readonly XY[], ring: readonly XY[], bandCm: number, core: readonly (readonly XY[])[], wet?: WetSides): 'self_touch' | 'core' | 'water' | 'band' | null {
   const d = defectOf(cand, core);
   if (d !== null) return d;
+  if (wet !== undefined && wet.firstOver(cand) >= 0) return 'water';
   return bandBreaches(cand, ring, bandLimit(bandCm)).length > 0 ? 'band' : null;
 }
 
