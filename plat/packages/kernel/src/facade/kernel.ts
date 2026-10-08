@@ -9,7 +9,9 @@
 // — no member re-implements an op. In the debug build every result is stamped with its arena's key and version
 // (./stamp.ts). The services §3.4 says "read the open transaction's arena and are called only inside one" (`kerb`,
 // `offsetFace`, `insetRing`, and `sideRuns` / `sampleBoundary` handed a face) read the innermost transaction this
-// kernel has open; called outside one they are a programming error.
+// kernel has open; called outside one they are a programming error. A writer handed an overlay that is no open
+// transaction of a façade kernel — its batch committed, rejected or thrown, or a module `tx()`'s — throws, in every
+// build (N-55 (5), C-0290): a stale overlay never writes outside a transaction.
 import {
   compareFaces,
   idOf,
@@ -69,6 +71,26 @@ function isStretchRef(ref: GeomRef): ref is StretchRef {
 }
 
 /**
+ * A façade transaction while it is open: its overlay while one of its ops or its callback runs (`o`, which the services
+ * that read the open transaction take), the overlay once the module has handed it over (`tx`), and the values its ops
+ * returned, which the commit re-stamps (C-0220 (3)).
+ */
+interface Frame {
+  o: Overlay | null;
+  tx: Overlay | null;
+  readonly stamped: object[];
+}
+
+/**
+ * Every overlay of a façade transaction that is open now — of any kernel — to its frame (N-55 (5); C-0290). An overlay
+ * enters when the module first hands it to the transaction's op or callback and leaves when the transaction returns or
+ * throws, so a committed, rejected or thrown batch's overlay is never here, and neither is one a module `tx()` opened.
+ * Another kernel's open transaction on an arena this kernel holds is here (testkit's B-FUZZ writer harness opens the
+ * batch on a fresh kernel and writes through the caller's): it writes inside that open transaction, never outside one.
+ */
+const openTx = new WeakMap<Overlay, Frame>();
+
+/**
  * §14's Kernel over the arenas a map names (doc-less at M0): `plats` maps each PlatKey to its arena, whose own key must
  * be that key; two entries naming one arena are a programming error.
  */
@@ -82,11 +104,8 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
   }
   const env: TxEnv = options.env ?? {};
   const widths = options.spineWidths;
-  /**
-   * The transactions this kernel has open, innermost last: each its overlay (set when its first op or its callback
-   * runs) and the values its ops returned, which the commit re-stamps (C-0220 (3)).
-   */
-  const frames: { o: Overlay | null; readonly stamped: object[] }[] = [];
+  /** The transactions this kernel has open, innermost last. */
+  const frames: Frame[] = [];
 
   const platOf = (key: ArenaKey): Plat => {
     if (isTransientKey(key)) refuseNotBuilt('M6-P', 'a transient arena (§3.4; C-0041)');
@@ -117,6 +136,10 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     const frame = frames[frames.length - 1];
     const before = frame.o;
     frame.o = o;
+    if (frame.tx === null) {
+      frame.tx = o;
+      openTx.set(o, frame);
+    }
     try {
       return f();
     } finally {
@@ -130,20 +153,17 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
    */
   const batchValue = <R>(o: Overlay, value: R): R => {
     stamp(o.plat, value);
-    if (debugMode() && typeof value === 'object' && value !== null) {
-      for (let i = frames.length - 1; i >= 0; i -= 1) {
-        if (frames[i].o === o) {
-          frames[i].stamped.push(value);
-          break;
-        }
-      }
-    }
+    if (debugMode() && typeof value === 'object' && value !== null) openTx.get(o)?.stamped.push(value);
     return value;
   };
 
-  /** A writer: the overlay checked, the module's op called, its result stamped. */
+  /**
+   * A writer: the overlay checked — on this kernel's arena (debug build) and an open façade transaction's (every build;
+   * N-55 (5)) — the module's op called, its result stamped.
+   */
   const writer = <A extends unknown[], R>(op: (o: Overlay, ...args: A) => R) => (o: Overlay, ...args: A): R => {
     onArena(o);
+    if (!openTx.has(o)) fail('the overlay is no open transaction: its batch committed, rejected or threw, or a module tx() opened it (§3.3; N-55 (5); C-0290)');
     return batchValue(o, op(o, ...args));
   };
 
@@ -302,13 +322,15 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
       return prepare === undefined ? wrapped : { ...wrapped, prepare: (o: Overlay) => within(o, () => prepare(o)) };
     });
     const call = fn === undefined ? undefined : (o: Overlay): KernelResult<T> => within(o, () => fn(o));
-    const frame = { o: null as Overlay | null, stamped: [] as object[] };
+    const frame: Frame = { o: null, tx: null, stamped: [] };
     frames.push(frame);
     let r: KernelResult<Committed<T | KernelResult<unknown>[]>> | undefined;
     try {
       r = txOn(p, ops.length === 0 ? spec : { ...spec, ops }, call, env);
     } finally {
       frames.pop();
+      // the transaction is closed: its overlay writes nothing more (N-55 (5))
+      if (frame.tx !== null) openTx.delete(frame.tx);
       // The batch's values: current at the version it committed (or kept, when it wrote nothing); never current when
       // it was rejected or threw — the arena is back at its prior version and those slots name nothing (C-0220 (3)).
       const at = r !== undefined && r.ok ? { key: p.key, version: p.version } : { key: p.key, version: -1 };
