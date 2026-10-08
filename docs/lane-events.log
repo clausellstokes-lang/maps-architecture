@@ -7242,3 +7242,8 @@
 2026-10-08 17:49 check/M0-a-09-close-s2 CHECKPOINT survivors X01 X04 X06 XR1 XF XG survive B-FUZZ and agreement at 1000; diff probe of survivors running; NEAR at PR size running; next: equivalence judgement, RELATED at 1000
 2026-10-08 17:49 check/M0-a-09-close-s2 CHECKPOINT NEAR at PR size green in tree: 12 files 52/52 (1513 s, W=3), kerb.ts hash unchanged; RELATED at 1000 started (kerb.ts, bandUnion.ts, W=2); XR1 (no retry after the first corner target's drop) changes 14/4977 probe faces (no split drawn) -- note
 2026-10-08 17:53 check/M0-a-16-close-s1 CHECKPOINT related at 1000 still running (started 17:32); next verdict + notes
+2026-10-08 17:55 check/M0-c-04-close-s2 CHECKPOINT Y06/Y07 NEAR runs in progress; RELATED@1000 running; next: their verdicts, then Y06/Y07 against RELATED if they survive NEAR
+2026-10-08 17:57 build/M0-a-04-fix-s3 CHECKPOINT RELATED@1000 still running (pid 365307 alive; 11 FAIL lines so far); next: RELATED verdict, landed
+2026-10-08 17:59 build/M0-a-08-fix-s3 CHECKPOINT near at PR size hit my 90-min wrapper timeout under load 13 (finished verdicts: offsetFace ic 29 cap 56 own 0, insetRing/booleans 0, 0 failures; agreement-buffer unfinished); re-running near whole without the wrapper limit; next: related, landed
+2026-10-08 17:59 build/M0-c-02-fix-s2 CHECKPOINT self-check (fix): N-54 (1) residual (seed 9 gate:w0 one-pin wet side) pinned — S1T1 (graze re-introduced) killed by chord.test strict replay; S1,S2,S3,S4,S5,T1,T2,T3 killed; T4 equivalent; lint/install/build exit 0; next NEAR, RELATED, before/after site runs
+2026-10-08 18:03 check/M0-a-16-close-s1 CHECKPOINT related still running (one foreign red so far: bench fusion/hausdorff, untracked in-flight file); next verdict
