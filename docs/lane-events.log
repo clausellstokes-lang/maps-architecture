@@ -6903,3 +6903,5 @@
 2026-10-08 02:54 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running; next: RELATED verdict, LANDED
 2026-10-08 02:56 build/M0-x-06-fix1 CHECKPOINT code: refused-residue handling + rollback check (B1), s8KindProblem precondition (B2), standing.ts first-standing state + chainCheck unmet split + unplanted control (B3/B4) in edge/{types,plant,observe,standing,ep01,s8,rows,cells,classes}.ts; mirror built+isolated; next: replay the checker's 445 failing seeds
 2026-10-08 03:01 check/M0-a-09-close-s1 CHECKPOINT ruling probes reproduced from own mirrors: integrated 1 test gt74cm 1 -> 0 (exact 105 -> 106), fusion 1 city gt74cm 6 -> 0 (exact 769 -> 776); mutants so far: X03 X05 X08 X10 killed, X01 X02 X04 X06 X07 X09 X11 survive; differential probe (1500 chord networks + 1500 polygons, old vs tree readKerb): outputs change at ordinary acute crossing corners too (guard drops, reach), X02 changes 35/1500 polygon faces (not equivalent); next: survivors' equivalence diffs, near, related
+2026-10-08 03:08 check/M0-d-09 CHECKPOINT waiting on X2 and X3 (workers-on legs)
+2026-10-08 03:14 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running; next: RELATED verdict, LANDED
