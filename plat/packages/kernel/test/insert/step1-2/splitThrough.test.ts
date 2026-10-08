@@ -309,7 +309,7 @@ describe('rows and the anchor allocation (§3.4 splitThrough’s row; §3.3 rule
   });
 });
 
-// ---- N-53 (1): a split at a table's doubling (C-0169 (5), refined by the N-53 choices row) ----------------------------
+// ---- N-53 (1): a split at a table's doubling (C-0169 (5), refined by C-0279) ----------------------------------------
 //
 // allocVertex and allocEdgePair double a full table by replacing it (`p.vertices`, `p.halfEdges`); a writer that read a
 // table before an allocation and writes it after writes a dead copy (N-53: applySplitPlan's splice landed in the old
@@ -429,7 +429,7 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
   // The claim is capacity-blindness: split by split, the arena grown from full tables equals the one built large (equal
   // fingerprints mean equal arenas, so §3.10 holds on one exactly when on the other). §3.10 itself after a split is the
   // B-FUZZ's (bfuzz.test.ts) and the pins' above: these long runs on near-frame chords also reach a clearance case of the
-  // placement rule that is not capacity's (the N-53 fix round's choices row, its open case (b), routed to the session).
+  // placement rule that is not capacity's (C-0279 (4), routed to the session).
   it('property: a run of splits from full tables through two doublings equals the same run at large capacity, split by split', { timeout: TIMEOUT }, () => {
     let doubled = 0;
     for (let seed = 1; seed <= 150; seed++) {

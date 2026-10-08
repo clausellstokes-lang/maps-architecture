@@ -259,7 +259,7 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   const v = allocVertex(p, plan.at, n, VERTEX_SPLIT | (m < n ? VERTEX_STEINER : 0));
   const h = allocEdgePair(p, v, t0, m);
   // Read the tables only now: a full table doubles inside allocVertex / allocEdgePair, which replace p.vertices and
-  // p.halfEdges, so a table read before them is a dead copy (N-53; C-0169 (5) as refined by its N-53 row).
+  // p.halfEdges, so a table read before them is a dead copy (N-53 (1); C-0279).
   const T = p.halfEdges;
   const after = T.next[g];
   const before = T.prev[g ^ 1];
