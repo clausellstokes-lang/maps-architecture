@@ -171,10 +171,11 @@ export interface Plat {
  * `p.roles.edgeFirst`, `p.indexHome.edge`), `allocFace` new columns of `p.faces[level]` (and `p.indexHome.face[level]`),
  * a role row new columns of the one `p.roles` object, `setFaceHoles` a new `holes` pool, an owner, role-head or handle
  * insert new arrays inside its table. So a writer re-reads `p.vertices`, `p.halfEdges` and every column after ANY
- * allocation: a table or column captured before one is a dead copy once it doubles, and writes to it are lost (the
+ * allocation: a table or column captured before one is a dead copy once it grows, and writes to it are lost (the
  * stale capture behind M0-x-06's rotation crashes, N-53 (1)). A writer that needs several slots allocates them all
  * first, then reads the tables once. The tiny-tables mode (`setTinyTables`, debug.ts; PLAT_TINY_TABLES=1 in the tests)
- * starts every table at capacity 1 so every writer meets a doubling at once.
+ * starts every table at capacity 1 and grows a slot table by one slot, so every allocation replaces its table and
+ * every writer meets the rule at once.
  */
 export interface PlatCapacity {
   vertices: number;
@@ -315,8 +316,14 @@ export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCap
 }
 
 // ---- growth -------------------------------------------------------------------------------------------------------
-// Each grow function REPLACES the arrays it doubles (content copied, the new slots filled free / empty): a writer
-// re-reads the tables after any allocation — the re-read rule above `PlatCapacity` (N-53 (4)).
+// Each grow function REPLACES the arrays it grows (content copied, the new slots filled free / empty): a writer
+// re-reads the tables after any allocation — the re-read rule above `PlatCapacity` (N-53 (4)). A slot table doubles;
+// in the tiny-tables mode it grows by exactly one slot, so it is always full and EVERY allocation replaces it (C-XXXX).
+
+/** A slot table's next capacity: double, or one more slot in the tiny-tables mode. */
+function grownCap(length: number): number {
+  return tinyTables() ? length + 1 : length * 2;
+}
 
 function grow32(a: Int32Array, cap: number, fill: number): Int32Array {
   const b = new Int32Array(cap);
@@ -347,7 +354,7 @@ function growU8(a: Uint8Array, cap: number, fill: number): Uint8Array {
 }
 
 function growVertices(p: Plat): void {
-  const cap = p.vertices.x.length * 2;
+  const cap = grownCap(p.vertices.x.length);
   const v = p.vertices;
   p.vertices = { x: grow32(v.x, cap, 0), y: grow32(v.y, cap, 0), out: grow32(v.out, cap, -1), level: growU8(v.level, cap, 0), flags: growU8(v.flags, cap, VERTEX_FREE) };
   p.roles.vertexFirst = grow32(p.roles.vertexFirst, cap, -1);
@@ -355,7 +362,7 @@ function growVertices(p: Plat): void {
 }
 
 function growPairs(p: Plat): void {
-  const cap = p.halfEdges.level.length * 2;
+  const cap = grownCap(p.halfEdges.level.length);
   const h = p.halfEdges;
   p.halfEdges = { origin: grow32(h.origin, 2 * cap, -1), next: grow32(h.next, 2 * cap, -1), prev: grow32(h.prev, 2 * cap, -1), level: growU8(h.level, cap, 0) };
   p.roles.edgeFirst = grow32(p.roles.edgeFirst, cap, -1);
@@ -364,7 +371,7 @@ function growPairs(p: Plat): void {
 
 function growFaces(p: Plat, level: Level): void {
   const f = p.faces[level];
-  const cap = f.outer.length * 2;
+  const cap = grownCap(f.outer.length);
   f.outer = grow32(f.outer, cap, -1);
   f.holesStart = grow32(f.holesStart, cap, -1);
   f.kind = growU16(f.kind, cap, FREE_KIND);
@@ -375,10 +382,10 @@ function growFaces(p: Plat, level: Level): void {
   p.indexHome.face[level] = grow16(p.indexHome.face[level], cap, -1);
 }
 
-/** Doubles the role-row columns (rows.ts allocates; the table is the arena's). */
+/** Grows the role-row columns — doubles them, or one row more in the tiny-tables mode (rows.ts allocates; the table is the arena's). */
 export function growRoleRows(p: Plat): void {
   const r = p.roles;
-  const cap = r.kind.length * 2;
+  const cap = grownCap(r.kind.length);
   r.kind = growU16(r.kind, cap, FREE_KIND);
   r.entity = grow32(r.entity, cap, -1);
   r.level = growU8(r.level, cap, 0);
@@ -705,7 +712,8 @@ export function setFaceHoles(p: Plat, level: Level, f: FaceId, holes: readonly H
   if (top + need > t.holes.length) {
     top = compactHoles(p, level, f);
     if (top + need > t.holes.length) {
-      let cap = t.holes.length * 2;
+      // doubled until the run fits — or exactly the run's room in the tiny-tables mode (C-XXXX)
+      let cap = tinyTables() ? top + need : t.holes.length * 2;
       while (cap < top + need) cap *= 2;
       t.holes = grow32(t.holes, cap, -1);
     }

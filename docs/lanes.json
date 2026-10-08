@@ -392,8 +392,9 @@
    "expected_min": 150,
    "output": "",
    "landed_key": "session/ruling-lifecycle",
-   "status": "running",
-   "note": "Fable ruling seat on M0-FIX-QUEUE Q9-Q14 (seat B), J247"
+   "status": "stopped",
+   "note": "Fable ruling seat on M0-FIX-QUEUE Q9-Q14 (seat B), J247",
+   "stopped": "2026-10-08T11:30-04:00"
   }
  ]
 }

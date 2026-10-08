@@ -1,8 +1,9 @@
 // M0-a-02: an empty arena from a Frame and the LatticeSpec (§2.2, §3.2 (1), (9)), slot allocation and free lists,
 // growth by doubling that keeps every column's content, the face records' owner lists and hole runs, and the raw
 // primitives' refusals (programming errors, in every build). N-53 (4) (C-XXXX): the tiny-tables mode (every table at
-// capacity 1), growth-preserves-content against a roomy reference after every operation, the rotation across every
-// doubling, and the re-read rule's premise (a doubling replaces the table, so a capture taken before it is dead).
+// capacity 1, the slot tables growing by one slot so every allocation replaces its table), growth-preserves-content
+// against a roomy reference after every operation, the rotation across every growth, and the re-read rule's premise
+// (a growth replaces the table, so a capture taken before it is dead).
 import { afterEach, describe, expect, it } from 'vitest';
 import { setTinyTables, tinyTables } from '../../src/arena/debug.js';
 import {
@@ -578,34 +579,50 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
       .toEqual([64, 64, 16, 64, 32, 16, 32]);
   });
 
-  it('a capacity-1 arena and a roomy one fed the same operations hold the same content after every operation, while every table of the first doubles', () => {
-    const tiny = withTiny(true, () => createPlat(GROUND, FRAME));
+  it('a capacity-1 arena and a roomy one fed the same operations hold the same content after every operation, while every table of the first grows, again and again', () => {
     const roomy = withTiny(false, () => createPlat(GROUND, FRAME, ROOMY));
     const roomyCaps = capacities(roomy);
     let compared = 0;
-    drive([tiny, roomy], 0x5eed_0053, 3_000, (op, keys) => {
-      const a = content(tiny, keys);
-      const b = content(roomy, keys);
-      const at = firstDifference(a, b);
-      if (at !== -1) expect.fail(`after operation ${op} the capacity-1 arena differs from the roomy one at content index ${at}: ${a[at]} vs ${b[at]}`);
-      compared++;
+    let replaced = 0;
+    // the whole sequence in the tiny mode: the capacity-1 arena's slot tables grow by one slot (always full); the roomy
+    // arena, made with the mode off, never reaches a growth
+    const tiny = withTiny(true, () => {
+      const t = createPlat(GROUND, FRAME);
+      let last = [t.vertices, t.halfEdges, t.roles.kind, t.faces[0].outer, t.faces[4].outer];
+      drive([t, roomy], 0x5eed_0053, 3_000, (op, keys) => {
+        const a = content(t, keys);
+        const b = content(roomy, keys);
+        const at = firstDifference(a, b);
+        if (at !== -1) expect.fail(`after operation ${op} the capacity-1 arena differs from the roomy one at content index ${at}: ${a[at]} vs ${b[at]}`);
+        compared++;
+        const now = [t.vertices, t.halfEdges, t.roles.kind, t.faces[0].outer, t.faces[4].outer];
+        if (now.some((x, i) => x !== last[i])) replaced++;
+        last = now;
+      });
+      return t;
     });
     expect(compared).toBe(3_000);
-    // the roomy arena never grew, so it is the reference; every table of the capacity-1 arena doubled, most many times
+    // the roomy arena never grew, so it is the reference
     expect(capacities(roomy)).toEqual(roomyCaps);
+    // the capacity-1 arena's slot tables are exactly full: each grew once per slot above the free lists' reuse
     const grown = capacities(tiny);
     for (const [table, cap] of Object.entries(grown)) expect([table, cap > 1]).toEqual([table, true]);
-    expect(grown['vertices.x']).toBeGreaterThanOrEqual(512);
-    expect(grown['halfEdges.level']).toBeGreaterThanOrEqual(256);
-    expect(grown['roles.kind']).toBeGreaterThanOrEqual(256);
+    expect(grown['vertices.x']).toBe(tiny.slots.vertex.top);
+    expect(grown['halfEdges.level']).toBe(tiny.slots.pair.top);
+    expect(grown['roles.kind']).toBe(tiny.slots.role.top);
+    for (const l of LEVELS) expect(grown[`faces[${l}].outer`]).toBe(tiny.slots.face[l].top);
+    expect(tiny.slots.vertex.top).toBeGreaterThanOrEqual(500);
+    expect(tiny.slots.pair.top).toBeGreaterThanOrEqual(300);
+    expect(tiny.slots.role.top).toBeGreaterThanOrEqual(300);
+    for (const l of LEVELS) expect(tiny.slots.face[l].top).toBeGreaterThanOrEqual(16);
+    expect(replaced).toBeGreaterThan(1_000); // most operations replaced a table
+    // the hash tables doubled from 1, many times
     expect(grown['roles.head.first']).toBeGreaterThanOrEqual(256);
     expect(grown['handles.slots']).toBeGreaterThanOrEqual(256);
-    for (const l of LEVELS) expect(grown[`faces[${l}].outer`]).toBeGreaterThanOrEqual(16);
     for (const l of LEVELS) expect(grown[`faces[${l}].ownerHead.head`]).toBeGreaterThanOrEqual(16);
-    expect(tiny.slots.vertex.live + tiny.slots.pair.live + tiny.slots.role.live).toBeGreaterThan(1_000);
   }, 120_000); // ≈ 3.4 s idle (3 000 full-content comparisons); the bound is for a loaded shared machine, never a timing
 
-  it('keeps the rotation through every doubling: QUARTERS built at capacity 1 walks every face of every level as the default build does, and still does after further allocations double every table again', () => {
+  it('keeps the rotation through every growth: QUARTERS built at capacity 1 walks every face of every level as the default build does, and still does after further allocations grow every table again', () => {
     const t = withTiny(true, () => buildArena(QUARTERS));
     const d = withTiny(false, () => buildArena(QUARTERS));
     const walks = (p: Plat, faces: number[][]): string[][][] => faces.map((fs, l) => fs.map((f) => faceWalk(p, l as Level, f).map((r) => ringText(p, r))));
@@ -619,6 +636,7 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     for (let i = 0; i < 400; i++) {
       const pick = Math.floor(rnd() * 6);
       for (const b of [t, d]) {
+        setTinyTables(b === t); // the capacity-1 build's tables grow by one slot; the default build's double
         const p = b.plat;
         const a = allocVertex(p, pt(5_000 + 40 * i, 7_000 + (i % 13)), 4);
         const c = allocVertex(p, pt(5_000 + 40 * i, 7_100 + (i % 17)), 4);
@@ -628,6 +646,7 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
         const f = allocFace(p, 4, { outer: b.he[0], kind: 7, owner: intern(p, `building:${i % 50}`), stage: 9, parent: b.faces[3][0] });
         setFaceHoles(p, 4, f, pick % 3 === 0 ? [] : [h, h ^ 1].slice(0, 1 + (pick % 2)));
       }
+      setTinyTables(TINY_TABLES);
       if (i % 50 === 49) expect(walks(t.plat, t.faces)).toEqual(walks(d.plat, d.faces));
     }
     // the original faces' rings, untouched by any of it
@@ -639,18 +658,19 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     }
   });
 
-  it('a doubling replaces the table it grows, so a table or column captured before the allocation is a dead copy (the premise of the re-read rule)', () => {
-    const p = withTiny(true, () => createPlat(GROUND, FRAME));
+  it('a growth replaces the table it grows, so a table or column captured before the allocation is a dead copy (the premise of the re-read rule)', () => {
+    setTinyTables(true); // restored by afterEach
+    const p = createPlat(GROUND, FRAME);
     const a = allocVertex(p, pt(0, 0), 0); // fills the 1-slot vertex table
     const V = p.vertices;
-    const b = allocVertex(p, pt(100, 0), 0); // doubles it
+    const b = allocVertex(p, pt(100, 0), 0); // grows it
     expect(p.vertices).not.toBe(V);
     V.out[a] = 77; // a write through the stale capture is lost
     expect(p.vertices.out[a]).toBe(-1);
     const h = allocEdgePair(p, a, b, 0); // fills the 1-pair table
     const H = p.halfEdges;
     const c = allocVertex(p, pt(0, 100), 0);
-    allocEdgePair(p, b, c, 0); // doubles it
+    allocEdgePair(p, b, c, 0); // grows it
     expect(p.halfEdges).not.toBe(H);
     H.next[h] = 5;
     expect(p.halfEdges.next[h]).toBe(-1);
@@ -658,7 +678,7 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     const kind = R.kind;
     addRole(p, h, { role: 'way', entity: 'way:1' }, 0);
     const head = p.roles.head.first;
-    addRole(p, h, { role: 'kerb', entity: 'block:1' }, 2); // the role rows double in place: one roles object, new columns
+    addRole(p, h, { role: 'kerb', entity: 'block:1' }, 2); // the role rows grow in place: one roles object, new columns
     expect(p.roles).toBe(R);
     expect(p.roles.kind).not.toBe(kind);
     expect(p.roles.head.first).not.toBe(head);
@@ -673,5 +693,21 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     const pool = p.faces[0].holes;
     setFaceHoles(p, 0, 0, [h]);
     expect(p.faces[0].holes).not.toBe(pool);
+    // in the tiny mode EVERY allocation replaces its slot table (always full); with the mode off a table doubles
+    allocFace(p, 1, { outer: h, kind: 1, owner: -1, stage: 0, parent: 0 }); // fills L1's one face slot
+    for (let i = 0; i < 20; i++) {
+      const before = [p.vertices, p.halfEdges, p.roles.kind, p.faces[1].outer];
+      const u = allocVertex(p, pt(1_000 + 50 * i, 500), 1);
+      const g = allocEdgePair(p, a, u, 1);
+      addRole(p, g, { role: 'kerb', entity: `block:${i + 2}` }, 1);
+      allocFace(p, 1, { outer: g, kind: 1, owner: -1, stage: 0, parent: 0 });
+      const now = [p.vertices, p.halfEdges, p.roles.kind, p.faces[1].outer];
+      for (let k = 0; k < 4; k++) expect(now[k]).not.toBe(before[k]);
+    }
+    expect([p.vertices.x.length, p.halfEdges.level.length, p.roles.kind.length, p.faces[1].outer.length]).toEqual([p.slots.vertex.top, p.slots.pair.top, p.slots.role.top, p.slots.face[1].top]);
+    setTinyTables(false);
+    const v0 = p.vertices.x.length;
+    allocVertex(p, pt(-500, -500), 0);
+    expect(p.vertices.x.length).toBe(2 * v0);
   });
 });

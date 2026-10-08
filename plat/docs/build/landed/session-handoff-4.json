@@ -1,16 +1,16 @@
 {
   "schema": "plat-landed-record/1",
   "item": "session-handoff-4",
-  "lane": "session/handoff-22",
-  "lanes": ["session/handoff-4", "session/handoff-5", "session/handoff-6", "session/handoff-7", "session/handoff-8", "session/handoff-9", "session/handoff-10", "session/handoff-11", "session/handoff-12", "session/handoff-13", "session/handoff-14", "session/handoff-15", "session/handoff-16", "session/handoff-17", "session/handoff-18", "session/handoff-19", "session/handoff-20", "session/handoff-21", "session/handoff-22"],
+  "lane": "session/handoff-23",
+  "lanes": ["session/handoff-4", "session/handoff-5", "session/handoff-6", "session/handoff-7", "session/handoff-8", "session/handoff-9", "session/handoff-10", "session/handoff-11", "session/handoff-12", "session/handoff-13", "session/handoff-14", "session/handoff-15", "session/handoff-16", "session/handoff-17", "session/handoff-18", "session/handoff-19", "session/handoff-20", "session/handoff-21", "session/handoff-22", "session/handoff-23"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-08T09:46:39.951Z",
+  "date": "2026-10-08T15:28:56.215Z",
   "ownsSource": "declared",
   "owns": ["plat/docs/build/checks/M0-spec-notes.md"],
   "counts": { "created": 0, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-spec-notes.md", "status": "changed", "sha256": "eecee0bdbe63d87e9924527b3b45f32c3a9dc8800668be0030c4ba0f14285929", "size": 78767 }
+    { "path": "plat/docs/build/checks/M0-spec-notes.md", "status": "changed", "sha256": "6cca7ff824cb4701316e0953ea9be06ac65d40f96fe23e504ed2eb16dab76455", "size": 83190 }
   ],
   "appends": []
 }

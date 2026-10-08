@@ -7069,3 +7069,7 @@
 2026-10-08 11:15 session/ruling-lifecycle CHECKPOINT Q9/Q10 root causes found + fixed in the mirror (13/13 lifecycle cases exact); Q11 = harness bookkeeping; gates running in the mirror
 2026-10-08 11:20 build/M0-c-04-fix-s1 CHECKPOINT gates re-run: install 0, lint 0 (probe-red ok), build 0; NEAR s5ab 11 files running (W=2, load ~24); self-check mirror rm refused by the auto-mode classifier (left at ~/maps-scratch/waves/selfcheck-build-M0-c-04-fix-s1, outside plat/); next: RELATED@1000, landed
 2026-10-08 11:24 session/ruling-lifecycle CHECKPOINT ruling drafted (RULING.md 315 lines); mirror gate 2 (insert step3-5) running; forms.test.ts + P5 queued after a vendor-dist rsync
+2026-10-08 11:25 session/ruling-lifecycle CHECKPOINT handing back; RULING.md final (gate 2 + forms/P5 re-runs still running in the mirror, logs in ~/maps-scratch/waves/ruling-lifecycle/out/)
+2026-10-08 11:28 build/M0-c-01-fix-s1 CHECKPOINT probes before 220/333 after 224/387; RELATED running (1 red so far: bench fusion/hausdorff, the known M0-c-06 red); next: counts, choices row, landed
+2026-10-08 11:30 build/M0-a-02-fix-s1 CHECKPOINT tiny mode now exact-fit growth for slot tables (every allocation replaces its table); arena folder 98/98; first kernel-tiny probe (doubling form): only M0-a-04 test-side reds (bfuzz X/Y stale captures, P1 capacity premises); rerunning kernel-tiny with exact-fit in mirror; next: mutants, gates
+2026-10-08 11:35 build/M0-a-06-fix-s4 CHECKPOINT read brief, N-55 row, RULING.md, N-53, tx code; next: mirror, reproduce Q9 fixtures red, edits
