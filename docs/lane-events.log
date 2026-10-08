@@ -7247,3 +7247,7 @@
 2026-10-08 17:59 build/M0-a-08-fix-s3 CHECKPOINT near at PR size hit my 90-min wrapper timeout under load 13 (finished verdicts: offsetFace ic 29 cap 56 own 0, insetRing/booleans 0, 0 failures; agreement-buffer unfinished); re-running near whole without the wrapper limit; next: related, landed
 2026-10-08 17:59 build/M0-c-02-fix-s2 CHECKPOINT self-check (fix): N-54 (1) residual (seed 9 gate:w0 one-pin wet side) pinned — S1T1 (graze re-introduced) killed by chord.test strict replay; S1,S2,S3,S4,S5,T1,T2,T3 killed; T4 equivalent; lint/install/build exit 0; next NEAR, RELATED, before/after site runs
 2026-10-08 18:03 check/M0-a-16-close-s1 CHECKPOINT related still running (one foreign red so far: bench fusion/hausdorff, untracked in-flight file); next verdict
+2026-10-08 18:11 build/M0-x-02-fix-s1 CHECKPOINT related@1000 still running under load (417 tests green, the one foreign-looking red); next: verdict, choices, CLEAN-ROOM, landed
+2026-10-08 18:12 check/M0-c-04-close-s2 CHECKPOINT Y06 survived NEAR (11 files 45/45, 1540 s); pins 6-8 red on the pre-round boundary.ts (12 and 14 wet, refusal missing), 1-5 green; Y07 NEAR and RELATED@1000 running; next: Y06/Y07 against RELATED, verdict
+2026-10-08 18:13 check/M0-a-16-close-s1 CHECKPOINT notes 11-13 appended; related still running; next verdict
+2026-10-08 18:15 build/M0-a-04-fix-s3 CHECKPOINT RELATED@1000 still running (pid 365307 alive; 11 FAIL lines so far); next: RELATED verdict, landed
