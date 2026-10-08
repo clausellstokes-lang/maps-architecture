@@ -1,10 +1,12 @@
 // The skeleton's input side (M0-a-11; §3.8 *Numeric contract*): the lattice check, the pre-clean (consecutive repeats
-// dropped, collinear vertices merged), the orientation (outer ring counter-clockwise, holes clockwise, so the
-// interior lies left of every edge), the canonical start (each ring at its lowest-leftmost vertex — the order ties are
-// broken in), and the contract's refusals, decided exactly on lattice integers before anything runs: a ring with fewer
-// than three vertices or no area, a ring that is not simple, a corner sharper than 5° on either side (an interior angle
-// below 5° or above 355°), a hole touching the outer ring or another hole, and a hole outside the outer ring or inside
-// another hole (C-0168 (3)). A refused ring set takes its reader's downgrade without running (§3.8).
+// dropped, then, to a fixpoint, exact zero-width spurs dropped and collinear vertices merged — N-52 (3), C-0276: a spur
+// is two coincident collinear edges enclosing no area, so dropping it reshapes nothing), the orientation (outer ring
+// counter-clockwise, holes clockwise, so the interior lies left of every edge), the canonical start (each ring at its
+// lowest-leftmost vertex — the order ties are broken in), and the contract's refusals, decided exactly on lattice
+// integers before anything runs: a ring with fewer than three vertices or no area, a ring that is not simple, a corner
+// sharper than 5° on either side (an interior angle below 5° or above 355°; an inexact fold-back is a 0° corner), a hole
+// touching the outer ring or another hole, and a hole outside the outer ring or inside another hole (C-0168 (3)). A
+// refused ring set takes its reader's downgrade without running (§3.8).
 import { area2, orient2d } from '../num/index.js';
 import type { LatticePoint } from '../types/index.js';
 import type { ContractRefusal, SkeletonEdge } from './types.js';
@@ -41,6 +43,40 @@ function dropRepeats(ring: readonly LatticePoint[]): Src[] {
   }
   while (out.length > 1 && out[0].p.x === out[out.length - 1].p.x && out[0].p.y === out[out.length - 1].p.y) out.pop();
   return out;
+}
+
+const same = (u: Src, v: Src): boolean => u.p.x === v.p.x && u.p.y === v.p.y;
+
+/**
+ * Drops exact zero-width spurs (N-52 (3), C-0276): a vertex whose two neighbours are one lattice point is the tip of a
+ * spur — the ring walks out to it and back along the same segment, two coincident collinear edges enclosing no area (a
+ * dead-end street walked out and back) — so the tip and the second of its two coincident neighbours in walk order are
+ * removed, the first kept with its index, repeatedly, until none is left: a spur of several segments goes tip by tip,
+ * one across the ring's seam included. Only exact equality is a spur: a fold-back
+ * whose neighbours differ by any lattice step is a 0° corner and stays for the contract to refuse (`sharpCorner`). The
+ * ring must hold no consecutive repeats; it holds none after (the kept neighbour differs from the next vertex).
+ */
+function dropSpurs(ring: readonly Src[]): Src[] {
+  const out: Src[] = [];
+  for (const s of ring) {
+    // out ends …, a, b and s is a: b is a tip — drop b and s, keep a (a is then judged again against the next vertex)
+    if (out.length >= 2 && same(out[out.length - 2], s)) {
+      out.pop();
+      continue;
+    }
+    out.push(s);
+  }
+  // the seam: a tip at the walk's last vertex (between out[n − 2] and out[0]) or at its first (between out[n − 1] and out[1])
+  for (;;) {
+    const n = out.length;
+    if (n < 3) return out;
+    if (same(out[n - 2], out[0])) {
+      out.pop();
+      out.shift();
+    } else if (same(out[n - 1], out[1])) {
+      out.splice(0, 2);
+    } else return out;
+  }
 }
 
 /**
@@ -166,7 +202,14 @@ export function prepareRings(input: readonly (readonly LatticePoint[])[]): Prepa
   if (input.length === 0) return { ok: false, refusal: 'empty' };
   const rings: Src[][] = [];
   for (let k = 0; k < input.length; k += 1) {
-    const cleaned = mergeCollinear(dropRepeats(input[k]));
+    // the pre-clean to a fixpoint: a merge can expose a spur (out along two collinear segments, back along one) and a
+    // dropped spur can leave its root straight on; both only remove vertices, so an unchanged length is the fixpoint
+    let cleaned = dropRepeats(input[k]);
+    for (;;) {
+      const next = mergeCollinear(dropSpurs(cleaned));
+      if (next.length === cleaned.length) break;
+      cleaned = next;
+    }
     if (cleaned.length < 3) return { ok: false, refusal: 'degenerate', ...(cleaned.length > 0 ? { at: cleaned[0].p } : {}) };
     const pts = cleaned.map((s) => s.p);
     const a = area2(pts);

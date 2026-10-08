@@ -38,6 +38,7 @@
 // same insertion sequence in `corridorUnion`.
 import { faceWalk, idOf, isFaceLive, outgoing, roleInfo, rowsOn, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import type { InsertTx } from '../insert/classes.js';
+import { nearParallel } from '../insert/stretch.js';
 import { area2, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
 import { cutKnot, knotLines, routeLines } from '../tx/profile.js';
 import { check } from '../tx/state.js';
@@ -362,16 +363,23 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
   const splits: LatticePoint[][] = [];
   if (f.spines.size > 0 && rings.length > 0) {
     for (const jn of junctionsOf(p, f.edges, f.spines)) {
-      const chain = splitChain(p, rings, jn);
-      if (chain === null) continue;
+      const sc = splitChain(p, rings, jn);
+      if (sc === null) continue;
       const pts: LatticePoint[] = [];
-      for (const q of chain) {
+      for (const q of sc.chain) {
         const s = snap(q.x, q.y);
         if (!s.ok) return err(s.code, s.detail);
         const last = pts[pts.length - 1];
         if (last === undefined || last.x !== s.value.x || last.y !== s.value.y) pts.push(s.value);
       }
-      if (pts.length >= 2) splits.push(pts);
+      // A corridor_split lies in the band (§3.7): a chain that would enter kerb(F)'s interior — a block — is not drawn,
+      // and the kerb point it spliced in for it is taken out again (C-0212 (5) as refined by N-52 (2)): never a split
+      // across a block, whatever the junction's geometry.
+      if (pts.length >= 2 && !entersKerb(rings, pts)) splits.push(pts);
+      else if (sc.spliced !== null) {
+        const at = sc.spliced.ring.indexOf(sc.spliced.v);
+        if (at >= 0) sc.spliced.ring.splice(at, 1);
+      }
     }
   }
   // a splice on a kerb edge collinear with its neighbour can fold the ring back on itself: spikes dropped again
