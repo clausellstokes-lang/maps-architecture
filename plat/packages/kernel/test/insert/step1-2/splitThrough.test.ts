@@ -23,6 +23,7 @@ import { placePoint, splitEndsBreachClearance } from '../../../src/insert/placem
 import { addressKind, allocateAnchor, firstAnchorOrdinal, splitThrough } from '../../../src/insert/splitThrough.js';
 import { opSplitThrough, tx, type KernelTx } from '../../../src/tx/index.js';
 import type { Level, StageId } from '../../../src/types/index.js';
+import { TINY_TABLES } from '../../arena/tiny.js';
 import {
   buildArena,
   CELLS,
@@ -364,6 +365,12 @@ function everyFaceWalks(p: Plat): void {
   }
 }
 
+// Under PLAT_TINY_TABLES=1 (M0-a-02's tiny-tables mode, N-53 (4), C-0286) every table starts at capacity 1 and a full
+// table grows by one slot, the reference included: the pins then read "the table was replaced inside the op" (cap + 1)
+// in place of "doubled" (2 · cap), and the reference's never-grows premise is the default mode's alone. The claim —
+// the split reads the live tables, equal to a reference — is the same in both modes (C-0284).
+const grownFrom = (cap: number): number => (TINY_TABLES ? cap + 1 : 2 * cap);
+
 describe('a split at a table’s doubling (N-53 (1))', () => {
   it('P1: the pair table full — the split’s new pair doubles it; the rotation at v, s and t0 holds; equal to a large-capacity reference', () => {
     const b = sized(SLANT, { edgePairs: SLANT.edges.length });
@@ -371,11 +378,11 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     expect(p.slots.pair.top).toBe(p.halfEdges.level.length); // full: the split's pair grows the table
     const cap = p.halfEdges.level.length;
     splitAndRead(b, 1, 1500, 2000);
-    expect(p.halfEdges.level.length).toBe(2 * cap); // the table did double inside the op
+    expect(p.halfEdges.level.length).toBe(grownFrom(cap)); // the table did double (tiny: grow) inside the op
     expect(problems(p)).toEqual([]);
     everyFaceWalks(p);
     const ref = indexed(SLANT);
-    expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
+    if (!TINY_TABLES) expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
     splitAndRead(ref, 1, 1500, 2000);
     expect(fingerprint(p)).toBe(fingerprint(ref.plat));
   });
@@ -386,7 +393,7 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     expect(p.slots.vertex.top).toBe(p.vertices.x.length);
     const cap = p.vertices.x.length;
     splitAndRead(b, 1, 1500, 2000);
-    expect(p.vertices.x.length).toBe(2 * cap);
+    expect(p.vertices.x.length).toBe(grownFrom(cap));
     expect(problems(p)).toEqual([]);
     everyFaceWalks(p);
     const ref = indexed(SLANT);
@@ -421,7 +428,7 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     const cap = b.plat.halfEdges.level.length;
     expect(b.plat.slots.pair.top).toBe(cap);
     run(b);
-    expect(b.plat.halfEdges.level.length).toBe(2 * cap);
+    expect(b.plat.halfEdges.level.length).toBe(grownFrom(cap));
     expect(problems(b.plat)).toEqual([]);
     everyFaceWalks(b.plat);
     const ref = dressQuarters(indexed(QUARTERS));
@@ -460,7 +467,7 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
         expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
         expect(problems(ref.plat)).toEqual([]);
       }
-      if (b.plat.halfEdges.level.length >= 4 * cap) doubled++;
+      if (b.plat.halfEdges.level.length >= (TINY_TABLES ? cap + 2 : 4 * cap)) doubled++; // two doublings (tiny: two growths)
     }
     expect(doubled).toBeGreaterThan(0); // the runs reach a second doubling
   });

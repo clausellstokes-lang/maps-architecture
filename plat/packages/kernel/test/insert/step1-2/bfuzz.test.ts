@@ -211,8 +211,6 @@ describe('B-FUZZ: splitThrough (sequences of splits; the listed placement proper
       fc.property(cases, fc.array(fc.tuple(fc.nat(), fc.double({ min: 0, max: 1, noNaN: true }), fc.integer({ min: -60, max: 60 }), fc.boolean()), { minLength: 1, maxLength: 3 }), ({ seed, level }, splits) => {
         const { built } = chordArena(seed);
         const p = built.plat;
-        const X = p.vertices.x;
-        const Y = p.vertices.y;
         const tx = insertTx(p, level as Level);
         let anchors = 0;
         for (const [pick, t, offset, withRow] of splits) {
@@ -235,6 +233,9 @@ describe('B-FUZZ: splitThrough (sequences of splits; the listed placement proper
           const v = r.value;
           if (tx.journal.vertices.length > created) {
             expect(tx.journal.vertices[created]).toBe(v);
+            // the live tables, read after the split: a split that fills a table doubles it (N-53; C-0286 (6))
+            const X = p.vertices.x;
+            const Y = p.vertices.y;
             const [ra, rb] = routeOf(p, v);
             expect(onRoute(X[v], Y[v], X[ra], Y[ra], X[rb], Y[rb])).toBe(true);
             for (const h of outgoing(p, v)) {
@@ -320,9 +321,10 @@ describe('B-FUZZ: near-frame split sequences (§3.10 after every split; the spli
           let spec: ArenaSpec | null = null;
           while (spec === null) spec = nearFrameSpec(rnd);
           const p = indexed(spec).plat;
-          const X = p.vertices.x;
-          const Y = p.vertices.y;
           for (const [pick, nearFrame, along, dx, dy, level] of steps) {
+            // the live tables each step: a split that fills a table doubles it (N-53; C-0286 (6))
+            const X = p.vertices.x;
+            const Y = p.vertices.y;
             // an L1 edge — half the time one with an end on the frame (the shallow corners' edges)
             const l1 = liveEdges(p).filter((e) => e[2] === 1);
             const framed = l1.filter(([a, b]) => [a, b].some((v) => X[v] === 0 || Y[v] === 0 || X[v] === 4000 || Y[v] === 4000));
