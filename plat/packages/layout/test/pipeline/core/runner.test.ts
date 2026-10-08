@@ -577,7 +577,7 @@ describe('no restart path (§5.1 (1)): a refused stage is a bug entry, never a r
     expect(model.kernel.index.rebuildAtStageEnd({ layer: 'ground', part: 0 })).toBe(0);
   });
 
-  // N-55 (6), C-0292 refining C-0224 (5): a refused stage rolls back whole — its committed batches too (§5.1 (8) "nothing
+  // N-55 (6), C-0295 refining C-0224 (5): a refused stage rolls back whole — its committed batches too (§5.1 (8) "nothing
   // it wrote commits", at the unit the runner refuses). Two arenas; S1 rings both; S3 commits an L0 and an L1 batch on
   // the ground arena and an L1 batch on the second, then returns `refuse` (or ok, the twin); S6 commits two batches on
   // the ground arena and one on the second — so each arena's version comes back to where S3 had taken it, the case in
@@ -640,7 +640,7 @@ describe('no restart path (§5.1 (1)): a refused stage is a bug entry, never a r
       for (const s of after ?? []) expect(s.index).toEqual([]);
       expect(report.bugs).toEqual([{ cls: 'E_DEGENERATE', entity: model.town.identity.id, key: `S3@${model.town.identity.id}`, stage: 'S3' }]);
       expect(model.data.has('trace')).toBe(false);
-      // The work the rolled-back batches charged stays in the report (spent; C-0292).
+      // The work the rolled-back batches charged stays in the report (spent; C-0295).
       expect(report.stages[1].work[LAW.counter]).toBe(rolled('ok').report.stages[1].work[LAW.counter]);
       expect(report.stages[1].work[LAW.counter]).toBeGreaterThan(0);
     });

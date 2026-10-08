@@ -1,6 +1,6 @@
 // The runner (M0-x-02; §4.1 *The laziness contract*'s eager part, *Transactions*, the stage ranks; §14 `Stage`,
 // `StageContext`, `Scope`; §6.1 the stage's streams and `StreamOpts.reroll`; §5.1 (1) "the pipeline has no restart
-// path"; §5.1 (8) "nothing it wrote commits"; §5.4; C-0077, C-0090, C-0147, C-0224, C-0292 (N-55 (6))).
+// path"; §5.1 (8) "nothing it wrote commits"; §5.4; C-0077, C-0090, C-0147, C-0224, C-0295 (N-55 (6))).
 //
 // `run(registry, blueprint, scope)` derives the base product once, eagerly, in `stageOrder(registry)`: for each stage in
 // order `inputsOf(model, scope)` → `run(input, ctx)`, with a StageContext of its own — the arenas (`plats`), `stream`
@@ -8,7 +8,7 @@
 // id and the entity's cached key), `streamOpts` (epoch 0; the reroll of the entity's derivation unit, and for the town
 // root the run option `rerolls`, C-0090), the tables, the rung, the report sink, epoch 0 — and the pipeline's doors
 // (`batch`, `bind`, the digest; ./registry.ts). Each stage runs exactly once: a stage whose run is refused leaves its
-// outputs unwritten, its arenas as they stood at its start and a bug entry in the report (§5.1 (8); N-55 (6), C-0292:
+// outputs unwritten, its arenas as they stood at its start and a bug entry in the report (§5.1 (8); N-55 (6), C-0295:
 // the stage image — M0-a-06's before-image taken per arena before the stage runs, put back over the batches it
 // committed, the level digests re-attached and the arena re-registered with the model digest), and the derivation goes
 // on with the next stage — the runner has no loop back, no retry and no restart above a stage (§5.1 (1); its retries
@@ -167,7 +167,7 @@ function writeOutputs(stage: PipelineStage, value: unknown, data: Map<DataKey, u
 
 /**
  * Puts a refused stage's arenas back as they stood when it began (§5.1 (8) "nothing it wrote commits", at the unit the
- * runner refuses; N-55 (6), C-0292 refining C-0224 (5)). Each arena whose version moved — a batch of the stage committed
+ * runner refuses; N-55 (6), C-0295 refining C-0224 (5)). Each arena whose version moved — a batch of the stage committed
  * on it (a rejected batch restores itself) — takes its stage image back: every table, slot counter, handle, the index
  * state and the version (M0-a-06's before-image, C-0185 (1), C-0287 (2)). Setting the version back would let a
  * maintained level-digest state that saw the rolled-back commits read as current again once later commits bring the
@@ -326,7 +326,7 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     };
 
     const input = stage.inputsOf(viewFor(stage, product.extraInputs.get(id) ?? [], data), scope);
-    // The stage image (N-55 (6), C-0292): one before-image per arena, released at the stage's end.
+    // The stage image (N-55 (6), C-0295): one before-image per arena, released at the stage's end.
     const images = arenas.map((p) => takeSavepoint(p));
     const r = stage.run(input, ctx);
     if (r.ok) {
