@@ -8,7 +8,9 @@
 // placement's fallback, which lands — judged by an independent oracle — on the nearer endpoint of the sub-edge its exact
 // position falls on, with W_PLACED and nothing written (C-0169 (6), C-0170 (1), superseding C-0169 (4)'s "no fallback
 // fires": an acute corner inside a vertex's one-ring can refuse every candidate; attract.test.ts's thin wedge shows one).
-// decimate's random-chain property is in decimate.test.ts.
+// decimate's random-chain property is in decimate.test.ts. The near-frame split sequences hold §3.10 after every split
+// where a split ends a one-ring exemption at its own ends (C-0279 (4), C-0284), and the placePoint property's placed
+// answers never split a sub-edge whose ends cannot clear each other's edges.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { handleOf, isHalfEdgeLive, outgoing, roleIdOf, rowsOfKey, type Plat, type VertexId } from '../../../src/arena/index.js';
@@ -18,7 +20,7 @@ import { insertTx } from '../../../src/insert/classes.js';
 import { placePoint } from '../../../src/insert/placement.js';
 import { splitThrough } from '../../../src/insert/splitThrough.js';
 import type { Level } from '../../../src/types/index.js';
-import { chordArena, fingerprint, liveEdges, liveVertices, problems, pt, TIMEOUT } from './support.js';
+import { chordArena, fingerprint, generator, indexed, liveEdges, liveVertices, nearFrameSpec, problems, pt, splitEndsBreach, TIMEOUT, type ArenaSpec } from './support.js';
 
 const B = (v: number): bigint => BigInt(v);
 
@@ -209,8 +211,6 @@ describe('B-FUZZ: splitThrough (sequences of splits; the listed placement proper
       fc.property(cases, fc.array(fc.tuple(fc.nat(), fc.double({ min: 0, max: 1, noNaN: true }), fc.integer({ min: -60, max: 60 }), fc.boolean()), { minLength: 1, maxLength: 3 }), ({ seed, level }, splits) => {
         const { built } = chordArena(seed);
         const p = built.plat;
-        const X = p.vertices.x;
-        const Y = p.vertices.y;
         const tx = insertTx(p, level as Level);
         let anchors = 0;
         for (const [pick, t, offset, withRow] of splits) {
@@ -233,6 +233,9 @@ describe('B-FUZZ: splitThrough (sequences of splits; the listed placement proper
           const v = r.value;
           if (tx.journal.vertices.length > created) {
             expect(tx.journal.vertices[created]).toBe(v);
+            // the live tables, read after the split: a split that fills a table doubles it (N-53; C-0286 (6))
+            const X = p.vertices.x;
+            const Y = p.vertices.y;
             const [ra, rb] = routeOf(p, v);
             expect(onRoute(X[v], Y[v], X[ra], Y[ra], X[rb], Y[rb])).toBe(true);
             for (const h of outgoing(p, v)) {
@@ -293,6 +296,7 @@ describe('B-FUZZ: placePoint (the placement rule; crossings included)', () => {
           for (const w of [s, u]) expect((X[w] - q.x) ** 2 + (Y[w] - q.y) ** 2).toBeGreaterThanOrEqual(625); // (ii)
           if (crossing) for (const w of [c, d]) expect((w.x - q.x) ** 2 + (w.y - q.y) ** 2).toBeGreaterThanOrEqual(625);
           expect(Math.hypot(q.x - ex, q.y - ey)).toBeLessThanOrEqual(26); // the search never goes beyond attractCm
+          expect(splitEndsBreach(p, s, u)).toBe(false); // (iii) at the split's own ends (C-0284)
         } else {
           const v = r.value.vertex;
           expect(run.some((g) => O[g] === v) || O[run[run.length - 1] ^ 1] === v).toBe(true);
@@ -300,5 +304,56 @@ describe('B-FUZZ: placePoint (the placement rule; crossings included)', () => {
         return true;
       }),
     );
+  }, TIMEOUT);
+});
+
+describe('B-FUZZ: near-frame split sequences (§3.10 after every split; the split’s own ends, C-0284)', () => {
+  it('never throws; after every split of a chord meeting the frame at a shallow corner §3.10 holds; a split whose ends cannot clear lands on an end, writing nothing; a refusal writes nothing', () => {
+    let endsCases = 0;
+    let splits = 0;
+    let written = 0;
+    fc.assert(
+      fc.property(
+        fc.integer({ min: 1, max: 0x7fffffff }),
+        fc.array(fc.tuple(fc.nat(), fc.boolean(), fc.integer({ min: 20, max: 80 }), fc.integer({ min: -20, max: 20 }), fc.integer({ min: -20, max: 20 }), fc.integer({ min: 1, max: 2 })), { minLength: 1, maxLength: 12 }),
+        (seed, steps) => {
+          const rnd = generator(seed);
+          let spec: ArenaSpec | null = null;
+          while (spec === null) spec = nearFrameSpec(rnd);
+          const p = indexed(spec).plat;
+          for (const [pick, nearFrame, along, dx, dy, level] of steps) {
+            // the live tables each step: a split that fills a table doubles it (N-53; C-0286 (6))
+            const X = p.vertices.x;
+            const Y = p.vertices.y;
+            // an L1 edge — half the time one with an end on the frame (the shallow corners' edges)
+            const l1 = liveEdges(p).filter((e) => e[2] === 1);
+            const framed = l1.filter(([a, b]) => [a, b].some((v) => X[v] === 0 || Y[v] === 0 || X[v] === 4000 || Y[v] === 4000));
+            const from = nearFrame && framed.length > 0 ? framed : l1;
+            const [a, b] = from[pick % from.length];
+            const g = outgoing(p, a).find((h) => p.halfEdges.origin[h ^ 1] === b);
+            if (g === undefined) throw new Error('no half-edge a → b');
+            if (splitEndsBreach(p, a, b)) endsCases += 1;
+            const x = Math.round(X[a] + (along / 100) * (X[b] - X[a])) + dx;
+            const y = Math.round(Y[a] + (along / 100) * (Y[b] - Y[a])) + dy;
+            const before = fingerprint(p);
+            const tx = insertTx(p, level as Level);
+            const r = splitThrough(tx, g, pt(x, y));
+            splits += 1;
+            if (!r.ok) {
+              // an L1 batch beside an L2 Steiner vertex on the run: candidate (b), M0-a-05's
+              expect(r.code).toBe('E_LEVEL');
+              expect(fingerprint(p)).toBe(before);
+              continue;
+            }
+            if (tx.journal.vertices.length > 0) written += 1;
+            else expect(fingerprint(p)).toBe(before); // onto an existing vertex: nothing written
+            expect(problems(p)).toEqual([]);
+          }
+          return true;
+        },
+      ),
+    );
+    console.log(`B-FUZZ near-frame splits: ${splits} splits, ${written} written, ${endsCases} on an edge whose ends cannot clear once split`);
+    expect(endsCases).toBeGreaterThan(0); // the generator reaches the case (non-vacuous)
   }, TIMEOUT);
 });

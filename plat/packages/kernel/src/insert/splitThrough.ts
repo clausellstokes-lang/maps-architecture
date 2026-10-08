@@ -249,8 +249,7 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   const n = tx.level;
   const g = plan.sub;
   const m = edgeLevel(p, g);
-  const T = p.halfEdges;
-  const t0 = T.origin[g ^ 1];
+  const t0 = p.halfEdges.origin[g ^ 1];
   const journal = tx.journal;
   // A same-level split cuts the run in two (§3.3): its old handle's item, and its home before the batch.
   const oldHandle = m === n ? routeRun(p, g).halfEdges[0] >> 1 : -1;
@@ -259,6 +258,9 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   // The vertex and the split: g keeps its origin and pair (s → v); a new pair runs v → t.
   const v = allocVertex(p, plan.at, n, VERTEX_SPLIT | (m < n ? VERTEX_STEINER : 0));
   const h = allocEdgePair(p, v, t0, m);
+  // Read the tables only now: a full table doubles inside allocVertex / allocEdgePair, which replace p.vertices and
+  // p.halfEdges, so a table read before them is a dead copy (N-53 (1); C-0279).
+  const T = p.halfEdges;
   const after = T.next[g];
   const before = T.prev[g ^ 1];
   T.next[g] = h;

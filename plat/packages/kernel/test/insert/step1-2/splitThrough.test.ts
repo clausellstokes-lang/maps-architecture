@@ -5,6 +5,7 @@
 // issue order and the slots; the declared form that sorts the ops is M0-a-06's (C-0169 (5)).
 import { describe, expect, it } from 'vitest';
 import {
+  addRole,
   faceWalk,
   outgoing,
   roleIdOf,
@@ -15,11 +16,34 @@ import {
   type Plat,
   type VertexId,
 } from '../../../src/arena/index.js';
-import { beginIndexBatch, checkIndexBatch, endIndexBatch, query, routeRun } from '../../../src/index/index.js';
-import { INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
+import { attachIndex, beginIndexBatch, checkIndexBatch, endIndexBatch, query, routeRun } from '../../../src/index/index.js';
+import { attractVertex } from '../../../src/insert/attractVertex.js';
+import { INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
+import { placePoint, splitEndsBreachClearance } from '../../../src/insert/placement.js';
 import { addressKind, allocateAnchor, firstAnchorOrdinal, splitThrough } from '../../../src/insert/splitThrough.js';
-import type { Level } from '../../../src/types/index.js';
-import { dressQuarters, fingerprint, indexed, permutation, problems, pt, QUARTERS, SLANT, type ArenaSpec } from './support.js';
+import { opSplitThrough, tx, type KernelTx } from '../../../src/tx/index.js';
+import type { Level, StageId } from '../../../src/types/index.js';
+import { TINY_TABLES } from '../../arena/tiny.js';
+import {
+  buildArena,
+  CELLS,
+  chordSpec,
+  dressQuarters,
+  fingerprint,
+  generator,
+  indexed,
+  intIn,
+  liveEdges,
+  permutation,
+  problems,
+  pt,
+  QUARTERS,
+  SLANT,
+  splitEndsBreach,
+  TIMEOUT,
+  type ArenaSpec,
+  type Built,
+} from './support.js';
 
 const pos = (p: Plat, v: VertexId): [number, number] => [p.vertices.x[v], p.vertices.y[v]];
 
@@ -287,5 +311,325 @@ describe('rows and the anchor allocation (§3.4 splitThrough’s row; §3.3 rule
     expect(fingerprint(b.plat)).toBe(before);
     const ok = splitThrough(t, b.he[11], pt(510, 300), { role: 'junction', entity: 'junction:9' });
     expect(ok.ok && rowsOn(b.plat, 'vertex', ok.value).map((q) => rowKey(b.plat, q))).toEqual([{ role: 'junction', entity: 'junction:9', ordinal: 0 }]);
+  });
+});
+
+// ---- N-53 (1): a split at a table's doubling (C-0169 (5), refined by C-0279) ----------------------------------------
+//
+// allocVertex and allocEdgePair double a full table by replacing it (`p.vertices`, `p.halfEdges`); a writer that read a
+// table before an allocation and writes it after writes a dead copy (N-53: applySplitPlan's splice landed in the old
+// half-edge table at pair counts 64·2^k, and the arena check threw at the commit). Each pin builds the arena with the
+// table exactly full, so the split's own allocation doubles it, and judges the result against §3.10's validator, the
+// rotation at the split's three vertices and the same split on an arena built at the default (large) capacity — a
+// table's capacity is never content, so the two fingerprints (every table to its high-water mark, the slots, the index)
+// are equal.
+
+/** An arena from `spec` with the index attached, its tables sized as `capacity` says (the rest at the defaults). */
+function sized(spec: ArenaSpec, capacity: { vertices?: number; edgePairs?: number; roleRows?: number }, dress = false): Built {
+  const b = buildArena(spec, {}, capacity);
+  attachIndex(b.plat, { gridCellCm: CELLS });
+  return dress ? dressQuarters(b) : b;
+}
+
+/** The neighbours of a vertex, by the live rotation. */
+const ring = (p: Plat, v: VertexId): VertexId[] => outgoing(p, v).map((h) => p.halfEdges.origin[h ^ 1]);
+
+/** A declared batch at `level` holding `ops` (every other field the tx tests' defaults). */
+function declaredSpec(level: Level, ops: KernelTx['ops']): KernelTx {
+  const S8 = 8 as StageId;
+  return { key: { layer: 'ground', part: 0 }, level, ops, expect: [], onFail: 'reject', batch: { kind: 'stage', stage: S8 }, stage: S8, rederivesFrom: S8, workLimit: 1_000_000 };
+}
+
+/** Splits at (x, y) on the level-`level` edge nearest it; checks the rotation at the split's three vertices; returns v. */
+function splitAndRead(b: Built, level: Level, x: number, y: number): { v: VertexId; s: VertexId; t0: VertexId } {
+  const p = b.plat;
+  const g = edgeNear(p, level, x, y);
+  const s = p.halfEdges.origin[g];
+  const t0 = p.halfEdges.origin[g ^ 1];
+  const r = splitThrough(insertTx(p, level), g, pt(x, y));
+  expect(r.ok).toBe(true);
+  if (!r.ok) throw new Error(r.code);
+  const v = r.value;
+  expect(ring(p, v).sort((a, c) => a - c)).toEqual([s, t0].sort((a, c) => a - c));
+  expect(ring(p, s)).toContain(v);
+  expect(ring(p, s)).not.toContain(t0);
+  expect(ring(p, t0)).toContain(v);
+  expect(ring(p, t0)).not.toContain(s);
+  return { v, s, t0 };
+}
+
+/** Every live face record of every level walks (a stale splice leaves a ring that does not close). */
+function everyFaceWalks(p: Plat): void {
+  for (let l = 0; l <= 4; l++) {
+    for (let f = 0; f < p.slots.face[l].top; f++) if (p.faces[l].kind[f] !== 0xffff) faceWalk(p, l as Level, f);
+  }
+}
+
+// Under PLAT_TINY_TABLES=1 (M0-a-02's tiny-tables mode, N-53 (4), C-0286) every table starts at capacity 1 and a full
+// table grows by one slot, the reference included: the pins then read "the table was replaced inside the op" (cap + 1)
+// in place of "doubled" (2 · cap), and the reference's never-grows premise is the default mode's alone. The claim —
+// the split reads the live tables, equal to a reference — is the same in both modes (C-0284).
+const grownFrom = (cap: number): number => (TINY_TABLES ? cap + 1 : 2 * cap);
+
+describe('a split at a table’s doubling (N-53 (1))', () => {
+  it('P1: the pair table full — the split’s new pair doubles it; the rotation at v, s and t0 holds; equal to a large-capacity reference', () => {
+    const b = sized(SLANT, { edgePairs: SLANT.edges.length });
+    const p = b.plat;
+    expect(p.slots.pair.top).toBe(p.halfEdges.level.length); // full: the split's pair grows the table
+    const cap = p.halfEdges.level.length;
+    splitAndRead(b, 1, 1500, 2000);
+    expect(p.halfEdges.level.length).toBe(grownFrom(cap)); // the table did double (tiny: grow) inside the op
+    expect(problems(p)).toEqual([]);
+    everyFaceWalks(p);
+    const ref = indexed(SLANT);
+    if (!TINY_TABLES) expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
+    splitAndRead(ref, 1, 1500, 2000);
+    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
+  });
+
+  it('P1, the vertex-table twin: the vertex table full — the split’s vertex doubles it; same checks, same fingerprint', () => {
+    const b = sized(SLANT, { vertices: SLANT.vertices.length });
+    const p = b.plat;
+    expect(p.slots.vertex.top).toBe(p.vertices.x.length);
+    const cap = p.vertices.x.length;
+    splitAndRead(b, 1, 1500, 2000);
+    expect(p.vertices.x.length).toBe(grownFrom(cap));
+    expect(problems(p)).toEqual([]);
+    everyFaceWalks(p);
+    const ref = indexed(SLANT);
+    splitAndRead(ref, 1, 1500, 2000);
+    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
+  });
+
+  it('P1, every table full at once (vertices, pairs, role rows): a Steiner split copying the edge’s rows; same fingerprint', () => {
+    const rows = dressQuarters(indexed(QUARTERS)).plat.slots.role.top;
+    const b = sized(QUARTERS, { vertices: QUARTERS.vertices.length, edgePairs: QUARTERS.edges.length, roleRows: rows }, true);
+    const p = b.plat;
+    expect([p.slots.vertex.top, p.slots.pair.top, p.slots.role.top]).toEqual([p.vertices.x.length, p.halfEdges.level.length, p.roles.kind.length]);
+    const { v } = splitAndRead(b, 2, 510, 300); // an L2 batch on the L1 edge (500, 0)–(500, 500): both parts carry its rows
+    expect(p.vertices.flags[v]).toBe(VERTEX_STEINER | VERTEX_SPLIT);
+    const parts = outgoing(p, v);
+    expect(rowsText(p, parts[0])).toEqual(rowsText(p, parts[1]));
+    expect(rowsText(p, parts[0]).length).toBeGreaterThan(0);
+    expect(problems(p)).toEqual([]);
+    everyFaceWalks(p);
+    const ref = dressQuarters(indexed(QUARTERS));
+    splitAndRead(ref, 2, 510, 300);
+    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
+  });
+
+  it('P1, the declared form: opSplitThrough through tx() at a full pair table commits, its fingerprint equal to a large-capacity reference', () => {
+    const run = (b: Built): void => {
+      const g = edgeNear(b.plat, 2, 510, 300);
+      const r = tx(b.plat, declaredSpec(2, [opSplitThrough([7, 0], 0, g, pt(510, 300), { role: 'anchor', entity: 'district:1' })]));
+      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
+    };
+    const b = sized(QUARTERS, { edgePairs: QUARTERS.edges.length }, true);
+    const cap = b.plat.halfEdges.level.length;
+    expect(b.plat.slots.pair.top).toBe(cap);
+    run(b);
+    expect(b.plat.halfEdges.level.length).toBe(grownFrom(cap));
+    expect(problems(b.plat)).toEqual([]);
+    everyFaceWalks(b.plat);
+    const ref = dressQuarters(indexed(QUARTERS));
+    run(ref);
+    expect(b.plat.version).toBe(ref.plat.version);
+    expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
+  });
+
+  // The claim is capacity-blindness: split by split, the arena grown from full tables equals the one built large (equal
+  // fingerprints mean equal arenas, so §3.10 holds on one exactly when on the other) — and §3.10 holds after every split:
+  // these long runs on near-frame chords reach the split's own-ends clearance case (C-0279 (4)), which the placement
+  // now keeps (C-0284).
+  it('property: a run of splits from full tables through two doublings equals the same run at large capacity, split by split', { timeout: TIMEOUT }, () => {
+    let doubled = 0;
+    for (let seed = 1; seed <= 150; seed++) {
+      const rnd = generator(0x5e53 + seed);
+      let spec: ArenaSpec | null = null;
+      while (spec === null) spec = chordSpec(rnd);
+      const b = sized(spec, { vertices: spec.vertices.length, edgePairs: spec.edges.length });
+      const ref = indexed(spec);
+      const cap = b.plat.halfEdges.level.length;
+      for (let k = 0; k < 2 * cap + 2; k++) {
+        const l1 = liveEdges(ref.plat).filter((e) => e[2] === 1);
+        const [a, c] = l1[intIn(rnd, 0, l1.length - 1)];
+        const X = ref.plat.vertices.x;
+        const Y = ref.plat.vertices.y;
+        const s = intIn(rnd, 20, 80) / 100;
+        const x = Math.round(X[a] + s * (X[c] - X[a])) + intIn(rnd, -20, 20);
+        const y = Math.round(Y[a] + s * (Y[c] - Y[a])) + intIn(rnd, -20, 20);
+        // the half-edge a → c names the edge in both arenas (one build order, one op history)
+        const g = outgoing(ref.plat, a).find((h) => ref.plat.halfEdges.origin[h ^ 1] === c);
+        if (g === undefined) throw new Error('no half-edge a → c');
+        const want = splitThrough(insertTx(ref.plat, 1), g, pt(x, y));
+        const got = splitThrough(insertTx(b.plat, 1), g, pt(x, y));
+        expect(got.ok ? got.value : got.code).toBe(want.ok ? want.value : want.code);
+        expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
+        expect(problems(ref.plat)).toEqual([]);
+      }
+      if (b.plat.halfEdges.level.length >= (TINY_TABLES ? cap + 2 : 4 * cap)) doubled++; // two doublings (tiny: two growths)
+    }
+    expect(doubled).toBeGreaterThan(0); // the runs reach a second doubling
+  });
+});
+
+// ---- C-0279 (4): a split keeps clearance at its own ends (C-0284) -------------------------------------------------------
+//
+// While s and t are joined each lies in the other's one-ring, so a chord's vertex P may stand within minEdge of the frame
+// edges at the chord's frame end E (a shallow corner above minFaceAngle). A split of P–E makes the new vertex, not E,
+// P's neighbour, so P must then clear the frame edges at E: it cannot, so no point of P–E qualifies under (iii) and the
+// placement falls back onto the nearer end (§3.6), writing nothing. Before C-0284 the split committed the breach.
+
+/** The L0 frame [0, 4 000]² and an L1 chord E (3 034, 4 000) – P (2 912, 4 000 − d) – (2 000, 2 000) – (2 000, 0). */
+function nearFrame(d: number): ArenaSpec {
+  return {
+    vertices: [
+      [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
+      [3034, 4000, 1], [2912, 4000 - d, 1], [2000, 2000, 1], [2000, 0, 1], // 4 E, 5 P, 6, 7
+    ],
+    edges: [
+      [0, 7, 0], [7, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 0, 0],
+      [4, 5, 1], [5, 6, 1], [6, 7, 1],
+    ],
+  };
+}
+
+/** The half-edge a → c. */
+function halfEdge(p: Plat, a: VertexId, c: VertexId): number {
+  const g = outgoing(p, a).find((h) => p.halfEdges.origin[h ^ 1] === c);
+  if (g === undefined) throw new Error('no half-edge a → c');
+  return g;
+}
+
+/** A callback batch at `level` (the declared spec with no ops). */
+const callbackSpec = (level: Level): KernelTx => declaredSpec(level, []);
+
+describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
+  it('a shallow corner at the frame (P 16 cm inside it, 7.5°): no point of P–E qualifies — splitThrough lands on the nearer end, W_PLACED, nothing written; §3.10 holds', () => {
+    for (const level of [1, 2] as const) {
+      const b = indexed(nearFrame(16));
+      const p = b.plat;
+      const [E, P] = [b.v[4], b.v[5]];
+      expect(problems(p)).toEqual([]); // the arena is valid: E is P's neighbour
+      expect(splitEndsBreach(p, P, E)).toBe(true); // the oracle: a split would leave P within minEdge of (3 034, 4 000)–(0, 4 000)
+      expect(splitEndsBreachClearance(p, P, E)).toBe(true);
+      expect(splitEndsBreachClearance(p, E, P)).toBe(true);
+      // the placement rule: every candidate fails (iii) at the split's ends, none is tried; the nearer endpoint
+      const t0 = insertTx(p, level);
+      const pl = placePoint(t0, halfEdge(p, P, E), { x: 2966, y: 3991.08 });
+      expect(pl.ok && pl.value).toEqual({ kind: 'endpoint', vertex: P, tried: 0 });
+      expect(t0.work.counts.get(INSERT_PLACEMENT_CANDIDATES) ?? 0).toBe(0);
+      // splitThrough at the checker's point (seed 6's split, (2 966, 3 996)), both ways round
+      for (const [a, c] of [[P, E], [E, P]]) {
+        const before = fingerprint(p);
+        const t = insertTx(p, level);
+        const r = splitThrough(t, halfEdge(p, a, c), pt(2966, 3996));
+        expect(r.ok && r.value).toBe(P);
+        expect(t.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
+        expect(t.journal.vertices).toEqual([]);
+        expect(fingerprint(p)).toBe(before);
+        expect(problems(p)).toEqual([]);
+      }
+      // attraction from beside P–E (6 cm off it, 15 cm inside the frame): onto the nearer end, nothing written
+      const before = fingerprint(p);
+      const t = insertTx(p, level);
+      const r = attractVertex(t, pt(2966, 3985));
+      expect(r.ok && r.value.kind === 'vertex' && r.value.vertex).toBe(P);
+      expect(fingerprint(p)).toBe(before);
+      expect(problems(p)).toEqual([]);
+    }
+  });
+
+  it('the control: P 30 cm inside the frame (clear of the frame edges at E) — the split places its vertex and §3.10 holds', () => {
+    const b = indexed(nearFrame(30));
+    const p = b.plat;
+    const [E, P] = [b.v[4], b.v[5]];
+    expect(splitEndsBreach(p, P, E)).toBe(false);
+    expect(splitEndsBreachClearance(p, P, E)).toBe(false);
+    const t = insertTx(p, 1);
+    const r = splitThrough(t, halfEdge(p, P, E), pt(2966, 3990));
+    expect(r.ok).toBe(true);
+    expect(t.journal.vertices).toHaveLength(1);
+    expect(problems(p)).toEqual([]);
+  });
+
+  it('the one-ring exemption that stays: s beside an edge t–w whose far end w is s’s own neighbour (a thin triangle) — the split is placed, §3.10 holds', () => {
+    // the L0 frame ±5 000 and an L1 triangle s (0, 0), t (200, 0), w (−59, 27): s stands 20.7 cm from t–w, which stays in
+    // s's one-ring after the split (w is its neighbour), so the split of s–t at (100, 0) keeps clearance
+    const spec: ArenaSpec = {
+      vertices: [[-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [0, 0, 1], [200, 0, 1], [-59, 27, 1]],
+      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [5, 6, 1], [6, 4, 1]],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [s, t] = [b.v[4], b.v[5]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, s, t)).toBe(false);
+    expect(splitEndsBreachClearance(p, s, t)).toBe(false);
+    const tx1 = insertTx(p, 1);
+    const r = splitThrough(tx1, halfEdge(p, s, t), pt(100, 0));
+    expect(r.ok && pos(p, r.value)).toEqual([100, 0]);
+    expect(tx1.journal.vertices).toHaveLength(1);
+    expect(problems(p)).toEqual([]);
+  });
+
+  it('a run with a finer vertex: a sub-edge whose ends cannot clear is passed over and a candidate on the next sub-edge within attractCm qualifies', () => {
+    // the L1 line y = 0 across the frame through A (−1 000, 0), an L2 Steiner vertex F (−900, 0) and B (1 000, 0); F's L2
+    // spoke F–G, G (−1 100, 40), passes 19.6 cm from A (exempt while A–F stands). The exact position 0.5 cm before F:
+    // A–F cannot be split, F–B can, and (−875, 0), 25.5 cm away, is the nearest point that qualifies on it.
+    const spec: ArenaSpec = {
+      vertices: [
+        [-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [-5000, 0, 1], [5000, 0, 1], // 0 – 5
+        [-1000, 0, 1], [-900, 0, 2, VERTEX_STEINER | VERTEX_SPLIT], [1000, 0, 1], [-1100, 40, 2], // 6 A, 7 F, 8 B, 9 G
+      ],
+      edges: [
+        [0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0],
+        [4, 6, 1], [6, 7, 1], [7, 8, 1], [8, 5, 1], [7, 9, 2],
+      ],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [A, F, B] = [b.v[6], b.v[7], b.v[8]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, A, F)).toBe(true);
+    expect(splitEndsBreach(p, F, B)).toBe(false);
+    const pl = placePoint(insertTx(p, 1), halfEdge(p, A, F), { x: -900.5, y: 0 });
+    expect(pl.ok && pl.value.kind === 'placed' && { at: pl.value.at, sub: pl.value.sub }).toEqual({ at: pt(-875, 0), sub: halfEdge(p, F, B) });
+  });
+
+  it('the checker’s seeds 6, 34 and 40 (chord arenas, generator 0xc1ea + seed), role-dressed, every split a tx() callback batch: committed with §3.10 holding, never with a breach', () => {
+    const cases = new Map<number, string[]>();
+    for (const seed of [6, 34, 40]) {
+      const rnd = generator(0xc1ea + seed);
+      let spec: ArenaSpec | null = null;
+      while (spec === null) spec = chordSpec(rnd);
+      const b = indexed(spec);
+      const p = b.plat;
+      b.he.forEach((h, i) => addRole(p, h, spec!.edges[i][2] === 0 ? { role: 'margin', entity: 'terrain:1' } : { role: 'way', entity: `way:${i}` }, spec!.edges[i][2] as Level));
+      expect(problems(p)).toEqual([]);
+      for (let k = 0; k < 40; k++) {
+        const l1 = liveEdges(p).filter((e) => e[2] === 1);
+        const [a, c] = l1[intIn(rnd, 0, l1.length - 1)];
+        const X = p.vertices.x;
+        const Y = p.vertices.y;
+        const s = intIn(rnd, 20, 80) / 100;
+        const x = Math.round(X[a] + s * (X[c] - X[a])) + intIn(rnd, -20, 20);
+        const y = Math.round(Y[a] + s * (Y[c] - Y[a])) + intIn(rnd, -20, 20);
+        if (splitEndsBreach(p, a, c)) cases.set(seed, [...(cases.get(seed) ?? []), `${k}: (${X[a]},${Y[a]})-(${X[c]},${Y[c]})`]);
+        const g = halfEdge(p, a, c);
+        const version = p.version;
+        const before = fingerprint(p);
+        const r = tx(p, callbackSpec(1), (o) => splitThrough(o, g, pt(x, y)));
+        if (r.ok) expect(problems(p)).toEqual([]);
+        else {
+          expect(p.version).toBe(version);
+          expect(fingerprint(p)).toBe(before);
+        }
+      }
+    }
+    // each seed reaches the case at the checker's breaching split (seed 6: split 20 of (2 912, 3 984)–(3 034, 4 000))
+    expect(cases.get(6)).toContain('20: (2912,3984)-(3034,4000)');
+    expect(cases.get(34)).toContain('27: (2168,0)-(2003,23)');
+    expect(cases.get(40)).toContain('37: (3981,2702)-(4000,2539)');
   });
 });
