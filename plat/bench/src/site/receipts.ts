@@ -28,7 +28,7 @@ import {
   type PlatKey,
   type Polygon,
 } from '@plat/kernel';
-import type { Bridge, Gate, Terrain, WaterSet } from '@plat/model';
+import type { Bridge, Enceinte, Gate, Terrain, WaterSet } from '@plat/model';
 import {
   fieldDriverSources,
   fieldFaces,
@@ -43,6 +43,8 @@ import {
   type S6Output,
   type ScalarField,
   type S4Output,
+  stripOwner,
+  type WaterGate,
 } from '@plat/layout';
 import { hydroParams, rasterise, type RiverReport, type SiteResources } from '@plat/site';
 import { parseTable, tableView, type BaseRung, type Table, type TableView } from '@plat/tables';
@@ -93,10 +95,44 @@ export interface ReliefReceipt {
   readonly limitCm: number;
 }
 
-/** The water gates (C-0087): the trace across the river only at its water gates. */
+/**
+ * One enceinte's water gates (C-0087; N-54 (4)): its own wall over water read against its own water gates. Every
+ * reading is the strict span reading — a wet wall side is gated only when it is its gate's chord between that gate's
+ * two resolved bank pins.
+ */
+export interface EnceinteWaterReceipt {
+  readonly enceinte: string;
+  /** Its record's stage (S3's commit: 1; S5's `enceintes`: k); 0 when no record names it. */
+  readonly stage: number;
+  /**
+   * A record names it (the S3 commit's enceinte or one of S5's `enceintes`). False: wall edges carry its `wall` row
+   * with no record behind them (a refused stage's committed residue; N-55 (6)) — none of its gates is known, so every
+   * wall edge of it over water reads ungated.
+   */
+  readonly recorded: boolean;
+  /** Its water gates (the records naming it as their enceinte). */
+  readonly gates: number;
+  /** Its wall edges over water (midpoint in a water body's L0 face past WET_DEPTH_CM), and those that are a gate's chord. */
+  readonly wallOverWater: number;
+  readonly wallOverWaterGated: number;
+  /** Its water gates with exactly one wall edge over water, that edge joining the gate's two resolved gate_end vertices. */
+  readonly gatesWithOneEdge: number;
+  /** gate_end refs (the gate's own, ordinals 0 and 1) resolving to one vertex, those on the river's shore or bank. */
+  readonly endsResolved: number;
+  readonly endsOnShore: number;
+  readonly endsAtRecordedBank: number;
+  /** Its strip faces, and their vertices in the water deeper than WET_DEPTH_CM. */
+  readonly stripFaces: number;
+  readonly stripVerticesInWater: number;
+}
+
+/**
+ * The water gates (C-0087): every enceinte's wall over the river only at its own water gates (N-54 (4): stage 1's
+ * from the S3 commit, every stage k ≥ 2's from S5's output). The totals are the sums over `enceintes`.
+ */
 export interface WaterGateReceipt {
   readonly gates: number;
-  /** Wall edges lying over water (their midpoint in a water body's L0 face), and those carrying exactly one water gate's row. */
+  /** Wall edges lying over water (their midpoint in a water body's L0 face), and those that are a water gate's chord. */
   readonly wallOverWater: number;
   readonly wallOverWaterGated: number;
   /** Water gates with exactly one gated wall edge over water, whose two ends are its two resolved gate_end vertices. */
@@ -109,9 +145,11 @@ export interface WaterGateReceipt {
   /** Strip faces, and their vertices lying in the water deeper than WET_DEPTH_CM (0: the strips end at the banks). */
   readonly stripFaces: number;
   readonly stripVerticesInWater: number;
-  /** Way N unchanged: main gates equal to the slice's gate sites. */
+  /** Way N unchanged: main gates equal to the slice's gate sites (stage 1). */
   readonly mainGates: number;
   readonly gateSites: number;
+  /** Per enceinte (the records' order, then any enceinte only the arena names, by id). */
+  readonly enceintes: readonly EnceinteWaterReceipt[];
 }
 
 /** The crossing sites and spans (C-0076; §4.2 S1 (5)). */
@@ -430,57 +468,158 @@ export function reliefReceipt(before: Int32Array, after: Terrain, rung: BaseRung
 
 // ---- S3: the water gates ------------------------------------------------------------------------------------------------------
 
-/** C-0087's receipt on the committed arena: the wall over water only at water gates; the gate ends; the strips. */
-export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3Commit, slice: S3Slice): WaterGateReceipt {
-  const w = waterIndex(p, water);
-  const wall = edgesWith(p, 'wall');
-  const gateIds = new Set(commit.waterGates.map((g) => g.id));
-  const over = wall.filter((e) => edgeOverWater(p, w, e));
-  const gated = over.filter((e) => e.rows.filter((r) => r.role === 'wall_gate' && gateIds.has(r.entity)).length === 1);
-  let one = 0;
-  let resolved = 0;
+/** S5's output as the receipts read it (the stage's `enceintes` and `gates` data keys; absent when S5 did not end ok). */
+export interface S5Walls {
+  readonly enceintes: readonly Enceinte[];
+  readonly gates: readonly Gate[];
+}
+
+/** One gate's ends: resolved through its own gate_end refs, and how many lie on the river's shore or at its recorded bank. */
+function gateEnds(k: Kernel, p: Plat, water: WaterSet, g: WaterGate): { ends: LatticePoint[]; shore: number; recorded: number } {
+  const ends: LatticePoint[] = [];
   let shore = 0;
   let recorded = 0;
-  for (const g of commit.waterGates) {
-    const ends: LatticePoint[] = [];
-    const banks = g.banks ?? [];
-    for (let end = 0; end < 2; end += 1) {
-      const ref = banks[end];
-      if (ref === undefined || ref.role !== 'gate_end' || ref.entity !== g.id || (ref.ordinal ?? 0) !== end) continue;
-      const r = k.resolve(ref, GROUND);
-      if (r.view !== 'vertices' || r.vertices.length !== 1) continue;
-      const v = r.vertices[0];
-      const at = P(p.vertices.x[v], p.vertices.y[v]);
-      ends.push(at);
-      resolved += 1;
-      if (incidentRows(p, v).some((q) => (q.role === 'shore' || q.role === 'bank') && water.bodies.some((b) => b.id === q.entity))) shore += 1;
-      if (same(at, g.bankAt[end])) recorded += 1;
+  const banks = g.banks ?? [];
+  for (let end = 0; end < 2; end += 1) {
+    const ref = banks[end];
+    if (ref === undefined || ref.role !== 'gate_end' || ref.entity !== g.id || (ref.ordinal ?? 0) !== end) continue;
+    const r = k.resolve(ref, GROUND);
+    if (r.view !== 'vertices' || r.vertices.length !== 1) continue;
+    const v = r.vertices[0];
+    const at = P(p.vertices.x[v], p.vertices.y[v]);
+    ends.push(at);
+    if (incidentRows(p, v).some((q) => (q.role === 'shore' || q.role === 'bank') && water.bodies.some((b) => b.id === q.entity))) shore += 1;
+    if (g.bankAt !== undefined && same(at, g.bankAt[end])) recorded += 1;
+  }
+  return { ends, shore, recorded };
+}
+
+/** Whether an edge joins two points (either way round). */
+function joins(e: { a: LatticePoint; b: LatticePoint }, u: LatticePoint, v: LatticePoint): boolean {
+  return (same(e.a, u) && same(e.b, v)) || (same(e.a, v) && same(e.b, u));
+}
+
+/**
+ * C-0087's receipt on the committed arena, per enceinte (N-54 (4)): each enceinte's wall over water only at its own
+ * water gates, each gated side the gate's chord between its two resolved bank pins; the gate ends; the strips. The
+ * records: stage 1's enceinte and water gates from the S3 commit, every stage k ≥ 2's from S5's output (`s5`, its
+ * `enceintes` and `gates`; S4's gates — stage 1's list in S5's — hold the main gates only, so stage 1's water gates are
+ * the commit's). Without `s5` only stage 1 is recorded: a later enceinte's wall still standing in the arena reads
+ * unrecorded and its wall over water ungated.
+ */
+export function waterGateReceipt(k: Kernel, p: Plat, water: WaterSet, commit: S3Commit, slice: S3Slice, s5: S5Walls | null = null): WaterGateReceipt {
+  const w = waterIndex(p, water);
+  const over = edgesWith(p, 'wall').filter((e) => edgeOverWater(p, w, e));
+  // The records: the enceintes (stage 1's, then S5's), each with the water gates naming it.
+  interface Rec {
+    readonly id: string;
+    readonly enceinte: Enceinte | null;
+    readonly gates: WaterGate[];
+  }
+  const recs: Rec[] = [];
+  const byId = new Map<string, Rec>();
+  const add = (id: string, e: Enceinte | null): Rec => {
+    let r = byId.get(id);
+    if (r === undefined) {
+      r = { id, enceinte: e, gates: [] };
+      byId.set(id, r);
+      recs.push(r);
     }
-    const mine = over.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
-    if (ends.length === 2 && mine.length === 1 && ((same(mine[0].a, ends[0]) && same(mine[0].b, ends[1])) || (same(mine[0].a, ends[1]) && same(mine[0].b, ends[0])))) one += 1;
+    return r;
+  };
+  add(commit.enceinte.id, commit.enceinte);
+  for (const e of s5?.enceintes ?? []) add(e.id, e);
+  const seen = new Set<string>();
+  const waterOf = [...commit.waterGates, ...(s5?.gates ?? []).filter((g): g is WaterGate => g.kind === 'water')];
+  const orphans: Rec[] = [];
+  for (const g of waterOf) {
+    if (seen.has(g.id)) continue;
+    seen.add(g.id);
+    const r = byId.get(g.enceinte);
+    if (r !== undefined) r.gates.push(g);
+    else {
+      // a water gate naming an enceinte no record holds: reported under that enceinte, unrecorded
+      const o = { id: g.enceinte, enceinte: null, gates: [g] };
+      byId.set(g.enceinte, o);
+      orphans.push(o);
+    }
   }
-  // The strips: no strip face's vertex lies in the water deeper than WET_DEPTH_CM.
-  const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer].map((id) => handleOf(p, id)).filter((h) => h >= 0));
-  let stripFaces = 0;
-  let wet = 0;
-  for (let f = 0; f < p.slots.face[1].top; f += 1) {
-    if (!isFaceLive(p, 1, f) || !owners.has(p.faces[1].owner[f])) continue;
-    stripFaces += 1;
-    for (const ring of faceRings(p, 1, f)) for (const q of ring) if (wetDeep(p, w, q)) wet += 1;
+  // Enceintes only the arena names (a wall row with no record), by id.
+  const arenaOnly = new Set<string>();
+  for (const e of over) for (const r of e.rows) if (r.role === 'wall' && !byId.has(r.entity)) arenaOnly.add(r.entity);
+  for (const id of [...arenaOnly].sort()) orphans.push({ id, enceinte: null, gates: [] });
+  orphans.sort((a, b) => (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+  for (const o of orphans) {
+    if (!byId.has(o.id)) byId.set(o.id, o);
+    recs.push(o);
   }
+
+  const rows: EnceinteWaterReceipt[] = [];
+  for (const rec of recs) {
+    const mineOver = over.filter((e) => e.rows.some((r) => r.role === 'wall' && r.entity === rec.id));
+    const ids = new Set(rec.gates.map((g) => g.id));
+    const ends = new Map<string, LatticePoint[]>();
+    let resolved = 0;
+    let shore = 0;
+    let recorded = 0;
+    let one = 0;
+    for (const g of rec.gates) {
+      const ge = gateEnds(k, p, water, g);
+      ends.set(g.id, ge.ends);
+      resolved += ge.ends.length;
+      shore += ge.shore;
+      recorded += ge.recorded;
+      const mine = mineOver.filter((e) => e.rows.some((r) => r.role === 'wall_gate' && r.entity === g.id));
+      if (ge.ends.length === 2 && mine.length === 1 && joins(mine[0], ge.ends[0], ge.ends[1])) one += 1;
+    }
+    // The strict span reading: one wall_gate row of this enceinte's water gates, the edge that gate's bank-pin chord.
+    const gated = mineOver.filter((e) => {
+      const gs = e.rows.filter((r) => r.role === 'wall_gate' && ids.has(r.entity));
+      if (gs.length !== 1) return false;
+      const ge = ends.get(gs[0].entity) ?? [];
+      return ge.length === 2 && joins(e, ge[0], ge[1]);
+    });
+    // The strips: no strip face's vertex lies in the water deeper than WET_DEPTH_CM.
+    const e = rec.enceinte;
+    const ownerIds = e !== null ? [e.strips.inner.owner, e.strips.outer.owner] : [stripOwner(rec.id, 'inner'), stripOwner(rec.id, 'outer')];
+    const owners = new Set(ownerIds.map((id) => handleOf(p, id)).filter((h) => h >= 0));
+    let stripFaces = 0;
+    let wet = 0;
+    for (let f = 0; f < p.slots.face[1].top; f += 1) {
+      if (!isFaceLive(p, 1, f) || !owners.has(p.faces[1].owner[f])) continue;
+      stripFaces += 1;
+      for (const ring of faceRings(p, 1, f)) for (const q of ring) if (wetDeep(p, w, q)) wet += 1;
+    }
+    rows.push({
+      enceinte: rec.id,
+      stage: e === null ? 0 : e.stage,
+      recorded: e !== null,
+      gates: rec.gates.length,
+      wallOverWater: mineOver.length,
+      wallOverWaterGated: gated.length,
+      gatesWithOneEdge: one,
+      endsResolved: resolved,
+      endsOnShore: shore,
+      endsAtRecordedBank: recorded,
+      stripFaces,
+      stripVerticesInWater: wet,
+    });
+  }
+  const sum = (f: (r: EnceinteWaterReceipt) => number): number => rows.reduce((s, r) => s + f(r), 0);
   const mains = commit.gates.filter((g: Gate) => g.kind === 'main').length;
   return {
-    gates: commit.waterGates.length,
-    wallOverWater: over.length,
-    wallOverWaterGated: gated.length,
-    gatesWithOneEdge: one,
-    endsResolved: resolved,
-    endsOnShore: shore,
-    endsAtRecordedBank: recorded,
-    stripFaces,
-    stripVerticesInWater: wet,
+    gates: sum((r) => r.gates),
+    wallOverWater: sum((r) => r.wallOverWater),
+    wallOverWaterGated: sum((r) => r.wallOverWaterGated),
+    gatesWithOneEdge: sum((r) => r.gatesWithOneEdge),
+    endsResolved: sum((r) => r.endsResolved),
+    endsOnShore: sum((r) => r.endsOnShore),
+    endsAtRecordedBank: sum((r) => r.endsAtRecordedBank),
+    stripFaces: sum((r) => r.stripFaces),
+    stripVerticesInWater: sum((r) => r.stripVerticesInWater),
     mainGates: mains,
     gateSites: slice.gateSites.length,
+    enceintes: rows,
   };
 }
 
@@ -692,6 +831,13 @@ export function corpusReceipt(p: Plat, s6: S6Output | null, water: WaterSet): Ru
 
 // ---- the record --------------------------------------------------------------------------------------------------------------
 
+/** The enceintes and gates the run's model holds (S5's output; S3's when S5 did not end ok), or null when it holds none. */
+export function s5Walls(d: SpikeDerivation): S5Walls | null {
+  const enceintes = d.model.data.get('enceintes') as readonly Enceinte[] | undefined;
+  const gates = d.model.data.get('gates') as readonly Gate[] | undefined;
+  return enceintes === undefined && gates === undefined ? null : { enceintes: enceintes ?? [], gates: gates ?? [] };
+}
+
 /** Every receipt of one derivation (the arena as S6 left it). */
 export function runRecord(d: SpikeDerivation): RunRecord {
   const m = d.model;
@@ -731,7 +877,7 @@ export function runRecord(d: SpikeDerivation): RunRecord {
     rivers: terrain === undefined ? [] : riverReceipts(terrain, water, river),
     riverRequested: (river?.requested ?? []).map((q) => `${q.feature} ${q.delivered}${q.cause === undefined ? '' : ` ${q.cause}`}`),
     relief: terrain === undefined || d.capture.preHeights === null ? null : reliefReceipt(d.capture.preHeights, terrain, rung, tableView(), clamped),
-    waterGates: commit === undefined || slice === undefined ? null : waterGateReceipt(k, p, water, commit, slice),
+    waterGates: commit === undefined || slice === undefined ? null : waterGateReceipt(k, p, water, commit, slice, s5Walls(d)),
     bridges: s4 === undefined ? null : bridgeReceipt(k, p, water, s4),
     districts: s6 === undefined ? null : districtReceipt(k, p, s6),
     fields: fields === undefined ? null : fieldsReceipt(d, p, fields, d.config === 'coarse'),

@@ -9,7 +9,7 @@ import { quantile7 } from '@plat/testkit';
 import { CORPUS_BAR } from '../skeleton/runner.js';
 import type { SpikeConfig } from './compose.js';
 import type { SpikeSize } from './fixtures.js';
-import type { CorpusCounts, RunRecord } from './receipts.js';
+import type { CorpusCounts, EnceinteWaterReceipt, RunRecord } from './receipts.js';
 
 /** A quantile block (C-0091): Hyndman and Fan's type 7 over the values. */
 export interface Quantiles {
@@ -186,12 +186,15 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     maxReliefCm: rl.length === 0 ? null : Math.max(...rl.map((r) => relief(r).reliefCm)),
   });
 
-  // S3: the water gates (observed where a trace crossed the river).
+  // S3 and S5a: the water gates (observed where a trace crossed the river), judged per enceinte (N-54 (4)): each
+  // enceinte's wall over water exactly its own water gates' chords.
   const wg = rs.filter((r) => r.waterGates !== null);
   const W = (r: RunRecord): NonNullable<RunRecord['waterGates']> => r.waterGates as NonNullable<RunRecord['waterGates']>;
+  const encBad = (e: EnceinteWaterReceipt): boolean =>
+    e.wallOverWater !== e.gates || e.wallOverWaterGated !== e.gates || e.gatesWithOneEdge !== e.gates || e.endsResolved !== 2 * e.gates || e.endsOnShore !== 2 * e.gates || e.stripVerticesInWater > 0;
   const wgBad = (r: RunRecord): boolean => {
     const w = W(r);
-    return w.wallOverWater !== w.gates || w.wallOverWaterGated !== w.gates || w.gatesWithOneEdge !== w.gates || w.endsResolved !== 2 * w.gates || w.endsOnShore !== 2 * w.gates || w.stripVerticesInWater > 0 || w.mainGates !== w.gateSites;
+    return w.enceintes.length === 0 || w.enceintes.some(encBad) || w.mainGates !== w.gateSites;
   };
   const crossing = wg.filter((r) => W(r).gates > 0 || W(r).wallOverWater > 0);
   const waterGates = bar(crossing.length, 'derivations whose trace meets the river', wg.filter(wgBad).map((r) => r.seed), {
@@ -203,6 +206,9 @@ export function foldGroup(fixture: string, config: SpikeConfig, records: readonl
     endsAtRecordedBank: wg.reduce((s, r) => s + W(r).endsAtRecordedBank, 0),
     stripVerticesInWater: wg.reduce((s, r) => s + W(r).stripVerticesInWater, 0),
     nUnchanged: wg.filter((r) => W(r).mainGates === W(r).gateSites).length,
+    enceintes: wg.reduce((s, r) => s + W(r).enceintes.length, 0),
+    laterGates: wg.reduce((s, r) => s + W(r).enceintes.filter((e) => e.stage !== 1).reduce((t, e) => t + e.gates, 0), 0),
+    unrecordedWallOverWater: wg.reduce((s, r) => s + W(r).enceintes.filter((e) => !e.recorded).reduce((t, e) => t + e.wallOverWater, 0), 0),
   });
 
   // S4: the spans (observed where a bridge was built; the clear sites and dry routes on every S4 run).

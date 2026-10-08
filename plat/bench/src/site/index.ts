@@ -40,13 +40,17 @@ export {
   reliefReceipt,
   riverReceipts,
   runRecord,
+  s5Walls,
   spikeFaces,
   stageOutcomes,
   waterGateReceipt,
   WET_DEPTH_CM,
   withoutSoftRows,
+  type EnceinteWaterReceipt,
   type RunRecord,
+  type S5Walls,
   type StageOutcome,
+  type WaterGateReceipt,
 } from './receipts.js';
 export { BAND_TOLERANCE_CELLS, BAR_NAMES, foldGroup, foldReport, quantiles, receiptsOf, RELIEF_FLOOR_CM, WARD_SHARE_MIN, type BarName, type BarReceipt, type GroupReport, type Quantiles, type SiteSpikeReport, type Verdict } from './report.js';
 export { foldTimes, gateMs, R12_4_ROWS, SITE_GATE_ROW, stageTimesOf, timeHydrology, timeSpike, type StageTimes, type TimingBlock } from './timing.js';

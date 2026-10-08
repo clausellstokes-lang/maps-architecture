@@ -5,7 +5,7 @@
   "lanes": ["build/M0-x-05"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-07T23:39:55.725Z",
+  "date": "2026-10-08T18:18:27.277Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/testkit/src/ladders/", "plat/packages/testkit/test/ladders/", "plat/bench/src/ladder-coverage/", "plat/docs/build/summaries/M0-x-05.json", "plat/bench/test/ladder-coverage/"],
   "counts": { "created": 18, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -31,6 +31,12 @@
     { "path": "plat/packages/testkit/test/ladders/table.test.ts", "status": "created", "sha256": "df2646f8ff61f5fb81f59b0c0eba044b2c64362e4a11b4962c3c6fa1f05fe6be", "size": 9893 }
   ],
   "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0335"],
+      "lines": ["2c49bae62754ee67"],
+      "removed": []
+    },
     {
       "file": "plat/docs/build/choices.md",
       "ids": ["C-0269"],
