@@ -29,6 +29,13 @@ bugs to re-find.**
 | KI-4 | A per-town refusal budget beside the per-case cap (a town makes ~10⁴–10⁵ insertChain calls, so 2 per 10⁴ is a refusal on most maps) | N-46 (6g) | needs real towns to measure | M1's first towns |
 
 ## The hardening pass
+- **M0 close (owner, 2026-10-07, J237):** before M1 starts, an M0 hardening phase drains every row sourced in M0 (this
+  register's M0 rows and every row of `plat/docs/build/checks/M0-*-notes.md`): fixed with an exact precaution, or carried
+  forward to a named milestone only when it provably needs that milestone's material, with the reason recorded here.
+  Then the whole suite re-runs at PR size. M1 opens only after that.
+  **Bedrock bar (owner, J238):** M0 is the foundation, so the default for an M0 row is FIX; carry-forward needs a
+  proof that the row needs later material, and every M0 spike bar must have run at full strength (overnight runs here;
+  only Mac-physical legs stay PENDING-MAC) before M0 closes.
 - **Base:** inside M4 ("hardening and the incremental path", ARCHITECTURE §16), once M1–M3b are built: run the whole chain
   together on generated towns at every rung and preset, collect every refusal, oddity and KI row, and fix each with an
   exact precaution knowing how the chain reacts up and down — or record the owner's acceptance.
