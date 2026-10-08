@@ -375,7 +375,8 @@ export function readKerb(p: Plat, face: FaceId, widths: SpineWidths, cache?: Map
       // A corridor_split lies in the band (§3.7): a chain that would enter kerb(F)'s interior — a block — is not drawn,
       // and the kerb point it spliced in for it is taken out again (C-0212 (5) as refined by N-52 (2)): never a split
       // across a block, whatever the junction's geometry.
-      if (pts.length >= 2 && !entersKerb(rings, pts)) splits.push(pts);
+      if (pts.length < 2) continue;
+      if (!entersKerb(rings, pts)) splits.push(pts);
       else if (sc.spliced !== null) {
         const at = sc.spliced.ring.indexOf(sc.spliced.v);
         if (at >= 0) sc.spliced.ring.splice(at, 1);
@@ -400,7 +401,13 @@ export function kerb(tx: InsertTx, face: FaceId, widths: SpineWidths): KernelRes
 // ---- the junctions and their corridor_split chains -------------------------------------------------------------------
 //
 // Computed with the kerb, so the kerb point each split reaches is a vertex of kerb(F) itself (C-0212 (4), (5)); the
-// rules are bandUnion.ts's module comment.
+// rules are bandUnion.ts's module comment. N-52 (2) (J239; C-0272): a junction's split stays within its REACH —
+// 2·max(hwIn, hwOut) + attractCm of J — so a corner is geometric: F turns left between two spines AND the strips'
+// inner edges meet within reach (or, at a corner sharper than a right angle, at a vertex the kerb holds there); a
+// left turn whose inner edges meet beyond reach or nowhere (all but parallel: a width step between two nearly
+// collinear spines) is §3.7's straight-through case, one split from J to the foot of its perpendicular on the kerb; a
+// kerb point is accepted only within reach of J (never a far vertex), and a chain that would enter kerb(F)'s interior is
+// not drawn (readKerb).
 
 const ATTRACT = LATTICE.attractCm;
 /** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
@@ -438,19 +445,31 @@ function unit(a: XY, b: XY): XY | null {
   return ux === null || uy === null ? null : { x: ux, y: uy };
 }
 
-/** The meeting point of the line through a along u and the line through b along v (doubles), or null when all but parallel. */
-function meet(a: XY, u: XY, b: XY, v: XY): XY | null {
+/**
+ * The meeting point of the line through a along u and the line through b along v (doubles), or null when the lines are
+ * near-parallel — their directions within `minFaceAngle` of each other either way round, the kernel's straight-on
+ * tolerance (`nearParallel`, the test insertion shares stretches by): there the meeting point runs off to any distance
+ * on a centimetre's change of offset, and is no kerb corner (N-52 (2)).
+ */
+export function meet(a: XY, u: XY, b: XY, v: XY): XY | null {
+  if (nearParallel(u.x, u.y, v.x, v.y)) return null;
   const den = u.x * v.y - u.y * v.x;
   const t = div((b.x - a.x) * v.y - (b.y - a.y) * v.x, den);
-  if (t === null || Math.abs(den) < 1e-9) return null;
+  if (t === null) return null;
   return { x: a.x + t * u.x, y: a.y + t * u.y };
+}
+
+/** Is q within `r` cm of J (inclusive)? */
+function within(q: XY, J: XY, r: number): boolean {
+  return (q.x - J.x) * (q.x - J.x) + (q.y - J.y) * (q.y - J.y) <= r * r;
 }
 
 /**
  * One junction of a face: its vertex J, the route vertices before and after it on the walk, the in- and out-edges'
- * half-widths at their two ends, and whether F turns left between two spines there (a corner).
+ * half-widths at their two ends, its reach, and whether it is a corner of F (a left turn between two spines whose
+ * strips' inner edges meet within reach, or at a turn sharper than a right angle) with the inner edges' meeting point.
  */
-interface Junction {
+export interface Junction {
   readonly j: VertexId;
   readonly prev: VertexId;
   readonly next: VertexId;
@@ -460,11 +479,37 @@ interface Junction {
   /** The out-edge's spine half-width at J and at its end (next). */
   readonly hwOut: number;
   readonly hwB: number;
+  /** 2·max(hwIn, hwOut) + attractCm: how far from J a split of this junction may reach (N-52 (2)). */
+  readonly reach: number;
   readonly corner: boolean;
+  /** At a corner: the turn is sharper than a right angle (the kerb corner may lie beyond reach, on the bisector). */
+  readonly acute: boolean;
+  /** At a corner: the meeting point of the two strips' inner edges; else null. */
+  readonly meet: XY | null;
+}
+
+/**
+ * The meeting point of the in- and out-strips' inner edges at a junction — each the line between its segment's two ends
+ * offset to F's side by their half-widths (the trapezoid, §3.7) — or null where they are near-parallel.
+ */
+function innerMeet(A: XY, J: XY, B: XY, hwA: number, hwIn: number, hwOut: number, hwB: number): XY | null {
+  const u = unit(A, J);
+  const v = unit(J, B);
+  if (u === null || v === null) return null;
+  // The left normals (the face lies on the left of its walk).
+  const nu: XY = { x: -u.y, y: u.x };
+  const nv: XY = { x: -v.y, y: v.x };
+  const a0: XY = { x: A.x + nu.x * hwA, y: A.y + nu.y * hwA };
+  const a1: XY = { x: J.x + nu.x * hwIn, y: J.y + nu.y * hwIn };
+  const b0: XY = { x: J.x + nv.x * hwOut, y: J.y + nv.y * hwOut };
+  const b1: XY = { x: B.x + nv.x * hwB, y: B.y + nv.y * hwB };
+  const du = unit(a0, a1);
+  const dv = unit(b0, b1);
+  return du === null || dv === null ? null : meet(a0, du, b0, dv);
 }
 
 /** The junctions of a face's boundary (bandUnion.ts's module comment), in walk order ring by ring. */
-function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: ReadonlyMap<string, Spine>): Junction[] {
+export function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: ReadonlyMap<string, Spine>): Junction[] {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const T = p.halfEdges;
@@ -485,17 +530,20 @@ function junctionsOf(p: Plat, edges: readonly RouteEdge[][], spines: ReadonlyMap
         for (const k of keys) w = Math.max(w, (spines.get(k) as Spine).hwAt.get(v) ?? 0);
         return w;
       };
-      const o = orient2d(X[ein.a], Y[ein.a], X[j], Y[j], X[eout.b], Y[eout.b]);
-      out.push({
-        j,
-        prev: ein.a,
-        next: eout.b,
-        hwA: hwOf(ein.spines, ein.a),
-        hwIn: hwOf(ein.spines, j),
-        hwOut: hwOf(eout.spines, j),
-        hwB: hwOf(eout.spines, eout.b),
-        corner: !shared && o > 0,
-      });
+      const hwA = hwOf(ein.spines, ein.a);
+      const hwIn = hwOf(ein.spines, j);
+      const hwOut = hwOf(eout.spines, j);
+      const hwB = hwOf(eout.spines, eout.b);
+      const reach = 2 * Math.max(hwIn, hwOut) + ATTRACT;
+      const A: XY = { x: X[ein.a], y: Y[ein.a] };
+      const J: XY = { x: X[j], y: Y[j] };
+      const B: XY = { x: X[eout.b], y: Y[eout.b] };
+      const o = orient2d(A.x, A.y, J.x, J.y, B.x, B.y);
+      // exact on lattice points: the walk turns by more than a right angle at J
+      const acute = (J.x - A.x) * (B.x - J.x) + (J.y - A.y) * (B.y - J.y) < 0;
+      const mt = !shared && o > 0 ? innerMeet(A, J, B, hwA, hwIn, hwOut, hwB) : null;
+      const corner = mt !== null && (acute || within(mt, J, reach));
+      out.push({ j, prev: ein.a, next: eout.b, hwA, hwIn, hwOut, hwB, reach, corner, acute, meet: corner ? mt : null });
     }
   }
   return out;
@@ -517,12 +565,19 @@ function kerbVertexNear(rings: readonly LatticePoint[][], q: XY, r: number): Lat
   return best;
 }
 
+/** A kerb point a split reaches, and the ring it was spliced into (null where it was a vertex already). */
+interface Reached {
+  readonly v: LatticePoint;
+  readonly spliced: { readonly ring: LatticePoint[]; readonly v: LatticePoint } | null;
+}
+
 /**
  * The kerb point a split reaches, made a vertex of the kerb (C-0212 (5)): the point of the kerb nearest `q`, snapped; an
  * end of its kerb edge where it lands there or within `minEdge` of one, else spliced into the ring between them — so
  * the kerb `kerb` returns and the kerb `corridorUnion` commits carry the split's end as one vertex (§4.6's S8 ≡ S9).
+ * Accepted only within `reach` of the junction J (N-52 (2): never a far vertex); else null, the rings untouched.
  */
-function spliceAt(rings: LatticePoint[][], q: XY): LatticePoint | null {
+function spliceAt(rings: LatticePoint[][], q: XY, J: XY, reach: number): Reached | null {
   let br = -1;
   let bi = -1;
   let bp: XY = { x: 0, y: 0 };
@@ -548,13 +603,20 @@ function spliceAt(rings: LatticePoint[][], q: XY): LatticePoint | null {
   const da = (v.x - a.x) * (v.x - a.x) + (v.y - a.y) * (v.y - a.y);
   const db = (v.x - b.x) * (v.x - b.x) + (v.y - b.y) * (v.y - b.y);
   const min = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
-  if (da < min || db < min) return da <= db ? a : b;
+  if (da < min || db < min) {
+    const end = da <= db ? a : b;
+    return within(end, J, reach) ? { v: end, spliced: null } : null;
+  }
+  if (!within(v, J, reach)) return null;
   ring.splice(bi + 1, 0, v);
-  return v;
+  return { v, spliced: { ring, v } };
 }
 
-/** The corridor_split chain at one junction (bandUnion.ts's module comment), or null when the kerb has no point to reach. */
-function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): XY[] | null {
+/**
+ * The corridor_split chain at one junction (bandUnion.ts's module comment), with the kerb vertex spliced in for it, or
+ * null when the kerb has no point within the junction's reach.
+ */
+function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): { chain: XY[]; spliced: Reached['spliced'] } | null {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const J: XY = { x: X[jn.j], y: Y[jn.j] };
@@ -566,29 +628,27 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): XY[] | 
   // The left normals (the face lies on the left of its walk).
   const nu: XY = { x: -u.y, y: u.x };
   const nv: XY = { x: -v.y, y: v.x };
-  let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
-  let K: LatticePoint | null = null;
-  if (jn.corner) {
-    // The two strips' inner edges — each the line between its segment's two ends offset by their half-widths (the
-    // trapezoid, §3.7) — meet at the kerb corner: the kerb's vertex there.
-    const a0: XY = { x: A.x + nu.x * jn.hwA, y: A.y + nu.y * jn.hwA };
-    const a1: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
-    const b0: XY = { x: J.x + nv.x * jn.hwOut, y: J.y + nv.y * jn.hwOut };
-    const b1: XY = { x: B.x + nv.x * jn.hwB, y: B.y + nv.y * jn.hwB };
-    const du = unit(a0, a1);
-    const dv = unit(b0, b1);
-    const m = du === null || dv === null ? null : meet(a0, du, b0, dv);
-    if (m !== null) {
-      aim = m;
-      K = kerbVertexNear(kerbRings, m, ATTRACT);
-    }
-  } else {
-    const b = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
-    if (b !== null) aim = { x: J.x + b.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + b.y * Math.max(jn.hwIn, jn.hwOut) };
+  if (jn.corner && jn.meet !== null) {
+    // The two strips' inner edges meet at the kerb corner: the kerb's vertex there — within reach, or on the bisector of
+    // a corner sharper than a right angle — else the kerb point nearest the meeting point, within reach.
+    const m = jn.meet;
+    const near = kerbVertexNear(kerbRings, m, ATTRACT);
+    const K: Reached | null = near !== null && (jn.acute || within(near, J, jn.reach)) ? { v: near, spliced: null } : within(m, J, jn.reach) ? spliceAt(kerbRings, m, J, jn.reach) : null;
+    if (K !== null) return { chain: wedge(J, A, B, K.v), spliced: K.spliced };
+    // no kerb corner within reach: the straight-through reading below
   }
-  if (K === null) K = spliceAt(kerbRings, aim);
+  // Straight through J, turning away from F, or a corner whose kerb corner is out of reach: one split from J to its
+  // nearest kerb point — the foot of J's perpendicular on the kerb, aimed along the normals' bisector.
+  let aim: XY = { x: J.x + nu.x * jn.hwIn, y: J.y + nu.y * jn.hwIn };
+  const bis = unit({ x: 0, y: 0 }, { x: nu.x + nv.x, y: nu.y + nv.y });
+  if (bis !== null) aim = { x: J.x + bis.x * Math.max(jn.hwIn, jn.hwOut), y: J.y + bis.y * Math.max(jn.hwIn, jn.hwOut) };
+  const K = spliceAt(kerbRings, aim, J, jn.reach);
   if (K === null) return null;
-  if (!jn.corner) return [J, K];
+  return { chain: [J, K.v], spliced: K.spliced };
+}
+
+/** A corner's chain: from the kerb corner K to the foot of its perpendicular on each spine edge at J (C-0212 (4)). */
+function wedge(J: XY, A: XY, B: XY, K: XY): XY[] {
   const ca = nearestOn(K, A, J);
   const cb = nearestOn(K, J, B);
   // A foot beyond its spine edge's far end (a corner whose strip is shorter than the crossed street's half-width): no
@@ -596,7 +656,7 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): XY[] | 
   if (ca.t <= 0 || cb.t >= 1) return [J, K];
   const fa = ca.p;
   const fb = cb.p;
-  const nearJ = (q: XY): boolean => (q.x - J.x) * (q.x - J.x) + (q.y - J.y) * (q.y - J.y) <= ATTRACT * ATTRACT;
+  const nearJ = (q: XY): boolean => within(q, J, ATTRACT);
   const a = nearJ(fa);
   const b = nearJ(fb);
   if (a && b) return [J, K];
@@ -605,3 +665,63 @@ function splitChain(p: Plat, kerbRings: LatticePoint[][], jn: Junction): XY[] | 
   return [fa, K, fb];
 }
 
+/** Is q on the segment s–t (exact on doubles)? */
+function onSegment(q: XY, s: XY, t: XY): boolean {
+  if (orient2d(s.x, s.y, t.x, t.y, q.x, q.y) !== 0) return false;
+  return q.x >= Math.min(s.x, t.x) && q.x <= Math.max(s.x, t.x) && q.y >= Math.min(s.y, t.y) && q.y <= Math.max(s.y, t.y);
+}
+
+/** Is q strictly inside the kerb rings (non-zero winding, off every kerb edge)? */
+function strictlyInside(rings: readonly LatticePoint[][], q: XY): boolean {
+  let wind = 0;
+  for (const r of rings) {
+    for (let k = 0; k < r.length; k += 1) {
+      const s = r[k];
+      const t = r[(k + 1) % r.length];
+      if (onSegment(q, s, t)) return false;
+      if (s.y <= q.y) {
+        if (t.y > q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) > 0) wind += 1;
+      } else if (t.y <= q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) < 0) wind -= 1;
+    }
+  }
+  return wind !== 0;
+}
+
+/**
+ * Does the chain enter kerb(F)'s interior — a built block (N-52 (2): a split never crosses a block)? A segment that
+ * properly crosses a kerb edge does; else the segment is cut at every kerb vertex on it and each piece is read at its
+ * middle (a piece between two boundary contacts lies wholly inside or wholly outside a simple ring set). Exact on the
+ * lattice points (orient2d).
+ */
+export function entersKerb(rings: readonly LatticePoint[][], chain: readonly LatticePoint[]): boolean {
+  for (let i = 0; i + 1 < chain.length; i += 1) {
+    const a = chain[i];
+    const b = chain[i + 1];
+    const cuts: number[] = [0, 1];
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const l2 = dx * dx + dy * dy;
+    for (const r of rings) {
+      for (let k = 0; k < r.length; k += 1) {
+        const s = r[k];
+        const t = r[(k + 1) % r.length];
+        const o1 = orient2d(a.x, a.y, b.x, b.y, s.x, s.y);
+        const o2 = orient2d(a.x, a.y, b.x, b.y, t.x, t.y);
+        const o3 = orient2d(s.x, s.y, t.x, t.y, a.x, a.y);
+        const o4 = orient2d(s.x, s.y, t.x, t.y, b.x, b.y);
+        if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
+        if (o1 === 0 && l2 > 0) {
+          const c = div((s.x - a.x) * dx + (s.y - a.y) * dy, l2);
+          if (c !== null && c > 0 && c < 1) cuts.push(c);
+        }
+      }
+    }
+    cuts.sort((x, y) => x - y);
+    for (let k = 0; k + 1 < cuts.length; k += 1) {
+      if (cuts[k + 1] === cuts[k]) continue;
+      const tm = (cuts[k] + cuts[k + 1]) * 0.5;
+      if (strictlyInside(rings, { x: a.x + tm * dx, y: a.y + tm * dy })) return true;
+    }
+  }
+  return false;
+}
