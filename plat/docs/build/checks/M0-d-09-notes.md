@@ -50,3 +50,27 @@ mutant ids are the check's own. Logs are in `~/maps-scratch/waves/check-M0-d-09/
    * A refusal on a leg is still compared, through the `<spike>.report` cell's digest. But it is not counted or listed.
    * To harden: also count refusals for the cross-host seeds, for example by the leg returning its report's bug
      count beside the digest, or say in the summary that `refused` covers the in-process seeds only.
+
+## Rows added by the closing check (lane `check/M0-d-09-close-r1`, 2026-10-08)
+
+None of these fails the item (J162, J169, N-45). Logs are in `~/maps-scratch/waves/check-M0-d-09/close-r1/`.
+
+9. **The records tree's mismatch count has no test of its wiring into the seed's tally (mutant T5b survives).**
+   * Mutant T5b deletes `mismatches += rec.oracle.mismatches;` in `task.ts`. All 9 test files (51 tests) stay green
+     (`mut-T5b-all.log`). B-3's fix pins the records tree's batch count in the tally
+     (`oracle.batches === commits + RECORDS_BATCHES + 1`, which kills T5 and ST1), but not its miss count.
+   * On the item's code a planted records miss reaches the tally. My probe `zz-probe-recmiss.test.ts` (mirror only)
+     puts a records run with `mismatches: 1` in the carry and gets `{"batches":4,"mismatches":1,"first":{"spike":
+     "records",…}}`. Under T5b the same probe gets `mismatches: 0`, so the verdict would pass while still naming the
+     miss as `firstDifference`. The code is right today; only a test is missing.
+   * To harden (M4): add that probe to `runner.test.ts`, then send the tally through `buildReport` and assert
+     `verdict === 'fail'`.
+10. **At the test frame the fusion spike's `{ S5: 1 }` reroll re-draws nothing (C-0280 (3), confirmed). This is for
+    the session and the growth stage's owners, not for M0-d-09.**
+    * My probe (`zz-probe-city.test.ts`, mirror only) compared stage roots between the old run and the `{ S5: 1 }` run:
+      * test frame (400 ha, 12 ha walled), fusion seeds 1, 2 and 3: no stage root moved, and there were no refusals;
+      * CITY, fusion seed 1: S5, S6 and S8 moved.
+    * The item reports such a pair as `unmoved`, and its matching bar fails only when no pair re-drew a stage. So the
+      bar is fail-safe.
+    * Why S5 on the small flat frame draws nothing from the rerolled streams is a question for S5's owners (M0-c
+      fused layout). It matters for any later test that uses a test-frame fusion pair as a matching workload.

@@ -7,7 +7,7 @@ import { edgeChain, restartFree, type ChainRun } from '../../src/edge/chain.js';
 import { liveVertices } from '../../src/edge/arena.js';
 import { arenaProblems, chainProblems } from '../../src/edge/observe.js';
 import { s8State } from '../../src/edge/s8.js';
-import { mergeSummary, fixturesOf, runFixture, SEEDS, summaryWanted, type FixtureRun } from './support.js';
+import { mergeSummary, fixturesOf, RESIDUE_RUN_MIN, runFixture, SEEDS, summaryWanted, type FixtureRun } from './support.js';
 
 const [EP16] = fixturesOf('EP-16/');
 const ok: EdgeOutcome = { handling: 'defined', rung: 'x', problems: [], facts: {} };
@@ -60,6 +60,19 @@ describe('the negative controls', () => {
     expect(judgeEdgeOutcome(pinned, 3, { ...rr, rung: 'E_DEGENERATE' })).toMatch(/^c\/y at seed 3: refused E_DEGENERATE after commit, pinned E_INVARIANT/);
     // a residue pin is not a refused-safe pin: a rolled-back refusal on a residue-only cell is off its allowed set
     expect(judgeEdgeOutcome(pinned, 3, { ...rr, handling: 'refused-safe' })).toMatch(/handled refused-safe/);
+  });
+
+  it("the runner fails a residue cell whose run of the PR size never meets its residue (the outcome changed)", () => {
+    const expect_ = { outcome: 'o', allowed: ['refused-residue', 'refused-safe'] as EdgeOutcome['handling'][], refusal: { codes: ['E_INVARIANT'], known: 'KI' }, residue: { codes: ['E_INVARIANT'], known: 'KI residue' } };
+    const safe: EdgeFixture = { id: 'c/z', home: 'h', run: () => ({ handling: 'refused-safe', rung: 'E_INVARIANT', problems: [], facts: {} }), expect: expect_ };
+    const r = runFixture(safe, RESIDUE_RUN_MIN);
+    expect(r.counts['refused-safe']).toBe(RESIDUE_RUN_MIN);
+    expect(r.failures).toEqual([`c/z: no seed of ${String(RESIDUE_RUN_MIN)} met the pinned residue (E_INVARIANT) — the stage's outcome changed; revisit C-0278 (1)'s pin`]);
+    // one residue among the seeds holds the pin; a shorter run (a control's) is not judged on it
+    let i = 0;
+    const mixed: EdgeFixture = { ...safe, run: () => ({ handling: (i++ === 4 ? 'refused-residue' : 'refused-safe'), rung: 'E_INVARIANT', problems: [], facts: {} }) };
+    expect(runFixture(mixed, RESIDUE_RUN_MIN).failures).toEqual([]);
+    expect(runFixture(safe, RESIDUE_RUN_MIN - 1).failures).toEqual([]);
   });
 });
 

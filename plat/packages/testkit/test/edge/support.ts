@@ -14,6 +14,9 @@ export const SEEDS = edgeSeedCount();
 /** A run longer than this is a hang (the stages' work limits bound every run far below it). */
 export const HANG_MS = 120_000;
 
+/** The fewest seeds over which a residue cell must meet its residue at least once (the PR size). */
+export const RESIDUE_RUN_MIN = 10;
+
 /** One fixture's run over its seeds: the outcome counts and the failures. */
 export interface FixtureRun {
   readonly id: string;
@@ -58,6 +61,9 @@ export function runFixture(f: EdgeFixture, n: number = SEEDS, seeds: readonly nu
     counts[o.handling] += 1;
     rungs[o.rung] = (rungs[o.rung] ?? 0) + 1;
   }
+  // a residue cell (C-0278 (1)) is pinned on its residue: a run of the PR size or more that never meets it means the
+  // stage's outcome changed (rolled back, or taken) — the pin is to be revisited, so the cell fails
+  if (f.expect.residue !== undefined && seeds.length >= RESIDUE_RUN_MIN && counts['refused-residue'] === 0) failures.push(`${f.id}: no seed of ${String(seeds.length)} met the pinned residue (${f.expect.residue.codes.join(' | ')}) — the stage's outcome changed; revisit C-0278 (1)'s pin`);
   return { id: f.id, seeds: seeds.length, counts, failures, rungs };
 }
 

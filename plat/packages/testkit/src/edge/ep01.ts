@@ -288,7 +288,9 @@ const PINNED: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, 
  * The cells pinned as refused after commit (C-0278 (1)): the kernel takes the planted kind by §3.11's rule (one shared
  * stretch; its batch commits), then the stage refuses at its own later check — typed, one bugs entry — and the planted
  * geometry stays committed with no record. Not §5.1 (8)'s rolled-back state: a known issue routed to the stage's owner
- * (S1 M0-e-03; S3 and S5a's trace M0-c-01 / M0-c-02). Pinned alone, so the cell fails if the outcome changes.
+ * (S1 M0-e-03; S3 and S5a's trace M0-c-01 / M0-c-02). The same code rolled back is also allowed (S5a: 1 seed in 1 000
+ * refuses before its batch commits); nothing else is, and the suite's runner fails the cell when no seed of a run of the
+ * PR size or more meets the residue (test/edge/support.ts), so the cell fails if the outcome changes.
  */
 const RESIDUE: Readonly<Partial<Record<Ep01Stage, Partial<Record<DegenerateKind, readonly string[]>>>>> = {
   S1: { 'zero-area': ['E_INVARIANT'], collinear: ['E_INVARIANT'] },
@@ -326,8 +328,8 @@ export function ep01Fixtures(): EdgeFixture[] {
         run: (seed) => runEp01(stage, kind, seed),
         expect: {
           outcome: `${kind} geometry at ${stage}: refused by the kernel (or taken by §3.11's rule) and handled by ${EP01_CLASS[stage]} — repair locally → retry that piece → simpler shape → leave out and report; never a crash, hang, invalid output or whole-map retry`,
-          allowed: residue !== undefined ? ['refused-residue'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
-          ...(pinned === undefined || known === null ? {} : { refusal: { codes: pinned, known } }),
+          allowed: residue !== undefined ? ['refused-residue', 'refused-safe'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
+          ...((pinned ?? residue) === undefined || known === null ? {} : { refusal: { codes: (pinned ?? residue) as readonly string[], known } }),
           ...(residue === undefined || known === null ? {} : { residue: { codes: residue, known } }),
         },
       });

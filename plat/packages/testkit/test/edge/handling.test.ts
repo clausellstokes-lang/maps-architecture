@@ -99,7 +99,7 @@ describe("EP-23's grade judge (C-0273 (12))", () => {
 });
 
 describe("the pinned residue cells (C-0278 (1): C-0273 (6)'s correction)", () => {
-  it('S1, S3 and S5a × zero-area and collinear allow only refused-residue E_INVARIANT, under a KI line naming the residue', async () => {
+  it('S1, S3 and S5a × zero-area and collinear allow refused-residue E_INVARIANT (and that code rolled back) only, under a KI line naming the residue', async () => {
     const { EDGE_FIXTURES } = await import('../../src/edge/index.js');
     const { ep01Known, ep01Pinned, ep01Residue } = await import('../../src/edge/ep01.js');
     const six: string[] = [];
@@ -108,8 +108,9 @@ describe("the pinned residue cells (C-0278 (1): C-0273 (6)'s correction)", () =>
     for (const id of six) {
       const f = EDGE_FIXTURES.find((x) => x.id === id);
       const [, stage, kind] = id.split('/') as [string, 'S1' | 'S3' | 'S5a', 'zero-area' | 'collinear'];
-      expect(f?.expect.allowed).toEqual(['refused-residue']);
+      expect(f?.expect.allowed).toEqual(['refused-residue', 'refused-safe']);
       expect(f?.expect.residue?.codes).toEqual(['E_INVARIANT']);
+      expect(f?.expect.refusal?.codes).toEqual(['E_INVARIANT']);
       expect(ep01Residue(stage, kind)).toEqual(['E_INVARIANT']);
       expect(ep01Pinned(stage, kind)).toBeUndefined();
       expect(ep01Known(stage, kind)).toMatch(/batch commits, then .* refuses at its own later check \(E_INVARIANT\) — the planted geometry stays committed with no record/);

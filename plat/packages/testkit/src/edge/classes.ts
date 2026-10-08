@@ -100,8 +100,8 @@ export function classFixtures(): EdgeFixture[] {
         run: (seed) => runClassCell(cls, kind, seed),
         expect: {
           outcome: `${cls}, ${kind}: refused by the kernel (or taken by §3.11's rule) and taken on ${cls}'s ladder, the rung named in the report; never a crash, hang, invalid output or whole-map retry`,
-          allowed: residue !== undefined ? ['refused-residue'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
-          ...(pinned === undefined || known === null ? {} : { refusal: { codes: pinned, known } }),
+          allowed: residue !== undefined ? ['refused-residue', 'refused-safe'] : pinned === undefined ? ['absorbed', 'laddered', 'left-out'] : ['absorbed', 'laddered', 'left-out', 'refused-safe'],
+          ...((pinned ?? residue) === undefined || known === null ? {} : { refusal: { codes: (pinned ?? residue) as readonly string[], known } }),
           ...(residue === undefined || known === null ? {} : { residue: { codes: residue, known } }),
           ...(cls === 'F-WORK' ? { judge: (o: EdgeOutcome) => (typeof o.facts.workCut === 'string' && o.facts.workCut.startsWith('work_cut') ? null : 'F-WORK: the coarser rung (work_cut) was not taken') } : {}),
         },
