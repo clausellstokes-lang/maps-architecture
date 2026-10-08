@@ -6871,3 +6871,4 @@
 2026-10-08 00:23 check/M0-x-06 CHECKPOINT 1000-seed run 69/72
 2026-10-08 00:31 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running (1 worker, progressing file by file); next: RELATED verdict, LANDED
 2026-10-08 00:32 check/M0-d-09 CHECKPOINT waiting on Y (in-process tasks) and X1 (legs)
+2026-10-08 00:39 build/M0-a-09-fix-s1 CHECKPOINT near at PR size green: 12 files 47/47 (kernel arr/bands incl. widthstep + testkit arr-bands incl. the width-step family), 3237 s at W=1; related at PR size started (kerb.ts, bandUnion.ts)
