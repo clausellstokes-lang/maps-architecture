@@ -10,7 +10,10 @@
 // not re-derived — it SURVIVES (flagged `survives`; the fresh run's copy of it is the same entity, checked to be
 // identical, never matched twice); every old entity S5, S6 or S8 made is matched against the fresh run's entities of
 // those stages. The outcomes are counted per kind (survive / succeed / tombstone / fresh), and two contracts asserted:
-//   0 duplicate ids — after the hand-on, no address is held twice (the survivors' and every fresh entity's final one);
+//   0 duplicate ids — after the hand-on and the mint, no address is held twice (the survivors' and every fresh entity's
+//   final one; §6.3 *Never reused; one collision rule*: "Minting runs after the succession matching", and a fresh entity
+//   whose natural address equals a live address or one its own batch retires takes the suffix `~k` — `mintAddresses`,
+//   C-0274);
 //   0 silent re-binds — every old address that lives on is held by its own successor (a `succeed` outcome's fresh entity
 //   takes exactly that address), every fresh entity holds its own provisional id or the address handed to it, and
 //   every reference an old re-derived entity's anchor makes resolves (M0-d-05b's `rebind`) to kept or reported, a kept
@@ -117,6 +120,8 @@ export interface PairResult {
   readonly perKind: readonly KindCounts[];
   readonly totals: { readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number };
   readonly duplicateIds: number;
+  /** Fresh entities the mint gave a `~k` suffix (their natural address was taken; informative, C-0274). */
+  readonly suffixed: number;
   readonly silentRebinds: number;
   /** References of old re-derived entities that resolve to a tombstone or an unknown address (reported, never re-bound). */
   readonly reportedRefs: number;
@@ -159,12 +164,50 @@ export function timedPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
   return Object.freeze({ name: `spike-${pair.spike}-${String(pair.seed)}`, seed: pair.seed, old, fresh, anchors });
 }
 
-/** Counts the addresses held more than once after the hand-on: the survivors' and every fresh entity's final one. */
-export function duplicateIds(result: MatchResult, old: readonly MatchEntity[], fresh: readonly MatchEntity[]): number {
+/** The fresh entities' final addresses after the mint, and how many took a `~k` suffix. */
+export interface MintedAddresses {
+  /** Fresh provisional id → its final address: the handed-on one, else its natural address with the smallest free suffix. */
+  readonly addressOf: ReadonlyMap<Id, Id>;
+  /** Fresh entities whose natural address was taken (a live address, one the batch retires, one already given): `~k`. */
+  readonly suffixed: number;
+}
+
+const byLineage = (a: MatchEntity, b: MatchEntity): number => a.lineage[0] - b.lineage[0] || a.lineage[1] - b.lineage[1] || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0);
+
+/**
+ * §6.3's one collision rule for addresses, as M0-d-05a's `mint` applies it after the matching (C-0274): a successor
+ * takes the address handed to it; every other fresh entity its natural address (at M0 its provisional id, the run's own
+ * address), or — when that is taken by a live entity (the survivors and the entities the batch re-derives, which it
+ * retires) or by one the batch has already given — the suffix `~k` with the smallest free k, in the batch's canonical
+ * order (by lineage hash; ties, a 64-bit collision, by the id: the M0 entities carry no lineage key whose lanes would
+ * break them). The pair has no archive, so no tombstone is taken. A handed-on address is kept as handed — a survivor's
+ * or one handed twice is the mint's refusal, which `duplicateIds` counts as the duplicate it would be.
+ */
+export function mintAddresses(result: MatchResult, old: readonly MatchEntity[], fresh: readonly MatchEntity[]): MintedAddresses {
+  const taken = new Set<Id>(old.map((e) => e.id));
+  const addressOf = new Map<Id, Id>();
+  let suffixed = 0;
+  for (const f of [...fresh].sort(byLineage)) {
+    const handed = result.handedOn.get(f.id);
+    if (handed !== undefined) {
+      addressOf.set(f.id, handed);
+      continue;
+    }
+    let id: Id = f.id;
+    for (let k = 1; taken.has(id); k += 1) id = `${f.id}~${String(k)}` as Id;
+    if (id !== f.id) suffixed += 1;
+    taken.add(id);
+    addressOf.set(f.id, id);
+  }
+  return { addressOf, suffixed };
+}
+
+/** Counts the addresses held more than once after the hand-on and the mint: the survivors' and every fresh entity's final one. */
+export function duplicateIds(result: MatchResult, old: readonly MatchEntity[], fresh: readonly MatchEntity[], minted: MintedAddresses = mintAddresses(result, old, fresh)): number {
   const held = new Map<Id, number>();
   for (const e of old) if (e.survives === true) held.set(e.id, (held.get(e.id) ?? 0) + 1);
   for (const f of fresh) {
-    const a = result.addressOf.get(f.id) ?? f.id;
+    const a = minted.addressOf.get(f.id) ?? f.id;
     held.set(a, (held.get(a) ?? 0) + 1);
   }
   let n = 0;
@@ -230,7 +273,8 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
     });
   });
 
-  const dups = duplicateIds(result, old, fresh);
+  const minted = mintAddresses(result, old, fresh);
+  const dups = duplicateIds(result, old, fresh, minted);
   const rb = silentRebinds(result, old, fresh);
 
   return Object.freeze({
@@ -240,6 +284,7 @@ export function matchPair(pair: RederivedPair, anchors: readonly AnchorSpec[] = 
     perKind: Object.freeze(perKind),
     totals: Object.freeze({ ...result.counts }),
     duplicateIds: dups,
+    suffixed: minted.suffixed,
     silentRebinds: rb.silent,
     reportedRefs: rb.reported,
     carry: result.carry.length,

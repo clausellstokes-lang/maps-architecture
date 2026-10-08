@@ -95,13 +95,17 @@ describe('the verdict', () => {
       perKind: [{ kind: 'way' as const, old: 3, fresh: 2, survive: 1, succeed: 2, tombstone: 0, freshOutcome: 0, unanchored: { old: 0, fresh: 0 }, lineage: 'mixed' }],
       totals: { survive: 1, succeed: 2, tombstone: 0, fresh: 0 },
       duplicateIds: 0,
+      suffixed: 2,
       silentRebinds: 0,
       reportedRefs: 0,
       carry: 0,
       bugs: { old: [], fresh: [] },
     };
     const ok = buildReport(cfg({ pairs: 1 }), x, [seedResult(1, { pairs: [pair] })]);
-    expect(ok.matching).toMatchObject({ pairs: 1, duplicateIds: 0, silentRebinds: 0, pass: true, totals: { survive: 1, succeed: 2 } });
+    expect(ok.matching).toMatchObject({ pairs: 1, duplicateIds: 0, suffixed: 2, silentRebinds: 0, pass: true, totals: { survive: 1, succeed: 2 } });
+    expect(ok.matching.perPair[0]).toMatchObject({ duplicateIds: 0, suffixed: 2 });
+    // the mint's suffixes are informative: they never fail a pair
+    expect(buildReport(cfg({ pairs: 1 }), x, [seedResult(1, { pairs: [{ ...pair, suffixed: 50 }] })]).matching.pass).toBe(true);
     expect(ok.matching.perKind.find((k) => k.kind === 'way')).toMatchObject({ old: 3, fresh: 2, survive: 1, succeed: 2, lineage: 'mixed' });
     for (const bad of [{ duplicateIds: 1 }, { silentRebinds: 1 }, { standing: { ...pair.standing, missing: 1 } }, { standing: { ...pair.standing, rootsEqual: false } }, { standing: { ...pair.standing, recordsEqual: false } }]) {
       const r = buildReport(cfg({ pairs: 1 }), x, [seedResult(1, { pairs: [{ ...pair, ...bad }] })]);

@@ -70,11 +70,13 @@ export interface DeterminismSpikeReport {
     readonly perKind: readonly KindTotals[];
     readonly totals: { readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number };
     readonly duplicateIds: number;
+    /** Fresh entities the mint suffixed `~k` (informative; C-0274). */
+    readonly suffixed: number;
     readonly silentRebinds: number;
     readonly reportedRefs: number;
     readonly carry: number;
     readonly standing: { readonly entities: number; readonly rootsDiffering: number; readonly recordsDiffering: number; readonly missing: number; readonly editedLater: number; readonly firstMissing: string | null };
-    readonly perPair: readonly { readonly seed: number; readonly spike: string; readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number; readonly duplicateIds: number; readonly silentRebinds: number }[];
+    readonly perPair: readonly { readonly seed: number; readonly spike: string; readonly survive: number; readonly succeed: number; readonly tombstone: number; readonly fresh: number; readonly duplicateIds: number; readonly suffixed: number; readonly silentRebinds: number }[];
     readonly pass: boolean;
   };
   readonly bugs: { readonly runs: number; readonly refused: number; readonly list: readonly string[] };
@@ -201,11 +203,12 @@ export function buildReport(cfg: DeterminismConfig, crosshost: CrossHostReport, 
     perKind,
     totals: { survive: pairs.reduce((n, p) => n + p.totals.survive, 0), succeed: pairs.reduce((n, p) => n + p.totals.succeed, 0), tombstone: pairs.reduce((n, p) => n + p.totals.tombstone, 0), fresh: pairs.reduce((n, p) => n + p.totals.fresh, 0) },
     duplicateIds: pairs.reduce((n, p) => n + p.duplicateIds, 0),
+    suffixed: pairs.reduce((n, p) => n + p.suffixed, 0),
     silentRebinds: pairs.reduce((n, p) => n + p.silentRebinds, 0),
     reportedRefs: pairs.reduce((n, p) => n + p.reportedRefs, 0),
     carry: pairs.reduce((n, p) => n + p.carry, 0),
     standing,
-    perPair: pairs.map((p) => ({ seed: p.seed, spike: p.spike, survive: p.totals.survive, succeed: p.totals.succeed, tombstone: p.totals.tombstone, fresh: p.totals.fresh, duplicateIds: p.duplicateIds, silentRebinds: p.silentRebinds })),
+    perPair: pairs.map((p) => ({ seed: p.seed, spike: p.spike, survive: p.totals.survive, succeed: p.totals.succeed, tombstone: p.totals.tombstone, fresh: p.totals.fresh, duplicateIds: p.duplicateIds, suffixed: p.suffixed, silentRebinds: p.silentRebinds })),
     pass: false,
   };
   matching.pass = cfg.pairs === 0 || (pairs.length > 0 && matching.duplicateIds === 0 && matching.silentRebinds === 0 && standing.rootsDiffering === 0 && standing.recordsDiffering === 0 && standing.missing === 0);
@@ -268,6 +271,7 @@ export function summaryOf(r: DeterminismSpikeReport): Record<string, unknown> {
       perKind: r.matching.perKind.map((k) => ({ kind: k.kind, old: k.old, fresh: k.fresh, survive: k.survive, succeed: k.succeed, tombstone: k.tombstone, fresh_: k.freshOutcome, unanchored: k.unanchored })),
       totals: r.matching.totals,
       duplicateIds: r.matching.duplicateIds,
+      suffixed: r.matching.suffixed,
       silentRebinds: r.matching.silentRebinds,
       standing: { entities: r.matching.standing.entities, missing: r.matching.standing.missing, editedLater: r.matching.standing.editedLater },
       pass: r.matching.pass,
@@ -286,7 +290,7 @@ export function reportLines(r: DeterminismSpikeReport): string[] {
     `in-process (${String(r.inProcess.seeds)} seeds) vs ${String(r.inProcess.comparedWith)}: ${r.inProcess.agrees === null ? 'not compared' : r.inProcess.agrees ? 'agrees' : 'DIFFERS'}`,
     `distinctness: ${String(r.distinctness.streams.distinct)} stream keys, ${String(r.distinctness.lineages.distinct)} lineage hashes, collisions ${String(r.distinctness.streams.collisions)} / ${String(r.distinctness.lineages.collisions)}, entity lineages shared ${String(r.distinctness.entityLineages.duplicates)}`,
     `oracle: ${String(r.oracle.batches)} batches, ${String(r.oracle.mismatches)} mismatches; dilation ${String(r.dilation.runs)} runs, ${String(r.dilation.differing)} differ (${String(r.dilation.reads)} clock reads); op order ${String(r.opOrder.runs)} runs, ${String(r.opOrder.differing)} differ (${String(r.opOrder.permutedBatches)} batches permuted)`,
-    `matching: ${String(r.matching.pairs)} pairs, survive ${String(r.matching.totals.survive)} succeed ${String(r.matching.totals.succeed)} tombstone ${String(r.matching.totals.tombstone)} fresh ${String(r.matching.totals.fresh)}; duplicate ids ${String(r.matching.duplicateIds)}, silent re-binds ${String(r.matching.silentRebinds)}`,
+    `matching: ${String(r.matching.pairs)} pairs, survive ${String(r.matching.totals.survive)} succeed ${String(r.matching.totals.succeed)} tombstone ${String(r.matching.totals.tombstone)} fresh ${String(r.matching.totals.fresh)}; duplicate ids ${String(r.matching.duplicateIds)} (after the mint; ${String(r.matching.suffixed)} suffixed ~k), silent re-binds ${String(r.matching.silentRebinds)}`,
     `refused stages: ${String(r.bugs.refused)}; timings: ${String(r.timings.stamps.length)} stamped (${String(r.timings.contended)} contended — reported, never a result)`,
   ];
   if (r.firstDifference !== null) lines.push(`first difference: seed ${String(r.firstDifference.seed)}, stage ${r.firstDifference.stage} (${r.firstDifference.check})`);
