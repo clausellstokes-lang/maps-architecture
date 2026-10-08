@@ -19,7 +19,7 @@ import { warp } from '../../src/warp/index.js';
 import { AT_S9 } from '../arr/bands/support.js';
 import { faceAt } from '../faces/support.js';
 import { halfEdgeBetween } from '../tx/support.js';
-import { createPlat } from '../../src/arena/index.js';
+import { createPlat, setDebugAssertions } from '../../src/arena/index.js';
 import { FRAME } from '../arena/support.js';
 import { commit, crossing, emptyOn, framed, GROUND, healthy, kernelOver, pt, RAISED, spec, state, W300 } from './support.js';
 
@@ -758,5 +758,168 @@ describe('view(key, level).faces() and the lattice-point signature at their own 
     expect(s).toEqual(signatureOn(p, at, GROUND));
     expect(s.v.length + s.e.length).toBeGreaterThan(0);
     expect(s.v).toContainEqual({ role: 'entrance', entity: 'bldg:9', ordinal: 0 });
+  });
+});
+
+// ---- session fix round s1 (N-55 (5), Q13 of docs/M0-FIX-QUEUE.md; C-0290) -------------------------------------------
+// §3.3: the kernel applies a batch's ops to a scratch overlay and commits or rejects atomically; once the batch has
+// committed, been rejected or thrown, its overlay is no transaction and a writer handed it is a programming error — a
+// throw in every build, before the module's op runs, never a write outside a transaction with the version unchanged
+// (N-45 (a); the check's probe P6: "returned ok=true state same: false version 0"). An overlay whose transaction is
+// still open is accepted however it was opened (C-0290: testkit's B-FUZZ writer harness and M0-d-08's issue-order
+// harness write through a kernel that did not open the batch).
+
+const NO_OPEN = /^kernel: the overlay is no open transaction/;
+
+/** Each writer through the façade with overlay `o` (the twins' arguments; pinVertices without its module pre-insert). */
+const FACADE_WRITERS: Record<string, (k: Kernel, o: Overlay, p: Plat) => unknown> = {
+  ...Object.fromEntries(Object.entries(WRITER_TWINS).map(([n, t]) => [n, t.facade])),
+  pinVertices: (k, o) => k.geom.pinVertices(o, [{ role: 'entrance', entity: 'd:9', ordinal: 0 }]),
+};
+
+/** Hands `o` to every writer through `k`: each throws NO_OPEN, and the arena stays bit for bit as it was, its version too. */
+function refusedByEveryWriter(k: Kernel, o: Overlay, p: Plat): void {
+  const before = structuredClone(p);
+  const v = p.version;
+  expect(Object.keys(FACADE_WRITERS).sort()).toEqual(Object.keys(WRITER_TWINS).sort());
+  for (const [name, w] of Object.entries(FACADE_WRITERS)) {
+    expect(() => w(k, o, p), name).toThrow(NO_OPEN);
+    expect(p.version, name).toBe(v);
+  }
+  expect(p).toEqual(before);
+  healthy(p);
+}
+
+describe('a façade writer refuses an overlay that is no open transaction (N-55 (5): never a silent write)', () => {
+  it('a committed batch\'s overlay: insertChain, removeEdges and every other writer throw; the arena bit for bit and its version as committed', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const v0 = p.version;
+    let stale: Overlay | null = null;
+    const r = k.tx(spec(1), (o) => {
+      stale = o;
+      return k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+    });
+    // the precondition: the batch committed and moved the version
+    expect(r.ok && r.value.record !== null).toBe(true);
+    expect(p.version).toBe(v0 + 1);
+    if (stale === null) throw new Error('the callback never ran');
+    const o: Overlay = stale;
+    // the two the probe named, then all seventeen
+    const before = structuredClone(p);
+    expect(() => k.geom.insertChain(o, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'w:1' }], 'mandatory')).toThrow(NO_OPEN);
+    expect(() => k.geom.removeEdges(o, { role: 'district_bound', entity: 'd:9' })).toThrow(NO_OPEN);
+    expect(p).toEqual(before);
+    refusedByEveryWriter(k, o, p);
+    expect(p.version).toBe(v0 + 1);
+  });
+
+  it('a rejected batch\'s overlay and a thrown batch\'s overlay: every writer throws; the arena as before the batch', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const before = structuredClone(p);
+    const v0 = p.version;
+    let rejected: Overlay | null = null;
+    const r = k.tx(spec(1), (o): KernelResult<number> => {
+      rejected = o;
+      expect(k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory').ok).toBe(true);
+      return { ok: false, code: 'E_INVARIANT', detail: 'planted refusal (N-55 (5))' };
+    });
+    // the precondition: the batch wrote, then was rejected; the arena is back
+    expect(r.ok).toBe(false);
+    expect(p.version).toBe(v0);
+    expect(p).toEqual(before);
+    if (rejected === null) throw new Error('the callback never ran');
+    refusedByEveryWriter(k, rejected, p);
+    let threw: Overlay | null = null;
+    expect(() =>
+      k.tx(spec(1), (o) => {
+        threw = o;
+        k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+        throw new Error('planted throw');
+      }),
+    ).toThrow(/planted throw/);
+    expect(p.version).toBe(v0);
+    if (threw === null) throw new Error('the callback never ran');
+    refusedByEveryWriter(k, threw, p);
+  });
+
+  it('refused in every build: with the debug assertions off, a committed batch\'s overlay still throws and writes nothing', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    let stale: Overlay | null = null;
+    expect(
+      k.tx(spec(1), (o) => {
+        stale = o;
+        return okv(0);
+      }).ok,
+    ).toBe(true);
+    if (stale === null) throw new Error('the callback never ran');
+    const o: Overlay = stale;
+    setDebugAssertions(false);
+    try {
+      const before = structuredClone(p);
+      expect(() => k.geom.insertChain(o, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'w:1' }], 'mandatory')).toThrow(NO_OPEN);
+      expect(p).toEqual(before);
+    } finally {
+      setDebugAssertions(true);
+    }
+  });
+
+  it('a module tx() overlay is accepted while its batch is open (M0-d-08\'s issue-order harness) and refused once it committed', () => {
+    const A = crossing().p;
+    const B = crossing().p;
+    const k = kernelOver([A]);
+    let o0: Overlay | null = null;
+    const ra = tx(A, spec(1), (o) => {
+      o0 = o;
+      return k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+    });
+    // the same batch as the module writes it on a twin arena
+    const rb = tx(B, spec(1), (o) => insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory'));
+    expect(ra.ok && ra.value.record !== null).toBe(true);
+    expect(JSON.stringify(ra)).toBe(JSON.stringify(rb));
+    expect(state(A)).toBe(state(B));
+    if (o0 === null) throw new Error('the callback never ran');
+    refusedByEveryWriter(k, o0, A);
+  });
+
+  it('the control: a nested k.tx on another arena — its overlay, and the outer one while it is open, are accepted; both commit', () => {
+    const { p } = crossing();
+    const q = emptyOn(RAISED);
+    const k = kernelOver([p, q]);
+    const [vp, vq] = [p.version, q.version];
+    const r = k.tx(spec(1), (o) => {
+      const inner = k.tx(spec(0, { key: RAISED }), (i) => {
+        expect(k.geom.insertChain(i, rect(0, 0, 4000, 4000), [{ role: 'district_bound', entity: 'd:0' }], 'mandatory', { closed: true }).ok).toBe(true);
+        // the outer transaction is open while the inner one runs
+        return k.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+      });
+      expect(inner.ok).toBe(true);
+      return k.geom.insertChain(o, [pt(500, 3000), pt(1500, 3000)], [{ role: 'way', entity: 'way:7' }], 'mandatory');
+    });
+    expect(r.ok).toBe(true);
+    expect([p.version, q.version]).toEqual([vp + 1, vq + 1]);
+    expect(k.resolve({ role: 'way', entity: 'way:7' }, GROUND)).toMatchObject({ view: 'edges' });
+    expect(k.view(RAISED, 0).faces().length).toBeGreaterThan(0);
+    healthy(p);
+    healthy(q);
+  });
+
+  it('another kernel\'s open transaction on the same arena is accepted (testkit\'s B-FUZZ writer harness) and refused once it closed', () => {
+    const { p } = crossing();
+    const outer = kernelOver([p]);
+    const fresh = kernelOver([p]);
+    const v0 = p.version;
+    let o0: Overlay | null = null;
+    const r = fresh.tx(spec(1), (o) => {
+      o0 = o;
+      return outer.geom.insertChain(o, [pt(500, 500), pt(1500, 500)], DB, 'mandatory');
+    });
+    expect(r.ok && r.value.record !== null).toBe(true);
+    expect(p.version).toBe(v0 + 1);
+    if (o0 === null) throw new Error('the callback never ran');
+    refusedByEveryWriter(outer, o0, p);
+    refusedByEveryWriter(fresh, o0, p);
   });
 });

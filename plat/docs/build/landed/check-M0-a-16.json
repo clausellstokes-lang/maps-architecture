@@ -5,12 +5,11 @@
   "lanes": ["check/M0-a-16", "check/M0-a-16-close-r1", "check/M0-a-16-close-r2", "check/M0-a-16-close-r3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T11:30:25.345Z",
+  "date": "2026-10-08T22:32:42.920Z",
   "ownsSource": "declared",
-  "owns": ["plat/docs/build/checks/M0-a-16.md", "plat/docs/build/checks/M0-a-16-notes.md"],
-  "counts": { "created": 2, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "owns": ["plat/docs/build/checks/M0-a-16.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/docs/build/checks/M0-a-16-notes.md", "status": "created", "sha256": "5efdcc109144d2f8e3baaf98d765ce940953ad5773745f969ca301f2653c4699", "size": 6100 },
     { "path": "plat/docs/build/checks/M0-a-16.md", "status": "created", "sha256": "88810eb09b9f745dfd77813fa2faadd87c80f0a424561520023055bdeb563fb3", "size": 42721 }
   ],
   "appends": [

@@ -9,7 +9,9 @@
 // — no member re-implements an op. In the debug build every result is stamped with its arena's key and version
 // (./stamp.ts). The services §3.4 says "read the open transaction's arena and are called only inside one" (`kerb`,
 // `offsetFace`, `insetRing`, and `sideRuns` / `sampleBoundary` handed a face) read the innermost transaction this
-// kernel has open; called outside one they are a programming error.
+// kernel has open; called outside one they are a programming error. A writer handed an overlay whose transaction has
+// closed — its batch committed, rejected or threw — throws, in every build (N-55 (5); C-0290): a stale overlay never
+// writes outside a transaction.
 import {
   compareFaces,
   idOf,
@@ -66,6 +68,15 @@ export function isTransientKey(k: ArenaKey): k is TransientKey {
 
 function isStretchRef(ref: GeomRef): ref is StretchRef {
   return 'chain' in ref;
+}
+
+/**
+ * Has the overlay's transaction closed (N-55 (5); C-0290)? M0-a-06's transaction sets `closed` when the batch commits,
+ * is rejected or throws (`tx/state.ts` `OpenTx.closed`); the overlay's type declares it once M0-a-04 adds
+ * `InsertTx.closed` (N-55 (5) (2)), so it is read structurally here.
+ */
+function isClosed(o: Overlay): boolean {
+  return (o as Overlay & { readonly closed?: unknown }).closed === true;
 }
 
 /**
@@ -141,9 +152,13 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     return value;
   };
 
-  /** A writer: the overlay checked, the module's op called, its result stamped. */
+  /**
+   * A writer: the overlay checked — on this kernel's arena (the debug build) and its transaction still open (every build;
+   * N-55 (5)) — before the module's op is called; its result stamped.
+   */
   const writer = <A extends unknown[], R>(op: (o: Overlay, ...args: A) => R) => (o: Overlay, ...args: A): R => {
     onArena(o);
+    if (isClosed(o)) fail('the overlay is no open transaction: its batch committed, was rejected or threw (§3.3; N-55 (5); C-0290)');
     return batchValue(o, op(o, ...args));
   };
 

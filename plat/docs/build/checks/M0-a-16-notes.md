@@ -72,3 +72,41 @@ M0-a-05's fix-s6 work in flight, and integration g9 logged the same two reds.
       L3-knot and L4-only-knot tests).
     * **Suggested handling (M4 hardening, or M1 when the document first loads arenas through `decodeArena`):** add
       P14 as a façade test.
+
+## Closing check of session fix round s1 (check/M0-a-16-close-s1, 2026-10-08): N-55 (5) (1) notes under N-45
+
+11. **Session note — the round's guard is C-0290's closed-overlay test, not N-55 (5) (1)'s "no open frame of this
+    kernel"; the ruled line is MEASURED to break three committed tests of other items and one of this item's own.**
+    * **Observation (CONFIRMED, own mirror `~/maps-scratch/waves/check-M0-a-16/close-s1/`, mutant K06 = the ruling's
+      exact line `if (!frames.some((f) => f.o === o)) fail(…)`):** the façade folder "3 failed | 81 passed (84)" —
+      the two acceptance pins and the pre-existing `owner() names the entity whose interned handle is 0` (which hands
+      `k.geom.setOwner` a MODULE `commit()` overlay: the risk N-55 (5) (1) named); `bench/test/fuzz-bar/entry.test.ts`
+      + `testkit/test/layout/growth-s5cd/derivation-unit.test.ts` "3 failed | 3 passed (6)" (green, 6/6, on the
+      round's code). The harnesses: `testkit/src/invariants/primitives.ts` `writer()` (opens on a fresh kernel, writes
+      through another) and `testkit/src/determinism/issue.ts` `runBatch` (module `tx()`, S5c writes through
+      `kernel.geom.insertChain`, `layout/src/growth/proposals.ts:592`).
+    * **Why not a fail:** an open overlay, however opened, writes inside its transaction (probe: "other kernel open:
+      ok=true v=1", "module tx open: ok=true v=1" — the version moves, the batch commits or rolls back whole), so N-45
+      (a)'s silent write is closed by the closed-overlay test alone; refusing a foreign OPEN overlay is hygiene, and the
+      brief's own "no behaviour shift on any lawful path" forbids breaking those three lawful paths.
+    * **Suggested handling (the session; veto path already written in C-0290):** if the ruled line is wanted, open
+      rounds for M0-k (primitives.ts `writer()` through the writing kernel's `k.tx`) and M0-d-08 (`issue.ts`
+      `runBatch` through `kernel.tx`), then M0-a-16 moves its `owner()` test to `k.tx` and flips the two acceptance
+      pins. Otherwise M4 hardening.
+12. **KI — a fabricated overlay (an `InsertTx` shell with `open: true`) still writes through a façade writer outside
+    any transaction.**
+    * **Repro (CONFIRMED, probe `zz-check-s1.test.ts` in the mirror):** `k.geom.insertChain(Object.assign(shell(p, 1),
+      { open: true }), …)` → "RETURNED ok=true | v 0->0 | bits same false", on the old code and on the fix, debug on
+      and off. `insertTx` is a public export of `@plat/kernel` (`insert/index.ts:13`), and `{ ...insertTx(p, 1), open:
+      true }` type-checks as an `Overlay` without a cast. No production path does this (grep: `insertTx(` outside
+      `insert/` only in `arr/winding.ts:162` and `testkit/src/determinism/fixtures.ts:105`, neither through the façade).
+    * **Why a note:** a deliberate-writer escape (N-45's deferred class); `closed` is never set on a shell that no
+      transaction minted.
+    * **Suggested handling (M4, or with M0-a-06 when convenient):** `tx/state.ts` exports `isOpenTx(o)` (its `open`
+      WeakSet ∧ `!closed`) and `writer()` checks that instead of `closed === true` — it refuses the shell and still
+      accepts every open transaction, so the two harnesses of note 11 stay green.
+13. **KI (PLAUSIBLE, reasoning only) — a value a writer returns through a kernel that did not open the batch is not
+    re-stamped at the commit.** `batchValue` keeps the value only in a frame of the writing kernel whose overlay is
+    `o`; with note 11's harness shape (open on kernel A, write through kernel B) B has no such frame, so the value
+    keeps the in-batch version and a later `B.assertCurrent(value)` would assert it stale in the debug build. Fail-loud,
+    debug-only, no committed state touched; the hardening pass can pin it or route the stamp through the transaction.
