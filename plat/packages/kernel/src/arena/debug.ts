@@ -17,6 +17,27 @@ export function debugAssertions(): boolean {
   return assertions;
 }
 
+// The tiny-tables mode (N-53 (4), C-XXXX): a test switch that makes `createPlat` start EVERY table it makes at capacity 1
+// — the vertex and edge-pair columns, every level's face columns and hole pool, the role rows, the role-head and owner
+// hash tables and the interned-handle table — so every allocation that fills a table doubles it. At the default sizes a
+// doubling is rare, so a writer that captured a table before an allocation (the stale-capture class of N-53: M0-x-06's
+// rotation crashes) met no test; under this mode every writer meets one at once. It changes no output: slots are taken
+// by the high-water mark and the free lists, never by capacity, and nothing iterates a hash table (§2.2, J-K22). Off by
+// default; the test kit turns it on from PLAT_TINY_TABLES=1 (kernel test/arena/tiny.ts). Kernel-internal: not exported
+// from the package.
+
+let tiny = false;
+
+/** Turns the tiny-tables mode on or off (tests only; N-53 (4)). */
+export function setTinyTables(on: boolean): void {
+  tiny = on;
+}
+
+/** Whether `createPlat` starts every table at capacity 1. */
+export function tinyTables(): boolean {
+  return tiny;
+}
+
 /** A structural precondition of a raw arena primitive: always checked (a programming error, in every build). */
 export function check(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`arena: ${message}`);

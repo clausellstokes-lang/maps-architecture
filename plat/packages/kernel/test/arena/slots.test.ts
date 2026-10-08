@@ -1,7 +1,10 @@
 // M0-a-02: an empty arena from a Frame and the LatticeSpec (§2.2, §3.2 (1), (9)), slot allocation and free lists,
 // growth by doubling that keeps every column's content, the face records' owner lists and hole runs, and the raw
-// primitives' refusals (programming errors, in every build).
-import { describe, expect, it } from 'vitest';
+// primitives' refusals (programming errors, in every build). N-53 (4) (C-XXXX): the tiny-tables mode (every table at
+// capacity 1), growth-preserves-content against a roomy reference after every operation, the rotation across every
+// doubling, and the re-read rule's premise (a doubling replaces the table, so a capture taken before it is dead).
+import { afterEach, describe, expect, it } from 'vitest';
+import { setTinyTables, tinyTables } from '../../src/arena/debug.js';
 import {
   addRole,
   allocEdgePair,
@@ -13,17 +16,25 @@ import {
   edgeLevel,
   faceHoles,
   facesOfOwner,
+  faceWalk,
   FREE_KIND,
   freeEdgePair,
   freeFace,
   freeVertex,
+  handleOfId,
+  idOfHandle,
   intern,
   isFaceLive,
   isHalfEdgeLive,
   isPlatKey,
+  isRoleRowLive,
   isVertexLive,
   LEVELS,
+  ownerGet,
   pointOf,
+  removeRoleRow,
+  roleHeadGet,
+  roleKeyWord,
   sameKey,
   setFaceHoles,
   setFaceOwner,
@@ -33,10 +44,12 @@ import {
   VERTEX_SPLIT,
   VERTEX_STEINER,
   type Plat,
+  type PlatCapacity,
 } from '../../src/arena/index.js';
 import { LATTICE } from '../../src/num/index.js';
-import type { Layer, PlatKey } from '../../src/types/index.js';
-import { FRAME, GROUND, pt } from './support.js';
+import type { Layer, Level, PlatKey } from '../../src/types/index.js';
+import { buildArena, FRAME, GROUND, pt, QUARTERS, ringText } from './support.js';
+import { TINY_TABLES } from './tiny.js';
 
 function square(p: Plat, x0: number, y0: number, s: number): number[] {
   const v = [pt(x0, y0), pt(x0 + s, y0), pt(x0 + s, y0 + s), pt(x0, y0 + s)].map((q) => allocVertex(p, q, 0));
@@ -278,5 +291,387 @@ describe('face records', () => {
     expect(() => setFaceHoles(p, 0, f, [999])).toThrow(/hole half-edge/);
     freeFace(p, 0, g);
     expect(() => faceHoles(p, 0, g)).toThrow(/not live/);
+  });
+});
+
+// ---- N-53 (4): the tiny-tables mode and growth that preserves content ----------------------------------------------
+
+/** Runs `f` with the tiny-tables mode set to `on`, then restores the process's mode (PLAT_TINY_TABLES, ./tiny.ts). */
+function withTiny<T>(on: boolean, f: () => T): T {
+  setTinyTables(on);
+  try {
+    return f();
+  } finally {
+    setTinyTables(TINY_TABLES);
+  }
+}
+
+/** Every table's capacity, by name: a column's slots (a half-edge column counts pairs), a hash table's slots. */
+function capacities(p: Plat): Record<string, number> {
+  const c: Record<string, number> = {
+    'vertices.x': p.vertices.x.length, 'vertices.y': p.vertices.y.length, 'vertices.out': p.vertices.out.length,
+    'vertices.level': p.vertices.level.length, 'vertices.flags': p.vertices.flags.length,
+    'halfEdges.origin/2': p.halfEdges.origin.length / 2, 'halfEdges.next/2': p.halfEdges.next.length / 2,
+    'halfEdges.prev/2': p.halfEdges.prev.length / 2, 'halfEdges.level': p.halfEdges.level.length,
+    'roles.edgeFirst': p.roles.edgeFirst.length, 'roles.vertexFirst': p.roles.vertexFirst.length,
+    'roles.kind': p.roles.kind.length, 'roles.entity': p.roles.entity.length, 'roles.level': p.roles.level.length,
+    'roles.ordinal': p.roles.ordinal.length, 'roles.nextInSet': p.roles.nextInSet.length,
+    'roles.nextSameKey': p.roles.nextSameKey.length,
+    'roles.head.k0': p.roles.head.k0.length, 'roles.head.k1': p.roles.head.k1.length, 'roles.head.first': p.roles.head.first.length,
+    'indexHome.vertex': p.indexHome.vertex.length, 'indexHome.edge': p.indexHome.edge.length,
+    'handles.units': p.handles.units.length, 'handles.start-1': p.handles.start.length - 1,
+    'handles.hash': p.handles.hash.length, 'handles.slots': p.handles.slots.length,
+  };
+  for (const l of LEVELS) {
+    const f = p.faces[l];
+    Object.assign(c, {
+      [`faces[${l}].outer`]: f.outer.length, [`faces[${l}].holesStart`]: f.holesStart.length, [`faces[${l}].holes`]: f.holes.length,
+      [`faces[${l}].kind`]: f.kind.length, [`faces[${l}].owner`]: f.owner.length, [`faces[${l}].parent`]: f.parent.length,
+      [`faces[${l}].stage`]: f.stage.length, [`faces[${l}].nextOfOwner`]: f.nextOfOwner.length,
+      [`faces[${l}].ownerHead.owner`]: f.ownerHead.owner.length, [`faces[${l}].ownerHead.head`]: f.ownerHead.head.length,
+      [`indexHome.face[${l}]`]: p.indexHome.face[l].length,
+    });
+  }
+  return c;
+}
+
+/** mulberry32: a seeded generator in [0, 1). */
+function generator(seed: number): () => number {
+  let a = seed >>> 0;
+  return () => {
+    a = (a + 0x6d2b79f5) >>> 0;
+    let t = a;
+    t = Math.imul(t ^ (t >>> 15), t | 1);
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+/**
+ * The arena's content as one list of numbers, independent of capacity: every slot below each high-water mark with
+ * every column it has, the free lists and live counts, every live face's hole rings (the pool's layout, which
+ * compaction moves, aside), every role row, every interned id, and every lookup the hash tables answer — the role
+ * heads of every key a row ever carried and every handle's owner head at every level.
+ */
+function content(p: Plat, keys: readonly (readonly [number, number])[]): number[] {
+  const o: number[] = [];
+  const s = p.slots;
+  o.push(s.vertex.top, s.vertex.free, s.vertex.live, s.pair.top, s.pair.free, s.pair.live, s.role.top, s.role.free, s.role.live);
+  for (const l of LEVELS) o.push(s.face[l].top, s.face[l].free, s.face[l].live);
+  const V = p.vertices;
+  for (let v = 0; v < s.vertex.top; v++) o.push(V.x[v], V.y[v], V.out[v], V.level[v], V.flags[v], p.roles.vertexFirst[v], p.indexHome.vertex[v]);
+  const H = p.halfEdges;
+  for (let e = 0; e < s.pair.top; e++) {
+    o.push(H.origin[2 * e], H.origin[2 * e + 1], H.next[2 * e], H.next[2 * e + 1], H.prev[2 * e], H.prev[2 * e + 1], H.level[e]);
+    o.push(p.roles.edgeFirst[e], p.indexHome.edge[e]);
+  }
+  const R = p.roles;
+  for (let r = 0; r < s.role.top; r++) o.push(R.kind[r], R.entity[r], R.level[r], R.ordinal[r], R.nextInSet[r], R.nextSameKey[r]);
+  o.push(R.head.count);
+  for (const [k0, k1] of keys) o.push(roleHeadGet(R.head, k0, k1));
+  o.push(p.handles.count);
+  for (let h = 0; h < p.handles.count; h++) {
+    const id = idOfHandle(p.handles, h);
+    o.push(id.length, handleOfId(p.handles, id));
+    for (let i = 0; i < id.length; i++) o.push(id.charCodeAt(i));
+  }
+  for (const l of LEVELS) {
+    const F = p.faces[l];
+    for (let f = 0; f < s.face[l].top; f++) {
+      o.push(F.outer[f], F.kind[f], F.owner[f], F.parent[f], F.stage[f], F.nextOfOwner[f], p.indexHome.face[l][f]);
+      if (F.kind[f] !== FREE_KIND) {
+        const holes = faceHoles(p, l, f);
+        o.push(holes.length, ...holes);
+      }
+    }
+    o.push(F.ownerHead.count);
+    for (let h = 0; h < p.handles.count; h++) o.push(ownerGet(F.ownerHead, h));
+  }
+  return o;
+}
+
+/** The first index where two content lists differ, or −1. */
+function firstDifference(a: readonly number[], b: readonly number[]): number {
+  const n = a.length < b.length ? a.length : b.length;
+  for (let i = 0; i < n; i++) if (a[i] !== b[i]) return i;
+  return a.length === b.length ? -1 : n;
+}
+
+const EDGE_ROLES = ['way', 'kerb', 'plot_line', 'frontage'] as const;
+
+/**
+ * One seeded operation sequence over the raw primitives — allocate and free vertices and edge pairs (each new pair
+ * linked as a dangling edge and made its origin's `out`, by a writer that re-reads the tables after the allocation),
+ * add and remove role rows (edge rows, indexed `gate_opening` rows, vertex `junction` rows), allocate, re-own and free
+ * faces at every level, set and clear hole rings, intern ids — applied to every arena of `ps` alike; `check` runs
+ * after every operation. Every slot an operation returns must agree across the arenas.
+ */
+function drive(ps: readonly Plat[], seed: number, ops: number, check: (op: number, keys: readonly (readonly [number, number])[]) => void): void {
+  const rnd = generator(seed);
+  const int = (n: number): number => Math.floor(rnd() * n);
+  const p0 = ps[0];
+  const keys: [number, number][] = [];
+  const keySeen = new Set<string>();
+  const noteKey = (r: number): void => {
+    const k0 = p0.roles.entity[r];
+    const k1 = roleKeyWord(p0.roles.kind[r], p0.roles.ordinal[r]);
+    if (!keySeen.has(`${k0}:${k1}`)) {
+      keySeen.add(`${k0}:${k1}`);
+      keys.push([k0, k1]);
+    }
+  };
+  const same = (got: number[]): number => {
+    for (const g of got) expect(g).toBe(got[0]);
+    return got[0];
+  };
+  const verts: number[] = []; // live vertices
+  const pairs: number[] = []; // live even half-edges
+  const degree = new Map<number, number>();
+  const faces: number[][] = [[], [], [], [], []];
+  const rows: number[] = [];
+  for (let op = 0; op < ops; op++) {
+    const k = int(100);
+    if (k < 22 || verts.length < 2) {
+      const at = pt(int(2_000_001) - 1_000_000, int(2_000_001) - 1_000_000);
+      const level = int(5) as Level;
+      const flags = int(8);
+      const v = same(ps.map((p) => allocVertex(p, at, level, flags)));
+      verts.push(v);
+      degree.set(v, 0);
+    } else if (k < 25) {
+      const free = verts.filter((v) => degree.get(v) === 0 && ps[0].roles.vertexFirst[v] === -1);
+      if (free.length > 0) {
+        const v = free[int(free.length)];
+        for (const p of ps) freeVertex(p, v);
+        verts.splice(verts.indexOf(v), 1);
+        degree.delete(v);
+      }
+    } else if (k < 47) {
+      const a = verts[int(verts.length)];
+      let b = verts[int(verts.length)];
+      if (b === a) b = verts[(verts.indexOf(a) + 1) % verts.length];
+      const level = int(5) as Level;
+      const h = same(ps.map((p) => {
+        const g = allocEdgePair(p, a, b, level);
+        const T = p.halfEdges; // read after the allocation (the re-read rule)
+        T.next[g] = g ^ 1;
+        T.next[g ^ 1] = g;
+        T.prev[g] = g ^ 1;
+        T.prev[g ^ 1] = g;
+        if (p.vertices.out[a] === -1) p.vertices.out[a] = g;
+        if (p.vertices.out[b] === -1) p.vertices.out[b] = g ^ 1;
+        return g;
+      }));
+      pairs.push(h);
+      degree.set(a, (degree.get(a) ?? 0) + 1);
+      degree.set(b, (degree.get(b) ?? 0) + 1);
+    } else if (k < 50) {
+      const bare = pairs.filter((h) => ps[0].roles.edgeFirst[h >> 1] === -1);
+      if (bare.length > 0) {
+        const h = bare[int(bare.length)];
+        const a = ps[0].halfEdges.origin[h];
+        const b = ps[0].halfEdges.origin[h ^ 1];
+        for (const p of ps) {
+          if (p.vertices.out[a] === h) p.vertices.out[a] = -1;
+          if (p.vertices.out[b] === (h ^ 1)) p.vertices.out[b] = -1;
+          freeEdgePair(p, h);
+        }
+        pairs.splice(pairs.indexOf(h), 1);
+        degree.set(a, (degree.get(a) ?? 1) - 1);
+        degree.set(b, (degree.get(b) ?? 1) - 1);
+      }
+    } else if (k < 68) {
+      // a role row: on an edge (a plain or an indexed role) or on a vertex
+      const which = int(3);
+      const element = which < 2 ? pairs[int(Math.max(pairs.length, 1))] : verts[int(verts.length)];
+      if (element !== undefined) {
+        const row = which === 0
+          ? { role: EDGE_ROLES[int(EDGE_ROLES.length)], entity: `way:${int(90)}` }
+          : which === 1
+            ? { role: 'gate_opening', entity: `wall:${int(6)}`, ordinal: int(40) }
+            : { role: 'junction', entity: `junction:${int(70)}` };
+        const level = int(5) as Level;
+        let r = -1;
+        try {
+          r = same(ps.map((p) => addRole(p, element, row, level)));
+        } catch (err) {
+          // a key the element already carries is refused in every arena alike, before any write
+          expect(String(err)).toMatch(/already carries/);
+          for (const p of ps.slice(1)) expect(() => addRole(p, element, row, level)).toThrow(/already carries/);
+        }
+        if (r !== -1) {
+          rows.push(r);
+          noteKey(r);
+        }
+      }
+    } else if (k < 75) {
+      if (rows.length > 0) {
+        const r = rows[int(rows.length)];
+        for (const p of ps) removeRoleRow(p, r);
+        rows.splice(rows.indexOf(r), 1);
+      }
+    } else if (k < 88) {
+      const level = int(5) as Level;
+      const outers = pairs.filter((h) => ps[0].halfEdges.level[h >> 1] <= level);
+      const parents = level === 0 ? [-1] : faces[level - 1];
+      if (outers.length > 0 && parents.length > 0) {
+        const id = `district:${op % 97}`;
+        const owner = int(3) === 0 ? -1 : same(ps.map((p) => intern(p, id)));
+        const init = { outer: outers[int(outers.length)], kind: int(50), owner, stage: int(256), parent: parents[int(parents.length)] };
+        const f = same(ps.map((p) => allocFace(p, level, init)));
+        faces[level].push(f);
+      }
+    } else if (k < 92) {
+      const level = int(5) as Level;
+      if (faces[level].length > 0) {
+        const f = faces[level][int(faces[level].length)];
+        const id = `block:${int(120)}`;
+        const owner = int(4) === 0 ? -1 : same(ps.map((p) => intern(p, id)));
+        for (const p of ps) setFaceOwner(p, level, f, owner);
+      }
+    } else if (k < 97) {
+      const level = int(5) as Level;
+      const ok = pairs.filter((h) => ps[0].halfEdges.level[h >> 1] <= level);
+      if (faces[level].length > 0) {
+        const f = faces[level][int(faces[level].length)];
+        const n = ok.length === 0 ? 0 : int(4);
+        const holes = Array.from({ length: n }, () => ok[int(ok.length)] ^ int(2));
+        for (const p of ps) setFaceHoles(p, level, f, holes);
+      }
+    } else {
+      const level = int(5) as Level;
+      if (faces[level].length > 0) {
+        const f = faces[level][int(faces[level].length)];
+        for (const p of ps) freeFace(p, level, f);
+        faces[level].splice(faces[level].indexOf(f), 1);
+      }
+    }
+    check(op, keys);
+  }
+  for (const r of rows) expect(ps.every((p) => isRoleRowLive(p, r))).toBe(true);
+}
+
+/** A roomy arena: every table sized past what the sequences below reach, so it never grows. */
+const ROOMY: PlatCapacity = {
+  vertices: 4_096, edgePairs: 4_096, faces: 2_048, roleRows: 4_096, roleKeys: 4_096, owners: 512, handles: 1_024, idUnits: 16_384, holes: 16_384,
+};
+
+describe('the tiny-tables mode and growth that preserves content (N-53 (4))', () => {
+  afterEach(() => setTinyTables(TINY_TABLES));
+
+  it('starts every table at capacity 1 in the tiny-tables mode, whatever capacity is asked, and refuses what the default mode refuses', () => {
+    for (const asked of [{}, ROOMY, { vertices: 3, faces: [5, 6, 7, 8, 9] as [number, number, number, number, number], owners: 40 }]) {
+      const p = withTiny(true, () => createPlat(GROUND, FRAME, asked));
+      const c = capacities(p);
+      for (const [table, cap] of Object.entries(c)) expect([table, cap]).toEqual([table, 1]);
+      expect(Object.keys(c)).toHaveLength(26 + 5 * 11);
+    }
+    expect(withTiny(true, () => tinyTables())).toBe(true);
+    expect(tinyTables()).toBe(TINY_TABLES); // restored
+    expect(() => withTiny(true, () => createPlat(GROUND, FRAME, { vertices: 0 }))).toThrow(/capacity.vertices/);
+    expect(() => withTiny(true, () => createPlat(GROUND, FRAME, { roleKeys: 1.5 }))).toThrow(/capacity.roleKeys/);
+    expect(() => withTiny(true, () => createPlat(GROUND, FRAME, { owners: -1 }))).toThrow(/capacity.owners/);
+    expect(() => withTiny(true, () => createPlat(GROUND, FRAME, { idUnits: 0 }))).toThrow(/capacity.idUnits/);
+    // the mode off: the default sizes again
+    const d = capacities(withTiny(false, () => createPlat(GROUND, FRAME)));
+    expect([d['vertices.x'], d['halfEdges.level'], d['faces[2].outer'], d['roles.kind'], d['roles.head.first'], d['faces[0].ownerHead.head'], d['handles.slots']])
+      .toEqual([64, 64, 16, 64, 32, 16, 32]);
+  });
+
+  it('a capacity-1 arena and a roomy one fed the same operations hold the same content after every operation, while every table of the first doubles', () => {
+    const tiny = withTiny(true, () => createPlat(GROUND, FRAME));
+    const roomy = withTiny(false, () => createPlat(GROUND, FRAME, ROOMY));
+    const roomyCaps = capacities(roomy);
+    let compared = 0;
+    drive([tiny, roomy], 0x5eed_0053, 3_000, (op, keys) => {
+      const a = content(tiny, keys);
+      const b = content(roomy, keys);
+      const at = firstDifference(a, b);
+      if (at !== -1) expect.fail(`after operation ${op} the capacity-1 arena differs from the roomy one at content index ${at}: ${a[at]} vs ${b[at]}`);
+      compared++;
+    });
+    expect(compared).toBe(3_000);
+    // the roomy arena never grew, so it is the reference; every table of the capacity-1 arena doubled, most many times
+    expect(capacities(roomy)).toEqual(roomyCaps);
+    const grown = capacities(tiny);
+    for (const [table, cap] of Object.entries(grown)) expect([table, cap > 1]).toEqual([table, true]);
+    expect(grown['vertices.x']).toBeGreaterThanOrEqual(512);
+    expect(grown['halfEdges.level']).toBeGreaterThanOrEqual(256);
+    expect(grown['roles.kind']).toBeGreaterThanOrEqual(256);
+    expect(grown['roles.head.first']).toBeGreaterThanOrEqual(256);
+    expect(grown['handles.slots']).toBeGreaterThanOrEqual(256);
+    for (const l of LEVELS) expect(grown[`faces[${l}].outer`]).toBeGreaterThanOrEqual(16);
+    for (const l of LEVELS) expect(grown[`faces[${l}].ownerHead.head`]).toBeGreaterThanOrEqual(16);
+    expect(tiny.slots.vertex.live + tiny.slots.pair.live + tiny.slots.role.live).toBeGreaterThan(1_000);
+  }, 120_000); // ≈ 3.4 s idle (3 000 full-content comparisons); the bound is for a loaded shared machine, never a timing
+
+  it('keeps the rotation through every doubling: QUARTERS built at capacity 1 walks every face of every level as the default build does, and still does after further allocations double every table again', () => {
+    const t = withTiny(true, () => buildArena(QUARTERS));
+    const d = withTiny(false, () => buildArena(QUARTERS));
+    const walks = (p: Plat, faces: number[][]): string[][][] => faces.map((fs, l) => fs.map((f) => faceWalk(p, l as Level, f).map((r) => ringText(p, r))));
+    const reference = walks(d.plat, d.faces);
+    expect(t.faces).toEqual(d.faces);
+    expect(t.v).toEqual(d.v);
+    expect(t.he).toEqual(d.he);
+    expect(walks(t.plat, t.faces)).toEqual(reference);
+    const before = capacities(t.plat);
+    const rnd = generator(0x0053_0004);
+    for (let i = 0; i < 400; i++) {
+      const pick = Math.floor(rnd() * 6);
+      for (const b of [t, d]) {
+        const p = b.plat;
+        const a = allocVertex(p, pt(5_000 + 40 * i, 7_000 + (i % 13)), 4);
+        const c = allocVertex(p, pt(5_000 + 40 * i, 7_100 + (i % 17)), 4);
+        const h = allocEdgePair(p, a, c, 4);
+        addRole(p, h, { role: 'plot_line', entity: `plot:${i}` }, 4);
+        addRole(p, b.he[i % b.he.length], { role: 'gate_opening', entity: 'wall:quarters', ordinal: i }, 2);
+        const f = allocFace(p, 4, { outer: b.he[0], kind: 7, owner: intern(p, `building:${i % 50}`), stage: 9, parent: b.faces[3][0] });
+        setFaceHoles(p, 4, f, pick % 3 === 0 ? [] : [h, h ^ 1].slice(0, 1 + (pick % 2)));
+      }
+      if (i % 50 === 49) expect(walks(t.plat, t.faces)).toEqual(walks(d.plat, d.faces));
+    }
+    // the original faces' rings, untouched by any of it
+    expect(walks(t.plat, t.faces)).toEqual(reference);
+    expect(walks(d.plat, d.faces)).toEqual(reference);
+    const after = capacities(t.plat);
+    for (const table of ['vertices.x', 'halfEdges.level', 'roles.kind', 'roles.head.first', 'handles.slots', 'faces[4].outer', 'faces[4].ownerHead.head']) {
+      expect([table, after[table] > before[table]]).toEqual([table, true]);
+    }
+  });
+
+  it('a doubling replaces the table it grows, so a table or column captured before the allocation is a dead copy (the premise of the re-read rule)', () => {
+    const p = withTiny(true, () => createPlat(GROUND, FRAME));
+    const a = allocVertex(p, pt(0, 0), 0); // fills the 1-slot vertex table
+    const V = p.vertices;
+    const b = allocVertex(p, pt(100, 0), 0); // doubles it
+    expect(p.vertices).not.toBe(V);
+    V.out[a] = 77; // a write through the stale capture is lost
+    expect(p.vertices.out[a]).toBe(-1);
+    const h = allocEdgePair(p, a, b, 0); // fills the 1-pair table
+    const H = p.halfEdges;
+    const c = allocVertex(p, pt(0, 100), 0);
+    allocEdgePair(p, b, c, 0); // doubles it
+    expect(p.halfEdges).not.toBe(H);
+    H.next[h] = 5;
+    expect(p.halfEdges.next[h]).toBe(-1);
+    const R = p.roles;
+    const kind = R.kind;
+    addRole(p, h, { role: 'way', entity: 'way:1' }, 0);
+    const head = p.roles.head.first;
+    addRole(p, h, { role: 'kerb', entity: 'block:1' }, 2); // the role rows double in place: one roles object, new columns
+    expect(p.roles).toBe(R);
+    expect(p.roles.kind).not.toBe(kind);
+    expect(p.roles.head.first).not.toBe(head);
+    const outer = p.faces[0].outer;
+    const ownerHead = p.faces[0].ownerHead.head;
+    const slots = p.handles.slots;
+    allocFace(p, 0, { outer: h, kind: 1, owner: intern(p, 'district:1'), stage: 0, parent: -1 });
+    allocFace(p, 0, { outer: h ^ 1, kind: 1, owner: intern(p, 'district:2'), stage: 0, parent: -1 });
+    expect(p.faces[0].outer).not.toBe(outer);
+    expect(p.faces[0].ownerHead.head).not.toBe(ownerHead);
+    expect(p.handles.slots).not.toBe(slots);
+    const pool = p.faces[0].holes;
+    setFaceHoles(p, 0, 0, [h]);
+    expect(p.faces[0].holes).not.toBe(pool);
   });
 });

@@ -5,7 +5,7 @@
 // to back, an offset per handle and an open-addressing index — so the table travels inside a frozen copy with the
 // arena it belongs to (§3.3 pool step 2: a district's new handles go above the base's high-water mark). M0-a-02.
 import type { Handle, Id } from '../types/index.js';
-import { check } from './debug.js';
+import { check, tinyTables } from './debug.js';
 import { MIN_TABLE_CAPACITY, mix32, tableCapacityFor } from './tables.js';
 
 /** An address id ↔ handle table. */
@@ -32,14 +32,14 @@ export function hashId(id: string): number {
   return mix32(h);
 }
 
-/** An empty table sized for `ids` handles and `units` code units. */
+/** An empty table sized for `ids` handles and `units` code units (its index at 1 slot in the tiny-tables mode, C-XXXX). */
 export function createHandleTable(ids: number = MIN_TABLE_CAPACITY, units: number = ids * 16): HandleTable {
   check(Number.isInteger(ids) && ids >= 1 && Number.isInteger(units) && units >= 1, 'handle-table sizes are positive integers');
   return {
     units: new Uint16Array(units),
     start: new Int32Array(ids + 1),
     hash: new Int32Array(ids),
-    slots: new Int32Array(tableCapacityFor(ids)).fill(-1),
+    slots: new Int32Array(tinyTables() ? 1 : tableCapacityFor(ids)).fill(-1),
     count: 0,
   };
 }

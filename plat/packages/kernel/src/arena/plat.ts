@@ -10,7 +10,7 @@
 // below; a face's holes are runs in a per-level pool, each ended by −1.
 import { LATTICE, type Frame, type LatticeSpec } from '../num/index.js';
 import type { Handle, LatticePoint, Level, PlatKey } from '../types/index.js';
-import { check } from './debug.js';
+import { check, tinyTables } from './debug.js';
 import { createHandleTable, type HandleTable } from './handles.js';
 import {
   createOwnerTable,
@@ -163,7 +163,19 @@ export interface Plat {
   slots: PlatSlots;
 }
 
-/** Initial table sizes; each grows by doubling. */
+/**
+ * Initial table sizes; each grows by doubling.
+ *
+ * THE RE-READ RULE (N-53 (4), C-XXXX). A doubling REPLACES the table it grows: `allocVertex` assigns a new
+ * `p.vertices` (and new `p.roles.vertexFirst`, `p.indexHome.vertex`), `allocEdgePair` a new `p.halfEdges` (and
+ * `p.roles.edgeFirst`, `p.indexHome.edge`), `allocFace` new columns of `p.faces[level]` (and `p.indexHome.face[level]`),
+ * a role row new columns of the one `p.roles` object, `setFaceHoles` a new `holes` pool, an owner, role-head or handle
+ * insert new arrays inside its table. So a writer re-reads `p.vertices`, `p.halfEdges` and every column after ANY
+ * allocation: a table or column captured before one is a dead copy once it doubles, and writes to it are lost (the
+ * stale capture behind M0-x-06's rotation crashes, N-53 (1)). A writer that needs several slots allocates them all
+ * first, then reads the tables once. The tiny-tables mode (`setTinyTables`, debug.ts; PLAT_TINY_TABLES=1 in the tests)
+ * starts every table at capacity 1 so every writer meets a doubling at once.
+ */
 export interface PlatCapacity {
   vertices: number;
   edgePairs: number;
@@ -203,7 +215,7 @@ function filled16(n: number, v: number): Int16Array {
   return new Int16Array(n).fill(v);
 }
 
-function levelFaces(cap: number, owners: number, holes: number): LevelFaces {
+function levelFaces(cap: number, ownerCap: number, holes: number): LevelFaces {
   return {
     outer: filled32(cap, -1),
     holesStart: filled32(cap, -1),
@@ -213,7 +225,7 @@ function levelFaces(cap: number, owners: number, holes: number): LevelFaces {
     parent: filled32(cap, -1),
     stage: new Uint8Array(cap),
     nextOfOwner: filled32(cap, -1),
-    ownerHead: createOwnerTable(tableCapacityFor(owners)),
+    ownerHead: createOwnerTable(ownerCap),
   };
 }
 
@@ -240,7 +252,8 @@ export function sameKey(a: PlatKey, b: PlatKey): boolean {
 /**
  * An empty arena for `key` over `frame`, with the fixed lattice (§3.2 (1)): no vertex, no edge, no face, no role row,
  * version 0. Its outer ring is written by the first batch (S1's, §4.1). `capacity` sizes the tables (each still grows
- * by doubling); the defaults are small.
+ * by doubling — mind the re-read rule above `PlatCapacity`); the defaults are small. In the tiny-tables mode every
+ * table starts at capacity 1 whatever `capacity` asks (N-53 (4), C-XXXX); a malformed `capacity` is still refused.
  */
 export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCapacity> = {}): Plat {
   check(isPlatKey(key), 'a PlatKey is a layer and a part number ≥ 0');
@@ -259,12 +272,23 @@ export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCap
     idUnits: capacity.idUnits ?? DEFAULT_CAPACITY.idUnits,
     holes: capacity.holes ?? DEFAULT_CAPACITY.holes,
   };
-  const nv = positive(c.vertices, 'capacity.vertices');
-  const np = positive(c.edgePairs, 'capacity.edgePairs');
-  const nf = five(c.faces).map((n) => positive(n, 'capacity.faces')) as Five<number>;
+  // Every size is checked first, so the tiny-tables mode refuses what the default mode refuses.
+  const tiny = tinyTables();
+  const size = (n: number, what: string): number => {
+    positive(n, what);
+    return tiny ? 1 : n;
+  };
+  const nv = size(c.vertices, 'capacity.vertices');
+  const np = size(c.edgePairs, 'capacity.edgePairs');
+  const nf = five(c.faces).map((n) => size(n, 'capacity.faces')) as Five<number>;
   const no = five(c.owners).map((n) => positive(n, 'capacity.owners')) as Five<number>;
-  const nr = positive(c.roleRows, 'capacity.roleRows');
-  const nh = positive(c.holes, 'capacity.holes');
+  const nr = size(c.roleRows, 'capacity.roleRows');
+  const nh = size(c.holes, 'capacity.holes');
+  const nk = positive(c.roleKeys, 'capacity.roleKeys');
+  const ni = size(c.handles, 'capacity.handles');
+  const nu = size(c.idUnits, 'capacity.idUnits');
+  // A hash table's capacity: the least that holds its keys at load ≤ 0.5 — or 1 in the tiny mode (its first insert doubles it).
+  const hashCap = (keys: number): number => (tiny ? 1 : tableCapacityFor(keys));
   return {
     key: { layer: key.layer, part: key.part },
     frame: { widthCm: frame.widthCm, heightCm: frame.heightCm, aspect: frame.aspect, marginShare: frame.marginShare },
@@ -280,17 +304,19 @@ export function createPlat(key: PlatKey, frame: Frame, capacity: Partial<PlatCap
       ordinal: new Uint16Array(nr),
       nextInSet: filled32(nr, -1),
       nextSameKey: filled32(nr, -1),
-      head: createRoleHeadTable(tableCapacityFor(positive(c.roleKeys, 'capacity.roleKeys'))),
+      head: createRoleHeadTable(hashCap(nk)),
     },
-    faces: [0, 1, 2, 3, 4].map((l) => levelFaces(nf[l], no[l], nh)) as Five<LevelFaces>,
+    faces: [0, 1, 2, 3, 4].map((l) => levelFaces(nf[l], hashCap(no[l]), nh)) as Five<LevelFaces>,
     indexHome: { vertex: filled16(nv, -1), edge: filled16(np, -1), face: [0, 1, 2, 3, 4].map((l) => filled16(nf[l], -1)) as Five<Int16Array> },
     version: 0,
-    handles: createHandleTable(positive(c.handles, 'capacity.handles'), positive(c.idUnits, 'capacity.idUnits')),
+    handles: createHandleTable(ni, nu),
     slots: { vertex: counter(), pair: counter(), face: [counter(), counter(), counter(), counter(), counter()], role: counter(), holesTop: [0, 0, 0, 0, 0] },
   };
 }
 
 // ---- growth -------------------------------------------------------------------------------------------------------
+// Each grow function REPLACES the arrays it doubles (content copied, the new slots filled free / empty): a writer
+// re-reads the tables after any allocation — the re-read rule above `PlatCapacity` (N-53 (4)).
 
 function grow32(a: Int32Array, cap: number, fill: number): Int32Array {
   const b = new Int32Array(cap);

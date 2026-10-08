@@ -4,7 +4,7 @@
 // re-inserted in slot order when an insert would exceed it), a fixed integer hash of the key words, deletion by
 // backward shift (no tombstones). Lookups only — nothing iterates a table — so its layout never reaches an output, and
 // the tables travel inside a frozen copy as plain typed arrays (no `Map` rebuilt per pool worker, §2.2 *Size*). M0-a-02.
-import { check } from './debug.js';
+import { check, tinyTables } from './debug.js';
 
 /** (role, entity, ordinal) → first role-row slot (§2.2). `first` −1 marks an empty slot. */
 export interface RoleHeadTable {
@@ -36,8 +36,9 @@ export function tableCapacityFor(keys: number): number {
   return cap;
 }
 
+/** A lawful capacity: a power of two ≥ MIN_TABLE_CAPACITY — or ≥ 1 in the tiny-tables mode (N-53 (4), C-XXXX). */
 function powerOfTwo(cap: number): boolean {
-  return Number.isInteger(cap) && cap >= MIN_TABLE_CAPACITY && (cap & (cap - 1)) === 0 && cap <= 0x40000000;
+  return Number.isInteger(cap) && cap >= (tinyTables() ? 1 : MIN_TABLE_CAPACITY) && (cap & (cap - 1)) === 0 && cap <= 0x40000000;
 }
 
 /** MurmurHash3's 32-bit finaliser (a published avalanche step; our own copy, the arena reads no other module's hash). */
@@ -62,7 +63,7 @@ export function hash1(k0: number): number {
 
 // ---- RoleHeadTable ------------------------------------------------------------------------------------------------
 
-/** An empty role-head table of `capacity` slots (a power of two ≥ 16). */
+/** An empty role-head table of `capacity` slots (a power of two ≥ 16; ≥ 1 in the tiny-tables mode). */
 export function createRoleHeadTable(capacity: number = MIN_TABLE_CAPACITY): RoleHeadTable {
   check(powerOfTwo(capacity), `a table capacity is a power of two ≥ ${MIN_TABLE_CAPACITY}`);
   return { k0: new Int32Array(capacity), k1: new Int32Array(capacity), first: new Int32Array(capacity).fill(-1), count: 0 };
@@ -146,7 +147,7 @@ export function roleHeadDelete(t: RoleHeadTable, k0: number, k1: number): boolea
 
 // ---- OwnerTable ---------------------------------------------------------------------------------------------------
 
-/** An empty owner table of `capacity` slots (a power of two ≥ 16). */
+/** An empty owner table of `capacity` slots (a power of two ≥ 16; ≥ 1 in the tiny-tables mode). */
 export function createOwnerTable(capacity: number = MIN_TABLE_CAPACITY): OwnerTable {
   check(powerOfTwo(capacity), `a table capacity is a power of two ≥ ${MIN_TABLE_CAPACITY}`);
   return { owner: new Int32Array(capacity), head: new Int32Array(capacity).fill(-1), count: 0 };
