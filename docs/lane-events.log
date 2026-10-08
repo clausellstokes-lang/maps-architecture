@@ -6857,3 +6857,6 @@
 2026-10-07 23:03 check/M0-d-09 CHECKPOINT verdict draft written (checks/M0-d-09.md, FAIL, 5 blockers; run figures pending); Y in its in-process phase, X1 in its legs; next: X2/X3 when memory frees, fill run figures, record
 2026-10-07 23:04 check/M0-x-06 CHECKPOINT 1000-seed run 47/72
 2026-10-07 23:13 build/M0-a-09-fix-s1 CHECKPOINT mirror before/after (ruling probe, my change only): integrated 1 test gt74cm 1 -> 0 (exact 105 -> 106), far split chains 5 -> 0 (521 -> 517 chains); fusion 1 city before gt74cm 6 (exact 769), after running; testkit agreement gains width-step family + splitsInBlocks check (old kerb: 20 fails / 300 width-step cases; new 0); next: mutants, gates
+2026-10-07 23:20 build/M0-a-11-fix-s1 CHECKPOINT corpus CITY fusion seed 2: 16 → 0 sharpCorner, 30/30 both uses; test size seeds 1-2 both runs 0 downgrades; mirror lint (my files, pre-M0-a-09 kerb.ts) rc 0; RELATED at PR size still running; next: landed
+2026-10-07 23:22 build/M0-a-09-fix-s1 CHECKPOINT gates install 0, lint 0 (probe-red ok, kernel-boundary ok after keeping the kerb-noun count at its cap 20: new helpers named entersRegion), build run; mutants running in mirror (M00 baseline 41/41); fusion 1 city after-run in background; next: near at PR size, related at PR size
+2026-10-07 23:23 check/M0-x-06 CHECKPOINT 1000-seed run 56/72
