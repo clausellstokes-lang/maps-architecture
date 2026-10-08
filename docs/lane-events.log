@@ -7115,3 +7115,6 @@
 2026-10-08 13:16 check/M0-a-02-close-s1 CHECKPOINT gates: install frozen 0, lint 0 (eslint 1129 files 0/0, probe-red ok, 9 whole-tree checks), build 0 (tsc -b ok); read N-53, C-0286, arena src changes; mirror built; next: NEAR, probes, mutants
 2026-10-08 13:18 build/M0-c-04-fix-s1 CHECKPOINT RELATED@1000 still running (W=1, ~1h50m; 1 red so far: hausdorff, known); next: verdict, landed
 2026-10-08 13:25 check/M0-a-02-close-s1 CHECKPOINT NEAR arena 12/98 green; mirror: kernel-tiny project entry built and probed (direct createPlat tiny iff the project); default three folders 38 files / 532 tests green; next: tiny baseline, planted stale capture, mutants
+2026-10-08 13:27 check/M0-c-01-close-s1 CHECKPOINT after sweep 1000/1000: 983 S3 slices, 976 with a beyond-frame deck, 0 wet edges passable via a beyond-only deck, 0 errors, 0 built out; 17 unstood S3 states to replay through the fixture; before-control sweep 0-299 running; RELATED still running; next: verdicts
+2026-10-08 13:33 build/M0-a-06-fix-s4 CHECKPOINT related: layout 93/860 green; testkit running
+2026-10-08 13:34 build/M0-a-04-fix-s2 CHECKPOINT RELATED@1000 still running (worker alive; 1 red so far = hausdorff, N-8); next: verdict, landed
