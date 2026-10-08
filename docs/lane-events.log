@@ -6819,3 +6819,4 @@
 2026-10-07 21:00 build/M0-d-09 CHECKPOINT RELATED@1000 9 files 48/48 exit 0; CITY bar form re-run in progress; next: summary copy, landed records
 2026-10-07 21:03 check/M0-e-06 CHECKPOINT mutants K01-K29: K13 (strip receipt blind) and K16 (2 cm tolerance -> 2 m) SURVIVE full NEAR; run seeds 9-16: spans fail s15, waterGates fail s9/11/12; probing s15 and s9; next: K30-K43, verdict
 2026-10-07 21:05 check/M0-x-06 CHECKPOINT 1000-seed run 19/72 (EP-01/S1/self-touching 33/1000 off-outcome: unpinned refused-safe E_INVARIANT); next: finish run, probe those seeds, related run, verdict
+2026-10-07 21:25 check/M0-x-06 CHECKPOINT 1000-seed run 24/72, 6 fixtures with off-outcome seeds so far
