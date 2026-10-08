@@ -279,6 +279,16 @@ function edgeOverWater(p: Plat, w: WaterIndex, e: { a: LatticePoint; b: LatticeP
   return wetDeep(p, w, P((e.a.x + e.b.x) / 2, (e.a.y + e.b.y) / 2));
 }
 
+/** The receipts' one reading of a point, for a test that pins the tolerance: in the water deeper than WET_DEPTH_CM. */
+export function pointInWaterDeep(p: Plat, water: WaterSet, q: LatticePoint): boolean {
+  return wetDeep(p, waterIndex(p, water), q);
+}
+
+/** The receipts' one reading of an edge (the water gates', the spans'): over water by its midpoint past WET_DEPTH_CM. */
+export function edgeInWaterDeep(p: Plat, water: WaterSet, a: LatticePoint, b: LatticePoint): boolean {
+  return edgeOverWater(p, waterIndex(p, water), { a, b });
+}
+
 interface EdgeRow {
   readonly a: LatticePoint;
   readonly b: LatticePoint;

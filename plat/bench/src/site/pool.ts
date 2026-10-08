@@ -30,8 +30,15 @@ export function runSpikeTask(t: SpikeTask, fixtures: readonly SiteFixture[] = []
   return { record: runRecord(d), times: stageTimesOf(d) };
 }
 
-/** Runs the tasks and returns their results in task order. `fixtures` (a test's) run in this thread only. */
-export async function runSpikeTasks(tasks: readonly SpikeTask[], workers: number, progress?: (done: number, total: number) => void, fixtures: readonly SiteFixture[] = []): Promise<SpikeResult[]> {
+/** The worker thread's module (worker.ts, loaded through the dispatcher's tsx loader). */
+export const SPIKE_WORKER_URL = new URL('./worker.ts', import.meta.url);
+
+/**
+ * Runs the tasks and returns their results in task order, whatever order the workers finish in. `fixtures` (a test's)
+ * run in this thread only. `workerUrl` is the worker's module — worker.ts unless a test plants one that answers
+ * `{ at, task }` with `{ at, result }` in an order it chooses (C-0275 (1)).
+ */
+export async function runSpikeTasks(tasks: readonly SpikeTask[], workers: number, progress?: (done: number, total: number) => void, fixtures: readonly SiteFixture[] = [], workerUrl: URL = SPIKE_WORKER_URL): Promise<SpikeResult[]> {
   if (workers <= 1 || tasks.length <= 1 || fixtures.length > 0) {
     const out: SpikeResult[] = [];
     for (const t of tasks) {
@@ -49,7 +56,7 @@ export async function runSpikeTasks(tasks: readonly SpikeTask[], workers: number
     let failed = false;
     const all: Worker[] = [];
     for (let w = 0; w < pool; w += 1) {
-      const worker = new Worker(new URL('./worker.ts', import.meta.url));
+      const worker = new Worker(workerUrl);
       all.push(worker);
       const give = (): void => {
         if (failed) return;

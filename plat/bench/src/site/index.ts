@@ -25,16 +25,18 @@ import { foldTimes, timeSpike, type TimingBlock } from './timing.js';
 
 export { coarseRiverStrategy, composedS6Run, deriveSpike, GATE_STAGES, SPIKE_STAGES, spikeRegistry, type BatchSeen, type RunCapture, type SpikeConfig, type SpikeDerivation, type SpikeRegistryOptions } from './compose.js';
 export { fixtureNamed, RELIEF_3000, RELIEF_60, riverOn, SITE_FIXTURES, sized, TEST_SIZE, type SiteFixture, type SpikeSize } from './fixtures.js';
-export { runSpikeTask, runSpikeTasks, type SpikeResult, type SpikeTask } from './pool.js';
+export { runSpikeTask, runSpikeTasks, SPIKE_WORKER_URL, type SpikeResult, type SpikeTask } from './pool.js';
 export {
   bandReceipt,
   bridgeReceipt,
   CONTAINMENT_STEP_CM,
   corpusReceipt,
   districtReceipt,
+  edgeInWaterDeep,
   fieldsReceipt,
   hydroReceipt,
   median,
+  pointInWaterDeep,
   reliefReceipt,
   riverReceipts,
   runRecord,

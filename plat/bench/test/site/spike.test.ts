@@ -6,11 +6,14 @@
 // * "the river fixture's trace crosses the river only at water gates; every gate_end vertex lies on a shore and
 //   resolves; the strips end at the banks (C-0087)" — the spike's relief-60 fixture (the river from the west), seed 2:
 //   stage 1's trace crosses the river twice.
+// The receipt's own readings carry controls of their own (C-0275 (3)): the strip count is shown counting (the town's
+// land face read as the water, every strip vertex inside it counted as the arena reads it), and the 2 cm tolerance is
+// pinned on both sides (1 cm inside the river is not in the water; 10 cm and 50 cm inside are).
 import { dest, idOf, isHalfEdgeLive, isVertexLive, outgoing, rowKey, rowsOn, type LatticePoint, type Plat, type PlatKey } from '@plat/kernel';
 import type { Bridge, WaterSet } from '@plat/model';
 import type { S3Commit, S3Slice, S4Output, S6Output } from '@plat/layout';
 import { describe, expect, it } from 'vitest';
-import { bridgeReceipt, CONTAINMENT_STEP_CM, deriveSpike, districtReceipt, fixtureNamed, RELIEF_60, riverOn, runRecord, waterGateReceipt, WET_DEPTH_CM, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
+import { bridgeReceipt, CONTAINMENT_STEP_CM, deriveSpike, districtReceipt, edgeInWaterDeep, fixtureNamed, pointInWaterDeep, RELIEF_60, riverOn, runRecord, waterGateReceipt, WET_DEPTH_CM, type SiteFixture, type SpikeDerivation } from '../../src/site/index.js';
 
 const GROUND: PlatKey = { layer: 'ground', part: 0 } as PlatKey;
 const HEAVY = 900_000;
@@ -68,6 +71,34 @@ function riverRings(d: SpikeDerivation): { x: number; y: number }[][] {
   const ids = new Set(water.bodies.map((b) => b.id));
   const v = d.model.kernel.view(GROUND, 0);
   return v.faces().filter((f) => ids.has(v.owner(f) ?? '')).flatMap((f) => v.rings(f).map((r) => r.map((q) => ({ x: q.x as number, y: q.y as number }))));
+}
+
+/** Even–odd containment over a set of rings (strict; independent of the receipts' locator). */
+function insideRings(rings: readonly (readonly { x: number; y: number }[])[], q: { x: number; y: number }): boolean {
+  let c = false;
+  for (const ring of rings)
+    for (let i = 0, j = ring.length - 1; i < ring.length; j = i, i += 1) {
+      const a = ring[i];
+      const b = ring[j];
+      if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) c = !c;
+    }
+  return c;
+}
+
+/** The distance (cm) from a point to the nearest edge of a set of rings. */
+function ringsDist(rings: readonly (readonly { x: number; y: number }[])[], q: { x: number; y: number }): number {
+  let best = Infinity;
+  for (const r of rings)
+    for (let i = 0; i < r.length; i += 1) {
+      const a = r[i];
+      const b = r[(i + 1) % r.length];
+      const dx = b.x - a.x;
+      const dy = b.y - a.y;
+      const l = dx * dx + dy * dy;
+      const t = Math.max(0, Math.min(1, l === 0 ? 0 : ((q.x - a.x) * dx + (q.y - a.y) * dy) / l));
+      best = Math.min(best, Math.hypot(q.x - a.x - t * dx, q.y - a.y - t * dy));
+    }
+  return best;
 }
 
 describe('a route through a crossing site lays the span and the Bridge becomes built; a site no route uses stays a site (C-0076; §4.2 S1 (5))', () => {
@@ -263,6 +294,90 @@ describe('the river fixture\'s trace crosses the river only at water gates; ever
     const other = { bodies: water.bodies.map((b) => ({ ...b, id: `${b.id}:other` })), bridges: water.bridges };
     const off = waterGateReceipt(d.model.kernel, p, other, commit, slice);
     expect([off.endsResolved, off.endsOnShore]).toEqual([2 * commit.waterGates.length, 0]);
+  });
+});
+
+describe('the water-gate receipt\'s own readings: the strip count counts, and the 2 cm tolerance holds on both sides (C-0087; C-0271 (6))', () => {
+  it('the strip receipt is not blind: with the town\'s land face read as the water, it counts every strip vertex inside that face past the tolerance, as the arena reads them', { timeout: HEAVY }, () => {
+    const d = derivation(fixtureNamed('relief-60') as SiteFixture, 2);
+    const p = ground(d);
+    const k = d.model.kernel;
+    const commit = d.model.data.get('s3.commit') as S3Commit;
+    const slice = d.model.data.get('s3.slice') as S3Slice;
+    const water = d.model.data.get('water') as WaterSet;
+    const v1 = k.view(GROUND, 1);
+    const owners = new Set([commit.strips.owners.inner, commit.strips.owners.outer]);
+    const strips = v1.faces().filter((f) => owners.has(v1.owner(f) ?? ''));
+    expect(strips.length).toBeGreaterThanOrEqual(2);
+    // the S1 land face under the strips (the L0 owner at a strip vertex)
+    let land: string | null = null;
+    for (const f of strips) {
+      for (const q of v1.rings(f)[0]) {
+        const loc = k.geom.pointLocate(GROUND, 0, q);
+        if (loc.on !== 'face') continue;
+        const h = p.faces[loc.level].owner[loc.face];
+        const id = h >= 0 ? idOf(p, h) : null;
+        if (id !== null && id.startsWith('land:')) land = id;
+        if (land !== null) break;
+      }
+      if (land !== null) break;
+    }
+    expect(land).not.toBeNull();
+    const v0 = k.view(GROUND, 0);
+    const landRings = v0.faces().filter((f) => v0.owner(f) === land).flatMap((f) => v0.rings(f).map((r) => r.map((q) => ({ x: q.x as number, y: q.y as number }))));
+    let inside = 0;
+    for (const f of strips) for (const ring of v1.rings(f)) for (const q of ring) if (insideRings(landRings, q) && ringsDist(landRings, q) > WET_DEPTH_CM) inside += 1;
+    expect(inside).toBeGreaterThan(0);
+    const asWater = { ...water, bodies: [{ ...water.bodies[0], id: land as string }] } as WaterSet;
+    const r = waterGateReceipt(k, p, asWater, commit, slice);
+    expect(r.stripVerticesInWater).toBe(inside);
+    // with the river as the water the same count is 0 (the strips end at the banks)
+    expect(waterGateReceipt(k, p, water, commit, slice).stripVerticesInWater).toBe(0);
+  });
+
+  it('the tolerance: a point or an edge\'s midpoint 1 cm inside the river is not over the water; 10 cm and 50 cm inside are; 10 cm outside is not', { timeout: HEAVY }, () => {
+    const d = derivation(fixtureNamed('relief-60') as SiteFixture, 2);
+    const p = ground(d);
+    const water = d.model.data.get('water') as WaterSet;
+    const rings = riverRings(d);
+    const R = (x: number, y: number): LatticePoint => ({ x: Math.round(x), y: Math.round(y) }) as LatticePoint;
+    // the longest shore edge (≥ 20 m) whose one side is the river and the other land, 10 cm off its midpoint
+    let best: { m: { x: number; y: number }; n: { x: number; y: number }; t: { x: number; y: number }; len: number } | null = null;
+    for (const r of rings)
+      for (let i = 0; i < r.length; i += 1) {
+        const a = r[i];
+        const b = r[(i + 1) % r.length];
+        const len = Math.hypot(b.x - a.x, b.y - a.y);
+        if (len < 2000 || (best !== null && len <= best.len)) continue;
+        const t = { x: (b.x - a.x) / len, y: (b.y - a.y) / len };
+        const m = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+        for (const s of [1, -1]) {
+          const n = { x: -t.y * s, y: t.x * s };
+          if (insideRings(rings, R(m.x + 10 * n.x, m.y + 10 * n.y)) && !insideRings(rings, R(m.x - 10 * n.x, m.y - 10 * n.y))) best = { m, n, t, len };
+        }
+      }
+    expect(best).not.toBeNull();
+    const { m, n, t } = best as NonNullable<typeof best>;
+    const at = (depth: number): LatticePoint => R(m.x + depth * n.x, m.y + depth * n.y);
+    const half = R(300 * t.x, 300 * t.y);
+    const edge = (q: LatticePoint): [LatticePoint, LatticePoint] => [R(q.x - half.x, q.y - half.y), R(q.x + half.x, q.y + half.y)];
+    // the depths as read independently: 1 cm in (within the tolerance, off the shore), 10 and 50 cm in, 10 cm out
+    const q1 = at(1);
+    const q10 = at(10);
+    const q50 = at(50);
+    const out10 = at(-10);
+    expect(insideRings(rings, q1)).toBe(true);
+    expect(ringsDist(rings, q1)).toBeGreaterThan(0);
+    expect(ringsDist(rings, q1)).toBeLessThanOrEqual(WET_DEPTH_CM);
+    for (const q of [q10, q50]) {
+      expect(insideRings(rings, q)).toBe(true);
+      expect(ringsDist(rings, q)).toBeGreaterThan(5);
+      expect(ringsDist(rings, q)).toBeLessThan(60);
+    }
+    expect(insideRings(rings, out10)).toBe(false);
+    // the receipts' reading
+    expect([q1, q10, q50, out10].map((q) => pointInWaterDeep(p, water, q))).toEqual([false, true, true, false]);
+    expect([q1, q10, q50, out10].map((q) => edgeInWaterDeep(p, water, ...edge(q)))).toEqual([false, true, true, false]);
   });
 });
 
