@@ -7010,3 +7010,4 @@
 2026-10-08 08:33 check/M0-a-04-close-s1 CHECKPOINT RELATED still running (worker alive); next: RELATED verdict, records
 2026-10-08 08:33 build/M0-x-06-fix1 CHECKPOINT 1000-seed run in the mirror: 28/72 fixtures done; next: finish run, landed record
 2026-10-08 08:35 check/M0-c-02-close-s1 CHECKPOINT mirrors built (close-s1/after = tree copy, close-s1/before = same with pre-s1 enceinte src, no link back); CITY probes relief-60 seeds 9, 1 before/after running; next: EP-20 probe, gates, mutants
+2026-10-08 08:43 check/M0-c-02-close-s1 CHECKPOINT gates in tree: install 0, lint 0 (1126 files, probe-red ok), build 0, landed:verify ok, NEAR 9 files 88/88; CITY relief-60 seed 9 ungated wet wall 2 -> 0 (4 wall_gate), seed 1 3 -> 0 (S5 E_SELF_INTERSECT both), EP-20 496296019 inset -125 -> 0, 300-seed wall x frame identical before/after; cost stage-2 replay +~150 ms; 26 mutants running; next: test-size sweep 1-30, RELATED@1000
