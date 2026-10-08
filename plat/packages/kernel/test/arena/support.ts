@@ -23,6 +23,7 @@ import {
   type PlatCapacity,
   type VertexId,
 } from '../../src/arena/index.js';
+import './tiny.js'; // PLAT_TINY_TABLES=1: every table of every arena built here starts at capacity 1 (N-53 (4))
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 export const FRAME: Frame = { widthCm: 2_000_00 as Cm, heightCm: 2_000_00 as Cm, aspect: 1, marginShare: 0.3 };
@@ -229,7 +230,10 @@ export function materialiseFaces(p: Plat): FaceId[][] {
   return ids.map((m) => m.filter((x) => x !== undefined));
 }
 
-/** Builds a hand-built arena: allocation in the given orders, rotations by angle, faces materialised. */
+/**
+ * Builds a hand-built arena: allocation in the given orders, rotations by angle, faces materialised. Under
+ * PLAT_TINY_TABLES=1 every table starts at capacity 1 whatever `capacity` asks (./tiny.ts; N-53 (4)).
+ */
 export function buildArena(spec: ArenaSpec, order: { vertices?: readonly number[]; edges?: readonly number[] } = {}, capacity: Partial<PlatCapacity> = {}): Built {
   const plat = createPlat(GROUND, FRAME, capacity);
   const v: VertexId[] = new Array<number>(spec.vertices.length);
