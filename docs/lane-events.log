@@ -7103,3 +7103,6 @@
 2026-10-08 12:48 check/M0-b-03-close-s2 CHECKPOINT N-52 (4) reproduced on pre-fix (own probe: 18/450 runs keep a deep slit lane bridging the court block's face, seed on the lane), 0/450 on fix (18 refused 'slit'); next mutants
 2026-10-08 12:49 build/M0-c-04-fix-s1 CHECKPOINT RELATED@1000 still running (W=1; 1 red so far: hausdorff, known); next: verdict, landed
 2026-10-08 12:51 build/M0-a-02-fix-s1 CHECKPOINT RELATED@1000 still running; next: verdict, landed
+2026-10-08 12:56 check/M0-c-01-close-s1 CHECKPOINT RELATED@1000 still running; sweep 517/1000; next: same
+2026-10-08 12:59 check/M0-b-03-close-s2 CHECKPOINT mutants 13: 11 killed (all by holes.test.ts N-52 pins), 2 equivalent (K10 t.ok-only, K12 touched on refusal); gates install 0, lint 0 probe-red ok, build 0, landed:verify ok; next NEAR then RELATED at 1000 in real tree
+2026-10-08 13:03 build/M0-a-06-fix-s4 CHECKPOINT related per project at 1000: kernel 61/806, model 18/165, tables 11/240, site 18/151 green; layout, testkit, bench, tools running
