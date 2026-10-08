@@ -16,7 +16,7 @@ import {
   type Plat,
   type VertexId,
 } from '../../../src/arena/index.js';
-import { setTinyTables } from '../../../src/arena/debug.js';
+import { setTinyTables, tinyTables } from '../../../src/arena/debug.js';
 import { attachIndex, beginIndexBatch, checkIndexBatch, endIndexBatch, query, routeRun } from '../../../src/index/index.js';
 import { attractVertex } from '../../../src/insert/attractVertex.js';
 import { INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
@@ -484,6 +484,10 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     }
     expect(doubled).toBeGreaterThan(0); // the runs reach a second doubling
   }));
+
+  it('the pins above put the tiny-tables mode back to the process’s setting (PLAT_TINY_TABLES), pass or fail', () => {
+    expect(tinyTables()).toBe(TINY_TABLES);
+  });
 });
 
 // ---- C-0279 (4): a split keeps clearance at its own ends (C-0284) -------------------------------------------------------
