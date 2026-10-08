@@ -1,0 +1,1534 @@
+{
+  "item": "M0-e-06",
+  "size": "city",
+  "seeds": {
+    "first": 1,
+    "count": 8
+  },
+  "fixtures": [
+    "relief-60",
+    "relief-3000"
+  ],
+  "configs": [
+    "default",
+    "coarse"
+  ],
+  "pass": false,
+  "verdicts": {
+    "d8": "pass",
+    "bedMonotone": "pass",
+    "carve": "pass",
+    "noClamp": "pass",
+    "reliefAsNamed": "pass",
+    "waterGates": "fail",
+    "spans": "pass",
+    "containment": "pass",
+    "countLaw": "fail",
+    "gateWards": "fail",
+    "fieldBands": "pass",
+    "weightZero": "pass",
+    "corpus": "fail"
+  },
+  "groups": [
+    {
+      "fixture": "relief-60",
+      "config": "default",
+      "runs": 8,
+      "stages": {
+        "S1": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S3": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S5": {
+          "ok": 7,
+          "refused": {
+            "E_SELF_INTERSECT": 1
+          },
+          "notReached": 0
+        },
+        "S6": {
+          "ok": 7,
+          "refused": {},
+          "notReached": 1
+        }
+      },
+      "bars": {
+        "d8": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "cells": 819200,
+            "defined": 819200,
+            "landCells": 818057,
+            "landDefined": 818057,
+            "landShare": 1,
+            "share": 1
+          }
+        },
+        "bedMonotone": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "rivers",
+          "failing": [],
+          "numbers": {
+            "rivers": 8,
+            "fits": 8,
+            "frameOutfall": 8,
+            "reachesCore": 2,
+            "minBedCells": 751
+          }
+        },
+        "carve": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "deepestCutCm": 400,
+            "carveMaxCm": 400,
+            "raisedCells": 0
+          }
+        },
+        "noClamp": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "clampedCells": 0,
+            "limitCm": 1000000
+          }
+        },
+        "reliefAsNamed": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "floorCm": 2000,
+            "minReliefCm": 4159,
+            "maxReliefCm": 4593
+          }
+        },
+        "waterGates": {
+          "verdict": "fail",
+          "observed": 1,
+          "of": "derivations whose trace meets the river",
+          "failing": [
+            1
+          ],
+          "numbers": {
+            "traced": 8,
+            "gates": 2,
+            "wallOverWater": 5,
+            "wallOverWaterGated": 2,
+            "endsOnShore": 4,
+            "endsAtRecordedBank": 4,
+            "stripVerticesInWater": 0,
+            "nUnchanged": 8
+          }
+        },
+        "spans": {
+          "verdict": "pass",
+          "observed": 1,
+          "of": "derivations with a built bridge",
+          "failing": [],
+          "numbers": {
+            "s4Runs": 8,
+            "sites": 248,
+            "built": 3,
+            "builtWithSpan": 3,
+            "sitesClear": 245,
+            "wayOverWaterOffSpan": 0
+          }
+        },
+        "containment": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "samples": 7934,
+            "samplesContained": 7934,
+            "samplesInDistricts": 7284,
+            "unownedByStage": 0
+          }
+        },
+        "countLaw": {
+          "verdict": "fail",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "numbers": {
+            "within": 0,
+            "minOffBy": 31,
+            "maxOffBy": 37,
+            "medianNd": 18,
+            "medianDistricts": 52,
+            "leftovers": 258,
+            "belowFloor": 266,
+            "merges": 19
+          }
+        },
+        "gateWards": {
+          "verdict": "fail",
+          "observed": 7,
+          "of": "derivations with a gate or bridgehead ward",
+          "failing": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "numbers": {
+            "below": 0,
+            "share": 0,
+            "shareMin": 0.9,
+            "medianWardHa": 10.758424855,
+            "medianTownHa": 2.3001544125
+          }
+        },
+        "fieldBands": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "maxErrorCells": 0.9049999999999727,
+            "minLandCells": 2545,
+            "cellCm": 3200
+          }
+        },
+        "weightZero": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "identical": 7,
+            "recomputedEqual": 7
+          }
+        },
+        "corpus": {
+          "verdict": "fail",
+          "observed": 533,
+          "of": "district and water faces",
+          "failing": [],
+          "numbers": {
+            "districtRoof.faces": 525,
+            "districtRoof.downgrades": 117,
+            "districtRoof.workLimitHits": 0,
+            "districtRoof.failures": 0,
+            "districtSpine.faces": 525,
+            "districtSpine.downgrades": 117,
+            "districtSpine.workLimitHits": 0,
+            "districtSpine.failures": 0,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 7,
+            "waterRoof.workLimitHits": 0,
+            "waterRoof.failures": 0,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 7,
+            "waterSpine.workLimitHits": 0,
+            "waterSpine.failures": 0,
+            "downgradesMax": 0.005,
+            "workLimitHitsMax": 0.001
+          }
+        }
+      },
+      "work": {
+        "hydro.cells": {
+          "stage": "S1",
+          "unit": "frameCells",
+          "units": {
+            "n": 8,
+            "p50": 102400,
+            "p99": 102400,
+            "p999": 102400,
+            "max": 102400
+          },
+          "unitsTotal": 819200,
+          "perUnit": {
+            "n": 8,
+            "p50": 1,
+            "p99": 1,
+            "p999": 1,
+            "max": 1
+          }
+        },
+        "route.nodes": {
+          "stage": "S4",
+          "unit": "latticeNodes",
+          "units": {
+            "n": 2,
+            "p50": 46200.5,
+            "p99": 46208.83,
+            "p999": 46208.983,
+            "max": 46209
+          },
+          "unitsTotal": 92401,
+          "perUnit": {
+            "n": 2,
+            "p50": 0.26484557293876215,
+            "p99": 0.495190832484061,
+            "p999": 0.4994216637818318,
+            "max": 0.49989175614825077
+          }
+        },
+        "grower.turns": {
+          "stage": "S6",
+          "unit": "faces",
+          "units": {
+            "n": 7,
+            "p50": 106,
+            "p99": 120.39999999999999,
+            "p999": 120.94,
+            "max": 121
+          },
+          "unitsTotal": 749,
+          "perUnit": {
+            "n": 7,
+            "p50": 1.2975206611570247,
+            "p99": 1.854145036125234,
+            "p999": 1.8695729194541078,
+            "max": 1.8712871287128714
+          }
+        },
+        "field.cells": {
+          "stage": "S6",
+          "unit": "frameCells",
+          "units": {
+            "n": 7,
+            "p50": 62500,
+            "p99": 62500,
+            "p999": 62500,
+            "max": 62500
+          },
+          "unitsTotal": 437500,
+          "perUnit": {
+            "n": 7,
+            "p50": 3,
+            "p99": 3,
+            "p999": 3,
+            "max": 3
+          }
+        }
+      },
+      "batches": {
+        "S1": {
+          "committed": 16,
+          "refused": 0,
+          "maxShare": 0.04381363485301671
+        },
+        "S3": {
+          "committed": 24,
+          "refused": 0,
+          "maxShare": 0.0007785
+        },
+        "S4": {
+          "committed": 8,
+          "refused": 0,
+          "maxShare": 0.04241174103035879
+        },
+        "S5": {
+          "committed": 68,
+          "refused": 0,
+          "maxShare": 0.04222294332158971
+        },
+        "S6": {
+          "committed": 7,
+          "refused": 0,
+          "maxShare": 0.013454424902289224
+        }
+      }
+    },
+    {
+      "fixture": "relief-60",
+      "config": "coarse",
+      "runs": 8,
+      "stages": {
+        "S1": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S3": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S5": {
+          "ok": 7,
+          "refused": {
+            "E_SELF_INTERSECT": 1
+          },
+          "notReached": 0
+        },
+        "S6": {
+          "ok": 7,
+          "refused": {},
+          "notReached": 1
+        }
+      },
+      "bars": {
+        "d8": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "cells": 500000,
+            "defined": 500000,
+            "landCells": 499255,
+            "landDefined": 499255,
+            "landShare": 1,
+            "share": 1
+          }
+        },
+        "bedMonotone": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "rivers",
+          "failing": [],
+          "numbers": {
+            "rivers": 8,
+            "fits": 8,
+            "frameOutfall": 8,
+            "reachesCore": 2,
+            "minBedCells": 929
+          }
+        },
+        "carve": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "deepestCutCm": 400,
+            "carveMaxCm": 400,
+            "raisedCells": 0
+          }
+        },
+        "noClamp": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "clampedCells": 0,
+            "limitCm": 1000000
+          }
+        },
+        "reliefAsNamed": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "floorCm": 2000,
+            "minReliefCm": 4159,
+            "maxReliefCm": 4593
+          }
+        },
+        "waterGates": {
+          "verdict": "pass",
+          "observed": 1,
+          "of": "derivations whose trace meets the river",
+          "failing": [],
+          "numbers": {
+            "traced": 8,
+            "gates": 2,
+            "wallOverWater": 2,
+            "wallOverWaterGated": 2,
+            "endsOnShore": 4,
+            "endsAtRecordedBank": 4,
+            "stripVerticesInWater": 0,
+            "nUnchanged": 8
+          }
+        },
+        "spans": {
+          "verdict": "pass",
+          "observed": 1,
+          "of": "derivations with a built bridge",
+          "failing": [],
+          "numbers": {
+            "s4Runs": 8,
+            "sites": 261,
+            "built": 3,
+            "builtWithSpan": 3,
+            "sitesClear": 258,
+            "wayOverWaterOffSpan": 0
+          }
+        },
+        "containment": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "samples": 7934,
+            "samplesContained": 7934,
+            "samplesInDistricts": 7281,
+            "unownedByStage": 0
+          }
+        },
+        "countLaw": {
+          "verdict": "fail",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "numbers": {
+            "within": 0,
+            "minOffBy": 27,
+            "maxOffBy": 37,
+            "medianNd": 18,
+            "medianDistricts": 52,
+            "leftovers": 248,
+            "belowFloor": 256,
+            "merges": 18
+          }
+        },
+        "gateWards": {
+          "verdict": "fail",
+          "observed": 7,
+          "of": "derivations with a gate or bridgehead ward",
+          "failing": [
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8
+          ],
+          "numbers": {
+            "below": 0,
+            "share": 0,
+            "shareMin": 0.9,
+            "medianWardHa": 11.15802488,
+            "medianTownHa": 2.3001544125
+          }
+        },
+        "fieldBands": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "maxErrorCells": 0.7549999999999955,
+            "minLandCells": 1121,
+            "cellCm": 4800
+          }
+        },
+        "weightZero": {
+          "verdict": "pass",
+          "observed": 7,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "identical": 7,
+            "recomputedEqual": 7
+          }
+        },
+        "corpus": {
+          "verdict": "fail",
+          "observed": 525,
+          "of": "district and water faces",
+          "failing": [],
+          "numbers": {
+            "districtRoof.faces": 517,
+            "districtRoof.downgrades": 121,
+            "districtRoof.workLimitHits": 0,
+            "districtRoof.failures": 0,
+            "districtSpine.faces": 517,
+            "districtSpine.downgrades": 121,
+            "districtSpine.workLimitHits": 0,
+            "districtSpine.failures": 0,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 2,
+            "waterRoof.workLimitHits": 0,
+            "waterRoof.failures": 0,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 2,
+            "waterSpine.workLimitHits": 0,
+            "waterSpine.failures": 0,
+            "downgradesMax": 0.005,
+            "workLimitHitsMax": 0.001
+          }
+        }
+      },
+      "work": {
+        "hydro.cells": {
+          "stage": "S1",
+          "unit": "frameCells",
+          "units": {
+            "n": 8,
+            "p50": 62500,
+            "p99": 62500,
+            "p999": 62500,
+            "max": 62500
+          },
+          "unitsTotal": 500000,
+          "perUnit": {
+            "n": 8,
+            "p50": 1,
+            "p99": 1,
+            "p999": 1,
+            "max": 1
+          }
+        },
+        "route.nodes": {
+          "stage": "S4",
+          "unit": "latticeNodes",
+          "units": {
+            "n": 3,
+            "p50": 46209,
+            "p99": 46209,
+            "p999": 46209,
+            "max": 46209
+          },
+          "unitsTotal": 138610,
+          "perUnit": {
+            "n": 3,
+            "p50": 0.09517626436408493,
+            "p99": 0.24758243072545277,
+            "p999": 0.25038172765862077,
+            "max": 0.250692760651195
+          }
+        },
+        "grower.turns": {
+          "stage": "S6",
+          "unit": "faces",
+          "units": {
+            "n": 7,
+            "p50": 110,
+            "p99": 116.64,
+            "p999": 116.964,
+            "max": 117
+          },
+          "unitsTotal": 753,
+          "perUnit": {
+            "n": 7,
+            "p50": 1.2136752136752136,
+            "p99": 1.854145036125234,
+            "p999": 1.8695729194541078,
+            "max": 1.8712871287128714
+          }
+        },
+        "field.cells": {
+          "stage": "S6",
+          "unit": "frameCells",
+          "units": {
+            "n": 7,
+            "p50": 27889,
+            "p99": 27889,
+            "p999": 27889,
+            "max": 27889
+          },
+          "unitsTotal": 195223,
+          "perUnit": {
+            "n": 7,
+            "p50": 3,
+            "p99": 3,
+            "p999": 3,
+            "max": 3
+          }
+        }
+      },
+      "batches": {
+        "S1": {
+          "committed": 16,
+          "refused": 0,
+          "maxShare": 0.0446899324423557
+        },
+        "S3": {
+          "committed": 24,
+          "refused": 0,
+          "maxShare": 0.0007785
+        },
+        "S4": {
+          "committed": 8,
+          "refused": 0,
+          "maxShare": 0.04241174103035879
+        },
+        "S5": {
+          "committed": 68,
+          "refused": 0,
+          "maxShare": 0.04233907051664479
+        },
+        "S6": {
+          "committed": 7,
+          "refused": 0,
+          "maxShare": 0.013516773842170137
+        }
+      }
+    },
+    {
+      "fixture": "relief-3000",
+      "config": "default",
+      "runs": 8,
+      "stages": {
+        "S1": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S3": {
+          "ok": 6,
+          "refused": {
+            "E_INVARIANT": 1,
+            "E_SELF_INTERSECT": 1
+          },
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 5,
+          "refused": {
+            "E_INVARIANT": 1
+          },
+          "notReached": 2
+        },
+        "S5": {
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
+        },
+        "S6": {
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
+        }
+      },
+      "bars": {
+        "d8": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "cells": 819200,
+            "defined": 819200,
+            "landCells": 819075,
+            "landDefined": 819075,
+            "landShare": 1,
+            "share": 1
+          }
+        },
+        "bedMonotone": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "rivers",
+          "failing": [],
+          "numbers": {
+            "rivers": 8,
+            "fits": 6,
+            "frameOutfall": 6,
+            "reachesCore": 0,
+            "minBedCells": 119
+          }
+        },
+        "carve": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "deepestCutCm": 400,
+            "carveMaxCm": 400,
+            "raisedCells": 0
+          }
+        },
+        "noClamp": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "clampedCells": 0,
+            "limitCm": 1000000
+          }
+        },
+        "reliefAsNamed": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "floorCm": 290000,
+            "minReliefCm": 304736,
+            "maxReliefCm": 312378
+          }
+        },
+        "waterGates": {
+          "verdict": "unobserved",
+          "observed": 0,
+          "of": "derivations whose trace meets the river",
+          "failing": [],
+          "numbers": {
+            "traced": 6,
+            "gates": 0,
+            "wallOverWater": 0,
+            "wallOverWaterGated": 0,
+            "endsOnShore": 0,
+            "endsAtRecordedBank": 0,
+            "stripVerticesInWater": 0,
+            "nUnchanged": 6
+          }
+        },
+        "spans": {
+          "verdict": "unobserved",
+          "observed": 0,
+          "of": "derivations with a built bridge",
+          "failing": [],
+          "numbers": {
+            "s4Runs": 5,
+            "sites": 67,
+            "built": 0,
+            "builtWithSpan": 0,
+            "sitesClear": 67,
+            "wayOverWaterOffSpan": 0
+          }
+        },
+        "containment": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "samples": 5639,
+            "samplesContained": 5639,
+            "samplesInDistricts": 5314,
+            "unownedByStage": 0
+          }
+        },
+        "countLaw": {
+          "verdict": "fail",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "numbers": {
+            "within": 0,
+            "minOffBy": 68,
+            "maxOffBy": 94,
+            "medianNd": 18,
+            "medianDistricts": 108,
+            "leftovers": 443,
+            "belowFloor": 435,
+            "merges": 19
+          }
+        },
+        "gateWards": {
+          "verdict": "fail",
+          "observed": 5,
+          "of": "derivations with a gate or bridgehead ward",
+          "failing": [
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "numbers": {
+            "below": 0,
+            "share": 0,
+            "shareMin": 0.9,
+            "medianWardHa": 0.293996285,
+            "medianTownHa": 0.032165875
+          }
+        },
+        "fieldBands": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "maxErrorCells": 0.708000000000002,
+            "minLandCells": 2558,
+            "cellCm": 3200
+          }
+        },
+        "weightZero": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "identical": 5,
+            "recomputedEqual": 5
+          }
+        },
+        "corpus": {
+          "verdict": "fail",
+          "observed": 599,
+          "of": "district and water faces",
+          "failing": [],
+          "numbers": {
+            "districtRoof.faces": 591,
+            "districtRoof.downgrades": 75,
+            "districtRoof.workLimitHits": 0,
+            "districtRoof.failures": 0,
+            "districtSpine.faces": 591,
+            "districtSpine.downgrades": 75,
+            "districtSpine.workLimitHits": 0,
+            "districtSpine.failures": 0,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 1,
+            "waterRoof.workLimitHits": 0,
+            "waterRoof.failures": 0,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 1,
+            "waterSpine.workLimitHits": 0,
+            "waterSpine.failures": 0,
+            "downgradesMax": 0.005,
+            "workLimitHitsMax": 0.001
+          }
+        }
+      },
+      "work": {
+        "hydro.cells": {
+          "stage": "S1",
+          "unit": "frameCells",
+          "units": {
+            "n": 8,
+            "p50": 102400,
+            "p99": 102400,
+            "p999": 102400,
+            "max": 102400
+          },
+          "unitsTotal": 819200,
+          "perUnit": {
+            "n": 8,
+            "p50": 1,
+            "p99": 1,
+            "p999": 1,
+            "max": 1
+          }
+        },
+        "grower.turns": {
+          "stage": "S6",
+          "unit": "faces",
+          "units": {
+            "n": 5,
+            "p50": 150,
+            "p99": 171.48,
+            "p999": 171.948,
+            "max": 172
+          },
+          "unitsTotal": 743,
+          "perUnit": {
+            "n": 5,
+            "p50": 0.936,
+            "p99": 1.1721473434051943,
+            "p999": 1.1794240366661009,
+            "max": 1.180232558139535
+          }
+        },
+        "field.cells": {
+          "stage": "S6",
+          "unit": "frameCells",
+          "units": {
+            "n": 5,
+            "p50": 62500,
+            "p99": 62500,
+            "p999": 62500,
+            "max": 62500
+          },
+          "unitsTotal": 312500,
+          "perUnit": {
+            "n": 5,
+            "p50": 3,
+            "p99": 3,
+            "p999": 3,
+            "max": 3
+          }
+        }
+      },
+      "batches": {
+        "S1": {
+          "committed": 16,
+          "refused": 0,
+          "maxShare": 0.043732281232281234
+        },
+        "S3": {
+          "committed": 21,
+          "refused": 1,
+          "maxShare": 0.0006547
+        },
+        "S4": {
+          "committed": 5,
+          "refused": 2,
+          "maxShare": 0.0441233903314334
+        },
+        "S5": {
+          "committed": 45,
+          "refused": 0,
+          "maxShare": 0.042629167113302606
+        },
+        "S6": {
+          "committed": 5,
+          "refused": 0,
+          "maxShare": 0.012955132445116382
+        }
+      }
+    },
+    {
+      "fixture": "relief-3000",
+      "config": "coarse",
+      "runs": 8,
+      "stages": {
+        "S1": {
+          "ok": 8,
+          "refused": {},
+          "notReached": 0
+        },
+        "S3": {
+          "ok": 6,
+          "refused": {
+            "E_INVARIANT": 1,
+            "E_SELF_INTERSECT": 1
+          },
+          "notReached": 0
+        },
+        "S4": {
+          "ok": 5,
+          "refused": {
+            "E_INVARIANT": 1
+          },
+          "notReached": 2
+        },
+        "S5": {
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
+        },
+        "S6": {
+          "ok": 5,
+          "refused": {},
+          "notReached": 3
+        }
+      },
+      "bars": {
+        "d8": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "cells": 500000,
+            "defined": 500000,
+            "landCells": 499894,
+            "landDefined": 499894,
+            "landShare": 1,
+            "share": 1
+          }
+        },
+        "bedMonotone": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "rivers",
+          "failing": [],
+          "numbers": {
+            "rivers": 8,
+            "fits": 7,
+            "frameOutfall": 7,
+            "reachesCore": 0,
+            "minBedCells": 3
+          }
+        },
+        "carve": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "deepestCutCm": 400,
+            "carveMaxCm": 400,
+            "raisedCells": 0
+          }
+        },
+        "noClamp": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "clampedCells": 0,
+            "limitCm": 1000000
+          }
+        },
+        "reliefAsNamed": {
+          "verdict": "pass",
+          "observed": 8,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "floorCm": 290000,
+            "minReliefCm": 304736,
+            "maxReliefCm": 312378
+          }
+        },
+        "waterGates": {
+          "verdict": "unobserved",
+          "observed": 0,
+          "of": "derivations whose trace meets the river",
+          "failing": [],
+          "numbers": {
+            "traced": 6,
+            "gates": 0,
+            "wallOverWater": 0,
+            "wallOverWaterGated": 0,
+            "endsOnShore": 0,
+            "endsAtRecordedBank": 0,
+            "stripVerticesInWater": 0,
+            "nUnchanged": 6
+          }
+        },
+        "spans": {
+          "verdict": "unobserved",
+          "observed": 0,
+          "of": "derivations with a built bridge",
+          "failing": [],
+          "numbers": {
+            "s4Runs": 5,
+            "sites": 70,
+            "built": 0,
+            "builtWithSpan": 0,
+            "sitesClear": 70,
+            "wayOverWaterOffSpan": 0
+          }
+        },
+        "containment": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "samples": 5639,
+            "samplesContained": 5639,
+            "samplesInDistricts": 5314,
+            "unownedByStage": 0
+          }
+        },
+        "countLaw": {
+          "verdict": "fail",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "numbers": {
+            "within": 0,
+            "minOffBy": 68,
+            "maxOffBy": 94,
+            "medianNd": 18,
+            "medianDistricts": 108,
+            "leftovers": 443,
+            "belowFloor": 435,
+            "merges": 19
+          }
+        },
+        "gateWards": {
+          "verdict": "fail",
+          "observed": 5,
+          "of": "derivations with a gate or bridgehead ward",
+          "failing": [
+            2,
+            3,
+            5,
+            6,
+            7
+          ],
+          "numbers": {
+            "below": 0,
+            "share": 0,
+            "shareMin": 0.9,
+            "medianWardHa": 0.293996285,
+            "medianTownHa": 0.032165875
+          }
+        },
+        "fieldBands": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "maxErrorCells": 0.8050000000000068,
+            "minLandCells": 1140,
+            "cellCm": 4800
+          }
+        },
+        "weightZero": {
+          "verdict": "pass",
+          "observed": 5,
+          "of": "derivations",
+          "failing": [],
+          "numbers": {
+            "identical": 5,
+            "recomputedEqual": 5
+          }
+        },
+        "corpus": {
+          "verdict": "fail",
+          "observed": 599,
+          "of": "district and water faces",
+          "failing": [],
+          "numbers": {
+            "districtRoof.faces": 591,
+            "districtRoof.downgrades": 75,
+            "districtRoof.workLimitHits": 0,
+            "districtRoof.failures": 0,
+            "districtSpine.faces": 591,
+            "districtSpine.downgrades": 75,
+            "districtSpine.workLimitHits": 0,
+            "districtSpine.failures": 0,
+            "waterRoof.faces": 8,
+            "waterRoof.downgrades": 0,
+            "waterRoof.workLimitHits": 0,
+            "waterRoof.failures": 0,
+            "waterSpine.faces": 8,
+            "waterSpine.downgrades": 0,
+            "waterSpine.workLimitHits": 0,
+            "waterSpine.failures": 0,
+            "downgradesMax": 0.005,
+            "workLimitHitsMax": 0.001
+          }
+        }
+      },
+      "work": {
+        "hydro.cells": {
+          "stage": "S1",
+          "unit": "frameCells",
+          "units": {
+            "n": 8,
+            "p50": 62500,
+            "p99": 62500,
+            "p999": 62500,
+            "max": 62500
+          },
+          "unitsTotal": 500000,
+          "perUnit": {
+            "n": 8,
+            "p50": 1,
+            "p99": 1,
+            "p999": 1,
+            "max": 1
+          }
+        },
+        "grower.turns": {
+          "stage": "S6",
+          "unit": "faces",
+          "units": {
+            "n": 5,
+            "p50": 155,
+            "p99": 167.64,
+            "p999": 167.964,
+            "max": 168
+          },
+          "unitsTotal": 744,
+          "perUnit": {
+            "n": 5,
+            "p50": 0.936,
+            "p99": 1.1991240875912408,
+            "p999": 1.207412408759124,
+            "max": 1.2083333333333333
+          }
+        },
+        "field.cells": {
+          "stage": "S6",
+          "unit": "frameCells",
+          "units": {
+            "n": 5,
+            "p50": 27889,
+            "p99": 27889,
+            "p999": 27889,
+            "max": 27889
+          },
+          "unitsTotal": 139445,
+          "perUnit": {
+            "n": 5,
+            "p50": 3,
+            "p99": 3,
+            "p999": 3,
+            "max": 3
+          }
+        }
+      },
+      "batches": {
+        "S1": {
+          "committed": 16,
+          "refused": 0,
+          "maxShare": 0.044103688977907986
+        },
+        "S3": {
+          "committed": 21,
+          "refused": 1,
+          "maxShare": 0.0006547
+        },
+        "S4": {
+          "committed": 5,
+          "refused": 2,
+          "maxShare": 0.0441233903314334
+        },
+        "S5": {
+          "committed": 45,
+          "refused": 0,
+          "maxShare": 0.042629167113302606
+        },
+        "S6": {
+          "committed": 5,
+          "refused": 0,
+          "maxShare": 0.013964631236726881
+        }
+      }
+    }
+  ],
+  "timing": [
+    {
+      "fixture": "relief-60",
+      "config": "default",
+      "mode": "informative",
+      "runs": 8,
+      "stageP50": {
+        "S1": 7369.6446209999995,
+        "S3": 38496.2618415,
+        "S4": 976.4420435,
+        "S5": 53144.157964,
+        "S6": 1371.445679
+      },
+      "gateP50": 12910.854967,
+      "gateRuns": 8,
+      "r12_4": [
+        {
+          "stage": "S1",
+          "row": "§12.4 S1 site",
+          "figureMs": 25,
+          "p50": 7369.6446209999995,
+          "exceeds": true
+        },
+        {
+          "stage": "S3",
+          "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
+          "figureMs": 11,
+          "p50": 38496.2618415,
+          "exceeds": true
+        },
+        {
+          "stage": "S4",
+          "row": "§12.4 S4 backbone",
+          "figureMs": 10,
+          "p50": 976.4420435,
+          "exceeds": true
+        },
+        {
+          "stage": "S6",
+          "row": "§12.4 S6 districts + fields",
+          "figureMs": 17,
+          "p50": 1371.445679,
+          "exceeds": true
+        }
+      ],
+      "authority": "contended",
+      "normalisation": null,
+      "flags": [],
+      "verdict": "requeue",
+      "hydrology": null
+    },
+    {
+      "fixture": "relief-60",
+      "config": "coarse",
+      "mode": "informative",
+      "runs": 8,
+      "stageP50": {
+        "S1": 8207.455562,
+        "S3": 52444.141247,
+        "S4": 1139.1543714999998,
+        "S5": 55000.4601205,
+        "S6": 1276.51377
+      },
+      "gateP50": 12466.880766,
+      "gateRuns": 8,
+      "r12_4": [
+        {
+          "stage": "S1",
+          "row": "§12.4 S1 site",
+          "figureMs": 25,
+          "p50": 8207.455562,
+          "exceeds": true
+        },
+        {
+          "stage": "S3",
+          "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
+          "figureMs": 11,
+          "p50": 52444.141247,
+          "exceeds": true
+        },
+        {
+          "stage": "S4",
+          "row": "§12.4 S4 backbone",
+          "figureMs": 10,
+          "p50": 1139.1543714999998,
+          "exceeds": true
+        },
+        {
+          "stage": "S6",
+          "row": "§12.4 S6 districts + fields",
+          "figureMs": 17,
+          "p50": 1276.51377,
+          "exceeds": true
+        }
+      ],
+      "authority": "contended",
+      "normalisation": null,
+      "flags": [],
+      "verdict": "requeue",
+      "hydrology": null
+    },
+    {
+      "fixture": "relief-3000",
+      "config": "default",
+      "mode": "informative",
+      "runs": 8,
+      "stageP50": {
+        "S1": 7533.586438,
+        "S3": 39229.045922499994,
+        "S4": 1546.5716725,
+        "S5": 54362.916840000005,
+        "S6": 983.104368
+      },
+      "gateP50": 10380.005105,
+      "gateRuns": 8,
+      "r12_4": [
+        {
+          "stage": "S1",
+          "row": "§12.4 S1 site",
+          "figureMs": 25,
+          "p50": 7533.586438,
+          "exceeds": true
+        },
+        {
+          "stage": "S3",
+          "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
+          "figureMs": 11,
+          "p50": 39229.045922499994,
+          "exceeds": true
+        },
+        {
+          "stage": "S4",
+          "row": "§12.4 S4 backbone",
+          "figureMs": 10,
+          "p50": 1546.5716725,
+          "exceeds": true
+        },
+        {
+          "stage": "S6",
+          "row": "§12.4 S6 districts + fields",
+          "figureMs": 17,
+          "p50": 983.104368,
+          "exceeds": true
+        }
+      ],
+      "authority": "contended",
+      "normalisation": null,
+      "flags": [],
+      "verdict": "requeue",
+      "hydrology": null
+    },
+    {
+      "fixture": "relief-3000",
+      "config": "coarse",
+      "mode": "informative",
+      "runs": 8,
+      "stageP50": {
+        "S1": 3714.26779,
+        "S3": 29116.735244,
+        "S4": 1134.914848,
+        "S5": 45435.584795500006,
+        "S6": 632.560881
+      },
+      "gateP50": 5694.7049,
+      "gateRuns": 8,
+      "r12_4": [
+        {
+          "stage": "S1",
+          "row": "§12.4 S1 site",
+          "figureMs": 25,
+          "p50": 3714.26779,
+          "exceeds": true
+        },
+        {
+          "stage": "S3",
+          "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
+          "figureMs": 11,
+          "p50": 29116.735244,
+          "exceeds": true
+        },
+        {
+          "stage": "S4",
+          "row": "§12.4 S4 backbone",
+          "figureMs": 10,
+          "p50": 1134.914848,
+          "exceeds": true
+        },
+        {
+          "stage": "S6",
+          "row": "§12.4 S6 districts + fields",
+          "figureMs": 17,
+          "p50": 632.560881,
+          "exceeds": true
+        }
+      ],
+      "authority": "contended",
+      "normalisation": null,
+      "flags": [],
+      "verdict": "requeue",
+      "hydrology": null
+    }
+  ]
+}
