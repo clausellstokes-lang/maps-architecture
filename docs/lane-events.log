@@ -6877,3 +6877,4 @@
 2026-10-08 00:52 check/M0-d-09 CHECKPOINT X1 on its workers-on legs; Y tasks continuing
 2026-10-08 00:59 check/M0-x-06 CHECKPOINT redo of EP-05/bridge at 1000 running; failure table built; next: crash replay, related run, verdict
 2026-10-08 01:02 build/M0-a-11-fix-s1 CHECKPOINT RELATED still running; next: RELATED verdict, LANDED
+2026-10-08 01:12 check/M0-d-09 CHECKPOINT waiting on X1 and Y
