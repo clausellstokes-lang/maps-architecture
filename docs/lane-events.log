@@ -6867,3 +6867,4 @@
 2026-10-08 00:01 build/M0-a-11-fix-s1 CHECKPOINT RELATED (PR size, 1 worker) still running; failures so far only bench/test/fusion/hausdorff.test.ts (M0-c-06's known red); next: RELATED verdict, LANDED
 2026-10-08 00:03 check/M0-x-06 CHECKPOINT 1000-seed run 65/72
 2026-10-08 00:05 build/M0-a-09-fix-s1 CHECKPOINT near at PR size running (W=1: kernel arr/bands + testkit arr-bands); next: related at PR size, choices row, landed
+2026-10-08 00:13 check/M0-d-09 CHECKPOINT runs Y and X1 still going; nothing new
