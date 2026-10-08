@@ -32,6 +32,32 @@ import { districtReceipt, stageOutcomes, withoutSoftRows } from '../../src/site/
 
 const C0 = { faces: 4, skeletons: 4, downgrades: 0, workLimitHits: 0, failures: 0 };
 
+type WG = NonNullable<RunRecord['waterGates']>;
+type ER = WG['enceintes'][number];
+/** Stage 1's enceinte with one water gate (its chord the one wall edge over water), and a dry stage-2 enceinte. */
+const E1: ER = { enceinte: 'enceinte:1', stage: 1, recorded: true, gates: 1, wallOverWater: 1, wallOverWaterGated: 1, gatesWithOneEdge: 1, endsResolved: 2, endsOnShore: 2, endsAtRecordedBank: 2, stripFaces: 4, stripVerticesInWater: 0 };
+const E2: ER = { ...E1, enceinte: 'enceinte:2', stage: 2, gates: 0, wallOverWater: 0, wallOverWaterGated: 0, gatesWithOneEdge: 0, endsResolved: 0, endsOnShore: 0, endsAtRecordedBank: 0 };
+/** A water-gate receipt from its per-enceinte rows (the totals their sums, as the receipt writes them). */
+function wgOf(rows: readonly ER[], mainGates = 4, gateSites = 4): WG {
+  const sum = (k: keyof ER): number => rows.reduce((t, r) => t + (r[k] as number), 0);
+  return {
+    gates: sum('gates'),
+    wallOverWater: sum('wallOverWater'),
+    wallOverWaterGated: sum('wallOverWaterGated'),
+    gatesWithOneEdge: sum('gatesWithOneEdge'),
+    endsResolved: sum('endsResolved'),
+    endsOnShore: sum('endsOnShore'),
+    endsAtRecordedBank: sum('endsAtRecordedBank'),
+    stripFaces: sum('stripFaces'),
+    stripVerticesInWater: sum('stripVerticesInWater'),
+    mainGates,
+    gateSites,
+    enceintes: rows.map((r) => ({ ...r })),
+  };
+}
+/** The record's water gates with enceinte row i patched. */
+const wgRow = (r: RunRecord, i: number, patch: Partial<ER>): RunRecord => ({ ...r, waterGates: wgOf((r.waterGates as WG).enceintes.map((e, j) => (j === i ? { ...e, ...patch } : e)), (r.waterGates as WG).mainGates, (r.waterGates as WG).gateSites) });
+
 /** A record that holds every bar (fixture relief-60, default). */
 function good(seed: number, over: Partial<RunRecord> = {}): RunRecord {
   return {
@@ -44,7 +70,7 @@ function good(seed: number, over: Partial<RunRecord> = {}): RunRecord {
     rivers: [{ id: 'water:river:0', fits: true, outfall: 'frame', reachesCore: true, attempt: 0, bedCells: 40, bedMonotone: true }],
     riverRequested: ['river full'],
     relief: { deepestCutCm: 380, carveMaxCm: 400, raised: 0, reliefCm: 6000, clampedCells: 0, limitCm: 1_000_000 },
-    waterGates: { gates: 1, wallOverWater: 1, wallOverWaterGated: 1, gatesWithOneEdge: 1, endsResolved: 2, endsOnShore: 2, endsAtRecordedBank: 2, stripFaces: 4, stripVerticesInWater: 0, mainGates: 4, gateSites: 4 },
+    waterGates: wgOf([E1, E2]),
     bridges: { sites: 3, built: 1, builtWithSpan: 1, builtWayNamed: 1, sitesClear: 2, wayOverWaterOffSpan: 0 },
     districts: { landHa: 100, nd: 11, districts: 12, countLaw: true, unownedByStage: 0, samples: 50, samplesContained: 50, samplesInDistricts: 44, wards: 4, wardMedianHa: 3, townMedianHa: 5, wardsBelow: true, leftovers: 0, belowFloor: 0, merges: 1 },
     fields: { cellCm: 3200, bands: ['prosperity', 'density', 'greenery'].map((field) => ({ field, landCells: 900, perBand: [10, 10, 195, 392, 195, 98], maxErrorCells: 0.9, readBack: true })), recomputedEqual: true, weightZeroIdentical: true },
@@ -79,11 +105,21 @@ describe('the fold: each bar fails on one record that breaks it, naming its seed
     ['carve', (r) => ({ ...r, relief: { ...(r.relief as NonNullable<RunRecord['relief']>), raised: 1 } })],
     ['noClamp', (r) => ({ ...r, relief: { ...(r.relief as NonNullable<RunRecord['relief']>), clampedCells: 1 } })],
     ['reliefAsNamed', (r) => ({ ...r, relief: { ...(r.relief as NonNullable<RunRecord['relief']>), reliefCm: 1999 } })],
-    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as NonNullable<RunRecord['waterGates']>), wallOverWater: 2 } })],
-    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as NonNullable<RunRecord['waterGates']>), endsOnShore: 1 } })],
-    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as NonNullable<RunRecord['waterGates']>), stripVerticesInWater: 1 } })],
-    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as NonNullable<RunRecord['waterGates']>), mainGates: 5 } })],
-    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as NonNullable<RunRecord['waterGates']>), gatesWithOneEdge: 0 } })],
+    ['waterGates', (r) => wgRow(r, 0, { wallOverWater: 2 })],
+    ['waterGates', (r) => wgRow(r, 0, { wallOverWaterGated: 0 })],
+    ['waterGates', (r) => wgRow(r, 0, { endsOnShore: 1 })],
+    ['waterGates', (r) => wgRow(r, 0, { endsResolved: 1 })],
+    ['waterGates', (r) => wgRow(r, 0, { stripVerticesInWater: 1 })],
+    ['waterGates', (r) => ({ ...r, waterGates: { ...(r.waterGates as WG), mainGates: 5 } })],
+    ['waterGates', (r) => wgRow(r, 0, { gatesWithOneEdge: 0 })],
+    // a stage-2 wall edge over water no gate of enceinte:2 spans (N-54 (4)), and a stage-2 strip vertex in the water
+    ['waterGates', (r) => wgRow(r, 1, { wallOverWater: 1 })],
+    ['waterGates', (r) => wgRow(r, 1, { stripVerticesInWater: 1 })],
+    // a wall standing in the arena with no record over water (read ungated)
+    ['waterGates', (r) => ({ ...r, waterGates: wgOf([...(r.waterGates as WG).enceintes, { ...E2, enceinte: 'enceinte:3', stage: 0, recorded: false, wallOverWater: 1 }]) })],
+    // judged per enceinte: stage 1's gate has no wet edge while stage 2's wet edge is gated by nothing of its own —
+    // every total equals its sum and the totals alone would pass
+    ['waterGates', (r) => ({ ...r, waterGates: wgOf([{ ...E1, wallOverWater: 0, wallOverWaterGated: 0, gatesWithOneEdge: 0 }, { ...E2, wallOverWater: 1, wallOverWaterGated: 1, gatesWithOneEdge: 1 }]) })],
     ['spans', (r) => ({ ...r, bridges: { ...(r.bridges as NonNullable<RunRecord['bridges']>), builtWithSpan: 0 } })],
     ['spans', (r) => ({ ...r, bridges: { ...(r.bridges as NonNullable<RunRecord['bridges']>), sitesClear: 1 } })],
     ['spans', (r) => ({ ...r, bridges: { ...(r.bridges as NonNullable<RunRecord['bridges']>), wayOverWaterOffSpan: 1 } })],
@@ -149,7 +185,7 @@ describe('the fold: a clause no derivation reached is unobserved, never a pass',
     const recs = SEEDS.map((s) =>
       good(s, {
         stages: { S1: 'ok', S3: 'ok', S4: 'ok', S5: 'refused E_SELF_INTERSECT', S6: 'not reached' },
-        waterGates: { gates: 0, wallOverWater: 0, wallOverWaterGated: 0, gatesWithOneEdge: 0, endsResolved: 0, endsOnShore: 0, endsAtRecordedBank: 0, stripFaces: 4, stripVerticesInWater: 0, mainGates: 4, gateSites: 4 },
+        waterGates: wgOf([{ ...E2, enceinte: 'enceinte:1', stage: 1 }]),
         bridges: { sites: 3, built: 0, builtWithSpan: 0, builtWayNamed: 0, sitesClear: 3, wayOverWaterOffSpan: 0 },
         districts: null,
         fields: null,
@@ -171,7 +207,7 @@ describe('the fold: a clause no derivation reached is unobserved, never a pass',
     const clean = SEEDS.map((s) => good(s, { bridges: { sites: 3, built: 0, builtWithSpan: 0, builtWayNamed: 0, sitesClear: 3, wayOverWaterOffSpan: 0 } }));
     expect(foldGroup('relief-60', 'default', clean).bars.spans.verdict).toBe('unobserved');
     // N changed on a run whose trace met no river fails the water-gate bar too
-    const n = SEEDS.map((s) => good(s, { waterGates: { gates: 0, wallOverWater: 0, wallOverWaterGated: 0, gatesWithOneEdge: 0, endsResolved: 0, endsOnShore: 0, endsAtRecordedBank: 0, stripFaces: 4, stripVerticesInWater: 0, mainGates: s === 4 ? 3 : 4, gateSites: 4 } }));
+    const n = SEEDS.map((s) => good(s, { waterGates: wgOf([{ ...E2, enceinte: 'enceinte:1', stage: 1 }, E2], s === 4 ? 3 : 4, 4) }));
     expect(foldGroup('relief-60', 'default', n).bars.waterGates.verdict).toBe('fail');
   });
 
