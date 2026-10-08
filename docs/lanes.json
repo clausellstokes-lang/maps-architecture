@@ -384,6 +384,16 @@
    "status": "landed",
    "note": "Opus mechanical seat: apply closing-handfix-rows.py (59 rows, 19 issues) before the Fable base retrovalidation",
    "landed": "2026-09-28T16:26-04:00"
+  },
+  {
+   "key": "session/ruling-lifecycle",
+   "kind": "agent",
+   "started": "2026-10-08T10:57-04:00",
+   "expected_min": 150,
+   "output": "",
+   "landed_key": "session/ruling-lifecycle",
+   "status": "running",
+   "note": "Fable ruling seat on M0-FIX-QUEUE Q9-Q14 (seat B), J247"
   }
  ]
 }
