@@ -546,6 +546,50 @@ describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
     expect(problems(p)).toEqual([]);
   });
 
+  it('the one-ring exemption that stays: s beside an edge t–w whose far end w is s’s own neighbour (a thin triangle) — the split is placed, §3.10 holds', () => {
+    // the L0 frame ±5 000 and an L1 triangle s (0, 0), t (200, 0), w (−59, 27): s stands 20.7 cm from t–w, which stays in
+    // s's one-ring after the split (w is its neighbour), so the split of s–t at (100, 0) keeps clearance
+    const spec: ArenaSpec = {
+      vertices: [[-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [0, 0, 1], [200, 0, 1], [-59, 27, 1]],
+      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [5, 6, 1], [6, 4, 1]],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [s, t] = [b.v[4], b.v[5]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, s, t)).toBe(false);
+    expect(splitEndsBreachClearance(p, s, t)).toBe(false);
+    const tx1 = insertTx(p, 1);
+    const r = splitThrough(tx1, halfEdge(p, s, t), pt(100, 0));
+    expect(r.ok && pos(p, r.value)).toEqual([100, 0]);
+    expect(tx1.journal.vertices).toHaveLength(1);
+    expect(problems(p)).toEqual([]);
+  });
+
+  it('a run with a finer vertex: a sub-edge whose ends cannot clear is passed over and a candidate on the next sub-edge within attractCm qualifies', () => {
+    // the L1 line y = 0 across the frame through A (−1 000, 0), an L2 Steiner vertex F (−900, 0) and B (1 000, 0); F's L2
+    // spoke F–G, G (−1 100, 40), passes 19.6 cm from A (exempt while A–F stands). The exact position 0.5 cm before F:
+    // A–F cannot be split, F–B can, and (−875, 0), 25.5 cm away, is the nearest point that qualifies on it.
+    const spec: ArenaSpec = {
+      vertices: [
+        [-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [-5000, 0, 1], [5000, 0, 1], // 0 – 5
+        [-1000, 0, 1], [-900, 0, 2, VERTEX_STEINER | VERTEX_SPLIT], [1000, 0, 1], [-1100, 40, 2], // 6 A, 7 F, 8 B, 9 G
+      ],
+      edges: [
+        [0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0],
+        [4, 6, 1], [6, 7, 1], [7, 8, 1], [8, 5, 1], [7, 9, 2],
+      ],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [A, F, B] = [b.v[6], b.v[7], b.v[8]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, A, F)).toBe(true);
+    expect(splitEndsBreach(p, F, B)).toBe(false);
+    const pl = placePoint(insertTx(p, 1), halfEdge(p, A, F), { x: -900.5, y: 0 });
+    expect(pl.ok && pl.value.kind === 'placed' && { at: pl.value.at, sub: pl.value.sub }).toEqual({ at: pt(-875, 0), sub: halfEdge(p, F, B) });
+  });
+
   it('the checker’s seeds 6, 34 and 40 (chord arenas, generator 0xc1ea + seed), role-dressed, every split a tx() callback batch: committed with §3.10 holding, never with a breach', () => {
     const cases = new Map<number, string[]>();
     for (const seed of [6, 34, 40]) {
