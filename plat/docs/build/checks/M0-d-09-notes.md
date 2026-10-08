@@ -44,3 +44,9 @@ mutant ids are the check's own. Logs are in `~/maps-scratch/waves/check-M0-d-09/
    * The full report's `engine` field carries the measured `host.kind`. The numbers-only summary keeps only the leg
      id, so on this machine it reads as Rosetta.
    * This is wording only (C-0228 (1) keeps the id).
+8. **Refused stages are counted from the in-process seeds only.**
+   * `bugs.refused` sums `SeedResult.bugs`, so a run with no in-process seed reports `refused 0` whatever its legs
+     derived. My cross-host-only runs over seeds 35 – 100 (`--pairs 0 --checks 0`) are such runs.
+   * A refusal on a leg is still compared, through the `<spike>.report` cell's digest. But it is not counted or listed.
+   * To harden: also count refusals for the cross-host seeds, for example by the leg returning its report's bug
+     count beside the digest, or say in the summary that `refused` covers the in-process seeds only.
