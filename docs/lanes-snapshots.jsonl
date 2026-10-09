@@ -629,3 +629,4 @@
 {"t": "2026-10-08T21:19:41-04:00", "wf_live": ["a1099b214b4c17ce9", "a7ed70fd071a2c689", "a933c573070b07400", "a22deffe8a07aabba", "a1554ac6902a764f2"], "single": []}
 {"t": "2026-10-08T21:46:36-04:00", "wf_live": ["a933c573070b07400", "a8365e4e285b7b15f", "a1554ac6902a764f2", "a2f2125b9e35cc99d"], "single": []}
 {"t": "2026-10-08T21:49:38-04:00", "wf_live": ["a7ed70fd071a2c689", "a933c573070b07400", "a8365e4e285b7b15f", "a1554ac6902a764f2"], "single": ["session/ruling-refusals"]}
+{"t": "2026-10-08T22:19:35-04:00", "wf_live": [], "single": ["session/ruling-refusals"]}
