@@ -129,8 +129,12 @@ export function planAttraction(tx: InsertTx, pIn: LatticePoint): KernelResult<At
   return ok({ kind: 'split', from: p, at: planPoint(plat, split.value), split: split.value });
 }
 
-/** Writes a plan of `planAttraction` and reports its warnings (W_ATTRACTED for a moved vertex) to the transaction. */
+/**
+ * Writes a plan of `planAttraction` and reports its warnings (W_ATTRACTED for a moved vertex) to the transaction. A
+ * closed transaction throws before anything is written (N-55 (5); C-0294 (1), refined by C-0296).
+ */
 export function applyAttraction(tx: InsertTx, plan: AttractionPlan): KernelResult<Attraction> {
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const warnings: Warning[] = [];
   const moved = (at: LatticePoint): boolean => at.x !== plan.from.x || at.y !== plan.from.y;
   if (plan.kind === 'free') return ok({ kind: 'free', at: plan.at }, warnings);
@@ -151,9 +155,12 @@ export function applyAttraction(tx: InsertTx, plan: AttractionPlan): KernelResul
 
 /**
  * §3.6 step 2 for one chain vertex: the decision, then its write (a split by splitThrough). Refusals write nothing:
- * E_OUT_OF_RANGE, E_WORK_LIMIT, and E_LEVEL where the vertex would land on a vertex finer than the batch.
+ * E_OUT_OF_RANGE, E_WORK_LIMIT, and E_LEVEL where the vertex would land on a vertex finer than the batch. A closed
+ * transaction (a stale overlay of a committed or rejected batch) throws before anything is read or charged — a
+ * programming error, as `splitThrough` (N-55 (5), N-53 (3); C-0294 (1), refined by C-0296).
  */
 export function attractVertex(tx: InsertTx, p: LatticePoint): KernelResult<Attraction> {
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const plan = planAttraction(tx, p);
   if (!plan.ok) return passOn(plan);
   return applyAttraction(tx, plan.value);
@@ -174,9 +181,11 @@ export interface RunVertex {
  * Step 2 over a run's vertices in order (§3.6): each decided against the arena as the earlier ones left it, then — if
  * its target lies within minEdge of the previous kept vertex's point — merged into that earlier vertex (W_ATTRACTED,
  * nothing written for it), else written. A refusal stops the run: the earlier vertices' splits stay written, and the
- * transaction rolls the batch back (§3.3; M0-a-06).
+ * transaction rolls the batch back (§3.3; M0-a-06). A closed transaction throws before anything is read or charged, as
+ * `attractVertex` (C-0296).
  */
 export function attractRun(tx: InsertTx, points: readonly LatticePoint[]): KernelResult<RunVertex[]> {
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const out: RunVertex[] = [];
   const warnings: Warning[] = [];
   let prev = -1;

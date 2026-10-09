@@ -20,7 +20,6 @@
 // Readings: C-0177 (1) – (6). Every distance test here uses + − × ÷ √ only (§3.2 (3)); every tie breaks on lattice
 // positions (y, then x) or canonical keys, never on a slot (§3.3).
 import {
-  allocEdgePair,
   edgeLevel,
   freeEdgePair,
   freeVertex,
@@ -56,7 +55,7 @@ import { dmath } from '../dmath/index.js';
 import { dist2, err, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
-import { placePoint, segmentCloserThan, type Crossing } from './placement.js';
+import { placePoint, splitEndsBreachClearance, type Crossing } from './placement.js';
 import { applySplitPlan, type SplitPlan } from './splitThrough.js';
 
 const ATTRACT = LATTICE.attractCm;
@@ -120,6 +119,14 @@ export interface ChainCtx {
   /** The chain's own warnings (each also reported to the transaction as it happens). */
   readonly warnings: Warning[];
   readonly journal: ChainJournal;
+  /**
+   * Where this op's own pairs start in the two journals — `journal.newPairs` (the chain's new edges) and
+   * `tx.journal.pairs` (the pairs its splits made): a pair at or after these marks is one this op wrote. Step 2 reads
+   * them to tell a split of the chain's OWN edge (its fold-back, whose landing is its own shape vertex) from a split of
+   * another chain's edge (N-55 (2), Q10; C-0297).
+   */
+  readonly pairsFrom: number;
+  readonly txPairsFrom: number;
   /** The most snap-rounding passes a segment of this chain took. */
   maxPass: number;
   /**
@@ -449,11 +456,9 @@ export function planLanding(tx: InsertTx, piece: Piece, x: number, y: number, cr
   const pl = placePoint(tx, piece.edge, e, crossing);
   if (!pl.ok) return passOn(pl);
   if (pl.value.kind === 'endpoint') return ok({ kind: 'vertex', vertex: pl.value.vertex, onto: 'fallback', warnings: pl.warnings });
+  // A placed answer's sub-edge keeps clearance at its own ends: the placement rule's (iii) refuses any other (C-0284;
+  // `splitBreaksClearance` is that same test), so no wrapper re-reads it here (C-0284 (3), C-0297).
   const sub = pl.value.sub;
-  if (splitBreaksClearance(p, O[sub], O[sub ^ 1])) {
-    const v = nearerVertex(p, O[sub], O[sub ^ 1], e.x, e.y);
-    return ok({ kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, v) }] });
-  }
   return ok({ kind: 'split', plan: { kind: 'new', at: pl.value.at, sub, row: null, warnings: pl.warnings }, warnings: pl.warnings });
 }
 
@@ -462,43 +467,20 @@ export function planLanding(tx: InsertTx, piece: Piece, x: number, y: number, cr
  * t's one-ring holds every edge at s (s is its neighbour) and s's every edge at t; after it, s and t are no longer
  * neighbours, so t must stand at least `minEdge` from each edge at s whose far end is not a neighbour of t, and s from
  * each such edge at t. At an acute corner one end can stand closer — allowed while s and t are joined — and then no
- * point of s–t qualifies: the placement falls back on the nearer end (§3.6 *The placement rule*; C-0177 (11)).
+ * point of s–t qualifies: the placement falls back on the nearer end (§3.6 *The placement rule*; C-0177 (11)). Since
+ * C-0284 this is the placement rule's own (iii) at the split's ends — `splitEndsBreachClearance`, which this reads — so
+ * `placePoint` never answers a split such a sub-edge; `placeOnRun` (which searches the run itself) and the face
+ * partitioners still read it (C-0284 (3), C-0297).
  */
 export function splitBreaksClearance(p: Plat, s: VertexId, t: VertexId): boolean {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const ns = new Set<VertexId>(outgoing(p, s).map((h) => O[h ^ 1]));
-  const nt = new Set<VertexId>(outgoing(p, t).map((h) => O[h ^ 1]));
-  for (const [x, y, nb] of [[t, s, nt], [s, t, ns]] as const) {
-    // x against the edges at y
-    for (const h of outgoing(p, y)) {
-      const u = O[h ^ 1];
-      if (u === x || nb.has(u)) continue;
-      if (segmentCloserThan(X[x], Y[x], X[y], Y[y], X[u], Y[u], MIN_EDGE)) return true;
-    }
-  }
-  return false;
-}
-
-/**
- * Makes sure the arena's edge-pair table holds one free slot before a split: splitThrough's writer (M0-a-04's
- * `applySplitPlan`) reads the half-edge table it captured before allocating the new pair, so a split that doubles the
- * table would link the new pair into the stale arrays. A pair allocated between the split sub-edge's ends and freed at
- * once leaves the slot on the free list for the split to take — no growth inside the writer (C-0177 (10); reported to
- * the session for M0-a-04's fix round).
- */
-export function reservePair(p: Plat, sub: HalfEdgeId): void {
-  if (p.slots.pair.free !== -1 || p.slots.pair.top < p.halfEdges.level.length) return;
-  const O = p.halfEdges.origin;
-  const h = allocEdgePair(p, O[sub], O[sub ^ 1], edgeLevel(p, sub));
-  freeEdgePair(p, h);
+  return splitEndsBreachClearance(p, s, t);
 }
 
 /** Writes a landing: a split by splitThrough's writer, or a vertex promoted to the batch's level when finer. Returns the vertex. */
 export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
   if (l.kind === 'split') {
-    reservePair(ctx.p, l.plan.sub);
+    // splitThrough's writer reads the half-edge table after it allocates the new pair (N-53 (1), C-0279), so a split that
+    // doubles the table needs no reservation first (C-0177 (10)'s `reservePair` retired, N-53 (2); C-0297).
     const v = applySplitPlan(ctx.tx, l.plan); // reports the placement's W_PLACED to the transaction
     recordSplit(ctx, l.plan.sub, v);
     foldWarnings(ctx.warnings, l.warnings);

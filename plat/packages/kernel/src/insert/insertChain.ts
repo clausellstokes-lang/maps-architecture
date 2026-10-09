@@ -36,12 +36,17 @@
 // tries step 2's free spot first. Only a pass's commit replaces the refusal before it. The op is atomic: every write it
 // makes is undone on a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170
 // (2), C-0177 (8), refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction;
-// until then the shell of C-0169 (1)). Readings: C-0177.
+// until then the shell of C-0169 (1)). A transaction that is closed — the overlay of a batch that committed, was rejected or
+// threw, kept past it — is a programming error: the op throws at its entry, before it reads or writes anything (N-55 (5);
+// as `splitThrough`, C-0294). A chain point that step 2 lands by splitting the chain's OWN edge — it folds back over
+// itself, §3.11's collinear overlap — is the chain's own shape vertex and carries no `split` flag (§2.2 rule 3; N-55 (2),
+// C-0297). Readings: C-0177.
 import {
   addRole,
   allocVertex,
   freeVertex,
   handleOf,
+  idOf,
   isVertexLive,
   MAX_ORDINAL,
   outgoing,
@@ -50,6 +55,9 @@ import {
   roleInfo,
   rowsOfKey,
   rowElement,
+  rowsOn,
+  VERTEX_SPLIT,
+  type HalfEdgeId,
   type Plat,
   type RoleRow,
   type VertexId,
@@ -72,16 +80,13 @@ import {
   nearestVertexWithin,
   landingPoint,
   lattice,
-  nearerVertex,
   onRouteOfLevel,
   pieceOf,
   planLanding,
   recordSplit,
-  reservePair,
   routeBetween,
   segmentBox,
   segmentDistance,
-  splitBreaksClearance,
   withinSegment,
   type ChainCtx,
   type Piece,
@@ -139,6 +144,26 @@ function vertexCarries(p: Plat, v: VertexId, role: string, entity: string, ordin
 }
 
 /**
+ * §2.2 rule 3: "a chain's own shape vertices never carry [the split flag]". A chain point that step 2 lands by splitting
+ * the chain's OWN edge — a pair this op wrote (`ctx.pairsFrom`, `ctx.txPairsFrom`) carrying no row but the chain's own at
+ * the batch's level: the chain folds back over itself, §3.11's collinear overlap — is the chain's own shape vertex, not a
+ * split of another run, so its flag is cleared and no later removal dissolves it (the dissolution would make
+ * remove ≠ undo-by-replay: N-55 (2), Q10). A split of another chain's edge — any row of another entity, role or level on
+ * the sub-edge, or a pair this op did not write — keeps the flag: its dissolution restores that edge when this chain goes
+ * (rule 3). `v` is the vertex the split just made (freed by the split's own undo on a refusal). C-0297.
+ */
+function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): void {
+  const p = ctx.p;
+  const e = sub >> 1;
+  if (!ctx.journal.newPairs.slice(ctx.pairsFrom).includes(e) && !ctx.tx.journal.pairs.slice(ctx.txPairsFrom).includes(e)) return;
+  const own = new Set(ctx.rows.map((r) => `${roleIdOf(r.role)}/${r.entity}/${r.ordinal ?? 0}`));
+  for (const r of rowsOn(p, 'edge', sub)) {
+    if (p.roles.level[r] !== ctx.n || !own.has(`${p.roles.kind[r]}/${idOf(p, p.roles.entity[r])}/${p.roles.ordinal[r]}`)) return;
+  }
+  p.vertices.flags[v] &= ~VERTEX_SPLIT;
+}
+
+/**
  * Step 2 for one chain vertex at the lattice point `pt` (see the module comment): its landing planned — vertex
  * attraction (M0-a-04's `planAttraction`), candidate (b) where that lands beside a finer vertex, the chain's own corner
  * for a free vertex, the kept-content test of a free vertex — then the merge rule against the previous vertex, then
@@ -146,6 +171,12 @@ function vertexCarries(p: Plat, v: VertexId, role: string, entity: string, ordin
  */
 export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePoint | null, nextPt: LatticePoint | null): KernelResult<{ vertex: VertexId; merged: boolean }> {
   const { tx, p, n } = ctx;
+  // A landing written for the chain point: a split of the chain's own edge leaves its own shape vertex (`ownShapeVertex`).
+  const applyOwn = (l: Landing): VertexId => {
+    const v = applyLanding(ctx, l);
+    if (l.kind === 'split') ownShapeVertex(ctx, l.plan.sub, v);
+    return v;
+  };
   const merges = (target: LatticePoint): boolean => prev >= 0 && belowMinEdge(p.vertices.x[prev], p.vertices.y[prev], target.x, target.y);
   const merged = (): KernelResult<{ vertex: VertexId; merged: boolean }> => {
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
@@ -165,7 +196,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });
       tx.journal.vertices.push(v);
       warn(tx, ctx.warnings, 'W_PLACED', l.at);
-    } else v = applyLanding(ctx, l);
+    } else v = applyOwn(l);
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: v, merged: false });
   };
@@ -181,24 +212,14 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       if (s5.value !== null) return landS5(s5.value);
     }
     if (merges(landingPoint(p, l.value))) return merged();
-    const v = applyLanding(ctx, l.value);
+    const v = applyOwn(l.value);
     if (p.vertices.x[v] !== pt.x || p.vertices.y[v] !== pt.y) warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: v, merged: false });
   }
   const pl = plan.value;
-  if (pl.kind === 'split' && pl.split.kind === 'new' && splitBreaksClearance(p, p.halfEdges.origin[pl.split.sub], p.halfEdges.origin[pl.split.sub ^ 1])) {
-    // No point of that sub-edge keeps clearance at its ends (C-0177 (11)): the placement's fallback, its nearer end.
-    const O = p.halfEdges.origin;
-    const v = nearerVertex(p, O[pl.split.sub], O[pl.split.sub ^ 1], pl.at.x, pl.at.y);
-    const s5 = stepTwoStrip(ctx, pt, v, prevPt, nextPt);
-    if (!s5.ok) return passOn(s5);
-    if (s5.value !== null) return landS5(s5.value);
-    const fb: Landing = { kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, v) }] };
-    if (merges(pointOf(p, v))) return merged();
-    applyLanding(ctx, fb);
-    warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
-    return ok({ vertex: v, merged: false });
-  }
+  // A planned new split's sub-edge keeps clearance at its own ends: the placement rule's (iii) gives the endpoint
+  // fallback (a split onto an existing vertex) for any other (C-0284), so C-0177 (11)'s wrapper here is gone (C-0284 (3),
+  // C-0297).
   if (pl.kind === 'split' && pl.split.kind === 'existing') {
     const s5 = stepTwoStrip(ctx, pt, pl.split.vertex, prevPt, nextPt);
     if (!s5.ok) return passOn(s5);
@@ -206,10 +227,12 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
   }
   if (pl.kind !== 'free') {
     if (merges(pl.at)) return merged();
-    if (pl.kind === 'split' && pl.split.kind === 'new') reservePair(p, pl.split.sub);
     const a = applyAttraction(tx, pl);
     if (!a.ok) return passOn(a);
-    if (pl.kind === 'split' && pl.split.kind === 'new') recordSplit(ctx, pl.split.sub, a.value.kind === 'free' ? -1 : a.value.vertex);
+    if (pl.kind === 'split' && pl.split.kind === 'new') {
+      recordSplit(ctx, pl.split.sub, a.value.kind === 'free' ? -1 : a.value.vertex);
+      if (a.value.kind !== 'free') ownShapeVertex(ctx, pl.split.sub, a.value.vertex);
+    }
     foldWarnings(ctx.warnings, a.warnings);
     check(a.value.kind !== 'free', 'an attraction plan that is not free lands on a vertex');
     return ok({ vertex: a.value.vertex, merged: false });
@@ -227,7 +250,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       if (!w.ok) return passOn(w);
       if (w.value) {
         if (merges(at)) return merged();
-        return ok({ vertex: applyLanding(ctx, l.value), merged: false });
+        return ok({ vertex: applyOwn(l.value), merged: false });
       }
       // Beyond 2 · √2 · attractCm a mandatory chain's corner stays where it is: the router places its crossings in turn
       // (N-38, N-40).
@@ -847,6 +870,9 @@ function routeOne(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: La
  * new and shared edge gaining each at the batch's level; `opts.knots` its vertex rows.
  */
 export function insertChain(tx: InsertTx, points: readonly { readonly x: number; readonly y: number }[], roles: readonly RoleRow[], cls: ChainClass, opts: InsertChainOpts = {}): KernelResult<ChainInsert> {
+  // A stale overlay (its batch committed, rejected or rolled back by a throw) is a programming error: thrown here, before
+  // anything is read, charged or written — never a silent write outside a transaction (N-55 (5); C-0297).
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const p = tx.plat;
   const n = tx.level;
   checkRows(roles);
@@ -859,8 +885,8 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   if (!d.ok) return passOn(d);
   const dec = d.value;
   const journal = chainJournal(tx);
-  const ctx: ChainCtx = { tx, p, n, cls, rows: roles, warnings: [], journal, maxPass: 0, strict: false, undo: [] };
   const pairsFrom = journal.newPairs.length;
+  const ctx: ChainCtx = { tx, p, n, cls, rows: roles, warnings: [], journal, pairsFrom, txPairsFrom: tx.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
   const landed = new Array<VertexId>(dec.points.length).fill(-1);
 
   // The index writes this op makes are read from the batch's log (the transaction's when open, else one opened here).
