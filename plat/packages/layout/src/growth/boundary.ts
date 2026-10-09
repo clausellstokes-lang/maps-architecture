@@ -11,19 +11,48 @@
 // * T is one field, re-settled incrementally after each S5b at the nodes the new roads lower (`resettleT`): never a
 //   new field per stage (SCL-3);
 // * for k ≥ 2 the trace is the strategy's, right after S5b, every arterial crossing of the stage's boundary on ground
-//   part 0 pinned as a gate: each crossing's vertex is split onto its way first (one L1 callback batch), so the wall
-//   chain meets the way exactly at its gate vertex, then the trace (with the previous enceinte as its core) and the
-//   strip stand-in (C-0033), its stops read from the arena at the gates.
-import { BinaryHeap, CONCERNS, err, ok, STAGES, type HalfEdgeId, type Kernel, type KernelResult, type LatticePoint, type PlatKey, type StageId } from '@plat/kernel';
+//   part 0 pinned as a gate: each crossing's vertex is split onto its way, so the wall chain meets the way exactly at
+//   its gate vertex, then the trace (with the previous enceinte as its core) and the strip stand-in (C-0033), its stops
+//   read from the arena at the gates. The gate splits run inside the trace's own L1 batch, before its insertion, so a
+//   refused trace leaves no split behind (N-54 (3); C-0285); where the gates stand is planned first in a batch that is
+//   always rejected, and the trace's batch refuses if the splits land anywhere else. A crossing on a bridge's span (the way's
+//   edge between the bridge's two `deck_end` vertices) is no split: its gate is the bridgehead, the deck end on the
+//   stage's side of the boundary, and a crossing in the water off every span, or a span with no single deck end on the
+//   stage's side, refuses the trace (E_INVARIANT, detect-and-refuse); the trace's batch refuses too when it leaves a
+//   vertex between the two deck ends of any span that stood before it. The stage's strips keep off the water as stage 1's
+//   do (a water stop for every water ring, beside the arena's stops), and their batch refuses, nothing of them written,
+//   when it would break such a span or leave a setback vertex in the water (F-1; C-0292).
+import {
+  BinaryHeap,
+  CONCERNS,
+  dest,
+  err,
+  ok,
+  outgoing,
+  rowKey,
+  rowsOn,
+  STAGES,
+  type Committed,
+  type HalfEdgeId,
+  type Kernel,
+  type KernelResult,
+  type KernelTx,
+  type LatticePoint,
+  type Overlay,
+  type Plat,
+  type PlatKey,
+  type StageId,
+  type VertexId,
+} from '@plat/kernel';
 import type { ChainRef, Enceinte, Gate, GateSite, Id, Reservation, WaterSet } from '@plat/model';
 import { commitS3Batch, PLAZA_ID, siteContext, WAY_SPAN_NODES, type S3Batch, type S3Commit } from '../enceinte/commit.js';
-import { crossParams, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
-import { layStrips, stripWidths, toFrame } from '../enceinte/strips.js';
+import { crossParams, distToRing, lat, TOUCH_CM, unitOf } from '../enceinte/plane.js';
+import { layStrips, stripWidths, toFrame, traceLine } from '../enceinte/strips.js';
 import { baseEnceinte, l1Spec } from '../enceinte/trace.js';
 import type { CostField, StripsLaid, StripStop, Traced, WaterGate, XY } from '../enceinte/types.js';
-import { GROUND, waterGates, waterRings } from '../enceinte/water.js';
+import { GROUND, waterGates, waterRings, type WaterRing } from '../enceinte/water.js';
 import { stageThreshold, type WaterPull } from '../siting/field.js';
-import { area2Of, bearingCdeg, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
+import { area2Of, bearingCdeg, insideRing, perimeterOf, quot, ringIsSimple } from '../siting/geom.js';
 import { levelSet } from '../siting/levelset.js';
 import type { Field, LevelSet, S3Slice, Threshold } from '../siting/types.js';
 
@@ -417,12 +446,14 @@ export interface StageTraceResult extends StageTrace {
 
 /**
  * S5a's trace for a walled stage k ≥ 2 (§4.4 S5a *Trace*; see the header): `crossings` every crossing of a way with the
- * stage's outline (S5b's spawned roads among them, each at its destination); each crossing's point is split onto its way
- * (one L1 callback batch at S5's rank), the outline takes those vertices, and the registered strategy traces it with each
- * a gate (`gate:<ordinal>` from `firstOrdinal`), the previous enceinte's line as its core; then the strip stand-in, its
- * stops read from the arena at the gates (C-0033). Refused, nothing of the trace written, when a crossing cannot be put
- * on its way, or when the stage's trace would write water gates while an earlier enceinte holds some (their ids would
- * collide: `notBuilt('M1')`, C-0244).
+ * stage's outline (S5b's spawned roads among them, each at its destination); each crossing's gate vertex is put on its
+ * way (`placeGateVertices`: the way's own vertex beside the crossing, the bridgehead of a span it crosses, else a split),
+ * the outline takes those vertices, and the registered strategy traces it with each a gate (`gate:<ordinal>` from
+ * `firstOrdinal`), the previous enceinte's line as its core, the splits made inside the trace's own L1 batch at S5's
+ * rank (N-54 (3)); then the strip stand-in, its stops read from the arena at the gates (C-0033). Refused, nothing of the
+ * trace written, when a crossing cannot be put on its way, lies in the water off every span or meets a span with no
+ * single deck end on the stage's side, when the trace's batch would leave a vertex on a span, or when the stage's trace
+ * would write water gates while an earlier enceinte holds some (their ids would collide: `notBuilt('M1')`, C-0244).
  */
 export function traceStage(
   k: number,
@@ -440,56 +471,20 @@ export function traceStage(
   if ((opts.earlierWaterGates ?? 0) > 0 && waterGates(outline.slice(), water, kernel, { key: arena }).length > 0) {
     return err('E_INVARIANT', `notBuilt('M1'): stage ${String(k)}'s trace crosses water while an earlier enceinte holds water gates; their ids gate:w<i> would collide (C-0244)`);
   }
-  // The crossing vertices put on their ways, in crossing order: the way's own vertex where one lies within twice the
-  // attraction distance of the crossing (no sub-edge shorter than that beside a gate), else a vertex split onto the way's
-  // nearest half-edge (one L1 callback batch at S5's rank). Each gate keeps its way's direction there.
-  const placed: LatticePoint[] = [];
-  const along: XY[] = [];
-  const split = kernel.tx(l1Spec(arena, STAGES.S5), (o) => {
-    for (const c of crossings) {
-      const p = kernel.plat(arena);
-      const r = kernel.resolve({ role: 'way', entity: c.way }, arena);
-      if (r.view !== 'edges') return err('E_INVARIANT', `S5a: the way ${c.way} does not resolve to edges`);
-      let best = -1;
-      let bestD = Infinity;
-      let vtx = -1;
-      let vtxD = Infinity;
-      for (const run of r.runs) {
-        for (const h of run) {
-          const ia = p.halfEdges.origin[h];
-          const a = { x: p.vertices.x[ia], y: p.vertices.y[ia] };
-          const b = { x: p.vertices.x[p.halfEdges.origin[h ^ 1]], y: p.vertices.y[p.halfEdges.origin[h ^ 1]] };
-          const d = segD2(c.at, a, b);
-          if (d < bestD) {
-            bestD = d;
-            best = h;
-          }
-          for (const [iv, q] of [
-            [ia, a],
-            [p.halfEdges.origin[h ^ 1], b],
-          ] as const) {
-            const dv = (q.x - c.at.x) * (q.x - c.at.x) + (q.y - c.at.y) * (q.y - c.at.y);
-            if (dv < vtxD) {
-              vtxD = dv;
-              vtx = iv;
-            }
-          }
-        }
-      }
-      if (best < 0 || bestD > 4) return err('E_INVARIANT', `S5a: the crossing (${String(c.at.x)}, ${String(c.at.y)}) lies off its way ${c.way}`);
-      along.push({ x: p.vertices.x[p.halfEdges.origin[best ^ 1]] - p.vertices.x[p.halfEdges.origin[best]], y: p.vertices.y[p.halfEdges.origin[best ^ 1]] - p.vertices.y[p.halfEdges.origin[best]] });
-      if (vtx >= 0 && vtxD <= 4 * TOUCH_CM * TOUCH_CM) {
-        placed.push({ x: p.vertices.x[vtx], y: p.vertices.y[vtx] } as LatticePoint);
-        continue;
-      }
-      const v = kernel.geom.splitThrough(o, best as HalfEdgeId, c.at);
-      if (!v.ok) return err(v.code, v.detail);
-      const q = kernel.plat(arena);
-      placed.push({ x: q.vertices.x[v.value], y: q.vertices.y[v.value] } as LatticePoint);
-    }
-    return ok(null);
+  // Where the gate vertices stand: planned in a batch that is always rejected (the arena untouched), then made again
+  // inside the trace's batch, which refuses if they land anywhere else.
+  const wet = waterRings(water, kernel, arena);
+  let plan: GatePlan | null = null;
+  const probe = kernel.tx(l1Spec(arena, STAGES.S5), (o) => {
+    const r = placeGateVertices(kernel, arena, o, crossings, outline, wet);
+    if (!r.ok) return r;
+    plan = r.value;
+    return err('E_INVARIANT', 'S5a: the gate plan (a batch always rejected)');
   });
-  if (!split.ok) return err(split.code, `S5a: the gate vertices could not be put on their ways: ${split.detail}`);
+  if (plan === null) return err(probe.ok ? 'E_INVARIANT' : probe.code, `S5a: the gate vertices could not be put on their ways: ${probe.ok ? 'the plan was not made' : probe.detail}`);
+  const planned: GatePlan = plan;
+  const placed = planned.placed;
+  const along = planned.along;
   // The outline with the gate vertices in it, each crossed square to its way over the outer strip's width on both sides
   // (the outline's vertices within that reach replaced), so the wall meets the way at its gate and nowhere beside it.
   const reach = stripWidths(site.tables.table('walls').row('era.default')).outer;
@@ -506,7 +501,22 @@ export function traceStage(
   const isGate = (q: XY): boolean => placed.some((g) => g.x === q.x && g.y === q.y);
   const start = inserted.findIndex((q, i) => !isGate(q) && !isGate(inserted[i === 0 ? inserted.length - 1 : i - 1]));
   const boundary = start <= 0 ? inserted : [...inserted.slice(start), ...inserted.slice(0, start)];
-  const sites: GateSite[] = crossings.map((c, i) => ({ ordinal: opts.firstOrdinal + i, at: placed[i], bearingCdeg: c.bearingCdeg as GateSite['bearingCdeg'], kind: 'main', forced: false }));
+  // A gate moved to a bridgehead takes its bearing there.
+  const sites: GateSite[] = crossings.map((c, i) => ({
+    ordinal: opts.firstOrdinal + i,
+    at: placed[i],
+    bearingCdeg: (planned.decks[i] === null ? c.bearingCdeg : bearingCdeg(placed[i].x - site.centre.x, placed[i].y - site.centre.y)) as GateSite['bearingCdeg'],
+    kind: 'main',
+    forced: false,
+  }));
+  const spans = standingSpans(kernel, arena, water);
+  const host = withinTraceBatch(kernel, (o) => {
+    const again = placeGateVertices(kernel, arena, o, crossings, outline, wet);
+    if (!again.ok) return err(again.code, `S5a: the gate vertices could not be put on their ways: ${again.detail}`);
+    const moved = again.value.placed.findIndex((q, i) => q.x !== placed[i].x || q.y !== placed[i].y);
+    if (moved >= 0) return err('E_INVARIANT', `S5a: the gate vertex of crossing ${String(moved)} landed at (${String(again.value.placed[moved].x)}, ${String(again.value.placed[moved].y)}), not where it was planned (${String(placed[moved].x)}, ${String(placed[moved].y)})`);
+    return ok(null);
+  }, () => brokenSpan(kernel, arena, spans));
   const ctx = siteContext(site);
   const traced = baseEnceinte.trace(
     boundary,
@@ -516,7 +526,7 @@ export function traceStage(
     water,
     { waterfront: 'open', placement: 'aroundAll' },
     ctx,
-    kernel,
+    host,
     {
       key: arena,
       stage: k,
@@ -529,7 +539,19 @@ export function traceStage(
   if (!traced.ok) return err(traced.code, traced.detail);
   const t = traced.value.traced;
   const half = Math.round(site.tables.table('ways').pair('through', `widthM.${site.rung}`)[1] * 50);
-  const strips = layStrips(t.enceinte, site.tables.table('walls').row('era.default'), kernel, { key: arena, wayHalfWidthCm: half, frame: site.frameRing });
+  // The strips keep off the water as stage 1's do (F-1; C-0292): the arena's stops (each main gate's way, each water
+  // gate's water) and a water stop for every other water ring; their batch refuses, nothing of the strips written, when
+  // it would break a span that stood before S5a or leave a setback vertex in the water.
+  const era = site.tables.table('walls').row('era.default');
+  const widths = stripWidths(era);
+  const rings = waterRings(water, kernel, arena);
+  const stops = stageStops(t.enceinte, kernel, arena, half, 4 * (widths.inner + widths.outer), rings);
+  const proved = withinTraceBatch(kernel, () => ok(null), () => {
+    const s = brokenSpan(kernel, arena, spans);
+    if (!s.ok) return err(s.code, `S5a's strips: ${s.detail}`);
+    return wetSetback(kernel, arena, t.enceinte.id, rings);
+  });
+  const strips = layStrips(t.enceinte, era, proved, { key: arena, stops, frame: site.frameRing });
   if (!strips.ok) return err(strips.code, strips.detail);
   const gateWays = crossings.map((c) => c.way);
   const gates: Gate[] = t.gates.map((g) => {
@@ -537,7 +559,237 @@ export function traceStage(
     const i = sites.findIndex((s) => `gate:${String(s.ordinal)}` === g.id);
     return i < 0 ? g : { ...g, way: gateWays[i] };
   });
-  return ok({ enceinte: t.enceinte, gates, waterGates: t.waterGates, traced: t, strips: strips.value, gateWays, boundary }, [...split.warnings, ...traced.warnings, ...strips.warnings]);
+  return ok({ enceinte: t.enceinte, gates, waterGates: t.waterGates, traced: t, strips: strips.value, gateWays, boundary }, [...traced.warnings, ...strips.warnings]);
+}
+
+/** Where each crossing's gate vertex stands on its way: its point, the way's direction there, and the bridge it heads. */
+interface GatePlan {
+  readonly placed: readonly LatticePoint[];
+  readonly along: readonly XY[];
+  /** Per crossing: the bridge whose span it crossed (its gate that span's deck end on the stage's side), else null. */
+  readonly decks: readonly (Id | null)[];
+}
+
+/** The bridges whose two `deck_end` vertices carry the vertex `v` (its `deck_end` rows' entities). */
+function decksAt(p: Plat, v: number): Id[] {
+  const out: Id[] = [];
+  for (const r of rowsOn(p, 'vertex', v as VertexId)) {
+    const kk = rowKey(p, r);
+    if (kk.role === 'deck_end') out.push(kk.entity);
+  }
+  return out;
+}
+
+/**
+ * The gate vertices put on their ways inside the open batch `o`, in crossing order (N-54 (3); C-0244): the way's own
+ * vertex where one lies within twice the attraction distance of the crossing (no sub-edge shorter than that beside a
+ * gate); else, on a bridge's span (the way's edge between the bridge's two `deck_end` vertices), the deck end inside
+ * the stage's outline — the bridgehead on the stage's side, no vertex added to the span; else a vertex split onto the
+ * way's nearest half-edge. Refused (E_INVARIANT): a crossing off its way, a span with no single deck end inside the
+ * outline, a crossing in the water off every span, two gates at one bridgehead. Each gate keeps its way's direction.
+ */
+function placeGateVertices(kernel: Kernel, arena: PlatKey, o: Overlay, crossings: readonly BoundaryCrossing[], outline: readonly LatticePoint[], wet: readonly WaterRing[]): KernelResult<GatePlan> {
+  const placed: LatticePoint[] = [];
+  const along: XY[] = [];
+  const decks: (Id | null)[] = [];
+  for (const c of crossings) {
+    const p = kernel.plat(arena);
+    const r = kernel.resolve({ role: 'way', entity: c.way }, arena);
+    if (r.view !== 'edges') return err('E_INVARIANT', `S5a: the way ${c.way} does not resolve to edges`);
+    let best = -1;
+    let bestD = Infinity;
+    let vtx = -1;
+    let vtxD = Infinity;
+    for (const run of r.runs) {
+      for (const h of run) {
+        const ia = p.halfEdges.origin[h];
+        const a = { x: p.vertices.x[ia], y: p.vertices.y[ia] };
+        const b = { x: p.vertices.x[p.halfEdges.origin[h ^ 1]], y: p.vertices.y[p.halfEdges.origin[h ^ 1]] };
+        const d = segD2(c.at, a, b);
+        if (d < bestD) {
+          bestD = d;
+          best = h;
+        }
+        for (const [iv, q] of [
+          [ia, a],
+          [p.halfEdges.origin[h ^ 1], b],
+        ] as const) {
+          const dv = (q.x - c.at.x) * (q.x - c.at.x) + (q.y - c.at.y) * (q.y - c.at.y);
+          if (dv < vtxD) {
+            vtxD = dv;
+            vtx = iv;
+          }
+        }
+      }
+    }
+    if (best < 0 || bestD > 4) return err('E_INVARIANT', `S5a: the crossing (${String(c.at.x)}, ${String(c.at.y)}) lies off its way ${c.way}`);
+    const ia = p.halfEdges.origin[best];
+    const ib = p.halfEdges.origin[best ^ 1];
+    along.push({ x: p.vertices.x[ib] - p.vertices.x[ia], y: p.vertices.y[ib] - p.vertices.y[ia] });
+    if (vtx >= 0 && vtxD <= 4 * TOUCH_CM * TOUCH_CM) {
+      placed.push({ x: p.vertices.x[vtx], y: p.vertices.y[vtx] } as LatticePoint);
+      decks.push(null);
+      continue;
+    }
+    // A bridge's span: the gate at its deck end on the stage's side (§4.4: a way over water crosses on its deck; a wall
+    // vertex on the deck is no lawful gate).
+    const atB = decksAt(p, ib);
+    const bridge = decksAt(p, ia).find((d) => atB.includes(d));
+    if (bridge !== undefined) {
+      const ends = [ia, ib].filter((v) => insideRing(outline, { x: p.vertices.x[v], y: p.vertices.y[v] }));
+      if (ends.length !== 1) return err('E_INVARIANT', `S5a: the stage boundary crosses ${bridge}'s span at (${String(c.at.x)}, ${String(c.at.y)}) with ${String(ends.length)} of its deck ends on the stage's side; its gate is the bridgehead on that side (N-54 (3))`);
+      const head = { x: p.vertices.x[ends[0]], y: p.vertices.y[ends[0]] } as LatticePoint;
+      if (placed.some((q) => q.x === head.x && q.y === head.y)) return err('E_INVARIANT', `S5a: two gates at ${bridge}'s bridgehead (${String(head.x)}, ${String(head.y)}) (N-54 (3))`);
+      placed.push(head);
+      decks.push(bridge);
+      continue;
+    }
+    // Off every span the way is dry (C-0250): a crossing in the water is refused, never split onto the way.
+    const inWater = wet.find((w) => insideRing(w.ring, c.at) && distToRing(c.at, w.ring) > TOUCH_CM);
+    if (inWater !== undefined) return err('E_INVARIANT', `S5a: the crossing (${String(c.at.x)}, ${String(c.at.y)}) of ${c.way} lies in ${inWater.body} off every bridge span (N-54 (3))`);
+    const v = kernel.geom.splitThrough(o, best as HalfEdgeId, c.at);
+    if (!v.ok) return err(v.code, v.detail);
+    const q = kernel.plat(arena);
+    const at = { x: q.vertices.x[v.value], y: q.vertices.y[v.value] } as LatticePoint;
+    if (decks.some((d, i) => d !== null && placed[i].x === at.x && placed[i].y === at.y)) return err('E_INVARIANT', `S5a: a gate split onto a bridgehead (${String(at.x)}, ${String(at.y)}) another crossing's gate holds (N-54 (3))`);
+    placed.push(at);
+    decks.push(null);
+  }
+  return ok({ placed, along, decks });
+}
+
+/** A span standing in the arena: the bridge and its two deck-end vertices, joined by one edge. */
+interface StandingSpan {
+  readonly bridge: Id;
+  readonly ends: readonly [number, number];
+}
+
+/** The two vertices of a deck's `deck_end` rows, when both resolve to one vertex each. */
+function deckEnds(kernel: Kernel, arena: PlatKey, bridge: WaterSet['bridges'][number]): [number, number] | null {
+  const vs: number[] = [];
+  for (const ref of bridge.deck) {
+    const r = kernel.resolve(ref, arena);
+    if (r.view !== 'vertices' || r.vertices.length !== 1) return null;
+    vs.push(r.vertices[0]);
+  }
+  return [vs[0], vs[1]];
+}
+
+/** Are the vertices a and b joined by one edge? */
+function joined(p: Plat, a: number, b: number): boolean {
+  return outgoing(p, a as VertexId).some((h) => dest(p, h) === b);
+}
+
+/** Every bridge of the water set whose two deck ends stand joined by one edge (its span) before the trace. */
+function standingSpans(kernel: Kernel, arena: PlatKey, water: WaterSet): StandingSpan[] {
+  const p = kernel.plat(arena);
+  const out: StandingSpan[] = [];
+  for (const b of water.bridges) {
+    const ends = deckEnds(kernel, arena, b);
+    if (ends !== null && joined(p, ends[0], ends[1])) out.push({ bridge: b.id, ends });
+  }
+  return out;
+}
+
+/** The trace's batch broke a span that stood before it (a vertex between its deck ends): refused (N-54 (3)). */
+function brokenSpan(kernel: Kernel, arena: PlatKey, spans: readonly StandingSpan[]): KernelResult<null> {
+  const p = kernel.plat(arena);
+  for (const s of spans) {
+    if (!joined(p, s.ends[0], s.ends[1])) return err('E_INVARIANT', `S5a: the trace put a vertex on ${s.bridge}'s span between its deck ends (N-54 (3))`);
+  }
+  return ok(null);
+}
+
+/**
+ * The strips' stops for a stage k ≥ 2 (F-1; C-0292): the stops `layStrips` reads from the arena — in the enceinte's gate
+ * order, each main gate's way taken along the trace's normal at the gate over `reachCm` on each side with `halfWidthCm`,
+ * each water gate's water face — then a water stop for every water ring no water gate gave, as `traceStage1` gives one
+ * for every ring (§4.8: the strips end at the banks). With no water ring beyond the water gates' the stops are the
+ * arena's, so the strips are laid exactly as before.
+ */
+function stageStops(enceinte: Enceinte, kernel: Kernel, key: PlatKey, halfWidthCm: number, reachCm: number, rings: readonly WaterRing[]): StripStop[] {
+  const p = kernel.plat(key);
+  const trace = traceLine(enceinte, kernel, key);
+  const one = (ref: { role: string; entity: Id; ordinal?: number }): number => {
+    const r = kernel.resolve(ref, key);
+    return r.view === 'vertices' && r.vertices.length === 1 ? r.vertices[0] : -1;
+  };
+  const ringKey = (ring: readonly XY[]): string => ring.map((q) => `${String(q.x)},${String(q.y)}`).join(';');
+  const out: StripStop[] = [];
+  const given = new Set<string>();
+  for (const g of enceinte.gates) {
+    const v = one({ role: 'gate', entity: g });
+    if (v >= 0) {
+      const q = { x: p.vertices.x[v], y: p.vertices.y[v] };
+      const i = trace.findIndex((u) => u.x === q.x && u.y === q.y);
+      const a = trace[i <= 0 ? trace.length - 1 : i - 1];
+      const b = trace[i + 1 >= trace.length ? 0 : i + 1];
+      const n = unitOf({ x: b.y - a.y, y: -(b.x - a.x) }) ?? { x: 0, y: 1 };
+      out.push({ kind: 'way', gate: g, at: q, path: [{ x: q.x - n.x * reachCm, y: q.y - n.y * reachCm }, q, { x: q.x + n.x * reachCm, y: q.y + n.y * reachCm }], halfWidthCm });
+      continue;
+    }
+    const b0 = one({ role: 'gate_end', entity: g, ordinal: 0 });
+    const b1 = one({ role: 'gate_end', entity: g, ordinal: 1 });
+    if (b0 < 0 || b1 < 0) continue;
+    const m = lat({ x: (p.vertices.x[b0] + p.vertices.x[b1]) * 0.5, y: (p.vertices.y[b0] + p.vertices.y[b1]) * 0.5 });
+    const loc = kernel.geom.pointLocate(key, 0, m);
+    if (loc.on !== 'face') continue;
+    const ring = kernel.view(key, 0).rings(loc.face)[0];
+    given.add(ringKey(ring));
+    out.push({ kind: 'water', gate: g, ring });
+  }
+  for (const r of rings) {
+    const rk = ringKey(r.ring);
+    if (given.has(rk)) continue;
+    given.add(rk);
+    out.push({ kind: 'water', gate: r.body, ring: r.ring });
+  }
+  return out;
+}
+
+/** How deep in the water a setback vertex may lie (cm): the water-gate receipt's own depth (M0-e-06's WET_DEPTH_CM). */
+const STRIP_WET_DEPTH_CM = 2;
+
+/** The strips' batch left a setback vertex of the enceinte in the water (deeper than STRIP_WET_DEPTH_CM): refused (F-1). */
+function wetSetback(kernel: Kernel, arena: PlatKey, enceinte: Id, rings: readonly WaterRing[]): KernelResult<null> {
+  if (rings.length === 0) return ok(null);
+  const r = kernel.resolve({ role: 'setback', entity: enceinte }, arena);
+  if (r.view !== 'edges') return ok(null);
+  const p = kernel.plat(arena);
+  for (const run of r.runs) {
+    for (const h of run) {
+      for (const v of [p.halfEdges.origin[h], p.halfEdges.origin[h ^ 1]]) {
+        const q = { x: p.vertices.x[v], y: p.vertices.y[v] };
+        const w = rings.find((x) => insideRing(x.ring, q) && distToRing(q, x.ring) > STRIP_WET_DEPTH_CM);
+        if (w !== undefined) return err('E_INVARIANT', `S5a's strips: a setback vertex of ${enceinte} (${String(q.x)}, ${String(q.y)}) lies in ${w.body} (§4.8: the strips end at the banks)`);
+      }
+    }
+  }
+  return ok(null);
+}
+
+/**
+ * The kernel the trace is handed (N-54 (3)), and the strips (F-1): its first callback batch — the trace's commit, the
+ * strips' — runs `before` (the gate splits) on the batch's overlay, then the caller's own callback, then `after` (the
+ * span proof; for the strips, the water proof too); a refusal of any of the three rejects the whole batch, so a refused
+ * trace leaves no gate split behind and refused strips leave no setback line. Every other call is the kernel's.
+ */
+function withinTraceBatch(kernel: Kernel, before: (o: Overlay) => KernelResult<null>, after: () => KernelResult<null>): Kernel {
+  let armed = true;
+  const tx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>> => {
+    if (!armed || fn === undefined) return kernel.tx(spec, fn);
+    armed = false;
+    return kernel.tx(spec, (o) => {
+      const b = before(o);
+      if (!b.ok) return err(b.code, b.detail);
+      const r = fn(o);
+      if (!r.ok) return r;
+      const a = after();
+      if (!a.ok) return err(a.code, a.detail);
+      return r;
+    });
+  };
+  return Object.freeze({ ...kernel, tx }) as Kernel;
 }
 
 /**
