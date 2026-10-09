@@ -7453,3 +7453,5 @@
 2026-10-09 03:11 check/M0-c-03-close-s2 CHECKPOINT gates: install 0, lint 0 (1137 files, probe-red ok), build 0, landed:verify ok; mirror close-s2 built (isolated); baseline + Z06 Z02 Z20 on frame/route pins running; next: NEAR, RELATED
 2026-10-09 03:13 build/M0-e-03-fix-s1 CHECKPOINT receipts before/after compared (verdicts identical; 5/6 derivations shifted); mutants M1-M6 running in mirror
 2026-10-09 03:14 build/M0-e-04-fix-s2 CHECKPOINT fix in perimeter.ts (mergeCollinear), pins collinear.test.ts + testkit collinear-chain.test.ts green; next after-probe zero shift, mutants, gates
+2026-10-09 03:16 check/M0-c-04-close-s3 CHECKPOINT sweep test size relief-60+3000 x default+coarse seeds 1-12 (48 derivations) before/after: reports identical 48/48 (timing keys excluded); RELATED@1000 still running (W=1); next: NEAR after RELATED, verdict
+2026-10-09 03:17 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a/plat, W=1) running; 1 red so far bench fusion/hausdorff (known N-8/N-52); next: NEAR, verdict
