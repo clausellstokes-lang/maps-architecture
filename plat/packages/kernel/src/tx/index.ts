@@ -51,6 +51,7 @@ export { resolveStretch, runsOfPairs, type Span } from './chains.js';
  * time (KI L2's measurement row); the runner takes it and puts it back (at most once) between batches. Putting it
  * back across committed batches sets `version` back: an arena with maintained level digests is re-attached afterwards
  * (`attachLevelDigests`, M0-d-04), since a digest state that saw the rolled-back commits can read current again once
- * the version catches up (C-0287).
+ * the version catches up (C-0287). Such a restore bumps the arena's `restoreGeneration` (N-56 (5), C-0299): a state
+ * keyed on (generation, version) never reads a version reached again after a restore as the one it saw.
  */
-export { restoreSavepoint, takeSavepoint, type Savepoint } from './savepoint.js';
+export { restoreGeneration, restoreSavepoint, takeSavepoint, type Savepoint } from './savepoint.js';
