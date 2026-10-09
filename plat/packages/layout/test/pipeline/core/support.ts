@@ -9,9 +9,14 @@ import {
   attachIndex,
   CONCERNS,
   createPlat,
+  faceWalk,
+  idOf,
   isFaceLive,
+  isHalfEdgeLive,
+  isVertexLive,
   ok,
   opInsertChain,
+  rowsOn,
   STAGES,
   type Cm,
   type Frame,
@@ -39,9 +44,9 @@ export function pt(x: number, y: number): LatticePoint {
   return { x: x as Cm, y: y as Cm };
 }
 
-/** An empty indexed ground arena over the fixture frame. */
-export function arena(): Plat {
-  const p = createPlat(GROUND, FRAME);
+/** An empty indexed arena over the fixture frame (the ground arena unless `key` names another). */
+export function arena(key: PlatKey = GROUND): Plat {
+  const p = createPlat(key, FRAME);
   attachIndex(p, { gridCellCm: [800, 400, 200, 100, 50] });
   return p;
 }
@@ -259,3 +264,69 @@ export function liveFaces(p: Plat): string[] {
 
 /** The scope every M0 run takes. */
 export const ALL = { kind: 'all' } as const;
+
+/**
+ * The arena bit for bit (N-55 (6)'s pin): the version, frame and slot counters, every column of every table, the handle
+ * table and the index's mutable state (grids, tombstones, partitions, by-key maps, work counters, log).
+ */
+export function bits(p: Plat): string {
+  const col = (a: ArrayLike<number>): string => `${String(a.length)}:${Array.from(a).join(',')}`;
+  const out: string[] = [`v${String(p.version)}`, JSON.stringify(p.frame), JSON.stringify(p.slots)];
+  const V = p.vertices;
+  const T = p.halfEdges;
+  const R = p.roles;
+  for (const a of [V.x, V.y, V.out, V.level, V.flags, T.origin, T.next, T.prev, T.level]) out.push(col(a));
+  for (const a of [R.edgeFirst, R.vertexFirst, R.kind, R.entity, R.level, R.ordinal, R.nextInSet, R.nextSameKey, R.head.k0, R.head.k1, R.head.first]) out.push(col(a));
+  out.push(`h${String(R.head.count)}`);
+  for (const F of p.faces) {
+    for (const a of [F.outer, F.holesStart, F.holes, F.kind, F.owner, F.parent, F.stage, F.nextOfOwner, F.ownerHead.owner, F.ownerHead.head]) out.push(col(a));
+    out.push(`o${String(F.ownerHead.count)}`);
+  }
+  out.push(col(p.indexHome.vertex), col(p.indexHome.edge), ...p.indexHome.face.map(col));
+  const H = p.handles;
+  out.push(col(H.units), col(H.start), col(H.hash), col(H.slots), `n${String(H.count)}`);
+  const idx = p.index;
+  if (idx !== undefined) {
+    out.push(`log ${idx.log === null ? 'none' : 'open'}`, `work ${String(idx.work.rebuilds)}/${String(idx.work.items)}`);
+    for (const L of idx.levels) {
+      out.push(`static ${L.static.map((q) => String(q.id)).join(',')}`);
+      out.push(`tomb ${L.tombstones.map((t) => [...t].join(',')).join('|')}`);
+      out.push(`cells ${JSON.stringify([...L.dynamic.cells].map(([k, v]) => [k, [...v]]))}`);
+      out.push(`large ${[...L.dynamic.large].join(',')}`);
+      out.push(`entries ${JSON.stringify([...L.dynamic.entries])}`);
+    }
+    for (const q of idx.partitions) out.push(`part ${String(q.id)} ${String(q.key)} ${q.tree === null ? 'empty' : 'tree'} ${col(q.keys)} ${[...q.pending].join(',')}`);
+    for (const m of idx.byKey) out.push(`byKey ${JSON.stringify([...m])}`);
+  }
+  return out.join('\n');
+}
+
+/**
+ * The arena's content free of slot numbers: every live vertex (point, level, flags, rows), edge (its ends' points, level,
+ * rows) and face record per level (its rings as point texts, kind, owner, stage rank).
+ */
+export function contentPrint(p: Plat): string {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const R = p.roles;
+  const rows = (list: number[]): string => list.map((r) => `${String(R.kind[r])}/${idOf(p, R.entity[r])}/${String(R.level[r])}/${String(R.ordinal[r])}`).sort().join(';');
+  const at = (v: number): string => `${String(X[v])},${String(Y[v])}`;
+  const out: string[] = [];
+  for (let v = 0; v < p.slots.vertex.top; v++) if (isVertexLive(p, v)) out.push(`v ${at(v)} L${String(p.vertices.level[v])} f${String(p.vertices.flags[v])} [${rows(rowsOn(p, 'vertex', v))}]`);
+  for (let e = 0; e < p.slots.pair.top; e++) {
+    if (!isHalfEdgeLive(p, 2 * e)) continue;
+    const [a, b] = [at(O[2 * e]), at(O[2 * e + 1])].sort();
+    out.push(`e ${a}-${b} L${String(p.halfEdges.level[e])} [${rows(rowsOn(p, 'edge', 2 * e))}]`);
+  }
+  for (let l = 0; l < 5; l++) {
+    const level = l as 0 | 1 | 2 | 3 | 4;
+    const F = p.faces[level];
+    for (let f = 0; f < p.slots.face[level].top; f++) {
+      if (!isFaceLive(p, level, f)) continue;
+      const rings = faceWalk(p, level, f).map((ring) => ring.map((h) => at(O[h])).join(' '));
+      out.push(`f${String(l)} ${rings.join(' | ')} k${String(F.kind[f])} o${F.owner[f] < 0 ? '-' : idOf(p, F.owner[f])} s${String(F.stage[f])}`);
+    }
+  }
+  return out.sort().join('\n');
+}
