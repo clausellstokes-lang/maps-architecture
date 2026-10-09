@@ -7339,3 +7339,5 @@
 2026-10-08 22:43 build/M0-b-03-fix-s3 CHECKPOINT related gate and bentcut-after bench running; next: landed after both
 2026-10-08 22:46 build/M0-a-06-fix-s5 CHECKPOINT self-check (fix): N-56 (5) Q28 pinned (mutants M1 always-bump, M2 never-bump, M3 bump-by-commits, M4 global counter, M5 export dropped, M6 forgotten on commit: all killed; mirror removed); next: gates
 2026-10-08 22:47 check/M0-a-08-close-s3 CHECKPOINT verdict drafted in checks/M0-a-08-s3.md; related at 1000 still running; next: related result, tiny-everywhere probe, notes 28, CLEAN-ROOM, landed
+2026-10-08 22:52 build/M0-a-05-fix-s7 CHECKPOINT 1e6 after-run still running (~65 min, load 15); build gate exit 0 on retry; next: 1e6 before, step1-2, NEAR/RELATED
+2026-10-08 23:00 build/M0-a-06-fix-s5 CHECKPOINT gates: install 0, lint 0 (probe red), build 0, NEAR test/tx 14 files 222 tests 0; C-0299 + L-0386 written; RELATED running; next: landed
