@@ -16,14 +16,16 @@ import {
   type Plat,
   type VertexId,
 } from '../../../src/arena/index.js';
+import { setTinyTables, tinyTables } from '../../../src/arena/debug.js';
 import { attachIndex, beginIndexBatch, checkIndexBatch, endIndexBatch, query, routeRun } from '../../../src/index/index.js';
 import { attractVertex } from '../../../src/insert/attractVertex.js';
 import { INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
 import { placePoint, splitEndsBreachClearance } from '../../../src/insert/placement.js';
 import { addressKind, allocateAnchor, firstAnchorOrdinal, splitThrough } from '../../../src/insert/splitThrough.js';
-import { opSplitThrough, tx, type KernelTx } from '../../../src/tx/index.js';
+import { opSplitThrough, tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
 import type { Level, StageId } from '../../../src/types/index.js';
 import { TINY_TABLES } from '../../arena/tiny.js';
+import { bits } from '../../tx/support.js';
 import {
   buildArena,
   CELLS,
@@ -365,43 +367,54 @@ function everyFaceWalks(p: Plat): void {
   }
 }
 
-// Under PLAT_TINY_TABLES=1 (M0-a-02's tiny-tables mode, N-53 (4), C-0286) every table starts at capacity 1 and a full
-// table grows by one slot, the reference included: the pins then read "the table was replaced inside the op" (cap + 1)
-// in place of "doubled" (2 · cap), and the reference's never-grows premise is the default mode's alone. The claim —
-// the split reads the live tables, equal to a reference — is the same in both modes (C-0284).
-const grownFrom = (cap: number): number => (TINY_TABLES ? cap + 1 : 2 * cap);
+// These pins pin the DEFAULT sizes' premise — a table exactly full doubles inside the split (2 · cap) and the large-capacity
+// reference never grows — so each runs with M0-a-02's tiny-tables mode off whatever PLAT_TINY_TABLES says (N-53 (4),
+// C-0286; N-s1-4, C-0294): the mode is read when a table is made AND when it grows, so it is off for the whole body (the
+// builds, the split's own growth and the reference), and put back to the process's setting after, pass or fail. Under
+// the tiny run every other test of this folder meets a replaced table at every allocation; these keep the doubling.
+function atDefaultSizes(fn: () => void): () => void {
+  return () => {
+    setTinyTables(false);
+    try {
+      fn();
+    } finally {
+      setTinyTables(TINY_TABLES);
+    }
+  };
+}
 
 describe('a split at a table’s doubling (N-53 (1))', () => {
-  it('P1: the pair table full — the split’s new pair doubles it; the rotation at v, s and t0 holds; equal to a large-capacity reference', () => {
+  it('P1: the pair table full — the split’s new pair doubles it; the rotation at v, s and t0 holds; equal to a large-capacity reference', atDefaultSizes(() => {
     const b = sized(SLANT, { edgePairs: SLANT.edges.length });
     const p = b.plat;
     expect(p.slots.pair.top).toBe(p.halfEdges.level.length); // full: the split's pair grows the table
     const cap = p.halfEdges.level.length;
     splitAndRead(b, 1, 1500, 2000);
-    expect(p.halfEdges.level.length).toBe(grownFrom(cap)); // the table did double (tiny: grow) inside the op
+    expect(p.halfEdges.level.length).toBe(2 * cap); // the table did double inside the op
     expect(problems(p)).toEqual([]);
     everyFaceWalks(p);
     const ref = indexed(SLANT);
-    if (!TINY_TABLES) expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
+    expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
     splitAndRead(ref, 1, 1500, 2000);
     expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  });
+  }));
 
-  it('P1, the vertex-table twin: the vertex table full — the split’s vertex doubles it; same checks, same fingerprint', () => {
+  it('P1, the vertex-table twin: the vertex table full — the split’s vertex doubles it; same checks, same fingerprint', atDefaultSizes(() => {
     const b = sized(SLANT, { vertices: SLANT.vertices.length });
     const p = b.plat;
     expect(p.slots.vertex.top).toBe(p.vertices.x.length);
     const cap = p.vertices.x.length;
     splitAndRead(b, 1, 1500, 2000);
-    expect(p.vertices.x.length).toBe(grownFrom(cap));
+    expect(p.vertices.x.length).toBe(2 * cap);
     expect(problems(p)).toEqual([]);
     everyFaceWalks(p);
     const ref = indexed(SLANT);
+    expect(ref.plat.vertices.x.length).toBeGreaterThan(SLANT.vertices.length + 1); // the reference never grows
     splitAndRead(ref, 1, 1500, 2000);
     expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  });
+  }));
 
-  it('P1, every table full at once (vertices, pairs, role rows): a Steiner split copying the edge’s rows; same fingerprint', () => {
+  it('P1, every table full at once (vertices, pairs, role rows): a Steiner split copying the edge’s rows; same fingerprint', atDefaultSizes(() => {
     const rows = dressQuarters(indexed(QUARTERS)).plat.slots.role.top;
     const b = sized(QUARTERS, { vertices: QUARTERS.vertices.length, edgePairs: QUARTERS.edges.length, roleRows: rows }, true);
     const p = b.plat;
@@ -416,9 +429,9 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     const ref = dressQuarters(indexed(QUARTERS));
     splitAndRead(ref, 2, 510, 300);
     expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  });
+  }));
 
-  it('P1, the declared form: opSplitThrough through tx() at a full pair table commits, its fingerprint equal to a large-capacity reference', () => {
+  it('P1, the declared form: opSplitThrough through tx() at a full pair table commits, its fingerprint equal to a large-capacity reference', atDefaultSizes(() => {
     const run = (b: Built): void => {
       const g = edgeNear(b.plat, 2, 510, 300);
       const r = tx(b.plat, declaredSpec(2, [opSplitThrough([7, 0], 0, g, pt(510, 300), { role: 'anchor', entity: 'district:1' })]));
@@ -428,20 +441,20 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
     const cap = b.plat.halfEdges.level.length;
     expect(b.plat.slots.pair.top).toBe(cap);
     run(b);
-    expect(b.plat.halfEdges.level.length).toBe(grownFrom(cap));
+    expect(b.plat.halfEdges.level.length).toBe(2 * cap);
     expect(problems(b.plat)).toEqual([]);
     everyFaceWalks(b.plat);
     const ref = dressQuarters(indexed(QUARTERS));
     run(ref);
     expect(b.plat.version).toBe(ref.plat.version);
     expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
-  });
+  }));
 
   // The claim is capacity-blindness: split by split, the arena grown from full tables equals the one built large (equal
   // fingerprints mean equal arenas, so §3.10 holds on one exactly when on the other) — and §3.10 holds after every split:
   // these long runs on near-frame chords reach the split's own-ends clearance case (C-0279 (4)), which the placement
   // now keeps (C-0284).
-  it('property: a run of splits from full tables through two doublings equals the same run at large capacity, split by split', { timeout: TIMEOUT }, () => {
+  it('property: a run of splits from full tables through two doublings equals the same run at large capacity, split by split', { timeout: TIMEOUT }, atDefaultSizes(() => {
     let doubled = 0;
     for (let seed = 1; seed <= 150; seed++) {
       const rnd = generator(0x5e53 + seed);
@@ -467,9 +480,13 @@ describe('a split at a table’s doubling (N-53 (1))', () => {
         expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
         expect(problems(ref.plat)).toEqual([]);
       }
-      if (b.plat.halfEdges.level.length >= (TINY_TABLES ? cap + 2 : 4 * cap)) doubled++; // two doublings (tiny: two growths)
+      if (b.plat.halfEdges.level.length >= 4 * cap) doubled++; // two doublings
     }
     expect(doubled).toBeGreaterThan(0); // the runs reach a second doubling
+  }));
+
+  it('the pins above put the tiny-tables mode back to the process’s setting (PLAT_TINY_TABLES), pass or fail', () => {
+    expect(tinyTables()).toBe(TINY_TABLES);
   });
 });
 
@@ -631,5 +648,66 @@ describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
     expect(cases.get(6)).toContain('20: (2912,3984)-(3034,4000)');
     expect(cases.get(34)).toContain('27: (2168,0)-(2003,23)');
     expect(cases.get(40)).toContain('37: (3981,2702)-(4000,2539)');
+  });
+});
+
+// ---- N-55 (5): splitThrough refuses a closed transaction (C-0294) ------------------------------------------------------
+//
+// An overlay outlives its batch only as a programming error: kept from a callback past the commit, a reject or a throw
+// that rolled the batch back, it is closed (`InsertTx.closed`, set by M0-a-06's transaction). Before N-55 the shell's
+// writers never looked, so `splitThrough` on it wrote outside any transaction with the version unchanged (the ruling's
+// probe q13). It now throws at its entry, before it reads or charges anything — tx's assertion class (N-53 (3)), never a
+// typed refusal — and the arena stays as it was, bit for bit.
+
+/** The overlay of a QUARTERS batch at L2 that split (500, 300) on the L1 edge (500, 0)–(500, 500), then ended as `how`. */
+function staleSplitOverlay(how: 'committed' | 'rejected' | 'threw'): { p: Plat; o: Overlay } {
+  const p = dressQuarters(indexed(QUARTERS)).plat;
+  let kept: Overlay | null = null;
+  const run = (): unknown =>
+    tx(p, callbackSpec(2), (o) => {
+      kept = o;
+      const r = splitThrough(o, edgeNear(p, 2, 510, 300), pt(510, 300), { role: 'anchor', entity: 'district:1' });
+      expect(r.ok).toBe(true);
+      if (how === 'rejected') return { ok: false as const, code: 'E_NO_PATH' as const, detail: 'the stage gave up' };
+      if (how === 'threw') throw new Error('stage bug');
+      return r;
+    });
+  if (how === 'threw') expect(run).toThrow(/stage bug/);
+  else expect((run() as { ok: boolean }).ok).toBe(how === 'committed');
+  if (kept === null) throw new Error('the callback never ran');
+  return { p, o: kept };
+}
+
+describe('N-55 (5): splitThrough on a closed transaction throws — committed, rejected or rolled back by a throw (C-0294)', () => {
+  for (const how of ['committed', 'rejected', 'threw'] as const) {
+    it(`on a ${how} batch's overlay: throws "the transaction is closed"; the arena bit for bit and its version as they were`, () => {
+      const { p, o } = staleSplitOverlay(how);
+      expect(o.closed).toBe(true);
+      const before = bits(p);
+      const version = p.version;
+      const g = edgeNear(p, 2, 510, 150); // (500, 0)–(500, 300) after a commit, the whole L1 edge after a reject or throw
+      for (const row of [undefined, { role: 'anchor', entity: 'district:2' }]) {
+        expect(() => splitThrough(o, g, pt(510, 150), row)).toThrow(/^insert: the transaction is closed \(committed or rejected\)$/);
+        expect(bits(p)).toBe(before);
+        expect(p.version).toBe(version);
+      }
+      expect(problems(p)).toEqual([]);
+      // the control: the same split in an open batch writes and commits — the throw was the closed overlay, nothing else
+      const r = tx(p, callbackSpec(2), (open) => splitThrough(open, g, pt(510, 150)));
+      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
+      expect(p.version).toBe(version + 1);
+      expect(bits(p)).not.toBe(before);
+      expect(problems(p)).toEqual([]);
+    });
+  }
+
+  it('an open shell transaction (closed unset) and one marked open (closed false) split as before', () => {
+    for (const closed of [undefined, false]) {
+      const p = dressQuarters(indexed(QUARTERS)).plat;
+      const t: InsertTx = closed === undefined ? insertTx(p, 2) : { ...insertTx(p, 2), closed };
+      const r = splitThrough(t, edgeNear(p, 2, 510, 300), pt(510, 300));
+      expect(r.ok).toBe(true);
+      expect(t.journal.vertices.length).toBe(1);
+    }
   });
 });
