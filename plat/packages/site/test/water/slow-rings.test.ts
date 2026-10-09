@@ -5,14 +5,18 @@
 // 17–25 cm apart (below minEdgeCm 25) within 17–26 cm of a neighbouring side (below attractCm 26); the insertion welds
 // them, the shore role branches and §3.10's role consistency refuses the batch — on the river, the first body, the whole
 // stage: a lawful SMALL_RIVER town with no water (0.5 % of seeds). Pinned here:
-// * a hand-built shore ring carrying such 17 cm hairpins commits once proved, every hard row green — role consistency
-//   among them — and the hairpins gone; raw, it is the insertion's to weld (the control);
+// * a hand-built shore ring carrying 17 cm hairpins is cleaned of them (every edge ≥ minEdgeCm, 60 cm clear) and commits
+//   with every hard row green — role consistency among them;
+// * the four class-A rings the kernel built (fixtures/q20-slow-rings.json, captured by the session ruling's probe
+//   before this round): raw, each is refused at commit by role consistency, `(shore, water:river:0) branches` — the
+//   hazard, reproduced (the control); proved, each commits with every hard row green;
 // * a ring the clean cannot make clear is refused with its cause, never handed to the kernel; a body so refused is
 //   dropped `refused` with the cause in `fallbacks`; the river so refused is the stage's refusal, the cause named;
 // * the five class-A seeds and the x-06 checker's two (SMALL_RIVER, unplanted) commit through the registered S1's
 //   composition — the base TerrainStrategy, the base RiverStrategy and `s1Stage`, under the runner's town key and the
 //   base arena's index cell (C-0264; equal to the registered run on all seven, measured in the round's mirror) — run
 //   here under a hand-built StageContext, never through @plat/layout's runner (§14; C-0123).
+import { readFileSync } from 'node:fs';
 import { attachIndex, checkCI, createKernel, createPlat, createRng, rowKey, rowsOn, seedKey, STAGES, type Frame, type Hash128, type LatticePoint, type Ring } from '@plat/kernel';
 import { mintTownRoot, type Cm, type CmArray, type GeomRef, type StageContext, type Terrain, type WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
@@ -89,7 +93,7 @@ function reachOfRing(rings: Ring[]): { body: WaterBody; parts: { rings: Ring[]; 
 }
 
 describe('provedRings: the kernel\'s ring cleaned and proved as the fast ring is (N-56 (1))', () => {
-  it('a hand-built shore with 17 cm hairpins: raw it is neither clear nor fit (edges under minEdgeCm, vertices within attractCm of a side); proved, every hairpin gone, simple and 60 cm clear', () => {
+  it('a hand-built shore with 17 cm hairpins: raw it is not clear (edges under minEdgeCm, vertices within attractCm of a side); proved, every hairpin gone, simple and 60 cm clear', () => {
     const raw = hairpinRing();
     expect(isSimple(raw)).toBe(true);
     expect(clearRing(raw)).toBe(false);
@@ -131,13 +135,15 @@ describe('provedRings: the kernel\'s ring cleaned and proved as the fast ring is
     }
   });
 
-  it('a ring the clean cannot make clear is refused with its cause: two rings 50 cm apart (rings meet), a ring 40 cm from an earlier body (meets an earlier body), a ring folding within 40 cm of itself (near-touch)', () => {
+  it('a ring the clean cannot make clear is refused with its cause: two rings 50 cm apart (rings meet), a ring crossing an earlier body\'s ring (meets an earlier body), a ring folding within 40 cm of itself (near-touch)', () => {
     const square = (x: number, y: number, s: number): LatticePoint[] => [pt(x, y), pt(x + s, y), pt(x + s, y + s), pt(x, y + s)];
     // an outer ring and a hole 50 cm inside it along one side
     const hole = square(-950, -950, 1900).reverse();
     expect(provedRings([square(-1000, -1000, 4000), hole], REACH, [])).toBe('not clear (rings meet)');
-    // a ring whose side runs 40 cm from an earlier body's ring, never along it
-    expect(provedRings([square(0, 0, 2000)], REACH, [square(2040, 0, 2000)])).toBe('not clear (meets an earlier body)');
+    // a ring crossing an earlier body's ring, never along it (the difference would have cut it there)
+    expect(provedRings([square(0, 0, 2000)], REACH, [square(1000, 500, 2000)])).toBe('not clear (meets an earlier body)');
+    // the same ring meeting the earlier one along a shared side passes: a shared stretch is no meeting
+    expect(typeof provedRings([square(0, 0, 2000)], REACH, [square(2000, 0, 2000)])).not.toBe('string');
     // a U whose two arms run 40 cm apart for 20 m: no vertex the clean may drop, the arms too close
     const u = [pt(0, 0), pt(3000, 0), pt(3000, 2040), pt(1000, 2040), pt(1000, 2000), pt(2960, 2000), pt(2960, 40), pt(0, 40)];
     expect(isSimple(u)).toBe(true);
@@ -153,9 +159,42 @@ describe('provedRings: the kernel\'s ring cleaned and proved as the fast ring is
   });
 });
 
+/** The four class-A rings (see the header): each seed's frame and the kernel's raw ring. */
+const Q20 = (JSON.parse(readFileSync(new URL('./fixtures/q20-slow-rings.json', import.meta.url), 'utf8')) as { rings: { seed: number; frame: Frame; ring: [number, number][] }[] }).rings;
+
+/** One ring set as the river's one part through the ring's and the water's batches; the CI sweep's failing hard rows, or the refusal. */
+function commitRings(frame: Frame, rings: Ring[]): string[] | string {
+  const reach = reachOf(frame);
+  const seeds: LatticePoint[] = [];
+  for (let x = -reach.x; x < reach.x; x += 2000) for (let y = -reach.y; y < reach.y; y += 2000) {
+    const q = pt(x, y);
+    if (insideRings(rings, q) && ringsDist2(rings, q) >= 100 * 100) seeds.push(q);
+  }
+  const { plat, kernel } = ground(frame);
+  if (!outerRingBatch(kernel, 'terrain:ground', reach, OPTS).ok) return 'the outer ring';
+  const b = body('water:river:0', 'river', [[0, 0], [1000, 0]], 2000);
+  const r = waterFaces([{ body: b, parts: [{ rings, seeds }] }], kernel, { ...OPTS, sites: [], bridgeIds: [] });
+  if (!r.ok) return `${r.code} ${r.detail}`;
+  const refs: GeomRef[] = [{ role: 'margin', entity: 'terrain:ground' }, b.face, b.shore, ...r.value.land.map((c) => c.face)];
+  return hardFailures(plat, refs, new Set(['terrain:ground', b.id, ...r.value.land.map((c) => c.id)]));
+}
+
+describe('Q20 class A\'s own rings: the kernel\'s slow rings S1 handed to the insertion uncleaned (N-56 (1))', () => {
+  it.each(Q20.map((q) => [q.seed, q] as const))('seed %i: raw, the batch is refused by role consistency (the shore branches); proved, it commits with every hard row green', (_seed, q) => {
+    const raw: LatticePoint[] = q.ring.map(([x, y]) => pt(x, y));
+    expect(isSimple(raw)).toBe(true);
+    expect(clearRing(raw)).toBe(false);
+    expect(commitRings(q.frame, [raw])).toMatch(/^E_INVARIANT .*\(shore, water:river:0\) branches/);
+    const p = provedRings([raw], reachOf(q.frame), []);
+    if (typeof p === 'string') throw new Error(p);
+    expect(p[0].length).toBeLessThan(raw.length);
+    expect(commitRings(q.frame, p)).toEqual([]);
+  });
+});
+
 describe('waterPolygons and S1: a body whose kernel ring stays unclear is refused, its cause named (N-56 (1))', () => {
-  // A river that loops round a 20 m square and crosses its own start, 50 cm wide: both rings — the fast ring's and the
-  // kernel's (the buffer's union, a hole of land inside the loop) — keep the hole 50 cm from the outer ring.
+  // A river 50 cm wide that loops round a 20 m square and crosses its own course: on both rings — the fast ring's and
+  // the kernel's (the buffer's union) — the two banks run 50 cm apart, under the 60 cm clearance, so neither is clear.
   const loop: [number, number][] = [
     [-3000, 0],
     [1000, 0],
