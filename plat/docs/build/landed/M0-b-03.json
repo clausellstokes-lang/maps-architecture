@@ -1,21 +1,21 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-b-03",
-  "lane": "build/M0-b-03-fix-s2",
-  "lanes": ["build/M0-b-03", "build/M0-b-03-fix-s1", "build/M0-b-03-fix-s2"],
+  "lane": "build/M0-b-03-fix-s3",
+  "lanes": ["build/M0-b-03", "build/M0-b-03-fix-s1", "build/M0-b-03-fix-s2", "build/M0-b-03-fix-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-08T16:43:22.454Z",
+  "date": "2026-10-09T05:05:55.871Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/layout/src/infill/bentCutFabric.ts", "plat/packages/layout/src/infill/ladder.ts", "plat/packages/layout/src/infill/width.ts", "plat/packages/layout/src/infill/deepInterior.ts", "plat/packages/layout/src/infill/portals.ts", "plat/packages/layout/src/infill/stage.ts", "plat/packages/layout/src/infill/index.ts", "plat/packages/layout/test/infill/fabric/", "plat/packages/testkit/test/layout/infill-fabric/ (T34-1's commit clause over M0-k-01's face set and the derivation-unit re-run through M0-d-08's harness; C-0122)"],
-  "counts": { "created": 20, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 21, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
-    { "path": "plat/packages/layout/src/infill/bentCutFabric.ts", "status": "created", "sha256": "46361f9aca0ea2fde54f35afdd4c681b8de02f0df24c6d18f88a8c72f7389fa0", "size": 64802 },
+    { "path": "plat/packages/layout/src/infill/bentCutFabric.ts", "status": "created", "sha256": "ab4d9c3f14f72859176b00bf7661a1ae43e13cb6162bd5679d6b268d81f02433", "size": 66285 },
     { "path": "plat/packages/layout/src/infill/deepInterior.ts", "status": "created", "sha256": "d2635966b31f9ee1eb357ae0202594a3199502a67740d2ebfbcedf44602dc612", "size": 12789 },
-    { "path": "plat/packages/layout/src/infill/index.ts", "status": "changed", "sha256": "455446b3711f7b73151f37ef53f37daaa3d127cd3f798411897d905c96c6d394", "size": 2408 },
+    { "path": "plat/packages/layout/src/infill/index.ts", "status": "changed", "sha256": "49631addcb872608331ebe6d2b4f0ead3f14910deaffd55ded7bbb994f22bd75", "size": 2453 },
     { "path": "plat/packages/layout/src/infill/ladder.ts", "status": "created", "sha256": "b5f230876024936db7cf4041cabec6c11cdb6a8f06a8f523675cb021667c9d2b", "size": 29103 },
-    { "path": "plat/packages/layout/src/infill/portals.ts", "status": "created", "sha256": "7d6e8ea19ef6b80ca7db541bc4d6e057d495d3ff24a9abcd9afed5c6f67e79bb", "size": 9538 },
-    { "path": "plat/packages/layout/src/infill/stage.ts", "status": "created", "sha256": "5981aca7bdb6a82064805e57d4a851299a82e08f14d912a6f9b95877350142ba", "size": 10158 },
+    { "path": "plat/packages/layout/src/infill/portals.ts", "status": "created", "sha256": "b4d624b8114bc66c4f0c7e2cc53b9905d9dbdd7d072c949902083f02cb85d479", "size": 13945 },
+    { "path": "plat/packages/layout/src/infill/stage.ts", "status": "created", "sha256": "ef76fc0f04840ea226b21bbf61f5d3671318821958e0abc7aad5767dc6486a80", "size": 13187 },
     { "path": "plat/packages/layout/src/infill/width.ts", "status": "created", "sha256": "699ba577b18cf89163d4edce1ca55580fb5ce43d1b34cedd3d1836aafef94cc3", "size": 6423 },
     { "path": "plat/packages/layout/test/infill/fabric/deep.test.ts", "status": "created", "sha256": "909a9203044f00085c4d87712bd6a4633c276d520c6365b6f3db7205b7ff5826", "size": 8320 },
     { "path": "plat/packages/layout/test/infill/fabric/fwork.test.ts", "status": "created", "sha256": "db221af38bc52d83239bed2480df34625199109f7f70be8df7adcb74d991a252", "size": 4666 },
@@ -23,6 +23,7 @@
     { "path": "plat/packages/layout/test/infill/fabric/ladder.test.ts", "status": "created", "sha256": "af2e2bf72ca66d998f0fd91b4300badd6c82ae897372746101d6fb938a1f0b64", "size": 10980 },
     { "path": "plat/packages/layout/test/infill/fabric/portals.test.ts", "status": "created", "sha256": "27c1e0851f933e42200b5f9ae8fbff9c5b554d88211fa0d5f9457ba0a54b9f55", "size": 9294 },
     { "path": "plat/packages/layout/test/infill/fabric/registry.test.ts", "status": "created", "sha256": "e25e4b6cba4b8c8f0dce0d91bffd06032145c4582a7e62f32469ff0de9897f12", "size": 4481 },
+    { "path": "plat/packages/layout/test/infill/fabric/seamPortalsRow.test.ts", "status": "created", "sha256": "be4ae3be7d2baca4e56e5bf118c94884c6ea58e06b0bf399fd329ad04a8c1a02", "size": 19829 },
     { "path": "plat/packages/layout/test/infill/fabric/stage.test.ts", "status": "created", "sha256": "4f61c43c1e5aff3f18f6b821fad45f61a7df4d77189f0b1ea67fe45884417c87", "size": 7795 },
     { "path": "plat/packages/layout/test/infill/fabric/strips.test.ts", "status": "created", "sha256": "2d14a241891eb4b49e7233aa99029386b5ed3b1b13e20e9d3d7f8a93c241420d", "size": 6336 },
     { "path": "plat/packages/layout/test/infill/fabric/support.ts", "status": "created", "sha256": "3eebf646c461addd559bffaf490461ba097fe21a094b92daca3a8ea8ee6ba7a5", "size": 11674 },
@@ -35,14 +36,14 @@
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0249", "L-0267", "L-0363", "P-0032", "P-0033"],
-      "lines": ["4edf80263d4a5712", "f56a33ba86d71b64", "f0bb00affe827152", "1f731d1afac7265a", "826b55c6830152b1"],
+      "ids": ["L-0249", "L-0267", "L-0363", "L-0385", "P-0032", "P-0033"],
+      "lines": ["4edf80263d4a5712", "f56a33ba86d71b64", "f0bb00affe827152", "3860bbe62f249bce", "1f731d1afac7265a", "826b55c6830152b1"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0237", "C-0243", "C-0288"],
-      "lines": ["c7b17714d474ac2c", "057710a8c263bd07", "2c25393b407a0a9e"],
+      "ids": ["C-0237", "C-0243", "C-0288", "C-0298"],
+      "lines": ["c7b17714d474ac2c", "057710a8c263bd07", "2c25393b407a0a9e", "102671c160a2def8"],
       "removed": []
     }
   ]

@@ -7381,3 +7381,9 @@
 2026-10-09 00:49 build/M0-b-03-fix-s3 CHECKPOINT related gate still running
 2026-10-09 00:49 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; reds so far bench fusion/hausdorff, layout s5ab/span, layout districts/integration, tables workLimits/table (to classify by replay on pre-fix winding.ts); next: as before
 2026-10-09 00:50 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run still in progress (reds so far hausdorff, span); next: verdict
+2026-10-09 01:06 build/M0-b-03-fix-s3 LANDED plat/packages/layout/src/infill/stage.ts plat/packages/layout/src/infill/portals.ts plat/packages/layout/src/infill/bentCutFabric.ts plat/packages/layout/src/infill/index.ts plat/packages/layout/test/infill/fabric/seamPortalsRow.test.ts plat/docs/build/choices.md(C-0298) plat/CLEAN-ROOM.md(L-0385) plat/docs/build/landed/M0-b-03.json
+2026-10-09 01:06 check/M0-b-03-close-s3 CHECKPOINT started; machine id ok, node 24.12; next read N-9/Q15, code, plan probes
+2026-10-09 01:08 build/M0-a-05-fix-s7 CHECKPOINT 1e6 before-run still running (~90 min)
+2026-10-09 01:09 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; next: as before
+2026-10-09 01:09 check/M0-c-03-close-s1 CHECKPOINT waiting: RELATED@1000 gate (tree, W=1) and Z20 full RELATED (mirror); next: verdict
+2026-10-09 01:10 check/M0-b-03-close-s3 CHECKPOINT mirrors m0 (pre-s3 infill) m1 mA-C built; base probe reproduces N-9 on pre (count 0, 5 wrong-seam flat 1); 27 mutants written; next baseline + sweep
