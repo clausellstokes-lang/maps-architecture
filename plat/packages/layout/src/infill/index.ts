@@ -45,7 +45,7 @@ export {
   type ReflexVertex,
   type SlideFoot,
 } from './ladder.js';
-export { chainRuns, kerbPortals, portalGap, portalInvariant, removeLane, seamOfSpine, vertexPoints, type LaneRemoval, type PortalProblem } from './portals.js';
+export { chainRuns, kerbPortals, portalGap, portalInvariant, removeLane, seamOfSpine, seamsOfSpine, spineSeam, vertexPoints, type LaneRemoval, type PortalProblem } from './portals.js';
 export {
   BENT_CUT,
   BentCutFabric,
@@ -70,4 +70,4 @@ export {
   type StopUse,
   type WorkCut,
 } from './bentCutFabric.js';
-export { BASE_FABRICS, runS8, s8Stage, SEAM_PORTAL_ROW, type S8District, type S8Input, type S8Output, type S8Report } from './stage.js';
+export { BASE_FABRICS, runS8, s8Stage, SEAM_PORTAL_ROW, seamPortalProblems, type S8District, type S8Input, type S8Output, type S8Report } from './stage.js';

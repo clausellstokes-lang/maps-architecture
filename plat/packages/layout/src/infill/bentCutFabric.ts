@@ -95,7 +95,7 @@ import {
 } from './ladder.js';
 import { cutCells, planCut, type CutCells, type CutPlan, type KerbFace, type KerbSpine, type PlanContext, type StartPlan, type FarPlan, type XY } from './planner.js';
 import { bearingCdeg } from '../siting/geom.js';
-import { chainRuns, kerbPortals, seamOfSpine } from './portals.js';
+import { chainRuns, kerbPortals, seamOfSpine, seamsOfSpine, spineSeam } from './portals.js';
 import { canonicalRings, faceSides, rayHit, type FaceSides } from './sides.js';
 import { cutClass, drawWidthExponent, widthCells, widthOf, type CutClass, type WidthCells } from './width.js';
 
@@ -539,7 +539,8 @@ class Run {
       const w = this.ctx.widths.get(wayId);
       if (w === undefined) continue;
       const runs = chainRuns(this.p, this.ctx.key, { role: 'way', entity: wayId });
-      const seam = seamOfSpine(this.seams, wayId);
+      // The gap reads every portal on the spine, whichever seam records it (C-0298).
+      const seam = spineSeam(this.seams, wayId);
       for (const run of runs) {
         spineIds.push(wayId);
         spines.push({
@@ -707,7 +708,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
       newJunctions.push(jn.fresh);
     } else if (jn.armed !== null) armed.push(jn.armed);
     if (spineWay !== null) {
-      const seam = seamOfSpine(run.seams, spineWay);
+      const seam = portalSeam(run, spineWay, v);
       if (seam !== undefined) {
         const inner = cand.chain[e === 0 ? 1 : cand.chain.length - 2] ?? cand.chain[e];
         const pt = portalAt(run, seam, spineWay, lane.id, cls, width, v, inner);
@@ -814,6 +815,32 @@ function junctionAt(run: Run, v: VertexId, laneId: Id, spineWay: Id | null, cell
   if (!addVertexRow(run, v, 'junction', m.id)) return null;
   const arms = spineWay === null ? [laneId] : [spineWay, laneId];
   return { id: m.id, fresh: { id: m.id, vertex: { role: 'junction', entity: m.id }, arms, kind: spineWay === null ? 'end' : 'T', lifecycle: generated(run.ctx.epoch) }, armed: null };
+}
+
+/**
+ * The Seam a portal at vertex v on the spine is recorded in — C-0046's minimal record "of that boundary run" (§4.6 step 7;
+ * C-0298): among the seams whose runs hold the spine's way, the district's own (the district one of its two sides); of
+ * several, the one whose other side owns an L1 face with v on its ring (the district across the spine at v), else the
+ * first of the district's in seam order. Undefined on an interior spine, and on a spine that lies in no seam of the
+ * district (other districts' boundary run elsewhere along the way: no run of this district there, so no portal record;
+ * the planner still reads the spine as bounding and its portals' gap).
+ */
+function portalSeam(run: Run, spineWay: Id, v: VertexId): Seam | undefined {
+  const holding = seamsOfSpine(run.seams, spineWay);
+  if (holding.length === 0) return undefined;
+  const own = run.district.id;
+  const mine = holding.filter((s) => s.sides.includes(own));
+  if (mine.length === 0) return undefined;
+  if (mine.length === 1) return mine[0];
+  const at = point(run.p, v);
+  for (const s of mine) {
+    const other = s.sides[0] === own ? s.sides[1] : s.sides[0];
+    if (other === null) continue;
+    for (const f of districtCells(run.p, other)) {
+      if (faceRings(run.p, 1, f).some((ring) => ring.some((q) => q.x === at.x && q.y === at.y))) return s;
+    }
+  }
+  return mine[0];
 }
 
 /** A baseLane portal at a lane end on a district-bounding spine (C-0046): the vertex's row and its record; null on failure. */

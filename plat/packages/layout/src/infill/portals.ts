@@ -17,6 +17,35 @@ export function seamOfSpine(seams: readonly Seam[], wayId: Id): Seam | undefined
   return undefined;
 }
 
+/**
+ * Every seam whose run holds the way's chain, in seam order. One way chain can bound several district pairs — S6's
+ * minimal records (C-0046) name a way's whole chain, so a way that runs past three districts is in two or more seams
+ * (C-0298).
+ */
+export function seamsOfSpine(seams: readonly Seam[], wayId: Id): Seam[] {
+  return seams.filter((s) => s.edges.some((e) => e.chain.role === 'way' && e.chain.entity === wayId));
+}
+
+/**
+ * The spine's portals as one record for the planner's gap (§4.6 step 7): the first seam holding the way, with the
+ * portals of every seam holding it (each once, in seam order) — a portal on the spine is recorded in its own boundary
+ * run's seam, so the gap reads them all, whichever seam records them (C-0298). Undefined on an interior spine.
+ */
+export function spineSeam(seams: readonly Seam[], wayId: Id): Seam | undefined {
+  const all = seamsOfSpine(seams, wayId);
+  if (all.length <= 1) return all[0];
+  const seen = new Set<Id>();
+  const portals: Portal[] = [];
+  for (const s of all) {
+    for (const p of s.portals) {
+      if (seen.has(p.id)) continue;
+      seen.add(p.id);
+      portals.push(p);
+    }
+  }
+  return { ...all[0], portals };
+}
+
 /** The vertices a vertex role names, as lattice points (lattice order). */
 export function vertexPoints(p: Plat, key: PlatKey, ref: VertexRef): LatticePoint[] {
   const r = resolve(p, ref, key);
@@ -69,16 +98,28 @@ export interface PortalProblem {
   readonly seam: Id;
   readonly portal?: Id;
   readonly lane?: Id;
-  readonly what: 'unresolved' | 'not-a-lane-end' | 'lane-end-without-portal' | 'two-portals' | 'gap';
+  readonly what: 'unresolved' | 'not-a-lane-end' | 'off-seam' | 'wrong-seam' | 'lane-end-without-portal' | 'two-portals' | 'gap';
 }
 
 /**
- * §13.2's seam portal invariant on committed state: every `baseLane` portal resolves to one vertex that is an end of its
- * lane's chain, every end of a lane in `lanes` lying on a seam's spine carries exactly one `baseLane` portal naming
- * that lane, and along each spine consecutive portals are spaced by the portal gap (arc length on the spine).
+ * §13.2's seam portal invariant on committed state ("every `baseLane` portal matches one S8 lane end and vice versa,
+ * spaced by the portal gap"; checked as "the `Seam` records against the lanes' end vertices"), over all the seams at
+ * once, because one way chain can lie in several seams (C-0298):
+ * - every portal resolves to one vertex (`unresolved`), and no vertex carries two portals of any seams (`two-portals`);
+ * - every `baseLane` portal's vertex is an end of its lane's chain (`not-a-lane-end`), lies on one of its seam's way
+ *   chains (`off-seam`), and its seam is the boundary run of the district that added it — that district one of the
+ *   seam's two sides (`wrong-seam`, C-0046's minimal record: the two districts, the run's chains, its portals);
+ * - vice versa, every end of a lane in `lanes` lying on a way chain of a seam carries exactly one `baseLane` portal
+ *   naming that lane, in some seam holding that chain (`lane-end-without-portal`; a second is `two-portals`) — with
+ *   `laneDistrict` (each lane's district), only the seams that hold the chain AND have the lane's district as a side
+ *   ask for it: a lane end on a way that is other districts' boundary run, never its own district's, has no run to be
+ *   a portal of;
+ * - along each way chain the seams hold, consecutive portals of all the seams holding it are spaced by the portal gap
+ *   (arc length on the spine; `gap`).
  */
-export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[], cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>): PortalProblem[] {
+export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[], cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>, laneDistrict?: ReadonlyMap<Id, Id>): PortalProblem[] {
   const problems: PortalProblem[] = [];
+  const at = (q: LatticePoint): string => `${String(q.x)},${String(q.y)}`;
   const ends = new Map<Id, LatticePoint[]>();
   for (const lane of lanes) {
     const runs = chainRuns(p, key, lane.spine);
@@ -86,50 +127,84 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
     for (const run of runs) pts.push(run[0], run[run.length - 1]);
     ends.set(lane.id, pts);
   }
-  const at = (q: LatticePoint): string => `${String(q.x)},${String(q.y)}`;
+  // Each way chain the seams hold: its runs and its points (read once).
+  const spines = new Map<Id, { runs: LatticePoint[][]; points: Set<string>; seams: Seam[] }>();
   for (const seam of seams) {
-    const byVertex = new Map<string, Portal[]>();
+    for (const e of seam.edges) {
+      if (e.chain.role !== 'way') continue;
+      let sp = spines.get(e.chain.entity);
+      if (sp === undefined) {
+        const runs = chainRuns(p, key, e.chain);
+        const points = new Set<string>();
+        for (const run of runs) for (const q of run) points.add(at(q));
+        sp = { runs, points, seams: [] };
+        spines.set(e.chain.entity, sp);
+      }
+      if (!sp.seams.includes(seam)) sp.seams.push(seam);
+    }
+  }
+  // Every portal of every seam, at its vertex.
+  const byVertex = new Map<string, { seam: Seam; portal: Portal }[]>();
+  const placedAt = new Map<Id, LatticePoint>();
+  for (const seam of seams) {
+    const ownSpines = seam.edges.filter((e) => e.chain.role === 'way').map((e) => spines.get(e.chain.entity));
     for (const portal of seam.portals) {
+      if (placedAt.has(portal.id)) {
+        // One portal recorded twice (in two seams, or twice in one).
+        problems.push({ seam: seam.id, portal: portal.id, what: 'two-portals' });
+        continue;
+      }
       const pts = vertexPoints(p, key, portal.at);
       if (pts.length !== 1) {
         problems.push({ seam: seam.id, portal: portal.id, what: 'unresolved' });
         continue;
       }
+      placedAt.set(portal.id, pts[0]);
       const list = byVertex.get(at(pts[0])) ?? [];
-      list.push(portal);
+      list.push({ seam, portal });
       byVertex.set(at(pts[0]), list);
       if (portal.from !== 'baseLane') continue;
       const laneEnds = ends.get(portal.wayId);
       if (laneEnds === undefined || !laneEnds.some((q) => q.x === pts[0].x && q.y === pts[0].y)) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'not-a-lane-end' });
+      if (!ownSpines.some((sp) => sp !== undefined && sp.points.has(at(pts[0])))) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'off-seam' });
+      if (portal.by === undefined || !seam.sides.includes(portal.by)) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'wrong-seam' });
     }
-    for (const list of byVertex.values()) if (list.length > 1) problems.push({ seam: seam.id, portal: list[1].id, what: 'two-portals' });
-    // Vice versa: every lane end on one of the seam's way chains is a baseLane portal of that lane.
-    for (const e of seam.edges) {
-      if (e.chain.role !== 'way') continue;
-      const runs = chainRuns(p, key, e.chain);
-      const onSpine = new Set<string>();
-      for (const run of runs) for (const q of run) onSpine.add(at(q));
-      for (const lane of lanes) {
-        for (const q of ends.get(lane.id) ?? []) {
-          if (!onSpine.has(at(q))) continue;
-          const here = byVertex.get(at(q)) ?? [];
-          if (!here.some((pt) => pt.from === 'baseLane' && pt.wayId === lane.id)) problems.push({ seam: seam.id, lane: lane.id, what: 'lane-end-without-portal' });
-        }
-      }
-      // The gap along this spine.
-      const line: XY[] = runs.length === 1 ? runs[0] : runs.flat();
-      const placed: { s: number; w: number; id: Id }[] = [];
+  }
+  for (const list of byVertex.values()) if (list.length > 1) problems.push({ seam: list[1].seam.id, portal: list[1].portal.id, what: 'two-portals' });
+  // Vice versa: every lane end on a way chain of any seam is a baseLane portal of that lane, in a seam holding the chain.
+  for (const lane of lanes) {
+    const district = laneDistrict?.get(lane.id);
+    const asks = (s: Seam): boolean => laneDistrict === undefined || (district !== undefined && s.sides.includes(district));
+    const seenEnd = new Set<string>();
+    for (const q of ends.get(lane.id) ?? []) {
+      const k = at(q);
+      if (seenEnd.has(k)) continue;
+      seenEnd.add(k);
+      const holding: Seam[] = [];
+      for (const sp of spines.values()) if (sp.points.has(k)) for (const s of sp.seams) if (asks(s) && !holding.includes(s)) holding.push(s);
+      if (holding.length === 0) continue;
+      const here = (byVertex.get(k) ?? []).filter((x) => x.portal.from === 'baseLane' && x.portal.wayId === lane.id && holding.includes(x.seam));
+      if (here.length === 0) problems.push({ seam: holding[0].id, lane: lane.id, what: 'lane-end-without-portal' });
+    }
+  }
+  // The gap along each spine, over the portals of every seam holding it.
+  for (const [, sp] of [...spines.entries()].sort((a, b) => (a[0] < b[0] ? -1 : a[0] > b[0] ? 1 : 0))) {
+    const line: XY[] = sp.runs.length === 1 ? sp.runs[0] : sp.runs.flat();
+    const placed: { s: number; w: number; id: Id; seam: Id }[] = [];
+    const seen = new Set<Id>();
+    for (const seam of sp.seams) {
       for (const portal of seam.portals) {
-        const pts = vertexPoints(p, key, portal.at);
-        if (pts.length !== 1 || !onSpine.has(at(pts[0]))) continue;
-        placed.push({ s: lengthAt(line, pts[0]), w: portal.widthCm, id: portal.id });
+        const q = placedAt.get(portal.id);
+        if (q === undefined || seen.has(portal.id) || !sp.points.has(at(q))) continue;
+        seen.add(portal.id);
+        placed.push({ s: lengthAt(line, q), w: portal.widthCm, id: portal.id, seam: seam.id });
       }
-      placed.sort((a, b) => a.s - b.s || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
-      for (let i = 1; i < placed.length; i += 1) {
-        const gap = portalGap(cells, placed[i - 1].w, placed[i].w);
-        // A centimetre of the lattice's rounding on each portal vertex.
-        if (placed[i].s - placed[i - 1].s < gap - 2 * LATTICE.unitCm) problems.push({ seam: seam.id, portal: placed[i].id, what: 'gap' });
-      }
+    }
+    placed.sort((a, b) => a.s - b.s || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0));
+    for (let i = 1; i < placed.length; i += 1) {
+      const gap = portalGap(cells, placed[i - 1].w, placed[i].w);
+      // A centimetre of the lattice's rounding on each portal vertex.
+      if (placed[i].s - placed[i - 1].s < gap - 2 * LATTICE.unitCm) problems.push({ seam: placed[i].seam, portal: placed[i].id, what: 'gap' });
     }
   }
   return problems;
