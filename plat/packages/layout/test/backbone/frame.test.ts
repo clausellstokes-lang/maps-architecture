@@ -9,6 +9,12 @@
 //     with `to` null, roads leaving the walled stage = N (C-0289's round had left it `unserved`, 'approach').
 //   * 1192931101: the beyond-frame `bridge:0` is no longer in S4's graph; the ladder never fires and every route part
 //     is laid with no span.
+// Session round S2 (checks/M0-c-03-s1.md B-1, B-2; C-0304):
+//   * 3207739920: `gate:1/out` is left unserved by rule — its course's `bridge:1` is given up, the band holds another
+//     site but no usable course, the extra bridge is M1's, and no path is left — and S4's `report.unserved` lists it
+//     (the run's one place that does: a counted outcome, never silent); roads leaving the walled stage = 2N − 1.
+//   * 3418200249: `gate:0/out` spans `bridge:1` as committed — 11 points, the span after the third — so the deck's
+//     crossing run holds only its wet edges (`RouteGraph.deckOf`; a dry edge along the deck folded in drops a point).
 import { describe, expect, it } from 'vitest';
 import { STAGES, ok, type KernelResult } from '@plat/kernel';
 import { baseArena, createRegistry, insideRing, registerBase, run, type BaseBlueprint, type PipelineStage, type S3Slice, type S4Output } from '../../src/index.js';
@@ -71,5 +77,48 @@ describe('S4 on the small river town where the frame cuts the band (Q24; N-54 (2
       ['gate:1/out', 0],
     ]);
     for (const r of s4.routes.filter((q) => q.part === 'outward')) expect(r.points.at(-1)?.pin, r.id).toBe('frame');
+  });
+
+  it("3207739920: gate:1/out's site given up, the band's other site unusable, no path — unserved by rule, and S4's report lists it", () => {
+    const { slice, s4 } = throughS4(3207739920);
+    const frame = slice.site.frameRing;
+    for (const d of slice.lattice.costs.water.decks) expect(insideRing(frame, d.a, true) && insideRing(frame, d.b, true), d.id).toBe(true);
+    expect(slice.gates).toHaveLength(2);
+    // The ladder's three rungs, in order, each labelled: the band was not empty ('no usable site', then 'no path').
+    expect(s4.report.rungs).toEqual([
+      { route: 'gate:1/out', rung: 'another_site', from: 'bridge:1', to: null, held: false, why: 'no usable site in the band' },
+      { route: 'gate:1/out', rung: 'extra_bridge', held: false, why: 'notBuilt(M1)' },
+      { route: 'gate:1/out', rung: 'unserved', held: true, why: 'no path' },
+    ]);
+    // The part the rule leaves unserved is counted in S4's report, and no route stands for it.
+    expect(s4.report.unserved).toEqual(['gate:1/out']);
+    expect(s4.routes.map((r) => r.id).sort()).toEqual(['gate:0/in', 'gate:0/out', 'gate:1/in']);
+    expect(s4.routes.find((r) => r.id === 'gate:0/out')?.points.at(-1)?.pin).toBe('frame');
+    expect(s4.network.ways).toHaveLength(2 * slice.gates.length - 1);
+    for (const b of s4.bridges) expect(b.state, b.id).toBe('site');
+  });
+
+  it("3418200249: gate:0/out spans bridge:1 on the deck's wet edges only — 11 points, the span after the third", () => {
+    const { slice, s4 } = throughS4(3418200249);
+    expect(slice.lattice.costs.water.decks.map((d) => d.id)).toEqual(['bridge:1']);
+    expect(s4.report.rungs).toEqual([]);
+    expect(s4.report.unserved).toEqual([]);
+    const out = s4.routes.find((r) => r.id === 'gate:0/out');
+    expect(out?.points).toHaveLength(11);
+    expect(out?.spans).toEqual([{ at: 3, bridge: 'bridge:1' }]);
+    expect(out?.points.at(-1)?.pin).toBe('frame');
+    expect(s4.routes.map((r) => [r.id, r.points.length, r.spans.length])).toEqual([
+      ['gate:0/in', 6, 0],
+      ['gate:0/out', 11, 1],
+      ['gate:1/in', 6, 0],
+      ['gate:1/out', 10, 0],
+    ]);
+    expect(s4.network.ways).toHaveLength(2 * slice.gates.length);
+    expect(s4.bridges.map((b) => [b.id, b.state])).toEqual([
+      ['bridge:0', 'site'],
+      ['bridge:1', 'built'],
+      ['bridge:2', 'site'],
+      ['bridge:3', 'site'],
+    ]);
   });
 });

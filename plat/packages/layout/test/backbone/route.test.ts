@@ -5,10 +5,13 @@
 // `work_cut` with the count, then `unserved` (F-WORK). Session round S1 (Q24; N-54 (2), C-0289, C-0297): a deck with an end
 // beyond the frame is no deck of S4's route graph (`deckOf` −1 on every edge, no route spans it; moved inside, it is
 // spanned), and the deck given up is re-solved around whether or not another site stands in the band — the re-solve
-// may take, as a new crossing, only a site within the band (a crossing the course already makes usably kept).
+// may take, as a new crossing, only a site within the band (a crossing the course already makes usably kept). Session round
+// S2 (checks/M0-c-03-s1.md B-2; C-0304): only a passable edge across water carries a deck — a dry edge along a deck, within
+// one spacing of it and within 30° of its direction, answers `deckOf` −1.
 import { describe, expect, it } from 'vitest';
 import { tableView } from '@plat/tables';
 import { approachUsable, buildLattice, classGeometryCm, crossingsOf, insideTurningCircles, routeGraph, routeLadder, siteCosts, solve, type Lattice, type RouteClass, type RouteRung } from '../../src/index.js';
+import { distToSegment, segmentMeetsRing } from '../../src/siting/geom.js';
 import { P, riverRing, smallSite } from './support.js';
 
 const T = tableView();
@@ -260,5 +263,61 @@ describe("a deck with an end beyond the frame is no deck of S4's route graph (N-
     const s = solve(rg, [from], [to], { class: 'path' });
     expect(s.ok).toBe(true);
     if (s.ok) expect(crossingsOf(rg, s.nodes).map((c) => c.deck.id)).toEqual([deck.id]);
+  });
+});
+
+// RouteGraph.deckOf's contract (B-2): "the index of the deck a passable edge ACROSS WATER runs along, else −1". A 10 m
+// river from the frame's south edge that ends 10 m north of a short square deck (its ends on the two shores): the
+// lattice's edges along the deck (both ends within one spacing of it, within 30° of its direction) south of the river's
+// end cross the water and carry the deck; those north of it run on dry ground beside the deck and must answer −1 — a
+// dry approach edge folded into the crossing would shorten the committed course (seed 3418200249's `gate:0/out`,
+// pinned in frame.test.ts).
+describe('only a passable edge across water carries a deck (RouteGraph.deckOf; B-2)', () => {
+  const DECK = { id: 'bridge:0', a: P(-500, 0), b: P(500, 0) };
+  const site = smallSite(1, { faces: [riverRing(-500, 500, -120000, 1000)], decks: [DECK] });
+  const lattice = buildLattice(site, siteCosts(site));
+  const rg = routeGraph(lattice);
+  const g = lattice.graph;
+  const s = lattice.spacingCm;
+  const wetEdge = (p: { x: number; y: number }, q: { x: number; y: number }): boolean => lattice.costs.water.faces.some((f) => segmentMeetsRing(f, p, q));
+
+  it('every edge that carries the deck meets a water face', () => {
+    expect(rg.decks).toEqual([DECK]);
+    let carried = 0;
+    for (let u = 0; u < g.n; u += 1) {
+      for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
+        if (rg.deckOf[e] === -1) continue;
+        carried += 1;
+        expect(rg.deckOf[e]).toBe(0);
+        expect(wetEdge(lattice.points[u], lattice.points[g.targets[e]]), `edge ${String(u)}→${String(g.targets[e])}`).toBe(true);
+      }
+    }
+    expect(carried).toBeGreaterThanOrEqual(2);
+  });
+
+  it('along the deck, the wet edges carry it and the dry ones beside it answer −1', () => {
+    const dx = DECK.b.x - DECK.a.x;
+    const dy = DECK.b.y - DECK.a.y;
+    const along: { wet: boolean; deck: number; y: number }[] = [];
+    for (let u = 0; u < g.n; u += 1) {
+      for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
+        if (!(g.weights[e] < Infinity)) continue;
+        const p = lattice.points[u];
+        const q = lattice.points[g.targets[e]];
+        if (distToSegment(p, DECK.a, DECK.b) > s || distToSegment(q, DECK.a, DECK.b) > s) continue;
+        const ex = q.x - p.x;
+        const ey = q.y - p.y;
+        if (Math.abs(ex * dx + ey * dy) < 0.9 * Math.sqrt(ex * ex + ey * ey) * Math.sqrt(dx * dx + dy * dy)) continue;
+        along.push({ wet: wetEdge(p, q), deck: rg.deckOf[e], y: Math.min(p.y, q.y) });
+      }
+    }
+    const wet = along.filter((a) => a.wet);
+    const dry = along.filter((a) => !a.wet);
+    // Both kinds stand in the fixture: wet edges across the river, dry edges north of its end.
+    expect(wet.length).toBeGreaterThanOrEqual(2);
+    expect(dry.length).toBeGreaterThanOrEqual(2);
+    for (const a of dry) expect(a.y).toBeGreaterThan(1000);
+    expect(wet.map((a) => a.deck)).toEqual(wet.map(() => 0));
+    expect(dry.map((a) => a.deck)).toEqual(dry.map(() => -1));
   });
 });
