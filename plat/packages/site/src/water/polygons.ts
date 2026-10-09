@@ -12,7 +12,8 @@
 //   simple, clear of itself and of the earlier rings; a ring it refuses takes the kernel's own construction — §3.4's
 //   `buffer` (round joins and ends), `booleans` intersection with the arena and difference with the earlier bodies —
 //   reported in `fallbacks` with the refusal (the kernel's union costs tens of seconds on a CITY river, the fast ring
-//   milliseconds);
+//   milliseconds); the kernel's rings are then cleaned and proved as the fast ring is (`provedRings`, N-56 (1)), and a
+//   body whose rings stay unclear is dropped, reason `refused`, its cause in `fallbacks`;
 // * the basic estuary (§4.2 S1 (3) *Mouths*; C-0173 (7)): with `mouth` `estuary` or `delta` the river's last
 //   ESTUARY_SPLIT_M — the stretch M0-e-02 widened — is a body of its own, kind `estuary`, flowing from the river: one
 //   fast ring along the joined course cut across at the split point (`estuaryPair`); where that cannot be made the
@@ -417,11 +418,46 @@ export function waterPolygons(
         return err(slow.code, `water ${body.id}: ${slow.detail}`);
       }
       warnings.push(...slow.warnings);
-      rings = slow.value;
+      // the kernel's rings cleaned and proved as the fast ring is (N-56 (1)): a ring the clean cannot make clear is a
+      // refused body, its cause beside the fast ring's in `fallbacks`
+      const proved = provedRings(slow.value, reach, covered);
+      if (typeof proved === 'string') {
+        fallbacks[fallbacks.length - 1] = { id: body.id, why: `${fast}; the kernel's ring: ${proved}` };
+        dropped.push({ id: body.id, reason: 'refused' });
+        continue;
+      }
+      rings = proved;
     }
     keep(body, rings);
   }
   return ok({ reaches, dropped, fallbacks }, foldWarnings(warnings));
+}
+
+/**
+ * The kernel's rings of a body made fit for insertion (N-56 (1), refining C-0229 (2)): each cleaned as the fast ring is
+ * (`cleanRing`: Douglas–Peucker 20 cm, vertices under 30 cm apart and needles dropped), its vertices on the arena's edge
+ * or on an earlier body's ring fixed — the clip's and the difference's, which the shared edges need — a ring the clean
+ * empties dropped as a sliver; then the fast ring's proofs: every ring simple (`not simple`), every vertex 60 cm clear of
+ * its own ring outside its one-ring (`near-touch`), every two rings apart (`rings meet`), each clear of the earlier
+ * bodies but along them (`meets an earlier body`). The buffer's round joins leave sub-attraction hairpins (sides under
+ * minEdgeCm, a vertex within attractCm of a non-adjacent side) that the insertion welds into a branching shore; the
+ * clean removes them, and a ring it cannot make clear is refused here, never handed to the kernel. A cause when refused.
+ */
+export function provedRings(rings: readonly Ring[], reach: Reach, covered: readonly Ring[]): Ring[] | string {
+  const fixed = (q: XY): boolean => onRing(reach, q) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
+  const out: Ring[] = [];
+  for (const r of rings) {
+    const c = cleanRing(r, fixed);
+    if (c === null) continue;
+    out.push(c);
+  }
+  for (let i = 0; i < out.length; i += 1) {
+    if (!isSimple(out[i])) return 'not clear (not simple)';
+    if (!clearRing(out[i])) return 'not clear (near-touch)';
+    for (let j = i + 1; j < out.length; j += 1) if (!ringsApart(out[i], out[j])) return 'not clear (rings meet)';
+    if (!clearOf(out[i], covered)) return 'not clear (meets an earlier body)';
+  }
+  return out;
 }
 
 /** §3.4's buffer of the simplified chain (round joins and ends), clipped to the arena, less the earlier bodies. */
