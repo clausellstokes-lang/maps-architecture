@@ -7431,3 +7431,6 @@
 2026-10-09 02:35 check/M0-f-03a-close-s2 CHECKPOINT mutants M01-M12 all killed (M01: kernel fixtures green, table+law red: fixtures do not read the table); next: related@1000 in mirror
 2026-10-09 02:37 check/M0-c-04-close-s3 CHECKPOINT gates in tree: install 0, lint 0 (1137 files, probe-red ok), build 0, landed:verify ok; mirror a/plat (02:35 snapshot, diff -rq = tree) old span.test pin 5 red with c-02's chord message, new span.test 9/9; next: RELATED@1000, mutants Z01-Z08, NEAR, sweep
 2026-10-09 02:41 check/M0-b-03-close-s3 CHECKPOINT RELATED at 1000 (stage/portals/bentCutFabric/index) running since 02:08; next verdict, notes N-22, CLEAN-ROOM, landed
+2026-10-09 02:44 check/M0-c-03-close-s1 CHECKPOINT Z20 full related still running; next: verdict
+2026-10-09 02:48 check/M0-a-06-close-s5 CHECKPOINT mutants M01 M02 killed by savepoint.test.ts, sweep M03-M11 running; RELATED at 1000 running; next verdict
+2026-10-09 02:51 check/M0-a-06-close-s5 CHECKPOINT 11 mutants: 10 killed by savepoint.test.ts, M04 (backward-only) survives, equivalent for the key (non-LIFO probe 300 seqs: tree and M04 both 143 collisions, 60 throws); non-LIFO dead-image note drafted; RELATED at 1000 running; next verdict
