@@ -7377,3 +7377,7 @@
 2026-10-09 00:28 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; next: as before
 2026-10-09 00:36 check/M0-c-03-close-s1 CHECKPOINT Z02 killed on RELATED (rungs-route route/unserved); Z06 Z20 Z17 Z18 Z09 Z10 Z11 Z16 on the S4-reading related subset running (slow, shared machine); RELATED@1000 gate running; next: verdict
 2026-10-09 00:41 build/M0-f-03a-fix-s2 CHECKPOINT landed record written (3 changed, L-0389, C-0301), lint/build 0 again; related@1000 running (51 files, reds: hausdorff N-8, span N-54 so far)
+2026-10-09 00:48 check/M0-c-03-close-s1 CHECKPOINT Z06 survives near + S4-reading subset (census: no other reader of S4 report.unserved) -> blocker candidate; Z17 survives subset (unreachable at M0); Z20 on full RELATED@1000 running in mirror; span.test red replayed identical on pre-round route.ts (foreign); next: gate result, Z20 result, verdict
+2026-10-09 00:49 build/M0-b-03-fix-s3 CHECKPOINT related gate still running
+2026-10-09 00:49 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; reds so far bench fusion/hausdorff, layout s5ab/span, layout districts/integration, tables workLimits/table (to classify by replay on pre-fix winding.ts); next: as before
+2026-10-09 00:50 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run still in progress (reds so far hausdorff, span); next: verdict
