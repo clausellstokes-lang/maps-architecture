@@ -7371,3 +7371,4 @@
 2026-10-09 00:05 check/M0-c-03-close-s1 CHECKPOINT survivors on honest seeds: Z02 (why labels, seed 3207739920), Z06 (report.unserved, same seed), Z20 (pre-existing deckOf dry edges, seed 3418200249) change output, the rest none; survivors on the S4-reading related subset running; RELATED@1000 gate running (W=1); next: classify, verdict
 2026-10-09 00:08 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running (2 foreign reds so far: bench fusion/hausdorff, layout s5ab/span); next: as before
 2026-10-09 00:08 build/M0-b-03-fix-s3 CHECKPOINT related gate running (final code)
+2026-10-09 00:11 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run in progress; next: its verdict, mirror control for reds
