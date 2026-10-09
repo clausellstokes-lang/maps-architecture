@@ -20,7 +20,7 @@
 //   * after every commit and every removal the arena holds no dissolvable vertex (support.ts `dissolvableProblems`).
 //
 // N-55 (5) (round S7): an overlay kept past its batch — committed or rejected — is closed, and `insertChain` handed it
-// throws at its entry; the arena bit for bit and its version as they were. C-0297.
+// throws at its entry; the arena bit for bit and its version as they were. C-0302.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { Plat } from '../../../src/arena/index.js';
@@ -154,7 +154,7 @@ describe('N-46 (6) (e), N-55: the undo and remove paths of every kind of fallbac
   }
 });
 
-// ---- N-55 (5): insertChain on a closed transaction throws (C-0297) -----------------------------------------------------
+// ---- N-55 (5): insertChain on a closed transaction throws (C-0302) -----------------------------------------------------
 //
 // An overlay outlives its batch only as a programming error. Before N-55 `insertChain` never looked: on the overlay of a
 // committed batch it wrote outside any transaction, the version unchanged (the ruling's probe q13: "returned ok | version
@@ -176,7 +176,7 @@ function staleOverlay(how: 'committed' | 'rejected'): { p: Plat; o: Overlay } {
   return { p, o: kept };
 }
 
-describe('N-55 (5): insertChain on a closed transaction throws — the overlay of a committed or a rejected batch (C-0297)', () => {
+describe('N-55 (5): insertChain on a closed transaction throws — the overlay of a committed or a rejected batch (C-0302)', () => {
   for (const how of ['committed', 'rejected'] as const) {
     it(`on a ${how} batch's overlay: throws "the transaction is closed"; the arena bit for bit and its version as they were`, () => {
       const { p, o } = staleOverlay(how);

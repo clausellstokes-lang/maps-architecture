@@ -126,7 +126,7 @@ export interface ChainCtx {
    * Where this op's own pairs start in the two journals — `journal.newPairs` (the chain's new edges) and
    * `tx.journal.pairs` (the pairs its splits made): a pair at or after these marks is one this op wrote. Every split
    * landing reads them (`ownShapeVertex`) to tell a split of the chain's OWN edge — its own vertex — from a split of
-   * another chain's edge (N-55 (2), Q10; C-0297).
+   * another chain's edge (N-55 (2), Q10; C-0302).
    */
   readonly pairsFrom: number;
   readonly txPairsFrom: number;
@@ -460,7 +460,7 @@ export function planLanding(tx: InsertTx, piece: Piece, x: number, y: number, cr
   if (!pl.ok) return passOn(pl);
   if (pl.value.kind === 'endpoint') return ok({ kind: 'vertex', vertex: pl.value.vertex, onto: 'fallback', warnings: pl.warnings });
   // A placed answer's sub-edge keeps clearance at its own ends: the placement rule's (iii) refuses any other (C-0284;
-  // `splitBreaksClearance` is that same test), so no wrapper re-reads it here (C-0284 (3), C-0297).
+  // `splitBreaksClearance` is that same test), so no wrapper re-reads it here (C-0284 (3), C-0302).
   const sub = pl.value.sub;
   return ok({ kind: 'split', plan: { kind: 'new', at: pl.value.at, sub, row: null, warnings: pl.warnings }, warnings: pl.warnings });
 }
@@ -473,7 +473,7 @@ export function planLanding(tx: InsertTx, piece: Piece, x: number, y: number, cr
  * point of s–t qualifies: the placement falls back on the nearer end (§3.6 *The placement rule*; C-0177 (11)). Since
  * C-0284 this is the placement rule's own (iii) at the split's ends — `splitEndsBreachClearance`, which this reads — so
  * `placePoint` never answers a split such a sub-edge; `placeOnRun` (which searches the run itself) and the face
- * partitioners still read it (C-0284 (3), C-0297).
+ * partitioners still read it (C-0284 (3), C-0302).
  */
 export function splitBreaksClearance(p: Plat, s: VertexId, t: VertexId): boolean {
   return splitEndsBreachClearance(p, s, t);
@@ -483,7 +483,7 @@ export function splitBreaksClearance(p: Plat, s: VertexId, t: VertexId): boolean
 export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
   if (l.kind === 'split') {
     // splitThrough's writer reads the half-edge table after it allocates the new pair (N-53 (1), C-0279), so a split that
-    // doubles the table needs no reservation first (C-0177 (10)'s `reservePair` retired, N-53 (2); C-0297).
+    // doubles the table needs no reservation first (C-0177 (10)'s `reservePair` retired, N-53 (2); C-0302).
     const v = applySplitPlan(ctx.tx, l.plan); // reports the placement's W_PLACED to the transaction
     recordSplit(ctx, l.plan.sub, v);
     ownShapeVertex(ctx, l.plan.sub, v);
@@ -507,7 +507,7 @@ export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
  * dissolution would make remove ≠ undo-by-replay: N-55 (2), Q10); the chain's own removal frees it with the chain's
  * edges. A split of another chain's edge — any row of another key or level on the sub-edge, or a pair this op did not
  * write — keeps the flag: its dissolution restores that edge when this chain goes (rule 3). `v` is the vertex the split
- * of `sub` just made (freed by the split's own undo on a refusal). C-0297.
+ * of `sub` just made (freed by the split's own undo on a refusal). C-0302.
  */
 export function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): void {
   const p = ctx.p;

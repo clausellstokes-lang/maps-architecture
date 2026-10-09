@@ -30,7 +30,7 @@
 // C-0221), 1 per 10⁴ the target (KI-1); with PLAT_FUZZ_COUNTS set a run writes its counts there. (4) Each refused case
 // found is kept in a register (register.test.ts, routerGapS5.test.ts, routerGapS6.test.ts: seed, input, refusal code).
 //
-// N-55 (2) (session round S7, C-0297): after every committed chain the arena holds no dissolvable vertex
+// N-55 (2) (session round S7, C-0302): after every committed chain the arena holds no dissolvable vertex
 // (`dissolvableProblems`, support.ts — a `split` vertex of degree 2 between identical rows, which a later removal would
 // dissolve): a chain's own point that folds back onto its own edge carries no flag, and every other split still has the
 // chain that made it.

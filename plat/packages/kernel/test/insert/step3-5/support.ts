@@ -299,7 +299,7 @@ export function allProblems(p: Plat): string[] {
  * attached there and removed dissolves it, remove ≠ undo-by-replay) or a split whose splitting chain is gone and left
  * it (Q9: a shared stretch's end). Two or more chains' rows on both sides is the coincident class N-55 (2) keeps
  * flagged — a chain's point on ANOTHER chain's edge it runs along (§13.1's wall on a bank): its removal dissolves the
- * split and restores that edge (C-0297 records the open case of a third chain attached there). One line per such
+ * split and restores that edge (C-0302 records the open case of a third chain attached there). One line per such
  * vertex; empty when none.
  */
 export function dissolvableProblems(p: Plat): string[] {

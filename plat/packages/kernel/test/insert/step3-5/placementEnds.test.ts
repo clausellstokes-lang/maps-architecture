@@ -1,4 +1,4 @@
-// C-0284 (3) (session round S7; C-0297): insertChain's own clearance wrappers round a split are retired. C-0177 (11) had
+// C-0284 (3) (session round S7; C-0302): insertChain's own clearance wrappers round a split are retired. C-0177 (11) had
 // insertChain's step 2 (`land`, after `planAttraction`) and step 3's landing (`planLanding`, after `placePoint`) test the
 // placed split's sub-edge with `splitBreaksClearance` and fall back onto its nearer end. Since C-0284 the placement rule's
 // (iii) applies §3.10's clearance at the split sub-edge's own ends itself (`splitEndsBreachClearance`): a candidate on a
@@ -56,7 +56,7 @@ function onPE(p: Plat, P: VertexId, E: VertexId): VertexId[] {
   return out;
 }
 
-describe('C-0284 (3): a split\'s own-end breach is refused by the placement rule before insertChain\'s retired wrappers could see it (C-0297)', () => {
+describe('C-0284 (3): a split\'s own-end breach is refused by the placement rule before insertChain\'s retired wrappers could see it (C-0302)', () => {
   it('splitBreaksClearance is the placement rule\'s (iii) at the split\'s ends: equal to splitEndsBreachClearance on every edge, both ways, of the shallow corner and its control', () => {
     for (const d of [16, 30]) {
       const p = nearFrame(d).plat;

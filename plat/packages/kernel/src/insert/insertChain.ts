@@ -41,7 +41,7 @@
 // as `splitThrough`, C-0294). A vertex the op makes by splitting the chain's OWN edge — a chain point that folds back
 // over the chain, or a step-3 join, leave or contact point where a later segment shares an earlier one (§3.11's
 // collinear overlap) — is the chain's own vertex and carries no `split` flag (§2.2 rule 3; `ownShapeVertex`, N-55 (2),
-// C-0297). Readings: C-0177.
+// C-0302). Readings: C-0177.
 import {
   addRole,
   allocVertex,
@@ -191,7 +191,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
   const pl = plan.value;
   // A planned new split's sub-edge keeps clearance at its own ends: the placement rule's (iii) gives the endpoint
   // fallback (a split onto an existing vertex) for any other (C-0284), so C-0177 (11)'s wrapper here is gone (C-0284 (3),
-  // C-0297).
+  // C-0302).
   if (pl.kind === 'split' && pl.split.kind === 'existing') {
     const s5 = stepTwoStrip(ctx, pt, pl.split.vertex, prevPt, nextPt);
     if (!s5.ok) return passOn(s5);
@@ -843,7 +843,7 @@ function routeOne(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: La
  */
 export function insertChain(tx: InsertTx, points: readonly { readonly x: number; readonly y: number }[], roles: readonly RoleRow[], cls: ChainClass, opts: InsertChainOpts = {}): KernelResult<ChainInsert> {
   // A stale overlay (its batch committed, rejected or rolled back by a throw) is a programming error: thrown here, before
-  // anything is read, charged or written — never a silent write outside a transaction (N-55 (5); C-0297).
+  // anything is read, charged or written — never a silent write outside a transaction (N-55 (5); C-0302).
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const p = tx.plat;
   const n = tx.level;

@@ -1,4 +1,4 @@
-// N-55 (2), Q10 (session round S7; C-0297): a chain point that step 2 lands by splitting the chain's OWN edge — the chain
+// N-55 (2), Q10 (session round S7; C-0302): a chain point that step 2 lands by splitting the chain's OWN edge — the chain
 // folds back over itself, §3.11 "a collinear overlap is one shared stretch with merged roles" — is the chain's own shape
 // vertex (`ChainInsert.placed`, §3.4), and §2.2 rule 3 says "a chain's own shape vertices never carry [the split flag]".
 // Before the round it kept the flag `applySplitPlan` gives every split: a degree-2 vertex between identical rows, which
@@ -51,7 +51,7 @@ function snapshot(p: Plat): { print: string; refs: string; digests: string } {
 
 const isSplit = (p: Plat, v: VertexId): boolean => (p.vertices.flags[v] & VERTEX_SPLIT) !== 0;
 
-describe('N-55 (2), Q10: a chain\'s own fold-back point carries no split flag (§2.2 rule 3; C-0297)', () => {
+describe('N-55 (2), Q10: a chain\'s own fold-back point carries no split flag (§2.2 rule 3; C-0302)', () => {
   it('case 5317\'s kerb: placed[2] is a live degree-2 vertex at (2431, 2890) on the kerb\'s own edges, carrying no VERTEX_SPLIT; no dissolvable vertex', () => {
     const p = framed();
     const k = insert(p, 2, KERB, 'base:0');
