@@ -157,6 +157,21 @@ describe('provedRings: the kernel\'s ring cleaned and proved as the fast ring is
     const fixed = (q: { x: number; y: number }): boolean => Math.abs(q.x) >= REACH.x || Math.abs(q.y) >= REACH.y;
     expect(provedRings([raw], REACH, [])).toEqual([cleanRing(raw, fixed)]);
   });
+
+  it('the fixed vertices stay: a vertex on the arena\'s edge, or on an earlier body\'s ring, 29 cm after the vertex before it is kept (the clean drops any other such vertex), so the shared stretch keeps its end', () => {
+    const R = REACH.x;
+    // on the arena's edge: c = (R, −1 000) follows b by 29 cm
+    const a = pt(-5000, -1000);
+    const ring = [a, pt(R - 15, -1025), pt(R, -1000), pt(R, 1000), pt(-5000, 1000)];
+    expect(provedRings([ring], REACH, [])).toEqual([ring]);
+    // the same off the edge, unfixed: c is dropped
+    const off = [a, pt(R - 1015, -1025), pt(R - 1000, -1000), pt(R - 1000, 1000), pt(-5000, 1000)];
+    expect(provedRings([off], REACH, [])).toEqual([[off[0], off[1], off[3], off[4]]]);
+    // on an earlier body's ring (its side x = 0): c = (0, −1 000) kept
+    const earlier = [pt(0, -3000), pt(3000, -3000), pt(3000, 3000), pt(0, 3000)];
+    const beside = [pt(-5000, -1000), pt(-15, -1025), pt(0, -1000), pt(0, 1000), pt(-5000, 1000)];
+    expect(provedRings([beside], REACH, [earlier])).toEqual([beside]);
+  });
 });
 
 /** The four class-A rings (see the header): each seed's frame and the kernel's raw ring. */
