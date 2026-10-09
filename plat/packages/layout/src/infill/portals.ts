@@ -146,7 +146,11 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
   for (const seam of seams) {
     const ownSpines = seam.edges.filter((e) => e.chain.role === 'way').map((e) => spines.get(e.chain.entity));
     for (const portal of seam.portals) {
-      if (placedAt.has(portal.id)) continue;
+      if (placedAt.has(portal.id)) {
+        // One portal recorded twice (in two seams, or twice in one).
+        problems.push({ seam: seam.id, portal: portal.id, what: 'two-portals' });
+        continue;
+      }
       const pts = vertexPoints(p, key, portal.at);
       if (pts.length !== 1) {
         problems.push({ seam: seam.id, portal: portal.id, what: 'unresolved' });

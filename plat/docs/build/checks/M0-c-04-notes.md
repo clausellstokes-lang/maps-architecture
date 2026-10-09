@@ -89,3 +89,49 @@ The blockers F-1 and F-2 are in `M0-c-04-s1.md`; the probe and mutant names (P1 
     ever opens an earlier callback batch (a probe, a dry run), the splits and the span proof would run there and be
     lost, and the item's tests would likely still pass for dry crossings (N-12 (b)). Add a test that the trace makes one
     callback batch, or take the prelude hook C-0285 names. M4. PLAUSIBLE (reasoned from the code).
+
+## Closing re-check of session fix round S2 (lane `check/M0-c-04-close-s2`, 2026-10-08)
+
+The verdict is in `M0-c-04-s2.md`. The probe and mutant names there (R1 – R3, Y01 – Y10) are the ones used here.
+
+15. **N-15 KI: `stageStops` copies `stopsFromArena`'s way-stop rule, and only its half-width is pinned.** Two mutants
+    test the copy:
+    * Y07 halves the way stop's half-width. It is killed in RELATED by `bench/test/fusion/derive.test.ts`.
+    * Y06 halves the reach (2·(inner + outer) instead of 4·). It survives NEAR and RELATED@1000. Its only effect is a
+      1 cm shift of 2 – 3 strip cap points on 6 of the 43 probe outlines, because the reach moves only the rounded
+      corridor ring's far ends. The seat judged it equivalent up to lattice rounding.
+
+    The exact equality C-0292 (1) claims holds today: the two water-gate stages are digest-identical to the pre-round
+    code. But nothing would notice if M0-c-02 changed `stopsFromArena` and the copy did not follow. Suggested handling:
+    take C-0292 (1)'s own option and route a stops-merge (`extraStops`) option to M0-c-02's `layStrips`, deleting the
+    copy; or pin `stageStops` against `layStrips`' arena-read stops on a stage with no extra ring. Best before M1, since
+    it is a contract between items; at the latest M4. CONFIRMED.
+16. **N-16 KI: the strips batch's water proof is a backstop no honest input reaches, and it checks vertices only.**
+    Y04 (the proof off) and Y10 (its depth 2 cm → 5 m) are equivalent on all 43 probe outlines. Its stops and its rings
+    are the same rings, and `clipOutside` cuts the lines at each stop ring, so only an M0-c-02 clip defect can reach
+    it. `wetSetback` tests the vertices of `setback` edges. A setback edge that crosses a corner of a water ring with
+    both ends dry would pass it. The pre-round code left five such one-edge differences on outlines with 0 wet
+    vertices; the round's stops removed them. Suggested handling: test each setback edge's crossing with the ring (the
+    receipt's segment form), and pin the proof with a stop deliberately withheld for one ring while the pond stays in
+    the water set. M4. CONFIRMED (the equivalence; executed). PLAUSIBLE (the edge-crossing gap; reasoned, not
+    constructed).
+17. **N-17 cross-item (for the session, before `build/M0-c-02-fix-s2` lands): span.test.ts pin 5 goes red under
+    M0-c-02's in-flight C-0295.** The `after` snapshot was run with only the tree's current
+    `enceinte/{trace,water,index}.ts` copied in. Pin 5 ("a trace whose wall would put a vertex on a span is refused in
+    its own batch") then fails:
+    * Expected: `/put a vertex on bridge:1's span/`.
+    * Received: "water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its
+      one chord (… N-54 (1); C-0295)".
+
+    It is still refused `E_INVARIANT`, but before the trace batch's span proof is reached, so that proof would lose its
+    only pin (S1's X05 class would then survive). Suggested handling, routed through the M0 fix queue:
+    * Either M0-c-04 re-targets pin 5 to an input whose trace commits through the chord check and is caught only by
+      `brokenSpan`.
+    * Or the pin asserts either refusal while keeping the span whole and the version unchanged, and a new pin keeps
+      `brokenSpan` reachable.
+
+    Belongs to M0 (before M0-c-02-fix-s2's close). CONFIRMED (reproduced in a mirror).
+18. **N-18 KI: N-14's single-batch seam now covers the strips too.** `withinTraceBatch` arms the first callback batch
+    of the kernel it hands to `layStrips`. Today that is the strips' only batch (`strips.ts:330`). If M0-c-02's
+    `layStrips` ever opens an earlier callback batch, the span and water proofs would run there, and Y02 / Y03 would
+    show it only through pin 8. Handle it with N-14. M4. PLAUSIBLE (reasoned from the code).

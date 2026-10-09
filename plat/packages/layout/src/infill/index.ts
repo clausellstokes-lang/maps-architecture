@@ -45,7 +45,7 @@ export {
   type ReflexVertex,
   type SlideFoot,
 } from './ladder.js';
-export { chainRuns, kerbPortals, portalGap, portalInvariant, removeLane, seamOfSpine, vertexPoints, type LaneRemoval, type PortalProblem } from './portals.js';
+export { chainRuns, kerbPortals, portalGap, portalInvariant, removeLane, seamOfSpine, seamsOfSpine, spineSeam, vertexPoints, type LaneRemoval, type PortalProblem } from './portals.js';
 export {
   BENT_CUT,
   BentCutFabric,

@@ -7304,3 +7304,5 @@
 2026-10-08 20:58 build/M0-a-08-fix-s3 CHECKPOINT related at 1000 still running (1 worker by budget); next: classify reds, LANDED
 2026-10-08 21:11 check/M0-c-04-close-s2 CHECKPOINT Y06 RELATED (W=1) still running; next: verdict
 2026-10-08 21:27 build/M0-a-04-fix-s4 CHECKPOINT landed record written (landed:verify ok); RELATED@1000 still running (reds so far: bench hausdorff N-8 KI, layout span N-54 in-flight, step3-5 lifecycle/bfuzz while M0-a-05 s7 edits insertChain/stretch/tests); next: attribute the step3-5 reds
+2026-10-08 21:35 build/M0-b-03-fix-s3 CHECKPOINT row wired; found honest breach (one way chain in several seams: portal in first seam, per-seam check) -> portalInvariant across seams + off-seam/wrong-seam, portalSeam (district's seam, across-face), spineSeam for the gap; pins in seamPortalsRow.test.ts 8/8; next: probes after, near, gates, related, mutants
+2026-10-08 21:39 build/M0-a-08-fix-s3 CHECKPOINT related at 1000 still running; reds so far foreign (bench fusion hausdorff.test.ts, layout s5ab/span.test.ts N-54 (3)); next: replay both on the pre-fix winding.ts in a mirror, LANDED

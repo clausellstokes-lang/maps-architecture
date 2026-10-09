@@ -5,7 +5,7 @@
 // row non-empty: S8 is refused E_INVARIANT, the line reads pass false with its evaluation counted, the report carries a
 // bug entry for S8, and the runner's rollback (C-0295) leaves nothing of S8 in the arena. The honest twin passes with
 // zero problems and its evaluation counted.
-import { isHalfEdgeLive, rowKey, rowsOn, type Plat } from '@plat/kernel';
+import { isHalfEdgeLive, pointLocate, rowKey, rowsOn, type Plat } from '@plat/kernel';
 import type { District, Seam } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import {
@@ -23,8 +23,9 @@ import {
   type PipelineModel,
   type PipelineStage,
   type S8Input,
+  vertexPoints,
 } from '../../../src/index.js';
-import { GROUND, SEED, twoDistricts, type Fixture } from './support.js';
+import { fixture, GROUND, ownerOf, P, SEED, twoDistricts, type Fixture } from './support.js';
 
 /** How a planted breach corrupts a district's result: its last baseLane portal dropped, or re-pointed at no lane. */
 type Breach = 'drop' | 'repoint';
@@ -153,5 +154,71 @@ describe('through the runner: the report line of seam-portals counts its evaluat
     // The runner's rollback (C-0295): the arena stands as it did at S8's start — its version and its ways.
     expect(f.plat.version).toBe(version);
     expect([...arenaWays(f.plat)].sort()).toEqual(waysBefore);
+  });
+});
+
+/**
+ * One way chain in two seams (C-0297): a 400 m × 300 m land inside a ring road, a north–south arterial at x = 200 m, and
+ * an east–west secondary from the arterial to the ring at y = 150 m — the west district faces the north-east district
+ * across the arterial's north half and the south-east district across its south half, so the arterial's chain lies in
+ * the seams (west, north-east) and (west, south-east). Before C-0297 every portal on the arterial went into the first
+ * of them and the row (checked seam by seam) found the other seam's lane ends without a portal.
+ */
+function threeDistricts(): Fixture {
+  const W = 40_000;
+  const H = 30_000;
+  return fixture(
+    60_000,
+    [
+      { id: 'way:ring', cls: 'secondary', widthCm: 600, points: [P(0, 0), P(W, 0), P(W, H), P(0, H)], closed: true },
+      { id: 'way:art', cls: 'primary', widthCm: 1000, points: [P(W / 2, 0), P(W / 2, H)] },
+      { id: 'way:east', cls: 'secondary', widthCm: 600, points: [P(W / 2, H / 2), P(W, H / 2)] },
+    ],
+    [
+      { seeds: [P(W / 4, H / 2)], prosperity: 0.3, density: 0.5 },
+      { seeds: [P((3 * W) / 4, (3 * H) / 4)], prosperity: 0.3, density: 0.5 },
+      { seeds: [P((3 * W) / 4, H / 4)], prosperity: 0.3, density: 0.5 },
+    ],
+  );
+}
+
+describe('a way that bounds three districts lies in two seams: each portal goes into its own boundary run’s seam (C-0297)', () => {
+  const f = threeDistricts();
+  const r = runS8(f.input, { report: undefined } as never);
+
+  it('the fixture: the arterial’s chain is in two seams, and S8 passes its stage-end row (the row found nothing)', { timeout: 300_000 }, () => {
+    expect(f.seams.filter((s) => s.edges.some((e) => e.chain.entity === 'way:art')).length).toBe(2);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(seamPortalProblems(f.input, GROUND, r.value.infill.seams, r.value.lanes)).toEqual([]);
+  });
+
+  it('every baseLane portal is in a seam of the district that added it, and one on the arterial is in the seam of the district across it at that point', { timeout: 300_000 }, () => {
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    let onArterial = 0;
+    const others = new Set<string>();
+    for (const seam of r.value.infill.seams) {
+      for (const p of seam.portals) {
+        if (p.from !== 'baseLane') continue;
+        expect(seam.sides).toContain(p.by);
+        const at = vertexPoints(f.plat, GROUND, p.at)[0];
+        if (at.x !== 20_000) continue;
+        onArterial += 1;
+        // The face across the arterial from the district that added the portal, 6 m off the centreline.
+        const west = f.districts[0].district.id;
+        const probe = P(p.by === west ? at.x + 600 : at.x - 600, at.y);
+        const loc = pointLocate(f.plat, GROUND, 1, probe);
+        expect(loc.on).toBe('face');
+        if (loc.on !== 'face') continue;
+        const across = ownerOf(f.plat, loc.face);
+        const other = seam.sides[0] === p.by ? seam.sides[1] : seam.sides[0];
+        expect(other).toBe(across);
+        if (p.by === west) others.add(other);
+      }
+    }
+    expect(onArterial).toBeGreaterThan(2);
+    // The west district's portals on the arterial reach both of its seams there.
+    expect(others.size).toBe(2);
   });
 });
