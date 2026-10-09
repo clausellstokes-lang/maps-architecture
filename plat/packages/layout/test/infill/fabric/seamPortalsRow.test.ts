@@ -5,7 +5,7 @@
 // row non-empty: S8 is refused E_INVARIANT, the line reads pass false with its evaluation counted, the report carries a
 // bug entry for S8, and the runner's rollback (C-0295) leaves nothing of S8 in the arena. The honest twin passes with
 // zero problems and its evaluation counted.
-import { isHalfEdgeLive, pointLocate, rowKey, rowsOn, type Plat } from '@plat/kernel';
+import { isHalfEdgeLive, pointLocate, rowKey, rowsOn, splitThrough, STAGES, type KernelTx, type LatticePoint, type Plat } from '@plat/kernel';
 import type { District, Seam } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import {
@@ -166,9 +166,23 @@ describe('through the runner: the report line of seam-portals counts its evaluat
  * the seams (west, north-east) and (west, south-east). Before C-0298 every portal on the arterial went into the first
  * of them and the row (checked seam by seam) found the other seam's lane ends without a portal.
  */
-function threeDistricts(): Fixture {
+function threeDistricts(portalsAt: readonly LatticePoint[] = []): Fixture {
   const W = 40_000;
   const H = 30_000;
+  // Optional portal vertices on the arterial (an earlier stage's, inserted before the districts are owned).
+  const extraL1 = (k: Fixture['k'], plat: Plat): void => {
+    const spec: KernelTx = { key: GROUND, level: 1, ops: [], expect: [], onFail: 'reject', batch: { kind: 'stage', stage: STAGES.S6 }, stage: STAGES.S6, rederivesFrom: STAGES.S6, workLimit: 10_000_000 };
+    const r = k.tx(spec, (o) => {
+      for (let i = 0; i < portalsAt.length; i += 1) {
+        const loc = pointLocate(plat, GROUND, 1, portalsAt[i]);
+        if (loc.on !== 'edge') return { ok: false as const, code: 'E_INVARIANT' as const, detail: `portal ${String(i)} is not on the arterial` };
+        const t = splitThrough(o, loc.edge, portalsAt[i], { role: 'portal', entity: `portal:g${String(i)}` });
+        if (!t.ok) return t;
+      }
+      return { ok: true as const, value: undefined, warnings: [] };
+    });
+    if (!r.ok) throw new Error(`portals: ${r.code} ${r.detail}`);
+  };
   return fixture(
     60_000,
     [
@@ -181,6 +195,7 @@ function threeDistricts(): Fixture {
       { seeds: [P((3 * W) / 4, (3 * H) / 4)], prosperity: 0.3, density: 0.5 },
       { seeds: [P((3 * W) / 4, H / 4)], prosperity: 0.3, density: 0.5 },
     ],
+    portalsAt.length === 0 ? {} : { extraL1 },
   );
 }
 
@@ -292,5 +307,24 @@ describe('the row’s check across seams on planted records (portalInvariant thr
     const gaps = portalInvariant(f.plat, GROUND, seams, lanes, wide).filter((p) => p.what === 'gap');
     expect(gaps.length).toBe(1);
     expect(portalInvariant(f.plat, GROUND, seams, lanes, cutCells())).toEqual([]);
+  });
+});
+
+describe('the planner’s portal gap reads every seam holding a spine, not the first one only (C-0298)', () => {
+  it('portals of an earlier stage every 15 m along the arterial, recorded in its SECOND seam, keep every lane end off it; the row holds', { timeout: 300_000 }, () => {
+    const at: LatticePoint[] = [];
+    for (let y = 750; y < 30_000; y += 1500) at.push(P(20_000, y));
+    const f = threeDistricts(at);
+    const art = f.seams.filter((s) => s.edges.some((e) => e.chain.entity === 'way:art'));
+    expect(art.length).toBe(2);
+    // The second seam holding the arterial records them (seamOfSpine, the first, holds none).
+    art[1].portals.push(...at.map((_, i) => ({ id: `portal:g${String(i)}`, wayId: `way:g${String(i)}`, class: 'lane' as const, widthCm: 500 as never, at: { role: 'portal' as const, entity: `portal:g${String(i)}` }, bearing: 0 as never, from: 'growth' as const, by: art[1].sides[0] })));
+    const r = runS8(f.input, { report: undefined } as never);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    // No lane ends on the arterial: every point of it lies within some portal's gap.
+    const onArt = r.value.infill.seams.flatMap((s) => s.portals).filter((p) => p.from === 'baseLane' && vertexPoints(f.plat, GROUND, p.at)[0]?.x === 20_000);
+    expect(onArt).toEqual([]);
+    expect(r.value.lanes.length).toBeGreaterThan(5);
   });
 });
