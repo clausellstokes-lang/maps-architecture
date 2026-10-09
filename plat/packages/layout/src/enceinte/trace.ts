@@ -142,7 +142,8 @@ export function traceBase(
   // a crossing with no clear chord is refused here, nothing written (C-0295).
   const unclear = crossed.crossings.find((c) => !c.clear);
   if (unclear !== undefined) {
-    const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : 'its chord would leave the water, or a main gate stands in the water between its banks';
+    const gateIn = unclear.course.some((q) => gatePins.has(key(q)));
+    const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : gateIn ? 'a main gate stands in the water between its banks' : 'its chord would leave the water';
     return { ok: false, code: 'E_INVARIANT', detail: `water: the crossing from ${key(unclear.entry)} to ${key(unclear.exit)} has no clear chord between its two bank pins (${why}); a water gate's wet side is that chord, one edge (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0295)` };
   }
   const ring = crossed.ring;

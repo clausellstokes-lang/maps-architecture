@@ -92,7 +92,7 @@ describe('C-0284 (3): a split\'s own-end breach is refused by the placement rule
       const t = insertTx(p, level);
       const r = insertChain(t, [pt(2966, 3985), pt(3600, 3200)], [{ role: 'way', entity: 'way:t' }], 'mandatory');
       expect(r.ok ? r.value.placed[0] : `${r.code} ${r.detail}`).toBe(P);
-      expect(r.warnings.filter((w) => w.code === 'W_PLACED')).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
+      expect(r.ok ? r.warnings.filter((w) => w.code === 'W_PLACED') : []).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
       expect(onPE(p, P, E)).toEqual([]);
       expect(outgoing(p, P).map((h) => p.halfEdges.origin[h ^ 1]).includes(E)).toBe(true); // P–E still one edge
       expect(allProblems(p)).toEqual([]);
