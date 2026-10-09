@@ -12,6 +12,8 @@ import {
   isVertexLive,
   LEVELS,
   outgoing,
+  VERTEX_PINNED,
+  VERTEX_SPLIT,
   walkRing,
   type FaceId,
   type HalfEdgeId,
@@ -285,6 +287,31 @@ export function eulerProblems(p: Plat): string[] {
 /** Every check after an insertion: M0-a-04's validator, the face records, the Euler characteristic. */
 export function allProblems(p: Plat): string[] {
   return [...problems(p), ...faceProblems(p), ...eulerProblems(p)];
+}
+
+/**
+ * The oracle beside `allProblems` that would have caught N-55's Q9 and Q10 (written from §2.2 rule 3, not from the code
+ * under test): a vertex the dissolution rule would remove the moment a batch touched it — its `split` flag set, not
+ * pinned, no vertex row, degree 2, its two edges of one level with identical rows (kind, entity, ordinal, level) — is a
+ * vertex no committed state may hold. The flag says "dissolving me restores exactly the edge I was created on"; after a
+ * commit every split vertex still has the chain that split it (degree ≥ 3, or rows that differ), and a chain's own shape
+ * vertices never carry it — so one standing degree 2 between identical rows is either a chain's own point carrying the
+ * flag (Q10: a later chain attached there and removed dissolves it, remove ≠ undo-by-replay) or a stretch end a removal
+ * left (Q9). One line per such vertex; empty when none.
+ */
+export function dissolvableProblems(p: Plat): string[] {
+  const out: string[] = [];
+  const R = p.roles;
+  const rows = (h: HalfEdgeId): string => rowsOnE(p, h).map((r) => `${R.kind[r]}/${idOfRow(p, r)}/${R.ordinal[r]}/${R.level[r]}`).sort().join(';');
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (!isVertexLive(p, v)) continue;
+    const f = p.vertices.flags[v];
+    if ((f & VERTEX_SPLIT) === 0 || (f & VERTEX_PINNED) !== 0 || rowsOnV(p, v).length > 0) continue;
+    const at = outgoing(p, v);
+    if (at.length !== 2 || p.halfEdges.level[at[0] >> 1] !== p.halfEdges.level[at[1] >> 1] || rows(at[0]) !== rows(at[1])) continue;
+    out.push(`a dissolvable vertex at (${p.vertices.x[v]}, ${p.vertices.y[v]}) L${p.vertices.level[v]}: split, degree 2, both edges L${p.halfEdges.level[at[0] >> 1]} [${rows(at[0])}]`);
+  }
+  return out;
 }
 
 /** The live face records of a level. */

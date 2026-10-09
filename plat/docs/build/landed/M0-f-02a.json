@@ -5,7 +5,7 @@
   "lanes": ["build/M0-f-02a", "build/M0-f-02a-fix1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-06T23:01:28.401Z",
+  "date": "2026-10-09T00:19:23.407Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/tiers/", "plat/bench/test/tiers/", "plat/bench/src/tier-jobs/ (the job lists: the PR list filled here; the nightly and milestone lists declared with `not built` entries, handed over)"],
   "counts": { "created": 11, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -18,7 +18,7 @@
     { "path": "plat/bench/src/tiers/types.ts", "status": "created", "sha256": "f1b93656f97beab8ed9806b56e9da1d314db06c9bfecf5491682da272805a8e2", "size": 10114 },
     { "path": "plat/bench/test/tiers/exec.test.ts", "status": "created", "sha256": "70e82648ba37e9b6e1be3155f23cd05f4ae2a6025235510949c33278a13f04a6", "size": 4340 },
     { "path": "plat/bench/test/tiers/fixture.ts", "status": "created", "sha256": "69555bf3e306ca87e8b9edf06ecf6c4b3721e5b7c52d7fade0b0776e8c73e4aa", "size": 4800 },
-    { "path": "plat/bench/test/tiers/manifest.test.ts", "status": "created", "sha256": "69743fac89e34e2831226ca0fbbf476c28ecdb429760acde60ed58fa3badc763", "size": 10374 },
+    { "path": "plat/bench/test/tiers/manifest.test.ts", "status": "created", "sha256": "81656b2d4bb0ea02fc91fb7d25d9a9ff496429f6c4fd88b4035221c81324d4db", "size": 10389 },
     { "path": "plat/bench/test/tiers/modes.test.ts", "status": "created", "sha256": "41c1d80e239571ba06bc278fc91c4d007e148e4ba4611f37e1541dccb80a63ed", "size": 12152 },
     { "path": "plat/bench/test/tiers/runner.test.ts", "status": "created", "sha256": "d408afd4fd1154da07b61c1814b82fd0e9b9d5580050ae7654f0b2295bbc051d", "size": 15148 },
     { "path": "plat/bench/test/tiers/status.test.ts", "status": "created", "sha256": "6e0bf2ec094a6f6fd9373311f46ca29a20ccdc9375bb36b75a7094586ff0bf6a", "size": 15657 }

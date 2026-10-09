@@ -785,7 +785,7 @@ describe('N-12: attractVertex, attractRun, applyAttraction and applySplitPlan on
       const version = p.version;
       const r = tx(p, callbackSpec(2), (open) => {
         const a = attractVertex(open, pt(505, 120));
-        if (!a.ok) return a;
+        if (!a.ok) return { ok: false as const, code: a.code, detail: a.detail };
         return attractRun(open, [pt(505, 60), pt(505, 200)]);
       });
       expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
