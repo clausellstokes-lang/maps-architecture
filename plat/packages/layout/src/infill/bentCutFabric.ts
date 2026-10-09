@@ -821,15 +821,16 @@ function junctionAt(run: Run, v: VertexId, laneId: Id, spineWay: Id | null, cell
  * The Seam a portal at vertex v on the spine is recorded in — C-0046's minimal record "of that boundary run" (§4.6 step 7;
  * C-0298): among the seams whose runs hold the spine's way, the district's own (the district one of its two sides); of
  * several, the one whose other side owns an L1 face with v on its ring (the district across the spine at v), else the
- * first of the district's in seam order. A spine that lies in no seam of the district falls to the first seam holding
- * it, and S8's stage-end portal row refuses the stage (`wrong-seam`). Undefined on an interior spine.
+ * first of the district's in seam order. Undefined on an interior spine, and on a spine that lies in no seam of the
+ * district (other districts' boundary run elsewhere along the way: no run of this district there, so no portal record;
+ * the planner still reads the spine as bounding and its portals' gap).
  */
 function portalSeam(run: Run, spineWay: Id, v: VertexId): Seam | undefined {
   const holding = seamsOfSpine(run.seams, spineWay);
   if (holding.length === 0) return undefined;
   const own = run.district.id;
   const mine = holding.filter((s) => s.sides.includes(own));
-  if (mine.length === 0) return holding[0];
+  if (mine.length === 0) return undefined;
   if (mine.length === 1) return mine[0];
   const at = point(run.p, v);
   for (const s of mine) {

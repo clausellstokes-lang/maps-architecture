@@ -11,6 +11,7 @@ import { describe, expect, it } from 'vitest';
 import {
   BentCutFabric,
   BENT_CUT,
+  chainRuns,
   createRegistry,
   cutCells,
   portalInvariant,
@@ -326,5 +327,47 @@ describe('the planner’s portal gap reads every seam holding a spine, not the f
     const onArt = r.value.infill.seams.flatMap((s) => s.portals).filter((p) => p.from === 'baseLane' && vertexPoints(f.plat, GROUND, p.at)[0]?.x === 20_000);
     expect(onArt).toEqual([]);
     expect(r.value.lanes.length).toBeGreaterThan(5);
+  });
+});
+
+describe('a lane end on a way that is other districts’ boundary run, never its own district’s: no portal record (C-0298)', () => {
+  it('the cross street’s west half bounds the north-west district and unowned land, its east half the two east districts: the north-west lanes end on it with no portal, and the row holds', { timeout: 300_000 }, () => {
+    const W = 40_000;
+    const H = 30_000;
+    const f = fixture(
+      60_000,
+      [
+        { id: 'way:ring', cls: 'secondary', widthCm: 600, points: [P(0, 0), P(W, 0), P(W, H), P(0, H)], closed: true },
+        { id: 'way:art', cls: 'primary', widthCm: 1000, points: [P(W / 2, 0), P(W / 2, H)] },
+        { id: 'way:cross', cls: 'secondary', widthCm: 600, points: [P(0, H / 2), P(W, H / 2)] },
+      ],
+      [
+        { seeds: [P(W / 4, (3 * H) / 4)], prosperity: 0.3, density: 0.5 },
+        { seeds: [P((3 * W) / 4, (3 * H) / 4)], prosperity: 0.3, density: 0.5 },
+        { seeds: [P((3 * W) / 4, H / 4)], prosperity: 0.3, density: 0.5 },
+      ],
+    );
+    const nw = f.districts[0].district.id;
+    // The cross street lies in the east districts' seam only.
+    const cross = f.seams.filter((s) => s.edges.some((e) => e.chain.entity === 'way:cross'));
+    expect(cross.length).toBe(1);
+    expect(cross[0].sides).not.toContain(nw);
+    const r = runS8(f.input, { report: undefined } as never);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    const portals = r.value.infill.seams.flatMap((s) => s.portals.filter((p) => p.from === 'baseLane').map((p) => ({ p, s })));
+    for (const { p, s } of portals) expect(s.sides).toContain(p.by);
+    // The north-west lanes that end on the cross street's west half: some, and none a portal.
+    const at = (q: LatticePoint): string => `${String(q.x)},${String(q.y)}`;
+    const portalAt = new Set(portals.map(({ p }) => at(vertexPoints(f.plat, GROUND, p.at)[0])));
+    let ends = 0;
+    for (const lane of r.value.lanes) {
+      for (const q of chainRuns(f.plat, GROUND, lane.spine).flatMap((run) => [run[0], run[run.length - 1]])) {
+        if (q.y !== H / 2 || q.x >= W / 2) continue;
+        ends += 1;
+        expect(portalAt.has(at(q))).toBe(false);
+      }
+    }
+    expect(ends).toBeGreaterThan(0);
   });
 });

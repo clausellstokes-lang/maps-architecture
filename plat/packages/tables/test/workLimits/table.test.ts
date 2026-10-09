@@ -1,6 +1,6 @@
 // M0-f-03a: workLimits.json and its loader (§5.1 (5), §14; C-0021, C-0153, C-0174) — every counter of M0-work.json's
 // list has exactly one row; a duplicate or a missing counter fails the loader; the placeholder provenance is present
-// on every counting row, while the fixed row (`warp.halvings`) is pinned, not calibratable (N-56 (4), the refinement of
+// on every counting row, while the fixed row (`warp.halvings`) is pinned, not calibratable (N-56 (4), C-0301, refining
 // C-0174 (1)); every cell carries unit, provenance and calibratable; the law form is refused when malformed; the file
 // is pinned at its version (a changed cell is a declared change, the hand-over's writer bumping the version).
 import { createHash } from 'node:crypto';

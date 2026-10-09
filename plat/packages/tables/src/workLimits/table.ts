@@ -5,7 +5,7 @@
 // recursion depth, `log2` — every cell `{ value, unit, provenance, calibratable }`. A counting law's two coefficients
 // carry C-0021's provenance `architecture 2026-10-03 placeholder` until M0-f-03b rewrites them from the spikes' measured
 // work (p999 × 1.5, provenance `M0 spike ⟨date⟩`); a fixed law's (`warp.halvings`: perUnit 0, floor 8 = the kernel's
-// MAX_HALVINGS, §3.6) are the design's, provenance `architecture 2026-10-03`, never calibrated (N-56 (4), version 2);
+// MAX_HALVINGS, §3.6) are the design's, provenance `architecture 2026-10-03`, never calibrated (N-56 (4), C-0301, version 2);
 // the unit and the log2 form are the list's (M0.md §2.2) and not calibratable.
 // The loader refuses a missing counter, a counter whose unit or log2 form departs from the list, a malformed law, and —
 // read from the file's text — a duplicate counter (C-0174 (4)); every refusal names the table, the row and the cell.

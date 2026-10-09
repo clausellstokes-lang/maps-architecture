@@ -109,12 +109,15 @@ export interface PortalProblem {
  * - every `baseLane` portal's vertex is an end of its lane's chain (`not-a-lane-end`), lies on one of its seam's way
  *   chains (`off-seam`), and its seam is the boundary run of the district that added it — that district one of the
  *   seam's two sides (`wrong-seam`, C-0046's minimal record: the two districts, the run's chains, its portals);
- * - vice versa, every end of a lane in `lanes` lying on a way chain of any seam carries exactly one `baseLane` portal
- *   naming that lane, in some seam holding that chain (`lane-end-without-portal`; a second is `two-portals`);
+ * - vice versa, every end of a lane in `lanes` lying on a way chain of a seam carries exactly one `baseLane` portal
+ *   naming that lane, in some seam holding that chain (`lane-end-without-portal`; a second is `two-portals`) — with
+ *   `laneDistrict` (each lane's district), only the seams that hold the chain AND have the lane's district as a side
+ *   ask for it: a lane end on a way that is other districts' boundary run, never its own district's, has no run to be
+ *   a portal of;
  * - along each way chain the seams hold, consecutive portals of all the seams holding it are spaced by the portal gap
  *   (arc length on the spine; `gap`).
  */
-export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[], cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>): PortalProblem[] {
+export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[], cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>, laneDistrict?: ReadonlyMap<Id, Id>): PortalProblem[] {
   const problems: PortalProblem[] = [];
   const at = (q: LatticePoint): string => `${String(q.x)},${String(q.y)}`;
   const ends = new Map<Id, LatticePoint[]>();
@@ -170,13 +173,15 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
   for (const list of byVertex.values()) if (list.length > 1) problems.push({ seam: list[1].seam.id, portal: list[1].portal.id, what: 'two-portals' });
   // Vice versa: every lane end on a way chain of any seam is a baseLane portal of that lane, in a seam holding the chain.
   for (const lane of lanes) {
+    const district = laneDistrict?.get(lane.id);
+    const asks = (s: Seam): boolean => laneDistrict === undefined || (district !== undefined && s.sides.includes(district));
     const seenEnd = new Set<string>();
     for (const q of ends.get(lane.id) ?? []) {
       const k = at(q);
       if (seenEnd.has(k)) continue;
       seenEnd.add(k);
       const holding: Seam[] = [];
-      for (const sp of spines.values()) if (sp.points.has(k)) for (const s of sp.seams) if (!holding.includes(s)) holding.push(s);
+      for (const sp of spines.values()) if (sp.points.has(k)) for (const s of sp.seams) if (asks(s) && !holding.includes(s)) holding.push(s);
       if (holding.length === 0) continue;
       const here = (byVertex.get(k) ?? []).filter((x) => x.portal.from === 'baseLane' && x.portal.wayId === lane.id && holding.includes(x.seam));
       if (here.length === 0) problems.push({ seam: holding[0].id, lane: lane.id, what: 'lane-end-without-portal' });

@@ -89,6 +89,8 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
   const junctions: Junction[] = [];
   const blockFaces: BlockFaces[] = [];
   const reports: DistrictReport[] = [];
+  /** Each lane's district (the seam-portal row asks a portal only of its district's seams, C-0298). */
+  const laneDistrict = new Map<Id, Id>();
   const refused: { district: Id; code: string; detail: string }[] = [];
   for (const d of order) {
     const fabric = fabrics.get(d.district.fabric);
@@ -126,6 +128,7 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
     for (const w of v.ways) {
       ways.set(w.id, w);
       lanes.push(w);
+      laneDistrict.set(w.id, d.district.id);
     }
     blocks.push(...v.blocks);
     junctions.push(...v.junctions);
@@ -137,7 +140,7 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
   // The stage-end hard row (§5.3's and §13.2's seam-portal row; C-0298): evaluated once over the committed seams and the
   // lanes this run committed, its evaluation reported through the context's sink; a breach refuses the stage
   // (E_INVARIANT, §3.3; §5.1 (8): the runner puts its arenas back and writes the bug entry, C-0295).
-  const problems = seamPortalProblems(input, key, seams, lanes);
+  const problems = seamPortalProblems(input, key, seams, lanes, laneDistrict);
   reportRow(ctx, SEAM_PORTAL_ROW.name, problems.length === 0);
   if (problems.length > 0) return err('E_INVARIANT', seamPortalDetail(problems));
   return ok({ lanes, blocks, infill: { junctions, seams, blockFaces, report: { districts: reports, refused }, live } });
@@ -147,11 +150,12 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
  * The seam-portal row's evaluation at S8's end (§13.2: "every `baseLane` portal matches one S8 lane end and vice versa,
  * spaced by the portal gap"; checked against "the `Seam` records against the lanes' end vertices"): `portalInvariant`
  * over the seams as the stage leaves them and the lanes it committed, the gap from the cut table's cells (the planner's,
- * at the run's preset). Every `baseLane` portal is S8's at M0, so one that names no lane of the run is a breach.
+ * at the run's preset), each lane's district from the run (`laneDistrict`: a lane end asks a portal only of the seams
+ * of its district). Every `baseLane` portal is S8's at M0, so one that names no lane of the run is a breach.
  */
-export function seamPortalProblems(input: Pick<S8Input, 'kernel' | 'tables' | 'preset'>, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[]): PortalProblem[] {
+export function seamPortalProblems(input: Pick<S8Input, 'kernel' | 'tables' | 'preset'>, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[], laneDistrict?: ReadonlyMap<Id, Id>): PortalProblem[] {
   const cells = cutCells(input.tables?.cut ?? loadTable('cut'), input.preset);
-  return portalInvariant(input.kernel.plat(key), key, seams, lanes, cells);
+  return portalInvariant(input.kernel.plat(key), key, seams, lanes, cells, laneDistrict);
 }
 
 /** The refusal's detail: the row's name first (the runner's `<row>: ` convention), the count and the first problems. */
