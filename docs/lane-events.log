@@ -7283,3 +7283,5 @@
 2026-10-08 19:44 check/M0-c-04-close-s2 CHECKPOINT snapshot RELATED@1000 and Y06 RELATED still running (load high); next: verdict
 2026-10-08 19:44 check/M0-a-04-close-s3 CHECKPOINT RELATED@1000 still running (worker alive); next: RELATED verdict, records
 2026-10-08 19:48 check/M0-c-04-close-s2 CHECKPOINT RELATED@1000 (snapshot mirror) 204 files 2482/2484: reds bench fusion/hausdorff (known N-8/N-52) and ladder-coverage/entry (mirror path; 6/6 green in the tree); Y06 RELATED running; next: verdict
+2026-10-08 19:57 check/M0-x-02-close-s1 CHECKPOINT related@1000 restarted at W=3 (first run at W=1 stopped by me after one file); one red so far bench/test/fusion/hausdorff.test.ts (same file the builder saw); next: wait, attribute, verdict
+2026-10-08 19:58 build/M0-c-02-fix-s2 CHECKPOINT after-runs: relief-60 CITY seed 9 default enceinte:2 4 wet / 4 gated chords (waterGates pass, was fail); seed 1 done; RELATED first run hit its 90-min timeout at W=1 (reds: fusion/hausdorff KI; growth/s5ab/span.test detail regex now meets the strict proof first) — to re-run; next: before runs, RELATED rerun
