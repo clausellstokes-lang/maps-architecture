@@ -539,7 +539,7 @@ class Run {
       const w = this.ctx.widths.get(wayId);
       if (w === undefined) continue;
       const runs = chainRuns(this.p, this.ctx.key, { role: 'way', entity: wayId });
-      // The gap reads every portal on the spine, whichever seam records it (C-0297).
+      // The gap reads every portal on the spine, whichever seam records it (C-0298).
       const seam = spineSeam(this.seams, wayId);
       for (const run of runs) {
         spineIds.push(wayId);
@@ -819,7 +819,7 @@ function junctionAt(run: Run, v: VertexId, laneId: Id, spineWay: Id | null, cell
 
 /**
  * The Seam a portal at vertex v on the spine is recorded in — C-0046's minimal record "of that boundary run" (§4.6 step 7;
- * C-0297): among the seams whose runs hold the spine's way, the district's own (the district one of its two sides); of
+ * C-0298): among the seams whose runs hold the spine's way, the district's own (the district one of its two sides); of
  * several, the one whose other side owns an L1 face with v on its ring (the district across the spine at v), else the
  * first of the district's in seam order. A spine that lies in no seam of the district falls to the first seam holding
  * it, and S8's stage-end portal row refuses the stage (`wrong-seam`). Undefined on an interior spine.
@@ -834,6 +834,7 @@ function portalSeam(run: Run, spineWay: Id, v: VertexId): Seam | undefined {
   const at = point(run.p, v);
   for (const s of mine) {
     const other = s.sides[0] === own ? s.sides[1] : s.sides[0];
+    if (other === null) continue;
     for (const f of districtCells(run.p, other)) {
       if (faceRings(run.p, 1, f).some((ring) => ring.some((q) => q.x === at.x && q.y === at.y))) return s;
     }

@@ -20,7 +20,7 @@ export function seamOfSpine(seams: readonly Seam[], wayId: Id): Seam | undefined
 /**
  * Every seam whose run holds the way's chain, in seam order. One way chain can bound several district pairs — S6's
  * minimal records (C-0046) name a way's whole chain, so a way that runs past three districts is in two or more seams
- * (C-0297).
+ * (C-0298).
  */
 export function seamsOfSpine(seams: readonly Seam[], wayId: Id): Seam[] {
   return seams.filter((s) => s.edges.some((e) => e.chain.role === 'way' && e.chain.entity === wayId));
@@ -29,7 +29,7 @@ export function seamsOfSpine(seams: readonly Seam[], wayId: Id): Seam[] {
 /**
  * The spine's portals as one record for the planner's gap (§4.6 step 7): the first seam holding the way, with the
  * portals of every seam holding it (each once, in seam order) — a portal on the spine is recorded in its own boundary
- * run's seam, so the gap reads them all, whichever seam records them (C-0297). Undefined on an interior spine.
+ * run's seam, so the gap reads them all, whichever seam records them (C-0298). Undefined on an interior spine.
  */
 export function spineSeam(seams: readonly Seam[], wayId: Id): Seam | undefined {
   const all = seamsOfSpine(seams, wayId);
@@ -104,7 +104,7 @@ export interface PortalProblem {
 /**
  * §13.2's seam portal invariant on committed state ("every `baseLane` portal matches one S8 lane end and vice versa,
  * spaced by the portal gap"; checked as "the `Seam` records against the lanes' end vertices"), over all the seams at
- * once, because one way chain can lie in several seams (C-0297):
+ * once, because one way chain can lie in several seams (C-0298):
  * - every portal resolves to one vertex (`unresolved`), and no vertex carries two portals of any seams (`two-portals`);
  * - every `baseLane` portal's vertex is an end of its lane's chain (`not-a-lane-end`), lies on one of its seam's way
  *   chains (`off-seam`), and its seam is the boundary run of the district that added it — that district one of the
@@ -164,7 +164,7 @@ export function portalInvariant(p: Plat, key: PlatKey, seams: readonly Seam[], l
       const laneEnds = ends.get(portal.wayId);
       if (laneEnds === undefined || !laneEnds.some((q) => q.x === pts[0].x && q.y === pts[0].y)) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'not-a-lane-end' });
       if (!ownSpines.some((sp) => sp !== undefined && sp.points.has(at(pts[0])))) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'off-seam' });
-      if (!seam.sides.includes(portal.by)) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'wrong-seam' });
+      if (portal.by === undefined || !seam.sides.includes(portal.by)) problems.push({ seam: seam.id, portal: portal.id, lane: portal.wayId, what: 'wrong-seam' });
     }
   }
   for (const list of byVertex.values()) if (list.length > 1) problems.push({ seam: list[1].seam.id, portal: list[1].portal.id, what: 'two-portals' });

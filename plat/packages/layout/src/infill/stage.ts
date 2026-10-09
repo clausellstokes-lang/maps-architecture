@@ -134,7 +134,7 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
   }
   // The stage's end: the L1 partitions rebuilt once (§3.3's rebuild moment (1)).
   input.kernel.index.rebuildAtStageEnd(key);
-  // The stage-end hard row (§5.3's and §13.2's seam-portal row; C-0297): evaluated once over the committed seams and the
+  // The stage-end hard row (§5.3's and §13.2's seam-portal row; C-0298): evaluated once over the committed seams and the
   // lanes this run committed, its evaluation reported through the context's sink; a breach refuses the stage
   // (E_INVARIANT, §3.3; §5.1 (8): the runner puts its arenas back and writes the bug entry, C-0295).
   const problems = seamPortalProblems(input, key, seams, lanes);

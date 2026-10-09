@@ -1,4 +1,4 @@
-// S8's stage-end hard row `seam-portals` (§5.3, §13.2's seam portal invariant; checks/M0-b-03-notes.md N-9, Q15; C-0297):
+// S8's stage-end hard row `seam-portals` (§5.3, §13.2's seam portal invariant; checks/M0-b-03-notes.md N-9, Q15; C-0298):
 // the row is EVALUATED at S8's end — over the seams as the stage leaves them and the lanes it committed — and its
 // evaluation is counted in the runner's report, so a report line that says pass with count 0 can never again mean the
 // row never ran. A planted portal breach (a fabric that drops or re-points a baseLane portal of its own result) makes the
@@ -160,10 +160,10 @@ describe('through the runner: the report line of seam-portals counts its evaluat
 });
 
 /**
- * One way chain in two seams (C-0297): a 400 m × 300 m land inside a ring road, a north–south arterial at x = 200 m, and
+ * One way chain in two seams (C-0298): a 400 m × 300 m land inside a ring road, a north–south arterial at x = 200 m, and
  * an east–west secondary from the arterial to the ring at y = 150 m — the west district faces the north-east district
  * across the arterial's north half and the south-east district across its south half, so the arterial's chain lies in
- * the seams (west, north-east) and (west, south-east). Before C-0297 every portal on the arterial went into the first
+ * the seams (west, north-east) and (west, south-east). Before C-0298 every portal on the arterial went into the first
  * of them and the row (checked seam by seam) found the other seam's lane ends without a portal.
  */
 function threeDistricts(): Fixture {
@@ -184,7 +184,7 @@ function threeDistricts(): Fixture {
   );
 }
 
-describe('a way that bounds three districts lies in two seams: each portal goes into its own boundary run’s seam (C-0297)', () => {
+describe('a way that bounds three districts lies in two seams: each portal goes into its own boundary run’s seam (C-0298)', () => {
   const f = threeDistricts();
   const r = runS8(f.input, { report: undefined } as never);
 
@@ -216,7 +216,7 @@ describe('a way that bounds three districts lies in two seams: each portal goes 
         const across = ownerOf(f.plat, loc.face);
         const other = seam.sides[0] === p.by ? seam.sides[1] : seam.sides[0];
         expect(other).toBe(across);
-        if (p.by === west) others.add(other);
+        if (p.by === west && other !== null) others.add(other);
       }
     }
     expect(onArterial).toBeGreaterThan(2);
@@ -225,7 +225,7 @@ describe('a way that bounds three districts lies in two seams: each portal goes 
   });
 });
 
-describe('the row’s check across seams on planted records (portalInvariant through seamPortalProblems; C-0297)', () => {
+describe('the row’s check across seams on planted records (portalInvariant through seamPortalProblems; C-0298)', () => {
   const f = threeDistricts();
   const r = runS8(f.input, { report: undefined } as never);
   const west = f.districts[0].district.id;
@@ -240,8 +240,8 @@ describe('the row’s check across seams on planted records (portalInvariant thr
     const seams = copy(out.infill.seams);
     // A portal an east district added on the arterial, moved from its seam (west, it) into the other arterial seam.
     const [a, b] = artSeams(seams);
-    const fromA = a.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !b.sides.includes(p.by));
-    const [src, dst, i] = fromA >= 0 ? [a, b, fromA] : [b, a, b.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !a.sides.includes(p.by))];
+    const fromA = a.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !b.sides.includes(p.by ?? null));
+    const [src, dst, i] = fromA >= 0 ? [a, b, fromA] : [b, a, b.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !a.sides.includes(p.by ?? null))];
     expect(i).toBeGreaterThanOrEqual(0);
     dst.portals.push(src.portals.splice(i, 1)[0]);
     expect(whats(seams)).toEqual(['wrong-seam']);
@@ -254,10 +254,10 @@ describe('the row’s check across seams on planted records (portalInvariant thr
     const east = seams.find((s) => s.edges.some((e) => e.chain.entity === 'way:east'));
     expect(east).toBeDefined();
     if (east === undefined) return;
-    const src = artSeams(seams).find((s) => s.portals.some((p) => p.from === 'baseLane' && east.sides.includes(p.by)));
+    const src = artSeams(seams).find((s) => s.portals.some((p) => p.from === 'baseLane' && east.sides.includes(p.by ?? null)));
     expect(src).toBeDefined();
     if (src === undefined) return;
-    const i = src.portals.findIndex((p) => p.from === 'baseLane' && east.sides.includes(p.by));
+    const i = src.portals.findIndex((p) => p.from === 'baseLane' && east.sides.includes(p.by ?? null));
     east.portals.push(src.portals.splice(i, 1)[0]);
     expect(whats(seams)).toEqual(['lane-end-without-portal', 'off-seam']);
   });
@@ -267,7 +267,7 @@ describe('the row’s check across seams on planted records (portalInvariant thr
     if (out === null) return;
     const seams = copy(out.infill.seams);
     const [a, b] = artSeams(seams);
-    const p = a.portals.find((x) => x.from === 'baseLane' && x.by === west && b.sides.includes(x.by));
+    const p = a.portals.find((x) => x.from === 'baseLane' && x.by === west && b.sides.includes(x.by ?? null));
     expect(p).toBeDefined();
     if (p === undefined) return;
     b.portals.push(p);
