@@ -78,9 +78,9 @@ describe("the PR tier's jobs at M0 (§13.8's PR contents; §16 M0 (f))", () => {
     expect(tc.length).toBe(14);
     expect(tc[0].argv).toEqual(['corepack', 'pnpm', 'exec', 'tsc', '-p', 'packages/kernel', '--composite', 'false', '--incremental', 'false']);
     const vt = await units(jobs[2]);
-    expect(vt.map((u) => u.name)).toEqual(['kernel', 'model', 'tables', 'site', 'layout', 'testkit', 'bench', 'tools']);
+    expect(vt.map((u) => u.name)).toEqual(['kernel', 'kernel-tiny', 'model', 'tables', 'site', 'layout', 'testkit', 'bench', 'tools']);
     expect(vitestProjects(PLAT_ROOT)).toEqual(vt.map((u) => u.name));
-    expect(vt[6].argv).toEqual(['corepack', 'pnpm', 'exec', 'vitest', 'run', '--project', 'bench']);
+    expect(vt[7].argv).toEqual(['corepack', 'pnpm', 'exec', 'vitest', 'run', '--project', 'bench']);
     // every vitest project the config names is one unit (a project added to the config joins the job with no edit here)
     const config = readFileSync(join(PLAT_ROOT, 'vitest.config.ts'), 'utf8');
     expect([...config.matchAll(/pkg\('|name: '/g)].length).toBe(vt.length);

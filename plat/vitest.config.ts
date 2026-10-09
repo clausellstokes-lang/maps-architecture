@@ -22,6 +22,20 @@ export default defineConfig({
     passWithNoTests: false,
     projects: [
       pkg('kernel', './packages/kernel'),
+      {
+        // The PR tier's tiny-tables run (N-53 (4), C-0286 (5), Q26): the insert step1-2, step3-5 and tx folders once more
+        // with every arena table starting at capacity 1, so every allocation replaces its table and a writer that keeps a
+        // stale table (C-0177 (10)'s class) goes red here. tiny.ts arms the mode from PLAT_TINY_TABLES=1; the sentinel
+        // after it fails the whole project when the variable is set but the mode is not armed (N-s1-1).
+        extends: true,
+        test: {
+          name: 'kernel-tiny',
+          root: './packages/kernel',
+          include: ['test/insert/step1-2/**/*.test.ts', 'test/insert/step3-5/**/*.test.ts', 'test/tx/**/*.test.ts'],
+          env: { PLAT_TINY_TABLES: '1' },
+          setupFiles: [...setupFiles, './packages/kernel/test/arena/tiny.ts', './tools/vitest/tiny-sentinel.mjs'].map((f) => new URL(f, import.meta.url).pathname),
+        },
+      },
       pkg('model', './packages/model'),
       pkg('tables', './packages/tables'),
       pkg('site', './packages/site'),
