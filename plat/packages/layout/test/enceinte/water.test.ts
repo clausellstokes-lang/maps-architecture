@@ -234,7 +234,7 @@ describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7
     }
   });
 
-  it('through the strategy: the oblique crossing has no chord, so the trace is refused E_INVARIANT `water`, nothing written (N-54 (1) strict; C-0295)', () => {
+  it('through the strategy: the oblique crossing has no chord, so the trace is refused E_INVARIANT `water`, nothing written (N-54 (1) strict; C-0300)', () => {
     // Before session round s2 the trace kept the boundary's own course between the banks, several wall_gate edges over
     // the water, none of them a chord between the gate's two bank pins; a water gate's wet side is now that chord alone.
     const site = smallSite(2);

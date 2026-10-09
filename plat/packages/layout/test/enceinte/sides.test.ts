@@ -256,13 +256,13 @@ describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and b
       costField: cost,
     });
     // The captured field covers every point the pull read, but the candidates about gate:w0's bank, which round s2
-    // settled 27 cm along the shore (C-0295): those read 0, each within twice the band of the settled bank.
+    // settled 27 cm along the shore (C-0300): those read 0, each within twice the band of the settled bank.
     for (const q of misses) expect(Math.hypot(q.x + 13908, q.y + 90171)).toBeLessThanOrEqual(8000);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const t = r.value.traced;
     // The crossings as before round s1: the same four water gates at the same banks, but gate:w0's bank 0, which round s2
-    // settled 27 cm along the shore onto the shore vertex its chord passed 11 cm off (C-0295; chord.test.ts).
+    // settled 27 cm along the shore onto the shore vertex its chord passed 11 cm off (C-0300; chord.test.ts).
     const settled = fx.before.waterGates.map((g, i) => (i === 0 ? [{ x: -13908, y: -90171 }, g[1]] : g));
     expect(t.waterGates.map((g) => g.bankAt.map((q) => ({ x: q.x, y: q.y })))).toEqual(settled);
     // The pull still moves the line (the seed's own field), within the band.

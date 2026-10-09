@@ -6,7 +6,7 @@
 // bank points are lattice roundings of the shore crossings (up to √½ cm off the shore) and a trace that follows a shore
 // lies on it, so a side touching its ring within that depth (at a bank pin, along a shore) is no side over it. A side of
 // a water gate's course may lie over the water, never over a reservation; since session round s2 the strategy hands in
-// only chords — the chord between a gate's two bank pins — and refuses a crossing kept as a course (C-0295).
+// only chords — the chord between a gate's two bank pins — and refuses a crossing kept as a course (C-0300).
 //
 // The test is a bound, as `segmentDepartureBound`'s (C-0232 (2)): the signed depth (inside positive) is 1-Lipschitz, so
 // on a stretch of half-length h about a point of depth d no point lies deeper than d + h; a stretch is halved until its

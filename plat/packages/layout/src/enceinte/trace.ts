@@ -14,7 +14,7 @@
 // the waterfront*: the trace crosses water only at a water gate): every SIDE, not only every vertex, is kept off the
 // water and the reservations by the pull, the smoothing, F-WALL's verdict and the simplify (`wet.ts`), and proved
 // before the commit (no side over water or a reservation unless it is a water gate's chord between its two bank pins)
-// and again inside it on the committed wall edges, STRICTLY (N-54 (1) residual, session round s2, C-0295): each water
+// and again inside it on the committed wall edges, STRICTLY (N-54 (1) residual, session round s2, C-0300): each water
 // gate's `wall_gate` run is exactly one edge and that edge joins the gate's two `gate_end` vertices, and an edge over
 // water carries its gate's `wall_gate`; a crossing with no clear chord (the chord would leave the water, a main gate
 // stands in it, or it passes an existing vertex no shore holds, `water.ts`'s settling) is refused before anything is
@@ -139,12 +139,12 @@ export function traceBase(
   const waters = waterRings(water, k, arena);
   const crossed = crossWater(withG, gatePins, waters, arenaVertices(k, arena));
   // A water gate's wet side is its chord between its two bank pins, laid as one edge (§2.2 rule 7; N-54 (1), strict):
-  // a crossing with no clear chord is refused here, nothing written (C-0295).
+  // a crossing with no clear chord is refused here, nothing written (C-0300).
   const unclear = crossed.crossings.find((c) => !c.clear);
   if (unclear !== undefined) {
     const gateIn = unclear.course.some((q) => gatePins.has(key(q)));
     const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : gateIn ? 'a main gate stands in the water between its banks' : 'its chord would leave the water';
-    return { ok: false, code: 'E_INVARIANT', detail: `water: the crossing from ${key(unclear.entry)} to ${key(unclear.exit)} has no clear chord between its two bank pins (${why}); a water gate's wet side is that chord, one edge (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0295)` };
+    return { ok: false, code: 'E_INVARIANT', detail: `water: the crossing from ${key(unclear.entry)} to ${key(unclear.exit)} has no clear chord between its two bank pins (${why}); a water gate's wet side is that chord, one edge (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)` };
   }
   const ring = crossed.ring;
   const pins = new Set<string>([...gatePins, ...crossed.keep]);
@@ -252,9 +252,9 @@ export function traceBase(
       if (!r.ok) return err(r.code, r.detail);
     }
     // Each water gate's wet side is exactly its chord: one wall_gate edge joining its two gate_end vertices, never a
-    // shore edge between a pin and the chord (N-54 (1), strict; C-0295).
+    // shore edge between a pin and the chord (N-54 (1), strict; C-0300).
     const loose = looseGate(k, arena, wgs);
-    if (loose !== null) return err('E_INVARIANT', `water: ${loose} (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0295)`);
+    if (loose !== null) return err('E_INVARIANT', `water: ${loose} (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)`);
     // The water once more on the wall's edges as committed (the insertion's attraction and its Steiner vertices
     // included): an edge over water carries its water gate's `wall_gate`, or the batch is refused (N-54 (1)).
     const wetEdge = committedWetEdge(k, arena, chain, wgs.map((w) => w.id), barred, waters.length);

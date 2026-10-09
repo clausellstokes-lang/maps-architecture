@@ -18,7 +18,7 @@
 // the banks' landing vertices passes an existing vertex, the bank nearer it moves onto it when it is a shore vertex
 // (an L0 shore vertex where the trace attracted, as C-0087 allows), until the chord passes none (`clear`); a chord
 // still passing a vertex that is not on a shore, or leaving the water once settled, is not clear, and the strategy
-// refuses it (C-0295).
+// refuses it (C-0300).
 import { LATTICE, orient2d, type Kernel, type LatticePoint, type PlatKey, type Polygon } from '@plat/kernel';
 import type { Id, Lifecycle, WaterSet } from '@plat/model';
 import { ccw, crossParams, d2, dist, inside, lat, openRing, TOUCH_CM } from './plane.js';
@@ -40,7 +40,7 @@ export interface WaterCrossing {
   readonly chord: boolean;
   /**
    * The crossing's course on the ring, entry to exit: the two banks for a chord, else the banks with the boundary's own
-   * points kept between them. Only a chord's course (its one side) may lie over the water (N-54 (1), strict; C-0295).
+   * points kept between them. Only a chord's course (its one side) may lie over the water (N-54 (1), strict; C-0300).
    */
   readonly course: readonly LatticePoint[];
   /**
