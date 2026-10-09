@@ -7388,3 +7388,8 @@
 2026-10-09 01:09 check/M0-c-03-close-s1 CHECKPOINT waiting: RELATED@1000 gate (tree, W=1) and Z20 full RELATED (mirror); next: verdict
 2026-10-09 01:10 check/M0-b-03-close-s3 CHECKPOINT mirrors m0 (pre-s3 infill) m1 mA-C built; base probe reproduces N-9 on pre (count 0, 5 wrong-seam flat 1); 27 mutants written; next baseline + sweep
 2026-10-09 01:14 check/M0-c-02-close-s2 CHECKPOINT RELATED@1000 (W=1, since 23:24) still running: reds so far bench ladder-coverage/entry (mirror path?), bench fusion/hausdorff (M0-c-06 KI), layout growth/s5ab/span.test (this round's message shift); next: attribution runs in before mirror, verdict
+2026-10-09 01:19 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run still in progress; next: verdict
+2026-10-09 01:20 build/M0-f-03a-fix-s2 CHECKPOINT related@1000 at 117 files, reds hausdorff N-8 and span N-54 only; waiting
+2026-10-09 01:21 check/M0-a-08-close-s3 CHECKPOINT related at 1000 seed 9311: 323 files 3874/3879 exit 1; 5 reds in 4 files (tables workLimits/table x2, layout districts/integration, layout s5ab/span N-54 (3), bench fusion/hausdorff); replaying the 4 files on the pre-fix winding.ts in m3
+2026-10-09 01:23 check/M0-b-03-close-s3 CHECKPOINT probes: holed 0-599 seed 1 identical pre/post (600/600, 0 err/throw); base flat+river 1-5 roots/lanes/blocks identical, S8 line count 0->1, independent wrong-seam 4-17 -> 0; gates install/lint(probe-red ok)/build/landed:verify 0; mutants K01-K06 killed; next reduced bentcut pre/post, sweep, NEAR, RELATED
+2026-10-09 01:25 build/M0-a-05-fix-s7 CHECKPOINT 1e6 before == after (every figure, counts byte-identical); NEAR step3-5 both projects 38 files 450 tests exit 0; mirror removed (logs in session scratchpad); RELATED at 1000 running; next: landed record, LANDED
