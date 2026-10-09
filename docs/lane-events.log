@@ -7373,3 +7373,5 @@
 2026-10-09 00:08 build/M0-b-03-fix-s3 CHECKPOINT related gate running (final code)
 2026-10-09 00:11 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run in progress; next: its verdict, mirror control for reds
 2026-10-09 00:24 check/M0-c-02-close-s2 CHECKPOINT test 1-12 before/after: 23/24 identical; coarse 12 before committed course 12 wet/1 gated (11 ungated strict) -> after S3 refused E_INVARIANT water (chord would leave the water, -20669,9817 -> -21174,-106); CITY seed 1 default/coarse and 15 default refusal details confirmed (instrumented mut mirror, restored); RELATED@1000 (W=1) still running; next: notes, verdict
+2026-10-09 00:28 build/M0-a-05-fix-s7 CHECKPOINT 1e6 before-run still running; next: NEAR and RELATED in the tree
+2026-10-09 00:28 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; next: as before
