@@ -1,4 +1,5 @@
-// M0-c-04 session rounds s1 (N-54 (3); C-0285) and s2 (F-1, F-2; C-0292): a stage boundary that crosses a bridge's span. The gate is the bridgehead
+// M0-c-04 session rounds s1 (N-54 (3); C-0285), s2 (F-1, F-2; C-0292) and s3 (pin 5 re-pinned after M0-c-02's round
+// s2, C-0300; C-0304): a stage boundary that crosses a bridge's span. The gate is the bridgehead
 // — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate splits run inside
 // the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be put lawfully (two
 // deck ends on one side, the water off every span) refuses, nothing written. On a hand-built site: the small flat site,
@@ -9,7 +10,7 @@ import type { Bridge, Cm, Lifecycle, WaterBody, WaterSet } from '@plat/model';
 import { tableView } from '@plat/tables';
 import { commitOuterRing, commitRoutes, commitS3Slice, flatFixture, s3Slice, type RoutePoint, type S3Commit, type S3Slice, type S4Route, type Site } from '../../../src/index.js';
 import { boundaryCrossings, traceStage, wayLines } from '../../../src/growth/boundary.js';
-import { GROUND, kernelFor, P, verticesWith } from './support.js';
+import { GROUND, kernelFor, P, roleEdges, verticesWith } from './support.js';
 
 const GENERATED: Lifecycle = { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
 
@@ -264,17 +265,43 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(liveVertices(f.plat)).toBe(vertices);
   });
 
-  it('a trace whose wall would put a vertex on a span is refused in its own batch, nothing written', { timeout: 120_000 }, () => {
+  // Session round s3 (C-0304): with the pond given, the wall crossing the span is water gate gate:w0's chord, bank to
+  // bank, and the deck lies across it; since M0-c-02's round s2 (C-0300) the insertion's split of that chord is refused
+  // inside the trace's batch by M0-c-02's strict chord proof, before this item's span proof is reached. The pin keeps
+  // its purpose (typed, caused, the span whole, nothing of the stage written); its twin below keeps the span proof's own
+  // refusal pinned on an input the chord proof admits.
+  it('a trace whose wall crosses a span over the water is refused in its own batch by the chord proof, nothing written', { timeout: 120_000 }, () => {
     const f = fixture();
     // The crossings withheld (a caller's miss): the wall meets the way over the deck with no gate there.
     const version = f.plat.version;
+    const vertices = liveVertices(f.plat);
     const t = traceStage(2, OUTLINE, [], f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: f.water, firstOrdinal: 100 });
     expect(t.ok).toBe(false);
     if (t.ok) return;
     expect(t.code).toBe('E_INVARIANT');
-    expect(t.detail).toMatch(/put a vertex on bridge:1's span/);
+    expect(t.detail).toMatch(/water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord/);
     expect(f.plat.version).toBe(version);
+    expect(liveVertices(f.plat)).toBe(vertices);
     expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+    expect(verticesWith(f.plat, 'gate_end', 'gate:w0')).toEqual([]);
+    expect(roleEdges(f.plat, 'wall').get('enceinte:2') ?? []).toEqual([]);
+  });
+
+  it('a trace whose wall would put a vertex on a span is refused in its own batch by the span proof, nothing written (the pond withheld: a caller\'s miss)', { timeout: 120_000 }, () => {
+    const f = fixture();
+    // The crossings withheld and the pond not given, its bridge given: the trace lays no water gate and its wall runs
+    // straight over the deck, splitting the span; only the span proof (C-0285 (2)) stands between that and a commit.
+    const version = f.plat.version;
+    const vertices = liveVertices(f.plat);
+    const t = traceStage(2, OUTLINE, [], f.slice, f.commit.plaza, f.commit.traced.line, f.k, { water: { bodies: [], bridges: f.water.bridges }, firstOrdinal: 100 });
+    expect(t.ok).toBe(false);
+    if (t.ok) return;
+    expect(t.code).toBe('E_INVARIANT');
+    expect(t.detail).toMatch(/^S5a: the trace put a vertex on bridge:1's span between its deck ends/);
+    expect(f.plat.version).toBe(version);
+    expect(liveVertices(f.plat)).toBe(vertices);
+    expect(spanOf(f.plat)).toEqual({ joined: true, between: 0 });
+    expect(roleEdges(f.plat, 'wall').get('enceinte:2') ?? []).toEqual([]);
   });
 
   // Session round s2 (the closing check's F-1 and F-2; C-0292): the stage's strips keep off the water as stage 1's do,
