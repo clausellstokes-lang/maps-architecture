@@ -7298,3 +7298,5 @@
 2026-10-08 20:40 check/M0-c-04-close-s2 CHECKPOINT snapshot NEAR 11 files 45/45 (W=3, 513 s); Y06 RELATED still running; next: verdict
 2026-10-08 20:41 build/M0-c-03-fix-s1 CHECKPOINT read brief, N-54, C-0289, M0-c-01-s1 check, route.ts/stage.ts; next: mirror + reproduce seeds 3535584350, 1192931101
 2026-10-08 20:44 build/M0-b-03-fix-s3 CHECKPOINT oriented (stage.ts, portals.ts, runner report sink, base.ts S8 wrapper); next: mirror + before-probes, then wire seam-portals at runS8's stage end
+2026-10-08 20:49 build/M0-b-03-fix-s3 CHECKPOINT seam-portals wired into runS8's stage end (stage.ts, index.ts export) + seamPortalsRow.test.ts 6/6; next: near set, gates, mirror mutants, after-probes
+2026-10-08 20:52 build/M0-c-03-fix-s1 CHECKPOINT reproduced both seeds (before/after lattice); fix drafted in mirror (route.ts ladder: re-solve on empty band, new crossings only in band); tests drafted (route.test.ts, frame.test.ts); 1000-seed population run with fix in progress; next: pre-fix population, mutants, tree copy, gates
