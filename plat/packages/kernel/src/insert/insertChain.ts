@@ -38,15 +38,15 @@
 // (2), C-0177 (8), refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction;
 // until then the shell of C-0169 (1)). A transaction that is closed — the overlay of a batch that committed, was rejected or
 // threw, kept past it — is a programming error: the op throws at its entry, before it reads or writes anything (N-55 (5);
-// as `splitThrough`, C-0294). A chain point that step 2 lands by splitting the chain's OWN edge — it folds back over
-// itself, §3.11's collinear overlap — is the chain's own shape vertex and carries no `split` flag (§2.2 rule 3; N-55 (2),
+// as `splitThrough`, C-0294). A vertex the op makes by splitting the chain's OWN edge — a chain point that folds back
+// over the chain, or a step-3 join, leave or contact point where a later segment shares an earlier one (§3.11's
+// collinear overlap) — is the chain's own vertex and carries no `split` flag (§2.2 rule 3; `ownShapeVertex`, N-55 (2),
 // C-0297). Readings: C-0177.
 import {
   addRole,
   allocVertex,
   freeVertex,
   handleOf,
-  idOf,
   isVertexLive,
   MAX_ORDINAL,
   outgoing,
@@ -55,9 +55,6 @@ import {
   roleInfo,
   rowsOfKey,
   rowElement,
-  rowsOn,
-  VERTEX_SPLIT,
-  type HalfEdgeId,
   type Plat,
   type RoleRow,
   type VertexId,
@@ -81,6 +78,7 @@ import {
   landingPoint,
   lattice,
   onRouteOfLevel,
+  ownShapeVertex,
   pieceOf,
   planLanding,
   recordSplit,
@@ -144,26 +142,6 @@ function vertexCarries(p: Plat, v: VertexId, role: string, entity: string, ordin
 }
 
 /**
- * §2.2 rule 3: "a chain's own shape vertices never carry [the split flag]". A chain point that step 2 lands by splitting
- * the chain's OWN edge — a pair this op wrote (`ctx.pairsFrom`, `ctx.txPairsFrom`) carrying no row but the chain's own at
- * the batch's level: the chain folds back over itself, §3.11's collinear overlap — is the chain's own shape vertex, not a
- * split of another run, so its flag is cleared and no later removal dissolves it (the dissolution would make
- * remove ≠ undo-by-replay: N-55 (2), Q10). A split of another chain's edge — any row of another entity, role or level on
- * the sub-edge, or a pair this op did not write — keeps the flag: its dissolution restores that edge when this chain goes
- * (rule 3). `v` is the vertex the split just made (freed by the split's own undo on a refusal). C-0297.
- */
-function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): void {
-  const p = ctx.p;
-  const e = sub >> 1;
-  if (!ctx.journal.newPairs.slice(ctx.pairsFrom).includes(e) && !ctx.tx.journal.pairs.slice(ctx.txPairsFrom).includes(e)) return;
-  const own = new Set(ctx.rows.map((r) => `${roleIdOf(r.role)}/${r.entity}/${r.ordinal ?? 0}`));
-  for (const r of rowsOn(p, 'edge', sub)) {
-    if (p.roles.level[r] !== ctx.n || !own.has(`${p.roles.kind[r]}/${idOf(p, p.roles.entity[r])}/${p.roles.ordinal[r]}`)) return;
-  }
-  p.vertices.flags[v] &= ~VERTEX_SPLIT;
-}
-
-/**
  * Step 2 for one chain vertex at the lattice point `pt` (see the module comment): its landing planned — vertex
  * attraction (M0-a-04's `planAttraction`), candidate (b) where that lands beside a finer vertex, the chain's own corner
  * for a free vertex, the kept-content test of a free vertex — then the merge rule against the previous vertex, then
@@ -171,12 +149,6 @@ function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): void {
  */
 export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: LatticePoint | null, nextPt: LatticePoint | null): KernelResult<{ vertex: VertexId; merged: boolean }> {
   const { tx, p, n } = ctx;
-  // A landing written for the chain point: a split of the chain's own edge leaves its own shape vertex (`ownShapeVertex`).
-  const applyOwn = (l: Landing): VertexId => {
-    const v = applyLanding(ctx, l);
-    if (l.kind === 'split') ownShapeVertex(ctx, l.plan.sub, v);
-    return v;
-  };
   const merges = (target: LatticePoint): boolean => prev >= 0 && belowMinEdge(p.vertices.x[prev], p.vertices.y[prev], target.x, target.y);
   const merged = (): KernelResult<{ vertex: VertexId; merged: boolean }> => {
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
@@ -196,7 +168,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       indexAdd(p, { kind: ITEM_VERTEX, level: n, slot: v });
       tx.journal.vertices.push(v);
       warn(tx, ctx.warnings, 'W_PLACED', l.at);
-    } else v = applyOwn(l);
+    } else v = applyLanding(ctx, l);
     warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: v, merged: false });
   };
@@ -212,7 +184,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       if (s5.value !== null) return landS5(s5.value);
     }
     if (merges(landingPoint(p, l.value))) return merged();
-    const v = applyOwn(l.value);
+    const v = applyLanding(ctx, l.value);
     if (p.vertices.x[v] !== pt.x || p.vertices.y[v] !== pt.y) warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
     return ok({ vertex: v, merged: false });
   }
@@ -250,7 +222,7 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
       if (!w.ok) return passOn(w);
       if (w.value) {
         if (merges(at)) return merged();
-        return ok({ vertex: applyOwn(l.value), merged: false });
+        return ok({ vertex: applyLanding(ctx, l.value), merged: false });
       }
       // Beyond 2 · √2 · attractCm a mandatory chain's corner stays where it is: the router places its crossings in turn
       // (N-38, N-40).

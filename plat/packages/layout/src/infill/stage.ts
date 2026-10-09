@@ -11,9 +11,11 @@
 // with the next (§5.1 (1): no restart above a district).
 import { STAGES, err, ok, type Hash128, type Invariant, type Kernel, type KernelResult, type LineageHash, type PlatKey } from '@plat/kernel';
 import { compareLineage, type Block, type District, type Id, type Junction, type LiveEntry, type Rung, type Scope, type Seam, type Stage, type StageContext, type Way, type WorkLimitLaw } from '@plat/model';
-import { loadWorkLimits, rungProfile, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
+import { loadTable, loadWorkLimits, rungProfile, type PresetId, type Row, type Table, type WorkLimitsTable } from '@plat/tables';
 import { BLOCK_FLOOR_ROW, BentCutFabric, BENT_CUT, S8_COUNTERS, type BlockFaces, type DistrictContext, type DistrictReport, type FabricStrategy, type PartitionResult } from './bentCutFabric.js';
 import { granularityBands, type GranularityBands } from './granularityBands.js';
+import { cutCells } from './planner.js';
+import { portalInvariant, type PortalProblem } from './portals.js';
 
 /** The ground arena (§2.2). */
 const GROUND: PlatKey = { layer: 'ground', part: 0 };
@@ -132,7 +134,40 @@ export function runS8(input: S8Input, ctx: StageContext): KernelResult<S8Output>
   }
   // The stage's end: the L1 partitions rebuilt once (§3.3's rebuild moment (1)).
   input.kernel.index.rebuildAtStageEnd(key);
+  // The stage-end hard row (§5.3's and §13.2's seam-portal row; C-0297): evaluated once over the committed seams and the
+  // lanes this run committed, its evaluation reported through the context's sink; a breach refuses the stage
+  // (E_INVARIANT, §3.3; §5.1 (8): the runner puts its arenas back and writes the bug entry, C-0295).
+  const problems = seamPortalProblems(input, key, seams, lanes);
+  reportRow(ctx, SEAM_PORTAL_ROW.name, problems.length === 0);
+  if (problems.length > 0) return err('E_INVARIANT', seamPortalDetail(problems));
   return ok({ lanes, blocks, infill: { junctions, seams, blockFaces, report: { districts: reports, refused }, live } });
+}
+
+/**
+ * The seam-portal row's evaluation at S8's end (§13.2: "every `baseLane` portal matches one S8 lane end and vice versa,
+ * spaced by the portal gap"; checked against "the `Seam` records against the lanes' end vertices"): `portalInvariant`
+ * over the seams as the stage leaves them and the lanes it committed, the gap from the cut table's cells (the planner's,
+ * at the run's preset). Every `baseLane` portal is S8's at M0, so one that names no lane of the run is a breach.
+ */
+export function seamPortalProblems(input: Pick<S8Input, 'kernel' | 'tables' | 'preset'>, key: PlatKey, seams: readonly Seam[], lanes: readonly Way[]): PortalProblem[] {
+  const cells = cutCells(input.tables?.cut ?? loadTable('cut'), input.preset);
+  return portalInvariant(input.kernel.plat(key), key, seams, lanes, cells);
+}
+
+/** The refusal's detail: the row's name first (the runner's `<row>: ` convention), the count and the first problems. */
+function seamPortalDetail(problems: readonly PortalProblem[]): string {
+  const shown = problems.slice(0, 8).map((p) => `${p.what} (seam ${p.seam}${p.portal === undefined ? '' : `, portal ${p.portal}`}${p.lane === undefined ? '' : `, lane ${p.lane}`})`);
+  return `${SEAM_PORTAL_ROW.name}: ${String(problems.length)} problem(s) at S8's end: ${shown.join('; ')}${problems.length > shown.length ? '; …' : ''}`;
+}
+
+/**
+ * One evaluation of a declared stage-scope row through the context's report sink (§5.4's `ReportSink.invariant`; the
+ * runner counts it in `GenerationReport.stages[].invariants`), when the context carries one: a context with no sink (a
+ * test's, a bench's) still evaluates the row and refuses on its breach.
+ */
+function reportRow(ctx: StageContext, name: string, pass: boolean): void {
+  const sink = (ctx as { report?: unknown } | undefined)?.report as { invariant?: (name: string, pass: boolean) => void } | undefined;
+  if (sink !== undefined && sink !== null && typeof sink.invariant === 'function') sink.invariant(name, pass);
 }
 
 /** §12.4's S8 row: ≈ 1 500 cuts at ≈ 12 µs per cut, 20 ms at CITY (reporting only; the other rungs read it until M1). */

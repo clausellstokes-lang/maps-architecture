@@ -23,11 +23,14 @@ import {
   edgeLevel,
   freeEdgePair,
   freeVertex,
+  idOf,
   isVertexLive,
   removeRoleRow,
+  roleIdOf,
   rowsOn,
   outgoing,
   pointOf,
+  VERTEX_SPLIT,
   VERTEX_STEINER,
   type FaceId,
   type Five,
@@ -121,8 +124,8 @@ export interface ChainCtx {
   readonly journal: ChainJournal;
   /**
    * Where this op's own pairs start in the two journals — `journal.newPairs` (the chain's new edges) and
-   * `tx.journal.pairs` (the pairs its splits made): a pair at or after these marks is one this op wrote. Step 2 reads
-   * them to tell a split of the chain's OWN edge (its fold-back, whose landing is its own shape vertex) from a split of
+   * `tx.journal.pairs` (the pairs its splits made): a pair at or after these marks is one this op wrote. Every split
+   * landing reads them (`ownShapeVertex`) to tell a split of the chain's OWN edge — its own vertex — from a split of
    * another chain's edge (N-55 (2), Q10; C-0297).
    */
   readonly pairsFrom: number;
@@ -483,6 +486,7 @@ export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
     // doubles the table needs no reservation first (C-0177 (10)'s `reservePair` retired, N-53 (2); C-0297).
     const v = applySplitPlan(ctx.tx, l.plan); // reports the placement's W_PLACED to the transaction
     recordSplit(ctx, l.plan.sub, v);
+    ownShapeVertex(ctx, l.plan.sub, v);
     foldWarnings(ctx.warnings, l.warnings);
     return v;
   }
@@ -492,6 +496,28 @@ export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
   }
   promote(ctx.tx, l.vertex, ctx.n, ctx.warnings, ctx.undo);
   return l.vertex;
+}
+
+/**
+ * §2.2 rule 3: "a chain's own shape vertices never carry [the split flag]". A vertex this op made by splitting the chain's
+ * OWN edge — a pair this op wrote (`ctx.pairsFrom`, `ctx.txPairsFrom`) carrying no row but the chain's own at the
+ * batch's level — is the chain's own vertex, not a split of another run: a chain point that step 2 lands on the chain's
+ * earlier edge (it folds back over itself, §3.11's collinear overlap; the ruling's case 5317), or a step-3 join, leave or
+ * contact point where a later segment shares an earlier one. Its flag is cleared, so no later removal dissolves it (the
+ * dissolution would make remove ≠ undo-by-replay: N-55 (2), Q10); the chain's own removal frees it with the chain's
+ * edges. A split of another chain's edge — any row of another key or level on the sub-edge, or a pair this op did not
+ * write — keeps the flag: its dissolution restores that edge when this chain goes (rule 3). `v` is the vertex the split
+ * of `sub` just made (freed by the split's own undo on a refusal). C-0297.
+ */
+export function ownShapeVertex(ctx: ChainCtx, sub: HalfEdgeId, v: VertexId): void {
+  const p = ctx.p;
+  const e = sub >> 1;
+  if (!ctx.journal.newPairs.slice(ctx.pairsFrom).includes(e) && !ctx.tx.journal.pairs.slice(ctx.txPairsFrom).includes(e)) return;
+  const own = new Set(ctx.rows.map((r) => `${roleIdOf(r.role)}/${r.entity}/${r.ordinal ?? 0}`));
+  for (const r of rowsOn(p, 'edge', sub)) {
+    if (p.roles.level[r] !== ctx.n || !own.has(`${p.roles.kind[r]}/${idOf(p, p.roles.entity[r])}/${p.roles.ordinal[r]}`)) return;
+  }
+  p.vertices.flags[v] &= ~VERTEX_SPLIT;
 }
 
 /**

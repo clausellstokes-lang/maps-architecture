@@ -1,0 +1,157 @@
+// S8's stage-end hard row `seam-portals` (§5.3, §13.2's seam portal invariant; checks/M0-b-03-notes.md N-9, Q15; C-0297):
+// the row is EVALUATED at S8's end — over the seams as the stage leaves them and the lanes it committed — and its
+// evaluation is counted in the runner's report, so a report line that says pass with count 0 can never again mean the
+// row never ran. A planted portal breach (a fabric that drops or re-points a baseLane portal of its own result) makes the
+// row non-empty: S8 is refused E_INVARIANT, the line reads pass false with its evaluation counted, the report carries a
+// bug entry for S8, and the runner's rollback (C-0295) leaves nothing of S8 in the arena. The honest twin passes with
+// zero problems and its evaluation counted.
+import { isHalfEdgeLive, rowKey, rowsOn, type Plat } from '@plat/kernel';
+import type { District, Seam } from '@plat/model';
+import { describe, expect, it } from 'vitest';
+import {
+  BentCutFabric,
+  BENT_CUT,
+  createRegistry,
+  register,
+  run,
+  runS8,
+  s8Stage,
+  seamPortalProblems,
+  spineWidthsOf,
+  type FabricStrategy,
+  type GenerationReport,
+  type PipelineModel,
+  type PipelineStage,
+  type S8Input,
+} from '../../../src/index.js';
+import { GROUND, SEED, twoDistricts, type Fixture } from './support.js';
+
+/** How a planted breach corrupts a district's result: its last baseLane portal dropped, or re-pointed at no lane. */
+type Breach = 'drop' | 'repoint';
+
+/**
+ * A fabric that runs BentCutFabric and then corrupts the seams it returns (the planted breach): the arena keeps every
+ * lane BentCutFabric committed, so the Seam records no longer match the lanes' end vertices.
+ */
+function breaching(how: Breach): FabricStrategy {
+  return {
+    ...BentCutFabric,
+    partition(district: District, seams: readonly Seam[], ctx, sc, k) {
+      const r = BentCutFabric.partition(district, seams, ctx, sc, k);
+      if (!r.ok) return r;
+      const out: Seam[] = r.value.seams.map((s) => ({ ...s, portals: s.portals.slice() }));
+      for (let i = out.length - 1; i >= 0; i -= 1) {
+        const j = out[i].portals.map((p) => p.from).lastIndexOf('baseLane');
+        if (j < 0) continue;
+        if (how === 'drop') out[i].portals.splice(j, 1);
+        else out[i].portals[j] = { ...out[i].portals[j], wayId: 'way:no-such-lane' };
+        break;
+      }
+      return { ...r, value: { ...r.value, seams: out } };
+    },
+  };
+}
+
+/** A context whose report sink records each stage-row evaluation (§5.4's ReportSink.invariant). */
+function recording(): { ctx: never; rows: [string, boolean][] } {
+  const rows: [string, boolean][] = [];
+  return { ctx: { report: { invariant: (name: string, pass: boolean) => rows.push([name, pass]), warning: () => undefined } } as never, rows };
+}
+
+/** Every way id carried by a live edge of the arena. */
+function arenaWays(plat: Plat): Set<string> {
+  const ids = new Set<string>();
+  for (let e = 0; e < 2 * plat.slots.pair.top; e += 1) {
+    if (!isHalfEdgeLive(plat, e)) continue;
+    for (const r of rowsOn(plat, 'edge', e)) {
+      const key = rowKey(plat, r);
+      if (key.role === 'way') ids.add(key.entity);
+    }
+  }
+  return ids;
+}
+
+describe('runS8 evaluates the seam-portal row at its end (standalone, a context with a report sink)', () => {
+  it('the honest run: the row is evaluated once and holds; the seams carry baseLane portals and the row’s check finds no problem', { timeout: 300_000 }, () => {
+    const f = twoDistricts();
+    const { ctx, rows } = recording();
+    const r = runS8(f.input, ctx);
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(rows).toEqual([['seam-portals', true]]);
+    const portals = r.value.infill.seams.flatMap((s) => s.portals).filter((p) => p.from === 'baseLane');
+    expect(portals.length).toBeGreaterThan(2);
+    expect(seamPortalProblems(f.input, GROUND, r.value.infill.seams, r.value.lanes)).toEqual([]);
+  });
+
+  for (const how of ['drop', 'repoint'] as const) {
+    it(`a planted breach (${how}): the row is evaluated once and fails, and S8 is refused E_INVARIANT naming the row`, { timeout: 300_000 }, () => {
+      const f = twoDistricts();
+      const { ctx, rows } = recording();
+      const r = runS8({ ...f.input, fabrics: new Map([[BENT_CUT, breaching(how)]]) }, ctx);
+      expect(r.ok).toBe(false);
+      if (r.ok) return;
+      expect(r.code).toBe('E_INVARIANT');
+      expect(r.detail.startsWith('seam-portals: ')).toBe(true);
+      expect(r.detail).toContain(how === 'drop' ? 'lane-end-without-portal' : 'not-a-lane-end');
+      expect(rows).toEqual([['seam-portals', false]]);
+    });
+  }
+
+  it('a context with no sink still evaluates the row: the breach is refused all the same', { timeout: 300_000 }, () => {
+    const f = twoDistricts();
+    const r = runS8({ ...f.input, fabrics: new Map([[BENT_CUT, breaching('drop')]]) }, { report: undefined } as never);
+    expect(r.ok).toBe(false);
+    if (!r.ok) expect(r.detail.startsWith('seam-portals: ')).toBe(true);
+  });
+});
+
+/**
+ * S8 registered alone in a StrategyRegistry over a fixture's arena and run by M0-x-02's runner: the item's s8Stage with
+ * the fixture's record as its input and the runner's kernel as its façade (base.ts's adapter does the same over S6's
+ * record).
+ */
+function runAlone(f: Fixture, fabrics?: ReadonlyMap<string, FabricStrategy>): { model: PipelineModel; report: GenerationReport } {
+  const item = s8Stage();
+  const input: S8Input = fabrics === undefined ? f.input : { ...f.input, fabrics };
+  const stage = {
+    ...item,
+    inputs: [] as string[],
+    inputsOf: () => input,
+    run: (x: S8Input, ctx: { kernel: S8Input['kernel'] }) => item.run({ ...x, kernel: ctx.kernel }, ctx as never),
+  } as unknown as PipelineStage;
+  const registry = createRegistry();
+  register(registry, stage);
+  return run(registry, { seed: SEED, size: { rung: 'CITY' } }, { kind: 'all' }, { arenas: () => [f.plat], spineWidths: spineWidthsOf(f.widths) });
+}
+
+describe('through the runner: the report line of seam-portals counts its evaluation; a breach is a refused stage', () => {
+  it('the honest twin: S8’s seam-portals line passes with its evaluation counted (count 1), no bug, the lanes written', { timeout: 300_000 }, () => {
+    const f = twoDistricts();
+    const { model, report } = runAlone(f);
+    expect(report.bugs).toEqual([]);
+    const s8 = report.stages.find((s) => s.name === 'S8');
+    expect(s8?.invariants.find((l) => l.name === 'seam-portals')).toEqual({ name: 'seam-portals', scope: 'stage', pass: true, count: 1 });
+    const lanes = model.data.get('lanes') as { id: string }[] | undefined;
+    expect(lanes?.length ?? 0).toBeGreaterThan(5);
+    const ways = arenaWays(f.plat);
+    for (const w of lanes ?? []) expect(ways.has(w.id)).toBe(true);
+  });
+
+  it('the planted breach: the line fails with its evaluation counted, one bug entry for S8, no output written, and nothing of S8 stays in the arena', { timeout: 300_000 }, () => {
+    const f = twoDistricts();
+    const version = f.plat.version;
+    const waysBefore = [...arenaWays(f.plat)].sort();
+    const { model, report } = runAlone(f, new Map([[BENT_CUT, breaching('drop')]]));
+    const s8 = report.stages.find((s) => s.name === 'S8');
+    expect(s8?.invariants.find((l) => l.name === 'seam-portals')).toEqual({ name: 'seam-portals', scope: 'stage', pass: false, count: 1 });
+    expect(report.bugs.length).toBe(1);
+    expect(report.bugs[0]).toMatchObject({ cls: 'E_INVARIANT', stage: 'S8' });
+    expect(model.data.has('lanes')).toBe(false);
+    expect(model.data.has('blocks')).toBe(false);
+    expect(model.data.has('infill')).toBe(false);
+    // The runner's rollback (C-0295): the arena stands as it did at S8's start — its version and its ways.
+    expect(f.plat.version).toBe(version);
+    expect([...arenaWays(f.plat)].sort()).toEqual(waysBefore);
+  });
+});
