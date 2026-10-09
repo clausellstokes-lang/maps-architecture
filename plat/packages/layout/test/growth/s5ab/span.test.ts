@@ -1,5 +1,5 @@
 // M0-c-04 session rounds s1 (N-54 (3); C-0285), s2 (F-1, F-2; C-0292) and s3 (pin 5 re-pinned after M0-c-02's round
-// s2, C-0300; C-0304): a stage boundary that crosses a bridge's span. The gate is the bridgehead
+// s2, C-0300; C-0303): a stage boundary that crosses a bridge's span. The gate is the bridgehead
 // — the deck end on the stage's side — and the span stays one edge between its two deck ends; the gate splits run inside
 // the trace's own batch, so a refused trace leaves the arena as it found it; a crossing that cannot be put lawfully (two
 // deck ends on one side, the water off every span) refuses, nothing written. On a hand-built site: the small flat site,
@@ -265,7 +265,7 @@ describe('S5a: a stage boundary crossing a bridge\'s span (N-54 (3))', () => {
     expect(liveVertices(f.plat)).toBe(vertices);
   });
 
-  // Session round s3 (C-0304): with the pond given, the wall crossing the span is water gate gate:w0's chord, bank to
+  // Session round s3 (C-0303): with the pond given, the wall crossing the span is water gate gate:w0's chord, bank to
   // bank, and the deck lies across it; since M0-c-02's round s2 (C-0300) the insertion's split of that chord is refused
   // inside the trace's batch by M0-c-02's strict chord proof, before this item's span proof is reached. The pin keeps
   // its purpose (typed, caused, the span whole, nothing of the stage written); its twin below keeps the span proof's own
