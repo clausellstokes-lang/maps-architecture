@@ -34,3 +34,35 @@ describe('the step-1–2 sources use + − × ÷ √ only for distances (§3.2 (
     expect(c).not.toMatch(/slots\.(vertex|pair)\.top/); // no scan over arena slots
   });
 });
+
+// N-55 (5), N-12 (C-0294 (1), C-0296): every function the item's sources export that takes an InsertTx and is an entry or
+// a writer begins with the closed check; the rest are named here with the reason they carry none. A new exported
+// function taking an InsertTx fails this test until it is sorted into one list or the other.
+const CLOSED_CHECK = "check(tx.closed !== true, 'the transaction is closed (committed or rejected)');";
+const CHECKED = ['splitThrough', 'applySplitPlan', 'attractVertex', 'attractRun', 'applyAttraction'];
+const UNCHECKED: Record<string, string> = {
+  // planners: they read and charge the overlay's own counters only, never the arena; their entries above check first,
+  // and a check in them would make those entries' ordering pins (N-11) unkillable
+  planSplitThrough: 'planner (reads, charges the overlay)',
+  planAttraction: 'planner (reads, charges the overlay)',
+  placePoint: 'planner (reads, charges the overlay)',
+  decimate: "planner (reads, charges the overlay); insertChain's entry checks first (M0-a-05)",
+  // the overlay's bookkeeping, called inside every op of both items after its entry check
+  charge: 'bookkeeping (the overlay’s counters)',
+  warn: 'bookkeeping (the overlay’s warnings)',
+};
+
+describe('a closed transaction is checked at every exported entry and writer of steps 1–2 (N-55 (5); C-0296)', () => {
+  it('each exported function taking an InsertTx is checked first or named as a planner or bookkeeping', () => {
+    const seen: string[] = [];
+    for (const f of FILES) {
+      const s = src(f);
+      for (const m of s.matchAll(/^export function (\w+)(?:<[^>]*>)?\(tx: InsertTx[^\n]*\{\n([^\n]*)\n/gm)) {
+        seen.push(m[1]);
+        if (CHECKED.includes(m[1])) expect(`${m[1]}: ${m[2].trim()}`).toBe(`${m[1]}: ${CLOSED_CHECK}`);
+        else expect(Object.keys(UNCHECKED), `${f}: ${m[1]} takes an InsertTx: check it or name it`).toContain(m[1]);
+      }
+    }
+    expect(seen.slice().sort()).toEqual([...CHECKED, ...Object.keys(UNCHECKED)].sort());
+  });
+});

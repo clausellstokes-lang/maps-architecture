@@ -237,9 +237,11 @@ export function planSplitThrough(tx: InsertTx, at: HalfEdgeId, pIn: LatticePoint
 /**
  * Writes a plan of `planSplitThrough` (nothing here refuses): the vertex and the split — the sub-edge's pair kept at its
  * run's handle end, a new pair beyond the vertex carrying every row of the old one — the vertex's row, the index items
- * the split changes, the journal, and the plan's warnings into the transaction. Returns the vertex.
+ * the split changes, the journal, and the plan's warnings into the transaction. Returns the vertex. A closed transaction
+ * throws before anything is written (N-55 (5); C-0294 (1), refined by C-0296).
  */
 export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const p = tx.plat;
   foldWarnings(tx.warnings, plan.warnings);
   if (plan.kind === 'existing') {
