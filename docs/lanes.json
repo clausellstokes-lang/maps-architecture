@@ -403,8 +403,9 @@
    "expected_min": 150,
    "output": "",
    "landed_key": "session/ruling-refusals",
-   "status": "running",
-   "note": "Fable ruling seat on M0-FIX-QUEUE Q16, Q20-Q22, Q28 (+ Q18/Q19 order), J248 follow-on"
+   "status": "stopped",
+   "note": "Fable ruling seat on M0-FIX-QUEUE Q16, Q20-Q22, Q28 (+ Q18/Q19 order), J248 follow-on",
+   "stopped": "2026-10-08T22:38-04:00"
   }
  ]
 }
