@@ -220,8 +220,6 @@ function bridgeGaps(
   k: number,
 ): KernelResult<ScratchOverlay> | null {
   const p = tx.plat;
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
   const minSq = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
   for (const walk of walks) {
     const kept = walk.steps.filter((st) => starts[Math.abs(st) - 1] >= 0);
@@ -237,6 +235,10 @@ function bridgeGaps(
       const from = st > 0 ? ends[s] : starts[s];
       const to = nx > 0 ? starts[t] : ends[t];
       if (from === to) continue;
+      // read the coordinate columns here, after the last allocation: the bridge inserted on an earlier pass may have
+      // grown the vertex table, which replaces the columns (plat.ts's re-read rule, N-53 (4), (5); C-0293)
+      const X = p.vertices.x;
+      const Y = p.vertices.y;
       const dx = X[to] - X[from];
       const dy = Y[to] - Y[from];
       if (dx * dx + dy * dy < minSq) continue;

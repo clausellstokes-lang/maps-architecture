@@ -182,3 +182,17 @@ the insetRing oracle's scaled frame, C-0261). Mutant ids T01 – T11 are defined
     refusals went from 1 1 2 1 0 (pre-fix) to 0 2 1 0 0 (post-fix). That is within C-0150's allowance of 10 per 10⁴.
     C-0261's "oracle refusals unchanged" holds on its own seeds only. Separately, the brief places ruling J226 in
     `checks/M0-spec-notes.md`, but that file has no J226 entry. Only C-0261 names it.
+
+The row below is from lane `check/M0-a-08-close-s3`, 2026-10-09: the closing check of session fix round S3 (N-53 (5),
+J242, `bridgeGaps`' re-read, C-0293). Mutant ids M1 – M7 are defined in `checks/M0-a-08-s3.md`.
+
+28. **KI: M7 survives, because the bridge's splice into the walk is not pinned.** Mutant M7 drops `out.push(id + 1)`
+    in `bridgeGaps`, so the bridge is inserted but left out of `walk.steps`. It passes `growth.test.ts`, the whole
+    kernel folder `test/arr/booleans-buffers/`, `pins.test.ts` and `register.test.ts` at 1 000 (seed 9311, 154/154).
+    The reason, PLAUSIBLE by reading: without the splice, `orientSegments` still gives the bridge segment its +1 from
+    → to. `glueWalks` then adds a second shortest path from → to over the gap the walk now shows, and `balanceFlow`
+    returns the surplus along a shortest path back. When the shortest path is unique, the two extra paths cancel, so
+    the winding is unchanged. They can differ only where two shortest paths tie and enclose area. C-0196 (1)'s
+    sentence "spliced into the walk, so the ring stays one closed walk of inserted edges" therefore has no test of its
+    own. This predates round S3 and is not N-53's promise. *Suggested handling:* a pin that inspects `walk.steps` (or
+    the per-pair `net`) after a bridged ring, or a case whose bridge path has a tied twin. Hardening, M4.
