@@ -108,4 +108,30 @@ describe('N-55 (2), Q10: a chain\'s own fold-back point carries no split flag (Â
     expect(after.refs).toBe(before.refs);
     expect(after.digests).toBe(before.digests);
   });
+
+  // The second control: a pair this op wrote is not by itself the chain's own edge. A chain crossing one base edge twice
+  // splits it at the first crossing (the far sub-edge is a new pair of this op, carrying the base's rows) and then at the
+  // second, which may fall on that new pair: both crossings keep the flag, and the chain's removal dissolves both â€” the
+  // base one edge again. Both directions of the chain, so one of them splits the op's new pair.
+  for (const pts of [[[1000, 1500], [1500, 2500], [2000, 1500]], [[2000, 1500], [1500, 2500], [1000, 1500]]] as const) {
+    it(`the second control: a chain ${JSON.stringify(pts)} crossing one base edge twice keeps both crossings' flags; its removal dissolves both`, () => {
+      const p = framed();
+      insert(p, 0, [[0, 2000], [4000, 2000]], 'base:A');
+      const before = snapshot(p);
+      insert(p, 2, pts, 'x:1');
+      const crossings = [1250, 1750].map((x) => vertexAtPoint(p, x, 2000));
+      expect(crossings.every((v) => v >= 0)).toBe(true);
+      for (const v of crossings) {
+        expect(isSplit(p, v)).toBe(true);
+        expect(outgoing(p, v)).toHaveLength(4);
+      }
+      remove(p, 'x:1');
+      expect(crossings.map((v) => vertexAtPoint(p, p.vertices.x[v], 2000))).toEqual([-1, -1]);
+      expect(allProblems(p)).toEqual([]);
+      const after = snapshot(p);
+      expect(after.print).toBe(before.print);
+      expect(after.refs).toBe(before.refs);
+      expect(after.digests).toBe(before.digests);
+    });
+  }
 });

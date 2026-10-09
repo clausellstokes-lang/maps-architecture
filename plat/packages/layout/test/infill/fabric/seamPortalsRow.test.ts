@@ -12,6 +12,8 @@ import {
   BentCutFabric,
   BENT_CUT,
   createRegistry,
+  cutCells,
+  portalInvariant,
   register,
   run,
   runS8,
@@ -220,5 +222,75 @@ describe('a way that bounds three districts lies in two seams: each portal goes 
     expect(onArterial).toBeGreaterThan(2);
     // The west district's portals on the arterial reach both of its seams there.
     expect(others.size).toBe(2);
+  });
+});
+
+describe('the row’s check across seams on planted records (portalInvariant through seamPortalProblems; C-0297)', () => {
+  const f = threeDistricts();
+  const r = runS8(f.input, { report: undefined } as never);
+  const west = f.districts[0].district.id;
+  const out = r.ok ? r.value : null;
+  const artSeams = (seams: readonly Seam[]): Seam[] => seams.filter((s) => s.edges.some((e) => e.chain.entity === 'way:art'));
+  const copy = (seams: readonly Seam[]): Seam[] => seams.map((s) => ({ ...s, portals: s.portals.slice() }));
+  const whats = (seams: readonly Seam[], lanes = out?.lanes ?? []): string[] => [...new Set(seamPortalProblems(f.input, GROUND, seams, lanes).map((p) => p.what))].sort();
+
+  it('a portal moved to the other seam of its spine, whose sides lack its district: wrong-seam only', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    const seams = copy(out.infill.seams);
+    // A portal an east district added on the arterial, moved from its seam (west, it) into the other arterial seam.
+    const [a, b] = artSeams(seams);
+    const fromA = a.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !b.sides.includes(p.by));
+    const [src, dst, i] = fromA >= 0 ? [a, b, fromA] : [b, a, b.portals.findIndex((p) => p.from === 'baseLane' && p.by !== west && !a.sides.includes(p.by))];
+    expect(i).toBeGreaterThanOrEqual(0);
+    dst.portals.push(src.portals.splice(i, 1)[0]);
+    expect(whats(seams)).toEqual(['wrong-seam']);
+  });
+
+  it('a portal moved to a seam that does not hold its spine (its district a side): off-seam, and its lane end has no portal', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    const seams = copy(out.infill.seams);
+    const east = seams.find((s) => s.edges.some((e) => e.chain.entity === 'way:east'));
+    expect(east).toBeDefined();
+    if (east === undefined) return;
+    const src = artSeams(seams).find((s) => s.portals.some((p) => p.from === 'baseLane' && east.sides.includes(p.by)));
+    expect(src).toBeDefined();
+    if (src === undefined) return;
+    const i = src.portals.findIndex((p) => p.from === 'baseLane' && east.sides.includes(p.by));
+    east.portals.push(src.portals.splice(i, 1)[0]);
+    expect(whats(seams)).toEqual(['lane-end-without-portal', 'off-seam']);
+  });
+
+  it('one portal recorded in both seams of its spine: two-portals', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    const seams = copy(out.infill.seams);
+    const [a, b] = artSeams(seams);
+    const p = a.portals.find((x) => x.from === 'baseLane' && x.by === west && b.sides.includes(x.by));
+    expect(p).toBeDefined();
+    if (p === undefined) return;
+    b.portals.push(p);
+    expect(whats(seams)).toEqual(['two-portals']);
+  });
+
+  it('the gap is judged along the spine over the portals of every seam holding it, not seam by seam', { timeout: 300_000 }, () => {
+    expect(out).not.toBeNull();
+    if (out === null) return;
+    // Each arterial seam keeps one west portal; the lanes are those two; a gap no two portals clear.
+    const seams = copy(out.infill.seams).map((s) => ({ ...s, portals: [] as Seam['portals'] }));
+    const kept: string[] = [];
+    for (const s of artSeams(seams)) {
+      const p = artSeams(out.infill.seams).find((x) => x.id === s.id)?.portals.find((x) => x.from === 'baseLane' && x.by === west);
+      expect(p).toBeDefined();
+      if (p === undefined) return;
+      s.portals.push(p);
+      kept.push(p.wayId);
+    }
+    const lanes = out.lanes.filter((w) => kept.includes(w.id));
+    const wide = { portalGapMinCm: 1e9, portalGapLaneFactor: 1 };
+    const gaps = portalInvariant(f.plat, GROUND, seams, lanes, wide).filter((p) => p.what === 'gap');
+    expect(gaps.length).toBe(1);
+    expect(portalInvariant(f.plat, GROUND, seams, lanes, cutCells())).toEqual([]);
   });
 });
