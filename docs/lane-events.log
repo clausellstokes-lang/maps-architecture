@@ -7387,3 +7387,6 @@
 2026-10-09 01:09 check/M0-a-08-close-s3 CHECKPOINT related at 1000 still running; next: as before
 2026-10-09 01:09 check/M0-c-03-close-s1 CHECKPOINT waiting: RELATED@1000 gate (tree, W=1) and Z20 full RELATED (mirror); next: verdict
 2026-10-09 01:10 check/M0-b-03-close-s3 CHECKPOINT mirrors m0 (pre-s3 infill) m1 mA-C built; base probe reproduces N-9 on pre (count 0, 5 wrong-seam flat 1); 27 mutants written; next baseline + sweep
+2026-10-09 01:14 check/M0-c-02-close-s2 CHECKPOINT RELATED@1000 (W=1, since 23:24) still running: reds so far bench ladder-coverage/entry (mirror path?), bench fusion/hausdorff (M0-c-06 KI), layout growth/s5ab/span.test (this round's message shift); next: attribution runs in before mirror, verdict
+2026-10-09 01:19 build/M0-a-06-fix-s5 CHECKPOINT RELATED re-run still in progress; next: verdict
+2026-10-09 01:20 build/M0-f-03a-fix-s2 CHECKPOINT related@1000 at 117 files, reds hausdorff N-8 and span N-54 only; waiting
