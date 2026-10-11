@@ -53,7 +53,7 @@
         "S5": {
           "ok": 7,
           "refused": {
-            "E_SELF_INTERSECT": 1
+            "E_INVARIANT": 1
           },
           "notReached": 0
         },
@@ -164,7 +164,7 @@
           "numbers": {
             "samples": 7934,
             "samplesContained": 7934,
-            "samplesInDistricts": 7284,
+            "samplesInDistricts": 7245,
             "unownedByStage": 0
           }
         },
@@ -183,12 +183,12 @@
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 31,
-            "maxOffBy": 37,
+            "minOffBy": 30,
+            "maxOffBy": 35,
             "medianNd": 18,
-            "medianDistricts": 52,
-            "leftovers": 258,
-            "belowFloor": 266,
+            "medianDistricts": 51,
+            "leftovers": 247,
+            "belowFloor": 254,
             "merges": 19
           }
         },
@@ -210,7 +210,7 @@
             "share": 0,
             "shareMin": 0.9,
             "medianWardHa": 10.758424855,
-            "medianTownHa": 2.3001544125
+            "medianTownHa": 2.9043017125
           }
         },
         "fieldBands": {
@@ -219,8 +219,8 @@
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.9049999999999727,
-            "minLandCells": 2545,
+            "maxErrorCells": 0.8849999999999909,
+            "minLandCells": 2529,
             "cellCm": 3200
           }
         },
@@ -236,16 +236,16 @@
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 533,
+          "observed": 522,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 525,
-            "districtRoof.downgrades": 17,
+            "districtRoof.faces": 514,
+            "districtRoof.downgrades": 16,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtSpine.faces": 525,
-            "districtSpine.downgrades": 17,
+            "districtSpine.faces": 514,
+            "districtSpine.downgrades": 16,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
             "waterRoof.faces": 8,
@@ -294,10 +294,10 @@
           "unitsTotal": 92401,
           "perUnit": {
             "n": 2,
-            "p50": 0.26484557293876215,
-            "p99": 0.495190832484061,
-            "p999": 0.4994216637818318,
-            "max": 0.49989175614825077
+            "p50": 0.14205375946111562,
+            "p99": 0.2521266657676775,
+            "p999": 0.2541484130263694,
+            "max": 0.25437305161066853
           }
         },
         "grower.turns": {
@@ -313,10 +313,10 @@
           "unitsTotal": 749,
           "perUnit": {
             "n": 7,
-            "p50": 1.2975206611570247,
-            "p99": 1.854145036125234,
-            "p999": 1.8695729194541078,
-            "max": 1.8712871287128714
+            "p50": 1.2727272727272727,
+            "p99": 1.8344500936580144,
+            "p999": 1.8497816430291678,
+            "max": 1.8514851485148516
           }
         },
         "field.cells": {
@@ -363,7 +363,7 @@
         "S6": {
           "committed": 7,
           "refused": 0,
-          "maxShare": 0.013454424902289224
+          "maxShare": 0.013453843290526707
         }
       }
     },
@@ -390,7 +390,7 @@
         "S5": {
           "ok": 7,
           "refused": {
-            "E_SELF_INTERSECT": 1
+            "E_INVARIANT": 1
           },
           "notReached": 0
         },
@@ -409,8 +409,8 @@
           "numbers": {
             "cells": 500000,
             "defined": 500000,
-            "landCells": 499255,
-            "landDefined": 499255,
+            "landCells": 499256,
+            "landDefined": 499256,
             "landShare": 1,
             "share": 1
           }
@@ -499,9 +499,9 @@
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "samples": 7935,
-            "samplesContained": 7935,
-            "samplesInDistricts": 7282,
+            "samples": 7934,
+            "samplesContained": 7934,
+            "samplesInDistricts": 7244,
             "unownedByStage": 0
           }
         },
@@ -520,13 +520,13 @@
           ],
           "numbers": {
             "within": 0,
-            "minOffBy": 28,
-            "maxOffBy": 37,
+            "minOffBy": 26,
+            "maxOffBy": 35,
             "medianNd": 18,
-            "medianDistricts": 52,
-            "leftovers": 253,
-            "belowFloor": 259,
-            "merges": 22
+            "medianDistricts": 50,
+            "leftovers": 239,
+            "belowFloor": 246,
+            "merges": 18
           }
         },
         "gateWards": {
@@ -546,8 +546,8 @@
             "below": 0,
             "share": 0,
             "shareMin": 0.9,
-            "medianWardHa": 11.2451159,
-            "medianTownHa": 2.3001544125
+            "medianWardHa": 11.15802488,
+            "medianTownHa": 2.9043017125
           }
         },
         "fieldBands": {
@@ -556,8 +556,8 @@
           "of": "derivations",
           "failing": [],
           "numbers": {
-            "maxErrorCells": 0.7549999999999955,
-            "minLandCells": 1122,
+            "maxErrorCells": 0.907999999999987,
+            "minLandCells": 1117,
             "cellCm": 4800
           }
         },
@@ -573,24 +573,24 @@
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 536,
+          "observed": 516,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 528,
+            "districtRoof.faces": 508,
             "districtRoof.downgrades": 16,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtSpine.faces": 528,
+            "districtSpine.faces": 508,
             "districtSpine.downgrades": 16,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
             "waterRoof.faces": 8,
-            "waterRoof.downgrades": 2,
+            "waterRoof.downgrades": 3,
             "waterRoof.workLimitHits": 0,
             "waterRoof.failures": 0,
             "waterSpine.faces": 8,
-            "waterSpine.downgrades": 2,
+            "waterSpine.downgrades": 3,
             "waterSpine.workLimitHits": 0,
             "waterSpine.failures": 0,
             "downgradesMax": 0.005,
@@ -622,19 +622,19 @@
           "stage": "S4",
           "unit": "latticeNodes",
           "units": {
-            "n": 2,
-            "p50": 46200.5,
-            "p99": 46208.83,
-            "p999": 46208.983,
+            "n": 3,
+            "p50": 46209,
+            "p99": 46209,
+            "p999": 46209,
             "max": 46209
           },
-          "unitsTotal": 92401,
+          "unitsTotal": 138610,
           "perUnit": {
-            "n": 2,
-            "p50": 0.17293451250763997,
-            "p99": 0.2491375956883239,
-            "p999": 0.25053724415490786,
-            "max": 0.250692760651195
+            "n": 3,
+            "p50": 0.08803479841589301,
+            "p99": 0.2537406925045146,
+            "p999": 0.25678427015104033,
+            "max": 0.2571224454450987
           }
         },
         "grower.turns": {
@@ -643,17 +643,17 @@
           "units": {
             "n": 7,
             "p50": 110,
-            "p99": 126.97999999999999,
-            "p999": 127.898,
-            "max": 128
+            "p99": 116.64,
+            "p999": 116.964,
+            "max": 117
           },
-          "unitsTotal": 764,
+          "unitsTotal": 753,
           "perUnit": {
             "n": 7,
-            "p50": 1.1875,
-            "p99": 1.854145036125234,
-            "p999": 1.8695729194541078,
-            "max": 1.8712871287128714
+            "p50": 1.205128205128205,
+            "p99": 1.8344500936580144,
+            "p999": 1.8497816430291678,
+            "max": 1.8514851485148516
           }
         },
         "field.cells": {
@@ -680,7 +680,7 @@
         "S1": {
           "committed": 16,
           "refused": 0,
-          "maxShare": 0.0446899324423557
+          "maxShare": 0.04417497396220801
         },
         "S3": {
           "committed": 24,
@@ -700,7 +700,7 @@
         "S6": {
           "committed": 7,
           "refused": 0,
-          "maxShare": 0.013516773842170137
+          "maxShare": 0.013471984673743753
         }
       }
     },
@@ -841,7 +841,7 @@
           "numbers": {
             "samples": 5639,
             "samplesContained": 5639,
-            "samplesInDistricts": 5314,
+            "samplesInDistricts": 5309,
             "unownedByStage": 0
           }
         },
@@ -862,8 +862,8 @@
             "maxOffBy": 94,
             "medianNd": 18,
             "medianDistricts": 108,
-            "leftovers": 443,
-            "belowFloor": 435,
+            "leftovers": 442,
+            "belowFloor": 434,
             "merges": 19
           }
         },
@@ -909,15 +909,15 @@
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 599,
+          "observed": 598,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 591,
+            "districtRoof.faces": 590,
             "districtRoof.downgrades": 43,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtSpine.faces": 591,
+            "districtSpine.faces": 590,
             "districtSpine.downgrades": 43,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
@@ -968,8 +968,8 @@
           "perUnit": {
             "n": 5,
             "p50": 0.936,
-            "p99": 1.1721473434051943,
-            "p999": 1.1794240366661009,
+            "p99": 1.1718553726022747,
+            "p999": 1.179394839585809,
             "max": 1.180232558139535
           }
         },
@@ -997,7 +997,7 @@
         "S1": {
           "committed": 16,
           "refused": 0,
-          "maxShare": 0.043732281232281234
+          "maxShare": 0.04202810548230396
         },
         "S3": {
           "committed": 21,
@@ -1066,8 +1066,8 @@
           "numbers": {
             "cells": 500000,
             "defined": 500000,
-            "landCells": 499894,
-            "landDefined": 499894,
+            "landCells": 499895,
+            "landDefined": 499895,
             "landShare": 1,
             "share": 1
           }
@@ -1158,7 +1158,7 @@
           "numbers": {
             "samples": 5639,
             "samplesContained": 5639,
-            "samplesInDistricts": 5314,
+            "samplesInDistricts": 5309,
             "unownedByStage": 0
           }
         },
@@ -1179,8 +1179,8 @@
             "maxOffBy": 94,
             "medianNd": 18,
             "medianDistricts": 108,
-            "leftovers": 443,
-            "belowFloor": 435,
+            "leftovers": 442,
+            "belowFloor": 434,
             "merges": 19
           }
         },
@@ -1226,15 +1226,15 @@
         },
         "corpus": {
           "verdict": "fail",
-          "observed": 599,
+          "observed": 598,
           "of": "district and water faces",
           "failing": [],
           "numbers": {
-            "districtRoof.faces": 591,
+            "districtRoof.faces": 590,
             "districtRoof.downgrades": 43,
             "districtRoof.workLimitHits": 0,
             "districtRoof.failures": 0,
-            "districtSpine.faces": 591,
+            "districtSpine.faces": 590,
             "districtSpine.downgrades": 43,
             "districtSpine.workLimitHits": 0,
             "districtSpine.failures": 0,
@@ -1285,8 +1285,8 @@
           "perUnit": {
             "n": 5,
             "p50": 0.936,
-            "p99": 1.1991240875912408,
-            "p999": 1.207412408759124,
+            "p99": 1.1988321167883211,
+            "p999": 1.2073832116788321,
             "max": 1.2083333333333333
           }
         },
@@ -1314,7 +1314,7 @@
         "S1": {
           "committed": 16,
           "refused": 0,
-          "maxShare": 0.044103688977907986
+          "maxShare": 0.04281316509577379
         },
         "S3": {
           "committed": 21,
@@ -1346,41 +1346,41 @@
       "mode": "informative",
       "runs": 8,
       "stageP50": {
-        "S1": 7287.925668,
-        "S3": 36391.1499835,
-        "S4": 1140.9687880000001,
-        "S5": 54461.4608685,
-        "S6": 1445.538555
+        "S1": 8134.2723005,
+        "S3": 37867.5697255,
+        "S4": 1128.5809,
+        "S5": 50765.767271000004,
+        "S6": 1371.9050515
       },
-      "gateP50": 12969.742728500001,
+      "gateP50": 12741.431636000001,
       "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 7287.925668,
+          "p50": 8134.2723005,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 36391.1499835,
+          "p50": 37867.5697255,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 1140.9687880000001,
+          "p50": 1128.5809,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 1445.538555,
+          "p50": 1371.9050515,
           "exceeds": true
         }
       ],
@@ -1396,41 +1396,41 @@
       "mode": "informative",
       "runs": 8,
       "stageP50": {
-        "S1": 6048.5835295,
-        "S3": 43905.5115915,
-        "S4": 872.7944964999999,
-        "S5": 43953.9016445,
-        "S6": 1090.2976825
+        "S1": 8477.3266535,
+        "S3": 43898.322191,
+        "S4": 892.9254209999999,
+        "S5": 54099.482569,
+        "S6": 1214.535272
       },
-      "gateP50": 10769.801042500001,
+      "gateP50": 10805.722707500001,
       "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 6048.5835295,
+          "p50": 8477.3266535,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 43905.5115915,
+          "p50": 43898.322191,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 872.7944964999999,
+          "p50": 892.9254209999999,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 1090.2976825,
+          "p50": 1214.535272,
           "exceeds": true
         }
       ],
@@ -1446,41 +1446,41 @@
       "mode": "informative",
       "runs": 8,
       "stageP50": {
-        "S1": 5883.650208999999,
-        "S3": 33708.0347845,
-        "S4": 1449.1961864999998,
-        "S5": 53736.1330655,
-        "S6": 874.2857779999999
+        "S1": 10260.415285,
+        "S3": 68367.02203650001,
+        "S4": 2657.0938075000004,
+        "S5": 108536.31586500001,
+        "S6": 1908.1560605
       },
-      "gateP50": 8012.4053305,
+      "gateP50": 14213.6144975,
       "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 5883.650208999999,
+          "p50": 10260.415285,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 33708.0347845,
+          "p50": 68367.02203650001,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 1449.1961864999998,
+          "p50": 2657.0938075000004,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 874.2857779999999,
+          "p50": 1908.1560605,
           "exceeds": true
         }
       ],
@@ -1496,41 +1496,41 @@
       "mode": "informative",
       "runs": 8,
       "stageP50": {
-        "S1": 3427.738066,
-        "S3": 29110.9605915,
-        "S4": 1139.067393,
-        "S5": 47016.0323365,
-        "S6": 701.502354
+        "S1": 7307.5859315,
+        "S3": 65943.8133455,
+        "S4": 2397.76457,
+        "S5": 108649.169796,
+        "S6": 1700.5332225
       },
-      "gateP50": 5347.538014,
+      "gateP50": 10945.476091999999,
       "gateRuns": 8,
       "r12_4": [
         {
           "stage": "S1",
           "row": "§12.4 S1 site",
           "figureMs": 25,
-          "p50": 3427.738066,
+          "p50": 7307.5859315,
           "exceeds": true
         },
         {
           "stage": "S3",
           "row": "§12.4 S2 / S3 (the slice's ≈ 11 ms of the 16 ms row)",
           "figureMs": 11,
-          "p50": 29110.9605915,
+          "p50": 65943.8133455,
           "exceeds": true
         },
         {
           "stage": "S4",
           "row": "§12.4 S4 backbone",
           "figureMs": 10,
-          "p50": 1139.067393,
+          "p50": 2397.76457,
           "exceeds": true
         },
         {
           "stage": "S6",
           "row": "§12.4 S6 districts + fields",
           "figureMs": 17,
-          "p50": 701.502354,
+          "p50": 1700.5332225,
           "exceeds": true
         }
       ],

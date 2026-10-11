@@ -5,7 +5,7 @@
   "lanes": ["build/M0-e-06", "build/M0-e-06-fix1", "build/M0-e-06-fix-s1"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-08T20:09:29.487Z",
+  "date": "2026-10-11T14:25:56.624Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/bench/src/site/", "plat/bench/test/site/", "plat/docs/build/summaries/M0-e-06.json"],
   "counts": { "created": 13, "changed": 1, "unchanged": 0, "deleted": 0 },
@@ -23,7 +23,7 @@
     { "path": "plat/bench/test/site/fold.test.ts", "status": "created", "sha256": "db394cefac8a7106c2c14edcdf42565624cd768849bf71d94fbc4dd36a08c648", "size": 28518 },
     { "path": "plat/bench/test/site/spike.test.ts", "status": "created", "sha256": "17a0613e04b707c3b36eb9a1ea50f67d5a61132f27832e2bb7ea33746984b7d0", "size": 34076 },
     { "path": "plat/bench/test/site/timing.test.ts", "status": "created", "sha256": "6e8446426606f3b697350408067362e300fb7df1cfbe563bb39a8ef467399c9c", "size": 3702 },
-    { "path": "plat/docs/build/summaries/M0-e-06.json", "status": "created", "sha256": "e171d4dc883be2ce5474498c3942d16b545de51fb8e5137d0364122558e71292", "size": 37709 }
+    { "path": "plat/docs/build/summaries/M0-e-06.json", "status": "created", "sha256": "2fe14f762167ae9b475ee24e902840287059ec66d986ab8d8a1bc0d1afc565e1", "size": 37684 }
   ],
   "appends": [
     {
