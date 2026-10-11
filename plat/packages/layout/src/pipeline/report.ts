@@ -10,7 +10,9 @@
 //   key's components; the report renders the textual key, §6.1), its evaluations of declared stage-scope and soft rows,
 //   requested features (§5.1 (7)), auto-resolved parameters, unserved and unplaced entities and bug aborts (§5.1 (8)).
 //   The runner writes the batch side itself: work per counter, kernel warnings, downgrades and work-limit hits from
-//   each commit, the batch-scope hard rows' evaluations, and a bug entry for a stage whose run is refused (C-0224 (5)).
+//   each commit, the batch-scope hard rows' evaluations, and a bug entry for a stage whose run is refused (C-0224 (5))
+//   or that reached its end without reporting a declared stage-end row — that row's line then reads pass false with
+//   count 0, the one line a never-evaluated row can show (Q32, C-0316).
 // * Stage names in the report are the stage-id registry's textual names (`S5`), as the textual stream key spells them
 //   (C-0224 (3)). Every record keyed by a name (`work`, `warnings`, `kernel.warnings`) is written in name order, so two
 //   derivations of one input give equal reports field for field.
@@ -296,6 +298,23 @@ export class ReportBuilder {
     if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}'`);
     line.evaluations += 1;
     if (!pass) line.failures += 1;
+  }
+
+  /**
+   * The declared stage-end rows (§5.3's `stage` scope, hard or soft) the stage has not reported yet, in declaration
+   * order: what the runner's stage-end guard reads when the stage reaches its end (Q32, C-0316). Batch-scope rows are
+   * evaluated per batch (none on a stage that ran no batch) and save, load and CI rows outside a derivation, so neither
+   * is a stage-end row.
+   */
+  unevaluated(s: StageState): string[] {
+    return s.rows.filter((r) => r.row.scope === 'stage' && r.evaluations === 0).map((r) => r.row.name);
+  }
+
+  /** A declared stage-end row the stage never reported (Q32, C-0316): its line reads pass false with count 0. */
+  neverEvaluated(s: StageState, name: string): void {
+    const line = s.rows.find((r) => r.row.name === name);
+    if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}'`);
+    line.failures += 1;
   }
 
   /** A committed batch's work under its counter (§5.1 (5)). */
