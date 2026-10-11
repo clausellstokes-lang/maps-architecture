@@ -31,6 +31,13 @@ describe('the calibratable census (C-0070)', () => {
     for (const k of ['base', 'populationWeight', 'wealthWeight', 'cap']) expect(has(`ladder/TOWN/layers.sewers.law.${k}`)).toBe(true);
   });
 
+  it('counts the tables it is given, in their order, each by the one loop', () => {
+    const of = (id: string): string[] => census.filter((k) => k.startsWith(`${id}/`));
+    expect(calibratableCensus(['cut', 'bands'])).toEqual([...of('cut'), ...of('bands')]);
+    expect(calibratableCensus(['bands', 'cut'])).toEqual([...of('bands'), ...of('cut')]);
+    expect(calibratableCensus([])).toEqual([]);
+  });
+
   it('lists every calibratable cell of the raw files and nothing else, in table order then key order', () => {
     const expected: string[] = [];
     for (const id of TABLE_IDS) {

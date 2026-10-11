@@ -20,11 +20,11 @@ import {
   parseTable,
   provenanceForm,
   TABLE_IDS,
-  TABLE_SOURCES,
   type CellValue,
   type M0TableId,
   type Table,
 } from '../../src/index.js';
+import { rawTable } from '../loader/support.js';
 import extensionCells from './extension-cells.json';
 import golden from './golden.json';
 import strings from './string-values.json';
@@ -42,10 +42,7 @@ function atGolden(t: Table): boolean {
 
 /** A run item's hand-over as its table-cell writer makes it: the version bumped, each cell rewritten with 'M-1 ⟨date⟩'. */
 function handOver(id: M0TableId, cells: readonly [string, string, CellValue][]): Table {
-  const raw = JSON.parse(JSON.stringify(TABLE_SOURCES.get(id))) as {
-    version: number;
-    rows: Record<string, Record<string, { value: CellValue; provenance: string }>>;
-  };
+  const raw = rawTable<{ version: number; rows: Record<string, Record<string, { value: CellValue; provenance: string }>> }>(id);
   raw.version += 1;
   for (const [r, c, v] of cells) {
     raw.rows[r][c].value = v;

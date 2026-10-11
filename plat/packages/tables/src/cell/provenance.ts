@@ -19,7 +19,10 @@ export type ProvenanceForm =
   | 'M-1'
   | 'M0-spike';
 
-/** The references a `ref:` source may name (§17.1 (1)'s captured references). */
+/**
+ * The references a `ref:` source may name (§17.1 (1)'s captured references, Dwellings among them) — a list of its own,
+ * apart from §7.6's `extension.over` words and parity presets (cell.ts), which name what a cell extends or reproduces.
+ */
 export const REFERENCES: readonly string[] = Object.freeze(['MFCG', 'FTG', 'NG', 'VG', 'FM', 'Dwellings']);
 
 const REF = `(?:${REFERENCES.join('|')})`;

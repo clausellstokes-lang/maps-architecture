@@ -6,6 +6,7 @@
 // routing, the cap's clamp) are LadderRouter's (§1.1, §4.12; M1). The layers column takes II.7.4's SewerExistenceRow
 // and II.7.5's UndercityExistenceRow as the design types them, each key and bound checked on read (C-0162 (4)).
 import type { Rung } from '@plat/model';
+import { issueAt } from '../cell/cell.js';
 import { BAND_IDS, type ProsperityBand } from './bands.js';
 import { loadTable, TableError, type Table } from './table.js';
 
@@ -72,7 +73,7 @@ function isBaseRung(r: string): r is BaseRung {
 }
 
 function refuseCell(rung: string, cell: string, reason: string): never {
-  throw new TableError([{ table: 'ladder', row: rung, cell, reason }]);
+  throw new TableError([issueAt({ table: 'ladder', row: rung, cell, reason })]);
 }
 
 /** A key cell whose value must be one of `allowed`, else a refusal naming the cell. */
@@ -114,14 +115,12 @@ function undercityRow(t: Table, rung: string): UndercityExistenceRow {
  */
 export function rungProfile(rung: Rung, table?: Table): RungProfile {
   if (!isBaseRung(rung)) {
-    throw new TableError([{ table: 'ladder', row: rung, reason: "the village rows of ladder.json are volume 7's (V07 §2.1; deferred)" }]);
+    throw new TableError([issueAt({ table: 'ladder', row: rung, reason: "the village rows of ladder.json are volume 7's (V07 §2.1; deferred)" })]);
   }
   const t = table ?? loadTable('ladder');
-  if (t.id !== 'ladder') throw new TableError([{ table: t.id, reason: "a rung profile reads the ladder table, not this one" }]);
+  if (t.id !== 'ladder') throw new TableError([issueAt({ table: t.id, reason: 'a rung profile reads the ladder table, not this one' })]);
   const deltas = t.nums(rung, 'granularity.joinMaxDelta');
-  if (deltas.length !== BAND_IDS.length) {
-    throw new TableError([{ table: 'ladder', row: rung, cell: 'granularity.joinMaxDelta', reason: 'one entry per band of the band set' }]);
-  }
+  if (deltas.length !== BAND_IDS.length) refuseCell(rung, 'granularity.joinMaxDelta', 'one entry per band of the band set');
   const joinMaxDelta = {} as Record<ProsperityBand, number>;
   BAND_IDS.forEach((b, i) => {
     joinMaxDelta[b] = deltas[i];

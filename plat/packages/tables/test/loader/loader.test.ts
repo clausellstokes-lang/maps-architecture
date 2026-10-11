@@ -1,34 +1,23 @@
 // M0-s-02: the loader (§7.6) — every shipped table loads; a malformed file is refused naming the table, the row and the
 // cell; the typed accessors refuse a cell of the wrong kind; §7.6's TableView (version, get, rows, slice, hash) and its
 // pinning hash, which covers value, unit, calibratable, extension and presets and never the provenance block.
-import { describe, expect, it } from 'vitest';
+import { H128, utf8Bytes } from '@plat/kernel';
+import { describe, expect, expectTypeOf, it } from 'vitest';
 import {
+  cellPinning,
   checkTable,
   loadTable,
   parseTable,
+  rowPinning,
+  rungProfile,
   TABLE_IDS,
   TABLE_SOURCES,
   tableView,
-  TableError,
   isTableId,
+  type M0TableId,
   type Table,
 } from '../../src/index.js';
-
-function refusal(f: () => unknown): TableError {
-  try {
-    f();
-  } catch (e) {
-    expect(e).toBeInstanceOf(TableError);
-    return e as TableError;
-  }
-  throw new Error('no refusal');
-}
-
-const MIN = { table: 't', version: 1, section: '§4.6', rows: { r: { c: { value: 1, unit: 'm', provenance: 'own', calibratable: false } } } };
-
-function deepCopy<T>(x: T): T {
-  return JSON.parse(JSON.stringify(x)) as T;
-}
+import { deepCopy, ONE_CELL, refusal } from './support.js';
 
 describe('every shipped table loads', () => {
   for (const id of TABLE_IDS) {
@@ -44,10 +33,19 @@ describe('every shipped table loads', () => {
   }
 
   it('reads rows and cells in key order, whatever the file order', () => {
-    const raw = deepCopy(MIN) as { rows: Record<string, unknown> };
+    const raw = deepCopy(ONE_CELL) as { rows: Record<string, unknown> };
     raw.rows = { '2': raw.rows.r, b: raw.rows.r, a: raw.rows.r, '10': raw.rows.r };
     const t = parseTable('t', raw);
     expect([...t.rows.keys()]).toEqual(['10', '2', 'a', 'b']);
+  });
+
+  it('lists the thirteen ids once, typed as the literal tuple, and the sources in their order', () => {
+    type Ids = readonly ['ladder', 'granularity', 'faces', 'regimes', 'ways', 'cut', 'interior', 'walls', 'lattice', 'district', 'fields', 'bands', 'terrain'];
+    expectTypeOf(TABLE_IDS).toEqualTypeOf<Ids>();
+    expectTypeOf<M0TableId>().toEqualTypeOf<Ids[number]>();
+    expectTypeOf(TABLE_SOURCES).toEqualTypeOf<ReadonlyMap<M0TableId, unknown>>();
+    expect([...TABLE_SOURCES.keys()]).toEqual([...TABLE_IDS]);
+    for (const id of TABLE_IDS) expect((TABLE_SOURCES.get(id) as { table: string }).table).toBe(id);
   });
 
   it('refuses an unknown table id', () => {
@@ -62,12 +60,13 @@ describe('a malformed table file is refused, naming where', () => {
     ['version 0', (r) => (r.version = 0), 'version must be a positive integer'],
     ['a fractional version', (r) => (r.version = 1.5), 'version must be a positive integer'],
     ['no section', (r) => delete r.section, 'section must name the design section'],
+    ['a blank section', (r) => (r.section = '  '), 'section must name the design section'],
     ['no rows', (r) => delete r.rows, 'empty table: no rows'],
     ['an unknown top field', (r) => (r.extra = 1), "unknown field 'extra'"],
   ];
   for (const [what, mutate, reason] of cases) {
     it(`refuses ${what}`, () => {
-      const raw = deepCopy(MIN) as Record<string, unknown>;
+      const raw = deepCopy(ONE_CELL) as Record<string, unknown>;
       mutate(raw);
       const e = refusal(() => parseTable('t', raw));
       expect(e.table).toBe('t');
@@ -75,15 +74,32 @@ describe('a malformed table file is refused, naming where', () => {
     });
   }
 
+  it('builds each issue with its keys in order, an absent key left absent, never undefined', () => {
+    const keys = (f: () => unknown): string[] => Object.keys(refusal(f).issues[0]);
+    const raw = deepCopy(ONE_CELL) as { rows: Record<string, unknown> };
+    raw.rows.r = {};
+    expect(keys(() => parseTable('t', raw))).toEqual(['table', 'row', 'reason']);
+    expect(keys(() => parseTable('t', { ...ONE_CELL, rows: { r: { c: { value: 1 } } } }))).toEqual(['table', 'row', 'cell', 'reason']);
+    expect(keys(() => parseTable('t', [1]))).toEqual(['table', 'reason']);
+    expect(keys(() => loadTable('nope'))).toEqual(['table', 'reason']);
+    const t = loadTable('cut');
+    expect(keys(() => t.row('nope'))).toEqual(['table', 'row', 'reason']);
+    expect(keys(() => t.num('settings', 'bendMode'))).toEqual(['table', 'row', 'cell', 'reason']);
+    expect(keys(() => tableView(['cut']).table('ways'))).toEqual(['table', 'reason']);
+    expect(keys(() => rungProfile('THORP'))).toEqual(['table', 'row', 'reason']);
+    expect(keys(() => rungProfile('TOWN', t))).toEqual(['table', 'reason']);
+    expect(JSON.stringify(refusal(() => t.row('nope')).issues)).toBe('[{"table":"cut","row":"nope","reason":"no such row"}]');
+  });
+
   it('refuses a file that is not an object', () => {
     expect(refusal(() => parseTable('t', [1])).reason).toBe('a table file must be a JSON object');
   });
 
   it('refuses a row key or cell key that is not a stable key', () => {
-    const raw = deepCopy(MIN) as { rows: Record<string, Record<string, unknown>> };
+    const raw = deepCopy(ONE_CELL) as { rows: Record<string, Record<string, unknown>> };
     raw.rows['bad key'] = { c: raw.rows.r.c };
     expect(refusal(() => parseTable('t', raw)).reason).toBe("row key 'bad key' is not a stable key");
-    const raw2 = deepCopy(MIN) as { rows: Record<string, Record<string, unknown>> };
+    const raw2 = deepCopy(ONE_CELL) as { rows: Record<string, Record<string, unknown>> };
     raw2.rows.r['1c'] = raw2.rows.r.c;
     const e = refusal(() => parseTable('t', raw2));
     expect([e.row, e.cell, e.reason]).toEqual(['r', '1c', "cell key '1c' is not a stable key"]);
@@ -121,7 +137,7 @@ describe('the typed accessors', () => {
   });
 
   it('refuse a reversed range', () => {
-    const raw = deepCopy(MIN) as { rows: { r: { c: { value: unknown } } } };
+    const raw = deepCopy(ONE_CELL) as { rows: { r: { c: { value: unknown } } } };
     raw.rows.r.c.value = [5, 3];
     expect(refusal(() => parseTable('t', raw).pair('r', 'c')).reason).toBe('not a range [lo, hi]');
   });
@@ -158,6 +174,18 @@ describe("§7.6's TableView", () => {
     expect(refusal(() => view.slice('granularity', 'row', 'modest/nope')).cell).toBe('nope');
   });
 
+  it("hashes a slice in SliceRef's fixed forms: a row's pinning content; a field's key and its cell's (C-0157 (1))", () => {
+    const t = loadTable('granularity');
+    const lanes = (h: readonly number[]): number[] => [h[0], h[1]];
+    expect(view.slice('granularity', 'row', 'modest').hash).toEqual(lanes(H128(utf8Bytes(rowPinning(t.row('modest'))))));
+    expect(view.slice('granularity', 'row', 'modest/depthM').hash).toEqual(
+      lanes(H128(utf8Bytes(`${JSON.stringify('modest/depthM')}:${cellPinning(t.cell('modest', 'depthM'))}`))),
+    );
+    // A row key holds no '/', so the first '/' parts the row from the cell: a longer key names a cell the row lacks.
+    const e = refusal(() => view.slice('granularity', 'row', 'modest/depthM/x'));
+    expect([e.row, e.cell, e.reason]).toEqual(['modest', 'depthM/x', 'no such cell']);
+  });
+
   it('has one hash over its tables, which a view over other tables does not share', () => {
     expect(view.hash).toEqual(tableView().hash);
     expect(view.hash).toHaveLength(4);
@@ -167,7 +195,7 @@ describe("§7.6's TableView", () => {
 });
 
 describe("the pinning hash (§7.6): value, unit, calibratable, extension and presets — never provenance", () => {
-  const base = (): { rows: { r: { c: Record<string, unknown> } } } & Record<string, unknown> => deepCopy(MIN) as never;
+  const base = (): { rows: { r: { c: Record<string, unknown> } } } & Record<string, unknown> => deepCopy(ONE_CELL) as never;
   const hashOf = (raw: unknown): Table['hash'] => parseTable('t', raw).hash;
   const h0 = hashOf(base());
 

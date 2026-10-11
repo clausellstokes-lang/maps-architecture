@@ -22,8 +22,7 @@ import {
   type BandRows,
   type Table,
 } from '../../src/index.js';
-
-const cell = (value: unknown, unit: string, calibratable = true): Record<string, unknown> => ({ value, unit, provenance: 'own', calibratable });
+import { cell } from './support.js';
 
 /** The design's band set (§4.5): FTG's shares 1 / 1 / 20 / 40 / 20 / 10 normalised, the cuts their cumulative sums. */
 const FIXTURE_BANDS = parseTable('bands', {

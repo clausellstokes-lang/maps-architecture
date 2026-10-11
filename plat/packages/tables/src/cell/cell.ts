@@ -5,7 +5,9 @@
 // the `{source, date, note, …}` block of §7.6 flattened to its source, with `note`, `evidence` and `ownerRule` beside
 // it on the cell (C-0153). The check refuses an empty cell (JT: "a table with an empty cell fails
 // to load"), a cell lacking unit, provenance or calibratable, a unit outside §2.1's list, a provenance outside
-// §17.1 (6)'s forms, and anything else it cannot read — every issue naming the table, the row and the cell.
+// §17.1 (6)'s forms, and anything else it cannot read — every issue naming the table, the row and the cell. The file
+// also gives the loader three helpers by path, outside the package's API: the stable-key grammar `STABLE_KEY`, the
+// text predicate `nonEmptyString` and the issue builder `issueAt`.
 import { sortedKeys } from '@plat/kernel';
 import { provenanceForm } from './provenance.js';
 import { isUnit, type Unit } from './unit.js';
@@ -13,11 +15,18 @@ import { isUnit, type Unit } from './unit.js';
 /** A cell's value: a number, one of our own keys, a flag, or a list of them (a range, a per-band row, a list of keys). */
 export type CellValue = number | string | boolean | readonly CellValue[];
 
+// §7.6's three marker vocabularies, each written once as a list and its type derived from it. They differ by design
+// from each other and from provenance.ts's REFERENCES (§17.1 (1)'s captured references): `over` names the references
+// a cell extends, with `both` and `none`; the parity presets are the references a preset reproduces, NG among them.
+const EXTENSION_OVERS = ['MFCG', 'FTG', 'VG', 'FM', 'both', 'none'] as const;
+const EXTENSION_MODES = ['chance', 'weight', 'option'] as const;
+const PRESET_IDS = ['MFCG', 'FTG', 'VG', 'FM', 'NG'] as const;
+
 /** The references a cell may extend over (§7.6). */
-export type ExtensionOver = 'MFCG' | 'FTG' | 'VG' | 'FM' | 'both' | 'none';
-export type ExtensionMode = 'chance' | 'weight' | 'option';
+export type ExtensionOver = (typeof EXTENSION_OVERS)[number];
+export type ExtensionMode = (typeof EXTENSION_MODES)[number];
 /** The parity presets a cell may carry a value for (§7.6). */
-export type PresetId = 'MFCG' | 'FTG' | 'VG' | 'FM' | 'NG';
+export type PresetId = (typeof PRESET_IDS)[number];
 
 export interface PresetValue {
   readonly value: CellValue;
@@ -48,6 +57,15 @@ export interface TableIssue {
   readonly reason: string;
 }
 
+/**
+ * The one builder of a `TableIssue`: `{ table, reason }`, `{ table, row, reason }` or `{ table, row, cell, reason }`, its
+ * keys in that order and an absent key left absent, never present as undefined; a cell is named only within its row.
+ */
+export function issueAt({ table, row, cell, reason }: TableIssue): TableIssue {
+  if (row === undefined) return { table, reason };
+  return cell === undefined ? { table, row, reason } : { table, row, cell, reason };
+}
+
 /** Where a cell lies: its table, row and cell key. */
 export interface CellAt {
   readonly table: string;
@@ -66,11 +84,15 @@ const CELL_FIELDS: ReadonlySet<string> = new Set([
   'extension',
   'presets',
 ]);
-const OVERS: ReadonlySet<string> = new Set(['MFCG', 'FTG', 'VG', 'FM', 'both', 'none']);
-const MODES: ReadonlySet<string> = new Set(['chance', 'weight', 'option']);
-const PRESETS: ReadonlySet<string> = new Set(['MFCG', 'FTG', 'VG', 'FM', 'NG']);
-/** A string value is one of our own keys: no spaces, no prose (the checker's "numbers and our own keys only"). */
-const KEY_VALUE = /^[A-Za-z][A-Za-z0-9_.\-]*$/;
+const OVERS: ReadonlySet<string> = new Set<string>(EXTENSION_OVERS);
+const MODES: ReadonlySet<string> = new Set<string>(EXTENSION_MODES);
+const PRESETS: ReadonlySet<string> = new Set<string>(PRESET_IDS);
+
+/**
+ * A stable key, our own: a letter, then letters, digits, `_`, `.` and `-`; no space and no prose. A cell key follows it,
+ * and so does a key value (C-0153 (4)) — so no reference word list, palette or prose can be a value.
+ */
+export const STABLE_KEY = /^[A-Za-z][A-Za-z0-9_.\-]*$/;
 
 /** A plain JSON object (not an array, not null). */
 export function isRecord(x: unknown): x is Record<string, unknown> {
@@ -84,7 +106,7 @@ function valueProblem(v: unknown): { empty: boolean; reason: string } | null {
   if (typeof v === 'boolean') return null;
   if (typeof v === 'string') {
     if (v.length === 0) return { empty: true, reason: 'empty cell: the value is an empty string' };
-    return KEY_VALUE.test(v) ? null : { empty: false, reason: `value '${v}' is not one of our own keys` };
+    return STABLE_KEY.test(v) ? null : { empty: false, reason: `value '${v}' is not one of our own keys` };
   }
   if (Array.isArray(v)) {
     if (v.length === 0) return { empty: true, reason: 'empty cell: the value is an empty list' };
@@ -97,7 +119,8 @@ function valueProblem(v: unknown): { empty: boolean; reason: string } | null {
   return { empty: false, reason: 'value must be a number, a key, a flag or a list of them' };
 }
 
-function nonEmptyString(x: unknown): x is string {
+/** Is `x` text with something besides whitespace? */
+export function nonEmptyString(x: unknown): x is string {
   return typeof x === 'string' && x.trim().length > 0;
 }
 
@@ -105,7 +128,7 @@ function nonEmptyString(x: unknown): x is string {
 export function checkCell(raw: unknown, at: CellAt): TableIssue[] {
   const issues: TableIssue[] = [];
   const issue = (reason: string): void => {
-    issues.push({ table: at.table, row: at.row, cell: at.cell, reason });
+    issues.push(issueAt({ table: at.table, row: at.row, cell: at.cell, reason }));
   };
   if (!isRecord(raw)) {
     issue(raw === undefined || raw === null ? 'empty cell: no cell object' : 'a cell must be an object');
