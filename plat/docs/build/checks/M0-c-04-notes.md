@@ -135,3 +135,13 @@ The verdict is in `M0-c-04-s2.md`. The probe and mutant names there (R1 – R3, 
     of the kernel it hands to `layStrips`. Today that is the strips' only batch (`strips.ts:330`). If M0-c-02's
     `layStrips` ever opens an earlier callback batch, the span and water proofs would run there, and Y02 / Y03 would
     show it only through pin 8. Handle it with N-14. M4. PLAUSIBLE (reasoned from the code).
+19. **N-19 KI (closing check of session round S3, lane `check/M0-c-04-close-s3`, 2026-10-11): pin 5 now pins
+    M0-c-02's refusal text verbatim, coordinates included.** span.test.ts pin 5 matches
+    `/water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord/`,
+    a message written by M0-c-02's `enceinte/trace.ts` (`looseGate`, C-0300). Any rewording there turns M0-c-04's test
+    red again for a reason that is not M0-c-04's: the coupling that opened this round (N-17, now closed by S3). The pin's
+    other asserts (E_INVARIANT, version, live vertices, span whole, no `gate_end`, no `enceinte:2` wall) carry the
+    fail-safe promise. Mutant K2 (`looseGate` off) is killed by the code-plus-text match, so the text does work today.
+    Suggested handling: M0-c-02 exports a typed reason (or a stable tag such as `water: loose-gate`) for its chord
+    refusal and pin 5 matches that, or pin 5 matches only `/gate:w0's wall_gate run .* not its one chord/`. Belongs to
+    M1 at the earliest (a contract between items); at the latest M4. CONFIRMED (read; K2 executed).

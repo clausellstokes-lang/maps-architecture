@@ -13,9 +13,12 @@
 // proved within it is refused E_INVARIANT `band`, never committed (C-0232). So is the water (N-54 (1); §4.4 *Water and
 // the waterfront*: the trace crosses water only at a water gate): every SIDE, not only every vertex, is kept off the
 // water and the reservations by the pull, the smoothing, F-WALL's verdict and the simplify (`wet.ts`), and proved
-// before the commit (no side over water or a reservation unless it is a side of a water gate's course between its
-// bank pins) and again inside it on the committed wall edges (an edge over water carries its gate's `wall_gate`); a
-// trace that fails is refused E_INVARIANT `water`, nothing written.
+// before the commit (no side over water or a reservation unless it is a water gate's chord between its two bank pins)
+// and again inside it on the committed wall edges, STRICTLY (N-54 (1) residual, session round s2, C-0300): each water
+// gate's `wall_gate` run is exactly one edge and that edge joins the gate's two `gate_end` vertices, and an edge over
+// water carries its gate's `wall_gate`; a crossing with no clear chord (the chord would leave the water, a main gate
+// stands in it, or it passes an existing vertex no shore holds, `water.ts`'s settling) is refused before anything is
+// pulled. A trace that fails is refused E_INVARIANT `water`, nothing written.
 // Every value it reads is a walls.json cell (`trace/*`, the era row). The trace is laid `standing` (no condition is
 // written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0226 (2)).
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
@@ -25,7 +28,7 @@ import { bandBreaches, bandLimit, ccw, departure, distToRing, footOn, lat, openR
 import { pullAndPin, smoothPinned, terrainCost } from './pull.js';
 import { defectOf, placePins, reoffset, rungVerdict, unionOuter } from './rungs.js';
 import type { EnceinteContext, EnceinteStrategy, TraceOptions, TracePolicy, Traced, TraceReport, WallRung, WaterGate, XY } from './types.js';
-import { crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
+import { arenaVertices, crossWater, generated, GROUND, waterGateOf, waterRings } from './water.js';
 import { wetSides } from './wet.js';
 
 /** The registered name of the base's strategy (§4.12). */
@@ -134,7 +137,15 @@ export function traceBase(
   const withG = withGates(ring0, gateSites);
   const gatePins = new Set(gateSites.map((g) => key(lat(g.at))));
   const waters = waterRings(water, k, arena);
-  const crossed = crossWater(withG, gatePins, waters);
+  const crossed = crossWater(withG, gatePins, waters, arenaVertices(k, arena));
+  // A water gate's wet side is its chord between its two bank pins, laid as one edge (§2.2 rule 7; N-54 (1), strict):
+  // a crossing with no clear chord is refused here, nothing written (C-0300).
+  const unclear = crossed.crossings.find((c) => !c.clear);
+  if (unclear !== undefined) {
+    const gateIn = unclear.course.some((q) => gatePins.has(key(q)));
+    const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : gateIn ? 'a main gate stands in the water between its banks' : 'its chord would leave the water';
+    return { ok: false, code: 'E_INVARIANT', detail: `water: the crossing from ${key(unclear.entry)} to ${key(unclear.exit)} has no clear chord between its two bank pins (${why}); a water gate's wet side is that chord, one edge (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)` };
+  }
   const ring = crossed.ring;
   const pins = new Set<string>([...gatePins, ...crossed.keep]);
   const pinPoints = ring.filter((p) => pins.has(key(p)));
@@ -240,6 +251,10 @@ export function traceBase(
       const r = k.geom.retypeEdges(o, { chain, from: banks[0], to: banks[1] }, [{ role: 'wall_gate', entity: w.id }], []);
       if (!r.ok) return err(r.code, r.detail);
     }
+    // Each water gate's wet side is exactly its chord: one wall_gate edge joining its two gate_end vertices, never a
+    // shore edge between a pin and the chord (N-54 (1), strict; C-0300).
+    const loose = looseGate(k, arena, wgs);
+    if (loose !== null) return err('E_INVARIANT', `water: ${loose} (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)`);
     // The water once more on the wall's edges as committed (the insertion's attraction and its Steiner vertices
     // included): an edge over water carries its water gate's `wall_gate`, or the batch is refused (N-54 (1)).
     const wetEdge = committedWetEdge(k, arena, chain, wgs.map((w) => w.id), barred, waters.length);
@@ -335,6 +350,31 @@ function indicesOf(ring: readonly XY[], pins: ReadonlySet<string>): number[] {
     if (pins.has(key(p))) out.push(i);
   });
   return out;
+}
+
+/**
+ * The first water gate whose committed `wall_gate` run is not exactly one edge joining its two `gate_end` vertices
+ * (each resolving to one vertex), described; or null. Read through the façade inside the open batch (N-54 (1), strict).
+ */
+function looseGate(k: Kernel, arena: PlatKey, gates: readonly WaterGate[]): string | null {
+  const p = k.plat(arena);
+  const at = (v: number): string => `${String(p.vertices.x[v])},${String(p.vertices.y[v])}`;
+  for (const g of gates) {
+    const ends: number[] = [];
+    for (const ordinal of [0, 1]) {
+      const r = k.resolve({ role: 'gate_end', entity: g.id, ordinal }, arena);
+      if (r.view !== 'vertices' || r.vertices.length !== 1) return `the water gate ${g.id}'s gate_end ${String(ordinal)} does not resolve to one vertex`;
+      ends.push(r.vertices[0]);
+    }
+    const q = k.resolve({ role: 'wall_gate', entity: g.id }, arena);
+    const edges: number[] = [];
+    if (q.view === 'edges') for (const run of q.runs) for (const h of run) edges.push(h);
+    if (edges.length !== 1) return `the water gate ${g.id}'s wall_gate run between ${at(ends[0])} and ${at(ends[1])} is ${String(edges.length)} edges, not its one chord`;
+    const u = p.halfEdges.origin[edges[0]];
+    const w = p.halfEdges.origin[edges[0] ^ 1];
+    if (!((u === ends[0] && w === ends[1]) || (u === ends[1] && w === ends[0]))) return `the water gate ${g.id}'s wall_gate edge ${at(u)} → ${at(w)} does not join its two gate_end vertices ${at(ends[0])} and ${at(ends[1])}`;
+  }
+  return null;
 }
 
 /**

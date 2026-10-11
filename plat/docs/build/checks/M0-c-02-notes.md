@@ -122,3 +122,66 @@ confirm correct, not a blocker; the hardening pass (M4) drains them.
       commits dry. **CONFIRMED** (survival and the changed figures).
     * **Hardening:** pin the replay's `report.pull` (moved 151, max 3 974 cm) and line length (224), and add a fixture
       where only a ramp step (h ≠ j) beside a pin would cross the water.
+
+## Closing check of session fix round S2 (`check/M0-c-02-close-s2`, 2026-10-09)
+
+N-54 (1)'s residual is fixed (`M0-c-02-s2.md`). These notes come from this round's own mutants M01 – M27 and probes
+(mirror `~/maps-scratch/waves/check-M0-c-02/close-s2/`). Under N-48 the KI rows are test-gap notes on code the probes
+confirm correct, not blockers; the hardening pass (M4) drains them. N-19 and N-20 are notes for the session.
+
+15. **N-15 KI: two corners of the bank settling are unpinned (mutants M15, M27; M4).**
+    * Observation: `SETTLE_ROUNDS` = 1 (M15: a chord needing two moves is judged not clear) and a contact search that
+      skips the chord's last quarter (M27: a shore vertex near the EXIT bank is never settled on) each leave NEAR green
+      (10 files, 95/95). Every NEAR case settles one bank, near the entry. The probe `zz-check-settle.test.ts` (mirror
+      only) shows the code is right: P1, a shore vertex 10 cm off the chord and 26.9 cm from the exit bank, settles the
+      exit onto it (clear); P2, one such dent near each end, settles both banks over two rounds (clear). M27 fails P1
+      and M15 fails P2. With either mutant the insertion would split the chord at the vertex, and the strict in-batch
+      proof (pinned: M02 – M04 killed) refuses the trace, so the gap costs a refusal, never a wrong commit.
+      **CONFIRMED** (survival, probe); the refusal path **PLAUSIBLE** (read).
+    * **Hardening:** add P1 and P2 as `crossWater` cases in `chord.test.ts`.
+16. **N-16 KI: a settled chord that leaves the water is unpinned (mutant M14; M4).**
+    * Observation: dropping the `chordInside` test after a bank moves (M14) survives NEAR and the settling probe. With
+      it, a settled chord that cuts across land between two water stretches would be laid as one `wall_gate` edge
+      instead of refused. No input reaching it was built. **CONFIRMED** (survival); reachability **PLAUSIBLE**.
+    * **Hardening:** a `crossWater` case whose shore vertex pulls a bank so that the settled chord leaves the water:
+      `clear` false, and the strategy refuses it.
+17. **N-17 KI: the exported `waterGates(trace, water, k)` is not tested with the arena's vertices (mutant M20; M4).**
+    * Observation: calling `crossWater` there without `arenaVertices` (M20) survives NEAR. Its one caller
+      (`growth/boundary.ts:471`) reads only the count, which settling never changes, so M20 is equivalent for the
+      caller. A §4.12 consumer reading `bankAt` would see unsettled banks. **CONFIRMED** (survival, read).
+    * **Hardening:** a `waterGates` case on the synthetic graze whose `bankAt[0]` is the shore vertex V.
+18. **N-18 KI: N-11's in-commit edge proof is still untested (mutant M23; M4).**
+    * Observation: removing `committedWetEdge` (M23) still leaves NEAR green (95/95), as K06 did in round S1. The new
+      in-batch proof `looseGate` is pinned (M02, M03, M04 killed by `chord.test.ts`), so a non-chord `wall_gate` edge is
+      covered. `committedWetEdge` now only backstops an ungated wet wall edge, which the pull, the smoothing, the rungs
+      and the pre-commit side proof already keep out. **CONFIRMED** (survival).
+    * **Hardening:** as N-11.
+19. **N-19 Session: the strict refusal of a crossing whose chord leaves the water is a measurable share.**
+    * Observation (own before/after runs, current tree, s1 sources versus s2 sources): relief-60 test size, seeds
+      1 – 12, both configurations: 23 of 24 derivations are identical. Coarse seed 12 committed stage 1 with a course
+      (12 wall edges over water, 1 `wall_gate`; 11 non-chord wet edges under the strict reading). It is now refused at
+      **S3** `E_INVARIANT` `water: the crossing from -20669,9817 to -21174,-106 has no clear chord … (its chord would
+      leave the water)`, so S4 – S6 are not reached. At CITY, seed 1 (both configurations) and seed 15 (default) refuse
+      stage 2 at S5 as before, but the code changes from `E_SELF_INTERSECT` to `E_INVARIANT` `water` (crossings
+      (86602, 27184) → (82542, 32333) for seed 1 default and (−84664, −83095) → (−67299, −87127) for seed 1 coarse;
+      seed 15's detail, (−57071, 59155) → (−59986, 45097), is C-0300's and was not probed again). M0-e-06's committed summary (`summaries/M0-e-06.json`, CITY seeds 1 – 8) counts S5 refusals by
+      code, so its seed-1 rows read differently on the next re-run (N-54 (4)). **CONFIRMED** (runs, instrumented
+      mirror).
+    * Suggested handling: C-0300 defers "a river bend's crossing as two water gates" as new design. A stage-1 refusal
+      loses the whole derivation, and N-56 treated lawful inputs refused at measurable shares as defects, so the
+      session should rule whether this share (1 / 24 at test size) is accepted to M1 or needs a round in M0. The
+      M0-e-06 summary re-run is the session's.
+20. **N-20 Session: in the current tree, relief-60 CITY seed 9 no longer exercises the graze, with either version.**
+    * Observation: in the current tree (snapshot 2026-10-08 23:17), `gate:w0`'s bank 0 is (−13777, −90047), and its
+      run is one chord edge with the s1 sources as well as the s2 sources (4/4 chords both). Upstream changes since
+      M0-e-06's check (16:11) moved stage 2's boundary. The 27 cm graze reproduces only on the 08:35 snapshot
+      (`close-s1/after`). So M0-e-06's mutant M2 has lost its seed-9 kill path whatever this round did (M0-e-06 note
+      15). **CONFIRMED** (probe `zz-check-s2.ts` in four mirrors: old-s1, old-s2, before, after).
+    * Suggested handling: M0-e-06 owes the hand-built chord pin of its note 15 now.
+21. **N-21 KI: the stage-2 replay's cost-field coverage check was narrowed (M4).**
+    * Observation: `sides.test.ts` used to require that every point the pull read lies in the captured cost field
+      (misses 0). It now allows misses within 80 m of the settled bank, and those points read cost 0
+      (`fx.costs[...] ?? 0`; `chord.test.ts` uses the same rule). The narrowing is commented in the test, and C-0300
+      names the change only as "the replay's settled bank". The replay's pull near `gate:w0` therefore runs partly on
+      a zero-cost field. **CONFIRMED** (read).
+    * **Hardening:** capture the fixture's costs again around the settled bank, and restore misses 0.
