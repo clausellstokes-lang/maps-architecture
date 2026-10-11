@@ -7456,3 +7456,6 @@
 2026-10-09 03:16 check/M0-c-04-close-s3 CHECKPOINT sweep test size relief-60+3000 x default+coarse seeds 1-12 (48 derivations) before/after: reports identical 48/48 (timing keys excluded); RELATED@1000 still running (W=1); next: NEAR after RELATED, verdict
 2026-10-09 03:17 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a/plat, W=1) running; 1 red so far bench fusion/hausdorff (known N-8/N-52); next: NEAR, verdict
 2026-10-09 03:23 check/M0-a-06-close-s5 CHECKPOINT RELATED at 1000 still running (loaded machine); next its verdict
+2026-10-11 01:25 check/M0-c-04-close-s3 CHECKPOINT resumed on cloud container (machine id linux xeon 4cpu 16gib ok, node 24.12.0); WSL mirrors/outputs absent: keep Z-mutant and sweep lines, rebuild mirror, re-run gates, kill-tests, NEAR, RELATED@1000; next: read M0.md s3, span.test, check verdict format
+2026-10-11 01:25 check/M0-c-03-close-s2 CHECKPOINT relaunched in cloud container: machine check ok (linux xeon 4cpu 16gib), node 24.12.0, budget W=1; WSL mirror absent, rebuilding; next: read s1 mutants, gates
+2026-10-11 01:27 check/M0-c-03-close-s2 CHECKPOINT gates (this machine): install 0, lint 0 (1139 files, probe-red ok), build 0, landed:verify ok; M0-c-03 record hashes 21/21 equal tree; mirror s2 rebuilt under scratch (isolated, offline install); next: NEAR in tree, then Z06 Z02 Z20 in mirror
