@@ -11,27 +11,29 @@
 //   * the undo path — a batch whose later op refuses after the insert wrote — leaves the arena and its version exactly as
 //     they were (`state`);
 //   * the commit gives the fixture's warnings, keeps N-43 B's bound (fidelity.ts) and the arena valid;
-//   * the remove path — `removeEdges` of the chain's own rows in a later batch — is held to what it gives an ordinary
-//     commit. Exactly as before is not that bar: of 1 791 ordinary first-pass commits this round replayed so (B-FUZZ
-//     random, seed 4243, 3 000 cases, the mirror of 04:31), 818 came back exactly, 950 left a finer face record, 21
-//     left split points or flag changes on earlier chains' vertices and 2 removals were refused by the suite — the S5
-//     closing check's note N-13, a question about M0-a-06's remove and dissolution, which that item's in-flight round
-//     (N-47) is changing: on the tree's code of 05:20 the face-record case of the controls is refused instead. So every
-//     removal is held to the bar both readings meet — either it commits, the arena valid, no row of the chain's entity
-//     left and every other row key of the arena still there, or it is refused and writes nothing — and a kind whose
-//     removal gave the arena back exactly on both codes (`remove: 'exact'`) is pinned to that; the rest (`'n13'`) are
-//     the three ordinary controls and the kinds whose removal shows one of their outcomes.
+//   * the remove path — `removeEdges` of the chain's own rows in a later batch — restores the arena exactly: the content
+//     print, the encoded chunk refs and the level digests as before the insert (N-47, N-55). Every kind is held to it,
+//     and no refusal of the removal is tolerated: the S6 round's `'n13'` reading (N-13's ordinary outcomes) masked
+//     exactly two defects, both fixed — a same-level shared stretch's end left undissolved (Q9, M0-a-06 round s4) and a
+//     chain's own fold-back point left carrying the `split` flag (Q10, this item's round S7: `control-refused` and
+//     `pass2-optional`, whose removals tx's index-freshness row refused).
+//   * after every commit and every removal the arena holds no dissolvable vertex (support.ts `dissolvableProblems`).
+//
+// N-55 (5) (round S7): an overlay kept past its batch — committed or rejected — is closed, and `insertChain` handed it
+// throws at its entry; the arena bit for bit and its version as they were. C-0302.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { Plat } from '../../../src/arena/index.js';
+import { recomputeLevelDigest } from '../../../src/digest/index.js';
 import { insertChain } from '../../../src/insert/insertChain.js';
 import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
+import { encodeArena } from '../../../src/io/index.js';
 import { err, type Warning } from '../../../src/num/index.js';
-import { removeEdges, tx } from '../../../src/tx/index.js';
+import { removeEdges, tx, type Overlay } from '../../../src/tx/index.js';
 import type { Level } from '../../../src/types/index.js';
-import { spec, state } from '../../tx/support.js';
+import { bits, spec, state } from '../../tx/support.js';
 import { fidelityProblems } from './fidelity.js';
-import { allProblems, contentPrint, framed, pt, TIMEOUT } from './support.js';
+import { allProblems, contentPrint, dissolvableProblems, framed, pt, TIMEOUT } from './support.js';
 
 /** One chain of a case, as B-FUZZ draws it. */
 interface Chain {
@@ -49,8 +51,6 @@ interface LifeCase {
   readonly family: string;
   readonly pass: number;
   readonly warnings: readonly Warning[];
-  /** What removeEdges of the last chain gives: the arena exactly as before, or one of N-13's ordinary outcomes. */
-  readonly remove: 'exact' | 'n13';
   readonly log: readonly Chain[];
 }
 
@@ -66,6 +66,16 @@ const env = (): ReturnType<typeof suiteEnv> => suiteEnv({ report: suiteReport() 
 /** The chain inserted in its own batch through the transaction (the suite wired in); its result. */
 function insert(p: Plat, c: Chain): ReturnType<typeof tx> {
   return tx(p, spec(c.level), (o) => insertChain(o, c.points.map(([x, y]) => pt(x, y)), [{ role: ROLE, entity: c.entity }], c.cls, optsOf(c)), env());
+}
+
+/** The encoded chunks' refs in encoding order (the persisted form, §11), as restore.test.ts reads them. */
+function chunkRefs(p: Plat): string {
+  return JSON.stringify(encodeArena(p).map((c) => c.ref));
+}
+
+/** The level digests L0 – L4 (§3.9), as text. */
+function digests(p: Plat): string {
+  return JSON.stringify(([0, 1, 2, 3, 4] as const).map((l) => Array.from(recomputeLevelDigest(p, l) as ArrayLike<number>)));
 }
 
 /** The content print split into its face-record lines and every other line (vertices, edges and their rows). */
@@ -84,13 +94,13 @@ function rowKeys(p: Plat): Set<string> {
   return out;
 }
 
-describe('N-46 (6) (e): the undo and remove paths of every kind of fallback-made commit restore the arena (register/s6-lifecycle.json)', () => {
+describe('N-46 (6) (e), N-55: the undo and remove paths of every kind of fallback-made commit restore the arena exactly (register/s6-lifecycle.json)', () => {
   it('the register holds one case per kind', () => {
     expect(CASES.map((c) => c.kind)).toEqual(KINDS);
   });
 
   for (const c of CASES) {
-    it(`${c.kind} (${c.family}, pass ${c.pass}, ${c.log.length} chain${c.log.length === 1 ? '' : 's'}): undo restores the arena exactly; remove restores it as for an ordinary commit`, () => {
+    it(`${c.kind} (${c.family}, pass ${c.pass}, ${c.log.length} chain${c.log.length === 1 ? '' : 's'}): undo restores the arena exactly; remove restores it exactly (print, chunk refs, level digests)`, () => {
       const p = framed(4000);
       const earlier = c.log.slice(0, -1);
       const last = c.log[c.log.length - 1];
@@ -98,9 +108,12 @@ describe('N-46 (6) (e): the undo and remove paths of every kind of fallback-made
         const before = state(p);
         const r = insert(p, k);
         if (!r.ok) expect(state(p), `${k.entity} refused (${r.code}) writes nothing`).toBe(before);
+        else expect(dissolvableProblems(p), `after ${k.entity}`).toEqual([]);
       }
       expect(allProblems(p)).toEqual([]);
       const before = state(p);
+      const refsBefore = chunkRefs(p);
+      const digestsBefore = digests(p);
 
       // The undo path: the insert writes, then a later op of the batch refuses — everything back, the version too.
       let wrote = false;
@@ -122,23 +135,67 @@ describe('N-46 (6) (e): the undo and remove paths of every kind of fallback-made
       expect(res.warnings).toEqual(c.warnings);
       expect(fidelityProblems(p, last.level, last.cls, last.points, optsOf(last), out.value.placed, last.entity)).toEqual([]);
       expect(allProblems(p)).toEqual([]);
+      expect(dissolvableProblems(p)).toEqual([]);
       expect(state(p)).not.toBe(before);
       const keysBefore = rowKeys(p);
-      const committed = state(p);
 
-      // The remove path: the chain's own rows removed in a later batch; a refusal of it (the invariant suite's, as on
-      // ordinary commits) writes nothing.
+      // The remove path: the chain's own rows removed in a later batch commit, and the arena is as before the insert.
       const rm = tx(p, spec(last.level), (o) => removeEdges(o, { role: ROLE, entity: last.entity }), env());
-      if (!rm.ok) {
-        expect(c.remove, `${rm.code} ${rm.detail}`).toBe('n13');
-        expect(state(p)).toBe(committed);
-        return;
-      }
+      expect(rm.ok, rm.ok ? '' : `${rm.code} ${rm.detail}`).toBe(true);
       expect(allProblems(p)).toEqual([]);
+      expect(dissolvableProblems(p)).toEqual([]);
       const keys = rowKeys(p);
       expect([...keys].filter((k) => k.includes(`/${last.entity}/`))).toEqual([]);
       expect([...keysBefore].filter((k) => !k.includes(`/${last.entity}/`) && !keys.has(k))).toEqual([]);
-      if (c.remove === 'exact') expect(contentPrint(p)).toBe(before.slice(0, before.lastIndexOf('\n#v')));
+      expect(contentPrint(p)).toBe(before.slice(0, before.lastIndexOf('\n#v')));
+      expect(chunkRefs(p)).toBe(refsBefore);
+      expect(digests(p)).toBe(digestsBefore);
     }, TIMEOUT);
+  }
+});
+
+// ---- N-55 (5): insertChain on a closed transaction throws (C-0302) -----------------------------------------------------
+//
+// An overlay outlives its batch only as a programming error. Before N-55 `insertChain` never looked: on the overlay of a
+// committed batch it wrote outside any transaction, the version unchanged (the ruling's probe q13: "returned ok | version
+// 1 -> 1 | state same: false"), and alike on a rejected batch's. It now throws at its entry — tx's assertion class
+// (N-53 (3)), never a typed refusal — before it reads, charges or writes anything.
+
+/** The overlay of an L1 batch that inserted way:0 across the framed square and then ended as `how`. */
+function staleOverlay(how: 'committed' | 'rejected'): { p: Plat; o: Overlay } {
+  const p = framed(4000);
+  let kept: Overlay | null = null;
+  const r = tx(p, spec(1), (o) => {
+    kept = o;
+    const w = insertChain(o, [pt(500, 500), pt(2500, 700)], [{ role: 'way', entity: 'way:0' }], 'mandatory');
+    expect(w.ok).toBe(true);
+    return how === 'committed' ? w : err('E_INVARIANT', 'lifecycle: the stage gave up');
+  });
+  expect(r.ok).toBe(how === 'committed');
+  if (kept === null) throw new Error('the callback never ran');
+  return { p, o: kept };
+}
+
+describe('N-55 (5): insertChain on a closed transaction throws — the overlay of a committed or a rejected batch (C-0302)', () => {
+  for (const how of ['committed', 'rejected'] as const) {
+    it(`on a ${how} batch's overlay: throws "the transaction is closed"; the arena bit for bit and its version as they were`, () => {
+      const { p, o } = staleOverlay(how);
+      expect(o.closed).toBe(true);
+      const before = bits(p);
+      const version = p.version;
+      for (const cls of ['mandatory', 'optional'] as const) {
+        expect(() => insertChain(o, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'way:1' }], cls)).toThrow(/^insert: the transaction is closed \(committed or rejected\)$/);
+        // a chain step 1 would refuse (one point) throws all the same: the door is the op's entry, before decimation
+        expect(() => insertChain(o, [pt(600, 3000)], [{ role: 'way', entity: 'way:1' }], cls)).toThrow(/^insert: the transaction is closed/);
+        expect(bits(p)).toBe(before);
+        expect(p.version).toBe(version);
+      }
+      expect(allProblems(p)).toEqual([]);
+      // the control: the same chain in an open batch commits — the throw was the closed overlay, nothing else
+      const r = tx(p, spec(1), (open) => insertChain(open, [pt(600, 3000), pt(3000, 3200)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
+      expect(p.version).toBe(version + 1);
+      expect(allProblems(p)).toEqual([]);
+    });
   }
 });

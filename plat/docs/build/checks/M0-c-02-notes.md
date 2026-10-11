@@ -185,3 +185,84 @@ confirm correct, not blockers; the hardening pass (M4) drains them. N-19 and N-2
       names the change only as "the replay's settled bank". The replay's pull near `gate:w0` therefore runs partly on
       a zero-cost field. **CONFIRMED** (read).
     * **Hardening:** capture the fixture's costs again around the settled bank, and restore misses 0.
+
+## Closing check of session fix round S3 (`check/M0-c-02-close-s3`, 2026-10-11)
+
+N-56 (3) Q22 is fixed (`M0-c-02-s3.md`). These notes come from this round's own mutants Z01 – Z14 and probes P1 – P4
+(mirrors `/tmp/claude-0/…/scratchpad/waves/check-M0-c-02/close-s3/`; the probe is
+`probe/packages/testkit/probe/zz-survey.ts`, which runs the `EP-01/S5a/coincident` family unplanted and stops after
+S5a:2). Under N-48, the KI rows are test-gap notes on code the probes confirm correct, not blockers. The hardening pass
+(M4) drains them. N-26 – N-29 are also for the session.
+
+22. **N-22 KI: the corridor bound is pinned only by its value (mutants Z03, Z04; M4).**
+    * Observation: `corridor.test.ts` pins `CORRIDOR_SLACK_CM` ≈ 73.539. Its behaviour cases sit at 6 – 25 cm (the
+      15 cm twin, seeds 3443032966, 3027099408, 1318978557, 3198053629) and at 680 – 700 cm (the crossing twins and
+      seeds). Two use-site mutants survive NEAR and every RELATED file that reaches their window (a depth-logged RELATED
+      run: 5 evaluations in (26, 73.5] cm, in 3 testkit `edge/` files; 34 in (73.5, 147] cm, in 5 files).
+      * Z03, `depth > attractCm` (26 cm), leaves a strip face holding a 26 – 50 cm vertex `land:0` (geometry identical)
+        on 8 of 1 000 family seeds: 3980833922, 1149953023 (50.3 cm, stage-1 outer), 3436289613 (50.0 cm), 2763625693,
+        416765770, 349539469, 663484580 and 3187772940.
+      * Z04, `depth > 2 × slack`, types a face holding a 110 – 146 cm vertex as `wall_strip` on 2704069009 and
+        3435165676.
+      * The real code does neither (P2, P3). **CONFIRMED** (survival, output).
+    * **Hardening:** (a) pin a family seed with a strip face 26 – 73.5 cm in, e.g. 1149953023 or 3436289613: the face
+      is typed and no strip-probe face is left `land:0`. (b) Pin a hand twin whose face holds a vertex 80 – 140 cm in,
+      e.g. the along-trace stop with `halfWidthCm` 110: refused, "lies 110 cm inside gate:0's corridor, beyond the
+      fidelity bound (74 cm)".
+23. **N-23 KI: the outer side's corridor clauses are not pinned (mutant Z10; M4).**
+    * Observation: applying the gate-vertex and depth clauses to inner faces only survives NEAR and 14 RELATED files.
+      Every pinned crossing is on the inner side. On 3 of the first 300 family seeds (1793505783, 3435165676,
+      671252167), Z10 types an outer stage-1 face holding a vertex 1.1 – 2.0 m inside a corridor as
+      `wall_strip:1-outer`. RELATED inputs bar outer faces by gate vertex and depth in 14 files. **CONFIRMED.**
+    * **Hardening:** a twin whose outer face holds the gate vertex (or a vertex past the bound): outer side refused,
+      "the outer side: vertex … is gate:N's gate vertex".
+24. **N-24 KI: the strip-width clause is not pinned (mutant Z12; M4).**
+    * Observation: dropping `dt > widthCm + 100` (C-0226 (10), this round's K6) survives NEAR and its 3 RELATED files.
+      It changes 0 of the first 300 family seeds. RELATED inputs reach it: an outer face 2 288 cm from the trace in
+      `bench determinism/pair.test.ts`, and bars in `backbone/frame`, `enceinte/sides`, `enceinte/water` and
+      `edge/cells`, none of whose assertions read that face. `strips.test.ts` asserts every strip vertex within its
+      width on its fixture, but no case needs the clause. **CONFIRMED.**
+    * **Hardening:** a twin where a strip probe meets open ground beyond the strip's width (a line cut away, e.g. by the
+      border): that face is never typed, and a side left with none is refused "… beyond the strip's w cm".
+25. **N-25 Z06 is equivalent.** `why ??= w` → `why = w` names the last barring face's vertex instead of the first. It is
+    still a true barring vertex and cause, which is the promise of C-0305 (3). No test needed.
+26. **N-26 KI and session: strip faces over a way's corridor away from the gate (before this round; M4 or with
+    M0-c-04's stage stops).**
+    * Observation (probe P4: the corridor along each stop's actual path at 25 cm × five offsets, points deeper than the
+      slack + 5 cm, located on L1). On 42 of 1 000 family seeds, a committed strip face covers corridor points:
+      * On 41 of them it is stage 1's strips, 10 – 47 m from the gate, 3.5 m deep. The arterial's path bends and runs
+        along the wall inside the strip's width (e.g. seeds 1842059696, 2537277803 and 889845538).
+      * On 1 (1671642301) it is stage 2's inner strip, 91 m in, at the stand-in corridor's far end.
+      * Near a gate, no strip face covers its corridor.
+      * All 42 are identical with the 5 cm clause, so they existed before this round. The faces newly typed by this
+        round add no covered point (family indices 155, 179, 810, 909, 936: identical sample sets).
+      **CONFIRMED** (probe). Whether a strip should yield to a way that runs along it inside its width is
+      **PLAUSIBLE**, a design question.
+    * **Suggested handling:** the vertex clause cannot see an edge that crosses a corridor between two outside vertices.
+      Membership by area (the ruling's alternative within shape (a)), or cutting the setback lines along the whole way
+      rather than near the gate, would. Session: decide whether a way inside the strip's width is a defect of the strip
+      or of the route.
+27. **N-27 Session: the ruling's "299 unchanged (digests identical)" pin holds at the geometry level only.**
+    * Observation: of the first 300 family seeds, 34 change at L1 – L4 (124 of 1 000). On all 124, the L1 geometry is
+      identical and the only owner changes are `land:0` → `wall_strip:2-inner` 70, `wall_strip:2-outer` 60 and
+      `wall_strip:1-outer` 3. These are strip pieces the 5 cm clause left untyped, a silently wrong committed result
+      under N-45, now typed. C-0305 (4) states it. No golden in RELATED moved. **CONFIRMED.**
+    * **Session:** accept the owner-only shift as part of the fix (this seat did). M0-x-06 round 2's 1 000-seed re-run
+      sees it.
+28. **N-28 KI: 6 of 1 000 seeds still leave a 1 – 2 m-deep strip piece untyped (C-0305 (4)'s own KI; M4).**
+    * Observation: after the round, family seeds 2704069009 (146 cm), 1793505783 (200 cm), 3435165676 (110 cm),
+      671252167 (163 cm), 3568440702 (102 cm) and 3709170404 (167 cm) commit with a strip-probe face barred by a vertex
+      past the bound, left `land:0`. Faces barred by a gate vertex are not counted in this probe. It fails safe: no strip
+      is typed into a corridor. But a piece of the strip zone stays land. **CONFIRMED.**
+    * **Hardening:** separate a cap closed past a trace vertex deep in the corridor from a true crossing (area, or the
+      cap re-cut on the corridor's edge), as C-0305 (4) proposes.
+29. **N-29 Session: clean-room and working-rule slips (disclosed).**
+    * L-0400 (the fixer) disclosed one grep for two seed numbers over the glob `docs/*.md`. The glob takes in
+      `docs/CONFIDENCE.md` and `docs/IMPROVEMENTS.md`. There was no match and nothing was displayed. Rule 2 forbids even
+      searching those files. No content reached the seat, so the item's code cannot carry any. This seat does not judge
+      it a breach of the item, and the session decides how to record it. **CONFIRMED** (row read).
+    * This seat: a `cd` into its new mirror failed, so one `corepack pnpm install --frozen-lockfile` ran at the project
+      root (06:00:42). It created `package.json`, `pnpm-lock.yaml` and `node_modules/` (`.modules.yaml`,
+      `.pnpm-workspace-state-v1.json`) there. The seat checked those three with an `ls -la` of the project root, which
+      listed directory names only, and removed them at 06:01. Nothing else outside `plat/` and the scratch directory was
+      touched. No git command was run.

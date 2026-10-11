@@ -38,7 +38,7 @@ function free(p: Plat, x: number, y: number, level: Level = 0): VertexId {
 /** A chain context over a transaction (the tests call the router's parts on their own). */
 function ctxOf(p: Plat, level: Level = 0): ChainCtx {
   const t = tx(p, level);
-  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [] };
+  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: chainJournal(t).newPairs.length, txPairsFrom: t.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
 }
 
 const at = (p: Plat, v: VertexId): [number, number] => [p.vertices.x[v], p.vertices.y[v]];

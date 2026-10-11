@@ -13,10 +13,15 @@
 // the map border (the glacis line ends on it; where the border cut it short of a corridor, a cap runs from the trace out
 // along the way to the border). An enceinte with no gate keeps both lines whole: each strip a ring face with the trace
 // on one side. Each strip's face is found from its line and from its arc of the trace and taken only when it lies within
-// the strip's width of the trace and outside every corridor (C-0226 (10)). Given the frame, a setback vertex beyond it
+// the strip's width of the trace and outside every corridor (C-0226 (10)) — "outside" up to N-43 B's fidelity bound: a
+// vertex of the face may stand inside a corridor by at most `CORRIDOR_SLACK_CM` (a cap's end the insertion attracted onto
+// a trace vertex near the corridor's edge; a previous enceinte's setback vertex at its own corridor's edge, which the
+// stage's corridor along the trace's normal grazes — N-56 (3) Q22, C-0305); a face holding a gate's vertex or a vertex
+// deeper in a corridor crosses the corridor and is no strip, and a side left with no strip face is refused with that
+// face's vertex and its cause named. Given the frame, a setback vertex beyond it
 // refuses the strips E_INVARIANT, nothing written (N-54 (1) Q6: the wall × frame cell's law, never a line past the map
 // border).
-import { buffer, err, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
+import { buffer, err, LATTICE, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
 import { insideRing, quot } from '../siting/geom.js';
@@ -40,6 +45,15 @@ export interface LayStripsOptions {
   /** The batch's stage (default S5, the trace's; C-0226 (2)). */
   readonly batchStage?: number;
 }
+
+/**
+ * How far a strip face's vertex may stand inside a way's corridor and the face still be the strip's (cm): N-43 B's
+ * fidelity bound, 2 · √2 · `attractCm` ≈ 73.5 cm — the farthest the insertion may set a vertex from the input it was
+ * given on the corridor's edge (C-0305; N-56 (3) Q22: the rejected vertices of the refused seeds stood 6 – 20 cm inside).
+ * A corridor is 7 m or more from its centreline at CITY (C-0226 (10)), so a face crossing it holds its gate vertex or a
+ * vertex deeper than this.
+ */
+export const CORRIDOR_SLACK_CM = Math.sqrt(8 * LATTICE.attractCm * LATTICE.attractCm);
 
 /** A cell of a walls.json era row, in cm. */
 function eraCm(row: Row, cell: string): number {
@@ -338,28 +352,49 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
       }
     }
     // Each line's probe and each arc's probe (a metre off the trace) finds a strip's face only where that face lies
-    // wholly within the strip's width of the trace and outside every way's corridor (beyond a 5 cm rounding at its
-    // edge): the strip itself, also where the border cut its line away — never the open ground or a corridor beyond.
-    const isStrip = (face: number, widthCm: number): boolean => {
+    // wholly within the strip's width of the trace and outside every way's corridor (up to the fidelity bound at its
+    // edge, CORRIDOR_SLACK_CM): the strip itself, also where the border cut its line away — never the open ground or a
+    // corridor beyond. `whyNot` names the first vertex that bars a face, or null for a strip's face.
+    const cm = (d: number): string => String(Math.round(d));
+    const whyNot = (face: number, widthCm: number): string | null => {
       const ring = k.view(key, 1).rings(face)[0];
-      const inCorridor = (v: XY): boolean =>
-        stops.some((st, i) => st.kind === 'way' && ((v.x === st.at.x && v.y === st.at.y) || regions[i].some((r) => inside(r, v) && distToRing(v, r) > 5)));
-      return ring.every((v) => distToRing(v, trace) <= widthCm + 100 && !inCorridor(v));
+      for (const v of ring) {
+        const at = `(${String(v.x)}, ${String(v.y)})`;
+        const dt = distToRing(v, trace);
+        if (dt > widthCm + 100) return `vertex ${at} lies ${cm(dt)} cm from the trace, beyond the strip's ${cm(widthCm)} cm`;
+        for (let i = 0; i < stops.length; i += 1) {
+          const st = stops[i];
+          if (st.kind !== 'way') continue;
+          if (v.x === st.at.x && v.y === st.at.y) return `vertex ${at} is ${st.gate}'s gate vertex (the face crosses its corridor)`;
+          for (const r of regions[i]) {
+            if (!inside(r, v)) continue;
+            const depth = distToRing(v, r);
+            if (depth > CORRIDOR_SLACK_CM) return `vertex ${at} lies ${cm(depth)} cm inside ${st.gate}'s corridor, beyond the fidelity bound (${cm(CORRIDOR_SLACK_CM)} cm)`;
+          }
+        }
+      }
+      return null;
     };
-    const facesOf = (probes: readonly XY[], widthCm: number): number[] => {
+    const facesOf = (probes: readonly XY[], widthCm: number): { faces: number[]; why: string } => {
       const fs: number[] = [];
+      let why: string | null = null;
       for (const q of probes) {
         const loc = k.geom.pointLocate(key, 1, lat(q));
         if (loc.on !== 'face' || loc.level !== 1 || fs.includes(loc.face)) continue;
-        if (isStrip(loc.face, widthCm)) fs.push(loc.face);
+        const w = whyNot(loc.face, widthCm);
+        if (w === null) fs.push(loc.face);
+        else why ??= w;
       }
-      return fs;
+      return { faces: fs, why: why ?? 'no probe met an L1 face' };
     };
-    const fi = facesOf([...innerChains.map((c) => c.probe), ...innerArcProbes], widths.inner);
-    const fo = facesOf([...outerChains.map((c) => c.probe), ...outerArcProbes], widths.outer);
+    const si0 = facesOf([...innerChains.map((c) => c.probe), ...innerArcProbes], widths.inner);
+    const so0 = facesOf([...outerChains.map((c) => c.probe), ...outerArcProbes], widths.outer);
+    const fi = si0.faces;
+    const fo = so0.faces;
     // A side with a line and no strip face, or a face both sides found, is no strip: the lines did not close it
-    // (refused, never a strip across the wall or none at all).
-    if ((innerChains.length > 0 && fi.length === 0) || (outerChains.length > 0 && fo.length === 0)) return { ok: false, code: 'E_INVARIANT', detail: 'layStrips: a side\'s lines closed no strip face' };
+    // (refused, never a strip across the wall or none at all), the barring vertex and its cause named.
+    if (innerChains.length > 0 && fi.length === 0) return { ok: false, code: 'E_INVARIANT', detail: `layStrips: a side's lines closed no strip face — the inner side: ${si0.why}` };
+    if (outerChains.length > 0 && fo.length === 0) return { ok: false, code: 'E_INVARIANT', detail: `layStrips: a side's lines closed no strip face — the outer side: ${so0.why}` };
     if (fi.some((f) => fo.includes(f))) return { ok: false, code: 'E_INVARIANT', detail: 'layStrips: one face on both sides of the wall' };
     const si = k.geom.setOwner(o, fi, owners.inner);
     if (!si.ok) return err(si.code, si.detail);
