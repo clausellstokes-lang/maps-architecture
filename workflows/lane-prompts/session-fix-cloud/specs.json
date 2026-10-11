@@ -218,6 +218,32 @@
      "required_change": "the constants exported from exact.ts (or the plan's named home) for the later rounds' imports by path; values identical (a test pins each value); no caller changed in R1"
     }
    ]
+  },
+  {
+   "id": "M0-a-02",
+   "from": 2,
+   "round": "S2",
+   "session": "docs/M0-FIX-QUEUE.md Q33 (J266; the class of Q28, N-56 (5), C-0299 (5)): arena/resolve.ts's Stamp \u2014 the arena key and version a slot-holding value was read at (\u00a73.4) \u2014 and its readers isCurrent/assertStamp compare the VERSION only. A savepoint restore across committed batches (M0-a-06 s5, C-0299: restoreSavepoint sets p.version back and bumps the per-arena restore generation) makes a stamp taken before the restore read as current again after exactly as many later commits, so a stale slot can pass assertStamp and isCurrent silently \u2014 the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). M0-a-02's round S1 (the tiny-tables guard, b55cb947) exists; this is round S2. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
+   "lines": [
+    {
+     "line": "Q33: Stamp, isCurrent and assertStamp (arena/resolve.ts) key on the version alone \u2014 a stale slot reads as current after a savepoint restore across commits followed by as many commits",
+     "evidence": "C-0299 (5) names this site as a version-only key beside M0-d-04's; the ruling seat's Q28 replay (restore across n commits, no re-attach, n commits) shows the version coincidence for n = 1 and 3; restoreGeneration(p) is exported from @plat/kernel's tx barrel (9585d3be, 374b6e6f).",
+     "required_change": "Stamp carries the restore generation beside the version (the stamping helper reads restoreGeneration(p)); isCurrent and assertStamp compare key, generation and version; a pin: a stamp taken before a cross-commit restore is stale after the same number of later commits (isCurrent false, assertStamp throws in the debug build) while a stamp taken after the restore is current; no persisted change (stamps are never hashed or encoded \u2014 confirm by grep); every caller of stampOf/isCurrent/assertStamp unchanged in behaviour on sequences without a restore (the arena's own tests and goldens identical)."
+    }
+   ]
+  },
+  {
+   "id": "M0-a-10",
+   "from": 1,
+   "round": "S1",
+   "session": "docs/M0-FIX-QUEUE.md Q34 (J266; the class of Q28, N-56 (5), C-0299 (5)): geom/neighbours.ts keeps a per-arena, per-level map of neighbour answers keyed on the arena's version and a slot-count fingerprint (keptMap). A savepoint restore across committed batches sets the version back (C-0299) and restores the slot counts with the image, so a kept map built before the restore can read as current after as many later commits \u2014 stale neighbour answers served silently \u2014 the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). This is M0-a-10's first session round. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
+   "lines": [
+    {
+     "line": "Q34: keptMap (geom/neighbours.ts) keys on (version, slot-count fingerprint) only \u2014 a stale kept map can read as current after a savepoint restore across commits followed by as many commits with matching counts",
+     "evidence": "C-0299 (5) names this site as a version-only key beside M0-d-04's; the fingerprint is a cost path only (the file's own header says it never decides an answer); a restore image restores the slot counts.",
+     "required_change": "The kept map's key gains the arena's restore generation (restoreGeneration(p) from @plat/kernel's tx barrel) beside the version and the fingerprint; a pin: a map built before a cross-commit restore is rebuilt after the same number of later commits (the answers equal a fresh walk), a map built after the restore is reused; no persisted change; neighbour answers identical on every sequence without a restore (the item's tests and any golden identical); the cost path unchanged otherwise."
+    }
+   ]
   }
  ]
 }
