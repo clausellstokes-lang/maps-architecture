@@ -265,7 +265,7 @@ describe('routeAlongExisting: the route along existing edges (C-0177 (13))', () 
   /** A context for the router on the batch's arena at L1, of a class. */
   const ctxOf = (p: Plat, cls: 'mandatory' | 'optional'): ChainCtx => {
     const t = tx(p, 1);
-    return { tx: t, p, n: 1, cls, rows: [{ role: 'way', entity: 'way:r' }], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [] };
+    return { tx: t, p, n: 1, cls, rows: [{ role: 'way', entity: 'way:r' }], warnings: [], journal: chainJournal(t), pairsFrom: chainJournal(t).newPairs.length, txPairsFrom: t.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
   };
   /** The frame and an L1 dog-leg (1000, 2000) – (1500, 2040) – (2000, 2000): its kink 40 cm off the straight line. */
   const dogLeg = (): Plat => {

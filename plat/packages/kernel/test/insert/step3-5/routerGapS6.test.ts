@@ -36,7 +36,7 @@ const STRIP: ArenaSpec = {
 /** A chain context over a transaction (the tests call the router's parts on their own); `strip` the third pass's reading. */
 function ctxOf(p: Plat, level: Level = 0, strip: 0 | 1 | null = null): ChainCtx {
   const t = tx(p, level);
-  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [], extended: strip !== null, strip: strip === null ? null : { variant: strip, a: null, b: null } };
+  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: chainJournal(t).newPairs.length, txPairsFrom: t.journal.pairs.length, maxPass: 0, strict: false, undo: [], extended: strip !== null, strip: strip === null ? null : { variant: strip, a: null, b: null } };
 }
 
 const d2 = (a: { x: number; y: number }, b: { x: number; y: number }): number => (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);

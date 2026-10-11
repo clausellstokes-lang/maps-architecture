@@ -12,6 +12,8 @@ import {
   isVertexLive,
   LEVELS,
   outgoing,
+  VERTEX_PINNED,
+  VERTEX_SPLIT,
   walkRing,
   type FaceId,
   type HalfEdgeId,
@@ -285,6 +287,37 @@ export function eulerProblems(p: Plat): string[] {
 /** Every check after an insertion: M0-a-04's validator, the face records, the Euler characteristic. */
 export function allProblems(p: Plat): string[] {
   return [...problems(p), ...faceProblems(p), ...eulerProblems(p)];
+}
+
+/**
+ * The oracle beside `allProblems` that would have caught N-55's Q9 and Q10 (written from §2.2 rule 3 as N-55 (1), (2)
+ * read it, not from the code under test): a vertex the dissolution rule would remove the moment a batch touched it — its
+ * `split` flag set, not pinned, no vertex row, degree 2, its two edges of one level with identical rows (kind, entity,
+ * ordinal, level) — whose rows are those of ONE chain (one row key) or of none. The flag says "dissolving me restores
+ * exactly the edge I was created on": standing between one chain's own rows on both sides it is either that chain's
+ * own vertex carrying the flag (Q10: its fold-back point, or a step-3 point where it overlaps itself — a later chain
+ * attached there and removed dissolves it, remove ≠ undo-by-replay) or a split whose splitting chain is gone and left
+ * it (Q9: a shared stretch's end). Two or more chains' rows on both sides is the coincident class N-55 (2) keeps
+ * flagged — a chain's point on ANOTHER chain's edge it runs along (§13.1's wall on a bank): its removal dissolves the
+ * split and restores that edge (C-0302 records the open case of a third chain attached there). One line per such
+ * vertex; empty when none.
+ */
+export function dissolvableProblems(p: Plat): string[] {
+  const out: string[] = [];
+  const R = p.roles;
+  const rowsOf = (h: HalfEdgeId): number[] => rowsOnE(p, h);
+  const text = (h: HalfEdgeId): string => rowsOf(h).map((r) => `${R.kind[r]}/${idOfRow(p, r)}/${R.ordinal[r]}/${R.level[r]}`).sort().join(';');
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (!isVertexLive(p, v)) continue;
+    const f = p.vertices.flags[v];
+    if ((f & VERTEX_SPLIT) === 0 || (f & VERTEX_PINNED) !== 0 || rowsOnV(p, v).length > 0) continue;
+    const at = outgoing(p, v);
+    if (at.length !== 2 || p.halfEdges.level[at[0] >> 1] !== p.halfEdges.level[at[1] >> 1] || text(at[0]) !== text(at[1])) continue;
+    const keys = new Set(rowsOf(at[0]).map((r) => `${R.kind[r]}/${idOfRow(p, r)}/${R.ordinal[r]}`));
+    if (keys.size > 1) continue;
+    out.push(`a dissolvable vertex at (${p.vertices.x[v]}, ${p.vertices.y[v]}) L${p.vertices.level[v]}: split, degree 2, both edges L${p.halfEdges.level[at[0] >> 1]} [${text(at[0])}]`);
+  }
+  return out;
 }
 
 /** The live face records of a level. */

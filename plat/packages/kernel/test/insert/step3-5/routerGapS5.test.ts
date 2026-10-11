@@ -42,7 +42,7 @@ const STRIP: ArenaSpec = {
 /** A chain context over a transaction (the tests call the router's parts on their own). */
 function ctxOf(p: Plat, level: Level = 0): ChainCtx {
   const t = tx(p, level);
-  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [] };
+  return { tx: t, p, n: level, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: chainJournal(t).newPairs.length, txPairsFrom: t.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
 }
 
 /** A commit's warnings as [code, count] pairs. */
