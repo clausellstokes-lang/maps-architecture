@@ -28,7 +28,9 @@ import {
   buildRecord,
   labelPosition,
   lcsDiff,
+  LEDGER_RULE,
   ledgerSeat,
+  ledgerTable,
   loadWork,
   ownersAt,
   parseArgs,
@@ -36,6 +38,7 @@ import {
   patternMatches,
   seatColumn,
   splitCells,
+  strayLedgerRows,
 } from './landed.mjs';
 import { verifyWave } from './verify.mjs';
 
@@ -672,3 +675,158 @@ describe('a run item landing before its own wave (C-0121)', () => {
     expect(k06.notes.join('\n')).not.toContain('C-0121');
   });
 });
+
+// ---------------------------------------------------------------------------------------------------------------
+// Session fix round S2 (Q23; lane build/M0-s-01-fix-s2): a ledger row outside §2's table, and re-landed records
+
+const L1 = '| L-0001 | build/m0-spec (Opus) | 2026-10-03 | spec | ARCHITECTURE | — |\n';
+const rowOf = (id, lane, note = '—') => `| ${id} | ${lane} (Opus) | 2026-10-11 | checker | M0-a-01 | ${note} |`;
+const inS2 = (root, row) => replaceIn(root, 'CLEAN-ROOM.md', L1, `${L1}${row}\n`);
+const atEnd = (root, row) => appendFileSync(join(root, 'CLEAN-ROOM.md'), `${row}\n`);
+
+describe('a CLEAN-ROOM.md ledger row outside §2\'s table (Q23 (a))', () => {
+  it('finds §2\'s table and no stray in the committed ledger', () => {
+    const lines = read(PLAT_ROOT, 'CLEAN-ROOM.md').split('\n');
+    const t = ledgerTable(lines);
+    expect(t).not.toBe(null);
+    expect(lines[t.header - 2]).toMatch(/^## 2 Seat ledger/);
+    expect(t.seat).toBe(1);
+    expect(rowIds(lines.slice(t.start, t.end)).every((id) => id.startsWith('L-'))).toBe(true);
+    expect(strayLedgerRows(lines, 'build/M0-s-01-fix-s2')).toEqual([]);
+  });
+
+  it('refuses the record when the lane\'s row sits under §5\'s table, naming the row and the rule; writes nothing', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    write(root, 'docs/build/checks/M0-a-01.md', '# check\n');
+    atEnd(root, rowOf('L-0007', 'check/m0-a-01-close'));
+    const lines = read(root, 'CLEAN-ROOM.md').split('\n');
+    expect(seatColumn(lines, lines.length - 2)).toBe(5); // §5's seat column: the row's notes cell, so it names no seat
+    const r = buildRecord(root, { item: 'check-M0-a-01', lane: 'check/m0-a-01-close', owns: ['plat/docs/build/checks/M0-a-01.md'] });
+    expect(r.ok).toBe(false);
+    expect(r.code).toBe(1);
+    expect(r.problems).toEqual([
+      `plat/CLEAN-ROOM.md:14: ledger row L-0007 names lane check/m0-a-01-close but lies outside §2's seat-ledger table (lines 7 – 7) — ` +
+        `move it into §2's table, then run landed again. The rule: ${LEDGER_RULE}`,
+    ]);
+    expect(LEDGER_RULE).toContain('the last row of §2\'s seat-ledger table');
+    expect(existsSync(join(root, 'docs', 'build', 'landed', 'check-M0-a-01.json'))).toBe(false);
+    // The same row after a blank line (in no table at all) is refused too; another lane's landing is not held up.
+    appendFileSync(join(root, 'CLEAN-ROOM.md'), `\n${rowOf('L-0008', 'check/m0-a-01-close')}\n`);
+    expect(buildRecord(root, { item: 'check-M0-a-01', lane: 'check/m0-a-01-close', owns: ['plat/docs/build/checks/M0-a-01.md'], write: false })
+      .problems.map((p) => p.split(':').slice(0, 3).join(':'))).toEqual(['plat/CLEAN-ROOM.md:14: ledger row L-0007 names lane check/m0-a-01-close but lies outside §2\'s seat-ledger table (lines 7 – 7) — move it into §2\'s table, then run landed again. The rule', 'plat/CLEAN-ROOM.md:16: ledger row L-0008 names lane check/m0-a-01-close but lies outside §2\'s seat-ledger table (lines 7 – 7) — move it into §2\'s table, then run landed again. The rule']);
+    seatA01(root);
+    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01', write: false }).problems).toEqual([]);
+  });
+
+  it('accepts the same row inside §2\'s table and claims it: its id and its line hash', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    write(root, 'docs/build/checks/M0-a-01.md', '# check\n');
+    const row = rowOf('L-0002', 'check/m0-a-01-close');
+    inS2(root, row);
+    const r = buildRecord(root, { item: 'check-M0-a-01', lane: 'check/m0-a-01-close', owns: ['plat/docs/build/checks/M0-a-01.md'] });
+    expect(r.problems).toEqual([]);
+    expect(r.record.appends).toEqual([{ file: 'plat/CLEAN-ROOM.md', ids: ['L-0002'], lines: [lineHash(row)], removed: [] }]);
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+
+  it('refuses a stray row named by its renumbering note, keeps the id rule inside §2, and leaves §3 – §5\'s own rows alone', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    write(root, 'docs/build/checks/M0-a-01.md', '# check\n');
+    const lane = 'check/m0-a-01-close';
+    const owns = ['plat/docs/build/checks/M0-a-01.md'];
+    // §5's own row with the lane in §5's seat column is the lane's append, never a stray.
+    replaceIn(root, 'CLEAN-ROOM.md', /\| \(none yet[^\n]*\n/, `| S-0001 | an algorithm | https://example.org | 00 | 2026-10-11 | ${lane} | the check |\n`);
+    // Two §2 rows with one id: the collision is refused, the next free id named.
+    inS2(root, rowOf('L-0002', lane));
+    inS2(root, rowOf('L-0002', 'build/m0-other'));
+    const clash = buildRecord(root, { item: 'check-M0-a-01', lane, owns, write: false });
+    expect(clash.problems).toHaveLength(1);
+    expect(clash.problems[0]).toContain('id L-0002 is carried by the rows on lines 8 and 9 — a collision');
+    expect(clash.problems[0]).toContain('the next free id, L-0003');
+    // The renumbered row moved under §5 is refused by its renumbering note; back inside §2 it is claimed.
+    const renumbered = rowOf('L-0003', 'build/m0-other', `renumbered from L-0002 (collision) by ${lane}`);
+    replaceIn(root, 'CLEAN-ROOM.md', `${rowOf('L-0002', 'build/m0-other')}\n`, '');
+    atEnd(root, renumbered);
+    const stray = buildRecord(root, { item: 'check-M0-a-01', lane, owns, write: false });
+    expect(stray.problems).toHaveLength(1);
+    expect(stray.problems[0]).toMatch(/^plat\/CLEAN-ROOM\.md:15: ledger row L-0003 names lane check\/m0-a-01-close but lies outside §2's seat-ledger table/);
+    replaceIn(root, 'CLEAN-ROOM.md', `${renumbered}\n`, '');
+    replaceIn(root, 'CLEAN-ROOM.md', `${rowOf('L-0002', lane)}\n`, `${rowOf('L-0002', lane)}\n${renumbered}\n`);
+    const ok = buildRecord(root, { item: 'check-M0-a-01', lane, owns });
+    expect(ok.problems).toEqual([]);
+    expect(ok.record.appends.map((a) => [a.file, a.ids])).toEqual([['plat/CLEAN-ROOM.md', ['L-0002', 'L-0003', 'S-0001']]]);
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+
+  it('refuses a lane\'s row when the ledger has no §2 table at all', () => {
+    const root = fixture({ 'CLEAN-ROOM.md': CLEAN_ROOM.replace('## 2 Seat ledger', '## Seat ledger') });
+    writeSnapshot(root, 'wave-1');
+    inS2(root, rowOf('L-0002', 'check/x'));
+    const r = buildRecord(root, { item: 'check-x', lane: 'check/x', write: false });
+    expect(r.ok).toBe(false);
+    expect(r.problems[0]).toContain('ledger row L-0002 names lane check/x but lies outside §2\'s seat-ledger table (the file has none under "## 2 ")');
+  });
+});
+
+describe('a record re-landed under a later lane, and the wave\'s unclaimed §2 rows (Q23 (b))', () => {
+  it('keeps every row and CrossingRecord an earlier landing of the record claimed (ids and hashes), and claims the new lane\'s', () => {
+    const root = crossingWave();
+    const first = buildRecord(root, { item: 'cross-denylist-1', lane: 'build/m0-cross-denylist' });
+    expect(first.problems).toEqual([]);
+    const before = Object.fromEntries(first.record.appends.map((a) => [a.file, a]));
+    const close = '| L-0003 | build/m0-cross-denylist-close (Opus) | 2026-10-11 | closing checker | denylist.json only | — |';
+    replaceIn(root, 'CLEAN-ROOM.md', '| L-0002 | build/m0-cross-denylist (Opus)', `${close}\n| L-0002 | build/m0-cross-denylist (Opus)`);
+    // Rows later in the ledger than L-0003 keep their claim: the carry is by line hash, not by position.
+    const again = buildRecord(root, { item: 'cross-denylist-1', lane: 'build/m0-cross-denylist-close' });
+    expect(again.problems).toEqual([]);
+    expect(again.record.lane).toBe('build/m0-cross-denylist-close');
+    expect(again.record.lanes).toEqual(['build/m0-cross-denylist', 'build/m0-cross-denylist-close']);
+    const after = Object.fromEntries(again.record.appends.map((a) => [a.file, a]));
+    const ledgerRow = read(root, 'CLEAN-ROOM.md').split('\n').find((l) => l.startsWith('| L-0002 '));
+    expect(after['plat/CLEAN-ROOM.md'].ids).toEqual(['L-0003', 'L-0002']);
+    expect(after['plat/CLEAN-ROOM.md'].lines).toEqual([lineHash(close), lineHash(ledgerRow)]);
+    expect(after['plat/CLEAN-ROOM.md'].lines).toContain(before['plat/CLEAN-ROOM.md'].lines[0]);
+    expect(after[`plat/${CROSSINGS_FILE}`]).toEqual(before[`plat/${CROSSINGS_FILE}`]); // the same id, the same hash
+    expect(buildRecord(root, { item: 'gen-denylist-1', lane: 'm1/W-16' }).ok).toBe(true);
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+
+  it('keeps an item\'s earlier rows when its fix round re-lands it under the fix lane', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    seatA01(root);
+    const first = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' });
+    expect(first.ok).toBe(true);
+    appendFileSync(join(root, 'docs', 'build', 'choices.md'), '| C-0003 | 2026-10-11 | build/m0-a-01-fix1 | §3.2 | three | why | a.test.ts |\n');
+    const fix = buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01-fix1' });
+    expect(fix.problems).toEqual([]);
+    const ids = Object.fromEntries(fix.record.appends.map((a) => [a.file, a.ids]));
+    expect(ids).toEqual({ 'plat/CLEAN-ROOM.md': ['L-0002', 'S-0001'], 'plat/docs/build/choices.md': ['C-0002', 'C-0003'] });
+    const firstLines = first.record.appends.flatMap((a) => a.lines);
+    expect(fix.record.appends.flatMap((a) => a.lines)).toEqual(expect.arrayContaining(firstLines));
+  });
+
+  it('landed:verify names a §2 row added since the snapshot that no record of the wave claims, and is clean once one does', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    write(root, 'docs/build/checks/M0-a-01.md', '# check\n');
+    const row = rowOf('L-0002', 'check/m0-a-01');
+    inS2(root, row);
+    expect(buildRecord(root, { item: 'check-M0-a-01', lane: 'check/m0-a-01', owns: ['plat/docs/build/checks/M0-a-01.md'] }).ok).toBe(true);
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+    // The record as a re-landing that carried nothing forward would write it: the §2 row is then claimed by nobody.
+    const path = join(root, 'docs', 'build', 'landed', 'check-M0-a-01.json');
+    const rec = JSON.parse(readFileSync(path, 'utf8'));
+    writeFileSync(path, JSON.stringify({ ...rec, appends: [] }));
+    expect(verifyWave(root, 'wave-1').problems).toEqual([`plat/CLEAN-ROOM.md:8 added, claimed by no record of wave-1: ${row}`]);
+    writeFileSync(path, JSON.stringify(rec));
+    expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+});
+
+function rowIds(lines) {
+  return lines.map((l) => splitCells(l)?.[0]).filter((c) => c !== undefined);
+}

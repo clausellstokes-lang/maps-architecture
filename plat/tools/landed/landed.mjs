@@ -170,6 +170,53 @@ export function renumberedBy(line) {
   return m ? m[1].replace(/\.$/, '') : null;
 }
 
+/**
+ * §2's seat-ledger table of CLEAN-ROOM.md: the first table under the heading "## 2 " (never "## 2a"), as
+ * { header, start, end, seat } — the header's line index, the first and one past the last row's index, and the seat
+ * column — or null when the file has no such table.
+ */
+export function ledgerTable(lines) {
+  const h = lines.findIndex((l) => /^## 2\s/.test(l));
+  if (h < 0) return null;
+  for (let i = h + 1; i < lines.length && !/^## /.test(lines[i]); i += 1) {
+    if (!lines[i].trim().startsWith('|')) continue;
+    const sep = lines[i + 1];
+    if (sep === undefined || !/^\|[\s:|-]+$/.test(sep.trim())) return null;
+    let end = i + 2;
+    while (end < lines.length && lines[end].trim().startsWith('|')) end += 1;
+    return { header: i, start: i + 2, end, seat: (splitCells(lines[i]) ?? []).findIndex((c) => /^seat\b/i.test(c)) };
+  }
+  return null;
+}
+
+/** The rule a stray ledger row breaks, quoted in landed's refusal (C-0104 (4), C-0120 (5); Q23). */
+export const LEDGER_RULE =
+  'a seat signs CLEAN-ROOM.md by appending its row as the last row of §2\'s seat-ledger table (C-0104 (4); the id rule: ' +
+  're-read the last L- id, append in one write), never at the file\'s end or under §2a – §5; landed reads a row\'s seat ' +
+  'from the table that holds it, so a ledger row outside §2\'s table is claimed by no record and drops out of the ' +
+  'committed ledger (Q23)';
+
+/**
+ * The CLEAN-ROOM.md rows that name a lane as §2's ledger rows do but lie outside §2's table (Q23): a row carrying an
+ * L- id, or a row in no table with a seat column, whose cell at §2's seat column names the lane or whose renumbering
+ * note (C-0104's id rule) is the lane's. Rows of §3 – §5 that name the lane in their own table's seat column are
+ * theirs, never strays. Returns [{ id, line }] (line 1-based).
+ */
+export function strayLedgerRows(lines, lane) {
+  const t = ledgerTable(lines);
+  const col = t !== null && t.seat >= 0 ? t.seat : 1;
+  const out = [];
+  lines.forEach((line, k) => {
+    if (t !== null && k >= t.start && k < t.end) return;
+    const cells = splitCells(line);
+    if (cells === null) return;
+    const id = rowId(cells);
+    if (!((id !== null && id[0] === 'L') || seatColumn(lines, k) < 0)) return;
+    if ((cells[col] !== undefined && seatNames(cells[col], lane)) || renumberedBy(line) === lane) out.push({ id: id ?? `line ${k + 1}`, line: k + 1 });
+  });
+  return out;
+}
+
 export const INDEX_LINE = /^export \* from '\.\/([A-Za-z0-9_-]+)\/index\.js';\s*$/;
 
 /** Longest common subsequence of two hash lists: the indices of a not kept (removed) and of b not kept (added). */
@@ -412,7 +459,10 @@ export function buildRecord(root, opts) {
         );
       }
     }
-    const carriedLines = new Set((carried?.appends ?? []).filter((a) => a.file === path).flatMap((a) => a.lines));
+    // A re-landing in the same wave (a fix or closing round, under any lane) keeps every unit an earlier landing of the
+    // record claimed, under the id that landing gave it (C-0111 (4); Q23).
+    const carriedIds = new Map();
+    for (const a of (carried?.appends ?? []).filter((x) => x.file === path)) a.lines.forEach((h, i) => carriedIds.set(h, a.ids?.[i] ?? null));
     const ids = [];
     const lines = [];
     for (const k of d.added) {
@@ -431,7 +481,9 @@ export function buildRecord(root, opts) {
         const col = cells ? seatColumn(d.lines, k) : -1;
         if ((col >= 0 && cells[col] !== undefined && seatNames(cells[col], lane)) || renumberedBy(line) === lane) claim = rowId(cells) ?? `line ${k + 1}`;
       }
-      if (claim === null && carriedLines.has(d.hashes[k])) claim = isRecords ? `record ${k + 1}` : (rowId(splitCells(line)) ?? `line ${k + 1}`);
+      if (claim === null && carriedIds.has(d.hashes[k])) {
+        claim = carriedIds.get(d.hashes[k]) ?? (isRecords ? `record ${k + 1}` : (rowId(splitCells(line)) ?? `line ${k + 1}`));
+      }
       if (claim !== null) {
         ids.push(claim);
         lines.push(d.hashes[k]);
@@ -439,6 +491,16 @@ export function buildRecord(root, opts) {
     }
     const removed = lines.length > 0 ? d.removed.map((r) => d.old[r]).filter((h) => d.placeholders.has(h)) : [];
     if (lines.length > 0) appends.push({ file: path, ids, lines, removed });
+  }
+
+  // A ledger row of this lane outside §2's table would be claimed by no record (Q23): refuse, naming it.
+  for (const s of strayLedgerRows(ledger, lane)) {
+    const t = ledgerTable(ledger);
+    problems.push(
+      `plat/CLEAN-ROOM.md:${s.line}: ledger row ${s.id} names lane ${lane} but lies outside §2's seat-ledger table ` +
+        `(${t === null ? 'the file has none under "## 2 "' : `lines ${t.start + 1} – ${t.end}`}) — move it into §2's table, ` +
+        `then run landed again. The rule: ${LEDGER_RULE}`,
+    );
   }
 
   for (const p of touched) {
