@@ -29,6 +29,11 @@
 // family's cap — N-46 (4)'s cap from the residual round S6 measured, plus one run's noise (caps.ts; J207, J208, C-0217,
 // C-0221), 1 per 10⁴ the target (KI-1); with PLAT_FUZZ_COUNTS set a run writes its counts there. (4) Each refused case
 // found is kept in a register (register.test.ts, routerGapS5.test.ts, routerGapS6.test.ts: seed, input, refusal code).
+//
+// N-55 (2) (session round S7, C-0302): after every committed chain the arena holds no dissolvable vertex
+// (`dissolvableProblems`, support.ts — a `split` vertex of degree 2 between identical rows, which a later removal would
+// dissolve): a chain's own point that folds back onto its own edge carries no flag, and every other split still has the
+// chain that made it.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isVertexLive, type Plat } from '../../../src/arena/index.js';
@@ -38,7 +43,7 @@ import type { Level } from '../../../src/types/index.js';
 import { countedRefusal, recordCounts, refusalCap } from './caps.js';
 import { genChain } from './gen.js';
 import { fidelityProblems } from './fidelity.js';
-import { allProblems, contentPrint, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
+import { allProblems, contentPrint, dissolvableProblems, framed, generator, ins, intIn, TIMEOUT, tx } from './support.js';
 
 /** §3.6 *Chain classes*: the precision codes — an optional chain's only (§3.1); a mandatory chain never takes one. */
 const PRECISION = new Set(['E_BELOW_MIN_EDGE', 'E_BELOW_MIN_ANGLE']);
@@ -105,6 +110,7 @@ function insertJudged(p: Plat, c: Case, entity: string, validate = true): Outcom
     }
     const opts = { closed: c.closed, ...(c.pinned === undefined ? {} : { pinned: c.pinned }) };
     expect(fidelityProblems(p, c.level, c.cls, c.points, opts, r.value.placed, entity)).toEqual([]);
+    expect(dissolvableProblems(p), 'no dissolvable vertex after a commit (N-55 (2))').toEqual([]);
   }
   if (validate) expect(allProblems(p)).toEqual([]);
   return r.ok ? { ok: true, warnings: r.warnings } : { ok: false, code: r.code, detail: r.detail };
