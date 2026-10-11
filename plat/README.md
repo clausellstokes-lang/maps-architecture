@@ -46,7 +46,7 @@ cd plat
 PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile   # or: corepack pnpm install:frozen
 corepack pnpm build          # type check everything (tsc -b), then one bundle per package in packages/*/dist/
 corepack pnpm test           # every test, one vitest project per package plus the tools
-corepack pnpm lint           # ESLint with the determinism rules (they land with work item M0-d-07), then the whole-tree checks
+corepack pnpm lint           # ESLint with the determinism rules, then the whole-tree checks
 corepack pnpm vendor:verify  # the vendored libraries still match vendor/vendor.lock.json, byte for byte
 corepack pnpm notices        # regenerate THIRD-PARTY-NOTICES.txt and run the licence check
 ```

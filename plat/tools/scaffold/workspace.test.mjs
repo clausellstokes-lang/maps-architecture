@@ -1,8 +1,8 @@
-// M0-s-01's workspace tests: the engine range (C-0025), pnpm through corepack only (C-0030), exact pins (§17.4), the
-// dependency placement of the fix round (C-0062, C-0065), the package indexes (C-0013, C-0064, C-0112), the bench
-// dispatcher — its map with the fourth fix round's entries and owners (C-0113), its shortcuts, its argument rule, and
-// its "not built" and unknown-name exits proven on fixture harnesses (C-0059, C-0095) — and the TypeScript projects with
-// what each test folder can import (C-0056, C-0114, C-0122; the fifth fix round).
+// The workspace tests: the engine range (C-0025), pnpm through corepack only (C-0030), exact pins (§17.4), the
+// dependency placement (C-0062, C-0065), the package indexes (C-0013, C-0064, C-0112), the bench dispatcher — its map
+// and owners (C-0059, C-0113, C-0115, C-0117), its shortcuts, its argument rule and its "not built" and unknown-name
+// exits on fixture harnesses (C-0095) — and the TypeScript projects with what each test folder can import (C-0056,
+// C-0114, C-0122, C-0124).
 import { spawnSync } from 'node:child_process';
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { createRequire } from 'node:module';
@@ -16,6 +16,10 @@ const root = fileURLToPath(new URL('../../', import.meta.url));
 const readJson = (p) => JSON.parse(readFileSync(join(root, p), 'utf8'));
 const rootPkg = readJson('package.json');
 
+// The shipped packages in §14's order (kernel ← model ← tables ← site ← layout), written here independently of the
+// lint's list.
+const SHIPPED = ['kernel', 'model', 'tables', 'site', 'layout'];
+
 /** All of PLAT's own package.json files (vendored ones included), as paths relative to plat/. */
 function manifests() {
   const out = ['package.json', 'bench/package.json'];
@@ -27,7 +31,7 @@ function manifests() {
 }
 
 /** Does a version satisfy a range of space-joined comparators (>=, >, <=, <, =)? Enough for `engines`. */
-export function satisfies(version, range) {
+function satisfies(version, range) {
   const v = version.replace(/^v/, '').split('.').map(Number);
   const cmp = (a, b) => {
     for (let i = 0; i < 3; i += 1) if ((a[i] ?? 0) !== (b[i] ?? 0)) return (a[i] ?? 0) < (b[i] ?? 0) ? -1 : 1;
@@ -47,8 +51,12 @@ export function satisfies(version, range) {
   });
 }
 
-/** Every `pnpm` word in a command that is not run as `corepack pnpm`. */
-export function barePnpm(command) {
+/**
+ * Every `pnpm` word in a command that is not run as `corepack pnpm`. Stricter than the lint's no-bare-pnpm rule, which
+ * flags only a command whose first word is pnpm and skips the vendored manifests: this one flags any pnpm word and runs
+ * over every PLAT manifest, the vendored ones included (C-0030).
+ */
+function barePnpm(command) {
   const hits = [];
   const re = /(^|[^\w@/.-])pnpm(?![\w-])/g;
   let m;
@@ -119,7 +127,6 @@ describe('exact pins (§17.4)', () => {
 });
 
 describe('dependency placement (the scaffold fix round: C-0062, C-0065)', () => {
-  const SHIPPED = ['kernel', 'model', 'tables', 'site', 'layout'];
   const DEV_ONLY = ['clipper2-wasm', 'polygon-clipping', 'fast-check', 'playwright-core', 'vitest', 'typescript', 'tsx'];
   const thirdParty = (deps) => Object.keys(deps ?? {}).filter((d) => !d.startsWith('@plat/'));
 
@@ -286,7 +293,6 @@ describe('the bench dispatcher (C-0059, C-0095)', () => {
 // packages/testkit/test/<package>/<item folder>/ (C-0122) and needs no configuration of its own. Nothing shipped depends
 // on the test kit, and its oracle libraries resolve from the test kit alone (C-0062).
 describe('the TypeScript projects and what each test folder can import (C-0056, C-0114, C-0122)', () => {
-  const SHIPPED = ['kernel', 'model', 'tables', 'site', 'layout']; // §14's order: kernel ← model ← tables ← site ← layout
   const PROJECTS = [...SHIPPED, 'testkit', 'bench'];
   const dirOf = (p) => (p === 'bench' ? 'bench' : `packages/${p}`);
   const nameOf = (abs) => relative(root, abs).split(sep).join('/').replace(/^packages\//, '');

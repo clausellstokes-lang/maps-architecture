@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// `corepack pnpm landed -- <item id> --lane <lane key>` (M0-s-01's third fix round; C-0104, C-0111): a landing seat's
+// `corepack pnpm landed -- <item id> --lane <lane key>` (C-0104 (1), C-0111 (1), C-0120 (1)): a landing seat's
 // attribution record. Seats run no git and up to four share one tree, so each seat lists what it landed: every file
 // under its item's `owns` (read from docs/build/M0-work.json) with its SHA-256 and its status — created, changed,
 // unchanged or deleted — against the wave's snapshot, and the lines it appended under the id rule (its own rows of
@@ -149,13 +149,21 @@ export function rowId(cells) {
   return cells && /^[A-Z]-\d{4}$/.test(cells[0]) ? cells[0] : null;
 }
 
-/** The index of the seat column of the table holding line i (the header cell starting with "seat"), or -1. */
+/** Is a line a Markdown table's separator row (`|---|:--|`)? An absent line is not. */
+const isSeparatorRow = (line) => line !== undefined && /^\|[\s:|-]+$/.test(line.trim());
+
+/** The index of a table header's seat column (the first cell starting with "seat"), or -1. */
+const seatIndex = (headerLine) => (splitCells(headerLine) ?? []).findIndex((c) => /^seat\b/i.test(c));
+
+/**
+ * The index of the seat column of the table holding line i, or -1. The table's first row is its header, which counts
+ * only with a separator row under it.
+ */
 export function seatColumn(lines, i) {
   let j = i;
   while (j > 0 && lines[j - 1].trim().startsWith('|')) j -= 1;
-  const sep = lines[j + 1];
-  if (sep === undefined || !/^\|[\s:|-]+$/.test(sep.trim())) return -1;
-  return (splitCells(lines[j]) ?? []).findIndex((c) => /^seat\b/i.test(c));
+  if (!isSeparatorRow(lines[j + 1])) return -1;
+  return seatIndex(lines[j]);
 }
 
 /** Does a seat cell name this lane (the lane key, then the cell's end or a separator: "build/x (Opus, …)")? */
@@ -180,16 +188,15 @@ export function ledgerTable(lines) {
   if (h < 0) return null;
   for (let i = h + 1; i < lines.length && !/^## /.test(lines[i]); i += 1) {
     if (!lines[i].trim().startsWith('|')) continue;
-    const sep = lines[i + 1];
-    if (sep === undefined || !/^\|[\s:|-]+$/.test(sep.trim())) return null;
+    if (!isSeparatorRow(lines[i + 1])) return null;
     let end = i + 2;
     while (end < lines.length && lines[end].trim().startsWith('|')) end += 1;
-    return { header: i, start: i + 2, end, seat: (splitCells(lines[i]) ?? []).findIndex((c) => /^seat\b/i.test(c)) };
+    return { header: i, start: i + 2, end, seat: seatIndex(lines[i]) };
   }
   return null;
 }
 
-/** The rule a stray ledger row breaks, quoted in landed's refusal (C-0104 (4), C-0120 (5); Q23). */
+/** The rule a stray ledger row breaks, quoted in landed's refusal (C-0104 (4), C-0120 (5), C-0306 (1)). */
 export const LEDGER_RULE =
   'a seat signs CLEAN-ROOM.md by appending its row as the last row of §2\'s seat-ledger table (C-0104 (4); the id rule: ' +
   're-read the last L- id, append in one write), never at the file\'s end or under §2a – §5; landed reads a row\'s seat ' +
@@ -197,9 +204,9 @@ export const LEDGER_RULE =
   'committed ledger (Q23)';
 
 /**
- * The CLEAN-ROOM.md rows that name a lane as §2's ledger rows do but lie outside §2's table (Q23): a row carrying an
- * L- id, or a row in no table with a seat column, whose cell at §2's seat column names the lane or whose renumbering
- * note (C-0104's id rule) is the lane's. Rows of §3 – §5 that name the lane in their own table's seat column are
+ * The CLEAN-ROOM.md rows that name a lane as §2's ledger rows do but lie outside §2's table (C-0306 (1)): a row
+ * carrying an L- id, or a row in no table with a seat column, whose cell at §2's seat column names the lane or whose
+ * renumbering note (C-0104's id rule) is the lane's. Rows of §3 – §5 that name the lane in their own table's seat column are
  * theirs, never strays. Returns [{ id, line }] (line 1-based).
  */
 export function strayLedgerRows(lines, lane) {
@@ -327,7 +334,11 @@ export function collisions(lines, addedSet) {
 // ---------------------------------------------------------------------------------------------------------------
 // the record
 
-const sameEntry = (a, b) =>
+/**
+ * Do two listing entries hold the same file? Both present, then the same link text for a symbolic link (a link is
+ * recorded, never followed) or the same SHA-256.
+ */
+export const sameEntry = (a, b) =>
   a !== undefined && b !== undefined && (a.symlink !== undefined ? a.symlink === b.symlink : a.sha256 === b.sha256);
 
 /** created / changed / unchanged / deleted, or null when the path is in neither listing. */
@@ -339,9 +350,9 @@ export function statusOf(before, now) {
 }
 
 export const recordPath = (root, id) => join(root, ...LANDED_DIR.split('/'), `${id}.json`);
-const isRecordRel = (rel) => rel.startsWith(`${LANDED_DIR}/`) && !rel.slice(LANDED_DIR.length + 1).includes('/');
 
-const validId = (id) => typeof id === 'string' && /^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$/.test(id);
+/** Is a path (relative to plat/) a landed record, i.e. any direct child of docs/build/landed/? */
+export const isRecordRel = (rel) => rel.startsWith(`${LANDED_DIR}/`) && !rel.slice(LANDED_DIR.length + 1).includes('/');
 
 /**
  * Builds (and, with write, writes) the landed record of one seat. Returns { ok, code, problems, notes, record }.
@@ -355,7 +366,8 @@ export function buildRecord(root, opts) {
   const touched = opts.touched ?? [];
   const whole = opts.whole ?? [];
   const declared = opts.owns ?? [];
-  if (!validId(id)) problems.push(`invalid item id ${JSON.stringify(id)}`);
+  // An item id names its record's file as a label names its snapshot's: one grammar (validLabel).
+  if (!validLabel(id)) problems.push(`invalid item id ${JSON.stringify(id)}`);
   if (typeof lane !== 'string' || !/^\S+$/.test(lane)) problems.push('--lane <lane key> is required (the key of the LANDED line)');
   if (opts.wave !== undefined && !validLabel(opts.wave)) problems.push(`invalid snapshot label ${JSON.stringify(opts.wave)}`);
   // (A seat without an item may declare no file when it only appended rows or CrossingRecords; checked below.)
@@ -400,7 +412,8 @@ export function buildRecord(root, opts) {
     notes.push(`snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved at ${id}'s own wave (${item.wave})`);
   }
   // An item landing before its own wave (a run item started early in a build wave, C-0121) owns its files and its
-  // hand-overs as at its own wave; every other landing resolves at the open wave (a fix round's later wave included).
+  // hand-overs as at its own wave; every other landing resolves at the open wave (a later wave's landing of the same
+  // item included).
   const own = item !== null ? wavePosition(work, item.wave) : null;
   const at = own !== null && W !== null && own > W ? own : W;
   if (at !== W) notes.push(`${id} is of wave ${item.wave}, landing in ${snapshot.label}: its owns resolved at its own wave (C-0121)`);
@@ -459,8 +472,8 @@ export function buildRecord(root, opts) {
         );
       }
     }
-    // A re-landing in the same wave (a fix or closing round, under any lane) keeps every unit an earlier landing of the
-    // record claimed, under the id that landing gave it (C-0111 (4); Q23).
+    // A re-landing in the same wave (under any lane) keeps every unit an earlier landing of the record claimed, under
+    // the id that landing gave it (C-0111 (4), C-0306 (2)).
     const carriedIds = new Map();
     for (const a of (carried?.appends ?? []).filter((x) => x.file === path)) a.lines.forEach((h, i) => carriedIds.set(h, a.ids?.[i] ?? null));
     const ids = [];
@@ -493,7 +506,7 @@ export function buildRecord(root, opts) {
     if (lines.length > 0) appends.push({ file: path, ids, lines, removed });
   }
 
-  // A ledger row of this lane outside §2's table would be claimed by no record (Q23): refuse, naming it.
+  // A ledger row of this lane outside §2's table would be claimed by no record (C-0306 (1)): refuse, naming it.
   for (const s of strayLedgerRows(ledger, lane)) {
     const t = ledgerTable(ledger);
     problems.push(

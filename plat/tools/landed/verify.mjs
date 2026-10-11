@@ -1,13 +1,14 @@
 #!/usr/bin/env node
-// `corepack pnpm landed:verify -- <label> [--item <id>]` (M0-s-01's third fix round; C-0104, C-0111): attribution
+// `corepack pnpm landed:verify -- <label> [--item <id>]` (C-0104 (1), C-0111 (1), C-0120 (1)): attribution
 // without git. With --item, the checker's steps (a) and (b) of M0.md §3 on one landed record: every path in it lies
 // under the item's owns (or the seat's declared files) or is a permitted append, and every hash equals the tree now.
 // Without --item, the wave's close: (a) and (b) on every record of the wave, then (c) every file that differs from the
-// wave's snapshot — and every line added to or removed from an append file — that no record of the wave claims is
-// named. A crossing file (M-1's baselines.json, ng-faces.json, denylist.json, a digest file) is attributed instead by
-// a CrossingRecord appended to crossings.json in the same wave, claimed by its countersigning seat's record, whose
-// sha256 equals the file now; a crossing file is never deleted and never claimed by a record (C-0120). An unattributed change fails the wave's check and goes to the
-// session, which alone runs git.
+// wave's snapshot — and every line added to or removed from an append file, a §2 ledger row among them — that no
+// record of the wave claims is named (C-0306 (3)). A crossing file (M-1's baselines.json, ng-faces.json,
+// denylist.json, a digest file) is attributed instead by a CrossingRecord appended to crossings.json in the same wave,
+// claimed by its countersigning seat's record, whose sha256 equals the file now; a crossing file is never deleted and
+// never claimed by a record (C-0120 (4)).
+// An unattributed change fails the wave's check and goes to the session, which alone runs git.
 // Exit 0 clean, 1 problems named, 2 no snapshot, 64 usage.
 import { existsSync, readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
@@ -28,7 +29,17 @@ import {
   toPlat,
   validLabel,
 } from './snapshot.mjs';
-import { anyOwners, appendDiff, crossingFile, loadWork, ownsMatch, parseRecordUnit, statusOf } from './landed.mjs';
+import {
+  anyOwners,
+  appendDiff,
+  crossingFile,
+  isRecordRel,
+  loadWork,
+  ownsMatch,
+  parseRecordUnit,
+  sameEntry,
+  statusOf,
+} from './landed.mjs';
 
 /** Every landed record under docs/build/landed/ (direct children), with the problems of the unreadable ones. */
 export function readRecords(root) {
@@ -53,10 +64,8 @@ export function readRecords(root) {
   return { records, problems };
 }
 
-const sameNow = (entry, now) =>
-  entry.status === 'deleted'
-    ? now === undefined
-    : now !== undefined && (entry.symlink !== undefined ? now.symlink === entry.symlink : now.sha256 === entry.sha256);
+/** Does the tree match a record's entry now? A deleted entry by the file's absence, any other as sameEntry. */
+const sameNow = (entry, now) => (entry.status === 'deleted' ? now === undefined : sameEntry(entry, now));
 
 /**
  * Verifies a wave (or, with opts.item, one record of it) against the tree under root.
@@ -173,7 +182,7 @@ export function verifyWave(root, label, opts = {}) {
         } else problems.push(...issues);
         continue;
       }
-      if (rel.startsWith(`${LANDED_DIR}/`) && !rel.slice(LANDED_DIR.length + 1).includes('/')) {
+      if (isRecordRel(rel)) {
         const id = rel.slice(LANDED_DIR.length + 1, -'.json'.length);
         if (status !== 'deleted' && ofWave.some(({ record }) => record.item === id)) {
           attributed += 1;

@@ -1,6 +1,7 @@
 #!/usr/bin/env node
-// `corepack pnpm lint` (M0-s-01): ESLint over plat/ with zero warnings allowed, then the whole-tree checks the lint
-// plugin exports (`checks` in tools/lint/index.mjs: the vendored scan, the path rule, the licence check — M0-d-07's).
+// `corepack pnpm lint` (C-0060): ESLint over plat/ with zero warnings allowed, then every whole-tree check the lint
+// plugin exports (`checks` in tools/lint/index.mjs — probe-red, vendor-scan, repository-path, inline-directives,
+// model-coverage, no-bare-pnpm, licences, kernel-boundary, bench-boundary, each described in its module).
 // Exit 0 only when ESLint reports nothing and every check passes.
 import { ESLint } from 'eslint';
 import { fileURLToPath } from 'node:url';

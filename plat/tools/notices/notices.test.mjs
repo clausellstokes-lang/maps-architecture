@@ -97,8 +97,8 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
     expect(committed).toContain(`\n${FDLIBM_HEADING}\n`);
   });
 
-  // C-0095: the placeholder until M0-d-03 adds vendor/fdlibm-5.3/NOTICE.txt and regenerates the file
-  // (`corepack pnpm notices`), Sun's notice after — exactly one of the two, never both, whichever state the tree is in.
+  // C-0095: the placeholder while vendor/fdlibm-5.3/NOTICE.txt is absent, Sun's notice once it is present and the file
+  // is regenerated (`corepack pnpm notices`) — exactly one of the two, never both, whichever state the tree is in.
   it("holds exactly one of the fdlibm placeholder and Sun's notice, as vendor/fdlibm-5.3/NOTICE.txt's presence says", () => {
     const notice = fdlibmNotice(PLAT_ROOT);
     expect(fdlibmState(committed, notice)).toBe(notice === null ? 'placeholder' : 'notice');
@@ -130,8 +130,8 @@ describe('THIRD-PARTY-NOTICES.txt', () => {
     expect(fdlibmState('x\nSUN\n', 'SUN')).toBe('notice');
   });
 
-  // The kernel reuse round (J224, line B; CLEAN-ROOM.md rule 7): the public-domain algorithms the kernel ports
-  // (xoshiro128**, vendored C) or implements (MurmurHash3) are credited after fdlibm, the dedication read from the C.
+  // The public-domain algorithms the kernel ports (xoshiro128**, vendored C) or implements (MurmurHash3) are credited
+  // after fdlibm, the dedication read from the C (CLEAN-ROOM.md rule 7; C-0259 (3)).
   it('credits xoshiro128** with its authors\' dedication and MurmurHash3, after the fdlibm section', () => {
     const rule = '='.repeat(78);
     const iF = committed.indexOf(`\n${FDLIBM_HEADING}\n`);

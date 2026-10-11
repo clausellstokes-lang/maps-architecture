@@ -3,9 +3,9 @@
 // tests, declarations to dist/types/), then one esbuild ESM library bundle per package to dist/index.js — workspace and
 // vendored dependencies left external, no minification, so /*! */ banners and licence comments stay (§17.4). The bench
 // is run from source through tsx and is not bundled. No app exists at M0.
-// Notices (the kernel reuse round, J224): each bundle's dist/ also receives plat/LICENSE and THIRD-PARTY-NOTICES.txt,
-// so a packed package (its manifest's "files": ["dist"]) carries them; fdlibm's notice stays in the bundle itself as
-// dmath's /*! */ legal comments. Importable: the bundle options and the notice copy are exported for
+// Notices (C-0259 (1), (2)): each bundle's dist/ also receives plat/LICENSE and THIRD-PARTY-NOTICES.txt, so a packed
+// package (its manifest's "files" lists "dist") carries them; fdlibm's notice stays in the bundle itself as dmath's
+// /*! */ legal comments. Importable: `bundleOptions`, `copyNotices` and `bundlePackage` are exported for
 // tools/notices/shipped.test.mjs, and the build runs only when this file is the script.
 import { spawnSync } from 'node:child_process';
 import { copyFileSync, existsSync, mkdirSync, readdirSync, statSync } from 'node:fs';
@@ -47,6 +47,17 @@ export function copyNotices(platRoot, dir) {
   });
 }
 
+/**
+ * The build's per-package step: one package's library bundle (`dir` the package folder) to dist/index.js, then the
+ * notices beside it. Returns { outfile, bytes } (bytes: the size of dist/index.js).
+ */
+export async function bundlePackage(platRoot, dir) {
+  const options = bundleOptions(dir);
+  await build(options);
+  copyNotices(platRoot, dir);
+  return { outfile: options.outfile, bytes: statSync(options.outfile).size };
+}
+
 async function main() {
   const require = createRequire(import.meta.url);
   const tsc = join(dirname(require.resolve('typescript/package.json')), 'bin', 'tsc');
@@ -61,12 +72,9 @@ async function main() {
   const packagesDir = join(root, 'packages');
   const names = readdirSync(packagesDir).filter((n) => existsSync(join(packagesDir, n, 'src', 'index.ts'))).sort();
   for (const name of names) {
-    const dir = join(packagesDir, name);
-    const options = bundleOptions(dir);
-    await build(options);
-    copyNotices(root, dir);
+    const { bytes } = await bundlePackage(root, join(packagesDir, name));
     process.stdout.write(
-      `build: esbuild @plat/${name} -> packages/${name}/dist/index.js (${statSync(options.outfile).size} bytes) + ${SHIPPED_NOTICES.join(', ')}\n`,
+      `build: esbuild @plat/${name} -> packages/${name}/dist/index.js (${bytes} bytes) + ${SHIPPED_NOTICES.join(', ')}\n`,
     );
   }
 }

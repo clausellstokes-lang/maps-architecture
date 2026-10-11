@@ -1,11 +1,12 @@
-// M0-s-01's third fix round (C-0104, C-0111): the attribution tools. The snapshot covers every file outside its
+// The attribution tools (C-0104, C-0111, C-0120, C-0121, C-0306). The snapshot covers every file outside its
 // exclusions with its SHA-256; `landed` writes a seat's record with each status and its appended lines, and refuses a
 // path outside its owns and the permitted appends, naming it; `landed:verify` passes a fully attributed wave and names
 // every unattributed change; no tool reads a path outside plat/ (a symbolic link is recorded, never followed; no CLI
-// takes a root). The fourth fix round (C-0120, C-0121): M-1's crossings — a crossing file attributed by the
-// CrossingRecord appended in its wave, that record and the CLEAN-ROOM.md §2 – §5 rows claimed by the appending seat's
-// lane, a seat that only appended recording without --owns — and a run item landing before its own wave. Every case
-// runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments that write nothing.
+// takes a root). M-1's crossings: a crossing file attributed by the CrossingRecord appended in its wave, that record
+// and the CLEAN-ROOM.md §2 – §5 rows claimed by the appending seat's lane, a seat that only appended recording without
+// --owns — and a run item landing before its own wave. A ledger row outside §2's table is refused, and a re-landed
+// record keeps its earlier claims. Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned
+// only on arguments that write nothing.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import {
@@ -470,7 +471,7 @@ describe('the commands (C-0104 (5))', () => {
 });
 
 // ---------------------------------------------------------------------------------------------------------------
-// The fourth fix round (C-0120, C-0121)
+// M-1's crossings and early run items (C-0120, C-0121)
 
 const CLEAN_ROOM_X = [
   '# CLEAN-ROOM.md',
@@ -677,7 +678,7 @@ describe('a run item landing before its own wave (C-0121)', () => {
 });
 
 // ---------------------------------------------------------------------------------------------------------------
-// Session fix round S2 (Q23; lane build/M0-s-01-fix-s2): a ledger row outside §2's table, and re-landed records
+// A ledger row outside §2's table, and re-landed records (C-0306)
 
 const L1 = '| L-0001 | build/m0-spec (Opus) | 2026-10-03 | spec | ARCHITECTURE | — |\n';
 const rowOf = (id, lane, note = '—') => `| ${id} | ${lane} (Opus) | 2026-10-11 | checker | M0-a-01 | ${note} |`;

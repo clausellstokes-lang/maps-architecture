@@ -27,7 +27,7 @@ export function sha512Integrity(path) {
 export function listFiles(dir) {
   const out = [];
   const walk = (d) => {
-    const names = readdirSync(d).sort();
+    const names = readdirSync(d).sort(byCodeUnit);
     for (const name of names) {
       if (name === 'node_modules') continue;
       const p = join(d, name);
@@ -37,6 +37,7 @@ export function listFiles(dir) {
     }
   };
   walk(dir);
+  // The walk lists a folder's files before its next sibling (a/x before a.js); the full-path order puts a.js first.
   return out.sort(byCodeUnit);
 }
 
