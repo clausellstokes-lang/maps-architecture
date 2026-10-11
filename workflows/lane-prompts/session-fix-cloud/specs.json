@@ -45,7 +45,8 @@
      "evidence": "M0-f-03a N2; summaries/M0-k-04.json holds a warp.halvings p999 = 1 block that M0-f-03b's calibration rewrite would turn into a floor of about 2 under calibratable: true; the table's floor only feeds workLimitOf (N-56 Q16, CONFIRMED by the ruling seat).",
      "required_change": "warp.halvings.floor \u2192 calibratable: false, provenance 'architecture 2026-10-03', table version 2, the calibratable census 33 \u2192 32 (the cross-item census line 182 \u2192 181 does not apply: TABLE_IDS excludes workLimits \u2014 confirm and report), the PIN re-recorded with the cause; M0-f-03b's relaunch note gains the fixed-row line (the rewrite skips fixed rows and never reads their quantile blocks); no value changes."
     }
-   ]
+   ],
+   "fromDisk": true
   },
   {
    "id": "M0-a-06",
@@ -58,7 +59,8 @@
      "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read \u2014 L1\u2013L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); C-0287 (2); the savepoint.test.ts pin of M0-a-06 s4 named the cross-item contract.",
      "required_change": "restoreSavepoint bumps a per-arena restore generation only across committed batches (never on a restore within the open batch), the generation readable through tx/index.ts for M0-d-04's digest state keyed on (generation, version); pins in savepoint.test.ts; no persisted change; no behaviour shift on the s4 line (bits, commit records and level digests identical)."
     }
-   ]
+   ],
+   "fromDisk": true
   },
   {
    "id": "M0-a-05",
@@ -86,7 +88,8 @@
      "evidence": "N-55 Q13 CONFIRMED (module and fa\u00e7ade alike); the fa\u00e7ade door 3a35e530, splitThrough's door 36bb50e4, attractVertex/attractRun 39ee72bc (Q30); insertChain's door was routed to this round",
      "required_change": "insertChain checks the overlay is open before any plan, read or charge (throws at the door, N-55 (5)'s class, not a typed refusal); an ordering pin that the closed throw precedes any write"
     }
-   ]
+   ],
+   "fromDisk": true
   },
   {
    "id": "M0-e-03",
