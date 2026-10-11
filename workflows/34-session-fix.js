@@ -9,7 +9,7 @@ export const meta = {
 
 // args: { id, briefs, maxRounds (default 3), from (default 1: the first round's number; a later session round on the same item starts after the earlier one's, J192),
 //         seats: { build: { model, effort }, fix: { model, effort }, check: { model, effort } } (J252, the owner on 2026-10-10: the most efficient and effective
-//         combination of models and effort — defaults opus/high (J187); the session sets build to sonnet/low when the first build seat only returns from disk
+//         combination of models and effort — defaults opus/high (J187), a confirm-only re-check ('recheck') opus/medium (J254); the session sets build to sonnet/low when the first build seat only returns from disk
 //         under the RESUME RULE, and check to fable/high where the verdict is mostly judgment on the bedrock; a further fix round is a real build and uses 'fix') }
 //       — briefs is a JSON file the session rendered from workflows/23's buildPrompt and
 // closingCheckPrompt (keys build, check); scripts cannot read files, so each seat reads its own brief first. A further round
@@ -22,7 +22,8 @@ const FROM = args.from || 1
 const brief = (key) => `Your brief is the string under the key "${key}" in the JSON file ${args.briefs}. Print it whole first (python3 -c "import json;print(json.load(open('${args.briefs}'))['${key}'])") and follow it exactly; everything below adds to it.`
 args.build = brief('build')
 args.check = brief('check')
-const SEAT = (kind) => ({ model: 'opus', effort: 'high', ...((args.seats || {})[kind] || {}) }) // J187: opus at high effort unless the session says otherwise (J252)
+const DEFAULT_SEAT = { build: { model: 'opus', effort: 'high' }, fix: { model: 'opus', effort: 'high' }, check: { model: 'opus', effort: 'high' }, recheck: { model: 'opus', effort: 'medium' } } // J187; J254: a confirm-only re-check at medium
+const SEAT = (kind) => ({ ...(DEFAULT_SEAT[kind] || DEFAULT_SEAT.check), ...((args.seats || {})[kind] || {}) }) // the session overrides per kind (J252)
 const opts = (label, phase, schema, kind) => { const s = SEAT(kind || (phase === 'Build' ? 'build' : 'check')); return { label, phase, schema, model: s.model, effort: s.effort } }
 
 let built = await agent(args.build, opts(`build/${ID}-fix-s${FROM}`, 'Build', BUILD_SCHEMA, 'build'))
@@ -34,6 +35,6 @@ while (check && check.verdict === 'fail' && round < FROM + MAX - 1) {
   const lines = JSON.stringify(check.failing_lines)
   built = await agent(`${args.build} FURTHER ROUND S${round}: the closing checker (plat/docs/build/checks/${ID}-s${FROM}.md) failed the round on these lines — fix every one inside the owns with a test that pins it, re-run the item's whole test set and the gates, re-land under lane build/${ID}-fix-s${round}: ${lines}`, opts(`build/${ID}-fix-s${round}`, 'Build', BUILD_SCHEMA, 'fix'))
   if (!built || built.status === 'blocked') return { id: ID, ok: false, why: `round S${round} blocked`, built, check }
-  check = await agent(`${args.check} RE-CHECK S${round} (CONFIRM-ONLY for these lines, then the gates; record under lane check/${ID}-close-s${round}): ${lines}`, opts(`check/${ID}-close-s${round}`, 'Check', CHECK_SCHEMA))
+  check = await agent(`${args.check} RE-CHECK S${round} (CONFIRM-ONLY for these lines, then the gates; record under lane check/${ID}-close-s${round}): ${lines}`, opts(`check/${ID}-close-s${round}`, 'Check', CHECK_SCHEMA, 'recheck'))
 }
 return { id: ID, ok: !!check && check.verdict === 'pass', rounds: round - FROM + 1, built, check }
