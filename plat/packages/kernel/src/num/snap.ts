@@ -1,4 +1,4 @@
-// snap(x, y): the one door through which a number becomes an arena coordinate (§3.2 (1), (7); GEO-7). M0-a-01.
+// snap(x, y): the one door through which a number becomes an arena coordinate (§3.2 (1), (7)). M0-a-01.
 import type { Cm, LatticePoint } from '../types/index.js';
 import { roundHalfAway } from './lattice.js';
 import { err, ok, type KernelResult } from './result.js';

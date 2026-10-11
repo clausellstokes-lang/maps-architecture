@@ -1,4 +1,4 @@
-// Exact orientation and areas (§3.2 (1), (3), (6); GEO-32, J-K13). M0-a-01. Every coordinate is an integer with
+// Exact orientation and areas (§3.2 (1), (3), (6); J-K13). M0-a-01. Every coordinate is an integer with
 // |x|, |y| < 2²³ (snap's range invariant), so every coordinate difference is below 2²⁴, every product below 2⁴⁸ and
 // every orient2d determinant below 2⁴⁹: exact in ordinary doubles. No orientation, sliver or degeneracy decision reads
 // the sign of a float sum.

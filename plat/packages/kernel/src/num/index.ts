@@ -1,5 +1,7 @@
 // The kernel's numeric core (M0-a-01; §3.1, §3.2): the lattice and snap, the frame, exact orientation and areas,
-// checked ratios, centidegrees, unit vectors and the distance tests, the incircle adapter, and the typed result.
+// checked ratios, centidegrees, unit vectors and the distance tests, the incircle adapter, and the typed result. The
+// shared exact predicates and constants the other folders read (`exact.ts`) are imported by path and not re-exported
+// here, so the package's public API does not change with them (C-0306).
 export { LATTICE, type LatticeSpec } from './lattice.js';
 export { frameOf, type Frame } from './frame.js';
 export { snap } from './snap.js';
