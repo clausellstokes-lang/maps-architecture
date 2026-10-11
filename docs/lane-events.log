@@ -7547,3 +7547,4 @@
 2026-10-11 05:39 build/M0-e-03-fix-s1 CHECKPOINT RELATED still running (W=1, since 05:08; seen so far: bench fusion/hausdorff red = known N-8/N-52); next: NEAR re-run, appends, landed
 2026-10-11 05:40 session/consolidation-kernel LANDED plat/docs/build/consolidation/kernel-plan.md (consolidation plan for @plat/kernel: rounds R1–R14, findings per folder with equivalence/nuance/oracle/risk lists, comment rewrite plan, test consolidation plan, open questions Q1–Q8; CLEAN-ROOM row L-0404; landed record consolidation-kernel-plan; no code changed, no test suite run, no git)
 2026-10-11 05:40 build/M0-e-04-fix-s2 CHECKPOINT RELATED@1000 still running; only red so far bench fusion/hausdorff (known N-8/N-52 KI); next: appends, landed
+2026-10-11 06:00 build/M0-e-04-fix-s2 CHECKPOINT RELATED@1000 still running; reds so far bench hausdorff (KI) and testkit edge/standing cell/river×frame 1595424233 (M0-e-03 s1's in-flight shift, S1 not S6); next: appends, landed
