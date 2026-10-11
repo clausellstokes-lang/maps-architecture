@@ -3,8 +3,11 @@
 // holes — by the half-edge structure. M0-a-10; C-0159 (6), made complete by C-0163.
 //
 // A half-edge does not store its face (§2.2's tables), so the half-edge → face map of a level is built from the level's
-// face records (every live face's level walks) and kept per arena, keyed by the arena's version and slot counts — a
-// committed batch bumps the version (§3.3), so the first query after a commit rebuilds. The key is a cost path only:
+// face records (every live face's level walks) and kept per arena, keyed by the arena's restore generation, version and
+// slot counts — a committed batch bumps the version (§3.3), so the first query after a commit rebuilds, and a savepoint
+// put back across committed batches sets the version back but bumps the generation (C-0299), so a map built before such
+// a restore is never taken as current once as many later commits bring the version back (Q34, C-0319). The key is a
+// cost path only:
 // every claim the map makes for a query is re-checked against the arena as it is now, so an arena written under an
 // unchanged version and unchanged counts (a batch between its writes and its commit) costs a rebuild, never an answer
 // (C-0163):
@@ -28,6 +31,7 @@ import {
   type Plat,
   type Stamp,
 } from '../arena/index.js';
+import { restoreGeneration } from '../tx/index.js';
 import type { Level, PlatKey } from '../types/index.js';
 
 /** The answer: the neighbours' slots by canonical face key (§3.3), stamped with the arena's key and version (§3.4). */
@@ -35,6 +39,8 @@ export type FaceNeighbours = Stamp & { readonly level: Level; readonly faces: Fa
 
 /** A level's map: per half-edge, the face on its left (−1: none recorded — finer than the level, or no face there). */
 interface LevelMap {
+  /** The arena's restore generation when the map was built (C-0299): with `version`, one arena state. */
+  generation: number;
   version: number;
   fingerprint: string;
   face: Int32Array;
@@ -94,7 +100,7 @@ function build(p: Plat, level: Level): LevelMap {
     list.push(v);
     return true;
   });
-  return { version: p.version, fingerprint: fingerprint(p, level), face, anchors: Int32Array.from(list) };
+  return { generation: restoreGeneration(p), version: p.version, fingerprint: fingerprint(p, level), face, anchors: Int32Array.from(list) };
 }
 
 function entry(p: Plat): ArenaMaps {
@@ -106,10 +112,12 @@ function entry(p: Plat): ArenaMaps {
   return e;
 }
 
-/** The kept map of the level when its key (version and slot counts) matches the arena's, else undefined. */
+/** The kept map of the level when its key (restore generation, version and slot counts) matches the arena's, else undefined. */
 function keptMap(p: Plat, level: Level): LevelMap | undefined {
   const m = entry(p).levels[level];
-  return m !== undefined && m.version === p.version && m.fingerprint === fingerprint(p, level) ? m : undefined;
+  return m !== undefined && m.generation === restoreGeneration(p) && m.version === p.version && m.fingerprint === fingerprint(p, level)
+    ? m
+    : undefined;
 }
 
 function rebuild(p: Plat, level: Level): LevelMap {
