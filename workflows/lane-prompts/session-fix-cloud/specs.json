@@ -803,6 +803,63 @@
      "required_change": "the gates quoted by both seats"
     }
    ]
+  },
+  {
+   "id": "M0-a-05",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "I-7 … I-16 (§1.2, round R3), the comment rewrite C-insert-3 … C-insert-8 (§2: insertChain.ts, stretch.ts, snapRound.ts, crossings.ts, wedge.ts, rewalk.ts, insert/index.ts) and the test plan T-step3-5 (§3.2, the main test consolidation)"
+   },
+   "session": "R3 is the kernel's largest consolidation round and runs AFTER R1 (M0-a-01 c1, 10fb7e19: src/num/exact.ts) and R2 (M0-a-04 c1) have both landed on the tree you build on — if R2's exports are not there (splitThrough.ts's footOnSegment/nearerVertex/carriesRow, placement.ts's inSweptWedge, bandCandidates and nearestLatticePoint, attractVertex.ts's nearestRoutePiece if R2 shared it), STOP and report. Inside M0-a-05's owns (src/insert/{insertChain,stretch,snapRound,crossings,wedge,rewalk}.ts, src/insert/index.ts, test/insert/step3-5/) and nowhere else. FIRST the other halves of R2's findings on this folder's files: stretch.ts re-exports footOnSegment and nearerVertex from splitThrough.js and drops its copies (I-1; insert/index.ts's exports unchanged); insertChain.ts resolves the handle and calls splitThrough's carriesRow in place of vertexCarries (I-1); crossings.ts imports inSweptWedge from placement.js (I-2); placeOnRun adopts placement.ts's bandCandidates enumerator and keeps its own driver with the three nuances (the whole-run search within reach, passOver, the partner's sub-edge excluded from (iii) only — J263 Q2: ENUMERATOR-ONLY; a route or warning shift of ANY register case is a behaviour change: STOP and report, never write a shift); nearestPiece calls nearestRoutePiece only if R2 exported it and both read the same piece boundaries (I-4), else stays. THEN this round's findings: I-7 splitBreaksClearance becomes a re-export alias of splitEndsBreachClearance (the wrapper body and the history comment deleted; placementEnds' equality pin becomes a tautology, noted in T-step3-5); I-8 vertexDist2 KEPT, the MIN_EDGE re-export kept only if insert/index.ts exports it (grep, say what you found), the lattice/lp unification DEFERRED (num/exact.ts gains lp only in M0-a-01 c2, J276 (3)) — comment only; I-9 copyWarnings moves to classes.ts's cloneWarnings ONLY if R2 exported it (grep classes.ts); else it stays in insertChain.ts with a comment and the notes say so; I-10 (the sub-edge-holding walk ×4 → one subEdgeHolding in stretch.ts beside pieceOf) and I-11 (pieceNeighbours and exitTowards through pieceOf/routeRun) are MEDIUM–HIGH risk: each is done only with a per-caller equivalence argument written into your notes (the inclusive projection interval, the first-in-run-order sub-edge kept per caller, the caller-side exclusions onPath/v, ALONG_REACH and ALONG_MAX unchanged) and the register JSONs byte-identical after — otherwise it is recorded 'not done' in your notes and the plan's §4 reading stands; I-12, I-13, I-14 are comment-only (the pass structure, the ChainCtx gates, the recursion bounds — the design as it stands, C-insert-3/4); I-15 every export of insert/index.ts is KEPT; I-16 the insert-specific predicates (nearParallel, onRouteOfLevel, passesWithin, withinSegment) stay on stretch.ts and segmentBox stays until M0-a-01 c2 homes it (comment only); I-5 is RULED (J270 (a)): check/notBuilt stay. ADDED (J276 (4), M0-a-01 c1 check note N-c2-4): wedge.ts:39's inline ratio(x·SCALE, y·SCALE, 'length') is compared to num/exact.ts's divScaled before any replacement. COMMENTS: insertChain.ts's module comment rewritten as §2 words it (the readings in order, the fidelity bound, the one 'Rulings:' line; every per-line '(N-xx)' deleted where the C-row is cited); the pinned message strings kept EXACTLY (BOUND_DETAIL; 'insert: no route from (x, y) to (x, y) keeps clearance (§3.10) within the fidelity bound (N-43)' — routerGapS6.test.ts:142 and s5-register.json pin it; J263 Q6). TESTS (T-step3-5): the 23 files merge by subject as §3.2's table says — router.test.ts from the five routerGap* files (one SQUARE/STRIP/ctxOf/free/codes/at, one replay with a role parameter, the describes ordered by the reading they pin), lifecycle.test.ts absorbs foldback and placementEnds, snapRound absorbs chaikin, crossings absorbs farWedge; every describe/it title kept verbatim; wideArena and segDist once in support.ts (T-support-2; the BigInt closerThan oracle stays apart); snapshot() stays step3-5's own for now (test/tx/support.ts is M0-a-06's: R6 decides, R14); vertexAtPoint stays here (index imports it in R5); caps.ts, gen.ts and fidelity.ts stay the oracles they are; the mutant-kill mapping of §3.2 confirmed after the merge (R1, R2, K1, M3, M4, M9 and the rest by their named cases); the old → new map appended to checks/M0-a-05-notes.md (J263 Q8). Rulings in force: J263 Q1, Q2, Q6, Q8; J270 (a), (b); J276 (2), (3), (4).",
+   "lines": [
+    {
+     "line": "R2's other halves on this folder: stretch.ts re-exports footOnSegment/nearerVertex from splitThrough.js and drops its copies; insertChain.ts resolves the handle and calls carriesRow; crossings.ts imports inSweptWedge from placement.js; placeOnRun adopts bandCandidates (enumerator-only, J263 Q2) keeping its driver and the three nuances; nearestPiece adopts nearestRoutePiece only if R2 shared it",
+     "evidence": "kernel-plan.md §1.1 I-1 … I-4 (the R3 halves); §1.2; J270 (b)",
+     "required_change": "insert/index.ts's exports identical; every register JSON byte-identical; mutants K03, K04, K06, K08, F1a–c, M0-a-05-s7 M9 and S4's KA, KP, KC, KE, KF, KG, KN red; any register shift → stop and report"
+    },
+    {
+     "line": "I-7: splitBreaksClearance = a re-export alias of placement.ts's splitEndsBreachClearance (the 10-line history comment and the wrapper body deleted; one line naming what it is, C-0284 (2))",
+     "evidence": "kernel-plan.md §1.2 I-7",
+     "required_change": "placementEnds' equality pins pass (noted as a tautology in T-step3-5); faces/split.test.ts 'a cut leaving its end along the boundary edge' green; mutant M0-a-05-s7 M9 red"
+    },
+    {
+     "line": "I-8, I-9, I-16 (the parts in reach): vertexDist2 kept; MIN_EDGE's re-export kept iff insert/index.ts exports it; lattice/lp DEFERRED to M0-a-01 c2 (comment only); copyWarnings → classes.ts's cloneWarnings iff R2 exported it, else kept with a comment; the insert-specific predicates stay on stretch.ts; segmentBox stays until M0-a-01 c2",
+     "evidence": "kernel-plan.md §1.2 I-8, I-9, I-16; J276 (3)",
+     "required_change": "the notes say what was found and done for each; insertChain.test.ts 'a refusal in step 1 itself leaves the transaction's warnings…', routerGapS5's residual register and B-FUZZ insertJudged green"
+    },
+    {
+     "line": "I-10 (subEdgeHolding ×4 → one in stretch.ts) and I-11 (pieceNeighbours/exitTowards through pieceOf/routeRun): done ONLY with a per-caller equivalence argument in the notes (inclusive projection interval, the first-in-run-order sub-edge per caller, onPath/v exclusions kept in the callers; ALONG_REACH = 4·attractCm and ALONG_MAX = 256 unchanged) and byte-identical registers after; else recorded 'not done'",
+     "evidence": "kernel-plan.md §1.2 I-10, I-11 (RISK medium–high: routes are pinned by registers)",
+     "required_change": "bfuzz fallback oracle, step3-5/bfuzz three families with caps 12/8/8, s5-rescues.json per case, s6-lifecycle.json per kind, routerGapS3's shrunk walk, farWedge, snapRound's routeAlongExisting describe green; mutants F1a/F1c, s3 R1–R6/K1, RT1, ST3, SJ1 red"
+    },
+    {
+     "line": "I-12, I-13, I-14, I-15: no code change — the pass structure, the ChainCtx gates and the recursion bounds get the design's comments (C-insert-3/4); every export of insert/index.ts kept (API frozen; insertChain.test.ts:25–30 and tx/forms.test.ts:15–22 pin the item-listed names); boundRefusal and countedRefusal stay two writings (routerGapS6.test.ts:139 pins their agreement)",
+     "evidence": "kernel-plan.md §1.2 I-12 … I-15; J263 Q1",
+     "required_change": "the closing checker diffs the exports (identical) and reads every rewritten comment against the code"
+    },
+    {
+     "line": "N-c2-4 (M0-a-01 c1 check): wedge.ts:39's inline ratio(x·SCALE, y·SCALE, 'length') is compared to num/exact.ts's divScaled on the folder's inputs and the boundary values before it is replaced, or kept with a comment saying why not",
+     "evidence": "checks/M0-a-01-notes.md N-c2-4; J276 (4)",
+     "required_change": "the comparison in the builder's notes; a pin if replaced"
+    },
+    {
+     "line": "C-insert-3 … C-insert-8: insertChain.ts's module comment as §2 words it (readings in order, the fidelity bound 2·√2·attractCm, one 'Rulings:' line), every per-line '(N-xx)' dropped where the C-row is cited, lines 97, 193–195, 228, 309, 373, 378, 515, 521–531, 536, 560, 669, 749–757, 798–806, 833–837, 846, 877–881, 960, 997, 1021, 1049, 1089–1092 rewritten; stretch.ts, snapRound.ts, crossings.ts, wedge.ts, rewalk.ts and insert/index.ts per §2; every pinned message string byte-identical",
+     "evidence": "kernel-plan.md §2 (the insert lines); J263 Q6",
+     "required_change": "a grep for '(N-' in src/insert/ shows only the 'Rulings:' lines; the pinned strings diffed before and after (identical); the checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "T-step3-5: the 23 files merged by subject per §3.2's table (router.test.ts from the five routerGap* files with one SQUARE/STRIP/ctxOf/free/codes/at and one replay(role); lifecycle absorbs foldback and placementEnds; snapRound absorbs chaikin; crossings absorbs farWedge), every describe/it title kept verbatim, wideArena and segDist once in support.ts, snapshot() and vertexAtPoint staying here for R6/R5, caps.ts/gen.ts/fidelity.ts untouched; the mutant-kill mapping confirmed (R1 → router 'boundRefusal and countedRefusal agree' + lifecycle kinds; R2 → lifecycle pass3-optional + router F2; K1 → the 19 S5 cases; M3 → bfuzz + lifecycle foldback 12 cases; M4 → foldback's second control and four register kinds; M9 → placementEnds' four cases); the old → new map in checks/M0-a-05-notes.md",
+     "evidence": "kernel-plan.md §3.2 T-step3-5, §3.4 R14; J263 Q8",
+     "required_change": "a script compares the verbose listings before and after (every title present, none added beyond the plan); the mutants replayed on the merged folder, each red by its named case"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1, Q2): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON (s5-rescues, s5-register, s6-register, s6-lifecycle, pass2, fix1-case*, n43*), refusal code and pinned message text byte-identical before and after; the exported names of insert/index.ts and the barrel identical (I-15: every export kept); every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); kernel-plan.md §1.2 ORACLE lists, §3.2's mutant-kill mapping",
+     "required_change": "the builder keeps the before-values (digests, goldens, every register JSON, the B-FUZZ caps) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case, route or warning count FAILS the round (J263 Q2)"
+    }
+   ]
   }
  ]
 }
