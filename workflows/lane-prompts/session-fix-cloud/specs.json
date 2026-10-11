@@ -168,6 +168,24 @@
      "required_change": "First LOG the rejected vertex in isStrip on 3443032966 and 2300104848 (name it in the choices row), then fix by the shape the log supports: (a) raise the corridor tolerance to the fidelity bound or test membership by area, or (b) read and refuse-with-cause the previous enceinte's strip overlap, with M0-c-04 keeping stage k's outline clear of enceinte k\u22121's outer strip (a cross-item line for the session if (b)); pins: the six named seeds commit, the 299 unchanged seeds unchanged (digests identical), a true corridor-crossing face is still refused with its cause named; M0-c-04's s5ab pins green."
     }
    ]
+  },
+  {
+   "id": "M0-s-01",
+   "from": 2,
+   "round": "S2",
+   "session": "docs/M0-FIX-QUEUE.md Q23 \u2014 the STRUCTURAL half (the data repair was 82b9ef31): CLEAN-ROOM.md ledger rows that seats appended at the file's END (under \u00a75's table: L-0335, L-0337, L-0346, L-0348 were seen there) are invisible to `landed`'s append claims, because landed's seat-column lookup reads the enclosing table's header, so a row under \u00a75 has no seat column and no record ever claims it; the rows were lost from the committed ledger until the session repaired them by hand. A second blind spot of the same family: when a closing round re-lands a record id under its own lane, rows that an earlier landing of that record claimed under another lane must stay claimed (the first check seat's row) \u2014 the session's transplants of 2026-10-11 saw re-landed records keep earlier rows (check-M0-a-05-notes kept L-0175 \u2026 L-0226), so pin that behaviour so it cannot regress. plat/tools/landed/ (snapshot.mjs, landed.mjs, verify.mjs, landed.test.mjs) is in M0-s-01's owns (its scaffold's third fix round, C-0104); M0-s-01's session round S1 exists (checks/M0-s-01-s1.md), so this is round S2. The companion change in tools/flow_stage.mjs (the repository-root session tool that cuts append files to claimed lines) lies OUTSIDE plat/ and is the session's own, not this round's: do not touch it; name in a choices row what the session should make it report. This round was never started on the owner's WSL machine; it starts fresh here.",
+   "lines": [
+    {
+     "line": "Q23 (a): a CLEAN-ROOM row that names the seat's lane but sits outside \u00a72's seat-ledger table is silently unclaimed by landed",
+     "evidence": "landed.mjs's seatColumn reads the enclosing table's header; a row appended after \u00a75's table has no seat column, so `corepack pnpm landed` writes a record that claims nothing for it and landed:verify later reports the row as claimed by no record (L-0335, L-0337, L-0348 on 2026-10-08).",
+     "required_change": "`landed` REFUSES to write the record when any CLEAN-ROOM row naming the seat's lane (seat column or a renumbering note, C-0104) lies outside \u00a72's table, with a message that names the row id and says to move it into \u00a72's table (the rule's text in the refusal); a fixture ledger in landed.test.mjs with the lane's row under \u00a75 is refused with that message, the same row inside \u00a72 is accepted and claimed (appends list its id and line hash); the id rule and renumbering notes keep working."
+    },
+    {
+     "line": "Q23 (b): a record re-landed under a later lane must keep the rows its earlier landings claimed, and a \u00a72 row claimed by no record of the wave must be named by landed:verify",
+     "evidence": "A closing round re-lands check-<id> (or check-<id>-notes) under its own lane; the first check seat's row is claimed by nobody unless the re-landing carries the earlier claims forward (L-0348 was staged by hand). landed:verify's wave close names unclaimed added lines today (the 2026-10-11 whole-flow verify listed L-0348), but no test pins it.",
+     "required_change": "Pins in landed.test.mjs: (1) re-landing a record id under a new lane keeps every row an earlier landing of that id claimed (ids and hashes), and still claims the new lane's rows; (2) landed:verify names a \u00a72 row added since the snapshot that no record of the wave claims, and is clean when a record claims it; no behaviour change where the pins already pass \u2014 if (1) does not hold today, make it hold."
+    }
+   ]
   }
  ]
 }
