@@ -7774,3 +7774,4 @@
 2026-10-11 15:40 build/M0-x-02-fix-s2 CHECKPOINT RELATED@1000 still running; reds so far bench fusion/hausdorff (N-8/N-52 KI) and testkit edge/standing cell/river×frame 1595424233 (M0-e-03 s1's stated shift, x-06 round 2) — both named foreign in the brief; next: wait, landed
 2026-10-11 15:48 build/M0-a-16-fix-s2 CHECKPOINT RELATED@1000 still running (~80 min; reds so far: bench fusion/hausdorff N-8/N-52, testkit edge/standing = M0-e-03 s1 seed shift, to confirm); next: choices row, CLEAN-ROOM, landed
 2026-10-11 15:54 check/M0-s-01-consolidate-close-1 CHECKPOINT RELATED@1000 still running (118 min, W=1); reds so far bench fusion/hausdorff (KI) and testkit edge/standing (brief-listed, M0-e-03 s1 seed 1595424233); next: its result, records
+2026-10-11 16:09 build/M0-x-02-fix-s2 CHECKPOINT RELATED@1000 still running (same two foreign reds); next: wait, landed
