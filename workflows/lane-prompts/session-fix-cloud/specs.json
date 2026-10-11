@@ -519,6 +519,57 @@
      "required_change": "the builder keeps the before-values (digests, goldens, register JSONs) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case or warning count FAILS the round (J263 Q2)"
     }
    ]
+  },
+  {
+   "id": "M0-c-06",
+   "from": 0,
+   "round": "F0",
+   "wave": 16,
+   "flow": true,
+   "continue": true,
+   "lines": [],
+   "session": "SESSION NOTE FOR M0-c-06 (J239, J245, N-52; flow attempt 14's relaunch note): the builder returned BLOCKED on 2026-10-07 20:35 (record plat/docs/build/landed/M0-c-06.json written: 17 created, 1 changed; appends C-0270, L-0332, L-0338; no LANDED line) on two CROSS-ITEM readings that ruling N-52 (checks/M0-spec-notes.md, landed as J239) has since settled and whose fixes are COMMITTED on main: M0-a-09 s1+s2 (9a7e9515: splitChain's corner branch never splices a far kerb corner; a width step at a near-straight junction is §3.7's straight-through case; the §13.2 contract test and the testkit corridor oracle with width steps), M0-a-11 s1 (b8e03416: prepareRings pre-cleans exact zero-width spurs before the refusals — the corpus bar's sharpCorner refusals were 100 % exact spurs), M0-b-03 s2+s3 (663f20b9, 952b24f8: the deep-spine slit, Q15), and after them the rounds of J249–J269 on the stages the fusion run shares (M0-x-02 s1's runner rollback a0dfc5c2, M0-c-04 s1–s3, M0-c-02 s2, M0-e-04 s2 0cc9b533, M0-e-03 s1 a8ed9cda). Under the CONTINUE RULE keep the harness that stands and: (1) re-read N-52 (1) in measure.ts's s8s9 and the listed Hausdorff test exactly as N-52 (5) says — the hard bar is Hausdorff ≤ 2·√2·attractCm = 73.5 cm in exact arithmetic on EVERY block, final vs S9 (a larger distance is a defect that fails the run); the stop kerb's drift is reported beside it and asserted within the same bound; the exact-0 share is reported and ratcheted (≥ 0.95 on seeds 1–2); the planted 1 cm shift still fails; (2) the corpus clause reads 0 downgrades on seeds 1–2 on both runs; (3) keep the drifted/commit classification and the growth-drift clause descriptive (C-0258 (5)) with '0 windows at CITY seeds 1–7' recorded; (4) re-measure the test-size run and CITY seeds 1–7 (both runs) on the committed tree and record the refreshed numbers in a NEW choices row that refines C-0270 (the old row stands as history); (5) the 50-seed smoke (both runs, N-52 (6)) must be GREEN here and is the builder's here-bar form (C-0272's pattern: the harness's own pool at the `--workers` tools/machine_args.py gives — on this 4-core container up to 3 when nothing else runs; vitest always at --maxWorkers=1; the summary states its own seed count so it is never read as the 1 000-seed figure); (6) the 1 000-seed run at full strength (2 × 1 000 CITY derivations) is the SESSION's detached run on the closed tree (J238, N-52 (6)): the summary stays PENDING-LONG-RUN until it exists, the item's checklist line is marked so, no seed cut. The bench test 'the Hausdorff check equals 0 on every seed' (bench/test/fusion/hausdorff.test.ts), red on every RELATED run since 2026-10-08 as the known cross-item red (N-8/N-52 KI), must be GREEN after this round under the N-52 (1) reading, or the round reports exactly why with the seeds and blocks. KI-12 (S8 ≈ 100 ms per cut) is the hardening phase's: measure and report, change no kernel file. For the CHECKER (check/M0-c-06, the item's FIRST check, M0.md §3 whole, in its own container of 4 cores): run your own smoke at the seed count your mirror affords (≥ 20 seeds, both runs; quote the report's counts and the Hausdorff distribution), re-kill the builder's survivors with your own mutants, and read N-52 (1), (5)–(7) and C-0270 (as refined) as the bar's text; the 1 000-seed figure is not a pass condition here (PENDING-LONG-RUN, declared in a choices row and the checklist). Refusal census (J264): report the stage refusals the fusion and integrated runs meet per seed before and after, and name any lawful-input refusal with its seed."
+  },
+  {
+   "id": "M0-x-06",
+   "from": 2,
+   "round": "F2",
+   "wave": 17,
+   "flow": true,
+   "confirmOnly": false,
+   "lines": [
+    {
+     "line": "B4 (the residue the session routed): at 1 000 seeds the code under test gave 20 kernel throws, unpinned typed refusals and three frame-cell violations — the throws are gone (M0-a-04 s1–s4 committed: the rotation crash, N-53), the frame cells are fixed upstream (Q6 M0-c-02 s1 1836e6f0, Q7 M0-c-01 s1 6be52449) and the stage refusals changed under the rounds since (M0-e-03 s1 a8ed9cda: the lawful river commits 1 000/1 000; M0-e-04 s2 0cc9b533: collinear lawful rings absorbed; M0-c-02 s2/s3, M0-c-03 s2, M0-c-04 s1–s3) — re-run the suite at PLAT_EDGE_SEEDS=1000 on the committed tree and re-pin EVERY cell to what the committed stages now do",
+     "evidence": "checks/M0-x-06.md B4; J245 (fix round 1 fixed B1–B3 and its share of B4, blocked on Q6/Q7); N-56 (6); J267",
+     "required_change": "0 crashes in 72 000 runs; every typed refusal cell re-pinned with its seed; the frame cells green; the summary plat/docs/build/summaries/M0-x-06.json regenerated at 1 000 seeds on this tree"
+    },
+    {
+     "line": "Re-pins N-56 (6) and J267: seed 2191303060 (the collinear ring N-56 (2) read as a lawful self-touching refusal) is now ABSORBED by M0-e-04 s2 — its cell moves from refused-safe to absorbed and its S6 class is re-counted under J264; seed 1595423433 (cell river × frame, standing.test.ts) now COMMITS in S1 under M0-e-03 s1 — the pin 'expected 1 to be greater than 1' is rewritten to the committed outcome",
+     "evidence": "J267 (1); J269; the e-03 s1 build note (RELATED red on standing.test.ts seed 1595423433 = the stated consequence)",
+     "required_change": "both cells pinned to the committed tree's outcome with the seed named; the old pins deleted, not loosened"
+    },
+    {
+     "line": "Q22 / N-56 (3): the S5a 'coincident plant' pin is DROPPED — the planted trace commits and the stage-2 STRIPS batch refuses 'closed no strip face' (M0-c-02 s3's round, committed before this round starts); the cell is re-pinned to what M0-c-02's stage now does on the coincident plant",
+     "evidence": "M0-FIX-QUEUE Q22; N-56 (3)",
+     "required_change": "the cell's expectation follows the committed stage; no pin asserts the old refusal"
+    },
+    {
+     "line": "Q14 / N-55 (6): 'refused-residue' is RETIRED — the runner rolls a refused stage back whole (M0-x-02 s1 a0dfc5c2), so refused-safe ⇔ a bugs entry AND the arena version unchanged; the six C-0278 (1) cells (S1, S3, S5a × zero-area, collinear) become rolled-back pins asserting the arena bit-identical to the stage start",
+     "evidence": "M0-FIX-QUEUE Q14; N-55 (6); C-0278 (1)",
+     "required_change": "the judge reads refused-safe as bugs entry ∧ version unchanged; the six cells assert the rollback; the KI lines of C-0278 (1) closed in a choices row"
+    },
+    {
+     "line": "J264 refusal census: the suite reports, per cell and in the summary, the count of LAWFUL-input refusals (target zero) apart from the typed refusals of unlawful plants; every lawful-input refusal it still meets is named with its seed and stage as a finding for the session (not pinned as refused-safe)",
+     "evidence": "J264; the ZERO REFUSALS paragraph",
+     "required_change": "the summary carries lawfulRefusals per cell; the builder's notes list every one with seed and stage"
+    },
+    {
+     "line": "CLOSING CHECK (check/M0-x-06-close-r2): not confirm-only — confirm each line above with its own evidence, re-run the gates, and replay every re-pinned fixture in its own mirror at ≥ 100 seeds (the 1 000-seed run is the builder's bar; quote the builder's summary counts and your own replay counts side by side); a NEW finding fails the item by the blocker rule only",
+     "evidence": "J162; J270",
+     "required_change": "the verdict section appended to checks/M0-x-06.md names every cell re-pinned and the census numbers"
+    }
+   ],
+   "session": "SESSION NOTE FOR M0-x-06 (J245, J250, J269, J270; flow attempt 14's relaunch note): fix round 1 (build/M0-x-06-fix1, LANDED 2026-10-08 09:57, record plat/docs/build/landed/M0-x-06.json uncommitted on this tree) fixed B1–B3 and its share of B4 and was BLOCKED only on Q6/Q7, both fixed upstream and committed since; this is fix round 2, the round that RE-CHECKS the suite at 1 000 seeds on the committed tree (every stage round of J249–J269 in, M0-c-02 s3 and M0-e-03 s2 included — this round starts only after they are committed) and re-pins every cell to the committed outcome. The suite is the edge suite B-EDGE: a pin follows the stage, never the other way — a cell whose committed outcome you believe wrong is a FINDING for the session with its seed, not a pin of the old outcome and not an edit outside your owns (plat/packages/testkit/src/edge/, test/edge/, the summary). The 1 000-seed run (72 000 edge runs) is the builder's bar: run it with the harness's own sharding at vitest --maxWorkers=1 (the machine is a 4-core container of its own; the edge runs are the suite's own processes), detached with a done-file and waited for in the foreground (WAITING RULE); write its summary; the closing checker replays the re-pinned fixtures at ≥ 100 seeds in its mirror and confirms the lines."
   }
  ]
 }

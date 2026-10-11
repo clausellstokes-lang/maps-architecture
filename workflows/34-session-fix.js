@@ -18,9 +18,12 @@ const BUILD_SCHEMA = { type: 'object', properties: { item: { type: 'string' }, s
 const CHECK_SCHEMA = { type: 'object', properties: { item: { type: 'string' }, verdict: { type: 'string', enum: ['pass', 'fail'] }, report: { type: 'string' }, failing_lines: { type: 'array', items: { type: 'object', properties: { line: { type: 'string' }, evidence: { type: 'string' }, required_change: { type: 'string' } }, required: ['line', 'evidence', 'required_change'] } } }, required: ['item', 'verdict', 'report', 'failing_lines'] }
 const ID = args.id
 const MAX = args.maxRounds || 3
-const FROM = args.from || 1
-// J263: args.lane 'consolidate' names the lanes of a consolidation round (build/<id>-consolidate-N, check/<id>-consolidate-close-N); default 'fix-s' (a session fix round)
-const LANE = args.lane === 'consolidate' ? { build: (n) => `build/${ID}-consolidate-${n}`, check: (n) => `check/${ID}-consolidate-close-${n}`, file: (n) => `${ID}-c${n}` } : { build: (n) => `build/${ID}-fix-s${n}`, check: (n) => `check/${ID}-close-s${n}`, file: (n) => `${ID}-s${n}` }
+const FROM = typeof args.from === 'number' ? args.from : 1 // J271: a flow round's first build and first check are round 0
+// J263: args.lane 'consolidate' names the lanes of a consolidation round (build/<id>-consolidate-N, check/<id>-consolidate-close-N); default 'fix-s' (a session fix round);
+// J271: args.lane 'flow' runs a flow-7 item as a dispatched round with the flow's own lane keys (from 0: build/<id> then check/<id>; from n: build/<id>-fix<n> then check/<id>-close-r<n>)
+const LANE = args.lane === 'consolidate' ? { build: (n) => `build/${ID}-consolidate-${n}`, check: (n) => `check/${ID}-consolidate-close-${n}`, file: (n) => `${ID}-c${n}` }
+  : args.lane === 'flow' ? { build: (n) => (n === 0 ? `build/${ID}` : `build/${ID}-fix${n}`), check: (n) => (n === 0 ? `check/${ID}` : `check/${ID}-close-r${n}`), file: () => ID } // J271: a flow-7 item run by hand as a dispatched round (attempt 14): the flow's lane keys and its one verdict file checks/<id>.md
+  : { build: (n) => `build/${ID}-fix-s${n}`, check: (n) => `check/${ID}-close-s${n}`, file: (n) => `${ID}-s${n}` }
 const brief = (key) => `Your brief is the string under the key "${key}" in the JSON file ${args.briefs}. Print it whole first (python3 -c "import json;print(json.load(open('${args.briefs}'))['${key}'])") and follow it exactly; everything below adds to it.`
 args.build = brief('build')
 args.check = brief('check')
