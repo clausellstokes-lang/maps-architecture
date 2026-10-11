@@ -19,6 +19,10 @@
 // batch, whose promotion — candidate (b) — is M0-a-05's), E_WORK_LIMIT — so a refused op writes nothing; then
 // `applySplitPlan` writes the vertex, the split, the rows, and the index items it changes (§3.3 "No item changes in
 // place"), and journals them for the re-walk and the commit record. Readings: C-0169 (5).
+//
+// The module is also the home of three exact helpers the later insertion steps read (C-0321): `footOnSegment` (the
+// clamped foot of a point on a segment), `nearerVertex` (of two vertices the nearer, ties y then x) and `carriesRow`
+// (does a vertex carry a role row's key, read by its interned ids).
 import {
   addRole,
   addRoleRow,
@@ -137,11 +141,13 @@ function planRow(p: Plat, row: RoleRow): PlannedRow {
   return { role: row.role, entity: row.entity, ordinal: 0 };
 }
 
-/** Does the vertex already carry the row's key? (A second row of one key on one vertex is a programming error.) */
-function carries(p: Plat, v: VertexId, row: PlannedRow): boolean {
-  const h = handleOf(p, row.entity);
-  if (h === -1) return false;
-  for (const r of rowsOfKey(p, roleIdOf(row.role), h, row.ordinal)) {
+/**
+ * Does the vertex v carry the role row key (role, entity, ordinal), the role and the entity given by their interned ids
+ * (`roleIdOf`, `handleOf`)? A second row of one key on one vertex is a programming error, so a writer asks before it adds
+ * one. Each row's set is walked to its element mark, a set that does not end asserted.
+ */
+export function carriesRow(p: Plat, v: VertexId, role: number, entityHandle: number, ordinal: number): boolean {
+  for (const r of rowsOfKey(p, role, entityHandle, ordinal)) {
     const t = p.roles;
     let e = t.nextInSet[r];
     for (let guard = 0; e >= 0; e = t.nextInSet[e]) check(++guard <= p.slots.role.top, 'a role set does not end');
@@ -150,8 +156,14 @@ function carries(p: Plat, v: VertexId, row: PlannedRow): boolean {
   return false;
 }
 
+/** Does the vertex already carry the planned row's key? An entity with no handle yet carries no row. */
+function carries(p: Plat, v: VertexId, row: PlannedRow): boolean {
+  const h = handleOf(p, row.entity);
+  return h !== -1 && carriesRow(p, v, roleIdOf(row.role), h, row.ordinal);
+}
+
 /** The foot of p on the segment a–b, clamped to it (+ − × ÷ only, the division through ratio()). */
-function footOn(ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number } {
+export function footOnSegment(ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number } {
   const ux = bx - ax;
   const uy = by - ay;
   const t = ratio((px - ax) * ux + (py - ay) * uy, ux * ux + uy * uy, 'area');
@@ -161,7 +173,7 @@ function footOn(ax: number, ay: number, bx: number, by: number, px: number, py: 
 }
 
 /** Of two vertices, the nearer to (x, y); ties to the smaller lattice position, y then x. */
-function nearer(p: Plat, a: VertexId, b: VertexId, x: number, y: number): VertexId {
+export function nearerVertex(p: Plat, a: VertexId, b: VertexId, x: number, y: number): VertexId {
   const X = p.vertices.x;
   const Y = p.vertices.y;
   const da = (X[a] - x) * (X[a] - x) + (Y[a] - y) * (Y[a] - y);
@@ -202,7 +214,7 @@ export function planSplitThrough(tx: InsertTx, at: HalfEdgeId, pIn: LatticePoint
   while (L[O[run[j1] ^ 1]] > n) j1 += 1;
   const a = O[run[j0]];
   const b = O[run[j1] ^ 1];
-  const f = footOn(X[a], Y[a], X[b], Y[b], pt.x, pt.y);
+  const f = footOnSegment(X[a], Y[a], X[b], Y[b], pt.x, pt.y);
   const warnings: Warning[] = [];
   const onto = (v: VertexId): KernelResult<SplitPlan> => {
     if (L[v] > n) return err('E_LEVEL', `vertex at (${X[v]}, ${Y[v]}) is finer than the L${n} batch: promote it first (candidate (b), M0-a-05)`);
@@ -213,7 +225,7 @@ export function planSplitThrough(tx: InsertTx, at: HalfEdgeId, pIn: LatticePoint
   const nearA = withinAttract(f.x, f.y, X[a], Y[a]);
   const nearB = withinAttract(f.x, f.y, X[b], Y[b]);
   if (nearA || nearB) {
-    const v = nearA && nearB ? nearer(p, a, b, f.x, f.y) : nearA ? a : b;
+    const v = nearA && nearB ? nearerVertex(p, a, b, f.x, f.y) : nearA ? a : b;
     if (X[v] !== pt.x || Y[v] !== pt.y) addWarning(warnings, 'W_ATTRACTED', pt);
     return onto(v);
   }
@@ -225,7 +237,7 @@ export function planSplitThrough(tx: InsertTx, at: HalfEdgeId, pIn: LatticePoint
   // The exact position: p's foot on the run's own-level route (§3.6 (i)).
   const A = O[run[0]];
   const B = O[run[run.length - 1] ^ 1];
-  const e = footOn(X[A], Y[A], X[B], Y[B], pt.x, pt.y);
+  const e = footOnSegment(X[A], Y[A], X[B], Y[B], pt.x, pt.y);
   const placement = placePoint(tx, at, e);
   if (!placement.ok) return passOn(placement);
   foldWarnings(warnings, placement.warnings);
@@ -238,7 +250,8 @@ export function planSplitThrough(tx: InsertTx, at: HalfEdgeId, pIn: LatticePoint
  * Writes a plan of `planSplitThrough` (nothing here refuses): the vertex and the split — the sub-edge's pair kept at its
  * run's handle end, a new pair beyond the vertex carrying every row of the old one — the vertex's row, the index items
  * the split changes, the journal, and the plan's warnings into the transaction. Returns the vertex. A closed transaction
- * throws before anything is written (N-55 (5); C-0294 (1), refined by C-0296).
+ * throws before anything is written: every arena writer of steps 1–2 checks it first (§3.3, one batch per overlay;
+ * C-0294 (1), C-0296 (1)).
  */
 export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
@@ -260,8 +273,9 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
   // The vertex and the split: g keeps its origin and pair (s → v); a new pair runs v → t.
   const v = allocVertex(p, plan.at, n, VERTEX_SPLIT | (m < n ? VERTEX_STEINER : 0));
   const h = allocEdgePair(p, v, t0, m);
-  // Read the tables only now: a full table doubles inside allocVertex / allocEdgePair, which replace p.vertices and
-  // p.halfEdges, so a table read before them is a dead copy (N-53 (1); C-0279).
+  // The re-read rule (C-0279 (1), C-0286): a writer reads an arena table only after its last allocation — a full table
+  // doubles inside allocVertex / allocEdgePair, which replace p.vertices and p.halfEdges, so a table read before them is
+  // a dead copy.
   const T = p.halfEdges;
   const after = T.next[g];
   const before = T.prev[g ^ 1];
@@ -326,7 +340,8 @@ export function applySplitPlan(tx: InsertTx, plan: SplitPlan): VertexId {
  * §3.4's `splitThrough(tx, at, p, row?)`: the vertex at p on the edge of half-edge `at` (see the module comment), with
  * `row` on it. Refusals write nothing: E_OUT_OF_RANGE (p), E_LEVEL (a finer edge, or a landing on a vertex finer than
  * the batch), E_WORK_LIMIT. A closed transaction (a stale overlay of a committed or rejected batch) throws before
- * anything is read or charged — a programming error, as tx's own writers (N-55 (5), N-53 (3); C-0294).
+ * anything is read or charged — a programming error, an assertion as tx's own writers make, never a typed refusal
+ * (§3.3, §3.11; C-0294 (1)).
  */
 export function splitThrough(tx: InsertTx, at: HalfEdgeId, p: LatticePoint, row?: RoleRow): KernelResult<VertexId> {
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');

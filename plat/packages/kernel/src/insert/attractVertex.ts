@@ -15,11 +15,14 @@
 // (onto an edge's endpoint from beside the edge) — but where the placement rule finds no qualifying point, which sends
 // it onto the nearer endpoint of the sub-edge its exact position falls on (§3.6). That fallback fires on valid arenas
 // where an acute corner inside a vertex's one-ring leaves no qualifying point within attractCm, and may move the vertex
-// metres (C-0170 (1), superseding C-0169 (4)'s "no fallback fires"). Readings: C-0169 (6).
-import { pointOf, type VertexId } from '../arena/index.js';
+// metres (C-0170 (1)). Readings: C-0169 (6).
+//
+// The edge candidate's choice is `nearestRoutePiece`, exported for the other step-2 landings to share (C-0321): the
+// nearest level-n route piece among one query's edges, read from the run's pieces (§3.3), ties by the query's order.
+import { pointOf, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import { query, routePieces, routeRun } from '../index/index.js';
 import { belowMinEdge, dist2, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
-import type { Cm, LatticePoint } from '../types/index.js';
+import type { Cm, LatticePoint, Level } from '../types/index.js';
 import {
   charge,
   passOn,
@@ -51,6 +54,49 @@ export type AttractionPlan =
   | { readonly kind: 'vertex'; readonly from: LatticePoint; readonly at: LatticePoint; readonly vertex: VertexId; readonly onto: 'vertex' | 'endpoint' }
   | { readonly kind: 'split'; readonly from: LatticePoint; readonly at: LatticePoint; readonly split: SplitPlan };
 
+/** A level-n route piece (§3.3): the stretch of a run between two of its vertices of level ≤ n, named by its sub-edge. */
+export interface RoutePiece {
+  /** The sub-edge the index names the piece by (the query's edge answer). */
+  readonly edge: HalfEdgeId;
+  readonly a: VertexId;
+  readonly b: VertexId;
+}
+
+/**
+ * Step 2's edge candidate (§3.6 step 2): of the index's level-`level` route edges `edges` — one query's answer, in its
+ * canonical order — the route piece nearest the lattice point `pt` within attractCm whose interior holds pt's foot (its
+ * nearest point interior: an endpoint within attractCm would be a vertex candidate); two pieces equally near, the first
+ * in the query's order, the one first by canonical key (§3.3). The distance is o² ÷ |ab|² through `ratio()`, o the exact
+ * `orient2d`; null when no piece is within attractCm. Reads no index and charges nothing: the caller's one query and its
+ * one `insert.attractQueries` serve it.
+ */
+export function nearestRoutePiece(p: Plat, edges: readonly HalfEdgeId[], pt: LatticePoint, level: Level): RoutePiece | null {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  let best: RoutePiece | null = null;
+  let bestD = Infinity;
+  for (const h of edges) {
+    const piece = routePieces(p, routeRun(p, h), level).find((pc) => pc.edge === h);
+    check(piece !== undefined, `the query's route edge ${h} is no piece of its run`);
+    const a = piece.a;
+    const b = piece.b;
+    const ux = X[b] - X[a];
+    const uy = Y[b] - Y[a];
+    const len2 = ux * ux + uy * uy;
+    const dot = (pt.x - X[a]) * ux + (pt.y - Y[a]) * uy;
+    if (!(dot > 0 && dot < len2)) continue;
+    const o = orient2d(X[a], Y[a], X[b], Y[b], pt.x, pt.y);
+    if (o * o > ATTRACT_SQ * len2) continue;
+    const d = ratio(o * o, len2, 'area');
+    check(d.ok, 'an edge spans at least minEdge');
+    if (d.value < bestD) {
+      best = { edge: h, a, b };
+      bestD = d.value;
+    }
+  }
+  return best;
+}
+
 /**
  * Step 2's decision for the chain vertex `p` at the batch's level: one index query; the nearest vertex within
  * attractCm, else the nearest edge within attractCm with the endpoint rule, else free. A split is planned (placement
@@ -66,7 +112,6 @@ export function planAttraction(tx: InsertTx, pIn: LatticePoint): KernelResult<At
   const plat = tx.plat;
   const X = plat.vertices.x;
   const Y = plat.vertices.y;
-  const O = plat.halfEdges.origin;
   const n = tx.level;
   if (!charge(tx, INSERT_ATTRACT_QUERIES, 1)) return workLimitHit(INSERT_ATTRACT_QUERIES);
   const box = { minX: p.x - ATTRACT, minY: p.y - ATTRACT, maxX: p.x + ATTRACT, maxY: p.y + ATTRACT };
@@ -82,34 +127,12 @@ export function planAttraction(tx: InsertTx, pIn: LatticePoint): KernelResult<At
     }
   }
   if (best >= 0) return ok({ kind: 'vertex', from: p, at: pointOf(plat, best), vertex: best, onto: 'vertex' });
-  // The nearest level-n route edge within attractCm (its nearest point interior: an endpoint within attractCm would be
-  // a vertex candidate); the query's canonical edge order breaks ties.
-  let edge = -1;
-  let ea = -1;
-  let eb = -1;
-  let edgeD = Infinity;
-  for (const h of near.edges) {
-    const piece = routePieces(plat, routeRun(plat, h), n).find((pc) => pc.edge === h);
-    check(piece !== undefined, `the query's route edge ${h} is no piece of its run`);
-    const a = piece.a;
-    const b = piece.b;
-    const ux = X[b] - X[a];
-    const uy = Y[b] - Y[a];
-    const len2 = ux * ux + uy * uy;
-    const dot = (p.x - X[a]) * ux + (p.y - Y[a]) * uy;
-    if (!(dot > 0 && dot < len2)) continue;
-    const o = orient2d(X[a], Y[a], X[b], Y[b], p.x, p.y);
-    if (o * o > ATTRACT_SQ * len2) continue;
-    const d = ratio(o * o, len2, 'area');
-    check(d.ok, 'an edge spans at least minEdge');
-    if (d.value < edgeD) {
-      edge = h;
-      ea = a;
-      eb = b;
-      edgeD = d.value;
-    }
-  }
-  if (edge < 0) return ok({ kind: 'free', from: p, at: p });
+  // Else the nearest level-n route piece within attractCm (the query's canonical edge order breaks ties).
+  const piece = nearestRoutePiece(plat, near.edges, p, n);
+  if (piece === null) return ok({ kind: 'free', from: p, at: p });
+  const edge = piece.edge;
+  const ea = piece.a;
+  const eb = piece.b;
   // The exact foot on the edge, and the endpoint rule.
   const ux = X[eb] - X[ea];
   const uy = Y[eb] - Y[ea];
@@ -131,7 +154,8 @@ export function planAttraction(tx: InsertTx, pIn: LatticePoint): KernelResult<At
 
 /**
  * Writes a plan of `planAttraction` and reports its warnings (W_ATTRACTED for a moved vertex) to the transaction. A
- * closed transaction throws before anything is written (N-55 (5); C-0294 (1), refined by C-0296).
+ * closed transaction throws before anything is written: every arena writer of steps 1–2 checks it first (§3.3, one
+ * batch per overlay; C-0294 (1), C-0296 (1)).
  */
 export function applyAttraction(tx: InsertTx, plan: AttractionPlan): KernelResult<Attraction> {
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
@@ -157,7 +181,7 @@ export function applyAttraction(tx: InsertTx, plan: AttractionPlan): KernelResul
  * §3.6 step 2 for one chain vertex: the decision, then its write (a split by splitThrough). Refusals write nothing:
  * E_OUT_OF_RANGE, E_WORK_LIMIT, and E_LEVEL where the vertex would land on a vertex finer than the batch. A closed
  * transaction (a stale overlay of a committed or rejected batch) throws before anything is read or charged — a
- * programming error, as `splitThrough` (N-55 (5), N-53 (3); C-0294 (1), refined by C-0296).
+ * programming error, an assertion as `splitThrough` makes, never a typed refusal (§3.3, §3.11; C-0296 (1)).
  */
 export function attractVertex(tx: InsertTx, p: LatticePoint): KernelResult<Attraction> {
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
@@ -182,7 +206,7 @@ export interface RunVertex {
  * its target lies within minEdge of the previous kept vertex's point — merged into that earlier vertex (W_ATTRACTED,
  * nothing written for it), else written. A refusal stops the run: the earlier vertices' splits stay written, and the
  * transaction rolls the batch back (§3.3; M0-a-06). A closed transaction throws before anything is read or charged, as
- * `attractVertex` (C-0296).
+ * `attractVertex` (C-0296 (1)).
  */
 export function attractRun(tx: InsertTx, points: readonly LatticePoint[]): KernelResult<RunVertex[]> {
   check(tx.closed !== true, 'the transaction is closed (committed or rejected)');

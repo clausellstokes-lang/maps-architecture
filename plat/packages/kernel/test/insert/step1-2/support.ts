@@ -3,9 +3,10 @@
 // materialised level by level) with M0-a-03's index attached. The independent references the tests judge with — exact
 // BigInt distances and crossings, the arena validator for §3.10's rows these writers must keep, an arena fingerprint —
 // are written here from the design's definitions, never with the code under test.
-import { faceWalk, isFaceLive, isHalfEdgeLive, isVertexLive, LEVELS, outgoing, type Plat, type VertexId } from '../../../src/arena/index.js';
-import { attachIndex, checkIndexState } from '../../../src/index/index.js';
-import type { Level } from '../../../src/types/index.js';
+import { faceWalk, isFaceLive, isHalfEdgeLive, isVertexLive, LEVELS, outgoing, rowKey, rowsOn, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { attachIndex, checkIndexState, query } from '../../../src/index/index.js';
+import type { KernelTx } from '../../../src/tx/index.js';
+import type { Level, StageId } from '../../../src/types/index.js';
 import { buildArena, pt, ringPoints, type ArenaSpec, type Built } from '../../arena/support.js';
 
 export { buildArena, dressQuarters, FRAME, GROUND, permutation, pt, QUARTERS, type ArenaSpec, type Built } from '../../arena/support.js';
@@ -54,6 +55,37 @@ export function generator(seed: number): () => number {
 
 /** A uniform integer in [lo, hi]. */
 export const intIn = (rnd: () => number, lo: number, hi: number): number => lo + Math.floor(rnd() * (hi - lo + 1));
+
+// ---- the split tests' shared readings (splitThrough, growth, closed and placement tests) ----------------------------------
+
+/** A vertex's position as [x, y]. */
+export const pos = (p: Plat, v: VertexId): [number, number] => [p.vertices.x[v], p.vertices.y[v]];
+
+/** The level-n route edge nearest a point — how an op names the edge it splits at the time it applies. */
+export function edgeNear(p: Plat, level: Level, x: number, y: number): number {
+  const q = query(p, p.key, level, { minX: x - 26, minY: y - 26, maxX: x + 26, maxY: y + 26 }, { edges: true });
+  if (q.edges.length === 0) throw new Error(`no edge near (${x}, ${y})`);
+  return q.edges[0];
+}
+
+/** The half-edge a → c. */
+export function halfEdge(p: Plat, a: VertexId, c: VertexId): number {
+  const g = outgoing(p, a).find((h) => p.halfEdges.origin[h ^ 1] === c);
+  if (g === undefined) throw new Error('no half-edge a → c');
+  return g;
+}
+
+/** An edge's role rows as text (key and level), in row order. */
+export const rowsText = (p: Plat, h: number): string[] => rowsOn(p, 'edge', h).map((r) => JSON.stringify(rowKey(p, r)) + p.roles.level[r]);
+
+/** A declared batch at `level` holding `ops` (every other field the tx tests' defaults). */
+export function declaredSpec(level: Level, ops: KernelTx['ops']): KernelTx {
+  const S8 = 8 as StageId;
+  return { key: { layer: 'ground', part: 0 }, level, ops, expect: [], onFail: 'reject', batch: { kind: 'stage', stage: S8 }, stage: S8, rederivesFrom: S8, workLimit: 1_000_000 };
+}
+
+/** A callback batch at `level` (the declared spec with no ops). */
+export const callbackSpec = (level: Level): KernelTx => declaredSpec(level, []);
 
 // ---- exact references (BigInt) ---------------------------------------------------------------------------------------
 

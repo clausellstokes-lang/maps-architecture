@@ -20,21 +20,26 @@
 // integers, and a comparison is written without a division where it can be — so every IEEE engine decides alike.
 // `placePoint` writes nothing: its result is a plan the writer that commits it (`splitThrough`, M0-a-05's crossings)
 // applies and reports to the transaction. Readings: C-0169 (4), C-0284.
+//
+// The rule's parts are exported for the kernel's other placements (C-0321): `nearestLatticePoint` (the nearest of the
+// four lattice points around an exact position, ties y then x), `placementCandidates` (the candidates in the order the
+// rule tries them), `inSweptWedge` (the rotation-slot test) and `splitEndsBreachClearance` ((iii) at the split's own
+// ends). The exact segment tests (`segmentCloserThan`, `segmentsMeet`) and the index's box bound are num/exact.ts's
+// (C-0314).
 import { isHalfEdgeLive, outgoing, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import { HOT_PIXEL_CM, query, routeRun, type Box } from '../index/index.js';
+import { BOX_RANGE, segmentCloserThan, segmentsMeet } from '../num/exact.js';
 import { belowMinEdge, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { addWarning, charge, check, INSERT_ATTRACT_QUERIES, passOn, INSERT_PLACEMENT_CANDIDATES, workLimitHit, type InsertTx } from './classes.js';
-import { segmentsMeet } from './decimate.js';
+
+export { segmentCloserThan } from '../num/exact.js';
 
 /** 0.71²: test (i)'s hot pixel (§3.3's `HOT_PIXEL_CM`) squared, compared as orient² ≤ 0.71² · |AB|² (§3.2 (1), §3.6). */
 export const HOT_PIXEL_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
 
 const MIN_EDGE = LATTICE.minEdgeCm;
 const ATTRACT = LATTICE.attractCm;
-const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
-/** A query box's coordinates stay within ±2²⁴ (the index's bound). */
-const BOX_RANGE = 16_777_216;
 
 /** A crossing's segment (§3.6 step 4): its two endpoints, which the placed point keeps `minEdge` from. */
 export interface Crossing {
@@ -68,26 +73,13 @@ interface End {
   readonly vertex: VertexId;
 }
 
-/** Is p closer than r to the closed segment a–b? + − × only; exact on lattice points (the orient² term below 2⁵³ wherever it can decide). */
-export function segmentCloserThan(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const l2 = dx * dx + dy * dy;
-  const dot = (px - ax) * dx + (py - ay) * dy;
-  const r2 = r * r;
-  if (dot <= 0 || l2 === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay) < r2;
-  if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) < r2;
-  const o = orient2d(ax, ay, bx, by, px, py);
-  return o * o < r2 * l2;
-}
-
 /**
  * Would a split of the sub-edge s–t, at any point, leave s or t within `minEdge` of an edge outside its one-ring
  * (§3.10's clearance)? While s and t are joined each lies in the other's one-ring, so s may stand nearer than `minEdge`
  * to an edge at t — an acute corner, which `minFaceAngle` governs — and t to an edge at s. A split ends that exemption
  * (the new vertex, not t, is then s's neighbour), so s must clear every edge t–w whose far end w is not one of s's
  * neighbours, and t every such edge at s. The answer reads no candidate: where it is yes, no point of s–t qualifies
- * under (iii) and the placement falls back onto the nearer endpoint (C-0284; the hole C-0279 (4) found). + − × only.
+ * under (iii) and the placement falls back onto the nearer endpoint (C-0284). + − × only.
  */
 export function splitEndsBreachClearance(p: Plat, s: VertexId, t: VertexId): boolean {
   const X = p.vertices.x;
@@ -110,15 +102,93 @@ export function splitEndsBreachClearance(p: Plat, s: VertexId, t: VertexId): boo
 /**
  * Is the direction e (from a vertex) inside the closed thin wedge swept when that vertex's edge turns from direction
  * `from` to direction `to` — the one slot of its rotation an edge may not stand in, or the embedding would change?
- * `from` and `to` differ by at most a few degrees (a split moves the route by its hot pixel); e along `to` overlaps it.
+ * `from` and `to` differ by at most a few degrees (a split moves the route by its hot pixel). Along the new direction
+ * counts as overlap (e collinear with `to`, pointing the same way: true, turn or no turn); else, where the direction
+ * does not change (`from` and `to` collinear), nothing is swept (false); else true exactly when e lies strictly inside
+ * the wedge between `from` and `to`. `orient2d` and + − × only.
  */
-function inSweptWedge(fx: number, fy: number, tx: number, ty: number, ex: number, ey: number): boolean {
+export function inSweptWedge(fx: number, fy: number, tx: number, ty: number, ex: number, ey: number): boolean {
   const turn = orient2d(0, 0, fx, fy, tx, ty);
   const onTo = orient2d(0, 0, tx, ty, ex, ey);
   if (onTo === 0 && tx * ex + ty * ey > 0) return true; // along the new direction: an overlap
   if (turn === 0) return false; // the direction does not change
   const a = orient2d(0, 0, fx, fy, ex, ey);
   return (turn > 0 && a > 0 && onTo < 0) || (turn < 0 && a < 0 && onTo > 0);
+}
+
+/**
+ * The lattice point nearest the exact position (x, y): one of the four around it (`Math.floor` of each coordinate, and
+ * one more), the nearest by squared distance, ties y then x (§3.6 *The placement rule*'s "nearest"). Never −0.
+ */
+export function nearestLatticePoint(x: number, y: number): { x: number; y: number } {
+  const fx = Math.floor(x) + 0;
+  const fy = Math.floor(y) + 0;
+  let nx = fx;
+  let ny = fy;
+  let nd = Infinity;
+  for (const [cx, cy] of [[fx, fy], [fx + 1, fy], [fx, fy + 1], [fx + 1, fy + 1]] as const) {
+    const d = (cx - x) * (cx - x) + (cy - y) * (cy - y);
+    if (d < nd || (d === nd && (cy < ny || (cy === ny && cx < nx)))) {
+      nd = d;
+      nx = cx;
+      ny = cy;
+    }
+  }
+  return { x: nx, y: ny };
+}
+
+/** A candidate of the placement rule: a lattice point, and whether it is the one nearest the exact position. */
+export interface PlacementCandidate {
+  readonly x: number;
+  readonly y: number;
+  readonly nearest: boolean;
+}
+
+/**
+ * The placement rule's candidates for the exact position `exact` on the route a–b (the run's own-level route, §3.3), in
+ * the order the rule tries them (§3.6): first the nearest lattice point (`nearestLatticePoint`), then every other lattice
+ * point of the route's hot-pixel band (i) within `reach` of the exact position, nearest first, ties y then x. The band
+ * is at most ⌈1.42 · |ab| ÷ max(|ux|, |uy|)⌉ + 1 ≤ 3 points across per column (row). Lazy: the band is enumerated only
+ * when the nearest point is passed over, so a caller that stops at the first answer reads no more; the caller charges
+ * each candidate it tries. The route spans at least `minEdge` (asserted when the band is enumerated).
+ */
+export function* placementCandidates(
+  exact: { readonly x: number; readonly y: number },
+  edge: { readonly a: { readonly x: number; readonly y: number }; readonly b: { readonly x: number; readonly y: number } },
+  reach: number,
+): Generator<PlacementCandidate, void, undefined> {
+  const ax = edge.a.x;
+  const ay = edge.a.y;
+  const ux = edge.b.x - ax;
+  const uy = edge.b.y - ay;
+  const len2 = ux * ux + uy * uy;
+  const first = nearestLatticePoint(exact.x, exact.y);
+  yield { x: first.x, y: first.y, nearest: true };
+  const candidates: { x: number; y: number; d: number }[] = [];
+  const shallow = Math.abs(ux) >= Math.abs(uy);
+  const along = shallow ? ux : uy;
+  const across = shallow ? uy : ux;
+  const slope = ratio(across, along, 'length');
+  const half = ratio(HOT_PIXEL_CM * Math.sqrt(len2), Math.abs(along), 'length');
+  check(slope.ok && half.ok, 'an edge spans at least minEdge');
+  const e0 = shallow ? exact.x : exact.y;
+  const a0 = shallow ? ax : ay;
+  const b0 = shallow ? ay : ax;
+  const reach2 = reach * reach;
+  for (let i = Math.ceil(e0 - reach); i <= Math.floor(e0 + reach); i++) {
+    const mid = b0 + (i - a0) * slope.value;
+    for (let j = Math.ceil(mid - half.value); j <= Math.floor(mid + half.value); j++) {
+      const qx = (shallow ? i : j) + 0; // never −0 (§3.2 (7)'s lattice)
+      const qy = (shallow ? j : i) + 0;
+      const d = (qx - exact.x) * (qx - exact.x) + (qy - exact.y) * (qy - exact.y);
+      if (d > reach2 || (qx === first.x && qy === first.y)) continue;
+      const o = orient2d(ax, ay, ax + ux, ay + uy, qx, qy);
+      if (o * o > HOT_PIXEL_SQ * len2) continue;
+      candidates.push({ x: qx, y: qy, d });
+    }
+  }
+  candidates.sort((a, b) => a.d - b.d || a.y - b.y || a.x - b.x);
+  for (const c of candidates) yield { x: c.x, y: c.y, nearest: false };
 }
 
 /**
@@ -314,54 +384,12 @@ export function placePoint(tx: InsertTx, edge: HalfEdgeId, exact: { readonly x: 
   for (let j = Math.max(0, jlo - 1); j <= Math.min(k - 1, jhi) && !splittable; j++) splittable = !breaks(j);
   if (!splittable) return fallback();
 
-  // The nearest lattice point first (one of the four around the exact position; ties y then x): it qualifies almost
-  // always (§3.6).
-  const fx = Math.floor(exact.x) + 0;
-  const fy = Math.floor(exact.y) + 0;
-  let nx = fx;
-  let ny = fy;
-  let nd = Infinity;
-  for (const [cx, cy] of [[fx, fy], [fx + 1, fy], [fx, fy + 1], [fx + 1, fy + 1]] as const) {
-    const d = (cx - exact.x) * (cx - exact.x) + (cy - exact.y) * (cy - exact.y);
-    if (d < nd || (d === nd && (cy < ny || (cy === ny && cx < nx)))) {
-      nd = d;
-      nx = cx;
-      ny = cy;
-    }
-  }
-  const first = tryOne(nx, ny);
-  if (!first.ok) return passOn(first);
-  if (first.value >= 0) return placed(nx, ny, first.value, true);
-
-  // Outward from the exact position, within attractCm: every lattice point of the hot-pixel band around A–B, nearest
-  // first (ties y then x). The band is at most ⌈1.42 · len ÷ max(|ux|, |uy|)⌉ + 1 ≤ 3 points across per column (row).
-  const candidates: { x: number; y: number; d: number }[] = [];
-  const shallow = Math.abs(ux) >= Math.abs(uy);
-  const along = shallow ? ux : uy;
-  const across = shallow ? uy : ux;
-  const slope = ratio(across, along, 'length');
-  const half = ratio(HOT_PIXEL_CM * len, Math.abs(along), 'length');
-  check(slope.ok && half.ok, 'an edge spans at least minEdge');
-  const e0 = shallow ? exact.x : exact.y;
-  const a0 = shallow ? ax : ay;
-  const b0 = shallow ? ay : ax;
-  for (let i = Math.ceil(e0 - ATTRACT); i <= Math.floor(e0 + ATTRACT); i++) {
-    const mid = b0 + (i - a0) * slope.value;
-    for (let j = Math.ceil(mid - half.value); j <= Math.floor(mid + half.value); j++) {
-      const qx = (shallow ? i : j) + 0; // never −0 (§3.2 (7)'s lattice)
-      const qy = (shallow ? j : i) + 0;
-      const d = (qx - exact.x) * (qx - exact.x) + (qy - exact.y) * (qy - exact.y);
-      if (d > ATTRACT_SQ || (qx === nx && qy === ny)) continue;
-      const o = orient2d(ax, ay, ax + ux, ay + uy, qx, qy);
-      if (o * o > HOT_PIXEL_SQ * len2) continue;
-      candidates.push({ x: qx, y: qy, d });
-    }
-  }
-  candidates.sort((a, b) => a.d - b.d || a.y - b.y || a.x - b.x);
-  for (const c of candidates) {
+  // The nearest lattice point first — it qualifies almost always (§3.6) — then outward from the exact position within
+  // attractCm along the hot-pixel band around A–B, each candidate charged as it is tried.
+  for (const c of placementCandidates(exact, { a: { x: ax, y: ay }, b: { x: X[V[k]], y: Y[V[k]] } }, ATTRACT)) {
     const r = tryOne(c.x, c.y);
     if (!r.ok) return passOn(r);
-    if (r.value >= 0) return placed(c.x, c.y, r.value, false);
+    if (r.value >= 0) return placed(c.x, c.y, r.value, c.nearest);
   }
   return fallback();
 }

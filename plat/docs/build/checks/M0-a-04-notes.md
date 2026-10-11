@@ -43,3 +43,73 @@ every function the five sources export today, and only the guard's reach is narr
 | id | observation | suggested handling | milestone |
 |---|---|---|---|
 | N-13 | **`source.test.ts`'s closed-check audit sees only one signature shape.** C-0296 (3) says that a new exported function whose first parameter is an `InsertTx` "fails until it is sorted". The scan's regex is `^export function (\w+)(?:<[^>]*>)?\(tx: InsertTx[^\n]*\{\n`. It matches only a one-line signature whose first parameter is named `tx`. The checker planted two unchecked writers at the end of a mirror copy of `attractVertex.ts`: `export function zzWriter(\n  tx: InsertTx,\n  p: LatticePoint,\n): void {…}` (a multi-line signature, as Prettier wraps a long one) and `export function zzWriter2(t: InsertTx): void {…}` (the parameter named `t`). `source.test.ts` stayed green (`Tests 8 passed (8)`, exit 0) (CONFIRMED). An arrow `export const f = (tx: InsertTx) => …` would also escape (PLAUSIBLE, by the regex). Today the scan's list equals the five files' real exports. The checker's barrel probe called every exported writer on three closed overlays, and each throws. So nothing escapes now. The gap is a hardening of the guard. | Match on the type, not on the layout. Either parse each file's exported functions with the TypeScript compiler API and test the first parameter's type text, or flatten whitespace before the regex and accept any parameter name and `export const … = (… : InsertTx`. Add a planted multi-line fixture as a negative control. | M4 (test hardening) |
+
+---
+
+## Consolidation round R2 (lane `build/M0-a-04-consolidate-1`, 2026-10-11; the builder's map and notes)
+
+The round applies findings I-1 – I-6, W-3's export and the comment and test plans of
+`plat/docs/build/consolidation/kernel-plan.md` (§1.1, §1.9, §2, §3.1; J260, J263, J270). It changes no behaviour. The row
+is C-0321. NO-SHIFT evidence (kept in the builder's scratch mirror, quoted in the landed record and the lane log):
+
+* A seeded differential probe ran in a mirror of the tree as it was and again on the round's code. It covered six
+  families at 2 000 seeds: `attractVertex` / `planAttraction` and `attractRun` on chord arenas, `splitThrough` sequences
+  with rows, `placePoint` with and without a crossing, near-frame split and attraction sequences, and `decimate` on
+  random chains. That is 212 000 records of results, warnings, work counts, journals and arena fingerprints. The two
+  dumps are byte-identical (sha256 per family equal, the full dump `cmp`-equal).
+* Refusals per family were the same before and after: `attract` E_LEVEL 701, `split` E_LEVEL 793, `nearFrame` E_LEVEL
+  1 376, `decimate` E_BELOW_MIN_EDGE 1 637 and E_DEGENERATE 1 643. Every one is an unlawful input or a staged branch
+  (a finer edge than the batch; a landing on a finer vertex, candidate (b), M0-a-05; a chain of fewer than two distinct
+  points, the class code).
+* The register, lifecycle, routerGap S4 – S6 and level-digest tests run against the committed JSONs. They gave 6 files,
+  132/132 green, before and after.
+
+### Old file → new file map (J263 Q8)
+
+| old file (lines of the tree read on 2026-10-11) | new file | what moved |
+|---|---|---|
+| `test/insert/step1-2/splitThrough.test.ts` 1 – 317: describes "the split (§2.2 rule 3, §3.3)", "the endpoint rule and the refusals (§3.6 step 2; §3.3)", "rows and the anchor allocation (§3.4 splitThrough’s row; §3.3 rule 2)" | `splitThrough.test.ts` | unchanged cases and titles; its helpers `pos`, `edgeNear`, `rowsText` moved verbatim to `support.ts`; a new describe "the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0321)" added |
+| `splitThrough.test.ts` 319 – 491: "a split at a table’s doubling (N-53 (1))" (the four P1 pins, the doubling property, the tiny-mode sentinel) | `growth.test.ts` | whole describe, its helpers `sized`, `ring`, `splitAndRead`, `everyFaceWalks`, `atDefaultSizes` with it; `declaredSpec` moved verbatim to `support.ts`; the sentinel stays the describe's last case |
+| `splitThrough.test.ts` 493 – 652: "a split keeps clearance at its own ends (C-0279 (4); C-0284)" | `placement.test.ts` (its end) | whole describe and `nearFrame`; `halfEdge` and `callbackSpec` moved verbatim to `support.ts` |
+| `splitThrough.test.ts` 654 – 850: "N-55 (5): splitThrough on a closed transaction throws …", "N-11: splitThrough’s closed throw precedes …", "N-12: attractVertex, attractRun, applyAttraction and applySplitPlan on a closed transaction throw …" | `closed.test.ts` | whole describes with `staleSplitOverlay`, `throwsClosed`, `CLOSED`, `OFF_LATTICE` |
+| `support.ts` | `support.ts` | gains `pos`, `edgeNear`, `halfEdge`, `rowsText`, `declaredSpec` and `callbackSpec`, moved verbatim. `generator` / `intIn` stay local, because `test/arena/support.ts` exports no `rng` / `intIn` on this tree (T-support-1 is R14's; note N-c1-3) |
+| `placement.test.ts` | `placement.test.ts` | the C-0284 describe above; a new describe "the rule’s exported parts: the nearest point, the candidate order, the rotation slot (C-0321)"; `nearestLattice` (line 27 before) stays the test's own oracle of `nearestLatticePoint` (W-3, plan §3.1 (c)) |
+| `attract.test.ts`, `classes.test.ts` | the same files | one new describe ("nearestRoutePiece: step 2’s edge candidate over one query’s edges (C-0321)") and one new case ("cloneWarnings copies a list …") |
+| `bfuzz.test.ts`, `decimate.test.ts`, `source.test.ts` | the same files, byte-unchanged | nothing |
+
+Every earlier `describe` / `it` title stands: 132 titles before, 144 after, none removed. The folder is 9 files and 132
+tests in each of the `kernel` and `kernel-tiny` projects (before: 7 files, 123 tests).
+
+### Mutant map: the earlier rounds' mutants → the case that kills them now
+
+The map gives each mutant by name and the case that kills it in this round. "Re-killed" means it was re-run in this
+round's mirror (PLAT_CROSSING_CASES=20000, `--maxWorkers=1`, `--bail=1`, the folder, or the file named) and went red.
+
+| mutant (check) | killing case now | re-killed |
+|---|---|---|
+| K01, K01b, D1, D2, F3 (`checks/M0-a-04.md`) | `decimate.test.ts`: "a closed chain of two distinct points is one edge both ways …", the B-FUZZ decimate | K01 yes |
+| K03, K05, K07, K28, F1e | `attract.test.ts`: "a foot exactly as far from both ends of the edge (25 cm each) …", "ties to the smaller lattice position …", "two targets 25.5 cm apart …", "a split charges no insert.points …", the thin wedge's "no candidate qualifies …" | K03, K05, K28, F1e yes |
+| K04 | `splitThrough.test.ts`: "a foot exactly as far from both ends (25 cm each) … whichever way the edge is named" (`SLANT`, both half-edges); the one `nearerVertex` body is splitThrough.ts's | yes |
+| K06, K08, F1a, F1b, F1c (F1f survives, as in round 1) | `placement.test.ts`: "(ii) for a crossing …", "(iii) a vertex nearer the foot … a thin triangle …", "the nearest of the four lattice points …", "no point qualifies on a 49 cm edge …"; and the new pins on `placementCandidates` and `nearestLatticePoint` | K06, K08 (by their own cases, without `--bail`), F1a – F1c yes |
+| K10 | `splitThrough.test.ts`: "an L2 batch on an L1 edge: a Steiner vertex …" | yes |
+| s1 MA, MB, MD, ME, MF, MG; s7 MQ17 (a table captured before an allocation) | `growth.test.ts`: the four P1 pins and the doubling property | the class (T captured before `allocVertex`) yes, on "P1: the pair table full …" |
+| s2 K01 – K08, K10 – K12 (C-0284's precheck and per-candidate test; K09 survives, N-10), s7 M9 | `placement.test.ts` (C-0284 describe): "a shallow corner at the frame …", "a run with a finer vertex …", "the one-ring exemption that stays …", the seeds 6 / 34 / 40; `bfuzz.test.ts` near-frame | M9 (the test disabled) and s2 K07 (no precheck) yes |
+| s3 MA1 – MA6, s4 M1 – M17 (the closed check) | `closed.test.ts`: N-55 (5), N-11, N-12 describes; `source.test.ts`'s scan | MA4 (the check after the plan) yes, on `closed.test.ts` alone |
+| s3 MB1 – MB6 (the P1 pins under the tiny mode) | `growth.test.ts` under `kernel-tiny` | MB1 (`atDefaultSizes` a pass-through) yes |
+| this round's own: R1 (`carriesRow` reads the wrong vertex), R2 (`footOnSegment` unclamped), W1 / W2 (`inSweptWedge`'s overlap and no-turn rules), G1 (the nearest tried twice), G2 (reach exclusive), G3 (every candidate called nearest), P1 (`nearestRoutePiece`'s tie `<=`), CW (`cloneWarnings` shares `at`) | the new pins named in the map above; G3 also on "(ii): the nearest point 24 cm …", P1 on "two edges equally near …" | all red |
+
+### Notes (not failing lines)
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c1-1 | **I-4: `nearestRoutePiece` is planAttraction's comparison, not insertChain's.** Both loops read the same level-n route pieces (`routePieces(routeRun(h), n)`, the piece whose `edge` is the query's sub-edge) from one query box ±attractCm. They take the same interior test (`0 < dot < |ab|²`) and the same o² ≤ attractCm² · \|ab\|² cut. They differ in two ways. (1) planAttraction ranks by the rounded quotient `ratio(o², |ab|², 'area')` with a strict `<`. insertChain's `nearestPiece` ranks by the cross-multiplied `o² · bestL2 < bestO2 · l2`. The two can disagree when two quotients round to one double while the exact ones differ, and when the products pass 2⁵³ (long edges far out). (2) planAttraction's query also asks for vertices, under the one `insert.attractQueries` charge. So the export takes the caller's query answer, `nearestRoutePiece(p, edges, pt, level)`, and reads no index and charges nothing. It does not take the plan's `(tx, pt, level)`. insertChain is untouched (R3). | R3 decides: adopt `nearestRoutePiece` (a possible rare shift of insertChain's landings, so the registers must replay) or keep its own comparison. A shift is the session's call (J263 Q2). | R3 (M0-a-05) |
+| N-c1-2 | **I-3 (J263 Q2, enumerator only): `placementCandidates` is placePoint's enumeration, not placeOnRun's.** `placeOnRun` (crossings.ts) differs in three ways. (a) It has no nearest-of-four first try: its band includes that point at its distance rank. (b) It applies no (i) pre-filter, so band points outside the hot pixel are charged and refused by `qualifies`. (c) It has an `admit` filter. Adopting the generator as it is would change `insert.placementCandidates` counts and, through E_WORK_LIMIT, possibly outcomes. The plan's `bandCandidates` name is `placementCandidates` here, because the kernel-boundary lint refuses the town noun "band" in a kernel identifier. | R3 parameterises the enumerator (nearest-first and the (i) pre-filter as options) or keeps its loop. W-4 (warp) likewise. | R3, R10 |
+| N-c1-3 | **T-step1-2 (b): no shared generator yet.** `test/arena/support.ts` exports no `rng` / `intIn` on this tree (its mulberry32 is private to `permutation`), so `step1-2/support.ts` keeps its own `generator` / `intIn`, byte-identical constants. | R14 (T-support-1) exports one generator and re-points this folder. | R14 |
+
+### Closing check of R2 (lane `check/M0-a-04-consolidate-close-1`, 2026-10-11; verdict `checks/M0-a-04-c1.md`, PASS)
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c2-1 | **A parity case that R3 will make vacuous.** `splitThrough.test.ts` "footOnSegment and nearerVertex answer as stretch.ts’s copies on random lattice inputs, ties and the clamp included" checks splitThrough.ts's originals against stretch.ts's copies over 20 000 random inputs. Once R3 makes `stretch.ts` re-export the originals (I-1), that random part compares a function with itself. The explicit pins after it (the SLANT tie both ways round; `/^insert: an edge spans at least minEdge$/`) still hold the rule, and mutants K04 and FS1 are red on them today. | R3 keeps the case meaningful: compare against an independent oracle in `step1-2/support.ts` (for example an exact BigInt foot and squared distances), or narrow the case to the explicit pins and say so in its title's describe. | R3 (M0-a-05) |
+| N-c2-2 | **The plan still names `bandCandidates`.** The enumerator is `placementCandidates` (C-0321 (3)), because `tools/lint/kernel-boundary.mjs:29` refuses the town noun `band` in a kernel identifier. `kernel-plan.md` §1.1 I-3 and §1.9 W-4 still say `bandCandidates`. Its order is placePoint's: the nearest of the four lattice points FIRST, then the hot-pixel band within `reach` with that point left out. `placeOnRun` ranks that point inside the band (N-c1-2 (a)), and warp's `placeOnRoute` has to be diffed the same way before adopting it. | The session amends the plan's two names. R3 and R10 adopt `placementCandidates` only where the order matches, or show the shift and take the session's ruling (J263 Q2). | R3 (M0-a-05), R10 (M0-a-13) |
+| N-c2-3 | **One ordinal rule held only by the B-FUZZ.** Mutant CR2 makes `splitThrough`'s private `carries` read the key with ordinal 0 whatever the row's ordinal is. It is red only on the B-FUZZ splitThrough property's anchor-count oracle at the PR size (1 of 132). No named unit case holds it. | Add a unit pin: two anchor rows of one entity with distinct explicit ordinals onto one existing vertex. Both are added, and only a repeated ordinal throws `/already carries/`. | M4 |
