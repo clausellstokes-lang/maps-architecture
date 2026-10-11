@@ -888,6 +888,62 @@
      "required_change": "per-seed digests before and after from a mirror; the checker repeats a sample"
     }
    ]
+  },
+  {
+   "id": "M0-b-03",
+   "from": 4,
+   "round": "S4",
+   "session": "This round was opened on ruling N-57 (1) and (3) (plat/docs/build/checks/M0-spec-notes.md; the session's Fable diagnosis seat on M0-c-06's 50-seed CITY smoke, report plat/docs/build/checks/diagnosis-c06-smoke.md; queue rows Q41 and Q42; J287; the owner's zero-refusals rule J264 and the bedrock rule J238): in the INTEGRATED run S8 is refused whole on seeds 20, 23, 39 and 44 by its own stage-end row seam-portals (C-0298) for one or two problems a seed among ≈ 1 380 lanes — a `gap` between two baseLane portals of ONE district 44–110 cm apart on a seam way, the second lane's end sitting on the way's chain-END vertex (seed 20: way:22 lanes 532/533, the end on the dead-end tip of an ANTENNA — antennaCut (ladder.ts 416–430) slides only its far end, never the tip, and antennaWay records the tip's portal 44 cm from the other; seeds 39 and 44: the end on the S5 junction where the seam way starts, shared with an interior way, reached as the interior spine's end; seed 23: a 110 cm gap pair plus a `lane-end-without-portal` where a dh5m… lane ends on the junction of way:2, its seam spine, and way:22, typed as way:22's end — the continuation admitted because the END'S spine is interior although the vertex is on the boundary chain). The ROW IS RIGHT (§13.2: 'spaced by the portal gap' along each way chain) and S8's CUT IS WRONG: its three per-spine readings — the gap slide (planner.ts 829 / ladder.ts 140, KerbSpine.portals keeping only the planned spine's portals), portalSeam(run, spineWay, v) and continuationRefused (bentCutFabric.ts 872, `bounding` read for the end's spine only) — see one spine at a vertex shared by several way chains while the row reads every chain through it. The inputs are LAWFUL (J264: fix by making S8 succeed, never by softening the row, which stays hard). Inside M0-b-03's owns (layout/src/infill/{bentCutFabric,ladder,width,deepInterior,portals,stage}.ts and its tests) and nowhere else. ALSO N-57 (3): fusion 30 block:6eppwwjg267pw's through-alley split records its second seed as the pole of the child FACE ring (makeBlock 962–983: seedOf(canonicalRings(faceRings(run.p, 1, c)))) while the unsplit seed is the pole of kerb(F); face 197's pole lies 9 cm inside way:11's band, so the L2 face holding it is a half-corridor strip and the harness's kerb read fails — the committed block is right, the recorded seed wrong. REPLAYS: the c-06 harness (bench/src/fusion; corepack pnpm bench -- fusion …) derives one CITY seed in ≈ 3 min per run; this container's scratch holds the diagnosis seat's probe outputs (<scratch>/diag/out/*.json with every ring quoted in the report) — read the report's §3 and §1 first. The refusal census (J264): the four integrated seeds' S8 before (refused whole) and after (committing, seam-portals row count 1 pass), the base fixtures (flat and river, seeds 1–3 at 900 ha/30 ha walled) and the fabric's own families before and after. SHIFT: one-time lane geometry on the affected seeds (a lane end moves ≥ the gap or the cut takes its next rung) — report every committed pin of another item that moves (the base fixtures of C-0298 (6), M0-b-04's and M0-x-06's cells if any) with its count, never re-record silently; the model digests of unaffected seeds identical. Rulings in force: N-57, N-52 (2)–(4), C-0298, J264, N-45, J238.",
+   "lines": [
+    {
+     "line": "N-57 (1)(a): at an end vertex shared by several way chains, the gap slide reads the portals of EVERY chain through the spine's two end vertices (arc positions on the spine's own line through the shared vertex, clipped at the ends) — kerbFace's KerbSpine.portals carries them — so a planned end never lands within the gap of a portal across a chain boundary; antennaCut slides or refuses its TIP end against the antenna way's portals exactly as its far end",
+     "evidence": "N-57 (1); diagnosis-c06-smoke.md §3 (seed 20 way:22 lanes 532/533: 44.2 cm vs 671.6 required; seeds 39/44 at a seam way's chain start shared with an interior way); ladder.ts 140–160, 416–430; planner.ts 829–866",
+     "required_change": "fixtures from seeds 20 and 39/44's configurations (a two-way seam run with a bend and a portal 44 cm past it; a seam way starting at a shared S5 junction) — the planner slides or takes the next rung and the row holds; the four integrated seeds complete S8 (replayed through the harness)"
+    },
+    {
+     "line": "N-57 (1)(b): at insertion every way chain through the end vertex that bounds the district (seamsOfSpine non-empty with the district as a side) receives the portal record — portalSeam over all ways at v, not the planned spine alone — and an end on a bounding chain's vertex whose spine was read as interior is refused `continuation-boundary` (or slid) instead of admitted (seed 23's dh5m… lane on the way:2/way:22 junction)",
+     "evidence": "N-57 (1); diagnosis-c06-smoke.md §3 (seed 23); bentCutFabric.ts 690–715, 802–907 (continuationRefused, portalSeam)",
+     "required_change": "a fixture of seed 23's junction (an interior way meeting a boundary arterial); the seamPortalsRow tests unchanged and green; the `lane-end-without-portal` problem gone on seed 23"
+    },
+    {
+     "line": "N-57 (3): a split child's seed is the pole of kerb(child) — its largest component as kerbFace reads it — and a child whose kerb has no area contributes no seed (the court record stays, N-52 (4)); the unsplit and split seeds share one definition",
+     "evidence": "N-57 (3); diagnosis-c06-smoke.md §1 (face 197's pole 9 cm inside way:11's band; the L2 face holding it a half-corridor strip); bentCutFabric.ts makeBlock 962–983",
+     "required_change": "a property pin over the fabric test faces: every blockFaces.seeds[i] lies strictly inside one ring of kerb(its L1 face); fusion 30's face 197 ring with its three widths as a fixture; the harness's kerbReads 0 on fusion 30 when replayed"
+    },
+    {
+     "line": "Refusal census (J264) and shift: the integrated seeds 20/23/39/44 before (S8 refused whole) and after (committing; the seam-portals row pass true count 1), the base fixtures and the fabric's own families before and after; the one-time lane-geometry shift on the affected seeds stated with its count; every committed pin of another item that moves reported with its count, never re-recorded silently; the model digests of unaffected seeds identical",
+     "evidence": "J264; N-57 (1) Shift; C-0298 (6)",
+     "required_change": "the counts in the notes and the choices row; the closing checker re-measures and FAILS the round if any refusal rose"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-09",
+   "from": 3,
+   "round": "S3",
+   "session": "This round was opened on ruling N-57 (2) (plat/docs/build/checks/M0-spec-notes.md; the session's Fable diagnosis seat on M0-c-06's 50-seed CITY smoke, report plat/docs/build/checks/diagnosis-c06-smoke.md §4; queue row Q42; J287; J264, J238): on the INTEGRATED seeds 34 (block:bjan449v4zkxj, Hausdorff 431.7 cm) and 47 (block:8byv4x0w5rw45, 157.9 cm) S9's committed L2 face is WRONG — it is the block PLUS the half-corridor strip of a dead-end lane (way:1bzfw948gxbkz hw 163.8; way:ebz4hsk22v9mp hw 157.5) whose round end cap meets a SPINELESS district-boundary edge: corridorUnion → bandCore (bandUnion.ts) committed the kerb's outline piece along the lane as a DANGLING `kerb` chain (walked forth and back in the face ring) because the piece's LAST chord to the boundary contact — 26.0 / 25.7 cm, ≤ attractCm — was lost at the kernel's insertion (the contact attracted onto the piece's previous vertex), the boundary edge stays unsplit, and through that gap the strip and the block are one L2 face whose ring runs on the lane's centreline 155–164 cm off the kerb. N-52's class (b) with a TOPOLOGICAL effect: a silently wrong committed block (N-45 (a)); the input is LAWFUL (§4.6 step 7's dead end on its line, C-0237 (10)). S8's working block and the harness's reading are right. Inside M0-a-09's owns (kernel/src/arr/{kerb,corridorUnion,bandUnion,tileRings}.ts, arr/index.ts's four re-export lines, kernel/test/arr/bands/) and nowhere else: (1) bandCore commits a kerb piece with its BOUNDARY CONTACTS PINNED — the contact vertex placed first (a splitThrough of F's edge it lies on), an interior kerb vertex within attractCm of a contact dropped before the insertion (the contact is the pinned one, never the reverse); (2) a post-condition after the commit: every open outline piece's two ends are vertices of F's boundary and every `kerb` edge separates a band face from a block face — a dangling kerb chain refuses the batch E_INVARIANT (fail-safe, N-45) instead of committing a merged face; (3) pins: faces 871 and 822 with their lane widths as fixtures (corridorUnion's block ≡ kerb(F) at Hausdorff 0; no kerb edge with the same face on both sides), a synthetic dead-end lane whose round end cap meets a spineless boundary edge at 10–20° with the clipped last chord swept 20–40 cm (every case closes), the §13.2 contract test and the arr-bands oracle comparison with a dead-end spine on a spineless boundary. The rings of both faces are quoted in the report's §4 (and in the c-06 child container's scratch, <scratch>/diag/out/integrated-{34,47}.json — this round runs elsewhere, so take them from the report). SHIFT: S9's committed blocks change only where a closing chord was lost (2 of 123 628 blocks in the smoke); M0-a-09's committed oracle pins (register.test.ts, refusals.json, corridor.test.ts's S8 ≡ S9 Hausdorff 0) re-record only with their count reported, never silently; the level digests of every other arrangement identical. Refusal census (J264): the arr-bands families (registers, the fuzz corridors) before and after; the new E_INVARIANT is a fail-safe for a wrong union, never reached on lawful input in the families — if a family reaches it, that is a finding for the session with its seed, not a pin. Rulings in force: N-57 (2), N-52 (1), (2), C-0212 (8), J264, N-45, J238.",
+   "lines": [
+    {
+     "line": "N-57 (2): bandCore pins a kerb piece's boundary contacts — the contact placed first (splitThrough of the F edge it lies on), an interior kerb vertex within attractCm of a contact dropped, never the contact — so a ≤ attractCm closing chord to the boundary is never lost at the insertion",
+     "evidence": "N-57 (2); diagnosis-c06-smoke.md §4 (integrated 34: the lost 26.0 cm chord (50580, −47042)→(50557, −47030); integrated 47: 25.7 cm); bandUnion.ts bandCore/outlinePieces",
+     "required_change": "faces 871 and 822 as fixtures: corridorUnion's block ≡ kerb(F) at Hausdorff 0 and no kerb edge with one face on both sides; the synthetic dead-end cap on a spineless edge at 10–20° with the last chord swept 20–40 cm closes in every case"
+    },
+    {
+     "line": "N-57 (2) post-condition: after the commit every open outline piece's two ends are vertices of F's boundary and every `kerb` edge separates a band face from a block face; a dangling kerb chain refuses the batch E_INVARIANT (fail-safe) instead of committing a merged face",
+     "evidence": "N-57 (2); N-45 (a); §3.7, §13.2",
+     "required_change": "a test plants the lost chord (the pre-round behaviour) and sees E_INVARIANT with the piece named, the arena rolled back; on lawful families the post-condition never fires (census)"
+    },
+    {
+     "line": "Oracles and shift: the §13.2 contract test and the arr-bands oracle with a dead-end spine on a spineless boundary; corridor.test.ts's S8 ≡ S9 Hausdorff 0; register.test.ts and refusals.json re-recorded only where a closing chord was lost, with the count reported; every other level digest identical",
+     "evidence": "N-57 (2) Shift; N-52 (1); C-0212 (8)",
+     "required_change": "the builder diffs the registers and digests before and after from a mirror and reports every re-record; the checker repeats it"
+    },
+    {
+     "line": "Refusal census (J264): the arr-bands families before and after; no new refusal on lawful input; the fail-safe E_INVARIANT counted separately and 0 on the families",
+     "evidence": "J264",
+     "required_change": "the counts in the notes and the choices row; the closing checker re-measures and FAILS the round if any rose"
+    }
+   ]
   }
  ]
 }
