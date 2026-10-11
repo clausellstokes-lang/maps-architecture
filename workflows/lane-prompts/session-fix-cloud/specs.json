@@ -860,6 +860,29 @@
      "required_change": "the builder keeps the before-values (digests, goldens, every register JSON, the B-FUZZ caps) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case, route or warning count FAILS the round (J263 Q2)"
     }
    ]
+  },
+  {
+   "id": "M0-c-02",
+   "from": 4,
+   "round": "S4",
+   "session": "This round was opened on queue row Q40 (docs/M0-FIX-QUEUE.md; M0-x-02 s2's build finding (b) and check note N-14; J283): a LAWFUL-INPUT REFUSAL under the owner's zero-refusals rule (J264) — the base RIVER fixture at seed 2, 900 ha with 30 ha walled, run through M0-x-04's base registration and M0-x-02's runner (replay: runBase({ ...RIVER_BLUEPRINT, size: { ...size, areaHa: 900 }, walledHa: 30 }, 2, { kind: 'all' }) from layout's test support), refuses S5 with E_INVARIANT, before and after x-02 s2's guard; S6 and S8 then idle on missing inputs. S5 is M0-c-02's stage (the enceinte's strips and sides, §4.8, §4.6, §3.6). Inside M0-c-02's owns (packages/layout/src/enceinte/, test/enceinte/) and nowhere else: (1) DIAGNOSE first — which invariant refuses on that seed (the stage's row, a kernel E_INVARIANT rethrown, or a batch refusal), on which vertex or face, with the geometry logged (the Q22 round's precedent: log the rejected vertex with its distances before changing anything); (2) if the input is lawful (a river fixture the design admits), make the stage COMMIT it — better routing, a fallback, a documented deterministic clean-up — never a widened tolerance that hides a wrong committed result (N-45: fail-safe stays; the Q22 fix pattern: a corridor bound derived from the design's constants, 2·√2·attractCm, not a magic number); if the input is UNLAWFUL by the design (say exactly which clause), the refusal stays typed and the seed is pinned as a lawful typed refusal with a choices row naming the clause — the session decides the class from your diagnosis if it is unclear, so report it in your notes before you build around it; (3) the refusal census on the base fixtures (flat and river, seeds 1–3 at 900 ha/30 ha walled: 6 runs, 1 bug before) and on the 1 000-seed EP-01/S5a/coincident family (3 refused after Q22's round, Q37's three true crossings) BEFORE and AFTER, in the result notes and the choices row; (4) zero shift elsewhere: the exit bar's 100 seeds and M0-c-04's s5ab pins green; a committed pin of another item that shifts is reported, never re-recorded silently. Q37 (the trace spike at a pinned gate, three seeds) is M0-c-04's and NOT this round's unless the diagnosis shows the same mechanism — then say so and stop at the diagnosis for the session to route. Rulings in force: J264, N-45, N-56 (3), J272 (2).",
+   "lines": [
+    {
+     "line": "Q40: the base RIVER fixture at seed 2 (900 ha, 30 ha walled, runBase, kind 'all') commits S5, or its refusal is shown to be a lawful typed refusal of an input the design does not admit (the clause named)",
+     "evidence": "M0-x-02 s2 build finding (b); checks/M0-x-02-notes.md N-14; J264; the replay command in the session note",
+     "required_change": "a test in test/enceinte/ replays seed 2 at that size and pins the committed outcome (or the typed refusal with its clause and a choices row); the diagnosis (invariant, vertex/face, distances) in the builder's notes; S6 and S8 then run on that seed (the base run's report has no bug entry)"
+    },
+    {
+     "line": "Refusal census (J264): the base fixtures flat and river at seeds 1–3 (900 ha/30 ha walled) and the 1 000-seed EP-01/S5a/coincident family counted BEFORE and AFTER; no new refusal; the result notes and the choices row carry the counts",
+     "evidence": "J264; M0-x-02 s2's census (6 runs, 1 bug); M0-c-02 s3's family counts (7 → 3)",
+     "required_change": "the counts in the notes and the choices row; the closing checker re-measures and FAILS the round if any rose"
+    },
+    {
+     "line": "ZERO SHIFT elsewhere: the exit bar's 100 seeds, M0-c-04's s5ab pins and the enceinte folder's tests green; any committed pin of another item that shifts is reported with its seed, never re-recorded",
+     "evidence": "N-45; J272 (1)",
+     "required_change": "per-seed digests before and after from a mirror; the checker repeats a sample"
+    }
+   ]
   }
  ]
 }
