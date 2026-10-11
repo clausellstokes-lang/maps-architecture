@@ -9,6 +9,7 @@ import {
   CLASS_OUTCOMES,
   classOutcome,
   classRefusal,
+  cloneWarnings,
   foldWarnings,
   INSERT_ATTRACT_QUERIES,
   INSERT_PLACEMENT_CANDIDATES,
@@ -123,6 +124,18 @@ describe('the transaction shell (C-0169 (1))', () => {
     const into: Warning[] = [{ code: 'W_PLACED', count: 1 }];
     foldWarnings(into, own);
     expect(into).toEqual([{ code: 'W_PLACED', count: 2 }, { code: 'W_ATTRACTED', count: 2, at: { x: 1, y: 2 } }]);
+  });
+
+  it('cloneWarnings copies a list, each warning and its point, in order — a later fold into the original leaves the copy as it was', () => {
+    const list: Warning[] = [{ code: 'W_PLACED', count: 2, at: { x: 5, y: 6 } as never }, { code: 'W_ATTRACTED', count: 1 }];
+    const copy = cloneWarnings(list);
+    expect(copy).toEqual(list);
+    expect(copy[0]).not.toBe(list[0]);
+    expect(copy[0].at).not.toBe(list[0].at);
+    expect('at' in copy[1]).toBe(false);
+    foldWarnings(list, [{ code: 'W_PLACED', count: 3 }]);
+    expect(copy).toEqual([{ code: 'W_PLACED', count: 2, at: { x: 5, y: 6 } }, { code: 'W_ATTRACTED', count: 1 }]);
+    expect(cloneWarnings([])).toEqual([]);
   });
 
   it('a staged branch throws notBuilt naming its milestone; a refusal passes on its code and detail', () => {

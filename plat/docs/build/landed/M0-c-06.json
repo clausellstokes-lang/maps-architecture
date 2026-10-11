@@ -1,0 +1,46 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-c-06",
+  "lane": "build/M0-c-06",
+  "lanes": ["build/M0-c-06"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-08T00:34:57.336Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/bench/src/fusion/", "plat/bench/test/fusion/", "plat/docs/build/summaries/M0-c-06.json"],
+  "counts": { "created": 17, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/src/fusion/hausdorff.ts", "status": "created", "sha256": "c0771f2401f118d09465f3b2230b1736a18b686ac37ec3f7582ec061f71b1276", "size": 5075 },
+    { "path": "plat/bench/src/fusion/index.ts", "status": "changed", "sha256": "735664ef589d1773d50d7da410c42dd487a2d9296c103f5e5eb25df522b4fafe", "size": 13576 },
+    { "path": "plat/bench/src/fusion/measure.ts", "status": "created", "sha256": "3514ed6a36ad4055f10b7202ef8405cdc6060ebd28479fe9efa427244ebbf0dd", "size": 27388 },
+    { "path": "plat/bench/src/fusion/pool.ts", "status": "created", "sha256": "da02c8390260bcea0ae92bab9917bad3222731e0a0e0c61de41c7d3e1b892382", "size": 2740 },
+    { "path": "plat/bench/src/fusion/ramp.ts", "status": "created", "sha256": "7b0f4176b2ff3104fd9dbb0282fb05544dc979cf80f8d83d457cbc47609a32a5", "size": 3180 },
+    { "path": "plat/bench/src/fusion/report.ts", "status": "created", "sha256": "05607be5ffd9381966e8887567293139d1e1d37df335fc629c68fa2076e01b06", "size": 22729 },
+    { "path": "plat/bench/src/fusion/runs.ts", "status": "created", "sha256": "c01fadd62f42f313379f652d2f9a0a470b9432c178f02f939a822420ca83d08f", "size": 17953 },
+    { "path": "plat/bench/src/fusion/timing.ts", "status": "created", "sha256": "698490ff4feefb22b20b4c4cdc83972b0d65593ebdfd52efd1fc5b35d69ce08c", "size": 4306 },
+    { "path": "plat/bench/src/fusion/worker.ts", "status": "created", "sha256": "5f05c68d39bc34ca1836b86315cf11450055a32cdabdad46c3bc6f77f9f0d692", "size": 341 },
+    { "path": "plat/bench/test/fusion/derive.test.ts", "status": "created", "sha256": "9b80577f5bd689633ae4fd2581354bcdb30a32a9a85500e6c1ccf46e33a6cb64", "size": 10608 },
+    { "path": "plat/bench/test/fusion/entry.test.ts", "status": "created", "sha256": "c6dbdc3d1928b34fbf2e6ae3999c4b29a842e821fa0e2899b835d2eb334a4255", "size": 4978 },
+    { "path": "plat/bench/test/fusion/hausdorff.test.ts", "status": "created", "sha256": "3b6d8832b47b37bccfff1edc99c6ba2691b03cc8abaa31aad2110e3d5e9341f8", "size": 4368 },
+    { "path": "plat/bench/test/fusion/measure.test.ts", "status": "created", "sha256": "3494a8d5a2527111681a9ed5e027583609b3d837a9e49cbdbe91e8b6361df247", "size": 5247 },
+    { "path": "plat/bench/test/fusion/ramp.test.ts", "status": "created", "sha256": "61f719bf06be73c299ff1193eb988c6093b3c1760bb2215b140d57aa9caddc2f", "size": 3883 },
+    { "path": "plat/bench/test/fusion/report.test.ts", "status": "created", "sha256": "36891ff68a22ab456319ec8b09a834c19507cc382c317c4d1921efd0543df633", "size": 12584 },
+    { "path": "plat/bench/test/fusion/restart.test.ts", "status": "created", "sha256": "01b54c44b380acf742891fee40627af0a8d68b142bc368cf23daf245e874420e", "size": 3160 },
+    { "path": "plat/bench/test/fusion/support.ts", "status": "created", "sha256": "08caa70fc45c609ad7aff9d8579d913141392d0890a78c0953b42fb99a8fac09", "size": 1997 },
+    { "path": "plat/bench/test/fusion/timing.test.ts", "status": "created", "sha256": "67bd37514b072256dda38612a8c7d13fb921c2721ed9bb1071dd956dd9ef153c", "size": 3109 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0332", "L-0338"],
+      "lines": ["c921b0af47898da1", "6cecf07c1b8f02ad"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0270"],
+      "lines": ["b6ad372e6d180436"],
+      "removed": []
+    }
+  ]
+}

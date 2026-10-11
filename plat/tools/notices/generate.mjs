@@ -3,17 +3,17 @@
 //   node tools/notices/generate.mjs           write the file and run the licence check
 //   node tools/notices/generate.mjs --check   fail when the committed file differs from the generated text
 // Per third-party package of the production closure, sorted by name: name, version, licence, its copyright lines and
-// its licence text; then Sun's fdlibm notice (vendor/fdlibm-5.3/NOTICE.txt, entered by M0-d-03 — a placeholder until
-// then; exactly one of the two, never both). THIRD-PARTY-NOTICES.txt passes to M0-d-03, which regenerates it with
-// `corepack pnpm notices` when the notice lands (C-0095). Fonts' OFL text joins at M1 with the fonts (§17.2).
+// its licence text; then Sun's fdlibm notice (vendor/fdlibm-5.3/NOTICE.txt; while that file is absent, a placeholder
+// in its place — exactly one of the two, never both, C-0095). Fonts' OFL text joins at M1 with the fonts (§17.2).
 // Then the public-domain algorithms the kernel ports or implements, credited though they bind no licence (CLEAN-ROOM.md
-// rule 7; the kernel reuse round, J224): xoshiro128** 1.1 with the authors' dedication read from the vendored C, and
+// rule 7; C-0259 (3)): xoshiro128** 1.1 with the authors' dedication read from the vendored C, and
 // MurmurHash3 (no file vendored: our own implementation of the published algorithm). A credit whose source is missing
 // throws, so `notices` and `notices:check` fail rather than drop it.
 // Exit 1 on a production licence failure or a --check diff.
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { byCodeUnit } from '../vendor/common.mjs';
 import { PLAT_ROOT, checkLicences, devClosure, productionClosure } from './closure.mjs';
 
 export const NOTICES_FILE = 'THIRD-PARTY-NOTICES.txt';
@@ -115,7 +115,7 @@ export function noticesText(
   ];
   const libs = [...production.values()]
     .filter((p) => !p.name.startsWith('@plat/'))
-    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+    .sort((a, b) => byCodeUnit(a.name, b.name));
   for (const p of libs) {
     const text = licenceText(p.dir);
     const copyright = (text ?? '').split('\n').filter((l) => /copyright/i.test(l)).map((l) => l.trim());

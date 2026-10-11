@@ -2,52 +2,16 @@
 // allocation rule; §3.3 "No item changes in place"). The item's listed test "the anchor ordinal allocation: two contact
 // names on one entity, ops permuted — identical ordinals (§13.1's permuted-ops fixture, run at M0-a-06)" is here in
 // its M0-a-04 form: the allocation read at the op, so one canonical op order gives one set of ordinals whatever the
-// issue order and the slots; the declared form that sorts the ops is M0-a-06's (C-0169 (5)).
+// issue order and the slots; the declared form that sorts the ops is M0-a-06's (C-0169 (5)). The split at a table's
+// doubling is growth.test.ts's, its own-ends clearance (C-0284) placement.test.ts's, a closed transaction closed.test.ts's.
 import { describe, expect, it } from 'vitest';
-import {
-  addRole,
-  faceWalk,
-  outgoing,
-  roleIdOf,
-  rowKey,
-  rowsOn,
-  VERTEX_SPLIT,
-  VERTEX_STEINER,
-  type Plat,
-  type VertexId,
-} from '../../../src/arena/index.js';
-import { setTinyTables, tinyTables } from '../../../src/arena/debug.js';
-import { attachIndex, beginIndexBatch, checkIndexBatch, endIndexBatch, query, routeRun } from '../../../src/index/index.js';
-import { applyAttraction, attractRun, attractVertex, planAttraction } from '../../../src/insert/attractVertex.js';
-import { INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
-import { placePoint, splitEndsBreachClearance } from '../../../src/insert/placement.js';
-import { addressKind, allocateAnchor, applySplitPlan, firstAnchorOrdinal, planSplitThrough, splitThrough } from '../../../src/insert/splitThrough.js';
-import { opSplitThrough, tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
-import type { Level, StageId } from '../../../src/types/index.js';
-import { TINY_TABLES } from '../../arena/tiny.js';
-import { bits } from '../../tx/support.js';
-import {
-  buildArena,
-  CELLS,
-  chordSpec,
-  dressQuarters,
-  fingerprint,
-  generator,
-  indexed,
-  intIn,
-  liveEdges,
-  permutation,
-  problems,
-  pt,
-  QUARTERS,
-  SLANT,
-  splitEndsBreach,
-  TIMEOUT,
-  type ArenaSpec,
-  type Built,
-} from './support.js';
-
-const pos = (p: Plat, v: VertexId): [number, number] => [p.vertices.x[v], p.vertices.y[v]];
+import { faceWalk, handleOf, outgoing, roleIdOf, rowKey, rowsOn, VERTEX_SPLIT, VERTEX_STEINER, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { beginIndexBatch, checkIndexBatch, endIndexBatch, routeRun } from '../../../src/index/index.js';
+import { INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
+import { addressKind, allocateAnchor, carriesRow, firstAnchorOrdinal, footOnSegment, nearerVertex, splitThrough } from '../../../src/insert/splitThrough.js';
+import { footOnSegment as stretchFoot, nearerVertex as stretchNearer } from '../../../src/insert/stretch.js';
+import type { Level } from '../../../src/types/index.js';
+import { dressQuarters, edgeNear, fingerprint, generator, indexed, intIn, liveVertices, permutation, pos, problems, pt, QUARTERS, rowsText, SLANT, type ArenaSpec } from './support.js';
 
 /** Runs a writer inside an index batch log of `level` and checks §3.10's freshness row on it (M0-a-03's check). */
 function logged(p: Plat, t: InsertTx, fn: () => void): string[] {
@@ -69,15 +33,6 @@ function facesHolding(p: Plat, v: VertexId, l: Level): number {
   }
   return n;
 }
-
-/** The level-n route edge nearest a point — how an op names the edge it splits at the time it applies. */
-function edgeNear(p: Plat, level: Level, x: number, y: number): number {
-  const q = query(p, p.key, level, { minX: x - 26, minY: y - 26, maxX: x + 26, maxY: y + 26 }, { edges: true });
-  if (q.edges.length === 0) throw new Error(`no edge near (${x}, ${y})`);
-  return q.edges[0];
-}
-
-const rowsText = (p: Plat, h: number): string[] => rowsOn(p, 'edge', h).map((r) => JSON.stringify(rowKey(p, r)) + p.roles.level[r]);
 
 describe('the split (§2.2 rule 3, §3.3)', () => {
   it('an L2 batch on an L1 edge: a Steiner vertex, the edge’s rows on both parts, its L2 faces re-indexed, the run’s handle kept', () => {
@@ -316,535 +271,42 @@ describe('rows and the anchor allocation (§3.4 splitThrough’s row; §3.3 rule
   });
 });
 
-// ---- N-53 (1): a split at a table's doubling (C-0169 (5), refined by C-0279) ----------------------------------------
-//
-// allocVertex and allocEdgePair double a full table by replacing it (`p.vertices`, `p.halfEdges`); a writer that read a
-// table before an allocation and writes it after writes a dead copy (N-53: applySplitPlan's splice landed in the old
-// half-edge table at pair counts 64·2^k, and the arena check threw at the commit). Each pin builds the arena with the
-// table exactly full, so the split's own allocation doubles it, and judges the result against §3.10's validator, the
-// rotation at the split's three vertices and the same split on an arena built at the default (large) capacity — a
-// table's capacity is never content, so the two fingerprints (every table to its high-water mark, the slots, the index)
-// are equal.
-
-/** An arena from `spec` with the index attached, its tables sized as `capacity` says (the rest at the defaults). */
-function sized(spec: ArenaSpec, capacity: { vertices?: number; edgePairs?: number; roleRows?: number }, dress = false): Built {
-  const b = buildArena(spec, {}, capacity);
-  attachIndex(b.plat, { gridCellCm: CELLS });
-  return dress ? dressQuarters(b) : b;
-}
-
-/** The neighbours of a vertex, by the live rotation. */
-const ring = (p: Plat, v: VertexId): VertexId[] => outgoing(p, v).map((h) => p.halfEdges.origin[h ^ 1]);
-
-/** A declared batch at `level` holding `ops` (every other field the tx tests' defaults). */
-function declaredSpec(level: Level, ops: KernelTx['ops']): KernelTx {
-  const S8 = 8 as StageId;
-  return { key: { layer: 'ground', part: 0 }, level, ops, expect: [], onFail: 'reject', batch: { kind: 'stage', stage: S8 }, stage: S8, rederivesFrom: S8, workLimit: 1_000_000 };
-}
-
-/** Splits at (x, y) on the level-`level` edge nearest it; checks the rotation at the split's three vertices; returns v. */
-function splitAndRead(b: Built, level: Level, x: number, y: number): { v: VertexId; s: VertexId; t0: VertexId } {
-  const p = b.plat;
-  const g = edgeNear(p, level, x, y);
-  const s = p.halfEdges.origin[g];
-  const t0 = p.halfEdges.origin[g ^ 1];
-  const r = splitThrough(insertTx(p, level), g, pt(x, y));
-  expect(r.ok).toBe(true);
-  if (!r.ok) throw new Error(r.code);
-  const v = r.value;
-  expect(ring(p, v).sort((a, c) => a - c)).toEqual([s, t0].sort((a, c) => a - c));
-  expect(ring(p, s)).toContain(v);
-  expect(ring(p, s)).not.toContain(t0);
-  expect(ring(p, t0)).toContain(v);
-  expect(ring(p, t0)).not.toContain(s);
-  return { v, s, t0 };
-}
-
-/** Every live face record of every level walks (a stale splice leaves a ring that does not close). */
-function everyFaceWalks(p: Plat): void {
-  for (let l = 0; l <= 4; l++) {
-    for (let f = 0; f < p.slots.face[l].top; f++) if (p.faces[l].kind[f] !== 0xffff) faceWalk(p, l as Level, f);
-  }
-}
-
-// These pins pin the DEFAULT sizes' premise — a table exactly full doubles inside the split (2 · cap) and the large-capacity
-// reference never grows — so each runs with M0-a-02's tiny-tables mode off whatever PLAT_TINY_TABLES says (N-53 (4),
-// C-0286; N-s1-4, C-0294): the mode is read when a table is made AND when it grows, so it is off for the whole body (the
-// builds, the split's own growth and the reference), and put back to the process's setting after, pass or fail. Under
-// the tiny run every other test of this folder meets a replaced table at every allocation; these keep the doubling.
-function atDefaultSizes(fn: () => void): () => void {
-  return () => {
-    setTinyTables(false);
-    try {
-      fn();
-    } finally {
-      setTinyTables(TINY_TABLES);
+describe('the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0316)', () => {
+  it('footOnSegment and nearerVertex answer as stretch.ts’s copies on random lattice inputs, ties and the clamp included', () => {
+    const rnd = generator(0xf007);
+    const b = indexed(SLANT);
+    const vs = liveVertices(b.plat);
+    for (let k = 0; k < 20_000; k++) {
+      const ax = intIn(rnd, -3000, 3000);
+      const ay = intIn(rnd, -3000, 3000);
+      const bx = ax + intIn(rnd, -400, 400);
+      const by = ay + (k % 7 === 0 ? 0 : intIn(rnd, -400, 400));
+      if ((bx - ax) ** 2 + (by - ay) ** 2 < 625) continue;
+      const px = ax + intIn(rnd, -600, 600) + (k % 3 === 0 ? 0.5 : 0);
+      const py = ay + intIn(rnd, -600, 600);
+      expect(footOnSegment(ax, ay, bx, by, px, py)).toEqual(stretchFoot(ax, ay, bx, by, px, py));
+      const u = vs[intIn(rnd, 0, vs.length - 1)];
+      const w = vs[intIn(rnd, 0, vs.length - 1)];
+      const x = k % 5 === 0 ? (b.plat.vertices.x[u] + b.plat.vertices.x[w]) / 2 : px;
+      const y = k % 5 === 0 ? (b.plat.vertices.y[u] + b.plat.vertices.y[w]) / 2 : py;
+      expect(nearerVertex(b.plat, u, w, x, y)).toBe(stretchNearer(b.plat, u, w, x, y));
     }
-  };
-}
+    // the tie y then x: (15, 20) is 25 cm from both ends of SLANT's (0, 0)–(30, 40), either way round
+    expect(nearerVertex(b.plat, b.v[5], b.v[6], 15, 20)).toBe(b.v[5]);
+    expect(nearerVertex(b.plat, b.v[6], b.v[5], 15, 20)).toBe(b.v[5]);
+    expect(() => footOnSegment(5, 5, 5, 5, 0, 0)).toThrow(/^insert: an edge spans at least minEdge$/);
+  });
 
-describe('a split at a table’s doubling (N-53 (1))', () => {
-  it('P1: the pair table full — the split’s new pair doubles it; the rotation at v, s and t0 holds; equal to a large-capacity reference', atDefaultSizes(() => {
-    const b = sized(SLANT, { edgePairs: SLANT.edges.length });
+  it('carriesRow reads a vertex row key by its interned ids: the vertex holding it, no other vertex, no other ordinal', () => {
+    const b = dressQuarters(indexed(QUARTERS));
     const p = b.plat;
-    expect(p.slots.pair.top).toBe(p.halfEdges.level.length); // full: the split's pair grows the table
-    const cap = p.halfEdges.level.length;
-    splitAndRead(b, 1, 1500, 2000);
-    expect(p.halfEdges.level.length).toBe(2 * cap); // the table did double inside the op
-    expect(problems(p)).toEqual([]);
-    everyFaceWalks(p);
-    const ref = indexed(SLANT);
-    expect(ref.plat.halfEdges.level.length).toBeGreaterThan(SLANT.edges.length + 1); // the reference never grows
-    splitAndRead(ref, 1, 1500, 2000);
-    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  }));
-
-  it('P1, the vertex-table twin: the vertex table full — the split’s vertex doubles it; same checks, same fingerprint', atDefaultSizes(() => {
-    const b = sized(SLANT, { vertices: SLANT.vertices.length });
-    const p = b.plat;
-    expect(p.slots.vertex.top).toBe(p.vertices.x.length);
-    const cap = p.vertices.x.length;
-    splitAndRead(b, 1, 1500, 2000);
-    expect(p.vertices.x.length).toBe(2 * cap);
-    expect(problems(p)).toEqual([]);
-    everyFaceWalks(p);
-    const ref = indexed(SLANT);
-    expect(ref.plat.vertices.x.length).toBeGreaterThan(SLANT.vertices.length + 1); // the reference never grows
-    splitAndRead(ref, 1, 1500, 2000);
-    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  }));
-
-  it('P1, every table full at once (vertices, pairs, role rows): a Steiner split copying the edge’s rows; same fingerprint', atDefaultSizes(() => {
-    const rows = dressQuarters(indexed(QUARTERS)).plat.slots.role.top;
-    const b = sized(QUARTERS, { vertices: QUARTERS.vertices.length, edgePairs: QUARTERS.edges.length, roleRows: rows }, true);
-    const p = b.plat;
-    expect([p.slots.vertex.top, p.slots.pair.top, p.slots.role.top]).toEqual([p.vertices.x.length, p.halfEdges.level.length, p.roles.kind.length]);
-    const { v } = splitAndRead(b, 2, 510, 300); // an L2 batch on the L1 edge (500, 0)–(500, 500): both parts carry its rows
-    expect(p.vertices.flags[v]).toBe(VERTEX_STEINER | VERTEX_SPLIT);
-    const parts = outgoing(p, v);
-    expect(rowsText(p, parts[0])).toEqual(rowsText(p, parts[1]));
-    expect(rowsText(p, parts[0]).length).toBeGreaterThan(0);
-    expect(problems(p)).toEqual([]);
-    everyFaceWalks(p);
-    const ref = dressQuarters(indexed(QUARTERS));
-    splitAndRead(ref, 2, 510, 300);
-    expect(fingerprint(p)).toBe(fingerprint(ref.plat));
-  }));
-
-  it('P1, the declared form: opSplitThrough through tx() at a full pair table commits, its fingerprint equal to a large-capacity reference', atDefaultSizes(() => {
-    const run = (b: Built): void => {
-      const g = edgeNear(b.plat, 2, 510, 300);
-      const r = tx(b.plat, declaredSpec(2, [opSplitThrough([7, 0], 0, g, pt(510, 300), { role: 'anchor', entity: 'district:1' })]));
-      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
-    };
-    const b = sized(QUARTERS, { edgePairs: QUARTERS.edges.length }, true);
-    const cap = b.plat.halfEdges.level.length;
-    expect(b.plat.slots.pair.top).toBe(cap);
-    run(b);
-    expect(b.plat.halfEdges.level.length).toBe(2 * cap);
-    expect(problems(b.plat)).toEqual([]);
-    everyFaceWalks(b.plat);
-    const ref = dressQuarters(indexed(QUARTERS));
-    run(ref);
-    expect(b.plat.version).toBe(ref.plat.version);
-    expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
-  }));
-
-  // The claim is capacity-blindness: split by split, the arena grown from full tables equals the one built large (equal
-  // fingerprints mean equal arenas, so §3.10 holds on one exactly when on the other) — and §3.10 holds after every split:
-  // these long runs on near-frame chords reach the split's own-ends clearance case (C-0279 (4)), which the placement
-  // now keeps (C-0284).
-  it('property: a run of splits from full tables through two doublings equals the same run at large capacity, split by split', { timeout: TIMEOUT }, atDefaultSizes(() => {
-    let doubled = 0;
-    for (let seed = 1; seed <= 150; seed++) {
-      const rnd = generator(0x5e53 + seed);
-      let spec: ArenaSpec | null = null;
-      while (spec === null) spec = chordSpec(rnd);
-      const b = sized(spec, { vertices: spec.vertices.length, edgePairs: spec.edges.length });
-      const ref = indexed(spec);
-      const cap = b.plat.halfEdges.level.length;
-      for (let k = 0; k < 2 * cap + 2; k++) {
-        const l1 = liveEdges(ref.plat).filter((e) => e[2] === 1);
-        const [a, c] = l1[intIn(rnd, 0, l1.length - 1)];
-        const X = ref.plat.vertices.x;
-        const Y = ref.plat.vertices.y;
-        const s = intIn(rnd, 20, 80) / 100;
-        const x = Math.round(X[a] + s * (X[c] - X[a])) + intIn(rnd, -20, 20);
-        const y = Math.round(Y[a] + s * (Y[c] - Y[a])) + intIn(rnd, -20, 20);
-        // the half-edge a → c names the edge in both arenas (one build order, one op history)
-        const g = outgoing(ref.plat, a).find((h) => ref.plat.halfEdges.origin[h ^ 1] === c);
-        if (g === undefined) throw new Error('no half-edge a → c');
-        const want = splitThrough(insertTx(ref.plat, 1), g, pt(x, y));
-        const got = splitThrough(insertTx(b.plat, 1), g, pt(x, y));
-        expect(got.ok ? got.value : got.code).toBe(want.ok ? want.value : want.code);
-        expect(fingerprint(b.plat)).toBe(fingerprint(ref.plat));
-        expect(problems(ref.plat)).toEqual([]);
-      }
-      if (b.plat.halfEdges.level.length >= 4 * cap) doubled++; // two doublings
-    }
-    expect(doubled).toBeGreaterThan(0); // the runs reach a second doubling
-  }));
-
-  it('the pins above put the tiny-tables mode back to the process’s setting (PLAT_TINY_TABLES), pass or fail', () => {
-    expect(tinyTables()).toBe(TINY_TABLES);
-  });
-});
-
-// ---- C-0279 (4): a split keeps clearance at its own ends (C-0284) -------------------------------------------------------
-//
-// While s and t are joined each lies in the other's one-ring, so a chord's vertex P may stand within minEdge of the frame
-// edges at the chord's frame end E (a shallow corner above minFaceAngle). A split of P–E makes the new vertex, not E,
-// P's neighbour, so P must then clear the frame edges at E: it cannot, so no point of P–E qualifies under (iii) and the
-// placement falls back onto the nearer end (§3.6), writing nothing. Before C-0284 the split committed the breach.
-
-/** The L0 frame [0, 4 000]² and an L1 chord E (3 034, 4 000) – P (2 912, 4 000 − d) – (2 000, 2 000) – (2 000, 0). */
-function nearFrame(d: number): ArenaSpec {
-  return {
-    vertices: [
-      [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
-      [3034, 4000, 1], [2912, 4000 - d, 1], [2000, 2000, 1], [2000, 0, 1], // 4 E, 5 P, 6, 7
-    ],
-    edges: [
-      [0, 7, 0], [7, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 0, 0],
-      [4, 5, 1], [5, 6, 1], [6, 7, 1],
-    ],
-  };
-}
-
-/** The half-edge a → c. */
-function halfEdge(p: Plat, a: VertexId, c: VertexId): number {
-  const g = outgoing(p, a).find((h) => p.halfEdges.origin[h ^ 1] === c);
-  if (g === undefined) throw new Error('no half-edge a → c');
-  return g;
-}
-
-/** A callback batch at `level` (the declared spec with no ops). */
-const callbackSpec = (level: Level): KernelTx => declaredSpec(level, []);
-
-describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
-  it('a shallow corner at the frame (P 16 cm inside it, 7.5°): no point of P–E qualifies — splitThrough lands on the nearer end, W_PLACED, nothing written; §3.10 holds', () => {
-    for (const level of [1, 2] as const) {
-      const b = indexed(nearFrame(16));
-      const p = b.plat;
-      const [E, P] = [b.v[4], b.v[5]];
-      expect(problems(p)).toEqual([]); // the arena is valid: E is P's neighbour
-      expect(splitEndsBreach(p, P, E)).toBe(true); // the oracle: a split would leave P within minEdge of (3 034, 4 000)–(0, 4 000)
-      expect(splitEndsBreachClearance(p, P, E)).toBe(true);
-      expect(splitEndsBreachClearance(p, E, P)).toBe(true);
-      // the placement rule: every candidate fails (iii) at the split's ends, none is tried; the nearer endpoint
-      const t0 = insertTx(p, level);
-      const pl = placePoint(t0, halfEdge(p, P, E), { x: 2966, y: 3991.08 });
-      expect(pl.ok && pl.value).toEqual({ kind: 'endpoint', vertex: P, tried: 0 });
-      expect(t0.work.counts.get(INSERT_PLACEMENT_CANDIDATES) ?? 0).toBe(0);
-      // splitThrough at the checker's point (seed 6's split, (2 966, 3 996)), both ways round
-      for (const [a, c] of [[P, E], [E, P]]) {
-        const before = fingerprint(p);
-        const t = insertTx(p, level);
-        const r = splitThrough(t, halfEdge(p, a, c), pt(2966, 3996));
-        expect(r.ok && r.value).toBe(P);
-        expect(t.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
-        expect(t.journal.vertices).toEqual([]);
-        expect(fingerprint(p)).toBe(before);
-        expect(problems(p)).toEqual([]);
-      }
-      // attraction from beside P–E (6 cm off it, 15 cm inside the frame): onto the nearer end, nothing written
-      const before = fingerprint(p);
-      const t = insertTx(p, level);
-      const r = attractVertex(t, pt(2966, 3985));
-      expect(r.ok && r.value.kind === 'vertex' && r.value.vertex).toBe(P);
-      expect(fingerprint(p)).toBe(before);
-      expect(problems(p)).toEqual([]);
-    }
-  });
-
-  it('the control: P 30 cm inside the frame (clear of the frame edges at E) — the split places its vertex and §3.10 holds', () => {
-    const b = indexed(nearFrame(30));
-    const p = b.plat;
-    const [E, P] = [b.v[4], b.v[5]];
-    expect(splitEndsBreach(p, P, E)).toBe(false);
-    expect(splitEndsBreachClearance(p, P, E)).toBe(false);
-    const t = insertTx(p, 1);
-    const r = splitThrough(t, halfEdge(p, P, E), pt(2966, 3990));
-    expect(r.ok).toBe(true);
-    expect(t.journal.vertices).toHaveLength(1);
-    expect(problems(p)).toEqual([]);
-  });
-
-  it('the one-ring exemption that stays: s beside an edge t–w whose far end w is s’s own neighbour (a thin triangle) — the split is placed, §3.10 holds', () => {
-    // the L0 frame ±5 000 and an L1 triangle s (0, 0), t (200, 0), w (−59, 27): s stands 20.7 cm from t–w, which stays in
-    // s's one-ring after the split (w is its neighbour), so the split of s–t at (100, 0) keeps clearance
-    const spec: ArenaSpec = {
-      vertices: [[-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [0, 0, 1], [200, 0, 1], [-59, 27, 1]],
-      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [5, 6, 1], [6, 4, 1]],
-    };
-    const b = indexed(spec);
-    const p = b.plat;
-    const [s, t] = [b.v[4], b.v[5]];
-    expect(problems(p)).toEqual([]);
-    expect(splitEndsBreach(p, s, t)).toBe(false);
-    expect(splitEndsBreachClearance(p, s, t)).toBe(false);
-    const tx1 = insertTx(p, 1);
-    const r = splitThrough(tx1, halfEdge(p, s, t), pt(100, 0));
-    expect(r.ok && pos(p, r.value)).toEqual([100, 0]);
-    expect(tx1.journal.vertices).toHaveLength(1);
-    expect(problems(p)).toEqual([]);
-  });
-
-  it('a run with a finer vertex: a sub-edge whose ends cannot clear is passed over and a candidate on the next sub-edge within attractCm qualifies', () => {
-    // the L1 line y = 0 across the frame through A (−1 000, 0), an L2 Steiner vertex F (−900, 0) and B (1 000, 0); F's L2
-    // spoke F–G, G (−1 100, 40), passes 19.6 cm from A (exempt while A–F stands). The exact position 0.5 cm before F:
-    // A–F cannot be split, F–B can, and (−875, 0), 25.5 cm away, is the nearest point that qualifies on it.
-    const spec: ArenaSpec = {
-      vertices: [
-        [-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [-5000, 0, 1], [5000, 0, 1], // 0 – 5
-        [-1000, 0, 1], [-900, 0, 2, VERTEX_STEINER | VERTEX_SPLIT], [1000, 0, 1], [-1100, 40, 2], // 6 A, 7 F, 8 B, 9 G
-      ],
-      edges: [
-        [0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0],
-        [4, 6, 1], [6, 7, 1], [7, 8, 1], [8, 5, 1], [7, 9, 2],
-      ],
-    };
-    const b = indexed(spec);
-    const p = b.plat;
-    const [A, F, B] = [b.v[6], b.v[7], b.v[8]];
-    expect(problems(p)).toEqual([]);
-    expect(splitEndsBreach(p, A, F)).toBe(true);
-    expect(splitEndsBreach(p, F, B)).toBe(false);
-    const pl = placePoint(insertTx(p, 1), halfEdge(p, A, F), { x: -900.5, y: 0 });
-    expect(pl.ok && pl.value.kind === 'placed' && { at: pl.value.at, sub: pl.value.sub }).toEqual({ at: pt(-875, 0), sub: halfEdge(p, F, B) });
-  });
-
-  it('the checker’s seeds 6, 34 and 40 (chord arenas, generator 0xc1ea + seed), role-dressed, every split a tx() callback batch: committed with §3.10 holding, never with a breach', () => {
-    const cases = new Map<number, string[]>();
-    for (const seed of [6, 34, 40]) {
-      const rnd = generator(0xc1ea + seed);
-      let spec: ArenaSpec | null = null;
-      while (spec === null) spec = chordSpec(rnd);
-      const b = indexed(spec);
-      const p = b.plat;
-      b.he.forEach((h, i) => addRole(p, h, spec!.edges[i][2] === 0 ? { role: 'margin', entity: 'terrain:1' } : { role: 'way', entity: `way:${i}` }, spec!.edges[i][2] as Level));
-      expect(problems(p)).toEqual([]);
-      for (let k = 0; k < 40; k++) {
-        const l1 = liveEdges(p).filter((e) => e[2] === 1);
-        const [a, c] = l1[intIn(rnd, 0, l1.length - 1)];
-        const X = p.vertices.x;
-        const Y = p.vertices.y;
-        const s = intIn(rnd, 20, 80) / 100;
-        const x = Math.round(X[a] + s * (X[c] - X[a])) + intIn(rnd, -20, 20);
-        const y = Math.round(Y[a] + s * (Y[c] - Y[a])) + intIn(rnd, -20, 20);
-        if (splitEndsBreach(p, a, c)) cases.set(seed, [...(cases.get(seed) ?? []), `${k}: (${X[a]},${Y[a]})-(${X[c]},${Y[c]})`]);
-        const g = halfEdge(p, a, c);
-        const version = p.version;
-        const before = fingerprint(p);
-        const r = tx(p, callbackSpec(1), (o) => splitThrough(o, g, pt(x, y)));
-        if (r.ok) expect(problems(p)).toEqual([]);
-        else {
-          expect(p.version).toBe(version);
-          expect(fingerprint(p)).toBe(before);
-        }
-      }
-    }
-    // each seed reaches the case at the checker's breaching split (seed 6: split 20 of (2 912, 3 984)–(3 034, 4 000))
-    expect(cases.get(6)).toContain('20: (2912,3984)-(3034,4000)');
-    expect(cases.get(34)).toContain('27: (2168,0)-(2003,23)');
-    expect(cases.get(40)).toContain('37: (3981,2702)-(4000,2539)');
-  });
-});
-
-// ---- N-55 (5): splitThrough refuses a closed transaction (C-0294) ------------------------------------------------------
-//
-// An overlay outlives its batch only as a programming error: kept from a callback past the commit, a reject or a throw
-// that rolled the batch back, it is closed (`InsertTx.closed`, set by M0-a-06's transaction). Before N-55 the shell's
-// writers never looked, so `splitThrough` on it wrote outside any transaction with the version unchanged (the ruling's
-// probe q13). It now throws at its entry, before it reads or charges anything — tx's assertion class (N-53 (3)), never a
-// typed refusal — and the arena stays as it was, bit for bit.
-
-/**
- * The overlay of a QUARTERS batch at L2 that split (500, 300) on the L1 edge (500, 0)–(500, 500), then ended as `how`;
- * `he` the fixture's half-edges by spec edge (the split keeps every existing slot).
- */
-function staleSplitOverlay(how: 'committed' | 'rejected' | 'threw'): { p: Plat; o: Overlay; he: readonly number[] } {
-  const b = dressQuarters(indexed(QUARTERS));
-  const p = b.plat;
-  let kept: Overlay | null = null;
-  const run = (): unknown =>
-    tx(p, callbackSpec(2), (o) => {
-      kept = o;
-      const r = splitThrough(o, edgeNear(p, 2, 510, 300), pt(510, 300), { role: 'anchor', entity: 'district:1' });
-      expect(r.ok).toBe(true);
-      if (how === 'rejected') return { ok: false as const, code: 'E_NO_PATH' as const, detail: 'the stage gave up' };
-      if (how === 'threw') throw new Error('stage bug');
-      return r;
-    });
-  if (how === 'threw') expect(run).toThrow(/stage bug/);
-  else expect((run() as { ok: boolean }).ok).toBe(how === 'committed');
-  if (kept === null) throw new Error('the callback never ran');
-  return { p, o: kept, he: b.he };
-}
-
-describe('N-55 (5): splitThrough on a closed transaction throws — committed, rejected or rolled back by a throw (C-0294)', () => {
-  for (const how of ['committed', 'rejected', 'threw'] as const) {
-    it(`on a ${how} batch's overlay: throws "the transaction is closed"; the arena bit for bit and its version as they were`, () => {
-      const { p, o } = staleSplitOverlay(how);
-      expect(o.closed).toBe(true);
-      const before = bits(p);
-      const version = p.version;
-      const g = edgeNear(p, 2, 510, 150); // (500, 0)–(500, 300) after a commit, the whole L1 edge after a reject or throw
-      for (const row of [undefined, { role: 'anchor', entity: 'district:2' }]) {
-        expect(() => splitThrough(o, g, pt(510, 150), row)).toThrow(/^insert: the transaction is closed \(committed or rejected\)$/);
-        expect(bits(p)).toBe(before);
-        expect(p.version).toBe(version);
-      }
-      expect(problems(p)).toEqual([]);
-      // the control: the same split in an open batch writes and commits — the throw was the closed overlay, nothing else
-      const r = tx(p, callbackSpec(2), (open) => splitThrough(open, g, pt(510, 150)));
-      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
-      expect(p.version).toBe(version + 1);
-      expect(bits(p)).not.toBe(before);
-      expect(problems(p)).toEqual([]);
-    });
-  }
-
-  it('an open shell transaction (closed unset) and one marked open (closed false) split as before', () => {
-    for (const closed of [undefined, false]) {
-      const p = dressQuarters(indexed(QUARTERS)).plat;
-      const t: InsertTx = closed === undefined ? insertTx(p, 2) : { ...insertTx(p, 2), closed };
-      const r = splitThrough(t, edgeNear(p, 2, 510, 300), pt(510, 300));
-      expect(r.ok).toBe(true);
-      expect(t.journal.vertices.length).toBe(1);
-    }
-  });
-});
-
-// ---- N-11 and N-12 (C-0296): the closed check comes first, and the step-2 writers take it too ---------------------------
-//
-// N-11: the closed throw precedes every plan, read and charge — a call the plan would refuse (outside the lattice, a
-// finer edge, a landing on a finer vertex) still throws the closed message, never a typed refusal, and a lawful attempt
-// charges nothing to the dead overlay. N-12: `attractVertex` and `attractRun` (the step-2 entries the barrel exports)
-// and the two exported writers under them, `applyAttraction` and `applySplitPlan`, used to write a closed overlay
-// silently (ok, the bits changed, the version +0); each now throws at its entry. The open control of every refused
-// shape runs on a shell over the same arena: its refusal or its plan shows what the closed check pre-empts.
-
-const CLOSED = /^insert: the transaction is closed \(committed or rejected\)$/;
-const OFF_LATTICE = { x: 1e15, y: 150 } as never;
-
-/** Asserts `call` throws the closed message on `o` with the arena, its version and the overlay's work and warnings as they were. */
-function throwsClosed(p: Plat, o: Overlay, call: () => unknown): void {
-  const before = bits(p);
-  const version = p.version;
-  const work = o.work.total;
-  const counts = JSON.stringify([...o.work.counts]);
-  const warnings = JSON.stringify(o.warnings);
-  const journal = JSON.stringify(o.journal);
-  expect(call).toThrow(CLOSED);
-  expect(bits(p)).toBe(before);
-  expect(p.version).toBe(version);
-  expect(o.work.total).toBe(work);
-  expect(JSON.stringify([...o.work.counts])).toBe(counts);
-  expect(JSON.stringify(o.warnings)).toBe(warnings);
-  expect(JSON.stringify(o.journal)).toBe(journal);
-}
-
-describe('N-11: splitThrough’s closed throw precedes every plan, read and charge (C-0294 (1); C-0296)', () => {
-  for (const how of ['committed', 'rejected', 'threw'] as const) {
-    it(`on a ${how} batch's overlay: a split the plan would refuse throws the closed message, never a typed refusal; a lawful one charges nothing`, () => {
-      const { p, o, he } = staleSplitOverlay(how);
-      expect(o.closed).toBe(true);
-      const g = edgeNear(p, 2, 510, 150);
-      // the controls, on an open shell over the same arena: what the plan answers (nothing written)
-      expect(splitThrough(insertTx(p, 2), g, OFF_LATTICE)).toMatchObject({ ok: false, code: 'E_OUT_OF_RANGE' });
-      expect(splitThrough(insertTx(p, 2), he[23], pt(750, 760))).toMatchObject({ ok: false, code: 'E_LEVEL' }); // an L4 edge
-      expect(splitThrough(insertTx(p, 2), he[13], pt(510, 760))).toMatchObject({ ok: false, code: 'E_LEVEL' }); // onto the L4 vertex (500, 750)
-      const lawful = insertTx(p, 2);
-      expect(planSplitThrough(lawful, g, pt(510, 150)).ok).toBe(true);
-      expect(lawful.work.total).toBeGreaterThan(0); // a lawful plan charges
-      // the closed overlay: each throws first
-      throwsClosed(p, o, () => splitThrough(o, g, OFF_LATTICE));
-      throwsClosed(p, o, () => splitThrough(o, he[23], pt(750, 760)));
-      throwsClosed(p, o, () => splitThrough(o, he[13], pt(510, 760)));
-      throwsClosed(p, o, () => splitThrough(o, g, pt(510, 150)));
-      throwsClosed(p, o, () => splitThrough(o, g, pt(510, 150), { role: 'anchor', entity: 'district:2' }));
-      expect(problems(p)).toEqual([]);
-    });
-  }
-});
-
-describe('N-12: attractVertex, attractRun, applyAttraction and applySplitPlan on a closed transaction throw (N-55 (5); C-0296)', () => {
-  for (const how of ['committed', 'rejected', 'threw'] as const) {
-    it(`on a ${how} batch's overlay: the checker's probes throw "the transaction is closed"; the arena, its version and the overlay's work as they were`, () => {
-      const { p, o } = staleSplitOverlay(how);
-      expect(o.closed).toBe(true);
-      // the probes the check ran (checks/M0-a-04-notes.md N-12): open, each would split the L1 line x = 500
-      const plan = planAttraction(insertTx(p, 2), pt(505, 120));
-      expect(plan.ok && plan.value.kind).toBe('split');
-      throwsClosed(p, o, () => attractVertex(o, pt(505, 120)));
-      throwsClosed(p, o, () => attractRun(o, [pt(505, 60), pt(505, 200)]));
-      expect(problems(p)).toEqual([]);
-      // the control: the same calls in an open batch write and commit — the throw was the closed overlay, nothing else
-      const before = bits(p);
-      const version = p.version;
-      const r = tx(p, callbackSpec(2), (open) => {
-        const a = attractVertex(open, pt(505, 120));
-        if (!a.ok) return { ok: false as const, code: a.code, detail: a.detail };
-        return attractRun(open, [pt(505, 60), pt(505, 200)]);
-      });
-      expect(r.ok ? 'committed' : `${r.code}: ${r.detail}`).toBe('committed');
-      expect(p.version).toBe(version + 1);
-      expect(bits(p)).not.toBe(before);
-      expect(problems(p)).toEqual([]);
-    });
-
-    it(`on a ${how} batch's overlay: the throw comes first — before a refusal the plan would give, a charge, or a warning`, () => {
-      const { p, o } = staleSplitOverlay(how);
-      // the controls on an open shell: E_OUT_OF_RANGE off the lattice; E_LEVEL where (505, 760)'s foot lands on the L4
-      // vertex (500, 750); a lawful attraction charges insert.attractQueries; a run of no points is ok
-      expect(attractVertex(insertTx(p, 2), OFF_LATTICE)).toMatchObject({ ok: false, code: 'E_OUT_OF_RANGE' });
-      expect(attractVertex(insertTx(p, 2), pt(510, 760))).toMatchObject({ ok: false, code: 'E_LEVEL' });
-      expect(attractRun(insertTx(p, 2), [pt(505, 60), OFF_LATTICE])).toMatchObject({ ok: false, code: 'E_OUT_OF_RANGE' });
-      const lawful = insertTx(p, 2);
-      expect(planAttraction(lawful, pt(505, 120)).ok).toBe(true);
-      expect(lawful.work.total).toBeGreaterThan(0);
-      expect(attractRun(insertTx(p, 2), []).ok).toBe(true);
-      throwsClosed(p, o, () => attractVertex(o, OFF_LATTICE));
-      throwsClosed(p, o, () => attractVertex(o, pt(510, 760)));
-      throwsClosed(p, o, () => attractVertex(o, pt(505, 505))); // onto the vertex (500, 500): a warning only, open
-      throwsClosed(p, o, () => attractRun(o, [OFF_LATTICE]));
-      throwsClosed(p, o, () => attractRun(o, [pt(505, 60), OFF_LATTICE]));
-      throwsClosed(p, o, () => attractRun(o, []));
-    });
-
-    it(`on a ${how} batch's overlay: applyAttraction and applySplitPlan, handed plans made on an open shell, throw before writing`, () => {
-      const { p, o } = staleSplitOverlay(how);
-      const shell = insertTx(p, 2);
-      const split = planAttraction(shell, pt(505, 120));
-      const onto = planAttraction(shell, pt(505, 505));
-      const free = planAttraction(shell, pt(300, 300));
-      const sp = planSplitThrough(shell, edgeNear(p, 2, 510, 150), pt(510, 150), { role: 'anchor', entity: 'district:2' });
-      if (!split.ok || !onto.ok || !free.ok || !sp.ok) throw new Error('a shell plan was refused');
-      expect([split.value.kind, onto.value.kind, free.value.kind, sp.value.kind]).toEqual(['split', 'vertex', 'free', 'new']);
-      for (const plan of [split.value, onto.value, free.value]) throwsClosed(p, o, () => applyAttraction(o, plan));
-      throwsClosed(p, o, () => applySplitPlan(o, sp.value));
-      expect(problems(p)).toEqual([]);
-    });
-  }
-
-  it('an open shell transaction (closed unset) and one marked open (closed false) attract as before', () => {
-    for (const closed of [undefined, false]) {
-      const p = dressQuarters(indexed(QUARTERS)).plat;
-      const t: InsertTx = closed === undefined ? insertTx(p, 2) : { ...insertTx(p, 2), closed };
-      const a = attractVertex(t, pt(505, 120));
-      expect(a.ok && a.value.kind).toBe('split');
-      const r = attractRun(t, [pt(505, 360), pt(505, 420)]);
-      expect(r.ok && r.value.map((v) => v.attraction)).toEqual(['split', 'split']);
-      const shell = insertTx(p, 2);
-      const plan = planSplitThrough(shell, edgeNear(p, 2, 510, 250), pt(510, 250));
-      if (!plan.ok) throw new Error(plan.detail);
-      expect(applySplitPlan(t, plan.value)).toBeGreaterThanOrEqual(0);
-      const ap = planAttraction(shell, pt(505, 640));
-      if (!ap.ok) throw new Error(ap.detail);
-      expect(applyAttraction(t, ap.value).ok).toBe(true);
-      expect(t.journal.vertices.length).toBe(5);
-      expect(problems(p)).toEqual([]);
-    }
+    const r = splitThrough(insertTx(p, 2), b.he[11], pt(510, 300), { role: 'anchor', entity: 'district:5' });
+    if (!r.ok) throw new Error(r.code);
+    const anchor = roleIdOf('anchor');
+    const h = handleOf(p, 'district:5');
+    expect(carriesRow(p, r.value, anchor, h, 0)).toBe(true);
+    expect(carriesRow(p, r.value, anchor, h, 1)).toBe(false);
+    expect(carriesRow(p, b.v[4], anchor, h, 0)).toBe(false);
+    expect(carriesRow(p, r.value, roleIdOf('junction'), h, 0)).toBe(false);
   });
 });

@@ -12,6 +12,8 @@
 // optional, `E_DEGENERATE` (`empty`) if mandatory. Step 1 is a plan — it writes nothing — so its W_ATTRACTED merges are
 // reported in its own result only; `insertChain` (M0-a-05) folds them into the transaction when the chain goes on, and a
 // refused chain leaves the transaction's warnings as they were (C-0169 (1), C-0170 (2)). Readings: C-0169 (3).
+// The closed-segment contact test is num/exact.ts's `segmentsMeet` (C-0314), re-exported here under its name.
+import { segmentsMeet } from '../num/exact.js';
 import { belowMinEdge, err, ok, orient2d, snap, type KernelResult, type Warning } from '../num/index.js';
 import type { Id, LatticePoint, RoleName } from '../types/index.js';
 import { addWarning, charge, check, classRefusal, INSERT_POINTS, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
@@ -68,23 +70,8 @@ interface Kept {
   pinned: boolean;
 }
 
-/** Do the closed segments a–b and c–d share a point? Exact on lattice points (§3.2 (1), (3)). */
-export function segmentsMeet(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, dx: number, dy: number): boolean {
-  const o1 = orient2d(ax, ay, bx, by, cx, cy);
-  const o2 = orient2d(ax, ay, bx, by, dx, dy);
-  const o3 = orient2d(cx, cy, dx, dy, ax, ay);
-  const o4 = orient2d(cx, cy, dx, dy, bx, by);
-  if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return true;
-  return (o1 === 0 && within(ax, ay, bx, by, cx, cy))
-    || (o2 === 0 && within(ax, ay, bx, by, dx, dy))
-    || (o3 === 0 && within(cx, cy, dx, dy, ax, ay))
-    || (o4 === 0 && within(cx, cy, dx, dy, bx, by));
-}
-
-/** For p collinear with a–b: does p lie on the closed segment? */
-function within(ax: number, ay: number, bx: number, by: number, px: number, py: number): boolean {
-  return Math.min(ax, bx) <= px && px <= Math.max(ax, bx) && Math.min(ay, by) <= py && py <= Math.max(ay, by);
-}
+/** Do the closed segments a–b and c–d share a point? Exact on lattice points (§3.2 (1), (3)); num/exact.ts's test. */
+export { segmentsMeet };
 
 /** Does the segment p–q fold back over the segment o–p it follows (collinear, turning back)? */
 function foldsBack(ox: number, oy: number, px: number, py: number, qx: number, qy: number): boolean {

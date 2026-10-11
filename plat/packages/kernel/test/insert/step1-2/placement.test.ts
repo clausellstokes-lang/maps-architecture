@@ -2,15 +2,38 @@
 // test "§13.1: a chain crossing an edge next to a vertex standing 25.0–25.7 cm from it — the placement rule leaves no
 // edge below minEdge (reproduces §3.6's 200 000-crossing receipt: 0 short edges, displacement ≤ 0.84 cm, within
 // 0.71 cm of the crossed edge)" is here, at PLAT_CROSSING_CASES crossings (default 200 000; the checker re-runs it at
-// 10⁵), with (i) – (iii) one by one, the outward search, the fallback, W_PLACED and the work charge (C-0169 (4)).
+// 10⁵), with (i) – (iii) one by one, the outward search, the fallback, W_PLACED and the work charge (C-0169 (4)), and
+// (iii) at the split's own ends (C-0284; its describe moved here from splitThrough.test.ts beside the (iii) cases).
 import { describe, expect, it } from 'vitest';
-import { allocEdgePair, allocVertex, createPlat, type Plat } from '../../../src/arena/index.js';
+import { addRole, allocEdgePair, allocVertex, createPlat, VERTEX_SPLIT, VERTEX_STEINER, type Plat } from '../../../src/arena/index.js';
 import { attachIndex } from '../../../src/index/index.js';
+import { attractVertex } from '../../../src/insert/attractVertex.js';
 import { INSERT_PLACEMENT_CANDIDATES, insertTx } from '../../../src/insert/classes.js';
-import { placePoint } from '../../../src/insert/placement.js';
-import type { LatticePoint } from '../../../src/types/index.js';
+import { inSweptWedge, nearestLatticePoint, placementCandidates, placePoint, splitEndsBreachClearance } from '../../../src/insert/placement.js';
+import { splitThrough } from '../../../src/insert/splitThrough.js';
+import { tx } from '../../../src/tx/index.js';
+import type { LatticePoint, Level } from '../../../src/types/index.js';
 import { linkByAngle } from '../../arena/support.js';
-import { CELLS, closerThan, fingerprint, FRAME, generator, GROUND, indexed, permutation, problems, pt, type ArenaSpec } from './support.js';
+import {
+  callbackSpec,
+  CELLS,
+  chordSpec,
+  closerThan,
+  fingerprint,
+  FRAME,
+  generator,
+  GROUND,
+  halfEdge,
+  indexed,
+  intIn,
+  liveEdges,
+  permutation,
+  pos,
+  problems,
+  pt,
+  splitEndsBreach,
+  type ArenaSpec,
+} from './support.js';
 
 const B = (v: number): bigint => BigInt(v);
 
@@ -23,7 +46,10 @@ function inHotPixel(q: LatticePoint, a: LatticePoint, b: LatticePoint): boolean 
 
 const d2 = (a: { x: number; y: number }, b: { x: number; y: number }): number => (a.x - b.x) ** 2 + (a.y - b.y) ** 2;
 
-/** The lattice point nearest an exact position, ties y then x (plain nearest-point rounding). */
+/**
+ * The lattice point nearest an exact position, ties y then x (plain nearest-point rounding) — the test's own oracle of
+ * placement.ts's `nearestLatticePoint`, written independently of it.
+ */
 function nearestLattice(x: number, y: number): LatticePoint {
   let best = pt(Math.floor(x), Math.floor(y));
   let bd = Infinity;
@@ -198,6 +224,75 @@ function lineWith(s: [number, number], t: [number, number], extra: [number, numb
   return { vertices, edges };
 }
 
+describe('the rule’s exported parts: the nearest point, the candidate order, the rotation slot (C-0316)', () => {
+  it('nearestLatticePoint is the nearest of the four lattice points around the position, ties y then x — the oracle’s answer on ties, negatives and random positions', () => {
+    const ties = [[500.5, 0], [500, 0.5], [500.5, 0.5], [-0.5, -0.5], [-0.25, 0], [-3.5, 7.5], [0, 0], [-0, -0]];
+    const rnd = generator(0x3ea7);
+    const random = Array.from({ length: 20_000 }, () => [(rnd() - 0.5) * 2e4, (rnd() - 0.5) * 2e4]);
+    const quarters = Array.from({ length: 2000 }, (_, i) => [Math.floor(i / 40) / 4 - 6, (i % 40) / 4 - 5]);
+    for (const [x, y] of [...ties, ...random, ...quarters]) {
+      const q = nearestLatticePoint(x, y);
+      expect(q).toEqual(nearestLattice(x, y));
+      expect(Object.is(q.x, -0) || Object.is(q.y, -0)).toBe(false);
+    }
+    expect(nearestLatticePoint(500.5, 0.5)).toEqual({ x: 500, y: 0 });
+  });
+
+  it('placementCandidates: the nearest point first, then every other point of the hot-pixel band within reach, nearest first, ties y then x, each once', () => {
+    const rnd = generator(0xba4d);
+    for (let k = 0; k < 300; k++) {
+      const a = pt(Math.round((rnd() - 0.5) * 4000), Math.round((rnd() - 0.5) * 4000));
+      const b = pt(a.x + Math.round((rnd() - 0.5) * 3000), a.y + Math.round((rnd() - 0.5) * 3000));
+      if (d2(a, b) < 625) continue;
+      const s = 0.1 + 0.8 * rnd();
+      const exact = { x: a.x + s * (b.x - a.x) + (rnd() - 0.5) * 1.4, y: a.y + s * (b.y - a.y) + (rnd() - 0.5) * 1.4 };
+      const reach = k % 3 === 0 ? 26 : 10 + 30 * rnd();
+      const got = [...placementCandidates(exact, { a, b }, reach)];
+      // the oracle: every lattice point of the box within reach of the exact position and the hot pixel of a–b (exact
+      // BigInt), but the nearest, sorted by (squared distance, y, x)
+      const first = nearestLattice(exact.x, exact.y);
+      const want: { x: number; y: number; d: number }[] = [];
+      for (let x = Math.ceil(exact.x - reach); x <= Math.floor(exact.x + reach); x++) {
+        for (let y = Math.ceil(exact.y - reach); y <= Math.floor(exact.y + reach); y++) {
+          const d = d2({ x, y }, exact);
+          if (d <= reach * reach && inHotPixel(pt(x, y), a, b) && !(x === first.x && y === first.y)) want.push({ x, y, d });
+        }
+      }
+      want.sort((u, v) => u.d - v.d || u.y - v.y || u.x - v.x);
+      expect(got[0]).toEqual({ ...first, nearest: true });
+      expect(got.slice(1)).toEqual(want.map(({ x, y }) => ({ x, y, nearest: false })));
+    }
+  });
+
+  it('placePoint tries the candidates in placementCandidates’ order: on the 49 cm edge it tries them all, charges each, then falls back', () => {
+    const spec: ArenaSpec = {
+      vertices: [[-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [-5000, 0, 1], [0, 0, 1], [49, 0, 1], [5000, 0, 1]],
+      edges: [[0, 1, 0], [1, 7, 0], [7, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0], [4, 5, 1], [5, 6, 1], [6, 7, 1]],
+    };
+    const b = indexed(spec);
+    const t = insertTx(b.plat, 2);
+    const r = placePoint(t, b.he[7], { x: 25, y: 0 });
+    const all = [...placementCandidates({ x: 25, y: 0 }, { a: pt(-5000, 0), b: pt(5000, 0) }, 26)];
+    expect(r.ok && r.value).toMatchObject({ kind: 'endpoint', tried: all.length });
+    // within reach is inclusive: (−1, 0) and (51, 0) stand exactly attractCm from (25, 0) and are tried, last
+    expect(all.slice(-2)).toEqual([{ x: -1, y: 0, nearest: false }, { x: 51, y: 0, nearest: false }]);
+    expect(t.work.counts.get(INSERT_PLACEMENT_CANDIDATES)).toBe(all.length);
+  });
+
+  it('inSweptWedge: along the new direction is an overlap; no turn sweeps nothing; strictly inside the thin wedge, either way round', () => {
+    expect(inSweptWedge(1000, 0, 1000, 7, 2000, 14)).toBe(true); // along `to`
+    expect(inSweptWedge(1000, 0, 1000, 7, -1000, -7)).toBe(false); // collinear with `to`, the other way
+    expect(inSweptWedge(1000, 0, 2000, 0, 1000, 1)).toBe(false); // no turn
+    expect(inSweptWedge(1000, 0, 2000, 0, 3000, 0)).toBe(true); // no turn, along `to`: still an overlap
+    expect(inSweptWedge(1000, 0, 1000, 7, 1000, 3)).toBe(true); // inside, turning counter-clockwise
+    expect(inSweptWedge(1000, 0, 1000, 7, 1000, 8)).toBe(false); // beyond `to`
+    expect(inSweptWedge(1000, 0, 1000, 7, 1000, -1)).toBe(false); // before `from`
+    expect(inSweptWedge(1000, 0, 1000, -7, 1000, -3)).toBe(true); // inside, turning clockwise
+    expect(inSweptWedge(1000, 0, 1000, -7, 1000, 3)).toBe(false);
+    expect(inSweptWedge(1000, 0, 1000, 7, 1000, 0)).toBe(false); // along `from`: the edge's own slot
+  });
+});
+
 describe('the rule, test by test', () => {
   it('(ii): the nearest point 24 cm from the split edge’s endpoint is refused; the next, 25 cm, is placed (W_PLACED)', () => {
     const b = indexed(lineWith([0, 0], [1000, 0]));
@@ -363,5 +458,156 @@ describe('the rule, test by test', () => {
       answers.add(JSON.stringify(r.ok && r.value.kind === 'placed' ? r.value.at : r));
     }
     expect(answers.size).toBe(1);
+  });
+});
+
+// ---- C-0279 (4): a split keeps clearance at its own ends (C-0284) -------------------------------------------------------
+//
+// While s and t are joined each lies in the other's one-ring, so a chord's vertex P may stand within minEdge of the frame
+// edges at the chord's frame end E (a shallow corner above minFaceAngle). A split of P–E makes the new vertex, not E,
+// P's neighbour, so P must then clear the frame edges at E: it cannot, so no point of P–E qualifies under (iii) and the
+// placement falls back onto the nearer end (§3.6), writing nothing (C-0284; the hole C-0279 (4) named).
+
+/** The L0 frame [0, 4 000]² and an L1 chord E (3 034, 4 000) – P (2 912, 4 000 − d) – (2 000, 2 000) – (2 000, 0). */
+function nearFrame(d: number): ArenaSpec {
+  return {
+    vertices: [
+      [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
+      [3034, 4000, 1], [2912, 4000 - d, 1], [2000, 2000, 1], [2000, 0, 1], // 4 E, 5 P, 6, 7
+    ],
+    edges: [
+      [0, 7, 0], [7, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 0, 0],
+      [4, 5, 1], [5, 6, 1], [6, 7, 1],
+    ],
+  };
+}
+
+describe('a split keeps clearance at its own ends (C-0279 (4); C-0284)', () => {
+  it('a shallow corner at the frame (P 16 cm inside it, 7.5°): no point of P–E qualifies — splitThrough lands on the nearer end, W_PLACED, nothing written; §3.10 holds', () => {
+    for (const level of [1, 2] as const) {
+      const b = indexed(nearFrame(16));
+      const p = b.plat;
+      const [E, P] = [b.v[4], b.v[5]];
+      expect(problems(p)).toEqual([]); // the arena is valid: E is P's neighbour
+      expect(splitEndsBreach(p, P, E)).toBe(true); // the oracle: a split would leave P within minEdge of (3 034, 4 000)–(0, 4 000)
+      expect(splitEndsBreachClearance(p, P, E)).toBe(true);
+      expect(splitEndsBreachClearance(p, E, P)).toBe(true);
+      // the placement rule: every candidate fails (iii) at the split's ends, none is tried; the nearer endpoint
+      const t0 = insertTx(p, level);
+      const pl = placePoint(t0, halfEdge(p, P, E), { x: 2966, y: 3991.08 });
+      expect(pl.ok && pl.value).toEqual({ kind: 'endpoint', vertex: P, tried: 0 });
+      expect(t0.work.counts.get(INSERT_PLACEMENT_CANDIDATES) ?? 0).toBe(0);
+      // splitThrough at the checker's point (seed 6's split, (2 966, 3 996)), both ways round
+      for (const [a, c] of [[P, E], [E, P]]) {
+        const before = fingerprint(p);
+        const t = insertTx(p, level);
+        const r = splitThrough(t, halfEdge(p, a, c), pt(2966, 3996));
+        expect(r.ok && r.value).toBe(P);
+        expect(t.warnings).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
+        expect(t.journal.vertices).toEqual([]);
+        expect(fingerprint(p)).toBe(before);
+        expect(problems(p)).toEqual([]);
+      }
+      // attraction from beside P–E (6 cm off it, 15 cm inside the frame): onto the nearer end, nothing written
+      const before = fingerprint(p);
+      const t = insertTx(p, level);
+      const r = attractVertex(t, pt(2966, 3985));
+      expect(r.ok && r.value.kind === 'vertex' && r.value.vertex).toBe(P);
+      expect(fingerprint(p)).toBe(before);
+      expect(problems(p)).toEqual([]);
+    }
+  });
+
+  it('the control: P 30 cm inside the frame (clear of the frame edges at E) — the split places its vertex and §3.10 holds', () => {
+    const b = indexed(nearFrame(30));
+    const p = b.plat;
+    const [E, P] = [b.v[4], b.v[5]];
+    expect(splitEndsBreach(p, P, E)).toBe(false);
+    expect(splitEndsBreachClearance(p, P, E)).toBe(false);
+    const t = insertTx(p, 1);
+    const r = splitThrough(t, halfEdge(p, P, E), pt(2966, 3990));
+    expect(r.ok).toBe(true);
+    expect(t.journal.vertices).toHaveLength(1);
+    expect(problems(p)).toEqual([]);
+  });
+
+  it('the one-ring exemption that stays: s beside an edge t–w whose far end w is s’s own neighbour (a thin triangle) — the split is placed, §3.10 holds', () => {
+    // the L0 frame ±5 000 and an L1 triangle s (0, 0), t (200, 0), w (−59, 27): s stands 20.7 cm from t–w, which stays in
+    // s's one-ring after the split (w is its neighbour), so the split of s–t at (100, 0) keeps clearance
+    const spec: ArenaSpec = {
+      vertices: [[-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [0, 0, 1], [200, 0, 1], [-59, 27, 1]],
+      edges: [[0, 1, 0], [1, 2, 0], [2, 3, 0], [3, 0, 0], [4, 5, 1], [5, 6, 1], [6, 4, 1]],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [s, t] = [b.v[4], b.v[5]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, s, t)).toBe(false);
+    expect(splitEndsBreachClearance(p, s, t)).toBe(false);
+    const tx1 = insertTx(p, 1);
+    const r = splitThrough(tx1, halfEdge(p, s, t), pt(100, 0));
+    expect(r.ok && pos(p, r.value)).toEqual([100, 0]);
+    expect(tx1.journal.vertices).toHaveLength(1);
+    expect(problems(p)).toEqual([]);
+  });
+
+  it('a run with a finer vertex: a sub-edge whose ends cannot clear is passed over and a candidate on the next sub-edge within attractCm qualifies', () => {
+    // the L1 line y = 0 across the frame through A (−1 000, 0), an L2 Steiner vertex F (−900, 0) and B (1 000, 0); F's L2
+    // spoke F–G, G (−1 100, 40), passes 19.6 cm from A (exempt while A–F stands). The exact position 0.5 cm before F:
+    // A–F cannot be split, F–B can, and (−875, 0), 25.5 cm away, is the nearest point that qualifies on it.
+    const spec: ArenaSpec = {
+      vertices: [
+        [-5000, -5000, 0], [5000, -5000, 0], [5000, 5000, 0], [-5000, 5000, 0], [-5000, 0, 1], [5000, 0, 1], // 0 – 5
+        [-1000, 0, 1], [-900, 0, 2, VERTEX_STEINER | VERTEX_SPLIT], [1000, 0, 1], [-1100, 40, 2], // 6 A, 7 F, 8 B, 9 G
+      ],
+      edges: [
+        [0, 1, 0], [1, 5, 0], [5, 2, 0], [2, 3, 0], [3, 4, 0], [4, 0, 0],
+        [4, 6, 1], [6, 7, 1], [7, 8, 1], [8, 5, 1], [7, 9, 2],
+      ],
+    };
+    const b = indexed(spec);
+    const p = b.plat;
+    const [A, F, B] = [b.v[6], b.v[7], b.v[8]];
+    expect(problems(p)).toEqual([]);
+    expect(splitEndsBreach(p, A, F)).toBe(true);
+    expect(splitEndsBreach(p, F, B)).toBe(false);
+    const pl = placePoint(insertTx(p, 1), halfEdge(p, A, F), { x: -900.5, y: 0 });
+    expect(pl.ok && pl.value.kind === 'placed' && { at: pl.value.at, sub: pl.value.sub }).toEqual({ at: pt(-875, 0), sub: halfEdge(p, F, B) });
+  });
+
+  it('the checker’s seeds 6, 34 and 40 (chord arenas, generator 0xc1ea + seed), role-dressed, every split a tx() callback batch: committed with §3.10 holding, never with a breach', () => {
+    const cases = new Map<number, string[]>();
+    for (const seed of [6, 34, 40]) {
+      const rnd = generator(0xc1ea + seed);
+      let spec: ArenaSpec | null = null;
+      while (spec === null) spec = chordSpec(rnd);
+      const b = indexed(spec);
+      const p = b.plat;
+      b.he.forEach((h, i) => addRole(p, h, spec!.edges[i][2] === 0 ? { role: 'margin', entity: 'terrain:1' } : { role: 'way', entity: `way:${i}` }, spec!.edges[i][2] as Level));
+      expect(problems(p)).toEqual([]);
+      for (let k = 0; k < 40; k++) {
+        const l1 = liveEdges(p).filter((e) => e[2] === 1);
+        const [a, c] = l1[intIn(rnd, 0, l1.length - 1)];
+        const X = p.vertices.x;
+        const Y = p.vertices.y;
+        const s = intIn(rnd, 20, 80) / 100;
+        const x = Math.round(X[a] + s * (X[c] - X[a])) + intIn(rnd, -20, 20);
+        const y = Math.round(Y[a] + s * (Y[c] - Y[a])) + intIn(rnd, -20, 20);
+        if (splitEndsBreach(p, a, c)) cases.set(seed, [...(cases.get(seed) ?? []), `${k}: (${X[a]},${Y[a]})-(${X[c]},${Y[c]})`]);
+        const g = halfEdge(p, a, c);
+        const version = p.version;
+        const before = fingerprint(p);
+        const r = tx(p, callbackSpec(1), (o) => splitThrough(o, g, pt(x, y)));
+        if (r.ok) expect(problems(p)).toEqual([]);
+        else {
+          expect(p.version).toBe(version);
+          expect(fingerprint(p)).toBe(before);
+        }
+      }
+    }
+    // each seed reaches the case at the checker's breaching split (seed 6: split 20 of (2 912, 3 984)–(3 034, 4 000))
+    expect(cases.get(6)).toContain('20: (2912,3984)-(3034,4000)');
+    expect(cases.get(34)).toContain('27: (2168,0)-(2003,23)');
+    expect(cases.get(40)).toContain('37: (3981,2702)-(4000,2539)');
   });
 });

@@ -1,4 +1,4 @@
-// The vitest configuration (M0.md §4's "vitest.workspace.ts"; vitest 5 reads projects from here — C-0053).
+// The vitest configuration (C-0053: vitest 5 reads its projects from here).
 // One project per package plus `tools` (the scaffold's and the lint's own tests). Every project resolves the
 // `plat-source` export condition first, so a package imported by name runs from its src/ with no build (C-0013), and
 // loads the fast-check setup (PLAT_FUZZ_RUNS, C-0057).
@@ -7,10 +7,13 @@ import { defaultClientConditions, defaultServerConditions } from 'vite';
 
 const setupFiles = ['./tools/vitest/fast-check.setup.mjs'];
 
+/** Setup-file paths written relative to this file, as the absolute paths vitest loads. */
+const fromConfig = (files: string[]): string[] => files.map((f) => new URL(f, import.meta.url).pathname);
+
 function pkg(name: string, root: string): TestProjectInlineConfiguration {
   return {
     extends: true,
-    test: { name, root, include: ['test/**/*.test.ts'], setupFiles: setupFiles.map((f) => new URL(f, import.meta.url).pathname) },
+    test: { name, root, include: ['test/**/*.test.ts'], setupFiles: fromConfig(setupFiles) },
   };
 }
 
@@ -23,17 +26,17 @@ export default defineConfig({
     projects: [
       pkg('kernel', './packages/kernel'),
       {
-        // The PR tier's tiny-tables run (N-53 (4), C-0286 (5), Q26): the insert step1-2, step3-5 and tx folders once more
-        // with every arena table starting at capacity 1, so every allocation replaces its table and a writer that keeps a
-        // stale table (C-0177 (10)'s class) goes red here. tiny.ts arms the mode from PLAT_TINY_TABLES=1; the sentinel
-        // after it fails the whole project when the variable is set but the mode is not armed (N-s1-1).
+        // The PR tier's tiny-tables run (C-0286 (5)): the insert step1-2, step3-5 and tx folders once more with every
+        // arena table starting at capacity 1, so every allocation replaces its table and a writer that keeps a stale
+        // table (C-0177 (10)'s class) goes red here. tiny.ts arms the mode from PLAT_TINY_TABLES=1; the sentinel after
+        // it fails the whole project when the variable is set but the mode is not armed.
         extends: true,
         test: {
           name: 'kernel-tiny',
           root: './packages/kernel',
           include: ['test/insert/step1-2/**/*.test.ts', 'test/insert/step3-5/**/*.test.ts', 'test/tx/**/*.test.ts'],
           env: { PLAT_TINY_TABLES: '1' },
-          setupFiles: [...setupFiles, './packages/kernel/test/arena/tiny.ts', './tools/vitest/tiny-sentinel.mjs'].map((f) => new URL(f, import.meta.url).pathname),
+          setupFiles: fromConfig([...setupFiles, './packages/kernel/test/arena/tiny.ts', './tools/vitest/tiny-sentinel.mjs']),
         },
       },
       pkg('model', './packages/model'),

@@ -1,5 +1,5 @@
-// @plat/layout — the package index (M0-s-01, C-0013): it re-exports every module folder M0 plans; each folder's
-// index.ts starts empty and belongs to the item that builds the folder, so the package exports nothing yet.
+// @plat/layout — the package index (C-0013): it re-exports every module folder's index, and the package's public
+// API is their union. A folder's index belongs to the item that builds the folder.
 export * from './fixtures/index.js';
 export * from './siting/index.js';
 export * from './enceinte/index.js';

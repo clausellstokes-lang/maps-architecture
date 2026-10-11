@@ -7,10 +7,11 @@
 // for the precision reasons, which F-NUM's ladder takes (§5.2): a proposal that cannot be inserted is not a street.
 // `CLASS_OUTCOMES` is that table — the one place the class codes are decided; every step reads it.
 //
-// The transaction (§3.3's KernelTx, its overlay, canonical op order and commit) is M0-a-06's. Until it lands, steps 1–2
-// read a bare shell, `InsertTx`: the arena its key names, the batch's level, its work limit and the work charged
-// (operation counts, never a clock — §3.3 *Work limits*), the warnings, and a journal of what the writers changed, for
-// M0-a-05's re-walk and M0-a-06's commit record. M0-a-06's open transaction supplies these fields (C-0169 (1)).
+// The transaction (§3.3's KernelTx, its overlay, canonical op order and commit) is M0-a-06's. Insertion's writers read
+// it through `InsertTx`: the arena its key names, the batch's level, its work limit and the work charged (operation
+// counts, never a clock — §3.3 *Work limits*), the warnings, a journal of what the writers changed (for M0-a-05's
+// re-walk and M0-a-06's commit record) and whether the batch is closed. M0-a-06's overlay supplies these fields; the
+// shell `insertTx` stands in for it where no batch runs — the tests, and an op run on a scratch arena (C-0169 (1)).
 import { sameKey, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import type { ChangedItem } from '../index/index.js';
 import { err, type KernelError, type KernelResult, type Warning, type WarningCode } from '../num/index.js';
@@ -100,8 +101,8 @@ export interface InsertJournal {
 }
 
 /**
- * The open transaction as steps 1–2 read it — a bare shell until M0-a-06's `KernelTx` and overlay supply it (C-0169
- * (1)). `plat` is the arena `key` names; `level` the batch's level (§3.3: one level per transaction).
+ * The open transaction as insertion reads it — M0-a-06's overlay, or the shell `insertTx` (C-0169 (1)). `plat` is the
+ * arena `key` names; `level` the batch's level (§3.3: one level per transaction).
  */
 export interface InsertTx {
   readonly plat: Plat;
@@ -119,14 +120,15 @@ export interface InsertTx {
    */
   readonly prepared?: readonly VertexRef[];
   /**
-   * Set by M0-a-06's transaction when it commits or rejects (and when a throw rolls it back): a writer handed a closed
-   * transaction throws (N-55 (5); §3.3 — an overlay outlives its batch only as a programming error, never a silent
-   * write). `OpenTx.closed` satisfies it; the shell `insertTx` leaves it unset (open).
+   * Set by M0-a-06's transaction when it commits or rejects (and when a throw rolls it back): every entry and arena
+   * writer of steps 1–2 handed a closed transaction throws before it reads, charges or writes anything (§3.3 — an overlay
+   * outlives its batch only as a programming error, never a silent write; C-0294 (1), C-0296 (1)). `OpenTx.closed`
+   * satisfies it; the shell `insertTx` leaves it unset (open).
    */
   readonly closed?: boolean;
 }
 
-/** A shell transaction on `plat` at `level` — what tests and, until M0-a-06, M0-a-05's harness hand the writers. */
+/** A shell transaction on `plat` at `level`, open, outside any batch — what the tests and a scratch-arena op hand the writers. */
 export function insertTx(plat: Plat, level: Level, opts: { key?: PlatKey; workLimit?: number; prepared?: readonly VertexRef[] } = {}): InsertTx {
   const key = opts.key ?? plat.key;
   check(sameKey(key, plat.key), 'a transaction acts on the arena its key names');
@@ -183,6 +185,11 @@ export function warn(tx: InsertTx, own: Warning[], code: WarningCode, at?: Latti
   addWarning(tx.warnings, code, at);
 }
 
+/** A copy of a warning list, each warning and its point copied (a list kept aside, restored on a refusal). */
+export function cloneWarnings(ws: readonly Warning[]): Warning[] {
+  return ws.map((w) => (w.at === undefined ? { code: w.code, count: w.count } : { code: w.code, count: w.count, at: { x: w.at.x, y: w.at.y } }));
+}
+
 /** Folds a callee's warnings into an op's own list (the callee already reported them to the transaction). */
 export function foldWarnings(own: Warning[], from: readonly Warning[]): void {
   for (const w of from) {
@@ -198,12 +205,22 @@ export function foldWarnings(own: Warning[], from: readonly Warning[]): void {
   }
 }
 
-/** A structural precondition of insertion (a programming error: it throws in every build, as the arena's `check`). */
+/**
+ * A structural precondition of insertion (a programming error: it throws in every build, as the arena's `check`). Its
+ * message prefix `insert: ` is load-bearing, so each kernel module keeps its own `check` with its own prefix: inside
+ * `insertChain` a throw carrying one of the three assertion prefixes `insert: `, `arena: `, `index: ` is refused
+ * E_INVARIANT with the check's message, everything undone, and any other throw passes (C-0215; the ruling N-44 (1)).
+ * Tests and registers pin these texts, e.g. `insert: the transaction is closed (committed or rejected)` (C-0294 (1)).
+ */
 export function check(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`insert: ${message}`);
 }
 
-/** A staged branch (J156 (2)): reaching it is a programming error at M0, naming the milestone that builds it. */
+/**
+ * A staged branch (J156 (2)): reaching it is a programming error at M0, naming the milestone that builds it, as
+ * `notBuilt('<milestone>'): <what>` — a text tests pin (candidate (c), `notBuilt('M3a')`). It carries no assertion
+ * prefix, so `insertChain` never turns it into a refusal (C-0215).
+ */
 export function notBuilt(milestone: string, what: string): never {
   throw new Error(`notBuilt('${milestone}'): ${what}`);
 }

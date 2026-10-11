@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// `corepack pnpm snapshot -- <label>` (M0-s-01's third fix round; C-0104, C-0111): the wave's listing that attribution
+// `corepack pnpm snapshot -- <label>` (C-0104 (1), C-0111 (1), C-0120 (1)): the wave's listing that attribution
 // is judged against. When a wave opens, the session runs it once (`snapshot -- wave-<n>`); it writes every file under
 // plat/ — outside the exclusions below — with its SHA-256 and size to docs/build/landed/snapshots/<label>.json, and for
 // the files that seats may append to (choices.md, CLEAN-ROOM.md, each package's src/index.ts) the hash of every line —

@@ -5,7 +5,10 @@
 // builds the bodies' polygons, sites the crossings over every reach (S1 (5)), commits the arena's outer ring alone and
 // then the water batch (shores, decks, owners, land, banks, pins), rebuilds the L0 index partitions at the stage's end
 // (§3.3) and checks §3.10's stage-end rows over every reference the water, the bridges, the land and the terrain hold —
-// a failing hard row refuses the stage E_INVARIANT — then writes Terrain.outfalls (S1 (9)). A water batch the kernel
+// its declared row `references-resolve` evaluated once and reported through the context's sink (§5.4's
+// `ReportSink.invariant`, so the runner's line counts the evaluation and a pass with count 0 can never mean the row never
+// ran, Q31), a failing hard row refusing the stage E_INVARIANT with the row named first — then writes Terrain.outfalls
+// (S1 (9)). A water batch the kernel
 // refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and reported
 // (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first body, the
 // river, whose refusal is the stage's (C-0229 (2)), its detail naming the fast ring's cause and the kernel ring's
@@ -13,7 +16,7 @@
 // body they cannot make clear is dropped there, reason `refused`. The stage draws nothing
 // (no stream key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel
 // parameter and the StageContext no kernel slot (C-0229 (1)).
-import { checkStageEnd, err, ok, STAGES, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
+import { checkStageEnd, err, ok, STAGES, type Invariant, type InvariantResult, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
 import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
 import { GROUND_KEY } from '../terrain/heightfield.js';
@@ -28,6 +31,9 @@ import type { CrossingSite, DroppedBody, S1Input, S1Output } from './types.js';
 
 /** The work-limit counters an L0 batch charges (M0.md §2.2's insert and tx rows). */
 export const S1_COUNTERS = Object.freeze(['insert.points', 'insert.attractQueries', 'insert.placementCandidates', 'insert.crossings', 'tx.facesWalked'] as const);
+
+/** §3.10's stored-reference row as S1's declared stage-end invariant (§5.3), evaluated and reported at every S1 end (Q31, C-0310). */
+export const REFERENCES_ROW: Invariant = Object.freeze({ name: 'references-resolve', scope: 'stage', class: 'hard', kind: 'check', check: 'references-resolve' });
 
 /** The stage's options. */
 export interface S1StageOptions {
@@ -161,8 +167,13 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     live.add(c.id);
   }
   const rows = checkStageEnd(plat, { refs, isLive: (id) => live.has(id) });
+  // the declared row: evaluated once over the committed arena and reported (Q31); a kernel check that returns no such
+  // row is a breach of the row, never a silent pass
+  const row = rows.find((r) => r.name === REFERENCES_ROW.name);
+  reportRow(ctx, REFERENCES_ROW.name, row !== undefined && row.holds);
+  if (row === undefined) return err('E_INVARIANT', `${REFERENCES_ROW.name}: the kernel's stage-end check returned no such row at S1's end`);
   const failed = rows.filter((r) => r.class === 'hard' && !r.holds);
-  if (failed.length > 0) return err('E_INVARIANT', `S1 stage end: ${failed.map((r) => `${r.name}: ${r.problems.slice(0, 3).join('; ')}`).join(' | ')}`);
+  if (failed.length > 0) return err('E_INVARIANT', stageEndDetail(failed));
   // S1 (9): the outfalls on the hydrology S1 (3) left
   input.terrain.outfalls = outfalls(input.terrain, reaches, { reach, stretchCm: params.outfallStretchCm });
   return ok(
@@ -182,6 +193,29 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     },
     warnings,
   );
+}
+
+/**
+ * The stage-end refusal's detail: each failing hard row by name (the declared row first, as `checkStageEnd` lists it —
+ * the runner's `<row>: ` convention), its problem count and its first problems.
+ */
+function stageEndDetail(failed: readonly InvariantResult[]): string {
+  return failed
+    .map((r) => {
+      const shown = r.problems.slice(0, 3).map((q) => (q.startsWith(`${r.name}: `) ? q.slice(r.name.length + 2) : q));
+      return `${r.name}: ${String(r.problems.length)} problem(s) at S1's end: ${shown.join('; ')}${r.problems.length > shown.length ? '; …' : ''}`;
+    })
+    .join(' | ');
+}
+
+/**
+ * One evaluation of a declared stage-scope row through the context's report sink (§5.4's `ReportSink.invariant`; the
+ * runner counts it in `GenerationReport.stages[].invariants`), when the context carries one: a context with no sink (a
+ * test's, a bench's) still evaluates the row and refuses on its breach.
+ */
+function reportRow(ctx: StageContext<SiteEnv>, name: string, pass: boolean): void {
+  const sink = (ctx as { report?: unknown } | undefined)?.report as { invariant?: (name: string, pass: boolean) => void } | null | undefined;
+  if (sink !== undefined && sink !== null && typeof sink.invariant === 'function') sink.invariant(name, pass);
 }
 
 /** §12.4's S1 row (25 ms at CITY; reporting only — the other rungs report against it until their rows, M1). */
@@ -208,7 +242,7 @@ export function s1Stage(opts: S1StageOptions = {}): Stage<S1Input, S1Output, Sit
     inputs: [] as string[],
     outputs: ['terrain', 'water'] as string[],
     streamKeys: [] as string[],
-    invariants: [{ name: 'references-resolve', scope: 'stage' as const, class: 'hard' as const, kind: 'check' as const, check: 'references-resolve' }],
+    invariants: [REFERENCES_ROW],
     ladder: [] as { failureClass: string; rungs: string[] }[],
     workLimits: laws(),
     budgetMs: BUDGET_MS,

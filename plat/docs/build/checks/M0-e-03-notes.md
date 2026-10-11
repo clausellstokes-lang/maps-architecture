@@ -111,3 +111,41 @@ seat's scratch mirrors `waves/check-M0-e-03/m1` (the tree's code) and `m2` (a sw
     * This is inside `ep01.ts`'s PINNED `S1 self-touching: E_INVARIANT`, with 0 problems and every arena valid.
     * `ep01.ts`'s "~3 %" now measures 3.3 %. `ep01.ts` is not M0-e-03's file; x-06 round 2's re-pin should state the
       new rate.
+
+## Closing check of session fix round S2 (`check/M0-e-03-close-s2`, 2026-10-11; Q31, the row `references-resolve`)
+
+None of these fails the item (J180, N-45: each fails safe, is equivalent, or is a hardening test). The probes and
+mutants ran in this seat's scratch mirrors `waves/check-M0-e-03/m1` (the tree's code plus probe files), `m2` (the
+pre-round variant) and `m3` (mutants), never in `plat/`.
+
+16. **KI — the row's subject is pinned for the decks and the live set only; nothing pins the margin, the bodies' face
+    and shore, or the land faces (mutants K09, K10, K11 survive NEAR).**
+    * Observation: K09 drops the terrain's margin from the refs `runS1` hands `checkStageEnd`; K10 drops each land
+      component's face; K11 drops each body's face and shore. Each passes NEAR 56/56. `references-row.test.ts` plants a
+      dangling deck_end (killing K08) and a dead shore entity (killing K07), so the decks and the live set are pinned;
+      the other three classes resolve on every honest run, so no honest test can tell them apart. The tree's code does
+      check them: this seat's own breaches on seeds 7 and 12 (all margin rows removed; `land:0`'s faces and
+      `water:river:0`'s faces unowned through `setFaceOwner`; a second `(deck_end, bridge:0, 0)` vertex) are each refused
+      `E_INVARIANT`, the detail starting `references-resolve: ` and naming the dangling reference, one failed evaluation
+      reported, no outfalls written. **CONFIRMED** (probe `zz-e03s2-breach.test.ts`, 10/10). The RELATED files cannot
+      kill them either: no test outside `site/test/water/` plants a reference breach at S1 (**PLAUSIBLE**, by grep).
+    * Effect: none on an honest input. A mutant of the subject list would let a kernel fault that loses one of those
+      references pass S1; today the list is complete.
+    * **Suggested test:** in `references-row.test.ts`, the same hook planting the three other classes (the margin rows
+      removed; a land component's and the river's faces unowned through `setFaceOwner`), each refused row-first. **M4.**
+17. **Equivalent survivors (no test needed).** K05 removes the `row === undefined` guard: `checkStageEnd` always returns
+    the `references-resolve` row (kernel `invariants/whole.ts`), so the guard is unreachable today. K15 reports
+    `rows.every(hard holds)` in place of the row's own `holds`: the other two stage-end rows are vacuous at M0 and
+    always hold, so the value is equal.
+18. **Session finding, not M0-e-03's round — the runner's S1 work line reads 0 on every counter though two S1 batches
+    commit.**
+    * Observation: this seat's runner probe (`run()` over the base registry, 900 ha RIVER and FLAT, seed 1) shows S1's
+      line `work` = `insert.points 0, insert.attractQueries 0, insert.placementCandidates 0, insert.crossings 0,
+      tx.facesWalked 0` while `onBatch` saw two committed S1 batches. The runner records work only inside its own
+      `ctx.batch` door (`layout/src/pipeline/runner.ts`); S1 commits through the kernel façade it is handed (C-0229 (1)),
+      so its work never reaches the report. **CONFIRMED** (probe `zz-e03s2-runner.test.ts`).
+    * Effect: a report line that reads 0 for work that ran, the Q31 shape for work counters. Nothing persisted
+      depends on it that this seat found.
+    * **Suggested handling:** the session decides where it belongs (the runner's façade wrapper counting a committed
+      record's work, or S1's batches routed through `ctx.batch`), with the structural guard Q32 or the M0 hardening
+      pass. **M4 unless the session places it earlier.**

@@ -1,13 +1,15 @@
-// The notices a built package carries (the kernel reuse round, J224, line A; §17.4): fdlibm's notice survives into
-// @plat/kernel's bundle as dmath's /*! */ legal comments, and every bundle's dist/ carries plat/LICENSE and
-// THIRD-PARTY-NOTICES.txt, which the kernel's manifest ("files": ["dist", "API.md"]) packs with its API document. The bundle is built in memory with
-// scripts/build.mjs's own options, so a change to them (legalComments 'none', say) turns this file red.
-import { mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs';
+// The notices a built package carries (C-0259 (1), (2); §17.4): fdlibm's notice survives into @plat/kernel's bundle as
+// dmath's /*! */ legal comments, and every bundle's dist/ carries plat/LICENSE and THIRD-PARTY-NOTICES.txt, which the
+// kernel's manifest ("files": ["dist", "API.md"]) packs with its API document. The bundle is built in memory with
+// scripts/build.mjs's own options, so a change to them (legalComments 'none', say) turns this file red; and
+// bundlePackage, the build's per-package step, is run on a temporary copy of one package, so a build that stops
+// copying the notices turns it red too.
+import { cpSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { build } from 'esbuild';
 import { describe, expect, it } from 'vitest';
-import { SHIPPED_NOTICES, bundleOptions, copyNotices } from '../../scripts/build.mjs';
+import { SHIPPED_NOTICES, bundleOptions, bundlePackage, copyNotices } from '../../scripts/build.mjs';
 import { PLAT_ROOT } from './closure.mjs';
 
 const KERNEL = join(PLAT_ROOT, 'packages', 'kernel');
@@ -59,6 +61,22 @@ describe("a bundle's dist/ carries the licence and the notices", () => {
     try {
       const written = copyNotices(PLAT_ROOT, dir);
       expect(written).toEqual(SHIPPED_NOTICES.map((n) => join(dir, 'dist', n)));
+      for (const n of SHIPPED_NOTICES) expect(readFileSync(join(dir, 'dist', n), 'utf8')).toBe(readFileSync(join(PLAT_ROOT, n), 'utf8'));
+    } finally {
+      rmSync(dir, { recursive: true, force: true });
+    }
+  });
+
+  it("runs the build's per-package step on a copy of a package: dist/ holds index.js and both notices", async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'plat-shipped-tables-'));
+    try {
+      const tables = join(PLAT_ROOT, 'packages', 'tables');
+      for (const part of ['package.json', 'src', 'data']) cpSync(join(tables, part), join(dir, part), { recursive: true });
+      const r = await bundlePackage(PLAT_ROOT, dir);
+      expect(r.outfile).toBe(join(dir, 'dist', 'index.js'));
+      expect(r.bytes).toBe(statSync(r.outfile).size);
+      expect(r.bytes).toBeGreaterThan(0);
+      expect(readdirSync(join(dir, 'dist')).sort()).toEqual(['LICENSE', 'THIRD-PARTY-NOTICES.txt', 'index.js']);
       for (const n of SHIPPED_NOTICES) expect(readFileSync(join(dir, 'dist', n), 'utf8')).toBe(readFileSync(join(PLAT_ROOT, n), 'utf8'));
     } finally {
       rmSync(dir, { recursive: true, force: true });

@@ -5,7 +5,8 @@
 // one path the √2 · attractCm bound does not cover (C-0170 (1)).
 import { describe, expect, it } from 'vitest';
 import { VERTEX_SPLIT, VERTEX_STEINER, type Plat } from '../../../src/arena/index.js';
-import { attractRun, attractVertex, planAttraction } from '../../../src/insert/attractVertex.js';
+import { query } from '../../../src/index/index.js';
+import { attractRun, attractVertex, nearestRoutePiece, planAttraction } from '../../../src/insert/attractVertex.js';
 import { INSERT_ATTRACT_QUERIES, INSERT_PLACEMENT_CANDIDATES, INSERT_POINTS, insertTx } from '../../../src/insert/classes.js';
 import { placePoint } from '../../../src/insert/placement.js';
 import type { Level } from '../../../src/types/index.js';
@@ -333,5 +334,40 @@ describe('the placement’s fallback on a valid thin wedge (§3.6 *The placement
     expect(r.value.tried).toBeGreaterThan(40); // the band's lattice points within attractCm, each charged
     expect(t.work.counts.get(INSERT_PLACEMENT_CANDIDATES)).toBe(r.value.tried);
     expect(t.warnings).toEqual([]); // a plan: the writer that commits it reports the warning
+  });
+});
+
+describe('nearestRoutePiece: step 2’s edge candidate over one query’s edges (C-0316)', () => {
+  const pieceAt = (p: Plat, level: Level, x: number, y: number) => {
+    const near = query(p, p.key, level, { minX: x - 26, minY: y - 26, maxX: x + 26, maxY: y + 26 }, { vertices: true, edges: true });
+    const pc = nearestRoutePiece(p, near.edges, pt(x, y), level);
+    // its two ends, lower (y, x) first: the piece's direction along its run is not the claim
+    return pc === null ? null : { ends: [at(p, pc.a), at(p, pc.b)].sort((u, v) => u[1] - v[1] || u[0] - v[0]) };
+  };
+
+  it('the nearest level-n piece holding the foot; ties to the first in the query’s canonical order; null beyond attractCm or at an end', () => {
+    const b = indexed(TWIN);
+    const p = b.plat;
+    // 25 cm from y = 0 and from y = 50: the piece of the lower line, first by canonical key
+    expect(pieceAt(p, 1, 500, 25)).toEqual({ ends: [[0, 0], [1000, 0]] });
+    expect(pieceAt(p, 1, 500, 26)).toEqual({ ends: [[-5000, 50], [5000, 50]] }); // 24 cm from y = 50
+    // at L1 the L3 vertex (300, 0) cuts no piece: the L1 piece (0, 0)–(1 000, 0); at L3 it does
+    expect(pieceAt(p, 1, 200, -20)).toEqual({ ends: [[0, 0], [1000, 0]] });
+    expect(pieceAt(p, 3, 200, -20)).toEqual({ ends: [[0, 0], [300, 0]] });
+    expect(pieceAt(p, 1, 500, -27)).toBeNull(); // 27 cm off every edge
+    expect(pieceAt(p, 1, 0, 10)).toBeNull(); // its foot at the vertex (0, 0): no piece holds it inside
+    expect(pieceAt(p, 1, -2500, -5)).toEqual({ ends: [[-5000, 0], [0, 0]] });
+    expect(nearestRoutePiece(p, [], pt(500, 25), 1)).toBeNull();
+  });
+
+  it('is planAttraction’s choice: the split lands on the piece it names, and it reads no index and charges nothing', () => {
+    const b = indexed(TWIN);
+    const p = b.plat;
+    const t = insertTx(p, 1);
+    const near = query(p, p.key, 1, { minX: 474, minY: -1, maxX: 526, maxY: 51 }, { edges: true });
+    expect(nearestRoutePiece(p, near.edges, pt(500, 25), 1)).not.toBeNull();
+    expect(t.work.total).toBe(0);
+    const plan = planAttraction(t, pt(500, 25));
+    expect(plan.ok && plan.value.kind === 'split' && plan.value.at).toEqual({ x: 500, y: 0 });
   });
 });

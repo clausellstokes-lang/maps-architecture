@@ -6,6 +6,7 @@
 import { existsSync, readFileSync, realpathSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { byCodeUnit } from '../vendor/common.mjs';
 
 export const PLAT_ROOT = fileURLToPath(new URL('../../', import.meta.url));
 
@@ -60,7 +61,8 @@ export function walk(startDirs, edges) {
   const out = new Map();
   const stack = startDirs.map((dir) => ({ dir, via: '(start)', isStart: true }));
   // A start package reached first through another package's edges is walked again as a start, so the start-only edges
-  // (its devDependencies) are never lost to the walk order (the scaffold fix round: testkit's oracles are dev, C-0062).
+  // (its devDependencies) are never lost to the walk order (a start's devDependencies are read only as a start: the
+  // test kit's oracles are dev dependencies, C-0062).
   const seenDirs = new Set();
   while (stack.length > 0) {
     const { dir, via, isStart } = stack.pop();
@@ -112,7 +114,7 @@ export function devClosure(root = PLAT_ROOT, production = productionClosure(root
 export function checkLicences(production, dev, devExceptions = {}, allowed = ALLOWED) {
   const failures = [];
   const exceptions = [];
-  const sorted = (m) => [...m.values()].sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : a.version < b.version ? -1 : 1));
+  const sorted = (m) => [...m.values()].sort((a, b) => byCodeUnit(a.name, b.name) || byCodeUnit(a.version, b.version));
   for (const p of sorted(production)) {
     if (OURS(p.name)) continue;
     if (!permitted(p.licence, allowed)) failures.push({ ...p, reason: 'production dependency outside the §17.4 allowlist' });
