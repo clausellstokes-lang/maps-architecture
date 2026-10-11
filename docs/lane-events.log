@@ -7965,3 +7965,4 @@
 2026-10-11 22:23 build/M0-c-02-fix-s4 CHECKPOINT RELATED@1000 (W=1, since 21:43) still running; next: its verdict
 2026-10-11 22:30 build/M0-f-03a-consolidate-1 CHECKPOINT RELATED@1000 still running (since 21:46, W=1, log 699 lines); next: wait, LANDED
 2026-10-11 22:39 session/handoff-26 LANDED plat/docs/build/checks/M0-spec-notes.md (N-58 appended; 2e1f275146ab854c…) plat/docs/build/landed/session-handoff-4.json — ruling N-58 (J290, owner-approved): one verdict per refusal class in the hardening census — make-it-succeed / repair / refuse with the user's alternative layer named; queue L23, KI-1/KI-7/KI-10 amended
+2026-10-11 22:40 check/M0-d-05a-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 21:05, 1 worker); next: RELATED verdict, verdict file, notes rows, CLEAN-ROOM row, records
