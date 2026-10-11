@@ -1,39 +1,17 @@
-// The whole-tree check inline-directives (C-0128; the checker's note N3, which F2's fix opens): model code — the five
-// model packages' sources and the digest closure beyond them — carries no ESLint directive but C-0125 (6)'s vetted
-// division with its reason, so no `/* eslint-disable */` switches the determinism rules off; every other plat/ file
-// keeps ESLint's directives. Fixture trees are built in the OS temporary folder; nothing is written into plat/.
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { join } from 'node:path';
+// The whole-tree check inline-directives (C-0128 (5)): model code — the five model packages' sources and the digest
+// closure beyond them — carries no ESLint directive but C-0125 (6)'s vetted division with its reason, so no
+// `/* eslint-disable */` switches the determinism rules off; every other plat/ file keeps ESLint's directives. Fixture
+// trees are built in the OS temporary folder; nothing is written into plat/. Every test that parses a tree carries an
+// explicit timeout.
 import { Linter } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 import { ALLOWED_DIRECTIVE, checkInlineDirectives, directivesOf } from './directives.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT, VETTED_DIVISION, removeTempTrees, tempTree } from './test-support.mjs';
 
-/** Every test that parses a tree carries an explicit timeout: wall time grows with the load of the shared machine. */
-const LINT = 60_000;
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
-function tree(files) {
-  const root = mkdtempSync(join(tmpdir(), 'plat-directives-'));
-  temps.push(root);
-  for (const [rel, text] of Object.entries(files)) {
-    mkdirSync(join(root, rel, '..'), { recursive: true });
-    writeFileSync(join(root, rel), text);
-  }
-  return root;
-}
-
-const VETTED = [
-  'export function vetted(x: number, y: number): number {',
-  "  // eslint-disable-next-line plat/ratio-division -- an fdlibm routine's division, vetted",
-  '  return x / y;',
-  '}',
-  '',
-].join('\n');
+const tree = (files) => tempTree('plat-directives-', files);
 
 describe('ALLOWED_DIRECTIVE', () => {
   it('admits only a vetted division naming plat/ratio-division alone, with its reason', () => {
@@ -58,7 +36,7 @@ describe('the whole-tree check inline-directives', () => {
   it('refuses every other directive in model code, every code extension and the closure, and leaves the rest of plat/ alone', () => {
     const root = tree({
       'packages/kernel/src/index.ts': "export * from './vetted.js';\nexport { h } from '../../../shared/helper.js';\n",
-      'packages/kernel/src/vetted.ts': VETTED,
+      'packages/kernel/src/vetted.ts': VETTED_DIVISION,
       'packages/kernel/src/line.mjs': 'export const r = (x, y) => x / y; // eslint-disable-line plat/ratio-division -- vetted\n',
       'packages/kernel/src/no-reason.ts': '// eslint-disable-next-line plat/ratio-division\nexport const r = (x: number, y: number): number => x / y;\n',
       'packages/model/src/all.ts': '/* eslint-disable */\nexport const a = Math.sin(1);\n',
@@ -82,16 +60,16 @@ describe('the whole-tree check inline-directives', () => {
       'shared/helper.ts:1: the inline directive "/* eslint-disable plat/no-nondeterminism */"',
     ]);
     expect(r.counts).toEqual({ files: 10, directives: 9 });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('passes a model tree whose only directives are vetted divisions', () => {
-    const r = checkInlineDirectives(tree({ 'packages/kernel/src/vetted.ts': VETTED }));
+    const r = checkInlineDirectives(tree({ 'packages/kernel/src/vetted.ts': VETTED_DIVISION }));
     expect(r).toMatchObject({ ok: true, problems: [], counts: { files: 1, directives: 1 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('fails closed on a closure file its configuration does not reach (C-0128 (5), C-0129; the checker\'s mutant MC)', () => {
-    // The checker's plant: a kernel source imports a library by a path into node_modules, which the closure follows and
-    // ESLint's configuration never reaches; dependency-direction names the import too (C-0129), and this check refuses
+    // A kernel source imports a library by a path into node_modules, which the closure follows and ESLint's
+    // configuration never reaches; dependency-direction names the import too (C-0129), and this check refuses
     // the file it cannot read rather than passing it with no directives.
     const root = tree({
       'packages/kernel/src/index.ts': "export { default } from '../node_modules/zz-lib/index.js';\n",
@@ -103,7 +81,15 @@ describe('the whole-tree check inline-directives', () => {
     expect(r.problems[0]).toMatch(/^packages\/kernel\/node_modules\/zz-lib\/index\.js:0: cannot be read \(No matching configuration found for .*\)$/);
     expect(directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/node_modules/zz-lib/index.js')).toEqual({ fatal: r.problems[0] });
     expect(directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/src/index.ts')).toEqual({ directives: [] });
-  }, LINT);
+  }, LINT_TIMEOUT);
+
+  it('fails closed on a closure file that parses only as a classic script: model code is module code (C-0128 (5))', () => {
+    // No script-mode retry here, unlike the path check and the vendored scan: such a file cannot be read as model code.
+    const root = tree({ 'packages/kernel/src/legacy.js': 'var o = {}; with (o) {}\n' });
+    const r = directivesOf(new Linter({ cwd: root }), root, 'packages/kernel/src/legacy.js');
+    expect(r.fatal).toMatch(/^packages\/kernel\/src\/legacy\.js:1: cannot be read \(.+\)$/);
+    expect(checkInlineDirectives(root)).toEqual({ ok: false, problems: [r.fatal], counts: { files: 1, directives: 0 } });
+  }, LINT_TIMEOUT);
 
   it('reads no JSON data the closure reaches: C-0005\'s registries are data, not model code (the checker\'s B1, C-0131)', () => {
     const root = tree({
@@ -113,12 +99,12 @@ describe('the whole-tree check inline-directives', () => {
       'packages/tables/src/zz-read.mjs': "import t from '../data/zz.json' with { type: 'json' };\nexport const n = t.n;\n",
     });
     expect(checkInlineDirectives(root)).toEqual({ ok: true, problems: [], counts: { files: 2, directives: 0 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('passes the real plat/ tree', () => {
     const r = checkInlineDirectives(PLAT_ROOT);
     expect(r.problems).toEqual([]);
     expect(r.ok).toBe(true);
     expect(r.counts.files).toBeGreaterThan(20);
-  }, LINT);
+  }, LINT_TIMEOUT);
 });

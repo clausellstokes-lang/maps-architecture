@@ -1,5 +1,6 @@
-// The whole-tree check `bench-boundary` (the kernel reuse round, J224; run by `corepack pnpm lint`): kernel benchmarks stay separable from town benchmarks without moving
-// a file (moving would break landed records). bench/manifest.json classifies every folder of bench/src and bench/test;
+// The whole-tree check `bench-boundary` (C-0259 (4); run by `corepack pnpm lint`): kernel benchmarks stay separable
+// from town benchmarks without moving a file (moving would break landed records). bench/manifest.json classifies every
+// folder of bench/src and bench/test;
 // a folder missing from it, listed twice, or listed but absent fails; a KERNEL folder whose files import (directly, or
 // through bench-internal relative imports) @plat/layout, site, model or tables — by package name or by a relative path
 // into packages/<town>/ — fails, naming file:line. `@plat/testkit` is allowed in a KERNEL folder (its fuzz, crosshost,
@@ -7,14 +8,20 @@
 // time, which a `@plat/testkit/kernel` subpath export would end (owner-gated: a public-API addition).
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { dirname, join, relative, resolve, sep } from 'node:path';
+import { byCodeUnit, relPath } from './rules/shared.mjs';
 
+/** The town packages a KERNEL bench may not reach: the boundary's notion, not the allowlist's MODEL_PACKAGES. */
 export const TOWN = Object.freeze(['layout', 'site', 'model', 'tables']);
 const SPEC = /(?:from\s*|import\s*\(\s*|import\s+)['"]([^'"]+)['"]/g;
 
+/** A bench code file's name: every code extension but `.jsx`, which the bench walk does not read. */
+const BENCH_CODE = /\.(ts|tsx|mts|cts|js|mjs|cjs)$/;
+
+/** The bench code files under a folder, absolute, in code-unit order. */
 function walk(d) {
-  return readdirSync(d).sort().flatMap((n) => {
+  return readdirSync(d).sort(byCodeUnit).flatMap((n) => {
     const p = join(d, n);
-    return statSync(p).isDirectory() ? walk(p) : /\.(ts|tsx|mts|cts|js|mjs|cjs)$/.test(n) ? [p] : [];
+    return statSync(p).isDirectory() ? walk(p) : BENCH_CODE.test(n) ? [p] : [];
   });
 }
 
@@ -29,10 +36,10 @@ function townImports(root, file, seen = new Set()) {
   seen.add(file);
   const out = [];
   const text = readFileSync(file, 'utf8');
+  const rel = relPath(root, file);
   for (const m of text.matchAll(SPEC)) {
     const spec = m[1];
     const line = text.slice(0, m.index).split('\n').length;
-    const rel = relative(root, file).split(sep).join('/');
     if (spec.startsWith('@plat/')) {
       const pkg = spec.split('/')[1];
       if (TOWN.includes(pkg)) out.push({ file: rel, line, pkg });
@@ -60,7 +67,7 @@ export function checkBenchBoundary(root, manifest = JSON.parse(readFileSync(join
     }
   }
   for (const area of ['src', 'test']) {
-    for (const n of readdirSync(join(root, 'bench', area)).sort()) {
+    for (const n of readdirSync(join(root, 'bench', area)).sort(byCodeUnit)) {
       const d = `${area}/${n}`;
       if (!statSync(join(root, 'bench', d)).isDirectory()) continue;
       if (!classOf.has(d)) problems.push(`bench/${d}: not classified in bench/manifest.json (kernel | town | infra)`);
@@ -73,4 +80,9 @@ export function checkBenchBoundary(root, manifest = JSON.parse(readFileSync(join
   return { ok: problems.length === 0, problems };
 }
 
-export const check = { name: 'bench-boundary', run: (root) => checkBenchBoundary(resolve(root)) };
+export const check = {
+  name: 'bench-boundary',
+  run(root) {
+    return checkBenchBoundary(resolve(root));
+  },
+};

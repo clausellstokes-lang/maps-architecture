@@ -7,7 +7,7 @@
 // or `Reflect` that binds an enumeration (or binds by a computed key or a rest element) is refused, and so is `Object`
 // or `Reflect` used as a value — aliased, passed, returned, cast, spread — other than as a member's object with a
 // static name, as the right side of `instanceof`, as a callee (`Object(x)`) or in a type (`typeof Object.keys`).
-import { globalAccesses, staticMemberName } from './shared.mjs';
+import { globalAccesses, inTypePosition, staticMemberName } from './shared.mjs';
 
 const ENUMERATIONS = {
   Object: new Set(['keys', 'values', 'entries', 'getOwnPropertyNames', 'getOwnPropertySymbols']),
@@ -38,7 +38,7 @@ function harmlessUse(node) {
   if (!p) return false;
   if (p.type === 'BinaryExpression' && p.operator === 'instanceof' && p.right === node) return true;
   if ((p.type === 'CallExpression' || p.type === 'NewExpression') && p.callee === node) return true;
-  return p.type === 'TSTypeQuery' || p.type === 'TSQualifiedName';
+  return inTypePosition(node);
 }
 
 export default {

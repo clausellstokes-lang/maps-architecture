@@ -1,5 +1,5 @@
 // The licence check of §17.4 in the PR-tier lint: the allowlist (MIT, ISC, BSD-2 / 3, Apache-2.0, BSL-1.0, CC0,
-// Unlicense, OFL) over the transitive production closure of the shipped packages, and every dev-only dependency
+// Unlicense, OFL; closure.mjs's `ALLOWED`) over the transitive production closure of the shipped packages, and every dev-only dependency
 // outside it a listed exception with its reason (tools/notices/dev-exceptions.json). It wraps the scaffold's
 // tools/notices/closure.mjs (C-0058), which the notices generator shares, so the lint and THIRD-PARTY-NOTICES.txt read
 // one closure. A production package outside the allowlist fails; so does an unlisted dev exception (§17.4: "listed
@@ -7,7 +7,7 @@
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { checkLicences, devClosure, productionClosure } from '../notices/closure.mjs';
-import { PLAT_ROOT } from './rules/shared.mjs';
+import { PLAT_ROOT, byCodeUnit, printReport } from './rules/shared.mjs';
 
 export const DEV_EXCEPTIONS_FILE = 'tools/notices/dev-exceptions.json';
 
@@ -23,7 +23,7 @@ export function checkLicencesOf(root = PLAT_ROOT, exceptions = null) {
   }
   const third = [...production.values()].filter((p) => !p.name.startsWith('@plat/'));
   const report = [
-    `production closure: ${third.map((p) => `${p.name}@${p.version} ${p.licence}`).sort().join(', ')}`,
+    `production closure: ${third.map((p) => `${p.name}@${p.version} ${p.licence}`).sort(byCodeUnit).join(', ')}`,
     `dev exceptions: ${r.exceptions.map((e) => `${e.name}@${e.version} ${e.licence}`).join(', ') || 'none'}`,
   ];
   return { ok: problems.length === 0, problems, report };
@@ -33,7 +33,7 @@ export const check = {
   name: 'licences',
   run(root) {
     const r = checkLicencesOf(resolve(root));
-    for (const line of r.report) process.stdout.write(`lint licences: ${line}\n`);
+    printReport('licences', r.report);
     return { ok: r.ok, problems: r.problems };
   },
 };

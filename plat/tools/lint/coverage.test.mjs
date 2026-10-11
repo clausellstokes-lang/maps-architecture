@@ -1,11 +1,11 @@
-// The whole-tree check model-coverage (C-0130; the checker's H1, round r2): every model-code file — the digest closure —
-// is linted by the tree lint under the whole model rule set. Its cases run through the tree's own configuration: plat/'s
-// eslint.config.js itself (the checker's plant paths, judged without being written), and fixture trees built in the OS
-// temporary folder whose eslint.config.js is plat/'s array as the tree's would be for that tree's closure — its ignores
-// in force — so a file under a package's test/fixtures/ or dist/ that a model source reaches is ignored exactly as in
-// plat/. Nothing is written into plat/. Every test that loads ESLint carries an explicit timeout (wall time grows with
-// the load of the shared machine).
-import { mkdirSync, mkdtempSync, realpathSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
+// The whole-tree check model-coverage (C-0130, C-0131): every model-code file — the digest closure — is linted by the
+// tree lint under the whole model rule set. Its cases run through the tree's own configuration: plat/'s
+// eslint.config.js itself (the plant paths of C-0130 (1), judged without being written), and fixture trees built in the
+// OS temporary folder whose eslint.config.js is plat/'s array as the tree's would be for that tree's closure — its
+// ignores in force — so a file under a package's test/fixtures/ or dist/ that a model source reaches is ignored exactly
+// as in plat/. Nothing is written into plat/. Every test that loads ESLint carries an explicit timeout (wall time grows
+// with the load of the shared machine).
+import { mkdirSync, realpathSync, symlinkSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { pathToFileURL } from 'node:url';
@@ -16,13 +16,10 @@ import { digestClosure } from './digest-closure.mjs';
 import { checkInlineDirectives } from './directives.mjs';
 import { MODEL_RULES } from './rules/index.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT, removeLater, removeTempTrees, tempTree } from './test-support.mjs';
 import { isScannedFile } from './vendor-scan.mjs';
 
-const LINT = 60_000;
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
 const url = (rel) => JSON.stringify(pathToFileURL(join(PLAT_ROOT, ...rel.split('/'))).href);
 
@@ -49,15 +46,7 @@ function treeConfig(extra = []) {
 }
 
 /** A fixture tree under the OS temporary folder (its real path, so ESLint's paths and ours agree). */
-function tree(files) {
-  const root = realpathSync(mkdtempSync(join(tmpdir(), 'plat-coverage-')));
-  temps.push(root);
-  for (const [rel, text] of Object.entries(files)) {
-    mkdirSync(join(root, rel, '..'), { recursive: true });
-    writeFileSync(join(root, rel), text);
-  }
-  return root;
-}
+const tree = (files) => tempTree('plat-coverage-', files, { real: true });
 
 /** A problem's file and kind: `<rel> ignored | without <rules> | second configuration | no configuration`. */
 function brief(p) {
@@ -75,7 +64,8 @@ const ALL = Object.keys(MODEL_RULES).sort().join(', ');
 
 describe('the whole-tree check model-coverage', () => {
   it('refuses closure files in folders the tree\'s own eslint.config.js ignores (the checker\'s H1 paths, plat/\'s configuration)', async () => {
-    // plat/'s eslint.config.js as `corepack pnpm lint` loads it, over the checker's plant paths (judged, not written):
+    // plat/'s eslint.config.js as `corepack pnpm lint` loads it, over closure paths in ignored folders (judged, not
+    // written):
     // a closure that reaches a package's test/fixtures/ or dist/ is refused, and a model source is linted.
     const closure = {
       files: ['packages/kernel/src/index.ts', 'packages/kernel/test/fixtures/zz-q/x.mjs', 'packages/model/dist/zz/y.mjs', 'packages/site/src/zz/coverage/c.ts'],
@@ -87,14 +77,14 @@ describe('the whole-tree check model-coverage', () => {
       'packages/site/src/zz/coverage/c.ts ignored',
     ]);
     expect(r).toMatchObject({ ok: false, counts: { files: 4, linted: 1, vendored: 0 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('refuses the checker\'s H1 plants in a tree under the tree\'s configuration, which the tree lint alone passes', async () => {
     const root = tree({
       'eslint.config.js': treeConfig(),
       'packages/kernel/src/index.ts': "export { s } from '../data-zz/x.mjs';\n",
       'packages/kernel/data-zz/x.mjs': 'export const s = Math.sin(1);\n',
-      // the checker's plants (checks/M0-d-07.md, round r2, H1)
+      // model sources that reach an ignored folder: a package's test/fixtures/ and its dist/
       'packages/kernel/src/zz-r/c6.ts': "export { q } from '../../test/fixtures/zz-q/x.mjs';\n",
       'packages/kernel/test/fixtures/zz-q/x.mjs': 'export const q = Math.cos(1) + Date.now() + 2 ** 0.5;\n',
       'packages/model/src/zz-r/c7.ts': "export { y } from '../../dist/zz/y.mjs';\n",
@@ -129,7 +119,7 @@ describe('the whole-tree check model-coverage', () => {
       'packages/site/src/zz-cov/coverage/seed.mjs ignored',
     ]);
     expect(r).toMatchObject({ ok: false, counts: { files: 8, linted: 4, vendored: 0 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('refuses model code that a weaker setting or a nested configuration takes model rules from', async () => {
     const root = tree({
@@ -155,7 +145,7 @@ describe('the whole-tree check model-coverage', () => {
       'packages/site/src/weak/a.mjs without plat/math-allowlist, plat/no-nondeterminism',
     ]);
     expect(r).toMatchObject({ ok: false, counts: { files: 4, linted: 1, vendored: 0 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('leaves the files the vendored scan reads to it, and refuses every other ignored file under vendor/', async () => {
     const root = tree({
@@ -178,7 +168,7 @@ describe('the whole-tree check model-coverage', () => {
     const r = await checkModelCoverage(root);
     expect(r.problems.map(brief)).toEqual(['vendor/loose/x.mjs ignored', 'vendor/zz-lib@1.0.0/view.jsx ignored']);
     expect(r).toMatchObject({ ok: false, counts: { files: 4, linted: 1, vendored: 1 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('fails closed when no configuration can be computed for model code', async () => {
     const root = tree({ 'packages/kernel/src/a.mjs': 'export const a = 1;\n' });
@@ -186,8 +176,8 @@ describe('the whole-tree check model-coverage', () => {
     const r = await checkModelCoverage(root, { eslint: failing });
     expect(r.problems.map(brief)).toEqual(['packages/kernel/src/a.mjs no configuration']);
     expect(r.ok).toBe(false);
-    // Not ignored, yet no configuration computed (unreachable in ESLint 10.12, the closing check's note N3): every model
-    // rule is missing, so the file is refused, not counted as linted.
+    // Not ignored, yet no configuration computed (unreachable in ESLint 10.12; C-0131 (3)): every model rule is missing,
+    // so the file is refused, not counted as linted.
     const unmatched = { isPathIgnored: async () => false, calculateConfigForFile: async () => undefined };
     const u = await checkModelCoverage(root, { eslint: unmatched });
     expect(u.problems.map(brief)).toEqual([`packages/kernel/src/a.mjs without ${ALL}`]);
@@ -197,7 +187,7 @@ describe('the whole-tree check model-coverage', () => {
   // C-0005's registries: versioned JSON inside @plat/kernel that the kernel reads (model code may not import node:fs).
   const JSON_DATA = {
     'eslint.config.js': treeConfig(),
-    // the checker's plant (checks/M0-d-07.md, closing round r3, B1), at C-0005's path
+    // the registry path of C-0005
     'packages/kernel/src/arena/roles.json': '{ "version": 1, "roles": [{ "id": 0, "name": "zz-wall" }] }\n',
     'packages/kernel/src/arena/zz-read.ts': "import roles from './roles.json';\nexport const zzRoleCount: number = roles.roles.length;\n",
     'packages/kernel/src/registry/stages.json': '{ "version": 1, "stages": ["S0"] }\n',
@@ -228,7 +218,7 @@ describe('the whole-tree check model-coverage', () => {
     expect(checkInlineDirectives(root)).toEqual({ ok: true, problems: [], counts: { files: 5, directives: 0 } });
     const r = await check.run(root); // the check as `corepack pnpm lint` runs it
     expect(r).toEqual({ ok: true, problems: [], counts: { files: 5, linted: 5, vendored: 0, data: 5 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('still refuses a code file reached the same way under test/fixtures/ (C-0130 (1), C-0131)', async () => {
     const root = tree({
@@ -242,7 +232,7 @@ describe('the whole-tree check model-coverage', () => {
     const r = await check.run(root);
     expect(r.problems.map(brief)).toEqual(['packages/kernel/test/fixtures/zz-q/x.mjs ignored']);
     expect(r).toMatchObject({ ok: false, counts: { files: 7, linted: 6, vendored: 0, data: 5 } });
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('refuses a file model code reaches that is neither code nor JSON data (C-0131)', async () => {
     const root = tree({
@@ -257,7 +247,7 @@ describe('the whole-tree check model-coverage', () => {
     expect(r.problems.map(brief)).toEqual(['packages/kernel/src/accel.wasm unjudged', 'packages/kernel/src/addon.node unjudged']);
     expect(r).toMatchObject({ ok: false, counts: { files: 1, linted: 1, vendored: 0, data: 0 } });
     expect(checkInlineDirectives(root)).toMatchObject({ ok: true, counts: { files: 1 } }); // read by neither check as code
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('takes a path into node_modules for the vendored library it names when its bytes are the library\'s (the closing check\'s note N4, C-0131)', async () => {
     const root = tree({
@@ -300,7 +290,7 @@ describe('the whole-tree check model-coverage', () => {
     // The library's folder is judged by its real path: the same closure through a root reached by a link.
     const alias = join(realpathSync(tmpdir()), `plat-coverage-alias-${process.pid}-${Date.now()}`);
     symlinkSync(root, alias);
-    temps.push(alias);
+    removeLater(alias);
     expect(digestClosure(alias)).toEqual(closure);
 
     // The adapter passes the tree lint and both checks; the copy and the two other links fail closed in both.
@@ -311,7 +301,7 @@ describe('the whole-tree check model-coverage', () => {
     expect(r.problems.map(brief)).toEqual(unread.map((f) => `${f} ignored`));
     const d = checkInlineDirectives(root);
     expect(d.problems.map((p) => p.replace(/ \(No matching configuration found.*$/, ''))).toEqual(unread.map((f) => `${f}:0: cannot be read`));
-  }, LINT);
+  }, LINT_TIMEOUT);
 
   it('reads ESLint\'s settings and the configuration files\' names', () => {
     expect(normalizedSetting('error')).toEqual([2]);
@@ -330,5 +320,5 @@ describe('the whole-tree check model-coverage', () => {
     expect(r.ok).toBe(true);
     expect(r.counts.files).toBeGreaterThan(20);
     expect(r.counts.linted).toBe(r.counts.files - r.counts.vendored);
-  }, LINT);
+  }, LINT_TIMEOUT);
 });

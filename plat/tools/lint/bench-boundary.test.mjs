@@ -1,30 +1,20 @@
-// bench-boundary (J224; tools/lint/bench-boundary.mjs): the check passes on the tree, and fails — naming the folder or
-// file:line — on every planted fault, each in a fixture tree built in the OS temporary folder (nothing is written into
-// plat/): an unclassified folder, a folder listed twice, a listed folder that is absent, and a KERNEL folder that
-// reaches a town package by name, by a relative path into packages/<town>/, or through a bench-internal relative import.
-import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
-import { dirname, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+// bench-boundary (C-0259 (4); tools/lint/bench-boundary.mjs): the check passes on the tree, and fails — naming the
+// folder or file:line — on every planted fault, each in a fixture tree built in the OS temporary folder (nothing is
+// written into plat/): an unclassified folder, a folder listed twice, a listed folder that is absent, and a KERNEL
+// folder that reaches a town package by name, by a relative path into packages/<town>/, or through a bench-internal
+// relative import.
+import { mkdirSync } from 'node:fs';
+import { join } from 'node:path';
 import { afterAll, describe, expect, it } from 'vitest';
 import { TOWN, check, checkBenchBoundary } from './bench-boundary.mjs';
+import { PLAT_ROOT as PLAT } from './rules/shared.mjs';
+import { removeTempTrees, tempTree } from './test-support.mjs';
 
-const PLAT = fileURLToPath(new URL('../../', import.meta.url));
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
 /** A fixture root holding `files` ({ plat/-relative path: text }) and bench/manifest.json = `manifest`. */
 function tree(files, manifest) {
-  const root = mkdtempSync(join(tmpdir(), 'plat-bench-boundary-'));
-  temps.push(root);
-  const all = { ...files, 'bench/manifest.json': JSON.stringify(manifest) };
-  for (const [rel, text] of Object.entries(all)) {
-    const abs = join(root, ...rel.split('/'));
-    mkdirSync(dirname(abs), { recursive: true });
-    writeFileSync(abs, text);
-  }
+  const root = tempTree('plat-bench-boundary-', { ...files, 'bench/manifest.json': JSON.stringify(manifest) });
   mkdirSync(join(root, 'bench', 'src'), { recursive: true });
   mkdirSync(join(root, 'bench', 'test'), { recursive: true });
   return root;

@@ -10,7 +10,7 @@ import { existsSync, readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { ESLint } from 'eslint';
 import { MODEL_RULES } from './rules/index.mjs';
-import { PLAT_ROOT } from './rules/shared.mjs';
+import { PLAT_ROOT, byCodeUnit, printReport } from './rules/shared.mjs';
 
 export const PROBE = 'tools/lint/fixtures/probe/zz-probe.ts';
 export const PROBE_PROJECT = 'tools/lint/fixtures/probe/tsconfig.json';
@@ -64,7 +64,7 @@ export async function runProbe(root = PLAT_ROOT, { disable = [] } = {}) {
   for (const m of fatal) problems.push(`${PROBE}:${m.line}: cannot be linted (${m.message})`);
   const report = [];
   for (const p of planted) {
-    const by = [...new Set(result.messages.filter((m) => m.line === p.line && m.ruleId?.startsWith('plat/')).map((m) => m.ruleId))].sort();
+    const by = [...new Set(result.messages.filter((m) => m.line === p.line && m.ruleId?.startsWith('plat/')).map((m) => m.ruleId))].sort(byCodeUnit);
     if (by.length === 0) problems.push(`${PROBE}:${p.line} (${p.what}) is not reported — the lint lets it through`);
     else report.push(`${PROBE}:${p.line} ${p.what} ← ${by.join(', ')}`);
   }
@@ -75,7 +75,7 @@ export const check = {
   name: 'probe-red',
   async run(root) {
     const r = await runProbe(resolve(root));
-    for (const line of r.report) process.stdout.write(`lint probe-red: ${line}\n`);
+    printReport('probe-red', r.report);
     return { ok: r.ok, problems: r.problems };
   },
 };

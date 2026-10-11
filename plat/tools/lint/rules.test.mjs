@@ -7,33 +7,28 @@ import { fileURLToPath } from 'node:url';
 import { RuleTester } from 'eslint';
 import tseslint from 'typescript-eslint';
 import { afterAll, describe, expect, it } from 'vitest';
+import { plantedLines } from './probe.mjs';
 import { rules } from './rules/index.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT } from './test-support.mjs';
 
-/**
- * Every rule case carries an explicit timeout: a case's wall time grows with the load of the shared machine (the typed
- * cases build a TypeScript program), and vitest's 5 s default is no bar of this item (C-0128).
- */
-const CASE = 60_000;
+// Every rule case carries an explicit timeout: a case's wall time grows with the load of the shared machine (the typed
+// cases build a TypeScript program; C-0128 (6)).
 RuleTester.describe = describe;
-RuleTester.it = (title, fn) => it(title, fn, CASE);
-RuleTester.itOnly = (title, fn) => it.only(title, fn, CASE);
+RuleTester.it = (title, fn) => it(title, fn, LINT_TIMEOUT);
+RuleTester.itOnly = (title, fn) => it.only(title, fn, LINT_TIMEOUT);
 RuleTester.afterAll = afterAll;
 
 const FIXTURES = fileURLToPath(new URL('./fixtures/', import.meta.url));
 const CODE = /\.(ts|mjs|js)$/;
 
 /** A fixture's test case: its code, the path it is linted as, its options and its planted errors. */
-export function fixtureCase(rule, name, dir = join(FIXTURES, rule)) {
+function fixtureCase(rule, name, dir = join(FIXTURES, rule)) {
   const code = readFileSync(join(dir, name), 'utf8');
   const lines = code.split('\n');
   const lintAs = /^\/\/ lint-as: (\S+)/.exec(lines[0] ?? '');
   const opts = lines.slice(0, 3).map((l) => /^\/\/ options: (.+)$/.exec(l)).find(Boolean);
-  const errors = [];
-  lines.forEach((l, i) => {
-    const m = /\/\/ planted: ([A-Za-z, ]+?)\s*$/.exec(l);
-    if (m) for (const messageId of m[1].split(',').map((s) => s.trim())) errors.push({ line: i + 1, messageId });
-  });
+  const errors = plantedLines(code).flatMap(({ line, what }) => what.split(',').map((s) => ({ line, messageId: s.trim() })));
   const rel = lintAs ? lintAs[1] : `packages/kernel/src/zz-fixture/${name}`;
   return {
     name: `${rule}/${name}`,
@@ -45,7 +40,7 @@ export function fixtureCase(rule, name, dir = join(FIXTURES, rule)) {
 }
 
 /** The fixtures of one rule folder (code files only, no sub-folders), split into valid and invalid cases. */
-export function fixtureCases(rule) {
+function fixtureCases(rule) {
   const dir = join(FIXTURES, rule);
   const names = readdirSync(dir).filter((n) => CODE.test(n) && statSync(join(dir, n)).isFile()).sort();
   const pass = names.filter((n) => n.startsWith('pass-')).map((n) => fixtureCase(rule, n));

@@ -1,7 +1,8 @@
-// Shared helpers of the PLAT determinism lint (M0-d-07). Node built-ins only; no rule state lives here.
+// Shared helpers of the PLAT determinism lint (M0-d-07): the rules', the whole-tree checks' and the vendored scan's.
+// Node built-ins only; no rule state lives here.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { builtinModules } from 'node:module';
-import { dirname, join, relative, resolve, sep } from 'node:path';
+import { join, relative, resolve, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 /** plat/, the workspace root (this file is plat/tools/lint/rules/shared.mjs). */
@@ -39,6 +40,16 @@ export function platRootOf(context) {
   return typeof r === 'string' && r.length > 0 ? resolve(r) : PLAT_ROOT;
 }
 
+/**
+ * The file a rule is linting: `root` (platRootOf), `filename` (absolute — a processor's `physicalFilename` before the
+ * virtual `filename`) and `rel`, its plat/-relative POSIX path, or null when it lies outside root.
+ */
+export function lintedFile(context) {
+  const root = platRootOf(context);
+  const filename = resolve(context.physicalFilename ?? context.filename);
+  return { root, filename, rel: relPath(root, filename) };
+}
+
 /** A path relative to root in POSIX form, or null when it lies outside root (lexically). */
 export function relPath(root, abs) {
   const r = relative(root, abs);
@@ -67,49 +78,62 @@ export function staticMemberName(member) {
 }
 
 /**
- * The value references in a file to the globals named in `names`, through scope analysis: a reference that resolves
- * to no declared variable (or to an implicit library global with no definition) is a global one, so a local `Date` or
- * a parameter named `performance` never counts. A reference through a global object (`globalThis.Date`,
- * `window.Math`) counts as a reference to the member, its node the member expression.
- * @returns {{ name: string, node: object }[]} in source order
+ * The identifiers of a file's unresolved value references, in scope and reference order: a reference that resolves to
+ * no declared variable — or to an implicit library global, which has no definition — is a global one, so a local
+ * `Date`, a parameter named `performance` or a TypeScript `declare const` never counts; a type-only reference
+ * (TypeScript) is no read. The one walk behind globalAccesses and globalObjectRefs.
+ */
+function* unresolvedValueRefs(sourceCode) {
+  for (const scope of sourceCode.scopeManager.scopes) {
+    for (const ref of scope.references) {
+      if (ref.isTypeReference === true && ref.isValueReference !== true) continue;
+      if (ref.resolved && ref.resolved.defs.length > 0) continue;
+      yield ref.identifier;
+    }
+  }
+}
+
+/**
+ * The value references in a file to the globals named in `names` (unresolvedValueRefs). A reference through a global
+ * object (`globalThis.Date`, `window.Math`) counts as a reference to the member, its node the member expression.
+ * @returns {{ name: string, node: object, via?: string }[]} in source order
  */
 export function globalAccesses(sourceCode, names) {
   const out = [];
-  for (const scope of sourceCode.scopeManager.scopes) {
-    for (const ref of scope.references) {
-      const id = ref.identifier;
-      if (ref.isTypeReference === true && ref.isValueReference !== true) continue; // a type-only reference (TS)
-      const v = ref.resolved;
-      if (v && v.defs.length > 0) continue;
-      if (names.has(id.name)) out.push({ name: id.name, node: id });
-      else if (GLOBAL_OBJECTS.has(id.name)) {
-        const parent = id.parent;
-        if (parent && parent.type === 'MemberExpression' && parent.object === id) {
-          const member = staticMemberName(parent);
-          if (member !== null && names.has(member)) out.push({ name: member, node: parent, via: id.name });
-        }
+  for (const id of unresolvedValueRefs(sourceCode)) {
+    if (names.has(id.name)) out.push({ name: id.name, node: id });
+    else if (GLOBAL_OBJECTS.has(id.name)) {
+      const parent = id.parent;
+      if (parent && parent.type === 'MemberExpression' && parent.object === id) {
+        const member = staticMemberName(parent);
+        if (member !== null && names.has(member)) out.push({ name: member, node: parent, via: id.name });
       }
     }
   }
   return out.sort((a, b) => a.node.range[0] - b.node.range[0]);
 }
 
-/** The value references to the global objects themselves (`window`, `self`, `global`, `globalThis`). */
+/** The value references to the global objects themselves (`window`, `self`, `global`, `globalThis`), in order. */
 export function globalObjectRefs(sourceCode) {
   const out = [];
-  for (const scope of sourceCode.scopeManager.scopes) {
-    for (const ref of scope.references) {
-      const id = ref.identifier;
-      if (!GLOBAL_OBJECTS.has(id.name)) continue;
-      if (ref.isTypeReference === true && ref.isValueReference !== true) continue;
-      if (ref.resolved && ref.resolved.defs.length > 0) continue;
-      out.push(id);
-    }
-  }
+  for (const id of unresolvedValueRefs(sourceCode)) if (GLOBAL_OBJECTS.has(id.name)) out.push(id);
   return out.sort((a, b) => a.range[0] - b.range[0]);
 }
 
-/** Strips TypeScript's expression wrappers (`x as T`, `x satisfies T`, `x!`, `<T>x`) and parentheses' remnants. */
+/**
+ * Is the node the operand of a type query or a qualified type name (`typeof Object.keys`, `typeof globalThis.Number`):
+ * a type, not a value read? False for a node with no parent.
+ */
+export function inTypePosition(node) {
+  return node.parent?.type === 'TSTypeQuery' || node.parent?.type === 'TSQualifiedName';
+}
+
+/**
+ * Strips the six expression wrappers around a value — `x as T`, `x satisfies T`, `x!`, `<T>x`, `f<T>` (an
+ * instantiation expression) and an optional chain's ChainExpression. Two rules strip fewer on purpose: ratio-division's
+ * `uncast` keeps `!`, `f<T>` and an optional chain, so a divisor is judged by its own type (C-0128 (4)), and
+ * sort-with-comparator's `isCallee` climbs only the forms that can stand between a member and its call.
+ */
 export function unwrap(node) {
   let n = node;
   for (;;) {
@@ -173,7 +197,7 @@ export function vendoredLibraries(root) {
       const at = n.lastIndexOf('@');
       return { name: n.slice(0, at), version: n.slice(at + 1), folder: `vendor/${n}` };
     })
-    .sort((a, b) => (a.name < b.name ? -1 : a.name > b.name ? 1 : 0));
+    .sort((a, b) => byCodeUnit(a.name, b.name));
 }
 
 /** A package.json under root (relative POSIX path), parsed, or null when absent. */
@@ -228,5 +252,7 @@ export function byCodeUnit(a, b) {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-/** dirname that keeps working on virtual (not yet existing) paths. */
-export const dirOf = dirname;
+/** Prints a whole-tree check's report to stdout, `lint <name>: <line>` (scripts/lint.mjs writes problems to stderr). */
+export function printReport(name, lines) {
+  for (const line of lines) process.stdout.write(`lint ${name}: ${line}\n`);
+}

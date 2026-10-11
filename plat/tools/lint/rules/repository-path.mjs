@@ -7,7 +7,7 @@
 // whole-tree check `repository-path` in ../paths.mjs).
 import { dirname, resolve } from 'node:path';
 import { judgePath, judgeSpecifier } from '../resolve.mjs';
-import { platRootOf, specifierVisitors, staticMemberName, stringValue } from './shared.mjs';
+import { lintedFile, specifierVisitors, staticMemberName, stringValue } from './shared.mjs';
 
 const isImportMeta = (n, prop) =>
   n && n.type === 'MemberExpression' && n.object.type === 'MetaProperty' && n.object.meta.name === 'import' &&
@@ -25,8 +25,7 @@ export default {
     },
   },
   create(context) {
-    const root = platRootOf(context);
-    const filename = resolve(context.physicalFilename ?? context.filename);
+    const { root, filename } = lintedFile(context);
     const dir = dirname(filename);
 
     function report(node, what, spec, j) {

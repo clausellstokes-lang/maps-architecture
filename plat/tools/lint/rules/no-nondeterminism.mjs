@@ -7,7 +7,7 @@
 // member's object with a static name) may not be used as a value — aliased, passed, destructured or with a computed
 // member — so no forbidden global escapes through it (C-0128); the vendored scan's `globalObjects: false` leaves a UMD
 // wrapper's use of it alone, as it does `self` and `global`.
-import { globalAccesses, globalObjectRefs, staticMemberName } from './shared.mjs';
+import { globalAccesses, globalObjectRefs, inTypePosition, staticMemberName } from './shared.mjs';
 
 const WHY = {
   Date: 'reads the clock',
@@ -92,7 +92,7 @@ export default {
             continue;
           }
           const parent = id.parent;
-          if (parent && (parent.type === 'TSTypeQuery' || parent.type === 'TSQualifiedName')) continue; // a type: no read
+          if (inTypePosition(id)) continue; // a type: no read
           const member = parent && parent.type === 'MemberExpression' && parent.object === id ? staticMemberName(parent) : null;
           if (member === null) context.report({ node: id, messageId: 'globalObjectAsValue' });
         }
