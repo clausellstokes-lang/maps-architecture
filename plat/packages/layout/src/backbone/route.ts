@@ -291,15 +291,25 @@ function midpoint(d: DeckSegment): { x: number; y: number } {
 /**
  * F-ROUTE's M0 ladder for one route (see the header), starting from `given` when the route was solved already (S3's
  * gate routes, committed without re-solving) else from a search: a crossing whose approach cannot meet the radius is
- * given up for another site within the search band (re-solved with it excluded, ≤ the decks in the band); then the
- * extra bridge (M1, listed); then the slope limit relaxed one class at a time; then `unserved`. Every rung that ran is
- * appended to `rungs`; route.nodes charged is added to `work`.
+ * given up for another site within the search band; then the extra bridge (M1, listed); then the slope limit relaxed
+ * one class at a time; then `unserved`. Every rung that ran is appended to `rungs`; route.nodes charged is added to
+ * `work`.
+ *
+ * Giving a deck up (C-0236 (4), refined by C-0297): the deck is impassable to every later search of the ladder, and
+ * so is every deck whose midpoint lies beyond the band of the first deck given up — but those the course already
+ * crosses with a usable approach — so a re-solve may take, as a new crossing, only another site within the band. The
+ * part is re-solved whether or not such a site stands: a course that reaches its destination with no new crossing (the
+ * deck given up was not needed) is served, `another_site` held with `to` null; with no course at all the rung did not
+ * hold, the extra bridge is listed and the ladder goes on to the slope rung, then `unserved` — `why` 'approach' when no
+ * other site stood in the band, else 'no path'.
  */
 export function routeLadder(rg: RouteGraph, sources: readonly number[], targets: readonly number[], opts: LadderOptions, rungs: RouteRung[], work: { n: number }, given?: readonly number[]): KernelResult<Laddered | null> {
   const excluded = new Set<string>(opts.excludedDecks ?? []);
   let cls = opts.class;
   let nodes: number[] | null = given === undefined ? null : given.slice();
   let firstGivenUp: DeckSegment | null = null;
+  // Whether another site stood in the band when the first deck was given up (the report's `why`).
+  let bandEmpty = false;
   for (let guard = 0; guard < 64; guard += 1) {
     if (nodes === null) {
       const s = solve(rg, sources, targets, { ...opts, class: cls, excludedDecks: excluded });
@@ -312,12 +322,12 @@ export function routeLadder(rg: RouteGraph, sources: readonly number[], targets:
       if (!s.ok) {
         const next = CLASS_ORDER.slice(classRank(cls) + 1).find((c) => c === 'primary' || c === 'track' || c === 'path');
         if (firstGivenUp !== null && excluded.size > 0) {
-          rungs.push({ route: opts.route, rung: 'another_site', from: firstGivenUp.id, to: null, held: false, why: 'no usable site in the band' });
+          rungs.push({ route: opts.route, rung: 'another_site', from: firstGivenUp.id, to: null, held: false, why: bandEmpty ? 'no other site in the band' : 'no usable site in the band' });
           rungs.push({ route: opts.route, rung: 'extra_bridge', held: false, why: 'notBuilt(M1)' });
           firstGivenUp = null;
         }
         if (next === undefined || opts.gradeLimits === undefined) {
-          rungs.push({ route: opts.route, rung: 'unserved', held: true, why: 'no path' });
+          rungs.push({ route: opts.route, rung: 'unserved', held: true, why: bandEmpty ? 'approach' : 'no path' });
           return ok(null);
         }
         rungs.push({ route: opts.route, rung: 'slope', fromClass: cls, toClass: next, held: true });
@@ -327,7 +337,8 @@ export function routeLadder(rg: RouteGraph, sources: readonly number[], targets:
       nodes = s.nodes;
     }
     const cs = crossingsOf(rg, nodes);
-    const bad = cs.find((c) => !approachUsable(rg, nodes as number[], c, opts.radiusCm(cls)));
+    const r = opts.radiusCm(cls);
+    const bad = cs.find((c) => !approachUsable(rg, nodes as number[], c, r));
     if (bad === undefined) {
       if (firstGivenUp !== null) {
         const given = midpoint(firstGivenUp);
@@ -336,16 +347,18 @@ export function routeLadder(rg: RouteGraph, sources: readonly number[], targets:
       }
       return ok({ nodes, class: cls, crossings: cs });
     }
-    // The approach cannot meet the radius: another site within the band.
-    if (firstGivenUp === null) firstGivenUp = bad.deck;
+    // The approach cannot meet the radius: the deck is given up, and a re-solve may take another site within the band.
     excluded.add(bad.deck.id);
-    const gm = midpoint(firstGivenUp);
-    const inBand = rg.decks.some((d) => !excluded.has(d.id) && dist(midpoint(d), gm) <= opts.searchBandCm);
-    if (!inBand) {
-      rungs.push({ route: opts.route, rung: 'another_site', from: firstGivenUp.id, to: null, held: false, why: 'no other site in the band' });
-      rungs.push({ route: opts.route, rung: 'extra_bridge', held: false, why: 'notBuilt(M1)' });
-      rungs.push({ route: opts.route, rung: 'unserved', held: true, why: 'approach' });
-      return ok(null);
+    if (firstGivenUp === null) {
+      firstGivenUp = bad.deck;
+      const gm = midpoint(firstGivenUp);
+      const kept = new Set(cs.filter((c) => c !== bad && approachUsable(rg, nodes as number[], c, r)).map((c) => c.deck.id));
+      bandEmpty = true;
+      for (const d of rg.decks) {
+        if (excluded.has(d.id) || kept.has(d.id)) continue;
+        if (dist(midpoint(d), gm) <= opts.searchBandCm) bandEmpty = false;
+        else excluded.add(d.id);
+      }
     }
     nodes = null;
   }

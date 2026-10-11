@@ -64,3 +64,42 @@ The blockers B-6 and B-7 are in `checks/M0-c-03.md`. The notes below are minor u
     lattice courses, and a T or Y can disagree with the arena's arms. The fallback is rare: no run here took it. Its
     result is otherwise valid, so this is a quality shortfall that fails safely. Harden: recompute the kinds from the
     committed courses after a fallback, or report the fallback's kinds as provisional. PLAUSIBLE (read, not run).
+
+## The closing checker's notes (lane `check/M0-c-03-close-s1`, 2026-10-09), session fix round S1 (Q24, N-54 (2)), for M4
+
+Mutants run in this seat's own mirror `~/maps-scratch/waves/check-M0-c-03/close-s1/mut`, one at a time, `--maxWorkers=1`,
+against the backbone folder (NEAR) and against the related tests that run S4 through the chain (`testkit/test/ladders/`,
+`ladders/rungs-route.test.ts`, `ladders/chain.test.ts`, `layout/test/pipeline/base/run.test.ts`,
+`testkit/test/edge/control.test.ts`, `PLAT_FUZZ_RUNS=1000`). "Honest seeds" means the 61 seeds of the 1 000-seed plain
+small-river chain (`edgeSeed('cell/bridge×frame', 0..999)`, through S4) that fire an F-ROUTE rung or build a span.
+
+13. **Note 3 above is closed by this round.** C-0297 (2) makes every deck beyond the band of the first deck given up
+    impassable to the ladder's later searches. Mutant Z04 (that exclusion removed) is killed by `route.test.ts` 'no
+    other site within the band … then unserved'. The 1 000-seed population is unchanged by it. CONFIRMED.
+14. **The band is measured once, from the first deck given up (mutant Z10 survives).** A second give-up on the same
+    part, for example at a second river, adds only that deck to the excluded set. The exclusions stay those of the
+    first deck's band. Z10 recomputes the band about each deck given up. It changes no honest seed and survives NEAR
+    and the S4 subset. §5.2 reads the band per crossing ("another crossing site on the reach within its search band"),
+    so a course with two failing approaches on two reaches can lose a usable site on the second reach. Harden: a
+    synthetic two-river part whose second crossing fails its approach, with a usable site within the second deck's
+    band but beyond the first's, served after the fix. CONFIRMED (survival), PLAUSIBLE (the effect).
+15. **The band rule's details are unpinned: Z09, Z11 and Z16 survive.** Z09 keeps every other crossing of the course,
+    usable or not. Z11 makes the band's edge strict (`<` for `<=`). Z16 measures the band to a deck's end `a`
+    instead of its midpoint. None of them changes an honest seed, and each needs a contrived layout: two failing
+    crossings on one course, a deck midpoint exactly on the band's edge, or a deck whose end and midpoint straddle the
+    edge. Harden: one synthetic fixture each. CONFIRMED (survival).
+16. **The slope rung after a failed band search is unpinned: Z17 and Z18 survive.** Z17 skips the slope rung once a
+    deck has been given up. Z18 keeps the given-up deck after `another_site` fails, so the rung is reported again after
+    the slope rung. M0 runs with no grade limits (C-0158, C-0236 (2)), so neither path runs on an honest input. Z17
+    also survives `rungs-route.test.ts` 'route/slope'. Z18's subset run was cut, and its result is not claimed.
+    Harden: a synthetic part with grade limits whose given-up deck has no usable site in the band and whose relaxed
+    class reaches the destination. CONFIRMED (Z17 survival; unreachable at M0 by C-0158), PLAUSIBLE (Z18).
+17. **The run's report never receives S4's unserved parts or its F-ROUTE rungs.** `runS4` ignores its
+    `StageContext`, and the base registration (`pipeline/base.ts` `stageS4`) writes `s4` to the model without calling
+    `ctx.report.unserved` or `ctx.report.ladderUse`; only S1's river report is forwarded (`forwardRiverReport`). On seed
+    3207739920 the run's `report.unserved` is `[]` and S4's `ladderUses` is `[]`, while S4's own report holds
+    `unserved: ['gate:1/out']` and its three rungs (probe `zz-c03s1-report.ts`, after mirror). The outcome is reported
+    and counted in S4's output in the model, which the ladder readers (`ladderReadModel`) and the tests read, so it fails
+    safely. The forwarding belongs to the base registration (M0-x-04's `pipeline/base.ts`), not to M0-c-03's files; `stageS3`
+    reads the same way (code read, PLAUSIBLE). Suggested handling: a fix-queue row for the session (forward
+    S3's and S4's rungs and unserved parts to the run report), M4 at the latest. CONFIRMED for S4 (probe output).

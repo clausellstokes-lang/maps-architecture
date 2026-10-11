@@ -2,10 +2,16 @@
 // readings C-0236 (2), (4)) on synthetic lattices: the slope rung relaxes a class on a synthetic impassable edge, then
 // reports `unserved`; another crossing site within the search band when the nearest site's approach cannot meet the
 // class radius (the next within the band taken), the extra-bridge rung listed `notBuilt(M1)`; route.nodes reached →
-// `work_cut` with the count, then `unserved` (F-WORK).
+// `work_cut` with the count, then `unserved` (F-WORK). Session round S1 (Q24; N-54 (2), C-0289, C-0297): a deck with an end
+// beyond the frame is no deck of S4's route graph (`deckOf` −1 on every edge, no route spans it; moved inside, it is
+// spanned), and the deck given up is re-solved around whether or not another site stands in the band — the re-solve
+// may take, as a new crossing, only a site within the band (a crossing the course already makes usably kept). Session round
+// S2 (checks/M0-c-03-s1.md B-2; C-0304): only a passable edge across water carries a deck — a dry edge along a deck, within
+// one spacing of it and within 30° of its direction, answers `deckOf` −1.
 import { describe, expect, it } from 'vitest';
 import { tableView } from '@plat/tables';
 import { approachUsable, buildLattice, classGeometryCm, crossingsOf, insideTurningCircles, routeGraph, routeLadder, siteCosts, solve, type Lattice, type RouteClass, type RouteRung } from '../../src/index.js';
+import { distToSegment, segmentMeetsRing } from '../../src/siting/geom.js';
 import { P, riverRing, smallSite } from './support.js';
 
 const T = tableView();
@@ -165,11 +171,153 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
     }
   });
 
+  it('no other site within the band, but a dry way round: the given-up site is re-solved around, served with no new crossing (Q24)', () => {
+    // The river stops 300 m inside the frame's north edge; the far site (400 m off) lies beyond the band.
+    const open = riverRing(50000, 54000, -120000, 70000);
+    const site = smallSite(1, { faces: [open], decks: [TILTED, FAR] });
+    const lattice = buildLattice(site, siteCosts(site));
+    const rg = routeGraph(lattice);
+    const from = nearest(lattice, P(20000, -15000));
+    const to = nearest(lattice, P(80000, -15000));
+    const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([FAR.id]) });
+    expect(given.ok).toBe(true);
+    if (!given.ok) return;
+    expect(crossingsOf(rg, given.nodes).map((c) => c.deck.id)).toEqual([TILTED.id]);
+    const rungs: RouteRung[] = [];
+    const r = routeLadder(rg, [from], [to], { class: 'through', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 }, given.nodes);
+    expect(r.ok).toBe(true);
+    if (!r.ok || r.value === null) throw new Error('unserved');
+    // Round the river's north end: no crossing at all — the far site, beyond the band, is never taken.
+    expect(r.value.crossings).toEqual([]);
+    expect(r.value.nodes.some((n) => lattice.points[n].y > 70000)).toBe(true);
+    expect(rungs).toEqual([{ route: 'test', rung: 'another_site', from: TILTED.id, to: null, held: true }]);
+    // The far site is usable and nearer than the way round the river's end: only the band keeps the re-solve off it.
+    const via = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([TILTED.id]) });
+    expect(via.ok).toBe(true);
+    if (via.ok) expect(crossingsOf(rg, via.nodes).map((c) => c.deck.id)).toEqual([FAR.id]);
+  });
+
+  it('a crossing the course already makes with a usable approach is kept, beyond the band (Q24)', () => {
+    // A second river at x −520 m with a square site far beyond the tilted site's band; the course crosses both.
+    const west = riverRing(-54000, -50000, -120000, 120000);
+    const GOOD = { id: 'bridge:3', a: P(-54000, -15000), b: P(-50000, -15000) };
+    const site = smallSite(1, { faces: [west, WIDE], decks: [GOOD, TILTED, SQUARE] });
+    const lattice = buildLattice(site, siteCosts(site));
+    const rg = routeGraph(lattice);
+    const from = nearest(lattice, P(-80000, -15000));
+    const to = nearest(lattice, P(80000, -15000));
+    const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([SQUARE.id]) });
+    expect(given.ok).toBe(true);
+    if (!given.ok) return;
+    expect(crossingsOf(rg, given.nodes).map((c) => c.deck.id)).toEqual([GOOD.id, TILTED.id]);
+    const rungs: RouteRung[] = [];
+    const r = routeLadder(rg, [from], [to], { class: 'through', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 }, given.nodes);
+    expect(r.ok).toBe(true);
+    if (!r.ok || r.value === null) throw new Error('unserved');
+    expect(r.value.crossings.map((c) => c.deck.id)).toEqual([GOOD.id, SQUARE.id]);
+    expect(rungs).toEqual([{ route: 'test', rung: 'another_site', from: TILTED.id, to: SQUARE.id, held: true }]);
+  });
+
   it('a route with no path across the water (no site at all) is unserved', () => {
     const lattice = riverLattice([]);
     const rungs: RouteRung[] = [];
     const r = routeLadder(routeGraph(lattice), [nearest(lattice, P(20000, 0))], [nearest(lattice, P(80000, 0))], { class: 'through', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
     expect(r.ok && r.value === null).toBe(true);
     expect(rungs).toEqual([{ route: 'test', rung: 'unserved', held: true, why: 'no path' }]);
+  });
+});
+
+// N-54 (2), C-0289: the lattice reads only the decks whose two ends lie inside the frame, so S4's route graph holds no
+// deck with an end beyond it — `deckOf` answers −1 on every edge and no route spans it; the same deck moved 1 m inside
+// is spanned (the control). A 40 m river across the whole frame, north to south; the deck slants across it near the
+// frame's north edge, its east end `dy` cm north of the frame line.
+describe("a deck with an end beyond the frame is no deck of S4's route graph (N-54 (2), C-0289; Q24)", () => {
+  const band = riverRing(-2000, 2000, -120000, 120000);
+  const top = smallSite(1).frameRing.reduce((m, q) => Math.max(m, q.y), -Infinity);
+  const deckAt = (dy: number): (typeof TILTED) => ({ id: 'bridge:0', a: P(-2000, top + dy - 1200), b: P(2000, top + dy) });
+  const graphWith = (deck: typeof TILTED): { lattice: Lattice; rg: ReturnType<typeof routeGraph> } => {
+    const site = smallSite(1, { faces: [band], decks: [deck] });
+    const lattice = buildLattice(site, siteCosts(site));
+    return { lattice, rg: routeGraph(lattice) };
+  };
+  const ends = (lattice: Lattice): { from: number; to: number } => ({ from: nearest(lattice, P(-20000, top - 5000)), to: nearest(lattice, P(20000, top - 5000)) });
+
+  it('one end 1 m beyond the frame: deckOf answers −1 on every edge, the graph holds no deck, and no route spans it', () => {
+    const { lattice, rg } = graphWith(deckAt(100));
+    expect(rg.decks).toEqual([]);
+    expect(rg.deckOf.every((d) => d === -1)).toBe(true);
+    const { from, to } = ends(lattice);
+    expect(solve(rg, [from], [to], { class: 'path' }).ok).toBe(false);
+    const rungs: RouteRung[] = [];
+    const r = routeLadder(rg, [from], [to], { class: 'path', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
+    expect(r.ok && r.value === null).toBe(true);
+    expect(rungs).toEqual([{ route: 'test', rung: 'unserved', held: true, why: 'no path' }]);
+  });
+
+  it('the same deck moved 1 m inside the frame: deckOf holds it, and the route spans it (the control)', () => {
+    const deck = deckAt(-100);
+    const { lattice, rg } = graphWith(deck);
+    expect(rg.decks).toEqual([deck]);
+    expect(rg.deckOf.filter((d) => d === 0).length).toBeGreaterThanOrEqual(2);
+    const { from, to } = ends(lattice);
+    const s = solve(rg, [from], [to], { class: 'path' });
+    expect(s.ok).toBe(true);
+    if (s.ok) expect(crossingsOf(rg, s.nodes).map((c) => c.deck.id)).toEqual([deck.id]);
+  });
+});
+
+// RouteGraph.deckOf's contract (B-2): "the index of the deck a passable edge ACROSS WATER runs along, else −1". A 10 m
+// river from the frame's south edge that ends 10 m north of a short square deck (its ends on the two shores): the
+// lattice's edges along the deck (both ends within one spacing of it, within 30° of its direction) south of the river's
+// end cross the water and carry the deck; those north of it run on dry ground beside the deck and must answer −1 — a
+// dry approach edge folded into the crossing would shorten the committed course (seed 3418200249's `gate:0/out`,
+// pinned in frame.test.ts).
+describe('only a passable edge across water carries a deck (RouteGraph.deckOf; B-2)', () => {
+  const DECK = { id: 'bridge:0', a: P(-500, 0), b: P(500, 0) };
+  const site = smallSite(1, { faces: [riverRing(-500, 500, -120000, 1000)], decks: [DECK] });
+  const lattice = buildLattice(site, siteCosts(site));
+  const rg = routeGraph(lattice);
+  const g = lattice.graph;
+  const s = lattice.spacingCm;
+  const wetEdge = (p: { x: number; y: number }, q: { x: number; y: number }): boolean => lattice.costs.water.faces.some((f) => segmentMeetsRing(f, p, q));
+
+  it('every edge that carries the deck meets a water face', () => {
+    expect(rg.decks).toEqual([DECK]);
+    let carried = 0;
+    for (let u = 0; u < g.n; u += 1) {
+      for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
+        if (rg.deckOf[e] === -1) continue;
+        carried += 1;
+        expect(rg.deckOf[e]).toBe(0);
+        expect(wetEdge(lattice.points[u], lattice.points[g.targets[e]]), `edge ${String(u)}→${String(g.targets[e])}`).toBe(true);
+      }
+    }
+    expect(carried).toBeGreaterThanOrEqual(2);
+  });
+
+  it('along the deck, the wet edges carry it and the dry ones beside it answer −1', () => {
+    const dx = DECK.b.x - DECK.a.x;
+    const dy = DECK.b.y - DECK.a.y;
+    const along: { wet: boolean; deck: number; y: number }[] = [];
+    for (let u = 0; u < g.n; u += 1) {
+      for (let e = g.offsets[u]; e < g.offsets[u + 1]; e += 1) {
+        if (!(g.weights[e] < Infinity)) continue;
+        const p = lattice.points[u];
+        const q = lattice.points[g.targets[e]];
+        if (distToSegment(p, DECK.a, DECK.b) > s || distToSegment(q, DECK.a, DECK.b) > s) continue;
+        const ex = q.x - p.x;
+        const ey = q.y - p.y;
+        if (Math.abs(ex * dx + ey * dy) < 0.9 * Math.sqrt(ex * ex + ey * ey) * Math.sqrt(dx * dx + dy * dy)) continue;
+        along.push({ wet: wetEdge(p, q), deck: rg.deckOf[e], y: Math.min(p.y, q.y) });
+      }
+    }
+    const wet = along.filter((a) => a.wet);
+    const dry = along.filter((a) => !a.wet);
+    // Both kinds stand in the fixture: wet edges across the river, dry edges north of its end.
+    expect(wet.length).toBeGreaterThanOrEqual(2);
+    expect(dry.length).toBeGreaterThanOrEqual(2);
+    for (const a of dry) expect(a.y).toBeGreaterThan(1000);
+    expect(wet.map((a) => a.deck)).toEqual(wet.map(() => 0));
+    expect(dry.map((a) => a.deck)).toEqual(dry.map(() => -1));
   });
 });
