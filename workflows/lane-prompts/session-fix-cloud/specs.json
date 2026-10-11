@@ -10,7 +10,7 @@
    "lines": [
     {
      "line": "checks/M0-c-02-s2.md line 3 (RELATED at 1000): red on M0-c-04's span.test.ts pin 5, a red M0-c-02 s2 caused in a file M0-c-04 owns",
-     "evidence": "plat/packages/layout/test/growth/s5ab/span.test.ts:275, case 'a trace whose wall would put a vertex on a span is refused in its own batch, nothing written': its detail regex /put a vertex on bridge:1's span/ now meets M0-c-02 s2's in-batch proof first \u2014 received 'water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord \u2026' (E_INVARIANT; the arena version unchanged; the span whole). Red in the tree and in the s2 check's mirror 'after' (the s2 sources), green with the S1 sources; with only the regex widened the case passes. M0-c-02 s2's trace.ts lies on the test's import path (J193 (3)).",
+     "evidence": "plat/packages/layout/test/growth/s5ab/span.test.ts:275, case 'a trace whose wall would put a vertex on a span is refused in its own batch, nothing written': its detail regex /put a vertex on bridge:1's span/ now meets M0-c-02 s2's in-batch proof first — received 'water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord …' (E_INVARIANT; the arena version unchanged; the span whole). Red in the tree and in the s2 check's mirror 'after' (the s2 sources), green with the S1 sources; with only the regex widened the case passes. M0-c-02 s2's trace.ts lies on the test's import path (J193 (3)).",
      "required_change": "Re-pin pin 5 in M0-c-04's own file against the tree: assert the in-batch E_INVARIANT refusal with the version unchanged, the live vertices unchanged, the span whole, no gate_end and no enceinte:2 wall committed; add a twin that still pins the span proof's OWN refusal 'S5a: the trace put a vertex on bridge:1's span' (the pond withheld, the bridge given); change no source (boundary.ts untouched); the closing check kill-tests the twin (the trace's span proof removed must go red on it) and pin 5 (M0-c-02's looseGate/chord proof off must go red on it)."
     }
    ]
@@ -20,17 +20,17 @@
    "from": 2,
    "round": "S2",
    "confirmOnly": true,
-   "session": "docs/M0-FIX-QUEUE.md Q24 (N-54 (2); checks/M0-c-01-notes.md N-15; J248): the session opened round S1 on M0-c-03 (the deckOf \u22121 pin for backbone/route.test.ts that N-54 (2) asked for was never added; route.ts:343's 'another site in the band' retry formerly ran on unreachable beyond-frame decks and, with rg.decks now in-frame only, seed 3535584350 lost its outward route \u2014 M0-c-03 judged the retry on an empty band, choices row C-0297, 1/1000 shift). S1's closing check (plat/docs/build/checks/M0-c-03-s1.md, lane check/M0-c-03-close-s1, 2026-10-09 02:57) FAILED on two blockers, B-1 and B-2 \u2014 mutants on stated promises (Z06 and Z20) that survive NEAR and RELATED and change honest seeds. Round S2 (tests only; build LANDED 2026-10-09 03:08 under lane build/M0-c-03-fix-s2: frame.test.ts and route.test.ts; C-0304, L-0396; record plat/docs/build/landed/M0-c-03.json; its self-check reports Z06, Z02 and Z20 red on the new pins) pins both. This closing check S2 is the CONFIRM-ONLY re-check of those two lines (workflows/34's further-round rule, J162/J169): the mutants to re-introduce are the S1 check's own (checks/M0-c-03-s1.md section 'Targeted mutants': Z06 deletes the outward part's listing in stage.ts routesFromSlice; Z02 reads the band as always empty; Z20 drops the wet(lattice, p, q) test in routeGraph, route.ts:79); then the gates (NEAR at full strength; RELATED is empty for a tests-only round \u2014 say so). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "docs/M0-FIX-QUEUE.md Q24 (N-54 (2); checks/M0-c-01-notes.md N-15; J248): the session opened round S1 on M0-c-03 (the deckOf −1 pin for backbone/route.test.ts that N-54 (2) asked for was never added; route.ts:343's 'another site in the band' retry formerly ran on unreachable beyond-frame decks and, with rg.decks now in-frame only, seed 3535584350 lost its outward route — M0-c-03 judged the retry on an empty band, choices row C-0297, 1/1000 shift). S1's closing check (plat/docs/build/checks/M0-c-03-s1.md, lane check/M0-c-03-close-s1, 2026-10-09 02:57) FAILED on two blockers, B-1 and B-2 — mutants on stated promises (Z06 and Z20) that survive NEAR and RELATED and change honest seeds. Round S2 (tests only; build LANDED 2026-10-09 03:08 under lane build/M0-c-03-fix-s2: frame.test.ts and route.test.ts; C-0304, L-0396; record plat/docs/build/landed/M0-c-03.json; its self-check reports Z06, Z02 and Z20 red on the new pins) pins both. This closing check S2 is the CONFIRM-ONLY re-check of those two lines (workflows/34's further-round rule, J162/J169): the mutants to re-introduce are the S1 check's own (checks/M0-c-03-s1.md section 'Targeted mutants': Z06 deletes the outward part's listing in stage.ts routesFromSlice; Z02 reads the band as always empty; Z20 drops the wet(lattice, p, q) test in routeGraph, route.ts:79); then the gates (NEAR at full strength; RELATED is empty for a tests-only round — say so). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
-     "line": "B-1 \u2014 the Q24 line's last clause: a part the rule leaves unserved is not pinned in S4's report.unserved",
-     "evidence": "Mutant Z06 (stage.ts:278, the outward part's listing `} else unserved.push(`${gate.id}/out`);` deleted) survives NEAR 84/84 and the related S4 runs (ladders/rungs-route, ladders/chain, pipeline/base/run, edge/control: 36/36 at 1000); the only readers of report.unserved (frame.test.ts, water.test.ts) assert []; honest seed 3207739920 (plain small-river chain, i = 142): gate:1/out is left unserved by the rule \u2014 rungs another_site from bridge:1 held false 'no usable site in the band', extra_bridge notBuilt(M1), unserved 'no path'; report.unserved ['gate:1/out'], under Z06 [].",
-     "required_change": "Pin a part the rule leaves unserved at stage level (seed 3207739920 in frame.test.ts): report.rungs for gate:1/out equal to the three rungs, report.unserved equal to ['gate:1/out'], no gate:1/out route, ways = 2N \u2212 1; Z06 red on it, and Z02 (the 'no usable site' / 'no path' labels) red too."
+     "line": "B-1 — the Q24 line's last clause: a part the rule leaves unserved is not pinned in S4's report.unserved",
+     "evidence": "Mutant Z06 (stage.ts:278, the outward part's listing `} else unserved.push(`${gate.id}/out`);` deleted) survives NEAR 84/84 and the related S4 runs (ladders/rungs-route, ladders/chain, pipeline/base/run, edge/control: 36/36 at 1000); the only readers of report.unserved (frame.test.ts, water.test.ts) assert []; honest seed 3207739920 (plain small-river chain, i = 142): gate:1/out is left unserved by the rule — rungs another_site from bridge:1 held false 'no usable site in the band', extra_bridge notBuilt(M1), unserved 'no path'; report.unserved ['gate:1/out'], under Z06 [].",
+     "required_change": "Pin a part the rule leaves unserved at stage level (seed 3207739920 in frame.test.ts): report.rungs for gate:1/out equal to the three rungs, report.unserved equal to ['gate:1/out'], no gate:1/out route, ways = 2N − 1; Z06 red on it, and Z02 (the 'no usable site' / 'no path' labels) red too."
     },
     {
-     "line": "B-2 \u2014 RouteGraph.deckOf marks only wet edges ('the index of the deck a passable edge across water runs along, else \u22121'), which no test pins",
-     "evidence": "Mutant Z20 (route.ts:79, the wet(lattice, p, q) test dropped: a dry edge within one spacing of a deck and within 30\u00b0 of it is also given the deck) survives NEAR 84/84 and RELATED@1000 whole (207 files; its 4 reds \u2014 hausdorff, span, districts/integration, ladder-coverage/entry \u2014 are red without the mutant too); honest seed 3418200249 (i = 821): gate:0/out spans bridge:1 with 11 points, under Z20 10 (the approach node next to the deck end folded into the crossing's run) \u2014 a different committed course from an unpinned clause of the interface N-54 (2)'s pin is about.",
-     "required_change": "Pin deckOf's wet-only contract: synthetic lattice pins in route.test.ts (a dry edge beside and aligned with a deck reads \u22121; the wet edge along it reads the deck; a river ending just past a short deck), and seed 3418200249's gate:0/out with its 11 points in frame.test.ts; Z20 red on them and on both route.test deckOf pins."
+     "line": "B-2 — RouteGraph.deckOf marks only wet edges ('the index of the deck a passable edge across water runs along, else −1'), which no test pins",
+     "evidence": "Mutant Z20 (route.ts:79, the wet(lattice, p, q) test dropped: a dry edge within one spacing of a deck and within 30° of it is also given the deck) survives NEAR 84/84 and RELATED@1000 whole (207 files; its 4 reds — hausdorff, span, districts/integration, ladder-coverage/entry — are red without the mutant too); honest seed 3418200249 (i = 821): gate:0/out spans bridge:1 with 11 points, under Z20 10 (the approach node next to the deck end folded into the crossing's run) — a different committed course from an unpinned clause of the interface N-54 (2)'s pin is about.",
+     "required_change": "Pin deckOf's wet-only contract: synthetic lattice pins in route.test.ts (a dry edge beside and aligned with a deck reads −1; the wet edge along it reads the deck; a river ending just past a short deck), and seed 3418200249's gate:0/out with its 11 points in frame.test.ts; Z20 red on them and on both route.test deckOf pins."
     }
    ]
   },
@@ -38,12 +38,12 @@
    "id": "M0-f-03a",
    "from": 2,
    "round": "S2",
-   "session": "N-56 (4) (plat/docs/build/checks/M0-spec-notes.md), docs/M0-FIX-QUEUE.md Q16, J249: a session round on tables data \u2014 a persisted metadata correction, vetoable by the owner. Build LANDED 2026-10-09 02:10 under lane build/M0-f-03a-fix-s2 (workLimits.json v2, the warp.halvings floor pinned: provenance architecture 2026-10-03, calibratable false; census 33 \u2192 32; PIN 8c5b12b4; no value change; the M0-s-02 census stays 182 because TABLE_IDS excludes workLimits; table.ts, table.test.ts; appends C-0301, L-0389; record plat/docs/build/landed/M0-f-03a.json). The closing seat on the WSL machine (lane check/M0-f-03a-close-s2, 02:11\u201303:06) had established: the N-56 (4) data/test diff read; census 182 unaffected CONFIRMED; gates install/lint (probe-red ok)/build 0; landed:verify ok; tables 240/240; near+pins 413/413; mutants M01\u2013M12 all killed; notes N-2, N-3 and N-4 appended to checks/M0-f-03a-notes.md (they stand in the tree: keep them, do not duplicate them, record that file); related@1000 was running in its mirror when the machine logged out \u2014 the verdict file plat/docs/build/checks/M0-f-03a-s2.md, the CLEAN-ROOM row and the landed records were never written. Finish the check here: re-run what you cannot read from the tree (the gates, NEAR, the related run at 1000; the mutants again if your budget allows, else the ones you judge decisive), write the verdict, the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "N-56 (4) (plat/docs/build/checks/M0-spec-notes.md), docs/M0-FIX-QUEUE.md Q16, J249: a session round on tables data — a persisted metadata correction, vetoable by the owner. Build LANDED 2026-10-09 02:10 under lane build/M0-f-03a-fix-s2 (workLimits.json v2, the warp.halvings floor pinned: provenance architecture 2026-10-03, calibratable false; census 33 → 32; PIN 8c5b12b4; no value change; the M0-s-02 census stays 182 because TABLE_IDS excludes workLimits; table.ts, table.test.ts; appends C-0301, L-0389; record plat/docs/build/landed/M0-f-03a.json). The closing seat on the WSL machine (lane check/M0-f-03a-close-s2, 02:11–03:06) had established: the N-56 (4) data/test diff read; census 182 unaffected CONFIRMED; gates install/lint (probe-red ok)/build 0; landed:verify ok; tables 240/240; near+pins 413/413; mutants M01–M12 all killed; notes N-2, N-3 and N-4 appended to checks/M0-f-03a-notes.md (they stand in the tree: keep them, do not duplicate them, record that file); related@1000 was running in its mirror when the machine logged out — the verdict file plat/docs/build/checks/M0-f-03a-s2.md, the CLEAN-ROOM row and the landed records were never written. Finish the check here: re-run what you cannot read from the tree (the gates, NEAR, the related run at 1000; the mutants again if your budget allows, else the ones you judge decisive), write the verdict, the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
      "line": "N-56 (4) Q16: warp.halvings's floor is test-pinned (MAX_HALVINGS 8 is the kernel's loop constant) yet marked calibratable: true in persisted table metadata M1's calibration reads",
      "evidence": "M0-f-03a N2; summaries/M0-k-04.json holds a warp.halvings p999 = 1 block that M0-f-03b's calibration rewrite would turn into a floor of about 2 under calibratable: true; the table's floor only feeds workLimitOf (N-56 Q16, CONFIRMED by the ruling seat).",
-     "required_change": "warp.halvings.floor \u2192 calibratable: false, provenance 'architecture 2026-10-03', table version 2, the calibratable census 33 \u2192 32 (the cross-item census line 182 \u2192 181 does not apply: TABLE_IDS excludes workLimits \u2014 confirm and report), the PIN re-recorded with the cause; M0-f-03b's relaunch note gains the fixed-row line (the rewrite skips fixed rows and never reads their quantile blocks); no value changes."
+     "required_change": "warp.halvings.floor → calibratable: false, provenance 'architecture 2026-10-03', table version 2, the calibratable census 33 → 32 (the cross-item census line 182 → 181 does not apply: TABLE_IDS excludes workLimits — confirm and report), the PIN re-recorded with the cause; M0-f-03b's relaunch note gains the fixed-row line (the rewrite skips fixed rows and never reads their quantile blocks); no value changes."
     }
    ],
    "fromDisk": true
@@ -52,11 +52,11 @@
    "id": "M0-a-06",
    "from": 5,
    "round": "S5",
-   "session": "N-56 (5), docs/M0-FIX-QUEUE.md Q28 (kernel part), J249: the level-digest listener is keyed on the arena version, so restoreSavepoint across committed batches makes a stale digest state read as current (the digest half is M0-d-04's round s1, after this one commits). Build LANDED 2026-10-09 02:25 under lane build/M0-a-06-fix-s5 (kernel/src/tx/savepoint.ts, tx/index.ts, test/tx/savepoint.test.ts; appends C-0299, L-0386; record plat/docs/build/landed/M0-a-06.json). The closing seat on the WSL machine (lane check/M0-a-06-close-s5, 02:26\u201303:23) had established: gates install 0, lint 0 (probe-red ok), build 0, landed:verify ok; NEAR tx 28 files 444 green (kernel + kernel-tiny); its own probes (the keyed consumer never stale for n = 1, 3; 600 LIFO sequences, 727 cross-commit restores, 0 key collisions; a non-LIFO dead-image collision CONFIRMED and noted); golden s4 vs s5 1 800 steps byte-identical; 11 mutants, 10 killed by savepoint.test.ts, M04 equivalent for the key; a DRAFT verdict plat/docs/build/checks/M0-a-06-s5.md (PASS pending RELATED; it carries the placeholders RELATED_RESULT and RELATED_VERDICT that must be replaced) and notes N-24, N-25 appended to checks/M0-a-06-notes.md (keep them); RELATED at 1000 was still running at the logout; the CLEAN-ROOM row and the two landed records (check-M0-a-06-s5, check-M0-a-06-notes) were not written. Finish the check here: the gates and NEAR again (fast), RELATED at 1000 (replace the placeholders with its result and verdict), re-run the probes and mutants you cannot read from the tree as your budget allows, then the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "N-56 (5), docs/M0-FIX-QUEUE.md Q28 (kernel part), J249: the level-digest listener is keyed on the arena version, so restoreSavepoint across committed batches makes a stale digest state read as current (the digest half is M0-d-04's round s1, after this one commits). Build LANDED 2026-10-09 02:25 under lane build/M0-a-06-fix-s5 (kernel/src/tx/savepoint.ts, tx/index.ts, test/tx/savepoint.test.ts; appends C-0299, L-0386; record plat/docs/build/landed/M0-a-06.json). The closing seat on the WSL machine (lane check/M0-a-06-close-s5, 02:26–03:23) had established: gates install 0, lint 0 (probe-red ok), build 0, landed:verify ok; NEAR tx 28 files 444 green (kernel + kernel-tiny); its own probes (the keyed consumer never stale for n = 1, 3; 600 LIFO sequences, 727 cross-commit restores, 0 key collisions; a non-LIFO dead-image collision CONFIRMED and noted); golden s4 vs s5 1 800 steps byte-identical; 11 mutants, 10 killed by savepoint.test.ts, M04 equivalent for the key; a DRAFT verdict plat/docs/build/checks/M0-a-06-s5.md (PASS pending RELATED; it carries the placeholders RELATED_RESULT and RELATED_VERDICT that must be replaced) and notes N-24, N-25 appended to checks/M0-a-06-notes.md (keep them); RELATED at 1000 was still running at the logout; the CLEAN-ROOM row and the two landed records (check-M0-a-06-s5, check-M0-a-06-notes) were not written. Finish the check here: the gates and NEAR again (fast), RELATED at 1000 (replace the placeholders with its result and verdict), re-run the probes and mutants you cannot read from the tree as your budget allows, then the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
      "line": "N-56 (5) Q28 (kernel part): restoreSavepoint across committed batches sets p.version back, so a maintained level-digest state keyed on the version reads current with stale digests",
-     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read \u2014 L1\u2013L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); C-0287 (2); the savepoint.test.ts pin of M0-a-06 s4 named the cross-item contract.",
+     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read — L1–L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); C-0287 (2); the savepoint.test.ts pin of M0-a-06 s4 named the cross-item contract.",
      "required_change": "restoreSavepoint bumps a per-arena restore generation only across committed batches (never on a restore within the open batch), the generation readable through tx/index.ts for M0-d-04's digest state keyed on (generation, version); pins in savepoint.test.ts; no persisted change; no behaviour shift on the s4 line (bits, commit records and level digests identical)."
     }
    ],
@@ -66,7 +66,7 @@
    "id": "M0-a-05",
    "from": 7,
    "round": "S7",
-   "session": "N-53 (2) Q17 (reservePair retired after M0-a-04's fe0e4a36), N-55 (2) Q10, (4) Q12, (5) Q13 (the insertChain door), C-0284 (3); J242, J248. Build LANDED 2026-10-09 02:53 under lane build/M0-a-05-fix-s7 (kernel/src/insert/insertChain.ts, stretch.ts; test/insert/step3-5/{lifecycle.test.ts, register/s6-lifecycle.json, support.ts, bfuzz.test.ts, foldback.test.ts, placementEnds.test.ts, routerGapS3\u2013S6.test.ts, snapRound.test.ts}; appends C-0302, L-0390; record plat/docs/build/landed/M0-a-05.json; the builder reports gates 0, NEAR step3-5 38 files / 450 green, RELATED@1000 406/408 files with 2 foreign reds, 1e6 mandatory before == after; an open case for the session: the coincident-chain split vertex, C-0302 (3) \u2014 judge in this check whether it is a blocker (a wrong result on an honest input) or a notes row). The closing seat on the WSL machine (lane check/M0-a-05-close-s7, 02:54\u201303:03) had only reached: gates install 0, landed:verify ok, lint 0, build 0; reservePair grep (a comment line remains), n13 grep (no tolerance), s6-lifecycle.json 13 cases 0 remove keys; mirrors A (after) and B (before composite) built, B smoke (foldback 5317 pins red, controls green), A's step3-5 PR-size run started \u2014 no verdict, no notes, no records. Rebuild from the start under the CONTINUE RULE (the mirrors are gone). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "N-53 (2) Q17 (reservePair retired after M0-a-04's fe0e4a36), N-55 (2) Q10, (4) Q12, (5) Q13 (the insertChain door), C-0284 (3); J242, J248. Build LANDED 2026-10-09 02:53 under lane build/M0-a-05-fix-s7 (kernel/src/insert/insertChain.ts, stretch.ts; test/insert/step3-5/{lifecycle.test.ts, register/s6-lifecycle.json, support.ts, bfuzz.test.ts, foldback.test.ts, placementEnds.test.ts, routerGapS3–S6.test.ts, snapRound.test.ts}; appends C-0302, L-0390; record plat/docs/build/landed/M0-a-05.json; the builder reports gates 0, NEAR step3-5 38 files / 450 green, RELATED@1000 406/408 files with 2 foreign reds, 1e6 mandatory before == after; an open case for the session: the coincident-chain split vertex, C-0302 (3) — judge in this check whether it is a blocker (a wrong result on an honest input) or a notes row). The closing seat on the WSL machine (lane check/M0-a-05-close-s7, 02:54–03:03) had only reached: gates install 0, landed:verify ok, lint 0, build 0; reservePair grep (a comment line remains), n13 grep (no tolerance), s6-lifecycle.json 13 cases 0 remove keys; mirrors A (after) and B (before composite) built, B smoke (foldback 5317 pins red, controls green), A's step3-5 PR-size run started — no verdict, no notes, no records. Rebuild from the start under the CONTINUE RULE (the mirrors are gone). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
      "line": "N-53 (2) Q17: M0-a-05 retires reservePair and its two call sites once M0-a-04's splitThrough fix (fe0e4a36) is committed; mutant S14 retires with it",
@@ -74,18 +74,18 @@
      "required_change": "reservePair and both call sites (stretch.ts applyLanding, insertChain.ts land) gone; no behaviour shift (by construction, measured on the listed tallies); the N-53 old line restored in a mirror must go red on kernel-tiny's step3-5 B-FUZZ"
     },
     {
-     "line": "N-55 (2) Q10: land keeps VERTEX_SPLIT on a chain's own point that step 2 lands by splitting the chain's OWN edge (the fold-back, case 5317/20 000), although \u00a72.2 says a chain's own shape vertices never carry it",
+     "line": "N-55 (2) Q10: land keeps VERTEX_SPLIT on a chain's own point that step 2 lands by splitting the chain's OWN edge (the fold-back, case 5317/20 000), although §2.2 says a chain's own shape vertices never carry it",
      "evidence": "N-55 Q10 CONFIRMED by replay (case 5317; the register's control-refused and pass2-optional at L0/L1); C-0223 (5) counted it under foldedBase",
      "required_change": "ownShapeVertex clears the flag on a self-split landing (a split of another chain's edge keeps it); the case 5317 fixture and its control; holdsDissolvable an oracle after every B-FUZZ and lifecycle commit; foldedBase asserted 0"
     },
     {
-     "line": "N-55 (4) Q12: lifecycle.test.ts and six 'remove': 'n13' cases of register/s6-lifecycle.json still tolerate exactly Q9 and Q10 \u2014 the restore promise is masked",
+     "line": "N-55 (4) Q12: lifecycle.test.ts and six 'remove': 'n13' cases of register/s6-lifecycle.json still tolerate exactly Q9 and Q10 — the restore promise is masked",
      "evidence": "C-0235; M0-a-14-s1; N-55 Q12: 13/13 exact with both fixes (Q9 landed in M0-a-06 s4, 9585d3be)",
      "required_change": "every register case pinned exact: no n13 tolerance, no refusal tolerated, chunk refs and digests too; 13/13 exact"
     },
     {
-     "line": "N-55 (5) Q13 (the insertChain door): insertChain writes on a committed or rejected overlay with the version unchanged \u2014 a silent write",
-     "evidence": "N-55 Q13 CONFIRMED (module and fa\u00e7ade alike); the fa\u00e7ade door 3a35e530, splitThrough's door 36bb50e4, attractVertex/attractRun 39ee72bc (Q30); insertChain's door was routed to this round",
+     "line": "N-55 (5) Q13 (the insertChain door): insertChain writes on a committed or rejected overlay with the version unchanged — a silent write",
+     "evidence": "N-55 Q13 CONFIRMED (module and façade alike); the façade door 3a35e530, splitThrough's door 36bb50e4, attractVertex/attractRun 39ee72bc (Q30); insertChain's door was routed to this round",
      "required_change": "insertChain checks the overlay is open before any plan, read or charge (throws at the door, N-55 (5)'s class, not a typed refusal); an ordering pin that the closed throw precedes any write"
     }
    ],
@@ -95,11 +95,11 @@
    "id": "M0-e-03",
    "from": 1,
    "round": "S1",
-   "session": "N-56 (1), docs/M0-FIX-QUEUE.md Q20 class A, J249: 5 of 1 000 EP-01/S1 self-touching states refuse a LAWFUL river unplanted because slowRings' output reaches insertChain uncleaned (a hairpin of 17\u201325 cm sides welded by the insertion's attraction); class B (28/1000 planted bow-ties) is a lawful typed refusal and keeps its M0-x-06 pin. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-03-fix-s1, 01:38\u201303:13) left its fix IN THE TREE, uncommitted \u2014 site/src/water/polygons.ts (provedRings) and stage.ts (the river cause), the pins site/test/water/slow-rings.test.ts with fixtures/q20-slow-rings.json \u2014 and had established in its mirror: 7/7 class-A seeds commit via the registered S1; SMALL_RIVER 1 000 seeds 995 \u2192 1 000 committed, 28 slow seeds shifted (\u221245.5 % L0 vertices), 0 fast seeds shifted; the bar's 12 + 2 CITY seeds shifted, refused tributaries 3 \u2192 1; gates install/lint/build 0; pins 17/17; M0-e-06's river receipts before/after compared (verdicts identical, 5 of 6 derivations shifted); self-check mutants M1\u2013M6 were running at the logout. NOT yet written: the choices row (next free id by the id rule), the CLEAN-ROOM row, the landed record (corepack pnpm landed -- M0-e-03 --lane build/M0-e-03-fix-s1 --wave flow-7) and the LANDED line. CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, finish the self-check (J183), NEAR and RELATED, state the shift per seed as the ruling asks, then the appends, the record and the LANDED line. Known consequence to report for the session (not yours to fix): M0-x-06's in-flight packages/testkit/test/edge/standing.test.ts goes red on seed 1595424233 with this change (M0-x-06 round 2 re-pins it, N-56 (6)). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "N-56 (1), docs/M0-FIX-QUEUE.md Q20 class A, J249: 5 of 1 000 EP-01/S1 self-touching states refuse a LAWFUL river unplanted because slowRings' output reaches insertChain uncleaned (a hairpin of 17–25 cm sides welded by the insertion's attraction); class B (28/1000 planted bow-ties) is a lawful typed refusal and keeps its M0-x-06 pin. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-03-fix-s1, 01:38–03:13) left its fix IN THE TREE, uncommitted — site/src/water/polygons.ts (provedRings) and stage.ts (the river cause), the pins site/test/water/slow-rings.test.ts with fixtures/q20-slow-rings.json — and had established in its mirror: 7/7 class-A seeds commit via the registered S1; SMALL_RIVER 1 000 seeds 995 → 1 000 committed, 28 slow seeds shifted (−45.5 % L0 vertices), 0 fast seeds shifted; the bar's 12 + 2 CITY seeds shifted, refused tributaries 3 → 1; gates install/lint/build 0; pins 17/17; M0-e-06's river receipts before/after compared (verdicts identical, 5 of 6 derivations shifted); self-check mutants M1–M6 were running at the logout. NOT yet written: the choices row (next free id by the id rule), the CLEAN-ROOM row, the landed record (corepack pnpm landed -- M0-e-03 --lane build/M0-e-03-fix-s1 --wave flow-7) and the LANDED line. CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, finish the self-check (J183), NEAR and RELATED, state the shift per seed as the ruling asks, then the appends, the record and the LANDED line. Known consequence to report for the session (not yours to fix): M0-x-06's in-flight packages/testkit/test/edge/standing.test.ts goes red on seed 1595424233 with this change (M0-x-06 round 2 re-pins it, N-56 (6)). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
      "line": "N-56 (1) Q20 class A: the slow rings reach insertChain uncleaned, so a lawful river is refused unplanted on 5/1000 seeds (the same `branches` cause as the lawful bow-tie refusals)",
-     "evidence": "The ruling seat's probes zz-ruling-q20*: 967 laddered, 28 refused-safe (class B), 5 where slowRings' output holds a 17\u201325 cm hairpin within 17\u201326 cm of a non-adjacent side (minEdgeCm 25, attractCm 26); cleanRing with the frame edge fixed makes all four logged rings simple and clear (min 955 cm). CONFIRMED.",
+     "evidence": "The ruling seat's probes zz-ruling-q20*: 967 laddered, 28 refused-safe (class B), 5 where slowRings' output holds a 17–25 cm hairpin within 17–26 cm of a non-adjacent side (minEdgeCm 25, attractCm 26); cleanRing with the frame edge fixed makes all four logged rings simple and clear (min 955 cm). CONFIRMED.",
      "required_change": "The slow rings cleaned (cleanRing, frame and earlier-ring vertices fixed) and proved (isSimple, clearRing, ringsApart, clearOf) before keep; a ring still unclear is a refused body (for the river: the stage's refusal with its cause named); pins: a 17 cm-hairpin ring commits, the five class-A seeds commit, the 100-seed bar; the shift stated for every slow-path seed (about 2.8 %); M0-e-06's river receipts re-run; class B's refusal stays lawful (the x-06 pin reworded in x-06 round 2, not here)."
     }
    ]
@@ -108,11 +108,11 @@
    "id": "M0-e-04",
    "from": 2,
    "round": "S2",
-   "session": "N-56 (2), docs/M0-FIX-QUEUE.md Q21 (collinear), J249: a simple CCW ring with collinear vertices (seed 1165799859) is refused by settlementPerimeter while the clean ring passes \u2014 the overlay's union merges the collinear vertices and isSumRing's 'both ends near ONE boundary edge' test fails (a 300 m square with midpoints reproduces it); the self-touching (2191303060) and coincident (2708765650) refusals are LAWFUL (non-simple rings refused before any batch) and keep their pins. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-04-fix-s2, 03:02\u201303:14) left its fix IN THE TREE, uncommitted \u2014 layout/src/districts/perimeter.ts (mergeCollinear) and districts/index.ts \u2014 with the pins layout/test/districts/collinear.test.ts and packages/testkit/test/layout/districts/collinear-chain.test.ts green in its mirror; next were the after-probe (zero shift elsewhere), the self-check mutants and the gates; nothing was landed (no choices row, no ledger row, no record, no LANDED line). CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, prove zero shift on the 100 count-law seeds and the perimeter invariance under collinear splitting, finish the self-check (J183), NEAR and RELATED, then the appends, the record (corepack pnpm landed -- M0-e-04 --lane build/M0-e-04-fix-s2 --wave flow-7) and the LANDED line. The ruling's optional union-outer pre-step is a hardening notes row, not code. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "session": "N-56 (2), docs/M0-FIX-QUEUE.md Q21 (collinear), J249: a simple CCW ring with collinear vertices (seed 1165799859) is refused by settlementPerimeter while the clean ring passes — the overlay's union merges the collinear vertices and isSumRing's 'both ends near ONE boundary edge' test fails (a 300 m square with midpoints reproduces it); the self-touching (2191303060) and coincident (2708765650) refusals are LAWFUL (non-simple rings refused before any batch) and keep their pins. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-04-fix-s2, 03:02–03:14) left its fix IN THE TREE, uncommitted — layout/src/districts/perimeter.ts (mergeCollinear) and districts/index.ts — with the pins layout/test/districts/collinear.test.ts and packages/testkit/test/layout/districts/collinear-chain.test.ts green in its mirror; next were the after-probe (zero shift elsewhere), the self-check mutants and the gates; nothing was landed (no choices row, no ledger row, no record, no LANDED line). CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, prove zero shift on the 100 count-law seeds and the perimeter invariance under collinear splitting, finish the self-check (J183), NEAR and RELATED, then the appends, the record (corepack pnpm landed -- M0-e-04 --lane build/M0-e-04-fix-s2 --wave flow-7) and the LANDED line. The ruling's optional union-outer pre-step is a hardening notes row, not code. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
    "lines": [
     {
      "line": "N-56 (2) Q21 (collinear): a lawful simple ring with collinear vertices is refused by settlementPerimeter's isSumRing after the union merges the collinear vertices",
-     "evidence": "The ruling seat's probe zz-ruling-q21 on seed 1165799859 and the 300 m square \u00b1 midpoints (CONFIRMED); self-touching 2191303060 and coincident 2708765650 are non-simple rings refused before any batch (lawful).",
+     "evidence": "The ruling seat's probe zz-ruling-q21 on seed 1165799859 and the 300 m square ± midpoints (CONFIRMED); self-touching 2191303060 and coincident 2708765650 are non-simple rings refused before any batch (lawful).",
      "required_change": "Exactly collinear vertices merged before convolution and isSumRing; pins: the perimeter invariant under collinear splitting (seed 1165799859, the square, the 100 count-law seeds), zero shift elsewhere; the self-touching and coincident pins stay (lawful), an optional union-outer pre-step as a hardening notes row."
     }
    ]
@@ -124,7 +124,7 @@
    "session": "docs/M0-FIX-QUEUE.md Q31 (found by M0-b-03 s3 while wiring seam-portals, 2026-10-09; the same shape as N-9/Q15): the water stage's stage-end invariant row `references-resolve` (site/src/water/stage.ts) is DECLARED but evaluated by nobody, so the runner's report shows it passing with count 0. This round follows M0-e-03's round s1 (N-56 (1), Q20 class A) which must be committed first; the structural guard that fails any stage whose declared row was never reported (Q32, M0-x-02 round s2) launches AFTER this round lands, so that the guard meets a tree where every declared row is evaluated. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
    "lines": [
     {
-     "line": "Q31: the water stage's declared stage-end row `references-resolve` is never evaluated \u2014 the report says pass for a row that never ran",
+     "line": "Q31: the water stage's declared stage-end row `references-resolve` is never evaluated — the report says pass for a row that never ran",
      "evidence": "M0-b-03 s3's result note (checks/M0-b-03-s3.md, lane build/M0-b-03-fix-s3): the row is declared in site/src/water/stage.ts's stage descriptor and no code path calls ReportSink.invariant for it; the runner's report reads count 0 and pass (the N-9/Q15 shape, fixed for S8's seam-portals in 952b24f8).",
      "required_change": "Evaluate the row at the stage end (every reference the S1 batch commits resolves to a live entity of the committed arena) with its evaluation COUNT reported so 'pass with 0' can no longer mean 'never ran'; a planted breach (a dangling reference inserted by the test's own hook or probe) refuses the stage with the row named; the honest twin reports count 1 and 0 problems; zero shift on honest seeds (the 100-seed bar's digests identical before and after)."
     }
@@ -134,7 +134,7 @@
    "id": "M0-x-02",
    "from": 2,
    "round": "S2",
-   "session": "docs/M0-FIX-QUEUE.md Q32 \u2014 STRUCTURAL (the class behind Q15 and Q31, structural-prevention after the third same-shape fix; M0-b-03 s3 N-9): a stage may declare a stage-end invariant row that no code evaluates, and the runner's report then shows it passing with count 0; the habitat is the gap between a declaration (registry / stage descriptor) and an evaluation (ReportSink.invariant). This round runs AFTER M0-e-03 s2 (Q31) lands, so every declared row of the M0 stages is evaluated when the guard arrives; if the guard still finds a declared-but-unevaluated row of ANOTHER item's stage, that is a finding for the session (a queue row), not a fix inside this round and not a reason to weaken the guard. The base registration table's manifest test is M0-x-04's file (test/pipeline/base/): name the test this round would add there in a choices row for the session to route, unless x-02's own test folder can hold a walker over the registry that proves the same thing. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "session": "docs/M0-FIX-QUEUE.md Q32 — STRUCTURAL (the class behind Q15 and Q31, structural-prevention after the third same-shape fix; M0-b-03 s3 N-9): a stage may declare a stage-end invariant row that no code evaluates, and the runner's report then shows it passing with count 0; the habitat is the gap between a declaration (registry / stage descriptor) and an evaluation (ReportSink.invariant). This round runs AFTER M0-e-03 s2 (Q31) lands, so every declared row of the M0 stages is evaluated when the guard arrives; if the guard still finds a declared-but-unevaluated row of ANOTHER item's stage, that is a finding for the session (a queue row), not a fix inside this round and not a reason to weaken the guard. The base registration table's manifest test is M0-x-04's file (test/pipeline/base/): name the test this round would add there in a choices row for the session to route, unless x-02's own test folder can hold a walker over the registry that proves the same thing. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
    "lines": [
     {
      "line": "Q32: the runner accepts a stage whose declared stage-end row was never reported, showing it as passing with count 0",
@@ -151,8 +151,8 @@
    "lines": [
     {
      "line": "N-56 (5) Q28 (digest half): the maintained level-digest state must be keyed on (restore generation, version), not the version alone",
-     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read \u2014 L1\u2013L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); M0-a-06 s4's savepoint.test.ts pin named the contract (C-0287 (2)); M0-a-06 s5 (C-0299) provides the generation.",
-     "required_change": "The digest state keyed on (generation, version): rebuilt on read when either differs; the listener skips a foreign generation; no persisted change (digests, formats and seed-to-output laws unchanged \u2014 the goldens identical); the runner's re-attach stays (builds pin 1 holds); pins: the ruling's replay (restore across n = 1 and 3 committed batches, no re-attach, then commits and a read \u2014 never stale), the re-attach path unchanged."
+     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read — L1–L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); M0-a-06 s4's savepoint.test.ts pin named the contract (C-0287 (2)); M0-a-06 s5 (C-0299) provides the generation.",
+     "required_change": "The digest state keyed on (generation, version): rebuilt on read when either differs; the listener skips a foreign generation; no persisted change (digests, formats and seed-to-output laws unchanged — the goldens identical); the runner's re-attach stays (builds pin 1 holds); pins: the ruling's replay (restore across n = 1 and 3 committed batches, no re-attach, then commits and a read — never stale), the re-attach path unchanged."
     }
    ]
   },
@@ -160,12 +160,12 @@
    "id": "M0-c-02",
    "from": 3,
    "round": "S3",
-   "session": "N-56 (3), docs/M0-FIX-QUEUE.md Q22, J249 (the owner corrected the target from M0-c-04 to M0-c-02): on SMALL_FLAT seed 3443032966 (and 2300104848 and four more named seeds; 0.3\u20131.2 % of the family) the planted S5a trace COMMITS and the stage-2 STRIPS batch refuses 'closed no strip face' \u2014 the unplanted control too \u2014 so this is not the kind's refusal but a lawful input refused by isStrip's corridor clause (every probe face is within the strip's width, owned land:0, no way vertex; the rejected vertex PLAUSIBLY a cap/line vertex displaced into the corridor beyond its 5 cm tolerance, or stage 1's strip vertices). This round follows M0-c-02 s2 (committed together with M0-c-04 s3). M0-c-04's stage-2 pins (its s2 and s3) stand and must stay green; M0-x-06 round 2 drops its S5a/coincident pin afterwards (not this round's file). This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "session": "N-56 (3), docs/M0-FIX-QUEUE.md Q22, J249 (the owner corrected the target from M0-c-04 to M0-c-02): on SMALL_FLAT seed 3443032966 (and 2300104848 and four more named seeds; 0.3–1.2 % of the family) the planted S5a trace COMMITS and the stage-2 STRIPS batch refuses 'closed no strip face' — the unplanted control too — so this is not the kind's refusal but a lawful input refused by isStrip's corridor clause (every probe face is within the strip's width, owned land:0, no way vertex; the rejected vertex PLAUSIBLY a cap/line vertex displaced into the corridor beyond its 5 cm tolerance, or stage 1's strip vertices). This round follows M0-c-02 s2 (committed together with M0-c-04 s3). M0-c-04's stage-2 pins (its s2 and s3) stand and must stay green; M0-x-06 round 2 drops its S5a/coincident pin afterwards (not this round's file). This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
    "lines": [
     {
-     "line": "Q22 / N-56 (3): the stage-2 strips batch refuses lawful input ('closed no strip face') on 0.3\u20131.2 % of SMALL_FLAT seeds \u2014 isStrip's corridor clause",
+     "line": "Q22 / N-56 (3): the stage-2 strips batch refuses lawful input ('closed no strip face') on 0.3–1.2 % of SMALL_FLAT seeds — isStrip's corridor clause",
      "evidence": "The ruling seat's probes zz-ruling-q22*: 3443032966 committed trace, strips refused; unplanted control refused too; 0/299 family seeds unplanted refused, 6/6 named seeds refused; every probe face within the strip's width, owned land:0, no way vertex. The rejected vertex itself is PLAUSIBLE, not yet logged.",
-     "required_change": "First LOG the rejected vertex in isStrip on 3443032966 and 2300104848 (name it in the choices row), then fix by the shape the log supports: (a) raise the corridor tolerance to the fidelity bound or test membership by area, or (b) read and refuse-with-cause the previous enceinte's strip overlap, with M0-c-04 keeping stage k's outline clear of enceinte k\u22121's outer strip (a cross-item line for the session if (b)); pins: the six named seeds commit, the 299 unchanged seeds unchanged (digests identical), a true corridor-crossing face is still refused with its cause named; M0-c-04's s5ab pins green."
+     "required_change": "First LOG the rejected vertex in isStrip on 3443032966 and 2300104848 (name it in the choices row), then fix by the shape the log supports: (a) raise the corridor tolerance to the fidelity bound or test membership by area, or (b) read and refuse-with-cause the previous enceinte's strip overlap, with M0-c-04 keeping stage k's outline clear of enceinte k−1's outer strip (a cross-item line for the session if (b)); pins: the six named seeds commit, the 299 unchanged seeds unchanged (digests identical), a true corridor-crossing face is still refused with its cause named; M0-c-04's s5ab pins green."
     }
    ]
   },
@@ -173,17 +173,17 @@
    "id": "M0-s-01",
    "from": 2,
    "round": "S2",
-   "session": "docs/M0-FIX-QUEUE.md Q23 \u2014 the STRUCTURAL half (the data repair was 82b9ef31): CLEAN-ROOM.md ledger rows that seats appended at the file's END (under \u00a75's table: L-0335, L-0337, L-0346, L-0348 were seen there) are invisible to `landed`'s append claims, because landed's seat-column lookup reads the enclosing table's header, so a row under \u00a75 has no seat column and no record ever claims it; the rows were lost from the committed ledger until the session repaired them by hand. A second blind spot of the same family: when a closing round re-lands a record id under its own lane, rows that an earlier landing of that record claimed under another lane must stay claimed (the first check seat's row) \u2014 the session's transplants of 2026-10-11 saw re-landed records keep earlier rows (check-M0-a-05-notes kept L-0175 \u2026 L-0226), so pin that behaviour so it cannot regress. plat/tools/landed/ (snapshot.mjs, landed.mjs, verify.mjs, landed.test.mjs) is in M0-s-01's owns (its scaffold's third fix round, C-0104); M0-s-01's session round S1 exists (checks/M0-s-01-s1.md), so this is round S2. The companion change in tools/flow_stage.mjs (the repository-root session tool that cuts append files to claimed lines) lies OUTSIDE plat/ and is the session's own, not this round's: do not touch it; name in a choices row what the session should make it report. This round was never started on the owner's WSL machine; it starts fresh here.",
+   "session": "docs/M0-FIX-QUEUE.md Q23 — the STRUCTURAL half (the data repair was 82b9ef31): CLEAN-ROOM.md ledger rows that seats appended at the file's END (under §5's table: L-0335, L-0337, L-0346, L-0348 were seen there) are invisible to `landed`'s append claims, because landed's seat-column lookup reads the enclosing table's header, so a row under §5 has no seat column and no record ever claims it; the rows were lost from the committed ledger until the session repaired them by hand. A second blind spot of the same family: when a closing round re-lands a record id under its own lane, rows that an earlier landing of that record claimed under another lane must stay claimed (the first check seat's row) — the session's transplants of 2026-10-11 saw re-landed records keep earlier rows (check-M0-a-05-notes kept L-0175 … L-0226), so pin that behaviour so it cannot regress. plat/tools/landed/ (snapshot.mjs, landed.mjs, verify.mjs, landed.test.mjs) is in M0-s-01's owns (its scaffold's third fix round, C-0104); M0-s-01's session round S1 exists (checks/M0-s-01-s1.md), so this is round S2. The companion change in tools/flow_stage.mjs (the repository-root session tool that cuts append files to claimed lines) lies OUTSIDE plat/ and is the session's own, not this round's: do not touch it; name in a choices row what the session should make it report. This round was never started on the owner's WSL machine; it starts fresh here.",
    "lines": [
     {
-     "line": "Q23 (a): a CLEAN-ROOM row that names the seat's lane but sits outside \u00a72's seat-ledger table is silently unclaimed by landed",
-     "evidence": "landed.mjs's seatColumn reads the enclosing table's header; a row appended after \u00a75's table has no seat column, so `corepack pnpm landed` writes a record that claims nothing for it and landed:verify later reports the row as claimed by no record (L-0335, L-0337, L-0348 on 2026-10-08).",
-     "required_change": "`landed` REFUSES to write the record when any CLEAN-ROOM row naming the seat's lane (seat column or a renumbering note, C-0104) lies outside \u00a72's table, with a message that names the row id and says to move it into \u00a72's table (the rule's text in the refusal); a fixture ledger in landed.test.mjs with the lane's row under \u00a75 is refused with that message, the same row inside \u00a72 is accepted and claimed (appends list its id and line hash); the id rule and renumbering notes keep working."
+     "line": "Q23 (a): a CLEAN-ROOM row that names the seat's lane but sits outside §2's seat-ledger table is silently unclaimed by landed",
+     "evidence": "landed.mjs's seatColumn reads the enclosing table's header; a row appended after §5's table has no seat column, so `corepack pnpm landed` writes a record that claims nothing for it and landed:verify later reports the row as claimed by no record (L-0335, L-0337, L-0348 on 2026-10-08).",
+     "required_change": "`landed` REFUSES to write the record when any CLEAN-ROOM row naming the seat's lane (seat column or a renumbering note, C-0104) lies outside §2's table, with a message that names the row id and says to move it into §2's table (the rule's text in the refusal); a fixture ledger in landed.test.mjs with the lane's row under §5 is refused with that message, the same row inside §2 is accepted and claimed (appends list its id and line hash); the id rule and renumbering notes keep working."
     },
     {
-     "line": "Q23 (b): a record re-landed under a later lane must keep the rows its earlier landings claimed, and a \u00a72 row claimed by no record of the wave must be named by landed:verify",
+     "line": "Q23 (b): a record re-landed under a later lane must keep the rows its earlier landings claimed, and a §2 row claimed by no record of the wave must be named by landed:verify",
      "evidence": "A closing round re-lands check-<id> (or check-<id>-notes) under its own lane; the first check seat's row is claimed by nobody unless the re-landing carries the earlier claims forward (L-0348 was staged by hand). landed:verify's wave close names unclaimed added lines today (the 2026-10-11 whole-flow verify listed L-0348), but no test pins it.",
-     "required_change": "Pins in landed.test.mjs: (1) re-landing a record id under a new lane keeps every row an earlier landing of that id claimed (ids and hashes), and still claims the new lane's rows; (2) landed:verify names a \u00a72 row added since the snapshot that no record of the wave claims, and is clean when a record claims it; no behaviour change where the pins already pass \u2014 if (1) does not hold today, make it hold."
+     "required_change": "Pins in landed.test.mjs: (1) re-landing a record id under a new lane keeps every row an earlier landing of that id claimed (ids and hashes), and still claims the new lane's rows; (2) landed:verify names a §2 row added since the snapshot that no record of the wave claims, and is clean when a record claims it; no behaviour change where the pins already pass — if (1) does not hold today, make it hold."
     }
    ]
   },
@@ -193,28 +193,28 @@
    "round": "C1",
    "consolidation": {
     "plan": "plat/docs/build/consolidation/kernel-plan.md",
-    "findings": "N-1 \u2026 N-4 (\u00a71.0, round R1)"
+    "findings": "N-1 … N-4 (§1.0, round R1)"
    },
-   "session": "R1 is the FOUNDATION round of the kernel's consolidation pass: it creates the one shared exact-predicate module src/num/exact.ts (the closed-segment distance predicate, the two-segments-share-a-point predicate, the point-in-ring predicates kept as the plan's distinct readings, the shared constants) inside M0-a-01's owns, with its own tests under test/num/, imported by path by the later rounds R2 \u2026 R12 \u2014 nothing is added to num/index.ts or the barrel (J263 Q1). This round changes no caller: the later rounds replace each folder's private copy; R1 only adds the shared module, proves each shared predicate equal to the copies it will replace (a property test over the fuzz arenas' inputs comparing exact.ts against every private copy the plan names, at the PR size), rewrites num/'s comments per \u00a72 and consolidates test/num/ per \u00a73. Rulings in force: J263 Q1 (no exports), Q6 (pinned messages verbatim), Q8 (the old \u2192 new test map in checks/M0-a-01-notes.md).",
+   "session": "R1 is the FOUNDATION round of the kernel's consolidation pass: it creates the one shared exact-predicate module src/num/exact.ts (the closed-segment distance predicate, the two-segments-share-a-point predicate, the point-in-ring predicates kept as the plan's distinct readings, the shared constants) inside M0-a-01's owns, with its own tests under test/num/, imported by path by the later rounds R2 … R12 — nothing is added to num/index.ts or the barrel (J263 Q1). This round changes no caller: the later rounds replace each folder's private copy; R1 only adds the shared module, proves each shared predicate equal to the copies it will replace (a property test over the fuzz arenas' inputs comparing exact.ts against every private copy the plan names, at the PR size), rewrites num/'s comments per §2 and consolidates test/num/ per §3. Rulings in force: J263 Q1 (no exports), Q6 (pinned messages verbatim), Q8 (the old → new test map in checks/M0-a-01-notes.md).",
    "lines": [
     {
-     "line": "N-1: the closed-segment 'closer than r' predicate exists four times (insert/placement.ts segmentCloserThan, tx/tx.ts closer, warp/validate.ts closerThan; invariants/common.ts compareDist2 stays separate) \u2014 one exact home in src/num/exact.ts",
-     "evidence": "kernel-plan.md \u00a71.0 N-1 (the four copies, their argument conventions, the BigInt variant kept apart)",
+     "line": "N-1: the closed-segment 'closer than r' predicate exists four times (insert/placement.ts segmentCloserThan, tx/tx.ts closer, warp/validate.ts closerThan; invariants/common.ts compareDist2 stays separate) — one exact home in src/num/exact.ts",
+     "evidence": "kernel-plan.md §1.0 N-1 (the four copies, their argument conventions, the BigInt variant kept apart)",
      "required_change": "src/num/exact.ts exports the predicate under the plan's name and signature; a property test proves it equal to each copy on the fuzz arenas' segments and radii (every copy's own test inputs replayed); EQUIVALENCE/NUANCE as the plan lists (integer arithmetic only, the inclusive endpoints, the tie reading)"
     },
     {
-     "line": "N-2: 'two closed lattice segments share a point' exists five times (insert/decimate.ts, faces/common.ts segmentsTouch, invariants/common.ts, medial/axis.ts, skeleton/prepare.ts's point-typed form) \u2014 one exact home",
-     "evidence": "kernel-plan.md \u00a71.0 N-2",
+     "line": "N-2: 'two closed lattice segments share a point' exists five times (insert/decimate.ts, faces/common.ts segmentsTouch, invariants/common.ts, medial/axis.ts, skeleton/prepare.ts's point-typed form) — one exact home",
+     "evidence": "kernel-plan.md §1.0 N-2",
      "required_change": "one shared predicate with the plan's convention; the point-typed form kept as a documented adapter if the plan says so; equality proven per copy"
     },
     {
-     "line": "N-3 (MEDIUM): the crossing-number point-in-ring test exists nine times in two coordinate conventions and three boundary rules \u2014 three DISTINCT predicates stay, each with one home",
-     "evidence": "kernel-plan.md \u00a71.0 N-3 (the three boundary rules and the lattice-vs-doubled conventions; which callers use which)",
+     "line": "N-3 (MEDIUM): the crossing-number point-in-ring test exists nine times in two coordinate conventions and three boundary rules — three DISTINCT predicates stay, each with one home",
+     "evidence": "kernel-plan.md §1.0 N-3 (the three boundary rules and the lattice-vs-doubled conventions; which callers use which)",
      "required_change": "exact.ts offers the three readings under distinct names with doc comments naming the boundary rule and the convention; a table in the plan's terms maps every caller to its reading; equality proven per copy; no caller changed in R1"
     },
     {
-     "line": "N-4: constants spelt as literals \u2014 PI \u00d76 beside geom/common.ts's PI, BOX_RANGE \u00d75, HOT_PIXEL_SQ, the warp MIN_EDGE/ATTRACT literals, SCALE/div \u00d74 \u2014 one home each",
-     "evidence": "kernel-plan.md \u00a71.0 N-4",
+     "line": "N-4: constants spelt as literals — PI ×6 beside geom/common.ts's PI, BOX_RANGE ×5, HOT_PIXEL_SQ, the warp MIN_EDGE/ATTRACT literals, SCALE/div ×4 — one home each",
+     "evidence": "kernel-plan.md §1.0 N-4",
      "required_change": "the constants exported from exact.ts (or the plan's named home) for the later rounds' imports by path; values identical (a test pins each value); no caller changed in R1"
     }
    ]
@@ -223,12 +223,12 @@
    "id": "M0-a-02",
    "from": 2,
    "round": "S2",
-   "session": "docs/M0-FIX-QUEUE.md Q33 (J266; the class of Q28, N-56 (5), C-0299 (5)): arena/resolve.ts's Stamp \u2014 the arena key and version a slot-holding value was read at (\u00a73.4) \u2014 and its readers isCurrent/assertStamp compare the VERSION only. A savepoint restore across committed batches (M0-a-06 s5, C-0299: restoreSavepoint sets p.version back and bumps the per-arena restore generation) makes a stamp taken before the restore read as current again after exactly as many later commits, so a stale slot can pass assertStamp and isCurrent silently \u2014 the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). M0-a-02's round S1 (the tiny-tables guard, b55cb947) exists; this is round S2. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
+   "session": "docs/M0-FIX-QUEUE.md Q33 (J266; the class of Q28, N-56 (5), C-0299 (5)): arena/resolve.ts's Stamp — the arena key and version a slot-holding value was read at (§3.4) — and its readers isCurrent/assertStamp compare the VERSION only. A savepoint restore across committed batches (M0-a-06 s5, C-0299: restoreSavepoint sets p.version back and bumps the per-arena restore generation) makes a stamp taken before the restore read as current again after exactly as many later commits, so a stale slot can pass assertStamp and isCurrent silently — the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). M0-a-02's round S1 (the tiny-tables guard, b55cb947) exists; this is round S2. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
    "lines": [
     {
-     "line": "Q33: Stamp, isCurrent and assertStamp (arena/resolve.ts) key on the version alone \u2014 a stale slot reads as current after a savepoint restore across commits followed by as many commits",
+     "line": "Q33: Stamp, isCurrent and assertStamp (arena/resolve.ts) key on the version alone — a stale slot reads as current after a savepoint restore across commits followed by as many commits",
      "evidence": "C-0299 (5) names this site as a version-only key beside M0-d-04's; the ruling seat's Q28 replay (restore across n commits, no re-attach, n commits) shows the version coincidence for n = 1 and 3; restoreGeneration(p) is exported from @plat/kernel's tx barrel (9585d3be, 374b6e6f).",
-     "required_change": "Stamp carries the restore generation beside the version (the stamping helper reads restoreGeneration(p)); isCurrent and assertStamp compare key, generation and version; a pin: a stamp taken before a cross-commit restore is stale after the same number of later commits (isCurrent false, assertStamp throws in the debug build) while a stamp taken after the restore is current; no persisted change (stamps are never hashed or encoded \u2014 confirm by grep); every caller of stampOf/isCurrent/assertStamp unchanged in behaviour on sequences without a restore (the arena's own tests and goldens identical)."
+     "required_change": "Stamp carries the restore generation beside the version (the stamping helper reads restoreGeneration(p)); isCurrent and assertStamp compare key, generation and version; a pin: a stamp taken before a cross-commit restore is stale after the same number of later commits (isCurrent false, assertStamp throws in the debug build) while a stamp taken after the restore is current; no persisted change (stamps are never hashed or encoded — confirm by grep); every caller of stampOf/isCurrent/assertStamp unchanged in behaviour on sequences without a restore (the arena's own tests and goldens identical)."
     }
    ]
   },
@@ -236,10 +236,10 @@
    "id": "M0-a-10",
    "from": 1,
    "round": "S1",
-   "session": "docs/M0-FIX-QUEUE.md Q34 (J266; the class of Q28, N-56 (5), C-0299 (5)): geom/neighbours.ts keeps a per-arena, per-level map of neighbour answers keyed on the arena's version and a slot-count fingerprint (keptMap). A savepoint restore across committed batches sets the version back (C-0299) and restores the slot counts with the image, so a kept map built before the restore can read as current after as many later commits \u2014 stale neighbour answers served silently \u2014 the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). This is M0-a-10's first session round. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
+   "session": "docs/M0-FIX-QUEUE.md Q34 (J266; the class of Q28, N-56 (5), C-0299 (5)): geom/neighbours.ts keeps a per-arena, per-level map of neighbour answers keyed on the arena's version and a slot-count fingerprint (keptMap). A savepoint restore across committed batches sets the version back (C-0299) and restores the slot counts with the image, so a kept map built before the restore can read as current after as many later commits — stale neighbour answers served silently — the fault Q28 had in the level digests, fixed there by keying on (restoreGeneration, version) (M0-d-04 s1, C-0308). This is M0-a-10's first session round. This round starts fresh in a child container (J253); the normal id rule for rows (the session renumbers on transplant if they collide).",
    "lines": [
     {
-     "line": "Q34: keptMap (geom/neighbours.ts) keys on (version, slot-count fingerprint) only \u2014 a stale kept map can read as current after a savepoint restore across commits followed by as many commits with matching counts",
+     "line": "Q34: keptMap (geom/neighbours.ts) keys on (version, slot-count fingerprint) only — a stale kept map can read as current after a savepoint restore across commits followed by as many commits with matching counts",
      "evidence": "C-0299 (5) names this site as a version-only key beside M0-d-04's; the fingerprint is a cost path only (the file's own header says it never decides an answer); a restore image restores the slot counts.",
      "required_change": "The kept map's key gains the arena's restore generation (restoreGeneration(p) from @plat/kernel's tx barrel) beside the version and the fingerprint; a pin: a map built before a cross-commit restore is rebuilt after the same number of later commits (the answers equal a fresh walk), a map built after the restore is reused; no persisted change; neighbour answers identical on every sequence without a restore (the item's tests and any golden identical); the cost path unchanged otherwise."
     }
@@ -249,12 +249,274 @@
    "id": "M0-f-03a",
    "from": 3,
    "round": "S3",
-   "session": "docs/M0-FIX-QUEUE.md Q35 (J268; found by the model and tables consolidation architect, plat/docs/build/consolidation/model-tables-plan.md \u00a75 Q2): tables/test/workLimits/table.test.ts's describe 'the placeholder laws (C-0021)' asserts, for every row and UNGATED by the file's version, that each calibratable cell's provenance is the placeholder and that every cell's provenanceForm is 'architecture'. M0-f-03b's hand-over (flow attempt 14) rewrites the counting rows' perUnit and floor with provenance 'M0 spike \u27e8date\u27e9' (calibratable kept true; C-0021, C-0154 (1)) and bumps the version, which turns that test red \u2014 and a run item may not edit a test (C-0115, C-0117). This round is TESTS ONLY and must land before attempt 14's M0-f-03b; the PIN mechanics (golden.test.ts and the inline PIN) stay as they are (the consolidation round R2 unifies them later); no data cell changes. M0-f-03a's rounds S1 and S2 exist; this is S3. The round starts fresh.",
+   "session": "docs/M0-FIX-QUEUE.md Q35 (J268; found by the model and tables consolidation architect, plat/docs/build/consolidation/model-tables-plan.md §5 Q2): tables/test/workLimits/table.test.ts's describe 'the placeholder laws (C-0021)' asserts, for every row and UNGATED by the file's version, that each calibratable cell's provenance is the placeholder and that every cell's provenanceForm is 'architecture'. M0-f-03b's hand-over (flow attempt 14) rewrites the counting rows' perUnit and floor with provenance 'M0 spike ⟨date⟩' (calibratable kept true; C-0021, C-0154 (1)) and bumps the version, which turns that test red — and a run item may not edit a test (C-0115, C-0117). This round is TESTS ONLY and must land before attempt 14's M0-f-03b; the PIN mechanics (golden.test.ts and the inline PIN) stay as they are (the consolidation round R2 unifies them later); no data cell changes. M0-f-03a's rounds S1 and S2 exist; this is S3. The round starts fresh.",
    "lines": [
     {
      "line": "Q35: the placeholder-provenance pins in table.test.ts are not gated by the table version, so the lawful hand-over of M0-f-03b (measured coefficients with spike provenance, a new version) would fail them",
      "evidence": "table.test.ts ~126-143: for every row, every calibratable cell's provenance toBe(PLACEHOLDER) and every cell's provenanceForm toBe('architecture'), with no version condition; C-0162 (1) is the precedent (the data tests survive the hand-overs: assert the invariants true at any version, pin the placeholder forms only at the placeholder version).",
-     "required_change": "Gate the placeholder pins on the table's version equal to the PIN's version (C-0162 (1)'s pattern) and keep, past it, only what holds at any version: every cell carries an admitted provenance form (architecture or an M0 spike form \u2014 read the admitted forms from the loader, never a literal list copied into the test), a counting law's coefficients stay calibratable, the fixed row warp.halvings stays pinned at every version (floor 8, provenance 'architecture 2026-10-03', calibratable false, the only fixed row), every cell carries unit, provenance and calibratable; no weakening at version 2 \u2014 mutants: a placeholder provenance dropped at version 2 red, the fixed row marked calibratable red at any version, a cell with an unadmitted provenance form red at any version, a counting row's floor made non-calibratable red; a simulated hand-over in the test (a copy of the data with a counting row's cells rewritten to spike provenance and the version bumped) GREEN; tests only, no source or data change."
+     "required_change": "Gate the placeholder pins on the table's version equal to the PIN's version (C-0162 (1)'s pattern) and keep, past it, only what holds at any version: every cell carries an admitted provenance form (architecture or an M0 spike form — read the admitted forms from the loader, never a literal list copied into the test), a counting law's coefficients stay calibratable, the fixed row warp.halvings stays pinned at every version (floor 8, provenance 'architecture 2026-10-03', calibratable false, the only fixed row), every cell carries unit, provenance and calibratable; no weakening at version 2 — mutants: a placeholder provenance dropped at version 2 red, the fixed row marked calibratable red at any version, a cell with an unadmitted provenance form red at any version, a counting row's floor made non-calibratable red; a simulated hand-over in the test (a copy of the data with a counting row's cells rewritten to spike provenance and the version bumped) GREEN; tests only, no source or data change."
+    }
+   ]
+  },
+  {
+   "id": "M0-d-05a",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "I-1 … I-3 (§1.4, round R4), the comment rewrite C-model-2 (§2) and §3.4's test comments for model/test/identity/"
+   },
+   "session": "R4 is a first-wave model round of the model/tables consolidation pass (J268: R3, R4 and R6 are independent of each other, of the tables rounds and of every kernel round). Inside M0-d-05a's owns (model/src/identity/, model/test/identity/): identity/lineage.ts becomes the one home of the shared predicates isU32, isU16, isObject (the unknown-typed forms) and of copyLineage, imported by path by address.ts and mint.ts; the match folder's copies are R5's (M0-d-05b, after this round) — no file outside the owns is touched; I-3 is a KEEP (two comparators by design, C-0179 (4)). Rulings in force: J268 Q5 (file-level exports imported by path; no index export), J263 Q6 (pinned message texts verbatim), J263 Q8 (the old → new map appended to checks/M0-d-05a-notes.md).",
+   "lines": [
+    {
+     "line": "I-1: isU32 ×2 in the folder (+ isU16, isObject) — identity/lineage.ts exports the unknown-typed forms from the file; address.ts and mint.ts delete their copies and import by path",
+     "evidence": "model-tables-plan.md §1.4 I-1 (the four sites lineage.ts:34–35, address.ts:22, mint.ts:95–96; the equivalence of the number-typed and unknown-typed forms; the isU16 width rule; mint.ts:123's reroll line)",
+     "required_change": "lineage.ts exports isU32(v: unknown): v is number, isU16(v: unknown): v is number, isObject(v: unknown): v is object; address.ts and mint.ts import them by './lineage.js'; mint.ts:123 becomes `if (!isU16(reroll))` with its typeof guard carried by the predicate; every refusal text unchanged (lineage key …, token …, address …, mint …); ORACLE lineage.test.ts (the 24 out-of-width cases, the all-maxima case), address.test.ts, mint.test.ts message regexes; mutants CL3, CL4, R1–R9, Q3–Q5, R10 stay red"
+    },
+    {
+     "line": "I-2: a frozen two-lane copy of a lineage hash — lineage.ts exports copyLineage(h) from the file (the four match/ sites adopt it in R5, not here)",
+     "evidence": "model-tables-plan.md §1.4 I-2",
+     "required_change": "export function copyLineage(h: Readonly<LineageHash>): Readonly<LineageHash> { return Object.freeze([h[0], h[1]]) as unknown as Readonly<LineageHash>; } with a test in test/identity/ pinning a new frozen two-element array equal to its input (toEqual, Object.isFrozen, not the same reference); no caller outside the owns changed"
+    },
+    {
+     "line": "I-3: mint.ts's HashSet and compareLanes — KEEP (the exact 64-bit set and the ten-lane tie comparator are the module's own; compareLineage is the canonical order, C-0179 (4)); mint.test.ts:42–47's own compareLanes oracle stays apart",
+     "evidence": "model-tables-plan.md §1.4 I-3",
+     "required_change": "no code change; the closing checker confirms the two comparators and the set are untouched"
+    },
+    {
+     "line": "C-model-2: the identity folder's comments describe the design as it stands and cite C-rows; one added line in lineage.ts names the shared file-level exports; the test headers lose their round narration (mint.test.ts:5 '(C-0184, fix round 1)' → '(C-0184)'; address/lineage/city tests: no narration)",
+     "evidence": "model-tables-plan.md §2 C-model-2 and §3.4",
+     "required_change": "every comment of the plan's list rewritten, kept or dropped as it says; the closing checker reads every rewritten comment against the code (a comment that no longer matches the code is a blocker)"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the package's whole test set green; the model digest, every leaf/node/root digest, every pinned refusal text and message identical before and after; the exported names of every index in the owns and of the package barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; CONSOLIDATION ROUND paragraph",
+     "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison in its notes and choices row; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-m-01",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "M-1 … M-3 (§1.3, round R3), the comment rewrite C-model-1 (§2) and §3.4's test comments for model/test/{types,records,schema,stage}/"
+   },
+   "session": "R3 is the smallest model round — types only. Its substance is the comment rewrite C-model-1 (stage/decl.ts:6–10's 'not yet landed when this item lands' narration and the folder's other narrating comments), with M-1 riding along (J268 Q9: the import-path unification rides the round that touches those files): every `import type` inside model/src/{types,records,schema,stage} takes its model-only types from the folder index '../types/index.js' (which re-exports identity.js and vocabulary.js) unless a cycle forbids it — none does. M-2 and M-3 are KEEPs. The transpiled output of types/ and records/ stays `export {}` (types.test.ts 'emits' pins it), the module namespaces stay empty, and the grep test's rule that every import in types/ and records/ is `import type` stays true. NOT here: model/src/index.ts:1–2 ('exports nothing yet') is M0-s-01's (J268 Q1). Rulings in force: J268 Q5, Q9; J263 Q1, Q6, Q8.",
+   "lines": [
+    {
+     "line": "M-1: one type imported by two paths — records/site.ts, network.ts, districts.ts, walls.ts, schema/kinds.ts and stage/decl.ts take their model-only types from '../types/index.js'; types/index.ts keeps its `export type *` form",
+     "evidence": "model-tables-plan.md §1.3 M-1 (the sites; the empty-namespace and 'emits' pins of types.test.ts:260–269)",
+     "required_change": "the imports unified as the plan says; tsc -b green; types.test.ts whole, records.test.ts whole (the PositionPaths walker), schema.test.ts green; the emitted JS of every changed file identical with comments removed (type-only imports erase)"
+    },
+    {
+     "line": "M-2 and M-3: stage/vocab.ts's ceilLog2/lawLimit (the one doubling-loop definition; tables' law.ts reads lawLimit through @plat/model) and the rest of the folder are KEPT — the test-side ceilLog2Spec and the property test are oracles kept apart",
+     "evidence": "model-tables-plan.md §1.3 M-2, M-3",
+     "required_change": "no code change; the closing checker confirms it"
+    },
+    {
+     "line": "C-model-1: stage/decl.ts:6–10 rewritten to the design as it stands (the StageEnv environment parameter, unknown by default, bound once by the package that has the type — C-0142 (5)); types/kernel.ts:1–5, types/identity.ts, vocabulary.ts, staged.ts, records/*.ts, schema/*.ts and stage/vocab.ts stand; no comment narrates a round",
+     "evidence": "model-tables-plan.md §2 C-model-1",
+     "required_change": "every comment of the plan's list rewritten or kept as it says; the closing checker reads each against the code"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the model package's whole test set green; the emitted JS of every changed file identical with comments removed; the exported names of every index in the owns and of the package barrel identical; mutants R1–R15 and P2–P17 of M0-m-01's checks still killed",
+     "evidence": "J260 (3); model-tables-plan.md §1.3 M-1 ORACLE",
+     "required_change": "the builder shows the emitted-JS comparison from a mirror; the closing checker repeats it and diffs the exports"
+    }
+   ]
+  },
+  {
+   "id": "M0-d-04",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "D-1 … D-5 (§1.6, round R6), the comment rewrite C-model-4 (§2) and the test plan T-tests-2 (§3.3) — the MODEL half of M0-d-04's owns only"
+   },
+   "session": "R6 consolidates the model's digest folder inside M0-d-04's owns (model/src/digest/, model/test/digest/): digest/encode.ts (the digest's value rule, already imported by leaf.ts, model.ts, records.ts and timing.ts) becomes the home of writeHash128 (D-1) and sameHash (D-2), exported from the file and imported by path; D-3 imports isU32 from '../identity/lineage.js' ONLY if R4 (M0-d-05a c1) has landed on the tree you build on — otherwise the two inline checks stay (no ruling needed, the plan allows both); D-4 and D-5 are KEEPs (two Merkle trees with their own tags by design, §6.2; mulberry32 stays, J268 Q3); test/digest/support.ts gains the one hex() replacing the three local copies (T-tests-2) with the reference() leaf writer of leaf.test.ts kept as the independent oracle. Every leaf, node, layer and root digest stays byte-identical (the 16 leaves of leaf-snapshot.json, every fuzz run's roots, the records tree's roots). The KERNEL half of the owns (kernel/src/digest/, kernel/test/digest/) is NOT touched in this round: kernel-plan.md §1.12 D-1 keeps levelDigest.ts's persisted path as it is, and the session's ruling J270 (a) keeps its per-module check. Rulings in force: J268 Q3, Q5; J263 Q1, Q6, Q8.",
+   "lines": [
+    {
+     "line": "D-1: a Hash128 written as four lanes, four times (model.ts:101–103 writeHash, leaf.ts:149, records.ts:87 and :93) — encode.ts exports writeHash128(w, h) and the four sites call it; the count lane of leaf.ts:148 and the utf8 lane of records.ts:93 stay outside the helper",
+     "evidence": "model-tables-plan.md §1.6 D-1 (the sites, the lane order, LaneWriter.u32's RangeError on a non-u32 lane)",
+     "required_change": "same four u32 lanes in the same order into the same writer; ORACLE leaf.test.ts (the snapshot leaves; the reference() writer kept as the oracle), model.test.ts (twelve fuzz runs, every recomputeRoot equality), records.test.ts; mutants M2, M3, M5, M8–M15, M26–M28 (round 1) stay red"
+    },
+    {
+     "line": "D-2: 'two Hash128 are equal' twice (model.ts:582–584 sameHash, timing.ts:51 same) — encode.ts exports sameHash(a, b); model.ts and timing.ts import it",
+     "evidence": "model-tables-plan.md §1.6 D-2",
+     "required_change": "four === comparisons; oracle()'s verdicts and timeDigest's oracle flag unchanged; ORACLE model.test.ts 'the oracle catches a stale leaf', the subtree oracle, records.test.ts 'emits its record … oracle true'"
+    },
+    {
+     "line": "D-3 (conditional on R4 landed): leaf.ts:88's lineage-lane check and records.ts:54's slice-hash check become !isU32(x[0]) || !isU32(x[1]) importing isU32 from '../identity/lineage.js'; if R4 has not landed on the tree, both inline checks stay",
+     "evidence": "model-tables-plan.md §1.6 D-3",
+     "required_change": "messages 'digest: x's lineage is not two u32 lanes' and 'records digest: slice …'s hash is not two u32 lanes' unchanged; ORACLE leaf.test.ts '… a malformed lineage' ([1.5, 0]), records.test.ts '… a malformed slice hash'; the builder's notes say which branch applied"
+    },
+    {
+     "line": "D-4 and D-5 KEEP: workload.ts's mulberry32 stays (J268 Q3); model.ts's maintained tree and records.ts's partition tree keep their own nodeHash/rootHash with their own tags (NODE/LAYR/ROOT vs RNOD/RROT — two persisted forms by design, §6.2); freshKids/freshNode/recomputeLayers stay apart from kidsOf/nodeOf (C-0194); checkEntry ×2 private, kept",
+     "evidence": "model-tables-plan.md §1.6 D-4, D-5",
+     "required_change": "no code change; the closing checker confirms it"
+    },
+    {
+     "line": "C-model-4 and T-tests-2: digest/index.ts:1–5 drops 'The scaffold created this index empty', model.ts:19's 'N-56 (5)' and canonical.ts:2–4's 'the checker's source scan' become design statements citing C-rows (C-0305, C-0194 (10)); test/digest/model.test.ts:4–5's round narration rewritten; support.ts gains hex(h: Hash128 | null | undefined) replacing leaf.test.ts:32, model.test.ts:12 and records.test.ts:22; every describe/it title kept; the mutant map K1–K16, M1–M28 (round 1), K1–K8, M1–M10 (s1) → the three files by title",
+     "evidence": "model-tables-plan.md §2 C-model-4, §3.3 T-tests-2",
+     "required_change": "as the plan says; the old → new map appended to checks/M0-d-04-notes.md (J263 Q8); the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the package's whole test set green; the model digest, every leaf/node/root digest, every pinned refusal text and message identical before and after; the exported names of every index in the owns and of the package barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; CONSOLIDATION ROUND paragraph",
+     "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison in its notes and choices row; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-04",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "I-1 … I-6 (§1.1, round R2), W-3's export (§1.9), the comment rewrite C-insert-1/2 (§2) and the test plan T-step1-2 (§3.1 (a)–(c))"
+   },
+   "session": "R2 is the kernel's second consolidation round, after R1 (M0-a-01 c1: src/num/exact.ts, committed on main — import its predicates and constants by path; nothing is added to num/index.ts). Inside M0-a-04's owns (src/insert/{classes,decimate,attractVertex,placement,splitThrough}.ts and test/insert/step1-2/) and NOWHERE else: I-1 moves footOnSegment and nearerVertex into splitThrough.ts as the exported originals and keeps one carriesRow there (stretch.ts's re-export and insertChain.ts's adoption are R3's, M0-a-05 — until R3 lands the two copies coexist, both exact; this round leaves every file outside its owns byte-identical); I-2 exports inSweptWedge from placement.ts (crossings.ts adopts it in R3); I-3 under J263 Q2 is ENUMERATOR-ONLY — placement.ts exports the candidate enumerator bandCandidates(exact, edge, reach) that placePoint uses, and placePoint's default path stays the exact code it is today (placeOnRun adopts the enumerator in R3); a route or warning shift of any register case is a behaviour change: STOP and report it to the session, never write a shift row; I-4 exports nearestRoutePiece from attractVertex.ts only if the implementer confirms planAttraction and insertChain's nearestPiece read the same piece boundaries (level-n route pieces, §3.3) — else share the distance comparison only and say so; I-5 is RULED (J270 (a)): the per-module check/notBuilt pairs STAY as they are (their prefixes are load-bearing: INVARIANT_THROW reads them) — comment only; I-6: decimate.ts's segmentsMeet delegates to num/exact.ts's shared predicate, the grid constants stay; W-3: placement.ts exports nearestLatticePoint(x, y) (the nearest-of-four choice made a function, ties y then x) so R10 can adopt it, placePoint calling it on its default path with identical results. Test plan T-step1-2 (a) splits splitThrough.test.ts into splitThrough/closed/growth with the C-0284 describe moved to placement.test.ts, every case and title kept and the mutant map preserved; (b) step1-2/support.ts imports the one seeded generator rng/intIn from test/arena/support.ts ONLY if that file already exports it on your tree (else keep the local generator and note it for R14); (c) placement.test.ts's nearestLattice copy stays as W-3's oracle. Rulings in force: J263 Q1, Q2, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "I-1: splitThrough.ts's private footOn/nearer/carries — footOnSegment and nearerVertex become splitThrough.ts's exported originals (names and signatures as stretch.ts's), carriesRow(p, v, role, entityHandle, ordinal) the one id-level form; stretch.ts and insertChain.ts untouched until R3",
+     "evidence": "kernel-plan.md §1.1 I-1 (identical bodies; the tie rule y then x with <= on x; the check message 'an edge spans at least minEdge')",
+     "required_change": "the exported originals in splitThrough.ts; mutants K03, K04 (ties reversed) stay red; ORACLE splitThrough.test.ts whole (SLANT ties both ways, anchors, the refusal regexes), attract.test.ts, lifecycle.test.ts; insert/index.ts's exports unchanged"
+    },
+    {
+     "line": "I-2: inSweptWedge ×2 — exported from placement.ts (crossings.ts imports it in R3); not added to insert/index.ts",
+     "evidence": "kernel-plan.md §1.1 I-2 ('along the new direction counts as overlap': onTo === 0 && dot > 0; turn === 0 → false)",
+     "required_change": "the export with its doc comment naming the overlap rule; placement.test.ts '(iii) the rotation slot' green; mutant K06 red"
+    },
+    {
+     "line": "I-3 (ENUMERATOR-ONLY, J263 Q2): placement.ts exports bandCandidates(exact, edge, reach) — the candidate enumerator placePoint already uses, as a generator in the identical order (nearest of four, ties y then x; then the band outward within attractCm, nearest first, ties y then x) with the identical charge per candidate; placePoint's default path stays byte-for-byte in behaviour; placeOnRun untouched until R3",
+     "evidence": "kernel-plan.md §1.1 I-3 (the three nuances that must stay parameters: the whole-run search within reach, passOver, the partner's sub-edge excluded from (iii) only — C-0284 (2), C-0217)",
+     "required_change": "placement.test.ts's tried counts (2, 1, 0, > 10, > 40) and INSERT_PLACEMENT_CANDIDATES equal to tried unchanged; bfuzz placePoint properties green; every register JSON (s5-rescues, s5-register, s6-register, s6-lifecycle) verbatim; mutants K06, K08, F1a–c red; a shift of any register case or W_PLACED count FAILS the round"
+    },
+    {
+     "line": "I-4: planAttraction's nearest-edge loop vs insertChain's nearestPiece — attractVertex.ts exports nearestRoutePiece(tx, pt, level) only if both read the same piece boundaries (level-n route pieces); otherwise only the exact distance comparison is shared and the notes say why",
+     "evidence": "kernel-plan.md §1.1 I-4 (same query box, one insert.attractQueries charge, the tie 'first by canonical key', E_LEVEL on a finer-vertex contact)",
+     "required_change": "attract.test.ts 'edge candidates' green; mutant K05 (d < bestD → <=) red on 'ties to the smaller lattice position'; insertChain.ts untouched (its adoption is R3's)"
+    },
+    {
+     "line": "I-5 RULED (J270 (a)): classes.ts's check/notBuilt stay as they are (prefix 'insert: '; notBuilt('M3a') text pinned by attract.test.ts:266 and classes.test.ts:129); comment only",
+     "evidence": "kernel-plan.md §1.1 I-5; PROGRESS J270 (a)",
+     "required_change": "no code change; the comment states why the prefix is load-bearing (insertChain.ts:98 INVARIANT_THROW, N-44 (1)) citing its C-row"
+    },
+    {
+     "line": "I-6: decimate.ts's segmentsMeet delegates to num/exact.ts's shared predicate (N-2); CELL_CM/MAX_CELLS/CELL_OFFSET/CELL_STRIDE and the bucket grid for simpleRuns stay (source.test.ts:166 allows CELL_CM as a divisor)",
+     "evidence": "kernel-plan.md §1.1 I-6, §1.0 N-2",
+     "required_change": "decimate.test.ts whole green; the equivalence shown on the folder's test inputs; no grid change"
+    },
+    {
+     "line": "W-3 (the R2 half): placement.ts exports nearestLatticePoint(x, y) (Math.floor then the four candidates, d < nd strict with y-then-x ties) and placePoint calls it on its default path; warp.ts's nearestLattice adopts it in R10",
+     "evidence": "kernel-plan.md §1.9 W-3",
+     "required_change": "mutant K08 of M0-a-04 ('the last on a tie') stays red; placement.test.ts:27's nearestLattice copy stays as the oracle; identical results on every placement test and bfuzz input"
+    },
+    {
+     "line": "C-insert-1/2 and T-step1-2: the five files' comments describe the design as it stands citing C-rows and §3 clauses (no 'S5's third pass', no 'before N-55'); splitThrough.test.ts split into splitThrough.test.ts (the split, the endpoint rule, rows), closed.test.ts (every closed-overlay pin: N-55 (5)/N-11/N-12) and growth.test.ts (the N-53 doubling describe), the C-0284 describe moved to placement.test.ts; every describe/it title kept; the mutant map K01–K28, F1a–F1e, M9/MQ17, the P1 pins preserved by name; the old → new map appended to checks/M0-a-04-notes.md",
+     "evidence": "kernel-plan.md §2 (the insert lines), §3.1 (a)–(c)",
+     "required_change": "as the plan says; the closing checker reads every rewritten comment against the code and re-kills the mutants by their named cases"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; CONSOLIDATION ROUND paragraph",
+     "required_change": "the builder keeps the before-values (digests, goldens, register JSONs) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case or warning count FAILS the round (J263 Q2)"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-02",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "A-1 … A-5 (§1.4, round R4), the comment rewrite C-arena-1 (§2: arena/plat.ts 169–175, 257, 320; debug.ts 20–33; tables.ts 39) and T-support-1 (§3.4, R14) where it lands in test/arena/support.ts"
+   },
+   "session": "R4 (kernel) runs after R1 (num/exact.ts on main) and after M0-a-02's session round S2 (Q33: the restore generation in the arena's stamp keys) has been committed — build on the committed tree. Inside M0-a-02's owns (src/arena/, test/arena/) and nowhere else: A-1 exports edgeRuns from arena/resolve.ts by path as THE run ordering (J263 Q3: edgeRuns wins — C-0146 (5)'s order is resolve's; the digests and routeLines read it) with a doc comment stating the order and a property test over the fuzz arenas that pins it, so the later delegations (tx/chains.ts's runsOfPairs in R6, io's runsAt in R12 — NOT this round) have their oracle; A-2 exports stamp(p) and keyName(k) from arena/resolve.ts (index/query.ts and facade/stamp.ts adopt them in R5/R13 — not here); debugCheck stays per module with its prefix (J270 (a)); A-3 exports five() from plat.ts by path (index/spatial.ts adopts it in R5); A-4 vertexAt is KEPT with its comment saying it is the no-index path (the new façade pin T-facade-new-1 is M0-a-16's, R13 — J270 (c)); A-5/C-arena-1: the re-read rule stated as the rule citing C-0286, the crash history dropped. T-support-1: if the plan's §3.4/R14 puts the one seeded generator (rng/intIn) in test/arena/support.ts, export it from there now for the other folders' support files to import later. Rulings in force: J263 Q1, Q3, Q6, Q8; J270 (a), (c).",
+   "lines": [
+    {
+     "line": "A-1: edgeRuns exported from arena/resolve.ts by path as the one run ordering, with a doc comment stating C-0146 (5)'s order ('from the lower (y, x) end; rings from the lowest-leftmost counter-clockwise') and a property test pinning the order on the fuzz arenas; no caller changed",
+     "evidence": "kernel-plan.md §0 (three run orderings), §1.4 A-1, §1.3 T-1; J263 Q3",
+     "required_change": "the export and the pin; the level digests and routeLines identical; arena/resolve.test.ts whole green"
+    },
+    {
+     "line": "A-2: stamp(p) and keyName(k) exported from arena/resolve.ts (identical bodies to index/query.ts:86–96's, which adopts them in R5); debugCheck stays per module with its 'arena: ' prefix",
+     "evidence": "kernel-plan.md §1.4 A-2 (the prefixes are load-bearing: INVARIANT_THROW); J270 (a)",
+     "required_change": "exports added, messages identical; arena/resolve.test.ts stamp tests, invariants/debug.test.ts green; nothing outside the owns changed"
+    },
+    {
+     "line": "A-3: five() exported from arena/plat.ts by path (index/spatial.ts:134's copy goes in R5)",
+     "evidence": "kernel-plan.md §1.4 A-3",
+     "required_change": "trivial; identical body"
+    },
+    {
+     "line": "A-4: vertexAt's O(n) scan KEPT — the comment says it is the no-index path only (signature routing, C-0146 (6)); the façade pin T-facade-new-1 is M0-a-16's (R13), not this round's",
+     "evidence": "kernel-plan.md §1.4 A-4; J270 (c)",
+     "required_change": "comment only"
+    },
+    {
+     "line": "A-5 / C-arena-1: arena/plat.ts 169–175, 257, 320 state the re-read rule as the rule ('a growth replaces the table; a writer re-reads p.vertices/p.halfEdges after any allocation; several slots are allocated before any is written') citing C-0286 — the crash history dropped; debug.ts 20–33 describe the tiny-tables mode as a test switch; tables.ts 39 rewritten",
+     "evidence": "kernel-plan.md §1.4 A-5, §2 (arena lines)",
+     "required_change": "as the plan says; the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "T-support-1 (R14's arena part): test/arena/support.ts exports the one seeded generator (mulberry32: constant 0x6d2b79f5, >>> 0 arithmetic — byte-identical to the copies in tx/fuzzgen.ts, step1-2/support.ts, step3-5/support.ts) as rng and intIn; the other folders' support files import it in their own rounds",
+     "evidence": "kernel-plan.md §0 (mulberry32 in nine files), §3.4, R14",
+     "required_change": "the export; arena tests green with identical seeds and sequences (a pin compares the first 16 draws of a seed before and after)"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; CONSOLIDATION ROUND paragraph",
+     "required_change": "the builder keeps the before-values (digests, goldens, register JSONs) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case or warning count FAILS the round (J263 Q2)"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-08",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "B-1 … B-5 (§1.7, round R8) and the comment rewrite lines for src/arr/winding.ts and the folder's other files (§2); §3.4's test notes for test/arr/booleans-buffers/"
+   },
+   "session": "R8 depends on R1 only (num/exact.ts on main). Inside M0-a-08's owns (src/arr/{winding,booleans,buffer,offsetFace,insetRing,tileRings}.ts, src/arr/index.ts, test/arr/booleans-buffers/) and nowhere else: B-1 imports geom/common.ts's distinctRing by path in place of the two distinct copies (R13's G-1 later makes geom's a re-export of exact.ts — either door is the same function); B-2 exports simpleLoops/dropStraight from winding.ts and tileRings.ts imports them (the keep predicate semantics of C-0206 (1) preserved); B-3 div/SCALE → exact.ts's divScaled with identical rounding on every input (kerb's exported div is R9's); B-4 shortestPath's own heap → geom/heap.ts's BinaryHeap ONLY after the implementer reads shortestPath's tie rule: if ties read vertex slots that is a latent slot dependence — J263 Q5: REPORT it to the session as a hardening row and change nothing; if the tie rule is by item id or canonical key, adopt BinaryHeap with the same tie rule and prove the canonical rings identical on the booleans tests and the random-rectangles property; B-5 KEEP both isConvexRing definitions with a comment stating the difference (every turn left-or-straight vs rotation of the strict hull; the inset one refuses a 1 cm dent, pinned by offset-inset.test.ts:161,168). Rulings in force: J263 Q1, Q5, Q6, Q8; J270 (a).",
+   "lines": [
+    {
+     "line": "B-1: distinct ×2 (winding.ts:100, offsetFace.ts:35) ≡ geom/common.ts:88 distinctRing — the two copies deleted, distinctRing imported by path",
+     "evidence": "kernel-plan.md §1.7 B-1",
+     "required_change": "identical body; booleans and offset tests green; arr/index.ts's exports unchanged"
+    },
+    {
+     "line": "B-2: simpleLoops/dropStraight ×2 (winding.ts:628–720, tileRings.ts:34–72) — exported from winding.ts, imported by tileRings.ts; the keep predicate semantics (C-0206 (1)) preserved",
+     "evidence": "kernel-plan.md §1.7 B-2",
+     "required_change": "ORACLE booleans.test.ts 'a hole touching its outline…', tileRings.test.ts (joints share vertices, rotated T), arr/bands/bfuzz's tileRings property; mutants K14–K16, K31, H04 red"
+    },
+    {
+     "line": "B-3: div/SCALE (buffer.ts, insetRing.ts) → num/exact.ts's divScaled (N-4) with identical rounding on every input; kerb.ts's exported div is R9's",
+     "evidence": "kernel-plan.md §1.7 B-3, §1.0 N-4",
+     "required_change": "a pin compares divScaled to each replaced copy on the folder's test inputs and on the boundary values (negative, half, max); buffer and inset goldens identical"
+    },
+    {
+     "line": "B-4: shortestPath's own heap (winding.ts:376) vs geom/heap.ts BinaryHeap — adopt BinaryHeap ONLY if shortestPath's tie rule is by item id or canonical key (then: same tie rule, canonical rings identical); if the ties read vertex slots, REPORT (J263 Q5) and change nothing",
+     "evidence": "kernel-plan.md §1.7 B-4 (C-0196 (1) 'consistent by construction'; the determinism rule geom/path.ts states)",
+     "required_change": "the builder's notes state the tie rule found with the lines; ORACLE booleans.test.ts canonical rings, N-41 (3)'s retraced spur, the random-rectangles property, arr/bands/register.test.ts's replay classification; a slot-read tie becomes a session finding, not a change"
+    },
+    {
+     "line": "B-5: isConvexRing ×2 KEEP (insetRing.ts:47 every turn left-or-straight, exported; geom/lir.ts:170 hull-based, private) — the comment states the difference; mutants K35/K35t (< vs <=, tolerance) stay red",
+     "evidence": "kernel-plan.md §1.7 B-5",
+     "required_change": "comment only; offset-inset.test.ts:161,168 green"
+    },
+    {
+     "line": "Comment rewrite (§2): winding.ts:239 and the folder's other narrating comments describe the design citing C-rows; test comments lose round narration; the old → new map appended to checks/M0-a-08-notes.md if any test file moves (none planned: §3.4)",
+     "evidence": "kernel-plan.md §2 (arr lines), §3.4",
+     "required_change": "as the plan says; the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; CONSOLIDATION ROUND paragraph",
+     "required_change": "the builder keeps the before-values (digests, goldens, register JSONs) from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case or warning count FAILS the round (J263 Q2)"
     }
    ]
   }

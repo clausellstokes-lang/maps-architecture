@@ -7608,3 +7608,8 @@
 2026-10-11 09:44 build/M0-f-03a-fix-s3 CHECKPOINT choices C-0309 and CLEAN-ROOM L-0412 appended; related@1000 still running (since 09:24, W=1); next: wait, re-run lint/build (test edited after the first lint), landed
 2026-10-11 09:47 build/M0-e-03-fix-s2 CHECKPOINT RELATED@1000 (stage.ts+index.ts, W=1) still running; reds so far only bench fusion/hausdorff (known N-8/N-52); appends written (C-0310, L-0413); build 0 / lint 0 re-run after comment edits; next: wait, landed
 2026-10-11 10:06 build/M0-e-03-fix-s2 CHECKPOINT RELATED@1000 still running (since 09:38, W=1); reds so far only bench fusion/hausdorff (known); next: wait, landed
+2026-10-11 10:13 build/M0-f-03a-fix-s3 CHECKPOINT related@1000 still running (log 672 lines, no summary yet); next: wait, lint/build re-run, landed
+2026-10-11 10:26 build/M0-e-03-fix-s2 CHECKPOINT RELATED@1000 still running (since 09:38, W=1); reds so far only bench fusion/hausdorff (known N-8/N-52); next: wait, landed
+2026-10-11 10:42 build/M0-f-03a-fix-s3 CHECKPOINT related@1000 still running (78 min, W=1); waiting; next: lint/build re-run, landed
+2026-10-11 10:45 build/M0-e-03-fix-s2 CHECKPOINT RELATED@1000 still running (since 09:38, W=1); reds so far only bench fusion/hausdorff (known); next: wait, landed
+2026-10-11 10:50 session/consolidation-tools CHECKPOINT seat opened; reading records and tools
