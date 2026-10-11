@@ -7472,3 +7472,4 @@
 2026-10-11 02:15 check/M0-f-03a-close-s2 CHECKPOINT version-bumped mutants M14-M17 killed (17/17 total); own mirror deleted; note N-5 appended (f-03b fixed-row line only in C-0301 (3)); related@1000 running in tree (table.ts + workLimits.json, W=1) since 02:05; next: wait, verdict, ledger, records
 2026-10-11 02:20 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a, W=1) still running; verdict being drafted; next: NEAR
 2026-10-11 02:30 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a, W=1) still running (1 h); next: NEAR, verdict
+2026-10-11 02:35 check/M0-f-03a-close-s2 CHECKPOINT related@1000 still running (log 672 lines, no summary yet); next: wait, verdict, ledger, records
