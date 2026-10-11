@@ -3,10 +3,12 @@
 // version, valid until that arena's next commit, and a debug build asserts the key and the version wherever the slot is
 // passed; §3.11 "a stale or foreign slot: a debug-build assertion, never a silent read"; readings C-0220 (3)).
 import { afterEach, describe, expect, it } from 'vitest';
-import { setDebugAssertions } from '../../src/arena/index.js';
-import { stampOf } from '../../src/facade/index.js';
+import { assertStamp, setDebugAssertions, type Plat, type Stamp } from '../../src/arena/index.js';
+import { stampOf, type Kernel } from '../../src/facade/index.js';
+import { stampWith } from '../../src/facade/stamp.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { emptyOn, framed, GROUND, kernelOver, pt, RAISED, spec } from './support.js';
+import { restoreGeneration, restoreSavepoint, takeSavepoint } from '../../src/tx/index.js';
+import { crossing, emptyOn, framed, GROUND, kernelOver, pt, RAISED, spec } from './support.js';
 
 const WAY = [{ role: 'way', entity: 'way:1' }];
 const okv = <T>(value: T): KernelResult<T> => ({ ok: true, value, warnings: [] });
@@ -164,5 +166,196 @@ describe('a production build stamps nothing and asserts nothing', () => {
     expect(v.faces()).toHaveLength(2);
     // values that carry their stamp inline keep it in every build
     expect(stampOf(k.resolve({ role: 'way', entity: 'way:1' }, GROUND))).toEqual({ key: GROUND, version: p.version });
+  });
+});
+
+// Q38 (the class of Q28 / Q33; C-0313 (5)(a), C-0317): a savepoint put back across committed batches sets the version
+// back, so a value read inside the rolled-back commits reaches its version again after as many later commits. The
+// façade's stamps carry the arena's restore generation (written only when not 0, absent reading 0) and assertStamped
+// asserts the key, then the generation (the arena's message form), then the version: such a value is never current again.
+describe('Q38: the façade\'s stamps carry the restore generation (the debug build; C-0313 (1), C-0317)', () => {
+  const genMsg = (v: number, g: number, at: number, ag: number): string =>
+    `a stale slot: stamped at version ${String(v)} in restore generation ${String(g)}, arena ground/0 is at version ${String(at)} in restore generation ${String(ag)}`;
+  const way = (n: number) => [{ role: 'way', entity: `way:${String(n)}` }];
+  const BOX = { minX: 0, minY: 0, maxX: 4000, maxY: 4000 };
+
+  /** Commits one chain through the façade; the commit is a precondition. */
+  function commitChain(k: Kernel, n: number, a: [number, number], b: [number, number]): void {
+    const r = k.tx(spec(1), (o) => k.geom.insertChain(o, [pt(a[0], a[1]), pt(b[0], b[1])], way(n), 'mandatory'));
+    expect(r.ok).toBe(true);
+  }
+
+  /** Puts a savepoint back across one committed batch: the arena keeps its version and moves its generation by one. */
+  function restoreAcrossOne(k: Kernel, p: Plat, n: number): void {
+    const v0 = p.version;
+    const g0 = restoreGeneration(p);
+    const image = takeSavepoint(p);
+    commitChain(k, n, [0, 3000], [4000, 3000]);
+    restoreSavepoint(image);
+    expect(p.version).toBe(v0);
+    expect(restoreGeneration(p)).toBe(g0 + 1);
+  }
+
+  it('probe P4: a Resolved read in (or after) a rolled-back commit fails assertCurrent after the restore and one more commit', () => {
+    const p = framed();
+    const k = kernelOver([p]);
+    const v0 = p.version;
+    const image = takeSavepoint(p);
+    let inside: unknown = null;
+    const a = k.tx(spec(1), (o) => {
+      const r = k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], way(1), 'mandatory');
+      inside = k.resolve({ role: 'margin', entity: 'terrain:1' }, GROUND);
+      return r;
+    });
+    expect(a.ok).toBe(true);
+    const res = k.resolve({ role: 'way', entity: 'way:1' }, GROUND);
+    // generation 0: the shape it always had (no generation field)
+    expect(stampOf(res)).toEqual({ key: GROUND, version: v0 + 1 });
+    k.assertCurrent(res, GROUND);
+    restoreSavepoint(image);
+    expect(restoreGeneration(p)).toBe(1);
+    commitChain(k, 2, [2000, 0], [2000, 4000]);
+    // the version the rolled-back reads were stamped at is reached again: the generation names them stale
+    expect(p.version).toBe(v0 + 1);
+    expect(() => k.assertCurrent(res, GROUND)).toThrow(genMsg(v0 + 1, 0, v0 + 1, 1));
+    expect(() => k.assertCurrent(res)).toThrow(genMsg(v0 + 1, 0, v0 + 1, 1));
+    expect(() => k.assertCurrent(inside, GROUND)).toThrow(genMsg(v0, 0, v0 + 1, 1));
+    // the arena's own assertion agrees on the same value (one law, C-0313 (1))
+    expect(() => assertStamp(p, res as Stamp)).toThrow(/in restore generation 0, arena ground\/0 is at version \d+ in restore generation 1/);
+    // a read after the restore carries generation 1 and is current until the next commit
+    const now = k.resolve({ role: 'way', entity: 'way:2' }, GROUND);
+    expect(stampOf(now)).toEqual({ key: GROUND, version: v0 + 1, generation: 1 });
+    k.assertCurrent(now, GROUND);
+    commitChain(k, 3, [0, 1000], [4000, 1000]);
+    expect(() => k.assertCurrent(now, GROUND)).toThrow(`a stale slot: stamped at version ${String(v0 + 1)}, arena ground/0 is at version ${String(v0 + 2)}`);
+  });
+
+  it('a stampWith value keeps its stamp whole: a commit\'s re-stamped batch value is stale across the restore; a generation-1 stamp is current at 1 and stale at 2', () => {
+    const p = framed();
+    const k = kernelOver([p]);
+    const v0 = p.version;
+    const image = takeSavepoint(p);
+    let batch: unknown = null;
+    const a = k.tx(spec(1), (o) => (batch = k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], way(1), 'mandatory')) as KernelResult<unknown>);
+    expect(a.ok).toBe(true);
+    // the commit re-stamps the batch's values with stampWith (the arena's stamp at the commit)
+    expect(stampOf(batch)).toEqual({ key: GROUND, version: v0 + 1 });
+    restoreSavepoint(image);
+    commitChain(k, 2, [2000, 0], [2000, 4000]);
+    expect(() => k.assertCurrent(batch, GROUND)).toThrow(genMsg(v0 + 1, 0, v0 + 1, 1));
+    // after the restore the commit's re-stamp carries the generation and is current
+    let after: unknown = null;
+    const b = k.tx(spec(1), (o) => (after = k.geom.insertChain(o, [pt(0, 1000), pt(4000, 1000)], way(3), 'mandatory')) as KernelResult<unknown>);
+    expect(b.ok).toBe(true);
+    expect(stampOf(after)).toEqual({ key: GROUND, version: v0 + 2, generation: 1 });
+    k.assertCurrent(after, GROUND);
+    // stampWith of a stamp carrying generation 1 stores it whole
+    const v = stampWith({ key: GROUND, version: p.version, generation: 1 }, {});
+    expect(stampOf(v)).toEqual({ key: GROUND, version: p.version, generation: 1 });
+    k.assertCurrent(v, GROUND);
+    restoreAcrossOne(k, p, 4);
+    expect(() => k.assertCurrent(v, GROUND)).toThrow(genMsg(v0 + 2, 1, v0 + 2, 2));
+  });
+
+  it('an inline value carrying generation 1 is current on the arena at generation 1 and stale at generation 2; an absent one reads 0', () => {
+    const p = framed();
+    const k = kernelOver([p]);
+    restoreAcrossOne(k, p, 1);
+    const v = p.version;
+    const inline = { key: { layer: 'ground', part: 0 }, version: v, generation: 1 };
+    const absent = { key: { layer: 'ground', part: 0 }, version: v };
+    expect(stampOf(inline)).toEqual({ key: GROUND, version: v, generation: 1 });
+    expect(stampOf(absent)).toEqual({ key: GROUND, version: v });
+    k.assertCurrent(inline, GROUND);
+    k.assertCurrent(inline);
+    // an inline stamp without a generation (M0-a-03's QueryResult / Location, M0-a-10's FaceNeighbours on this tree)
+    // reads generation 0: loud after a restore, never a silent read
+    expect(() => k.assertCurrent(absent, GROUND)).toThrow(genMsg(v, 0, v, 1));
+    restoreAcrossOne(k, p, 2);
+    expect(p.version).toBe(v);
+    expect(() => k.assertCurrent(inline, GROUND)).toThrow(genMsg(v, 1, v, 2));
+    // a generation that is no number is not read (absent: 0)
+    expect(stampOf({ ...absent, generation: '2' })).toEqual({ key: GROUND, version: v });
+  });
+
+  it('every façade result read before the restore is stale after it at the coinciding version; read after, it is current (no false refusal)', () => {
+    const p = framed();
+    const k = kernelOver([p]);
+    const image = takeSavepoint(p);
+    const a = k.tx(spec(1), (o) => k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], way(1), 'mandatory'));
+    expect(a.ok).toBe(true);
+    if (!a.ok) return;
+    const read = (): unknown[] => {
+      const view = k.view(GROUND, 1);
+      const faces = view.faces();
+      expect(faces.length).toBeGreaterThan(0);
+      return [
+        k.resolve({ role: 'margin', entity: 'terrain:1' }, GROUND),
+        k.index.query(GROUND, 1, BOX),
+        k.index.pointLocate(GROUND, 1, pt(10, 10)),
+        k.geom.pointLocate(GROUND, 1, pt(10, 10)),
+        k.geom.faceNeighbours(GROUND, faces[0], 1),
+        view,
+        view.query(BOX),
+        view.pointLocate(pt(10, 10)),
+        view.neighbours(faces[0]),
+      ];
+    };
+    const before = [a, a.value, a.value.record, ...read()];
+    for (const x of before) {
+      expect(stampOf(x)).not.toHaveProperty('generation');
+      k.assertCurrent(x, GROUND);
+    }
+    const v1 = p.version;
+    restoreSavepoint(image);
+    const b = k.tx(spec(1), (o) => k.geom.insertChain(o, [pt(2000, 0), pt(2000, 4000)], way(2), 'mandatory'));
+    expect(b.ok).toBe(true);
+    if (!b.ok) return;
+    expect(p.version).toBe(v1);
+    for (const x of before) expect(() => k.assertCurrent(x, GROUND)).toThrow(/in restore generation 0, arena ground\/0 is at version \d+ in restore generation 1/);
+    expect(() => (before[before.length - 4] as { faces(): unknown }).faces()).toThrow(/in restore generation 1/);
+    const after = [b, b.value, b.value.record, ...read()];
+    for (const x of after) {
+      expect(stampOf(x)).toMatchObject({ key: GROUND, version: v1, generation: 1 });
+      k.assertCurrent(x, GROUND);
+      k.assertCurrent(x);
+    }
+  });
+
+  it('a StretchRef\'s Resolved read after a restore carries the generation in the side table; its inline shape is unchanged', () => {
+    const { p } = crossing();
+    const k = kernelOver([p]);
+    const s = { chain: { role: 'way', entity: 'way:1' }, from: pt(0, 2000), to: pt(2000, 2000) };
+    const old = k.resolve(s, GROUND);
+    const image = takeSavepoint(p);
+    commitChain(k, 3, [100, 100], [500, 100]);
+    restoreSavepoint(image);
+    commitChain(k, 4, [100, 300], [500, 300]);
+    const now = k.resolve(s, GROUND);
+    expect(now).toEqual({ key: GROUND, version: p.version, view: 'edges', runs: (now as { runs: unknown }).runs });
+    expect(now).not.toHaveProperty('generation');
+    expect(stampOf(now)).toEqual({ key: GROUND, version: p.version, generation: 1 });
+    k.assertCurrent(now, GROUND);
+    expect(() => k.assertCurrent(old, GROUND)).toThrow(/stale slot/);
+  });
+
+  it('a production build: nothing is stamped in the side table and no shape gains a generation after a restore (ZERO SHIFT)', () => {
+    setDebugAssertions(false);
+    const p = framed();
+    const k = kernelOver([p]);
+    const image = takeSavepoint(p);
+    const a = k.tx(spec(1), (o) => k.geom.insertChain(o, [pt(0, 2000), pt(4000, 2000)], way(1), 'mandatory'));
+    const stale = k.index.query(GROUND, 1, BOX);
+    restoreSavepoint(image);
+    expect(restoreGeneration(p)).toBe(1);
+    const b = k.tx(spec(1), (o) => k.geom.insertChain(o, [pt(2000, 0), pt(2000, 4000)], way(2), 'mandatory'));
+    expect(a.ok && b.ok).toBe(true);
+    const view = k.view(GROUND, 1);
+    for (const x of [b, view, k.index.query(GROUND, 1, BOX), k.geom.pointLocate(GROUND, 1, pt(10, 10)), view.neighbours(view.faces()[0])]) {
+      expect(x).not.toHaveProperty('generation');
+    }
+    expect(stampOf(b)).toBeUndefined();
+    expect(stampOf(view)).toEqual({ key: GROUND, version: p.version });
+    expect(() => k.assertCurrent(stale, GROUND)).not.toThrow();
   });
 });

@@ -110,3 +110,21 @@ M0-a-05's fix-s6 work in flight, and integration g9 logged the same two reds.
     `o`; with note 11's harness shape (open on kernel A, write through kernel B) B has no such frame, so the value
     keeps the in-batch version and a later `B.assertCurrent(value)` would assert it stale in the debug build. Fail-loud,
     debug-only, no committed state touched; the hardening pass can pin it or route the stamp through the transaction.
+14. **KI (closing check s2, `check/M0-a-16-close-s2`; M4) — the in-batch stamp after a cross-commit restore has no
+    pin.** Mutant M22 (`batchValue` stamps `{ key, version }` through `stampWith` instead of `stamp(o.plat, value)`,
+    dropping the generation for a value an op returns inside a batch) SURVIVES the five façade files (90/90) and, by
+    grep, RELATED (no other test pairs `assertCurrent` with `restoreSavepoint`). The tree is right (CONFIRMED, mirror
+    probe `zz-inbatch.test.ts`): after `takeSavepoint`, one commit and `restoreSavepoint` (generation 1), an op's result
+    asserted inside the next batch is current (`m: null`); under M22 it throws `kernel: a stale slot: stamped at version 0
+    in restore generation 0, arena ground/0 is at version 0 in restore generation 1 …` — a loud false refusal of a fresh
+    in-batch read, debug build only, healed by the commit's re-stamp. Not one of the round's stated lines (C-0317 (2)
+    lists the doors it stamps; the in-batch value is not among them), so a further hardening test, not a fail.
+    * **Suggested handling (M4):** add to stamps.test.ts's Q38 block: restore across one commit, then inside the next
+      batch `k.assertCurrent(ins, GROUND)` passes and `stampOf(ins)` carries `generation: 1`.
+15. **KI (closing check s2; consolidation pass or M4) — the façade keeps its own copy of the arena's stamp form.**
+    `facade/stamp.ts`'s `stampNow` repeats `arena/resolve.ts`'s module-private `stamp(p)` line for line (key copy,
+    version, generation only when not 0), and `assertStamped`'s generation message repeats `assertStamp`'s text. The
+    two agree today (CONFIRMED: P4 messages match after the `kernel:` / `arena:` prefix; C-0317 (1) records why — the
+    brief's "arena/resolve.ts exports stamp" is not so on this tree). Two copies of one law can drift.
+    * **Suggested handling:** M0-a-02 exports `stamp` (or a `stampOf(p)`) through the arena barrel and the façade calls
+      it; or a test that compares `stampNow(p)` with a `Resolved`'s inline stamp across a restore.
