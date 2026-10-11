@@ -7474,3 +7474,4 @@
 2026-10-11 02:30 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a, W=1) still running (1 h); next: NEAR, verdict
 2026-10-11 02:35 check/M0-f-03a-close-s2 CHECKPOINT related@1000 still running (log 672 lines, no summary yet); next: wait, verdict, ledger, records
 2026-10-11 02:50 check/M0-c-04-close-s3 CHECKPOINT RELATED@1000 (mirror a, W=1) still running; next: NEAR, verdict
+2026-10-11 02:56 check/M0-f-03a-close-s2 CHECKPOINT verdict drafted (checks/M0-f-03a-s2.md, related line pending); related@1000 running since 02:05 (W=1); next: wait, fill related, ledger L-row, records
