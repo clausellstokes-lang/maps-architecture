@@ -696,6 +696,85 @@
      "required_change": "the counts in the result notes and the choices row"
     }
    ]
+  },
+  {
+   "id": "M0-s-02",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "T-1 … T-9 (§1.1, round R1), the comment rewrite C-tables-1 … C-tables-4 (§2) and the test plan T-tests-1 (§3.1)"
+   },
+   "session": "R1 is the tables package's foundation round (J268: after Q35's round, now landed as M0-f-03a s3 bd2fae71; R2 — M0-f-03a c1 — follows and imports what this round creates). Inside M0-s-02's owns (tables/src/cell/, tables/src/loader/, tables/test/{cell,loader,data}/) and nowhere else; the fourteen data files are NOT touched (no cell is written in a second shape, §4): T-1 the stable-key grammar written once (KEY_VALUE/CELL_KEY), T-2 the non-empty-text predicate once, T-3 one TableIssue builder (issueAt) in place of the five writings, T-4 the calibratable census loop once (tableCensus), T-5 the vocabularies (the unit list, §7.6's extension.over, extension.mode and preset ids) derived from one `as const` list each with the exported names and types identical (J268 Q6), T-6 the thirteen table ids written once, T-7 the two slice hashes in one file, T-8 ladder.ts's refusals through the shared builder with every message text verbatim, T-9 bands.ts KEEP; the comment rewrite C-tables-1 … 4 (unit.ts:1–3's 'design correction' narration dropped, cell.ts:72's 'the checker's' reading rewritten, table.ts:1–5's row-key/cell-key sentence added, the test headers kept or rewritten as §2 says); the test plan T-tests-1: the one tables/test/loader/support.ts (refusal, deepCopy, rawTable, cell/ONE_CELL/oneCell, pinnedFile and the rest of the plan's list) with the local two-line wrappers where the plan prefers them, every describe/it title kept and the mutant map preserved. Shared helpers are file-level exports imported by path (J268 Q5); the exported names of cell/index.ts, loader/index.ts and the package barrel stay identical (J268 Q7: the unread index exports stay frozen); every refusal code and pinned message text verbatim (J263 Q6); the old → new map appended to checks/M0-s-02-notes.md (J263 Q8); the record re-landed under lane build/M0-s-02-consolidate-1 with --wave flow-7.",
+   "lines": [
+    {
+     "line": "T-1, T-2, T-3: the stable-key grammar ^[A-Za-z][A-Za-z0-9_.\\-]*$ once; the non-empty-text predicate once; one TableIssue builder issueAt({ table, row?, cell?, reason }) with absent keys left absent, replacing the three-way conditionals and the bare literals the plan lists",
+     "evidence": "model-tables-plan.md §1.1 T-1 … T-3 (the sites in cell.ts, table.ts, view.ts, ladder.ts)",
+     "required_change": "identical issues (deep-equal) on every refusal the tests pin; the message texts verbatim; cell.test.ts, loader.test.ts, ladder.test.ts whole green; the plan's named mutants red"
+    },
+    {
+     "line": "T-4: the calibratable census loop once (tableCensus) — loader/census.ts and workLimits/table.ts:220–224 line for line; this round gives the shared loop its home in the loader (R2 adopts it)",
+     "evidence": "model-tables-plan.md §1.1 T-4",
+     "required_change": "the census snapshot (test/data/census.test.ts) unchanged; calibratableCensus() identical on every table"
+    },
+    {
+     "line": "T-5, T-6: the unit list, extension.over, extension.mode and the preset ids each derived from one `as const` list with the exported names and TYPES identical (J268 Q6); the thirteen table ids written once (registry.ts)",
+     "evidence": "model-tables-plan.md §1.1 T-5, T-6; J268 Q6",
+     "required_change": "tsc -b green; a type-level test (or the existing ones) proves the derived types equal the old ones; the exports of cell/index.ts and loader/index.ts identical"
+    },
+    {
+     "line": "T-7, T-8, T-9: the two slice hashes in one file; ladder.ts's refusals through the shared builder with texts verbatim; bands.ts KEPT as it is",
+     "evidence": "model-tables-plan.md §1.1 T-7 … T-9",
+     "required_change": "the slice hashes identical before and after; ladder.test.ts whole green; bands.test.ts untouched"
+    },
+    {
+     "line": "C-tables-1 … C-tables-4 and T-tests-1: the comments of unit.ts, cell.ts, loader/ and the tests describe the design citing C-rows (no 'design correction of 2026-10-03', no 'the checker's'); the one test/loader/support.ts with refusal (the failure-path text 'no refusal'), deepCopy, rawTable, cell/ONE_CELL/oneCell and pinnedFile; local wrappers refuseTable/refuseProfile where the plan prefers them; every describe/it title kept",
+     "evidence": "model-tables-plan.md §2 C-tables-1 … 4, §3.1 T-tests-1",
+     "required_change": "as the plan says; the closing checker reads every rewritten comment against the code and re-kills the mutant map by title"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1, J268 Q7): the tables package's whole test set green; every shipped table parses to the same cells (value, unit, provenance, calibratable, extension, presets, note), the census snapshot and golden.json unchanged, the slice hashes identical, every refusal code and pinned message text verbatim; the fourteen data files byte-identical; the exported names of every index in the owns and of the package barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed",
+     "evidence": "J260 (3); model-tables-plan.md §1.1/§1.2 ORACLE lists, §4",
+     "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-parses every table old vs new, re-runs the oracles and re-kills the named mutants"
+    }
+   ]
+  },
+  {
+   "id": "M0-f-03a",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "W-1 … W-4 (§1.2, round R2), the comment rewrite C-tables-5 (§2) and the test plan §3.2"
+   },
+   "session": "R2 runs AFTER R1 (M0-s-02 c1) has landed on the tree you build on — if tables/test/loader/support.ts or the loader's issueAt/tableCensus are not there, STOP and report (the round imports what R1 creates). Inside M0-f-03a's owns (tables/src/workLimits/, tables/test/workLimits/) and nowhere else: W-1 the issue builder and the bare literals through R1's issueAt (messages verbatim); W-2 workLimitsCensus through R1's tableCensus (law.test.ts:148's allow-list gains the two path specifiers if table.ts imports them); W-3 the version/PIN law implemented once — NOTE that this item's session round S3 (Q35, bd2fae71) rewrote table.test.ts AFTER the plan was written: the PIN is hoisted, pinForm() and handOver() simulate the hand-overs, invariants() runs at every version and placeholderPins() is gated by PIN.version — read that file as it stands and apply the plan's intent on it: import the shared refusal and pinnedFile from '../loader/support.js', keep its own raw() over the file's TEXT (deliberately a different source from TABLE_SOURCES, the duplicate-key cases need it), keep every assertion S3 added and every title; nothing S3 pinned is weakened; W-4 report.ts and counters.ts KEEP; C-tables-5 (table.ts:1–11's narration of N-56 (4)/C-0301/version 2 becomes the rule with its C-rows). EQUIVALENCE: workLimits.json byte-identical (still the v2 PIN), every workLimitOf result identical, the census 32 and the counter list 17, every refusal code and message verbatim, the exports of workLimits/index.ts identical. This round lands BEFORE attempt 14's M0-f-03b so the hand-over meets the consolidated tests (J268). The old → new map appended to checks/M0-f-03a-notes.md; the record re-landed under lane build/M0-f-03a-consolidate-1 with --wave flow-7.",
+   "lines": [
+    {
+     "line": "W-1: workLimits/table.ts's three-way issue conditional (49–51) and its bare literals (121, 196, 201–204) go through R1's issueAt; every message text verbatim",
+     "evidence": "model-tables-plan.md §1.2 W-1",
+     "required_change": "deep-equal issues on every refusal table.test.ts pins; mutants K01–K20 and M01–M17 by title still red"
+    },
+    {
+     "line": "W-2: workLimitsCensus delegates to R1's tableCensus (the loop at table.ts:220–224 removed); law.test.ts:148's allow-list gains the import path specifiers if needed",
+     "evidence": "model-tables-plan.md §1.2 W-2",
+     "required_change": "the census stays 32 cells with the same ids; law.test.ts green"
+    },
+    {
+     "line": "W-3: the version/PIN law once — on S3's table.test.ts as it stands (PIN hoisted, pinForm/handOver, invariants at every version, placeholderPins gated): the shared refusal and pinnedFile imported from '../loader/support.js', the own raw() over TEXT kept; every S3 assertion and title kept",
+     "evidence": "model-tables-plan.md §1.2 W-3, §3.2; C-0309 (M0-f-03a s3)",
+     "required_change": "58/58 in test/workLimits with the same titles; the three simulated hand-overs still pass and the 11 breaks still refuse at v2 and v3"
+    },
+    {
+     "line": "W-4 and C-tables-5: report.ts and counters.ts KEPT; table.ts:1–11's comment states the rule (a fixed law's floor is the design's constant, pinned, never calibrated; the counting rows keep C-0021's placeholders until M0-f-03b) citing C-0301 and C-0309, with no round narration",
+     "evidence": "model-tables-plan.md §1.2 W-4, §2 C-tables-5",
+     "required_change": "comment only for W-4; the closing checker reads the rewritten comments against the code"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1, J268 Q7): the tables package's whole test set green; every shipped table parses to the same cells (value, unit, provenance, calibratable, extension, presets, note), the census snapshot and golden.json unchanged, the slice hashes identical, every refusal code and pinned message text verbatim; the fourteen data files byte-identical; the exported names of every index in the owns and of the package barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed",
+     "evidence": "J260 (3); model-tables-plan.md §1.1/§1.2 ORACLE lists, §4",
+     "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-parses every table old vs new, re-runs the oracles and re-kills the named mutants"
+    }
+   ]
   }
  ]
 }
