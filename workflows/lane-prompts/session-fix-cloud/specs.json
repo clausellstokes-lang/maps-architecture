@@ -1,0 +1,118 @@
+{
+ "args": "/tmp/claude-0/-home-user-maps-architecture/fb9bc24d-9c70-553f-82a8-14404e460549/scratchpad/session-fix/args.fitted.json",
+ "workflow": "/home/user/maps-architecture/workflows/23-build-m0-waves.js",
+ "rounds": [
+  {
+   "id": "M0-c-04",
+   "from": 3,
+   "round": "S3",
+   "session": "J249/J250: the closing check of M0-c-02's session round S2 (plat/docs/build/checks/M0-c-02-s2.md, verdict FAIL) failed on ONE line only, its line 3 (RELATED at 1000): M0-c-04's own pin in plat/packages/layout/test/growth/s5ab/span.test.ts meets M0-c-02 s2's new in-batch chord-proof refusal message before the span proof's. The residual that check was about (docs/M0-FIX-QUEUE.md Q29: relief-60 CITY seed 9 enceinte:2 gate:w0's wet wall side as one chord, N-54 (1)) is CONFIRMED fixed by that check. The workflow's automatic M0-c-02 s3 was stopped (a seat may not edit M0-c-04's file); this round S3 of M0-c-04 re-pins M0-c-04's own test against the tree and changes no source. M0-c-04 s2's closing check had routed the same red as its note N-17 (checks/M0-c-04-notes.md) 'for the session, before build/M0-c-02-fix-s2 lands'. RULE (J250, vetoable by the owner): M0-c-02 s2 and M0-c-04 s3 are committed TOGETHER by the session once this closing check passes. Build LANDED 2026-10-09 02:33 under lane build/M0-c-04-fix-s3 (span.test.ts only; appends C-0303, L-0393; record plat/docs/build/landed/M0-c-04.json). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "checks/M0-c-02-s2.md line 3 (RELATED at 1000): red on M0-c-04's span.test.ts pin 5, a red M0-c-02 s2 caused in a file M0-c-04 owns",
+     "evidence": "plat/packages/layout/test/growth/s5ab/span.test.ts:275, case 'a trace whose wall would put a vertex on a span is refused in its own batch, nothing written': its detail regex /put a vertex on bridge:1's span/ now meets M0-c-02 s2's in-batch proof first \u2014 received 'water: the water gate gate:w0's wall_gate run between 50000,-1000 and 52000,1000 is 2 edges, not its one chord \u2026' (E_INVARIANT; the arena version unchanged; the span whole). Red in the tree and in the s2 check's mirror 'after' (the s2 sources), green with the S1 sources; with only the regex widened the case passes. M0-c-02 s2's trace.ts lies on the test's import path (J193 (3)).",
+     "required_change": "Re-pin pin 5 in M0-c-04's own file against the tree: assert the in-batch E_INVARIANT refusal with the version unchanged, the live vertices unchanged, the span whole, no gate_end and no enceinte:2 wall committed; add a twin that still pins the span proof's OWN refusal 'S5a: the trace put a vertex on bridge:1's span' (the pond withheld, the bridge given); change no source (boundary.ts untouched); the closing check kill-tests the twin (the trace's span proof removed must go red on it) and pin 5 (M0-c-02's looseGate/chord proof off must go red on it)."
+    }
+   ]
+  },
+  {
+   "id": "M0-c-03",
+   "from": 2,
+   "round": "S2",
+   "confirmOnly": true,
+   "session": "docs/M0-FIX-QUEUE.md Q24 (N-54 (2); checks/M0-c-01-notes.md N-15; J248): the session opened round S1 on M0-c-03 (the deckOf \u22121 pin for backbone/route.test.ts that N-54 (2) asked for was never added; route.ts:343's 'another site in the band' retry formerly ran on unreachable beyond-frame decks and, with rg.decks now in-frame only, seed 3535584350 lost its outward route \u2014 M0-c-03 judged the retry on an empty band, choices row C-0297, 1/1000 shift). S1's closing check (plat/docs/build/checks/M0-c-03-s1.md, lane check/M0-c-03-close-s1, 2026-10-09 02:57) FAILED on two blockers, B-1 and B-2 \u2014 mutants on stated promises (Z06 and Z20) that survive NEAR and RELATED and change honest seeds. Round S2 (tests only; build LANDED 2026-10-09 03:08 under lane build/M0-c-03-fix-s2: frame.test.ts and route.test.ts; C-0304, L-0396; record plat/docs/build/landed/M0-c-03.json; its self-check reports Z06, Z02 and Z20 red on the new pins) pins both. This closing check S2 is the CONFIRM-ONLY re-check of those two lines (workflows/34's further-round rule, J162/J169): the mutants to re-introduce are the S1 check's own (checks/M0-c-03-s1.md section 'Targeted mutants': Z06 deletes the outward part's listing in stage.ts routesFromSlice; Z02 reads the band as always empty; Z20 drops the wet(lattice, p, q) test in routeGraph, route.ts:79); then the gates (NEAR at full strength; RELATED is empty for a tests-only round \u2014 say so). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "B-1 \u2014 the Q24 line's last clause: a part the rule leaves unserved is not pinned in S4's report.unserved",
+     "evidence": "Mutant Z06 (stage.ts:278, the outward part's listing `} else unserved.push(`${gate.id}/out`);` deleted) survives NEAR 84/84 and the related S4 runs (ladders/rungs-route, ladders/chain, pipeline/base/run, edge/control: 36/36 at 1000); the only readers of report.unserved (frame.test.ts, water.test.ts) assert []; honest seed 3207739920 (plain small-river chain, i = 142): gate:1/out is left unserved by the rule \u2014 rungs another_site from bridge:1 held false 'no usable site in the band', extra_bridge notBuilt(M1), unserved 'no path'; report.unserved ['gate:1/out'], under Z06 [].",
+     "required_change": "Pin a part the rule leaves unserved at stage level (seed 3207739920 in frame.test.ts): report.rungs for gate:1/out equal to the three rungs, report.unserved equal to ['gate:1/out'], no gate:1/out route, ways = 2N \u2212 1; Z06 red on it, and Z02 (the 'no usable site' / 'no path' labels) red too."
+    },
+    {
+     "line": "B-2 \u2014 RouteGraph.deckOf marks only wet edges ('the index of the deck a passable edge across water runs along, else \u22121'), which no test pins",
+     "evidence": "Mutant Z20 (route.ts:79, the wet(lattice, p, q) test dropped: a dry edge within one spacing of a deck and within 30\u00b0 of it is also given the deck) survives NEAR 84/84 and RELATED@1000 whole (207 files; its 4 reds \u2014 hausdorff, span, districts/integration, ladder-coverage/entry \u2014 are red without the mutant too); honest seed 3418200249 (i = 821): gate:0/out spans bridge:1 with 11 points, under Z20 10 (the approach node next to the deck end folded into the crossing's run) \u2014 a different committed course from an unpinned clause of the interface N-54 (2)'s pin is about.",
+     "required_change": "Pin deckOf's wet-only contract: synthetic lattice pins in route.test.ts (a dry edge beside and aligned with a deck reads \u22121; the wet edge along it reads the deck; a river ending just past a short deck), and seed 3418200249's gate:0/out with its 11 points in frame.test.ts; Z20 red on them and on both route.test deckOf pins."
+    }
+   ]
+  },
+  {
+   "id": "M0-f-03a",
+   "from": 2,
+   "round": "S2",
+   "session": "N-56 (4) (plat/docs/build/checks/M0-spec-notes.md), docs/M0-FIX-QUEUE.md Q16, J249: a session round on tables data \u2014 a persisted metadata correction, vetoable by the owner. Build LANDED 2026-10-09 02:10 under lane build/M0-f-03a-fix-s2 (workLimits.json v2, the warp.halvings floor pinned: provenance architecture 2026-10-03, calibratable false; census 33 \u2192 32; PIN 8c5b12b4; no value change; the M0-s-02 census stays 182 because TABLE_IDS excludes workLimits; table.ts, table.test.ts; appends C-0301, L-0389; record plat/docs/build/landed/M0-f-03a.json). The closing seat on the WSL machine (lane check/M0-f-03a-close-s2, 02:11\u201303:06) had established: the N-56 (4) data/test diff read; census 182 unaffected CONFIRMED; gates install/lint (probe-red ok)/build 0; landed:verify ok; tables 240/240; near+pins 413/413; mutants M01\u2013M12 all killed; notes N-2, N-3 and N-4 appended to checks/M0-f-03a-notes.md (they stand in the tree: keep them, do not duplicate them, record that file); related@1000 was running in its mirror when the machine logged out \u2014 the verdict file plat/docs/build/checks/M0-f-03a-s2.md, the CLEAN-ROOM row and the landed records were never written. Finish the check here: re-run what you cannot read from the tree (the gates, NEAR, the related run at 1000; the mutants again if your budget allows, else the ones you judge decisive), write the verdict, the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "N-56 (4) Q16: warp.halvings's floor is test-pinned (MAX_HALVINGS 8 is the kernel's loop constant) yet marked calibratable: true in persisted table metadata M1's calibration reads",
+     "evidence": "M0-f-03a N2; summaries/M0-k-04.json holds a warp.halvings p999 = 1 block that M0-f-03b's calibration rewrite would turn into a floor of about 2 under calibratable: true; the table's floor only feeds workLimitOf (N-56 Q16, CONFIRMED by the ruling seat).",
+     "required_change": "warp.halvings.floor \u2192 calibratable: false, provenance 'architecture 2026-10-03', table version 2, the calibratable census 33 \u2192 32 (the cross-item census line 182 \u2192 181 does not apply: TABLE_IDS excludes workLimits \u2014 confirm and report), the PIN re-recorded with the cause; M0-f-03b's relaunch note gains the fixed-row line (the rewrite skips fixed rows and never reads their quantile blocks); no value changes."
+    }
+   ]
+  },
+  {
+   "id": "M0-a-06",
+   "from": 5,
+   "round": "S5",
+   "session": "N-56 (5), docs/M0-FIX-QUEUE.md Q28 (kernel part), J249: the level-digest listener is keyed on the arena version, so restoreSavepoint across committed batches makes a stale digest state read as current (the digest half is M0-d-04's round s1, after this one commits). Build LANDED 2026-10-09 02:25 under lane build/M0-a-06-fix-s5 (kernel/src/tx/savepoint.ts, tx/index.ts, test/tx/savepoint.test.ts; appends C-0299, L-0386; record plat/docs/build/landed/M0-a-06.json). The closing seat on the WSL machine (lane check/M0-a-06-close-s5, 02:26\u201303:23) had established: gates install 0, lint 0 (probe-red ok), build 0, landed:verify ok; NEAR tx 28 files 444 green (kernel + kernel-tiny); its own probes (the keyed consumer never stale for n = 1, 3; 600 LIFO sequences, 727 cross-commit restores, 0 key collisions; a non-LIFO dead-image collision CONFIRMED and noted); golden s4 vs s5 1 800 steps byte-identical; 11 mutants, 10 killed by savepoint.test.ts, M04 equivalent for the key; a DRAFT verdict plat/docs/build/checks/M0-a-06-s5.md (PASS pending RELATED; it carries the placeholders RELATED_RESULT and RELATED_VERDICT that must be replaced) and notes N-24, N-25 appended to checks/M0-a-06-notes.md (keep them); RELATED at 1000 was still running at the logout; the CLEAN-ROOM row and the two landed records (check-M0-a-06-s5, check-M0-a-06-notes) were not written. Finish the check here: the gates and NEAR again (fast), RELATED at 1000 (replace the placeholders with its result and verdict), re-run the probes and mutants you cannot read from the tree as your budget allows, then the ledger row and the records. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "N-56 (5) Q28 (kernel part): restoreSavepoint across committed batches sets p.version back, so a maintained level-digest state keyed on the version reads current with stale digests",
+     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read \u2014 L1\u2013L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); C-0287 (2); the savepoint.test.ts pin of M0-a-06 s4 named the cross-item contract.",
+     "required_change": "restoreSavepoint bumps a per-arena restore generation only across committed batches (never on a restore within the open batch), the generation readable through tx/index.ts for M0-d-04's digest state keyed on (generation, version); pins in savepoint.test.ts; no persisted change; no behaviour shift on the s4 line (bits, commit records and level digests identical)."
+    }
+   ]
+  },
+  {
+   "id": "M0-a-05",
+   "from": 7,
+   "round": "S7",
+   "session": "N-53 (2) Q17 (reservePair retired after M0-a-04's fe0e4a36), N-55 (2) Q10, (4) Q12, (5) Q13 (the insertChain door), C-0284 (3); J242, J248. Build LANDED 2026-10-09 02:53 under lane build/M0-a-05-fix-s7 (kernel/src/insert/insertChain.ts, stretch.ts; test/insert/step3-5/{lifecycle.test.ts, register/s6-lifecycle.json, support.ts, bfuzz.test.ts, foldback.test.ts, placementEnds.test.ts, routerGapS3\u2013S6.test.ts, snapRound.test.ts}; appends C-0302, L-0390; record plat/docs/build/landed/M0-a-05.json; the builder reports gates 0, NEAR step3-5 38 files / 450 green, RELATED@1000 406/408 files with 2 foreign reds, 1e6 mandatory before == after; an open case for the session: the coincident-chain split vertex, C-0302 (3) \u2014 judge in this check whether it is a blocker (a wrong result on an honest input) or a notes row). The closing seat on the WSL machine (lane check/M0-a-05-close-s7, 02:54\u201303:03) had only reached: gates install 0, landed:verify ok, lint 0, build 0; reservePair grep (a comment line remains), n13 grep (no tolerance), s6-lifecycle.json 13 cases 0 remove keys; mirrors A (after) and B (before composite) built, B smoke (foldback 5317 pins red, controls green), A's step3-5 PR-size run started \u2014 no verdict, no notes, no records. Rebuild from the start under the CONTINUE RULE (the mirrors are gone). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "N-53 (2) Q17: M0-a-05 retires reservePair and its two call sites once M0-a-04's splitThrough fix (fe0e4a36) is committed; mutant S14 retires with it",
+     "evidence": "N-53 (CONFIRMED root cause in applySplitPlan's stale capture); C-0177 (10); checks/M0-a-05.md N-6; the class is now held by M0-a-04's P1 pins and the PR tier's kernel-tiny project",
+     "required_change": "reservePair and both call sites (stretch.ts applyLanding, insertChain.ts land) gone; no behaviour shift (by construction, measured on the listed tallies); the N-53 old line restored in a mirror must go red on kernel-tiny's step3-5 B-FUZZ"
+    },
+    {
+     "line": "N-55 (2) Q10: land keeps VERTEX_SPLIT on a chain's own point that step 2 lands by splitting the chain's OWN edge (the fold-back, case 5317/20 000), although \u00a72.2 says a chain's own shape vertices never carry it",
+     "evidence": "N-55 Q10 CONFIRMED by replay (case 5317; the register's control-refused and pass2-optional at L0/L1); C-0223 (5) counted it under foldedBase",
+     "required_change": "ownShapeVertex clears the flag on a self-split landing (a split of another chain's edge keeps it); the case 5317 fixture and its control; holdsDissolvable an oracle after every B-FUZZ and lifecycle commit; foldedBase asserted 0"
+    },
+    {
+     "line": "N-55 (4) Q12: lifecycle.test.ts and six 'remove': 'n13' cases of register/s6-lifecycle.json still tolerate exactly Q9 and Q10 \u2014 the restore promise is masked",
+     "evidence": "C-0235; M0-a-14-s1; N-55 Q12: 13/13 exact with both fixes (Q9 landed in M0-a-06 s4, 9585d3be)",
+     "required_change": "every register case pinned exact: no n13 tolerance, no refusal tolerated, chunk refs and digests too; 13/13 exact"
+    },
+    {
+     "line": "N-55 (5) Q13 (the insertChain door): insertChain writes on a committed or rejected overlay with the version unchanged \u2014 a silent write",
+     "evidence": "N-55 Q13 CONFIRMED (module and fa\u00e7ade alike); the fa\u00e7ade door 3a35e530, splitThrough's door 36bb50e4, attractVertex/attractRun 39ee72bc (Q30); insertChain's door was routed to this round",
+     "required_change": "insertChain checks the overlay is open before any plan, read or charge (throws at the door, N-55 (5)'s class, not a typed refusal); an ordering pin that the closed throw precedes any write"
+    }
+   ]
+  },
+  {
+   "id": "M0-e-03",
+   "from": 1,
+   "round": "S1",
+   "session": "N-56 (1), docs/M0-FIX-QUEUE.md Q20 class A, J249: 5 of 1 000 EP-01/S1 self-touching states refuse a LAWFUL river unplanted because slowRings' output reaches insertChain uncleaned (a hairpin of 17\u201325 cm sides welded by the insertion's attraction); class B (28/1000 planted bow-ties) is a lawful typed refusal and keeps its M0-x-06 pin. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-03-fix-s1, 01:38\u201303:13) left its fix IN THE TREE, uncommitted \u2014 site/src/water/polygons.ts (provedRings) and stage.ts (the river cause), the pins site/test/water/slow-rings.test.ts with fixtures/q20-slow-rings.json \u2014 and had established in its mirror: 7/7 class-A seeds commit via the registered S1; SMALL_RIVER 1 000 seeds 995 \u2192 1 000 committed, 28 slow seeds shifted (\u221245.5 % L0 vertices), 0 fast seeds shifted; the bar's 12 + 2 CITY seeds shifted, refused tributaries 3 \u2192 1; gates install/lint/build 0; pins 17/17; M0-e-06's river receipts before/after compared (verdicts identical, 5 of 6 derivations shifted); self-check mutants M1\u2013M6 were running at the logout. NOT yet written: the choices row (next free id by the id rule), the CLEAN-ROOM row, the landed record (corepack pnpm landed -- M0-e-03 --lane build/M0-e-03-fix-s1 --wave flow-7) and the LANDED line. CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, finish the self-check (J183), NEAR and RELATED, state the shift per seed as the ruling asks, then the appends, the record and the LANDED line. Known consequence to report for the session (not yours to fix): M0-x-06's in-flight packages/testkit/test/edge/standing.test.ts goes red on seed 1595424233 with this change (M0-x-06 round 2 re-pins it, N-56 (6)). The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "N-56 (1) Q20 class A: the slow rings reach insertChain uncleaned, so a lawful river is refused unplanted on 5/1000 seeds (the same `branches` cause as the lawful bow-tie refusals)",
+     "evidence": "The ruling seat's probes zz-ruling-q20*: 967 laddered, 28 refused-safe (class B), 5 where slowRings' output holds a 17\u201325 cm hairpin within 17\u201326 cm of a non-adjacent side (minEdgeCm 25, attractCm 26); cleanRing with the frame edge fixed makes all four logged rings simple and clear (min 955 cm). CONFIRMED.",
+     "required_change": "The slow rings cleaned (cleanRing, frame and earlier-ring vertices fixed) and proved (isSimple, clearRing, ringsApart, clearOf) before keep; a ring still unclear is a refused body (for the river: the stage's refusal with its cause named); pins: a 17 cm-hairpin ring commits, the five class-A seeds commit, the 100-seed bar; the shift stated for every slow-path seed (about 2.8 %); M0-e-06's river receipts re-run; class B's refusal stays lawful (the x-06 pin reworded in x-06 round 2, not here)."
+    }
+   ]
+  },
+  {
+   "id": "M0-e-04",
+   "from": 2,
+   "round": "S2",
+   "session": "N-56 (2), docs/M0-FIX-QUEUE.md Q21 (collinear), J249: a simple CCW ring with collinear vertices (seed 1165799859) is refused by settlementPerimeter while the clean ring passes \u2014 the overlay's union merges the collinear vertices and isSumRing's 'both ends near ONE boundary edge' test fails (a 300 m square with midpoints reproduces it); the self-touching (2191303060) and coincident (2708765650) refusals are LAWFUL (non-simple rings refused before any batch) and keep their pins. THIS BUILD IS IN FLIGHT: the builder's WSL seat (lane build/M0-e-04-fix-s2, 03:02\u201303:14) left its fix IN THE TREE, uncommitted \u2014 layout/src/districts/perimeter.ts (mergeCollinear) and districts/index.ts \u2014 with the pins layout/test/districts/collinear.test.ts and packages/testkit/test/layout/districts/collinear-chain.test.ts green in its mirror; next were the after-probe (zero shift elsewhere), the self-check mutants and the gates; nothing was landed (no choices row, no ledger row, no record, no LANDED line). CONTINUE from the tree's files and the CHECKPOINT lines: re-verify the fix and the pins in a fresh mirror here, prove zero shift on the 100 count-law seeds and the perimeter invariance under collinear splitting, finish the self-check (J183), NEAR and RELATED, then the appends, the record (corepack pnpm landed -- M0-e-04 --lane build/M0-e-04-fix-s2 --wave flow-7) and the LANDED line. The ruling's optional union-outer pre-step is a hardening notes row, not code. The lane's earlier CHECKPOINT lines in docs/lane-events.log were written on the owner's WSL machine (2026-10-09, before its logout); that machine's mirrors, probes and outputs do not exist here. Under the CONTINUE RULE keep what the lane's files in the tree establish, rebuild your mirror under this machine's scratch path, and re-run whatever evidence you cannot read from the tree.",
+   "lines": [
+    {
+     "line": "N-56 (2) Q21 (collinear): a lawful simple ring with collinear vertices is refused by settlementPerimeter's isSumRing after the union merges the collinear vertices",
+     "evidence": "The ruling seat's probe zz-ruling-q21 on seed 1165799859 and the 300 m square \u00b1 midpoints (CONFIRMED); self-touching 2191303060 and coincident 2708765650 are non-simple rings refused before any batch (lawful).",
+     "required_change": "Exactly collinear vertices merged before convolution and isSumRing; pins: the perimeter invariant under collinear splitting (seed 1165799859, the square, the 100 count-law seeds), zero shift elsewhere; the self-touching and coincident pins stay (lawful), an optional union-outer pre-step as a hardening notes row."
+    }
+   ]
+  }
+ ]
+}

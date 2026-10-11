@@ -1,0 +1,9 @@
+{
+ "root": "/home/user/maps-architecture",
+ "scratch": "/tmp/claude-0/-home-user-maps-architecture/fb9bc24d-9c70-553f-82a8-14404e460549/scratchpad/waves",
+ "maxLanes": 2,
+ "maxFixRounds": 3,
+ "closingFrom": 1,
+ "flow": { "label": "flow-7", "attempt": 13 },
+ "note": "RELAUNCHED in a Claude Code cloud container on 2026-10-11 (the owner: continue the pending work) after the owner's WSL logout of 2026-10-09 (PROGRESS J250): plat/ is the WSL stopping point restored from the branch wip/wsl-autosave onto main 23d13d5 (uncommitted, exactly as the WSL tree stood at 03:22 EDT). docs/lane-events.log carries this lane's earlier CHECKPOINT lines written on the WSL machine: their mirrors, probes and outputs do NOT exist on this machine (the CONTINUE RULE applies: rebuild the mirror, keep what the lane's files and lines establish, re-run what you cannot read). Other items' in-flight uncommitted edits stand in the tree as they did on the WSL machine: M0-e-03 s1 (site/water; shifts testkit edge/standing seed 1595424233), M0-e-04 s2 (layout/districts), M0-x-06 fix round 1 (testkit/src/edge, bench/src/fusion, blocked on committed items), M0-c-06 (landed record; blocked); the known foreign RELATED reds are bench test/fusion/hausdorff.test.ts (N-8/N-52 KI) and bench test/ladder-coverage/entry.test.ts's summary-path assertion when run from a mirror (an artefact of the mirror path, green in the tree). This machine has 4 cores and 16 GiB (tools/test_budget.py sizes every run; expect 1 worker and long RELATED runs: write a CHECKPOINT line at least every twenty minutes, and never stop a run for being slow)."
+}
