@@ -7963,3 +7963,4 @@
 2026-10-11 22:11 check/M0-d-05a-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 21:05; no red of this item seen so far); next: RELATED verdict, verdict file, notes rows, CLEAN-ROOM row, records
 2026-10-11 22:20 build/M0-a-09-fix-s3 CHECKPOINT census-after v2 running (W=1, §13.1 property 488 faces 0 refused as before); lint 0 (kernel-boundary ok); next: census verdict, mutants K1-K7, RELATED, fusion seeds 34/47
 2026-10-11 22:23 build/M0-c-02-fix-s4 CHECKPOINT RELATED@1000 (W=1, since 21:43) still running; next: its verdict
+2026-10-11 22:30 build/M0-f-03a-consolidate-1 CHECKPOINT RELATED@1000 still running (since 21:46, W=1, log 699 lines); next: wait, LANDED
