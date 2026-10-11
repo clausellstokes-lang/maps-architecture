@@ -16,6 +16,10 @@
 //   (ii) `rootOnReadOnly` — `stageEnd` does not finalise the root (it is finalised only when read);
 //   (iii) `subtreeOracle` — `oracle(seed)` recomputes one subtree per layer chosen by the seed instead of the whole root.
 // None moves a root: the root is a pure function of the leaves whenever it is computed.
+// A restore across committed batches (`restoreSavepoint`, N-56 (5), C-0299, C-0305): the arena's restore generation
+// moves, and the next maintenance or read of this tree re-hashes every leaf resolving in that arena and re-reads the
+// `plats` node (the leaves read geometry the rolled-back commits wrote; no commit record names it). The runner's
+// re-attach and `addArena` after a restore (C-0287 (2), C-0295) stay, and do the same at once.
 import {
   changedEntities,
   compareKeys,
@@ -26,6 +30,7 @@ import {
   LaneWriter,
   layerCode,
   levelDigests,
+  restoreGeneration,
   updateLevelDigests,
   type CommitRecord,
   type DirtySet,
@@ -163,6 +168,8 @@ export class ModelDigest {
   /** TxEnv.onCommit: the kernel's level digests first (updateLevelDigests), then this tree (`onDirty`). */
   readonly listener: (plat: Plat, dirty: DirtySet, record: CommitRecord) => void;
   private readonly arenas = new Map<string, Plat>();
+  /** Per registered arena: the restore generation its leaves and the `plats` node were last read at. */
+  private readonly generations = new Map<string, number>();
   private readonly leaves = new Map<Id, LeafState>();
   private readonly childrenOf = new Map<Id, Set<Id>>();
   private readonly tops = new Map<DigestLayer, Set<Id>>();
@@ -195,9 +202,24 @@ export class ModelDigest {
   addArena(plat: Plat): void {
     if (!hasLevelDigests(plat)) attachLevelDigests(plat);
     this.arenas.set(arenaKey(plat.key), plat);
+    this.generations.set(arenaKey(plat.key), restoreGeneration(plat));
     for (const id of this.dependentsOfArena(plat.key)) this.pending.add(id);
     this.layers.delete('plats');
     this.settle();
+  }
+
+  /**
+   * An arena put back across committed batches since this tree last read it (its restore generation moved): every
+   * leaf resolving in it is re-hashed and the `plats` node re-read. O(arenas) when nothing moved.
+   */
+  private syncGenerations(): void {
+    for (const [key, plat] of this.arenas) {
+      const g = restoreGeneration(plat);
+      if (this.generations.get(key) === g) continue;
+      this.generations.set(key, g);
+      for (const id of this.dependentsOfArena(plat.key)) this.pending.add(id);
+      this.layers.delete('plats');
+    }
   }
 
   private dependentsOfArena(key: PlatKey): Id[] {
@@ -368,6 +390,7 @@ export class ModelDigest {
 
   /** Fallback (i)'s boundary: re-hashes the leaves deferred since the last one (a no-op when nothing is deferred). */
   flush(): void {
+    this.syncGenerations();
     this.rehashPending();
     this.settleNodes();
   }
@@ -383,6 +406,7 @@ export class ModelDigest {
   }
 
   private settle(): void {
+    this.syncGenerations();
     if (this.depth > 0) return;
     if (!this.switches.deferLeaves) this.rehashPending();
     this.settleNodes();
@@ -439,6 +463,8 @@ export class ModelDigest {
 
   /** The maintained node of a layer. */
   layer(name: DigestLayer): Hash128 {
+    this.syncGenerations();
+    if (!this.switches.deferLeaves) this.rehashPending();
     this.settleNodes();
     return this.layers.get(name) as Hash128;
   }

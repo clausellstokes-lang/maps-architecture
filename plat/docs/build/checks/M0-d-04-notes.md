@@ -53,3 +53,33 @@ None of these notes fails the item. Each is a further hardening test, and the ha
 14. **N-14 A face's kind at the model leaf.** K11 (the face kind written as 0) is now killed by the kernel test, as
     B-3 (a) asked. It still passes the model digest suite (51/51), because no model test retypes a face. The kernel
     test is enough for the promise. A model test that moves a leaf through a retype would pin the end-to-end path.
+
+## Closing check of session round S1 (lane `check/M0-d-04-close-s1`, 2026-10-11; verdict in `M0-d-04-s1.md`)
+
+None of these fails the item (the blocker rule of the lane's brief; N-45, J202): each is a test gap on code that does
+what its claim says, an equivalent survivor, or another item's case.
+
+15. **N-15 `ModelDigest.layer()`'s restore sync is unpinned (mutant M6).** C-0305 (2) names `layer` among the reads
+    that follow a restore. Mutant M6 (`layer()` without `this.syncGenerations()`) passes the item's own tests
+    (`Tests 121 passed (121)`). The code is right, CONFIRMED by this seat's mirror probe `zz-close-s1b.test.ts`: on the
+    tree, `md.layer(l)` for every layer, straight after a restore across n = 1 and 3 committed batches (no commit, no
+    re-attach, no other read), equals a fresh twin's layers and differs from the pre-restore ones (green); under M6 both
+    cases are red (`2 failed`). No honest path reads `layer()` there today: the runner re-registers the arena
+    (`addArena`) right after a rollback (C-0295). **Handling:** add `layer()` reads to model.test.ts's "read at once, no
+    commit and no re-attach" pin. Hardening milestone M4, or the item's next touch.
+16. **N-16 Equivalent survivors of round S1 (judged by this seat).** K2 (the listener's generation skip dropped) and
+    K8 (its compare inverted): a foreign state the listener patches keeps its old generation, so the next read rebuilds
+    it and counts the build, and `changedEntities` answers [] (it checks the update's generation); the patch path has
+    no throw site but the role-name check, so only work differs. M7 (`addArena` does not note the generation), M8 (the
+    sync never records the new generation) and M9 (the sync runs only at depth 0): extra re-hashes only, same digests.
+    C-0305 (2)'s "O(arenas) per step when nothing moved" is a cost claim; M8 would break it silently, and no timing is
+    taken on this machine. **Handling:** if the cost claim is to be held, a count pin (leaves re-hashed per commit after
+    a sync) at the hardening pass, M4.
+17. **N-17 The dead-image case reaches this item's key (cross-reference: `checks/M0-a-06-notes.md` N-24).** An image
+    taken before an earlier cross-commit restore, put back at the version the arena has reached again, does not bump the
+    restore generation, so the (generation, version) key names two contents. This seat's mirror probe
+    (`zz-close-s1b.test.ts`, A taken, one commit, B taken, restore A, one commit, read, restore B) printed
+    `generation 1; read===fresh false; read===seenB true`: the maintained level digests read stale. It is the kernel's
+    case (M0-a-06's `restoreSavepoint`, N-24) and is not reachable by the runner, which uses its images last-in
+    first-out (C-0295). **Handling:** with N-24's round (M0-a-06). Once the generation also moves there, this item
+    needs no change. If that round instead refuses a dead image, this item needs nothing either.

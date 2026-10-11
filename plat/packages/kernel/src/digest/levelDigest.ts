@@ -31,6 +31,10 @@
 //   then the own-child standing of their parents' children; their buckets are marked and re-hashed when a digest is
 //   read. O(touched), never a walk of the arena. A state that missed a commit (no listener ran) is rebuilt when next
 //   read, and counted (`levelDigestBuilds`).
+// * **The state's key (N-56 (5), C-0299, C-0305).** A state is keyed on the arena's (restore generation, version), never
+//   the version alone: `restoreSavepoint` across committed batches sets the version back and bumps the generation, so
+//   a state that saw the rolled-back commits is foreign to the restored arena — its listener skips every later commit
+//   and the next read rebuilds it, whatever the version has come back to. (generation, version) names one arena state.
 // * **Doubles.** None enters: every value is an integer lane (lattice coordinates, kinds, levels, ordinals) or UTF-8.
 import {
   faceWalk,
@@ -55,7 +59,7 @@ import {
 } from '../arena/index.js';
 import { fmix32, H32, LaneWriter, type Hash128 } from '../hash/index.js';
 import { layerCode } from '../rng/index.js';
-import type { CommitRecord, DirtySet } from '../tx/index.js';
+import { restoreGeneration, type CommitRecord, type DirtySet } from '../tx/index.js';
 import type { ChainRef, EdgeSetRef, FaceRef, Id, Level, VertexRef } from '../types/index.js';
 
 /** The buckets of each per-level item tree. */
@@ -104,6 +108,8 @@ interface Tree {
 
 /** The maintained state of one arena (kept beside it: no Map is reachable from a Plat, §13.1). */
 interface State {
+  /** The arena's restore generation and version this state is current with (the key, C-0305). */
+  readonly generation: number;
   version: number;
   readonly trees: [Tree[], Tree[]];
   /** Per level: face slot → item. */
@@ -117,8 +123,8 @@ interface State {
   readonly vertexReg: Map<number, Set<string>>;
   /** Entity → the chain ids ('<role>|<ordinal>|<entity>') of its keys, every level. */
   readonly keysOf: Map<string, Set<string>>;
-  /** The entities whose face or chain items the last update changed, and that update's version. */
-  changed: { version: number; entities: Id[] };
+  /** The entities whose face or chain items the last update changed, and that update's generation and version. */
+  changed: { generation: number; version: number; entities: Id[] };
   /** Diagnostics: full builds of this state (1 after attaching; more only when an update was missed). */
   builds: number;
 }
@@ -135,7 +141,7 @@ function emptyTree(): Tree {
   return { buckets, digests, root: null };
 }
 
-function emptyState(version: number): State {
+function emptyState(generation: number, version: number): State {
   const faces: Tree[] = [];
   const chains: Tree[] = [];
   const faceAt: Map<number, Item>[] = [];
@@ -149,6 +155,7 @@ function emptyState(version: number): State {
     children.push(new Map());
   }
   return {
+    generation,
     version,
     trees: [faces, chains],
     faceAt,
@@ -157,7 +164,7 @@ function emptyState(version: number): State {
     pairReg: new Map(),
     vertexReg: new Map(),
     keysOf: new Map(),
-    changed: { version, entities: [] },
+    changed: { generation, version, entities: [] },
     builds: 0,
   };
 }
@@ -571,7 +578,7 @@ function refreshFace(p: Plat, st: State, m: Level, f: FaceId, changed: Set<Id>, 
 }
 
 function build(p: Plat): State {
-  const st = emptyState(p.version);
+  const st = emptyState(restoreGeneration(p), p.version);
   const sink = new Set<Id>();
   for (const m of LEVELS) {
     for (let f = 0; f < p.slots.face[m].top; f++) if (isFaceLive(p, m, f)) setFace(st, m, f, faceItem(p, m, f));
@@ -605,13 +612,21 @@ export function hasLevelDigests(p: Plat): boolean {
   return STATES.has(p);
 }
 
-/** The attached state, current with the arena: a state that missed a commit (no listener ran) is rebuilt, and counted. */
+/** Is `st` keyed on the arena's present (restore generation, version)? */
+function isCurrent(p: Plat, st: State): boolean {
+  return st.generation === restoreGeneration(p) && st.version === p.version;
+}
+
+/**
+ * The attached state, current with the arena: a state that missed a commit (no listener ran), or one of another
+ * restore generation (a savepoint was put back across committed batches since it was built), is rebuilt, and counted.
+ */
 function current(p: Plat): State {
   let st = STATES.get(p);
   if (st === undefined) {
     st = build(p);
     STATES.set(p, st);
-  } else if (st.version !== p.version) {
+  } else if (!isCurrent(p, st)) {
     const builds = st.builds;
     st = build(p);
     st.builds = builds + 1;
@@ -623,12 +638,16 @@ function current(p: Plat): State {
 /**
  * The kernel half of the digest listener (TxEnv.onCommit, §3.3): re-hashes the items the commit touched — see the
  * module comment — and records the entities whose items changed (`changedEntities`). A no-op on an arena without an
- * attached state; a state that missed an earlier commit is left to be rebuilt when next read.
+ * attached state; a state that missed an earlier commit, or of a foreign restore generation, is left to be rebuilt
+ * when next read.
  */
 export function updateLevelDigests(p: Plat, dirty: DirtySet, record: CommitRecord): void {
   const st = STATES.get(p);
   if (st === undefined) return;
-  if (st.version !== dirty.version - 1) return; // missed a commit: `current` rebuilds on the next read
+  // A foreign generation (a restore across committed batches since the state was built) or a missed commit: `current`
+  // rebuilds on the next read. The version alone could match again after the restore's replayed commits (C-0305).
+  if (st.generation !== restoreGeneration(p)) return;
+  if (st.version !== dirty.version - 1) return;
   const changed = new Set<Id>();
   const Ep = new Set<number>();
   const Ev = new Set<VertexId>();
@@ -725,13 +744,16 @@ export function updateLevelDigests(p: Plat, dirty: DirtySet, record: CommitRecor
     refreshKey(p, st, Number(id.slice(0, a)), Number(id.slice(a + 1, b)), id.slice(b + 1), changed);
   }
   st.version = dirty.version;
-  st.changed = { version: dirty.version, entities: [...changed].sort(compareKeys) };
+  st.changed = { generation: st.generation, version: dirty.version, entities: [...changed].sort(compareKeys) };
 }
 
-/** The entities whose face or chain items the commit of `version` changed (address-id order); [] for another version. */
+/**
+ * The entities whose face or chain items the commit of `version` changed (address-id order); [] for another version,
+ * or when the maintained state did not follow that commit (it is of another restore generation than the arena's).
+ */
 export function changedEntities(p: Plat, version: number): readonly Id[] {
   const st = STATES.get(p);
-  if (st === undefined || st.changed.version !== version) return [];
+  if (st === undefined || st.changed.version !== version || st.changed.generation !== restoreGeneration(p)) return [];
   return st.changed.entities;
 }
 

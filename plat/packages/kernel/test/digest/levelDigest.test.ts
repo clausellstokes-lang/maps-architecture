@@ -2,7 +2,9 @@
 // commit record*'s digest update; C-0194). The maintained digest of every level equals the digest recomputed from
 // nothing after every batch of every fuzz run (the CI oracle's kernel half, §5.3's CI-only row); a finer level's
 // derivation never changes a coarser level's digest (§3.3's canonical key); promotion then demotion restores the
-// coarser level's digest exactly; no digest depends on slots.
+// coarser level's digest exactly; no digest depends on slots. Round s1 (N-56 (5), C-0305): the maintained state is keyed
+// on the arena's (restore generation, version), so a savepoint put back across committed batches never leaves a state
+// that reads current again once the version comes back.
 import { describe, expect, it } from 'vitest';
 import { faceWalk, facesOfOwner, handleOf, isFaceLive, type Plat } from '../../src/arena/index.js';
 import {
@@ -18,7 +20,7 @@ import {
 import { FACE_KIND_RESIDUE } from '../../src/faces/index.js';
 import type { Hash128 } from '../../src/hash/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { removeEdges, setOwner, tx, type TxEnv } from '../../src/tx/index.js';
+import { removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type Overlay, type TxEnv } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { ALONG_MIX, DEFAULT_MIX, randomBatch, rng, type Live, type Mix } from '../tx/fuzzgen.js';
 import { commit, framed, must, pt, S6, spec, vertexAtPoint } from '../tx/support.js';
@@ -318,5 +320,106 @@ describe('no digest depends on slot numbers', () => {
     const b = framed();
     (b as { key: Plat['key'] }).key = { layer: 'ground', part: 1 };
     expect(hex(recomputeLevelDigest(b, 0))).not.toBe(hex(recomputeLevelDigest(a, 0)));
+  });
+});
+
+describe('N-56 (5): the maintained state is keyed on (restore generation, version), never the version alone (C-0299, C-0305)', () => {
+  /** The rolled-back batches: n L1 ways from the south edge to the north. */
+  const rolledBack = (i: number) => (o: Overlay) =>
+    insertChain(o, [pt(500 + 800 * i, 0), pt(700 + 800 * i, 4000)], [{ role: 'way', entity: `gone:${i}` }], 'mandatory');
+  /** The replayed batches: n other L1 ways, from the west edge to the east. */
+  const replayed = (i: number) => (o: Overlay) =>
+    insertChain(o, [pt(0, 600 + 900 * i), pt(4000, 800 + 900 * i)], [{ role: 'way', entity: `new:${i}` }], 'mandatory');
+
+  /**
+   * The ruling's replay (N-56 (5)): digests attached, an image taken, n committed batches (the state follows them, read
+   * once: `seen`), the image put back across them with NO re-attach. Returns the arena and what the state saw.
+   */
+  function restoredAcross(n: number): { p: Plat; seen: string[]; version: number } {
+    const p = framed();
+    attachLevelDigests(p);
+    const image = takeSavepoint(p);
+    const version = p.version;
+    for (let i = 0; i < n; i++) commit(p, 1, rolledBack(i), {}, ENV);
+    const seen = all(p);
+    expect(seen).toEqual(fresh(p));
+    expect(levelDigestBuilds(p)).toBe(1);
+    restoreSavepoint(image);
+    expect(p.version).toBe(version);
+    expect(restoreGeneration(p)).toBe(1);
+    return { p, seen, version };
+  }
+
+  for (const n of [1, 3]) {
+    it(`restore across ${n} committed batch(es), no re-attach, ${n} replayed commits, then a read: current, rebuilt once`, () => {
+      const { p, seen, version } = restoredAcross(n);
+      for (let i = 0; i < n; i++) commit(p, 1, replayed(i), {}, ENV);
+      // The version is back where the state saw it; the listener skipped every commit of the foreign generation.
+      expect(p.version).toBe(version + n);
+      expect(changedEntities(p, p.version)).toEqual([]);
+      const read = all(p);
+      expect(read, 'never stale').toEqual(fresh(p));
+      expect(levelDigestBuilds(p), 'the foreign state rebuilt on the read, and counted').toBe(2);
+      // What a version-only key would have read: the rolled-back ways' digests (L1–L4 differ; L0 never moved).
+      expect(read[0]).toBe(seen[0]);
+      for (let m = 1; m <= 4; m++) expect(read[m], `L${m}`).not.toBe(seen[m]);
+      // Maintained from the rebuilt state on: the next commits keep it current, with no further build.
+      const c = commit(p, 2, (o) => insertChain(o, [pt(2100, 300), pt(2300, 3700)], [{ role: 'kerb', entity: 'lane:9' }], 'mandatory'), {}, ENV);
+      expect(changedEntities(p, c.record?.version ?? -1)).toContain('lane:9');
+      expect(all(p)).toEqual(fresh(p));
+      expect(levelDigestBuilds(p)).toBe(2);
+    });
+
+    it(`restore across ${n} committed batch(es), no re-attach, ${n + 1} commits before the read: the listener never patches the foreign state`, () => {
+      // At the (n + 1)-th commit the version-only key would match (the state's version = the commit's − 1) and the
+      // listener would patch the stale state incrementally; the generation refuses it.
+      const { p } = restoredAcross(n);
+      for (let i = 0; i <= n; i++) commit(p, 1, replayed(i), {}, ENV);
+      expect(changedEntities(p, p.version)).toEqual([]);
+      expect(all(p)).toEqual(fresh(p));
+      expect(levelDigestBuilds(p)).toBe(2);
+      for (const l of LV) expect(hex(levelDigests(p).level(l))).toBe(hex(recomputeLevelDigest(p, l)));
+    });
+  }
+
+  it('a read between the restore and the replay rebuilds once; the replayed commits are maintained from there', () => {
+    const { p } = restoredAcross(3);
+    expect(all(p)).toEqual(fresh(p));
+    expect(levelDigestBuilds(p)).toBe(2);
+    for (let i = 0; i < 3; i++) {
+      const c = commit(p, 1, replayed(i), {}, ENV);
+      expect(changedEntities(p, c.record?.version ?? -1)).toContain(`new:${i}`);
+      expect(all(p)).toEqual(fresh(p));
+    }
+    expect(levelDigestBuilds(p)).toBe(2);
+  });
+
+  it('the re-attach path is unchanged: restored, re-attached (C-0287 (2)), replayed — current with one build', () => {
+    for (const n of [1, 3]) {
+      const { p } = restoredAcross(n);
+      attachLevelDigests(p);
+      expect(levelDigestBuilds(p)).toBe(1);
+      for (let i = 0; i <= n; i++) {
+        const c = commit(p, 1, replayed(i), {}, ENV);
+        expect(changedEntities(p, c.record?.version ?? -1)).toContain(`new:${i}`);
+      }
+      expect(all(p)).toEqual(fresh(p));
+      expect(levelDigestBuilds(p), `n = ${n}`).toBe(1);
+    }
+  });
+
+  it('a second restore across committed batches is a second foreign generation', () => {
+    const { p } = restoredAcross(1);
+    commit(p, 1, replayed(0), {}, ENV);
+    expect(all(p)).toEqual(fresh(p));
+    expect(levelDigestBuilds(p)).toBe(2);
+    const image = takeSavepoint(p);
+    commit(p, 1, replayed(1), {}, ENV);
+    expect(all(p)).toEqual(fresh(p));
+    restoreSavepoint(image);
+    expect(restoreGeneration(p)).toBe(2);
+    commit(p, 1, rolledBack(2), {}, ENV);
+    expect(all(p)).toEqual(fresh(p));
+    expect(levelDigestBuilds(p)).toBe(3);
   });
 });
