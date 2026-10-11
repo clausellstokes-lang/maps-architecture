@@ -1,4 +1,4 @@
-// Frames are rectangles (§3.2 (9); COV-VG-VN-156). M0-a-01 builds the law that turns an area and an aspect into a
+// Frames are rectangles (§3.2 (9)). M0-a-01 builds the law that turns an area and an aspect into a
 // frame; the rung's area law (§1.1) is its caller's, and frame growth at an epoch is M4's (§4b; `Plat.frame` stays
 // replaceable).
 import type { Cm } from '../types/index.js';
