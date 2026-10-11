@@ -143,3 +143,24 @@ correct. The probe and the mutants are in `~/maps-scratch/waves/check-M0-e-04/cl
       through the plaza.
     * **Hardening test (M4, or M0-e-06 on the integrated pipeline):** a `land.test.ts` case on `cityRun` or
       `growthRun` (both carry c-04's strips) with the land owner set, asserting that every strip face keeps its owner.
+
+## Session fix round S2 closing check (check/M0-e-04-close-s2, 2026-10-11): KI note 17 under N-45 (J202)
+
+The N-56 (2) Q21 fix passes (`checks/M0-e-04.md`, top section). The row below is the hardening step the ruling named,
+recorded here as the ruling (N-56 (2)) and C-0305 (5) ask. The probes are in this seat's mirrors under the session
+scratchpad (`waves/check-M0-e-04/`), in mirrors only.
+
+17. **KI — a non-simple boundary the kernel's union cannot insert is refused, not absorbed (the optional union-outer
+    pre-step).**
+    * After the round, S6 still refuses the coincident ring (the outline given twice round) on SMALL_FLAT seed
+      2708765650 with `E_INVARIANT settlementPerimeter: the union: insert: no route from (-20142, 2587) to (-20177,
+      2577) keeps clearance (§3.10) within the fidelity bound (N-43)`, and nothing is committed (this seat's chain
+      probe, with the fix and with the pre-round code: the same refusal). This is typed and fail-safe, a refusal of an
+      unlawful input (N-56 (2): lawful). CONFIRMED.
+    * The self-touching ring on 2191303060 is now absorbed. Its refusal was the collinear defect (C-0305 (4)): this
+      seat planted the same self-touching ring on the outline with its two collinear vertices removed by the probe's
+      own merge, and the pre-round code then commits it with the fix's exact S6 output. CONFIRMED.
+    * **Hardening (M4):** an optional pre-step that reads a non-simple boundary as the outer ring of its own union
+      before the convolution (the ruling's union-outer pre-step) would let S6 absorb more self-touching and coincident
+      rings. Test: the coincident and self-touching kinds of M0-x-06 on the SMALL_FLAT seeds, each either absorbed with
+      a sum-checked perimeter or refused typed, never committed wrong.
