@@ -1,11 +1,11 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-f-03a",
-  "lane": "build/M0-f-03a-fix-s2",
-  "lanes": ["build/M0-f-03a-fix-s2"],
+  "lane": "build/M0-f-03a-fix-s3",
+  "lanes": ["build/M0-f-03a-fix-s2", "build/M0-f-03a-fix-s3"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-09T04:20:49.816Z",
+  "date": "2026-10-11T11:24:47.174Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/tables/src/workLimits/", "plat/packages/tables/data/workLimits.json", "plat/packages/tables/test/workLimits/"],
   "counts": { "created": 0, "changed": 3, "unchanged": 6, "deleted": 0 },
@@ -18,19 +18,19 @@
     { "path": "plat/packages/tables/src/workLimits/table.ts", "status": "changed", "sha256": "9c26c039fbf2049769485790841bc561e2faf024b1715ceb1e977a9d65eb05e1", "size": 10899 },
     { "path": "plat/packages/tables/test/workLimits/law.test.ts", "status": "unchanged", "sha256": "b654e998c6f0a33f0e488df6831228719240247a62d25cc2fa9f6504a78e704f", "size": 8497 },
     { "path": "plat/packages/tables/test/workLimits/report.test.ts", "status": "unchanged", "sha256": "100ba6846a17564bbc3a750fbb2b2c79da9e79eda2aea1beb381d0e2c0d6ff41", "size": 4400 },
-    { "path": "plat/packages/tables/test/workLimits/table.test.ts", "status": "changed", "sha256": "6ea1f6323222b6cc82a07dd315baed229a89411f46acdc782e4cb8d93b89d091", "size": 17301 }
+    { "path": "plat/packages/tables/test/workLimits/table.test.ts", "status": "changed", "sha256": "52ccddbd539429ecbcf45bcca87e8d7110da8d8ade30881cfdaa8a5a853e33f1", "size": 27852 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0389"],
-      "lines": ["7b28771cbb1b21f6"],
+      "ids": ["L-0389", "L-0412"],
+      "lines": ["7b28771cbb1b21f6", "bce15f17c4dcbb3e"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0301"],
-      "lines": ["46111165d8a11a0e"],
+      "ids": ["C-0301", "C-0309"],
+      "lines": ["46111165d8a11a0e", "7ab8fa25aebdea0e"],
       "removed": []
     }
   ]
