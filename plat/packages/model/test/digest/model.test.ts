@@ -1,8 +1,9 @@
 // M0-d-04: the model digest (§6.2; §3.3 *The commit record*; C-0194). The full recomputation equals the maintained root
 // after every batch of every fuzz run (the CI oracle, §5.3's CI-only row; the spike runs' half is M0-d-09's, N-16);
 // layers, parent nodes, the identity and plats nodes; finalisation on read; the three fallbacks as switches, off by
-// default and root-neutral when on; the oracle catches a stale leaf.
-import { levelDigest, levelDigestBuilds, recomputeLevelDigest, updateLevelDigests, type CommitRecord, type DirtySet, type Hash128, type Plat } from '@plat/kernel';
+// default and root-neutral when on; the oracle catches a stale leaf. Round s1 (N-56 (5), C-0305): a savepoint put back
+// across committed batches leaves neither the kernel's level digests nor this tree stale, re-attached or not.
+import { attachLevelDigests, levelDigest, levelDigestBuilds, recomputeLevelDigest, restoreGeneration, restoreSavepoint, takeSavepoint, updateLevelDigests, type CommitRecord, type DirtySet, type Hash128, type Overlay, type Plat } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { DIGEST_LAYERS, ModelDigest, type DigestEntry } from '../../src/digest/index.js';
 import { faceWalk, insertChain, isFaceLive, setOwner, tx, type StageId } from '@plat/kernel';
@@ -267,5 +268,84 @@ describe('the pre-decided fallbacks are switches, off by default, and none moves
     const caught = new Set<string>();
     for (let seed = 0; seed < 64; seed++) for (const m of md.oracle(seed).mismatches) caught.add(m);
     expect([...caught]).toEqual(['districts:plot:2']);
+  });
+});
+
+describe('N-56 (5): a savepoint put back across committed batches (C-0299, C-0305)', () => {
+  const LV = [0, 1, 2, 3, 4] as const;
+  /** The rolled-back batches: way:9 inserted (its record written before), the L1 faces re-owned, way:10 inserted. */
+  const rolledBack = (p: Plat, i: number) => (o: Overlay) => {
+    if (i % 3 === 0) return insertChain(o, [pt(0, 1000), pt(4000, 1300)], [{ role: 'way', entity: 'way:9' }], 'mandatory');
+    if (i % 3 === 1) {
+      const owned: number[] = [];
+      for (let f = 0; f < p.slots.face[1].top; f++) if (isFaceLive(p, 1, f)) owned.push(f);
+      return setOwner(o, owned, 'district:0');
+    }
+    return insertChain(o, [pt(1500, 0), pt(1700, 4000)], [{ role: 'way', entity: 'way:10' }], 'mandatory');
+  };
+  const over = (i: number) => (i % 3 === 1 ? { stage: 6 as StageId, rederivesFrom: 6 as StageId } : {});
+  /** The replayed batches: other L1 ways, no record of their own. */
+  const replayed = (i: number) => (o: Overlay) => insertChain(o, [pt(2500 + 300 * i, 0), pt(2600 + 300 * i, 4000)], [{ role: 'way', entity: `new:${i}` }], 'mandatory');
+
+  /** The model over a framed arena; n committed batches through its listener; the image put back with no re-attach. */
+  function restoredAcross(n: number, switches = {}): { md: ModelDigest; p: Plat; seen: string } {
+    const { md, p } = setup(switches);
+    md.put(wayEntry('way:9'));
+    md.put(wayEntry('way:10'));
+    const image = takeSavepoint(p);
+    for (let i = 0; i < n; i++) commit(p, 1, rolledBack(p, i), { onCommit: md.listener }, over(i));
+    if (md.switches.deferLeaves) md.flush();
+    expect(md.oracle(n).ok).toBe(true);
+    const seen = hex(md.finaliseRoot());
+    restoreSavepoint(image);
+    expect(restoreGeneration(p)).toBe(1);
+    return { md, p, seen };
+  }
+
+  for (const switches of [{}, { deferLeaves: true }, { subtreeOracle: true }]) {
+    for (const n of [1, 3]) {
+      it(`${JSON.stringify(switches)} n = ${n}: read at once, no commit and no re-attach — the tree reads the restored arena`, () => {
+        const { md, seen } = restoredAcross(n, switches);
+        const o = md.oracle(n);
+        expect(o.ok, o.mismatches.join(', ')).toBe(true);
+        expect(hex(md.finaliseRoot())).toBe(hex(md.recomputeRoot()));
+        expect(hex(md.finaliseRoot())).not.toBe(seen);
+      });
+
+      it(`${JSON.stringify(switches)} n = ${n}: ${n} and ${n + 1} replayed commits, no re-attach, no read between — never stale`, () => {
+        const { md, p } = restoredAcross(n, switches);
+        for (let i = 0; i <= n; i++) {
+          commit(p, 1, replayed(i), { onCommit: md.listener });
+          if (i === 0 && !md.switches.deferLeaves) {
+            // The commit's own maintenance re-hashed the leaves resolving in the restored arena (before any root read):
+            // way:9's leaf is the one a model registered now computes (its spine was rolled back).
+            const twin = new ModelDigest();
+            twin.addArena(p);
+            twin.put(wayEntry('way:9'));
+            expect(hex(md.leaf('way:9'))).toBe(hex(twin.leaf('way:9')));
+          }
+          if (i < n - 1) continue; // no read until the version is back where the stale state saw it
+          if (md.switches.deferLeaves) md.flush();
+          const o = md.oracle(i);
+          expect(o.ok, `after ${i + 1}: ${o.mismatches.join(', ')}`).toBe(true);
+          for (const l of LV) expect(hex(levelDigest(p, l)), `L${l}`).toBe(hex(recomputeLevelDigest(p, l)));
+        }
+        expect(levelDigestBuilds(p), 'the foreign kernel state rebuilt once').toBe(2);
+      });
+    }
+  }
+
+  it('the re-attach path is unchanged (C-0287 (2), C-0295): re-attached and re-registered, current with one build', () => {
+    for (const n of [1, 3]) {
+      const { md, p } = restoredAcross(n);
+      attachLevelDigests(p);
+      md.addArena(p);
+      expect(md.oracle().ok).toBe(true);
+      for (let i = 0; i <= n; i++) {
+        commit(p, 1, replayed(i), { onCommit: md.listener });
+        expect(md.oracle(i).ok).toBe(true);
+      }
+      expect(levelDigestBuilds(p), `n = ${n}`).toBe(1);
+    }
   });
 });

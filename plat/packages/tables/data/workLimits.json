@@ -1,6 +1,6 @@
 {
   "table": "workLimits",
-  "version": 1,
+  "version": 2,
   "section": "§5.1 (5)",
   "rows": {
     "insert.points": {
@@ -82,7 +82,7 @@
     "warp.halvings": {
       "unit": {"value": "fixed", "unit": "none", "provenance": "architecture 2026-10-03", "calibratable": false},
       "perUnit": {"value": 0, "unit": "ratio", "provenance": "architecture 2026-10-03", "calibratable": false},
-      "floor": {"value": 8, "unit": "count", "provenance": "architecture 2026-10-03 placeholder", "calibratable": true, "note": "§3.6: at most 8 halvings of a move step, then a reported no-op; a fixed law counts nothing"}
+      "floor": {"value": 8, "unit": "count", "provenance": "architecture 2026-10-03", "calibratable": false, "note": "§3.6: at most 8 halvings of a move step, then a reported no-op; a fixed law counts nothing; this floor mirrors the kernel's MAX_HALVINGS (warp/types.ts) and is never calibrated"}
     },
     "index.rebuilds": {
       "unit": {"value": "faces", "unit": "none", "provenance": "architecture 2026-10-03", "calibratable": false},
