@@ -7961,3 +7961,4 @@
 2026-10-11 22:03 build/M0-c-02-fix-s4 CHECKPOINT choices C-0324 appended (C-0321..C-0323 taken by other seats meanwhile; my references renumbered — a comment/detail-string-only edit made while RELATED was starting, NEAR re-runs on the final text), CLEAN-ROOM L-0444 signed; RELATED@1000 (W=1, since 21:43) running; next: its verdict, NEAR again, landed record
 2026-10-11 22:11 build/M0-f-03a-consolidate-1 CHECKPOINT RELATED@1000 still running (since 21:46, W=1); no red yet; next: wait, LANDED
 2026-10-11 22:11 check/M0-d-05a-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 21:05; no red of this item seen so far); next: RELATED verdict, verdict file, notes rows, CLEAN-ROOM row, records
+2026-10-11 22:20 build/M0-a-09-fix-s3 CHECKPOINT census-after v2 running (W=1, §13.1 property 488 faces 0 refused as before); lint 0 (kernel-boundary ok); next: census verdict, mutants K1-K7, RELATED, fusion seeds 34/47
