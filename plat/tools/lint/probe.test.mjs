@@ -8,6 +8,7 @@ import plugin from './index.mjs';
 import { PROBE, REQUIRED, plantedLines, runProbe } from './probe.mjs';
 import { MODEL_RULE_NAMES } from './rules/index.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT } from './test-support.mjs';
 
 const planted = plantedLines(readFileSync(join(PLAT_ROOT, ...PROBE.split('/')), 'utf8'));
 const lineOf = (what) => planted.find((p) => p.what === what).line;
@@ -45,7 +46,7 @@ describe('probe-red', () => {
         expect(line.includes(`plat/${rule}`), `${p.what} by plat/${rule}`).toBe(whats.includes(p.what));
       }
     }
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   for (const rule of MODEL_RULE_NAMES) {
     // A line goes missing when the disabled rule was its only reporter.
@@ -55,14 +56,14 @@ describe('probe-red', () => {
       const r = await runProbe(PLAT_ROOT, { disable: [rule] });
       expect(r.ok).toBe(missing.length === 0);
       expect(r.problems).toEqual(missing.map((w) => `${PROBE}:${lineOf(w)} (${w}) is not reported — the lint lets it through`));
-    }, 60_000);
+    }, LINT_TIMEOUT);
   }
 
   it('with every model rule disabled fails naming all ten lines', async () => {
     const r = await runProbe(PLAT_ROOT, { disable: [...MODEL_RULE_NAMES] });
     expect(r.ok).toBe(false);
     expect(r.problems).toHaveLength(10);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('fails on a missing probe', async () => {
     const r = await runProbe(join(PLAT_ROOT, 'tools', 'lint', 'fixtures', 'zz-no-such-root'));

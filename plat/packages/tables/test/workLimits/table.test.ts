@@ -1,8 +1,10 @@
 // M0-f-03a: workLimits.json and its loader (§5.1 (5), §14; C-0021, C-0153, C-0174) — every counter of M0-work.json's
-// list has exactly one row; a duplicate or a missing counter fails the loader; the placeholder provenance is present
-// on every counting row, while the fixed row (`warp.halvings`) is pinned, not calibratable (N-56 (4), C-0301, refining
-// C-0174 (1)); every cell carries unit, provenance and calibratable; the law form is refused when malformed; the file
-// is pinned at its version (a changed cell is a declared change, the hand-over's writer bumping the version).
+// list has exactly one row; a duplicate or a missing counter fails the loader; every cell carries unit, provenance (an
+// admitted form) and calibratable, a counting law's coefficients are calibratable and the fixed row (`warp.halvings`) is
+// pinned at every version (N-56 (4), C-0301, refining C-0174 (1)), while C-0021's placeholder provenance is pinned only
+// at the PIN's version, so M0-f-03b's hand-over (spike provenance, a new version) meets these tests green (C-0162 (1)'s
+// pattern, round build/M0-f-03a-fix-s3); the law form is refused when malformed; the file is pinned at its version (a
+// changed cell is a declared change, the hand-over's writer bumping the version).
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
@@ -17,6 +19,8 @@ import {
   parseWorkLimitsText,
   provenanceForm,
   TableError,
+  type ProvenanceForm,
+  type WorkLimitsTable,
   WORK_LIMIT_COUNTERS,
   WORK_LIMITS_TABLE,
   WORK_UNITS,
@@ -27,6 +31,9 @@ const FILE = fileURLToPath(new URL('../../data/workLimits.json', import.meta.url
 const WORK = fileURLToPath(new URL('../../../../docs/build/M0-work.json', import.meta.url));
 const TEXT = readFileSync(FILE, 'utf8');
 const PLACEHOLDER = 'architecture 2026-10-03 placeholder';
+/** The content pin (the golden form, C-0162 (1)): at this version the file hashes to `sha256`, and C-0021's placeholder
+ *  forms are pinned; a higher version is M0-f-03b's declared change. */
+const PIN = { version: 2, sha256: '8c5b12b4a9bea2d5571ba1e9e6986a5527de1affe9fe8fbc6fb76b1ccfc1591e' };
 
 type RawCell = { value: unknown; unit: string; provenance: string; calibratable: boolean; note?: string };
 type RawTable = { table: string; version: number; section: string; rows: Record<string, Record<string, RawCell>> };
@@ -101,7 +108,9 @@ describe('one row per counter of M0-work.json’s list', () => {
   });
 
   it('a duplicate cell, a duplicate top field and a text that is not JSON fail the loader', () => {
-    const cell = TEXT.replace('"floor": {"value": 64, "unit": "count"', '"floor": {"value": 1, "unit": "count", "provenance": "own", "calibratable": true}, "floor": {"value": 64, "unit": "count"');
+    // Anchored on skeleton.events' floor cell whatever its value, so M0-f-03b's rewritten coefficients keep the probe live.
+    const cell = TEXT.replace(/("skeleton\.events": \{[^}]*\},[^}]*\},\s*)"floor": \{/, '$1"floor": {"value": 1, "unit": "count", "provenance": "own", "calibratable": true}, "floor": {');
+    expect(cell).not.toBe(TEXT);
     expect(refusal(() => parseWorkLimitsText(cell)).issues).toEqual([{ table: 'workLimits', row: 'skeleton.events', cell: 'floor', reason: 'duplicate cell' }]);
     const top = TEXT.replace(/"version": (\d+),/, (m, v: string) => `${m}\n  "version": ${Number(v) + 1},`);
     expect(top).not.toBe(TEXT);
@@ -122,49 +131,180 @@ describe('one row per counter of M0-work.json’s list', () => {
   });
 });
 
+// ---- the placeholder laws, gated by the version (C-0162 (1)'s pattern; C-0309, round build/M0-f-03a-fix-s3, Q35) ---
+// M0-f-03b's hand-over rewrites the counting rows' perUnit and floor from the spikes' p999 × 1.5 with provenance
+// 'M0 spike ⟨date⟩' (calibratable kept; C-0021, C-0154 (1)) and bumps the version, and a run item edits no test
+// (C-0115, C-0117). So the laws true at ANY version are asserted always — every cell carries unit, provenance and
+// calibratable in an admitted form, a counting law's coefficients are calibratable, the fixed row `warp.halvings` is
+// pinned (C-0301) — and C-0021's placeholder forms only while the file is at the PIN's version; past it the change is
+// the run item's declared change, which the PIN test reports. The simulated hand-overs below prove both halves.
+
+/** The provenance M0-f-03b's writer stamps (the form `M0 spike ⟨date⟩`; the date is the simulation's). */
+const SPIKE = 'M0 spike 2026-10-20';
+
+/**
+ * The provenance forms a workLimits cell may take, read from the loader's own classifier (`provenanceForm`, C-0154 (1)):
+ * the placeholder's form — `architecture ⟨date⟩ [placeholder]`, the structure's, the fixed law's and C-0021's — and the
+ * spike form M0-f-03b writes. Any other admitted form of §17.1 (6) (`own`, `M-1 ⟨date⟩`, …) has no writer here.
+ */
+function admittedForms(): ReadonlySet<ProvenanceForm> {
+  const placeholder = provenanceForm(PLACEHOLDER);
+  const spike = provenanceForm(SPIKE);
+  if (placeholder === null || spike === null || placeholder === spike) throw new Error('the loader no longer admits the placeholder and spike forms apart');
+  return new Set([placeholder, spike]);
+}
+const ADMITTED = admittedForms();
+
+/** Is the table at the PIN's version (C-0021's placeholder laws) rather than past it (M0-f-03b's declared change)? */
+function atPin(t: WorkLimitsTable): boolean {
+  return t.table.version === PIN.version;
+}
+
+/** The counting rows (every row whose unit is not `fixed`), in key order. */
+function countingRows(r: RawTable): string[] {
+  return Object.entries(r.rows)
+    .filter(([, row]) => row.unit.value !== 'fixed')
+    .map(([rk]) => rk);
+}
+
+/**
+ * The file in its PIN-version form, rebuilt from the shipped rows at any version: the version set to the PIN's and every
+ * counting row's perUnit and floor stamped with C-0021's placeholder (values kept). At the PIN version it is the shipped
+ * file itself (the first test below proves it), so the simulations stay live after M0-f-03b's hand-over has landed.
+ */
+function pinForm(): RawTable {
+  const r = raw();
+  r.version = PIN.version;
+  for (const rk of countingRows(r)) for (const ck of ['perUnit', 'floor'] as const) r.rows[rk][ck].provenance = PLACEHOLDER;
+  return r;
+}
+
+/**
+ * M0-f-03b's hand-over as its writer makes it (C-0021, C-0154 (1), C-0301 (3)): the version bumped past the PIN, each
+ * named counting row's perUnit and floor multiplied by `scale` and stamped with the spike's provenance, calibratable
+ * kept; the fixed row is never rewritten.
+ */
+function handOver(rows: readonly string[], scale: number, r: RawTable = pinForm()): RawTable {
+  r.version += 1;
+  for (const rk of rows) {
+    for (const ck of ['perUnit', 'floor'] as const) {
+      const c = r.rows[rk][ck];
+      c.value = (c.value as number) * scale;
+      c.provenance = SPIKE;
+    }
+  }
+  return r;
+}
+
+/** Every cell carries unit, provenance and calibratable, read from the raw text's cells. */
+function rawCells(r: RawTable): void {
+  for (const [rk, row] of Object.entries(r.rows)) {
+    for (const [ck, c] of Object.entries(row)) {
+      expect(typeof c.unit, `${rk}/${ck}`).toBe('string');
+      expect(typeof c.provenance, `${rk}/${ck}`).toBe('string');
+      expect(typeof c.calibratable, `${rk}/${ck}`).toBe('boolean');
+    }
+  }
+}
+
+/** Every cell's provenance takes an admitted form (the placeholder's or the spike's), whatever the version. */
+function admittedProvenance(t: WorkLimitsTable): void {
+  for (const [rk, row] of t.table.rows) {
+    for (const [ck, c] of row) {
+      const form = provenanceForm(c.provenance);
+      expect(form !== null && ADMITTED.has(form), `${rk}/${ck}: provenance '${c.provenance}' (${String(form)}) is not a workLimits form`).toBe(true);
+    }
+  }
+}
+
+/** A counting law's coefficients are calibratable, a fixed law's and the structure are not; perUnit in ratio or perHa, floor in count. */
+function coefficients(t: WorkLimitsTable): void {
+  for (const l of t.laws) {
+    const row = t.table.row(l.counter);
+    expect(row.get('unit')?.calibratable, l.counter).toBe(false);
+    expect(row.get('log2')?.calibratable ?? false, l.counter).toBe(false);
+    expect(row.get('perUnit')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
+    expect(row.get('floor')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
+    expect(row.get('perUnit')?.unit, l.counter).toBe(l.unit === 'landHa' ? 'perHa' : 'ratio');
+    expect(row.get('floor')?.unit, l.counter).toBe('count');
+    expect(l.perUnit, l.counter).toBeGreaterThanOrEqual(0);
+    expect(l.floor, l.counter).toBeGreaterThanOrEqual(0);
+  }
+}
+
+/**
+ * The fixed row is pinned at every version (N-56 (4), C-0301): `warp.halvings` is the only fixed row, `{ fixed, 0, 8 }`
+ * (§3.6's 8 halvings, the kernel's MAX_HALVINGS), its floor provenance `architecture 2026-10-03` and not calibratable,
+ * no placeholder cell — M0-f-03b's p999 × 1.5 rewrite skips it.
+ */
+function fixedRow(t: WorkLimitsTable): void {
+  expect([...t.table.rows].filter(([, row]) => row.get('unit')?.value === 'fixed').map(([rk]) => rk)).toEqual(['warp.halvings']);
+  expect(t.law('warp.halvings')).toEqual({ counter: 'warp.halvings', unit: 'fixed', perUnit: 0, floor: 8 });
+  const row = t.table.row('warp.halvings');
+  expect(row.get('floor')?.provenance).toBe('architecture 2026-10-03');
+  expect(row.get('floor')?.calibratable).toBe(false);
+  expect(row.get('perUnit')?.calibratable).toBe(false);
+  expect([...row.values()].filter((c) => c.provenance === PLACEHOLDER)).toEqual([]);
+}
+
+/** skeleton.events never undercuts §3.8's 4(n + r) + 64 (r ≤ n) — M0.md §2.2's floor, at every version. */
+function skeletonLaw(t: WorkLimitsTable): void {
+  const sk = t.law('skeleton.events');
+  expect(sk.unit).toBe('vertices');
+  for (const n of [0, 3, 4, 100, 10_000]) expect(sk.floor + sk.perUnit * n, `n = ${n}`).toBeGreaterThanOrEqual(4 * (n + n) + 64);
+}
+
+/** What holds at ANY version (C-0162 (1)): the raw file loads and every law above holds. Returns the loaded table. */
+function invariants(r: RawTable): WorkLimitsTable {
+  rawCells(r);
+  const t = parseWorkLimits(r);
+  admittedProvenance(t);
+  coefficients(t);
+  fixedRow(t);
+  skeletonLaw(t);
+  return t;
+}
+
+/** C-0021's placeholder forms — applied only while the file is at the PIN's version. */
+function placeholderPins(t: WorkLimitsTable): void {
+  const architecture = provenanceForm(PLACEHOLDER);
+  for (const [rk, row] of t.table.rows) {
+    const fixed = row.get('unit')?.value === 'fixed';
+    const placeholders = [...row.values()].filter((c) => c.provenance === PLACEHOLDER);
+    if (fixed) expect(placeholders, rk).toEqual([]);
+    else expect(placeholders.length, rk).toBeGreaterThan(0);
+    for (const [ck, c] of row) {
+      if (c.calibratable) expect(c.provenance, `${rk}/${ck}`).toBe(PLACEHOLDER);
+      expect(provenanceForm(c.provenance), `${rk}/${ck}`).toBe(architecture);
+    }
+    expect(row.get('floor')?.provenance, rk).toBe(fixed ? 'architecture 2026-10-03' : PLACEHOLDER);
+    expect(row.get('floor')?.calibratable, rk).toBe(!fixed);
+  }
+}
+
 describe('the placeholder laws (C-0021)', () => {
-  it('placeholder provenance is present on every counting row, on each calibratable cell; the fixed row is pinned', () => {
+  it('at any version: every cell carries an admitted provenance form (the loader’s placeholder or spike form), the fixed row is pinned', () => {
     // N-56 (4) (2026-10-08): a fixed law's floor is the design's constant (§3.6's 8 halvings, the kernel's MAX_HALVINGS),
     // never a placeholder and never calibrated — M0-f-03b's p999 × 1.5 rewrite skips it.
+    const t = invariants(raw());
+    expect(t.table.hash).toEqual(loadWorkLimits().table.hash);
+    if (atPin(t)) expect(pinForm(), 'at the PIN version the pin form is the shipped file').toEqual(raw());
+    expect([...ADMITTED].sort()).toEqual([provenanceForm(PLACEHOLDER), provenanceForm(SPIKE)].sort());
+  });
+
+  it('at the PIN version: placeholder provenance is present on every counting row, on each calibratable cell; past it the pins are not applied', () => {
     const t = loadWorkLimits();
-    for (const [rk, row] of t.table.rows) {
-      const fixed = row.get('unit')?.value === 'fixed';
-      const placeholders = [...row.values()].filter((c) => c.provenance === PLACEHOLDER);
-      if (fixed) expect(placeholders, rk).toEqual([]);
-      else expect(placeholders.length, rk).toBeGreaterThan(0);
-      for (const [ck, c] of row) {
-        if (c.calibratable) expect(c.provenance, `${rk}/${ck}`).toBe(PLACEHOLDER);
-        expect(provenanceForm(c.provenance), `${rk}/${ck}`).toBe('architecture');
-      }
-      expect(row.get('floor')?.provenance, rk).toBe(fixed ? 'architecture 2026-10-03' : PLACEHOLDER);
-      expect(row.get('floor')?.calibratable, rk).toBe(!fixed);
-    }
-    expect([...t.table.rows].filter(([, row]) => row.get('unit')?.value === 'fixed').map(([rk]) => rk)).toEqual(['warp.halvings']);
+    expect(t.table.version).toBeGreaterThanOrEqual(PIN.version);
+    if (atPin(t)) placeholderPins(t);
+    else console.info(`workLimits.json: version ${t.table.version} past the pin ${PIN.version} — the placeholder pins are not applied (M0-f-03b's declared change)`);
   });
 
   it('every cell carries unit, provenance and calibratable in the raw file', () => {
-    for (const [rk, row] of Object.entries(raw().rows)) {
-      for (const [ck, c] of Object.entries(row)) {
-        expect(typeof c.unit, `${rk}/${ck}`).toBe('string');
-        expect(typeof c.provenance, `${rk}/${ck}`).toBe('string');
-        expect(typeof c.calibratable, `${rk}/${ck}`).toBe('boolean');
-      }
-    }
+    rawCells(raw());
   });
 
   it('a counting law’s coefficients are calibratable, a fixed law’s and the structure are not; perUnit in ratio or perHa, floor in count', () => {
-    const t = loadWorkLimits();
-    for (const l of t.laws) {
-      const row = t.table.row(l.counter);
-      expect(row.get('unit')?.calibratable, l.counter).toBe(false);
-      expect(row.get('log2')?.calibratable ?? false, l.counter).toBe(false);
-      expect(row.get('perUnit')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
-      expect(row.get('floor')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
-      expect(row.get('perUnit')?.unit, l.counter).toBe(l.unit === 'landHa' ? 'perHa' : 'ratio');
-      expect(row.get('floor')?.unit, l.counter).toBe('count');
-      expect(l.perUnit, l.counter).toBeGreaterThanOrEqual(0);
-      expect(l.floor, l.counter).toBeGreaterThanOrEqual(0);
-    }
+    coefficients(loadWorkLimits());
   });
 
   it('the census lists the calibratable cells (C-0070): 32 — every counting law’s floor and perUnit, no fixed law’s cell', () => {
@@ -181,22 +321,83 @@ describe('the placeholder laws (C-0021)', () => {
 
   it('skeleton.events never undercuts §3.8’s 4(n + r) + 64 (r ≤ n), and warp.halvings is the fixed 8 of §3.6', () => {
     const t = loadWorkLimits();
-    const sk = t.law('skeleton.events');
-    expect(sk.unit).toBe('vertices');
-    for (const n of [0, 3, 4, 100, 10_000]) expect(sk.floor + sk.perUnit * n).toBeGreaterThanOrEqual(4 * (n + n) + 64);
-    expect(t.law('warp.halvings')).toEqual({ counter: 'warp.halvings', unit: 'fixed', perUnit: 0, floor: 8 });
+    skeletonLaw(t);
+    fixedRow(t);
   });
 
   it('is pinned at its version: version 2 hashes to the pin; a higher version is a declared change', () => {
     // Re-recorded at version 2 (N-56 (4), round build/M0-f-03a-fix-s2, 2026-10-08): the one change is warp.halvings'
     // floor metadata — provenance 'architecture 2026-10-03', calibratable false, its note naming the kernel's
-    // MAX_HALVINGS; every value is unchanged (floor 8). Version 1 hashed to 87de920b6b2e88ca…842b9e5.
-    const PIN = { version: 2, sha256: '8c5b12b4a9bea2d5571ba1e9e6986a5527de1affe9fe8fbc6fb76b1ccfc1591e' };
+    // MAX_HALVINGS; every value is unchanged (floor 8). Version 1 hashed to 87de920b6b2e88ca…842b9e5. The PIN itself
+    // sits at the top of the file, where the placeholder pins read its version (round build/M0-f-03a-fix-s3).
     const version = raw().version;
     expect(version).toBeGreaterThanOrEqual(PIN.version);
     const sha = createHash('sha256').update(readFileSync(FILE)).digest('hex');
     if (version === PIN.version) expect(sha, 'workLimits.json changed without a version bump').toBe(PIN.sha256);
     else console.info(`workLimits.json: version ${version} past the pin ${PIN.version} — a declared change (sha256 ${sha})`);
+  });
+});
+
+describe('M0-f-03b’s hand-over, simulated (C-0162 (1)): the invariants hold past the PIN, the placeholder pins only at it', () => {
+  const sims: [string, () => RawTable][] = [
+    ['one counting row rewritten (insert.points, × 2, spike provenance)', () => handOver(['insert.points'], 2)],
+    ['every counting row rewritten (× 1.5, spike provenance) — the whole hand-over; the fixed row kept', () => handOver(countingRows(raw()), 1.5)],
+    ['every counting row’s provenance rewritten, values unchanged', () => handOver(countingRows(raw()), 1)],
+  ];
+  for (const [what, make] of sims) {
+    it(`${what}: GREEN on the invariants, past the PIN, the placeholder pins not applied (they would refuse it)`, () => {
+      const r = make();
+      expect(r.version).toBe(PIN.version + 1);
+      const t = invariants(r);
+      expect(atPin(t)).toBe(false);
+      expect(workLimitsCensus(t)).toEqual(workLimitsCensus());
+      expect(() => placeholderPins(t), 'the placeholder pins would refuse the hand-over').toThrow();
+    });
+  }
+
+  it('at the PIN version the placeholder pins apply: a counting cell off the placeholder is refused (no weakening at version 2)', () => {
+    const control = invariants(pinForm());
+    expect(atPin(control)).toBe(true);
+    placeholderPins(control);
+    for (const provenance of ['architecture 2026-10-03', SPIKE]) {
+      for (const ck of ['perUnit', 'floor'] as const) {
+        const r = pinForm();
+        r.rows['grower.turns'][ck].provenance = provenance;
+        const t = invariants(r);
+        expect(atPin(t)).toBe(true);
+        expect(() => placeholderPins(t), `grower.turns/${ck} = '${provenance}' at version ${PIN.version}`).toThrow();
+      }
+    }
+  });
+
+  it('a file that breaks an any-version law is refused, at the PIN version and past it', () => {
+    const breaks: [string, (r: RawTable) => void][] = [
+      ['the fixed row’s floor calibratable', (r) => (r.rows['warp.halvings'].floor.calibratable = true)],
+      ['the fixed row’s floor stamped with the spike', (r) => (r.rows['warp.halvings'].floor.provenance = SPIKE)],
+      ['the fixed row’s floor a placeholder', (r) => (r.rows['warp.halvings'].floor.provenance = PLACEHOLDER)],
+      ['the fixed row’s floor below 8', (r) => (r.rows['warp.halvings'].floor.value = 4)],
+      ['a second fixed row', (r) => {
+        r.rows['index.rebuilds'].unit.value = 'fixed';
+        r.rows['index.rebuilds'].perUnit.value = 0;
+      }],
+      ['a counting floor not calibratable', (r) => (r.rows['route.nodes'].floor.calibratable = false)],
+      ['a counting perUnit not calibratable', (r) => (r.rows['route.nodes'].perUnit.calibratable = false)],
+      ['a coefficient in the form own', (r) => (r.rows['cut.candidates'].perUnit.provenance = 'own')],
+      ['a coefficient in the form M-1 ⟨date⟩', (r) => (r.rows['cut.candidates'].floor.provenance = 'M-1 2026-10-20')],
+      ['a structure cell in a ref form', (r) => (r.rows['hydro.cells'].unit.provenance = 'ref:FTG lifestyle distribution')],
+      ['skeleton.events under §3.8’s law', (r) => (r.rows['skeleton.events'].perUnit.value = 4)],
+    ];
+    for (const [what, wreck] of breaks) {
+      for (const [at, make] of [
+        [`at version ${PIN.version}`, pinForm],
+        [`past the PIN (version ${PIN.version + 1})`, () => handOver(['insert.points'], 2)],
+      ] as const) {
+        const r = make();
+        expect(() => invariants(r), `control ${at}`).not.toThrow();
+        wreck(r);
+        expect(() => invariants(r), `${what}, ${at}`).toThrow();
+      }
+    }
   });
 });
 

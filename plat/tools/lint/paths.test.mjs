@@ -5,34 +5,25 @@
 // tree passes. Fixture trees are built in the OS temporary folder (a "plat" folder beside an
 // "outside" one), so nothing is written into plat/ and nothing outside the temporary folder is touched. Every test that
 // lints a tree carries an explicit timeout.
-import { mkdirSync, mkdtempSync, rmSync, symlinkSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { mkdirSync, symlinkSync } from 'node:fs';
 import { join } from 'node:path';
 import { Linter } from 'eslint';
 import { afterAll, describe, expect, it } from 'vitest';
 import { checkRepositoryPaths, isDirectiveNote, judgePath, judgeSpecifier, lintFile } from './paths.mjs';
 import repositoryPath from './rules/repository-path.mjs';
 import { CODE_EXTENSIONS, PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT, VETTED_DIVISION, removeTempTrees, tempTree, writeTree } from './test-support.mjs';
 
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
 /** A fixture tree: <tmp>/plat (the root) and <tmp>/outside, with the files given (path → text) under plat/. */
 function tree(files = {}) {
-  const base = mkdtempSync(join(tmpdir(), 'plat-paths-'));
-  temps.push(base);
+  const base = tempTree('plat-paths-');
   const root = join(base, 'plat');
   const outside = join(base, 'outside');
   mkdirSync(root);
-  mkdirSync(join(outside, 'pkg'), { recursive: true });
-  writeFileSync(join(outside, 'x.mjs'), 'export default 1;\n');
-  writeFileSync(join(outside, 'pkg', 'package.json'), '{ "name": "pkg", "version": "1.0.0" }\n');
-  for (const [rel, text] of Object.entries(files)) {
-    mkdirSync(join(root, rel, '..'), { recursive: true });
-    writeFileSync(join(root, rel), text);
-  }
+  writeTree(outside, { 'x.mjs': 'export default 1;\n', 'pkg/package.json': '{ "name": "pkg", "version": "1.0.0" }\n' });
+  writeTree(root, files);
   return { root, outside };
 }
 
@@ -92,7 +83,7 @@ describe('plat/repository-path on a fixture tree', () => {
       'export { a, b, c, d };',
     ].join('\n');
     expect(lint(root, 'scripts/run.mjs', code)).toEqual(['1:link', '3:link', '4:outside']);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 });
 
 describe('the whole-tree check repository-path', () => {
@@ -121,7 +112,7 @@ describe('the whole-tree check repository-path', () => {
       'tsconfig.json: extends "../outside/base.json" resolves outside plat/',
       'vitest.config.ts:1: The import "../outside/x.mjs" resolves outside plat/ (§17.1 (3)).',
     ]);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('judges every link and build-input form the check names, each with a case that leaves plat/ (C-0127 (2), C-0130; the checker\'s H2 mutants MX, MY1 – MY3)', () => {
     const { root, outside } = tree({
@@ -222,7 +213,7 @@ describe('the whole-tree check repository-path', () => {
       `forms/pkg-b/package.json: browser../a.js "../../../outside/a.js" ${out}`,
       `forms/pkg-b/package.json: exports "../../../outside/only.mjs" ${out}`,
     ].sort());
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('judges a source of every code extension, declarations included (C-0128)', () => {
     const files = {};
@@ -238,17 +229,11 @@ describe('the whole-tree check repository-path', () => {
       ...CODE_EXTENSIONS.map((ext) => `src/a-${ext}.${ext}:1: The import "../../outside/x.mjs" resolves outside plat/ (§17.1 (3)).`).sort(),
       'src/types.d.ts:1: The import "../../outside/x.mjs" resolves outside plat/ (§17.1 (3)).',
     ]);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('is neither failed nor silenced by a source\'s inline directives (C-0125 (6)\'s vetted division; C-0128)', () => {
     const { root } = tree({
-      'packages/kernel/src/vetted.ts': [
-        'export function vetted(x: number, y: number): number {',
-        "  // eslint-disable-next-line plat/ratio-division -- an fdlibm routine's division, vetted",
-        '  return x / y;',
-        '}',
-        '',
-      ].join('\n'),
+      'packages/kernel/src/vetted.ts': VETTED_DIVISION,
       'packages/kernel/src/silenced.mjs': [
         '/* eslint-disable */',
         '// eslint-disable-next-line plat/repository-path',
@@ -261,10 +246,10 @@ describe('the whole-tree check repository-path', () => {
     const r = checkRepositoryPaths(root);
     expect(r.problems).toEqual(['packages/kernel/src/silenced.mjs:3: The import "../../../../research/x.json" resolves outside plat/ (§17.1 (3)).']);
     expect(r.counts.sources).toBe(3);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('fails closed on a source its configuration does not reach (C-0128 (5), C-0129; the checker\'s mutant MB)', () => {
-    // The walk skips node_modules, so no tree reaches this through checkRepositoryPaths at M0; the per-file lint is the
+    // The walk skips node_modules, so no tree reaches this through checkRepositoryPaths; the per-file lint is the
     // guard, and a message without a rule that is not ESLint's directive note is a problem, never dropped.
     const { root } = tree({
       'node_modules/zz-lib/x.mjs': "import y from '../../../outside/x.mjs';\nexport default y;\n",
@@ -275,7 +260,12 @@ describe('the whole-tree check repository-path', () => {
     expect(unreached).toHaveLength(1);
     expect(unreached[0]).toMatch(/^node_modules\/zz-lib\/x\.mjs:0: No matching configuration found for .*node_modules\/zz-lib\/x\.mjs\.$/);
     expect(lintFile(linter, root, 'src/noted.mjs')).toEqual([]); // the directive note alone is not a path problem
-  }, 60_000);
+  }, LINT_TIMEOUT);
+
+  it('re-parses a JavaScript source valid only as a classic script, so lintFile reports nothing (C-0128 (5), C-0129 (2))', () => {
+    const { root } = tree({ 'scripts/legacy.js': 'var o = {}; with (o) {}\n' });
+    expect(lintFile(new Linter({ cwd: root }), root, 'scripts/legacy.js')).toEqual([]);
+  }, LINT_TIMEOUT);
 
   it('tells ESLint\'s note on a directive from every other message without a rule (C-0128 (5))', () => {
     const [note] = new Linter().verify('/* eslint-disable */\nexport default 1;\n', [{ linterOptions: { noInlineConfig: true } }], { filename: 'a.mjs' });
@@ -292,5 +282,5 @@ describe('the whole-tree check repository-path', () => {
     expect(r.ok).toBe(true);
     expect(r.counts.sources).toBeGreaterThan(50);
     expect(r.counts.nodeModulesLinks).toBeGreaterThan(0);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 });

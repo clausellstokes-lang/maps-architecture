@@ -16,16 +16,18 @@
 // A path is judged lexically first: one that leaves plat/ is refused without touching the file system there (the
 // clean room's firewall is physical on this machine), and only a path inside plat/ is followed through its links.
 // The lint's own red fixtures (tools/lint/fixtures/) are never built, run or resolved and are skipped (C-0127).
+// `node tools/lint/paths.mjs` runs the whole-tree check alone: its problems on stderr, its counts on stdout.
 import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Linter } from 'eslint';
-import tseslint from 'typescript-eslint';
 import { judgePath, judgeSpecifier, realOf, realRoot } from './resolve.mjs';
 import repositoryPath from './rules/repository-path.mjs';
 import { CODE_FILE, CODE_GLOB, PLAT_ROOT, TS_FILE, byCodeUnit, isInside, isPathSpecifier, relPath } from './rules/shared.mjs';
+import { isDirectiveNote, languageOptionsFor } from './standalone.mjs';
 
-export { judgePath, judgeSpecifier, moduleCandidates } from './resolve.mjs';
+export { judgePath, judgeSpecifier } from './resolve.mjs';
+export { isDirectiveNote } from './standalone.mjs';
 
 // ---------------------------------------------------------------------------------------------------------------
 // the whole-tree check
@@ -100,19 +102,17 @@ export function nodeModulesLinks(root) {
  * here) are not path problems — a directive for another rule (C-0125 (6)'s vetted division) is the tree lint's to
  * judge, and the whole-tree check inline-directives judges which directives model code may carry (C-0128). Every
  * other message without a rule — `No matching configuration found for …`, when the file lies where the configuration
- * does not reach — is kept as a problem, so the check fails closed (C-0128 (5); paths.test.mjs holds it, C-0129).
+ * does not reach — is kept as a problem, so the check fails closed (C-0128 (5), C-0129 (2)). A JavaScript file that
+ * does not parse as a module is re-verified once as a classic script (standalone.mjs).
  */
 export function lintFile(linter, root, rel) {
   const abs = join(root, ...rel.split('/'));
   const code = readFileSync(abs, 'utf8');
   const ts = TS_FILE.test(rel);
-  const jsx = rel.endsWith('.tsx') || rel.endsWith('.jsx');
   const config = [
     {
       files: [`**/*.${CODE_GLOB}`],
-      languageOptions: ts
-        ? { parser: tseslint.parser, parserOptions: { sourceType: 'module', ecmaFeatures: { jsx } } }
-        : { ecmaVersion: 'latest', sourceType: rel.endsWith('.cjs') ? 'commonjs' : 'module', parserOptions: { ecmaFeatures: { jsx } } },
+      languageOptions: languageOptionsFor(rel),
       linterOptions: { noInlineConfig: true, reportUnusedDisableDirectives: 'off' },
       plugins: { plat: { rules: { 'repository-path': repositoryPath } } },
       rules: { 'plat/repository-path': 'error' },
@@ -121,20 +121,12 @@ export function lintFile(linter, root, rel) {
   ];
   let messages = linter.verify(code, config, { filename: abs });
   if (!ts && messages.some((m) => m.fatal)) {
-    config[0].languageOptions = { ecmaVersion: 'latest', sourceType: 'script', parserOptions: { ecmaFeatures: { jsx } } };
+    config[0].languageOptions = languageOptionsFor(rel, { script: true });
     messages = linter.verify(code, config, { filename: abs });
   }
   return messages
     .filter((m) => m.fatal || m.ruleId === 'plat/repository-path' || (m.ruleId === null && !isDirectiveNote(m)))
     .map((m) => `${rel}:${m.line}: ${m.fatal ? `cannot parse (${m.message})` : m.message}`);
-}
-
-/**
- * A note ESLint adds for each inline directive when inline configuration is off. Every other message without a rule
- * (a configuration that does not reach the file, say) is kept as a problem, so the check fails closed.
- */
-export function isDirectiveNote(m) {
-  return m.ruleId === null && !m.fatal && / has no effect because you have 'noInlineConfig' setting/.test(m.message);
 }
 
 /** Path-valued strings of a tsconfig file, with where each sits. */
@@ -274,12 +266,13 @@ export function checkRepositoryPaths(root = PLAT_ROOT) {
   };
 }
 
-export default {
+export const check = {
   name: 'repository-path',
   run(root) {
     return checkRepositoryPaths(resolve(root));
   },
 };
+export default check;
 
 if (process.argv[1] && fileURLToPath(import.meta.url) === process.argv[1]) {
   const r = checkRepositoryPaths();

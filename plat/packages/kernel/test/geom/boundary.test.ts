@@ -3,12 +3,15 @@
 // half-edge structure across outer rings and holes, the level views, the canonical order, the stamp, independence from
 // slot allocation order, and the kept map (C-0159 (6), C-0163): keyed by version and slot counts, and every claim it
 // makes re-checked, so an arena written under an unchanged version and counts — a batch between its writes and its
-// commit, modelled with M0-a-02's raw allocators or by moving a second built arena's tables in — is answered as it is.
+// commit, modelled with M0-a-02's raw allocators or by moving a second built arena's tables in — is answered as it is;
+// and keyed on the arena's restore generation too (Q34, C-0299, C-0312), so a map built before a savepoint is put back
+// across committed batches is never taken as current once as many later commits bring the version and counts back.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { allocFace, allocVertex, commitVersion, freeFace, type FaceId, type Plat } from '../../src/arena/index.js';
 import { faceNeighbours, faceRings, sampleBoundary } from '../../src/geom/index.js';
 import { neighbourMapBuilds } from '../../src/geom/neighbours.js';
+import { restoreGeneration, restoreSavepoint, takeSavepoint } from '../../src/tx/index.js';
 import type { Level, PlatKey } from '../../src/types/index.js';
 import { buildArena, faceAt, GROUND, LAKE, permutation, QUARTERS, type ArenaSpec, type Built } from '../arena/support.js';
 import { TIMEOUT, pt } from './support.js';
@@ -304,5 +307,73 @@ describe('faceNeighbours: the kept map (C-0159 (6), C-0163)', () => {
     p.faces[0].holesStart[land] = start; // the batch gives the hole back: same version, same counts
     expect(keyOf(p, 0)).toBe(key);
     expect(faceNeighbours(p, GROUND, lake, 0).faces).toEqual([land]);
+  });
+
+  it('is keyed on the restore generation too (Q34, C-0299): a map built before a cross-commit restore is rebuilt after as many later commits, one built after it reused', () => {
+    for (const n of [1, 3]) {
+      const fresh = buildArena(QUARTERS);
+      const b = buildArena(QUARTERS);
+      const p = b.plat;
+      const sw = faceAt(b, 1, pt(100, 100));
+      const want = faceNeighbours(fresh.plat, GROUND, sw, 1).faces;
+      const image = takeSavepoint(p);
+      for (let i = 0; i < n; i += 1) commitVersion(p);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      const seen = keyOf(p, 1);
+      expect(neighbourMapBuilds(p)).toBe(1);
+      restoreSavepoint(image); // n committed batches rolled back: the version and the slot counts as they were
+      expect(restoreGeneration(p), `n = ${n}`).toBe(1);
+      for (let i = 0; i < n; i += 1) commitVersion(p);
+      expect(keyOf(p, 1), `n = ${n}: the premise, version and counts the map saw`).toBe(seen);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      expect(neighbourMapBuilds(p), `n = ${n}: the map of the rolled-back state is not reused`).toBe(2);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      expect(neighbourMapBuilds(p), `n = ${n}: the map built after the restore is reused`).toBe(2);
+      // a map built between the restore and the replayed commits: reused at its key, rebuilt by the next commit as ever
+      const second = takeSavepoint(p);
+      for (let i = 0; i < n; i += 1) commitVersion(p);
+      restoreSavepoint(second);
+      expect(restoreGeneration(p)).toBe(2);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      expect(neighbourMapBuilds(p)).toBe(3);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      expect(neighbourMapBuilds(p)).toBe(3);
+      commitVersion(p);
+      expect(faceNeighbours(p, GROUND, sw, 1).faces).toEqual(want);
+      expect(neighbourMapBuilds(p)).toBe(4);
+    }
+  });
+
+  it('answers the restored arena, equal to a fresh walk, when the rolled-back batches changed the topology (Q34)', () => {
+    for (const sidesFirst of [false, true]) {
+      for (const n of [1, 3]) {
+        const b1 = buildArena(crossed(0, 1, sidesFirst));
+        const b2 = buildArena(crossed(1, 0, sidesFirst));
+        const fresh1 = buildArena(crossed(0, 1, sidesFirst)).plat;
+        const fresh2 = buildArena(crossed(1, 0, sidesFirst)).plat;
+        const p = b1.plat;
+        const image = takeSavepoint(p);
+        const at = [pt(250, 500), pt(1500, 500)];
+        adopt(p, b2.plat); // the rolled-back batches: E demoted, F promoted
+        for (let i = 0; i < n; i += 1) commitVersion(p);
+        for (const q of at) {
+          const f = faceAt(b2, 0, q);
+          expect(faceNeighbours(p, GROUND, f, 0).faces).toEqual(faceNeighbours(fresh2, GROUND, f, 0).faces);
+        }
+        const seen = keyOf(p, 0);
+        restoreSavepoint(image);
+        for (let i = 0; i < n; i += 1) commitVersion(p);
+        expect(keyOf(p, 0), `${sidesFirst}, n = ${n}: the premise`).toBe(seen);
+        const builds = neighbourMapBuilds(p);
+        for (const q of at) {
+          const f = faceAt(b1, 0, q);
+          const got = faceNeighbours(p, GROUND, f, 0).faces;
+          expect(got, `${sidesFirst}, n = ${n}`).toEqual(faceNeighbours(fresh1, GROUND, f, 0).faces);
+          expect(got).toHaveLength(1);
+          expect(ringsOf(p, 0, got)).toEqual(ringsOf(fresh1, 0, got));
+        }
+        expect(neighbourMapBuilds(p)).toBe(builds + 1);
+      }
+    }
   });
 });

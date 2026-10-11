@@ -8,9 +8,8 @@
 // implementation; a `ratio` written in another package is no exemption (C-0125). A zero literal divisor is always
 // refused. A vetted division elsewhere (an fdlibm routine's, say) carries its own `eslint-disable-next-line` with
 // the reason, which the review reads.
-import { resolve } from 'node:path';
 import ts from 'typescript';
-import { numericLiteralValue, platRootOf, relPath, resolveIdentifier, unwrap } from './shared.mjs';
+import { lintedFile, numericLiteralValue, resolveIdentifier, unwrap } from './shared.mjs';
 
 /** Is the node inside a function named `ratio` (declaration, expression, arrow bound to `ratio`, or method)? */
 function insideRatio(node) {
@@ -35,7 +34,10 @@ function constLiteral(sourceCode, id) {
   return numericLiteralValue(def.node.init);
 }
 
-/** The expression under its type casts (`n as 2`, `<2>n`, `n satisfies T`): the value whose type is judged. */
+/**
+ * The expression under its type casts (`n as 2`, `<2>n`, `n satisfies T`): the value whose type is judged. Narrower than
+ * shared `unwrap`: `!` and `f<T>` instantiation are kept, so `n!` is judged by its own type (C-0128 (4)).
+ */
 function uncast(node) {
   let n = node;
   while (n && (n.type === 'TSAsExpression' || n.type === 'TSTypeAssertion' || n.type === 'TSSatisfiesExpression')) n = n.expression;
@@ -73,7 +75,7 @@ export default {
   create(context) {
     const sourceCode = context.sourceCode;
     const services = sourceCode.parserServices;
-    const rel = relPath(platRootOf(context), resolve(context.physicalFilename ?? context.filename));
+    const { rel } = lintedFile(context);
     const inKernel = rel !== null && rel.startsWith('packages/kernel/src/');
     function check(node, divisor) {
       if (inKernel && insideRatio(node)) return;

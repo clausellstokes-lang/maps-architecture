@@ -1,24 +1,25 @@
 // The PLAT determinism lint — an ESLint plugin (§6.5 (3)–(5), §14's dependency rules, §17.1 (3), §17.4; M0-d-07).
-// The scaffold (M0-s-01) created this file empty and wired it (C-0060): eslint.config.js registers the plugin as `plat`
-// and spreads `configs.recommended`; scripts/lint.mjs (`corepack pnpm lint`) runs ESLint over plat/ with zero warnings
-// and then every whole-tree check in `checks` ([{ name, run(platRoot) }] → { ok, problems }).
+// The workspace wires it (C-0060): eslint.config.js registers the plugin as `plat` and spreads `configs.recommended`;
+// scripts/lint.mjs (`corepack pnpm lint`) runs ESLint over plat/ with zero warnings and then every whole-tree check in
+// `checks`.
 //
 // Rules (rules/): math-allowlist, no-exponent-operator (C-0008), no-object-key-iteration (C-0009), ratio-division
 // (C-0044), no-nondeterminism, sort-with-comparator — the model rule set — and dependency-direction, repository-path,
 // no-bare-pnpm (C-0093).
-// Scopes (configs.recommended), each over every code extension (CODE_EXTENSIONS: ts tsx mts cts js jsx mjs cjs; C-0128):
-// the model rule set on the five model packages' sources and on every file of the digest closure beyond them
+// Scopes (configs.recommended), each over every code extension (CODE_EXTENSIONS: ts tsx mts cts js jsx mjs cjs;
+// C-0128): the model rule set on the five model packages' sources and on every file of the digest closure beyond them
 // (digest-closure.mjs, seeded with the model packages at M0); dependency-direction on packages/ and bench/;
-// repository-path on every linted file; no-bare-pnpm's spawn part on scripts/ and tools/. The scaffold's config parses
+// repository-path on every linted file; no-bare-pnpm's spawn part on scripts/ and tools/. eslint.config.js parses
 // `.ts`, `.js` and `.mjs`; the parsers for the other extensions are given here, so none of them escapes unparsed.
-// Whole-tree checks: probe-red (the lint's acceptance probe, C-0106), vendor-scan (§6.5 (4) and the audit record),
-// repository-path (links, ignored sources, build inputs), inline-directives (model code silences no rule but by
-// C-0125 (6)'s vetted division, C-0128), model-coverage (the tree lint reaches every model-code file with the whole
-// model rule set: no ignore, weaker setting or nested configuration takes it out, C-0130), no-bare-pnpm (package
-// scripts and Markdown command lines), licences (§17.4's allowlist over the production closure), kernel-boundary
-// (@plat/kernel imports no town package and names no town noun beyond its shrink-only allowlist) and bench-boundary
-// (bench/manifest.json classifies every bench folder; a kernel bench reaches no town package) — the last two added by
-// the kernel reuse round (J223 / J224, build/M0-s-01-fix-s1).
+// Whole-tree checks, each a module's `check` object `{ name, run(platRoot) }` whose `run` returns
+// `{ ok, problems, … }` (printing its report first, if it has one): probe-red (the lint's acceptance probe, C-0106),
+// vendor-scan (§6.5 (4) and the audit record), repository-path (links, ignored sources, build inputs),
+// inline-directives (model code silences no rule but by C-0125 (6)'s vetted division, C-0128), model-coverage (the tree
+// lint reaches every model-code file with the whole model rule set: no ignore, weaker setting or nested configuration
+// takes it out, C-0130), no-bare-pnpm (package scripts and Markdown command lines), licences (§17.4's allowlist over
+// the production closure), kernel-boundary (@plat/kernel imports no town package and names no town noun beyond its
+// shrink-only allowlist) and bench-boundary (bench/manifest.json classifies every bench folder; a kernel bench reaches
+// no town package), the last two by C-0259 (4).
 import tseslint from 'typescript-eslint';
 import { check as benchBoundary } from './bench-boundary.mjs';
 import { check as modelCoverage } from './coverage.mjs';
@@ -26,7 +27,7 @@ import { digestClosure } from './digest-closure.mjs';
 import { check as inlineDirectives } from './directives.mjs';
 import { check as kernelBoundary } from './kernel-boundary.mjs';
 import { check as licences } from './licences.mjs';
-import repositoryPathCheck from './paths.mjs';
+import { check as repositoryPath } from './paths.mjs';
 import { check as probeRed } from './probe.mjs';
 import { check as noBarePnpm } from './rules/no-bare-pnpm.mjs';
 import { MODEL_RULES, rules } from './rules/index.mjs';
@@ -43,8 +44,17 @@ const plugin = {
   meta: { name: '@plat/lint', version: '0.1.0' },
   rules,
   configs: {},
-  checks: [probeRed, vendorScan, repositoryPathCheck, inlineDirectives, modelCoverage, noBarePnpm, licences, kernelBoundary, benchBoundary],
+  checks: [probeRed, vendorScan, repositoryPath, inlineDirectives, modelCoverage, noBarePnpm, licences, kernelBoundary, benchBoundary],
 };
+
+/** A parser entry of recommendedFor: its files' language options, with the plugin and unused directives refused. */
+const parserEntry = (name, files, languageOptions) => ({
+  name,
+  files,
+  languageOptions,
+  linterOptions: { reportUnusedDisableDirectives: 'error' },
+  plugins: { plat: plugin },
+});
 
 /**
  * The plugin's configurations for a digest closure (`digestClosure(root)`'s result): the parsers, then the scopes. The
@@ -56,27 +66,16 @@ export function recommendedFor(digest) {
   return [
     // Parsers for the code extensions eslint.config.js leaves to ESLint's defaults (C-0128): the TypeScript family with
     // type information like `.ts`, `.jsx` with JSX, `.cjs` as CommonJS (ESLint's default for it).
-    {
-      name: 'plat/parse-typescript',
-      files: ['**/*.{tsx,mts,cts}'],
-      languageOptions: { parser: tseslint.parser, parserOptions: { projectService: true, tsconfigRootDir: PLAT_ROOT } },
-      linterOptions: { reportUnusedDisableDirectives: 'error' },
-      plugins: { plat: plugin },
-    },
-    {
-      name: 'plat/parse-jsx',
-      files: ['**/*.jsx'],
-      languageOptions: { ecmaVersion: 2022, sourceType: 'module', parserOptions: { ecmaFeatures: { jsx: true } } },
-      linterOptions: { reportUnusedDisableDirectives: 'error' },
-      plugins: { plat: plugin },
-    },
-    {
-      name: 'plat/parse-cjs',
-      files: ['**/*.cjs'],
-      languageOptions: { ecmaVersion: 2022, sourceType: 'commonjs' },
-      linterOptions: { reportUnusedDisableDirectives: 'error' },
-      plugins: { plat: plugin },
-    },
+    parserEntry('plat/parse-typescript', ['**/*.{tsx,mts,cts}'], {
+      parser: tseslint.parser,
+      parserOptions: { projectService: true, tsconfigRootDir: PLAT_ROOT },
+    }),
+    parserEntry('plat/parse-jsx', ['**/*.jsx'], {
+      ecmaVersion: 2022,
+      sourceType: 'module',
+      parserOptions: { ecmaFeatures: { jsx: true } },
+    }),
+    parserEntry('plat/parse-cjs', ['**/*.cjs'], { ecmaVersion: 2022, sourceType: 'commonjs' }),
     { name: 'plat/model-packages', files: MODEL_FILES, rules: { ...MODEL_RULES } },
     ...(digest.outside.length > 0 ? [{ name: 'plat/digest-closure', files: [...digest.outside], rules: { ...MODEL_RULES } }] : []),
     {

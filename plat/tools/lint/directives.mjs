@@ -12,10 +12,9 @@
 import { readFileSync } from 'node:fs';
 import { join, resolve } from 'node:path';
 import { Linter } from 'eslint';
-import tseslint from 'typescript-eslint';
 import { digestClosure } from './digest-closure.mjs';
-import { isDirectiveNote } from './paths.mjs';
-import { CODE_GLOB, PLAT_ROOT, TS_FILE } from './rules/shared.mjs';
+import { CODE_GLOB, PLAT_ROOT } from './rules/shared.mjs';
+import { isDirectiveNote, languageOptionsFor } from './standalone.mjs';
 
 /** The one directive model code may carry: a vetted division, on its own line or the next, with its reason. */
 export const ALLOWED_DIRECTIVE = /^eslint-disable-(?:next-)?line\s+plat\/ratio-division\s+-{2,}\s+\S/;
@@ -40,19 +39,16 @@ function collector(sink) {
 
 /**
  * The inline-configuration comments of one file (plat/-relative), as { line, text, allowed }, or { fatal } when it
- * cannot be parsed.
+ * cannot be parsed. A JavaScript file is read as module code only, never re-parsed as a classic script: one that parses
+ * only as a script cannot be read as model code and fails closed.
  */
 export function directivesOf(linter, root, rel) {
   const abs = join(root, ...rel.split('/'));
   const code = readFileSync(abs, 'utf8');
-  const ts = TS_FILE.test(rel);
-  const jsx = rel.endsWith('.tsx') || rel.endsWith('.jsx');
   const sink = [];
   const messages = linter.verify(code, [{
     files: [`**/*.${CODE_GLOB}`],
-    languageOptions: ts
-      ? { parser: tseslint.parser, parserOptions: { sourceType: 'module', ecmaFeatures: { jsx } } }
-      : { ecmaVersion: 'latest', sourceType: rel.endsWith('.cjs') ? 'commonjs' : 'module', parserOptions: { ecmaFeatures: { jsx } } },
+    languageOptions: languageOptionsFor(rel),
     linterOptions: { noInlineConfig: true, reportUnusedDisableDirectives: 'off' },
     plugins: { plat: collector(sink) },
     rules: { 'plat/directives': 'error' },

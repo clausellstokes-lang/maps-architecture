@@ -1,6 +1,5 @@
-// The whole-tree check `kernel-boundary` (the kernel reuse round, J223 / J224; installed by build/M0-s-01-fix-s1,
-// whose choices row records it): @plat/kernel stays a town-free geometry library, reusable on its own (owner
-// directive: "keep a lint or test that forbids town concepts inside @plat/kernel"). Run by `corepack pnpm lint`.
+// The whole-tree check `kernel-boundary` (C-0259 (4)): @plat/kernel stays a town-free geometry library, reusable on its
+// own. Run by `corepack pnpm lint`.
 // Two halves:
 //   (i)  imports — @plat/kernel imports no other @plat package. plat/dependency-direction already refuses it per file
 //        (MAY_IMPORT.kernel, fixture fail-kernel-imports-up.ts); this check pins that table entry and the kernel's
@@ -11,14 +10,15 @@
 //        hit count there (`max`): a row's count may shrink (the check reports the slack, so it is tightened) but never
 //        grow. A new file, a new noun, or one more use in an allowed file is a failure that names the line. The
 //        allowlist MAY ONLY SHRINK (its header says so): a kernel change that adds a town noun needs a new row with an
-//        owner-visible reason (a choices.md row), reviewed as a boundary change; the b-debt rows are KI-8's deferred
-//        registries and local leaks, recorded, not refactored at M0.
+//        owner-visible reason (a choices.md row), reviewed as a boundary change; the b-debt rows are town concepts the
+//        design places in the kernel at M0, recorded and not refactored; the allowlist's `$comment` states the rule.
 // A word is matched whole after splitting identifiers at camelCase, digits and `_` (`readKerb` → read, kerb), so
 // `plotline` is not `plot` but `plot_line`, `plotLine` and `PLOT_LINE` are.
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
-import { join, relative, resolve, sep } from 'node:path';
+import { join, resolve } from 'node:path';
 import tseslint from 'typescript-eslint';
 import { MAY_IMPORT } from './rules/dependency-direction.mjs';
+import { CODE_FILE, byCodeUnit, relPath } from './rules/shared.mjs';
 
 export const KERNEL_SRC = 'packages/kernel/src';
 export const ALLOW = 'tools/lint/kernel-boundary.allow.json';
@@ -76,15 +76,15 @@ export function scanText(rel, text) {
   return hits;
 }
 
-/** The scanned files of the kernel's sources, plat/-relative with `/`, in code-unit order. */
+/** The scanned files of the kernel's sources — code (declarations too) and JSON — plat/-relative, in code-unit order. */
 export function kernelFiles(root) {
   const base = join(root, ...KERNEL_SRC.split('/'));
   const out = [];
   const walk = (d) => {
-    for (const n of readdirSync(d).sort()) {
+    for (const n of readdirSync(d).sort(byCodeUnit)) {
       const p = join(d, n);
       if (statSync(p).isDirectory()) walk(p);
-      else if (/\.(ts|tsx|mts|cts|js|jsx|mjs|cjs|json)$/.test(n)) out.push(relative(root, p).split(sep).join('/'));
+      else if (CODE_FILE.test(n) || n.endsWith('.json')) out.push(relPath(root, p));
     }
   };
   if (existsSync(base)) walk(base);

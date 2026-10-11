@@ -1,20 +1,23 @@
-// kernel-boundary (J224; tools/lint/kernel-boundary.mjs): the check passes on the tree, and proves itself red — a planted file (scanned in memory
-// at packages/kernel/src/zz-probe/leak.ts, never written into a package folder) is reported at exactly its planted
-// lines; one more use of an allowed noun in an allowed file fails; a loosened dependency table fails; a stale allowlist
-// row fails as slack.
-import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+// kernel-boundary (C-0259 (4); tools/lint/kernel-boundary.mjs): the check passes on the tree, and proves itself red —
+// a planted file (scanned in memory at packages/kernel/src/zz-probe/leak.ts, never written into a package folder) is
+// reported at exactly its planted lines; one more use of an allowed noun in an allowed file fails; a loosened
+// dependency table fails; a stale allowlist row fails as slack.
+import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { describe, expect, it } from 'vitest';
-import { MAY_IMPORT } from './rules/dependency-direction.mjs';
+import { afterAll, describe, expect, it } from 'vitest';
 import { KERNEL_SRC, checkKernelBoundary, importProblems, loadAllow, scanText, vocabularyProblems } from './kernel-boundary.mjs';
+import { plantedLines } from './probe.mjs';
+import { MAY_IMPORT } from './rules/dependency-direction.mjs';
+import { PLAT_ROOT as PLAT } from './rules/shared.mjs';
+import { removeTempTrees, tempTree } from './test-support.mjs';
 
-const PLAT = process.env.PLAT_ROOT_UNDER_TEST ?? fileURLToPath(new URL('../../', import.meta.url));
+afterAll(removeTempTrees);
+
 const FIX = fileURLToPath(new URL('./fixtures/kernel-boundary/', import.meta.url));
-const ALLOW = process.env.KB_ALLOW ? JSON.parse(readFileSync(process.env.KB_ALLOW, 'utf8')) : loadAllow(PLAT);
+const ALLOW = loadAllow(PLAT);
 const read = (n) => readFileSync(join(FIX, n), 'utf8');
-const planted = (text) => text.split('\n').flatMap((l, i) => (/\/\/ planted: /.test(l) ? [i + 1] : []));
+const planted = (text) => plantedLines(text).map((p) => p.line);
 const PROBE = `${KERNEL_SRC}/zz-probe/leak.ts`;
 const linesOf = (problems, rel) => problems
   .filter((p) => p.startsWith(`${rel}:`))
@@ -54,17 +57,13 @@ describe('kernel-boundary', () => {
   });
 
   it("fails when the kernel's manifest depends on another @plat package", () => {
-    const root = mkdtempSync(join(tmpdir(), 'plat-kernel-boundary-'));
-    try {
-      mkdirSync(join(root, 'packages', 'kernel'), { recursive: true });
-      const m = JSON.parse(readFileSync(join(PLAT, 'packages', 'kernel', 'package.json'), 'utf8'));
-      writeFileSync(join(root, 'packages', 'kernel', 'package.json'), JSON.stringify(m));
-      expect(importProblems(root)).toEqual([]);
-      writeFileSync(join(root, 'packages', 'kernel', 'package.json'), JSON.stringify({ ...m, devDependencies: { '@plat/model': 'workspace:*' } }));
-      expect(importProblems(root)).toEqual(['packages/kernel/package.json: devDependencies names @plat/model (the kernel depends on no @plat package)']);
-    } finally {
-      rmSync(root, { recursive: true, force: true });
-    }
+    const root = tempTree('plat-kernel-boundary-');
+    mkdirSync(join(root, 'packages', 'kernel'), { recursive: true });
+    const m = JSON.parse(readFileSync(join(PLAT, 'packages', 'kernel', 'package.json'), 'utf8'));
+    writeFileSync(join(root, 'packages', 'kernel', 'package.json'), JSON.stringify(m));
+    expect(importProblems(root)).toEqual([]);
+    writeFileSync(join(root, 'packages', 'kernel', 'package.json'), JSON.stringify({ ...m, devDependencies: { '@plat/model': 'workspace:*' } }));
+    expect(importProblems(root)).toEqual(['packages/kernel/package.json: devDependencies names @plat/model (the kernel depends on no @plat package)']);
   });
 
   it('documents in the allowlist that it may only shrink and that a new town noun needs an owner-visible reason', () => {

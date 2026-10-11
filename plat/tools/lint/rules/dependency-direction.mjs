@@ -3,7 +3,7 @@
 // test kit; every adopted runtime library is imported in exactly one adapter file of the one package that uses it
 // (`packages/<package>/src/adapters/<library>.ts`); no model package's source imports a Node built-in or a third-party
 // library other than through its adapters. A file belongs to the folder directly under `packages/` (or to `bench/`), at
-// every depth — so `packages/testkit/test/kernel/<folder>/` is test-kit code (C-0122, the spec note N-12). A package's
+// every depth — so `packages/testkit/test/kernel/<folder>/` is test-kit code (C-0122, C-0127 (1)). A package's
 // tests follow its package's direction (C-0056) but may import an adopted library directly, as the reference a test
 // compares against (C-0127). A relative import into another package counts as an import of that package, and a
 // relative import into a node_modules folder as an import of the package it names there (C-0129).
@@ -12,8 +12,8 @@ import {
   MODEL_PACKAGES,
   isBuiltin,
   isPathSpecifier,
+  lintedFile,
   packageNameOf,
-  platRootOf,
   readManifest,
   relPath,
   specifierVisitors,
@@ -31,7 +31,7 @@ export const MAY_IMPORT = Object.freeze({
   bench: [...MODEL_PACKAGES, 'testkit', 'bench'],
 });
 
-const SHIPPED = new Set(MODEL_PACKAGES);
+const MODEL_PACKAGE_SET = new Set(MODEL_PACKAGES);
 const cache = new Map();
 
 /**
@@ -91,13 +91,11 @@ export default {
     },
   },
   create(context) {
-    const root = platRootOf(context);
-    const filename = context.physicalFilename ?? context.filename;
-    const rel = relPath(root, resolve(filename));
+    const { root, filename, rel } = lintedFile(context);
     const home = packageOf(rel);
     if (home === null) return {};
     const known = Object.hasOwn(MAY_IMPORT, home.pkg);
-    const isModelSrc = SHIPPED.has(home.pkg) && home.area === 'src';
+    const isModelSrc = MODEL_PACKAGE_SET.has(home.pkg) && home.area === 'src';
     const adoption = adoptionTable(root);
 
     function checkPackage(node, to) {
@@ -144,7 +142,7 @@ export default {
         return;
       }
       if (isPathSpecifier(spec)) {
-        const target = relPath(root, resolve(dirname(resolve(filename)), spec));
+        const target = relPath(root, resolve(dirname(filename), spec));
         if (target === null) return; // outside plat/: plat/repository-path's report
         const named = nodeModulesPackage(target);
         if (named !== null) {

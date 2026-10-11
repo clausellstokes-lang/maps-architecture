@@ -5,16 +5,16 @@
 // closure, and the plugin applies the model rule set to the closure's files outside the model packages too. Vendored
 // libraries the closure reaches are listed (the vendored scan covers them, §6.5 (4)); any other third-party package is
 // listed as external (the dependency-direction rule refuses it in a model package).
-// What the walk reaches that is not code is not model code (C-0131; the checker's B1, closing round r3): a JSON file —
-// C-0005's registries (`kernel/src/arena/roles.json`, `kernel/src/registry/*.json`), read by the kernel through an
-// import since model code may not use node:fs — is data, listed in `data`, carries no code for a model rule to judge
-// and is never linted as code; any other file that is neither code nor JSON (a WebAssembly module, a native addon, an
-// asset) is listed in `unjudged`, which the model-coverage check refuses, since the lint cannot judge it. The import
-// itself is still judged by the path and graph rules. A relative path into a node_modules folder names the package
-// after its last node_modules segment, as dependency-direction reads it (C-0129 (3)): when that package is a vendored
-// library and the path's real target lies in that library's own folder, the import is the library's — listed in
-// `vendored`, its bytes the scan's — exactly as its bare name; any other path into node_modules (third-party bytes, a
-// copy or a link elsewhere) stays a closure file, which the checks refuse as unread (C-0129 (2), C-0130 (1)).
+// What the walk reaches that is not code is not model code (C-0131 (1)): a JSON file — C-0005's registries
+// (`kernel/src/arena/roles.json`, `kernel/src/registry/*.json`), read by the kernel through an import since model code
+// may not use node:fs — is data, listed in `data`, carries no code for a model rule to judge and is never linted as
+// code; any other file that is neither code nor JSON (a WebAssembly module, a native addon, an asset) is listed in
+// `unjudged`, which the model-coverage check refuses, since the lint cannot judge it. The import itself is still judged
+// by the path and graph rules. A relative path into a node_modules folder names the package after its last node_modules
+// segment, as dependency-direction reads it (C-0129 (3)): when that package is a vendored library and the path's real
+// target lies in that library's own folder, the import is the library's — listed in `vendored`, its bytes the scan's —
+// exactly as its bare name; any other path into node_modules (third-party bytes, a copy or a link elsewhere) stays a
+// closure file, which the checks refuse as unread (C-0129 (2), C-0130 (1)).
 import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import ts from 'typescript';

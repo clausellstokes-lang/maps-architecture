@@ -3,29 +3,24 @@
 // no reviewed exception open, d3-delaunay's tarball (a fixture copy, never vendored) fails on Math.pow / sin / cos /
 // hypot — C-0007's reason reproduced — and the audit record in @plat/kernel equals the scan. Fixtures are read in place;
 // the mutated copies live in the OS temporary folder.
-// Every test that scans whole libraries carries an explicit timeout (SCAN): a scan's wall time grows with the load of
-// the shared machine (up to four build seats and M-1's lane), and vitest's 5 s default is no bar of this item. The scan
-// of the real vendor/ tree is taken once (beforeAll) and read by the tests of the audit record.
+// Every test that scans whole libraries carries an explicit timeout (SCAN_TIMEOUT): a scan's wall time grows with the
+// load of the shared machine. The scan of the real vendor/ tree is taken once (beforeAll) and read by the tests of the
+// audit record.
 import { createHash } from 'node:crypto';
-import { cpSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { cpSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
 import { AUDIT_FILE, REVIEWED, checkVendorScan, codeFilesOf, outsideAllowlist, scanLibrary } from './vendor-scan.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { SCAN_TIMEOUT, removeTempTrees, tempTree } from './test-support.mjs';
 
 const FIX = fileURLToPath(new URL('./fixtures/vendor-scan/', import.meta.url));
 const VENDOR = join(PLAT_ROOT, 'vendor');
 const lock = JSON.parse(readFileSync(join(VENDOR, 'vendor.lock.json'), 'utf8')).libraries;
 const manifest = JSON.parse(readFileSync(join(FIX, 'MANIFEST.json'), 'utf8')).folders;
 const sha256 = (p) => createHash('sha256').update(readFileSync(p)).digest('hex');
-/** The timeout of a test that scans libraries — informative headroom on a contended machine, never a timing. */
-const SCAN = 120_000;
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
 describe('the fixture copies', () => {
   it('are the registry bytes the manifest lists, and nothing else', () => {
@@ -61,7 +56,7 @@ describe('scanLibrary', () => {
       'delaunator.min.js plat/math-allowlist',
       'index.js plat/math-allowlist',
     ]);
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('fails unpatched simplex-noise on its Math.random defaults', () => {
     const r = scanLibrary(join(FIX, 'simplex-noise@4.0.3-unpatched'), 'simplex-noise@4.0.3');
@@ -69,7 +64,7 @@ describe('scanLibrary', () => {
     expect(outsideAllowlist(r.math)).toEqual(['random']);
     expect(r.math.random).toBe(9); // three defaults in each of the ESM build, the CommonJS build and the source
     expect(new Set(r.findings.map((f) => f.rule))).toEqual(new Set(['plat/math-allowlist', 'plat/no-nondeterminism']));
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('fails unpatched flatbush on `this.nodeSize ** level` in each of its two builds, and on nothing else (C-0126 (5))', () => {
     const r = scanLibrary(join(FIX, 'flatbush@4.6.2-unpatched'), 'flatbush@4.6.2');
@@ -83,7 +78,7 @@ describe('scanLibrary', () => {
     const lines = (f) => readFileSync(join(FIX, 'flatbush@4.6.2-unpatched', f), 'utf8').split('\n');
     expect(lines('index.js')[299]).toContain('this.nodeSize ** level');
     expect(lines('flatbush.js')[340]).toContain('this.nodeSize ** level');
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('fails d3-delaunay on Math.pow, sin, cos and hypot (C-0007\'s reason; PI is outside the list too)', () => {
     const r = scanLibrary(join(FIX, 'd3-delaunay@6.0.4'), 'd3-delaunay@6.0.4');
@@ -91,7 +86,7 @@ describe('scanLibrary', () => {
     expect(outsideAllowlist(r.math)).toEqual(['PI', 'cos', 'hypot', 'pow', 'sin']);
     const src = r.files.find((f) => f.path === 'src/delaunay.js');
     expect(outsideAllowlist(src.math)).toEqual(['PI', 'cos', 'hypot', 'pow', 'sin']);
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('passes the vendored, patched sources', () => {
     const results = Object.fromEntries(
@@ -107,13 +102,12 @@ describe('scanLibrary', () => {
       expect(r.reviewed).toEqual([]);
       expect(outsideAllowlist(r.math)).toEqual([]);
     }
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('re-opens a reviewed exception when the library\'s bytes change (a version change is a new review)', () => {
     // No reviewed exception is open in the tree (C-0152 closed the last); the mechanism (C-0126 (4)) is held on an
     // entry pinned to the unpatched fixture copy's bytes.
-    const dir = mkdtempSync(join(tmpdir(), 'plat-vendor-scan-'));
-    temps.push(dir);
+    const dir = tempTree('plat-vendor-scan-');
     const file = join(dir, 'index.js');
     cpSync(join(FIX, 'flatbush@4.6.2-unpatched', 'index.js'), file);
     const pinned = [{ library: 'flatbush@4.6.2', file: 'index.js', sha256: sha256(file), line: 300, rule: 'plat/no-exponent-operator', choice: 'C-0126', what: 'test entry', status: 'test' }];
@@ -126,7 +120,16 @@ describe('scanLibrary', () => {
     expect(r.result).toBe('fail');
     expect(r.reviewed).toEqual([]);
     expect(r.findings.map((f) => `${f.file}:${f.line} ${f.rule}`)).toEqual(['index.js:300 plat/no-exponent-operator']);
-  }, SCAN);
+  }, SCAN_TIMEOUT);
+
+  it('re-parses a JavaScript file valid only as a classic script, so it scans with no parse finding (C-0126 (1))', () => {
+    // `with` is a syntax error in module code; the scan reads such a file as a classic script on its second attempt.
+    const dir = tempTree('plat-vendor-scan-', { 'legacy.js': 'var o = {}; with (o) {}\n' });
+    const r = scanLibrary(dir, 'zz-legacy@1.0.0');
+    expect(r.files.map((f) => [f.path, f.fatal])).toEqual([['legacy.js', null]]);
+    expect(r.findings).toEqual([]);
+    expect(r.result).toBe('pass');
+  }, SCAN_TIMEOUT);
 
   it('holds no open reviewed exception (C-0152 closed C-0126 (5)), and would pin any to the vendored file it was judged on', () => {
     expect(REVIEWED).toEqual([]);
@@ -143,7 +146,7 @@ describe('the audit record', () => {
   let real;
   beforeAll(() => {
     real = checkVendorScan(PLAT_ROOT);
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 
   it('equals the scan, and the vendor-scan check passes (the scanned bytes are the ones that run)', () => {
     expect(real.problems).toEqual([]);
@@ -171,8 +174,7 @@ describe('the audit record', () => {
   });
 
   it('fails the check when the record is stale or missing', () => {
-    const root = mkdtempSync(join(tmpdir(), 'plat-vendor-audit-'));
-    temps.push(root);
+    const root = tempTree('plat-vendor-audit-');
     cpSync(join(PLAT_ROOT, 'vendor'), join(root, 'vendor'), { recursive: true, filter: (s) => !s.includes('node_modules') });
     for (const p of ['kernel', 'model', 'tables', 'site', 'layout']) {
       cpSync(join(PLAT_ROOT, 'packages', p, 'package.json'), join(root, 'packages', p, 'package.json'));
@@ -183,5 +185,5 @@ describe('the audit record', () => {
     const stale = checkVendorScan(root);
     expect(stale.problems.some((p) => p.startsWith(`${AUDIT_FILE}: differs`))).toBe(true);
     expect(stale.ok).toBe(false);
-  }, SCAN);
+  }, SCAN_TIMEOUT);
 });

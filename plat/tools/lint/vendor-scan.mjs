@@ -4,8 +4,8 @@
 // patch or wrapper — is kept in @plat/kernel (packages/kernel/vendor-audit.json).
 //   node tools/lint/vendor-scan.mjs            print the census report; exit 1 when the scan or the record fails
 //   node tools/lint/vendor-scan.mjs --write    rewrite the audit record from the scan (after a reviewed change)
-// The scan reads the vendored bytes that run: every code file of vendor/<name>@<version>/ (.js, .mjs, .cjs and .ts
-// sources; declarations, source maps and texts are not code), and the check confirms that each library's
+// The scan reads the vendored bytes that run: every code file of vendor/<name>@<version>/ (.js, .mjs, .cjs, .ts, .mts
+// and .cts sources; declarations, source maps and texts are not code), and the check confirms that each library's
 // node_modules links resolve to that folder. Per file it takes the Math census (every member, allowed or not) and runs
 // the determinism rules (rules/index.mjs's VENDOR_RULES: the allowlist, `**`, the clock / randomness / host / locale
 // reads, comparator-less sorts, key enumeration). A finding fails the library unless it is a reviewed exception below,
@@ -18,26 +18,39 @@ import { existsSync, readFileSync, readdirSync, realpathSync, statSync, writeFil
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { Linter } from 'eslint';
-import tseslint from 'typescript-eslint';
 import { stableJson } from '../vendor/common.mjs';
 import { adapterPath, adoptionTable } from './rules/dependency-direction.mjs';
 import { VENDOR_RULE_NAMES, VENDOR_RULES, rules } from './rules/index.mjs';
-import { MATH_ALLOWLIST, PLAT_ROOT, byCodeUnit, globalAccesses, staticMemberName, vendoredLibraries } from './rules/shared.mjs';
+import {
+  DECLARATION_FILE,
+  MATH_ALLOWLIST,
+  PLAT_ROOT,
+  byCodeUnit,
+  globalAccesses,
+  staticMemberName,
+  printReport,
+  vendoredLibraries,
+} from './rules/shared.mjs';
+import { languageOptionsFor } from './standalone.mjs';
 
 export const AUDIT_FILE = 'packages/kernel/vendor-audit.json';
-const CODE = /\.(js|mjs|cjs|ts|mts|cts)$/;
-const DECLARATION = /\.d\.(ts|mts|cts)$/;
+/** The extensions the scan reads (C-0126 (1)): CODE_EXTENSIONS without `.tsx` and `.jsx`, which it does not scan. */
+const SCANNED_EXTENSIONS = Object.freeze(['js', 'mjs', 'cjs', 'ts', 'mts', 'cts']);
+const SCANNED_CODE = new RegExp(`\\.(${SCANNED_EXTENSIONS.join('|')})$`);
+const SCANNED_GLOB = `**/*.{${SCANNED_EXTENSIONS.join(',')}}`;
 
 /**
- * Reviewed exceptions: a finding the seat that recorded it judged and routed, pinned to the bytes it was judged on —
- * entries of the form { library, file, sha256, line, rule, choice, what, status }. None is open. The one C-0126 (5)
- * recorded — flatbush 4.6.2's `this.nodeSize ** level` in `_collectContained`, in index.js and flatbush.js — is closed
- * by the patch vendor/patches/flatbush@4.6.2.json (C-0152: the power by exact repeated multiplication), which the audit
- * records as flatbush's patch exception; the unpatched bytes are the fixture copy
- * fixtures/vendor-scan/flatbush@4.6.2-unpatched/, which still fails on the operator.
+ * Reviewed exceptions: entries { library, file, sha256, line, rule, choice, what, status }, each pinning one finding
+ * to the sha256 of the file it was judged on, its line and its rule, so any byte change re-opens it (C-0126 (4)). None
+ * is open. flatbush 4.6.2's power is not one: the patch vendor/patches/flatbush@4.6.2.json replaces it by exact
+ * repeated multiplication, and the audit records it as flatbush's patch exception (C-0152).
  */
 export const REVIEWED = Object.freeze([]);
 
+/**
+ * The sha256 of a file's text re-encoded as UTF-8: the form of the audit's file hashes and of REVIEWED's pins, which
+ * differs from the raw bytes' hash only for a file that is not valid UTF-8.
+ */
 const sha256 = (buf) => createHash('sha256').update(buf).digest('hex');
 
 /** The code files of a library folder, relative POSIX paths, sorted (node_modules links skipped). */
@@ -49,7 +62,7 @@ export function codeFilesOf(dir) {
       const abs = join(d, name);
       const rel = prefix ? `${prefix}/${name}` : name;
       if (statSync(abs).isDirectory()) walk(abs, rel);
-      else if (CODE.test(name) && !DECLARATION.test(name)) out.push(rel);
+      else if (SCANNED_CODE.test(name) && !DECLARATION_FILE.test(name)) out.push(rel);
     }
   };
   walk(dir, '');
@@ -66,7 +79,7 @@ export function isScannedFile(root, rel) {
   if (parts[0] !== 'vendor' || parts.length < 3 || parts.includes('node_modules')) return false;
   if (!vendoredLibraries(root).some((l) => l.folder === `vendor/${parts[1]}`)) return false;
   const name = parts[parts.length - 1];
-  return CODE.test(name) && !DECLARATION.test(name);
+  return SCANNED_CODE.test(name) && !DECLARATION_FILE.test(name);
 }
 
 /** A plugin whose one rule records the Math census of a file into `sink` (member → count). */
@@ -91,13 +104,16 @@ function censusPlugin(sink) {
   };
 }
 
-/** Lints one file's code with the vendored rule set and the census; parses TypeScript sources with typescript-eslint. */
+/**
+ * Lints one file's code with the vendored rule set and the census (standalone.mjs's language options: TypeScript
+ * sources through typescript-eslint); a JavaScript file that does not parse as a module is scanned as a classic script.
+ */
 function scanFile(linter, abs, rel) {
   const code = readFileSync(abs, 'utf8');
   const math = {};
   const ts = /\.(ts|mts|cts)$/.test(rel);
   const base = {
-    files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],
+    files: [SCANNED_GLOB],
     plugins: { plat: { rules }, census: censusPlugin(math) },
     rules: { ...VENDOR_RULES, 'census/math': 'error' },
   };
@@ -105,8 +121,8 @@ function scanFile(linter, abs, rel) {
     for (const k of Object.keys(math)) delete math[k];
     return linter.verify(code, [{ ...base, languageOptions }], { filename: abs });
   };
-  let messages = attempt(ts ? { parser: tseslint.parser, parserOptions: { sourceType: 'module' } } : { ecmaVersion: 'latest', sourceType: rel.endsWith('.cjs') ? 'commonjs' : 'module' });
-  if (!ts && messages.some((m) => m.fatal)) messages = attempt({ ecmaVersion: 'latest', sourceType: 'script' });
+  let messages = attempt(languageOptionsFor(rel));
+  if (!ts && messages.some((m) => m.fatal)) messages = attempt(languageOptionsFor(rel, { script: true }));
   const fatal = messages.find((m) => m.fatal);
   const findings = messages
     .filter((m) => !m.fatal && m.ruleId !== 'census/math')
@@ -247,7 +263,7 @@ export const check = {
   name: 'vendor-scan',
   run(root) {
     const r = checkVendorScan(resolve(root));
-    for (const line of r.report) process.stdout.write(`lint vendor-scan: ${line}\n`);
+    printReport('vendor-scan', r.report);
     return { ok: r.ok, problems: r.problems };
   },
 };

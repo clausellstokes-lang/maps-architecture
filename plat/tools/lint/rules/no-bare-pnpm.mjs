@@ -11,7 +11,7 @@
 // (b) is this ESLint rule; (a) and (c) are the whole-tree check `no-bare-pnpm` (checkNoBarePnpm below), since ESLint
 // parses neither JSON manifests nor Markdown.
 import { existsSync, lstatSync, readFileSync, readdirSync } from 'node:fs';
-import { join } from 'node:path';
+import { join, resolve } from 'node:path';
 import { PLAT_ROOT, byCodeUnit, relPath, staticMemberName, stringValue } from './shared.mjs';
 
 const SPAWNERS = new Set(['spawn', 'spawnSync', 'execFile', 'execFileSync']);
@@ -130,7 +130,12 @@ export function checkNoBarePnpm(root = PLAT_ROOT) {
   return { ok: problems.length === 0, problems, scanned: files.length };
 }
 
-export const check = { name: 'no-bare-pnpm', run: (root) => checkNoBarePnpm(root) };
+export const check = {
+  name: 'no-bare-pnpm',
+  run(root) {
+    return checkNoBarePnpm(resolve(root));
+  },
+};
 
 /** The command string a spawn / exec call runs, as its first word or shell line, else null. */
 function commandOf(name, node) {

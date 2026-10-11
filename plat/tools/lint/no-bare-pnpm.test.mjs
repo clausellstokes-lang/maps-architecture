@@ -2,21 +2,18 @@
 // `corepack pnpm test` passes; a fenced `pnpm install` line and an inline `pnpm -v` span fail; prose `pnpm 10.28` and
 // `"packageManager": "pnpm@10.34.6"` pass; a docs/build/ record holding `pnpm` is skipped (the spawn case (b) is the
 // ESLint rule's, in rules.test.mjs). Trees are assembled from the fixtures in the OS temporary folder.
-import { cpSync, mkdirSync, mkdtempSync, readFileSync, rmSync } from 'node:fs';
-import { tmpdir } from 'node:os';
+import { cpSync, mkdirSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { afterAll, describe, expect, it } from 'vitest';
 import { checkNoBarePnpm, outsideScope, runsBarePnpm, scanMarkdown, scanPackageJson } from './rules/no-bare-pnpm.mjs';
 import { PLAT_ROOT } from './rules/shared.mjs';
+import { LINT_TIMEOUT, removeTempTrees, tempTree } from './test-support.mjs';
 
 const FIX = fileURLToPath(new URL('./fixtures/no-bare-pnpm/', import.meta.url));
 const read = (name) => readFileSync(join(FIX, name), 'utf8');
 const plantedMd = (text) => text.split('\n').flatMap((l, i) => (l.includes('<!-- planted -->') ? [i + 1] : []));
-const temps = [];
-afterAll(() => {
-  for (const t of temps) rmSync(t, { recursive: true, force: true });
-});
+afterAll(removeTempTrees);
 
 describe('the command reader', () => {
   it('finds pnpm as the first word of any command of a line, after a prompt and assignments', () => {
@@ -58,8 +55,7 @@ describe('Markdown command lines (C-0093 (c))', () => {
 
 describe('the whole-tree check no-bare-pnpm', () => {
   it('scans package.json files and Markdown outside the records, vendored libraries and the lint fixtures', () => {
-    const root = mkdtempSync(join(tmpdir(), 'plat-pnpm-'));
-    temps.push(root);
+    const root = tempTree('plat-pnpm-');
     const put = (fixture, rel) => {
       mkdirSync(join(root, rel, '..'), { recursive: true });
       cpSync(join(FIX, fixture), join(root, rel));
@@ -91,7 +87,7 @@ describe('the whole-tree check no-bare-pnpm', () => {
       'vendor/README.md:3: an inline command',
       'vendor/README.md:4: an inline command',
     ]);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('never scans the records or third-party bytes', () => {
     expect(outsideScope('CLEAN-ROOM.md')).toBe(true);
@@ -101,11 +97,11 @@ describe('the whole-tree check no-bare-pnpm', () => {
     expect(outsideScope('vendor/README.md')).toBe(false);
     expect(outsideScope('README.md')).toBe(false);
     expect(outsideScope('packages/testkit/baselines/README.md')).toBe(false);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 
   it('passes the real plat/ tree', () => {
     const r = checkNoBarePnpm(PLAT_ROOT);
     expect(r.problems).toEqual([]);
     expect(r.scanned).toBeGreaterThan(5);
-  }, 60_000);
+  }, LINT_TIMEOUT);
 });

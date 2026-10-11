@@ -1,7 +1,7 @@
-// The whole-tree check `model-coverage` (C-0130; the checker's H1, round r2): every file of model code — the digest
-// closure: the five model packages' sources and every file they reach (digest-closure.mjs) — is linted by the tree lint
-// under the whole model rule set, or the lint fails. The configuration decides what ESLint reads, and three things in it
-// can take model code out of the model rule set without any rule reporting:
+// The whole-tree check `model-coverage` (C-0130, C-0131): every file of model code — the digest closure: the five model
+// packages' sources and every file they reach (digest-closure.mjs) — is linted by the tree lint under the whole model
+// rule set, or the lint fails. The configuration decides what ESLint reads, and three things in it can take model code
+// out of the model rule set without any rule reporting:
 //   (1) eslint.config.js's ignores (`**/test/fixtures/**`, `**/dist/**`, `**/coverage/**`, `vendor/**`, ESLint's own
 //       `**/node_modules/`): a model source that imports a file there, or a model source placed there, is never read;
 //   (2) a later configuration entry that turns a model rule off for some files, or weakens its options;
