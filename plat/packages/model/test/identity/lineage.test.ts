@@ -1,10 +1,13 @@
 // M0-d-05a: the lineage key and its 64-bit hash (§6.3 *Lineage key*, §6.1 the town lineage, §2.8 Hash64; C-0132,
 // C-0179 (1)). The hash is checked against an independent serialiser (DataView little-endian bytes into the kernel's
 // one-shot H128), the lane form is shown injective, every field refused out of its width, and the town root pinned.
+// The file-level helpers `lineage.ts` shares with the identity and matching modules (`isU32`, `isU16`, `isObject`,
+// `copyLineage`) are imported by path: they are not in the package's API.
 import fc from 'fast-check';
-import { H128, STAGES, type Hash64, type Layer, type StageId } from '@plat/kernel';
+import { H128, STAGES, type Hash64, type Layer, type LineageHash, type StageId } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { compareLineage, GROUND, LINEAGE_LANES, lineageHash, lineageLanes, sameLineage, TOWN_ROOT, type LineageKey } from '../../src/index.js';
+import { copyLineage, isObject, isU16, isU32 } from '../../src/identity/lineage.js';
 
 const LAYERS: Layer[] = ['ground', 'underground', 'sky'];
 
@@ -154,5 +157,41 @@ describe('the town root (§6.1: ground arena, no parent, creation epoch 0, index
 
   it('hashes to its pinned value (the encoder fixed point)', () => {
     expect(lineageHash(TOWN_ROOT)).toEqual([0x99c01090, 0x102eece6]);
+  });
+});
+
+describe('the shared file-level helpers of lineage.ts', () => {
+  // Values outside the number type: each predicate answers false and never throws (a bigint or a symbol included).
+  const nonNumbers: unknown[] = ['1', null, undefined, true, [3], { valueOf: () => 5 }, BigInt(1), Symbol('s')];
+
+  it('isU32 holds for an integer in 0 … 2³² − 1 and for nothing else', () => {
+    for (const v of [0, 1, 0x7fffffff, 0x80000000, 0xffffffff]) expect(isU32(v)).toBe(true);
+    for (const v of [-1, 1.5, 2 ** 32, Number.NaN, Number.POSITIVE_INFINITY, ...nonNumbers]) expect(isU32(v)).toBe(false);
+  });
+
+  it('isU16 holds for an integer in 0 … 0xffff and for nothing else', () => {
+    for (const v of [0, 1, 0xffff]) expect(isU16(v)).toBe(true);
+    for (const v of [0x10000, -1, 1.5, Number.NaN, 0xffffffff, ...nonNumbers]) expect(isU16(v)).toBe(false);
+  });
+
+  it('isObject holds for a non-null object, an array included', () => {
+    for (const v of [{}, [], [1, 2], new Uint32Array(2), Object.freeze([0, 0])]) expect(isObject(v)).toBe(true);
+    for (const v of [null, undefined, 0, 'x', true, BigInt(1)]) expect(isObject(v)).toBe(false);
+  });
+
+  it('copyLineage returns a new frozen two-element array equal to its input', () => {
+    const h: LineageHash = [7, 8];
+    const c = copyLineage(h);
+    expect(c).toEqual([7, 8]);
+    expect(Object.isFrozen(c)).toBe(true);
+    expect(c).not.toBe(h);
+    expect(Array.isArray(c)).toBe(true);
+    expect(c.length).toBe(2);
+    h[0] = 9; // the copy does not follow its source
+    expect(c).toEqual([7, 8]);
+    const frozen = copyLineage(c);
+    expect(frozen).toEqual(c);
+    expect(frozen).not.toBe(c);
+    expect(copyLineage(Uint32Array.from([1, 0xffffffff]) as unknown as LineageHash)).toEqual([1, 0xffffffff]);
   });
 });
