@@ -663,6 +663,34 @@
      "required_change": "the builder keeps the before-outputs and hashes in its scratch folder and reports the comparison; the checker repeats every item with its own before-images (the flow-7 snapshot's files) — any difference beyond the allowed file count is a blocker"
     }
    ]
+  },
+  {
+   "id": "M0-a-16",
+   "from": 2,
+   "round": "S2",
+   "session": "This round was opened on check note N-s2-2 of M0-a-02 s2 (docs/M0-FIX-QUEUE.md Q38; checks/M0-a-02-s2.md probe P4; C-0313 (5)(a)): the façade's stamp.ts keys its stamps on the version alone, so a value read inside a commit that a savepoint restore later rolled back passes kernel.assertCurrent SILENTLY after the restore plus one commit — a silent stale read (N-45 (a)), the class that Q28, Q33 and Q34 fixed in the digest, the arena and the neighbours cache by keying on the restore generation (C-0299, C-0308, C-0313). M0-a-02 s2 (3ade0498) made the arena's Stamp carry an optional generation (written only when restoreGeneration(p) is not 0; absent reads 0) and its assertStamp refuse a mismatch with a named message: REUSE that — the façade's stamp(p, value) stores the arena's own stamp(p) record (arena/resolve.ts exports stamp), stampWith stores the given stamp whole (generation included), inlineStamp reads an inline generation when the value carries one, and assertStamped asserts the key, then the generation (the arena's message form, C-0313 (1)), then the version, in the debug build only. Inside M0-a-16's owns only (src/facade/, test/facade/): the hand-built inline stamps of index/query.ts (QueryResult, Location) are M0-a-03's and FaceNeighbours is M0-a-10's (Q34's round is in flight) — read them, change nothing there, and say in your notes which inline-stamped values carry a generation on your tree (an absent one reads 0 and is refused after a restore by this round's assertStamped: loud, not silent — the correct fail-safe reading until their items add the field). Nothing persisted changes; the production build is untouched (debugMode() gates every path; the stamp shapes at generation 0 stay as they are, so facade.test.ts:295's and stamps.test.ts's whole-object comparisons keep their shapes).",
+   "lines": [
+    {
+     "line": "Q38: the façade's stamps carry the restore generation — stamp(p, value) stores the arena's stamp(p) record, stampWith(s, value) the given stamp whole, inlineStamp reads an inline generation when present, and assertStamped asserts key, then generation (absent = 0; the arena's message form), then version; a façade Resolved read inside a rolled-back commit now FAILS kernel.assertCurrent after the restore plus one commit",
+     "evidence": "checks/M0-a-02-s2.md probe P4 (stampOf gives { key, version: 2 } with no generation and assertCurrent passes; the arena's assertStamp throws on the same value); C-0313 (1), (5)(a); N-45 (a)",
+     "required_change": "a test in test/facade/stamps.test.ts reproducing P4 (a real tx commit, a Resolved read, takeSavepoint before and restoreSavepoint after across the commit, one more commit → assertCurrent throws the generation message), the same for a stampWith value and for an inline value carrying a generation; a mutant that drops the generation compare is red; every existing facade test green; stamps at generation 0 unchanged in shape"
+    },
+    {
+     "line": "The inline-stamped values the façade reads (Resolved; QueryResult and Location of index/query.ts — M0-a-03's; FaceNeighbours of geom/neighbours.ts — M0-a-10's, Q34; LevelView; CommitRecord): the façade reads an inline generation when present and treats an absent one as 0; no file outside the owns is edited; the notes list which of these values carry a generation on this tree and which items owe it",
+     "evidence": "C-0313 (5)(a); M0-work.json owns of M0-a-16, M0-a-03, M0-a-10",
+     "required_change": "a test with an inline value carrying generation 1 passes on an arena at generation 1 and fails at generation 2; the notes name the owing items for the session's routing"
+    },
+    {
+     "line": "ZERO SHIFT outside the debug build: production results, level digests and every persisted form unchanged (stamps live in the WeakMap side table or the values' inline fields; every new branch is behind debugMode())",
+     "evidence": "facade/stamp.ts header (§3.4, §3.11, C-0220 (3)); N-45",
+     "required_change": "the builder shows the production build's results identical before and after on the façade test fixtures; the checker repeats it"
+    },
+    {
+     "line": "Refusal census (J264): the façade's registered refusals (facade.test.ts) counted before and after — none added; 0 lawful-input refusals",
+     "evidence": "J264; the ZERO REFUSALS paragraph",
+     "required_change": "the counts in the result notes and the choices row"
+    }
+   ]
   }
  ]
 }
