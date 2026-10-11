@@ -1,28 +1,28 @@
 // M0-s-02: the cell check (§7.6; §13.7's JT; §2.1; §17.1 (6); C-0012) — an empty cell fails to load, a cell lacking
 // unit, provenance or calibratable fails naming the table and the cell, a unit outside §2.1's list fails, a provenance
-// outside §17.1 (6)'s forms fails; the unit list is §2.1's word for word (N-18).
+// outside §17.1 (6)'s forms fails; the unit list is §2.1's word for word, and the Unit type and §7.6's marker types
+// are the literal unions the design writes (§2.1, §7.6).
 import fc from 'fast-check';
-import { describe, expect, it } from 'vitest';
-import { checkCell, parseTable, provenanceForm, TableError, UNITS, type ProvenanceForm } from '../../src/index.js';
+import { describe, expect, expectTypeOf, it } from 'vitest';
+import {
+  checkCell,
+  parseTable,
+  provenanceForm,
+  UNITS,
+  type ExtensionMode,
+  type ExtensionOver,
+  type PresetId,
+  type ProvenanceForm,
+  type TableError,
+  type Unit,
+} from '../../src/index.js';
+import { oneCell, refusal } from '../loader/support.js';
 
 const GOOD = { value: 3, unit: 'm', provenance: 'own', calibratable: false };
 const AT = { table: 't', row: 'r', cell: 'c' };
 
-/** A one-cell table around a raw cell. */
-function oneCell(cell: unknown): unknown {
-  return { table: 't', version: 1, section: '§4.6', rows: { r: { c: cell } } };
-}
-
-/** The TableError parseTable throws, or a failure when it loads. */
-function refusal(raw: unknown, id = 't'): TableError {
-  try {
-    parseTable(id, raw);
-  } catch (e) {
-    expect(e).toBeInstanceOf(TableError);
-    return e as TableError;
-  }
-  throw new Error('the table loaded');
-}
+/** The TableError parseTable throws on a raw table (a test failure when it loads). */
+const refuseTable = (raw: unknown, id = 't'): TableError => refusal(() => parseTable(id, raw));
 
 describe('JT: an empty cell fails to load (§4.7, §13.7)', () => {
   const empties: [string, unknown][] = [
@@ -36,7 +36,7 @@ describe('JT: an empty cell fails to load (§4.7, §13.7)', () => {
   ];
   for (const [what, cell] of empties) {
     it(`refuses ${what}, naming the table, the row and the cell`, () => {
-      const e = refusal(oneCell(cell));
+      const e = refuseTable(oneCell(cell));
       expect(e.table).toBe('t');
       expect(e.row).toBe('r');
       expect(e.cell).toBe('c');
@@ -46,8 +46,8 @@ describe('JT: an empty cell fails to load (§4.7, §13.7)', () => {
   }
 
   it('refuses an empty row and an empty table', () => {
-    expect(refusal({ table: 't', version: 1, section: '§4.6', rows: { r: {} } }).reason).toBe('empty row: no cells');
-    expect(refusal({ table: 't', version: 1, section: '§4.6', rows: {} }).reason).toBe('empty table: no rows');
+    expect(refuseTable({ table: 't', version: 1, section: '§4.6', rows: { r: {} } }).reason).toBe('empty row: no cells');
+    expect(refuseTable({ table: 't', version: 1, section: '§4.6', rows: {} }).reason).toBe('empty table: no rows');
   });
 
   it('loads the same cell with a value', () => {
@@ -60,7 +60,7 @@ describe('a cell lacking unit / provenance / calibratable fails naming the table
     it(`lacking ${field}`, () => {
       const cell: Record<string, unknown> = { ...GOOD };
       delete cell[field];
-      const e = refusal({ table: 'cut', version: 1, section: '§4.6', rows: { settings: { flattenM: cell } } }, 'cut');
+      const e = refuseTable({ table: 'cut', version: 1, section: '§4.6', rows: { settings: { flattenM: cell } } }, 'cut');
       expect(e.table).toBe('cut');
       expect(e.row).toBe('settings');
       expect(e.cell).toBe('flattenM');
@@ -70,7 +70,7 @@ describe('a cell lacking unit / provenance / calibratable fails naming the table
   }
 
   it('lists every issue of a cell lacking all three, the first in the message', () => {
-    const e = refusal(oneCell({ value: 1 }));
+    const e = refuseTable(oneCell({ value: 1 }));
     expect(e.issues.map((i) => i.reason)).toEqual(['lacks unit', 'lacks provenance', 'lacks calibratable']);
     expect(e.message).toMatch(/\(and 2 more\)$/);
   });
@@ -110,9 +110,18 @@ describe("the unit vocabulary is §2.1's list (N-18)", () => {
     ]);
   });
 
+  it('derives the Unit type from the list: the same union of words', () => {
+    expectTypeOf<Unit>().toEqualTypeOf<
+      | 'm' | 'm2' | 'ha' | 'cm' | 'cdeg' | 'deg' | 'share' | 'weight' | 'people' | 'count' | 'yr' | 'wk' | 'm3' | 'lvl'
+      | 'perHa' | 'perKm' | 'perKm2' | 'per100m' | 'ratio' | 'bits' | 'ms' | 's' | 'luma' | 'rb' | 'chroma' | 'z' | 'none'
+    >();
+    expectTypeOf(UNITS).toEqualTypeOf<readonly Unit[]>();
+    expect(Object.isFrozen(UNITS)).toBe(true);
+  });
+
   for (const unit of ['km2', 'km', 'metres', 'M', 'deg2', 'percent', 'points', '']) {
     it(`refuses the unit '${unit}'`, () => {
-      const e = refusal(oneCell({ ...GOOD, unit }));
+      const e = refuseTable(oneCell({ ...GOOD, unit }));
       expect(e.cell).toBe('c');
       expect(e.reason).toBe(`unit '${unit}' is outside §2.1's list`);
     });
@@ -188,7 +197,7 @@ describe("provenance: §17.1 (6)'s forms and the build's two", () => {
   for (const p of refused) {
     it(`refuses '${p}', naming the table and the cell`, () => {
       expect(provenanceForm(p)).toBeNull();
-      const e = refusal(oneCell({ ...GOOD, provenance: p }));
+      const e = refuseTable(oneCell({ ...GOOD, provenance: p }));
       expect(e.cell).toBe('c');
       expect(e.reason).toBe(`provenance '${p}' is outside §17.1 (6)'s forms`);
     });
@@ -214,6 +223,17 @@ describe("the optional markers (§7.6): evidence, note, owner rule, extension, p
     const t = parseTable('t', oneCell(cell));
     expect(t.cell('r', 'c').presets?.MFCG?.value).toBe(8);
     expect(Object.isFrozen(t.cell('r', 'c'))).toBe(true);
+  });
+
+  it("types the markers with §7.6's words", () => {
+    expectTypeOf<ExtensionOver>().toEqualTypeOf<'MFCG' | 'FTG' | 'VG' | 'FM' | 'both' | 'none'>();
+    expectTypeOf<ExtensionMode>().toEqualTypeOf<'chance' | 'weight' | 'option'>();
+    expectTypeOf<PresetId>().toEqualTypeOf<'MFCG' | 'FTG' | 'VG' | 'FM' | 'NG'>();
+    const reasons = (extra: Record<string, unknown>): string[] => checkCell({ ...GOOD, ...extra }, AT).map((i) => i.reason);
+    for (const over of ['MFCG', 'FTG', 'VG', 'FM', 'both', 'none']) {
+      for (const mode of ['chance', 'weight', 'option']) expect(reasons({ extension: { over, mode } })).toEqual([]);
+    }
+    for (const id of ['MFCG', 'FTG', 'VG', 'FM', 'NG']) expect(reasons({ presets: { [id]: { value: 1, provenance: 'own' } } })).toEqual([]);
   });
 
   it('refuses them out of form', () => {
@@ -244,7 +264,7 @@ describe("the optional markers (§7.6): evidence, note, owner rule, extension, p
     expect(reasons({ ...GOOD, extension: { over: 'both', mode: 'option' } })).toEqual([]);
     expect(reasons({ ...GOOD, value: true, extension: { over: 'both', mode: 'option' } })).toEqual([]);
     expect(reasons({ ...opt, extension: { over: 'both', mode: 'weight' } })).toEqual([]);
-    const e = refusal(oneCell(opt));
+    const e = refuseTable(oneCell(opt));
     expect([e.table, e.row, e.cell, e.reason]).toEqual(['t', 'r', 'c', need('MFCG')]);
   });
 });

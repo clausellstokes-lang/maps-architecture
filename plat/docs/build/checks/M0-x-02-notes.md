@@ -68,3 +68,54 @@ deferred: documented here, not a bug for a later seat to find again.
    * **Hardening test:** add a case with n > r (for example r = 0 under `{ S5: 1 }`, the common case of an unrerolled
      entity in a rerolled stage) to the same test. **Milestone:** M4, or sooner if M0-d-09's re-derivation pairs touch
      the runner.
+
+## The closing check's notes for session fix round S2 (lane `check/M0-x-02-close-s2`, 2026-10-11)
+
+None of these fails the round. Each is a KI row for the hardening pass, or a finding routed to the session. The evidence
+is in `checks/M0-x-02-s2.md`. Mutants and probes ran only in the seat's scratch mirror
+`waves/check-M0-x-02/m1` (cloud scratchpad).
+
+10. **KI — the guard does not judge batch-scope soft rows (C-0316 (3) declares this).**
+    * A stage may declare a batch-scope soft row and never report it. Its line then reads `pass: true, count: 0`, the
+      Q32 shape. `rows.test.ts` pins that it is accepted (`fx.softBatch`, count 0). Mutant K18, which adds batch-soft
+      rows to the guard, is killed by that pin.
+    * No M0 stage declares such a row. The base walker's classification test (`rows-base.test.ts`) bars one from the
+      base table: walker mutant W4, which adds a batch-soft row to the base S5, is KILLED.
+    * **Hardening:** at a stage's end, require at least one evaluation of each batch-scope soft row when the stage
+      committed at least one batch through the door. **Milestone:** M4.
+11. **Session finding (M0-b-03 / M0-x-04, Q15's note) — S8's `block-floor` (batch, hard) reads `count: 0` on every base
+    run, and the walker does not witness its evaluator.**
+    * The probe ran 12 base runs (flat and river, seeds 1 – 6, 900 ha, 30 ha walled). Each shows
+      `S8[block-floor=true/0, …]`. S8's batches go straight to `kernel.tx` (`infill/bentCutFabric.ts:1285`,
+      `expect: [BLOCK_FLOOR_ROW]`), so the runner's batch door never counts them.
+    * `runBase` injects no `env.floors`. The kernel's `classFloor` expect entry is therefore skipped
+      (`kernel/src/tx/tx.ts:399 – 400`, `floor === undefined → continue`). The floor is enforced by S8's own check
+      (`bentCutFabric.ts:671 – 680`, the OBB minor width against `run.floor.minWidthCm`), so the run fails safe, but the
+      report line is a count-0 pass.
+    * The walker accepts any batch-scope hard row as "evaluated by `expect`". It asserts `count ≥ 1` for stage-end
+      rows only.
+    * **Suggested handling:** route S8's batches through `ctx.batch`, or inject the class floors (M0-x-04 / M0-b-03).
+      Then extend the walker to require `count ≥ 1` for each batch-scope hard row of every base stage whose arena
+      version moved. **Milestone:** before M0 closes, or M4.
+12. **KI — mutant K19 survives: no test pins that a guard-refused stage's own result warnings are dropped.**
+    * Under K19, `builder.kernelWarnings(r.warnings)` also runs on the guard's refusal branch. The fixture's stage
+      returns no warnings, so nothing can see the difference.
+    * The code drops them, as for a refusing run, which has no result warnings. C-0316 (2) lists the refusal's effects
+      but does not name warnings.
+    * **Hardening test:** a fixture stage returns `ok({ land: 1 }, [warning])` without reporting its row; assert that
+      `report.kernel.warnings` does not hold the warning. **Milestone:** M4.
+13. **KI — a stage that returns ok having produced nothing is not judged (C-0316 (4)'s declared exemption).**
+    * The exemption is meant for missing inputs. It also covers a stage whose `inputsOf` returned an input, which ran
+      and returned `ok({})` without committing. Such a stage's declared stage-end rows read `pass: true, count: 0`.
+      This is a contrived-writer escape: no M0 stage does it, since S1 and S8 report on every ok path that reaches
+      their end (`site/src/water/stage.ts:173`, `infill/stage.ts:144`).
+    * **Hardening:** judge every stage whose `inputsOf` returned non-null, keeping the skip for a null input only.
+      Then check that no lawful base run is refused. **Milestone:** M4.
+14. **Session finding (a lawful-input refusal, J264) — the base river fixture at seed 2 refuses S5 `E_INVARIANT`.**
+    * The run is `RIVER_BLUEPRINT`, `areaHa` 900, `walledHa` 30, seed 2. The refusal reads "water: the crossing from
+      41082,-4616 to 49156,-1003 has no clear chord between its two bank pins (its chord would leave the water); a water
+      gate's wet side is t…".
+    * The refusal is the same with the guard off and on, and the reports and roots are identical. It is not this
+      item's. C-0316 (7b) reports it too. The seat's grep of `docs/M0-FIX-QUEUE.md` for "no clear chord" found no
+      queue row.
+    * **Suggested handling:** a queue row for the S5 water-crossing owner (M0-c-02's water gates), with this seed.

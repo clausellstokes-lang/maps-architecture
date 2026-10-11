@@ -1,12 +1,13 @@
 // The TableView (§7.6): the frozen, resolved tables every reader takes. M0's view has no override chain — packs,
 // presets, user and document overrides and log events arrive with the document at M1 (§4b; C-0012) — so it resolves
 // every row to the shipped table's own, and its hash is H128 of the pinned table hashes alone (C-0157). A slice is a
-// row (`key`) or one field of a row (`'<row>/<cell>'`, §7.6), its hash the H128 of that row's or cell's pinning
-// content cut to the model's Hash64.
+// row (`key`) or one field of a row (`'<row>/<cell>'`, §7.6), its hash the H128 of the row's pinning content or of the
+// field's key and the cell's pinning content (table.ts, C-0157 (1)), cut to the model's Hash64.
 import { H128, utf8Bytes, type Hash128 } from '@plat/kernel';
 import type { SliceRef, TableId } from '@plat/model';
+import { issueAt } from '../cell/cell.js';
 import { TABLE_IDS } from './registry.js';
-import { cellPinning, loadTable, TableError, type Row, type Table } from './table.js';
+import { cellSliceHash, loadTable, TableError, type Row, type Table } from './table.js';
 
 /** §7.6's TableView, with M0's `table(id)` beside it for the typed readers. */
 export interface TableView {
@@ -38,7 +39,7 @@ class View implements TableView {
 
   table(id: TableId): Table {
     const t = this.tables.get(id);
-    if (t === undefined) throw new TableError([{ table: id, reason: 'not in this view' }]);
+    if (t === undefined) throw new TableError([issueAt({ table: id, reason: 'not in this view' })]);
     return t;
   }
 
@@ -56,13 +57,9 @@ class View implements TableView {
 
   slice(id: TableId, kind: SliceRef['kind'], key: string): SliceRef {
     const t = this.table(id);
+    // A row key holds no '/' (ROW_KEY), so the first one parts the row from the cell.
     const cut = key.indexOf('/');
-    let h: Hash128;
-    if (cut < 0) h = t.rowHash(key);
-    else {
-      const c = t.cell(key.slice(0, cut), key.slice(cut + 1));
-      h = H128(utf8Bytes(`${JSON.stringify(key)}:${cellPinning(c)}`));
-    }
+    const h = cut < 0 ? t.rowHash(key) : cellSliceHash(key, t.cell(key.slice(0, cut), key.slice(cut + 1)));
     return { table: id, version: String(t.version), kind, key, hash: [h[0], h[1]] };
   }
 }

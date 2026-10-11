@@ -4,11 +4,11 @@
 // table-cell writer bumps the version with its cells, M0.md §2's hand-over chains) and passes, reported; a lower
 // version fails. The data folder holds M0-s-02's thirteen tables and, from M0-f-03a on, its workLimits.json — nothing
 // else.
-import { createHash } from 'node:crypto';
-import { readdirSync, readFileSync } from 'node:fs';
+import { readdirSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, it } from 'vitest';
 import { TABLE_IDS } from '../../src/index.js';
+import { pinnedFile } from '../loader/support.js';
 import golden from './golden.json';
 
 const DATA = fileURLToPath(new URL('../../data/', import.meta.url));
@@ -24,18 +24,7 @@ describe('golden hash of every data file', () => {
 
   for (const id of TABLE_IDS) {
     it(`${id}.json: at its pinned version its bytes are the pinned bytes`, () => {
-      const bytes = readFileSync(`${DATA}${id}.json`);
-      const file = JSON.parse(bytes.toString('utf8')) as { table: string; version: number };
-      const pin = PINS[`${id}.json`];
-      expect(file.table).toBe(id);
-      expect(file.version, 'a version below the pin').toBeGreaterThanOrEqual(pin.version);
-      const sha = createHash('sha256').update(bytes).digest('hex');
-      if (file.version === pin.version) {
-        expect(sha, `${id}.json changed without a version bump: a changed cell is a declared change`).toBe(pin.sha256);
-      } else {
-        // A declared change (a version bump by the table's hand-over writer): reported, not refused.
-        console.info(`${id}.json: version ${file.version} past the pin ${pin.version} — a declared change (sha256 ${sha})`);
-      }
+      pinnedFile(`${DATA}${id}.json`, id, PINS[`${id}.json`]);
     });
   }
 });

@@ -11,14 +11,19 @@
 // outputs unwritten, its arenas as they stood at its start and a bug entry in the report (§5.1 (8); N-55 (6), C-0295:
 // the stage image — M0-a-06's before-image taken per arena before the stage runs, put back over the batches it
 // committed, the level digests re-attached and the arena re-registered with the model digest), and the derivation goes
-// on with the next stage — the runner has no loop back, no retry and no restart above a stage (§5.1 (1); its retries
+// on with the next stage. A stage that reaches its end — its run returns ok and it produced something (a declared output
+// written, or a commit on an arena) — must have reported every declared stage-end row (§5.3's `stage` scope) through its
+// sink at least once; one it never reported refuses the stage as above, `E_INVARIANT` 'row <name> declared but never
+// evaluated', its report line pass false with count 0 (docs/M0-FIX-QUEUE.md Q32, C-0316: the class behind Q15 and Q31,
+// a declared row no code evaluates read as a pass) — the runner has no loop back, no retry and no restart above a stage (§5.1 (1); its retries
 // are the stage's own ladder, on its keyed streams). Lazy stages run eagerly too: the eager part of the laziness contract is the whole of M0 (the
 // pool and the lazy tiers are M1's, §4b), and an eager run of a lazy stage gives the model the contract promises.
 //
 // The model a run returns: the data keys the stages wrote (the blueprint under 'blueprint' — S0's expansion is M1's, a
 // fixture blueprint stands in), the arenas and the kernel over them, the model digest maintained along every commit
 // (M0-d-04: its listener is the kernel's onCommit) with its root after each stage and at the end, the order and the
-// stage ranks (§3.3: a stage's rank is its position in the order). Only scope `all` is built: a scoped re-derivation
+// stage ranks (§3.3: a stage's rank is its position in the order) and each refused stage's code and detail (the report's
+// bug entry keeps the code only, §5.4). Only scope `all` is built: a scoped re-derivation
 // is the edit log's (M2a) and an epoch's is M4's, refused here by name (C-0224 (8)).
 import {
   attachLevelDigests,
@@ -110,6 +115,12 @@ export interface PipelineModel {
   readonly stageRoots: ReadonlyMap<string, Hash128>;
   /** The town root: its address, lineage and cached entity key (TOWN_ROOT's handle). */
   readonly town: Minted;
+  /**
+   * Each refused stage's refusal, by name: its code (the report's bug entry's `cls`) and its detail — the stage's own, or
+   * the runner's 'row <name> declared but never evaluated' for a stage that reached its end without reporting a declared
+   * stage-end row (Q32, C-0316).
+   */
+  readonly refusals: ReadonlyMap<string, { readonly code: string; readonly detail: string }>;
 }
 
 function notBuilt(milestone: string, what: string): never {
@@ -152,17 +163,30 @@ function viewFor(stage: PipelineStage, extra: readonly DataKey[], data: Readonly
   });
 }
 
-/** Writes a stage's outputs: its declared keys it returned; a returned key it does not declare is a programming error. */
-function writeOutputs(stage: PipelineStage, value: unknown, data: Map<DataKey, unknown>): void {
-  if (value === undefined || value === null) return;
+/**
+ * A stage's outputs: the declared keys it returned with a value, in declaration order; a returned key it does not declare
+ * is a programming error.
+ */
+function outputsOf(stage: PipelineStage, value: unknown): [DataKey, unknown][] {
+  if (value === undefined || value === null) return [];
   if (typeof value !== 'object') throw new Error(`run: stage ${stageText(stage.id)} returned a ${typeof value}: a stage returns its outputs by data key`);
   const out = value as Record<string, unknown>;
   for (const key of sortedKeys(out)) {
     if (!stage.outputs.includes(key)) throw new Error(`run: stage ${stageText(stage.id)} returned '${key}', which it does not declare as an output (§4.1)`);
   }
+  const written: [DataKey, unknown][] = [];
   for (const key of stage.outputs) {
-    if (Object.prototype.hasOwnProperty.call(out, key) && out[key] !== undefined) data.set(key, out[key]);
+    if (Object.prototype.hasOwnProperty.call(out, key) && out[key] !== undefined) written.push([key, out[key]]);
   }
+  return written;
+}
+
+/**
+ * The refusal detail of a stage that reached its end without reporting a declared stage-end row (Q32, C-0316): one
+ * clause per row, in declaration order.
+ */
+export function neverEvaluatedDetail(rows: readonly string[]): string {
+  return rows.map((row) => `row ${row} declared but never evaluated`).join('; ');
 }
 
 /**
@@ -234,6 +258,7 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
   const data = new Map<DataKey, unknown>([[BLUEPRINT_KEY, blueprint]]);
   const builder = new ReportBuilder(options.outputVersion ?? OUTPUT_VERSION, { seed: blueprint.seed, rung: blueprint.size.rung }, addressOf);
   const stageRoots = new Map<string, Hash128>();
+  const refusals = new Map<string, { readonly code: string; readonly detail: string }>();
 
   // One forward pass over the order: each stage runs once (§5.1 (1): no restart path).
   for (const id of order) {
@@ -329,12 +354,21 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     // The stage image (N-55 (6), C-0295): one before-image per arena, released at the stage's end.
     const images = arenas.map((p) => takeSavepoint(p));
     const r = stage.run(input, ctx);
-    if (r.ok) {
-      writeOutputs(stage, r.value, data);
+    const written = r.ok ? outputsOf(stage, r.value) : [];
+    // The stage-end guard (Q32, C-0316): a stage that reached its end — ok, and it wrote an output or committed on an
+    // arena — names every declared stage-end row it never reported. A stage that met missing inputs and produced nothing
+    // has no stage end to check (its rows stay unevaluated, §5.4's whole report); a refused stage is rolled back anyway.
+    const produced = written.length > 0 || images.some((image) => image.plat.version !== image.version);
+    const unreported = r.ok && produced ? builder.unevaluated(state) : [];
+    if (r.ok && unreported.length === 0) {
+      for (const [key, value] of written) data.set(key, value);
       builder.kernelWarnings(r.warnings);
     } else {
       rollBack(images, digest);
-      builder.stageRefused(state, r.code, town.identity.id);
+      for (const row of unreported) builder.neverEvaluated(state, row);
+      const code = r.ok ? 'E_INVARIANT' : r.code;
+      refusals.set(name, { code, detail: r.ok ? neverEvaluatedDetail(unreported) : r.detail });
+      builder.stageRefused(state, code, town.identity.id);
     }
     for (const p of arenas) kernel.index.rebuildAtStageEnd(p.key);
     stageRoots.set(name, digest.stageEnd() ?? digest.finaliseRoot());
@@ -350,6 +384,7 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     ranks: new Map(order.map((id, i) => [stageText(id), i])),
     stageRoots,
     town,
+    refusals,
   };
   return { model, report: builder.finish() };
 }

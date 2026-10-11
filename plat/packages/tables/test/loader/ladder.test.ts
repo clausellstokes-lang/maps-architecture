@@ -10,9 +10,9 @@ import {
   parseTable,
   rungForPopulation,
   rungProfile,
-  TABLE_SOURCES,
   TableError,
 } from '../../src/index.js';
+import { rawTable, refusal } from './support.js';
 
 describe("ladder.json's three base rows", () => {
   it('parse into the profiles §1.1 states', () => {
@@ -137,16 +137,11 @@ describe('TOWN / CITY / METROPOLIS bands include the lower bound and exclude the
 
 describe("the layers column: II.7.4's SewerExistenceRow and II.7.5's UndercityExistenceRow", () => {
   type RawLadder = { rows: Record<string, Record<string, Record<string, unknown>>> } & Record<string, unknown>;
-  const copy = (): RawLadder => JSON.parse(JSON.stringify(TABLE_SOURCES.get('ladder'))) as RawLadder;
-  const refusal = (raw: RawLadder, rung: 'TOWN' | 'CITY' | 'METROPOLIS'): TableError => {
+  const copy = (): RawLadder => rawTable<RawLadder>('ladder');
+  /** The TableError reading the rung's profile from the raw ladder throws (the raw table itself parses). */
+  const refuseProfile = (raw: RawLadder, rung: 'TOWN' | 'CITY' | 'METROPOLIS'): TableError => {
     const t = parseTable('ladder', raw);
-    try {
-      rungProfile(rung, t);
-    } catch (e) {
-      expect(e).toBeInstanceOf(TableError);
-      return e as TableError;
-    }
-    throw new Error('the profile was read');
+    return refusal(() => rungProfile(rung, t));
   };
 
   it('reads a parsed ladder table as it reads the shipped one', () => {
@@ -160,11 +155,11 @@ describe("the layers column: II.7.4's SewerExistenceRow and II.7.5's UndercityEx
     for (const r of ['CITY', 'METROPOLIS'] as const) expect(rungProfile(r).layers.sewers).toEqual({ existence: 'always' });
     const lawOnCity = copy();
     lawOnCity.rows.CITY['layers.sewers.law.base'] = lawOnCity.rows.TOWN['layers.sewers.law.base'];
-    const e = refusal(lawOnCity, 'CITY');
+    const e = refuseProfile(lawOnCity, 'CITY');
     expect([e.row, e.cell, e.reason]).toEqual(['CITY', 'layers.sewers.law.base', "a law on a row whose existence is 'always'"]);
     const partial = copy();
     delete partial.rows.TOWN['layers.sewers.law.cap'];
-    expect(refusal(partial, 'TOWN').message).toBe("table 'ladder', row 'TOWN', cell 'layers.sewers.law.cap': no such cell");
+    expect(refuseProfile(partial, 'TOWN').message).toBe("table 'ladder', row 'TOWN', cell 'layers.sewers.law.cap': no such cell");
   });
 
   it('refuses an existence word or an island gate outside the design\'s', () => {
@@ -176,16 +171,23 @@ describe("the layers column: II.7.4's SewerExistenceRow and II.7.5's UndercityEx
     for (const [cell, value, reason] of cases) {
       const raw = copy();
       raw.rows.TOWN[cell].value = value;
-      const e = refusal(raw, 'TOWN');
+      const e = refuseProfile(raw, 'TOWN');
       expect([e.table, e.row, e.cell, e.reason]).toEqual(['ladder', 'TOWN', cell, reason]);
     }
+  });
+
+  it('refuses a granularity.joinMaxDelta without one entry per band, naming the cell', () => {
+    const raw = copy();
+    raw.rows.CITY['granularity.joinMaxDelta'].value = [0, 0, 0];
+    const e = refuseProfile(raw, 'CITY');
+    expect([e.table, e.row, e.cell, e.reason]).toEqual(['ladder', 'CITY', 'granularity.joinMaxDelta', 'one entry per band of the band set']);
   });
 
   it('refuses a bound outside 0 – 3 neighbourhoods (the owner\'s one to three; 0 the parity presets\')', () => {
     for (const bad of [4, -1, 1.5]) {
       const raw = copy();
       raw.rows.METROPOLIS['layers.undercity.maxNeighbourhoods'].value = bad;
-      expect(refusal(raw, 'METROPOLIS').reason).toBe(`${bad} is not 0, 1, 2 or 3`);
+      expect(refuseProfile(raw, 'METROPOLIS').reason).toBe(`${bad} is not 0, 1, 2 or 3`);
     }
     const zero = copy();
     zero.rows.CITY['layers.undercity.maxNeighbourhoods'].value = 0;

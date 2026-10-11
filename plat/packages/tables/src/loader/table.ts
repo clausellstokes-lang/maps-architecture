@@ -2,8 +2,10 @@
 // refusal naming the table, the row and the cell. The file's shape is `{ table, version, section, rows }`: `table` its
 // registry id, `version` a positive integer that every change of a cell bumps (a changed cell is a declared change),
 // `section` the design section that states it, `rows` a map from a stable row key to a map from a cell key to a cell.
+// A row key may also begin with a digit (`ROW_KEY`); a cell key is a stable key (`STABLE_KEY`, the cell module's).
 // Keys are read in one total order (the kernel's sortedKeys, C-0009), never in the engine's enumeration order.
 import { H128, sortedKeys, utf8Bytes, type Hash128 } from '@plat/kernel';
+import { issueAt, nonEmptyString, STABLE_KEY } from '../cell/cell.js';
 import { checkCell, isRecord, type Cell, type CellValue, type TableIssue } from '../cell/index.js';
 import { TABLE_SOURCES, isTableId } from './registry.js';
 
@@ -35,14 +37,14 @@ export class TableError extends Error {
 }
 
 const TOP_FIELDS: ReadonlySet<string> = new Set(['table', 'version', 'section', 'rows']);
+/** A row key: a stable key that may also begin with a digit. */
 const ROW_KEY = /^[A-Za-z0-9][A-Za-z0-9_.\-]*$/;
-const CELL_KEY = /^[A-Za-z][A-Za-z0-9_.\-]*$/;
 
 /** Every issue of one raw table file (none: it loads). */
 export function checkTable(id: string, raw: unknown): TableIssue[] {
   const issues: TableIssue[] = [];
   const issue = (reason: string, row?: string, cell?: string): void => {
-    issues.push(row === undefined ? { table: id, reason } : cell === undefined ? { table: id, row, reason } : { table: id, row, cell, reason });
+    issues.push(issueAt({ table: id, row, cell, reason }));
   };
   if (!isRecord(raw)) {
     issue('a table file must be a JSON object');
@@ -53,7 +55,7 @@ export function checkTable(id: string, raw: unknown): TableIssue[] {
   if (!(typeof raw.version === 'number' && Number.isInteger(raw.version) && raw.version >= 1)) {
     issue('version must be a positive integer');
   }
-  if (!(typeof raw.section === 'string' && raw.section.trim().length > 0)) issue('section must name the design section');
+  if (!nonEmptyString(raw.section)) issue('section must name the design section');
   const rows = raw.rows;
   if (!isRecord(rows) || sortedKeys(rows).length === 0) {
     issue('empty table: no rows');
@@ -67,7 +69,7 @@ export function checkTable(id: string, raw: unknown): TableIssue[] {
       continue;
     }
     for (const ck of sortedKeys(row)) {
-      if (!CELL_KEY.test(ck)) issue(`cell key '${ck}' is not a stable key`, rk, ck);
+      if (!STABLE_KEY.test(ck)) issue(`cell key '${ck}' is not a stable key`, rk, ck);
       issues.push(...checkCell(row[ck], { table: id, row: rk, cell: ck }));
     }
   }
@@ -103,10 +105,13 @@ function frozenCell(raw: Record<string, unknown>): Cell {
   return Object.freeze(out) as unknown as Cell;
 }
 
-/**
- * The pinning content of a cell (§7.6): its value, unit, calibratable, extension and presets' values — never the
- * provenance block (source, note, evidence, owner rule), so rewording provenance never moves a hash.
- */
+// The pinning content (§7.6) and the two slice hashes. A cell's pinning content is its value, unit, calibratable,
+// extension and presets' values — never the provenance block (source, note, evidence, owner rule), so rewording
+// provenance never moves a hash; a row's is its cells' in key order. A row slice hashes the row's pinning content; a
+// field slice hashes its `'<row>/<cell>'` key and the cell's pinning content. They are the forms `SliceRef.hash`
+// records (C-0157 (1)), fixed.
+
+/** The pinning content of a cell (§7.6). */
 export function cellPinning(c: Cell): string {
   const ext = c.extension === undefined ? '-' : `${JSON.stringify(c.extension.over)}/${JSON.stringify(c.extension.mode)}`;
   let presets = '-';
@@ -156,7 +161,7 @@ export class Table {
   }
 
   private refuse(reason: string, row?: string, cell?: string): never {
-    throw new TableError([row === undefined ? { table: this.id, reason } : cell === undefined ? { table: this.id, row, reason } : { table: this.id, row, cell, reason }]);
+    throw new TableError([issueAt({ table: this.id, row, cell, reason })]);
   }
 
   /** Does the table hold the row (and, given one, the cell)? */
@@ -231,6 +236,11 @@ export class Table {
   }
 }
 
+/** H128 of a field slice: its `'<row>/<cell>'` key, as the reader cites it, and the cell's pinning content (§2.8). */
+export function cellSliceHash(key: string, c: Cell): Hash128 {
+  return H128(utf8Bytes(`${JSON.stringify(key)}:${cellPinning(c)}`));
+}
+
 /** A raw table file checked into a `Table`, or a `TableError` naming every issue. */
 export function parseTable(id: string, raw: unknown): Table {
   const issues = checkTable(id, raw);
@@ -244,7 +254,7 @@ const LOADED = new Map<string, Table>();
 export function loadTable(id: string): Table {
   const hit = LOADED.get(id);
   if (hit !== undefined) return hit;
-  if (!isTableId(id)) throw new TableError([{ table: id, reason: 'no such table in @plat/tables' }]);
+  if (!isTableId(id)) throw new TableError([issueAt({ table: id, reason: 'no such table in @plat/tables' })]);
   const t = parseTable(id, TABLE_SOURCES.get(id));
   LOADED.set(id, t);
   return t;

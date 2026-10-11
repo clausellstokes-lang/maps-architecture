@@ -39,7 +39,7 @@ import { clearFiner, removeEdges, resolveStretch, retypeEdges, sampleProfile, se
 import type { GeomRef, Level, PlatKey, StretchRef } from '../types/index.js';
 import { simplify, warp } from '../warp/index.js';
 import { notBuilt, refuseNotBuilt } from './notBuilt.js';
-import { assertStamped, stamp, stampOf, stampWith } from './stamp.js';
+import { assertStamped, stamp, stampNow, stampOf, stampWith } from './stamp.js';
 import type { ArenaKey, GeomOps, IndexOps, Kernel, LevelView, TransientKey } from './types.js';
 
 /** What `createKernel` is handed besides the arenas. */
@@ -178,7 +178,8 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     if (!isStretchRef(ref)) return resolveOn(p, ref, key);
     // A StretchRef (batch-local, §2.2 rule 5) resolves to its one run of half-edges; one that finds no stretch, empty.
     const s = resolveStretch(p, key, ref);
-    return { key: { layer: p.key.layer, part: p.key.part }, version: p.version, view: 'edges', runs: s.ok ? [s.value.half] : [] };
+    // Its inline stamp keeps its shape; the debug build's side-table stamp carries the restore generation (C-0313 (1)).
+    return stamp(p, { key: { layer: p.key.layer, part: p.key.part }, version: p.version, view: 'edges', runs: s.ok ? [s.value.half] : [] });
   };
 
   const geom: GeomOps = {
@@ -239,13 +240,16 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     lir,
     sideRuns: (face, turnTolCdeg, opts) => sideRuns(ringsOf(face, 'sideRuns'), turnTolCdeg, opts),
     sampleBoundary: (face, stepCm) => sampleBoundary(ringsOf(face, 'sampleBoundary'), stepCm),
+    // The inline-stamped answers (`Location`, `FaceNeighbours`; M0-a-03's and M0-a-10's stamps carry no restore
+    // generation on this tree) are stamped in the side table too, so the debug build reads them at the arena's state
+    // now, generation included (C-0313 (5)(a)); their own fields are untouched.
     pointLocate: (key, level, at) => {
       const p = platOf(key);
-      return locateOn(p, p.key, level, at);
+      return stamp(p, locateOn(p, p.key, level, at));
     },
     faceNeighbours: (key, face, level) => {
       const p = platOf(key);
-      return faceNeighbours(p, p.key, face, level);
+      return stamp(p, faceNeighbours(p, p.key, face, level));
     },
     area2,
     area2Big,
@@ -259,7 +263,10 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
   Object.freeze(geom);
 
   const index: IndexOps = {
-    query: (key, level, box, kinds) => queryOn(platOf(key), key, level, box, kinds),
+    query: (key, level, box, kinds) => {
+      const p = platOf(key);
+      return stamp(p, queryOn(p, key, level, box, kinds));
+    },
     pointLocate: geom.pointLocate,
     rebuildAtStageEnd: (key, district) => rebuildOn(platOf(key), district),
   };
@@ -293,18 +300,19 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
       },
       query: (box, kinds) => {
         assertStamped(p, v);
-        return queryOn(p, k, level, box, kinds);
+        return stamp(p, queryOn(p, k, level, box, kinds));
       },
       pointLocate: (at) => {
         assertStamped(p, v);
-        return locateOn(p, k, level, at);
+        return stamp(p, locateOn(p, k, level, at));
       },
       neighbours: (face) => {
         assertStamped(p, v);
-        return faceNeighbours(p, k, face, level);
+        return stamp(p, faceNeighbours(p, k, face, level));
       },
     };
-    return Object.freeze(v);
+    // The view's inline stamp keeps its shape; the side table carries the restore generation (C-0313 (1)).
+    return stamp(p, Object.freeze(v));
   };
 
   const runTx = <T>(spec: KernelTx, fn?: (overlay: Overlay) => KernelResult<T>): KernelResult<Committed<T | KernelResult<unknown>[]>> => {
@@ -326,10 +334,15 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
       frames.pop();
       // The batch's values: current at the version it committed (or kept, when it wrote nothing); never current when
       // it was rejected or threw — the arena is back at its prior version and those slots name nothing (C-0220 (3)).
-      const at = r !== undefined && r.ok ? { key: p.key, version: p.version } : { key: p.key, version: -1 };
+      // The arena's stamp now carries its restore generation when not 0 (C-0313 (1)).
+      const at = r !== undefined && r.ok ? stampNow(p) : { key: p.key, version: -1 };
       for (const v of frame.stamped) stampWith(at, v);
     }
-    if (r.ok) stamp(p, r.value);
+    if (r.ok) {
+      stamp(p, r.value);
+      // the commit record's inline stamp (M0-a-06's) carries no generation: the side table does
+      if (r.value.record !== null) stamp(p, r.value.record);
+    }
     return stamp(p, r);
   };
 

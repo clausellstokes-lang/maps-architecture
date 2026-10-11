@@ -16,7 +16,7 @@ import terrain from '../../data/terrain.json';
 import walls from '../../data/walls.json';
 import ways from '../../data/ways.json';
 
-/** The ids of M0's tables, in the order the census and the view's hash read them. */
+/** The ids of M0's tables, written once, in the order the census and the view's hash read them. */
 export const TABLE_IDS = [
   'ladder',
   'granularity',
@@ -35,22 +35,25 @@ export const TABLE_IDS = [
 
 export type M0TableId = (typeof TABLE_IDS)[number];
 
-/** Each table's raw JSON, unchecked; `loadTable` checks it before anything reads it. */
-export const TABLE_SOURCES: ReadonlyMap<M0TableId, unknown> = new Map<M0TableId, unknown>([
-  ['ladder', ladder],
-  ['granularity', granularity],
-  ['faces', faces],
-  ['regimes', regimes],
-  ['ways', ways],
-  ['cut', cut],
-  ['interior', interior],
-  ['walls', walls],
-  ['lattice', lattice],
-  ['district', district],
-  ['fields', fields],
-  ['bands', bands],
-  ['terrain', terrain],
-]);
+/** Each table's JSON by id; the record's type makes it name every id of the list and nothing else. */
+const JSON_OF: Readonly<Record<M0TableId, unknown>> = {
+  ladder,
+  granularity,
+  faces,
+  regimes,
+  ways,
+  cut,
+  interior,
+  walls,
+  lattice,
+  district,
+  fields,
+  bands,
+  terrain,
+};
+
+/** Each table's raw JSON, unchecked, in TABLE_IDS' order; `loadTable` checks it before anything reads it. */
+export const TABLE_SOURCES: ReadonlyMap<M0TableId, unknown> = new Map(TABLE_IDS.map((id) => [id, JSON_OF[id]]));
 
 /** Is `id` one of M0's tables? */
 export function isTableId(id: string): id is M0TableId {
