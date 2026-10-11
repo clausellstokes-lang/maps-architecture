@@ -8,7 +8,9 @@
 // a failing hard row refuses the stage E_INVARIANT — then writes Terrain.outfalls (S1 (9)). A water batch the kernel
 // refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and reported
 // (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first body, the
-// river, whose refusal is the stage's (C-0229 (2)). The stage draws nothing
+// river, whose refusal is the stage's (C-0229 (2)), its detail naming the fast ring's cause and the kernel ring's
+// refusal, the one rung spent (N-56 (1)). The kernel's rings are cleaned and proved before any batch (`provedRings`); a
+// body they cannot make clear is dropped there, reason `refused`. The stage draws nothing
 // (no stream key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel
 // parameter and the StageContext no kernel slot (C-0229 (1)).
 import { checkStageEnd, err, ok, STAGES, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
@@ -47,14 +49,26 @@ export function l0WorkLimit(vertices: number, faces: number): number {
 
 type Attempt =
   | { ok: true; polys: Extract<ReturnType<typeof waterPolygons>, { ok: true }>; sites: CrossingSite[]; faces: Extract<ReturnType<typeof waterFaces>, { ok: true }>; retried: boolean }
-  | { ok: false; code: KernelError; detail: string; fast: boolean };
+  | { ok: false; code: KernelError; detail: string; fast: boolean; fallbacks: readonly { id: Id; why: string }[]; riverPolygon?: true };
+
+/** The cause `waterPolygons` appends to a body's fast-ring refusal when the kernel's ring is refused too (N-56 (1)). */
+const KERNEL_RING = "; the kernel's ring: ";
 
 /** One try at the water: the polygons (fast, or the kernel's only), the sites on them, the water batch. */
 function water(input: S1Input, bodies: readonly WaterBody[], mouth: S1Input['mouth'], reach: Reach, params: WaterParams, k: Kernel, ctx: StageContext<SiteEnv>, opts: S1StageOptions, slowOnly: boolean): Attempt {
   const polys = waterPolygons(bodies, reach, { slowOnly, ...(mouth !== undefined ? { mouth } : {}) });
-  if (!polys.ok) return { ok: false, code: polys.code, detail: `S1 water polygons: ${polys.detail}`, fast: false };
+  if (!polys.ok) return { ok: false, code: polys.code, detail: `S1 water polygons: ${polys.detail}`, fast: false, fallbacks: [] };
+  const fallbacks = polys.value.fallbacks;
+  // the first body (the river) refused on its polygons: no batch can stand without it (C-0229 (2); N-56 (1))
+  const river = bodies[0]?.id;
+  if (river !== undefined && polys.value.dropped.some((d) => d.id === river && d.reason === 'refused')) {
+    const why = fallbacks.find((f) => f.id === river)?.why ?? '';
+    const at = why.indexOf(KERNEL_RING);
+    return { ok: false, code: 'E_INVARIANT', detail: `the kernel's ring ${at < 0 ? 'refused' : why.slice(at + KERNEL_RING.length)}`, fast: false, fallbacks, riverPolygon: true };
+  }
   const reaches = polys.value.reaches;
-  const fast = polys.value.fallbacks.length < reaches.length;
+  // a fast ring stands among the reaches (a body refused on both polygons is in `fallbacks` but no reach)
+  const fast = fallbacks.filter((f) => !polys.value.dropped.some((d) => d.id === f.id && d.reason === 'refused')).length < reaches.length;
   const sites = siteCrossings(reaches, params.searchBandCm * 0.01, input.existingDecks ?? [], { reach, minSpacingCm: params.minSpacingCm, fordMaxWidthCm: params.fordMaxWidthCm });
   const first = input.water.bridges.length;
   const ids = sites.map((_, i) => bridgeId(first + i));
@@ -67,7 +81,7 @@ function water(input: S1Input, bodies: readonly WaterBody[], mouth: S1Input['mou
     }
   }
   const faces = waterFaces(reaches, k, { key: GROUND_KEY, stage: STAGES.S1, workLimit: opts.workLimit ?? l0WorkLimit(points, 2 * rings + 2), sites, bridgeIds: ids, epoch: ctx.epoch });
-  if (!faces.ok) return { ok: false, code: faces.code, detail: faces.detail, fast };
+  if (!faces.ok) return { ok: false, code: faces.code, detail: faces.detail, fast, fallbacks };
   return { ok: true, polys, sites, faces, retried: slowOnly };
 }
 
@@ -92,6 +106,11 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   let standing = bodies;
   let mouth = input.mouth;
   let attempt = water(input, standing, mouth, reach, params, k, ctx, opts, false);
+  // the fast ring's refusal of the river on the first attempt (none when the fast ring was inserted)
+  const riverId = bodies[0]?.id;
+  const firstWhy = attempt.ok ? undefined : attempt.fallbacks.find((f) => f.id === riverId)?.why;
+  const fastWhy = firstWhy === undefined || !firstWhy.includes(KERNEL_RING) ? firstWhy : firstWhy.slice(0, firstWhy.indexOf(KERNEL_RING));
+  let riverRefused = false;
   for (let guard = 0; !attempt.ok && attempt.code === 'E_INVARIANT' && guard <= bodies.length + 1; guard += 1) {
     if (attempt.fast) {
       attempt = water(input, standing, mouth, reach, params, k, ctx, opts, true);
@@ -104,13 +123,19 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
       mouth = 'none';
     } else {
       const at = named === undefined ? -1 : standing.findIndex((b) => b.id === named);
+      riverRefused = at === 0;
       if (at <= 0) break;
       refused.push({ id: standing[at].id, reason: 'refused' });
       standing = standing.filter((_, i) => i !== at);
     }
     attempt = water(input, standing, mouth, reach, params, k, ctx, opts, false);
   }
-  if (!attempt.ok) return err(attempt.code, attempt.detail);
+  if (!attempt.ok) {
+    // the river's ring refused at commit on the kernel's polygons: its one rung (fast → the kernel's) is spent — the
+    // fast ring's cause named, so the reader sees why there was no retry (N-56 (1))
+    if (riverRefused || attempt.riverPolygon === true) return err(attempt.code, `S1 water: the river's ring was refused on the kernel's polygons (the fast ring: ${fastWhy ?? 'inserted, refused at commit'}); no further rung — ${attempt.detail}`);
+    return err(attempt.code, attempt.detail);
+  }
   const { polys, sites, faces } = attempt;
   warnings.push(...polys.warnings, ...faces.warnings);
   const reaches = polys.value.reaches;

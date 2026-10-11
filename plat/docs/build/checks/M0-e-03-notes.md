@@ -70,3 +70,44 @@ KI row for the hardening pass. The probes and mutants live in `~/maps-scratch/wa
     The three full CITY frames kill them ("seed 4 bridge:27 11.9°"; "seed 10 bridge:20 15.6°"). The bar holds, but its
     margin rests on three frames. **Hardening (M4):** a hand-built course in `crossings.test.ts` whose adjacent-vertex
     chord and half-width chord both lie over 10° off the one-width chord, such as a bend with a short kink at the vertex.
+
+## Closing check of session fix round S1 (`check/M0-e-03-close-s1`, 2026-10-11; N-56 (1), Q20 class A)
+
+None of these fails the item (J180, N-45: each fails safe or is a hardening test). The probes and mutants ran in this
+seat's scratch mirrors `waves/check-M0-e-03/m1` (the tree's code) and `m2` (a switch for the pre-round variant), never in
+`plat/`.
+
+12. **KI — nothing pins the 2 cm band of `provedRings`' fixed rule (mutant K04 survives).**
+    * Observation: K04 changes `ringsDist2(covered, q) <= 4` to `<= 0`, so only vertices exactly on an earlier ring
+      stay fixed. It passes NEAR 51/51. In an instrumented mirror, the 103 exit-bar runs reach the band with 2 vertices,
+      both on bar seed 78 (100 ha): the tributary's two junction vertices with the river, lattice-rounded crossings under
+      2 cm off the river's ring. Under K04 the clean drops them, and the tributary's kernel ring is refused `not clear
+      (meets an earlier body)`. Seed 78 then keeps 2 bodies instead of 3, so the refused tributaries rise from 1 to 2,
+      still inside the bar's `≤ 3`. **CONFIRMED** (probe `zz-chk-bar.test.ts`, base against K04).
+    * Effect: it fails safe. The tributary is detected and refused, and the report lists it.
+    * **Suggested handling:** pin bar seed 78's tributary as kept, or add a hand-built ring with a vertex 1 cm off an
+      earlier ring that stays put. Also tighten `exit-bar.test.ts`'s refused bound from 3 to the 1 this round measured.
+      **M4.**
+13. **KI — nothing pins the "the fast ring: <cause>" part of the river's refusal (mutant K13 survives).**
+    * Observation: K13 replaces `fastWhy` in `stage.ts`'s refusal detail with the literal `inserted, refused at commit`.
+      It passes NEAR 51/51, because `slow-rings.test.ts` matches `\(the fast ring: [^)]+\)`, which accepts any text.
+      Mutants K12 and K16 are killed, so the code, the one rung spent and the kernel ring's cause are all pinned.
+    * Effect: only the message changes. Nothing persisted depends on it.
+    * **Suggested handling:** assert that the loop river's detail names its fast ring's actual cause. **M4.**
+14. **KI — nothing pins how the stage's `fast` flag counts bodies refused on their polygons (mutant K18 survives).**
+    * Observation: K18 restores the pre-round `fallbacks.length < reaches.length`. A body refused on both polygons sits
+      in `fallbacks` but has no reach. Take one standing fast ring plus one polygon-refused tributary (bar seed 62 has
+      this shape). The old formula then reads "no fast ring", and if the batch were refused it would skip the slow-only
+      retry. It would then drop the named body, or refuse the stage if that body is the river.
+    * Why it survives: no measured seed has a batch refused in that shape (seed 62 commits), so the outcomes are equal.
+    * Effect: it fails safe either way.
+    * **Suggested test:** two hand-built bodies, a tributary refused on its polygons and a river fast ring that the batch
+      refuses; expect `report.retried` true. **M4.**
+15. **Informational, for M0-x-06 round 2 (N-56 (6)) — EP-01/S1/self-touching's planted refusals rise from 28 to 33 per
+    1 000.**
+    * This seat's 1 000-seed run: with the unplanted river now committing, `firstStanding` no longer moves the 5 class-A
+      seeds to state 2.
+    * Planted, they refuse safe `E_INVARIANT`. The slow ring is their first and only rung, and the plant fires on it.
+    * This is inside `ep01.ts`'s PINNED `S1 self-touching: E_INVARIANT`, with 0 problems and every arena valid.
+    * `ep01.ts`'s "~3 %" now measures 3.3 %. `ep01.ts` is not M0-e-03's file; x-06 round 2's re-pin should state the
+      new rate.
