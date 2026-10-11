@@ -3,6 +3,7 @@
 // finds no geometry resolves empty; a stale version stamp — or a foreign key — asserts in the debug build and passes
 // silently when the build does not assert; the signature holds the vertex's own rows and its incident edges'
 // structural rows, sorted by rank and address id, deduplicated.
+import fc from 'fast-check';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   addRole,
@@ -23,6 +24,7 @@ import {
   type Plat,
   type Resolved,
 } from '../../src/arena/index.js';
+import { restoreGeneration, restoreSavepoint, takeSavepoint, type Savepoint } from '../../src/tx/index.js';
 import type { Level, PlatKey } from '../../src/types/index.js';
 import { buildArena, faceAt, FRAME, GROUND, permutation, pt, QUARTERS, type ArenaSpec, type Built } from './support.js';
 
@@ -257,5 +259,136 @@ describe('signature (§2.2 rule 5, §3.4)', () => {
     setDebugAssertions(false);
     // without the assertion: the first vertex in canonical order, (0,0)
     expect(signature(p, { role: 'junction', entity: 'junction:c' }, GROUND)).toEqual(signature(p, pt(0, 0), GROUND));
+  });
+});
+
+// Q33 (C-0309; the class of Q28, C-0299 (5)): a savepoint put back across committed batches sets the version back, so a
+// version-only key reads a stamp of the rolled-back commits as current again after as many later commits. The stamp
+// carries the arena's restore generation; isCurrent and assertStamp compare key, generation and version.
+describe('Q33: the stamp carries the restore generation (C-0309)', () => {
+  const JUNCTION = { role: 'junction', entity: 'junction:c' } as const;
+  const LATE = { role: 'junction', entity: 'junction:late' } as const;
+
+  it('an arena never restored across commits stamps the shape it always had: no generation field', () => {
+    const { plat: p } = dressed();
+    const r = resolve(p, JUNCTION, GROUND);
+    expect('generation' in r).toBe(false);
+    expect(Object.keys(r).sort()).toEqual(['key', 'version', 'vertices', 'view']);
+    commitVersion(p);
+    expect('generation' in resolve(p, { role: 'way', entity: 'way:ns' }, GROUND)).toBe(false);
+  });
+
+  for (const n of [1, 3]) {
+    it(`a stamp read in the rolled-back commits is stale after the restore and ${n} later commit(s) (the version coincides); one read after is current (n = ${n})`, () => {
+      const b = dressed();
+      const p = b.plat;
+      const v0 = p.version;
+      const before = resolve(p, JUNCTION, GROUND);
+      const image = takeSavepoint(p);
+      addRole(p, b.v[2], LATE, 1);
+      for (let i = 0; i < n; i++) commitVersion(p);
+      const during = resolve(p, LATE, GROUND);
+      expect(during.view === 'vertices' && during.vertices.length).toBe(1);
+      expect(isCurrent(p, during)).toBe(true);
+      restoreSavepoint(image);
+      expect(restoreGeneration(p)).toBe(1);
+      expect(p.version).toBe(v0);
+      // At the image's own version: the pre-image stamp is of generation 0, the arena of generation 1.
+      expect(isCurrent(p, before)).toBe(false);
+      expect(() => assertStamp(p, before)).toThrow(`a stale slot: stamped at version ${v0} in restore generation 0, arena ground/0 is at version ${v0} in restore generation 1`);
+      for (let i = 0; i < n; i++) commitVersion(p);
+      // The version the rolled-back stamp was read at is reached again; its slots name a row the restore took away.
+      expect(p.version).toBe(during.version);
+      expect(resolve(p, LATE, GROUND)).toMatchObject({ view: 'vertices', vertices: [] });
+      expect(isCurrent(p, during)).toBe(false);
+      expect(() => assertStamp(p, during)).toThrow(/stale slot: .* in restore generation 0, .* in restore generation 1 \(a savepoint was put back across committed batches since\)/);
+      setDebugAssertions(false);
+      expect(() => assertStamp(p, during)).not.toThrow();
+      setDebugAssertions(true);
+      // A stamp read after the restore carries the generation and is current until the next commit.
+      const after = resolve(p, JUNCTION, GROUND);
+      expect(after.generation).toBe(1);
+      expect(after.version).toBe(during.version);
+      expect(isCurrent(p, after)).toBe(true);
+      expect(() => assertStamp(p, after)).not.toThrow();
+      commitVersion(p);
+      expect(isCurrent(p, after)).toBe(false);
+      expect(() => assertStamp(p, after)).toThrow(`a stale slot: stamped at version ${during.version}, arena ground/0 is at version ${p.version}`);
+    });
+  }
+
+  it('a restore at the image\'s own version (a rejected batch) moves no generation: a stamp read before it stays current', () => {
+    const b = dressed();
+    const p = b.plat;
+    const r = resolve(p, JUNCTION, GROUND);
+    const image = takeSavepoint(p);
+    addRole(p, b.v[2], LATE, 1);
+    restoreSavepoint(image);
+    expect(restoreGeneration(p)).toBe(0);
+    expect(isCurrent(p, r)).toBe(true);
+    expect(() => assertStamp(p, r)).not.toThrow();
+    expect('generation' in resolve(p, JUNCTION, GROUND)).toBe(false);
+  });
+
+  it('a stamp of another arena\'s generation and version asserts the foreign key first, as before', () => {
+    const { plat: p } = dressed();
+    const image = takeSavepoint(p);
+    commitVersion(p);
+    restoreSavepoint(image);
+    const other: PlatKey = { layer: 'ground', part: 1 };
+    expect(() => assertStamp(p, { key: other, version: p.version, generation: 1 })).toThrow(/stamped for arena ground\/1 was passed to arena ground\/0/);
+    expect(isCurrent(p, { key: other, version: p.version, generation: 1 })).toBe(false);
+    expect(isCurrent(p, { key: GROUND, version: p.version, generation: 1 })).toBe(true);
+    expect(isCurrent(p, { key: GROUND, version: p.version })).toBe(false);
+  });
+
+  it('property: a stamp is current exactly when no commit and no restore across commits has happened since it was read', () => {
+    // Events on one arena: commit, take a savepoint, put one back, read a stamp. Savepoints nest as a transaction's do:
+    // putting one back drops every image taken after it (they lie inside the span it rolls back). The model: each
+    // commit and each restore that moves the version is a new state; a stamp is current iff read in the current one.
+    type Ev = { k: 'commit' } | { k: 'take' } | { k: 'restore'; i: number } | { k: 'read' };
+    const ev: fc.Arbitrary<Ev> = fc.oneof(
+      fc.constant<Ev>({ k: 'commit' }),
+      fc.constant<Ev>({ k: 'take' }),
+      fc.nat(15).map((i): Ev => ({ k: 'restore', i })),
+      fc.constant<Ev>({ k: 'read' }),
+    );
+    fc.assert(
+      fc.property(fc.array(ev, { minLength: 1, maxLength: 40 }), (events) => {
+        const { plat: p } = dressed();
+        let state = 0;
+        let states = 0;
+        const images: { s: Savepoint; state: number }[] = [];
+        const reads: { r: Resolved; state: number }[] = [];
+        for (const e of events) {
+          if (e.k === 'commit') {
+            commitVersion(p);
+            state = ++states;
+          } else if (e.k === 'take') {
+            images.push({ s: takeSavepoint(p), state });
+          } else if (e.k === 'restore') {
+            if (images.length === 0) continue;
+            const [img] = images.splice(e.i % images.length);
+            const moved = p.version !== img.s.version;
+            restoreSavepoint(img.s);
+            state = moved ? ++states : state;
+          } else {
+            reads.push({ r: resolve(p, JUNCTION, GROUND), state });
+          }
+          for (const x of reads) {
+            const want = x.state === state;
+            if (isCurrent(p, x.r) !== want) return false;
+            let threw = false;
+            try {
+              assertStamp(p, x.r);
+            } catch {
+              threw = true;
+            }
+            if (threw === want) return false;
+          }
+        }
+        return true;
+      }),
+    );
   });
 });

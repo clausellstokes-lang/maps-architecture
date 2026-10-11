@@ -1,0 +1,29 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-e-06-manifest",
+  "lane": "build/M0-e-06",
+  "lanes": ["build/M0-e-06"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-08T00:01:50.709Z",
+  "ownsSource": "declared",
+  "owns": ["plat/bench/manifest.json"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/bench/manifest.json", "status": "created", "sha256": "302a1694cd51891abe034b161a5e8b67f511abb2aa115be278339e8e6d604cea", "size": 1214 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0334"],
+      "lines": ["59f895c03f9be4c4"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0271"],
+      "lines": ["3beaee8c152efd0a"],
+      "removed": []
+    }
+  ]
+}

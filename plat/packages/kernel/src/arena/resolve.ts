@@ -3,19 +3,31 @@
 // the arena's key and version and valid until its next commit; a debug build asserts both wherever a stamped value is
 // passed (§3.4 *Arenas, keys and services*). `signature` is what an edit stores beside a position (rule 5, *Positions
 // in the log*). Every list returned is in a canonical order read on lattice positions (§3.3's keys), never slot order,
-// and a ref that finds no geometry resolves empty (§3.11). M0-a-02. Readings: C-0146 (4) – (6).
+// and a ref that finds no geometry resolves empty (§3.11). M0-a-02. Readings: C-0146 (4) – (6); the stamp's restore
+// generation (Q33, the class of Q28): C-0309.
 import { orient2d } from '../num/index.js';
 import type { ChainRef, EdgeSetRef, FaceRef, LatticePoint, Level, PlatKey, VertexRef, VertexSig } from '../types/index.js';
+// The module itself, not the tx barrel: savepoint.ts imports only types, so the arena reads the generation with no
+// runtime import cycle (C-0309 (2)).
+import { restoreGeneration } from '../tx/savepoint.js';
 import { check, debugAssertions } from './debug.js';
 import { dest, facesOfOwner, isLevel, isVertexLive, sameKey, type FaceId, type HalfEdgeId, type Plat, type VertexId } from './plat.js';
 import { roleIdOf, roleInfo } from './registry.js';
 import { compareRowKeys, handleOf, rowElement, rowKey, rowsOfKey, rowsOn } from './rows.js';
 import { compareFaces, compareVertices, outgoing } from './walk.js';
 
-/** The arena and version a value holding slots was read at (§3.4). */
+/**
+ * The arena and version a value holding slots was read at (§3.4), with the arena's restore generation (C-0299: how many
+ * times a savepoint was put back across committed batches). A restore sets the version back, so the version alone names
+ * no state: (generation, version) does — it is never reached twice with different content (C-0299 (2)). `generation` is
+ * written only when it is not 0 and an absent one reads 0, so a stamp of an arena never restored across commits has the
+ * shape it always had (C-0309 (1)). Never hashed, encoded or persisted.
+ */
 export interface Stamp {
   readonly key: PlatKey;
   readonly version: number;
+  /** The arena's restore generation when the value was read; absent reads 0. */
+  readonly generation?: number;
 }
 
 /** A resolved reference: current slots, valid until the arena's next commit. */
@@ -41,23 +53,41 @@ function keyName(k: PlatKey): string {
   return `${k.layer}/${k.part}`;
 }
 
-/** Was the stamp read at this arena's current version? */
-export function isCurrent(p: Plat, stamp: Stamp): boolean {
-  return sameKey(stamp.key, p.key) && stamp.version === p.version;
+/** A stamp's restore generation (absent reads 0). */
+function generationOf(stamp: Stamp): number {
+  return stamp.generation ?? 0;
 }
 
 /**
- * The debug build's assertion on a stamped value passed to an op or a service acting on `p`: its key is this arena
- * and its version is current — a stale or foreign slot asserts, never a silent read (§3.4, §3.11). A no-op when the
- * build does not assert (M0-a-14's flag).
+ * Was the stamp read at this arena's current state — its key, its restore generation and its version? A stamp read
+ * before a savepoint was put back across committed batches is never current again, however many commits follow
+ * (C-0309 (1)).
+ */
+export function isCurrent(p: Plat, stamp: Stamp): boolean {
+  return sameKey(stamp.key, p.key) && generationOf(stamp) === restoreGeneration(p) && stamp.version === p.version;
+}
+
+/**
+ * The debug build's assertion on a stamped value passed to an op or a service acting on `p`: its key is this arena,
+ * its restore generation is the arena's and its version is current — a stale or foreign slot asserts, never a silent
+ * read (§3.4, §3.11; C-0309 (1)). A no-op when the build does not assert (M0-a-14's flag).
  */
 export function assertStamp(p: Plat, stamp: Stamp): void {
   debugCheck(sameKey(stamp.key, p.key), `a slot stamped for arena ${keyName(stamp.key)} was passed to arena ${keyName(p.key)}`);
+  if (!debugAssertions()) return;
+  const g = restoreGeneration(p);
+  debugCheck(
+    generationOf(stamp) === g,
+    `a stale slot: stamped at version ${stamp.version} in restore generation ${generationOf(stamp)}, arena ${keyName(p.key)} is at version ${p.version} in restore generation ${g} (a savepoint was put back across committed batches since)`,
+  );
   debugCheck(stamp.version === p.version, `a stale slot: stamped at version ${stamp.version}, arena ${keyName(p.key)} is at version ${p.version}`);
 }
 
+/** The stamp of `p` now: its key, its version and — when not 0 — its restore generation. */
 function stamp(p: Plat): Stamp {
-  return { key: { layer: p.key.layer, part: p.key.part }, version: p.version };
+  const key = { layer: p.key.layer, part: p.key.part };
+  const generation = restoreGeneration(p);
+  return generation === 0 ? { key, version: p.version } : { key, version: p.version, generation };
 }
 
 function lowerBound(sorted: readonly number[], x: number): number {

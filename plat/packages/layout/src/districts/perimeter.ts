@@ -11,7 +11,10 @@
 // rings are tried — the curve mitred at its reflex vertices, then mitred only where the miter lies on both its offset
 // segments — each with its local folds cut; a fast ring stands only when `isSumRing` finds it the sum's outer ring (a
 // miter beyond its edges cuts across land the sum holds, C-0245 (1), C-0252), and the overlay's ring is checked the same way
-// (a ring that fails is refused, never returned). The ring is a value; S6's
+// (a ring that fails is refused, never returned). The boundary's exactly collinear vertices are merged first
+// (`mergeCollinear`, §3.8's collinear pre-clean in value form; N-56 (2), C-0305): the overlay's union merges them, so a
+// boundary that kept them would put one ring edge across two of its halves and fail the sum check — the perimeter is
+// a function of the boundary's region, not of how its straight runs are split. The ring is a value; S6's
 // batch inserts it as an L1 chain carrying `district_bound`, closed against the arterials and shores it meets by the
 // insertion rules (§3.6).
 import { arcSteps, area2, dmath, err, LATTICE, ok, orient2d, type Kernel, type KernelResult, type LatticePoint } from '@plat/kernel';
@@ -52,9 +55,11 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
   if (boundary.length < 3 || area2(boundary as LatticePoint[]) <= 0) return err('E_DEGENERATE', 'settlementPerimeter: the boundary is no counter-clockwise ring of area above zero');
   const offsetCm = opts.offsetCm ?? Math.round(districtCells(opts.tables).perimeterOffsetM * 100);
   if (!(offsetCm >= 0 && Number.isFinite(offsetCm))) throw new RangeError(`settlementPerimeter: the offset is a finite length ≥ 0, got ${String(offsetCm)}`);
-  let ring: LatticePoint[] = boundary.slice();
+  // The boundary as a region: its exactly collinear vertices merged (a copy, unchanged, when it has none).
+  const b = mergeCollinear(boundary);
+  let ring: LatticePoint[] = b;
   if (offsetCm > 0) {
-    const raw = convolution(boundary, offsetCm, 'miter');
+    const raw = convolution(b, offsetCm, 'miter');
     if (raw === null) return err('E_DEGENERATE', 'settlementPerimeter: the boundary has fewer than three distinct points');
     // A fast ring stands only where the check (`isSumRing`) finds it the sum's outer ring: first the mitred curve with
     // its local folds cut, then the curve mitred only where a miter lies on both its offset segments (the reflex arc
@@ -62,18 +67,18 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
     // boundary) the sum's outer ring through one overlay of the full convolution, itself checked — a ring that fails is
     // refused, never committed (C-0245 (1)).
     let fast = unloop(raw);
-    if (!(simpleCcw(fast) && isSumRing(boundary, fast, offsetCm, SUM_TOLERANCE_CM))) {
-      fast = unloop(convolution(boundary, offsetCm, 'onSegments') as LatticePoint[]);
-      if (!(simpleCcw(fast) && isSumRing(boundary, fast, offsetCm, SUM_TOLERANCE_CM))) fast = [];
+    if (!(simpleCcw(fast) && isSumRing(b, fast, offsetCm, SUM_TOLERANCE_CM))) {
+      fast = unloop(convolution(b, offsetCm, 'onSegments') as LatticePoint[]);
+      if (!(simpleCcw(fast) && isSumRing(b, fast, offsetCm, SUM_TOLERANCE_CM))) fast = [];
     }
     if (fast.length > 0) ring = fast;
     else {
-      const full = convolution(boundary, offsetCm, 'arc') as LatticePoint[];
-      const u = k.geom.booleans('union', [boundary.slice()], [full], 'nonzero');
+      const full = convolution(b, offsetCm, 'arc') as LatticePoint[];
+      const u = k.geom.booleans('union', [b.slice()], [full], 'nonzero');
       if (!u.ok) return err(u.code, `settlementPerimeter: the union: ${u.detail}`);
       const outer = largestOuter(u.value);
       if (outer === null) return err('E_DEGENERATE', 'settlementPerimeter: the offset has no outer ring');
-      if (!isSumRing(boundary, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not the boundary\'s offset (the sum check failed)');
+      if (!isSumRing(b, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not the boundary\'s offset (the sum check failed)');
       ring = outer;
     }
   }
@@ -91,6 +96,30 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
 interface Pt {
   x: number;
   y: number;
+}
+
+/**
+ * The ring with its exactly collinear vertices merged (§3.8's "merging collinear vertices" pre-clean in value form;
+ * N-56 (2), C-0305): a vertex v between neighbours a and b with orient2d(a, v, b) = 0 and the ring running on through
+ * it ((v − a) · (b − v) > 0) is dropped. Dropping such a vertex leaves the direction of the edges into and out of its
+ * neighbours unchanged (a run of them lies on one line, each strictly ahead of the last), so one pass against the
+ * original neighbours finds every one and the result is the same in any order. A vertex where the ring folds back or
+ * repeats (dot ≤ 0) is kept — no continuation, the simplicity check's or the kernel's to judge. A ring with no such
+ * vertex comes back as a copy, unchanged (a no-op on every ring that has none: zero shift). Exact on the lattice.
+ */
+export function mergeCollinear(ring: readonly LatticePoint[]): LatticePoint[] {
+  const n = ring.length;
+  if (n < 3) return ring.slice();
+  const out: LatticePoint[] = [];
+  for (let i = 0; i < n; i += 1) {
+    const a = ring[i === 0 ? n - 1 : i - 1];
+    const v = ring[i];
+    const c = ring[i + 1 === n ? 0 : i + 1];
+    if (orient2d(a.x, a.y, v.x, v.y, c.x, c.y) === 0 && (v.x - a.x) * (c.x - v.x) + (v.y - a.y) * (c.y - v.y) > 0) continue;
+    out.push(v);
+  }
+  // A ring of no area has every vertex on one line; it is refused before this is reached, and kept whole here.
+  return out.length >= 3 ? out : ring.slice();
 }
 
 /**
@@ -212,9 +241,13 @@ function segDist2(px: number, py: number, ax: number, ay: number, bx: number, by
  * and runs through no land of the sum's interior), each ring edge has both ends within d plus the tolerance of one
  * boundary edge (the distance to a segment is convex, so the whole edge does), and the boundary's first vertex lies
  * inside the ring (the boundary is connected and the ring meets it nowhere, so all of it does). A simple ring in that
- * shell enclosing the boundary is the sum's outer boundary. Edges are bucketed on a grid of cells of d.
+ * shell enclosing the boundary is the sum's outer boundary. The boundary is read as a region: its exactly collinear
+ * vertices are merged first (`mergeCollinear`), else a ring edge spanning two halves of one straight boundary side —
+ * the overlay's union merges such vertices — would be near neither half alone (N-56 (2)). Edges are bucketed on a grid
+ * of cells of d.
  */
-export function isSumRing(boundary: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
+export function isSumRing(given: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
+  const boundary = mergeCollinear(given);
   const n = boundary.length;
   const m = ring.length;
   if (n < 2 || m < 3 || !(d > 0)) return false;
