@@ -113,6 +113,58 @@
      "required_change": "Exactly collinear vertices merged before convolution and isSumRing; pins: the perimeter invariant under collinear splitting (seed 1165799859, the square, the 100 count-law seeds), zero shift elsewhere; the self-touching and coincident pins stay (lawful), an optional union-outer pre-step as a hardening notes row."
     }
    ]
+  },
+  {
+   "id": "M0-e-03",
+   "from": 2,
+   "round": "S2",
+   "session": "docs/M0-FIX-QUEUE.md Q31 (found by M0-b-03 s3 while wiring seam-portals, 2026-10-09; the same shape as N-9/Q15): the water stage's stage-end invariant row `references-resolve` (site/src/water/stage.ts) is DECLARED but evaluated by nobody, so the runner's report shows it passing with count 0. This round follows M0-e-03's round s1 (N-56 (1), Q20 class A) which must be committed first; the structural guard that fails any stage whose declared row was never reported (Q32, M0-x-02 round s2) launches AFTER this round lands, so that the guard meets a tree where every declared row is evaluated. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "lines": [
+    {
+     "line": "Q31: the water stage's declared stage-end row `references-resolve` is never evaluated \u2014 the report says pass for a row that never ran",
+     "evidence": "M0-b-03 s3's result note (checks/M0-b-03-s3.md, lane build/M0-b-03-fix-s3): the row is declared in site/src/water/stage.ts's stage descriptor and no code path calls ReportSink.invariant for it; the runner's report reads count 0 and pass (the N-9/Q15 shape, fixed for S8's seam-portals in 952b24f8).",
+     "required_change": "Evaluate the row at the stage end (every reference the S1 batch commits resolves to a live entity of the committed arena) with its evaluation COUNT reported so 'pass with 0' can no longer mean 'never ran'; a planted breach (a dangling reference inserted by the test's own hook or probe) refuses the stage with the row named; the honest twin reports count 1 and 0 problems; zero shift on honest seeds (the 100-seed bar's digests identical before and after)."
+    }
+   ]
+  },
+  {
+   "id": "M0-x-02",
+   "from": 2,
+   "round": "S2",
+   "session": "docs/M0-FIX-QUEUE.md Q32 \u2014 STRUCTURAL (the class behind Q15 and Q31, structural-prevention after the third same-shape fix; M0-b-03 s3 N-9): a stage may declare a stage-end invariant row that no code evaluates, and the runner's report then shows it passing with count 0; the habitat is the gap between a declaration (registry / stage descriptor) and an evaluation (ReportSink.invariant). This round runs AFTER M0-e-03 s2 (Q31) lands, so every declared row of the M0 stages is evaluated when the guard arrives; if the guard still finds a declared-but-unevaluated row of ANOTHER item's stage, that is a finding for the session (a queue row), not a fix inside this round and not a reason to weaken the guard. The base registration table's manifest test is M0-x-04's file (test/pipeline/base/): name the test this round would add there in a choices row for the session to route, unless x-02's own test folder can hold a walker over the registry that proves the same thing. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "lines": [
+    {
+     "line": "Q32: the runner accepts a stage whose declared stage-end row was never reported, showing it as passing with count 0",
+     "evidence": "Q15 (S8 seam-portals, fixed 952b24f8) and Q31 (S1 references-resolve) are two instances found by hand; the runner (layout/src/pipeline/runner.ts) reads ReportSink.invariant rows as they arrive and never compares them with the stage's declared rows.",
+     "required_change": "At every stage end the runner asserts that EVERY declared row of that stage was reported at least once; else the stage FAILS with 'row <name> declared but never evaluated' (a refusal with the row named, the stage rolled back whole as C-0295 does for any refusal, one bugs entry); pins in test/pipeline/core/: a stage declaring a row it never reports is refused, the honest stage passes, the report carries each row's count; plus a registry walker test (or the manifest test routed to M0-x-04) that every declared row name of the base table has an evaluator."
+    }
+   ]
+  },
+  {
+   "id": "M0-d-04",
+   "from": 1,
+   "round": "S1",
+   "session": "N-56 (5), docs/M0-FIX-QUEUE.md Q28 (the digest half), J249: the level-digest listener is keyed on the arena version, so a savepoint restore across committed batches (N-55 (6), M0-x-02 s1's runner rollback) makes a stale digest state read as current after the next commit unless the consumer re-attaches. M0-a-06's round s5 (the kernel half: restoreSavepoint bumps a per-arena restore generation only across committed batches, exported through @plat/kernel's tx barrel) is committed; this round is its consumer side. This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "lines": [
+    {
+     "line": "N-56 (5) Q28 (digest half): the maintained level-digest state must be keyed on (restore generation, version), not the version alone",
+     "evidence": "The ruling seat's replay: restore across n commits, no re-attach, n commits, no read \u2014 L1\u2013L4 stale with builds 1 for n = 1 and 3 (CONFIRMED); M0-a-06 s4's savepoint.test.ts pin named the contract (C-0287 (2)); M0-a-06 s5 (C-0299) provides the generation.",
+     "required_change": "The digest state keyed on (generation, version): rebuilt on read when either differs; the listener skips a foreign generation; no persisted change (digests, formats and seed-to-output laws unchanged \u2014 the goldens identical); the runner's re-attach stays (builds pin 1 holds); pins: the ruling's replay (restore across n = 1 and 3 committed batches, no re-attach, then commits and a read \u2014 never stale), the re-attach path unchanged."
+    }
+   ]
+  },
+  {
+   "id": "M0-c-02",
+   "from": 3,
+   "round": "S3",
+   "session": "N-56 (3), docs/M0-FIX-QUEUE.md Q22, J249 (the owner corrected the target from M0-c-04 to M0-c-02): on SMALL_FLAT seed 3443032966 (and 2300104848 and four more named seeds; 0.3\u20131.2 % of the family) the planted S5a trace COMMITS and the stage-2 STRIPS batch refuses 'closed no strip face' \u2014 the unplanted control too \u2014 so this is not the kind's refusal but a lawful input refused by isStrip's corridor clause (every probe face is within the strip's width, owned land:0, no way vertex; the rejected vertex PLAUSIBLY a cap/line vertex displaced into the corridor beyond its 5 cm tolerance, or stage 1's strip vertices). This round follows M0-c-02 s2 (committed together with M0-c-04 s3). M0-c-04's stage-2 pins (its s2 and s3) stand and must stay green; M0-x-06 round 2 drops its S5a/coincident pin afterwards (not this round's file). This round was never started on the owner's WSL machine (its brief was rendered there and lost with the logout; no lane line of this lane key exists): it starts FRESH here.",
+   "lines": [
+    {
+     "line": "Q22 / N-56 (3): the stage-2 strips batch refuses lawful input ('closed no strip face') on 0.3\u20131.2 % of SMALL_FLAT seeds \u2014 isStrip's corridor clause",
+     "evidence": "The ruling seat's probes zz-ruling-q22*: 3443032966 committed trace, strips refused; unplanted control refused too; 0/299 family seeds unplanted refused, 6/6 named seeds refused; every probe face within the strip's width, owned land:0, no way vertex. The rejected vertex itself is PLAUSIBLE, not yet logged.",
+     "required_change": "First LOG the rejected vertex in isStrip on 3443032966 and 2300104848 (name it in the choices row), then fix by the shape the log supports: (a) raise the corridor tolerance to the fidelity bound or test membership by area, or (b) read and refuse-with-cause the previous enceinte's strip overlap, with M0-c-04 keeping stage k's outline clear of enceinte k\u22121's outer strip (a cross-item line for the session if (b)); pins: the six named seeds commit, the 299 unchanged seeds unchanged (digests identical), a true corridor-crossing face is still refused with its cause named; M0-c-04's s5ab pins green."
+    }
+   ]
   }
  ]
 }
