@@ -579,6 +579,90 @@
    "flow": true,
    "lines": [],
    "session": "SESSION NOTE FOR M0-f-03b (flow attempt 14's relaunch note; J245, J257, J268, J270; checks/M0-f-03a-notes.md N-5): this is the item's FIRST build. (1) THE FIXED-ROW LINE (C-0301 (3), the twin entry's wording as the session now states it): the p999 × 1.5 rewrite SKIPS every row whose unit is `fixed` (today the one row warp.halvings, { fixed, 0, 8 }, floor provenance 'architecture 2026-10-03', not calibratable) and never reads its quantile block — summaries/M0-k-04.json's warp.halvings p999 = 1 is informative only; a floor below 8 would turn §3.6's reported no-op into an E_WORK_LIMIT refusal (N-45 (b)/(c)); the pins table.test.ts (warp.halvings = { fixed, 0, 8 }), law.test.ts (evaluates to 8) and kernel/test/warp/fixtures.test.ts are the truth of 8, never pins to update. (2) THE HAND-OVER SHAPE (M0-f-03a s3, C-0309, committed before this round): data/workLimits.json goes from version 2 to version 3; on every COUNTING row perUnit and floor take the measured coefficient with provenance 'M0 spike ⟨date⟩' (C-0154 (1)'s form) and calibratable true; the fixed row, every unit, every counter name and the structure cells stay as they are; the file's metadata cells (unit, log2) keep provenance 'architecture 2026-10-03' and calibratable false; the PIN-gated placeholder pins of tables/test/workLimits/table.test.ts then report the declared change and do not apply, the any-version laws must stay green — a run item edits NO test (C-0115, C-0117): if a test of M0-f-03a's goes red on an honest hand-over, that is a finding for the session with the line, not an edit. (3) THE SUMMARIES ARE WHAT THEY ARE ON THIS TREE: the four files plat/docs/build/summaries/{M0-c-06,M0-e-06,M0-b-04,M0-k-04}.json as committed — M0-c-06's is the 50-seed build-time form (N-52 (6); the 1 000-seed run is the session's detached run, later), M0-e-06's the regeneration after M0-e-03 s1/s2 (Q36), M0-b-04's the regeneration after M0-b-03 s2 (Q25), M0-k-04's as landed; the script opens exactly these four and nothing else (the file-open log the item lists); per coefficient the choices row states the summary and the seed count it was fitted from, and the session carries a queue row to re-fit after the full-strength bars (no bar is narrowed for pace, J238 — a re-fit is a later hand-over, version 4). (4) An amendment to M0-work.json's counter list for a counter an item added takes the row form M0-f-03a defines (the item's `builds`); say in the choices row which counters were added by which item. (5) The CHECKER recomputes one coefficient by hand from the report and confirms the file's value (the item's checker line), confirms the fixed row untouched and the four-file open log, runs the gates (tables, bench worklimits, the whole tables test set at the new version) and reads C-0301 (3), C-0309 and §5.1 (5) as the bar's text. Refusal census (J264): the hit-rate report's E_WORK_LIMIT counts per stage on the spikes' runs are the item's refusal figure — report them before (placeholder coefficients) and after (measured), target ≤ 1 per 1 000 batches as the item's test says."
+  },
+  {
+   "id": "M0-d-07",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/tools-plan.md",
+    "findings": "T-lint-0 first (§3.1), then D-1 … D-8, L-1 … L-3, C-1, C-2, W-1, W-2, V-1, B-1 (§1, round R1), the comment rewrite §2.1 and the test plan §3.1 (T-lint-1 … T-lint-5)"
+   },
+   "session": "R1 consolidates the determinism lint inside M0-d-07's owns (plat/tools/lint/: rules/, index.mjs, the checks, resolve.mjs, the tests; fixtures/ READ, never written; packages/kernel/vendor-audit.json never written — its byte-equality is the oracle). The rounds are cheap (the tools project at one worker, lint, build; nothing imports plat/tools) and run beside two RELATED runs on this 4-core container: every vitest run at --maxWorkers=1, one mirror at a time. Order: T-lint-0's three new pins FIRST (the script-mode retry MV1 left untested by check r2; T-lint-0 (c) pins today's fail-closed reading of a script-only .js under inline-directives — J273 Q8), then the findings, the comment rewrite, the test plan. RULINGS IN FORCE (J273): Q5 the environment hooks PLAT_ROOT_UNDER_TEST and KB_ALLOW of kernel-boundary.test.mjs are removed unless a check record of M0-d-07 shows a checker used them (grep checks/M0-d-07*.md for the two names; say what you found); Q6 the unread exports stay frozen, dirOf and paths.mjs's dead re-export of moduleCandidates go, and D-4's unreachable guard in sort-with-comparator.mjs is NOT deleted but becomes the shared inTypePosition(node) (a guard against a parser change is cheap — N-45); Q7 no message shape changes; Q10 the two new files lint/standalone.mjs (L-1) and lint/test-support.mjs (T-lint-1) are approved (ESLint's file count +2 is the oracle's allowance); every lint rule's accept and reject set stays IDENTICAL — every fixture keeps its verdict, the whole-tree lint output stays verbatim. Appends: the one-line map to checks/M0-d-07-notes.md as the plan's §0 words it (J263 Q8); the record re-landed under lane build/M0-d-07-consolidate-1 with --wave flow-7.",
+   "lines": [
+    {
+     "line": "T-lint-0 (first): three new pins — the standalone Linter's script-mode retry (MV1, the survivor of check r2), the parser choice per caller, and the fail-closed reading of a script-only JavaScript file under inline-directives (T-lint-0 (c), J273 Q8) — green on today's code before any consolidation",
+     "evidence": "tools-plan.md §3.1 T-lint-0; checks/M0-d-07.md r2 MV1",
+     "required_change": "the three pins added and green; the mutant MV1 replayed red"
+    },
+    {
+     "line": "D-1 … D-8 (rules/): the global-reference walk once in shared.mjs; the type-position test once (inTypePosition); the linted file's place computed once; D-4's guard → inTypePosition(node) (J273 Q6); D-5's three wrapper sets KEPT APART with comments; D-6 the inline comparator → byCodeUnit; D-7 dirOf removed; D-8 one name for SHIPPED/MODEL_PACKAGES",
+     "evidence": "tools-plan.md §1 D-1 … D-8 (each with its EQUIVALENCE, NUANCE, ORACLE)",
+     "required_change": "every rule's accept and reject set identical (each fixture's verdict; the whole-tree lint output verbatim); the mutants the plan names replayed red"
+    },
+    {
+     "line": "L-1 … L-3: the parser choice of a file linted on its own moves to the new lint/standalone.mjs (languageOptionsFor, isDirectiveNote; re-exported by paths.mjs); paths.mjs's dead re-export of moduleCandidates removed; the one default-exported check given the shape of the others",
+     "evidence": "tools-plan.md §1 L-1 … L-3; J273 Q6, Q10",
+     "required_change": "vendor-audit.json byte-identical after a fresh node tools/lint/vendor-scan.mjs run; directives, paths and vendor-scan tests green"
+    },
+    {
+     "line": "C-1, C-2, W-1, W-2, V-1, B-1: one shape for the nine check objects; one helper for the three parser entries of recommendedFor; the six directory walks KEPT APART (comparator spelling unified only); the two extension sets equal to the shared constants unified, the two deliberately narrower kept; vendor-scan, kernel-boundary and bench-boundary comments rewritten (no narration)",
+     "evidence": "tools-plan.md §1 C-1, C-2, W-1, W-2, V-1, B-1; §2.1",
+     "required_change": "the nine 'lint: <check> ok' lines and 'lint: 9 whole-tree checks' verbatim; every rewritten comment read against the code by the checker"
+    },
+    {
+     "line": "§3.1 test plan: lint/test-support.mjs (temp trees, timeouts, the vetted-division snippet) and one reader for planted markers; no test file merged; kernel-boundary.test.mjs's environment hooks removed per J273 Q5 unless a check record used them; every describe/it title kept; the mutant map preserved",
+     "evidence": "tools-plan.md §3.1 T-lint-1 … T-lint-5; J273 Q5",
+     "required_change": "the tools project's test count = before + 3 (T-lint-0) and every title verbatim; the old → new map appended to checks/M0-d-07-notes.md"
+    },
+    {
+     "line": "THE COMMON ORACLE (tools-plan.md §0, binding; the closing check repeats each): corepack pnpm lint exit 0 with its output equal line for line to the output taken before the round (kept in the scratch folder) save 'lint: eslint <N> files' where N grows by exactly the files the round creates; corepack pnpm exec vitest run --project tools --maxWorkers=1 every test green with the count equal to before plus exactly the new pins the plan names and every describe/it title present verbatim (a script compares the two verbose listings); sha256 of packages/kernel/vendor-audit.json, THIRD-PARTY-NOTICES.txt and vendor/vendor.lock.json equal before and after; corepack pnpm vendor:verify and notices:check verbatim; landed:verify ok after the round's landed; the targeted mutants each finding names replayed one at a time in a scratch mirror, each red",
+     "evidence": "tools-plan.md §0 'The common oracle of both rounds'",
+     "required_change": "the builder keeps the before-outputs and hashes in its scratch folder and reports the comparison; the checker repeats every item with its own before-images (the flow-7 snapshot's files) — any difference beyond the allowed file count is a blocker"
+    }
+   ]
+  },
+  {
+   "id": "M0-s-01",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/tools-plan.md",
+    "findings": "A-1 … A-6, N-1 … N-3, VT-1, VT-2, S-1 … S-3, F-1 … F-4, X-1, X-2 (§1, round R2), the comment rewrite §2.2 and the test plan §3.2"
+   },
+   "session": "R2 consolidates the scaffold's tooling inside M0-s-01's owns (plat/tools/landed/, notices/, vendor/, scaffold/ (its fixtures/ never written), vitest/, plat/scripts/*.mjs, plat/vitest.config.ts, plat/README.md, and the six packages/*/src/index.ts header lines) after R1 (M0-d-07 c1) has landed; it creates no file. RULINGS IN FORCE (J273): Q1 S-2's MA5 pin (the build's per-package step made importable and pinned) rides this round as its own oracle — no other hardening pin does; Q2 the six package-index header edits (the false 'exports nothing yet' sentence) are PER-LINE claims of the record (the changed line listed, the old one as removed), never --whole: the barrels carry other items' lines, and flow_stage holds a busy item's lines out by line — read docs/lane-events.log first and touch no line of a module folder an open lane owns; Q3 queue row L12 (landed resolving a passed-ownership file at wave 0) is a BEHAVIOUR change and is NOT this round's — it is M0-s-01's own session round after this one; this round never runs beside it; Q4 the 'is main' test stays in its three forms (hardening row L14); Q7 no message shape changes; Q11 notices/ importing byCodeUnit from vendor/common.mjs approved; F-3 the scaffold's stricter bare-pnpm detector KEPT APART. The build's oracle is strict: corepack pnpm build exit 0 with its six log lines verbatim (the same byte counts) and every packages/*/dist/index.js byte-identical to the build before the round; corepack pnpm bench -- nosuch exit 64 with its message; landed and landed:verify without arguments exit 64 with their usage lines; THIRD-PARTY-NOTICES.txt and vendor.lock.json byte-identical. The record is re-landed under lane build/M0-s-01-consolidate-1 with --wave flow-7; the one-line map ('no file created or removed') appended to checks/M0-s-01-notes.md (J263 Q8).",
+   "lines": [
+    {
+     "line": "A-1 … A-6 (landed/): the 'same entry' test once, the record-path test once, one id grammar under one name, the Markdown table grammar once, narrating headers rewritten; self-containment KEPT (A-6); the landed-record schema plat-landed-record/1 and every field written or verified unchanged",
+     "evidence": "tools-plan.md §1 A-1 … A-6",
+     "required_change": "landed.test.mjs green with every title; a round-trip of an existing record identical; landed:verify over flow-7 identical output before and after"
+    },
+    {
+     "line": "N-1 … N-3 (notices/), VT-1, VT-2 (vendor/ tools): two inline comparators → byCodeUnit imported from vendor/common.mjs (J273 Q11); narrating comments rewritten; the shipped list KEPT APART from the lint's model-package list; one redundant sort removed; the two near-duplicates kept apart",
+     "evidence": "tools-plan.md §1 N-1 … N-3, VT-1, VT-2",
+     "required_change": "THIRD-PARTY-NOTICES.txt byte-identical; notices:check and vendor:verify verbatim"
+    },
+    {
+     "line": "S-1 … S-3 (scripts/): lint.mjs's stale header rewritten; the build's per-package step importable with MA5's pin (J273 Q1); the 'is main' forms untouched (L14)",
+     "evidence": "tools-plan.md §1 S-1 … S-3; checks/M0-s-01-notes.md N-1",
+     "required_change": "the build log's six lines verbatim; every dist/index.js byte-identical; the new pin red on MA5"
+    },
+    {
+     "line": "F-1 … F-4, X-1, X-2: workspace.test.mjs's list written once; exports from test files nothing reads removed; the vitest setup-file mapping written once; F-3's stricter bare-pnpm detector KEPT; the six package-index 'exports nothing yet' lines rewritten as per-line claims (J273 Q2) only where no open lane owns a module folder of that package; README's stale parenthesis fixed",
+     "evidence": "tools-plan.md §1 F-1 … F-4, X-1, X-2; J268 Q1; J273 Q2",
+     "required_change": "the tools project green with every title; the record's appends list each changed index line with the old one as removed"
+    },
+    {
+     "line": "§2.2 comment rewrite and §3.2 test plan: comments describe the protocol or the tool as it stands citing C-rows (C-0104 for landed, the vendor rows for vendor/, C-0013 for the scaffold); no round narration; no test merged; the mutant map preserved",
+     "evidence": "tools-plan.md §2.2, §3.2",
+     "required_change": "every rewritten comment read against the code by the checker; test count unchanged save MA5's pin"
+    },
+    {
+     "line": "THE COMMON ORACLE (tools-plan.md §0, binding; the closing check repeats each): corepack pnpm lint exit 0 with its output equal line for line to the output taken before the round (kept in the scratch folder) save 'lint: eslint <N> files' where N grows by exactly the files the round creates; corepack pnpm exec vitest run --project tools --maxWorkers=1 every test green with the count equal to before plus exactly the new pins the plan names and every describe/it title present verbatim (a script compares the two verbose listings); sha256 of packages/kernel/vendor-audit.json, THIRD-PARTY-NOTICES.txt and vendor/vendor.lock.json equal before and after; corepack pnpm vendor:verify and notices:check verbatim; landed:verify ok after the round's landed; the targeted mutants each finding names replayed one at a time in a scratch mirror, each red",
+     "evidence": "tools-plan.md §0 'The common oracle of both rounds'",
+     "required_change": "the builder keeps the before-outputs and hashes in its scratch folder and reports the comparison; the checker repeats every item with its own before-images (the flow-7 snapshot's files) — any difference beyond the allowed file count is a blocker"
+    }
+   ]
   }
  ]
 }
