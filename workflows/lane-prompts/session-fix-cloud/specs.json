@@ -944,6 +944,53 @@
      "required_change": "the counts in the notes and the choices row; the closing checker re-measures and FAILS the round if any rose"
     }
    ]
+  },
+  {
+   "id": "M0-d-05b",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/model-tables-plan.md",
+    "findings": "X-1 … X-5 (§1.5, round R5), the comment rewrite C-model-3 (§2) and §3.4's note on model/test/match/ (support.ts stays the builders' home; the mutant maps K03–K36, K10/K13/K13b/K25/K25b, F1a–F1h unchanged)"
+   },
+   "session": "R5 is the model round after R4 (M0-d-05a c1, landed 1139d9ab, J292): identity/lineage.ts now exports the unknown-typed isU32, isU16, isObject and copyLineage from the file, and R5 adopts them in match/ (plan §1.5 X-2) — that adoption makes lineage.ts:14–15's sentence ('file-level exports the identity and matching modules share') exact, as M0-d-05a's check note N-c2-1 says; if the round drops the adoption it says so in its notes and the sentence is R5's to leave for the identity owner. Inside M0-d-05b's owns (model/src/match/, model/test/match/) only: cmpId becomes the kernel's compareKeys (X-1; match.ts already imports from '@plat/kernel'); the three ratio wrappers stay apart with comments naming each one's kind and floor (X-3, KEEP); mulberry32 stays in synthetic.ts with the X-4 sentence (KEEP, Q3 — no new support folder); grid.ts's private meets becomes an import of geometry.ts's boxesMeet (X-5), the rest of X-5 KEEP. No file outside the owns is touched: identity/ is M0-d-05a's, digest/ is R6's (M0-d-04). Rulings in force: J268 Q5 (file-level exports imported by path; no index export added), J263 Q6 (pinned message texts verbatim: 'match: … lineage is not two u32 lanes', the four ratio refusal texts), J263 Q8 (the old → new map appended to checks/M0-d-05b-notes.md), J264/N-58 (the refusal count of the match families before and after, every refusal classed).",
+   "lines": [
+    {
+     "line": "X-1: cmpId (match.ts:48) is the kernel's compareKeys — import it from '@plat/kernel' and use it at every cmpId site (:289 byItemId, :326 set.sort, :450/:459 the end pairs, :599 carry.sort); Pairs.assign's number sort (:193) untouched",
+     "evidence": "model-tables-plan.md §1.5 X-1 (kernel/src/arena/keys.ts:13–15 compareKeys is the same three-way UTF-16 comparison; the header sentence 'Ids are compared by their UTF-16 code units' stays and names compareKeys)",
+     "required_change": "every order the routine produces (olds and freshes by id, a set's key parts, the end pair, the carry list) unchanged; ORACLE assign.test.ts 'coincident anchors resolve by id', 'equals a brute-force reference on 10⁴ random anchor sets' (its own cmp kept), 'is independent of the input order (property)', way.test.ts 'the end pair is unordered on both sides', split.test.ts 'in any input order'; mutants K03–K09 and K13/K13b stay red"
+    },
+    {
+     "line": "X-2: match.ts:47's isU32 and the three lineage-copy casts (:567, :568, :574) and carry.ts:63 adopt identity/lineage.ts's isU32 and copyLineage (R4's file-level exports, imported by path '../identity/lineage.js'); match.ts:98's lineage check keeps its message 'match: … lineage is not two u32 lanes'",
+     "evidence": "model-tables-plan.md §1.5 X-2; M0-d-05a c1 (1139d9ab) lineage.ts:38–50 and :121–123; checks/M0-d-05a-notes.md N-c2-1",
+     "required_change": "the local copies deleted, the imports by path (no index export); ORACLE assign.test.ts 'refuses malformed entities and inputs' ([1], [-1, 0] → /u32/), carry.test.ts; the copied lineage frozen and equal as before; the builder states in its notes that lineage.ts:14–15's sentence is now exact (N-c2-1)"
+    },
+    {
+     "line": "X-3: the three ratio wrappers inverse(v, kind) (match.ts:50–54), div (geometry.ts:133–137), perEntity and shareOf (timing.ts:69–74, :131–136) — KEEP APART; the comment above each names its kind and floor (1 cm, 1 cm², 1; §3.2 (8), C-0044) and the refusal text it carries",
+     "evidence": "model-tables-plan.md §1.5 X-3",
+     "required_change": "no code change; the four refusal texts verbatim ('match: no inverse of …', 'match: a degenerate division in the overlap', 'match: no per-entity time without entities', 'match: no share of the unprobed time without entities'); the closing checker confirms the bodies unchanged and the comments true"
+    },
+    {
+     "line": "X-4: mulberry32 in synthetic.ts:42–51 — KEEP (the synthetic workload's own cheap generator, not the model's RNG, §6.1; digest/workload.ts carries its twin, Q3: no new support folder); the comment says so",
+     "evidence": "model-tables-plan.md §1.5 X-4; §5 Q3",
+     "required_change": "no code change; one comment sentence added; ORACLE synthetic.test.ts (F1a–F1h stay red)"
+    },
+    {
+     "line": "X-5: grid.ts:101's private meets is geometry.ts:84's boxesMeet — grid.ts imports boxesMeet from './geometry.js' (no cycle: geometry.ts imports nothing from grid.ts); anchors.ts, geometry.ts, source.ts, split.ts, types.ts otherwise KEEP",
+     "evidence": "model-tables-plan.md §1.5 X-5 (the same four comparisons)",
+     "required_change": "ORACLE source.test.ts 'the routine on the index's candidates gives the outcomes of its own box grid', way.test.ts 'the larger overlap wins', the IoU property; mutants K25/K25b and the overlap-covering mutants stay red"
+    },
+    {
+     "line": "C-model-3: the match folder's comments describe the design as it stands and cite C-rows — index.ts:2–3's scaffold sentence replaced by 'Readings where §6.3 leaves a case open: C-0188, C-0190.'; carry.ts:5 and :52 '(M0-d-05a's note N-2)' → the mint's live-set sentence; match.ts:1–19, :40, :220–221 stand and the new :48 line names compareKeys; types.ts:2 '(C-0188)' after the sections; synthetic.ts gains X-4's sentence; anchors/geometry/grid/source/split/timing stand; test/match/*.test.ts headers keep their quoted test ids (the checks rely on the form)",
+     "evidence": "model-tables-plan.md §2 C-model-3 and §3.4",
+     "required_change": "every comment of the plan's list rewritten, kept or dropped as it says; the closing checker reads every rewritten comment against the code (a comment that no longer matches the code is a blocker)"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the package's whole test set green; every match outcome (olds and freshes, pairs, end pairs, carry list, the box grid's candidates), every pinned refusal text and message, the exported names of match/index.ts and of the package barrel identical before and after; every earlier mutant of the item's checks named by the plan's oracles still killed by the consolidated tests; the refusal count of the match families 0 → 0 (J264 (5)), every refusal met classed by N-58's verdicts",
+     "evidence": "J260 (3); the plan's per-finding ORACLE lists; §3.4's mutant maps; J264 (5); N-58",
+     "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison in its notes and choices row; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
+    }
+   ]
   }
  ]
 }
