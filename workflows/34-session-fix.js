@@ -19,6 +19,8 @@ const CHECK_SCHEMA = { type: 'object', properties: { item: { type: 'string' }, v
 const ID = args.id
 const MAX = args.maxRounds || 3
 const FROM = args.from || 1
+// J263: args.lane 'consolidate' names the lanes of a consolidation round (build/<id>-consolidate-N, check/<id>-consolidate-close-N); default 'fix-s' (a session fix round)
+const LANE = args.lane === 'consolidate' ? { build: (n) => `build/${ID}-consolidate-${n}`, check: (n) => `check/${ID}-consolidate-close-${n}`, file: (n) => `${ID}-c${n}` } : { build: (n) => `build/${ID}-fix-s${n}`, check: (n) => `check/${ID}-close-s${n}`, file: (n) => `${ID}-s${n}` }
 const brief = (key) => `Your brief is the string under the key "${key}" in the JSON file ${args.briefs}. Print it whole first (python3 -c "import json;print(json.load(open('${args.briefs}'))['${key}'])") and follow it exactly; everything below adds to it.`
 args.build = brief('build')
 args.check = brief('check')
@@ -26,15 +28,15 @@ const DEFAULT_SEAT = { build: { model: 'opus', effort: 'high' }, fix: { model: '
 const SEAT = (kind) => ({ ...(DEFAULT_SEAT[kind] || DEFAULT_SEAT.check), ...((args.seats || {})[kind] || {}) }) // the session overrides per kind (J252)
 const opts = (label, phase, schema, kind) => { const s = SEAT(kind || (phase === 'Build' ? 'build' : 'check')); return { label, phase, schema, model: s.model, effort: s.effort } }
 
-let built = await agent(args.build, opts(`build/${ID}-fix-s${FROM}`, 'Build', BUILD_SCHEMA, 'build'))
+let built = await agent(args.build, opts(LANE.build(FROM), 'Build', BUILD_SCHEMA, 'build'))
 if (!built || built.status === 'blocked') return { id: ID, ok: false, why: 'blocked', built }
-let check = await agent(args.check, opts(`check/${ID}-close-s${FROM}`, 'Check', CHECK_SCHEMA))
+let check = await agent(args.check, opts(LANE.check(FROM), 'Check', CHECK_SCHEMA))
 let round = FROM
 while (check && check.verdict === 'fail' && round < FROM + MAX - 1) {
   round++
   const lines = JSON.stringify(check.failing_lines)
-  built = await agent(`${args.build} FURTHER ROUND S${round}: the closing checker (plat/docs/build/checks/${ID}-s${FROM}.md) failed the round on these lines — fix every one inside the owns with a test that pins it, re-run the item's whole test set and the gates, re-land under lane build/${ID}-fix-s${round}: ${lines}`, opts(`build/${ID}-fix-s${round}`, 'Build', BUILD_SCHEMA, 'fix'))
+  built = await agent(`${args.build} FURTHER ROUND ${round}: the closing checker (plat/docs/build/checks/${LANE.file(FROM)}.md) failed the round on these lines — fix every one inside the owns with a test that pins it, re-run the item's whole test set and the gates, re-land under lane ${LANE.build(round)}: ${lines}`, opts(LANE.build(round), 'Build', BUILD_SCHEMA, 'fix'))
   if (!built || built.status === 'blocked') return { id: ID, ok: false, why: `round S${round} blocked`, built, check }
-  check = await agent(`${args.check} RE-CHECK S${round} (CONFIRM-ONLY for these lines, then the gates; record under lane check/${ID}-close-s${round}): ${lines}`, opts(`check/${ID}-close-s${round}`, 'Check', CHECK_SCHEMA, 'recheck'))
+  check = await agent(`${args.check} RE-CHECK ${round} (CONFIRM-ONLY for these lines, then the gates; record under lane ${LANE.check(round)}): ${lines}`, opts(LANE.check(round), 'Check', CHECK_SCHEMA, 'recheck'))
 }
 return { id: ID, ok: !!check && check.verdict === 'pass', rounds: round - FROM + 1, built, check }

@@ -186,6 +186,38 @@
      "required_change": "Pins in landed.test.mjs: (1) re-landing a record id under a new lane keeps every row an earlier landing of that id claimed (ids and hashes), and still claims the new lane's rows; (2) landed:verify names a \u00a72 row added since the snapshot that no record of the wave claims, and is clean when a record claims it; no behaviour change where the pins already pass \u2014 if (1) does not hold today, make it hold."
     }
    ]
+  },
+  {
+   "id": "M0-a-01",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "N-1 \u2026 N-4 (\u00a71.0, round R1)"
+   },
+   "session": "R1 is the FOUNDATION round of the kernel's consolidation pass: it creates the one shared exact-predicate module src/num/exact.ts (the closed-segment distance predicate, the two-segments-share-a-point predicate, the point-in-ring predicates kept as the plan's distinct readings, the shared constants) inside M0-a-01's owns, with its own tests under test/num/, imported by path by the later rounds R2 \u2026 R12 \u2014 nothing is added to num/index.ts or the barrel (J263 Q1). This round changes no caller: the later rounds replace each folder's private copy; R1 only adds the shared module, proves each shared predicate equal to the copies it will replace (a property test over the fuzz arenas' inputs comparing exact.ts against every private copy the plan names, at the PR size), rewrites num/'s comments per \u00a72 and consolidates test/num/ per \u00a73. Rulings in force: J263 Q1 (no exports), Q6 (pinned messages verbatim), Q8 (the old \u2192 new test map in checks/M0-a-01-notes.md).",
+   "lines": [
+    {
+     "line": "N-1: the closed-segment 'closer than r' predicate exists four times (insert/placement.ts segmentCloserThan, tx/tx.ts closer, warp/validate.ts closerThan; invariants/common.ts compareDist2 stays separate) \u2014 one exact home in src/num/exact.ts",
+     "evidence": "kernel-plan.md \u00a71.0 N-1 (the four copies, their argument conventions, the BigInt variant kept apart)",
+     "required_change": "src/num/exact.ts exports the predicate under the plan's name and signature; a property test proves it equal to each copy on the fuzz arenas' segments and radii (every copy's own test inputs replayed); EQUIVALENCE/NUANCE as the plan lists (integer arithmetic only, the inclusive endpoints, the tie reading)"
+    },
+    {
+     "line": "N-2: 'two closed lattice segments share a point' exists five times (insert/decimate.ts, faces/common.ts segmentsTouch, invariants/common.ts, medial/axis.ts, skeleton/prepare.ts's point-typed form) \u2014 one exact home",
+     "evidence": "kernel-plan.md \u00a71.0 N-2",
+     "required_change": "one shared predicate with the plan's convention; the point-typed form kept as a documented adapter if the plan says so; equality proven per copy"
+    },
+    {
+     "line": "N-3 (MEDIUM): the crossing-number point-in-ring test exists nine times in two coordinate conventions and three boundary rules \u2014 three DISTINCT predicates stay, each with one home",
+     "evidence": "kernel-plan.md \u00a71.0 N-3 (the three boundary rules and the lattice-vs-doubled conventions; which callers use which)",
+     "required_change": "exact.ts offers the three readings under distinct names with doc comments naming the boundary rule and the convention; a table in the plan's terms maps every caller to its reading; equality proven per copy; no caller changed in R1"
+    },
+    {
+     "line": "N-4: constants spelt as literals \u2014 PI \u00d76 beside geom/common.ts's PI, BOX_RANGE \u00d75, HOT_PIXEL_SQ, the warp MIN_EDGE/ATTRACT literals, SCALE/div \u00d74 \u2014 one home each",
+     "evidence": "kernel-plan.md \u00a71.0 N-4",
+     "required_change": "the constants exported from exact.ts (or the plan's named home) for the later rounds' imports by path; values identical (a test pins each value); no caller changed in R1"
+    }
+   ]
   }
  ]
 }
