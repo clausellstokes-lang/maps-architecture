@@ -244,6 +244,19 @@
      "required_change": "The kept map's key gains the arena's restore generation (restoreGeneration(p) from @plat/kernel's tx barrel) beside the version and the fingerprint; a pin: a map built before a cross-commit restore is rebuilt after the same number of later commits (the answers equal a fresh walk), a map built after the restore is reused; no persisted change; neighbour answers identical on every sequence without a restore (the item's tests and any golden identical); the cost path unchanged otherwise."
     }
    ]
+  },
+  {
+   "id": "M0-f-03a",
+   "from": 3,
+   "round": "S3",
+   "session": "docs/M0-FIX-QUEUE.md Q35 (J268; found by the model and tables consolidation architect, plat/docs/build/consolidation/model-tables-plan.md \u00a75 Q2): tables/test/workLimits/table.test.ts's describe 'the placeholder laws (C-0021)' asserts, for every row and UNGATED by the file's version, that each calibratable cell's provenance is the placeholder and that every cell's provenanceForm is 'architecture'. M0-f-03b's hand-over (flow attempt 14) rewrites the counting rows' perUnit and floor with provenance 'M0 spike \u27e8date\u27e9' (calibratable kept true; C-0021, C-0154 (1)) and bumps the version, which turns that test red \u2014 and a run item may not edit a test (C-0115, C-0117). This round is TESTS ONLY and must land before attempt 14's M0-f-03b; the PIN mechanics (golden.test.ts and the inline PIN) stay as they are (the consolidation round R2 unifies them later); no data cell changes. M0-f-03a's rounds S1 and S2 exist; this is S3. The round starts fresh.",
+   "lines": [
+    {
+     "line": "Q35: the placeholder-provenance pins in table.test.ts are not gated by the table version, so the lawful hand-over of M0-f-03b (measured coefficients with spike provenance, a new version) would fail them",
+     "evidence": "table.test.ts ~126-143: for every row, every calibratable cell's provenance toBe(PLACEHOLDER) and every cell's provenanceForm toBe('architecture'), with no version condition; C-0162 (1) is the precedent (the data tests survive the hand-overs: assert the invariants true at any version, pin the placeholder forms only at the placeholder version).",
+     "required_change": "Gate the placeholder pins on the table's version equal to the PIN's version (C-0162 (1)'s pattern) and keep, past it, only what holds at any version: every cell carries an admitted provenance form (architecture or an M0 spike form \u2014 read the admitted forms from the loader, never a literal list copied into the test), a counting law's coefficients stay calibratable, the fixed row warp.halvings stays pinned at every version (floor 8, provenance 'architecture 2026-10-03', calibratable false, the only fixed row), every cell carries unit, provenance and calibratable; no weakening at version 2 \u2014 mutants: a placeholder provenance dropped at version 2 red, the fixed row marked calibratable red at any version, a cell with an unadmitted provenance form red at any version, a counting row's floor made non-calibratable red; a simulated hand-over in the test (a copy of the data with a counting row's cells rewritten to spike provenance and the version bumped) GREEN; tests only, no source or data change."
+    }
+   ]
   }
  ]
 }
