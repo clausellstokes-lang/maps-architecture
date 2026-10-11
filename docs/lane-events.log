@@ -7763,3 +7763,7 @@
 2026-10-11 14:17 check/M0-s-01-consolidate-close-1 CHECKPOINT RELATED@1000 running (since 13:56, W=1); reds so far bench fusion/hausdorff only (known N-8/N-52 KI); verdict drafted in scratch; next: RELATED result, CLEAN-ROOM row, verdict file, landed records
 2026-10-11 14:21 build/M0-a-16-fix-s2 CHECKPOINT RELATED@1000 still running (1 worker; reds so far: bench fusion/hausdorff = N-8/N-52 KI); next: choices row, CLEAN-ROOM, landed
 2026-10-11 14:22 build/M0-x-02-fix-s2 CHECKPOINT choices C-0316 and CLEAN-ROOM L-0428 appended; RELATED@1000 (W=1) running — one red so far bench fusion/hausdorff (known foreign N-8/N-52 KI); next: wait, attribute, landed
+2026-10-11 14:37 check/M0-s-01-consolidate-close-1 CHECKPOINT RELATED@1000 still running (41 min, W=1); reds so far bench fusion/hausdorff only (KI); next: its result, records
+2026-10-11 14:42 build/M0-x-02-fix-s2 CHECKPOINT RELATED@1000 still running (W=1; bench suites under way); one red bench fusion/hausdorff (foreign KI); next: wait, attribute, landed
+2026-10-11 14:50 build/M0-a-16-fix-s2 CHECKPOINT RELATED@1000 still running (~40 min, 1 worker; one foreign red so far: bench fusion/hausdorff N-8/N-52); next: choices row, CLEAN-ROOM, landed
+2026-10-11 14:56 check/M0-s-01-consolidate-close-1 CHECKPOINT RELATED@1000 still running (60 min, W=1); reds so far bench fusion/hausdorff only (KI); next: its result, records
