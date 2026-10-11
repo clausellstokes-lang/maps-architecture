@@ -775,6 +775,34 @@
      "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-parses every table old vs new, re-runs the oracles and re-kills the named mutants"
     }
    ]
+  },
+  {
+   "id": "M0-s-01",
+   "from": 3,
+   "round": "S3",
+   "session": "This round was opened on queue row L12 (docs/M0-FIX-QUEUE.md; checks/M0-s-01-notes.md N-16 of close-s2; J268 Q1; J273 Q3: after the consolidation round R2, which landed as 7ff2dc8d — build on that tree): under a NON-WAVE label (flow-7) `landed` resolves M0-s-01's record at wave 0, where the scaffold still owns every module index.ts (C-0013: created empty, ownership passes to the folder's owner at its wave) and every bench harness index (C-0059), so the giver's record claims 30 passed files and their index lines — including other items' in-flight edits — and (a) landed:verify --item M0-s-01 fails whenever such a file moves, (b) a flow commit would carry a busy item's barrel line (held out by hand at the s2 commit), and (c) the session's staging tool held an OWNER's own index file out of its commit because the giver was busy (M0-a-01 c1's num/index.ts and M0-e-03 s2's water/index.ts reached main only with R2's commit, J281). THE FIX, inside M0-s-01's owns (plat/tools/landed/landed.mjs, landed.test.mjs; verify.mjs if it reads the same resolution): a passed-ownership file is resolved at its HAND-OVER wave under any label — the giver (the scaffold at wave 0) never claims a file whose ownership has passed to an item whose wave the label is at or past, and the receiver's record claims it; under a non-wave label (flow-N, session-…) the resolution reads 'every wave open' (the latest owner wins), the same reading flow_stage.mjs uses; `--whole`, `--owns` and `--touched` keep their meanings; the record schema plat-landed-record/1 unchanged. Every existing record on disk must still verify as it does today (landed:verify over flow-7 and the six wave labels identical to before, except that M0-s-01's record, re-landed in this round, lists only the files it owns at every wave: the package barrels, scripts, tools, configs — and the three package-index header lines R2 claimed per line stay claimed). Refusal census (J264): landed's refusals (bad id, bad label, missing snapshot, paths outside owns) counted before and after on the tools project — none added; 0 lawful-input refusals.",
+   "lines": [
+    {
+     "line": "L12: buildRecord (and verify where it resolves owners) resolves a passed-ownership path at its hand-over wave under ANY label: the scaffold's record never claims a module index.ts or a bench harness index whose folder has an owner (C-0013, C-0059, C-0064), and the folder's owner claims it; under a non-wave label the latest owner wins",
+     "evidence": "M0-FIX-QUEUE L12; checks/M0-s-01-notes.md N-16; landed.mjs ownersAt/wavePosition (lines ~100–135); C-0121's note; J281",
+     "required_change": "a test with a two-item fixture (a giver at wave 0 with the passed pattern, a receiver at wave n) landed under 'wave-0', 'wave-n' and a non-wave label: the receiver claims the file under the latter two, the giver under the first; re-landing M0-s-01 under flow-7 lists no module index.ts of an owned folder; landed:verify --item M0-s-01 ok on today's tree"
+    },
+    {
+     "line": "Every existing record still verifies: landed:verify -- flow-7 (and the six wave labels) gives the same per-item output as before the round, except M0-s-01's own re-landed record; no record on disk is rewritten by this round other than M0-s-01's",
+     "evidence": "tools-plan.md §0's common oracle; J280",
+     "required_change": "the builder keeps the before-output of landed:verify over every label and diffs it; the checker repeats it"
+    },
+    {
+     "line": "The three package-index header lines of R2 (kernel, model, layout: 'line 1', 'line 2' per-line claims) stay claimed by M0-s-01's record after the re-land — landed writes them itself now (R2's builder amended them by hand); the other three packages' headers (site, tables, testkit) are edited in this round only if no open lane owns a module folder of that package at the time (read docs/lane-events.log first; testkit's barrel carries M0-x-06's in-flight edge line — leave testkit alone)",
+     "evidence": "J273 Q2; J280; C-0315",
+     "required_change": "the record's appends list the header lines with the snapshot's old lines as removed; a test pins that a changed first line of a package index is claimed per line"
+    },
+    {
+     "line": "ZERO SHIFT elsewhere: the tools project green with every title; lint output identical; the build's six lines verbatim; THIRD-PARTY-NOTICES.txt, vendor.lock.json and vendor-audit.json byte-identical",
+     "evidence": "tools-plan.md §0 common oracle",
+     "required_change": "the gates quoted by both seats"
+    }
+   ]
   }
  ]
 }

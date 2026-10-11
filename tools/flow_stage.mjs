@@ -21,7 +21,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CROSSINGS_FILE, LANDED_DIR, SNAPSHOT_DIR, appendUnits, fromPlat, isAppendFile, lineHash, splitLines, toPlat } from '../plat/tools/landed/snapshot.mjs';
-import { lcsDiff, ledgerTable, loadWork, ownsMatch } from '../plat/tools/landed/landed.mjs';
+import { lcsDiff, ledgerTable, loadWork, ownersAt, ownsMatch } from '../plat/tools/landed/landed.mjs';
 
 const REPO = dirname(dirname(fileURLToPath(import.meta.url)));
 const PLAT = join(REPO, 'plat');
@@ -44,7 +44,11 @@ const headMode = (path) => { try { return git(['ls-tree', 'HEAD', '--', path]).s
 const abs = (p) => join(REPO, ...p.split('/'));
 
 const work = loadWork(PLAT);
-const busyOwners = (path) => (work.items ?? []).filter((it) => BUSY.has(it.id) && ownsMatch(it.owns ?? [], path)).map((it) => it.id);
+// J281: a busy item holds a path out only when it is the path's owner at the LATEST wave (the hand-over's receiver). A giver
+// whose ownership has passed (the scaffold's module index.ts files and bench harness indexes, C-0013, C-0059) never holds
+// the receiver's own file out of the receiver's commit — before this rule M0-a-01 c1's num/index.ts and M0-e-03 s2's
+// water/index.ts reached main only with M0-s-01 c1's commit because M0-s-01 was busy (L12's class).
+const busyOwners = (path) => ownersAt(work, path, Infinity).filter((id) => BUSY.has(id));
 
 const plan = []; // { path, how: 'add' | 'rm' | 'cut', sha256?, cutFile?, cutSha? }
 const skipped = [];
