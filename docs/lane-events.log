@@ -7826,3 +7826,4 @@
 2026-10-11 17:49 check/M0-a-16-close-s2 CHECKPOINT RELATED@1000 still running (~60 min, 1 worker; one red: bench fusion/hausdorff); next: verdict, landed
 2026-10-11 17:55 check/M0-x-02-close-s2 CHECKPOINT standing red replayed guard off/on in own mirror: identical (expected 1 to be greater than 1) — foreign; RELATED@1000 at ~137 files, two foreign reds; next: wait, finalize
 2026-10-11 17:58 build/M0-s-01-fix-s3 CHECKPOINT RELATED@1000 still running (~70 min, W=1); reds so far bench fusion/hausdorff only (KI); next: its result, LANDED
+2026-10-11 18:08 check/M0-a-16-close-s2 CHECKPOINT RELATED@1000 still running (~80 min; one red: bench fusion/hausdorff); next: verdict, landed
