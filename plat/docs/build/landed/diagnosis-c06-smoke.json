@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "diagnosis-c06-smoke",
+  "lane": "session/diagnosis-c06-smoke",
+  "lanes": ["session/diagnosis-c06-smoke"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-11T20:08:31.875Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/diagnosis-c06-smoke.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/diagnosis-c06-smoke.md", "status": "created", "sha256": "8bb1937389fb2e8193833b618d5242c8a4698b6942223404282d9696f06e287e", "size": 36379 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0439"],
+      "lines": ["2eaca64b666181d2"],
+      "removed": []
+    }
+  ]
+}
