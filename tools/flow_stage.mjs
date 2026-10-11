@@ -21,7 +21,7 @@ import { tmpdir } from 'node:os';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { CROSSINGS_FILE, LANDED_DIR, SNAPSHOT_DIR, appendUnits, fromPlat, isAppendFile, lineHash, splitLines, toPlat } from '../plat/tools/landed/snapshot.mjs';
-import { lcsDiff, loadWork, ownsMatch } from '../plat/tools/landed/landed.mjs';
+import { lcsDiff, ledgerTable, loadWork, ownsMatch } from '../plat/tools/landed/landed.mjs';
 
 const REPO = dirname(dirname(fileURLToPath(import.meta.url)));
 const PLAT = join(REPO, 'plat');
@@ -86,6 +86,25 @@ for (const id of RECORDS) {
   }
 }
 
+// Q23 (C-0306 (4), J261): a ledger row is never cut silently. Every CLEAN-ROOM row this commit drops is reported — claimed by
+// another record on disk (a busy item's, left for its commit), or claimed by NO record while its lane has already landed (an
+// orphan: a problem that fails the staging until that lane's record is re-landed or the row moved) — and a row outside §2's
+// seat ledger is a problem (Q23 (a)). A module index line whose folder a BUSY item owns is a hand-over like its files: held out.
+const LEDGER = toPlat('CLEAN-ROOM.md');
+const cells = (line) => (line.trim().startsWith('|') ? line.trim().replace(/^\|/, '').replace(/\|$/, '').split('|').map((c) => c.trim()) : null);
+const rowIdOf = (line) => { const c = cells(line); const m = c && /^([A-Z])-(\d{4})$/.exec(c[0] ?? ''); return m ? c[0] : null; };
+const laneOf = (line) => { const c = cells(line); const m = c && /^`?([A-Za-z0-9_/.-]+)/.exec(c[1] ?? ''); return m ? m[1] : null; };
+const diskClaims = (() => { // line hash -> record id, over every record on disk
+  const out = new Map();
+  for (const f of execFileSync('ls', [abs(toPlat(LANDED_DIR))], { encoding: 'utf8' }).split('\n').filter((n) => n.endsWith('.json'))) {
+    try { const r = JSON.parse(readFileSync(join(abs(toPlat(LANDED_DIR)), f), 'utf8')); for (const a of r.appends ?? []) for (const h of a.lines ?? []) if (!out.has(`${a.file} ${h}`)) out.set(`${a.file} ${h}`, f.replace(/\.json$/, '')); } catch { /* not a record */ }
+  }
+  return out;
+})();
+const landedLanes = (() => { const s = new Set(); try { for (const l of readFileSync(abs('docs/lane-events.log'), 'utf8').split('\n')) { const m = /^\S+ \S+ (\S+) LANDED /.exec(l); if (m) s.add(m[1]); } } catch { /* no log */ } return s; })();
+const INDEX_FILE = /^plat\/(?:packages\/[^/]+|bench)\/src\/index\.ts$/;
+const indexFolder = (line) => { const m = /from '\.\/([^/']+)\/index\.js'/.exec(line); return m ? m[1] : null; };
+
 // line-append files: CUT to HEAD plus claimed lines
 mkdirSync(SCRATCH, { recursive: true });
 for (const [file, m] of claims) {
@@ -104,15 +123,37 @@ for (const [file, m] of claims) {
   const left = new Map(m);
   const dropRemoved = removedClaims.get(file) ?? new Set();
   const out = [];
+  const heldOut = new Set();
+  const dropped = [];
   let i = 0;
   let j = 0;
   while (i < a.length || j < b.length) {
     if (i < a.length && rem.has(i)) { if (!dropRemoved.has(ah[i])) out.push(a[i]); i += 1; }
-    else if (j < b.length && add.has(j)) { const c = left.get(bh[j]) ?? 0; if (c > 0) { out.push(b[j]); left.set(bh[j], c - 1); } j += 1; }
+    else if (j < b.length && add.has(j)) {
+      const c = left.get(bh[j]) ?? 0;
+      const folder = INDEX_FILE.test(file) ? indexFolder(b[j]) : null;
+      const busy = folder ? busyOwners(`${file.replace(/index\.ts$/, '')}${folder}/index.ts`) : [];
+      if (c > 0 && busy.length) { heldOut.add(bh[j]); skipped.push({ path: file, why: `index line for ./${folder}/ held out: owned by busy ${busy.join(', ')} (a hand-over: its commit carries it)` }); }
+      else if (c > 0) { out.push(b[j]); left.set(bh[j], c - 1); }
+      else if (file === LEDGER) dropped.push(j);
+      j += 1;
+    }
     else { out.push(a[i]); i += 1; j += 1; }
   }
   const kept = new Set(out.map(lineHash));
-  for (const [h, c] of left) if (c > 0 && !kept.has(h)) problems.push(`${file}: a claimed line ${h} is not in the working file`);
+  for (const [h, c] of left) if (c > 0 && !kept.has(h) && !heldOut.has(h)) problems.push(`${file}: a claimed line ${h} is not in the working file`);
+  if (file === LEDGER) {
+    for (const j of dropped) {
+      const id = rowIdOf(b[j]); if (id === null || id[0] !== 'L') continue;
+      const lane = laneOf(b[j]) ?? '?';
+      const rec = diskClaims.get(`${file} ${bh[j]}`);
+      if (rec) skipped.push({ path: file, why: `row ${id} (${lane}) left uncommitted: claimed by record ${rec}, not in this commit` });
+      else if (landedLanes.has(lane)) problems.push(`${file}:${j + 1} row ${id} (${lane}) is claimed by NO record on disk although its lane has landed — an orphan (Q23 (b)): re-land that lane's record (corepack pnpm landed -- <record> --lane ${lane} …) or move the row`);
+      else skipped.push({ path: file, why: `row ${id} (${lane}) left uncommitted: its seat has not landed yet (no record claims it)` });
+    }
+    const t = ledgerTable(b);
+    b.forEach((line, k) => { const id = rowIdOf(line); if (id !== null && id[0] === 'L' && (t === null || k < t.start || k >= t.end)) problems.push(`${file}:${k + 1} row ${id} lies outside §2's seat ledger (Q23 (a)): move it into the table, then run landed again`); });
+  }
   const nl = workText.endsWith('\n') || (head ?? '').endsWith('\n');
   const text = out.join('\n') + (out.length && nl ? '\n' : '');
   if (head !== null && text === head) { skipped.push({ path: file, why: 'cut equals HEAD (claimed lines already committed)' }); continue; }
