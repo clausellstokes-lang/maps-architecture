@@ -36,7 +36,12 @@
 // tries step 2's free spot first. Only a pass's commit replaces the refusal before it. The op is atomic: every write it
 // makes is undone on a refusal — the arena, the index, the journals and the transaction's warnings as they were (C-0170
 // (2), C-0177 (8), refining C-0169 (6)). The work-limit check reads `tx.workLimit` (M0-a-06 supplies the transaction;
-// until then the shell of C-0169 (1)). Readings: C-0177.
+// until then the shell of C-0169 (1)). A transaction that is closed — the overlay of a batch that committed, was rejected or
+// threw, kept past it — is a programming error: the op throws at its entry, before it reads or writes anything (N-55 (5);
+// as `splitThrough`, C-0294). A vertex the op makes by splitting the chain's OWN edge — a chain point that folds back
+// over the chain, or a step-3 join, leave or contact point where a later segment shares an earlier one (§3.11's
+// collinear overlap) — is the chain's own vertex and carries no `split` flag (§2.2 rule 3; `ownShapeVertex`, N-55 (2),
+// C-0302). Readings: C-0177.
 import {
   addRole,
   allocVertex,
@@ -72,16 +77,14 @@ import {
   nearestVertexWithin,
   landingPoint,
   lattice,
-  nearerVertex,
   onRouteOfLevel,
+  ownShapeVertex,
   pieceOf,
   planLanding,
   recordSplit,
-  reservePair,
   routeBetween,
   segmentBox,
   segmentDistance,
-  splitBreaksClearance,
   withinSegment,
   type ChainCtx,
   type Piece,
@@ -186,19 +189,9 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
     return ok({ vertex: v, merged: false });
   }
   const pl = plan.value;
-  if (pl.kind === 'split' && pl.split.kind === 'new' && splitBreaksClearance(p, p.halfEdges.origin[pl.split.sub], p.halfEdges.origin[pl.split.sub ^ 1])) {
-    // No point of that sub-edge keeps clearance at its ends (C-0177 (11)): the placement's fallback, its nearer end.
-    const O = p.halfEdges.origin;
-    const v = nearerVertex(p, O[pl.split.sub], O[pl.split.sub ^ 1], pl.at.x, pl.at.y);
-    const s5 = stepTwoStrip(ctx, pt, v, prevPt, nextPt);
-    if (!s5.ok) return passOn(s5);
-    if (s5.value !== null) return landS5(s5.value);
-    const fb: Landing = { kind: 'vertex', vertex: v, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, v) }] };
-    if (merges(pointOf(p, v))) return merged();
-    applyLanding(ctx, fb);
-    warn(tx, ctx.warnings, 'W_ATTRACTED', pt);
-    return ok({ vertex: v, merged: false });
-  }
+  // A planned new split's sub-edge keeps clearance at its own ends: the placement rule's (iii) gives the endpoint
+  // fallback (a split onto an existing vertex) for any other (C-0284), so C-0177 (11)'s wrapper here is gone (C-0284 (3),
+  // C-0302).
   if (pl.kind === 'split' && pl.split.kind === 'existing') {
     const s5 = stepTwoStrip(ctx, pt, pl.split.vertex, prevPt, nextPt);
     if (!s5.ok) return passOn(s5);
@@ -206,10 +199,12 @@ export function land(ctx: ChainCtx, pt: LatticePoint, prev: VertexId, prevPt: La
   }
   if (pl.kind !== 'free') {
     if (merges(pl.at)) return merged();
-    if (pl.kind === 'split' && pl.split.kind === 'new') reservePair(p, pl.split.sub);
     const a = applyAttraction(tx, pl);
     if (!a.ok) return passOn(a);
-    if (pl.kind === 'split' && pl.split.kind === 'new') recordSplit(ctx, pl.split.sub, a.value.kind === 'free' ? -1 : a.value.vertex);
+    if (pl.kind === 'split' && pl.split.kind === 'new') {
+      recordSplit(ctx, pl.split.sub, a.value.kind === 'free' ? -1 : a.value.vertex);
+      if (a.value.kind !== 'free') ownShapeVertex(ctx, pl.split.sub, a.value.vertex);
+    }
     foldWarnings(ctx.warnings, a.warnings);
     check(a.value.kind !== 'free', 'an attraction plan that is not free lands on a vertex');
     return ok({ vertex: a.value.vertex, merged: false });
@@ -847,6 +842,9 @@ function routeOne(ctx: ChainCtx, log: IndexLog, a: VertexId, b: VertexId, pa: La
  * new and shared edge gaining each at the batch's level; `opts.knots` its vertex rows.
  */
 export function insertChain(tx: InsertTx, points: readonly { readonly x: number; readonly y: number }[], roles: readonly RoleRow[], cls: ChainClass, opts: InsertChainOpts = {}): KernelResult<ChainInsert> {
+  // A stale overlay (its batch committed, rejected or rolled back by a throw) is a programming error: thrown here, before
+  // anything is read, charged or written — never a silent write outside a transaction (N-55 (5); C-0302).
+  check(tx.closed !== true, 'the transaction is closed (committed or rejected)');
   const p = tx.plat;
   const n = tx.level;
   checkRows(roles);
@@ -859,8 +857,8 @@ export function insertChain(tx: InsertTx, points: readonly { readonly x: number;
   if (!d.ok) return passOn(d);
   const dec = d.value;
   const journal = chainJournal(tx);
-  const ctx: ChainCtx = { tx, p, n, cls, rows: roles, warnings: [], journal, maxPass: 0, strict: false, undo: [] };
   const pairsFrom = journal.newPairs.length;
+  const ctx: ChainCtx = { tx, p, n, cls, rows: roles, warnings: [], journal, pairsFrom, txPairsFrom: tx.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
   const landed = new Array<VertexId>(dec.points.length).fill(-1);
 
   // The index writes this op makes are read from the batch's log (the transaction's when open, else one opened here).

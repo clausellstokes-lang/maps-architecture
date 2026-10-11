@@ -147,11 +147,30 @@ export function takeSavepoint(p: Plat): Savepoint {
 }
 
 /**
+ * Each arena's restore generation (N-56 (5), C-0299): how many times a before-image was put back across committed
+ * batches. Kept beside the arena, never on it and never persisted (the chunk format stores no version either), so a
+ * state keyed on the version alone — a maintained level digest, M0-d-04 — can tell a version reached again after a
+ * restore from the one it saw.
+ */
+const RESTORES = new WeakMap<Plat, number>();
+
+/**
+ * The arena's restore generation: 0 until a before-image is put back across a committed batch, then one more per such
+ * restore. A rejected or thrown batch restores at its own version and never moves it. Keyed with `version`, it names
+ * one arena state: (generation, version) is never reached twice with different content.
+ */
+export function restoreGeneration(p: Plat): number {
+  return RESTORES.get(p) ?? 0;
+}
+
+/**
  * Puts the before-image back: every table, slot counter, the handle table, the version and the index as they were when
- * the image was taken. The image's arrays become the arena's (an image is put back at most once).
+ * the image was taken. The image's arrays become the arena's (an image is put back at most once). Putting it back
+ * across committed batches (the version moved since the image) bumps the arena's restore generation.
  */
 export function restoreSavepoint(s: Savepoint): void {
   const p = s.plat;
+  if (p.version !== s.version) RESTORES.set(p, restoreGeneration(p) + 1);
   p.version = s.version;
   p.vertices = s.vertices;
   p.halfEdges = s.halfEdges;

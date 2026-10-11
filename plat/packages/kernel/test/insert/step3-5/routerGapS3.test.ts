@@ -112,7 +112,7 @@ describe('N-42 (a): a crossing on the near side of a sliver is placed across it'
     };
     const a = free(31834, 35491);
     const b = free(30953, 35363);
-    const ctx: ChainCtx = { tx: t, p, n: 0, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), maxPass: 0, strict: false, undo: [] };
+    const ctx: ChainCtx = { tx: t, p, n: 0, cls: 'mandatory', rows: [], warnings: [], journal: chainJournal(t), pairsFrom: chainJournal(t).newPairs.length, txPairsFrom: t.journal.pairs.length, maxPass: 0, strict: false, undo: [] };
     const cs = exactCrossings(ctx, a, b);
     expect(cs.ok).toBe(true);
     if (!cs.ok) return;

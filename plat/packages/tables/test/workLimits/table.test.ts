@@ -1,6 +1,7 @@
 // M0-f-03a: workLimits.json and its loader (§5.1 (5), §14; C-0021, C-0153, C-0174) — every counter of M0-work.json's
 // list has exactly one row; a duplicate or a missing counter fails the loader; the placeholder provenance is present
-// on every row; every cell carries unit, provenance and calibratable; the law form is refused when malformed; the file
+// on every counting row, while the fixed row (`warp.halvings`) is pinned, not calibratable (N-56 (4), C-0301, refining
+// C-0174 (1)); every cell carries unit, provenance and calibratable; the law form is refused when malformed; the file
 // is pinned at its version (a changed cell is a declared change, the hand-over's writer bumping the version).
 import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
@@ -102,7 +103,8 @@ describe('one row per counter of M0-work.json’s list', () => {
   it('a duplicate cell, a duplicate top field and a text that is not JSON fail the loader', () => {
     const cell = TEXT.replace('"floor": {"value": 64, "unit": "count"', '"floor": {"value": 1, "unit": "count", "provenance": "own", "calibratable": true}, "floor": {"value": 64, "unit": "count"');
     expect(refusal(() => parseWorkLimitsText(cell)).issues).toEqual([{ table: 'workLimits', row: 'skeleton.events', cell: 'floor', reason: 'duplicate cell' }]);
-    const top = TEXT.replace('"version": 1,', '"version": 1,\n  "version": 2,');
+    const top = TEXT.replace(/"version": (\d+),/, (m, v: string) => `${m}\n  "version": ${Number(v) + 1},`);
+    expect(top).not.toBe(TEXT);
     expect(refusal(() => parseWorkLimitsText(top)).issues).toEqual([{ table: 'workLimits', reason: "duplicate key 'version'" }]);
     expect(refusal(() => parseWorkLimitsText(TEXT.slice(0, 40))).reason).toMatch(/^not JSON: /);
   });
@@ -121,18 +123,23 @@ describe('one row per counter of M0-work.json’s list', () => {
 });
 
 describe('the placeholder laws (C-0021)', () => {
-  it('placeholder provenance is present on every row, on each calibratable cell', () => {
+  it('placeholder provenance is present on every counting row, on each calibratable cell; the fixed row is pinned', () => {
+    // N-56 (4) (2026-10-08): a fixed law's floor is the design's constant (§3.6's 8 halvings, the kernel's MAX_HALVINGS),
+    // never a placeholder and never calibrated — M0-f-03b's p999 × 1.5 rewrite skips it.
     const t = loadWorkLimits();
     for (const [rk, row] of t.table.rows) {
+      const fixed = row.get('unit')?.value === 'fixed';
       const placeholders = [...row.values()].filter((c) => c.provenance === PLACEHOLDER);
-      expect(placeholders.length, rk).toBeGreaterThan(0);
+      if (fixed) expect(placeholders, rk).toEqual([]);
+      else expect(placeholders.length, rk).toBeGreaterThan(0);
       for (const [ck, c] of row) {
         if (c.calibratable) expect(c.provenance, `${rk}/${ck}`).toBe(PLACEHOLDER);
         expect(provenanceForm(c.provenance), `${rk}/${ck}`).toBe('architecture');
       }
-      expect(row.get('floor')?.provenance, rk).toBe(PLACEHOLDER);
-      expect(row.get('floor')?.calibratable, rk).toBe(true);
+      expect(row.get('floor')?.provenance, rk).toBe(fixed ? 'architecture 2026-10-03' : PLACEHOLDER);
+      expect(row.get('floor')?.calibratable, rk).toBe(!fixed);
     }
+    expect([...t.table.rows].filter(([, row]) => row.get('unit')?.value === 'fixed').map(([rk]) => rk)).toEqual(['warp.halvings']);
   });
 
   it('every cell carries unit, provenance and calibratable in the raw file', () => {
@@ -145,13 +152,14 @@ describe('the placeholder laws (C-0021)', () => {
     }
   });
 
-  it('the coefficients are calibratable and the structure is not; perUnit in ratio or perHa, floor in count', () => {
+  it('a counting law’s coefficients are calibratable, a fixed law’s and the structure are not; perUnit in ratio or perHa, floor in count', () => {
     const t = loadWorkLimits();
     for (const l of t.laws) {
       const row = t.table.row(l.counter);
       expect(row.get('unit')?.calibratable, l.counter).toBe(false);
       expect(row.get('log2')?.calibratable ?? false, l.counter).toBe(false);
       expect(row.get('perUnit')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
+      expect(row.get('floor')?.calibratable, l.counter).toBe(l.unit !== 'fixed');
       expect(row.get('perUnit')?.unit, l.counter).toBe(l.unit === 'landHa' ? 'perHa' : 'ratio');
       expect(row.get('floor')?.unit, l.counter).toBe('count');
       expect(l.perUnit, l.counter).toBeGreaterThanOrEqual(0);
@@ -159,12 +167,13 @@ describe('the placeholder laws (C-0021)', () => {
     }
   });
 
-  it('the census lists the calibratable cells (C-0070): 33 — every floor and every counting law’s perUnit', () => {
+  it('the census lists the calibratable cells (C-0070): 32 — every counting law’s floor and perUnit, no fixed law’s cell', () => {
+    // 33 → 32 at version 2 (N-56 (4)): `warp.halvings/floor` left the census when its metadata was pinned.
     const census = workLimitsCensus();
-    expect(census).toHaveLength(33);
-    expect(new Set(census).size).toBe(33);
+    expect(census).toHaveLength(32);
+    expect(new Set(census).size).toBe(32);
     for (const s of WORK_LIMIT_COUNTERS) {
-      expect(census.includes(`workLimits/${s.counter}/floor`), s.counter).toBe(true);
+      expect(census.includes(`workLimits/${s.counter}/floor`), s.counter).toBe(s.unit !== 'fixed');
       expect(census.includes(`workLimits/${s.counter}/perUnit`), s.counter).toBe(s.unit !== 'fixed');
     }
     expect(census).toEqual([...census].sort());
@@ -178,8 +187,11 @@ describe('the placeholder laws (C-0021)', () => {
     expect(t.law('warp.halvings')).toEqual({ counter: 'warp.halvings', unit: 'fixed', perUnit: 0, floor: 8 });
   });
 
-  it('is pinned at its version: version 1 hashes to the pin; a higher version is a declared change', () => {
-    const PIN = { version: 1, sha256: '87de920b6b2e88cae44d162b4f0cffc5434b038888b27c2c30e4ac8da842b9e5' };
+  it('is pinned at its version: version 2 hashes to the pin; a higher version is a declared change', () => {
+    // Re-recorded at version 2 (N-56 (4), round build/M0-f-03a-fix-s2, 2026-10-08): the one change is warp.halvings'
+    // floor metadata — provenance 'architecture 2026-10-03', calibratable false, its note naming the kernel's
+    // MAX_HALVINGS; every value is unchanged (floor 8). Version 1 hashed to 87de920b6b2e88ca…842b9e5.
+    const PIN = { version: 2, sha256: '8c5b12b4a9bea2d5571ba1e9e6986a5527de1affe9fe8fbc6fb76b1ccfc1591e' };
     const version = raw().version;
     expect(version).toBeGreaterThanOrEqual(PIN.version);
     const sha = createHash('sha256').update(readFileSync(FILE)).digest('hex');
