@@ -44,7 +44,7 @@ export {
   type WaterFacesOptions,
 } from './faces.js';
 export { intoOf, outfalls, type OutfallOptions } from './outfalls.js';
-export { l0WorkLimit, runS1, S1_COUNTERS, s1Stage, type S1StageOptions } from './stage.js';
+export { l0WorkLimit, REFERENCES_ROW, runS1, S1_COUNTERS, s1Stage, type S1StageOptions } from './stage.js';
 export type {
   CrossingSite,
   Deck,
