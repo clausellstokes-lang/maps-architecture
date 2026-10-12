@@ -1,12 +1,12 @@
-// The trace's sides against the barred rings — the water and the reservations (N-54 (1); §4.4 *Water and the waterfront*:
-// "the trace crosses water only at a water gate", §2.2 rule 7; M0-c-02 session round s1). The pull, the smoothing and
-// F-WALL's verdict tested the trace's VERTICES against the barred rings, never its sides, so a vertex pulled across a
-// river onto the far bank's land committed bare wall chords over the water (relief-60 CITY seed 9, stage 2). Here a
-// side is tested whole: it lies over a ring when some point of it is inside the ring deeper than `WET_TOL_CM` — the
-// bank points are lattice roundings of the shore crossings (up to √½ cm off the shore) and a trace that follows a shore
-// lies on it, so a side touching its ring within that depth (at a bank pin, along a shore) is no side over it. A side of
-// a water gate's course may lie over the water, never over a reservation; since session round s2 the strategy hands in
-// only chords — the chord between a gate's two bank pins — and refuses a crossing kept as a course (C-0300).
+// The trace's sides against the barred rings — the water and the reservations (§4.4 *Water and the waterfront*: "the
+// trace crosses water only at a water gate", §2.2 rule 7). The dry-side rule (N-54 (1); C-0282, C-0300): every SIDE of
+// the trace, not its vertices only, is kept off the barred rings by the pull, the smoothing, F-WALL's verdict and the
+// simplify, and proved before the commit (the registered replay test/enceinte/fixtures/relief60-s9-stage2.json pins
+// it). A side lies over a ring when some point of it is inside the ring deeper than `WET_TOL_CM` — the bank points are
+// lattice roundings of the shore crossings (up to √½ cm off the shore) and a trace that follows a shore lies on it, so a
+// side touching its ring within that depth (at a bank pin, along a shore) is no side over it. A side of a water gate's
+// course may lie over the water, never over a reservation; the strategy hands in only chords — the chord between a
+// gate's two bank pins — and refuses a crossing kept as a course (C-0300).
 //
 // The test is a bound, as `segmentDepartureBound`'s (C-0232 (2)): the signed depth (inside positive) is 1-Lipschitz, so
 // on a stretch of half-length h about a point of depth d no point lies deeper than d + h; a stretch is halved until its
@@ -14,7 +14,7 @@
 // cleared at the tolerance plus half a centimetre. Each ring's sides sit in a packed grid (CSR) so a side far from every
 // ring costs one box test, a side near one a few cells (the cost measured at CITY, C-0282).
 import { orient2d } from '@plat/kernel';
-import { quot } from '../siting/geom.js';
+import { distToSegment2, quot } from '../siting/geom.js';
 import type { XY } from './types.js';
 
 /** A side lies over a ring when a point of it lies inside deeper than this (cm): the graze pin's 2 cm (N-54 (1)). */
@@ -124,25 +124,16 @@ function eachSide(g: RingGrid, x0: number, y0: number, x1: number, y1: number, f
   }
 }
 
-/** Squared distance of p from segment ab. */
-function segD2(p: XY, a: XY, b: XY): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l2 = dx * dx + dy * dy;
-  let t = l2 < 1 ? 0 : quot((p.x - a.x) * dx + (p.y - a.y) * dy, l2, 'area', 'wet foot');
-  if (t < 0) t = 0;
-  if (t > 1) t = 1;
-  const ex = a.x + t * dx - p.x;
-  const ey = a.y + t * dy - p.y;
-  return ex * ex + ey * ey;
-}
-
-/** The distance of p from the ring's line when some side lies within `r` of p (by box), else +∞. */
+/**
+ * The distance of p from the ring's line when some side lies within `r` of p (by box), else +∞. The ring's vertices are
+ * lattice points (the arena's water and reservation rings), so a side's squared length is 0 or at least 1 and
+ * `distToSegment2`'s ratio is never below its floor.
+ */
 function nearDist(g: RingGrid, p: XY, r: number): number {
   let best = Infinity;
   const n = g.ring.length;
   eachSide(g, p.x - r, p.y - r, p.x + r, p.y + r, (i) => {
-    const d = segD2(p, g.ring[i], g.ring[i + 1 === n ? 0 : i + 1]);
+    const d = distToSegment2(p, g.ring[i], g.ring[i + 1 === n ? 0 : i + 1]);
     if (d < best) best = d;
   });
   return best === Infinity ? Infinity : Math.sqrt(best);

@@ -150,34 +150,33 @@ export interface S3Commit {
 }
 
 /**
- * The S3 slice's commits (see the module comment): the outer ring (unless present), S3's L1 batch, the trace through
- * the registered strategy and the strips — the strips stopping at each main gate's way, taken along the gate route's
- * own lattice edge at the gate with half the `through` class's widest corridor at the rung (C-0226 (10)), and at each
- * water gate's water, and the glacis at the map border.
+ * S5a's trace for the slice and its strips (§4.4 S5a for k = 1; C-0033, C-0226 (2), (10)): the registered strategy
+ * `base` on S3's outline and gate sites around the plaza, then the strip stand-in — the strips stopping at each main
+ * gate's way, taken along the gate route's own lattice edge at the gate with half the `through` class's widest corridor
+ * at the rung (C-0226 (10)), at each water gate's water, and the glacis at the map border. The arena must already hold
+ * S3's L1 batch. A refusal is returned with its code and detail; a refused batch writes nothing (the trace's batch
+ * stands when the strips' is refused). The warnings are the trace's, then the strips'.
  */
-export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {}): KernelResult<S3Commit> {
+export function traceWithStrips(
+  slice: S3Slice,
+  k: Kernel,
+  arena: PlatKey,
+  water: WaterSet,
+  costField: CostField | undefined,
+  plaza: Reservation,
+): KernelResult<{ enceinte: Enceinte; gates: readonly Gate[]; waterGates: readonly WaterGate[]; traced: Traced; strips: StripsLaid }> {
   const site = slice.site;
-  const arena = opts.key ?? GROUND;
-  const water: WaterSet = opts.water ?? { bodies: [], bridges: [] };
-  let margin: ChainRef = { role: 'margin', entity: site.terrain.id };
-  if (opts.outerRing !== 'present') {
-    const m = commitOuterRing(site, k, arena);
-    if (!m.ok) return err(m.code, m.detail);
-    margin = m.value;
-  }
-  const s3 = commitS3Batch(slice, k, arena);
-  if (!s3.ok) return err(s3.code, s3.detail);
   const ctx = siteContext(site);
   const traced = baseEnceinte.trace(
     slice.levelSet.outline,
     slice.gateSites,
-    [s3.value.plaza],
+    [plaza],
     site.terrain,
     water,
     { waterfront: 'open', placement: 'aroundAll' },
     ctx,
     k,
-    { key: arena, ...(opts.costField === undefined ? {} : { costField: opts.costField }) },
+    { key: arena, ...(costField === undefined ? {} : { costField }) },
   );
   if (!traced.ok) return err(traced.code, traced.detail);
   const t = traced.value.traced;
@@ -209,7 +208,28 @@ export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {
   if (!strips.ok) return err(strips.code, strips.detail);
   return {
     ok: true,
-    value: { margin, border: s3.value.border, plaza: s3.value.plaza, enceinte: t.enceinte, gates: t.gates, waterGates: t.waterGates, traced: t, strips: strips.value },
+    value: { enceinte: t.enceinte, gates: t.gates, waterGates: t.waterGates, traced: t, strips: strips.value },
     warnings: [...traced.warnings, ...strips.warnings],
   };
+}
+
+/**
+ * The S3 slice's commits (see the module comment): the outer ring (unless present), S3's L1 batch, then the trace and
+ * its strips (`traceWithStrips`).
+ */
+export function commitS3Slice(slice: S3Slice, k: Kernel, opts: CommitOptions = {}): KernelResult<S3Commit> {
+  const site = slice.site;
+  const arena = opts.key ?? GROUND;
+  const water: WaterSet = opts.water ?? { bodies: [], bridges: [] };
+  let margin: ChainRef = { role: 'margin', entity: site.terrain.id };
+  if (opts.outerRing !== 'present') {
+    const m = commitOuterRing(site, k, arena);
+    if (!m.ok) return err(m.code, m.detail);
+    margin = m.value;
+  }
+  const s3 = commitS3Batch(slice, k, arena);
+  if (!s3.ok) return err(s3.code, s3.detail);
+  const tail = traceWithStrips(slice, k, arena, water, opts.costField, s3.value.plaza);
+  if (!tail.ok) return err(tail.code, tail.detail);
+  return { ok: true, value: { margin, border: s3.value.border, plaza: s3.value.plaza, ...tail.value }, warnings: tail.warnings };
 }

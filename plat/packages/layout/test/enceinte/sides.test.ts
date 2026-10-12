@@ -1,33 +1,18 @@
-// M0-c-02 session round s1 (N-54 (1) Q5): the trace's SIDES against the water and the reservations — the pull, the
-// smoothing, F-WALL's verdict and the final proof tested only vertices, so a vertex pulled across a river onto the far
-// bank's land committed bare wall chords over the water (relief-60 CITY seed 9, stage 2: boundary vertex 124 pulled
-// 29.8 m onto the far bank; two bare chords 11 m deep). The property, per committed wall edge: it lies over water ⇔ it
-// is a water gate's course edge (`wall_gate`). Water is measured here independently (sampled every 25 cm, wet when
-// strictly inside the ring and more than 2 cm from its line).
+// M0-c-02, the dry-side rule (N-54 (1); C-0282): the trace's SIDES, not its vertices only, against the water and the
+// reservations — the pull, the smoothing, F-WALL's verdict and the final proof test every side, so no vertex pulled
+// across a river onto the far bank's land commits bare wall chords over the water (the registered replay
+// fixtures/relief60-s9-stage2.json, relief-60 CITY seed 9 stage 2: tested by vertices only, boundary vertex 124 pulled
+// 29.8 m onto the far bank and two bare chords 11 m deep were committed). The property, per committed wall edge: it
+// lies over water ⇔ it is a water gate's course edge (`wall_gate`). Water is measured here independently (sampled every
+// 25 cm, wet when strictly inside the ring and more than 2 cm from its line).
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import type { LatticePoint } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { commitOuterRing, outwardNormals, PULL_STEPS, pullAndPin, rungVerdict, siteContext, smoothPinned, traceBase, WET_TOL_CM, wetSides } from '../../src/index.js';
-import { densify, edgesWith, handBuildWater, insideRing, kernelFor, P, ringDist, riverCommitted, smallSite, type EdgeInfo } from './support.js';
+import { densify, depthOf, edgesWith, handBuildWater, insideRing, kernelFor, P, ringDist, riverCommitted, smallSite, type EdgeInfo } from './support.js';
 
 type Pt = { x: number; y: number };
-
-/** The deepest point of segment ab inside the ring (cm; 0 when none lies inside), sampled every `step` cm. */
-function depthOf(a: Pt, b: Pt, ring: readonly Pt[], step = 25): number {
-  // Far from the ring's line by more than half the segment: the whole segment is on one side of it.
-  const len = Math.hypot(b.x - a.x, b.y - a.y);
-  const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-  const dm = ringDist(mid, ring);
-  if (dm > len / 2 + 10) return insideRing(ring, mid) ? dm : 0;
-  const n = Math.max(2, Math.ceil(len / step));
-  let worst = 0;
-  for (let s = 1; s < n; s += 1) {
-    const q = { x: a.x + ((b.x - a.x) * s) / n, y: a.y + ((b.y - a.y) * s) / n };
-    if (insideRing(ring, q)) worst = Math.max(worst, ringDist(q, ring));
-  }
-  return worst;
-}
 
 /** The wall's committed edges with their depth in the water. */
 function wallDepths(plat: Parameters<typeof edgesWith>[0], entity: string, ring: readonly Pt[]): { e: EdgeInfo; depth: number; gated: boolean }[] {
@@ -255,14 +240,14 @@ describe('the relief-60 CITY seed 9 stage-2 replay (N-54 (1) Q5): the ring and b
       core: [pts(fx.plaza), ...fx.core.map(pts)],
       costField: cost,
     });
-    // The captured field covers every point the pull read, but the candidates about gate:w0's bank, which round s2
-    // settled 27 cm along the shore (C-0300): those read 0, each within twice the band of the settled bank.
+    // The captured field covers every point the pull read, but the candidates about gate:w0's bank, which settling moves
+    // 27 cm along the shore (C-0300): those read 0, each within twice the band of the settled bank.
     for (const q of misses) expect(Math.hypot(q.x + 13908, q.y + 90171)).toBeLessThanOrEqual(8000);
     expect(r.ok).toBe(true);
     if (!r.ok) return;
     const t = r.value.traced;
-    // The crossings as before round s1: the same four water gates at the same banks, but gate:w0's bank 0, which round s2
-    // settled 27 cm along the shore onto the shore vertex its chord passed 11 cm off (C-0300; chord.test.ts).
+    // The crossings the fixture records: the same four water gates at the same banks, but gate:w0's bank 0, which settling
+    // moves 27 cm along the shore onto the shore vertex its chord passed 11 cm off (C-0300; chord.test.ts).
     const settled = fx.before.waterGates.map((g, i) => (i === 0 ? [{ x: -13908, y: -90171 }, g[1]] : g));
     expect(t.waterGates.map((g) => g.bankAt.map((q) => ({ x: q.x, y: q.y })))).toEqual(settled);
     // The pull still moves the line (the seed's own field), within the band.

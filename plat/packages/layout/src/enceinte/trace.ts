@@ -14,13 +14,13 @@
 // the waterfront*: the trace crosses water only at a water gate): every SIDE, not only every vertex, is kept off the
 // water and the reservations by the pull, the smoothing, F-WALL's verdict and the simplify (`wet.ts`), and proved
 // before the commit (no side over water or a reservation unless it is a water gate's chord between its two bank pins)
-// and again inside it on the committed wall edges, STRICTLY (N-54 (1) residual, session round s2, C-0300): each water
-// gate's `wall_gate` run is exactly one edge and that edge joins the gate's two `gate_end` vertices, and an edge over
-// water carries its gate's `wall_gate`; a crossing with no clear chord (the chord would leave the water, a main gate
-// stands in it, or it passes an existing vertex no shore holds, `water.ts`'s settling) is refused before anything is
-// pulled — but a crossing whose straight chord would leave the water (a river bend) is first routed along its banks
-// within the band to a clear chord (`water.ts`, C-0324; Q40, J264). A trace that fails is refused E_INVARIANT `water`,
-// nothing written. Each water gate takes the lowest `gate:w<i>` no earlier enceinte's gate holds (C-0324 (3)).
+// and again inside it on the committed wall edges — the strict committed-edge proof (C-0300): each water gate's
+// `wall_gate` run is exactly one edge and that edge joins the gate's two `gate_end` vertices, and an edge over water
+// carries its gate's `wall_gate`; a crossing with no clear chord (the chord would leave the water, a main gate stands
+// in it, or it passes an existing vertex no shore holds, `water.ts`'s settling) is refused before anything is pulled —
+// but a crossing whose straight chord would leave the water (a river bend) is first routed along its banks within the
+// band to a clear chord (`water.ts`, C-0324). A trace that fails is refused E_INVARIANT `water`, nothing written. Each
+// water gate takes the lowest `gate:w<i>` no earlier enceinte's gate holds (C-0324 (3)).
 // Every value it reads is a walls.json cell (`trace/*`, the era row). The trace is laid `standing` (no condition is
 // written: the profile is M2b's). The batch is S5a's for k = 1 (§4.1's S5 row commits S3's trace; C-0226 (2)).
 import { err, simplify, STAGES, type Cm, type Kernel, type KernelResult, type KernelTx, type LatticePoint, type PlatKey, type Polygon, type StageId, type VertexRef } from '@plat/kernel';
@@ -140,7 +140,7 @@ export function traceBase(
   const gatePins = new Set(gateSites.map((g) => key(lat(g.at))));
   const waters = waterRings(water, k, arena);
   // A crossing whose chord would leave the water is routed along its banks within the band of the boundary as given
-  // (C-0324; J264: a river bend between the banks is lawful input).
+  // (C-0324: a river bend between the banks is lawful input).
   const crossed = crossWater(withG, gatePins, waters, arenaVertices(k, arena), { ring: ring0, bandCm: band });
   // A water gate's wet side is its chord between its two bank pins, laid as one edge (§2.2 rule 7; N-54 (1), strict):
   // a crossing with no clear chord is refused here, nothing written (C-0300).
@@ -227,10 +227,10 @@ export function traceBase(
     const id = `gate:${String(g.ordinal)}`;
     return { id, enceinte: encId, junction: id, way: null, kind: 'main', lifecycle: generated(epoch) };
   });
-  // Each water gate takes the lowest `gate:w<i>` no earlier enceinte's water gate holds in the arena (C-0324 (3)): a
-  // stage-2 trace crossing the river where stage 1's trace also crosses it wrote `gate:w0` again, so its gate_end refs
-  // resolved to two vertices and the retype below was refused E_DEGENERATE `stretch` (base river seed 2, 900 ha). A
-  // first trace — and any trace with no earlier water gate — keeps its ids `gate:w0` … in crossing order.
+  // Each water gate takes the lowest `gate:w<i>` no earlier enceinte's water gate holds in the arena (C-0324 (3)): two
+  // enceintes crossing one river never share a water gate's id, so each gate's two gate_end refs resolve to one vertex
+  // each and the `wall_gate` retype below runs between them (pinned by bend.test.ts on the base river fixture's seed 2).
+  // A first trace — and any trace with no earlier water gate — keeps its ids `gate:w0` … in crossing order.
   const heldId = (id: Id): boolean => {
     const r = k.resolve({ role: 'gate_end', entity: id, ordinal: 0 }, arena);
     return r.view === 'vertices' && r.vertices.length > 0;

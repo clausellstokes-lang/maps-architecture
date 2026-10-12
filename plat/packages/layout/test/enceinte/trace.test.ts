@@ -7,9 +7,8 @@ import { describe, expect, it } from 'vitest';
 import { STAGES, type Kernel } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { baseEnceinte, commitOuterRing, commitS3Slice, ENCEINTE_STRATEGY_ID, flatFixture, s3Slice, siteContext, traceBase } from '../../src/index.js';
-import { cityCommitted, closedChain, commitSite, densify, edgesOf, edgesWith, GROUND, handBuildWater, kernelFor, maxDeparture, P, ringDist, smallCommitted, smallSite, verticesWith, wallsWith } from './support.js';
+import { cityCommitted, closedChain, commitSite, densify, edgesOf, edgesWith, GROUND, handBuildWater, kernelFor, maxDeparture, P, ringDist, smallCommitted, smallSite, verticesWith, WALL, wallsWith } from './support.js';
 
-const WALL = { role: 'wall', entity: 'enceinte:1' };
 const SEEDS = [1, 7];
 
 describe('§4.2 S3 (9)\'s test on the CITY flat fixture', () => {

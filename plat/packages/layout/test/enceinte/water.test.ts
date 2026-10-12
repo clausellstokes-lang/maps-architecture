@@ -7,10 +7,9 @@
 import { describe, expect, it } from 'vitest';
 import type { GateSite } from '@plat/model';
 import { commitOuterRing, crossWater, GRAZE_RATIO, siteContext, traceBase, waterGates } from '../../src/index.js';
-import { closedChain, densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, RIVER, riverCommitted, ringDist, smallSite, verticesWith } from './support.js';
+import { closedChain, densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, RIVER, riverCommitted, ringDist, smallSite, verticesWith, WALL } from './support.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
 
-const WALL = { role: 'wall', entity: 'enceinte:1' };
 const SEEDS = [1, 4];
 
 /**
@@ -235,9 +234,9 @@ describe('a crossing whose chord would leave the water (C-0226 (7); §2.2 rule 7
   });
 
   it('through the strategy: the oblique crossing is routed along its banks to a clear chord and commits, each water gate one wall_gate edge (C-0324; was refused E_INVARIANT `water` under C-0300)', () => {
-    // Before session round s2 the trace kept the boundary's own course between the banks, several wall_gate edges over
-    // the water, none of them a chord between the gate's two bank pins; session round s2 refused it (C-0300); session
-    // round s4 routes it along its banks within the band (Q40, J264; bend.test.ts holds the route and its refusal).
+    // The boundary's own course between the banks (several wall_gate edges over the water, none of them a chord between
+    // the gate's two bank pins) is no lawful wet side (C-0300); routed along its banks within the band, the crossing
+    // commits as one chord (C-0324; bend.test.ts holds the route and its refusal).
     const site = smallSite(2);
     const { plat, k } = kernelFor(site);
     expect(commitOuterRing(site, k).ok).toBe(true);

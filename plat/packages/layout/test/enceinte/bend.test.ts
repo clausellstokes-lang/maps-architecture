@@ -1,14 +1,13 @@
-// M0-c-02 session round S4 (docs/M0-FIX-QUEUE.md Q40; M0-x-02 s2 build finding (b), check note N-14; J264; C-0324): a
-// lawful-input refusal. The base RIVER fixture at seed 2 (900 ha, 30 ha walled) refused S5 E_INVARIANT "water: the
-// crossing from 41082,-4616 to 49156,-1003 has no clear chord between its two bank pins (its chord would leave the
-// water)": stage 2's boundary enters the river on the south bank, runs about 90 m inside it and U-turns out by the north
-// bank, and the straight chord between those banks cuts the south bank's bulge. Two defects stood on that seed:
-//   (1) a crossing whose chord would leave the water had no lawful form (C-0300 refused every course) — it is now ROUTED
-//       ALONG ITS BANKS within the band: the trace follows the shore from each bank point to the pair of shore points
-//       with the least shore walked whose chord keeps inside the water, and crosses there as one chord (`water.ts`);
-//   (2) once (1) let stage 2's trace through, its water gates were named `gate:w0`, `gate:w1` again — stage 1's — so
-//       their gate_end refs resolved to two vertices each and the retype was refused E_DEGENERATE `stretch`; each water
-//       gate now takes the lowest `gate:w<i>` no earlier enceinte holds (`trace.ts`).
+// M0-c-02, the band hand-in (C-0324; §4.4 S5a *Trace* (2), (3) and *Water and the waterfront*, §2.2 rule 7): a crossing
+// whose straight chord would leave the water is lawful input. The base RIVER fixture at seed 2 (900 ha, 30 ha walled) is
+// the registered case: stage 2's boundary enters the river on the south bank at (41082, −4616), runs about 90 m inside
+// it and U-turns out by the north bank at (49156, −1003), and the straight chord between those banks cuts the south
+// bank's bulge. Two rules hold it:
+//   (1) such a crossing is ROUTED ALONG ITS BANKS within the band: the trace follows the shore from each bank point to
+//       the pair of shore points with the least shore walked whose chord keeps inside the water, and crosses there as
+//       one chord (`water.ts`); a crossing no pair clears is refused, typed;
+//   (2) each water gate takes the lowest `gate:w<i>` no earlier enceinte holds (C-0324 (3)), so a stage-2 trace crossing
+//       the river where stage 1's does never names its gates `gate:w0`, `gate:w1` again (`trace.ts`).
 import { describe, expect, it } from 'vitest';
 import type { GateSite } from '@plat/model';
 import { commitOuterRing, crossWater, RIVER_BLUEPRINT, runBase, siteContext, traceBase, waterRings, type BaseBlueprint } from '../../src/index.js';
@@ -155,8 +154,8 @@ describe('a crossing whose chord would leave the water is routed along its banks
     const { plat, k } = kernelFor(site);
     expect(commitOuterRing(site, k).ok).toBe(true);
     const water = handBuildWater(k, BEND, 'river:1', P(22000, 0));
-    // Before the round: E_INVARIANT "water: the crossing from … has no clear chord between its two bank pins (its chord
-    // would leave the water)" (water.test.ts's refusal of C-0300).
+    // The straight chord would leave the water: unrouted, the crossing is refused E_INVARIANT "water: the crossing from …
+    // has no clear chord between its two bank pins (its chord would leave the water)" (C-0300); routed, it commits.
     const r = traceBase(BOUNDARY, GATES, [], site.terrain, water, { waterfront: 'open', placement: 'aroundAll' }, siteContext(site), k);
     expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
     if (!r.ok) return;
@@ -212,8 +211,9 @@ describe('water gate ids across enceintes (Q40 (2); C-0324 (3))', () => {
     expect(first.ok ? 'ok' : `${first.code} ${first.detail}`).toBe('ok');
     if (!first.ok) return;
     expect(first.value.traced.waterGates.map((g) => g.id)).toEqual(['gate:w0', 'gate:w1']);
-    // A second, larger ring (enceinte:2) crossing the same river further out; before the round its gates were named
-    // gate:w0 and gate:w1 again and the batch was refused E_DEGENERATE `stretch`.
+    // A second, larger ring (enceinte:2) crossing the same river further out: its gates take the next free ids. Named
+    // gate:w0 and gate:w1 again, their gate_end refs would resolve to two vertices each and the batch would be refused
+    // E_DEGENERATE `stretch`.
     const gates2: GateSite[] = [
       { ordinal: 2, at: P(-60000, 0), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
       { ordinal: 3, at: P(0, -60000), bearingCdeg: 0 as GateSite['bearingCdeg'], kind: 'main', forced: false },
@@ -238,7 +238,7 @@ describe('the base RIVER fixture at seed 2, 900 ha, 30 ha walled (Q40; the repla
 
   it('runBase commits every stage with no bug: stage 2 crosses the river at gate:w2 (routed along the south bank) and gate:w3, and S6 and S8 run', () => {
     const r = runBase(RIVER, 2, { kind: 'all' });
-    // Before the round: [{ cls: 'E_INVARIANT', stage: 'S5', … }] and S6, S8 idle on missing inputs.
+    // No bug: a refused S5 would read [{ cls: 'E_INVARIANT', stage: 'S5', … }], with S6 and S8 idle on missing inputs.
     expect(r.report.bugs).toEqual([]);
     const k = r.model.kernel;
     const plat = k.plat(GROUND);

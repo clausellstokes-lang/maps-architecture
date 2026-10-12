@@ -6,33 +6,32 @@
 // on the L0 shores, or L0 shore vertices where the insertion attracts them (§3.6) — carrying ('gate_end', gate, 0 | 1),
 // and between them the trace is one straight edge across the water (the wall's edge between the banks lies across the
 // water, §2.2 rule 7) wherever that chord keeps inside the water; where it would not, or where a main gate stands in the
-// water between them (C-0204 (2)'s bridgehead gate), the boundary's own course between the banks is kept (C-0226 (7)).
+// water between them (C-0204 (2)'s bridgehead gate), the crossing keeps the boundary's own course between the banks
+// (C-0226 (7)) and is no clear chord — the strategy lays only clear chords and refuses the rest (below).
 // The bank points are pinned through the pull, the smoothing and the simplify, so the pull keeps each crossing where
 // the boundary crosses (C-0087). Each crossing writes a `Gate` of kind `water` with `way` null and `banks` set, not
 // counted in N and carrying no route.
-// The chord is laid as ONE edge between the two bank pins (N-54 (1), strict; M0-c-02 session round s2): the insertion
-// routes a segment through every existing vertex it passes within `attractCm` (§3.6 step 3), so a shore vertex standing
-// that close to a chord near its bank would split it into a short shore edge and a wet side ending on one pin only
-// (relief-60 CITY seed 9, stage 2: `gate:w0`'s bank 27 cm from shore vertex (−13908, −90171), 11 cm off the chord).
+// The one-chord rule (C-0300 (1); N-54 (1)): a water gate's wet side is ONE edge between its two bank pins. The
+// insertion routes a segment through every existing vertex it passes within `attractCm` (§3.6 step 3), so a shore
+// vertex standing that close to a chord near its bank would split it into a short shore edge and a wet side ending on
+// one pin only (the registered replay test/enceinte/fixtures/relief60-s9-stage2.json holds such a bank).
 // Each chord's banks are therefore SETTLED on the arena's vertices before anything is pinned: where the chord between
 // the banks' landing vertices passes an existing vertex, the bank nearer it moves onto it when it is a shore vertex
 // (an L0 shore vertex where the trace attracted, as C-0087 allows), until the chord passes none (`clear`); a chord
 // still passing a vertex that is not on a shore, or leaving the water once settled, is not clear, and the strategy
 // refuses it (C-0300).
-// A crossing whose straight chord would leave the water (a river bend between the banks) is ROUTED ALONG ITS BANKS
-// when the strategy hands in its band (session round s4, docs/M0-FIX-QUEUE.md Q40, J264; C-0324): the base river
-// fixture at seed 2 (900 ha, 30 ha walled) had its stage-2 boundary enter the river on the south bank at (41082, −4616),
-// run 90 m inside it and leave by the north bank at (49156, −1003); the chord between those banks cuts the south bank's
-// bulge, so S5 was refused on lawful input. The trace instead follows the shore from each bank point (on a shore the
-// trace is attracted onto the outline, §4.4 S5a *Trace* (3); the graze's rule, C-0226 (7)) to a pair of shore points
-// whose chord keeps inside the water — every walked side and the chord proved within the band of the boundary as
-// given (§4.2 S3 (9); `sideHolds`, C-0232 (2)) — and crosses there as one chord, so the gate keeps §2.2 rule 7's form:
-// one wall edge across the water between its two `gate_end` vertices. Of the pairs that hold, the one with the least
-// shore walked is taken (ties: the entry's walk forward along the ring first, then the shorter entry walk, then the
-// exit's in the same order). A crossing no pair clears stays refused, typed, as before. Without a band (`waterGates`,
-// a reader of a committed trace) nothing is routed.
+// The band hand-in (C-0324): the strategy hands in its band of the committed boundary, and a crossing whose straight
+// chord would leave the water — a river bend between the banks, which is lawful input (C-0324) — is ROUTED ALONG ITS
+// BANKS: the trace follows the shore from each bank point (on a shore the trace is attracted onto the outline, §4.4 S5a
+// *Trace* (3); the graze's rule, C-0226 (7)) to a pair of shore points whose chord keeps inside the water — every walked
+// side and the chord proved within the band of the boundary as given (§4.2 S3 (9); `sideHolds`, C-0232 (2)) — and
+// crosses there as one chord, so the gate keeps §2.2 rule 7's form: one wall edge across the water between its two
+// `gate_end` vertices. Of the pairs that hold, the one with the least shore walked is taken (ties: the entry's walk
+// forward along the ring first, then the shorter entry walk, then the exit's in the same order). A crossing no pair
+// clears stays refused, typed. Without a band (`waterGates`, a reader of a committed trace) nothing is routed.
 import { LATTICE, orient2d, type Kernel, type LatticePoint, type PlatKey, type Polygon } from '@plat/kernel';
 import type { Id, Lifecycle, WaterSet } from '@plat/model';
+import { GROUND_KEY } from '@plat/site';
 import { bandLimit, ccw, crossParams, d2, dist, inside, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
 import type { WaterGate, XY } from './types.js';
 
@@ -314,8 +313,11 @@ export function shoreArc(ring: readonly LatticePoint[], ja: number, ua: number, 
   return lf <= lb ? { lengthCm: lf, vertices: fwd } : { lengthCm: lb, vertices: bwd };
 }
 
-/** The ground arena's key. */
-export const GROUND: PlatKey = Object.freeze({ layer: 'ground', part: 0 }) as PlatKey;
+/**
+ * The ground arena's key: @plat/site's `GROUND_KEY`, the same frozen `{ layer: 'ground', part: 0 }`. The kernel finds an
+ * arena by its layer and part, never by the key object (arena/plat.ts `sameKey`; the façade's arena map by that text).
+ */
+export const GROUND: PlatKey = GROUND_KEY;
 
 /** The generated lifecycle (§2.8) at `epoch`. */
 export function generated(epoch: number): Lifecycle {
@@ -380,7 +382,7 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
     const a = cuts[i];
     const b = cuts[(i + 1) % cuts.length];
     // Only the last cut wraps round to the first: two cuts at one point (a side through a shore vertex meets both of its
-    // shore sides there) are a stretch of no length, never the whole ring again (N-54 (1) Q6).
+    // shore sides there) are a stretch of no length, never the whole ring again (C-0282 (7)).
     const wrap = i + 1 === cuts.length;
     // The boundary's vertices strictly between the two cuts.
     const between: LatticePoint[] = [];

@@ -1,11 +1,10 @@
-// M0-c-02 session round S3 (N-56 (3), docs/M0-FIX-QUEUE.md Q22; C-0311): a strip's face is taken only outside every
-// way's corridor — "outside" up to N-43 B's fidelity bound at the corridor's edge (`CORRIDOR_SLACK_CM`, ≈ 73.5 cm), no
-// longer 5 cm. On SMALL_FLAT seed 3443032966 the stage-2 strips refused `closed no strip face` on lawful input: the
-// inner faces were barred by (-11376, -2963), a vertex of stage 2's trace (shared with enceinte:1's outer setback line)
-// 14.5 cm inside gate:3's corridor, onto which the insertion attracted the cap's end (-11378, -2978), and by
-// (-11291, -1574), enceinte:1's outer setback vertex 6.1 cm inside it. A face crossing a corridor — holding a gate's
-// vertex, or a vertex deeper than the bound — is still no strip, and a side left with none is refused with the barring
-// vertex and its cause named.
+// M0-c-02, the corridor-depth rule (C-0311; N-56 (3)): a strip's face is taken only outside every way's corridor —
+// "outside" up to N-43 B's fidelity bound at the corridor's edge (`CORRIDOR_SLACK_CM`, ≈ 73.5 cm). The registered case is
+// SMALL_FLAT seed 3443032966's stage-2 strips (lawful input): their inner faces hold (-11376, -2963), a vertex of stage
+// 2's trace (shared with enceinte:1's outer setback line) 14.5 cm inside gate:3's corridor, onto which the insertion
+// attracted the cap's end (-11378, -2978), and (-11291, -1574), enceinte:1's outer setback vertex 6.1 cm inside it —
+// both within the bound. A face crossing a corridor — holding a gate's vertex, or a vertex deeper than the bound — is
+// no strip, and a side left with none is refused with the barring vertex and its cause named.
 import { describe, expect, it } from 'vitest';
 import { STAGES, type Kernel, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
 import type { Enceinte, Scope } from '@plat/model';
@@ -50,7 +49,7 @@ describe('the corridor clause up to the fidelity bound (N-56 (3) Q22; C-0311)', 
   it('a cap attracted onto a trace vertex 15 cm inside the corridor: the strips commit, each side\'s face holding that vertex typed wall_strip', () => {
     const { k, enceinte, row } = handTrace(dipped(15));
     const r = layStrips(enceinte, row, k, { stops: [WEST_WAY] });
-    // Before the round: E_INVARIANT "layStrips: a side's lines closed no strip face" (the vertex 15 cm > 5 cm inside).
+    // The vertex lies 15 cm inside the corridor, within the fidelity bound (C-0311): each side's face is the strip's.
     expect(r.ok ? 'ok' : `${r.code} ${r.detail}`).toBe('ok');
     if (!r.ok) return;
     expect(r.value.faces).toEqual({ inner: 1, outer: 1 });
@@ -138,8 +137,8 @@ function throughS5(seed: number): ReturnType<typeof run> & { refusal: { code: st
   return { ...out, refusal };
 }
 
-/** The family's seeds whose stage-2 strips were refused `closed no strip face` before the round with every barring vertex
- * within the bound (EP-01/S5a/coincident's family, seeds 19, 574, 918 and 929 of its first 1 000, unplanted; C-0311). */
+/** The family's seeds whose stage-2 strips hold a vertex inside a corridor with every such vertex within the bound, so they
+ * commit (EP-01/S5a/coincident's family, seeds 19, 574, 918 and 929 of its first 1 000, unplanted; C-0311). */
 const COMMIT_SEEDS = [3443032966, 3027099408, 1318978557, 3198053629];
 
 /** The family's seeds whose stage-2 inner strip truly crosses a gate's corridor (the trace spikes at the gate, the corridor
@@ -165,12 +164,12 @@ describe('the stage-2 strips on SMALL_FLAT seeds (N-56 (3) Q22)', () => {
       const v = r.model.kernel.view(GROUND, 1);
       const owners = v.faces().map((f) => v.owner(f) ?? '');
       if (bug === undefined) {
-        // A later round that lays these strips: both sides typed.
+        // Laid (should a later rule lay these strips): both sides typed.
         expect(owners.filter((o) => o === 'wall_strip:2-inner').length).toBeGreaterThan(0);
         expect(owners.filter((o) => o === 'wall_strip:2-outer').length).toBeGreaterThan(0);
         return;
       }
-      // Refused (CONFIRMED on this round's tree for all three): the cause named, nothing of stage 2's strips written.
+      // Refused: the cause named, nothing of stage 2's strips written.
       expect(owners.filter((o) => o.startsWith('wall_strip:2-'))).toEqual([]);
       expect(r.refusal?.code).toBe('E_INVARIANT');
       expect(r.refusal?.detail).toMatch(/closed no strip face — the (inner|outer) side: vertex \(-?\d+, -?\d+\) (is gate:\d+'s gate vertex \(the face crosses its corridor\)|lies \d+ cm inside gate:\d+'s corridor, beyond the fidelity bound \(74 cm\))/);

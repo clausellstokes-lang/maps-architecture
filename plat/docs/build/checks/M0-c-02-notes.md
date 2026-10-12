@@ -352,3 +352,163 @@ drains them. N-32 – N-35 are also for the session.
       (`build/M0-a-08-consolidate-1`) stands outside the table after §5, as L-0444 once did, so the session may need
       to move it (Q23 (a)).
     * No git command was run.
+
+### Consolidation round R8 (fix round C1; lane `build/M0-c-02-consolidate-1`, 2026-10-12) — the builder's rows
+
+36. **N-36 the round's map (J263 Q8): old file → new file, and the bodies moved.**
+    * No source or test file was created, renamed, split, merged or deleted. Each of `src/enceinte/` (11 files) and
+      `test/enceinte/` (12 test files, `support.ts`, the two JSON fixtures) maps to itself. The fixtures
+      `ep20-496296019.json` and `relief60-s9-stage2.json` are byte-identical.
+    * Bodies moved into `test/enceinte/support.ts` (equal bodies only, §1.3.9):
+      * `WALL` — `strips.test.ts`, `trace.test.ts` and `water.test.ts` each declared
+        `{ role: 'wall', entity: 'enceinte:1' }`; one export now, imported by the three.
+      * `depthOf` — `sides.test.ts`'s `depthOf(a, b, ring, step = 25)` and `chord.test.ts`'s copy with the step fixed at
+        25 (`Math.ceil(len / 25)` is `Math.ceil(len / step)` at step 25, the same double); one export with the default
+        step, the chord's call sites passing none. `chord.test.ts` no longer imports `insideRing` and `ringDist`
+        (only its `depthOf` read them).
+    * Twins that stay, because the bodies differ: `SEEDS` ×3 (`strips.test.ts` [3, 5], `trace.test.ts` [1, 7],
+      `water.test.ts` [1, 4]); `GATES` ×2 (`bend.test.ts` a `GateSite[]`, `simplify.test.ts` a `Corner[]` of two
+      corners); `ridge` ×2 (`fwall.test.ts` high ground along the north notch's centre line, `pull.test.ts` a circular
+      ridge 25 m outside the mean radius — two different cost fields).
+    * The support's own oracles (`segDist`, `ringDist`, `maxDeparture`, `insideRing`, `area2`, `densify`) are
+      unchanged and independent of `siting/geom.ts`.
+    * Counts, before and after: 12 test files, 38 `describe` and 103 `it` call sites (static count), 116 tests run.
+      Every describe/it title is byte-identical. Titles that name a queue row (`(Q40 (1); C-0324 (1))`,
+      `(N-56 (3) Q22; C-0311)`, `(wall × frame; N-54 (1) Q6)`, `(N-54 (1) Q5)`) stay verbatim, since a title is an
+      oracle's name (layout-plan §2, §3).
+37. **N-37 1.3.2: why `distToSegment2` gives the same bits in `wet.ts`.**
+    * The rings' vertex type: `wetSides(rings, …)` builds a `RingGrid` per ring. Every ring handed to it comes from the
+      arena: `trace.ts` passes `barred`, which holds `waterRings` (each body's L0 face ring, `k.view(key, level).rings(f)[0]`),
+      the reservations' L1 face rings (`ringsOf`, the same view) and `opts.core` mapped through `lat`. So each is a list
+      of lattice points. `pullAndPin` and `smoothPinned` default to `wetSides(barred, 0)` on the same `barred`. The
+      tests hand in `P(…)` integer points and the fixtures' integer rings (no non-integer point in either JSON
+      fixture, checked by script).
+    * So a side `ab` of a ring has `l2 = dx² + dy²` equal to 0 (a repeated vertex) or at least 1. The old guard
+      `l2 < 1 ? 0` and siting's `len2 === 0 ? 0` agree on every such input. Past the guard, both compute the same
+      `t = quot(dot, l2, 'area', …)` clamped to [0, 1], the same `ex, ey` and the same `ex² + ey²`.
+    * The 'wet foot' text is unreachable. `quot` throws only when |l2| < 1 (the 'area' floor), and the guard
+      excludes that. `grep -rn "wet foot"` over `plat/` finds it only in `consolidation/layout-plan.md`; no test pins
+      it (J302 Q10).
+    * Nuance kept, for the hardening pass: a caller of the public `wetSides` that hands in a non-lattice ring with a
+      side shorter than 1 cm now gets a RangeError 'siting: segment foot: …' where the old copy clamped to t = 0. No
+      caller in `plat/` does this, and the input is UNLAWFUL (barred rings are the arena's lattice rings). It is a
+      typed refusal, not a silent result. KI only.
+38. **N-38 1.3.6: the kernel line that keys arenas by value (J302 Q6).**
+    * `packages/kernel/src/facade/kernel.ts:86–107`: `createKernel` stores each arena under `keyText(key)`, which is
+      `` `${k.layer}/${String(k.part)}` `` (:56), in a `Map<string, Plat>`. `platOf(key)` looks it up by that text
+      (:105).
+    * Every reader goes through `platOf`: `k.plat` (:350), `k.resolve` (:176), `pointLocate` (:246),
+      `faceNeighbours` (:250), `index.query` (:266), `rebuildAtStageEnd` (:271), `k.view` (:275) and `k.tx` (:318).
+    * `packages/kernel/src/arena/plat.ts:248` `sameKey(a, b)` compares `layer` and `part`. It guards the façade
+      (:89), `resolve.ts:73, :203, :258`, the transaction (`tx.ts:85`) and the insertion (`classes.ts:134`,
+      `splitThrough.ts:192`).
+    * No reader keys by the object. So `water.ts`'s `GROUND` is now `@plat/site`'s `GROUND_KEY`
+      (`terrain/heightfield.ts:34`, the same frozen `{ layer: 'ground', part: 0 }`). The file-level export stays.
+      `commit.ts`, `strips.ts`, `trace.ts` and `growth/boundary.ts` import it by path, and it is `waterRings`'s
+      default.
+39. **N-39 KI: three survivors of this round's own targeted mutants (test gaps, no shift).**
+    * Each survivor's subject is covered by the NO-SHIFT probe's byte-equality, not by a test. Adding a test would
+      change 1.3.9's fixed counts, so each is a pin for the hardening pass (J273, J302 Q12).
+    * A07, `commitS3Slice` returning `warnings: []`: no enceinte test reads the warnings of `commitS3Slice`. The probe
+      hashes them (`warn …` identical on every run).
+    * A08, `traceWithStrips` handing `[]` for `[plaza]`: the plaza lies well inside every test fixture's boundary, so
+      no trace there comes near it. A test with a boundary pulled against the plaza would pin it.
+    * A11, `depthOf`'s far-side shortcut reading every segment dry: no test segment lies wholly inside a ring farther
+      than half its length from the ring's line. A12 (`depthOf` always 0) is killed, so the tests do read the moved
+      `depthOf`.
+40. **N-40 KI: M06 and M07 as the first check wrote them now survive alone (equivalent in effect on the fixtures).**
+    * Taking out the smoothing's vertex clause alone — the band (M06) or the barred rings (M07) — survives the folder
+      on this tree and on the pre-round sources alike (`pull.ts` is untouched by the round).
+    * Since C-0232 (1) and C-0282 (3), every side a pass changes is re-checked against the band (`sideHolds`) and the
+      barred rings (`wet.over`), and its moved ends are reverted. A vertex the vertex clause would have kept back
+      makes one of its sides fail that check in every fixture.
+    * The guards as the first check aimed them are each killed: M06b (vertex and side band clauses) and M07b (vertex
+      and side barred clauses).
+    * Not exactly equivalent: the vertex clause holds `bandCm − TOUCH_CM` and the side clause `bandCm − 1`. A
+      hardening pin would need a vertex between the two limits.
+41. **N-41 the NO-SHIFT proof and the refusal census, before and after (J260 (3), J264 (5), N-58).**
+    * The before-image is the tree's owns at the round's start. All 26 files of the landed record `M0-c-02.json`
+      (lane `build/M0-c-02-fix-s4`) hashed equal to it, so the tree held c-02 s4's landing (194eb090). Seats run no
+      git, so the image was copied to the session scratchpad.
+    * One mirror ran a probe twice: once with the pre-round owns, once with the tree's. Each line hashes the committed
+      arena (`arenaPrint`, plus `levelDigest` L0–L4) and the records. The probe covered:
+      * PB, small seeds 1–30 through `commitS3Slice`;
+      * PB2, CITY seeds 1–6;
+      * PF, a river at x = −600, −200, 300 and 700 m × seeds 1–3;
+      * `commitS3ThenStage1` on small seeds 1–10;
+      * the relief-60 seed 9 stage-2 replay of `fixtures/relief60-s9-stage2.json` (pull moved 150, line 224 vertices,
+        departure 3 975.16 cm);
+      * `runBase` FLAT and RIVER at 900 ha / 30 ha walled, seeds 1–3: the model root, every stage root and the
+        generation report;
+      * EP-01/S5a/coincident, family indices 156, 593, 956 and 0–9: the whole outcome;
+      * CITY seeds 1–16 through S3, S4 and S5a/S5b: c-04's 16-seed `arenaPrint` and the level digests.
+    * All 94 lines are byte-identical (file SHA-256 prefix 1cacb71f2b851c76 for both).
+    * Refusals before → after:
+      * the base families (flat and river, seeds 1–3): 0 → 0;
+      * EP-01/S5a/coincident at the sampled indices 156, 593 and 956: 3 → 3, the same details. Each is the unplanted
+        control's S5 E_INVARIANT "layStrips: a side's lines closed no strip face — the inner side: vertex …".
+    * Verdict classes (N-58): the three are LAWFUL input (the unplanted state), so MAKE-IT-SUCCEED. They are Q37's
+      true corridor crossings, routed to M0-c-04 and pinned by `corridor.test.ts`'s `CROSSING_SEEDS`. This round
+      changes none of them.
+    * The exported names (TypeScript's checker over `src/index.ts`, `src/enceinte/index.ts` and every enceinte
+      file), before and after: equal, but for one added file-level name, `commit.ts`'s `traceWithStrips`. The
+      barrel has 692 names and the enceinte index 70. `src/enceinte/index.ts` and `src/index.ts` are byte-identical
+      (sha256 9ffd0a6e…, f2349765…).
+
+## Closing check of consolidation round R8 (`check/M0-c-02-consolidate-close-1`, 2026-10-12)
+
+The round passes (`M0-c-02-c1.md`). None of these rows is a blocker. Each comes from this lane's own mirrors in the
+session scratchpad (`waves/check-M0-c-02/c1/{before,after,mut,inst}`): `before` holds the owns of 194eb090 (c-02 s4's
+landing), read from the object store without git; `after` holds the tree's. Under J302 Q12 and J273 the closing check
+notes a survivor it meets and adds no pin. The hardening pass (M4) drains the KI rows.
+
+42. **N-42 KI (M4): the plaza handed to the trace is not pinned (mutant A04).**
+    * The mutant passes `[]` for `[plaza]` in `traceWithStrips`. NEAR stays green (116/116) on the tree's owns and on
+      194eb090's owns alike (A04@before). So the gap predates the round, and the round lost no pin.
+    * It is equivalent in effect on the registered families. The plaza's nearest vertex lies at least 160 m from the
+      boundary (small seeds 1–30 and CITY 1–6, probe `plaza`). The trace stays within the 40 m band of the boundary,
+      so it never comes near the plaza.
+    * The code hands the plaza (`commit.ts` `[plaza]`, read). The NO-SHIFT probe's arenas are byte-identical.
+    * Suggested pin: a boundary with a cost field drawing the trace toward the plaza, through `commitS3Slice`, must
+      commit a trace that does not enter the plaza.
+43. **N-43 KI (M4): `commitS3Slice`'s warnings are not pinned (mutant A07).**
+    * The mutant returns `[...strips.warnings]` without the trace's warnings. NEAR stays green before and after
+      (A07@before).
+    * The warnings are real: `W_ATTRACTED` on small seeds 2 and 7 and CITY seed 2. They reach the S3 stage's report
+      through `pipeline/base.ts:481` (`commit.warnings`). The probe's `runBase` report hashes (FLAT and RIVER at
+      900/30, seeds 1–3) are byte-identical before and after.
+    * Suggested pin: a seed with a `W_ATTRACTED` trace warning, asserting that it appears in `commitS3Slice`'s
+      warnings ahead of the strips'.
+44. **N-44 the recorded mutants re-judged (no shift from this round).**
+    * M06 and M07 as the first check wrote them (the smoothing's vertex clause alone) survive. They also survive on
+      194eb090's owns (M06@before, M07@before). Since C-0232 (1) and C-0282 (3), the side clause re-checks every
+      side a pass changes. With the side clause removed as well, the whole guards are killed: M06b by the relief-60
+      replay in `sides.test.ts`, M07b by "the corner keeps its place".
+    * K20 (a course exempt over the water only as a two-point chord) survives, before and after (K20@before).
+    * K20 is equivalent in effect through the strategy since C-0300. The courses `traceBase` hands to `wetSides` are
+      settled chords, `course: [entry, exit]` (`water.ts` `crossWater`). A crossing kept as a longer course is
+      unclear and is refused before `wetSides` is built. Only a direct caller of the public `wetSides` that hands a
+      course of three or more points reaches the difference.
+    * M34 survives as recorded (N-4; M34@before survives too).
+45. **N-45 comment tightening (the item's next round, or M4).**
+    * Two headers cite "C-0300 (1)" for the one-chord rule: `water.ts` ("The one-chord rule (C-0300 (1); N-54 (1))")
+      and `chord.test.ts`. That clause of C-0300 is the row's diagnosis. The rule itself is the row's headline and its
+      clause (3). The plan's §1.3.8 prescribed this wording, and the text matches the code.
+    * `frame.test.ts`'s and `sides.test.ts`'s headers still carry their fixtures' counterfactual figures ("up to
+      125 cm beyond the frame", "pulled 29.8 m onto the far bank"). They describe what the registered fixture pins,
+      not a round. §2's table lists source files only.
+46. **N-46 session notes.**
+    * The brief's oracle for 1.3.2 quotes the relief-60 replay as "pull moved 151". Before and after, the replay gives
+      moved 150, line 224, departure 3 975.164468085763 cm. That is byte-identical, so there is no shift. The 151 is
+      the s1-era figure (`M0-c-02-s1.md`, K26), from before C-0300 (2)'s settling.
+    * `traceWithStrips` takes `plaza: Reservation`, not the plan's `ChainRef` (C-0336 states it). R11's
+      `growth/boundary.ts` `traceStage1` hands `[s3.plaza]`, where `s3: S3Batch` and `plaza: Reservation`, so R11's
+      one-call replacement type-checks as planned.
+    * N-37's `wetSides` precondition (lattice rings) was measured. An instrumented copy of `nearDist` read 2 779 080
+      ring sides over the relief-60 replay, the river at seeds 1–4, `runBase` FLAT and RIVER at seeds 1–3, CITY 1–4
+      through S5a/S5b and EP-01/S5a/coincident at indices 0–99. None had a non-integer vertex or a squared length in
+      (0, 1). The guards of the deleted `segD2` and siting's `distToSegment2` never diverged.
+    * RELATED@1000 had one red: `testkit test/edge/repins.test.ts`, "EP-01/S8/zero-length at 2521534151 …
+      (Q41)", with 'laddered' received where 'refused-lawful' was expected. The same red appears on 194eb090's owns
+      in this lane's `before` mirror. The S8 cell runs no enceinte code. This is M0-x-06's census pin, stale since
+      M0-b-03 s4; the session should re-pin it (J264).
