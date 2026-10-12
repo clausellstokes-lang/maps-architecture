@@ -1,6 +1,6 @@
 // Test support for M0-d-04's model digest: a framed ground arena built through @plat/kernel's public surface, a
-// transaction spec, a small random batch generator (ways, lanes, plot lines, removals, re-owns) and record builders.
-// Not a test file.
+// transaction spec, a small random batch generator (ways, lanes, plot lines, removals, re-owns), record builders and a
+// digest's hex form. Not a test file.
 import {
   attachIndex,
   createPlat,
@@ -12,6 +12,7 @@ import {
   tx,
   type Cm,
   type Frame,
+  type Hash128,
   type KernelResult,
   type KernelTx,
   type Level,
@@ -60,6 +61,11 @@ export function framed(side = 4000, env: TxEnv = {}): Plat {
 export function commit(p: Plat, level: Level, fn: (o: Overlay) => KernelResult<unknown>, env: TxEnv, over: Partial<KernelTx> = {}): void {
   const r = tx(p, spec(level, over), fn, env);
   if (!r.ok) throw new Error(`support: the batch was refused: ${r.code} ${r.detail}`);
+}
+
+/** A digest as 32 hex digits (lane 0 first), for comparisons and messages; null and undefined as their names. */
+export function hex(h: Readonly<Hash128> | null | undefined): string {
+  return h == null ? String(h) : h.map((w) => w.toString(16).padStart(8, '0')).join('');
 }
 
 export const LIFE: Lifecycle = { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };

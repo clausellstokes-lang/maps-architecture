@@ -1,15 +1,13 @@
 // M0-d-04: the model digest (§6.2; §3.3 *The commit record*; C-0194). The full recomputation equals the maintained root
-// after every batch of every fuzz run (the CI oracle, §5.3's CI-only row; the spike runs' half is M0-d-09's, N-16);
+// after every batch of every fuzz run (the CI oracle, §5.3's CI-only row; the spike runs' half is M0-d-09's);
 // layers, parent nodes, the identity and plats nodes; finalisation on read; the three fallbacks as switches, off by
-// default and root-neutral when on; the oracle catches a stale leaf. Round s1 (N-56 (5), C-0305): a savepoint put back
-// across committed batches leaves neither the kernel's level digests nor this tree stale, re-attached or not.
-import { attachLevelDigests, levelDigest, levelDigestBuilds, recomputeLevelDigest, restoreGeneration, restoreSavepoint, takeSavepoint, updateLevelDigests, type CommitRecord, type DirtySet, type Hash128, type Overlay, type Plat } from '@plat/kernel';
+// default and root-neutral when on; the oracle catches a stale leaf. A savepoint put back across committed batches
+// (C-0299, C-0305) leaves neither the kernel's level digests nor this tree stale, re-attached or not.
+import { attachLevelDigests, levelDigest, levelDigestBuilds, recomputeLevelDigest, restoreGeneration, restoreSavepoint, takeSavepoint, updateLevelDigests, type CommitRecord, type DirtySet, type Overlay, type Plat } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { DIGEST_LAYERS, ModelDigest, type DigestEntry } from '../../src/digest/index.js';
 import { faceWalk, insertChain, isFaceLive, setOwner, tx, type StageId } from '@plat/kernel';
-import { blockEntry, commit, districtEntry, framed, plotEntry, pt, randomBatch, rng, spec, wayEntry, type Live } from './support.js';
-
-const hex = (h: Hash128 | null | undefined): string => (h == null ? String(h) : h.map((w) => w.toString(16).padStart(8, '0')).join(''));
+import { blockEntry, commit, districtEntry, framed, hex, plotEntry, pt, randomBatch, rng, spec, wayEntry, type Live } from './support.js';
 
 /** A model over a framed arena: four districts, a block and a plot in each; ways registered as they are inserted. */
 function setup(switches = {}): { md: ModelDigest; p: Plat } {

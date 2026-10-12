@@ -5,7 +5,8 @@
 // into both trees — its roots finalised, and both roots recomputed from nothing. The clock is the caller's (the model
 // package reads none, §6.5 (3)). The bars are the timing phase's (M0-t-00's script, run alone by M0-t-01): a record
 // taken anywhere else is stamped `contended` and never gates (M0.md §0.1 (5)).
-import { ratio, type Hash128 } from '@plat/kernel';
+import { ratio } from '@plat/kernel';
+import { sameHash } from './encode.js';
 import { ModelDigest } from './model.js';
 import { RecordsDigest } from './records.js';
 import { rederiveDistrict, type SyntheticCity } from './workload.js';
@@ -48,8 +49,6 @@ export function buildDigests(city: SyntheticCity): { model: ModelDigest; records
   return { model, records };
 }
 
-const same = (a: Hash128, b: Hash128): boolean => a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
-
 /** Times the bars on `city` `repeats` times with `now` (milliseconds); `status` is the caller's. */
 export function timeDigest(
   city: SyntheticCity,
@@ -83,7 +82,7 @@ export function timeDigest(
     const mFresh = model.recomputeRoot();
     const rFresh = records.recomputeRoot();
     const t4 = now();
-    if (!same(mRoot, mFresh) || !same(rRoot, rFresh)) oracle = false;
+    if (!sameHash(mRoot, mFresh) || !sameHash(rRoot, rFresh)) oracle = false;
     batchMs.push(t1 - t0);
     digestMs.push(t2 - t1);
     const share = ratio((t2 - t1) * 100_000, (t1 - t0) * 1000, 'count');
