@@ -26,10 +26,9 @@ import {
   type GeomRefLike,
   type RecordKind,
 } from '../../src/index.js';
-import { GROUND, LIFE, lineage, plotEntry, wayEntry } from './support.js';
+import { GROUND, hex, LIFE, lineage, plotEntry, wayEntry } from './support.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const hex = (h: Hash128): string => h.map((w) => w.toString(16).padStart(8, '0')).join('');
 const NO_GEOMETRY = (): Hash128 => [0, 0, 0, 0];
 
 /** A record of `kind` whose every schema attribute holds a value naming it (the leaf reads any value by the rule). */
@@ -119,6 +118,10 @@ describe('schema-order coverage', () => {
     const w = wayEntry('way:1');
     expect(() => digestLeaf({ ...w, id: 'way:2' }, NO_GEOMETRY)).toThrow(RangeError);
     expect(() => digestLeaf({ ...w, identity: { ...w.identity, lineage: [1.5, 0] } }, NO_GEOMETRY)).toThrow(RangeError);
+    // The lineage check is the leaf's own (each lane a u32, exactly two lanes), before any lane is written.
+    for (const lineage of [[1.5, 0], [0, 1.5], [-1, 0], [1, 2, 3]]) {
+      expect(() => digestLeaf({ ...w, identity: { ...w.identity, lineage: lineage as never } }, NO_GEOMETRY)).toThrow("digest: way:1's lineage is not two u32 lanes");
+    }
     expect(() => digestLeaf({ ...w, identity: { ...w.identity, dossier: { element: 'x' } } as never }, NO_GEOMETRY)).toThrow(/M1/);
     expect(() => digestLeaf({ ...w, kind: 'building' as never }, NO_GEOMETRY)).toThrow(RangeError);
   });

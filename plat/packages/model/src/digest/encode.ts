@@ -14,7 +14,10 @@
 // Anything else (a Map, a Set, a function, a bigint, a symbol, a class instance) is refused: no record holds one.
 // The geometry references a value holds — the FaceRef, ChainRef, EdgeSetRef and VertexRef forms (§2.2 rule 5) — are
 // collected as they are met, so the leaf can append the digests of the faces and chains they resolve to.
-import { sortedKeys, type ChainRef, type EdgeSetRef, type FaceRef, type LaneWriter, type VertexRef } from '@plat/kernel';
+// A digest written into another digest — a geometry digest in a leaf, a leaf or node in its parent — enters as its four
+// u32 lanes in order (`writeHash128`); `sameHash` is the one equality of two digests. Both are file-level exports the
+// digest modules share, not part of the package's API.
+import { sortedKeys, type ChainRef, type EdgeSetRef, type FaceRef, type Hash128, type LaneWriter, type VertexRef } from '@plat/kernel';
 
 /** A stored geometry reference (§2.2 rule 5; a StretchRef is never stored). */
 export type GeomRefLike = FaceRef | ChainRef | EdgeSetRef | VertexRef;
@@ -133,6 +136,16 @@ export function writeValue(w: LaneWriter, v: unknown, path: string, refs: GeomRe
     const ref = geomRefOf(o);
     if (ref !== null) refs.push(ref);
   }
+}
+
+/** Writes a digest as its four u32 lanes, in order (a lane that is not a u32 is refused by `LaneWriter.u32`). */
+export function writeHash128(w: LaneWriter, h: Readonly<Hash128>): void {
+  w.u32(h[0]).u32(h[1]).u32(h[2]).u32(h[3]);
+}
+
+/** Two digests are equal: all four lanes. */
+export function sameHash(a: Readonly<Hash128>, b: Readonly<Hash128>): boolean {
+  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
 }
 
 /** A reference's text form, for de-duplication and dependency keys (not on the digest path). */
