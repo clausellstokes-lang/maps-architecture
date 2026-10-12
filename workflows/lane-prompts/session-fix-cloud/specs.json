@@ -1258,6 +1258,332 @@
      "required_change": "the builder keeps the before-values from a mirror and reports the comparison; the closing checker re-proves it with its own before-image"
     }
    ]
+  },
+  {
+   "id": "M0-e-02",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/site-plan.md",
+    "findings": "H-1 … H-14 (§1.2, round R2: the hydro folder adopts R1's homes and homes what the water round adopts); comment rewrite C-hydro-1 … 3 (§2); test plan T-hydro (§3.2)"
+   },
+   "session": "R2 of the @plat/site consolidation plan (3ae30387; rulings J301), AFTER R1 (M0-e-01 c1) has landed on main (its file-level homes rasterGrid, cellCentre, PI, RAD_PER_CDEG, generatedLifecycle, isBaseRung exist in terrain/). Inside M0-e-02's owns (src/hydro/, test/hydro/) and nowhere else: H-1 strategy.ts:28–29 → PI and RAD_PER_CDEG from '../terrain/primitives.js'; :95–97 generated → generatedLifecycle; :99–101 isBaseRung → terrain's; :401 the inline reach → arenaReach(frame.value); carve.ts:34–36 rasterGeom → `export function rasterGeom(t: Terrain): GridGeom { return rasterGrid(t); }` (name, signature and return type kept; GridGeom stays an interface — J301 Q5); trace.ts:290–294 centreOf and strategy.ts:125–136 lineApproach's centre → cellCentre; H-2 d8.ts exports slopeKey from the file (trace.ts imports it by path — no cycle: d8.ts imports nothing from trace.ts) and flowCode calls steepest for its first phase (`const best = steepest(f, cols, rows, c, i, j); if (best >= 0) return best;`), the border and flat phases untouched; the descentLine step closure (trace.ts:197–223) is a different loop and shares slopeKey only; H-3 field.ts exports invOfCols(cols) from the file with field's message, invCols(g) becomes `return invOfCols(g.cols)` (public name and signature kept), trace.ts imports invOfCols and drops invOf — the unreachable, unpinned 'trace: a grid of no columns' text goes (J301 Q1: the implementer's notes carry the grep and the unreachability argument); H-4 field.ts exports rowOf(c, i, invCols) from the file with the explanation moved onto it; the sites outside the per-cell inner loops adopt it (trace.ts, strategy.ts, d8.ts:209–217 recomputeCorridors); the inner loops of flood.ts, flats.ts, d8.ts:113 and surface.ts:104 keep the inline form with the comment `// rowOf`; H-5 course.ts exports cellIndexAt(g, x, y) from the file; trace.ts:473, :509 and strategy.ts:641–643 call it (outfalls.ts's cellOf is R3's); the two cell-index arithmetics (cellAt's ratio vs sampler's reciprocal) are NOT unified (§4; L27 (b)); H-6 course.ts exports segParam(p, a, b) from the file — len2 = dx² + dy²; t = 0 unless len2 >= 1; else ratio(dot, len2, 'area')'s value or 0 when refused; clamped to [0, 1] — and pointSegDist2 uses it (R3 adopts it for footOn and delegates segDist2); H-7 nothing in R2 (R3's delegation; course.ts's segSegDist2 unchanged); H-8 the Counts class (d8.ts:143–160) becomes a Uint32Array `into` in accumulate (the same counts, the same Kahn order, the same cycle refusal text and count); H-9 course.ts exports q as lengthQuotient from the file and strategy.ts imports it in place of quotient — the unreachable, unpinned 'river: a divisor of …' text goes (J301 Q1); quot (water) stays; H-10 private rename better → betterRiver; H-11 the two bucket floods KEPT APART; H-12 edgeCells/EDGE_CODE/edgeSurface and inletMasks KEPT (a comment at edgeSurface: it reads one side's masks through a middle cell, never a corner); H-13/H-14 comments only, per C-hydro-1 … 3 (surface.ts:1's round phrase; strategy.ts:120–123's misleading sentence and :568–575's recount; hydro/index.ts's scaffold sentence replaced by the file-level helper line; field.ts:59–62's explanation moved onto rowOf; d8.ts:143's Counts comment goes with it; test/hydro/surface.test.ts:1 and :5–6 as §2 says). T-hydro (§3.2): no merge or split; support.ts gains traceOpts, northInlet, cityHydrology, courseOf, carveBars, fieldOver/fieldFrom/gridOf, D8_STEPS (the test-side table, never src's D8_DX/D8_DY) replacing the listed literals; referenceFill, brute, rolling, Left, reachOf (the test's own statement of §3.2 (9)), terrainOf, clone and fixtures.ts kept apart; the mutant map unchanged by title (K01 … K25, F1, L3a … L3g as the plan lists; L3e's survival is note N-1 — hardening, not this round); no new pin. J301 Q3: the test-support copies TABLES/townKey/siteContext/frameOf stay. ZERO REFUSALS (J264 (5)): hydro's relief bars deliver `degraded` rivers on the two fixtures — C-0175 (8)'s declared delivery tier, not a refusal; the builder and the checker report the refusal count 0 → 0 over the registered families. Rulings in force: J263 Q1, Q6, Q8; J268 Q3; J270 (a), (b); J301 Q1, Q3, Q5, Q7, Q8.",
+   "lines": [
+    {
+     "line": "H-1: strategy.ts, carve.ts and trace.ts adopt R1's homes (PI, RAD_PER_CDEG, generatedLifecycle, isBaseRung, arenaReach, rasterGrid via a rasterGeom delegation, cellCentre); GridGeom stays an interface",
+     "evidence": "site-plan.md §1.2 H-1; J301 Q5",
+     "required_change": "ORACLE the hydro exit bar relief-bar.test.ts (CITY/TOWN/METROPOLIS × 60 m/3 000 m × default/coarse) byte-identical records; river.test.ts's inlet tests exact values"
+    },
+    {
+     "line": "H-2: slopeKey once (d8.ts, exported file-level; trace.ts imports by path); flowCode's first phase is steepest",
+     "evidence": "site-plan.md §1.2 H-2",
+     "required_change": "ORACLE pipeline.test.ts tie-order and 3 000-grid properties, surface.test.ts; relief-bar D8 100 %; mutants K04, K05, K13/K23, L3g/L3c red"
+    },
+    {
+     "line": "H-3 and H-9: invOfCols (field's message; invCols delegates) and lengthQuotient (q exported under its name; quotient goes) — the two unreachable, unpinned throw texts dropped under J301 Q1",
+     "evidence": "site-plan.md §1.2 H-3, H-9; J301 Q1",
+     "required_change": "the notes carry the grep (no pin) and the unreachability argument for each dropped text; quot stays"
+    },
+    {
+     "line": "H-4 rowOf (field.ts) at the non-inner-loop sites; H-5 cellIndexAt (course.ts) at trace.ts:473/:509 and strategy.ts:641–643; H-6 segParam (course.ts) used by pointSegDist2 with the len2 >= 1 guard kept",
+     "evidence": "site-plan.md §1.2 H-4 … H-6",
+     "required_change": "identical arithmetic; ORACLE river.test.ts 'firstSelfTouch (bucketed) …' (300 random walks), 'knots follow the descent line's bends …', the carve tests; outfalls.test.ts's exact `at` values"
+    },
+    {
+     "line": "H-8: Counts → a Uint32Array in accumulate (same counts, same Kahn order, same cycle refusal); H-10 better → betterRiver; H-11, H-12 KEPT APART",
+     "evidence": "site-plan.md §1.2 H-8, H-10 … H-12",
+     "required_change": "ORACLE pipeline.test.ts 'each cell counts itself …', 'refuses a field whose directions hold a cycle'; relief-bar's off-grid sum"
+    },
+    {
+     "line": "Comments C-hydro-1 … 3 and the test headers as §2 says; every describe/it title kept",
+     "evidence": "site-plan.md §2 C-hydro-1 … 3, §1.2 H-13/H-14",
+     "required_change": "the closing checker reads every rewritten comment against the code (lineApproach's return, the undefinedCells recount)"
+    },
+    {
+     "line": "T-hydro: support.ts's shared helpers replace the listed literals; the oracles kept apart; the mutant map unchanged by title; no new pin",
+     "evidence": "site-plan.md §3.2",
+     "required_change": "the folder's seven files stay seven; the 87-it count unchanged except where a helper replaces a literal"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path (hydro/index.ts's 88 names; invCols, rasterGeom, cellAt, pointSegDist2 keep names and signatures)",
+     "evidence": "J263 Q1; site-plan.md header invariant",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-e-02.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-e-05",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.7.1 … 1.7.3 (§1.7, round R4: pass1.ts's π → siting's PI, one comparator → compareKeys; the comment pass; test/fields/ CELLS ×5 and all ×2 → support.ts)"
+   },
+   "session": "R4 of the @plat/layout consolidation plan (8167d462; rulings J302), after R1 (M0-c-01 c1) has landed. Inside M0-e-05's owns (src/fields/, test/fields/) and nowhere else: 1.7.1 pass1.ts:60's PI literal → `PI` imported by path from '../siting/geom.js' (an existing file-level export; the same double); pass1.ts:589's comparator → the kernel's compareKeys; 1.7.2 KEPT: table.ts:60 and grid.ts:12's per-module refuse (J270 (a)), capacity's clamp01 twin (1.5.10, two items), heightsOf at :277 (a grid sampler, not backbone's), sources.ts:15 ownedRings (1.1.5); 1.7.3 the fields' headers cite C-0255 and §4.5 as rules — a comment pass that confirms (no narration found; the builder states the grep). Tests: CELLS ×5 and all ×2 with equal bodies → support.ts; TABLES, fieldTown, fieldCity, insideRings stay; every describe/it title kept. ZERO REFUSALS (J264 (5)): the refusal count of the fields' registered runs before and after reported (0 → 0 expected). Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q7, Q8, Q12.",
+   "lines": [
+    {
+     "line": "1.7.1: pass1.ts imports siting's PI by path; its comparator → compareKeys",
+     "evidence": "layout-plan.md §1.7.1",
+     "required_change": "ORACLE pass1.test.ts, relief.test.ts, work.test.ts (the fieldsCoarsen switch: mutants K23, C01–C07 red; C05 → N-11 as recorded), city.test.ts; fieldsDigest on the wet site (P3, P4); the base run.test.ts 'the fields record equals fieldsPass1 recomputed …'"
+    },
+    {
+     "line": "1.7.2 KEEP refuse ×2, clamp01, heightsOf, ownedRings; 1.7.3 the comment pass confirms no narration",
+     "evidence": "layout-plan.md §1.7.2, §1.7.3",
+     "required_change": "no code change beyond 1.7.1; the notes state the grep"
+    },
+    {
+     "line": "test/fields/: CELLS ×5 and all ×2 equal bodies → support.ts; titles unchanged",
+     "evidence": "layout-plan.md §3 (test/fields/ row)",
+     "required_change": "the folder's 50 it green"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-e-05*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-b-02",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.2.2 … 1.2.4 (§1.2, round R5: the planner's step-7 primitives exported file-level; PI from siting; SEEDS into faces.ts where equal); §2 infill/planner.ts headers (the exported primitives are the one definition infill reads)"
+   },
+   "session": "R5 of the @plat/layout consolidation plan (8167d462; rulings J302), after R1 (M0-c-01 c1) has landed; R6 (M0-b-03) imports what this round exports. Inside M0-b-02's owns (src/infill/planner.ts, src/infill/sides.ts, test/infill/planner/) and nowhere else: 1.2.2 planner.ts exports file-level TOUCH_CM (:595, 0.5), RAD_PER_CDEG (:374, PI / 18000 — NEVER growth's …296 literal, J302 Q8), M_TO_CM (:179), cornerScale (:615), arrivalDot2 (:778), arrivesSquare (:816), and imports PI by path from '../siting/geom.js' in place of its own literal (:373); infill/index.ts lists planner's exports explicitly, so nothing becomes public; each exported primitive's header says it is the one definition infill reads (§2); ladder.ts's own TOUCH_CM and copies are R6's (J270 (b): two copies coexist until R6); enceinte/plane.ts's TOUCH_CM (26 cm) is another quantity and is not this round's; 1.2.3 sides.ts: nothing to unify (its vector helpers are the planner's convention; insideFace stays the kept point-in-face test for R6); 1.2.4 test/infill/planner/: SEEDS declared in five files — the implementer reads each; equal arrays move to faces.ts as one export, a file whose seeds differ keeps its own; titles unchanged. ZERO REFUSALS (J264 (5)): the planner's registered seeds' refusal count before and after reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q8, Q12.",
+   "lines": [
+    {
+     "line": "1.2.2: TOUCH_CM, RAD_PER_CDEG, M_TO_CM, cornerScale, arrivalDot2, arrivesSquare exported file-level; PI from siting by path; infill/index.ts byte-identical",
+     "evidence": "layout-plan.md §1.2.2",
+     "required_change": "ORACLE test/infill/planner/ (25 describe / 83 it), determinism.test.ts's 200 renumber cases, faceset.test.ts over SEEDS; b-02 mutants m01–m46 and c01–c12 red as recorded"
+    },
+    {
+     "line": "1.2.3 sides.ts untouched; 1.2.4 SEEDS → faces.ts where equal",
+     "evidence": "layout-plan.md §1.2.3, §1.2.4",
+     "required_change": "the notes list which files shared the array and which kept their own"
+    },
+    {
+     "line": "§2: the exported primitives' headers; no other comment change",
+     "evidence": "layout-plan.md §2 (infill/planner.ts row)",
+     "required_change": "the closing checker reads the headers against the code"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after (the planner's draw records and cut digests on the registered seeds byte-identical)",
+     "evidence": "J260 (3); J264 (5); checks/M0-b-02*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-c-03",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.4.1 … 1.4.8 (§1.4, round R7: the backbone adopts siting's and plane's helpers; heightsOf exported file-level for R11); §2 backbone headers of the removed helpers; §3 test/backbone/: FAR ×3, T ×3, route ×3, CACHE/SITE/key/nearest ×2 → support.ts"
+   },
+   "session": "R7 of the @plat/layout consolidation plan (8167d462; rulings J302), after R1 (M0-c-01 c1) has landed (siting/geom.ts exports CDEG_PER_RAD, distToSegment2 and HA_CM2; lattice.ts COS30 and boxOf; routes.ts rimAtBearing and WorkLimitReached, all file-level). Inside M0-c-03's owns (src/backbone/, test/backbone/) and nowhere else: 1.4.1 junctions.ts:27–28 PI and CDEG_PER_RAD → siting/geom.ts's by path; 1.4.2 route.ts:24 COS30 → siting/lattice.ts's; 1.4.3 route.ts:105 WorkLimitReached → siting/routes.ts's ONLY if the two class bodies are identical (the implementer diffs them: a message, a field; each module throws and catches its own instance inside one function, so instanceof still matches) — if a body differs, both stay; 1.4.4 graph.ts:256 footDist → siting's distToSegment (the quot text 'foot' vs 'segment foot' is unreachable, J302 Q10); 1.4.5 graph.ts:273 orient and :277 meets → Math.sign(orient2d(…)) and segmentsMeet with a two-line Seg adapter, ONLY after confirming no double reaches meets (lattice inputs only — the exactness argument of 1.2.6); 1.4.6 stage.ts:289 unit → enceinte/plane.ts's unitOf by path (an existing file-level export; plane.ts untouched; the quot texts unreachable); 1.4.7 stage.ts:68 heightsOf exported file-level for R11 (backbone/index.ts lists names explicitly — not public); route.ts:265 dist → plane.ts's dist by path if the bodies agree; commit.ts:465 comparator → compareKeys; 1.4.8 comments: the backbone's cite C-0236, C-0250, C-0297 and §4.3 as rules — keep; routeLadder's band rule and stage.ts:204's note stay; the headers of the removed helpers go. Tests: FAR ×3, T ×3, route ×3, CACHE/SITE/key/nearest ×2 with equal bodies → support.ts; runSite, cityRun, handBuildRiver, wayLine kept; the oracles segDist/insideRing/segsMeet in backbone/support.ts stay (independence); every describe/it title kept. ZERO REFUSALS (J264 (5)): the backbone's registered seeds' refusal count before and after reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q8, Q10, Q12.",
+   "lines": [
+    {
+     "line": "1.4.1, 1.4.2: π/CDEG_PER_RAD and COS30 from siting by path",
+     "evidence": "layout-plan.md §1.4.1, §1.4.2",
+     "required_change": "ORACLE junctions.test.ts, backbone.test.ts 'junctions — none closer than 8 m …'; route.test.ts (approachUsable, the deck cone); mutants X07, X08, X36, X38, N02/N14/N15 red"
+    },
+    {
+     "line": "1.4.3: WorkLimitReached imported from siting only if the class bodies are identical; else both stay",
+     "evidence": "layout-plan.md §1.4.3",
+     "required_change": "the notes carry the diff; ORACLE route.test.ts 'F-WORK', mutant X22 red; siting gates.test.ts 'F-WORK (C-0085) …'"
+    },
+    {
+     "line": "1.4.4 footDist → distToSegment; 1.4.5 orient/meets → orient2d's sign / segmentsMeet after confirming lattice-only inputs; 1.4.6 unit → plane's unitOf by path",
+     "evidence": "layout-plan.md §1.4.4 … 1.4.6; J302 Q10",
+     "required_change": "ORACLE graph.test.ts (the 8 m merge, splits at pins; mutants X01–X03, X35), backbone.test.ts '§13.2 — no two spines run closer …' (X23), X25; stage.test.ts, water.test.ts; CITY seeds 1–12 and smallSite 1–6 records byte-identical (the c-03 probes' digests)"
+    },
+    {
+     "line": "1.4.7: heightsOf exported file-level; route.ts dist → plane's if the bodies agree; commit.ts comparator → compareKeys; 1.4.8 comments as §2",
+     "evidence": "layout-plan.md §1.4.7, §1.4.8, §2",
+     "required_change": "ORACLE backbone.test.ts 'width_knot rows …', 'the Way and Junction records (§2.4)'; mutants N07 family red; commit.test.ts"
+    },
+    {
+     "line": "test/backbone/: the equal helper bodies → support.ts; the oracles kept; titles unchanged",
+     "evidence": "layout-plan.md §3 (test/backbone/ row)",
+     "required_change": "the folder's 61 it green"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-c-03*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-e-04",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.6.1 … 1.6.8 (§1.6, round R9: the districts adopt siting's helpers; typingCells once; two comparators; the test supports); §2 districts rows; §3 test/districts/: graphOf ×3, RUNS ×3, HA/SEEDS/cell/kernel/run ×2 → support.ts"
+   },
+   "session": "R9 of the @plat/layout consolidation plan (8167d462; rulings J302), after R1 (M0-c-01 c1) has landed. Inside M0-e-04's owns under plat/packages/layout (src/districts/, test/districts/) and nowhere else — its testkit folder plat/packages/testkit/test/layout/districts/ (the grower's renumbering identity through M0-d-08's harness, C-0122) is read, never changed: 1.6.1 perimeter.ts:226 segDist2 (six numbers) and seeds.ts:39 segDist2 → siting's distToSegment2 (the same clamped t and ex² + ey²; the guards agree on lattice endpoints) — the implementer measures isSumRing's grid-search hot loop and keeps the six-number form as a one-line wrapper if the two-object call costs measurably; 1.6.2 perimeter.ts:342 meet becomes `export { segmentsMeet as meet } from '../siting/geom.js'` (a file-level export districts/index.ts does not list); 1.6.3 quarters.ts:48 HA_CM2 and stage.ts's 100_000_000 literal → siting's HA_CM2; 1.6.4 stage.ts:358/:363 typingCells(s6Table()) → one `const typing = …` ONLY after confirming neither typeDistricts nor familyOf mutates the object (if one sorted kinds in place, both calls stay); 1.6.5 faces.ts:365 polsbyPopper's π → siting's PI; typing.ts:51 and quarters.ts:133 comparators → compareKeys; 1.6.6 KEPT APART: perimeter.ts crossing (den === 0 → null) vs plane.ts crossParams (|den| < 1 → null); seeds.ts:116 d2; stage.ts:82 GROUND → GROUND_KEY only with the kernel's keying line cited (J302 Q6: arena/plat.ts keys arenas by layer/part value — sameKey; drop the finding if any reader keys by identity); 1.6.7 comments: mergeCollinear's rule (N-56 (2), C-0305 (2)) kept, any 'the round's own cause' phrasing dropped; isS1LandOwner/s6Takes (N-51, C-0265) kept; LLOYD_ROUNDS/UNLOOP_WINDOW are e-04's KI note 3, not a comment matter; 1.6.8 test/districts/: graphOf ×3, RUNS ×3, HA/SEEDS/cell/kernel/run ×2 with equal bodies → support.ts (one module); the oracles area2Of, insidePoly, ringDist, hullArea stay; every describe/it title kept. ZERO REFUSALS (J264 (5)): KI-11's district count on the small base fixtures is a bar matter, not a refusal; the refusal count of the districts' registered runs before and after reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q6, Q7, Q8, Q10, Q12.",
+   "lines": [
+    {
+     "line": "1.6.1: both segDist2 → siting distToSegment2 (a one-line wrapper kept for perimeter's hot loop if the cost is measurable)",
+     "evidence": "layout-plan.md §1.6.1",
+     "required_change": "ORACLE perimeter.test.ts (stars 2, 3, 7; the frame clip), seeds.test.ts; mutants N04, N04b, N13, M34 as recorded; e-04 s2's K06 (11 tests); the 40 flat outlines and 60 jittered rings (probes P1c, P1e) byte-identical"
+    },
+    {
+     "line": "1.6.2 meet re-exported from siting; 1.6.3 HA_CM2 from siting; 1.6.5 polsbyPopper's π → PI, two comparators → compareKeys",
+     "evidence": "layout-plan.md §1.6.2, §1.6.3, §1.6.5",
+     "required_change": "ORACLE perimeter.test.ts (N03's survival as recorded, note 12; probe P5), quarters.test.ts 'ties by id' (M29), law.test.ts (M22), stage.test.ts 'N_d seeds in all' (M23), grow.test.ts compactness (M14)"
+    },
+    {
+     "line": "1.6.4: typingCells(s6Table()) once only after proving no mutation of its object",
+     "evidence": "layout-plan.md §1.6.4",
+     "required_change": "the notes carry the reading of typeDistricts and familyOf; ORACLE typing.test.ts, stage.test.ts 'the typing replay'; mutants M30–M33, N23 red"
+    },
+    {
+     "line": "1.6.6 kept apart (crossing vs crossParams; GROUND per J302 Q6 with the kernel line cited); 1.6.7 comments as §2",
+     "evidence": "layout-plan.md §1.6.6, §1.6.7, §2 (districts row)",
+     "required_change": "the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "1.6.8 test/districts/: equal helper bodies → support.ts (one module); oracles stay; titles unchanged; the testkit districts folder untouched",
+     "evidence": "layout-plan.md §1.6.8, §3 (test/districts/ row)",
+     "required_change": "the folder's 94 it green; testkit/test/layout/districts byte-identical"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-e-04*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-10",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "G-1 … G-4 (§1.12, round R13, the geom folder's share: geom/common.ts's PI, lp, isLatticeCoord, distinctRing become re-exports of num/exact.ts's; hex-lattice.ts's strictlyInside → N-3's strict form; BinaryHeap the one heap; lir.ts's isConvexRing stays); §2's module-index rule"
+   },
+   "session": "R13's geom round (kernel-plan.md §1.12; rulings J263, J270), AFTER M0-a-01 c2 has landed on main (num/exact.ts exports lp, isLatticeCoord, distinctRing and halfPlaneOf). Inside M0-a-10's owns (src/geom/, test/geom/) and nowhere else: G-1 geom/common.ts's PI, lp, isLatticeCoord and distinctRing become re-exports of num/exact.ts's (`export { PI, lp, isLatticeCoord, distinctRing } from '../num/exact.js'`; the bodies are identical by a-01 c2's construction — the implementer diffs them first); geom/index.ts exports none of them, so no public change; every by-path importer of geom/common.ts's names (M0-a-08 c1's distinctRing import among them) resolves to the same function through either door; G-2 geom/hex-lattice.ts:36 strictlyInside → num/exact.ts's strict point-in-ring form (N-3) in the matching convention (lattice points vs doubled points — the implementer states which and proves equivalence on hex-lattice's tests and a seeded sample); G-3 geom/heap.ts BinaryHeap is the one heap — nothing to do in geom unless R8 (M0-a-08 c1) reported a B-4 adoption that needs a geom-side change; G-4 lir.ts's isConvexRing STAYS (B-5; its comment states the hull-based rule and that insetRing's is a different test). §2: the module index's comment drops 'The scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-NN' and keeps the one-paragraph description and the item id (kernel-plan.md §2, module index comments); the folder's other comments cite rules and stay. §3.4: test/geom/ has one subject per file — no merges; test/geom/support.ts's segmentsMeet/distToSeg/isSimple are oracles and stay; the arr folders' simpleRing adoption is their rounds' (R8/R9), not this one's. ZERO REFUSALS (J264 (5)): the geom services' registered inputs refuse nothing of their own — 0 → 0 reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "G-1: geom/common.ts's PI, lp, isLatticeCoord, distinctRing → re-exports of num/exact.ts's (bodies diffed identical first); geom/index.ts byte-identical",
+     "evidence": "kernel-plan.md §1.12 G-1; M0-a-01 c2's record",
+     "required_change": "ORACLE test/geom/* whole; every importer of the four names green (the kernel's whole test set); the emitted JS of every other kernel file unchanged"
+    },
+    {
+     "line": "G-2: hex-lattice.ts's strictlyInside → exact.ts's strict form in the matching convention, with a pin on hex-lattice's fixtures and a seeded sample",
+     "evidence": "kernel-plan.md §1.12 G-2, §1.0 N-3",
+     "required_change": "the notes state the convention; ORACLE hex-lattice's tests; the sampled points' verdicts byte-identical"
+    },
+    {
+     "line": "G-3 nothing unless R8 reported a geom-side need; G-4 isConvexRing stays with its comment; §2 the module-index sentence",
+     "evidence": "kernel-plan.md §1.12 G-3, G-4; §2",
+     "required_change": "no behaviour change; the closing checker reads the comments against the code"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after (the geom services' goldens — obb, hull, lir, regularFit, sideRuns, sam — byte-identical)",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-10*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-11",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "S-1 (§1.12, round R13, the skeleton folder's share: prepare.ts's segmentsMeet/insideRing → num/exact.ts's N-2/N-3 forms; roof.ts:61 and engine.ts:210 half → exact.ts's halfPlaneOf); §2 skeleton/prepare.ts 2, 51 and skeleton/types.ts 31 (N-52 (3) → C-0276); the module-index rule"
+   },
+   "session": "R13's skeleton round (kernel-plan.md §1.12; rulings J263, J270), AFTER M0-a-01 c2 has landed on main (num/exact.ts exports halfPlaneOf). Inside M0-a-11's owns (src/skeleton/, test/skeleton/) and nowhere else: S-1 skeleton/prepare.ts's segmentsMeet and insideRing → num/exact.ts's segmentsMeet (N-2) and the matching point-in-ring form (N-3) — the implementer states the convention each site uses (lattice vs doubled; the onRing reading) and proves equivalence on the skeleton's fixtures; roof.ts:61 half and engine.ts:210 half → exact.ts's halfPlaneOf (the identical expression: y > 0 || (y === 0 && x > 0) ? 0 : 1); comments: prepare.ts:2 and :51 as §2 (design statements citing C-rows), skeleton/types.ts:31's N-52 (3) narration → C-0276's rule, the module index's comment drops 'The scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-NN' and keeps the one-paragraph description and the item id (kernel-plan.md §2, module index comments). §3.4: test/skeleton/ no merges. ZERO REFUSALS (J264 (5)): the skeleton's registered corpus inputs refuse nothing of their own (the work-limit refusals are counted, not lawful-input refusals) — the count before and after reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "S-1: prepare.ts's segmentsMeet/insideRing → exact.ts's N-2/N-3 forms in the stated convention; roof.ts and engine.ts half → halfPlaneOf",
+     "evidence": "kernel-plan.md §1.12 S-1; M0-a-01 c2's record",
+     "required_change": "ORACLE test/skeleton/* whole (the fixtures' roofs and events byte-identical); the skeleton corpus digests M0-a-12's bench records hold, byte-identical; every killed mutant of checks/M0-a-11*.md red"
+    },
+    {
+     "line": "§2: prepare.ts:2, :51 and types.ts:31 rewritten as design statements (C-0276); the module-index sentence",
+     "evidence": "kernel-plan.md §2 (skeleton lines)",
+     "required_change": "the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-11*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-12",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "M-1 (§1.12, round R13, the medial folder's share: medial/axis.ts:118 segmentsMeet → num/exact.ts's N-2); the module-index rule"
+   },
+   "session": "R13's medial round (kernel-plan.md §1.12; rulings J263, J270) — the smallest round of the pass; it depends on R1 only (num/exact.ts's segmentsMeet, landed 10fb7e19). Inside M0-a-12's owns (src/medial/, src/adapters/delaunator.ts, test/medial/, bench/src/skeleton/, bench/test/skeleton/, plat/docs/build/summaries/M0-a-12.json; bench/fixtures/skeleton-corpus/ is read, never written) and nowhere else: M-1 medial/axis.ts:118's segmentsMeet → num/exact.ts's (the same closed-segment contact test; the implementer diffs the bodies and states the convention); the module index's comment drops 'The scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-NN' and keeps the one-paragraph description and the item id (kernel-plan.md §2, module index comments); the adapter and the bench harness untouched unless a comment narrates a round (the builder states the grep). §3.4: test/medial/ no merges. ZERO REFUSALS (J264 (5)): the medial axis's registered corpus inputs refuse nothing of their own — the count before and after reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "M-1: medial/axis.ts:118 segmentsMeet → exact.ts's (bodies diffed; the convention stated)",
+     "evidence": "kernel-plan.md §1.12 M-1, §1.0 N-2",
+     "required_change": "ORACLE test/medial/* whole; the sampled medial axes on the skeleton corpus byte-identical (the bench harness's digests in summaries/M0-a-12.json); every killed mutant of checks/M0-a-12*.md red"
+    },
+    {
+     "line": "§2: the module-index sentence; no other comment change unless a round narration is found (the grep stated)",
+     "evidence": "kernel-plan.md §2",
+     "required_change": "the closing checker reads the comment against the code"
+    },
+    {
+     "line": "API frozen (J263 Q1): every folder index in the owns and the package barrel byte-identical; new shared names are file-level exports only, imported by path",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-12*.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
   }
  ]
 }
