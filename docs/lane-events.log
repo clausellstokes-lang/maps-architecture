@@ -8539,3 +8539,4 @@
 2026-10-12 19:35 build/M0-x-06-fix2 CHECKPOINT NEAR in tree: testkit/test/edge 17 files 153/153 (PR size, W=1, 732 s); RELATED@1000 starting over packages/testkit/src/edge/*.ts (the item's sources); next: wait, landed
 2026-10-12 19:54 build/M0-x-06-fix2 CHECKPOINT RELATED@1000 in tree running (W=1, since 19:35); next: wait, landed
 2026-10-12 20:14 build/M0-x-06-fix2 CHECKPOINT RELATED@1000 in tree still running (W=1, since 19:35); next: wait, landed
+2026-10-12 20:33 build/M0-x-06-fix2 CHECKPOINT RELATED@1000 in tree still running (W=1, since 19:35); next: wait, landed
