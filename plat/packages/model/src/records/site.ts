@@ -1,8 +1,7 @@
 // Terrain and water (§2.3; M0-m-01): the records S1 writes at M0. Field names, order and types as §2.3 declares them;
 // Terrain's `geology` and `mining` are staged to M1 with the geology flag (§4b, C-0048; schema/staged.ts). `Polyline`
 // and `SiteFeature`, which §2.3 names without declaring, are read as C-0142 (4) states. Types only.
-import type { ChainProfile, ChainRef, Cm, CmArray, FaceRef, Id, PlatKey, Point, PointCm } from '../types/index.js';
-import type { Lifecycle } from '../types/identity.js';
+import type { ChainProfile, ChainRef, Cm, CmArray, FaceRef, Id, Lifecycle, PlatKey, Point, PointCm } from '../types/index.js';
 
 /** An open polyline in arena coordinates (C-0142 (4)): a river's course, the entity's own derived line (§2.3). */
 export type Polyline = PointCm[];

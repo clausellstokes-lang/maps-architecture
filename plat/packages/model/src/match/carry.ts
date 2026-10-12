@@ -2,10 +2,10 @@
 // reference to an old address resolved through the outcomes — kept when the address lives on (a survivor, or a
 // successor that took it), reported when it does not (a tombstone, with its `supersededBy` when a fresh entity covers
 // its anchor), never re-bound silently to another address — and the two inputs of M0-d-05a's mint the routine
-// produces: the live set (each address once, the re-derived ones `retired`; M0-d-05a's note N-2) and each fresh
-// record's handed-on address.
-import type { LineageHash } from '@plat/kernel';
+// produces: the live set (each address once, the re-derived ones `retired`, as the mint's live set holds each address
+// once: a survivor's address is never also a retired one) and each fresh record's handed-on address.
 import type { BatchRecord, LiveEntry } from '../identity/index.js';
+import { copyLineage } from '../identity/lineage.js';
 import type { Id } from '../types/index.js';
 import type { MatchEntity, MatchResult } from './types.js';
 
@@ -49,8 +49,8 @@ export function rebind(result: MatchResult, refs: readonly Id[]): Rebinding {
 
 /**
  * The mint's live set (M0-d-05a's `LiveEntry`) from the old entities the routine matched: each address once (the
- * routine refuses an old id given twice, so no survivor's address can also be a retired one — M0-d-05a's note N-2),
- * every re-derived entity `retired`, every survivor not.
+ * routine refuses an old id given twice, and the mint's live set holds each address once: a survivor's address is
+ * never also a retired one), every re-derived entity `retired`, every survivor not; each lineage a frozen copy.
  */
 export function liveSetOf(old: readonly MatchEntity[], result: MatchResult): readonly LiveEntry[] {
   const seen = new Set<Id>();
@@ -60,7 +60,7 @@ export function liveSetOf(old: readonly MatchEntity[], result: MatchResult): rea
     seen.add(e.id);
     const o = result.old.get(e.id);
     if (o === undefined) throw new RangeError(`match: the old id ${e.id} is not in the result`);
-    const lineage = Object.freeze([e.lineage[0], e.lineage[1]]) as unknown as Readonly<LineageHash>;
+    const lineage = copyLineage(e.lineage);
     out.push(Object.freeze(o.outcome === 'survive' ? { id: e.id, lineage } : { id: e.id, lineage, retired: true }));
   }
   return Object.freeze(out);

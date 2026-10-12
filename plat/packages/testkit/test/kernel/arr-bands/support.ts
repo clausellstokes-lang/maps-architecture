@@ -148,6 +148,11 @@ export interface CorridorCase {
    * the other at ring[at], a vertex where the boundary turns by 0.01°–5° either way (or runs straight on).
    */
   readonly step?: { readonly at: number; readonly hw: number };
+  /**
+   * A dead end on a spine-less boundary (N-57 (2)): the ring is a chain that declares no half-width (a district edge),
+   * and the chord — the one spine, way:1 — ends on it at both ends, its round end caps meeting it.
+   */
+  readonly deadEnd?: true;
 }
 
 const seedArb = fc.integer({ min: 0, max: 0x7fff_ffff });
@@ -251,6 +256,60 @@ export const corridorCaseArb: fc.Arbitrary<CorridorCase> = fc.oneof(
     }),
   },
 );
+
+/**
+ * Dead-end cases (N-57 (2)): M0-k-01's simple polygons (3 – 7 vertices) as a spine-less ring, and a lane through the
+ * ring's box centre at any heading ending on the ring at both ends — the nearest crossings of its line with the ring on
+ * either side of the centre (a centre outside the ring takes the ring's first two crossings) — of half-width 1.2 – 2 m
+ * (at most an eighth of the ring's smaller extent): each round end cap meets the spine-less ring at whatever angle the
+ * heading gives, so the lane's kerb pieces close on the ring by chords of every length.
+ */
+export const deadEndCaseArb: fc.Arbitrary<CorridorCase | null> = fc
+  .record({ ring: arb.polygon({ limitCm: 65_536, sizeCm: [3_000, 30_000], vertices: [3, 7] }), turn: fc.integer({ min: 0, max: 35_999 }), tenths: fc.integer({ min: 0, max: 1000 }) })
+  .map(({ ring, turn, tenths }) => deadEndOf(ccwRing(ring.slice()), turn, tenths));
+
+/** The dead-end case on a ring (see `deadEndCaseArb`), or null where the lane's line meets the ring in fewer than two points. */
+function deadEndOf(ring: LatticePoint[], turn: number, tenths: number): CorridorCase | null {
+  const b = boxOf(ring);
+  const span = Math.min(b.x1 - b.x0, b.y1 - b.y0);
+  const cap = Math.max(50, Math.min(200, span / 8));
+  const hw = Math.min(cap, 120) + ((cap - Math.min(cap, 120)) * tenths) / 1000;
+  const t = (turn * Math.PI) / 18_000;
+  const c = { x: (b.x0 + b.x1) / 2, y: (b.y0 + b.y1) / 2 };
+  const u = { x: Math.cos(t), y: Math.sin(t) };
+  // the line c + s·u against every ring edge: the parameters s where it crosses
+  const ss: number[] = [];
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const e = ring[(i + 1) % ring.length];
+    const dx = e.x - a.x;
+    const dy = e.y - a.y;
+    const den = u.x * dy - u.y * dx;
+    if (Math.abs(den) < 1e-9) continue;
+    const s = ((a.x - c.x) * dy - (a.y - c.y) * dx) / den;
+    const r = ((a.x - c.x) * u.y - (a.y - c.y) * u.x) / den;
+    // a crossing at or near a ring vertex leaves the inside ambiguous: no case
+    if (r >= -0.02 && r <= 1.02 && !(r > 0.02 && r < 0.98)) return null;
+    if (r > 0.02 && r < 0.98) ss.push(s);
+  }
+  ss.sort((x, y) => x - y);
+  if (ss.length < 2) return null;
+  const neg = ss.filter((s) => s < 0);
+  const pos = ss.filter((s) => s > 0);
+  const [s0, s1] = neg.length > 0 && pos.length > 0 ? [neg[neg.length - 1], pos[0]] : [ss[0], ss[1]];
+  if (s1 - s0 < 4 * hw + 200) return null;
+  // the lane inside the ring (its middle inside, by the crossing number): F's bounding spine, never a way outside it
+  const mid = { x: c.x + ((s0 + s1) / 2) * u.x, y: c.y + ((s0 + s1) / 2) * u.y };
+  let inside = false;
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const e = ring[(i + 1) % ring.length];
+    if (a.y > mid.y !== e.y > mid.y && mid.x < a.x + ((mid.y - a.y) * (e.x - a.x)) / (e.y - a.y)) inside = !inside;
+  }
+  if (!inside) return null;
+  const chord = [lp(c.x + s0 * u.x, c.y + s0 * u.y), lp(c.x + s1 * u.x, c.y + s1 * u.y)];
+  return { ring, chord, hw, role: 'way', key: GROUND, source: 'dead-end', deadEnd: true };
+}
 
 /** The ring counter-clockwise. */
 function ccwRing(r: LatticePoint[]): LatticePoint[] {
@@ -363,7 +422,8 @@ export function oursCorridor(c: CorridorCase): CorridorOurs | Refused | null {
   const f0 = tx(p, spec(0, c.key), (o) => insertChain(o, frame, [{ role: 'margin', entity: 'terrain:1' }], 'mandatory', { closed: true }));
   if (!f0.ok) return null;
   if (c.step === undefined) {
-    const w = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring, [{ role: c.role, entity: 'way:0' }], 'mandatory', { closed: true }));
+    // a dead end's ring declares no half-width: way:edge, which `widths` below does not name
+    const w = tx(p, spec(1, c.key), (o) => insertChain(o, c.ring, [{ role: c.role, entity: c.deadEnd === true ? 'way:edge' : 'way:0' }], 'mandatory', { closed: true }));
     if (!w.ok) return null;
   } else {
     // two open ways meeting at ring[0] and ring[at]: way:0 from ring[at] round to ring[0], way:1 from ring[0] to ring[at]
@@ -555,14 +615,14 @@ export function unitedBy(rings: readonly Ring[], e: OracleEngine): Ring[] | null
  * faces are arena faces — adjacent ones share edges — so each is held to the ring checks on its own and the region
  * they make is compared, united by the engine's own boolean (the arena's validity is the kernel B-FUZZ's, §3.10).
  */
-export function judgeCorridor(h: Harness, c: CorridorCase): void {
+export function judgeCorridor(h: Harness, c: CorridorCase, op = 'corridorUnion'): void {
   const ours = oursCorridor(c);
   if (ours === null) {
     settle(h, 'input-refused');
     return;
   }
   if ('refused' in ours) {
-    refused(h, 'corridorUnion', ours.refused, ours.detail, c);
+    refused(h, op, ours.refused, ours.detail, c);
     return;
   }
   const attracted = splitOf(ours.warnings) === 'attracted';
@@ -577,7 +637,7 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
         continue;
       }
       const bad = loop.length < 3 ? ['an edge dangling into the face'] : ringProblems([loop]);
-      if (bad.length > 0) keep(h, `corridorUnion ${c.source}: a face ring of ours invalid: ${bad.join('; ')} ${JSON.stringify(loop).slice(0, 200)} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
+      if (bad.length > 0) keep(h, `${op} ${c.source}: a face ring of ours invalid: ${bad.join('; ')} ${JSON.stringify(loop).slice(0, 200)} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
     }
   }
   if (dangling) h.notes['dangling-attracted'] = (h.notes['dangling-attracted'] ?? 0) + 1;
@@ -587,11 +647,11 @@ export function judgeCorridor(h: Harness, c: CorridorCase): void {
     settle(h, 'not-united');
     return;
   }
-  judge(h, 'corridorUnion', c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings, c);
+  judge(h, op, c.source, blocks, (e) => oracleKerb(ours, c.hw, e), ours.warnings, c);
   // N-52 (2): a corridor_split never cuts a block, attracted or not — a far split across the block leaves the blocks'
   // region whole (the area comparison cannot see it) but in two faces with the split between them
-  if (ours.splitsInBlocks.length > 0) keep(h, `corridorUnion ${c.source}: corridor_split edges between two built blocks ${ours.splitsInBlocks.join(' ')} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
-  judge(h, 'corridorUnion-bands', c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings, c);
+  if (ours.splitsInBlocks.length > 0) keep(h, `${op} ${c.source}: corridor_split edges between two built blocks ${ours.splitsInBlocks.join(' ')} INPUT ${JSON.stringify(c).slice(0, 2000)}`);
+  judge(h, `${op}-bands`, c.source, bands, (e) => oracleBands(ours, c.hw, e), ours.warnings, c);
 }
 
 // ── the tileRings cases ──

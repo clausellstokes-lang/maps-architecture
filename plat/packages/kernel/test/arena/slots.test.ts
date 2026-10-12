@@ -6,6 +6,7 @@
 // (a growth replaces the table, so a capture taken before it is dead).
 import { afterEach, describe, expect, it } from 'vitest';
 import { setTinyTables, tinyTables } from '../../src/arena/debug.js';
+import { five } from '../../src/arena/plat.js';
 import {
   addRole,
   allocEdgePair,
@@ -49,7 +50,7 @@ import {
 } from '../../src/arena/index.js';
 import { LATTICE } from '../../src/num/index.js';
 import type { Layer, Level, PlatKey } from '../../src/types/index.js';
-import { buildArena, FRAME, GROUND, pt, QUARTERS, ringText } from './support.js';
+import { buildArena, FRAME, GROUND, pt, QUARTERS, ringText, rng } from './support.js';
 import { TINY_TABLES } from './tiny.js';
 
 function square(p: Plat, x0: number, y0: number, s: number): number[] {
@@ -336,18 +337,6 @@ function capacities(p: Plat): Record<string, number> {
   return c;
 }
 
-/** mulberry32: a seeded generator in [0, 1). */
-function generator(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
 /**
  * The arena's content as one list of numbers, independent of capacity: every slot below each high-water mark with
  * every column it has, the free lists and live counts, every live face's hole rings (the pool's layout, which
@@ -408,7 +397,7 @@ const EDGE_ROLES = ['way', 'kerb', 'plot_line', 'frontage'] as const;
  * after every operation. Every slot an operation returns must agree across the arenas.
  */
 function drive(ps: readonly Plat[], seed: number, ops: number, check: (op: number, keys: readonly (readonly [number, number])[]) => void): void {
-  const rnd = generator(seed);
+  const rnd = rng(seed);
   const int = (n: number): number => Math.floor(rnd() * n);
   const p0 = ps[0];
   const keys: [number, number][] = [];
@@ -632,7 +621,7 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     expect(t.he).toEqual(d.he);
     expect(walks(t.plat, t.faces)).toEqual(reference);
     const before = capacities(t.plat);
-    const rnd = generator(0x0053_0004);
+    const rnd = rng(0x0053_0004);
     for (let i = 0; i < 400; i++) {
       const pick = Math.floor(rnd() * 6);
       for (const b of [t, d]) {
@@ -709,5 +698,16 @@ describe('the tiny-tables mode and growth that preserves content (N-53 (4))', ()
     const v0 = p.vertices.x.length;
     allocVertex(p, pt(-500, -500), 0);
     expect(p.vertices.x.length).toBe(2 * v0);
+  });
+});
+
+describe('five: one number for every level, or five (plat.ts, exported by path)', () => {
+  it('spreads a number over the five levels and hands five numbers back as given; createPlat reads a capacity either way', () => {
+    expect(five(3)).toEqual([3, 3, 3, 3, 3]);
+    const given: [number, number, number, number, number] = [1, 2, 3, 4, 5];
+    expect(five(given)).toBe(given);
+    const one = createPlat(GROUND, FRAME, { faces: 32, owners: 8 });
+    const each = createPlat(GROUND, FRAME, { faces: [32, 32, 32, 32, 32], owners: [8, 8, 8, 8, 8] });
+    expect(one.faces.map((f) => [f.outer.length, f.ownerHead.head.length])).toEqual(each.faces.map((f) => [f.outer.length, f.ownerHead.head.length]));
   });
 });

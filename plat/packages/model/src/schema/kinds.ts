@@ -1,11 +1,23 @@
 // The M0 record kinds (M0-m-01; C-0142 (3)): the entity-registry kind each M0 record is hashed and addressed under —
 // the record's design name with its first letter lowered — and the record type of each. The registry itself, with
 // its path-completeness test, is M1's (M0-work.json's defers).
-import type { Allocation, Block, District, FieldBands, Frontage, Plot, Reservation } from '../records/districts.js';
-import type { Junction, Way } from '../records/network.js';
-import type { Seam } from '../records/seam.js';
-import type { Terrain, WaterBody } from '../records/site.js';
-import type { Bridge, Enceinte, Gate } from '../records/walls.js';
+import type {
+  Allocation,
+  Block,
+  Bridge,
+  District,
+  Enceinte,
+  FieldBands,
+  Frontage,
+  Gate,
+  Junction,
+  Plot,
+  Reservation,
+  Seam,
+  Terrain,
+  WaterBody,
+  Way,
+} from '../records/index.js';
 
 /** Each M0 record kind and its record type. */
 export interface RecordOf {

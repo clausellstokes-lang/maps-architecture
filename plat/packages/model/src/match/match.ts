@@ -16,8 +16,10 @@
 // Anchors that name other entities (a bridge's river, a way's ends, a district's seed feature, a seam's districts and
 // chain) are read through the succession of the kinds matched before them: a fresh reference to a successor reads as
 // the address handed to it, a fresh reference to a fresh entity never equals an old address. Ids are compared by
-// their UTF-16 code units; every order is a function of the inputs' ids and anchors, never of their input order.
-import { LATTICE, ratio, type Box, type LineageHash } from '@plat/kernel';
+// their UTF-16 code units (the kernel's `compareKeys`); every order is a function of the inputs' ids and anchors, never
+// of their input order.
+import { compareKeys, LATTICE, ratio, type Box } from '@plat/kernel';
+import { copyLineage, isU32 } from '../identity/lineage.js';
 import type { EntityKind, Id, PointCm } from '../types/index.js';
 import { checkAnchors, type CheckedSpec } from './anchors.js';
 import { checkPoint, coversPoint, iou, lineShare, prepareArea, prepareLine, type Area, type Line } from './geometry.js';
@@ -44,9 +46,15 @@ const NULL_REF = '\u0000null';
 const FRESH_TAG = '\u0000fresh:';
 const SEP = '\u0001';
 
-const isU32 = (v: unknown): boolean => typeof v === 'number' && v >>> 0 === v;
-const cmpId = (a: string, b: string): number => (a < b ? -1 : a > b ? 1 : 0);
+// Ids are ordered by the kernel's `compareKeys` (UTF-16 code units, a key before every longer key it begins); a
+// lineage lane is checked by `isU32` and copied by `copyLineage`, the identity module's file-level helpers.
 
+/**
+ * 1 ÷ v through the kernel's ratio() (§3.2 (8), C-0044); the kind sets the floor below which v is refused: `length`
+ * (floor 1 cm) for a point kind's radius, `count` (floor 1) for the box grid's two divisors (its box count, and its
+ * cell in whole centimetres). Kept apart from geometry.ts's `div` and timing.ts's `perEntity` and `shareOf`: each
+ * wrapper is one quotient with its own kind and its own refusal text, here "match: no inverse of …".
+ */
 function inverse(v: number, kind: 'length' | 'count'): number {
   const r = ratio(1, v, kind);
   if (!r.ok) throw new RangeError(`match: no inverse of ${String(v)}`);
@@ -286,7 +294,7 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
   const supersedes = new Map<Id, Id>();
   const counts = zero();
   const perKind = new Map<EntityKind, MatchCounts>();
-  const byItemId = (a: Item, b: Item): number => cmpId(a.e.id, b.e.id);
+  const byItemId = (a: Item, b: Item): number => compareKeys(a.e.id, b.e.id);
 
   for (let pos = 0; pos < kinds.length; pos += 1) {
     const kind = kinds[pos];
@@ -323,7 +331,7 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
       let s = it.family;
       for (const part of it.key as readonly KeyPart[]) {
         s += SEP;
-        if ('set' in part) s += 'S' + part.set.map(ref).sort(cmpId).join(SEP + SEP);
+        if ('set' in part) s += 'S' + part.set.map(ref).sort(compareKeys).join(SEP + SEP);
         else if ('lit' in part) s += 'L' + part.lit;
         else s += 'R' + ref(part.ref);
       }
@@ -447,7 +455,7 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
           const f = freshes[fi];
           const ends = f.ends as readonly [Id | null, Id | null];
           if (ends[0] === null || ends[1] === null) continue;
-          const k = f.family + SEP + [refFresh(ends[0]), refFresh(ends[1])].sort(cmpId).join(SEP);
+          const k = f.family + SEP + [refFresh(ends[0]), refFresh(ends[1])].sort(compareKeys).join(SEP);
           const list = byKey.get(k);
           if (list === undefined) byKey.set(k, [fi]);
           else list.push(fi);
@@ -456,7 +464,7 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
           const o = olds[oi];
           const ends = o.ends as readonly [Id | null, Id | null];
           if (ends[0] === null || ends[1] === null) continue;
-          const k = o.family + SEP + [refOld(ends[0]), refOld(ends[1])].sort(cmpId).join(SEP);
+          const k = o.family + SEP + [refOld(ends[0]), refOld(ends[1])].sort(compareKeys).join(SEP);
           for (const fi of byKey.get(k) ?? []) pairs.push(oi, fi, 0);
         }
         pairs.assign(m, 'key');
@@ -564,14 +572,14 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
                 id: e.id,
                 entityKind: kind,
                 fresh: f.id,
-                lineageFrom: Object.freeze([from[0], from[1]]) as unknown as Readonly<LineageHash>,
-                lineageTo: Object.freeze([to[0], to[1]]) as unknown as Readonly<LineageHash>,
+                lineageFrom: copyLineage(from),
+                lineageTo: copyLineage(to),
               }),
             );
           }
         } else {
           const ci = covering[oi];
-          const lineage = Object.freeze([e.lineage[0], e.lineage[1]]) as unknown as Readonly<LineageHash>;
+          const lineage = copyLineage(e.lineage);
           if (ci === -1) out = Object.freeze({ outcome: 'tombstone', kind, id: e.id, lineage });
           else {
             const to = addressOf.get(freshes[ci].e.id) as Id;
@@ -596,7 +604,7 @@ export function match(old: readonly MatchEntity[], fresh: readonly MatchEntity[]
     if (probe !== undefined) probe(kind, 'end');
   }
 
-  carry.sort((a, b) => cmpId(a.id, b.id));
+  carry.sort((a, b) => compareKeys(a.id, b.id));
   for (const c of perKind.values()) Object.freeze(c);
   const result: MatchResult = Object.freeze({
     outcomes: Object.freeze(outcomes),

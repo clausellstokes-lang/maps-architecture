@@ -5,7 +5,7 @@
 // §4.12's keys. Type assertions are checked by `corepack pnpm build`; the file runs under vitest.
 import fc from 'fast-check';
 import { describe, expect, expectTypeOf, it } from 'vitest';
-import type { KernelResult } from '@plat/kernel';
+import type { BatchScope as KernelBatchScope, KernelResult } from '@plat/kernel';
 import {
   DATA_KEYS,
   lawLimit,
@@ -153,6 +153,8 @@ describe('the stage declarations (§4.12, §14, §3.3)', () => {
       | { kind: 'edit'; edit: EditId }
       | { kind: 'entity'; id: Id }
     >();
+    // the kernel's declaration for KernelTx.batch is the same union (C-0112's pattern)
+    expectTypeOf<BatchScope>().toEqualTypeOf<KernelBatchScope>();
   });
 
   it('the strategy interfaces\' types are §4.12\'s', () => {
