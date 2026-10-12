@@ -13,14 +13,16 @@
 //    each vertex's lattice position before the step, y then x — reading the vertices already placed at their placed
 //    points and every other moved vertex at its rounded target; a slide or re-seat no lattice point qualifies for fails
 //    the step. The order is a function of positions alone, never of slots.
-// 4. **Whole-step validation** (validate.ts), then the placement bound of every slide and re-seat on its route as
-//    placed and of every held finer vertex on its run, then the edit layer's `recordCheck`. On failure the strength is halved globally (`warp.halvings`), at most
-//    8 times, after which the step is a reported no-op.
-// 5. **Commit.** The points are written, the movers journalled for the commit record's `moved`, the split flags cleared — (b) on every moved vertex but a slide or re-seat,
-//    (b′) on every flagged unmoved vertex of the level of a run it split whose nearest vertex of that level or coarser
-//    along the run moved — and every index item the move changed re-indexed (§3.3: no item changes in place).
+// 4. **Whole-step validation** (validate.ts), then the placement bound of every slide and re-seat on its route as placed
+//    and of every held finer vertex on its run, then the edit layer's `recordCheck`. On failure the strength is halved
+//    globally (`warp.halvings`), at most 8 times, after which the step is a reported no-op.
+// 5. **Commit.** The points are written, the movers journalled for the commit record's `moved` (C-0197), the split flags
+//    cleared — (b) on every moved vertex but a slide or re-seat, (b′) on every flagged unmoved vertex of the level of a
+//    run it split whose nearest vertex of that level or coarser along the run moved — and every index item the move
+//    changed re-indexed (§3.3: no item changes in place).
 //
-// A move batch keeps nothing (J-K27): no kept-content test applies. M0-a-13. Readings: C-0193.
+// A move batch keeps nothing (J-K27): no kept-content test applies. The lattice's distances are `LATTICE`'s, the
+// placement rule's nearest point and hot pixel are placement.ts's (C-0321), imported by path. M0-a-13. Readings: C-0193.
 import {
   compareVertices,
   dest,
@@ -35,7 +37,8 @@ import {
 } from '../arena/index.js';
 import { HOT_PIXEL_CM, homeOf, indexAdd, indexChange, indexDelete, ITEM_EDGE, ITEM_FACE, ITEM_VERTEX, query, routeHandlePair, type ItemRef } from '../index/index.js';
 import { addWarning, INSERT_PLACEMENT_CANDIDATES } from '../insert/index.js';
-import { err, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+import { HOT_PIXEL_SQ, nearestLatticePoint } from '../insert/placement.js';
+import { err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, doomed, noteRow, openTx, type OpenTx } from '../tx/state.js';
 import type { Overlay } from '../tx/types.js';
 import type { Cm, LatticePoint, Level, Point } from '../types/index.js';
@@ -44,9 +47,8 @@ import { MAX_HALVINGS, WARP_HALVINGS, type DisplacementField, type HeldSet, type
 import { heldRunProblem, placementBoundProblem, stepProblem, vertexProblem } from './validate.js';
 import { padBox, StepView } from './view.js';
 
-const ATTRACT = 26;
+const ATTRACT = LATTICE.attractCm;
 const ATTRACT_SQ = ATTRACT * ATTRACT;
-const HOT_PIXEL_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
 
 /** One candidate's plan: how it moves and its field displacement at full strength. */
 interface Plan {
@@ -61,22 +63,7 @@ interface Plan {
 }
 
 /** The lattice point nearest (x, y): one of the four around it, ties y then x (the placement rule's "nearest"). */
-export function nearestLattice(x: number, y: number): { x: number; y: number } {
-  const fx = Math.floor(x) + 0;
-  const fy = Math.floor(y) + 0;
-  let nx = fx;
-  let ny = fy;
-  let nd = Infinity;
-  for (const [cx, cy] of [[fx, fy], [fx + 1, fy], [fx, fy + 1], [fx + 1, fy + 1]] as const) {
-    const d = (cx - x) * (cx - x) + (cy - y) * (cy - y);
-    if (d < nd || (d === nd && (cy < ny || (cy === ny && cx < nx)))) {
-      nd = d;
-      nx = cx;
-      ny = cy;
-    }
-  }
-  return { x: nx, y: ny };
-}
+export const nearestLattice = nearestLatticePoint;
 
 /** A step's outcome at one strength. */
 type Attempt =
@@ -87,7 +74,11 @@ type Attempt =
  * The placement rule for a slide or a re-seat (§3.6, J-K17): the lattice point nearest `P` among the points that lie
  * within 0.71 cm of the route A–B, strictly between its ends, within `attractCm` of `P`, and keep the vertex's own
  * checks (minEdge to its neighbours, one vertex per lattice point, clearance, no crossing — validate.ts's
- * `vertexProblem`) at the view's other points; ties y then x. Each candidate is charged to `insert.placementCandidates`.
+ * `vertexProblem`) at the view's other points; ties y then x. The candidates come in the placement rule's order — the
+ * nearest of the four lattice points around `P` first, then the lattice points of the route's hot-pixel band within
+ * `attractCm` of `P`, nearest first, ties y then x — and each is charged to `insert.placementCandidates` before it is
+ * tested, (i) included. placement.ts's `placementCandidates` filters (i) out of the band before its caller charges, and
+ * the band's rounded edges can hold a point (i) refuses, so the warp keeps this loop and its work counts (C-0334).
  * Null when none qualifies; 'work' when the batch's limit is reached.
  */
 function placeOnRoute(t: OpenTx, view: StepView, v: VertexId, ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number; nearest: boolean } | null | 'work' {

@@ -1,8 +1,8 @@
 // Warp and smoothing (M0-a-13; §3.4 warp, simplify; §3.6 *Moves: warp and smoothing*; §3.10's held-vertex, minEdge,
 // clearance and one-vertex-per-lattice-point rows for moves; §3.1's Visvalingam–Whyatt): the displacement field, the held
 // set, slides, re-seats, the order within a step, the split flag under moves, whole-step validation with at most 8
-// halvings, the MoveReport; smoothing committed geometry as a warp; the topology-preserving simplify. The scaffold
-// created this index empty (M0-s-01, C-0013); it belongs to M0-a-13. Readings: C-0193.
+// halvings, the MoveReport; smoothing committed geometry as a warp; the topology-preserving simplify. M0-a-13.
+// Readings: C-0193.
 export {
   MAX_HALVINGS,
   WARP_HALVINGS,

@@ -20,7 +20,8 @@
 // way an inset of a face can come out empty — `collapsed`, which this function returns.
 import { type FaceId } from '../arena/index.js';
 import type { InsertTx } from '../insert/classes.js';
-import { degenerate, err, LATTICE, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
+import { degenerate, err, LATTICE, ok, orient2d, snap, type KernelResult, type Warning } from '../num/index.js';
+import { divScaled } from '../num/exact.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { unitOf, type XY } from '../geom/common.js';
 import { canonicalFaceRings } from './offsetFace.js';
@@ -40,10 +41,15 @@ export type InsetCollapsed = Extract<KernelResult<Ring[]>, { ok: false }> & {
   readonly warnings: Warning[];
 };
 
-/** 2²⁰: small denominators are scaled by it before ratio() (exact: a power of two). */
-const SCALE = 1_048_576;
-
-/** Is the counter-clockwise ring convex — every turn a left turn or straight, exactly? */
+/**
+ * Is the counter-clockwise ring convex — every turn a left turn or straight (`orient2d` ≥ 0 at every vertex), exactly?
+ * No tolerance: a dent of 1 cm is a right turn and the face is not convex (§3.7 *Insets*: "convexity is checked
+ * exactly"); a straight-through vertex — a neighbour's T-junction on a side — keeps it convex (C-0196 (5)). This is
+ * the inset path's own test on the ring as the face walks it. `geom/lir.ts` keeps a different, private test — the
+ * ring, its repeats and straight-through vertices dropped, is a rotation of its strict hull in either direction — so
+ * it reads a clockwise ring as convex too, and refuses a ring whose left turns wind round more than once, which the
+ * test here accepts (a face's ring never does).
+ */
 export function isConvexRing(ring: readonly LatticePoint[]): boolean {
   const n = ring.length;
   if (n < 3) return false;
@@ -67,8 +73,7 @@ function clip(poly: readonly XY[], a: XY, n: XY, d: number): XY[] {
     const sq = (q.x - a.x) * n.x + (q.y - a.y) * n.y - d;
     if (sp >= 0) out.push(p);
     if (sp >= 0 !== sq >= 0) {
-      const t = ratio(sp * SCALE, (sp - sq) * SCALE, 'length');
-      const s = t.ok ? t.value : 0;
+      const s = divScaled(sp, sp - sq, 'length') ?? 0;
       out.push({ x: p.x + (q.x - p.x) * s, y: p.y + (q.y - p.y) * s });
     }
   }
