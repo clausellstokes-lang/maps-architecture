@@ -6,7 +6,12 @@
 // wider lane's width), cut.settings' cells — slides out of it (the planner's step 7 and ladder.ts's mirror of it).
 // When a lane is removed its portal leaves the Seam and its end vertex loses its role and dissolves, so the spine reads
 // exactly as it did before the lane (`removeLane`).
-import { err, LATTICE, ok, resolve, STAGES, type ChainRef, type Id, type Kernel, type KernelResult, type LatticePoint, type Plat, type PlatKey, type StageId, type VertexRef } from '@plat/kernel';
+// At a vertex several way chains share (a chain's end where another way continues it, a junction), every reading reads
+// every chain through the vertex, as the row does (N-57 (1); C-0322): the gap a spine's end slides by holds the
+// portals of the chains through its end vertices (`spinePortals`), a portal goes to the district's seam of any chain
+// through its vertex (`portalWaysAt`), a continuation onto a vertex of a chain that bounds the district is refused
+// (`boundsDistrictAt`), and an insertion whose portal the row would find inside a gap is taken out (`portalGapBreach`).
+import { err, LATTICE, ok, outgoing, pointLocate, resolve, rowKey, rowsOn, STAGES, type ChainRef, type Id, type Kernel, type KernelResult, type LatticePoint, type Plat, type PlatKey, type StageId, type VertexId, type VertexRef } from '@plat/kernel';
 import type { Junction, Portal, Seam, Way } from '@plat/model';
 import type { CutCells, KerbPortal, XY } from './planner.js';
 import { lengthAt } from './sides.js';
@@ -91,6 +96,141 @@ export function kerbPortals(p: Plat, key: PlatKey, seam: Seam, wayId: Id, extra:
 /** The portal gap at a portal (§4.6 step 7): max(cut.settings.portalGapMinM, factor × the wider lane's width), cm. */
 export function portalGap(cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>, widthA: number, widthB: number): number {
   return Math.max(cells.portalGapMinCm, cells.portalGapLaneFactor * Math.max(widthA, widthB));
+}
+
+// ---- readings at a vertex several way chains share (N-57 (1); C-0322) ------------------------------------------------
+
+/** The vertex at a lattice point of the L1 arrangement, or null (the point lies on no vertex). */
+export function vertexAt(p: Plat, key: PlatKey, q: LatticePoint): VertexId | null {
+  const at = pointLocate(p, key, 1, q);
+  return at.on === 'vertex' ? at.vertex : null;
+}
+
+/** The ways whose chains pass through or end at a vertex (its edges' way rows), by id, `except` left out. */
+export function waysAt(p: Plat, v: VertexId, except?: Id): Id[] {
+  const ids = new Set<Id>();
+  for (const h of outgoing(p, v)) {
+    for (const r of rowsOn(p, 'edge', h)) {
+      const k = rowKey(p, r);
+      if (k.role === 'way' && k.entity !== except) ids.add(k.entity);
+    }
+  }
+  return [...ids].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0));
+}
+
+/** A way chain's line as the row reads it: its one run, or its runs end to end (`portalInvariant`'s reading). */
+function chainLine(p: Plat, key: PlatKey, wayId: Id): { runs: LatticePoint[][]; line: LatticePoint[] } {
+  const runs = chainRuns(p, key, { role: 'way', entity: wayId });
+  return { runs, line: runs.length === 1 ? runs[0] : runs.flat() };
+}
+
+/**
+ * The portals a spine's run carries for the planner's gap (§4.6 step 7; N-57 (1)(a)): its own chain's (`kerbPortals`
+ * over every seam holding the way) and, at each END vertex of the run that another way chain held by a seam passes
+ * through or ends at, that chain's portals within reach of the vertex (their arc distance along that chain from the
+ * vertex under `reachCm` of their lane's width) — each placed AT the shared vertex: its position on the spine's own
+ * line through the vertex, clipped at the run's end. So an end planned on the spine within a portal's gap of the
+ * vertex slides off it (or the cut takes its next rung), as the row reads the vertex on both chains. `bounding` is
+ * true when the spine's own chain is a seam's or a chain through an end vertex carries such a portal.
+ */
+export function spinePortals(
+  p: Plat,
+  key: PlatKey,
+  seams: readonly Seam[],
+  wayId: Id,
+  run: readonly LatticePoint[],
+  extra: readonly { readonly portal: Portal; readonly at: LatticePoint; readonly spine: Id }[],
+  reachCm: (laneWidthCm: number) => number,
+): { portals: KerbPortal[]; bounding: boolean } {
+  const own = spineSeam(seams, wayId);
+  const portals: KerbPortal[] = own === undefined ? [] : kerbPortals(p, key, own, wayId, extra);
+  let across = 0;
+  const ends = run.length === 0 ? [] : run[0].x === run[run.length - 1].x && run[0].y === run[run.length - 1].y ? [run[0]] : [run[0], run[run.length - 1]];
+  for (const q of ends) {
+    const v = vertexAt(p, key, q);
+    if (v === null) continue;
+    for (const other of waysAt(p, v, wayId)) {
+      const seam = spineSeam(seams, other);
+      if (seam === undefined) continue;
+      const { line } = chainLine(p, key, other);
+      const sv = lengthAt(line, q);
+      for (const kp of kerbPortals(p, key, seam, other, extra)) {
+        if (!(Math.abs(lengthAt(line, kp.at) - sv) < reachCm(kp.laneWidthCm))) continue;
+        portals.push({ at: q, laneWidthCm: kp.laneWidthCm });
+        across += 1;
+      }
+    }
+  }
+  return { portals, bounding: own !== undefined || across > 0 };
+}
+
+/**
+ * The ways through a vertex a portal there could be recorded under, in the order S8 tries them (N-57 (1)(b)): the
+ * planned end's spine first (when it has one), then every other way through the vertex by id — so a lane end on a
+ * vertex of a district-bounding chain is that chain's portal whichever spine the planner read it on.
+ */
+export function portalWaysAt(p: Plat, v: VertexId, laneId: Id, spineWay: Id | null): Id[] {
+  const rest = waysAt(p, v, laneId).filter((w) => w !== spineWay);
+  return spineWay === null ? rest : [spineWay, ...rest];
+}
+
+/**
+ * Does a way chain through the vertex bound the district — one held by a seam with the district as a side (N-57
+ * (1)(b))? Step 10's continuation reads it: a crossroads onto such a vertex crosses the district's boundary.
+ */
+export function boundsDistrictAt(p: Plat, seams: readonly Seam[], v: VertexId, district: Id, except?: Id): boolean {
+  return waysAt(p, v, except).some((w) => seamsOfSpine(seams, w).some((s) => s.sides.includes(district)));
+}
+
+/**
+ * Would a `baseLane` portal of width `widthCm` at vertex `v`, recorded in `seamId`, breach the row (§13.2's seam portal
+ * invariant, as `portalInvariant` reads it; N-57 (1))? True when the vertex already carries a portal of any seam
+ * (`two-portals`), or when along a way chain of that seam through the vertex a portal of a seam holding the chain lies
+ * nearer than the portal gap, less the row's centimetre of rounding on each vertex (`gap`). `pending` are portals of
+ * the same insertion not yet in the seams (their seam, vertex and width).
+ */
+export function portalGapBreach(
+  p: Plat,
+  key: PlatKey,
+  seams: readonly Seam[],
+  seamId: Id,
+  v: VertexId,
+  widthCm: number,
+  cells: Pick<CutCells, 'portalGapMinCm' | 'portalGapLaneFactor'>,
+  pending: readonly { readonly seam: Id; readonly at: LatticePoint; readonly widthCm: number }[] = [],
+): 'two-portals' | 'gap' | null {
+  const q = { x: p.vertices.x[v], y: p.vertices.y[v] } as LatticePoint;
+  const same = (a: LatticePoint): boolean => a.x === q.x && a.y === q.y;
+  if (pending.some((x) => same(x.at))) return 'two-portals';
+  for (const s of seams) {
+    for (const portal of s.portals) {
+      const pts = vertexPoints(p, key, portal.at);
+      if (pts.length === 1 && same(pts[0])) return 'two-portals';
+    }
+  }
+  const seam = seams.find((s) => s.id === seamId);
+  if (seam === undefined) return null;
+  for (const e of seam.edges) {
+    if (e.chain.role !== 'way') continue;
+    const { runs, line } = chainLine(p, key, e.chain.entity);
+    const on = (a: LatticePoint): boolean => runs.some((run) => run.some((z) => z.x === a.x && z.y === a.y));
+    if (!on(q)) continue;
+    const sv = lengthAt(line, q);
+    const holding = seamsOfSpine(seams, e.chain.entity);
+    const seen = new Set<Id>();
+    const near = (at: LatticePoint, w: number): boolean => Math.abs(lengthAt(line, at) - sv) < portalGap(cells, w, widthCm) - 2 * LATTICE.unitCm;
+    for (const h of holding) {
+      for (const portal of h.portals) {
+        if (seen.has(portal.id)) continue;
+        seen.add(portal.id);
+        const pts = vertexPoints(p, key, portal.at);
+        if (pts.length !== 1 || !on(pts[0])) continue;
+        if (near(pts[0], portal.widthCm)) return 'gap';
+      }
+    }
+    for (const x of pending) if (holding.some((h) => h.id === x.seam) && on(x.at) && near(x.at, x.widthCm)) return 'gap';
+  }
+  return null;
 }
 
 /** A problem the portal invariant found (§5.3's seam-portal row). */

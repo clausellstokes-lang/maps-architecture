@@ -7,7 +7,8 @@
 //   pre      the reflex pre-cut: a kerb vertex deeper than the band's plot depth d̄ (its distance to the hull lid that
 //            spans it) splits the face along its longer run's inward normal (§4.6 step 8, FTG's "internal corners");
 //   antenna  a dead end inside the face (its L1 ring visits the tip as a spike) is split off: the cut leaves the tip
-//            along the antenna's last direction to the far side, so no child wraps it (C-0237 (4));
+//            along the antenna's last direction to the far side, so no child wraps it (C-0237 (4)); a tip inside a
+//            portal's gap on the antenna's way is refused (it cannot slide; N-57 (1)(a), C-0322);
 //   (a)      planCut at attempts 0, 1, 2 — frames turned k × 36° drawing afresh on the attempt component (the planner);
 //   (b)      the straight cut from A along the mean normal: the start run's inward normal and the far run's outward
 //            normal averaged, both as the unturned frame found them (the inward normal alone without a far run);
@@ -409,12 +410,36 @@ export function antennaTips(ring: readonly LatticePoint[]): { tip: LatticePoint;
 }
 
 /**
+ * Does an antenna's tip lie inside the portal gap of a portal on the antenna's own way (§4.6 step 7; N-57 (1)(a))? The
+ * tip is its way's dead end — the end of a spine run of the face — so its arc position is that run's start or end; the
+ * gap is the planner's, max(6 m, 2 × the wider lane's width). A tip end cannot slide (the antenna's way runs back along
+ * the cut itself), so a tip in a gap refuses the tip and the antenna split tries the next one, or none.
+ */
+export function tipInPortalGap(face: KerbFace, tip: XY, cells: CutCells, newLaneCm: number): boolean {
+  for (const sp of face.spines ?? []) {
+    if (sp.bounding !== true || (sp.portals ?? []).length === 0 || sp.points.length < 2) continue;
+    const line = sp.points;
+    const a = line[0];
+    const b = line[line.length - 1];
+    const sTip = a.x === tip.x && a.y === tip.y ? 0 : b.x === tip.x && b.y === tip.y ? lineLength(line) : null;
+    if (sTip === null) continue;
+    for (const p of sp.portals ?? []) {
+      const gap = Math.max(cells.portalGapMinCm, cells.portalGapLaneFactor * Math.max(p.laneWidthCm, newLaneCm));
+      if (Math.abs(lengthAt(line, p.at) - sTip) < gap) return true;
+    }
+  }
+  return false;
+}
+
+/**
  * The antenna split's candidate (C-0237 (4)): from the first antenna tip, a straight cut on along the antenna's
- * direction to the far side of the kerb, the tip itself the start junction. Null when the face has no antenna or the
- * cut is caught.
+ * direction to the far side of the kerb, the tip itself the start junction. Both ends keep the portal gap (N-57
+ * (1)(a)): the far end slides out of a gap (step 7), the tip end, which cannot slide, refuses its tip when it lies in a
+ * gap of a portal on the antenna's way (`tipInPortalGap`). Null when the face has no antenna or the cut is caught.
  */
 export function antennaCut(face: KerbFace, sides: FaceSides, l1Outer: readonly LatticePoint[], cells: CutCells, newLaneCm: number): Candidate | null {
   for (const t of antennaTips(l1Outer)) {
+    if (tipInPortalGap(face, t.tip, cells, newLaneCm)) continue;
     // The kerb's first crossing beyond the tip's round end, then the far hit.
     const out = rayHit(sides.rings, t.tip, t.dir, TOUCH_CM);
     if (out === null) continue;

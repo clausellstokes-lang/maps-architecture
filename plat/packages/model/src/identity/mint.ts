@@ -25,7 +25,18 @@
 import { entityKey, type Hash128, type LineageHash } from '@plat/kernel';
 import type { EntityKind, Id, Identity, Tombstone } from '../types/index.js';
 import { addressOf, checkKind, parseAddress, tokenOf, userAddressOf } from './address.js';
-import { compareLineage, GROUND, LINEAGE_LANES, lineageHash, lineageLanes, TOWN_ROOT, type LineageKey } from './lineage.js';
+import {
+  compareLineage,
+  GROUND,
+  isObject,
+  isU16,
+  isU32,
+  LINEAGE_LANES,
+  lineageHash,
+  lineageLanes,
+  TOWN_ROOT,
+  type LineageKey,
+} from './lineage.js';
 
 /** One fresh entity of a batch, before minting. */
 export interface BatchRecord {
@@ -82,6 +93,10 @@ class HashSet {
   }
 }
 
+/**
+ * The key's ten lanes in order: the canonical order's tie-break for two keys whose lineage hashes are equal (a 64-bit
+ * collision); `compareLineage` is the order itself (C-0179 (4)).
+ */
 function compareLanes(a: Uint32Array, b: Uint32Array): number {
   for (let i = 0; i < LINEAGE_LANES; i += 1) if (a[i] !== b[i]) return a[i] < b[i] ? -1 : 1;
   return 0;
@@ -91,9 +106,6 @@ function canonical(a: Item, b: Item): number {
   const c = compareLineage(a.hash, b.hash);
   return c !== 0 ? c : compareLanes(a.lanes, b.lanes);
 }
-
-const isU32 = (v: unknown): boolean => typeof v === 'number' && v >>> 0 === v;
-const isObject = (v: unknown): boolean => typeof v === 'object' && v !== null;
 
 /** Four u32 lanes, checked before the batch is read (so an empty batch refuses a malformed seed key too). */
 function checkSeedKey(seedKey: Readonly<Hash128>): void {
@@ -120,7 +132,7 @@ function checkRecord(rec: BatchRecord): void {
   if (!isObject(rec.key)) throw new RangeError(`mint: a batch record's lineage key is not an object: ${String(rec.key)}`);
   if (rec.parent !== undefined) parseAddress(rec.parent); // an address id (§2.8 Identity.parent): refused when not one
   const reroll = rec.reroll ?? 0;
-  if (typeof reroll !== 'number' || (reroll & 0xffff) !== reroll) throw new RangeError(`mint: reroll is not a u16: ${String(reroll)}`);
+  if (!isU16(reroll)) throw new RangeError(`mint: reroll is not a u16: ${String(reroll)}`);
   const o = rec.origin;
   if (o !== undefined && (!isObject(o) || !isU32(o.seq) || !isU32(o.ordinal))) throw new RangeError(`mint: the origin is not (u32 seq, u32 ordinal): ${String(o)}`);
 }

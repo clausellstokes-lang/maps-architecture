@@ -4,7 +4,9 @@
 // under the item's owns (or the seat's declared files) or is a permitted append, and every hash equals the tree now.
 // Without --item, the wave's close: (a) and (b) on every record of the wave, then (c) every file that differs from the
 // wave's snapshot — and every line added to or removed from an append file, a §2 ledger row among them — that no
-// record of the wave claims is named (C-0306 (3)). A crossing file (M-1's baselines.json, ng-faces.json,
+// record of the wave claims is named (C-0306 (3)). A removed line is claimed when a record of the wave lists it as
+// removed and it is a placeholder row, or it is a line of a package index (`packages/<p>/src/index.ts`) that the
+// record's item owns (the owner's per-line edit, C-0318); any other removed or edited line is named. A crossing file (M-1's baselines.json, ng-faces.json,
 // denylist.json, a digest file) is attributed instead by a CrossingRecord appended to crossings.json in the same wave,
 // claimed by its countersigning seat's record, whose sha256 equals the file now; a crossing file is never deleted and
 // never claimed by a record (C-0120 (4)).
@@ -156,11 +158,15 @@ export function verifyWave(root, label, opts = {}) {
         const d = appendDiff(root, snapshot, path);
         const lineClaims = new Set();
         const removedClaims = new Set();
+        const ownerRemoved = new Set();
+        const packageIndex = /^packages\/[^/]+\/src\/index\.ts$/.test(rel);
         for (const { record } of ofWave) {
+          const item = record.ownsSource === 'declared' ? null : ((work.items ?? []).find((it) => it.id === record.item) ?? null);
+          const owner = packageIndex && item !== null && ownsMatch(item.owns ?? [], path);
           for (const a of record.appends ?? []) {
             if (a.file !== path) continue;
             a.lines.forEach((h) => lineClaims.add(h));
-            (a.removed ?? []).forEach((h) => removedClaims.add(h));
+            (a.removed ?? []).forEach((h) => (owner ? ownerRemoved : removedClaims).add(h));
           }
         }
         const issues = [];
@@ -168,7 +174,8 @@ export function verifyWave(root, label, opts = {}) {
         if (d.lines === null) issues.push(`${path}: deleted since ${label}`);
         if (d.invalid) issues.push(`${path}: not a JSON array of CrossingRecords (C-0092, C-0120)`);
         for (const r of d.removed) {
-          if (!(d.placeholders.has(d.old[r]) && removedClaims.has(d.old[r]))) issues.push(`${path}: ${unit} ${r + 1} of the snapshot's file removed or edited`);
+          const h = d.old[r];
+          if (!(ownerRemoved.has(h) || (d.placeholders.has(h) && removedClaims.has(h)))) issues.push(`${path}: ${unit} ${r + 1} of the snapshot's file removed or edited`);
         }
         for (const k of d.added) {
           if (!lineClaims.has(d.hashes[k])) {
