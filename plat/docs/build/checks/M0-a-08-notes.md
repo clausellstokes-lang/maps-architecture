@@ -196,3 +196,121 @@ J242, `bridgeGaps`' re-read, C-0293). Mutant ids M1 – M7 are defined in `check
     sentence "spliced into the walk, so the ring stays one closed walk of inserted edges" therefore has no test of its
     own. This predates round S3 and is not N-53's promise. *Suggested handling:* a pin that inspects `walk.steps` (or
     the per-pair `net`) after a bridged ring, or a case whose bridge path has a tied twin. Hardening, M4.
+
+## Consolidation round C1 — the builder (lane `build/M0-a-08-consolidate-1`, 2026-10-12): changes, equivalence, map, mutants, N-c1-1 – N-c1-6
+
+The kernel plan's R8 (`docs/build/consolidation/kernel-plan.md` §1.7 B-1 – B-5, §2's lines for `src/arr/`, §3.4),
+J260, J263 Q1, Q5, Q6, Q8, J270 (b), J276 (4) (N-c2-4 of `checks/M0-a-01-notes.md`). No behaviour change; ids M01 – M37
+are this section's mutants. Choices row C-0331; CLEAN-ROOM row L-0458.
+
+**Changes and their equivalence.**
+
+* **B-1.** `winding.ts` `distinct` and `offsetFace.ts` `distinct` deleted; both import `distinctRing` from
+  `geom/common.ts` by path. The three bodies are identical token for token (diff of the bodies: empty). `arr/index.ts`'s
+  exports unchanged.
+* **B-2.** `winding.ts` exports `simpleLoops` and `dropStraight` (file-level; `arr/index.ts` names its exports, so the
+  barrel is unchanged). `tileRings.ts` is M0-a-09's owns (M0-work.json), not this item's, so its import of the two is
+  R9's (M0-a-09 c1) under J270 (b): two exact copies coexist until then (bodies diffed against winding.ts's: empty).
+  The keep predicate (C-0206 (1)) is untouched.
+* **B-3 and N-c2-4.** `buffer.ts`'s private `SCALE`/`div` (six call sites: `maxArcStep`, `arcSteps`, `clipToLattice`,
+  the miter, the two cut legs) and `insetRing.ts`'s inline `ratio(sp · SCALE, (sp − sq) · SCALE, 'length')` in `clip`
+  now call `num/exact.ts`'s `divScaled(num, den, 'length')`. **The same function:** `divScaled` computes
+  `ratio(num · 2²⁰, den · 2²⁰, kind)` and returns the value or null; both replaced forms computed the same two products
+  with the same constant (1 048 576) under the same kind, and insetRing's `t.ok ? t.value : 0` is `divScaled(…) ?? 0`
+  (the value is a number whenever it is not null). Pinned by `buffer.test.ts` "the scaled quotient …": `Object.is`
+  equality with the written-out quotient on 29 × 29 boundary pairs (±0, ±½, ±1.5, the floor 2⁻²⁰ and just below it,
+  5e-324, 2⁵³, ±1e300, ±MAX_VALUE, ±∞, NaN), on the quotients the folder's constructions take, and on 2 000 fast-check
+  doubles. `kerb.ts`'s exported `div` is R9's.
+* **B-4. The tie rule found** (`winding.ts` shortestPath before this round, lines 376 – 434 of the pre-round file): the
+  heap ordered `[distance, y, x, vertex]` by distance, then y, then x — the vertex slot was carried but never compared,
+  and a vertex's distance and parent are replaced only on a strictly shorter path (`nd < old`). So ties are broken by
+  the lattice point (the kernel's (y, x) order), not by slot: **no J263 Q5 report**. Adopted `geom/heap.ts`
+  `BinaryHeap` (ties by the smaller item) with the item a vertex's rank in (y, x) order over u and every live
+  half-edge's origin; with distinct keys the pop sequence of any correct min-heap is the same, so the paths are the
+  same. The rank's last key `a − b` (and the old heap's push order) would decide only between two live vertices at one
+  lattice point, which an arrangement does not hold (§3.10's hard row `one-vertex-per-point`). Evidence: a direct
+  differential (both bodies in one instrumented file) over 380 overlays — tie-heavy grids of equal squares, diamonds,
+  random stars — and 237 765 vertex pairs: 0 mismatches; pins `booleans.test.ts` "two equal paths round a square …"
+  and "on a grid of equal squares …" (`shortestPath` exported from `winding.ts` for them; not from the index).
+* **B-5.** Both `isConvexRing`s kept; `insetRing.ts`'s comment states the difference from `geom/lir.ts`'s private one.
+  The plan's "K35t stays red, pinned by offset-inset.test.ts:161,168" was not so: K35t survived the first closing check
+  (note 13). Note 13's suggested pin is added ("a dent of 1 cm is a right turn: E_NON_CONVEX …"), so K35t (M17) is red.
+* **Comments.** `winding.ts`'s re-read comment (the arena's re-read rule, C-0286; C-0293) and its orientSegments
+  defence comment; `arr/index.ts`'s header (the scaffold's provenance dropped); test comments without round narration:
+  `growth.test.ts`, `booleans.test.ts`, testkit `support.ts`, `pins.test.ts`, `register.test.ts` (rows cited instead
+  of "fix round S1/S2", "this round", "the PR run"). Pinned message texts unchanged (J263 Q6).
+* **NO-SHIFT.** A seeded probe (booleans × 4 operations × 2 fill rules, overlays with their `net`, `faceOf` and
+  winding labels, buffer and bufferParts over every join and end, faceEdges, offsetFace per-edge and uniform,
+  insetRing at 0, ±d and small d, tileRings, ringEdgeParts, the arc steps, the `@plat/kernel` barrel's runtime names):
+  41 414 lines before (pre-round mirror) and after (tree) byte-identical, sha256 0bc17ccc…; in the tiny-tables mode
+  13 814 lines identical (cc178c8b…). Refusals of the registered families, seed 8611 × 1 000 (the agreement trio,
+  `register`, `pins`): `PLAT_FUZZ_COUNTS` byte-identical — buffer 10 and offsetFace 6 insertChain `E_INVARIANT`, 0 own,
+  booleans and insetRing 0 — and `PLAT_REFUSALS_OUT`'s 93 lines identical as a set (file order differs), verdict lines
+  identical (96/96 both).
+
+**Old file → new file map (J263 Q8).** None: no test file moved, merged or renamed (§3.4); every describe/it title
+kept. Added: `booleans.test.ts` — describes "the overlay's shortest path breaks ties by lattice point, never by slot
+(§3.3)" (2 cases) and "the kept boundary's trace helpers (simpleLoops, dropStraight; C-0206 (1))" (2 cases), and the
+case "a ring given with repeated points … no warning"; `buffer.test.ts` — describe "the scaled quotient: buffer and
+insetRing divide through num/exact.ts divScaled (§3.2 (8), C-0044)" (2 cases); `offset-inset.test.ts` — the case "a
+dent of 1 cm is a right turn: E_NON_CONVEX …". Every added case but the four that read the new file-level exports is
+green on the pre-round sources too.
+
+**Mutants (37, in the mirror; the kernel folder and testkit guard/harness/pins/register with --bail=1, then the three
+agreement files at 300).**
+
+| id | mutation | result |
+|---|---|---|
+| M01 | winding.ts reads the ring without `distinctRing` | red after the repeated-points pin (survived before it) |
+| M02 | offsetFace.ts reads the face rings without `distinctRing` | survives: equivalent, N-c1-3 |
+| M03 | `distinctRing` keeps the closing repeat (geom/common.ts) | red (the repeated-points pin) |
+| M04 | dropStraight `> 0` → `>= 0` | survives: equivalent, N-c1-3 |
+| M05 | dropStraight ignores `keep` (K06's class) | red: "a hole touching its outline …" |
+| M06 | simpleLoops never cuts | red: "a hole touching its outline …" |
+| M07 | simpleLoops drops the last loop | red: "union, intersection, difference and xor …" |
+| M08 | sagitta quotient doubled (K18's class) | red: "a round end is a fan of chords …" |
+| M09 | insetRing clip's numerator sq | red: "inward by d: the half-plane inset …" |
+| M10 | divScaled unscaled (floor 1, not 2⁻²⁰) | red: offsetFace sawtooth case, the divScaled pin |
+| M11 | buffer clip's denominator + 1e-9 | survives: equivalent, N-c1-3 |
+| M12 | shortestPath ties by slot | red: the square tie pin |
+| M13 | ties reversed (upper-right first) | red: the square tie pin |
+| M14 | a later equal path wins (`<=`) | red: the square tie pin |
+| M15 | ties x before y | red: the square tie pin |
+| M16 | K35 (`<= 0`) | red: "a convex face with a straight-through vertex …" |
+| M17 | K35t (`< -2000`) | red: "a dent of 1 cm …" |
+| M18 – M32 | earlier K01, K02, K03, K04, K07, K09, K11, K12, K13, K20, K22, K25, K33, K36, K37 | all red |
+| M33 | s3's M1 (columns captured at bridgeGaps' entry) | red: growth.test.ts |
+| M34 – M37 | K14, K15, K31, K16 | survive, as recorded (notes 2, 3, 14): equivalent on every drawn domain |
+
+H04 is a harness mutant of testkit `support.ts`, whose code this round did not change; not re-run.
+
+**N-c1-1 (for R9).** `tileRings.ts` keeps its private `simpleLoops` and `dropStraight` (bodies identical to winding.ts's
+exports); M0-a-09 c1 imports them (J270 (b)).
+
+**N-c1-2.** B-4 needed no Q5 report: shortestPath's ties read lattice points (above). `glueWalks`' and `balanceFlow`'s
+callers of shortestPath were reached by no case of the probe (as notes 2 and 14 found); the direct differential is the
+evidence for the heap.
+
+**N-c1-3. Equivalent survivors.** M02: consecutive vertices of a face walk are an edge's two ends, distinct points, and
+`faceRings` repeats no closing vertex, so `canonicalFaceRings`' `distinctRing` removes nothing on an arena (PLAUSIBLE;
+kept as the read the ring convention states). M04: `>= 0` differs from `> 0` only at a zero-length step, which a loop of
+`simpleLoops` (distinct consecutive vertices) never holds. M11: `clipToLattice` changes a part only beyond
+±(2²³ − 1), which no folder case reaches.
+
+**N-c1-4. The plan's oracle lines that did not hold as written.** "Mutants K14 – K16, K31, H04 red" (§1.7 B-2): these
+were survivors classed equivalent or minor by the first check (its table, notes 2 – 4) and remain so; "K35/K35t stay
+red, pinned by offset-inset.test.ts:161,168" (B-5): K35t survived until this round's dent pin.
+
+**N-c1-5. Refusal verdicts (N-58).** The registered families' refusals are unchanged (above): 10 buffer and 6
+offsetFace `E_INVARIANT` at seed 8611 × 1 000, every one insertChain's router refusing a part of our own construction
+(OUR OWN INTERMEDIATE geometry from lawful input) — verdict MAKE-IT-SUCCEED, the router's (the refusal census, queue
+row L23), not this round's (no behaviour change). The probe met one more of the same class: offsetFace of the face
+`R([2754,725],[580,3886],[-631,3083],[-1154,2846],[-1178,2409],[-2045,2444],[984,-3484],[576,-1764],[1690,-1245])`
+(built through `insertChain` as in `support.ts arenaFace`) with distances `[458,873,277,0,389,0,84,497,33]` in
+`faceEdges` order: "insert: no route from (500, -2634) to (614, -2636) keeps clearance (§3.10) within the fidelity
+bound (N-43)", identical before and after. `E_NON_CONVEX` (insetRing on a non-convex face) is REFUSE with the
+alternative §3.7 names (`offsetFace` inward, `buffer` ∪ face outward); `E_DEGENERATE` `empty` / `collapsed` are §3.11's
+results, not refusals of lawful input.
+
+**N-c1-6. Process.** One read-only `git diff --stat` ran by mistake inside a compound command (its output discarded,
+nothing changed); no other git command was run.

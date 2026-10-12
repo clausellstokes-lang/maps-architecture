@@ -8,7 +8,8 @@
 import { LaneWriter, type Hash128, type Id, type LineageHash, type PlatKey } from '@plat/kernel';
 import { schemaOrder, type RecordKind, type RecordOf } from '../schema/index.js';
 import type { Lifecycle } from '../types/identity.js';
-import { refText, writeValue, type GeomRefLike } from './encode.js';
+import { isU32 } from '../identity/lineage.js';
+import { refText, writeHash128, writeValue, type GeomRefLike } from './encode.js';
 
 /** The layer nodes under the model root, in the root's order (§6.2). */
 export const DIGEST_LAYERS = Object.freeze([
@@ -85,7 +86,7 @@ function checkEntry(entry: DigestEntry): void {
   const rec = entry.record as unknown as { id?: unknown };
   if (rec.id !== undefined && rec.id !== entry.id) throw new RangeError(`digest: entry ${entry.id} holds the record of ${String(rec.id)}`);
   const lin = entry.identity.lineage;
-  if (lin.length !== 2 || (lin[0] >>> 0) !== lin[0] || (lin[1] >>> 0) !== lin[1]) throw new RangeError(`digest: ${entry.id}'s lineage is not two u32 lanes`);
+  if (lin.length !== 2 || !isU32(lin[0]) || !isU32(lin[1])) throw new RangeError(`digest: ${entry.id}'s lineage is not two u32 lanes`);
   if ('dossier' in entry.identity) {
     throw new RangeError(`digest: ${entry.id} carries a dossier ref; Identity.dossier enters the leaf with the dossier port (M1, §4b; C-0194 (3))`);
   }
@@ -146,6 +147,6 @@ export function digestLeaf(entry: DigestEntry, geometry: GeometryOf): Hash128 {
   // here, and a leaf never resolves another leaf).
   const digests = owned.map((r) => geometry(r, entry.identity.key));
   W.u32(digests.length);
-  for (const d of digests) W.u32(d[0]).u32(d[1]).u32(d[2]).u32(d[3]);
+  for (const d of digests) writeHash128(W, d);
   return W.digest();
 }

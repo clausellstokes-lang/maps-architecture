@@ -6,12 +6,12 @@
 // unattracted draw count §13.1's vacuity guard reads. Our output is also held to the hard ring checks on EVERY case
 // (§3.7 (i): "0 invalid outputs"), not only on the attracted side the comparison checks.
 //
-// N-44 (3) and N-46 (5) (fix round S1, C-0231): a case our engine REFUSES with E_INVARIANT or E_BELOW_MIN_EDGE is taken
+// N-44 (3) and N-46 (5) (C-0231): a case our engine REFUSES with E_INVARIANT or E_BELOW_MIN_EDGE is taken
 // out of the oracle comparison and classed by replay — insertChain's when the refusing overlay's insertions, fed straight
 // to `insertChain` on a fresh arena in `buildOverlay`'s order, meet the same refusal (code and detail); this item's own
-// otherwise. insertChain's are counted per family (operation) against the cap this round measured (`REFUSAL_MEASURE`),
+// otherwise. insertChain's are counted per family (operation) against the cap measured at the PR size (`REFUSAL_MEASURE`),
 // this item's own are held to 1 per 10⁴, and every refused case can be logged for the register (`PLAT_REFUSALS_OUT`).
-// A committed result that disagrees with an oracle stays a failure, as before.
+// A committed result that disagrees with an oracle stays a failure.
 import { appendFileSync } from 'node:fs';
 import fc from 'fast-check';
 import { expect } from 'vitest';
@@ -430,7 +430,7 @@ function roundHalfAwayCm(v: number): number {
 
 /**
  * The exponent k of the oracleInset construction's 2ᵏ-scaled frame: the largest k ≥ 0 with 2ᵏ · reachCm below
- * `INSET_FRAME_CM`, or −1 when even the unscaled frame does not fit (C-0196 (7) as amended by this round's row).
+ * `INSET_FRAME_CM`, or −1 when even the unscaled frame does not fit (C-0196 (7) as amended by C-0261).
  */
 export function insetFrameExponent(reachCm: number): number {
   if (!(Number.isFinite(reachCm) && reachCm >= 0 && reachCm < INSET_FRAME_CM)) return -1;
@@ -450,7 +450,7 @@ export function insetFrameExponent(reachCm: number): number {
  * error is ~0.7 / S cm, and the engine's own rounding of the crossings is ~0.7 / S too. The result is divided by S
  * (exact: a power of two) and rounded to the nearest centimetre once — the exact inset's error is then about the one
  * rounding our engine's answer also carries. Unscaled (S = 1), the double rounding could put an exact-mitred outward
- * inset's vertices 0.6 cm off, all outward, past the unattracted bound on a correct answer of ours (fix round S2, J226).
+ * inset's vertices 0.6 cm off, all outward, past the unattracted bound on a correct answer of ours (C-0261).
  */
 export function oracleInset(ring: Ring, dCm: number, engine: OracleEngine): OracleResult {
   let x0 = Infinity;

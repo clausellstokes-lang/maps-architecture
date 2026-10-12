@@ -4,7 +4,9 @@
 // materialises the face records of every level from the level walks, nesting each face under the level − 1 face that
 // contains it and pruning a face that is its parent's own child (the same rings, no finer record inside: §2.2 rule 2,
 // C-0146 (2)). The independent oracles the tests judge the walk with — the arena filtered to the edges of level ≤ n,
-// exact areas, a crossing-number containment test — are written here too, never with the code under test.
+// exact areas, a crossing-number containment test — are written here too, never with the code under test. It is also
+// the home of the kernel tests' one seeded generator (`rng`, mulberry32, and `intIn`), which the other folders' support
+// files import from here.
 import { area2, orient2d, type Frame } from '../../src/num/index.js';
 import type { Cm, LatticePoint, Level, PlatKey } from '../../src/types/index.js';
 import {
@@ -23,7 +25,7 @@ import {
   type PlatCapacity,
   type VertexId,
 } from '../../src/arena/index.js';
-import './tiny.js'; // PLAT_TINY_TABLES=1: every table of every arena built here starts at capacity 1 (N-53 (4))
+import './tiny.js'; // PLAT_TINY_TABLES=1: every table of every arena built here starts at capacity 1 (C-0286)
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 export const FRAME: Frame = { widthCm: 2_000_00 as Cm, heightCm: 2_000_00 as Cm, aspect: 1, marginShare: 0.3 };
@@ -47,16 +49,28 @@ export interface Built {
   faces: FaceId[][];
 }
 
-/** A permutation of 0 … n − 1 from a seed (mulberry32), for allocation orders. */
-export function permutation(n: number, seed: number): number[] {
+/**
+ * mulberry32 (Tommy Ettinger's published 32-bit generator): a seeded generator of doubles in [0, 1) — the kernel tests'
+ * one seeded generator. Its words are the constant 0x6d2b79f5 and `>>> 0` arithmetic, so a seed gives the same
+ * sequence on every host; `support.test.ts` pins the first draws of fixed seeds.
+ */
+export function rng(seed: number): () => number {
   let a = seed >>> 0;
-  const next = (): number => {
+  return () => {
     a = (a + 0x6d2b79f5) >>> 0;
     let t = a;
     t = Math.imul(t ^ (t >>> 15), t | 1);
     t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
     return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
   };
+}
+
+/** A uniform integer in [lo, hi] from a generator's next draw. */
+export const intIn = (rnd: () => number, lo: number, hi: number): number => lo + Math.floor(rnd() * (hi - lo + 1));
+
+/** A permutation of 0 … n − 1 from a seed (`rng`; a Fisher–Yates shuffle from the top), for allocation orders. */
+export function permutation(n: number, seed: number): number[] {
+  const next = rng(seed);
   const p = Array.from({ length: n }, (_, i) => i);
   for (let i = n - 1; i > 0; i--) {
     const j = Math.floor(next() * (i + 1));
@@ -232,7 +246,7 @@ export function materialiseFaces(p: Plat): FaceId[][] {
 
 /**
  * Builds a hand-built arena: allocation in the given orders, rotations by angle, faces materialised. Under
- * PLAT_TINY_TABLES=1 every table starts at capacity 1 whatever `capacity` asks (./tiny.ts; N-53 (4)).
+ * PLAT_TINY_TABLES=1 every table starts at capacity 1 whatever `capacity` asks (./tiny.ts; C-0286).
  */
 export function buildArena(spec: ArenaSpec, order: { vertices?: readonly number[]; edges?: readonly number[] } = {}, capacity: Partial<PlatCapacity> = {}): Built {
   const plat = createPlat(GROUND, FRAME, capacity);
