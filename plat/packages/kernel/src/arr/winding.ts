@@ -42,7 +42,8 @@ import { addWarning, insertTx, type InsertTx } from '../insert/classes.js';
 import { insertChain } from '../insert/insertChain.js';
 import { area2, degenerate, err, LATTICE, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint, PlatKey, Polygon } from '../types/index.js';
-import { offLattice } from '../geom/common.js';
+import { distinctRing, offLattice } from '../geom/common.js';
+import { BinaryHeap } from '../geom/heap.js';
 
 /** One ring (§2.8's `Polygon`): lattice points, the closing vertex not repeated; outer rings counter-clockwise, holes clockwise. */
 export type Ring = Polygon;
@@ -96,17 +97,6 @@ function gridCellFor(minX: number, minY: number, maxX: number, maxY: number, seg
   return cell;
 }
 
-/** The ring without consecutive repeats (the closing repeat included). */
-function distinct(ring: readonly LatticePoint[]): LatticePoint[] {
-  const out: LatticePoint[] = [];
-  for (const p of ring) {
-    const q = out[out.length - 1];
-    if (q === undefined || q.x !== p.x || q.y !== p.y) out.push(p);
-  }
-  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
-  return out;
-}
-
 /**
  * The scratch overlay of the operands' rings (each operand a ring list, read under one fill rule by its caller): every
  * segment inserted through `insertChain` in input order, then each segment's edges oriented. E_OUT_OF_RANGE for a
@@ -127,7 +117,7 @@ export function buildOverlay(operands: readonly (readonly (readonly LatticePoint
     for (const ringIn of operands[j]) {
       const bad = offLattice<ScratchOverlay>(ringIn);
       if (bad !== null) return bad;
-      const ring = distinct(ringIn);
+      const ring = distinctRing(ringIn);
       const n = ring.length;
       if (n < 2) continue;
       const steps: number[] = [];
@@ -235,8 +225,8 @@ function bridgeGaps(
       const from = st > 0 ? ends[s] : starts[s];
       const to = nx > 0 ? starts[t] : ends[t];
       if (from === to) continue;
-      // read the coordinate columns here, after the last allocation: the bridge inserted on an earlier pass may have
-      // grown the vertex table, which replaces the columns (plat.ts's re-read rule, N-53 (4), (5); C-0293)
+      // the coordinate columns are read here, after the last allocation: a bridge inserted for an earlier gap may have
+      // grown the vertex table, and a growth replaces the columns (the arena's re-read rule, C-0286; C-0293)
       const X = p.vertices.x;
       const Y = p.vertices.y;
       const dx = X[to] - X[from];
@@ -292,7 +282,8 @@ function orientSegments(p: Plat, segments: readonly Segment[], starts: readonly 
     if (es.length === 0 || starts[s] === ends[s]) continue;
     let dir = pathFlow(p, es, starts[s], ends[s]);
     if (dir.every((d) => d === 0)) {
-      // the segment's own edges do not join its ends (never seen): the shortest path of the overlay stands in
+      // a defence — insertion leaves a segment's edges joining its two ends; where they do not, the overlay's shortest
+      // path between the ends carries the segment's flow instead
       addPath(p, shortestPath(p, starts[s], ends[s]), segments[s].mult, k, net);
       dir = new Int32Array(es.length);
     }
@@ -370,8 +361,11 @@ function addPath(p: Plat, path: readonly number[], mult: Int32Array | readonly n
 }
 
 /**
- * The half-edges of a shortest path (by length, ties by slot-free vertex order) from u to v over the overlay's live
- * edges — Dijkstra; [] when v is unreachable.
+ * The half-edges of a shortest path (by length) from u to v over the overlay's live edges — Dijkstra on the kernel's
+ * `BinaryHeap` (geom/heap.ts); [] when v is unreachable. Ties never read a slot (§3.3): the heap's items are the
+ * vertices' ranks in lattice order (y, then x — the order of `before`; the overlay's live vertices stand at distinct
+ * points), so of two vertices at one distance the lower-left is settled first, and a vertex keeps the first path that
+ * reached it at its least distance.
  */
 function shortestPath(p: Plat, u: VertexId, v: VertexId): number[] {
   if (u === v) return [];
@@ -386,44 +380,18 @@ function shortestPath(p: Plat, u: VertexId, v: VertexId): number[] {
     if (l === undefined) adj.set(O[h], [h]);
     else l.push(h);
   }
+  // every vertex the search reaches is u or the origin of a live half-edge
+  const byPoint = [...new Set<VertexId>([u, ...adj.keys()])].sort((a, b) => Y[a] - Y[b] || X[a] - X[b] || a - b);
+  const rank = new Map<VertexId, number>();
+  byPoint.forEach((w, i) => rank.set(w, i));
   const dist = new Map<VertexId, number>([[u, 0]]);
   const via = new Map<VertexId, number>();
   const done = new Set<VertexId>();
-  // a small binary heap of [distance, y, x, vertex]
-  const heap: [number, number, number, VertexId][] = [[0, Y[u], X[u], u]];
-  const less = (a: [number, number, number, VertexId], b: [number, number, number, VertexId]): boolean =>
-    a[0] < b[0] || (a[0] === b[0] && (a[1] < b[1] || (a[1] === b[1] && a[2] < b[2])));
-  const push = (e: [number, number, number, VertexId]): void => {
-    heap.push(e);
-    let i = heap.length - 1;
-    while (i > 0) {
-      const up = (i - 1) >> 1;
-      if (!less(heap[i], heap[up])) break;
-      [heap[i], heap[up]] = [heap[up], heap[i]];
-      i = up;
-    }
-  };
-  const pop = (): [number, number, number, VertexId] => {
-    const top = heap[0];
-    const last = heap.pop() as [number, number, number, VertexId];
-    if (heap.length > 0) {
-      heap[0] = last;
-      let i = 0;
-      for (;;) {
-        const l = 2 * i + 1;
-        const r = l + 1;
-        let m = i;
-        if (l < heap.length && less(heap[l], heap[m])) m = l;
-        if (r < heap.length && less(heap[r], heap[m])) m = r;
-        if (m === i) break;
-        [heap[i], heap[m]] = [heap[m], heap[i]];
-        i = m;
-      }
-    }
-    return top;
-  };
-  while (heap.length > 0) {
-    const [d, , , w] = pop();
+  const heap = new BinaryHeap();
+  heap.push(rank.get(u) as number, 0);
+  while (heap.size > 0) {
+    const d = heap.peekPriority();
+    const w = byPoint[heap.pop()];
     if (done.has(w)) continue;
     done.add(w);
     if (w === v) break;
@@ -436,7 +404,7 @@ function shortestPath(p: Plat, u: VertexId, v: VertexId): number[] {
       if (old === undefined || nd < old) {
         dist.set(t, nd);
         via.set(t, h);
-        push([nd, Y[t], X[t], t]);
+        heap.push(rank.get(t) as number, nd);
       }
     }
   }
@@ -621,11 +589,13 @@ export function compareRings(a: Ring, b: Ring): number {
 }
 
 /**
- * The loop without its straight-through vertices (exactly collinear and going on), cyclically — but never a vertex in
- * `keep`: a vertex where the kept boundary meets itself (a hole touching its outline, two faces touching) is a vertex of
- * every ring through it, even where one ring runs straight on there (C-0206 (1)).
+ * The loop without its straight-through vertices (exactly collinear and going on), cyclically, until none is left —
+ * but never a vertex `keep` names: a vertex where the kept boundary meets itself (a hole touching its outline, two
+ * faces touching) is a vertex of every ring through it, even where one ring runs straight on there (C-0206 (1)).
+ * Exported for the seed clip's trace (`tileRings`), which applies the same rule with its own `keep` (a vertex where
+ * the overlay has a third edge, C-0212).
  */
-function dropStraight(loop: LatticePoint[], keep: (p: LatticePoint) => boolean): LatticePoint[] {
+export function dropStraight(loop: LatticePoint[], keep: (p: LatticePoint) => boolean): LatticePoint[] {
   let pts = loop;
   let changed = true;
   while (changed && pts.length >= 3) {
@@ -696,8 +666,11 @@ export function traceKept(overlay: ScratchOverlay, labels: WindingLabels, keep: 
   return rings.sort(compareRings);
 }
 
-/** A closed vertex walk cut into simple loops at every vertex it visits twice (each loop in walk order). */
-function simpleLoops(cycle: readonly VertexId[]): VertexId[][] {
+/**
+ * A closed vertex walk cut into simple loops at every vertex it visits twice (each loop in walk order). Exported for
+ * the seed clip's trace (`tileRings`), which cuts its walks the same way.
+ */
+export function simpleLoops(cycle: readonly VertexId[]): VertexId[][] {
   const loops: VertexId[][] = [];
   const stack: VertexId[] = [];
   const at = new Map<VertexId, number>();

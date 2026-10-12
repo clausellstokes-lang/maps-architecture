@@ -3,7 +3,6 @@
 // roots equal the recomputed ones; a move between partitions re-hashes both nodes; the bars' harness emits its record,
 // stamped contended (the bars are the timing phase's, never this run's).
 import { describe, expect, it } from 'vitest';
-import type { Hash128 } from '@plat/kernel';
 import {
   buildDigests,
   CITY_COUNTS,
@@ -18,8 +17,7 @@ import {
   timeDigest,
   type RecordsEntry,
 } from '../../src/index.js';
-
-const hex = (h: Hash128 | undefined): string => (h === undefined ? 'undefined' : h.map((w) => w.toString(16).padStart(8, '0')).join(''));
+import { hex } from './support.js';
 
 const CITY = syntheticCity(1);
 

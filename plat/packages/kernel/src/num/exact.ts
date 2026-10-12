@@ -9,9 +9,14 @@
 // below 2⁴⁹, so each sign below is exact (§3.2 (1), (3)); the doubled convention (a half-lattice point such as an edge
 // midpoint, every coordinate times 2) keeps `orient2d` below 2⁵¹. `segmentCloserThan` compares o² with r²·|ab|²: both
 // are exact while they stay at or below 2⁵³ — for r = attractCm (26 cm) a segment up to about 36 km — and beyond that a
-// rounding can only blur a near-tie, never a clear answer. Only + − × and `orient2d` are used; no division, no `Math`
-// member beyond `min` and `max` (§6.5 (3)).
+// rounding can only blur a near-tie, never a clear answer. `halfPlaneOf` reads an integer direction vector by two
+// comparisons with 0, exact on every input. The lattice-coordinate bound is `isLatticeCoord`'s: an integer with
+// |v| < 2²³ (`LATTICE.rangeCm`, snap's invariant), NaN and ±∞ outside it; `lp` and `distinctRing` take points the caller
+// already holds within it. Only + − × and `orient2d` are used; no division, no `Math` member beyond `min`, `max` and
+// `abs` (§6.5 (3)).
 
+import type { Cm, LatticePoint } from '../types/index.js';
+import { LATTICE } from './lattice.js';
 import { orient2d } from './predicates.js';
 import { ratio, type RatioKind } from './ratio.js';
 
@@ -166,6 +171,41 @@ export function strictlyInsideRings(rings: readonly (readonly RingPoint[])[], qx
     }
   }
   return filled(w, fill);
+}
+
+// ---- the lattice inputs -----------------------------------------------------------------------------------------------
+
+/** Is v a lattice coordinate: an integer with |v| < 2²³ (§3.2 (1), (7))? NaN and ±∞ are not. */
+export function isLatticeCoord(v: number): boolean {
+  return Number.isInteger(v) && Math.abs(v) < LATTICE.rangeCm;
+}
+
+/** A lattice point from integers the caller holds in range (no check: snap is the door, §3.2 (7)). */
+export function lp(x: number, y: number): LatticePoint {
+  return { x: x as Cm, y: y as Cm };
+}
+
+/** The ring without consecutive repeats of one lattice point (the closing repeat included), in its own order. */
+export function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
+  const out: LatticePoint[] = [];
+  for (const p of ring) {
+    const q = out[out.length - 1];
+    if (q === undefined || q.x !== p.x || q.y !== p.y) out.push(p);
+  }
+  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
+  return out;
+}
+
+// ---- the direction half-plane -----------------------------------------------------------------------------------------
+
+/**
+ * The half of the direction circle a non-zero integer vector (x, y) lies in: [0°, 180°) — y > 0, or y = 0 with x > 0 —
+ * is 0, and [180°, 360°) is 1. Ordered by this half and then by `orient2d` against the origin, directions run
+ * counter-clockwise from +x (§3.8's skeleton and roof test, §3.6's rotation check). The zero vector has no direction:
+ * both comparisons fail and it reads 1.
+ */
+export function halfPlaneOf(x: number, y: number): number {
+  return y > 0 || (y === 0 && x > 0) ? 0 : 1;
 }
 
 // ---- the shared constants ---------------------------------------------------------------------------------------------

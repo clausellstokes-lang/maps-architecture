@@ -26,10 +26,9 @@ import {
   type GeomRefLike,
   type RecordKind,
 } from '../../src/index.js';
-import { GROUND, LIFE, lineage, plotEntry, wayEntry } from './support.js';
+import { GROUND, hex, LIFE, lineage, plotEntry, wayEntry } from './support.js';
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-const hex = (h: Hash128): string => h.map((w) => w.toString(16).padStart(8, '0')).join('');
 const NO_GEOMETRY = (): Hash128 => [0, 0, 0, 0];
 
 /** A record of `kind` whose every schema attribute holds a value naming it (the leaf reads any value by the rule). */

@@ -1,10 +1,15 @@
 // References by role (§2.2 rule 5, J-K3, J-K9): an entity reaches its geometry through the role and owner tables,
 // resolved on demand. `resolve` turns a FaceRef, ChainRef, EdgeSetRef or VertexRef into the current slots, stamped with
-// the arena's key and version and valid until its next commit; a debug build asserts both wherever a stamped value is
-// passed (§3.4 *Arenas, keys and services*). `signature` is what an edit stores beside a position (rule 5, *Positions
-// in the log*). Every list returned is in a canonical order read on lattice positions (§3.3's keys), never slot order,
-// and a ref that finds no geometry resolves empty (§3.11). M0-a-02. Readings: C-0146 (4) – (6); the stamp's restore
-// generation (Q33, the class of Q28): C-0313.
+// the arena's key, restore generation and version and valid until its next commit; a debug build asserts the stamp
+// wherever a stamped value is passed (§3.4 *Arenas, keys and services*). `signature` is what an edit stores beside a
+// position (rule 5, *Positions in the log*). Every list returned is in a canonical order read on lattice positions
+// (§3.3's keys), never slot order, and a ref that finds no geometry resolves empty (§3.11). M0-a-02. Readings:
+// C-0146 (4) – (6), the stamp's restore generation C-0313.
+//
+// Exported by path for the kernel's other folders, not through the arena's index (the package's API is unchanged):
+// `edgeRuns`, the one run ordering of a pair set (C-0146 (5)), and `stamp` / `keyName`, the stamp of an arena now and
+// the text a stamp message names an arena by. `debugCheck` stays this module's own: its `arena: ` prefix is one of the
+// kernel's assertion prefixes (C-0215).
 import { orient2d } from '../num/index.js';
 import type { ChainRef, EdgeSetRef, FaceRef, LatticePoint, Level, PlatKey, VertexRef, VertexSig } from '../types/index.js';
 // The module itself, not the tx barrel: savepoint.ts imports only types, so the arena reads the generation with no
@@ -49,7 +54,8 @@ function debugCheck(condition: boolean, message: string): void {
   if (debugAssertions() && !condition) throw new Error(`arena: ${message}`);
 }
 
-function keyName(k: PlatKey): string {
+/** An arena key as stamp messages name it: `layer/part` (e.g. `ground/0`). */
+export function keyName(k: PlatKey): string {
   return `${k.layer}/${k.part}`;
 }
 
@@ -83,8 +89,8 @@ export function assertStamp(p: Plat, stamp: Stamp): void {
   debugCheck(stamp.version === p.version, `a stale slot: stamped at version ${stamp.version}, arena ${keyName(p.key)} is at version ${p.version}`);
 }
 
-/** The stamp of `p` now: its key, its version and — when not 0 — its restore generation. */
-function stamp(p: Plat): Stamp {
+/** The stamp of `p` now: a copy of its key, its version and — when not 0 — its restore generation (C-0313 (1)). */
+export function stamp(p: Plat): Stamp {
   const key = { layer: p.key.layer, part: p.key.part };
   const generation = restoreGeneration(p);
   return generation === 0 ? { key, version: p.version } : { key, version: p.version, generation };
@@ -101,8 +107,20 @@ function lowerBound(sorted: readonly number[], x: number): number {
   return lo;
 }
 
-/** The runs of a set of edge pairs (see `Resolved`'s edges view). */
-function edgeRuns(p: Plat, pairsIn: readonly number[]): HalfEdgeId[][] {
+/**
+ * The runs a set of edge pairs forms, in the arena's one run ordering (C-0146 (5)): `resolve`'s edges view, and through
+ * it `routeLines`, the stretch references and warp's chains. A run is a maximal path cut at every vertex where the set
+ * does not continue in exactly one way (degree ≠ 2 within the set); its half-edges are directed along it.
+ *   - An open run starts at its end with the lower lattice position (y, then x).
+ *   - A loop hanging off a branch vertex starts at that vertex, its first step to the smaller (y, then x) of its two
+ *     neighbours.
+ *   - A ring (every vertex continuing in exactly one way) starts at its lowest-leftmost vertex and runs
+ *     counter-clockwise (a collinear corner there, which only a degenerate ring has: toward the smaller neighbour).
+ *   - The runs are ordered by their first two vertices, by lattice position.
+ * A pair listed twice counts once. Slots only pick which run is walked first, so the output depends on lattice
+ * positions alone. `pairsIn` are the edge pairs (h >> 1) of live edges.
+ */
+export function edgeRuns(p: Plat, pairsIn: readonly number[]): HalfEdgeId[][] {
   const pairs = [...pairsIn].sort((a, b) => a - b).filter((e, i, a) => i === 0 || a[i - 1] !== e);
   const origin = p.halfEdges.origin;
   // Every endpoint with its pair, sorted by vertex: the edges of the set at each vertex.
@@ -202,7 +220,12 @@ export function resolve(p: Plat, ref: FaceRef | ChainRef | EdgeSetRef | VertexRe
   return { ...s, view: 'edges', runs: edgeRuns(p, elements) };
 }
 
-/** The vertex at a lattice point, or −1 (§3.10: one vertex per lattice point). A scan at M0-a-02; the façade may route it through `pointLocate` (M0-a-03). */
+/**
+ * The vertex at a lattice point, or −1 (§3.10: one vertex per lattice point): a scan of the live vertex slots, O(n). It
+ * is the no-index path only (C-0146 (6)): the arena's own `signature` of a lattice point reads it, and the façade's
+ * `signature` reads it on an arena with no spatial index attached; the façade reads an indexed arena through
+ * `pointLocate` (M0-a-03, M0-a-16).
+ */
 export function vertexAt(p: Plat, at: LatticePoint): VertexId {
   const t = p.vertices;
   for (let v = 0; v < p.slots.vertex.top; v++) {
