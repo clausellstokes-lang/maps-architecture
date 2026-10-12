@@ -15,7 +15,7 @@ import type { Destination, GateSite } from '@plat/model';
 import { workLimitOf, loadWorkLimits } from '@plat/tables';
 import { fieldT, stageThreshold, type FieldOptions } from './field.js';
 import { gateCount, gatePicks, gatesOnBoundary } from './gates.js';
-import { bearingCdeg, quot } from './geom.js';
+import { bearingCdeg, HA_CM2, quot } from './geom.js';
 import { buildLattice, siteCosts } from './lattice.js';
 import { levelSet } from './levelset.js';
 import { plaza as drawPlaza } from './plaza.js';
@@ -35,9 +35,6 @@ export interface SliceOptions {
 
 /** F-WALL's re-draw cap (§4.2 S3 (7): "≤ 3 attempts"). */
 export const GATE_REDRAWS = 3;
-
-/** One hectare in cm². */
-const HA_CM2 = 100_000_000;
 
 /** The stage-1 field, its threshold, level set and gates over `routes`. */
 function boundaryOf(lattice: Lattice, routes: GateRoute[], a1: number, areaCm2: number, pull: FieldOptions['pull']): { field: ReturnType<typeof fieldT>; threshold: Threshold; set: LevelSet; gates: (Gate | null)[] } {

@@ -101,6 +101,33 @@ describe('gates on the boundary (§4.2 S3 (7))', () => {
     expect(s.gateSites.map((g) => g.bearingCdeg)).toEqual([4_500, 22_500]);
   });
 
+  it("a requested bearing is measured from the pick: the route ends at the frame on the pick's ray, not the centre's", () => {
+    const s = sliceOf(1);
+    const L = s.lattice;
+    const tree = plazaTree(L);
+    const c = s.site.centre;
+    // A node 1.5 km east and north of the nucleus, asked to leave due south: its ray meets the south side 1.5 km east
+    // of the centre's.
+    let v = -1;
+    let best = Infinity;
+    L.points.forEach((p, i) => {
+      const d = (p.x - c.x - 150_000) * (p.x - c.x - 150_000) + (p.y - c.y - 150_000) * (p.y - c.y - 150_000);
+      if (tree.dist[i] < Infinity && L.rim[i] === 0 && d < best) {
+        best = d;
+        v = i;
+      }
+    });
+    const at = L.points[v];
+    const solved = gateRoutes(tree, [{ ordinal: 0, node: v, at, ranked: [v], forced: false, requestedBearingCdeg: 18_000 }]);
+    expect(solved.routes.length).toBe(1);
+    const r = solved.routes[0];
+    const end = L.points[r.nodes[r.nodes.length - 1]];
+    expect(L.rim[r.nodes[r.nodes.length - 1]]).toBe(1);
+    expect(Math.abs(end.x - at.x)).toBeLessThanOrEqual(2 * L.spacingCm);
+    expect(end.y).toBeLessThan(at.y);
+    expect(r.bearingCdeg).toBe(18_000);
+  });
+
   it('gatesOnBoundary refuses a level set at another t, and gives null for a route that never leaves', () => {
     const s = sliceOf(1);
     expect(() => gatesOnBoundary(s.routes, s.threshold.t + 1, s.levelSet)).toThrow(RangeError);
@@ -205,6 +232,18 @@ describe('gate routes (§4.2 S3 (5))', () => {
         if (held.ok) expect(r.cost - tree.dist[v]).toBeCloseTo(held.value.cost, 3);
         // Both searches are charged.
         expect(solved.charged).toBe(r.charged);
+        // route.nodes counts every node each search labels (C-0085), the first search's and the re-solve's, under the
+        // heuristic minCostPerCm × the straight distance to the rim node.
+        const t = L.points[end];
+        let labelled = 0;
+        const h = (u: number): number => {
+          labelled += 1;
+          const q = L.points[u];
+          return L.minCostPerCm * Math.sqrt((q.x - t.x) * (q.x - t.x) + (q.y - t.y) * (q.y - t.y));
+        };
+        astar(L.graph, v, [end], h);
+        astar(without(new Set(inward.slice(0, -1))), v, [end], h);
+        expect(r.charged).toBe(labelled);
       }
       expect(found.length).toBeGreaterThan(0);
     });

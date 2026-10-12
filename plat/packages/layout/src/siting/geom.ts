@@ -1,7 +1,9 @@
-// Plane helpers of the S3 slice (M0-c-01): the checked quotient, compass bearings, angular gaps, point-in-ring and
-// segment tests on values in cm. Every real function other than + − × ÷ and √ goes through the kernel's dmath (§6.5
-// (2)); every division by a variable through `ratio` (§3.2 (8), C-0044). Bearings follow M0-e-01's convention:
-// compass centidegrees clockwise from north (+y), the direction (sin θ, cos θ), in [0, 36 000).
+// Plane helpers of the S3 slice (M0-c-01), the package's one home of exact plane geometry: the checked quotient,
+// compass bearings, angular gaps, point-in-ring and segment tests and distances on values in cm, and the shared
+// constants (π, centidegrees per radian, cm² per hectare). The package's other folders import them by path; the siting
+// index lists five of them. Every real function other than + − × ÷ and √ goes through the kernel's dmath (§6.5 (2));
+// every division by a variable through `ratio` (§3.2 (8), C-0044). Bearings follow M0-e-01's convention: compass
+// centidegrees clockwise from north (+y), the direction (sin θ, cos θ), in [0, 36 000).
 import { dmath, orient2d, ratio, snap, type LatticePoint, type RatioKind } from '@plat/kernel';
 
 /** A point in cm (values, not arena slots). */
@@ -14,7 +16,10 @@ export interface XY {
 export const PI = 3.141592653589793;
 
 /** Centidegrees per radian (18 000 ÷ π). */
-const CDEG_PER_RAD = 5729.5779513082325;
+export const CDEG_PER_RAD = 5729.5779513082325;
+
+/** One hectare in cm². */
+export const HA_CM2 = 100_000_000;
 
 /** n ÷ d through `ratio`; a degenerate denominator is a programming error of the caller here (RangeError). */
 export function quot(n: number, d: number, kind: RatioKind, what: string): number {
@@ -142,8 +147,10 @@ export function ringIsSimple(ring: readonly XY[]): boolean {
   return true;
 }
 
-/** The distance from p to the segment ab. */
-export function distToSegment(p: XY, a: XY, b: XY): number {
+/**
+ * The squared distance from p to the segment ab: the foot clamped to the segment (a degenerate ab is its point a).
+ */
+export function distToSegment2(p: XY, a: XY, b: XY): number {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   const len2 = dx * dx + dy * dy;
@@ -152,5 +159,10 @@ export function distToSegment(p: XY, a: XY, b: XY): number {
   if (t > 1) t = 1;
   const fx = a.x + t * dx - p.x;
   const fy = a.y + t * dy - p.y;
-  return Math.sqrt(fx * fx + fy * fy);
+  return fx * fx + fy * fy;
+}
+
+/** The distance from p to the segment ab: √ of `distToSegment2`, the same double as the one-step form. */
+export function distToSegment(p: XY, a: XY, b: XY): number {
+  return Math.sqrt(distToSegment2(p, a, b));
 }

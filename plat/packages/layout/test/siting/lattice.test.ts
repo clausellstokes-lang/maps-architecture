@@ -2,9 +2,11 @@
 // jitter from the route stream; edge cost = length × (1 + k_slope · slope²) × penalties; water impassable except
 // along a crossing site's deck segment; a reservation impassable inside and reached at its attach points.
 import { CONCERNS, dijkstraTree, type LatticePoint } from '@plat/kernel';
+import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { buildLattice, edgeCost, insideRing, routeGraph, siteCosts, type Costs, type Lattice, type WaterPlan } from '../../src/index.js';
-import { distToSegment, segmentMeetsRing } from '../../src/siting/geom.js';
+import { CDEG_PER_RAD, distToSegment, distToSegment2, HA_CM2, PI, segmentMeetsRing, type XY } from '../../src/siting/geom.js';
+import { boxOf, COS30 } from '../../src/siting/lattice.js';
 import { terrainSampler } from '@plat/site';
 import { P, sliceOf, smallSite } from './support.js';
 
@@ -246,5 +248,67 @@ describe("the lattice's water rule (C-0076)", () => {
     const dry = buildLattice(site, siteCosts(site));
     const t2 = dijkstraTree(dry.graph, west);
     for (let i = 0; i < dry.points.length; i += 1) if (dry.points[i].x > 2000) expect(t2.dist[i]).toBe(Infinity);
+  });
+});
+
+describe('the segment distance (geom.ts distToSegment, distToSegment2)', () => {
+  /** The one-step form written out: the foot clamped to ab (a degenerate ab is its point a), its squared length. */
+  const oneStep2 = (p: XY, a: XY, b: XY): number => {
+    const dx = b.x - a.x;
+    const dy = b.y - a.y;
+    const len2 = dx * dx + dy * dy;
+    let t = len2 === 0 ? 0 : ((p.x - a.x) * dx + (p.y - a.y) * dy) / len2;
+    if (t < 0) t = 0;
+    if (t > 1) t = 1;
+    const fx = a.x + t * dx - p.x;
+    const fy = a.y + t * dy - p.y;
+    return fx * fx + fy * fy;
+  };
+  /** Bit-for-bit: the squared form equals the one-step square, and the distance is √ of it (Object.is). */
+  const same = (p: XY, a: XY, b: XY): boolean => {
+    const d2 = oneStep2(p, a, b);
+    return Object.is(distToSegment2(p, a, b), d2) && Object.is(distToSegment(p, a, b), Math.sqrt(d2)) && Object.is(distToSegment(p, a, b), Math.sqrt(distToSegment2(p, a, b)));
+  };
+
+  it("equals √ of the squared form bit for bit on the folder's fixtures: every lattice point against the deck and the plaza's sides", () => {
+    const { L, water } = riverSite(1);
+    const deck = water.decks[0];
+    const plaza = sliceOf(1).plaza.ring;
+    let checked = 0;
+    for (let i = 0; i < L.points.length; i += 1) {
+      const p = L.points[i];
+      expect(same(p, deck.a, deck.b)).toBe(true);
+      expect(same(p, deck.a, deck.a)).toBe(true);
+      const a = plaza[i % plaza.length];
+      const b = plaza[(i + 1) % plaza.length];
+      expect(same(p, a, b)).toBe(true);
+      checked += 1;
+    }
+    expect(checked).toBeGreaterThan(1000);
+  });
+
+  it('equals √ of the squared form bit for bit on a seeded sample of lattice coordinates (degenerate segments included)', () => {
+    const c = fc.integer({ min: -2_000_000, max: 2_000_000 });
+    const pt = fc.record({ x: c, y: c });
+    fc.assert(
+      fc.property(pt, pt, pt, fc.boolean(), (p, a, b, degenerate) => {
+        const q = degenerate ? a : b;
+        expect(same(p, a, q)).toBe(true);
+        expect(distToSegment2(p, a, q)).toBeGreaterThanOrEqual(0);
+      }),
+    );
+  });
+});
+
+describe("the shared constants and a ring's box (geom.ts, lattice.ts)", () => {
+  it('CDEG_PER_RAD is 18 000 ÷ π, HA_CM2 one hectare in cm², COS30 cos 30°, each the one double', () => {
+    expect(Object.is(CDEG_PER_RAD, 18_000 / PI)).toBe(true);
+    expect(HA_CM2).toBe(100 * 100 * 100 * 100);
+    expect(Object.is(COS30, Math.cos(Math.PI / 6))).toBe(true);
+  });
+
+  it('boxOf gives [minX, minY, maxX, maxY] of a ring', () => {
+    expect(boxOf([P(1, 5), P(3, -2), P(-4, 7)])).toEqual([-4, -2, 3, 7]);
+    expect(boxOf([P(-9, 2), P(6, 40), P(0, -30)])).toEqual([-9, -30, 6, 40]);
   });
 });

@@ -6,7 +6,7 @@
 // radius jitter; the polygon is scaled about the nucleus to the drawn area and snapped (§3.2 (7)).
 import { dmath, type LatticePoint, type Stream } from '@plat/kernel';
 import type { BaseRung } from '@plat/tables';
-import { area2Of, compactnessOf, latticeAt, PI, quot, type XY } from './geom.js';
+import { area2Of, compactnessOf, HA_CM2, latticeAt, PI, quot, type XY } from './geom.js';
 import type { Plaza } from './types.js';
 
 /**
@@ -61,7 +61,7 @@ export function plaza(centre: LatticePoint, stream: Stream, opts: PlazaOptions =
     raw.push({ x: r * dmath.cos(a), y: r * dmath.sin(a) });
   }
   const unit = Math.abs(area2Of(raw)) * 0.5;
-  const scale = Math.sqrt(quot(areaHa * 100_000_000, unit, 'count', 'plaza scale'));
+  const scale = Math.sqrt(quot(areaHa * HA_CM2, unit, 'count', 'plaza scale'));
   const ring = raw.map((p) => latticeAt(centre.x + p.x * scale, centre.y + p.y * scale));
   return { ring, areaCm2: Math.abs(area2Of(ring)) * 0.5, compactness: compactnessOf(ring), vertices: n };
 }

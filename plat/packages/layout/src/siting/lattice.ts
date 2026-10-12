@@ -11,7 +11,7 @@ import { distToSegment, insideRing, quot, segmentMeetsRing, type XY } from './ge
 import type { Costs, Lattice, PlannedReservation, Site } from './types.js';
 
 /** cos 30°: a deck edge runs within 30° of its deck's direction (C-0201 (4)). */
-const COS30 = 0.8660254037844387;
+export const COS30 = 0.8660254037844387;
 
 /** √3 ÷ 2: a triangular lattice node's cell is s² · √3 ÷ 2. */
 const HALF_SQRT3 = 0.8660254037844386;
@@ -45,7 +45,7 @@ function alongDeck(costs: Costs, a: XY, b: XY, spacingCm: number): boolean {
 }
 
 /** The axis-aligned box of a ring, for a quick reject. */
-function boxOf(ring: readonly XY[]): [number, number, number, number] {
+export function boxOf(ring: readonly XY[]): [number, number, number, number] {
   let x0 = Infinity;
   let y0 = Infinity;
   let x1 = -Infinity;
