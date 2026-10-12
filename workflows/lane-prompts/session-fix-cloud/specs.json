@@ -991,6 +991,95 @@
      "required_change": "the builder keeps the before-values in a mirror of the tree as it was and reports the comparison in its notes and choices row; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
     }
    ]
+  },
+  {
+   "id": "M0-a-01",
+   "from": 2,
+   "round": "C2",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "§1.12 S-1 (the one direction half-plane function) and G-1 (the num/ homes of lp, isLatticeCoord, distinctRing) — the num/exact.ts HALF of R13, which R13's five rounds (M0-a-10, a-11, a-12, a-16, d-04's kernel half) and R10's warp copy of S-1 import from; §2 'Comments to add' (a) extended to the new functions; §3.5's test/num pins"
+   },
+   "session": "A second, SMALL round of R1 (J298, the session): J270 (b) rules that a round adds exports inside its owns only and leaves every file outside them byte-identical, so a function several folders will share must have its home landed BEFORE the rounds that replace their copies — R13's G-1 and S-1 name num/exact.ts as that home, and exact.ts (R1, 10fb7e19) does not hold these four names yet. Inside M0-a-01's owns (src/num/, src/types/, src/adapters/robust-predicates.ts, test/num/, test/types/) and nowhere else: (1) S-1: exact.ts gains `halfPlaneOf(x: number, y: number): number` — the half of the direction circle a non-zero integer vector lies in, [0°, 180°) is 0 and [180°, 360°) is 1, body `y > 0 || (y === 0 && x > 0) ? 0 : 1`, the one rule the three copies spell today: skeleton/roof.ts:61 `half`, skeleton/engine.ts:210 `half` and warp/validate.ts:106's lambda `half` (read all three; they are the same expression; (0, 0) gives 1 in each — state it in the doc comment; no caller changes in this round — the copies are replaced by R13's a-11 round and R10's warp round, and two copies coexist until then, J270 (b)); (2) G-1: exact.ts gains `lp(x, y)`, `isLatticeCoord(v)` and `distinctRing(ring)` with bodies identical to geom/common.ts:65–67, :47–49 and :88–97 (read them; isLatticeCoord reads `LATTICE.rangeCm` from num/lattice.ts — exact.ts imports './lattice.js', never anything under geom/: num/ stays the leaf; the geom copies stay until R13's a-10 round makes them re-exports); (3) the exact.ts header's EXACTNESS CONTRACT paragraph gains one sentence each for the half-plane rule (integer inputs; the comparisons are exact) and the lattice-coordinate bound (an integer with |v| < 2²³, the snap invariant); (4) test/num/ pins: halfPlaneOf on the eight compass directions, both axes, the origin and a seeded sample of 10 000 integer vectors against the rule written out in the test (an oracle, not an import of skeleton or warp); lp, isLatticeCoord and distinctRing equal to geom/common.ts's on fixtures and a seeded sample (the test may import geom/common.js for the oracle; src never does); (5) exports from the file only — num/index.ts, the barrel and every folder index unchanged (J263 Q1: the public API is frozen; API.md Appendix B's 669 names stay); (6) NO-SHIFT by construction: no existing file calls the new functions, so every digest, golden, register JSON, refusal code and message text is identical before and after — the builder proves it the cheap way (the emitted JS with comments removed of every kernel file except exact.ts byte-identical; exact.ts's existing functions byte-identical; the exported names of every index identical) and the closing checker re-proves it with its own before-image; the kernel's whole test set green. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J276's N-c2-4 class (a replaced ratio must be shown identical — none is replaced here).",
+   "lines": [
+    {
+     "line": "S-1 (num/ half): exact.ts exports halfPlaneOf(x, y) — `y > 0 || (y === 0 && x > 0) ? 0 : 1`, the rule of skeleton/roof.ts:61, skeleton/engine.ts:210 and warp/validate.ts:106; doc comment states the two halves and the (0, 0) → 1 reading; no caller changed in this round",
+     "evidence": "kernel-plan.md §1.12 S-1; the three bodies read in the tree",
+     "required_change": "one function, exported from the file (not from any index); a pin on the eight compass directions, the axes, the origin and a 10 000-vector seeded sample against the rule written in the test"
+    },
+    {
+     "line": "G-1 (num/ half): exact.ts exports lp, isLatticeCoord and distinctRing with bodies identical to geom/common.ts:65–67, :47–49 and :88–97; isLatticeCoord reads LATTICE.rangeCm from './lattice.js'; exact.ts imports nothing under geom/",
+     "evidence": "kernel-plan.md §1.12 G-1; geom/common.ts read in the tree",
+     "required_change": "three functions exported from the file only; pins equal to geom's on fixtures and a seeded sample (the test imports geom/common.js as the oracle)"
+    },
+    {
+     "line": "§2 'Comments to add' (a): the exact.ts header's EXACTNESS CONTRACT names the half-plane rule and the lattice-coordinate bound; no other comment changes",
+     "evidence": "kernel-plan.md §2 (comments to add); exact.ts:1–14",
+     "required_change": "the paragraph extended; the closing checker reads it against the code"
+    },
+    {
+     "line": "API frozen (J263 Q1): num/index.ts, src/index.ts and every folder index byte-identical; API.md Appendix B's names unchanged",
+     "evidence": "J263 Q1; J270 (b)",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): every kernel test green; the emitted JS with comments removed byte-identical for every kernel source except num/exact.ts, and exact.ts's existing functions byte-identical; every digest, golden, register JSON, refusal code and pinned message text identical before and after; refusal counts of the registered families before = after",
+     "evidence": "J260 (3); J264 (5)",
+     "required_change": "the builder's mirror comparison in its notes and choices row; the closing checker's own before-image and its own comparison"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-13",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "W-1 … W-6 (§1.9, round R10), §1.12 S-1's warp copy (conditional on M0-a-01 c2 having landed on the tree), §2's general rule and the module-index comment rule for src/warp/index.ts, §3.4's T-warp-new-1 pin"
+   },
+   "session": "R10 depends on R1 (num/exact.ts, 10fb7e19) and R2 (M0-a-04 c1, landed: insert/placement.ts exports nearestLatticePoint(x, y) and the candidate generator placementCandidates — named so by C-0321 (3) because tools/lint/kernel-boundary.mjs refuses the town noun `band` in a kernel identifier; the plan's `bandCandidates` in §1.1 I-3 and §1.9 W-4 is that function, M0-a-04 check note N-c2-2). Inside M0-a-13's owns (src/warp/, test/warp/) and nowhere else: W-1 validate.ts:19–… `closerThan` becomes `export { segmentCloserThan as closerThan } from '../num/exact.js'` (validate.test.ts:7 keeps importing closerThan from validate.js; the same strictness — a point exactly r away is clear — pinned by its four assertions at :15–18); W-2 the constants spelt as literals read their one home: warp.ts:47 `ATTRACT = 26` → `LATTICE.attractCm` and validate.ts:15 `MIN_EDGE = 25` → `LATTICE.minEdgeCm` (num/index.ts's LATTICE, as placement.ts:41–42 does), warp.ts:49 and validate.ts:266 `HOT_PIXEL_SQ` → placement.ts's exported HOT_PIXEL_SQ imported by path (the same product HOT_PIXEL_CM²), view.ts:12 `BOX_RANGE` → num/exact.ts's BOX_RANGE; padBox stays in view.ts (it clamps to BOX_RANGE); every derived constant (ATTRACT_SQ, MIN_EDGE_SQ) keeps its value; W-3 warp.ts:64 `nearestLattice` becomes `export const nearestLattice = nearestLatticePoint` imported by path from '../insert/placement.js' (the public name kept through warp/index.ts; its doc comment kept) — T-warp-new-1: a pin that nearestLattice ≡ the placement's nearest-of-four on the four tie classes (500.5, 0), (500, 0.5), (500.5, 0.5) and a negative (x.5, y.5), and the closing checker re-kills M0-a-04's mutant K08 ('the last on a tie') through warp's door (placement.ts mutated in a mirror: fixtures.test.ts 'two re-seats whose rounded targets collide: the lower (y, x) is placed first' must go red); W-4 placeOnRoute (warp.ts:93–147) is DIFFED BEFORE anything is adopted (N-c2-2; J263 Q2): the builder enumerates, on every warp fixture, every bfuzz.test.ts found case and every invariants/fuzz.test.ts warp step, both the candidate sequence placeOnRoute charges today (nearest-of-four first, then the hot-pixel band points within ATTRACT of P nearest first, ties y then x, the tried set) and placementCandidates' sequence (nearest first, then the band within reach with that point left out, placePoint's (i) pre-filter) — the generator is adopted ONLY if the sequence (set and order) and the charge count per call are identical on every input, the qualifier (vertexProblem through view.set) staying warp's; one differing input (the reach radius, the strictly-between-the-ends test, the (i) pre-filter, the rounding of mid ± half) means REPORT in the notes and a choices row with the input, and change nothing but the comment — a route or work-count shift is out of pass A; W-5 held.ts:31 `check` STAYS (J270 (a)): comment only; W-6 validate.ts:9 and simplify.ts:13 import segmentsMeet from '../num/exact.js' (decimate.ts:16/74 re-exports exact's — the same function through either door); W-S1 (CONDITIONAL, as D-3's pattern in M0-d-04 c1): if num/exact.ts exports halfPlaneOf on the tree (M0-a-01 c2 landed), validate.ts:106's lambda `half` becomes it; if not, the lambda stays with a one-line comment naming the shared rule (S-1) — the builder's notes say which branch applied; §2: warp's narrating comments (grep src/warp for N-xx citations, 'before', 'retired', round numbers; the plan lists no warp lines, so few are expected) become design statements citing C-rows; src/warp/index.ts's comment loses the scaffold-provenance sentence and keeps the one-paragraph description and the item id; test comments lose round narration; every describe/it title kept; no test file moves (§3.4). Rulings in force: J263 Q1, Q2, Q6, Q8; J270 (a), (b); N-c2-2.",
+   "lines": [
+    {
+     "line": "W-1: validate.ts's closerThan ≡ num/exact.ts segmentCloserThan — the copy deleted, `export { segmentCloserThan as closerThan } from '../num/exact.js'` kept for validate.test.ts",
+     "evidence": "kernel-plan.md §1.9 W-1, §1.0 N-1",
+     "required_change": "validate.test.ts:15–18 green unchanged; vertexProblem's minEdge readings identical on the fixtures"
+    },
+    {
+     "line": "W-2: ATTRACT = 26 → LATTICE.attractCm, MIN_EDGE = 25 → LATTICE.minEdgeCm, the two HOT_PIXEL_SQ → placement.ts's HOT_PIXEL_SQ by path, view.ts's BOX_RANGE → exact.ts's; padBox stays",
+     "evidence": "kernel-plan.md §1.9 W-2, §1.0 N-4; placement.ts:38–42; num/lattice.ts",
+     "required_change": "every constant's value identical (a pin asserts the four values); warp/index.ts's exports unchanged"
+    },
+    {
+     "line": "W-3: nearestLattice = placement.ts's nearestLatticePoint (public name kept); T-warp-new-1 pins the four tie classes; M0-a-04's K08 re-killed through warp's door",
+     "evidence": "kernel-plan.md §1.9 W-3, §3.4 T-warp-new-1; M0-a-04 c1 check (K08)",
+     "required_change": "identical nearest-of-four with y-then-x ties; fixtures.test.ts's collision case and the §13.1 kerb case green"
+    },
+    {
+     "line": "W-4: placeOnRoute's enumeration diffed against placementCandidates on every fixture, bfuzz found case and invariants fuzz warp step — adopt the enumerator only on identical sequence and charge count; otherwise report and keep (comment only)",
+     "evidence": "kernel-plan.md §1.9 W-4; M0-a-04 check notes N-c1-2, N-c2-2; J263 Q2",
+     "required_change": "the builder's notes carry the diff (inputs, counts); insert.placementCandidates charges byte-identical; ORACLE fixtures.test.ts '§13.1: the kerb (0,0)–(1000,9) past (517,30) — re-seated at (517, 4) — 25.999 cm' and 'two re-seats whose rounded targets collide', bfuzz.test.ts (warp), invariants/fuzz.test.ts warp steps"
+    },
+    {
+     "line": "W-5 KEEP held.ts:31's check (J270 (a)); W-6 validate.ts:9 and simplify.ts:13 import segmentsMeet from '../num/exact.js'",
+     "evidence": "kernel-plan.md §1.9 W-5, W-6; J270 (a); decimate.ts:16/74",
+     "required_change": "no behaviour; the crossing readings identical on the fixtures"
+    },
+    {
+     "line": "W-S1 (conditional): validate.ts:106's half → exact.ts's halfPlaneOf if M0-a-01 c2 has landed on the tree, else kept with a one-line comment naming S-1",
+     "evidence": "kernel-plan.md §1.12 S-1; M0-a-01 c2's spec",
+     "required_change": "the notes say which branch applied; ascents()'s results identical on the rotation fixtures (rotationKept)"
+    },
+    {
+     "line": "Comment rewrite (§2): warp's narrating comments and src/warp/index.ts's provenance sentence rewritten as design statements citing C-rows; test comments lose round narration; every describe/it title kept; no test file moves (§3.4)",
+     "evidence": "kernel-plan.md §2 (rule and module-index paragraph), §3.4",
+     "required_change": "the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; warp's fixtures and goldens, the invariants fuzz warp steps, every level digest, refusal code and pinned message text byte-identical before and after; the exported names of warp/index.ts and of the barrel identical; M0-a-13's standing checker pins (the within-step order a function of positions alone — the slot-permutation test; held vertices never move on the fixtures) green; every earlier mutant of checks/M0-a-13.md still killed; the item's refusal count before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-13.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any warp fixture output or work count FAILS the round (J263 Q2)"
+    }
+   ]
   }
  ]
 }
