@@ -12,7 +12,7 @@ git fetch -q origin main 2>/dev/null
 if [ -z "$(git diff --cached --name-only)" ]; then
   logs=$(git status --porcelain -- docs/lane-events.log docs/lanes-snapshots.jsonl | awk '{print $2}')
   if [ -n "$logs" ]; then
-    git add -- $logs && git commit -q -m "autosave $ts: lane logs" -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" -- $logs && echo "autosave $ts: committed lane logs"
+    git add -- $logs && git commit -q -m "autosave $ts: lane logs" -m "Co-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>" -m "Claude-Session: https://claude.ai/code/session_0124F24PQ8U4cKJLhzAqtrWm" -- $logs && echo "autosave $ts: committed lane logs"
   fi
 fi
 ahead=$(git rev-list --count origin/main..HEAD 2>/dev/null || echo 0)
