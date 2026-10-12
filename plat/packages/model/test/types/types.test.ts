@@ -1,8 +1,9 @@
 // M0-m-01: @plat/model's types — the re-export test of C-0112 (every type of C-0112's kernel list is reachable from
 // @plat/model under its design name, a reflection test over the list through the TypeScript checker, and
-// model/src declares none of them a second time), the identity and lifecycle shapes of §2.8, the staged brand, and
-// types/ and records/ have no runtime export. Type assertions are checked by `corepack pnpm build` (tsc -b compiles
-// this file) and the file runs under vitest.
+// model/src declares none of them a second time), the identity and lifecycle shapes of §2.8, the staged brand,
+// types/ and records/ have no runtime export, and in types/, records/, schema/ and stage/ a type has one import path
+// (another folder's module through its index) and no comment narrates a round. Type assertions are checked by
+// `corepack pnpm build` (tsc -b compiles this file) and the file runs under vitest.
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import ts from 'typescript';
@@ -141,7 +142,7 @@ describe('the re-export of the kernel\'s types (C-0112)', () => {
     // the program compiles clean under the package's own options
     const diagnostics = ts.getPreEmitDiagnostics(program).map((d) => ts.flattenDiagnosticMessageText(d.messageText, '\n'));
     expect(diagnostics).toEqual([]);
-  });
+  }, 60_000); // a whole-program type check of model/src and the kernel source it reads: seconds, more on a loaded machine
 
   it('model/src declares none of them a second time (every type alias, interface, class and enum declaration in model/src)', () => {
     const names = new Set<string>([...C0112, ...PREREQUISITES]);
@@ -204,7 +205,7 @@ describe('identity and lifecycle (§2.8)', () => {
     }>();
     expectTypeOf<keyof Mdl.LifecycleEvent>().toEqualTypeOf<'id' | 'seq' | 'epoch' | 'kind' | 'cause' | 'detail'>();
     expectTypeOf<Mdl.LifecycleEvent['cause']>().toEqualTypeOf<Mdl.EditRef | Mdl.RuleRef | 'generation' | `convert:${string}`>();
-    // §2.8's event words, each pinned (the check's N-2)
+    // §2.8's event words, each pinned
     expectTypeOf<Mdl.LifecycleEvent['kind']>().toEqualTypeOf<
       | Mdl.Existence
       | 'lock'
@@ -268,4 +269,37 @@ describe('types/ and records/ have no runtime export', () => {
       expect(Reflect.ownKeys(ns).filter((k) => k !== Symbol.toStringTag)).toEqual([]);
     });
   }
+});
+
+describe('model/src/{types,records,schema,stage}: one import path per type, and comments that state the design', () => {
+  const FOLDERS = ['types', 'records', 'schema', 'stage'] as const;
+
+  it('a module of another folder is imported through that folder\'s index; a sibling by its file; a package by its name', () => {
+    const seen: string[] = [];
+    for (const folder of FOLDERS) {
+      for (const f of sourceFiles(`${MODEL_SRC}${folder}/`)) {
+        const sf = ts.createSourceFile(f, readFileSync(f, 'utf8'), ts.ScriptTarget.ES2022, true);
+        for (const st of sf.statements) {
+          if (!(ts.isImportDeclaration(st) || ts.isExportDeclaration(st)) || st.moduleSpecifier === undefined) continue;
+          const spec = (st.moduleSpecifier as ts.StringLiteral).text;
+          seen.push(spec);
+          const ok = spec.startsWith('../') ? /^\.\.\/(types|records|schema|stage)\/index\.js$/.test(spec) : spec.startsWith('./') || spec === '@plat/kernel';
+          expect(ok, `${f.slice(MODEL_SRC.length)} imports '${spec}'`).toBe(true);
+        }
+      }
+    }
+    expect(seen).toContain('../types/index.js');
+    expect(seen).toContain('../records/index.js');
+  });
+
+  it('no comment narrates a round, a check or a landing (the history is in docs/build/checks/)', () => {
+    const NARRATION = /not yet landed|when this item lands|fix round|\bround [a-z]?\d|the check's|the checker's|\bN-\d+\b|scaffold created/i;
+    for (const folder of FOLDERS) {
+      for (const f of sourceFiles(`${MODEL_SRC}${folder}/`)) {
+        readFileSync(f, 'utf8')
+          .split('\n')
+          .forEach((line, i) => expect(NARRATION.test(line), `${f.slice(MODEL_SRC.length)}:${i + 1}: ${line}`).toBe(false));
+      }
+    }
+  });
 });

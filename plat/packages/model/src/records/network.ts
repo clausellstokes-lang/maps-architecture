@@ -1,10 +1,18 @@
 // Ways and junctions (§2.4; M0-m-01): the skeleton S4 and S5 write at M0. Field names, order and types as §2.4
 // declares them; `Way.surface` (the way-surface rule at S10a's end, M2b) and `Way.slopeP95` (written by S9, M1) are
 // staged (schema/staged.ts). `NodeRef`, which §2.4 names without declaring, is read as C-0142 (4) states. Types only.
-import type { ChainProfile, ChainRef, Cdeg, Cm, FaceRef, Id, VertexRef } from '../types/index.js';
-import type { Lifecycle } from '../types/identity.js';
-import type { NameRef } from '../types/vocabulary.js';
-import type { RaisedWayRecord } from '../types/staged.js';
+import type {
+  ChainProfile,
+  ChainRef,
+  Cdeg,
+  Cm,
+  FaceRef,
+  Id,
+  Lifecycle,
+  NameRef,
+  RaisedWayRecord,
+  VertexRef,
+} from '../types/index.js';
 
 /** A way's class (§2.4); `aqueduct` is item 110 (b)'s water channel, never a traffic edge. */
 export type WayClass =

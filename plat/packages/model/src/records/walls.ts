@@ -2,8 +2,7 @@
 // faces of the strip stand-in, the gates, the thickness, the setbacks, the stage — and `Gate` the record of the trace's
 // gates and C-0087's basic water gate (way null, `banks` set); every other §2.7 field of the two is S7's or a later
 // milestone's (staged, schema/staged.ts). `Bridge` is declared whole (S1's sites, S4's built spans). Types only.
-import type { ChainRef, Cm, FaceRef, Id, VertexRef } from '../types/index.js';
-import type { Lifecycle } from '../types/identity.js';
+import type { ChainRef, Cm, FaceRef, Id, Lifecycle, VertexRef } from '../types/index.js';
 
 /** An enceinte (§2.7), minimal at M0 (C-0033): S7's band, towers and gatehouses are M1's. */
 export interface Enceinte {

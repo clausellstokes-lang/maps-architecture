@@ -3,17 +3,29 @@
 // @plat/model so that a stage below @plat/layout (S1 in @plat/site) can be one (C-0003); the registry, the ordering
 // and the runner stay in @plat/layout. Types only.
 //
-// StageEnv (C-0142 (5)): §14's StageContext and Stage name types that live where @plat/model cannot import them — the
-// test kit's and the runner's above it (TableView and RungProfile in @plat/tables; the report sink and the model in
-// @plat/layout), the kernel's not yet landed when this item lands (Plat, M0-a-02; Stream, M0-d-01; the Kernel façade,
-// M0-a-16) and the document (§2.9, M1). Each is a slot of one environment parameter, `unknown` by default, which a
-// package that has the types binds once (`interface BaseEnv extends StageEnv { plat: Plat; … }`).
-import type { Handle, Id, Invariant, Level, PlatKey, Polygon, PointCm, Cdeg, ConcernId, StageId, StreamOpts } from '../types/index.js';
-import type { EditId } from '../types/identity.js';
-import type { EntityKind, Rung } from '../types/vocabulary.js';
-import type { Bridge } from '../records/walls.js';
-import type { WaterBody } from '../records/site.js';
+// StageEnv (C-0142 (5)): §14's StageContext and Stage name types that @plat/model does not declare — the kernel's Plat,
+// Stream and Kernel façade, @plat/tables' TableView and RungProfile (above @plat/model in §14's dependency order),
+// @plat/layout's report sink and model view, and the document (§2.9, M1). Each is a slot of one environment parameter,
+// `unknown` by default, which the package that has the types binds once (@plat/layout's `interface PipelineEnv extends
+// StageEnv { plat: Plat; … }`; a stage package below it binds the slots its stages read).
 import type { KernelResult } from '@plat/kernel';
+import type { Bridge, WaterBody } from '../records/index.js';
+import type {
+  Cdeg,
+  ConcernId,
+  EditId,
+  EntityKind,
+  Handle,
+  Id,
+  Invariant,
+  Level,
+  PlatKey,
+  PointCm,
+  Polygon,
+  Rung,
+  StageId,
+  StreamOpts,
+} from '../types/index.js';
 
 /** A declared stage output (§4.12): 'terrain', 'water', 'roster', 'reservations', … — DATA_KEYS lists §4.12's. */
 export type DataKey = string;
@@ -46,8 +58,8 @@ export interface WorkLimitLaw {
 export type WorkLimits = WorkLimitLaw[];
 
 /**
- * One batch's scope (§3.3): a stage, a district, a block, an edit, or a transient arena's entity. §3.3's
- * KernelTx.batch reads it too; its move to the kernel's types, re-exported here, is C-0142 (8)'s open case for M0-a-06.
+ * One batch's scope (§3.3): a stage, a district, a block, an edit, or a transient arena's entity. The kernel declares
+ * the same union for §3.3's KernelTx.batch (kernel/src/tx, C-0112's pattern); test/stage/ holds the two equal.
  */
 export type BatchScope =
   | { kind: 'stage'; stage: StageId }
