@@ -23,6 +23,7 @@ import { segmentsMeet as invariantsMeet } from '../../src/invariants/common.js';
 import { insideRing as skeletonInsideRing, segmentsMeet as skeletonMeet } from '../../src/skeleton/prepare.js';
 import { div as kerbDiv } from '../../src/arr/kerb.js';
 import { LATTICE, orient2d, ratio } from '../../src/num/index.js';
+import { crossingStep } from '../../src/num/exact.js';
 import { HOT_PIXEL_CM } from '../../src/index/index.js';
 import type { Plat } from '../../src/arena/index.js';
 import type { LatticePoint } from '../../src/types/index.js';
@@ -144,7 +145,7 @@ function transpiled(sf: ts.SourceFile, node: ts.Node): string {
 }
 
 /** The bindings a private copy may read: the kernel's own exact primitives and the hot pixel's radius. */
-const BINDINGS: Readonly<Record<string, unknown>> = { orient2d, ratio, LATTICE, HOT_PIXEL_CM };
+const BINDINGS: Readonly<Record<string, unknown>> = { orient2d, ratio, LATTICE, HOT_PIXEL_CM, crossingStep };
 
 /**
  * The private function `name` of `file` (or the const arrow `name` declared inside function `within`), with the module's
