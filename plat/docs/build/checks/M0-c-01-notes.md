@@ -84,3 +84,113 @@ None of these notes fails the item; the blockers are in `checks/M0-c-01.md` (B-1
     be inside the box but outside the ring. The lattice would then cut a deck that the fixture still calls in-frame,
     which is the safe direction. *Suggested handling:* the fixture reads the ring when frames of other shapes arrive.
     *Milestone:* M4.
+
+## Consolidation round C1 (R1; lane `build/M0-c-01-consolidate-1`, 2026-10-12) — the builder's map and notes
+
+The round applies `consolidation/layout-plan.md` §1.0 (1.0.1 – 1.0.7), §2's rows for `siting/routes.ts` and
+`levelset.ts` and §3's `test/siting/` row inside the owns (`src/fixtures/`, `src/siting/`, `test/siting/`). No behaviour
+changes; no folder index or the barrel changes (`siting/index.ts`, `fixtures/index.ts`, `src/index.ts` byte-identical;
+runtime export names 375 / 35 / 2 identical before and after); the new names are file-level exports reached by path.
+
+**What changed, file by file** (no test file merged, renamed, split or moved; every `describe`/`it` title kept, five
+`it`s and two `describe`s added — 92 runtime tests before, 97 after):
+
+| old | new |
+|---|---|
+| `src/siting/geom.ts:17` private `CDEG_PER_RAD` | the same constant, exported file-level (1.0.1) |
+| `src/siting/slice.ts:40` private `HA_CM2`; `src/siting/plaza.ts:64` the literal `100_000_000` | `geom.ts` exports `HA_CM2 = 100_000_000` file-level; `slice.ts` and `plaza.ts` import it (the same double: `x * 100_000_000` ≡ `x * HA_CM2`) |
+| `geom.ts` `distToSegment` (one body ending `Math.sqrt(fx * fx + fy * fy)`) | `distToSegment2(p, a, b)` = that body without the `Math.sqrt`; `distToSegment` = `Math.sqrt(distToSegment2(p, a, b))` — the same operations in the same order |
+| `src/siting/lattice.ts:14` private `COS30`, `:48` private `boxOf` | exported file-level, bodies unchanged |
+| `src/siting/routes.ts:32` private `WorkLimitReached`, `:62` private `rimAtBearing` | exported file-level, bodies unchanged |
+| `routes.ts` `gateRoutes` `:96–97` and `rerouteOutside` `:181–182` (the rim list); `:116–123` and `:183–189` (the counting heuristic) | private `rimNodes(lattice)` and `outwardHeuristic(lattice, target, limit)` → `{ h, count }`, one header each (1.0.2); the graph (`lattice.graph`, `blockedGraph(lattice, blocked)` for C-0249's re-solve, `blockedGraph(lattice, selected)` for C-0201 (6)'s reroute) and the targets stay at each call site; the re-solve reuses the first search's object, so its count accumulates as the shared `let count` did |
+| `geom.ts` header | names the file as the package's exact-plane-geometry home and its shared constants |
+| `src/siting/levelset.ts:287` (the second `pinIndices` call, uncommented) | one comment line: the pins are located again on the simplified ring because the simplify drops vertices (1.0.3 — two inputs, kept) |
+| `test/siting/lattice.test.ts` | + describe 'the segment distance (geom.ts distToSegment, distToSegment2)' (2 its: the folder's fixtures, a fast-check sample at the PR size); + describe "the shared constants and a ring's box (geom.ts, lattice.ts)" (2 its) |
+| `test/siting/gates.test.ts` | + it "a requested bearing is measured from the pick: …"; the spur `it` ('a pick whose least-cost way … simple path') gains the route.nodes count pin (both searches' labelled nodes) |
+| `test/siting/fwall.test.ts` | the reroute `it` ('a route that re-enters the stage … roads leaving = N (C-0201 (6))') gains the route.nodes identity (settled + the routes' charges) |
+
+Kept as the plan says: `levelset.ts`'s two `pinIndices` calls (1.0.3); `growth/mainRoads.ts`'s copies of `rimAtBearing`
+and `boxOf` (1.0.4, 1.0.5: R11's); the two radians-per-centidegree doubles (1.0.6, J302 Q8) — siting's inline
+`PI / 18_000` is untouched; `HALF_SQRT3` (0.8660254037844386) beside `COS30` (…387) — two different doubles, not unified;
+`fixtures/flat.ts` untouched (1.0.7); every rule citation (C-0289, C-0249, C-0201 (6), C-0204, C-0085) kept. No message
+text changed.
+
+**Mutant-kill map** (by title; nothing moved). Round 1's K01 – K44 and fix round 1's X06/X07 → the same files under the
+same titles; S1's Y01 – Y12 → `lattice.test.ts` 'a deck with an end beyond the frame (N-54 (2), C-0289)', untouched.
+Re-killed in this round's mirror with the consolidated tests (`--bail=1`, the siting folder): K27 (no reroute: fwall
+'… roads leaving = N (C-0201 (6))'), K28 (reroute on the unblocked graph: same), K35 (tree not charged: gates 'charges
+route.nodes …'), K34 (the route's bearing from the frame centre: gates 'seed 1: the inward part …'), K18 (gates not
+pinned: levelset 'seed 1: the outline … pins the gates').
+
+**This round's targeted mutants** (22 in the mirror, one at a time, restored by copy and `cmp`): L1 (the second
+`pinIndices` call replaced by the first's result — the 1.0.3 "de-duplication") killed; H2 (no count), H3 (`>` for `>=`
+at the limit), H6 (the route's count not charged), H7 (the rim inset dropped from the heuristic) killed; H1 (the target
+branch of the heuristic ignored), H5 (the re-solve counted afresh), H8 (the reroute's count not added to the route's
+charge) killed by the two count pins above (survivors before them); G1 (the foot's x reassociated), G2 (no clamp at 1),
+G3 (no `Math.sqrt`), G4 (`HA_CM2` 99 · 10⁶) killed; G5 (`CDEG_PER_RAD` 5729.6) and X1 (`boxOf`'s maxX from y) killed by
+the constants/`boxOf` pins (survivors before them: a 4 · 10⁻⁶ scale moves a rounded bearing by ≤ 0.14 cdeg, and every
+folder box is square or taller than wide); K34a (`rimAtBearing` called from the frame centre) killed by the new bearing
+`it` (before it: a requested-bearing pick lies near the centre's ray at its bearing); X2 (`COS30` 0.5) killed. H4 (the
+rim targets reversed) survives as **equivalent**: under a heuristic the kernel's `astar` reads its targets into a
+bitmask (`kernel/src/geom/path.ts` `search`), so their order is never read.
+
+**NO-SHIFT evidence.** A probe (mirror only) over the pre-round sources and the consolidated ones — 446 lines: the flat
+fixture's slice at the registered seeds 1, 7, 20251005 and seeds 2 – 6, 8 – 10; `smallSite` seeds 1 – 40; 20 sites
+with four requested bearings; 20 at a small `routeNodesLimit`; 20 river sites with a deck (requested N 3); each slice's
+picks, routes, plaza, outline, selection, `T` bytes, threshold, gates, gate sites, destinations, report, pick outline
+and lattice (points, weights, rim, water), and `gateRoutes` again at limits 40 / 400 / 4 000; 20 000 seeded
+`distToSegment` values — **byte-identical** (sha256 4223543f…). The new count pins and the bearing `it` are green on the
+pre-round sources too.
+
+**Refusals** (J264 (5), N-58): 0 before, 0 after — no `s3Slice` threw over the 111 probe slices or the folder's
+registered seeds. The 28 `work_cut` routes, the same before and after, all come from the probe's deliberately small
+`routeNodesLimit` (F-WORK's designed rung under a caller's limit, C-0085: not a refusal of lawful input at the law's
+limit); at the law's limit every route is served.
+
+* **N-c1-1 The plan's count.** §3 counts `test/siting/` as 17 describe / 73 it by source; the runner reports 92 tests
+  before this round (the seed loops expand), 97 after.
+* **N-c1-2 H4 is equivalent** (above); no pin is needed.
+
+## Closing check of round C1 (lane `check/M0-c-01-consolidate-close-1`, 2026-10-12) — notes added; none fails the item
+
+The mutants named below are this checker's (verdict `checks/M0-c-01-c1.md`). Each survivor also survives the pre-round
+sources with the pre-round tests, so the round lost no kill. Each is also run on `test/siting`, `test/backbone` and
+`test/enceinte` at `PLAT_FUZZ_RUNS=1000` and survives there. None is in code whose behaviour the round changed: this
+checker's probe shows the consolidated functions byte-identical to the pre-round ones. They are test gaps for the
+hardening pass (N-45, J273, the plan's Q12), not fails.
+
+* **N-c1c-1 `boxOf`'s minimum y is not pinned for a ring wholly north of y = 0 (mutant X3).** X3 makes `boxOf` take
+  `y0` only from negative ys, `if (p.y < y0 && p.y < 0) y0 = p.y`. A water face or a reservation lying wholly at
+  y > 0 then gets a box whose `y0` is +∞. The quick reject would pass an edge that crosses that face. No test or
+  probe input has such a face: every synthetic band in `test/siting/` spans y = 0, and the new `boxOf` pin's two rings
+  both have a negative y. *Suggested handling:* add a `boxOf` case with a ring wholly in x > 0, y > 0. Add a water-rule
+  case (C-0076) whose band lies wholly north of the nucleus. R11 imports `boxOf` (1.0.5), so its oracle should also
+  include such a ring. *Milestone:* M4, or R11's round if that seat takes it.
+* **N-c1c-2 No input reaches the reroute's work-limit exit (mutant H13).** H13 lets `WorkLimitReached` escape
+  `rerouteOutside`, by catching `RangeError` in place of `WorkLimitReached`. No test or probe case reaches the reroute's
+  limit, including the probe's tilted sites at limits 200, 900 and 9 000, so H13 survives. Under H13 such a reroute
+  would throw from `s3Slice` instead of reporting `reroute` with `to: -1`. *Suggested handling:* add a `fwall.test.ts`
+  case with a tilted site and a `routeNodesLimit` that the first routes clear and the reroute's search reaches. It
+  asserts the `reroute` rung with `to: -1`, no throw, and the route kept. *Milestone:* M4.
+* **N-c1c-3 The reroute's outward stretch is not pinned as least-cost (mutant H14).** H14 aims the reroute's
+  heuristic at the old route's end, `outwardHeuristic(lattice, <old end>, limit)`. That heuristic is inadmissible for
+  the other rim targets. It changes 7 of this checker's 264 probe cases, the tilted sites with a `reroute` rung: their
+  outward stretches and charges differ. Every test stays green, because `fwall.test.ts` checks the reroute's structure
+  (it leaves once, ends on the rim, and the charge identity holds) and not its cost. The same mutation of the
+  pre-round inline heuristic survives the pre-round tests too. *Suggested handling:* add a pin that the rerouted
+  outward cost equals a Dijkstra on the selection-blocked graph to the rim set, from the node after the gate (C-0201
+  (6)). *Milestone:* M4.
+* **N-c1c-4 The reroute's first rim target is not distinguished (mutant H15, near-equivalent).** H15 drops the first
+  rim node from the reroute's targets. No probe case changes: the output is byte-identical. It would matter only when
+  the least-cost exit is that one node. *Suggested handling:* none beyond N-c1c-3's pin, which would cover it if a
+  fixture's exit were that node. *Milestone:* M4.
+* **N-c1c-5 The rim targets' order is equivalent (mutant H1).** Reversing `rimNodes`' list changes nothing.
+  `kernel/src/geom/path.ts` `search` reads the targets into a bitmask (`isTarget`). Its no-path fallback takes the
+  minimum over the targets, which does not depend on their order. The probe is byte-identical under H1. This agrees with
+  the builder's N-c1-2; no pin is needed. *Milestone:* none.
+* **N-c1c-6 `geom.ts`'s header states the role the plan gives it.** The header calls the file "the package's one home
+  of exact plane geometry". That is the role §1.0.1 assigns, but copies of the segment predicates and distances remain
+  in `backbone/`, `enceinte/`, `districts/` and `growth/` until rounds R7 – R11 replace them with path imports. The
+  claim is about the file's role and matches the plan, so it is not a stale comment. *Suggested handling:* R11's
+  closing check (the last unifying round) re-reads the header. If a planned copy stays, the header says "the shared
+  home". *Milestone:* M0 (R11).

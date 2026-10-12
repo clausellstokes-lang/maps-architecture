@@ -414,8 +414,9 @@
    "expected_min": 30,
    "output": "",
    "landed_key": "session/consolidation-site",
-   "status": "running",
-   "note": "Fable/high consolidation architect for @plat/site (J260; after e-03 s2 and x-02 s2 landed, J270)"
+   "status": "landed",
+   "note": "Fable/high consolidation architect for @plat/site (J260; after e-03 s2 and x-02 s2 landed, J270)",
+   "landed": "2026-10-12T05:32+00:00"
   },
   {
    "key": "session/consolidation-layout",

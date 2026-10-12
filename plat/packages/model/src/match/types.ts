@@ -1,5 +1,5 @@
 // The matching routine's types (item M0-d-05b; §6.3 *Carry-over*, *Anchors and hysteresis*, *The matching routine*;
-// §2.8's LifecycleEvent and Tombstone; C-0089's CarryMap). Readings: C-0188.
+// §2.8's LifecycleEvent and Tombstone; C-0089's CarryMap; C-0188).
 import type { Box, LineageHash } from '@plat/kernel';
 import type { EntityKind, Id, NameRef, NamingRecord, PointCm, PolygonCm } from '../types/index.js';
 

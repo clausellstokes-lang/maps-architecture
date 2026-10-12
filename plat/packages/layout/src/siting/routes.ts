@@ -9,7 +9,7 @@
 // inward part (an A → pick → A spur), the A* beyond the pick is solved again with the inward nodes before the pick
 // impassable, so the route still runs through the pick; with no such path the route is `unserved` (C-0249).
 import { astar, dijkstraTree, dmath } from '@plat/kernel';
-import { bearingCdeg, PI } from './geom.js';
+import { bearingCdeg, PI, type XY } from './geom.js';
 import type { GatePick, GateRoute, Lattice, PlazaTree, UnservedRoute } from './types.js';
 
 /** The plaza-rooted Dijkstra tree over the lattice from every attach node of the plaza (§4.2 S3 (5)). */
@@ -29,7 +29,7 @@ export interface RouteOptions {
 }
 
 /** A search stopped at the work limit (F-WORK): the A*'s heuristic throws it once the labelled count reaches the limit. */
-class WorkLimitReached extends Error {
+export class WorkLimitReached extends Error {
   constructor(readonly count: number) {
     super('route.nodes reached');
   }
@@ -59,7 +59,7 @@ function toFrame(lattice: Lattice, x: number, y: number): number {
 }
 
 /** The rim node nearest the point where the ray from (x, y) at the compass bearing meets the frame. */
-function rimAtBearing(lattice: Lattice, x: number, y: number, bearing: number): number {
+export function rimAtBearing(lattice: Lattice, x: number, y: number, bearing: number): number {
   const th = (9_000 - bearing) * (PI / 18_000);
   // Walk the ray in one-spacing steps until it leaves the frame.
   const f = lattice.frame;
@@ -85,6 +85,38 @@ function rimAtBearing(lattice: Lattice, x: number, y: number, bearing: number): 
   return best;
 }
 
+/** The frame's rim nodes in lattice order: the outward A*'s targets when no single rim node is requested. */
+function rimNodes(lattice: Lattice): number[] {
+  const rim: number[] = [];
+  for (let i = 0; i < lattice.points.length; i += 1) if (lattice.rim[i] === 1) rim.push(i);
+  return rim;
+}
+
+/** An outward A*'s heuristic and the count of the nodes it has labelled (route.nodes' charge, §5.1 (5), C-0085). */
+interface OutwardSearch {
+  readonly h: (v: number) => number;
+  count: number;
+}
+
+/**
+ * The outward A*'s heuristic: `minCostPerCm` × the straight distance from the node to `target` (the rim node at a
+ * requested bearing), or with no target to the rim band (the distance to the frame less `rimInsetCm`, never below 0).
+ * Every call counts one labelled node; at `limit` it throws WorkLimitReached with the count (F-WORK).
+ */
+function outwardHeuristic(lattice: Lattice, target: XY | null, limit: number): OutwardSearch {
+  const search: OutwardSearch = {
+    count: 0,
+    h: (v: number): number => {
+      search.count += 1;
+      if (search.count >= limit) throw new WorkLimitReached(search.count);
+      const p = lattice.points[v];
+      if (target !== null) return lattice.minCostPerCm * Math.sqrt((p.x - target.x) * (p.x - target.x) + (p.y - target.y) * (p.y - target.y));
+      return lattice.minCostPerCm * Math.max(0, toFrame(lattice, p.x, p.y) - lattice.rimInsetCm);
+    },
+  };
+  return search;
+}
+
 /**
  * §4.2 S3 (5)'s gate routes for `picks` over the plaza-rooted `tree`: each the tree path from its attach node to the
  * pick, then heap A* beyond the pick to the frame. Returns the solved routes in pick order and the unserved ones.
@@ -93,8 +125,7 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
   const lattice = tree.lattice;
   const limit = opts.nodeLimit ?? Infinity;
   const roots = lattice.attachNodes[opts.reservation ?? 0];
-  const rimNodes: number[] = [];
-  for (let i = 0; i < lattice.points.length; i += 1) if (lattice.rim[i] === 1) rimNodes.push(i);
+  const rim = rimNodes(lattice);
   const routes: GateRoute[] = [];
   const unserved: UnservedRoute[] = [];
   let charged = 0;
@@ -111,25 +142,17 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
     // Heap A* beyond the pick to the frame (to the rim node at the requested bearing when there is one).
     const req = pick.requestedBearingCdeg;
     const p0 = lattice.points[pick.node];
-    const targets = req === undefined ? rimNodes : [rimAtBearing(lattice, p0.x, p0.y, req)];
-    const tp = req === undefined ? null : lattice.points[targets[0]];
-    let count = 0;
-    const h = (v: number): number => {
-      count += 1;
-      if (count >= limit) throw new WorkLimitReached(count);
-      const p = lattice.points[v];
-      if (tp !== null) return lattice.minCostPerCm * Math.sqrt((p.x - tp.x) * (p.x - tp.x) + (p.y - tp.y) * (p.y - tp.y));
-      return lattice.minCostPerCm * Math.max(0, toFrame(lattice, p.x, p.y) - lattice.rimInsetCm);
-    };
+    const targets = req === undefined ? rim : [rimAtBearing(lattice, p0.x, p0.y, req)];
+    const search = outwardHeuristic(lattice, req === undefined ? null : lattice.points[targets[0]], limit);
     let out;
     try {
-      out = astar(lattice.graph, pick.node, targets, h);
+      out = astar(lattice.graph, pick.node, targets, search.h);
       // A spur at the pick (the outward path stepping back onto the inward part): solved again with the inward nodes
       // before the pick impassable, so the joined route is a simple path through the pick (C-0249).
       if (out.ok && revisits(inward, out.value.nodes)) {
         const blocked = new Uint8Array(lattice.points.length);
         for (let k = 0; k < inward.length - 1; k += 1) blocked[inward[k]] = 1;
-        out = astar(blockedGraph(lattice, blocked), pick.node, targets, h);
+        out = astar(blockedGraph(lattice, blocked), pick.node, targets, search.h);
       }
     } catch (e) {
       if (e instanceof WorkLimitReached) {
@@ -139,9 +162,9 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
       }
       throw e;
     }
-    charged += count;
+    charged += search.count;
     if (!out.ok) {
-      unserved.push({ ordinal: pick.ordinal, code: 'unserved', count, limit });
+      unserved.push({ ordinal: pick.ordinal, code: 'unserved', count: search.count, limit });
       continue;
     }
     const outward = out.value.nodes;
@@ -156,7 +179,7 @@ export function gateRoutes(tree: PlazaTree, picks: readonly GatePick[], opts: Ro
       pickAt: inward.length - 1,
       bearingCdeg: bearing,
       cost: tree.dist[pick.node] + out.value.cost,
-      charged: count,
+      charged: search.count,
     });
   }
   return { routes, unserved, charged };
@@ -178,18 +201,11 @@ export function rerouteOutside(
 ): { route: GateRoute; charged: number } | null {
   const g = lattice.graph;
   const from = route.nodes[gateIndex + 1];
-  const rimNodes: number[] = [];
-  for (let i = 0; i < lattice.points.length; i += 1) if (lattice.rim[i] === 1) rimNodes.push(i);
-  let count = 0;
-  const h = (v: number): number => {
-    count += 1;
-    if (count >= limit) throw new WorkLimitReached(count);
-    const p = lattice.points[v];
-    return lattice.minCostPerCm * Math.max(0, toFrame(lattice, p.x, p.y) - lattice.rimInsetCm);
-  };
+  const targets = rimNodes(lattice);
+  const search = outwardHeuristic(lattice, null, limit);
   let out;
   try {
-    out = astar(blockedGraph(lattice, selected), from, rimNodes, h);
+    out = astar(blockedGraph(lattice, selected), from, targets, search.h);
   } catch (e) {
     if (e instanceof WorkLimitReached) return null;
     throw e;
@@ -205,7 +221,7 @@ export function rerouteOutside(
     for (let d = 0; d < 6; d += 1) if (lattice.adjacency[6 * u + d] === v) cost += g.weights[lattice.slot[6 * u + d]];
   }
   return {
-    route: { ...route, nodes, pickAt: Math.min(route.pickAt, gateIndex), bearingCdeg: bearingCdeg(end.x - gateAt.x, end.y - gateAt.y), cost, charged: route.charged + count },
-    charged: count,
+    route: { ...route, nodes, pickAt: Math.min(route.pickAt, gateIndex), bearingCdeg: bearingCdeg(end.x - gateAt.x, end.y - gateAt.y), cost, charged: route.charged + search.count },
+    charged: search.count,
   };
 }

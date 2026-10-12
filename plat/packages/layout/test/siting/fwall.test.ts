@@ -1,7 +1,7 @@
 // F-WALL's gate rungs by fixture (§4.2 S3 (7), §5.2; C-0085; M0-c-01): two routes reaching T = t₁ at one point
 // re-draw the later pick from its next candidate (≤ 3 attempts), then drop it and report.
 import { describe, expect, it } from 'vitest';
-import { angularGap, bearingCdeg, fieldT, flatFixture, GATE_REDRAWS, pickCandidates, s3Slice, type GatePick, type S3Slice } from '../../src/index.js';
+import { angularGap, bearingCdeg, fieldT, flatFixture, GATE_REDRAWS, pickCandidates, plazaTree, s3Slice, type GatePick, type S3Slice } from '../../src/index.js';
 import { smallSite } from './support.js';
 
 const SITE = smallSite(11);
@@ -141,6 +141,11 @@ describe("F-WALL's gate rungs (C-0085)", () => {
       leaving += 1;
     });
     expect(leaving).toBe(s.n);
+    // route.nodes (C-0085): a rerouted route's charge carries its re-solve's labelled nodes, so with no re-draw, drop
+    // or unserved route the report's count is the tree's settled nodes plus the routes' charges.
+    expect(s.report.gateRungs.every((r) => r.rung === 'reroute')).toBe(true);
+    expect(s.report.unserved).toEqual([]);
+    expect(s.report.work['route.nodes']).toBe(plazaTree(s.lattice).settled + s.routes.reduce((a, r) => a + r.charged, 0));
     // T is the field of the routes that stand.
     expect(Buffer.from(s.field.T.buffer).equals(Buffer.from(fieldT(s.lattice, s.routes, 1.3).T.buffer))).toBe(true);
   });

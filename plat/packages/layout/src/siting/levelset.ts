@@ -284,6 +284,7 @@ export function levelSet(field: Field, t: number, opts: LevelSetOptions = {}): L
     simplified = s.length > 1 && s[0].x === s[s.length - 1].x && s[0].y === s[s.length - 1].y ? s.slice(0, -1) : s;
     if (!keepsSides(simplified, lattice.points, g)) simplified = contour;
   }
+  // The pins located again on the simplified ring: the simplify drops vertices, so their indices there differ.
   const smooth = smoothOutline(simplified, pinIndices(simplified, opts.pins ?? []), lattice.points, g);
   const outline = smooth.outline;
   const passes = smooth.passes;
