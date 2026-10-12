@@ -20,10 +20,13 @@
 //      exponent p on cut.width), its class (a lane; a secondary in a walled regime past the lane length band), its Way
 //      record, a T-junction row at each spine end (splitThrough) and a `baseLane` portal where the spine bounds the
 //      district (portals.ts, C-0046); continuation across a lower-or-equal class only inside the district (step 10);
+//      at a vertex several way chains share, the portal, the gap and the continuation read every chain through it, as
+//      the stage-end row does (N-57 (1), C-0329: `spinePortals`, `portalSeamAt`, `portalGapBreach`, `continuationBounds`);
 //   6. recursion on both children (step 11) with their own lineage — the cell is the derivation unit of S8's faces,
 //      blocks and lanes (§6.3), each child the next creation index of the cell's run;
 //   7. a face that stops becomes a Block: the deep-interior rule (deepInterior.ts) writes depthClass, interior and reach,
-//      and a back lane or through alley is cut in the same batch as an L1 spine.
+//      and a back lane or through alley is cut in the same batch as an L1 spine; each of its L1 faces is recorded by a
+//      seed, the pole of the face's kerb component (`kerbSeed`; split or not, N-57 (3), C-0329).
 // F-WORK (C-0085): cut.recursionDepth, cut.kernelCalls and cut.candidates are counted against their laws over the
 // district's scope (§5.1 (5)); on reaching one the recursion stops at the depth reached and every face still open
 // stands as a block, reported `work_cut` with the count. levelledUnits returns [] and terracedEdges is true at M0
@@ -95,7 +98,7 @@ import {
 } from './ladder.js';
 import { cutCells, planCut, type CutCells, type CutPlan, type KerbFace, type KerbSpine, type PlanContext, type StartPlan, type FarPlan, type XY } from './planner.js';
 import { bearingCdeg } from '../siting/geom.js';
-import { chainRuns, kerbPortals, seamOfSpine, seamsOfSpine, spineSeam } from './portals.js';
+import { boundsDistrictAt, chainRuns, portalGap, portalGapBreach, portalWaysAt, seamOfSpine, seamsOfSpine, spinePortals } from './portals.js';
 import { canonicalRings, faceSides, rayHit, type FaceSides } from './sides.js';
 import { cutClass, drawWidthExponent, widthCells, widthOf, type CutClass, type WidthCells } from './width.js';
 
@@ -527,32 +530,59 @@ class Run {
     const rings1 = canonicalRings(faceRings(this.p, 1, face));
     const kr = kerb(this.o, face, spineWidthsOf(this.ctx.widths));
     if (!kr.ok) return { error: `${kr.code} ${kr.detail}` };
-    const outer = kr.value.filter((r) => area2(r) > 0);
-    if (outer.length === 0 || rings1.length === 0) return { kf: { rings: [], spines: [] }, rings1, spineIds: [], empty: true };
-    // The largest component (C-0237 (7)); ties by its canonical first vertex.
-    let pick = outer[0];
-    for (const r of outer) if (area2(r) > area2(pick)) pick = r;
-    const holes = kr.value.filter((r) => area2(r) < 0 && insideRing(pick, r[0]));
+    const picked = kerbComponent(kr.value);
+    if (picked === null || rings1.length === 0) return { kf: { rings: [], spines: [] }, rings1, spineIds: [], empty: true };
     const spines: KerbSpine[] = [];
     const spineIds: Id[] = [];
+    // The reach of a portal across a chain boundary (N-57 (1)(a)): its gap against the new lane the planner slides for
+    // (the lane band's top, as ladderOn's and the planner's default).
+    const newLane = this.wcells.bands.lane[1];
+    const reach = (laneWidthCm: number): number => portalGap(this.cells, laneWidthCm, newLane);
     for (const wayId of boundaryWays(this.p, face)) {
       const w = this.ctx.widths.get(wayId);
       if (w === undefined) continue;
       const runs = chainRuns(this.p, this.ctx.key, { role: 'way', entity: wayId });
-      // The gap reads every portal on the spine, whichever seam records it (C-0298).
-      const seam = spineSeam(this.seams, wayId);
       for (const run of runs) {
+        // The gap reads every portal on the spine, whichever seam records it (C-0298), and the portals of every seam
+        // chain through the run's end vertices, at the vertex (N-57 (1)(a), C-0329).
+        const sp = spinePortals(this.p, this.ctx.key, this.seams, wayId, run, this.portalAt, reach);
         spineIds.push(wayId);
         spines.push({
           points: run,
           halfWidthCm: w / 2,
-          bounding: seam !== undefined,
-          ...(seam === undefined ? {} : { portals: kerbPortals(this.p, this.ctx.key, seam, wayId, this.portalAt) }),
+          bounding: sp.bounding,
+          ...(sp.bounding ? { portals: sp.portals } : {}),
         });
       }
     }
-    return { kf: { rings: [pick, ...holes], spines }, rings1, spineIds, empty: false };
+    return { kf: { rings: picked, spines }, rings1, spineIds, empty: false };
   }
+}
+
+/**
+ * The component of a kerb S8 reads (C-0237 (7)): its largest outer ring (ties: the first in the kernel's canonical
+ * order) with the holes inside it; null when no ring has area. One definition for the face the ladder plans on and for
+ * the seed points a block records (N-57 (3)).
+ */
+function kerbComponent(rings: readonly (readonly LatticePoint[])[]): LatticePoint[][] | null {
+  const outer = rings.filter((r) => area2(r) > 0);
+  if (outer.length === 0) return null;
+  let pick = outer[0];
+  for (const r of outer) if (area2(r) > area2(pick)) pick = r;
+  const holes = rings.filter((r) => area2(r) < 0 && insideRing(pick, r[0]));
+  return [pick.slice(), ...holes.map((r) => r.slice())];
+}
+
+/**
+ * A block's seed in an L1 face (N-57 (3)): the pole of kerb(face)'s component (`kerbComponent`, the inscribed circle's
+ * centre, `seedOf`) — the definition of the unsplit block's seed, so a split child's seed lies in its kerb, never in a
+ * corridor; null when the kerb has no area or cannot be read (the child then records no seed).
+ */
+export function kerbSeed(o: Overlay, face: FaceId, widths: ReadonlyMap<Id, number>): LatticePoint | null {
+  const kr = kerb(o, face, spineWidthsOf(widths));
+  if (!kr.ok) return null;
+  const picked = kerbComponent(kr.value);
+  return picked === null ? null : seedOf(picked);
 }
 
 /** Is p inside the ring (even–odd)? */
@@ -689,6 +719,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
   const newJunctions: Junction[] = [];
   const armed: { j: Junction; before: Junction['kind'] }[] = [];
   let failed = false;
+  let failWhy = 'end-rows';
   for (let e = 0; e < 2 && !failed; e += 1) {
     const end = cand.ends[e];
     const v = ends[e];
@@ -707,18 +738,27 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
       added.push({ role: 'junction', entity: jn.id });
       newJunctions.push(jn.fresh);
     } else if (jn.armed !== null) armed.push(jn.armed);
-    if (spineWay !== null) {
-      const seam = portalSeam(run, spineWay, v);
-      if (seam !== undefined) {
-        const inner = cand.chain[e === 0 ? 1 : cand.chain.length - 2] ?? cand.chain[e];
-        const pt = portalAt(run, seam, spineWay, lane.id, cls, width, v, inner);
-        if (pt === null) {
-          failed = true;
-          break;
-        }
-        added.push({ role: 'portal', entity: pt.portal.id });
-        newPortals.push(pt);
+    // The portal (N-57 (1)(b), C-0329): under the first way through v — the planned spine first — whose chain is a seam's
+    // of the district, so an end on a vertex of a district-bounding chain is its portal whichever spine it was read on.
+    const rec = portalSeamAt(run.p, run.seams, run.district.id, lane.id, spineWay, v);
+    if (rec !== null) {
+      // The row read at the insertion: a portal inside another's gap (or on a vertex that carries one) takes the lane out
+      // again and the ladder goes on to its next candidate (N-57 (1); the stage-end row stays hard).
+      const pending = newPortals.map((x) => ({ seam: x.seam, at: x.at, widthCm: x.portal.widthCm }));
+      const breach = portalGapBreach(run.p, run.ctx.key, run.seams, rec.seam.id, v, width, run.cells, pending);
+      if (breach !== null) {
+        failed = true;
+        failWhy = `portal-${breach}`;
+        break;
       }
+      const inner = cand.chain[e === 0 ? 1 : cand.chain.length - 2] ?? cand.chain[e];
+      const pt = portalAt(run, rec.seam, rec.way, lane.id, cls, width, v, inner);
+      if (pt === null) {
+        failed = true;
+        break;
+      }
+      added.push({ role: 'portal', entity: pt.portal.id });
+      newPortals.push(pt);
     }
   }
   if (failed) {
@@ -730,7 +770,7 @@ function tryCandidate(run: Run, fv: FaceView, cand: Candidate, cell: number, fac
     const fine = takeOut(run, lane.id, added, mintedBefore);
     run.counters[cell] = countBefore;
     if (!fine) run.abandon(`a lane whose end rows failed could not be taken out again (face ${faceAddr})`);
-    return { ok: false, why: fine ? 'end-rows' : 'end-rows-undo', touched: true };
+    return { ok: false, why: fine ? failWhy : `${failWhy}-undo`, touched: true };
   }
   for (const j2 of newJunctions) run.junctions.push(j2);
   for (const pt of newPortals) {
@@ -825,22 +865,36 @@ function junctionAt(run: Run, v: VertexId, laneId: Id, spineWay: Id | null, cell
  * district (other districts' boundary run elsewhere along the way: no run of this district there, so no portal record;
  * the planner still reads the spine as bounding and its portals' gap).
  */
-function portalSeam(run: Run, spineWay: Id, v: VertexId): Seam | undefined {
-  const holding = seamsOfSpine(run.seams, spineWay);
+function portalSeam(p: Plat, seams: readonly Seam[], own: Id, spineWay: Id, v: VertexId): Seam | undefined {
+  const holding = seamsOfSpine(seams, spineWay);
   if (holding.length === 0) return undefined;
-  const own = run.district.id;
   const mine = holding.filter((s) => s.sides.includes(own));
   if (mine.length === 0) return undefined;
   if (mine.length === 1) return mine[0];
-  const at = point(run.p, v);
+  const at = point(p, v);
   for (const s of mine) {
     const other = s.sides[0] === own ? s.sides[1] : s.sides[0];
     if (other === null) continue;
-    for (const f of districtCells(run.p, other)) {
-      if (faceRings(run.p, 1, f).some((ring) => ring.some((q) => q.x === at.x && q.y === at.y))) return s;
+    for (const f of districtCells(p, other)) {
+      if (faceRings(p, 1, f).some((ring) => ring.some((q) => q.x === at.x && q.y === at.y))) return s;
     }
   }
   return mine[0];
+}
+
+/**
+ * The seam and the way a lane end's portal at vertex v is recorded under (N-57 (1)(b), C-0329): `portalSeam` over every
+ * way through v in `portalWaysAt`'s order — the planned end's spine first, then the others by id — the first of the
+ * district's seams found; null when no chain through v bounds the district (no portal). An end on a vertex of a
+ * district-bounding chain is that chain's portal whichever spine the planner read it on (the row reads every chain
+ * through the vertex).
+ */
+export function portalSeamAt(p: Plat, seams: readonly Seam[], district: Id, laneId: Id, spineWay: Id | null, v: VertexId): { seam: Seam; way: Id } | null {
+  for (const w of portalWaysAt(p, v, laneId, spineWay)) {
+    const seam = portalSeam(p, seams, district, w, v);
+    if (seam !== undefined) return { seam, way: w };
+  }
+  return null;
 }
 
 /** A baseLane portal at a lane end on a district-bounding spine (C-0046): the vertex's row and its record; null on failure. */
@@ -889,7 +943,7 @@ function continuationRefused(run: Run, fv: FaceView, cand: Candidate, cls: CutCl
       if (x !== null && y !== null) leaving.push({ x, y });
     }
     const why = continuationVerdict({
-      bounding: wayId !== null && seamOfSpine(run.seams, wayId) !== undefined,
+      bounding: continuationBounds(run.p, run.seams, run.district.id, wayId, near),
       spineClass: way?.class ?? 'secondary',
       cutClass: cls,
       arrival: end.arrival,
@@ -899,6 +953,15 @@ function continuationRefused(run: Run, fv: FaceView, cand: Candidate, cls: CutCl
     if (why !== null) return why;
   }
   return null;
+}
+
+/**
+ * Step 10's `bounding` at a continuation's junction (never across a district-boundary edge): the end's spine lies in a
+ * seam (C-0298's reading), or a chain through the junction vertex bounds the district — an end on a vertex of a
+ * bounding chain read on an interior spine crosses the boundary all the same (N-57 (1)(b), C-0329).
+ */
+export function continuationBounds(p: Plat, seams: readonly Seam[], district: Id, spineWay: Id | null, v: VertexId): boolean {
+  return (spineWay !== null && seamOfSpine(seams, spineWay) !== undefined) || boundsDistrictAt(p, seams, v, district);
 }
 
 /** Radians per centidegree (π ÷ 18 000). */
@@ -960,6 +1023,7 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
   }
   let interior = d.interior;
   const seeds: LatticePoint[] = [];
+  // The seed: the pole of the kerb's component the ladder read (`kerbComponent`; the definition `kerbSeed` shares).
   const s0 = seedOf(kerbRings);
   if (s0 !== null) seeds.push(s0);
   // A back lane or a through alley: its spine in the same batch (§4.6); refused, the block keeps a court (C-0237 (8)).
@@ -977,9 +1041,11 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
       if (!t.ok) why = t.why;
       if (t.ok && !t.slit) {
         cut = true;
+        // Each child's seed by the unsplit block's definition — the pole of kerb(child)'s component — so it lies in
+        // the child's kerb, never in a corridor; a child whose kerb has no area records none (N-57 (3), C-0329).
         seeds.length = 0;
         for (const c of t.children) {
-          const s = seedOf(canonicalRings(faceRings(run.p, 1, c)));
+          const s = kerbSeed(run.o, c, run.ctx.widths);
           if (s !== null) seeds.push(s);
         }
       }
