@@ -1818,7 +1818,7 @@
     {
      "line": "T-1: runsOfPairs = edgeRuns only after T-tx-new-1 (10⁴ pair sets; the old body kept in the test as the reference) holds; a difference is reported, not resolved",
      "evidence": "kernel-plan.md §1.3 T-1, §3.3 T-tx-new-1; J263 Q3",
-     "required_change": "the new test/tx/chains.test.ts; ORACLE arena/resolve.test.ts, tx/profiles.test.ts, removals.test.ts, clauses.test.ts '§3.4 Stretches', digest/levelDigest.test.ts, io/roundtrip.test.ts, restore.test.ts's N-47/B-1 properties"
+     "required_change": "the new test/tx/chains.test.ts; ORACLE arena/resolve.test.ts, tx/profiles.test.ts, removals.test.ts, clauses.test.ts '§3.4 Stretches', digest/levelDigest.test.ts (a regression only — levelDigest.ts reads no run ordering, M0-a-02 c1's N-c1-2), io/roundtrip.test.ts, restore.test.ts's N-47/B-1 properties"
     },
     {
      "line": "T-2: routeLines calls linesOfRuns; T-4: pointCmp → num's comparePoints; T-5: area2Of → index's faceArea2, uniq inlined, enterWriter/overLimit homed in tx/state.ts, PI and HOT_PIXEL_SQ from their homes",
