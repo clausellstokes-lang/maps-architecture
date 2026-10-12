@@ -8377,3 +8377,4 @@
 2026-10-12 13:37 check/M0-a-08-consolidate-close-1 CHECKPOINT RELATED@1000 running (since ~13:35, W=1); verdict drafted in scratch; next: RELATED verdict, kill suite on the tree's current kernel, notes, CLEAN-ROOM, landed
 2026-10-12 13:42 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 47000 runs logged, 0 off, 0 crash; next: wait
 2026-10-12 13:56 check/M0-a-08-consolidate-close-1 CHECKPOINT RELATED@1000 still running (W=1; never stopped for being slow); next: its verdict
+2026-10-12 14:02 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 47000 runs logged, 0 off, 0 crash (the slow S5d/S8/cell shards live); next: wait
