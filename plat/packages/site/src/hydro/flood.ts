@@ -88,7 +88,7 @@ export function priorityFlood(grid: HydroField, lakeThresholdCm = Infinity): Flo
     taken += 1;
     const level = b + lo;
     const ci = c % cols;
-    const cj = Math.round((c - ci) * inv);
+    const cj = Math.round((c - ci) * inv); // rowOf
     for (let k = 0; k < 8; k += 1) {
       const i = ci + D8_DX[k];
       const j = cj + D8_DY[k];
@@ -138,7 +138,7 @@ function depressionsOf(grid: HydroField, lakeThresholdCm: number): { depressions
       qh += 1;
       if (h[c] < h[lowest]) lowest = c;
       const ci = c % cols;
-      const cj = Math.round((c - ci) * inv);
+      const cj = Math.round((c - ci) * inv); // rowOf
       for (let k = 0; k < 8; k += 1) {
         const i = ci + D8_DX[k];
         const j = cj + D8_DY[k];

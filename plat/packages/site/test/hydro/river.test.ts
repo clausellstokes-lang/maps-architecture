@@ -13,8 +13,6 @@ import {
   d8,
   fieldOf,
   firstSelfTouch,
-  hydroParams,
-  hydrology,
   inletMasks,
   inletOf,
   knotVertices,
@@ -39,9 +37,7 @@ import {
   type XY,
 } from '../../src/hydro/index.js';
 import { bowl, eastward, RIDGE_Y_CM, SMALL, valley, valleyFallingEast, valleyWithCrater, valleyWithRidge, valleyWithSide, valleyWithSink } from './fixtures.js';
-import { bedAlong, drainPath, frameOf, heightsOf, nonIncreasing, reachOf, riverBp, siteContext, TABLES, terrainFrom } from './support.js';
-
-const CITY = hydroParams(TABLES, 'CITY');
+import { bedAlong, carveBars, CITY, cityHydrology, courseOf, drainPath, frameOf, heightsOf, nonIncreasing, northInlet, reachOf, riverBp, siteContext, terrainFrom, traceOpts } from './support.js';
 
 interface Run {
   terrain: Terrain;
@@ -58,24 +54,9 @@ function run(h: (x: number, y: number) => number, river: RiverRequest | null, se
   return { terrain, before, bodies: r.value.water.bodies, report: r.value.report };
 }
 
-function course(b: WaterBody): XY[] {
-  return (b.course ?? []).map((p) => ({ x: p.x, y: p.y }));
-}
-
 /** The carve bars on a run: the bed under every course never rises; no cell lowered past the cap; no cell raised. */
 function expectCarveBars(r: Run, carveMaxCm = CITY.carveMaxCm): void {
-  let deepest = 0;
-  for (let c = 0; c < r.before.length; c += 1) {
-    const cut = r.before[c] - r.terrain.heightCm[c];
-    expect(cut).toBeGreaterThanOrEqual(0);
-    if (cut > deepest) deepest = cut;
-  }
-  expect(deepest).toBeLessThanOrEqual(carveMaxCm);
-  for (const b of r.bodies) {
-    const bed = bedAlong(r.terrain, course(b));
-    expect(bed.length).toBeGreaterThan(1);
-    expect(nonIncreasing(bed)).toBe(true);
-  }
+  carveBars(r.before, r.terrain, r.bodies, carveMaxCm);
 }
 
 describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)', () => {
@@ -87,7 +68,7 @@ describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)'
     expect(r.report.rivers[0]).toMatchObject({ fits: true, reachesCore: true, outfall: 'frame', corridor: true, attempt: 0 });
     expect(r.report.requested).toEqual([{ feature: 'river', delivered: 'full', tier: 0, entity: b.id }]);
     const reach = reachOf(frameOf(SMALL));
-    const c = course(b);
+    const c = courseOf(b);
     expect(c[0]).toEqual({ x: 0, y: reach.y });
     expect(c[c.length - 1].y).toBe(-reach.y);
     expectCarveBars(r);
@@ -101,7 +82,7 @@ describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)'
     const n = t.hydro.cols * t.hydro.rows;
     for (let c = 0; c < n; c += 1) expect(drainPath(field, c)).not.toBeNull();
     // The cells under the course, in order, each drain into the next; the last leaves the grid.
-    const cells = rasterise(t.hydro, course(r.bodies[0]), true).cells;
+    const cells = rasterise(t.hydro, courseOf(r.bodies[0]), true).cells;
     const path = drainPath(field, cells[0]);
     expect(path).not.toBeNull();
     expect(path?.slice(0, cells.length - 1)).toEqual(cells.slice(0, cells.length - 1));
@@ -127,10 +108,11 @@ describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)'
   it('a course that would need more than carveMaxCm is re-routed, never trenched: the river goes round the crater', () => {
     // The hydrology's own D8 line from the north inlet runs into the 12 m crater: a bed along it would cut far past the cap.
     const terrain = terrainFrom(SMALL, valleyWithCrater);
-    const hyd = hydrology(terrain, hydroGridOver(rasterGeom(terrain), CITY.hydroCellCm), CITY.lakeThresholdCm);
+    const hyd = cityHydrology(terrain);
     const g = hyd.field.grid;
     const reach = reachOf(frameOf(SMALL));
-    const inletCell = (g.rows - 1) * g.cols + (g.cols >> 1);
+    const inlet = northInlet(g, reach);
+    const inletCell = inlet.cell;
     const d8Line = drainPath(hyd.field, inletCell - g.cols) ?? [];
     const centres = d8Line.map((c) => ({ x: g.originX + ((c % g.cols) + 0.5) * g.cellCm, y: g.originY + (Math.floor(c / g.cols) + 0.5) * g.cellCm }));
     expect(planCarve(terrain, centres, CITY.carveMaxCm).maxCarveCm).toBeGreaterThan(2 * CITY.carveMaxCm);
@@ -140,13 +122,7 @@ describe('rivers by descent: the bed and the carve (§4.2 S1 (3); the exit bar)'
     const floor = cellAt(g, 0, 40_000);
     expect(surface.admitted[floor.j * g.cols + floor.i]).toBe(0);
     // The trace goes round it and fits; nothing it delivers is trenched.
-    const tr = traceRiver(hyd.field, { cell: inletCell, at: { x: 0, y: reach.y } }, streamFromKey([9, 9, 9, 9]), {
-      terrain,
-      carveMaxCm: CITY.carveMaxCm,
-      spacingCm: CITY.controlSpacingCm,
-      clearanceCm: CITY.riverBandCm[0],
-      reach,
-    });
+    const tr = traceRiver(hyd.field, inlet, streamFromKey([9, 9, 9, 9]), traceOpts(terrain, CITY.riverBandCm[0]));
     expect([tr.ok, tr.end.kind]).toEqual([true, 'frame']);
     expect(tr.plan.maxCarveCm).toBeLessThanOrEqual(CITY.carveMaxCm);
     const r = run(valleyWithCrater, { inflowBearingCdeg: 0 });
@@ -182,24 +158,17 @@ describe('the control knots (GEO-36)', () => {
       expect(controls.map((k) => k.ordinal)).toEqual(controls.map((_, o) => o));
       expect(b.nextControl).toBe(controls.length);
       expect(controls.length).toBeGreaterThan(3);
-      const c = course(b);
+      const c = courseOf(b);
       expect(controls[0].at).toEqual(c[0]);
       expect(controls[controls.length - 1].at).toEqual(c[c.length - 1]);
     }
     // The offsets themselves, on traces.
     const terrain = terrainFrom(SMALL, valley);
-    const hyd = hydrology(terrain, hydroGridOver(rasterGeom(terrain), CITY.hydroCellCm), CITY.lakeThresholdCm);
-    const reach = reachOf(frameOf(SMALL));
-    const inletCell = (hyd.field.grid.rows - 1) * hyd.field.grid.cols + (hyd.field.grid.cols >> 1);
+    const hyd = cityHydrology(terrain);
+    const inlet = northInlet(hyd.field.grid, reachOf(frameOf(SMALL)));
     let offsets = 0;
     for (let seed = 1; seed <= 40; seed += 1) {
-      const tr = traceRiver(hyd.field, { cell: inletCell, at: { x: 0, y: reach.y } }, streamFromKey([seed, 7, 7, 7]), {
-        terrain,
-        carveMaxCm: CITY.carveMaxCm,
-        spacingCm: CITY.controlSpacingCm,
-        clearanceCm: CITY.riverBandCm[1],
-        reach,
-      });
+      const tr = traceRiver(hyd.field, inlet, streamFromKey([seed, 7, 7, 7]), traceOpts(terrain, CITY.riverBandCm[1]));
       for (const k of tr.knots) {
         expect(k.offsetCm).toBeLessThanOrEqual(CITY.controlSpacingCm / 2);
         const dx = k.at.x - k.base.x;
@@ -233,21 +202,14 @@ describe('the control knots (GEO-36)', () => {
     // streams are the stage's own (water.river on the town root, hashed keys): a raw xoshiro state of small words
     // (streamFromKey([seed, 3, 3, 3])) gives near-zero first draws, which would keep every trace's first knots on one side.
     const terrain = terrainFrom(SMALL, valley);
-    const hyd = hydrology(terrain, hydroGridOver(rasterGeom(terrain), CITY.hydroCellCm), CITY.lakeThresholdCm);
-    const reach = reachOf(frameOf(SMALL));
-    const inletCell = (hyd.field.grid.rows - 1) * hyd.field.grid.cols + (hyd.field.grid.cols >> 1);
+    const hyd = cityHydrology(terrain);
+    const inlet = northInlet(hyd.field.grid, reachOf(frameOf(SMALL)));
     const concern = CONCERNS['water.river'];
     let pairs = 0;
     let flips = 0;
     for (let seed = 1; seed <= 60; seed += 1) {
       const ctx = siteContext(seed);
-      const tr = traceRiver(hyd.field, { cell: inletCell, at: { x: 0, y: reach.y } }, ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, 0)), {
-        terrain,
-        carveMaxCm: CITY.carveMaxCm,
-        spacingCm: CITY.controlSpacingCm,
-        clearanceCm: CITY.riverBandCm[0],
-        reach,
-      });
+      const tr = traceRiver(hyd.field, inlet, ctx.stream(concern, TOWN_ROOT, ctx.streamOpts(concern, TOWN_ROOT, 0)), traceOpts(terrain, CITY.riverBandCm[0]));
       let last = 0;
       for (let k = 1; k + 1 < tr.knots.length; k += 1) {
         const a = tr.knots[k - 1].base;
@@ -282,7 +244,7 @@ describe('the control knots (GEO-36)', () => {
     const field = fieldOf(grid, heights);
     const reach = reachOf(frameOf(SMALL));
     const inlet = { cell: path[0], at: { x: Math.round(grid.originX + (col + 0.5) * grid.cellCm), y: reach.y } };
-    const tr = traceRiver(field, inlet, streamFromKey([2, 2, 2, 2]), { terrain, carveMaxCm: CITY.carveMaxCm, spacingCm: CITY.controlSpacingCm, clearanceCm: CITY.riverBandCm[0], reach });
+    const tr = traceRiver(field, inlet, streamFromKey([2, 2, 2, 2]), traceOpts(terrain, CITY.riverBandCm[0]));
     expect([tr.ok, tr.end.kind]).toEqual([true, 'frame']);
     const index = (p: XY): number => {
       const { i, j } = cellAt(grid, p.x, p.y);
@@ -371,7 +333,7 @@ describe('the control knots (GEO-36)', () => {
     const reach = reachOf(frameOf(SMALL));
     const startY = grid.originY + (r0 + 0.5) * grid.cellCm;
     const clearance = CITY.riverBandCm[0];
-    const opts = { terrain, carveMaxCm: CITY.carveMaxCm, spacingCm: CITY.controlSpacingCm, clearanceCm: clearance, reach };
+    const opts = traceOpts(terrain, clearance);
     const tr = traceRiver(field, { cell: path[0], at: { x: -reach.x, y: startY } }, new Left(streamFromKey([1, 1, 1, 1])), opts);
     const retraces = tr.events.filter((e) => e.rung === 'retrace');
     expect(retraces.length).toBeGreaterThan(0);
@@ -443,10 +405,10 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     const reach = reachOf(frameOf(SMALL));
     const f = frameOf(SMALL);
     const plain = terrainFrom(SMALL, valleyFallingEast);
-    const hyd = hydrology(plain, hydroGridOver(rasterGeom(plain), CITY.hydroCellCm), CITY.lakeThresholdCm);
+    const hyd = cityHydrology(plain);
     const x0 = inletOf(hyd.field, reach, { x: f.widthCm / 2, y: f.heightCm / 2 }, 2363, null, -1, CITY.carveMaxCm).inlet.at.x;
     expect(x0).toBeGreaterThan(30_000);
-    const first = course(r.bodies[0])[0];
+    const first = courseOf(r.bodies[0])[0];
     expect(first).toEqual({ x: Math.round(x0 + (u1 - 0.5) * 50_000), y: reach.y });
     expectCarveBars(r);
   });
@@ -457,12 +419,11 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     const plain = terrainFrom(SMALL, valley);
     const ridged = terrainFrom(SMALL, valleyWithRidge);
     const grid = hydroGridOver(rasterGeom(plain), CITY.hydroCellCm);
-    const h0 = hydrology(plain, grid, CITY.lakeThresholdCm);
-    const h1 = hydrology(ridged, grid, CITY.lakeThresholdCm);
+    const h0 = cityHydrology(plain, grid);
+    const h1 = cityHydrology(ridged, grid);
     expect(Buffer.from(h1.field.heightCm.buffer).equals(Buffer.from(h0.field.heightCm.buffer))).toBe(true);
-    const reach = reachOf(frameOf(SMALL));
-    const inlet = { cell: (grid.rows - 1) * grid.cols + (grid.cols >> 1), at: { x: 0, y: reach.y } };
-    const opts = (terrain: Terrain): Parameters<typeof traceRiver>[3] => ({ terrain, carveMaxCm: CITY.carveMaxCm, spacingCm: CITY.controlSpacingCm, clearanceCm: CITY.riverBandCm[0], reach });
+    const inlet = northInlet(grid, reachOf(frameOf(SMALL)));
+    const opts = (terrain: Terrain): Parameters<typeof traceRiver>[3] => traceOpts(terrain, CITY.riverBandCm[0]);
     const tr0 = traceRiver(h0.field, inlet, streamFromKey([4, 4, 4, 4]), opts(plain));
     expect(tr0.ok).toBe(true);
     const failAt = planCarve(ridged, tr0.course, CITY.carveMaxCm).firstExceed;
@@ -490,7 +451,7 @@ describe('F-RIVER and F-WORK: each M0 rung reached by a fixture and reported (§
     expect(r.report.requested[0]).toMatchObject({ delivered: 'degraded', tier: 4, cause: 'F-RIVER' });
     // The delivered stub stops north of the ridge, outside the 250 m core; the whole trace ran on through the centre.
     const core = 0.25 * Math.min(frameOf(SMALL).widthCm, frameOf(SMALL).heightCm);
-    const c = course(r.bodies[0]);
+    const c = courseOf(r.bodies[0]);
     const nearest = Math.min(...c.map((p) => Math.hypot(p.x, p.y)));
     expect(nearest).toBeGreaterThan(core);
     expect(Math.min(...c.map((p) => p.y))).toBeGreaterThan(RIDGE_Y_CM - 400);
@@ -573,7 +534,7 @@ describe('the width law (§4.2 S1 (3))', () => {
     }
     // The outlet's width is the law at the last corridor cell's accumulation.
     const t = r.terrain;
-    const cells = rasterise(t.hydro, course(b), true).cells;
+    const cells = rasterise(t.hydro, courseOf(b), true).cells;
     const last = cells[cells.length - 1];
     expect(w[w.length - 1]).toBe(widthCm(CITY, t.flowAccum[last], CITY.hydroCellCm, CITY.riverBandCm));
   });
@@ -614,8 +575,8 @@ describe('tributaries, by the same rule from secondary inlets', () => {
     // The tributary's corridor drains into the river's, which carries its flow to the frame.
     const t = r.terrain;
     const field = { grid: t.hydro, flowDir: t.flowDir };
-    const tc = rasterise(t.hydro, course(trib), true).cells;
-    const mainCells = new Set(rasterise(t.hydro, course(r.bodies[0]), true).cells);
+    const tc = rasterise(t.hydro, courseOf(trib), true).cells;
+    const mainCells = new Set(rasterise(t.hydro, courseOf(r.bodies[0]), true).cells);
     const path = drainPath(field, tc[0]);
     expect(path).not.toBeNull();
     expect(path?.some((c) => mainCells.has(c))).toBe(true);

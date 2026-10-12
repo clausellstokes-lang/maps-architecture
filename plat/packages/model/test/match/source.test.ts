@@ -22,7 +22,8 @@ import {
 } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { indexCandidates, match, M0_ANCHORS, resolveAnchors, type MatchEntity } from '../../src/index.js';
-import { areaEntity, L, P, rect, wayEntity } from './support.js';
+import { boxGrid, boxQuery } from '../../src/match/grid.js';
+import { areaEntity, generator, intIn, L, P, rect, wayEntity } from './support.js';
 
 const TABLE = resolveAnchors(M0_ANCHORS, () => 30);
 const GROUND: PlatKey = { layer: 'ground', part: 0 };
@@ -136,5 +137,45 @@ describe('the overlap-anchored kinds\' candidates from the kernel\'s spatial ind
     expect(viaIndex.old.get('water:o3')?.outcome).toBe('tombstone');
     expect(viaIndex.old.get('way:o1')).toMatchObject({ outcome: 'succeed', fresh: 'way:f1', by: 'overlap' });
     expect(viaIndex.old.get('way:o2')).toMatchObject({ outcome: 'tombstone', supersededBy: 'way:f2' });
+  });
+
+  it('the routine\'s own box grid answers a box with exactly the closed boxes meeting it, ascending, large boxes included', () => {
+    // The oracle: the closed-box test written out (touching counts), over every box.
+    type B = { minX: number; minY: number; maxX: number; maxY: number };
+    const meet = (a: B, q: B): boolean => !(a.maxX < q.minX || q.maxX < a.minX || a.maxY < q.minY || q.maxY < a.minY);
+    const rnd = generator(11);
+    /** A query: one touching a box's corner, a wide one (read box by box), or a small one (read cell by cell). */
+    const query = (boxes: B[]): B => {
+      if (boxes.length > 0 && rnd() < 0.3) {
+        const { maxX, maxY } = boxes[intIn(rnd, 0, boxes.length - 1)];
+        return { minX: maxX, minY: maxY, maxX: maxX + 50, maxY: maxY + 50 };
+      }
+      const x = intIn(rnd, -22_000, 22_000);
+      const y = intIn(rnd, -22_000, 22_000);
+      const side = rnd() < 0.2 ? 40_000 : 400;
+      return { minX: x, minY: y, maxX: x + intIn(rnd, 0, side), maxY: y + intIn(rnd, 0, side) };
+    };
+    let large = 0;
+    for (let run = 0; run < 300; run += 1) {
+      const boxes: B[] = [];
+      const n = intIn(rnd, 0, 60);
+      for (let i = 0; i < n; i += 1) {
+        const x = intIn(rnd, -20_000, 20_000);
+        const y = intIn(rnd, -20_000, 20_000);
+        // About one box in twelve is large in both directions, so it meets more than 64 cells (the grid's large list).
+        const big = rnd() < 0.08;
+        const w = big ? intIn(rnd, 10_000, 30_000) : intIn(rnd, 0, 300);
+        const h = big ? intIn(rnd, 10_000, 30_000) : intIn(rnd, 0, 300);
+        boxes.push({ minX: x, minY: y, maxX: x + w, maxY: y + h });
+      }
+      const g = boxGrid(boxes as never, (c) => 1 / c);
+      large += g.large.length;
+      for (let k = 0; k < 20; k += 1) {
+        const q = query(boxes);
+        const want = boxes.flatMap((b, i) => (meet(b, q) ? [i] : []));
+        expect(boxQuery(g, q as never)).toEqual(want);
+      }
+    }
+    expect(large).toBeGreaterThan(0);
   });
 });

@@ -3,8 +3,10 @@
 // exact flats and the lake typing, the two-gradient flat resolution into flatRank, D8 with the fixed tie order, flow
 // accumulation — and the river by descent: the inlet, the meandering Chaikin-smoothed course with its control knots,
 // the capped monotone carve, the corridor's D8 and one accumulation, the width law, the basic estuary, tributaries;
-// F-RIVER's carve / re-trace / inlet rungs, F-WORK's coarser grid and R12-5's `hydroCoarsen` switch. Created empty by
-// the scaffold (M0-s-01, C-0013); this index and its folder are M0-e-02's.
+// F-RIVER's carve / re-trace / inlet rungs, F-WORK's coarser grid and R12-5's `hydroCoarsen` switch. This index and
+// its folder are M0-e-02's. Its files also export, at file level, helpers for the sibling folders to import by path;
+// they are not part of the package's API and so are not listed here (J263 Q1): field.ts `invOfCols`, `rowOf`; d8.ts
+// `slopeKey`; course.ts `segParam`, `cellIndexAt`, `lengthQuotient`.
 export {
   cellCount,
   codeOf,

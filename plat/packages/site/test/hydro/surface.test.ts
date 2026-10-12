@@ -1,22 +1,18 @@
-// M0-e-02 fix round 1: the river's descent surface (./src/hydro/surface.ts; C-0175 (1) – (3)) and the descent on it
-// (trace.ts descentLine) — the outlets are the open border, the walls are never entered, every admitted cell's level
-// lies within the cap of its height and its parents lead to an outlet with the level never rising, a flat drains to its
-// spill by the fewest steps, a pit deeper than the cap is left out, and the line's monotone bed on the hydrology grid
-// cuts at most the cap. The regression of checks/M0-e-02.md line 3: where the hydrology's D8 runs straight back out of
-// the inlet's own edge, the river's line still crosses the arena.
+// M0-e-02: the river's descent surface (./src/hydro/surface.ts; C-0175 (1) – (3)) and the descent on it (trace.ts
+// descentLine) — the outlets are the open border, the walls are never entered, every admitted cell's level lies within
+// the cap of its height and its parents lead to an outlet with the level never rising, a flat drains to its spill by
+// the fewest steps, a pit deeper than the cap is left out, and the line's monotone bed on the hydrology grid cuts at
+// most the cap. And the rule C-0175 (1) exists for: where the hydrology's D8 runs straight back out of the inlet's own
+// edge, the river's line still crosses the arena.
 import { streamFromKey } from '@plat/kernel';
 import type { HydroGrid } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { accumulate, d8, D8_DX, D8_DY, descentLine, fieldOf, inletMasks, NO_PARENT, onBorder, priorityFlood, resolveFlats, riverSurface, type HydroField } from '../../src/hydro/index.js';
-import { drainPath } from './support.js';
+import { accumulate, d8, D8_DX, D8_DY, descentLine, inletMasks, NO_PARENT, onBorder, priorityFlood, resolveFlats, riverSurface, type HydroField } from '../../src/hydro/index.js';
+import { drainPath, fieldOver, gridOf } from './support.js';
 
 /** A grid of cols × rows 25 m cells centred on the frame's centre. */
 function centred(cols: number, rows: number): HydroGrid {
-  return { cellCm: 2500, cols, rows, originX: -1250 * cols, originY: -1250 * rows } as HydroGrid;
-}
-
-function fieldOver(g: HydroGrid, h: (i: number, j: number) => number): HydroField {
-  return fieldOf(g, Array.from({ length: g.cols * g.rows }, (_, c) => h(c % g.cols, Math.floor(c / g.cols))));
+  return gridOf(cols, rows, 2500, -1250 * cols, -1250 * rows);
 }
 
 /** Rolling random ground: a tilt toward the south, two long waves and per-cell noise, in centimetres. */
@@ -171,7 +167,7 @@ describe("the river's surface (§4.2 S1 (3); C-0175 (1))", () => {
   it("where the hydrology's D8 runs straight back out of the inlet's edge, the river's line still crosses the arena", () => {
     // Ground rising northward (the north edge the highest) with a short channel at the north edge's middle draining
     // north out of the arena: the hydrology's flow from the inlet's inward neighbour leaves by the inlet's own edge in
-    // one step — the course of checks/M0-e-02.md line 3 then crawled along that closed edge and folded.
+    // one step — a descent on the hydrology's surface would crawl along that closed edge and fold (C-0175 (1)).
     const g = centred(32, 32);
     const field = fieldOver(g, (i, j) => (Math.abs(i - 16) <= 1 && j >= 28 ? 101_070 - 20 * (j - 28) : 100_000 + 40 * j));
     priorityFlood(field);

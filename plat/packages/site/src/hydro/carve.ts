@@ -13,6 +13,7 @@
 // through the range check (../terrain/range.ts).
 import { ok, type KernelResult, type Warning } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
+import { centreX, centreY, rasterGrid } from '../terrain/grid.js';
 import { heightWriter } from '../terrain/range.js';
 import { cellAt, pointSegDist2, rasterise, type GridGeom, type XY } from './course.js';
 
@@ -30,9 +31,9 @@ export interface CarvePlan {
   firstExceed: number;
 }
 
-/** The height raster's geometry. */
+/** The height raster's geometry (../terrain/grid.ts `rasterGrid`, the one reading of a terrain's five grid fields). */
 export function rasterGeom(t: Terrain): GridGeom {
-  return { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+  return rasterGrid(t);
 }
 
 /** The bed of `course` on `terrain`'s raster and the deepest cut it needs, against `carveMaxCm`. Writes nothing. */
@@ -99,11 +100,11 @@ export function carveCourse(terrain: Terrain, course: readonly XY[], carveMaxCm:
       const lo = cellAt(g, Math.min(a.x, b.x) - r, Math.min(a.y, b.y) - r);
       const hi = cellAt(g, Math.max(a.x, b.x) + r, Math.max(a.y, b.y) + r);
       for (let j = lo.j; j <= hi.j; j += 1) {
-        const y = g.originY + (j + 0.5) * g.cellCm;
+        const y = centreY(g, j);
         for (let i = lo.i; i <= hi.i; i += 1) {
           const c = j * g.cols + i;
           if (centre.has(c)) continue;
-          const x = g.originX + (i + 0.5) * g.cellCm;
+          const x = centreX(g, i);
           if (pointSegDist2({ x, y }, a, b) > r2) continue;
           const now = h[c];
           if (now <= bed) continue;

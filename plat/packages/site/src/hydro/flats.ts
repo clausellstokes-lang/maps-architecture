@@ -114,7 +114,7 @@ export function resolveFlats(grid: HydroField): FlatsResult {
       const c = queue[qh];
       qh += 1;
       const ci = c % cols;
-      const cj = Math.round((c - ci) * inv);
+      const cj = Math.round((c - ci) * inv); // rowOf
       for (let k = 0; k < 8; k += 1) {
         const x = ci + D8_DX[k];
         const y = cj + D8_DY[k];
@@ -166,7 +166,7 @@ export function resolveFlats(grid: HydroField): FlatsResult {
       qh += 1;
       visit(c, step);
       const ci = c % cols;
-      const cj = Math.round((c - ci) * inv);
+      const cj = Math.round((c - ci) * inv); // rowOf
       for (let k = 0; k < 8; k += 1) {
         const x = ci + D8_DX[k];
         const y = cj + D8_DY[k];

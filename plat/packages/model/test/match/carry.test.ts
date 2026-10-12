@@ -157,6 +157,9 @@ describe('0 duplicate ids and 0 silent re-binds (§6.3; the exit bar\'s M0 d par
       [old[1].id, true],
       [old[2].id, true],
     ]);
+    // Each lineage a frozen copy of the old entity's two lanes, in order.
+    expect(live.map((e) => e.lineage)).toEqual(old.map((e) => [e.lineage[0], e.lineage[1]]));
+    expect(live.every((e, i) => Object.isFrozen(e.lineage) && e.lineage !== old[i].lineage)).toBe(true);
     expect(() => liveSetOf([...old, old[1]], result)).toThrow(/given twice/);
     expect(() => liveSetOf([{ ...old[0], id: 'cell:other' }], result)).toThrow(/not in the result/);
     expect(() => batchRecordsOf([{ id: 'x', record: { kind: 'cell', key: keyOf(0, 0), address: 'cell:x' } }], result)).toThrow(/already carries/);

@@ -1,6 +1,6 @@
-// The river's descent surface (M0-e-02 fix round 1; §4.2 S1 (3): "the course is traced by steepest descent … and the
-// terrain is carved to the course … carving is capped at carveMaxCm and a course that would need more is re-routed by
-// F-RIVER (§5.2), never trenched"; C-0173 (3), refined by C-0175 (1) – (3)).
+// The river's descent surface (M0-e-02; §4.2 S1 (3): "the course is traced by steepest descent … and the terrain is
+// carved to the course … carving is capped at carveMaxCm and a course that would need more is re-routed by F-RIVER
+// (§5.2), never trenched"; C-0173 (3) as refined by C-0175 (1) – (3)).
 //
 // A river arriving by its upstream edge descends its OWN flooded surface, not the hydrology's: the hydrology's flood
 // (./flood.ts, Terrain.flowDir) drains every cell to the nearest border, the river's upstream edge included, so near
@@ -101,7 +101,7 @@ export function riverSurface(field: HydroField, outlet: Uint8Array, walls: Uint8
     if (head[b] === NO_PARENT) tail[b] = NO_PARENT;
     const lv = b + lo;
     const ci = c % cols;
-    const cj = Math.round((c - ci) * inv);
+    const cj = Math.round((c - ci) * inv); // rowOf
     for (let k = 0; k < 8; k += 1) {
       const i = ci + D8_DX[k];
       const j = cj + D8_DY[k];

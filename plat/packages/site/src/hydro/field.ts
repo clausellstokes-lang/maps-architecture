@@ -57,13 +57,29 @@ export function cellCount(g: HydroGrid): number {
 }
 
 /**
- * 1 ÷ cols through `ratio` (§3.2 (8)): a cell's row is `Math.round((c − c % cols) · invCols(g))` — the product of an
- * exact multiple of cols and its reciprocal lies within an ulp of the row, so the rounding is exact.
+ * 1 ÷ `cols` through `ratio` (§3.2 (8)), the reciprocal `rowOf` multiplies by. File-level: shared by path inside
+ * `@plat/site`, not part of the package's API (J263 Q1's convention).
  */
-export function invCols(g: HydroGrid): number {
-  const r = ratio(1, g.cols, 'count');
-  if (!r.ok) throw new RangeError(`hydro grid: ${String(g.cols)} columns`);
+export function invOfCols(cols: number): number {
+  const r = ratio(1, cols, 'count');
+  if (!r.ok) throw new RangeError(`hydro grid: ${String(cols)} columns`);
   return r.value;
+}
+
+/** 1 ÷ cols of grid `g` through `ratio` (§3.2 (8)): `invOfCols(g.cols)`. */
+export function invCols(g: HydroGrid): number {
+  return invOfCols(g.cols);
+}
+
+/**
+ * The row of cell `c` in column `i` (`i = c % cols`), `inv` the grid's 1 ÷ cols (`invOfCols`): `Math.round((c − i) ·
+ * inv)` — the product of an exact multiple of cols and its reciprocal lies within an ulp of the row, so the rounding is
+ * exact (C-0044: no division). The per-cell inner loops of the flood, the flats, the accumulation and the river's
+ * surface write the same expression inline (marked `// rowOf`). File-level: shared by path inside `@plat/site`, not
+ * part of the package's API (J263 Q1's convention).
+ */
+export function rowOf(c: number, i: number, inv: number): number {
+  return Math.round((c - i) * inv);
 }
 
 /** Whether cell (i, j) lies on the grid's border (a seed of the flood, an outlet of the flow). */

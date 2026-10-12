@@ -10,7 +10,7 @@ import { rungProfile, type BaseRung } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { arenaReach, buildTerrain, GROUND_KEY, hydroGridOver, siteFrame, terrainParams, type SiteRequest } from '../../src/terrain/index.js';
 import { accumulate, d8, hydroField, hydroParams, priorityFlood, rasterGeom, rasterise, resolveFlats, runRivers, type RiverReport } from '../../src/hydro/index.js';
-import { bedAlong, drainPath, nonIncreasing, siteContext, TABLES } from './support.js';
+import { bedAlong, carveBars, courseOf, D8_STEPS, drainPath, nonIncreasing, siteContext, TABLES } from './support.js';
 
 /** The 60 m relief fixture: S0's rolling class (amplitude 60 m). */
 const RELIEF_60: SiteRequest = { relief: 'rolling' };
@@ -32,7 +32,7 @@ function clone(t: Terrain): Terrain {
   return { ...t, heightCm: Int32Array.from(t.heightCm), hydro: { ...t.hydro } };
 }
 
-/** The bars on one run: D8 on every cell, each draining off the grid; the bed monotone under every course; carve ≤ cap. */
+/** The bars on one run: D8 on every cell, each draining off the grid; carve ≤ cap (the bed under the course: expectFrameRiver). */
 function expectBars(before: Terrain, after: Terrain, report: RiverReport, rung: BaseRung): void {
   const g = after.hydro;
   const n = g.cols * g.rows;
@@ -45,20 +45,13 @@ function expectBars(before: Terrain, after: Terrain, report: RiverReport, rung: 
   let out = 0;
   for (let c = 0; c < n; c += 1) {
     const k = after.flowDir[c];
-    const i = (c % g.cols) + [1, 1, 0, -1, -1, -1, 0, 1][k];
-    const j = Math.floor(c / g.cols) + [0, 1, 1, 1, 0, -1, -1, -1][k];
+    const i = (c % g.cols) + D8_STEPS.dx[k];
+    const j = Math.floor(c / g.cols) + D8_STEPS.dy[k];
     if (i < 0 || j < 0 || i >= g.cols || j >= g.rows) out += after.flowAccum[c];
   }
   expect(out).toBe(n);
-  const cap = hydroParams(TABLES, rung).carveMaxCm;
-  let deepest = 0;
-  for (let c = 0; c < before.heightCm.length; c += 1) {
-    const cut = before.heightCm[c] - after.heightCm[c];
-    expect(cut >= 0).toBe(true);
-    if (cut > deepest) deepest = cut;
-  }
-  expect(deepest).toBeLessThanOrEqual(cap);
-  for (const r of report.rivers) expect(r.maxCarveCm).toBeLessThanOrEqual(cap);
+  // The carve: no cell raised, no cell and no river's reported cut past the cap.
+  carveBars(before.heightCm, after, [], hydroParams(TABLES, rung).carveMaxCm, report.rivers);
 }
 
 /**
@@ -67,7 +60,7 @@ function expectBars(before: Terrain, after: Terrain, report: RiverReport, rung: 
  */
 function expectFrameRiver(terrain: Terrain, body: WaterBody, report: RiverReport): void {
   expect(report.rivers[0]).toMatchObject({ fits: true, outfall: 'frame', corridor: true });
-  const course = (body.course ?? []).map((q) => ({ x: q.x, y: q.y }));
+  const course = courseOf(body);
   // The bed under the whole course never rises, from the inlet to the outfall.
   const bed = bedAlong(terrain, course);
   expect(bed.length).toBeGreaterThan(100);
@@ -135,7 +128,7 @@ describe('§13.1 / §2.3: D8 on 100 % of the hydrology grid over frame and margi
         expectBars(before, terrain, r.value.report, 'CITY');
         expect(r.value.water.bodies).toHaveLength(1);
         // The delivered outcome, asserted without conditions: the course fits, reaches the frame edge (its outfall) and
-        // its corridor's D8 is set (checks/M0-e-02.md line 3; route (i), C-0175 (1) – (6)).
+        // its corridor's D8 is set (C-0175 (1) – (6)).
         expectFrameRiver(terrain, r.value.water.bodies[0], r.value.report);
         // The core (F-RIVER's detection): on these two fixtures the river from the highest edge passes the frame's
         // centre at 2.3 km (60 m) and 2.8 km (3 000 m, the acropolis hill under the centre) — outside the 1.25 km core.
@@ -159,7 +152,7 @@ describe('§13.1 / §2.3: D8 on 100 % of the hydrology grid over frame and margi
       // It arrives on the south edge and passes within the core (¼ of the frame's shorter side of the centre).
       const f = siteFrame({}, rungProfile('CITY'), TABLES);
       if (!f.ok) throw new Error(f.detail);
-      const course = (b.course ?? []).map((q) => ({ x: q.x, y: q.y }));
+      const course = courseOf(b);
       expect(course[0].y).toBe(-arenaReach(f.value).y);
       expect(Math.min(...course.map((q) => Math.hypot(q.x, q.y)))).toBeLessThanOrEqual(0.25 * Math.min(f.value.widthCm, f.value.heightCm));
       expect(r.value.report.rivers[0].reachesCore).toBe(true);

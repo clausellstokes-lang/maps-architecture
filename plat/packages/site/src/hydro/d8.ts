@@ -9,10 +9,14 @@
 // nothing lower) drains to its equal-height neighbour of lowest flatRank (a low edge's rank is 0), which resolveFlats
 // guarantees lower than its own. Ties anywhere: the first in code order.
 import { heightWriter } from '../terrain/range.js';
-import { cellCount, codeOf, D8_DX, D8_DY, invCols, NO_FLOW, onBorder, outwardCode, type HydroField } from './field.js';
+import { cellCount, codeOf, D8_DX, D8_DY, invCols, NO_FLOW, onBorder, outwardCode, rowOf, type HydroField } from './field.js';
 
-/** The squared-slope key of a drop by code k: drop² × 2 for an orthogonal step, drop² for a diagonal one. */
-function slopeKey(drop: number, k: number): number {
+/**
+ * The squared-slope key of a drop by D8 code k: drop² × 2 for an orthogonal step, drop² for a diagonal one — drop ÷
+ * distance compared exactly on integers (the header's steepest descent). File-level: shared by path inside
+ * `@plat/site` (the river's descent, ./trace.ts), not part of the package's API (J263 Q1's convention).
+ */
+export function slopeKey(drop: number, k: number): number {
   const d2 = drop * drop;
   return (k & 1) === 0 ? d2 * 2 : d2;
 }
@@ -26,24 +30,12 @@ export function flowCode(grid: HydroField, f: Int32Array, rank: Uint32Array, i: 
   const cols = g.cols;
   const rows = g.rows;
   const c = j * cols + i;
-  const v = f[c];
-  let best = -1;
-  let bestKey = 0;
-  for (let k = 0; k < 8; k += 1) {
-    const x = i + D8_DX[k];
-    const y = j + D8_DY[k];
-    if (x < 0 || y < 0 || x >= cols || y >= rows) continue;
-    const drop = v - f[y * cols + x];
-    if (drop <= 0) continue;
-    const key = slopeKey(drop, k);
-    if (key > bestKey) {
-      bestKey = key;
-      best = k;
-    }
-  }
-  if (best >= 0) return best;
+  const steep = steepest(f, cols, rows, c, i, j);
+  if (steep >= 0) return steep;
   if (onBorder(g, i, j)) return outwardCode(g, i, j);
+  const v = f[c];
   const own = rank[c];
+  let best = -1;
   let bestRank = own;
   for (let k = 0; k < 8; k += 1) {
     const x = i + D8_DX[k];
@@ -106,19 +98,20 @@ export function accumulate(grid: HydroField): { cells: number } {
   const n = cellCount(g);
   if (grid.flowDir.length !== n) throw new RangeError('accumulate: the field has no directions (d8 first)');
   const inv = invCols(g);
-  const into = new Counts(n);
+  // In-degree: how many cells drain into each cell still to be counted.
+  const into = new Uint32Array(n);
   const target = new Float64Array(n);
   for (let c = 0; c < n; c += 1) {
     const i = c % cols;
-    const t = downstream(grid, c, i, Math.round((c - i) * inv));
+    const t = downstream(grid, c, i, Math.round((c - i) * inv)); // rowOf
     target[c] = t;
-    if (t >= 0) into.add(t);
+    if (t >= 0) into[t] += 1;
   }
   const acc = new Uint32Array(n).fill(1);
   const queue = new Uint32Array(n);
   let qt = 0;
   for (let c = 0; c < n; c += 1) {
-    if (into.get(c) === 0) {
+    if (into[c] === 0) {
       queue[qt] = c;
       qt += 1;
     }
@@ -130,7 +123,8 @@ export function accumulate(grid: HydroField): { cells: number } {
     const t = target[c];
     if (t < 0) continue;
     acc[t] += acc[c];
-    if (into.take(t) === 0) {
+    into[t] -= 1;
+    if (into[t] === 0) {
       queue[qt] = t;
       qt += 1;
     }
@@ -138,25 +132,6 @@ export function accumulate(grid: HydroField): { cells: number } {
   if (qt !== n) throw new Error(`accumulate: ${String(n - qt)} cells lie on a drainage cycle`);
   grid.flowAccum = acc;
   return { cells: n };
-}
-
-/** In-degree counters (a Uint32 array with the three operations accumulate reads). */
-class Counts {
-  private readonly v: Uint32Array;
-  constructor(n: number) {
-    this.v = new Uint32Array(n);
-  }
-  add(i: number): void {
-    this.v[i] += 1;
-  }
-  get(i: number): number {
-    return this.v[i];
-  }
-  /** Decrements and returns the new count. */
-  take(i: number): number {
-    this.v[i] -= 1;
-    return this.v[i];
-  }
 }
 
 /**
@@ -206,15 +181,15 @@ export function recomputeCorridors(grid: HydroField, corridors: readonly Corrido
     for (let q = 0; q < cs.length; q += 1) {
       const c = cs[q];
       const ci = c % cols;
-      const cj = Math.round((c - ci) * inv);
+      const cj = rowOf(c, ci, inv);
       let code: number;
       if (q + 1 < cs.length) {
         const m = cs[q + 1];
         const mi = m % cols;
-        code = codeOf(ci, cj, mi, Math.round((m - mi) * inv));
+        code = codeOf(ci, cj, mi, rowOf(m, mi, inv));
       } else if (cor.exit >= 0) {
         const mi = cor.exit % cols;
-        code = codeOf(ci, cj, mi, Math.round((cor.exit - mi) * inv));
+        code = codeOf(ci, cj, mi, rowOf(cor.exit, mi, inv));
       } else {
         code = outwardCode(g, ci, cj);
       }
@@ -229,7 +204,7 @@ export function recomputeCorridors(grid: HydroField, corridors: readonly Corrido
   for (const cor of corridors) {
     for (const c of cor.cells) {
       const ci = c % cols;
-      const cj = Math.round((c - ci) * inv);
+      const cj = rowOf(c, ci, inv);
       for (let k = 0; k < 8; k += 1) {
         const x = ci + D8_DX[k];
         const y = cj + D8_DY[k];
@@ -249,7 +224,10 @@ export function recomputeCorridors(grid: HydroField, corridors: readonly Corrido
   return { corridorCells, neighbours };
 }
 
-/** The steepest strictly-lower neighbour's code of cell c at (i, j), or −1. */
+/**
+ * The steepest strictly-lower neighbour's code of cell c at (i, j) on surface `f`, or −1: the largest `slopeKey`, the
+ * first in code order on a tie (strict `>`) — `flowCode`'s first phase and the corridor neighbours' re-pointing.
+ */
 function steepest(f: Int32Array, cols: number, rows: number, c: number, i: number, j: number): number {
   const v = f[c];
   let best = -1;

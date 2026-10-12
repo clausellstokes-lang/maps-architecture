@@ -18,7 +18,12 @@ export interface GridGeom {
   originY: number;
 }
 
-function q(num: number, den: number): number {
+/**
+ * num ÷ den through `ratio`'s length floor (den at least a centimetre), throwing on a refused divisor — the course's
+ * quotient, and the river strategy's (./strategy.ts). File-level: shared by path inside `@plat/site`, not part of the
+ * package's API (J263 Q1's convention).
+ */
+export function lengthQuotient(num: number, den: number): number {
   const r = ratio(num, den, 'length');
   if (!r.ok) throw new RangeError(`course: a length of ${String(den)} cm`);
   return r.value;
@@ -79,12 +84,18 @@ export function pointAtArc(points: readonly XY[], arcs: Float64Array, s: number)
   const a = points[i - 1];
   const b = points[i];
   const len = arcs[i] - arcs[i - 1];
-  const t = len >= 1 ? q(s - arcs[i - 1], len) : 0;
+  const t = len >= 1 ? lengthQuotient(s - arcs[i - 1], len) : 0;
   return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
 
-/** The squared distance from p to the segment ab. */
-export function pointSegDist2(p: XY, a: XY, b: XY): number {
+/**
+ * The parameter t ∈ [0, 1] of the point of segment ab nearest p: with len2 = |b − a|², t = 0 unless len2 ≥ 1 (a
+ * degenerate segment is its point a), else (p − a) · (b − a) ÷ len2 through `ratio`'s area floor (0 when refused),
+ * clamped to [0, 1]. Exact on the lattice: integer inputs give len2 ≥ 1 or a = b; double inputs below the 1 cm² floor
+ * give t = 0 by the guard, as `ratio`'s refusal would. File-level: shared by path inside `@plat/site` (the water
+ * folder's segment predicates), not part of the package's API (J263 Q1's convention).
+ */
+export function segParam(p: XY, a: XY, b: XY): number {
   const dx = b.x - a.x;
   const dy = b.y - a.y;
   const len2 = dx * dx + dy * dy;
@@ -95,6 +106,14 @@ export function pointSegDist2(p: XY, a: XY, b: XY): number {
     if (t < 0) t = 0;
     if (t > 1) t = 1;
   }
+  return t;
+}
+
+/** The squared distance from p to the segment ab (its nearest point at `segParam`). */
+export function pointSegDist2(p: XY, a: XY, b: XY): number {
+  const dx = b.x - a.x;
+  const dy = b.y - a.y;
+  const t = segParam(p, a, b);
   const x = a.x + dx * t - p.x;
   const y = a.y + dy * t - p.y;
   return x * x + y * y;
@@ -146,8 +165,8 @@ export function firstSelfTouch(points: readonly XY[], clearanceCm: number): { i:
   }
   const side = Math.max(1, longest + clearanceCm);
   const keyOf = (s: number): { bx: number; by: number } => ({
-    bx: Math.floor(q((points[s].x + points[s + 1].x) * 0.5 - minX, side)),
-    by: Math.floor(q((points[s].y + points[s + 1].y) * 0.5 - minY, side)),
+    bx: Math.floor(lengthQuotient((points[s].x + points[s + 1].x) * 0.5 - minX, side)),
+    by: Math.floor(lengthQuotient((points[s].y + points[s + 1].y) * 0.5 - minY, side)),
   });
   const buckets = new Map<number, number[]>();
   const STRIDE = 1 << 20;
@@ -178,10 +197,19 @@ export function firstSelfTouch(points: readonly XY[], clearanceCm: number): { i:
   return null;
 }
 
+/**
+ * The index of the cell of grid `g` containing (x, y), clamped to the grid (`cellAt`, row-major). File-level: shared
+ * by path inside `@plat/site`, not part of the package's API (J263 Q1's convention).
+ */
+export function cellIndexAt(g: GridGeom, x: number, y: number): number {
+  const { i, j } = cellAt(g, x, y);
+  return j * g.cols + i;
+}
+
 /** The cell of grid `g` containing (x, y), clamped to the grid. */
 export function cellAt(g: GridGeom, x: number, y: number): { i: number; j: number } {
-  let i = Math.floor(q(x - g.originX, g.cellCm));
-  let j = Math.floor(q(y - g.originY, g.cellCm));
+  let i = Math.floor(lengthQuotient(x - g.originX, g.cellCm));
+  let j = Math.floor(lengthQuotient(y - g.originY, g.cellCm));
   if (i < 0) i = 0;
   if (j < 0) j = 0;
   if (i > g.cols - 1) i = g.cols - 1;
@@ -223,7 +251,7 @@ export function rasterise(g: GridGeom, points: readonly XY[], loopErase: boolean
       const dx = b.x - a.x;
       const dy = b.y - a.y;
       const len = Math.sqrt(dx * dx + dy * dy);
-      const steps = Math.max(1, Math.ceil(q(len, half)));
+      const steps = Math.max(1, Math.ceil(lengthQuotient(len, half)));
       for (let s = 1; s < steps; s += 1) {
         const t = ratio(s, steps, 'count');
         const tv = t.ok ? t.value : 0;
