@@ -1804,6 +1804,265 @@
      "required_change": "the builder keeps the before-values (the encoded blocks of the fixtures and of seeded random batch arenas) from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
     }
    ]
+  },
+  {
+   "id": "M0-a-06",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "T-1 … T-9 (§1.3, round R6: the transaction folder adopts the arena's run ordering, the index's faceArea2, num's comparePoints, PI and the hot-pixel constant; homes enterWriter/overLimit for the faces); comment rewrite C-tx-1 … 4 (§2's tx rows); test plan T-tx (§3.3)"
+   },
+   "session": "R6 of the kernel plan (6b7ac6df; rulings J263, J270), AFTER R1 (num/exact.ts — c1, c2 and c3: comparePoints, PI, insideDoubledRing), R3 (M0-a-05 c1, landed), R4 (M0-a-02 c1: arena/resolve.ts exports edgeRuns with its order pinned) and R5 (M0-a-03 c1: index/items.ts exports faceArea2). Inside M0-a-06's owns (src/tx/, test/tx/) and nowhere else: T-1 tx/chains.ts:36–101 runsOfPairs becomes `export const runsOfPairs = edgeRuns;` (the public name kept; `import { edgeRuns } from '../arena/resolve.js'`) ONLY after the new property T-tx-new-1 holds at 10⁴: in a NEW test/tx/chains.test.ts, for pair sets drawn from the fuzz arenas (fuzzgen.ts's randomBatch arenas), the hand-built QUARTERS/LAKE dressed arenas and arena/resolve.test.ts's branch/loop fixtures, runsOfPairs(p, pairs) deep-equals edgeRuns(p, pairs) as HalfEdgeId[][] — run order, direction and start vertex; the property is written against the OLD runsOfPairs body kept in the test as its reference (copied verbatim into the test file, so the oracle is independent of the delegation) and runs at PLAT_FUZZ_RUNS; a difference the property finds is REPORTED to the session (J263 Q3: edgeRuns wins only once the session has ruled on the difference) and runsOfPairs stays as it is — no replacement; T-2 tx/profile.ts:153–186 routeLines calls chains.ts's linesOfRuns(p, r.runs, chainLevel) for its second half (the body moves once; identical arithmetic — the cumulative Math.sqrt of integer squared lengths); T-3 relevel.ts:129–141 around is replaced by arena/walk.ts's outgoing ONLY after the builder reads every call site (:255, :285, :431, :508, :528, :658, :684, :1227, :1238, :1301) against deletePair's (:297, called at :641) unlink/relink order and shows each reads a CLOSED rotation (J263 Q4): where shown, outgoing replaces it and its 'arena: …' throw on an open rotation is the desired fail-safe (N-53 (3)'s class); where any site reads a rotation mid-rewrite, around STAYS with a comment saying why it tolerates an open rotation — the builder's notes table the call sites with their verdicts; T-4 relevel.ts:349 pointCmp deleted, keyCmp uses num/exact.ts's comparePoints (the same body — c3 homed it verbatim); T-5 tx.ts:337 area2Of deleted, its two callers call index/items.ts's faceArea2 (`import { faceArea2 } from '../index/items.js'`; the same sum of area2 over the own-level route rings); tx.ts:202 uniq deleted and its uses inlined as `[...new Set(xs)]`; tx/writers.ts:52–63 enter/overLimit move to tx/state.ts as the file-level exports enterWriter and overLimit (identical bodies and texts: 'the batch exceeded its work limit', TX_FACES_WALKED), writers.ts importing them — faces/common.ts:57–68's copies are R7's to re-export (J270 (b): the copies coexist until then); tx.ts:69's PI literal → num/exact.ts's PI; relevel.ts:245 HOT_SQ → insert/placement.ts's exported HOT_PIXEL_SQ by path (tx already reaches into insert/stretch.ts by path, I-16; the same product HOT_PIXEL_CM²); T-6 NOTHING: the three readings of §3.10 (tx's removal-log checks, the suite's rows, insert's write-time checks) stay apart (C-0185 (4), C-0200 (2)); cornerBelow (tx.ts:344) and acuteCorners stay both, one comment each; T-7/T-8/T-9: comments only — tx/index.ts:48–55 → C-tx-1 ('The before-image every batch keeps (C-0185 (1)), exported for the pipeline runner's stage image: takeSavepoint before a stage, restoreSavepoint after; a restore across committed batches bumps the arena's restoreGeneration, which version-keyed state (the level digests) keys on too (C-0287, C-0299)'); check/notBuilt in state.ts:169–176 STAY (J270 (a)); savepoint.ts:155 RESTORES's comment states the design (N-56 (5)) without the round; §2's tx rows: relevel.ts 19, 446 ('identical rows before the batch are read with the batch's stripped rows left out, C-0287'), 567, 825, 850, 989, 1003 (N-47 → 'an own-child ancestor keeps its record only while a child survives, C-0219'); state.ts 64–70, 93 (`closed`: 'set at commit, reject and rollback; every writer asserts it first — a stale overlay never writes'; `op`: 'names the running op in a rethrown error's prefix'); tx.ts 14, 559, 637; tx/index.ts's scaffold sentence dropped; every refusal DETAIL TEXT and prefix verbatim (J263 Q6: `tx <stage>/L<level>/<form>/<op>: `, the E_WORK_LIMIT texts). T-tx (§3.3): the 17 files keep their subjects except smoke.test.ts (36 lines, two round trips) folds into forms.test.ts (the old → new map appended to checks/M0-a-06-notes.md, J263 Q8; every describe/it title kept); restore.test.ts's chunkRefs, digests, snapshot and facesPerLevel (:30–52) → test/tx/support.ts's exported snapshot(p) (T-support-3); its segmentDistance (:661) → the segment-distance helper the earlier rounds exported under test/ (the builder greps test/arena/support.ts and test/insert/*/support.ts for segDist/segmentDistance exports and imports it; if none exists it stays); order.test.ts:12–22's rng → fuzzgen.ts's rng (identical mulberry32 — the builder shows the first 16 draws of three seeds equal); the mutant map by title: s1 K01–K15 → restore.test.ts's N-47 describe, s2 X01–X16 → the B-1 cases and properties, s3 Y01–Y04 → the targeted property, s4 S01–S05 and E01 → the N-55 (1) cases and savepoint.test.ts, s5 M01–M13 → savepoint.test.ts's N-56 (5) describe; X12 ('frees in reverse key order') must stay killed; the kernel-tiny vitest project's folder-level include still covers the folded file (§3.5). API frozen (J263 Q1): tx/index.ts (the comment aside) and the package barrel export the same names (runsOfPairs stays public). ZERO REFUSALS (J264 (5)): the transaction's refusals are structural (E_WORK_LIMIT, the §3.10 rows) — the registered families' counts before = after, reported. Rulings in force: J263 Q1, Q3, Q4, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "T-1: runsOfPairs = edgeRuns only after T-tx-new-1 (10⁴ pair sets; the old body kept in the test as the reference) holds; a difference is reported, not resolved",
+     "evidence": "kernel-plan.md §1.3 T-1, §3.3 T-tx-new-1; J263 Q3",
+     "required_change": "the new test/tx/chains.test.ts; ORACLE arena/resolve.test.ts, tx/profiles.test.ts, removals.test.ts, clauses.test.ts '§3.4 Stretches', digest/levelDigest.test.ts, io/roundtrip.test.ts, restore.test.ts's N-47/B-1 properties"
+    },
+    {
+     "line": "T-2: routeLines calls linesOfRuns; T-4: pointCmp → num's comparePoints; T-5: area2Of → index's faceArea2, uniq inlined, enterWriter/overLimit homed in tx/state.ts, PI and HOT_PIXEL_SQ from their homes",
+     "evidence": "kernel-plan.md §1.3 T-2, T-4, T-5, §1.0 N-4; J270 (b)",
+     "required_change": "ORACLE tx/profiles.test.ts whole ('within 1e-9 cm', 'bit for bit'), clauses.test.ts 'a join drops a knot within 10⁻⁹ cm' and 'C-0185 (17): the record's order', restore.test.ts B-2 (X12 killed), expect.test.ts class floors, clauses.test.ts:221's 300 000 vs 150 000, arr/bands/kerb.test.ts"
+    },
+    {
+     "line": "T-3: around → outgoing only where every call site is shown to read a closed rotation (the notes table the sites); else around stays with its comment",
+     "evidence": "kernel-plan.md §1.3 T-3; J263 Q4; arena/walk.ts:49 outgoing's guard, arena/malformed.test.ts:199",
+     "required_change": "ORACLE tx/removals.test.ts, restore.test.ts (N-47, B-1, zigzag, the targeted properties), tx/fuzz.test.ts; mutants s1 K01–K11, s2 X01–X16, s3 Y01–Y04, s4 S01–S05 red"
+    },
+    {
+     "line": "T-6 nothing (three readings of §3.10 stay apart); T-7/T-8/T-9 and §2's tx rows: comments only; check/notBuilt stay; every refusal text and prefix verbatim",
+     "evidence": "kernel-plan.md §1.3 T-6 … T-9, §2 (tx rows), §4; J263 Q6; J270 (a)",
+     "required_change": "the closing checker reads every rewritten comment against the code and greps the pinned texts unchanged"
+    },
+    {
+     "line": "T-tx (§3.3): smoke.test.ts folds into forms.test.ts with the map in the notes; restore.test.ts's snapshot helpers → support.ts; order.test.ts's rng → fuzzgen's; the mutant map by title; the kernel-tiny project still covers the folded file",
+     "evidence": "kernel-plan.md §3.3, §3.5; J263 Q8",
+     "required_change": "every describe/it title kept; the first 16 draws of three seeds before and after in the notes; the old → new map appended to checks/M0-a-06-notes.md"
+    },
+    {
+     "line": "API frozen (J263 Q1): tx/index.ts and the barrel export the same names",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; every earlier mutant of the item's checks named by the plan's oracles still killed; refusals before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-06.md, -s1.md … -s5.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any register case or warning count FAILS the round (J263 Q2)"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-07",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "F-1 … F-5 (§1.6, round R7: the face partitioners adopt num's ring and segment predicates, lp, comparePoints and PI, the index's faceArea2 and tx's enterWriter/overLimit — the public names kept as re-exports); §2's index comment rule; §3.4's test/faces row (no merge)"
+   },
+   "session": "R7 of the kernel plan (6b7ac6df; rulings J263, J270), AFTER R1 (num/exact.ts — c1, c2, c3), R3 (M0-a-05 c1), R5 (index/items.ts exports faceArea2) and R6 (tx/state.ts exports enterWriter and overLimit). Inside M0-a-07's owns (src/faces/, test/faces/) and nowhere else: F-1 faces/common.ts:128 insideRing(p, ring: readonly HalfEdgeId[], qx2, qy2) keeps its name, signature, doc and typed-array loop and calls num's crossingStep per edge on the DOUBLED coordinates — `if (crossingStep(2 * X[a], 2 * Y[a], 2 * X[b], 2 * Y[b], qx2, qy2) !== 0) inside = !inside;` — the same half-open rule (N-3: 'open, even–odd, doubled', copies.ts's N-3 faces site, which equivalence.test.ts already holds equal to insideDoubledRing on the fuzz arenas; after the delegation that site reads the shared name through importsShared); :147 insideRegion delegates to insideRing per ring as today (its body unchanged where it only composes); the builder tables the four (ay ≤/> qy, by ≤/> qy) cases against the old body; F-2 faces/common.ts:165 segmentsTouch → `export { segmentsMeet as segmentsTouch } from '../num/exact.js'` (N-2: copies.ts's 'N-2 faces' site holds the two equal on every input of the fuzz arenas and the exhaustive windows; the signatures agree — eight coordinates; the builder confirms the argument order before the re-export); F-3 the public names kept as re-exports: `export { enterWriter as enter, overLimit } from '../tx/state.js'` (faces/common.ts:57–68's copies deleted; faces already imports tx), `export { lp } from '../num/exact.js'` (:75's cast deleted; I-8), `export { comparePoints } from '../num/exact.js'` (:444 deleted; T-4), `export { faceArea2 } from '../index/items.js'` (:557 deleted; T-5 — the same sum); F-4 fan.ts:50's PI literal → num/exact.ts's PI; F-5 merge.ts:114 neighbours(t, f) stays private under its name with the comment 'faces sharing an edge — not a vertex one-ring'; claim.ts:76 carries(p, h, role, entity, ordinal, n) renamed edgeCarriesRow (private; its comment names insert/splitThrough.ts's vertex-row twin, which is M0-a-04's file and untouched); faces/index.ts untouched but for the scaffold sentence (J263 Q1: enter, overLimit, lp, comparePoints, faceArea2, segmentsTouch, insideRing are file-level names of common.ts — the builder greps plat/ for their path importers and confirms each still resolves). test/faces (§3.4): one subject per file, no merge; support.ts's own oracles kept (independence); every describe/it title kept. The kill list: checks/M0-a-07.md's mutant rows did not match the plan's extraction pattern — the builder and the checker re-read checks/M0-a-07.md and -notes.md whole for the item's killed mutants and re-kill them; ORACLE test/faces whole, faces/bent.test.ts's C-0214 refusals, isolated.test.ts P6, faces/bfuzz.test.ts (regionOf/landEnd). ZERO REFUSALS (J264 (5)): the partitioners' refusals are typed structural results (E_NON_CONVEX, E_WORK_LIMIT, the C-0214 refusals on unlawful rings) — the registered families' counts before = after, reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "F-1: insideRing on num's crossingStep (doubled coordinates; name, signature, loop kept); insideRegion composes it; F-2: segmentsTouch a re-export of num's segmentsMeet",
+     "evidence": "kernel-plan.md §1.6 F-1, F-2, §1.0 N-2, N-3; test/num/copies.ts's 'N-2 faces' and 'N-3 faces' sites",
+     "required_change": "the four-case table in the notes; ORACLE test/faces whole (regionOf/landEnd), faces/bfuzz.test.ts, split.test.ts, hole.test.ts; equivalence.test.ts green with the sites now importing the shared names"
+    },
+    {
+     "line": "F-3: enter/overLimit, lp, comparePoints and faceArea2 become re-exports of tx/state.ts's, num/exact.ts's and index/items.ts's under their public names; F-4: fan.ts's PI from num; F-5: the private rename edgeCarriesRow and the neighbours comment",
+     "evidence": "kernel-plan.md §1.6 F-3 … F-5, §1.3 T-4, T-5, §1.2 I-8, §4 (delegations under both names)",
+     "required_change": "every path importer of the re-exported names still resolves (the grep in the notes); ORACLE faces/merge.test.ts 'the area floor is exact: A + 1 cm² below, A not', fan.test.ts, claim.test.ts, limits.test.ts (E_WORK_LIMIT texts verbatim)"
+    },
+    {
+     "line": "API frozen (J263 Q1): faces/index.ts (the scaffold sentence aside) and the barrel export the same names",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; every killed mutant of checks/M0-a-07.md still killed; refusals before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-07.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the item's mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-14",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "V-1 … V-5 (§1.10, round R11: the invariant suite adopts num's PI, segmentsMeet and the closed non-zero ring reading, and the index's faceArea2; segmentBox and eulerCounts kept); comment rewrite C-inv-1 (§2's invariants/batch.ts row); §3.4's test/invariants row (no merge)"
+   },
+   "session": "R11 of the kernel plan (6b7ac6df; rulings J263, J270), AFTER R1 (num/exact.ts — c1, c2, c3), R5 (index/items.ts exports faceArea2) and R6 (plan order). Inside M0-a-14's owns (src/invariants/, test/invariants/) and nowhere else: V-1 batch.ts:49's PI literal → num/exact.ts's PI; batch.ts:62 uniq deleted and its uses inlined as `[...new Set(xs)]` (T-5); batch.ts:164 neighbours(p, v) STAYS — JUDGMENT (vetoable): its twin insert/snapRound.ts:202 is one line and no arena home exists (R4 added none); a comment names the twin; batch.ts:529 faceArea2 → `export { faceArea2 } from '../index/items.js'` (the public name kept through invariants/index.ts:18 — the barrel's export set unchanged; the same sum); V-2 invariants/common.ts:84 segmentsMeet deleted, its readers importing num/exact.ts's segmentsMeet (N-2: copies.ts's 'N-2 invariants' site already holds them equal; invariants/index.ts does not export it and test/invariants imports it from nowhere — the builder re-greps); common.ts:95 segmentBox KEPT (J311 (5): insert/stretch.ts:220's twin clamps to ±BOX_RANGE and floors/ceils doubles — the two agree on lattice inputs only), its comment naming stretch.ts's as the clamped double form; V-3 whole.ts:298's inline `inside` closure → num/exact.ts's insideOrOnRing(ring, q.x, q.y, 'nonZero') (N-3: 'closed, non-zero, lattice' — copies.ts's 'N-3 invariants/whole' site already holds them equal; the builder confirms the ring-of-fewer-than-three-points reading matches at that site and tables the boundary rule before and after); V-4 whole.ts:36 eulerCounts KEPT beside test/insert/step3-5/support.ts's oracle (the oracle rule, §4); V-5 batch.ts:590 and :602's N-47/N-49 narration → the rules (C-0219 (2), C-0185 (12), N-49 cited as the ruling it is); invariants/index.ts's scaffold sentence dropped; every `<row>: <problem>` prefix and verdict text verbatim (J263 Q6). test/invariants (§3.4): one subject per file, no merge; support.ts's oracles kept; every title kept. ZERO REFUSALS (J264 (5)): the suite's rows are structural checks on records (the registered families' problems count before = after, reported). Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J311 (5).",
+   "lines": [
+    {
+     "line": "V-1: PI from num, uniq inlined, neighbours kept (judgment), faceArea2 a re-export of index/items.ts's under its public name",
+     "evidence": "kernel-plan.md §1.10 V-1, §1.3 T-5, §1.0 N-4",
+     "required_change": "ORACLE invariants/fixtures.test.ts (the kept-content split 'its area changed', the seed tiling), expect.test.ts, debug.test.ts; invariants/index.ts's exported names unchanged"
+    },
+    {
+     "line": "V-2: common.ts's segmentsMeet → num's (segmentBox kept with its comment); V-3: whole.ts's inline inside → insideOrOnRing(…, 'nonZero') with the boundary rule tabled; V-4: eulerCounts kept; V-5: C-inv-1",
+     "evidence": "kernel-plan.md §1.10 V-2 … V-5, §1.0 N-2, N-3, §2 (invariants/batch.ts 590, 602), §4; J311 (5); copies.ts's 'N-2 invariants' and 'N-3 invariants/whole' sites",
+     "required_change": "ORACLE invariants/fuzz.test.ts, fixtures.test.ts seed-tiling, the whole-arena rows (whole.ts) on the fixtures; mutants M0-a-14 s1/s2 as recorded red; equivalence.test.ts green with the sites importing the shared names"
+    },
+    {
+     "line": "API frozen (J263 Q1): invariants/index.ts (the scaffold sentence aside) and the barrel export the same names",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; every killed mutant of the item's checks still killed; the rows' problem texts verbatim",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-14.md, -s1.md, -s2.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-16",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "E-1 (§1.12, round R13's facade part: facade/stamp.ts's keyName → the arena's; C-facade-1 on facade/kernel.ts) and A-4's pin T-facade-new-1 (§1.4 A-4, §3.4; J270 (c)); §2's index comment rule"
+   },
+   "session": "R13's facade round of the kernel plan (6b7ac6df; rulings J263, J270), tiny: AFTER R4 (M0-a-02 c1: arena/resolve.ts exports stamp and keyName). Inside M0-a-16's owns (src/facade/, test/facade/) and nowhere else: E-1 facade/stamp.ts:20's keyName → `import { keyName } from '../arena/resolve.js'` (A-2: the identical `${layer}/${part}`); facade/kernel.ts:13, :74–76 and :157–161's comments narrating N-55 (5)/C-0290 → C-facade-1: 'a closed overlay is no open transaction; refused in every build' citing C-0290 and §3.3, the ruling narration dropped; the message text at :161 ('the overlay is no open transaction: its batch committed, was rejected or threw (§3.3; N-55 (5); C-0290)') is PINNED by facade.test.ts and stays byte-identical (J263 Q6); facade/index.ts's scaffold sentence dropped, its exports untouched (J263 Q1). T-facade-new-1 (A-4; J270 (c)): a new pin in test/facade/facade.test.ts — `signature(key, latticePoint)` on an arena WITHOUT an index finds the live vertex at that point (the survived mutant N11 of M0-a-16, checks/M0-a-16-notes.md note 10: the no-index branch of geom.signature), written from §3.4's signature contract, never from the code. test/facade (§3.4): no merge; every title kept. ZERO REFUSALS (J264 (5)): the façade refuses only programming errors (a closed overlay, a foreign arena) — 0 lawful-input refusals before and after, reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b), (c).",
+   "lines": [
+    {
+     "line": "E-1: keyName from arena/resolve.ts; C-facade-1 on kernel.ts:13, 74–76, 157–161 with the pinned text at :161 byte-identical",
+     "evidence": "kernel-plan.md §1.12 E-1, §1.4 A-2, §2 (facade/kernel.ts row); J263 Q6",
+     "required_change": "ORACLE test/facade whole (facade.test.ts's closed-overlay text, stamps.test.ts, reflection.test.ts, mixer.test.ts, stubs.test.ts); the closing checker reads every rewritten comment against the code"
+    },
+    {
+     "line": "T-facade-new-1: the no-index signature pin (M0-a-16's survived mutant N11 red)",
+     "evidence": "kernel-plan.md §1.4 A-4, §3.4; checks/M0-a-16-notes.md note 10; J270 (c)",
+     "required_change": "the pin added; the builder re-runs mutant N11 and shows it red; the checker repeats it"
+    },
+    {
+     "line": "API frozen (J263 Q1): facade/index.ts (the scaffold sentence aside) and the barrel export the same names",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; every killed mutant of checks/M0-a-16*.md still killed",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-16.md, -s1.md, -s2.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-b-03",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.2.5 … 1.2.14 (§1.2, round R6: the fabric adopts the planner's step-7 primitives and constants, one hull, one point-in-face test, the kernel's compareKeys; spineHit/endOf/slideEnd and generated kept); §2's infill rows (deepInterior.ts, portals.ts, bentCutFabric.ts, ladder.ts); §3's test/infill/fabric row"
+   },
+   "session": "R6 of the @plat/layout consolidation plan (8167d462; rulings J302), AFTER R5 (M0-b-02 c1: planner.ts exports TOUCH_CM, RAD_PER_CDEG, M_TO_CM, cornerScale, arrivalDot2, arrivesSquare file-level and reads PI from siting/geom.ts). Inside M0-b-03's owns (src/infill/{bentCutFabric,ladder,width,deepInterior,portals,stage,index}.ts, test/infill/fabric/, testkit's layout/infill-fabric) and nowhere else — planner.ts, sides.ts and granularityBands.ts are other items' and untouched: 1.2.5 ladder.ts:88 arrivalDot2 and :129 arrivesSquare deleted, the planner's imported by path (bit-equal: the same dmath.cos(lo · RAD_PER_CDEG) with the same double, the same four statements on sides.ts's unit/dot); spineHit (:101), endOf (:120) and slideEnd (:141) KEPT APART with the comment §2 gives ('the ladder's spineHit admits denominators the planner's refuses (2²⁰-scaled div); both stay by design' — J302 Q2, queue row L28); 1.2.6 ladder.ts:314 hullOf exported file-level and bentCutFabric.ts:339 hullRing deleted in its favour ONLY after the builder diffs the two tails line by line (both sort by (x, y), pop on ≤ 0, concatenate lower and upper less their last points; the plain cross on lattice points is exact below 2⁵³, the sign orient2d's — the builder states the bound in its notes); 1.2.7 bentCutFabric.ts:589 insideRing(ring, p) deleted, its callers calling sides.ts's insideFace([ring], p) (the same loop, the same ratio(…, 'length') with the same k.ok ? k.value : 0 fallback, the same p.x < x test; neither exact on the boundary — siting's exact insideRing is NOT substituted); 1.2.8 bentCutFabric.ts:968 RAD_PER_CDEG and ladder.ts:54–55 PI/RAD_PER_CDEG → the planner's exports (the same double PI / 18000; NEVER growth's …296 literal, J302 Q8); 1.2.9 bentCutFabric.ts:1305 cornerScale → the planner's; 1.2.10 the comparator expression ×6 (portals.ts:118, portals' waysAt sort, stage.ts runS8's sort, bentCutFabric.ts:369, :1408, :1417) → the kernel's compareKeys (1.1.1's equivalence: the same expression on the same strings); 1.2.11 bentCutFabric.ts:995 generated KEPT (J302 Q5, queue row L30); 1.2.12 ladder.ts:616 kerbLength (file-level, read by bentCutFabric.ts:663 only — no test imports it, the builder re-greps) deleted, bentCutFabric calling sides.ts's lineLength; 1.2.13 SCALE ×2: width.ts:16 exports `SCALE = 1_048_576` file-level and ladder.ts:51 imports it (`import { SCALE } from './width.js'`; width.ts imports only @plat/kernel and @plat/tables, so no cycle — the builder confirms; sides.ts's DIR_SCALE is private and sides.ts is b-02's — JUDGMENT (vetoable): the home stays inside this item's owns); ladder.ts:48 `export const TOUCH_CM = 0.5` → `export { TOUCH_CM } from './planner.js'` (the same value; not in infill/index.ts's ladder list — the builder confirms no index change); 1.2.14 comments: deepInterior.ts:10–20 → the deep rule (DEEP_FACTOR × the band's plot depth, 0.6, pinned by deep.test.ts 'pins the factor at 0.6, not the superseded 2'; the interior.json cell read for its shares and reach weights only — the NG counts, 'superseded 2' and 'M0-c-07a's to re-fit' go); portals.ts:6 'ladder.ts's mirror' → the one kept helper set and the two kept differences; bentCutFabric.ts's 16 and portals.ts's 6 N-citations (N-43, N-44, N-45, N-51, N-52, N-57, C-0288, C-0298, C-0329): every citation whose sentence states the rule stays, the 'before this round', 'the S4 fix', '(1)(a)'s change' phrasing goes; the removed helpers' headers go with them; stage.ts's SEAM_PORTAL_ROW (C-0298, C-0316) kept; Q39 is not a comment matter (J302 Q4); every refusal DETAIL TEXT verbatim (J263 Q6). §3's test/infill/fabric row: 12 files, 34 describe / 94 it — the EQUAL bodies of CELLS ×4, P ×3, SEED ×2 and arenaWays ×2 move into support.ts (P is already there; the builder reads each twin and says which moved and which stayed unequal); fixture, twoDistricts, runFixture and kerbNow kept apart; no merge; every title kept (sharedVertex.test.ts:185, :311's '(before this round: …)' titles stay verbatim — a title is an oracle's name); testkit's layout/infill-fabric untouched unless a changed name is read there (the builder greps). API frozen (J263 Q1): infill/index.ts byte-identical but for its scaffold sentence; the package barrel byte-identical. ZERO REFUSALS (J264 (5)): the fabric's registered runs (the integrated CITY seeds 1–7, 20, 23, 39, 44; fusion 1, 2, 11, 30) refuse as before — the counts before and after reported, 0 lawful-input refusals changed. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q2, Q4, Q5, Q6, Q8, Q12.",
+   "lines": [
+    {
+     "line": "1.2.5, 1.2.8, 1.2.9: the planner's arrivalDot2, arrivesSquare, cornerScale, RAD_PER_CDEG, PI and TOUCH_CM adopted by ladder.ts and bentCutFabric.ts; spineHit, endOf and slideEnd kept apart with their comment",
+     "evidence": "layout-plan.md §1.2.5, §1.2.8, §1.2.9, §2 (ladder.ts, planner.ts rows); J302 Q2, Q8",
+     "required_change": "ORACLE ladder.test.ts ('a kerb end … 85–95°', 'a straight candidate extends an end to a spine within 2 × its half-width + attractCm', 'step 10' ×2), portals.test.ts, sharedVertex.test.ts (seeds 7, 13, 20, 23, 39, 44), planner/ends.test.ts (12 tests), strips.test.ts 'no strip face is split or cleared', stage.test.ts 'each lane's width reaches the kerb'; b-03 s4 mutants K01–K09, K12–K18, K21–K23 red as recorded; the integrated CITY seeds and the 1 100-task family hash 9c0f7288b693ecdf byte-identical"
+    },
+    {
+     "line": "1.2.6: one hull (ladder.ts's hullOf, file-level; hullRing deleted after the line-by-line diff); 1.2.7: insideRing → sides.ts's insideFace; 1.2.12: kerbLength → lineLength; 1.2.13: SCALE once (width.ts exports, ladder imports)",
+     "evidence": "layout-plan.md §1.2.6, §1.2.7, §1.2.12, §1.2.13",
+     "required_change": "ORACLE ladder.test.ts 'the reflex pre-cut' ×2, deep.test.ts, stage.test.ts ('F-CUT: ≤ 6 kernel calls', 'two runs of one input give equal outputs and equal arenas'), seeds.test.ts (N-57 (3): face 197 of fusion 30), holes.test.ts, width.test.ts 'each lane's L is its kerb-to-kerb length'; K18 red, K19/K20 and K37/K38 survive as recorded; the before/after digests identical"
+    },
+    {
+     "line": "1.2.10: the six comparators → compareKeys; 1.2.11: generated kept",
+     "evidence": "layout-plan.md §1.2.10, §1.2.11, §1.1.1; J302 Q5",
+     "required_change": "ORACLE seamPortalsRow.test.ts, registry.test.ts 'S8 draws exactly …'; the report rows byte-identical"
+    },
+    {
+     "line": "1.2.14: the comments per §2's four infill rows; every refusal detail text verbatim; SEAM_PORTAL_ROW kept",
+     "evidence": "layout-plan.md §1.2.14, §2 (infill rows); J263 Q6; J302 Q4",
+     "required_change": "the closing checker reads every rewritten comment against the code (deep.test.ts's factor sentence, portals.ts's kept differences) and greps the round phrasing gone"
+    },
+    {
+     "line": "§3's test/infill/fabric row: the equal twins into support.ts, the unequal ones stay (the notes say which); the oracles kept apart; no merge; titles kept",
+     "evidence": "layout-plan.md §3 (test/infill/fabric row)",
+     "required_change": "the folder's 12 test files stay 12; 34 describe / 94 it unchanged"
+    },
+    {
+     "line": "API frozen (J263 Q1): infill/index.ts (the scaffold sentence aside) and the package barrel export the same names; the new file-level exports (hullOf, SCALE) imported by path only",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; every digest, golden, registered seed's output, the fusion seeds' arena prints, every refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the package barrel identical; every killed mutant of the item's check records still killed; refusals before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-b-03.md, -s1.md … -s4.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-c-04",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.5.1 … 1.5.6 and 1.5.9 (§1.5, round R11: the growth pair's boundary.ts and mainRoads.ts adopt the proposals' idNumber, the backbone's heightsOf, siting's rimAtBearing/boxOf/distToSegment2/HA_CM2 and the enceinte's traceWithStrips; no new export — the barrel rule); §2's growth rows (boundary.ts, mainRoads.ts); §3's test/growth/s5ab row (nothing)"
+   },
+   "session": "R11 of the @plat/layout consolidation plan (8167d462; rulings J302), AFTER R1 (M0-c-01 c1, e3fb8b10: siting exports distToSegment2, HA_CM2, boxOf, rimAtBearing file-level), R7 (M0-c-03 c1: backbone/stage.ts exports heightsOf(site, points) file-level) and R8 (M0-c-02 c1: enceinte/commit.ts exports traceWithStrips file-level). Inside M0-c-04's owns (src/growth/boundary.ts, src/growth/mainRoads.ts, test/growth/s5ab/) and nowhere else — growth/index.ts is `export *`, so NO file-level export is added in this round (1.5.0; J302 Q1): 1.5.1 mainRoads.ts:1031 idNumber (private) deleted, `import { idNumber } from './proposals.js'` (public; the same three statements); 1.5.2 mainRoads.ts:298 heightsOf(slice) deleted, its callers calling backbone/stage.ts's heightsOf(slice.site, slice.lattice.points) by path (the same terrainSampler(site.terrain, slopeQueryM × 100) and the same loop — the builder diffs the two bodies); 1.5.3 mainRoads.ts:422 rimAtBearing deleted in favour of siting/routes.ts's (by path; the same body — c-01 c1 exported it) and :514 boxOf in favour of siting/lattice.ts's boxOf (by path; the builder confirms the return shape [minX, minY, maxX, maxY] matches at :413 and :549, else keeps a two-line adapter); 1.5.4 boundary.ts:271–306 traceStage1's tail (from the baseEnceinte.trace call through layStrips) replaced by ONE call of enceinte/commit.ts's traceWithStrips(slice, k, arena, water, opts.costField, s3.plaza), traceStage1 returning `ok(tail.value, tail.warnings)` with its own early return on a refusal (the same code and detail) — commitS3ThenStage1 stays the growth-side entry (public; stage1.test.ts imports it); 1.5.5 boundary.ts:838 segD2 deleted, its callers calling siting/geom.ts's distToSegment2 (1.3.2's equivalence: the guards `l2 < 1 ? 0` here and `len2 === 0 ? 0` there agree on lattice endpoints — the builder states the inputs' type; the unreachable quot text goes under J302 Q10 with the grep and the argument in the notes); 1.5.6 boundary.ts:60 `export const HA_CM2 = 100_000_000` → `export { HA_CM2 } from '../siting/geom.js'` (the same name, the same value, still public through the barrel; spawn.test.ts and boundary.test.ts import it unchanged); 1.5.9 comments: boundary.ts:542 and :704 '(F-1; C-0292)' → '(C-0292)', the duplicated block's comment goes with the block, the call to traceWithStrips named; boundary.ts's and mainRoads.ts's N-citations that state rules (N-45, N-54 (3), N-55, C-0285, C-0292, C-0303) stay; the removed helpers' headers go; 1.5.7, 1.5.8 and the proposals.ts/prune.ts rows are R10's (M0-c-05 c1), not this round's; 1.5.10 kept as the plan says; every refusal DETAIL TEXT verbatim (J263 Q6). §3's test/growth/s5ab row: nothing — bar-1 … bar-5 chunk the here-bar's 20 seeds by design and stay five files; baseRun, grow, cityGrown, violations, recountC kept; every title kept (11 files, 11 describe / 41 it). API frozen (J263 Q1): growth/index.ts byte-identical (the barrel rule holds: the exported name set of @plat/layout unchanged — HA_CM2 still exported from boundary.ts by re-export). ZERO REFUSALS (J264 (5)): the growth stage's registered families (the §13.2 here-bar's 20 seeds in five chunks; CITY seeds 1–12) refuse as before — the counts before and after reported, 0 lawful-input refusals changed. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q1, Q3, Q10, Q12.",
+   "lines": [
+    {
+     "line": "1.5.1 idNumber from proposals.ts; 1.5.2 heightsOf from backbone/stage.ts; 1.5.3 rimAtBearing and boxOf from siting; 1.5.5 segD2 → distToSegment2; 1.5.6 HA_CM2 a re-export of siting's — no new growth export",
+     "evidence": "layout-plan.md §1.5.0 … 1.5.3, §1.5.5, §1.5.6, §1.3.2; J302 Q1, Q10",
+     "required_change": "ORACLE spawn.test.ts ('N_k on the added land'), growth.test.ts, boundary.test.ts ('insertOnOutline', unionField, landOf), span.test.ts (9 pins); c-04 mutants M02, M13, M19, M20 and s1 X02–X07, X12 red; the 16-seed arenaPrint byte-identical"
+    },
+    {
+     "line": "1.5.4: traceStage1's tail → one call of enceinte/commit.ts's traceWithStrips (the same code and detail on a refusal); commitS3ThenStage1 stays the public entry",
+     "evidence": "layout-plan.md §1.5.4, §1.3.3",
+     "required_change": "ORACLE stage1.test.ts, growth.test.ts, bar-1 … bar-5.test.ts (the §13.2 here-bar over seeds 1–20); c-04 mutants B07, B08, B09, B11, B12, B14 red; probes CITY seeds 1–12 byte-identical"
+    },
+    {
+     "line": "1.5.9: the comments per §2's boundary.ts and mainRoads.ts rows; rule-stating N-citations kept; refusal texts verbatim",
+     "evidence": "layout-plan.md §1.5.9, §2 (growth rows); J263 Q6",
+     "required_change": "the closing checker reads every rewritten comment against the code and greps 'F-1' gone from the owns"
+    },
+    {
+     "line": "§3's s5ab row: nothing merged; titles kept; the five bar chunks stay",
+     "evidence": "layout-plan.md §3 (test/growth/s5ab row)",
+     "required_change": "11 files, 11 describe / 41 it unchanged"
+    },
+    {
+     "line": "API frozen (J263 Q1; the barrel rule J302 Q1): growth/index.ts byte-identical; @plat/layout's exported name set unchanged",
+     "evidence": "J263 Q1; J302 Q1",
+     "required_change": "the builder diffs the package barrel's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; the base fixtures' model roots, every registered seed's output, refusal code and pinned message text byte-identical before and after; every killed mutant of the item's check records still killed; refusals before = after",
+     "evidence": "J260 (3); J264 (5); checks/M0-c-04.md, -s1.md … -s3.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence (the growth here-bar is the item's heaviest NEAR)"
+    }
+   ]
+  },
+  {
+   "id": "M0-x-04",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/layout-plan.md",
+    "findings": "1.1.4 … 1.1.6 (§1.1, round R12, the last: base.ts's comparator → compareKeys; ownedOuterRings and GROUND as they are); §2's pipeline/base.ts row; §3's test/pipeline/base row (nothing); the whole-base closing check after every other layout round"
+   },
+   "session": "R12 of the @plat/layout consolidation plan (8167d462; rulings J302), the LAST layout round: it starts only after every other layout round (R1 … R11) has landed on main, so that its closing check's one RELATED run sees every round. Inside M0-x-04's owns (src/pipeline/base.ts, test/pipeline/base/, the base.ts re-export line of src/pipeline/index.ts) and nowhere else: 1.1.4 base.ts:670 `[...out].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0))` → `[...out].sort(compareKeys)` with `compareKeys` from '@plat/kernel' (1.1.1's equivalence: the same expression on the same strings, so the same order); 1.1.5 base.ts:309 ownedOuterRings KEPT (not a duplicate of fields/sources.ts's ownedRings: the last line and the owner types differ — §4); 1.1.6 base.ts:272 `const GROUND = GROUND_KEY` already reads @plat/site's — nothing to do; §2's base.ts row: the header, registerBase and the S5/S6/S8 adapters cite C-0264, C-0267 as rules — keep; any '(fix)' phrasing goes; the base.ts line of pipeline/index.ts untouched; every refusal DETAIL TEXT verbatim (J263 Q6). §3's test/pipeline/base row: nothing (3 files, 21 describe / 33 it; every title kept). API frozen (J263 Q1): pipeline/index.ts and the package barrel byte-identical. THE WHOLE-BASE CLOSING CHECK: the closing checker runs the item's NEAR set at full strength and RELATED at PLAT_FUZZ_RUNS=1000 over base.ts (the base registration reaches every stage), compares the base fixtures' model roots and the registered runs' reports before and after the WHOLE layout pass (its before-image is the tree at 8167d462's landing plus the kernel/model/site rounds landed since, i.e. main as it stood before R1's landing e3fb8b10 is NOT the before-image — the before-image for NO-SHIFT is this round's own start, main at R11's landing; the pass-wide comparison is the SEPARATE whole-suite check the session runs after pass A, J259/J260), and reports the registered runs' refusal counts before and after (0 → 0 on the 12 fixture runs and 12 base runs, as x-02 c1 measured). ZERO REFUSALS (J264 (5)): 0 → 0 reported. Rulings in force: J263 Q1, Q6, Q8; J270 (a), (b); J302 Q12.",
+   "lines": [
+    {
+     "line": "1.1.4: base.ts:670's comparator → the kernel's compareKeys; 1.1.5 and 1.1.6 as they are; the base.ts header's '(fix)' phrasing gone, C-0264/C-0267 kept as rules",
+     "evidence": "layout-plan.md §1.1.4 … 1.1.6, §2 (pipeline/base.ts row), §4",
+     "required_change": "ORACLE table.test.ts ('registers exactly S1, S3, S4, S5, S6, S8 … §4.1's drawn order', 'under all 720 registration orders'), run.test.ts digests, guard.test.ts; x-04 mutants M01 … M52 as recorded red"
+    },
+    {
+     "line": "API frozen (J263 Q1): pipeline/index.ts (its base.ts line untouched) and the package barrel byte-identical",
+     "evidence": "J263 Q1; C-0095",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): the item's whole test set green; the base fixtures' model roots, the generation reports and every registered run's output JSON-byte-equal before and after; every refusal code and pinned message text identical; every killed mutant of the item's check records still killed; refusals 0 → 0",
+     "evidence": "J260 (3); J264 (5); checks/M0-x-04.md and -notes.md; M0-x-02 c1's precedent (checks/M0-x-02-c1.md)",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image, runs RELATED@1000 over base.ts last of the layout pass and re-kills the named mutants with its own evidence"
+    }
+   ]
   }
  ]
 }
