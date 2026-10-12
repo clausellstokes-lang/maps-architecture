@@ -1,5 +1,6 @@
-// Insertion (§3.4 insertChain, splitThrough; §3.6). The scaffold created this index empty (M0-s-01, C-0013); it belongs to
-// M0-a-05, which re-exports M0-a-04's steps 1 – 2 beside its own steps 3 – 5 (C-0169 (7)).
+// Insertion (§3.4 insertChain, splitThrough; §3.6): M0-a-05's index, re-exporting M0-a-04's steps 1 – 2 beside its own
+// steps 3 – 5 (C-0169 (7)). Every name here is public through the package barrel (API.md Appendix B); the folder's
+// other exported helpers are read by path.
 export {
   addWarning,
   CHAIN_CLASSES,

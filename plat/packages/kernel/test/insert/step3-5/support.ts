@@ -20,11 +20,13 @@ import {
   type Plat,
   type VertexId,
 } from '../../../src/arena/index.js';
+import { recomputeLevelDigest } from '../../../src/digest/index.js';
 import { attachIndex } from '../../../src/index/index.js';
 import { insertTx, type InsertTx } from '../../../src/insert/classes.js';
 import { insertChain, type ChainInsert, type InsertChainOpts } from '../../../src/insert/insertChain.js';
+import { encodeArena } from '../../../src/io/index.js';
 import type { KernelResult } from '../../../src/num/index.js';
-import type { Level } from '../../../src/types/index.js';
+import type { Cm, Level } from '../../../src/types/index.js';
 import { FRAME, GROUND, pt } from '../../arena/support.js';
 import { CELLS, problems } from '../step1-2/support.js';
 
@@ -55,6 +57,33 @@ export function framed(side = 4000): Plat {
   const r = ins(tx(p, 0), [[0, 0], [side, 0], [side, side], [0, side]], [{ role: 'margin', entity: 'terrain:1' }], 'mandatory', { closed: true });
   if (!r.ok) throw new Error(`support: the frame ring was refused: ${r.code} ${r.detail}`);
   return p;
+}
+
+/** M0-a-08's overlay arena: a ground arena 2²⁴ cm wide (no margin), its index on a grid of `cell` cm. */
+export function wideArena(cell = 64): Plat {
+  const p = createPlat(GROUND, { widthCm: (1 << 24) as Cm, heightCm: (1 << 24) as Cm, aspect: 1, marginShare: 0 });
+  attachIndex(p, { gridCellCm: cell });
+  return p;
+}
+
+/**
+ * The distance from (px, py) to the segment a–b, a double — how far a route moved a chain, for the tests' bounds and
+ * reports (the exact oracles of clearance are step 1–2's BigInt `closerThan` and fidelity.ts's own).
+ */
+export function segDist(px: number, py: number, ax: number, ay: number, bx: number, by: number): number {
+  const dx = bx - ax;
+  const dy = by - ay;
+  const t = Math.max(0, Math.min(1, ((px - ax) * dx + (py - ay) * dy) / (dx * dx + dy * dy)));
+  return Math.hypot(ax + t * dx - px, ay + t * dy - py);
+}
+
+/** The arena's slot-free content print, its encoded chunk refs (§11, the persisted form) and its level digests (§3.9). */
+export function snapshot(p: Plat): { print: string; refs: string; digests: string } {
+  return {
+    print: contentPrint(p),
+    refs: JSON.stringify(encodeArena(p).map((c) => c.ref)),
+    digests: JSON.stringify(([0, 1, 2, 3, 4] as const).map((l) => Array.from(recomputeLevelDigest(p, l) as ArrayLike<number>))),
+  };
 }
 
 // ---- the level views (oracles) ----------------------------------------------------------------------------------------

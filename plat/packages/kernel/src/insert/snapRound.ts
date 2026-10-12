@@ -15,17 +15,17 @@
 // already joins is that piece, shared (its edges gain the chain's rows, W_STRETCH_SHARED). A vertex that stands closer
 // than `minEdge` to another vertex it is not joined to — possible only inside an acute corner, where clearance's one-ring
 // lets two vertices sharing their neighbours come that close — takes no new edge (any edge there would break clearance):
-// the chain leaves or reaches it along an existing edge (C-0177 (7)). Each segment's route is checked for clearance as
-// it is written, with a strict route and a route along existing edges as its fallbacks (insertChain's `routeSegment`,
-// `routeAlongExisting` here) and, last, a route with every crossing on the placement's endpoint fallback (N-37, N-40:
-// every such commit reports W_PLACED) and after it a route that places a crossing on the near side of a sliver across
-// it (N-42 (a), C-0209: crossings.ts `placeAcross`, W_PLACED); insertChain's second pass adds the anchored reading of step
-// 3 (`ctx.anchor`: contacts only within reach of the chain's input segment, C-0215), and its third pass the in-bound
-// landings (`ctx.strip`: a crossing whose placement falls back beyond the bound of the input placed across a thin strip,
-// within the bound on the run, or on the nearest in-bound vertex; a wedge corner beyond the bound not taken, C-0217). Every route is judged by §3.10's
-// clearance whole and N-43 B's fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
-// where the move is at most 2 · √2 · `attractCm` (N-38 as amended by N-40; `wedgeOutcome`). Readings: C-0177 (1), (2),
-// (5) – (7), (13); C-0202; C-0209; C-0215.
+// the chain leaves or reaches it along an existing edge (C-0177 (7)). The readings insertChain's `routeOne` tries in
+// order are this router's: the design route; the strict route (`ctx.strict`, C-0177 (13)); the route along existing
+// edges (`routeAlongExisting` here); the endpoint route (`ctx.endpointCrossings`: every crossing on the placement's
+// endpoint fallback, W_PLACED, C-0202 (1)); the route across a sliver (`ctx.acrossSlivers`: crossings.ts `placeAcross`,
+// W_PLACED, C-0209); and from the second pass the anchored route (`ctx.anchor`: step 3's contacts only within reach of
+// the chain's input segment, C-0215); in the third and fourth passes every route reads `ctx.strip` (a crossing whose
+// placement falls back beyond the fidelity bound of the input placed across a thin strip, within the bound on the run,
+// or on the nearest in-bound vertex; a wedge corner beyond the bound not taken, C-0217). Every route is judged by
+// §3.10's clearance whole and the fidelity bound before it commits (insertChain). A mandatory chain is wedge-routed only
+// where the move is at most 2 · √2 · `attractCm` (`wedgeOutcome`, C-0202 (3)). Readings: C-0177 (1), (2), (5) – (7),
+// (13); C-0202; C-0209; C-0215; C-0217.
 import {
   addRole,
   allocEdgePair,
@@ -59,12 +59,14 @@ import {
   nearestVertexWithin,
   nearerVertex,
   onRouteOfLevel,
+  pieceFrom,
   planLanding,
   promote,
   routeBetween,
   segmentBox,
   segmentDistance,
   SIN_MIN_ANGLE,
+  subEdgeHolding,
   withinSegment,
   type ChainCtx,
   type Landing,
@@ -81,9 +83,9 @@ const ATTRACT = LATTICE.attractCm;
 /** A guard on the router's recursion: far beyond any real chain, it turns a routing loop into a programming error. */
 const MAX_DEPTH = 4096;
 /**
- * The same guard in S5's third pass (C-0217), tighter: its in-bound landings can send a segment back and forth across one
- * strip, and the guard must end that as a refusal of the route ('the router does not converge', E_INVARIANT) well before
- * the recursion exhausts the stack.
+ * The same guard in the third and fourth passes (C-0217), tighter: their in-bound landings can send a segment back and
+ * forth across one strip, and the guard must end that as a refusal of the route ('the router does not converge',
+ * E_INVARIANT) well before the recursion exhausts the stack.
  */
 const MAX_DEPTH_THIRD = 512;
 
@@ -227,21 +229,10 @@ export function twinOf(ctx: ChainCtx, v: VertexId): VertexId {
  */
 function exitTowards(ctx: ChainCtx, v: VertexId, x: number, y: number): VertexId {
   const { p, n } = ctx;
-  const O = p.halfEdges.origin;
-  const L = p.vertices.level;
   let best = -1;
   for (const h of outgoing(p, v)) {
-    const m = edgeLevel(p, h);
-    if (m > n) continue;
-    let g = h;
-    let w = O[g ^ 1];
-    while (L[w] > n) {
-      let onward = -1;
-      for (const e of outgoing(p, w)) if (e !== (g ^ 1) && edgeLevel(p, e) === m) onward = e;
-      check(onward >= 0, `vertex ${w} on a level-${m} run has no onward run edge`);
-      g = onward;
-      w = O[g ^ 1];
-    }
+    if (edgeLevel(p, h) > n) continue;
+    const { w } = pieceFrom(p, h, n);
     best = best < 0 ? w : nearerVertex(p, best, w, x, y);
   }
   return best;
@@ -350,8 +341,8 @@ function checkEdge(ctx: ChainCtx, a: VertexId, b: VertexId): EdgeCheck {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within attractCm of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };
     }
     // Clearance against vertices of level ≤ n is checked on each route and once the chain's edges are all written
-    // (insertChain's `wholeProblem`, a refusal — N-44 (1), C-0215):
-    // a vertex the router is about to join to this edge's end may stand closer meanwhile (C-0177 (7)).
+    // (insertChain's `wholeProblem`, a refusal, C-0215): a vertex the router is about to join to this edge's end may
+    // stand closer meanwhile (C-0177 (7)).
     if (L[v] > n && !na.has(v) && !nbb.has(v) && segmentCloserThan(X[v], Y[v], ax, ay, bx, by, MIN_EDGE)) {
       return { ok: false, code: 'E_KEPT', detail: `the chain comes within minEdge of a finer vertex at (${X[v]}, ${Y[v]}) (kept content)` };
     }
@@ -452,27 +443,8 @@ const ALONG_MAX = 256;
 
 /** The vertices of level ≤ n joined to v by one level-≤ n route piece (through finer vertices), each with the piece's half-edges. */
 function pieceNeighbours(p: Plat, v: VertexId, n: Level): { readonly w: VertexId; readonly path: HalfEdgeId[] }[] {
-  const O = p.halfEdges.origin;
-  const L = p.vertices.level;
-  const out: { w: VertexId; path: HalfEdgeId[] }[] = [];
-  for (const h of outgoing(p, v)) {
-    const m = edgeLevel(p, h);
-    if (m > n) continue;
-    const path: HalfEdgeId[] = [h];
-    let g = h;
-    let w = O[g ^ 1];
-    let guard = 0;
-    while (L[w] > n) {
-      let onward = -1;
-      for (const e of outgoing(p, w)) if (e !== (g ^ 1) && edgeLevel(p, e) === m) onward = e;
-      check(onward >= 0, `vertex ${w} on a level-${m} run has no onward run edge`);
-      g = onward;
-      path.push(g);
-      w = O[g ^ 1];
-      check(++guard <= p.slots.pair.top, 'a run does not end');
-    }
-    out.push({ w, path });
-  }
+  const out: { readonly w: VertexId; readonly path: HalfEdgeId[] }[] = [];
+  for (const h of outgoing(p, v)) if (edgeLevel(p, h) <= n) out.push(pieceFrom(p, h, n));
   return out;
 }
 
@@ -608,7 +580,7 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     if (!r1.ok) return r1;
     if (k !== j) {
       // The route to j may have split or promoted a vertex between j and k: then the run is walked from j to k, and only
-      // where that walk is impossible is j → k routed as any segment (N-37).
+      // where that walk is impossible is j → k routed as any segment (C-0202 (2)).
       const along = routeBetween(p, j, k, n) ?? walkRun(ctx, ob.piece, j, k);
       if (along !== null) share(ctx, along);
       else {
@@ -628,18 +600,18 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       const k = fc.corner;
       const w = wedgeOutcome(ctx, cornerMove(ctx, a, b, k), pointOf(p, k));
       if (!w.ok) return passOn(w);
-      // S5's third pass (C-0217): a corner beyond the bound of the chain's input segment is not taken.
+      // The third and fourth passes (C-0217): a corner beyond the fidelity bound of the chain's input segment is not taken.
       const st = ctx.strip ?? null;
       if (w.value && (st === null || st.a === null || st.b === null || inInputBound(st.a, st.b, X[k], Y[k]))) {
         if (L[k] > n) promote(tx, k, n, ctx.warnings, ctx.undo);
         return via(k, pass);
       }
       // Beyond 2 · √2 · attractCm a mandatory chain is not wedge-routed: its crossings are placed in turn, the first here
-      // (N-38, N-40).
+      // (C-0202 (3)).
     }
     const c = fc.kind === 'wedge' ? fc.first : fc.crossing;
     if (ctx.endpointCrossings === true) {
-      // N-37's route: the crossing lands on the placement's endpoint fallback, never a split.
+      // The endpoint route (C-0202 (1)): the crossing lands on the placement's endpoint fallback, never a split.
       const e = fallbackEnd(ctx, c.piece, c.x, c.y, onPath);
       if (e < 0) return err('E_INVARIANT', `a crossing at (${c.x.toFixed(1)}, ${c.y.toFixed(1)}) has both sub-edge ends on the chain's path`);
       const v = applyLanding(ctx, { kind: 'vertex', vertex: e, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pointOf(p, e) }] });
@@ -649,8 +621,8 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
     if (!l.ok) return passOn(l);
     let landing = l.value;
     if (ctx.acrossSlivers === true && acrossApplies(landing)) {
-      // N-42 (a)'s route: a crossing the placement can only send to its endpoint fallback, on the near side of a sliver,
-      // is placed across it; the far side's crossing is placed in its turn, at least minEdge away (C-0209).
+      // The route across a sliver (C-0209): a crossing the placement can only send to its endpoint fallback, on the near
+      // side of a sliver, is placed across it; the far side's crossing is placed in its turn, at least minEdge away.
       const partner = sliverPartner(ctx, a, b, c);
       if (!partner.ok) return passOn(partner);
       if (partner.value !== null) {
@@ -660,11 +632,11 @@ function route(ctx: ChainCtx, a: VertexId, b: VertexId, pass: number, exclude: R
       }
     }
     if (ctx.strip != null && acrossApplies(landing)) {
-      // S5's third pass (C-0217): a fallback beyond the bound of the chain's input — the step across the strip, else
-      // the nearest in-bound point of the run.
-      const s5 = stripLanding(ctx, a, b, c, landing, onPath);
-      if (!s5.ok) return passOn(s5);
-      landing = s5.value;
+      // The third and fourth passes (C-0217): a fallback beyond the fidelity bound of the chain's input — the step across
+      // the strip, else the nearest in-bound point of the run.
+      const inBound = stripLanding(ctx, a, b, c, landing, onPath);
+      if (!inBound.ok) return passOn(inBound);
+      landing = inBound.value;
     }
     if (landing.kind === 'vertex' && onPath(landing.vertex)) {
       // The placement's fallback (or an end within attractCm) would send the segment back onto its own path: the other
@@ -721,7 +693,7 @@ function planLandingAfter(ctx: ChainCtx, piece: { readonly a: VertexId; readonly
 const WALK_BAND_CM = 2;
 
 /**
- * N-37's walk along a stretch's run from its join point j to its leave point k, for when the route to j has split or
+ * The stretch walk (C-0202 (2)) along a stretch's run from its join point j to its leave point k, for when the route to j has split or
  * promoted a vertex between them, so that no one route piece joins them: the physical half-edges of the run's level from
  * j, each step to the neighbour that lies on towards k along the run's own-level route (of several, the one nearest that
  * line; it must stand within 2 cm of it), until k. Null when the walk cannot reach k. Nothing written.
@@ -769,26 +741,15 @@ function walkRun(ctx: ChainCtx, piece: { readonly runA: VertexId; readonly runB:
 }
 
 /**
- * N-37's endpoint for a crossing at the exact position (x, y) on the route piece: the nearer end of the physical
- * sub-edge holding it (ties y then x — the placement rule's fallback, §3.6), or its other end when that one is already on
- * the chain's path (C-0177 (7)); −1 when both are.
+ * The endpoint route's landing (C-0202 (1)) for a crossing at the exact position (x, y) on the route piece: the nearer
+ * end of the physical sub-edge holding it (`subEdgeHolding`; ties y then x — the placement rule's fallback, §3.6), or its
+ * other end when that one is already on the chain's path (C-0177 (7)); −1 when both are.
  */
 function fallbackEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number, onPath: (v: VertexId) => boolean): VertexId {
-  const p = ctx.p;
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const path = routeBetween(p, piece.a, piece.b, ctx.n);
-  check(path !== null, 'a piece joins its two ends');
-  const vs = path.map((h) => O[h]);
-  vs.push(O[path[path.length - 1] ^ 1]);
-  const ux = X[piece.b] - X[piece.a];
-  const uy = Y[piece.b] - Y[piece.a];
-  const tq = (x - X[piece.a]) * ux + (y - Y[piece.a]) * uy;
-  let i = 0;
-  while (i + 2 < vs.length && (X[vs[i + 1]] - X[piece.a]) * ux + (Y[vs[i + 1]] - Y[piece.a]) * uy <= tq) i += 1;
-  const near = nearerVertex(p, vs[i], vs[i + 1], x, y);
-  const far = near === vs[i] ? vs[i + 1] : vs[i];
+  const sub = subEdgeHolding(ctx, piece, x, y);
+  check(sub !== null, 'a piece joins its two ends');
+  const near = nearerVertex(ctx.p, sub[0], sub[1], x, y);
+  const far = near === sub[0] ? sub[1] : sub[0];
   if (!onPath(near)) return near;
   return onPath(far) ? -1 : far;
 }
@@ -820,13 +781,13 @@ function alongEdge(ctx: ChainCtx, a: VertexId, b: VertexId): VertexId {
   return -1;
 }
 
-/** 2 · √2 · `attractCm`, the reach of S5's in-bound placements (N-43 B's bound). */
+/** 2 · √2 · `attractCm`, the reach of the third pass's in-bound placements (the fidelity bound). */
 const BOUND = Math.sqrt(FIDELITY_SQ);
 
 /**
- * S5's third pass (C-0217; `ctx.strip`) for a crossing c of the segment a → b whose placement fell back on a vertex beyond
- * the bound of the chain's input segment: placed across the thin strip it crosses — the far side's sub-edge (the sliver
- * partner of N-42 (a), or `stripPartner`'s) left out of (iii), first within `attractCm`, then within the bound — or, with
+ * The third and fourth passes (C-0217; `ctx.strip`) for a crossing c of the segment a → b whose placement fell back on a vertex beyond
+ * the bound of the chain's input segment: placed across the thin strip it crosses — the far side's sub-edge (a sliver's
+ * partner, C-0209, or `stripPartner`'s) left out of (iii), first within `attractCm`, then within the bound — or, with
  * no strip, at the nearest point of the run within the bound that qualifies (`placeOnRun`, W_PLACED); the landing as
  * given when nothing qualifies. Nothing written; refuses only E_WORK_LIMIT.
  */
@@ -874,7 +835,9 @@ function withAll(s: ReadonlySet<VertexId>, ...vs: VertexId[]): Set<VertexId> {
 
 /**
  * The vertex beside `v` along the route piece on the side of the exact position (x, y): the other end of the sub-edge
- * the position falls on when v is one of its ends; −1 when v is not on the piece.
+ * the position falls on when v is one of its ends; −1 when v is not on the piece. It steps from v by comparing the two
+ * projections, not by `subEdgeHolding`'s walk: a position projecting exactly onto v takes the vertex before v, where the
+ * walk would take the sub-edge after it.
  */
 function otherEnd(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number, v: VertexId): VertexId {
   const p = ctx.p;

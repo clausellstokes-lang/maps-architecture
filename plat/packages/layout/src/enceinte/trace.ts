@@ -137,13 +137,15 @@ export function traceBase(
   const withG = withGates(ring0, gateSites);
   const gatePins = new Set(gateSites.map((g) => key(lat(g.at))));
   const waters = waterRings(water, k, arena);
-  const crossed = crossWater(withG, gatePins, waters, arenaVertices(k, arena));
+  // A crossing whose chord would leave the water is routed along its banks within the band of the boundary as given
+  // (C-0321; J264: a river bend between the banks is lawful input).
+  const crossed = crossWater(withG, gatePins, waters, arenaVertices(k, arena), { ring: ring0, bandCm: band });
   // A water gate's wet side is its chord between its two bank pins, laid as one edge (§2.2 rule 7; N-54 (1), strict):
   // a crossing with no clear chord is refused here, nothing written (C-0300).
   const unclear = crossed.crossings.find((c) => !c.clear);
   if (unclear !== undefined) {
     const gateIn = unclear.course.some((q) => gatePins.has(key(q)));
-    const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : gateIn ? 'a main gate stands in the water between its banks' : 'its chord would leave the water';
+    const why = unclear.chord ? 'its chord passes an existing vertex no shore holds, or leaves the water once its banks are settled' : gateIn ? 'a main gate stands in the water between its banks' : 'its chord would leave the water, and no route along its banks within the band gives a clear chord (C-0321)';
     return { ok: false, code: 'E_INVARIANT', detail: `water: the crossing from ${key(unclear.entry)} to ${key(unclear.exit)} has no clear chord between its two bank pins (${why}); a water gate's wet side is that chord, one edge (§4.4 *Water and the waterfront*, §2.2 rule 7; N-54 (1); C-0300)` };
   }
   const ring = crossed.ring;
@@ -223,7 +225,21 @@ export function traceBase(
     const id = `gate:${String(g.ordinal)}`;
     return { id, enceinte: encId, junction: id, way: null, kind: 'main', lifecycle: generated(epoch) };
   });
-  const wgs: WaterGate[] = crossed.crossings.map((c, i) => waterGateOf(i, c, encId, epoch));
+  // Each water gate takes the lowest `gate:w<i>` no earlier enceinte's water gate holds in the arena (C-0321 (3)): a
+  // stage-2 trace crossing the river where stage 1's trace also crosses it wrote `gate:w0` again, so its gate_end refs
+  // resolved to two vertices and the retype below was refused E_DEGENERATE `stretch` (base river seed 2, 900 ha). A
+  // first trace — and any trace with no earlier water gate — keeps its ids `gate:w0` … in crossing order.
+  const heldId = (id: Id): boolean => {
+    const r = k.resolve({ role: 'gate_end', entity: id, ordinal: 0 }, arena);
+    return r.view === 'vertices' && r.vertices.length > 0;
+  };
+  let nextW = 0;
+  const wgs: WaterGate[] = crossed.crossings.map((c) => {
+    while (heldId(`gate:w${String(nextW)}`)) nextW += 1;
+    const g = waterGateOf(nextW, c, encId, epoch);
+    nextW += 1;
+    return g;
+  });
   const knots: { index: number; role: string; ordinal: number; entity: Id }[] = [];
   const pinned: number[] = [];
   line.forEach((p, i) => {

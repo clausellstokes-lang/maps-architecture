@@ -11,7 +11,12 @@
 // seat's when its `checkerSeat` names a CLEAN-ROOM.md ledger row whose seat cell is the seat's lane; the crossing file
 // itself (baselines.json, ng-faces.json, denylist.json, a digest file) is attributed by that record in landed:verify,
 // never declared here. An item landing in a wave before its own (a run item started early, C-0121) owns its files and
-// hand-overs as at its own wave.
+// hand-overs as at its own wave. A passed-ownership path (a module folder's index.ts, C-0013, C-0064; a bench harness
+// index, C-0059; any owns entry a later item takes over) is resolved at its hand-over wave under any label: a wave
+// label reads the waves up to it as open, and a label that names no wave (flow-N, session-…) reads every wave as open,
+// so the latest owner — the hand-over's receiver — claims the path and its package-index line, never the giver
+// (C-0318). The owner of a package index (`packages/<p>/src/index.ts`, the scaffold's) claims its own edits there line
+// by line — every added line that is not a module folder's line — with the snapshot's lines it removed (C-0318).
 //
 // Options: --lane <key> (required) · --wave <label> (the snapshot of the wave the seat started in; default: the newest
 // snapshot) · --touched <plat/path> (repeatable) · --whole <plat/path> (an append file the item owns, claimed whole for
@@ -226,6 +231,9 @@ export function strayLedgerRows(lines, lane) {
 
 export const INDEX_LINE = /^export \* from '\.\/([A-Za-z0-9_-]+)\/index\.js';\s*$/;
 
+/** A line of a package index that names a module folder (`'./<folder>/…'`) without C-0064's exact form: the folder. */
+export const FOLDER_REF = /['"]\.\/([A-Za-z0-9_-]+)\//;
+
 /** Longest common subsequence of two hash lists: the indices of a not kept (removed) and of b not kept (added). */
 export function lcsDiff(a, b) {
   const n = a.length;
@@ -406,10 +414,17 @@ export function buildRecord(root, opts) {
   }
   if (problems.length) return fail(1);
 
+  // A label that names no wave (flow-N, session-…) reads every wave as open: a passed-ownership path is its latest
+  // owner's, the hand-over's receiver (C-0318; the reading of the session's staging, ownersAt at Infinity).
   let W = labelPosition(work, snapshot.label);
-  if (item !== null && W === null) {
-    W = wavePosition(work, item.wave) ?? Number.MAX_SAFE_INTEGER;
-    notes.push(`snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved at ${id}'s own wave (${item.wave})`);
+  if (W === null) {
+    W = Number.POSITIVE_INFINITY;
+    if (item !== null) {
+      notes.push(
+        `snapshot ${snapshot.label} names no wave of ${WORK_FILE}; ownership resolved with every wave open: a handed-over path is ` +
+          'its latest owner\'s (C-0318)',
+      );
+    }
   }
   // An item landing before its own wave (a run item started early in a build wave, C-0121) owns its files and its
   // hand-overs as at its own wave; every other landing resolves at the open wave (a later wave's landing of the same
@@ -463,6 +478,10 @@ export function buildRecord(root, opts) {
     const addedSet = new Set(d.added);
     const isIndex = /\/src\/index\.ts$/.test(path);
     const isRecords = d.unit === 'record';
+    const pkg = path.split('/')[2];
+    // A module folder's line (well formed or not) is its folder owner's; the package index's owner claims the rest.
+    const folderMine = (folder) => item !== null && ownersAt(work, `plat/packages/${pkg}/src/${folder}/index.ts`, at).includes(id);
+    const ownIndex = isIndex && item !== null && mine(path);
     if (!isIndex && !isRecords) {
       for (const c of collisions(d.lines, addedSet)) {
         problems.push(
@@ -474,8 +493,10 @@ export function buildRecord(root, opts) {
     }
     // A re-landing in the same wave (under any lane) keeps every unit an earlier landing of the record claimed, under
     // the id that landing gave it (C-0111 (4), C-0306 (2)).
+    // A package index's lines are claimed by ownership alone, never carried (C-0318): a hand-over since the earlier
+    // landing moves a module folder's line to its receiver.
     const carriedIds = new Map();
-    for (const a of (carried?.appends ?? []).filter((x) => x.file === path)) a.lines.forEach((h, i) => carriedIds.set(h, a.ids?.[i] ?? null));
+    for (const a of (carried?.appends ?? []).filter((x) => x.file === path && !isIndex)) a.lines.forEach((h, i) => carriedIds.set(h, a.ids?.[i] ?? null));
     const ids = [];
     const lines = [];
     for (const k of d.added) {
@@ -483,8 +504,9 @@ export function buildRecord(root, opts) {
       let claim = null;
       if (isIndex) {
         const m = INDEX_LINE.exec(line);
-        const pkg = path.split('/')[2];
-        if (m && item !== null && ownersAt(work, `plat/packages/${pkg}/src/${m[1]}/index.ts`, at).includes(id)) claim = m[1];
+        const folder = m ? m[1] : (FOLDER_REF.exec(line)?.[1] ?? null);
+        if (m && folderMine(m[1])) claim = m[1];
+        else if (ownIndex && (folder === null || folderMine(folder))) claim = `line ${k + 1}`;
       } else if (isRecords) {
         const rec = d.invalid ? null : parseRecordUnit(line);
         const seat = rec === null ? null : ledgerSeat(ledger, rec.checkerSeat);
@@ -502,8 +524,9 @@ export function buildRecord(root, opts) {
         lines.push(d.hashes[k]);
       }
     }
-    const removed = lines.length > 0 ? d.removed.map((r) => d.old[r]).filter((h) => d.placeholders.has(h)) : [];
-    if (lines.length > 0) appends.push({ file: path, ids, lines, removed });
+    // The snapshot's lines a seat removed: its placeholder rows; in a package index it owns, every removed line (C-0318).
+    const removed = ownIndex ? d.removed.map((r) => d.old[r]) : lines.length > 0 ? d.removed.map((r) => d.old[r]).filter((h) => d.placeholders.has(h)) : [];
+    if (lines.length > 0 || removed.length > 0) appends.push({ file: path, ids, lines, removed });
   }
 
   // A ledger row of this lane outside §2's table would be claimed by no record (C-0306 (1)): refuse, naming it.

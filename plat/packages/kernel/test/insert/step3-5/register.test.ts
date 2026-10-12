@@ -21,12 +21,8 @@
 // documented, not a bug to re-find).
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { createPlat, type Plat } from '../../../src/arena/index.js';
-import { attachIndex } from '../../../src/index/index.js';
-import type { Cm } from '../../../src/types/index.js';
-import { GROUND } from '../../arena/support.js';
 import { fidelityProblems } from './fidelity.js';
-import { allProblems, contentPrint, ins, TIMEOUT, tx } from './support.js';
+import { allProblems, contentPrint, ins, TIMEOUT, tx, wideArena } from './support.js';
 
 /** One register fixture: where it came from, the arena's index grid, the frame ring, the two-point chains in order. */
 interface Fixture {
@@ -38,13 +34,6 @@ interface Fixture {
 
 function load(name: string): Fixture {
   return JSON.parse(readFileSync(new URL(`./register/${name}.json`, import.meta.url), 'utf8')) as Fixture;
-}
-
-/** M0-a-08's overlay arena: a ground arena 2²⁴ cm wide (no margin), its index on a grid of `cell` cm. */
-function wideArena(cell: number): Plat {
-  const p = createPlat(GROUND, { widthCm: (1 << 24) as Cm, heightCm: (1 << 24) as Cm, aspect: 1, marginShare: 0 });
-  attachIndex(p, { gridCellCm: cell });
-  return p;
 }
 
 /**

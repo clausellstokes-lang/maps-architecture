@@ -19,9 +19,21 @@
 // (an L0 shore vertex where the trace attracted, as C-0087 allows), until the chord passes none (`clear`); a chord
 // still passing a vertex that is not on a shore, or leaving the water once settled, is not clear, and the strategy
 // refuses it (C-0300).
+// A crossing whose straight chord would leave the water (a river bend between the banks) is ROUTED ALONG ITS BANKS
+// when the strategy hands in its band (session round s4, docs/M0-FIX-QUEUE.md Q40, J264; C-0321): the base river
+// fixture at seed 2 (900 ha, 30 ha walled) had its stage-2 boundary enter the river on the south bank at (41082, −4616),
+// run 90 m inside it and leave by the north bank at (49156, −1003); the chord between those banks cuts the south bank's
+// bulge, so S5 was refused on lawful input. The trace instead follows the shore from each bank point (on a shore the
+// trace is attracted onto the outline, §4.4 S5a *Trace* (3); the graze's rule, C-0226 (7)) to a pair of shore points
+// whose chord keeps inside the water — every walked side and the chord proved within the band of the boundary as
+// given (§4.2 S3 (9); `sideHolds`, C-0232 (2)) — and crosses there as one chord, so the gate keeps §2.2 rule 7's form:
+// one wall edge across the water between its two `gate_end` vertices. Of the pairs that hold, the one with the least
+// shore walked is taken (ties: the entry's walk forward along the ring first, then the shorter entry walk, then the
+// exit's in the same order). A crossing no pair clears stays refused, typed, as before. Without a band (`waterGates`,
+// a reader of a committed trace) nothing is routed.
 import { LATTICE, orient2d, type Kernel, type LatticePoint, type PlatKey, type Polygon } from '@plat/kernel';
 import type { Id, Lifecycle, WaterSet } from '@plat/model';
-import { ccw, crossParams, d2, dist, inside, lat, openRing, TOUCH_CM } from './plane.js';
+import { bandLimit, ccw, crossParams, d2, dist, inside, lat, openRing, sideHolds, TOUCH_CM } from './plane.js';
 import type { WaterGate, XY } from './types.js';
 
 /** A water face's outer ring with its body. */
@@ -48,6 +60,17 @@ export interface WaterCrossing {
    * lays it as one edge between the two bank pins. False for a course (no chord) and for a chord no settling cleared.
    */
   readonly clear: boolean;
+  /**
+   * True when the boundary's straight chord left the water and the crossing was routed along its banks (C-0321): the
+   * banks are shore points the trace walked to, `course` their chord.
+   */
+  readonly routed?: boolean;
+}
+
+/** The band a crossing may be routed within (C-0321): the boundary as given and the search band (cm). */
+export interface BankRouteBand {
+  readonly ring: readonly XY[];
+  readonly bandCm: number;
 }
 
 /** The arena's existing vertices in a box (cm, inclusive), the ones the insertion's attraction reads (§3.6). */
@@ -126,6 +149,95 @@ function chordInside(ring: readonly XY[], a: XY, b: XY): boolean {
     if (!inside(ring, { x: a.x + t * (b.x - a.x), y: a.y + t * (b.y - a.y) })) return false;
   }
   return true;
+}
+
+/**
+ * The shore walked from `start` (a point on side j of the water ring) in ring order (`dir` 1) or against it (−1): its
+ * vertices in walking order with the shore length walked to each, the walk stopping at the first side not proved within
+ * `limit` of the boundary `band` (C-0232 (2)) or once round the ring.
+ */
+function shoreWalk(ring: readonly LatticePoint[], start: XY, j: number, dir: 1 | -1, band: readonly XY[], limit: number): { pts: LatticePoint[]; len: number[] } {
+  const n = ring.length;
+  const pts: LatticePoint[] = [];
+  const len: number[] = [];
+  let prev: XY = start;
+  let total = 0;
+  let k = dir > 0 ? (j + 1 === n ? 0 : j + 1) : j;
+  for (let s = 0; s < n; s += 1) {
+    const v = ring[k];
+    if (v.x !== prev.x || v.y !== prev.y) {
+      if (!sideHolds(prev, v, band, limit)) break;
+      total += dist(prev, v);
+      pts.push(v);
+      len.push(total);
+      prev = v;
+    }
+    k = dir > 0 ? (k + 1 === n ? 0 : k + 1) : k === 0 ? n - 1 : k - 1;
+  }
+  return { pts, len };
+}
+
+/**
+ * Does the chord ab keep inside the water ring: no side of the ring met by it farther than a centimetre from both of its
+ * ends (a touch at a ring vertex counts as a meeting), and its nine samples inside (`chordInside`)?
+ */
+function chordClear(ring: readonly XY[], a: XY, b: XY): boolean {
+  const l = dist(a, b);
+  if (l < 1) return false;
+  const x0 = Math.min(a.x, b.x);
+  const x1 = Math.max(a.x, b.x);
+  const y0 = Math.min(a.y, b.y);
+  const y1 = Math.max(a.y, b.y);
+  const n = ring.length;
+  for (let i = 0; i < n; i += 1) {
+    const c = ring[i];
+    const d = ring[i + 1 === n ? 0 : i + 1];
+    if (Math.max(c.x, d.x) < x0 || Math.min(c.x, d.x) > x1 || Math.max(c.y, d.y) < y0 || Math.min(c.y, d.y) > y1) continue;
+    const m = crossParams(a, b, c, d);
+    if (m !== null && m.t * l > 1 && (1 - m.t) * l > 1) return false;
+  }
+  return chordInside(ring, a, b);
+}
+
+/**
+ * A crossing routed along its banks (see the module comment; C-0321): the entry (on side `ja` of the water ring) and
+ * the exit (on side `jb`), each walked along the shore both ways within the band; of the pairs of walked points (each
+ * end's own point among them) whose chord is clear and within the band, with no shore point walked from both ends, the
+ * pair with the least shore walked. Returns the shore points walked from the entry (in trace order, the last the
+ * crossing's bank 0) and from the exit (in walking order, the last its bank 1), or null when no pair holds.
+ */
+function bankRoute(ring: readonly LatticePoint[], entry: LatticePoint, ja: number, exit: LatticePoint, jb: number, band: BankRouteBand): { into: LatticePoint[]; from: LatticePoint[] } | null {
+  const limit = bandLimit(band.bandCm);
+  type End = { walk: LatticePoint[]; count: number; len: number };
+  const endsOf = (p: LatticePoint, j: number): End[] => {
+    const out: End[] = [{ walk: [], count: 0, len: 0 }];
+    for (const dir of [1, -1] as const) {
+      const w = shoreWalk(ring, p, j, dir, band.ring, limit);
+      w.pts.forEach((_q, i) => out.push({ walk: w.pts, count: i + 1, len: w.len[i] }));
+    }
+    return out;
+  };
+  const A = endsOf(entry, ja);
+  const B = endsOf(exit, jb);
+  const pairs: { ia: number; ib: number; len: number }[] = [];
+  for (let ia = 0; ia < A.length; ia += 1) for (let ib = 0; ib < B.length; ib += 1) pairs.push({ ia, ib, len: A[ia].len + B[ib].len });
+  pairs.sort((p, q) => p.len - q.len || p.ia - q.ia || p.ib - q.ib);
+  const k = (q: XY): string => `${String(q.x)},${String(q.y)}`;
+  for (const pr of pairs) {
+    const ea = A[pr.ia];
+    const eb = B[pr.ib];
+    const a = ea.count === 0 ? entry : ea.walk[ea.count - 1];
+    const b = eb.count === 0 ? exit : eb.walk[eb.count - 1];
+    if (a.x === b.x && a.y === b.y) continue;
+    const walked = new Set<string>([k(entry)]);
+    for (let i = 0; i < ea.count; i += 1) walked.add(k(ea.walk[i]));
+    let shared = walked.has(k(exit));
+    for (let i = 0; i < eb.count && !shared; i += 1) shared = walked.has(k(eb.walk[i]));
+    if (shared) continue;
+    if (!sideHolds(a, b, band.ring, limit) || !chordClear(ring, a, b)) continue;
+    return { into: ea.walk.slice(0, ea.count), from: eb.walk.slice(0, eb.count) };
+  }
+  return null;
 }
 
 /**
@@ -225,11 +337,12 @@ export function waterRings(water: WaterSet, k: Kernel, key: PlatKey = GROUND): W
 /**
  * The boundary with its water crossings made (see the module comment): `ring` counter-clockwise lattice points, `pins`
  * the "x,y" keys of the points that must not move (a main gate in the water among them), `near` the arena's existing
- * vertices each chord's banks are settled on (the water rings' own vertices when absent). Returns the new ring, the
- * crossings in boundary order and the keys of every point the trace must keep (the bank points and any boundary point
- * kept in the water).
+ * vertices each chord's banks are settled on (the water rings' own vertices when absent), `band` the boundary and band a
+ * crossing whose chord would leave the water may be routed along its banks within (C-0321; none routed when absent).
+ * Returns the new ring, the crossings in boundary order and the keys of every point the trace must keep (the bank
+ * points, the shore points a routed crossing walks and any boundary point kept in the water).
  */
-export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<string>, waters: readonly WaterRing[], near?: VerticesIn): { ring: LatticePoint[]; crossings: WaterCrossing[]; keep: Set<string> } {
+export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<string>, waters: readonly WaterRing[], near?: VerticesIn, band?: BankRouteBand): { ring: LatticePoint[]; crossings: WaterCrossing[]; keep: Set<string> } {
   const n = ring.length;
   const keep = new Set<string>();
   const cuts: { s: number; t: number; w: number; j: number; u: number }[] = [];
@@ -325,6 +438,22 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
         if (!inside(w.ring, { x: entry.x + t * (end.x - entry.x), y: entry.y + t * (end.y - entry.y) })) chord = false;
       }
     }
+    // A chord leaving the water, no main gate between the banks: routed along its banks within the band (C-0321).
+    if (!chord && !pinnedInside && band !== undefined && waters[a.w] === w && waters[b.w] === w && (entry.x !== end.x || entry.y !== end.y)) {
+      const route = bankRoute(w.ring, entry, a.j, end, b.j, band);
+      if (route !== null) {
+        const kept = [entry, ...route.into, ...[...route.from].reverse(), end];
+        for (const v of kept) keep.add(`${String(v.x)},${String(v.y)}`);
+        for (const v of route.into) push(v);
+        for (let q = route.from.length - 1; q >= 0; q -= 1) push(route.from[q]);
+        push(end);
+        const bank0 = route.into.length === 0 ? entry : route.into[route.into.length - 1];
+        const bank1 = route.from.length === 0 ? end : route.from[route.from.length - 1];
+        crossings.push({ body: w.body, entry: bank0, exit: bank1, chord: true, course: [bank0, bank1], clear: false, routed: true });
+        ringOf.push(w);
+        continue;
+      }
+    }
     const from = out.length - 1;
     if (!chord) {
       for (const v of between) {
@@ -353,7 +482,7 @@ export function crossWater(ring: readonly LatticePoint[], pins: ReadonlySet<stri
     const s = settleChord(c.entry, c.exit, ringOf[i].ring, shore, src);
     if (s.entry !== c.entry) moved.set(k(c.entry), s.entry);
     if (s.exit !== c.exit) moved.set(k(c.exit), s.exit);
-    return { body: c.body, entry: s.entry, exit: s.exit, chord: true, course: [s.entry, s.exit], clear: s.clear };
+    return { body: c.body, entry: s.entry, exit: s.exit, chord: true, course: [s.entry, s.exit], clear: s.clear, ...(c.routed === true ? { routed: true } : {}) };
   });
   if (moved.size === 0) return { ring: openRing(out), crossings: settled, keep };
   const swap = (q: LatticePoint): LatticePoint => moved.get(k(q)) ?? q;

@@ -17,8 +17,11 @@
 // finer vertex off every route of level ≤ n within `attractCm` of the segment is kept content (E_KEPT; C-0177 (4)).
 // Candidate (c), a clear-region batch's prepared vertices, is M3a's (`notBuilt('M3a')` in step 2, C-0169 (6)).
 //
-// Readings: C-0177 (1) – (6). Every distance test here uses + − × ÷ √ only (§3.2 (3)); every tie breaks on lattice
-// positions (y, then x) or canonical keys, never on a slot (§3.3).
+// The insert-specific predicates the face partitioners and the kerbs also read by path stay here
+// (`nearParallel`, `onRouteOfLevel`, `passesWithin`, `withinSegment`, `segmentBox`); the shared exact ones are
+// num/exact.ts's and steps 1 – 2's (`footOnSegment`, `nearerVertex`, re-exported here). Readings: C-0177 (1) – (6),
+// C-0302. Every distance test here uses + − × ÷ √ only (§3.2 (3)); every tie breaks on lattice positions (y, then x) or
+// canonical keys, never on a slot (§3.3).
 import {
   edgeLevel,
   freeEdgePair,
@@ -55,18 +58,22 @@ import {
   type ItemRef,
 } from '../index/index.js';
 import { dmath } from '../dmath/index.js';
+import { BOX_RANGE } from '../num/exact.js';
 import { dist2, err, LATTICE, ok, orient2d, ratio, type KernelResult, type Warning } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, foldWarnings, INSERT_ATTRACT_QUERIES, passOn, warn, workLimitHit, type ChainClass, type InsertTx } from './classes.js';
-import { placePoint, splitEndsBreachClearance, type Crossing } from './placement.js';
-import { applySplitPlan, type SplitPlan } from './splitThrough.js';
+import { placePoint, type Crossing } from './placement.js';
+import { applySplitPlan, footOnSegment, nearerVertex, type SplitPlan } from './splitThrough.js';
+
+/** The foot of p on a segment, and the nearer of two vertices: steps 1 – 2's exported originals (C-0321 (1)). */
+export { footOnSegment, nearerVertex };
+/** The placement rule's (iii) at a split's own ends, C-0284 (2): `placement.ts`'s `splitEndsBreachClearance` under the name the face partitioners read. */
+export { splitEndsBreachClearance as splitBreaksClearance } from './placement.js';
 
 const ATTRACT = LATTICE.attractCm;
 const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
 const MIN_EDGE = LATTICE.minEdgeCm;
 const MIN_EDGE_SQ = LATTICE.minEdgeCm * LATTICE.minEdgeCm;
-/** A query box's coordinates stay within ±2²⁴ (the index's bound). */
-const BOX_RANGE = 16_777_216;
 
 /** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist, C-0125). */
 const PI = 3.141592653589793;
@@ -126,56 +133,52 @@ export interface ChainCtx {
    * Where this op's own pairs start in the two journals — `journal.newPairs` (the chain's new edges) and
    * `tx.journal.pairs` (the pairs its splits made): a pair at or after these marks is one this op wrote. Every split
    * landing reads them (`ownShapeVertex`) to tell a split of the chain's OWN edge — its own vertex — from a split of
-   * another chain's edge (N-55 (2), Q10; C-0302).
+   * another chain's edge (§2.2 rule 3; C-0302).
    */
   readonly pairsFrom: number;
   readonly txPairsFrom: number;
   /** The most snap-rounding passes a segment of this chain took. */
   maxPass: number;
   /**
-   * The router's strict reading of step 3's vertex rule, for a segment whose design route would leave clearance broken
-   * (C-0177 (13)): route through a vertex only where it stands within `minEdge` of the segment (where clearance needs it),
-   * not in the band from `minEdge` to `attractCm`.
+   * The strict route (C-0177 (13)): step 3 routes through a vertex only where it stands within `minEdge` of the segment,
+   * where clearance needs it — not in the band from `minEdge` to `attractCm`.
    */
   strict: boolean;
   /**
-   * The router's last reading for a segment that no other route keeps clear (N-37, C-0202): every crossing lands on the
-   * placement rule's endpoint fallback — the crossed sub-edge's nearer vertex, or its other end when that one is already
-   * on the chain's path (C-0177 (7)) — and is never split (W_PLACED). Unset: crossings are placed as §3.6 states.
+   * The endpoint route (C-0202 (1)): every crossing lands on the placement rule's endpoint fallback — the crossed
+   * sub-edge's nearer end, or its other end when that one is already on the chain's path (C-0177 (7)) — and is never
+   * split (W_PLACED). Unset: crossings are placed as §3.6 states.
    */
   endpointCrossings?: boolean;
   /**
-   * The router's reading after that (N-42 (a), C-0209): a crossing the placement rule can only send to its endpoint
-   * fallback, whose next crossing lies closer than `minEdge` on another piece (a sliver), is placed across the sliver
-   * instead (crossings.ts `placeAcross`, W_PLACED). Unset: crossings are placed as §3.6 states.
+   * The route across a sliver (C-0209): a crossing the placement rule can only send to its endpoint fallback, whose next
+   * crossing lies closer than `minEdge` on another piece, is placed across the sliver (crossings.ts `placeAcross`,
+   * W_PLACED). Unset: crossings are placed as §3.6 states.
    */
   acrossSlivers?: boolean;
   /**
-   * The router's anchored reading (S4, C-0215; N-43 B): the input segment the chain's segment came from. Set, step 3
-   * routes through a vertex, shares a stretch or lands a contact only where it lies within `attractCm` of that input
-   * segment as well as of the segment being routed, so iterated step-3 contacts cannot carry the route away from its
-   * input — each contact may move the route up to `attractCm` from the sub-segment it bends, and a run of them along a
-   * near-parallel chain drifts beyond the fidelity bound. Unset (null): step 3 reads the segment being routed alone.
+   * The anchored route (C-0215): the input segment the segment being routed came from, and a reach. Set, step 3 routes
+   * through a vertex, shares a stretch or lands a contact only where it also lies within the reach of that input segment
+   * — each contact may move the route up to `attractCm` from the sub-segment it bends, so a run of them along a
+   * near-parallel chain would otherwise carry the route beyond the fidelity bound. Null: step 3 reads the segment being
+   * routed alone.
    */
   anchor?: { readonly a: LatticePoint; readonly b: LatticePoint; readonly reach: number } | null;
   /**
-   * insertChain's second pass (S4, C-0215): set only for a chain the first pass — the S1 – S3 router with every route
-   * judged by §3.10 whole and N-43 B's fidelity bound — refused E_INVARIANT; it adds the anchored routes, the split
-   * route, and an optional chain's precision refusal for a route beyond the bound.
+   * Set in insertChain's second and later passes (C-0215, C-0221): `routeOne` adds the anchored routes, insertChain the
+   * split route, and a route that keeps clearance only beyond the fidelity bound refuses an optional chain
+   * E_BELOW_MIN_EDGE. Unset in the first pass.
    */
   extended?: boolean;
   /**
-   * insertChain's third pass (S5, C-0217), set only for a chain the first two refused E_INVARIANT: its reading (`variant`
-   * 0, then 1 — step 2's free spot first — for a chain 0 does not commit) and the input segment pa → pb the segment being
-   * routed came from (null in step 2, which reads the chain point itself). Set, a landing the placement rule can only send
-   * to its endpoint fallback beyond N-43 B's bound of that input is kept within it: a crossing is placed across the thin
-   * strip the segment crosses (the far side's sub-edge left out of (iii), as N-42 (a)'s step across a sliver:
-   * `stripPartner`, `placeOnRun`), or at the nearest point of the run within the bound that qualifies under the
-   * placement rule's tests, or routed through the nearest existing vertex within the bound; a step-2 vertex as
-   * insertChain's `stepTwoStrip` says; and a wedge corner
-   * beyond the bound of the input is not taken (its crossings placed in turn, as N-38 / N-40 do beyond the wedge cap).
-   * Every such landing reports W_PLACED; every route is still judged whole and against the bound before it commits.
-   * Unset: §3.6 as written.
+   * Set in insertChain's third and fourth passes (C-0217, C-0221): the reading (`variant` 0, or 1 with step 2's free spot
+   * first) and the input segment a → b of the segment being routed (null in step 2, which reads the chain point itself).
+   * Set, a landing the placement rule can only send to its endpoint fallback beyond the fidelity bound of that input is
+   * kept within it — a crossing placed across the thin strip it crosses (the far side's sub-edge left out of (iii):
+   * `stripPartner`, `placeOnRun`), at the nearest qualifying point of the run within the bound, or on the nearest
+   * existing vertex within it; a step-2 vertex as insertChain's `stepTwoStrip` says — and a wedge corner beyond the bound
+   * of the input is not taken (its crossings placed in turn, as beyond the wedge cap, C-0202). Every such landing reports
+   * W_PLACED. Null: §3.6 as written.
    */
   strip?: { readonly variant: 0 | 1; readonly a: LatticePoint | null; readonly b: LatticePoint | null } | null;
   /**
@@ -187,11 +190,15 @@ export interface ChainCtx {
 
 // ---- small exact helpers -----------------------------------------------------------------------------------------------
 
-/** N-43 B's fidelity bound, squared (exact): (2 · √2 · `attractCm`)² = 8 · `attractCm`² — N-40's wedge cap, ≈ 73.5 cm. */
+/**
+ * The fidelity bound, squared (exact): (2 · √2 · `attractCm`)² = 8 · `attractCm`² = 5 408 — every route a chain commits
+ * stays within 2 · √2 · `attractCm` ≈ 73.5 cm of its input segment, Hausdorff both ways (C-0215); the wedge cap's value
+ * (C-0202).
+ */
 export const FIDELITY_SQ = 8 * ATTRACT_SQ;
 
 /**
- * Is the lattice point (x, y) within N-43 B's bound of the input segment a → b (C-0217)? Integer arithmetic, exact while
+ * Is the lattice point (x, y) within the fidelity bound of the input segment a → b (C-0217)? Integer arithmetic, exact while
  * the squares stay below 2⁵³ (every arena B-FUZZ builds; a 2²⁴ cm overlay arena rounds the cross term's square near the
  * bound's edge only).
  */
@@ -206,8 +213,10 @@ export function inInputBound(a: LatticePoint, b: LatticePoint, x: number, y: num
   return o * o <= FIDELITY_SQ * l2;
 }
 
-
-/** A box around a segment padded by `pad`, clamped to the index's range. */
+/**
+ * A box around a segment padded by `pad`, clamped to the index's range (±2²⁴). The insert steps and the face
+ * partitioners read it here; its one home in num/exact.ts (beside invariants/common.ts's copy) is M0-a-01's.
+ */
 export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: number): Box {
   const clamp = (v: number): number => Math.max(-BOX_RANGE, Math.min(BOX_RANGE, v));
   return {
@@ -257,26 +266,6 @@ export function segmentDistance(px: number, py: number, ax: number, ay: number, 
   return Math.sqrt(fx * fx + fy * fy);
 }
 
-/** The foot of p on the segment a–b, clamped to it. */
-export function footOnSegment(ax: number, ay: number, bx: number, by: number, px: number, py: number): { x: number; y: number } {
-  const ux = bx - ax;
-  const uy = by - ay;
-  const t = ratio((px - ax) * ux + (py - ay) * uy, ux * ux + uy * uy, 'area');
-  check(t.ok, 'an edge spans at least minEdge');
-  const c = Math.max(0, Math.min(1, t.value));
-  return { x: ax + c * ux, y: ay + c * uy };
-}
-
-/** Of two vertices, the nearer to (x, y); ties to the smaller lattice position, y then x. */
-export function nearerVertex(p: Plat, a: VertexId, b: VertexId, x: number, y: number): VertexId {
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const da = (X[a] - x) * (X[a] - x) + (Y[a] - y) * (Y[a] - y);
-  const db = (X[b] - x) * (X[b] - x) + (Y[b] - y) * (Y[b] - y);
-  if (da !== db) return da < db ? a : b;
-  if (Y[a] !== Y[b]) return Y[a] < Y[b] ? a : b;
-  return X[a] <= X[b] ? a : b;
-}
 
 /** The sine and cosine of `minFaceAngle` (500 cdeg), through dmath (§6.5 (2)): the near-parallel and acute-corner tests. */
 const MIN_ANGLE_RAD = (LATTICE.minFaceAngleCdeg * PI) / 18_000;
@@ -302,31 +291,42 @@ export function onRouteOfLevel(p: Plat, v: VertexId, n: Level): boolean {
 }
 
 /**
+ * The level-≤ n route piece that leaves its start by the half-edge h (of level m ≤ n): the physical half-edges from h
+ * through every finer vertex — each left by its onward edge of level m, the last such in its rotation — to the first
+ * vertex of level ≤ n, `w`, which ends it. The one walk of a piece from a vertex (`routeBetween`, the router's
+ * `pieceNeighbours` and `exitTowards`).
+ */
+export function pieceFrom(p: Plat, h: HalfEdgeId, n: Level): { readonly w: VertexId; readonly path: HalfEdgeId[] } {
+  const O = p.halfEdges.origin;
+  const L = p.vertices.level;
+  const m = edgeLevel(p, h);
+  const path: HalfEdgeId[] = [h];
+  let g = h;
+  let w = O[g ^ 1];
+  let guard = 0;
+  while (L[w] > n) {
+    // w is finer than the run: exactly two of its edges are of the run's level (§3.10's level consistency).
+    let onward = -1;
+    for (const e of outgoing(p, w)) if (e !== (g ^ 1) && edgeLevel(p, e) === m) onward = e;
+    check(onward >= 0, `vertex ${w} on a level-${m} run has no onward run edge`);
+    g = onward;
+    path.push(g);
+    w = O[g ^ 1];
+    check(++guard <= p.slots.pair.top, 'a run does not end');
+  }
+  return { w, path };
+}
+
+/**
  * The physical half-edges from a to b along one level-≤ n route piece — a and b consecutive vertices of level ≤ n on a
  * run of level ≤ n, every vertex between them finer than n — or null when no such piece joins them. A piece of level
  * ≤ n is the batch's view of an edge (§3.3), so a chain going from a to b shares it (§3.6 *Roles on shared stretches*).
  */
 export function routeBetween(p: Plat, a: VertexId, b: VertexId, n: Level): HalfEdgeId[] | null {
-  const O = p.halfEdges.origin;
-  const L = p.vertices.level;
   for (const h of outgoing(p, a)) {
-    const m = edgeLevel(p, h);
-    if (m > n) continue;
-    const path: HalfEdgeId[] = [h];
-    let g = h;
-    let w = O[g ^ 1];
-    let guard = 0;
-    while (L[w] > n) {
-      // w is finer than the run: exactly two of its edges are of the run's level (§3.10's level consistency).
-      let onward = -1;
-      for (const e of outgoing(p, w)) if (e !== (g ^ 1) && edgeLevel(p, e) === m) onward = e;
-      check(onward >= 0, `vertex ${w} on a level-${m} run has no onward run edge`);
-      g = onward;
-      path.push(g);
-      w = O[g ^ 1];
-      check(++guard <= p.slots.pair.top, 'a run does not end');
-    }
-    if (w === b) return path;
+    if (edgeLevel(p, h) > n) continue;
+    const pc = pieceFrom(p, h, n);
+    if (pc.w === b) return pc.path;
   }
   return null;
 }
@@ -349,6 +349,30 @@ export function pieceOf(p: Plat, h: HalfEdgeId, n: Level): Piece {
   check(pc !== undefined, `the query's route edge ${h} is no piece of its run`);
   const O = p.halfEdges.origin;
   return { a: pc.a, b: pc.b, edge: h, runA: O[run.halfEdges[0]], runB: O[run.halfEdges[run.halfEdges.length - 1] ^ 1] };
+}
+
+/**
+ * The physical sub-edge of the route piece a–b that holds the exact position (x, y) on it, as its two end vertices: the
+ * position projected along a → b (integer dot products), the sub-edges walked in run order from a, and the walk
+ * advanced past each vertex whose projection is at most the position's — so a position projecting exactly onto a vertex
+ * of the piece takes the sub-edge after it, and one beyond the piece its last sub-edge. Null when no piece joins a and
+ * b. The callers choose the end (the nearer, the one beside a corner, one off the chain's path).
+ */
+export function subEdgeHolding(ctx: ChainCtx, piece: { readonly a: VertexId; readonly b: VertexId }, x: number, y: number): readonly [VertexId, VertexId] | null {
+  const p = ctx.p;
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const O = p.halfEdges.origin;
+  const path = routeBetween(p, piece.a, piece.b, ctx.n);
+  if (path === null) return null;
+  const vs = path.map((h) => O[h]);
+  vs.push(O[path[path.length - 1] ^ 1]);
+  const ux = X[piece.b] - X[piece.a];
+  const uy = Y[piece.b] - Y[piece.a];
+  const tq = (x - X[piece.a]) * ux + (y - Y[piece.a]) * uy;
+  let i = 0;
+  while (i + 2 < vs.length && (X[vs[i + 1]] - X[piece.a]) * ux + (Y[vs[i + 1]] - Y[piece.a]) * uy <= tq) i += 1;
+  return [vs[i], vs[i + 1]];
 }
 
 // ---- promotion (candidate (b)) -----------------------------------------------------------------------------------------
@@ -459,31 +483,14 @@ export function planLanding(tx: InsertTx, piece: Piece, x: number, y: number, cr
   const pl = placePoint(tx, piece.edge, e, crossing);
   if (!pl.ok) return passOn(pl);
   if (pl.value.kind === 'endpoint') return ok({ kind: 'vertex', vertex: pl.value.vertex, onto: 'fallback', warnings: pl.warnings });
-  // A placed answer's sub-edge keeps clearance at its own ends: the placement rule's (iii) refuses any other (C-0284;
-  // `splitBreaksClearance` is that same test), so no wrapper re-reads it here (C-0284 (3), C-0302).
+  // A placed answer's sub-edge keeps clearance at its own ends: the placement rule's (iii) refuses any other (C-0284).
   const sub = pl.value.sub;
   return ok({ kind: 'split', plan: { kind: 'new', at: pl.value.at, sub, row: null, warnings: pl.warnings }, warnings: pl.warnings });
-}
-
-/**
- * Would splitting the sub-edge s–t at any point break clearance at its ends (§3.10's clearance row)? Before the split,
- * t's one-ring holds every edge at s (s is its neighbour) and s's every edge at t; after it, s and t are no longer
- * neighbours, so t must stand at least `minEdge` from each edge at s whose far end is not a neighbour of t, and s from
- * each such edge at t. At an acute corner one end can stand closer — allowed while s and t are joined — and then no
- * point of s–t qualifies: the placement falls back on the nearer end (§3.6 *The placement rule*; C-0177 (11)). Since
- * C-0284 this is the placement rule's own (iii) at the split's ends — `splitEndsBreachClearance`, which this reads — so
- * `placePoint` never answers a split such a sub-edge; `placeOnRun` (which searches the run itself) and the face
- * partitioners still read it (C-0284 (3), C-0302).
- */
-export function splitBreaksClearance(p: Plat, s: VertexId, t: VertexId): boolean {
-  return splitEndsBreachClearance(p, s, t);
 }
 
 /** Writes a landing: a split by splitThrough's writer, or a vertex promoted to the batch's level when finer. Returns the vertex. */
 export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
   if (l.kind === 'split') {
-    // splitThrough's writer reads the half-edge table after it allocates the new pair (N-53 (1), C-0279), so a split that
-    // doubles the table needs no reservation first (C-0177 (10)'s `reservePair` retired, N-53 (2); C-0302).
     const v = applySplitPlan(ctx.tx, l.plan); // reports the placement's W_PLACED to the transaction
     recordSplit(ctx, l.plan.sub, v);
     ownShapeVertex(ctx, l.plan.sub, v);
@@ -502,10 +509,10 @@ export function applyLanding(ctx: ChainCtx, l: Landing): VertexId {
  * §2.2 rule 3: "a chain's own shape vertices never carry [the split flag]". A vertex this op made by splitting the chain's
  * OWN edge — a pair this op wrote (`ctx.pairsFrom`, `ctx.txPairsFrom`) carrying no row but the chain's own at the
  * batch's level — is the chain's own vertex, not a split of another run: a chain point that step 2 lands on the chain's
- * earlier edge (it folds back over itself, §3.11's collinear overlap; the ruling's case 5317), or a step-3 join, leave or
- * contact point where a later segment shares an earlier one. Its flag is cleared, so no later removal dissolves it (the
- * dissolution would make remove ≠ undo-by-replay: N-55 (2), Q10); the chain's own removal frees it with the chain's
- * edges. A split of another chain's edge — any row of another key or level on the sub-edge, or a pair this op did not
+ * earlier edge (it folds back over itself, §3.11's collinear overlap), or a step-3 join, leave or contact point where a
+ * later segment shares an earlier one. Its flag is cleared, so no later removal dissolves it (a dissolution would make
+ * a removal differ from undoing the chain, §13.1's remove(insert(x)) ≡ id); the chain's own removal frees it with the
+ * chain's edges. A split of another chain's edge — any row of another key or level on the sub-edge, or a pair this op did not
  * write — keeps the flag: its dissolution restores that edge when this chain goes (rule 3). `v` is the vertex the split
  * of `sub` just made (freed by the split's own undo on a refusal). C-0302.
  */
@@ -678,8 +685,9 @@ export function attractStretch(ctx: ChainCtx, a: VertexId, b: VertexId, exclude:
 }
 
 /**
- * The live vertex of level ≤ n nearest the point within N-43 B's bound of it, other than those `skip` names (ties y then
- * x), or −1 (S5's in-bound landing on an existing vertex, C-0217). One index query (`insert.attractQueries`).
+ * The live vertex of level ≤ n nearest the point within the fidelity bound of it, other than those `skip` names (ties y
+ * then x), or −1 (the third pass's in-bound landing on an existing vertex, C-0217). One index query
+ * (`insert.attractQueries`).
  */
 export function nearestVertexWithin(ctx: ChainCtx, pt: { readonly x: number; readonly y: number }, skip: (v: VertexId) => boolean): KernelResult<VertexId> {
   const { tx, p, n } = ctx;
@@ -700,14 +708,15 @@ export function nearestVertexWithin(ctx: ChainCtx, pt: { readonly x: number; rea
   return ok(best);
 }
 
-/** The squared distance between two vertices. */
+/** The squared distance between two vertices (num/direction.ts's `dist2` over their slots). */
 export function vertexDist2(p: Plat, a: VertexId, b: VertexId): number {
   return dist2(p.vertices.x[a], p.vertices.y[a], p.vertices.x[b], p.vertices.y[b]);
 }
 
-/** A lattice point of doubles already known to be integers (a placed or existing vertex's). */
+/**
+ * A lattice point of doubles already known to be integers (a placed or existing vertex's): the cast faces/common.ts and
+ * geom/common.ts spell `lp`, whose one home in num/ is M0-a-01's.
+ */
 export function lattice(x: number, y: number): LatticePoint {
   return { x: x as Cm, y: y as Cm };
 }
-
-export { MIN_EDGE };

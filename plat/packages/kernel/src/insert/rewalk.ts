@@ -20,7 +20,8 @@
 // record (its rings changed), every other face is a new record inheriting the region's kind, owner, stage rank and
 // parent — with the index (§3.3 "No item changes in place") and the journal; (6) re-parents the level-(n + 1) records of a
 // split record by containment, each listed in the journal's level-(n + 1) `changed` (the commit record lists them, §3.6
-// step 5). Charges `tx.facesWalked` once per ring walked. Readings: C-0177 (8), (9) and the fix round's row refining them.
+// step 5). Charges `tx.facesWalked` once per ring walked. Readings: C-0177 (8), (9), refined by C-0178 (the re-parented kept
+// records the journal lists).
 import {
   allocFace,
   faceHoles,

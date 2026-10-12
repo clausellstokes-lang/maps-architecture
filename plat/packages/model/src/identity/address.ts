@@ -11,15 +11,13 @@
 // suffix `~k` (§6.3, `mint`) ends the address.
 import { LaneWriter, type Layer, type LineageHash, type PlatKey } from '@plat/kernel';
 import type { Id } from '../types/index.js';
-import { GROUND } from './lineage.js';
+import { GROUND, isU32 } from './lineage.js';
 
 /** Crockford's base-32 alphabet, lower case. */
 export const TOKEN_ALPHABET = '0123456789abcdefghjkmnpqrstvwxyz';
 
 /** The characters of a token (64 bits at 5 bits a character, rounded up). */
 export const TOKEN_LENGTH = 13;
-
-const isU32 = (v: number): boolean => (v >>> 0) === v;
 
 const KIND = /^[A-Za-z][A-Za-z0-9._-]*$/;
 

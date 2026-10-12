@@ -5,8 +5,10 @@
 // takes a root). M-1's crossings: a crossing file attributed by the CrossingRecord appended in its wave, that record
 // and the CLEAN-ROOM.md §2 – §5 rows claimed by the appending seat's lane, a seat that only appended recording without
 // --owns — and a run item landing before its own wave. A ledger row outside §2's table is refused, and a re-landed
-// record keeps its earlier claims. Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned
-// only on arguments that write nothing.
+// record keeps its earlier claims. A passed-ownership path is its receiver's under a wave label at or past the hand-over
+// and under a label that names no wave, and the package index's owner claims its own edits there line by line (C-0318).
+// Every case runs on a fixture tree in the OS temporary folder; the CLIs are spawned only on arguments that write
+// nothing.
 import { spawnSync } from 'node:child_process';
 import { createHash } from 'node:crypto';
 import {
@@ -825,6 +827,225 @@ describe('a record re-landed under a later lane, and the wave\'s unclaimed §2 r
     expect(verifyWave(root, 'wave-1').problems).toEqual([`plat/CLEAN-ROOM.md:8 added, claimed by no record of wave-1: ${row}`]);
     writeFileSync(path, JSON.stringify(rec));
     expect(verifyWave(root, 'wave-1').problems).toEqual([]);
+  });
+});
+
+// ---------------------------------------------------------------------------------------------------------------
+// Passed ownership under any label, and the package index's own lines (L12, C-0318)
+
+const WORK_H = {
+  waves: [
+    { wave: 0, items: ['M0-s-01'] },
+    { wave: 1, items: ['M0-a-01'] },
+    { wave: 2, items: ['M0-c-06'] },
+    { wave: 'T', items: [] },
+  ],
+  items: [
+    {
+      id: 'M0-s-01',
+      wave: 0,
+      owns: [
+        'plat/package.json',
+        'plat/packages/{kernel,model}/src/index.ts',
+        'plat/packages/*/src/<module>/index.ts (created empty; ownership passes to the folder\'s owner, C-0013)',
+        'plat/bench/src/<harness>/index.ts (created empty; passes to the harness\'s owner, C-0059)',
+      ],
+    },
+    { id: 'M0-a-01', wave: 1, owns: ['plat/packages/kernel/src/num/'] },
+    { id: 'M0-c-06', wave: 2, owns: ['plat/packages/kernel/src/fuse/', 'plat/bench/src/fusion/'] },
+  ],
+};
+const FUSE_LINE = "export * from './fuse/index.js';";
+
+/** A tree under WORK_H with its snapshot under `label`, then the receiver M0-c-06's work: its two index files and its line. */
+function handOverTree(label) {
+  const root = fixture({
+    'docs/build/M0-work.json': `${JSON.stringify(WORK_H, null, 2)}\n`,
+    'packages/kernel/src/fuse/index.ts': '',
+    'bench/src/fusion/index.ts': '',
+  });
+  writeSnapshot(root, label);
+  write(root, 'packages/kernel/src/fuse/index.ts', "export * from './fuse.js';\n");
+  write(root, 'packages/kernel/src/fuse/fuse.ts', 'export const f = 1;\n');
+  write(root, 'bench/src/fusion/index.ts', 'export function run() { return 0; }\n');
+  appendFileSync(join(root, 'packages', 'kernel', 'src', 'index.ts'), `${FUSE_LINE}\n`);
+  return root;
+}
+const claimsOf = (r) => ({
+  files: r.record.files.map((f) => f.path),
+  index: r.record.appends.filter((a) => a.file === 'plat/packages/kernel/src/index.ts').flatMap((a) => a.ids),
+});
+const PASSED = ['plat/bench/src/fusion/index.ts', 'plat/packages/kernel/src/fuse/index.ts'];
+
+describe('a passed-ownership path under any label (L12, C-0013, C-0059, C-0064, C-0318)', () => {
+  it('is the giver\'s under a wave label before the hand-over, and the receiver\'s at or past it and under a label naming no wave', () => {
+    for (const [label, holder] of [['wave-0', 'M0-s-01'], ['wave-2', 'M0-c-06'], ['wave-T', 'M0-c-06'], ['flow-7', 'M0-c-06'], ['session-x', 'M0-c-06']]) {
+      const root = handOverTree(label);
+      const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+      const receiver = buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06', write: false });
+      expect(giver.problems, label).toEqual([]);
+      expect(receiver.problems, label).toEqual([]);
+      const g = claimsOf(giver);
+      const c = claimsOf(receiver);
+      // arena/ has no owner in WORK_H, so its index.ts stays the scaffold's at every wave; num/ passes at wave 1.
+      if (holder === 'M0-s-01') {
+        expect(g, label).toEqual({
+          files: [PASSED[0], 'plat/package.json', 'plat/packages/kernel/src/arena/index.ts', PASSED[1], 'plat/packages/kernel/src/num/index.ts'],
+          index: ['fuse'],
+        });
+      } else {
+        expect(g, label).toEqual({ files: ['plat/package.json', 'plat/packages/kernel/src/arena/index.ts'], index: [] });
+        expect(giver.record.appends, label).toEqual([]);
+      }
+      // The receiver claims its files and its line wherever it lands (in wave 0: as at its own wave, C-0121).
+      expect(c, label).toEqual({ files: [...PASSED.slice(0, 1), 'plat/packages/kernel/src/fuse/fuse.ts', PASSED[1]], index: ['fuse'] });
+    }
+  });
+
+  it('says so in a note under a label naming no wave, and the wave\'s close attributes every path once', () => {
+    const root = handOverTree('flow-7');
+    const giver = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+    expect(giver.notes[0]).toBe(
+      'snapshot flow-7 names no wave of docs/build/M0-work.json; ownership resolved with every wave open: a handed-over path is its latest owner\'s (C-0318)',
+    );
+    expect(giver.notes.join('\n')).toContain('plat/packages/kernel/src/fuse/index.ts'); // named as another seat's
+    expect(buildRecord(root, { item: 'M0-c-06', lane: 'build/m0-c-06' }).ok).toBe(true);
+    const v = verifyWave(root, 'flow-7');
+    expect(v.problems).toEqual([]);
+    expect(v.notes.filter((n) => n.includes('claimed by'))).toEqual([]); // no path claimed twice
+    // A giver touching a passed path is refused, naming the receiver.
+    expect(buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', touched: [PASSED[1]], write: false }).problems).toEqual([
+      `${PASSED[1]}: outside M0-s-01's owns and the permitted appends (owned by M0-c-06 at flow-7)`,
+    ]);
+  });
+
+  it('never carries a package-index line an earlier landing of the giver claimed in the same wave', () => {
+    const root = handOverTree('flow-7');
+    const old = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixy', write: false }).record;
+    const stale = { ...old, appends: [{ file: 'plat/packages/kernel/src/index.ts', ids: ['fuse'], lines: [lineHash(FUSE_LINE)], removed: [] }] };
+    write(root, 'docs/build/landed/M0-s-01.json', `${JSON.stringify(stale)}\n`);
+    const again = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+    expect(again.record.lanes).toEqual(['build/m0-scaffold-fixy', 'build/m0-scaffold-fixz']); // carried as a record…
+    expect(again.record.appends).toEqual([]); // …but the line is the receiver's
+  });
+
+  it('the committed M0-work.json: no module folder or bench harness with an owner leaves its index.ts with the scaffold', () => {
+    const work = loadWork(PLAT_ROOT);
+    let folders = 0;
+    for (const item of work.items) {
+      if (item.id === 'M0-s-01') continue;
+      for (const o of item.owns) {
+        for (const p of parseOwnsEntry(o).patterns) {
+          const s = p.segments;
+          const moduleFolder = s.length === 5 && s[1] === 'packages' && s[3] === 'src' && s[2] !== null && s[4] !== null && p.folder;
+          const harness = s.length === 4 && s[1] === 'bench' && s[2] === 'src' && s[3] !== null && p.folder;
+          if (!moduleFolder && !harness) continue;
+          const index = `${s.join('/')}/index.ts`;
+          folders += 1;
+          const owners = ownersAt(work, index, Number.POSITIVE_INFINITY);
+          expect(owners, index).not.toContain('M0-s-01');
+          // The latest owner is an item that owns the folder (tier-jobs/ passes from M0-f-02a to M0-f-02b).
+          expect(owners.length, index).toBeGreaterThan(0);
+          for (const o of owners) {
+            const owns = work.items.find((it) => it.id === o).owns;
+            expect(owns.some((e) => parseOwnsEntry(e).patterns.some((q) => q.folder && patternMatches(q, index))), `${index} ${o}`).toBe(true);
+          }
+        }
+      }
+    }
+    expect(folders).toBeGreaterThan(40);
+    expect(ownersAt(work, 'plat/packages/layout/src/index.ts', Number.POSITIVE_INFINITY)).toEqual(['M0-s-01']);
+    expect(ownersAt(work, 'plat/tools/landed/landed.mjs', Number.POSITIVE_INFINITY)).toEqual(['M0-s-01']);
+  });
+
+  it('re-landing the scaffold under a flow label on the committed M0-work.json lists its own files only, never a passed index', () => {
+    const real = read(PLAT_ROOT, 'docs/build/M0-work.json');
+    const root = fixture({
+      'docs/build/M0-work.json': real,
+      'packages/layout/src/index.ts': "// layout index\nexport * from './districts/index.js';\n",
+      'packages/layout/src/districts/index.ts': '',
+      'packages/testkit/src/index.ts': "// testkit index\n",
+      'bench/src/fusion/index.ts': '',
+      'tools/lint/index.mjs': 'export default {};\n',
+      'tools/landed/landed.mjs': '// landed\n',
+    });
+    writeSnapshot(root, 'flow-7');
+    for (const rel of ['package.json', 'packages/layout/src/districts/index.ts', 'bench/src/fusion/index.ts', 'tools/lint/index.mjs', 'tools/landed/landed.mjs']) {
+      write(root, rel, `${read(root, rel)}// edited\n`);
+    }
+    write(root, 'packages/testkit/src/edge/index.ts', 'export const e = 1;\n');
+    appendFileSync(join(root, 'packages', 'testkit', 'src', 'index.ts'), "export * from './edge/index.js';\n");
+    const r = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+    expect(r.problems).toEqual([]);
+    expect(r.record.files.filter((f) => f.status !== 'unchanged').map((f) => f.path)).toEqual(['plat/package.json', 'plat/tools/landed/landed.mjs']);
+    expect(r.record.files.map((f) => f.path).filter((p) => /\/src\/[^/]+\/index\.ts$/.test(p))).toEqual([]);
+    expect(r.record.appends).toEqual([]); // the testkit barrel's edge line is M0-x-06's
+    expect(claimsOf(buildRecord(root, { item: 'M0-e-04', lane: 'build/m0-e-04', write: false })).files).toEqual(['plat/packages/layout/src/districts/index.ts']);
+    const x06 = buildRecord(root, { item: 'M0-x-06', lane: 'build/m0-x-06', write: false }).record;
+    expect(x06.appends.map((a) => [a.file, a.ids])).toEqual([['plat/packages/testkit/src/index.ts', ['edge']]]);
+  });
+});
+
+describe('the package index\'s owner claims its own edits line by line (J273 Q2, C-0318)', () => {
+  const NEW1 = "// kernel index (C-0013): the package's public API is its folders' union";
+  for (const label of ['wave-1', 'flow-7']) {
+    it(`claims a changed first line per line, with the snapshot's line as removed, and the close accepts it (${label})`, () => {
+      const root = fixture();
+      writeSnapshot(root, label);
+      seatA02(root);
+      replaceIn(root, 'packages/kernel/src/index.ts', '// kernel index\n', `${NEW1}\n`);
+      const r = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+      expect(r.problems).toEqual([]);
+      expect(r.record.appends).toEqual([
+        { file: 'plat/packages/kernel/src/index.ts', ids: ['line 1'], lines: [lineHash(NEW1)], removed: [lineHash('// kernel index')] },
+      ]);
+      expect(buildRecord(root, { item: 'M0-a-02', lane: 'build/m0-a-02' }).ok).toBe(true);
+      expect(verifyWave(root, label).problems).toEqual([]);
+      // Without the owner's removal claim, or with it in a record whose item does not own the index, the edit is named.
+      const path = join(root, 'docs', 'build', 'landed', 'M0-s-01.json');
+      const rec = JSON.parse(readFileSync(path, 'utf8'));
+      writeFileSync(path, JSON.stringify({ ...rec, appends: [{ ...rec.appends[0], removed: [] }] }));
+      expect(verifyWave(root, label).problems).toEqual(['plat/packages/kernel/src/index.ts: line 1 of the snapshot\'s file removed or edited']);
+      writeFileSync(path, JSON.stringify({ ...rec, appends: [] }));
+      const a02 = join(root, 'docs', 'build', 'landed', 'M0-a-02.json');
+      const ra = JSON.parse(readFileSync(a02, 'utf8'));
+      writeFileSync(a02, JSON.stringify({ ...ra, appends: ra.appends.map((a) => (a.file === rec.appends[0].file ? { ...a, removed: rec.appends[0].removed } : a)) }));
+      expect(verifyWave(root, label).problems).toEqual([
+        'plat/packages/kernel/src/index.ts: line 1 of the snapshot\'s file removed or edited',
+        `plat/packages/kernel/src/index.ts:1 added, claimed by no record of ${label}: ${NEW1}`,
+      ]);
+    });
+  }
+
+  it('vouches for a removal in a package index only: an owner of another append file still has its edit named', () => {
+    const work = { ...WORK, items: WORK.items.map((it) => (it.id === 'M0-a-01' ? { ...it, owns: [...it.owns, 'plat/docs/build/choices.md'] } : it)) };
+    const root = fixture({ 'docs/build/M0-work.json': `${JSON.stringify(work, null, 2)}\n` });
+    writeSnapshot(root, 'wave-1');
+    const row = '| C-0001 | 2026-10-03 | build/m0-spec | §1 | one | because | t |';
+    replaceIn(root, 'docs/build/choices.md', row, row.replace('| one |', '| edited |'));
+    write(root, 'packages/kernel/src/num/new.ts', 'export const n = 1;\n');
+    expect(buildRecord(root, { item: 'M0-a-01', lane: 'build/m0-a-01' }).ok).toBe(true);
+    const path = join(root, 'docs', 'build', 'landed', 'M0-a-01.json');
+    const rec = JSON.parse(readFileSync(path, 'utf8'));
+    writeFileSync(path, JSON.stringify({ ...rec, appends: [{ file: 'plat/docs/build/choices.md', ids: [], lines: [], removed: [lineHash(row)] }] }));
+    expect(verifyWave(root, 'wave-1').problems).toEqual([
+      'plat/docs/build/choices.md: line 5 of the snapshot\'s file removed or edited',
+      `plat/docs/build/choices.md:5 added, claimed by no record of wave-1: ${row.replace('| one |', '| edited |')}`,
+    ]);
+  });
+
+  it('leaves a malformed line naming another owner\'s folder unclaimed, and claims a removal alone', () => {
+    const root = fixture();
+    writeSnapshot(root, 'wave-1');
+    appendFileSync(join(root, 'packages', 'kernel', 'src', 'index.ts'), "export * from './arena/index.js'\n");
+    const r = buildRecord(root, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz', write: false });
+    expect(r.record.appends).toEqual([]);
+    const root2 = fixture();
+    writeSnapshot(root2, 'wave-1');
+    replaceIn(root2, 'packages/kernel/src/index.ts', '// kernel index\n', '');
+    const r2 = buildRecord(root2, { item: 'M0-s-01', lane: 'build/m0-scaffold-fixz' });
+    expect(r2.record.appends).toEqual([{ file: 'plat/packages/kernel/src/index.ts', ids: [], lines: [], removed: [lineHash('// kernel index')] }]);
+    expect(verifyWave(root2, 'wave-1').problems).toEqual([]);
   });
 });
 
