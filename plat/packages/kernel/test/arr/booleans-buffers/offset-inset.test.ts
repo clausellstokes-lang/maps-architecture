@@ -178,6 +178,14 @@ describe('insetRing (§3.7 Insets; §13.1 further limits)', () => {
     expect(insetRing(side.tx, side.face, 100)).toMatchObject({ ok: true, value: [rect(100, 100, 900, 500)] });
   });
 
+  it('a dent of 1 cm is a right turn: E_NON_CONVEX (the convexity check is exact, with no tolerance)', () => {
+    // §3.7 *Insets*: "a face whose convexity is checked exactly"; isConvexRing refuses any right turn, however shallow
+    const bottom = arenaFace([R([0, 0], [500, 1], [1000, 0], [1000, 600], [0, 600])]);
+    expect(insetRing(bottom.tx, bottom.face, 100)).toMatchObject({ ok: false, code: 'E_NON_CONVEX' });
+    const side = arenaFace([R([0, 0], [1000, 0], [999, 300], [1000, 600], [0, 600])]);
+    expect(insetRing(side.tx, side.face, 100)).toMatchObject({ ok: false, code: 'E_NON_CONVEX' });
+  });
+
   it('past the inradius: E_DEGENERATE collapsed, carrying the last non-empty distance and its inset', () => {
     const { tx, face } = arenaFace([rect(0, 0, 1000, 600)]);
     const r = insetRing(tx, face, 400);
