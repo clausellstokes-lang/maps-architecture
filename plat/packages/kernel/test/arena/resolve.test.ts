@@ -2,11 +2,14 @@
 // stamped with the arena's key and version, in a canonical order read on lattice positions (never slots); a ref that
 // finds no geometry resolves empty; a stale version stamp — or a foreign key — asserts in the debug build and passes
 // silently when the build does not assert; the signature holds the vertex's own rows and its incident edges'
-// structural rows, sorted by rank and address id, deduplicated.
+// structural rows, sorted by rank and address id, deduplicated. `edgeRuns` — the one run ordering (C-0146 (5)), exported
+// by path — is judged against an oracle written from the rule on lattice positions, over random grid arenas and the tx
+// fuzz arenas; `stamp` and `keyName` (exported by path) against the stamps `resolve` returns.
 import fc from 'fast-check';
 import { afterEach, describe, expect, it } from 'vitest';
 import {
   addRole,
+  allocEdgePair,
   allocVertex,
   assertStamp,
   commitVersion,
@@ -24,9 +27,12 @@ import {
   type Plat,
   type Resolved,
 } from '../../src/arena/index.js';
-import { restoreGeneration, restoreSavepoint, takeSavepoint, type Savepoint } from '../../src/tx/index.js';
+import { edgeRuns, keyName, stamp } from '../../src/arena/resolve.js';
+import { restoreGeneration, restoreSavepoint, takeSavepoint, tx, type Savepoint } from '../../src/tx/index.js';
 import type { Level, PlatKey } from '../../src/types/index.js';
-import { buildArena, faceAt, FRAME, GROUND, permutation, pt, QUARTERS, type ArenaSpec, type Built } from './support.js';
+import { ALONG_MIX, DEFAULT_MIX, randomBatch, type Live } from '../tx/fuzzgen.js';
+import { framed, spec } from '../tx/support.js';
+import { buildArena, faceAt, FRAME, GROUND, intIn, LAKE, permutation, pt, QUARTERS, rng, type ArenaSpec, type Built } from './support.js';
 
 afterEach(() => setDebugAssertions(true));
 
@@ -390,5 +396,250 @@ describe('Q33: the stamp carries the restore generation (C-0313)', () => {
         return true;
       }),
     );
+  });
+});
+
+// ---- the one run ordering (C-0146 (5)) and the stamp helpers, exported by path --------------------------------------
+
+/** A lattice position as text. */
+type Pos = readonly [number, number];
+const posText = (q: Pos): string => `${q[0]},${q[1]}`;
+/** (y, then x): §3.3's vertex key. */
+const cmpPos = (a: Pos, b: Pos): number => (a[1] !== b[1] ? a[1] - b[1] : a[0] - b[0]);
+
+/**
+ * The oracle, written from C-0146 (5) on lattice positions alone (never the arena's slots or the code under test): the
+ * segments, as a set of unordered point pairs, cut into maximal runs at every point of set-degree ≠ 2; an open run from
+ * its lower (y, x) end; a loop off a branch point from that point toward its smaller neighbour; a ring (all points of
+ * degree 2) from its lowest point, counter-clockwise (positive signed area); runs ordered by their first two points.
+ * Each run as the text of its points in order.
+ */
+function oracleRuns(segments: readonly (readonly [Pos, Pos])[]): string[] {
+  const adj = new Map<string, { to: string; seg: string }[]>();
+  const at = new Map<string, Pos>();
+  const segs = new Set<string>();
+  for (const [a, b] of segments) {
+    const [ka, kb] = [posText(a), posText(b)];
+    const seg = cmpPos(a, b) < 0 ? `${ka}>${kb}` : `${kb}>${ka}`;
+    if (segs.has(seg)) continue;
+    segs.add(seg);
+    at.set(ka, a);
+    at.set(kb, b);
+    adj.set(ka, [...(adj.get(ka) ?? []), { to: kb, seg }]);
+    adj.set(kb, [...(adj.get(kb) ?? []), { to: ka, seg }]);
+  }
+  const deg = (k: string): number => adj.get(k)?.length ?? 0;
+  const used = new Set<string>();
+  const runs: string[][] = [];
+  const pos = (k: string): Pos => at.get(k) ?? [NaN, NaN];
+  // Follow the set from `from` along `seg` through points of degree 2, until a point of another degree.
+  const follow = (from: string, first: { to: string; seg: string }): string[] => {
+    const path = [from];
+    let step = first;
+    for (;;) {
+      used.add(step.seg);
+      path.push(step.to);
+      if (deg(step.to) !== 2) return path;
+      const on = adj.get(step.to)?.find((x) => x.seg !== step.seg);
+      if (on === undefined || used.has(on.seg)) return path;
+      step = on;
+    }
+  };
+  for (const k of [...adj.keys()].sort((a, b) => cmpPos(pos(a), pos(b)))) {
+    if (deg(k) === 2) continue;
+    for (const e of adj.get(k) ?? []) {
+      if (used.has(e.seg)) continue;
+      let path = follow(k, e);
+      const last = path.length - 1;
+      const flip = path[0] === path[last] ? cmpPos(pos(path[last - 1]), pos(path[1])) < 0 : cmpPos(pos(path[last]), pos(path[0])) < 0;
+      if (flip) path = path.reverse();
+      runs.push(path);
+    }
+  }
+  for (const k of [...adj.keys()].sort((a, b) => cmpPos(pos(a), pos(b)))) {
+    const free = (adj.get(k) ?? []).filter((e) => !used.has(e.seg));
+    if (free.length === 0) continue;
+    // A ring: k is its lowest point (the keys run in (y, x) order); walk it one way, keep it if counter-clockwise.
+    let path = follow(k, free[0]);
+    let area2 = 0;
+    for (let i = 0; i + 1 < path.length; i++) {
+      const [a, b] = [pos(path[i]), pos(path[i + 1])];
+      area2 += a[0] * b[1] - b[0] * a[1];
+    }
+    if (area2 < 0) path = path.reverse();
+    runs.push(path);
+  }
+  runs.sort((r, s) => cmpPos(pos(r[0]), pos(s[0])) || cmpPos(pos(r[1]), pos(s[1])));
+  return runs.map((r) => r.join(' '));
+}
+
+/** `edgeRuns`' output as texts of lattice positions, after checking each run is a chain of half-edges. */
+function runTexts(p: Plat, runs: HalfEdgeId[][]): string[] {
+  const O = p.halfEdges.origin;
+  return runs.map((r) => {
+    for (let i = 1; i < r.length; i++) expect(O[r[i]], 'a run is a chain of half-edges').toBe(O[r[i - 1] ^ 1]);
+    return [xy(p, O[r[0]]), ...r.map((h) => xy(p, O[h ^ 1]))].join(' ');
+  });
+}
+
+/** The segments of a set of edge pairs, as lattice positions. */
+function segmentsOf(p: Plat, pairs: readonly number[]): [Pos, Pos][] {
+  const O = p.halfEdges.origin;
+  const at = (v: number): Pos => [p.vertices.x[v], p.vertices.y[v]];
+  return pairs.map((e) => [at(O[2 * e]), at(O[2 * e + 1])]);
+}
+
+/**
+ * A random planar grid arena from a seed: points on a w × h grid of 100 cm cells at an offset, the cell sides and at
+ * most one diagonal per cell kept at random (no two segments cross), every vertex and edge pair allocated in a random
+ * order with a random direction — so paths, branches, loops off branch points and rings of every turn arise.
+ */
+function gridArena(seed: number): { p: Plat; pairs: number[] } {
+  const r = rng(seed);
+  const w = intIn(r, 2, 6);
+  const h = intIn(r, 2, 6);
+  const ox = intIn(r, -2000, 2000);
+  const oy = intIn(r, -2000, 2000);
+  const keep = 0.35 + 0.6 * r();
+  const segs: [number, number, number, number][] = [];
+  for (let j = 0; j < h; j++) {
+    for (let i = 0; i < w; i++) {
+      if (i + 1 < w && r() < keep) segs.push([i, j, i + 1, j]);
+      if (j + 1 < h && r() < keep) segs.push([i, j, i, j + 1]);
+      if (i + 1 < w && j + 1 < h && r() < keep / 3) segs.push(r() < 0.5 ? [i, j, i + 1, j + 1] : [i + 1, j, i, j + 1]);
+    }
+  }
+  const p = createPlat(GROUND, FRAME);
+  const ids = new Map<string, number>();
+  const points = [...new Set(segs.flatMap(([a, b, c, d]) => [`${a},${b}`, `${c},${d}`]))];
+  for (const k of permutation(points.length, seed ^ 0x5eed).map((i) => points[i])) {
+    const [i, j] = k.split(',').map(Number);
+    ids.set(k, allocVertex(p, pt(ox + 100 * i, oy + 100 * j), 0));
+  }
+  const pairs: number[] = [];
+  for (const k of permutation(segs.length, seed ^ 0xed9e)) {
+    const [a, b, c, d] = segs[k];
+    const [u, v] = [ids.get(`${a},${b}`) ?? -1, ids.get(`${c},${d}`) ?? -1];
+    const flip = r() < 0.5;
+    pairs.push(allocEdgePair(p, flip ? v : u, flip ? u : v, 0) >> 1);
+  }
+  return { p, pairs };
+}
+
+describe('edgeRuns: the one run ordering (C-0146 (5); exported by path)', () => {
+  it('pins the order on the hand-built fixtures: the chain, the ring, the branch cut and the loop off a branch vertex', () => {
+    const { plat: p, he } = dressed();
+    const pairsOf = (ix: readonly number[]) => ix.map((i) => he[i] >> 1);
+    expect(runTexts(p, edgeRuns(p, pairsOf([14, 13, 11])))).toEqual(['500,0 500,500 500,750 500,1000']);
+    expect(runTexts(p, edgeRuns(p, pairsOf([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])))).toEqual([
+      '0,0 250,0 500,0 750,0 1000,0 1000,500 1000,750 1000,1000 500,1000 0,1000 0,500 0,0',
+    ]);
+    expect(runTexts(p, edgeRuns(p, pairsOf([11, 12, 13, 14, 15, 16])))).toEqual([
+      '500,0 500,500', '0,500 250,500 500,500', '500,500 1000,500', '500,500 500,750 500,1000',
+    ]);
+    // the courtyard ring (L3), listed clockwise and twice: one ring, counter-clockwise from its lowest-leftmost vertex
+    expect(runTexts(p, edgeRuns(p, pairsOf([22, 21, 20, 19, 22, 19])))).toEqual(['50,100 150,100 150,200 50,200 50,100']);
+    expect(edgeRuns(p, [])).toEqual([]);
+  });
+
+  it('is resolve\'s edges view: the runs of a key\'s rows are edgeRuns of their pairs', () => {
+    const { plat: p } = dressed();
+    for (const ref of REFS) {
+      const r = resolve(p, ref, GROUND);
+      if (r.view !== 'edges') continue;
+      const pairs = r.runs.flat().map((h) => h >> 1);
+      expect(edgeRuns(p, permutation(pairs.length, 9).map((i) => pairs[i]))).toEqual(r.runs);
+    }
+  });
+
+  it('property: on random planar grid arenas, any pair subset (repeats and order aside) gives the oracle\'s runs, in any allocation order', () => {
+    fc.assert(
+      fc.property(fc.integer(), fc.double({ min: 0.2, max: 1, noNaN: true }), (seed, share) => {
+        const { p, pairs } = gridArena(seed);
+        const r = rng(seed ^ 0x51);
+        const subset = pairs.filter(() => r() < share);
+        const listed = [...subset, ...subset.filter(() => r() < 0.2)];
+        const given = permutation(listed.length, seed ^ 0x77).map((i) => listed[i]);
+        expect(runTexts(p, edgeRuns(p, given))).toEqual(oracleRuns(segmentsOf(p, subset)));
+      }),
+    );
+  });
+
+  it('on the tx fuzz arenas (random batches of ways, lanes, removals, re-owns, clears): every pair subset and every live chain gives the oracle\'s runs', () => {
+    let sets = 0;
+    let chains = 0;
+    for (let seed = 1; seed <= 6; seed++) {
+      for (const mix of [DEFAULT_MIX, ALONG_MIX]) {
+        const r = rng(seed * 7919 + (mix === ALONG_MIX ? 1 : 0));
+        const p = framed();
+        const live: Live = { ways: [], kerbs: [], next: 0 };
+        for (let step = 0; step < 14; step++) {
+          const snap: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
+          const b = randomBatch(p, live, r, mix);
+          if (!tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn).ok) {
+            live.ways = snap.ways;
+            live.kerbs = snap.kerbs;
+          }
+        }
+        const pairs: number[] = [];
+        for (let e = 0; e < p.slots.pair.top; e++) if (p.halfEdges.origin[2 * e] !== -1) pairs.push(e);
+        for (const share of [0.1, 0.3, 0.5, 0.7, 0.9, 1]) {
+          const subset = pairs.filter(() => r() < share);
+          expect(runTexts(p, edgeRuns(p, subset)), `seed ${seed} share ${share}`).toEqual(oracleRuns(segmentsOf(p, subset)));
+          sets++;
+        }
+        for (const [role, ids] of [['way', live.ways], ['kerb', live.kerbs]] as const) {
+          for (const entity of ids) {
+            const res = resolve(p, { role, entity }, p.key);
+            const runs = res.view === 'edges' ? res.runs : [];
+            expect(runTexts(p, runs), `seed ${seed} ${entity}`).toEqual(oracleRuns(segmentsOf(p, runs.flat().map((h) => h >> 1))));
+            chains++;
+          }
+        }
+      }
+    }
+    expect(sets).toBe(72);
+    expect(chains).toBeGreaterThan(24);
+  }, 120_000);
+});
+
+describe('stamp and keyName (exported by path; C-0313)', () => {
+  it('keyName names an arena layer/part, as every stamp message reads it', () => {
+    expect(keyName(GROUND)).toBe('ground/0');
+    expect(keyName({ layer: 'sky', part: 3 })).toBe('sky/3');
+    expect(keyName({ layer: 'underground', part: 12 })).toBe('underground/12');
+  });
+
+  it('stamp(p) is the stamp resolve returns: a copy of the key and the version, the restore generation only when not 0', () => {
+    const b = dressed();
+    const p = b.plat;
+    const only = (r: Resolved) => ('generation' in r ? { key: r.key, version: r.version, generation: r.generation } : { key: r.key, version: r.version });
+    const s0 = stamp(p);
+    expect(s0).toEqual({ key: GROUND, version: 0 });
+    expect(Object.keys(s0)).toEqual(['key', 'version']);
+    expect(s0.key).not.toBe(p.key);
+    expect(only(resolve(p, { role: 'junction', entity: 'junction:c' }, GROUND))).toEqual(s0);
+    const image = takeSavepoint(p);
+    commitVersion(p);
+    commitVersion(p);
+    expect(stamp(p)).toEqual({ key: GROUND, version: 2 });
+    restoreSavepoint(image);
+    const s1 = stamp(p);
+    expect(s1).toEqual({ key: GROUND, version: 0, generation: 1 });
+    expect(Object.keys(s1)).toEqual(['key', 'version', 'generation']);
+    // every view carries the generation: the faces, the edges and the vertices views
+    expect(only(resolve(p, { owner: 'block:sw', level: 2 }, GROUND))).toEqual(s1);
+    expect(only(resolve(p, { role: 'way', entity: 'way:ns' }, GROUND))).toEqual(s1);
+    expect(only(resolve(p, { role: 'junction', entity: 'junction:c' }, GROUND))).toEqual(s1);
+    expect(isCurrent(p, s1)).toBe(true);
+    expect(isCurrent(p, s0)).toBe(false);
+    expect(() => assertStamp(p, s0)).toThrow(`arena: a stale slot: stamped at version 0 in restore generation 0, arena ${keyName(GROUND)} is at version 0 in restore generation 1 (a savepoint was put back across committed batches since)`);
+  });
+
+  it('a LAKE arena stamps alike: the helper reads the arena handed in, never a fixture', () => {
+    const p = buildArena(LAKE).plat;
+    commitVersion(p);
+    expect(stamp(p)).toEqual({ key: GROUND, version: 1 });
+    expect(() => assertStamp(p, { key: { layer: 'ground', part: 1 }, version: 1 })).toThrow('arena: a slot stamped for arena ground/1 was passed to arena ground/0');
   });
 });

@@ -5,9 +5,10 @@
 // (10⁴ in the PR tier, C-0057). Each constant is pinned to its one home's value. A site a later round has consolidated
 // (its copy gone) must import the shared name instead. The lattice inputs `isLatticeCoord`, `lp` and `distinctRing`
 // (kernel-plan.md §1.12 G-1; C-0330) equal geom/common.ts's on fixtures, a seeded sample and the fuzz arenas' rings.
+// The lattice order `comparePoints` (kernel-plan.md §1.3 T-4) equals faces/common.ts's comparePoints and the private
+// pointCmp of tx/relevel.ts and tx/tx.ts, and has the sign of arr/kerb.ts's comparePoints, on every pair it is asked.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { isHalfEdgeLive, isVertexLive, type HalfEdgeId, type Plat } from '../../src/arena/index.js';
 import {
   PI as GEOM_PI,
   distinctRing as geomDistinctRing,
@@ -21,6 +22,7 @@ import {
   BOX_RANGE,
   PI,
   POW2_20,
+  comparePoints,
   distinctRing,
   divScaled,
   insideDoubledRing,
@@ -33,12 +35,9 @@ import {
   strictlyInsideRings,
   windingNumber,
 } from '../../src/num/exact.js';
-import { tx } from '../../src/tx/index.js';
-import type { Level, LatticePoint } from '../../src/types/index.js';
-import { levelCycles } from '../arena/support.js';
-import { randomBatch, rng, type Live, type Mix } from '../tx/fuzzgen.js';
-import { framed, spec } from '../tx/support.js';
-import { CLOSER_SITES, CONST_SITES, DIV_SITES, MEET_SITES, RING_SITES, constOf, importsShared, ringCase, type Reading, type RingCase } from './copies.js';
+import type { LatticePoint } from '../../src/types/index.js';
+import { ARENAS } from './arenas.js';
+import { CLOSER_SITES, COMPARE_SITES, CONST_SITES, DIV_SITES, MEET_SITES, RING_SITES, constOf, importsShared, ringCase, type Reading, type RingCase } from './copies.js';
 import { MAX, RANGE, TIMEOUT, coord, generator, intIn, pt } from './support.js';
 
 /** What exact.ts answers for each reading — the table that maps every N-3 caller to the shared predicate it becomes. */
@@ -61,55 +60,12 @@ function agree(id: string, got: unknown, want: unknown, input: () => string): vo
   if (!Object.is(got, want)) expect.fail(`${id}: ${String(got)} where exact.ts gives ${String(want)} at ${input()}`);
 }
 
-// ---- the fuzz arenas ----------------------------------------------------------------------------------------------------
-
-interface FuzzArena {
-  readonly p: Plat;
-  /** Live edges as [ax, ay, bx, by]. */
-  readonly edges: readonly (readonly [number, number, number, number])[];
-  /** Live vertices' points. */
-  readonly points: readonly LatticePoint[];
-  /** Each level's cycles, as ring cases on the arena itself. */
-  readonly rings: readonly (readonly RingCase[])[];
-}
-
-/** The arena after `steps` of tx's B-FUZZ random batches from `seed` (fuzz.test.ts's recipe: seed × 7919). */
-function fuzzArena(seed: number, steps: number, mix: Mix): FuzzArena {
-  const r = rng(seed * 7919);
-  const p = framed();
-  const lv: Live = { ways: [], kerbs: [], next: 0 };
-  for (let step = 0; step < steps; step++) {
-    const keep = { ways: lv.ways.slice(), kerbs: lv.kerbs.slice() };
-    const b = randomBatch(p, lv, r, mix);
-    if (!tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn).ok) {
-      lv.ways = keep.ways;
-      lv.kerbs = keep.kerbs;
-    }
-  }
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const O = p.halfEdges.origin;
-  const edges: [number, number, number, number][] = [];
-  for (let h = 0; h < 2 * p.slots.pair.top; h += 2) if (isHalfEdgeLive(p, h)) edges.push([X[O[h]], Y[O[h]], X[O[h + 1]], Y[O[h + 1]]]);
-  const points: LatticePoint[] = [];
-  for (let v = 0; v < p.slots.vertex.top; v++) if (isVertexLive(p, v)) points.push(pt(X[v], Y[v]));
-  const rings = [0, 1, 2, 3, 4].map((l) =>
-    levelCycles(p, l as Level).map((c: HalfEdgeId[]): RingCase => ({ pts: c.map((h) => pt(X[O[h]], Y[O[h]])), p, halfEdges: c, vertexIds: c.map((h) => O[h]) })),
-  );
-  return { p, edges, points, rings };
-}
-
-/** fuzz.test.ts's generator with insertion-heavy mixes, so the arenas grow: ways and lanes, and finer chains along ways. */
-const GROW: Mix = { way: 0.45, lane: 0.95 };
-const GROW_ALONG: Mix = { way: 0.35, lane: 0.7, along: 0.25 };
-const ARENAS: readonly FuzzArena[] = [fuzzArena(1, 40, GROW), fuzzArena(286, 40, GROW), fuzzArena(93, 40, GROW_ALONG)];
-
 // ---- the table -------------------------------------------------------------------------------------------------------
 
 describe('the copy table (kernel-plan.md §1.0)', () => {
   it('names every site the plan lists, each a copy in place or an import of the shared name', () => {
-    expect([CLOSER_SITES.length, MEET_SITES.length, RING_SITES.length, CONST_SITES.length, DIV_SITES.length]).toEqual([3, 5, 11, 22, 2]);
-    for (const s of [...CLOSER_SITES, ...MEET_SITES, ...RING_SITES, ...DIV_SITES]) {
+    expect([CLOSER_SITES.length, MEET_SITES.length, RING_SITES.length, CONST_SITES.length, DIV_SITES.length, COMPARE_SITES.length]).toEqual([3, 5, 11, 22, 2, 4]);
+    for (const s of [...CLOSER_SITES, ...MEET_SITES, ...RING_SITES, ...DIV_SITES, ...COMPARE_SITES]) {
       if (s.call === null) expect(importsShared(s.file, s.symbol), `${s.id}: the copy is gone but ${s.file} imports no shared name`).toBe(true);
     }
     const readings = new Set(RING_SITES.map((s) => s.reading));
@@ -336,8 +292,8 @@ describe('G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts\'s (kernel
   /** distinctRing's answer and geom's hold the same point objects, in order; the input is left as it was. */
   const sameRing = (ring: readonly LatticePoint[]): void => {
     const before = ring.slice();
-    const got = distinctRing(ring);
-    const want = geomDistinctRing(ring);
+    const got = geomDistinctRing(ring);
+    const want = distinctRing(ring);
     const show = (): string => ring.map((q) => `(${q.x}, ${q.y})`).join(' ');
     agree('distinctRing length', got.length, want.length, show);
     for (let i = 0; i < want.length; i++) agree(`distinctRing [${i}]`, got[i], want[i], show);
@@ -346,7 +302,7 @@ describe('G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts\'s (kernel
 
   it('isLatticeCoord: ±(2²³ − 1) in, ±2²³ out; fractions, NaN and ±∞ out; −0 in', () => {
     const fixtures = [0, -0, 1, -1, MAX, -MAX, RANGE, -RANGE, RANGE + 1, 0.5, -0.5, MAX + 0.5, 2 ** 53, Number.MAX_VALUE, Number.MIN_VALUE, Number.NaN, Infinity, -Infinity];
-    for (const v of fixtures) agree('isLatticeCoord', isLatticeCoord(v), geomIsLatticeCoord(v), () => String(v));
+    for (const v of fixtures) agree('isLatticeCoord', geomIsLatticeCoord(v), isLatticeCoord(v), () => String(v));
     expect(fixtures.map(isLatticeCoord)).toEqual([true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false]);
   });
 
@@ -355,7 +311,7 @@ describe('G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts\'s (kernel
     for (let i = 0; i < 10_000; i++) {
       const k = intIn(rnd, -2 * RANGE, 2 * RANGE);
       const v = i % 3 === 0 ? k : i % 3 === 1 ? (k < 0 ? -RANGE : RANGE) + intIn(rnd, -2, 2) : k + 0.5;
-      agree('isLatticeCoord', isLatticeCoord(v), geomIsLatticeCoord(v), () => String(v));
+      agree('isLatticeCoord', geomIsLatticeCoord(v), isLatticeCoord(v), () => String(v));
     }
   });
 
@@ -407,4 +363,38 @@ describe('G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts\'s (kernel
       }
     }
   });
+});
+
+// ---- T-4 -------------------------------------------------------------------------------------------------------------
+
+describe('T-4: comparePoints ≡ faces\' comparePoints, relevel\'s and tx\'s pointCmp; kerb\'s comparePoints by its sign (kernel-plan.md §1.3)', () => {
+  const sites = live(COMPARE_SITES);
+  /** A comparator's caller reads its sign only; kerb's returns the coordinate difference, so it is read as a sign. */
+  const sign = (v: number): number => (v < 0 ? -1 : v > 0 ? 1 : 0);
+  const all = (a: LatticePoint, b: LatticePoint): void => {
+    const want = comparePoints(a, b);
+    for (const s of sites) {
+      const got = s.call(a, b);
+      agree(s.id, s.signOnly ? sign(got) : got, want, () => `(${a.x}, ${a.y}) against (${b.x}, ${b.y})`);
+    }
+  };
+
+  it('on every pair of points in a 5 × 5 window: ties in y, ties in x, one position (−0 and 0 included)', () => {
+    const pts: LatticePoint[] = [pt(-0, 0), pt(0, -0)];
+    for (let x = -2; x <= 2; x++) for (let y = -2; y <= 2; y++) pts.push(pt(x, y));
+    for (const a of pts) for (const b of pts) all(a, b);
+  });
+
+  it('on the fuzz arenas: every pair of live vertices', () => {
+    for (const arena of ARENAS) for (const a of arena.points) for (const b of arena.points) all(a, b);
+  }, TIMEOUT);
+
+  it('property at PLAT_FUZZ_RUNS: random points across the range, a coordinate shared or the point repeated half the time', () => {
+    fc.assert(
+      fc.property(coord(), coord(), coord(), coord(), fc.nat(), (ax, ay, bx, by, k) => {
+        const b = k % 4 === 0 ? pt(bx, ay) : k % 4 === 1 ? pt(ax, by) : k % 4 === 2 ? pt(ax, ay) : pt(bx, by);
+        all(pt(ax, ay), b);
+      }),
+    );
+  }, TIMEOUT);
 });

@@ -1,8 +1,9 @@
 // M0-a-01: the shared exact predicates and constants of `src/num/exact.ts` (§3.2 (1), (2), (3), (8); C-0314, C-0330),
 // judged against references written here from the definitions — the squared distance to a closed segment, the shared
 // point of two closed segments, the ray crossing at its exact rational intercept (in BigInt), the direction half-plane
-// rule case by case — never with the code under test. Their equality with the copies they replace is
-// equivalence.test.ts's.
+// rule case by case, §3.3's vertex key as one BigInt — never with the code under test. Their equality with the copies
+// they replace is equivalence.test.ts's. The module's shape is held here too: it is a leaf of num (its imports are
+// pinned) and nothing re-exports it.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import * as barrel from '../../src/index.js';
@@ -12,6 +13,7 @@ import {
   BOX_RANGE,
   PI,
   POW2_20,
+  comparePoints,
   crossingStep,
   divScaled,
   halfPlaneOf,
@@ -26,6 +28,8 @@ import {
 } from '../../src/num/exact.js';
 import type { LatticePoint } from '../../src/types/index.js';
 import { orient2d } from '../../src/num/index.js';
+import { ARENAS } from './arenas.js';
+import { moduleLinks } from './copies.js';
 import { MAX, TIMEOUT, coord, generator, intIn, pt } from './support.js';
 
 const B = BigInt;
@@ -320,6 +324,86 @@ describe('halfPlaneOf: the direction half-plane (kernel-plan.md §1.12 S-1)', ()
   });
 });
 
+/**
+ * §3.3's vertex key, written from its definition — "a vertex by its lattice position (y, then x)" — as one BigInt:
+ * y · 2²⁵ + x. On lattice points (|x|, |y| < 2²³) the x term never reaches half of 2²⁵, so the key's order is y's
+ * order and, for one y, x's.
+ */
+const vertexKey = (q: LatticePoint): bigint => B(q.y) * 2n ** 25n + B(q.x);
+
+/** The order of two points by the key: −1, 0 or 1. */
+const keyOrder = (a: LatticePoint, b: LatticePoint): number => {
+  const ka = vertexKey(a);
+  const kb = vertexKey(b);
+  return ka < kb ? -1 : ka > kb ? 1 : 0;
+};
+
+describe('comparePoints: §3.3\'s vertex key, y then x (kernel-plan.md §1.3 T-4)', () => {
+  /** comparePoints on (a, b) is the key's order, one of −1, 0, 1, and the negation of its answer on (b, a). */
+  const judge = (a: LatticePoint, b: LatticePoint): void => {
+    const c = comparePoints(a, b);
+    const at = (): string => `(${a.x}, ${a.y}) against (${b.x}, ${b.y})`;
+    if (c !== keyOrder(a, b)) expect.fail(`${at()}: ${c} where the vertex key gives ${keyOrder(a, b)}`);
+    if (c !== -1 && c !== 0 && c !== 1) expect.fail(`${at()}: ${c} is outside {−1, 0, 1}`);
+    if (comparePoints(b, a) !== -c) expect.fail(`${at()}: not antisymmetric (${c} and ${comparePoints(b, a)})`);
+  };
+  /** Sorted by comparePoints, the points stand in the key's order, and every consecutive pair is ≤ 0 both ways round. */
+  const sortsByKey = (pts: readonly LatticePoint[]): void => {
+    const got = pts.slice().sort(comparePoints);
+    const want = pts.slice().sort(keyOrder);
+    for (let i = 0; i < got.length; i++) if (vertexKey(got[i]) !== vertexKey(want[i])) expect.fail(`sorted position ${i}: (${got[i].x}, ${got[i].y}) where the key puts (${want[i].x}, ${want[i].y})`);
+    for (let i = 1; i < got.length; i++) if (comparePoints(got[i - 1], got[i]) > 0) expect.fail(`sorted position ${i} precedes ${i - 1}`);
+  };
+
+  it('y decides first, x only for one y; one position is 0 (−0 and 0 one position); the answers are −1, 0, 1', () => {
+    expect(comparePoints(pt(5, 0), pt(0, 1))).toBe(-1); // lower y first, whatever x
+    expect(comparePoints(pt(0, 1), pt(5, 0))).toBe(1);
+    expect(comparePoints(pt(-MAX, 1), pt(MAX, 0))).toBe(1);
+    expect(comparePoints(pt(3, 7), pt(4, 7))).toBe(-1); // one y: lower x first
+    expect(comparePoints(pt(4, 7), pt(3, 7))).toBe(1);
+    expect(comparePoints(pt(3, 7), pt(3, 7))).toBe(0);
+    expect(comparePoints(pt(-0, 0), pt(0, -0))).toBe(0);
+    expect(comparePoints(pt(MAX, -MAX), pt(-MAX, -MAX + 1))).toBe(-1);
+    expect(comparePoints(pt(0, 0), pt(1, 0))).toBe(-1); // differences of 1 at the ends of the range
+    expect(comparePoints(pt(MAX - 1, MAX), pt(MAX, MAX))).toBe(-1);
+    expect(comparePoints(pt(-MAX, -MAX), pt(-MAX, -MAX + 1))).toBe(-1);
+  });
+
+  it('equals the key on every pair of a 5 × 5 window, and sorts it row by row from the lowest y', () => {
+    const win: LatticePoint[] = [];
+    for (let x = -2; x <= 2; x++) for (let y = -2; y <= 2; y++) win.push(pt(x, y));
+    for (const a of win) for (const b of win) judge(a, b);
+    sortsByKey(win);
+    expect(win.slice().sort(comparePoints).slice(0, 6).map((q) => [q.x, q.y])).toEqual([[-2, -2], [-1, -2], [0, -2], [1, -2], [2, -2], [-2, -1]]);
+  });
+
+  it('equals the key on 10 000 seeded pairs across the range, a third sharing y and a sixth one position; transitive on 10 000 seeded triples', () => {
+    const rnd = generator(0x7e4);
+    const c = (): number => intIn(rnd, -MAX, MAX);
+    const near = (v: number): number => Math.max(-MAX, Math.min(MAX, v + intIn(rnd, -2, 2)));
+    for (let i = 0; i < 10_000; i++) {
+      const a = pt(c(), c());
+      const b = i % 6 === 0 ? pt(a.x, a.y) : i % 3 === 1 ? pt(c(), a.y) : i % 3 === 2 ? pt(near(a.x), near(a.y)) : pt(c(), c());
+      judge(a, b);
+    }
+    for (let i = 0; i < 10_000; i++) {
+      // three points on few rows and columns, so ties in y and in x are common
+      const q = (): LatticePoint => pt(intIn(rnd, -3, 3) * 1000, intIn(rnd, -3, 3) * (i % 2 === 0 ? 1 : MAX >> 2));
+      const [a, b, d] = [q(), q(), q()];
+      if (comparePoints(a, b) <= 0 && comparePoints(b, d) <= 0 && comparePoints(a, d) > 0) expect.fail(`not transitive: (${a.x}, ${a.y}) ≤ (${b.x}, ${b.y}) ≤ (${d.x}, ${d.y})`);
+      if (comparePoints(a, b) === 0 && comparePoints(a, d) !== comparePoints(b, d)) expect.fail(`one position ordered two ways against (${d.x}, ${d.y})`);
+    }
+  });
+
+  it('on the fuzz arenas\' vertices: equals the key on every pair, and sorts them in the key\'s order', () => {
+    for (const arena of ARENAS) {
+      for (const a of arena.points) for (const b of arena.points) judge(a, b);
+      sortsByKey(arena.points);
+      sortsByKey(arena.points.slice().reverse());
+    }
+  }, TIMEOUT);
+});
+
 describe('the shared constants (§3.2 (8), §6.5 (3))', () => {
   it('holds π\'s nearest double, 2²⁴ and 2²⁰', () => {
     expect(PI).toBe(3.141592653589793);
@@ -353,12 +437,17 @@ describe('exact.ts is imported by path, never re-exported (C-0314)', () => {
   it('neither num/index.ts nor the package barrel exports any of its names', () => {
     const names = Object.keys(exact);
     expect(names.sort()).toEqual([
-      'BOX_RANGE', 'PI', 'POW2_20', 'crossingStep', 'distinctRing', 'divScaled', 'halfPlaneOf', 'insideDoubledRing', 'insideLatticeRing', 'insideOrOnRing',
+      'BOX_RANGE', 'PI', 'POW2_20', 'comparePoints', 'crossingStep', 'distinctRing', 'divScaled', 'halfPlaneOf', 'insideDoubledRing', 'insideLatticeRing', 'insideOrOnRing',
       'isLatticeCoord', 'lp', 'onLatticeSegment', 'segmentCloserThan', 'segmentsMeet', 'strictlyInsideRings', 'windingNumber',
     ]);
     for (const n of names) {
       expect(n in numIndex, `num/index.ts exports ${n}`).toBe(false);
       if (n in barrel) expect((barrel as Record<string, unknown>)[n], `the barrel's ${n} is another module's`).not.toBe((exact as Record<string, unknown>)[n]);
     }
+  });
+
+  it('is a leaf of num: it imports ./predicates.js, ./ratio.js, ./lattice.js and the type-only ../types/index.js, and re-exports nothing', () => {
+    const links = moduleLinks('num/exact.ts').map((l) => `${l.kind} ${l.from}${l.typeOnly ? ' (type only)' : ''}`);
+    expect(links.sort()).toEqual(['import ../types/index.js (type only)', 'import ./lattice.js', 'import ./predicates.js', 'import ./ratio.js']);
   });
 });

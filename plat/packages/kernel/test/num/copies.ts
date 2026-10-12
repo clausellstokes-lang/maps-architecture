@@ -8,13 +8,17 @@
 // later round deletes a private copy, the site is CONSOLIDATED: its module must then import the shared name (from
 // `num/exact.js`, or the name's named home), which `importsShared()` checks in place of the comparison (in
 // equivalence.test.ts's copy-table test and its N-4 constant test).
+//
+// The same parsing reads a module's import and export declarations (`moduleLinks`, exact.test.ts's leaf ratchet on
+// exact.ts) and a folder index's exported names (`exportedNames`, api-surface.test.ts's ratchet against API.md).
 import { readFileSync } from 'node:fs';
+import { posix } from 'node:path';
 import ts from 'typescript';
 import { closerThan as validateCloserThan } from '../../src/warp/validate.js';
 import { insideRegion as heldInsideRegion } from '../../src/warp/held.js';
 import { segmentCloserThan as placementCloserThan } from '../../src/insert/placement.js';
 import { segmentsMeet as decimateMeet } from '../../src/insert/decimate.js';
-import { insideRing as facesInsideRing, segmentsTouch as facesTouch } from '../../src/faces/common.js';
+import { comparePoints as facesComparePoints, insideRing as facesInsideRing, segmentsTouch as facesTouch } from '../../src/faces/common.js';
 import { segmentsMeet as invariantsMeet } from '../../src/invariants/common.js';
 import { insideRing as skeletonInsideRing, segmentsMeet as skeletonMeet } from '../../src/skeleton/prepare.js';
 import { div as kerbDiv } from '../../src/arr/kerb.js';
@@ -33,6 +37,71 @@ export function sourceOf(file: string): string {
 
 function parse(file: string): ts.SourceFile {
   return ts.createSourceFile(file, sourceOf(file), ts.ScriptTarget.ES2022, true);
+}
+
+/** One module-to-module link of a source file: a static import, a re-export (`export … from`), or a dynamic `import()`. */
+export interface ModuleLink {
+  readonly kind: 'import' | 'export' | 'dynamic';
+  /** The module specifier as written (a dynamic import's non-literal specifier reads as ''). */
+  readonly from: string;
+  /** `import type …` / `export type … from` (the whole declaration erased at emit). */
+  readonly typeOnly: boolean;
+}
+
+/** Every module the file links to, in source order. */
+export function moduleLinks(file: string): ModuleLink[] {
+  const sf = parse(file);
+  const out: ModuleLink[] = [];
+  const visit = (node: ts.Node): void => {
+    if (ts.isImportDeclaration(node) && ts.isStringLiteral(node.moduleSpecifier)) {
+      out.push({ kind: 'import', from: node.moduleSpecifier.text, typeOnly: node.importClause?.isTypeOnly ?? false });
+    } else if (ts.isExportDeclaration(node) && node.moduleSpecifier !== undefined) {
+      out.push({ kind: 'export', from: ts.isStringLiteral(node.moduleSpecifier) ? node.moduleSpecifier.text : '', typeOnly: node.isTypeOnly });
+    } else if (ts.isCallExpression(node) && node.expression.kind === ts.SyntaxKind.ImportKeyword) {
+      const arg = node.arguments[0];
+      out.push({ kind: 'dynamic', from: arg !== undefined && ts.isStringLiteral(arg) ? arg.text : '', typeOnly: false });
+    }
+    ts.forEachChild(node, visit);
+  };
+  visit(sf);
+  return out;
+}
+
+/** Does the statement carry the `export` keyword? */
+function exported(st: ts.Statement): boolean {
+  return ts.canHaveModifiers(st) && (ts.getModifiers(st) ?? []).some((m) => m.kind === ts.SyntaxKind.ExportKeyword);
+}
+
+/**
+ * Every name the module `file` (relative to kernel/src) exports, values and types alike, read from its source: its
+ * exported declarations, its export specifiers (`export { a, type B } from …`, `export { a }`), and every name of each
+ * module it re-exports whole (`export * from`, `export type * from`), followed by relative path.
+ */
+export function exportedNames(file: string): Set<string> {
+  const out = new Set<string>();
+  for (const st of parse(file).statements) {
+    if (ts.isExportDeclaration(st)) {
+      const from = st.moduleSpecifier !== undefined && ts.isStringLiteral(st.moduleSpecifier) ? st.moduleSpecifier.text : '';
+      if (st.exportClause === undefined) {
+        if (!from.startsWith('.')) throw new Error(`copies: ${file} re-exports the whole of '${from}', outside the kernel`);
+        for (const n of exportedNames(posix.join(posix.dirname(file), from.replace(/\.js$/, '.ts')))) out.add(n);
+      } else if (ts.isNamedExports(st.exportClause)) {
+        for (const el of st.exportClause.elements) out.add(el.name.text);
+      } else {
+        out.add(st.exportClause.name.text);
+      }
+    } else if (exported(st)) {
+      if (ts.isVariableStatement(st)) {
+        for (const d of st.declarationList.declarations) if (ts.isIdentifier(d.name)) out.add(d.name.text);
+      } else if (
+        (ts.isFunctionDeclaration(st) || ts.isClassDeclaration(st) || ts.isInterfaceDeclaration(st) || ts.isTypeAliasDeclaration(st) || ts.isEnumDeclaration(st) || ts.isModuleDeclaration(st)) &&
+        st.name !== undefined
+      ) {
+        out.add(st.name.text);
+      }
+    }
+  }
+  return out;
 }
 
 /** Does the module import `name` (from anywhere), or import anything from the shared module `num/exact.js`? */
@@ -259,4 +328,19 @@ export const CONST_SITES: readonly ConstSite[] = [
 export const DIV_SITES: readonly Site<(num: number, den: number) => number | null>[] = [
   { id: 'N-4 div arr/kerb', file: 'arr/kerb.ts', symbol: 'div', call: kerbDiv },
   { id: 'N-4 div arr/buffer', file: 'arr/buffer.ts', symbol: 'div', call: privateCopy('arr/buffer.ts', 'div', ['SCALE']) },
+];
+
+type Compare = (a: LatticePoint, b: LatticePoint) => number;
+
+/** A comparator site: `signOnly` when the copy returns a coordinate difference, read by its sign as a sort reads it. */
+export interface CompareSite extends Site<Compare> {
+  readonly signOnly: boolean;
+}
+
+/** T-4 (kernel-plan.md §1.3): "two lattice points, y then x" — §3.3's vertex key as a comparator. */
+export const COMPARE_SITES: readonly CompareSite[] = [
+  { id: 'T-4 faces', file: 'faces/common.ts', symbol: 'comparePoints', signOnly: false, call: facesComparePoints },
+  { id: 'T-4 relevel', file: 'tx/relevel.ts', symbol: 'pointCmp', signOnly: false, call: privateCopy<Compare>('tx/relevel.ts', 'pointCmp') },
+  { id: 'T-4 tx (removed records\' order)', file: 'tx/tx.ts', symbol: 'pointCmp', signOnly: false, call: privateCopy<Compare>('tx/tx.ts', 'pointCmp', [], 'dirtyFaces') },
+  { id: 'T-4 kerb', file: 'arr/kerb.ts', symbol: 'comparePoints', signOnly: true, call: privateCopy<Compare>('arr/kerb.ts', 'comparePoints') },
 ];

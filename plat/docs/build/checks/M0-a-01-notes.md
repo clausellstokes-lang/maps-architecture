@@ -167,3 +167,142 @@ verdict is `checks/M0-a-01-c2.md`.
 | N-c3-3 | No test holds the three S-1 copies (`skeleton/roof.ts:61` `half`, `skeleton/engine.ts:210` `half`, the `warp/validate.ts:106` lambda) equal to `halfPlaneOf` while they coexist with it. The S-1 pins judge `halfPlaneOf` against a rule written out in the test, as the brief asks, and they do not cover the copies. C-0330 (3)'s "held equal by the pins below" is true for G-1 (equivalence.test.ts imports geom's copies), but for S-1 it holds only through the side-by-side reading. This checker executed the three copies' return expressions, read from source, against `halfPlaneOf` on 100 081 cases (the ±2²³ and special-value grid with NaN and −0, plus 10⁵ seeded vectors with a third on an axis): 0 disagreements, and the origin reads 1 in all four. | Add S-1 rows to `copies.ts`'s table, with the `importsShared()` ratchet after the swap. Or leave it: R13's a-11 round and R10's warp round replace the copies by imports. | R10 / R13 |
 | N-c3-4 | Three small wording points. (a) The header says `halfPlaneOf` "reads an integer direction vector by two comparisons with 0", but the code makes up to three comparisons (`y > 0`, `y === 0`, `x > 0`) on its two coordinates. Read as "comparisons of its two coordinates with 0" it is true. (b) In equivalence.test.ts's G-1 describe, `agree(id, got, want)` is called with exact.ts's value as `got` and geom's as `want`. Its failure text "<got> where exact.ts gives <want>" therefore names the two sources the wrong way round. It affects only a failure message. (c) The module's first paragraph still lists only the segment and ring tests and the constants. The brief kept it unchanged ("no other comment changes"), so it does not yet name the lattice inputs or the half-plane. | Reword at the next touch of each file: (a) "by comparing its two coordinates with 0"; (b) the message, or the argument order, in the G-1 describe; (c) the first paragraph names all four groups. | next touch / M4 |
 | N-c3-5 | This checker ran 41 targeted mutants. Two survivors are judged equivalent here. G11 (`while` → `if` on the closing repeat): consecutive repeats are removed first, so after one pop the new last point differs from the old last point, which equals the first point. G13 (`out.length > 1` → `> 2`): after consecutive repeats are removed, a two-point ring has two different points, so the dropped case never pops. | None. | — |
+
+## Consolidation round R1, third part (lane `build/M0-a-01-consolidate-3`, flow-7, 2026-10-12; J308, fix round C3)
+
+T-4's home (kernel-plan.md §1.3) in `num/exact.ts`, and queue row L32's two ratchets (N-c3-1, N-c3-2 above); choices
+C-0337. No caller changed (J270 (b)): faces adopts `comparePoints` in R7, tx in R6, kerb in R9.
+
+### Old file → new file map (J263 Q8)
+
+| copy today (stays until the named round imports the shared name) | shared name in `src/num/exact.ts` | round that swaps it |
+|---|---|---|
+| `src/faces/common.ts:444` `comparePoints` (exported from the file) | `comparePoints` (body identical) | R7, M0-a-07 |
+| `src/tx/relevel.ts:349` `pointCmp` (private) | `comparePoints` (body identical) | R6, M0-a-06 |
+| `src/tx/tx.ts:234` `pointCmp` (a const arrow inside `dirtyFaces`; not in the plan's T-4 list — a fifth copy, found here) | `comparePoints` (body identical) | R6, M0-a-06 |
+| `src/arr/kerb.ts:120` `comparePoints` (private; `a.y !== b.y ? a.y - b.y : a.x - b.x`, so the brief's `a.y - b.y \|\| a.x - b.x` in another spelling) | `comparePoints` (the same sign on every lattice pair; its value is a difference) | R9, M0-a-09 |
+| `src/digest/levelDigest.ts:169` `cmpYX` | — stays (D-1: the digest's own canonical form on `[y, x]` tuples) | — |
+
+Tests:
+* `test/num/arenas.ts` (new): the fuzz-arena block of `test/num/equivalence.test.ts` (its lines 64–105 before this
+  round: `FuzzArena`, `fuzzArena`, `GROW`, `GROW_ALONG`, `ARENAS`) moved verbatim and exported, so `exact.test.ts`
+  reads the same arenas. No arena, seed, mix or step count changed.
+* `test/num/api-surface.test.ts` (new): describe 'the public API is API.md Appendix B, name for name (J263 Q1;
+  checks/M0-a-01-notes.md N-c3-1)' (4 its).
+* `test/num/exact.test.ts`: describe 'comparePoints: §3.3's vertex key, y then x (kernel-plan.md §1.3 T-4)' (4 its); in
+  'exact.ts is imported by path, never re-exported (C-0314)' the new it 'is a leaf of num: …' (N-c3-2), and the name
+  list grows from 17 to 18.
+* `test/num/equivalence.test.ts`: describe 'T-4: comparePoints ≡ faces' comparePoints, relevel's and tx's pointCmp;
+  kerb's comparePoints by its sign (kernel-plan.md §1.3)' (3 its); the copy table counts `COMPARE_SITES` (4 sites).
+  In the G-1 describe, `agree` now takes geom's value as `got` and exact.ts's as `want` (N-c3-4 (b): the failure text
+  named the two sources the wrong way round; no verdict changes).
+* `test/num/copies.ts`: `moduleLinks(file)` and `exportedNames(file)` on the same TypeScript parsing as `privateCopy`,
+  and `COMPARE_SITES`.
+* Every existing `describe`/`it` title unchanged; no file renamed. NEAR: test/num + test/types 13 → 14 files, 103 → 115
+  tests.
+
+Comments: exact.ts's first paragraph names all its groups (N-c3-4 (c)); THE EXACTNESS CONTRACT gains the
+`comparePoints` sentence and reads "by comparing its two coordinates with 0" for `halfPlaneOf` (N-c3-4 (a)); the
+import sentence ("Imported by path …; `num/index.ts` does not re-export it, so the package's public API is
+unchanged.") is word for word as it was, and `num/index.ts`'s "imported by path and not re-exported" line is untouched.
+
+### API.md Appendix B is four names behind the tree
+
+Appendix B was generated on 2026-10-07 and says a later name "is not listed here until the document is regenerated".
+Since then tx's index exports `restoreGeneration`, `restoreSavepoint`, `takeSavepoint` and the type `Savepoint`
+(C-0287, C-0299). API.md is frozen (J263 Q1) and outside the item's owns, so `api-surface.test.ts` excuses exactly
+those four by name in `AFTER_APPENDIX_B`, a list that only shrinks: each name in it must be absent from Appendix B, so a
+regeneration that lists one fails the test until the name leaves the list. Every other folder's values and types
+equal its Appendix B line exactly (the syntactic export walk reproduces all 21 lines; the header totals 669 = 419 +
+250 hold).
+
+### Mutants of this round (the lane's mirror, each over `packages/kernel/test/num` + `packages/kernel/test/types`, `--maxWorkers=1 --bail=1`)
+
+Baseline in the mirror: 14 files, 115 tests, green. Isolation: no symbolic link in the mirror resolves into
+/home/user/maps-architecture; `packages/testkit/node_modules/@plat/kernel` resolves inside the mirror. Each mutated file
+was restored from the tree and checked with `cmp` before the next; the mirror's kernel was `diff -rq`-identical to the
+tree at the end.
+
+| id | line | mutant | result (first failing test) |
+|---|---|---|---|
+| N-c3-1 | L32 (a) | `export { lp as lpExact } from './num/exact.js'` appended to `src/index.ts` | red: the barrel re-exports every module folder's index and nothing else |
+| N-c3-2 | L32 (b) | `isLatticeCoord` replaced by `export { isLatticeCoord } from '../geom/common.js'` in exact.ts | red: is a leaf of num |
+| T1 | T-4 | x then y | red: y decides first, x only for one y |
+| T2 | T-4 | y order reversed | red: the same |
+| T3 | T-4 | x order reversed | red: the same |
+| T4 | T-4 | the difference (kerb's form) | red: the same (the range {−1, 0, 1}) |
+| T5 | T-4 | one position → −1 | red: the same |
+| T6 | T-4 | y only | red: the same |
+| T7 | T-4 | `a.y < b.y` → `a.y <= b.y` | alive, **equivalent**: it is read only when `a.y !== b.y` |
+| T8 | T-4 | one position → 1 | red: T-4 equivalence, the 5 × 5 window |
+| T9 | T-4 | x-only order when both y > 4 000 000 | red: T-4 equivalence property |
+| T10 | T-4 | `export` dropped | red: T-4 equivalence |
+| TC1 | T-4 copies | relevel's `pointCmp` x reversed | red: T-4 equivalence, the 5 × 5 window |
+| TC2 | T-4 copies | kerb's x then y | red: the same |
+| TC3 | T-4 copies | tx's inline `pointCmp` one position → −1 | red: the same |
+| TC4 | T-4 copies | faces' `comparePoints` y reversed | red: the same |
+| AS1 | L32 (a) | `export type { LatticePoint as LatticeXY }` in num/index.ts | red: each folder index's … types |
+| AS2 | L32 (a) | `withinCm` dropped from num/index.ts | red: the barrel's runtime names |
+| AS3 | L32 (a) | `withinCm` dropped from Appendix B's num line | red: the lines hold the counts they state |
+| AS4 | L32 (a) | a type `PointXY` added to types/units.ts (`export type *` followed) | red: each folder index's … types |
+| AS5 | L32 (a) | `export const GEOM_EXTRA` in geom/index.ts | red: the barrel's runtime names |
+| AS6 | L32 (a) | `export const KERNEL_EXTRA` in src/index.ts | red: the barrel re-exports … nothing else |
+| LF1 | L32 (b) | an extra import (`./snap.js`) in exact.ts | red: is a leaf of num |
+| LF2 | L32 (b) | `import type` → `import { type … }` from ../types/index.js | red: the same |
+| LF3 | L32 (b) | `export type { RatioKind } from './ratio.js'` in exact.ts | red: the same |
+| S2 (c2) | NO-SHIFT | halfPlaneOf `y >= 0` | red: the eight compass directions |
+| S4 (c2) | NO-SHIFT | halves swapped | red: the same |
+| G1 (c2) | NO-SHIFT | isLatticeCoord `<=` | red: isLatticeCoord fixtures |
+| G6 (c2) | NO-SHIFT | lp x↔y | red: lp fixtures |
+| G10 (c2) | NO-SHIFT | distinctRing's closing loop dropped | red: distinctRing fixtures |
+| A1 (c2) | NO-SHIFT | num/index.ts re-exports halfPlaneOf | red: neither num/index.ts nor the barrel exports any of its names |
+| A1 (c1) | NO-SHIFT | segmentCloserThan `<=` at the perpendicular | red: is strict at r |
+| C1 (c1) | NO-SHIFT | crossingStep `ay < qy` | red: counts a vertex at the query's height |
+| C9 (c1) | NO-SHIFT | fill rules swapped | red: winds +1 counter-clockwise … |
+| D1 (c1) | NO-SHIFT | π's last digit | red: holds π's nearest double |
+| D5 (c1) | NO-SHIFT | divScaled null → 0 | red: divScaled: the quotient … |
+
+36 mutants: 35 red, 1 equivalent (T7).
+
+### NO-SHIFT and refusals
+
+Before-image: `packages/kernel/{src,test,API.md}` copied and SHA-256-hashed at the round's start (386 files). After:
+only `src/num/exact.ts` and `test/num/{copies,equivalence.test,exact.test}.ts` differ, plus the new
+`test/num/{api-surface.test,arenas}.ts`. exact.ts's emitted JavaScript with comments removed (TypeScript
+`transpileModule`, `removeComments`) is the before-image's plus the `comparePoints` function alone (127 → 130 lines,
+one hunk). `num/index.ts`, `types/index.ts`, `src/index.ts` and `API.md` are byte-identical to the before-image (git
+blob SHA-1 `1bf0320fa9fe`, `acfe6835b6af`, `230beb37a068`, `a6827cd5c6e7`, computed without git for the checker to
+compare with main). No runtime file but exact.ts changed, and nothing calls `comparePoints` yet, so no digest, golden,
+register JSON, refusal code or message text can move. A seeded census of M0-a-01's B-FUZZ families (10⁴ calls each over
+doubles, specials and the range edges), run in the tree and in the mirror holding the before-image exact.ts, printed
+byte-identical tallies: snap 5 171 refused (E_OUT_OF_RANGE x 3 087, y 2 084), ratio 2 650 (E_DEGENERATE ratio),
+frameOf 7 228 (E_OUT_OF_RANGE area 2 531, aspect 3 680, margin 525, range 396; E_DEGENERATE ratio 96 — an area whose
+frame is under 1 cm wide). Every refusal is an UNLAWFUL input, verdict REFUSE (typed; snap is the door that names the
+coordinate, the frame's caller — the run's configuration — picks area, aspect and margin, §3.2 (1), (7), (9)); lawful
+refusals 0 → 0. `comparePoints` is total and refuses nothing.
+
+### Notes for the later rounds and the hardening pass
+
+| id | note | proposed | when |
+|---|---|---|---|
+| N-c3b-1 | `tx/tx.ts:234` holds a fifth copy of T-4's comparator (a const arrow in `dirtyFaces`, ordering removed records by their kept keys), outside the plan's T-4 list. It is now `COMPARE_SITES`' 'T-4 tx (removed records' order)' row, held equal to `comparePoints`; R6 swaps it with relevel's `pointCmp`. | R6 imports `comparePoints` at both tx sites. | R6 (M0-a-06) |
+| N-c3b-2 | API.md Appendix B lists 669 names; the tree exports 673 (tx's stage image, C-0287, C-0299). The ratchet excuses those four by name in a shrink-only list. | Regenerate Appendix B with the next API.md touch, then empty `AFTER_APPENDIX_B`. | the session (API.md's owner) |
+| N-c3b-3 | `exportedNames` reads exports syntactically. A plain `export { T } from …` of a type counts as a type only because it is absent at run time; under `isolatedModules` such a re-export must already be `export type`. | None while `isolatedModules` stays on. | — |
+
+Gates of round C3 (in the tree, 1 worker): install --frozen-lockfile 0; lint 0 (probe-red ok, 9 whole-tree checks);
+build 0; NEAR test/num + test/types 14 files, 115 tests, 0 failed; RELATED (PLAT_FUZZ_RUNS=1000) over
+`src/num/exact.ts`: 444 files, 5 721 tests, 1 red — testkit `test/edge/repins.test.ts` 'EP-01/S8/zero-length at
+2521534151' (expects refused-lawful, receives laddered), replayed red in the lane mirror with the before-image exact.ts,
+so not this round's (M0-x-06's pin, already reported by rounds C2 and its check).
+
+## Closing check of round C3 (lane `check/M0-a-01-consolidate-close-3`, flow-7, 2026-10-12)
+
+New findings that are not blockers under the brief's blocker rule (each is a tightening of a claim), for the later
+rounds and the hardening pass. The verdict is `checks/M0-a-01-c3.md`.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c3c-1 | The sentence added to `test/num/exact.test.ts`'s header says "nothing re-exports it". The test only checks that neither `num/index.ts` nor the package barrel exports exact.ts's names. Two kernel files re-export exact.ts's names by design: `insert/placement.ts:36` (`export { segmentCloserThan } from '../num/exact.js'`, R2's N-1) and `insert/decimate.ts:74` (`segmentsMeet`, R2's I-6). R7 adds faces' `comparePoints`. The describe title 'exact.ts is imported by path, never re-exported (C-0314)' predates this round and has the same scope; it is kept because checks cite it. | Reword the header to "neither `num/index.ts` nor the package barrel re-exports it". Comment only. | the next round that touches `test/num/` (R13's a-10 half), else M4 |
+| N-c3c-2 | `comparePoints`' docstring in `num/exact.ts` says "The comparator every canonical sort of points reads (a face's key, a removed record's key, a ring's start)". As a statement of the order it is true: every one of those sorts orders by (y, then x). As a statement about this function it is not yet true. No caller imports it (J270 (b)). The sorts named use their own copies: `faces/common.ts` (and `faces/split.ts` through it), `tx/relevel.ts`, `tx/tx.ts`, `arr/kerb.ts`. | Say "the order every canonical sort of points uses (…)", or leave it until R6, R7 and R9 adopt the function. Comment only. | R6 / R7 / R9, else M4 |
+| N-c3c-3 | Two of this checker's mutants survived, and both are judged equivalent. C6 replaces `<` with `<=` on y. It is reached only under `a.y !== b.y`, and there `<=` is the same as `<`. K5 doubles kerb's difference but keeps its sign. The T-4 reading compares signs only, as the plan's EQUIVALENCE says ("sorting with a comparator uses the sign only"). | None. | — |
+| N-c3c-4 | For the session: clean-room disclosures. (a) The builder's row L-0471 discloses one `ls` of the project's `docs/` folder, which printed entry names only and opened no file. Rule 2 forbids listing those folders, but no content reached the seat. Following the precedent of `checks/M0-c-02-s3.md` (N-29), this checker does not judge it a clean-room breach of the item. (b) This checker built its before-image from the project's own GitHub repository by blob. The recursive tree listing of main 9ba492ca was held in memory and filtered to `plat/packages/kernel/` before anything was saved or printed. (c) This checker read `docs/PROGRESS.md` rows J263, J270, J273 and J308, found by grep on the row id. These are the rulings the brief cites; the file is outside plat/ but is not on rule 2's list. All three are recorded in L-0472. | The session confirms or rules. | the session |

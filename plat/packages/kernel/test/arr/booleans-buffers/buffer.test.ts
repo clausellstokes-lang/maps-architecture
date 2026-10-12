@@ -5,6 +5,8 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { arcSteps, buffer, bufferParts, maxArcStep, SAGITTA_CM, type Ring } from '../../../src/arr/index.js';
+import { divScaled } from '../../../src/num/exact.js';
+import { ratio } from '../../../src/num/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { area2Exact, areaOf, distToSegment, pt, R, rect, simpleRing, TIMEOUT } from './support.js';
 
@@ -265,5 +267,40 @@ describe('a property over random chains: valid output covering every chain point
     const p = bufferParts([[pt(0, 0), pt(1000, 0), pt(1000, 1000)]], 100, 'round', 'round');
     expect(p.ok).toBe(true);
     if (p.ok) for (const ring of p.value) expect(area2Exact(ring) > 0n).toBe(true);
+  });
+});
+
+describe('the scaled quotient: buffer and insetRing divide through num/exact.ts divScaled (§3.2 (8), C-0044)', () => {
+  // the quotient both files wrote out before sharing it, kept here as the oracle: num and den scaled by 2²⁰, then ratio()
+  // under the length floor; null below the floor
+  const written = (num: number, den: number): number | null => {
+    const q = ratio(num * 1_048_576, den * 1_048_576, 'length');
+    return q.ok ? q.value : null;
+  };
+  // Object.is: the same double bit for bit (−0 apart from 0, NaN equal to NaN), or both null
+  const same = (num: number, den: number): void => {
+    expect(Object.is(divScaled(num, den, 'length'), written(num, den)), `${String(num)} ÷ ${String(den)}`).toBe(true);
+  };
+  const BOUNDARY = [0, -0, 1, -1, 0.5, -0.5, 1.5, -1.5, 2, 300, 1 / 1_048_576, -1 / 1_048_576, 0.99 / 1_048_576, 0.5 / 1_048_576, 1e-300,
+    5e-324, 8_388_607, -8_388_607, 9_007_199_254_740_992, 1e300, -1e300, Number.MAX_VALUE, -Number.MAX_VALUE, Infinity, -Infinity, NaN,
+    0.1, 0.7071067811865476, 3.141592653589793];
+
+  it('the same value — or the same null — on the boundary values (negative, half, the floor 2⁻²⁰, max, infinite, NaN)', () => {
+    for (const num of BOUNDARY) for (const den of BOUNDARY) same(num, den);
+    expect(divScaled(1, 1 / 1_048_576, 'length')).toBe(1_048_576);
+    expect(divScaled(1, 0.99 / 1_048_576, 'length')).toBeNull();
+    expect(divScaled(-3, 2, 'length')).toBe(-1.5);
+    expect(divScaled(1, NaN, 'length')).toBeNull();
+  });
+
+  it('the same value on the quotients the folder’s constructions take: sagitta, arc steps, miter, cut legs, clips', () => {
+    // maxArcStep's 2 ÷ r, arcSteps' θ ÷ step, a miter's w ÷ cos(θ/2), a cut's leg over a dot product, a clip's sp ÷ (sp − sq)
+    for (const r of [0.5, 1, 2, 3, 100, 300, 301, 1000, 1e6]) same(SAGITTA_CM, r);
+    for (const theta of [0.1, 1, Math.PI / 2, Math.PI, 2 * Math.PI]) for (const r of [1, 3, 300, 5000]) same(theta, maxArcStep(r));
+    for (const w of [1, 100, 300]) for (const c of [0.5, 0.7071067811865476, 0.9999, 1]) same(w, c);
+    for (const t of [-250.5, -0.25, 0, 1e-7, 73.25]) for (const d of [-1, -0.7071067811865476, 1e-6, 1e-7, 0.5]) same(t, d);
+    fc.assert(fc.property(fc.double(), fc.double(), (num, den) => {
+      same(num, den);
+    }), { numRuns: 2000 });
   });
 });

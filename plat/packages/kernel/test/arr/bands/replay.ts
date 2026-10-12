@@ -9,14 +9,17 @@
 //    frame 4096 cm beyond the inputs, then every distinct input segment as a two-point mandatory chain in input order —
 //    `buildOverlay`'s insertion loop, written here from its contract (C-0196 (1)), with no arrangement code in it;
 //  - the commit (corridorUnion at L2, bandUnion at L3): a fresh copy of the arena, every face's kerb read first, then
-//    per face in canonical order its outline pieces and its corridor_split chains, each through `insertChain` directly.
-import { compareFaces, createPlat, roleIdOf, type FaceId, type Plat } from '../../../src/arena/index.js';
-import { attachIndex } from '../../../src/index/index.js';
-import { insertChain, insertTx } from '../../../src/insert/index.js';
+//    per face in canonical order its outline pieces and its corridor_split chains, each through `insertChain` directly —
+//    an open piece's end left a dangling tip closed as the engine closes it (N-57 (2)): its contact placed on F's
+//    boundary by `splitThrough` (the door) and the chord from the tip to it through `insertChain`.
+import { compareFaces, createPlat, isVertexLive, outgoing, pointOf, roleIdOf, type FaceId, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { attachIndex, query } from '../../../src/index/index.js';
+import { insertChain, insertTx, splitThrough } from '../../../src/insert/index.js';
+import { nearestRoutePiece } from '../../../src/insert/attractVertex.js';
 import { LATTICE, type KernelResult } from '../../../src/num/index.js';
 import { tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
 import type { Cm, LatticePoint, PlatKey } from '../../../src/types/index.js';
-import { kerbParts, readFace, readKerb, type KerbRead, type SpineWidths } from '../../../src/arr/kerb.js';
+import { kerbParts, nearestOn, readFace, readKerb, type KerbRead, type SpineWidths } from '../../../src/arr/kerb.js';
 import { onOutline, outlinePieces } from '../../../src/arr/bandUnion.js';
 import { spec } from './support.js';
 
@@ -152,6 +155,39 @@ export interface CommitSpec {
   readonly entityOf: (p: Plat, face: FaceId) => string;
 }
 
+/** Is q within the hot pixel (1 cm) of a route ring edge of the face (N-57 (2)'s boundary reading)? */
+function onRings(rings: readonly LatticePoint[][], q: LatticePoint): boolean {
+  return rings.some((r) => r.some((a, i) => nearestOn(q, a, r[(i + 1) % r.length]).d2 <= 1));
+}
+
+/**
+ * N-57 (2)'s closing of an open piece's dangling ends, on the doors alone: an end vertex with one edge gets its contact
+ * — the vertex at it, else a `splitThrough` of the route piece of F's boundary it lies on — and the chord from the tip to
+ * it through `insertChain`. The first refusal other than a collapse, or null.
+ */
+function closeOnDoors(o: Overlay, rings: readonly LatticePoint[][], pts: readonly LatticePoint[], placed: readonly VertexId[], rows: { role: string; entity: string }[]): Replay | null {
+  const p = o.plat;
+  for (const k of [0, 1] as const) {
+    const tip = k === 0 ? placed[0] : placed[placed.length - 1];
+    if ([...outgoing(p, tip)].length !== 1) continue;
+    const c = k === 0 ? pts[0] : pts[pts.length - 1];
+    const near = query(p, o.key, o.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { vertices: true, edges: true });
+    let pin = near.vertices.find((v) => isVertexLive(p, v) && p.vertices.x[v] === c.x && p.vertices.y[v] === c.y) ?? -1;
+    if (pin < 0) {
+      const piece = nearestRoutePiece(p, near.edges, c, o.level);
+      if (piece === null || !onRings(rings, pointOf(p, piece.a)) || !onRings(rings, pointOf(p, piece.b))) continue;
+      const v = splitThrough(o, piece.edge, c);
+      if (!v.ok) return { where: 'commit', code: v.code, detail: v.detail, chain: [c], closed: false, wellFormed: false };
+      pin = v.value;
+    }
+    if (pin === tip) continue;
+    const chord = k === 0 ? [pointOf(p, pin), pointOf(p, tip)] : [pointOf(p, tip), pointOf(p, pin)];
+    const ins = insertChain(o, chord, rows, 'mandatory');
+    if (!ins.ok && !(ins.code === 'E_DEGENERATE' && ins.detail === 'empty')) return { where: 'commit', code: ins.code, detail: ins.detail, chain: chord, closed: false, wellFormed: wellFormed(chord, false) };
+  }
+  return null;
+}
+
 /**
  * A band commit on insertChain alone: on a fresh copy of the arena, in a batch of the op's level, every face's kerb read
  * (a read's refusal replayed on its overlay), then per face in canonical order its outline pieces and its splits (the
@@ -177,6 +213,12 @@ export function replayCommit(c: CommitSpec): Replay | null {
         const ins = insertChain(o, piece.points, [{ role: c.edgeRole, entity }], 'mandatory', piece.closed ? { closed: true } : {});
         if (!ins.ok && !(ins.code === 'E_DEGENERATE' && ins.detail === 'empty')) {
           found = { where: 'commit', code: ins.code, detail: ins.detail, chain: piece.points, closed: piece.closed, wellFormed: wellFormed(distinct(piece.points), piece.closed) };
+          return { ok: false, code: 'E_INVARIANT', detail: 'replay: stop' };
+        }
+        if (!ins.ok || piece.closed) continue;
+        const closing = closeOnDoors(o, read.rings, piece.points, ins.value.placed, [{ role: c.edgeRole, entity }]);
+        if (closing !== null) {
+          found = closing;
           return { ok: false, code: 'E_INVARIANT', detail: 'replay: stop' };
         }
       }
