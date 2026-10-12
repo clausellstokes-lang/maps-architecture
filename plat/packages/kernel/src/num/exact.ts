@@ -1,19 +1,21 @@
 // The kernel's shared exact predicates and constants (M0-a-01; §3.2 (1), (3), (8), §3.10; C-0314). One home for the
 // segment and ring tests every kernel folder reads — the closed-segment clearance test, the closed-segment contact
-// test, the crossing rule of the point-in-ring tests and their three boundary readings — and for the constants the
-// folders spell as literals. Imported by path (`../num/exact.js`); `num/index.ts` does not re-export it, so the
-// package's public API is unchanged.
+// test, the crossing rule of the point-in-ring tests and their three boundary readings — for the lattice inputs, the
+// lattice order of §3.3's vertex key and the direction half-plane, and for the constants the folders spell as
+// literals. Imported by path (`../num/exact.js`); `num/index.ts` does not re-export it, so the package's public API is
+// unchanged.
 //
 // THE EXACTNESS CONTRACT. Every coordinate is a finite double; on lattice points (integers with |x|, |y| < 2²³, snap's
 // range invariant) every coordinate difference is below 2²⁴, every product of two below 2⁴⁸ and every `orient2d`
 // below 2⁴⁹, so each sign below is exact (§3.2 (1), (3)); the doubled convention (a half-lattice point such as an edge
 // midpoint, every coordinate times 2) keeps `orient2d` below 2⁵¹. `segmentCloserThan` compares o² with r²·|ab|²: both
 // are exact while they stay at or below 2⁵³ — for r = attractCm (26 cm) a segment up to about 36 km — and beyond that a
-// rounding can only blur a near-tie, never a clear answer. `halfPlaneOf` reads an integer direction vector by two
-// comparisons with 0, exact on every input. The lattice-coordinate bound is `isLatticeCoord`'s: an integer with
-// |v| < 2²³ (`LATTICE.rangeCm`, snap's invariant), NaN and ±∞ outside it; `lp` and `distinctRing` take points the caller
-// already holds within it. Only + − × and `orient2d` are used; no division, no `Math` member beyond `min`, `max` and
-// `abs` (§6.5 (3)).
+// rounding can only blur a near-tie, never a clear answer. `halfPlaneOf` reads an integer direction vector by comparing
+// its two coordinates with 0, exact on every input; `comparePoints` orders two lattice points by at most two
+// comparisons per coordinate and no arithmetic, exact on every lattice input. The lattice-coordinate bound is
+// `isLatticeCoord`'s: an integer with |v| < 2²³ (`LATTICE.rangeCm`, snap's invariant), NaN and ±∞ outside it; `lp`
+// and `distinctRing` take points the caller already holds within it. Only + − × and `orient2d` are used; no division,
+// no `Math` member beyond `min`, `max` and `abs` (§6.5 (3)).
 
 import type { Cm, LatticePoint } from '../types/index.js';
 import { LATTICE } from './lattice.js';
@@ -194,6 +196,16 @@ export function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
   }
   while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
   return out;
+}
+
+// ---- the lattice order ------------------------------------------------------------------------------------------------
+
+/**
+ * Two lattice points in §3.3's vertex key order: by y, then by x. −1 when a comes first, 1 when b does, 0 for one
+ * position. The comparator every canonical sort of points reads (a face's key, a removed record's key, a ring's start).
+ */
+export function comparePoints(a: LatticePoint, b: LatticePoint): number {
+  return a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0;
 }
 
 // ---- the direction half-plane -----------------------------------------------------------------------------------------
