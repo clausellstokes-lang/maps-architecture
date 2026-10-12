@@ -1,11 +1,10 @@
 // M0-f-03a: workLimits.json and its loader (§5.1 (5), §14; C-0021, C-0153, C-0174) — every counter of M0-work.json's
 // list has exactly one row; a duplicate or a missing counter fails the loader; every cell carries unit, provenance (an
 // admitted form) and calibratable, a counting law's coefficients are calibratable and the fixed row (`warp.halvings`) is
-// pinned at every version (N-56 (4), C-0301, refining C-0174 (1)), while C-0021's placeholder provenance is pinned only
-// at the PIN's version, so M0-f-03b's hand-over (spike provenance, a new version) meets these tests green (C-0162 (1)'s
-// pattern, round build/M0-f-03a-fix-s3); the law form is refused when malformed; the file is pinned at its version (a
-// changed cell is a declared change, the hand-over's writer bumping the version).
-import { createHash } from 'node:crypto';
+// pinned at every version (C-0301), while C-0021's placeholder provenance is pinned only at the PIN's version, so
+// M0-f-03b's hand-over (spike provenance, a new version) meets these tests green (C-0162 (1)'s pattern, C-0309); the law
+// form is refused when malformed; the file is pinned at its version by the package's one PIN law (`pinnedFile`, C-0157
+// (2)): a changed cell is a declared change, the hand-over's writer bumping the version.
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { describe, expect, expectTypeOf, it } from 'vitest';
@@ -18,7 +17,6 @@ import {
   parseWorkLimits,
   parseWorkLimitsText,
   provenanceForm,
-  TableError,
   type ProvenanceForm,
   type WorkLimitsTable,
   WORK_LIMIT_COUNTERS,
@@ -26,19 +24,20 @@ import {
   WORK_UNITS,
   workLimitsCensus,
 } from '../../src/index.js';
+import { pinnedFile, refusal } from '../loader/support.js';
 
 const FILE = fileURLToPath(new URL('../../data/workLimits.json', import.meta.url));
 const WORK = fileURLToPath(new URL('../../../../docs/build/M0-work.json', import.meta.url));
 const TEXT = readFileSync(FILE, 'utf8');
 const PLACEHOLDER = 'architecture 2026-10-03 placeholder';
-/** The content pin (the golden form, C-0162 (1)): at this version the file hashes to `sha256`, and C-0021's placeholder
- *  forms are pinned; a higher version is M0-f-03b's declared change. */
+/** The content pin (the golden form, C-0157 (2), C-0162 (1); C-0301 (1)): at this version the file hashes to `sha256`, and
+ *  C-0021's placeholder forms are pinned; a higher version is M0-f-03b's declared change. */
 const PIN = { version: 2, sha256: '8c5b12b4a9bea2d5571ba1e9e6986a5527de1affe9fe8fbc6fb76b1ccfc1591e' };
 
 type RawCell = { value: unknown; unit: string; provenance: string; calibratable: boolean; note?: string };
 type RawTable = { table: string; version: number; section: string; rows: Record<string, Record<string, RawCell>> };
 
-/** A fresh copy of the shipped file. */
+/** A fresh copy of the shipped file, parsed from its text (the duplicate-key cases edit the same text). */
 function raw(): RawTable {
   return JSON.parse(TEXT) as RawTable;
 }
@@ -47,16 +46,6 @@ function raw(): RawTable {
 function workList(): { counter: string; unit: string; log2?: boolean }[] {
   const w = JSON.parse(readFileSync(WORK, 'utf8')) as { workLimitCounters: { counters: { counter: string; unit: string; log2?: boolean }[] } };
   return w.workLimitCounters.counters;
-}
-
-function refusal(f: () => unknown): TableError {
-  try {
-    f();
-  } catch (e) {
-    expect(e).toBeInstanceOf(TableError);
-    return e as TableError;
-  }
-  throw new Error('no refusal');
 }
 
 describe('one row per counter of M0-work.json’s list', () => {
@@ -104,6 +93,7 @@ describe('one row per counter of M0-work.json’s list', () => {
     expect(dup).not.toBe(TEXT);
     const e = refusal(() => parseWorkLimitsText(dup));
     expect(e.issues).toEqual([{ table: 'workLimits', row: 'insert.points', reason: 'duplicate counter: the file holds its row twice' }]);
+    expect(Object.keys(e.issues[0])).toEqual(['table', 'row', 'reason']);
     expect(e.message).toBe("table 'workLimits', row 'insert.points': duplicate counter: the file holds its row twice");
   });
 
@@ -116,6 +106,14 @@ describe('one row per counter of M0-work.json’s list', () => {
     expect(top).not.toBe(TEXT);
     expect(refusal(() => parseWorkLimitsText(top)).issues).toEqual([{ table: 'workLimits', reason: "duplicate key 'version'" }]);
     expect(refusal(() => parseWorkLimitsText(TEXT.slice(0, 40))).reason).toMatch(/^not JSON: /);
+    // A key twice inside a cell names its path; every issue keeps the shape `issueAt` builds — absent keys absent, the
+    // keys in the order table, row, cell, reason (C-0323).
+    const deep = TEXT.replace(/("skeleton\.events": \{\s*"unit": \{)/, '$1"value": "faces", ');
+    expect(deep).not.toBe(TEXT);
+    expect(refusal(() => parseWorkLimitsText(deep)).issues).toEqual([{ table: 'workLimits', reason: "duplicate key 'value' in rows.skeleton.events.unit" }]);
+    expect(Object.keys(refusal(() => parseWorkLimitsText(cell)).issues[0])).toEqual(['table', 'row', 'cell', 'reason']);
+    expect(Object.keys(refusal(() => parseWorkLimitsText(top)).issues[0])).toEqual(['table', 'reason']);
+    expect(Object.keys(refusal(() => parseWorkLimitsText(TEXT.slice(0, 40))).issues[0])).toEqual(['table', 'reason']);
   });
 
   it('a counter beyond the list is admitted in the list’s row form (C-0174 (3)); the list test above pins the file to M0-work.json', () => {
@@ -128,10 +126,11 @@ describe('one row per counter of M0-work.json’s list', () => {
     const t = parseWorkLimits(r);
     expect(t.law('plan.pieces')).toEqual({ counter: 'plan.pieces', unit: 'moduleCells', perUnit: 2, floor: 64 });
     expect(t.laws).toHaveLength(18);
+    expect(workLimitsCensus(t)).toEqual([...workLimitsCensus(), 'workLimits/plan.pieces/floor', 'workLimits/plan.pieces/perUnit'].sort());
   });
 });
 
-// ---- the placeholder laws, gated by the version (C-0162 (1)'s pattern; C-0309, round build/M0-f-03a-fix-s3, Q35) ---
+// ---- the placeholder laws, gated by the version (C-0162 (1)'s pattern; C-0309) ------------------------------------
 // M0-f-03b's hand-over rewrites the counting rows' perUnit and floor from the spikes' p999 × 1.5 with provenance
 // 'M0 spike ⟨date⟩' (calibratable kept; C-0021, C-0154 (1)) and bumps the version, and a run item edits no test
 // (C-0115, C-0117). So the laws true at ANY version are asserted always — every cell carries unit, provenance and
@@ -233,7 +232,7 @@ function coefficients(t: WorkLimitsTable): void {
 }
 
 /**
- * The fixed row is pinned at every version (N-56 (4), C-0301): `warp.halvings` is the only fixed row, `{ fixed, 0, 8 }`
+ * The fixed row is pinned at every version (C-0301): `warp.halvings` is the only fixed row, `{ fixed, 0, 8 }`
  * (§3.6's 8 halvings, the kernel's MAX_HALVINGS), its floor provenance `architecture 2026-10-03` and not calibratable,
  * no placeholder cell — M0-f-03b's p999 × 1.5 rewrite skips it.
  */
@@ -284,8 +283,8 @@ function placeholderPins(t: WorkLimitsTable): void {
 
 describe('the placeholder laws (C-0021)', () => {
   it('at any version: every cell carries an admitted provenance form (the loader’s placeholder or spike form), the fixed row is pinned', () => {
-    // N-56 (4) (2026-10-08): a fixed law's floor is the design's constant (§3.6's 8 halvings, the kernel's MAX_HALVINGS),
-    // never a placeholder and never calibrated — M0-f-03b's p999 × 1.5 rewrite skips it.
+    // A fixed law's floor is the design's constant (§3.6's 8 halvings, the kernel's MAX_HALVINGS), never a placeholder and
+    // never calibrated (C-0301); the coefficient rewrite skips it.
     const t = invariants(raw());
     expect(t.table.hash).toEqual(loadWorkLimits().table.hash);
     if (atPin(t)) expect(pinForm(), 'at the PIN version the pin form is the shipped file').toEqual(raw());
@@ -308,7 +307,7 @@ describe('the placeholder laws (C-0021)', () => {
   });
 
   it('the census lists the calibratable cells (C-0070): 32 — every counting law’s floor and perUnit, no fixed law’s cell', () => {
-    // 33 → 32 at version 2 (N-56 (4)): `warp.halvings/floor` left the census when its metadata was pinned.
+    // Every counting law's floor and perUnit; a fixed law's cells are pinned, not calibratable (C-0301).
     const census = workLimitsCensus();
     expect(census).toHaveLength(32);
     expect(new Set(census).size).toBe(32);
@@ -326,15 +325,10 @@ describe('the placeholder laws (C-0021)', () => {
   });
 
   it('is pinned at its version: version 2 hashes to the pin; a higher version is a declared change', () => {
-    // Re-recorded at version 2 (N-56 (4), round build/M0-f-03a-fix-s2, 2026-10-08): the one change is warp.halvings'
-    // floor metadata — provenance 'architecture 2026-10-03', calibratable false, its note naming the kernel's
-    // MAX_HALVINGS; every value is unchanged (floor 8). Version 1 hashed to 87de920b6b2e88ca…842b9e5. The PIN itself
-    // sits at the top of the file, where the placeholder pins read its version (round build/M0-f-03a-fix-s3).
-    const version = raw().version;
-    expect(version).toBeGreaterThanOrEqual(PIN.version);
-    const sha = createHash('sha256').update(readFileSync(FILE)).digest('hex');
-    if (version === PIN.version) expect(sha, 'workLimits.json changed without a version bump').toBe(PIN.sha256);
-    else console.info(`workLimits.json: version ${version} past the pin ${PIN.version} — a declared change (sha256 ${sha})`);
+    // The PIN is the file at its version (C-0157 (2), C-0301 (1)): the bytes at version 2; a higher version is a
+    // hand-over's declared change. The law is the package's one (`pinnedFile`): the file names its table, its version is
+    // never below the pin's, at the pin's version its bytes hash to the pin.
+    pinnedFile(FILE, WORK_LIMITS_TABLE, PIN);
   });
 });
 
@@ -425,6 +419,7 @@ describe('the law form is refused when malformed, naming the row and the cell', 
       mutate(r);
       const e = refusal(() => parseWorkLimits(r));
       expect(e.issues[0]).toEqual({ table: 'workLimits', ...want });
+      expect(Object.keys(e.issues[0])).toEqual(Object.keys({ table: 'workLimits', ...want }));
     });
   }
 

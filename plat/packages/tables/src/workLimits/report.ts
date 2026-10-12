@@ -11,7 +11,10 @@ import type { Rung } from '@plat/model';
 export type BandPosition = 'bottom' | 'target' | 'top';
 export const BAND_POSITIONS: readonly BandPosition[] = Object.freeze(['bottom', 'target', 'top'] as const);
 
-/** §1.1's rungs in ladder order (the report's row order). */
+/**
+ * §1.1's six rungs in ladder order (the report's row order): a report-ordering list, apart from the loader's
+ * `BASE_RUNGS` (the three rungs the base ships) and from @plat/model's `Rung`, a type with no runtime list.
+ */
 const RUNG_ORDER: readonly Rung[] = Object.freeze(['THORP', 'HAMLET', 'VILLAGE', 'TOWN', 'CITY', 'METROPOLIS'] as const);
 
 /** One batch as a spike records it. */

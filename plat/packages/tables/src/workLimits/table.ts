@@ -2,15 +2,20 @@
 //
 // The file is one table of M0's form (C-0153): `{ table: 'workLimits', version, section, rows }`, a row per counter keyed
 // by the counter's name, its cells `unit` (the WorkUnit the law counts, or `fixed`), `perUnit`, `floor` and, on a
-// recursion depth, `log2` — every cell `{ value, unit, provenance, calibratable }`. A counting law's two coefficients
-// carry C-0021's provenance `architecture 2026-10-03 placeholder` until M0-f-03b rewrites them from the spikes' measured
-// work (p999 × 1.5, provenance `M0 spike ⟨date⟩`); a fixed law's (`warp.halvings`: perUnit 0, floor 8 = the kernel's
-// MAX_HALVINGS, §3.6) are the design's, provenance `architecture 2026-10-03`, never calibrated (N-56 (4), C-0301, version 2);
-// the unit and the log2 form are the list's (M0.md §2.2) and not calibratable.
+// recursion depth, `log2` — every cell `{ value, unit, provenance, calibratable }`. A counting law's two coefficients are
+// calibratable and keep C-0021's provenance `architecture 2026-10-03 placeholder` until M0-f-03b's hand-over rewrites
+// them from the spikes' measured work (p999 × 1.5, provenance `M0 spike ⟨date⟩`). A fixed law's floor is the design's
+// constant, pinned and never calibrated: `warp.halvings` (perUnit 0, floor 8 = the kernel's MAX_HALVINGS, §3.6) carries
+// provenance `architecture 2026-10-03` and `calibratable: false`, and the coefficient rewrite skips it (C-0301, C-0309).
+// The unit and the log2 form are the list's (M0.md §2.2) and not calibratable.
 // The loader refuses a missing counter, a counter whose unit or log2 form departs from the list, a malformed law, and —
-// read from the file's text — a duplicate counter (C-0174 (4)); every refusal names the table, the row and the cell.
+// read from the file's text — a duplicate counter (C-0174 (4)); every refusal names the table, the row and the cell
+// through the package's one issue builder `issueAt`, and the census is the package's one census loop `tableCensus`
+// (both imported by path, outside the package's API; C-0323).
 import type { WorkLimitLaw } from '@plat/model';
+import { issueAt } from '../cell/cell.js';
 import type { TableIssue } from '../cell/index.js';
+import { tableCensus } from '../loader/census.js';
 import { parseTable, TableError, type Table } from '../loader/index.js';
 import shipped from '../../data/workLimits.json';
 import { WORK_LIMIT_COUNTERS, isTableWorkUnit, type WorkLimitCounterSpec } from './counters.js';
@@ -47,7 +52,7 @@ const CELLS: ReadonlySet<string> = new Set(['unit', 'perUnit', 'floor', 'log2'])
 export function checkWorkLimits(t: Table, required: readonly WorkLimitCounterSpec[] = WORK_LIMIT_COUNTERS): TableIssue[] {
   const issues: TableIssue[] = [];
   const issue = (reason: string, row?: string, cell?: string): void => {
-    issues.push(row === undefined ? { table: t.id, reason } : cell === undefined ? { table: t.id, row, reason } : { table: t.id, row, cell, reason });
+    issues.push(issueAt({ table: t.id, row, cell, reason }));
   };
   const specs = new Map<string, WorkLimitCounterSpec>();
   for (const s of required) {
@@ -118,7 +123,7 @@ class Laws implements WorkLimitsTable {
 
   law(counter: string): Readonly<TableWorkLimitLaw> {
     const l = this.byCounter.get(counter);
-    if (l === undefined) throw new TableError([{ table: this.table.id, row: counter, reason: 'no such counter' }]);
+    if (l === undefined) throw new TableError([issueAt({ table: this.table.id, row: counter, reason: 'no such counter' })]);
     return l;
   }
 }
@@ -193,15 +198,15 @@ export function parseWorkLimitsText(text: string, required: readonly WorkLimitCo
   try {
     dups = duplicateKeys(text);
   } catch (e) {
-    throw new TableError([{ table: WORK_LIMITS_TABLE, reason: `not JSON: ${(e as Error).message}` }]);
+    throw new TableError([issueAt({ table: WORK_LIMITS_TABLE, reason: `not JSON: ${(e as Error).message}` })]);
   }
   if (dups.length > 0) {
     throw new TableError(
       dups.map((d): TableIssue => {
-        if (d.path.length === 1 && d.path[0] === 'rows') return { table: WORK_LIMITS_TABLE, row: d.key, reason: 'duplicate counter: the file holds its row twice' };
-        if (d.path.length === 2 && d.path[0] === 'rows') return { table: WORK_LIMITS_TABLE, row: d.path[1], cell: d.key, reason: 'duplicate cell' };
+        if (d.path.length === 1 && d.path[0] === 'rows') return issueAt({ table: WORK_LIMITS_TABLE, row: d.key, reason: 'duplicate counter: the file holds its row twice' });
+        if (d.path.length === 2 && d.path[0] === 'rows') return issueAt({ table: WORK_LIMITS_TABLE, row: d.path[1], cell: d.key, reason: 'duplicate cell' });
         const at = d.path.length === 0 ? '' : ` in ${d.path.join('.')}`;
-        return { table: WORK_LIMITS_TABLE, reason: `duplicate key '${d.key}'${at}` };
+        return issueAt({ table: WORK_LIMITS_TABLE, reason: `duplicate key '${d.key}'${at}` });
       }),
     );
   }
@@ -218,7 +223,5 @@ export function loadWorkLimits(): WorkLimitsTable {
 
 /** The table's calibratable cells as `workLimits/⟨counter⟩/⟨cell⟩`, in key order (C-0070's census, this file's share). */
 export function workLimitsCensus(t: WorkLimitsTable = loadWorkLimits()): string[] {
-  const out: string[] = [];
-  for (const [rk, row] of t.table.rows) for (const [ck, c] of row) if (c.calibratable) out.push(`${t.table.id}/${rk}/${ck}`);
-  return out;
+  return tableCensus(t.table);
 }

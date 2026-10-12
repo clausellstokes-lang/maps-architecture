@@ -1,7 +1,7 @@
 // M0-f-03a: the law's evaluation (§5.1 (5)) — limit = floor + perUnit × count(unit, scope); the log2 form uses
 // ⌈log2(count)⌉; count = 0 gives the floor; a fixed law gives its floor and reads no count (C-0174 (2)); count(unit,
-// scope) reads only the scope's committed counts — no measurement and no clock (the checker's line: the source scan
-// below and the scope-independence property).
+// scope) reads only the scope's committed counts — no measurement and no clock (the item's `checker` line in
+// M0-work.json: the source scan below and the scope-independence property).
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import fc from 'fast-check';
@@ -145,7 +145,22 @@ describe('count(unit, scope) reads no measurement and no clock (the checker’s 
   const files = ['law.ts', 'table.ts', 'counters.ts', 'report.ts', 'index.ts'];
 
   it('the module imports only the kernel, the model, the package’s own cell and loader modules and its data file', () => {
-    const allowed = new Set(['@plat/kernel', '@plat/model', '../cell/index.js', '../loader/index.js', '../../data/workLimits.json', './counters.js', './table.js', './law.js', './report.js']);
+    // The package's public names come through the folder indexes; `../cell/cell.js` (`issueAt`) and `../loader/census.js`
+    // (`tableCensus`) are the two shared helpers imported by path (C-0323). What the list guards — no measurement, no
+    // clock, no path outside the package — the banned-name scan below holds too.
+    const allowed = new Set([
+      '@plat/kernel',
+      '@plat/model',
+      '../cell/index.js',
+      '../cell/cell.js',
+      '../loader/index.js',
+      '../loader/census.js',
+      '../../data/workLimits.json',
+      './counters.js',
+      './table.js',
+      './law.js',
+      './report.js',
+    ]);
     for (const f of files) {
       const text = readFileSync(`${SRC}${f}`, 'utf8');
       for (const m of text.matchAll(/^(?:import|export)[^'"]*from\s+'([^']+)'/gm)) expect(allowed.has(m[1]), `${f} imports ${m[1]}`).toBe(true);

@@ -8,7 +8,10 @@
 // limit is its floor (C-0174 (2)).
 import type { WorkUnit } from '@plat/model';
 
-/** §5.1 (5)'s WorkUnit at run time, in the design's order (§4.12 adds 'moduleCells'). */
+/**
+ * §5.1 (5)'s WorkUnit at run time, in the design's order (§4.12 adds 'moduleCells'). The model declares `WorkUnit` as a
+ * type only (its stage declarations are types, C-0003), so this is the one runtime list; `satisfies` ties the two.
+ */
 export const WORK_UNITS = Object.freeze([
   'plots',
   'buildings',
