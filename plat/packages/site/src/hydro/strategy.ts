@@ -9,15 +9,17 @@
 // inlet rung, the concern's default cap): an attempt ≥ 1 draws the inlet's shift along its edge first, then every
 // trace draws its knots' two uniforms per ordinal, the river's first, its tributaries' after it on the same stream.
 import { CONCERNS, dmath, err, keyText, ok, ratio, STAGES, type KernelResult, type Stream, type Warning } from '@plat/kernel';
-import type { Cm, CmArray, HydroGrid, Id, Lifecycle, PointCm, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
-import { BASE_RUNGS, type BaseRung } from '@plat/tables';
-import { hydroGridOver } from '../terrain/grid.js';
-import { siteFrame, TOWN_ROOT } from '../terrain/strategy.js';
+import type { Cm, CmArray, HydroGrid, Id, PointCm, StageContext, Terrain, WaterBody, WaterSet } from '@plat/model';
+import type { BaseRung } from '@plat/tables';
+import { arenaReach, cellCentre, hydroGridOver } from '../terrain/grid.js';
+import { generatedLifecycle } from '../terrain/heightfield.js';
+import { RAD_PER_CDEG } from '../terrain/primitives.js';
+import { isBaseRung, siteFrame, TOWN_ROOT } from '../terrain/strategy.js';
 import type { SiteEnv } from '../terrain/types.js';
 import { carveCourse, planCarve, rasterGeom } from './carve.js';
-import { arcLengths, cellAt, pointSegDist2, rasterise, type XY } from './course.js';
+import { arcLengths, cellAt, cellIndexAt, lengthQuotient, pointSegDist2, rasterise, type XY } from './course.js';
 import { accumulate, d8, recomputeCorridors, type Corridor, type D8Result } from './d8.js';
-import { cellCount, D8_DX, D8_DY, hydroField, invCols, onBorder, type HydroField } from './field.js';
+import { cellCount, D8_DX, D8_DY, hydroField, invCols, onBorder, rowOf, type HydroField } from './field.js';
 import { resolveFlats, type FlatsResult } from './flats.js';
 import { priorityFlood, type FloodResult } from './flood.js';
 import { CORE_SHARE, ESTUARY_FACTOR, ESTUARY_LENGTH_M, hydroParams, type HydroParams } from './params.js';
@@ -25,18 +27,10 @@ import { riverSurface, surfaceCapCm, type RiverSurface } from './surface.js';
 import { descentLine, edgePoint, inletMasks, knotVertices, MeanderDraws, traceRiver, type Inlet, type RiverTrace } from './trace.js';
 import type { RiverBlueprint, RiverLadderUse, RiverOptions, RiverOutcome, RiverReport, RiverRequest, RiverRequested, RiverRun, RiverStrategy } from './types.js';
 
-const PI = 3.141592653589793;
-const RAD_PER_CDEG = PI / 18000;
 /** F-RIVER's inlet rung: attempts 0 … 2 (the concern's default cap, §6.1, C-0143). */
 const ATTEMPTS = 3;
 /** 2²⁰: scales a unit vector's components above ratio's 1 cm floor. */
 const UNIT_SCALE = 1_048_576;
-
-function quotient(num: number, den: number): number {
-  const r = ratio(num, den, 'length');
-  if (!r.ok) throw new RangeError(`river: a divisor of ${String(den)}`);
-  return r.value;
-}
 
 /** The ids of S1's rivers at M0 (§6.3's minting is M0-d-05a's; C-0173 (1)). */
 export function riverId(kind: 'river' | 'tributary', ordinal: number): Id {
@@ -92,14 +86,6 @@ export function hydrology(terrain: Terrain, grid: HydroGrid, lakeThresholdCm: nu
   return { field, flood, flats, d8: dir };
 }
 
-function generated(epoch: number): Lifecycle {
-  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
-}
-
-function isBaseRung(r: string): r is BaseRung {
-  return (BASE_RUNGS as readonly string[]).includes(r);
-}
-
 /** The four arena edges in the orthogonal D8 order: E, N, W, S. */
 type Edge = 0 | 1 | 2 | 3;
 
@@ -117,18 +103,12 @@ function edgeCells(field: HydroField, edge: Edge): number[] {
   return out;
 }
 
-/**
- * The squared distance from the frame's centre to the nearest cell centre of a line on the hydrology grid, and the
- * line's length in cells.
- */
+/** The squared distance from the frame's centre to the nearest cell centre of a line on the hydrology grid. */
 function lineApproach(g: HydroGrid, cells: readonly number[]): number {
   const inv = invCols(g);
   let best = Infinity;
   for (const c of cells) {
-    const i = c % g.cols;
-    const j = Math.round((c - i) * inv);
-    const x = g.originX + (i + 0.5) * g.cellCm;
-    const y = g.originY + (j + 0.5) * g.cellCm;
+    const { x, y } = cellCentre(g, c, inv);
     const d = x * x + y * y;
     if (d < best) best = d;
   }
@@ -138,7 +118,10 @@ function lineApproach(g: HydroGrid, cells: readonly number[]): number {
 /** The outward D8 code of an edge's side. */
 const EDGE_CODE: readonly number[] = [0, 2, 4, 6];
 
-/** The river's surface for an inlet on `edge` (./surface.ts: that edge walled, a tributary's river `stop` an outlet). */
+/**
+ * The river's surface for an inlet on `edge` (./surface.ts: that edge walled, a tributary's river `stop` an outlet) —
+ * the edge's masks read through its middle cell, never a corner, so `inletMasks` walls that one side.
+ */
 function edgeSurface(field: HydroField, edge: Edge, capCm: number, stop: Uint8Array | undefined): RiverSurface {
   const cells = edgeCells(field, edge);
   const masks = inletMasks(field.grid, cells[cells.length >> 1], stop);
@@ -152,7 +135,7 @@ function edgeSurface(field: HydroField, edge: Edge, capCm: number, stop: Uint8Ar
 function descends(field: HydroField, surface: RiverSurface, c: number, capCm: number): boolean {
   const g = field.grid;
   const ci = c % g.cols;
-  const cj = Math.round((c - ci) * invCols(g));
+  const cj = rowOf(c, ci, invCols(g));
   const top = field.heightCm[c] + surfaceCapCm(capCm);
   for (let k = 0; k < 8; k += 1) {
     const x = ci + D8_DX[k];
@@ -202,11 +185,11 @@ export function inletOf(
     if (reach.x * ay <= reach.y * ax) {
       edge = dx > 0 ? 0 : 2;
       px = dx > 0 ? reach.x : -reach.x;
-      py = quotient(reach.x * dy * UNIT_SCALE, ax * UNIT_SCALE);
+      py = lengthQuotient(reach.x * dy * UNIT_SCALE, ax * UNIT_SCALE);
     } else {
       edge = dy > 0 ? 1 : 3;
       py = dy > 0 ? reach.y : -reach.y;
-      px = quotient(reach.y * dx * UNIT_SCALE, ay * UNIT_SCALE);
+      px = lengthQuotient(reach.y * dx * UNIT_SCALE, ay * UNIT_SCALE);
     }
     surface = edgeSurface(field, edge, capCm, stop);
   } else {
@@ -277,7 +260,7 @@ export function inletOf(
     // The nearest edge cell inside the limits the river can descend from, the lower end first on a tie.
     const cells = edgeCells(field, edge);
     const origin = alongX ? g.originX : g.originY;
-    const q0 = alongX ? cell % g.cols : Math.round((cell - (cell % g.cols)) * invCols(g));
+    const q0 = alongX ? cell % g.cols : rowOf(cell, cell % g.cols, invCols(g));
     for (let d = 1; d < cells.length; d += 1) {
       let moved = false;
       for (const q of [q0 - d, q0 + d]) {
@@ -300,7 +283,7 @@ export function inletOf(
  * short, then the delivered course (whole, or cut before its failure) passing nearest the frame's centre, then the
  * earlier attempt.
  */
-function better(a: { trace: RiverTrace; dist2: number }, b: { trace: RiverTrace; dist2: number }): boolean {
+function betterRiver(a: { trace: RiverTrace; dist2: number }, b: { trace: RiverTrace; dist2: number }): boolean {
   if (a.trace.ok !== b.trace.ok) return a.trace.ok;
   return a.dist2 < b.dist2;
 }
@@ -343,7 +326,7 @@ function corridorOf(field: HydroField, course: readonly XY[], join: number, stop
   for (let guard = 0; guard < g.cols + g.rows; guard += 1) {
     const c = cells[cells.length - 1];
     const i = c % g.cols;
-    const j = Math.round((c - i) * inv);
+    const j = rowOf(c, i, inv);
     if (onBorder(g, i, j)) break;
     const { di, dj } = nearestSide(g, i, j);
     cells = [...cells, (j + dj) * g.cols + i + di];
@@ -367,11 +350,11 @@ function connect(g: HydroGrid, cells: number[], target: number, stop: Uint8Array
   const out = [...cells];
   const inv = invCols(g);
   const ti = target % g.cols;
-  const tj = Math.round((target - ti) * inv);
+  const tj = rowOf(target, ti, inv);
   for (let guard = 0; guard < g.cols + g.rows; guard += 1) {
     const c = out[out.length - 1];
     const i = c % g.cols;
-    const j = Math.round((c - i) * inv);
+    const j = rowOf(c, i, inv);
     if (Math.abs(ti - i) <= 1 && Math.abs(tj - j) <= 1) break;
     const next = (j + Math.sign(tj - j)) * g.cols + i + Math.sign(ti - i);
     if (stop[next] === 1) return { cells: out, exit: next };
@@ -398,7 +381,7 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
   const frame = siteFrame(bp.size, ctx.rung, ctx.tables);
   if (!frame.ok) return err(frame.code, frame.detail);
   const params = hydroParams(ctx.tables, rung);
-  const reach = { x: Math.ceil(frame.value.widthCm * (0.5 + frame.value.marginShare)), y: Math.ceil(frame.value.heightCm * (0.5 + frame.value.marginShare)) };
+  const reach = arenaReach(frame.value);
   const frameHalf = { x: frame.value.widthCm * 0.5, y: frame.value.heightCm * 0.5 };
   const extent = rasterGeom(terrain);
   const ladderUses: RiverLadderUse[] = [];
@@ -466,7 +449,7 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
         chosen = cand;
         break;
       }
-      if (fallback === null || better(cand, fallback)) fallback = cand;
+      if (fallback === null || betterRiver(cand, fallback)) fallback = cand;
       if (attempt + 1 < ATTEMPTS) ladderUses.push({ cause: 'F-RIVER', rung: 3, name: 'inlet', tier: 3, entity: mainId, key: keyOf(attempt + 1), value: attempt + 1 });
     }
     const main = chosen ?? fallback;
@@ -560,12 +543,13 @@ export function runRivers(bp: RiverBlueprint, terrain: Terrain, water: WaterSet,
         nextControl: used.length,
         widthProfile: Int32Array.from(widths.slice(0, course.length)) as CmArray,
         ...(p.flowTo !== undefined ? { flowTo: p.flowTo } : {}),
-        lifecycle: generated(ctx.epoch),
+        lifecycle: generatedLifecycle(ctx.epoch),
       });
     }
   }
 
-  // The terrain record takes the hydrology (on the coarser grid when F-WORK or the switch took it).
+  // The terrain record takes the hydrology (on the coarser grid when F-WORK or the switch took it); `undefinedCells` is
+  // recounted after the corridors' D8 — equal to `d8`'s count on every resolved field, 0 by §13.1.
   terrain.hydro = field.grid;
   terrain.flowDir = field.flowDir;
   terrain.flatRank = field.flatRank;
@@ -638,8 +622,7 @@ export function widthProfile(field: HydroField, params: HydroParams, course: rea
   let acc = 1;
   let lastK = -1;
   for (const p of course) {
-    const { i, j } = cellAt(g, p.x, p.y);
-    const c = j * g.cols + i;
+    const c = cellIndexAt(g, p.x, p.y);
     const k = onCorridor.get(c);
     if (corridor === null) {
       if (field.flowAccum[c] > acc) acc = field.flowAccum[c];

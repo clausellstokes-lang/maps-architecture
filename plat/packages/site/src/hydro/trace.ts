@@ -32,9 +32,11 @@
 //      (attempt) — is the strategy's (./strategy.ts).
 import { ratio, type Stream } from '@plat/kernel';
 import type { HydroGrid, Terrain } from '@plat/model';
+import { cellCentre } from '../terrain/grid.js';
 import { planCarve, rasterGeom, type CarvePlan } from './carve.js';
-import { cellAt, chaikin, firstSelfTouch, pointSegDist2, rasterise, rounded, type GridGeom, type XY } from './course.js';
-import { cellCount, D8_DX, D8_DY, invCols, onBorder, outwardCode, type HydroField } from './field.js';
+import { cellIndexAt, chaikin, firstSelfTouch, pointSegDist2, rasterise, rounded, type GridGeom, type XY } from './course.js';
+import { slopeKey } from './d8.js';
+import { cellCount, D8_DX, D8_DY, invCols, invOfCols, onBorder, outwardCode, rowOf, type HydroField } from './field.js';
 import { CHAIKIN_ROUNDS, KNOT_DEVIATION_CELLS, MEANDER_MIN_SHARE, MEANDER_SAME_SIDE, RETRACE_MAX } from './params.js';
 import { NO_PARENT, riverSurface, surfaceCapCm, type RiverSurface } from './surface.js';
 
@@ -124,11 +126,7 @@ export class MeanderDraws {
 
 /** The point of a border cell's centre projected onto the arena's edge on its outward side(s). */
 export function edgePoint(g: GridGeom, cell: number, reach: { x: number; y: number }, code: number): XY {
-  const cols = g.cols;
-  const i = cell % cols;
-  const j = Math.round((cell - i) * invOf(cols));
-  let x = g.originX + (i + 0.5) * g.cellCm;
-  let y = g.originY + (j + 0.5) * g.cellCm;
+  let { x, y } = cellCentre(g, cell, invOfCols(g.cols));
   const dx = code < 0 ? 0 : D8_DX[code];
   const dy = code < 0 ? 0 : D8_DY[code];
   if (dx > 0) x = reach.x;
@@ -140,18 +138,6 @@ export function edgePoint(g: GridGeom, cell: number, reach: { x: number; y: numb
   if (y > reach.y) y = reach.y;
   if (y < -reach.y) y = -reach.y;
   return { x: Math.round(x), y: Math.round(y) };
-}
-
-function invOf(cols: number): number {
-  const r = ratio(1, cols, 'count');
-  if (!r.ok) throw new RangeError('trace: a grid of no columns');
-  return r.value;
-}
-
-/** The squared-slope key of a drop by D8 code k: drop² × 2 for an orthogonal step, drop² for a diagonal one (./d8.ts's). */
-function slopeKey(drop: number, k: number): number {
-  const d2 = drop * drop;
-  return (k & 1) === 0 ? d2 * 2 : d2;
 }
 
 /**
@@ -231,7 +217,7 @@ export function descentLine(
   let c = start;
   for (let guard = 0; guard < n; guard += 1) {
     const ci = c % cols;
-    const cj = Math.round((c - ci) * inv);
+    const cj = rowOf(c, ci, inv);
     if (adm[c] === 1 && lv[c] > h[c]) {
       if (sinkLevel !== lv[c]) {
         closeSink();
@@ -271,7 +257,7 @@ export function descentLine(
 export function inletMasks(g: HydroGrid, inlet: number, stop: Uint8Array | undefined): { edge: Uint8Array; outlet: Uint8Array } {
   const n = g.cols * g.rows;
   const ii = inlet % g.cols;
-  const ij = Math.round((inlet - ii) * invOf(g.cols));
+  const ij = rowOf(inlet, ii, invOfCols(g.cols));
   const edge = new Uint8Array(n);
   const outlet = new Uint8Array(n);
   for (let j = 0; j < g.rows; j += 1) {
@@ -286,11 +272,9 @@ export function inletMasks(g: HydroGrid, inlet: number, stop: Uint8Array | undef
   return { edge, outlet };
 }
 
-/** The centre of a hydrology cell. */
+/** The centre of a hydrology cell (../terrain/grid.ts `cellCentre`). */
 function centreOf(g: GridGeom, c: number): XY {
-  const i = c % g.cols;
-  const j = Math.round((c - i) * invOf(g.cols));
-  return { x: g.originX + (i + 0.5) * g.cellCm, y: g.originY + (j + 0.5) * g.cellCm };
+  return cellCentre(g, c, invOfCols(g.cols));
 }
 
 /**
@@ -419,7 +403,7 @@ export function traceRiver(grid: HydroField, inlet: Inlet, stream: Stream | Mean
     let endAt: XY;
     if (line.end.kind === 'frame') {
       const lc = lastCell % g.cols;
-      endAt = edgePoint(g, lastCell, opts.reach, outwardCode(g, lc, Math.round((lastCell - lc) * invOf(g.cols))));
+      endAt = edgePoint(g, lastCell, opts.reach, outwardCode(g, lc, rowOf(lastCell, lc, invOfCols(g.cols))));
     } else if (line.end.kind === 'join') {
       const p = centreOf(g, line.end.cell);
       endAt = { x: Math.round(p.x), y: Math.round(p.y) };
@@ -469,8 +453,8 @@ export function traceRiver(grid: HydroField, inlet: Inlet, stream: Stream | Mean
     // The descent restarts at the cell of the good knot's base — on the line, which its surface admitted; it runs on
     // downhill of the kept course, which the new course's own checks (touch, carve) judge with it.
     const gk = kept[kept.length - 1].base;
-    const kc = cellAt(g, gk.x, gk.y);
-    startCell = kept.length === 1 ? inlet.cell : kc.j * g.cols + kc.i;
+    const kc = cellIndexAt(g, gk.x, gk.y);
+    startCell = kept.length === 1 ? inlet.cell : kc;
   }
   if (last === null) throw new Error('traceRiver: no try ran');
   return last;
@@ -502,9 +486,6 @@ function lineFault(grid: HydroField, opts: TraceOptions, kept: readonly Knot[], 
   let k = 0;
   while (k < plan.cells.length && opts.terrain.heightCm[plan.cells[k]] - plan.bedCm[k] <= opts.carveMaxCm) k += 1;
   if (k >= plan.cells.length) return [];
-  const rc = plan.cells[k];
-  const ri = rc % r.cols;
-  const rj = Math.round((rc - ri) * invOf(r.cols));
-  const at = cellAt(g, r.originX + (ri + 0.5) * r.cellCm, r.originY + (rj + 0.5) * r.cellCm);
-  return keep([at.j * g.cols + at.i]);
+  const rc = cellCentre(r, plan.cells[k], invOfCols(r.cols));
+  return keep([cellIndexAt(g, rc.x, rc.y)]);
 }
