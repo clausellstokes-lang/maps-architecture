@@ -8213,3 +8213,4 @@
 2026-10-12 08:19 check/M0-d-04-consolidate-close-1 CHECKPOINT X22 survives bench determinism too (51/51); RELATED@1000 over the 8 digest sources started in the tree (W=1); next: its verdict, notes, verdict file
 2026-10-12 08:37 build/M0-a-08-consolidate-1 CHECKPOINT RELATED@1000 still running (since 07:51, W=1); next: its verdict, LANDED
 2026-10-12 08:38 check/M0-d-04-consolidate-close-1 CHECKPOINT RELATED@1000 running (since 08:19, W=1, ~20 min in); next: its verdict, notes, verdict file
+2026-10-12 08:56 build/M0-a-08-consolidate-1 CHECKPOINT RELATED@1000 still running (since 07:51, W=1); next: its verdict, LANDED
