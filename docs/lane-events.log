@@ -8106,3 +8106,6 @@
 2026-10-12 03:51 check/M0-m-01-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 02:18, W=1); next: wait, verdict file, CLEAN-ROOM row, records
 2026-10-12 03:57 build/M0-d-05b-consolidate-1 CHECKPOINT RELATED@1000 still running (since 02:50, W=1); next: its result, appends, landed
 2026-10-12 04:02 check/M0-c-02-close-s4 CHECKPOINT RELATED@1000 in tree (W=1, since 03:03) still running; next: its verdict
+2026-10-12 04:10 check/M0-m-01-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 02:18, W=1; no red reported in the log yet); next: wait, verdict file, CLEAN-ROOM row, records
+2026-10-12 04:16 build/M0-d-05b-consolidate-1 CHECKPOINT RELATED@1000 still running (since 02:50, W=1); next: its result, appends, landed
+2026-10-12 04:21 check/M0-c-02-close-s4 CHECKPOINT RELATED@1000 in tree (W=1, since 03:03) still running; next: its verdict
