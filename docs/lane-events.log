@@ -8537,3 +8537,4 @@
 2026-10-12 19:21 build/M0-x-06-fix2 CHECKPOINT self-check (fix): L1 L2 L3 L4 L5 and the S8 re-pin pinned — 14/14 targeted mutants killed (X1-X14), restored cmp-clean; mirror removed; appends C-0342, L-0482, notes 'Fix round 2' section (census table of the 35, mutant map); C-NEWROW -> C-0342 in the code; next: gates, NEAR, RELATED
 2026-10-12 19:22 build/M0-x-06-fix2 CHECKPOINT gates in tree: install --frozen-lockfile 0, lint 0 (eslint 1154 files 0/0, probe-red ok, 9 whole-tree checks), build 0; NEAR starting (testkit/test/edge, PR size); next: RELATED@1000
 2026-10-12 19:35 build/M0-x-06-fix2 CHECKPOINT NEAR in tree: testkit/test/edge 17 files 153/153 (PR size, W=1, 732 s); RELATED@1000 starting over packages/testkit/src/edge/*.ts (the item's sources); next: wait, landed
+2026-10-12 19:54 build/M0-x-06-fix2 CHECKPOINT RELATED@1000 in tree running (W=1, since 19:35); next: wait, landed
