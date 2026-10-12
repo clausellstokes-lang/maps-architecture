@@ -1,6 +1,6 @@
 // @plat/model's matching routine (item M0-d-05b; §6.3 *Carry-over*, *Anchors and hysteresis*, *The matching routine*;
-// §3.3's index as the overlap kinds' candidate source; §3.6 (5)). The scaffold created this index empty (M0-s-01,
-// C-0013); it belongs to M0-d-05b. Readings: C-0188.
+// §3.3's index as the overlap kinds' candidate source; §3.6 (5)). Readings where §6.3 leaves a case open: C-0188,
+// C-0190.
 export type {
   Anchor,
   AnchorSpec,
