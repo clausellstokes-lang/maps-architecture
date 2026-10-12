@@ -406,6 +406,26 @@
    "status": "stopped",
    "note": "Fable ruling seat on M0-FIX-QUEUE Q16, Q20-Q22, Q28 (+ Q18/Q19 order), J248 follow-on",
    "stopped": "2026-10-08T22:38-04:00"
+  },
+  {
+   "key": "session/consolidation-site",
+   "kind": "agent",
+   "started": "2026-10-12T05:08+00:00",
+   "expected_min": 30,
+   "output": "",
+   "landed_key": "session/consolidation-site",
+   "status": "running",
+   "note": "Fable/high consolidation architect for @plat/site (J260; after e-03 s2 and x-02 s2 landed, J270)"
+  },
+  {
+   "key": "session/consolidation-layout",
+   "kind": "agent",
+   "started": "2026-10-12T05:20+00:00",
+   "expected_min": 30,
+   "output": "",
+   "landed_key": "session/consolidation-layout",
+   "status": "running",
+   "note": "Fable/high consolidation architect for @plat/layout (J260; c-02 s4 in flight, its round ordered after s4 lands)"
   }
  ]
 }
