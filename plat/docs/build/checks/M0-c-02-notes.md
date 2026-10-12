@@ -266,3 +266,89 @@ S5a:2). Under N-48, the KI rows are test-gap notes on code the probes confirm co
       `.pnpm-workspace-state-v1.json`) there. The seat checked those three with an `ls -la` of the project root, which
       listed directory names only, and removed them at 06:01. Nothing else outside `plat/` and the scratch directory was
       touched. No git command was run.
+
+## Closing check of session fix round S4 (`check/M0-c-02-close-s4`, 2026-10-12)
+
+Q40, the refusal census and the zero-shift line are fixed (`M0-c-02-s4.md`). These notes come from this lane's
+mutants Y01 – Y19 and its probes:
+
+* the first part's mirror, which no longer exists;
+* the relaunch mirror `/tmp/claude-0/…/scratchpad/waves/check-M0-c-02/s4r/after/`, with the U-bend probe
+  `zz-ubend.probe.test.ts` and the census probe `zz-census.probe.test.ts`, both kept outside the test tree.
+
+Under N-48, the KI rows are test-gap notes on code the probes confirm correct, not blockers. The hardening pass (M4)
+drains them. N-32 – N-35 are also for the session.
+
+30. **N-30 KI: the bank route's nine-sample chord clause is not pinned (mutant Y07; M4).**
+    * Observation: in `chordClear`, `return chordInside(ring, a, b)` was replaced by `return true`, keeping only the
+      proper-crossing test. NEAR stays 116/116.
+    * The probe is a U-shaped water ring (x 0–140 m, bottom y 200–240 m, arms to y 400 m). The boundary goes in and out
+      by the two inner shores, at (100, 366.67) and (40, 366.67) m, so the chord lies over the peninsula and crosses no
+      ring side.
+      * Real code: refused `E_INVARIANT` `water` with C-0324's detail, nothing committed.
+      * Y07: commits `gate:w0` as one `wall_gate` edge **over land** (wet fraction 0.000).
+    * The tests cover the promise only by side-crossing instances: the L-bend's routed chord is wet by 99 samples, and
+      the needle test catches a chord through land. No test has a chord that crosses no ring side but leaves the water.
+    * Suggested handling: add the U probe to `bend.test.ts`, asserting a typed refusal (or a wet routed chord) and no
+      `wall_gate` edge over land.
+31. **N-31 KI: four of the route's guards are not isolated by tests (mutants Y12, Y15, Y17, Y13; M4).**
+    * Observation: four mutants survive NEAR:
+      * Y12: a routed chord skips `settleChord`;
+      * Y15: `waters[a.w] === w && waters[b.w] === w` is dropped, so ends on two rings would be walked on one ring's
+        side indices;
+      * Y17: the proper-crossing end tolerance goes from 1 cm to 50 cm, so a chord may cut a land sliver near a bank;
+      * Y13: the shared-walk guard is dropped (the builder's Z11).
+    * By reading, the real code keeps C-0324's stated rule in each case. On the U probe each mutant's output equals the
+      real code's (refused). Y13 is equivalent in effect on reachable input: a shared shore point needs walks round the
+      river's end, beyond the band.
+    * Suggested handling: one fixture each, as follows.
+      * A routed chord passing within 1 cm of an unrelated vertex, which must settle or be refused.
+      * A crossing between two water bodies, which must be refused and named.
+      * A chord cutting a 20 cm land sliver 30 cm from a bank, which must not be clear.
+      * A narrow river end inside the band, where both walks meet.
+32. **N-32 KI and session: a boundary intruding into a U-shaped water body by its inner shores is refused, typed (M4,
+    or the session).**
+    * Observation: on the N-30 probe the stretch over water is not a bank-to-bank crossing. No single chord in the
+      water joins the two inner shores within the band, so the trace is refused `E_INVARIANT` `water` (C-0324's
+      detail), with the arena untouched.
+    * Input kind: the boundary is our own S5 stage boundary, so if a growth stage ever produced this it would be OUR
+      OWN INTERMEDIATE.
+    * No registered family reached it: the base fixtures and EP-01 are as counted, and the river900 extras' refusals
+      are of other classes (N-33). The current verdict, REFUSE, is fail-safe.
+    * Suggested handling: the session decides whether the class is reachable through §11.4's doors. If it is, it is a
+      MAKE-IT-SUCCEED class: graze-follow the shore, or split it into two water gates, which is new design (a notBuilt
+      milestone).
+33. **N-33 session: refusals of LAWFUL input outside the round's families, unchanged by the round (J264, J290).**
+    * Observation: every run's stage and class are identical before and after (first part, 1 058 runs; this part
+      re-ran the after side):
+      * `runBase` RIVER 900 ha / 30 ha walled, seeds 8 and 14: S5 E_SELF_INTERSECT;
+      * the same, seed 12: S3 E_INVARIANT, "gate:2 not on the committed trace" (first part's detail);
+      * RIVER_BLUEPRINT default size, seeds 3 and 4: S5 E_SELF_INTERSECT;
+      * the same, seed 5: S3 E_SELF_INTERSECT;
+      * the builder's relief-60 site spike seed 2: S5 E_SELF_INTERSECT.
+    * The first part's log names the S5 ones an F-WALL self-touch of the trace.
+    * All are LAWFUL input (registered blueprints at other seeds), so their verdict class is MAKE-IT-SUCCEED. None is
+      in the round's registered families (base seeds 1–3, EP-01/S5a/coincident), and none is this round's line.
+    * Suggested handling: the session queues them with these seeds. The S5 self-touch rows go to M0-c-02 or M0-c-04's
+      F-WALL rungs, and the S3 rows to S3's owner.
+34. **N-34 session: RELATED's foreign red, and a guard made redundant.**
+    * The red: `packages/testkit/test/edge/repins.test.ts` > "EP-01/S8/zero-length at 2521534151 …" expects
+      `refused-lawful` and receives `laddered` on this tree (07:18 copy and tree alike). An instrumented replay shows
+      the cell reaches neither `bankRoute` nor `traceBase`'s water-gate numbering. The cell is Q41, M0-x-06's in-flight
+      pins, and S8's outcome changed under it. The two reds of earlier runs, edge/standing 1595424233 and hausdorff,
+      are green on this tree.
+    * The guard: as C-0324 (3) says, M0-c-04's `earlierWaterGates` guard (`growth/boundary.ts`) is now redundant, and
+      it is not this item's file.
+    * Suggested handling: route the red to M0-x-06 or Q41's owner. The guard is for M0-c-04's next round or the
+      consolidation.
+35. **N-35 session: disclosures.**
+    * The lane ran in two parts. The first ran 00:06 – 05:00 on the old account's machine. The second, a relaunch from
+      07:12 on this container, re-ran the gates, NEAR, RELATED, the Q40 replay, the census after-side on a sample, and
+      Y07's probe and NEAR run. The before-side figures are the first part's lines, which used the s3-landed sources.
+    * The first grep of the lane log for the item key printed the builder's CHECKPOINT and LANDED lines, which name its
+      self-check mutants Z1 – Z11, before the seat had planned. No `selfcheck-*` folder was opened, and every survivor
+      was judged by this seat.
+    * This seat's ledger row L-0459 is inserted in §2's table after L-0457. Row L-0458
+      (`build/M0-a-08-consolidate-1`) stands outside the table after §5, as L-0444 once did, so the session may need
+      to move it (Q23 (a)).
+    * No git command was run.
