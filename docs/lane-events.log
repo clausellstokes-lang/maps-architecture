@@ -8154,3 +8154,4 @@
 2026-10-12 03:35 build/M0-x-06-fix2 CHECKPOINT final 1000-seed run: 55/72 fixtures logged; next: wait
 2026-10-12 04:05 build/M0-x-06-fix2 CHECKPOINT final 1000-seed run: 56/72 fixtures logged (the S5d/S5b shards remain); next: wait
 2026-10-12 04:34 build/M0-x-06-fix2 CHECKPOINT final 1000-seed run: 68/72 fixtures logged; next: wait, then summary, self-check
+2026-10-12 05:13 session/old-account NOTE division of labour (J299): the OLD account's session lands nothing further; it only autosaves and snapshots to wip/cloud-autosave until its account stops; every landing is the NEW session's from the branches when a LANDED line and its records appear; its local seats still live: check/M0-c-02-close-s4, check/M0-a-09-close-s3, build/M0-d-05b-consolidate-1
