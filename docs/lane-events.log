@@ -8371,3 +8371,5 @@
 2026-10-12 12:50 check/M0-a-08-consolidate-close-1 CHECKPOINT NEAR at PR size still running (since 12:21, W=1); next: NEAR result, RELATED
 2026-10-12 13:03 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 39000 runs logged (shards 0,1,2,4,5 done exit 0), 0 off, 0 crash; next: wait
 2026-10-12 13:09 check/M0-a-08-consolidate-close-1 CHECKPOINT NEAR at PR size still running (since 12:21, W=1); next: NEAR result, RELATED
+2026-10-12 13:22 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 46000 runs logged (6 of 12 shards done exit 0), 0 off, 0 crash; next: wait
+2026-10-12 13:28 check/M0-a-08-consolidate-close-1 CHECKPOINT NEAR at PR size still running (since 12:21, W=1); next: NEAR result, RELATED
