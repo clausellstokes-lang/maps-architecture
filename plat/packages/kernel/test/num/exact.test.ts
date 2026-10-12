@@ -1,7 +1,8 @@
-// M0-a-01: the shared exact predicates and constants of `src/num/exact.ts` (§3.2 (1), (2), (3), (8); C-0314), judged
-// against BigInt references written here from the definitions — the squared distance to a closed segment, the shared
-// point of two closed segments, the ray crossing at its exact rational intercept — never with the code under test.
-// Their equality with the copies they replace is equivalence.test.ts's.
+// M0-a-01: the shared exact predicates and constants of `src/num/exact.ts` (§3.2 (1), (2), (3), (8); C-0314, C-0330),
+// judged against references written here from the definitions — the squared distance to a closed segment, the shared
+// point of two closed segments, the ray crossing at its exact rational intercept (in BigInt), the direction half-plane
+// rule case by case — never with the code under test. Their equality with the copies they replace is
+// equivalence.test.ts's.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import * as barrel from '../../src/index.js';
@@ -13,6 +14,7 @@ import {
   POW2_20,
   crossingStep,
   divScaled,
+  halfPlaneOf,
   insideDoubledRing,
   insideLatticeRing,
   insideOrOnRing,
@@ -23,7 +25,8 @@ import {
   windingNumber,
 } from '../../src/num/exact.js';
 import type { LatticePoint } from '../../src/types/index.js';
-import { MAX, TIMEOUT, coord, pt } from './support.js';
+import { orient2d } from '../../src/num/index.js';
+import { MAX, TIMEOUT, coord, generator, intIn, pt } from './support.js';
 
 const B = BigInt;
 
@@ -275,6 +278,48 @@ describe('the point-in-ring tests: one crossing rule, three readings (§3.2 (3))
   }, TIMEOUT);
 });
 
+/**
+ * The direction half-plane rule written out case by case: above the x axis is half 0, below it half 1; on the axis the
+ * positive side is half 0 and the negative side and the origin half 1.
+ */
+function halfRule(x: number, y: number): number {
+  if (y > 0) return 0;
+  if (y < 0) return 1;
+  return x > 0 ? 0 : 1;
+}
+
+describe('halfPlaneOf: the direction half-plane (kernel-plan.md §1.12 S-1)', () => {
+  const COMPASS: readonly (readonly [string, number, number, number])[] = [
+    ['E', 1, 0, 0], ['NE', 1, 1, 0], ['N', 0, 1, 0], ['NW', -1, 1, 0], ['W', -1, 0, 1], ['SW', -1, -1, 1], ['S', 0, -1, 1], ['SE', 1, -1, 1],
+  ];
+
+  it('the eight compass directions: east to north-west are half 0, west to south-east half 1', () => {
+    for (const [name, x, y, h] of COMPASS) expect(halfPlaneOf(x, y), name).toBe(h);
+  });
+
+  it('the axes at every scale: +x and +y are half 0, −x and −y half 1; the origin reads 1', () => {
+    for (const k of [1, 2, 25, 26, 1000, MAX]) {
+      expect([halfPlaneOf(k, 0), halfPlaneOf(0, k), halfPlaneOf(-k, 0), halfPlaneOf(0, -k)], `|v| = ${k}`).toEqual([0, 0, 1, 1]);
+    }
+    expect(halfPlaneOf(0, 0)).toBe(1);
+  });
+
+  it('ordered by half and then by orient2d, the compass directions run counter-clockwise from +x', () => {
+    const order = COMPASS.slice().reverse().sort((a, b) => halfPlaneOf(a[1], a[2]) - halfPlaneOf(b[1], b[2]) || -Math.sign(orient2d(0, 0, a[1], a[2], b[1], b[2])));
+    expect(order.map((d) => d[0])).toEqual(['E', 'NE', 'N', 'NW', 'W', 'SW', 'S', 'SE']);
+  });
+
+  it('equals the rule on 10 000 seeded integer vectors, a third on an axis; a vector and its opposite lie in opposite halves', () => {
+    const rnd = generator(0x5e1);
+    for (let i = 0; i < 10_000; i++) {
+      const x = i % 3 === 1 ? 0 : intIn(rnd, -MAX, MAX);
+      const y = i % 3 === 2 ? 0 : intIn(rnd, -MAX, MAX);
+      if (halfPlaneOf(x, y) !== halfRule(x, y)) expect.fail(`(${x}, ${y}): ${halfPlaneOf(x, y)} where the rule gives ${halfRule(x, y)}`);
+      if ((x !== 0 || y !== 0) && halfPlaneOf(x, y) + halfPlaneOf(-x, -y) !== 1) expect.fail(`(${x}, ${y}) and its opposite share a half`);
+    }
+  });
+});
+
 describe('the shared constants (§3.2 (8), §6.5 (3))', () => {
   it('holds π\'s nearest double, 2²⁴ and 2²⁰', () => {
     expect(PI).toBe(3.141592653589793);
@@ -307,7 +352,10 @@ describe('the shared constants (§3.2 (8), §6.5 (3))', () => {
 describe('exact.ts is imported by path, never re-exported (C-0314)', () => {
   it('neither num/index.ts nor the package barrel exports any of its names', () => {
     const names = Object.keys(exact);
-    expect(names.sort()).toEqual(['BOX_RANGE', 'PI', 'POW2_20', 'crossingStep', 'divScaled', 'insideDoubledRing', 'insideLatticeRing', 'insideOrOnRing', 'onLatticeSegment', 'segmentCloserThan', 'segmentsMeet', 'strictlyInsideRings', 'windingNumber']);
+    expect(names.sort()).toEqual([
+      'BOX_RANGE', 'PI', 'POW2_20', 'crossingStep', 'distinctRing', 'divScaled', 'halfPlaneOf', 'insideDoubledRing', 'insideLatticeRing', 'insideOrOnRing',
+      'isLatticeCoord', 'lp', 'onLatticeSegment', 'segmentCloserThan', 'segmentsMeet', 'strictlyInsideRings', 'windingNumber',
+    ]);
     for (const n of names) {
       expect(n in numIndex, `num/index.ts exports ${n}`).toBe(false);
       if (n in barrel) expect((barrel as Record<string, unknown>)[n], `the barrel's ${n} is another module's`).not.toBe((exact as Record<string, unknown>)[n]);

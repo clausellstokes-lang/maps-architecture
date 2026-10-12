@@ -96,3 +96,74 @@ New findings that are not blockers (the blocker rule of the brief), for the late
 | N-c2-3 | The comment rewrite removed the tokens GEO-32 (`num/predicates.ts:1`) and GEO-7 (`num/snap.ts:1`), and C-0314 (6) calls them review-record tokens. They are also clause tags in docs/ARCHITECTURE.md §3.2 (6) "(GEO-32; J-K13)" and §3.2 (7) "(GEO-7)". The comments still cite §3.2 (6) and (7), so no rule is lost; only a design tag is gone. | The session decides whether design clause tags stay in source comments. If they stay, R13 or any later touch restores them. | session |
 | N-c2-4 | `wedge.ts:39` and `insetRing.ts:70` call `ratio(x·SCALE, y·SCALE, 'length')` inline, with no `div` function. `DIV_SITES` therefore compares only kerb's and buffer's `div`. Both inline uses have kind `'length'`, so `divScaled(·, ·, 'length')` is their reading too. | R3 and R8 replace the inline calls with `divScaled(·, ·, 'length')`, and the existing `SCALE` pins guard the constant meanwhile. | R3, R8 |
 | N-c2-5 | Three mutants of exact.ts survive. This checker judges each equivalent: A4 (`dot >= l2` → `dot > l2`: at dot = \|ab\|² the foot is b, so o² = \|pb\|²·\|ab\|² exactly within the exactness contract); A7 (`l2 === 0` dropped: l2 = 0 forces dot = 0); D4 (N-c2-2). | None. A4 is open to the same near-tie blur beyond 2⁵³ that N-c1-1 records. | — |
+
+## Consolidation round R1, second part (lane `build/M0-a-01-consolidate-2`, flow-7, 2026-10-12; J298, fix round C2)
+
+The S-1 and G-1 homes of kernel-plan.md §1.12 (noted as N-c1-3 above), landed in `num/exact.ts` before the rounds that
+import them (J270 (b)); C-0330.
+
+### Old file → new file map (J263 Q8)
+
+| copy today (stays until the named round imports the shared name) | shared name in `src/num/exact.ts` | round that swaps it |
+|---|---|---|
+| `src/geom/common.ts:47–49` `isLatticeCoord` | `isLatticeCoord` (body identical) | R13, M0-a-10 |
+| `src/geom/common.ts:65–67` `lp` | `lp` (body identical) | R13, M0-a-10 |
+| `src/geom/common.ts:88–97` `distinctRing` | `distinctRing` (body identical) | R13, M0-a-10 |
+| `src/skeleton/roof.ts:61` `half` (private) | `halfPlaneOf` (body identical) | R13, M0-a-11 |
+| `src/skeleton/engine.ts:210` `half` (private) | `halfPlaneOf` (body identical) | R13, M0-a-11 |
+| `src/warp/validate.ts:106` lambda `half` in `ascents` | `halfPlaneOf` (the same rule on `d[0]`, `d[1]`) | R10, M0-a-13 |
+
+Tests: no file renamed, merged or split; every existing `describe`/`it` title unchanged. New: `test/num/exact.test.ts`
+describe 'halfPlaneOf: the direction half-plane (kernel-plan.md §1.12 S-1)' (4 its); `test/num/equivalence.test.ts`
+describe 'G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts's (kernel-plan.md §1.12)' (5 its); the
+not-re-exported test's name list grows from 13 to 17. NEAR: test/num + test/types 13 files, 94 → 103 tests.
+
+### Mutants of this round (the lane's mirror, each over `packages/kernel/test/num`, `--bail=1`)
+
+| id | line | mutant | result (first failing test) |
+|---|---|---|---|
+| S1a | S-1 | `y > 0` → `y >= 0` | red: the eight compass directions |
+| S1b | S-1 | `x > 0` → `x >= 0` (the origin reads 0) | red: the axes at every scale … the origin reads 1 |
+| S1c | S-1 | `? 0 : 1` → `? 1 : 0` | red: the eight compass directions |
+| S1d | S-1 | `x > 0` → `x < 0` | red: the eight compass directions |
+| S1e | S-1 | the rule transposed (`x > 0 \|\| (x === 0 && y > 0)`) | red: the eight compass directions |
+| S1f | S-1 | `x > 0` → `x !== 0` | red: the eight compass directions |
+| G1a | G-1 | `< LATTICE.rangeCm` → `<=` | red: isLatticeCoord fixtures |
+| G1b | G-1 | `Number.isInteger` dropped | red: isLatticeCoord fixtures |
+| G1c | G-1 | `Math.abs(v)` → `v` | red: isLatticeCoord fixtures |
+| G1d | G-1 | `lp` swaps x and y | red: lp fixtures |
+| G1e | G-1 | the closing-repeat loop dropped | red: distinctRing fixtures |
+| G1f | G-1 | `out.length > 1` → `> 0` | red: distinctRing fixtures |
+| G1g | G-1 | repeat test on x only | red: distinctRing fixtures |
+| G1h | G-1 | pushes a copy of each point | red: distinctRing fixtures (the same point objects) |
+| G1i | G-1 | `while` → `if` on the closing repeat | alive, equivalent: consecutive repeats are gone first, so after one pop the new last point differs from its neighbour, the old last, which equals the first |
+| A1 | API | `num/index.ts` re-exports the four names | red: exact.ts is imported by path, never re-exported |
+| A2 | API | `num/index.ts` re-exports `lp` | red: the same |
+| E1 | NO-SHIFT | `segmentCloserThan` `<` → `<=` at r (an earlier round's) | red: is strict at r |
+| E2 | NO-SHIFT | `crossingStep` `ay <= qy` → `ay < qy` (an earlier round's) | red: counts a vertex at the query's height |
+| E3 | NO-SHIFT | `dot >= l2` → `dot > l2` | alive, equivalent (N-c2-5's A4) |
+
+### NO-SHIFT and refusals
+
+The emitted JavaScript with comments removed (TypeScript `transpileModule`) of 154 of the kernel's 155 source files is
+identical to the before-image taken at the round's start; exact.ts's 19 earlier top-level declarations print identical.
+No index file changed, so the exported names of every index and of the barrel are those of the before-image. The
+refusal counts of M0-a-01's B-FUZZ families (snap, ratio, frameOf) on one seeded 10⁴ sample are identical before and
+after: snap 2 668 (E_OUT_OF_RANGE x 1 445, y 1 223), ratio 7 770 (E_DEGENERATE ratio), frameOf 7 290 (E_OUT_OF_RANGE
+area 478, aspect 6 093, range 719). Every one is an UNLAWFUL input (a coordinate outside ±2²³ or not finite, a
+denominator below its floor, an area or aspect outside the frame's range), verdict REFUSE (typed; snap is the door that
+names the coordinate, and the frame's caller picks the area and aspect, §3.2 (1), (7)); 0 lawful-input refusals. The
+four new functions are total and refuse nothing.
+
+## Closing check of round R1's second part (lane `check/M0-a-01-consolidate-close-2`, flow-7, 2026-10-12; J298)
+
+New findings that are not blockers (the blocker rule of the brief), for the later rounds and the hardening pass. The
+verdict is `checks/M0-a-01-c2.md`.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c3-1 | No test pins the barrel's export set. The mutant A2 adds `export { lp as lpExact } from './num/exact.js'` to `src/index.ts` and survives test/num + test/types. The not-re-exported test in exact.test.ts checks exact.ts's names only, so an alias under a new name escapes it. Today the freeze (J263 Q1) is held by the before/after diff of every index: `num/index.ts`, `types/index.ts`, `src/index.ts` and `API.md` are byte-identical to main 5f8bb163. This needs a deliberate writer. | A ratchet test that pins the barrel's runtime export names to API.md Appendix B's list, or a recorded list, so that any addition fails by name. | the consolidation's API freeze (session), else M4 |
+| N-c3-2 | exact.ts being a leaf (it imports only `./predicates.js`, `./ratio.js`, `./lattice.js` and the type-only `../types/index.js`) is held by reading, not by a test. The mutant G19 replaces `isLatticeCoord` with `export { isLatticeCoord } from '../geom/common.js'`. It survives test/num + test/types and lint, because the lint's kernel-boundary check does not order the kernel's folders. Once R13's a-10 round makes geom's copy a re-export of num/exact.ts, that edit would become a circular re-export. | An import-specifier ratchet on exact.ts in exact.test.ts. copies.ts already parses kernel sources with the TypeScript compiler, so the ratchet can reuse that parsing. | before or with R13 (M0-a-10), else M4 |
+| N-c3-3 | No test holds the three S-1 copies (`skeleton/roof.ts:61` `half`, `skeleton/engine.ts:210` `half`, the `warp/validate.ts:106` lambda) equal to `halfPlaneOf` while they coexist with it. The S-1 pins judge `halfPlaneOf` against a rule written out in the test, as the brief asks, and they do not cover the copies. C-0330 (3)'s "held equal by the pins below" is true for G-1 (equivalence.test.ts imports geom's copies), but for S-1 it holds only through the side-by-side reading. This checker executed the three copies' return expressions, read from source, against `halfPlaneOf` on 100 081 cases (the ±2²³ and special-value grid with NaN and −0, plus 10⁵ seeded vectors with a third on an axis): 0 disagreements, and the origin reads 1 in all four. | Add S-1 rows to `copies.ts`'s table, with the `importsShared()` ratchet after the swap. Or leave it: R13's a-11 round and R10's warp round replace the copies by imports. | R10 / R13 |
+| N-c3-4 | Three small wording points. (a) The header says `halfPlaneOf` "reads an integer direction vector by two comparisons with 0", but the code makes up to three comparisons (`y > 0`, `y === 0`, `x > 0`) on its two coordinates. Read as "comparisons of its two coordinates with 0" it is true. (b) In equivalence.test.ts's G-1 describe, `agree(id, got, want)` is called with exact.ts's value as `got` and geom's as `want`. Its failure text "<got> where exact.ts gives <want>" therefore names the two sources the wrong way round. It affects only a failure message. (c) The module's first paragraph still lists only the segment and ring tests and the constants. The brief kept it unchanged ("no other comment changes"), so it does not yet name the lattice inputs or the half-plane. | Reword at the next touch of each file: (a) "by comparing its two coordinates with 0"; (b) the message, or the argument order, in the G-1 describe; (c) the first paragraph names all four groups. | next touch / M4 |
+| N-c3-5 | This checker ran 41 targeted mutants. Two survivors are judged equivalent here. G11 (`while` → `if` on the closing repeat): consecutive repeats are removed first, so after one pop the new last point differs from the old last point, which equals the first point. G13 (`out.length > 1` → `> 2`): after consecutive repeats are removed, a two-point ring has two different points, so the dropped case never pops. | None. | — |

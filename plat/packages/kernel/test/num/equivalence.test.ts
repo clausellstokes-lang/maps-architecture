@@ -3,11 +3,17 @@
 // windows (every tie, endpoint and degenerate case), on the fuzz arenas (the edges, vertices and face rings of tx's
 // B-FUZZ batch sequences), on the inputs the copies' own tests pin, and as fast-check properties at PLAT_FUZZ_RUNS
 // (10⁴ in the PR tier, C-0057). Each constant is pinned to its one home's value. A site a later round has consolidated
-// (its copy gone) must import the shared name instead.
+// (its copy gone) must import the shared name instead. The lattice inputs `isLatticeCoord`, `lp` and `distinctRing`
+// (kernel-plan.md §1.12 G-1; C-0330) equal geom/common.ts's on fixtures, a seeded sample and the fuzz arenas' rings.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { isHalfEdgeLive, isVertexLive, type HalfEdgeId, type Plat } from '../../src/arena/index.js';
-import { PI as GEOM_PI } from '../../src/geom/common.js';
+import {
+  PI as GEOM_PI,
+  distinctRing as geomDistinctRing,
+  isLatticeCoord as geomIsLatticeCoord,
+  lp as geomLp,
+} from '../../src/geom/common.js';
 import { HOT_PIXEL_SQ } from '../../src/insert/placement.js';
 import { HOT_PIXEL_CM } from '../../src/index/index.js';
 import { LATTICE } from '../../src/num/index.js';
@@ -15,10 +21,13 @@ import {
   BOX_RANGE,
   PI,
   POW2_20,
+  distinctRing,
   divScaled,
   insideDoubledRing,
   insideLatticeRing,
   insideOrOnRing,
+  isLatticeCoord,
+  lp,
   segmentCloserThan,
   segmentsMeet,
   strictlyInsideRings,
@@ -30,7 +39,7 @@ import { levelCycles } from '../arena/support.js';
 import { randomBatch, rng, type Live, type Mix } from '../tx/fuzzgen.js';
 import { framed, spec } from '../tx/support.js';
 import { CLOSER_SITES, CONST_SITES, DIV_SITES, MEET_SITES, RING_SITES, constOf, importsShared, ringCase, type Reading, type RingCase } from './copies.js';
-import { MAX, TIMEOUT, coord, generator, intIn, pt } from './support.js';
+import { MAX, RANGE, TIMEOUT, coord, generator, intIn, pt } from './support.js';
 
 /** What exact.ts answers for each reading — the table that maps every N-3 caller to the shared predicate it becomes. */
 const READ: Readonly<Record<Reading, (rings: readonly RingCase[], qx: number, qy: number) => boolean | number>> = {
@@ -319,4 +328,83 @@ describe('N-4: every spelt constant holds its one home\'s value; every div is di
       }),
     );
   }, TIMEOUT);
+});
+
+// ---- G-1 -------------------------------------------------------------------------------------------------------------
+
+describe('G-1: isLatticeCoord, lp and distinctRing ≡ geom/common.ts\'s (kernel-plan.md §1.12)', () => {
+  /** distinctRing's answer and geom's hold the same point objects, in order; the input is left as it was. */
+  const sameRing = (ring: readonly LatticePoint[]): void => {
+    const before = ring.slice();
+    const got = distinctRing(ring);
+    const want = geomDistinctRing(ring);
+    const show = (): string => ring.map((q) => `(${q.x}, ${q.y})`).join(' ');
+    agree('distinctRing length', got.length, want.length, show);
+    for (let i = 0; i < want.length; i++) agree(`distinctRing [${i}]`, got[i], want[i], show);
+    if (ring.length !== before.length || ring.some((q, i) => q !== before[i])) expect.fail(`distinctRing changed its input ${show()}`);
+  };
+
+  it('isLatticeCoord: ±(2²³ − 1) in, ±2²³ out; fractions, NaN and ±∞ out; −0 in', () => {
+    const fixtures = [0, -0, 1, -1, MAX, -MAX, RANGE, -RANGE, RANGE + 1, 0.5, -0.5, MAX + 0.5, 2 ** 53, Number.MAX_VALUE, Number.MIN_VALUE, Number.NaN, Infinity, -Infinity];
+    for (const v of fixtures) agree('isLatticeCoord', isLatticeCoord(v), geomIsLatticeCoord(v), () => String(v));
+    expect(fixtures.map(isLatticeCoord)).toEqual([true, true, true, true, true, true, false, false, false, false, false, false, false, false, false, false, false, false]);
+  });
+
+  it('isLatticeCoord on 10 000 seeded values: integers across ±2²⁴, a third within 2 of the bound, a third half-integers', () => {
+    const rnd = generator(0x6e01);
+    for (let i = 0; i < 10_000; i++) {
+      const k = intIn(rnd, -2 * RANGE, 2 * RANGE);
+      const v = i % 3 === 0 ? k : i % 3 === 1 ? (k < 0 ? -RANGE : RANGE) + intIn(rnd, -2, 2) : k + 0.5;
+      agree('isLatticeCoord', isLatticeCoord(v), geomIsLatticeCoord(v), () => String(v));
+    }
+  });
+
+  it('lp: a fresh { x, y } equal to geom\'s, on fixtures and 10 000 seeded points', () => {
+    const rnd = generator(0x6e02);
+    const points: (readonly [number, number])[] = [[0, 0], [-0, 0], [MAX, -MAX], [-MAX, MAX], [25, 26]];
+    for (let i = 0; i < 10_000; i++) points.push([intIn(rnd, -MAX, MAX), intIn(rnd, -MAX, MAX)]);
+    for (const [x, y] of points) {
+      const a = lp(x, y);
+      expect(a, `(${x}, ${y})`).toStrictEqual(geomLp(x, y));
+      if (Object.keys(a).join() !== 'x,y' || !Object.is(a.x, x) || !Object.is(a.y, y) || lp(x, y) === a) expect.fail(`lp(${x}, ${y})`);
+    }
+  });
+
+  it('distinctRing: empty, one point, all repeats, consecutive and closing repeats, an alternation kept', () => {
+    const [a, b, c] = [pt(0, 0), pt(10, 0), pt(10, 10)];
+    const a2 = pt(0, 0);
+    const cases: readonly (readonly [readonly LatticePoint[], readonly LatticePoint[]])[] = [
+      [[], []],
+      [[a], [a]],
+      [[a, a2, a], [a]],
+      [[a, b], [a, b]],
+      [[a, b, a2], [a, b]],
+      [[a, a2, b, b, c, a, a2], [a, b, c]],
+      [[a, b, c, a2], [a, b, c]],
+      [[a, b, a, b], [a, b, a, b]],
+      [[b, a, a2, c, c, b], [b, a, c]],
+    ];
+    for (const [ring, want] of cases) {
+      sameRing(ring);
+      const got = distinctRing(ring);
+      expect(got.length === want.length && got.every((q, i) => q === want[i]), ring.map((q) => `(${q.x}, ${q.y})`).join(' ')).toBe(true);
+    }
+  });
+
+  it('distinctRing on 10 000 seeded rings of 0 – 9 points on a 3 × 3 grid (repeats everywhere) and on the fuzz arenas\' rings', () => {
+    const rnd = generator(0x6e03);
+    for (let i = 0; i < 10_000; i++) {
+      const n = intIn(rnd, 0, 9);
+      sameRing(Array.from({ length: n }, () => pt(intIn(rnd, 0, 2), intIn(rnd, 0, 2))));
+    }
+    for (const arena of ARENAS) {
+      for (const level of arena.rings) {
+        for (const r of level) {
+          sameRing(r.pts);
+          sameRing([...r.pts, r.pts[0]]);
+          sameRing(r.pts.flatMap((q, i) => (i % 2 === 0 ? [q, pt(q.x, q.y)] : [q])));
+        }
+      }
+    }
+  });
 });
