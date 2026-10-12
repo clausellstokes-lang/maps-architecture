@@ -119,3 +119,79 @@ is in `checks/M0-x-02-s2.md`. Mutants and probes ran only in the seat's scratch 
       item's. C-0316 (7b) reports it too. The seat's grep of `docs/M0-FIX-QUEUE.md` for "no clear chord" found no
       queue row.
     * **Suggested handling:** a queue row for the S5 water-crossing owner (M0-c-02's water gates), with this seed.
+
+## Consolidation round C1's notes (lane `build/M0-x-02-consolidate-1`, 2026-10-12; layout-plan.md R2, J260, J263 Q8)
+
+**Old → new test-file map (J263 Q8): the identity.** No file of `test/pipeline/core/` was renamed, merged or split, and
+no describe or it title changed (layout-plan.md §3: "one support module already — nothing to merge"):
+
+| old file | new file | what changed |
+|---|---|---|
+| `test/pipeline/core/order.test.ts` | the same | nothing |
+| `test/pipeline/core/registry.test.ts` | the same | nothing |
+| `test/pipeline/core/runner.test.ts` | the same | nothing |
+| `test/pipeline/core/rows.test.ts` | the same | the header comment only (the guard's rule, C-0316 (1)–(5); no round or queue narration) |
+| `test/pipeline/core/rows-base.test.ts` | the same | the header comment only (C-0316 (6)) |
+| `test/pipeline/core/support.ts` | the same | nothing (`bits`, `contentPrint`, `drawn`, `liveFaces` kept) |
+
+Every earlier mutant the round re-ran is killed by the same files: P06 (name order, both "no sort" and "reversed
+`compareKeys`") by runner.test.ts 'carries what the stages write through the sink, in order, and the kernel's warnings by
+code' and 'every declared row and counter appears, unevaluated, on a stage that ran no batch'; P02, U01 by runner.test.ts;
+K01, K06, K08, K10, K13, K14, K15, K17 by rows.test.ts; K16 survives, equivalent, as recorded in `checks/M0-x-02-s2.md`.
+
+15. **KI — the sink's undeclared-row refusal is pinned by a pattern only (round C1's mutant R5 survives).**
+    * `runner.test.ts:238` asserts `toThrow(/declares no invariant/)`. Dropping the sink's pointer
+      ` (§4.12's StageDecl.invariants)` from the text (now `rowOf`'s `why` argument) passes all 73 tests.
+    * The text is unchanged by round C1: the mirror probe of the four refusal texts (the sink's undeclared and
+      batch-hard rows, `evaluate` and `neverEvaluated` on an undeclared row) is byte-equal before and after.
+    * **Hardening test:** pin the exact text `report: stage S1 declares no invariant 'fx.none' (§4.12's
+      StageDecl.invariants)`. **Milestone:** M4.
+16. **Two describe titles keep "Q32" (a title is an oracle's name, layout-plan.md §3).**
+    * `rows.test.ts:64` '… was evaluated (Q32)' and `rows-base.test.ts:29` '… without an evaluator (Q32 walker)'. A
+      grep for `Q32` over the owns prints these two titles and nothing else; every comment of the owns now cites the
+      rule (C-0316 (1)–(6); §5.3, §5.4).
+17. **Observation for the session (J264) — note 14's refusal is no longer met in this tree.** The base river fixture at
+    `areaHa` 900, `walledHa` 30, seeds 1 – 3, and the flat fixture at the same seeds, ran with `bugs []` and
+    `model.refusals` empty, before and after round C1 (the mirror probe, 2026-10-12).
+
+## Closing check of consolidation round C1's notes (lane `check/M0-x-02-consolidate-close-1`, 2026-10-12)
+
+None of these fails the round (J302 Q12, J273: a consolidation round's closing check notes a survivor it meets and
+adds no pin). The evidence is in `checks/M0-x-02-c1.md`; the mirrors were `waves/check-M0-x-02/{m0,m1,mx}` in the
+session's cloud scratchpad.
+
+18. **KI — the kernel block's name order is unpinned (the checker's mutant R04 survives).**
+    * Under R04, `finish()` writes `kernel.warnings` as `Object.fromEntries(this.kernelCodes)` (insertion order) and
+      NEAR stays 73/73: `runner.test.ts:529` compares `report.kernel` with `toEqual`, which ignores key order. Only the
+      stage entry's `warnings` order is pinned (`Object.keys` at `runner.test.ts:521`); P06's two forms (no sort,
+      reversed) are killed there because `sortedRecord` is shared.
+    * The code holds the order: the checker's probe PW (21 codes in 6 insertion orders, through the sink and a stage
+      result's warnings) gives `kernel.warnings` keys in `compareKeys` order, byte-equal before and after round C1.
+    * **Hardening test:** in that test, assert `Object.keys(report.kernel.warnings)` is `['W_ATTRACTED', 'W_DOWNGRADE']`
+      (the stage reports them in the other order). **Milestone:** M4.
+19. **KI — an integer-like name escapes the name order of a report record.** `sortedRecord` inserts keys in
+    `compareKeys` order into a plain object, but JavaScript enumerates integer-like keys first, in numeric order: probe
+    PW's codes `'1'`, `'9'`, `'10'` read `1, 9, 10` in `Object.keys` and in the JSON, where `compareKeys` gives
+    `1, 10, 9`. The order is still one order for every insertion order (deterministic; the probe's six insertion orders
+    agree) and it is the same before and after round C1. No M0 code or counter is integer-like (`W_…`, `fixture.ops`,
+    the stages' dotted counters); a contrived-writer case. **Suggested handling:** refuse an integer-like warning code or
+    counter name at the sink and at registration, or say in `report.ts`'s header that the records follow JavaScript's
+    key order. **Milestone:** M4.
+20. **KI — the undeclared-row refusal texts of `ReportBuilder.evaluate` and `neverEvaluated` are unpinned (the checker's
+    mutant R09 survives: the sink's pointer ` (§4.12's StageDecl.invariants)` on all three `rowOf` sites passes 73/73).**
+    Both are reachable only by a direct `ReportBuilder` call: the runner passes them declared names only, and the
+    registry refuses a stage whose rows repeat a name (`registry.ts:206`), so `rowOf`'s `find` and a `findLast` are
+    equivalent on every registered stage (the checker's R06, equivalent). With no git, the checker's before-image of
+    these texts is a reconstruction from the plan (PLAUSIBLE, not CONFIRMED). **Hardening test:** with note 15, pin the
+    three texts exactly. **Milestone:** M4.
+21. **Comment tightening (not a mismatch) — `report.ts:14–16`.** "A declared stage-end row the stage never reported is
+    such a refusal … the row's line reads pass false with count 0 — the one line a never-evaluated row can show" is the
+    plan's binding wording (layout-plan.md §1.1.3) and C-0316 (2)'s phrase. It leaves out C-0316 (4)'s scope, which
+    `runner.ts:14–18` states: only a stage that reached its end (ok, and it produced) is judged; a stage on missing
+    inputs and a stage refused by its own run keep their unreported stage-end rows at pass true, count 0 (`rows.test.ts`
+    its 6 and 8, and the same header's first bullet). **Suggested handling:** add "of a stage that reached its end
+    (C-0316 (4))" at the file's next comment pass. **Milestone:** M4 (or the item's next round).
+22. **Session note — a choices id collision ahead (C-0104).** `bench/test/fusion/drift.test.ts` (M0-c-06's folder;
+    uncommitted work in the tree) cites "C-0331 (3)" and "C-0331 (3), (4)" for its S8 ≡ S9 boundary tests, while
+    C-0331 in `choices.md` is M0-x-02's consolidation row (2026-10-12). The row that test means is not in `choices.md`
+    yet; its writer renumbers on append (the id rule; the checker renumbers nothing).

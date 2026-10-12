@@ -36,7 +36,7 @@ export function tableCapacityFor(keys: number): number {
   return cap;
 }
 
-/** A lawful capacity: a power of two ≥ MIN_TABLE_CAPACITY — or ≥ 1 in the tiny-tables mode (N-53 (4), C-0286). */
+/** A lawful capacity: a power of two ≥ MIN_TABLE_CAPACITY — or ≥ 1 in the tiny-tables mode (C-0286 (2)). */
 function powerOfTwo(cap: number): boolean {
   return Number.isInteger(cap) && cap >= (tinyTables() ? 1 : MIN_TABLE_CAPACITY) && (cap & (cap - 1)) === 0 && cap <= 0x40000000;
 }

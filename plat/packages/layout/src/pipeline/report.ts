@@ -10,13 +10,14 @@
 //   key's components; the report renders the textual key, §6.1), its evaluations of declared stage-scope and soft rows,
 //   requested features (§5.1 (7)), auto-resolved parameters, unserved and unplaced entities and bug aborts (§5.1 (8)).
 //   The runner writes the batch side itself: work per counter, kernel warnings, downgrades and work-limit hits from
-//   each commit, the batch-scope hard rows' evaluations, and a bug entry for a stage whose run is refused (C-0224 (5))
-//   or that reached its end without reporting a declared stage-end row — that row's line then reads pass false with
-//   count 0, the one line a never-evaluated row can show (Q32, C-0316).
+//   each commit, the batch-scope hard rows' evaluations, and a bug entry for a stage whose run is refused (C-0224 (5)).
+//   A declared stage-end row the stage never reported is such a refusal, `E_INVARIANT` ('row <name> declared but never
+//   evaluated'), the stage rolled back whole, and the row's line reads pass false with count 0 — the one line a
+//   never-evaluated row can show (C-0316 (1)–(4); §5.3, §5.4).
 // * Stage names in the report are the stage-id registry's textual names (`S5`), as the textual stream key spells them
-//   (C-0224 (3)). Every record keyed by a name (`work`, `warnings`, `kernel.warnings`) is written in name order, so two
-//   derivations of one input give equal reports field for field.
-import { ENGINE_ID, keyText, stageText, type ConcernId, type Handle, type Id, type Invariant, type StageId, type StreamOpts, type Warning } from '@plat/kernel';
+//   (C-0224 (3)). Every record keyed by a name (`work`, `warnings`, `kernel.warnings`) is written in name order (the
+//   kernel's `compareKeys`), so two derivations of one input give equal reports field for field.
+import { compareKeys, ENGINE_ID, keyText, stageText, type ConcernId, type Handle, type Id, type Invariant, type StageId, type StreamOpts, type Warning } from '@plat/kernel';
 import type { Rung, Seed } from '@plat/model';
 
 /** A failure class id (§5.2's rows; a volume's own class): a string. */
@@ -196,15 +197,18 @@ function countUp(m: Map<string, number>, key: string, by: number): void {
   m.set(key, (m.get(key) ?? 0) + by);
 }
 
-function byName(a: string, b: string): number {
-  return a < b ? -1 : a > b ? 1 : 0;
-}
-
 /** A map as a plain record, its keys in name order (one order for every insertion order). */
 function sortedRecord(m: ReadonlyMap<string, number>): Record<string, number> {
   const out: Record<string, number> = {};
-  for (const k of [...m.keys()].sort(byName)) out[k] = m.get(k) as number;
+  for (const k of [...m.keys()].sort(compareKeys)) out[k] = m.get(k) as number;
   return out;
+}
+
+/** The line of a declared row in a stage's entry; a name the stage does not declare is refused (`why` adds a pointer). */
+function rowOf(s: StageState, name: string, why = ''): StageState['rows'][number] {
+  const line = s.rows.find((r) => r.row.name === name);
+  if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}'${why}`);
+  return line;
 }
 
 function checkCount(count: number, what: string): void {
@@ -266,8 +270,7 @@ export class ReportBuilder {
         if (use.opts.attempt > 0) s.attempts += 1;
       },
       invariant: (name: string, pass: boolean): void => {
-        const line = s.rows.find((r) => r.row.name === name);
-        if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}' (§4.12's StageDecl.invariants)`);
+        const line = rowOf(s, name, " (§4.12's StageDecl.invariants)");
         if (line.row.scope === 'batch' && line.row.class === 'hard') {
           throw new RangeError(`report: '${name}' is a batch-scope hard row: the transaction checks it (§3.3's expect), never the stage`);
         }
@@ -294,27 +297,27 @@ export class ReportBuilder {
 
   /** One evaluation of a declared row. */
   evaluate(s: StageState, name: string, pass: boolean): void {
-    const line = s.rows.find((r) => r.row.name === name);
-    if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}'`);
+    const line = rowOf(s, name);
     line.evaluations += 1;
     if (!pass) line.failures += 1;
   }
 
   /**
    * The declared stage-end rows (§5.3's `stage` scope, hard or soft) the stage has not reported yet, in declaration
-   * order: what the runner's stage-end guard reads when the stage reaches its end (Q32, C-0316). Batch-scope rows are
-   * evaluated per batch (none on a stage that ran no batch) and save, load and CI rows outside a derivation, so neither
-   * is a stage-end row.
+   * order: what the runner's stage-end guard reads when the stage reaches its end (C-0316 (2), (3); §5.3). Batch-scope
+   * rows are evaluated per batch (none on a stage that ran no batch) and save, load and CI rows outside a derivation, so
+   * neither is a stage-end row.
    */
   unevaluated(s: StageState): string[] {
     return s.rows.filter((r) => r.row.scope === 'stage' && r.evaluations === 0).map((r) => r.row.name);
   }
 
-  /** A declared stage-end row the stage never reported (Q32, C-0316): its line reads pass false with count 0. */
+  /**
+   * A declared stage-end row the stage never reported, which refuses the stage `E_INVARIANT` (C-0316 (2); §5.4): its
+   * line reads pass false with count 0.
+   */
   neverEvaluated(s: StageState, name: string): void {
-    const line = s.rows.find((r) => r.row.name === name);
-    if (line === undefined) throw new RangeError(`report: stage ${s.name} declares no invariant '${name}'`);
-    line.failures += 1;
+    rowOf(s, name).failures += 1;
   }
 
   /** A committed batch's work under its counter (§5.1 (5)). */

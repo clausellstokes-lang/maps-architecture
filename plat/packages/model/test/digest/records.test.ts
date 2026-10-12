@@ -3,7 +3,6 @@
 // roots equal the recomputed ones; a move between partitions re-hashes both nodes; the bars' harness emits its record,
 // stamped contended (the bars are the timing phase's, never this run's).
 import { describe, expect, it } from 'vitest';
-import type { Hash128 } from '@plat/kernel';
 import {
   buildDigests,
   CITY_COUNTS,
@@ -18,8 +17,7 @@ import {
   timeDigest,
   type RecordsEntry,
 } from '../../src/index.js';
-
-const hex = (h: Hash128 | undefined): string => (h === undefined ? 'undefined' : h.map((w) => w.toString(16).padStart(8, '0')).join(''));
+import { hex } from './support.js';
 
 const CITY = syntheticCity(1);
 
@@ -116,6 +114,11 @@ describe('the records tree', () => {
     expect(() => recordsLeaf({ ...e, partition: '' })).toThrow(RangeError);
     const d = CITY.records.find((x) => x.kind === 'derivation') as Extract<RecordsEntry, { kind: 'derivation' }>;
     expect(() => recordsLeaf({ ...d, record: { ...d.record, slices: [{ ...d.record.slices[0], hash: [1.5, 0] }] } })).toThrow(RangeError);
+    // The slice-hash check is the leaf's own (each lane a u32, exactly two lanes), naming the slice.
+    const s = d.record.slices[0];
+    for (const hash of [[1.5, 0], [0, 1.5], [-1, 0], [1, 2, 3]]) {
+      expect(() => recordsLeaf({ ...d, record: { ...d.record, slices: [{ ...s, hash: hash as never }] } })).toThrow(`records digest: slice ${s.table}/${s.key}'s hash is not two u32 lanes`);
+    }
   });
 });
 

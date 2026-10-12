@@ -1,7 +1,8 @@
 // The arena (M0-a-02; §2.2, §3.2 (1), §3.9, §3.11): Plat's typed-array tables, the role registry and its reverse
-// index, the owner tables, the interned handles, the level views, resolve, signature and sortedKeys. The scaffold
-// created this index empty (M0-s-01, C-0013); it belongs to M0-a-02. `PlatKey` and `LatticeSpec` are M0-a-01's
-// (kernel/src/types, kernel/src/num; C-0112) and are not redeclared here (the spec note N-05).
+// index, the owner tables, the interned handles, the level views, resolve, signature and sortedKeys. `PlatKey` and
+// `LatticeSpec` are M0-a-01's (kernel/src/types, kernel/src/num; C-0112) and are not redeclared here (the spec note
+// N-05). Kernel-internal helpers are exported by path only, never through this index — among them, for the kernel's
+// other folders, resolve.ts's `edgeRuns` (the one run ordering), `stamp` and `keyName`, and plat.ts's `five`.
 export { debugAssertions, setDebugAssertions } from './debug.js';
 export {
   compareRoleRank,

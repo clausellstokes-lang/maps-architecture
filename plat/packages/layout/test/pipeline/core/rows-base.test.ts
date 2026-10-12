@@ -1,11 +1,11 @@
-// The declared-row walker over the base registration table (M0-x-02, session fix round S2; docs/M0-FIX-QUEUE.md Q32,
-// C-0316). The registry is walked as `registerBase` fills it (M0-x-04's table, read here, never edited): every row a base
-// stage declares is either a batch-scope hard row — evaluated on every batch that passes the façade's tx as its `expect`
-// (§3.3) — or a stage-end row (§5.3's `stage` scope), which the runner's guard requires the stage to report at its end.
-// The census below is a ratchet: a row added to a base stage (or a stage added) fails it until the census names the row
-// and the row's evaluator is shown — on the flat fixture's run every declared stage-end row of every stage that reached
-// its end was reported (count ≥ 1) and the run has no bug (so the guard refused nothing). The river fixture's run, with
-// the same rows, is M0-x-04's (test/pipeline/base/run.test.ts asserts its bugs empty, which the guard now implies).
+// The declared-row walker over the base registration table (M0-x-02; §5.3; C-0316 (6)). The registry is walked as
+// `registerBase` fills it (M0-x-04's table, read here, never edited): every row a base stage declares is either a
+// batch-scope hard row — evaluated on every batch that passes the façade's tx as its `expect` (§3.3) — or a stage-end
+// row (§5.3's `stage` scope), which the runner's guard requires the stage to report at its end. The census below is a
+// ratchet: a row added to a base stage (or a stage added) fails it until the census names the row and the row's
+// evaluator is shown — on the flat fixture's run every declared stage-end row of every stage that reached its end was
+// reported (count ≥ 1) and the run has no bug (so the guard refused nothing). The river fixture's run, with the same
+// rows, is M0-x-04's (test/pipeline/base/run.test.ts asserts its bugs empty, which the guard implies).
 import { stageText } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { createRegistry, FLAT_BLUEPRINT, registerBase, runBase, type BaseBlueprint } from '../../../src/index.js';

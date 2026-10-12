@@ -1,6 +1,6 @@
 // The runner (M0-x-02; §4.1 *The laziness contract*'s eager part, *Transactions*, the stage ranks; §14 `Stage`,
 // `StageContext`, `Scope`; §6.1 the stage's streams and `StreamOpts.reroll`; §5.1 (1) "the pipeline has no restart
-// path"; §5.1 (8) "nothing it wrote commits"; §5.4; C-0077, C-0090, C-0147, C-0224, C-0295 (N-55 (6))).
+// path"; §5.1 (8) "nothing it wrote commits"; §5.3, §5.4; C-0077, C-0090, C-0147, C-0224, C-0295 (N-55 (6)), C-0316).
 //
 // `run(registry, blueprint, scope)` derives the base product once, eagerly, in `stageOrder(registry)`: for each stage in
 // order `inputsOf(model, scope)` → `run(input, ctx)`, with a StageContext of its own — the arenas (`plats`), `stream`
@@ -13,11 +13,12 @@
 // committed, the level digests re-attached and the arena re-registered with the model digest), and the derivation goes
 // on with the next stage. A stage that reaches its end — its run returns ok and it produced something (a declared output
 // written, or a commit on an arena) — must have reported every declared stage-end row (§5.3's `stage` scope) through its
-// sink at least once; one it never reported refuses the stage as above, `E_INVARIANT` 'row <name> declared but never
-// evaluated', its report line pass false with count 0 (docs/M0-FIX-QUEUE.md Q32, C-0316: the class behind Q15 and Q31,
-// a declared row no code evaluates read as a pass) — the runner has no loop back, no retry and no restart above a stage (§5.1 (1); its retries
-// are the stage's own ladder, on its keyed streams). Lazy stages run eagerly too: the eager part of the laziness contract is the whole of M0 (the
-// pool and the lazy tiers are M1's, §4b), and an eager run of a lazy stage gives the model the contract promises.
+// sink at least once: a declared stage-end row the stage never reported is a refusal `E_INVARIANT` ('row <name> declared
+// but never evaluated'), the stage rolled back whole as above, its row's line pass false with count 0, so no declared
+// row reads as a pass that no code evaluated (C-0316 (1)–(4); §5.3, §5.4). The runner has no loop back, no retry and no
+// restart above a stage (§5.1 (1); its retries are the stage's own ladder, on its keyed streams). Lazy stages run
+// eagerly too: the eager part of the laziness contract is the whole of M0 (the pool and the lazy tiers are M1's, §4b),
+// and an eager run of a lazy stage gives the model the contract promises.
 //
 // The model a run returns: the data keys the stages wrote (the blueprint under 'blueprint' — S0's expansion is M1's, a
 // fixture blueprint stands in), the arenas and the kernel over them, the model digest maintained along every commit
@@ -118,7 +119,7 @@ export interface PipelineModel {
   /**
    * Each refused stage's refusal, by name: its code (the report's bug entry's `cls`) and its detail — the stage's own, or
    * the runner's 'row <name> declared but never evaluated' for a stage that reached its end without reporting a declared
-   * stage-end row (Q32, C-0316).
+   * stage-end row (`E_INVARIANT`; C-0316 (2), (5)).
    */
   readonly refusals: ReadonlyMap<string, { readonly code: string; readonly detail: string }>;
 }
@@ -182,8 +183,8 @@ function outputsOf(stage: PipelineStage, value: unknown): [DataKey, unknown][] {
 }
 
 /**
- * The refusal detail of a stage that reached its end without reporting a declared stage-end row (Q32, C-0316): one
- * clause per row, in declaration order.
+ * The refusal detail of a stage that reached its end without reporting a declared stage-end row (`E_INVARIANT`; C-0316
+ * (2)): one clause 'row <name> declared but never evaluated' per row, in declaration order, joined by '; '.
  */
 export function neverEvaluatedDetail(rows: readonly string[]): string {
   return rows.map((row) => `row ${row} declared but never evaluated`).join('; ');
@@ -355,9 +356,10 @@ export function run(registry: StrategyRegistry, blueprint: RunBlueprint, scope: 
     const images = arenas.map((p) => takeSavepoint(p));
     const r = stage.run(input, ctx);
     const written = r.ok ? outputsOf(stage, r.value) : [];
-    // The stage-end guard (Q32, C-0316): a stage that reached its end — ok, and it wrote an output or committed on an
-    // arena — names every declared stage-end row it never reported. A stage that met missing inputs and produced nothing
-    // has no stage end to check (its rows stay unevaluated, §5.4's whole report); a refused stage is rolled back anyway.
+    // The stage-end guard (C-0316 (1)–(4); §5.3, §5.4): a stage that reached its end — ok, and it wrote an output or
+    // committed on an arena — and never reported a declared stage-end row is refused `E_INVARIANT`, rolled back whole,
+    // each such row's line pass false with count 0. A stage that met missing inputs and produced nothing has no stage end
+    // to check (its rows stay unevaluated, §5.4's whole report); a stage its own run refused is judged by its own code.
     const produced = written.length > 0 || images.some((image) => image.plat.version !== image.version);
     const unreported = r.ok && produced ? builder.unevaluated(state) : [];
     if (r.ok && unreported.length === 0) {
