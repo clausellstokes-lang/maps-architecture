@@ -21,19 +21,24 @@
 //
 // N-55 (5) (round S7): an overlay kept past its batch — committed or rejected — is closed, and `insertChain` handed it
 // throws at its entry; the arena bit for bit and its version as they were. C-0302.
+//
+// A chain's own fold-back point (C-0302, §2.2 rule 3) and the doors where a split's own-end breach is refused (C-0284 (3))
+// are the same lifecycle's: their sections follow the register's.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import type { Plat } from '../../../src/arena/index.js';
-import { recomputeLevelDigest } from '../../../src/digest/index.js';
-import { insertChain } from '../../../src/insert/insertChain.js';
+import { isHalfEdgeLive, isVertexLive, outgoing, VERTEX_SPLIT, type HalfEdgeId, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { query } from '../../../src/index/index.js';
+import { insertTx } from '../../../src/insert/classes.js';
+import { insertChain, type ChainInsert } from '../../../src/insert/insertChain.js';
+import { splitEndsBreachClearance } from '../../../src/insert/placement.js';
+import { pieceOf, planLanding, splitBreaksClearance } from '../../../src/insert/stretch.js';
 import { suiteEnv, suiteReport } from '../../../src/invariants/index.js';
-import { encodeArena } from '../../../src/io/index.js';
 import { err, type Warning } from '../../../src/num/index.js';
 import { removeEdges, tx, type Overlay } from '../../../src/tx/index.js';
 import type { Level } from '../../../src/types/index.js';
 import { bits, spec, state } from '../../tx/support.js';
 import { fidelityProblems } from './fidelity.js';
-import { allProblems, contentPrint, dissolvableProblems, framed, pt, TIMEOUT } from './support.js';
+import { allProblems, contentPrint, dissolvableProblems, fingerprint, framed, indexed, neighbourPoints, pt, snapshot, TIMEOUT, vertexAtPoint } from './support.js';
 
 /** One chain of a case, as B-FUZZ draws it. */
 interface Chain {
@@ -66,16 +71,6 @@ const env = (): ReturnType<typeof suiteEnv> => suiteEnv({ report: suiteReport() 
 /** The chain inserted in its own batch through the transaction (the suite wired in); its result. */
 function insert(p: Plat, c: Chain): ReturnType<typeof tx> {
   return tx(p, spec(c.level), (o) => insertChain(o, c.points.map(([x, y]) => pt(x, y)), [{ role: ROLE, entity: c.entity }], c.cls, optsOf(c)), env());
-}
-
-/** The encoded chunks' refs in encoding order (the persisted form, §11), as restore.test.ts reads them. */
-function chunkRefs(p: Plat): string {
-  return JSON.stringify(encodeArena(p).map((c) => c.ref));
-}
-
-/** The level digests L0 – L4 (§3.9), as text. */
-function digests(p: Plat): string {
-  return JSON.stringify(([0, 1, 2, 3, 4] as const).map((l) => Array.from(recomputeLevelDigest(p, l) as ArrayLike<number>)));
 }
 
 /** The content print split into its face-record lines and every other line (vertices, edges and their rows). */
@@ -112,8 +107,7 @@ describe('N-46 (6) (e), N-55: the undo and remove paths of every kind of fallbac
       }
       expect(allProblems(p)).toEqual([]);
       const before = state(p);
-      const refsBefore = chunkRefs(p);
-      const digestsBefore = digests(p);
+      const { refs: refsBefore, digests: digestsBefore } = snapshot(p);
 
       // The undo path: the insert writes, then a later op of the batch refuses — everything back, the version too.
       let wrote = false;
@@ -148,8 +142,9 @@ describe('N-46 (6) (e), N-55: the undo and remove paths of every kind of fallbac
       expect([...keys].filter((k) => k.includes(`/${last.entity}/`))).toEqual([]);
       expect([...keysBefore].filter((k) => !k.includes(`/${last.entity}/`) && !keys.has(k))).toEqual([]);
       expect(contentPrint(p)).toBe(before.slice(0, before.lastIndexOf('\n#v')));
-      expect(chunkRefs(p)).toBe(refsBefore);
-      expect(digests(p)).toBe(digestsBefore);
+      const after = snapshot(p);
+      expect(after.refs).toBe(refsBefore);
+      expect(after.digests).toBe(digestsBefore);
     }, TIMEOUT);
   }
 });
@@ -198,4 +193,236 @@ describe('N-55 (5): insertChain on a closed transaction throws — the overlay o
       expect(allProblems(p)).toEqual([]);
     });
   }
+});
+
+// ---- a chain's own fold-back point (C-0302) ----------------------------------------------------------------------------
+//
+// N-55 (2), Q10 (session round S7; C-0302): a chain point that step 2 lands by splitting the chain's OWN edge — the chain
+// folds back over itself, §3.11 "a collinear overlap is one shared stretch with merged roles" — is the chain's own shape
+// vertex (`ChainInsert.placed`, §3.4), and §2.2 rule 3 says "a chain's own shape vertices never carry [the split flag]".
+// Before the round it kept the flag `applySplitPlan` gives every split: a degree-2 vertex between identical rows, which
+// the dissolution rule removes the moment a later batch touches it — so a chain attached there and then removed took the
+// fold-back's vertex with it (the arena "one vertex simpler" than before the attach: remove ≠ undo-by-replay, N-45 (a)).
+// The fixture is the ruling's case 5317 (the widened N-47 generator of C-0223 (4), replayed in its probe q10): the L2
+// kerb (3142, 2862) – (499, 2966) – (2430, 2874), whose third point stands 16 cm off its own first segment. The control:
+// the same point landing on ANOTHER chain's edge keeps the flag, and that chain's removal dissolves the split (rule 3).
+
+type Pts = readonly (readonly [number, number])[];
+
+/** Case 5317's kerb: its third point (2430, 2874) lands 16 cm off its own first segment, at (2431, 2890). */
+const KERB: Pts = [[3142, 2862], [499, 2966], [2430, 2874]];
+/** Case 5317's later chain, whose last point attracts onto the fold-back's vertex. */
+const LATER: Pts = [[0, 3501], [735, 705], [2456, 2886]];
+/** Where the kerb's third point lands: on its own first segment. */
+const FOLD: readonly [number, number] = [2431, 2890];
+
+/** One chain in its own L`level` batch through M0-a-06's transaction (as restore.test.ts and the ruling's probe insert). */
+function insertKerb(p: Plat, level: Level, pts: Pts, entity: string): { placed: VertexId[]; warnings: readonly Warning[] } {
+  const r = tx(p, spec(level, { rederivesFrom: 0 as never }), (o) => insertChain(o, pts.map(([x, y]) => pt(x, y)), [{ role: 'kerb', entity }], 'mandatory'));
+  if (!r.ok) throw new Error(`${entity} refused: ${r.code} ${r.detail}`);
+  return { placed: (r.value.value as ChainInsert).placed, warnings: r.value.record?.warnings ?? [] };
+}
+
+/** The chain's rows removed in a later L2 batch. */
+function removeKerb(p: Plat, entity: string): void {
+  const r = tx(p, spec(2, { rederivesFrom: 0 as never }), (o) => removeEdges(o, { role: 'kerb', entity }));
+  if (!r.ok) throw new Error(`the removal of ${entity} refused: ${r.code} ${r.detail}`);
+}
+
+const isSplit = (p: Plat, v: VertexId): boolean => (p.vertices.flags[v] & VERTEX_SPLIT) !== 0;
+
+describe('N-55 (2), Q10: a chain\'s own fold-back point carries no split flag (§2.2 rule 3; C-0302)', () => {
+  it('case 5317\'s kerb: placed[2] is a live degree-2 vertex at (2431, 2890) on the kerb\'s own edges, carrying no VERTEX_SPLIT; no dissolvable vertex', () => {
+    const p = framed();
+    const k = insertKerb(p, 2, KERB, 'base:0');
+    // the fold-back: the third point attracted onto the kerb's first segment, the second segment shared back along it
+    expect(k.warnings).toEqual([
+      { code: 'W_ATTRACTED', count: 1, at: { x: 2430, y: 2874 } },
+      { code: 'W_STRETCH_SHARED', count: 1, at: { x: 499, y: 2966 } },
+    ]);
+    const v = k.placed[2];
+    expect(v).toBe(vertexAtPoint(p, ...FOLD));
+    expect(p.vertices.level[v]).toBe(2);
+    expect(outgoing(p, v)).toHaveLength(2);
+    expect(neighbourPoints(p, v)).toEqual(['3142,2862', '499,2966']);
+    expect(isSplit(p, v)).toBe(false);
+    expect(dissolvableProblems(p)).toEqual([]);
+    expect(allProblems(p)).toEqual([]);
+  });
+
+  it('a later chain attached at the fold-back\'s vertex and removed in a later batch restores the arena exactly (print, chunk refs, level digests); the vertex stays', () => {
+    const p = framed();
+    const k = insertKerb(p, 2, KERB, 'base:0');
+    const v = k.placed[2];
+    const before = snapshot(p);
+    const later = insertKerb(p, 2, LATER, 'x:1');
+    expect(later.placed[2]).toBe(v); // attracted onto the fold-back's vertex
+    expect(later.warnings).toEqual([{ code: 'W_ATTRACTED', count: 1, at: { x: 2456, y: 2886 } }]);
+    expect(outgoing(p, v)).toHaveLength(3);
+    expect(dissolvableProblems(p)).toEqual([]);
+    removeKerb(p, 'x:1');
+    expect(allProblems(p)).toEqual([]);
+    expect(dissolvableProblems(p)).toEqual([]);
+    const after = snapshot(p);
+    expect(after.print).toBe(before.print);
+    expect(after.refs).toBe(before.refs);
+    expect(after.digests).toBe(before.digests);
+    expect(vertexAtPoint(p, ...FOLD)).toBe(v);
+  });
+
+  it('the control: the same point landing on ANOTHER chain\'s edge splits it with the flag kept, and that chain\'s removal dissolves the split — the edge as before', () => {
+    const p = framed();
+    insertKerb(p, 2, KERB.slice(0, 2), 'base:A'); // the kerb's first segment as a chain of its own
+    const before = snapshot(p);
+    const b = insertKerb(p, 2, [[2430, 2874], [2400, 1500]], 'base:B');
+    const v = b.placed[0];
+    expect(v).toBe(vertexAtPoint(p, ...FOLD)); // the same landing: a split of base:A's edge at (2431, 2890)
+    expect(isSplit(p, v)).toBe(true);
+    expect(neighbourPoints(p, v)).toEqual(['2400,1500', '3142,2862', '499,2966']);
+    expect(dissolvableProblems(p)).toEqual([]);
+    removeKerb(p, 'base:B');
+    expect(vertexAtPoint(p, ...FOLD)).toBe(-1); // dissolved: base:A is one edge again
+    expect(allProblems(p)).toEqual([]);
+    const after = snapshot(p);
+    expect(after.print).toBe(before.print);
+    expect(after.refs).toBe(before.refs);
+    expect(after.digests).toBe(before.digests);
+  });
+
+  // The second control: a pair this op wrote is not by itself the chain's own edge. A chain crossing one base edge twice
+  // splits it at the first crossing (the far sub-edge is a new pair of this op, carrying the base's rows) and then at the
+  // second, which may fall on that new pair: both crossings keep the flag, and the chain's removal dissolves both — the
+  // base one edge again. Both directions of the chain, so one of them splits the op's new pair.
+  for (const pts of [[[1000, 1500], [1500, 2500], [2000, 1500]], [[2000, 1500], [1500, 2500], [1000, 1500]]] as const) {
+    it(`the second control: a chain ${JSON.stringify(pts)} crossing one base edge twice keeps both crossings' flags; its removal dissolves both`, () => {
+      const p = framed();
+      insertKerb(p, 0, [[0, 2000], [4000, 2000]], 'base:A');
+      const before = snapshot(p);
+      insertKerb(p, 2, pts, 'x:1');
+      const crossings = [1250, 1750].map((x) => vertexAtPoint(p, x, 2000));
+      expect(crossings.every((v) => v >= 0)).toBe(true);
+      for (const v of crossings) {
+        expect(isSplit(p, v)).toBe(true);
+        expect(outgoing(p, v)).toHaveLength(4);
+      }
+      removeKerb(p, 'x:1');
+      expect(crossings.map((v) => vertexAtPoint(p, p.vertices.x[v], 2000))).toEqual([-1, -1]);
+      expect(allProblems(p)).toEqual([]);
+      const after = snapshot(p);
+      expect(after.print).toBe(before.print);
+      expect(after.refs).toBe(before.refs);
+      expect(after.digests).toBe(before.digests);
+    });
+  }
+});
+
+// ---- a split's own-end breach at the doors (C-0284 (3)) -----------------------------------------------------------------
+//
+// C-0284 (3) (session round S7; C-0302): insertChain's own clearance wrappers round a split are retired. C-0177 (11) had
+// insertChain's step 2 (`land`, after `planAttraction`) and step 3's landing (`planLanding`, after `placePoint`) test the
+// placed split's sub-edge with `splitBreaksClearance` and fall back onto its nearer end. Since C-0284 the placement rule's
+// (iii) applies §3.10's clearance at the split sub-edge's own ends itself (`splitEndsBreachClearance`): a candidate on a
+// sub-edge whose ends cannot clear each other's edges once split never qualifies, so `placePoint` answers the endpoint
+// fallback (W_PLACED) and the wrappers could no longer see a breaching split. `splitBreaksClearance` (still read by
+// `placeOnRun`, which searches a run itself, and by the face partitioners) now IS that predicate. These pins hold the
+// claim on the arena of C-0284's own fixture — the shallow corner at the frame: an L1 chord E (3 034, 4 000) – P (2 912,
+// 3 984) – (2 000, 2 000) – (2 000, 0), P 16 cm inside the frame at 7.5°, so no point of P–E keeps clearance once split —
+// at each door the wrappers stood in: both land on P with W_PLACED and write no vertex on P–E. The control: P 30 cm in.
+
+/** C-0284's arena (splitThrough.test.ts `nearFrame`): the L0 frame [0, 4 000]² and the L1 chord E – P – (2 000, 2 000) – (2 000, 0). */
+function nearFrame(d: number): ReturnType<typeof indexed> {
+  return indexed({
+    vertices: [
+      [0, 0, 0], [4000, 0, 0], [4000, 4000, 0], [0, 4000, 0], // 0 – 3
+      [3034, 4000, 1], [2912, 4000 - d, 1], [2000, 2000, 1], [2000, 0, 1], // 4 E, 5 P, 6, 7
+    ],
+    edges: [
+      [0, 7, 0], [7, 1, 0], [1, 2, 0], [2, 4, 0], [4, 3, 0], [3, 0, 0],
+      [4, 5, 1], [5, 6, 1], [6, 7, 1],
+    ],
+  });
+}
+
+/** The half-edge the level-n index names the edge P–E by (its route edge, as step 3's query answers it). */
+function routeEdge(p: Plat, n: Level, a: VertexId, b: VertexId): HalfEdgeId {
+  const O = p.halfEdges.origin;
+  const box = { minX: 2800, minY: 3900, maxX: 3100, maxY: 4000 };
+  const h = query(p, p.key, n, box, { edges: true }).edges.find((g) => (O[g] === a && O[g ^ 1] === b) || (O[g] === b && O[g ^ 1] === a));
+  if (h === undefined) throw new Error('the index names no route edge P–E');
+  return h;
+}
+
+/** Every live vertex of the arena lying strictly between P and E on their segment (a split of P–E). */
+function onPE(p: Plat, P: VertexId, E: VertexId): VertexId[] {
+  const X = p.vertices.x;
+  const Y = p.vertices.y;
+  const out: VertexId[] = [];
+  for (let v = 0; v < p.slots.vertex.top; v++) {
+    if (v === P || v === E || !isVertexLive(p, v)) continue;
+    const cross = (X[E] - X[P]) * (Y[v] - Y[P]) - (Y[E] - Y[P]) * (X[v] - X[P]);
+    const dot = (X[v] - X[P]) * (X[E] - X[P]) + (Y[v] - Y[P]) * (Y[E] - Y[P]);
+    const l2 = (X[E] - X[P]) * (X[E] - X[P]) + (Y[E] - Y[P]) * (Y[E] - Y[P]);
+    if (cross * cross <= 2 * l2 && dot > 0 && dot < l2) out.push(v); // within 1.42 cm of the segment, inside it
+  }
+  return out;
+}
+
+describe('C-0284 (3): a split\'s own-end breach is refused by the placement rule before insertChain\'s retired wrappers could see it (C-0302)', () => {
+  it('splitBreaksClearance is the placement rule\'s (iii) at the split\'s ends: equal to splitEndsBreachClearance on every edge, both ways, of the shallow corner and its control', () => {
+    // splitBreaksClearance is splitEndsBreachClearance under a second name (stretch.ts re-exports it, C-0284 (2)), so the
+    // equality below holds by identity; what still pins the rule is the breaching count (P–E alone, only at 16 cm).
+    expect(splitBreaksClearance).toBe(splitEndsBreachClearance);
+    for (const d of [16, 30]) {
+      const p = nearFrame(d).plat;
+      let breaching = 0;
+      for (let e = 0; e < p.slots.pair.top; e++) {
+        if (!isHalfEdgeLive(p, 2 * e)) continue;
+        const [s, t] = [p.halfEdges.origin[2 * e], p.halfEdges.origin[2 * e + 1]];
+        expect(splitBreaksClearance(p, s, t)).toBe(splitEndsBreachClearance(p, s, t));
+        expect(splitBreaksClearance(p, t, s)).toBe(splitEndsBreachClearance(p, t, s));
+        if (splitBreaksClearance(p, s, t)) breaching += 1;
+      }
+      // P–E alone breaches, and only on the shallow corner (not vacuous)
+      expect(breaching).toBe(d === 16 ? 1 : 0);
+    }
+  });
+
+  for (const level of [1, 2] as const) {
+    it(`step 3's landing at L${level} (planLanding, the contact, join or leave point door): a position on P–E lands on P by the placement's own fallback, W_PLACED — no split planned`, () => {
+      const b = nearFrame(16);
+      const p = b.plat;
+      const [E, P] = [b.v[4], b.v[5]];
+      const t = insertTx(p, level);
+      const before = fingerprint(p);
+      const l = planLanding(t, pieceOf(p, routeEdge(p, level, P, E), level), 2966, 3991.08);
+      expect(l.ok && l.value).toEqual({ kind: 'vertex', vertex: P, onto: 'fallback', warnings: [{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }] });
+      expect(fingerprint(p)).toBe(before);
+    });
+
+    it(`step 2 at L${level} (insertChain's land, the attraction door): a chain point 6 cm off P–E lands on P, W_PLACED; no vertex written on P–E; §3.10 holds`, () => {
+      const b = nearFrame(16);
+      const p = b.plat;
+      const [E, P] = [b.v[4], b.v[5]];
+      const t = insertTx(p, level);
+      const r = insertChain(t, [pt(2966, 3985), pt(3600, 3200)], [{ role: 'way', entity: 'way:t' }], 'mandatory');
+      expect(r.ok ? r.value.placed[0] : `${r.code} ${r.detail}`).toBe(P);
+      expect(r.ok ? r.warnings.filter((w) => w.code === 'W_PLACED') : []).toEqual([{ code: 'W_PLACED', count: 1, at: pt(2912, 3984) }]);
+      expect(onPE(p, P, E)).toEqual([]);
+      expect(outgoing(p, P).map((h) => p.halfEdges.origin[h ^ 1]).includes(E)).toBe(true); // P–E still one edge
+      expect(allProblems(p)).toEqual([]);
+    });
+  }
+
+  it('the control: P 30 cm inside the frame — the same chain point splits P–E (the placement places it), §3.10 holds', () => {
+    const b = nearFrame(30);
+    const p = b.plat;
+    const [E, P] = [b.v[4], b.v[5]];
+    const t = insertTx(p, 1);
+    const r = insertChain(t, [pt(2966, 3985), pt(3600, 3200)], [{ role: 'way', entity: 'way:t' }], 'mandatory');
+    expect(r.ok).toBe(true);
+    if (!r.ok) return;
+    expect(r.value.placed[0]).not.toBe(P);
+    expect(onPE(p, P, E)).toEqual([r.value.placed[0]]);
+    expect(allProblems(p)).toEqual([]);
+  });
 });

@@ -86,6 +86,14 @@ describe('the knot rows (opts.knots): placed on the vertices their points became
     expect(r.value.placed[2]).toBe(end);
     expect(t.journal.vertices).not.toContain(end); // an existing vertex, not one this op created
     expect(carrying(p, 'width_knot', 'way:2', 0)).toEqual([end]);
+    // A later op of the same entity whose knot of the same key lands on that vertex adds no second row: the knot loop
+    // asks whether the vertex carries the key first (splitThrough.ts `carriesRow`), as a writer must.
+    const again = ins(tx(p, 1), [[2600, 2600], [3510, 1990]], [{ role: 'way', entity: 'way:2' }], 'mandatory', { knots: [{ index: 1, role: 'width_knot', ordinal: 0 }] });
+    expect(again.ok, again.ok ? '' : `${again.code} ${again.detail}`).toBe(true);
+    if (!again.ok) return;
+    expect(again.value.placed[1]).toBe(end);
+    expect(carrying(p, 'width_knot', 'way:2', 0)).toEqual([end]);
+    expect(allProblems(p)).toEqual([]);
   });
 
   it('two pinned knot points 10 cm apart merge at the first, which carries both ordinals (a step)', () => {
