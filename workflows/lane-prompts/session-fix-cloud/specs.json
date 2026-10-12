@@ -1080,6 +1080,63 @@
      "required_change": "the builder keeps the before-values from a mirror and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence; a shift of any warp fixture output or work count FAILS the round (J263 Q2)"
     }
    ]
+  },
+  {
+   "id": "M0-e-01",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/site-plan.md",
+    "findings": "E-1 … E-6 (§1.1, round R1 — the file-level homes every later site round imports by path); comment rewrite C-terrain-1 (§2); test plan T-terrain (§3.1)"
+   },
+   "session": "R1 of the @plat/site consolidation plan (3ae30387; rulings J301), the smallest round: the folder is coherent, and the round's purpose is to create the file-level homes the hydro round (R2, M0-e-02 c1) and the water round (R3, M0-e-03 c1) import by path, with no behaviour change. Inside M0-e-01's owns under plat/packages/site only — src/terrain/ and test/terrain/; the item's kernel owns (plat/packages/kernel/src/noise/, src/adapters/simplex-noise.ts, kernel/test/noise/) are the kernel plan's R13 and stay byte-identical — and nowhere else: E-1 nothing (grid.ts's arenaReach is already the home; R2 and R3 adopt it); E-2 grid.ts exports from the file `rasterGrid(t: Terrain): CellGrid` (the five-field literal in the same key order) and resources.ts adopts it (its private terrainGrid goes); E-3 primitives.ts exports from the file `PI` and `RAD_PER_CDEG` (the same double literal; `PI / 18000` evaluated once at module load) — `direction()` is NOT shared (§4: its finite check would turn inletOf's NaN inlet into a throw, a behaviour change); E-4 heightfield.ts exports from the file `generatedLifecycle(epoch: number): Lifecycle` — the identical object literal in the identical key order, a FRESH object per call, never a shared frozen instance (runRivers writes on the record), `since.seq` 0; E-5 strategy.ts exports from the file `isBaseRung` (BASE_RUNGS.includes); E-6 grid.ts exports from the file `cellCentre(g: CellGrid, c: number, invCols: number): { x: number; y: number }` — `i = c % g.cols`, `j = Math.round((c − i) · invCols)`, then centreX/centreY (`origin + (i + 0.5) · cell`, never `origin + i · cell + cell / 2`); no caller outside terrain changes in this round (J270 (b): the copies in hydro and water coexist until R2 and R3 adopt the homes). C-terrain-1: terrain/index.ts's scaffold-provenance sentence becomes 'This index and its folder are M0-e-01's.' plus one line naming the file-level helpers the folder exports to its siblings and that they are not public (grid.ts rasterGrid, cellCentre; primitives.ts PI, RAD_PER_CDEG; heightfield.ts generatedLifecycle; strategy.ts isBaseRung); every other terrain comment stands (they state the design with their C-rows). T-terrain: (a) strategy.test.ts:89–93 build() and primitives.test.ts:114–118 make() become support.ts's terrainOf(f, request, p, key).terrain (the id 'terrain:t' vs 'terrain:test' is never asserted in those tests — confirm by grep and say so in the notes); (b) the raster-grid literal at sampler.test.ts:28, 40 and resources.test.ts:220 becomes rasterGrid(t) (infrastructure, not an expected value); (c) plane(), extremes, unclamped, acropolis, maskOf, resources(), HEAVY and siteContext with its requests recorder are KEPT as they are (oracles); the mutant map is unchanged by title (R1–R4 range.test.ts; H1–H8, H10–H11 strategy/range; S1–S4 sampler; E1–E12 resources, E11's known survival is note N-6 — hardening row L27, not this round; G1–G2 raster; T1–T3 strategy; P1–P3 primitives; N1–N5, A1 are the kernel's test/noise, R13); no test file merged, split or renamed; every describe/it title kept; no new pin. Rulings in force: J263 Q1 (no export added to any index: the homes are file-level exports, imported by path), Q6, Q8; J268 Q3 and J301 Q3 (the three test-support copies TABLES/townKey/siteContext/frameOf stay); J270 (a), (b); J301 Q7 (a) (the terrain strategy's 'rung' refusal pin is L27's, not this round's). ZERO REFUSALS (J264 (5)): terrain's registered families have no refusal — the builder and the checker report 0 → 0.",
+   "lines": [
+    {
+     "line": "E-2: grid.ts exports rasterGrid(t: Terrain): CellGrid from the file; resources.ts adopts it (terrainGrid deleted); the five-field literal in the same key order",
+     "evidence": "site-plan.md §1.1 E-2",
+     "required_change": "ORACLE resources.test.ts whole (resourceGrid = coveringGrid(rasterGrid(t), 3200)), raster.test.ts 'coveringGrid: the least cols × rows …'; mutants G1/G2 and E1–E12 red by title; terrain/index.ts unchanged"
+    },
+    {
+     "line": "E-3: primitives.ts exports PI and RAD_PER_CDEG from the file; direction() not shared (§4)",
+     "evidence": "site-plan.md §1.1 E-3, §4",
+     "required_change": "ORACLE primitives.test.ts 'valley (along a compass bearing)', 'cliff'; mutants P1–P3 red; no caller outside terrain changed"
+    },
+    {
+     "line": "E-4: heightfield.ts exports generatedLifecycle(epoch): Lifecycle from the file — the identical literal, a fresh object per call",
+     "evidence": "site-plan.md §1.1 E-4",
+     "required_change": "ORACLE raster.test.ts 'is one height everywhere …' (t.lifecycle toEqual the literal), strategy.test.ts 'writes the record …' (since: { epoch: 3, seq: 0 }); record() uses it"
+    },
+    {
+     "line": "E-5: strategy.ts exports isBaseRung from the file (BASE_RUNGS.includes)",
+     "evidence": "site-plan.md §1.1 E-5",
+     "required_change": "identical body; the rung refusal's behaviour unchanged (its pin is L27's)"
+    },
+    {
+     "line": "E-6: grid.ts exports cellCentre(g, c, invCols) built on centreX/centreY with the row-from-index idiom i = c % g.cols, j = Math.round((c − i) · invCols)",
+     "evidence": "site-plan.md §1.1 E-6",
+     "required_change": "a unit pin that cellCentre equals centreX/centreY of the cell's (i, j) on a sample of cells and grids (exact doubles); no terrain caller changes (the adopters are R2 and R3)"
+    },
+    {
+     "line": "C-terrain-1: terrain/index.ts's provenance sentence replaced by 'This index and its folder are M0-e-01's.' plus the line naming the file-level helpers exported to siblings as non-public; every other terrain comment stands",
+     "evidence": "site-plan.md §2 C-terrain-1",
+     "required_change": "the closing checker reads the rewritten comment against the exports"
+    },
+    {
+     "line": "T-terrain: build()/make() → support.ts terrainOf; the raster-grid literals → rasterGrid(t); plane(), extremes, unclamped, acropolis, maskOf, resources(), HEAVY, siteContext kept; the mutant map unchanged by title; no file merged, split or renamed; no new pin beyond E-6's",
+     "evidence": "site-plan.md §3.1 T-terrain",
+     "required_change": "every describe/it title kept; the notes state the grep that no test asserts the terrain id"
+    },
+    {
+     "line": "API frozen (J263 Q1): terrain/index.ts, site/src/index.ts and every index byte-identical (≈ 196 public names, 52 terrain); the new homes are file-level exports only",
+     "evidence": "J263 Q1; site-plan.md header invariant",
+     "required_change": "the builder diffs every index's exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3)): every site test green; the terrain records (heightfield draws and stream keys, raster goldens, resource grids), every refusal code and message text identical before and after; every earlier mutant of checks/M0-e-01.md (R, H, S, E, G, T, P ids) still killed by title; the kernel owns byte-identical; refusal count 0 → 0",
+     "evidence": "J260 (3); J264 (5); checks/M0-e-01.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants"
+    }
+   ]
   }
  ]
 }
