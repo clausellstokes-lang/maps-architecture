@@ -8384,3 +8384,4 @@
 2026-10-12 14:41 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 52000 runs logged, 0 off, 0 crash; next: wait
 2026-10-12 14:53 check/M0-a-08-consolidate-close-1 CHECKPOINT RELATED@1000 still running (W=1); no FAIL line so far; next: its verdict
 2026-10-12 15:00 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 52000 runs logged, 0 off, 0 crash; next: wait
+2026-10-12 15:12 check/M0-a-08-consolidate-close-1 CHECKPOINT RELATED@1000 still running (W=1); no FAIL line so far; next: its verdict
