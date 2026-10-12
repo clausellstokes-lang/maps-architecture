@@ -3,29 +3,22 @@
 // every unmoved vertex outside the triangles the moved edges sweep; no two vertices on one lattice point; no held vertex
 // moved; §3.10's clearance on the moved vertices and edges; and the rotation at every vertex a moved edge reaches kept,
 // so a step never turns a face inside out (§3.10's "faces simple" row on the touched faces; C-0193 (4)). The edit
-// layer's `recordCheck` runs after these pass (warp.ts). Exact integer predicates throughout (§3.2 (3)). M0-a-13.
+// layer's `recordCheck` runs after these pass (warp.ts). Exact integer predicates throughout (§3.2 (3)): the segment
+// tests, the winding number and the direction half-plane are num/exact.ts's (C-0314, C-0333), the hot pixel squared is
+// the placement rule's (placement.ts, C-0321), each imported by path. M0-a-13.
 import { outgoing, type Plat, type VertexId } from '../arena/index.js';
-import { HOT_PIXEL_CM } from '../index/index.js';
-import { segmentsMeet } from '../insert/decimate.js';
-import { orient2d } from '../num/index.js';
+import { HOT_PIXEL_SQ } from '../insert/placement.js';
+import { halfPlaneOf, segmentCloserThan, segmentsMeet, windingNumber, type RingPoint } from '../num/exact.js';
+import { LATTICE, orient2d } from '../num/index.js';
 import type { RouteOf } from './held.js';
 import { padBox, type StepView } from './view.js';
 
-/** §3.2 (2)'s `minEdge`. */
-const MIN_EDGE = 25;
-const MIN_EDGE_SQ = MIN_EDGE * MIN_EDGE;
+/** Is p closer than r to the closed segment a–b (strict: a point exactly r away is clear)? num/exact.ts's test. */
+export { segmentCloserThan as closerThan } from '../num/exact.js';
 
-/** Is p closer than r to the closed segment a–b? Exact on lattice points. */
-export function closerThan(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const l2 = dx * dx + dy * dy;
-  const dot = (px - ax) * dx + (py - ay) * dy;
-  if (dot <= 0 || l2 === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay) < r * r;
-  if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) < r * r;
-  const o = orient2d(ax, ay, bx, by, px, py);
-  return o * o < r * r * l2;
-}
+/** §3.2 (2)'s `minEdge`. */
+const MIN_EDGE = LATTICE.minEdgeCm;
+const MIN_EDGE_SQ = MIN_EDGE * MIN_EDGE;
 
 /** Is p inside the closed triangle a, b, c (a degenerate triangle holds nothing)? */
 export function inTriangle(px: number, py: number, ax: number, ay: number, bx: number, by: number, cx: number, cy: number): boolean {
@@ -56,7 +49,7 @@ export function vertexProblem(view: StepView, v: VertexId): string | null {
     const a = O[2 * e];
     const b = O[2 * e + 1];
     if (ringV.has(a) || ringV.has(b)) continue;
-    if (closerThan(qx, qy, view.x(a), view.y(a), view.x(b), view.y(b), MIN_EDGE)) {
+    if (segmentCloserThan(qx, qy, view.x(a), view.y(a), view.x(b), view.y(b), MIN_EDGE)) {
       return `clearance: the vertex (${qx}, ${qy}) within minEdge of the edge (${view.x(a)}, ${view.y(a)})–(${view.x(b)}, ${view.y(b)})`;
     }
   }
@@ -70,7 +63,7 @@ export function vertexProblem(view: StepView, v: VertexId): string | null {
     const exempt = new Set<VertexId>([...ringV, u, ...nu]);
     for (const w of view.verticesIn(padBox(Math.min(qx, ux), Math.min(qy, uy), Math.max(qx, ux), Math.max(qy, uy), MIN_EDGE))) {
       if (exempt.has(w)) continue;
-      if (closerThan(view.x(w), view.y(w), qx, qy, ux, uy, MIN_EDGE)) {
+      if (segmentCloserThan(view.x(w), view.y(w), qx, qy, ux, uy, MIN_EDGE)) {
         return `clearance: the edge (${qx}, ${qy})–(${ux}, ${uy}) within minEdge of the vertex (${view.x(w)}, ${view.y(w)})`;
       }
     }
@@ -101,12 +94,14 @@ export function vertexProblem(view: StepView, v: VertexId): string | null {
   return null;
 }
 
-/** The number of counter-clockwise steps in the cyclic sequence of directions (a clockwise rotation has exactly one). */
+/**
+ * The number of counter-clockwise steps in the cyclic sequence of directions (a clockwise rotation has exactly one):
+ * directions compared by their half-plane (`halfPlaneOf`), then by `orient2d` against the origin.
+ */
 function ascents(dirs: readonly (readonly [number, number])[]): number {
-  const half = (d: readonly [number, number]): number => (d[1] > 0 || (d[1] === 0 && d[0] > 0) ? 0 : 1);
   const cmp = (a: readonly [number, number], b: readonly [number, number]): number => {
-    const ha = half(a);
-    const hb = half(b);
+    const ha = halfPlaneOf(a[0], a[1]);
+    const hb = halfPlaneOf(b[0], b[1]);
     if (ha !== hb) return ha - hb;
     const o = orient2d(0, 0, a[0], a[1], b[0], b[1]);
     return o > 0 ? -1 : o < 0 ? 1 : 0;
@@ -166,8 +161,8 @@ export function stepProblem(view: StepView, movers: readonly VertexId[], held: R
   }
   // Every mover's path (its point before the step to its point after) crossing no unmoved edge: an unmoved edge through
   // a swept area with neither end in it crosses the sweep's boundary, and the boundary's old and new edges are checked
-  // above, so it crosses a path. Without this a free chain (a hole) could jump over an unmoved edge into another face
-  // (B-FUZZ seed 137587846; C-0193 (4)).
+  // above, so it crosses a path. Without this a free chain (a hole) could jump over an unmoved edge whole, neither end
+  // nor the edge's ends in the triangles it swept, into another face (C-0193 (4); bfuzz.test.ts's found case).
   for (const v of movers) {
     const x0 = X[v];
     const y0 = Y[v];
@@ -186,30 +181,15 @@ export function stepProblem(view: StepView, movers: readonly VertexId[], held: R
   return nestingProblem(view, movers);
 }
 
-/** The winding number of the point about the closed ring of points (Sunday's crossing rule; exact on lattice points). */
-function winding(px: number, py: number, xs: readonly number[], ys: readonly number[]): number {
-  let w = 0;
-  const n = xs.length;
-  for (let i = 0; i < n; i++) {
-    const ax = xs[i];
-    const ay = ys[i];
-    const bx = xs[(i + 1) % n];
-    const by = ys[(i + 1) % n];
-    if (ay <= py) {
-      if (by > py && orient2d(ax, ay, bx, by, px, py) > 0) w++;
-    } else if (by <= py && orient2d(ax, ay, bx, by, px, py) < 0) w--;
-  }
-  return w;
-}
-
 /**
  * Nesting kept when a mover and a ring both move (C-0193 (4)): the swept triangles keep every unmoved vertex on its side
  * of every moved ring, and the path check keeps every mover on its side of every unmoved edge, but a mover can still
  * pass a ring that moves with it — a free chain (a hole) carried over an edge whose end slides crosses neither an
- * unmoved edge nor a swept triangle's unmoved vertex, and lands in the next face (B-FUZZ seed −17487670). So every mover
- * keeps its winding number about every finest-level ring that carries a moved edge and does not pass through it, read
- * before the step at the arena's points and after it at the view's. Rings are walked from the moved half-edges, so the
- * cost is the touched rings' length times the movers near them (bounding boxes first).
+ * unmoved edge nor a swept triangle's unmoved vertex, and lands in the next face (bfuzz.test.ts's found case). So every
+ * mover keeps its winding number (num/exact.ts's `windingNumber`, Sunday's crossing rule) about every finest-level ring
+ * that carries a moved edge and does not pass through it, read before the step at the arena's points and after it at
+ * the view's. Rings are walked from the moved half-edges, so the cost is the touched rings' length times the movers near
+ * them (bounding boxes first).
  */
 export function nestingProblem(view: StepView, movers: readonly VertexId[]): string | null {
   const p = view.p;
@@ -228,21 +208,19 @@ export function nestingProblem(view: StepView, movers: readonly VertexId[]): str
         h = p.halfEdges.next[h];
       } while (h !== h0 && ring.length <= O.length);
       const on = new Set<VertexId>(ring);
-      const xs0 = ring.map((v) => X[v]);
-      const ys0 = ring.map((v) => Y[v]);
-      const xs1 = ring.map((v) => view.x(v));
-      const ys1 = ring.map((v) => view.y(v));
+      const pts0: RingPoint[] = ring.map((v) => ({ x: X[v], y: Y[v] }));
+      const pts1: RingPoint[] = ring.map((v) => ({ x: view.x(v), y: view.y(v) }));
       const b0 = [Infinity, Infinity, -Infinity, -Infinity];
       const b1 = [Infinity, Infinity, -Infinity, -Infinity];
       for (let i = 0; i < ring.length; i++) {
-        b0[0] = Math.min(b0[0], xs0[i]);
-        b0[1] = Math.min(b0[1], ys0[i]);
-        b0[2] = Math.max(b0[2], xs0[i]);
-        b0[3] = Math.max(b0[3], ys0[i]);
-        b1[0] = Math.min(b1[0], xs1[i]);
-        b1[1] = Math.min(b1[1], ys1[i]);
-        b1[2] = Math.max(b1[2], xs1[i]);
-        b1[3] = Math.max(b1[3], ys1[i]);
+        b0[0] = Math.min(b0[0], pts0[i].x);
+        b0[1] = Math.min(b0[1], pts0[i].y);
+        b0[2] = Math.max(b0[2], pts0[i].x);
+        b0[3] = Math.max(b0[3], pts0[i].y);
+        b1[0] = Math.min(b1[0], pts1[i].x);
+        b1[1] = Math.min(b1[1], pts1[i].y);
+        b1[2] = Math.max(b1[2], pts1[i].x);
+        b1[3] = Math.max(b1[3], pts1[i].y);
       }
       for (const v of movers) {
         if (on.has(v)) continue;
@@ -253,17 +231,14 @@ export function nestingProblem(view: StepView, movers: readonly VertexId[]): str
         const in0 = x0 >= b0[0] && x0 <= b0[2] && y0 >= b0[1] && y0 <= b0[3];
         const in1 = x1 >= b1[0] && x1 <= b1[2] && y1 >= b1[1] && y1 <= b1[3];
         if (!in0 && !in1) continue;
-        if (winding(x0, y0, xs0, ys0) !== winding(x1, y1, xs1, ys1)) {
-          return `nesting: the vertex (${x0}, ${y0}) moved to (${x1}, ${y1}) changes its side of the ring through (${xs0[0]}, ${ys0[0]})`;
+        if (windingNumber(pts0, x0, y0) !== windingNumber(pts1, x1, y1)) {
+          return `nesting: the vertex (${x0}, ${y0}) moved to (${x1}, ${y1}) changes its side of the ring through (${pts0[0].x}, ${pts0[0].y})`;
         }
       }
     }
   }
   return null;
 }
-
-/** The hot pixel squared (§3.3's HOT_PIXEL_CM). */
-const HOT_PIXEL_SQ = HOT_PIXEL_CM * HOT_PIXEL_CM;
 
 /**
  * §3.10's placement bound on a step's view: every slid or re-seated vertex within 0.71 cm of its route's line between the

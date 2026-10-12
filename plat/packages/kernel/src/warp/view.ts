@@ -3,19 +3,19 @@
 // that view. Nothing is written to the arena or its index until the whole step has validated, so the index answers
 // every unmoved vertex and every unmoved edge exactly (its boxes are the arena's, and an unmoved edge's run box still
 // holds both its ends), and the step's own moved vertices and edges are read from a local bucket grid at their planned
-// points. Every predicate is exact on lattice points (§3.2 (3)). M0-a-13. Readings: C-0193 (3).
+// points. Every predicate is exact on lattice points (§3.2 (3)). A query box is clamped to the index's bound,
+// num/exact.ts's `BOX_RANGE` (C-0314). M0-a-13. Readings: C-0193 (3).
 import { outgoing, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
 import { query, type Box } from '../index/index.js';
+import { BOX_RANGE } from '../num/exact.js';
 import type { PlatKey } from '../types/index.js';
 
-/** A query box's coordinates stay within ±2²⁴ (the index's bound). */
-const BOX_RANGE = 16_777_216;
 /** The bucket side (cm) of the step's local grid. */
 const CELL = 1024;
 
 const clamp = (v: number): number => Math.max(-BOX_RANGE, Math.min(BOX_RANGE, v));
 
-/** An integer box padded by `r`, clamped to the index's range. */
+/** An integer box padded by `r`, clamped to the index's range (±`BOX_RANGE`, 2²⁴). */
 export function padBox(minX: number, minY: number, maxX: number, maxY: number, r: number): Box {
   return {
     minX: clamp(Math.floor(minX) - r),

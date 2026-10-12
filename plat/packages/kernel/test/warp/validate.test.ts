@@ -1,11 +1,17 @@
 // M0-a-13: the whole-step validation's predicates on a step's view (validate.ts): the exact distance and triangle tests,
 // one vertex per lattice point and minEdge on a mover, the rotation at a vertex, and §3.10's placement bound — a slid or
-// re-seated vertex more than the hot pixel off its route as the step leaves it fails the step.
+// re-seated vertex more than the hot pixel off its route as the step leaves it fails the step. And the shared parts the
+// warp reads by path (C-0314, C-0321): `nearestLattice` is the placement rule's nearest of four, and the distances and
+// bounds it reads from their homes hold the values the warp needs.
 import { describe, expect, it } from 'vitest';
 import { insertChain } from '../../src/insert/index.js';
+import { HOT_PIXEL_SQ, nearestLatticePoint } from '../../src/insert/placement.js';
+import { BOX_RANGE, segmentCloserThan } from '../../src/num/exact.js';
+import { LATTICE } from '../../src/num/index.js';
 import { routeOf } from '../../src/warp/held.js';
-import { closerThan, heldRunProblem, inTriangle, placementBoundProblem, rotationKept, stepProblem, vertexProblem } from '../../src/warp/validate.js';
-import { StepView } from '../../src/warp/view.js';
+import { nearestLattice } from '../../src/warp/index.js';
+import { closerThan, heldRunProblem, inTriangle, nestingProblem, placementBoundProblem, rotationKept, stepProblem, vertexProblem } from '../../src/warp/validate.js';
+import { padBox, StepView } from '../../src/warp/view.js';
 import { commit, framed, must, pt, vertexAtPoint } from './support.js';
 
 const G = { layer: 'ground' as const, part: 0 };
@@ -58,6 +64,37 @@ describe('the view\'s checks', () => {
     expect(placementBoundProblem(view, [{ v: s, route: route as NonNullable<typeof route> }])).toBeNull();
   });
 
+  it('the placement bound is the hot pixel, 0.71 cm: a re-seat 0.705 cm off its route passes, 0.712 cm off fails', () => {
+    const p = kerb();
+    const s = vertexAtPoint(p, 1500, 1000);
+    const route = routeOf(p, s) as NonNullable<ReturnType<typeof routeOf>>;
+    const view = new StepView(p, G);
+    view.set(vertexAtPoint(p, 2000, 1000), 2000, 1001); // the route (1 000, 1 000)–(2 000, 1 001)
+    view.set(s, 1295, 1001); // o = 1 000 · 1 − 1 · 295 = 705: 705² / 1 000 001 = 0.4970 ≤ 0.71²
+    expect(placementBoundProblem(view, [{ v: s, route }])).toBeNull();
+    view.set(s, 1288, 1001); // o = 712: 712² / 1 000 001 = 0.5069 > 0.71²
+    expect(placementBoundProblem(view, [{ v: s, route }])).toMatch(/^placement bound: \(1288, 1001\)/);
+  });
+
+  it('nesting: a free chain moved with the ring around it keeps its side; carried out of a ring that moves, it fails', () => {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000), pt(2000, 2000), pt(1000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory', { closed: true }));
+    commit(p, 2, (o) => insertChain(o, [pt(1700, 1500), pt(1800, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
+    const ring = [[1000, 1000], [2000, 1000], [2000, 2000], [1000, 2000]].map(([x, y]) => vertexAtPoint(p, x, y));
+    const chain = [[1700, 1500], [1800, 1500]].map(([x, y]) => vertexAtPoint(p, x, y));
+    expect([...ring, ...chain].every((v) => v >= 0)).toBe(true);
+    // Everything 250 cm east: the chain's new points (1 950 – 2 050, 1 500) lie inside the moved ring, though
+    // (2 050, 1 500) is outside the ring as it stood — the side is read before at the arena's points, after at the view's.
+    const along = new StepView(p, G);
+    for (const v of [...ring, ...chain]) along.set(v, p.vertices.x[v] + 250, p.vertices.y[v]);
+    expect(nestingProblem(along, [...ring, ...chain])).toBeNull();
+    // The chain alone 250 cm east while one ring corner shifts: (2 050, 1 500) leaves the ring.
+    const out = new StepView(p, G);
+    for (const v of chain) out.set(v, p.vertices.x[v] + 250, p.vertices.y[v]);
+    out.set(ring[0], 1000, 990);
+    expect(nestingProblem(out, [ring[0], ...chain])).toMatch(/^nesting: the vertex \(1800, 1500\) moved to \(2050, 1500\)/);
+  });
+
   it('a held finer vertex whose run\'s end moves off its line fails (§3.6 held (5)); with its run\'s ends unmoved it passes', () => {
     const p = kerb();
     const s = vertexAtPoint(p, 1500, 1000);
@@ -91,5 +128,52 @@ describe('the view\'s checks', () => {
     expect(rotationKept(view, j)).toBe(true);
     view.set(e, 1500, 2100);
     expect(rotationKept(view, j)).toBe(false);
+  });
+});
+
+/** The oracle: the four lattice points around (x, y), ordered by squared distance, then y, then x; the first. */
+function nearestOfFour(x: number, y: number): { x: number; y: number } {
+  const fx = Math.floor(x);
+  const fy = Math.floor(y);
+  const four = [[fx, fy], [fx + 1, fy], [fx, fy + 1], [fx + 1, fy + 1]].map(([cx, cy]) => ({ x: cx + 0, y: cy + 0, d: (cx - x) * (cx - x) + (cy - y) * (cy - y) }));
+  four.sort((a, b) => a.d - b.d || a.y - b.y || a.x - b.x);
+  return { x: four[0].x, y: four[0].y };
+}
+
+describe('T-warp-new-1: nearestLattice is the placement rule\'s nearest of four (C-0321 (4); kernel-plan.md §3.4)', () => {
+  it('the four tie classes — an x tie, a y tie, a four-way tie, a negative four-way tie — resolve y then x', () => {
+    expect(nearestLattice(500.5, 0)).toEqual({ x: 500, y: 0 });
+    expect(nearestLattice(500, 0.5)).toEqual({ x: 500, y: 0 });
+    expect(nearestLattice(500.5, 0.5)).toEqual({ x: 500, y: 0 });
+    expect(nearestLattice(-500.5, -0.5)).toEqual({ x: -501, y: -1 });
+    // Never −0: a position just below zero rounds up to +0.
+    const z = nearestLattice(-0.25, -0.25);
+    expect(Object.is(z.x, 0) && Object.is(z.y, 0)).toBe(true);
+    const nz = nearestLattice(-0, -0);
+    expect(Object.is(nz.x, 0) && Object.is(nz.y, 0)).toBe(true);
+  });
+
+  it('is placement.ts\'s nearestLatticePoint, and agrees with the oracle on every eighth-lattice position of a window', () => {
+    expect(nearestLattice).toBe(nearestLatticePoint);
+    for (let i = -24; i <= 24; i++) {
+      for (let j = -24; j <= 24; j++) {
+        for (const [bx, by] of [[0, 0], [517, 4], [-8_388_000, 8_388_000]]) {
+          const x = bx + i / 8;
+          const y = by + j / 8;
+          expect(nearestLattice(x, y), `(${x}, ${y})`).toEqual(nearestOfFour(x, y));
+        }
+      }
+    }
+  });
+});
+
+describe('the shared distances and bounds the warp reads by path (C-0314, C-0321)', () => {
+  it('attractCm 26, minEdge 25, the hot pixel squared 0.71², the index\'s box bound 2²⁴; closerThan is num/exact.ts\'s', () => {
+    expect([LATTICE.attractCm, LATTICE.minEdgeCm]).toEqual([26, 25]);
+    expect(HOT_PIXEL_SQ).toBe(0.71 * 0.71);
+    expect(BOX_RANGE).toBe(16_777_216);
+    expect(padBox(-30_000_000, -20_000_000, 30_000_000, 16_777_200, 25)).toEqual({ minX: -16_777_216, minY: -16_777_216, maxX: 16_777_216, maxY: 16_777_216 });
+    expect(padBox(10.5, -3.5, 20.2, 7, 2)).toEqual({ minX: 8, minY: -6, maxX: 23, maxY: 9 });
+    expect(closerThan).toBe(segmentCloserThan);
   });
 });

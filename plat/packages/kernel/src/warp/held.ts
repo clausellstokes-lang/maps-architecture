@@ -22,31 +22,26 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { faceBox, faceRouteRings, query, routeRun } from '../index/index.js';
+import { insideOrOnRing } from '../num/exact.js';
 import { orient2d } from '../num/index.js';
 import type { Id, Level, Point, PlatKey } from '../types/index.js';
 import type { HeldSet, WarpOptions } from './types.js';
 import { padBox } from './view.js';
 
-/** A structural precondition of the warp (a programming error: it throws in every build). */
+/**
+ * A structural precondition of the warp — a programming error, never a geometric outcome: it throws
+ * `warp: <message>` in every build (§3.11). Each kernel module keeps its own check under its own prefix (C-0334).
+ */
 export function check(condition: boolean, message: string): asserts condition {
   if (!condition) throw new Error(`warp: ${message}`);
 }
 
-/** Is the lattice point inside the closed region ring (on its boundary counts)? Exact. */
+/**
+ * Is the lattice point inside the closed region ring (on its boundary counts), by even–odd crossings? num/exact.ts's
+ * closed reading (C-0314 (3)); a region of fewer than three points holds nothing. Exact.
+ */
 export function insideRegion(region: readonly Point[], x: number, y: number): boolean {
-  const n = region.length;
-  if (n < 3) return false;
-  let inside = false;
-  for (let i = 0; i < n; i++) {
-    const a = region[i];
-    const b = region[(i + 1) % n];
-    const o = orient2d(a.x, a.y, b.x, b.y, x, y);
-    if (o === 0 && Math.min(a.x, b.x) <= x && x <= Math.max(a.x, b.x) && Math.min(a.y, b.y) <= y && y <= Math.max(a.y, b.y)) return true;
-    if ((a.y > y) !== (b.y > y)) {
-      if (b.y > a.y ? o > 0 : o < 0) inside = !inside;
-    }
-  }
-  return inside;
+  return region.length >= 3 && insideOrOnRing(region, x, y, 'evenOdd');
 }
 
 /** The vertices inside the region (any level), by lattice position. */

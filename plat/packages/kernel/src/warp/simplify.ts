@@ -7,17 +7,15 @@
 // over a neighbouring one, or touch or cross an obstacle edge (found through a packed index over the obstacles), or when
 // the triangle it cuts off holds another vertex of the chain or of an obstacle, so nothing changes side; a refused vertex
 // is tried again once a neighbour of it is removed. A chain whose last point repeats its first is a ring (at least three
-// vertices kept). Pinned vertices never move or go. The input is never written. M0-a-13. Readings: C-0193 (7).
+// vertices kept). Pinned vertices never move or go. The input is never written. The segment contact test and π are
+// num/exact.ts's (C-0314). M0-a-13. Readings: C-0193 (7).
 import { packBoxes, searchPacked, type PackedTree } from '../adapters/flatbush.js';
 import { dmath } from '../dmath/index.js';
-import { segmentsMeet } from '../insert/decimate.js';
+import { PI, segmentsMeet } from '../num/exact.js';
 import { err, ok, orient2d, type KernelResult } from '../num/index.js';
 import type { Cm, Point, Polygon } from '../types/index.js';
 import { check } from './held.js';
 import { inTriangle } from './validate.js';
-
-/** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist). */
-const PI = 3.141592653589793;
 
 /** Does the vertex b, between a and c, turn by an interior angle below the floor (cosine `cosFloor`)? */
 function angleBelow(ax: number, ay: number, bx: number, by: number, cx: number, cy: number, cosFloor: number): boolean {
