@@ -67,8 +67,11 @@ describe('the base-32 token (§6.3: 13 characters)', () => {
 
   it('refuses a hash that is not two u32 lanes', () => {
     expect(() => tokenOf([1, -1])).toThrow(RangeError);
+    expect(() => tokenOf([1, -1])).toThrow(/^token: not a 64-bit hash of two u32 lanes: 1,-1$/);
     expect(() => tokenOf([1.5, 0])).toThrow(RangeError);
+    expect(() => tokenOf([1.5, 0])).toThrow(/^token: not a 64-bit hash of two u32 lanes: 1\.5,0$/);
     expect(() => tokenOf([0, 2 ** 32])).toThrow(RangeError);
+    expect(() => tokenOf([0, 2 ** 32])).toThrow(/^token: not a 64-bit hash of two u32 lanes: 0,4294967296$/);
   });
 
   it('writes a user-created entity’s token from (seq, ordinal), distinct over a grid and apart from the lineage form', () => {
@@ -85,7 +88,9 @@ describe('the base-32 token (§6.3: 13 characters)', () => {
     expect(userAddressOf('plot', 5, 2)).toBe(`plot:${tokenOf(userTokenHash(5, 2))}`);
     expect(userAddressOf('tunnel', 5, 2, { layer: 'underground', part: 3 })).toBe(`under3/tunnel:${tokenOf(userTokenHash(5, 2))}`);
     expect(() => userTokenHash(-1, 0)).toThrow(RangeError);
+    expect(() => userTokenHash(-1, 0)).toThrow(/^user token: seq is not a u32: -1$/);
     expect(() => userTokenHash(0, 1.5)).toThrow(RangeError);
+    expect(() => userTokenHash(0, 1.5)).toThrow(/^user token: ordinal is not a u32: 1\.5$/);
   });
 });
 

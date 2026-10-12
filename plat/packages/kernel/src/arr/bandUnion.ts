@@ -29,15 +29,28 @@
 // with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
 // split that collapses to one point (the insertion's E_DEGENERATE `empty`) adds nothing.
 //
+// N-57 (2) (C-0322): an open piece's contacts are pinned on F's boundary. A contact within attractCm of the piece's
+// vertex beside it — a dead-end lane's round cap meeting a spine-less edge, its last chord clipped to 25–26 cm — can be
+// attracted onto that vertex by the insertion (§3.6 step 2: the nearest vertex first), the piece committed dangling and
+// its strip one face with the block. Such a piece goes in under a savepoint; where an end of it lands off F's boundary
+// it is put back and goes in again pinned (`pinnedPiece`): the run between the near contacts first, then each contact
+// placed on F's boundary by `splitThrough` of the route piece it lies on, then its chord between the two vertices — the
+// vertex beside the contact kept, so the committed outline is kerb(F)'s vertex for vertex (§13.2's Hausdorff 0); a run
+// of one point (both chords near) drops that vertex and joins the two pinned contacts. A piece whose ends landed on F's
+// boundary goes in as before. The post-condition (N-45 (a)): every open piece ends on F's boundary at both contacts, and
+// no outline edge has one face on both sides — else the op refuses E_INVARIANT naming the piece or the edge, the batch
+// put back, never a merged face committed.
+//
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
 // E_INVARIANT — puts the batch back as the op found it. Readings: C-0212.
-import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, isVertexLive, outgoing, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow } from '../arena/index.js';
+import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, isVertexLive, outgoing, pointOf, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
 import { query } from '../index/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
-import { TX_FACES_WALKED } from '../insert/index.js';
-import { ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
+import { nearestRoutePiece } from '../insert/attractVertex.js';
+import { splitThrough, TX_FACES_WALKED } from '../insert/index.js';
+import { err, LATTICE, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
@@ -189,6 +202,132 @@ export function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: n
   return false;
 }
 
+/** attractCm²: a contact this near its piece's next vertex may be attracted onto it by the insertion (N-57 (2)). */
+const NEAR_SQ = LATTICE.attractCm * LATTICE.attractCm;
+
+/** An outline piece as `outlinePieces` gives it: a closed ring, or an open run between two boundary contacts. */
+type Piece = { points: LatticePoint[]; closed: boolean };
+
+/** Squared distance of two lattice points. */
+function d2(a: XY, b: XY): number {
+  return (a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y);
+}
+
+/** Does an open piece have a contact within attractCm of its neighbour on the piece (a closing chord ≤ attractCm)? */
+function nearContact(piece: Piece): boolean {
+  const q = piece.points;
+  const m = q.length - 1;
+  return !piece.closed && m >= 2 && (d2(q[0], q[1]) <= NEAR_SQ || d2(q[m - 1], q[m]) <= NEAR_SQ);
+}
+
+/** Do an open piece's two placed ends stand on the face's boundary (within the hot pixel of a route edge of F)? */
+function endsOnBoundary(p: Plat, rings: readonly LatticePoint[][], placed: readonly VertexId[]): XY | null {
+  for (const v of [placed[0], placed[placed.length - 1]]) {
+    const q = pointOf(p, v);
+    if (!onBoundary(rings, q)) return q;
+  }
+  return null;
+}
+
+/**
+ * A contact pinned on the face's boundary (N-57 (2)): the vertex at it, else the vertex `splitThrough` places on the
+ * level-n route piece of F's boundary it lies on (§3.6's placement; a foot within attractCm of the piece's end is that
+ * end); null where no route piece of F's boundary holds it.
+ */
+function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint): KernelResult<VertexId | null> {
+  const p = t.plat;
+  const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { vertices: true, edges: true });
+  for (const v of near.vertices) if (isVertexLive(p, v) && p.vertices.x[v] === c.x && p.vertices.y[v] === c.y) return ok(v);
+  const piece = nearestRoutePiece(p, near.edges, c, t.level);
+  if (piece === null || !onBoundary(rings, pointOf(p, piece.a)) || !onBoundary(rings, pointOf(p, piece.b))) return ok(null);
+  const v = splitThrough(t, piece.edge, c);
+  if (!v.ok) return err(v.code, v.detail);
+  return ok(v.value, v.warnings);
+}
+
+/**
+ * An open outline piece whose contact lies within attractCm of its neighbour, committed with its contacts pinned (N-57
+ * (2)): the run between the near contacts goes in first (its vertices placed as every chain's are), then each near
+ * contact is pinned on F's boundary (`pinContact`) and its closing chord inserted between the two vertices — so the
+ * contact is never attracted onto the piece's vertex beside it and the piece ends on F's boundary, the chord and the
+ * vertex beside it kept (the committed outline is the kerb's, vertex for vertex). Where the run would be one point (both
+ * chords near), that interior vertex is dropped and the chord joins the two pinned contacts. Returns the piece's placed
+ * ends, or null where it collapsed to one point.
+ */
+function pinnedPiece(t: OpenTx, rings: readonly LatticePoint[][], piece: Piece, rows: readonly RoleRow[]): KernelResult<VertexId[] | null> {
+  const p = t.plat;
+  const q = piece.points;
+  const m = q.length - 1;
+  const s = d2(q[0], q[1]) <= NEAR_SQ ? 1 : 0;
+  const e = d2(q[m - 1], q[m]) <= NEAR_SQ ? m - 1 : m;
+  const warnings: Warning[] = [];
+  let head: VertexId | null = null;
+  let tail: VertexId | null = null;
+  if (e > s) {
+    const run = insertChain(t, q.slice(s, e + 1), rows, 'mandatory');
+    if (!run.ok && !(run.code === 'E_DEGENERATE' && run.detail === 'empty')) return err(run.code, run.detail);
+    if (run.ok) {
+      warnings.push(...run.warnings);
+      head = run.value.placed[0];
+      tail = run.value.placed[run.value.placed.length - 1];
+    }
+  }
+  const pin = (c: LatticePoint): KernelResult<VertexId> => {
+    const v = pinContact(t, rings, c);
+    if (!v.ok) return err(v.code, v.detail);
+    if (v.value === null) return err('E_INVARIANT', `outline: the contact (${String(c.x)}, ${String(c.y)}) lies on no route piece of the face's boundary`);
+    warnings.push(...v.warnings);
+    return ok(v.value);
+  };
+  if (head === null || tail === null) {
+    // the run collapsed (or is one point): the chord joins the two contacts, pinned
+    const a = pin(q[0]);
+    if (!a.ok) return err(a.code, a.detail);
+    const b = pin(q[m]);
+    if (!b.ok) return err(b.code, b.detail);
+    const chord = insertChain(t, [pointOf(p, a.value), pointOf(p, b.value)], rows, 'mandatory');
+    if (!chord.ok) return chord.code === 'E_DEGENERATE' && chord.detail === 'empty' ? ok(null, warnings) : err(chord.code, chord.detail);
+    warnings.push(...chord.warnings);
+    return ok([a.value, b.value], warnings);
+  }
+  const ends: VertexId[] = [head, tail];
+  for (const [near, c, k] of [[s === 1, q[0], 0], [e === m - 1, q[m], 1]] as const) {
+    if (!near) continue;
+    const v = pin(c);
+    if (!v.ok) return err(v.code, v.detail);
+    const by = ends[k];
+    const chord = insertChain(t, k === 0 ? [pointOf(p, v.value), pointOf(p, by)] : [pointOf(p, by), pointOf(p, v.value)], rows, 'mandatory');
+    if (!chord.ok) {
+      // the chord folds to one point: the contact is the vertex beside it
+      if (chord.code === 'E_DEGENERATE' && chord.detail === 'empty') continue;
+      return err(chord.code, chord.detail);
+    }
+    warnings.push(...chord.warnings);
+    ends[k] = v.value;
+  }
+  return ok(ends, warnings);
+}
+
+/**
+ * N-57 (2)'s post-condition, read on the faces of the batch's level inside the op's L1 faces: an outline edge (the op's
+ * role, at the batch's level) with one face on both sides — an outline chain left dangling, the region it should bound
+ * merged with its neighbour — named, else null.
+ */
+function danglingOutline(p: Plat, n: Level, kids: readonly FaceId[], outlineRole: number): string | null {
+  const side = new Map<number, FaceId>();
+  for (const c of kids) for (const ring of faceWalk(p, n, c)) for (const h of ring) side.set(h, c);
+  const O = p.halfEdges.origin;
+  const R = p.roles;
+  for (const [h, c] of side) {
+    if (side.get(h ^ 1) !== c) continue;
+    if (!rowsOn(p, 'edge', h).some((r) => R.kind[r] === outlineRole && R.level[r] === n)) continue;
+    const a = pointOf(p, O[h]);
+    const b = pointOf(p, O[h ^ 1]);
+    return `outline: the edge (${String(a.x)}, ${String(a.y)})–(${String(b.x)}, ${String(b.y)}) has the face ${String(c)} on both sides — a dangling outline chain (N-57 (2))`;
+  }
+  return null;
+}
+
 /** The L1 ancestor of a face record of level n (its parent chain). */
 function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
   let g = f;
@@ -203,6 +342,8 @@ interface BandSpec {
   /** The rows' entity for a face: corridorUnion's the face's owner, bandUnion's its owner. */
   readonly entityOf: (face: FaceId) => Id;
   readonly owner: Id | null;
+  /** The outline pieces of a face's reading (`outlinePieces`); a test plants a lost chord through it (N-57 (2)). */
+  readonly pieces?: (read: Parameters<typeof outlinePieces>[0]) => Piece[];
 }
 
 /** The engine on the open transaction (see the module comment). */
@@ -228,14 +369,36 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
   for (const read of reads) {
     if (read.spines.size === 0) continue;
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
-    for (const piece of outlinePieces(read)) {
+    const pieces = (spec.pieces ?? outlinePieces)(read);
+    for (let i = 0; i < pieces.length; i += 1) {
+      const piece = pieces[i];
+      // N-57 (2): a contact within attractCm of its neighbour may be attracted onto it — a savepoint, so a piece that
+      // lost its closing chord goes in again with its contacts pinned
+      const near = nearContact(piece) ? opSave(t) : null;
       const ins = insertChain(t, piece.points, rows, 'mandatory', piece.closed ? { closed: true } : {});
       if (!ins.ok) {
         // A piece shorter than minEdge collapses to one point (step 1's E_DEGENERATE `empty`) and adds nothing.
         if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') continue;
         return rollback(t, save, ins);
       }
-      warnings.push(...ins.warnings);
+      let placed: VertexId[] | null = ins.value.placed;
+      if (piece.closed) {
+        warnings.push(...ins.warnings);
+        continue;
+      }
+      if (near !== null && endsOnBoundary(p, read.rings, placed) !== null) {
+        rollback(t, near, err('E_INVARIANT', 'outline: the piece goes in again with its contacts pinned'));
+        const pinned = pinnedPiece(t, read.rings, piece, rows);
+        if (!pinned.ok) return rollback(t, save, pinned);
+        warnings.push(...pinned.warnings);
+        placed = pinned.value;
+      } else warnings.push(...ins.warnings);
+      // the post-condition (N-57 (2), N-45 (a)): an open piece ends on F's boundary at both contacts — one left
+      // dangling would merge its band with the face beside it: refused, never committed
+      const off = placed === null ? null : endsOnBoundary(p, read.rings, placed);
+      if (off !== null) {
+        return rollback(t, save, err('E_INVARIANT', `outline: piece ${String(i)} of the face ${String(read.face)} ends at (${String(off.x)}, ${String(off.y)}), off the face's boundary (N-57 (2))`));
+      }
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
     for (const pts of read.splits) {
@@ -302,6 +465,9 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
       }
     }
   }
+  // the post-condition's second half (N-57 (2)): no outline edge with one face on both sides
+  const dangling = danglingOutline(p, n, [...inFace.values()].flat(), outlineRole);
+  if (dangling !== null) return rollback(t, save, err('E_INVARIANT', dangling));
   const byKey = (a: FaceId, b: FaceId): number => compareFaces(p, n, a, b);
   const result: BandResult = { band: band.sort(byKey), strips: strips.sort(byKey), wedges: wedges.sort(byKey), blocks: blocks.sort(byKey), whole, wholeBand };
   if (spec.owner !== null && result.band.length > 0) {

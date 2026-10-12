@@ -2,7 +2,7 @@
 // the batch's canonical order of lineage hashes), the entity-key cache (C-0147), the town root (§6.1) — and the exit
 // bar's "0 duplicate ids on the minting fixtures" (C-0179 (4), (7)). The permutation property checks every result
 // against a plain restatement of the rule (its oracle) and against the same batch in another input order. The input
-// checks (C-0184, fix round 1): a handed-on address's kind and arena, every record's kind, the live lineages' u32 lanes
+// checks (C-0184): a handed-on address's kind and arena, every record's kind, the live lineages' u32 lanes
 // (a signed-lane survivor), the ids and the seed key's lanes on an empty batch.
 import fc from 'fast-check';
 import { entityKey, seedKey, STAGES, type Hash128, type LineageHash, type PlatKey, type StageId } from '@plat/kernel';
@@ -133,13 +133,13 @@ describe('§6.3 addresses: a fresh address equal to a live one takes ~1, the nex
   it('checks a handed-on record’s kind by the kind rule and refuses an address of another kind or another arena', () => {
     const x = addressOf('plot', lineageHash(key(0)));
     const old: LiveEntry = { id: x, lineage: [4, 4], retired: true };
-    // P1: a malformed kind is refused with an address handed on, as without one.
+    // A malformed kind is refused with an address handed on, as without one.
     expect(() => mint([{ kind: 'pl ot', key: key(1), address: x }], [old], [], SK)).toThrow(/not an entity kind: pl ot/);
     expect(() => mint([{ kind: 'pl ot', key: key(1) }], [], [], SK)).toThrow(/not an entity kind: pl ot/);
     expect(() => mint([{ kind: 'pl ot', key: key(1), origin: { seq: 1, ordinal: 0 } }], [], [], SK)).toThrow(/not an entity kind: pl ot/);
-    // P2: a building handed a plot's address.
+    // A building handed a plot's address.
     expect(() => mint([{ kind: 'building', key: key(1), address: x }], [old], [], SK)).toThrow(/is of kind plot, the record's kind is building/);
-    // P2b: a sky-2 record handed a bare ground address.
+    // A sky-2 record handed a bare ground address.
     expect(() => mint([plot(1, { address: x }, { arena: { layer: 'sky', part: 2 } })], [old], [], SK)).toThrow(/does not name the record's arena/);
     // A handed-on string that is no address at all, even when a retired entry holds it.
     expect(() => mint([plot(1, { address: 'plot' })], [{ id: 'plot', lineage: [4, 4], retired: true }], [], SK)).toThrow(/not an address/);

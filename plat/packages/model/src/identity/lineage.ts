@@ -10,6 +10,9 @@
 // distinctness test). A key with no derivation unit (the town root) writes flag 0 and zero words; dup absent writes 0
 // and a present dup is 1 … 2³² − 1, so each key has exactly one lane form. Integers only; every refusal is a
 // RangeError naming the field, nothing is coerced.
+//
+// `isU32`, `isU16`, `isObject` and `copyLineage` are file-level exports the identity and matching modules share,
+// imported by path; they are not part of the package's API (the folder index does not export them).
 import { LaneWriter, layerCode, STAGES, type Hash128, type LineageHash, type PlatKey, type StageId } from '@plat/kernel';
 
 /**
@@ -31,8 +34,20 @@ export interface LineageKey {
 /** The number of u32 lanes a lineage key writes. */
 export const LINEAGE_LANES = 10;
 
-const isU32 = (v: number): boolean => (v >>> 0) === v;
-const isU16 = (v: number): boolean => (v & 0xffff) === v;
+/** A u32: a number that is an integer in 0 … 2³² − 1 (NaN, a fraction, a negative, 2³² or a non-number fails). */
+export function isU32(v: unknown): v is number {
+  return typeof v === 'number' && (v >>> 0) === v;
+}
+
+/** A u16: a number that is an integer in 0 … 0xffff (a fraction, a negative, 0x10000 or a non-number fails). */
+export function isU16(v: unknown): v is number {
+  return typeof v === 'number' && (v & 0xffff) === v;
+}
+
+/** A non-null object (an array included). */
+export function isObject(v: unknown): v is object {
+  return typeof v === 'object' && v !== null;
+}
 
 function refuse(field: string, v: unknown): never {
   throw new RangeError(`lineage key: ${field} is not valid: ${String(v)}`);
@@ -100,6 +115,11 @@ export function compareLineage(a: Readonly<LineageHash>, b: Readonly<LineageHash
 /** Whether two lineage hashes are equal. */
 export function sameLineage(a: Readonly<LineageHash>, b: Readonly<LineageHash>): boolean {
   return a[0] === b[0] && a[1] === b[1];
+}
+
+/** A new frozen two-lane copy of a lineage hash (the same two numbers; never the input itself). */
+export function copyLineage(h: Readonly<LineageHash>): Readonly<LineageHash> {
+  return Object.freeze([h[0], h[1]]) as unknown as Readonly<LineageHash>;
 }
 
 /** The ground part 0 (§2.1): the town root's arena. */
