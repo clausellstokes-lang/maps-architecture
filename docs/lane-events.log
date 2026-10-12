@@ -8338,3 +8338,4 @@
 2026-10-12 11:20 check/M0-a-08-consolidate-close-1 CHECKPOINT mutants C01-C16 done: killed C01 C02 C04 C05 C07-C10 C12 C14-C16; survived C03 C06 C11 C13 (C06 equivalent by brute force 197 897 loops; C03 PLAUSIBLE equivalent; C11/C13 untested pre-existing fallbacks -> notes); next: C17-C34, refusal tally, gates
 2026-10-12 11:25 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 7000 runs logged, 0 off so far (3 shards live, load ~4.4 with another seat's check); next: wait, re-pin from its log
 2026-10-12 11:39 check/M0-a-08-consolidate-close-1 CHECKPOINT mutants C17-C30 all killed (B-4 ties x4 + slot item, K35, K35t, K01, K06, K11, K13, K22, K36, K37, s3 M1); C31 (K14) survived as recorded; C32-C34 running; next: refusal tally, gates
+2026-10-12 11:45 build/M0-x-06-fix2 CHECKPOINT 1000-seed run in the mirror: 16000 runs logged (shard 2 done exit 0), 0 off, 0 lawful so far; next: wait, re-pin from its log
