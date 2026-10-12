@@ -1693,6 +1693,117 @@
      "required_change": "the builder keeps the before-values from a mirror of the tree as it was (the pre-round sources are main's committed files at R2's landing) and reports the comparison in its notes and choices row; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence (the package's heaviest bar: RELATED@1000 ≈ 2 h at W=1 as -s2.md measured, 7 749 s; NEAR ≈ 100 s)"
     }
    ]
+  },
+  {
+   "id": "M0-a-01",
+   "from": 3,
+   "round": "C3",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "T-4's home in num/exact.ts (comparePoints, §1.3 T-4; §4's delegation list) and queue row L32's two ratchets (checks/M0-a-01-notes.md N-c3-1, N-c3-2): the barrel's export set pinned to API.md Appendix B; exact.ts's import list pinned"
+   },
+   "session": "R1's third round, small: AFTER c2 (4de4f66b, J308). Inside M0-a-01's owns (src/num/, src/types/, src/adapters/robust-predicates.ts, test/num/, test/types/) and nowhere else: (1) T-4's home — num/exact.ts exports `comparePoints(a: LatticePoint, b: LatticePoint): number` with the body of faces/common.ts:444 and tx/relevel.ts:349's pointCmp, verbatim: `return a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0;` (y then x; −1, 0 or 1; arr/kerb.ts:120's `a.y - b.y || a.x - b.x` has the same sign on every pair, which is all a comparator's caller reads), one header sentence (exact on every lattice input: two comparisons per coordinate, no arithmetic) and the section comment; pins: exact.test.ts judges it against §3.3's vertex key written in the test (y first, then x; antisymmetry, transitivity and the range {−1, 0, 1} on a seeded sample and the fuzz arenas' vertices), equivalence.test.ts holds it equal to faces/common.ts's comparePoints and — through copies.ts's privateCopy — to relevel.ts's pointCmp on the same pairs, and of the same sign as kerb.ts's comparePoints; NO CALLER CHANGED (J270 (b): faces adopts it in R7, tx in R6, kerb in R9 — the copies coexist until then); (2) L32 (a): a new test file test/num/api-surface.test.ts pins the kernel barrel's export set to API.md Appendix B — the runtime names (`Object.keys` of '../../src/index.js', sorted) equal the union of Appendix B's `code` names parsed from its per-folder lines ('- **folder** (n values, m types): …'), and the type names parsed from each folder index's export specifiers with the TypeScript compiler (copies.ts's parsing, reused) equal Appendix B's italic names — so an added alias fails by name: the builder runs N-c3-1's mutant (`export { lp as lpExact } from './num/exact.js'` appended to src/index.ts) and shows it red; (3) L32 (b): an import-specifier ratchet in exact.test.ts — exact.ts's import declarations are exactly './predicates.js', './ratio.js', './lattice.js' and the type-only '../types/index.js' (parsed with the TypeScript compiler as copies.ts does; no other specifier, no re-export from any other file), so N-c3-2's mutant (`export { isLatticeCoord } from '../geom/common.js'` in exact.ts) is red; (4) the header's import sentence and num/index.ts's 'imported by path and not re-exported' line stay true and unchanged. API frozen (J263 Q1): num/index.ts, types/index.ts, src/index.ts and API.md byte-identical (comparePoints is file-level, imported by path). The three pins ride this round as its own oracles (J273 Q1's class) — JUDGMENT (J308 (1) revisited, vetoable): the two L32 ratchets were deferred to hardening when a test-only c3 would have spent a kernel RELATED on two pins; T-4's home now needs a c3 of exact.ts, so they ride it. NO-SHIFT (J260 (3)): no runtime file but exact.ts changes, and exact.ts only by the added function and the header sentence (the builder shows its emitted JS without comments differs from before by the one function alone); every digest, golden, register JSON, refusal code and pinned message text byte-identical; the kernel's whole test set green. ZERO REFUSALS (J264 (5)): num's registered families refuse nothing lawful; 0 → 0 reported. Rulings in force: J263 Q1, Q6, Q8; J270 (b); J273 Q1; J308 (1).",
+   "lines": [
+    {
+     "line": "T-4's home: comparePoints in num/exact.ts (the body of faces/common.ts:444 and relevel.ts:349 verbatim; −1/0/1 by y then x); no caller changed",
+     "evidence": "kernel-plan.md §1.3 T-4, §4 (delegations under both names); J270 (b)",
+     "required_change": "the export, the header sentence; exact.test.ts's rule pins (written from §3.3's vertex key, never from the code) and equivalence.test.ts's equality with faces' comparePoints, relevel's pointCmp (privateCopy) and kerb's sign"
+    },
+    {
+     "line": "L32 (a): test/num/api-surface.test.ts pins the barrel's runtime export names and the folder indexes' type names to API.md Appendix B; N-c3-1's alias mutant red",
+     "evidence": "queue row L32 (a); checks/M0-a-01-notes.md N-c3-1; J263 Q1",
+     "required_change": "the test reads API.md and src/index.ts at run time (no recorded copy to drift); the builder's notes show the mutant run; the checker re-runs it"
+    },
+    {
+     "line": "L32 (b): the import-specifier ratchet on exact.ts in exact.test.ts (exactly ./predicates.js, ./ratio.js, ./lattice.js, type-only ../types/index.js); N-c3-2's re-export mutant red",
+     "evidence": "queue row L32 (b); checks/M0-a-01-notes.md N-c3-2; the a-10 c1 brief's leaf rule",
+     "required_change": "copies.ts's TypeScript parsing reused; the builder's notes show the mutant run; the checker re-runs it"
+    },
+    {
+     "line": "API frozen (J263 Q1): num/index.ts, types/index.ts, src/index.ts and API.md byte-identical to main at the round's start",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the four files; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; exact.ts's emitted JS differs by the added function alone; every earlier mutant of the item's checks still killed",
+     "evidence": "J260 (3); checks/M0-a-01.md, -c1.md, -c2.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence (a kernel RELATED@1000 at W=1 ≈ 2.5 h)"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-03",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "X-1 … X-4 (§1.5, round R5): BOX_RANGE, stamp/keyName and five from their homes, insideRing on num's crossingStep, X-2 comment only (J263 Q7), faceArea2 homed in index/items.ts (T-5); §2's index comment rule; §3.4's test/index row (the generator from test/arena/support.ts)"
+   },
+   "session": "R5 of the kernel plan (6b7ac6df; rulings J263, J270), AFTER R1 (num/exact.ts exports BOX_RANGE, crossingStep, lp — c1 and c2 on main) and AFTER R4 (M0-a-02 c1: arena/resolve.ts exports edgeRuns, stamp and keyName, arena/plat.ts exports five, test/arena/support.ts exports rng and intIn — its builder's CHECKPOINT 02:54: plat.ts and resolve.ts differ from before only by the four export keywords). Inside M0-a-03's owns (src/index/, src/adapters/flatbush.ts, test/index/) and nowhere else: X-1 (a) query.ts:49 `const BOX_RANGE = 16_777_216` → `import { BOX_RANGE } from '../num/exact.js'` (the same 2²⁴; checkBox's message text 'a query box is four whole centimetres within ±2²⁴' unchanged); (b) query.ts:86–96 stamp(p) and keyName(k) deleted, `import { keyName, stamp } from '../arena/resolve.js'` (A-2: identical bodies — `{ key: { layer, part }, version }` and `${layer}/${part}`); debugCheck stays with its 'index: ' prefix (J270 (a)); (c) query.ts:139 insideRing(p, ring: VertexId[], qx, qy) keeps its name, signature, doc sentence and typed-array loop and calls num's crossingStep per edge — `if (crossingStep(X[a], Y[a], X[b], Y[b], qx, qy) !== 0) inside = !inside;` with `import { crossingStep } from '../num/exact.js'` — the same half-open rule ((ay > qy) !== (by > qy), the side chosen by the edge direction) written once: crossingStep's two branches (ay ≤ qy: by > qy and orient2d > 0 → 1; ay > qy: by ≤ qy and orient2d < 0 → −1; else 0) are the old body's two toggling cases exactly (N-3 NUANCE); the builder tables the four cases (ay ≤/> qy × by ≤/> qy) against the old body in its notes; insideRouteRings unchanged; orient2d stays imported (query.ts's other predicates read it); (d) spatial.ts:134 five() deleted, `import { five } from '../arena/plat.js'` (A-3; identical body); X-2 COMMENT ONLY (J263 Q7): items.ts's routeRun/routePieces doc names io/encode.ts's runsAt/onward as the persisted format's own walk of the same runs by definition (a level-r run is the run cut at the vertices of level ≤ r), kept apart (N-45 (b)) — no T-io-new-1 in pass A; X-3 NOT DONE — JUDGMENT (vetoable): insert/placement.ts's exported HOT_PIXEL_SQ is the one home (the a-13 c1 round imports it by path; tx/relevel.ts's HOT_SQ adopts it in R6), so a second home beside HOT_PIXEL_CM would be a third spelling; X-4 items.ts exports from the file `faceArea2(p: Plat, level: Level, f: FaceId): number` with faces/common.ts:557's body — `let s = 0; for (const ring of faceRouteRings(p, level, f, level)) s += area2(ring.map((v) => lp(p.vertices.x[v], p.vertices.y[v]))); return s;` (`area2` from '../num/index.js', `lp` from '../num/exact.js'; its doc sentence 'twice the face's area (cm²) over its own-level route rings, outer counter-clockwise and holes clockwise: exact') — equal by construction to invariants/batch.ts:529's (pointOf) and tx/tx.ts:337's (routePoints) on every face, which R7, R11 and R6 adopt later; NO CALLER CHANGED here (J270 (b)); a pin in test/index/items.test.ts holds faceArea2 equal to faces/common.ts's and invariants' on the fixtures and the fuzz arenas' faces (the coexisting copies as the oracle). index/index.ts untouched (J263 Q1): faceArea2 is file-level; the index comment loses the scaffold sentence (§2's rule), its exports byte-identical. test/index (§3.4): no merge; support.ts:62–68's mulberry32 copy → `import { rng } from '../arena/support.js'` (T-support-1's home: the same constant 0x6d2b79f5 and >>> 0 arithmetic — the builder shows the first 16 draws of three seeds equal before and after); every describe/it title kept (21 describe / 63 it). ZERO REFUSALS (J264 (5)): the index's registered runs refuse nothing lawful (its checks are structural throws, programming errors by design); 0 → 0 reported. Rulings in force: J263 Q1, Q6, Q7, Q8; J270 (a), (b).",
+   "lines": [
+    {
+     "line": "X-1: BOX_RANGE from num/exact.ts; stamp/keyName from arena/resolve.ts (debugCheck stays, 'index: ' prefix); insideRing on crossingStep with its loop, name and signature kept; five from arena/plat.ts",
+     "evidence": "kernel-plan.md §1.5 X-1, §1.0 N-3 (NUANCE: the half-open rule), N-4, §1.4 A-2, A-3; J270 (a)",
+     "required_change": "ORACLE test/index whole (pointlocate.test.ts's OFFLINE cases, holes, QUARTERS and LAKE; query.test.ts; fuzz.test.ts); mutants M0-a-03 K12, K13, K14 red; the four-case table in the notes; the facade's stamp tests and tx/profiles green"
+    },
+    {
+     "line": "X-2 comment only (J263 Q7): items.ts names encode.ts's runsAt/onward as the format's own walk, kept apart; no T-io-new-1",
+     "evidence": "kernel-plan.md §1.5 X-2; J263 Q7",
+     "required_change": "the comment; nothing else at that site"
+    },
+    {
+     "line": "X-3 NOT DONE (placement.ts's HOT_PIXEL_SQ is the home); X-4: faceArea2 homed in index/items.ts, file-level, faces' body verbatim; a pin equates it with the two coexisting copies; no caller changed",
+     "evidence": "kernel-plan.md §1.5 X-3, X-4, §1.3 T-5; J270 (b)",
+     "required_change": "the export and the pin (items.test.ts: fixtures and the fuzz arenas' faces); every area floor test green (tx/expect.test.ts, clauses.test.ts:221, invariants/fixtures.test.ts, faces/merge.test.ts)"
+    },
+    {
+     "line": "§3.4: test/index/support.ts imports rng from test/arena/support.ts (identical sequences shown); no file merged; titles kept",
+     "evidence": "kernel-plan.md §3.4, §0 (mulberry32 in nine files), R14 T-support-1",
+     "required_change": "the import; the first 16 draws of three seeds before and after in the notes"
+    },
+    {
+     "line": "API frozen (J263 Q1): index/index.ts (the scaffold sentence aside) and the package barrel export the same names; faceArea2 file-level only",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every level digest, golden, registered seed's output, register JSON, refusal code and pinned message text byte-identical before and after; the exported names of every index in the owns and of the barrel identical; every earlier mutant of the item's checks named by the plan's oracles still killed; refusals 0 → 0",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-03.md and -notes.md",
+     "required_change": "the builder keeps the before-values from a mirror of the tree as it was and reports the comparison; the closing checker diffs the exports, re-runs the oracles and re-kills the named mutants with its own evidence"
+    }
+   ]
+  },
+  {
+   "id": "M0-a-15",
+   "from": 1,
+   "round": "C1",
+   "consolidation": {
+    "plan": "plat/docs/build/consolidation/kernel-plan.md",
+    "findings": "O-1 … O-3 (§1.11, round R12): O-1 comment only (J263 Q7), inRange on num's isLatticeCoord, FREE_KIND from the arena; §2's index comment rule; §3.4's test/io row (no merge)"
+   },
+   "session": "R12 of the kernel plan (6b7ac6df; rulings J263, J270), AFTER R1 (num/exact.ts exports isLatticeCoord — c2 on main) and AFTER R4 (M0-a-02 c1 — the plan's order only; nothing of R4 is adopted here). Inside M0-a-15's owns (src/io/, test/io/, plat/packages/testkit/test/kernel/io/) and nowhere else: O-1 COMMENT ONLY (J263 Q7: a persisted format is fail-safety class, N-45 (b); the random-batch round trip is necessary, not sufficient): encode.ts's onward/runsAt doc (:67–75) names index/items.ts's routeRun/routePieces as the same runs by definition (a level-r run is the run cut at the vertices of level ≤ r), kept as the format's own reader — no T-io-new-1, no code change; O-2 format.ts:45–48 `inRange(x, y)` becomes `return isLatticeCoord(x) && isLatticeCoord(y);` with `import { isLatticeCoord } from '../num/exact.js'` — the same truth table on every input (Number.isInteger and |v| < 2²³: LATTICE.rangeCm is 8_388_608, format.ts's HALF; NaN and ±∞ false on both sides); HALF and SPAN stay for pointKey (SPAN is the format's own 2²⁴ — N-4: another meaning, left); O-3 decode.ts:84 `const FREE_KIND = 0xffff` deleted, `import { FREE_KIND } from '../arena/index.js'` (plat.ts:49's, public, the same 0xffff); VERTEX_FLAG_MASK = 7 stays (no twin); io/index.ts loses its scaffold sentence (§2's rule), its exports byte-identical (J263 Q1); test/io (§3.4): no merge, every title kept (30 it); testkit/test/kernel/io untouched unless a title there reads a changed name (none expected — the builder greps). NOTE from M0-a-02 c1 (its notes N-c1-6): io/roundtrip.test.ts 'random batch arenas (default mix)' runs 5.2–5.6 s on the cloud containers against vitest's 5 s default timeout — the seats run NEAR and the mirrors' io runs with --testTimeout=60000 and say so in their notes; a timeout is not a red, an assertion is. ZERO REFUSALS (J264 (5)): the io's registered runs (the round trips) refuse nothing lawful — corrupt.test.ts's refusals are unlawful bytes by design (E_… on a corrupt chunk); 0 → 0 reported. Rulings in force: J263 Q1, Q6, Q7, Q8; J270 (b).",
+   "lines": [
+    {
+     "line": "O-1 comment only (J263 Q7): the encoder's run walk stays; its comment names items.ts's routeRun/routePieces as the same runs by definition",
+     "evidence": "kernel-plan.md §1.11 O-1, §1.5 X-2; J263 Q7",
+     "required_change": "the comment; nothing else at that site"
+    },
+    {
+     "line": "O-2: inRange on num's isLatticeCoord (the same truth table; HALF/SPAN kept for pointKey); O-3: FREE_KIND imported from the arena (VERTEX_FLAG_MASK stays)",
+     "evidence": "kernel-plan.md §1.11 O-2, O-3, §1.0 N-4; num/lattice.ts rangeCm 8_388_608",
+     "required_change": "ORACLE io/* whole: roundtrip.test.ts byte-identical save→load→save on random batch arenas, format.test.ts 'no slot enters the bytes', corrupt.test.ts, outer-ring.test.ts, compact.test.ts, digests.test.ts; testkit's kernel/io round trips; mutants M0-a-15 K3–K8, K10, K11 red, K9 and K12 as recorded"
+    },
+    {
+     "line": "API frozen (J263 Q1): io/index.ts (the scaffold sentence aside) and the package barrel export the same names",
+     "evidence": "J263 Q1",
+     "required_change": "the builder diffs the exported names before and after; the checker repeats it"
+    },
+    {
+     "line": "NO-SHIFT (J260 (3), J263 Q1): the kernel's whole test set green; every arena block's bytes, level digest, golden, registered seed's output, refusal code and pinned message text byte-identical before and after; every earlier mutant of the item's checks still killed; refusals 0 → 0; the 5 s timeout note honoured",
+     "evidence": "J260 (3); J264 (5); checks/M0-a-15.md and -notes.md; M0-a-02's notes N-c1-6",
+     "required_change": "the builder keeps the before-values (the encoded blocks of the fixtures and of seeded random batch arenas) from a mirror of the tree as it was and reports the comparison; the closing checker re-proves it with its own before-image and re-kills the named mutants with its own evidence"
+    }
+   ]
   }
  ]
 }
