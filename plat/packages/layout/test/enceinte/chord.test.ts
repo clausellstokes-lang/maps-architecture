@@ -1,9 +1,9 @@
-// M0-c-02 session round s2 (N-54 (1) residual; M0-e-06 s1 check note 14): a water gate's wet side IS its chord — one
-// wall edge between its two gate_end vertices. On relief-60 CITY seed 9 (stage 2) gate:w0's chord ran from its bank pin
-// (−13928, −90189) past the shore vertex (−13908, −90171), 27 cm along the shore and 11 cm off the chord, so the
-// insertion routed it through that vertex (§3.6 step 3): a 27 cm shore edge carrying wall_gate, then a 47.25 m wet side
-// ending on one pin only. The banks are now settled on the arena's vertices before they are pinned (water.ts), and the
-// strategy's proofs are strict: a crossing with no clear chord is refused before the pull, and inside the batch each
+// M0-c-02, the one-chord rule (C-0300 (1); N-54 (1)): a water gate's wet side IS its chord — one wall edge between its
+// two gate_end vertices. The registered replay (relief-60 CITY seed 9, stage 2) holds the case: gate:w0's chord from its
+// bank pin (−13928, −90189) passes the shore vertex (−13908, −90171), 27 cm along the shore and 11 cm off the chord,
+// through which the insertion would route it (§3.6 step 3) — a 27 cm shore edge carrying wall_gate, then a 47.25 m wet
+// side ending on one pin only. So the banks are settled on the arena's vertices before they are pinned (water.ts), and
+// the strategy's proofs are strict: a crossing with no clear chord is refused before the pull, and inside the batch each
 // water gate's wall_gate run must be exactly one edge joining its two gate_end vertices (E_INVARIANT `water`, nothing
 // written). The strict reading here is M0-e-06's receipt's, measured from the arena's own tables: a wall edge over the
 // water (sampled every 25 cm, strictly inside and more than 2 cm from the shore) is gated only when it carries exactly
@@ -14,25 +14,10 @@ import { err, STAGES, type Kernel, type KernelTx, type LatticePoint, type StageI
 import type { GateSite, WaterSet } from '@plat/model';
 import { commitOuterRing, crossWater, siteContext, traceBase, WET_TOL_CM } from '../../src/index.js';
 import { ccw, lat, openRing } from '../../src/enceinte/plane.js';
-import { densify, edgesWith, GROUND, handBuildWater, incidentRows, insideRing, kernelFor, P, ringDist, smallSite, verticesWith, type EdgeInfo } from './support.js';
+import { densify, depthOf, edgesWith, GROUND, handBuildWater, incidentRows, kernelFor, P, smallSite, verticesWith, type EdgeInfo } from './support.js';
 
 type Pt = { x: number; y: number };
 const same = (a: Pt, b: Pt): boolean => a.x === b.x && a.y === b.y;
-
-/** The deepest point of segment ab inside the ring (cm; 0 when none lies inside), sampled every 25 cm. */
-function depthOf(a: Pt, b: Pt, ring: readonly Pt[]): number {
-  const len = Math.hypot(b.x - a.x, b.y - a.y);
-  const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
-  const dm = ringDist(mid, ring);
-  if (dm > len / 2 + 10) return insideRing(ring, mid) ? dm : 0;
-  const n = Math.max(2, Math.ceil(len / 25));
-  let worst = 0;
-  for (let s = 1; s < n; s += 1) {
-    const q = { x: a.x + ((b.x - a.x) * s) / n, y: a.y + ((b.y - a.y) * s) / n };
-    if (insideRing(ring, q)) worst = Math.max(worst, ringDist(q, ring));
-  }
-  return worst;
-}
 
 /** The strict reading (M0-e-06's): every wall edge of `entity` over the water, and how many of them are no gate's chord. */
 function strictReading(plat: Parameters<typeof edgesWith>[0], entity: string, gates: readonly string[], ring: readonly Pt[]): { wet: EdgeInfo[]; ungated: EdgeInfo[] } {

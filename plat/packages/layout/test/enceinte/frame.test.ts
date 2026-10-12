@@ -1,9 +1,9 @@
-// M0-c-02 session round s1 (N-54 (1) Q6): two cuts at one point. `clipOutside` (the strips' cut by their stops and the
-// frame) and `crossWater` (the boundary's water crossings) set "wrap" on two coincident cuts — a gate corridor's flat
-// cap lying on the map border, a boundary side through a shore vertex — and walked the whole line round again: EP-20
-// seed 496296019 kept the whole glacis ring and committed setback vertices up to 125 cm beyond the frame. Only the last
-// cut wraps now (a behaviour shift on coincident-cut inputs only), and `layStrips` given the frame refuses a setback
-// vertex beyond it (E_INVARIANT), nothing written.
+// M0-c-02, two cuts at one point (C-0282 (7); §4.13 wall × frame): `clipOutside` (the strips' cut by their stops and
+// the frame) and `crossWater` (the boundary's water crossings) wrap only on the last cut, so two coincident cuts — a gate
+// corridor's flat cap lying on the map border, a boundary side through a shore vertex — are a stretch of no length,
+// never the whole line again; and `layStrips` given the frame refuses a setback vertex beyond it (E_INVARIANT), nothing
+// written. The registered fixture fixtures/ep20-496296019.json (EP-20 seed 496296019) is the case: a wrap on its
+// coincident cuts keeps the whole glacis ring and sets setback vertices up to 125 cm beyond the frame.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { STAGES, type KernelTx, type StageId } from '@plat/kernel';

@@ -16,11 +16,12 @@
 // the strip's width of the trace and outside every corridor (C-0226 (10)) — "outside" up to N-43 B's fidelity bound: a
 // vertex of the face may stand inside a corridor by at most `CORRIDOR_SLACK_CM` (a cap's end the insertion attracted onto
 // a trace vertex near the corridor's edge; a previous enceinte's setback vertex at its own corridor's edge, which the
-// stage's corridor along the trace's normal grazes — N-56 (3) Q22, C-0311); a face holding a gate's vertex or a vertex
-// deeper in a corridor crosses the corridor and is no strip, and a side left with no strip face is refused with that
-// face's vertex and its cause named. Given the frame, a setback vertex beyond it
-// refuses the strips E_INVARIANT, nothing written (N-54 (1) Q6: the wall × frame cell's law, never a line past the map
-// border).
+// stage's corridor along the trace's normal grazes — N-56 (3), C-0311). The corridor-depth refusal (C-0311): a strip
+// face holding a gate's vertex, or a vertex deeper than `CORRIDOR_SLACK_CM` inside a corridor, crosses the corridor and
+// is no strip, and a side left with no strip face is refused E_INVARIANT with that face's vertex and its cause named.
+// The frame proof (C-0282 (7); §4.13's wall × frame law, never a line past the map border): given the frame, every
+// setback vertex lies inside the frame or on its border, before the batch and inside it; one beyond it refuses the
+// strips E_INVARIANT, nothing written.
 import { buffer, err, LATTICE, orient2d, STAGES, type Kernel, type KernelResult, type LatticePoint, type PlatKey } from '@plat/kernel';
 import type { Enceinte, Id } from '@plat/model';
 import type { Row } from '@plat/tables';
@@ -49,9 +50,9 @@ export interface LayStripsOptions {
 /**
  * How far a strip face's vertex may stand inside a way's corridor and the face still be the strip's (cm): N-43 B's
  * fidelity bound, 2 · √2 · `attractCm` ≈ 73.5 cm — the farthest the insertion may set a vertex from the input it was
- * given on the corridor's edge (C-0311; N-56 (3) Q22: the rejected vertices of the refused seeds stood 6 – 20 cm inside).
- * A corridor is 7 m or more from its centreline at CITY (C-0226 (10)), so a face crossing it holds its gate vertex or a
- * vertex deeper than this.
+ * given on the corridor's edge (C-0311; N-56 (3)). A corridor is 7 m or more from its centreline at CITY (C-0226 (10)),
+ * so a face crossing it holds its gate vertex or a vertex deeper than this: such a face is no strip face, and a side
+ * left with none is refused E_INVARIANT, the vertex and its depth named (C-0311).
  */
 export const CORRIDOR_SLACK_CM = Math.sqrt(8 * LATTICE.attractCm * LATTICE.attractCm);
 
@@ -331,8 +332,8 @@ export function layStrips(enceinte: Enceinte, eraRow: Row, k: Kernel, opts: LayS
   const framed = (q: XY): boolean => opts.frame === undefined || inside(opts.frame, q);
   const innerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.inner) ? [] : [a.inner]));
   const outerArcProbes = arcProbes.flatMap((a) => (a === null || wet(a.outer) || !framed(a.outer) ? [] : [a.outer]));
-  // Given the frame, every setback vertex inside it or on the border (N-54 (1) Q6), before the batch and again where the
-  // insertion placed it.
+  // Given the frame, every setback vertex lies inside the frame or on its border, before the batch and again where the
+  // insertion placed it (C-0282 (7)).
   const beyond = (q: XY): boolean => opts.frame !== undefined && !insideRing(opts.frame, q, true);
   const frameRefusal = (q: XY): { ok: false; code: 'E_INVARIANT'; detail: string } => ({ ok: false, code: 'E_INVARIANT', detail: `layStrips: a setback vertex (${String(q.x)}, ${String(q.y)}) lies beyond the frame (§4.13 wall × frame; N-54 (1))` });
   for (const c of [...innerChains, ...outerChains, ...borderCaps]) {

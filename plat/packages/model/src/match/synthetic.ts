@@ -38,7 +38,11 @@ export interface SyntheticSet {
 
 const U32 = 2.3283064365386963e-10; // 2⁻³²
 
-/** mulberry32 over a u32 seed: a deterministic stream in [0, 1). */
+/**
+ * mulberry32 over a u32 seed: a deterministic stream in [0, 1). The synthetic workload's own cheap generator, not the
+ * model's RNG (the kernel's keyed streams, §6.1, which take a seed key and a concern a workload fixture has none of);
+ * the digest's workload (digest/workload.ts) carries its twin.
+ */
 function stream(seed: number): () => number {
   let a = seed >>> 0;
   return () => {

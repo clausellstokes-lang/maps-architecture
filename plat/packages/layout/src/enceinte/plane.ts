@@ -3,10 +3,14 @@
 // or lattice points); every division by a variable goes through `ratio` (§3.2 (8), C-0044), every real function other
 // than + − × ÷ and √ through the kernel's dmath (§6.5 (2)). No arena is read here.
 import { LATTICE, orient2d, snap, type LatticePoint } from '@plat/kernel';
-import { insideRing, quot } from '../siting/geom.js';
+import { insideRing, quot, segmentsMeet } from '../siting/geom.js';
 import type { XY } from './types.js';
 
-/** Two segments closer than this touch (a vertex within attraction of an edge would be attracted onto it, §3.6). */
+/**
+ * Two segments closer than this touch: the insertion's attraction distance (`LATTICE.attractCm`, 26 cm; a vertex within
+ * it of an edge would be attracted onto that edge, §3.6). Not the infill planner's half-unit `TOUCH_CM` (0.5 cm), a
+ * different quantity under the same name.
+ */
 export const TOUCH_CM = LATTICE.attractCm;
 
 /** The lattice point nearest (x, y); RangeError off the lattice's range (the kernel's one door, §3.2 (7)). */
@@ -76,24 +80,15 @@ export function footOn(p: XY, a: XY, b: XY): { at: XY; t: number; d2: number } {
 
 /** The squared distance of segments ab and cd (0 when they meet). */
 export function segD2(a: XY, b: XY, c: XY, d: XY): number {
-  if (segmentsCross(a, b, c, d)) return 0;
+  if (segmentsMeet(a, b, c, d)) return 0;
   return Math.min(footOn(a, c, d).d2, footOn(b, c, d).d2, footOn(c, a, b).d2, footOn(d, a, b).d2);
 }
 
-/** Do the closed segments ab and cd meet (touch or cross)? orient2d's signs. */
-export function segmentsCross(a: XY, b: XY, c: XY, d: XY): boolean {
-  const o1 = Math.sign(orient2d(a.x, a.y, b.x, b.y, c.x, c.y));
-  const o2 = Math.sign(orient2d(a.x, a.y, b.x, b.y, d.x, d.y));
-  const o3 = Math.sign(orient2d(c.x, c.y, d.x, d.y, a.x, a.y));
-  const o4 = Math.sign(orient2d(c.x, c.y, d.x, d.y, b.x, b.y));
-  if (o1 !== o2 && o3 !== o4) return true;
-  const on = (p: XY, q: XY, r: XY): boolean => Math.min(p.x, q.x) <= r.x && r.x <= Math.max(p.x, q.x) && Math.min(p.y, q.y) <= r.y && r.y <= Math.max(p.y, q.y);
-  if (o1 === 0 && on(a, b, c)) return true;
-  if (o2 === 0 && on(a, b, d)) return true;
-  if (o3 === 0 && on(c, d, a)) return true;
-  if (o4 === 0 && on(c, d, b)) return true;
-  return false;
-}
+/**
+ * Do the closed segments ab and cd meet (touch or cross)? The package's one exact test, `siting/geom.ts`'s `segmentsMeet`
+ * (orient2d's signs), under the name this module has always exported.
+ */
+export { segmentsMeet as segmentsCross };
 
 /**
  * The parameters (t on ab, u on cd) where segment ab properly crosses the line of segment cd within both segments, or
@@ -247,7 +242,7 @@ export function crossesCore(line: readonly XY[], core: readonly (readonly XY[])[
       const a = line[i];
       const b = line[i + 1 === line.length ? 0 : i + 1];
       for (let j = 0; j < ring.length; j += 1) {
-        if (segmentsCross(a, b, ring[j], ring[j + 1 === ring.length ? 0 : j + 1])) return true;
+        if (segmentsMeet(a, b, ring[j], ring[j + 1 === ring.length ? 0 : j + 1])) return true;
       }
     }
   }
@@ -354,7 +349,7 @@ export function clipOutside(line: readonly XY[], closed: boolean, regions: reado
     const b = cuts[(i + 1) % cuts.length];
     // Only the last cut wraps round to the first: two cuts at one point (two regions' boundaries crossing the line
     // there — a gate corridor's flat cap lying on the map border) are a stretch of no length, never the whole line
-    // again (N-54 (1) Q6: EP-20 seed 496296019 kept the whole glacis ring and committed it 125 cm beyond the frame).
+    // again (C-0282 (7); pinned by the registered fixture test/enceinte/fixtures/ep20-496296019.json).
     const wrap = i + 1 === cuts.length;
     const pts = stretch(a, b, wrap);
     if (long(pts) && outside(mid(pts))) pieces.push({ points: pts, startOn: a.r, endOn: b.r });

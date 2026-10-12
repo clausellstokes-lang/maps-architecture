@@ -27,6 +27,9 @@ import { commitOuterRing, commitS3Slice, flatFixture, s3Slice, type CommitOption
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
 
+/** The first enceinte's wall chain: the `wall` role on `enceinte:1`. */
+export const WALL = { role: 'wall', entity: 'enceinte:1' };
+
 /** A lattice point. */
 export function P(x: number, y: number): LatticePoint {
   return { x, y } as LatticePoint;
@@ -214,6 +217,25 @@ export function insideRing(ring: readonly { x: number; y: number }[], q: { x: nu
     if (a.y > q.y !== b.y > q.y && q.x < ((b.x - a.x) * (q.y - a.y)) / (b.y - a.y) + a.x) inside = !inside;
   }
   return inside;
+}
+
+/**
+ * The deepest point of segment ab inside the ring (cm; 0 when none lies inside), sampled every `step` cm: water measured
+ * independently of the code (wet when strictly inside the ring, by its distance from the ring's line).
+ */
+export function depthOf(a: { x: number; y: number }, b: { x: number; y: number }, ring: readonly { x: number; y: number }[], step = 25): number {
+  // Far from the ring's line by more than half the segment: the whole segment is on one side of it.
+  const len = Math.hypot(b.x - a.x, b.y - a.y);
+  const mid = { x: (a.x + b.x) / 2, y: (a.y + b.y) / 2 };
+  const dm = ringDist(mid, ring);
+  if (dm > len / 2 + 10) return insideRing(ring, mid) ? dm : 0;
+  const n = Math.max(2, Math.ceil(len / step));
+  let worst = 0;
+  for (let s = 1; s < n; s += 1) {
+    const q = { x: a.x + ((b.x - a.x) * s) / n, y: a.y + ((b.y - a.y) * s) / n };
+    if (insideRing(ring, q)) worst = Math.max(worst, ringDist(q, ring));
+  }
+  return worst;
 }
 
 /** Twice the signed area. */

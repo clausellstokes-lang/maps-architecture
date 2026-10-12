@@ -8,9 +8,7 @@ import { describe, expect, it } from 'vitest';
 import { booleans, buffer, roleNamed, STAGES, type KernelTx, type LatticePoint, type StageId } from '@plat/kernel';
 import type { GateSite } from '@plat/model';
 import { commitOuterRing, commitS3Batch, flatFixture, layStrips, s3Slice, siteContext, stripWidths, traceBase, WAY_SPAN_NODES } from '../../src/index.js';
-import { closedChain, commitSite, densify, edgesWith, GROUND, insideRing, kernelFor, ringDist, segDist, smallCommitted, smallSite, wallsWith, type Committed } from './support.js';
-
-const WALL = { role: 'wall', entity: 'enceinte:1' };
+import { closedChain, commitSite, densify, edgesWith, GROUND, insideRing, kernelFor, ringDist, segDist, smallCommitted, smallSite, WALL, wallsWith, type Committed } from './support.js';
 
 /** The faces an owner holds at L1 and their outer rings. */
 function ownedFaces(c: Committed, owner: string): { face: number; ring: LatticePoint[] }[] {

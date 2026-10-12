@@ -66,6 +66,11 @@ export function median(xs: readonly number[]): number {
   return s[(s.length - 1) >> 1];
 }
 
+/**
+ * A time per entity in µs: ms × 1000 ÷ n through the kernel's ratio() under kind `count` (floor 1, §3.2 (8), C-0044),
+ * 0 for no entity. Kept apart from match.ts's `inverse`, geometry.ts's `div` and `shareOf` below; refuses with
+ * "match: no per-entity time without entities".
+ */
 const perEntity = (ms: number, n: number): number => {
   if (n === 0) return 0;
   const r = ratio(ms * 1000, n, 'count');
@@ -126,7 +131,9 @@ export function timeMatch(
     callMs.push(call);
     let probed = 0;
     for (const k of kinds) probed += ms.get(k) ?? 0;
-    // The call's unprobed time, shared across kinds by their re-derived old entities.
+    // The call's unprobed time, shared across kinds by their re-derived old entities: unprobed × n ÷ allEntities
+    // through ratio() under kind `count` (floor 1, C-0044), 0 for no entity; its own quotient beside `perEntity`, refusing
+    // with "match: no share of the unprobed time without entities".
     const unprobed = call - probed;
     const shareOf = (n: number): number => {
       if (n === 0) return 0;
