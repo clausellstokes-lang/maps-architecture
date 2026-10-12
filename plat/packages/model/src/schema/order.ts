@@ -6,7 +6,7 @@
 // sub-records, references, profiles — are encoded by the digest's own rule (M0-d-04). The table follows the design's
 // declaration order: a field a later milestone un-stages enters at its design position (an insertion, not always an
 // append), and any changed order moves every leaf of its kind, so test/schema/'s snapshot holds it (C-0145).
-import type { EntityKind } from '../types/vocabulary.js';
+import type { EntityKind } from '../types/index.js';
 import { M0_KINDS, type RecordKind, type RecordOf } from './kinds.js';
 
 /** A record's attribute names: every field but the leaf header's `id` and `lifecycle`. */

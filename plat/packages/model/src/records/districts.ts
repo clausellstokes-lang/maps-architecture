@@ -3,18 +3,27 @@
 // optional fields whose types §2.5 and §2.8 state; its other required fields, and `Block.frontages` (S9's, M1), are
 // staged (schema/staged.ts, C-0142 (2)). `Plot` and `Allocation` are declared whole: no M0 stage writes them, and the
 // digest's schema-shaped workload reads their shape (C-0015). Types only.
-import type { ChainRef, Cdeg, Cm, EdgeSetRef, FaceRef, Id, M, PointCm, StageId, VertexRef } from '../types/index.js';
-import type { Lifecycle } from '../types/identity.js';
 import type {
   AssignmentRef,
   BuildingClass,
+  ChainRef,
+  Cdeg,
+  Cm,
   DerivationRecord,
   DistrictKind,
+  EdgeSetRef,
   FabricStrategyId,
+  FaceRef,
+  Id,
+  Lifecycle,
+  M,
   NameRef,
   PlotUse,
+  PointCm,
+  StageId,
   TextRef,
-} from '../types/vocabulary.js';
+  VertexRef,
+} from '../types/index.js';
 import type { WayClass } from './network.js';
 
 /** A district (§2.5): feature-named, data-defined, never a social class — the fields M0 writes (C-0142 (2)). */
