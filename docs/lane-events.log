@@ -8013,3 +8013,4 @@
 2026-10-12 01:52 check/M0-c-02-close-s4 CHECKPOINT census AFTER at family ~600/1000; next: compare, mutants Y01-Y19, NEAR, RELATED
 2026-10-12 01:59 build/M0-m-01-consolidate-1 CHECKPOINT RELATED@1000 still running (since 23:50, W=1); reds so far only testkit edge/standing seed 1595424233 (foreign known); next: wait, landed
 2026-10-12 02:04 build/M0-a-09-fix-s3 CHECKPOINT RELATED at 1000 still running; red so far: testkit edge/standing.test.ts (the session's known foreign red, M0-e-03 s1's seed 1595424233 — to confirm); next: verdict
+2026-10-12 02:07 check/M0-f-03a-consolidate-close-1 CHECKPOINT RELATED@1000 still running (since 00:07, W=1); one red so far = testkit edge/standing cell/river×frame seed 1595424233 (brief-listed M0-e-03 s1, foreign); next: wait, fill verdict, records
