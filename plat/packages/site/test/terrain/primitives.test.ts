@@ -5,7 +5,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { cdeg, streamFromKey } from '@plat/kernel';
 import { buildTerrain, GROUND_KEY, preparePrimitive, primitivesOffsetCm, sitePrimitives, type SitePrimitive } from '../../src/terrain/index.js';
-import { frame, paramsOf, pt } from './support.js';
+import { frame, paramsOf, pt, terrainOf } from './support.js';
 
 const at0 = pt(0, 0);
 
@@ -111,11 +111,7 @@ describe('the primitives together', { timeout: 60_000 }, () => {
     const params = paramsOf('TOWN');
     const f = frame(0.3);
     const hill: SitePrimitive = { kind: 'hill', at: pt(2000, 1000), radiusM: 120, heightM: 45 };
-    const make = (prims: SitePrimitive[]) => {
-      const r = buildTerrain({ id: 'terrain:t', key: GROUND_KEY, frame: f, params, epoch: 0 }, { relief: 'rolling', primitives: prims }, streamFromKey([2, 4, 6, 8]));
-      if (!r.ok) throw new Error(r.detail);
-      return r.value;
-    };
+    const make = (prims: SitePrimitive[]) => terrainOf(f, { relief: 'rolling', primitives: prims }, params, [2, 4, 6, 8]).terrain;
     const bare = make([]);
     const with1 = make([hill]);
     const prep = preparePrimitive(hill);

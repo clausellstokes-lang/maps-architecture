@@ -20,7 +20,9 @@ export const TOWN_ROOT = 0 as Handle;
 /** The ground terrain's address at M0 (C-0165 (6)): §6.3's minting (M0-d-05a) gives the record its lineage address. */
 export const TERRAIN_ID: Id = 'terrain:ground';
 
-function isBaseRung(r: string): r is BaseRung {
+/** Is `r` one of the base ladder's rungs (`@plat/tables`' BASE_RUNGS)? File-level: shared by path inside `@plat/site`,
+ * not part of the package's API (J263 Q1's convention). */
+export function isBaseRung(r: string): r is BaseRung {
   return (BASE_RUNGS as readonly string[]).includes(r);
 }
 

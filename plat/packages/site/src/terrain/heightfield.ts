@@ -33,7 +33,12 @@ export interface TerrainSpec {
 /** The ground arena's key (§2.1): layer `ground`, part 0. */
 export const GROUND_KEY: PlatKey = Object.freeze({ layer: 'ground', part: 0 }) as PlatKey;
 
-function generated(epoch: number): Lifecycle {
+/**
+ * The lifecycle of a record S1 generates in `epoch` (§2.8): `generated`, no flag set, `since.seq` 0 (C-0142) — a fresh
+ * object per call, since the records are plain and later steps write on them. File-level: shared by path inside
+ * `@plat/site`, not part of the package's API (J263 Q1's convention).
+ */
+export function generatedLifecycle(epoch: number): Lifecycle {
   return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
 }
 
@@ -63,7 +68,7 @@ function record(spec: TerrainSpec, grid: CellGrid, heights: Int32Array, datumCm:
     seaLevelCm: (datumCm === 0 ? 0 : -datumCm) as Cm,
     wind: wind === undefined ? { bearingCdeg: 0, strength: 0 } : { bearingCdeg: wind.bearingCdeg, strength: wind.strength },
     features,
-    lifecycle: generated(spec.epoch),
+    lifecycle: generatedLifecycle(spec.epoch),
   };
 }
 

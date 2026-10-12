@@ -1,12 +1,14 @@
 // M0-e-01: the rasters' geometry (§2.3 *The rasters*, §3.2 (9)). The item's test: "the raster's cols × rows follow the
 // frame's width × height and the margin" — plus the resolution by rung (TOWN 5 m, CITY 8 m, METROPOLIS 10 m), the
 // hydrology grid over the same extent (200², 320², 400² cells at the rungs' targets, §2.3's own receipt), the frame law
-// (siteFrame) and the flat fixture's constant raster (M0-c-01's).
+// (siteFrame), a cell number's centre (cellCentre, the grids' one reader of it) and the flat fixture's constant raster
+// (M0-c-01's).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { cdeg } from '@plat/kernel';
 import { rungProfile } from '@plat/tables';
-import { arenaReach, coveringGrid, flatTerrain, GROUND_KEY, heightGrid, siteFrame } from '../../src/terrain/index.js';
+import { arenaReach, centreX, centreY, coveringGrid, flatTerrain, GROUND_KEY, heightGrid, hydroGridOver, siteFrame } from '../../src/terrain/index.js';
+import { cellCentre } from '../../src/terrain/grid.js';
 import { frame, paramsOf, pt, TABLES, terrainOf } from './support.js';
 
 describe('the height raster follows the frame and its margin (§2.3, §3.2 (9))', { timeout: 60_000 }, () => {
@@ -103,6 +105,44 @@ describe('the hydrology grid over the same extent (§2.3, J-K12)', { timeout: 60
     }
     expect(() => coveringGrid(g, 0)).toThrow(RangeError);
     expect(() => heightGrid(frame(3), 2.5)).toThrow(RangeError);
+  });
+
+  it('cellCentre: cell c\'s centre is centreX, centreY of its column c % cols and its row by the reciprocal, to the double', () => {
+    // Every cell of the height raster and of the hydrology and resource grids over it, at two rungs' cells.
+    for (const cell of [500, 800]) {
+      const g = heightGrid(frame(0.7, 1.4), cell);
+      for (const grid of [g, hydroGridOver(g, 2500), coveringGrid(g, 3200)]) {
+        const inv = 1 / grid.cols;
+        for (let j = 0; j < grid.rows; j += 1) {
+          for (let i = 0; i < grid.cols; i += 1) {
+            const p = cellCentre(grid, j * grid.cols + i, inv);
+            if (p.x !== centreX(grid, i) || p.y !== centreY(grid, j)) expect([i, j, p]).toEqual([i, j, { x: centreX(grid, i), y: centreY(grid, j) }]);
+          }
+        }
+      }
+    }
+    // Any grid: the column and row recovered exactly, the centre origin + (i + ½) · cell on each axis.
+    fc.assert(
+      fc.property(
+        fc.integer({ min: 1, max: 5000 }),
+        fc.integer({ min: 1, max: 5000 }),
+        fc.integer({ min: 1, max: 100_000 }),
+        fc.integer({ min: -(2 ** 24), max: 2 ** 24 }),
+        fc.integer({ min: -(2 ** 24), max: 2 ** 24 }),
+        fc.double({ min: 0, max: 1, maxExcluded: true, noNaN: true }),
+        fc.double({ min: 0, max: 1, maxExcluded: true, noNaN: true }),
+        (cols, rows, cellCm, originX, originY, u, v) => {
+          const grid = { cellCm, cols, rows, originX, originY };
+          const i = Math.floor(u * cols);
+          const j = Math.floor(v * rows);
+          const p = cellCentre(grid, j * cols + i, 1 / cols);
+          expect(p.x).toBe(centreX(grid, i));
+          expect(p.y).toBe(centreY(grid, j));
+          expect([p.x, p.y]).toEqual([originX + (i + 0.5) * cellCm, originY + (j + 0.5) * cellCm]);
+        },
+      ),
+      { numRuns: 2000 },
+    );
   });
 });
 
