@@ -8,10 +8,12 @@
 import { dmath, ratio } from '@plat/kernel';
 import type { CliffPrimitive, HillPrimitive, SitePrimitive, SitePrimitiveKind, TerracePrimitive, ValleyPrimitive } from './types.js';
 
-/** π, to the double. */
-const PI = 3.141592653589793;
-/** Radians per centidegree: π ÷ 18 000. */
-const RAD_PER_CDEG = PI / 18000;
+/** π, to the double (§6.5 (3) admits no `Math.PI`). File-level: shared by path inside `@plat/site`, not part of the
+ * package's API (J263 Q1's convention). */
+export const PI = 3.141592653589793;
+/** Radians per centidegree: π ÷ 18 000, evaluated once at load. File-level: shared by path inside `@plat/site`, not
+ * part of the package's API (J263 Q1's convention). */
+export const RAD_PER_CDEG = PI / 18000;
 
 /** The smooth bump (1 − t²)² for t² < 1, else 0: 1 at its centre, 0 with zero slope at its rim. */
 function bump(t2: number): number {

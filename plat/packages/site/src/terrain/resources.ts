@@ -18,7 +18,7 @@
 // one every cell is land.
 import { fbm, noiseStream, ok, err, ratio, type KernelResult, type Point, type Stream } from '@plat/kernel';
 import type { Terrain, TerrainSampler } from '@plat/model';
-import { centreX, centreY, coveringGrid, type CellGrid } from './grid.js';
+import { centreX, centreY, coveringGrid, rasterGrid, type CellGrid } from './grid.js';
 import { BASE_WAVELENGTH_M, LOW_BAND_M, ROCK_SLOPE, type TerrainParams } from './params.js';
 import { GROUND_CLASSES, type GroundClass, type ReliefClass, type SiteResources } from './types.js';
 
@@ -42,14 +42,9 @@ export interface ResourceInput {
   water?: Uint8Array;
 }
 
-/** The height raster's grid of a terrain. */
-function terrainGrid(t: Terrain): CellGrid {
-  return { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
-}
-
 /** The resource grid over `terrain`: `params.baseGridCm` cells over the height raster's extent (C-0165 (4)). */
 export function resourceGrid(terrain: Terrain, params: TerrainParams): CellGrid {
-  return coveringGrid(terrainGrid(terrain), params.baseGridCm);
+  return coveringGrid(rasterGrid(terrain), params.baseGridCm);
 }
 
 /** 2²⁰: a positive share or slope v is inverted as 2²⁰ ÷ (v · 2²⁰) — exact scaling, so it is 1 ÷ v to the bit. */

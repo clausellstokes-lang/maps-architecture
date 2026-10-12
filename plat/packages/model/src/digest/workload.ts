@@ -35,7 +35,11 @@ export interface SyntheticCity {
 
 const U32 = 2.3283064365386963e-10; // 2⁻³²
 
-/** mulberry32 over a u32 seed. */
+/**
+ * mulberry32 over a u32 seed: a deterministic stream of u32 words and of units in [0, 1). The synthetic workload's own
+ * cheap generator, not the model's RNG (the kernel's keyed streams, §6.1, which take a seed key and a concern a workload
+ * fixture has none of); the matching module's synthetic workload (match/synthetic.ts) carries its twin.
+ */
 function stream(seed: number): { u32: () => number; unit: () => number } {
   let a = seed >>> 0;
   const u32 = (): number => {

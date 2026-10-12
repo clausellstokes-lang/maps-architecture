@@ -7,7 +7,7 @@ import { CONCERNS, fbm, noiseStream, streamFromKey } from '@plat/kernel';
 import type { Terrain } from '@plat/model';
 import { BASE_WAVELENGTH_M, baseTerrain, buildTerrain, GROUND_KEY, heightGrid, siteFrame, TERRAIN_ID, TOWN_ROOT, type TerrainBlueprint } from '../../src/terrain/index.js';
 import { rungProfile } from '@plat/tables';
-import { extremes, frame, noiseFor, paramsOf, pt, siteContext, TABLES } from './support.js';
+import { extremes, frame, noiseFor, paramsOf, pt, siteContext, TABLES, terrainOf } from './support.js';
 
 const BP: TerrainBlueprint = {
   size: {},
@@ -86,11 +86,7 @@ describe('baseTerrain.terrain(bp, ctx, k) (§4.12)', { timeout: 60_000 }, () => 
 describe('S1 (1)\'s heightfield mechanism (§4.2 S1 (1))', { timeout: 60_000 }, () => {
   const params = paramsOf('TOWN');
   const f = frame(1.5, 1.25);
-  const build = (relief: 'plain' | 'rolling' | 'hilly' | 'mountainous', p = params, key = [4, 3, 2, 1]): Terrain => {
-    const r = buildTerrain({ id: 'terrain:t', key: GROUND_KEY, frame: f, params: p, epoch: 0 }, { relief }, streamFromKey(key));
-    if (!r.ok) throw new Error(r.detail);
-    return r.value;
-  };
+  const build = (relief: 'plain' | 'rolling' | 'hilly' | 'mountainous', p = params, key = [4, 3, 2, 1]): Terrain => terrainOf(f, { relief }, p, key).terrain;
 
   it('scales the fBm by the relief class\'s amplitude: one noise, the spread in the table\'s ratio', () => {
     const spread: number[] = [];

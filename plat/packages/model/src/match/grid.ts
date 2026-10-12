@@ -5,6 +5,7 @@
 // overlap-anchored kinds when no spatial index is handed in, and the covering test of a tombstone's anchor. Lookups
 // only: no output reads the order a map holds (every pair is sorted by its key before it is assigned).
 import type { Box } from '@plat/kernel';
+import { boxesMeet } from './geometry.js';
 
 /** Cell coordinates are offset by 2²⁴ and packed with a stride of 2²⁶, exact in a double. */
 const OFFSET = 16_777_216;
@@ -98,9 +99,7 @@ export function boxGrid(boxes: readonly Box[], inv: (cell: number) => number): B
   return g;
 }
 
-const meets = (a: Box, b: Readonly<Box>): boolean => a.minX <= b.maxX && b.minX <= a.maxX && a.minY <= b.maxY && b.minY <= a.maxY;
-
-/** The indices of the boxes meeting the closed box `q`, each once, ascending. */
+/** The indices of the boxes meeting the closed box `q` (geometry.ts's `boxesMeet`), each once, ascending. */
 export function boxQuery(g: BoxGrid, q: Readonly<Box>): number[] {
   const out: number[] = [];
   if (g.boxes.length === 0) return out;
@@ -111,7 +110,7 @@ export function boxQuery(g: BoxGrid, q: Readonly<Box>): number[] {
   const seen = new Set<number>();
   if ((x1 - x0 + 1) * (y1 - y0 + 1) > g.boxes.length) {
     // The query meets more cells than the grid holds boxes: read every box once instead.
-    for (let i = 0; i < g.boxes.length; i += 1) if (meets(g.boxes[i], q)) out.push(i);
+    for (let i = 0; i < g.boxes.length; i += 1) if (boxesMeet(g.boxes[i], q)) out.push(i);
     return out;
   }
   for (let cx = x0; cx <= x1; cx += 1) {
@@ -121,11 +120,11 @@ export function boxQuery(g: BoxGrid, q: Readonly<Box>): number[] {
       for (const i of list) {
         if (seen.has(i)) continue;
         seen.add(i);
-        if (meets(g.boxes[i], q)) out.push(i);
+        if (boxesMeet(g.boxes[i], q)) out.push(i);
       }
     }
   }
-  for (const i of g.large) if (meets(g.boxes[i], q)) out.push(i);
+  for (const i of g.large) if (boxesMeet(g.boxes[i], q)) out.push(i);
   out.sort((a, b) => a - b);
   return out;
 }

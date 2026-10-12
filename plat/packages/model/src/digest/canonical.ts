@@ -1,7 +1,7 @@
 // The canonical text serialisation (§6.2: "sorted keys, integer coordinates, floats as shortest round-trip strings —
 // used only for golden files and exports"; M0-d-04). It is NOT on the digest path: no leaf, node or root reads it
-// (C-0194 (10); the checker's source scan). The goldens' canonical text form is M1's (M0-work.json's defers): at M0 it
-// exists for the tests.
+// (C-0194 (10)); `test/digest/leaf.test.ts` scans the digest sources for it. The goldens' canonical text form is M1's
+// (M0-work.json's defers): at M0 it exists for the tests.
 import { sortedKeys } from '@plat/kernel';
 
 function text(v: unknown, path: string): string {

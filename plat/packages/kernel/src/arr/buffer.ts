@@ -24,6 +24,7 @@ import { area2, orient2d, ratio, snap, ok, type KernelResult, type Warning } fro
 import { foldWarnings } from '../insert/classes.js';
 import type { Cm, LatticePoint } from '../types/index.js';
 import { offLattice, PI, unitOf, type XY } from '../geom/common.js';
+import { divScaled } from '../num/exact.js';
 import { emptyResult, overlayRegion, type Ring } from './winding.js';
 
 /** §3.4's joins. */
@@ -35,21 +36,12 @@ export type EndKind = 'round' | 'square' | 'flat';
 /** §3.7: round joins and ends are chords of at most this sagitta, in cm. */
 export const SAGITTA_CM = 2;
 
-/** 2²⁰: numerators and small denominators are scaled by it before ratio() (exact: a power of two). */
-const SCALE = 1_048_576;
-
-/** num ÷ den through ratio() for a denominator of at least 2⁻²⁰ (exact scaling), else null. */
-function div(num: number, den: number): number | null {
-  const r = ratio(num * SCALE, den * SCALE, 'length');
-  return r.ok ? r.value : null;
-}
-
 /**
  * The largest angular step whose chord on a circle of radius r keeps a sagitta of at most 2 cm: 2·acos(1 − 2 ÷ r),
  * taken as 2·atan2(√(1 − c²), c) through dmath, at most π (a radius of 1 cm or less: one step per half-turn).
  */
 export function maxArcStep(r: number): number {
-  const q = div(SAGITTA_CM, r);
+  const q = divScaled(SAGITTA_CM, r, 'length');
   if (q === null) return PI;
   const c = 1 - q;
   if (c <= -1) return PI;
@@ -59,7 +51,7 @@ export function maxArcStep(r: number): number {
 
 /** The number of equal chords an arc of `theta` radians on radius r takes (§3.7's sagitta rule; at least one). */
 export function arcSteps(theta: number, r: number): number {
-  const steps = div(theta, maxArcStep(r));
+  const steps = divScaled(theta, maxArcStep(r), 'length');
   return Math.max(1, Math.ceil((steps ?? 1) - 1e-12));
 }
 
@@ -125,7 +117,7 @@ function clipToLattice(points: readonly XY[]): XY[] {
       const fq = ax * q.x + ay * q.y - lim;
       if (fp <= 0) out.push(p);
       if ((fp < 0 && fq > 0) || (fp > 0 && fq < 0)) {
-        const t = div(fp, fp - fq) ?? 0;
+        const t = divScaled(fp, fp - fq, 'length') ?? 0;
         const x = p.x + t * (q.x - p.x);
         const y = p.y + t * (q.y - p.y);
         out.push(ax !== 0 ? { x: ax * lim, y } : { x, y: ay * lim });
@@ -165,13 +157,13 @@ function joinPoints(v: XY, u1: XY, u2: XY, turn: number, w: number, joins: JoinK
   const b: XY = turn === 0 ? { x: u1.x, y: u1.y } : (unitOf({ x: n1.x + n2.x, y: n1.y + n2.y }) ?? { x: u1.x, y: u1.y });
   const cosHalf = n1.x * b.x + n1.y * b.y; // cos(θ/2): the miter point lies w ÷ cos(θ/2) from v
   if (joins === 'miter' && cosHalf >= 0.5) {
-    const d = div(w, cosHalf) ?? 2 * w;
+    const d = divScaled(w, cosHalf, 'length') ?? 2 * w;
     return [v, e1, { x: v.x + b.x * d, y: v.y + b.y * d }, e2];
   }
   const cut = joins === 'square' ? w : 2 * w;
   // e1 + t1·u1 and e2 − t2·u2 on the cut line (x − v)·b = cut.
-  const t1 = div(cut - w * cosHalf, u1.x * b.x + u1.y * b.y) ?? 0;
-  const t2 = div(w * (n2.x * b.x + n2.y * b.y) - cut, u2.x * b.x + u2.y * b.y) ?? 0;
+  const t1 = divScaled(cut - w * cosHalf, u1.x * b.x + u1.y * b.y, 'length') ?? 0;
+  const t2 = divScaled(w * (n2.x * b.x + n2.y * b.y) - cut, u2.x * b.x + u2.y * b.y, 'length') ?? 0;
   const c1: XY = { x: e1.x + u1.x * t1, y: e1.y + u1.y * t1 };
   const c2: XY = { x: e2.x - u2.x * t2, y: e2.y - u2.y * t2 };
   return [v, e1, c1, c2, e2];

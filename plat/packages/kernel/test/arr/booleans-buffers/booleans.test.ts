@@ -6,6 +6,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { handleOf, isHalfEdgeLive, roleIdOf, rowsOn } from '../../../src/arena/index.js';
 import { booleans, buildOverlay, windingLabels, type Ring } from '../../../src/arr/index.js';
+import { dropStraight, shortestPath, simpleLoops } from '../../../src/arr/winding.js';
 import { LATTICE } from '../../../src/num/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { areaOf, insideRings, perimeterOf, pt, R, rect, simpleRing, TIMEOUT, area2Exact } from './support.js';
@@ -103,8 +104,8 @@ describe('booleans: holes, pinches and fill rules', () => {
 
   it('a hole touching its outline inside an outline edge: the touch point is a vertex of both rings (C-0206 (1))', () => {
     // the hole's vertex (1000, 2000) lies on the outline's bottom edge (0, 2000)–(2000, 2000)… of a ring whose own
-    // vertices skip it: the outer ring keeps it, so the two rings meet at a shared vertex (the PR run's xor case: a
-    // touch inside an edge made polygon-clipping refuse our rings)
+    // vertices skip it: the outer ring keeps it, so the two rings meet at a shared vertex (a touch inside an edge is
+    // what an oracle such as polygon-clipping refuses as a ring)
     const outer = R([0, 0], [2000, 0], [2000, 2000], [0, 2000]);
     const hole = R([1000, 2000], [500, 1000], [1500, 1000]);
     // the hole given either way round (its edges then lie on the overlay's even or its odd half-edges)
@@ -116,7 +117,7 @@ describe('booleans: holes, pinches and fill rules', () => {
     // two faces touching at a point inside an edge: a diamond's corner on the square's right side
     const touching = rings(booleans('union', [rect(0, 0, 1000, 1000)], [R([1000, 500], [1500, 0], [2000, 500], [1500, 1000])], 'nonzero'));
     expect(touching).toEqual([R([0, 0], [1000, 0], [1000, 500], [1000, 1000], [0, 1000]), R([1500, 0], [2000, 500], [1500, 1000], [1000, 500])]);
-    // the xor of the PR run (2026-10-05): a's hole touches a's outline at (−227, 237), inside the edge (4943, −2326)–(−4457, 2334)
+    // an xor where a's hole touches a's outline at (−227, 237), inside the edge (4943, −2326)–(−4457, 2334)
     const a = [
       R([4943, -2326], [-4457, 2334], [-9920, 1893], [-13586, -4727], [-17800, -11712], [-8407, -16825], [-1636, -14164], [1813, -10947]),
       R([-2426, -2515], [-3897, -1832], [-1984, -670], [-227, 237], [-864, -752]),
@@ -148,6 +149,61 @@ describe('the winding labels', () => {
     const values = [...new Set([...labels.winding.values()].map((w) => w[0]))].sort();
     expect(values).toEqual([0, 1, 2]);
     expect(labels.winding.get(-1)).toEqual([0]);
+  });
+});
+
+describe('the overlay’s shortest path breaks ties by lattice point, never by slot (§3.3)', () => {
+  /** The vertex points of the shortest path between two lattice points of the overlay of `ops`. */
+  function pathPoints(ops: LatticePoint[][][], from: LatticePoint, to: LatticePoint): string[] {
+    const ov = buildOverlay(ops);
+    if (!ov.ok) throw new Error(`refused: ${ov.code}`);
+    const p = ov.value.plat;
+    const O = p.halfEdges.origin;
+    const X = p.vertices.x;
+    const Y = p.vertices.y;
+    const at = (q: LatticePoint): number => {
+      for (let h = 0; h < 2 * p.slots.pair.top; h += 1) if (isHalfEdgeLive(p, h) && X[O[h]] === q.x && Y[O[h]] === q.y) return O[h];
+      throw new Error('no vertex there');
+    };
+    const path = shortestPath(p, at(from), at(to));
+    const name = (v: number): string => `${String(X[v])},${String(Y[v])}`;
+    return path.length === 0 ? [] : [...path.map((h) => name(O[h])), name(O[path[path.length - 1] ^ 1])];
+  }
+  const rotations = (r: LatticePoint[]): LatticePoint[][] => [...r.map((_, i) => [...r.slice(i), ...r.slice(0, i)]), ...r.map((_, i) => [...r.slice(i), ...r.slice(0, i)].reverse())];
+
+  it('two equal paths round a square: the one through the lower-left vertex (y, then x), whatever the ring’s start and direction', () => {
+    for (const ring of rotations(rect(0, 0, 1000, 1000))) {
+      expect(pathPoints([[ring]], pt(0, 0), pt(1000, 1000))).toEqual(['0,0', '1000,0', '1000,1000']);
+      expect(pathPoints([[ring]], pt(1000, 1000), pt(0, 0))).toEqual(['1000,1000', '1000,0', '0,0']);
+      expect(pathPoints([[ring]], pt(1000, 0), pt(0, 1000))).toEqual(['1000,0', '0,0', '0,1000']);
+    }
+  });
+
+  it('on a grid of equal squares the path is the same whatever order the squares were inserted in', () => {
+    const squares: LatticePoint[][] = [];
+    for (let i = 0; i < 3; i += 1) for (let j = 0; j < 3; j += 1) squares.push(rect(300 * i, 300 * j, 300 * (i + 1), 300 * (j + 1)));
+    const want = pathPoints([squares], pt(0, 0), pt(900, 900));
+    expect(want).toHaveLength(7);
+    for (const order of [squares.slice().reverse(), [...squares.slice(4), ...squares.slice(0, 4)], squares.map((s) => s.slice().reverse())]) {
+      expect(pathPoints([order], pt(0, 0), pt(900, 900))).toEqual(want);
+    }
+  });
+});
+
+describe('the kept boundary’s trace helpers (simpleLoops, dropStraight; C-0206 (1))', () => {
+  it('simpleLoops cuts a closed walk at every vertex it visits twice, each loop in walk order', () => {
+    expect(simpleLoops([1, 2, 3, 1, 4, 5])).toEqual([[1, 2, 3], [1, 4, 5]]);
+    expect(simpleLoops([1, 2, 3, 4, 2, 5])).toEqual([[2, 3, 4], [1, 2, 5]]);
+    expect(simpleLoops([7, 8, 9])).toEqual([[7, 8, 9]]);
+  });
+
+  it('dropStraight drops straight-through vertices until none is left, never one keep names, and never a reversal', () => {
+    const square = R([0, 0], [500, 0], [1000, 0], [1000, 400], [1000, 1000], [0, 1000]);
+    expect(dropStraight(square, () => false)).toEqual(rect(0, 0, 1000, 1000));
+    expect(dropStraight(square, (q) => q.x === 500 && q.y === 0)).toEqual(R([0, 0], [500, 0], [1000, 0], [1000, 1000], [0, 1000]));
+    // a fold-back is no straight-through vertex: (1000, 0) → (500, 0) turns round at (1000, 0)
+    const spike = R([0, 0], [1000, 0], [500, 0], [500, 500]);
+    expect(dropStraight(spike, () => false)).toEqual(spike);
   });
 });
 
@@ -224,7 +280,7 @@ function windingAt(ring: readonly LatticePoint[], x: number, y: number): number 
 }
 
 describe('a retraced spur on a segment row nets nothing (the spec note N-41 (3); C-0196 (1))', () => {
-  // M0-a-05's seven-chain repro (C-0205 (3)): the ring's seventh segment s6, A (−48140, 46382) → B (−48863, 44833),
+  // The seven-segment ring of C-0205 (3): its seventh segment s6, A (−48140, 46382) → B (−48863, 44833),
   // commits through the endpoint route as A–P–Q–P–R–B: out along P–Q, an edge s4 also carries, and back. The winding
   // walk reads a segment's row as the one path from its first vertex to its last, so the spur nets 0 for s6 — a row
   // that traverses an edge out and back is lawful (N-41 (3)), and the region is the one s6's plain path A–P–R–B bounds.

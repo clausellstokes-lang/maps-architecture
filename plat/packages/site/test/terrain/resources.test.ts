@@ -27,6 +27,7 @@ import {
   type SiteResources,
   type TerrainParams,
 } from '../../src/terrain/index.js';
+import { rasterGrid } from '../../src/terrain/grid.js';
 import { frame, paramsOf, pt, terrainOf } from './support.js';
 
 const TOWN = paramsOf('TOWN');
@@ -217,7 +218,7 @@ describe('the ground classes (S1 (10))', { timeout: 60_000 }, () => {
     // The raster rewritten through the range check (the one door): every height cell whose centre lies in the bed's,
     // the dry bed's or the ridge's resource row; the sampler at a resource centre reads only height cells within one
     // height cell of it, all inside its own 32 m row.
-    const hg = { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+    const hg = rasterGrid(t);
     const w = heightWriter(t.heightCm, TOWN.reliefLimitCm);
     for (let j = 0; j < t.rows; j += 1) {
       const row = Math.floor((centreY(hg, j) - g.originY) / g.cellCm);

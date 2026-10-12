@@ -5,6 +5,7 @@ import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import type { Terrain } from '@plat/model';
 import { centreX, centreY, flatTerrain, GROUND_KEY, heightWriter, terrainSampler } from '../../src/terrain/index.js';
+import { rasterGrid } from '../../src/terrain/grid.js';
 import { frame, paramsOf, pt, terrainOf } from './support.js';
 
 const TOWN = paramsOf('TOWN');
@@ -25,7 +26,7 @@ describe('heightAt (§2.3: bilinear on the height raster)', { timeout: 60_000 },
   it('equals the raster at every cell centre of a generated terrain', () => {
     const { terrain: t } = terrainOf(frame(0.4, 1.3), { relief: 'hilly', primitives: [{ kind: 'hill', at: pt(0, 0), radiusM: 200, heightM: 80 }] }, TOWN);
     const s = terrainSampler(t, TOWN.slopeQueryCm);
-    const g = { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+    const g = rasterGrid(t);
     for (let j = 0; j < t.rows; j += 1) {
       for (let i = 0; i < t.cols; i += 1) {
         const h = s.heightAt(pt(centreX(g, i), centreY(g, j)));
@@ -37,7 +38,7 @@ describe('heightAt (§2.3: bilinear on the height raster)', { timeout: 60_000 },
   it('is the bilinear blend between centres, rounded to the centimetre, and reads the edge beyond the outermost centres', () => {
     const t = plane(7, -3, 1000);
     const s = terrainSampler(t, CITY.slopeQueryCm);
-    const g = { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
+    const g = rasterGrid(t);
     fc.assert(
       fc.property(fc.double({ min: 0, max: 1, noNaN: true }), fc.double({ min: 0, max: 1, noNaN: true }), fc.nat(t.cols - 2), fc.nat(t.rows - 2), (u, v, i, j) => {
         const x = centreX(g, i) + u * t.cellCm;

@@ -6,9 +6,11 @@
 // reach). The height raster takes cols = ⌈2 · reachX ÷ cell⌉ by rows = ⌈2 · reachY ÷ cell⌉ cells centred on (0, 0),
 // its south-west corner (originX, originY) = (−⌊cols · cell ÷ 2⌋, −⌊rows · cell ÷ 2⌋): it covers the arena, by less
 // than one cell more on each axis. Cells are row-major from that corner (row 0 the southernmost); a cell's value
-// stands at its centre (C-0165 (3)). Every other grid of this section shares the corner and covers the same extent.
+// stands at its centre (C-0165 (3)). Every other grid of this section shares the corner and covers the same extent, and
+// reads a cell's centre and row through `centreX`, `centreY`, `cellCentre` — the one arithmetic (`origin + (i + ½) ·
+// cell`; the row `Math.round((c − i) · (1 ÷ cols))`, C-0044).
 import { ratio, type Frame } from '@plat/kernel';
-import type { HydroGrid } from '@plat/model';
+import type { HydroGrid, Terrain } from '@plat/model';
 
 /** A grid of square cells: `cols × rows` cells of `cellCm` from the south-west corner (originX, originY). */
 export interface CellGrid {
@@ -23,6 +25,14 @@ export interface CellGrid {
 export function arenaReach(frame: Frame): { x: number; y: number } {
   const reach = 0.5 + frame.marginShare;
   return { x: Math.ceil(frame.widthCm * reach), y: Math.ceil(frame.heightCm * reach) };
+}
+
+/**
+ * The height raster's own grid: a terrain record's five grid fields (§2.3), in `CellGrid`'s order. File-level: shared
+ * by path inside `@plat/site`, not part of the package's API (J263 Q1's convention).
+ */
+export function rasterGrid(t: Terrain): CellGrid {
+  return { cellCm: t.cellCm, cols: t.cols, rows: t.rows, originX: t.originX, originY: t.originY };
 }
 
 /** ⌈a ÷ b⌉ for positive integers below 2²⁴ — the double quotient is correctly rounded, so the ceiling is exact. */
@@ -70,4 +80,16 @@ export function centreX(g: CellGrid, i: number): number {
 /** The y of row j's centre. */
 export function centreY(g: CellGrid, j: number): number {
   return g.originY + (j + 0.5) * g.cellCm;
+}
+
+/**
+ * The centre of cell `c` (row-major from the south-west corner), `invCols` the caller's 1 ÷ `g.cols`: column `c % cols`,
+ * row `Math.round((c − i) · invCols)` — the product of an exact multiple of cols and its reciprocal lies within an ulp of
+ * the row, so the rounding is exact (C-0044: no division) — then `centreX`, `centreY`. File-level: shared by path inside
+ * `@plat/site`, not part of the package's API (J263 Q1's convention).
+ */
+export function cellCentre(g: CellGrid, c: number, invCols: number): { x: number; y: number } {
+  const i = c % g.cols;
+  const j = Math.round((c - i) * invCols);
+  return { x: centreX(g, i), y: centreY(g, j) };
 }
