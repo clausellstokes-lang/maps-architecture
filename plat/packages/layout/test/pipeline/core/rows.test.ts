@@ -1,10 +1,10 @@
-// The runner's stage-end guard (M0-x-02, session fix round S2; docs/M0-FIX-QUEUE.md Q32, C-0316 — the class behind Q15
-// (S8's seam-portals) and Q31 (S1's references-resolve): a declared stage-end row no code evaluated read as a pass with
-// count 0). A stage that reaches its end — its run returns ok and it wrote an output or committed on an arena — must
-// have reported every declared row of §5.3's `stage` scope through its sink at least once; otherwise the stage is refused
-// E_INVARIANT 'row <name> declared but never evaluated', rolled back whole as any refusal (C-0295), with one bug entry
-// and the row's line pass false with count 0. A stage that met missing inputs and produced nothing has no stage end to
-// check; batch, save, load and CI rows are not stage-end rows; a stage already refused is judged once, by its own code.
+// The runner's stage-end guard (M0-x-02; §5.3, §5.4; C-0316 (1)–(5): a declared stage-end row that no code evaluated
+// never reads as a pass with count 0). A stage that reaches its end — its run returns ok and it wrote an output or
+// committed on an arena — must have reported every declared row of §5.3's `stage` scope through its sink at least once;
+// otherwise the stage is refused E_INVARIANT 'row <name> declared but never evaluated', rolled back whole as any
+// refusal (C-0295), with one bug entry and the row's line pass false with count 0. A stage that met missing inputs and
+// produced nothing has no stage end to check; batch, save, load and CI rows are not stage-end rows; a stage already
+// refused is judged once, by its own code.
 import { err, ok, STAGES, type Invariant, type KernelResult } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { createRegistry, run, type PipelineContext } from '../../../src/index.js';
