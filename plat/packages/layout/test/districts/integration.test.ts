@@ -6,27 +6,20 @@
 // faces over a district all descend from its L1 faces.
 import { faceRings, isFaceLive, seedKey, STAGES, type KernelTx } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { districtOfFace, faceGraph, runS6, runS8, type S6Output } from '../../src/index.js';
-import { cityRun, edgesL1, GROUND, insidePoly, ownerOfL1, ringDist, type CityRun } from './support.js';
+import { districtOfFace, faceGraph, runS8, type S6Output } from '../../src/index.js';
+import { bySeed, cityRun, edgesL1, GROUND, insidePoly, ownerOfL1, ringDist, s6Run, type CityRun } from './support.js';
 
-const RUNS = new Map<number, CityRun & { out: S6Output; strips: Map<number, string> }>();
-function city(seed: number): CityRun & { out: S6Output; strips: Map<number, string> } {
-  let r = RUNS.get(seed);
-  if (r === undefined) {
-    const c = cityRun(seed);
-    const strips = new Map<number, string>();
-    for (let f = 0; f < c.plat.slots.face[1].top; f += 1) {
-      if (!isFaceLive(c.plat, 1, f)) continue;
-      const o = ownerOfL1(c.plat, f);
-      if (o !== null) strips.set(f, o);
-    }
-    const s6 = runS6(c.input);
-    if (!s6.ok) throw new Error(`S6 refused: ${s6.code} ${s6.detail}`);
-    r = { ...c, out: s6.value, strips };
-    RUNS.set(seed, r);
+/** The CITY run at `seed` with S6 on it, and every L1 face owned before S6 (the reservations' and the strips'). */
+const city = bySeed((seed): CityRun & { out: S6Output; strips: Map<number, string> } => {
+  const c = cityRun(seed);
+  const strips = new Map<number, string>();
+  for (let f = 0; f < c.plat.slots.face[1].top; f += 1) {
+    if (!isFaceLive(c.plat, 1, f)) continue;
+    const o = ownerOfL1(c.plat, f);
+    if (o !== null) strips.set(f, o);
   }
-  return r;
-}
+  return { ...c, out: s6Run(c.input), strips };
+});
 
 describe('S6 on the real S3 slice and S4 (flat CITY fixture, S5c stand-in grid)', () => {
   it('every land face held; reservation and strip faces keep their owners; the market at the plaza; gate wards at their gates behind the wall', { timeout: 300_000 }, () => {

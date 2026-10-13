@@ -1,10 +1,10 @@
-// S6 under S1's land components (M0-e-04 session fix round S1; N-51; C-0265 refining C-0245 (2)). The real S1 owns every
-// L0 land face by its land component `land:<n>` (C-0229 (3)) and the L1 faces inherit it (§2.2 rule 4); S6 re-owns those
-// L1 faces exactly as unowned ones — a district inside the perimeter, the hinterland outside it — through the one rule
-// `s6Takes`, while the L0 faces keep `land:<n>` and a reservation's face keeps its owner. On the district fixture with
-// the L0 face given `land:0` (support.ts `landOwner`), S6 claims land (landHa > 0, districts > 0) and its result equals
-// the run on the same fixture with no S1 owner: the same report, the same District records, the same L1 owners face by
-// face once `land:0` reads as no owner.
+// S6 under S1's land components (M0-e-04; N-51; C-0265 refining C-0245 (2)). The real S1 owns every L0 land face by its
+// land component `land:<n>` (C-0229 (3)) and the L1 faces inherit it (§2.2 rule 4); S6 re-owns those L1 faces exactly
+// as unowned ones — a district inside the perimeter, the hinterland outside it — through the one rule `s6Takes`, while
+// the L0 faces keep `land:<n>` and a reservation's face keeps its owner. On the district fixture with the L0 face given
+// `land:0` (support.ts `landOwner`), S6 claims land (landHa > 0, districts > 0) and its result equals the run on the
+// same fixture with no S1 owner: the same report, the same District records, the same L1 owners face by face once
+// `land:0` reads as no owner.
 import { idOf, isFaceLive, type Plat } from '@plat/kernel';
 import { canonicalText, type Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';

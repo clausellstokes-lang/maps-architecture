@@ -18,7 +18,7 @@
 // batch inserts it as an L1 chain carrying `district_bound`, closed against the arterials and shores it meets by the
 // insertion rules (§3.6).
 import { arcSteps, area2, dmath, err, LATTICE, ok, orient2d, type Kernel, type KernelResult, type LatticePoint } from '@plat/kernel';
-import { insideRing, quot } from '../siting/geom.js';
+import { distToSegment2, insideRing, quot, segmentsMeet } from '../siting/geom.js';
 import type { TableView } from '@plat/tables';
 import { districtCells } from './table.js';
 
@@ -105,7 +105,7 @@ interface Pt {
  * neighbours unchanged (a run of them lies on one line, each strictly ahead of the last), so one pass against the
  * original neighbours finds every one and the result is the same in any order. A vertex where the ring folds back or
  * repeats (dot ≤ 0) is kept — no continuation, the simplicity check's or the kernel's to judge. A ring with no such
- * vertex comes back as a copy, unchanged (a no-op on every ring that has none: zero shift). Exact on the lattice.
+ * vertex comes back as a copy, unchanged (a no-op on every ring that has none). Exact on the lattice.
  */
 export function mergeCollinear(ring: readonly LatticePoint[]): LatticePoint[] {
   const n = ring.length;
@@ -222,19 +222,6 @@ function miterOnBoth(a: Pt, v: Pt, b: Pt, njx: number, njy: number, nix: number,
 export const SUM_TOLERANCE_CM = 5;
 export const OVERLAY_TOLERANCE_CM = 4 * LATTICE.attractCm;
 
-/** The squared distance of p to the segment ab. */
-function segDist2(px: number, py: number, ax: number, ay: number, bx: number, by: number): number {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const l2 = dx * dx + dy * dy;
-  let t = 0;
-  // the projection's parameter, clamped to the segment (l2 ≥ 1 cm² between two distinct lattice points)
-  if (l2 > 0) t = Math.max(0, Math.min(1, quot((px - ax) * dx + (py - ay) * dy, l2, 'area', 'a segment projection')));
-  const ex = ax + t * dx - px;
-  const ey = ay + t * dy - py;
-  return ex * ex + ey * ey;
-}
-
 /**
  * Is `ring` the outer ring of the boundary's Minkowski sum with a disc of radius d (within `tolCm`)? The
  * check (C-0245 (1)): no ring edge comes nearer the boundary than d less the tolerance (so it crosses no boundary edge
@@ -244,7 +231,8 @@ function segDist2(px: number, py: number, ax: number, ay: number, bx: number, by
  * shell enclosing the boundary is the sum's outer boundary. The boundary is read as a region: its exactly collinear
  * vertices are merged first (`mergeCollinear`), else a ring edge spanning two halves of one straight boundary side —
  * the overlay's union merges such vertices — would be near neither half alone (N-56 (2)). Edges are bucketed on a grid
- * of cells of d.
+ * of cells of d; the distances are siting's `distToSegment2` (the foot clamped to the segment), the crossing test its
+ * `segmentsMeet`.
  */
 export function isSumRing(given: readonly LatticePoint[], ring: readonly LatticePoint[], d: number, tolCm: number = SUM_TOLERANCE_CM): boolean {
   const boundary = mergeCollinear(given);
@@ -286,10 +274,10 @@ export function isSumRing(given: readonly LatticePoint[], ring: readonly Lattice
           const a = boundary[i];
           const b = boundary[(i + 1) % n];
           // The segments' distance: 0 when they meet, else the least of the four end-to-segment distances.
-          if (meet(p, q, a, b)) return false;
-          const dp = segDist2(p.x, p.y, a.x, a.y, b.x, b.y);
-          const dq = segDist2(q.x, q.y, a.x, a.y, b.x, b.y);
-          if (dp < lo2 || dq < lo2 || segDist2(a.x, a.y, p.x, p.y, q.x, q.y) < lo2 || segDist2(b.x, b.y, p.x, p.y, q.x, q.y) < lo2) return false;
+          if (segmentsMeet(p, q, a, b)) return false;
+          const dp = distToSegment2(p, a, b);
+          const dq = distToSegment2(q, a, b);
+          if (dp < lo2 || dq < lo2 || distToSegment2(a, p, q) < lo2 || distToSegment2(b, p, q) < lo2) return false;
           if (dp <= hi2 && dq <= hi2) near = true;
         }
       }
@@ -338,16 +326,8 @@ function within(ring: readonly LatticePoint[], frame: readonly LatticePoint[]): 
   return true;
 }
 
-/** Do the closed segments ab and cd meet (exact orientation on integers)? */
-export function meet(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): boolean {
-  const o1 = Math.sign(orient2d(a.x, a.y, b.x, b.y, c.x, c.y));
-  const o2 = Math.sign(orient2d(a.x, a.y, b.x, b.y, d.x, d.y));
-  const o3 = Math.sign(orient2d(c.x, c.y, d.x, d.y, a.x, a.y));
-  const o4 = Math.sign(orient2d(c.x, c.y, d.x, d.y, b.x, b.y));
-  if (o1 !== o2 && o3 !== o4) return true;
-  const on = (p: LatticePoint, q: LatticePoint, r: LatticePoint): boolean => Math.min(p.x, q.x) <= r.x && r.x <= Math.max(p.x, q.x) && Math.min(p.y, q.y) <= r.y && r.y <= Math.max(p.y, q.y);
-  return (o1 === 0 && on(a, b, c)) || (o2 === 0 && on(a, b, d)) || (o3 === 0 && on(c, d, a)) || (o4 === 0 && on(c, d, b));
-}
+/** Do the closed segments ab and cd meet (touch or cross)? Siting's `segmentsMeet`, exact through orient2d. */
+export { segmentsMeet as meet } from '../siting/geom.js';
 
 /**
  * Is the ring simple (no two non-adjacent edges meet, adjacent edges meet only at their shared vertex) and
@@ -391,7 +371,7 @@ export function simpleCcw(ring: readonly LatticePoint[]): boolean {
         const c = ring[j];
         const d = ring[(j + 1) % n];
         if (!adjacent) {
-          if (meet(a, b, c, d)) return false;
+          if (segmentsMeet(a, b, c, d)) return false;
           continue;
         }
         // Adjacent edges: they share one vertex; they fold back when the other end lies on the other edge.
@@ -437,7 +417,7 @@ export function unloop(ring: readonly LatticePoint[]): LatticePoint[] {
     if (i + 1 >= n) break;
     let cut = -1;
     for (let j = Math.min(n - 1, i + UNLOOP_WINDOW); j >= i + 2; j -= 1) {
-      if (meet(pts[i], pts[i + 1], pts[j], pts[(j + 1) % n])) {
+      if (segmentsMeet(pts[i], pts[i + 1], pts[j], pts[(j + 1) % n])) {
         cut = j;
         break;
       }

@@ -2,18 +2,9 @@
 // in all"; C-0245 (4), (11)): the features' anchors, the compartments, the remainder's first seed at a compartment's
 // centroid and Lloyd's relaxation with the features fixed.
 import { describe, expect, it } from 'vitest';
-import { faceGraph, faceInRing, placeSeeds, s6DistrictCells, SIDE_DECISIVE_CM, type FaceGraph } from '../../src/index.js';
-import { GROUND, gridArena, P, ringArena, type GridArena } from './support.js';
+import { faceInRing, placeSeeds, s6DistrictCells, SIDE_DECISIVE_CM } from '../../src/index.js';
+import { cell, claimableOf, graphOf, GROUND, gridArena, P, ringArena } from './support.js';
 
-function graphOf(a: GridArena): FaceGraph {
-  return faceGraph(a.plat, { ways: new Map(a.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: 'none', water: new Set() });
-}
-function cell(a: GridArena, g: FaceGraph, i: number, j: number): number {
-  const loc = a.k.geom.pointLocate(GROUND, 1, a.centre(i, j));
-  if (loc.on !== 'face') throw new Error('no cell');
-  return g.faces.findIndex((f) => f.face === loc.face);
-}
-const land = (g: FaceGraph): boolean[] => g.faces.map((f) => f.side !== 'margin' && f.owner === null && !f.water);
 const rate = s6DistrictCells().rate;
 
 describe('the seeds (§4.5)', () => {
@@ -23,7 +14,7 @@ describe('the seeds (§4.5)', () => {
     // between cells 5 and 6: it moves to cell 5 (ties by face order) and stays.
     const a = gridArena(9, 1, 100, () => 'secondary');
     const g = graphOf(a);
-    const r = placeSeeds(g, land(g), [{ id: 'gate:0', kind: 'gate', anchor: { kind: 'point', at: { x: 0, y: 5000 } } }], 2, rate);
+    const r = placeSeeds(g, claimableOf(g), [{ id: 'gate:0', kind: 'gate', anchor: { kind: 'point', at: { x: 0, y: 5000 } } }], 2, rate);
     expect(r.seeds.map((s) => [s.kind, s.face])).toEqual([
       ['gate', cell(a, g, 0, 0)],
       ['remainder', cell(a, g, 5, 0)],
@@ -41,7 +32,7 @@ describe('the seeds (§4.5)', () => {
       { id: 'gate:1', kind: 'gate' as const, anchor: { kind: 'point' as const, at: { x: 0, y: 5000 } } },
       { id: 'plaza:9', kind: 'market' as const, anchor: { kind: 'owner' as const, owner: 'plaza:9' } },
     ];
-    const r = placeSeeds(g, land(g), f, 4, rate, 1.5 * 1e8);
+    const r = placeSeeds(g, claimableOf(g), f, 4, rate, 1.5 * 1e8);
     expect(r.dropped).toEqual(['plaza:9']);
     expect(r.seeds.slice(0, 2).map((s) => s.face)).toEqual([cell(a, g, 0, 0), cell(a, g, 1, 0)]);
     // the one-cell compartment right of the primary line (1 ha) is below the 1.5 ha floor: the remainder seeds go left
@@ -49,12 +40,12 @@ describe('the seeds (§4.5)', () => {
     expect(r.seeds.some((s) => s.face === right)).toBe(false);
     expect(r.seeds.length).toBe(3);
     // without the floor the right compartment, seedless, takes the first remainder seed
-    const r0 = placeSeeds(g, land(g), f, 4, rate, 0);
+    const r0 = placeSeeds(g, claimableOf(g), f, 4, rate, 0);
     expect(r0.seeds[2].face).toBe(right);
     expect(r0.seeds[3].face).toBe(cell(a, g, 2, 0));
     expect(r0.seeds.length).toBe(4);
     // with N_d above the free faces the remainder stops short rather than seed a face twice
-    expect(placeSeeds(g, land(g), f, 9, rate, 0).seeds.length).toBe(4);
+    expect(placeSeeds(g, claimableOf(g), f, 9, rate, 0).seeds.length).toBe(4);
   });
 
   it('a point anchor’s side (C-0257): only faces touching the point, inside `within`, outside every `outside` ring; none left there: dropped', () => {
@@ -67,15 +58,15 @@ describe('the seeds (§4.5)', () => {
     const inner = [P(0, 0), P(20000, 0), P(20000, 10000), P(0, 10000)];
     const at = { x: 20000, y: 5000 };
     const gate = (id: string) => ({ id, kind: 'gate' as const, anchor: { kind: 'point' as const, at, touching: true, within, outside: [inner] } });
-    const r = placeSeeds(g, land(g), [gate('gate:0'), gate('gate:1')], 2, rate);
+    const r = placeSeeds(g, claimableOf(g), [gate('gate:0'), gate('gate:1')], 2, rate);
     expect(r.seeds.filter((s) => s.kind === 'gate').map((s) => [s.feature, s.face])).toEqual([['gate:0', cell(a, g, 2, 0)]]);
     // the second gate finds its one face taken: dropped and reported, never seeded at cell 3 (not touching) nor at
     // cell 1 (behind the inner ring)
     expect(r.dropped).toEqual(['gate:1']);
     // without `touching` the second takes the nearest face on its side (cell 3); without the sides, the nearest (cell 1)
-    const loose = placeSeeds(g, land(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, within, outside: [inner] } }], 2, rate);
+    const loose = placeSeeds(g, claimableOf(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, within, outside: [inner] } }], 2, rate);
     expect(loose.seeds.map((s) => s.face)).toEqual([cell(a, g, 2, 0), cell(a, g, 3, 0)]);
-    const free = placeSeeds(g, land(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, touching: true } }], 2, rate);
+    const free = placeSeeds(g, claimableOf(g), [gate('gate:0'), { id: 'gate:1', kind: 'gate', anchor: { kind: 'point', at, touching: true } }], 2, rate);
     expect(free.seeds.map((s) => s.face)).toEqual([cell(a, g, 2, 0), cell(a, g, 1, 0)]);
   });
 

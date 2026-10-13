@@ -5,7 +5,10 @@
 // and an outward `through` road from each gate to the frame, and S5c's stand-in — a jittered street grid of
 // `secondary` ways over the stages' land, clear of the plaza. Stage 1 is the wall's land (≈ 137.5 ha at CITY), the last
 // stage's boundary a jittered ring around ≈ 220 ha (§12.2's matched walled area; C-0016's shares). Readers of the
-// committed arena are written here from the arena's own tables, never through the code under test.
+// committed arena are written here from the arena's own tables, never through the code under test. The folder's tests
+// share their fixture helpers from here, one copy each: the seed-keyed run cache (`bySeed`), S6 on a run's input
+// (`s6Run`), a bare ground arena's kernel (`kernel`), the grid's face graph and cell index (`graphOf`, `cell`,
+// `claimableOf`) and the hectare (`HA`).
 import {
   attachIndex,
   createKernel,
@@ -31,9 +34,39 @@ import {
 } from '@plat/kernel';
 import type { Gate, Id, Reservation, Way } from '@plat/model';
 import { parseTable, tableView, type TableView } from '@plat/tables';
-import { commitS3Slice, flatFixture, runS4, runS5ab, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
+import { commitS3Slice, faceGraph, flatFixture, runS4, runS5ab, runS6, s3Slice, settlementPerimeter, siteFeatures, spineWidthsOf, type FaceGraph, type GrowthState, type S3Commit, type S3Slice, type S6Input, type S6Output, type WallLine } from '../../src/index.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
+
+/** One hectare in cm² (the tests' own constant). */
+export const HA = 100_000_000;
+
+/** A kernel over one bare indexed ground arena of 10 km × 10 km (the perimeter's tests: no chain laid). */
+export function kernel(): Kernel {
+  const plat = createPlat(GROUND, { widthCm: 1_000_000 as Cm, heightCm: 1_000_000 as Cm, aspect: 1, marginShare: 0.3 });
+  attachIndex(plat, { gridCellCm: 5000 });
+  return createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
+}
+
+/** `make(seed)` cached per seed for the test file that calls it (the fixture runs are the slow part). */
+export function bySeed<T>(make: (seed: number) => T): (seed: number) => T {
+  const runs = new Map<number, T>();
+  return (seed) => {
+    let r = runs.get(seed);
+    if (r === undefined) {
+      r = make(seed);
+      runs.set(seed, r);
+    }
+    return r;
+  };
+}
+
+/** S6's output on `input`; throws on a refusal. */
+export function s6Run(input: S6Input): S6Output {
+  const s6 = runS6(input);
+  if (!s6.ok) throw new Error(`S6 refused: ${s6.code} ${s6.detail}`);
+  return s6.value;
+}
 
 export function P(x: number, y: number): LatticePoint {
   return { x: Math.round(x), y: Math.round(y) } as LatticePoint;
@@ -633,6 +666,25 @@ export function rectArena(xsM: readonly number[], ysM: readonly number[], lineCl
     if (!r.ok) throw new Error(`support: a cell's owner was refused: ${r.code}`);
   }
   return { plat, k, ways, centre };
+}
+
+/** A grid arena's L1 face graph: the edge test at `primary`, no perimeter, no water. */
+export function graphOf(a: GridArena): FaceGraph {
+  return faceGraph(a.plat, { ways: new Map(a.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: 'none', water: new Set() });
+}
+
+/** The graph index of the grid's cell (i, j); throws when no face holds its centre. */
+export function cell(a: GridArena, g: FaceGraph, i: number, j: number): number {
+  const loc = a.k.geom.pointLocate(GROUND, 1, a.centre(i, j));
+  if (loc.on !== 'face') throw new Error('no cell');
+  const idx = g.faces.findIndex((f) => f.face === loc.face);
+  if (idx < 0) throw new Error('no cell index');
+  return idx;
+}
+
+/** A grid's land: no perimeter is laid, so every face inside the border (side 'outside' of the absent perimeter) unowned and dry. */
+export function claimableOf(g: FaceGraph): boolean[] {
+  return g.faces.map((f) => f.side !== 'margin' && f.owner === null && !f.water);
 }
 
 // ---- readers of the committed arena (its own tables, never the code under test) ----------------------------------------
