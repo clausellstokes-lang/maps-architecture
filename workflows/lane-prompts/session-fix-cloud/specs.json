@@ -2185,6 +2185,34 @@
      "required_change": "none beyond the lines above — a geometry shift anywhere is a finding for the session, not a re-recorded pin"
     }
    ]
+  },
+  {
+   "id": "M0-a-06",
+   "round": "S6",
+   "from": 6,
+   "lines": [
+    {
+     "line": "Q54 / N-c1-6 (N-45 (a); J290: OUR OWN INTERMEDIATE, MAKE-IT-SUCCEED): after lawful batch sequences of the item's own fuzz families — 'remove way' (10), 'stretch' (2) and 'stretch (rekeyed)' (2) at the along mix ×104729 seeds 91 (batch 10), 235 (14), 307 (7), 719 (10) and 980 (7), and the mix way 0.2 / lane 0.3 / along 0.25 ×15485863 seeds 106 (18; a registered regression of fuzz.test.ts), 210 (12), 213 (11), 333 (10), 361 (19), 395 (10), 402 (9), 443 (13) and 739 (19) — the committed arena's rows of one intermediate level differ along a route edge of that level: encodeArena refuses it ('the rows of one level differ along a route edge of that level') and routeLines of a live kerb throws 'tx: a run has route vertices at its own level' in 9 of the 14 (lane:6, lane:7, lane:4, lane:3, lane:8, lane:9, lane:15, lane:5, lane:6). The committed state keeps every intermediate level's rows constant along a coarser route edge (the encoder's runRows reading; §2.2's level rules), so encodeArena accepts and routeLines reads every committed arena of the registered families.",
+     "evidence": "checks/M0-a-06-notes.md N-c1-5 (the along mix seeds 91 and 235 and the regression 106: the batch commits, fuzz's healthy oracles pass, then encodeArena throws and routeLines of the kerb that ran along the way throws — rule 3's re-levelling after a way under an along-kerb is removed) and N-c1-6 (the R6 checker's 52 230-batch NO-SHIFT probe: 14 sequences; allProblems empty and the checker's own whole-arena level-consistency scan empty — the validators do not read the broken constancy; identical on the pre-round line); docs/M0-FIX-QUEUE.md Q54; J340 (2)",
+     "required_change": "diagnose the writer — rule 3 (a)/(c)'s re-levelling in src/tx/relevel.ts and the chain and route writers of src/tx — on the 14 sequences replayed from their seeds and batch indexes, and make the commit succeed with constant rows along every coarser route edge (never a post-condition refusal of a lawful batch, J264 (2); a declared shift of the committed rows on those sequences, if any, named in the choices row with the before/after rows); the 14 sequences pinned committed, encodable (encodeArena ok) and readable (routeLines of every live chain) by a fixture of seeds and batch indexes in test/tx; every other registered batch byte-identical on the item's NO-SHIFT probe"
+    },
+    {
+     "line": "fuzz.test.ts's healthy oracle also ENCODES the committed arena (encodeArena) and reads routeLines of every live chain after every batch, so the registered families catch this class (the R6 checker's N-c1-6 ask) — the registered regression 106 ×15485863 and the along mix turn red on the pre-round sources and green after the fix.",
+     "evidence": "checks/M0-a-06-notes.md N-c1-6 (seed 106 ×15485863 is a registered regression whose healthy oracle passes the broken state); test/tx/fuzz.test.ts; io/encode.ts runRows (read, never edited: M0-a-15's)",
+     "required_change": "the oracle extended inside test/tx (the encoder and routeLines called through the kernel's public names by path), shown red on the pre-round sources at the 14 sequences and green after; no change to the registered seeds or sizes"
+    },
+    {
+     "line": "Refusal census (J264 (5), N-58): tx's refusals on the registered families before and after the round — none added, 0 lawful-input refusals (the R6 check's counts default 59/336, along 104/384, regressions 49/220 as the before-image) — and the encoder's refusals on the committed arenas of the registered families 14 → 0.",
+     "evidence": "checks/M0-a-06-c1.md's refusal counts; J264 (5); N-58",
+     "required_change": "the counts in the builder's choices row and the checker's verdict, with the 14 sequences' encoder outcomes before and after"
+    },
+    {
+     "line": "The closing check: NEAR at full strength, RELATED@1000 over the tx set, the 14 sequences replayed from their seeds on the checker's own build (committed, encoded, routeLines read), the R6 check's mutant table re-killed where its oracles touch the changed files, NO-SHIFT on every other registered batch against the pre-round sources.",
+     "evidence": "checks/M0-a-06-c1.md's mutant table and NO-SHIFT golden (52 230 batches, sha 645cb597…); J273",
+     "required_change": "the checker's own evidence on every line"
+    }
+   ],
+   "session": "This round was opened on the session's ruling J340 (2) over the R6 closing checker's finding N-c1-6 (docs/M0-FIX-QUEUE.md Q54; checks/M0-a-06-notes.md N-c1-5 and N-c1-6): 14 lawful batch sequences of the item's own fuzz families commit an arena whose rows of one intermediate level differ along a route edge of that level — encodeArena refuses it and routeLines of a live kerb throws in 9 of them — identical before and after R6, so a pre-existing defect of tx's route and level writers (rule 3's re-levelling after a way under an along-kerb is removed, N-c1-5's reading; the 'stretch' and 'stretch (rekeyed)' batches too). Build on main after R6 (M0-a-06 c1, 0fde16f): the round's owns are src/tx and test/tx only; the encoder (io/, M0-a-15's) and the invariant suite (invariants/, M0-a-14's) are read, never edited — if the fix shows a validator row is warranted (the constancy of an intermediate level's rows along a coarser route edge, which the encoder's runRows reads and allProblems does not), the builder's notes say so and the session routes it to M0-a-14. J264: zero lawful-input refusals — the operation succeeds; a post-condition refusal is not a fix. The item's session rounds S1–S5 are history (S5 landed 374b6e6f, J255) and its consolidation round R6 is on main; this round's lanes are build/M0-a-06-fix-s6 and check/M0-a-06-close-s6, its verdict file checks/M0-a-06-s6.md."
   }
  ]
 }
