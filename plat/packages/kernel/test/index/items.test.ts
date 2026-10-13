@@ -1,9 +1,10 @@
 // M0-a-03: what each level's index holds (§3.3) — item keys (kind · 2³² + slot); route edges as maximal runs of one
 // level's sub-edges through finer vertices, keyed by the handle pair leaving the lower (y, x) endpoint (a loop off one
 // vertex leaves it toward its smaller neighbour), boxed over every vertex standing on the run and padded by the 0.71 cm
-// hot pixel; their level-n pieces; the faces' level-n route rings; every level's items equal to the oracle's.
+// hot pixel; their level-n pieces; the faces' level-n route rings; every level's items equal to the oracle's; and
+// `faceArea2`, the face-area measure homed beside the route rings, equal to the faces' and the invariant suite's copies.
 import { describe, expect, it } from 'vitest';
-import type { Plat } from '../../src/arena/index.js';
+import { isFaceLive, type Plat } from '../../src/arena/index.js';
 import {
   faceRouteRings,
   HOT_PIXEL_CM,
@@ -20,8 +21,29 @@ import {
   routePieces,
   routeRun,
 } from '../../src/index/index.js';
+import { faceArea2 as facesFaceArea2 } from '../../src/faces/common.js';
+import { faceArea2 } from '../../src/index/items.js';
+import { faceArea2 as invariantsFaceArea2 } from '../../src/invariants/index.js';
 import type { Level } from '../../src/types/index.js';
-import { buildArena, generator, LEVELS, oraclePieces, oracleRouteRings, oracleRuns, pairOf, permutation, QUARTERS, randomSpec, vertexAtPoint, type ArenaSpec } from './support.js';
+import { fuzzCase } from './batches.js';
+import {
+  buildArena,
+  generator,
+  LAKE,
+  LEVELS,
+  OFFLINE,
+  OFFLINE_BASE,
+  oraclePieces,
+  oracleRouteRings,
+  oracleRuns,
+  pairOf,
+  permutation,
+  QUARTERS,
+  randomArena,
+  randomSpec,
+  vertexAtPoint,
+  type ArenaSpec,
+} from './support.js';
 
 /** A generous timeout: the machine is shared (C-0025), so a test's wall-clock is contended. */
 const SLOW = 120_000;
@@ -159,5 +181,38 @@ describe('route edges (§3.3 What each level’s index holds)', () => {
       }
     }
     expect(() => itemBox(p, { kind: ITEM_FACE, level: 4, slot: 10_000 })).toThrow(/not live/);
+  }, SLOW);
+});
+
+describe('faceArea2 (§3.10’s area measure, homed beside faceRouteRings; C-0342)', () => {
+  it('equals the faces’ and the invariant suite’s copies on every face of the fixtures and of the fuzz arenas', () => {
+    let faces = 0;
+    let holed = 0;
+    const agree = (p: Plat): void => {
+      for (const level of LEVELS) {
+        for (let f = 0; f < p.slots.face[level].top; f++) {
+          if (!isFaceLive(p, level, f)) continue;
+          const a = faceArea2(p, level, f);
+          expect(a, `L${level} face ${f}`).toBeGreaterThan(0);
+          expect([facesFaceArea2(p, level, f), invariantsFaceArea2(p, level, f)], `L${level} face ${f}`).toEqual([a, a]);
+          faces++;
+          if (faceRouteRings(p, level, f, level).length > 1) holed++;
+        }
+      }
+    };
+    for (const spec of [QUARTERS, LAKE, OFFLINE, OFFLINE_BASE]) agree(buildArena(spec).plat);
+    for (let seed = 1; seed <= 12; seed++) agree(randomArena(seed, null).built.plat);
+    for (let seed = 1; seed <= 6; seed++) {
+      fuzzCase(seed, 40, {
+        batch() {},
+        query(p) {
+          agree(p);
+        },
+        rebuilt() {},
+        moment() {},
+      });
+    }
+    expect(faces).toBeGreaterThan(1000);
+    expect(holed).toBeGreaterThan(0);
   }, SLOW);
 });

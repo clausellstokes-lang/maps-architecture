@@ -29,15 +29,28 @@
 // with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
 // split that collapses to one point (the insertion's E_DEGENERATE `empty`) adds nothing.
 //
+// N-57 (2) (C-0327): an open piece's ends are closed on F's boundary. A contact within attractCm of the piece's
+// vertex beside it — a dead-end lane's round cap meeting a spine-less edge, its last chord clipped to 25–26 cm — is
+// attracted onto that vertex by the insertion (§3.6 step 2: the nearest vertex first), and the piece would end on it, a
+// dangling tip, its strip one face with the block. So after a piece goes in, an end left as a tip (a vertex with the
+// piece's one edge) gets its contact pinned on F's boundary — `splitThrough` of the route piece of F's boundary it lies
+// on, never attracted — and the chord from the tip to it inserted between the two vertices (`closeEnds`): the vertex
+// beside the contact kept, the committed outline kerb(F)'s vertex for vertex (§13.2's Hausdorff 0). An end on F's
+// boundary or on any vertex with more than the piece's edge is left as it is (no other committed geometry changes). The
+// post-condition (N-45 (a)): an open piece whose end is still a dangling tip refuses the op E_INVARIANT, naming the piece
+// and the tip, the batch put back — never a merged face committed. A short spur left inside a piece where attraction
+// folded a sliver or a spike thinner than attractCm (C-0212 (8)'s KI) has its ends on F's boundary and passes.
+//
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
 // E_INVARIANT — puts the batch back as the op found it. Readings: C-0212.
-import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, isVertexLive, outgoing, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow } from '../arena/index.js';
+import { compareFaces, faceWalk, facesOfOwner, handleOf, isFaceLive, isVertexLive, outgoing, pointOf, roleIdOf, rowsOn, type FaceId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
 import { query } from '../index/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
-import { TX_FACES_WALKED } from '../insert/index.js';
-import { ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
+import { nearestRoutePiece } from '../insert/attractVertex.js';
+import { splitThrough, TX_FACES_WALKED } from '../insert/index.js';
+import { err, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
@@ -189,6 +202,63 @@ export function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: n
   return false;
 }
 
+/** An outline piece as `outlinePieces` gives it: a closed ring, or an open run between two boundary contacts. */
+type Piece = { points: LatticePoint[]; closed: boolean };
+
+/**
+ * A contact pinned on the face's boundary (N-57 (2)): the vertex at it, else the vertex `splitThrough` places on the
+ * level-n route piece of F's boundary it lies on (§3.6's placement; a foot within attractCm of the piece's end is that
+ * end); null where no route piece of F's boundary holds it.
+ */
+function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint): KernelResult<VertexId | null> {
+  const p = t.plat;
+  const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { vertices: true, edges: true });
+  for (const v of near.vertices) if (isVertexLive(p, v) && p.vertices.x[v] === c.x && p.vertices.y[v] === c.y) return ok(v);
+  const piece = nearestRoutePiece(p, near.edges, c, t.level);
+  if (piece === null || !onBoundary(rings, pointOf(p, piece.a)) || !onBoundary(rings, pointOf(p, piece.b))) return ok(null);
+  const v = splitThrough(t, piece.edge, c);
+  if (!v.ok) return err(v.code, v.detail);
+  return ok(v.value, v.warnings);
+}
+
+/** The number of edges at a vertex (its outgoing half-edges). */
+function degree(p: Plat, v: VertexId): number {
+  return [...outgoing(p, v)].length;
+}
+
+/**
+ * An open piece's ends closed on F's boundary (N-57 (2)): an end the insertion left as a dangling tip — the vertex its
+ * contact became has the piece's one edge and no other, the contact attracted onto the piece's vertex beside it (§3.6
+ * step 2: the nearest vertex first) or routed off F's boundary — gets its contact pinned on F's boundary (`pinContact`)
+ * and the chord from the tip to it inserted between the two vertices, so the piece ends on F's boundary with the vertex
+ * beside the contact kept (the committed outline kerb(F)'s, vertex for vertex). An end on F's boundary, or on any other
+ * vertex with more than the piece's edge, is left as it is. Returns the piece's ends.
+ */
+function closeEnds(t: OpenTx, rings: readonly LatticePoint[][], piece: Piece, placed: readonly VertexId[], rows: readonly RoleRow[]): KernelResult<VertexId[]> {
+  const p = t.plat;
+  const q = piece.points;
+  const ends: VertexId[] = [placed[0], placed[placed.length - 1]];
+  const warnings: Warning[] = [];
+  for (const k of [0, 1] as const) {
+    const tip = ends[k];
+    if (degree(p, tip) !== 1) continue;
+    const pin = pinContact(t, rings, q[k === 0 ? 0 : q.length - 1]);
+    if (!pin.ok) return err(pin.code, pin.detail);
+    if (pin.value === null || pin.value === tip) continue;
+    warnings.push(...pin.warnings);
+    const at = pointOf(p, pin.value);
+    const chord = insertChain(t, k === 0 ? [at, pointOf(p, tip)] : [pointOf(p, tip), at], rows, 'mandatory');
+    if (!chord.ok) {
+      // a chord shorter than minEdge folds to one point: the post-condition judges what is left
+      if (chord.code === 'E_DEGENERATE' && chord.detail === 'empty') continue;
+      return err(chord.code, chord.detail);
+    }
+    warnings.push(...chord.warnings);
+    ends[k] = pin.value;
+  }
+  return ok(ends, warnings);
+}
+
 /** The L1 ancestor of a face record of level n (its parent chain). */
 function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
   let g = f;
@@ -203,6 +273,8 @@ interface BandSpec {
   /** The rows' entity for a face: corridorUnion's the face's owner, bandUnion's its owner. */
   readonly entityOf: (face: FaceId) => Id;
   readonly owner: Id | null;
+  /** The outline pieces of a face's reading (`outlinePieces`); a test plants a lost chord through it (N-57 (2)). */
+  readonly pieces?: (read: Parameters<typeof outlinePieces>[0]) => Piece[];
 }
 
 /** The engine on the open transaction (see the module comment). */
@@ -228,7 +300,9 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
   for (const read of reads) {
     if (read.spines.size === 0) continue;
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
-    for (const piece of outlinePieces(read)) {
+    const pieces = (spec.pieces ?? outlinePieces)(read);
+    for (let i = 0; i < pieces.length; i += 1) {
+      const piece = pieces[i];
       const ins = insertChain(t, piece.points, rows, 'mandatory', piece.closed ? { closed: true } : {});
       if (!ins.ok) {
         // A piece shorter than minEdge collapses to one point (step 1's E_DEGENERATE `empty`) and adds nothing.
@@ -236,6 +310,18 @@ export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): K
         return rollback(t, save, ins);
       }
       warnings.push(...ins.warnings);
+      if (piece.closed) continue;
+      // N-57 (2): an end left dangling is closed on F's boundary
+      const ends = closeEnds(t, read.rings, piece, ins.value.placed, rows);
+      if (!ends.ok) return rollback(t, save, ends);
+      warnings.push(...ends.warnings);
+      // the post-condition (N-57 (2), N-45 (a)): an open piece ends on F's boundary — an end still a dangling tip
+      // would leave its strip one face with the block beside it: refused, the batch put back, never committed
+      for (const v of ends.value) {
+        if (degree(p, v) !== 1) continue;
+        const q = pointOf(p, v);
+        return rollback(t, save, err('E_INVARIANT', `outline: piece ${String(i)} of the face ${String(read.face)} ends on a dangling tip at (${String(q.x)}, ${String(q.y)}), off the face's boundary (N-57 (2))`));
+      }
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
     for (const pts of read.splits) {
