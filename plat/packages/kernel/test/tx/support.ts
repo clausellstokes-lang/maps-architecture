@@ -1,14 +1,15 @@
 // Test support for M0-a-06's transactions: a transaction spec with the defaults a test changes one field of, a callback
-// runner, a slot-free fingerprint of an arena and its index, and the oracles M0-a-04 / M0-a-05's tests judge an arena
-// with (re-exported, read-only: §3.10's half-edge links, minEdge, one vertex per lattice point, no crossing, clearance,
-// level consistency, the face records against the level views, nesting, Euler per level).
+// runner, a slot-free fingerprint of an arena and its index, the arena bit for bit, the arena's snapshot (its print, live
+// records per level, encoded chunks and level digests; T-support-3), and the oracles M0-a-04 / M0-a-05's tests judge an
+// arena with (re-exported, read-only: §3.10's half-edge links, minEdge, one vertex per lattice point, no crossing,
+// clearance, level consistency, the face records against the level views, nesting, Euler per level).
 import { expect } from 'vitest';
-import { handleOf, isVertexLive, outgoing, roleIdOf, rowElement, rowsOfKey, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
+import { handleOf, isFaceLive, isVertexLive, outgoing, roleIdOf, rowElement, rowsOfKey, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
 import { checkIndexState } from '../../src/index/index.js';
 import type { KernelResult } from '../../src/num/index.js';
 import { tx, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../../src/tx/index.js';
 import type { Level, StageId } from '../../src/types/index.js';
-import { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, tx as shell, vertexAtPoint } from '../insert/step3-5/support.js';
+import { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, snapshot as shellSnapshot, tx as shell, vertexAtPoint } from '../insert/step3-5/support.js';
 
 export { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, shell, vertexAtPoint };
 
@@ -93,6 +94,25 @@ export function bits(p: Plat): string {
     for (const m of idx.byKey) out.push(`byKey ${JSON.stringify([...m])}`);
   }
   return out.join('\n');
+}
+
+/** Live face records per level, L0 – L4. */
+export function facesPerLevel(p: Plat): number[] {
+  return ([0, 1, 2, 3, 4] as const).map((l) => {
+    let n = 0;
+    for (let f = 0; f < p.slots.face[l].top; f++) if (isFaceLive(p, l, f)) n++;
+    return n;
+  });
+}
+
+/**
+ * The arena's slot-free print, its live records per level, its encoded chunks' refs in encoding order (the persisted form,
+ * §11; `encodeArena` writes every live record) and its level digests L0 – L4 (§3.9), as text — what an edit and its
+ * inverse must leave equal (step 3–5's snapshot with the records per level beside it).
+ */
+export function snapshot(p: Plat): { print: string; faces: number[]; refs: string; digests: string } {
+  const s = shellSnapshot(p);
+  return { print: s.print, faces: facesPerLevel(p), refs: s.refs, digests: s.digests };
 }
 
 /** Every oracle at once: the arena's validity (M0-a-04 / M0-a-05's) and the index state (M0-a-03's). */

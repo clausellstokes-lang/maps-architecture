@@ -1,6 +1,8 @@
 // M0-a-06: the transaction's forms and its atomicity (§3.3 *Two op forms*, *Work limits instead of clocks*, §2.2 rule 8;
 // §13.1: "a transaction with no op commits nothing and keeps the version; one exceeding workLimit returns E_WORK_LIMIT
-// and commits nothing"), and the interfaces the item lists under the design's names.
+// and commits nothing"), the interfaces the item lists under the design's names, and the basic round trips — a callback
+// batch commits a chain and bumps the version; a removal of it in a later batch restores the arena's content exactly
+// (§13.1's remove(insert(x)) ≡ id on the topology).
 import { describe, expect, it } from 'vitest';
 import * as kernel from '../../src/index.js';
 import { insertChain } from '../../src/insert/index.js';
@@ -19,6 +21,36 @@ describe('the interfaces M0-a-06 lists, under the design\'s names through @plat/
     }
     const codes: KernelError[] = ['E_WORK_LIMIT', 'E_KEPT', 'E_LEVEL', 'E_STRUCTURAL', 'E_SCOPE'];
     expect(codes).toHaveLength(5);
+  });
+});
+
+describe('a callback batch round trip', () => {
+  it('a way across the frame committed, then removed: the arena as before, the version bumped twice', () => {
+    const p = framed();
+    const before = state(p);
+    const c1 = commit(p, 1, (o) => insertChain(o, [pt(500, 2000), pt(3500, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    expect(c1.record).not.toBeNull();
+    expect(c1.record?.version).toBe(1);
+    expect(p.version).toBe(1);
+    healthy(p);
+    const c2 = commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'way:1' }));
+    expect(c2.record?.version).toBe(2);
+    healthy(p);
+    expect(state(p).replace(/#v\d+$/, '')).toBe(before.replace(/#v\d+$/, ''));
+  });
+
+  it('a way splitting the frame in two, re-owned, then removed', () => {
+    const p = framed();
+    const before = state(p);
+    const c1 = commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    const created = c1.record?.faces.find((d) => d.level === 1)?.created ?? [];
+    expect(created.length).toBe(2);
+    healthy(p);
+    commit(p, 1, (o) => setOwner(o, created, 'block:1'));
+    healthy(p);
+    commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'way:1' }));
+    healthy(p);
+    expect(state(p).replace(/#v\d+$/, '')).toBe(before.replace(/#v\d+$/, ''));
   });
 });
 
@@ -87,6 +119,20 @@ describe('§13.1: a transaction exceeding its workLimit returns E_WORK_LIMIT and
     expect(r.ok).toBe(false);
     if (!r.ok) expect(r.code).toBe('E_WORK_LIMIT');
     expect(state(p)).toBe(before);
+  });
+
+  it('a writer entered on a batch an earlier op took past its limit refuses naming no counter: \'the batch exceeded its work limit\'', () => {
+    const p = framed();
+    let detail: string | null = null;
+    const r = tx(p, spec(1, { workLimit: 3 }), (o) => {
+      expect(insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory').ok).toBe(false);
+      const b = setOwner(o, [], 'block:1');
+      detail = b.ok ? null : `${b.code} ${b.detail}`;
+      return { ok: true as const, value: null, warnings: [] };
+    });
+    expect(detail).toBe('E_WORK_LIMIT the batch exceeded its work limit');
+    expect(!r.ok && `${r.code} ${r.detail}`).toBe('E_WORK_LIMIT the batch exceeded its work limit');
+    expect(p.version).toBe(0);
   });
 
   it('a fractional limit (a law\'s floor + perUnit × count, C-0174) is a limit like any other (C-0185 (5))', () => {

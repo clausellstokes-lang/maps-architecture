@@ -147,10 +147,10 @@ export function takeSavepoint(p: Plat): Savepoint {
 }
 
 /**
- * Each arena's restore generation (N-56 (5), C-0299): how many times a before-image was put back across committed
- * batches. Kept beside the arena, never on it and never persisted (the chunk format stores no version either), so a
- * state keyed on the version alone — a maintained level digest, M0-d-04 — can tell a version reached again after a
- * restore from the one it saw.
+ * Each arena's restore generation (C-0299): how many times a before-image was put back across committed batches. Kept
+ * beside the arena, never on it and never persisted (the chunk format stores no version either), so a state keyed on
+ * (generation, version) — a maintained level digest, a stamp (C-0313) — tells a version reached again after a restore
+ * from the one it saw.
  */
 const RESTORES = new WeakMap<Plat, number>();
 

@@ -9,7 +9,7 @@ import { describe, expect, it } from 'vitest';
 const DIR = join(import.meta.dirname, '../../src/tx');
 
 /** The keys a comparator may read: lattice positions, canonical face keys, address ids, ranks, arc positions, lineage. */
-const KEYS = /compareVertices|compareKeys|keyCmp|pointCmp|byKey|\bcmp\b|rank|\.pos\b|ordinal/;
+const KEYS = /compareVertices|compareKeys|comparePoints|keyCmp|byKey|\bcmp\b|rank|\.pos\b|ordinal/;
 
 describe('src/tx: every tie-break reads a canonical key, never a slot', () => {
   const files = readdirSync(DIR).filter((f) => f.endsWith('.ts'));

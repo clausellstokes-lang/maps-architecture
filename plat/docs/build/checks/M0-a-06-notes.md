@@ -28,3 +28,190 @@ notes N-1 – N-6 stay in `checks/M0-a-06.md`, and the ids below continue that n
 | N-23 | Closing check S4. The exported `restoreSavepoint` (N-55 (6)) hands the image's arrays to the arena. If one image is restored twice, the second restore silently puts back arrays that later writes have since changed. In `probe-twice.mts` (take, commit, restore, commit, restore), the first restore is bit-identical, but the second is not: the arena then holds 9 `allProblems` and no throw is raised (CONFIRMED). A restore while a batch is open is the same class of misuse (PLAUSIBLE, by reading). The doc lines in `tx/index.ts` and `savepoint.ts` say "at most once" and "between batches", but nothing checks either. The runner's intended use (one image per stage, restored after `stage.run` returns) is safe. This seat's `probe-savepoint.mts` (300 cases, 267 of them with partition rebuilds between take and restore, 898 partitions rebuilt in all) found every arena bit-identical to its image, the index state clean and the next batch committing. | Make `restoreSavepoint` throw on a second use of one image (a `used` mark) and when the arena's index log is open (a batch is running). This guards against deliberate or contrived misuse. | M4 (or M0-x-02's round s1, which introduces the consumer) |
 | N-24 | Closing check S5 (lane `check/M0-a-06-close-s5`, `checks/M0-a-06-s5.md`). Out-of-LIFO image use is outside what round S5's restore generation covers. `restoreGeneration`'s doc says "(generation, version) is never reached twice with different content", and that holds for LIFO use: in 600 random LIFO sequences of 40 steps, there were 727 cross-commit restores and 0 keys naming two contents. It fails when a *dead* image is put back: one taken before a restore to an older image, then restored at the version the arena has reached again. This is CONFIRMED in the seat's probe `zz-check-s5.test.ts`. The sequence is: A at v1; two commits; B at v3; restore A (generation 1, v1); two commits (generation 1, v3, content Y); restore B. The result is still generation 1, v3, but the content is now B's (`sameKey true sameContent false`). A consumer keyed on (generation, version) then reads L1–L4 stale (`stalePerLevel [false,true,true,true,true]`). Separately, in 300 random sequences (`zz-check-s5-nonlifo.test.ts`), 143 key collisions appeared in 48 sequences, and 60 restores threw `TypeError: Cannot read properties of undefined (reading 'clear')` in `restoreIndex` (`savepoint.ts:92`): the tombstone list had been shortened by the earlier restore. No M0 path reaches this. The runner restores one stage image per stage after `stage.run` returns; every batch and op restores its own image at its own version; and the doc only says "at most once". | Pick one. (a) State the contract as LIFO and refuse a dead image with a typed throw: mark images that are dead once an older image is restored, as N-23's `used` mark does for a second use. (b) Store the generation in the image, and bump when `p.version !== s.version \|\| restoreGeneration(p) !== s.generation`, so that the key stays unique. Either way, pin the dead-image sequence above. Do this together with N-23 and before the first out-of-LIFO consumer (M1's pool, M2a's undo). | M0 hardening phase (J237), with N-23 |
 | N-25 | Closing check S5. Mutant **M04** bumps only on a backward restore (`p.version > s.version` in place of `!==`). It survives the tx folder (`Tests 225 passed (225)`, with this seat's probes included). It is equivalent for the key: a forward restore happens only with a dead image (N-24). Within one generation the versions only rise, so the forward restore lands on a key that generation has not visited. On the same 300 out-of-LIFO sequences (151 forward restores), the tree and M04 gave identical totals (`throws 60 collisions 143 collidingSeqs 48`). The only difference is the count that the doc's "one more per such restore" describes. The tree bumps there, which is right. | A count pin for a forward restore can go into N-24's round. Separately, pin the seat's LIFO property in `savepoint.test.ts`: random nested take, restore and drop with rejects, throws and empty batches; no key names two contents; the generation equals an independent count of cross-commit restores. This is a hardening test; the six pins already kill every other mutant. | M0 hardening phase (J237), with N-24 |
+
+## Round C1 — consolidation round R6 (lane `build/M0-a-06-consolidate-1`, flow flow-7, 2026-10-13)
+
+The round applies T-1 – T-9, the tx comment rows (C-tx-1 – 4) and the `test/tx` row (T-tx) of
+`plat/docs/build/consolidation/kernel-plan.md` (§1.3, §2, §3.3, §3.5, §4; J260, J263 Q1, Q3, Q4, Q6, Q8; J264 (5);
+J270 (a), (b)) as fix round C1 of the item's consolidation lines, after R1 (`num/exact.ts`), R3, R4 (`arena/resolve.ts`
+`edgeRuns`) and R5 (`index/items.ts` `faceArea2`). The plan's §1.0 N-1, N-3 and N-4 name two more private copies in these
+files (`tx.ts` `closer`, `relevel.ts` `insidePoints`); they are replaced too. It changes no behaviour. Its choices row
+is C-0350.
+
+### What changed, and the equivalence shown
+
+| finding | change | equivalence |
+|---|---|---|
+| T-1 | `chains.ts` `runsOfPairs` → `export const runsOfPairs = edgeRuns;` (`import { edgeRuns } from '../arena/resolve.js'`), the public name kept; its doc points at `edgeRuns`' statement of the rule (C-0146 (5)). | **T-tx-new-1 held first**: the new `test/tx/chains.test.ts` keeps the old body verbatim as `referenceRuns` and holds `runsOfPairs` ≡ `edgeRuns` ≡ it as `HalfEdgeId[][]` (run order, direction, start vertex) — every keyed chain and every whole edge set of the pool, and a property over pair subsets with repeats in any listing order at `PLAT_FUZZ_RUNS` (10⁴): green at 10⁴ on the OLD body (kernel and kernel-tiny) before the replacement, and after it. The pool: QUARTERS (dressed), LAKE and the loop off a branch vertex in six allocation orders each, the six fixture sequences, 24 fuzz arenas (both mixes) with their chains. The property asserts it drew open runs, rings and loops off a branch vertex. **No difference found** (J263 Q3 not reached). |
+| T-2 | `profile.ts` `routeLines` = `resolve`, then `linesOfRuns(p, r.runs, chainLevel(p, chain))`; the body lives once, in `chains.ts`. | The removed body was `linesOfRuns`' line for line (the same filter `L[v] <= level`, the same check text `a run has route vertices at its own level`, the cumulative `Math.sqrt` of integer squared lengths, the ring's closing segment); the call order is the same (`resolve`, then `chainLevel`, then the walk). |
+| T-3 | `relevel.ts` `around` deleted; its ten call sites read the arena's `outgoing`. The module comment states why every read is safe (below). | Identical lists on a live vertex with a closed rotation (the same loop); `outgoing` adds a liveness check and its own `arena: … does not close` text where `around` threw `tx: … does not close` — both throw on a corrupted arena (§3.11's assertion class, J263 Q4). Every site reads a live vertex with a closed rotation (table below). |
+| T-4 | `relevel.ts` `pointCmp` deleted, `keyCmp` reads `num/exact.ts` `comparePoints`; `tx.ts` `dirtyFaces`' inline `pointCmp` (the removed records' key order, C-0185 (17)) likewise. | `comparePoints` is the same expression (c3 homed it verbatim); −1 / 0 / 1 as before. |
+| T-5 | `tx.ts` `area2Of` deleted, the area floor reads `index/items.ts` `faceArea2` (by path); `uniq` deleted, its seven uses inlined as `[...new Set(xs)]`; `writers.ts` `enter` / `overLimit` → `state.ts` `enterWriter` / `overLimit` (file-level exports), `writers.ts` imports them; `tx.ts`'s π literal → `num/exact.ts` `PI`; `relevel.ts` `HOT_SQ` → `insert/placement.ts` `HOT_PIXEL_SQ` (by path; `HOT_PIXEL_CM`'s import dropped). | `faceArea2` sums `area2` over `faceRouteRings(p, level, f, level)` in ring order on `lp(x, y)` points — the removed body's points `{ x, y }` — the same doubles; `enterWriter` / `overLimit` bodies and texts identical (`'the batch exceeded its work limit'`, `TX_FACES_WALKED`); `PI` the same literal 3.141592653589793; `HOT_PIXEL_SQ` is `HOT_PIXEL_CM * HOT_PIXEL_CM`, `HOT_SQ`'s expression. |
+| §1.0 N-1 | `tx.ts` `closer` deleted; the clearance row reads `num/exact.ts` `segmentCloserThan`. | Textually the same algorithm (dot ≤ 0 or a point segment → end a; dot ≥ l2 → end b; else `orient2d² < r²·l2`, strict); `r*r*l2` and `r2*l2` round identically. M0-a-01's copy table now reads the site as CONSOLIDATED (`importsShared`). |
+| §1.0 N-3 | `relevel.ts` `insidePoints` deleted; the face pass and `materialise` read `num/exact.ts` `insideDoubledRing` (five sites). | The old toggle `(ay > qy) !== (by > qy)` then `by > ay ? o > 0 : o < 0` is `crossingStep(…) !== 0` case for case (the same four-case table M0-a-03's round showed, on the doubled coordinates); the same doubling of the ring. |
+| T-6 | Nothing: the three readings of §3.10 stay apart (C-0185 (4), C-0200 (2)); `cornerBelow` gains one sentence naming `invariants/batch.ts` `acuteCorners` and why both stay. | — |
+| T-7 / T-8 / T-9, §2 | Comments only: `tx/index.ts` C-tx-1 (the plan's sentence) and its scaffold sentence dropped; `state.ts` `closed` / `op` / `asOp`; `tx.ts` lines 14, the catch, the freshness admission; `relevel.ts` the module comment, the strip-set reading (C-0287), the own-child ancestors (C-0219), `holdsDemoted` and `materialise` (C-0189 (1)), the pin (C-0189 (3)), `onStretch`; `savepoint.ts` `RESTORES`; `chains.ts` header and `linesOfRuns`. `check` / `notBuilt` stay (J270 (a)). | Every refusal detail and prefix verbatim (J263 Q6): `tx <stage>/L<level>/<form>/<op>: `, `the batch exceeded its work limit`, `tx.facesWalked`, every `E_KEPT` / `E_LEVEL` / role / level / clearance text — the NO-SHIFT probe prints every refusal's code and detail. No `N-xx` token, `checks/` path, case number or round name is left in `src/tx` (grep). |
+
+**T-3: the ten call sites of `around` (now `outgoing`) and the rotation each reads (J263 Q4).** `rewriteRows`' only writes
+to the half-edge links are `deletePair` (each call relinks both ends' rotations, sets `out`, then frees the pair) and a
+dissolution's merge in `dissolve` (it relinks the far vertex's rotation and `out`, then frees the dropped pair and the
+vertex); rows, levels, flags and the face tables (`facePass`, `materialise`) never touch a rotation. Line numbers: before
+→ after.
+
+| site | phase | vertex | verdict |
+|---|---|---|---|
+| :255 → :229 `dissolvable` | the on-run second reading (after every `deletePair`, before flags, levels and merges) | guarded `isVertexLive(p, u)` | closed |
+| :285 → :258 `onStretch` | the same | `u` passed `dissolvable` (live) | closed |
+| :431 → :401 `runsBefore` | before the first write | `vstar`: ends of touched (live) pairs, vertices losing rows, `w.vertices` filtered live, vertices gaining rows | closed |
+| :508 → :478 `aroundV` | before the first write | the same | closed |
+| :528 → :498 `saveRun` | before the first write | the same | closed |
+| :658 → :628 the second reading | after the deletions, the face pass and `materialise` | `canonical()` filters live | closed |
+| :684 → :654 rule 3 (c) | after (b)'s flags | `canonical()` at the loop's start; the loop frees only the vertex it is on (no incident edge) | closed |
+| :1227 → :1197 `dissolve` | between merges (each completes before the next) | guarded live | closed |
+| :1238 → :1208 `dissolve` (`ua`'s rotation) | before this merge's writes | `ua = dest(ha)`, a live edge's end | closed |
+| :1301 → :1271 `restoreSplit` | after every dissolution | guarded live | closed |
+
+No site reads a rotation mid-rewrite, so `outgoing` replaces `around` everywhere; a freed vertex (whose `out` holds the
+free-list link) or an open rotation now asserts `arena: …` instead of walking it.
+
+**The generator: first 16 draws of three seeds, before and after** (T-support-1). `order.test.ts`'s copy deleted and
+`order.test.ts` imports `fuzzgen.ts`'s `rng`; `fuzzgen.ts`'s copy deleted and it re-exports `test/arena/support.ts`'s
+`rng` (the kernel tests' one generator, pinned by `test/arena/support.test.ts`). The three bodies (the old `order.test.ts`
+copy, the old `fuzzgen.ts` copy, `test/arena/support.ts`), each word × 2³²:
+
+* seed 1: EQUAL — 2693262067 11749833 2265367787 4213581821 4159151403 1207330352 2632122864 3095568220 1828783984 4272732017 1955374602 2099329838 596715197 1734070562 1063107040 663542962
+* seed 7919: EQUAL — 2963954777 3185336596 1619560377 3470510072 1064352239 2950739981 249889455 1693292393 2663165774 3436040076 1402844426 319401631 1236834845 2057508865 1492688795 2263732450
+* seed 104729: EQUAL — 325253669 3481002091 881690241 2630884050 202925694 2575334518 2254226960 4281455078 909753038 2747231090 2179113045 326852131 94017507 516651112 901949097 1845129676
+
+**API frozen (J263 Q1).** The exported names and their types, listed by the TypeScript checker on a copy of the tree
+taken before the first edit and on the tree after: the barrel `src/index.ts` 673 names and `src/tx/index.ts` 56 names,
+identical names and identical types; the one difference is `runsOfPairs`' symbol kind (a function declaration → a
+`const` bound to `edgeRuns`, as the brief's form), its type `(p: Plat, pairsIn: readonly number[]) => number[][]`
+unchanged. `state.ts` gains the file-level `enterWriter` and `overLimit` (not re-exported by `tx/index.ts`).
+
+**NO-SHIFT (J260 (3)).** A scratch probe (never in the tree) runs the item's families in the lane's mirror and prints per
+batch the outcome (the commit record as JSON, or the refusal's code and detail), the arena's tables bit for bit (`bits`),
+the content print, the level digests L0 – L4, the encoded chunk refs and, per live way and kerb, `runsOfPairs` of its
+pairs and its `routeLines`: the default mix seeds 1 – 300 (×7919, 14 batches) and the along mix seeds 1 – 300
+(×104 729, 16 batches) — fuzz.test.ts's families widened from 24 seeds — the ten regression sequences, the area, angle
+and width floors (100, 100, 60 seeds) and a 40-operation work limit (60 seeds): 13 700 batches, 13 700 lines, sha
+`e7df46ac9c9ba5ba` on the pre-round mirror and on the new sources — byte-identical (`cmp`), refusal tallies identical.
+The consolidated tests pass on the pre-round sources (14 files, 228 / 228, kernel project) and the pre-round tests on the
+new sources (14 files, 222 / 222, `smoke.test.ts` among them).
+
+**Refusals (J264 (5), N-58): before = after.** fuzz.test.ts's registered families (seeds 1 – 24): default 336 batches,
+59 refused — `insert way` E_KEPT 57, `stretch` (not rekeyed) E_INVARIANT 2; along 384 batches, 104 refused — `insert
+way` E_KEPT 95, `insert lane` E_KEPT 5, `stretch` E_INVARIANT 4; the regressions 220 batches, 49 refused — `insert way`
+E_KEPT 43, `stretch` E_INVARIANT 4, `remove way` E_INVARIANT 2. The widened families: default 782 of 4 200, along
+1 153 of 4 800; floors area 404, angle 641, width 196; work limit 388 — every count the same before and after. Classes:
+
+| source / code | input kind | count (registered) | verdict |
+|---|---|---|---|
+| `stretch` without the rekey → E_INVARIANT `(way, …) lies in 2 parts, more than the 1 it declares (§3.10 role consistency; split it by rekey first, §3.4)` | UNLAWFUL (§13.1: refused by role consistency) | 2 + 4 + 4 | REFUSE — the alternative is named in the message: rekey first (`retypeEdges` with `rekey`, §3.4; the generator's rekeyed path) |
+| insertChain (M0-a-05's `finerNear`) → E_KEPT `a chain vertex inside a finer face … (kept content)` | to be classed by M0-a-05 / the census (note N-c1-2) | 57 + 100 + 43 | not this item's code; count unchanged |
+| tx's clearance row on a whole-way removal → E_INVARIANT `clearance: the vertex … stands within minEdge of the edge …` (regressions 5413 #28, 5606 #10) | LAWFUL (removing a way) | 2 | routed: note N-c1-3 |
+| expectations (class floors) E_BELOW_MIN_AREA / ANGLE / WIDTH | the stage's own floors (§3.3 *Expectations*) | (probe families) | REFUSE by design — the `onFail` ladder (repair, downgrade) is the alternative |
+| E_WORK_LIMIT | structural: the caller's budget (§3.3, §5.1 (5)) | (probe family) | REFUSE by design — the caller's `onFail` tiers |
+
+### Old file → new file map (J263 Q8)
+
+Every describe and it title is kept: 53 describe / 122 it before (17 files), 54 / 128 after (17 files) — the
+T-tx-new-1 describe with its three its, and one it each in `profiles`, `expect` and `forms` added.
+
+| old file | new file | change |
+|---|---|---|
+| `test/tx/smoke.test.ts` | `test/tx/forms.test.ts` | its describe 'a callback batch round trip' and both its moved byte-identical (placed before '§13.1: a transaction with no op …'); the file deleted; forms' header names the round trips |
+| `test/tx/restore.test.ts` | same | `facesPerLevel`, `chunkRefs`, `digests`, `snapshot` (:30–52) → `test/tx/support.ts` `facesPerLevel` and `snapshot` (T-support-3: step 3–5's `snapshot` with the records per level beside it); the two `digests(p)` reads → `snapshot(p).digests`. `segmentDistance` (:661) STAYS: it returns Infinity when v projects outside a–b (the kernel's on-run reading), where `test/insert/step3-5/support.ts` `segDist` and `test/insert/step1-2/support.ts` `segmentDistance` clamp to the ends — another function. |
+| `test/tx/order.test.ts` | same | its mulberry32 copy (:12–22) → `fuzzgen.ts`'s `rng` |
+| `test/tx/fuzzgen.ts` | same | its mulberry32 copy → a re-export of `test/arena/support.ts`'s `rng` |
+| `test/tx/support.ts` | same | + `facesPerLevel`, `snapshot` |
+| — | `test/tx/chains.test.ts` (new) | T-tx-new-1 |
+| `test/tx/profiles.test.ts`, `expect.test.ts`, `forms.test.ts` | same | one pin each (the self-check's survivors T2c, T5f, T5b) |
+| `test/tx/source.test.ts` | same | its comparator keys read `comparePoints` (the folder's comparator since T-4) in place of `pointCmp` |
+| `clauses`, `cost`, `fixtures.test`, `fixtures.ts`, `fuzz`, `record`, `removals`, `savepoint` tests, `fixtures/sequences.json` | same | unchanged |
+| `src/tx/{chains,profile,relevel,state,tx,writers}.ts` | same | the findings above |
+| `src/tx/{index,savepoint}.ts` | same | comments only |
+| `src/tx/{ops,types}.ts` | same | unchanged |
+
+The `kernel-tiny` project's include (`test/tx/**/*.test.ts`, `vitest.config.ts`) is folder-level: it runs the new
+`chains.test.ts` and the folded cases in `forms.test.ts` (NEAR: 28 files, 14 per project).
+
+**The mutant map by title.** s1 K01 – K15 → `restore.test.ts` 'N-47: removeEdges frees the own children …' (unchanged);
+s2 X01 – X16 → 'B-1: remove(insert(x)) dissolves every crossing …' and the two B-1 properties; s3 Y01 – Y04 → 'B-1
+targeted property'; s4 S01 – S05 and E01 → 'N-55 (1): a chain sharing a run …' and `savepoint.test.ts` 'N-55 (6):
+takeSavepoint / restoreSavepoint / Savepoint through @plat/kernel'; s5 M01 – M13 → `savepoint.test.ts` 'N-56 (5): the
+restore generation …'; the smoke cases keep their titles inside `forms.test.ts`.
+
+### Self-check (J183): the faults re-introduced in the lane's mirror
+
+Each mutant applied alone to the lane's mirror (a real copy of `plat/` under the session scratchpad; no link into the
+tree, workspace packages resolving inside the copy), run as `vitest run --project kernel --maxWorkers=1 --bail=1
+packages/kernel/test/tx`, restored from the tree with a `cmp` check (all 33 restored).
+
+| id | file | fault | result |
+|---|---|---|---|
+| T1a | chains.ts | `runsOfPairs` a delegation that reverses the runs | killed: chains 'every keyed chain of every arena of the pool …' |
+| T1b | arena/resolve.ts | `edgeRuns`' ring orientation flipped | killed: chains (the same) |
+| T1c | arena/resolve.ts | a loop off a branch toward the larger neighbour | killed: chains (the same) |
+| T2a | chains.ts | arc length +1 under the root | killed: profiles 'a ring interpolates cyclically …' |
+| T2b | chains.ts | a ring's length without its closing segment | killed: profiles (the same) |
+| T2c | chains.ts | the route reads one level finer | survived the folder first; killed by the new profiles pin 'the own-level route keeps the vertices of the chain's level only …' |
+| T2d | profile.ts | `routeLines` hands the next finer level | killed: fuzz 'seed 2' |
+| K01 / K03 / K11 | relevel.ts | s1's: no recursion / the gather stops above L1 / L1 ancestors never decided | killed: restore 'an L3 chain inside the framed square beside an L0 way …' |
+| X04 / X08 | relevel.ts | s2's: no `onStretch` reading / no walk through dissolvable vertices | killed: restore "the widened property's case 855 …" |
+| X12 | relevel.ts | s2's: ancestor frees in reverse key order | survived — as in `checks/M0-a-06-s2.md` (equivalent there: the record orders its removed lists by `removedKeys`); the promise it aims at is T4b's, killed |
+| Y01 | relevel.ts | s3's: the stretch ends only | killed: restore "the S2 check's case 817 …" |
+| S01 | relevel.ts | s4's: `levelRows` ignores the strip set | killed: restore 'case 1630 …' |
+| W01 | relevel.ts | dissolution without `wasOnRun` | survived — s2's X02 (M18), equivalent there (CONFIRMED) |
+| T4a | relevel.ts | `keyCmp` reversed (the survivor by the largest key) | killed: removals 'four owned blocks, one way removed …' |
+| T4b | tx.ts | the record's removed list in reverse key order | killed: restore 'own case 52 …' |
+| T5a | tx.ts | the area floor compared undoubled | killed: clauses 'a floor between the sliver's area and twice it (300 000 cm²) …' |
+| T5b | state.ts | `enterWriter`'s detail text changed | survived the folder first; killed by the new forms pin 'a writer entered on a batch an earlier op took past its limit …' |
+| T5c | state.ts | a batch past its limit not doomed at entry | killed: forms "a callback that ignores an op's E_WORK_LIMIT …" |
+| T5d | state.ts | `overLimit`'s counter detail changed | survived — equivalent: inside this item's writers every charge goes through `chargeTx` (ten sites; `promote` charges nothing), which sets `failed` with its counter when it crosses the limit, and `enterWriter` dooms a batch already past it at entry, so `overLimit` never meets `failed === null` (by reading) |
+| T5e | relevel.ts | the hot pixel squared four times over | survived — a pre-existing gap (note N-c1-4) |
+| T5f | tx.ts | `cornerBelow` with π read as 3 | survived the folder first; killed by the new expect pin 'reject on an angle floor, read in centidegrees through π …' |
+| N1 | tx.ts | the clearance row 1 cm short | survived — a pre-existing gap (note N-c1-4) |
+| N3 | relevel.ts | the face pass's containment with the doubled point transposed | killed: restore 'the content print (rings at their least rotation), …' |
+| TT1 | tx.ts | the committed record one version ahead | killed: forms (folded) 'a way across the frame committed, then removed …' |
+| TT2 | tx.ts | the declared order by descending lineage | killed: order 'the canonical key: …' |
+| M01 | savepoint.ts | s5's: every restore bumps the generation | killed: savepoint 'a restore across committed batches bumps it by exactly one …' |
+| E01 | tx/index.ts | s4's: the savepoint export dropped | killed: savepoint 'the kernel index exports the two functions …' |
+
+30 mutants (33 runs with the three re-runs): 25 killed, 3 equivalent (X12, W01, T5d), 2 pre-existing gaps (T5e, N1).
+
+### Gates
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1155 files, 0 errors, 0 warnings; `lint: probe-red ok`); `build` 0. NEAR
+at full strength: `test/tx` in the kernel and kernel-tiny projects — 28 files, 456 / 456 (157.8 s, W = 1), the item's
+here bar among them (`order.test.ts`'s op-permutation harness, `cost.test.ts`'s O(touched)); `test/num` (M0-a-01's copy
+table, which reads this round's sites as CONSOLIDATED) 13 files, 108 / 108. RELATED at `PLAT_FUZZ_RUNS=1000` over
+`src/tx/{chains,profile,relevel,state,tx,writers,index,savepoint}.ts` (W = 1, 13 760 s): 467 files, 5 909 / 5 910 — the
+one red is `test/io/roundtrip.test.ts` 'random batch arenas (default mix): …', vitest's 5 s default timeout (`Test timed
+out in 5000ms`): alone it takes 5 531 ms on the tree and 5 240 ms on the pre-round sources (red on both), and passes on
+both with `--testTimeout=120000` (7 / 7) — this machine's speed against io's default, not this round (the R5 check's
+N-c1-7 class). No J176 bench red appeared (the run's one failure is the above).
+
+### Notes
+
+| id | observation | handling | milestone |
+|---|---|---|---|
+| N-c1-1 | **The plan's "X12 must stay killed" does not hold, and never did.** kernel-plan.md §1.3 T-4's ORACLE and the brief name s2's X12 ("frees in reverse key order") as a mutant to keep red; `checks/M0-a-06-s2.md` recorded X12 as **survived, equivalent** (the record sorts its removed lists by `removedKeys`, s1's K12), and it survives here too. The order X12 changes is the free list's (slot reuse), which no output reads (§3.3). The promise behind it — the record's removed records in key order — is T4b, killed by restore 'own case 52'. | none; recorded for the closing check | — |
+| N-c1-2 | **insertChain's E_KEPT in this item's families needs its class (N-58).** 57 of 336 default and 100 of 384 along batches of fuzz.test.ts's seeds 1 – 24 (43 of 220 in the regressions) are `insert way` / `insert lane` refused `E_KEPT a chain vertex inside a finer face at (x, y) (kept content)` by M0-a-05's `finerNear` — under a spec with `rederivesFrom` 0, where tx's own kept-content rule (C-0185, by stage rank) keeps nothing. Whether a coarser chain's vertex inside finer content is unlawful (§3.3 *Kept content*, the stage clears first) or a lawful insert refused is M0-a-05's reading; unchanged by this round (before = after). | the refusal census (N-58) / M0-a-05 | M0 hardening |
+| N-c1-3 | **A lawful whole-way removal refused by tx's clearance row** (C-0185 (4): a removal ends one-rings, a vertex beside an edge it was joined to through a deleted edge is no longer exempt): fuzz.test.ts's regressions 5413 (×7919, mix way 0.25 / lane 0.5, batch 28) and 5606 (batch 10), `clearance: the vertex (1376, 1330) stands within minEdge of the edge (0, 353)–(2485, 2163) (§3.10)` and `… (2499, 1756) … (1879, 1530)–(4000, 2395) …`. Fail-safe (nothing commits) and pinned as valid outcomes by the regression list; under J264 a lawful-input refusal is a defect to make succeed, which needs a design reading (what the removal does with the vertex left within minEdge). Unchanged by this round. | the session (J264, N-58: MAKE-IT-SUCCEED needs a ruling) | M0 hardening |
+| N-c1-4 | **Two pre-existing test gaps on constants this round re-homed.** T5e (`nearSegment` with 4·`HOT_PIXEL_SQ`) and N1 (the clearance row at `minEdge − 1`) survive the tx folder; the same mutants of the pre-round `HOT_SQ` / `closer` would too. The re-homing is shown equal by the expressions (`HOT_PIXEL_CM * HOT_PIXEL_CM`; `segmentCloserThan`'s body) and by M0-a-01's copy table, which held `closer` ≡ `segmentCloserThan` and `HOT_SQ` = `HOT_PIXEL_SQ` while the copies stood. Pins need a split vertex 0.71 – 1.42 cm off its run, or a removal leaving a vertex 24 – 25 cm from an edge. | hardening (FAIL SAFE NOW, HARDEN LATER) | M4 |
+| N-c1-5 | **A committed arena the encoder refuses (found by this round's probe; pre-existing, identical before and after).** In the along mix (×104 729, 16 batches) seed 91 batch 10 (`remove way`) and seed 235 batch 14, and the regression 106 (×15 485 863, mix way 0.2 / lane 0.3 / along 0.25) batch 18 (`remove way`), the batch commits (fuzz's `healthy` oracles pass) but `encodeArena` then throws `encodeArena: the rows of one level differ along a route edge of that level` and `routeLines` of the kerb that ran along the way (`lane:6`, `lane:7`) throws `tx: a run has route vertices at its own level`. A committed state that the persisted form and the profile reading refuse is N-45 (a)'s class (a throw on a valid arena, or a wrong committed result) in rule 3's re-levelling after a way under an along-kerb is removed; not diagnosed further here (a behaviour change is outside this round). | the session: a fix round of M0-a-06 (rule 3 (a) / (c) with M0-a-15's encoder row) | M0 (N-45 (a)) |
+
+### Round C1 — the closing check's notes (lane `check/M0-a-06-consolidate-close-1`, 2026-10-13)
+
+These rows come from the closing check of round C1 (verdict in `checks/M0-a-06-c1.md`). None is a blocker of the round:
+each is pre-existing (it reproduces the same way on the pre-round sources, fetched from `main` at `b1d48323`) or a
+comment or test-strength tightening.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c1-6 | **N-c1-5 is wider than three sequences, and a registered regression is one of them.** This checker's NO-SHIFT probe (52 230 batches) finds 14 sequences whose committed arena `encodeArena` refuses with `the rows of one level differ along a route edge of that level`. They are the along mix ×104 729, seeds 91 (batch 10), 235 (14), 307 (7), 719 (10) and 980 (7), and the mix way 0.2 / lane 0.3 / along 0.25 ×15 485 863, seeds 106 (18), 210 (12), 213 (11), 333 (10), 361 (19), 395 (10), 402 (9), 443 (13) and 739 (19). The batches are `remove way` (10), `stretch` (2) and `stretch (rekeyed)` (2). Seed 106 ×15 485 863 is a registered regression of `fuzz.test.ts`, and that test's `healthy` oracle passes it. In 9 of the 14, `routeLines` of a live kerb then throws `tx: a run has route vertices at its own level` (`lane:6`, `lane:7`, `lane:4`, `lane:3`, `lane:8`, `lane:9` and `lane:15`, `lane:5`, `lane:6`). In all 14, `allProblems` is empty, and so is a whole-arena level-consistency scan of this checker's own (every vertex finer than a coarser edge has exactly two coarser edges of one level, with identical rows at that level). So the state breaks no row the validators read. It breaks the constancy of an intermediate level's rows along a coarser route edge, which the encoder reads (`io/encode.ts` `runRows`). Identical on the pre-round line, so not this round's. J290: the input kind is OUR OWN INTERMEDIATE (lawful batches), and the verdict is MAKE-IT-SUCCEED. | the session: the fix round N-c1-5 asks for, with these seeds. `fuzz.test.ts`'s `healthy` should also encode the arena and read `routeLines` of every live chain, so the registered family catches the class. | M0 (N-45 (a)) |
+| N-c1-7 | **`enterWriter`'s limit boundary has no pin.** Mutant C10 dooms a batch whose total EQUALS its limit at a writer's entry (`>=` for `>`). It survives the tx folder at 10⁴ on the tree and on the pre-round line (writers.ts `enter`), so the gap is pre-existing. §3.3 refuses a batch whose total exceeds its limit, and the code is right. | a pin: a callback charged to exactly `workLimit` by one op, then a writer that must proceed | M4 |
+| N-c1-8 | **The tx clearance row's boundary.** C12 (the row 2 cm too wide, `r + 2`) survives the tx folder at `PLAT_FUZZ_RUNS=1000`. Only the zigzag property kills it, at 10⁴. N-c1-4's N1 (1 cm too narrow) survives at every size. The row is shown equal to `segmentCloserThan` by the diff (`r*r*l2` ≡ `r2*l2`) and by the NO-SHIFT probe, but no unit case stands a vertex at 24, 25 and 26 cm from an edge after a removal. | extends N-c1-4's pin | M4 |
+| N-c1-9 | **Two on-run mutants of the pre-batch list survive, and are subsumed.** X16 / X16c keep only the first pair of the pre-batch on-run list (`onRunBefore`, the first reading). They survive the tx folder at 10⁴ on the tree and on the pre-round line, because the second reading (`onStretch`) re-admits each same-level pair whose vertex is of the pair's level. s2's X16, read as the FINAL list keeping its first pair (X16b), is killed by restore's case 855. | none needed; a fixture where a vertex finer than its edges has two on-run pairs would separate the readings | M4 |
+| N-c1-10 | **Two comment completions; everything the comments state holds.** (a) The C-tx-1 sentence on `tx/index.ts` (the plan's text, verbatim) drops one usage rule the old comment held: "never a batch's substitute (§3.3's batches stay the unit of writing)". A grep of `choices.md`, `M0.md` and `checks/M0-spec-notes.md` finds the rule nowhere else. "At most once" and "O(arena)" survive in `restoreSavepoint`'s doc and `savepoint.ts`'s header. (b) `state.ts`'s `op` doc lists a declared op's kind, `fn`, the writer names and `commit`, but `tx.ts` also sets `order` (`canonicalOrder`) and `<kind> (prepare)`. That list predates this round. | (a) one clause back on C-tx-1, or a choices row; (b) complete the list | M4 (comments) |
