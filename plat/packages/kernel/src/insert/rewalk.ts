@@ -14,14 +14,15 @@
 // and walks their old rings in the old view — the arena without the new edges; (3) gives each new cycle its old region:
 // a record whose old ring holds one of the cycle's old half-edges, the region across a new edge, the region holding a
 // new edge's midpoint, or — where level n has no record there — the coarser record that holds it (a level-n region
-// materialised from it, C-0177 (9)); (4) in each region, splits the cycles into faces: a counter-clockwise cycle (exact
-// `area2` > 0) is a face's outer ring, every other one a hole of the smallest face that strictly holds it, or the
-// unbounded outside; (5) writes the records — a region's face holding its record's stored outer half-edge keeps the
-// record (its rings changed), every other face is a new record inheriting the region's kind, owner, stage rank and
-// parent — with the index (§3.3 "No item changes in place") and the journal; (6) re-parents the level-(n + 1) records of a
-// split record by containment, each listed in the journal's level-(n + 1) `changed` (the commit record lists them, §3.6
-// step 5). Charges `tx.facesWalked` once per ring walked. Readings: C-0177 (8), (9), refined by C-0178 (the re-parented kept
-// records the journal lists).
+// materialised from it, C-0177 (9)): the record whose walk holds one of the cycle's coarser sub-edges, a failed premise
+// (a finer record under it) refused E_INVARIANT (C-0349); (4) in each region, splits the cycles into faces: a
+// counter-clockwise cycle (exact `area2` > 0) is a face's outer ring, every other one a hole of the smallest face that
+// strictly holds it, or the unbounded outside; (5) writes the records — a region's face holding its record's stored
+// outer half-edge keeps the record (its rings changed), every other face is a new record inheriting the region's kind,
+// owner, stage rank and parent — with the index (§3.3 "No item changes in place") and the journal; (6) re-parents the
+// level-(n + 1) records of a split record by containment, each listed in the journal's level-(n + 1) `changed` (the
+// commit record lists them, §3.6 step 5). Charges `tx.facesWalked` once per ring walked. Readings: C-0177 (8), (9),
+// refined by C-0178 (the re-parented kept records the journal lists) and C-0349 (the coarser record, round S8).
 import {
   allocFace,
   faceHoles,
@@ -36,7 +37,7 @@ import {
   type Plat,
   type VertexId,
 } from '../arena/index.js';
-import { homeOf, indexAdd, indexChange, ITEM_FACE, query } from '../index/index.js';
+import { homeOf, HOT_PIXEL_CM, indexAdd, indexChange, ITEM_FACE, query } from '../index/index.js';
 import { area2, err, ok, orient2d, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
 import { charge, check, workLimitHit, type InsertTx } from './classes.js';
@@ -44,6 +45,15 @@ import { chainJournal, segmentBox } from './stretch.js';
 
 /** The work-limit counter of the faces a batch walks (M0.md §2.2's `tx.facesWalked`, unit `faces`). */
 export const TX_FACES_WALKED = 'tx.facesWalked';
+
+/**
+ * How far past a point a face record is asked of the index when the exact test reads its walk (whole cm): the index
+ * reads a level-m record on its level-m route, the walk passes every Steiner vertex on its edges, each within one hot
+ * pixel (0.71 cm, §2.2 rule 3) of the route per level it is finer, four levels at most — so a record holding a point by
+ * its walk always meets the box (C-0349 (1); Q53, checks/diagnosis-a09-sliver.md §5). 3 cm.
+ */
+export const WALK_REACH_CM = Math.ceil(4 * HOT_PIXEL_CM);
+const REACH = WALK_REACH_CM;
 
 /** What a batch touched that the re-walk reads: its new edge pairs (of the batch's level). */
 export interface Touched {
@@ -170,10 +180,12 @@ export function rewalk(tx: InsertTx, touched: Touched, undo?: (() => void)[]): K
     recordRegion.set(f, r);
     return r;
   };
+  // The candidates are asked `REACH` past each new edge: the index reads a record on its level-n route, the regions below
+  // by its walk through any finer Steiner vertex (the S8 survey of Q53's mismatch, C-0349 (3)).
   for (const e of touched.pairs) {
     const a = O[2 * e];
     const b = O[2 * e + 1];
-    for (const f of query(p, tx.key, n, segmentBox(X[a], Y[a], X[b], Y[b], 1), { faces: true }).faces) addRecord(f);
+    for (const f of query(p, tx.key, n, segmentBox(X[a], Y[a], X[b], Y[b], REACH), { faces: true }).faces) addRecord(f);
   }
   const oldRing = (r: Region, i: number): HalfEdgeId[] => {
     let ring = r.oldRings[i];
@@ -240,6 +252,7 @@ export function rewalk(tx: InsertTx, touched: Touched, undo?: (() => void)[]): K
   propagate();
   const virtualOf = new Map<string, Region>();
   let outside = false;
+  let premiseBroken: string | null = null;
   for (let i = 0; i < cycles.length; i++) {
     if (regionOf[i] !== null) continue;
     // The midpoint of one of its new edges, doubled: strictly inside one old region.
@@ -255,7 +268,12 @@ export function rewalk(tx: InsertTx, touched: Touched, undo?: (() => void)[]): K
     const qy2 = Y[O[g]] + Y[O[g ^ 1]];
     let found: Region | null = null;
     for (const r of regions) if (r.kind !== 'none' && insideRegion(r, qx2, qy2)) found = r;
-    if (found === null) found = coarserRegion(qx2, qy2);
+    if (found === null) {
+      found = coarserRegion(cycles[i], g, qx2, qy2);
+      // The premise of a region materialised from a coarser record failed (C-0349 (2)): refuse before any record is
+      // written — never a phantom record (N-45 (a)).
+      if (premiseBroken !== null) return err('E_INVARIANT', premiseBroken);
+    }
     if (found === null) {
       if (n > 0) {
         outside = true;
@@ -269,34 +287,96 @@ export function rewalk(tx: InsertTx, touched: Touched, undo?: (() => void)[]): K
     propagate();
   }
 
-  function coarserRegion(qx2: number, qy2: number): Region | null {
+  /**
+   * The coarser record holding a cycle no level-n record holds (§2.2 rule 2's own child), found in the batch's own
+   * reading — the arena's walk, through every Steiner vertex — never by a level-m route reading of a point (C-0349 (1);
+   * Q53, plat/docs/build/checks/diagnosis-a09-sliver.md §5). For each level m from n − 1 down: an old half-edge of the
+   * cycle of level ≤ m is a sub-edge of a level-≤ m edge, and the level-m face on its left holds the cycle (nesting,
+   * §2.2 rule 2); its record is the one whose level-m walk holds that half-edge (§3.10's nesting row, "by index — never
+   * by coordinates"; `reparent`'s reading below), the candidates asked of the index round the half-edge's origin. A
+   * cycle with no old half-edge of level ≤ m (new edges alone) is placed by the new edge's midpoint `g`, strictly
+   * inside one level-m walk. Either way the candidate box reaches `REACH` past the point: the index reads each record
+   * on its level-m route, the walk lies within one hot pixel of it per finer level (§2.2 rule 3), so the record holding
+   * the point by its walk is always a candidate and the exact test decides. No record at m: level m is the coarser
+   * record's own child there, and the search goes on at m − 1.
+   */
+  function coarserRegion(cycle: readonly HalfEdgeId[], g: HalfEdgeId, qx2: number, qy2: number): Region | null {
     for (let m = n - 1; m >= 0; m--) {
       const lm = m as Level;
-      const x0 = Math.floor(qx2 / 2);
-      const y0 = Math.floor(qy2 / 2);
-      for (const f of query(p, tx.key, lm, { minX: x0, minY: y0, maxX: x0 + 1, maxY: y0 + 1 }, { faces: true }).faces) {
+      const f = holderAt(lm, cycle, qx2, qy2);
+      if (f < 0) continue;
+      const key = `${m}:${f}`;
+      const known = virtualOf.get(key);
+      if (known !== undefined) return known;
+      // Its level-n region: the coarser record's rings, walked at level n in the old view — premised on no record of a
+      // level m + 1 … n lying under it (else that level holds the cycle's record there): checked round the new edge,
+      // a failed premise refused E_INVARIANT before anything is written (C-0349 (2); diagnosis §8 (4)).
+      premiseBroken = recordUnder(lm, f, g);
+      if (premiseBroken !== null) return null;
+      const Fm = p.faces[lm];
+      const stored = [Fm.outer[f], ...faceHoles(p, lm, f)];
+      const r = addRegion({
+        kind: 'virtual', rec: -1, from: f, fromLevel: m,
+        base: { kind: Fm.kind[f], owner: Fm.owner[f], stage: Fm.stage[f], parent: -1 },
+        stored, oldRings: stored.map(() => null),
+      });
+      virtualOf.set(key, r);
+      // The old rings already read as "no region" may be this region's.
+      for (const [h, v] of ownerOf) if (v === null) ownerOf.delete(h);
+      return r;
+    }
+    return null;
+  }
+
+  /** The level-m record holding the cycle (see `coarserRegion`), or −1 where level m has none there. */
+  function holderAt(lm: Level, cycle: readonly HalfEdgeId[], qx2: number, qy2: number): FaceId {
+    let s = -1;
+    for (const h of cycle) {
+      if (!isNew.has(h >> 1) && T.level[h >> 1] <= lm) {
+        s = h;
+        break;
+      }
+    }
+    if (s >= 0) {
+      const v = O[s];
+      for (const f of query(p, tx.key, lm, { minX: X[v] - REACH, minY: Y[v] - REACH, maxX: X[v] + REACH, maxY: Y[v] + REACH }, { faces: true }).faces) {
         const rings = faceWalk(p, lm, f);
         walked(rings.length);
-        if (!insideRing(p, rings[0], qx2, qy2)) continue;
-        let inHole = false;
-        for (let i = 1; i < rings.length; i++) if (insideRing(p, rings[i], qx2, qy2)) inHole = true;
-        if (inHole) continue;
-        const key = `${m}:${f}`;
-        const known = virtualOf.get(key);
-        if (known !== undefined) return known;
-        const Fm = p.faces[lm];
-        // Its level-n region: the coarser record's rings, walked at level n in the old view (no level-n edge was inside
-        // it, or level n would hold a record there).
-        const stored = [Fm.outer[f], ...faceHoles(p, lm, f)];
-        const r = addRegion({
-          kind: 'virtual', rec: -1, from: f, fromLevel: m,
-          base: { kind: Fm.kind[f], owner: Fm.owner[f], stage: Fm.stage[f], parent: -1 },
-          stored, oldRings: stored.map(() => null),
-        });
-        virtualOf.set(key, r);
-        // The old rings already read as "no region" may be this region's.
-        for (const [h, v] of ownerOf) if (v === null) ownerOf.delete(h);
-        return r;
+        for (const ring of rings) if (ring.includes(s)) return f;
+      }
+      return -1;
+    }
+    const x0 = Math.floor(qx2 / 2);
+    const y0 = Math.floor(qy2 / 2);
+    for (const f of query(p, tx.key, lm, { minX: x0 - REACH, minY: y0 - REACH, maxX: x0 + 1 + REACH, maxY: y0 + 1 + REACH }, { faces: true }).faces) {
+      const rings = faceWalk(p, lm, f);
+      walked(rings.length);
+      if (!insideRing(p, rings[0], qx2, qy2)) continue;
+      let inHole = false;
+      for (let i = 1; i < rings.length; i++) if (insideRing(p, rings[i], qx2, qy2)) inHole = true;
+      if (!inHole) return f;
+    }
+    return -1;
+  }
+
+  /**
+   * The failed premise of a region materialised from the level-m record `f`, or null: a live record of a level m + 1 … n
+   * under `f` (its parent chain reaches `f`) round the new half-edge `g` — an own child this batch materialised from `f`
+   * excepted (`materialiseParent` reuses it). Records of a level tile their parent once materialised (§2.2 rule 2), so
+   * where `f` has any at m + 1 one of them meets the box round the new edge; expected never, counted where it occurs.
+   */
+  function recordUnder(lm: Level, f: FaceId, g: HalfEdgeId): string | null {
+    const a = O[g];
+    const b = O[g ^ 1];
+    const box = segmentBox(X[a], Y[a], X[b], Y[b], REACH);
+    const own = new Set<string>(chainJournal(tx).materialised.map((x) => `${x.level}:${x.face}`));
+    for (let k = lm + 1; k <= n; k++) {
+      const lk = k as Level;
+      for (const c of query(p, tx.key, lk, box, { faces: true }).faces) {
+        if (!isFaceLive(p, lk, c) || (k < n && own.has(`${k}:${c}`))) continue;
+        let x = c;
+        for (let l = k; l > lm && x >= 0; l--) x = p.faces[l as Level].parent[x];
+        if (x === f) return `insert: the L${k} record ${c} lies under the L${lm} face ${f} that a region of the L${n} batch would be materialised from (§2.2 rule 2)`;
       }
     }
     return null;
