@@ -1,8 +1,14 @@
 // Shared pieces of the geometry services (M0-a-10; §3.1, §3.2, §3.4): the double point shape the services return, the
-// angle constants (dmath carries its own; the lint refuses Math.PI, C-0125), the lattice-input check, an exact sum with
-// a BigInt flush (§3.2 (6)'s pattern, reused by regularFit's centroid), and unit directions through ratio().
-import { LATTICE, err, ratio, type KernelResult } from '../num/index.js';
-import type { Cm, LatticePoint } from '../types/index.js';
+// angle constants (dmath carries its own; the lint refuses Math.PI, C-0125), the lattice-input refusal, an exact sum
+// with a BigInt flush (§3.2 (6)'s pattern, reused by regularFit's centroid), and unit directions through ratio(). π,
+// the lattice-coordinate check, `lp` and `distinctRing` live in the kernel's shared exact module and are re-exported
+// here under their names, so a geometry module and a by-path importer of this file read the one definition
+// (kernel-plan.md §1.12 G-1; C-0314, C-0333). `geom/index.ts` exports none of this file's names.
+import { err, ratio, type KernelResult } from '../num/index.js';
+import { isLatticeCoord } from '../num/exact.js';
+import type { LatticePoint } from '../types/index.js';
+
+export { PI, distinctRing, isLatticeCoord, lp } from '../num/exact.js';
 
 /** A point or a direction in doubles (cm): a value the services return, never an arena coordinate (§3.2 (1)). */
 export interface XY {
@@ -10,8 +16,6 @@ export interface XY {
   y: number;
 }
 
-/** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist). */
-export const PI = 3.141592653589793;
 /** 2π. */
 export const TWO_PI = 6.283185307179586;
 /** Centidegrees per radian, 18 000 ÷ π. */
@@ -43,11 +47,6 @@ export class ExactSum {
   }
 }
 
-/** Is v a lattice coordinate: an integer with |v| < 2²³ (§3.2 (1), (7))? */
-export function isLatticeCoord(v: number): boolean {
-  return Number.isInteger(v) && Math.abs(v) < LATTICE.rangeCm;
-}
-
 /**
  * The refusal for a point list that is not on the lattice: the services read lattice points (snap is the door, §3.2
  * (7)), so a coordinate that is not an integer below 2²³ — NaN and ±∞ among them — returns E_OUT_OF_RANGE naming the
@@ -59,11 +58,6 @@ export function offLattice<T>(points: readonly LatticePoint[]): Extract<KernelRe
     if (!isLatticeCoord(p.y)) return err('E_OUT_OF_RANGE', 'y');
   }
   return null;
-}
-
-/** A lattice point from integers the caller holds in range. */
-export function lp(x: number, y: number): LatticePoint {
-  return { x: x as Cm, y: y as Cm };
 }
 
 /** 2²⁰: directions are scaled by it before normalising, so ratio()'s 1 cm floor reads any direction of length ≥ 2⁻²⁰. */
@@ -82,17 +76,6 @@ export function unitOf(v: XY): XY | null {
   const uy = ratio(y, len, 'length');
   if (!ux.ok || !uy.ok) return null;
   return { x: ux.value, y: uy.value };
-}
-
-/** The ring without consecutive repeats of one lattice point (the closing repeat included), in its own order. */
-export function distinctRing(ring: readonly LatticePoint[]): LatticePoint[] {
-  const out: LatticePoint[] = [];
-  for (const p of ring) {
-    const q = out[out.length - 1];
-    if (q === undefined || q.x !== p.x || q.y !== p.y) out.push(p);
-  }
-  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
-  return out;
 }
 
 /** The point at parameter t of a → b. */
