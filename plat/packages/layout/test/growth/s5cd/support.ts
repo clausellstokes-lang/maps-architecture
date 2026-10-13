@@ -1,14 +1,17 @@
-// M0-c-05's test support: hand-built arenas and growth areas for S5c's unit tests (an arterial across an empty frame,
-// walled or unwalled), the S3 → S4 → S5 run on the flat fixture (cached per seed and options), readers of the arena's
-// own tables (never through the code under test) and plane helpers written here.
+// M0-c-05's test support: the shipped tables' one view, hand-built arenas and growth areas for S5c's unit tests (an
+// arterial across an empty frame, walled or unwalled), the S3 → S4 → S5 run on the flat fixture (cached per seed and
+// options), readers of the arena's own tables (never through the code under test) and plane helpers written here.
 import { attachIndex, createKernel, createPlat, dest, isHalfEdgeLive, rowKey, rowsOn, type Kernel, type LatticePoint, type Plat, type PlatKey, type Stream } from '@plat/kernel';
-import { tableView } from '@plat/tables';
+import { tableView, type TableView } from '@plat/tables';
 import { commitS3Slice, flatFixture, runS4, s3Slice, type FlatFixtureOptions, type S3Commit, type S3Slice, type S4Output, type Site } from '../../../src/index.js';
 import { growthRules, growthStageLineage, type GrowthArea, type GrowthRuleOptions, type GrowthSeed } from '../../../src/growth/proposals.js';
 import { runS5, type S5Options, type S5Run } from '../../../src/growth/capacity.js';
 import type { Feature } from '../../../src/growth/legality.js';
 
 export const GROUND: PlatKey = { layer: 'ground', part: 0 };
+
+/** The shipped tables, one view for the folder (a frozen view over the cached tables). */
+export const tables: TableView = tableView();
 
 export function P(x: number, y: number): LatticePoint {
   return { x, y } as LatticePoint;
@@ -122,7 +125,7 @@ export function handCase(
     for (const [a, b] of segs(square, true)) features.push({ a, b, kind: 'band' });
   } else for (const [a, b] of segs(square, true)) features.push({ a, b, kind: 'boundary' });
   features.push(...(opts.extraFeatures ?? []));
-  const rules = growthRules(tableView(), regime, 'CITY', opts);
+  const rules = growthRules(tables, regime, 'CITY', opts);
   // The sides alternate along the arterial, as growthArea's seeds do (C-0254 (3)): left, right, left, …
   const seeds: GrowthSeed[] =
     opts.seedsAlong !== undefined

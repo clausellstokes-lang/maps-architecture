@@ -6,11 +6,9 @@
 import { describe, expect, it } from 'vitest';
 import fc from 'fast-check';
 import { createRng, dmath, seedKey, STAGES, CONCERNS, type StageId } from '@plat/kernel';
-import { tableView } from '@plat/tables';
 import { correlationOf, headingModel, headingStep, initialCurvature, RAD_PER_CDEG, wrapAngle, type HeadingModel } from '../../../src/growth/heading.js';
-import { scripted } from './support.js';
+import { scripted, tables } from './support.js';
 
-const tables = tableView();
 const organic = headingModel(tables, 'organic');
 
 describe('the heading model’s parameters', () => {

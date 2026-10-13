@@ -144,3 +144,109 @@ are in `M0-c-05.md`.
     are `drift-grown.test.ts` (dense_core 192 windows, p50 20.3°; ribbon 644, p50 17.3°) and M0-c-06's integrated run,
     which re-judges the exit bar. Not a fail: the row holds on every pool. M0-c-06 should still see that the fixture
     alone cannot judge the median.
+
+## The builder's notes, consolidation round C1 (lane `build/M0-c-05-consolidate-1`, 2026-10-13): R10 of `consolidation/layout-plan.md` §1.5.7 – §1.5.9, §2, §3
+
+The round changes no behaviour. `legality.ts` reads `heading.ts`'s `RAD_PER_CDEG`, the growth files sort ids and keys
+with the kernel's `compareKeys`, the comments that narrated rounds or misstated the streams' draws are rewritten, and
+`test/growth/s5cd/`'s two table views become one in `support.ts`. No export was added, removed or renamed (J263 Q1,
+J302 Q1): `growth/index.ts` is byte-identical, and the exported names with their kinds — the growth barrel 137, the
+package barrel 692, and `heading` 11, `legality` 21, `proposals` 30, `prune` 4, `capacity` 18 — are identical before and
+after (the TypeScript checker's listing of each module, sha256 `e8ffd70a…` both times). 1.5.10 is kept apart as the plan
+says (`segSegD2`, `clamp01`, the bucket grids, `stageStops`).
+
+**Old → new map (J263 Q8).** No file was renamed, split, merged or moved; the map is per helper and per comment.
+
+| old (before this round) | new |
+|---|---|
+| `src/growth/legality.ts` `crossingMatrix`: `collinearCdeg * 0.00017453292519943296` | `collinearCdeg * RAD_PER_CDEG`, imported from `./heading.js` (heading.ts's export, the identical literal; never `PI / 18000`, J302 Q8) |
+| `src/growth/proposals.ts` `newJunction`, `snapArm`, `joinState`: `(a, b) => (a < b ? -1 : a > b ? 1 : 0)` (the plan's :585, :860, :919) | `@plat/kernel` `compareKeys` (`kernel/src/arena/keys.ts`, the same body) |
+| `src/growth/proposals.ts` `growthArea`'s enceinte sort `(x, y) => (x < y ? -1 : x > y ? 1 : 0)` (:371, not in the plan's list) | `compareKeys` |
+| `src/growth/prune.ts` private `byId` (:63) | `compareKeys` (`byId` deleted) |
+| `src/growth/capacity.ts` `sofar`'s and `faces`' key comparators (:221, :255, not in the plan's list) | `compareKeys(a.key, b.key)` |
+| `src/growth/prune.ts:164` "the street ends at the cut, no longer provisional" | "the street ends at the cut and its record is final (a dead end, not provisional)" |
+| `src/growth/proposals.ts` `GrowthStreams`' header: "`growth.heading` (each step's length and ξ, a seed's jitter)" (the N-8 misstatement: no seed draws a jitter) | each stream with what it draws, read from the code: `growth.heading` a step's length (one uniform) and, after a step that does not end its street, ξ (one normal); `retry` F-NUM's re-proposal's length and ξ; `growth.curvature` each proposal's first κ; `growth.branch` the test, then the side and the jitter (drawn even where the class grows no branch); a seed draws no jitter |
+| `src/growth/proposals.ts` header, branching: "a child perpendicular ± the jitter" | "a child perpendicular to its parent on a side drawn at random, ± the branch jitter (… each one uniform of `growth.branch`)"; the seeds' line "(no jitter)" → "(no jitter is drawn for a seed)" |
+| `src/growth/heading.ts` `RAD_PER_CDEG`'s doc "(π ÷ 18 000)" | the literal's status stated: one ulp above the double `PI / 18000` other modules compute; S5c's readers take this one; never swapped (1.0.6) |
+| `src/growth/legality.ts` header lines 7–9 (a broken line) | re-flowed, the same words |
+| `test/growth/s5cd/heading.test.ts`, `legality.test.ts`: `const tables = tableView()` | `test/growth/s5cd/support.ts` `export const tables: TableView = tableView()`, imported by both; `handCase` reads it too (a frozen view over `loadTable`'s cached tables, so one view and three are the same tables) |
+| `test/growth/s5cd/capacity.test.ts:190` "(B-4)", `growth.test.ts:160` "(N-23)", `legality.test.ts:301` "(the residual N-50 named: N-23's dead ends at step 2)" | the check ids dropped; legality's line names N-50's residual by its rule (C-0263 (1)) |
+
+`handCase`, `bentArterial`, `fixtureGrown`, `SMALL` and the oracles (`segDist`, `properCross`, `insideRing`,
+`lineAngleDeg`, `polyLength`, `roleEdges`) stay. Every describe / it title is kept: 25 describe and 87 `it` calls in the
+six test files (95 tests at run time, the loops counted), the sorted title lists identical and each file's title order
+unchanged. One assertion was added inside an existing `it` (capacity.test.ts *faces: built land = …*): the record lists
+its faces in key order (mutant C4 below).
+
+**Equivalence.** 1.5.7: `RAD_PER_CDEG` is `0.00017453292519943296`, the literal the matrix spelt (`heading.ts:25` now),
+so `limit` is the same double. 1.5.8: `compareKeys(a, b)` is `a < b ? -1 : a > b ? 1 : 0`, the comparators' own body,
+on the same strings (`Id` is a branded string; `FaceInfo.key` a string); `Array.prototype.sort` with the same
+comparator gives the same order (`.sort(compareKeys)` calls it with the same two arguments). The comments change no
+code. §3: `tableView()` builds a frozen `View` over `loadTable(id)`, which caches each parsed table, so the shared view
+reads the same `Table` objects the three views did.
+
+**NO-SHIFT (J268, J260 (3)).** A probe (a scratch vitest file placed only in the lane's mirror) ran S3 → S4 → S5 through
+the testkit harness's `fixtureRun` on the registered families — the four bar chunks' seeds 1 – 24 (plain fixture), and
+P2's runs: plain, 900 ha and small (400 ha frame, 60 ha walled) × seeds 1 – 10 — 44 runs, and hashed each run's S5c, prune
+and S5d records, the state's ways and junctions and the arena's way lines, with the bar's readings (junction p5, median,
+4-way share, the drift windows, the 10 m turn steps). On the pre-round mirror and on the same mirror with this round's
+files the JSON output is byte-identical (sha256 `be2d0a43ad845d3a…`; P2's 30 run digests aggregate `11adbe8e61cb7171`).
+
+**Refusals (J264 (5), N-58), before = after.** 0 of 44 runs refused (no `runS5` error, no S5c batch refused whole, no
+prune or rim refusal). Inside the runs the same six reported refusals stand before and after, each the item's own visible
+outcome on our own intermediate geometry: `W_END_UNMARKED` ×4 (plain seeds 9, 17, 20, 23: the kernel declined the
+`splitThrough` that marks a dead end's `end` junction, so the street's `to` is a bearing, counted in `refused`) and
+F-NUM `reject` ×2 (plain seeds 20, 23: an optional chain refused by a precision code twice, re-proposed then rejected
+with its report line, §5.2). Class: OUR OWN INTERMEDIATE; verdict under N-58: MAKE-IT-SUCCEED belongs to a fix round, not
+to this zero-change pass, so they are routed to the session with their seeds (finding R10-1 below) and left as they are.
+
+**Self-check (J183), in the lane's one mirror, each mutant run as `vitest run --maxWorkers=1 --bail=1
+packages/layout/test/growth/s5cd/`, the file restored from the tree and `cmp`-clean after each.**
+
+| id | mutation | promise | result |
+|---|---|---|---|
+| K1 | `crossingMatrix`'s limit × 10 (`RAD_PER_CDEG * 10`) | 1.5.7: the 6° collinearity through the shared constant | killed: legality *organic crosses only a lower-or-equal class collinear within 6°* |
+| M15′ | the matrix's rank test dropped (crosses any class) — this round's reconstruction; the first check names M15 killed without its text | 1.5.7 oracle | killed: the same test |
+| R08 / R09 | no deflection limit / the limit × 2 | 1.5.7 oracle | killed: legality *a step converging on a spine needs more than the legal angle …* |
+| S11 / S12 | the bias's turn limit removed / × 2 | 1.5.7 oracle | killed: legality *a spine 20° off the heading turns the step to its foot …* |
+| U01 – U04 | `leavesAcross` off; its hairpin guard off; `held > 0` dropped; h of any way | 1.5.7 oracle | killed: legality *on a bent arterial …* (U01, U04), *… a hairpin …* (U02), *a street on the step's own side …* (U03) |
+| M25 | the lineage's index + 1 | 1.5.8 oracle | killed: capacity *the rim's streets continue …* in the folder run, and city *the growth stage keys its ways in acceptance order* run alone (1 failed / 10 passed) |
+| M31 | the trim takes arterials | 1.5.8 oracle | killed: prune *an arterial handed to the trim as a provisional street is never trimmed* |
+| C1 | `newJunction`'s arms sorted in reverse | 1.5.8 (the swapped comparator) | killed: growth *grows streets whose records agree with the arena …* |
+| C2 | `pruneAndTrim`'s `setJunction` arms sorted in reverse | 1.5.8 | survives the folder (95 / 95); changes 0 of the 44 registered runs (the probe under it byte-identical): a pruned street's origin junction keeping ≥ 2 arms is unreached there — KI test gap R10-2 |
+| C3 | `joinState`'s snapped junction's arms left unsorted | 1.5.8 | survives the folder; 0 of 44 runs changed (a snap onto a standing junction whose new arm sorts first is unreached) — KI test gap R10-2 |
+| C4 | `capacityCheck`'s faces sorted in reverse | 1.5.8 | survived the folder and changed the S5d record (its face list order) on 44 of 44 runs, nothing else; **pinned this round** by the assertion above, then killed: capacity *faces: built land = …* (1 failed / 11 passed) |
+| S07, S08, S09 | the earlier rounds' far-side tolerance 0; the across skip on every kind; `acrossOf` reads its own street | NO-SHIFT sample (r2) | killed, each on its own legality test |
+| U07, U08 | `leavesAcross` reads only f's a-end; the far end against g's line | NO-SHIFT sample (r3) | killed, each on its own legality test |
+| V01 | C-0263 (1)'s skip removed | NO-SHIFT sample (s1) | killed: legality *a later step beside the street across …* |
+
+22 mutants: 20 killed (C4 after its pin), C2 and C3 survive as unreached test gaps. Every mutant of the plan's oracles
+(R08/R09, S11/S12, M15, U01 – U04, M25, M31) is red.
+
+* **R10-1 (for the session; N-58 routing, not this round's to change).** The registered families meet six reported
+  refusals of our own intermediate geometry, identical before and after: `W_END_UNMARKED` on plain seeds 9, 17, 20, 23
+  and F-NUM `reject` on plain seeds 20, 23 (default plain fixture, `flatFixture(seed)` through `runS5`). Each fails
+  safe (the street stays, its end reported); under N-58 an intermediate of our own making is MAKE-IT-SUCCEED in a fix
+  round.
+* **R10-2 (KI, hardening, J273).** The arms order of `pruneAndTrim`'s re-armed junction and of `joinState`'s snapped
+  standing junction has no pin (C2, C3). Both paths are unreached on the 44 registered runs; a hand case — a street
+  snapping onto a standing T whose id sorts after the new way's, and a pruned street leaving a junction that keeps two
+  arms — would pin them.
+
+**Gates (tree, 2026-10-13).** `install --frozen-lockfile` 0; `lint` 0 (eslint 1 155 files, 0 errors, 0 warnings;
+`lint: probe-red ok`; 9 whole-tree checks); `build` 0 (`tsc -b`, then the bundles); NEAR at full strength
+(`packages/layout/test/growth/s5cd/` + `packages/testkit/test/layout/growth-s5cd/`, the four bar chunks included) 14
+files 136 / 136; RELATED at `PLAT_FUZZ_RUNS=1000` over the five changed sources 218 files 2 637 / 2 637, exit 0 (W = 1
+by `tools/test_budget.py`). Choices row C-0353, CLEAN-ROOM row L-0493.
+
+## Closing check C1 (lane `check/M0-c-05-consolidate-close-1`, 2026-10-13): consolidation round R10
+
+Verdict PASS (`checks/M0-c-05-c1.md`). None of these rows is a blocker. Each goes to the hardening pass (M4) unless it
+says otherwise.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-c1-1 | The arms order of junctions S5c re-arms has no pin at three sites: `snapArm` (`proposals.ts:868`; Z19), `joinState`'s snapped standing junction (`:927`; Z20) and `pruneAndTrim`'s `setJunction` (`prune.ts:214`; Z21). Each reversed comparator survives `test/growth/s5cd/` (95 / 95) and changes 0 of the 44 registered runs: all three paths are unreached there. The kill of the same reversal at `newJunction` (Z18) shows the probe would see it. This extends the builder's R10-2, which lists Z20's and Z21's sites but not Z19's. | One hand case per site, each asserting the record's `arms` in `compareKeys` order: a street snapping onto an S5c junction whose existing arm sorts after the new way, the same onto a standing T, and a pruned street leaving a junction that keeps two arms. | M4 |
+| N-c1-2 | J302 Q8's "the two radians-per-centidegree doubles are never swapped" is held only by `legality.ts` importing `heading.ts`'s `RAD_PER_CDEG`. Z25 (`collinearCdeg * (PI / 18000)`) survives the folder, yet the two limits differ: `600 * RAD_PER_CDEG` = `0.10471975511965978`, `600 * (PI / 18000)` = `0.10471975511965977`. | A boundary pin in `legality.test.ts`: `crossingMatrix('organic').act('secondary', 'secondary', 600 * RAD_PER_CDEG)` is `'cross'`; the next double up is `'T'`. | M4 |
+| N-c1-3 | Two comparator mutants are equivalent. Z22 reverses the enceinte feature order (`proposals.ts:373`), but an M0 town has one enceinte, so the sort has one element. Z23 reverses `sofar`'s key tiebreak (`capacity.ts:221`), but that reorders only equal `value`s, and the cut point read is the value itself; at most the float sum `total` moves in its last bit, and only on a tie. | None. Z22 becomes reachable when a site has two enceintes (M1's presets), and the order is then fixed by `compareKeys` already. | — |
+| N-c1-4 | Refusals met (J264, J290, N-58). M0-c-05's 44 registered runs refuse 0 runs, before and after the round. Inside them: `W_END_UNMARKED` ×1 on plain seeds 9, 17, 20, 23 and F-NUM `reject: E_BELOW_MIN_EDGE` ×1 on plain seeds 20, 23 (`flatFixture(seed)`, defaults, via `fixtureRun`). Class: our own intermediate. Verdict: MAKE-IT-SUCCEED. The count did not rise. Separately, RELATED's bench output printed `site: relief-60 (default): 2 runs, S6 ok 1; refused S5 E_SELF_INTERSECT ×1` (the `site` harness, seeds 1 – 2, test size), outside c-05's families. | For the session: a fix round for the six inner refusals, the builder's R10-1. Triage the relief-60 S5 refusal by its owner (which S5 step refuses, and whether the input is lawful). | session (fix queue) |

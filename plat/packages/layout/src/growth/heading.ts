@@ -17,7 +17,11 @@ import { dmath, type Stream } from '@plat/kernel';
 import type { TableView } from '@plat/tables';
 import { PI, quot } from '../siting/geom.js';
 
-/** Radians per centidegree (π ÷ 18 000). */
+/**
+ * Radians per centidegree (π ÷ 18 000), as this literal: one ulp above the double `PI / 18000` that other modules
+ * compute. S5c's readers (the heading model, the growth rules, the crossing matrix) take this one; the two are never
+ * swapped, each fixing its readers' bits.
+ */
 export const RAD_PER_CDEG = 0.00017453292519943296;
 
 /** The `ou` heading model's parameters (§4.4), in radians and centimetres. */

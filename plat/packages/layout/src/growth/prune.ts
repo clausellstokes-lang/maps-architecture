@@ -6,7 +6,7 @@
 //   * prune: a dangling `secondary` street — a dead end that no other way meets but at its origin — shorter than one
 //     block width (the regime's minimum block depth) is removed with its junctions, children before parents, until none
 //     is left (a parent left dangling by its pruned children is pruned in turn when short).
-import { ok, STAGES, type HalfEdgeId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
+import { compareKeys, ok, STAGES, type HalfEdgeId, type KernelResult, type LatticePoint, type StageId } from '@plat/kernel';
 import type { Id, Junction } from '@plat/model';
 import { crossParams, lat } from '../enceinte/plane.js';
 import { generated } from '../enceinte/water.js';
@@ -59,8 +59,6 @@ function firstExit(line: readonly XY[], ring: readonly XY[]): { at: XY; seg: num
   }
   return null;
 }
-
-const byId = (a: Id, b: Id): number => (a < b ? -1 : a > b ? 1 : 0);
 
 /**
  * `pruneAndTrim(stage)` (§4.4 *Between stages*; see the module comment): the trim of the stage's provisional streets at
@@ -161,7 +159,8 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
             continue;
           }
           jN += 1;
-          // The old end's row and record go; the street ends at the cut, no longer provisional.
+          // The old end's row and record go; the street ends at the cut and its record is final (a dead end, not
+          // provisional).
           const old = st.way.to.kind === 'junction' ? st.way.to.id : null;
           if (old !== null && old !== '' && junctionOf(old)?.kind === 'end') {
             kernel.geom.removeEdges(o, { role: 'junction', entity: old, ordinal: 0 });
@@ -212,7 +211,7 @@ export function pruneAndTrim(stage: StageRef, opts: PruneOptions = {}): KernelRe
             if (arms.length <= 1) {
               kernel.geom.removeEdges(o, { role: 'junction', entity: from, ordinal: 0 });
               dropJunction(from);
-            } else setJunction({ ...oj, arms: arms.sort(byId), kind: arms.length >= 4 ? 'X' : oj.kind });
+            } else setJunction({ ...oj, arms: arms.sort(compareKeys), kind: arms.length >= 4 ? 'X' : oj.kind });
           }
           gone.add(st.way.id);
           out.pruned.push({ way: st.way.id, lengthCm: len });
