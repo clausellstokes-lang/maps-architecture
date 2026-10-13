@@ -9,6 +9,9 @@ import type { KernelResult } from '../../../src/num/index.js';
 import { setOwner, tx, type KernelTx, type Overlay } from '../../../src/tx/index.js';
 import type { ChainProfile, ChainRef, Cm, LatticePoint, Level, StageId } from '../../../src/types/index.js';
 import type { KerbRead, Spine, SpineWidth, SpineWidths } from '../../../src/arr/kerb.js';
+import type { Closing } from '../../../src/arr/bandUnion.js';
+import { HOT_PIXEL_CM } from '../../../src/index/index.js';
+import { LATTICE } from '../../../src/num/index.js';
 import { commit, framed, healthy, pt, spec, state } from '../../tx/support.js';
 import { faceAt } from '../../faces/support.js';
 
@@ -392,4 +395,77 @@ export function firstBand(table: Readonly<Record<string, ChordWidth>>): { ref: C
   if (first === undefined) return [];
   const w = table[first];
   return 'knotRole' in w ? [{ ref: { role: 'way', entity: first }, halfWidthCm: w, ends: 'round' }] : [{ ref: { role: 'way', entity: first }, halfWidthCm: Math.max(1, Math.floor(w.halfWidthCm / 2)), ends: w.ends }];
+}
+
+/**
+ * N-57 (2)'s bound on a committed op's closings: the ones beyond it, as lines (empty when every closing stays by
+ * kerb(F)). A chord to the contact: at most attractCm + 1 cm, its pin within (1 + 0.71) cm of the
+ * contact. Along the run: the tip — where the insertion left the contact — within 2·√2·attractCm of its contact
+ * (C-0327 (3)'s hardening bound) and the run's vertex on kerb(F)'s outline (`kerbOf`), so the chord lies within the
+ * tip's distance of the run. Pinned first: the pin within attractCm of the contact, every dropped vertex within
+ * attractCm of it. Folded: the sliver piece within attractCm of F's boundary.
+ */
+export function closingsBeyond(closings: readonly Closing[], kerbOf: (face: number) => readonly (readonly LatticePoint[])[] | null): string[] {
+  const d = (a: LatticePoint, b: LatticePoint): number => Math.hypot(a.x - b.x, a.y - b.y);
+  const onKerb = (face: number, q: LatticePoint): boolean =>
+    (kerbOf(face) ?? []).some((r) => r.some((a, i) => {
+      const b = r[(i + 1) % r.length];
+      const l2 = (b.x - a.x) ** 2 + (b.y - a.y) ** 2;
+      const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - a.x) * (b.x - a.x) + (q.y - a.y) * (b.y - a.y)) / l2));
+      return Math.hypot(q.x - a.x - t * (b.x - a.x), q.y - a.y - t * (b.y - a.y)) <= 1;
+    }));
+  const out: string[] = [];
+  for (const c of closings) {
+    const at = `face ${String(c.face)} piece ${String(c.piece)} end ${String(c.end)} contact (${String(c.contact.x)}, ${String(c.contact.y)}) pin (${String(c.pin.x)}, ${String(c.pin.y)})`;
+    if (c.kind === 'chord') {
+      if (c.chordCm > LATTICE.attractCm + 1) out.push(`${at}: a closing chord of ${c.chordCm.toFixed(2)} cm`);
+      if (d(c.pin, c.contact) > 1 + HOT_PIXEL_CM) out.push(`${at}: the chord's pin ${d(c.pin, c.contact).toFixed(2)} cm off its contact`);
+    } else if (c.kind === 'along') {
+      if (d(c.tip, c.contact) > 2 * Math.SQRT2 * LATTICE.attractCm) out.push(`${at}: the tip ${d(c.tip, c.contact).toFixed(2)} cm off its contact`);
+      if (!onKerb(c.face, c.pin)) out.push(`${at}: the run's vertex off kerb(F)`);
+    } else if (c.kind === 'folded') {
+      if (c.widthCm > LATTICE.attractCm) out.push(`${at}: a piece ${c.widthCm.toFixed(2)} cm from F's boundary folded`);
+    } else {
+      if (d(c.pin, c.contact) > LATTICE.attractCm) out.push(`${at}: pinned ${d(c.pin, c.contact).toFixed(2)} cm off its contact`);
+      for (const q of c.dropped) if (d(q, c.contact) > LATTICE.attractCm) out.push(`${at}: dropped (${String(q.x)}, ${String(q.y)}) beyond attractCm`);
+    }
+  }
+  return out;
+}
+
+/**
+ * The Hausdorff distance (cm) between two ring sets' outlines, every edge sampled at most 4 cm apart (an upper bound
+ * within 2 cm of the exact value): ∞ where one set is empty and the other is not.
+ */
+export function hausdorffCm(a: readonly (readonly LatticePoint[])[], b: readonly (readonly LatticePoint[])[]): number {
+  if (a.length === 0 || b.length === 0) return a.length === b.length ? 0 : Infinity;
+  const samples = (rs: readonly (readonly LatticePoint[])[]): { x: number; y: number }[] => {
+    const out: { x: number; y: number }[] = [];
+    for (const r of rs) {
+      for (let i = 0; i < r.length; i += 1) {
+        const p = r[i];
+        const q = r[(i + 1) % r.length];
+        const n = Math.max(1, Math.ceil(Math.hypot(q.x - p.x, q.y - p.y) / 4));
+        for (let k = 0; k < n; k += 1) out.push({ x: p.x + ((q.x - p.x) * k) / n, y: p.y + ((q.y - p.y) * k) / n });
+      }
+    }
+    return out;
+  };
+  const to = (q: { x: number; y: number }, rs: readonly (readonly LatticePoint[])[]): number => {
+    let d = Infinity;
+    for (const r of rs) {
+      for (let i = 0; i < r.length; i += 1) {
+        const p = r[i];
+        const s = r[(i + 1) % r.length];
+        const l2 = (s.x - p.x) ** 2 + (s.y - p.y) ** 2;
+        const t = l2 === 0 ? 0 : Math.max(0, Math.min(1, ((q.x - p.x) * (s.x - p.x) + (q.y - p.y) * (s.y - p.y)) / l2));
+        d = Math.min(d, Math.hypot(q.x - p.x - t * (s.x - p.x), q.y - p.y - t * (s.y - p.y)));
+      }
+    }
+    return d;
+  };
+  let h = 0;
+  for (const q of samples(a)) h = Math.max(h, to(q, b));
+  for (const q of samples(b)) h = Math.max(h, to(q, a));
+  return h;
 }

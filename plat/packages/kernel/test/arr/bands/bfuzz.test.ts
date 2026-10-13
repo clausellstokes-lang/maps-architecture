@@ -12,16 +12,22 @@
 // a refusal is typed and writes nothing. Refusals are counted per operation and classed by
 // replay (replay.ts; N-44 as amended by J203/J207/J208, C-0212 (10) as amended): one that replays on insertChain alone
 // is insertChain's — counted, logged for the register (a REFUSAL line), never gated here; any other is the item's own
-// and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100).
+// and is held to ⌈runs / 10⁴⌉ per operation (PR size 1, nightly 100). N-57 (2) (round S4): every closing a committed
+// corridorUnion or bandUnion made (`bandClosings`) stays by kerb(F) — a closing chord at most attractCm + 1 cm, its
+// pin within the contact's 1 cm plus the hot pixel; a tip closed along the kerb's run on F's boundary within
+// 2·√2·attractCm of its contact (where the insertion left it), the run's vertex on kerb(F); a contact pinned first
+// within attractCm, the vertices it dropped within attractCm of it; a sliver piece folded within attractCm of F's
+// boundary — never a chord off kerb(F) to a far vertex (the round S3 defect: chords of 76 – 1 404 cm, blocks up to
+// 343 cm beyond kerb(F)).
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { idOf } from '../../../src/arena/index.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { kerb, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
-import { bandUnion, type BandResult } from '../../../src/arr/bandUnion.js';
+import { bandClosings, bandUnion, type Closing, type BandResult } from '../../../src/arr/bandUnion.js';
 import { tileRings } from '../../../src/arr/tileRings.js';
-import { area2, commit, firstBand, healthy, network, P, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
+import { area2, closingsBeyond, commit, firstBand, healthy, network, P, simpleRing, spec, splitsBeyondReach, state, tilesExactly, widthsOf, AT_S9, type Chord } from './support.js';
 import { tx } from '../../../src/tx/index.js';
 import { classify, replayCommit, replayKerb, replayTile, type RefusalClass } from './replay.js';
 import { TIMEOUT } from '../../insert/step3-5/support.js';
@@ -57,6 +63,13 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
   it('kerb, corridorUnion and bandUnion on random street networks: 0 crashes, 0 invalid outputs', { timeout: HARD }, () => {
     let committed = 0;
     const refusals = { kerb: tally(), corridorUnion: tally(), bandUnion: tally() };
+    const closings = { chord: 0, along: 0, pinned: 0, folded: 0, longestChordCm: 0 };
+    const count = (cs: readonly Closing[]): void => {
+      for (const c of cs) {
+        closings[c.kind] += 1;
+        if (c.kind === 'chord') closings.longestChordCm = Math.max(closings.longestChordCm, Math.round(c.chordCm * 100) / 100);
+      }
+    };
     fc.assert(
       fc.property(fc.array(chordArb, { minLength: 1, maxLength: 3 }), (chords) => {
         const { p, faces, table } = network(chords);
@@ -98,6 +111,13 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         committed += 1;
         healthy(p);
         expect(tilesExactly(p, 2, faces)).toEqual([]);
+        // N-57 (2): every closing by kerb(F) — no chord to a far vertex
+        const kerbOf = (w: typeof ws) => (f: number) => {
+          const k = readKerb(p, f, w);
+          return k.ok ? k.value.kerb : null;
+        };
+        expect(closingsBeyond(bandClosings(p), kerbOf(ws)), JSON.stringify(chords)).toEqual([]);
+        count(bandClosings(p));
         const v = r.value.value as BandResult;
         expect(new Set([...v.band, ...v.blocks]).size).toBe(v.band.length + v.blocks.length);
         // a wall band along the first chain at L3, inside every L1 face
@@ -129,10 +149,12 @@ describe('B-FUZZ (§13.1): the band operations on PLAT_FUZZ_RUNS random cases ea
         }
         healthy(p);
         expect(tilesExactly(p, 3, faces)).toEqual([]);
+        expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } }))), JSON.stringify(chords)).toEqual([]);
+        count(bandClosings(p));
       }),
       { numRuns: RUNS },
     );
-    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)})`);
+    console.info(`B-FUZZ bands: ${String(RUNS)} networks, ${String(committed)} committed; refusals per operation ${JSON.stringify(refusals)} (insertChain's counted against its measured cap; own capped at ${String(OWN_CAP)}); closings ${JSON.stringify(closings)}`);
     expect(refusals.kerb.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.corridorUnion.own).toBeLessThanOrEqual(OWN_CAP);
     expect(refusals.bandUnion.own).toBeLessThanOrEqual(OWN_CAP);
