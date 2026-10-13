@@ -1,29 +1,20 @@
-// S6 on two enceintes (M0-e-04, integration fix round 1: the stage-group-13 check's B-1; C-0257). M0-c-04 lays one
-// enceinte per walled growth stage and each gate names its own (`Gate.enceinte`); on c-04's honest three-stage CITY
-// run (stage 1 walled, stage 2 walled, stage 3 open) every gate ward is seeded at a face touching its gate, behind its
-// own wall and outside every inner enceinte — or, with no free face left there, its gate is dropped and reported
-// (never seeded across another wall, never far from its gate); the one-call form that cannot tell the enceintes apart
-// is refused; and the typing's `extramural` relation holds exactly where a district lies outside every wall line.
-// Every expectation is read from the committed arena and the wall lines with the support's own geometry, never through
-// the code under test.
+// S6 on two enceintes (M0-e-04; C-0257). M0-c-04 lays one enceinte per walled growth stage and each gate names its own
+// (`Gate.enceinte`); on c-04's honest three-stage CITY run (stage 1 walled, stage 2 walled, stage 3 open) every gate
+// ward is seeded at a face touching its gate, behind its own wall and outside every inner enceinte — or, with no free
+// face left there, its gate is dropped and reported (never seeded across another wall, never far from its gate); the
+// one-call form that cannot tell the enceintes apart is refused; and the typing's `extramural` relation holds exactly
+// where a district lies outside every wall line. Every expectation is read from the committed arena and the wall lines
+// with the support's own geometry, never through the code under test.
 import { CONCERNS, createRng, entityKey, faceRings, seedKey, STAGES, type LatticePoint } from '@plat/kernel';
 import type { Id } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { faceGraph, runS6, s6Table, siteFeatures, typingCells, type S6Output } from '../../src/index.js';
-import { edgesL1, GROUND, growthRun, insidePoly, ownerOfL1, ringDist, type GrowthRun } from './support.js';
+import { bySeed, edgesL1, GROUND, growthRun, insidePoly, ownerOfL1, ringDist, s6Run, type GrowthRun } from './support.js';
 
-const RUNS = new Map<number, GrowthRun & { out: S6Output }>();
-function run(seed: number): GrowthRun & { out: S6Output } {
-  let r = RUNS.get(seed);
-  if (r === undefined) {
-    const g = growthRun(seed);
-    const s6 = runS6(g.input);
-    if (!s6.ok) throw new Error(`S6 refused: ${s6.code} ${s6.detail}`);
-    r = { ...g, out: s6.value };
-    RUNS.set(seed, r);
-  }
-  return r;
-}
+const run = bySeed((seed): GrowthRun & { out: S6Output } => {
+  const g = growthRun(seed);
+  return { ...g, out: s6Run(g.input) };
+});
 
 /** Points farther than this from every wall line decide a side (the arena's wall chain lies within attraction of its line). */
 const CLEAR_CM = 200;

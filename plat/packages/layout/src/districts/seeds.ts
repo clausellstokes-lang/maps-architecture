@@ -19,7 +19,7 @@
 //   * a feature seed's lineage is its address's hash, a remainder seed's its face's key (§4.5).
 import { LATTICE } from '@plat/kernel';
 import { type Id } from '@plat/model';
-import { insideRing, quot } from '../siting/geom.js';
+import { distToSegment2, insideRing, quot } from '../siting/geom.js';
 import { EDGE_TEST_BARRIERS, faceLineage, textLineage, type FaceGraph } from './faces.js';
 import type { GrowSeed, SeedFeature, SeedKind, XY } from './types.js';
 
@@ -35,23 +35,7 @@ export interface PlacedSeeds {
  */
 export const SIDE_DECISIVE_CM = 4 * LATTICE.attractCm;
 
-/** The squared distance of a point to a segment. */
-function segDist2(p: XY, a: XY, b: XY): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l2 = dx * dx + dy * dy;
-  let t = 0;
-  if (l2 > 0) {
-    // the projection's parameter, clamped to the segment (l2 ≥ 1 cm² on two distinct lattice points)
-    t = quot((p.x - a.x) * dx + (p.y - a.y) * dy, l2, 'area', 'a segment projection');
-    t = Math.max(0, Math.min(1, t));
-  }
-  const ex = a.x + t * dx - p.x;
-  const ey = a.y + t * dy - p.y;
-  return ex * ex + ey * ey;
-}
-
-/** The squared distance of a point to a face's boundary. */
+/** The squared distance of a point to a face's boundary (siting's `distToSegment2` per side). */
 function faceDist2(g: FaceGraph, i: number, p: XY): number {
   const P = g.plat;
   const O = P.halfEdges.origin;
@@ -60,18 +44,18 @@ function faceDist2(g: FaceGraph, i: number, p: XY): number {
     for (const h of r) {
       const a = { x: P.vertices.x[O[h]], y: P.vertices.y[O[h]] };
       const b = { x: P.vertices.x[O[h ^ 1]], y: P.vertices.y[O[h ^ 1]] };
-      const d = segDist2(p, a, b);
+      const d = distToSegment2(p, a, b);
       if (d < best) best = d;
     }
   }
   return best;
 }
 
-/** The squared distance of a point to a closed ring's edges. */
+/** The squared distance of a point to a closed ring's edges (siting's `distToSegment2` per side). */
 function ringDist2(ring: readonly XY[], p: XY): number {
   let best = Infinity;
   for (let i = 0; i < ring.length; i += 1) {
-    const d = segDist2(p, ring[i], ring[i + 1 === ring.length ? 0 : i + 1]);
+    const d = distToSegment2(p, ring[i], ring[i + 1 === ring.length ? 0 : i + 1]);
     if (d < best) best = d;
   }
   return best;

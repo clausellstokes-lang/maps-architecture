@@ -5,28 +5,10 @@
 import { createRng, entityKey, CONCERNS, STAGES, type LineageHash, type Stream } from '@plat/kernel';
 import { lineageHash } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { boundaryLoops, faceGraph, grow, hullCompactness, textLineage, type FaceGraph, type GrowOptions, type GrowSeed, type SeedKind, type TurnStream } from '../../src/index.js';
-import { GROUND, gridArena, rectArena, type GridArena } from './support.js';
+import { boundaryLoops, grow, hullCompactness, textLineage, type GrowOptions, type GrowSeed, type SeedKind, type TurnStream } from '../../src/index.js';
+import { cell, claimableOf, graphOf, GROUND, gridArena, rectArena } from './support.js';
 
 const S6 = STAGES.S6;
-
-function graphOf(a: GridArena): FaceGraph {
-  return faceGraph(a.plat, { ways: new Map(a.ways.map((w) => [w.id, w.class])), minBarrierClass: 'primary', perimeter: 'none', water: new Set() });
-}
-
-/** The graph index of cell (i, j). */
-function cell(a: GridArena, g: FaceGraph, i: number, j: number): number {
-  const loc = a.k.geom.pointLocate(GROUND, 1, a.centre(i, j));
-  if (loc.on !== 'face') throw new Error('no cell');
-  const idx = g.faces.findIndex((f) => f.face === loc.face);
-  if (idx < 0) throw new Error('no cell index');
-  return idx;
-}
-
-function claimableOf(g: FaceGraph): boolean[] {
-  // No perimeter on these grids: every face inside the border is land (side 'outside' of a perimeter that is not there).
-  return g.faces.map((f) => f.side !== 'margin' && f.owner === null && !f.water);
-}
 
 function seed(order: number, face: number, kind: SeedKind = 'remainder', rate = 1): GrowSeed {
   return { order, kind, face, lineage: textLineage(`seed:${String(order)}`), rate };
