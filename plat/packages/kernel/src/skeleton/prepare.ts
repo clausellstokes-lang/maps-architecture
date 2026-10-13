@@ -1,13 +1,15 @@
 // The skeleton's input side (M0-a-11; §3.8 *Numeric contract*): the lattice check, the pre-clean (consecutive repeats
-// dropped, then, to a fixpoint, exact zero-width spurs dropped and collinear vertices merged — N-52 (3), C-0276: a spur
+// dropped, then, to a fixpoint, exact zero-width spurs dropped and collinear vertices merged — C-0276, C-0283: a spur
 // is two coincident collinear edges enclosing no area, so dropping it reshapes nothing), the orientation (outer ring
 // counter-clockwise, holes clockwise, so the interior lies left of every edge), the canonical start (each ring at its
 // lowest-leftmost vertex — the order ties are broken in), and the contract's refusals, decided exactly on lattice
 // integers before anything runs: a ring with fewer than three vertices or no area, a ring that is not simple, a corner
 // sharper than 5° on either side (an interior angle below 5° or above 355°; an inexact fold-back is a 0° corner), a hole
 // touching the outer ring or another hole, and a hole outside the outer ring or inside another hole (C-0168 (3)). A
-// refused ring set takes its reader's downgrade without running (§3.8).
+// refused ring set takes its reader's downgrade without running (§3.8). The contact and containment tests are the
+// kernel's shared exact predicates (`num/exact.ts`, C-0314), read here on lattice points.
 import { area2, orient2d } from '../num/index.js';
+import { insideLatticeRing, segmentsMeet as segmentsMeetXY } from '../num/exact.js';
 import type { LatticePoint } from '../types/index.js';
 import type { ContractRefusal, SkeletonEdge } from './types.js';
 
@@ -48,13 +50,14 @@ function dropRepeats(ring: readonly LatticePoint[]): Src[] {
 const same = (u: Src, v: Src): boolean => u.p.x === v.p.x && u.p.y === v.p.y;
 
 /**
- * Drops exact zero-width spurs (N-52 (3), C-0276): a vertex whose two neighbours are one lattice point is the tip of a
- * spur — the ring walks out to it and back along the same segment, two coincident collinear edges enclosing no area (a
- * dead-end street walked out and back) — so the tip and the second of its two coincident neighbours in walk order are
- * removed, the first kept with its index, repeatedly, until none is left: a spur of several segments goes tip by tip,
- * one across the ring's seam included. Only exact equality is a spur: a fold-back
- * whose neighbours differ by any lattice step is a 0° corner and stays for the contract to refuse (`sharpCorner`). The
- * ring must hold no consecutive repeats; it holds none after (the kept neighbour differs from the next vertex).
+ * Drops exact zero-width spurs (C-0276; the seam rule, C-0283 (2)): a vertex whose two neighbours are one lattice point
+ * is the tip of a spur — the ring walks out to it and back along the same segment, two coincident collinear edges
+ * enclosing no area (a dead-end street walked out and back) — so the tip and the second of its two coincident
+ * neighbours in walk order are removed, the first kept with its index, repeatedly, until none is left: a spur of
+ * several segments goes tip by tip, one across the ring's seam included (read cyclically from the tip: a tip at the
+ * walk's last vertex keeps the root's visit just before it). Only exact equality is a spur: a fold-back whose
+ * neighbours differ by any lattice step is a 0° corner and stays for the contract to refuse (`sharpCorner`). The ring
+ * must hold no consecutive repeats; it holds none after (the kept neighbour differs from the next vertex).
  */
 function dropSpurs(ring: readonly Src[]): Src[] {
   const out: Src[] = [];
@@ -119,20 +122,12 @@ function canonical(ring: Src[]): Src[] {
   return [...ring.slice(m), ...ring.slice(0, m)];
 }
 
-/** Do the closed segments ab and cd share a point? Exact on lattice points. */
+/**
+ * Do the closed segments ab and cd share a point? `num/exact.ts`'s `segmentsMeet` on lattice points: a proper crossing,
+ * or an end of one on the other (a touch at an end and a collinear overlap count). Exact on lattice points.
+ */
 export function segmentsMeet(a: LatticePoint, b: LatticePoint, c: LatticePoint, d: LatticePoint): boolean {
-  const o1 = Math.sign(orient2d(a.x, a.y, b.x, b.y, c.x, c.y));
-  const o2 = Math.sign(orient2d(a.x, a.y, b.x, b.y, d.x, d.y));
-  const o3 = Math.sign(orient2d(c.x, c.y, d.x, d.y, a.x, a.y));
-  const o4 = Math.sign(orient2d(c.x, c.y, d.x, d.y, b.x, b.y));
-  if (o1 * o2 < 0 && o3 * o4 < 0) return true;
-  const on = (p: LatticePoint, q: LatticePoint, r: LatticePoint): boolean =>
-    Math.min(p.x, q.x) <= r.x && r.x <= Math.max(p.x, q.x) && Math.min(p.y, q.y) <= r.y && r.y <= Math.max(p.y, q.y);
-  if (o1 === 0 && on(a, b, c)) return true;
-  if (o2 === 0 && on(a, b, d)) return true;
-  if (o3 === 0 && on(c, d, a)) return true;
-  if (o4 === 0 && on(c, d, b)) return true;
-  return false;
+  return segmentsMeetXY(a.x, a.y, b.x, b.y, c.x, c.y, d.x, d.y);
 }
 
 /** Is the ring simple: no two non-adjacent edges meet (adjacent edges share only their vertex — a fold-back is a 0° corner)? */
@@ -159,20 +154,14 @@ function ringsMeet(A: readonly LatticePoint[], B: readonly LatticePoint[]): bool
   return false;
 }
 
-/** Even–odd containment of a lattice point strictly inside a lattice ring it does not touch: exact crossing parity. */
+/**
+ * Is the lattice point p inside the lattice ring? `num/exact.ts`'s off-ring reading on the lattice (`insideLatticeRing`:
+ * exact crossing parity, even–odd), defined for a point on none of the ring's edges: `prepareRings` asks only a hole's
+ * first vertex, after `ringsMeet` has refused every contact between the rings, so p is never on the ring it is tested
+ * against.
+ */
 export function insideRing(ring: readonly LatticePoint[], p: LatticePoint): boolean {
-  let inside = false;
-  const n = ring.length;
-  for (let i = 0, j = n - 1; i < n; j = i, i += 1) {
-    const a = ring[j];
-    const b = ring[i];
-    if (a.y > p.y !== b.y > p.y) {
-      // the edge straddles the horizontal through p: is p left of it (on the crossing's −x side)? exact by orient2d
-      const o = orient2d(a.x, a.y, b.x, b.y, p.x, p.y);
-      if (b.y > a.y ? o > 0 : o < 0) inside = !inside;
-    }
-  }
-  return inside;
+  return insideLatticeRing(ring, p.x, p.y);
 }
 
 /** The first vertex of a ring with a corner sharper than 5° on either side, or −1. Exact integer cross and dot. */

@@ -1,10 +1,10 @@
-// M0-a-11, session fix round S1 (N-52 (3), C-0276): §3.8's pre-clean ("input is pre-cleaned by merging collinear
-// vertices") drops exact zero-width spurs — a vertex whose two neighbours are one lattice point, the ring walking out
-// along a segment and back along the same one (a dead-end street on a district face) — with one of the two coincident
-// neighbours, to a fixpoint, before orientation and the contract's refusals. Two coincident collinear edges enclose no
-// area, so the face is unchanged and its skeleton is the spur-free face's; a fold-back whose neighbours differ by any
-// lattice step is still a 0° corner the contract refuses (`sharpCorner`). Behaviour shift (C-0276): a ring with an exact
-// spur took `sharpCorner` before this round and now runs.
+// M0-a-11 (C-0276, C-0283): §3.8's pre-clean ("input is pre-cleaned by merging collinear vertices") drops exact
+// zero-width spurs — a vertex whose two neighbours are one lattice point, the ring walking out along a segment and back
+// along the same one (a dead-end street on a district face) — with one of the two coincident neighbours, to a fixpoint,
+// before orientation and the contract's refusals. Two coincident collinear edges enclose no area, so the face is
+// unchanged and its skeleton is the spur-free face's; a fold-back whose neighbours differ by any lattice step is still
+// a 0° corner the contract refuses (`sharpCorner`). A ring with an exact spur therefore runs rather than taking
+// `sharpCorner` (the declared behaviour shift, C-0276 (4)).
 import { describe, expect, it } from 'vitest';
 import { runSkeleton } from '../../src/skeleton/skeleton.js';
 import { skeleton, type Skeleton, type SkeletonGraph } from '../../src/skeleton/index.js';
@@ -85,7 +85,7 @@ describe('an exact zero-width spur is pre-cleaned: the face skeletonises as the 
   });
 
   it('a spur continuing a boundary edge straight on past its root, or on the backward extension of the next edge (session fix S2, M13)', () => {
-    // the street runs on past the face's corner and stops: the tip's two neighbours are one lattice point (N-52 (3)), so
+    // the street runs on past the face's corner and stops: the tip's two neighbours are one lattice point (C-0276 (1)), so
     // the spur goes — the spur pass runs before the collinear merge in each round, or the merge would eat the root's
     // first visit (straight on from (0, 0) to the tip) and leave the tip a 0° corner refused `sharpCorner`
     const onIncoming = [pt(0, 0), pt(2_000, 0), pt(2_600, 0), pt(2_000, 0), pt(2_000, 1_000), pt(0, 1_000)];
