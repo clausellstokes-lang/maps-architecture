@@ -10,7 +10,7 @@ import json, subprocess, sys, time
 
 ROOT = '/home/user/maps-architecture'
 TRAILERS = ('\n\nCo-Authored-By: Claude Fable 5.1 <noreply@anthropic.com>\n'
-            'Claude-Session: https://claude.ai/code/session_0124F24PQ8U4cKJLhzAqtrWm\n')
+            'Claude-Session: https://claude.ai/code/session_016ixiawV2FqmQGBHKX7udzT\n')
 
 
 def run(*args, check=True):
