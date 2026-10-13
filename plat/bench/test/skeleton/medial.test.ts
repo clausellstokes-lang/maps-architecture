@@ -1,4 +1,4 @@
-// M0-a-12 (fix round 1; C-0176): the sampled medial axis over the whole committed corpus — the footprints §3.8 sends to
+// M0-a-12 (C-0176): the sampled medial axis over the whole committed corpus — the footprints §3.8 sends to
 // the skeleton, whose `spine` downgrade the axis is. Every face is resolved, connected and has exactly one independent
 // cycle per hole (C-0176 (2), (3)): the pruning works from the leaves only, so it never splits a face — the replaced rule
 // (C-0172 (5)), which cut every arc failing the ratio wherever it lay, split 216 of these 2 000 faces into two or three

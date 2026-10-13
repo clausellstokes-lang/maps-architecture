@@ -1,5 +1,4 @@
-// bench/src/skeleton — the skeleton corpus runner (M0-a-12; §3.8 *Confirmation at M0*, C-0015, C-0067, C-0172). The
-// folder was created empty by the scaffold (M0-s-01, C-0013) and belongs to M0-a-12.
+// bench/src/skeleton — the skeleton corpus runner (M0-a-12; §3.8 *Confirmation at M0*, C-0015, C-0067, C-0172).
 //
 // `corepack pnpm bench -- skeleton [--use roof|spine|both] [--timing [--rounds N] [--idle-ms N] [--every-ms N]]` loads the
 // committed synthetic footprints (bench/fixtures/skeleton-corpus/, every file opened logged), runs the skeleton over them
