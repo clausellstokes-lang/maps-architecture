@@ -10,6 +10,8 @@
 // leaving its lower endpoint. A face's level-n route ring is its level-n walk with finer vertices skipped. Every reading
 // here is a function of lattice positions and levels, never of a slot's number (§3.3 "No output depends on slot numbers").
 import { compareVertices, faceWalk, isFaceLive, isHalfEdgeLive, isLevel, isVertexLive, type FaceId, type HalfEdgeId, type Plat, type VertexId } from '../arena/index.js';
+import { lp } from '../num/exact.js';
+import { area2 } from '../num/index.js';
 import type { Level } from '../types/index.js';
 
 /** A structural precondition of the index (a programming error: it throws in every build, as the arena's `check`). */
@@ -157,7 +159,12 @@ export function routeHandlePair(p: Plat, h: HalfEdgeId): number {
   return routeRun(p, h).halfEdges[0] >> 1;
 }
 
-/** The pieces of a run's level-n route (n ≥ the run's level): the run cut at its vertices of level ≤ n (§2.2 rule 3). */
+/**
+ * The pieces of a run's level-n route (n ≥ the run's level): the run cut at its vertices of level ≤ n (§2.2 rule 3).
+ * `io/encode.ts`'s `runsAt` and `onward` walk the same routes for the persisted block — a level-r route edge is by
+ * definition a piece of `routePieces(routeRun(…), r)` — with the format's own refusals; the two walks are kept apart,
+ * the block's being part of a persisted format (N-45 (b), C-0345).
+ */
 export function routePieces(p: Plat, run: RouteRun, n: Level): RoutePiece[] {
   check(n >= run.level, `a level-${run.level} route has no level-${n} pieces`);
   const t = p.halfEdges;
@@ -220,6 +227,17 @@ export function faceRouteRings(p: Plat, level: Level, f: FaceId, n: Level): Vert
     }
     return vs;
   });
+}
+
+/**
+ * Twice the face's area (cm²) over its own-level route rings, outer counter-clockwise and holes clockwise: exact (`area2`
+ * sums each ring exactly, §3.2 (6)). Exported from this file only: the package's `faceArea2` is the invariant suite's,
+ * an equal reading pinned equal to this one (C-0345).
+ */
+export function faceArea2(p: Plat, level: Level, f: FaceId): number {
+  let s = 0;
+  for (const ring of faceRouteRings(p, level, f, level)) s += area2(ring.map((v) => lp(p.vertices.x[v], p.vertices.y[v])));
+  return s;
 }
 
 /** The box of a face record: every vertex of its outer ring at its level, padded by the hot pixel. */

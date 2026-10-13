@@ -48,7 +48,7 @@ import {
   type PartitionResolver,
 } from '../../src/index/index.js';
 import type { LatticePoint, Level } from '../../src/types/index.js';
-import { buildArena, linkByAngle, materialiseFaces, pt, type ArenaSpec, type Built } from '../arena/support.js';
+import { buildArena, intIn, linkByAngle, materialiseFaces, pt, rng, type ArenaSpec, type Built } from '../arena/support.js';
 
 export { buildArena, faceAt, FRAME, GROUND, LAKE, permutation, pt, QUARTERS, type ArenaSpec, type Built } from '../arena/support.js';
 
@@ -59,19 +59,8 @@ export const CELLS: [number, number, number, number, number] = [800, 400, 200, 1
 
 // ---- a seeded generator ------------------------------------------------------------------------------------------------
 
-/** mulberry32: a seeded generator in [0, 1). */
-export function generator(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-export const intIn = (rnd: () => number, lo: number, hi: number): number => lo + Math.floor(rnd() * (hi - lo + 1));
+/** The kernel tests' one seeded generator (mulberry32 in [0, 1)) and its uniform integer, from the arena's support. */
+export { intIn, rng as generator };
 export const pick = <T>(rnd: () => number, xs: readonly T[]): T => xs[Math.floor(rnd() * xs.length)];
 
 // ---- 1. the oracle ---------------------------------------------------------------------------------------------------
@@ -745,7 +734,7 @@ export function materialiseAgainShuffled(p: Plat, rnd: () => number): void {
 
 /** A random arena from a seed, with the index attached under a district map. */
 export function randomArena(seed: number, d: Districts | null, spec?: ArenaSpec): { built: Built; rnd: () => number } {
-  const rnd = generator(seed);
+  const rnd = rng(seed);
   const s = spec ?? randomSpec(rnd);
   const built = buildArena(s, {});
   attachIndex(built.plat, { gridCellCm: CELLS, ...(d === null ? {} : { partitionOf: districtResolver(d) }) });
