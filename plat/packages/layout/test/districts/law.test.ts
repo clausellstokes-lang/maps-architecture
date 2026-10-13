@@ -2,29 +2,9 @@
 // √(A_ha ÷ 10)), the band [0.5, 1.5] × A ÷ N_d, the mean district √(10A) ÷ 3.5 (≈ 7 ha at 60 ha, ≈ 14 ha at 250 ha,
 // ≈ 22 ha at 600 ha); N_q = round(1.37 · B^0.267) (9–10 at TOWN, 13–14 at CITY, 17–18 at METROPOLIS); every constant a
 // table cell (the checker's clause).
-import { parseTable, tableView, type TableView } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { countLaw, quarterCount, rosterBuildings, s6DistrictCells, s6Table, typingCells } from '../../src/index.js';
-
-/** A TableView whose `district` table has one cell's value replaced. */
-function districtWith(row: string, cell: string, value: unknown, base: TableView = tableView()): TableView {
-  const t = base.table('district');
-  const rows: Record<string, Record<string, unknown>> = {};
-  for (const [rk, cells] of t.rows) {
-    const r: Record<string, unknown> = {};
-    for (const [ck, c] of cells) r[ck] = { ...c, ...(rk === row && ck === cell ? { value } : {}) };
-    rows[rk] = r;
-  }
-  const district = parseTable('district', { table: 'district', version: t.version, section: t.section, rows });
-  return {
-    hash: base.hash,
-    version: (id) => base.version(id),
-    get: (id, key) => (id === 'district' ? district.rows.get(key) : base.get(id, key)),
-    rows: (id) => (id === 'district' ? district.rows : base.rows(id)),
-    slice: (id, kind, key) => base.slice(id, kind, key),
-    table: (id) => (id === 'district' ? district : base.table(id)),
-  };
-}
+import { tableWith } from './support.js';
 
 describe('the count law (§4.5)', () => {
   it('N_d = round(3.5 · √(A ÷ 10)) and the band [0.5, 1.5] × A ÷ N_d', () => {
@@ -60,11 +40,11 @@ describe('the count law (§4.5)', () => {
   });
 
   it('reads every coefficient from district.json (a changed cell moves the law)', () => {
-    const coef = s6DistrictCells(districtWith('countLaw', 'coefficient', 7));
+    const coef = s6DistrictCells(tableWith('district', 'countLaw', 'coefficient', 7));
     expect(countLaw(250, coef).n).toBe(Math.round(7 * Math.sqrt(25)));
-    const anchor = s6DistrictCells(districtWith('countLaw', 'areaHa', 40));
+    const anchor = s6DistrictCells(tableWith('district', 'countLaw', 'areaHa', 40));
     expect(countLaw(250, anchor).n).toBe(Math.round(3.5 * Math.sqrt(250 / 40)));
-    const band = s6DistrictCells(districtWith('countLaw', 'band', [0.25, 2]));
+    const band = s6DistrictCells(tableWith('district', 'countLaw', 'band', [0.25, 2]));
     expect(countLaw(250, band).bandHa[0]).toBeCloseTo(0.25 * (250 / 18), 9);
     expect(countLaw(250, band).bandHa[1]).toBeCloseTo(2 * (250 / 18), 9);
   });
@@ -80,8 +60,8 @@ describe('the quarter law (§4.5 *Quarters*)', () => {
   });
 
   it('reads its coefficient and exponent from district.json and B from the synthetic roster (s6.json)', () => {
-    expect(quarterCount(5242, s6DistrictCells(districtWith('quarters', 'coefficient', 2)))).toBe(Math.round(2 * Math.pow(5242, 0.267)));
-    expect(quarterCount(5242, s6DistrictCells(districtWith('quarters', 'exponent', 0.3)))).toBe(Math.round(1.37 * Math.pow(5242, 0.3)));
+    expect(quarterCount(5242, s6DistrictCells(tableWith('district', 'quarters', 'coefficient', 2)))).toBe(Math.round(2 * Math.pow(5242, 0.267)));
+    expect(quarterCount(5242, s6DistrictCells(tableWith('district', 'quarters', 'exponent', 0.3)))).toBe(Math.round(1.37 * Math.pow(5242, 0.3)));
     expect(rosterBuildings('CITY')).toBe(5242);
     expect(quarterCount(rosterBuildings('CITY'))).toBe(13);
   });
@@ -91,8 +71,8 @@ describe('every rate and constant S6 reads is a table cell (unit, provenance, ca
   it('the growth rates are district.json cells, read per kind (gate, castle, bridgehead 0.1; riverbank 0.5; others 1)', () => {
     const c = s6DistrictCells();
     expect([c.rate('gate'), c.rate('castle'), c.rate('bridgehead'), c.rate('riverbank'), c.rate('market'), c.rate('remainder'), c.rate('leftover')]).toEqual([0.1, 0.1, 0.1, 0.5, 1, 1, 1]);
-    expect(s6DistrictCells(districtWith('growthRate', 'gate', 0.3)).rate('gate')).toBe(0.3);
-    expect(s6DistrictCells(districtWith('growthRate', 'other', 0.7)).rate('remainder')).toBe(0.7);
+    expect(s6DistrictCells(tableWith('district', 'growthRate', 'gate', 0.3)).rate('gate')).toBe(0.3);
+    expect(s6DistrictCells(tableWith('district', 'growthRate', 'other', 0.7)).rate('remainder')).toBe(0.7);
     expect(c.compactnessMin).toBe(0.5);
     expect(c.perimeterOffsetM).toBe(50);
     expect([c.familyCostHa, c.barrierCostHa]).toEqual([1000, 10000]);

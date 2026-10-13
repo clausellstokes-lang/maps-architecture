@@ -1,15 +1,15 @@
-// C-0307 (refining C-0229 (2)): the kernel's rings — the slow path, §3.4's `buffer` of the course clipped to the arena
-// less the earlier bodies (C-0229 (2)) — are cleaned and proved as the fast ring is before any batch (`provedRings`:
-// `cleanRing` with the arena's edge and the earlier rings fixed, then `isSimple`, `clearRing`, `ringsApart`,
-// `clearOf`). Uncleaned, the buffer's round joins leave clusters of vertices 17–25 cm apart (below minEdgeCm 25) within
-// 17–26 cm of a neighbouring side (below attractCm 26); the insertion welds them, the shore role branches and §3.10's
-// role consistency refuses the batch — on the river, the first body, the whole stage: a lawful SMALL_RIVER town with no
-// water (0.5 % of seeds). Pinned here:
+// N-56 (1) (session round s1 on M0-e-03; docs/M0-FIX-QUEUE.md Q20 class A): the kernel's rings — the slow path, §3.4's
+// `buffer` of the course clipped to the arena less the earlier bodies (C-0229 (2)) — are cleaned and proved as the fast
+// ring is before any batch (`provedRings`: `cleanRing` with the arena's edge and the earlier rings fixed, then
+// `isSimple`, `clearRing`, `ringsApart`, `clearOf`). Uncleaned, the buffer's round joins leave clusters of vertices
+// 17–25 cm apart (below minEdgeCm 25) within 17–26 cm of a neighbouring side (below attractCm 26); the insertion welds
+// them, the shore role branches and §3.10's role consistency refuses the batch — on the river, the first body, the whole
+// stage: a lawful SMALL_RIVER town with no water (0.5 % of seeds). Pinned here:
 // * a hand-built shore ring carrying 17 cm hairpins is cleaned of them (every edge ≥ minEdgeCm, 60 cm clear) and commits
 //   with every hard row green — role consistency among them;
-// * the four class-A rings the kernel built (fixtures/q20-slow-rings.json, captured by the ruling N-56's probe on the
-//   seeds named in C-0307 (4)): raw, each is refused at commit by role consistency, `(shore, water:river:0)
-//   branches` — the hazard, reproduced (the control); proved, each commits with every hard row green;
+// * the four class-A rings the kernel built (fixtures/q20-slow-rings.json, captured by the session ruling's probe
+//   before this round): raw, each is refused at commit by role consistency, `(shore, water:river:0) branches` — the
+//   hazard, reproduced (the control); proved, each commits with every hard row green;
 // * a ring the clean cannot make clear is refused with its cause, never handed to the kernel; a body so refused is
 //   dropped `refused` with the cause in `fallbacks`; the river so refused is the stage's refusal, the cause named;
 // * the five class-A seeds and the x-06 checker's two (SMALL_RIVER, unplanted) commit through the registered S1's
@@ -18,22 +18,33 @@
 //   here under a hand-built StageContext, never through @plat/layout's runner (§14; C-0123).
 import { readFileSync } from 'node:fs';
 import { attachIndex, checkCI, createKernel, createPlat, createRng, rowKey, rowsOn, seedKey, STAGES, type Frame, type Hash128, type LatticePoint, type Ring } from '@plat/kernel';
-import { mintTownRoot, type GeomRef, type StageContext, type Terrain, type WaterBody } from '@plat/model';
+import { mintTownRoot, type Cm, type CmArray, type GeomRef, type StageContext, type Terrain, type WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { baseRivers } from '../../src/hydro/index.js';
 import { baseTerrain, GROUND_KEY, TOWN_ROOT, type SiteEnv } from '../../src/terrain/index.js';
 import { cleanRing, clearRing, isSimple } from '../../src/water/offset.js';
 import { provedRings } from '../../src/water/polygons.js';
 import { insideRings, leftFaces, outerRingBatch, reachOf, ringsDist2, runS1, s1Stage, waterFaces, waterPolygons, type S1Output } from '../../src/water/index.js';
-import { everyL0EdgeShoreOrRing, frameOf, ground, hardFailures, heldRefs, pt, siteContext, SMALL_ARENA, waterBody } from './support.js';
+import { frameOf, ground, pt, siteContext } from './support.js';
+
+const OPTS = { key: GROUND_KEY, stage: STAGES.S1, workLimit: 1e9 };
+const LIFE = { existence: 'generated' as const, flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
+
+function body(id: string, kind: WaterBody['kind'], course: [number, number][], width: number | number[]): WaterBody {
+  return {
+    id,
+    kind,
+    face: { owner: id, level: 0 },
+    shore: { role: 'shore', entity: id },
+    course: course.map(([x, y]) => pt(x, y)),
+    widthProfile: Int32Array.from(course.map((_, i) => (typeof width === 'number' ? width : width[i]))) as CmArray,
+    lifecycle: LIFE,
+  };
+}
 
 /** A 1 000 m × 600 m arena (frame 500 m × 300 m, margin ½). */
-const { FRAME, REACH, OPTS } = SMALL_ARENA;
-
-/** A body on `[x, y]` course pairs, a width per point or one for all (support's `waterBody`). */
-function body(id: string, kind: WaterBody['kind'], course: [number, number][], width: number | number[]): WaterBody {
-  return waterBody(id, kind, course.map(([x, y]) => pt(x, y)), width);
-}
+const FRAME: Frame = { widthCm: 50_000 as Cm, heightCm: 30_000 as Cm, aspect: 5 / 3, marginShare: 0.5 };
+const REACH = reachOf(FRAME);
 
 /**
  * The hand-built shore of a 20 m river across the arena (y = ±1 000 cm, west edge to east edge), counter-clockwise, its
@@ -58,6 +69,13 @@ function hairpinRing(step = 2200): LatticePoint[] {
   side(-1000, 1);
   side(1000, -1);
   return out;
+}
+
+/** The hard rows of the kernel's CI sweep that fail, over the whole arena with the water's references. */
+function hardFailures(plat: Parameters<typeof checkCI>[0], refs: GeomRef[], live: Set<string>): string[] {
+  return checkCI(plat, { refs, isLive: (id) => live.has(id) })
+    .filter((r) => r.class === 'hard' && !r.holds)
+    .map((r) => `${r.name}: ${r.problems.slice(0, 2).join('; ')}`);
 }
 
 /** The ring as the batch's one body part: the river's seeds every 50 m on y = sag. */
@@ -111,7 +129,10 @@ describe('provedRings: the kernel\'s ring cleaned and proved as the fast ring is
     expect(checkCI(plat, { refs, isLive: (id) => live.has(id) }).some((x) => /role/.test(x.name) && x.holds)).toBe(true);
     const res = kernel.resolve(reach.body.face, GROUND_KEY);
     expect(res.view === 'faces' && res.faces.length).toBe(1);
-    everyL0EdgeShoreOrRing(plat);
+    for (const h of leftFaces(plat).keys()) {
+      const roles = rowsOn(plat, 'edge', h).map((q) => rowKey(plat, q).role);
+      expect(roles.some((x) => x === 'shore' || x === 'margin')).toBe(true);
+    }
   });
 
   it('a ring the clean cannot make clear is refused with its cause: two rings 50 cm apart (rings meet), a ring crossing an earlier body\'s ring (meets an earlier body), a ring folding within 40 cm of itself (near-touch), a figure-eight (not simple)', () => {
@@ -255,8 +276,8 @@ function registeredS1(seed: number): { out: ReturnType<typeof runS1>; plat: Retu
 
 describe('Q20 class A: the lawful SMALL_RIVER river commits on the seeds S1 refused (N-56 (1))', () => {
   // seeds 2651453823, 1314904401, 186973829, 1117762784, 4230160953 (the ruling's, EP-01/S1/self-touching's family
-  // unplanted) and 676291635, 1595424233 (the x-06 checker's river × frame seeds): on the kernel's ring uncleaned each
-  // is refused E_INVARIANT "(shore, water:river:0) branches"; each takes the slow path (the fast ring 'near the edge')
+  // unplanted) and 676291635, 1595424233 (the x-06 checker's river × frame seeds): before this round each refused
+  // E_INVARIANT "(shore, water:river:0) branches"; each takes the slow path (the fast ring 'near the edge')
   it.each([2651453823, 1314904401, 186973829, 1117762784, 4230160953, 676291635, 1595424233])('seed %i: S1 commits the river on the kernel\'s proved ring, every hard row green, its shore clear', (seed) => {
     const { out, plat } = registeredS1(seed);
     if (!out.ok) throw new Error(`${out.code} ${out.detail}`);
@@ -265,7 +286,8 @@ describe('Q20 class A: the lawful SMALL_RIVER river commits on the seeds S1 refu
     expect(o.report.fallbacks).toEqual([{ id: 'water:river:0', why: 'near the edge' }]);
     expect(o.report.dropped).toEqual([]);
     expect(o.water.bridges.length).toBeGreaterThan(0);
-    const { refs, live } = heldRefs(o.terrain.id, o);
+    const refs: GeomRef[] = [{ role: 'margin', entity: o.terrain.id }, ...o.water.bodies.flatMap((b) => [b.face, b.shore]), ...o.water.bridges.flatMap((b) => b.deck), ...o.land.map((c) => c.face)];
+    const live = new Set([o.terrain.id, ...o.water.bodies.map((b) => b.id), ...o.water.bridges.map((b) => b.id), ...o.land.map((c) => c.id)]);
     expect(hardFailures(plat, refs, live)).toEqual([]);
   });
 });

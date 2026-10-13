@@ -4,8 +4,8 @@
 import { type Stream } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { typeDistricts, typingCells, type TypingCells, type TypingDistrict } from '../../src/index.js';
+import { HA } from './support.js';
 
-const HA = 100_000_000;
 const d = (id: string, ha: number, rel: string[]): TypingDistrict => ({ id, areaCm2: ha * HA, relations: new Set(rel) });
 /** A stream whose uniforms are `u` (per district id, a list consumed in turn; 0 when absent). */
 function streams(u: Record<string, number[]> = {}): (id: string) => Stream {

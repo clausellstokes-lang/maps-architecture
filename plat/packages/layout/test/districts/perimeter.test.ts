@@ -2,17 +2,11 @@
 // 50 m (`district.perimeter.offsetM`) and rounded — every convex corner an arc of the offset's radius — clipped to the
 // frame; the convolution form held equal to §3.4's buffer of the closed ring united with the boundary, and to the
 // Minkowski sum by its definition on notched-star and ribbon-finger outlines, whose sharp reflex corners put a miter
-// beyond its offset edges (C-0245 (1); fix round 1 of the first check's B-1).
-import { attachIndex, createKernel, createPlat, type Cm, type Kernel, type LatticePoint } from '@plat/kernel';
+// beyond its offset edges (C-0245 (1), C-0252).
+import type { Kernel, LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { convolution, isSumRing, OVERLAY_TOLERANCE_CM, settlementPerimeter, settlementPerimeterByBuffer, simpleCcw, SUM_TOLERANCE_CM, unloop } from '../../src/index.js';
-import { area2Of, fixtureRandom, GROUND, insidePoly, P, ringDist, tableWith, town } from './support.js';
-
-function kernel(): Kernel {
-  const plat = createPlat(GROUND, { widthCm: 1_000_000 as Cm, heightCm: 1_000_000 as Cm, aspect: 1, marginShare: 0.3 });
-  attachIndex(plat, { gridCellCm: 5000 });
-  return createKernel(new Map([[GROUND, plat]]), { spineWidths: () => null });
-}
+import { area2Of, fixtureRandom, insidePoly, kernel, P, ringDist, tableWith, town } from './support.js';
 
 /** The area of the symmetric difference of two rings (cm²). */
 function xorArea(k: Kernel, a: LatticePoint[], b: LatticePoint[]): number {
