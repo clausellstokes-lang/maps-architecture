@@ -5,7 +5,7 @@
 // away from a site is refused by the lattice.
 import { describe, expect, it } from 'vitest';
 import { buildLattice, routeGraph, siteCosts, solve } from '../../src/index.js';
-import { edgesWith, handBuildRiver, incidentEdgeRows, insideRing, P, riverRing, runSite, smallSite, vertexRows, type Run } from './support.js';
+import { edgesWith, handBuildRiver, incidentEdgeRows, insideRing, nearest, P, riverRing, runSite, smallSite, vertexRows, type Run } from './support.js';
 
 const RIVER = riverRing(50000, 54000, -90000, 90000);
 const SITE = { id: 'bridge:0', a: P(50000, 0), b: P(54000, 0) };
@@ -83,16 +83,3 @@ describe('a route through a crossing site lays the span and the Bridge becomes b
     }
   });
 });
-
-function nearest(points: readonly { x: number; y: number }[], p: { x: number; y: number }): number {
-  let best = 0;
-  let bd = Infinity;
-  points.forEach((q, i) => {
-    const d = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
-    if (d < bd) {
-      bd = d;
-      best = i;
-    }
-  });
-  return best;
-}

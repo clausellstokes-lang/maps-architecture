@@ -10,7 +10,7 @@
 // * the routes are rewritten through the merge (a merged point becomes its keeper, a repeated point closes a loop that
 //   is cut out) and the graph rebuilt from them, so every chain is a run of whole route edges.
 import type { LatticePoint } from '@plat/kernel';
-import { quot } from '../siting/geom.js';
+import { distToSegment, segmentsMeet } from '../siting/geom.js';
 import type { ArterialGraph, Chain, GraphEdge, GraphNode, JunctionKeptApart, JunctionMerge, RoutePoint, S4Route } from './types.js';
 
 /** The key of a point (its exact position). */
@@ -253,35 +253,9 @@ export interface ParallelFold {
 
 type Seg = readonly [number, number, number, number];
 
-function footDist(p: LatticePoint, a: LatticePoint, b: LatticePoint): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const l2 = dx * dx + dy * dy;
-  let t = 0;
-  if (l2 > 0) {
-    t = quot((p.x - a.x) * dx + (p.y - a.y) * dy, l2, 'area', 'foot');
-    if (t < 0) t = 0;
-    if (t > 1) t = 1;
-  }
-  const fx = a.x + t * dx - p.x;
-  const fy = a.y + t * dy - p.y;
-  return Math.sqrt(fx * fx + fy * fy);
-}
-
-function orient(ax: number, ay: number, bx: number, by: number, cx: number, cy: number): number {
-  const v = (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
-  return v > 0 ? 1 : v < 0 ? -1 : 0;
-}
-
-/** Do the closed segments pq and s meet? */
+/** Do the closed segments pq and s meet? Exact: siting's `segmentsMeet` on s's two ends. */
 function meets(p: LatticePoint, q: LatticePoint, s: Seg): boolean {
-  const o1 = orient(p.x, p.y, q.x, q.y, s[0], s[1]);
-  const o2 = orient(p.x, p.y, q.x, q.y, s[2], s[3]);
-  const o3 = orient(s[0], s[1], s[2], s[3], p.x, p.y);
-  const o4 = orient(s[0], s[1], s[2], s[3], q.x, q.y);
-  if (o1 !== o2 && o3 !== o4) return true;
-  const on = (ax: number, ay: number, bx: number, by: number, cx: number, cy: number): boolean => Math.min(ax, bx) <= cx && cx <= Math.max(ax, bx) && Math.min(ay, by) <= cy && cy <= Math.max(ay, by);
-  return (o1 === 0 && on(p.x, p.y, q.x, q.y, s[0], s[1])) || (o2 === 0 && on(p.x, p.y, q.x, q.y, s[2], s[3])) || (o3 === 0 && on(s[0], s[1], s[2], s[3], p.x, p.y)) || (o4 === 0 && on(s[0], s[1], s[2], s[3], q.x, q.y));
+  return segmentsMeet(p, q, { x: s[0], y: s[1] }, { x: s[2], y: s[3] });
 }
 
 /**
@@ -318,7 +292,7 @@ export function foldParallel(routes: readonly S4Route[], sepCm: (r: S4Route) => 
             const a = q[s].at;
             const b = q[s + 1].at;
             if (Math.min(a.x, b.x) - sep > p.at.x || Math.max(a.x, b.x) + sep < p.at.x || Math.min(a.y, b.y) - sep > p.at.y || Math.max(a.y, b.y) + sep < p.at.y) continue;
-            const d = footDist(p.at, a, b);
+            const d = distToSegment(p.at, a, b);
             if (d < sep && d < best) {
               best = d;
               who = e;

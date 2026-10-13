@@ -1,11 +1,8 @@
 // M0-c-03: the junction rules (§4.3: "minimum crossing angle 30° (else deflect); Y → T conversion where the acute arm
 // can be bent within its class curvature limit (G-P5)"; C-0236 (8)) on synthetic graphs.
 import { describe, expect, it } from 'vitest';
-import { tableView } from '@plat/tables';
-import { arterialGraph, chainPoints, classGeometryCm, classify, junctionAngles, junctionRules, type RoutePoint, type S4Route, type Simplified } from '../../src/index.js';
-import { P } from './support.js';
-
-const T = tableView();
+import { arterialGraph, chainPoints, classGeometryCm, classify, DEFLECT_MARGIN_CDEG, junctionAngles, junctionRules, type RoutePoint, type S4Route, type Simplified } from '../../src/index.js';
+import { P, T } from './support.js';
 
 function route(id: string, order: number, pts: [number, number][]): S4Route {
   const points: RoutePoint[] = pts.map((p, i) => (i === 0 ? { at: P(p[0], p[1]), pin: 'attach', pinId: 'plaza:0' } : i === pts.length - 1 ? { at: P(p[0], p[1]), pin: 'gate', pinId: `gate:${id}` } : { at: P(p[0], p[1]) }));
@@ -66,6 +63,8 @@ describe('the 30° minimum crossing angle (§4.3)', () => {
     expect(d[0].applied).toBe(true);
     expect(d[0].beforeCdeg).toBeLessThan(3000);
     expect(d[0].afterCdeg).toBeGreaterThanOrEqual(3000);
+    // Just over: turned to the minimum plus the margin, give or take the whole-cm rounding of the moved point.
+    expect(d[0].afterCdeg).toBeLessThan(3000 + 2 * DEFLECT_MARGIN_CDEG);
     for (const a of junctionAngles(g, polys)) expect(a.minCdeg).toBeGreaterThanOrEqual(3000);
   });
 

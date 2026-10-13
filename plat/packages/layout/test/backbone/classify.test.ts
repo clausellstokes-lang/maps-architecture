@@ -1,11 +1,8 @@
 // M0-c-03: class and width (§4.3: "Class and width come from multiplicity and betweenness on this graph (the width
 // table `ways.widths` keyed by class and rung, the class by betweenness)"; §17.1 (8) Brandes' betweenness; C-0236 (6)).
 import { describe, expect, it } from 'vitest';
-import { tableView } from '@plat/tables';
 import { arterialGraph, chainBetweenness, classify, PROMOTE_FLOWS, widthAt, widthBandCm, type RoutePoint, type S4Route } from '../../src/index.js';
-import { P, waysWith } from './support.js';
-
-const T = tableView();
+import { P, T, waysWith } from './support.js';
 
 function route(id: string, order: number, pts: (RoutePoint | [number, number])[], part: 'inward' | 'outward', cls: 'primary' | 'through', to: S4Route['to'], from: S4Route['from'] = { kind: 'plaza', id: 'plaza:0' }): S4Route {
   return { id, order, part, class: cls, points: pts.map((p) => (Array.isArray(p) ? { at: P(p[0], p[1]) } : p)), spans: [], from, to };

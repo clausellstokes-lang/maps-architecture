@@ -31,6 +31,26 @@ export function P(x: number, y: number): LatticePoint {
   return { x, y } as LatticePoint;
 }
 
+/** The committed tables. */
+export const T = tableView();
+
+/** A point's key: its exact position. */
+export const key = (p: { x: number; y: number }): string => `${String(p.x)},${String(p.y)}`;
+
+/** The index of the point of `points` nearest p (the first on a tie). */
+export function nearest(points: readonly { x: number; y: number }[], p: { x: number; y: number }): number {
+  let best = 0;
+  let bd = Infinity;
+  points.forEach((q, i) => {
+    const d = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
+    if (d < bd) {
+      bd = d;
+      best = i;
+    }
+  });
+  return best;
+}
+
 /** An empty indexed ground arena over the site's frame and the kernel over it. */
 export function kernelFor(site: Site): { plat: Plat; k: Kernel } {
   const plat = createPlat(GROUND, site.frame);
@@ -157,7 +177,6 @@ export function incidentEdgeRows(p: Plat, at: LatticePoint): { role: string; ent
 
 /** A way's edges walked into one polyline from its first end (throws when they are not one open path). */
 export function wayLine(edges: readonly [LatticePoint, LatticePoint][]): LatticePoint[] {
-  const key = (q: LatticePoint): string => `${String(q.x)},${String(q.y)}`;
   const adj = new Map<string, LatticePoint[]>();
   for (const [a, b] of edges) {
     for (const [u, v] of [

@@ -22,7 +22,7 @@
 // * the water rule is never given up (§2.2 rule 7, C-0076; C-0250): a course that still meets the water off a deck end
 //   after the fallbacks falls to its lattice course, and a lattice course that does is refused (`E_INVARIANT`), never
 //   committed — S4's routes reach here dry (./stage.ts), so the refusal is a fail-safe, not a path.
-import { err, kernelOp, ok, STAGES, type Kernel, type KernelOp, type KernelResult, type LatticePoint, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
+import { compareKeys, err, kernelOp, ok, STAGES, type Kernel, type KernelOp, type KernelResult, type LatticePoint, type PlatKey, type Polygon, type StageId } from '@plat/kernel';
 import { lineageHash, TOWN_ROOT, type Bridge, type ChainProfile, type Cm, type Gate, type Id, type Junction, type NodeRef, type Way } from '@plat/model';
 import { loadWorkLimits, workLimitOf, type BaseRung, type TableView } from '@plat/tables';
 import { generated } from '../enceinte/water.js';
@@ -462,7 +462,7 @@ export function commitRoutes(routes: readonly S4Route[], k: Kernel, opts: Commit
       }
     }
     const id = junctionOf.get(v) as Id;
-    return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)), kind: junctionKind(g, finalPolys, v, count), lifecycle: generated(epoch) };
+    return { id, vertex: { role: 'junction', entity: id, ordinal: 0 }, arms: [...arms].sort(compareKeys), kind: junctionKind(g, finalPolys, v, count), lifecycle: generated(epoch) };
   });
 
   // Way records, with their width profiles.
