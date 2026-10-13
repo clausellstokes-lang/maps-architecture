@@ -4,7 +4,7 @@
 import type { FaceId, Five, HalfEdgeId, Plat, VertexId } from '../arena/index.js';
 import { roleIdOf, roleInfo, idOf } from '../arena/index.js';
 import type { IndexBatchLog } from '../index/index.js';
-import type { InsertJournal, WorkCharged } from '../insert/index.js';
+import { TX_FACES_WALKED, type InsertJournal, type WorkCharged } from '../insert/index.js';
 import { err, type KernelError, type KernelResult, type Warning } from '../num/index.js';
 import type { Id, LatticePoint, Level, PlatKey, RoleKey, VertexRef } from '../types/index.js';
 import type { Savepoint } from './savepoint.js';
@@ -61,15 +61,14 @@ export interface OpenTx extends Overlay {
   /** A refusal that dooms the whole batch (E_WORK_LIMIT): every later op refuses with it, and the batch rejects. */
   failed: { readonly code: KernelError; readonly detail: string } | null;
   /**
-   * Closed after commit or reject (and after a throw rolled the batch back). The contract (N-55 (5)): every writer taking
-   * an overlay checks it first and throws on a closed one — tx's own writers, faces' and warp's through `openTx`, and the
-   * insertion shell's (`InsertTx.closed`, M0-a-04 / M0-a-05) — so a stale overlay never writes outside a transaction.
+   * Set at commit, reject and rollback; every writer asserts it first — a stale overlay never writes (tx's own writers,
+   * faces' and warp's through `openTx`, the insertion's through `InsertTx.closed`; C-0287).
    */
   closed: boolean;
   /**
-   * The op the batch is running, for a rethrown error's prefix (N-53 (3)): a declared op's kind, `fn` while a callback
-   * runs (one of this module's writers names itself while it runs: `removeEdges`, `clearFiner`, `retypeEdges`,
-   * `setOwner`), `commit` for the expectations, the kernel rows and the commit.
+   * Names the running op in a rethrown error's prefix (C-0287): a declared op's kind, `fn` while a callback runs (one of
+   * this module's writers names itself while it runs: `removeEdges`, `clearFiner`, `retypeEdges`, `setOwner`), `commit`
+   * for the expectations, the kernel rows and the commit.
    */
   op: string;
 }
@@ -90,9 +89,9 @@ export function openTx(o: Overlay): OpenTx {
 }
 
 /**
- * Runs one of this module's writers with the batch's `op` naming it (N-53 (3)): put back when the writer returns, left
- * naming it when the writer throws, so the transaction's rethrown error names the op that threw. A nested writer call
- * (a writer calling another) keeps the outer name.
+ * Runs one of this module's writers with the batch's `op` naming it: put back when the writer returns, left naming it
+ * when the writer throws, so the transaction's rethrown error names the op that threw (C-0287). A nested writer call (a
+ * writer calling another) keeps the outer name.
  */
 export function asOp<T>(o: Overlay, kind: string, run: () => T): T {
   const t = openTx(o);
@@ -163,6 +162,23 @@ export function chargeTx(t: OpenTx, counter: string, n: number): boolean {
 /** The refusal a doomed batch gives every later op. */
 export function doomed<T>(t: OpenTx): KernelResult<T> | null {
   return t.failed === null ? null : err<T>(t.failed.code, t.failed.detail);
+}
+
+/**
+ * A writer's entry (§3.3 *Work limits*): the open transaction behind the overlay, and the refusal of a doomed batch —
+ * one an earlier op took past its limit (E_WORK_LIMIT, 'the batch exceeded its work limit' when no op named the counter),
+ * which the writer returns before it reads or writes anything.
+ */
+export function enterWriter<T>(o: Overlay): { t: OpenTx; refused: KernelResult<T> | null } {
+  const t = openTx(o);
+  if (t.failed === null && t.work.total > t.workLimit) t.failed = { code: 'E_WORK_LIMIT', detail: 'the batch exceeded its work limit' };
+  return { t, refused: doomed<T>(t) };
+}
+
+/** E_WORK_LIMIT from a writer whose face walks took the batch past its limit (TX_FACES_WALKED): the batch doomed. */
+export function overLimit<T>(t: OpenTx): KernelResult<T> {
+  if (t.failed === null) t.failed = { code: 'E_WORK_LIMIT', detail: TX_FACES_WALKED };
+  return doomed<T>(t) as KernelResult<T>;
 }
 
 /** A structural precondition of the transaction module: a programming error (throws in every build). */

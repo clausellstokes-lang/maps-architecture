@@ -45,21 +45,8 @@ import type { ChainRef, EdgeSetRef, FaceRef, Id, Level, RoleName, StretchRef, Ve
 import { linesOfRuns, pairsOfKey, resolveStretch, runsOfPairs, type Span } from './chains.js';
 import { chainLevel, cutKnot, JOIN_TOLERANCE_CM, knotLines, profileOut, routeLines, sameValue, type AnyProfile, type KnotLine, type RouteLine } from './profile.js';
 import { recordLeftOf, rewriteRows, type AddRow } from './relevel.js';
-import { asOp, chargeTx, check, doomed, noteRole, openTx, roleId, type OpenTx } from './state.js';
+import { asOp, chargeTx, check, enterWriter, noteRole, overLimit, roleId, type OpenTx } from './state.js';
 import type { Conflict, Overlay, ProfileOut, ProfileValue, RemoveResult, RetypeResult } from './types.js';
-
-/** The open transaction, or the refusal of a doomed one (E_WORK_LIMIT reached by an earlier op). */
-function enter<T>(o: Overlay): { t: OpenTx; refused: KernelResult<T> | null } {
-  const t = openTx(o);
-  if (t.failed === null && t.work.total > t.workLimit) t.failed = { code: 'E_WORK_LIMIT', detail: 'the batch exceeded its work limit' };
-  return { t, refused: doomed<T>(t) };
-}
-
-/** E_WORK_LIMIT, the batch doomed. */
-function overLimit<T>(t: OpenTx): KernelResult<T> {
-  if (t.failed === null) t.failed = { code: 'E_WORK_LIMIT', detail: TX_FACES_WALKED };
-  return doomed<T>(t) as KernelResult<T>;
-}
 
 /** Is the record at `level` left of h kept content of the batch (a stage ranked before `rederivesFrom`'s)? */
 function keptLeft(t: OpenTx, level: Level, h: HalfEdgeId): boolean {
@@ -276,7 +263,7 @@ export function removeEdges(o: Overlay, ref: ChainRef | EdgeSetRef | StretchRef 
 }
 
 function removeEdgesIn(o: Overlay, ref: ChainRef | EdgeSetRef | StretchRef | VertexRef, profiles: readonly AnyProfile[]): KernelResult<RemoveResult> {
-  const { t, refused } = enter<RemoveResult>(o);
+  const { t, refused } = enterWriter<RemoveResult>(o);
   if (refused !== null) return refused;
   const p = t.plat;
   const warnings: Warning[] = [];
@@ -386,7 +373,7 @@ function retypeEdgesIn(
   remove: readonly RoleName[],
   rekey?: { from: Id; to: Id; profiles?: { from?: AnyProfile; to?: AnyProfile }[] },
 ): KernelResult<RetypeResult> {
-  const { t, refused } = enter<RetypeResult>(o);
+  const { t, refused } = enterWriter<RetypeResult>(o);
   if (refused !== null) return refused;
   const p = t.plat;
   const T = p.halfEdges;
@@ -562,7 +549,7 @@ export function clearFiner(o: Overlay, faces: FaceRef, level: Level): KernelResu
 }
 
 function clearFinerIn(o: Overlay, faces: FaceRef, level: Level): KernelResult<Conflict[]> {
-  const { t, refused } = enter<Conflict[]>(o);
+  const { t, refused } = enterWriter<Conflict[]>(o);
   if (refused !== null) return refused;
   const p = t.plat;
   if (level < t.level) return err('E_LEVEL', `an L${t.level} batch clears no L${level + 1} content (§3.3: one level per transaction)`);
@@ -631,7 +618,7 @@ export function setOwner(o: Overlay, faces: readonly FaceId[], owner: Id): Kerne
 }
 
 function setOwnerIn(o: Overlay, faces: readonly FaceId[], owner: Id): KernelResult<void> {
-  const { t, refused } = enter<void>(o);
+  const { t, refused } = enterWriter<void>(o);
   if (refused !== null) return refused;
   const p = t.plat;
   const l = t.level;
