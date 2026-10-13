@@ -266,6 +266,41 @@ describe('the corrupt cache (§3.9, §3.11)', () => {
     expectCorrupt(decodeArena(dropped, p.key));
   });
 
+  it('a coordinate or a lattice-point reference outside the lattice range, or a face of the free kind, is a corrupt cache; the range\'s last coordinates and the last face kind load (§3.2 (1), §3.9)', () => {
+    // §3.2 (1): a lattice coordinate is an integer with |v| < 2²³ — 2²³ and beyond (either sign, either axis) are not.
+    const H = 8_388_608;
+    const corner = (x: number, y: number): Craft => square({ vertices: [[x, y, 0, 0], [4000, 0, 0, 0], [0, 4000, 0, 0], [4000, 4000, 0, 0]] });
+    for (const [x, y] of [[-H, 0], [-H - 1, 0], [0, -H], [-H, -H]] as const) {
+      expectCorrupt(decodeArena([craft(corner(x, y))], GROUND), /a vertex outside the lattice range/);
+    }
+    const far = (x: number, y: number): Craft => square({ vertices: [[0, 0, 0, 0], [4000, 0, 0, 0], [0, 4000, 0, 0], [x, y, 0, 0]] });
+    for (const [x, y] of [[H, 4000], [4000, H], [H + 1, H + 1]] as const) {
+      expectCorrupt(decodeArena([craft(far(x, y))], GROUND), /a vertex outside the lattice range/);
+    }
+    // The last lattice coordinate, −(2²³ − 1) on either axis, passes the range check: the crafted corner loads.
+    for (const [x, y] of [[-H + 1, 0], [0, -H + 1]] as const) {
+      const r = decodeArena([craft(corner(x, y))], GROUND);
+      expect(r.ok).toBe(true);
+      if (r.ok) expect(r.value.slots.face[0].live).toBe(1);
+    }
+    // A partition's reference by lattice point: 2²³ is refused by range, 2²³ − 1 reaches the lookup (and dangles).
+    const lane = (ref: readonly [number, number]): Chunk => craft({ routes: false, level: 2, vertices: [[1000, 2000, 2, 0]], edges: [[0, ref, 2]] });
+    for (const ref of [[H, 0], [0, -H], [-H - 1, 7]] as const) {
+      expectCorrupt(decodeArena([craft(square()), lane(ref)], GROUND), /a lattice-point reference outside the lattice range/);
+    }
+    expectCorrupt(decodeArena([craft(square()), lane([H - 1, 0])], GROUND), /lattice-point reference \(8388607, 0\) finds no vertex/);
+    // The arena's FREE_KIND (0xffff) marks a free face slot: no stored face carries it; 0xfffe is the last kind a face takes.
+    expectCorrupt(decodeArena([craft(square({ faces: [[0, 0, 1, 0xffff, 0, 0, []]] }))], GROUND), /a face of the free kind/);
+    const last = decodeArena([craft(square({ faces: [[0, 0, 1, 0xfffe, 0, 0, []]] }))], GROUND);
+    expect(last.ok).toBe(true);
+    if (last.ok) {
+      const F = last.value.faces[0];
+      const live: number[] = [];
+      for (let f = 0; f < last.value.slots.face[0].top; f++) if (F.kind[f] !== 0xffff) live.push(F.kind[f]);
+      expect(live).toEqual([0xfffe]);
+    }
+  });
+
   it('chunks that do not fit one arena are a corrupt cache', () => {
     // No routes chunk; two; two chunks for one partition; a chunk of another arena.
     expectCorrupt(decodeArena(block.slice(1), p.key), /no level-≤ 1 routes chunk/);
