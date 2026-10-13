@@ -6,8 +6,8 @@
 import { describe, expect, it } from 'vitest';
 import { faceKey, idOf, roleIdOf, rowsOn, VERTEX_SPLIT, VERTEX_STEINER } from '../../src/arena/index.js';
 import { insertChain, splitThrough } from '../../src/insert/index.js';
-import { clearFiner, removeEdges, retypeEdges, setOwner, tx } from '../../src/tx/index.js';
-import { between, commit, degreeAt, edgeRows, framed, healthy, must, pt, S4, S8, S10, spec, state, vertexAtPoint } from './support.js';
+import { clearFiner, removeEdges, retypeEdges, routeLines, setOwner, tx } from '../../src/tx/index.js';
+import { between, commit, degreeAt, edgeRows, framed, healthy, must, pt, readable, S4, S8, S10, spec, state, vertexAtPoint } from './support.js';
 
 const noVersion = (s: string): string => s.replace(/#v\d+$/, '');
 
@@ -243,11 +243,59 @@ describe('C-0185 (4): which identical-row pairs are runs', () => {
     commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
     healthy(p);
     // The way's run through v survives whole at L1, so v keeps its flag (b); the kerb's end keeps v (no dissolution).
+    // It meets no finer edge and carries no finer vertex row, so split restoration leaves it at L1 (§2.2 rule 3 (c);
+    // C-0353 bounds the restored level by such a row only when restoration applies).
     expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
+    expect(p.vertices.level[v]).toBe(1);
     expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
     expect(degreeAt(p, 2000, 2000)).toBe(2);
     expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']);
     expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['kerb/kerb:1', 'way/way:1']);
+  });
+
+  it('split restoration with a finer chain ending at the vertex along the run (an L2 kerb on one side, an L3 plot line at it): L2, not L3', () => {
+    // Session round S6 (C-0353; checks/M0-a-06-notes.md N-c1-5, N-c1-6): the junction lane:1 leaves on the spine meets
+    // the L3 plot line, so split restoration lowers it past L1 — but the kerb along the spine ENDS there, so its level is
+    // at most L2: at L3 the spine's L2 rows would differ along the L2 route edge through it (the encoder refuses the
+    // arena) and the kerb's L2 route would have no end (routeLines throws).
+    const p = spined();
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'lane:1' }], 'mandatory'));
+    commit(p, 2, (o) => insertChain(o, [pt(2000, 2000), pt(4000, 2000)], [{ role: 'kerb', entity: 'kerb:1' }], 'mandatory'));
+    commit(p, 3, (o) => insertChain(o, [pt(2000, 2000), pt(1000, 1000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'));
+    const v = vertexAtPoint(p, 2000, 2000);
+    expect(p.vertices.level[v]).toBe(1);
+    healthy(p);
+    readable(p);
+    const c = commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
+    healthy(p);
+    readable(p);
+    expect(vertexAtPoint(p, 2000, 2000)).toBe(v);
+    expect(p.vertices.level[v]).toBe(2);
+    expect(p.vertices.flags[v] & (VERTEX_SPLIT | VERTEX_STEINER)).toBe(VERTEX_SPLIT | VERTEX_STEINER);
+    expect(c.record?.demoted.vertices).toContain(v);
+    expect(edgeRows(p, [0, 2000], [2000, 2000])).toEqual(['way/way:1']);
+    expect(edgeRows(p, [2000, 2000], [4000, 2000])).toEqual(['kerb/kerb:1', 'way/way:1']);
+    const kerb = routeLines(p, { role: 'kerb', entity: 'kerb:1' }, { layer: 'ground', part: 0 });
+    expect(kerb.map((ln) => ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`))).toEqual([['2000,2000', '4000,2000']]);
+  });
+
+  it('split restoration with a finer chain running THROUGH the vertex along the run (an L2 kerb on both sides, an L3 plot line at it): L3', () => {
+    // The bound C-0353 adds reads only rows one run edge carries and the other does not: a kerb along the whole spine
+    // passes through the junction, so the junction leaves its L2 route too and takes the plot line's level.
+    const p = spined();
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 2000), pt(2000, 4000)], [{ role: 'way', entity: 'lane:1' }], 'mandatory'));
+    commit(p, 2, (o) => insertChain(o, [pt(0, 2000), pt(2000, 2000), pt(4000, 2000)], [{ role: 'kerb', entity: 'kerb:1' }], 'mandatory'));
+    commit(p, 3, (o) => insertChain(o, [pt(2000, 2000), pt(1000, 1000)], [{ role: 'plot_line', entity: 'plot:1' }], 'mandatory'));
+    const v = vertexAtPoint(p, 2000, 2000);
+    healthy(p);
+    readable(p);
+    commit(p, 1, (o) => removeEdges(o, { role: 'way', entity: 'lane:1' }));
+    healthy(p);
+    readable(p);
+    expect(p.vertices.level[v]).toBe(3);
+    expect(p.vertices.flags[v] & (VERTEX_SPLIT | VERTEX_STEINER)).toBe(VERTEX_SPLIT | VERTEX_STEINER);
+    const kerb = routeLines(p, { role: 'kerb', entity: 'kerb:1' }, { layer: 'ground', part: 0 });
+    expect(kerb.map((ln) => ln.vertices.map((u) => `${p.vertices.x[u]},${p.vertices.y[u]}`))).toEqual([['0,2000', '4000,2000']]);
   });
 });
 

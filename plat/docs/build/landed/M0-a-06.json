@@ -1,20 +1,20 @@
 {
   "schema": "plat-landed-record/1",
   "item": "M0-a-06",
-  "lane": "build/M0-a-06-consolidate-1",
-  "lanes": ["build/M0-a-06", "build/M0-a-06-fix1", "build/M0-a-06-fix-s1", "build/M0-a-06-fix-s2", "build/M0-a-06-fix-s3", "build/M0-a-06-fix-s4", "build/M0-a-06-fix-s5", "build/M0-a-06-consolidate-1"],
+  "lane": "build/M0-a-06-fix-s6",
+  "lanes": ["build/M0-a-06", "build/M0-a-06-fix1", "build/M0-a-06-fix-s1", "build/M0-a-06-fix-s2", "build/M0-a-06-fix-s3", "build/M0-a-06-fix-s4", "build/M0-a-06-fix-s5", "build/M0-a-06-consolidate-1", "build/M0-a-06-fix-s6"],
   "wave": "flow-7",
   "snapshotTaken": "2026-10-04T20:46:52.985Z",
-  "date": "2026-10-13T18:04:44.272Z",
+  "date": "2026-10-13T20:32:23.523Z",
   "ownsSource": "docs/build/M0-work.json",
   "owns": ["plat/packages/kernel/src/tx/", "plat/packages/kernel/test/tx/"],
-  "counts": { "created": 27, "changed": 1, "unchanged": 0, "deleted": 0 },
+  "counts": { "created": 28, "changed": 1, "unchanged": 0, "deleted": 0 },
   "files": [
     { "path": "plat/packages/kernel/src/tx/chains.ts", "status": "created", "sha256": "5da232496b186cd1a2b3b64cbbbc8d9a87fbe7d3b4be13988428cb5b2d0b064a", "size": 5665 },
     { "path": "plat/packages/kernel/src/tx/index.ts", "status": "changed", "sha256": "216ec7a42b4932a86730274b893a052d571d1735e5401a34204f541651b80a53", "size": 1888 },
     { "path": "plat/packages/kernel/src/tx/ops.ts", "status": "created", "sha256": "b41542db52d012e1e7838ed5e165112f1122b4eb156e4b74c4db9627ce31eee8", "size": 7393 },
     { "path": "plat/packages/kernel/src/tx/profile.ts", "status": "created", "sha256": "a0af361170f3baf894935c1607f46b282302335c07ebca0d2605f32b03d1620b", "size": 14016 },
-    { "path": "plat/packages/kernel/src/tx/relevel.ts", "status": "created", "sha256": "f4d03ff6de30f23e089bb9704ee6d2816722b019af0e0513648d286de0056c97", "size": 60375 },
+    { "path": "plat/packages/kernel/src/tx/relevel.ts", "status": "created", "sha256": "7eadb731da06107e846bccbff3a8f1bfba44a2df9c42f4dbd2eae948b8bd8461", "size": 61320 },
     { "path": "plat/packages/kernel/src/tx/savepoint.ts", "status": "created", "sha256": "d85c3879c350714baa6ec5d688ab2664aa35444ddcadcabe24394ddd407ecacd", "size": 10216 },
     { "path": "plat/packages/kernel/src/tx/state.ts", "status": "created", "sha256": "b804e3912c3aca304d27dc79755eda75eed554f4df6779046aefb0de7a4d758b", "size": 8390 },
     { "path": "plat/packages/kernel/src/tx/tx.ts", "status": "created", "sha256": "04ec184802abfbb94b197b6d443de113871f4bcc9e033c0073e26c12b0205890", "size": 33353 },
@@ -28,28 +28,29 @@
     { "path": "plat/packages/kernel/test/tx/fixtures.ts", "status": "created", "sha256": "dbba00702949843f1122fd8069411f658ea76e1260faee931ba7e8dad06417c7", "size": 6332 },
     { "path": "plat/packages/kernel/test/tx/fixtures/sequences.json", "status": "created", "sha256": "ff9b45522f70059e77eafe9e79fa39d798e6c9402407fe132d985e4696f055ad", "size": 8334 },
     { "path": "plat/packages/kernel/test/tx/forms.test.ts", "status": "created", "sha256": "5b6bcccd6f7a258241c726fdd1fb8b13ced739698168972d94f04b8d5f7f14e6", "size": 17575 },
-    { "path": "plat/packages/kernel/test/tx/fuzz.test.ts", "status": "created", "sha256": "5bb9837b3b7ad0cb3e417f30afecea5e12d36e94870c12132d107d78b19ad9e7", "size": 6380 },
+    { "path": "plat/packages/kernel/test/tx/fuzz.test.ts", "status": "created", "sha256": "e4aa85d67b3b3419dcb53731aaa701a3ce64c64e3416bc40c5144aeccc2f4850", "size": 6594 },
     { "path": "plat/packages/kernel/test/tx/fuzzgen.ts", "status": "created", "sha256": "d0e8a65b709f53cbef34f92279e79806712d41aca3fc39796c6a8a57e2be2d70", "size": 7388 },
     { "path": "plat/packages/kernel/test/tx/order.test.ts", "status": "created", "sha256": "d2d4c1eb6278b6dbbe6ba75e8b4d1ffe49cf73a087187870369206c5841b8fb5", "size": 11057 },
     { "path": "plat/packages/kernel/test/tx/profiles.test.ts", "status": "created", "sha256": "3713a3382c88b918e7fc477c9d54daf3e45d401e36fa8b0283b2aa17a9541387", "size": 16060 },
+    { "path": "plat/packages/kernel/test/tx/readable.test.ts", "status": "created", "sha256": "14a9afb1ea954d763dca87fa642d94e354f187b5ab45041cec3a2670a597c78c", "size": 3299 },
     { "path": "plat/packages/kernel/test/tx/record.test.ts", "status": "created", "sha256": "27adb8bff006cee9cdf4180c8882177940f86426f9af6e2884402b2707fd7b1f", "size": 6617 },
-    { "path": "plat/packages/kernel/test/tx/removals.test.ts", "status": "created", "sha256": "4661c40070435a7b873a7c8c88b9fe4d67883986b9e425e901bab77157c34478", "size": 23406 },
+    { "path": "plat/packages/kernel/test/tx/removals.test.ts", "status": "created", "sha256": "cd1d20afcb044218ebce16c4c19ac0e4fdaef0ff482e705d8f2c8eb28dd46c89", "size": 26914 },
     { "path": "plat/packages/kernel/test/tx/restore.test.ts", "status": "created", "sha256": "ef32d34afd8bed8bfc14c454bcfd7462e64a0b3dd5d32073f4701a44eee84afd", "size": 45954 },
     { "path": "plat/packages/kernel/test/tx/savepoint.test.ts", "status": "created", "sha256": "d87c87d587b0610336e40693cb64e0694dea5a3df989d2a2ad849e7e8304549a", "size": 10822 },
     { "path": "plat/packages/kernel/test/tx/source.test.ts", "status": "created", "sha256": "bd522b4783c3dcc46ece4549e555d34288bbb972500892b21a394fa70d7f6614", "size": 1819 },
-    { "path": "plat/packages/kernel/test/tx/support.ts", "status": "created", "sha256": "f67c77bef4eb1b54b9f0ed7361b6fa5c4a2f659e8f12305d00eae2f6d3ea27ee", "size": 7808 }
+    { "path": "plat/packages/kernel/test/tx/support.ts", "status": "created", "sha256": "1d3e70ad8e9cac10c2198a8a99ed38dc259ec72db79db8ea589c22d866c5e7f6", "size": 9563 }
   ],
   "appends": [
     {
       "file": "plat/CLEAN-ROOM.md",
-      "ids": ["L-0129", "L-0138", "L-0203", "L-0217", "L-0223", "L-0362", "L-0386", "L-0503"],
-      "lines": ["1241ddf06b8a2937", "5b4bb47d99c006fa", "5aef32ec06e9a2af", "7acfea57dde17932", "d228d3f4c9044ffa", "81e5244ae61b5e9e", "da2d4caea3d22dfe", "ba6dfb3f8adc8585"],
+      "ids": ["L-0129", "L-0138", "L-0203", "L-0217", "L-0223", "L-0362", "L-0386", "L-0503", "L-0509"],
+      "lines": ["1241ddf06b8a2937", "5b4bb47d99c006fa", "5aef32ec06e9a2af", "7acfea57dde17932", "d228d3f4c9044ffa", "81e5244ae61b5e9e", "da2d4caea3d22dfe", "ba6dfb3f8adc8585", "496ad1b5a6d84b8d"],
       "removed": []
     },
     {
       "file": "plat/docs/build/choices.md",
-      "ids": ["C-0185", "C-0189", "C-0219", "C-0223", "C-0225", "C-0287", "C-0299", "C-0350"],
-      "lines": ["2729e53ec298cd78", "3604319b667d0a73", "57ce5ec689d269ca", "5459e96c06f9d0a9", "9b947bbb1af309c4", "7c59430cbc618455", "676a0b2b38ae1df7", "2e7b1e7046d41d78"],
+      "ids": ["C-0185", "C-0189", "C-0219", "C-0223", "C-0225", "C-0287", "C-0299", "C-0350", "C-0353"],
+      "lines": ["2729e53ec298cd78", "3604319b667d0a73", "57ce5ec689d269ca", "5459e96c06f9d0a9", "9b947bbb1af309c4", "7c59430cbc618455", "676a0b2b38ae1df7", "2e7b1e7046d41d78", "5e6e3c116627260a"],
       "removed": []
     }
   ]
