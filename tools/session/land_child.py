@@ -158,11 +158,16 @@ def land(args):
         if not rows:
             continue
         out = []
+        # a branch row whose id is free keeps it; a renumbered row never takes an id a free branch row already holds
+        # (a checker that read main and chose a later id itself, e.g. L-0507 beside its builder's colliding L-0493)
+        free_ids = {rid for rid, collides, _ in rows if not collides}
+        candidate = next_id(path, prefix)
         for rid, collides, l in rows:
             if collides:
-                nid = f'{prefix}-{next_id(path, prefix):04d}'
-                # next_id reads the file; account for rows queued but not yet written
-                nid = f'{prefix}-{next_id(path, prefix) + len(out):04d}'
+                while f'{prefix}-{candidate:04d}' in free_ids:
+                    candidate += 1
+                nid = f'{prefix}-{candidate:04d}'
+                candidate += 1
                 out.append(renum(l, rid, nid))
                 renamed.append((rid, nid))
                 print(f'  {path}: {rid} -> {nid}')
