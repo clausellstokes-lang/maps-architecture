@@ -38,15 +38,14 @@ import {
   type ChangedItem,
   type IndexBatchLog,
 } from '../index/index.js';
+import { faceArea2 } from '../index/items.js';
+import { PI, segmentsMeet } from '../num/exact.js';
 import { area2 } from '../num/index.js';
 import { LINEAR_PARTS, type CommitRecord } from '../tx/index.js';
 import type { Level, RoleKey } from '../types/index.js';
-import { compareDist2, faceLeftOf, Meter, segmentBox, segmentsMeet, vacuous, verdict } from './common.js';
+import { compareDist2, faceLeftOf, Meter, segmentBox, vacuous, verdict } from './common.js';
 import { rowNamed } from './rows.js';
 import type { BatchContext, InvariantResult, RowDecl } from './types.js';
-
-/** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist). */
-const PI = 3.141592653589793;
 
 /** The hot pixel squared as a fraction (0.71² = 5041 / 10000 cm²): the placement bound (§3.10, §3.6). */
 const PLACEMENT_NUM = 5041;
@@ -59,13 +58,9 @@ export interface BatchTouched {
   readonly pairs: readonly number[];
 }
 
-function uniq<T>(xs: Iterable<T>): T[] {
-  return [...new Set(xs)];
-}
-
 /** The record's vertex lists (moved, promoted, demoted, unflagged), live ones only. */
 function recordVertices(p: Plat, r: CommitRecord): VertexId[] {
-  return uniq([...r.moved, ...r.promoted, ...r.demoted.vertices, ...r.unflagged]).filter((v) => isVertexLive(p, v));
+  return [...new Set([...r.moved, ...r.promoted, ...r.demoted.vertices, ...r.unflagged])].filter((v) => isVertexLive(p, v));
 }
 
 /**
@@ -160,7 +155,11 @@ function minEdge(p: Plat, T: BatchTouched): InvariantResult {
   });
 }
 
-/** The vertices one edge from v (its one-ring's far ends). */
+/**
+ * The vertices one edge from v (its one-ring's far ends): the vertices whose edges clearance exempts (§3.10 "outside
+ * its one-ring"). The insertion's write-time clearance reads the same one-line set (`insert/snapRound.ts`'s
+ * `neighbours`); the arena keeps no shared home for it, so each reader builds it from `outgoing`.
+ */
 function neighbours(p: Plat, v: VertexId): Set<VertexId> {
   const O = p.halfEdges.origin;
   return new Set(outgoing(p, v).map((h) => O[h ^ 1]));
@@ -399,7 +398,7 @@ function placementBound(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantR
         }
       }
     }
-    for (const v of uniq([...(ctx.placed ?? []), ...r.moved, ...along])) {
+    for (const v of [...new Set([...(ctx.placed ?? []), ...r.moved, ...along])]) {
       if (!isVertexLive(p, v)) continue;
       const coarser = outgoing(p, v).filter((h) => H.level[h >> 1] < L[v]);
       if (coarser.length === 0) continue;
@@ -525,12 +524,11 @@ function keptContent(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantResu
   });
 }
 
-/** Twice a face's area over its own-level route rings (outer counter-clockwise, holes clockwise). */
-export function faceArea2(p: Plat, level: Level, f: FaceId): number {
-  let s = 0;
-  for (const ring of faceRouteRings(p, level, f, level)) s += area2(ring.map((v) => pointOf(p, v)));
-  return s;
-}
+/**
+ * Twice a face's area over its own-level route rings (outer counter-clockwise, holes clockwise), exact: the kept-content
+ * row's measure, exported under the suite's name. Its one body is `index/items.ts`'s, beside `faceRouteRings` (C-0345).
+ */
+export { faceArea2 };
 
 /**
  * Role consistency on the record's role keys: each linear role's edges simple (degree ≤ 2) and in at most the parts the
@@ -585,10 +583,10 @@ function ownChild(p: Plat, level: Level, f: FaceId): boolean {
 }
 
 /**
- * A coarser face write the transaction allows (tx.ts, C-0185 (12), C-0219 (2)): a write of a live own child the re-walk
- * materialised (a new record of that level), or a tombstone or delete of a slot no longer live — an own child the
- * batch's removal freed, its last child gone (N-47, N-49). A write of a live coarser face with edges of its own level,
- * and an insert of a slot that is not live, stay refused.
+ * A coarser face write the transaction allows, read as `tx.ts` reads it: a write of a live own child (§2.2 rule 2) — the
+ * re-walk materialising a record of that level (C-0185 (12)) — or a tombstone or delete of a slot no longer live, its
+ * inverse: an own-child ancestor the batch freed when its last child went (C-0219 (1), (2); C-0235 under ruling N-49).
+ * A write of a live coarser face with edges of its own level, and an insert of a slot that is not live, stay refused.
  */
 function lawfulCoarserFaceWrite(p: Plat, w: IndexBatchLog['writes'][number]): boolean {
   if (ownChild(p, w.level, w.slot)) return true;
@@ -596,12 +594,10 @@ function lawfulCoarserFaceWrite(p: Plat, w: IndexBatchLog['writes'][number]): bo
 }
 
 /**
- * Index levels and freshness, through M0-a-03's `checkIndexBatch`: the open batch's index log (while the batch is
- * open — the transaction's `invariants` hook — its coarser writes; a coarser face write of an own child the re-walk
- * materialised is a new record of that level, and the tombstone or delete of a coarser own child the batch freed is
- * its inverse, each allowed as the transaction allows it, C-0185 (12), C-0219 (2), N-49) and the changed items the
- * record names — its created faces, its moved, promoted and demoted vertices — each in its level's grid; or the
- * context's journal (C-0200 (6)).
+ * Index levels and freshness, through M0-a-03's `checkIndexBatch`, over two inputs. (1) The open batch's index log — read
+ * while the batch is open, through the transaction's `invariants` hook; empty otherwise — less the coarser face writes
+ * the transaction allows (`lawfulCoarserFaceWrite`). (2) The changed items the record names — its created faces, its moved, promoted and
+ * demoted vertices — each in its level's grid, or the context's journal in their place (C-0200 (6)).
  */
 function indexFreshness(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantResult {
   const row = rowNamed('index-freshness');
@@ -625,7 +621,7 @@ function indexFreshness(p: Plat, r: CommitRecord, ctx: BatchContext): InvariantR
           changed.push({ item: { kind: ITEM_FACE, level: d.level, slot: f }, homeBefore: -1, successor: { kind: ITEM_FACE, level: d.level, slot: f } });
         }
       }
-      for (const v of uniq([...r.moved, ...r.promoted, ...r.demoted.vertices])) {
+      for (const v of [...new Set([...r.moved, ...r.promoted, ...r.demoted.vertices])]) {
         if (!isVertexLive(p, v)) continue;
         m.vertex(v);
         const item = { kind: ITEM_VERTEX, level: p.vertices.level[v] as Level, slot: v } as const;

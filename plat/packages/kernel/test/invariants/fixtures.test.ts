@@ -19,6 +19,7 @@ import {
 } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildAtStageEnd, rebuildForFreeze } from '../../src/index/index.js';
+import { faceArea2 as itemsFaceArea2 } from '../../src/index/items.js';
 import {
   checkBatch,
   checkCI,
@@ -42,7 +43,7 @@ import type { Level, StageId } from '../../src/types/index.js';
 import { warp } from '../../src/warp/index.js';
 import { box, drag } from '../warp/support.js';
 import { contentPrint, vertexAtPoint } from '../tx/support.js';
-import { allProblems, commit, framed, must, pt, rowOf, suiteTx } from './support.js';
+import { allProblems, commit, facesAt, framed, must, pt, rowOf, suiteTx } from './support.js';
 
 const done = (): KernelResult<null> => ({ ok: true, value: null, warnings: [] });
 
@@ -348,6 +349,15 @@ describe('placement-bound', () => {
     p.vertices.y[end] = 2902; // 1.41 cm
     fails(checkBatch(r, p, { placed: [end] }), 'placement-bound');
   });
+  it('a vertex named more than once (placed twice, moved, on a moved run) is one subject, reported once', () => {
+    const { p, r } = base();
+    const end = v(p, 2000, 1000);
+    const rec: CommitRecord = { ...r, moved: [end] };
+    const ctx: BatchContext = { placed: [end, end] };
+    expect(holds(checkBatch(rec, p, ctx), 'placement-bound').subjects).toBe(1);
+    p.vertices.x[end] = 2003;
+    expect(fails(checkBatch(rec, p, ctx), 'placement-bound').problems).toHaveLength(1);
+  });
   it('a finer vertex on a run through a moved vertex is a subject though it did not move itself', () => {
     const { p, r } = base();
     const crossing = v(p, 2000, 2000);
@@ -490,6 +500,13 @@ describe('kept-content: a split', () => {
     holds(checkBatch(coarser, p, { kept: { keptBelow: 0, before } }), 'kept-content');
     const res = fails(checkBatch(coarser, p, { kept: { keptBelow: 200, before } }), 'kept-content');
     expect(res.problems.some((x) => x.includes('split'))).toBe(true);
+  });
+  it('the measure is index/items.ts\'s faceArea2 under the suite\'s name (C-0345): one body, twice the area of the own-level route rings', () => {
+    expect(faceArea2).toBe(itemsFaceArea2);
+    const { p } = base();
+    commit(p, 3, (o) => insertChain(o, [pt(0, 500), pt(2000, 500)], [{ role: 'plot_line', entity: 'plots:1' }], 'mandatory'));
+    const areas = facesAt(p, 3).map((f) => faceArea2(p, 3, f)).sort((x, y) => x - y);
+    expect(areas).toContain(2 * 2000 * 500);
   });
 });
 
@@ -788,6 +805,15 @@ describe('seed-tiling (subject M6-P: transient arenas)', () => {
     expect(seedTilingProblems([sq(0, 0, 500, 1000), sq(500, 0, 1000, 1000)], seeds)).toEqual([]);
     expect(seedTilingProblems([sq(0, 0, 500, 1000)], seeds).length).toBeGreaterThan(0);
     expect(seedTilingProblems([sq(0, 0, 500, 1000), sq(1000, 0, 1500, 1000)], seeds).length).toBeGreaterThan(0);
+  });
+  it('the containment reading is closed and non-zero (num/exact.ts insideOrOnRing): a seed\'s edges and vertices, a doubly wound seed\'s interior and a two-point seed\'s segment hold their points', () => {
+    const outside = (faces: ReturnType<typeof pt>[][], seeds: ReturnType<typeof pt>[][]): boolean => seedTilingProblems(faces, seeds).some((x) => x.includes('inside no seed ring'));
+    const sq = [pt(0, 0), pt(4, 0), pt(4, 4), pt(0, 4)];
+    expect(outside([[pt(0, 0), pt(2, 0), pt(4, 4)]], [sq])).toBe(false);
+    expect(outside([[pt(1, 1), pt(2, 3), pt(3, 1)]], [[...sq, ...sq]])).toBe(false);
+    expect(outside([[pt(0, 0), pt(2, 0), pt(4, 0)]], [[pt(0, 0), pt(4, 0)]])).toBe(false);
+    expect(outside([[pt(1, 1), pt(2, 3), pt(5, 1)]], [sq])).toBe(true);
+    expect(outside([[pt(2, 1)]], [[pt(0, 0), pt(4, 0)]])).toBe(true);
   });
 });
 
