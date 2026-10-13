@@ -1,13 +1,12 @@
-// M0-a-11 (fix round 1, F-1): §3.8 *Post-condition validator* — "a failure of any of the four [checks], E_WORK_LIMIT, or
-// an input the numeric contract refuses takes the reader's downgrade, reported W_DOWNGRADE … Never a crash, never a
-// roof line outside its footprint and never unvalidated output" — on the validator's path: the engine finished (its
-// wavefront collapsed, status ok) and its output fails the validator. Two inputs reach it: (a) a natural one, a
-// 14-vertex rotated orthogonal ring whose finished skeleton has two arcs crossing (found by the checker of
-// `checks/M0-a-11.md` in 5 532 rotated orthogonal outlines), and (b) the engine's finished output corrupted through the
-// test hook `EngineHooks.finished` the way each of the four checks guards against, so the path stays covered whatever a
-// later engine repair does to (a). Every reader takes its typed downgrade: `to` = DOWNGRADE_OF[use], the cause the
-// validator with its check, the events that ran (> 0), exactly one W_DOWNGRADE warning, and the spine reader's
-// injected axis (C-0171).
+// M0-a-11: §3.8 *Post-condition validator* — "a failure of any of the four [checks], E_WORK_LIMIT, or an input the
+// numeric contract refuses takes the reader's downgrade, reported W_DOWNGRADE … Never a crash, never a roof line
+// outside its footprint and never unvalidated output" — on the validator's path: the engine finished (its wavefront
+// collapsed, status ok) and its output fails the validator. Two inputs reach it: (a) a natural one, a 14-vertex rotated
+// orthogonal ring whose finished skeleton has two arcs crossing, and (b) the engine's finished output corrupted through
+// the test hook `EngineHooks.finished` the way each of the four checks guards against, so the path stays covered
+// whatever a later engine repair does to (a). Every reader takes its typed downgrade: `to` = DOWNGRADE_OF[use], the
+// cause the validator with its check, the events that ran (> 0), exactly one W_DOWNGRADE warning, and the spine
+// reader's injected axis (C-0171).
 import { describe, expect, it } from 'vitest';
 import type { RawArc, RawNode } from '../../src/skeleton/engine.js';
 import { runSkeleton } from '../../src/skeleton/skeleton.js';

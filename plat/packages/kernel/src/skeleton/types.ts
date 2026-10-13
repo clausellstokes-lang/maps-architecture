@@ -28,8 +28,9 @@ export interface SkeletonArc {
 
 /**
  * An input edge of the cleaned rings (§3.8's pre-clean merges collinear vertices and drops exact zero-width spurs,
- * N-52 (3)): `ring` is the caller's ring index, `from` and `to` the caller's vertex indices of its two ends in that ring
- * (a merged run, or a dropped spur, spans the vertices between).
+ * C-0276): `ring` is the caller's ring index, `from` and `to` the caller's vertex indices of its two ends in that ring
+ * (a merged run, or a dropped spur, spans the vertices between; a spur's root keeps its first visit in walk order, read
+ * cyclically from the tip, C-0283 (2)).
  */
 export interface SkeletonEdge {
   ring: number;
