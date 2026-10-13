@@ -177,3 +177,75 @@ other files.
 | N-c2-6 | **Two assertions change on paths no valid arena reaches.** (a) `exitTowards` now walks through `pieceFrom`, which asserts `'a run does not end'`. The old walk had no guard, so a run that never ends would have looped; now it throws an `insert:` assertion, which the op refuses as E_INVARIANT. (b) The knot loop's `carriesRow` walks each row's set to its element mark, but not through `rowElement`'s two assertions (the row is live; the set has an element mark). On a malformed set it answers "not carried" where `rowElement` threw an `arena:` assertion. Neither is reached on a valid arena: the probe is byte-identical over 324 000 operations. (a) is a gain. (b) loses an assertion that only fires on corrupt state. | (b): let `carriesRow` assert the mark (`e <= -2`) as `rowElement` does. That is M0-a-04's file. | M4 |
 | N-c2-7 | **I-7's alias is pinned by identity, and faces' reading of it is not pinned.** Under SB1 (`splitBreaksClearance` a function answering false) only lifecycle.test.ts's C-0284 (3) case fails, on its new identity assertion and its every-edge equality. faces/split.test.ts "a cut leaving its end along the boundary edge" stays green. This round leaves faces' use as it was. | A faces pin where the boundary split must be refused. That is M0-a-07's folder (R7). | R7 / M4 |
 | N-c2-8 | **A foreign RELATED red, identical on the pre-round sources.** `layout/test/enceinte/water.test.ts` "through the strategy: the oblique crossing has no chord, so the trace is refused E_INVARIANT `water` …" fails with `expected true to be false`, in RELATED and when replayed alone at 10³. The replay gives the same failure with the s7 insert sources (mirror B) and with the consolidated ones (mirror A). The builder saw it too. | The session: layout's N-54 work (M0-e-03 / M0-e-04 in flight). | the session |
+
+## Session fix round S8 (lane `build/M0-a-05-fix-s8`, 2026-10-13; J335, queue row Q53, `checks/diagnosis-a09-sliver.md`; C-0349)
+
+**The fix.** `rewalk.ts` `coarserRegion` finds the coarser record topologically (`holderAt`: an old half-edge of the
+cycle of level ≤ m names the level-m face on its left; its record is the one whose level-m walk holds it, the index
+asked `WALK_REACH_CM` = 3 cm round its origin); only a cycle of new edges alone is placed by a midpoint (box widened by
+the same reach). `recordUnder` checks the own-child premise before any write: a live record of a level m + 1 … n under
+the coarser record round the new edge refuses the op E_INVARIANT with the text pinned in `sliver.test.ts`.
+
+**Survey of the level-m face lookups (the diagnosis's open question (2)).** Every `query(…, { faces: true })` and
+`pointLocate` in `packages/*/src` read whole at its site. "Route" = the index's candidate filter (a record read on the
+query level's route); "walk" = an exact test on `faceWalk` (through every Steiner vertex) or on ring membership.
+
+| caller (file:line) | level asked vs the batch | candidates → exact test | verdict |
+|---|---|---|---|
+| `kernel/src/insert/rewalk.ts` `coarserRegion` (pre-round 272–303) | coarser (m < n) | 1 cm midpoint box on the level-m route → `insideRing(faceWalk)` | **the Q53 defect — fixed** (topological, reach 3 cm, premise guard) |
+| `kernel/src/insert/rewalk.ts` the level-n records round the new edges (pre-round 176) | the batch's own (n) | segment box + 1 cm on the level-n route → old rings by walk | same class where finer kept Steiner vertices (levels n + 1 … 4) bound the record; **widened to the reach** (owns) |
+| `kernel/src/insert/snapRound.ts` `recordHolding` (272; callers snapRound.ts:352, insertChain.ts:354, 500) | finer (n + 1) — the kept-content test | 1 cm box on the level-(n + 1) route → `faceWalk` containment | same class (a level-(n + 1) record read through level n + 2 … 4 Steiner vertices); **widened to the reach** (owns); a miss would let a chain into a finer record without E_KEPT |
+| `kernel/src/insert/rewalk.ts` `reparent` (pre-round 465) | finer (n + 1) | the split record's parts' box + 1 cm → topological, else the part's walk | consistent: every child lies inside the parts' bounding box; unchanged |
+| `kernel/src/insert/splitThrough.ts:324` (M0-a-04) | n … 4 | ± 4 cm round the new vertex → walk holds the vertex | consistent (4 cm > the 2.84 cm reach); not edited |
+| `kernel/src/warp/warp.ts:411` | fromLevel … 4 | ± 4 cm round a mover → walk holds it | consistent; not edited |
+| `kernel/src/warp/held.ts:134` `nestedVertices` | finer | the face's box + 1 → parent chain; route rings read | route throughout (no walk test); consistent |
+| `kernel/src/invariants/common.ts:111` `faceLeftOf` (M0-a-14; caller invariants/batch.ts:368) | the checked face's level | **segment box + 0 cm** → ring membership (walk) | **same class, outside the owns — routed to the session**: a half-edge whose ends are finer Steiner vertices off the route can miss its record (a false "island face lies in no record" at the commit check → a lawful batch refused); unreached by every registered family |
+| `kernel/src/tx/relevel.ts:168` `recordLeftOf` (M0-a-06; callers 537 – 552, the demotion's materialise plan, which reads **coarser** levels) | the demoted edge's new level and coarser | **segment box + 1 cm** → ring membership (walk) | **same class, outside the owns — routed to the session**: below the 2.84 cm multi-level reach a miss reads as an own child and plans a materialisation (the phantom's class on the removal path); unreached by every registered family |
+| `kernel/src/tx/relevel.ts:465` `saveRecord` children; `kernel/src/tx/writers.ts:549` `childrenOf` | finer (+ 1) | the record's ring / face box (+ 1 / the stored box) → parent filter | consistent (children lie inside the parent's box); not edited |
+| `kernel/src/index/query.ts:271–280` `pointLocate`'s coarser fallback, and its callers (layout growth/capacity, enceinte, infill, site water, testkit) | coarser than the query's level | route → route (`faceRouteRings` on the query's level n) | consistent by contract (§2.2 rule 3: a level-n query reads the level-n route); not the mismatch |
+| `model/src/match/source.ts:29` | the asked level | route → owner (no exact test) | consistent; not edited |
+
+**NO-SHIFT and census (J264, N-58).** A differential probe in the lane's mirror (a copy of `bfuzz.test.ts` logging,
+after every insertion, the level, class, outcome code and detail and the sha-256 of `contentPrint` — vertices, edges,
+rows and every face record with its rings, kind, owner, stage and parent's ring): the three B-FUZZ families and the four
+replays at the PR size, `PLAT_FUZZ_SEED=4242`, on the pre-round sources (rewalk.ts and snapRound.ts hash-equal to the
+landed record, `0c82afba…`, `0c132a19…`) and on the round's: **89 409 insertions, byte-identical** (sha-256 of the log
+`15937fec5b53a492…` both). Outcomes, identical before and after: committed 70 563; E_KEPT 6 335, E_BELOW_MIN_ANGLE 3 222,
+E_BELOW_MIN_EDGE 3 026, E_OUT_OF_RANGE 2 835, E_LEVEL 1 981, E_DEGENERATE 1 444 (UNLAWFUL input classes the families
+draw on purpose — kept content, an optional chain's precision, out-of-range values, a chain leaving every L0 face,
+degenerate chains; REFUSE, typed, as before); **E_INVARIANT 3** — 'insert: no route from (1157, 44) to (3314, 3203)',
+'(1629, 3817) to (898, 1931)', '(884, 3957) to (2159, 3311) keeps clearance (§3.10) within the fidelity bound (N-43)',
+all mandatory, LAWFUL, the counted N-43 bound class (KI-1; verdict MAKE-IT-SUCCEED in insertChain's class, N-c1-1 /
+N-c2-5), unchanged; **the new E_INVARIANT (`… lies under the L… face …`) 0**. The bands family (M0-a-09's B-FUZZ
+corridor networks, `PLAT_FUZZ_RUNS=2000`, `PLAT_FUZZ_SEED=4242`, a copy of its `bfuzz.test.ts` logging corridorUnion's
+and bandUnion's outcome, classes and `contentPrint` hash): 3 753 lines byte-identical (`99a80bded95e01cb…`; corridorUnion
+2 000 committed, bandUnion 1 752 committed and 1 E_INVARIANT, both runs); the new E_INVARIANT 0. Q53 itself: pre-round a
+phantom commit (four record rows of `allProblems`), now committed healthy.
+
+**Mutants (J183; the lane's mirror, `--bail=1`, `packages/kernel/test/insert/step3-5/` on the kernel project, B-FUZZ
+included at the PR size; each mutated file restored from the tree and `cmp`-checked).**
+
+| id | mutant | result |
+|---|---|---|
+| M1 | the pre-round lookup (1 cm midpoint box, route-filtered, walk-tested), the guard kept | **killed** by sliver.test.ts 'Q53: corridorUnion …' (`r.ok` false): Q53 now REFUSES — corridorUnion and insertChain alone both `E_INVARIANT insert: the L1 record 0 lies under the L0 face 0 that a region of the L2 batch would be materialised from (§2.2 rule 2)`, `allProblems` [], L1 records [0 … 4] — never a phantom |
+| M2 | the pre-round lookup and no guard (the pre-round behaviour) | **killed** by 'Q53: corridorUnion …' (classes {band [1, 3, 2, 8] …}, the phantom) |
+| M3 | the guard removed (`recordUnder` answers null) | **killed** by 'a coarser record with records of a finer level under it …' |
+| M4 | the guard's text changed ('lies under' → 'lies beneath') | **killed** by the same test (text pinned verbatim) |
+| M5 | the own-child exemption removed | survives — equivalent under the new lookup (N-s8-2) |
+| M6 | the topological candidates asked at the origin only (no reach) | **killed** by B-FUZZ random: 736 E_INVARIANT refusals (the guard caught every miss; 0 invalid outputs) against the cap 12 |
+| M7 | the guard's parent climb one level short | **killed** by B-FUZZ random (55 false E_INVARIANT against the cap 12) |
+| M8 | the guard's refusal not returned at the call site | **killed** by the guard test (E_LEVEL instead of E_INVARIANT) |
+| M9 | the midpoint fallback unwidened | survives (N-s8-3) |
+| M10 | the level-n record query round the new edges back to + 1 cm | survives (N-s8-3) |
+| M11 | `recordHolding` unwidened | survives (N-s8-3) |
+
+The Q53 pins on the pre-round sources (the mirror before any edit): both Q53 cases red ('two L1 records share one view
+face', 'L2 face 0/1 does not lie in its parent (L1 face 5)'); on the round's sources green.
+
+### Notes (not failing lines)
+
+| id | note | handling | where |
+|---|---|---|---|
+| N-s8-1 | **Two lookups outside the owns read the same mismatch** (survey above): `invariants/common.ts:111` `faceLeftOf` (± 0 cm) and `tx/relevel.ts:168` `recordLeftOf` (± 1 cm; coarser levels on the demotion path) ask the index below the 2.84 cm multi-level reach while their exact test reads the walk. Not reached by any registered family; the fix is the reach (`WALK_REACH_CM`, exported by `insert/rewalk.ts`) in each. | the session: M0-a-14's and M0-a-06's next rounds (KI) | invariants/, tx/ |
+| N-s8-2 | **The guard's own-child exemption is unpinned** (mutant M5 survives): a record this batch materialised from the coarser face is found by the topological lookup at its own level first, so the guard never meets it — equivalent under the new lookup; kept as defence against a lookup gap. | none (equivalent) | rewalk.ts `recordUnder` |
+| N-s8-3 | **The widened boxes outside Q53's path are unpinned** (M9, M10, M11 survive): the midpoint fallback (cycles of new edges alone), the level-n record query round the new edges and `recordHolding` answered rightly on every registered case before (the probe is byte-identical; CONFIRMED), and a case that needs the reach — a record read through Steiner vertices two or more levels finer, a cycle of new edges alone inside a sub-hot-pixel sliver, or a point inside such a sliver of a finer record — is not reached by insertChain's families (PLAUSIBLE: step 2 attracts a vertex that near an edge onto it, and step 3 shares a segment that close as a stretch). A constructed arena pinning each is a hardening test. | hardening pass (KI) | rewalk.ts, snapRound.ts |
