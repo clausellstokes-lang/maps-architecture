@@ -26,7 +26,8 @@
 //      blocks and lanes (§6.3), each child the next creation index of the cell's run;
 //   7. a face that stops becomes a Block: the deep-interior rule (deepInterior.ts) writes depthClass, interior and reach,
 //      and a back lane or through alley is cut in the same batch as an L1 spine; each of its L1 faces is recorded by a
-//      seed, the pole of the face's kerb component (`kerbSeed`; split or not, N-57 (3), C-0329).
+//      seed, the pole of the face's kerb component (`kerbSeed`; N-57 (3), C-0329) — for a split block's child the
+//      component inside the parent's kerb at the cut, on the child's side of the spine (J318, C-0338).
 // F-WORK (C-0085): cut.recursionDepth, cut.kernelCalls and cut.candidates are counted against their laws over the
 // district's scope (§5.1 (5)); on reaching one the recursion stops at the depth reached and every face still open
 // stands as a block, reported `work_cut` with the count. levelledUnits returns [] and terracedEdges is true at M0
@@ -565,24 +566,64 @@ class Run {
  * the seed points a block records (N-57 (3)).
  */
 function kerbComponent(rings: readonly (readonly LatticePoint[])[]): LatticePoint[][] | null {
-  const outer = rings.filter((r) => area2(r) > 0);
-  if (outer.length === 0) return null;
-  let pick = outer[0];
-  for (const r of outer) if (area2(r) > area2(pick)) pick = r;
-  const holes = rings.filter((r) => area2(r) < 0 && insideRing(pick, r[0]));
-  return [pick.slice(), ...holes.map((r) => r.slice())];
+  const order = outerRings(rings);
+  return order.length === 0 ? null : withHoles(rings, order[0]);
 }
 
 /**
- * A block's seed in an L1 face (N-57 (3)): the pole of kerb(face)'s component (`kerbComponent`, the inscribed circle's
- * centre, `seedOf`) — the definition of the unsplit block's seed, so a split child's seed lies in its kerb, never in a
- * corridor; null when the kerb has no area or cannot be read (the child then records no seed).
+ * The outer rings of a kerb (those with area) in `kerbComponent`'s order of preference: the largest first, ties in the
+ * kernel's canonical order (a stable sort, so the first is the component `kerbComponent` reads).
  */
-export function kerbSeed(o: Overlay, face: FaceId, widths: ReadonlyMap<Id, number>): LatticePoint | null {
+function outerRings(rings: readonly (readonly LatticePoint[])[]): (readonly LatticePoint[])[] {
+  const order = rings.filter((r) => area2(r) > 0).map((r, i) => ({ r, i, a: area2(r) }));
+  order.sort((x, y) => (x.a !== y.a ? (x.a > y.a ? -1 : 1) : x.i - y.i));
+  return order.map((x) => x.r);
+}
+
+/** One component of a kerb: an outer ring with the kerb's holes inside it. */
+function withHoles(rings: readonly (readonly LatticePoint[])[], outer: readonly LatticePoint[]): LatticePoint[][] {
+  return [outer.slice(), ...rings.filter((h) => area2(h) < 0 && insideRing(outer, h[0])).map((h) => h.slice())];
+}
+
+/**
+ * A block's seed in an L1 face (N-57 (3); refined by J318, C-0338): the pole (`seedOf`, the inscribed circle's centre)
+ * of a component of kerb(face).
+ *   * Without `parent` — the unsplit block's definition: the pole of `kerbComponent`, the component the ladder read.
+ *   * With `parent` — a child of a back lane's or through alley's split, `parent` the kerb component the ladder read
+ *     for the block (`FaceView.kf.rings`, the kerb AT THE CUT): the pole of the largest component of kerb(child) whose
+ *     pole lies inside `parent` (inside its outer ring and none of its holes; even–odd, the pole far from either
+ *     boundary). kerb(child) is the child face less every bounding band, the new spine's among them, so its components
+ *     inside `parent` are the parent's kerb at the cut on the child's side of the spine less the spine's band (to the
+ *     kernel's kerb rounding, far inside a pole's depth); a component outside it is another part of the child FACE —
+ *     another kerb component of the parent's face that the spine's side holds, cut off by a lane's band (J318's CITY
+ *     integrated 4, 7 and fusion 3: integrated 7's child held a 1 575 m² component beside its 1 028 m² part of the
+ *     2 152 m² block) — never the block's. The seed so satisfies both readings at once: N-57 (3)'s (strictly inside one
+ *     ring of kerb(its L1 face)) and the stop kerb's (inside the parent's part on its side, as M0-c-06's harness reads a
+ *     split block back, J318). When the largest component of kerb(child) already lies in `parent` — every child but the
+ *     J318 class — the seed is the one `kerbComponent` gave.
+ * Null when the kerb has no area, cannot be read, or (with `parent`) holds no component inside it: the child then
+ * records no seed — never a wrong one (N-45 (a)).
+ */
+export function kerbSeed(o: Overlay, face: FaceId, widths: ReadonlyMap<Id, number>, parent?: readonly (readonly LatticePoint[])[]): LatticePoint | null {
   const kr = kerb(o, face, spineWidthsOf(widths));
   if (!kr.ok) return null;
-  const picked = kerbComponent(kr.value);
-  return picked === null ? null : seedOf(picked);
+  if (parent === undefined) {
+    const picked = kerbComponent(kr.value);
+    return picked === null ? null : seedOf(picked);
+  }
+  if (parent.length === 0) return null;
+  for (const r of outerRings(kr.value)) {
+    const s = seedOf(withHoles(kr.value, r));
+    if (s !== null && insidePart(parent, s)) return s;
+  }
+  return null;
+}
+
+/** Is p inside a kerb component — inside its outer ring (the first) and inside none of its holes (even–odd)? */
+function insidePart(rings: readonly (readonly LatticePoint[])[], p: XY): boolean {
+  if (rings.length === 0 || !insideRing(rings[0], p)) return false;
+  for (let i = 1; i < rings.length; i += 1) if (insideRing(rings[i], p)) return false;
+  return true;
 }
 
 /** Is p inside the ring (even–odd)? */
@@ -1023,7 +1064,7 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
   }
   let interior = d.interior;
   const seeds: LatticePoint[] = [];
-  // The seed: the pole of the kerb's component the ladder read (`kerbComponent`; the definition `kerbSeed` shares).
+  // The seed: the pole of the kerb's component the ladder read (`kerbComponent`; `kerbSeed`'s unsplit definition).
   const s0 = seedOf(kerbRings);
   if (s0 !== null) seeds.push(s0);
   // A back lane or a through alley: its spine in the same batch (§4.6); refused, the block keeps a court (C-0237 (8)).
@@ -1041,11 +1082,15 @@ function makeBlock(run: Run, fv: FaceView | null, item: Pending, how: BlockFaces
       if (!t.ok) why = t.why;
       if (t.ok && !t.slit) {
         cut = true;
-        // Each child's seed by the unsplit block's definition — the pole of kerb(child)'s component — so it lies in
-        // the child's kerb, never in a corridor; a child whose kerb has no area records none (N-57 (3), C-0329).
+        // Each child's seed: the pole of the component of kerb(child) that lies inside the parent's kerb at the cut
+        // (`kerbRings`, the component the ladder read) — the parent's part on the child's side of the spine, less the
+        // spine's band — never a point of another kerb component of the child FACE (J318, C-0338: CITY integrated 4, 7,
+        // fusion 3, where the child face held a larger part of another component); so it lies strictly inside one ring of
+        // kerb(child) as N-57 (3) asks (C-0329) and inside the block's own part as the stop kerb reads it. A child with
+        // no such component records none — never a wrong seed (N-45 (a)).
         seeds.length = 0;
         for (const c of t.children) {
-          const s = kerbSeed(run.o, c, run.ctx.widths);
+          const s = kerbSeed(run.o, c, run.ctx.widths, kerbRings);
           if (s !== null) seeds.push(s);
         }
       }
