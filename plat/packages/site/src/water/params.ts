@@ -4,7 +4,6 @@
 // TableView, and the values the table does not hold, picked here as named constants (C-0229) — terrain.json is M0-s-02's
 // and no later item writes it.
 import type { TableView } from '@plat/tables';
-import { ESTUARY_LENGTH_M } from '../hydro/params.js';
 
 /** A water polygon's ring part smaller than this (cm², 4 m²) is a boolean's sliver, dropped (C-0229 (2)). */
 export const SLIVER_AREA_CM2 = 40_000;
@@ -24,11 +23,8 @@ export const DECK_CLEARANCE_CM = 1_000;
 /** A deck longer than this many times its reach's width there is a ray along a bend, not a crossing (C-0229 (5)). */
 export const DECK_SPAN_SHARE_MAX = 3;
 
-/**
- * The basic estuary's length: one quantity with M0-e-02's `ESTUARY_LENGTH_M` (§4.2 S1 (3) *Mouths*; C-0173 (7), C-0229
- * (4)) — the stretch the width law widens is the reach typed `estuary`.
- */
-export const ESTUARY_SPLIT_M = ESTUARY_LENGTH_M;
+/** The basic estuary's length (§4.2 S1 (3) *Mouths*; M0-e-02's ESTUARY_LENGTH_M, C-0173 (7)) — the reach typed `estuary`. */
+export const ESTUARY_SPLIT_M = 400;
 
 /** One rung-independent set of S1 (5) and (9) cells, in centimetres. */
 export interface WaterParams {
