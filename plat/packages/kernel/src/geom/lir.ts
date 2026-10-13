@@ -165,7 +165,10 @@ function slab(U: Float64Array, V: Float64Array, S: Float64Array, n: number, va: 
 
 /**
  * Is the ring convex and simple: with its consecutive repeats and its straight-through vertices dropped, a cyclic
- * rotation of its own strict hull, in either direction? Exact (orient2d on lattice points).
+ * rotation of its own strict hull H, in either direction? Exact (orient2d on lattice points). It chooses lir's convex
+ * path, so it reads a clockwise ring as convex and refuses a ring whose turns wind round more than once (its corners
+ * then outnumber H's). `arr/insetRing.ts`'s exported `isConvexRing` is a different test — every turn of the
+ * counter-clockwise ring a left turn or straight — kept apart on purpose (kernel-plan.md §1.7 B-5, §1.12 G-4).
  */
 function isConvexRing(ring: readonly LatticePoint[], H: readonly LatticePoint[]): boolean {
   const r = distinctRing(ring);
