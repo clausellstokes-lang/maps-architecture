@@ -1,7 +1,7 @@
-// M0-a-08's refusal register (N-44 (4); N-46 (5); fix round S1, C-0231) and the PENDING-S3 lines it clears (N-43, N-44:
+// M0-a-08's refusal register (N-44 (4); N-46 (5); C-0231) and the PENDING-S3 lines it clears (N-43, N-44:
 // "M0-a-08's PENDING-S3 lines clear when line A no longer throws and line B either commits within the bound or is
-// refused within the cap"). Each registered case — its operation and its whole input, from the PR-size measure of the
-// round (`refused`) or from the repros the PENDING-S3 lines were classified on (`pending`) — is run through the same
+// refused within the cap"). Each registered case — its operation and its whole input, from the PR-size measure
+// (`refused`) or from the repros the PENDING-S3 lines were classified on (`pending`) — is run through the same
 // judge as the agreement runs, and must end one of two ways:
 //  - refused, with a typed refusal (never a throw) that replays on insertChain alone (`classifyRefusal`) — insertChain's,
 //    counted against the family's measured cap in the agreement runs; a refusal caused in arr/ cannot hide here;

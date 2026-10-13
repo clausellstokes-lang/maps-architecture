@@ -16,10 +16,10 @@
 //   (ii) `rootOnReadOnly` — `stageEnd` does not finalise the root (it is finalised only when read);
 //   (iii) `subtreeOracle` — `oracle(seed)` recomputes one subtree per layer chosen by the seed instead of the whole root.
 // None moves a root: the root is a pure function of the leaves whenever it is computed.
-// A restore across committed batches (`restoreSavepoint`, N-56 (5), C-0299, C-0305): the arena's restore generation
-// moves, and the next maintenance or read of this tree re-hashes every leaf resolving in that arena and re-reads the
-// `plats` node (the leaves read geometry the rolled-back commits wrote; no commit record names it). The runner's
-// re-attach and `addArena` after a restore (C-0287 (2), C-0295) stay, and do the same at once.
+// A restore across committed batches (`restoreSavepoint`; C-0299, C-0305): the arena's restore generation moves, and
+// the next maintenance or read of this tree re-hashes every leaf resolving in that arena and re-reads the `plats` node —
+// the leaves read geometry the rolled-back commits wrote, and no commit record names it. The runner's re-attach and
+// `addArena` after a restore (C-0287 (2), C-0295) do the same at once.
 import {
   changedEntities,
   compareKeys,
@@ -41,7 +41,7 @@ import {
   type PlatKey,
 } from '@plat/kernel';
 import type { LifecycleEvent, Tombstone } from '../types/identity.js';
-import { refEntity, writeValue, type GeomRefLike } from './encode.js';
+import { refEntity, sameHash, writeHash128, writeValue, type GeomRefLike } from './encode.js';
 import { DIGEST_LAYERS, digestLeaf, LAYER_OF, leafRefs, type DigestEntry, type DigestLayer, type GeometryOf } from './leaf.js';
 
 /** §6.2's pre-decided fallbacks, as switches (all off by default; C-0026). */
@@ -98,28 +98,24 @@ function geometryWith(arenas: ReadonlyMap<string, Plat>, view: (p: Plat) => Leve
   };
 }
 
-function writeHash(w: LaneWriter, h: Hash128): void {
-  w.u32(h[0]).u32(h[1]).u32(h[2]).u32(h[3]);
-}
-
 /** node(entity) from its leaf and its children's nodes (already in address-id order). */
 function nodeHash(leaf: Hash128, kids: readonly Hash128[]): Hash128 {
   const w = new LaneWriter().u32(TAG_NODE);
-  writeHash(w, leaf);
+  writeHash128(w, leaf);
   w.u32(kids.length);
-  for (const k of kids) writeHash(w, k);
+  for (const k of kids) writeHash128(w, k);
   return w.digest();
 }
 
 function layerHash(layer: DigestLayer, tops: readonly Hash128[]): Hash128 {
   const w = new LaneWriter().u32(TAG_LAYER).u32(LAYER_INDEX.get(layer) as number).u32(tops.length);
-  for (const t of tops) writeHash(w, t);
+  for (const t of tops) writeHash128(w, t);
   return w.digest();
 }
 
 function rootHash(layers: readonly Hash128[]): Hash128 {
   const w = new LaneWriter().u32(TAG_ROOT).u32(layers.length);
-  for (const l of layers) writeHash(w, l);
+  for (const l of layers) writeHash128(w, l);
   return w.digest();
 }
 
@@ -128,7 +124,7 @@ function platsHash(arenas: readonly Plat[], view: (p: Plat) => LevelDigestView):
   for (const p of arenas) {
     const v = view(p);
     w.u32(layerCode(p.key.layer)).u32(p.key.part);
-    for (const n of [0, 1, 2, 3, 4] as const) writeHash(w, v.level(n));
+    for (const n of [0, 1, 2, 3, 4] as const) writeHash128(w, v.level(n));
   }
   return w.digest();
 }
@@ -577,8 +573,4 @@ export class ModelDigest {
     }
     return { mode: 'subtrees', ok: mismatches.length === 0, mismatches };
   }
-}
-
-function sameHash(a: Hash128, b: Hash128): boolean {
-  return a[0] === b[0] && a[1] === b[1] && a[2] === b[2] && a[3] === b[3];
 }

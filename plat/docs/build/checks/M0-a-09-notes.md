@@ -136,3 +136,111 @@ there. These rows do not fail the item (N-45).
     `110,181 33,47 30,49` instead of `110,181 158,132`, within reach either way, a chain whose last two points lie 3.6 cm apart.
     That is a quality gap with no safety effect. Hardening: none owed beyond a fixture if the hardening phase wants
     one (M4).
+
+## Closing check of session fix round S3 (lane `check/M0-a-09-close-s3`, 2026-10-12)
+
+The mutant ids (K0, C1 – C12) and the probes (`zz-s3sweep`, `zz-s3net`) are defined in `checks/M0-a-09-s3.md`. The
+blockers of this check are there: line 1, the far-pin closing, and line 4, bandUnion 2 → 3 at seed 1012. These rows
+do not fail the item (N-45).
+
+26. **C5 / C10 / C12: the closing at a piece's FIRST end is not pinned by the item's dead-end tests.** Three mutants
+    survive `deadend.test.ts`, `corridor.test.ts` and `agreement-corridor.test.ts` at 1 000:
+    * C5 closes only the last end;
+    * C10 checks the post-condition at the last end only;
+    * C12 inserts the first end's chord tip-first.
+
+    First-end closings do occur in B-FUZZ: at seed 20261011, kerb 2 of 2 closings and band 8 of 28. So C5 would turn
+    them into E_INVARIANT refusals. B-FUZZ's own cap at the PR size probably catches that (PLAUSIBLE; this seat did not
+    run B-FUZZ on the mutants).
+
+    Suggested handling: one first-end fixture (for example seed 20261011 case 3140 once line 1's fix places its contact)
+    asserting the closing and the post-condition at end 0. Milestone: with line 1's fix round, else M4.
+27. **C7 / C9 / C8 / C6: `pinContact`'s guards and the degenerate-chord skip are not pinned.** Four mutants survive
+    the same kill set at 1 000:
+    * C7 drops the onBoundary check on the route piece's ends;
+    * C9 drops the lookup of a vertex already at the contact;
+    * C8 refuses a degenerate chord instead of skipping it;
+    * C6 also closes ends with two edges (the builder's K6).
+
+    C9 and C8 fail safe either way. C7 widens what line 1's far-pin fallback can reach. Suggested handling: line 1's
+    fix rewrites `pinContact` (accept only a vertex at the contact); pin it with a contact whose nearest route piece
+    leaves F's boundary. Milestone: with line 1's fix round, else M4. C11 (`ends[k]` not updated) is equivalent: after
+    a chord the tip has two edges.
+28. **Routed to the session: corridorUnion blocks beyond 2·√2·attractCm where no closing ran (predates S3).**
+    `zz-s3sweep` measures the sampled Hausdorff distance between each face's committed blocks and kerb(F).
+    * More than 73.5 cm on 29 (K0) / 28 (round) of 10⁴ networks at seed 1012, and 26 / 26 at seed 20261011. Both
+      engines give the same distance on each such network.
+    * Seed 1012 case 2392: 337 cm. Case 2577: 574 cm.
+    * Case 367: 103 cm, kerb `(1907,0) (1919,22) (1717,12)`, block `(1820,17) (1906,0) (1918,22)`, with one kerb
+      edge with one face on both sides, `1717,38→1820,17`.
+    * The cases marked `inf` (a face with a kerb and no block) are not classed. Some may be C-0218 (7)'s folded
+      slivers, committed whole-band by design.
+
+    C-0327 (3) routed this class (KI-1 spurs, sliver ends) to the hardening census. This row adds the seeds. It is not
+    S3's, and it is not judged here as a fail of the round. Suggested handling: M0-x-01's census classes each case as
+    folded-sliver (by design) or wrong union (a defect, MAKE-IT-SUCCEED). Milestone: the M0 hardening phase
+    (J237/J238).
+29. **C-0327 (3)'s 96 cm example is this round's own closing, not a pre-existing union.** Seed 20261011 case 3140 is
+    C-0327 (3)'s network `[{"a":11336,"b":7968,…},{"a":4005,"b":11071,…},{"a":9,"b":7960,…}]`, face 5.
+    * The closing log: tip `(1050,3971)`, contact `(1050,3996)`, a 25 cm chord. `splitThrough` fell back onto
+      `(954,3997)`.
+    * The block is 96.01 cm beyond kerb(F), at that vertex. K0 gave 221.7 cm on the same face.
+
+    Suggested handling: C-0327 (3) is corrected by line 1's fix round, which re-measures that network. Milestone: with
+    line 1's fix round.
+
+## Closing check of session fix round S4 (lane `check/M0-a-09-close-s4`, 2026-10-13)
+
+The mutant ids (N1 – N14) and the probes (`zz-s4sweep`, `zz-s4net`, `zz-s4pin`) are defined in `checks/M0-a-09-s4.md`.
+This check's one blocker is there: N13, line 1's "where neither works, refuse E_INVARIANT" clause not pinned. These
+rows do not fail the item (N-45). Note 26's first-end closing is now pinned: seed 20261011 case 3140 closes its end 0
+along the run.
+
+30. **N12: the retry into the pinned-first path is not pinned.** The mutant makes `closeEnds` refuse E_INVARIANT
+    where it now asks for a re-run with the end pinned first. It survives `deadend.test.ts` and `corridor.test.ts`. It
+    gives the same outcome on all 72 closing networks of seeds 1012 and 20261011 (10⁴ each). The families never reach
+    the retry: 0 `pinned` closings. The pinned-first test enters through the `pinFirst` seam, not through the retry.
+    The mutant's effect is a fail-safe refusal of lawful input.
+
+    Suggested handling: a fixture (or a `pieces`-seam plant) whose along closing cannot go in, so `closeEnds` itself
+    asks for the re-run and the pinned-first closing commits. Milestone: M4 (hardening), or with the fix of N13.
+31. **N2 / N3 / N6: three of the closing's guards are not pinned.** Each survives the item's tests, and each gives the
+    same outcome on the 72 closing networks.
+    * N2 makes `ALONG_SQ` unbounded. That is equivalent in practice: the insertion's displacement is bounded by N-43,
+      and the largest tip seen was 73.01 cm (seed 1012 case 9034).
+    * N3 accepts the strict pin within attractCm, not (1 + 0.71) cm. No placement on the families lands 1.71 – 26 cm
+      off its contact. If one did, the error would stay ≤ attractCm.
+    * N6 drops `runVertex`'s "no other contact between" check. If that were reached, an along chord could pass another
+      piece's contact. B-FUZZ's `closingsBeyond` would not see that, because the run vertex would still be on kerb(F).
+
+    Suggested handling: a synthetic face with two contacts on one route piece (a dead-end lane's cap clipped against a
+    spineless edge, its tip needing the along closing toward the other contact) for N6; a seam placement 5 – 20 cm off
+    the contact for N3. Milestone: M4.
+32. **The module comment overstates the along closing's bound.** `bandUnion.ts`'s header says the along chord "lies
+    within the tip's distance of that run, so the outline errs by at most attractCm + 1 cm". `ALONG_SQ` admits tips up
+    to 2·√2·attractCm, and the families reach them:
+    * seed 1012: 2243 (61.4 cm), 4482 (55.0), 6318 (49.4), 7799 and 8072 (40.8), 9034 (73.0);
+    * seed 20261011: 2621 (47.2), 2810 (70.3).
+
+    The measured errors are within N-52 (1)'s bar and below K0's (9034's band block 47.6 cm against K0's 145.7; 6318's
+    32.8 against 143.7). The displacement is the insertion's, and the closing keeps it. Only the comment is wrong.
+
+    Suggested handling: the comment reads "at most the tip's offset (≤ 2·√2·attractCm, N-43)". Milestone: with the next
+    round on the item, else M4.
+33. **The at-contact closing never stands on the families.** In 2 × 10⁴ B-FUZZ networks, 0 of 63 closings are `chord`.
+    62 are `along`, and 1 is `folded` (seed 1012). On these lawful slivers the placement never lands within the hot
+    pixel of the contact. Only faces 871 / 822 (the integrated seeds) exercise the at-contact branch.
+
+    Suggested handling: none needed now. Re-read the share when M0-c-06's corpus re-runs. Milestone: M0-c-06's re-run.
+34. **Routed to the session: lawful-input refusals and blocks beyond the bar, unchanged by round S4.** Per 10⁴ B-FUZZ
+    networks:
+    * Refusals. corridorUnion 16 / 16 and bandUnion 2 / 3 (seeds 1012 / 20261011). Every one is insertChain's
+      `insert: no route … within the fidelity bound (N-43)`, identical on K0. LAWFUL, verdict MAKE-IT-SUCCEED, in
+      insertChain's class (N-44 / N-46 cap). Seed 1012 case 2243 and seed 20261011 case 8859 are among them, each with
+      an along closing in the refused run.
+    * Note 28's class. corridorUnion blocks beyond 73.5 cm where no closing decides them: 25 / 25 (K0 29 / 26). One
+      example is seed 1012 case 2681, face 0: 142.4 cm on both engines.
+    * Dangling spurs. corridorUnion dangling kerb 2 / 6 and bandUnion dangling band 3 / 0, where no closing ran (C-0212
+      (8)'s KI). Examples are seed 1012 cases 231, 2898, 4372, 5761 and 6189.
+
+    Suggested handling: the session's hardening census (KI-1, note 28). Milestone: M0 hardening phase.

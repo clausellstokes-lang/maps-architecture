@@ -19,6 +19,7 @@
 // RangeError). An empty result is E_DEGENERATE `empty` (§3.11), carrying the overlay's warnings.
 import { type FaceId } from '../arena/index.js';
 import { faceRings } from '../geom/boundary.js';
+import { distinctRing } from '../geom/common.js';
 import type { InsertTx } from '../insert/classes.js';
 import { ok, type KernelResult } from '../num/index.js';
 import type { Cm, LatticePoint } from '../types/index.js';
@@ -31,23 +32,12 @@ export interface FaceEdge {
   readonly b: LatticePoint;
 }
 
-/** The ring without consecutive repeats (the closing repeat included). */
-function distinct(ring: readonly LatticePoint[]): LatticePoint[] {
-  const out: LatticePoint[] = [];
-  for (const p of ring) {
-    const q = out[out.length - 1];
-    if (q === undefined || q.x !== p.x || q.y !== p.y) out.push(p);
-  }
-  while (out.length > 1 && out[0].x === out[out.length - 1].x && out[0].y === out[out.length - 1].y) out.pop();
-  return out;
-}
-
 /**
  * The face's rings at the transaction's level in canonical order: the outer ring (counter-clockwise) from its
  * lowest-leftmost vertex, then the holes (clockwise), each from its lowest-leftmost vertex, in that vertex order.
  */
 export function canonicalFaceRings(tx: InsertTx, face: FaceId): Ring[] {
-  const rings = faceRings(tx.plat, tx.level, face).map(distinct);
+  const rings = faceRings(tx.plat, tx.level, face).map(distinctRing);
   const outer = canonicalRing(rings[0]);
   const holes = rings.slice(1).map(canonicalRing).sort(compareRings);
   return [outer, ...holes];

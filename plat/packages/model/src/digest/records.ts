@@ -1,5 +1,6 @@
 // The records digest (§6.2 *The records digest*; §2.8 — derivation and naming records: persisted, outside the model
-// digest, inside this one; M0-d-04, C-0194 (9)). A second Merkle tree beside the model's:
+// digest, inside this one; M0-d-04, C-0194 (9)). A second Merkle tree beside the model's, with its own tags (RLEF, RNOD,
+// RROT), so its node and root writers stay apart from model.ts's — two persisted forms:
 //   leaf  = H128(RLEAF ‖ entity id ‖ record kind ‖ its fields in schema order ‖ each cited slice as (table, version,
 //           kind, key, hash));
 //   node  = H128(RNODE ‖ its partition ‖ its leaves, sorted by entity id then record kind) — one node per static-index
@@ -16,7 +17,8 @@
 // milestone (C-0194 (9)).
 import { compareKeys, LaneWriter, type Hash128, type Id } from '@plat/kernel';
 import type { DerivationRecord, NamingRecord, SliceRef } from '../types/vocabulary.js';
-import { writeValue } from './encode.js';
+import { isU32 } from '../identity/lineage.js';
+import { writeHash128, writeValue } from './encode.js';
 
 /** The partition outside every district (§3.3: "one for everything outside districts (hinterland, margin)"). */
 export const RECORDS_OUTSIDE = 'outside';
@@ -51,7 +53,7 @@ function checkEntry(e: RecordsEntry): void {
 
 function writeSlice(w: LaneWriter, s: SliceRef): void {
   const h = s.hash;
-  if (h.length !== 2 || (h[0] >>> 0) !== h[0] || (h[1] >>> 0) !== h[1]) throw new RangeError(`records digest: slice ${s.table}/${s.key}'s hash is not two u32 lanes`);
+  if (h.length !== 2 || !isU32(h[0]) || !isU32(h[1])) throw new RangeError(`records digest: slice ${s.table}/${s.key}'s hash is not two u32 lanes`);
   w.utf8(s.table).utf8(s.version).utf8(s.kind).utf8(s.key).u32(h[0]).u32(h[1]);
 }
 
@@ -84,13 +86,16 @@ function compareLeaves(a: Leaf, b: Leaf): number {
 
 function nodeHash(partition: string, leaves: readonly Leaf[]): Hash128 {
   const w = new LaneWriter().u32(TAG_RNODE).utf8(partition).u32(leaves.length);
-  for (const l of leaves) w.u32(l.hash[0]).u32(l.hash[1]).u32(l.hash[2]).u32(l.hash[3]);
+  for (const l of leaves) writeHash128(w, l.hash);
   return w.digest();
 }
 
 function rootHash(nodes: readonly (readonly [string, Hash128])[]): Hash128 {
   const w = new LaneWriter().u32(TAG_RROOT).u32(nodes.length);
-  for (const [p, h] of nodes) w.utf8(p).u32(h[0]).u32(h[1]).u32(h[2]).u32(h[3]);
+  for (const [p, h] of nodes) {
+    w.utf8(p);
+    writeHash128(w, h);
+  }
   return w.digest();
 }
 
