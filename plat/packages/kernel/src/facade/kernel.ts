@@ -9,8 +9,8 @@
 // — no member re-implements an op. In the debug build every result is stamped with its arena's key and version
 // (./stamp.ts). The services §3.4 says "read the open transaction's arena and are called only inside one" (`kerb`,
 // `offsetFace`, `insetRing`, and `sideRuns` / `sampleBoundary` handed a face) read the innermost transaction this
-// kernel has open; called outside one they are a programming error. A writer handed an overlay whose transaction has
-// closed — its batch committed, rejected or threw — throws, in every build (N-55 (5); C-0290): a stale overlay never
+// kernel has open; called outside one they are a programming error. A closed overlay — its batch committed, was rejected
+// or threw — is no open transaction: every writer refuses it, in every build (§3.3; C-0290), so a stale overlay never
 // writes outside a transaction.
 import {
   compareFaces,
@@ -26,6 +26,7 @@ import {
   type Plat,
   type Resolved,
 } from '../arena/index.js';
+import { keyName } from '../arena/resolve.js';
 import { bandUnion, booleans, buffer, corridorUnion, insetRing, kerb, offsetFace, tileRings, type SpineWidths } from '../arr/index.js';
 import { absorbSliver, claimSubFace, connectHole, mergeFaces, pinVertices, radialSplit, ringBand, splitFace } from '../faces/index.js';
 import { faceNeighbours, faceRings, hexLattice, hull, lir, obb, regularFit, sampleBoundary, sideRuns, type FaceRings } from '../geom/index.js';
@@ -53,10 +54,6 @@ export interface KernelOptions {
   readonly spineWidths?: SpineWidths;
 }
 
-function keyText(k: PlatKey): string {
-  return `${k.layer}/${String(k.part)}`;
-}
-
 function fail(message: string): never {
   throw new Error(`kernel: ${message}`);
 }
@@ -71,12 +68,12 @@ function isStretchRef(ref: GeomRef): ref is StretchRef {
 }
 
 /**
- * Has the overlay's transaction closed (N-55 (5); C-0290)? M0-a-06's transaction sets `closed` when the batch commits,
- * is rejected or throws (`tx/state.ts` `OpenTx.closed`); the overlay's type declares it once M0-a-04 adds
- * `InsertTx.closed` (N-55 (5) (2)), so it is read structurally here.
+ * Is the overlay closed — no open transaction (§3.3; C-0290)? Its `closed` (`InsertTx.closed`) is set by the transaction
+ * when the batch commits, is rejected or throws (`tx/state.ts` `OpenTx.closed`); an overlay still open is accepted
+ * however it was opened.
  */
 function isClosed(o: Overlay): boolean {
-  return (o as Overlay & { readonly closed?: unknown }).closed === true;
+  return o.closed === true;
 }
 
 /**
@@ -86,8 +83,8 @@ function isClosed(o: Overlay): boolean {
 export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelOptions = {}): Kernel {
   const arenas = new Map<string, Plat>();
   for (const [key, p] of plats) {
-    if (!isPlatKey(key) || !sameKey(key, p.key)) fail(`the map names the arena ${keyText(p.key)} under the key ${isPlatKey(key) ? keyText(key) : 'that is no PlatKey'}`);
-    const k = keyText(key);
+    if (!isPlatKey(key) || !sameKey(key, p.key)) fail(`the map names the arena ${keyName(p.key)} under the key ${isPlatKey(key) ? keyName(key) : 'that is no PlatKey'}`);
+    const k = keyName(key);
     if (arenas.has(k)) fail(`two entries name the arena ${k}`);
     arenas.set(k, p);
   }
@@ -102,15 +99,15 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
   const platOf = (key: ArenaKey): Plat => {
     if (isTransientKey(key)) refuseNotBuilt('M6-P', 'a transient arena (§3.4; C-0041)');
     if (!isPlatKey(key)) fail('the key is no PlatKey');
-    const p = arenas.get(keyText(key));
-    if (p === undefined) fail(`no arena ${keyText(key)} in this kernel`);
+    const p = arenas.get(keyName(key));
+    if (p === undefined) fail(`no arena ${keyName(key)} in this kernel`);
     return p;
   };
 
   /** The debug build's check that an overlay handed to a writer is a transaction on one of this kernel's arenas. */
   const onArena = (o: Overlay): Plat => {
     const p = o.plat;
-    if (debugMode() && arenas.get(keyText(p.key)) !== p) fail(`the transaction acts on the arena ${keyText(p.key)}, which this kernel does not hold (§3.4)`);
+    if (debugMode() && arenas.get(keyName(p.key)) !== p) fail(`the transaction acts on the arena ${keyName(p.key)}, which this kernel does not hold (§3.4)`);
     return p;
   };
 
@@ -153,8 +150,8 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
   };
 
   /**
-   * A writer: the overlay checked — on this kernel's arena (the debug build) and its transaction still open (every build;
-   * N-55 (5)) — before the module's op is called; its result stamped.
+   * A writer: the overlay checked — on this kernel's arena (the debug build) and not closed (every build: a closed overlay
+   * is no open transaction, C-0290) — before the module's op is called; its result stamped.
    */
   const writer = <A extends unknown[], R>(op: (o: Overlay, ...args: A) => R) => (o: Overlay, ...args: A): R => {
     onArena(o);
@@ -240,9 +237,9 @@ export function createKernel(plats: ReadonlyMap<PlatKey, Plat>, options: KernelO
     lir,
     sideRuns: (face, turnTolCdeg, opts) => sideRuns(ringsOf(face, 'sideRuns'), turnTolCdeg, opts),
     sampleBoundary: (face, stepCm) => sampleBoundary(ringsOf(face, 'sampleBoundary'), stepCm),
-    // The inline-stamped answers (`Location`, `FaceNeighbours`; M0-a-03's and M0-a-10's stamps carry no restore
-    // generation on this tree) are stamped in the side table too, so the debug build reads them at the arena's state
-    // now, generation included (C-0313 (5)(a)); their own fields are untouched.
+    // The inline-stamped answers (`Location`, `FaceNeighbours`, whose inline stamps carry no restore generation) are
+    // stamped in the side table too, so the debug build reads them at the arena's state now, generation included
+    // (C-0313 (5)(a)); their own fields are untouched.
     pointLocate: (key, level, at) => {
       const p = platOf(key);
       return stamp(p, locateOn(p, p.key, level, at));
