@@ -40,6 +40,11 @@ stands). The parent's session id is in the prompt; the child reports to it by me
    deleted in `git status`, which is right and stays uncommitted. Confirm the round's lines:
    `grep -c -E "BUILDLANE|CHECKLANE" $R/docs/lane-events.log` (≥ the count the parent gave).
    Without OLD (a fresh round): the tree is main as cloned; nothing to overlay.
+   A CONTINUATION ON THE CURRENT MAIN (an item whose earlier seat returned BLOCKED on cross-item defects now fixed on
+   main, e.g. M0-c-06 after J318/J348): OLD is a SEED branch (wip/seed-…) the parent built with
+   tools/session/seed_child.py — main as it stands plus only that item's unchecked files from the earlier child's branch,
+   its ledger rows renumbered where main took the id (the ID RULE), its lane lines, and its record re-landed; step 1
+   is unchanged (the seed's plat/ is main's plus the item), and `git status` then shows nothing deleted.
 2. Node 24.12.0 (the container ships 22; plat/package.json is engine-strict):
    `mkdir -p /tmp/n24 && cd /tmp/n24 && curl -sS -fL -o SHASUMS256.txt https://nodejs.org/dist/v24.12.0/SHASUMS256.txt
    && curl -sS -fL -o node-v24.12.0-linux-x64.tar.xz https://nodejs.org/dist/v24.12.0/node-v24.12.0-linux-x64.tar.xz
