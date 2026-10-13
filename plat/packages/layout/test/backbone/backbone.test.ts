@@ -7,16 +7,14 @@ import { tableView } from '@plat/tables';
 import type { ChainProfile } from '@plat/model';
 import type { LatticePoint } from '@plat/kernel';
 import type { NodeRef, Way } from '@plat/model';
-import { cityRun, edgesOf, edgesWith, GROUND, incidentEdgeRows, insideRing, segDist, angleDeg, verticesWith, wayEdges, wayLine, vertexRows, runSite, type Run } from './support.js';
+import { cityRun, edgesOf, edgesWith, GROUND, incidentEdgeRows, insideRing, key, segDist, angleDeg, verticesWith, wayEdges, wayLine, vertexRows, runSite, type Run } from './support.js';
 import { flatFixture } from '../../src/index.js';
 
 // Seed 5 holds three-arm junctions whose widest pair of arms is under THROUGH_MIN_CDEG (no through line), so the
-// junction-kind check holds the Y guard there (checks/M0-c-03.md B-6).
+// junction-kind check holds the Y guard there (C-0239: the through line is the widest pair of arms ≥ THROUGH_MIN_CDEG).
 const SEEDS = [1, 2, 3, 5];
 const WAYS = tableView().table('ways');
 const SPACING_CM = tableView().table('lattice').num('route', 'spacingM') * 100;
-
-const key = (p: { x: number; y: number }): string => `${String(p.x)},${String(p.y)}`;
 
 /** The seeds whose fixture has a way that changes class (a width profile): the knot and class checks bite there. */
 const PROFILE_SEEDS = new Set([1, 3]);
@@ -303,7 +301,7 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
           const [lo, hi] = band(w.class);
           expect(w.width).toBeGreaterThanOrEqual(lo);
           expect(w.width).toBeLessThanOrEqual(hi);
-          // One class run: its width is its widest chain's (C-0236 (10); checks/M0-c-03.md B-7).
+          // One class run: its width is its widest chain's (C-0236 (10)).
           expect(w.width, `${w.id}'s width: its widest chain's`).toBe(Math.max(...inOrder.map((c) => c.width)));
           expect(verticesWith(run.plat, 'width_knot', w.id)).toHaveLength(0);
           continue;
@@ -384,6 +382,8 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
         if (r.view === 'vertices') expect(r.vertices).toHaveLength(1);
         for (const a of j.arms) expect(ways.some((w) => w.id === a)).toBe(true);
         expect(j.arms.length).toBeGreaterThan(0);
+        // The arms in one canonical order: their ids by UTF-16 code units (the kernel's `compareKeys`).
+        expect(j.arms).toEqual([...j.arms].sort());
       }
       // Every edge carrying a way row lies on a way the records name.
       const named = new Set(ways.map((w) => w.id));

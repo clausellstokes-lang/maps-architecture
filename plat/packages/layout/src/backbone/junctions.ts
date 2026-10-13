@@ -11,7 +11,7 @@
 //   class (the later chain on a tie) is turned away to the minimum plus `DEFLECT_MARGIN_CDEG`, by the same move,
 //   when that keeps it the minimum from its other neighbour and crosses nothing; else reported.
 import { dmath, type LatticePoint } from '@plat/kernel';
-import { quot, segmentsMeet } from '../siting/geom.js';
+import { CDEG_PER_RAD, PI, quot, segmentsMeet } from '../siting/geom.js';
 import { classRank } from './classify.js';
 import { belowRadiusAt, type Simplified } from './smooth.js';
 import type { ArterialGraph, ChainClass, JunctionRule } from './types.js';
@@ -22,10 +22,6 @@ export const ACUTE_MAX_CDEG = 7_500;
 export const THROUGH_MIN_CDEG = 15_000;
 /** A deflected arm is turned to the minimum crossing angle plus this (cdeg): rounding to whole cm keeps it above. */
 export const DEFLECT_MARGIN_CDEG = 100;
-
-/** π to the double nearest it. */
-const PI = 3.141592653589793;
-const CDEG_PER_RAD = 5729.5779513082325;
 
 interface V {
   x: number;

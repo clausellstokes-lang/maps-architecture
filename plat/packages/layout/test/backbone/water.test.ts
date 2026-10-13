@@ -1,19 +1,18 @@
-// M0-c-03: S4's routes reach the commit dry and simple (C-0250; §2.2 rule 7, C-0076, §3.10 role consistency; the
-// integration check of stage group 12, B-2 – B-4). On hand-built water: a river at the frame's edge where a through-road
-// leaves (its frame stub would cross it: the road ends at its last dry node), a U-shaped river whose crossing site the
-// outward route gives up (F-ROUTE's another_site re-solve from the corridor's end would step back into the held
-// corridor: it is kept out of it), a gate route carrying an A → B → A spur (cut to a simple path), a course across water
-// handed to the commit (refused, never committed), and a route over two decks (one deck per way).
+// M0-c-03: S4's routes reach the commit dry and simple (C-0250; §2.2 rule 7, C-0076, §3.10 role consistency). On
+// hand-built water: a river at the frame's edge where a through-road leaves (its frame stub would cross it: the road
+// ends at its last dry node), a U-shaped river whose crossing site the outward route gives up (F-ROUTE's another_site
+// re-solve from the corridor's end would step back into the held corridor: it is kept out of it), a gate route
+// carrying an A → B → A spur (cut to a simple path), a course across water handed to the commit (refused, never
+// committed), and a route over two decks (one deck per way).
 import { describe, expect, it } from 'vitest';
 import type { Cdeg } from '@plat/model';
 import { tableView } from '@plat/tables';
 import { commitOuterRing, commitRoutes, commitS3Slice, runS4, s3Slice, WAY_SPAN_NODES, type RoutePoint, type S3Slice, type S4Route } from '../../src/index.js';
 import { partMeetsWater, simpleCourse } from '../../src/backbone/stage.js';
 import { waterSides } from '../../src/backbone/commit.js';
-import { edgesWith, handBuildRiver, insideRing, kernelFor, P, riverRing, runSite, segsMeet, smallSite, wayEdges, wayLine, waysWith, type Run } from './support.js';
+import { edgesWith, handBuildRiver, insideRing, kernelFor, key, P, riverRing, runSite, segsMeet, smallSite, wayEdges, wayLine, waysWith, type Run } from './support.js';
 
 type XY = { x: number; y: number };
-const key = (p: XY): string => `${String(p.x)},${String(p.y)}`;
 const sidesOf = (ring: readonly XY[]): [XY, XY][] => ring.map((p, i) => [p, ring[(i + 1) % ring.length]]);
 
 /** No way edge meets a ring's sides or lies inside it, but the spans (read from the arena's own rows). */
@@ -139,9 +138,9 @@ function withSpur(slice: S3Slice, ordinal: number, at: number): S3Slice {
 
 describe('a gate route that revisits a node reaches the commit as a simple path (C-0250; integration g12 B-3, B-4)', { timeout: 120_000 }, () => {
   it('simpleCourse cuts each loop at its first repeated node, keeping both ends', () => {
-    // integration g12 B-3's shape (seed 28): the corridor …, X, Y, the corridor's end O, then back Y, X, then on.
+    // A re-solve from the corridor's end that steps back: the corridor …, X, Y, the corridor's end O, then Y, X, then on.
     expect(simpleCourse([1, 2, 3, 4, 5, 4, 3, 6, 7])).toEqual([1, 2, 3, 6, 7]);
-    // B-4's: an A → B → A spur at the pick.
+    // An A → B → A spur at the pick.
     expect(simpleCourse([1, 2, 3, 9, 3, 4, 5])).toEqual([1, 2, 3, 4, 5]);
     expect(simpleCourse([1, 2, 1])).toEqual([1]);
     expect(simpleCourse([7, 8, 9, 8, 9, 10])).toEqual([7, 8, 9, 10]);

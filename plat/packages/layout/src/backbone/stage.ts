@@ -31,9 +31,10 @@ import { terrainSampler } from '@plat/site';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
 import type { S3Commit } from '../enceinte/commit.js';
 import { WAY_SPAN_NODES } from '../enceinte/commit.js';
+import { unitOf } from '../enceinte/plane.js';
 import { toFrame } from '../enceinte/strips.js';
 import type { EnceinteEnv } from '../enceinte/types.js';
-import { bearingCdeg, insideRing, quot, segmentMeetsRing, segmentsMeet } from '../siting/geom.js';
+import { bearingCdeg, insideRing, segmentMeetsRing, segmentsMeet } from '../siting/geom.js';
 import type { Gate as SliceGate, GateRoute, S3Slice, Site } from '../siting/types.js';
 import { classGeometryCm } from './classify.js';
 import { commitRoutes, meetsWaterOff, S4_COUNTERS, waterSides, type Seg } from './commit.js';
@@ -65,7 +66,7 @@ export interface S4Output extends S4Result {
 }
 
 /** The terrain's height at each lattice node (cm). */
-function heightsOf(site: Site, points: readonly LatticePoint[]): Float64Array {
+export function heightsOf(site: Site, points: readonly LatticePoint[]): Float64Array {
   const s = terrainSampler(site.terrain, site.tables.table('terrain').num('settings', 'slopeQueryM') * 100);
   const out = new Float64Array(points.length);
   for (let i = 0; i < points.length; i += 1) out[i] = s.heightAt(points[i]);
@@ -251,7 +252,7 @@ export function routesFromSlice(
       const made = pointsOf(rg, nodes, crossingsOf(rg, nodes), heldNode);
       const last = made.points[made.points.length - 1].at;
       const prev = made.points.length >= 2 ? made.points[made.points.length - 2].at : g.at;
-      const d = unit({ x: last.x - prev.x, y: last.y - prev.y });
+      const d = unitOf({ x: last.x - prev.x, y: last.y - prev.y });
       const f = d === null ? null : toFrame(last, d, site.frameRing);
       const points: RoutePoint[] = [{ at: g.at, pin: 'gate', pinId: gate.id }, ...made.points];
       const fp = f === null ? null : ({ x: Math.round(f.x), y: Math.round(f.y) } as LatticePoint);
@@ -284,12 +285,6 @@ export function routesFromSlice(
     if (!out.ok || out.value === null) return null;
     return out.value;
   }
-}
-
-function unit(v: { x: number; y: number }): { x: number; y: number } | null {
-  const l = Math.sqrt(v.x * v.x + v.y * v.y);
-  if (l < 1) return null;
-  return { x: quot(v.x, l, 'length', 'last edge'), y: quot(v.y, l, 'length', 'last edge') };
 }
 
 /** S4 (see the header): the routes from the slice, committed as one graph through the façade. */

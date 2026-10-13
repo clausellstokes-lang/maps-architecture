@@ -2,34 +2,19 @@
 // readings C-0236 (2), (4)) on synthetic lattices: the slope rung relaxes a class on a synthetic impassable edge, then
 // reports `unserved`; another crossing site within the search band when the nearest site's approach cannot meet the
 // class radius (the next within the band taken), the extra-bridge rung listed `notBuilt(M1)`; route.nodes reached →
-// `work_cut` with the count, then `unserved` (F-WORK). Session round S1 (Q24; N-54 (2), C-0289, C-0297): a deck with an end
-// beyond the frame is no deck of S4's route graph (`deckOf` −1 on every edge, no route spans it; moved inside, it is
-// spanned), and the deck given up is re-solved around whether or not another site stands in the band — the re-solve
-// may take, as a new crossing, only a site within the band (a crossing the course already makes usably kept). Session round
-// S2 (checks/M0-c-03-s1.md B-2; C-0304): only a passable edge across water carries a deck — a dry edge along a deck, within
-// one spacing of it and within 30° of its direction, answers `deckOf` −1.
+// `work_cut` with the count, then `unserved` (F-WORK). A deck with an end beyond the frame is no deck of S4's route graph
+// (N-54 (2), C-0289: `deckOf` −1 on every edge, no route spans it; moved inside, it is spanned); the deck given up is
+// re-solved around whether or not another site stands in the band, and the re-solve may take, as a new crossing, only a
+// site within the band (C-0297; a crossing the course already makes usably is kept); only a passable edge across water
+// carries a deck (C-0304: a dry edge along a deck, within one spacing of it and within 30° of its direction, answers
+// `deckOf` −1).
 import { describe, expect, it } from 'vitest';
-import { tableView } from '@plat/tables';
 import { approachUsable, buildLattice, classGeometryCm, crossingsOf, insideTurningCircles, routeGraph, routeLadder, siteCosts, solve, type Lattice, type RouteClass, type RouteRung } from '../../src/index.js';
 import { distToSegment, segmentMeetsRing } from '../../src/siting/geom.js';
-import { P, riverRing, smallSite } from './support.js';
+import { nearest, P, riverRing, smallSite, T } from './support.js';
 
-const T = tableView();
 const radius = (c: RouteClass): number => classGeometryCm(T, c).minRadiusCm;
 const BAND = T.table('terrain').num('crossing', 'searchBandM') * 100;
-
-function nearest(lattice: Lattice, p: { x: number; y: number }): number {
-  let best = 0;
-  let bd = Infinity;
-  lattice.points.forEach((q, i) => {
-    const d = (q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y);
-    if (d < bd) {
-      bd = d;
-      best = i;
-    }
-  });
-  return best;
-}
 
 /** A dry small site's lattice and a height step of `dh` cm at x = 0 across the whole frame (a synthetic cliff). */
 function cliff(dh: number): { lattice: Lattice; heights: Float64Array } {
@@ -48,8 +33,8 @@ describe("F-ROUTE's slope and unserved rungs on a synthetic impassable edge (§5
   it('a 1 m step is too steep for through (0.01) but not for primary: the route relaxes one class', () => {
     const { lattice, heights } = cliff(100);
     const rg = routeGraph(lattice, heights);
-    const from = nearest(lattice, P(-50000, 0));
-    const to = nearest(lattice, P(50000, 0));
+    const from = nearest(lattice.points, P(-50000, 0));
+    const to = nearest(lattice.points, P(50000, 0));
     // The cliff edges are impassable at through's limit, passable at primary's.
     expect(solve(rg, [from], [to], { class: 'through', gradeLimits: LIMITS }).ok).toBe(false);
     expect(solve(rg, [from], [to], { class: 'primary', gradeLimits: LIMITS }).ok).toBe(true);
@@ -69,7 +54,7 @@ describe("F-ROUTE's slope and unserved rungs on a synthetic impassable edge (§5
     const { lattice, heights } = cliff(10_000_000);
     const rg = routeGraph(lattice, heights);
     const rungs: RouteRung[] = [];
-    const r = routeLadder(rg, [nearest(lattice, P(-50000, 0))], [nearest(lattice, P(50000, 0))], { class: 'through', gradeLimits: LIMITS, radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
+    const r = routeLadder(rg, [nearest(lattice.points, P(-50000, 0))], [nearest(lattice.points, P(50000, 0))], { class: 'through', gradeLimits: LIMITS, radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
     expect(r.ok).toBe(true);
     if (r.ok) expect(r.value).toBeNull();
     expect(rungs.map((x) => [x.rung, x.fromClass ?? null, x.toClass ?? null])).toEqual([
@@ -85,7 +70,7 @@ describe("F-ROUTE's slope and unserved rungs on a synthetic impassable edge (§5
     const rg = routeGraph(lattice);
     const rungs: RouteRung[] = [];
     const work = { n: 0 };
-    const r = routeLadder(rg, [nearest(lattice, P(-50000, 0))], [nearest(lattice, P(50000, 0))], { class: 'through', nodeLimit: 25, radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, work);
+    const r = routeLadder(rg, [nearest(lattice.points, P(-50000, 0))], [nearest(lattice.points, P(50000, 0))], { class: 'through', nodeLimit: 25, radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, work);
     expect(r.ok && r.value === null).toBe(true);
     expect(rungs).toEqual([
       { route: 'test', rung: 'work_cut', count: 25, limit: 25, held: true },
@@ -93,9 +78,9 @@ describe("F-ROUTE's slope and unserved rungs on a synthetic impassable edge (§5
     ]);
     expect(work.n).toBe(25);
     // One node more than the search needs: served.
-    const s = solve(rg, [nearest(lattice, P(-50000, 0))], [nearest(lattice, P(50000, 0))], { class: 'through' });
+    const s = solve(rg, [nearest(lattice.points, P(-50000, 0))], [nearest(lattice.points, P(50000, 0))], { class: 'through' });
     expect(s.ok).toBe(true);
-    if (s.ok) expect(solve(rg, [nearest(lattice, P(-50000, 0))], [nearest(lattice, P(50000, 0))], { class: 'through', nodeLimit: s.charged + 1 }).ok).toBe(true);
+    if (s.ok) expect(solve(rg, [nearest(lattice.points, P(-50000, 0))], [nearest(lattice.points, P(50000, 0))], { class: 'through', nodeLimit: s.charged + 1 }).ok).toBe(true);
   });
 });
 
@@ -125,8 +110,8 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
   it('the nearest site, whose approach cannot meet the radius, is given up for the next within the band', () => {
     const lattice = riverLattice([TILTED, SQUARE]);
     const rg = routeGraph(lattice);
-    const from = nearest(lattice, P(20000, -15000));
-    const to = nearest(lattice, P(80000, -15000));
+    const from = nearest(lattice.points, P(20000, -15000));
+    const to = nearest(lattice.points, P(80000, -15000));
     // The route as S3 might hand it: across the tilted site.
     const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([SQUARE.id]) });
     expect(given.ok).toBe(true);
@@ -148,8 +133,8 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
     const lattice = riverLattice([TILTED, FAR]);
     const rg = routeGraph(lattice);
     // The ends on the far site's line: only the band keeps the route from taking it.
-    const from = nearest(lattice, P(20000, -40000));
-    const to = nearest(lattice, P(80000, -40000));
+    const from = nearest(lattice.points, P(20000, -40000));
+    const to = nearest(lattice.points, P(80000, -40000));
     const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([FAR.id]) });
     expect(given.ok).toBe(true);
     if (!given.ok) return;
@@ -177,8 +162,8 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
     const site = smallSite(1, { faces: [open], decks: [TILTED, FAR] });
     const lattice = buildLattice(site, siteCosts(site));
     const rg = routeGraph(lattice);
-    const from = nearest(lattice, P(20000, -15000));
-    const to = nearest(lattice, P(80000, -15000));
+    const from = nearest(lattice.points, P(20000, -15000));
+    const to = nearest(lattice.points, P(80000, -15000));
     const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([FAR.id]) });
     expect(given.ok).toBe(true);
     if (!given.ok) return;
@@ -204,8 +189,8 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
     const site = smallSite(1, { faces: [west, WIDE], decks: [GOOD, TILTED, SQUARE] });
     const lattice = buildLattice(site, siteCosts(site));
     const rg = routeGraph(lattice);
-    const from = nearest(lattice, P(-80000, -15000));
-    const to = nearest(lattice, P(80000, -15000));
+    const from = nearest(lattice.points, P(-80000, -15000));
+    const to = nearest(lattice.points, P(80000, -15000));
     const given = solve(rg, [from], [to], { class: 'through', excludedDecks: new Set([SQUARE.id]) });
     expect(given.ok).toBe(true);
     if (!given.ok) return;
@@ -221,7 +206,7 @@ describe("F-ROUTE's another crossing site within the band (§5.2; C-0085; C-0236
   it('a route with no path across the water (no site at all) is unserved', () => {
     const lattice = riverLattice([]);
     const rungs: RouteRung[] = [];
-    const r = routeLadder(routeGraph(lattice), [nearest(lattice, P(20000, 0))], [nearest(lattice, P(80000, 0))], { class: 'through', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
+    const r = routeLadder(routeGraph(lattice), [nearest(lattice.points, P(20000, 0))], [nearest(lattice.points, P(80000, 0))], { class: 'through', radiusCm: radius, searchBandCm: BAND, route: 'test' }, rungs, { n: 0 });
     expect(r.ok && r.value === null).toBe(true);
     expect(rungs).toEqual([{ route: 'test', rung: 'unserved', held: true, why: 'no path' }]);
   });
@@ -240,7 +225,7 @@ describe("a deck with an end beyond the frame is no deck of S4's route graph (N-
     const lattice = buildLattice(site, siteCosts(site));
     return { lattice, rg: routeGraph(lattice) };
   };
-  const ends = (lattice: Lattice): { from: number; to: number } => ({ from: nearest(lattice, P(-20000, top - 5000)), to: nearest(lattice, P(20000, top - 5000)) });
+  const ends = (lattice: Lattice): { from: number; to: number } => ({ from: nearest(lattice.points, P(-20000, top - 5000)), to: nearest(lattice.points, P(20000, top - 5000)) });
 
   it('one end 1 m beyond the frame: deckOf answers −1 on every edge, the graph holds no deck, and no route spans it', () => {
     const { lattice, rg } = graphWith(deckAt(100));
@@ -266,7 +251,7 @@ describe("a deck with an end beyond the frame is no deck of S4's route graph (N-
   });
 });
 
-// RouteGraph.deckOf's contract (B-2): "the index of the deck a passable edge ACROSS WATER runs along, else −1". A 10 m
+// RouteGraph.deckOf's contract (C-0304): "the index of the deck a passable edge ACROSS WATER runs along, else −1". A 10 m
 // river from the frame's south edge that ends 10 m north of a short square deck (its ends on the two shores): the
 // lattice's edges along the deck (both ends within one spacing of it, within 30° of its direction) south of the river's
 // end cross the water and carry the deck; those north of it run on dry ground beside the deck and must answer −1 — a
@@ -289,7 +274,12 @@ describe('only a passable edge across water carries a deck (RouteGraph.deckOf; B
         if (rg.deckOf[e] === -1) continue;
         carried += 1;
         expect(rg.deckOf[e]).toBe(0);
-        expect(wetEdge(lattice.points[u], lattice.points[g.targets[e]]), `edge ${String(u)}→${String(g.targets[e])}`).toBe(true);
+        const p = lattice.points[u];
+        const q = lattice.points[g.targets[e]];
+        expect(wetEdge(p, q), `edge ${String(u)}→${String(g.targets[e])}`).toBe(true);
+        // … and runs along it: within 30° of its direction (cos 30° = √3 ÷ 2, written here).
+        const dot = Math.abs((q.x - p.x) * (DECK.b.x - DECK.a.x) + (q.y - p.y) * (DECK.b.y - DECK.a.y));
+        expect(dot >= (Math.sqrt(3) / 2) * Math.hypot(q.x - p.x, q.y - p.y) * Math.hypot(DECK.b.x - DECK.a.x, DECK.b.y - DECK.a.y), `edge ${String(u)}→${String(g.targets[e])} within 30°`).toBe(true);
       }
     }
     expect(carried).toBeGreaterThanOrEqual(2);

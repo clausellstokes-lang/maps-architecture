@@ -15,13 +15,13 @@
 //   off the deck end is unusable too;
 // * the extra-bridge rung is M1's (C-0076): listed `held: false` with why `notBuilt(M1)`, never run.
 import { astar, err, ok, type KernelResult, type LatticePoint, type SearchGraph } from '@plat/kernel';
+import { dist } from '../enceinte/plane.js';
 import { distToSegment, quot, segmentMeetsRing, segmentsMeet } from '../siting/geom.js';
+import { COS30 } from '../siting/lattice.js';
+import { WorkLimitReached } from '../siting/routes.js';
 import type { DeckSegment, Lattice } from '../siting/types.js';
 import { CLASS_ORDER, classRank } from './classify.js';
 import type { RouteClass, RouteRung } from './types.js';
-
-/** cos 30°: an edge runs along a deck within 30° of its direction (M0-c-01's reading, C-0201 (4)). */
-const COS30 = 0.8660254037844387;
 
 /** The lattice as S4's router reads it: the graph, each edge's grade, and the deck each wet edge runs along. */
 export interface RouteGraph {
@@ -101,12 +101,6 @@ export interface SolveOptions {
 export type Solved =
   | { readonly ok: true; readonly nodes: number[]; readonly cost: number; readonly charged: number }
   | { readonly ok: false; readonly code: 'no_path' | 'work_cut'; readonly charged: number };
-
-class WorkLimitReached extends Error {
-  constructor(readonly count: number) {
-    super('route.nodes reached');
-  }
-}
 
 /** Heap A* from `sources` to `targets` under the class's grade limit, the excluded decks and the mask. */
 export function solve(rg: RouteGraph, sources: readonly number[], targets: readonly number[], opts: SolveOptions): Solved {
@@ -259,11 +253,6 @@ function crossesWaterOff(lattice: Lattice, p: LatticePoint, end: LatticePoint): 
     }
   }
   return false;
-}
-
-/** The distance between two points. */
-function dist(a: { x: number; y: number }, b: { x: number; y: number }): number {
-  return Math.sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
 }
 
 /** The F-ROUTE ladder's options. */

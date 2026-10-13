@@ -1,15 +1,16 @@
-// M0-c-03 session round S1 (Q24; N-54 (2), C-0289, C-0297): S4 on the base chain's small river town, the seeds whose S4 output
-// M0-c-01's frame-honest lattice moved (C-0289's stated shift). The chain is M0-x-04's base registration through the
-// runner — S1, S3 and S4 as registered, S5 kept in its rank but idle (S3 commits stage 1's trace in S5's batch), nothing
-// after — on M0-x-06's small river frame (CITY, 30 ha at aspect 1, 6 ha walled, the river from the west, no mouth;
-// restated here, the testkit's `SMALL_RIVER`, since this package's tests cannot import the testkit).
+// M0-c-03: S4 on the base chain's small river town, where the frame cuts the band of crossing sites (N-54 (2), C-0289:
+// the lattice reads only the decks whose two ends lie inside the frame; C-0297: the deck given up is re-solved around;
+// C-0304: a part the F-ROUTE ladder leaves unserved is counted, and a deck's crossing run holds only its wet edges). The
+// chain is M0-x-04's base registration through the runner — S1, S3 and S4 as registered, S5 kept in its rank but idle
+// (S3 commits stage 1's trace in S5's batch), nothing after — on M0-x-06's small river frame (CITY, 30 ha at aspect 1,
+// 6 ha walled, the river from the west, no mouth; restated here, the testkit's `SMALL_RIVER`, since this package's tests
+// cannot import the testkit). The registered seeds:
 //   * 3535584350: `gate:0/out`'s S3 course crosses `bridge:2`, whose approach cannot meet through's radius, and the
 //     band holds no other site in the frame (the band's only other sites lie beyond it, cut from S4's graph). The
 //     ladder re-solves round the given-up site: the outward road reaches the frame dry — served, `another_site` held
-//     with `to` null, roads leaving the walled stage = N (C-0289's round had left it `unserved`, 'approach').
-//   * 1192931101: the beyond-frame `bridge:0` is no longer in S4's graph; the ladder never fires and every route part
-//     is laid with no span.
-// Session round S2 (checks/M0-c-03-s1.md B-1, B-2; C-0304):
+//     with `to` null, roads leaving the walled stage = N.
+//   * 1192931101: `bridge:0` lies beyond the frame and is no deck of S4's graph; the ladder never fires and every route
+//     part is laid with no span.
 //   * 3207739920: `gate:1/out` is left unserved by rule — its course's `bridge:1` is given up, the band holds another
 //     site but no usable course, the extra bridge is M1's, and no path is left — and S4's `report.unserved` lists it
 //     (the run's one place that does: a counted outcome, never silent); roads leaving the walled stage = 2N − 1.
