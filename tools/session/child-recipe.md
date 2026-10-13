@@ -45,9 +45,9 @@ stands). The parent's session id is in the prompt; the child reports to it by me
 3. Install and a sanity check: `( cd $R/plat && PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install
    --frozen-lockfile && corepack pnpm landed:verify -- flow-7 --item ID )` — with FROMDISK=yes it must print ok (the
    LANDED build's record claims its files); for an unfinished build it may print FAIL on files the builder changed after
-   its record — expected, note it, continue. `python3 $R/tools/machine_profile.py --id` is expected to print
-   linux:Intel(R) Xeon(R) Processor:4cpu:16gib; if it differs, step 4 fits the args to this machine anyway — say so in
-   the hand-back.
+   its record — expected, note it, continue. `python3 $R/tools/machine_profile.py --id` is expected to print an id of the class
+   linux:Intel(R) Xeon(R) Processor[ @ <clock>]:4cpu:16gib (the CPU model string may carry a clock suffix, J340 (4)); if
+   the core or memory counts differ, step 4 fits the args to this machine anyway — say so in the hand-back.
 4. Briefs (rendered on this machine, never copied): `S=<this session's scratchpad>/session-fix; mkdir -p $S/../waves;
    cp $R/workflows/lane-prompts/session-fix-cloud/{specs.json,render.mjs,args.base.json} $S/`; with python3 load
    $S/args.base.json, set root=$R and scratch=$S/../waves, write $S/args.pre.json;

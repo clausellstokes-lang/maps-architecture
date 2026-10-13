@@ -132,10 +132,19 @@ def land(args):
     assert not git('diff', '--cached', '--name-only').strip(), 'the index is not empty'
     # 1. overlay per file
     diff = git('diff', '--name-only', 'HEAD', f'origin/{b}', '--', *overlay_paths(args)).split()
+    removed = 0
+    removed_paths = []
     for f in diff:
+        if subprocess.run(['git', '-C', R, 'cat-file', '-e', f'origin/{b}:{f}'], capture_output=True).returncode != 0:
+            # the round deleted the file: remove it from the working tree (flow_stage stages the deletion the record names; L24)
+            if os.path.exists(f'{R}/{f}'):
+                os.remove(f'{R}/{f}')
+            removed += 1
+            removed_paths.append(f)
+            continue
         git('checkout', f'origin/{b}', '--', f)
     git('reset', '-q')
-    print('overlaid', len(diff), 'files')
+    print('overlaid', len(diff) - removed, 'files, removed', removed)
     # 2. lane lines
     missing = lane_lines_missing(b)
     with open(f'{R}/docs/lane-events.log', 'a', encoding='utf-8') as fh:
@@ -208,6 +217,11 @@ def land(args):
     print('staged:', d.get('staged'), '| problems:', d.get('problems'))
     if d.get('problems') != []:
         sys.exit('flow_stage --stage reports problems')
+    # L24: a file the round deleted that the flow-7 snapshot never held is absent from the record's deleted list, so
+    # flow_stage cannot stage its deletion — the session stages it (git add -u on the path) before the commit.
+    for f in removed_paths:
+        git('add', '-u', '--', f)
+        print('deletion staged (L24):', f)
     open(args.busy_file, 'w').write(busy_s + '\n')
     print(git('diff', '--cached', '--stat').strip().splitlines()[-1])
     # 6. commit
