@@ -11,6 +11,14 @@ stands). The parent's session id is in the prompt; the child reports to it by me
 
 ## Rules
 
+0. A child's standing rule (the parent's `append_system_prompt` at its creation) names its backup branch GENERICALLY —
+   "the branch the parent's current instructions name for your current round" — never one branch by name: a child whose
+   standing rule names one branch cannot take a later round on another branch (child F refused M0-a-06 s6 on that rule,
+   correctly, 2026-10-13 18:19Z; the round went to a fresh session). A re-used child's reset to main is
+   `git checkout -q -B main origin/main && git checkout -q -- . && git clean -fdq -- plat docs` (the previous round's
+   work is landed and frozen on its branch); where the harness classes that reset as destructive, `git stash -u` is
+   the lawful substitute.
+
 1. `main` is the production line: NEVER push to main, never open or touch a pull request, never force-push any branch
    except NEW. The parent lands the round from NEW (tools/session/land_child.py) once its closing check LANDED.
 2. The clean-room rule: the child never edits plat/ itself and never runs git for the seats; the seats run no git (their
