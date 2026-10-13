@@ -3408,7 +3408,9 @@ our crown symbols draw, not a reference's list; `rain` is the mean yearly rainfa
 general — orders of magnitude for each climate; the same rows carry item 111's dry-country cells, V11 §3.25.1, item
 117's season cells, V11 §3.25.6, and item 124's weather cells, V11 §3.25.11; `farm layout` is §4.9's farm modes' climate
 override — `rows` leaves the rung × landscape choice, the `arid` row's `rivers` and the `cold` row's `perimeter` are
-`ref:FTG Desert and Polar presets` —, an enumeration, not calibratable):
+`ref:FTG Desert and Polar presets` —, an enumeration, not calibratable; the four rows of item 129 — `tundra`, `jungle`, `savanna`,
+`swamp` — are `own`, PLAUSIBLE until M-CAL measures them, and add one crown kind, `broadleaf-evergreen`: an evergreen broad
+crown §8.10's stamps draw like the oak's in the evergreen tint, with no `season.leaf` row, as every evergreen):
 
 | biome | ground role | woods (inner / outer shares; leaf) | field system | farm layout | roof form · pitch | scatter per ha | rain mm a year |
 |---|---|---|---|---|---|---|---|
@@ -3418,10 +3420,14 @@ override — `rows` leaves the rung × landscape choice, the `arid` row's `river
 | `maritime` | `ground.grass` | oak 0.4 / 0.2, ash 0.3 / 0.3, thorn 0.3 / 0.5 | enclosed | rows | hip · 0.8 | 0.3–1.0 | 1 100 |
 | `arid` | `ground.dry` | olive 0.4 / 0.3, cypress 0.3 / 0.3, palm 0.3 / 0.4 (evergreen) | irrigated | rivers | flat · 0.1 | 0.2–0.6 | 200 |
 | `cold` | `ground.cold` | spruce 0.6 / 0.4, birch 0.2 / 0.4, larch 0.2 / 0.2 | infieldOutfield | perimeter | gable · 1.3 | 0.2–0.8 | 500 |
+| `tundra` | `ground.cold` | birch 0.7 / 0.6, spruce 0.3 / 0.4 (the tree line's dwarf birch and its last spruce; birch deciduous) | infieldOutfield | perimeter | gable · 0.9 | 0.05–0.2 | 300 |
+| `jungle` | `ground.grass` | broadleaf-evergreen 0.6 / 0.5, palm 0.4 / 0.5 (the canopy hardwoods and the fan crowns; evergreen) | enclosed | rivers | hip · 1.2 | 1.5–3.0 | 2 500 |
+| `savanna` | `ground.dry` | thorn 0.6 / 0.6, palm 0.2 / 0.2, ash 0.2 / 0.2 (the umbrella and fan crowns; deciduous in the dry season) | infieldOutfield | rivers | hip · 1.1 | 0.1–0.4 | 800 |
+| `swamp` | `ground.grass` | ash 0.4 / 0.4, birch 0.3 / 0.3, hazel 0.3 / 0.3 (willow, alder and the carr's scrub, drawn by these crowns; deciduous) | enclosed | rivers | gable · 1.1 | 0.3–0.8 | 900 |
 
 **3.17.2 Land-use rows** (`landuse`; one per `LandUse.kind`, §2.7; read by S12a for the surface role and by §8.2's
 tiles): `arable` — role `field.arable`, crops by climate (grain default); `strip_field` — `field.strip`; `meadow` —
-`field.meadow`, hay; `pasture` — `field.pasture`, livestock (sheep default, cattle in maritime); `commons` —
+`field.meadow`, hay; `pasture` — `field.pasture`, livestock (sheep default; cattle in maritime, savanna and swamp — item 129; the tundra's herds the default symbol); `commons` —
 `field.commons`, scatter × 1.5; `orchard` — `wood.orchard`, a jittered grid; `vineyard` — `field.vineyard` (arid and
 maritime biomes, else only by dossier deposit); `coppice` — `wood.coppice`; `wildwood` — `wood.wild`; `quarry`, `claypit`,
 `mine` — `works.pit`; `lumber` — `wood.felled`; `fishery` — `water.fishery`; `saltpan` — `works.saltpan`; `marsh` —
@@ -4184,6 +4190,10 @@ gardens):
 | `maritime` | 0.05 | the feature table's | 0 | — | — | 0.03 · 250 | 0.02 | 1 | 0.1 · 1.0 |
 | `arid` | 0.9 | the feature table's (the row's own chances when a pack or a calibration sets them) | 0.35 · 2.0 (the product capped at 0.9) · 0.3–3 | palm 0.6, olive 0.3, cypress 0.1 · 25 | 150 · 3 | 0.6 · 600 | 0.5 | −0.5 | 1.0 · 0.6 |
 | `cold` | 0.3 | the feature table's | 0 | — | — | 0.1 · 300 | 0.05 | 1 | 0.2 · 1.0 |
+| `tundra` | 0.3 | the feature table's | 0 | — | — | 0.1 · 300 | 0.05 | 1 | 0.2 · 1.0 |
+| `jungle` | 0.02 | the feature table's | 0 | — | — | 0.05 · 300 | 0.02 | 1 | 0.1 · 1.0 |
+| `savanna` | 0.5 | the feature table's | 0 | — | — | 0.4 · 500 | 0.3 | −0.2 | 0.6 · 0.8 |
+| `swamp` | 0 | the feature table's, and S1's marsh over the frame's low ground at chance 1 (the `site` row's marsh word, §4.2 S1) | 0 | — | — | 0.02 · 200 | 0 | 1 | 0.1 · 1.0 |
 
 * **Arid** is a row whose `aridity` is at least the table's named row `settings`' `aridMin` 0.6 — by default the `arid`
   biome alone. A non-arid row's oasis chance is 0 by rule (the base reads P(oasis) only on an arid row); a dossier's
@@ -4197,6 +4207,11 @@ gardens):
 * **The wells** (§4.7 S10b): the well and public-fountain classes score `wellYieldWeight` × the plot's well yield
   (S1 (10)'s raster, read through `water.wellsPerHa` and `wellYieldM3`, V11 §3.24.6), and their walking-coverage radius (the
   `water-supply` family's 150 m, V11 §3.4) is × `wellCoverageFactor`.
+* **Item 129's rows.** The savanna's dry season is a season (V11 §3.25.6), not aridity: its 0.5 stays below `aridMin`, so no
+  oasis by rule (a dossier's `oasis_water` still makes one), while its water pull, water term and well weight read the dry
+  months' scarcity and its sun cell −0.2 values shade below the arid row's. The swamp's pull is near 0: water lies
+  everywhere and the raised ground is prized instead, which §4.5's relief term already reads, so no dry-ground term is added.
+  The tundra reads as the `cold` row here, and in V04's underground (a permafrost rule is later content, docs/BACKLOG.md).
 * **`says`** (ids `clim/<biome>/<cell>`, `drv/water`): the pull — "this town leans toward its water: in {biome} country the
   river, the springs and the best wells decide where people live"; the water term — "the well-to-do hold the ground
   nearest the water and its gardens"; the oasis — "an oasis: a spring-fed pool in its hollow, the grove and the gardens
@@ -4360,6 +4375,10 @@ end when `a > b`.
 | `maritime` | mild | 30–36 | 33–38 | 4–8 | 0–27 | 23–31 | 15–20 | 45–49 | — |
 | `arid` | none | 36–41 | 38–44 | 50–3 | 39–10 (winter-sown, irrigated) | 8–14 | — | — | — |
 | `cold` | severe | 26–31 | 28–33 | 8–11 | 5–23 | 19–26 | 17–21 | 35–6 | 34–8 |
+| `tundra` | severe | 24–27 | 26–29 | 11–13 | 10–23 | 19–23 | 17–20 | 29–13 | 29–15 |
+| `jungle` | none | — | — | 8–12 | 0–51 | 20–26 (a second crop in 44–50 is a note until the cell admits two bands) | — | — | — |
+| `savanna` | none | 30–34 | 34–40 | 2–6 | 0–22 | 20–27 | 18–22 | — | — |
+| `swamp` | cold | 28–35 | 31–37 | 3–7 | 0–25 | 22–30 | 14–18 | 43–50 | 43–51 |
 
 Arid and warm climates never freeze and draw no snow — lying or falling, whatever the view's `weather` holds (§8.2;
 item 124 (c); V11 §3.25.11's hard rules); `snow` weather
@@ -4699,7 +4718,9 @@ under `light: 'time'` (§2.9), so fog and mist come on cool mornings and burn of
 *The climate rows' weather cells* (weeks · spells an hour, a length in s where it differs from the kind's; item 124 (c)'s
 defaults — temperate rows: spring showers, the odd summer downpour, autumn fog and blowing leaves, winter snow where it
 freezes; maritime: frequent rain in autumn and winter, morning fog; arid: clear most of the year, rare short showers in its
-short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the winter, frozen fog on still days):
+short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the winter, frozen fog on still days; item 129's rows — tundra: snow for most of the year and a short wet
+summer; jungle: rain in every week, heaviest in the rains, morning mist; savanna: a wet season of downpours, then dry months
+of shimmer and dust; swamp: rain, drizzle and the marsh's mist in every week):
 
 | biome | rain | drizzle | snow | mist | fog | leaves | cloud shadows | shimmer, dust |
 |---|---|---|---|---|---|---|---|---|
@@ -4709,6 +4730,10 @@ short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the 
 | `maritime` | 0–12 · 3; 13–25 · 1.5; 26–51 · 4 | 0–12 · 2; 13–25 · 1; 26–51 · 3 | — | 26–38 · 1 | 0–12 · 1; 26–51 · 2 | 33–38 · 4 | 0–51 · 3 | — |
 | `arid` | 44–49 · 0.3 (20–60 s) | — | — | — | — | 38–44 · 1 | 44–49 · 0.5 | shimmer 10–38 · 2; dust 13–38 · 1 |
 | `cold` | 9–25 · 2; 26–33 · 2 | 26–33 · 1 | 34–35 · 1; 36–6 · 3; 7–8 · 1 | 9–25 · 0.5 | 26–33 · 1; 36–6 · 1 (frozen fog) | 28–33 · 4 | 9–25 · 2; 26–33 · 2 | — |
+| `tundra` | 13–25 · 1.5 | 13–25 · 1 | 29–30 · 1 (first flurries); 31–13 · 3; 14–15 · 1 (the thaw) | 13–25 · 1 | 26–30 · 1; 31–13 · 1 (frozen fog) | 26–29 · 2 | 13–25 · 3 | — |
+| `jungle` | 0–12 · 2; 13–25 · 5 (the rains, 90–240 s); 26–38 · 2; 39–51 · 1 | 0–51 · 1 | — | 0–51 · 1 | 0–12 · 0.5; 26–51 · 0.5 | — | 0–51 · 3 | — |
+| `savanna` | 0–12 · 2; 13–22 · 4 (the rains, 60–180 s); 23–30 · 0.5 | 0–22 · 0.5 | — | 0–22 · 0.5 | — | 34–40 · 2 (the dry season's fall) | 0–22 · 3; 23–51 · 1 | shimmer 26–51 · 2; dust 30–51 · 1.5 |
+| `swamp` | 0–12 · 3; 13–25 · 1.5; 26–40 · 3 | 0–12 · 2; 26–40 · 2 | 43–44 · 1; 45–51 · 2 | 0–51 · 2 (the marsh's mist) | 26–42 · 2.5; 43–51 · 1 | 31–37 · 4 | 0–12 · 2; 13–25 · 2; 26–40 · 2 | — |
 
 *The sites* (`settings.weather.sites`: × a live kind's `perHour` where the site applies; where several apply each kind
 takes the largest factor, never their product; where none applies the row's own rates stand, item 124 (c)'s temperate
@@ -4718,7 +4743,7 @@ each factor in [0.25, 4]):
 | site | applies where | factors |
 |---|---|---|
 | `coast` | a sea shore in the frame (a `sea` water body, §2.3) | fog × 2 (morning sea fog), rain × 1.3, drizzle × 1.3 |
-| `riverside` | a river course or a lake in the frame (§2.3), or S0's relief class `plain` (lowland) | mist × 2 (morning mist on the water), fog × 1.5 |
+| `riverside` | a river course, a lake or a marsh in the frame (§2.3; the marsh item 129's), or S0's relief class `plain` (lowland) | mist × 2 (morning mist on the water), fog × 1.5 |
 | `hills` | S0's relief class `hilly` or `mountainous` | snow × 1.5, fog × 1.5 (valley fog), cloudShadow × 1.5 (low cloud) |
 | `forest` | woods — the `wildwood`, `coppice` and `reserve` land uses (§2.7) — on at least `forestShareMin` of the frame's land | mist × 1.5, drizzle × 1.5, leaves × 2 |
 

@@ -1081,7 +1081,10 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
   The band is §7.7's DR41's input at generation; the weight folds into the need at epochs (V08 §3.16 (2)).
 * **`climates`** (items 117, 125; `site.terrain` → a key of the biome's climate rows, §4.2 S0, §10.2, whose season columns
   V11 writes — DR42's climate, the dossier's terrain with our biome rules, item 125 (b)): the terrain column — `desert` →
-  `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` → `temperate`; else
+  `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` → `temperate`; `tundra` → `tundra`, `jungle` → `jungle`, `savanna` → `savanna`,
+  `swamp` → `swamp` (item 129: words SettlementForge's `terrainType` does not carry today — its seven are plains, riverside,
+  coastal, hills, forest, mountain and desert — so they arrive through `terrainOverride` or a later SettlementForge terrain
+  vocabulary, M-SF; standalone, the blueprint's climate pick); else
   `temperate`. The height correction (upland colder) is §7.7's DR42's, read on the map's relief. No climate word is read:
   the campaign's climate sub-digest is no input (item 125 (a)), so the row's former climate-word synonyms are retired with
   the realm block (J-V8.130); a climate field the final local check finds in the dossier (V08 §3.16 (9)) gains its column
@@ -1192,7 +1195,7 @@ births carry the city record; `metropolis-2` alone carries the metropolis one.
 **(1) DR34 — the water system's inputs to item 110 (b)'s aqueduct.** The row is §7.7's (item 398); its inputs, in the
 order read: the rung (DR23); the records bound to `conduit_house` through V11's `kinds` and `ladders` rows (the city record
 and its SIZE member); the demand records — those bound to `bathhouse` and to the classes whose V11 row needs running
-water; `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid climate row;
+water; `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid climate row; `tundra`, `jungle`, `savanna`, `swamp` → their climate rows, item 129;
 `hills`, `mountain` → a relief that can hold a higher spring); the river DR1 gives; the `hot_springs` deposits
 (never a source); `site.culture` (V11's culture modifier). Its bar is T-V8-36.
 (a) **The rung gates, never the tier word.** SettlementForge's `city` spans 5 001 – 25 000 people and its lower part is our

@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 0a8246984fc97543 | 24281 |
+| `docs/ARCHITECTURE.md` | 322065b93991780a | 24281 |
 | `docs/volumes/INDEX.md` | 355e7ac139b43940 | 203 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 1a0e9583ada186f7 | 4228 |
@@ -15,10 +15,10 @@
 | `docs/volumes/V05-sky.md` | 4517619dfe10fe5c | 3099 |
 | `docs/volumes/V06-evolution.md` | 72fe700750392240 | 4668 |
 | `docs/volumes/V07-village.md` | 4eb8314692cd86c3 | 4133 |
-| `docs/volumes/V08-settlementforge.md` | 392bf9c0ca39c2a8 | 3736 |
+| `docs/volumes/V08-settlementforge.md` | 8b3060c73f46f014 | 3739 |
 | `docs/volumes/V09-application.md` | 4ff55c5f59944563 | 5050 |
 | `docs/volumes/V10-clerk.md` | 192f5b6c2f3b8831 | 3581 |
-| `docs/volumes/V11-content.md` | 168233a23ff03cdf | 5473 |
+| `docs/volumes/V11-content.md` | 0daa00ce123d6b11 | 5498 |
 | `docs/volumes/V12-calibration.md` | f3be14b9ac8f5dab | 3585 |
 
 ## Contents
@@ -13147,7 +13147,7 @@ from the dossier and in accordance with our rules").
 | DR31 | the cavern drivers (item 109 (a)) | `site.terrain` → the relief class (`site` row); the mining deposits | V04 §3.5.2's relief rows, fissure gate and mining test | `sewer` | a `mountain` dossier's relief is `mountainous`; a mining deposit sets the mining test (T-V8-32) |
 | DR32 | the burial faces, the crypted churches and the church count | the church-class and burial records (V08 §2.6a (3)); `stone_quarry`; `history.ageYears` | the classes by V11's `kinds` and `ladders` rows; the crypts by V03 §2.4 with V02's basement; faces, rank, count, ratchet and stagnation by V04 §3.5.1 and V04 §3.10 | none | T-V8-33 |
 | DR33 | the supply links between the chains' bound members, their goods and weights (item 105 (i)) | `economy.chains` — SettlementForge's `activeChains[]`: processors resolved, outputs through `goodWords`, upstream, the neutral status —, `economy.dependencies`, `economy.goods`, `entrepot` | item 105 (a)–(h)'s web at S10a/S10b and every epoch, each link × V11's `siting.web.chainStatus` of its chain's status; an `entrepot` chain's ends are item 104 (b)'s import and export pulls through the store at the gate or quay facing the partner | none | every chain with two joined members yields a link; an impaired chain's pull equals the status factor × a running one's; an entrepot chain's end pulls toward the gate or quay facing its partner (T-V8-35) |
-| DR34 | the aqueduct reason's inputs: whether the water need counts as met, the terminal, the cap step, the source candidates and the chance modifiers | the rung (DR23); the records bound to `conduit_house` through V11's `kinds` and `ladders` rows; the demand records (bound to `bathhouse` and to the classes whose V11 row needs running water); `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid biome; `hills`, `mountain` → a relief that can hold a higher spring); the river DR1 gives; the `hot_springs` deposits (never a source); `site.culture` | item 110 (b)'s aqueduct reason with V11's chance, need, cap and terminal rows | `raised.reason` | T-V8-36 |
+| DR34 | the aqueduct reason's inputs: whether the water need counts as met, the terminal, the cap step, the source candidates and the chance modifiers | the rung (DR23); the records bound to `conduit_house` through V11's `kinds` and `ladders` rows; the demand records (bound to `bathhouse` and to the classes whose V11 row needs running water); `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid biome; `tundra`, `jungle`, `savanna`, `swamp` → their climate rows (item 129; V11 §3.17.1); `hills`, `mountain` → a relief that can hold a higher spring); the river DR1 gives; the `hot_springs` deposits (never a source); `site.culture` | item 110 (b)'s aqueduct reason with V11's chance, need, cap and terminal rows | `raised.reason` | T-V8-36 |
 | DR35 | the landmarks an elevated road may link | the dossier-bound institutions whose class significance (§10.2; item 72) is at least V11 §3.24.2's `elevated.landmarkMinSignificance` through V11's `kinds` rows, and the custom records with `landmarkLevel` `landmark`; each read at its S3 reservation (castle, palace, precinct), fixed before the end of S6 where the road is committed; its high ground is the relief's | item 110 (b)'s elevated-road reason | `raised.reason` | T-V8-38 |
 | DR36 | the peak: the built extent's high-water mark the history replay grows to (item 113 (a) (1), (f)) | `peakTier` and the high-water population; without them the evidence of a higher tier, strongest first — `tierHistory`'s from-tier on a demotion, the maximum of `populationHistory`, the losses in `calamityHistory`, a higher tier's institutions listed ruined or remnant, a resettlement after a terminal death; standalone, the blueprint's history option (§4.2 S0) | §4.11's history-first generation (V06): the peak's tier, or an **effective peak** — the higher tier itself sized at a representative value inside that tier's population range (V11's cell; by default the range's lower quartile), marked `symbolic` in the fact's provenance, which only sizes the remnants the replay leaves | none | no peak without evidence of a higher tier; a symbolic peak sized inside its tier and marked; never a contradiction of a present dossier fact, and never written back (SettlementForge's own rule that a peak is never inferred stays its own) |
 | DR37 | the replay's epochs and the events it plays (item 113 (a) (2)) | `history.ageYears` (the founding); `history.events` (their types, years ago and severity); `tierHistory`, `populationHistory`, `calamityHistory` | §4.11's replay as coarse epochs from the founding or the peak to the present, each event mapped to its epoch by V11's event-to-epoch rows (V06) | the concerns of the stages each coarse epoch runs, with the replay's epoch component (§6.1) | the dossier's present facts met exactly at the replay's end (item 20); the replay byte-stable per seed and history |
@@ -13155,7 +13155,7 @@ from the dossier and in accordance with our rules").
 | DR39 | burial: when the former settlement's ruins lie underground (item 113 (c)) | the ruins' ages from the replay; floods, river silt and rebuilding on top; bare rock (`site.terrain`) | II.7.6's buried former settlement, derived from the former geometry at its old ground level, past V11's burial threshold (a century by default, shortened by floods, silt and rebuilding, lengthened on bare rock); distinct from DR30's older civilisation | none | buried ruins only past the threshold, matching the former geometry |
 | DR40 | an oasis (item 111 (a)) | `site.deposits`'s `oasis_water`; `site.terrain` (an arid site) — the site itself DR1's | S0's and S1's oasis feature (§4.2): a spring-fed pond or small lake in a hollow or at a fault line, its grove and irrigated gardens | none with the deposit; standalone, `blueprint.features` at the arid row's chance | a dossier with `oasis_water` has an oasis; an oasis only on an arid site unless drawn or supplied |
 | DR41 | the enceinte runs' generation-time condition (item 114 (d); the item-114 row) | `defence.readiness` (V08's `readiness` row: its band; standalone, the band the creation slice's `threat` gives by that row); `wealth.label` (DR6's `intent.wealthLevel`, its MEANS class against V11's `walls.condition.meansLow` and `meansHigh`); `site.culture` (the patch rows admitted); the enceintes and their stretches (DR2) | S3 and S7 lay each run's condition — `standing`, `worn`, `patched` or `breached` — from V11's `walls.condition` generation shares for (readiness band, MEANS class), and a `patched` run's material from `walls.patchMaterials` by the enceinte's kind and culture (V11 §3.25.3), each run's last-change epoch 0; with `atGeneration` false every run `standing`; under history-first generation the replay's condition instead (V06 §3.7.7 (5)); over epochs the need reads max(`threat`, `PortValues.readiness`) and the means the wealth level in force (V06 §3.7.7; V08 §3.16 (2)) | `walls.condition` (§6.1) | a `vulnerable`, poor town shows patched and breached runs; a `fortress` in a rich city stands whole; with `atGeneration` false every run stands (the no-op pin) |
-| DR42 | the default view season (item 117: a look only, never in the model or its hash; the item-117 row) | the present week — the dossier's own latest stamped tick, the greatest of its conditions' `triggeredAt`, its calamities' and its history's ticks (§2.9's *The week's source*; §4.11 *The clock* (1); item 125); the `calendar` row (`sf445`); the climate: the `climates` row's terrain column for `site.terrain` (item 125 (b)), else the blueprint's choice; S0's relief class | §2.9's view state: under its "follow SettlementForge" flag the year position is the present week mod 52 on the `sf445` year (52 weeks, 13-week seasons from spring); with no stamped tick, and standalone, the view keeps the user's season control, midsummer (week 19) by default (item 125 (b)); the biome's climate row is the climate's first source present, set at creation (§4.2 S0); the season look reads that row's season columns (V11's), except that a `hilly` or `mountainous` relief (S0's class; item 117 (d)'s "mountain and upland colder") reads the next colder row's — warm → temperate → cold → severe, an arid or semi-arid row unchanged — the height correction, applied whichever source gave the row but once: a `mountain` terrain's terrain-column row, which already reads `cold` by its height, is not corrected again; the correction never changes the model's row; §8.2's season rows draw it; a later `site.terrain` word is reported (`frozen_fact_changed`, V08 §3.5), never re-drawn | none | a dossier map opens on its dossier's latest stamped week, one with no stamped tick on the user's season (midsummer by default); the same document hashes identically in all 52 weeks; a temperate row on hilly or mountainous relief draws the `cold` row's season cells, a `mountain` terrain's `cold` row is not corrected to `severe` |
+| DR42 | the default view season (item 117: a look only, never in the model or its hash; the item-117 row) | the present week — the dossier's own latest stamped tick, the greatest of its conditions' `triggeredAt`, its calamities' and its history's ticks (§2.9's *The week's source*; §4.11 *The clock* (1); item 125); the `calendar` row (`sf445`); the climate: the `climates` row's terrain column for `site.terrain` (item 125 (b)), else the blueprint's choice; S0's relief class | §2.9's view state: under its "follow SettlementForge" flag the year position is the present week mod 52 on the `sf445` year (52 weeks, 13-week seasons from spring); with no stamped tick, and standalone, the view keeps the user's season control, midsummer (week 19) by default (item 125 (b)); the biome's climate row is the climate's first source present, set at creation (§4.2 S0); the season look reads that row's season columns (V11's), except that a `hilly` or `mountainous` relief (S0's class; item 117 (d)'s "mountain and upland colder") reads the next colder row's — warm → temperate → cold → severe (item 129's `jungle` and `savanna` rows warm, `swamp` temperate, `tundra` severe), an arid or semi-arid row unchanged — the height correction, applied whichever source gave the row but once: a `mountain` terrain's terrain-column row, which already reads `cold` by its height, is not corrected again; the correction never changes the model's row; §8.2's season rows draw it; a later `site.terrain` word is reported (`frozen_fact_changed`, V08 §3.5), never re-drawn | none | a dossier map opens on its dossier's latest stamped week, one with no stamped tick on the user's season (midsummer by default); the same document hashes identically in all 52 weeks; a temperate row on hilly or mountainous relief draws the `cold` row's season cells, a `mountain` terrain's `cold` row is not corrected to `severe` |
 | DR43 | festival decorations (item 118: a look only, never in the model or its hash; the item-118 row) | the carried `tradition` facts (`trad:` keys: the name, the kind by the `festivals` row, the weeks of the `sf445` year, the staging keys, the deity; V08 §2.3, V08 §3.16 (5)); `site.culture`; the view's year position (DR42) | §2.9's festival display (follow, off, or preview one festival): following, a festival's decorations show while the view's week lies inside its weeks — a window whose end precedes its start wrapping past week 51 — drawn by §8.2's festival rows from §10.2's decoration table by tier and kind at the place its staging keys name, else the festival kind's fallback, never over a keep-out or a gate's passage, their colours and motifs by `site.culture` and the deity; two festivals in one week both show; a tradition with no readable week is unscheduled, shown only in preview; standalone no tradition exists and none is invented | `render.instances` (view draws only: §8.10's keyed placement, as §8.2's festival rows key it) | no festival changes a digest; a festival shows exactly in its weeks |
 | DR44 | the crisis looks (item 122, with (h)–(i): a look only, never in the model or its hash; the item-122 row) | the `ConditionOverlay`s standing in the view (§2.7: archetype, severity, `sinceWeek`, `untilWeek`; a stressor, a condition or a simulator event as V08 carries it) — §2.9's `week` in [`sinceWeek`, `untilWeek`), or from `sinceWeek` on while the overlay stands where it has no `untilWeek`, never the year position; a calamity's `targets` (`calamityHistory[]`); the forces', coalitions' and travelling groups' headcounts where the dossier gives them, else the condition's or calamity's own counts (`exodus`, arrivals) (item 122 (h); V08); the map's rung | each standing overlay → the `map` row of the source word V08 §3.16 (7) (b) gives the overlay (a stressor's type, a simulator crisis event, the `calamity` word of a linked condition, else its archetype) → its look row → its scale at the rung by severity, or by headcount at `areaPerHeadM2` where the dossier gives one, placed by §10.2's *Crisis looks* (c)–(f) and drawn by §8.2's look rows under §2.9's `crises` key (`off` none; `preview` one look at `previewSeverity` with no condition). The `map` rows are §10.2's `RosterTables.crisis` (its `stressor`, `archetype` and `event` rows): every SettlementForge stressor type, condition archetype and crisis event at the pinned baseline has exactly one, a look kind or `none` — `regional_migration_pressure` the refugee camp (item 122 (b)'s mass immigration), the other regional_* pressures `none`; a source with no row reads `none`, reported `unmapped_word` (V08); a stressor's overlay draws no look while a condition's overlay whose map row gives the same look kind stands (V08 §3.16 (7) (b)). Knowledge admission at the viewer's effective key (§9.2's admission function, as a band-less reader, §11.2): a condition's `knownTo` is `public` where its `map` row gives a look (a camp, a quarantine, smoke and ruins are sights) and `secret` where the row is `none`; a key form listing the overlay's address admits it whatever its tier (J-V8.128); a withheld condition is never drawn, listed, counted or named. What a crisis leaves reaches the model only through the epoch path (DR28's calamity in `EpochInputs.events`, the population target; V06's hand-over); standalone no condition exists and none is invented — only a preview draws | `render.instances` (view draws only: §8.10's render keys from the seed, the condition's id and the place, a preview keyed on its look kind; never a model stream) | the same document hashes identically with crises on and off and in every week (T122-1); each look shows exactly in its condition's weeks (T122-2); every SettlementForge stressor type, condition archetype and crisis event at the baseline has its `map` row (T122-4) |
 
@@ -52693,7 +52693,10 @@ T73-10's totality test; the declared fallback is the row marked "else". Every "e
   The band is §7.7's DR41's input at generation; the weight folds into the need at epochs (V08 §3.16 (2)).
 * **`climates`** (items 117, 125; `site.terrain` → a key of the biome's climate rows, §4.2 S0, §10.2, whose season columns
   V11 writes — DR42's climate, the dossier's terrain with our biome rules, item 125 (b)): the terrain column — `desert` →
-  `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` → `temperate`; else
+  `arid`; `mountain` → `cold`; `coastal` → `temperate`; `plains`, `riverside`, `hills`, `forest` → `temperate`; `tundra` → `tundra`, `jungle` → `jungle`, `savanna` → `savanna`,
+  `swamp` → `swamp` (item 129: words SettlementForge's `terrainType` does not carry today — its seven are plains, riverside,
+  coastal, hills, forest, mountain and desert — so they arrive through `terrainOverride` or a later SettlementForge terrain
+  vocabulary, M-SF; standalone, the blueprint's climate pick); else
   `temperate`. The height correction (upland colder) is §7.7's DR42's, read on the map's relief. No climate word is read:
   the campaign's climate sub-digest is no input (item 125 (a)), so the row's former climate-word synonyms are retired with
   the realm block (J-V8.130); a climate field the final local check finds in the dossier (V08 §3.16 (9)) gains its column
@@ -52804,7 +52807,7 @@ births carry the city record; `metropolis-2` alone carries the metropolis one.
 **(1) DR34 — the water system's inputs to item 110 (b)'s aqueduct.** The row is §7.7's (item 398); its inputs, in the
 order read: the rung (DR23); the records bound to `conduit_house` through V11's `kinds` and `ladders` rows (the city record
 and its SIZE member); the demand records — those bound to `bathhouse` and to the classes whose V11 row needs running
-water; `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid climate row;
+water; `site.terrain` through the `site` row (`riverside` → a river inside the walls; `desert` → the arid climate row; `tundra`, `jungle`, `savanna`, `swamp` → their climate rows, item 129;
 `hills`, `mountain` → a relief that can hold a higher spring); the river DR1 gives; the `hot_springs` deposits
 (never a source); `site.culture` (V11's culture modifier). Its bar is T-V8-36.
 (a) **The rung gates, never the tier word.** SettlementForge's `city` spans 5 001 – 25 000 people and its lower part is our
@@ -67390,7 +67393,9 @@ our crown symbols draw, not a reference's list; `rain` is the mean yearly rainfa
 general — orders of magnitude for each climate; the same rows carry item 111's dry-country cells, V11 §3.25.1, item
 117's season cells, V11 §3.25.6, and item 124's weather cells, V11 §3.25.11; `farm layout` is §4.9's farm modes' climate
 override — `rows` leaves the rung × landscape choice, the `arid` row's `rivers` and the `cold` row's `perimeter` are
-`ref:FTG Desert and Polar presets` —, an enumeration, not calibratable):
+`ref:FTG Desert and Polar presets` —, an enumeration, not calibratable; the four rows of item 129 — `tundra`, `jungle`, `savanna`,
+`swamp` — are `own`, PLAUSIBLE until M-CAL measures them, and add one crown kind, `broadleaf-evergreen`: an evergreen broad
+crown §8.10's stamps draw like the oak's in the evergreen tint, with no `season.leaf` row, as every evergreen):
 
 | biome | ground role | woods (inner / outer shares; leaf) | field system | farm layout | roof form · pitch | scatter per ha | rain mm a year |
 |---|---|---|---|---|---|---|---|
@@ -67400,10 +67405,14 @@ override — `rows` leaves the rung × landscape choice, the `arid` row's `river
 | `maritime` | `ground.grass` | oak 0.4 / 0.2, ash 0.3 / 0.3, thorn 0.3 / 0.5 | enclosed | rows | hip · 0.8 | 0.3–1.0 | 1 100 |
 | `arid` | `ground.dry` | olive 0.4 / 0.3, cypress 0.3 / 0.3, palm 0.3 / 0.4 (evergreen) | irrigated | rivers | flat · 0.1 | 0.2–0.6 | 200 |
 | `cold` | `ground.cold` | spruce 0.6 / 0.4, birch 0.2 / 0.4, larch 0.2 / 0.2 | infieldOutfield | perimeter | gable · 1.3 | 0.2–0.8 | 500 |
+| `tundra` | `ground.cold` | birch 0.7 / 0.6, spruce 0.3 / 0.4 (the tree line's dwarf birch and its last spruce; birch deciduous) | infieldOutfield | perimeter | gable · 0.9 | 0.05–0.2 | 300 |
+| `jungle` | `ground.grass` | broadleaf-evergreen 0.6 / 0.5, palm 0.4 / 0.5 (the canopy hardwoods and the fan crowns; evergreen) | enclosed | rivers | hip · 1.2 | 1.5–3.0 | 2 500 |
+| `savanna` | `ground.dry` | thorn 0.6 / 0.6, palm 0.2 / 0.2, ash 0.2 / 0.2 (the umbrella and fan crowns; deciduous in the dry season) | infieldOutfield | rivers | hip · 1.1 | 0.1–0.4 | 800 |
+| `swamp` | `ground.grass` | ash 0.4 / 0.4, birch 0.3 / 0.3, hazel 0.3 / 0.3 (willow, alder and the carr's scrub, drawn by these crowns; deciduous) | enclosed | rivers | gable · 1.1 | 0.3–0.8 | 900 |
 
 **3.17.2 Land-use rows** (`landuse`; one per `LandUse.kind`, §2.7; read by S12a for the surface role and by §8.2's
 tiles): `arable` — role `field.arable`, crops by climate (grain default); `strip_field` — `field.strip`; `meadow` —
-`field.meadow`, hay; `pasture` — `field.pasture`, livestock (sheep default, cattle in maritime); `commons` —
+`field.meadow`, hay; `pasture` — `field.pasture`, livestock (sheep default; cattle in maritime, savanna and swamp — item 129; the tundra's herds the default symbol); `commons` —
 `field.commons`, scatter × 1.5; `orchard` — `wood.orchard`, a jittered grid; `vineyard` — `field.vineyard` (arid and
 maritime biomes, else only by dossier deposit); `coppice` — `wood.coppice`; `wildwood` — `wood.wild`; `quarry`, `claypit`,
 `mine` — `works.pit`; `lumber` — `wood.felled`; `fishery` — `water.fishery`; `saltpan` — `works.saltpan`; `marsh` —
@@ -68166,6 +68175,10 @@ gardens):
 | `maritime` | 0.05 | the feature table's | 0 | — | — | 0.03 · 250 | 0.02 | 1 | 0.1 · 1.0 |
 | `arid` | 0.9 | the feature table's (the row's own chances when a pack or a calibration sets them) | 0.35 · 2.0 (the product capped at 0.9) · 0.3–3 | palm 0.6, olive 0.3, cypress 0.1 · 25 | 150 · 3 | 0.6 · 600 | 0.5 | −0.5 | 1.0 · 0.6 |
 | `cold` | 0.3 | the feature table's | 0 | — | — | 0.1 · 300 | 0.05 | 1 | 0.2 · 1.0 |
+| `tundra` | 0.3 | the feature table's | 0 | — | — | 0.1 · 300 | 0.05 | 1 | 0.2 · 1.0 |
+| `jungle` | 0.02 | the feature table's | 0 | — | — | 0.05 · 300 | 0.02 | 1 | 0.1 · 1.0 |
+| `savanna` | 0.5 | the feature table's | 0 | — | — | 0.4 · 500 | 0.3 | −0.2 | 0.6 · 0.8 |
+| `swamp` | 0 | the feature table's, and S1's marsh over the frame's low ground at chance 1 (the `site` row's marsh word, §4.2 S1) | 0 | — | — | 0.02 · 200 | 0 | 1 | 0.1 · 1.0 |
 
 * **Arid** is a row whose `aridity` is at least the table's named row `settings`' `aridMin` 0.6 — by default the `arid`
   biome alone. A non-arid row's oasis chance is 0 by rule (the base reads P(oasis) only on an arid row); a dossier's
@@ -68179,6 +68192,11 @@ gardens):
 * **The wells** (§4.7 S10b): the well and public-fountain classes score `wellYieldWeight` × the plot's well yield
   (S1 (10)'s raster, read through `water.wellsPerHa` and `wellYieldM3`, V11 §3.24.6), and their walking-coverage radius (the
   `water-supply` family's 150 m, V11 §3.4) is × `wellCoverageFactor`.
+* **Item 129's rows.** The savanna's dry season is a season (V11 §3.25.6), not aridity: its 0.5 stays below `aridMin`, so no
+  oasis by rule (a dossier's `oasis_water` still makes one), while its water pull, water term and well weight read the dry
+  months' scarcity and its sun cell −0.2 values shade below the arid row's. The swamp's pull is near 0: water lies
+  everywhere and the raised ground is prized instead, which §4.5's relief term already reads, so no dry-ground term is added.
+  The tundra reads as the `cold` row here, and in V04's underground (a permafrost rule is later content, docs/BACKLOG.md).
 * **`says`** (ids `clim/<biome>/<cell>`, `drv/water`): the pull — "this town leans toward its water: in {biome} country the
   river, the springs and the best wells decide where people live"; the water term — "the well-to-do hold the ground
   nearest the water and its gardens"; the oasis — "an oasis: a spring-fed pool in its hollow, the grove and the gardens
@@ -68342,6 +68360,10 @@ end when `a > b`.
 | `maritime` | mild | 30–36 | 33–38 | 4–8 | 0–27 | 23–31 | 15–20 | 45–49 | — |
 | `arid` | none | 36–41 | 38–44 | 50–3 | 39–10 (winter-sown, irrigated) | 8–14 | — | — | — |
 | `cold` | severe | 26–31 | 28–33 | 8–11 | 5–23 | 19–26 | 17–21 | 35–6 | 34–8 |
+| `tundra` | severe | 24–27 | 26–29 | 11–13 | 10–23 | 19–23 | 17–20 | 29–13 | 29–15 |
+| `jungle` | none | — | — | 8–12 | 0–51 | 20–26 (a second crop in 44–50 is a note until the cell admits two bands) | — | — | — |
+| `savanna` | none | 30–34 | 34–40 | 2–6 | 0–22 | 20–27 | 18–22 | — | — |
+| `swamp` | cold | 28–35 | 31–37 | 3–7 | 0–25 | 22–30 | 14–18 | 43–50 | 43–51 |
 
 Arid and warm climates never freeze and draw no snow — lying or falling, whatever the view's `weather` holds (§8.2;
 item 124 (c); V11 §3.25.11's hard rules); `snow` weather
@@ -68681,7 +68703,9 @@ under `light: 'time'` (§2.9), so fog and mist come on cool mornings and burn of
 *The climate rows' weather cells* (weeks · spells an hour, a length in s where it differs from the kind's; item 124 (c)'s
 defaults — temperate rows: spring showers, the odd summer downpour, autumn fog and blowing leaves, winter snow where it
 freezes; maritime: frequent rain in autumn and winter, morning fog; arid: clear most of the year, rare short showers in its
-short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the winter, frozen fog on still days):
+short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the winter, frozen fog on still days; item 129's rows — tundra: snow for most of the year and a short wet
+summer; jungle: rain in every week, heaviest in the rains, morning mist; savanna: a wet season of downpours, then dry months
+of shimmer and dust; swamp: rain, drizzle and the marsh's mist in every week):
 
 | biome | rain | drizzle | snow | mist | fog | leaves | cloud shadows | shimmer, dust |
 |---|---|---|---|---|---|---|---|---|
@@ -68691,6 +68715,10 @@ short wet weeks, heat shimmer and dust haze, never snow; cold: snow most of the 
 | `maritime` | 0–12 · 3; 13–25 · 1.5; 26–51 · 4 | 0–12 · 2; 13–25 · 1; 26–51 · 3 | — | 26–38 · 1 | 0–12 · 1; 26–51 · 2 | 33–38 · 4 | 0–51 · 3 | — |
 | `arid` | 44–49 · 0.3 (20–60 s) | — | — | — | — | 38–44 · 1 | 44–49 · 0.5 | shimmer 10–38 · 2; dust 13–38 · 1 |
 | `cold` | 9–25 · 2; 26–33 · 2 | 26–33 · 1 | 34–35 · 1; 36–6 · 3; 7–8 · 1 | 9–25 · 0.5 | 26–33 · 1; 36–6 · 1 (frozen fog) | 28–33 · 4 | 9–25 · 2; 26–33 · 2 | — |
+| `tundra` | 13–25 · 1.5 | 13–25 · 1 | 29–30 · 1 (first flurries); 31–13 · 3; 14–15 · 1 (the thaw) | 13–25 · 1 | 26–30 · 1; 31–13 · 1 (frozen fog) | 26–29 · 2 | 13–25 · 3 | — |
+| `jungle` | 0–12 · 2; 13–25 · 5 (the rains, 90–240 s); 26–38 · 2; 39–51 · 1 | 0–51 · 1 | — | 0–51 · 1 | 0–12 · 0.5; 26–51 · 0.5 | — | 0–51 · 3 | — |
+| `savanna` | 0–12 · 2; 13–22 · 4 (the rains, 60–180 s); 23–30 · 0.5 | 0–22 · 0.5 | — | 0–22 · 0.5 | — | 34–40 · 2 (the dry season's fall) | 0–22 · 3; 23–51 · 1 | shimmer 26–51 · 2; dust 30–51 · 1.5 |
+| `swamp` | 0–12 · 3; 13–25 · 1.5; 26–40 · 3 | 0–12 · 2; 26–40 · 2 | 43–44 · 1; 45–51 · 2 | 0–51 · 2 (the marsh's mist) | 26–42 · 2.5; 43–51 · 1 | 31–37 · 4 | 0–12 · 2; 13–25 · 2; 26–40 · 2 | — |
 
 *The sites* (`settings.weather.sites`: × a live kind's `perHour` where the site applies; where several apply each kind
 takes the largest factor, never their product; where none applies the row's own rates stand, item 124 (c)'s temperate
@@ -68700,7 +68728,7 @@ each factor in [0.25, 4]):
 | site | applies where | factors |
 |---|---|---|
 | `coast` | a sea shore in the frame (a `sea` water body, §2.3) | fog × 2 (morning sea fog), rain × 1.3, drizzle × 1.3 |
-| `riverside` | a river course or a lake in the frame (§2.3), or S0's relief class `plain` (lowland) | mist × 2 (morning mist on the water), fog × 1.5 |
+| `riverside` | a river course, a lake or a marsh in the frame (§2.3; the marsh item 129's), or S0's relief class `plain` (lowland) | mist × 2 (morning mist on the water), fog × 1.5 |
 | `hills` | S0's relief class `hilly` or `mountainous` | snow × 1.5, fog × 1.5 (valley fog), cloudShadow × 1.5 (low cloud) |
 | `forest` | woods — the `wildwood`, `coppice` and `reserve` land uses (§2.7) — on at least `forestShareMin` of the frame's land | mist × 1.5, drizzle × 1.5, leaves × 2 |
 

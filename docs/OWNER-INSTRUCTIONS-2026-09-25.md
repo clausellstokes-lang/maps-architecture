@@ -305,3 +305,10 @@ English-fantasy naming · weighting realism, editability, plot texture > speed, 
 - (2026-10-07) After the session reported that irrigation existed only as an oasis's gardens and an `irrigated` field label:
   "Can you add it to M2b on GitHub?" and "And the other places on the GitHub architecture" — irrigation channels staged into
   M2b and written into the architecture now, J156's backlog-until-M1 rule set aside for this item (item 128, file g).
+
+## Four more biomes (2026-10-13)
+
+- (2026-10-13 ~14:50 EDT) In the new account's cloud session, after the session answered that the design's biomes were six
+  climate rows with none of the four: "Can you update the architecture to include tundra, jungle, savanna, and swamp?" — four
+  climate rows with their water, season and weather cells, the port's terrain words and DR42's height ladder written into the
+  architecture now (item 129, file h; J345).
