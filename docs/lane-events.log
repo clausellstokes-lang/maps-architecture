@@ -8779,3 +8779,5 @@
 2026-10-13 09:38 build/M0-a-05-fix-s8 CHECKPOINT RELATED@1000 still running in tree (W=1); next unchanged
 2026-10-13 09:57 build/M0-a-05-fix-s8 CHECKPOINT RELATED@1000 still running in tree (bench harness output so far, no summary); next unchanged
 2026-10-13 10:16 build/M0-a-05-fix-s8 CHECKPOINT RELATED@1000 still running in tree; next unchanged
+2026-10-13 15:18 build/M0-a-05-fix-s8 CHECKPOINT resumed after container restart (15:00; the 09:18 RELATED@1000 run died with it, no summary); machine id ok, Node v24.12.0; owns hash-equal to landed record (rewalk 5fdbaeca, snapRound e2450976, sliver ba8c5859); mirror already gone; next: gates install/lint/build, RELATED@1000 re-run
+2026-10-13 15:19 build/M0-a-05-fix-s8 CHECKPOINT gates re-run in tree: install 0, lint 0 (eslint 1156 files, probe-red ok), build 0, landed:verify ok x2; RELATED@1000 over rewalk.ts + snapRound.ts restarted in tree (W=1); next: its verdict, LANDED
