@@ -1,6 +1,8 @@
 // The random batch generator of this item's fuzz runs (fuzz.test.ts) and cost-model check (cost.test.ts): ways and
 // finer chains inserted, whole chains and stretches removed (a stretch's far part rekeyed first, or not), faces re-owned,
-// finer content cleared — each as a callback batch at its level. Not a test file: shared by the two.
+// finer content cleared — each as a callback batch at its level. Not a test file: shared by the two, and by the other
+// folders' tests that draw tx arenas. Its seeded generator is the kernel tests' one (`rng`, test/arena/support.ts,
+// T-support-1), re-exported here.
 import { faceKey, idOf, isFaceLive, type Plat } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
 import type { KernelError, KernelResult } from '../../src/num/index.js';
@@ -8,16 +10,7 @@ import { clearFiner, removeEdges, retypeEdges, routeLines, setOwner, type Overla
 import type { Level } from '../../src/types/index.js';
 import { pt } from './support.js';
 
-export function rng(seed: number): () => number {
-  let a = seed >>> 0;
-  return () => {
-    a = (a + 0x6d2b79f5) >>> 0;
-    let t = a;
-    t = Math.imul(t ^ (t >>> 15), t | 1);
-    t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
+export { rng } from '../arena/support.js';
 
 export interface Live {
   ways: string[];

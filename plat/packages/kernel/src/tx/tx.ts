@@ -11,7 +11,7 @@
 //   commits nothing and keeps the version. A throw anywhere in the batch (an op's, the callback's, a check's — §3.11's
 //   assertion class, a programming error or a corrupted arena) puts the image back too and is rethrown, never turned
 //   into a refusal, its message prefixed `tx <stage>/L<level>/<form>/<op>: ` and the original kept as its `cause`
-//   (N-53 (3), C-0287).
+//   (C-0287).
 // * **Work limits.** Every op charges operation counts to the batch (§3.3); a batch whose total exceeds `workLimit`
 //   returns E_WORK_LIMIT and commits nothing — a count, never a clock (C-0185 (5)).
 // * **Checks at commit.** `expect`'s class floors (E_BELOW_MIN_WIDTH / _AREA / _ANGLE) and named checks (E_INVARIANT)
@@ -51,8 +51,10 @@ import {
 import { dmath } from '../dmath/index.js';
 import { obb } from '../geom/index.js';
 import { beginIndexBatch, checkIndexBatch, endIndexBatch, faceRouteRings, indexOf, isItemLive, ITEM_FACE, query } from '../index/index.js';
+import { faceArea2 } from '../index/items.js';
 import { chainJournal } from '../insert/index.js';
-import { area2, err, ok, orient2d, type KernelError, type KernelResult } from '../num/index.js';
+import { comparePoints, PI, segmentCloserThan } from '../num/exact.js';
+import { err, ok, type KernelError, type KernelResult } from '../num/index.js';
 import type { Cm, Id, LatticePoint, Level, RoleKey, StageId } from '../types/index.js';
 import { pairsOfKey } from './chains.js';
 import { ownerBefore, restoreSavepoint, takeSavepoint, wasFaceLive } from './savepoint.js';
@@ -64,9 +66,6 @@ export interface Committed<T> {
   readonly record: CommitRecord | null;
   readonly value: T;
 }
-
-/** π to the double nearest it (Math.PI is outside §6.5 (3)'s allowlist). */
-const PI = 3.141592653589793;
 
 /** A u8 stage rank (§2.2's `LevelFaces.stage`). */
 function rankOf(env: TxEnv, stage: StageId): number {
@@ -199,10 +198,6 @@ function sweepVertexRows(t: OpenTx): void {
 
 // ---- the commit record ----------------------------------------------------------------------------------------------
 
-function uniq<T>(xs: Iterable<T>): T[] {
-  return [...new Set(xs)];
-}
-
 /** The dirty faces per level ≥ the batch's: every record a writer named, classified against the before-image. */
 function dirtyFaces(t: OpenTx): LevelDirt[] {
   const p = t.plat;
@@ -217,7 +212,7 @@ function dirtyFaces(t: OpenTx): LevelDirt[] {
     const created: FaceId[] = [];
     const changed: FaceId[] = [];
     const removed: FaceId[] = [];
-    for (const f of uniq(named)) {
+    for (const f of [...new Set(named)]) {
       const was = wasFaceLive(t.savepoint, lv, f);
       const is = isFaceLive(p, lv, f);
       if (!was && is) created.push(f);
@@ -231,12 +226,11 @@ function dirtyFaces(t: OpenTx): LevelDirt[] {
     };
     // A removed record is ordered by the key it had (its writer kept it), never by its slot.
     const keyOf = (f: FaceId): readonly [LatticePoint, LatticePoint] | undefined => t.log.removedKeys.get(`${lv}:${f}`);
-    const pointCmp = (a: LatticePoint, b: LatticePoint): number => (a.y !== b.y ? (a.y < b.y ? -1 : 1) : a.x !== b.x ? (a.x < b.x ? -1 : 1) : 0);
     removed.sort((a, b) => {
       const ka = keyOf(a);
       const kb = keyOf(b);
       check(ka !== undefined && kb !== undefined, 'a removed record\'s key was kept by the writer that removed it');
-      return pointCmp(ka[0], kb[0]) || pointCmp(ka[1], kb[1]);
+      return comparePoints(ka[0], kb[0]) || comparePoints(ka[1], kb[1]);
     });
     out.push({ level: lv, created: created.sort(byKey), changed: changed.sort(byKey), removed });
   }
@@ -244,7 +238,7 @@ function dirtyFaces(t: OpenTx): LevelDirt[] {
 }
 
 function byPosition(p: Plat, vs: Iterable<VertexId>): VertexId[] {
-  return uniq(vs).filter((v) => isVertexLive(p, v)).sort((a, b) => compareVertices(p, a, b));
+  return [...new Set(vs)].filter((v) => isVertexLive(p, v)).sort((a, b) => compareVertices(p, a, b));
 }
 
 /** The record's role keys: this item's writers' and every row on the pairs and vertices the insertion journals name. */
@@ -256,10 +250,10 @@ function roleKeys(t: OpenTx): RoleKey[] {
     const k = rowKey(p, r);
     keys.set(roleKeyText(k), k);
   };
-  for (const e of uniq([...C.newPairs, ...C.sharedPairs, ...t.journal.pairs, ...t.journal.split.map((h) => h >> 1)])) {
+  for (const e of [...new Set([...C.newPairs, ...C.sharedPairs, ...t.journal.pairs, ...t.journal.split.map((h) => h >> 1)])]) {
     if (isHalfEdgeLive(p, 2 * e)) for (const r of rowsOn(p, 'edge', 2 * e)) add(r);
   }
-  for (const v of uniq([...t.journal.vertices, ...C.promoted])) if (isVertexLive(p, v)) for (const r of rowsOn(p, 'vertex', v)) add(r);
+  for (const v of [...new Set([...t.journal.vertices, ...C.promoted])]) if (isVertexLive(p, v)) for (const r of rowsOn(p, 'vertex', v)) add(r);
   const list = [...keys.values()];
   list.sort((a, b) => {
     const ra = roleIdOf(a.role);
@@ -286,7 +280,7 @@ function assemble(t: OpenTx, version: number): CommitRecord {
       if (o >= 0) owners.add(idOf(p, o));
     }
   }
-  const demotedEdges = uniq(t.log.demotedEdges).filter((h) => isHalfEdgeLive(p, h)).sort((a, b) => {
+  const demotedEdges = [...new Set(t.log.demotedEdges)].filter((h) => isHalfEdgeLive(p, h)).sort((a, b) => {
     const ea = [p.halfEdges.origin[a], dest(p, a)];
     const eb = [p.halfEdges.origin[b], dest(p, b)];
     return compareVertices(p, ea[0], eb[0]) || compareVertices(p, ea[1], eb[1]);
@@ -333,14 +327,10 @@ function routePoints(p: Plat, ring: readonly VertexId[]): LatticePoint[] {
   return ring.map((v) => ({ x: p.vertices.x[v] as Cm, y: p.vertices.y[v] as Cm }));
 }
 
-/** A face's area in cm² × 2 over its own-level route rings (outer counter-clockwise, holes clockwise): exact. */
-function area2Of(p: Plat, level: Level, f: FaceId): number {
-  let s = 0;
-  for (const ring of faceRouteRings(p, level, f, level)) s += area2(routePoints(p, ring));
-  return s;
-}
-
-/** Does a route ring (the face on its left) have a corner below `cdeg` (§3.10's angle row, decided on lattice points)? */
+/**
+ * Does a route ring (the face on its left) have a corner below `cdeg` (§3.10's angle row, decided on lattice points)? It
+ * stops at the first such corner and allocates nothing; the suite's `acuteCorners` (invariants/batch.ts) lists them all.
+ */
 function cornerBelow(p: Plat, ring: readonly VertexId[], cdeg: number): boolean {
   const n = ring.length;
   if (n < 3) return false;
@@ -402,7 +392,7 @@ function failures(t: OpenTx): Failure[] {
       if (t.env.appliesTo !== undefined && !t.env.appliesTo(e.faceClass as string, p, t.level, f)) continue;
       if (floor.minWidthCm !== undefined && widthOf(t, t.level, f) < floor.minWidthCm) {
         out.push({ code: 'E_BELOW_MIN_WIDTH', detail: `${e.name}: a ${e.faceClass as string} face below ${floor.minWidthCm} cm wide`, face: f, floor, repairable: true });
-      } else if (floor.minAreaCm2 !== undefined && area2Of(p, t.level, f) < 2 * floor.minAreaCm2) {
+      } else if (floor.minAreaCm2 !== undefined && faceArea2(p, t.level, f) < 2 * floor.minAreaCm2) {
         out.push({ code: 'E_BELOW_MIN_AREA', detail: `${e.name}: a ${e.faceClass as string} face below ${floor.minAreaCm2} cm²`, face: f, floor, repairable: true });
       } else if (floor.minAngleCdeg !== undefined && faceRouteRings(p, t.level, f, t.level).some((r) => cornerBelow(p, r, floor.minAngleCdeg as number))) {
         out.push({ code: 'E_BELOW_MIN_ANGLE', detail: `${e.name}: a ${e.faceClass as string} face with a corner below ${floor.minAngleCdeg} cdeg`, face: f, floor, repairable: false });
@@ -462,7 +452,7 @@ function levelProblems(t: OpenTx): string[] {
   const R = p.roles;
   const C = chainJournal(t);
   const out: string[] = [];
-  const pairs = uniq([...C.newPairs, ...C.sharedPairs, ...t.journal.pairs, ...t.journal.split.map((h) => h >> 1), ...t.log.pairs]);
+  const pairs = [...new Set([...C.newPairs, ...C.sharedPairs, ...t.journal.pairs, ...t.journal.split.map((h) => h >> 1), ...t.log.pairs])];
   const vs = new Set<VertexId>([...t.journal.vertices, ...C.promoted, ...t.log.vertices, ...t.log.demotedVertices, ...t.log.promoted]);
   for (const e of pairs) {
     if (!isHalfEdgeLive(p, 2 * e)) continue;
@@ -489,18 +479,6 @@ function levelProblems(t: OpenTx): string[] {
   return out;
 }
 
-/** Is the point (px, py) closer than r to the closed segment a–b? Exact on lattice points (integer products). */
-function closer(px: number, py: number, ax: number, ay: number, bx: number, by: number, r: number): boolean {
-  const dx = bx - ax;
-  const dy = by - ay;
-  const l2 = dx * dx + dy * dy;
-  const dot = (px - ax) * dx + (py - ay) * dy;
-  if (dot <= 0 || l2 === 0) return (px - ax) * (px - ax) + (py - ay) * (py - ay) < r * r;
-  if (dot >= l2) return (px - bx) * (px - bx) + (py - by) * (py - by) < r * r;
-  const o = orient2d(ax, ay, bx, by, px, py);
-  return o * o < r * r * l2;
-}
-
 /**
  * §3.10's clearance row on what this item's writers changed: a removal ends one-rings — a vertex beside an edge it was
  * joined to through a deleted edge is no longer exempt — and a dissolution straightens a run by up to the hot pixel, so
@@ -515,7 +493,7 @@ function clearanceProblems(t: OpenTx): string[] {
   const r = p.lattice.minEdgeCm;
   const ring = (v: VertexId): Set<VertexId> => new Set(outgoing(p, v).map((h) => O[h ^ 1]));
   const out: string[] = [];
-  const vs = uniq([...t.log.vertices, ...t.log.demotedVertices]).filter((v) => isVertexLive(p, v));
+  const vs = [...new Set([...t.log.vertices, ...t.log.demotedVertices])].filter((v) => isVertexLive(p, v));
   for (const v of vs) {
     const nv = ring(v);
     const box = { minX: X[v] - r, minY: Y[v] - r, maxX: X[v] + r, maxY: Y[v] + r };
@@ -523,10 +501,10 @@ function clearanceProblems(t: OpenTx): string[] {
       const a = O[h];
       const b = O[h ^ 1];
       if (a === v || b === v || nv.has(a) || nv.has(b)) continue;
-      if (closer(X[v], Y[v], X[a], Y[a], X[b], Y[b], r)) out.push(`clearance: the vertex (${X[v]}, ${Y[v]}) stands within minEdge of the edge (${X[a]}, ${Y[a]})–(${X[b]}, ${Y[b]}) (§3.10)`);
+      if (segmentCloserThan(X[v], Y[v], X[a], Y[a], X[b], Y[b], r)) out.push(`clearance: the vertex (${X[v]}, ${Y[v]}) stands within minEdge of the edge (${X[a]}, ${Y[a]})–(${X[b]}, ${Y[b]}) (§3.10)`);
     }
   }
-  for (const e of uniq(t.log.pairs)) {
+  for (const e of [...new Set(t.log.pairs)]) {
     if (!isHalfEdgeLive(p, 2 * e)) continue;
     const a = O[2 * e];
     const b = O[2 * e + 1];
@@ -535,7 +513,7 @@ function clearanceProblems(t: OpenTx): string[] {
     const box = { minX: Math.min(X[a], X[b]) - r, minY: Math.min(Y[a], Y[b]) - r, maxX: Math.max(X[a], X[b]) + r, maxY: Math.max(Y[a], Y[b]) + r };
     for (const v of query(p, t.key, 4, box, { vertices: true }).vertices) {
       if (v === a || v === b || na.has(v) || nb.has(v)) continue;
-      if (closer(X[v], Y[v], X[a], Y[a], X[b], Y[b], r)) out.push(`clearance: the edge (${X[a]}, ${Y[a]})–(${X[b]}, ${Y[b]}) stands within minEdge of the vertex (${X[v]}, ${Y[v]}) (§3.10)`);
+      if (segmentCloserThan(X[v], Y[v], X[a], Y[a], X[b], Y[b], r)) out.push(`clearance: the edge (${X[a]}, ${Y[a]})–(${X[b]}, ${Y[b]}) stands within minEdge of the vertex (${X[v]}, ${Y[v]}) (§3.10)`);
     }
   }
   return out;
@@ -556,7 +534,7 @@ export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => Kernel
     return run(t, fn);
   } catch (e) {
     // A programming error anywhere in the batch (an op's, the callback's, a check's) or a corrupted arena (§3.11's
-    // assertion class stays a throw, N-53 (3)): the arena, its index and its version as they were, the batch closed, the
+    // assertion class stays a throw, C-0287): the arena, its index and its version as they were, the batch closed, the
     // error rethrown with where it arose. A throw after the commit (the digest listener's) leaves the commit standing.
     if (!t.closed) {
       restoreSavepoint(t.savepoint);
@@ -634,7 +612,7 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
     // §3.10's freshness row allows a batch's coarser index writes for its promotions and demotions; the own children
     // §2.2 rule 2 materialises for a finer level's records (the re-walk's, and a demoted edge's) are new records of a
     // coarser level and are allowed too (C-0185 (12)); so is the delete of a coarser own child a removal freed, its last
-    // child gone (N-47, C-0219): the only records this item's writers free below the batch's level.
+    // child gone (C-0219): the only records this item's writers free below the batch's level.
     const own = new Set<string>(chainJournal(t).materialised.map((m) => `${m.level}:${m.face}`));
     for (let l = 0; l <= 4; l++) for (const f of t.log.faces[l].created) own.add(`${l}:${f}`);
     for (let l = 0; l < t.level; l++) for (const f of t.log.faces[l].removed) own.add(`${l}:${f}`);

@@ -14,6 +14,7 @@
 import { handleOf, idOf, isVertexLive, outgoing, resolve, roleInfo, rowElement, rowsOfKey, rowsOn, type Plat, type VertexId } from '../arena/index.js';
 import { ratio } from '../num/index.js';
 import type { ChainProfile, ChainRef, Cm, Id, Level, Order, PlatKey, RoleName } from '../types/index.js';
+import { linesOfRuns } from './chains.js';
 import { check, notBuilt, roleId } from './state.js';
 import type { ProfileOut, ProfileValue } from './types.js';
 
@@ -147,41 +148,13 @@ export function chainLevel(p: Plat, chain: ChainRef): Level {
 
 /**
  * The chain's own-level route, run by run, in `resolve`'s order (an open run from its lower (y, x) end, a ring
- * counter-clockwise; C-0146 (5)): the run's vertices of level ≤ the chain's level, each with its arc length along the
- * route from the run's first route vertex. [] for a chain that resolves to no edge.
+ * counter-clockwise; C-0146 (5)): `linesOfRuns` at the chain's level — each run's vertices of level ≤ it with their arc
+ * lengths from the run's first route vertex. [] for a chain that resolves to no edge.
  */
 export function routeLines(p: Plat, chain: ChainRef, key: PlatKey): RouteLine[] {
   const r = resolve(p, chain, key);
   if (r.view !== 'edges' || r.runs.length === 0) return [];
-  const n = chainLevel(p, chain);
-  const O = p.halfEdges.origin;
-  const X = p.vertices.x;
-  const Y = p.vertices.y;
-  const L = p.vertices.level;
-  const out: RouteLine[] = [];
-  for (const run of r.runs) {
-    const all: VertexId[] = [O[run[0]], ...run.map((h) => O[h ^ 1])];
-    const closed = all[0] === all[all.length - 1];
-    // A ring's route starts at its first route vertex in run order (resolve starts the ring at its lowest-leftmost
-    // vertex, counter-clockwise), so the start never depends on a slot.
-    const seq = closed ? all.slice(0, -1) : all;
-    const vs = seq.filter((v) => L[v] <= n);
-    check(vs.length >= (closed ? 1 : 2), 'a run has route vertices at its own level');
-    const pos: number[] = [0];
-    for (let i = 1; i < vs.length; i++) {
-      const dx = X[vs[i]] - X[vs[i - 1]];
-      const dy = Y[vs[i]] - Y[vs[i - 1]];
-      pos.push(pos[i - 1] + Math.sqrt(dx * dx + dy * dy));
-    }
-    let length = pos[pos.length - 1];
-    if (closed) {
-      const dx = X[vs[0]] - X[vs[vs.length - 1]];
-      const dy = Y[vs[0]] - Y[vs[vs.length - 1]];
-      length += Math.sqrt(dx * dx + dy * dy);
-    }
-    out.push({ vertices: vs, pos, closed, length });
-  }
-  return out;
+  return linesOfRuns(p, r.runs, chainLevel(p, chain));
 }
 
 /** The vertex carrying (knotRole, entity, ordinal), or −1. */

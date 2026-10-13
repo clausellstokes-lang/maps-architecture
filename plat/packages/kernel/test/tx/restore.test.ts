@@ -16,39 +16,13 @@
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
 import { faceKey, isFaceLive, isVertexLive, outgoing, roleIdOf, rowsOn, VERTEX_PINNED, VERTEX_SPLIT, VERTEX_STEINER, type FaceId, type Plat } from '../../src/arena/index.js';
-import { recomputeLevelDigest } from '../../src/digest/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { encodeArena } from '../../src/io/index.js';
 import { removeEdges, tx, type CommitRecord } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
 import { rng } from './fuzzgen.js';
-import { between, commit, contentPrint, degreeAt, edgeRows, framed, healthy, pt, spec, vertexAtPoint } from './support.js';
+import { between, commit, degreeAt, edgeRows, facesPerLevel, framed, healthy, pt, snapshot, spec, vertexAtPoint } from './support.js';
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
-
-/** Live face records per level. */
-function facesPerLevel(p: Plat): number[] {
-  return LEVELS.map((l) => {
-    let n = 0;
-    for (let f = 0; f < p.slots.face[l].top; f++) if (isFaceLive(p, l, f)) n++;
-    return n;
-  });
-}
-
-/** The encoded chunks' refs, in encoding order (the persisted form, §11). */
-function chunkRefs(p: Plat): string {
-  return JSON.stringify(encodeArena(p).map((c) => c.ref));
-}
-
-/** The level digests L0 – L4 (§3.9), as text. */
-function digests(p: Plat): string {
-  return JSON.stringify(LEVELS.map((l) => Array.from(recomputeLevelDigest(p, l) as ArrayLike<number>)));
-}
-
-/** The arena's slot-free print, its records per level, its encoded chunks and its level digests. */
-function snapshot(p: Plat): { print: string; faces: number[]; refs: string; digests: string } {
-  return { print: contentPrint(p), faces: facesPerLevel(p), refs: chunkRefs(p), digests: digests(p) };
-}
 
 const roleAt = (l: Level): string => (l <= 1 ? 'way' : l === 2 ? 'kerb' : 'plot_line');
 
@@ -249,7 +223,7 @@ describe('B-1: remove(insert(x)) dissolves every crossing of one run, whatever t
     // the chain dissolves the first two; the third keeps the stub, so split restoration makes it an L4 Steiner vertex of
     // the restored kerb — decided on the run before the batch, not on the far ends the dissolutions moved.
     const p = based([{ level: 2, i: 0, pts: [[0, 3630], [1807, 2567], [4000, 1554]] }]);
-    const kerb = digests(p);
+    const kerb = snapshot(p).digests;
     commit(p, 2, (o) => insertChain(o, [pt(4000, 3213), pt(2529, 2056), pt(1905, 2653), pt(2805, 1434)], [{ role: 'kerb', entity: 'x:1' }], 'mandatory'));
     const v = vertexAtPoint(p, 2052, 2453);
     expect(p.vertices.flags[v] & VERTEX_SPLIT).toBe(VERTEX_SPLIT);
@@ -264,7 +238,7 @@ describe('B-1: remove(insert(x)) dissolves every crossing of one run, whatever t
     expect(vertexAtPoint(p, 2170, 2399)).toBe(-1);
     expect(vertexAtPoint(p, 2671, 2168)).toBe(-1);
     // The kerb's route at L0 – L2 is the one before the chain (the stub and its Steiner vertex are L4 content).
-    const now = JSON.parse(digests(p)) as unknown[];
+    const now = JSON.parse(snapshot(p).digests) as unknown[];
     const was = JSON.parse(kerb) as unknown[];
     expect(now.slice(0, 3)).toEqual(was.slice(0, 3));
   });
