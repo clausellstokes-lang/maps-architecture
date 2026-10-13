@@ -1,0 +1,68 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "M0-x-06",
+  "lane": "build/M0-x-06-fix2",
+  "lanes": ["build/M0-x-06", "build/M0-x-06-fix1", "build/M0-x-06-fix2"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-12T20:48:51.544Z",
+  "ownsSource": "docs/build/M0-work.json",
+  "owns": ["plat/packages/testkit/src/edge/", "plat/packages/testkit/test/edge/", "plat/docs/build/summaries/M0-x-06.json"],
+  "counts": { "created": 34, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/summaries/M0-x-06.json", "status": "created", "sha256": "4d9630292d6250dcbd3708c7eb630f24c9d8fbe27e2d9c8bb97ffd5427b27339", "size": 21776 },
+    { "path": "plat/packages/testkit/src/edge/arena.ts", "status": "created", "sha256": "76311eafcf38972b0ff08f4addb6648e2448c89dca3f11ffcb6a5c67d29f156d", "size": 4293 },
+    { "path": "plat/packages/testkit/src/edge/cells.ts", "status": "created", "sha256": "326199d27dfb8af99d6868e4bbdf6caca2db20681eed68edea858183fc8acce0", "size": 16817 },
+    { "path": "plat/packages/testkit/src/edge/chain.ts", "status": "created", "sha256": "150914f529ec30fe6c857f575a9ad11494b48b17392ccd8fba238c22a8a41eaa", "size": 16930 },
+    { "path": "plat/packages/testkit/src/edge/classes.ts", "status": "created", "sha256": "16792036509e836274e12687759d0ef5f37afd4ab16dfa4e9ee7a4bec9c81e50", "size": 7591 },
+    { "path": "plat/packages/testkit/src/edge/coverage.ts", "status": "created", "sha256": "ef8b527081b8e52e19e0ac9e9a4a17dd9139c8645f2a00bd2cd1e55003bdeb62", "size": 12064 },
+    { "path": "plat/packages/testkit/src/edge/ep01.ts", "status": "created", "sha256": "f1a8fe08b967717acc90fd4bc840e9d5a666e927ca4f1c33a373aa6bef17fdc4", "size": 36289 },
+    { "path": "plat/packages/testkit/src/edge/index.ts", "status": "created", "sha256": "347677fcf0be5516dcb094e0e2ce831b482fcfa8ee2bd32f80a791d73bd5fb79", "size": 2603 },
+    { "path": "plat/packages/testkit/src/edge/kinds.ts", "status": "created", "sha256": "bcdf13cc4c5e0443a55ffb1c155de7b02134c66e0432082fb7979354287c18c5", "size": 7719 },
+    { "path": "plat/packages/testkit/src/edge/observe.ts", "status": "created", "sha256": "3be6fe6f5b941c278b6d79f28f7c8cc4d4c85d21914a35c7a6aaa30678f1462a", "size": 4006 },
+    { "path": "plat/packages/testkit/src/edge/plant.ts", "status": "created", "sha256": "4c74351b7a4ac2e8a0cebf2b0859a044dfba9f09ac75c99691fac383c1870102", "size": 6680 },
+    { "path": "plat/packages/testkit/src/edge/rows.ts", "status": "created", "sha256": "93deac8a68565e1f33296b65494d0f763b07ca70375d9d055ada05fc236e4e22", "size": 37108 },
+    { "path": "plat/packages/testkit/src/edge/s8.ts", "status": "created", "sha256": "8e14ea03a49d92d161c1507de02a5b25f59da091b5819be567f5f123b02bb04e", "size": 13443 },
+    { "path": "plat/packages/testkit/src/edge/seeds.ts", "status": "created", "sha256": "1524c431db63eed8caee06fad1455a8fea47864b2d888d6401eca800954a7cb0", "size": 2409 },
+    { "path": "plat/packages/testkit/src/edge/standing.ts", "status": "created", "sha256": "c0efce8ea6ec761a6ab3419f295bf072d9ac170026ff6b973ede9bb64f330f02", "size": 3865 },
+    { "path": "plat/packages/testkit/src/edge/types.ts", "status": "created", "sha256": "d455c9a318255c54bc11ac6156b04c19e33469c59c0770a22e3e1704615300e2", "size": 8593 },
+    { "path": "plat/packages/testkit/test/edge/cells.test.ts", "status": "created", "sha256": "e6153bda7556c6e438b8f71702145aa03f7ed8486279cd8cd4652c8e31b870a6", "size": 1042 },
+    { "path": "plat/packages/testkit/test/edge/classes.test.ts", "status": "created", "sha256": "953a6fa4d7b2849e06e989bf0c17d97313dbf88ba60ce31558a9925d9441141d", "size": 1068 },
+    { "path": "plat/packages/testkit/test/edge/control.test.ts", "status": "created", "sha256": "e87db117b6fbedcf6e7afdfeb7cc3a711131843ca9b18a7f701013406556f37b", "size": 14076 },
+    { "path": "plat/packages/testkit/test/edge/coverage.test.ts", "status": "created", "sha256": "4e12becc21271d19a71f57ada1ebc2b960b2730133fe0029edfbc067e3a60abd", "size": 8525 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s1-s3-s4.test.ts", "status": "created", "sha256": "987dca749e7604cf267908eef617d2ad5a5fd63af998a40d2b24d774878c0a02", "size": 1160 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s5a.test.ts", "status": "created", "sha256": "4a374b0798e8a87e17ceaa156f734d633f253e9e07be5bab0ded65ea6b8494f9", "size": 1028 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s5b.test.ts", "status": "created", "sha256": "bb644520dd90b0fc3bc83667d7daaade2d8d697f1cca251bfd8b86d8c6845c43", "size": 1028 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s5c.test.ts", "status": "created", "sha256": "600f0480d653854f11c863e87665fc0b5c712b1e984ae11805333d3d782b2ebf", "size": 1028 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s5d.test.ts", "status": "created", "sha256": "2d8953f00e04dd69b0c668d307668e06ca79e62a56f74b7fec63a1c62e84aaf2", "size": 1028 },
+    { "path": "plat/packages/testkit/test/edge/ep01-s6-s8.test.ts", "status": "created", "sha256": "534cbabe60529c29db0eaf864001ca88c1f271a1fdf8d54104a2cbbdbd24ba15", "size": 1064 },
+    { "path": "plat/packages/testkit/test/edge/handling.test.ts", "status": "created", "sha256": "e5e52f667c68468725af99a1f8f9212f1dcac077bacb63f0697080d40a41848c", "size": 12995 },
+    { "path": "plat/packages/testkit/test/edge/kinds.test.ts", "status": "created", "sha256": "1d57bd196c1c7a57ae0393bc0ae2184a31c2bf090921f244f547900fdebd94bd", "size": 7048 },
+    { "path": "plat/packages/testkit/test/edge/repins.test.ts", "status": "created", "sha256": "c8ee45bd292110d1a8588c0794fdf7a1bd8a0ec02242a8082d447251bf006c1d", "size": 8721 },
+    { "path": "plat/packages/testkit/test/edge/rows.test.ts", "status": "created", "sha256": "0eccdbd0b4b7830cb859bd53cf311a753f13ddfc3f5272d05bdfe835dd996996", "size": 1154 },
+    { "path": "plat/packages/testkit/test/edge/s8kind.test.ts", "status": "created", "sha256": "97954cd5896de4d6273d6a5c99ae0f3cd886ef5c3b947d1edc4c4e2b8a0e1c25", "size": 1849 },
+    { "path": "plat/packages/testkit/test/edge/seeds.test.ts", "status": "created", "sha256": "91fe8bf69e0c9baa626352da88d4283a08ddc36e62ac3b0dc1a0de2b632a735f", "size": 2664 },
+    { "path": "plat/packages/testkit/test/edge/standing.test.ts", "status": "created", "sha256": "1a353001066cc3eff628c1c4c299ce1bfef286c9ad351d34aa1b55b0ff180ea0", "size": 5009 },
+    { "path": "plat/packages/testkit/test/edge/support.ts", "status": "created", "sha256": "418cbc7d2f96e8730be3dffd6c3320374094ed83ed8c71becb0bb3df22cfb45d", "size": 9907 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0336", "L-0346", "L-0482"],
+      "lines": ["7b671a58100442ee", "667468c30b107ca6", "ccb90a50f6735996"],
+      "removed": []
+    },
+    {
+      "file": "plat/docs/build/choices.md",
+      "ids": ["C-0273", "C-0278", "C-0342"],
+      "lines": ["0b9ded2bda337e91", "9516c8cb17657717", "8c53050c80fa4f79"],
+      "removed": []
+    },
+    {
+      "file": "plat/packages/testkit/src/index.ts",
+      "ids": ["edge"],
+      "lines": ["59f259fecbf6c860"],
+      "removed": []
+    }
+  ]
+}
