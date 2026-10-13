@@ -23,7 +23,8 @@ import {
   type VertexId,
 } from '../arena/index.js';
 import { checkIndexState, indexOf } from '../index/index.js';
-import { area2, area2Big, orient2d } from '../num/index.js';
+import { insideOrOnRing } from '../num/exact.js';
+import { area2, area2Big } from '../num/index.js';
 import type { LatticePoint, Level } from '../types/index.js';
 import { checkBatch, wholeRecord } from './batch.js';
 import { Meter, vacuous, verdict } from './common.js';
@@ -32,7 +33,11 @@ import type { InvariantResult, StoredProfile, WholeContext } from './types.js';
 
 // ---- Euler characteristic (CI) ----------------------------------------------------------------------------------------
 
-/** The level-l view's counts: V (its vertices), E (its pieces), F (its faces, the outside included) and C (components). */
+/**
+ * The level-l view's counts: V (its vertices), E (its pieces), F (its faces, the outside included) and C (components).
+ * The insert tests' oracle of the same counts is written apart from this one on purpose (an oracle stays independent
+ * of the code it judges).
+ */
 export function eulerCounts(p: Plat, level: Level): { v: number; e: number; f: number; c: number } {
   const H = p.halfEdges;
   const L = p.vertices.level;
@@ -286,7 +291,8 @@ export function poolScopeProblems(overlays: readonly OverlayScope[], liveChanged
 
 /**
  * The seed-tiling predicate at `readBack` (§3.10): the faces' `area2` summed equals the seed rings' summed, and every
- * face ring lies inside one seed ring (each of its vertices inside or on it, by the exact orientation).
+ * face ring lies inside one seed ring — each of its vertices inside or on it, by num's closed non-zero reading
+ * (`insideOrOnRing`: a point on an edge is inside, elsewhere a non-zero winding number; every ring length read as given).
  */
 export function seedTilingProblems(faces: readonly (readonly LatticePoint[])[], seeds: readonly (readonly LatticePoint[])[]): string[] {
   const out: string[] = [];
@@ -295,24 +301,8 @@ export function seedTilingProblems(faces: readonly (readonly LatticePoint[])[], 
   let sa = 0;
   for (const s of seeds) sa += area2(s);
   if (fa !== sa) out.push(`the faces' area2 sum ${fa} differs from the seed rings' ${sa}`);
-  const inside = (ring: readonly LatticePoint[], q: LatticePoint): boolean => {
-    let wind = 0;
-    for (let i = 0; i < ring.length; i++) {
-      const a = ring[i];
-      const b = ring[(i + 1) % ring.length];
-      const o = orient2d(a.x, a.y, b.x, b.y, q.x, q.y);
-      const onEdge = o === 0 && Math.min(a.x, b.x) <= q.x && q.x <= Math.max(a.x, b.x) && Math.min(a.y, b.y) <= q.y && q.y <= Math.max(a.y, b.y);
-      if (onEdge) return true;
-      if (a.y <= q.y) {
-        if (b.y > q.y && o > 0) wind++;
-      } else if (b.y <= q.y && o < 0) {
-        wind--;
-      }
-    }
-    return wind !== 0;
-  };
   faces.forEach((f, i) => {
-    if (!seeds.some((s) => f.every((q) => inside(s, q)))) out.push(`face ring ${i} lies inside no seed ring`);
+    if (!seeds.some((s) => f.every((q) => insideOrOnRing(s, q.x, q.y, 'nonZero')))) out.push(`face ring ${i} lies inside no seed ring`);
   });
   return out;
 }
