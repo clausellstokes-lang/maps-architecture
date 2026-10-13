@@ -175,8 +175,10 @@ def land(args):
                 out.append(l)
                 print(f'  {path}: {rid} kept')
         insert_rows(path, prefix, out)
-    # 3b. a renumbered choices id cited in the item's overlaid files or its checks files follows the row (the ID RULE)
-    cmap = {old: new for old, new in renamed if old.startswith('C-')}
+    # 3b. a renumbered id (choices C- or CLEAN-ROOM L-) cited in the item's overlaid files or its checks files follows the row
+    # (the ID RULE; L- ids since J354 — the three landings before it keep their builders' L- citations, traceable by the
+    # row's 'Renumbered from' note)
+    cmap = {old: new for old, new in renamed}
     if cmap:
         import re as _re
         for f in list(diff) + list(args.checks):
