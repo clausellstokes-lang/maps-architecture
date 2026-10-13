@@ -34,8 +34,7 @@ import {
   type StretchRef,
   type VertexRef,
 } from '@plat/kernel';
-import type { Bridge, Cm, Id, PlatKey, StageId, WaterBody } from '@plat/model';
-import { generatedLifecycle } from '../terrain/heightfield.js';
+import type { Bridge, Cm, Id, Lifecycle, PlatKey, StageId, WaterBody } from '@plat/model';
 import { outerRing, type Reach } from './geometry.js';
 import type { CrossingSite, LandComponent, WaterFaces, WaterReach } from './types.js';
 
@@ -69,6 +68,10 @@ export function bridgeId(n: number): Id {
   return `bridge:${String(n)}`;
 }
 
+function generated(epoch: number): Lifecycle {
+  return { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch, seq: 0 } };
+}
+
 /** A site's Bridge record in state `site` (§2.7): two pinned deck ends, no span, no way; a ford's kind `ford` (C-0229 (8)). */
 export function siteBridge(site: CrossingSite, id: Id, epoch: number): Bridge {
   return {
@@ -82,7 +85,7 @@ export function siteBridge(site: CrossingSite, id: Id, epoch: number): Bridge {
     over: 'river',
     spanCm: site.spanCm as Cm,
     ...(site.type === 'ford' ? { kind: 'ford' as const } : {}),
-    lifecycle: generatedLifecycle(epoch),
+    lifecycle: generated(epoch),
   };
 }
 

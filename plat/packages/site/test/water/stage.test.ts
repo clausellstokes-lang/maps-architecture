@@ -5,12 +5,12 @@ import { readdirSync, readFileSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { checkStageEnd, isVertexLive, outgoing, rowKey, rowsOn, STAGES, VERTEX_PINNED, type Kernel, type Plat } from '@plat/kernel';
-import type { Bridge, WaterBody } from '@plat/model';
+import type { Bridge, GeomRef, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { cellAt } from '../../src/hydro/index.js';
 import { GROUND_KEY } from '../../src/terrain/index.js';
 import { leftFaces, runS1, s1Stage, type S1Input, type S1Output } from '../../src/water/index.js';
-import { flowNear, ground, heldRefs, riverFixture, type RiverFixture } from './support.js';
+import { flowNear, ground, riverFixture, type RiverFixture } from './support.js';
 
 /** A 100 ha CITY frame with a river, a tributary and the basic estuary (seed 2: two fords, three bridge sites …). */
 function fixture(seed = 2): RiverFixture {
@@ -153,7 +153,20 @@ describe('§4.1\'s S1 row under a hand-built StageContext (C-0123)', () => {
     const { out, plat } = run(fixture());
     expect(out.report.stageEnd.length).toBeGreaterThan(0);
     expect(out.report.stageEnd.every((r) => r.holds)).toBe(true);
-    const { refs, live } = heldRefs('terrain:ground', out);
+    const refs: GeomRef[] = [{ role: 'margin', entity: 'terrain:ground' }];
+    const live = new Set(['terrain:ground']);
+    for (const b of out.water.bodies) {
+      refs.push(b.face, b.shore);
+      live.add(b.id);
+    }
+    for (const b of out.water.bridges) {
+      refs.push(...b.deck);
+      live.add(b.id);
+    }
+    for (const c of out.land) {
+      refs.push(c.face);
+      live.add(c.id);
+    }
     const rows = checkStageEnd(plat, { refs, isLive: (id) => live.has(id) });
     expect(rows.filter((r) => r.name === 'references-resolve').map((r) => [r.holds, r.problems])).toEqual([[true, []]]);
     // and the row is not vacuous: a dead bridge is seen
