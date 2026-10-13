@@ -8777,3 +8777,4 @@
 2026-10-13 09:18 build/M0-a-05-fix-s8 CHECKPOINT bands folder at PR size with PLAT_FUZZ_SEED=745761989 in tree: 9 files 58/58 green, exit 0 (1391 s; B-FUZZ case 6695 commits healthy); RELATED@1000 over rewalk.ts + snapRound.ts started in tree (W=1); next: landed record, landed:verify, RELATED verdict
 2026-10-13 09:19 build/M0-a-05-fix-s8 CHECKPOINT landed records written: landed/M0-a-05.json (lane build/M0-a-05-fix-s8; rewalk.ts 5fdbaeca…, snapRound.ts e2450976…, sliver.test.ts ba8c5859… created; appends C-0349, L-0501) and landed/build-M0-a-05-notes.json; landed:verify flow-7 --item M0-a-05 ok, --item build-M0-a-05-notes ok; RELATED@1000 running; next: its verdict, mirror deletion, LANDED
 2026-10-13 09:38 build/M0-a-05-fix-s8 CHECKPOINT RELATED@1000 still running in tree (W=1); next unchanged
+2026-10-13 09:57 build/M0-a-05-fix-s8 CHECKPOINT RELATED@1000 still running in tree (bench harness output so far, no summary); next unchanged
