@@ -1,7 +1,7 @@
 // The arena block (M0-a-15; §3.9 whole, §3.3's partitions, §2.2 rule 3, §13.1's round trip, §6.5 (3); C-0037): encode,
 // decode, the load's rebuild and slot compaction, as bytes in memory. The `.plat` document around the block — its
-// manifest, content-addressed store, gzip, the root check and the replay of a corrupt cache — is M1's (§4b). The
-// scaffold created this index empty (M0-s-01, C-0013); it belongs to M0-a-15. Readings: C-0207.
+// manifest, content-addressed store, gzip, the root check and the replay of a corrupt cache — is M1's (§4b).
+// Readings: C-0207.
 export { encodeArena } from './encode.js';
 export { decodeArena, describeChunk, type ChunkSummary } from './decode.js';
 export { compactSlots } from './compact.js';
