@@ -1,7 +1,8 @@
 // The spatial index (M0-a-03; §3.3 *Spatial indexes* … *Tombstones and rebuilds*, §3.4 `pointLocate`, §3.10's index
 // levels and freshness row, §3.11's "no input"): per level, static packed partitions over flatbush (the one import:
 // ../adapters/flatbush.ts) with their tombstone sets, the arena's home column, a dynamic uniform grid; route-edge items;
-// canonical queries; the three rebuild moments. Readings: C-0160, C-0164.
+// canonical queries; the three rebuild moments. The scaffold created this index empty (M0-s-01, C-0013); it belongs to
+// M0-a-03. Readings: C-0160.
 export {
   boxCovers,
   boxesMeet,

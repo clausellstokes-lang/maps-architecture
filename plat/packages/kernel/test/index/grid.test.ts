@@ -1,11 +1,10 @@
 // M0-a-03: the dynamic uniform grid (§3.3 *Spatial indexes* (b)) — O(1) insert and delete (an item entered in at most
 // MAX_ITEM_CELLS cells, a larger one in the level's large set), replacement by key, and candidates that are exactly
-// the entries whose boxes meet the query box, each once — against a model on random operations; and the index's grids
-// taking their cells per level.
+// the entries whose boxes meet the query box, each once — against a model on random operations.
 import { describe, expect, it } from 'vitest';
-import { attachIndex, boxesMeet, createGrid, gridCandidates, MAX_ITEM_CELLS, type Box } from '../../src/index/index.js';
+import { boxesMeet, createGrid, gridCandidates, MAX_ITEM_CELLS, type Box } from '../../src/index/index.js';
 import { gridPut, gridTake } from '../../src/index/grid.js';
-import { buildArena, CELLS, generator, intIn, QUARTERS } from './support.js';
+import { generator, intIn } from './support.js';
 
 function randomBox(rnd: () => number): Box {
   const x = intIn(rnd, -5000, 5000) + (rnd() < 0.3 ? 0.71 : 0);
@@ -56,8 +55,5 @@ describe('the dynamic uniform grid (§3.3)', () => {
     expect(gridCandidates(createGrid(100), { minX: 0, minY: 0, maxX: 1e6, maxY: 1e6 })).toEqual([]);
     expect(() => createGrid(0)).toThrow(/whole number of centimetres/);
     expect(() => createGrid(2.5)).toThrow(/whole number of centimetres/);
-    // the index's grids take their cells per level (`gridCellCm`: one number for every level, or five; arena/plat's `five`)
-    expect(attachIndex(buildArena(QUARTERS).plat, { gridCellCm: CELLS }).levels.map((l) => l.dynamic.cellCm)).toEqual(CELLS);
-    expect(attachIndex(buildArena(QUARTERS).plat, { gridCellCm: 300 }).levels.map((l) => l.dynamic.cellCm)).toEqual([300, 300, 300, 300, 300]);
   });
 });

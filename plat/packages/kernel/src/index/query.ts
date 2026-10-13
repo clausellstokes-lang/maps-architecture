@@ -24,8 +24,6 @@ import {
   type Stamp,
   type VertexId,
 } from '../arena/index.js';
-import { keyName } from '../arena/resolve.js';
-import { BOX_RANGE, crossingStep } from '../num/exact.js';
 import { orient2d } from '../num/index.js';
 import type { LatticePoint, Level, PlatKey } from '../types/index.js';
 import { gridCandidates } from './grid.js';
@@ -46,6 +44,9 @@ import {
   type RoutePiece,
 } from './items.js';
 import { indexOf, type SpatialIndex } from './spatial.js';
+
+/** 2²⁴: the largest magnitude of a query box's coordinate, so every predicate below is exact in doubles. */
+const BOX_RANGE = 16_777_216;
 
 /** Which kinds a query returns (all three by default). */
 export interface QueryKinds {
@@ -86,17 +87,14 @@ function debugCheck(condition: boolean, message: string): void {
   if (debugAssertions() && !condition) throw new Error(`index: ${message}`);
 }
 
-/**
- * The inline stamp of a query's answer: the arena's key and version only. It is not the arena's `stamp`
- * (`arena/resolve.ts`), which also writes a non-zero restore generation: a `QueryResult` and a `Location` keep their
- * shape after a savepoint is put back across committed batches, and the façade carries the generation in its side
- * table (C-0313 (1), (5)).
- */
 function stamp(p: Plat): Stamp {
   return { key: { layer: p.key.layer, part: p.key.part }, version: p.version };
 }
 
-/** A query box: four whole centimetres within ±2²⁴ (`BOX_RANGE`), so every predicate below is exact in doubles. */
+function keyName(k: PlatKey): string {
+  return `${k.layer}/${k.part}`;
+}
+
 function checkBox(box: Box): void {
   const ok = (v: number): boolean => Number.isInteger(v) && Math.abs(v) <= BOX_RANGE;
   check(ok(box.minX) && ok(box.minY) && ok(box.maxX) && ok(box.maxY), 'a query box is four whole centimetres within ±2²⁴');
@@ -137,10 +135,7 @@ function ringMeetsBox(p: Plat, ring: readonly VertexId[], box: Box): boolean {
   return false;
 }
 
-/**
- * Is the point inside the ring (crossing number, exact)? Meaningful only for a point on none of its segments. Each edge
- * counts by num's one crossing rule, `crossingStep` (half-open in y; the side read by the edge's direction).
- */
+/** Is the point inside the ring (crossing number, exact)? Meaningful only for a point on none of its segments. */
 function insideRing(p: Plat, ring: readonly VertexId[], qx: number, qy: number): boolean {
   const X = p.vertices.x;
   const Y = p.vertices.y;
@@ -148,7 +143,10 @@ function insideRing(p: Plat, ring: readonly VertexId[], qx: number, qy: number):
   for (let i = 0; i < ring.length; i++) {
     const a = ring[i];
     const b = ring[(i + 1) % ring.length];
-    if (crossingStep(X[a], Y[a], X[b], Y[b], qx, qy) !== 0) inside = !inside;
+    if ((Y[a] > qy) !== (Y[b] > qy)) {
+      const o = orient2d(X[a], Y[a], X[b], Y[b], qx, qy);
+      if (Y[b] > Y[a] ? o > 0 : o < 0) inside = !inside;
+    }
   }
   return inside;
 }

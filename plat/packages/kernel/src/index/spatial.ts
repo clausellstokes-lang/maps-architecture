@@ -19,7 +19,6 @@
 // resolver); a vertex on an L1 edge two partitions share — a resolver answering several keys — goes to the smaller key.
 import { packBoxes, searchPacked, type PackedTree } from '../adapters/flatbush.js';
 import { compareKeys, LEVELS, type Five, type Plat } from '../arena/index.js';
-import { five } from '../arena/plat.js';
 import type { Level } from '../types/index.js';
 import { createGrid, gridPut, gridTake, type UniformGrid } from './grid.js';
 import {
@@ -130,6 +129,10 @@ declare module '../arena/plat.js' {
     /** §2.2's `Plat.index` (§3.3): attached by `attachIndex` (M0-a-03; C-0146 (1), C-0160). */
     index?: SpatialIndex;
   }
+}
+
+function five(v: number | Five<number>): Five<number> {
+  return typeof v === 'number' ? [v, v, v, v, v] : v;
 }
 
 /** The arena's index; an arena with none attached is a programming error. */

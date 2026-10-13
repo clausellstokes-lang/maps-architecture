@@ -29,30 +29,17 @@
 // with no kerb or corridor_split edge — `BandResult.whole`, else all band, `BandResult.wholeBand`. A kerb piece or a
 // split that collapses to one point (the insertion's E_DEGENERATE `empty`) adds nothing.
 //
-// N-57 (2) (C-0327, C-0346): an open piece's ends are closed on F's boundary. A contact within attractCm of the piece's
+// N-57 (2) (C-0327): an open piece's ends are closed on F's boundary. A contact within attractCm of the piece's
 // vertex beside it — a dead-end lane's round cap meeting a spine-less edge, its last chord clipped to 25–26 cm — is
-// attracted onto that vertex by the insertion (§3.6 step 2: the nearest vertex first), or the insertion leaves the
-// contact a minEdge off the edge; either way the piece would end on a dangling tip, its strip one face with the block.
-// So after a piece goes in, an end left as a tip (a vertex with the piece's one edge) within attractCm + 1 cm of its
-// contact is closed (`closeEnds`), first of three ways:
-//  - AT the contact: the contact pinned on F's boundary by `splitThrough` of the route piece of F's boundary it lies on
-//    — planned first, written only where the placement puts it within the contact's 1 cm boundary reading plus the
-//    route's hot pixel (`PIN_SQ`), never attracted — and the chord from the tip to it inserted: the vertex beside the
-//    contact kept, the committed outline kerb(F)'s vertex for vertex (§13.2's Hausdorff 0);
-//  - ALONG the kerb's run: where no vertex can stand at the contact beside the tip (§3.6's placement falls back onto
-//    the route piece's endpoint — the round S3 defect closed onto that endpoint whichever side it lay, chords of metres,
-//    blocks up to 343 cm beyond kerb(F)), the tip joined to the first vertex kerb(F)'s own run along F's boundary
-//    reaches from the contact (`runVertex`): the chord lies within the tip's distance of that run, so the outline errs
-//    by at most attractCm + 1 cm;
-//  - PINNED FIRST: where neither goes in, the op is put back and run again with that end pinned before its piece —
-//    N-57 (2)'s own mechanism: the contact placed on F's boundary within attractCm (§3.6 step 2's endpoint rule), the
-//    piece's vertices beside it within attractCm dropped, the piece inserted onto it (`insertPinned`).
-// An end on F's boundary or on any vertex with more than the piece's edge is left as it is (no other committed geometry
-// changes). The post-condition (N-45 (a)): an open piece whose end is still a dangling tip, or a pinned-first contact
-// that cannot be placed within attractCm, refuses the op E_INVARIANT, naming the piece, the batch put back — never a
-// merged face or a chord off kerb(F) committed. A short spur left inside a piece where attraction folded a sliver or a
-// spike thinner than attractCm (C-0212 (8)'s KI) has its ends on F's boundary and passes. `bandClosings` reads back the
-// closings of an arena's last band op (B-FUZZ's bound on them; no stage reads it).
+// attracted onto that vertex by the insertion (§3.6 step 2: the nearest vertex first), and the piece would end on it, a
+// dangling tip, its strip one face with the block. So after a piece goes in, an end left as a tip (a vertex with the
+// piece's one edge) gets its contact pinned on F's boundary — `splitThrough` of the route piece of F's boundary it lies
+// on, never attracted — and the chord from the tip to it inserted between the two vertices (`closeEnds`): the vertex
+// beside the contact kept, the committed outline kerb(F)'s vertex for vertex (§13.2's Hausdorff 0). An end on F's
+// boundary or on any vertex with more than the piece's edge is left as it is (no other committed geometry changes). The
+// post-condition (N-45 (a)): an open piece whose end is still a dangling tip refuses the op E_INVARIANT, naming the piece
+// and the tip, the batch put back — never a merged face committed. A short spur left inside a piece where attraction
+// folded a sliver or a spike thinner than attractCm (C-0212 (8)'s KI) has its ends on F's boundary and passes.
 //
 // The op is atomic (M0-a-07's op savepoint): a refusal of any insertion — E_KEPT where an edge would cross kept finer
 // content or come within `attractCm` of it (§3.7; the insertion's own test, §3.3), E_LEVEL, E_OUT_OF_RANGE, E_WORK_LIMIT,
@@ -62,10 +49,8 @@ import { query } from '../index/index.js';
 import { enter, opSave, overLimit, refuse, rollback } from '../faces/common.js';
 import { insertChain } from '../insert/insertChain.js';
 import { nearestRoutePiece } from '../insert/attractVertex.js';
-import { applySplitPlan, planSplitThrough, TX_FACES_WALKED } from '../insert/index.js';
-import { planPoint } from '../insert/splitThrough.js';
-import { HOT_PIXEL_CM } from '../index/index.js';
-import { dist2, err, LATTICE, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
+import { splitThrough, TX_FACES_WALKED } from '../insert/index.js';
+import { err, ok, orient2d, type KernelResult, type Warning } from '../num/index.js';
 import { chargeTx, check, type OpenTx } from '../tx/state.js';
 import { kernelOp, setOwner, type KernelOp, type Overlay } from '../tx/index.js';
 import type { LineageHash } from '../hash/index.js';
@@ -106,27 +91,11 @@ export interface BandChain {
 const ON_BOUNDARY_SQ = 1;
 
 /** Is the point within the hot pixel of the face's boundary (any route edge)? */
-function onBoundary(rings: readonly (readonly XY[])[], q: XY): boolean {
+function onBoundary(rings: readonly LatticePoint[][], q: XY): boolean {
   for (const r of rings) {
     for (let i = 0; i < r.length; i += 1) if (nearestOn(q, r[i], r[(i + 1) % r.length]).d2 <= ON_BOUNDARY_SQ) return true;
   }
   return false;
-}
-
-/** Is the point strictly inside the face's route rings (non-zero winding, orient2d exact) and off their hot pixel? */
-function insideRings(rings: readonly (readonly XY[])[], q: XY): boolean {
-  if (onBoundary(rings, q)) return false;
-  let wind = 0;
-  for (const r of rings) {
-    for (let k = 0; k < r.length; k += 1) {
-      const s = r[k];
-      const t = r[(k + 1) % r.length];
-      if (s.y <= q.y) {
-        if (t.y > q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) > 0) wind += 1;
-      } else if (t.y <= q.y && orient2d(s.x, s.y, t.x, t.y, q.x, q.y) < 0) wind -= 1;
-    }
-  }
-  return wind !== 0;
 }
 
 /** The kerb's outline pieces off F's boundary: closed rings, or open runs between two boundary contacts. */
@@ -233,106 +202,23 @@ export function onOutline(p: Plat, key: PlatKey, q: LatticePoint, outlineRole: n
   return false;
 }
 
-/** A face's reading (kerb.ts). */
-type Read = Parameters<typeof outlinePieces>[0];
-
 /** An outline piece as `outlinePieces` gives it: a closed ring, or an open run between two boundary contacts. */
 type Piece = { points: LatticePoint[]; closed: boolean };
 
 /**
- * A pinned contact stands AT its contact (N-57 (2), C-0346): within the contact's boundary reading (1 cm, `onBoundary`)
- * plus the route's hot pixel (§3.3's 0.71 cm, the placement's test (i)) — cm², (1 + 0.71)².
- */
-const PIN_SQ = (1 + HOT_PIXEL_CM) * (1 + HOT_PIXEL_CM);
-
-/** attractCm (§3.2 (2)), squared. */
-const ATTRACT_SQ = LATTICE.attractCm * LATTICE.attractCm;
-
-/** The longest closing chord (cm): attractCm, and 1 cm of the contact's boundary reading. */
-const CHORD_MAX = LATTICE.attractCm + 1;
-
-/**
- * The farthest a tip closed along the kerb's run may stand from its contact (cm²): (2·√2·attractCm)², the bound the
- * item's hardening census reads a block beyond kerb(F) by (C-0327 (3)) — the insertion's own displacement of the contact,
- * which the closing keeps and never adds to.
- */
-const ALONG_SQ = 8 * LATTICE.attractCm * LATTICE.attractCm;
-
-/** An along-run closing as the read-back needs it: the tip, the run's vertex, and which end of its piece. */
-interface Along {
-  readonly face: FaceId;
-  readonly tip: VertexId;
-  readonly far: VertexId;
-  readonly end: 0 | 1;
-}
-
-/**
- * One closing of an op (`bandClosings`): `chord` — a tip closed by the chord to its contact pinned at it; `along` — a tip
- * within 2·√2·attractCm of its contact closed by the chord to `pin`, the vertex the kerb's run along F's boundary
- * reaches first from the contact (the chord within the tip's distance of the run); `pinned` — the contact pinned first and
- * `dropped` vertices of the piece beside it (within attractCm) left out; `folded` — a sliver piece no closing could
- * close, every point of it within `widthCm` ≤ attractCm of F's boundary, left out (its kerb sliver folded onto F's
- * boundary, C-0218 (7)).
- */
-export type Closing =
-  | { readonly kind: 'chord'; readonly face: FaceId; readonly piece: number; readonly end: 0 | 1; readonly contact: LatticePoint; readonly pin: LatticePoint; readonly tip: LatticePoint; readonly chordCm: number }
-  | { readonly kind: 'along'; readonly face: FaceId; readonly piece: number; readonly end: 0 | 1; readonly contact: LatticePoint; readonly pin: LatticePoint; readonly tip: LatticePoint }
-  | { readonly kind: 'pinned'; readonly face: FaceId; readonly piece: number; readonly end: 0 | 1; readonly contact: LatticePoint; readonly pin: LatticePoint; readonly dropped: readonly LatticePoint[] }
-  | { readonly kind: 'folded'; readonly face: FaceId; readonly piece: number; readonly end: 0 | 1; readonly contact: LatticePoint; readonly pin: LatticePoint; readonly widthCm: number };
-
-/** Each arena's closings of its last band op (kept beside the arena, never on it; a diagnostic, as savepoint.ts's RESTORES). */
-const CLOSINGS = new WeakMap<Plat, Closing[]>();
-
-/** The closings the arena's last `bandCore` op made (its last run, committed or refused): B-FUZZ's bound on them (N-57 (2)). */
-export function bandClosings(p: Plat): readonly Closing[] {
-  return CLOSINGS.get(p) ?? [];
-}
-
-/**
  * A contact pinned on the face's boundary (N-57 (2)): the vertex at it, else the vertex `splitThrough` places on the
  * level-n route piece of F's boundary it lies on (§3.6's placement; a foot within attractCm of the piece's end is that
- * end) — planned first and written only where it stands within `reach2` (cm²) of the contact; null (nothing written)
- * where no route piece of F's boundary holds the contact or the placement lands farther (§3.6's fallback onto the
- * piece's endpoint).
+ * end); null where no route piece of F's boundary holds it.
  */
-function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint, reach2: number): KernelResult<VertexId | null> {
+function pinContact(t: OpenTx, rings: readonly LatticePoint[][], c: LatticePoint): KernelResult<VertexId | null> {
   const p = t.plat;
   const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { vertices: true, edges: true });
   for (const v of near.vertices) if (isVertexLive(p, v) && p.vertices.x[v] === c.x && p.vertices.y[v] === c.y) return ok(v);
   const piece = nearestRoutePiece(p, near.edges, c, t.level);
   if (piece === null || !onBoundary(rings, pointOf(p, piece.a)) || !onBoundary(rings, pointOf(p, piece.b))) return ok(null);
-  const plan = planSplitThrough(t, piece.edge, c);
-  if (!plan.ok) return err(plan.code, plan.detail);
-  const at = planPoint(p, plan.value);
-  if (dist2(at.x, at.y, c.x, c.y) > reach2) return ok(null);
-  const v = applySplitPlan(t, plan.value);
-  return ok(v, plan.value.warnings.map((w) => (w.at === undefined ? { code: w.code, count: w.count } : { code: w.code, count: w.count, at: w.at })));
-}
-
-/**
- * The vertex the kerb's run along F's boundary reaches first from a contact (N-57 (2)'s along-run closing): of the two
- * ends of the level-n route piece of F's boundary holding the contact, the nearer one that lies on kerb(F)'s outline
- * with the stretch from the contact to it on the outline too and no other contact of the face's pieces on the way — so
- * kerb(F) follows F's boundary from the contact to it. Null where neither end does.
- */
-function runVertex(t: OpenTx, rings: readonly LatticePoint[][], outline: readonly Ring[], contacts: readonly LatticePoint[], c: LatticePoint): VertexId | null {
-  const p = t.plat;
-  const near = query(p, t.key, t.level, { minX: c.x - 2, minY: c.y - 2, maxX: c.x + 2, maxY: c.y + 2 }, { edges: true });
-  const piece = nearestRoutePiece(p, near.edges, c, t.level);
-  if (piece === null) return null;
-  const a = pointOf(p, piece.a);
-  const b = pointOf(p, piece.b);
-  if (!onBoundary(rings, a) || !onBoundary(rings, b)) return null;
-  const da = dist2(a.x, a.y, c.x, c.y);
-  const db = dist2(b.x, b.y, c.x, c.y);
-  const order = da < db || (da === db && (a.y < b.y || (a.y === b.y && a.x <= b.x))) ? [piece.a, piece.b] : [piece.b, piece.a];
-  for (const v of order) {
-    const e = pointOf(p, v);
-    if (!onBoundary(outline, e) || !onBoundary(outline, { x: (c.x + e.x) * 0.5, y: (c.y + e.y) * 0.5 })) continue;
-    const between = contacts.some((o) => (o.x !== c.x || o.y !== c.y) && dist2(o.x, o.y, e.x, e.y) > ON_BOUNDARY_SQ && nearestOn(o, c, e).d2 <= ON_BOUNDARY_SQ);
-    if (!between) return v;
-  }
-  return null;
+  const v = splitThrough(t, piece.edge, c);
+  if (!v.ok) return err(v.code, v.detail);
+  return ok(v.value, v.warnings);
 }
 
 /** The number of edges at a vertex (its outgoing half-edges). */
@@ -341,157 +227,36 @@ function degree(p: Plat, v: VertexId): number {
 }
 
 /**
- * How far an open piece stands from F's boundary at most (cm, its vertices and segment midpoints): a piece within
- * attractCm bounds a kerb sliver thinner than attractCm, which the commit may fold onto F's boundary (C-0218 (7)).
- */
-function pieceWidth(rings: readonly (readonly XY[])[], q: readonly LatticePoint[]): number {
-  const far = (z: XY): number => {
-    let d = Infinity;
-    for (const r of rings) for (let i = 0; i < r.length; i += 1) d = Math.min(d, nearestOn(z, r[i], r[(i + 1) % r.length]).d2);
-    return d;
-  };
-  let w = 0;
-  for (let i = 0; i < q.length; i += 1) {
-    w = Math.max(w, far(q[i]));
-    if (i + 1 < q.length) w = Math.max(w, far({ x: (q[i].x + q[i + 1].x) * 0.5, y: (q[i].y + q[i + 1].y) * 0.5 }));
-  }
-  return Math.sqrt(w);
-}
-
-/** A sliver piece to fold onto F's boundary on the op's next run: "face piece fold". */
-const foldKey = (face: FaceId, piece: number): string => `${String(face)} ${String(piece)} fold`;
-
-/** An end of an open piece to pin first, on the op's next run: "face piece end". */
-const endKey = (face: FaceId, piece: number, end: 0 | 1): string => `${String(face)} ${String(piece)} ${String(end)}`;
-
-/**
  * An open piece's ends closed on F's boundary (N-57 (2)): an end the insertion left as a dangling tip — the vertex its
- * contact became has the piece's one edge and no other — within `CHORD_MAX` of its contact gets the contact pinned AT it
- * (`pinContact`, `PIN_SQ`) and the chord from the tip to it inserted between the two vertices, so the piece ends on F's
- * boundary with the vertex beside the contact kept (the committed outline kerb(F)'s, vertex for vertex). Where no vertex
- * can stand at the contact beside the tip, or the tip stands farther than a chord but within `ALONG_SQ`, the tip is
- * joined to the vertex kerb(F)'s run along F's boundary reaches first from the contact (`runVertex`; the chord within the
- * tip's distance of the run; `alongs` records it for the read-back). An end on F's boundary, or on any other vertex with
- * more than the piece's edge, is left as it is. Where neither closing goes in, or the tip stands farther still, nothing
- * more is written: that end is returned in `retry` and the run stops (the op runs again with it pinned first); an end
- * already pinned first is never retried (the post-condition judges it). Returns the piece's ends.
+ * contact became has the piece's one edge and no other, the contact attracted onto the piece's vertex beside it (§3.6
+ * step 2: the nearest vertex first) or routed off F's boundary — gets its contact pinned on F's boundary (`pinContact`)
+ * and the chord from the tip to it inserted between the two vertices, so the piece ends on F's boundary with the vertex
+ * beside the contact kept (the committed outline kerb(F)'s, vertex for vertex). An end on F's boundary, or on any other
+ * vertex with more than the piece's edge, is left as it is. Returns the piece's ends.
  */
-function closeEnds(
-  t: OpenTx, read: Read, contacts: readonly LatticePoint[], index: number, piece: Piece, placed: readonly VertexId[], rows: readonly RoleRow[],
-  pinnedFirst: ReadonlySet<string>, log: Closing[], alongs: Along[],
-): KernelResult<{ ends: VertexId[]; retry: string[] }> {
-  const rings = read.rings;
-  const face = read.face;
+function closeEnds(t: OpenTx, rings: readonly LatticePoint[][], piece: Piece, placed: readonly VertexId[], rows: readonly RoleRow[]): KernelResult<VertexId[]> {
   const p = t.plat;
   const q = piece.points;
   const ends: VertexId[] = [placed[0], placed[placed.length - 1]];
   const warnings: Warning[] = [];
   for (const k of [0, 1] as const) {
     const tip = ends[k];
-    if (degree(p, tip) !== 1 || pinnedFirst.has(endKey(face, index, k))) continue;
-    const c = q[k === 0 ? 0 : q.length - 1];
-    const tp = pointOf(p, tip);
-    // a tip the insertion left across F's boundary (in a face beside F) is not closed from F: another face's piece may
-    // reach it later, and the post-condition judges it once every outline is in
-    if (!insideRings(rings, tp)) continue;
-    const off2 = dist2(tp.x, tp.y, c.x, c.y);
-    if (off2 > ALONG_SQ) {
-      return ok({ ends, retry: [endKey(face, index, k)] }, warnings);
-    }
-    const pin = off2 <= CHORD_MAX * CHORD_MAX ? pinContact(t, rings, c, PIN_SQ) : ok<VertexId | null>(null);
+    if (degree(p, tip) !== 1) continue;
+    const pin = pinContact(t, rings, q[k === 0 ? 0 : q.length - 1]);
     if (!pin.ok) return err(pin.code, pin.detail);
-    if (pin.value === null) {
-      // no vertex can stand at the contact beside the tip (§3.6's placement falls back), or the insertion left the tip
-      // farther than a chord: the tip closed along the kerb's run on F's boundary to the run's first vertex, the chord
-      // within the tip's distance of the run
-      const far = runVertex(t, rings, read.kerb, contacts, c);
-      if (far !== null && far !== tip) {
-        const at = pointOf(p, far);
-        const along = insertChain(t, k === 0 ? [at, tp] : [tp, at], rows, 'mandatory');
-        if (!along.ok && along.code === 'E_WORK_LIMIT') return err(along.code, along.detail);
-        if (along.ok) {
-          warnings.push(...along.warnings);
-          log.push({ kind: 'along', face, piece: index, end: k, contact: c, pin: at, tip: tp });
-          alongs.push({ face, tip, far, end: k });
-          ends[k] = far;
-          continue;
-        }
-      }
-      return ok({ ends, retry: [endKey(face, index, k)] }, warnings);
-    }
-    if (pin.value === tip) continue;
+    if (pin.value === null || pin.value === tip) continue;
     warnings.push(...pin.warnings);
     const at = pointOf(p, pin.value);
-    const chord = insertChain(t, k === 0 ? [at, tp] : [tp, at], rows, 'mandatory');
+    const chord = insertChain(t, k === 0 ? [at, pointOf(p, tip)] : [pointOf(p, tip), at], rows, 'mandatory');
     if (!chord.ok) {
       // a chord shorter than minEdge folds to one point: the post-condition judges what is left
       if (chord.code === 'E_DEGENERATE' && chord.detail === 'empty') continue;
       return err(chord.code, chord.detail);
     }
     warnings.push(...chord.warnings);
-    log.push({ kind: 'chord', face, piece: index, end: k, contact: c, pin: at, tip: tp, chordCm: Math.sqrt(dist2(tp.x, tp.y, at.x, at.y)) });
     ends[k] = pin.value;
   }
-  return ok({ ends, retry: [] }, warnings);
-}
-
-/**
- * A piece with ends the last run could not close at their contacts, inserted with those ends PINNED FIRST (N-57 (2)'s
- * own mechanism, the closing's fallback): each such end's contact placed on F's boundary within attractCm of it
- * (`pinContact`: the vertex at it, the placement, or §3.6 step 2's endpoint within attractCm) before the piece goes in,
- * the piece's vertices beside it within attractCm of the contact dropped, and the piece inserted onto the pinned vertex
- * — the outline errs there by at most attractCm and never reaches a far vertex. (Pinned after the rest of the piece, a
- * contact on the boundary edge that holds the piece's other contact cannot be placed at all where the edge runs within
- * minEdge of other geometry: §3.6's placement (iii), C-0284.) Returns the points the piece now runs on and its two end
- * vertices (null where it collapsed to one point), or the contact that cannot be pinned within attractCm.
- */
-function insertPinned(
-  t: OpenTx, rings: readonly LatticePoint[][], face: FaceId, index: number, piece: Piece, rows: readonly RoleRow[], pinnedEnds: ReadonlySet<string>, log: Closing[],
-): KernelResult<{ points: LatticePoint[]; ends: VertexId[] | null; unpinned: LatticePoint | null }> {
-  const p = t.plat;
-  const q = piece.points;
-  const marked = [pinnedEnds.has(endKey(face, index, 0)), pinnedEnds.has(endKey(face, index, 1))] as const;
-  const contact = [q[0], q[q.length - 1]] as const;
-  const within = (a: LatticePoint, c: LatticePoint): boolean => dist2(a.x, a.y, c.x, c.y) <= ATTRACT_SQ;
-  let lo = 0;
-  let hi = q.length - 1;
-  const dropped: LatticePoint[][] = [[], []];
-  if (marked[0]) {
-    lo = 1;
-    while (lo < hi && within(q[lo], contact[0])) dropped[0].push(q[lo++]);
-  }
-  if (marked[1]) {
-    hi = q.length - 2;
-    while (hi > lo && within(q[hi], contact[1])) dropped[1].push(q[hi--]);
-  }
-  const core = lo <= hi ? q.slice(lo, hi + 1) : [];
-  const warnings: Warning[] = [];
-  const pin = (k: 0 | 1): KernelResult<LatticePoint | null> => {
-    const v = pinContact(t, rings, contact[k], ATTRACT_SQ);
-    if (!v.ok) return err(v.code, v.detail);
-    if (v.value === null) return ok(null);
-    warnings.push(...v.warnings);
-    const at = pointOf(p, v.value);
-    log.push({ kind: 'pinned', face, piece: index, end: k, contact: contact[k], pin: at, dropped: dropped[k] });
-    return ok(at);
-  };
-  // the contacts pinned first, the piece inserted onto them
-  const pts = core.slice();
-  for (const k of [0, 1] as const) {
-    if (!marked[k]) continue;
-    const at = pin(k);
-    if (!at.ok) return err(at.code, at.detail);
-    if (at.value === null) return ok({ points: pts, ends: null, unpinned: contact[k] }, warnings);
-    if (k === 0) pts.unshift(at.value);
-    else pts.push(at.value);
-  }
-  const ins = insertChain(t, pts, rows, 'mandatory');
-  if (!ins.ok) {
-    if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') return ok({ points: pts, ends: null, unpinned: null }, warnings);
-    return err(ins.code, ins.detail);
-  }
-  warnings.push(...ins.warnings);
-  return ok({ points: pts, ends: [ins.value.placed[0], ins.value.placed[ins.value.placed.length - 1]], unpinned: null }, warnings);
+  return ok(ends, warnings);
 }
 
 /** The L1 ancestor of a face record of level n (its parent chain). */
@@ -502,7 +267,7 @@ function ancestorL1(p: Plat, level: Level, f: FaceId): FaceId {
 }
 
 /** What the engine is told: the spines' widths, the outline's row, the band faces' owner (bandUnion only). */
-interface EngineSpec {
+interface BandSpec {
   readonly widths: SpineWidths;
   readonly edgeRole: 'kerb' | 'band';
   /** The rows' entity for a face: corridorUnion's the face's owner, bandUnion's its owner. */
@@ -510,116 +275,52 @@ interface EngineSpec {
   readonly owner: Id | null;
   /** The outline pieces of a face's reading (`outlinePieces`); a test plants a lost chord through it (N-57 (2)). */
   readonly pieces?: (read: Parameters<typeof outlinePieces>[0]) => Piece[];
-  /** Open pieces' ends pinned first from the op's first run, as [face, piece, end]: a test reaches the fallback through it (N-57 (2)). */
-  readonly pinFirst?: readonly (readonly [FaceId, number, 0 | 1])[];
 }
 
 /** The engine on the open transaction (see the module comment). */
-export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: EngineSpec): KernelResult<BandResult> {
+export function bandCore(t: OpenTx, faces: readonly FaceId[], spec: BandSpec): KernelResult<BandResult> {
   const p = t.plat;
+  const n = t.level;
   const unique = [...new Set(faces)];
   for (const f of unique) check(isFaceLive(p, 1, f), `band: face ${String(f)} is not a live L1 face`);
   unique.sort((a, b) => compareFaces(p, 1, a, b));
   if (!chargeTx(t, TX_FACES_WALKED, unique.length)) return overLimit(t);
-  // the op runs again, from its savepoint, while a closing finds an end it must pin first (N-57 (2)): each run stops at
-  // the first such end and adds it to the set, so the runs are at most the open pieces' ends plus one
-  const pinned = new Set<string>((spec.pinFirst ?? []).map(([f, i, k]) => endKey(f, i, k)));
-  for (;;) {
-    const save = opSave(t);
-    const run = writeOutlines(t, unique, spec, pinned);
-    if (!run.ok) return rollback(t, save, run);
-    if (run.value.retry.length > 0) {
-      rollback(t, save, err('E_INVARIANT', 'outline: an end to pin first'));
-      for (const k of run.value.retry) pinned.add(k);
-      continue;
-    }
-    const done = readBack(t, unique, spec, run.value.reads, run.value.alongs);
-    if (!done.ok) return rollback(t, save, done);
-    return ok(done.value, [...run.warnings, ...done.warnings]);
-  }
-}
-
-/**
- * The engine's writing run: every face's kerb read, then per face its outline pieces (open ends closed, or pinned first
- * where `pinned` names them) and its splits. Returns the reads and, where a closing could not close an end at its
- * contact, that end (`retry`: the run stops there, the op is put back and runs again with it pinned first); refuses as
- * the insertion does, and E_INVARIANT where the post-condition fails. The caller puts the batch back on a refusal.
- */
-function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, pinned: ReadonlySet<string>): KernelResult<{ reads: Read[]; retry: string[]; alongs: Along[] }> {
-  const p = t.plat;
+  const save = opSave(t);
   const warnings: Warning[] = [];
-  const log: Closing[] = [];
-  const alongs: Along[] = [];
-  const openEnds: { read: Read; piece: number; points: LatticePoint[]; v: VertexId }[] = [];
-  // a sliver piece (within attractCm of F's boundary) whose end no closing could close is folded on the next run
-  const foldable = (read: Read, i: number, piece: Piece): boolean => !pinned.has(foldKey(read.face, i)) && pieceWidth(read.rings, piece.points) <= LATTICE.attractCm;
-  CLOSINGS.set(p, log);
   const cache = new Map<string, Spine | null>();
-  const reads: Read[] = [];
+  const reads: KerbRead[] = [];
   for (const f of unique) {
     const r = readKerb(p, f, spec.widths, cache);
-    if (!r.ok) return err(r.code, r.detail);
+    if (!r.ok) return rollback(t, save, r);
     reads.push(r.value);
   }
   const outlineRole = roleIdOf(spec.edgeRole);
+  const whole: FaceId[] = [];
+  const wholeBand: FaceId[] = [];
   for (const read of reads) {
     if (read.spines.size === 0) continue;
     const rows: RoleRow[] = [{ role: spec.edgeRole, entity: spec.entityOf(read.face) }];
     const pieces = (spec.pieces ?? outlinePieces)(read);
-    const contacts = pieces.filter((q) => !q.closed).flatMap((q) => [q.points[0], q.points[q.points.length - 1]]);
     for (let i = 0; i < pieces.length; i += 1) {
       const piece = pieces[i];
-      if (!piece.closed && pinned.has(foldKey(read.face, i))) {
-        // N-57 (2): a sliver piece no closing could close is folded onto F's boundary (C-0218 (7))
-        log.push({ kind: 'folded', face: read.face, piece: i, end: 0, contact: piece.points[0], pin: piece.points[piece.points.length - 1], widthCm: pieceWidth(read.rings, piece.points) });
-        continue;
+      const ins = insertChain(t, piece.points, rows, 'mandatory', piece.closed ? { closed: true } : {});
+      if (!ins.ok) {
+        // A piece shorter than minEdge collapses to one point (step 1's E_DEGENERATE `empty`) and adds nothing.
+        if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') continue;
+        return rollback(t, save, ins);
       }
-      let points = piece.points;
-      let placed: readonly VertexId[];
-      if (!piece.closed && (pinned.has(endKey(read.face, i, 0)) || pinned.has(endKey(read.face, i, 1)))) {
-        // N-57 (2): an end the last run could not close at its contact is pinned, its beside vertices dropped
-        const pf = insertPinned(t, read.rings, read.face, i, piece, rows, pinned, log);
-        if (!pf.ok) return err(pf.code, pf.detail);
-        warnings.push(...pf.warnings);
-        const u = pf.value.unpinned;
-        if (u !== null) {
-          if (foldable(read, i, piece)) return ok({ reads, retry: [foldKey(read.face, i)], alongs }, warnings);
-          return err('E_INVARIANT', `outline: piece ${String(i)} of the face ${String(read.face)} cannot pin its contact at (${String(u.x)}, ${String(u.y)}) within attractCm on the face's boundary (N-57 (2))`);
-        }
-        // a piece collapsed to one point adds nothing
-        if (pf.value.ends === null) continue;
-        points = pf.value.points;
-        placed = pf.value.ends;
-      } else {
-        const ins = insertChain(t, points, rows, 'mandatory', piece.closed ? { closed: true } : {});
-        if (!ins.ok) {
-          // A piece shorter than minEdge collapses to one point (step 1's E_DEGENERATE `empty`) and adds nothing.
-          if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') continue;
-          return err(ins.code, ins.detail);
-        }
-        warnings.push(...ins.warnings);
-        if (piece.closed) continue;
-        placed = ins.value.placed;
-      }
-      // N-57 (2): an end left dangling is closed on F's boundary at its contact, or named for the next run
-      const ends = closeEnds(t, read, contacts, i, { points, closed: false }, placed, rows, pinned, log, alongs);
-      if (!ends.ok) return err(ends.code, ends.detail);
+      warnings.push(...ins.warnings);
+      if (piece.closed) continue;
+      // N-57 (2): an end left dangling is closed on F's boundary
+      const ends = closeEnds(t, read.rings, piece, ins.value.placed, rows);
+      if (!ends.ok) return rollback(t, save, ends);
       warnings.push(...ends.warnings);
-      // the run stops here (what follows would be written beside a piece the next run replaces)
-      if (ends.value.retry.length > 0) return ok({ reads, retry: ends.value.retry, alongs }, warnings);
       // the post-condition (N-57 (2), N-45 (a)): an open piece ends on F's boundary — an end still a dangling tip
-      // would leave its strip one face with the block beside it: refused, the batch put back, never committed; a tip
-      // the insertion left across F's boundary is judged once every face's outline is in (another face's piece may
-      // reach it)
-      for (const v of ends.value.ends) {
+      // would leave its strip one face with the block beside it: refused, the batch put back, never committed
+      for (const v of ends.value) {
         if (degree(p, v) !== 1) continue;
         const q = pointOf(p, v);
-        if (!insideRings(read.rings, q)) {
-          openEnds.push({ read, piece: i, points: piece.points, v });
-          continue;
-        }
-        if (foldable(read, i, piece)) return ok({ reads, retry: [foldKey(read.face, i)], alongs }, warnings);
-        return err('E_INVARIANT', `outline: piece ${String(i)} of the face ${String(read.face)} ends on a dangling tip at (${String(q.x)}, ${String(q.y)}), off the face's boundary (N-57 (2))`);
+        return rollback(t, save, err('E_INVARIANT', `outline: piece ${String(i)} of the face ${String(read.face)} ends on a dangling tip at (${String(q.x)}, ${String(q.y)}), off the face's boundary (N-57 (2))`));
       }
     }
     const split: RoleRow[] = [{ role: 'corridor_split', entity: spec.entityOf(read.face) }];
@@ -631,59 +332,11 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
       if (!ins.ok) {
         // A split whose two ends attraction folds onto one vertex adds nothing (the kerb meets the junction there).
         if (ins.code === 'E_DEGENERATE' && ins.detail === 'empty') continue;
-        return err(ins.code, ins.detail);
+        return rollback(t, save, ins);
       }
       warnings.push(...ins.warnings);
     }
   }
-  // the post-condition for the tips left across their face's boundary, now every face's outline is in
-  for (const e of openEnds) {
-    if (degree(p, e.v) !== 1) continue;
-    const q = pointOf(p, e.v);
-    if (foldable(e.read, e.piece, { points: e.points, closed: false })) return ok({ reads, retry: [foldKey(e.read.face, e.piece)], alongs }, warnings);
-    return err('E_INVARIANT', `outline: piece ${String(e.piece)} of the face ${String(e.read.face)} ends on a dangling tip at (${String(q.x)}, ${String(q.y)}), off the face's boundary (N-57 (2))`);
-  }
-  return ok({ reads, retry: [], alongs }, warnings);
-}
-
-/** The engine's read-back (see the module comment): the faces of the batch's level inside each face, classed. */
-function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads: readonly Read[], alongs: readonly Along[]): KernelResult<BandResult> {
-  const p = t.plat;
-  const n = t.level;
-  const outlineRole = roleIdOf(spec.edgeRole);
-  // an along-run closing leaves the strip of kerb(F) between its chord and F's boundary (no wider than the tip's
-  // distance) on the band side: the face beyond the chord is a band face, whatever its interior point reads (N-57 (2))
-  const sideOf = new Map<FaceId, Set<number>>();
-  for (const a of alongs) {
-    const X = p.vertices.x;
-    const Y = p.vertices.y;
-    const O = p.halfEdges.origin;
-    const ux = X[a.far] - X[a.tip];
-    const uy = Y[a.far] - Y[a.tip];
-    // the outgoing half-edge nearest the chord's direction: the largest cosine, compared without a division
-    // (dot₁·|v₂| > dot₂·|v₁|)
-    let best = -1;
-    let bestDot = 0;
-    let bestLen = 1;
-    for (const h of outgoing(p, a.tip)) {
-      const w = O[h ^ 1];
-      const vx = X[w] - X[a.tip];
-      const vy = Y[w] - Y[a.tip];
-      const dot = ux * vx + uy * vy;
-      const len = Math.sqrt(vx * vx + vy * vy);
-      if (best < 0 || dot * bestLen > bestDot * len) {
-        best = h;
-        bestDot = dot;
-        bestLen = len;
-      }
-    }
-    if (best < 0) continue;
-    const set = sideOf.get(a.face) ?? new Set<number>();
-    set.add(a.end === 1 ? best ^ 1 : best);
-    sideOf.set(a.face, set);
-  }
-  const whole: FaceId[] = [];
-  const wholeBand: FaceId[] = [];
   // Read back: the faces of the batch's level inside each face.
   const inFace = new Map<FaceId, FaceId[]>();
   for (const f of unique) inFace.set(f, []);
@@ -700,7 +353,6 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
   const splitRole = roleIdOf('corridor_split');
   for (const read of reads) {
     const kids = inFace.get(read.face) as FaceId[];
-    const beyondChord = sideOf.get(read.face);
     if (kids.length === 0) {
       // no edge written inside it: a spine-less face, or one whose kerb is F itself, is one built block; an empty kerb
       // leaves it all band — and so does a kerb sliver thinner than attractCm that the commit folded onto F's boundary
@@ -713,10 +365,8 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
     for (const c of kids) {
       const touched = new Set<string>();
       let split = false;
-      let beyond = false;
       for (const ring of faceWalk(p, n, c)) {
         for (const h of ring) {
-          if (beyondChord?.has(h) === true) beyond = true;
           const rows = rowsOn(p, 'edge', h);
           // a split edge the outline shares (attraction laid them on one stretch) is the outline's
           if (rows.some((r) => R.kind[r] === splitRole && R.level[r] === n) && !rows.some((r) => R.kind[r] === outlineRole && R.level[r] === n)) split = true;
@@ -729,7 +379,7 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
       }
       // a corridor_split edge lies inside the band, so a face it bounds is a band face even where no spine bounds it
       // inside kerb(F) or not, read at a point strictly inside the face; where it has none, by its bounds
-      const inside = beyond ? false : insideKerb(p, n, c, read.kerb);
+      const inside = insideKerb(p, n, c, read.kerb);
       if (inside === null ? touched.size === 0 && !split : inside) blocks.push(c);
       else {
         band.push(c);
@@ -742,9 +392,9 @@ function readBack(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, reads:
   const result: BandResult = { band: band.sort(byKey), strips: strips.sort(byKey), wedges: wedges.sort(byKey), blocks: blocks.sort(byKey), whole, wholeBand };
   if (spec.owner !== null && result.band.length > 0) {
     const o = setOwner(t, result.band, spec.owner);
-    if (!o.ok) return err(o.code, o.detail);
+    if (!o.ok) return rollback(t, save, o);
   }
-  return ok(result);
+  return ok(result, warnings);
 }
 
 /**

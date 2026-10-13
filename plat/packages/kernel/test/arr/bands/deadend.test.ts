@@ -8,11 +8,7 @@
 // fixtures (corridorUnion's block ≡ kerb(F), Hausdorff 0 by normal forms; no kerb edge with one face on both sides); the
 // lost chord planted (the pre-round behaviour) refused with the piece named; synthetic dead-end lanes on a spine-less
 // edge — near perpendicular to an edge slanted 10–20°, and meeting an edge at 10–20° — their last chords swept 20–40 cm,
-// closing in every case. Round S4 (checks/M0-a-09-s3.md, line 1): the contact is pinned only AT its place (where the
-// placement falls back, round S3 closed onto the route piece's far endpoint, blocks up to 343 cm beyond kerb(F)); the
-// two B-FUZZ networks the checker named are pinned here — every closing by kerb(F), the block within attractCm of
-// kerb(F) where the contact alone cannot stand (seed 20261011 case 3140) and within 2·√2·attractCm where kerb(F) itself
-// cannot be laid in the arena (seed 1012 case 3186), never reaching round S3's far vertex, and bandUnion committing.
+// closing in every case.
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { faceWalk, idOf, roleIdOf, roleInfo, rowsOn, type FaceId, type Plat } from '../../../src/arena/index.js';
@@ -20,10 +16,10 @@ import { insertChain } from '../../../src/insert/index.js';
 import { tx } from '../../../src/tx/index.js';
 import { readKerb, type KerbRead } from '../../../src/arr/kerb.js';
 import { corridorUnion } from '../../../src/arr/corridorUnion.js';
-import { bandClosings, bandCore, bandUnion, outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
+import { bandCore, outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
 import type { LatticePoint } from '../../../src/types/index.js';
 import { emptyArena, ins, tx as shell } from '../../insert/step3-5/support.js';
-import { AT_S9, closingsBeyond, commit, firstBand, framed, hausdorffCm, healthy, network, normals, own, pt, ringsOf, spec, state, tilesExactly, TIMEOUT, widthsOf, type Chord } from './support.js';
+import { AT_S9, commit, framed, healthy, normals, own, pt, ringsOf, spec, state, tilesExactly, TIMEOUT, widthsOf } from './support.js';
 
 interface Fixture {
   seed: number;
@@ -166,34 +162,6 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     }, AT_S9);
     expect(again.record).toBeNull();
     expect(state(p)).toBe(b0);
-  });
-
-  it('the fallback, pinned first (N-57 (2)\'s own mechanism): face 871\'s contact placed before its piece, the vertex beside it dropped — the block within attractCm of kerb(F)', () => {
-    // reached through bandCore's `pinFirst` seam (on the families no end needs it: the closing at the contact or along
-    // the kerb's run serves them): the contact pinned on F's boundary first, the piece's vertex 25.94 cm from it dropped,
-    // the piece inserted onto the pin — the error at most attractCm, the dropped vertex's (C-0327 (2): 1.84 cm)
-    const fx = FIXTURES[0];
-    const { p, face, widths } = build(fx);
-    const rk = readKerb(p, face, widths);
-    expect(rk.ok).toBe(true);
-    const read = (rk as { value: KerbRead }).value;
-    const open = outlinePieces(read).findIndex((q) => !q.closed);
-    expect(open).toBe(0);
-    const q = outlinePieces(read)[open].points;
-    const r = tx(p, spec(2, AT_S9), (o) => bandCore(o as Parameters<typeof bandCore>[0], [face], { widths, edgeRole: 'kerb', entityOf: () => fx.owner, owner: null, pinFirst: [[face, open, 1]] }));
-    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
-    healthy(p);
-    expect(tilesExactly(p, 2, [face])).toEqual([]);
-    expect(danglingKerb(p)).toEqual([]);
-    const closings = bandClosings(p);
-    expect(closings.map((c) => c.kind)).toEqual(['pinned']);
-    const c = closings[0] as Extract<(typeof closings)[number], { kind: 'pinned' }>;
-    expect(c.contact).toEqual(q[q.length - 1]);
-    expect(c.dropped).toEqual([q[q.length - 2]]);
-    expect(Math.hypot(c.pin.x - c.contact.x, c.pin.y - c.contact.y)).toBeLessThanOrEqual(1.71);
-    expect(closingsBeyond(closings, () => read.kerb)).toEqual([]);
-    const v = (r as { value: { value: BandResult } }).value.value;
-    expect(hausdorffCm(v.blocks.flatMap((b) => ringsOf(p, 2, b)), read.kerb)).toBeLessThanOrEqual(26);
   });
 
   it('a synthetic dead-end lane meeting a spine-less edge at 10–20°, its round cap’s last chord swept 20–40 cm: every case closes', { timeout: TIMEOUT }, () => {
@@ -353,179 +321,5 @@ describe('N-57 (2): a kerb piece closing on a spine-less edge by a chord within 
     // not vacuous: the sweep meets closing chords within attractCm, as a piece's last point (the lost case) among them
     expect(tally.judged).toBeGreaterThanOrEqual(200);
     expect(tally.nearLast).toBeGreaterThanOrEqual(8);
-  });
-});
-
-/** The band outline edges (`band` rows at L3) with one L3 face on both sides. */
-function danglingBand(p: Plat): string[] {
-  const side = new Map<number, number>();
-  for (let f = 0; f < p.slots.face[3].top; f += 1) {
-    if (p.faces[3].kind[f] === 0xffff) continue;
-    for (const ring of faceWalk(p, 3, f)) for (const h of ring) side.set(h, f);
-  }
-  const out: string[] = [];
-  for (const [h, f] of side) {
-    if ((h & 1) === 1 || side.get(h ^ 1) !== f) continue;
-    if (!rowsOn(p, 'edge', h).some((r) => roleInfo(p.roles.kind[r]).name === 'band')) continue;
-    out.push(`${String(p.vertices.x[p.halfEdges.origin[h]])},${String(p.vertices.y[p.halfEdges.origin[h]])}`);
-  }
-  return out.sort();
-}
-
-describe('N-57 (2), round S4: B-FUZZ networks where round S3 closed a dangling tip onto a far boundary vertex', () => {
-  // the closing checker's sweep (checks/M0-a-09-s3.md, line 1): the insertion leaves the contact a minEdge off a
-  // boundary edge that runs within minEdge of other geometry, the contact cannot stand at its place beside the tip
-  // (§3.6's placement falls back onto the route piece's endpoint, C-0284), and round S3 drew the "closing chord" to
-  // that endpoint whichever side it lay — 344 cm to (0, 1510), 96 cm to (954, 3997) — committing the block that far
-  // beyond kerb(F); at seed 1012 the bogus kerb edge also made bandUnion refuse. Round S4 closes the tip along the kerb's
-  // own run on F's boundary (or pins the contact first): every closing by kerb(F)
-  // `within`: the block's Hausdorff bound from kerb(F). Case 3140: the contact cannot stand beside the tip, the tip is
-  // closed along the run, the block within the tip's 25 cm (≤ attractCm). Case 3186: kerb(F)'s two contacts lie on one
-  // L1 edge that runs within minEdge of the frame (a near-corner sliver), and either one placed makes the other
-  // unplaceable (§3.6's placement (iii), C-0284: placed first at (7, 1167), (24, 382) falls back onto (31, 0); placed
-  // first at (23, 382), (7, 1167) falls back onto (0, 1510)) — kerb(F) cannot stand in the arena; the along closing's
-  // chord, pulled through the kerb vertex (49, 403) 25.8 cm from it (§3.6's stretch attraction), leaves kerb(F)'s corner
-  // (24, 382) 32.65 cm from the block, within 2·√2·attractCm (C-0327 (3)'s bound)
-  // (a chord with knots takes its profile, never its `hw`: the checker's report gives none for case 3186's third chord)
-  const cases: { at: string; chords: Chord[]; face: number; far: [number, number]; within: number }[] = [
-    {
-      at: 'PLAT_FUZZ_SEED 1012, case 3186',
-      chords: [{ a: 14490, b: 4331, hw: 327, knots: null, ends: 'square' }, { a: 12403, b: 31, hw: 20, knots: null, ends: 'square' }, { a: 7677, b: 3, hw: 1, knots: [61, 310], ends: 'round' }],
-      face: 1,
-      far: [0, 1510],
-      within: 2 * Math.SQRT2 * 26,
-    },
-    {
-      at: 'PLAT_FUZZ_SEED 20261011, case 3140',
-      chords: [{ a: 11336, b: 7968, hw: 2, knots: [6, 10], ends: 'square' }, { a: 4005, b: 11071, hw: 61, knots: [516, 68], ends: 'square' }, { a: 9, b: 7960, hw: 8, knots: [159, 600], ends: 'square' }],
-      face: 5,
-      far: [954, 3997],
-      within: 26,
-    },
-  ];
-  for (const c of cases) {
-    it(`${c.at}: corridorUnion's block of face ${String(c.face)} stays within ${c.within.toFixed(1)} cm of kerb(F), never at the far vertex, and bandUnion commits`, () => {
-      const { p, faces, table } = network(c.chords);
-      const ws = widthsOf(table);
-      const rk = readKerb(p, c.face, ws);
-      expect(rk.ok).toBe(true);
-      const kerbF = (rk as { value: KerbRead }).value.kerb;
-      const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
-      healthy(p);
-      expect(tilesExactly(p, 2, faces)).toEqual([]);
-      expect(danglingKerb(p)).toEqual([]);
-      // the closing ran on the face, along the kerb's run, and every closing stays by kerb(F)
-      const closings = bandClosings(p);
-      expect(closings.some((q) => q.face === c.face && q.kind === 'along')).toBe(true);
-      const kerbOf = (w: typeof ws) => (f: number) => {
-        const k = readKerb(p, f, w);
-        return k.ok ? k.value.kerb : null;
-      };
-      expect(closingsBeyond(closings, kerbOf(ws))).toEqual([]);
-      // the face's block: within the case's bound of kerb(F), never reaching round S3's far vertex
-      const v = r.value as BandResult;
-      const mine = v.blocks.filter((b) => p.faces[2].parent[b] === c.face);
-      expect(mine.length).toBeGreaterThan(0);
-      const rings = mine.flatMap((b) => ringsOf(p, 2, b));
-      expect(hausdorffCm(rings, kerbF)).toBeLessThanOrEqual(c.within);
-      expect(rings.flat().some((q) => q.x === c.far[0] && q.y === c.far[1])).toBe(false);
-      // bandUnion along the first chain at L3 commits (round S3 refused it at seed 1012), no band edge dangling
-      const chain = firstBand(table);
-      expect(chain.length).toBe(1);
-      const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
-      expect(b.ok, b.ok ? '' : `${b.code} ${b.detail}`).toBe(true);
-      healthy(p);
-      expect(tilesExactly(p, 3, faces)).toEqual([]);
-      expect(danglingBand(p)).toEqual([]);
-      expect(closingsBeyond(bandClosings(p), kerbOf(widthsOf({ [chain[0].ref.entity]: { halfWidthCm: chain[0].halfWidthCm, ends: chain[0].ends } })))).toEqual([]);
-    });
-  }
-});
-
-describe('N-57 (2), round S4: what the closing leaves alone, and the sliver it folds (B-FUZZ networks, PLAT_FUZZ_SEED 1012)', () => {
-  it('case 3070: a tip the insertion left across F\'s boundary is not closed from F — the neighbour face\'s piece reaches it, every face keeps its block', () => {
-    // face 1 (a sliver along the frame) has its kerb piece's contact (12, 1794) on the edge it shares with face 0; the
-    // insertion leaves that end at (38, 1794), inside face 0, where face 0's own piece ends later. Closed from face 1
-    // (round S4's first cut), the chord's band side fell in face 0 and face 0 lost its block; left alone, the commit is
-    // the pre-round engine's (face 0 within 13 cm of its kerb)
-    const chords: Chord[] = [{ a: 13411, b: 41, hw: 6, knots: null, ends: 'square' }, { a: 2607, b: 13682, hw: 536, knots: [598, 331], ends: 'round' }, { a: 4863, b: 11579, hw: 328, knots: [554, 432], ends: 'square' }];
-    const { p, faces, table } = network(chords);
-    const ws = widthsOf(table);
-    const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
-    healthy(p);
-    expect(tilesExactly(p, 2, faces)).toEqual([]);
-    expect(danglingKerb(p)).toEqual([]);
-    expect(bandClosings(p)).toEqual([]);
-    const v = r.value as BandResult;
-    for (const f of [0, 1]) {
-      const k = readKerb(p, f, ws);
-      expect(k.ok).toBe(true);
-      const mine = v.blocks.filter((b) => p.faces[2].parent[b] === f);
-      expect(mine.length, `face ${String(f)}`).toBe(1);
-      expect(hausdorffCm(mine.flatMap((b) => ringsOf(p, 2, b)), (k as { value: KerbRead }).value.kerb)).toBeLessThanOrEqual(14);
-    }
-  });
-
-  it('case 4722, pinned first where the contact cannot stand within attractCm: refused E_INVARIANT naming the contact, the arena put back (never a far pin)', () => {
-    // round S5 (checks/M0-a-09-s4.md, line 1's "where neither works, refuse E_INVARIANT"): through bandCore's `pinFirst`
-    // seam, face 4's piece 0 pinned first at its last end, the contact (11, 1490) on F's boundary. No vertex can stand
-    // within attractCm of it (§3.6's placement falls back onto (7, 1814), 324.02 cm off: round S3's far pin), and the
-    // piece is no sliver to fold, so the op refuses fail-safe rather than commit a block reaching that far vertex
-    const chords: Chord[] = [{ a: 13590, b: 27, hw: 23, knots: null, ends: 'square' }, { a: 14162, b: 4998, hw: 30, knots: [322, 91], ends: 'square' }, { a: 10493, b: 4928, hw: 7, knots: null, ends: 'square' }];
-    const { p, faces, table } = network(chords);
-    const ws = widthsOf(table);
-    // the precondition: face 4's piece 0 is open and ends on the contact (11, 1490)
-    const rk = readKerb(p, 4, ws);
-    expect(rk.ok).toBe(true);
-    const piece = outlinePieces((rk as { value: KerbRead }).value)[0];
-    expect(piece.closed).toBe(false);
-    expect(piece.points[piece.points.length - 1]).toEqual(pt(11, 1490));
-    const b0 = state(p);
-    const engine = (o: unknown) =>
-      bandCore(o as Parameters<typeof bandCore>[0], faces, { widths: ws, edgeRole: 'kerb', entityOf: (f) => idOf(p, p.faces[1].owner[f]), owner: null, pinFirst: [[4, 0, 1]] });
-    const r = tx(p, spec(2, AT_S9), engine);
-    expect(r.ok, r.ok ? 'committed: the contact pinned off attractCm' : '').toBe(false);
-    if (r.ok) return;
-    expect(r.code).toBe('E_INVARIANT');
-    expect(r.detail).toContain('piece 0 of the face 4 cannot pin its contact at (11, 1490) within attractCm');
-    expect(state(p)).toBe(b0);
-    // atomic inside a batch that goes on: the batch commits nothing
-    const again = commit(p, 2, (o) => {
-      const c = engine(o);
-      expect(c.ok).toBe(false);
-      if (!c.ok) expect(c.detail).toContain('cannot pin its contact at (11, 1490)');
-      return { ok: true, value: null, warnings: [] };
-    }, AT_S9);
-    expect(again.record).toBeNull();
-    expect(state(p)).toBe(b0);
-    // without the seam the op commits (the families never reach the refusal: the closing along the kerb's run serves it)
-    const plain = tx(p, spec(2, AT_S9), (o) => corridorUnion(o, faces, ws));
-    expect(plain.ok, plain.ok ? '' : `${plain.code} ${plain.detail}`).toBe(true);
-  });
-
-  it('case 367: a kerb sliver 10.8 cm thin whose piece no closing can close is folded onto F\'s boundary — F all band, the op commits', () => {
-    // face 2 is a 41 cm sliver against the frame; its kerb(F) a triangle at most 22 cm tall, every point of its piece
-    // within 10.8 cm of F's boundary. The insertion leaves the piece's contact (1717, 12) at (1717, 38), across F's
-    // boundary, and no vertex can stand at the contact (the sliver's edge runs within minEdge of the frame): the
-    // pre-round engine committed it dangling (a block 103 cm beyond kerb(F)); folded (C-0218 (7)), F is one band face
-    const chords: Chord[] = [{ a: 5448, b: 10167, hw: 338, knots: null, ends: 'round' }, { a: 6454, b: 2291, hw: 28, knots: [592, 384], ends: 'round' }, { a: 1452, b: 4119, hw: 30, knots: null, ends: 'round' }];
-    const { p, faces, table } = network(chords);
-    const ws = widthsOf(table);
-    const r = commit(p, 2, (o) => corridorUnion(o, faces, ws), AT_S9);
-    healthy(p);
-    expect(tilesExactly(p, 2, faces)).toEqual([]);
-    const closings = bandClosings(p);
-    expect(closings.map((c) => [c.kind, c.face, c.piece])).toEqual([['folded', 2, 0]]);
-    const kerbOf = (f: number) => {
-      const k = readKerb(p, f, ws);
-      return k.ok ? k.value.kerb : null;
-    };
-    expect(closingsBeyond(closings, kerbOf)).toEqual([]);
-    const v = r.value as BandResult;
-    expect(v.blocks.filter((b) => p.faces[2].parent[b] === 2)).toEqual([]);
-    // the band union along the first chain commits on it
-    const chain = firstBand(table);
-    const b = tx(p, spec(3, AT_S9), (o) => bandUnion(o, chain, faces, 'band', 'band:1'));
-    expect(b.ok, b.ok ? '' : `${b.code} ${b.detail}`).toBe(true);
   });
 });

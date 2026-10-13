@@ -498,9 +498,6 @@ describe('the query surface', () => {
     expect(() => query(p, GROUND, 1, box(0, 0, 10.5, 10))).toThrow(/whole centimetres/);
     expect(() => query(p, GROUND, 1, box(10, 0, 0, 10))).toThrow(/min ≤ max/);
     expect(() => query(p, GROUND, 1, box(0, 0, 2 ** 24 + 1, 10))).toThrow(/whole centimetres/);
-    expect(() => query(p, GROUND, 1, box(-(2 ** 24) - 1, 0, 10, 10))).toThrow(/whole centimetres/);
-    // the bound itself is inside (num's BOX_RANGE, 2²⁴): the widest box answers every vertex of the level
-    expect(query(p, GROUND, 1, box(-(2 ** 24), -(2 ** 24), 2 ** 24, 2 ** 24)).vertices).toEqual(query(p, GROUND, 1, box(0, 0, 1000, 1000)).vertices);
     expect(() => query(p, GROUND, 5 as Level, box(0, 0, 1, 1))).toThrow(/0 … 4/);
     expect(() => query(createPlat(GROUND, FRAME), GROUND, 0, box(0, 0, 1, 1))).toThrow(/no spatial index/);
     // the kinds asked for, and only those
