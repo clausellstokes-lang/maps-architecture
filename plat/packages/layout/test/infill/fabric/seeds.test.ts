@@ -4,7 +4,8 @@
 // corridor; a child whose kerb has no area records no seed. Fixture: fusion 30's face 197 (block:6eppwwjg267pw's east
 // child, translated by (680 m, 290 m)) with its three ways' widths — the pole of its FACE ring lies 9 cm inside way:11's
 // band, the pole of its kerb inside the kerb. Property: over the fabric's test fixtures every recorded seed lies strictly
-// inside one ring of kerb(its L1 face).
+// inside one ring of kerb(its L1 face). Refined by J318 (C-0338; splitSeeds.test.ts): a child's seed is the pole of the
+// component of kerb(child) inside the parent's kerb at the cut — the property below holds for it unchanged.
 import { faceRings, pointLocate, STAGES, type KernelTx, type LatticePoint } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { kerbSeed, localThickness } from '../../../src/index.js';
@@ -131,16 +132,16 @@ describe('a block’s seed is the pole of its L1 face’s kerb, split or not (N-
       const out = runFixture(f);
       let split = 0;
       let seeds = 0;
-      // Each split child's seed against the pole of its kerb read now (kerbSeed after the stage): the same definition,
-      // within the drift of a kerb read at the split against the stage's end (N-57 (4): ≤ 2 · attractCm on an edge;
-      // measured ≤ 8 cm here, where the child FACE's pole lies 13–389 cm off).
+      // Each split child's seed against the pole of its kerb read now (kerbSeed after the stage, with the parent's kerb
+      // at the cut, J318, C-0338): the same definition, within the drift of a kerb read at the split against the stage's
+      // end (N-57 (4): ≤ 2 · attractCm on an edge; measured ≤ 8 cm here, where the child FACE's pole lies 13–389 cm off).
       const poles = new Map<string, LatticePoint | null>();
       const r = f.k.tx(READ, (o) => {
         for (const b of out.infill.blockFaces) {
           if (b.seeds.length < 2) continue;
           for (const s of b.seeds) {
             const at = pointLocate(f.plat, GROUND, 1, s);
-            if (at.on === 'face') poles.set(`${String(s.x)},${String(s.y)}`, kerbSeed(o, at.face, f.widths));
+            if (at.on === 'face') poles.set(`${String(s.x)},${String(s.y)}`, kerbSeed(o, at.face, f.widths, [b.kerb.slice()]));
           }
         }
         return { ok: true as const, value: undefined, warnings: [] };

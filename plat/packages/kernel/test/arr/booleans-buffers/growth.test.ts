@@ -4,11 +4,12 @@
 // arena this file makes runs in the tiny-tables mode (M0-a-02's `setTinyTables`: every table starts at capacity 1 and
 // every allocation replaces it), and `createPlat` is wrapped so that each vertex table a growth replaces is poisoned —
 // its x and y columns overwritten with distinct points far off the lattice. A stale read then turns into an off-lattice
-// bridge or a wrong gap test, never into the right answer. `bridgeGaps` (winding.ts) is the one capture of the class in
-// this item's five files (N-53's census; this round's audit of winding.ts, booleans.ts, buffer.ts, offsetFace.ts and
-// insetRing.ts found no other function that both holds a table or column and allocates): the case below inserts two
-// bridges in one ring, the first crossing an edge of the other operand, so the vertex table grows between the two gap
-// readings. Each result equals the default-size result (the two-bridge case its hand answer too).
+// bridge or a wrong gap test, never into the right answer. `bridgeGaps` (winding.ts) is the one function of this
+// item's five files that reads the vertex columns across an allocation (N-53's census; no other function of
+// winding.ts, booleans.ts, buffer.ts, offsetFace.ts or insetRing.ts both holds a table or column and allocates, C-0293),
+// so it re-reads them per gap: the case below inserts two bridges in one ring, the first crossing an edge of the other
+// operand, so the vertex table grows between the two gap readings. Each result equals the default-size result (the
+// two-bridge case its hand answer too).
 import { afterAll, beforeAll, describe, expect, it, vi } from 'vitest';
 import { setTinyTables, tinyTables } from '../../../src/arena/debug.js';
 import { handleOf } from '../../../src/arena/index.js';
@@ -89,7 +90,7 @@ describe('the scratch overlay reads the vertex columns after its last allocation
     const r = both(() => booleans('union', [STAIRS], [BAR], 'nonzero'));
     expect(r.replaced).toBeGreaterThan(0);
     expect(r.plain).toMatchObject({ ok: true, value: [R([0, 0], [1000, 0], [1000, 50], [1100, 50], [1100, 150], [1000, 150], [1000, 1000], [0, 1000])] });
-    // a dead copy read for the second gap loses the square without a refusal (the pre-fix code: only the bar is left)
+    // a dead copy read for the second gap would lose the square without a refusal, leaving only the bar
     expect(r.grown).toEqual(r.plain);
   });
 

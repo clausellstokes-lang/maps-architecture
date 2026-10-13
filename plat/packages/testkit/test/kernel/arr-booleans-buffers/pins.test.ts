@@ -3,7 +3,7 @@
 // * the offsetFace face of N-38's README (C-0202 (5): "the README offsetFace pin … is M0-a-08's to hold"): a strip side
 //   was wedge-routed through a sliver corner 11 km away before M0-a-05's wedge cap (|Δ| 62.7 × 10⁶ cm² against a bound
 //   of 5.27 × 10⁶); now an attracted pass against both oracles with no wedge route;
-// * the PR run's xor whose hole touches its outline inside an outline edge (C-0206 (1)): the face count compared 3 to 2
+// * the xor whose hole touches its outline inside an outline edge (C-0206 (1)): the face count compared 3 to 2
 //   at |Δ| 0 while the touch point was no vertex of the outline;
 // * the seven-chain ring of M0-a-05's router repro (N-37, N-41 (3)), whose seventh segment walks a retraced spur: its
 //   region under either fill rule against both oracles;
@@ -13,7 +13,7 @@
 //   once faces touching at a point count as one;
 // * the gate run's outward inset of a face at the lattice's edge (C-0206 (9)): E_OUT_OF_RANGE, settled because the
 //   exact answer leaves the lattice;
-// * the regular octagon inset outward by 2 866 cm (fix round S2, J226; C-0261): our answer is the exact mitred inset
+// * the regular octagon inset outward by 2 866 cm (C-0261): our answer is the exact mitred inset
 //   rounded once (every vertex its nearest lattice point), but the unscaled oracle construction rounded twice and put
 //   clipper2's vertices 0.6 cm off, all outward — |Δ| 23 328 against the unattracted bound 22 843.7 on a correct answer.
 import { faceEdges, insetRing, offsetFace, type Cm, type LatticePoint } from '@plat/kernel';
