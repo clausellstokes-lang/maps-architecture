@@ -7,14 +7,13 @@
 // checker's deck property (§2.2 rule 7): every L0 edge is a shore or the ring — so no L0 edge crosses water — no edge
 // carries a deck role, and each body keeps one L0 face per part of its polygon — so no deck splits a reach's face.
 // And every committed deck lies within ±10° of the normal of the flow averaged over one channel width up and downstream
-// (§4.2 S1 (5)), that flow computed by the test (support's `flowNear`), never read from the site (check B-1).
-import { checkCI, isVertexLive, rowKey, rowsOn, VERTEX_PINNED, type Plat } from '@plat/kernel';
-import type { GeomRef } from '@plat/model';
+// (§4.2 S1 (5)), that flow computed by the test (support's `flowNear`), never read from the site (C-0233).
+import { isVertexLive, VERTEX_PINNED, type Plat } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
 import { GROUND_KEY } from '../../src/terrain/index.js';
-import { leftFaces, runS1, segSeg2 } from '../../src/water/index.js';
+import { runS1, segSeg2 } from '../../src/water/index.js';
 import type { RiverRequest } from '../../src/hydro/index.js';
-import { flowNear, ground, offNormalDeg, riverFixture } from './support.js';
+import { everyL0EdgeShoreOrRing, flowNear, ground, hardFailures, heldRefs, offNormalDeg, riverFixture } from './support.js';
 
 /** The checks on one seed; returns its site count and its report's degradations. */
 function bar(seed: number, size: { areaHa?: number }): { sites: number; decks: number; offFlow: string[]; refused: number; retried: boolean; slow: number } {
@@ -30,22 +29,8 @@ function bar(seed: number, size: { areaHa?: number }): { sites: number; decks: n
   const out = r.value;
   expect(out.water.bodies.length).toBeGreaterThan(0);
   // every hard invariant, over the whole arena
-  const refs: GeomRef[] = [{ role: 'margin', entity: fx.terrain.id }];
-  const live = new Set([fx.terrain.id]);
-  for (const b of out.water.bodies) {
-    refs.push(b.face, b.shore);
-    live.add(b.id);
-  }
-  for (const b of out.water.bridges) {
-    refs.push(...b.deck);
-    live.add(b.id);
-  }
-  for (const c of out.land) {
-    refs.push(c.face);
-    live.add(c.id);
-  }
-  const rows = checkCI(plat, { refs, isLive: (id) => live.has(id) });
-  expect(rows.filter((x) => x.class === 'hard' && !x.holds).map((x) => `seed ${String(seed)} ${x.name}: ${x.problems.slice(0, 2).join('; ')}`)).toEqual([]);
+  const { refs, live } = heldRefs(fx.terrain.id, out);
+  expect(hardFailures(plat, refs, live).map((x) => `seed ${String(seed)} ${x}`)).toEqual([]);
   // every deck_end resolves to one pinned vertex; decks ≥ 40 m apart
   const decks: { x: number; y: number }[][] = [];
   for (const b of out.water.bridges) {
@@ -84,15 +69,7 @@ function bar(seed: number, size: { areaHa?: number }): { sites: number; decks: n
 
 /** §2.2 rule 7 on the fixture: every L0 edge a shore or the ring, no deck edge, one face per body part. */
 function deckProperty(plat: Plat, ids: string[], faces: ReturnType<ReturnType<typeof ground>['kernel']['resolve']>[]): void {
-  const left = leftFaces(plat);
-  const seen = new Set<number>();
-  for (const h of left.keys()) {
-    if (seen.has(h >> 1)) continue;
-    seen.add(h >> 1);
-    const roles = rowsOn(plat, 'edge', h).map((q) => rowKey(plat, q).role);
-    expect(roles.some((x) => x === 'shore' || x === 'margin')).toBe(true);
-    expect(roles.includes('deck')).toBe(false);
-  }
+  for (const roles of everyL0EdgeShoreOrRing(plat)) expect(roles.includes('deck')).toBe(false);
   for (let i = 0; i < ids.length; i += 1) {
     const f = faces[i];
     expect(f.view === 'faces' && f.faces.length).toBeGreaterThan(0);

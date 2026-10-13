@@ -5,11 +5,13 @@
 // kernel's `buffer` (§3.4; M0-a-08) unites strip by strip, built in one pass: the arrangement's union costs ≈ 10 s and
 // its clip ≈ 20 s on a CITY river (≈ 800 course points, measured), the offset ring milliseconds. Every result is
 // checked simple — no two non-adjacent segments meet — and clear of the earlier bodies' rings but at a mouth; a ring
-// that fails is refused (null) and the caller takes the kernel's buffer and booleans for that body.
+// that fails is refused (`{ refused }`, its reason) and the caller takes the kernel's buffer and booleans for that body.
+// Every export of this file — the two rings, `unitOf` and the ring tools — is file-level: shared by path inside
+// `@plat/site` (polygons.ts, the tests), not part of the package's API (the water index lists none; J263 Q1's convention).
 import { dmath, type LatticePoint } from '@plat/kernel';
-import type { Cm } from '@plat/model';
 import type { XY } from '../hydro/course.js';
-import { area2, insideRings, quot, segDist2, type Reach } from './geometry.js';
+import { PI } from '../terrain/primitives.js';
+import { area2, insideRings, lp, quot, segDist2, type Reach } from './geometry.js';
 
 /** A round cap's chords per half-turn. */
 const CAP_STEPS = 12;
@@ -18,7 +20,8 @@ function sub(a: XY, b: XY): XY {
   return { x: a.x - b.x, y: a.y - b.y };
 }
 
-function unitOf(v: XY): XY | null {
+/** The unit vector along v (null below a centimetre). */
+export function unitOf(v: XY): XY | null {
   const len = Math.sqrt(v.x * v.x + v.y * v.y);
   if (len < 1) return null;
   return { x: quot(v.x, len), y: quot(v.y, len) };
@@ -84,9 +87,10 @@ function offsets(pts: readonly XY[], half: readonly number[], startNormal?: XY, 
  * An offset line with the loops of its inner bends erased — a loop the line makes where the bend is tighter than the
  * half-width lies inside the buffer when a sample of points inside it (a 5 × 5 grid over its box, those inside it) lies
  * within 1.5 times the chain's greatest half-width of the chain — and each loop that is not so covered kept as a hole:
- * a pocket of land a meander closes round (its own tight bends erased; a pocket inside a pocket refused, null).
+ * a pocket of land a meander closes round (its own tight bends erased). Refused: a pocket inside a pocket, or more than
+ * the guard's loops (the inner line's refusal is the outer's).
  */
-function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number, depth = 0): { line: XY[]; holes: XY[][] } | null {
+function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number, depth = 0): { line: XY[]; holes: XY[][] } | { refused: string } {
   let q = line.slice();
   const holes: XY[][] = [];
   for (let guard = 0; guard < 10_000; guard += 1) {
@@ -107,26 +111,14 @@ function eraseLoops(line: XY[], chain: readonly XY[], maxHalf: number, depth = 0
     const loop = [cut.at, ...q.slice(cut.i + 1, cut.j + 1)];
     if (!covered(loop, chain, maxHalf)) {
       // a pocket of land the river closes round: a hole of the polygon, its own tight bends erased
-      if (depth > 0) {
-        why = 'a pocket inside a pocket';
-        return null;
-      }
+      if (depth > 0) return { refused: 'a pocket inside a pocket' };
       const inner = eraseLoops([...loop, cut.at], chain, maxHalf, depth + 1);
-      if (inner === null) return null;
+      if ('refused' in inner) return inner;
       holes.push(inner.line.slice(0, inner.line.length - 1));
     }
     q = [...q.slice(0, cut.i + 1), cut.at, ...q.slice(cut.j + 1)];
   }
-  why = 'too many loops';
-  return null;
-}
-
-/** Why the last offset or mouth ring was refused (for the stage's report). */
-let why = '';
-
-/** The reason the last `offsetRing` or `mouthRing` returned null. */
-export function refusal(): string {
-  return why;
+  return { refused: 'too many loops' };
 }
 
 /** Is the loop's inside within 1.5 `h` of the chain, on a 5 × 5 sample (a mitre reaches past `h`; a pocket of land is farther)? */
@@ -161,7 +153,7 @@ function cap(c: XY, from: XY, h: number, outward: XY): XY[] {
   // the half-turn from `from` through the outward direction to the opposite point
   const turn = a.x * outward.y - a.y * outward.x >= 0 ? 1 : -1;
   for (let k = 1; k < CAP_STEPS; k += 1) {
-    const th = (turn * 3.141592653589793 * k) / CAP_STEPS;
+    const th = (turn * PI * k) / CAP_STEPS;
     const cs = dmath.cos(th);
     const sn = dmath.sin(th);
     out.push({ x: c.x + (a.x * cs - a.y * sn) * h, y: c.y + (a.x * sn + a.y * cs) * h });
@@ -172,21 +164,21 @@ function cap(c: XY, from: XY, h: number, outward: XY): XY[] {
 /** The ends of a chain's ring: `round` a half-disc, `flat` the straight cut across. */
 export type Cap = 'round' | 'flat';
 
-/** The ring of a chain (counter-clockwise, doubles) or null (see the header). */
-export function offsetRing(pts: readonly XY[], half: readonly number[], caps: [Cap, Cap], normals: { start?: XY; end?: XY } = {}): { ring: XY[]; holes: XY[][] } | null {
+/**
+ * The ring of a chain (counter-clockwise, doubles), or its refusal (see the header): a repeated point, or an offset
+ * line's — both lines are erased, and the right line's refusal, the later, is the one named when both are refused.
+ */
+export function offsetRing(pts: readonly XY[], half: readonly number[], caps: [Cap, Cap], normals: { start?: XY; end?: XY } = {}): { ring: XY[]; holes: XY[][] } | { refused: string } {
   const n = pts.length;
-  if (n < 2) return null;
-  why = '';
+  if (n < 2) return { refused: 'fewer than two points' };
   const off = offsets(pts, half, normals.start, normals.end);
-  if (off === null) {
-    why = 'a repeated point';
-    return null;
-  }
+  if (off === null) return { refused: 'a repeated point' };
   let maxH = 0;
   for (const h of half) if (h > maxH) maxH = h;
   const l = eraseLoops(off.left, pts, maxH);
   const r = eraseLoops(off.right, pts, maxH);
-  if (l === null || r === null) return null;
+  if ('refused' in r) return r;
+  if ('refused' in l) return l;
   const left = l.line;
   const right = r.line;
   const ring: XY[] = [...right];
@@ -233,7 +225,7 @@ export function clipToArena(ring: readonly XY[], reach: Reach): XY[] {
 export function snapRing(ring: readonly XY[]): LatticePoint[] | null {
   const out: LatticePoint[] = [];
   for (const q of ring) {
-    const p = { x: Math.round(q.x) as Cm, y: Math.round(q.y) as Cm };
+    const p = lp(q);
     const last = out[out.length - 1];
     if (last !== undefined && last.x === p.x && last.y === p.y) continue;
     out.push(p);
@@ -250,7 +242,10 @@ export function snapRing(ring: readonly XY[]): LatticePoint[] | null {
   return out;
 }
 
-/** The squared distance between two segments when they meet (0), else Infinity — the simplicity test's predicate. */
+/**
+ * Do two closed segments meet — a proper crossing, or an end on the other — the simplicity test's predicate (the closed
+ * form of hydro/course.ts's `segmentsCross`).
+ */
 function meets(a: XY, b: XY, c: XY, d: XY): boolean {
   const o1 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
   const o2 = (b.x - a.x) * (d.y - a.y) - (b.y - a.y) * (d.x - a.x);
@@ -284,6 +279,9 @@ export function isSimple(ring: readonly XY[]): boolean {
     const a = ring[i];
     const a2 = ring[i + 1 === n ? 0 : i + 1];
     for (let j = i + 1; j < n; j += 1) {
+      // the box early-out: two boxes apart on an axis (strict, so touching boxes are tested). The same idiom, spelt in
+      // place for the O(n²) loops, in meetsAny (segment boxes), onRings (padded by ON_CM), clearRing and ringsApart
+      // (padded by RING_CLEAR_CM)
       if (b[4 * j] > b[4 * i + 2] || b[4 * j + 2] < b[4 * i] || b[4 * j + 1] > b[4 * i + 3] || b[4 * j + 3] < b[4 * i + 1]) continue;
       const c = ring[j];
       const c2 = ring[j + 1 === n ? 0 : j + 1];
@@ -336,7 +334,10 @@ function onRings(rings: readonly (readonly XY[])[], q: XY): boolean {
   return false;
 }
 
-/** A point within this of an earlier ring lies on it (the lattice rounding of a mouth's ends, cm). */
+/**
+ * A point within this of an earlier ring lies on it (the lattice rounding of a mouth's ends, cm) — the quantity of
+ * polygons.ts's FIXED_BAND_CM, kept as its own constant: it pads a box test here, a squared distance there.
+ */
 const ON_CM = 2;
 
 /** A segment's end on an earlier ring is drawn back this far before the clearance test (cm). */
@@ -372,23 +373,20 @@ export function clearOf(ring: readonly XY[], earlier: readonly (readonly XY[])[]
 /**
  * A joined body's ring cut at the shore of the body it joins (see the header): the offset lines walked from the
  * body's start to their first crossing with an earlier ring — both on one ring — and closed along that ring between
- * the two crossings, the shorter way; the start capped. Null when a line never crosses, the two cross different rings,
- * or a line is refused (a loop over land).
+ * the two crossings, the shorter way; the start capped. Refused as `offsetRing` refuses (a repeated point, a line's
+ * loops — the right line's named first), and 'no mouth' when a line never crosses or the two cross different rings.
  */
-export function mouthRing(pts: readonly XY[], half: readonly number[], startCap: Cap, earlier: readonly (readonly XY[])[]): { ring: XY[]; holes: XY[][] } | null {
+export function mouthRing(pts: readonly XY[], half: readonly number[], startCap: Cap, earlier: readonly (readonly XY[])[]): { ring: XY[]; holes: XY[][] } | { refused: string } {
   const n = pts.length;
-  if (n < 2) return null;
-  why = '';
+  if (n < 2) return { refused: 'fewer than two points' };
   const off = offsets(pts, half);
-  if (off === null) {
-    why = 'a repeated point';
-    return null;
-  }
+  if (off === null) return { refused: 'a repeated point' };
   let maxH = 0;
   for (const h of half) if (h > maxH) maxH = h;
   const l = eraseLoops(off.left, pts, maxH);
   const rr = eraseLoops(off.right, pts, maxH);
-  if (l === null || rr === null) return null;
+  if ('refused' in rr) return rr;
+  if ('refused' in l) return l;
   const left = l.line;
   const right = rr.line;
   const first = (line: XY[]): { i: number; ring: number; seg: number; at: XY } | null => {
@@ -408,10 +406,7 @@ export function mouthRing(pts: readonly XY[], half: readonly number[], startCap:
   };
   const hl = first(left);
   const hr = first(right);
-  if (hl === null || hr === null || hl.ring !== hr.ring) {
-    why = 'no mouth';
-    return null;
-  }
+  if (hl === null || hr === null || hl.ring !== hr.ring) return { refused: 'no mouth' };
   const river = earlier[hl.ring];
   const m = river.length;
   // the river's vertices from HR to HL: forward (hr.seg + 1 … hl.seg) or backward (hr.seg … hl.seg + 1), the shorter

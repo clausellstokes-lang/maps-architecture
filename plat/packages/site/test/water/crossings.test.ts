@@ -3,30 +3,19 @@
 // a pinned deck: a bank-to-bank segment perpendicular to the local flow (the course tangent averaged over one channel
 // width upstream and downstream)"; C-0229 (5)) on hand-built reaches — rectangles and bends whose banks are known.
 import type { LatticePoint } from '@plat/kernel';
-import type { Cm, CmArray, WaterBody } from '@plat/model';
+import type { WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { DECK_CLEARANCE_CM, segSeg2, siteCrossings, type CrossingSite, type WaterReach } from '../../src/water/index.js';
-import { flowNear, offNormalDeg, TABLES } from './support.js';
+import { flowNear, lp, offNormalDeg, TABLES, waterBody } from './support.js';
 import { waterParams } from '../../src/water/index.js';
 
 const REACH = { x: 100_000, y: 50_000 };
 const P = waterParams(TABLES);
 const OPTS = { reach: REACH, minSpacingCm: P.minSpacingCm, fordMaxWidthCm: P.fordMaxWidthCm };
 
-function lp(x: number, y: number): LatticePoint {
-  return { x: Math.round(x) as Cm, y: Math.round(y) as Cm };
-}
-
+/** A river on a lattice course, a width per point (support's `waterBody`). */
 function body(id: string, course: LatticePoint[], widths: number[]): WaterBody {
-  return {
-    id,
-    kind: 'river',
-    face: { owner: id, level: 0 },
-    shore: { role: 'shore', entity: id },
-    course,
-    widthProfile: Int32Array.from(widths) as CmArray,
-    lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
-  };
+  return waterBody(id, 'river', course, widths);
 }
 
 /** A straight river along y = 0 from x0 to x1, a course vertex every 10 m, its polygon the given ring (default the rectangle of `width`). */

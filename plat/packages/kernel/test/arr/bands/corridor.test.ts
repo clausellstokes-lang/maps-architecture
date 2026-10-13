@@ -13,7 +13,7 @@ import { setOwner, tx } from '../../../src/tx/index.js';
 import type { Cm, PlatKey, StageId } from '../../../src/types/index.js';
 import { kerb, kerbOf, readFace, readKerb } from '../../../src/arr/kerb.js';
 import { corridorUnion, opCorridorUnion } from '../../../src/arr/corridorUnion.js';
-import type { BandResult } from '../../../src/arr/bandUnion.js';
+import { outlinePieces, type BandResult } from '../../../src/arr/bandUnion.js';
 import { CELLS } from '../../insert/step1-2/support.js';
 import { lin } from '../../tx/support.js';
 import {
@@ -177,6 +177,51 @@ describe('corridorUnion (§3.4, §3.7)', () => {
     // C-0212 (4): the turned-away face's one corridor_split runs from J to the spliced kerb point; the convex side's
     // corner (the offset lines' meeting point (1893, 2330)) splits to its feet on way:1 and way:2
     expect(edgesWithRole(p, 'corridor_split')).toEqual(['1944,2024-1893,2330', '2155,2263-1893,2330', '2308,1823-2100,2050']);
+    expect(tilesExactly(p, 2, kids)).toEqual([]);
+  });
+
+  it('§13.2 with a dead-end lane on a spine-less boundary: the kerb piece’s closing chord within attractCm is in S8’s working block and in S9’s committed block (N-57 (2))', () => {
+    // a spine-less edge from (1500, 4000) down to (2497, 0) (14° off the vertical) and, in S8's open batch, a lane of
+    // half-width 157.5 from the frame's west side ending on it at (2003, 1983), turned 9.5° from its normal: the round
+    // cap meets the edge and the lane's kerb piece below closes on it by a 25.96 cm chord (≤ attractCm) — the case the
+    // insertion lost, committing the piece dangling and the strip and block one face (integrated seeds 34 and 47)
+    const b = (14 * Math.PI) / 180;
+    const E: [number, number] = [Math.round(1500 + 2017 * Math.tan(b)), 2017];
+    const ang = Math.PI + b + (9.5 * Math.PI) / 180;
+    const L: [number, number] = [Math.round(E[0] + Math.cos(ang) * 1400), Math.round(E[1] - Math.sin(ang) * 1400)];
+    const T = (q: readonly [number, number]): ReturnType<typeof pt> => pt(q[0], 4000 - q[1]);
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [T([1500, 0]), T(E), T([Math.round(1500 + 4000 * Math.tan(b)), 4000])], [{ role: 'way', entity: 'way:edge' }], 'mandatory'));
+    const ws = widthsOf({ 'lane:1': 157.5 });
+    const keys = [[200, 200], [200, 3800]] as const;
+    const s8 = new Map<string, string[]>();
+    const chords: number[] = [];
+    commit(p, 1, (o) => {
+      const a = insertChain(o, [T([0, L[1]]), T(L), T(E)], [{ role: 'way', entity: 'lane:1' }], 'mandatory');
+      if (!a.ok) return err(a.code, a.detail);
+      for (const [x, y] of keys) {
+        const f = faceAt(p, 1, x, y);
+        const k = kerb(o, f, ws);
+        if (!k.ok) return err(k.code, k.detail);
+        s8.set(`${String(x)},${String(y)}`, normals(k.value));
+        const rk = readKerb(p, f, ws);
+        if (!rk.ok) return err(rk.code, rk.detail);
+        for (const q of outlinePieces(rk.value)) if (!q.closed) chords.push(Math.hypot(q.points[q.points.length - 1].x - q.points[q.points.length - 2].x, q.points[q.points.length - 1].y - q.points[q.points.length - 2].y));
+      }
+      return ok(null);
+    });
+    // the precondition: a piece closes on the spine-less edge by a chord within attractCm, as its last point
+    expect(chords.some((c) => c > 25 && c <= 26)).toBe(true);
+    const kids = keys.map(([x, y]) => faceAt(p, 1, x, y));
+    commit(p, 1, (o) => setOwner(o, kids, 'district:1'));
+    const r = commit(p, 2, (o) => corridorUnion(o, kids, ws), AT_S9);
+    healthy(p);
+    const blocks = blocksByFace(p, kids, r.value as BandResult);
+    kids.forEach((f, i) => {
+      const key = `${String(keys[i][0])},${String(keys[i][1])}`;
+      expect(s8.get(key)?.length).toBeGreaterThan(0);
+      expect(blocks.get(f)).toEqual(s8.get(key));
+    });
     expect(tilesExactly(p, 2, kids)).toEqual([]);
   });
 

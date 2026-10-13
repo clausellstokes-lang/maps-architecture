@@ -14,10 +14,11 @@
 // accumulation (ties: the lower cell index). Outfalls are listed by body in order (left bank, then right, stretch by
 // stretch), then the frame edges E, N, W, S, stretch by stretch: a pure function of the terrain and the water, so a
 // recomputation gives the same list.
-import type { Cm, Outfall, OutfallInto, PointCm, Terrain, WaterBody } from '@plat/model';
-import { cellAt, rasterise, type XY } from '../hydro/course.js';
+import type { Outfall, OutfallInto, PointCm, Terrain, WaterBody } from '@plat/model';
+import { cellIndexAt, rasterise, type XY } from '../hydro/course.js';
 import { D8_DX, D8_DY } from '../hydro/field.js';
-import { footOn, insideRings, lineOf, nearestOnLine, quot, type Reach } from './geometry.js';
+import { centreX, centreY } from '../terrain/grid.js';
+import { footOn, insideRings, lineOf, lp, nearestOnLine, quot, type Reach } from './geometry.js';
 import type { WaterReach } from './types.js';
 
 /** What `outfalls` reads besides the terrain and the water: the arena and the stretch length (cm). */
@@ -62,8 +63,9 @@ function better(a: Pick | undefined, cell: number, acc: number): boolean {
   return a === undefined || acc > a.acc || (acc === a.acc && cell < a.cell);
 }
 
+/** A point rounded to the lattice (`lp`) as the model's `PointCm`, the records' point type. */
 function pointCm(q: XY): PointCm {
-  return { x: Math.round(q.x) as Cm, y: Math.round(q.y) as Cm } as PointCm;
+  return lp(q) as PointCm;
 }
 
 /** The bank segments of a reach: its polygon's segments, less those lying on the arena's outer ring. */
@@ -96,11 +98,11 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
   for (let ri = 0; ri < bodies.length; ri += 1) {
     const rings = bodies[ri].parts.flatMap((p) => p.rings);
     for (let j = 0; j < g.rows; j += 1) {
-      const y = g.originY + (j + 0.5) * g.cellCm;
+      const y = centreY(g, j);
       for (let i = 0; i < g.cols; i += 1) {
         const c = j * g.cols + i;
         if (bodyOf[c] >= 0) continue;
-        if (insideRings(rings, { x: g.originX + (i + 0.5) * g.cellCm, y })) bodyOf[c] = ri;
+        if (insideRings(rings, { x: centreX(g, i), y })) bodyOf[c] = ri;
       }
     }
   }
@@ -119,7 +121,7 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
     if (k > 7) continue;
     const ti = i + D8_DX[k];
     const tj = j + D8_DY[k];
-    const centre = { x: g.originX + (i + 0.5) * g.cellCm, y: g.originY + (j + 0.5) * g.cellCm };
+    const centre = { x: centreX(g, i), y: centreY(g, j) };
     const acc = terrain.flowAccum[c];
     if (ti < 0 || tj < 0 || ti >= g.cols || tj >= g.rows) {
       // off the frame edge: E, N, W, S
@@ -160,10 +162,6 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
     m.set(key, { cell: c, acc, at });
   }
   const out: Outfall[] = [];
-  const cellOf = (q: XY): number => {
-    const { i, j } = cellAt(g, q.x, q.y);
-    return j * g.cols + i;
-  };
   for (let ri = 0; ri < bodies.length; ri += 1) {
     const body = bodies[ri].body;
     const keys = [...bankPicks[ri].keys()].sort((a, b) => {
@@ -174,7 +172,7 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
     for (const key of keys) {
       const pk = bankPicks[ri].get(key) as Pick;
       const at = pointCm(pk.at);
-      out.push({ into: intoOf(body.kind), water: body.id, at, cell: cellOf(at) });
+      out.push({ into: intoOf(body.kind), water: body.id, at, cell: cellIndexAt(g, at.x, at.y) });
     }
   }
   for (const m of framePicks) {
@@ -182,7 +180,7 @@ export function outfalls(terrain: Terrain, bodies: readonly WaterReach[], opts: 
     for (const key of keys) {
       const pk = m.get(key) as Pick;
       const at = pointCm(pk.at);
-      out.push({ into: 'frame', water: null, at, cell: cellOf(at) });
+      out.push({ into: 'frame', water: null, at, cell: cellIndexAt(g, at.x, at.y) });
     }
   }
   return out;

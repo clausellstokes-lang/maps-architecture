@@ -15,10 +15,9 @@
 // then course order; the windows are served narrowest first (then reach order, then window order), each taking its
 // first candidate that keeps `minSpacingCm` from every deck taken and every existing deck (segment to segment). End 0 is
 // the left bank looking downstream. A site is a `ford` when the reach's width there (its width profile) is below `fordMaxWidthCm`.
-import type { Cm } from '@plat/model';
 import type { LatticePoint } from '@plat/kernel';
-import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
-import { insideRings, quot, rayHit, ringGap, ringsDist2, segSeg2, type Reach } from './geometry.js';
+import { arcLengths, pointAtArc } from '../hydro/course.js';
+import { insideRings, lp, quot, rayHit, ringGap, ringsDist2, segSeg2, type Reach } from './geometry.js';
 import { DECK_CLEARANCE_CM, DECK_SPAN_SHARE_MAX } from './params.js';
 import type { CrossingSite, Deck, WaterReach } from './types.js';
 
@@ -27,10 +26,6 @@ export interface CrossingOptions {
   reach: Reach;
   minSpacingCm: number;
   fordMaxWidthCm: number;
-}
-
-function lp(q: XY): LatticePoint {
-  return { x: Math.round(q.x) as Cm, y: Math.round(q.y) as Cm };
 }
 
 interface Candidate {
@@ -51,7 +46,9 @@ function candidates(reaches: readonly WaterReach[], ri: number, bandCm: number, 
   const total = arcs[arcs.length - 1];
   const others = reaches.filter((_, j) => j !== ri).flatMap((o) => o.parts.flatMap((p) => p.rings));
   const clear2 = DECK_CLEARANCE_CM * DECK_CLEARANCE_CM;
-  const clearOf = (q: LatticePoint): boolean => ringGap(opts.reach, q) >= DECK_CLEARANCE_CM && (others.length === 0 || ringsDist2(others, q) >= clear2);
+  // a deck end clear of the arena's ring and of the other bodies (offset.ts's `clearOf` is another test: a ring's
+  // clearance from the earlier rings)
+  const endClear = (q: LatticePoint): boolean => ringGap(opts.reach, q) >= DECK_CLEARANCE_CM && (others.length === 0 || ringsDist2(others, q) >= clear2);
   for (let v = 1; v < course.length - 1; v += 1) {
     const s = arcs[v];
     const w = widths[v];
@@ -75,7 +72,7 @@ function candidates(reaches: readonly WaterReach[], ri: number, bandCm: number, 
     const a = lp(left.at);
     const b = lp(right.at);
     if (a.x === b.x && a.y === b.y) continue;
-    if (!clearOf(a) || !clearOf(b)) continue;
+    if (!endClear(a) || !endClear(b)) continue;
     const window = Math.floor(quot(s, bandCm));
     const site: CrossingSite = {
       water: r.body.id,

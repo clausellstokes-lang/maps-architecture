@@ -1,19 +1,18 @@
 // S1's declared stage-end hard row `references-resolve` (§3.10's stored-reference row; §5.3; §5.4's
-// `ReportSink.invariant`; docs/M0-FIX-QUEUE.md Q31, the N-9/Q15 shape; C-0310): the row is EVALUATED at S1's end — every
-// reference the water batch committed (the margin, each body's face and shore, each bridge's two deck_end vertices, each
-// land component's face) resolving in the committed arena, and no geometry carrying an entity the stage does not hold —
-// and its evaluation is reported through the context's sink, so a report line that says pass with count 0 can never
-// again mean the row never ran. A planted breach (the test's own hook on the façade's stage-end index rebuild, which runs
+// `ReportSink.invariant`; C-0310): the row is EVALUATED at S1's end — every reference the water batch committed (the
+// margin, each body's face and shore, each bridge's two deck_end vertices, each land component's face) resolving in the
+// committed arena, and no geometry carrying an entity the stage does not hold — and its evaluation is reported through
+// the context's sink, so a report line that says pass with count 0 can never mean the row never ran. A planted breach (the test's own hook on the façade's stage-end index rebuild, which runs
 // after the water batch commits and before the row: a deck_end row removed — a dangling VertexRef — or a shore row
 // naming an entity no output holds) refuses the stage E_INVARIANT with the row named first, its evaluation counted and
 // failed; the honest twin reports one evaluation, passing, with zero problems. Run under a hand-built StageContext
 // (C-0123), the sink a stand-in for the runner's (its count and pass rule, and its refusal of an undeclared row name).
 import { addRole, checkStageEnd, handleOf, isHalfEdgeLive, removeRoleRow, roleIdOf, rowKey, rowsOfKey, rowsOn, type Kernel, type Plat } from '@plat/kernel';
-import type { GeomRef, StageContext } from '@plat/model';
+import type { StageContext } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import type { SiteEnv } from '../../src/terrain/index.js';
-import { REFERENCES_ROW, runS1, s1Stage, type S1Input, type S1Output } from '../../src/water/index.js';
-import { ground, riverFixture, type RiverFixture } from './support.js';
+import { REFERENCES_ROW, runS1, s1Stage, type S1Input } from '../../src/water/index.js';
+import { ground, heldRefs, riverFixture, type RiverFixture } from './support.js';
 
 /** A 100 ha CITY frame with a river, a tributary and the basic estuary (stage.test.ts's fixture: four or more sites). */
 function fixture(seed = 2): RiverFixture {
@@ -87,25 +86,6 @@ function runOn(fx: RiverFixture, ctx: StageContext<SiteEnv>, how?: Breach): { r:
   return { r: runS1(input, ctx), plat: g.plat, planted };
 }
 
-/** The references the output holds, and its live entities (the row's subject as the stage builds it). */
-function heldRefs(fx: RiverFixture, out: S1Output): { refs: GeomRef[]; live: Set<string> } {
-  const refs: GeomRef[] = [{ role: 'margin', entity: fx.terrain.id }];
-  const live = new Set<string>([fx.terrain.id]);
-  for (const b of out.water.bodies) {
-    refs.push(b.face, b.shore);
-    live.add(b.id);
-  }
-  for (const b of out.water.bridges) {
-    refs.push(...b.deck);
-    live.add(b.id);
-  }
-  for (const c of out.land) {
-    refs.push(c.face);
-    live.add(c.id);
-  }
-  return { refs, live };
-}
-
 describe('Q31: S1 evaluates and reports its declared stage-end row references-resolve', () => {
   it('the honest twin: one evaluation reported, passing (the line reads pass with count 1); the row finds zero problems over the committed references', { timeout: 300_000 }, () => {
     const fx = fixture();
@@ -117,7 +97,7 @@ describe('Q31: S1 evaluates and reports its declared stage-end row references-re
     expect(calls).toEqual([['references-resolve', true]]);
     expect(lines).toEqual([{ name: 'references-resolve', pass: true, count: 1 }]);
     expect(r.value.water.bridges.length).toBeGreaterThan(1);
-    const { refs, live } = heldRefs(fx, r.value);
+    const { refs, live } = heldRefs(fx.terrain.id, r.value);
     const row = checkStageEnd(plat, { refs, isLive: (id) => live.has(id) }).find((x) => x.name === 'references-resolve');
     expect(row?.problems).toEqual([]);
     expect(row?.subjects).toBeGreaterThan(refs.length);
