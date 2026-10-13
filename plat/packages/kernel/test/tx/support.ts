@@ -2,13 +2,15 @@
 // runner, a slot-free fingerprint of an arena and its index, the arena bit for bit, the arena's snapshot (its print, live
 // records per level, encoded chunks and level digests; T-support-3), and the oracles M0-a-04 / M0-a-05's tests judge an
 // arena with (re-exported, read-only: §3.10's half-edge links, minEdge, one vertex per lattice point, no crossing,
-// clearance, level consistency, the face records against the level views, nesting, Euler per level).
+// clearance, level consistency, the face records against the level views, nesting, Euler per level), with `readable`
+// beside them: the encoder's block and every chain's own-level route read the arena (session round S6, C-0356).
 import { expect } from 'vitest';
-import { handleOf, isFaceLive, isVertexLive, outgoing, roleIdOf, rowElement, rowsOfKey, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
+import { handleOf, idOf, isFaceLive, isRoleRowLive, isVertexLive, outgoing, roleIdOf, roleInfo, rowElement, rowsOfKey, type HalfEdgeId, type Plat, type VertexId } from '../../src/arena/index.js';
 import { checkIndexState } from '../../src/index/index.js';
+import { encodeArena } from '../../src/io/index.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { tx, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../../src/tx/index.js';
-import type { Level, StageId } from '../../src/types/index.js';
+import { routeLines, tx, type Committed, type KernelOp, type KernelTx, type Overlay, type TxEnv } from '../../src/tx/index.js';
+import type { ChainRef, Level, StageId } from '../../src/types/index.js';
 import { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, snapshot as shellSnapshot, tx as shell, vertexAtPoint } from '../insert/step3-5/support.js';
 
 export { allProblems, contentPrint, edgeRows, framed, halfEdgeBetween, ins, pt, shell, vertexAtPoint };
@@ -119,6 +121,35 @@ export function snapshot(p: Plat): { print: string; faces: number[]; refs: strin
 export function healthy(p: Plat): void {
   expect(allProblems(p)).toEqual([]);
   expect(checkIndexState(p)).toEqual([]);
+}
+
+/**
+ * Every chain the arena carries — each (edge role, entity) key of a live row, by role name then entity id — read from the
+ * role table itself, so no caller's bookkeeping can miss one.
+ */
+export function chainsOf(p: Plat): ChainRef[] {
+  const R = p.roles;
+  const seen = new Map<string, ChainRef>();
+  for (let r = 0; r < p.slots.role.top; r++) {
+    if (!isRoleRowLive(p, r)) continue;
+    const info = roleInfo(R.kind[r]);
+    if (info.kind !== 'edge' || info.indexed) continue;
+    const ref: ChainRef = { role: info.name, entity: idOf(p, R.entity[r]) };
+    seen.set(`${ref.role}\u0000${ref.entity}`, ref);
+  }
+  return [...seen.values()].sort((a, b) => (a.role < b.role ? -1 : a.role > b.role ? 1 : a.entity < b.entity ? -1 : a.entity > b.entity ? 1 : 0));
+}
+
+/**
+ * The committed arena as its readers read it (session round S6, C-0356; checks/M0-a-06-notes.md N-c1-6): the persisted
+ * form (`encodeArena`, which refuses rows of one level that differ along a route edge of that level — the constancy
+ * §3.10's validator rows do not read) and the own-level route of every chain (`routeLines`, which refuses a run without
+ * two route vertices of the chain's level). Both must read every committed arena of the registered families.
+ */
+export function readable(p: Plat): void {
+  expect(() => encodeArena(p)).not.toThrow();
+  const key = { layer: 'ground', part: 0 } as const;
+  for (const c of chainsOf(p)) expect(() => routeLines(p, c, key), `routeLines (${c.role}, ${c.entity})`).not.toThrow();
 }
 
 /** The vertices carrying a vertex row's key. */

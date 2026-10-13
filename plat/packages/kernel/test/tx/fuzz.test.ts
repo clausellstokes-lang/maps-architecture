@@ -1,11 +1,12 @@
 // M0-a-06: random batch sequences (§13.1's B-FUZZ bar for this item's writers — 0 crashes, 0 invalid outputs): ways,
 // finer chains, whole-chain and stretch removals (a stretch's far part rekeyed first, or not — then role consistency
 // refuses), re-owns and clears, each batch either committed — the arena then passes every oracle (§3.10's rows as
-// M0-a-04 / M0-a-05's validator and M0-a-03's index-state check judge them) — or refused with the arena as it was.
+// M0-a-04 / M0-a-05's validator and M0-a-03's index-state check judge them) and its readers read it (`readable`: the
+// encoder's block and every chain's own-level route; session round S6, C-0356) — or refused with the arena as it was.
 import { describe, expect, it } from 'vitest';
 import { tx } from '../../src/tx/index.js';
 import { ALONG_MIX, DEFAULT_MIX, randomBatch, rng, type Live, type Mix } from './fuzzgen.js';
-import { framed, healthy, spec, state } from './support.js';
+import { framed, healthy, readable, spec, state } from './support.js';
 
 /** Commits and refusals per batch kind over every seed (the last test checks each kind ran). */
 const tally = new Map<string, { committed: number; refused: number }>();
@@ -31,6 +32,7 @@ describe('random batch sequences: every commit valid, every refusal a no-op', ()
             row.committed++;
           }
           healthy(p);
+          readable(p);
         } else {
           row.refused++;
           refused++;
@@ -78,8 +80,10 @@ describe('the wide runs\' regression sequences', () => {
         const snapshot: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
         const b = randomBatch(p, live, r, mix);
         const res = tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn);
-        if (res.ok) healthy(p);
-        else {
+        if (res.ok) {
+          healthy(p);
+          readable(p);
+        } else {
           expect(state(p)).toBe(before);
           live.ways = snapshot.ways;
           live.kerbs = snapshot.kerbs;
@@ -109,6 +113,7 @@ describe('random batch sequences with finer chains along the ways: every commit 
           if (res.value.record !== null) row.committed++;
           if ((res.value.record?.demoted.edges.length ?? 0) > 0) alongDemotions++;
           healthy(p);
+          readable(p);
         } else {
           row.refused++;
           expect(state(p)).toBe(before);

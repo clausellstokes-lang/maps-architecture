@@ -215,3 +215,141 @@ comment or test-strength tightening.
 | N-c1-8 | **The tx clearance row's boundary.** C12 (the row 2 cm too wide, `r + 2`) survives the tx folder at `PLAT_FUZZ_RUNS=1000`. Only the zigzag property kills it, at 10⁴. N-c1-4's N1 (1 cm too narrow) survives at every size. The row is shown equal to `segmentCloserThan` by the diff (`r*r*l2` ≡ `r2*l2`) and by the NO-SHIFT probe, but no unit case stands a vertex at 24, 25 and 26 cm from an edge after a removal. | extends N-c1-4's pin | M4 |
 | N-c1-9 | **Two on-run mutants of the pre-batch list survive, and are subsumed.** X16 / X16c keep only the first pair of the pre-batch on-run list (`onRunBefore`, the first reading). They survive the tx folder at 10⁴ on the tree and on the pre-round line, because the second reading (`onStretch`) re-admits each same-level pair whose vertex is of the pair's level. s2's X16, read as the FINAL list keeping its first pair (X16b), is killed by restore's case 855. | none needed; a fixture where a vertex finer than its edges has two on-run pairs would separate the readings | M4 |
 | N-c1-10 | **Two comment completions; everything the comments state holds.** (a) The C-tx-1 sentence on `tx/index.ts` (the plan's text, verbatim) drops one usage rule the old comment held: "never a batch's substitute (§3.3's batches stay the unit of writing)". A grep of `choices.md`, `M0.md` and `checks/M0-spec-notes.md` finds the rule nowhere else. "At most once" and "O(arena)" survive in `restoreSavepoint`'s doc and `savepoint.ts`'s header. (b) `state.ts`'s `op` doc lists a declared op's kind, `fn`, the writer names and `commit`, but `tx.ts` also sets `order` (`canonicalOrder`) and `<kind> (prepare)`. That list predates this round. | (a) one clause back on C-tx-1, or a choices row; (b) complete the list | M4 (comments) |
+
+## Round S6 — session fix round (lane `build/M0-a-06-fix-s6`, flow flow-7, 2026-10-13)
+
+Opened by the session's ruling J340 (2) on the R6 closing check's N-c1-6 (`docs/M0-FIX-QUEUE.md` Q54; N-c1-5): fourteen
+lawful batch sequences of this item's own fuzz families committed an arena whose rows of an intermediate level differ
+along a route edge of that level, so `encodeArena` refused it and `routeLines` of a live kerb threw in nine. J290: OUR
+OWN INTERMEDIATE, MAKE-IT-SUCCEED. Built on main after R6. The choices row is C-0356.
+
+### The defect, diagnosed on the fourteen replayed sequences
+
+Every one of the fourteen is the same mechanism, in **split restoration** (§2.2 rule 3 (c)'s last step, `relevel.ts`
+`restoreSplit`). A junction j of way W on way V's L1 run carries the `split` flag. An L2 kerb drawn along V ends at j,
+so V's edge on one side of j carries the kerb's L2 row and V's edge on the other side does not. An L3 plot line also
+meets j. When W is removed (`remove way`, or the removal half of a `stretch` / `stretch (rekeyed)` batch), j's two
+remaining edges of its level have identical rows of L1, so restoration applies. It set j's level to "the lowest level
+among the finer edges and finer vertex rows" — L3, the plot line — and read nothing about the kerb's L2 row, which one
+run edge carries and the other does not. At L3, j is a Steiner vertex of V's L2 route edge too, and that route edge's L2
+rows change at j. So:
+
+* `encodeArena`'s `runRows` throws `the rows of one level differ along a route edge of that level`;
+* the kerb's own-level (L2) route has no vertex at its end, and where that leaves its run fewer than two L2 vertices
+  `linesOfRuns` throws `tx: a run has route vertices at its own level` (nine of the fourteen, on the fuzz's live kerbs).
+
+`allProblems` and the index check stayed empty because §3.10's level-consistency row, as M0-a-14 builds it, reads the
+coarser edges' own level only. The first broken batch and the one vertex, per sequence (before → after this round):
+
+| sequence | batch | kind | vertex | level before → after |
+|---|---|---|---|---|
+| along ×104 729 seed 91 | 10 | remove way | (1110, 791) | L3 → L2 |
+| along 235 | 14 | remove way | (3002, 1064) | L3 → L2 |
+| along 307 | 7 | remove way | (1555, 2313) | L3 → L2 |
+| along 719 | 10 | remove way | (1603, 2179) | L3 → L2 |
+| along 980 | 7 | stretch (rekeyed) | (2856, 2732) | L3 → L2 |
+| heavy ×15 485 863 seed 106 (fuzz.test.ts regression) | 18 | remove way | (2398, 2399) | L3 → L2 |
+| heavy 210 | 12 | stretch (rekeyed) | (3300, 3035) | L3 → L2 |
+| heavy 213 | 11 | stretch | (1480, 1041) | L3 → L2 |
+| heavy 333 | 10 | remove way | (2726, 1325) | L3 → L2 |
+| heavy 361 | 19 | remove way | (2783, 2771) | L3 → L2 |
+| heavy 395 | 10 | remove way | (3426, 3439) | L3 → L2 |
+| heavy 402 | 9 | stretch | (969, 2146) | L3 → L2 |
+| heavy 443 | 13 | remove way | (726, 719) | L3 → L2 |
+| heavy 739 | 19 | remove way | (2536, 3540) | L3 → L2 |
+
+Batch indexes are 0-based; "heavy" is the mix way 0.2 / lane 0.3 / along 0.25, 20 batches; "along" is `ALONG_MIX`, 16.
+
+### The fix (src/tx/relevel.ts only)
+
+`restoreSplit`: where restoration applies (as before — the vertex still meets finer edges or carries finer vertex rows),
+the level it takes is also at most the level of every row finer than the vertex that one of its two run edges carries
+and the other does not (a finer chain ending at the vertex along the run). So every level's rows stay constant along
+the run the vertex now stands inside, and the ending chain's own-level route keeps its end. In the fourteen, the
+junction takes L2 (the kerb's level), not L3, and keeps its `split` flag as a Steiner vertex of V's L1 route. The
+trigger is unchanged: a vertex with no finer edge and no finer vertex row is not restored (N-s6-1). This is a commit that
+succeeds with constant rows (J264 (2)), not a post-condition refusal.
+
+### Evidence
+
+* **The fourteen replayed** (mirror probe; seeds, multipliers and batch indexes above). On the pre-round sources, every
+  one commits its batch and then `encodeArena` refuses; `routeLines` of a live kerb throws at that batch in eight —
+  lane:6 (91), lane:7 (235), lane:4 (719), lane:3 (213), lane:8 (333), lane:9 and lane:15 (361), lane:5 (395), lane:6
+  (443) — and in a ninth at a later batch, lane:11 (210, batch 15). After the fix, every batch of every sequence commits or refuses
+  exactly as before, and every committed arena is encoded and read.
+* **NO-SHIFT probe** (mirror, pre-round `relevel.ts` vs the round's): 52 220 batches — default ×7 919 seeds 1 – 1 200
+  (14 batches), along ×104 729 seeds 1 – 1 200 (16), heavy ×15 485 863 seeds 1 – 800 (20), and fuzz.test.ts's ten
+  regressions — each batch's outcome, its code and the sha256 of `state(p)` (the slot-free content print and the
+  version). The outcome of every batch is identical. Outside the fourteen sequences, 51 940 lines are byte-identical
+  (sha256 of the lines `9343ae04cf3f9b04…`, both sides). Inside them, 78 batch states differ, each from the sequence's
+  first broken batch on, by the one vertex in the table and what its level moves (its faces and route items). Whole
+  files: pre `d72f1feb…`, post `b7cfdb13…`. The change can alter a result only where the old result broke the
+  constancy: if the bound lowers the level, a row of that level differs between the two run edges, and the old level
+  left the vertex inside that level's route.
+* **Refusal census** (J264 (5), N-58). tx's refusals on the registered families, before = after: fuzz.test.ts seeds
+  1 – 24 default 59 / 336, along 104 / 384, the regressions 49 / 220 (the R6 check's counts); over the probe's wide
+  families default 3 478 / 16 800, along 4 579 / 19 200, heavy 3 576 / 16 000. None added; the codes are those of N-c1-2
+  (E_KEPT), N-c1-3 and the role-consistency refusals of `stretch` (E_INVARIANT), and one E_DEGENERATE, all as before.
+  The encoder's refusals of committed arenas: 37 batches in the 14 sequences → 0. `routeLines` throws on a live chain:
+  22 batches → 0. A whole-arena intermediate-level scan (every vertex finer than r with level-≤ r edges: exactly two of
+  one level with identical level-r rows): 37 → 0 lines.
+
+### Tests (test/tx)
+
+* `support.ts`: `readable(p)` — `encodeArena(p)` and `routeLines` of every chain the arena carries (`chainsOf(p)`: every
+  live non-indexed edge row's (role, entity), read from the role table) must not throw. Imported by path
+  (`src/io/index.js`, `src/tx/index.js`).
+* `fuzz.test.ts`: the `healthy` oracle of all three families (seeds, regressions, along) is followed by `readable(p)`
+  after every committed batch. Seeds and sizes unchanged.
+* `readable.test.ts` (new): the fourteen sequences, each pinned at its batch (its kind, a commit with a record) and read
+  after every batch (`healthy`, `readable`; a refusal leaves the arena as it was).
+* `removals.test.ts`: the constructive case (a kerb along the spine ending at a junction, an L3 plot line at it; the
+  junction's way removed: L2, `split | steiner`, the kerb's route `(2000,2000) – (4000,2000)`); the same with the kerb
+  THROUGH the junction (L3, the kerb's route `(0,2000) – (4000,2000)`); the existing "kept" case now asserts the level
+  (L1).
+
+Red on the pre-round `relevel.ts` (mirror): 16 tests — `readable.test.ts` 14 / 14 (`encodeArena: the rows of one level
+differ …`), `fuzz.test.ts` 'seed 106 × 15485863', `removals.test.ts`'s constructive case. Green on the round's sources.
+The along family's broken sequences are seeds 91 – 980 of ×104 729, outside fuzz.test.ts's seeds 1 – 24 (which pass on
+both lines); they are pinned in `readable.test.ts`.
+
+### Self-check (J183)
+
+The fault re-introduced: the pre-round `relevel.ts` in the mirror (16 red, above). Targeted mutants of the new bound,
+each against `test/tx` (kernel project, `--bail=1`, W = 1), restored and `cmp -s`-checked after each:
+
+| mutant | change | result |
+|---|---|---|
+| M1 | the bound reads only the second run edge's unshared rows | killed (fuzz 'seed 106 × 15485863') |
+| M2 | only the first's | killed (readable 'seed 307') |
+| M3 | every finer row on the run edges bounds the level, shared or not | survived, then killed by the new THROUGH pin |
+| M4 | the bound applied before the trigger (a vertex with no finer edge or vertex row restored) | survived, then killed by the "kept" case's level assertion |
+| M5 | `R.level[r] >= lv` for `> lv` | equivalent: the rows of level ≤ lv are identical on both edges (restoration's precondition) |
+| M6 | the bound one level too fine (`R.level[r] + 1`) | killed (fuzz 'seed 106 × 15485863') |
+
+### Gates
+
+`install --frozen-lockfile` 0; `lint` 0 (eslint 1 137 files, 0 errors, 0 warnings; `lint: probe-red ok`); `build` 0.
+NEAR at full strength: `test/tx` in the kernel and kernel-tiny projects — 30 files, 488 / 488 (90 s, W = 1), the item's
+here bar among them. RELATED at `PLAT_FUZZ_RUNS=1000` over `src/tx/relevel.ts` (the round's one source file; W = 1, 6 694 s): 429 files,
+5 564 / 5 564, exit 0 — no red (neither a J176 bench red nor R6's io roundtrip timeout appeared).
+
+### Notes
+
+| id | observation | handling | milestone |
+|---|---|---|---|
+| N-s6-1 | **Restoration's trigger kept literal.** A `split` vertex whose two run edges match at its level but differ only in a finer row (a kerb ending at it), and which meets no finer edge and carries no finer vertex row, is neither dissolved (its role sets differ) nor restored: it stays a vertex of the coarser route (`removals.test.ts` 'kept', L1). The arena is valid and encodable, and the outcome fails safe. The coarser route is not restored exactly, though: it keeps a vertex no row of its level needs. Reading the ending chain as "finer geometry" for the trigger too (M4) would restore it; that changes committed results on lawful states the registered families may reach, so it is not done in this round (NO-SHIFT). | hardening: decide whether a finer chain ending on the run triggers restoration (§2.2 rule 3 (c)) | M4 (hardening) |
+| N-s6-2 | **A validator row is warranted (route to M0-a-14).** `allProblems` passed all fourteen broken arenas: §3.10's level-consistency row reads the two coarser edges' rows at the edges' own level, not at each level between that and the vertex's. The encoder's `runRows` reads the full constancy. A row "a vertex finer than level r with edges of level ≤ r has exactly two, of one level, with identical rows of level r (of level ≤ 1 at r = 1), for every r between" would make every batch refuse such a state at commit rather than leave it to the encoder. tx's own (c) step has the same single-level reading for a vertex finer than its edges (`single`); with this round's bound no tx writer is known to reach the in-between case (0 in the 52 220 batches' scan). | the session routes the row to M0-a-14 (`invariants/`); tx's (c) step can read every level once the row exists | M0-a-14 |
+
+### Round S6 — the closing check's notes (lane `check/M0-a-06-close-s6`, 2026-10-13)
+
+Verdict in `checks/M0-a-06-s6.md` (PASS). None of these is a blocker. Seeds use the generator's `rng(seed × mult)`,
+fuzz.test.ts's loop, and 0-based batch indexes; "heavy" is the mix way 0.2 / lane 0.3 / along 0.25.
+
+| id | observation | handling | milestone |
+|---|---|---|---|
+| N-s6c-1 | **A LAWFUL refusal class in the wide families, and N-s6-1's "fails safe" is incomplete.** The checker's 52 220-batch golden holds 9 `remove lane` batches that tx refuses with `E_INVARIANT an L2 batch wrote the L1 index (delete of vertex N (L1)) outside its promotions and demotions` (index freshness). They are along ×104 729 seeds 325 @12 and 1097 @9, @12, @15, and heavy ×15 485 863 seeds 7 @18, 9 @6, 247 @5, 619 @19 and 719 @14. They are identical on the pre-round line, so the class did not rise in S6, and none lies in fuzz.test.ts's registered families. In the two examined, the refused vertex is an L1 `split` vertex on one way: along 325 @12 `v10 (3624,2661) L1 f4`, edges `[way/way:0/L1]` and `[way/way:0/L1, kerb/lane:4/L2]`; heavy 247 @5 `v8 (1355,648)`, the same shape with `kerb/lane:3`. Its two edges differ only by an L2 kerb that ends there, which is N-s6-1's 'kept' vertex (no finer edge, no finer vertex row, so not restored). This checker's trace confirms the history in both. In 325 the vertex is the crossing of way:0 and way:1 from batch 1; kerb lane:4 runs along way:0 and ends at it (batch 6); batch 11's `stretch (rekeyed)` removes way:1's stretch, which leaves it at L1 with flag 4 (`split`). In 247 it is way:0 × way:2, with kerb lane:3 (batch 3) and `remove way` way:0 (batch 4). Removing that kerb in an L2 batch then dissolves the L1 vertex, and index freshness refuses the L2 batch's write to the L1 index. J290: the input is LAWFUL (removing a live lane), so the verdict is MAKE-IT-SUCCEED. The author's census (round S6 *Evidence*) classes the wide families' refusals as E_KEPT, N-c1-3, `stretch`'s role consistency and one E_DEGENERATE, and omits this class. | the session: a fix round (MAKE-IT-SUCCEED) — reading a finer chain ending on the run as restoration's trigger too (N-s6-1's M4 option), or the dissolution's level rule for such a vertex; N-s6-1's placement at M4 reconsidered, since its 'kept' state leads to these refusals | M0 (J264), the session's call |
+| N-s6c-2 | **The restored vertex's changed-face levels are unpinned.** Two mutants show it. N12 drops the pre-existing `a.level < finer` bound on `restoreSplit`'s changed-face loop, so every near face at the vertex's level or finer is listed changed. It survives `test/tx` (244 / 244) while 2 244 of the golden's 52 220 lines differ (records and index state). N8 moves this round's bound after that loop. It survives `test/tx` and lists one unchanged L2 face as changed: along 235 @14 `changed (0,0)-(3185,0) (3185,0)-(4000,0)` against the tree's `(0,0)-(3185,0)`, and heavy 106 @18 likewise. The encoded arena and `routeLines` are identical. The tree is right: the vertex stays on the L2 route. Over-listing is conservative (extra re-derivation), not a wrong arena. | a pin of the 'ending' fixture's `record.faces[L2].changed` (the far L2 face not listed) and of a restoration's changed levels `[lv, finer)` | M4 (hardening) |
+| N-s6c-3 | **(c)'s `single` row comparison is unpinned.** D1 removes `&& sameList(levelRows(p, under[0], m), levelRows(p, under[1], m))` from rule 3 (c)'s `single`. It survives `test/tx` and is byte-identical over the 52 220 batches: no family reaches a vertex finer than its edges whose two coarser edges differ in rows. That is N-s6-2's single-level reading; this checker's every-level constancy scan finds 0 such vertices after the round. | with N-s6-2's validator row (M0-a-14): a fixture where (c)'s `single` must refuse a mismatched pair | M4 (hardening) |
+| N-s6c-4 | **Record completions.** (1) Heavy ×15 485 863 seed 210 has two broken batches: 12 (`stretch (rekeyed)`, (3300, 3035)) and 15 (`remove way`, (606, 1943), L3 → L2). C-0356's and the notes' "one vertex per sequence" omit the second vertex; the round fixes both (`readable.test.ts` reads every batch). (2) One wide-family refusal is unclassed in the author's census: along 648 @13 `insert way` `E_INVARIANT (way, way:13) branches: a linear role forms simple chains or rings`. It is identical before and after, and its kind (likely a generated three-point way whose snapped form touches itself) was not examined. (3) The author's encoder count, 37 batches, counts committed states. This checker's 51 also counts the states that refused batches leave on a broken arena. Both are 0 after. | the session: amend C-0356's shift list when it commits (210's second vertex); class (2) at the next census | M0 (record), M4 |
+| — | **Equivalents, judged.** N10 (`R.level[r] >= lv`): the trigger's `sameList(pairRows(c0, lv), pairRows(c1, lv))` makes every row of level ≤ lv common to both edges. N11 (the compare without the row's level): one (role, entity, ordinal) key carries one level. X03 (restoration without the on-run test): s2's argument, and the trigger is unchanged. N10 and N11 are golden-identical over 52 220 batches. | none | — |

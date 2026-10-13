@@ -1252,7 +1252,11 @@ function dissolve(
  * exactly two, of one level, with identical rows of its level or coarser, which carries no vertex row of its level or
  * coarser and no pin, but still meets finer edges or carries finer vertex rows, takes the lowest level among those —
  * the vertex dissolution would take but for that finer geometry — and keeps its flag (now a Steiner vertex of the run).
- * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223).
+ * The on-run test is `wasOnRun`'s, decided before the first merge (C-0223). A finer chain that ENDS at the vertex along
+ * the run — a row finer than the vertex on one of its two edges and not the other (a kerb along a way, ending at the
+ * junction a removed way left) — is finer geometry it meets too: the level is at most that row's, so every level's rows
+ * stay constant along the run the vertex now stands inside (§3.10's level consistency; the encoder's `runRows`) and the
+ * chain's own-level route keeps its end (session round S6, C-0356).
  */
 function restoreSplit(
   t: OpenTx,
@@ -1281,6 +1285,11 @@ function restoreSplit(
   for (const h of inc) if (T.level[h >> 1] > lv) finer = Math.min(finer, T.level[h >> 1]);
   for (const r of vr) finer = Math.min(finer, R.level[r]);
   if (finer === 5) return;
+  // The rows finer than the vertex that one of its two run edges carries and the other does not: a chain ending here.
+  const ra = pairRows(p, coarse[0]);
+  const rb = pairRows(p, coarse[1]);
+  for (const r of rowsOn(p, 'edge', coarse[0])) if (R.level[r] > lv && !rb.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
+  for (const r of rowsOn(p, 'edge', coarse[1])) if (R.level[r] > lv && !ra.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
   for (const a of near) if (a.level >= lv && a.level < finer) changedFaces.push(a);
   p.vertices.level[v] = finer;
   if (finer > m) p.vertices.flags[v] |= VERTEX_STEINER;
