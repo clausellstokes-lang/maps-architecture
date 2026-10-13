@@ -6,16 +6,15 @@
 // then the water batch (shores, decks, owners, land, banks, pins), rebuilds the L0 index partitions at the stage's end
 // (§3.3) and checks §3.10's stage-end rows over every reference the water, the bridges, the land and the terrain hold —
 // its declared row `references-resolve` evaluated once and reported through the context's sink (§5.4's
-// `ReportSink.invariant`, so the runner's line counts the evaluation and a pass with count 0 can never mean the row never
-// ran, Q31), a failing hard row refusing the stage E_INVARIANT with the row named first — then writes Terrain.outfalls
-// (S1 (9)). A water batch the kernel
-// refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and reported
-// (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first body, the
-// river, whose refusal is the stage's (C-0229 (2)), its detail naming the fast ring's cause and the kernel ring's
-// refusal, the one rung spent (N-56 (1)). The kernel's rings are cleaned and proved before any batch (`provedRings`); a
-// body they cannot make clear is dropped there, reason `refused`. The stage draws nothing
-// (no stream key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel
-// parameter and the StageContext no kernel slot (C-0229 (1)).
+// `ReportSink.invariant`: the runner's line counts the evaluation, so a pass is a counted pass; C-0310), a failing hard
+// row refusing the stage E_INVARIANT with the row named first — then writes Terrain.outfalls (S1 (9)). A water batch
+// the kernel refuses on the fast rings is re-run on the kernel's own polygons; a body refused on both is left out and
+// reported (`dropped`, reason `refused`; an estuary by keeping its river whole) and the batch re-run — never the first
+// body, the river, whose refusal is the stage's (C-0229 (2)), its detail naming the fast ring's cause and the kernel
+// ring's refusal, the one rung spent (C-0307). The kernel's rings are cleaned and proved before any batch
+// (`provedRings`); a body they cannot make clear is dropped there, reason `refused`. The stage draws nothing (no stream
+// key). Its input carries the kernel façade the runner hands it: §14's `run(input, ctx)` has no kernel parameter and the
+// StageContext no kernel slot (C-0229 (1)).
 import { checkStageEnd, err, ok, STAGES, type Invariant, type InvariantResult, type Kernel, type KernelError, type KernelResult, type Warning } from '@plat/kernel';
 import type { GeomRef, Id, Rung, Scope, Stage, StageContext, WaterBody, WaterSet, WorkLimitLaw } from '@plat/model';
 import { loadWorkLimits, workLimitOf } from '@plat/tables';
@@ -26,13 +25,13 @@ import { bridgeId, outerRingBatch, waterFaces } from './faces.js';
 import { reachOf, type Reach } from './geometry.js';
 import { outfalls } from './outfalls.js';
 import { waterParams, type WaterParams } from './params.js';
-import { waterPolygons } from './polygons.js';
+import { KERNEL_RING, waterPolygons } from './polygons.js';
 import type { CrossingSite, DroppedBody, S1Input, S1Output } from './types.js';
 
 /** The work-limit counters an L0 batch charges (M0.md §2.2's insert and tx rows). */
 export const S1_COUNTERS = Object.freeze(['insert.points', 'insert.attractQueries', 'insert.placementCandidates', 'insert.crossings', 'tx.facesWalked'] as const);
 
-/** §3.10's stored-reference row as S1's declared stage-end invariant (§5.3), evaluated and reported at every S1 end (Q31, C-0310). */
+/** §3.10's stored-reference row as S1's declared stage-end invariant (§5.3), evaluated and reported at every S1 end (C-0310). */
 export const REFERENCES_ROW: Invariant = Object.freeze({ name: 'references-resolve', scope: 'stage', class: 'hard', kind: 'check', check: 'references-resolve' });
 
 /** The stage's options. */
@@ -57,15 +56,13 @@ type Attempt =
   | { ok: true; polys: Extract<ReturnType<typeof waterPolygons>, { ok: true }>; sites: CrossingSite[]; faces: Extract<ReturnType<typeof waterFaces>, { ok: true }>; retried: boolean }
   | { ok: false; code: KernelError; detail: string; fast: boolean; fallbacks: readonly { id: Id; why: string }[]; riverPolygon?: true };
 
-/** The cause `waterPolygons` appends to a body's fast-ring refusal when the kernel's ring is refused too (N-56 (1)). */
-const KERNEL_RING = "; the kernel's ring: ";
-
 /** One try at the water: the polygons (fast, or the kernel's only), the sites on them, the water batch. */
 function water(input: S1Input, bodies: readonly WaterBody[], mouth: S1Input['mouth'], reach: Reach, params: WaterParams, k: Kernel, ctx: StageContext<SiteEnv>, opts: S1StageOptions, slowOnly: boolean): Attempt {
   const polys = waterPolygons(bodies, reach, { slowOnly, ...(mouth !== undefined ? { mouth } : {}) });
   if (!polys.ok) return { ok: false, code: polys.code, detail: `S1 water polygons: ${polys.detail}`, fast: false, fallbacks: [] };
   const fallbacks = polys.value.fallbacks;
-  // the first body (the river) refused on its polygons: no batch can stand without it (C-0229 (2); N-56 (1))
+  // the first body (the river) refused on its polygons: no batch can stand without it (C-0229 (2), C-0307); its
+  // fallback reads `<the fast ring's cause>${KERNEL_RING}<the kernel ring's>` (polygons.ts)
   const river = bodies[0]?.id;
   if (river !== undefined && polys.value.dropped.some((d) => d.id === river && d.reason === 'refused')) {
     const why = fallbacks.find((f) => f.id === river)?.why ?? '';
@@ -122,6 +119,8 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
       attempt = water(input, standing, mouth, reach, params, k, ctx, opts, true);
       if (attempt.ok || attempt.code !== 'E_INVARIANT') break;
     }
+    // the refused body, named by the kernel's refusal detail as `(shore, <id>)` — a message contract with @plat/kernel
+    // (its texts are frozen with its API)
     const named = /\(shore, ([^)]+)\)/.exec(attempt.detail)?.[1];
     if (named !== undefined && named.startsWith('water:estuary:') && mouth !== undefined && mouth !== 'none') {
       // the estuary refused: the river kept whole
@@ -138,7 +137,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
   }
   if (!attempt.ok) {
     // the river's ring refused at commit on the kernel's polygons: its one rung (fast → the kernel's) is spent — the
-    // fast ring's cause named, so the reader sees why there was no retry (N-56 (1))
+    // fast ring's cause named, so the reader sees why there was no retry (C-0307)
     if (riverRefused || attempt.riverPolygon === true) return err(attempt.code, `S1 water: the river's ring was refused on the kernel's polygons (the fast ring: ${fastWhy ?? 'inserted, refused at commit'}); no further rung — ${attempt.detail}`);
     return err(attempt.code, attempt.detail);
   }
@@ -167,7 +166,7 @@ export function runS1(input: S1Input, ctx: StageContext<SiteEnv>, opts: S1StageO
     live.add(c.id);
   }
   const rows = checkStageEnd(plat, { refs, isLive: (id) => live.has(id) });
-  // the declared row: evaluated once over the committed arena and reported (Q31); a kernel check that returns no such
+  // the declared row: evaluated once over the committed arena and reported (C-0310); a kernel check that returns no such
   // row is a breach of the row, never a silent pass
   const row = rows.find((r) => r.name === REFERENCES_ROW.name);
   reportRow(ctx, REFERENCES_ROW.name, row !== undefined && row.holds);
@@ -214,7 +213,7 @@ function stageEndDetail(failed: readonly InvariantResult[]): string {
  * test's, a bench's) still evaluates the row and refuses on its breach.
  */
 function reportRow(ctx: StageContext<SiteEnv>, name: string, pass: boolean): void {
-  const sink = (ctx as { report?: unknown } | undefined)?.report as { invariant?: (name: string, pass: boolean) => void } | null | undefined;
+  const sink = ctx.report as { invariant?: (name: string, pass: boolean) => void } | null | undefined;
   if (sink !== undefined && sink !== null && typeof sink.invariant === 'function') sink.invariant(name, pass);
 }
 

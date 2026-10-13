@@ -12,7 +12,7 @@
 //   simple, clear of itself and of the earlier rings; a ring it refuses takes the kernel's own construction — §3.4's
 //   `buffer` (round joins and ends), `booleans` intersection with the arena and difference with the earlier bodies —
 //   reported in `fallbacks` with the refusal (the kernel's union costs tens of seconds on a CITY river, the fast ring
-//   milliseconds); the kernel's rings are then cleaned and proved as the fast ring is (`provedRings`, N-56 (1)), and a
+//   milliseconds); the kernel's rings are then cleaned and proved as the fast ring is (`provedRings`, C-0307), and a
 //   body whose rings stay unclear is dropped, reason `refused`, its cause in `fallbacks`;
 // * the basic estuary (§4.2 S1 (3) *Mouths*; C-0173 (7)): with `mouth` `estuary` or `delta` the river's last
 //   ESTUARY_SPLIT_M — the stretch M0-e-02 widened — is a body of its own, kind `estuary`, flowing from the river: one
@@ -21,12 +21,15 @@
 //
 // Parts below SLIVER_AREA_CM2 are a boolean's slivers, dropped; a part keeps the body's course points that lie at least
 // SEED_DEPTH_CM inside it (its seeds), and a part with none is dropped too (C-0229 (3)).
+//
+// File-level (shared by path inside `@plat/site`, not part of the package's API; J263 Q1's convention): `KERNEL_RING`
+// (the stage reads it back), `provedRings`, `fastRings`, `chainOf`, `simplifyChain`, `SIMPLIFY_CM`.
 import { booleans, buffer, err, ok, type KernelResult, type LatticePoint, type Ring, type Warning } from '@plat/kernel';
-import type { Cm, CmArray, Id, PointCm, WaterBody } from '@plat/model';
+import type { CmArray, Id, PointCm, WaterBody } from '@plat/model';
 import { arcLengths, pointAtArc, type XY } from '../hydro/course.js';
-import { area2, insideRings, lineOf, nearestOnLine, onRing, outerRing, quot, rayHit, ringGap, ringsDist2, segDist2, type Reach } from './geometry.js';
+import { area2, insideRings, lineOf, lp, nearestOnLine, onRing, outerRing, quot, rayHit, ringGap, ringsDist2, segDist2, type Reach } from './geometry.js';
 import { ESTUARY_SPLIT_M, SEED_DEPTH_CM, SLIVER_AREA_CM2 } from './params.js';
-import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, refusal, RING_CLEAR_CM, ringsApart, snapRing, type Cap } from './offset.js';
+import { cleanRing, clearOf, clearRing, clipToArena, isSimple, mouthRing, offsetRing, RING_CLEAR_CM, ringsApart, snapRing, unitOf, type Cap } from './offset.js';
 import type { DroppedBody, WaterPart, WaterReach } from './types.js';
 
 /** The estuary's id beside its river's (M0-e-02's `water:<kind>:<n>` form until §6.3's mint, C-0173 (1)). */
@@ -64,7 +67,7 @@ export function splitEstuary(bodies: readonly WaterBody[], reach: Reach, mouth: 
     while (k < course.length - 1 && arcs[k] <= cut) k += 1;
     // vertex k is the first past the cut; the cut point lies on segment k − 1 → k
     const p = pointAtArc(course, arcs, cut);
-    const at = { x: Math.round(p.x) as Cm, y: Math.round(p.y) as Cm } as PointCm;
+    const at = lp(p) as PointCm;
     const seg = arcs[k] - arcs[k - 1];
     const share = seg >= 1 ? quot(cut - arcs[k - 1], seg) : 0;
     const wAt = Math.round(widths[k - 1] + (widths[k] - widths[k - 1]) * share);
@@ -104,18 +107,9 @@ export function splitEstuary(bodies: readonly WaterBody[], reach: Reach, mouth: 
   return out;
 }
 
-/** A unit direction from a to b (null when they coincide). */
+/** A unit direction from a to b (null when they lie within a centimetre): `unitOf` of the difference. */
 function unit(a: XY, b: XY): XY | null {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const len = Math.sqrt(dx * dx + dy * dy);
-  if (len < 1) return null;
-  return { x: quot(dx, len), y: quot(dy, len) };
-}
-
-/** A point rounded to the lattice. */
-function lp(q: XY): LatticePoint {
-  return { x: Math.round(q.x) as Cm, y: Math.round(q.y) as Cm };
+  return unitOf({ x: b.x - a.x, y: b.y - a.y });
 }
 
 /**
@@ -418,11 +412,11 @@ export function waterPolygons(
         return err(slow.code, `water ${body.id}: ${slow.detail}`);
       }
       warnings.push(...slow.warnings);
-      // the kernel's rings cleaned and proved as the fast ring is (N-56 (1)): a ring the clean cannot make clear is a
+      // the kernel's rings cleaned and proved as the fast ring is (C-0307): a ring the clean cannot make clear is a
       // refused body, its cause beside the fast ring's in `fallbacks`
       const proved = provedRings(slow.value, reach, covered);
       if (typeof proved === 'string') {
-        fallbacks[fallbacks.length - 1] = { id: body.id, why: `${fast}; the kernel's ring: ${proved}` };
+        fallbacks[fallbacks.length - 1] = { id: body.id, why: `${fast}${KERNEL_RING}${proved}` };
         dropped.push({ id: body.id, reason: 'refused' });
         continue;
       }
@@ -434,30 +428,57 @@ export function waterPolygons(
 }
 
 /**
- * The kernel's rings of a body made fit for insertion (N-56 (1), refining C-0229 (2)): each cleaned as the fast ring is
+ * The text `waterPolygons` puts between a body's fast-ring refusal and its kernel ring's in `fallbacks`; the stage
+ * (./stage.ts) splits the two causes on it. File-level (see the header).
+ */
+export const KERNEL_RING = "; the kernel's ring: ";
+
+/**
+ * The ring proofs, the fast ring's and the kernel ring's one judge: per ring in order, simple (`not simple`), every
+ * vertex RING_CLEAR_CM clear of its own ring outside its one-ring (`near-touch`), apart from every later ring (`rings
+ * meet`), clear of the earlier bodies but along them (`meets an earlier body`) — the first failure's cause, or null.
+ */
+function proveRings(rings: readonly Ring[], covered: readonly Ring[]): string | null {
+  for (let i = 0; i < rings.length; i += 1) {
+    if (!isSimple(rings[i])) return 'not simple';
+    if (!clearRing(rings[i])) return 'near-touch';
+    for (let j = i + 1; j < rings.length; j += 1) if (!ringsApart(rings[i], rings[j])) return 'rings meet';
+    if (!clearOf(rings[i], covered)) return 'meets an earlier body';
+  }
+  return null;
+}
+
+/** A vertex within this of an earlier body's ring, or of an estuary cut's bank point, lies on it (cm). */
+const FIXED_BAND_CM = 2;
+
+/**
+ * The vertices the clean keeps (`cleanRing`'s `fixed`): a vertex on the arena's edge, on an earlier body's ring (within
+ * FIXED_BAND_CM — a mouth's or a cut's lattice rounding, the quantity of offset.ts's ON_CM) or at an estuary cut's bank
+ * points stays through the clean: the shared stretches need it (C-0307 (2)).
+ */
+function fixedVertices(reach: Reach, covered: readonly Ring[], cuts: readonly XY[] = []): (q: XY) => boolean {
+  return (q) => onRing(reach, q) || cuts.some((c) => Math.abs(c.x - q.x) <= FIXED_BAND_CM && Math.abs(c.y - q.y) <= FIXED_BAND_CM) || (covered.length > 0 && ringsDist2(covered, q) <= FIXED_BAND_CM * FIXED_BAND_CM);
+}
+
+/**
+ * The kernel's rings of a body made fit for insertion (C-0307, refining C-0229 (2)): each cleaned as the fast ring is
  * (`cleanRing`: Douglas–Peucker 20 cm, vertices under 30 cm apart and needles dropped), its vertices on the arena's edge
  * or on an earlier body's ring fixed — the clip's and the difference's, which the shared edges need — a ring the clean
- * empties dropped as a sliver; then the fast ring's proofs: every ring simple (`not simple`), every vertex 60 cm clear of
- * its own ring outside its one-ring (`near-touch`), every two rings apart (`rings meet`), each clear of the earlier
- * bodies but along them (`meets an earlier body`). The buffer's round joins leave sub-attraction hairpins (sides under
- * minEdgeCm, a vertex within attractCm of a non-adjacent side) that the insertion welds into a branching shore; the
- * clean removes them, and a ring it cannot make clear is refused here, never handed to the kernel. A cause when refused.
+ * empties dropped as a sliver; then the fast ring's proofs (`proveRings`), each cause read `not clear (…)`. The buffer's
+ * round joins leave sub-attraction hairpins (sides under minEdgeCm, a vertex within attractCm of a non-adjacent side)
+ * that the insertion welds into a branching shore; the clean removes them, and a ring it cannot make clear is refused
+ * here, never handed to the kernel. A cause when refused.
  */
 export function provedRings(rings: readonly Ring[], reach: Reach, covered: readonly Ring[]): Ring[] | string {
-  const fixed = (q: XY): boolean => onRing(reach, q) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
+  const fixed = fixedVertices(reach, covered);
   const out: Ring[] = [];
   for (const r of rings) {
     const c = cleanRing(r, fixed);
     if (c === null) continue;
     out.push(c);
   }
-  for (let i = 0; i < out.length; i += 1) {
-    if (!isSimple(out[i])) return 'not clear (not simple)';
-    if (!clearRing(out[i])) return 'not clear (near-touch)';
-    for (let j = i + 1; j < out.length; j += 1) if (!ringsApart(out[i], out[j])) return 'not clear (rings meet)';
-    if (!clearOf(out[i], covered)) return 'not clear (meets an earlier body)';
-  }
-  return out;
+  const cause = proveRings(out, covered);
+  return cause === null ? out : `not clear (${cause})`;
 }
 
 /** §3.4's buffer of the simplified chain (round joins and ends), clipped to the arena, less the earlier bodies. */
@@ -485,7 +506,7 @@ function leftNormal(a: XY, b: XY): XY | undefined {
 /**
  * The fast ring of a body (./offset.ts): flat where the chain runs out of the arena (the clip shapes it) and at the
  * estuary's cut (both bodies cut along one normal: the original course segment's), a joined body's mouth cut along the
- * shore it joins, round elsewhere; on the lattice, simple and clear of the earlier rings — else null.
+ * shore it joins, round elsewhere; on the lattice, simple and clear of the earlier rings — else the refusal's cause.
  */
 export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: number[] }, chain: { startOut: boolean; endOut: boolean; joined: boolean }, bodies: readonly WaterBody[], reach: Reach, covered: readonly Ring[]): Ring[] | string {
   const course = body.course ?? [];
@@ -501,7 +522,7 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
   const raw = chain.joined
     ? mouthRing(simple.pts, simple.half, startCap, covered)
     : offsetRing(simple.pts, simple.half, [startCap, endCap], { ...(startNormal !== undefined ? { start: startNormal } : {}), ...(endNormal !== undefined ? { end: endNormal } : {}) });
-  if (raw === null) return `${chain.joined ? 'mouth' : 'offset'}: ${refusal()}`;
+  if ('refused' in raw) return `${chain.joined ? 'mouth' : 'offset'}: ${raw.refused}`;
   const snapped = snapRing(clipToArena(raw.ring, reach));
   // the vertices on the arena's edge (the clip's) and on an earlier ring (a mouth's, the estuary's cut) stay
   // the estuary's cut: both bodies keep its two bank points, so they share that edge exactly
@@ -509,8 +530,7 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
   const n = simple.pts.length;
   if (endNormal !== undefined) for (const sgn of [1, -1]) cuts.push({ x: Math.round(simple.pts[n - 1].x + sgn * endNormal.x * simple.half[n - 1]), y: Math.round(simple.pts[n - 1].y + sgn * endNormal.y * simple.half[n - 1]) });
   if (startNormal !== undefined) for (const sgn of [1, -1]) cuts.push({ x: Math.round(simple.pts[0].x + sgn * startNormal.x * simple.half[0]), y: Math.round(simple.pts[0].y + sgn * startNormal.y * simple.half[0]) });
-  const fixed = (q: XY): boolean => onRing(reach, q) || cuts.some((c) => Math.abs(c.x - q.x) <= 2 && Math.abs(c.y - q.y) <= 2) || (covered.length > 0 && ringsDist2(covered, q) <= 4);
-  const ring = snapped === null ? null : cleanRing(snapped, fixed);
+  const ring = snapped === null ? null : cleanRing(snapped, fixedVertices(reach, covered, cuts));
   if (ring === null) return 'empty';
   // a vertex near the arena's edge but off it would be drawn onto the outer ring
   if (ring.some((q) => !onRing(reach, q) && ringGap(reach, q) < RING_CLEAR_CM)) return 'near the edge';
@@ -523,16 +543,14 @@ export function fastRings(body: WaterBody, simple: { pts: LatticePoint[]; half: 
     if (!insideRings([ring], hole[0])) return 'hole outside';
     rings.push(area2(hole) > 0 ? hole.reverse() : hole);
   }
-  for (let i = 0; i < rings.length; i += 1) {
-    if (!isSimple(rings[i])) return 'not simple';
-    if (!clearRing(rings[i])) return 'near-touch';
-    for (let j = i + 1; j < rings.length; j += 1) if (!ringsApart(rings[i], rings[j])) return 'rings meet';
-    if (!clearOf(rings[i], covered)) return 'meets an earlier body';
-  }
-  return rings;
+  return proveRings(rings, covered) ?? rings;
 }
 
-/** Warnings folded by code (counts summed), in first-seen order. */
+/**
+ * Warnings folded by code (counts summed), in first-seen order, into fresh records of code and count: a report of
+ * counts, so a warning's `at` is dropped — where the kernel's barrel `foldWarnings(own, from)` merges into `own` and
+ * keeps the `at` of a code's first warning.
+ */
 function foldWarnings(ws: readonly Warning[]): Warning[] {
   const out: Warning[] = [];
   for (const w of ws) {

@@ -1,10 +1,13 @@
 // Plane helpers for S1's water (M0-e-03): the arena's half-extent and outer ring (§3.2 (9)), point-in-rings by the
 // even-odd rule on lattice rings, distances to ring segments, the nearest point on a polyline with its arc and side,
 // and a ray's first hit on a ring set. Doubles on integer centimetres: every product stays below 2⁵³, so the
-// orientation tests are exact; quotients go through `ratio` (§3.2 (8)).
+// orientation tests are exact; quotients go through `ratio` (§3.2 (8)). The arena's reach and the segment predicates
+// are the terrain's and the course's (terrain/grid.ts `arenaReach`, hydro/course.ts `segParam`, `pointSegDist2`,
+// `segSegDist2`): the water's public names delegate to them.
 import { ratio, type Frame, type LatticePoint } from '@plat/kernel';
 import type { Cm } from '@plat/model';
-import { arcLengths, type XY } from '../hydro/course.js';
+import { arcLengths, pointSegDist2, segParam, segSegDist2, type XY } from '../hydro/course.js';
+import { arenaReach } from '../terrain/grid.js';
 
 /** The arena's half-extent about the frame's centre: the frame plus its margin on every side (§3.2 (9)). */
 export interface Reach {
@@ -12,16 +15,23 @@ export interface Reach {
   y: number;
 }
 
-/** The arena's half-extent of a frame (terrain/grid.ts's `arenaReach`: ⌈w · (½ + m)⌉, ⌈h · (½ + m)⌉). */
+/** The arena's half-extent of a frame: terrain/grid.ts's `arenaReach` (⌈w · (½ + m)⌉, ⌈h · (½ + m)⌉). */
 export function reachOf(frame: Frame): Reach {
-  const r = 0.5 + frame.marginShare;
-  return { x: Math.ceil(frame.widthCm * r), y: Math.ceil(frame.heightCm * r) };
+  return arenaReach(frame);
 }
 
 /** The arena's outer ring (§4.1's S1 row): the frame plus its margin, counter-clockwise from the south-west corner. */
 export function outerRing(reach: Reach): LatticePoint[] {
   const p = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
   return [p(-reach.x, -reach.y), p(reach.x, -reach.y), p(reach.x, reach.y), p(-reach.x, reach.y)];
+}
+
+/**
+ * A point rounded to the lattice: `Math.round` on each coordinate, with no negative-zero flush (a −0 the rounding gives
+ * stays). File-level: shared by path inside `@plat/site`, not part of the package's API (J263 Q1's convention).
+ */
+export function lp(q: XY): LatticePoint {
+  return { x: Math.round(q.x) as Cm, y: Math.round(q.y) as Cm };
 }
 
 /** Is the point on the arena's outer ring (on one of its four sides)? */
@@ -68,32 +78,18 @@ export function insideRings(rings: readonly (readonly XY[])[], q: XY): boolean {
   return inside;
 }
 
-/** The squared distance from q to segment ab. */
+/** The squared distance from q to segment ab: hydro/course.ts's `pointSegDist2` (its nearest point at `segParam`). */
 export function segDist2(q: XY, a: XY, b: XY): number {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const len2 = dx * dx + dy * dy;
-  let t = 0;
-  if (len2 > 0) {
-    const r = ratio((q.x - a.x) * dx + (q.y - a.y) * dy, len2, 'area');
-    t = r.ok ? Math.min(1, Math.max(0, r.value)) : 0;
-  }
-  const x = a.x + dx * t - q.x;
-  const y = a.y + dy * t - q.y;
-  return x * x + y * y;
+  return pointSegDist2(q, a, b);
 }
 
-/** The nearest point on segment ab to q. */
+/**
+ * The nearest point on segment ab to q, at hydro/course.ts's `segParam`; `Math.max(0, …)` reads a −0 parameter (q at a)
+ * as +0, so the point keeps a's own coordinates, the zero's sign among them.
+ */
 export function footOn(q: XY, a: XY, b: XY): XY {
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const len2 = dx * dx + dy * dy;
-  let t = 0;
-  if (len2 > 0) {
-    const r = ratio((q.x - a.x) * dx + (q.y - a.y) * dy, len2, 'area');
-    t = r.ok ? Math.min(1, Math.max(0, r.value)) : 0;
-  }
-  return { x: a.x + dx * t, y: a.y + dy * t };
+  const t = Math.max(0, segParam(q, a, b));
+  return { x: a.x + (b.x - a.x) * t, y: a.y + (b.y - a.y) * t };
 }
 
 /** The least squared distance from q to any segment of the ring set. */
@@ -109,14 +105,12 @@ export function ringsDist2(rings: readonly (readonly XY[])[], q: XY): number {
   return best;
 }
 
-/** The squared distance between segments ab and cd (0 when they cross or touch). */
+/**
+ * The squared distance between segments ab and cd (0 when they cross or touch): hydro/course.ts's `segSegDist2` — the
+ * same strict-sign proper-crossing test, then the same four point-segment distances.
+ */
 export function segSeg2(a: XY, b: XY, c: XY, d: XY): number {
-  const o1 = (b.x - a.x) * (c.y - a.y) - (b.y - a.y) * (c.x - a.x);
-  const o2 = (b.x - a.x) * (d.y - a.y) - (b.y - a.y) * (d.x - a.x);
-  const o3 = (d.x - c.x) * (a.y - c.y) - (d.y - c.y) * (a.x - c.x);
-  const o4 = (d.x - c.x) * (b.y - c.y) - (d.y - c.y) * (b.x - c.x);
-  if (((o1 > 0 && o2 < 0) || (o1 < 0 && o2 > 0)) && ((o3 > 0 && o4 < 0) || (o3 < 0 && o4 > 0))) return 0;
-  return Math.min(segDist2(a, c, d), segDist2(b, c, d), segDist2(c, a, b), segDist2(d, a, b));
+  return segSegDist2(a, b, c, d);
 }
 
 /** A polyline with its cumulative arcs. */

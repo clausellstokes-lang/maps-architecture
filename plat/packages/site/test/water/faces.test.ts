@@ -2,30 +2,19 @@
 // edges; land components by flood fill"; §2.2 rule 7: coincident features are one edge with several roles): the outer
 // ring first and alone; a river across the arena sharing the ring's edge where it reaches it; a tributary meeting its
 // river; the basic estuary; a closed channel round an island; the batch's refusal writing nothing.
-import { rowKey, rowsOn, STAGES, type Frame, type Kernel, type Plat } from '@plat/kernel';
-import type { Cm, CmArray, WaterBody } from '@plat/model';
+import { rowKey, rowsOn, type Kernel, type Plat } from '@plat/kernel';
+import type { WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { GROUND_KEY } from '../../src/terrain/index.js';
-import { landComponents, leftFaces, outerRingBatch, reachOf, splitEstuary, waterFaces, waterPolygons, type WaterReach } from '../../src/water/index.js';
-import { ground, pt } from './support.js';
+import { landComponents, leftFaces, outerRingBatch, splitEstuary, waterFaces, waterPolygons, type WaterReach } from '../../src/water/index.js';
+import { ground, pt, SMALL_ARENA, waterBody } from './support.js';
 
 /** A 1 000 m × 600 m arena (frame 500 m × 300 m, margin ½). */
-const FRAME: Frame = { widthCm: 50_000 as Cm, heightCm: 30_000 as Cm, aspect: 5 / 3, marginShare: 0.5 };
-const REACH = reachOf(FRAME);
-const OPTS = { key: GROUND_KEY, stage: STAGES.S1, workLimit: 1e9 };
-const LIFE = { existence: 'generated' as const, flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } };
+const { FRAME, REACH, OPTS } = SMALL_ARENA;
 
+/** A body on `[x, y]` course pairs, one width for all (support's `waterBody`). */
 function body(id: string, kind: WaterBody['kind'], course: [number, number][], width: number, extra: Partial<WaterBody> = {}): WaterBody {
-  return {
-    id,
-    kind,
-    face: { owner: id, level: 0 },
-    shore: { role: 'shore', entity: id },
-    course: course.map(([x, y]) => pt(x, y)),
-    widthProfile: Int32Array.from(course.map(() => width)) as CmArray,
-    lifecycle: LIFE,
-    ...extra,
-  };
+  return waterBody(id, kind, course.map(([x, y]) => pt(x, y)), width, extra);
 }
 
 /** The river along y = 0 from the west edge to the east edge, a course point every 50 m, 20 m wide. */

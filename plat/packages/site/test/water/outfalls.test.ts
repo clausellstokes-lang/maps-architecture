@@ -2,10 +2,11 @@
 // land enters, and each 50 m of frame edge the flow leaves by, as one `Outfall` at its cell of largest accumulation";
 // §2.3's Outfall; C-0229 (9)) on hand-built hydrology: a river along y = 0 across a 500 m × 200 m arena on a 25 m grid,
 // the land's D8 set by hand, its accumulation varying cell by cell — so the expected outfalls are read off the layout.
-import type { Cm, CmArray, HydroGrid, Terrain, WaterBody } from '@plat/model';
+import type { Cm, HydroGrid, Terrain, WaterBody } from '@plat/model';
 import { describe, expect, it } from 'vitest';
 import { cellAt } from '../../src/hydro/index.js';
 import { intoOf, outfalls, type WaterReach } from '../../src/water/index.js';
+import { GENERATED_AT_0, waterBody } from './support.js';
 
 const REACH = { x: 25_000, y: 10_000 };
 const COLS = 20;
@@ -18,18 +19,10 @@ const S = 6;
 
 /** The river along y = 0, `halfWidth` either side, from the west edge to the east edge. */
 function river(halfWidth: number): WaterReach {
-  const body: WaterBody = {
-    id: 'water:river:0',
-    kind: 'river',
-    face: { owner: 'water:river:0', level: 0 },
-    shore: { role: 'shore', entity: 'water:river:0' },
-    course: [
-      { x: -25_000 as Cm, y: 0 as Cm },
-      { x: 25_000 as Cm, y: 0 as Cm },
-    ],
-    widthProfile: Int32Array.from([2 * halfWidth, 2 * halfWidth]) as CmArray,
-    lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
-  };
+  const body = waterBody('water:river:0', 'river', [
+    { x: -25_000, y: 0 },
+    { x: 25_000, y: 0 },
+  ], 2 * halfWidth);
   const h = halfWidth as Cm;
   const rect = [
     { x: -25_000 as Cm, y: -h as Cm },
@@ -70,7 +63,7 @@ function terrainOf(dir: (i: number, j: number) => number, acc: (i: number, j: nu
     seaLevelCm: 0 as Cm,
     wind: { bearingCdeg: 0, strength: 0 },
     features: [],
-    lifecycle: { existence: 'generated', flags: { locked: false, pinned: false, edited: false, assigned: false }, since: { epoch: 0, seq: 0 } },
+    lifecycle: GENERATED_AT_0,
   };
 }
 
