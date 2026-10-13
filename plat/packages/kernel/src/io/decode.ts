@@ -14,6 +14,7 @@ import {
   compareKeys,
   createPlat,
   dest,
+  FREE_KIND,
   internId,
   handleOfId,
   addRoleRow,
@@ -80,8 +81,8 @@ interface Parsed {
   readonly faces: readonly FaceRowIn[];
 }
 
+/** The vertex flags a chunk may carry: VERTEX_PINNED | VERTEX_STEINER | VERTEX_SPLIT (arena/plat.ts); never VERTEX_FREE. */
 const VERTEX_FLAG_MASK = 7;
-const FREE_KIND = 0xffff;
 
 /** Parses one chunk's bytes, checking every field against the format (a ChunkFormatError otherwise). */
 function parse(bytes: Uint8Array): Parsed {
