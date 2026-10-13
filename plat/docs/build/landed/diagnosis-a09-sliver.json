@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "diagnosis-a09-sliver",
+  "lane": "session/diagnosis-a09-sliver-1",
+  "lanes": ["session/diagnosis-a09-sliver-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-13T07:12:26.437Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/diagnosis-a09-sliver.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/diagnosis-a09-sliver.md", "status": "created", "sha256": "44329155782c8b88dd8dbf8e31f0a0585da8cf9d77dfbd324631ed42bb972232", "size": 24646 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0498"],
+      "lines": ["7a858a15e4aa580d"],
+      "removed": []
+    }
+  ]
+}
