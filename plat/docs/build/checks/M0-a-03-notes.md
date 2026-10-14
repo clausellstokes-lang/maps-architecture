@@ -163,3 +163,78 @@ rule. Two kinds of row are here:
 | N-c1-5 | **"One seeded generator" in `test/index/support.ts:62`.** The comment reads "the kernel tests' one seeded generator (mulberry32 …), from the arena's support". Seven kernel test files still carry their own copy (`0x6d2b79f5`) until their own rounds take T-support-1's home: `test/num/support.ts`, `test/skeleton/support.ts`, `test/tx/order.test.ts`, `test/tx/fuzzgen.ts`, `test/insert/step1-2/support.ts`, `test/medial/support.ts` and `test/geom/support.ts`. "One" names the designated home, not a uniqueness that holds today. | No change if R14 closes the seven copies. Otherwise reword it as "the kernel tests' shared seeded generator (T-support-1's home)". | M0 (R14) |
 | N-c1-6 (for the session) | **Id collision with main.** At main's head `851fa920`, C-0345 is `build/M0-x-06-fix2`'s row and L-0484 is `check/M0-x-06-close-r2`'s. In this tree the same two ids are this round's choices row and its builder's CLEAN-ROOM row; main also holds L-0485, L-0486 and C-0343, which this tree does not. Three places in the owns cite C-0345 by number: `src/index/items.ts:166`, `src/index/items.ts:235` and `test/index/items.test.ts:187`, the faceArea2 describe title. That title is new this round, so no check cites it yet. | The next writer renumbers at commit (C-0104; never the checker) and carries the number into those three places, the notes' round C1 section and the landed record's appends. This closing check's CLEAN-ROOM row takes L-0487, above every id on main and in the tree. | M0 (this wave's commit) |
 | N-c1-7 (for the session; foreign red) | **RELATED's one red is vitest's 5 s default timeout.** The test is kernel `test/io/roundtrip.test.ts` "random batch arenas (default mix): save → load → save byte-identical …", owned by M0-a-15; the message is `Error: Test timed out in 5000ms.` and no assertion failed. It is deterministic (seeds 1 … 24 × 7919; no `PLAT_FUZZ_SEED` involved) and the round does not change its time. Measured times, all on this machine: 5 215 ms in RELATED; 5 974 ms alone on the idle machine in the tree; 6 039 ms on the pre-round index sources; green on both sides with `--testTimeout=120000` (7 / 7). The builder's RELATED passed it on the same tree (nothing under `packages/` changed since 2026-10-12 22:12), so it sits at the 5 s edge here. Unlike the index tests (`SLOW = 120_000`), the test sets no timeout of its own. This is a wall-clock limit, not a behaviour. | M0-a-15 gives its two random-batch round-trip tests their own timeout, as M0-a-05's loops did after the same failure. This machine is not §12.1's timing reference, so the limit is not a gate. | M0 (M0-a-15's next touch) |
+
+## Hardening round S1 (lane `build/M0-a-03-fix-s1`, flow flow-7, 2026-10-14)
+
+The M0 hardening phase's round for this item (J237 (2)): the five FIX-NOW rows that `checks/hardening-inventory.md`
+(lane `session/hardening-inventory-1`, J355) assigns to M0-a-03. Its choices row is C-0362, and its builder's CLEAN-ROOM row is L-0532. The round changes no
+behaviour: the two source edits are comments, and the rest is test fixtures and pins. Every source note was read whole.
+The inventory's fix shapes held against the notes and the code, with one design point, stated under N-5.
+
+### Row by row
+
+| row (source note) | outcome | what was done | evidence |
+|---|---|---|---|
+| M0-a-03:15 **N-5**: off-line finer vertices covered one level deep only | **PINNED** | `test/index/support.ts` gains `CHAIN`. It takes the closing probe's run and vertices exactly as N-5 gives them: A (0, 1000) → B (2000, 1006) at L1, S1 (1100, 1003) at L2, S2 (500, 1002) at L3 and S3 (800, 1002) at L4. A line runs from each Si to an L0 side. N-5 does not say which side. This round runs all three lines **up** to the top side (T1 (1100, 2000) L2, T2 (500, 2000) L3, T3 (800, 2000) L4). With the lines up, the lower L1 face holds no finer record, so it is its own child at L2, L3 and L4. It is read on three different routes there, so a record read on the wrong route is visible at every depth. Lines running down would give the lower face L2 – L4 records, and the own-child path would then never meet the L2 / L3 sliver. `query.test.ts` "along a run with finer vertices off their coarser routes three levels deep (CHAIN)" checks against `oracleQuery` at every level, in four index states: all static, all in the grid, after a stage-end rebuild, and mixed. Its boxes are points and 3 × 2 cm boxes along the run (y 998 … 1009): every 5 cm, and every 1 cm within 30 cm of S1, S2 and S3. The same test pins each level's route at fixed points. `pointlocate.test.ts` "reads every coarser record on the level-n route three levels deep (CHAIN)" checks against the `pointLocate` oracle in the same four states, on every lattice point of the L1 / L2 sliver (298 points) and of the L2 / L3 sliver (349). These counts are computed exactly and agree with Pick's theorem; the L3 / L4 triangle S2–S3–S1 holds none. It also uses a 20 cm grid along the run, and pins (300, 1001) and (1050, 1003) level by level. | Mutant **C2**, aimed at the promise "a coarser record is read on the query's level-n route" (§3.3) at depth: `pointLocate` reads an own-child record on the route one level finer than its own (`faceRouteRings(p, lm, slot, Math.min(level, lm + 1))`). It **survives** the pre-round `test/index` (10 files, 67 / 67, in the mirror with the pre-round test files). It is **red** on the new CHAIN `pointLocate` test (`× reads every coarser record on the level-n route three levels deep (CHAIN)`). Controls: C3 (the record read on its own route) is red already on OFFLINE, and C1 (`faceRouteRings` cut at `min(n, level + 1)` everywhere) is red already on the pre-round `items.test.ts` and red on CHAIN. CONFIRMED (executed) |
+| M0-a-03:161 **N-c1-3**: the foreign-key text pinned only as `/handed the key/` | **PINNED** | `query.test.ts` "stamps its answer …" now pins the whole message verbatim: `/^index: query on arena ground\/0 was handed the key underground\/0$/`. `pointlocate.test.ts` "names a coarser record …" adds one `pointLocate` case, the key underground/3 at L2, which pins `/^index: query on arena ground\/0 was handed the key underground\/3$/`. The message text is unchanged (J263 Q6). | Mutant **N1** (the checker's: `query.ts` uses a local `keyName` spelt `layer:part` in place of the arena's import), **N2** (the handed key printed as the arena's) and **N3** (the arena printed as the handed key) were run. N1 and N2 each **survive** the pre-round `test/index` (67 / 67); N3 was not run there, being N1's class. All three are **red** on the new `query.test.ts` pin. N1 and N2 are also red on `pointlocate.test.ts` alone (`× names a coarser record …`). CONFIRMED (executed) |
+| M0-a-03:162 **N-c1-4**: the `stamp` doc should cite C-0317 beside C-0313 | **FIXED** (comment) | `src/index/query.ts` `stamp` doc: "(the arena's stamp form, C-0313 (1); the façade's side table given it by C-0317 (1), (2))" replaces "(C-0313 (1), (5))". | The diff is that one comment line. Comment-only, so no pin is needed. |
+| M0-a-03:163 **N-c1-5**: "one seeded generator" while copies remain | **FIXED** (comment) | `test/index/support.ts`: "The kernel tests' shared seeded generator (T-support-1's home: mulberry32 in [0, 1)) and its uniform integer." R14 has not closed the copies. On this tree, five kernel test files besides the home still carry `0x6d2b79f5`: `test/{geom,medial,num,skeleton}/support.ts` and `test/insert/step1-2/support.ts`. `test/tx/order.test.ts` and `test/tx/fuzzgen.ts` no longer do. So the note's "otherwise" wording is taken. | `grep -rln 0x6d2b79f5 packages/kernel/test packages/kernel/src` gives six files, the home among them. Comment-only. |
+| M0-a-14:225 **N-c1-7**: the `faceArea2` doc in `index/items.ts` is stale after V-1 | **FIXED** (comment) | `src/index/items.ts` `faceArea2` doc: "The package exports this body under the suite's name (invariants/batch.ts, C-0357)." This is the note's own wording, and it replaces "Exported from this file only: the package's `faceArea2` is the invariant suite's, an equal reading pinned equal to this one (C-0345)". | `invariants/batch.ts:41` imports it from `../index/items.js` and `:531` re-exports it. M0-a-14's fixture pins `toBe`. Comment-only. |
+
+### Behaviour, API and refusals
+
+* **NO SHIFT.** The source diff against the pre-round files is three comment lines: one in `query.ts` and two in
+  `items.ts`, both inside `/** … */`. No statement changed, so no output, digest or golden moves. Nothing is
+  re-recorded.
+* **API frozen (J263 Q1).** `src/index/index.ts` and the kernel barrel are not touched, and no export is added,
+  removed or renamed. `CHAIN` is a new export of the test support file `test/index/support.ts`, not of a package
+  index.
+* **Refusal census (J264 / N-58).** The item's registered families are the B-FUZZ bar `test/index/fuzz.test.ts`
+  (PR size: 200 arenas × 40 batches) and the hand-built fixtures, CHAIN now among them. None of the item's operations
+  has a typed refusal outcome. `query` and `pointLocate` throw only on a programming error: a foreign key in a debug
+  build, a bad box or level, or a non-lattice point. These are UNLAWFUL inputs at REFUSE, typed by their texts. No
+  user reaches them through §11.4's doors, because the façade maps the key. Count: 0 refusals before and 0 after. No
+  source statement changed, and the families are green at full strength.
+
+### Self-check (J183) in the scratch mirror
+
+The mirror was a real copy at `scratchpad/waves/selfcheck-build-M0-a-03-fix-s1/plat`. Isolation was proven first: no
+link resolves into `/home/user/maps-architecture`, and `packages/testkit/node_modules/@plat/kernel` resolves inside the
+mirror. Each mutant ran as `vitest run --maxWorkers=1 --bail=1 packages/kernel/test/index`; the N1-pl and N2-pl runs
+used `pointlocate.test.ts` alone. After each run the mutated file was restored from `plat/` and checked with `cmp -s`.
+The mirror's baseline was 10 files, 69 / 69. The mirror was then deleted.
+
+| mutant | aimed at | new tests | pre-round tests |
+|---|---|---|---|
+| C2 own-child record read one level finer than its own (`pointLocate`) | N-5 | red: CHAIN `pointLocate` | **alive** 67 / 67 |
+| C1 `faceRouteRings` cut at `min(n, level + 1)` | N-5 (control) | red | red (`items.test.ts`, the route rings against the oracle) |
+| C3 own-child record read on its own route | N-5 (control) | red (OFFLINE `pointLocate`) | red (OFFLINE) |
+| N1 local `keyName` spelt `layer:part` | N-c1-3 | red: `query.test.ts` pin; red: `pointLocate` pin alone | **alive** 67 / 67 |
+| N2 the handed key printed as the arena's | N-c1-3 | red: `query.test.ts` pin; red: `pointLocate` pin alone | **alive** 67 / 67 |
+| N3 the arena printed as the handed key | N-c1-3 | red: `query.test.ts` pin | not run (N1's class) |
+
+### Gates (in the tree, W = 1 from `tools/test_budget.py`)
+
+* `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 corepack pnpm install --frozen-lockfile`: exit 0 ("Already up to date").
+* `corepack pnpm lint`: exit 0 ("lint: eslint 1159 files, 0 errors, 0 warnings", "lint: probe-red ok", 9 whole-tree
+  checks).
+* `corepack pnpm build`: exit 0.
+* NEAR at full strength (`PLAT_FUZZ_RUNS` unset, so the B-FUZZ bar runs 200 arenas × 40 batches): `corepack pnpm exec
+  vitest run --maxWorkers=1 packages/kernel/test/index` gave "Test Files 10 passed (10)", "Tests 69 passed (69)": the 67 tests
+  of the pre-round files and the two CHAIN tests.
+* RELATED at 1000: `PLAT_FUZZ_RUNS=1000 corepack pnpm exec vitest related --run --maxWorkers=1
+  packages/kernel/src/index/query.ts packages/kernel/src/index/items.ts` gave "Test Files 459 passed (459)", "Tests
+  5874 passed (5874)", exit 0, 6 046 s. There were no reds: N-c1-7's io/roundtrip timeout did not recur, and none of
+  J176's bench files is on these files' import paths.
+* No git command was run. No timing is taken or gated on: the 6 046 s is informative only, as this machine is not
+  §12.1's reference.
+
+## Closing check S1 (lane `check/M0-a-03-close-s1`, flow flow-7, 2026-10-14)
+
+The verdict, PASS, and its evidence are in `checks/M0-a-03-s1.md`. Neither row below is a blocker under the blocker
+rule: one is a further hardening fixture, the other a wording point in another item's file.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s1c-1 | **`pointLocate`'s own-child read at L4 is not pinned: CHAIN cannot reach it.** The checker's mutant P4 reads an own-child record on the L3 route when the query is at L4 (`faceRouteRings(p, lm, slot, Math.min(level, 3))` in `pointLocate`). It survives the round's `test/index` (69 / 69) and the pre-round one (67 / 67). On CHAIN it is equivalent: the L3 / L4 triangle S2 (500, 1002), S3 (800, 1002), S1 (1100, 1003) has area 150 and 302 boundary lattice points, so by Pick's theorem it holds no interior lattice point, and `pointLocate` takes lattice points only. Moving S3 along S2–S1 does not help. Any lattice S3 there within the hot pixel of A–B, A–S1 and S2–S1 has y 1002 or 1003, so one side of the triangle is horizontal and the triangle again holds no interior lattice point. An S3 between S1 and B, for example (1500, 1004), would leave 148 lattice points in its sliver (Pick; PLAUSIBLE, reasoned and not run). The mutant is not equivalent in general. The checker's probe `CHAIN4` kills it: an L0 square 0 … 2000; the L1 run A (0, 1000) → S2 (1000, 1003, L3, on A–B) → S3 (1500, 1005, L4, 0.5 cm above A–B) → B (2000, 1006); lines S2 → (1000, 2000) at L3 and S3 → (1500, 2000) at L4. The sliver above S2–B and below S2–S3–B holds 249 lattice points (Pick). At L4 each lies in the lower L1 record, which is its own child there. The probe is green on the tree's sources. P4 gives `L4 at 1251,1004: expected [ 3, +0 ] to deeply equal [ 1, +0 ]`, and P3 (the round's C2) gives `[ 2, +0 ]`. CONFIRMED (executed in the checker's mirror; the probe was not left in the tree). The round's row N-5 asked for CHAIN as the note gives it, and the round delivered that. The gap comes from the note's own coordinates, not from the round. | Add `CHAIN4` (or an equivalent L4 vertex off a non-horizontal L3 route) to `pointlocate.test.ts` beside CHAIN, judged in the four index states. P4 is its mutant. | M4 (test hardening) |
+| N-s1c-2 (for the session; owner M0-a-02) | **The home's own doc still says "one".** The round reworded `test/index/support.ts` to "the kernel tests' shared seeded generator (T-support-1's home …)". But the home itself, `test/arena/support.ts:52–55`, still reads "the kernel tests' one seeded generator". Five kernel test files besides the home still carry `0x6d2b79f5`: `test/{geom,medial,num,skeleton}/support.ts` and `test/insert/step1-2/support.ts`. That file is M0-a-02's, outside this item's owns. | Reword it as N-c1-5 suggests at M0-a-02's next touch, or leave it once R14 closes the five copies. It is a comment-only change. | M0 (R14) or M4 |

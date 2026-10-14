@@ -2,7 +2,8 @@
 // partitions it reads; a slot freed and reused inside a stage answering as its new item, the stale static copy never;
 // results sorted by the canonical key read on the level-n route (the L3-before-and-after-L4 case); a promoted-then-
 // demoted item answering an L2 query not at all and an L3 query once; a query whose box meets nothing returning [] (§3.11);
-// agreement with the brute-force oracle at every level on hand-built and random arenas, all-static, all-grid and mixed;
+// agreement with the brute-force oracle at every level on hand-built and random arenas, all-static, all-grid and mixed,
+// with finer vertices off their coarser routes one level deep (OFFLINE) and three levels deep (CHAIN);
 // the same answers (as lattice positions) under every slot allocation order — no query reads a slot as a tie-break.
 import { describe, expect, it } from 'vitest';
 import { allocEdgePair, commitVersion, createPlat, setDebugAssertions, type Plat } from '../../src/arena/index.js';
@@ -29,6 +30,7 @@ import { linkByAngle } from '../arena/support.js';
 import {
   buildArena,
   CELLS,
+  CHAIN,
   dissolve,
   districtResolver,
   edit,
@@ -108,6 +110,22 @@ function nearOffline(): Box[] {
   }
   for (let x = 490; x <= 510; x++) out.push(box(x, 501, x, 501), box(x, 500, x + 2, 502));
   out.push(box(400, 501, 400, 501), box(700, 502, 700, 502), box(499, 500, 501, 502), box(499, 501, 501, 501), box(499, 502, 501, 502));
+  return out;
+}
+
+/**
+ * Points and 3 × 2 cm boxes along CHAIN's L1 run (y 998 … 1009): every 5 cm along it, and every centimetre within 30 cm
+ * of S1, S2 and S3 — on and off its L1 – L4 routes, in the slivers between them (the L1 / L2 sliver holds 298 lattice
+ * points, the L2 / L3 one 349; the L3 / L4 triangle S2–S3–S1 none, so its edges are judged instead).
+ */
+function nearChain(): Box[] {
+  const xs = new Set<number>();
+  for (let x = 0; x <= 2000; x += 5) xs.add(x);
+  for (const c of [1100, 500, 800]) for (let x = c - 30; x <= c + 30; x++) xs.add(x);
+  const out: Box[] = [];
+  for (const x of xs) {
+    for (let y = 998; y <= 1009; y++) out.push(box(x, y, x, y), box(x - 1, y - 1, x + 2, y + 1));
+  }
   return out;
 }
 
@@ -207,6 +225,35 @@ describe('queries agree with the oracle (§3.3)', () => {
     for (const n of LEVELS) {
       for (const b of nearOffline()) expect(positions(p, n, query(p, GROUND, n, b)), `L${n} ${JSON.stringify(b)}`).toEqual(positions(whole, n, query(whole, GROUND, n, b)));
     }
+  }, SLOW);
+
+  it('along a run with finer vertices off their coarser routes three levels deep (CHAIN): static, grid, rebuilt, mixed', () => {
+    const p = buildArena(CHAIN).plat;
+    attachIndex(p, { gridCellCm: CELLS });
+    const bs = nearChain();
+    expect(checkIndexState(p)).toEqual([]);
+    agreeOn(p, bs);
+    agreeAll(p, 2000, 31);
+    allToGrid(p);
+    expect(checkIndexState(p)).toEqual([]);
+    agreeOn(p, bs);
+    rebuildAtStageEnd(p);
+    expect(checkIndexState(p)).toEqual([]);
+    agreeOn(p, bs);
+    // mixed: half the items re-entered through the grid
+    let i = 0;
+    for (const level of LEVELS) for (const item of levelItems(p, level)) if (i++ % 2 === 0) indexChange(p, item);
+    expect(checkIndexState(p)).toEqual([]);
+    agreeOn(p, bs);
+    // Each level reads the run on its own route: (1000, 1003) lies on A–B only; (700, 1002) on the L4 route S2–S3 only;
+    // S2 (500, 1002) is a vertex from L3 on (its point meets its three pieces there) and lies on no route before.
+    const edgesAt = (n: Level, x: number, y: number): number => query(p, GROUND, n, box(x, y, x, y)).edges.length;
+    expect(LEVELS.map((n) => edgesAt(n, 1000, 1003))).toEqual([0, 1, 0, 0, 0]);
+    expect(LEVELS.map((n) => edgesAt(n, 700, 1002))).toEqual([0, 0, 0, 0, 1]);
+    expect(LEVELS.map((n) => query(p, GROUND, n, box(500, 1002, 500, 1002)).vertices.length)).toEqual([0, 0, 0, 1, 1]);
+    expect(LEVELS.map((n) => edgesAt(n, 500, 1002))).toEqual([0, 0, 0, 3, 3]);
+    // About S2: L2 meets A–S1; L3 A–S2, S2–S1 and S2–T2; L4 A–S2, S2–S3 and S2–T2.
+    expect(LEVELS.map((n) => query(p, GROUND, n, box(499, 1001, 501, 1003)).edges.length)).toEqual([0, 1, 1, 3, 3]);
   }, SLOW);
 
   it('on random rectilinear arenas with holes, all static and all in the grid', () => {
@@ -488,7 +535,7 @@ describe('the query surface', () => {
     expect(q.key).toEqual(GROUND);
     expect(q.key).not.toBe(p.key);
     expect(q.version).toBe(1);
-    expect(() => query(p, { layer: 'underground', part: 0 }, 1, box(0, 0, 10, 10))).toThrow(/handed the key/);
+    expect(() => query(p, { layer: 'underground', part: 0 }, 1, box(0, 0, 10, 10))).toThrow(/^index: query on arena ground\/0 was handed the key underground\/0$/);
     setDebugAssertions(false);
     try {
       expect(query(p, { layer: 'underground', part: 0 }, 1, box(0, 0, 10, 10)).vertices).toHaveLength(1);

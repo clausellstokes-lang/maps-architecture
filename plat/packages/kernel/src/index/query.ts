@@ -90,7 +90,7 @@ function debugCheck(condition: boolean, message: string): void {
  * The inline stamp of a query's answer: the arena's key and version only. It is not the arena's `stamp`
  * (`arena/resolve.ts`), which also writes a non-zero restore generation: a `QueryResult` and a `Location` keep their
  * shape after a savepoint is put back across committed batches, and the façade carries the generation in its side
- * table (C-0313 (1), (5)).
+ * table (the arena's stamp form, C-0313 (1); the façade's side table given it by C-0317 (1), (2)).
  */
 function stamp(p: Plat): Stamp {
   return { key: { layer: p.key.layer, part: p.key.part }, version: p.version };
