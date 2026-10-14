@@ -198,9 +198,13 @@ export interface CityTally {
   refused: number;
 }
 
-/** The CITY-shaped synthetic arena (see the module comment) and its tally. */
-export function cityArena(): { plat: Plat; tally: CityTally } {
+/**
+ * The CITY-shaped synthetic arena (see the module comment), its tally, and the lattice points of its lanes' width knots
+ * (each an L2 vertex carrying an L2 vertex row).
+ */
+export function cityArena(): { plat: Plat; tally: CityTally; knots: [number, number][] } {
   const p = createPlat(FIXTURE_KEY, CITY_FRAME);
+  const knots: [number, number][] = [];
   attachIndex(p, { gridCellCm: [4000, 2000, 800, 400, 200], partitionOf: cityDistricts });
   const t: CityTally = { ways: 0, lanes: 0, courts: 0, plotLines: 0, frontages: 0, footprints: 0, owners: 0, pins: 0, refused: 0 };
   const count = (ok: boolean, k: keyof CityTally): void => {
@@ -231,9 +235,12 @@ export function cityArena(): { plat: Plat; tally: CityTally } {
       const id = `${i}.${j}`;
       count(own(p, 1, [x0 + 3_000, y0 + 3_000], `block:${id}`), 'owners');
       if (i === 4 && j === 4) continue; // the lake's block keeps only its L1 face
-      // A lane across the block, from its west way to its east way (L2 Steiner vertices on both L1 ways).
+      // A lane across the block, from its west way to its east way (L2 Steiner vertices on both L1 ways), with width
+      // knots at its two ends: level-2 rows on level-2 vertices, written in the vertex's own partition (C-0207 (4)).
       const ym = Math.round((y0 + y1) / 2) + ((i + j) % 3) * 700;
-      count(chain(p, 2, [[x0, ym], [x1, ym]], [{ role: 'kerb', entity: `lane:${id}` }]), 'lanes');
+      const lane = chain(p, 2, [[x0, ym], [x1, ym]], [{ role: 'kerb', entity: `lane:${id}` }], { knots: [{ index: 0, role: 'width_knot', ordinal: 0 }, { index: 1, role: 'width_knot', ordinal: 1 }] });
+      count(lane, 'lanes');
+      if (lane) knots.push([x0, ym], [x1, ym]);
       // A courtyard: a closed L2 kerb ring in the block's south half (a hole of the face around it).
       if ((i + j) % 2 === 0) count(chain(p, 2, [[cx - 6_000, y0 + 8_000], [cx + 6_000, y0 + 8_000], [cx + 6_000, y0 + 16_000], [cx - 6_000, y0 + 16_000]], [{ role: 'kerb', entity: `court:${id}` }], { closed: true }), 'courts');
       // Plot lines from the lane to the north way (L3 Steiner vertices on the L2 lane and the L1 way), and their plots.
@@ -261,5 +268,5 @@ export function cityArena(): { plat: Plat; tally: CityTally } {
   // A frontage along the middle north–south way, a district boundary (§3.3): its L3 row's faces lie in district:ne to
   // the east and district:nw to the west, so it goes to the smaller key, district:ne (C-0207 (4)).
   count(chain(p, 3, [[0, 130_000], [0, 150_000]], [{ role: 'frontage', entity: 'plot:boundary' }]), 'frontages');
-  return { plat: p, tally: t };
+  return { plat: p, tally: t, knots };
 }
