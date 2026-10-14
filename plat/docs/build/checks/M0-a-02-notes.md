@@ -127,3 +127,71 @@ tightening of a claim, an equivalence judged, or a report for another round's ow
 | N-c2-4 (R6, T-1 / T-tx-new-1) | `edgeRuns` (by path) and `tx/chains.ts runsOfPairs` agree on 2 000 pair sets. The sets were drawn from the live pairs of 80 tx fuzz arenas (seeds 101 – 140 × DEFAULT_MIX / ALONG_MIX), with random shares, repeated pairs and a reversed listing order. They differ on 0 sets, compared by `JSON.stringify` of the `HalfEdgeId[][]`. Q3 has no difference to rule on so far. | R6 runs its property (T-tx-new-1) at 10⁴ as planned. | R6 |
 | N-c2-5 (R13, M0-a-16; A-4) | Mutant V2 makes `vertexAt` always return −1, which is M0-a-16's N11 class. It is red in `test/facade/` (3 tests, among them "signature of a lattice point finds an L4-only vertex … as the scan does") and in the arena folder (4). M0-a-16's survivor may already be killed on the tree. | R13 re-runs N11 before writing T-facade-new-1. | R13 |
 | N-c2-6 (foreign, RELATED) | RELATED at 10³ over the five changed arena sources (465 files, 5 855 tests, one worker, 13 615 s) had two reds, neither the item's. (a) `testkit/test/edge/repins.test.ts` "EP-01/S8/zero-length at 2521534151 … (Q41)" (`expected 'laddered' to be 'refused-lawful'`). It is red identically in this check's mirror with the pre-round arena sources, so it is N-c1-7. (b) `kernel/test/io/roundtrip.test.ts` "random batch arenas (default mix)" hit vitest's 5 s timeout (5 743 ms). Replayed at 10³ with `--testTimeout=60000` it gives 7/7, and it was green in this check's NEAR at the PR size. This is N-c1-6. | As N-c1-6 / N-c1-7. | R12; M0-x-06 |
+
+## Hardening round S3 (lane `build/M0-a-02-fix-s3`, flow flow-7, 2026-10-14)
+
+The session opened this round as M0-a-02's hardening round (J237 (2)) on the three FIX-NOW rows that
+`checks/hardening-inventory.md` (J355) assigns to the item: M0-a-02:12 N-s1-2, M0-a-02:124 N-c2-1 and M0-a-02:125
+N-c2-2. Each source note was read whole. The inventory's fix shapes stand: neither the notes nor the code shows them
+wrong. The round edits only the item's owns: `test/arena/slots.test.ts` (assertions added), `test/arena/support.ts`
+(comment), `src/arena/debug.ts` and `src/arena/plat.ts` (comments). No source line that runs changed: the four files'
+emitted JS with comments removed (TypeScript `transpileModule`, `removeComments`) hashes the same before and after
+(`debug.ts` 0b40f6ca7007cb3c, `plat.ts` 2f63da5a0f4ca66b, `support.ts` bcdc7eef6de72965). No export, folder index, the
+barrel or a message text changed (J263 Q1, Q6). Nothing moves output, so no digest or golden is re-recorded.
+
+### The rows
+
+| row | outcome | evidence |
+|---|---|---|
+| N-s1-2 (KI) — hole pool exact fit, mutant K11 | **PINNED** | The growth-preserves-content test ("a capacity-1 arena and a roomy one fed the same operations …") now reads every level's `faces[l].holes.length` after each of the 3 000 operations. When an operation grew a pool, the test asserts it grew (a pool never shrinks: a compaction keeps its length) and that its length equals `slots.holesTop[l]`, so the pool is exactly full (C-0286 (2)). It also asserts the pools grew at least 20 times, so the check is exercised. The note suggested a check at the end of the run; the per-operation form is used instead, because at the end a later compaction or clear can leave a pool below full, so only a growing call is held to exact fit. K11 (`let cap = t.holes.length * 2;`, the tiny-mode exact growth replaced by doubling): **red** on the new test (`expected [ 191, 'faces[2].holes', 4 ] to deeply equal [ 191, 'faces[2].holes', 3 ]`). It is **green** on the pre-round `slots.test.ts` (arena folder 117 / 117, so it survived there as N-s1-2 says). The fixed tree is green at 117 / 117. |
+| N-c2-1 (comment; T-support-1) | **FIXED** (comment) | `test/arena/support.ts`'s header now reads: "… which the other folders' support files are to import from here in their own rounds (T-support-1); until then their copies are pinned to draw the same words (support.test.ts)". This is the note's first alternative. |
+| N-c2-2 (comment; C-0286 (2)) | **FIXED** (comment), with an assertion added | The three comments now say what the code does. In `debug.ts`, "a growth leaves each exactly full and every allocation of a new slot (one not taken from a free list) replaces its table; a slot taken from a free list grows nothing". In `plat.ts`'s `PlatCapacity` header, "makes every allocation of a new slot (one not taken from a free list) a growth". In the growth section, "every allocation of a new slot (one not taken from a free list, which grows nothing) replaces it". The comment in `slots.test.ts` that said the same was tightened too. C-0286 is append-only, so its reading of (2) is restated in this round's choices row. The note's probe is now an assertion in the re-read-premise test: a freed vertex slot comes back with `p.vertices` kept, and the next new slot replaces it, leaving the table exactly full. Mutant FL3 (a free-list reuse replaces `p.vertices` in tiny mode) turns it red at `slots.test.ts:716`. |
+
+### The round's mutants (scratch mirror, arena folder, `--maxWorkers=1 --bail=1`; each file restored and checked with `cmp -s`)
+
+| mutant | change | new tests | pre-round tests |
+|---|---|---|---|
+| K11 | `setFaceHoles`: `let cap = t.holes.length * 2;` | red (growth-preserves-content, pool exact fit) | green 117 / 117 (survives, as N-s1-2 found) |
+| K11b | `setFaceHoles` tiny cap `top + need + 1` | red (same assertion) | — |
+| FL2 | `allocVertex` free-list branch calls `growVertices` in tiny mode | red (growth-preserves-content: vertex table exactness) | red (same test) |
+| FL3 | `allocVertex` free-list branch replaces `p.vertices` with a shallow copy in tiny mode | red (`slots.test.ts:716`, `expect(p.vertices).toBe(kept)`) | — |
+
+Isolation of the mirror was proven before the first mutant: `find … -type l -lname '/home/user/maps-architecture*'`
+printed nothing, and the realpath of `packages/model/node_modules/@plat/kernel` lay inside the mirror. The mirror was
+removed after the run.
+
+### Refusal census (J264, N-58)
+
+This census is unchanged by construction. No executable source changed (the emitted JS is identical), and the drive's
+operation sequence is unchanged: the same seed, with the new lines only reading. The item's families are the arena
+folder's seeded drives and hand-built fixtures. They have **0 lawful-input refusals** before and after the round. Their
+one refusal class is unchanged and UNLAWFUL: the `already carries` refusal of a duplicate role key in the slots drive
+(verdict REFUSE, typed; the door is M0-a-06's `addRole` path). The C1 close's tx probe measured outcomes of ok 2 619,
+E_KEPT 718 and E_INVARIANT 23. The same executable gives the same outcomes now.
+
+### Gates
+
+The round's choices row is C-0369 and its ledger row is L-0546. Every gate exits 0:
+
+* `install --frozen-lockfile`: 0.
+* `lint`: 0. ESLint checked 1 140 files with 0 errors and 0 warnings; probe-red ok.
+* `build`: 0.
+* NEAR, the arena folder at the PR size: 13 files, 117 / 117.
+* RELATED at `PLAT_FUZZ_RUNS=1000` over `arena/debug.ts` and `arena/plat.ts` (one worker, 7 634 s): 0, with 463 / 463
+  files and 5 895 / 5 895 tests. The earlier foreign reds N-c1-6 and N-c1-7 did not recur.
+
+Informative only: run with
+`PLAT_TINY_TABLES=1`, the arena folder has 6 reds, in `malformed.test.ts` (3), `size.test.ts` (2) and `slots.test.ts`'s
+"grows every column by doubling". These tests pin the default sizes and doubling, and none of them is a line this round
+added. The arena folder is not in the PR tier's tiny project (N-s1-3 lists insert/step1-2, insert/step3-5 and tx), so
+this is the N-s1-4 class of premise, recorded here as a note for the session if the folder is ever added.
+
+## Round S3's closing check (lane `check/M0-a-02-close-s3`, flow flow-7, 2026-10-14)
+
+The closing check of hardening round S3 passed (`checks/M0-a-02-s3.md`). None of these rows is a blocker. Each is a
+tightening of a claim or a further hardening test.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 (comment tightening; T-support-1) | `test/arena/support.ts`'s new header says the other folders' support files "are to import from here in their own rounds (T-support-1); until then their copies are pinned to draw the same words (support.test.ts)". Two parts of the tree already differ from that picture. `tx/fuzzgen.ts` (as on main) re-exports `rng` from `arena/support`, and `index/support.ts` imports `rng` and `intIn` from there. So `support.test.ts`'s tx comparison compares the generator with itself, and that file's own header still lists `tx/fuzzgen.ts` among "the copies the other folders still hold". The u32 mulberry32 variants in `geom/`, `medial/`, `num/` and `skeleton/support.ts` are not pinned by `support.test.ts`. They draw u32 words, not the [0, 1) doubles, so they may not be the copies N-c1-5 meant. The row's fix shape (the note's first alternative) is met, and nothing runs differently. | With the R14 adoptions: name which folders import the generator and which copies remain pinned, in both `support.ts`'s and `support.test.ts`'s headers. | R14 (or M4) |
+| N-s3c-2 (hardening test; C-0286 (2)) | The round's free-list assertion pins vertex slots only: a reused vertex slot keeps `p.vertices`, and the next new slot replaces it. This checker's mutants B7 (`allocEdgePair`'s free-list branch calls `growPairs` in tiny mode) and B8 (`allocRow`'s free-list branch calls `growRoleRows`) are red. But they turn red only through the growth test's `capacities(roomy)` check, because the whole drive runs in the tiny mode, so the mutant grows the roomy arena too. If a mutant grew only a capacity-1 table, no assertion would hold the pair, face and role-row free lists to "grows nothing". The end-of-run "exactly full" checks do not catch it either, because a later new-slot allocation fills the extra slot. The code keeps the claim. | Repeat the vertex assertion for a reused pair, face and role-row slot in the re-read-premise test (the table kept, then replaced by the next new slot). | M4 |

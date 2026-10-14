@@ -6,7 +6,8 @@
 // C-0146 (2)). The independent oracles the tests judge the walk with — the arena filtered to the edges of level ≤ n,
 // exact areas, a crossing-number containment test — are written here too, never with the code under test. It is also
 // the home of the kernel tests' one seeded generator (`rng`, mulberry32, and `intIn`), which the other folders' support
-// files import from here.
+// files are to import from here in their own rounds (T-support-1); until then their copies are pinned to draw the same
+// words (support.test.ts).
 import { area2, orient2d, type Frame } from '../../src/num/index.js';
 import type { Cm, LatticePoint, Level, PlatKey } from '../../src/types/index.js';
 import {
