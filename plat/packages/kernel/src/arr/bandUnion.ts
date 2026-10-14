@@ -512,6 +512,11 @@ interface EngineSpec {
   readonly pieces?: (read: Parameters<typeof outlinePieces>[0]) => Piece[];
   /** Open pieces' ends pinned first from the op's first run, as [face, piece, end]: a test reaches the fallback through it (N-57 (2)). */
   readonly pinFirst?: readonly (readonly [FaceId, number, 0 | 1])[];
+  /**
+   * Whether a face's spines include those through its route vertices only (J318, C-0348): corridorUnion's kerb, the one
+   * `kerb` S8 reads — true; bandUnion's per-side parts — false (a face touching the chain at a vertex holds no side of it).
+   */
+  readonly vertexContacts: boolean;
 }
 
 /** The engine on the open transaction (see the module comment). */
@@ -557,7 +562,7 @@ function writeOutlines(t: OpenTx, unique: readonly FaceId[], spec: EngineSpec, p
   const cache = new Map<string, Spine | null>();
   const reads: Read[] = [];
   for (const f of unique) {
-    const r = readKerb(p, f, spec.widths, cache);
+    const r = readKerb(p, f, spec.widths, cache, spec.vertexContacts);
     if (!r.ok) return err(r.code, r.detail);
     reads.push(r.value);
   }
@@ -769,7 +774,7 @@ export function bandUnion(o: Overlay, chains: readonly BandChain[], faces: reado
     const c = declared.get(`${chain.role}\u0000${chain.entity}`);
     return c === undefined ? null : { halfWidthCm: c.halfWidthCm, ends: c.ends };
   };
-  return bandCore(t, faces, { widths, edgeRole, entityOf: () => owner, owner });
+  return bandCore(t, faces, { widths, edgeRole, entityOf: () => owner, owner, vertexContacts: false });
 }
 
 /** The L1 faces a FaceRef or a list names (a FaceRef of level 1: its owner's L1 faces). */

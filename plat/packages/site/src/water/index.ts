@@ -1,11 +1,8 @@
 // @plat/site's water module (M0-e-03; §4.1's S1 row, §4.2 S1 (5), (8), (9), §2.2 rule 7, §2.3, §2.7, §3.10): S1's L0
 // batch — the arena's outer ring first, then the water bodies' polygons (river, tributary, estuary) as L0 faces with
 // shore and bank edges, the land components by flood fill, every crossing site's two pinned deck_end vertices of a
-// Bridge in state site — siteCrossings, Terrain.outfalls, and the batch as a Stage. This index and its folder are
-// M0-e-03's. Its files also export, at file level, helpers for the sibling files to import by path; they are not part
-// of the package's API and so are not listed here (J263 Q1): geometry.ts `lp`; offset.ts `unitOf`, `offsetRing`,
-// `mouthRing` and the ring tools (`cleanRing`, `clearRing`, `isSimple`, `ringsApart`, `clearOf` …); polygons.ts
-// `KERNEL_RING`, `provedRings`, `fastRings`, `chainOf`, `simplifyChain`.
+// Bridge in state site — siteCrossings, Terrain.outfalls, and the batch as a Stage. Created empty by the scaffold
+// (M0-s-01, C-0013); this index and its folder belong to M0-e-03.
 export {
   DECK_CLEARANCE_CM,
   DECK_SPAN_SHARE_MAX,
