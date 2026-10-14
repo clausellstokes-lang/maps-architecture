@@ -60,12 +60,28 @@ export interface FuzzReport {
   readonly warnings: Readonly<Record<string, number>>;
   /** Counted findings that judge no output — a follow-up op's typed refusal (C-0227 (4)) — by name. */
   readonly notes: Readonly<Record<string, number>>;
+  /**
+   * Property judgements a primitive counts by name — every name the primitive declares, 0 included, so a property never
+   * judged at a level shows as 0 (insertChain: `remove∘insert L1` – `L3`, judged where the removal commits; the
+   * hardening round S1's N-1).
+   */
+  readonly judged: Readonly<Record<string, number>>;
   /** Typed downgrades (§3.8 W_DOWNGRADE; §5.4 `kernel.downgrades`). */
   readonly downgrades: number;
   /** E_WORK_LIMIT results (§5.4 `kernel.workLimitHits`). */
   readonly workLimitHits: number;
   /** §3.7's split, for the oracle-compared primitives: cases per class and the cases an oracle could not judge. */
-  readonly oracle: { readonly unattracted: number; readonly attracted: number; readonly refused: number } | null;
+  readonly oracle: {
+    readonly unattracted: number;
+    readonly attracted: number;
+    readonly refused: number;
+    /**
+     * §13.1's draw guard ("drawing ≥ 10⁵ unattracted cases per operation", M0-k-03's UNATTRACTED_DRAW_MIN), reported,
+     * never asserted (the hardening round S1's N-13): the minimum, whether this run met it, and this run's unattracted
+     * share projected to the nightly 10⁶ inputs.
+     */
+    readonly guard: { readonly min: number; readonly met: boolean; readonly projectedNightly: number };
+  } | null;
   /** The sampled determinism harnesses (M0-d-08): sequences compared, and how many diverged (each also invalid). */
   readonly sampled: { readonly renumbering: number; readonly permutation: number };
   /** Per counter charged: C-0091's quantiles. */

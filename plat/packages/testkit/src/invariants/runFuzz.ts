@@ -7,6 +7,7 @@
 // is invalid; a bug abort goes to `bugs`, which the bar requires empty.
 import fc from 'fast-check';
 import { seedFamily } from '../fuzz/index.js';
+import { UNATTRACTED_DRAW_MIN } from '../oracles/index.js';
 import { guarded, HANG_TIMEOUT_MS } from './guard.js';
 import { primitiveNamed, unitOf, type OpContext, type Plant, type Primitive } from './primitives.js';
 import { bump, nearestRank, sortedCounts } from './support.js';
@@ -73,6 +74,8 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
   const refused = new Map<string, number>();
   const warnings = new Map<string, number>();
   const notes = new Map<string, number>();
+  // every judgement the primitive declares starts at 0, so a level never judged shows (N-1)
+  const judgedBy = new Map<string, number>((prim.judges ?? []).map((j) => [j, 0]));
   const ratios = new Map<string, number[]>();
   const unitSums = new Map<string, number>();
   const oracle = { unattracted: 0, attracted: 0, refused: 0 };
@@ -108,6 +111,7 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
     if (out.downgrade === true) downgrades++;
     for (const w of out.warnings) bump(warnings, w.code, w.count);
     for (const x of out.notes ?? []) bump(notes, x);
+    for (const x of out.judged ?? []) bump(judgedBy, x);
     for (const w of out.work ?? []) {
       const list = ratios.get(w.counter) ?? [];
       list.push(w.charged / w.units);
@@ -141,9 +145,12 @@ export function runFuzz(primitive: string | Primitive<unknown>, n: number, opts:
     refused: sortedCounts(refused),
     warnings: sortedCounts(warnings),
     notes: sortedCounts(notes),
+    judged: sortedCounts(judgedBy),
     downgrades,
     workLimitHits,
-    oracle: prim.oracles === true ? oracle : null,
+    // §13.1's draw guard, reported per oracle primitive and never asserted (N-13): met at this run's size, and projected
+    // to the nightly 10⁶ inputs from this run's unattracted share
+    oracle: prim.oracles === true ? { ...oracle, guard: { min: UNATTRACTED_DRAW_MIN, met: oracle.unattracted >= UNATTRACTED_DRAW_MIN, projectedNightly: Math.round((oracle.unattracted * 1_000_000) / runs) } } : null,
     sampled,
     work,
     bugs,
