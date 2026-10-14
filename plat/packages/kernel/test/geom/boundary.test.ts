@@ -8,7 +8,7 @@
 // across committed batches is never taken as current once as many later commits bring the version and counts back.
 import fc from 'fast-check';
 import { describe, expect, it } from 'vitest';
-import { allocFace, allocVertex, commitVersion, freeFace, type FaceId, type Plat } from '../../src/arena/index.js';
+import { allocFace, allocVertex, commitVersion, freeFace, FREE_KIND, type FaceId, type Plat } from '../../src/arena/index.js';
 import { faceNeighbours, faceRings, sampleBoundary } from '../../src/geom/index.js';
 import { neighbourMapBuilds } from '../../src/geom/neighbours.js';
 import { restoreGeneration, restoreSavepoint, takeSavepoint } from '../../src/tx/index.js';
@@ -247,6 +247,65 @@ describe('faceNeighbours: the kept map (C-0159 (6), C-0163)', () => {
     const got = faceNeighbours(p, GROUND, c, 0).faces;
     expect(got).toContain(ne);
     expect(got).not.toContain(n);
+    expect(ringsOf(p, 0, got)).toEqual(want);
+  });
+
+  it('refuses a kept neighbour whose record was freed after a new record took its region (allocate before free: the liveness re-check)', () => {
+    const { b, cell } = grid3();
+    const p = b.plat;
+    const c = cell(1, 1);
+    const n = cell(1, 2);
+    const corner = cell(2, 2); // no neighbour of the centre (its record the last allocated: the free slot above n's)
+    const want = ringsOf(p, 0, [cell(1, 2), cell(2, 1), cell(1, 0), cell(0, 1)]);
+    freeFace(p, 0, corner); // a free face slot, committed
+    commitVersion(p);
+    expect(ringsOf(p, 0, faceNeighbours(p, GROUND, c, 0).faces)).toEqual(want); // fills the kept map: across the north side, n
+    const builds = neighbourMapBuilds(p);
+    const key = keyOf(p, 0);
+    // the batch allocates the north region's new record first (it takes the free slot), then frees the old one: the
+    // same version, the same counts, and the kept claim names a slot that is no longer live
+    const nOuter = p.faces[0].outer[n];
+    const fresh = realloc(p, nOuter);
+    expect(fresh).toBe(corner);
+    freeFace(p, 0, n);
+    expect(keyOf(p, 0)).toBe(key);
+    const got = faceNeighbours(p, GROUND, c, 0).faces;
+    expect(got).toContain(fresh);
+    expect(got).not.toContain(n);
+    expect(ringsOf(p, 0, got)).toEqual(want);
+    expect(neighbourMapBuilds(p)).toBe(builds + 1); // the claim refused, one rebuild
+  });
+
+  it('where two live records claim one ring (inside a batch, between an allocation and its free; §2.2 rule 1 broken), answers without a throw, each neighbour a live record on that ring (C-0163 (1)\'s premise, C-0361)', () => {
+    const { b, cell } = grid3();
+    const p = b.plat;
+    const c = cell(1, 1);
+    const n = cell(1, 2);
+    const want = ringsOf(p, 0, [cell(1, 2), cell(2, 1), cell(1, 0), cell(0, 1)]);
+    freeFace(p, 0, cell(2, 2)); // a free face slot above n's, committed
+    commitVersion(p);
+    expect(ringsOf(p, 0, faceNeighbours(p, GROUND, c, 0).faces)).toEqual(want); // fills the kept map: across the north side, n
+    const key = keyOf(p, 0);
+    const twin = realloc(p, p.faces[0].outer[n]); // a second live record on the north ring …
+    freeFace(p, 0, cell(0, 0)); // … and a far corner freed, so the counts match
+    expect(keyOf(p, 0)).toBe(key);
+    // the case at issue: the kept map holds n for the ring, while a fresh build's last write gives the higher slot
+    expect(twin).toBeGreaterThan(n);
+    const northRing = new Set(faceRings(p, 0, n)[0].map((q) => `${q.x},${q.y}`));
+    const safe = (faces: readonly FaceId[]): void => {
+      expect(ringsOf(p, 0, faces)).toEqual(want);
+      // exactly one of the two records named, whichever path answered (unspecified by C-0361: the premise is broken)
+      expect(faces.filter((f) => f === n || f === twin)).toHaveLength(1);
+      for (const f of faces) expect(p.faces[0].kind[f]).not.toBe(FREE_KIND);
+      const north = faces.find((f) => f === n || f === twin) as FaceId;
+      expect(faceRings(p, 0, north)[0].every((q) => northRing.has(`${q.x},${q.y}`))).toBe(true);
+    };
+    safe(faceNeighbours(p, GROUND, c, 0).faces); // the kept map's answer
+    commitVersion(p);
+    safe(faceNeighbours(p, GROUND, c, 0).faces); // a fresh map's answer
+    freeFace(p, 0, n); // the batch frees the old record: one record per region again, one answer
+    const got = faceNeighbours(p, GROUND, c, 0).faces;
+    expect(got).toContain(twin);
     expect(ringsOf(p, 0, got)).toEqual(want);
   });
 
