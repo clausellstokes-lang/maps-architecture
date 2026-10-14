@@ -1,12 +1,11 @@
 // The deep-interior rule (§4.6 *The deep-interior rule* (IMP-8, GEO-25; J-P15) and *Hidden plots* (item 30); M0-b-03).
 //
 // When recursion stops, S8 writes each block's `Block.depthClass` with its `interior` and its `reach`:
-//   * depthClass `deep` when the block's local thickness exceeds 0.6 × its band's plot depth d̄ — the design as amended
-//     by M-1's measurement (E12; the spec note N-27: twice the plot depth admitted 3 of NG's 597 deep blocks) — else
-//     `standard`. The thickness is twice the radius of the largest circle inscribed in the block (the reference rows'
-//     own measure: "an inscribed circle's radius above 1.5 × the median footprint's short side, 21.6 m of thickness"),
-//     found by a best-first subdivision of the block's box (the pole of inaccessibility; Garcia-Castellanos and
-//     Lombardo's grid refinement as published) to 5 cm.
+//   * depthClass `deep` when the block's local thickness exceeds `DEEP_FACTOR` × its band's plot depth d̄ — 0.6, §4.6's
+//     factor (E12; N-27) — else `standard`. The thickness is twice the radius of the largest circle inscribed in the
+//     block (the reference rows' own measure: "an inscribed circle's radius above 1.5 × the median footprint's short
+//     side, 21.6 m of thickness"), found by a best-first subdivision of the block's box (the pole of inaccessibility;
+//     Garcia-Castellanos and Lombardo's grid refinement as published) to 5 cm.
 //   * a `deep` block's interior is drawn now, in S8, by the district's band row's target shares — court, back_lane,
 //     through_alley, rear_plots (interior.json `shares.*`, interpolated along the prosperity value between the rowed
 //     bands, item 27) — and its reach by the band's reach weights (`reach.open`, `.passage`, `.gated`, interpolated
@@ -14,17 +13,16 @@
 //     One draw on `cut.interior` keyed by the block's lineage: one pair of uniforms (treatment, reach). A back lane or a
 //     through alley is reached by its own spine: its reach is `open`; a `standard` block is `plots`, `open`, and draws
 //     nothing.
-// The deep factor 0.6 is the design's number since E12 (§4.6); interior.json's `settings.deepFactor` still holds the
-// superseded 2 and is M0-c-07a's to re-fit (its hand-over), so the rule reads the design's factor and a test pins it
-// (N-27; C-0237 (6)). The lanes a `back_lane` or `through_alley` asks for are cut by bentCutFabric.ts in the district's
-// batch (`interiorSpine`).
+// The rule reads its factor from `DEEP_FACTOR` (0.6, §4.6; N-27; C-0237 (6)), which deep.test.ts pins, never from the
+// table: interior.json is read for its shares, its reach weights, `densityBase` and `reachRung.*` only. The lanes a
+// `back_lane` or `through_alley` asks for are cut by bentCutFabric.ts in the district's batch (`interiorSpine`).
 import { BinaryHeap, obb, type LatticePoint, type Stream } from '@plat/kernel';
 import type { Block } from '@plat/model';
 import { bandInterpolate, defaultBandCuts, loadTable, type BandCuts, type Table } from '@plat/tables';
 import { div } from './ladder.js';
 import { insideFace, nearestOnSegment, type XY } from './sides.js';
 
-/** §4.6's deep factor as amended by M-1 (E12): deep when the thickness exceeds 0.6 × the band's plot depth (N-27). */
+/** §4.6's deep factor (E12; N-27): a block is deep when its thickness exceeds 0.6 × the band's plot depth. */
 export const DEEP_FACTOR = 0.6;
 
 /** The deep treatments in the design's order (§4.6): the draw's cumulative order. */

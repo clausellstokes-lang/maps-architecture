@@ -1,9 +1,9 @@
 // Holes (§4.6 *Holes*, §3.4 connectHole): a reservation inside a district's face is a hole of it; a cut that would
 // cross the hole is a slit committed by connectHole, the annulus becomes simply connected and the same ladder cuts it
 // (step 2's holed law, step 4's halved offset). The hole's own face is never cut; the face count never decreases.
-import { faceRings, isFaceLive, isHalfEdgeLive, pointLocate, rowKey, rowsOn, STAGES, type KernelTx, type Plat } from '@plat/kernel';
+import { faceRings, isFaceLive, pointLocate, STAGES, type KernelTx } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { fixture, GROUND, ownerOf, P, runFixture, type Fixture } from './support.js';
+import { arenaWays, fixture, GROUND, ownerOf, P, runFixture, type Fixture } from './support.js';
 
 function holedDistrict(): ReturnType<typeof fixture> {
   const W = 24_000;
@@ -120,19 +120,6 @@ function deepHoled(W: number, H: number, hw: number, seed: number): Fixture {
       },
     },
   );
-}
-
-/** The way ids carried by the arena's live edges (read from its own tables, never through the code under test). */
-function arenaWays(plat: Plat): Set<string> {
-  const ids = new Set<string>();
-  for (let e = 0; e < 2 * plat.slots.pair.top; e += 1) {
-    if (!isHalfEdgeLive(plat, e)) continue;
-    for (const r of rowsOn(plat, 'edge', e)) {
-      const k = rowKey(plat, r);
-      if (k.role === 'way') ids.add(k.entity);
-    }
-  }
-  return ids;
 }
 
 /**

@@ -1,13 +1,11 @@
 // The deep-interior rule (§4.6 *The deep-interior rule*, *Hidden plots*; N-27's factor 0.6): the thickness, the deep
 // test pinned at 0.6 × the band's plot depth, the shares and reach weights read from interior.json at the band, the
 // cut.interior pair drawn only for a deep block, and the spines of a back lane and a through alley on S8's output.
-import { CONCERNS, createRng, STAGES, type Cm, type LatticePoint } from '@plat/kernel';
+import { CONCERNS, createRng, STAGES, type LatticePoint } from '@plat/kernel';
 import { bandCentres, defaultBandCuts, loadTable } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
 import { DEEP_FACTOR, deepInterior, interiorRow, localThickness, pickWeighted, type InteriorRow } from '../../../src/index.js';
-import { runFixture, twoDistricts } from './support.js';
-
-const P = (x: number, y: number): LatticePoint => ({ x: x as Cm, y: y as Cm });
+import { P, runFixture, twoDistricts } from './support.js';
 const rect = (w: number, h: number): LatticePoint[] => [P(0, 0), P(w, 0), P(w, h), P(0, h)];
 
 function stream(n = 0): ReturnType<ReturnType<typeof createRng>['stream']> {

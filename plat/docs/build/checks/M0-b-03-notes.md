@@ -34,3 +34,136 @@ of this check that the near set and the related set both left green.
 | N-25 | **The round's declared KI (C-0338: "a parent part on ONE side cut in two by the spine's band … not seen on the registered seeds") occurs on a registered seed (closing check of session fix round S5, lane `check/M0-b-03-close-s5`).** Integrated CITY 5 `block:db2f94wpgb4e9` (back lane, kerb at the cut 2 144 m², spine `way:5c1da9bz2espj` hw 151.8 cm, bent near its end): child face 712's kerb has two components, 431.7 and 42.7 m², both inside the parent's kerb at the cut on one side of the spine; the record holds one seed per L1 face, (49078, 17313) in the 431.7 m² part, so the 42.7 m² piece is seedless and the c-06 harness reads `driftBeyond` 2 (sliver 360.14 cm, one-sided 694.76 cm) — identical before and after the round (the seat's `m0` / `m1` probes). Fusion 28 `block:dbn6qd1cfg269` (one of the residuals the author left to class B) has the same shape: parts 2 244 / 1 656 m² each holding a seed and a 74 m² seedless piece on the 1 656 m² part's side (`driftBeyond` 6 = 6 on the run, with `faxx9e5sqh506` / `7p7p4axr4nw3a`'s 86–88 cm slivers, whose seeds lie in their parts). The committed geometry is right; the record matches its schema (a seed per L1 face); the shortfall is visible to the harness (fails safe at M0, no S9 consumer). | **For the session first:** if M0-c-06's classification (C-0333 (7)) put these blocks in class B (routed to M0-a-09 s5), the mechanism measured here is the record's one seed per L1 face, not the kernel's geometry — re-route before M0-c-06's 50-seed smoke re-runs. Handling options: a seed per kerb component of the child inside the parent (the record's `seeds` as one per part — a record-format change, owner-gated), or the harness's split reading accepting a part of the parent's kerb on a side that holds no seed when the same L1 face holds a seed in another part on that side; correct C-0338's KI sentence (it is seen on integrated 5). | M0 (before M0-c-06's smoke closes); else M4 |
 | N-26 | **Survivors of the closing check of round S5 (C04, C11, C12, C13; K09 at the call site).** C04 / C13 (`insidePart` without the parent's holes / the parent passed without them): equivalent — a component of kerb(child) lies in the child face, inside the parent face; a hole of the parent's kerb is another face's island plus its band. C11 (`makeBlock` falls back to `kerbSeed` without the parent when the child has no component inside it): never reached on the 16 registered CITY runs (NO-SHIFT: every split block's non-seed record and seed count identical to the pre-round rule's), so no test sees it; under it a child with no part on its side would record a point of another component — the wrong seed C-0338 (2) refuses. C12 (the parent branch's pole of a component's outer ring without its holes; s4's K20 class): output-identical to the round on fusion 3, integrated 5, fusion 30. K09 re-created at the call site (`breach` forced null) survives NEAR — s4's K22 (N-23 (c)); the function-level form (K09f) is killed. | Pins: (C11) a `makeBlock` case whose child holds no component inside the parent records none (e.g. a test seam over `kerbSeed`'s parent, or a fixture whose spine band swallows one side); (C12) extend N-23 (f)'s holed-face property to the split children. C04 / C13: none (one line here). | M4 |
 | N-27 | **An id in the session's brief.** J318's list names integrated 37's class-A block `block:628bxff1f87e33`; the run's id is `block:628bxf1f87e33` (13 characters after `block:`, like every other). The seat's before/after on it: before one seed outside the kerb at the cut, an 817 m² seedless part, `driftBeyond` 2; after both seeds in their parts, `driftBeyond` 0. | Use `block:628bxf1f87e33` in the session's records. | M0 (the session's record) |
+
+
+## Consolidation round C1 — the builder's notes (lane `build/M0-b-03-consolidate-1`, 2026-10-14)
+
+Round R6 of `consolidation/layout-plan.md` (§1.2.5 – §1.2.14 with §1.1.1's and §1.1.6's equivalences, §2's
+`infill/{deepInterior,portals,bentCutFabric,ladder}.ts` rows, §3's `test/infill/fabric/` row, §4; J260, J263 Q1, Q6,
+Q8, J264 (5), J270 (a), (b), J290, J302 Q2, Q4, Q5, Q6, Q8, Q12), after R5 (`planner.ts`'s six file-level exports).
+Choices row C-0364. No behaviour change.
+
+**Old file → new file (J263 Q8).** No file was renamed, split, merged or added; every describe and `it` title is
+unchanged and in its order (13 files, 36 describe, 100 `it` — the plan's 12 · 34 · 94 plus `splitSeeds.test.ts`'s
+2 · 6, landed in round S5; the title lines' sha256 801f6d5a279525d4… before and after; 118 tests at run time with
+`testkit/test/layout/infill-fabric/`). No case was merged, so every earlier mutant keeps the test that killed it.
+
+| old file | new file | what changed |
+|---|---|---|
+| `src/infill/ladder.ts` | the same | 1.2.5: its `arrivalDot2`, `arrivesSquare`, `PI`, `RAD_PER_CDEG` deleted, the planner's imported by path; `TOUCH_CM` re-exported from the planner (`import { TOUCH_CM } from './planner.js'` + `export { TOUCH_CM }`: the file reads it too, so a bare `export … from` would not bind it); `spineHit`, `endOf`, `slideEnd` kept with headers saying why (J302 Q2). 1.2.6: `hullOf` exported file-level. 1.2.12: `kerbLength` deleted. 1.2.13: `SCALE` imported from `width.ts` |
+| `src/infill/bentCutFabric.ts` | the same | 1.2.6: `hullRing` deleted, `majorExtent` calls ladder's `hullOf`. 1.2.7: `insideRing` deleted, `withHoles` / `insidePart` call `insideFace([ring], p)`. 1.2.8: `RAD_PER_CDEG` the planner's. 1.2.9: `cornerScale` the planner's (and `M_TO_CM`, the planner's one definition, the same 100). 1.2.10: three comparators → `compareKeys`. 1.2.12: `lineLength` for the width law's L. 1.2.14: `kerbSeed`'s, the split seeds' and `faceAgain`'s comments name the registered fixtures (`city-split-seeds.json`, `relocate.test.ts`'s holed #330 / #464) instead of pasting their diagnoses; "refined by" dropped |
+| `src/infill/width.ts` | the same | 1.2.13: `SCALE` exported file-level (the fabric's one 2²⁰) |
+| `src/infill/portals.ts` | the same | 1.2.10: three comparators → `compareKeys` (`waysAt`, the invariant's spine order and its placed-portal tie-break). 1.2.14: the header's "ladder.ts's mirror" → the one arrival band and the two kept differences |
+| `src/infill/stage.ts` | the same | 1.2.10: `runS8`'s district tie-break → `compareKeys`. 1.1.6 (J302 Q6): `GROUND` = `@plat/site`'s `GROUND_KEY` |
+| `src/infill/deepInterior.ts` | the same | 1.2.14: the header states the rule (`DEEP_FACTOR` × d̄, 0.6, §4.6, N-27, C-0237 (6)) and that interior.json is read for its shares, reach weights, `densityBase` and `reachRung.*` only; the NG counts, "superseded 2" and the hand-over gone |
+| `src/infill/index.ts`, `src/index.ts` | the same | untouched, byte-identical (J263 Q1; the scaffold sentence kept, as every other folder index keeps it) |
+| `test/infill/fabric/support.ts` | the same | gains `CELLS` (`cutCells()`) and `arenaWays(plat)` |
+| `test/infill/fabric/ladder.test.ts` | the same | its `P` and `CELLS` removed, imported from `./support.js` |
+| `test/infill/fabric/deep.test.ts` | the same | its `P` removed, imported from `./support.js` |
+| `test/infill/fabric/portals.test.ts`, `sharedVertex.test.ts` | the same | their `CELLS` removed, imported from `./support.js` |
+| `test/infill/fabric/holes.test.ts`, `seamPortalsRow.test.ts` | the same | their `arenaWays` removed, imported from `./support.js` |
+| the other fabric files, `city-split-seeds.json`, `testkit/test/layout/infill-fabric/` | the same | unchanged (no changed name is read in the testkit folder: grep) |
+
+**§3's twins — which moved and which stayed.** `CELLS` ×4: `ladder`, `portals`, `sharedVertex` declare `cutCells()` —
+equal, moved; `width.test.ts`'s is `widthCells('CITY')` — another table's cells, kept. `P` ×3: `deep`'s and `ladder`'s
+arrow functions equal `support.ts`'s `P` body — removed, `support.ts`'s kept. `SEED` ×2: `support.ts` 7 (the fixtures'
+seed) and `strips.test.ts` 3 (its `flatFixture`'s seed) — unequal, both kept. `arenaWays` ×2: `holes` and
+`seamPortalsRow` — the same loop (one names the row key `k`, the other `key`), moved. Kept apart, as §3 says:
+`fixture`, `twoDistricts`, `runFixture`, `kerbNow`; the oracles of `seeds.test.ts` and `splitSeeds.test.ts`
+(`area2`, `inside`, `segDist`, …) stay the test side's own.
+
+**Equivalences shown (J112).** A probe in the scratchpad ran each deleted helper, copied verbatim from the before-image,
+against the kept one it now calls, imported from the tree by path: `hullRing` vs `hullOf` over 100 000 point sets (3 –
+40 points, spans 16 cm to 2²⁴ cm, duplicates and lattice-exact collinear points), `insideRing(ring, p)` vs
+`insideFace([ring], p)` over 1 000 000 cases (on vertices, on edge midpoints, on a vertex's y, random), the inline
+comparator vs `compareKeys` over 100 000 pairs and 1 000 sorts (ASCII ids, prefixes, astral and lone-surrogate code
+units, the empty key), the old `arrivalDot2` vs the planner's for every band [lo, hi] with lo = 0, 7, … 18 000 (12 860),
+the old `arrivesSquare` and `cornerScale` vs the planner's (100 000 each): **0 differences**; `RAD_PER_CDEG`, `TOUCH_CM`,
+`SCALE`, `M_TO_CM` `Object.is`-equal to the deleted constants. Positive controls (the copied `hullRing` popping on `< 0`,
+`insideRing` testing `<=`, a length-first comparator) differ on 1 728 / 2 000, 6 694 / 20 000 and 1 399 / 2 000 cases, so
+the probe sees a difference when there is one. **1.2.6's bound:** `hullOf` decides with `orient2d` (exact), `hullRing`
+with the plain cross `(a.x − o.x)(b.y − o.y) − (a.y − o.y)(b.x − o.x)`; on lattice points (|x|, |y| ≤ 2²⁴, the kernel's
+range; `snap` refuses beyond it) each difference is below 2²⁵ in magnitude, each product below 2⁵⁰, their difference below
+2⁵¹ < 2⁵³: every intermediate is an integer a double holds exactly, so the cross's sign is `orient2d`'s and the two hulls
+are the same list; the two tails were diffed line by line (the same sort `a.x − b.x || a.y − b.y`, the same pops on `≤ 0`,
+the same `lower.pop(); upper.pop(); lower.concat(upper)`). **1.2.7:** the same loop (`j` from `length − 1`), the same
+`ratio(p.y − a.y, b.y − a.y, 'length')` with the `k.ok ? k.value : 0` fallback, the same `p.x < x`; neither exact on the
+boundary; siting's exact `insideRing` not substituted. **1.2.5:** `dmath.cos(lo · RAD_PER_CDEG)` with the same double
+`PI / 18000` = 0.00017453292519943294 (never growth's …296, J302 Q8); the same four statements on `sides.ts`'s `unit` /
+`dot`. **1.2.10:** `compareKeys` is the inline expression (`kernel/src/arena/keys.ts:13`); `a − b || compareKeys(…)` is
+the inline tie-break. **1.2.12:** `kerbLength` was `return lineLength(points)`; it was read by `bentCutFabric.ts` only (no
+test or testkit file imports it: grep). **1.2.13:** `width.ts` imports `@plat/kernel` and `@plat/tables` only, so
+`ladder.ts → width.ts` makes no cycle. **1.1.6 (J302 Q6):** the kernel keys arenas by value — `facade/kernel.ts`
+`platOf` reads `arenas.get(keyName(key))`, `arena/plat.ts` `sameKey` compares `layer` and `part`; S8 reads its key only
+as a value (`k.plat`, `lineageHash`, `mint`, `addressOf`, `entityKey`, `pointLocate`, `resolve`, `rebuildAtStageEnd`)
+and never writes it, so the frozen `GROUND_KEY` is the unfrozen literal's equal.
+
+**Kept apart, as the plan says.** `spineHit`, `endOf`, `slideEnd` (1.2.5; J302 Q2, queue row L28): the ladder's
+`spineHit` divides through `div` (both operands × 2²⁰), so a denominator in [2⁻²⁰, 1) passes where the planner's
+`ratio(…, 'length')` refuses (floor 1); where both pass the quotients are bit-equal; `endOf` calls its own `spineHit`;
+`slideEnd` re-derives the kerb point on the rings (the planner's on its sides). `generated(epoch)` (1.2.11; J302 Q5,
+queue row L30). `SEAM_PORTAL_ROW` (C-0298, C-0316). Every refusal detail text verbatim (J263 Q6): no message string
+changed (the diff touches none). Q39 / `BENT_CUT`'s batch path untouched (J302 Q4). `div` stays ladder's (read by
+`bentCutFabric.ts` and `deepInterior.ts`); `cosCdeg` stays ladder's (the judge's corner floor reads it).
+
+**API frozen (J263 Q1).** `src/index.ts` and `src/infill/index.ts` byte-identical (sha256 f2349765…, 214be044…). The
+TypeScript checker's exported names with value / type flags and types (a scratch script over the before-image and the
+tree): package barrel 692 = 692, infill index 120 = 120, identical; file level `ladder.ts` 23 = 23 (`kerbLength` out,
+`hullOf` in; `TOUCH_CM` the same name and type `0.5`), `width.ts` 10 → 11 (`SCALE`), every other owned file identical.
+Neither new name reaches an index; both are imported by path.
+
+**NO-SHIFT (J260 (3)) and refusals (J264 (5)).** The before-image is the owns at the round's start, equal to `landed/M0-b-03.json`'s hashes (bentCutFabric
+3da29477…, ladder 2362e0b6…, portals c61e5af8…, stage ef76fc0f…, width 699ba577…, deepInterior d2635966…, index
+214be044…), copied with the tree into a scratch mirror outside the project; the same probe script ran there (before) and
+in the tree (after), each run printing its hashes (S8's output whole, the L1 digest, the model root, the stage roots, the
+lanes, blocks, infill records and report) and its refusal counts. **The fabric's families** (the bench's bentcut tasks at
+seed 1: 300 F-CUT concave / holed, 800 full — 1 100 tasks): every line identical before and after (the result files'
+sha256 aa1d4123f81deeaf… both; the 1 100 record hashes concatenated 239333518bc69b14 both), 0 records refused, 0
+districts refused, lanes 9 086 = 9 086, blocks 9 344 = 9 344. The plan's `9c0f7288b693ecdf` is b-03 s4's census hash
+by its checker's own `fam.ts`, which is not in this tree, and S5 has moved split seeds since, so it is not this round's
+before-value; the before / after pair above is. **The base fixtures** (`runBase` flat and river, 900 ha / 30 ha walled,
+seeds 1 – 5): the 10 runs byte-identical (model root, stage roots, S8's root, lanes, blocks, infill, report), bugs 0 = 0,
+S8's two rows identical, districts refused 0 = 0, rung refusals 1 439 = 1 439. **The integrated CITY seeds** 1 – 7, 20,
+23, 39, 44 (`runBase(FLAT_BLUEPRINT)` at the full CITY size): the 11 runs byte-identical (same fields), bugs 0 = 0,
+`block-floor` and `seam-portals` rows identical, districts refused 0 = 0, rung refusals 8 731 = 8 731, warnings
+(`W_CUT_SLID`, `W_DEEP_SPINE_REFUSED`) equal. **Fusion 1, 2, 11, 30** cannot run here: `bench/src/fusion/` is the
+scaffold's empty index (M0-c-06's harness is not built in this tree); fusion 30's face 197 runs as `seeds.test.ts`'s
+fixture (green). **Refusals (J264 (5), J290):** over the item's registered families 0 before, 0 after — no stage or
+district refusal in any run; the rung refusals are the ladder's typed moves to its next rung (§4.6 step 8), counted
+equal; none is a lawful-input refusal of the stage. Every refusal code and detail text verbatim (no string literal in a
+refusal path changed: the diff touches none).
+
+**Self-check (J183): the targeted mutants.** 32 targeted mutants in the lane's one mirror (`vitest run --maxWorkers=1 --bail=1` over
+`test/infill/fabric/` and `testkit/test/layout/infill-fabric/`, the item's NEAR set, 16 files, 118 tests), each file
+restored from the tree and `cmp`-checked, the mirror diffed clean and deleted at the end. **The earlier rounds' killed
+mutants, re-created on the consolidated code, all killed:** s4's sixteen — K01 – K08, K09 (as K09f, the function-level
+form s5's check used), K10 – K12, K14, K15, K17, K18 — and s5's C06; K19 / K20 and K37 / K38 stay the recorded
+survivors (N-23, N-4; not re-run). **This round's lines:** X01 (`hullOf` returns its lower chain: 1.2.6), X03 (the
+inverted `insideFace` in `withHoles`: 1.2.7), X05 (`SCALE = 1`: 1.2.13), X06 (the ladder's centidegree conversion
+doubled: 1.2.8), X08 (the width law's L halved: 1.2.12), X10 / X11 (the planner's `arrivalDot2` / `arrivesSquare`
+always pass, through the import: 1.2.5) killed; X12 (the planner's `TOUCH_CM = 1`, which ladder.ts re-exports) survives
+this folder and is killed by b-02's pin in `planner/sides.test.ts` (1 failed | 8 passed). **The moved test support:**
+S01 (`CELLS` with no gap and a full band), S02 (`arenaWays` empty), S03 (`P` with x, y swapped) killed. **Four
+survivors, each on code the round did not change (pin gaps that held before it too; rows C1-1 – C1-4):** X02 (`hullOf`
+keeps collinear points on its lower chain), X04 (`boundaryWays` in reverse key order), X07 (the continuation
+tolerance's conversion × 10 — N-6's class: step 10's wiring has no crossroads fixture), X09 (`faceSides` given a corner
+scale of 0). The round's own swaps are proved by value instead: `compareKeys` is the inline expression, `cornerScale`
+the same loop, `RAD_PER_CDEG` `Object.is`-equal (the equivalence probe above), and the NO-SHIFT runs are identical.
+
+**Fixed-round lines (the brief's C1 list) and where each stands.** 1.2.5 / 1.2.8 / 1.2.9: the planner's `arrivalDot2`,
+`arrivesSquare`, `cornerScale`, `RAD_PER_CDEG`, `TOUCH_CM`, `M_TO_CM` read by path; `PI` is no longer spelt in the
+fabric (the ladder's conversion reads the planner's `RAD_PER_CDEG`, which reads siting's `PI`); `spineHit`, `endOf`,
+`slideEnd` kept with their headers. 1.2.6 / 1.2.7 / 1.2.12 / 1.2.13: one hull (`hullOf`), one point-in-face test
+(`insideFace`), `lineLength`, one `SCALE`. 1.2.10 / 1.2.11: seven comparator sites → `compareKeys` (the plan's six plus
+`portalInvariant`'s placed-portal tie-break, the same expression); `generated` kept. 1.2.14: the comments of §2's four
+infill rows; no refusal detail text changed; `SEAM_PORTAL_ROW` kept. §3: equal twins into `support.ts` (above); no merge;
+titles kept; the folder has 13 test files (36 describe / 100 `it`) because `splitSeeds.test.ts` (2 / 6) landed in S5 after
+the plan counted 12 · 34 · 94 — unchanged by this round. API: identical (above). NO-SHIFT: identical (above).
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| C1-1 | **`hullOf`'s collinear rule is unpinned (self-check X02 survives NEAR 118/118).** Popping on `< 0` instead of `≤ 0` keeps exactly collinear points on the lower chain; the OBB of `majorExtent` is the same box, but `reflexVertices` could stop a lid walk at a ring vertex lying exactly on a lower hull edge and measure a shorter depth. The code is the same before and after the round (the deleted `hullRing` popped on `≤ 0` too, and was equally unpinned). | A `ladder.test.ts` case: a ring with a vertex exactly on a hull edge and a notch beside it; `reflexVertices`' depth equals the distance to the whole lid. | M4 |
+| C1-2 | **The spine order of `kerbFace` is unpinned (X04: `boundaryWays` in reverse key order survives NEAR).** The order fixes each `KerbSpine`'s index (an `EndPlan.index`, the ties of `spineHit`'s first-best); the run stays deterministic under the reversal, so it is a pin gap, not a fail-safety one. The round's `compareKeys` is the inline expression (probe: 100 000 pairs and 1 000 sorts equal) and the NO-SHIFT runs are identical. | An S8-run pin of the spine ids' order on a face bounded by three or more ways. | M4 |
+| C1-3 | **Step 10's tolerance conversion at its call site is unpinned (X07: `continuationCdeg × RAD_PER_CDEG × 10` survives NEAR) — N-6's class.** No fixture forms a crossroads; `continuationVerdict` is unit-tested with its tolerance given. The round's `RAD_PER_CDEG` is `Object.is`-equal to the deleted constant. | N-6's fixture (a cut landing within attractCm of an interior junction, collinear within 6° admitted, otherwise refused). | M4 |
+| C1-4 | **The corner scale `faceSides` reads in the fabric is unpinned (X09: a corner scale of 0 survives NEAR).** The planner's tests pin `cornerScale`'s value (b-02's R5 mutants); the fabric's call site reads the same function now, by path. | A fabric case whose kerb's round-joined corner merges two runs only under the spine's half-width. | M4 |
+| C1-5 | **Fusion 1, 2, 11, 30 were not run before / after.** `bench/src/fusion/` holds the scaffold's empty index (M0-c-06 is not built in this tree), so the plan's fusion digests have no harness here; fusion 30's face 197 runs as `seeds.test.ts`'s fixture. | The closing check, or M0-c-06's own round, re-runs the four seeds against this round's tree once the harness lands. | M0 (session note) |
