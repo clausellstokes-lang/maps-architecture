@@ -3,8 +3,9 @@
 // `arcMaxCm`, which the planner passes — M0-a-10's check note N-1; C-0159 (4)), "perpendicular to a side" read against
 // the run's chord or, on a curved run, its tangent over ± 5 m — never one short segment of a round-joined kerb; the
 // canonical rings, the line and ray tests.
+import { LATTICE } from '@plat/kernel';
 import { describe, expect, it } from 'vitest';
-import { planCut } from '../../../src/infill/planner.js';
+import { planCut, TOUCH_CM } from '../../../src/infill/planner.js';
 import { canonicalRings, faceSides, insideFace, lineCrossings, rayHit, runAt, sideDir } from '../../../src/infill/sides.js';
 import { asCut, CTX, dot, FACES, ring, streamsFor } from './support.js';
 
@@ -93,6 +94,8 @@ describe('the line and ray tests', () => {
   });
 
   it('a ray finds the first boundary beyond its origin; inside reads the holes', () => {
+    // The 0.5 cm the planner passes as a ray's minimum t is its touch tolerance: half a lattice unit.
+    expect(TOUCH_CM).toBe(LATTICE.unitCm / 2);
     const h = rayHit(face, { x: 5500, y: 0 }, { x: 0, y: 1 }, 0.5);
     expect(h?.t).toBe(3000);
     expect(h?.ring).toBe(1);

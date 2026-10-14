@@ -48,6 +48,7 @@ import {
   type Stream,
 } from '@plat/kernel';
 import { loadTable, type Cell, type PresetId, type Table } from '@plat/tables';
+import { PI } from '../siting/geom.js';
 import {
   along,
   canonicalRings,
@@ -176,7 +177,11 @@ export interface CutCells {
   readonly slope: { readonly threshold: number; readonly weightMax: number; readonly scale: number } | null;
 }
 
-const M_TO_CM = 100;
+/**
+ * Centimetres per metre: the cut table's metre cells read in cm. Infill's one definition, exported for its files to
+ * import by path.
+ */
+export const M_TO_CM = 100;
 
 function cellValue(t: Table, row: string, name: string, preset: PresetId | undefined): unknown {
   const c: Cell = t.cell(row, name);
@@ -369,9 +374,11 @@ export interface WorkingFrame {
   readonly lengthCm: number;
 }
 
-/** π (Math.PI is outside §6.5 (3)'s allowlist). */
-const PI = 3.141592653589793;
-const RAD_PER_CDEG = PI / 18000;
+/**
+ * Radians per centidegree: π ÷ 18 000 on siting's π (`siting/geom.ts`), the double `PI / 18000`. Infill's one
+ * definition, exported for its files to import by path; never swapped for growth/heading.ts's literal, one ulp above.
+ */
+export const RAD_PER_CDEG = PI / 18000;
 
 function rotate(v: XY, rad: number): XY {
   const c = dmath.cos(rad);
@@ -591,8 +598,12 @@ export type CutPlan = BlockPlan | CutPlanned | NextRungPlan | FailedPlan;
 // planCut
 // ---------------------------------------------------------------------------------------------------------------
 
-/** The tolerance (cm) for a touch at a segment's end and for a hit too near its origin: half a lattice unit. */
-const TOUCH_CM = 0.5;
+/**
+ * The tolerance (cm) for a touch at a segment's end and for a hit too near its origin: half a lattice unit. Infill's
+ * one definition, exported for its files to import by path (enceinte/plane.ts's `TOUCH_CM`, the insertion's
+ * attraction, is another quantity).
+ */
+export const TOUCH_CM = 0.5;
 
 function checkContext(ctx: PlanContext, cells: CutCells): { eLo: number; eHi: number; wMin: number; attempt: number } {
   const [lo, hi] = ctx.depthRangeM;
@@ -611,8 +622,11 @@ function checkContext(ctx: PlanContext, cells: CutCells): { eLo: number; eHi: nu
   return { eLo, eHi, wMin, attempt };
 }
 
-/** The face's widest spine half-width (cm): the scale of its kerb's round-joined corners (C-0222 (3)). */
-function cornerScale(face: KerbFace): number {
+/**
+ * The face's widest spine half-width (cm): the scale of its kerb's round-joined corners, sideRuns' `arcMaxCm` when the
+ * context gives none (C-0222 (3)). Infill's one definition, exported for its files to import by path.
+ */
+export function cornerScale(face: KerbFace): number {
   let w = 0;
   for (const s of face.spines ?? []) if (s.halfWidthCm > w) w = s.halfWidthCm;
   return w;
@@ -774,8 +788,11 @@ interface EndInput {
   readonly from: XY;
 }
 
-/** The squared-cosine bound of the portal arrival band: an arrival within [lo, hi] cdeg has dot² at most this. */
-function arrivalDot2(cells: CutCells): number {
+/**
+ * The squared-cosine bound of the portal arrival band (§4.6 step 7, C-0222 (9)): an arrival within [lo, hi] cdeg of
+ * the spine has dot² at most this. Infill's one definition, exported for its files to import by path.
+ */
+export function arrivalDot2(cells: CutCells): number {
   const [lo, hi] = cells.portalArrivalCdeg;
   const a = dmath.cos(lo * RAD_PER_CDEG);
   const b = dmath.cos(hi * RAD_PER_CDEG);
@@ -812,8 +829,12 @@ function endOf(face: KerbFace, e: EndInput): EndPlan {
   return { kind: 'spine', kerbPoint: e.kerbPoint, point: h.point, arrival, index: h.spine, slidCm: 0 };
 }
 
-/** Does the leg from `from` arrive at the spine point within the portal arrival band? */
-function arrivesSquare(spineDir: XY, from: XY, at: XY, bound: number): boolean {
+/**
+ * Does the leg from `from` arrive at the spine point `at` within the portal arrival band — its unit direction's dot²
+ * with the spine direction at most `bound` (`arrivalDot2`)? False for a leg too short to have a direction (`unit`).
+ * Infill's one definition, exported for its files to import by path.
+ */
+export function arrivesSquare(spineDir: XY, from: XY, at: XY, bound: number): boolean {
   const u = unit(sub(at, from));
   if (u === null) return false;
   const d = dot(u, spineDir);

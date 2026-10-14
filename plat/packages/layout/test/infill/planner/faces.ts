@@ -160,6 +160,9 @@ export const FACE_NAMES = Object.keys(FACES).sort();
 /** The design's district context: poor's plot depths 12–20 m → e = [24, 40] m (§4.6 step 1, §4.7); w_min 4 m. */
 export const CTX: PlanContext = Object.freeze({ depthRangeM: [24, 40] as const, minFrontageM: 4 });
 
+/** The seeds 1 … SEEDS a sweep over one face plans (faceset.test.ts's shape clauses, holed.test.ts's holed law). */
+export const SEEDS = 200;
+
 /** A face's streams: a fresh derivation's Rng, the face's entity key from a seed and a lineage. */
 export function streamsFor(seed: number, lineage: readonly [number, number] = [0x1234_5678, 0x0bad_cafe], rng: Rng = createRng()): PlanStreams {
   const key: Hash128 = entityKey(seedKey(seed), lineage as unknown as Hash128 as never, { layer: 'ground', part: 0 });

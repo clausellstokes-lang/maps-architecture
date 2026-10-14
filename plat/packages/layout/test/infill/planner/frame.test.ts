@@ -3,9 +3,10 @@
 // a switch at weight 0 on a flat site and under a parity preset (§7.6: the option off) — built and unit-tested here on
 // a synthetic slope field (the real field is M0-e-05's, the slope classes M1's); a ladder attempt k turns the frame by
 // k × 36°; the outer ring's extent along the axis.
+import { dmath } from '@plat/kernel';
 import type { PresetId } from '@plat/tables';
 import { describe, expect, it } from 'vitest';
-import { cutCells, planCut, slopeWeight, towardContour, workingFrame, type FaceSlope } from '../../../src/infill/planner.js';
+import { cutCells, planCut, RAD_PER_CDEG, slopeWeight, towardContour, workingFrame, type FaceSlope } from '../../../src/infill/planner.js';
 import { asCut, cross, CTX, dot, FACES, ring, streamsFor } from './support.js';
 
 /** A synthetic slope field: the plane z = gx · x + gy · y, read as the face's mean slope and contour direction. */
@@ -29,12 +30,19 @@ describe('the working frame', () => {
   });
 
   it('turns by k × 36° on attempt k (step 8 (a)); the plan reads the turned frame', () => {
+    // The turn reads infill's radians per centidegree: the double π / 18 000, never growth/heading.ts's literal one ulp
+    // above it (the two are never swapped).
+    const radPerCdeg = 3.141592653589793 / 18000;
+    expect(RAD_PER_CDEG).toBe(radPerCdeg);
+    expect(RAD_PER_CDEG).not.toBe(0.00017453292519943296);
     const first = asCut(planCut(FACES.rectangle, CTX, streamsFor(9)));
     for (const k of [1, 2]) {
       const r = workingFrame(FACES.rectangle, k * 3600);
       expect(r.ok).toBe(true);
       if (!r.ok) continue;
       expect(angleOf(r.value.major)).toBeCloseTo((k * 36 * Math.PI) / 180, 12);
+      // The OBB's axis (1, 0) turned by dmath's cos and sin of k × 3 600 cdeg, to the bit.
+      expect(r.value.major).toEqual({ x: dmath.cos(k * 3600 * radPerCdeg), y: dmath.sin(k * 3600 * radPerCdeg) });
       const p = planCut(FACES.rectangle, { ...CTX, attempt: k, stop: first.stop }, streamsFor(9));
       expect(p.ok && p.value.kind === 'cut' && p.value.frame.turnCdeg).toBe(k * 3600);
       if (p.ok && p.value.kind === 'cut') {
