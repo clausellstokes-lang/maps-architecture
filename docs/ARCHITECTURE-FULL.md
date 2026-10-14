@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 322065b93991780a | 24281 |
+| `docs/ARCHITECTURE.md` | 866f41c09f6c6eb3 | 24345 |
 | `docs/volumes/INDEX.md` | 355e7ac139b43940 | 203 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 1a0e9583ada186f7 | 4228 |
@@ -5372,13 +5372,21 @@ parts, so a chain that doubles back near itself attracts onto itself as onto any
    rounding (≤ 3 passes; each pass leaves a planar arrangement, so an unconverged result still commits, reported
    `W_SNAP_PASSES`; the sub-centimetre re-routes of Steiner vertices are snap-rounding re-routes with the same
    guarantee). Two consecutive crossings closer than `minEdge` lie on the two arms of an acute corner — the clearance
-   invariant forbids any other way for two edges to come that close — and are resolved at that corner instead of
-   cutting a sliver off its tip (`W_WEDGE_ROUTED`): when the corner is the existing arrangement's (two crossings along
-   one new segment) the chain is routed through the corner's vertex; when it is the chain's own (two crossings along one
+   invariant forbids any other way for two edges to come that close — and are resolved at that corner instead of cutting
+   a sliver off its tip (`W_WEDGE_ROUTED`): when the corner is the existing arrangement's (two crossings along one new
+   segment) the chain is routed through the corner's vertex; when it is the chain's own (two crossings along one
    existing edge) the chain's corner vertex moves onto that edge at the placement point of its foot. Either way the
-   chain moves at most `minEdge / (2 tan(θ/2))` for a corner of angle θ (0.47 m at the 30° junction floor, 1.2 m at the
-   12° plot floor; §4.7). An optional
-   chain that would move more than `attractCm` this way is rejected with `E_BELOW_MIN_EDGE`.
+   chain moves `minEdge / (2 tan(θ/2))` for a corner of angle θ (0.47 m at the 30° junction floor, 1.2 m at the 12° plot
+   floor; §4.7), a move with no bound as θ → 0, so wedge routing applies only where it moves the chain at most 2 · √2 ·
+   `attractCm` ≈ 73.5 cm (θ ≥ 19.3° at `minEdge`), the largest move under which §3.7's attracted bound holds: the 30°
+   junction floor keeps its wedge route, the 12° plot floor's 1.2 m does not. Beyond it the two crossings are placed in
+   turn by the placement rule — the second at least `minEdge` from the first under (ii), a step across the sliver — or
+   by the rule's endpoint fallback, and a corner below `minFaceAngle` this leaves on a mandatory chain commits with
+   `W_ACUTE_CORNER` (item 130 (a)). An optional chain that would move more than `attractCm` this way is rejected with
+   `E_BELOW_MIN_EDGE`. A route never re-enters a vertex already on the chain's path: where a landing or an attraction
+   would lead the segment back through such a vertex, the path is cut back to that vertex and routed on from it, so
+   every committed run is a simple path or ring (§3.10's role consistency; §3.11). The cut is a function of the arena
+   and the input and moves nothing (item 130 (d)).
 5. *Re-walk.* Only faces incident to touched edges are re-walked; face records, owners, parents and stage ranks are
    updated — a kept face is re-parented into the new face that contains it (§3.3); the commit record lists them.
 
@@ -5409,28 +5417,42 @@ new route edge, a same-level split about as often, and successive changes up to 
 three or four (`docs/validation/bench/fixall_kernel_r4_checks.out` A, `fixall_kernel_r5_checks.out` B). Nothing reads
 that standing distance but the index, whose route-edge boxes cover it (§3.3).
 
-**Existing geometry wins, and no edge shorter than `minEdge` can be created.** An incoming chain vertex moves at most
-√2 · `attractCm` ≈ 36.8 cm (onto an edge's endpoint from beside the edge), or by the corner bound of step 4 at an acute
-tip; no existing vertex moves; an existing edge moves only by its hot pixel (≤ 0.71 cm) where a vertex is placed on it.
-Every edge a batch creates is one of four kinds, each at least `minEdge` long: (a) a chain segment between consecutive
-chain vertices — decimation and the merge rule keep them `minEdge` apart; (b) a sub-edge of a split existing edge — the
-placement rule's (ii); (c) a chain segment ending at a split point or a crossing — (ii) again for a crossing segment's
-own endpoints, and the merge rule when the chain's previous vertex is an existing vertex beside the split; (d) the span
-between two crossings — resolved at the acute corner by step 4. Clearance holds by steps 2–3 for every new vertex and
-segment and by (iii) for every placed vertex. Measured (`docs/validation/bench/fixall_kernel_r2_attract.out` A–B): over
-400 000 vertices dropped in the attraction band of random lattice edges, 0 sub-edges shorter than `minEdge` (shortest
-25.50 cm; 5 729 moved onto an endpoint; largest displacement 36.72 cm); on cut endpoints of Chaikin×2 spines with 7.9 m
-median segments (`fixall_kernel_r2_attract.py` B), 6.38 % attracted, displaced p50 12.9 cm and at most 26 cm, shortest
-resulting edge 25.6 cm. Constructive fixtures: §13.1.
+**Existing geometry wins, and no edge shorter than `minEdge` can be created.** An incoming chain vertex moves at most √2
+· `attractCm` ≈ 36.8 cm (onto an edge's endpoint from beside the edge), or by the corner bound of step 4 at an acute tip
+(at most 2 · √2 · `attractCm`), and a crossing that the placement rule's endpoint fallback moves onto the crossed edge's
+nearer endpoint is held by the fidelity bound below; no existing vertex moves; an existing edge moves only by its hot
+pixel (≤ 0.71 cm) where a vertex is placed on it. Every edge a batch creates is one of four kinds, each at least
+`minEdge` long: (a) a chain segment between consecutive chain vertices — decimation and the merge rule keep them
+`minEdge` apart; (b) a sub-edge of a split existing edge — the placement rule's (ii); (c) a chain segment ending at a
+split point or a crossing — (ii) again for a crossing segment's own endpoints, and the merge rule when the chain's
+previous vertex is an existing vertex beside the split; (d) the span between two crossings — resolved at the acute
+corner by step 4, or placed in turn at least `minEdge` apart under (ii) where the corner's move exceeds step 4's cap.
+Clearance holds by steps 2–3 for every new vertex and segment and by (iii) for every placed vertex. Measured
+(`docs/validation/bench/fixall_kernel_r2_attract.out` A–B): over 400 000 vertices dropped in the attraction band of
+random lattice edges, 0 sub-edges shorter than `minEdge` (shortest 25.50 cm; 5 729 moved onto an endpoint; largest
+displacement 36.72 cm); on cut endpoints of Chaikin×2 spines with 7.9 m median segments (`fixall_kernel_r2_attract.py`
+B), 6.38 % attracted, displaced p50 12.9 cm and at most 26 cm, shortest resulting edge 25.6 cm. Constructive fixtures:
+§13.1.
 
-**Chain classes.** `mandatory` chains — coast, shore, bank, river, wall trace, arterial, band and kerb edges, plot lines,
-user-drawn geometry — cannot fail for a precision reason: after attraction and placement no precision error is left,
-only §3.1's non-precision codes can reject one, and a corner below `minFaceAngle` commits with `W_ACUTE_CORNER`.
-`optional` chains — growth proposals, optional lanes, decorative lines — are also rejected with `E_BELOW_MIN_ANGLE`; with
-`E_BELOW_MIN_EDGE` when the chain collapses below one edge after decimation or when wedge routing would move it more
-than `attractCm` (step 4); or with `E_SELF_INTERSECT` where their role requires a simple ring: a proposal that cannot be
-inserted is not a street. F-NUM's ladder (§5.2) takes an optional chain's rejection, `E_OUT_OF_RANGE` included (§3.1);
-mandatory chains never reach it.
+**The fidelity bound.** Every commit of a mandatory chain's segment keeps its committed route within 2 · √2 ·
+`attractCm` ≈ 73.5 cm of the input segment, measured as the Hausdorff distance both ways, its stretch-share join and
+leave points included — whichever of the steps above routed it (an attraction, a shared stretch, a wedge route,
+crossings placed in turn, the placement rule's endpoint fallback, an iterated step-3 contact). A route beyond the bound
+is never committed: the router seeks an in-bound route that keeps §3.10's clearance — crossings placed in turn along the
+segment, the segment split at the obstruction, rounding moves within this section — and a chain for which none exists is
+refused (*Chain classes*). A stretch's leave point at an existing vertex is not an incoming vertex, so √2 · `attractCm`
+does not bind it; this bound does. It bounds each segment and does not replace §3.7's area bound on a boolean or buffer
+(perimeter × √2 · `attractCm`). Every commit through the endpoint fallback reports `W_PLACED` (item 130 (a)).
+
+**Chain classes.** `mandatory` chains — coast, shore, bank, river, wall trace, arterial, band and kerb edges, plot
+lines, user-drawn geometry — are refused for a precision reason only where no route keeps §3.10's clearance within the
+fidelity bound, as `E_INVARIANT`, and every such refusal is counted (§13.1); otherwise only §3.1's non-precision codes
+can reject one, and a corner below `minFaceAngle` commits with `W_ACUTE_CORNER` (item 130 (a)). `optional` chains —
+growth proposals, optional lanes, decorative lines — are also rejected with `E_BELOW_MIN_ANGLE`; with `E_BELOW_MIN_EDGE`
+when the chain collapses below one edge after decimation or when wedge routing would move it more than `attractCm` (step
+4); or with `E_SELF_INTERSECT` where their role requires a simple ring: a proposal that cannot be inserted is not a
+street. F-NUM's ladder (§5.2) takes an optional chain's rejection, `E_OUT_OF_RANGE` included (§3.1); mandatory chains
+never reach it.
 
 **Clearance.** Attraction and the placement rule maintain §3.10's clearance invariant for insertions, and `warp` checks
 it for moves. One consequence stages rely on: a setback smaller than `minEdge` collapses to zero (a building front
@@ -5439,11 +5461,15 @@ drawn 10 cm behind the kerb lands on the kerb), so a stage that wants a visible 
 **Roles on shared stretches, and slivers (GEO-4).** When a chain shares an edge — by stretch attraction or an exact
 collinear overlap — the edge's role set gains the chain's `(role, entity, level)` row: never a duplicate edge, never an
 overwrite. A wall pulled onto a river bank is one edge carrying `bank` and `wall`; a quay on a shore carries `shore` and
-`way`. A face below its class floor (width or area — never `minEdge`) is resolved by `absorbSliver`: it merges into the
-neighbour across its longest shared boundary whose edges carry only partition roles; if every candidate boundary
-carries a structural role, no edge is deleted and the sliver stays as a face of kind `residue` owned by the neighbour
-across its longest boundary (`W_SLIVER_RETYPED`). A street, wall, shore or border can therefore never lose a stretch to
-sliver repair; `mergeFaces` across a structural edge returns `E_STRUCTURAL`.
+`way`. A chain given again under a key that already carries a run — the same trace re-inserted, an arc re-traced between
+its gates, a stroke along a standing way — is that run: its points land on the run's vertices within √2 · `attractCm`
+(the bound its first insertion moved them by), its segments follow the run between two landings, and it adds no vertex,
+no edge and no row; a point farther than `attractCm` from the run is another chain under the key and is refused by role
+consistency (§3.10) (item 130 (e)). A face below its class floor (width or area — never `minEdge`) is resolved by
+`absorbSliver`: it merges into the neighbour across its longest shared boundary whose edges carry only partition roles;
+if every candidate boundary carries a structural role, no edge is deleted and the sliver stays as a face of kind
+`residue` owned by the neighbour across its longest boundary (`W_SLIVER_RETYPED`). A street, wall, shore or border can
+therefore never lose a stretch to sliver repair; `mergeFaces` across a structural edge returns `E_STRUCTURAL`.
 
 **`splitFace` contact semantics (GEO-6).** A cut is a polyline whose interior lies in the face's open interior and
 which touches the face boundary exactly at its two endpoints, decided by exact `orient2d` on lattice points — never by
@@ -5548,45 +5574,48 @@ supplies (§7.1); a whole-map rotation is view state, never a vertex operation (
 **Decision (GEO-9, DEF-2; J-K4).** Booleans, buffers, per-edge insets and bands are built on the kernel's own
 arrangement — the machinery of `insertChain` on a scratch overlay — and no second geometry engine ships (the one
 exception is the pre-decided fallback below). A boolean overlays both operands' rings, labels every face with its
-winding numbers (a breadth-first walk from the unbounded face that adds each crossed edge's ring orientation), keeps the
-faces the operation and fill rule select (non-zero or even-odd, declared per call), and removes the edges that separate
-two kept faces; an empty result is `E_DEGENERATE` (detail `empty`). A buffer is the union of per-segment strips — each
-segment widened by its half-width on both sides — and per-vertex joins: `round` joins and ends are chords of at most
-2 cm sagitta (about 27 chords per full circle at a 3 m radius); a `square` join cuts the corner square at the half-width
-from the vertex, and a `square` end extends the strip by the half-width beyond its end point (gates, bridgeheads); a
-`miter` join extends the two outer edges to their meeting point, cut square at twice the half-width from the vertex
-where they would meet farther (the miter limit); a `flat` end stops the strip at its end point. Where the half-width
-varies along a stored chain it is sampled from the chain's knot profile at each segment's two ends and the segment's
-strip is the trapezoid between them (§2.2 rule 5). Every output takes and returns integer coordinates and is produced by
-the same insertion rules as every other chain, so it obeys the same attraction, placement, `minEdge` and clearance
-(GEO-35) with no re-snap round trip, and on every host it is the same TypeScript code producing the same integers — no
-host can compute a different town.
+winding numbers (a breadth-first walk from the unbounded face that adds each crossed edge's ring orientation; an edge
+one ring traverses out and back adds 0, so such a spur is never boundary), keeps the faces the operation and fill rule
+select (non-zero or even-odd, declared per call), and removes the edges that separate two kept faces; an empty result is
+`E_DEGENERATE` (detail `empty`). A buffer is the union of per-segment strips — each segment widened by its half-width on
+both sides — and per-vertex joins: `round` joins and ends are chords of at most 2 cm sagitta (about 27 chords per full
+circle at a 3 m radius); a `square` join cuts the corner square at the half-width from the vertex, and a `square` end
+extends the strip by the half-width beyond its end point (gates, bridgeheads); a `miter` join extends the two outer
+edges to their meeting point, cut square at twice the half-width from the vertex where they would meet farther (the
+miter limit); a `flat` end stops the strip at its end point. Where the half-width varies along a stored chain it is
+sampled from the chain's knot profile at each segment's two ends and the segment's strip is the trapezoid between them
+(§2.2 rule 5). Every output takes and returns integer coordinates and is produced by the same insertion rules as every
+other chain, so it obeys the same attraction, placement, `minEdge` and clearance (GEO-35) with no re-snap round trip,
+and on every host it is the same TypeScript code producing the same integers — no host can compute a different town.
 
 **The kerb, defined once (GEO-20).** For an L1 face F, `kerb(F) = F − ⋃ buffer(spineᵢ, half-widthᵢ)` over F's bounding
-spines, each half-width sampled from the width the spine's linear entity declares — a way's width profile (§2.4); on the
-underground layer a sewer tunnel's corridor half-width `widthCm ÷ 2 + wallCm`, half its bore plus its wall
-(`Tunnel.widthCm`, II.7.2's profile row), and another system's gallery's, `Gallery.widthCm ÷ 2 + Gallery.wallCm` (§2.7;
-defaults from its system's row, II.7.6) — with round joins on the union's convex side and square ends where declared;
-the union's concave corners — the block corners at junctions — are sharp by construction. A face with no bounding spine
-(bounded only by shore, border or other edges that declare no half-width) has `kerb(F) = F`. `corridorUnion` commits
-exactly this geometry at L2: the kerb rings as `kerb` edges; the spine inside the band, already an L1 edge, splits it
-into the two half-corridor strips; a `corridor_split` edge from each junction vertex to the kerb corner separates the
-junction wedge; on a side where the spine passes straight through a junction vertex (a T-junction whose street arrives
-from the other side) there is no kerb corner and no wedge: one `corridor_split` edge from the vertex to the foot of its
-perpendicular on that side's kerb separates the half-corridor strips of the spine's two sub-edges (§2.2 rule 1) — the
-edge II.1 (3)'s neighbour step inserts alone into a finished neighbour's strip; the faces outside the band are the built
-blocks (a spine-less face is one built block, with no kerb or `corridor_split` edge). A finer face an earlier stage made
-inside F is kept content (§3.3): it must lie wholly inside one resulting L2 face, and a kerb or `corridor_split` edge
-that would cross one or come within `attractCm` of it returns `E_KEPT`. The one-click order leaves none inside the faces
-S9 bands — a wall's band, setback and glacis parts are built after S9 inside their own L1 strip faces (§4.7 S10 (0),
-§4.8) — and a strip ends at the corridor of the way through each gate, so every gate passage stays open by construction.
-`kerb` is also a read-only service on the faces of an open transaction's overlay: S8 plans every cut on `kerb(F)` of the
-current L1 faces, inserts each accepted lane at L1 in its own district transaction and recurses on the children's kerbs;
-S9 then commits `corridorUnion` for those L1 faces — the same function on the same inputs — so the block S8 cut and the
-block S9 keeps are one face (tested, §13.2). Because a way's width is a knot profile, the T-junction S8 inserts into a
-crossed spine (§4.6 step 7) adds a vertex that carries no knot and changes no half-width, so the two sides of that
-contract read the same widths. `corridorUnion` takes a set of L1 faces and re-derives only those, which is also how an
-edit re-derives the corridors around a changed street.
+spines — every spine incident to F, on a route edge of its boundary or through a route vertex of it, whose buffer meets
+F: the spines of F's boundary edges, and every spine through a boundary vertex whose buffer reaches into their kerb —,
+so a block never overlaps a corridor it does not bound (a corridor is a reservation; item 130 (b)), each half-width
+sampled from the width the spine's linear entity declares — a way's width profile (§2.4); on the underground layer a
+sewer tunnel's corridor half-width `widthCm ÷ 2 + wallCm`, half its bore plus its wall (`Tunnel.widthCm`, II.7.2's
+profile row), and another system's gallery's, `Gallery.widthCm ÷ 2 + Gallery.wallCm` (§2.7; defaults from its system's
+row, II.7.6) — with round joins on the union's convex side and square ends where declared; the union's concave corners —
+the block corners at junctions — are sharp by construction. A face with no bounding spine (bounded only by shore, border
+or other edges that declare no half-width, and met by no incident spine's buffer) has `kerb(F) = F`. `corridorUnion`
+commits exactly this geometry at L2: the kerb rings as `kerb` edges; the spine inside the band, already an L1 edge,
+splits it into the two half-corridor strips; a `corridor_split` edge from each junction vertex to the kerb corner
+separates the junction wedge; on a side where the spine passes straight through a junction vertex (a T-junction whose
+street arrives from the other side) there is no kerb corner and no wedge: one `corridor_split` edge from the vertex to
+the foot of its perpendicular on that side's kerb separates the half-corridor strips of the spine's two sub-edges (§2.2
+rule 1) — the edge II.1 (3)'s neighbour step inserts alone into a finished neighbour's strip; the faces outside the band
+are the built blocks (a spine-less face is one built block, with no kerb or `corridor_split` edge). A finer face an
+earlier stage made inside F is kept content (§3.3): it must lie wholly inside one resulting L2 face, and a kerb or
+`corridor_split` edge that would cross one or come within `attractCm` of it returns `E_KEPT`. The one-click order leaves
+none inside the faces S9 bands — a wall's band, setback and glacis parts are built after S9 inside their own L1 strip
+faces (§4.7 S10 (0), §4.8) — and a strip ends at the corridor of the way through each gate (and at every other corridor
+a strip meets, §4.8), so every gate passage stays open by construction. `kerb` is also a read-only service on the faces
+of an open transaction's overlay: S8 plans every cut on `kerb(F)` of the current L1 faces, inserts each accepted lane at
+L1 in its own district transaction and recurses on the children's kerbs; S9 then commits `corridorUnion` for those L1
+faces — the same function on the same inputs — so the block S8 cut and the block S9 keeps are one face (tested, §13.2).
+Because a way's width is a knot profile, the T-junction S8 inserts into a crossed spine (§4.6 step 7) adds a vertex that
+carries no knot and changes no half-width, so the two sides of that contract read the same widths. `corridorUnion` takes
+a set of L1 faces and re-derives only those, which is also how an edit re-derives the corridors around a changed street.
 
 **Insets.** The per-edge half-plane inset of the 2017 idea survives only as `insetRing`, for a uniform inset of a face
 whose convexity is checked exactly (`E_NON_CONVEX` otherwise, and the caller takes `offsetFace` for an inward inset or
@@ -5629,8 +5658,9 @@ do not, so B-FUZZ splits every boolean and buffer case by what our engine report
 * **attracted cases** — the thin, near-collinear and near-touching inputs §13.1's random family and constructive set
   deliberately include: our result must pass every hard invariant of §3.10, and its symmetric difference from each
   oracle must be at most the perimeter × √2 · `attractCm` (≈ 36.8 cm), the farthest any boundary point can move under
-  attraction, placement or wedge routing (a wedge-routed tip sweeps at most half a `minEdge` per unit of arm length);
-  face counts are not compared, because merging features closer than `attractCm` is the designed difference.
+  attraction, placement or wedge routing (a wedge-routed tip moves at most 2 · √2 · `attractCm` and so sweeps at most
+  √2 · `attractCm` per unit of arm length, §3.6); face counts are not compared, because merging features closer than
+  `attractCm` is the designed difference.
 
 The harness's draw count, which keeps the strict comparison from being vacuous, is §13.1's. There is no runtime
 fallback, so no host produces a different model hash and no fallback path needs a budget (SCL-22). The generation report
@@ -5693,13 +5723,19 @@ typed downgrade:
 **Numeric contract (GEO-8).** Exact rational event times are impossible — edges move at unit speed, so event times
 involve the lengths √(dx² + dy²) of lattice edges. Event times are therefore computed in doubles with + − × ÷ √ only
 (identical on every IEEE engine; no transcendental), on coordinates relative to the polygon's bounding-box corner. Input
-is pre-cleaned by merging collinear vertices; holes are supported. After the clean the input must have no corner
-sharper than 5° on either side (an interior angle below 5° or above 355°) and no hole touching the outer ring or another
-hole (faces may have both, §3.10): a ring set that breaks either takes its reader's downgrade without running, so no
-cleaning step ever reshapes a roof. Events closer than 1 mm in offset time and 1 cm in position are coalesced into one
-multi-edge event; ties are broken by the input vertex's index in the ring, canonicalised to start at its lowest-leftmost
-vertex. The event queue runs under a work limit of 4 · (n + r) + 64 events for n vertices and r reflex vertices — a
-correct run needs at most about n + r — and exceeding it is `E_WORK_LIMIT`, a count and never a timeout.
+is pre-cleaned by merging collinear vertices and by dropping spurs — exact zero-width spurs, and inexact ones whose
+shorter arm's end lies within `attractCm` of the longer arm (the lattice's own coincidence band, §3.6): every tip of a
+round removed at once, to a fixpoint, so the clean is a function of the ring alone; holes are supported. After the clean
+the input must have no hole touching the outer ring or another hole (faces may have both, §3.10), and no corner sharper
+than the use's bound — 5° on either side for `roof` (an interior angle below 5° or above 355°: a 1 cm edit never flips a
+ridge, GEO-8), 1° for `spine` and `regions` (the engine's fold threshold, below which two edges are one direction): a
+ring set that breaks either takes its reader's downgrade without running, so no cleaning step reshapes a roof beyond the
+lattice's coincidence. The 1° bound for `spine` and `regions` was ruled by the session 2026-10-14 (N-61 (7)), vetoable
+by the owner; the earlier 5° for every use stands as history (item 130 (f)). Events closer than 1 mm in offset time and
+1 cm in position are coalesced into one multi-edge event; ties are broken by the input vertex's index in the ring,
+canonicalised to start at its lowest-leftmost vertex. The event queue runs under a work limit of 4 · (n + r) + 64 events
+for n vertices and r reflex vertices — a correct run needs at most about n + r — and exceeding it is `E_WORK_LIMIT`, a
+count and never a timeout. The law is the floor of the `skeleton.events` row at every version (§5.1 (5); item 130 (g)).
 
 **Convex near-rectangles take the exact path (J-K21).** A footprint wing that is **convex** (every turn non-negative by
 exact `orient2d` on its lattice vertices), whose four OBB corners are each matched by a footprint vertex within 30 cm and
@@ -5805,7 +5841,7 @@ the same block (§11.1).
 | faces simple except declared antennae; no two edges cross | hard | batch-local | touched faces |
 | nesting: every face of level n + 1 has exactly one parent at level n, and each of its boundary edges is of level n + 1 or a sub-edge of a level-≤ n edge | hard | batch-local | touched faces and re-parented kept faces, by index — never by coordinates |
 | placement bound: every vertex a batch places, re-seats or slides onto a coarser edge lies within 0.71 cm of that edge's route at the edge's own level when it is placed (a later same-level change of the route moves no finer vertex, §3.6); on a transient arena every vertex a batch places on a fixed edge lies within 0.71 cm of the line of each input side the edge lies on — its route, which no split changes and no writer there moves, so the bound stands for the arena's life (§3.4) | hard | batch-local | the placed, re-seated and sliding vertices |
-| level consistency: every edge's birth level is the lowest level among its role rows; no vertex is coarser than every edge and vertex role at it; a vertex finer than an incident edge lies inside that edge's run — its incident edges coarser than it are exactly two, of one level, with identical rows of that level (§2.2 rule 3) | hard | batch-local | the batch's new, changed, demoted and removed edges and the vertices at them, and the commit record's promoted and demoted vertices |
+| level consistency: every edge's birth level is the lowest level among its role rows; no vertex is coarser than every edge and vertex role at it; a vertex finer than an incident edge lies inside that edge's run at every level between — a vertex finer than level r with edges of level ≤ r has exactly two, of one level, with identical rows of level r (of level ≤ 1 at r = 1), for every r between (§2.2 rule 3; item 130 (c)) | hard | batch-local | the batch's new, changed, demoted and removed edges and the vertices at them, and the commit record's promoted and demoted vertices |
 | held vertices: no vertex of a `warp` or smoothing step's held set moved (§3.6) | hard | batch-local | the commit record's `moved` list against the held set |
 | prepared contacts: a clear-region batch met finer geometry only at its `KernelTx.prepared` vertices, promoted exactly those, stripped their `anchor` contact names, and shared no finer edge (§3.3, §3.6) | hard | batch-local | the commit record's `promoted` list against the resolved prepared set, and its new edges' birth levels |
 | kept content: no finer face made by a stage before the batch's `rederivesFrom` — nor, in a clear-region batch, any finer face outside the region — was cleared, crossed, split or re-owned (a move keeps nothing, §3.6) | hard | batch-local | the stage ranks and region test of the batch's removed and changed finer faces (§3.3) |
@@ -5846,7 +5882,7 @@ never as a whole-map retry. Each item below is a case of §13.1's constructive s
 | **no input** | a query whose box meets nothing, `hexLattice` of an empty region, `tileRings` of no rings and the Poisson sampler on an empty domain return empty values; a Delaunay of fewer than three distinct, or of collinear, sites returns no triangle; `booleans`, `buffer`, `offsetFace` and `insetRing` whose result is empty return `E_DEGENERATE` (`empty`); `transientArena` with no seed ring, `E_DEGENERATE` (`seed`); a transaction with no op commits nothing and keeps its arena's version (§3.3); `sampleProfile` of a chain that resolves to no edge returns an empty list | ok, or tier 1 |
 | **one item** | a chain with fewer than two distinct points after snapping and decimation: `E_BELOW_MIN_EDGE` if optional, `E_DEGENERATE` (`empty`) if mandatory (§3.6 step 1); `obb`, `hull` or `lir` of fewer than 3 distinct points: `collinear`; `regularFit` of fewer than 3 vertices: `fit`; a cut of one point: `E_NOT_TWO_CROSSINGS` (§3.6); a ring's profile with one knot: that value everywhere (§2.2 rule 5); a face with no bounding spine: `kerb(F) = F`, one built block (§3.7) | ok, or tier 1 |
 | **the caps** | the range invariant (`E_OUT_OF_RANGE`, §3.2 (7)); each transaction's `workLimit` and the skeleton's event limit (`E_WORK_LIMIT`, §3.3, §3.8); ≤ 3 snap-rounding passes, an unconverged result committing planar with `W_SNAP_PASSES`; ≤ 8 halvings of a move step, then a reported no-op (§3.6); the held set's closure within four rounds and the placement search within `attractCm` (§3.6); `area2`'s flush at 2⁵² (§3.2 (6)); the rebuild threshold (§3.3); the largest arena, METROPOLIS at the cap (§3.2 (1)), whose frame grows no further (§3.2 (9)) | tier 1, or a reported warning |
-| **degenerate geometry** | coincident points are one vertex (attraction); a collinear overlap is one shared stretch with merged roles; a self-touching or self-crossing chain is split into simple runs; a point within `minEdge` of its predecessor is decimated; a zero-area or pinched face never commits: a batch whose result would break a §3.10 row returns that row's code or `E_INVARIANT` and commits nothing; a skeleton input with a hole touching the outer ring or another hole, or a corner sharper than 5°, takes its reader's downgrade (§3.8); `hexLattice`'s spacing below `minEdge` or jitter at or above half the spacing is an assertion (§3.4) | tier 1; tier 4 for a skeleton reader |
+| **degenerate geometry** | coincident points are one vertex (attraction); a collinear overlap is one shared stretch with merged roles; a chain given again under a key that already carries a run is that run and adds nothing (§3.6; item 130 (e)); a self-touching or self-crossing chain is split into simple runs; a point within `minEdge` of its predecessor is decimated; a zero-area or pinched face never commits: a batch whose result would break a §3.10 row returns that row's code or `E_INVARIANT` and commits nothing; a skeleton input with a hole touching the outer ring or another hole, or a corner sharper than its use's bound (5° for `roof`, 1° for `spine` and `regions`; item 130 (f)), takes its reader's downgrade (§3.8); `hexLattice`'s spacing below `minEdge` or jitter at or above half the spacing is an assertion (§3.4) | tier 1; tier 4 for a skeleton reader |
 | **missing, empty or contradictory data** | the kernel reads no dossier field; a ref that finds no geometry resolves empty, and a stored one fails §3.10's stored-references row (`E_INVARIANT`; F-REDERIVE after an edit); a `StretchRef` whose ends are not on one part of its chain: `stretch`; a stale or foreign slot: a debug-build assertion, never a silent read (§3.4); a clear-region batch meeting finer geometry away from its prepared contacts: `E_LEVEL`; a snapshot chunk that fails to decode, or a lattice-point reference with no vertex: a corrupt cache, loaded by replay (§3.9) | tier 1; replay for a corrupt cache |
 | **every rung, THORP to the METROPOLIS cap** | one kernel with no rung-specific number: the lattice constants are fixed for an arena's life (§2.2), the range invariant holds at the largest frame (§3.2 (1)), a village frame is a smaller rectangle by its law (§3.2 (9)), work limits are laws over the batch's scope (§5.1 (5)), and the bands, the skeleton and the booleans run the same code at every size (B-FUZZ at every tier's sizes, §13.1, §13.8) | — |
 | **every toggle and preset** | the kernel reads no toggle, preset or style: whichever arenas a layer's toggles and a preset — the parity presets included — lead the stages to open, each runs the same code with the same constants, on every host (§3.7) | — |
@@ -7773,13 +7809,14 @@ presets).
 
 **S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
 against — half-corridor strips, junction wedges and **built blocks**. It runs once per district and once for the
-hinterland's faces; a wall strip's L2 is its half-corridor strips along the arterials at its gates (and along the
-intervallum, where there is one) and one built block, the strip block (§4.8). S9 writes every way's `slopeP95` (§2.4).
-The main plaza is S3's reservation, typed as a `square` face; the other squares come from S7b claims sized from
-population (O7) where larger than a block, and from S9b's dispatch below that size (V01 §3.5) — both read the one base
-table `squares.quota` (per band: hectares per 1 000 inhabitants and kind factors; §10.2), so the quota is counted once;
-gate plazas and forecourts come from S7 (§4.8). Streets exist as geometry from here on; "negative-space streets" is
-purely a style, and §8's figure-ground contract fills blocks in a ground tone.
+hinterland's faces; a wall strip's L2 is its half-corridor strips along the arterials at its gates and along any other
+way whose corridor it meets (§4.8; item 130 (b)) (and along the intervallum, where there is one) and one built block,
+the strip block (§4.8). S9 writes every way's `slopeP95` (§2.4). The main plaza is S3's reservation, typed as a `square`
+face; the other squares come from S7b claims sized from population (O7) where larger than a block, and from S9b's
+dispatch below that size (V01 §3.5) — both read the one base table `squares.quota` (per band: hectares per 1 000
+inhabitants and kind factors; §10.2), so the quota is counted once; gate plazas and forecourts come from S7 (§4.8).
+Streets exist as geometry from here on; "negative-space streets" is purely a style, and §8's figure-ground contract
+fills blocks in a ground tone.
 
 **S10a Block allocation and field pass 2 (eager, town-wide; LC-2, FTG-1).** Each district's `Allocation` (S7b) is
 distributed to its blocks in three declared steps, from the district's `alloc.block` stream (keyed from the district's
@@ -8648,7 +8685,10 @@ stretch profile below) plus the inner setback (table 6–10 m; MFCG's "buildings
 METROPOLIS in the high-medieval preset, `none` at TOWN), by the intervallum spine itself, inserted here as an L1 `lane`
 whose kerb is the strip's edge. Outside: the band's half plus the outer setback and glacis (table 10–20 m), bounded by the
 **glacis line** — or, where a moat runs along the wall, by the moat's inner bank, the strip then being the band's half plus the berm; across an under-deck strip where the moat is stopped (§2.7's laws, law 1 (1), (8); its worked example the way-and-channel table, row (e)) by the glacis line, as on a dry stretch. The lines carry the structural `setback` role (§2.2 rule 7), run from gate to gate, stop at each gate's plaza
-claim or arterial corridor, and close on the secondaries S5c stopped at the setback band, so each strip is a face of its
+claim and at the corridor of every way they meet — a gate's way at its passage, and any way whose corridor runs inside
+the strip's width, along its whole length there — so no strip face overlaps a corridor (a corridor is a reservation,
+§3.7, §4.6; a face is a strip's by area: it lies within the strip's width of the trace and its interior meets no
+corridor; item 130 (b)), and close on the secondaries S5c stopped at the setback band, so each strip is a face of its
 own; strip faces inherit their district from the faces they were cut from and are typed `wall_strip`. A barrier arc the
 trace leaves unwalled (§4.4) carries no strip. S8 never cuts a strip and its lanes end on the strip's boundary (§4.6);
 S10's eager step (0) builds inside each strip block the L3 half-band, the setback and glacis residue and its side's parts
@@ -10058,7 +10098,8 @@ piece.
    inputs take the same rungs on every machine.
    * *Coefficients:* each is the 99.9th percentile of the measured work per unit on B-CITY-lite × 1.5, computed by the
      spike or milestone that builds the stage and recomputed whenever the stage's code changes; a change that moves
-     output is a declared shift (§6.4).
+     output is a declared shift (§6.4). A counter whose law the design states as a floor (the skeleton's 4 · (n + r) +
+     64, §3.8) is written as the larger of the measured coefficient and that law (item 130 (g)).
    * *Confirmation (M1, then every nightly cost-model run, §13.2):* the F-WORK hit rate per stage is flat across each
      population band — at the top of a band at most 1 per 1 000 batches above the rate at the bottom. *Pre-decided
      fallback:* a failing counter's `perUnit` is raised to the measured 99.9th percentile per unit at the band's top ×
@@ -10158,7 +10199,7 @@ row marked † names in brackets the section that states how its rungs are compu
 | F-UNDER† an underground plot under excluded ground [II.7.3; V04 §3.4] | the underground stage (II.7; staged — this row is its hook) | a plot sample — its vertices, its frontage midpoint and a 1 m sample of its rear line — lies in a ground face II.7.3's list excludes, read by `pointLocate` on the ground's `PlatKey`, never a write | band depth → the band's lower depth → the class minimum depth → a `vacant` run, reported | 0 committed underground faces with a sample in an excluded face (CI: a 1 m sample grid by `pointLocate`); the fixtures are §13.2's |
 | F-NET† the sewer network cannot be laid as asked [II.7.2] | the network stage (staged — this row is its hook; item 330) | no admitted outfall; a run's crown deeper than `coverMaxCm`; a drain's head too deep | outfalls: the moat → one cess-field outfall; a run: re-route (≤ 3 attempts, no draw), a run needing more fall than the ground gives re-routed toward the nearer outfall → a local root → gutters and pits, reported; a drain: dropped, its plot unconnected — never a trench, never a terrain change | T-V4-1 – T-V4-3 |
 | F-VOID† an underground system or the undercity cannot be laid [II.7.5, II.7.6; V04 §3.5–V04 §3.6] | the underground systems' stages and the undercity stage (staged — this row is their hook) | a system's extent finds no admissible ground in its depth band; an undercity neighbourhood's void below its `UndercityRule` minimum, or a neighbourhood left without a lifeline (II.7.5's condition 4) | a smaller extent inside the depth band → the system omitted, reported; for the undercity: fewer neighbourhoods inside II.7.5's bound, each dropped neighbourhood's allocation re-placed by S7b's reconcile → no undercity, reported — never a household dropped (S7b (7): the population stays whole) | §13.2's T65 fixtures: an undercity only where a void source exists and a lifeline reaches it; the bound on 500 seeds per rung; the population whole |
-| F-SKELETON† skeleton fails [§3.8] | S1, S11, S13a, the plan rung (§2.6) | §3.8's four post-conditions fail; the skeleton's work limit (events processed) is reached — `E_WORK_LIMIT`, never a timeout; or the input is one §3.8's numeric contract refuses (a corner sharper than 5°, a hole touching the outer ring or another hole) | each reader takes its typed downgrade (§3.8, `W_DOWNGRADE`): `spine` readers — label spines (§9.3), S1's coast simplicity clamp (§4.2 S1 (2)) and the plan rung's room-label spines and room lights (§2.6, item 28): a sampled medial axis; roofs: a **plain roof** — footprint drawn without ridge or hip lines, roof kind `plain`, heights unchanged (MFCG draws a roof whose gable pass fails plain). Near-rectangular footprints never reach this row: their exact OBB roof is the primary construction (§3.8); the `regions` reader (S10) takes F-PLOT's ladder | §13.1's ladder-coverage fixtures |
+| F-SKELETON† skeleton fails [§3.8] | S1, S11, S13a, the plan rung (§2.6) | §3.8's four post-conditions fail; the skeleton's work limit (events processed) is reached — `E_WORK_LIMIT`, never a timeout; or the input is one §3.8's numeric contract refuses (a corner sharper than its use's bound — 5° for a roof, 1° for `spine` and `regions` (item 130 (f)) —, a hole touching the outer ring or another hole) | each reader takes its typed downgrade (§3.8, `W_DOWNGRADE`): `spine` readers — label spines (§9.3), S1's coast simplicity clamp (§4.2 S1 (2)) and the plan rung's room-label spines and room lights (§2.6, item 28): a sampled medial axis; roofs: a **plain roof** — footprint drawn without ridge or hip lines, roof kind `plain`, heights unchanged (MFCG draws a roof whose gable pass fails plain). Near-rectangular footprints never reach this row: their exact OBB roof is the primary construction (§3.8); the `regions` reader (S10) takes F-PLOT's ladder | §13.1's ladder-coverage fixtures |
 | F-LABEL† no fit [§9.4] | S13b (view side) | §9.4's | §9.4's rungs, each counted in the report; view data, never a model change (§9.1) | §9.4's acceptance, by B-ZOOM (§13.4) |
 | F-LIGHT† the light pass cannot run as drawn [§8.4] (item 68) | the view — the tile worker and the compositor, outside the model packages | §8.4 (g)'s and §8.8's triggers | §8.4's fallback ladder down to the vector rung; each rung counted in the view telemetry, never an error and never a model change; exports, stills and goldens always take the CPU reference (§8.4) | §13.4's fallback run renders a frame on every rung; the CPU reference byte-identical across engines (§6.5 (9)) |
 | F-WORK operation count reached | any stage, ladder or kernel call | `E_WORK_LIMIT`: a declared count reached (candidates, proposals, kernel calls, skeleton events, recursion depth), each the stage's law over its batch scope (§5.1 (5)) | the stage's declared coarser rung, entered by the count, never by time (fewer candidates, larger cells, a shallower recursion) → `work_cut` with the count; the map is valid and identical on every machine | time dilation (§6.5 (9)): per-stage digests byte-identical; work-cut rate per stage reported on B-CITY; hit rate flat across each band (§5.1 (5)) |
@@ -18598,6 +18639,22 @@ every threshold has a number today and a stated way to confirm it. The design vo
 Every kernel primitive is fuzzed with two input families, held to one bar — **0 crashes, 0 hangs (hard timeout), 0
 invalid outputs** (no self-intersecting output, no undeclared sliver) — at the sizes of §13.8's tiers.
 
+**The bar is how an operation fails, not that it never refuses** (random testing bounds a failure rate; it never proves
+none). (1) *No throw:* a valid input never makes an operation throw; every failure is a typed `KernelResult` refusal (an
+invariant check's failure becomes a refusal at the operation's boundary, its message the detail). (2) *No silent wrong
+result:* a result is committed only if it keeps every bar checked at commit — §3.10's clearance, §3.6's fidelity bound
+and the commit record itself (a record that omits a move the operation made, or reports one it did not, is a wrong
+result) — and is refused otherwise. (3) *Every refusal counted:* B-FUZZ and every §3.7 agreement test count each
+operation's refusals by cause (the provenance of the failing route's farthest vertex) and by input family — random,
+constructive, mandatory-only, and the arrangement's buffer and `offsetFace` families, none split — and every refusal
+§3.6's fidelity bound causes is counted whatever code it carries; a refused case leaves the oracle comparison only as a
+typed, counted refusal, while a committed result that disagrees with an oracle stays a failure. The target is zero
+refusals of lawful input; each family's cap is its measured rate plus 3 · √(count) on the seed set, ratcheted nightly
+and never raised without the owner, the build failing above it; an operation built on `insertChain` counts a refusal
+that replays on `insertChain` alone against `insertChain`'s cap and holds its own to 1 per 10⁴. (4) *The refusal
+register:* each refused case found at PR or nightly size is kept as a fixture (seed, input, refusal code) with a test
+that it refuses cleanly (item 130 (a)).
+
 1. **Random inputs** (`fast-check`): concave, holed, thin, near-collinear, self-touching, snapped, duplicated-vertex,
    ≥ 300-vertex and zero-area polygons and chains.
 2. **Constructive degeneracies.** Random sampling almost never lands on an exact degeneracy — a line across a 2²⁴ frame
@@ -18607,10 +18664,11 @@ invalid outputs** (no self-intersecting output, no undeclared sliver) — at the
      collinear triples and collinear overlapping edges (shared runs from 1 cm to the whole edge, same and opposite
      direction); cuts through a vertex and cuts grazing a reflex vertex (through it, and offset by 0 and ± 1 lattice
      unit); antennae (chains dangling into a face) and chains touching a boundary at one point; coincident typed chains
-     — a wall on a bank, a quay on a shore, a street on a district boundary, a track on a field boundary; rectangles,
-     squares and regular n-gons (n = 3 … 12) rotated by random angles and snapped; holes touching the outer ring at a
-     vertex and along an edge, and holes touching each other; simultaneous skeleton events (regular polygons,
-     equal-sided rectangles, symmetric notches); star rings of radius 2²³ − 2 (`area2` exact);
+     — a wall on a bank, a quay on a shore, a street on a district boundary, a track on a field boundary — and a chain
+     given again under its own key, identical and with every point moved up to √2 · `attractCm`, absorbed as its run
+     (§3.6; item 130 (e)); rectangles, squares and regular n-gons (n = 3 … 12) rotated by random angles and snapped;
+     holes touching the outer ring at a vertex and along an edge, and holes touching each other; simultaneous skeleton
+     events (regular polygons, equal-sided rectangles, symmetric notches); star rings of radius 2²³ − 2 (`area2` exact);
    * *quantisation:* half-centimetre ties before snapping and ± (2²³ − 1); values `snap` must refuse (± 2²³, NaN, ± ∞);
    * *attraction and moves:* a vertex at (20, 20) against the edge (0, 0)–(1 000, 0) moves onto (0, 0), leaving no
      sub-`minEdge` edge; a chain crossing an edge next to a vertex standing 25.0–25.7 cm from it; a stretch whose join
@@ -18718,18 +18776,24 @@ exactly at the child level (integer `area2` equality)**; `mergeFaces ∘ splitFa
 independent cycles equals the number of holes — or is a reported downgrade**; OBB contains the hull and collinear input
 returns `E_DEGENERATE`; LIR inside the face; snap rounding idempotent and terminating within its bound; the `orient2d`
 sign equal to a BigInt reference on adversarial triples; Poisson minimum distance ≥ r; differential agreement with the
-CI oracles (Clipper2-WASM in Node, `polygon-clipping`) on booleans, `tileRings` (each ring's pieces against the oracle's result for that ring less every earlier ring, and a refusal — detail `overlap` — exactly where that result has a hole on a case whose rings keep §2.6's composition contract, at least `attractCm` apart except at their joints, so the overlay moves no vertex (§3.4); on any other case a refusal only where that result has a hole or two of its boundary parts lie within `attractCm` of each other, which attraction may join (§3.7)) and buffers, split by attraction (§3.7) — unattracted
-cases with equal face counts and symmetric difference ≤ perimeter × 1 cm, attracted cases valid and within perimeter ×
-√2 · `attractCm`, the harness reporting both shares per operation and drawing ≥ 10⁵ unattracted cases per operation;
-roles preserved on coincident chains (a sliver between a spine and a shore keeps both); a declared batch's result
-identical under any permutation of its ops (the callback-form test is §13.2's); renumbering the arena's slots gives
-identical output; `clearFiner` after a refinement restores the coarser level exactly; mandatory chains never rejected
-for precision; 0 stale references after every batch; every index query's answer identical before and after a rebuild of
-the partitions it reads (§3.3); after every removal each edge's level is the lowest among its rows and no vertex is
-coarser than every edge and role at it (§3.10's level-consistency row); save → load → save byte-identical and the loaded
-arena passing every hard invariant (§3.9, §3.10); a 3 000 m relief fixture with a hill-acropolis site stores without a
-clamp and D8 is defined on 100 % of the hydrology grid's land cells over frame and margin (§2.3); every routine returns
-a typed result on the pathological corpus.
+CI oracles (Clipper2-WASM in Node, `polygon-clipping`) on booleans, `tileRings` (each ring's pieces against the oracle's
+result for that ring less every earlier ring, and a refusal — detail `overlap` — exactly where that result has a hole on
+a case whose rings keep §2.6's composition contract, at least `attractCm` apart except at their joints, so the overlay
+moves no vertex (§3.4); on any other case a refusal only where that result has a hole or two of its boundary parts lie
+within `attractCm` of each other, which attraction may join (§3.7)) and buffers, split by attraction (§3.7) —
+unattracted cases with equal face counts and symmetric difference ≤ perimeter × 1 cm, attracted cases valid and within
+perimeter × √2 · `attractCm`, the harness reporting both shares per operation and drawing ≥ 10⁵ unattracted cases per
+operation; roles preserved on coincident chains (a sliver between a spine and a shore keeps both); a declared batch's
+result identical under any permutation of its ops (the callback-form test is §13.2's); renumbering the arena's slots
+gives identical output; `clearFiner` after a refinement restores the coarser level exactly; a mandatory chain refused
+only where no route keeps §3.10's clearance within §3.6's fidelity bound, every such refusal counted, and every
+committed mandatory segment within that bound of its input (item 130 (a)); 0 stale references after every batch; every
+index query's answer identical before and after a rebuild of the partitions it reads (§3.3); after every removal each
+edge's level is the lowest among its rows and no vertex is coarser than every edge and role at it (§3.10's
+level-consistency row); save → load → save byte-identical and the loaded arena passing every hard invariant (§3.9,
+§3.10); a 3 000 m relief fixture with a hill-acropolis site stores without a clamp and D8 is defined on 100 % of the
+hydrology grid's land cells over frame and margin (§2.3); every routine returns a typed result on the pathological
+corpus.
 
 **Ladder coverage:** every rung of every ladder in §5.2 is reachable by a fixture, and each downgrade (medial axis, the
 plain-roof downgrade, straight cut, substitution) is exercised; no roof line lies outside its footprint; 0 crashes on
@@ -21787,7 +21851,7 @@ calibratable column exits with `plat calibrate register --check` green over it (
 | **M2b — the base at parity** | the prosperity field with drivers and the brush; the full granularity law with the rung modifiers (§1.1) — joins, splits, alleys, back lanes, the deep-interior shares; S10b placement from the roster; compound site plans with the packer; roofs; S12 hinterland presets, greenery rules, outskirts and the suburb regime; item 128's irrigation channels (stored `irrigation` water bodies feeding fields by `fedBy`, a town water mill's leat, their decay rows); harbour, bridges, canals; O13-core street names; O14-core; the bench statistics; **`lit` on Canvas2D at all four bands** with our procedural texture set (≈ 1 pw); **`ink`'s neighbourhood close-up and building band** with the roofs (§8.2); the relief tier; METROPOLIS measured and tuned, with the single-thread METROPOLIS measurement (§4.1), the compositor measurement (§8.9) and the projected-shadow budget measurement (§8.4). **Named work items:** the rest of the base content — the remaining roster classes, institutions, government and religion rows, the greenery and hinterland tables, the `lit` palette (≈ 4–6 pw); the designation templates with specialisation and the one placement solver at generation with its relation rules and supply edges (§4.7 S10b, S11), the generation fill (§4.7; J-A28.46) within §2.6's one household capacity, with the programme rows' `circulation` share and the `room` form's least area it reads at the poorest band (§10.2), the default band set with the shanty rule and its median-household band (§4.5), the entrance set and the basement decision (§2.6) with the entrance-tick rows (§8.2, §8.3), exposure, the hidden-share rows and passages with the arch-glyph rows (§4.6, §8.2, §8.3), the `states` rows (§8.2), N markets with the principal-market score (§4.2), FTG's hinterland order and modes with the fuel and wood rows (§4.9) (≈ 3–4 pw); a clandestine institution's front and hidden modes in the one solver, with the cover rows (item 63, §4.7); the day lighting model — the cursor sun, height-aware gradient shadows, the CPU reference light pass, its GPU accelerator and the fallback ladder — with `lit` (item 68, §8.4); informal clusters with derived tenure (item 70); the class mix inside a band (item 71); the district character, identities, the three dials and the band range with S12c, the step after S11 (item 72, §4.5); the dossier vocabulary's class rows beside the remaining base content (the port) (≈ 6–9.5 pw); the daylight driver (item 102), the siting rulebook's families, coverage and signature pairs (item 103), custom-content siting (item 104), the supply web (item 105), walls closed by natural barriers (item 106), balance and spacing (item 107) and the institution ladders' member counts (item 108), with their rows (volume 11's C2 file-g share for items 102, 103, 105 and 107, +1.0–2.0 pw, and C4a's wall rows for item 106, +0.5 pw; the ladders' rows are C4b's, with M-SF, V11 §8); the water pull, the prosperity water term and wells by yield (item 111); item 114's generation-time condition — §7.7's DR41 from the readiness and the wealth on `Enceinte.condition`'s runs with their materials (§2.7) — with §8.2's `worn` and `patched` state rows and their legend; item 115's rung ceiling in S10b's class mix with §10.2's ceiling table; §12's comfort-level timing at METROPOLIS and the cap with the budget register's check (item 119); volume 1's M2b pieces — `Way.slopeP95` with the way-surface rule (file f item 207), S7b's and S10a's hook points (item 323) and `squares.quota` (item 301) (V01 §8.1; ≈ 0.25 pw inside the content line); `R(s)` in *One capacity function* (V03 §8's PE, file f item 233; +0.25 pw); volume 12's rig share (+2–2.75 pw) | every must-have letter run on B-CITY (1 000 seeds) against its §13.5 or §13.7 band — no letter without a number; every §13.7 threshold due at M2b confirmed or its fallback applied, O19 (g) city-zoom greenery for `ink` and `lit` among them; per-edit validation and fixed-scope edit cost flat within ± 20 % from TOWN to METROPOLIS; B-ZOOM role continuity across every band switch of `ink` and `lit`; O17 / O18 / O19 runs; roster placed 100 %; site plans ≤ 5 µs per plot median; 300 dpi export; ≥ 60 fps at 40 k buildings; METROPOLIS first-map runs at 30 000 / 50 000 / 120 000 people (§12.5); the pool rule, the model max clause and the export-time peak at METROPOLIS (§12.3, §12.8); the query round trip at METROPOLIS (§8.9); open-to-editable within T(B) and memory within §12.8's line at METROPOLIS (§2.9 step 3, §12.8); the moving-sun step budget (§8.4); the daylight term's budget per rung on B-CITY-lite (§12.4; §12.10's row R12-29); the light passes and the crown bake of a `path` sun in `lit`, with §8.3's light-step row (§8.4, §12.7); the `lit` export beside a moving `path` sun (§12.7); the METROPOLIS SVG budget (§12.7); the rung-profile orderings of §1.1; **the D-5 protocol passes** against MFCG (`ink`) and FTG (`lit`) at TOWN and CITY (METROPOLIS per D-31), or the owner's acceptance is recorded — unrated: *provisional — not rated*, and "the base at parity" is not claimed; the bars §13.8's schedule gives M2b; §13.7's item-24, item-30 and item-71 thresholds confirmed or their fallbacks applied; S10b's scoring measured on B-CITY-lite and, if its pooled p50 exceeds 53 ms, restated with §12.3's p50 column (§12.4, J-A16.81) | 45.75–61 pw |
 | **M3a — full editing, migration and the API** | warp kernels with whole-step validation; drawn constraints and the "rebuild around my drawings" rebase; assignments and the placement solver; rule-table overrides, the preference layer and the tables editor; migration and upgrade as undoable events with their diff; rebase; **retention of output versions N−1 and N−2** (§6.4); the dependency audit with the locality oracle at full scale; B-EDIT 10⁵ in the milestone tier; the handle-based embedding API (§11.2); the host bridge and `DocResolver` (§11.3, §11.5); S1's water and terrain operators with re-sited crossings and exact re-basing (§7.3), the water operator in §4.11's order with course-knot edits (§7.3 (b)); point-anchored records under a warp (§7.4); the carve edit with §4.11's way rule and the kernel's clear regions (§3.3); the `packs` block and the pack and host-content link refusals (§2.9, §6.4); the naming-input re-draws on table, pack and upgrade edits (§6.3 case (4)) with their renames stored in the events and carried by `confirm`, the dormant naming record of a protected name and field slices; the version-pinned checks of a rebased base across an upgrade and of a frozen view; packs held by a saved redo stack and packs a new version stops shipping; GeoJSON; the app's drawing, warp, brush, assignment and tables-editor tools; assignments through the solver after generation, the designation mutator with its record and inverse, `Use` with hand relocation (§4.7, §4.11), the dossier contract — dossier-backed existence, rejection, positive placement, the disruption budget and report (§7.7) — the wealth-ladder edit kinds `relet`, `densify`, `thin` and fusion and splitting as least-disruption re-cuts (§7.1), `relet` reading the household capacity M2b builds, every edit that lowers a capacity re-homing its excess by §4.7's overflow pass inside the edit (§2.6), and a dossier household's housing re-provided in its district (§4.7), and the interior ladder's rows (§2.6), sealing and opening a passage and the terrain-water conversions applied by hand; the plan rung's base hooks — its records, its `elaborate` view key, its `plan.*` concerns, its events and rung re-rolls, the elaboration cache (§2.6 beside §2.8's record, §2.9's cache, §6.1's streams and §7.1's events); the knowledge filter, key and reader with the exports' withholding (§9.2, §11.1–§11.3), `report.changed` (§11.3) and `live.stale` (§8.2) (≈ 7–8 pw); a concealed use's parts filtered and withheld (item 63); the closure rule (§7.3 item 9) with its first base instance, a concealed front's missing concealed door (item 63); the "dossier-owned" refusal and item 20 (h)'s coherence rows; the port's absorb half — the diff against carried facts, `DossierChange`, the dating rungs, the receipt tables, re-binding on receipts, the epoch cadence, a host undo's convergence, `Assignment.state`'s behaviour, named-feature targets and the `notice` pin, bridge correlation, the SettlementForge iframe configuration, per-export display names and the audience table (item 85 (b), (d)–(f)), and item 88's staged records schema-complete and empty (§2.7) (items 74–88); item 101's T2 `ground` to T8 `fill` with the sugar events and the points forms, the skeleton file, the underlay and the clerk's tool API (≈ 4.5–7.5 pw); item 110's base parts — retaining walls, raised-way generation with its arena parts, stairs and ramps, deck plots and the revised deck invariant (items 110 (a)–(d); file f items 244–246, 290) — with volume 2's item-110 building part in the base outline builder: `massStepped` and the tier construction, `massOval`, stacked and solid wings, the building datum pass and deck buildings (V02 §8.5; 2–2.75 pw); the second known-city fixture (item 110 (e)); volume 3's eager plan facts — `Entrance.storey` and rule 4's non-derivation (file f item 241), the wall walk-out (file f item 242 (a)) and `basementDoor(b)` (0.5–0.75 pw); the oracle at depth (volume 10's C1: `WhyAnswer` with sections and the kinds' explainers, the solver's explanation with the placement order, the field's drivers, the `brief`, `entity`, `sites`, `measure`, `frame`, `rule` and `profile` reader kinds, filtered and multiple previews with their effects, created addresses, the raised-way outcome, and both known-city fixtures' scripted transcripts; 3.5–5.25 pw — C1 3.25–5 and the second transcript 0.25, item 531); item 110's rows (volume 11's C3b; 0.75–1.25 pw); volume 1's M3a pieces — `District.terrace` (file f item 211), `terraceState`, `stepProfile` (item 245), the bent cut's `levelledUnits` / `terracedEdges` declaration (item 506) and `hood.templates`' `stepped` row (V01 §8.1; ≈ 0.25 pw inside the O17 + O18 + O19 line's item-110 share); T2 `ground`'s spring flag (item 111); T3 `wall`'s repair with a material and `wearWall` (item 114); volume 12's rig share (1–1.75 pw) | O9 (c) faithfulness — Regenerate (keep settings) byte-identical, and §13.2's rank campaign for New random passing in the nightly tier (a failed campaign is re-run once with the next seed; a second failure is a regeneration defect, fixed before exit) — (e) and (f), the thirteen MFCG asks as scripted scenarios; §7.3 item 7 (v)'s coarse-edit assertions on B-EDIT's terrain and water sequences; the carve fixtures of §13.1–§13.2 (§3.3's clear regions), or §3.3's pre-decided fallback applied before exit; B-EDIT 0 planarity violations and 0 lost faces over 10⁵ sequences; O2 (c)'s carry-over rates, or §13.7's fallback; goldens replay under N−1 and N−2, each retained version ≤ 150 KB gzipped; the bridge convergence test (a host and three headless clients, 1 000 interleaved random events — undo and redo from every client and one owner undo through a chain among them, and one forced load mismatch settled by an owner's keep of the saved town while two editors edit on the replayed town — one digest, 0 lost accepted events; §11.3, §2.9 step 4); the naming-input fixtures of §13.2, in a fresh and in a rebased document (§6.3 case (4)); a link to a town with a non-shipped pack or host content is refused and its `.plat` file replays without them; a kept-and-rebased CITY document upgraded across a field-driver change opens editable and replays to the session's digest, and a frozen o(N−3) fixture shows no mismatch message; a document using a pack the new version stops shipping reopens after `from` leaves the window; GeoJSON loads in QGIS with districts; the GeoJSON with trees byte-identical on the five engines (§13.3); the warp cost measurement — a 150 m brush over a CITY core on B-CITY-lite seeds, Apply within §12.6's budget with §2.6's wing carry and check counted, or §12.6's pre-decided fallback (one check after the final step, F-REDERIVE for a failure) applied before exit; the bars §13.8's schedule gives M3a — item 101's elegance bars with both known-city fixtures authored three ways among them —; T-V10-8, T-V10-9, T-V10-10, T-V10-30, T-V10-36 and T-V10-41, and T101-6 (iii) on both fixtures; both four-task sessions of item 101's first-five-minutes test (§13.4), at the milestone's midpoint and its exit | 35.25–47.25 pw |
 | **M3b — exports, forms and the should-have tiers** | VTT (Foundry-class scene JSON and dd2vtt, one scene per layer); glTF / OBJ; CityJSON; the CBOR twin with its decoder; S0–S4 proxy thumbnails; O10 intent expansion and the forms catalogue with its classifier; O13 full (path labels, addresses, the annotation layer and legend sheet); O14 full (rings, presets, wildness, feasibility); O16 full (drafts, discoverable export, the responsive editor); O12 extras (the low tier); the `@plat/docs` guide and generated release notes; three candidate `house` style sheets (D-1); the ink-family variants `parchment`, `bw-print` and `night` at all four bands (the `night` sheet's occupancy-driven window lights arrive with the module at M4b); random styles with the bounded repair (§8.2); the night view in every family, the placed lights by their rule table and the exports' lights (item 68); item 101's T11 `name` leader-line switch and region groups and T12 `dress` furniture, with every export's declared, derived and clerk-proposed provenance (≈ 2–2.5 pw); the season and festival looks of items 117 and 118 — §2.9's year position with its "follow SettlementForge" flag and the festival display, §8.2's season rows (autumn's covers, ice and its leads, the fields and gardens through the year, snow by climate, the view sun by week) and decoration rows by tier and band with their keyed placement, §10.2's climate season columns and the decoration and staging-keyword tables, §7.7's DR42 and DR43, the exports drawing and naming them and §12.5's re-skin budget (≈ 1.5–2.5 pw: the season look 1–1.5, the festival look 0.5–1), their dossier readings — the calendar week, the climate and `traditions` — with M-SF (V08 §8's SF4); item 114's condition and material in every export; item 122's crisis looks — §2.9's `crises` key and the crisis framing, §10.2's crisis table and placement over item 118's decoration engine with volume 1's `campLand` (≈ 0.25 pw, V01 §8.1), §7.7's DR44, §8.2's look rows, §8.8's ring of massed marks and the exports drawing them (≈ 0.75–1.25 pw), the closed map's rows and the dossier's reading with M-SF — the `disaster` look's units (§10.2's `neighbourhoods`) with volume 1's `disasterSource` and `disasterDistricts` at M5 (W10) — at the village rungs volume 7's `villageDisasterUnits` and `villageUnitPlots`, V-M3 (V07 §5.6 (8)) —, its ruined exterior with M6 (V02 §8.6) and its plan damage with volume 3's P4, and until each lands that part draws nothing (§10.2 *Crisis looks*); item 124's weather effects — §2.9's switch and spell, §6.1's session-seeded stream, §8.2's marks, §8.4's dimming, scattering and night halos, §8.8's effects layer and §12.5's frame budget (≈ 0.75–1.25 pw) | VTT import with no manual steps; every format validator green; scripted intent tasks 10 / 10; the forms classifier ≥ 90 %; six thumbnails < 1 s at TOWN; every scripted task of §13.4; monotonicity sweeps green at every rung; documentation coverage 100 %; B-ZOOM role continuity across every band switch of the ink-family variants; the random-style shipped-palette fallback ≤ 2 % of 10 000 draws per family (§8.2); the anchored CityJSON file validated with PLAT's extension, or the sidecar fallback taken and reported (§11.1); the bars §13.8's schedule gives M3b; item 68's exports' lights | 21–28.5 pw |
-| **M4 — hardening and the incremental path** | the performance tiers and the low-end tier measured on the named device (§12.1); item 121's resolution adjuster — §8.8's Resolution ladder with its two steps below 1, the 4K live-view ceiling, the ultra tier with its calibration bar (§12.1), the live Auto loop and the composition that keeps labels, chrome and overlays at the device's pixel ratio, §8.4 (g)'s order and §12.8's memory per tier (≈ 0.75–1.25 pw); the table-provenance audit, every default cell's `ref:` source and every extension's `extension` marker included (§7.6, §17.1 (6); item 23); **the one incremental path: add a growth stage to an existing town** (surviving entities byte-identical, new entities on epoch components, wall → ring road as `retypeEdges`; §4.11, D-25); output version 1 fixed, ending the *preview* label; release notes naming known defects; **the D-5 protocol's "mastered" run**, with the owner's pick among the three `house` sheets (§13.6 (8)); the staged engines' hooks — the decline table, the salvage ledger and the dwell lag, the regrowth-first siting order on the grow path, the tunnel and island conversion kinds with the underground tools `drawTunnel` and `placeAccess` (§7.1), S7b (5)'s island count draw and sky allocations under II.6's supply law, the terrain-water kinds, the due mark and the wealth ladder table, the floor's attributes with their migration, the lapse of a rejection at an epoch and the relocation of a dossier-backed use inside an epoch (§4.11's *Dossier content across epochs*, J-A20.43) — with their hook tests (§4.11, II.6 and II.7, with the migration of §7.5) (≈ 2–3 pw); the underground layer's hooks — basement accesses with their state and knowledge, the systems' records and parts, their links, the undercity's rung bound and `raiseGrade` (items 64, 65), `addUndergroundAccess` with its closure generators (the basement's requested-mode ladder of §2.6 the first) and its staged-layer refusal (item 66; §7.3 item 9 (d)) —, the Works record, `WorksTable`, the week and the stage drawing rows applied by hand (item 67), the character's recomputation, renames past the hysteresis and the pressure at an epoch (item 72), the lapse past the roster tolerance and the rung read at each epoch (items 76, 81) (≈ 3.5–4.5 pw); volume 12's rig share (0.5–0.75 pw) | nightly cross-platform goldens green for two weeks; the epoch test (0 re-rolled survivors); a document with interleaved edits and two epochs replays to the session digest; the conversion test; the 20-epoch heap and document budgets (§13.2); METROPOLIS first map within §12.5's law at 30 000, 50 000 and 120 000 people; "mastered" claimed only when the D-5 protocol passes, rated, at all three rungs (METROPOLIS per D-31) or the owner's acceptance is recorded — unrated: M4 closes with "mastered" *provisional — not rated* and the panel offered again at M4b, M5 and every release; every table value replaceable with provenance; the bars §13.8's schedule gives M4, item 81's frame growth (T81-1) and §8.3's hand-lantern row on the underground layer's hook fixture (§8.4 (f); J-A68.92) among them; the extreme-growth memory measurement that selects §3.2 (9)'s frame-growth path (a TOWN grown to the METROPOLIS cap in one epoch against §12.8's METROPOLIS line) | 17.75–25.5 pw |
+| **M4 — hardening and the incremental path** | the performance tiers and the low-end tier measured on the named device (§12.1); item 121's resolution adjuster — §8.8's Resolution ladder with its two steps below 1, the 4K live-view ceiling, the ultra tier with its calibration bar (§12.1), the live Auto loop and the composition that keeps labels, chrome and overlays at the device's pixel ratio, §8.4 (g)'s order and §12.8's memory per tier (≈ 0.75–1.25 pw); the table-provenance audit, every default cell's `ref:` source and every extension's `extension` marker included (§7.6, §17.1 (6); item 23); **the one incremental path: add a growth stage to an existing town** (surviving entities byte-identical, new entities on epoch components, wall → ring road as `retypeEdges`; §4.11, D-25); output version 1 fixed, ending the *preview* label; release notes naming known defects; **the whole-system hardening pass under the build's fail-safe rule** — a throw or crash on a valid input, a silently wrong committed result and nondeterminism are never deferred (each fixed when found, every failure on valid input failing loudly: a typed refusal or a bug abort, never a quiet wrong state), and a rare-case shortfall that already fails safely (a counted refusal under §13.1's caps, a result within its bars but short of ideal) is a known-issue row with its repro, drained here; M0's own known-issue rows are drained in M0's hardening phase before M1, so this pass takes those of M1 on (item 130 (a)); **the D-5 protocol's "mastered" run**, with the owner's pick among the three `house` sheets (§13.6 (8)); the staged engines' hooks — the decline table, the salvage ledger and the dwell lag, the regrowth-first siting order on the grow path, the tunnel and island conversion kinds with the underground tools `drawTunnel` and `placeAccess` (§7.1), S7b (5)'s island count draw and sky allocations under II.6's supply law, the terrain-water kinds, the due mark and the wealth ladder table, the floor's attributes with their migration, the lapse of a rejection at an epoch and the relocation of a dossier-backed use inside an epoch (§4.11's *Dossier content across epochs*, J-A20.43) — with their hook tests (§4.11, II.6 and II.7, with the migration of §7.5) (≈ 2–3 pw); the underground layer's hooks — basement accesses with their state and knowledge, the systems' records and parts, their links, the undercity's rung bound and `raiseGrade` (items 64, 65), `addUndergroundAccess` with its closure generators (the basement's requested-mode ladder of §2.6 the first) and its staged-layer refusal (item 66; §7.3 item 9 (d)) —, the Works record, `WorksTable`, the week and the stage drawing rows applied by hand (item 67), the character's recomputation, renames past the hysteresis and the pressure at an epoch (item 72), the lapse past the roster tolerance and the rung read at each epoch (items 76, 81) (≈ 3.5–4.5 pw); volume 12's rig share (0.5–0.75 pw) | nightly cross-platform goldens green for two weeks; the epoch test (0 re-rolled survivors); a document with interleaved edits and two epochs replays to the session digest; the conversion test; the 20-epoch heap and document budgets (§13.2); METROPOLIS first map within §12.5's law at 30 000, 50 000 and 120 000 people; "mastered" claimed only when the D-5 protocol passes, rated, at all three rungs (METROPOLIS per D-31) or the owner's acceptance is recorded — unrated: M4 closes with "mastered" *provisional — not rated* and the panel offered again at M4b, M5 and every release; every table value replaceable with provenance; the bars §13.8's schedule gives M4, item 81's frame growth (T81-1) and §8.3's hand-lantern row on the underground layer's hook fixture (§8.4 (f); J-A68.92) among them; the extreme-growth memory measurement that selects §3.2 (9)'s frame-growth path (a TOWN grown to the METROPOLIS cap in one epoch against §12.8's METROPOLIS line) | 17.75–25.5 pw |
 | **M4b — the content module `@plat/sim`** (after the relation store's schema, which is in the base from M1) | the relation store materialised (family units, relations, memberships); postings and re-matching; occupancy and schedules as a query; the calendar; factions with roles, goals and reconciliation; religions' meetings; events as templates; the economy and personality content of D-32 with its authored tables; the family-tree view | O7's module letters (§15.2); one hour for 50 000 people ≤ 50 ms (§12.7); a scoped regeneration changes 0 relations outside its scope; the family-tree view keyboard-operable and pins nothing | 8–14 pw |
 | **M5 — stage 2: neighbourhood composition** (V01 §8) | `@plat/hood` (V01 §8.2's work items): TemplateFabric over the four NG templates and the seven context templates; S7c's fabric selection with the template land in the allocation; S9b's block dispatch with its land accounting and pins; local places and openings; the standalone and sky unit runs; the refine and outline close-ups on any district and on an arbitrary boundary (sky context); the `NG` preset; the file-g neighbourhood reads; item 110's neighbourhood parts; the `hatched` family at all four bands (§8.2); the "same kind, new seed" per-district workflow with locks; item 120's Find — its base parts (§2.9's `find` key, §8.2's marks, §9.5's tool, §11.1's export, §11.2's match listing, §12.5's budget), volume 9's panel and `live.find`, volume 1's area and gap services `findAreas` and `gapUnits` (W10–W11); item 122's disaster districts — volume 1's `disasterSource` and `disasterDistricts` (W10; V01 §3.16) | every district of every B-CITY city opens as an NG-class close-up; portals connected 100 %; shared-edge geometry byte-equal across adjacent neighbourhoods (Hausdorff 0); per-district regeneration within §12.6's scoped law × its fabric's factor (≤ 30 ms for a `bent-cut` district of 450 buildings, ≤ 45 ms for a `ring` district; volume 1, J-V1.34) and opening a district within §12.5's neighbourhood band; footprint hash identical to city LOD; every stage-2 letter of §15.2 (S1–S6) run against its number, S4 (d)'s §13.7 band confirmed or its fallback applied; every T-V1 test at M5 (V01 §7) and the bars §13.8's schedule gives M5 (T120-1 – T120-6; the `disaster` look's district clauses of T122-2, T122-3, T122-5 and T122-6); B-ZOOM role continuity across every band switch of `hatched`; the stage-2 gate claimed only when **the D-5 protocol against NG** (twenty pairs over the four templates, §13.6 (2)) passes, rated, or the owner's acceptance is recorded — unrated: M5 closes *provisional — not rated* and the panel is offered with every release until it is rated | 27.5–36.75 pw |
 | *carried in the rows' milestones outside their cells* | volume 9's application at build depth — AP1 (M1), AP2 (M2a), AP3 (M3a), AP4 (M3b), AP9 (M4b) and the host step AP5b built with M-SF, less the base's own shares, and AP11's base parts: the zoom-out stop (M1), the oasis toggle (M3a), Colour vision, the cue column, the progress view, the season control, the festival list, Show crises with the crisis preview and the weather switch (M3b), the resolution setting and its chip (M4), Find (M5) and the dossier's crisis numbers (with M-SF) (V09 §8.1); volume 11's C9, the rows of items 111, 113–119 and 122–124, each beside its item's base milestone, its item-113 and item-114 epoch rows with M6-E and item 123's with volume 3's P4 (V11 §8); volume 12's register share built at M6-U's U3–U5 (W6) and its W7 — the specs, pins and bench bars of items 114–126, the wait timer and the edge suite — at M1, M2a, M2b, M3b, M4, M5, volume 3's P4, M6-E, M6-U and M-SF (V12 §8.2) | their volumes' exits | 13.75–20.5 pw (7.5–11, 3.5–5, 1.25–2, 0.25–0.5 and 1.25–2) |
