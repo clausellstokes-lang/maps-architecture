@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "rulings-hardening-1",
+  "lane": "session/rulings-hardening-1",
+  "lanes": ["session/rulings-hardening-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-14T01:28:47.109Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/rulings-hardening-1.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/rulings-hardening-1.md", "status": "created", "sha256": "4fdc18715c27069e60ced75dfae7b9f5a799c1f0c3e6a4df2173f04018919745", "size": 41397 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0527"],
+      "lines": ["e0e2e0b5a600c80e"],
+      "removed": []
+    }
+  ]
+}
