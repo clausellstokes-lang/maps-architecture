@@ -73,3 +73,54 @@ None of these rows fails the round. The verdict and its evidence are in `checks/
 | N-c1c-2 | `lir.ts`'s `isConvexRing` comment (lines 166–172) says a ring whose turns wind round more than once is refused "(its corners then outnumber H's)". That reason holds for a convex ring traversed twice (corners 10, H 5). It does not hold for a star polygon on the hull's own vertices: for {5/2}, corners 5 = H 5, and the rotation check refuses it. The refusal claim is right, and the code is unchanged (emitted JS identical). CONFIRMED (probe `probe-wind.test.ts`, a verbatim copy of the function with the kernel's `hull`). | Reword to "(its corners then outnumber H's, or visit them out of order)" at the next touch of `lir.ts`. | the next round that owns `src/geom/` (else M4) |
 | N-c1c-3 | Source comments in `geom/common.ts`, `geom/hex-lattice.ts` and `geom/lir.ts` cite the plan's finding ids ("kernel-plan.md §1.12 G-1", "§1.0 N-3, §1.12 G-2", "§1.7 B-5, §1.12 G-4"). Each comment also cites its C-row (C-0314, C-0333). Plan §2's rule keeps round and finding names in `checks/*.md`. These name a rule's source, not a round's history, so they are not narrative; but the plan is a transient work document. PLAUSIBLE (a reading of §2). | At the next touch, cite C-0358 / C-0314 and the design section only. Or the session rules that plan ids may stand in source. | session (a ruling), else M4 |
 | N-c1c-4 | The builder's CLEAN-ROOM row L-0511 discloses one read-only `git status --short` run inside `plat/`, against the working rule (seats run no git). Nothing was changed and the output was not used. This is not a clean-room breach. | For the session's record; no change to the item. | session |
+
+## Hardening round S2 — the builder's notes (lane `build/M0-a-10-fix-s2`, 2026-10-14)
+
+The session's hardening round for M0-a-10 (J237 (2)) on the inventory's FIX-NOW rows (`checks/hardening-inventory.md`
+§ M0-a-10): M0-a-10:12 N-7, :13 N-8, :14 N-9, :72 N-c1c-1, :73 N-c1c-2. Each source note above was read whole. The
+choices row is C-0371. No source behaviour changed: `src/geom/lir.ts` changed in a comment only, and `neighbours.ts`
+and `hex-lattice.ts` are untouched. No digest, golden, pinned lattice, register, refusal code or message text moved.
+No export of `geom/index.ts` or the barrel changed (J263 Q1). Every earlier describe and it title of `test/geom/` is
+kept; `boundary.test.ts` gains two cases.
+
+| row | outcome | what changed | evidence |
+|---|---|---|---|
+| N-7 | fixed (pinned) | `test/geom/boundary.test.ts` gains P3: "refuses a kept neighbour whose record was freed after a new record took its region (allocate before free: the liveness re-check)". The 3 × 3 grid has the north-east record (slot 8) freed and committed. A query fills the kept map. The batch then allocates the north region's new record (it takes slot 8) and frees the old one (slot 7) under the same version and counts (asserted). The answer holds 8, not 7, its rings equal the four sides, and it costs one rebuild. | Mutant MLV turns it red, and only it, with `Error: arena: face 7 is not live at L0`. Unmutated, it is green. |
+| N-8 | choices row (the text is the deliverable), plus a test that holds it; M0-a-06's confirmation REPORTED | C-0371 (2) takes the inventory's first alternative, which the design's text supports. C-0163 (1)'s premise is stated: the live face records of a level own disjoint rings (§2.2 rule 1, the `LevelFaces` table). In the one transient that breaks it (between a batch's allocation of a region's new record and its free of the old one), the answer is unspecified between the two records, but it is safe. The lowest-slot alternative is not taken: the kept path would need `sameAnchors` (O(faces)) on every query to see it. A new case in `boundary.test.ts` holds the safety: "where two live records claim one ring (inside a batch, between an allocation and its free; §2.2 rule 1 broken), answers without a throw, each neighbour a live record on that ring (C-0163 (1)'s premise, C-0371)". It checks the kept answer and a fresh one (after a commit): the rings equal a fresh walk's, exactly one of the two records is named, every named face is live and on the ring, and after the old record's free the answer names the new one. | The lane's probe of the checker's P2 state (north-east slot 8 freed and committed, north's twin allocated at 8, a far corner freed): kept `[1,3,5,7]`, fresh `[1,3,5,8]`. That is the checker's finding; both answers pass the safety checks. The case premise `twin > n` is asserted, so the case is the history-dependent one. Whether a transaction can query between an allocation and its free is M0-a-06's to confirm. It is REPORTED to the session, because it is not in this item's owns. |
+| N-9 | fixed (pinned) | The B-FUZZ hexLattice property in `test/geom/bfuzz.test.ts` now draws an optional hole ring (`fc.option`, 1 – 6 points within ± 200 m) beside the outer ring. Its oracle reads even–odd over every ring, and a point on any ring is outside: a local exact `onRing`, plus M0-a-02's `strictlyInside` per ring. The title is kept. | Mutant MHO turns it red. The shrunk counterexample is `[0,[[0,-1],[1,0],[-1,1]],[[0,0]],25,0]`: a one-point ring on a kept point. Before the round MHO passed `bfuzz.test.ts` (11 of 11, the note). Unmutated, the property is green at the PR size, 10⁴. |
+| N-c1c-1 | fixed (pinned) | `test/geom/hex-lattice.test.ts` "an empty region gives no points (and, with no ring, draws nothing)" keeps its title. It also runs a one-point ring, a two-point ring, two one-point rings, and an empty ring beside a two-point ring, at jitter 300. Each gives no points, and the stream's next draw equals a fresh stream's. | Mutant H7 (`edgeCount < 1`) turns it red, and only it: `[[{"x":0,"y":0}]]: expected 1675416775 to be 3761423075`. H7b (`edgeCount < 2`) turns it red, and only it, on the two-point ring. |
+| N-c1c-2 | fixed (comment) | `src/geom/lir.ts`'s `isConvexRing` comment now reads "(its corners then outnumber H's, or visit them out of order)". The comment was reflowed to 120 columns. | Comment only, and the code is unchanged. {5/2} has 5 corners against H's 5, and the rotation check refuses it (N-c1c-2's probe). |
+
+**Mutant table (J183; one mirror, `cp -a` of `plat/`, isolation proven: no link into the tree, `@plat/*` realpaths
+inside the mirror; every mutated file restored from the tree and `cmp`-clean; each run `vitest run --maxWorkers=1`
+over `packages/kernel/test/geom`, B-FUZZ at 10⁴).**
+
+| mutant | where | result |
+|---|---|---|
+| MLV | `neighbours.ts` 168, `onFace` reads `faceWalk` without `isFaceLive` | red: boundary.test.ts P3 only (1 failed, `face 7 is not live at L0`) |
+| MHO | `hex-lattice.ts`, `region = region.slice(0, 1)` at entry | red: bfuzz.test.ts hexLattice (alone: 1 failed of 11), and on test/geom whole also hex-lattice.test.ts's five existing hole and pinned cases (6 failed) |
+| H7 | `hex-lattice.ts` 72, `edgeCount < 1` | red: hex-lattice.test.ts empty-region case only (1 failed of 88) |
+| H7b | `hex-lattice.ts` 72, `edgeCount < 2` | red: the same case only (1 failed of 88), on the two-point ring |
+
+**Refusal census (J264, J290, N-58; the lane's probe, seeded, 300 rings per class, before the edits and after, output
+byte-identical).**
+
+* LAWFUL regular n-gons, snapped rotated squares and simple star-shaped rings, each through hull, obb, lir and
+  regularFit: 0 → 0.
+* hexLattice: 0 → 0 throws over 900 regions (600 one-ring, 300 with a hole).
+* faceNeighbours: 0 → 0 over 60 grids.
+* UNLAWFUL star rings {n/k} with k ≥ 2: lir `E_DEGENERATE empty` 97 → 97, and regularFit `E_DEGENERATE fit` 300 → 300.
+  The verdict is REFUSE, typed and visible: a face ring is simple (§3.10), so no user reaches such a ring through
+  §11.4's doors. This is N-c1-1's class.
+* Nothing rose.
+
+**Gates.**
+
+* install --frozen-lockfile: 0.
+* lint: 0 (`lint: probe-red ok`, 9 whole-tree checks).
+* build: 0.
+* NEAR: `packages/kernel/test/geom` at full strength, 11 files and 88 tests green.
+* RELATED (`PLAT_FUZZ_RUNS=1000 vitest related --run` on `src/geom/{lir,neighbours,hex-lattice}.ts`, 1 worker): exit
+  0, 432 of 432 files and 5585 of 5585 tests green (8304 s). The lane's first RELATED run ended without a result when
+  its seat stopped; a resumed seat of the same lane re-ran install, lint, build, NEAR and RELATED on the unchanged edits
+  (the CONTINUE RULE) and kept the recorded self-check.

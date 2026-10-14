@@ -37,6 +37,16 @@ function wellFormed(r: KernelResult<unknown>): boolean {
 
 const finite = (p: XY): boolean => Number.isFinite(p.x) && Number.isFinite(p.y);
 
+/** Is q on an edge of the closed ring (exact; a one-point ring's edge is its point)? */
+function onRing(ring: readonly XY[], q: XY): boolean {
+  for (let i = 0; i < ring.length; i += 1) {
+    const a = ring[i];
+    const b = ring[(i + 1) % ring.length];
+    if (orient2d(a.x, a.y, b.x, b.y, q.x, q.y) === 0 && Math.min(a.x, b.x) <= q.x && q.x <= Math.max(a.x, b.x) && Math.min(a.y, b.y) <= q.y && q.y <= Math.max(a.y, b.y)) return true;
+  }
+  return false;
+}
+
 const anyRing = fc.oneof(randomRing(true), constructiveRing());
 const anyPoints = fc.oneof(
   fc.array(latticePoint(), { maxLength: 40 }),
@@ -176,16 +186,20 @@ describe('B-FUZZ: the geometry services (§13.1)', () => {
       fc.property(
         fc.integer({ min: 0, max: 0xffffffff }),
         fc.array(fc.tuple(fc.integer({ min: -30_000, max: 30_000 }), fc.integer({ min: -30_000, max: 30_000 })), { minLength: 0, maxLength: 8 }),
+        // an optional hole ring, drawn in the middle of the box (a face's holes; drawn on its own, it may also cross the
+        // outer ring or lie outside it — the even–odd reading over both rings decides either way)
+        fc.option(fc.array(fc.tuple(fc.integer({ min: -20_000, max: 20_000 }), fc.integer({ min: -20_000, max: 20_000 })), { minLength: 1, maxLength: 6 }), { nil: undefined }),
         fc.integer({ min: 25, max: 50_000 }),
         fc.double({ min: 0, max: 0.4999, noNaN: true }),
-        (seed, raw, spacing, jf) => {
+        (seed, raw, rawHole, spacing, jf) => {
           const ring = raw.map(([x, y]) => pt(x, y));
+          const region = [ring, (rawHole ?? []).map(([x, y]) => pt(x, y))].filter((r) => r.length > 0);
           const s = Math.max(spacing, 6000); // at most ≈ 10 × 12 lattice points over the ± 300 m box
-          const h = hexLattice(ring.length === 0 ? [] : [ring], s, jf * s, streamFromKey([seed, 1, 2, 3]));
-          // every point strictly inside the region (even–odd; on the ring is outside), no two points equal
+          const h = hexLattice(region, s, jf * s, streamFromKey([seed, 1, 2, 3]));
+          // every point strictly inside the region (even–odd over its rings; on any ring is outside), no two points equal
           const seen = new Set<string>();
           for (const q of h.points) {
-            if (!strictlyInside(ring, q)) return false;
+            if (region.some((r) => onRing(r, q)) || region.filter((r) => strictlyInside(r, q)).length % 2 !== 1) return false;
             const k = `${q.x},${q.y}`;
             if (seen.has(k)) return false;
             seen.add(k);

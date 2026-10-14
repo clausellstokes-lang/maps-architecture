@@ -84,6 +84,13 @@ describe('hexLattice (§3.4, §4.3)', () => {
     const s = streamFromKey(key(3));
     expect(hexLattice([], 1000, 300, s)).toEqual({ points: [], adjacency: new Int32Array(0) });
     expect(s.u32()).toBe(streamFromKey(key(3)).u32());
+    // fewer than three edges over all its rings (a one-point ring, a two-point ring, two one-point rings): no points, and
+    // nothing drawn — the stream's next draw is a fresh stream's (the exit before the lattice, hex-lattice.ts's edgeCount)
+    for (const region of [[[pt(0, 0)]], [[pt(0, 0), pt(10_000, 5000)]], [[pt(0, 0)], [pt(10_000, 5000)]], [[], [pt(5000, 5000), pt(-5000, 0)]]]) {
+      const t = streamFromKey(key(3));
+      expect(hexLattice(region, 1000, 300, t), JSON.stringify(region)).toEqual({ points: [], adjacency: new Int32Array(0) });
+      expect(t.u32(), JSON.stringify(region)).toBe(streamFromKey(key(3)).u32());
+    }
     expect(hexLattice([[pt(0, 0), pt(10_000, 0), pt(20_000, 0)]], 1000, 300, streamFromKey(key(3))).points).toEqual([]); // zero area
     expect(hexLattice([[pt(0, 0), pt(10, 0), pt(10, 10), pt(0, 10)]], 1000, 0, streamFromKey(key(3))).points).toEqual([]); // smaller than a cell, off the lattice
   });
