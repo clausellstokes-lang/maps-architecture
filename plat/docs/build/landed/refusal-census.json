@@ -1,0 +1,23 @@
+{
+  "schema": "plat-landed-record/1",
+  "item": "refusal-census",
+  "lane": "session/refusal-census-1",
+  "lanes": ["session/refusal-census-1"],
+  "wave": "flow-7",
+  "snapshotTaken": "2026-10-04T20:46:52.985Z",
+  "date": "2026-10-14T00:42:23.208Z",
+  "ownsSource": "declared",
+  "owns": ["plat/docs/build/checks/refusal-census.md"],
+  "counts": { "created": 1, "changed": 0, "unchanged": 0, "deleted": 0 },
+  "files": [
+    { "path": "plat/docs/build/checks/refusal-census.md", "status": "created", "sha256": "341dfc4ba9868441e4c716c249a323b7b0fb7fa8290f5e3b7929b249fcdfa586", "size": 46450 }
+  ],
+  "appends": [
+    {
+      "file": "plat/CLEAN-ROOM.md",
+      "ids": ["L-0526"],
+      "lines": ["8f3fbd7d6b7f8da8"],
+      "removed": []
+    }
+  ]
+}
