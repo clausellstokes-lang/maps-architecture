@@ -4,7 +4,8 @@
 // NetworkStrategy's S4 part.
 import { describe, expect, it } from 'vitest';
 import { STAGES, type Kernel, type KernelTx } from '@plat/kernel';
-import { baseNetwork, commitS3Slice, createRegistry, NETWORK_STRATEGY_ID, register, runS4, s3Slice, s4Stage, siteContext, type PipelineStage } from '../../src/index.js';
+import { baseNetwork, commitS3Slice, createRegistry, NETWORK_STRATEGY_ID, register, routeGraph, routesFromSlice, runS4, s3Slice, s4Stage, siteContext, type PipelineStage } from '../../src/index.js';
+import { heightsOf } from '../../src/backbone/stage.js';
 import { edgesWith, kernelFor, smallSite, verticesWith } from './support.js';
 
 describe('S4 as a Stage (§4.1, §14)', () => {
@@ -90,5 +91,28 @@ describe('the base NetworkStrategy, its S4 part (§4.12)', () => {
       expect(grown.value.network.ways.length).toBe(2 * slice.gates.length);
       expect(grown.value.routes.length).toBe(2 * slice.gates.length);
     }
+  });
+});
+
+// The report's off-gate count (C-0236 (9); the hardening note 1): the parts whose course meets the wall off their gate,
+// counted for the inward and the outward parts alike. Its positive control: the committed wall scaled about its centre —
+// by 1.02 every gate lies inside it, so every outward part's first segment meets it off its gate; by 0.98 every gate lies
+// outside it, so every inward part's last one does.
+describe("routesFromSlice's off-gate count (C-0236 (9))", () => {
+  it('counts each outward part that meets the wall off its gate, and each inward one', { timeout: 60_000 }, () => {
+    const site = smallSite(5);
+    const slice = s3Slice(site);
+    const { k } = kernelFor(site);
+    const c = commitS3Slice(slice, k);
+    if (!c.ok) throw new Error('S3 refused');
+    const rg = routeGraph(slice.lattice, heightsOf(site, slice.lattice.points));
+    const line = c.value.traced.line;
+    const cx = line.reduce((a, p) => a + p.x, 0) / line.length;
+    const cy = line.reduce((a, p) => a + p.y, 0) / line.length;
+    const scaled = (f: number): typeof c.value => ({ ...c.value, traced: { ...c.value.traced, line: line.map((p) => ({ x: Math.round(cx + (p.x - cx) * f), y: Math.round(cy + (p.y - cy) * f) }) as typeof p) } });
+    const ids = (part: 'in' | 'out'): string[] => c.value.gates.filter((g) => g.kind === 'main').map((g) => `${g.id}/${part}`).sort();
+    expect(routesFromSlice(slice, c.value, rg).wallCrossings).toEqual([]);
+    expect(routesFromSlice(slice, scaled(1.02), rg).wallCrossings.slice().sort()).toEqual(ids('out'));
+    expect(routesFromSlice(slice, scaled(0.98), rg).wallCrossings.slice().sort()).toEqual(ids('in'));
   });
 });

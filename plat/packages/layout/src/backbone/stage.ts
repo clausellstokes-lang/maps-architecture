@@ -14,6 +14,9 @@
 //   reaches first first; the deck end `a` is ('deck_end', bridge, 0) and `b` is 1; an approach that cannot meet the
 //   class radius takes F-ROUTE's ladder (./route.ts) on the stretch beyond the gate's corridor, inside the walled stage
 //   for the inward part and outside it for the outward part;
+// * each gate part keeps to its side of the committed wall at its gate (c-03 S3; Q52 A): a corridor node next to the
+//   gate that the trace left beyond the wall is dropped, the gate joined to the node before it where that segment
+//   meets the wall at the gate only (`offGate` counts the parts that still meet the wall off their gate);
 // * every route part reaches the commit as a simple path, dry off its decks (C-0250): a re-solve never steps back
 //   into the held corridor (the corridor's nodes are masked out of the ladder's search), a part that revisits a node
 //   is cut at its first repeated node (its crossings checked again, a failed approach making it `unserved`), a frame
@@ -157,6 +160,37 @@ export function partLeavesWall(points: readonly RoutePoint[], wall: readonly Lat
   return false;
 }
 
+/**
+ * A gate part held to its side of the committed wall at its gate (c-03 S3; Q52 A, R-35): the part's points next to the
+ * gate that lie on the wrong side of the wall S3 committed, or on it — a corridor node the trace left beyond it — are
+ * dropped and the gate joined to the first point on its side, when that segment meets the wall at the gate only; so
+ * the split at the gate (C-0236 (1)) holds against the committed trace and the spine never runs along the wall there.
+ * Pinned points are never dropped; a part that needs no change, or that the rule cannot repair, is returned as given.
+ */
+function onGateSide(points: readonly RoutePoint[], spans: readonly { at: number; bridge: Id }[], wall: readonly LatticePoint[], inward: boolean): { points: RoutePoint[]; spans: { at: number; bridge: Id }[] } {
+  const keep = points.map(() => true);
+  for (const [gi, step] of [
+    [points.length - 1, -1],
+    [0, 1],
+  ] as const) {
+    if (points[gi].pin !== 'gate') continue;
+    let j = gi + step;
+    while (j >= 0 && j < points.length && points[j].pin === undefined && sideOfRing(wall, points[j].at) !== inward) j += step;
+    if (j === gi + step || j < 0 || j >= points.length || sideOfRing(wall, points[j].at) !== inward) continue;
+    if (partLeavesWall(step < 0 ? [points[j], points[gi]] : [points[gi], points[j]], wall, inward)) continue;
+    for (let m = gi + step; m !== j; m += step) keep[m] = false;
+  }
+  if (keep.every((x) => x)) return { points: points.slice(), spans: spans.slice() };
+  const index = new Map<number, number>();
+  const out: RoutePoint[] = [];
+  points.forEach((p, i) => {
+    if (!keep[i]) return;
+    index.set(i, out.length);
+    out.push(p);
+  });
+  return { points: out, spans: spans.map((x) => ({ at: index.get(x.at) as number, bridge: x.bridge })) };
+}
+
 /** The routes S4 commits from the slice (see the header), with F-ROUTE's rungs, route.nodes charged and the parts unserved. */
 export function routesFromSlice(
   slice: S3Slice,
@@ -231,14 +265,15 @@ export function routesFromSlice(
     if (inward !== null && inNodes !== null) {
       const nodes = inNodes;
       const made = pointsOf(rg, nodes, crossingsOf(rg, nodes), heldNode);
-      const points: RoutePoint[] = [{ at: r.attach, pin: 'attach', pinId: commit.plaza.id, pinOrdinal: r.attachIndex }, ...made.points, { at: g.at, pin: 'gate', pinId: gate.id }];
+      const held = onGateSide([{ at: r.attach, pin: 'attach', pinId: commit.plaza.id, pinOrdinal: r.attachIndex }, ...made.points, { at: g.at, pin: 'gate', pinId: gate.id }], made.spans.map((s) => ({ at: s.at + 1, bridge: s.bridge })), wall, true);
+      const points = held.points;
       const part: S4Route = {
         id: `${gate.id}/in`,
         order: rank,
         part: 'inward',
         class: inward.class,
         points,
-        spans: made.spans.map((s) => ({ at: s.at + 1, bridge: s.bridge })),
+        spans: held.spans,
         from: { kind: 'plaza', id: commit.plaza.id },
         to: { kind: 'gate', id: gate.id },
       };
@@ -254,13 +289,15 @@ export function routesFromSlice(
       const prev = made.points.length >= 2 ? made.points[made.points.length - 2].at : g.at;
       const d = unitOf({ x: last.x - prev.x, y: last.y - prev.y });
       const f = d === null ? null : toFrame(last, d, site.frameRing);
-      const points: RoutePoint[] = [{ at: g.at, pin: 'gate', pinId: gate.id }, ...made.points];
+      const raw: RoutePoint[] = [{ at: g.at, pin: 'gate', pinId: gate.id }, ...made.points];
       const fp = f === null ? null : ({ x: Math.round(f.x), y: Math.round(f.y) } as LatticePoint);
       // The stub to the frame runs on dry ground only: across water it is dropped, and the through-road ends at its
       // last lattice node (C-0250).
       const stubDry = fp !== null && !faces.some((ring) => segmentMeetsRing(ring, last, fp));
-      if (fp !== null && stubDry && (Math.abs(fp.x - last.x) >= 100 || Math.abs(fp.y - last.y) >= 100)) points.push({ at: fp, pin: 'frame' });
-      else points[points.length - 1] = { ...points[points.length - 1], pin: 'frame' };
+      if (fp !== null && stubDry && (Math.abs(fp.x - last.x) >= 100 || Math.abs(fp.y - last.y) >= 100)) raw.push({ at: fp, pin: 'frame' });
+      else raw[raw.length - 1] = { ...raw[raw.length - 1], pin: 'frame' };
+      const held = onGateSide(raw, made.spans.map((s) => ({ at: s.at + 1, bridge: s.bridge })), wall, false);
+      const points = held.points;
       const end = points[points.length - 1].at;
       const part: S4Route = {
         id: `${gate.id}/out`,
@@ -268,7 +305,7 @@ export function routesFromSlice(
         part: 'outward',
         class: outward.class,
         points,
-        spans: made.spans.map((s) => ({ at: s.at + 1, bridge: s.bridge })),
+        spans: held.spans,
         from: { kind: 'gate', id: gate.id },
         to: { kind: 'bearing', bearingCdeg: bearingCdeg(end.x - g.at.x, end.y - g.at.y) as Cdeg },
       };

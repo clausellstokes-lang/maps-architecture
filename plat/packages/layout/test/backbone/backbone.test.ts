@@ -79,6 +79,75 @@ function chainsInWayOrder(run: Run, w: Way): { i: number; cls: string; width: nu
   return out;
 }
 
+/**
+ * §13.2's measure (C-0236 (17)): the longest run along one way's spine — walked in the way's own order (`wayLine`),
+ * sampled every metre — closer than the pair's separation to another way, a point within the separation of a vertex the
+ * two share or of the other way's chain ends (its junctions) being the junction's own.
+ */
+function worstParallelRun(ways: ReadonlyMap<string, [LatticePoint, LatticePoint][]>, sepOf: (a: string, b: string) => number): number {
+  const ids = [...ways.keys()];
+  const deg = new Map<string, number>();
+  for (const id of ids) for (const [a, b] of ways.get(id) ?? []) for (const p of [a, b]) deg.set(key(p), (deg.get(key(p)) ?? 0) + 1);
+  let worst = 0;
+  for (const A of ids) {
+    const line = wayLine(ways.get(A) ?? []);
+    for (const B of ids) {
+      if (A === B) continue;
+      const sep = sepOf(A, B);
+      const va = new Set(line.map((p) => key(p)));
+      const eb = ways.get(B) ?? [];
+      const excl = eb.flatMap(([a, b]) => [a, b]).filter((p) => va.has(key(p)) || deg.get(key(p)) !== 2);
+      let runLen = 0;
+      for (let i = 0; i + 1 < line.length; i += 1) {
+        const a = line[i];
+        const b = line[i + 1];
+        const l = Math.hypot(b.x - a.x, b.y - a.y);
+        const steps = Math.max(1, Math.ceil(l / 100));
+        for (let s = 0; s < steps; s += 1) {
+          const p = { x: a.x + ((b.x - a.x) * s) / steps, y: a.y + ((b.y - a.y) * s) / steps };
+          const near = excl.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < sep);
+          let d = Infinity;
+          for (const [c, e] of eb) d = Math.min(d, segDist(p, c, e));
+          if (!near && d < sep) {
+            runLen += l / steps;
+            worst = Math.max(worst, runLen);
+          } else runLen = 0;
+        }
+      }
+    }
+  }
+  return worst;
+}
+
+describe("§13.2's measure walks each way in its own order (the hardening note 8)", () => {
+  it('a run is summed along the way, whatever order the arena lists its edges in', () => {
+    // A runs east 0 → 30 m; B lies 1 m north of A's first and last 10 m only. In way order the two near runs are 10 m
+    // each, split by the far middle; listed first, last, middle, a walk in list order would join them into one of 20 m.
+    const p = (x: number, y: number): LatticePoint => ({ x, y }) as LatticePoint;
+    const A: [LatticePoint, LatticePoint][] = [
+      [p(0, 0), p(1000, 0)],
+      [p(2000, 0), p(3000, 0)],
+      [p(1000, 0), p(2000, 0)],
+    ];
+    const B: [LatticePoint, LatticePoint][] = [
+      [p(0, 100), p(1000, 100)],
+      [p(1000, 100), p(1000, 5000)],
+      [p(1000, 5000), p(2000, 5000)],
+      [p(2000, 5000), p(2000, 100)],
+      [p(2000, 100), p(3000, 100)],
+    ];
+    const ways = new Map([
+      ['way:A', A],
+      ['way:B', B],
+    ]);
+    // The separation 2 m; B's ends (its junctions) far from the runs: only its turns at (1 000, 100) and (2 000, 100)
+    // are excluded, within 2 m of the runs' inner ends.
+    const worst = worstParallelRun(ways, () => 200);
+    expect(worst).toBeGreaterThan(700);
+    expect(worst).toBeLessThanOrEqual(1000);
+  });
+});
+
 describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 }, () => {
   for (const seed of SEEDS) {
     it(`seed ${String(seed)}: roads leaving the walled stage = N, each route committed through its gate (§13.2; §4.3 *Routes*)`, () => {
@@ -171,38 +240,9 @@ describe('S4 on the CITY flat fixture (§4.3; §16 M0 (c))', { timeout: 120_000 
 
     it(`seed ${String(seed)}: §13.2 — no two spines run closer than their class separation for more than one step length`, () => {
       const run = cityRun(seed);
-      const ways = wayEdges(run.plat);
       const cls = new Map(run.s4.network.ways.map((w) => [w.id, w.class]));
-      const ids = [...ways.keys()];
-      const deg = new Map<string, number>();
-      for (const id of ids) for (const [a, b] of ways.get(id) ?? []) for (const p of [a, b]) deg.set(key(p), (deg.get(key(p)) ?? 0) + 1);
-      let worst = 0;
-      for (const A of ids) {
-        for (const B of ids) {
-          if (A === B) continue;
-          const sep = Math.max(WAYS.num(cls.get(A) as string, 'separationM'), WAYS.num(cls.get(B) as string, 'separationM')) * 100;
-          const va = new Set((ways.get(A) ?? []).flatMap(([a, b]) => [key(a), key(b)]));
-          const eb = ways.get(B) ?? [];
-          // Points within the separation of a vertex the two share, or of B's ends, are the junction's own.
-          const excl = eb.flatMap(([a, b]) => [a, b]).filter((p) => va.has(key(p)) || deg.get(key(p)) !== 2);
-          let runLen = 0;
-          for (const [a, b] of ways.get(A) ?? []) {
-            const l = Math.hypot(b.x - a.x, b.y - a.y);
-            const steps = Math.max(1, Math.ceil(l / 100));
-            for (let s = 0; s < steps; s += 1) {
-              const p = { x: a.x + ((b.x - a.x) * s) / steps, y: a.y + ((b.y - a.y) * s) / steps };
-              const near = excl.some((q) => Math.hypot(q.x - p.x, q.y - p.y) < sep);
-              let d = Infinity;
-              for (const [c, e] of eb) d = Math.min(d, segDist(p, c, e));
-              if (!near && d < sep) {
-                runLen += l / steps;
-                worst = Math.max(worst, runLen);
-              } else runLen = 0;
-            }
-          }
-        }
-      }
-      expect(worst).toBeLessThanOrEqual(SPACING_CM);
+      const sep = (a: string, b: string): number => Math.max(WAYS.num(cls.get(a) as string, 'separationM'), WAYS.num(cls.get(b) as string, 'separationM')) * 100;
+      expect(worstParallelRun(wayEdges(run.plat), sep)).toBeLessThanOrEqual(SPACING_CM);
     });
 
     it(`seed ${String(seed)}: smoothed once and inserted once — no braided near-duplicates (W_STRETCH_SHARED = 0, one way row per edge)`, () => {
