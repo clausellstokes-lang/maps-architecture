@@ -20,8 +20,9 @@ export function debugAssertions(): boolean {
 // The tiny-tables mode (C-0286): a test switch. On, `createPlat` starts EVERY table it makes at capacity 1 — the vertex
 // and edge-pair columns, every level's face columns and hole pool, the role rows, the role-head and owner hash tables
 // and the interned-handle table — whatever capacity is asked, and the slot tables (vertices, pairs, faces, role rows, a
-// level's hole pool) grow by exactly what an allocation needs instead of doubling, so they are always full and EVERY
-// slot allocation replaces its table (the hash tables keep doubling from 1: a power of two at load ≤ 0.5). It puts
+// level's hole pool) grow by exactly what an allocation needs instead of doubling, so a growth leaves each exactly full
+// and every allocation of a new slot (one not taken from a free list) replaces its table; a slot taken from a free
+// list grows nothing (the hash tables keep doubling from 1: a power of two at load ≤ 0.5). It puts
 // every writer to the re-read rule (plat.ts, above `PlatCapacity`) at once, where the default sizes double rarely. It
 // changes no output: slots are taken by the high-water mark and the free lists, never by capacity, and nothing iterates
 // a hash table (§2.2, J-K22). The mode is read when a table is made or grown. Off by default; the tests turn it on from
