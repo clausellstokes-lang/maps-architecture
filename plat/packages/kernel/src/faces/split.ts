@@ -12,7 +12,7 @@
 // record with the smallest key (C-0185 (3)).
 // A judged cut comes back from the insertion unbent — every consecutive pair of its points joined by one edge — or the
 // op refuses E_NOT_TWO_CROSSINGS with the insertion undone (its own savepoint, taken once the cut is judged), never a
-// throw (C-0214; integration g8 B-1).
+// throw (C-0214 (2)).
 import { faceHoles, isFaceLive, type FaceId, type HalfEdgeId, type Plat, type RoleRow, type VertexId } from '../arena/index.js';
 import { insertChain } from '../insert/index.js';
 import { err, ok, type KernelResult } from '../num/index.js';

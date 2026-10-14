@@ -147,6 +147,18 @@ describe('absorbSliver (§3.6\'s sliver rule)', () => {
     content(p);
   });
 
+  it('the area floor reads the face less its holes: A − H is below a floor of A − H + 1 cm² and not below one of A − H', () => {
+    // The lower half (8 000 000 cm²) with a 500 × 400 cm hole (200 000 cm²): faceArea2 sums the outer ring and the hole.
+    const p = withHoles([[[2500, 800], [3000, 800], [3000, 1200], [2500, 1200]]]);
+    const f = faceAt(p, 1, 100, 100);
+    const at = commit(p, 1, (o) => absorbSliver(o, f, { minWidthCm: 0, minAreaCm2: 7_800_000 }));
+    expect(at.record).toBeNull();
+    // Below it the face is absorbed (here across the hole's partition ring): the batch writes.
+    const below = commit(p, 1, (o) => absorbSliver(o, f, { minWidthCm: 0, minAreaCm2: 7_800_001 }));
+    expect(below.record).not.toBeNull();
+    content(p);
+  });
+
   it('of two partition boundaries the sliver merges across the longer one', () => {
     // A strip x ∈ [1000, 1100]: 2000 cm shared with the face left of it, 500 and 1500 cm with the two right of it.
     const p = halves();
