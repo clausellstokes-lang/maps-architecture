@@ -5,7 +5,7 @@
 // issue order and the slots; the declared form that sorts the ops is M0-a-06's (C-0169 (5)). The split at a table's
 // doubling is growth.test.ts's, its own-ends clearance (C-0284) placement.test.ts's, a closed transaction closed.test.ts's.
 import { describe, expect, it } from 'vitest';
-import { faceWalk, handleOf, outgoing, roleIdOf, rowKey, rowsOn, VERTEX_SPLIT, VERTEX_STEINER, type Plat, type VertexId } from '../../../src/arena/index.js';
+import { faceWalk, handleOf, outgoing, roleIdOf, rowElement, rowKey, rowsOfKey, rowsOn, VERTEX_SPLIT, VERTEX_STEINER, type Plat, type VertexId } from '../../../src/arena/index.js';
 import { beginIndexBatch, checkIndexBatch, endIndexBatch, routeRun } from '../../../src/index/index.js';
 import { INSERT_POINTS, insertTx, type InsertTx } from '../../../src/insert/classes.js';
 import { addressKind, allocateAnchor, carriesRow, firstAnchorOrdinal, footOnSegment, nearerVertex, splitThrough } from '../../../src/insert/splitThrough.js';
@@ -269,13 +269,49 @@ describe('rows and the anchor allocation (§3.4 splitThrough’s row; §3.3 rule
     const ok = splitThrough(t, b.he[11], pt(510, 300), { role: 'junction', entity: 'junction:9' });
     expect(ok.ok && rowsOn(b.plat, 'vertex', ok.value).map((q) => rowKey(b.plat, q))).toEqual([{ role: 'junction', entity: 'junction:9', ordinal: 0 }]);
   });
+  it('N-c2-3: two anchor rows of one entity with distinct explicit ordinals onto one existing vertex — both added; only a repeated ordinal throws, nothing written', () => {
+    // pt(510, 490) on (500, 0)–(500, 500): its foot lies 10 cm from (500, 500), so every op lands on that vertex
+    // (§3.6 step 2). The key is (role, entity, ordinal): a writer asks for the row's own ordinal, never another's.
+    for (const ordinals of [[0, 1], [1, 0], [3, 4]]) {
+      const b = indexed(QUARTERS);
+      const p = b.plat;
+      const t = insertTx(p, 2);
+      const v = b.v[8];
+      for (const ordinal of ordinals) {
+        const r = splitThrough(t, b.he[11], pt(510, 490), { role: 'anchor', entity: 'district:7', ordinal });
+        expect(r.ok && r.value).toBe(v);
+      }
+      // the vertex's rows, read in the arena's key order
+      expect(rowsOn(p, 'vertex', v).map((q) => rowKey(p, q))).toEqual([...ordinals].sort((x, y) => x - y).map((ordinal) => ({ role: 'anchor', entity: 'district:7', ordinal })));
+      for (const ordinal of ordinals) {
+        const before = fingerprint(p);
+        expect(() => splitThrough(t, b.he[11], pt(510, 490), { role: 'anchor', entity: 'district:7', ordinal })).toThrow(
+          new RegExp(`^insert: the vertex at \\(500, 500\\) already carries \\(anchor, district:7, ${ordinal}\\)$`),
+        );
+        expect(fingerprint(p)).toBe(before);
+      }
+    }
+  });
 });
 
 describe('the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0321)', () => {
-  it('footOnSegment and nearerVertex answer as stretch.ts’s copies on random lattice inputs, ties and the clamp included', () => {
+  it('footOnSegment and nearerVertex answer as an exact BigInt oracle on random lattice inputs, ties and the clamp included (N-c2-1: stretch.ts re-exports them)', () => {
+    // stretch.ts re-exports these originals (C-0321 (1), R3), so a parity case against it would compare a function with
+    // itself: the oracle is exact instead. footOnSegment: the foot's parameter num ÷ den (num = (p − a)·(b − a), den =
+    // |b − a|², BigInt on doubled coordinates) decides the clamp exactly — a itself at num ≤ 0, b itself at num ≥ den —
+    // and inside, the foot a + num · (b − a) ÷ den within 10⁻⁹ cm. nearerVertex: the exact squared distances (BigInt on
+    // doubled coordinates), ties to the smaller y, then x.
+    expect(stretchFoot).toBe(footOnSegment);
+    expect(stretchNearer).toBe(nearerVertex);
+    const big = (v: number): bigint => BigInt(2 * v); // every input is a lattice point or a half: 2v is an integer
     const rnd = generator(0xf007);
     const b = indexed(SLANT);
     const vs = liveVertices(b.plat);
+    const X = b.plat.vertices.x;
+    const Y = b.plat.vertices.y;
+    let clamped = 0;
+    let inside = 0;
+    let ties = 0;
     for (let k = 0; k < 20_000; k++) {
       const ax = intIn(rnd, -3000, 3000);
       const ay = intIn(rnd, -3000, 3000);
@@ -284,13 +320,37 @@ describe('the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0321)
       if ((bx - ax) ** 2 + (by - ay) ** 2 < 625) continue;
       const px = ax + intIn(rnd, -600, 600) + (k % 3 === 0 ? 0.5 : 0);
       const py = ay + intIn(rnd, -600, 600);
-      expect(footOnSegment(ax, ay, bx, by, px, py)).toEqual(stretchFoot(ax, ay, bx, by, px, py));
+      const f = footOnSegment(ax, ay, bx, by, px, py);
+      const num = (big(px) - big(ax)) * (big(bx) - big(ax)) + (big(py) - big(ay)) * (big(by) - big(ay));
+      const den = (big(bx) - big(ax)) ** 2n + (big(by) - big(ay)) ** 2n;
+      if (num <= 0n) {
+        expect(f).toEqual({ x: ax, y: ay });
+        clamped += 1;
+      } else if (num >= den) {
+        expect(f).toEqual({ x: bx, y: by });
+        clamped += 1;
+      } else {
+        // a + num · u ÷ den, the products exact in doubles here (|num · u| < 2⁵³), one rounding each
+        const n = Number(num);
+        const d = Number(den);
+        expect(Math.abs(f.x - (ax + (n * (bx - ax)) / d))).toBeLessThanOrEqual(1e-9);
+        expect(Math.abs(f.y - (ay + (n * (by - ay)) / d))).toBeLessThanOrEqual(1e-9);
+        inside += 1;
+      }
       const u = vs[intIn(rnd, 0, vs.length - 1)];
       const w = vs[intIn(rnd, 0, vs.length - 1)];
-      const x = k % 5 === 0 ? (b.plat.vertices.x[u] + b.plat.vertices.x[w]) / 2 : px;
-      const y = k % 5 === 0 ? (b.plat.vertices.y[u] + b.plat.vertices.y[w]) / 2 : py;
-      expect(nearerVertex(b.plat, u, w, x, y)).toBe(stretchNearer(b.plat, u, w, x, y));
+      const x = k % 5 === 0 ? (X[u] + X[w]) / 2 : px;
+      const y = k % 5 === 0 ? (Y[u] + Y[w]) / 2 : py;
+      const du = (big(X[u]) - big(x)) ** 2n + (big(Y[u]) - big(y)) ** 2n;
+      const dw = (big(X[w]) - big(x)) ** 2n + (big(Y[w]) - big(y)) ** 2n;
+      const want = du !== dw ? (du < dw ? u : w) : Y[u] !== Y[w] ? (Y[u] < Y[w] ? u : w) : X[u] <= X[w] ? u : w;
+      if (du === dw && u !== w) ties += 1;
+      expect(nearerVertex(b.plat, u, w, x, y)).toBe(want);
     }
+    // the oracle met every branch: both clamps, the interior, and exact ties between two vertices
+    expect(clamped).toBeGreaterThan(1000);
+    expect(inside).toBeGreaterThan(1000);
+    expect(ties).toBeGreaterThan(100);
     // the tie y then x: (15, 20) is 25 cm from both ends of SLANT's (0, 0)–(30, 40), either way round
     expect(nearerVertex(b.plat, b.v[5], b.v[6], 15, 20)).toBe(b.v[5]);
     expect(nearerVertex(b.plat, b.v[6], b.v[5], 15, 20)).toBe(b.v[5]);
@@ -308,5 +368,23 @@ describe('the exported helpers: footOnSegment, nearerVertex, carriesRow (C-0321)
     expect(carriesRow(p, r.value, anchor, h, 1)).toBe(false);
     expect(carriesRow(p, b.v[4], anchor, h, 0)).toBe(false);
     expect(carriesRow(p, r.value, roleIdOf('junction'), h, 0)).toBe(false);
+  });
+
+  it('N-c2-6 (b): carriesRow asserts each row’s set ends at an element mark, as rowElement does — a malformed set is never read as not carried', () => {
+    const b = indexed(QUARTERS);
+    const p = b.plat;
+    const r = splitThrough(insertTx(p, 2), b.he[11], pt(510, 300), { role: 'anchor', entity: 'district:5' });
+    if (!r.ok) throw new Error(r.code);
+    const anchor = roleIdOf('anchor');
+    const h = handleOf(p, 'district:5');
+    const [row] = rowsOfKey(p, anchor, h, 0);
+    expect(rowElement(p, row)).toBe(r.value);
+    // corrupt state no valid arena holds: the row's set ends at −1 (a free slot's link), not at its vertex's mark
+    p.roles.nextInSet[row] = -1;
+    expect(() => rowElement(p, row)).toThrow(/^arena: role row \d+'s set has no element mark$/);
+    expect(() => carriesRow(p, r.value, anchor, h, 0)).toThrow(/^insert: a role set has no element mark$/);
+    expect(() => carriesRow(p, b.v[4], anchor, h, 0)).toThrow(/^insert: a role set has no element mark$/);
+    // a key no row holds reads no set: not carried
+    expect(carriesRow(p, r.value, anchor, h, 1)).toBe(false);
   });
 });
