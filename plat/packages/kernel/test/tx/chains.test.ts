@@ -26,7 +26,7 @@ import { runsOfPairs, tx } from '../../src/tx/index.js';
 import { buildArena, dressQuarters, LAKE, permutation, QUARTERS, rng, type ArenaSpec } from '../arena/support.js';
 import { runSequence, SEQUENCES } from './fixtures.js';
 import { ALONG_MIX, DEFAULT_MIX, randomBatch, type Live } from './fuzzgen.js';
-import { framed, spec } from './support.js';
+import { framed, seeded, spec } from './support.js';
 
 /**
  * The reference: the runs a set of edge pairs forms, in `resolve`'s order (C-0146 (5)) — the transaction's walk, verbatim:
@@ -187,8 +187,8 @@ describe('T-tx-new-1: runsOfPairs ≡ edgeRuns ≡ the transaction\'s walk (C-01
     }
   }, 120_000);
 
-  it('property: any pair subset of a pool arena (repeats and listing order aside) gives one answer from the three', () => {
-    // Not vacuous: the drawn sets hold open runs, rings and loops off a branch vertex.
+  /** The property over pair subsets, tallying what its draws held; `extra` adds fast-check parameters. */
+  const subsets = (extra: { numRuns?: number } = {}): { open: number; ring: number; loop: number } => {
     const seen = { open: 0, ring: 0, loop: 0 };
     fc.assert(
       fc.property(fc.nat(), fc.integer(), fc.double({ min: 0.05, max: 1, noNaN: true }), fc.double({ min: 0, max: 0.5, noNaN: true }), (pick, seed, share, repeat) => {
@@ -210,9 +210,20 @@ describe('T-tx-new-1: runsOfPairs ≡ edgeRuns ≡ the transaction\'s walk (C-01
           else seen.loop++;
         }
       }),
+      { ...seeded('tx/chains: pair subsets'), ...extra },
     );
+    return seen;
+  };
+
+  it('property: any pair subset of a pool arena (repeats and listing order aside) gives one answer from the three', () => {
+    // Not vacuous: the drawn sets hold open runs, rings and loops off a branch vertex.
+    const seen = subsets();
     expect(seen.open).toBeGreaterThan(0);
     expect(seen.ring).toBeGreaterThan(0);
     expect(seen.loop).toBeGreaterThan(0);
   }, 600_000);
+
+  it('L10: the property is seeded — two runs draw the same cases (a tally read off a run is the run\'s, not noise)', () => {
+    expect(subsets({ numRuns: 200 })).toEqual(subsets({ numRuns: 200 }));
+  }, 120_000);
 });

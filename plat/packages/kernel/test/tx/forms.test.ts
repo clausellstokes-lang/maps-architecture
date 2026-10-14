@@ -6,6 +6,8 @@
 import { describe, expect, it } from 'vitest';
 import * as kernel from '../../src/index.js';
 import { insertChain } from '../../src/insert/index.js';
+import { insertTx } from '../../src/insert/classes.js';
+import { isOpenTx } from '../../src/tx/state.js';
 import type { KernelError } from '../../src/num/index.js';
 import { clearFiner, kernelOp, opInsertChain, opRemoveEdges, removeEdges, retypeEdges, setOwner, tx, type Overlay } from '../../src/tx/index.js';
 import type { Polygon } from '../../src/types/index.js';
@@ -135,6 +137,24 @@ describe('§13.1: a transaction exceeding its workLimit returns E_WORK_LIMIT and
     expect(p.version).toBe(0);
   });
 
+  it('N-c1-7: a batch an op charged to exactly its limit is not past it — a writer entered next proceeds and the batch commits (§3.3: refused only when the total exceeds the limit)', () => {
+    const insert = (o: Overlay) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory');
+    const probe = framed();
+    const measured = commit(probe, 1, insert).record?.work as number;
+    expect(measured).toBeGreaterThan(0);
+    const p = framed();
+    let entered: string | null = null;
+    const r = tx(p, spec(1, { workLimit: measured }), (o) => {
+      must(insert(o));
+      const b = setOwner(o, [], 'block:1');
+      entered = b.ok ? 'proceeded' : `${b.code} ${b.detail}`;
+      return { ok: true as const, value: null, warnings: [] };
+    });
+    expect(entered).toBe('proceeded');
+    expect(r.ok && r.value.record?.work).toBe(measured);
+    expect(p.version).toBe(1);
+  });
+
   it('a fractional limit (a law\'s floor + perUnit × count, C-0174) is a limit like any other (C-0185 (5))', () => {
     const p = framed();
     const r = declared(p, 1, [way(1, [0, 2000], [4000, 2000])], { workLimit: 2.5 });
@@ -210,13 +230,17 @@ describe('the declarations a transaction refuses (programming errors and staged 
   });
 });
 
-/** The overlay of a batch that ended as `how` (its callback wrote a way first), and the arena after it. */
-function staleOverlay(how: 'committed' | 'rejected' | 'threw'): { p: ReturnType<typeof framed>; o: Overlay } {
+/**
+ * The overlay of a batch that ended as `how` (its callback wrote a way first — or, for `noop`, returned ok having written
+ * nothing: the empty batch closes its overlay too, hardening round S7, N-20), and the arena after it.
+ */
+function staleOverlay(how: 'committed' | 'rejected' | 'threw' | 'noop'): { p: ReturnType<typeof framed>; o: Overlay } {
   const p = framed();
   commit(p, 1, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
   let kept: Overlay | null = null;
   const run = (): unknown => tx(p, spec(1), (o) => {
     kept = o;
+    if (how === 'noop') return { ok: true as const, value: null, warnings: [] };
     must(insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
     if (how === 'rejected') return { ok: false as const, code: 'E_NO_PATH' as const, detail: 'the stage gave up' };
     if (how === 'threw') throw new Error('stage bug');
@@ -227,14 +251,14 @@ function staleOverlay(how: 'committed' | 'rejected' | 'threw'): { p: ReturnType<
   return { p, o: kept as unknown as Overlay };
 }
 
-describe('N-55 (5): tx\'s writers refuse a closed overlay — committed, rejected or rolled back by a throw (a programming error)', () => {
+describe('N-55 (5): tx\'s writers refuse a closed overlay — committed, rejected, rolled back by a throw, or an empty batch (a programming error)', () => {
   const writers: [string, (o: Overlay) => unknown][] = [
     ['removeEdges', (o) => removeEdges(o, { role: 'way', entity: 'way:1' })],
     ['clearFiner', (o) => clearFiner(o, { owner: 'block:1', level: 1 }, 1)],
     ['retypeEdges', (o) => retypeEdges(o, { role: 'way', entity: 'way:1' }, [{ role: 'district_bound', entity: 'district:1' }], [])],
     ['setOwner', (o) => setOwner(o, [0], 'block:1')],
   ];
-  for (const how of ['committed', 'rejected', 'threw'] as const) {
+  for (const how of ['committed', 'rejected', 'threw', 'noop'] as const) {
     for (const [name, write] of writers) {
       it(`${name} on a ${how} batch's overlay throws; the arena bit for bit and its version as they were`, () => {
         const { p, o } = staleOverlay(how);
@@ -350,5 +374,48 @@ describe('N-53 (3): a throw inside a batch rolls it back whole and is rethrown w
     })]));
     expect(e.message).toBe('tx 8/L1/declared/setOwner: op bug');
     unchanged(p, before, version);
+  });
+});
+
+describe('N-21: a throw from the digest listener after the commit leaves the commit standing', () => {
+  it('onCommit throws: rethrown prefixed `…/commit:` with its cause, the version +1, the batch\'s content committed, the next batch commits', () => {
+    const p = framed();
+    const before = state(p);
+    const bug = new Error('listener bug');
+    const e = thrown(() => tx(p, spec(1), (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'), { onCommit: () => {
+      throw bug;
+    } }));
+    expect(e.message).toBe('tx 8/L1/callback/commit: listener bug');
+    expect(e.cause).toBe(bug);
+    expect(p.version).toBe(1);
+    expect(state(p)).not.toBe(before);
+    expect(between(p, [0, 2000], [4000, 2000])).toBeGreaterThanOrEqual(0);
+    healthy(p);
+    const c = commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:2' }], 'mandatory'));
+    expect(c.record?.version).toBe(2);
+    healthy(p);
+  });
+});
+
+describe('RQ4 (N-61 (4)): isOpenTx — an overlay tx minted and not yet closed', () => {
+  it('true inside the batch; false once it committed, rejected, threw or ended empty; false for a fabricated shell carrying open: true and for any other object', () => {
+    const inside: boolean[] = [];
+    for (const how of ['committed', 'rejected', 'threw', 'noop'] as const) {
+      const { o } = staleOverlay(how);
+      expect(isOpenTx(o), how).toBe(false);
+    }
+    const p = framed();
+    const r = tx(p, spec(1), (o) => {
+      inside.push(isOpenTx(o));
+      must(insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+      inside.push(isOpenTx(o));
+      return { ok: true as const, value: null, warnings: [] };
+    });
+    expect(r.ok).toBe(true);
+    expect(inside).toEqual([true, true]);
+    // note 12 of checks/M0-a-16-notes.md: an InsertTx shell with open: true type-checks as an overlay, yet tx never minted it.
+    const shell = { ...insertTx(p, 1), open: true };
+    expect(isOpenTx(shell)).toBe(false);
+    expect(isOpenTx({})).toBe(false);
   });
 });
