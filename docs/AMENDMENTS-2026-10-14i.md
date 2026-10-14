@@ -74,6 +74,10 @@ is `plat/docs/build/checks/amendments-1.md`.
      (a memory index, a git status line, a file listing the harness shows a seat unasked) is disclosed in the seat's
      CLEAN-ROOM row and never used — the row's disclosure is the rule's satisfaction (never `CLEAN-ROOM.md` §1, J358).
 
+     **(j) The strip's built blocks** (the seat's note 4; J359). §4.7 S9's wall-strip sentence said a strip's L2 holds "one built
+     block, the strip block"; under (b)'s stop rule a way inside the strip's width leaves strip faces on both its sides, so the
+     sentence now reads "its built blocks, the strip blocks" — written by the session at the landing (5d3f485 → the J359 commit).
+
      **What stays.** Every bound the rulings name — √2 · `attractCm` for an incoming vertex, §3.10's clearance, §3.7's
      area bound; RQ2's coincident fold-back vertex row (N-61 (2)) is not in this round's list and its §2.2 rule 3 sentence
      is left to the session; no code. **Where it touches:** base §3.6, §3.7, §3.8, §3.10, §3.11, §4.7 (S9), §4.8, §5.1

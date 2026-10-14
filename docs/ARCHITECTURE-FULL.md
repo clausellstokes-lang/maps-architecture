@@ -6,7 +6,7 @@
 
 | file | sha256 (16) | lines |
 |---|---|---|
-| `docs/ARCHITECTURE.md` | 866f41c09f6c6eb3 | 24345 |
+| `docs/ARCHITECTURE.md` | ad993eebbd04005c | 24345 |
 | `docs/volumes/INDEX.md` | 355e7ac139b43940 | 203 |
 | `docs/volumes/V01-neighbourhoods.md` | a59cfac9b27a8886 | 3765 |
 | `docs/volumes/V02-buildings.md` | 1a0e9583ada186f7 | 4228 |
@@ -7810,8 +7810,8 @@ presets).
 **S9 Corridors (L2).** `corridorUnion(l1Faces)` (§3.7), the single kerb function, commits exactly the kerbs S8 cut
 against — half-corridor strips, junction wedges and **built blocks**. It runs once per district and once for the
 hinterland's faces; a wall strip's L2 is its half-corridor strips along the arterials at its gates and along any other
-way whose corridor it meets (§4.8; item 130 (b)) (and along the intervallum, where there is one) and one built block,
-the strip block (§4.8). S9 writes every way's `slopeP95` (§2.4). The main plaza is S3's reservation, typed as a `square`
+way whose corridor it meets (§4.8; item 130 (b)) (and along the intervallum, where there is one) and its built blocks,
+the strip blocks (§4.8; under item 130 (b) a way inside the strip's width leaves strip faces on both its sides). S9 writes every way's `slopeP95` (§2.4). The main plaza is S3's reservation, typed as a `square`
 face; the other squares come from S7b claims sized from population (O7) where larger than a block, and from S9b's
 dispatch below that size (V01 §3.5) — both read the one base table `squares.quota` (per band: hectares per 1 000
 inhabitants and kind factors; §10.2), so the quota is counted once; gate plazas and forecourts come from S7 (§4.8).

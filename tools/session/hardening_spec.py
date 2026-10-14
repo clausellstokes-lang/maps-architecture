@@ -40,6 +40,7 @@ def main():
     ap.add_argument('--inventory', default='plat/docs/build/checks/hardening-inventory.md')
     ap.add_argument('--specs', nargs='*', default=[])
     ap.add_argument('--extra', default='')
+    ap.add_argument('--line', action='append', default=[], help='an extra failing line "line || evidence || required_change" (the census classes, the rulings), placed BEFORE the inventory rows')
     a = ap.parse_args()
     inv = open(f'{R}/{a.inventory}', encoding='utf-8').read()
     rows = []
@@ -47,9 +48,13 @@ def main():
         m = ROW.match(l)
         if m and m.group(4).strip() == a.item:
             rows.append(m.groups())
-    if not rows:
+    if not rows and not a.line:
         sys.exit(f'no FIX-NOW rows owned by {a.item}')
     lines = []
+    for extra in a.line:
+        parts = [x.strip() for x in extra.split('||')]
+        assert len(parts) == 3, f'--line needs three || parts: {extra[:80]}'
+        lines.append({'line': parts[0], 'evidence': parts[1], 'required_change': parts[2]})
     for file, n, rid, owner, shape, ev in rows:
         n = int(n)
         src = f'plat/docs/build/checks/{file}-notes.md:{n}'
@@ -60,7 +65,7 @@ def main():
             'required_change': 'as the fix shape says, inside the item\'s owns; a PIN — a test red without the fix, in the round\'s mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence',
         })
     queue, census = section3(inv, a.item)
-    ids = ', '.join(f'{r[0]}:{r[1]} {r[2]}' for r in rows)
+    ids = ', '.join(f'{r[0]}:{r[1]} {r[2]}' for r in rows) + (f" — and, FIRST, the {len(a.line)} line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61)" if a.line else '')
     session = (
         f"This round was opened by the SESSION as {a.item}'s HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning "
         f"item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory "
