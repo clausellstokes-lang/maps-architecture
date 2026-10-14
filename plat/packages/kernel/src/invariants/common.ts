@@ -4,6 +4,7 @@
 // kernel's one, `num/exact.ts`'s `segmentsMeet`. M0-a-14.
 import { faceHoles, walkRing, type FaceId, type HalfEdgeId, type Plat } from '../arena/index.js';
 import { query } from '../index/index.js';
+import { WALK_REACH_CM } from '../insert/rewalk.js';
 import type { Level } from '../types/index.js';
 import type { Checked, InvariantResult, RowDecl } from './types.js';
 
@@ -82,8 +83,8 @@ export { segmentsMeet } from '../num/exact.js';
 
 /**
  * The closed whole-centimetre box around a lattice segment, padded by `pad` (an integer): the box a row queries the
- * index with. Unclamped: on the lattice (|x|, |y| < 2²³, §3.2 (1)) the rows' pads (0, minEdge) keep it inside the
- * index's ±2²⁴ bound. Kept beside `insert/stretch.ts`'s `segmentBox`, which floors and ceils double coordinates and
+ * index with. Unclamped: on the lattice (|x|, |y| < 2²³, §3.2 (1)) the rows' pads (0, minEdge, `WALK_REACH_CM`) keep
+ * it inside the index's ±2²⁴ bound. Kept beside `insert/stretch.ts`'s `segmentBox`, which floors and ceils double coordinates and
  * clamps to that bound (`BOX_RANGE`): the two agree on lattice inputs only.
  */
 export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: number): { minX: number; minY: number; maxX: number; maxY: number } {
@@ -93,6 +94,12 @@ export function segmentBox(ax: number, ay: number, bx: number, by: number, pad: 
 /**
  * The face record at `level` whose ring holds half-edge h on its left, through the index (a record storing a half-edge
  * of that ring): −1 where the level holds no record there (an own child, or L0's unbounded outside). Walks one ring.
+ * The index is asked with h's segment box padded by `WALK_REACH_CM` (3 cm, `insert/rewalk.ts`'s one definition;
+ * C-0349 (1)'s multi-level reach), never 0: the index reads a record on its level-`level` route while h lies on its
+ * walk, through every finer Steiner vertex, each within one hot pixel of the route per level it is finer — a sub-edge
+ * whose both ends are Steiner vertices off the route on one side has a box the route misses and a corner the other
+ * face holds (N-s8c-1, `checks/M0-a-05-notes.md`). With the reach the record whose ring holds h is always a candidate
+ * and the exact ring-membership test below decides; the pad only adds candidates that test rejects (C-0370).
  */
 export function faceLeftOf(p: Plat, level: Level, h: HalfEdgeId, meter: Meter): FaceId {
   const ring = new Set<HalfEdgeId>(walkRing(p, level, h));
@@ -102,7 +109,7 @@ export function faceLeftOf(p: Plat, level: Level, h: HalfEdgeId, meter: Meter): 
   const a = O[h];
   const b = O[h ^ 1];
   const F = p.faces[level];
-  for (const f of query(p, p.key, level, segmentBox(X[a], Y[a], X[b], Y[b], 0), { faces: true }).faces) {
+  for (const f of query(p, p.key, level, segmentBox(X[a], Y[a], X[b], Y[b], WALK_REACH_CM), { faces: true }).faces) {
     meter.face(level, f);
     if (ring.has(F.outer[f])) return f;
     for (const g of faceHoles(p, level, f)) if (ring.has(g)) return f;

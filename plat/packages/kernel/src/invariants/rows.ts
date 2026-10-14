@@ -18,7 +18,8 @@ export const KERNEL_ROWS: readonly RowDecl[] = Object.freeze([
   row('simple-faces', 'batch', 'hard', 'batch-local', 'faces simple except declared antennae; no two edges cross'),
   row('nesting', 'batch', 'hard', 'batch-local', 'every face of level n + 1 has exactly one parent at level n, its boundary edges of level n + 1 or sub-edges of a level-≤ n edge'),
   row('placement-bound', 'batch', 'hard', 'batch-local', 'every vertex a batch places, re-seats or slides onto a coarser edge lies within 0.71 cm of that edge\'s route'),
-  row('level-consistency', 'batch', 'hard', 'batch-local', 'an edge\'s birth level is the lowest among its rows; no vertex coarser than everything at it; a finer vertex inside one run'),
+  // The run clause read at every level between (N-s6-2, checks/M0-a-06-notes.md; C-0370): the encoder's constancy.
+  row('level-consistency', 'batch', 'hard', 'batch-local', 'an edge\'s birth level is the lowest among its rows; no vertex coarser than everything at it; a finer vertex inside one run at every level between: its coarser edges exactly two, of one level, with identical rows of each level r from theirs to its own − 1 (of level ≤ 1 at r = 1)'),
   row('held-vertices', 'batch', 'hard', 'batch-local', 'no vertex of a warp or smoothing step\'s held set moved'),
   row('prepared-contacts', 'batch', 'hard', 'batch-local', 'a clear-region batch met finer geometry only at its prepared vertices, promoted exactly those and stripped their anchor names', 'M3a'),
   row('kept-content', 'batch', 'hard', 'batch-local', 'no finer face made by a stage before rederivesFrom was cleared, crossed, split or re-owned'),
