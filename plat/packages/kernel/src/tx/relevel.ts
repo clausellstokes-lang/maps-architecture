@@ -77,8 +77,10 @@ import {
   type Box,
   type ItemRef,
 } from '../index/index.js';
+import { setHome } from '../index/items.js';
 import { TX_FACES_WALKED } from '../insert/index.js';
 import { HOT_PIXEL_SQ } from '../insert/placement.js';
+import { WALK_REACH_CM } from '../insert/rewalk.js';
 import { comparePoints, insideDoubledRing } from '../num/exact.js';
 import { area2, orient2d } from '../num/index.js';
 import type { Cm, LatticePoint, Level } from '../types/index.js';
@@ -106,10 +108,16 @@ export interface Rewrite {
 
 // ---- small helpers --------------------------------------------------------------------------------------------------
 
+/**
+ * The box a half-edge a–b asks the index with for the record whose walk holds it: `WALK_REACH_CM` past its ends (session
+ * round S7, C-0349's form): the index reads a level-m record on its level-m route, while the half-edge may join two
+ * Steiner vertices up to a hot pixel per level finer off that route, outside a tighter box.
+ */
 function box(p: Plat, a: VertexId, b: VertexId): Box {
   const X = p.vertices.x;
   const Y = p.vertices.y;
-  return { minX: Math.min(X[a], X[b]) - 1, minY: Math.min(Y[a], Y[b]) - 1, maxX: Math.max(X[a], X[b]) + 1, maxY: Math.max(Y[a], Y[b]) + 1 };
+  const r = WALK_REACH_CM;
+  return { minX: Math.min(X[a], X[b]) - r, minY: Math.min(Y[a], Y[b]) - r, maxX: Math.max(X[a], X[b]) + r, maxY: Math.max(Y[a], Y[b]) + r };
 }
 
 function ringBox(p: Plat, rings: readonly (readonly HalfEdgeId[])[]): Box {
@@ -662,7 +670,12 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
       const under = inc.filter((h) => T.level[h >> 1] < lv);
       if (under.length === 0) continue;
       const m = T.level[under[0] >> 1];
-      const single = under.length === 2 && T.level[under[1] >> 1] === m && sameList(levelRows(p, under[0], m), levelRows(p, under[1], m));
+      // The run is single at every level the vertex stands inside — each r from the edges' level m up to the vertex's own
+      // (exclusive): the two edges carry identical rows of level r (of level ≤ 1 at r = 1, as the routes chunk reads
+      // them), so every level's rows stay constant along the level-r run through it (§3.10's level consistency read at
+      // every level between; the encoder's `runRows`; session round S7).
+      let single = under.length === 2 && T.level[under[1] >> 1] === m;
+      for (let r = m; single && r < lv; r++) single = sameList(runLevelRows(p, under[0], r), runLevelRows(p, under[1], r));
       if (single) continue;
       let lowest = lv;
       for (const h of inc) lowest = Math.min(lowest, T.level[h >> 1]);
@@ -766,6 +779,13 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
     if (written.has(k)) continue;
     written.add(k);
     const item: ItemRef = { kind: ITEM_FACE, level: fw.level, slot: fw.f };
+    // A record the rewrite freed whose slot it handed out again (materialise, the face pass) had its home entry reset by
+    // the allocation, its static copy still untombstoned: the entry noted before the first write is put back, so the
+    // write below tombstones that copy (an arena whose index was rebuilt, as after a load, holds every record in a
+    // partition; session round S7). Nothing else writes the index during the rewrite, so a noted home the entry no
+    // longer names was reset by such an allocation.
+    const noted = faceHome.get(k);
+    if (noted !== undefined && noted !== -1 && homeOf(p, item) === -1) setHome(p, item, noted);
     // The slot's state at the end decides: a record the face pass freed whose slot materialise re-used is live again.
     if (isFaceLive(p, fw.level, fw.f)) {
       indexChange(p, item);
@@ -796,6 +816,11 @@ export function rewriteRows(t: OpenTx, w: Rewrite): boolean {
  */
 function levelRows(p: Plat, h: HalfEdgeId, level: number, except?: ReadonlySet<number>): string[] {
   return rowsOn(p, 'edge', h).filter((r) => p.roles.level[r] === level && !(except?.has(r) ?? false)).map((r) => rowText(p, r));
+}
+
+/** The rows a level-r run reads as one along its edges: those of level r, and at r = 1 those of level ≤ 1. */
+function runLevelRows(p: Plat, h: HalfEdgeId, r: number): string[] {
+  return r === 1 ? pairRows(p, h, 1) : levelRows(p, h, r);
 }
 
 // ---- the face pass ----------------------------------------------------------------------------------------------------
@@ -1256,7 +1281,8 @@ function dissolve(
  * the run — a row finer than the vertex on one of its two edges and not the other (a kerb along a way, ending at the
  * junction a removed way left) — is finer geometry it meets too: the level is at most that row's, so every level's rows
  * stay constant along the run the vertex now stands inside (§3.10's level consistency; the encoder's `runRows`) and the
- * chain's own-level route keeps its end (session round S6, C-0356).
+ * chain's own-level route keeps its end (session round S6, C-0356). Such a chain also triggers restoration on its own,
+ * with no finer edge or finer vertex row (session round S7).
  */
 function restoreSplit(
   t: OpenTx,
@@ -1284,12 +1310,15 @@ function restoreSplit(
   let finer = 5;
   for (const h of inc) if (T.level[h >> 1] > lv) finer = Math.min(finer, T.level[h >> 1]);
   for (const r of vr) finer = Math.min(finer, R.level[r]);
-  if (finer === 5) return;
-  // The rows finer than the vertex that one of its two run edges carries and the other does not: a chain ending here.
+  // The rows finer than the vertex that one of its two run edges carries and the other does not: a chain ending here. It
+  // is finer geometry the vertex meets for the trigger too (session round S7): a vertex whose only finer geometry is such
+  // an ending chain is restored to that chain's level, so the coarser route is restored exactly and the chain's later
+  // removal (a batch of its level) dissolves a vertex of that level — never one of the coarser level it cannot write.
   const ra = pairRows(p, coarse[0]);
   const rb = pairRows(p, coarse[1]);
   for (const r of rowsOn(p, 'edge', coarse[0])) if (R.level[r] > lv && !rb.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
   for (const r of rowsOn(p, 'edge', coarse[1])) if (R.level[r] > lv && !ra.includes(rowText(p, r))) finer = Math.min(finer, R.level[r]);
+  if (finer === 5) return;
   for (const a of near) if (a.level >= lv && a.level < finer) changedFaces.push(a);
   p.vertices.level[v] = finer;
   if (finer > m) p.vertices.flags[v] |= VERTEX_STEINER;

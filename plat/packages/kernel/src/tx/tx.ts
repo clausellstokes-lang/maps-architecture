@@ -57,7 +57,7 @@ import { comparePoints, PI, segmentCloserThan } from '../num/exact.js';
 import { err, ok, type KernelError, type KernelResult } from '../num/index.js';
 import type { Cm, Id, LatticePoint, Level, RoleKey, StageId } from '../types/index.js';
 import { pairsOfKey } from './chains.js';
-import { ownerBefore, restoreSavepoint, takeSavepoint, wasFaceLive } from './savepoint.js';
+import { ownerBefore, restoreBatchImage, takeSavepoint, wasFaceLive } from './savepoint.js';
 import { check, emptyLog, markOpen, notBuilt, noteRow, roleKeyText, type OpenTx } from './state.js';
 import { OP_KINDS, type ClassFloor, type CommitRecord, type DirtySet, type KernelOp, type KernelTx, type LevelDirt, type Overlay, type TxEnv } from './types.js';
 
@@ -132,7 +132,7 @@ function workDetail(t: OpenTx, fallback: string): string {
 
 /** Rejects: the before-image back, the batch closed. */
 function reject<T>(t: OpenTx, code: KernelError, detail: string): KernelResult<T> {
-  restoreSavepoint(t.savepoint);
+  restoreBatchImage(t.savepoint);
   t.closed = true;
   return err<T>(code, detail);
 }
@@ -537,7 +537,7 @@ export function tx<T>(p: Plat, spec: KernelTx, fn?: (overlay: Overlay) => Kernel
     // assertion class stays a throw, C-0287): the arena, its index and its version as they were, the batch closed, the
     // error rethrown with where it arose. A throw after the commit (the digest listener's) leaves the commit standing.
     if (!t.closed) {
-      restoreSavepoint(t.savepoint);
+      restoreBatchImage(t.savepoint);
       t.closed = true;
     }
     throw rethrown(t, fn === undefined ? 'declared' : 'callback', e);
@@ -587,7 +587,7 @@ function run<T>(t: OpenTx, fn: ((overlay: Overlay) => KernelResult<T>) | undefin
   sweepVertexRows(t);
   if (!wroteAnything(t)) {
     // A batch with no op commits nothing and keeps the version (§3.3).
-    restoreSavepoint(t.savepoint);
+    restoreBatchImage(t.savepoint);
     t.closed = true;
     return ok({ record: null, value }, []);
   }

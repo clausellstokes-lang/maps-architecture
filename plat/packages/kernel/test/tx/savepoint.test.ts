@@ -11,6 +11,7 @@ import { insertChain } from '../../src/insert/index.js';
 import { err } from '../../src/num/index.js';
 import { opInsertChain, removeEdges, restoreGeneration, restoreSavepoint, setOwner, takeSavepoint, tx, type TxEnv } from '../../src/tx/index.js';
 import type { Level } from '../../src/types/index.js';
+import { rng } from './fuzzgen.js';
 import { bits, commit, contentPrint, declared, framed, healthy, lin, pt, spec, state } from './support.js';
 
 const LEVELS: readonly Level[] = [0, 1, 2, 3, 4];
@@ -201,4 +202,194 @@ describe('N-56 (5): the restore generation (restoreGeneration, C-0299)', () => {
     expect(restoreGeneration(p)).toBe(1);
     expect(restoreGeneration(q)).toBe(0);
   });
+});
+
+describe('S7 (N-23, N-24 / L17, N-25): an image is put back once, last-taken first, between batches — misuse throws and changes nothing', () => {
+  const way = (o: Parameters<typeof insertChain>[0], x: number, name: string) =>
+    insertChain(o, [pt(x, 0), pt(x + 50, 4000)], [{ role: 'way', entity: name }], 'mandatory');
+  const threw = (f: () => void): string => {
+    try {
+      f();
+    } catch (e) {
+      return (e as Error).message;
+    }
+    return 'no throw';
+  };
+
+  it('N-23: one image put back twice — the second restore throws, the arena and its generation as they were; the next batch commits', () => {
+    const p = framed();
+    commit(p, 0, (o) => insertChain(o, [pt(0, 2000), pt(4000, 2000)], [{ role: 'way', entity: 'way:0' }], 'mandatory'));
+    const at = bits(p);
+    const image = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 1000, 'way:1'));
+    restoreSavepoint(image);
+    expect(bits(p)).toBe(at);
+    commit(p, 1, (o) => way(o, 2500, 'way:2'));
+    const now = bits(p);
+    const generation = restoreGeneration(p);
+    expect(threw(() => restoreSavepoint(image))).toBe('tx: a savepoint is put back twice (an image is put back at most once)');
+    expect(bits(p)).toBe(now);
+    expect(restoreGeneration(p)).toBe(generation);
+    healthy(p);
+    commit(p, 1, (o) => way(o, 3000, 'way:3'));
+    healthy(p);
+  });
+
+  it('N-23: an image taken between batches put back while a batch is open — the restore throws, the batch rolls back, the image stays usable', () => {
+    const p = framed();
+    const image = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 1000, 'way:1'));
+    const before = state(p);
+    const r = threw(() => tx(p, spec(1), (o) => {
+      way(o, 2000, 'way:2');
+      restoreSavepoint(image);
+      return { ok: true as const, value: null, warnings: [] };
+    }));
+    expect(r).toBe('tx 8/L1/callback/fn: tx: a savepoint is put back while a batch it was not taken in is open on the arena (restore between batches)');
+    expect(state(p)).toBe(before);
+    expect(restoreGeneration(p)).toBe(0);
+    restoreSavepoint(image);
+    expect(p.version).toBe(0);
+    expect(restoreGeneration(p)).toBe(1);
+    healthy(p);
+  });
+
+  it('N-24 / L17: a dead image (taken after an older image since put back) — refused, so (generation, version) never names two contents', () => {
+    // A at v1; two commits; B at v3; A put back (generation 1, v1); two commits (generation 1, v3, other content); B.
+    const p = framed();
+    commit(p, 1, (o) => way(o, 500, 'way:0'));
+    const a = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 1000, 'way:1'));
+    commit(p, 1, (o) => way(o, 1500, 'way:2'));
+    const b = takeSavepoint(p);
+    expect(b.version).toBe(3);
+    restoreSavepoint(a);
+    expect([restoreGeneration(p), p.version]).toEqual([1, 1]);
+    commit(p, 1, (o) => way(o, 2500, 'way:3'));
+    commit(p, 1, (o) => way(o, 3000, 'way:4'));
+    const key = [restoreGeneration(p), p.version];
+    const content = contentPrint(p);
+    expect(key).toEqual([1, 3]);
+    expect(threw(() => restoreSavepoint(b))).toBe('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
+    expect([restoreGeneration(p), p.version]).toEqual(key);
+    expect(contentPrint(p)).toBe(content);
+    healthy(p);
+  });
+
+  it('N-24: the image taken right after the one put back is dead too (no batch between the two takes)', () => {
+    const p = framed();
+    const a = takeSavepoint(p);
+    const b = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 1000, 'way:1'));
+    restoreSavepoint(a);
+    expect(threw(() => restoreSavepoint(b))).toBe('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
+    expect([restoreGeneration(p), p.version]).toEqual([1, 0]);
+  });
+
+  it('N-25: a forward restore (an image at a later version than the arena) is a dead image — refused, the generation not moved; a backward restore moves it by one', () => {
+    const p = framed();
+    const x = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 1000, 'way:1'));
+    const y = takeSavepoint(p);
+    commit(p, 1, (o) => way(o, 2000, 'way:2'));
+    restoreSavepoint(x);
+    expect([restoreGeneration(p), p.version]).toEqual([1, 0]);
+    expect(y.version).toBeGreaterThan(p.version);
+    expect(threw(() => restoreSavepoint(y))).toBe('tx: a savepoint is put back after an image taken before it (images are put back last-taken first)');
+    expect([restoreGeneration(p), p.version]).toEqual([1, 0]);
+  });
+
+  it('N-25: random nested take / restore / drop with commits, rejects, throws and empty batches — no (generation, version) names two contents, the generation counts the cross-commit restores', () => {
+    let sequences = 0;
+    let restores = 0;
+    let crossCommit = 0;
+    let refusedDead = 0;
+    for (let seed = 1; seed <= 120; seed++) {
+      const r = rng(seed * 7919);
+      const p = framed();
+      const seen = new Map<string, string>();
+      const stack: ReturnType<typeof takeSavepoint>[] = [];
+      const gone: ReturnType<typeof takeSavepoint>[] = [];
+      const order = new Map<ReturnType<typeof takeSavepoint>, number>();
+      // A restore kills every image taken after it: those still on the stack join the gone list.
+      const killAfter = (img: ReturnType<typeof takeSavepoint>): void => {
+        const k = order.get(img) as number;
+        for (let i = stack.length - 1; i >= 0; i--) if ((order.get(stack[i]) as number) > k) gone.push(...stack.splice(i, 1));
+      };
+      let count = 0;
+      let n = 0;
+      const look = (): void => {
+        const k = `${restoreGeneration(p)}:${p.version}`;
+        const c = contentPrint(p);
+        const was = seen.get(k);
+        if (was !== undefined) expect(c, `seed ${seed}: the key ${k} names two contents`).toBe(was);
+        else seen.set(k, c);
+      };
+      look();
+      for (let step = 0; step < 30; step++) {
+        const e = r();
+        const x = 100 + Math.floor(r() * 3700);
+        if (e < 0.3) {
+          tx(p, spec(1), (o) => way(o, x, `way:${n++}`));
+        } else if (e < 0.38) {
+          tx(p, spec(1), (o) => {
+            way(o, x, `way:${n++}`);
+            return err('E_INVARIANT', 'refused by the test');
+          });
+        } else if (e < 0.44) {
+          threw(() => tx(p, spec(1), (o) => {
+            way(o, x, `way:${n++}`);
+            throw new Error('thrown by the test');
+          }));
+        } else if (e < 0.5) {
+          tx(p, spec(1), () => ({ ok: true as const, value: null, warnings: [] }));
+        } else if (e < 0.7) {
+          const img = takeSavepoint(p);
+          order.set(img, order.size);
+          stack.push(img);
+        } else if (e < 0.85 && stack.length > 0) {
+          // Put back an image of the stack (the top or a deeper one): every image above it dies.
+          const i = Math.floor(r() * stack.length);
+          const img = stack[i];
+          stack.splice(i, 1);
+          gone.push(img);
+          killAfter(img);
+          if (p.version !== img.version) {
+            count += 1;
+            crossCommit += 1;
+          }
+          restoreSavepoint(img);
+          restores += 1;
+        } else if (e < 0.93 && stack.length > 0) {
+          gone.push(stack.pop() as ReturnType<typeof takeSavepoint>); // dropped: never put back
+        } else if (gone.length > 0) {
+          // A used, dropped-after-use or dead image: refused, nothing changes.
+          const img = gone[Math.floor(r() * gone.length)];
+          const before = `${restoreGeneration(p)}:${p.version}:${contentPrint(p)}`;
+          const moves = p.version !== img.version;
+          const used = threw(() => restoreSavepoint(img));
+          if (used !== 'no throw') {
+            refusedDead += 1;
+            expect(`${restoreGeneration(p)}:${p.version}:${contentPrint(p)}`).toBe(before);
+          } else {
+            // A dropped image never put back and still alive (nothing older put back since): a lawful restore.
+            if (moves) {
+              count += 1;
+              crossCommit += 1;
+            }
+            restores += 1;
+            killAfter(img);
+          }
+        }
+        look();
+        expect(restoreGeneration(p), `seed ${seed} step ${step}`).toBe(count);
+      }
+      healthy(p);
+      sequences += 1;
+    }
+    expect(sequences).toBe(120);
+    expect(restores).toBeGreaterThan(100);
+    expect(crossCommit).toBeGreaterThan(50);
+    expect(refusedDead).toBeGreaterThan(20);
+  }, 300_000);
 });
