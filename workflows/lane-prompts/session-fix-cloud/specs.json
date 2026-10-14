@@ -2796,6 +2796,89 @@
      "required_change": "skeleton/engine.ts, prepare.ts, validate.ts as the causes need; test/skeleton/"
     }
    ]
+  },
+  {
+   "id": "M0-a-08",
+   "from": 4,
+   "round": "S4",
+   "session": "This round was opened by the SESSION as M0-a-08's HARDENING ROUND (J237 (2): the M0 hardening phase's fix rounds, batched per owning item; the owner 2026-10-07: 'make sure you do the hardening phase for m0 before m1'), on the FIX-NOW rows the hardening inventory (plat/docs/build/checks/hardening-inventory.md, lane session/hardening-inventory-1, landed J355) assigns to this item: M0-a-08:12 2, M0-a-08:28 4, M0-a-08:32 5, M0-a-08:37 6, M0-a-08:40 7, M0-a-08:48 9, M0-a-08:116 17, M0-a-08:155 22, M0-a-08:163 23, M0-a-08:173 26, M0-a-08:189 28, M0-a-08:342 N-c1c-3, M0-a-08:359 N-c1c-5, M0-k-03:14 N1 — and, FIRST, the 1 line(s) the session adds for the refusal census's classes and the design rulings (plat/docs/build/checks/refusal-census.md; rulings-hardening-1.md; N-61). Each 'failing line' below is one inventory row — its id names the SOURCE NOTE (the checks/M0-*-notes.md file and line) you MUST read whole before fixing; the inventory's fix shape is the session's reading of that note, binding unless the note or the code shows it wrong — then say so in your notes and do what the note's finding needs. Census: KI-7 (insetRing reads an overlay refusal as empty) merges here if the census rules REPAIR/MAKE-IT-SUCCEED. THE RULES OF A HARDENING ROUND: (1) inside the item's owns and nowhere else — a row that needs another item's file is REPORTED, not built; (2) every row gets a PIN (a test that is red without the fix; your mutant table shows each pin killing its mutant) unless the row is comment-only or asks for a choices row — then the text is the deliverable; (3) BEHAVIOUR: a hardening fix may move output where a defect is fixed — a DECLARED shift, stated in your choices row with the before and after (digests and goldens re-recorded in the same round, named), never silent; where a row offers alternatives, take the one the design's text supports and say which; a change of an operation's or stage's CONTRACT (its design-level behaviour, a record or file format, an exported API) is NOT yours — report it as a note for the session's ruling and leave the row at REPORTED; (4) J264 / N-58: the refusal census of the item's registered families before and after the round, never rising (a row whose fix makes a lawful input succeed lowers it and says so); (5) API frozen (J263 Q1): no export of a folder index or the barrel added, removed or renamed unless a row explicitly asks for one — then the index change is the row's and stated; message texts pinned verbatim where a row changes one (J263 Q6); (6) the gates, NEAR and RELATED@1000 as the brief above says, at W=1; (7) the item's notes file gains a section 'Hardening round S4' with the row-by-row outcome (fixed / pinned / reported, each with its evidence and mutant), and the round's choices row names every row it closes. The CLOSING CHECKER confirms every row's outcome with its own evidence (re-reading the source note and the inventory row), re-kills every pin's mutant, re-measures the refusal census, and judges new findings by the blocker rule only; a row left REPORTED with a stated contract reason is not a failing line. M0-a-08 is the arrangement's booleans, buffers, offsets and insets on the scratch overlay (arr/winding.ts buildOverlay is also the engine the Q50 profile names as the per-face scratch arrangement — Q18's and Q69's perf work is NOT this round's: no performance change here, the profile's §5 fixes 1–2 wait for a-09 s7 and the perf pass). This round takes the refusal census's class R-16 (KI-7) and the inventory's fifteen FIX-NOW rows; the design text of the hardening phase's rulings is in docs/ARCHITECTURE.md as item 130 (§3.6 step 4's wedge cap and fidelity bound, which the §3.7 (i) oracle agreement reads). The CLOSING CHECK is an Opus/high seat.",
+   "lines": [
+    {
+     "line": "KI-7 / refusal census R-16 (OUR OWN INTERMEDIATE, verdict MAKE-IT-SUCCEED; C-0231 (3)): insetRing's bisection (insetRing.ts:134–149) reads an overlay refusal at a trial distance as an EMPTY result, so a lastCm can be lowered wrongly — the bisection PROPAGATES the typed refusal (the trial's E_* code and detail travel out as the operation's result, or the trial is retried at the next distance only where the design says an empty inset is the lawful reading, §3.7 Insets) and never reads a refusal as emptiness; 0 met in 1.2 × 10⁵ cases (C-0231) and k-04's 10⁴ — so the pin is CONSTRUCTED: a ring whose inset at one trial distance makes the overlay refuse (a planted refusal through the overlay seam or a mutant-free fixture), red without the fix",
+     "evidence": "the constructed case returns the typed refusal (or the ruled lawful reading) and not a lowered lastCm; the mutant restoring the empty reading is red; the registered families' refusals unchanged (k-04's and the booleans-buffers family's counts before = after); the differential oracle agreement (§3.7 (i)) holds",
+     "required_change": "arr/insetRing.ts; test/arr/booleans-buffers/ (the pin); the choices row states the reading chosen"
+    },
+    {
+     "line": "2 (plat/docs/build/checks/M0-a-08-notes.md:12): overlay defences glueWalks/balanceFlow never reached on drawn domains (K14/K15/K16): construct an input reaching them, or turn them into asserted invariants; pin overlay.net before balancing",
+     "evidence": "the source note 2 (plat/docs/build/checks/M0-a-08-notes.md:12): «2. **The overlay's defences are never reached on the drawn domains (K14, K15, K16).** The seat ran probes in an» — read it whole; the inventory's evidence: notes 2, 14; N-c1c-2",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "4 (plat/docs/build/checks/M0-a-08-notes.md:28): H04: re-judge's area bound has no meta-test: harness test with a planted oracle failing the area bound",
+     "evidence": "the source note 4 (plat/docs/build/checks/M0-a-08-notes.md:28): «4. **H04: the snap-rounded re-judge's \"area bound unchanged\" has no meta-test.** Mutant H04 lets a re-judged case pass» — read it whole; the inventory's evidence: testkit support.ts",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "5 (plat/docs/build/checks/M0-a-08-notes.md:32): H06: judgeInset lattice-edge settle not wired to a test: plant an E_OUT_OF_RANGE through judge for an in-range face",
+     "evidence": "the source note 5 (plat/docs/build/checks/M0-a-08-notes.md:32): «5. **H06: `judgeInset`'s lattice-edge settle (C-0206 (9), \"a failure otherwise\") is not wired to a test.**» — read it whole; the inventory's evidence: harness.test.ts",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "6 (plat/docs/build/checks/M0-a-08-notes.md:37): H07: judgeInset non-convex branch has no meta-test: harness test",
+     "evidence": "the source note 6 (plat/docs/build/checks/M0-a-08-notes.md:37): «6. **H07: `judgeInset`'s non-convex branch has no meta-test.** A mutant that settles a non-convex face whatever our» — read it whole; the inventory's evidence: harness.test.ts",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "7 (plat/docs/build/checks/M0-a-08-notes.md:40): H08: oracleOffset covered-face shortcut unpinned: face whose distance lies between half and full farthest-vertex distance",
+     "evidence": "the source note 7 (plat/docs/build/checks/M0-a-08-notes.md:40): «7. **H08: `oracleOffset`'s covered-face shortcut has no meta-test.** With the shortcut taken at half the farthest» — read it whole; the inventory's evidence: harness",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "9 (plat/docs/build/checks/M0-a-08-notes.md:48): traceKept throws a plain Error on a non-closing walk (unreachable on a valid overlay): return E_INVARIANT (§3.11)",
+     "evidence": "the source note 9 (plat/docs/build/checks/M0-a-08-notes.md:48): «9. **`traceKept` throws a plain `Error`** (\"arr: the kept boundary does not close\") on a boundary walk that does not» — read it whole; the inventory's evidence: arr/ traceKept",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "17 (plat/docs/build/checks/M0-a-08-notes.md:116): Q07: per-family refusal-cap binding unpinned: loop verdict over every REFUSAL_MEASURE op at cap and cap+1",
+     "evidence": "the source note 17 (plat/docs/build/checks/M0-a-08-notes.md:116): «17. **KI: Q07 survives, because the per-family binding of the refusal cap is not pinned.** The mutant has `verdict`» — read it whole; the inventory's evidence: harness.test.ts:324",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "22 (plat/docs/build/checks/M0-a-08-notes.md:155): T03: oracleInset's largest-k use unpinned: pin a k∈1..3 case or assert oracleInset equals the construction at 2^insetFrameExponent",
+     "evidence": "the source note 22 (plat/docs/build/checks/M0-a-08-notes.md:155): «22. **KI: T03 survives, because `oracleInset`'s use of the largest k is not pinned.** The harness pins» — read it whole; the inventory's evidence: note 22",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "23 (plat/docs/build/checks/M0-a-08-notes.md:163): T07: dedupe and zero-area drop after final rounding unpinned: unit pin of oracleInset on a sub-centimetre sliver",
+     "evidence": "the source note 23 (plat/docs/build/checks/M0-a-08-notes.md:163): «23. **KI: T07 survives, because the dedupe and the zero-area drop after the final rounding are not pinned.** Without» — read it whole; the inventory's evidence: note 23",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "26 (plat/docs/build/checks/M0-a-08-notes.md:173): C-0261 sentence \"the oracle carries the one rounding ours carries\" holds only at moderate angles (28.6 cm at thin tips): reword or build strips from exact line coefficients",
+     "evidence": "the source note 26 (plat/docs/build/checks/M0-a-08-notes.md:173): «26. **Observation: the oracle still carries more than one rounding at very sharp vertices.** The seat measured» — read it whole; the inventory's evidence: note 26",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "28 (plat/docs/build/checks/M0-a-08-notes.md:189): M7: bridge splice into walk.steps unpinned: pin inspecting walk.steps / per-pair net after a bridged ring, or a tied-twin case",
+     "evidence": "the source note 28 (plat/docs/build/checks/M0-a-08-notes.md:189): «28. **KI: M7 survives, because the bridge's splice into the walk is not pinned.** Mutant M7 drops `out.push(id + 1)`» — read it whole; the inventory's evidence: note 28; C-0196 (1)",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-c1c-3 (plat/docs/build/checks/M0-a-08-notes.md:342): C11/C13 fallbacks unpinned: offsetFace part crossing the lattice box; clip unit case with sp=0, sq just below 0",
+     "evidence": "the source note N-c1c-3 (plat/docs/build/checks/M0-a-08-notes.md:342): «**N-c1c-3. Two pre-existing fallbacks of the replaced quotients have no test (C11, C13 survive).** C11 takes» — read it whole; the inventory's evidence: N-c1c-3",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N-c1c-5 (plat/docs/build/checks/M0-a-08-notes.md:359): provenance phrases in testkit support.ts / pins.test.ts header: cite C-0231, N-46 (4); move round names here (comment)",
+     "evidence": "the source note N-c1c-5 (plat/docs/build/checks/M0-a-08-notes.md:359): «**N-c1c-5. Provenance phrases left in testkit `support.ts`.** The `REFUSAL_MEASURE` comment still says \"measured by fix» — read it whole; the inventory's evidence: N-c1c-5",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    },
+    {
+     "line": "N1 (plat/docs/build/checks/M0-k-03-notes.md:14): unattracted comparison reads ours as a region (a duplicated face passes): M0-a-08's and M0-a-09's harnesses check §3.10 hard invariants (ringProblems) on every case",
+     "evidence": "the source note N1 (plat/docs/build/checks/M0-k-03-notes.md:14): «| N1 | The unattracted comparison reads ours as a region: the face count is the region's connected pieces (C-0144 (3)) and `symDiffArea` reads both sides by the non-zero rule. So a ring-level fault of ours that leaves the region unchanged, such as a duplicated face, passes an unattracted verdict. CONFIRMED in a scratch copy: ours `[sq, sq, tri]` against either oracle's union of `sq` and `tri` gives `pass` true, `failures` `[]` and `faces {ours 2, oracle 2}`; the same case marked attracted fails with `invalid: cross…» — read it whole; the inventory's evidence: N1; C-0144 (3)",
+     "required_change": "as the fix shape says, inside the item's owns; a PIN — a test red without the fix, in the round's mutant table — unless the row is comment-only or a choices row (then the text itself); the outcome (fixed / pinned / reported for a ruling) in the notes section with its evidence"
+    }
+   ]
   }
  ]
 }
