@@ -4,7 +4,13 @@
 usage:
   land_child.py inspect --branch wip/child-x02c1 --item M0-x-02 --owns <path>... --checks <checks file>...
   land_child.py land    --branch ... --item ... --owns ... --checks ... --records <name>=<lane>[=<owns>]... \
-                        --busy-file <busy.txt> --msg <commit message file> [--extra-records a,b]
+                        [--pre-records <name>=<lane>[=<owns,owns>]...] --stage-records <a,b> --busy-file <busy.txt> --msg <file>
+
+--pre-records (J366 (b)): records re-landed FIRST, in the order given, before --records — (1) a multi-round item's record and its
+build-notes record under each EARLIER round's lane (consolidate-1 before the final consolidate-2), so the earlier round's ledger
+rows have a claiming record (flow_stage's orphan rule, Q23 (b)); (2) an older record that claims a checks file this round changed
+(a first flow check's check-<id> claiming <id>-notes.md) under its own lane, so flow_stage finds the tree matching it. Several
+owns are comma-separated. --stage-records must name the tagged check record (check-<id>-<tag>; J366 (a)).
 
 inspect prints the branch head, the new lane lines, the colliding ledger rows, the records and the verdict head.
 land overlays the owns, the checks files and the records from the branch (per file), appends the lane lines main lacks,
@@ -192,17 +198,17 @@ def land(args):
             if t2 != t:
                 open(fp, 'w', encoding='utf-8').write(t2)
                 print(f'  citation {f}: ' + ', '.join(f'{o} -> {n}' for o, n in cmap.items()))
-    # 4. re-land and verify the records
-    for rec in args.records:
+    # 4. re-land and verify the records (the pre-records first, in order; J366 (b))
+    for rec in list(args.pre_records) + list(args.records):
         parts = rec.split('=')
         name, lane = parts[0], parts[1]
-        owns = f' --owns {parts[2]}' if len(parts) > 2 else ''
+        owns = ''.join(f' --owns {o}' for o in parts[2].split(',')) if len(parts) > 2 else ''
         rc, out = run(f'corepack pnpm landed -- {name} --lane {lane} --wave flow-7{owns}', cwd=f'{R}/plat')
         last = out.strip().splitlines()[-1] if out.strip() else ''
         print('landed', name, '|', last[:160])
         if rc != 0:
             sys.exit(f'landed failed for {name}')
-    for rec in args.records:
+    for rec in list(args.pre_records) + list(args.records):
         name = rec.split('=')[0]
         rc, out = run(f'corepack pnpm landed:verify -- flow-7 --item {name}', cwd=f'{R}/plat')
         lines = [l for l in out.strip().splitlines() if 'ELIFECYCLE' not in l]
@@ -243,7 +249,8 @@ def main():
     ap.add_argument('--item', required=True)
     ap.add_argument('--owns', nargs='+', required=True)
     ap.add_argument('--checks', nargs='*', default=[])
-    ap.add_argument('--records', nargs='*', default=[], help='name=lane[=owns]')
+    ap.add_argument('--records', nargs='*', default=[], help='name=lane[=owns,owns]')
+    ap.add_argument('--pre-records', dest='pre_records', nargs='*', default=[], help='name=lane[=owns,owns], re-landed first in order (J366 (b))')
     ap.add_argument('--stage-records', default='', help='the extra records flow_stage stages (comma list)')
     ap.add_argument('--busy-file')
     ap.add_argument('--msg')
