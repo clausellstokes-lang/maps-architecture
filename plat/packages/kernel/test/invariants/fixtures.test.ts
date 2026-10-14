@@ -12,13 +12,15 @@ import {
   rowsOn,
   setFaceHoles,
   VERTEX_FREE,
+  walkRing,
   type FaceId,
   type HalfEdgeId,
   type Plat,
   type VertexId,
 } from '../../src/arena/index.js';
 import { insertChain } from '../../src/insert/index.js';
-import { indexChange, indexOf, itemKey, ITEM_FACE, rebuildAtStageEnd, rebuildForFreeze } from '../../src/index/index.js';
+import { WALK_REACH_CM } from '../../src/insert/rewalk.js';
+import { HOT_PIXEL_CM, indexChange, indexOf, itemKey, ITEM_FACE, rebuildAtStageEnd, rebuildForFreeze } from '../../src/index/index.js';
 import { faceArea2 as itemsFaceArea2 } from '../../src/index/items.js';
 import {
   checkBatch,
@@ -37,13 +39,15 @@ import {
   type FaceBefore,
   type InvariantResult,
 } from '../../src/invariants/index.js';
+import { faceLeftOf, Meter } from '../../src/invariants/common.js';
 import type { KernelResult } from '../../src/num/index.js';
-import { clearFiner, removeEdges, setOwner, type CommitRecord, type Overlay } from '../../src/tx/index.js';
+import { clearFiner, removeEdges, setOwner, tx, type CommitRecord, type Overlay } from '../../src/tx/index.js';
 import type { Level, StageId } from '../../src/types/index.js';
 import { warp } from '../../src/warp/index.js';
 import { box, drag } from '../warp/support.js';
+import { ALONG_MIX, randomBatch, type Live, type Mix } from '../tx/fuzzgen.js';
 import { contentPrint, vertexAtPoint } from '../tx/support.js';
-import { allProblems, commit, facesAt, framed, must, pt, rowOf, suiteTx } from './support.js';
+import { allProblems, commit, facesAt, framed, must, pt, rng, rowOf, spec, suiteTx } from './support.js';
 
 const done = (): KernelResult<null> => ({ ok: true, value: null, warnings: [] });
 
@@ -315,6 +319,47 @@ describe('nesting', () => {
   });
 });
 
+describe('nesting: the record left of a half-edge, asked of the index past the walk\'s reach (N-s8c-1, C-0349 (1), C-0359)', () => {
+  /**
+   * A sliver's shape (N-s8c-1): an L1 route (0, 3000)–(4000, 3002), 0.3 to 0.4 cm above the lattice row y = 3000 over
+   * x ∈ [600, 800]; an L2 chain ends on it at (600, 3000) and (800, 3000) — two L2 Steiner vertices off the route on its
+   * lower side. The sub-edge between them has a ±0 box (y = 3000) the route misses, and its corner lies in the lower L1
+   * face: the upper face, whose walk holds the half-edge going +x, met the index only past the box.
+   */
+  function sliver(): { p: Plat; a: VertexId; b: VertexId } {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(0, 3000), pt(4000, 3002)], [{ role: 'way', entity: 'way:s' }], 'mandatory'));
+    commit(p, 2, (o) => insertChain(o, [pt(600, 3000), pt(600, 3500), pt(800, 3500), pt(800, 3000)], [{ role: 'kerb', entity: 'kerb:u' }], 'mandatory'));
+    return { p, a: v(p, 600, 3000), b: v(p, 800, 3000) };
+  }
+  it('the reach is rewalk.ts\'s one definition: ⌈4 · HOT_PIXEL_CM⌉ = 3 cm', () => {
+    expect(WALK_REACH_CM).toBe(Math.ceil(4 * HOT_PIXEL_CM));
+    expect(WALK_REACH_CM).toBe(3);
+  });
+  it('two L2 Steiner vertices off the L1 route: faceLeftOf finds the record whose walk holds the sub-edge (−1 with a ±0 box)', () => {
+    const { p, a, b } = sliver();
+    expect([p.vertices.level[a], p.vertices.level[b]]).toEqual([2, 2]);
+    const h = he(p, a, b);
+    expect(p.halfEdges.level[h >> 1]).toBe(1); // a sub-edge of the L1 route, both its ends L2
+    const L1 = facesAt(p, 1);
+    expect(L1).toHaveLength(2);
+    const holder = (g: HalfEdgeId): FaceId => {
+      const ring = new Set<HalfEdgeId>(walkRing(p, 1, g));
+      const f = L1.find((x) => ring.has(p.faces[1].outer[x]) || faceHoles(p, 1, x).some((k) => ring.has(k)));
+      if (f === undefined) throw new Error('fixture: no L1 record holds the half-edge');
+      return f;
+    };
+    const up = holder(h);
+    const down = holder(h ^ 1);
+    expect(up).not.toBe(down);
+    const m = new Meter();
+    expect(faceLeftOf(p, 1, h, m)).toBe(up);
+    expect(faceLeftOf(p, 1, h ^ 1, new Meter())).toBe(down);
+    expect(m.read().faces).toBe(2); // both L1 records are candidates: the exact test decides
+    expect(allProblems(p)).toEqual([]);
+  });
+});
+
 describe('placement-bound', () => {
   it('a kerb end placed on the way (a finer vertex on a coarser run) holds; moved 3 cm off the route fails', () => {
     const { p, r } = base();
@@ -398,6 +443,186 @@ describe('level-consistency', () => {
     p.vertices.level[v(p, 2000, 1000)] = 0; // coarser than the L1 way and the L2 kerb at it, and no row
     fails(checkBatch(r, p), 'level-consistency');
   });
+});
+
+describe('level-consistency at every level between (N-s6-2, C-0359): a finer vertex inside one run at each level', () => {
+  /** An L1 way at x = 2000 and an L3 chain ending on it at (2000, 1000): an L3 Steiner vertex on two L1 sub-edges. */
+  function deep(): { p: Plat; r: CommitRecord; w: VertexId; up: HalfEdgeId; down: HalfEdgeId } {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:v' }], 'mandatory'));
+    const r = commit(p, 3, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000)], [{ role: 'kerb', entity: 'kerb:3' }], 'mandatory')).record as CommitRecord;
+    const w = v(p, 2000, 1000);
+    return { p, r, w, up: he(p, w, v(p, 2000, 4000)), down: he(p, w, v(p, 2000, 0)) };
+  }
+  it('the row\'s clause reads the run at every level between', () => {
+    expect(KERNEL_ROWS.find((x) => x.name === 'level-consistency')?.clause).toBe('an edge\'s birth level is the lowest among its rows; no vertex coarser than everything at it; a finer vertex inside one run at every level between: its coarser edges exactly two, of one level, with identical rows of each level r from theirs to its own − 1 (of level ≤ 1 at r = 1)');
+  });
+  it('an L3 vertex on L1 edges whose L2 rows differ fails, naming the vertex, the level and the two rows', () => {
+    const { p, r, w, up, down } = deep();
+    expect(p.vertices.level[w]).toBe(3);
+    expect([p.halfEdges.level[up >> 1], p.halfEdges.level[down >> 1]]).toEqual([1, 1]);
+    expect(holds(checkBatch(r, p), 'level-consistency').subjects).toBeGreaterThan(0);
+    addRole(p, up, { role: 'kerb', entity: 'kerb:x' }, 2); // an L2 row on one side of the L3 vertex only
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (2000, 1000) (L3), finer than its L1 edges, lies inside no single L2 run: their rows of level 2 differ ([1/3/0] and [])',
+    ]);
+  });
+  it('the same L2 row on both sides holds: the in-between rows agree', () => {
+    const { p, r, up, down } = deep();
+    addRole(p, up, { role: 'kerb', entity: 'kerb:x' }, 2);
+    addRole(p, down, { role: 'kerb', entity: 'kerb:x' }, 2);
+    holds(checkBatch(r, p), 'level-consistency');
+  });
+  it('one problem per vertex, at the first level that differs: the edges\' own level keeps its text', () => {
+    const { p, r, up } = deep();
+    addRole(p, up, { role: 'kerb', entity: 'kerb:x' }, 2);
+    addRole(p, up, { role: 'way', entity: 'way:x' }, 1); // the L1 rows differ too: the run is broken at L1 already
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (2000, 1000) (L3), finer than its edges, lies inside no single run',
+    ]);
+  });
+  it('coarser edges of two levels at a finer vertex: no single run', () => {
+    const { p, r, up } = deep();
+    p.halfEdges.level[up >> 1] = 2; // its rows L1: the edge clause fails as well, on the record's edges
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toContain('level-consistency: the vertex (2000, 1000) (L3), finer than its edges, lies inside no single run');
+  });
+  it('an L2 vertex on L0 edges reads level ≤ 1 at r = 1: an L1 row on one side fails', () => {
+    const p = framed();
+    const r = commit(p, 2, (o) => insertChain(o, [pt(1000, 1000), pt(1000, 0)], [{ role: 'kerb', entity: 'kerb:2' }], 'mandatory')).record as CommitRecord;
+    const w = v(p, 1000, 0);
+    expect(p.vertices.level[w]).toBe(2);
+    const east = he(p, w, v(p, 4000, 0));
+    expect(p.halfEdges.level[east >> 1]).toBe(0);
+    holds(checkBatch(r, p), 'level-consistency');
+    addRole(p, east, { role: 'way', entity: 'way:e' }, 1);
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (1000, 0) (L2), finer than its L0 edges, lies inside no single L1 run: their rows of level ≤ 1 differ ([0/2/0;9/0/0] and [9/0/0])',
+    ]);
+  });
+  // Round S4 (checks/M0-a-14-s3.md line 3, mutant B11-upto-e+1): the loop reads every r up to lv − 1, not the first
+  // level or two above e. Vertices three levels finer than their coarser edges (lv − e = 3), whose rows agree at r = e
+  // and r = e + 1 and differ at r = e + 2 only.
+  /** An L3 kerb ending on the L0 frame at (1000, 0): an L3 Steiner vertex on two L0 frame sub-edges. */
+  function onFrame(): { p: Plat; r: CommitRecord; w: VertexId; east: HalfEdgeId; west: HalfEdgeId } {
+    const p = framed();
+    const r = commit(p, 3, (o) => insertChain(o, [pt(1000, 1000), pt(1000, 0)], [{ role: 'kerb', entity: 'kerb:3' }], 'mandatory')).record as CommitRecord;
+    const w = v(p, 1000, 0);
+    return { p, r, w, east: he(p, w, v(p, 4000, 0)), west: he(p, w, v(p, 0, 0)) };
+  }
+  it('an L3 vertex on L0 edges whose rows agree at L0 and L1 and differ at L2 fails at r = 2 (lv − e = 3)', () => {
+    const { p, r, w, east, west } = onFrame();
+    expect(p.vertices.level[w]).toBe(3);
+    expect([p.halfEdges.level[east >> 1], p.halfEdges.level[west >> 1]]).toEqual([0, 0]);
+    holds(checkBatch(r, p), 'level-consistency');
+    addRole(p, east, { role: 'kerb', entity: 'kerb:x' }, 2); // an L2 row on one side only: L0 and ≤ 1 rows still agree
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (1000, 0) (L3), finer than its L0 edges, lies inside no single L2 run: their rows of level 2 differ ([1/2/0] and [])',
+    ]);
+  });
+  it('the same L2 row on both sides of the L3 vertex on L0 edges holds', () => {
+    const { p, r, east, west } = onFrame();
+    addRole(p, east, { role: 'kerb', entity: 'kerb:x' }, 2);
+    addRole(p, west, { role: 'kerb', entity: 'kerb:x' }, 2);
+    holds(checkBatch(r, p), 'level-consistency');
+  });
+  /** An L1 way at x = 2000 and an L4 chain ending on it at (2000, 1000): an L4 Steiner vertex on two L1 sub-edges. */
+  function deeper(): { p: Plat; r: CommitRecord; w: VertexId; up: HalfEdgeId; down: HalfEdgeId } {
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(2000, 0), pt(2000, 4000)], [{ role: 'way', entity: 'way:v' }], 'mandatory'));
+    const r = commit(p, 4, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000)], [{ role: 'kerb', entity: 'kerb:4' }], 'mandatory')).record as CommitRecord;
+    const w = v(p, 2000, 1000);
+    return { p, r, w, up: he(p, w, v(p, 2000, 4000)), down: he(p, w, v(p, 2000, 0)) };
+  }
+  it('an L4 vertex on L1 edges whose rows agree at L1 and L2 and differ at L3 fails at r = 3 (lv − e = 3)', () => {
+    const { p, r, w, up, down } = deeper();
+    expect(p.vertices.level[w]).toBe(4);
+    expect([p.halfEdges.level[up >> 1], p.halfEdges.level[down >> 1]]).toEqual([1, 1]);
+    holds(checkBatch(r, p), 'level-consistency');
+    addRole(p, up, { role: 'kerb', entity: 'kerb:x' }, 2); // the same L2 row on both sides: the L2 run holds
+    addRole(p, down, { role: 'kerb', entity: 'kerb:x' }, 2);
+    addRole(p, up, { role: 'kerb', entity: 'kerb:y' }, 3); // an L3 row on one side only
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (2000, 1000) (L4), finer than its L1 edges, lies inside no single L3 run: their rows of level 3 differ ([1/4/0] and [])',
+    ]);
+  });
+  it('the same L2 and L3 rows on both sides of the L4 vertex on L1 edges hold', () => {
+    const { p, r, up, down } = deeper();
+    for (const h of [up, down]) {
+      addRole(p, h, { role: 'kerb', entity: 'kerb:x' }, 2);
+      addRole(p, h, { role: 'kerb', entity: 'kerb:y' }, 3);
+    }
+    holds(checkBatch(r, p), 'level-consistency');
+  });
+  /** An L4 kerb ending on the L0 frame at (1000, 0): an L4 Steiner vertex on two L0 frame sub-edges (lv − e = 4). */
+  function deepest(): { p: Plat; r: CommitRecord; w: VertexId; east: HalfEdgeId; west: HalfEdgeId } {
+    const p = framed();
+    const r = commit(p, 4, (o) => insertChain(o, [pt(1000, 1000), pt(1000, 0)], [{ role: 'kerb', entity: 'kerb:4' }], 'mandatory')).record as CommitRecord;
+    const w = v(p, 1000, 0);
+    return { p, r, w, east: he(p, w, v(p, 4000, 0)), west: he(p, w, v(p, 0, 0)) };
+  }
+  it('an L4 vertex on L0 edges whose rows agree at L0, L1 and L2 and differ at L3 fails at r = 3 (lv − e = 4, the deepest)', () => {
+    const { p, r, w, east, west } = deepest();
+    expect(p.vertices.level[w]).toBe(4);
+    expect([p.halfEdges.level[east >> 1], p.halfEdges.level[west >> 1]]).toEqual([0, 0]);
+    holds(checkBatch(r, p), 'level-consistency');
+    addRole(p, east, { role: 'kerb', entity: 'kerb:x' }, 2); // the same L2 row on both sides
+    addRole(p, west, { role: 'kerb', entity: 'kerb:x' }, 2);
+    addRole(p, east, { role: 'kerb', entity: 'kerb:y' }, 3); // an L3 row on one side only
+    expect(fails(checkBatch(r, p), 'level-consistency').problems).toEqual([
+      'level-consistency: the vertex (1000, 0) (L4), finer than its L0 edges, lies inside no single L3 run: their rows of level 3 differ ([1/3/0] and [])',
+    ]);
+    addRole(p, west, { role: 'kerb', entity: 'kerb:y' }, 3); // and on both: the run holds again
+    holds(checkBatch(r, p), 'level-consistency');
+  });
+});
+
+/** HEAVY: fuzz.test.ts's regressions' mix (× 15 485 863), as `test/tx/readable.test.ts` reads it. */
+const HEAVY: Mix = { way: 0.2, lane: 0.3, along: 0.25 };
+
+describe('level-consistency on Q54\'s fourteen arenas (N-s6-2; checks/M0-a-06-s6.md): the in-between rows read', () => {
+  // Each sequence of `test/tx/readable.test.ts` replayed to the batch that broke it before M0-a-06's round S6, and the
+  // one vertex that round moved (C-0356: L3 → L2 at these coordinates) put back at L3 — the arena the encoder refused,
+  // an L3 vertex inside an L2 run whose L2 rows change at it — read by the row over the whole arena.
+  const Q54: readonly { seed: number; mult: number; mix: Mix; batch: number; x: number; y: number; rows: string }[] = [
+    { seed: 91, mult: 104_729, mix: ALONG_MIX, batch: 10, x: 1110, y: 791, rows: '[] and [1/5/0;1/6/0]' },
+    { seed: 235, mult: 104_729, mix: ALONG_MIX, batch: 14, x: 3002, y: 1064, rows: '[] and [1/6/0]' },
+    { seed: 307, mult: 104_729, mix: ALONG_MIX, batch: 7, x: 1555, y: 2313, rows: '[1/5/0] and []' },
+    { seed: 719, mult: 104_729, mix: ALONG_MIX, batch: 10, x: 1603, y: 2179, rows: '[] and [1/5/0;1/7/0]' },
+    { seed: 980, mult: 104_729, mix: ALONG_MIX, batch: 7, x: 2856, y: 2732, rows: '[] and [1/4/0]' },
+    { seed: 106, mult: 15_485_863, mix: HEAVY, batch: 18, x: 2398, y: 2399, rows: '[] and [1/10/0]' },
+    { seed: 210, mult: 15_485_863, mix: HEAVY, batch: 12, x: 3300, y: 3035, rows: '[] and [1/9/0]' },
+    { seed: 213, mult: 15_485_863, mix: HEAVY, batch: 11, x: 1480, y: 1041, rows: '[] and [1/4/0]' },
+    { seed: 333, mult: 15_485_863, mix: HEAVY, batch: 10, x: 2726, y: 1325, rows: '[1/9/0] and []' },
+    { seed: 361, mult: 15_485_863, mix: HEAVY, batch: 19, x: 2783, y: 2771, rows: '[1/10/0;1/13/0;1/9/0] and []' },
+    { seed: 395, mult: 15_485_863, mix: HEAVY, batch: 10, x: 3426, y: 3439, rows: '[1/6/0] and []' },
+    { seed: 402, mult: 15_485_863, mix: HEAVY, batch: 9, x: 969, y: 2146, rows: '[1/8/0] and []' },
+    { seed: 443, mult: 15_485_863, mix: HEAVY, batch: 13, x: 726, y: 719, rows: '[] and [1/6/0]' },
+    { seed: 739, mult: 15_485_863, mix: HEAVY, batch: 19, x: 2536, y: 3540, rows: '[] and [1/12/0]' },
+  ];
+  for (const s of Q54) {
+    it(`seed ${s.seed} × ${s.mult}, batch ${s.batch}: the vertex (${s.x}, ${s.y}) back at L3 fails the row`, () => {
+      const r = rng(s.seed * s.mult);
+      const p = framed();
+      const live: Live = { ways: [], kerbs: [], next: 0 };
+      for (let step = 0; step <= s.batch; step++) {
+        const snapshot: Live = { ways: live.ways.slice(), kerbs: live.kerbs.slice(), next: live.next };
+        const b = randomBatch(p, live, r, s.mix);
+        const res = tx(p, spec(b.level, { rederivesFrom: 0 as never }), b.fn);
+        if (!res.ok) {
+          live.ways = snapshot.ways;
+          live.kerbs = snapshot.kerbs;
+        }
+        if (step === s.batch) expect(res.ok).toBe(true);
+      }
+      const w = v(p, s.x, s.y);
+      expect(p.vertices.level[w]).toBe(2);
+      const whole = wholeRecord(p);
+      holds(checkBatch(whole, p), 'level-consistency');
+      p.vertices.level[w] = 3;
+      const res = fails(checkBatch(whole, p), 'level-consistency');
+      expect(res.problems).toEqual([`level-consistency: the vertex (${s.x}, ${s.y}) (L3), finer than its L1 edges, lies inside no single L2 run: their rows of level 2 differ (${s.rows})`]);
+    }, 120_000);
+  }
 });
 
 describe('held-vertices', () => {

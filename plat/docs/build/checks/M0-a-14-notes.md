@@ -223,3 +223,100 @@ to `Set`s, and a repeated `add` changes neither content nor order).
 | N-c1-5 | **simple-faces' touch and overlap half of the contact test has no isolating control (mutant `V2-meet-no-touch` survives the near set).** In the mutant, `segmentsMeet` counts only proper crossings. The checker's controls ran in the mirror. C-touch moves a lane end onto the interior of a way edge. C-overlap lays a lane edge along a way edge with no shared vertex. On the real code, simple-faces fails both with `… cross`. Under the mutant simple-faces holds, but clearance still fails both, so the batch's verdict is the same. This is the same class as note 2 and predates the round, because V-2's truth table is shown equal on 465 536 inputs. | Add C-touch and C-overlap to the simple-faces fixture, asserting the `cross` problem. | M4 |
 | N-c1-6 | **Comment wrap, cosmetic.** In `invariants/batch.ts`, one line of the rewritten `indexFreshness` doc (line 599) is 137 characters wide (the line that ends "(2) The changed items the record names — its created faces, its moved, promoted and"). The file otherwise wraps at 120. The text matches the code. | Rewrap the next time the file is edited. | M4 |
 | N-c1-7 | **A stale sentence in a file outside the owns (for the session; owner M0-a-03).** The `faceArea2` doc in `index/items.ts` says "Exported from this file only: the package's `faceArea2` is the invariant suite's, an equal reading pinned equal to this one (C-0345)". After V-1 the package's `faceArea2` is this same function, re-exported through `invariants/batch.ts`. The new fixture "the measure is index/items.ts's faceArea2 under the suite's name" pins `toBe`. | When M0-a-03's file is next edited, reword it to "the package exports this body under the suite's name (invariants/batch.ts, C-0357)". | session / M0-a-03 |
+
+## Round S3 — session fix round on Q56 and Q61 (lane `build/M0-a-14-fix-s3`, flow flow-7, 2026-10-13)
+
+The hardening phase's first round for this item (J237 (2)), on the two lines the session wrote: `faceLeftOf`'s index
+box (Q56; `checks/M0-a-05-notes.md` N-s8-1, N-s8c-1) and the level-consistency row's every-level reading (Q61;
+`checks/M0-a-06-notes.md` N-s6-2). Choices row C-0359.
+
+### What changed
+
+* `src/invariants/common.ts` `faceLeftOf`: the segment box padded by `WALK_REACH_CM` (3 cm), imported by path from
+  `../insert/rewalk.js` (its one definition; C-0349 (1)); no cycle (rewalk.ts's import closure holds no `invariants/`
+  file), no barrel touched (J263 Q1). The exact ring-membership test and the one caller (`batch.ts`, nesting's island
+  host) are unchanged.
+* `src/invariants/batch.ts` `levelConsistency`: a vertex finer than its coarser edges — exactly two, of one level e —
+  has their rows compared at every level r from e to its level − 1 (of level ≤ 1 at r = 1), one problem at the first
+  level that differs: at r = e the old text verbatim, above it `the vertex (x, y) (Lv), finer than its Le edges, lies
+  inside no single Lr run: their rows of level r differ ([…] and […])`.
+* `src/invariants/rows.ts`: the level-consistency clause names the every-level reading (no new row).
+* `test/invariants/fixtures.test.ts`: the sliver pin (`faceLeftOf`, the reach = 3), five level-consistency pins and the
+  fourteen Q54 arenas, every new text pinned verbatim.
+
+### Evidence
+
+* **NO-SHIFT** (mirror probe over every batch of the item's registered families: B-FUZZ 20 × 18 at the PR size, the
+  cost model's 12 × 16, the grid k = 4 – 16, 100 warp cases; outcome, suite batch results with meters, `allProblems`
+  and `checkCI` after each): 804 lines byte-identical before and after, sha-256 `224636f0e70f852f…`.
+* **Refusal census** before = after: committed 419, E_KEPT 130, E_INVARIANT 3 (stretch's role-parts refusal), warp
+  100 / 100; suite refusals 0 → 0.
+* **Cross matrix** (mirror): the pre-round tests on the round's sources 108 / 108; the round's tests on the pre-round
+  sources 18 failed (exactly the new pins: the sliver, the clause, the in-between L2 and `≤ 1` texts, Q54 14 / 14) |
+  112 passed.
+* **Mutants** (J183, `--bail=1` on test/invariants, restored and `cmp`'d each): pad 0 KILLED (`expected -1 to be +0`);
+  own-level-only loop, `≤ 1` → `= r`, `r ≤ lv`, own level skipped, no break, old text for the in-between level, the
+  own-level filter at every level, the not-one-run text dropped, the level order reversed, the holes test dropped —
+  KILLED; pad 1 survives (N-s3-1).
+
+### Routed, not built (the round's brief)
+
+* tx's rule 3 (c) `single` (`tx/relevel.ts:665`) reading every level once the row exists, and its fixture where
+  `single` must refuse a mismatched pair (N-s6c-3) — **M0-a-06's hardening round**.
+* `tx/relevel.ts:155` `recordLeftOf`'s ±1 cm box (N-s8-1's sibling site) — **M0-a-06's next round**.
+* §3.10's level-consistency sentence gains the every-level reading in the session's hardening pass of the design text.
+
+| id | note | what would close it | milestone |
+|---|---|---|---|
+| N-s3-1 | **The reach is pinned at one level of Steiner offset (mutant pad 1 survives).** The sliver pin's L2 vertices stand 0.3 – 0.4 cm off the L1 route, so a 1 cm pad already reaches the holder; the reach's derivation (C-0349 (1)) covers up to four levels of offset (≤ 2.84 cm). The reach's value is pinned (`WALK_REACH_CM` = ⌈4 · HOT_PIXEL_CM⌉ = 3) and `faceLeftOf` reads it, but no arena puts a sub-edge ≥ 1 cm off its route. | A sliver built over two or three levels whose roundings fall on one side (each level's route slanted off the lattice row), reaching ≥ 1 cm, killing pads 1 and 2. | M4 |
+| N-s3-2 | **The step3-5 oracle `allProblems` (outside the owns) still passes Q54's arenas.** The suite's level-consistency row now fails all fourteen (fixtures), but the independent oracle M0-a-04 / M0-a-05 wrote reads no route constancy. | The oracle's owner adds an every-level run-constancy check, or the suites keep `readable` (tx's support) as that oracle. | session |
+| N-s3-3 | **N-c1-6's comment rewrap in `batch.ts` stays open.** Not done in this round, to keep RELATED's inputs fixed while it ran. | Rewrap at the next edit of the file. | M4 |
+
+## Notes from the closing check of round S3 (lane `check/M0-a-14-close-s3`, 2026-10-14)
+
+None of these rows fails the round. The verdict, and its one blocker (mutant `B11-upto-e+1`, line 3), are in
+`checks/M0-a-14-s3.md`, and the mutant ids below are the ones that file uses.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s3c-1 | **N-s3-1 holds, and the checker found no reachable input that separates pads 1 and 2 from the reach.** The checker's stacked-offset search ran 300 random slivers and 400 nested L2 ⊃ L3 ⊃ L4 arenas on one L1 route (1 600 L4 chains committed through `insertChain`). Together that is 177 562 `faceLeftOf` calls against an exhaustive ring-membership truth. Pad 0 missed 6 207 times; pads 1, 2 and 3 missed 0 times. The families gave 135 702 calls, with 0 misses at every pad. Q56's class is easy to reach by construction, so the round's fix matters. The reach's margin above 1 cm is unproven by any arena. | Keep N-s3-1's pin when a construction ≥ 1 cm off its route exists. Until then the 3 cm reach is the derived bound (C-0349 (1)). | M4 |
+| N-s3c-2 | **Survivors judged equivalent (one line each).** `B7-prec` (the `≤ 1` class at r = e = 1) and `B14-ownlevel-le` (rows of level ≤ e at r = e) are equivalent: an edge carries no row below its birth level, which is the row's own first clause and §2.2 rule 3. `B13-nosort` (rows compared unsorted) leaves the dump identical: the two sub-edges of one split edge carry their rows in one order. `A6-pad300` changes only the nesting meter (11 dump lines, +1 face) and every verdict is identical. The cost bar (≤ 12 × touched) does not bound the pad. | None needed. If ever wanted: a fixture where the two sides carry the same rows in different stored order, for B13. | M4 |
+| N-s3c-3 | **The checker's constructions met only kernel kept-content refusals.** Coarser chains inserted beside finer ones with no clear were refused 1 659 times, all E_KEPT: inside a finer face ×1 217, within attractCm of a finer vertex ×340, of a finer edge ×101, would share a finer edge ×1. The families give 178 E_KEPT, the same before and after. The input is a coarse insertion into kept finer content with no `rederivesFrom`. That is the class of `checks/M0-a-06-notes.md` N-c1-2 (M0-a-05's open reading), not this item's. | The session, with N-c1-2. | session |
+
+## Round S4 — fix round on the closing check of S3 (lane `build/M0-a-14-fix-s4`, flow flow-7, 2026-10-14)
+
+The closing check of S3 (`checks/M0-a-14-s3.md` line 3) failed the round on one new blocker: mutant `B11-upto-e+1`
+(`if (a === b) continue;` → `if (a === b || r > e + 1) continue;`) survived, because every pin compared at most one
+level above the coarser edges' level e. Test only, inside the owns; no source file changed (the eight
+`src/invariants/` files hash equal to S3's landed record), so NO-SHIFT and the refusal census hold by construction
+(S3's census stands: committed 419, E_KEPT 130, E_INVARIANT 3, warp 100 / 100; suite refusals 0 → 0). No choices row:
+the round decides nothing; C-0359 names the row and its test.
+
+### What changed
+
+* `test/invariants/fixtures.test.ts`, describe 'level-consistency at every level between (N-s6-2, C-0359)': five tests
+  on arenas committed through `insertChain`, each with rows added by `addRole`.
+  * L3 kerb end on the L0 frame at (1000, 0) (lv − e = 3), an L2 row on one side only: rows agree at r = 0 and r = 1,
+    differ at r = 2 — `level-consistency: the vertex (1000, 0) (L3), finer than its L0 edges, lies inside no single L2
+    run: their rows of level 2 differ ([1/2/0] and [])`, pinned verbatim; its agreeing control (the L2 row on both
+    sides) holds.
+  * L4 kerb end on an L1 way at (2000, 1000) (lv − e = 3), the same L2 row on both sides, an L3 row on one side: rows
+    agree at r = 1 and r = 2, differ at r = 3 — `… (L4), finer than its L1 edges, lies inside no single L3 run: their
+    rows of level 3 differ ([1/4/0] and [])`, pinned verbatim; its agreeing control (L2 and L3 rows on both) holds.
+  * L4 kerb end on the L0 frame at (1000, 0) (lv − e = 4, the deepest the five levels allow): rows agree at r = 0, 1, 2
+    and differ at r = 3 — `… (L4), finer than its L0 edges, lies inside no single L3 run: their rows of level 3 differ
+    ([1/3/0] and [])`, pinned verbatim; the L3 row added on the other side, it holds again.
+
+### Evidence
+
+* **Mutants** (J183, the lane's own mirror, isolation proven, restored and `cmp`'d): `B11-upto-e+1` KILLED (the three
+  new negative pins red; `--bail=1` over test/invariants red at the first); `B12-upto-e+2` (`r > e + 2`, reads up to
+  r = e + 2) KILLED by the lv − e = 4 pin — the loop is now pinned at every reachable depth. Agreeing controls green
+  under both.
+* **Gates**: install --frozen-lockfile 0, lint 0 (eslint 1139 files, probe-red ok), build 0, NEAR test/invariants
+  4 files 135 / 135, RELATED@1000 over `src/invariants/{common,batch,rows}.ts` (the item's S3 sources, unchanged)
+  331 files 4180 / 4180, exit 0 (W = 1, 6112 s); the gates and both mutants re-confirmed after a container restart
+  (install 0, lint 0, build 0, NEAR 135 / 135, B11 and B12 KILLED in a fresh isolated mirror).
+
+Routed items of S3 (tx (c) `single` every-level and N-s6c-3's fixture, `recordLeftOf`'s box → M0-a-06) stand as
+written; nothing new routed.
