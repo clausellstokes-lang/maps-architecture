@@ -2,10 +2,8 @@
 // holds after S5 (the plaza, the gates, the arterials, the wall trace), the land the districts hold, the here-bar (the
 // cuts give the shares' land within one cell), the middle band, the per-face values over every L1 face.
 import { describe, expect, it } from 'vitest';
-import { fieldsCells, fieldsDigest, type ScalarField } from '../../src/index.js';
-import { fieldCity, pass1, TABLES } from './support.js';
-
-const CELLS = fieldsCells(TABLES);
+import { fieldsDigest, type ScalarField } from '../../src/index.js';
+import { CELLS, fieldCity, pass1 } from './support.js';
 
 describe('pass 1 on the flat CITY fixture through S3, S4 and S6', () => {
   it('the bar holds on all three fields; the sources are the plaza, markets, main streets, gates and the wall; two runs one digest', { timeout: 300_000 }, () => {
