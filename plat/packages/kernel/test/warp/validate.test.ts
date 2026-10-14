@@ -2,7 +2,8 @@
 // one vertex per lattice point and minEdge on a mover, the rotation at a vertex, and §3.10's placement bound — a slid or
 // re-seated vertex more than the hot pixel off its route as the step leaves it fails the step. And the shared parts the
 // warp reads by path (C-0314, C-0321): `nearestLattice` is the placement rule's nearest of four, and the distances and
-// bounds it reads from their homes hold the values the warp needs.
+// bounds it reads from their homes hold the values the warp needs. And the placement rule's own candidates in warp.ts —
+// test (i) and the band's order — on N-r10-1's input and on a tie (hardening round S1).
 import { describe, expect, it } from 'vitest';
 import { insertChain } from '../../src/insert/index.js';
 import { HOT_PIXEL_SQ, nearestLatticePoint } from '../../src/insert/placement.js';
@@ -10,6 +11,7 @@ import { BOX_RANGE, segmentCloserThan } from '../../src/num/exact.js';
 import { LATTICE } from '../../src/num/index.js';
 import { routeOf } from '../../src/warp/held.js';
 import { nearestLattice } from '../../src/warp/index.js';
+import { onRoutePixel, hotPixelCandidates } from '../../src/warp/warp.js';
 import { closerThan, heldRunProblem, inTriangle, nestingProblem, placementBoundProblem, rotationKept, stepProblem, vertexProblem } from '../../src/warp/validate.js';
 import { padBox, StepView } from '../../src/warp/view.js';
 import { commit, framed, must, pt, vertexAtPoint } from './support.js';
@@ -95,6 +97,34 @@ describe('the view\'s checks', () => {
     expect(nestingProblem(out, [ring[0], ...chain])).toMatch(/^nesting: the vertex \(1800, 1500\) moved to \(2050, 1500\)/);
   });
 
+  it('nesting: a free chain moved with its ring keeps its side though its old point lies outside the moved ring (P-N3b)', () => {
+    // N-r10c-2: the square ring (1 000, 1 000)–(2 000, 2 000) and a chain (1 100, 1 500)–(1 200, 1 500) inside it, all
+    // 800 cm east. The chain's old point is read against the ring as it stood (inside), its new point against the moved
+    // ring (inside): no change. Read against the moved ring, (1 100, 1 500) would be outside it.
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 1000), pt(2000, 1000), pt(2000, 2000), pt(1000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory', { closed: true }));
+    commit(p, 2, (o) => insertChain(o, [pt(1100, 1500), pt(1200, 1500)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
+    const ring = [[1000, 1000], [2000, 1000], [2000, 2000], [1000, 2000]].map(([x, y]) => vertexAtPoint(p, x, y));
+    const chain = [[1100, 1500], [1200, 1500]].map(([x, y]) => vertexAtPoint(p, x, y));
+    expect([...ring, ...chain].every((v) => v >= 0)).toBe(true);
+    const view = new StepView(p, G);
+    for (const v of [...ring, ...chain]) view.set(v, p.vertices.x[v] + 800, p.vertices.y[v]);
+    expect(nestingProblem(view, [...ring, ...chain])).toBeNull();
+  });
+
+  it('the mover path: a chain carried whole over an unmoved edge fails though no other check of the step sees it', () => {
+    // Note 1: the L2 chain (1 900, 1 900)–(2 000, 1 900) set 160 cm north, over the L1 way (1 000, 2 000)–(3 000, 2 000).
+    const p = framed();
+    commit(p, 1, (o) => insertChain(o, [pt(1000, 2000), pt(3000, 2000)], [{ role: 'way', entity: 'way:1' }], 'mandatory'));
+    commit(p, 2, (o) => insertChain(o, [pt(1900, 1900), pt(2000, 1900)], [{ role: 'kerb', entity: 'lane:1' }], 'mandatory'));
+    const chain = [[1900, 1900], [2000, 1900]].map(([x, y]) => vertexAtPoint(p, x, y));
+    const view = new StepView(p, G);
+    for (const v of chain) view.set(v, p.vertices.x[v], 2060);
+    for (const v of chain) expect(vertexProblem(view, v)).toBeNull();
+    expect(nestingProblem(view, chain)).toBeNull();
+    expect(stepProblem(view, chain, new Set())).toMatch(/^swept: the path of \(1900, 1900\) to \(1900, 2060\) crosses the unmoved edge \(1000, 2000\)–\(3000, 2000\)/);
+  });
+
   it('a held finer vertex whose run\'s end moves off its line fails (§3.6 held (5)); with its run\'s ends unmoved it passes', () => {
     const p = kerb();
     const s = vertexAtPoint(p, 1500, 1000);
@@ -175,5 +205,46 @@ describe('the shared distances and bounds the warp reads by path (C-0314, C-0321
     expect(padBox(-30_000_000, -20_000_000, 30_000_000, 16_777_200, 25)).toEqual({ minX: -16_777_216, minY: -16_777_216, maxX: 16_777_216, maxY: 16_777_216 });
     expect(padBox(10.5, -3.5, 20.2, 7, 2)).toEqual({ minX: 8, minY: -6, maxX: 23, maxY: 9 });
     expect(closerThan).toBe(segmentCloserThan);
+  });
+});
+
+describe('the placement rule\'s candidates in warp.ts: test (i) and the band\'s order (N-r10c-3, note 5 / N-r10c-4)', () => {
+  it('N-r10-1\'s input: 77 candidates; test (i) refuses the nearest (P off the line) and the band\'s 16th, (−8 295 507, 8 303 361)', () => {
+    // The band's rounded edge holds (−8 295 507, 8 303 361): o = 4 237, o² = 17 952 169 > 0.71² · 35 612 317 =
+    // 17 952 168.9997 (C-0338 (4), N-r10-1). A hot pixel read at 0.75² would let both through.
+    const [ax, ay, bx, by, px, py] = [-8_300_000, 8_300_000, -8_295_221, 8_303_574, -8_295_502.8, 8_303_364.1];
+    const near = nearestLattice(px, py);
+    expect(near).toEqual({ x: -8_295_503, y: 8_303_364 });
+    const rest = hotPixelCandidates(ax, ay, bx, by, px, py, near);
+    expect(rest).not.toBeNull();
+    const all = [near, ...(rest ?? [])];
+    expect(all.length).toBe(77);
+    expect(all[16]).toEqual({ x: -8_295_507, y: 8_303_361 });
+    expect(all.flatMap((q, i) => (onRoutePixel(ax, ay, bx, by, q.x, q.y) ? [] : [i]))).toEqual([0, 16]);
+  });
+
+  it('test (i): strictly between the ends, within 0.71 cm of the line — exact at the boundary', () => {
+    // The route (1 000, 1 000)–(2 000, 1 001): o = 1 000 · (qy − 1 000) − 1 · (qx − 1 000).
+    expect(onRoutePixel(1000, 1000, 2000, 1001, 1295, 1001)).toBe(true); // o = 705: 705² ≤ 0.71² · 1 000 001
+    expect(onRoutePixel(1000, 1000, 2000, 1001, 1288, 1001)).toBe(false); // o = 712
+    expect(onRoutePixel(1000, 1000, 2000, 1000, 1000, 1000)).toBe(false); // an end
+    expect(onRoutePixel(1000, 1000, 2000, 1000, 2000, 1000)).toBe(false);
+    expect(onRoutePixel(1000, 1000, 2000, 1000, 1001, 1000)).toBe(true);
+    expect(onRoutePixel(1000, 1000, 2000, 1000, 2001, 1000)).toBe(false); // beyond an end
+  });
+
+  it('the band\'s ties: equidistant points come y, then x', () => {
+    // The route (1 000, 2 000)–(2 000, 1 000) through P = (1 500.5, 1 499.5): the four lattice points around P lie 0.71 cm
+    // from it; the nearest is (1 500, 1 499) (y, then x), and the band's next three, all as near, come (1 501, 1 499),
+    // (1 500, 1 500), (1 501, 1 500). Read x first, (1 500, 1 500) would come before (1 501, 1 499).
+    const near = nearestLattice(1500.5, 1499.5);
+    expect(near).toEqual({ x: 1500, y: 1499 });
+    expect((hotPixelCandidates(1000, 2000, 2000, 1000, 1500.5, 1499.5, near) ?? []).slice(0, 5)).toEqual([
+      { x: 1501, y: 1499 },
+      { x: 1500, y: 1500 },
+      { x: 1501, y: 1500 },
+      { x: 1501, y: 1498 },
+      { x: 1502, y: 1499 },
+    ]);
   });
 });
