@@ -31,7 +31,7 @@ export interface PerimeterOptions {
   readonly tables?: TableView;
 }
 
-/** The ring of largest area among the outer (counter-clockwise) rings, or null. */
+/** The ring of largest area among the outer (counter-clockwise) rings, or null (the first of equal largest areas). */
 function largestOuter(rings: readonly (readonly LatticePoint[])[]): LatticePoint[] | null {
   let best: LatticePoint[] | null = null;
   let bestArea = 0;
@@ -48,8 +48,11 @@ function largestOuter(rings: readonly (readonly LatticePoint[])[]): LatticePoint
 /**
  * §4.5's settlement perimeter of `boundary` (a counter-clockwise ring of lattice points): the outer ring of the
  * boundary united with its buffer of the offset (round joins and ends), clipped to `opts.frame` when given. Refuses
- * E_DEGENERATE for a boundary of fewer than three points or of no area, and E_INVARIANT when no ring it builds passes
- * the sum check (`isSumRing`): a wrong ring is never returned.
+ * E_DEGENERATE for a boundary of fewer than three points or of no area, and E_INVARIANT when no ring it builds is simple
+ * and passes the sum check (`isSumRing`): a wrong ring is never returned. The frame clip keeps the piece of largest
+ * area and drops the others: their land lies outside the perimeter, so it is the hinterland's (C-0245 (2)). A boundary
+ * inside the frame — every stage's is — gives one piece: the frame is convex, so every point of the sum inside it is
+ * joined to the boundary by a segment inside both; only a boundary that leaves the frame and re-enters it splits.
  */
 export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel, opts: PerimeterOptions = {}): KernelResult<LatticePoint[]> {
   if (boundary.length < 3 || area2(boundary as LatticePoint[]) <= 0) return err('E_DEGENERATE', 'settlementPerimeter: the boundary is no counter-clockwise ring of area above zero');
@@ -78,6 +81,9 @@ export function settlementPerimeter(boundary: readonly LatticePoint[], k: Kernel
       if (!u.ok) return err(u.code, `settlementPerimeter: the union: ${u.detail}`);
       const outer = largestOuter(u.value);
       if (outer === null) return err('E_DEGENERATE', 'settlementPerimeter: the offset has no outer ring');
+      // the sum check reads a simple ring (a simple ring in the shell enclosing the boundary is the sum's outer one), so
+      // the overlay's ring is held to `simpleCcw` like the fast rings, not trusted to the overlay's contract
+      if (!simpleCcw(outer)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not a simple counter-clockwise ring (the sum check reads a simple one)');
       if (!isSumRing(b, outer, offsetCm, OVERLAY_TOLERANCE_CM)) return err('E_INVARIANT', 'settlementPerimeter: the overlay\'s outer ring is not the boundary\'s offset (the sum check failed)');
       ring = outer;
     }

@@ -1,12 +1,14 @@
 // The grower (M0-e-04; §4.5 *Grower*; §6.1 `district.seed`; §5.2 F-WORK; C-0085) on small grids: round-robin turns in
 // seed-id order, the skip by rate, the uniform pick among the admissible neighbours in canonical order, the edge test
-// (an arterial ≥ primary, a wall, a reservation stop growth; a secondary does not), the patch test (the band's top, the
-// compactness floor, no hole), the leftover rule, the merge rule with the seed-rate exception, and F-WORK's work_cut.
+// (an arterial ≥ primary, a wall, water, a reservation stop growth; a secondary does not), the patch test (the band's
+// top, the compactness floor, no hole), the leftover rule, the merge rule with the seed-rate exception and its hole
+// check, F-WORK's work_cut with its runs held to the edge test on every shared edge, the degenerate face's merge, and
+// the Polsby–Popper measure.
 import { createRng, entityKey, CONCERNS, STAGES, type LineageHash, type Stream } from '@plat/kernel';
 import { lineageHash } from '@plat/model';
 import { describe, expect, it } from 'vitest';
-import { boundaryLoops, grow, hullCompactness, textLineage, type GrowOptions, type GrowSeed, type SeedKind, type TurnStream } from '../../src/index.js';
-import { cell, claimableOf, graphOf, GROUND, gridArena, rectArena } from './support.js';
+import { BARRIER, boundaryLoops, EDGE_TEST_BARRIERS, faceLineage, grow, hullCompactness, placeSeeds, polsbyPopper, textLineage, type CoarseFace, type FaceGraph, type FaceLink, type GrowOptions, type GrowSeed, type SeedKind, type TurnStream } from '../../src/index.js';
+import { cell, claimableOf, graphOf, GROUND, gridArena, layChain, P, rectArena } from './support.js';
 
 const S6 = STAGES.S6;
 
@@ -286,5 +288,112 @@ describe('F-WORK (C-0085): grower.turns reached → the leftover rule assigns ev
     const free = grow([seed(0, cell(a, g, 0, 0)), seed(1, cell(a, g, 5, 5))], { graph: g, claimable: cl }, realStream(), OPEN);
     expect(free.workCut).toBe(false);
     expect(free.turns).toBeLessThan(OPEN.turnLimit);
+  });
+});
+
+describe('the edge test’s water clause on a bank (§4.5; C-0245 (3), (4))', () => {
+  it('a bank line between two land cells stops a grower; the shore anchor seeds the first face along the bank', () => {
+    // 4 × 1 open grid; a river's bank laid over the line between cells 1 and 2 (the way there and the bank share it)
+    const a = gridArena(4, 1, 100, () => 'secondary');
+    layChain(a.k, [P(20_000, 0), P(20_000, 10_000)], [{ role: 'bank', entity: 'water:river:0' }]);
+    const g = graphOf(a);
+    const c = [0, 1, 2, 3].map((i) => cell(a, g, i, 0));
+    expect((g.links[c[1]].get(c[2]) as FaceLink).barriers & BARRIER.WATER).toBe(BARRIER.WATER);
+    const r = grow([seed(0, c[0])], { graph: g, claimable: claimableOf(g) }, realStream(), { ...OPEN, compactnessMin: 0 });
+    expect(r.grown[0].faces.slice().sort((x, y) => x - y)).toEqual([c[0], c[1]].sort((x, y) => x - y));
+    // beyond the bank the leftover rule seeds its own district, which holds the rest
+    expect(r.leftovers).toEqual([1]);
+    expect(r.grown[1].faces.slice().sort((x, y) => x - y)).toEqual([c[2], c[3]].sort((x, y) => x - y));
+    // the river's bank seeds a riverbank grower at the face with its longest bank (a tie: the first in face order)
+    const placed = placeSeeds(g, claimableOf(g), [{ id: 'water:river:0', kind: 'riverbank', anchor: { kind: 'shore', body: 'water:river:0' } }], 1, () => 0.5);
+    expect(placed.seeds.map((x) => [x.kind, x.face])).toEqual([['riverbank', Math.min(c[1], c[2])]]);
+    expect(placed.dropped).toEqual([]);
+  });
+});
+
+/** Does any grower hold two faces linked across an edge the edge test refuses? (the districts' faces, each pair once) */
+function heldAcross(g: FaceGraph, owner: Int32Array): [number, number][] {
+  const out: [number, number][] = [];
+  g.links.forEach((m, i) => {
+    for (const [j, l] of m) if (i < j && owner[i] >= 0 && owner[i] === owner[j] && (l.barriers & EDGE_TEST_BARRIERS) !== 0) out.push([i, j]);
+  });
+  return out;
+}
+
+describe('F-WORK’s runs and the degenerate face’s merge hold the edge test on every shared edge (C-0245 (10), (21))', () => {
+  it('an arterial dead-ending inside a compartment, under a turn limit of 0: no run holds both its sides; containment holds', () => {
+    // 3 × 3 open grid; the vertical line between columns 1 and 2 is primary in its middle segment only: the cells
+    // (1, 1) and (2, 1) meet across it, and the compartment joins them round its ends
+    const a = gridArena(3, 3, 100, (dir, i, sg) => (dir === 'x' && i === 2 && sg === 1 ? 'primary' : 'secondary'));
+    const g = graphOf(a);
+    const cl = claimableOf(g);
+    const r = grow([], { graph: g, claimable: cl }, realStream(), { ...OPEN, turnLimit: 0 });
+    expect(r.workCut).toBe(true);
+    cl.forEach((c, i) => {
+      if (c) expect(r.owner[i]).toBeGreaterThanOrEqual(0);
+    });
+    expect(heldAcross(g, r.owner)).toEqual([]);
+    expect(r.owner[cell(a, g, 1, 1)]).not.toBe(r.owner[cell(a, g, 2, 1)]);
+    // the face the barrier kept out of the run started its own: three districts, (0, 0) first by the leftover rule
+    expect(r.grown.length).toBe(3);
+    expect(r.grown[2].faces).toEqual([cell(a, g, 2, 1)]);
+  });
+
+  it('a degenerate face joins only a district whose every edge with it passes; with none it stays unowned', () => {
+    // A hand-built graph (the kernel commits no face of area ≤ 0): X alone; A and D one run; B degenerate, meeting A
+    // across a passing edge (10 m) and D across a primary one (5 m).
+    const face = (i: number, areaCm2: number): CoarseFace => ({ face: i, key: [i, 0, i + 1, 0], areaCm2, perimeterCm: 400, owner: null, water: false, side: 'inside', centroid: { x: i, y: 0 } });
+    const link = (other: number, lengthCm: number, barriers = 0): [number, FaceLink] => [other, { other, lengthCm, barriers }];
+    const graph = (bd: number): FaceGraph =>
+      ({
+        plat: null,
+        faces: [face(0, 100), face(1, 100), face(2, 100), face(3, 0)],
+        links: [new Map(), new Map([link(2, 1000), link(3, 1000)]), new Map([link(1, 1000), link(3, 500, bd)]), new Map([link(1, 1000), link(2, 500, bd)])],
+        rings: [],
+        halfFace: new Map(),
+        ringBarriers: [0, 0, 0, 0],
+        shores: [new Map(), new Map(), new Map(), new Map()],
+      }) as unknown as FaceGraph;
+    const cl = [true, true, true, true];
+    const barred = grow([], { graph: graph(BARRIER.ARTERIAL), claimable: cl }, realStream(), { ...OPEN, turnLimit: 0 });
+    expect(barred.owner[1]).toBe(barred.owner[2]);
+    expect(barred.owner[3]).toBe(-1);
+    const open = grow([], { graph: graph(0), claimable: cl }, realStream(), { ...OPEN, turnLimit: 0 });
+    expect(open.owner[3]).toBe(open.owner[1]);
+    expect(faceLineage([1, 0, 2, 0])).toEqual(open.grown[1].seed.lineage);
+  });
+});
+
+describe('the merge rule never encloses a hole (the patch test’s hole check on the merge)', () => {
+  it('a district meeting its only neighbour along two disjoint pieces stays below the floor, reported; one piece merges', () => {
+    // 3 × 3: the centre reserved; S the bottom middle (a seed, its turn cut at once), the F-WORK run T the other seven:
+    // S meets T on its left and on its right only, so S ∪ T would ring the centre
+    const reserved = gridArena(3, 3, 100, () => 'secondary', [{ i: 1, j: 1, owner: 'plaza:0' }]);
+    const g = graphOf(reserved);
+    const S = cell(reserved, g, 1, 0);
+    const r = grow([seed(0, S)], { graph: g, claimable: claimableOf(g) }, realStream(), { ...OPEN, turnLimit: 0, bandCm2: [2 * CELL, 1e15] });
+    expect(r.grown.map((d) => d.faces.length)).toEqual([1, 7]);
+    expect(r.merges).toEqual([]);
+    expect(r.belowFloor).toEqual([0]);
+    for (const d of r.grown) expect(boundaryLoops(g, d.faces, (i) => r.owner[i] === d.seed.order)).toBe(1);
+    // the centre open: S meets T along one piece (left, top, right) and merges
+    const open = gridArena(3, 3, 100, () => 'secondary');
+    const g2 = graphOf(open);
+    const r2 = grow([seed(0, cell(open, g2, 1, 0))], { graph: g2, claimable: claimableOf(g2) }, realStream(), { ...OPEN, turnLimit: 0, bandCm2: [2 * CELL, 1e15] });
+    expect(r2.merges.map((m) => [m.from, m.into, m.sharedCm])).toEqual([[0, 1, 30_000]]);
+    expect(boundaryLoops(g2, r2.grown[1].faces, (i) => r2.owner[i] === 1)).toBe(1);
+  });
+});
+
+describe('Polsby–Popper, 4π·A ÷ P² (the plaza’s compactness measure, §4.2 S3 (2))', () => {
+  it('a square gives π ÷ 4, a regular n-gon π ÷ (n · tan(π ÷ n)) — 1 in the limit of a disc; a zero perimeter gives 0', () => {
+    expect(polsbyPopper(CELL, 40_000)).toBeCloseTo(Math.PI / 4, 12);
+    for (const n of [6, 96, 720]) {
+      const r = 50_000;
+      const area = (n / 2) * r * r * Math.sin((2 * Math.PI) / n);
+      const per = 2 * n * r * Math.sin(Math.PI / n);
+      expect(polsbyPopper(area, per)).toBeCloseTo(Math.PI / (n * Math.tan(Math.PI / n)), 9);
+    }
+    expect(polsbyPopper(CELL, 0)).toBe(0);
   });
 });

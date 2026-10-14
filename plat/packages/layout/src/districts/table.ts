@@ -2,8 +2,11 @@
 // `district.growthRate`, the count law, the patch test's compactness, the perimeter's offset, the quarter law and its
 // two penalties); the edge test's class, the typing stand-in's synthetic demand table and the synthetic roster's
 // building count are this folder's own table `s6.json`, checked by @plat/tables' `parseTable` like every table
-// (unit, provenance, calibratable on every cell). No rate or law constant is written in code.
-import { parseTable, tableView, type Table, type TableView } from '@plat/tables';
+// (unit, provenance, calibratable on every cell). No rate or law constant is written in code. S6 reads `s6` from the
+// run's TableView when the view carries one (a calibration's or a test's variant handed in through the run's tables),
+// else this folder's (`s6TableIn`); the registry's view does not list `s6`, so its cells are not in the view's hash
+// until @plat/tables registers the table (its owner's step).
+import { parseTable, TableError, tableView, type Table, type TableView } from '@plat/tables';
 import raw from './s6.json';
 import type { SeedKind } from './types.js';
 
@@ -14,6 +17,21 @@ let S6_TABLE: Table | null = null;
 export function s6Table(): Table {
   if (S6_TABLE === null) S6_TABLE = parseTable('s6', raw);
   return S6_TABLE;
+}
+
+/**
+ * The run's `s6` table: `tables.table('s6')` when the view carries it, else this folder's (`s6Table()`). A view that
+ * does not list the table answers a TableError ('not in this view'), which is read as "not carried"; any other error
+ * propagates.
+ */
+export function s6TableIn(tables?: TableView): Table {
+  if (tables === undefined) return s6Table();
+  try {
+    return tables.table('s6');
+  } catch (e) {
+    if (e instanceof TableError) return s6Table();
+    throw e;
+  }
 }
 
 /** One relation row of a kind (§4.5 *Typing*: `RosterTables.districtKinds[].relations`, its M0 stand-in, C-0035). */
