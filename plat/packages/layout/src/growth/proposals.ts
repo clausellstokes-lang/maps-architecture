@@ -133,8 +133,15 @@ export interface S5cRecord {
   /** Steps accepted, rejected by `legal` (by why), deflected and biased. */
   readonly steps: { accepted: number; rejected: Record<string, number>; deflected: number; biased: number };
   readonly rungs: GrowthRung[];
-  /** Kernel refusals other than F-NUM's codes, by code (each step left out). */
+  /** Kernel refusals of a step's insert other than F-NUM's precision codes, by code (each step left out). */
   readonly refused: Record<string, number>;
+  /**
+   * The walk's own intermediates the stage absorbed, by code: never a refusal of the stage, nor counted in `refused`
+   * (J290 / N-58: our own intermediate; the refusal census's R-36). `W_END_UNMARKED`: a dead end whose `end` junction
+   * the kernel would not mark (`splitThrough` declined at the street's last vertex); the street stands as laid, its `to`
+   * a bearing. F-NUM's re-proposals and rejects are §5.2's report lines, in `rungs`.
+   */
+  readonly intermediates: Record<string, number>;
   workCut: { readonly counter: string; readonly count: number; readonly limit: number } | null;
   /** The batch refused as a whole at its commit (nothing of it written; the stage stands ungrown, reported). */
   batchRefused?: { readonly code: string; readonly detail: string };
@@ -548,6 +555,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
       rungs: [],
       refused: {},
+      intermediates: {},
       workCut: null,
     };
     const index = new FeatureIndex();
@@ -615,7 +623,10 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       }
       return false;
     };
-    /** The street's end at a dead end: an `end` junction at its last vertex. */
+    /**
+     * The street's end at a dead end: an `end` junction at its last vertex — or, where the kernel will not mark that
+     * vertex, a bearing for its `to`, counted among the record's intermediates (never a refusal: the street stands).
+     */
     const deadEnd = (P: Proposal): void => {
       const st = P.street;
       if (st === null || st.ends !== null) return;
@@ -624,7 +635,7 @@ export function growthBatch(kernel: Kernel, area: GrowthArea, streams: GrowthStr
       if (!mark(st.way.id, P.at, j.id)) {
         rec.junctions.pop();
         st.way.to = { kind: 'bearing', bearingCdeg: bearingCdeg(dmath.cos(P.heading), dmath.sin(P.heading)) as Cdeg };
-        rec.refused['W_END_UNMARKED'] = (rec.refused['W_END_UNMARKED'] ?? 0) + 1;
+        rec.intermediates['W_END_UNMARKED'] = (rec.intermediates['W_END_UNMARKED'] ?? 0) + 1;
         return;
       }
       st.way.to = { kind: 'junction', id: j.id };
@@ -857,6 +868,7 @@ function emptyRecord(k: number, rules: GrowthRules): S5cRecord {
     steps: { accepted: 0, rejected: {}, deflected: 0, biased: 0 },
     rungs: [],
     refused: {},
+    intermediates: {},
     workCut: null,
   };
 }
