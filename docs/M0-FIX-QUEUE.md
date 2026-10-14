@@ -96,7 +96,7 @@ Status: **OPEN** (not started) · **RULING** (a ruling seat is deciding) · **RO
 
 | # | item | reported in | target |
 |---|---|---|---|
-| L1 | an `exempt` parameter would make placeAcross one call | C-0209 | M0-a-04 |
+| L1 | an `exempt` parameter would make placeAcross one call — RULED at J372 (M0-a-04 s5 REPORTED it, not built): an exported-API change (placePoint gains an exempt parameter; the crossings.ts part is M0-a-05's) — the API is frozen in M0 (J263 Q1), so L1 is CARRY-FORWARD to M1's API pass; it also shifts insert.placementCandidates counts | C-0209; checks/M0-a-04-s5.md | M0-a-04 (M1) |
 | L2 | the per-batch arena image's O(arena) memory cost, unmeasured | C-0185 (1) | M0-a-06 (measure at M1) |
 | L3 | TransientKey/ArenaKey not re-exported from @plat/model | C-0220 (11) | M0-m-01 |
 | L4 | QuarterNode declared in layout, not @plat/model | C-0245 (14) | M0-m-01 |
