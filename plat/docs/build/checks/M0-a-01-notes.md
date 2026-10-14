@@ -306,3 +306,93 @@ rounds and the hardening pass. The verdict is `checks/M0-a-01-c3.md`.
 | N-c3c-2 | `comparePoints`' docstring in `num/exact.ts` says "The comparator every canonical sort of points reads (a face's key, a removed record's key, a ring's start)". As a statement of the order it is true: every one of those sorts orders by (y, then x). As a statement about this function it is not yet true. No caller imports it (J270 (b)). The sorts named use their own copies: `faces/common.ts` (and `faces/split.ts` through it), `tx/relevel.ts`, `tx/tx.ts`, `arr/kerb.ts`. | Say "the order every canonical sort of points uses (…)", or leave it until R6, R7 and R9 adopt the function. Comment only. | R6 / R7 / R9, else M4 |
 | N-c3c-3 | Two of this checker's mutants survived, and both are judged equivalent. C6 replaces `<` with `<=` on y. It is reached only under `a.y !== b.y`, and there `<=` is the same as `<`. K5 doubles kerb's difference but keeps its sign. The T-4 reading compares signs only, as the plan's EQUIVALENCE says ("sorting with a comparator uses the sign only"). | None. | — |
 | N-c3c-4 | For the session: clean-room disclosures. (a) The builder's row L-0471 discloses one `ls` of the project's `docs/` folder, which printed entry names only and opened no file. Rule 2 forbids listing those folders, but no content reached the seat. Following the precedent of `checks/M0-c-02-s3.md` (N-29), this checker does not judge it a clean-room breach of the item. (b) This checker built its before-image from the project's own GitHub repository by blob. The recursive tree listing of main 9ba492ca was held in memory and filtered to `plat/packages/kernel/` before anything was saved or printed. (c) This checker read `docs/PROGRESS.md` rows J263, J270, J273 and J308, found by grep on the row id. These are the rulings the brief cites; the file is outside plat/ but is not on rule 2's list. All three are recorded in L-0472. | The session confirms or rules. | the session |
+
+## Hardening round S1 (lane `build/M0-a-01-fix-s1`, flow-7, 2026-10-14; J237 (2), J264, J290 / N-58; choices C-0368)
+
+The session opened this round as M0-a-01's hardening round on the inventory's FIX-NOW rows `M0-a-01:305 N-c3c-1` and
+`M0-a-01:306 N-c3c-2` (`checks/hardening-inventory.md` lines 230 – 231) and the queue row L19 (`docs/M0-FIX-QUEUE.md`;
+its source note N-c1-1 above, inventory line 146). Every change is inside the item's owns: `src/num/exact.ts` and
+`test/num/exact.test.ts`. No folder index or barrel changed (J263 Q1): `num/index.ts`, `types/index.ts`, `src/index.ts`
+are untouched, exact.ts's 18 exported names are the same, and the one new constant (`EXACT_BELOW`) is file-private.
+
+### Row by row
+
+| row | outcome | evidence |
+|---|---|---|
+| N-c3c-1 (`test/num/exact.test.ts:6`) | **fixed** (comment only, no pin, per the row) | The header now reads "neither `num/index.ts` nor the package barrel re-exports it", which is what the describe 'exact.ts is imported by path, never re-exported (C-0314)' tests. The note was right and still is: `insert/placement.ts:36` re-exports `segmentCloserThan`, and now also `warp/validate.ts:17` (`export { segmentCloserThan as closerThan }`). The describe title is kept verbatim, because checks cite it. |
+| N-c3c-2 (`src/num/exact.ts:205`) | **fixed** (comment only, no pin) | The docstring now reads "The order every canonical sort of points uses (a face's key, a removed record's key, a ring's start); a sort that has not yet adopted this function keeps its own copy of the order, held equal to it by `test/num/equivalence.test.ts` (T-4)". The note's fix shape is taken (the order, not the function). Since the note was written, the tree has moved: `tx/relevel.ts` and `tx/tx.ts` now import `comparePoints` (R6). `faces/common.ts` (with `faces/split.ts`) and `arr/kerb.ts` still keep copies. So the sentence names no file and stays true as R7 and R9 adopt the function. |
+| L19 (queue; N-c1-1) | **fixed and pinned** | `segmentCloserThan` keeps its double comparison wherever that comparison is exact or decisive. Rounding is monotone, so two products that round to different doubles keep the exact order. Two products below 2⁵³ are exact. The only undecided case is o² and r²·\|ab\|² rounding to one double at or past 2⁵³. That tie is decided again in BigInt from the integers o, r² and \|ab\|² (exact for every lattice input under the range invariant). A non-integer input (no caller passes one) keeps the doubles' answer instead of throwing in `BigInt()`. The source note's condition "once every copy imports it" holds: `CLOSER_SITES`' three rows (placement, tx, warp) all reach the shared function now, so every caller changes together. Pins: 'segmentCloserThan past 2⁵³ (M0-FIX-QUEUE L19)' has 3 its plus a property. (1) Four 40 km segments at r = 25 cm (minEdge), each with a lattice point whose o is even and o² + 1 = 625·\|ab\|². The point is a hair inside r, but the doubles read it as clear. The it also checks that the fixture is that tie. (2) A point exactly 25 cm from a 40 km segment (a–b = 800 001·(3, 4)) is clear: the strict side, in BigInt. (3) A non-integer r whose doubles tie past 2⁵³ returns false and does not throw. (4) A property equal to `closerBig` on segments of any length in range at r 25, 26 and 51. |
+
+Why the BigInt route and not a refusal: §3.2 (1) rests every exactness argument "on the range invariant, never on the
+frame table", and (3) forbids float comparisons for topology on lattice points; the comparison has an exact answer, so
+a refusal would refuse a lawful input (J264). The frame table does not keep callers inside the old bound at every r:
+`insert/crossings.ts:219` reads r = MIN_EDGE + ATTRACT = 51 cm, whose old bound is about 18.6 km, below the largest
+METROPOLIS arena's diagonal (§3.2 (1): 17.53 km × 8.76 km plus 30 % margins, about 31 km).
+
+### Mutants (the lane's mirror; each over `packages/kernel/test/num` + `packages/kernel/test/types`, `--maxWorkers=1 --bail=1`)
+
+The mirror is a real copy of `plat/` at the lane path. Isolation: `find … -lname '/home/user/maps-architecture*'` printed nothing, and
+`packages/testkit/node_modules/@plat/kernel` resolves inside the mirror. Baseline in the mirror: 14 files, 118 tests
+(119 after the off-lattice it was added and synced), green. Each mutated file was restored from the tree and checked
+with `cmp`. At the end the mirror's kernel was `diff -rq`-identical to the tree.
+
+| id | row | mutant | result (first failing test) |
+|---|---|---|---|
+| BEFORE | L19 | exact.ts replaced by its round-start image (sha256 35e7d505…) | red: decides the tie its doubles cannot in BigInt … |
+| L19-M1 | L19 | the tie test dropped (`return o2 < bound` always) | red: the same |
+| L19-M2 | L19 | BigInt `<` → `<=` | red: keeps the strict side in BigInt … |
+| L19-M3 | L19 | the BigInt line → `return false` (the old answer) | red: decides the tie … |
+| L19-M4 | L19 | `EXACT_BELOW` 2⁵³ → 2⁵⁴ | red: decides the tie … |
+| L19-M5 | L19 | `o2 !== bound ||` dropped (BigInt for every pair past 2⁵³) | alive, **equivalent**: BigInt gives the exact answer, and the doubles' answer on a pair they keep apart is the same by monotone rounding (only slower) |
+| L19-M6 | L19 | the non-integer guard returns true | red: a tie past 2⁵³ off the lattice … |
+| L19-M7 | L19 | the BigInt comparison reversed | red: decides the tie … |
+| L19-M8 | L19 | the doubles' `<` → `<=` | red: is strict at r … |
+| L19-M9 | L19 | `o2 !== bound` → `o2 === bound` | red: decides the tie … |
+| L19-M10 | L19 | the non-integer guard dropped (`BigInt(27.23…²)` throws RangeError) | red: a tie past 2⁵³ off the lattice … |
+| C1 (c1) | re-kill | crossingStep `ay < qy` | red: counts a vertex at the query's height … |
+| T1 (c3) | re-kill | comparePoints x then y | red: y decides first … |
+| LF1 (c3) | re-kill | an extra import (`./snap.js`) in exact.ts | red: is a leaf of num … |
+| A1 (c2) | re-kill | num/index.ts re-exports `halfPlaneOf` | red: neither num/index.ts nor the package barrel exports any of its names |
+
+15 mutants: 14 red, 1 equivalent (L19-M5). N-c3c-1 and N-c3c-2 change comments only, so they have no mutant. Their
+deliverable is the text, quoted above.
+
+### Declared shift (L19), NO-SHIFT elsewhere, refusals
+
+The shift: `segmentCloserThan` changes its answer only where o² < r²·|ab|² exactly while both round to one double at
+or past 2⁵³. There the answer goes from false to true (a point inside r was read as clear). The four pinned 40 km ties
+go from false to true. A differential probe in the mirror compared the round-start exact.ts with the new one on
+1 877 068 calls: 877 068 on the fuzz arenas (every live vertex and its eight neighbours against every live edge, r 25
+and 26) and 10⁶ seeded random calls across the range (segments of any length, points near the r-band, r 25 / 26 / 51).
+No answer differed. No digest, golden, register JSON, refusal code or message text is re-recorded: none reaches such a
+tie (the M0 arenas' edges are far below 36 km at r ≤ 26), and no test outside this item's pins changed.
+
+Refusals (J264 / N-58): M0-a-01's registered B-FUZZ families are snap, ratio and frameOf. None of their modules imports
+exact.ts. The census ran in the mirror over 10⁴ seeded calls per family (doubles, specials, range edges), once with the
+new exact.ts and once with the round-start image, and the outputs were byte-identical (sha256 7e248ad5…): snap 5 668
+refused (E_OUT_OF_RANGE x 3 446, y 2 222), ratio 5 906 (E_DEGENERATE ratio), frameOf 5 767 (E_OUT_OF_RANGE aspect
+2 875, area 1 239, margin 464, range 269; E_DEGENERATE ratio 920). Every refusal is an UNLAWFUL input, verdict REFUSE:
+snap is the door that names the coordinate, and the run's configuration picks area, aspect and margin (§3.2 (1), (7),
+(9)). Lawful refusals: 0 before, 0 after. `segmentCloserThan` is total and refuses nothing.
+
+### Reported, not built (other items' files)
+
+| id | report | owner |
+|---|---|---|
+| N-s1-1 | `insert/stretch.ts`'s `withinSegment` and `passesWithin` (both inclusive, `o * o <= r2 * l2`) have the same 2⁵³ bound in the other direction. A pair whose doubles round to one value past 2⁵³ while the exact o² is the larger reads as within r. They are not copies of `segmentCloserThan` (inclusive, not strict), so L19's fix does not reach them. The same BigInt re-decision of the doubles' tie would make them exact. | M0-a-05 (insert/) — for the session's queue |
+
+### Gates of round S1 (in the tree, 1 worker)
+
+install --frozen-lockfile 0; lint 0 ("lint: probe-red ok", 9 whole-tree checks); build 0; NEAR test/num + test/types
+14 files, 119 tests, 0 failed (full strength); RELATED (PLAT_FUZZ_RUNS=1000) over `src/num/exact.ts`: 453 files,
+5 818 tests, 0 failed (exit 0, 8 330 s); landed:verify flow-7 --item M0-a-01 ok; lane mirror removed; no git.
+
+## Closing check of round S1 (lane `check/M0-a-01-close-s1`, flow-7, 2026-10-14)
+
+New findings that are not blockers under the brief's blocker rule (each concerns an input no caller passes, or another
+item's comment), for the hardening pass. The verdict is `checks/M0-a-01-s1.md`.
+
+| id | observation | suggested handling | milestone |
+|---|---|---|---|
+| N-s1c-1 | The builder's L19-M5 ("`o2 !== bound ||` dropped") is labelled equivalent. It is equivalent on lattice input only. This checker's L3 (the same mutant) and L4 (`o2 !== bound` → `o2 > bound`) survive NEAR, and both differ from the after-image off the lattice. Witness: p = (2 000 000, 24), a = (0, 0), b = (4 000 000, 0), r = 25.5. Here o² ≈ 9.2·10¹⁵ is past 2⁵³ and held apart from r²·\|ab\|² ≈ 1.04·10¹⁶. The after-image returns true (the doubles' answer, as the docstring promises); L3 and L4 return false. L15 (drop `!Number.isInteger(o)`) and L17 (drop `!Number.isInteger(l2)`) also survive. Each would throw `RangeError` in `BigInt()` on a tie past 2⁵³ with a non-integer o or \|ab\|². The off-lattice `it` pins a non-integer r² only. On 300 000 seeded lattice calls (r 25, 26, 51, 52) and the pinned 40 km ties, all four mutants equal the after-image. Every caller passes lattice coordinates and a whole r, so no honest input reaches the difference. | Pin the docstring's sentence "A non-integer input keeps the doubles' answer" in full: one non-tie off-lattice case past 2⁵³ (the witness above), and one tie each with a non-integer p and with a non-integer a–b. Or narrow the sentence to the r² case. | M4 (or the next round that touches `test/num/`) |
+| N-s1c-2 | Two other items' comments describe `segmentCloserThan` as it was before L19. `invariants/common.ts:57` (M0-a-14) contrasts `compareDist2`, "exact beyond 2⁵³", with `num/exact.ts`'s `segmentCloserThan`, "a strict test against a whole radius in doubles". `insert/stretch.ts:232` (M0-a-05) calls `passesWithin` "exact where it can decide, as `segmentCloserThan`". `segmentCloserThan` is now exact on every lattice input, and `passesWithin` and `withinSegment` are not (the builder's N-s1-1, which this checker agrees with). The contrast between strict and three-way still holds. | Comment only: reword in the owners' next rounds (M0-a-14 for invariants/, M0-a-05 for insert/, together with N-s1-1). | M4 |
