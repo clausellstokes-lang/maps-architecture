@@ -78,6 +78,26 @@ describe('a first L2 edge inside an L1 face thinner than the hot pixel: its reco
     expect(kids.length).toBe(2);
     for (const k of kids) expect([k.parent, k.owner, k.stage]).toEqual([4, owner, 8]);
   });
+
+  // N-s8c-5 (the hardening round S9): the third door — the same chain after one unrelated L2 chain in the same
+  // transaction, so the batch's index log is open and an earlier L2 edge stands, and the reach of `holderAt` is read on the
+  // batch path too (mutant ME, no reach, refused the chain alone while corridorUnion's batch still committed).
+  it('Q53 through insertChain after an unrelated L2 chain in the same transaction: both commit, the sliver\'s L2 records under L1 f4', () => {
+    const { p } = network(CHORDS);
+    const owner = handleOf(p, 'district:1');
+    const pts = [pt(3970, 3641), pt(3753, 3639), pt(3774, 3954)];
+    const r = tx(p, spec(2, AT_S9), (o) => {
+      const first = insertChain(o, [pt(600, 300), pt(900, 700)], [{ role: 'corridor_split', entity: 'district:1' }], 'mandatory');
+      if (!first.ok) return first;
+      return insertChain(o, pts, [{ role: 'corridor_split', entity: 'district:1' }], 'mandatory');
+    });
+    expect(r.ok, r.ok ? '' : `${r.code} ${r.detail}`).toBe(true);
+    healthy(p);
+    expect(facesAt(p, 1 as Level)).toEqual([0, 1, 2, 3, 4]);
+    const kids = childrenOf(p, 4);
+    expect(kids.length).toBe(2);
+    for (const k of kids) expect([k.parent, k.owner, k.stage]).toEqual([4, owner, 8]);
+  });
 });
 
 describe('the premise of a region materialised from a coarser record is checked (C-0349 (2))', () => {

@@ -251,14 +251,19 @@ describe('the router\'s regressions from B-FUZZ (≥ 300-vertex self-touching wa
   });
 
   it('where the design route leaves clearance broken and the strict route keeps it, the strict route stands: one edge past a vertex 25.9 cm off it', () => {
-    // The segment (1240, 3048) → (1254, 3085) passes (1267, 3046) at 25.9 cm: step 3's band routes it there, and the
-    // sub-route back out passes (1240, 3048) — an end of the first part — 24.98 cm off. Within minEdge only: no detour.
+    // The last point (1225, 3043) lands on (1211, 3037); its segment on to (1254, 3085) passes (1267, 3046) at 25.9 cm:
+    // step 3's band routes it there, and the sub-route back out breaks clearance. The strict route goes within minEdge
+    // only: (1240, 3048), 24.98 cm off, is a neighbour of the segment's own start (the chain's edge (1211, 3037) –
+    // (1240, 3048)), so the new edge's one-ring holds it and §3.10's clearance needs no route through it (C-0177 (13) as
+    // round S9 reads it, C-0361): one edge, (1211, 3037) – (1254, 3085). Before round S9 the strict route went out along
+    // that edge to (1240, 3048) and on from it.
     const pts: [number, number][] = [[1252, 3023], [1228, 3012], [1211, 3037], [1240, 3048], [1267, 3046], [1225, 3043], [1254, 3085]];
     for (const cls of ['mandatory', 'optional'] as const) {
       const m = run(pts, cls);
       expect(m.r.ok).toBe(true);
       expect(allProblems(m.p)).toEqual([]);
-      expect(edgeRows(m.p, [1240, 3048], [1254, 3085])).toEqual(['way/way:w']);
+      expect(edgeRows(m.p, [1211, 3037], [1254, 3085])).toEqual(['way/way:w']);
+      expect(edgeRows(m.p, [1240, 3048], [1254, 3085])).toBeNull();
       expect(edgeRows(m.p, [1267, 3046], [1254, 3085])).toBeNull();
     }
   });

@@ -91,3 +91,11 @@ export function poissonCap(mean: number): number {
 export function refusalCap(family: keyof typeof MEASURED_COUNT, runs: number): number {
   return poissonCap((capPer1e4(family) * runs) / 10_000);
 }
+
+/**
+ * B-FUZZ's run parameters beside the global configuration (the spec note N-12, round S9): a property stops at its first
+ * failing case and reports it — its seed, path and counterexample — without shrinking. Shrinking a case of 300-point
+ * walks ran 45 minutes and more at seed 31337 with no end in sight (synchronous, so the test's hard timeout cannot cut
+ * it), so a red seed looked like a hang; the case replays by its seed and path.
+ */
+export const FUZZ_PARAMS = { endOnFailure: true } as const;
