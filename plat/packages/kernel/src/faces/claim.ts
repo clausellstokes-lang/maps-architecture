@@ -72,8 +72,11 @@ function simpleRing(q: readonly LatticePoint[]): boolean {
   return true;
 }
 
-/** Does the pair carry the marker row (role id, entity handle, ordinal) at level n? */
-function carries(p: Plat, h: HalfEdgeId, role: number, entity: number, ordinal: number, n: number): boolean {
+/**
+ * Does the edge carry the marker row (role id, entity handle, ordinal) at level n? The edge-row reading; a vertex's rows
+ * are read by `carriesRow`, its twin in insert/splitThrough.ts.
+ */
+function edgeCarriesRow(p: Plat, h: HalfEdgeId, role: number, entity: number, ordinal: number, n: number): boolean {
   const R = p.roles;
   for (const r of rowsOn(p, 'edge', h)) if (R.kind[r] === role && R.entity[r] === entity && R.ordinal[r] === ordinal && R.level[r] === n) return true;
   return false;
@@ -143,7 +146,7 @@ export function claimSubFace(o: Overlay, claim: SubFaceClaim, owner: Id, opts: {
   const role = roleIdOf(rows[0].role);
   const ent = handleOf(p, rows[0].entity);
   const ord = rows[0].ordinal ?? 0;
-  const mark = (g: HalfEdgeId): boolean => carries(p, g, role, ent, ord, n);
+  const mark = (g: HalfEdgeId): boolean => edgeCarriesRow(p, g, role, ent, ord, n);
   // The cycle, counter-clockwise: from each placed vertex, the marker path that reaches the next distinct placed vertex.
   const placed: VertexId[] = [];
   for (const v of ins.value.placed) if (placed[placed.length - 1] !== v) placed.push(v);

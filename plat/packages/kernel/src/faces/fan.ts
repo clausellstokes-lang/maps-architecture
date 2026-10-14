@@ -24,6 +24,7 @@ import { dest, type FaceId, type HalfEdgeId, type RoleRow } from '../arena/index
 import { dmath } from '../dmath/index.js';
 import { insertChain } from '../insert/index.js';
 import { passesWithin, withinSegment } from '../insert/stretch.js';
+import { PI } from '../num/exact.js';
 import { area2, err, ok, orient2d, ratio, snap, type KernelResult, type Warning } from '../num/index.js';
 import { recordLeftOf } from '../tx/relevel.js';
 import { check, type OpenTx } from '../tx/state.js';
@@ -47,7 +48,6 @@ import {
 } from './common.js';
 import { holeCore, splitCore, type CutOpts } from './split.js';
 
-const PI = 3.141592653589793;
 const FULL = 36_000;
 
 /** A ray's angle reduced to [0, 36 000) centidegrees. */
@@ -61,7 +61,10 @@ function byAngle(a: number, b: number): number {
   return a < b ? -1 : a > b ? 1 : 0;
 }
 
-/** The nearest point where the ray from (ax, ay) in direction (dx, dy) meets the region's boundary beyond the apex, or null. */
+/**
+ * The nearest point where the ray from (ax, ay) in direction (dx, dy) meets the region's boundary beyond the apex, or
+ * null. Located in doubles (C-0192 (7)); the contact decision then judges the snapped hit exactly (`planCut`).
+ */
 function rayHit(t: OpenTx, r: Region, ax: number, ay: number, dx: number, dy: number): { x: number; y: number } | null {
   const p = t.plat;
   const X = p.vertices.x;
