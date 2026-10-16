@@ -1,7 +1,7 @@
 # Proposal — the native world regime (replacing the FMG integration)
 
-Status: a design proposal written by the session on 2026-10-16 from the FMG survey (`research/fmg/notes/*.md`, eight
-researcher notes; `research/fmg/FMG-survey.md`, the synthesis) and the SettlementForge host audit
+Status: a design proposal written by the session on 2026-10-16 from the FMG survey (`research/fmg/notes/*.md`, ten
+researcher notes, the blog and Patreon corpora read in full once the network admitted them; `research/fmg/FMG-survey.md`, the synthesis) and the SettlementForge host audit
 (`research/fmg/notes/sf-host-fmg-integration-audit.md`). It is the "FMG/world proposal" column of the decision matrix
 the owner's brief of 2026-10-16 requires, and an input to the world-and-sites design volume. It is a research-side
 document: implementer seats do not read it; the design volume restates what it adopts. Every mechanism below is
@@ -46,7 +46,14 @@ rendering, save format, cell mesh, economy, military, religion, zone or assistan
    trade-route access or a random pool, and map facts enter only afterwards as an advisory agreement check. The
    host's own documents call the map a first-class engine input, keep the integration deliberately small, flag the
    fork as a risk, and nowhere state an intent to replace FMG (`sf-host-fmg-integration-audit.md` §4–§7).
-6. **The ecosystem expects four surfaces**: an FMG-shaped full JSON, GeoJSON with FMG's property names, reading of
+6. **The author's own boundaries and refusals** (`fmg-patreon-posts.md`, `fmg-blog-history.md`). He refused to build
+   a city generator and kept Watabou's generators as the city layer by a deliberate seven-year decision; he tried "a
+   full economical simulation" and dropped it; the economy's one-good-per-cell granularity was chosen for cell size
+   five years before it shipped and reader critiques of the single-cycle economy went unanswered; authored rivers are
+   "responsibility of users", unvalidated against heights; the retreat of data out of the drawing began in 2021 with
+   rulers and rivers; heightmap generation was budgeted at about 300 ms, which is why tectonics were rejected; the
+   2017 biome and wind-marched precipitation models were fully stated in the blog and deployed only in 2019.
+7. **The ecosystem expects four surfaces**: an FMG-shaped full JSON, GeoJSON with FMG's property names, reading of
    `.map` files, and a raster heightmap image (`fmg-roadmap-and-ecosystem.md` §5, §7).
 
 ## 2 Principles the design is held to
@@ -103,7 +110,9 @@ stream-power pass is optional later. A seasonal pair of surfaces (dry, wet) come
 curve.
 
 ### 3.5 Climate and biomes
-Temperature by latitude band and a lapse rate on the coarse raster, in tenths of a degree. Precipitation by a
+Temperature by latitude band and a lapse rate on the coarse raster, in tenths of a degree, with explicit pole
+temperatures as boundary inputs and a derived seasonal curve (mean, amplitude, phase) per cell as part of the climate
+contract, since the host's calendar and the brief's seasonal water states both read it. Precipitation by a
 moisture march along an arbitrary wind vector with orographic drop, coastal bonus and evaporation from water, in
 millimetres per year, seeded and clamped. Biomes from a configurable moisture-by-temperature matrix with overrides,
 as a typed land-use class carrying habitability and movement cost as editable attributes. Vegetation and relief
@@ -148,7 +157,8 @@ a deterministic spread solver, presentation only. Notes as fields on entities, n
   generator, the tables and the format; a declared pipeline with per-step timing from which erase-and-regenerate
   slices are derived, never maintained as parallel lists.
 - Authored edits are deltas over the regenerable baseline with a validity check against the baseline they were made
-  on; locks are per field; an edit is a transaction with before-and-after rows, a staleness check, apply, undo and
+  on, and an authored river or water surface is validated against the canonical heights at authoring time with a
+  receipt, never accepted unchecked as FMG does; locks are per field; an edit is a transaction with before-and-after rows, a staleness check, apply, undo and
   redo, which generalizes the only true undo FMG has (its assistant's proposals) into the universal edit path.
 - Dependency-driven invalidation: what changed decides what recomputes; FMG's eighteen stale-data paths
   (`fmg-editing-and-rendering.md` §7) are the anti-checklist, each one a test.
@@ -225,6 +235,9 @@ from the start; relief by rules at render time. Budgets per regime as the design
 | States' diplomacy and forms, religions, military and battles, zones, the economy cycle, lore | the host owns them |
 | Ice, relief icons, ocean rings as data | render-time derivations |
 | Presentation-only 3-D | the design's 3-D export is from the model |
+| Coastline fractalisation as geometry | a view-time displacement of a canonical outline; kept as a renderer detail layer with position-keyed seeds, never as canonical geometry |
+| Authored rivers accepted unchecked | validated against heights at authoring time with a receipt |
+| Depopulating port-less islands as a siting rule | a 2017 expedient; islands get routes or stay sparse by the suitability score, not by fiat |
 
 ## 11 Phasing
 
