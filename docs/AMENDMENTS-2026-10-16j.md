@@ -193,7 +193,7 @@ pass applies when the world-and-sites volume lands (§BCR below). The items that
 139. **OWNER DIRECTIVE — Fold these into the architecture (owner, 2026-10-16).** "gotcha. okay, then yes please fold these
      into the architecture".
 
-     **(a) WHAT THIS FILE IS**: the owner's rules of 2026-10-16 as items 131–140, the series' vehicle for owner words.
+     **(a) WHAT THIS FILE IS**: the owner's rules of 2026-10-16 as items 131–141, the series' vehicle for owner words.
      **(b) THE PROPOSALS**: the three design proposals under `docs/design/` are the three columns of the brief's
      decision matrix; `proposal-world-native.md` §13, `proposal-sites-encounters.md` §9 and
      `proposal-hydrology-water-state.md` §8 carry the matrix rows with the reconciled decision and reason. **(c) THE
@@ -227,6 +227,34 @@ pass applies when the world-and-sites volume lands (§BCR below). The items that
      CONFIRMED or PLAUSIBLE with evidence, signed in the clean-room ledger; M0 does not close without it, and no row is
      closed by changing the design to match the code without a choices row.
 
+141. **OWNER RULE — A 2.5D mode over the same model, and its rows in the gate (owner, 2026-10-16).** "we want to keep
+     everything that M0 has done for 2D, but what if we want the whole architecture to have a 2.5 mode? how would that
+     work?" and, on the answer, "add all of these to the testing gate".
+
+     **(a) THE MODEL IS ALREADY 2.5D; 2.5D IS A PROJECTION.** The kernel stays planar and stores no elevation; every
+     record on it carries one (terrain against the datum, building base and storey heights and roofs, wall heights,
+     retaining-wall step profiles, deck elevations in their own parts, water surfaces as records, depth bands below,
+     islands at altitude). A 2.5D mode is a render-tier projection family (isometric, oblique, perspective) with depth
+     sorting and occlusion, a draped terrain, extruded footprints with the massing's roofs and the existing casters,
+     per-storey slabs for interiors, cutaway slabs by depth band, islands at altitude, vertical exaggeration as a style
+     setting, hit testing projected back to the 2D address, one new edit kind (raise or lower an elevation), a 2.5D
+     family in the validated style store, a canvas or WebGL renderer, the projection as a picture export beside the
+     existing glTF and CityJSON. Nothing enters the hash. **(b) THE LIMITS**: not 3D — no overhangs, arches as volumes
+     or a chamber above a chamber in one arena; stacked spaces are separate arenas or levels linked by vertical-link
+     records drawn as stacked slabs, a sloped passage a ramp record on a link; true solids go through the glTF path.
+     **(c) THE GATE ROWS** (item 140 gains them; the brief's Part A): **K13** no digest, reference form, invariant or
+     kernel operation reads or assumes an elevation, and `Frame` and the lattice are two-dimensional only — z is absent
+     from the kernel by construction and must stay so; **M9** z-completeness: every drawable record kind declares a
+     base elevation and a top, or a surface, or is listed as flat with a reason (today: terrain, buildings, storeys,
+     walls, decks, water surfaces; the gap list is the row's finding); **M10** vertical-link records (stair, shaft,
+     ramp, trapdoor, access) carry an elevation at both ends; **M11** the projection and the vertical exaggeration are
+     view state outside the document hash, and the style store's schema admits a projection family. **(d) THE
+     ACCEPTANCE BARS** (the brief's Part E gains them): the same document hashes identically under the flat and every
+     2.5D projection; a pointer in a 2.5D view resolves to the same address as in the flat view at the same point;
+     every drawable entity has a base and a top or is listed flat with a reason; an interior draws as per-storey slabs
+     from the same plan the flat view draws, byte-identical in the model. **(e) WHERE IT LANDS**: a section of the
+     rendering chapter of volume 13, and a renderer milestone after the viewable town.
+
 ---
 
 ## BCR — base change requests these items imply (applied by the coherence pass with volumes 13 and 14; not yet applied)
@@ -247,3 +275,4 @@ pass applies when the world-and-sites volume lands (§BCR below). The items that
 | BCR-j12 | §7.7 / V08 port | the derived-facts port replacing the host's capture and digest; the charter per campaign; the settlement-map record (geography by the engine, institutions by the host) | 138 |
 | BCR-j13 | §6 determinism | per-stage seeding from (seed, stage); the version table naming format, tables and generator; no randomness in comparators as a lint | 138 |
 | BCR-j14 | §3 kernel (M1 API pass) | only what the gate's kernel rows carry; no domain primitive | 140 |
+| BCR-j15 | §8 rendering, §2 records | the 2.5D projection family and the z-completeness rule; the raise-or-lower edit kind; elevation at both ends of every vertical link | 141 |

@@ -50,7 +50,7 @@ The M0 gate is the question "do the kernel and the model satisfy the materialize
 
 ## 4 Part A — the M0 close gate (item 140; before M0 commits)
 
-Kernel-frozen rows must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
+Kernel-frozen rows (K1–K13) must be resolved before commit or carried to M1's API pass with a reason; model rows are recorded
 now and are M1's to change. Every row is "do not foreclose"; where a row can be a test it joins M0's exit suite.
 
 | # | row | test or verification |
@@ -67,6 +67,7 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | K10 | every persisted block names every version it depends on | read `io/` |
 | K11 | no algorithm branches on a domain role beyond the documented defaults | grep |
 | K12 | the commit journal records stage, concern and inputs read, so a reason record can be reconstructed | read `tx/`, `CommitRecord` |
+| K13 | no digest, reference form, invariant or kernel operation reads or assumes an elevation; `Frame` and the lattice are two-dimensional only (2.5D is a projection; z never enters the kernel) | grep for any z-like field; read `num/`, `digest/`, `types/refs.ts` |
 | M1 | a namespace segment in the address form (or an M1 item) | read `model/src/identity` |
 | M2 | the carve delta or pre-carve heightfield recoverable; water surfaces separable from the heightfield | read `site/src/hydro/carve.ts`, `surface.ts`, `terrain/types.ts` |
 | M3 | the datum behind one accessor | read `site/src/terrain` |
@@ -75,6 +76,9 @@ now and are M1's to change. Every row is "do not foreclose"; where a row can be 
 | M6 | a placement record reserved per arena set | model |
 | M7 | an anchor record reserved (address, site reference, knowledge flag) | model |
 | M8 | a reason record reserved per generated fact | model |
+| M9 | z-completeness: every drawable record kind declares a base elevation and a top, or a surface, or is listed flat with a reason | read the model's record types; the gap list is the finding |
+| M10 | vertical-link records (stair, shaft, ramp, trapdoor, access) carry an elevation at both ends | model, V03/V04 records |
+| M11 | the projection and vertical exaggeration are view state outside the document hash; the style store's schema admits a projection family | §2.9 view state, §8 styles |
 
 Deliverable: `docs/build/checks/M0-world-sites-gate.md`, every row CONFIRMED or PLAUSIBLE with evidence, signed in the
 clean-room ledger. M0 does not close without it. No row is closed by changing the design to match the code without a
@@ -152,6 +156,12 @@ fact; complexity as a count; a site required to pass through every state; featur
 12. A flooded crypt, a drowned ruin and a flooded street are classified by one test, per storey, by share and by
     route, and their classes change under a dated surface without any identity changing.
 13. Every one of FMG's eighteen stale-data paths has a test proving the equivalent edit recomputes here.
+14. The same document hashes identically under the flat view and every 2.5D projection (isometric, oblique,
+    perspective) and under every vertical exaggeration.
+15. A pointer in a 2.5D view resolves to the same address as in the flat view at the same model point.
+16. Every drawable entity has a base and a top, or a surface, or is listed flat with a reason; the list is empty of
+    unexplained entries.
+17. An interior draws as per-storey slabs from the same plan the flat view draws, with the model byte-identical.
 
 ## 9 Order and timing
 
@@ -162,6 +172,7 @@ fact; complexity as a count; a site required to pass through every state; featur
 | after M0 | V13 and V14 by the volume workflow with critique and seams; the coherence pass admits file j's BCRs | the coherence pass |
 | the first encounter milestone | the in-town transient crop, grid overlay, transient layer, VTT export (works on the viewable town) | bars 11, 13 |
 | the first site milestone | the attached kind (a crypt under a church, a cellar complex), then a small fort | bars 2, 6, 10, 12 |
+| the 2.5D renderer milestone (after the viewable town) | the projection family, draped terrain, extruded massing, per-storey slabs, cutaway bands, hit testing, the raise-or-lower edit | bars 14–17 |
 | the world milestones | W1 terrain, surfaces, hydrology, climate, biomes, suitability, the charter, the port; W2 routes and siting; W3 labels, exports, the adapter, retirement of the fork | bars 3, 4, 5, 7 |
 
 ## 10 Not in this brief

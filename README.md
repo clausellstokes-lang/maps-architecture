@@ -12,7 +12,7 @@ and the workflow scripts that produced them.
 | The core design and the reasons behind its decisions | `docs/ARCHITECTURE.md`, `docs/ARCHITECTURE-RATIONALE.md` |
 | The twelve design volumes, their index and a plain-language summary | `docs/volumes/` (`V01`–`V12`, `INDEX.md`, `SUMMARY.md`) |
 | Changes the volumes need in the core (not yet applied) | `docs/AMENDMENTS-2026-09-28f.md` (items 200–582) |
-| The owner's rules and words | `docs/AMENDMENTS-2026-09-28g.md` (items 102–128), `docs/AMENDMENTS-2026-10-13h.md` (item 129), `docs/AMENDMENTS-2026-10-14i.md` (item 130: the M0 build's session rulings under the delegation, vetoable), `docs/AMENDMENTS-2026-10-16j.md` (items 131–140: the world, site, encounter and hydrology rules; item 140 the M0 close gate; not yet applied), `docs/OWNER-INSTRUCTIONS-2026-09-25.md` |
+| The owner's rules and words | `docs/AMENDMENTS-2026-09-28g.md` (items 102–128), `docs/AMENDMENTS-2026-10-13h.md` (item 129), `docs/AMENDMENTS-2026-10-14i.md` (item 130: the M0 build's session rulings under the delegation, vetoable), `docs/AMENDMENTS-2026-10-16j.md` (items 131–141: the world, site, encounter, hydrology and 2.5D rules; item 140 the M0 close gate; not yet applied), `docs/OWNER-INSTRUCTIONS-2026-09-25.md` |
 | The world, site, encounter and hydrology design (the three proposal columns, the contract-first brief, the FMG survey) | `docs/design/proposal-world-native.md`, `docs/design/proposal-sites-encounters.md`, `docs/design/proposal-hydrology-water-state.md`, `docs/OWNER-BRIEF-WORLD-SITES-HYDROLOGY-DRAFT-2026-10-16.md`, `research/fmg/` |
 | Decisions taken under the owner's delegation | `docs/OWNER-DECISIONS-DELEGATED-2026-09-29.md` |
 | Judgment calls and the running log | `docs/PROGRESS.md` |
