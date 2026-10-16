@@ -231,6 +231,10 @@ pass applies when the world-and-sites volume lands (§BCR below). The items that
      everything that M0 has done for 2D, but what if we want the whole architecture to have a 2.5 mode? how would that
      work?" and, on the answer, "add all of these to the testing gate".
 
+     The owner's clarification (2026-10-16, on the launch of the volumes): "i'm not replacing 2d with 2.5d. i want
+     both" — the flat 2D map stays the default and the 2.5D view is a second, switchable view of the same document;
+     nothing of M0's 2D work changes.
+
      **(a) THE MODEL IS ALREADY 2.5D; 2.5D IS A PROJECTION.** The kernel stays planar and stores no elevation; every
      record on it carries one (terrain against the datum, building base and storey heights and roofs, wall heights,
      retaining-wall step profiles, deck elevations in their own parts, water surfaces as records, depth bands below,
