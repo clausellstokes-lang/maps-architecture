@@ -9513,3 +9513,4 @@
 2026-10-14 10:40 build/M0-c-03-fix-s3 CHECKPOINT RELATED@1000 (tree, W=1, since 09:31) still running (never stopped for being slow); next: its verdict, e-06 seeds 2-7 after, appends, landed
 2026-10-14 11:04 build/M0-c-03-fix-s3 CHECKPOINT resumed after the usage-limit stop: RELATED@1000 (tree, W=1, 09:31-10:49) exit 0, 219 files / 2662 tests passed, on the final source hashes (unchanged since); mirror = tree on the backbone; next: e-06 relief-3000 seeds 2,3,5,6,7 on the final code, notes section, choices row, CLEAN-ROOM, landed
 2026-10-16 23:45 volumes/architect-V13 LANDED docs/volumes/V13-world.md
+2026-10-16 23:47 volumes/architect-V14 LANDED docs/volumes/V14-sites.md
