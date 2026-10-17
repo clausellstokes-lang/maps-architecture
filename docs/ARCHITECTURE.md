@@ -3846,7 +3846,8 @@ interface SliceRef { table: TableId; version: string; kind: 'row'|'weights'|'bra
 A document is **a base plus an ordered log**: the base is either the canonical recipe (the town replays from its seed)
 or, after a rebase, a materialised state; the log is every event since the document was created, in `seq` order.
 Everything else in the file is the canonical style state, input recorded for replay (setting-pack content, host
-outputs), a verified cache, or per-user state.
+outputs), a verified cache, a world document's host-fed plate cache (`lensPlates`, kept as the host sent it, never
+verified or rebuilt), or per-user state.
 
 ```ts
 interface Document {
@@ -3877,6 +3878,7 @@ interface Document {
               features: Features /* II.7.4: the resolved feature set (sewers by tier; underground while any system exists, items 65–66) — recomputed on load with the report; every dependant reads it from the model, never from a layer's visibility (item 14) */;
               tradeFlow?: TradeFlow /* item 77: the settlement's derived trade flow (§4.3) — recomputed at creation, at each epoch and on load */;
               elaborations: ElaborationRecord[] /* §2.8: one per entity and lazy rung, derived from the cache below against the current digests (item 28) */ };   // caches rebuilt from base + log; never canonical
+  lensPlates?: LensPlate[];    // file p item 890 (BCR-V13-38): a world document only — the host-fed lens plates (`LensPlate`, V13 §2.2; V13 §5.8 (8)); never canonical, outside every digest, kept across loads and saves as `elaborations` is, never rebuilt or recomputed on load (a plate is what the host sent, and the lens window is never logged), dropped only by the host's quota, a host rewind or compaction (pinned plates kept by compaction); `derived`'s comment stays true of `derived`, and no loader moves a plate into it
   undo?: UndoRecord[];          // the session's undo records carried across a reload (their cap: §7.4), with the truncated targets its redo stack holds; never canonical
   elaborations?: ElaborationChunk[];   // the elaboration cache (below), kept across zoom-outs and sessions so that "once generated it is saved" holds without storing derived rungs in the model (item 28); never canonical
 }

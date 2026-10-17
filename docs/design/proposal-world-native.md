@@ -139,8 +139,12 @@ distances — and the sway, the host's political facts (tiers, prosperity, links
 distances) projected over the terrain with a reach bounded but exponential in tier, a debatable land between
 adversaries and unclaimed land left wild; normalized borders, poles of inaccessibility for labels, neighbours.
 Provinces only on a standalone world. Culture resists through the host's own culture distance, never a cost profile.
-Religions, states' diplomacy and forms, military, zones, the economy cycle and lore are not generated here; where the
-host wants their spatial footprint, it sends the facts and the sway projects them.
+Religions, states' diplomacy and forms, military, zones, the economy cycle and lore are not generated here. The host's
+relations, vassal links and military strength are the political facts the sway and its patrols project (V13 §3.9);
+the other lenses draw them only as the host's own links and dated events between settlements (V13 §5.9); the spatial
+footprint of its religions, its economy cycle and its other simulated systems is drawn by V13 §5.8's lenses over the
+facts the host sends — never projected by the sway, which reads of them only the prosperity rung and the culture
+distance, as reach and resistance — and never generated (J379, J380, J384).
 
 ### 3.9 Settlement siting and the settlement-map record
 The host decides a settlement exists. The engine proposes and validates sites by two-stage scoring (geographic

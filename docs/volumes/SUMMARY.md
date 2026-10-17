@@ -110,11 +110,13 @@ Estimated in expert **person-weeks** (one skilled builder for one week), each vo
   it — mainly the neighbourhoods at full depth, the app's screens and the calibration rig).
 - **Every later stage together:** about **171–239 person-weeks** (the largest: the underground 28–39, the village 27–37,
   the evolution engine 25–36, the buildings 21–30).
-- **The world (volume 13):** about **28–36 person-weeks** (the water system at the town's scale, about 4 of them,
-  comes first and on its own).
+- **The world (volume 13):** about **37–45 person-weeks** (the water system at the town's scale, about 4 of them,
+  comes first and on its own; the map lenses over your host's simulated systems — plague, territory and patrols,
+  trade, populations, religion, prosperity and alignment — about 7 of them, come after the world's routes and
+  borders).
 - **Sites, encounters and the 2.5D view (volume 14):** about **25.75–36.25 person-weeks** (the battle map 4.25–5.75,
   the sites 13–18.5, the 2.5D view 7.75–11, their content under 1).
-- **The whole program with the two new volumes:** about **446–611 person-weeks** (the earlier 392–539 plus the two
+- **The whole program with the two new volumes:** about **455–620 person-weeks** (the earlier 392–539 plus the two
   lines above). With several builder pairs working in parallel, the calendar
   time is much shorter than that; the order above lets up to four lanes run at once after the parity milestone.
 
@@ -181,7 +183,7 @@ Twenty-five questions, each with a recommendation the work follows until you rul
   host's own changes (the world port and the per-campaign request) in step with the world's first milestone; a town's
   share code carries its world charter so it replays alone; the battle map ships right after the first viewable town,
   interiors following; a site record in the SettlementForge dossier, scheduled with the host's other changes; accept
-  the two volumes' cost (28–36 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
+  the two volumes' cost (37–45 and 25.75–36.25 person-weeks); and the tabletop export may carry each room's reason in
   an optional block that is off unless you turn it on.
 
 Every recommendation with its reason is in `docs/volumes/INDEX.md` §6, and each question's full text is in its volume's

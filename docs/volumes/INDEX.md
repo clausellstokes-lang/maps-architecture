@@ -36,7 +36,7 @@ dossier port's creation and absorb halves, and the verification rig; its milesto
 | V10 | `V10-clerk.md` | the clerk — the oracle at depth and the built-in assistant: tools, proposals, bends and refusals, explanations ("why is this here"), critique, transcripts, the host seam | §11.2, §7.1, item 101 | C1 inside **M3a**; **M3c** (C0, C2–C5) beside M3b, C4's Find content (the find form and read) at M5's exit | 14.75–20.25 (15.25–20.75 with the command-line clerk) |
 | V11 | `V11-content.md` | the content — the registry, the class rows and profiles, the siting rulebook (item 103), custom-content rows (104), goods and orientation (105), wall rows (106), balance (107), ladders (108), caverns, ruins and catacombs (109), item 110's rows, naming | §10.2, §7.6, §14 | C0–C3b, C4a (the wall rows) and C5–C7 inside M0–M4b, C4a at M2b; C8 at M6-U; C9 beside each owner item's base milestone; C4b (the dossier rows) with the SettlementForge stage (V11 §8) | 13.6–19.1 |
 | V12 | `V12-calibration.md` | calibration — the capture plan, parity, the owner's panels, tuning runs, the register of every provisional number, the corpus reconciliation | §13 (all), §7.6, §17.1 | base side M-1 – M4, W6 at M6-U's U3 – U5, W7 with each owner item's milestone (V12 §8.2); **M-CAL** staged | 7.25–11 base side; M-CAL 4.75–8; each later corpus run 0.25–0.75 |
-| V13 | `V13-world.md` | the world regime, placement and hydrology — a world document of its own (W0–W9: the terrain recipe, features and surfaces, climate, hydrology with groundwater and springs, biomes and resources, suitability, routes, polity, labels and the settlement glyph); the placement of settlements both ways (P1–P5, the frame charter as S1's one input, the coherence cost, the blend band, the precedence stamp); water as a consequence system at both scales (surfaces as dated records, the one water class test, the two verbs and the cascade, the counterfactual fork); reason records; the world port; the map-import adapter and the ecosystem-shaped exports | §2.3, §2.6 *Basements*, §2.8–§2.9, §4.2 S1, §4.12, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14 | **M-W0h** (the water state at the frame: after M4 beside M5, exiting before M6-U's U3b); **M-W0 – M-W4** after M-SF, the host's own changes a parallel track (V13 §8) | 28–36 as one staged row (M-W0h ≈ 4 inside it) |
+| V13 | `V13-world.md` | the world regime, placement and hydrology — a world document of its own (W0–W9: the terrain recipe, features and surfaces, climate, hydrology with groundwater and springs, biomes and resources, suitability, routes, polity, labels and the settlement glyph); the placement of settlements both ways (P1–P5, the frame charter as S1's one input, the coherence cost, the blend band, the precedence stamp); water as a consequence system at both scales (surfaces as dated records, the one water class test, the two verbs and the cascade, the counterfactual fork); reason records; the world port; the sway and patrols (the owner's territory rules, V13 §3.9); the lenses over the host's simulated systems (V13 §5.8, §5.9); the map-import adapter and the ecosystem-shaped exports | §2.3, §2.6 *Basements*, §2.8–§2.9, §4.2 S1, §4.12, §6.1, §6.3, §7.1, §7.3, §7.7, §8.4, §9.5, §11.1, §14 | **M-W0h** (the water state at the frame: after M4 beside M5, exiting before M6-U's U3b); **M-W0 – M-W5** after M-SF (M-W5 the lenses, after M-W2), the host's own changes a parallel track (V13 §8) | 37–45 as one staged row (M-W0h ≈ 4 inside it; BCR-V13-37, file o item 877) |
 | V14 | `V14-sites.md` | world sites, encounter crops and the 2.5D view — the site card, its request, programme and complexity vector; admissibility by context; topology-first unit graphs embedded on the kernel (natural caves, rock-cut rooms, mines, built levels, the ground by the hinterland unit); water classes per unit; condition as a transform over a persisted plan; the anchor, the one access record and the three secret states; adoption into a settlement; the encounter crop (extent by table, completion by the plan rung, the occupancy abstraction, the transient layer, promotion, the VTT crop scope and stable grid origin); the 2.5D projection family with z-completeness, hit testing back to the 2D address and the raise-or-lower edit | §2.1–§2.2, §2.5, §2.7–§2.9, §3.4, §4.12, §6.1, §7.1, §7.6–§7.7, §8.1–§8.2, §8.4, §8.8, §9.2, §9.5, §11.1–§11.2, §14, II.7.4, II.7.6 | **M-ENC** after M1 (its interiors with M6-P's P1); **M-SITE-A** after M6-U; **M-SITE-F** after M-W1; **M-25D** after M4 beside M5 (V14 §8) | 25.75–36.25 (M-ENC 4.25–5.75; M-SITE 13–18.5; M-25D 7.75–11; content 0.75–1) |
 
 **Base change requests.** 407 requests in volumes 1–12's `## 10` sections are carried by the 386 items of file f (200–585;
@@ -106,7 +106,7 @@ flowchart LR
   VM --> VH["VH village hand-off (V08)"]
   M4 --> MW0H["M-W0h water state at the frame (V13), after M4 beside M5"]
   MW0H --> MU
-  MSF --> MW["M-W0 … M-W4 the world (V13), after M-SF"]
+  MSF --> MW["M-W0 … M-W5 the world (V13), after M-SF (M-W5 the lenses after M-W2)"]
   MA --> MENC["M-ENC encounter crop (V14), after M1"]
   MP0 -.-> MENC
   MU --> MSA["M-SITE-A attached sites (V14), after M6-U"]
@@ -130,7 +130,7 @@ flowchart LR
 | M-CAL (V12) | M6-sky; its inputs M4, M5, M6 and V-M4 | — | the corpus interface (§13.9) |
 | M-SF (V08) | M-CAL (SF0–SF3 may start earlier; VH when the village lands) | — | SettlementForge's own side (SettlementForge's program) |
 | M-W0h (V13) | M4 | M5, the village, M6-E, M-25D | exits before M6-U's U3b; its only new dependency M4's render tier (the overlays); V04's water readers and V14's G6 switch to the one classifier at its landing (provisional readings before it) |
-| M-W0 – M-W4 (V13) | M-SF (the host client); M-W0's spikes once M0 closes | the host's parallel track (V13 §8.5; Q2) | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires |
+| M-W0 – M-W5 (V13) | M-SF (the host client); M-W0's spikes once M0 closes; M-W5 the lenses after M-W2 | the host's parallel track (V13 §8.5; Q2); M-W5 beside M-W3 | M-W1 before M-SITE-F; M-W3's adapter and exports before the host's reference fork retires; M-W5 before M-W4, whose gate covers it |
 | M-ENC (V14) | M1 | M2a – M4 | the interiors with M6-P's P1 and the occupancy with M4b (registry lookups: shells and `W_CROP_INCOMPLETE` until then); the world click after M-W1 |
 | M-SITE-A (V14) | M6-U's U3b and V01's W15 (M5) | M6-P, M-W1 | G6 reads the classifier from M-W0h (provisional classes before it); the surface exception's programme override from M6-P |
 | M-SITE-F (V14) | M-W1 | M-W2 | a free-standing drop takes a point only until M-W1; adoption through `adoptSite` on V13's `placed` outcome |
@@ -144,7 +144,7 @@ village V-M1 – V-M4 (V07), M6-E (V06) and the plan rung's P0, P1 and P3 on the
 and M6-U (V04) after M5, M6-U beside M5 where a second pair is free; then M6-P's rest and M6-sky (V05); then M-CAL
 (V12); then M-SF (V08; VH with the village). Volumes 13 and 14 (2026-10-17; the owner deferred their decisions to
 the session, each vetoable) add, as their §8 states and file k item 635 writes into §16: M-ENC right after M1; M-W0h
-and M-25D after M4 beside M5; M-SITE-A after M6-U; M-W0 – M-W4 after M-SF; M-SITE-F after M-W1. Every milestone's
+and M-25D after M4 beside M5; M-SITE-A after M6-U; M-W0 – M-W5 after M-SF (M-W5 the lenses after M-W2, beside M-W3; file o item 877); M-SITE-F after M-W1. Every milestone's
 price is its volume's own §8 estimate, and §16 computes
 the two totals once (file f item 568) — the base with stage 2, and the whole program — with the lines outside both
 (later corpus runs, the command-line clerk, SettlementForge's own side). Staffing per the owner: architecture and
@@ -245,7 +245,7 @@ counts, its clean-room and document checks — stands in the archived index
 (`docs/archive/volumes-pre-coherence-2026-09-28/INDEX.md`) and the lane log.
 
 **PLAUSIBLE (reasoned, not executed):** every price of §1 (each volume's own §8 estimate; volumes 13 and 14's
-28–36 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report) and the two totals §16
+37–45 and 25.75–36.25 pw among them, PLAUSIBLE until their spikes report) and the two totals §16
 computes once from them (file f item 568) — expert estimates until the milestones run; that the pairs no seam read
 together hold no semantic conflict sharing no name (J-VI.29). The order of §3 and §4 is a decision under the owner's
 delegation (J122), not a measurement.
