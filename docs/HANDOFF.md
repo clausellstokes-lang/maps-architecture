@@ -18,9 +18,9 @@ its file may be partial — the resumed agent rewrites it.
 read's implications seat ran without plague; one seat appends a plague section and updates the lens tables).
 (2) The religion follow-up review (J379) — rebriefed by research/sf/faith-system.md §9.6: reuse the territory hinterlands,
 pressure along carrier links, the host's unconsumed religious hierarchy first, no invented holy sites, pilgrims or
-source-named flows. (3) The owner's open question from the session: add culture as a resistance term (read the host's
-cultureDistance) and the sea as cheap carriage for territory only where the host's sea lanes are lit (faith's sea idea
-dropped). (4) Report to the owner: the realm review's rulings and file m's items; each system read's "how this changes
+source-named flows. (3) RULED by the owner (J382, "yes"): territory's culture term reads the host's cultureDistance; water is cheap
+carriage for territory only where the host's sea lanes are lit, with coastal footholds across water; no sea carrier for
+faith. Check file m carries it; if not, a small follow-up amendment adds it to V13 §3.9 W8 and the host-change list. (4) Report to the owner: the realm review's rulings and file m's items; each system read's "how this changes
 the view" section. (5) Host defects found by the faith read (research/sf/faith-system.md §3.11, §10, §12) to pass to the
 owner for the host repository.
 
