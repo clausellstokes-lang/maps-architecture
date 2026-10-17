@@ -1,5 +1,5 @@
 - [Maps project state](maps-project-state.md) — goal, layout, resume point (2026-10-04 16:15: MOVING TO CLOUD — M0 waves 4+6f landed; J173 flow mode reviewed + simulated, launch in cloud after a confirm-only re-review; see HANDOFF); journals at <session>/subagents/workflows/<runId>/journal.jsonl
-- [Agent model tiers directive](agent-model-tiers-directive.md) — Fable manages/judges/architects/validates; Opus verifies/scouts/implements/surveys
+- [Agent model tiers directive](agent-model-tiers-directive.md) — Fable manages/judges/architects/validates; Opus verifies/scouts/implements/surveys; J390 (2026-10-17): model AND effort per seat by judgment density — Fable high/xhigh, Opus high/medium, Sonnet medium/low, Haiku low
 - [Patreon public API access](patreon-public-api-access.md) — endpoints that work without login; browser routes blocked
 - [Generation profiler hazards](generation-profiler-hazards.md) — watabou attribution trick; FTG server-side one-shot capture pitfalls; FTG payload coordinates are zig-zag sint32 (unsigned decode doubles lengths); analyzer trees are time-sorted (not an execution order); Dwellings successor seed = Lehmer 48271 state after k draws, clock-reseeded ≈ 1 in 5 generations
 - [Read everything before characterizing](read-everything-before-characterizing.md) — owner correction on sampled verdicts
