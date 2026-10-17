@@ -12773,9 +12773,14 @@ SettlementForge and returns back the map").**
    (3)). Two parts are read by the owner's rules: the defence readiness (`defenseProfile.readiness` alone; item 114,
    V08 §3.16 (2)) and the traditions with the custom-content traditions bucket (item 118, V08 §3.16 (5)). **The
    closed-digest rule** (W-DOS-01a): inside a record the port reads, a field no `DossierDigest` field names is not
-   read. Nothing of the campaign beyond the dossier is read — its placements of the settlement and its partners, the
-   realm map, its scale and latitude scale, the frozen `spatialDigest` (item 125 (a); item 396's realm block is no
-   input): the latitude and the site's words they would give are the dossier's where it carries them — its culture
+   read. Nothing of the campaign beyond the dossier is read through the dossier door — its placements of the settlement and
+   its partners, the realm map, its scale and latitude scale, the frozen `spatialDigest` (item 125 (a); item 396's realm
+   block is no input); the world port (§11.4's fifth door, world documents only; V13 §3.11.6) admits under its own
+   closed key list the host's recorded world inputs — seat bindings and placements, its cost and travel laws, its route
+   genesis and changes, its political facts and dated events by window — read by the world's stages, views and clerk and
+   never by a frame's model (save the charter's culture reading, a map fact of the world), and, on a DM's explicit import, the host's realm-map export with its scale, unit and
+   latitude once, inside the import adapter; the host's frozen spatial record stays never-read on every door (file m
+   item 777): the latitude and the site's words they would give are the dossier's where it carries them — its culture
    (DR29), its terrain type, access and deposits (DR1, DR19, DR42) — else the generator's defaults; the partners' and
    the deposits' bearings are the generator's draws or the user's settings, never an input (layer 2's *Bearing*, DR3,
    DR19; item 125 (b)). The adapter reports every key it dropped
@@ -12888,7 +12893,7 @@ doesn't provide, the rest of the map code must compensate. it is one directional
 immutable truth while the rest can be constructed at whim. better if the rest of the map code coherently derives things
 from the dossier and in accordance with our rules").
 
-The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door: outbound `derivedFacts(world, placement) → SettlementMapRecord`, `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`, `routes(world) → WorldRoute[]`; inbound `seats(world, seeds)` and `costLaw(world, law)` as recorded inputs. The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9); the seventh method, inbound `events(world, events: WorldEvent[])`, delivers the host's dated events as dossier-tier facts for the world's event index (V13 §2.2; SW-07). V08's host client carries the seven messages, versioned by the world's format version, plus the view command `clock(world, week)` (V13 §2.1; C13-23; V08 §2.2, file k item 643). Built M-W1 for the three outbound calls and `events`, M-W2 for `seats`, `costLaw` and `routes` (file k item 621).
+The **world port** (`@plat/port/world`, one adapter folder per host line, V13 §3.11.6) is the port's second door and §11.4's fifth: it replaces the host's capture of the reference generator, never the host's own frozen spatial record; outbound the simulator feed `canon(world, request)` (integer, versioned per slot, adopted only by the host's receipted re-canonize) and the map feed (`derivedFacts(world, placement) → SettlementMapRecord`, `mapFeed`, `routes`, `pathGeometry`, `borderSegment`, `placeOf`), `charter(world, campaign) → FrameCharter`, `proposals(world, demand) → SitingProposal[]`; inbound recorded inputs, the windowed ones as windowed replaces (`bindSeat`, `unbindSeat`, `importSeats`, `costLaw`, `travelLaw`, `hostRequires`, `genesis`, `network`, `polity`, `events`, `canonized`, `consumed`), and presentation inputs never logged (`clock`, `hostOverlay`, `beliefView`, `audienceKnowledge`); nothing the host simulates calls it inside an advance (file m item 778). The host reads derived facts and never an arena; the map writes no dossier fact except through this door as a derived fact (V13 Part E bar 9). V08's host client carries the messages V13 §3.11.6 lists, each with the canon envelope's version vector, the presentation inputs never logged. Built M-W1 for `canon`, `derivedFacts`, `charter`, `proposals`, `costLaw`, `travelLaw`, `bindSeat`, `unbindSeat`, `importSeats`, `hostRequires`, the `events` windows, `canonized`, `consumed` and the `physicalChange` offer; M-W2 for the rest (V13 §8.2).
 
 9. *Two tiers of fact* (item 20 (h) (i)). Every fact the map holds is either a **dossier fact** — a record or value the
    dossier supplies, carried by the map under its binding key (§7.7 item 12), immutable on the map and changed only by a
@@ -17575,7 +17580,8 @@ result, §3.1).
   to every `query.result` and `preview.result` before it leaves the frame — V08 §5.4 (3)'s rows for the base's kinds and
   the preview reply, V10 §3.17's rows for `brief`, `entity`, `sites`, `why`, `frame` (without `near` and `radiusM`),
   `rule` and `profile`; `measure`, `hit` and `inView` are answered `query.result { error: 'E_HOST_KIND' }` (correlated
-  by `re`) — so no length, bearing, extent or coordinate reaches a host (door 1, J86). The AI key or relay, the assistant
+  by `re`) — so no length, bearing, extent or coordinate of a frame reaches a host (J86's door 1); a world document's points reach
+it only through door (5)'s canon and map feed. The AI key or relay, the assistant
   and its model tier follow SettlementForge's own decisions, read as inputs (J121; V10 Q1–Q3). **One way (items 20, 22; J-A20.81).** No PLAT → host message writes,
   patches or proposes a change to the host's dossier: `doc.changed` carries map-document events only, `report.changed` the
   map's report, and the vocabulary has no message that addresses the dossier; a dossier change reaches the map as
@@ -17668,21 +17674,28 @@ outputs must be byte-identical, else it is refused), with every output it produc
 document's `hostContent` block, keyed by (provider id, version, input hash), and read from there on replay; an output
 that would pass §2.9's cap on pack data and host content is refused at the call as §2.9 states. So a document never needs
 its host to replay, and host code — which the model packages' lint (§6.5) cannot reach — is made deterministic by the
-check and the record.
+check and the record. (5) **For a world document only, the world port** (§7.7's world port paragraph; V13 §3.11.6): its
+recorded inputs — seat bindings and placements, the host's cost and travel laws, its route genesis and changes, its
+political facts and dated events, each a windowed replace keyed by host keys — are logged with provenance `host`, so a
+world replays without its host; its presentation inputs (the week drawn, movers, the DM's believed view, an audience's
+known events) are never logged and read by nothing replayable. Item 125 (a) still holds for every settlement frame,
+which reads only its dossier and its charter, and T125-3w scans `@plat/port/world` (file m item 779).
 
 **A dossier comes through the port (items 73–87; §14).** For a dossier, door (1)'s blueprint and the log's creation
 prefix, and door (2)'s events and epochs, are produced by `@plat/port` (§14, item 73) from the whole dossier, **the
-port's only data input** (item 125 (a); J139): the map reads SettlementForge only through it — never its campaign state,
-simulator, derived reads, realm map or code — and every fact it uses comes from the dossier where the dossier carries it,
+port's only data input** (item 125 (a); J139): a settlement frame reads SettlementForge only through it — never its campaign state,
+simulator, derived reads, realm map or code (a world document's recorded inputs are door (5)'s, above) — and every fact it uses comes from the dossier where the dossier carries it,
 else from the fallback the generator takes, exactly as on a map made without a dossier, the fallback reported and never a
 refusal (item 125 (b); §7.7's derivation table, DR1, DR3, DR19, DR29 and DR42 among its rows; the week by §4.11 *The
 clock*). Beside the dossier a host may pass three fields of `HostContext` (§14), none a data input and none able to change
 a document a dossier makes: `audience` (the role and knowledge key it sets per viewer, view state that travels, §11.3;
 J-A30.82), `displayNames` (inside one export request, never stored, §11.1; item 85) and `line` (checked against the
 dossier's own selection, V08 §2.4, never chosen from; a `line` no adapter supports, or one the dossier's stamps
-contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs, a custom
+contradict, refuses with `E_LINE_UNSUPPORTED`); the week, the realm and a custom library are never host inputs to a frame (a host-bound world's present week is its
+latest window's end, door (5)), a custom
 definition reaching the map only from the dossier's own entries (§7.7 item 1). A host's view commands (§11.3) stay
-commands. The port's adapter imports and reads nothing but the dossier (T125-3). SettlementForge's map comes through doors (1) and (2), which the port produces;
+commands. The dossier port's adapter imports and reads nothing but the dossier (T125-3); the world port's adapter reads nothing
+but its manifest's closed key lists (T125-3w). SettlementForge's map comes through doors (1) and (2), which the port produces;
 door (3) stays open to it as to any host — logged table, preset and style events over the bridge — and door (4) is the
 in-page embedders' and scripts': `registerProvider` loads a provider's code into the module's workers, while the bridge
 through which SettlementForge's configuration speaks — the module in an iframe on its own origin (§11.3) — carries data
@@ -17697,8 +17710,11 @@ derivation table; no door, message or report asks the host for a fact. What a ho
 dossier change like any other and converges by the solver's order; the port's report names the earlier absorbed state
 the dossier now equals, `state_matches_absorbed` (§7.7 item 5; item 87). **No door opens the other way (owner, J86 Q2;
 J-A73.81):** the host's simulator never reads the map's geometry — the module writes no geometry, layout or district
-read for the host (door 1 stays closed); because the map follows purely from its seed and the ordered dossier history
-(§7.7 item 6), opening it would need no redesign, and it opens only on the owner's explicit word. **The export bundle
+read for the host (J86's door 1 stays closed); because the map follows purely from its seed and the ordered dossier history
+(§7.7 item 6), opening it would need no redesign, and it opens only on the owner's explicit word. The world port's
+canon (door 5) carries no frame or arena geometry and reaches the host's simulation only through its DM-confirmed,
+receipted re-canonize, replacing the capture the host already reads; the session reads it as outside J86's door 1, and
+the owner confirms (V13 §11 Q4) before the host lights its builder over the canon. **The export bundle
 (V08 Q3: J122).** From M-SF the host client gains one call returning the user's chosen scene exports
 (§11.1's `.dd2vtt` and Foundry scenes, rendered at the export's knowledge tier and admitted by the calling key) as
 opaque byte blobs for SettlementForge's export bundle, which SettlementForge packages unread; before M-SF maps export on
@@ -20117,7 +20133,8 @@ interface DossierFixtureRow { file: string; sfLine: string; commit: string; gene
     §4.11's clock at week 0 and the year position at midsummer (`port.fallbacks` 0); (T125-2) the same dossier with and
     without a host context, and under each `HostContext` field (`audience`, `displayNames`, `line`), yields the identical
     document and hash (the pin `item125.host`, a `NoOpPin` of kind `input`); (T125-3) no code path of the port reads
-    anything but the dossier — a static check of each adapter's imports and reads. Volume 8 runs T125-1 – T125-3 on its
+    anything but the dossier — a static check of each adapter's imports and reads; (T125-3w) every code path of
+    `@plat/port/world` reads only the keys its manifest lists per message. Volume 8 runs T125-1 – T125-3 on its
     host harness (T-V8-61) and volume 12 T125-1 and T125-2 (T-V12-58).
   * *Tablets and desktops only (item 126 (a2); §1.1); built at M2a with the medium layout.* (T126-1) at the medium class
     every tool of V09 §4.12's list completes its canvas script under touch, with `AppPrefs.touch.editFabric` on;

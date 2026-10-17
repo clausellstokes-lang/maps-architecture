@@ -4,7 +4,7 @@
 
 Numbered from **659** (file l ended at 658).
 
-**PENDING APPLICATION**
+**APPLIED** by amendments/realm-m-apply on 2026-10-17 (record: docs/validation/coherence/realm-m.md) — all 117 change items 663–779 applied, every fragment matched exactly once; no item not applied (items 659–662 are the owner's rules, carried into V13 by item 667).
 
 Items 659–779: the owner's rules (T1)–(T3) and
 J382 as items 659–662, then 117 change items to `docs/volumes/V13-world.md` (94, items 663–756), `docs/volumes/V14-sites.md` (12,
@@ -22,7 +22,10 @@ rather than new numbers — V13 §3.0 and §3.16 (item 714), §7's corpus paragr
 estimate (746), §10's BCR-V13-8 and a new BCR-V13-37 (752, 753), §12 (756), V14 §1b.6, §2.2, §2.5 and §5.4 (757, 759,
 766), the proposal's §3.8 (770) and the base's §11.3, §11.4 and §13.2 (779) — so items 659–779 keep their numbers and
 the next file starts at 780. A census of retired words (`seats(world`, budgets, cost vectors, `foreignCulture`,
-`port: true`) over the targets as this file leaves them found the stale sentences those fragments mend.
+`port: true`) over the targets as this file leaves them found the stale sentences those fragments mend. Four fixes follow
+the session's J384 rulings (`docs/PROGRESS.md` J384), which landed during the revision and which amendments n carries
+whole: the culture band's plain form (2), the force band's facets (4), a raid's fighting mark (5) and a satellite inside
+its parent's allegiance (11).
 
 **How to read an item.** As file l's: each item names its target file's section (the heading above it), its title in
 bold, the review findings it carries (*Requests*), the current text quoted **once** (every quote verified by exact search
@@ -127,8 +130,8 @@ J378).** "and of course military strenght to enforce. where two hostile neighbor
 the cieling that you described but where contested, this also becomes part of the tie breakeralso there should be
 patrols"
 
-  **(a) MILITARY STRENGTH TO ENFORCE, AS THE TIE-BREAKER.** A second strength — the host's existing latent-strength band and garrison
-  presence per seat, continuous vassals' forces, garrisoned sites — at army pace, entering only land the civil projection left
+  **(a) MILITARY STRENGTH TO ENFORCE, AS THE TIE-BREAKER.** A second strength — the host's force band (its capacity facets without the
+  economy facet, J384 (4)) and garrison presence per seat, continuous vassals' forces, garrisoned sites — at army pace, entering only land the civil projection left
   debatable (J-RR.52). **(b) THE CEILING KEPT.** Military strength never extends a reach, never moves a decided line, never
   takes a town's own ground. **(c) HOSTILE NEIGHBOURS FIGHTING OVER THE MARCH.** The host's dated verdicts on fights there
   move a hold band per segment and side that decays by a season; the fight itself is a fighting overlay that never moves
@@ -145,8 +148,9 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
   distance (its composite of faith, alignment, economy, trade ties and governance — host `src/domain/spatial/cultureDistance.js`,
   a live read of its world state; not purely cultural — its governance term counts two seats answering to one sovereign
   as close, so a conquest or a vassalage moves it, and trade ties and shared traditions close it multiplicatively; recorded
-  owner-visible, this reading vetoable), sent banded in fifths with the pair's relationship-label trade tie as the host's
-  own migration reads it, for every pair within the host's reinforcement band or at its neighbour tier ≤ 2, held for a
+  owner-visible, this reading vetoable), sent banded in fifths in its plain form over its whole vector — no trade tie, the
+  sway's relation classes already counting the pair's relationship (J384 (2)) — for every pair within the host's
+  reinforcement band or at its neighbour tier ≤ 2, held for a
   dwell, and held at its first window's value between an occupied seat and its occupier's allegiance while the occupation
   stands; a pair not sent reads 0, reported; the map invents no culture measure, and V13 W8's former `foreignCulture` term is retired into it (V13 §3.9 (6), item 714). **(b) WATER
   IS CHEAP CARRIAGE ONLY WHERE THE HOST'S SEA LANES ARE LIT.** While the host's lane system is lit, a seat at one end of an
@@ -329,7 +333,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 *Current text* (c):
 > `world.siting`, `world.polity`, `world.labels`, `place.search`; the stage ids
 *New text* (c):
-> `world.siting`, `world.polity` (reserved: W8 draws nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids
+> `world.siting`, `world.polity` (reserved: W8a and W8b draw nothing), `world.patrol` (the patrol phase hash keyed by (segment, power), V13 §3.9 (14); no stream of draws; its row appended to the kernel's concern registry, BCR-V13-8), `world.labels`, `place.search`; the stage ids
 *Evidence:* `research/sf/fp-realm-review.md` RR-10, RR-11, RR-21, RR-23, RR-48, RR-54 and J-RR.11 – J-RR.13, J-RR.23, J-RR.24, J-RR.51, J-RR.54.
 
 
@@ -600,11 +604,11 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >   legWeeks?: { a: string; b: string; weeks: number }[] /* a migrated campaign's frozen leg weeks */ }   // the host's law as data (`world.travel`'s host slice); a standalone world reads the default row (V13 §2.3); nothing derived from a default is ever sent
 > interface AdvanceWindow { fromWeek: Week; toWeek: Week; advanceNonce?: string /* when the host's advance epoch is lit */; hostSeq: number /* the host's pulse-history sequence of the window's final record: the window's key while the epoch is dark */; seq: number }
 > interface PolityFacts { window: AdvanceWindow; seats: PolitySeat[]; links: PolityLink[]; relations: PolityRelation[]; sites: PolitySite[]; claims: { claimant: string; target: string }[];
->   culture: { a: string; b: string; band: 0|1|2|3|4|5 }[] /* the host's own culture distance between two seats in fifths, with the pair's relationship-label trade tie as its own migration reads it, for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
+>   culture: { a: string; b: string; band: 0|1|2|3|4|5 }[] /* the host's own culture distance between two seats in fifths, in its plain form over its whole vector — no trade tie (J384 (2)) — for every pair within the host's reinforcement band or at its neighbour tier ≤ 2 — pairs the host can name itself; a pair not sent reads 0 (`W_POLITY_CULTURE_ABSENT`); J382 */;
 >   waterLanes: { lit: boolean; lanes: { a: string; b: string }[] } /* the host's adopted water lanes and whether its lane system is lit; J382 */;
 >   roadWatch: { edge: string; power: string; kind: 'closed'|'warden'; since: Week }[]; christened: { root: string; name: string }[] }
 > interface PolitySeat { seat: string; tier: Rung; sizeThird: 0|1|2; prosperity: number /* the host's rung, 0 lowest */;
->   military?: { forceBand: 0|1|2|3|4 /* the host's existing five latent-strength floors */; garrisonPresent: boolean /* its garrison institution present */ } /* absent until the host sends it (V13 §8.5) */;
+>   military?: { forceBand: 0|1|2|3|4 /* the host's capacity facets bar the economy facet (manpower, institutions, materiel, logistics, will — prosperity counted once, J384 (4)), renormalised and banded on its existing five latent-strength floors */; garrisonPresent: boolean /* its garrison institution present */ } /* absent until the host sends it (V13 §8.5) */;
 >   since?: Week /* the week the row's rungs last changed, where the host records it; absent: the window's start */;
 >   changes?: { field: 'tier'|'prosperity'|'force'|'garrison'; value: number; week: Week }[] /* optional, the host's choice: the window's dated rung changes (V13 §3.9 (13)) */ }
 > interface PolityLink { from?: string /* absent: an occupation the host records with no occupier */; to: string;
@@ -623,7 +627,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > interface WorldWhere { kind: 'settlement'|'wall'|'road'|'border'|'supplyLine'|'region'|'point'|'offStage'; seat?: string; edge?: string; mode?: 'land'|'water'; fraction?: { num: number; den: number }; pair?: [string, string]; at?: WorldPointCm }   // resolved at fold, kept as a dated fact
 > interface TimeDeltaReceipt { baseline: number /* the canon version the host read (`canonized`) */; legs: { a: string; b: string; foot: [number, number]; army: [number, number]; bandsCrossed: string[]; fragile: boolean }[]; causes: Id[] }
 > interface HostGateRef { pairKey: string; cellA: number; cellB: number; atCm: WorldPointCm }   // an imported legacy world's host gates as world points (V13 §3.15 (3))
-*Evidence:* `research/sf/fp-realm-review.md` §3.1 – §3.8 and J-RR.2, J-RR.3, J-RR.5, J-RR.7, J-RR.10, J-RR.11, J-RR.13, J-RR.16, J-RR.18, J-RR.20, J-RR.22, J-RR.36, J-RR.38, J-RR.47 – J-RR.54 (PS-2's corrected canon, PS-4's envelope, PS-9's polity facts, DT-3's travel law, TR-2's records with TR missed 2 and 4; J382 (a)–(b)). Revised (§10): the host keeps two relationship planes that disagree on purpose, its relationship-state plane collapsing tributary and subject onto vassal and war onto hostile, tributary with no producer — host `canonicalRelationship.js:19-35,98-106,140`, `convergence.js:795`; its weeks ride a per-map calibration, `distanceRead.js:76,588-591,728-733`; its advance key is dark, `DESIGN_FP_ARCH_EP.md:5`; it has a five-floor latent-strength band and a garrison bucket, never a garrison and standing split, `armyStrength.js:44-55`, `defenseInstitutionBuckets.js:83-92`; it keeps no per-settlement rung history, `research/sf/prosperity-system.md:98,126`; a treaty-held occupation is a ceded garrison, never a membership, `occupation.js:1248-1253`, `treatyEnforcement.js:132-151`; the span is a map-computed time and leaves the canon (J-V13.72); the stance and route-event unions were the host's closed vocabularies written as literals.
+*Evidence:* `research/sf/fp-realm-review.md` §3.1 – §3.8 and J-RR.2, J-RR.3, J-RR.5, J-RR.7, J-RR.10, J-RR.11, J-RR.13, J-RR.16, J-RR.18, J-RR.20, J-RR.22, J-RR.36, J-RR.38, J-RR.47 – J-RR.54 (PS-2's corrected canon, PS-4's envelope, PS-9's polity facts, DT-3's travel law, TR-2's records with TR missed 2 and 4; J382 (a)–(b)). Revised (§10): the host keeps two relationship planes that disagree on purpose, its relationship-state plane collapsing tributary and subject onto vassal and war onto hostile, tributary with no producer — host `canonicalRelationship.js:19-35,98-106,140`, `convergence.js:795`; its weeks ride a per-map calibration, `distanceRead.js:76,588-591,728-733`; its advance key is dark, `DESIGN_FP_ARCH_EP.md:5`; it has a five-floor latent-strength band and a garrison bucket, never a garrison and standing split, `armyStrength.js:44-55`, `defenseInstitutionBuckets.js:83-92` — its facets bar the economy banded there by J384 (4), and the culture distance sent plain by J384 (2); it keeps no per-settlement rung history, `research/sf/prosperity-system.md:98,126`; a treaty-held occupation is a ceded garrison, never a membership, `occupation.js:1248-1253`, `treatyEnforcement.js:132-151`; the span is a map-computed time and leaves the canon (J-V13.72); the stance and route-event unions were the host's closed vocabularies written as literals.
 
 **694.** **Host facts carry the host's resolved audience.**
 *Requests:* RR-33.
@@ -1004,13 +1008,14 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    cell under the cost law's time terms at the travel law's foot pace, season-neutral (borders do not breathe with the
 >    seasons), stopped at the seat's cap: t(s, c) in integer minutes, a step across a reach ≥ `navigableM3s` adding
 >    `river.crossingDays` (the sway's own resistance, never a route time: a big river is a border). **Culture resists**
->    (J382): on a host-bound world a
->    step into cell c takes × (1 + φ × cd(s, home(c))), home(c) the W8a seat whose territory holds c and cd the host's own
+>    (J382): on a host-bound world a step into cell c takes × (1 + φ × cd(s, home(c))), home(c) the W8a seat whose
+>    territory holds c and cd the host's own
 >    culture distance between the two seats, banded in fifths and sent with the polity facts — a pair the host did not
 >    send reads 0, reported once per window (`W_POLITY_CULTURE_ABSENT`), and while an occupation stands on a seat the band
 >    between that seat and every seat of its occupier's allegiance is held at its value in the occupation's first window
 >    (the host's measure counts a shared sovereign as closeness, and an occupation changes no holder, (12)); the map
->    invents no culture measure, and on a standalone world cd is 0. **Water carries cheaply only along the host's lit water lanes** (J382):
+>    invents no culture measure, and on a standalone world cd is 0. **Water carries cheaply only along the host's lit
+>    water lanes** (J382):
 >    open water and lakes are a barrier to the sway, except that while the host's lane system is lit a seat at one end of
 >    an adopted lane reaches the other end at the travel law's water price; a reach that lands across water holds at most
 >    a **coastal lodgement** — the land within `lodgementDays` of its landing — never the far shore beyond. No water cell is
@@ -1018,7 +1023,8 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > 7. **Strength and reach (T2: "bounded but exponential").** L(s, c) = Λ − t(s, c) ÷ τ(s), with τ(s) = τTier[tier] ×
 >    kSize[size third] × kProsperity[rung] × (1 + B(s)), B the chain bonus of (9) and τTier = `reachTierDays` ÷ Λ. τTier
 >    rises by rung by a factor of at least 1.5 (V13 §2.3's cells), so a settlement's reach — where L falls to the floor 0,
->    Λ·τ(s) — grows at least exponentially with its tier, and it is bounded: reach(s) = min(Λ·τ(s), capTier[tier]). Every comparison is linear in t, in fixed-point
+>    Λ·τ(s) — grows at least exponentially with its tier, and it is bounded: reach(s) = min(Λ·τ(s), capTier[tier]).
+>    Every comparison is linear in t, in fixed-point
 >    thousandths; no exponential is evaluated. A cell no seat reaches is **unclaimed** and stays wild: the map never fills
 >    it.
 > 8. **Neighbours (T2: "dynamics of neighbors").** Per cell the candidates are grouped by allegiance (9); an allegiance
@@ -1037,7 +1043,8 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    vassalized rung, a puppet seat. A **tributary** is a seat bound to another by a live tribute term (one of the host's
 >    four subordinating treaty terms), never by a relation label: it keeps its own sway outside the allegiance, drawn with
 >    its overlord's band; a compelled ally is respect (8); an occupation short of vassalage, a treaty-held one included, is
->    an overlay (12); a satellite of the host is a claim point of its parent's allegiance (12), never a member. The host's
+>    an overlay (12); a satellite of the host projects inside its parent's allegiance as a claim point (12) but is never a chain member (no
+>    bonus, no continuity test). The host's
 >    own subordination set (tribute, compelled alliance, puppet seat, a treaty-held occupation) is so drawn three ways —
 >    member, band and relation, overlay — a divergence J-V13.67 records. The root is a seat with no member link upward; a
 >    cycle drops the later link (`W_POLITY_CYCLE`); a seat with two lieges ranks vassalized, vassal, puppet, then the
@@ -1056,9 +1063,9 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    held through a bonus or reinforcement: the realm's own cap.
 > 10. **Military enforcement, the tie-breaker only (T3).** M(a, c) is the greatest, over the allegiance's force sources f,
 >    of μ_f − t_army(f, c) ÷ τMil[kind_f], at the travel law's army pace, μ_f = `margins.muPerBand` × (the source's force
->    band + `military.garrisonBonus` where a garrison is present): each member seat (its force band, the host's existing
->    latent-strength band, whose manpower already carries tier and population — read here as the tie-break only, so tier
->    never counts twice in a reach), each continuous member's force (`memberForce`, × δ^depth) and each garrisoned site
+>    band + `military.garrisonBonus` where a garrison is present): each member seat (its force band — the host's capacity facets bar the economy, renormalised on its existing
+>    latent-strength floors, whose manpower already carries tier and population — read here as the tie-break only, so
+>    neither tier nor prosperity counts twice in a reach), each continuous member's force (`memberForce`, × δ^depth) and each garrisoned site
 >    whose holder is in the allegiance (its `garrisonBand`). M
 >    enters **only cells (8) left debatable**: a lead of at least `margins.mil` makes the cell **held by force** by the
 >    stronger; a smaller lead leaves it debatable. M never extends a reach, never moves a decided line and never touches a
@@ -1074,7 +1081,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    winner +1 at its contested seat's facing segments; a lifted siege or a liberated occupation, +1 to the relieving side
 >    at that town's facing segments; a conquest moves no band (it is an occupation, (12)); a sea battle or a blockade
 >    moves none (no water cell is held); a raid on a settlement is a `WorldEvent` at its victim (its place a settlement),
->    moving no band. A band decays one step per `march.halfLifeWeeks`; it enters (10) on its segment only as μHold per
+>    moving no band and marking the victim's facing segments **fighting** for `fightingWeeks` (J384 (5)). A band decays one step per `march.halfLifeWeeks`; it enters (10) on its segment only as μHold per
 >    band, and a band crossing is a revision trigger. While an engagement there stands open, or within `fightingWeeks` of
 >    its climax, the segment is **fighting** — an overlay that never moves a line.
 > 12. **Events.** Occupation is an overlay, never ownership, hatched by the host's rung (an occupation the host records
@@ -1091,7 +1098,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 >    fact with its since-week where the host records one (a link's, a relation's, an occupation's) and the window's start
 >    where it does not (a seat's rungs, absent the change log of V13 §2.2). The sway moves only on dated host facts — a seat projecting
 >    or ceasing, a tier change, a prosperity rung held `prosperityDwellWeeks`, a relation's class changing, a link made,
->    broken or re-rooted, an occupation rung, a transfer at mint, a military band held `military.dwellWeeks`, a culture
+>    broken or re-rooted, an occupation rung, a transfer at mint, a force band held `military.dwellWeeks`, a culture
 >    band held `culture.dwellWeeks`, a water lane lit or darkened, a `MarchHold` band crossing, a host road grade or a map
 >    route edit that flips a continuity, a DM's `setSwayLock` — the fold minting a revision at each standing fact's
 >    since-week plus its dwell and at the dated events the events window carries (as far back as the host's news
@@ -1695,7 +1702,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 
 ### Volume 13 — §7 Tests and acceptance bars
 
-**742.** **The port's test, the polity tests rewritten.**
+**742.** **The port's tests (T-V13-37, T-V13-7), the polity tests rewritten, the seat rung (T-V13-14), the polity corpus.**
 *Requests:* RR-2, RR-3, RR-45, RR-57.
 *Current text* (a):
 > | T-V13-37 | the port: `derivedFacts` returns the settlement map record with no arena field;
@@ -1837,7 +1844,7 @@ the sea as cheap carriage. RULED (the session's reading, vetoable):
 > | H10 | with M-W1 | a per-campaign world record beside the settlement map records (snapshot, log, backups, quota, lifecycle); the players' world view from its party picture set | M-W1; H4 |
 > | H11 | with M-W1 – M-W2 | its port verdict over the canon's water access, returned as a view attribute; its frozen per-settlement water verdicts sent as constraints; its water lanes over the canon's latent candidates under its own law; a lake vocabulary admitting salt and a climate-band version over the settlement's physical record | M-W1; M-W2; H4; H5 |
 > | H12 | with M-W2, as its genesis mount at world birth lands (its own schedule puts that after its release) | genesis at world birth over the canon with the founding members placed first, sent as one frozen record (even while dark); its render-tier roads retired; route changes and grades per window; genesis on a member's joining; its charter command reachable from the world editor | M-W2; H4; H5; its genesis mount at world birth |
-> | H13 | with M-W2 | the polity facts per window: seats with tier, size third, prosperity rung, its existing latent-strength band and garrison presence; links in the vassal labels of its relationship-state plane (the plane its simulation reads; merging its two planes is its owner's) and its four subordinating treaty terms — tribute and compelled alliance sent as live terms, a treaty-held occupation flagged —, the occupation's two records resolved to their union; relations pairwise in the same plane; held sites; its culture distance with the pair's relationship-label trade tie (as its migration reads it) for every pair within its reinforcement band or at its neighbour tier ≤ 2, banded in fifths (J382); whether its water-lane system is lit and its adopted lanes (J382); its road closures and wardens' terms; the DM's christenings; the per-link continuity verdict whenever its sovereignty market is lit (optional while it is dark); optionally, at its choice, a per-tick capture of its political deltas during an advance — the dated rung changes of tier, prosperity and force band — into the window | M-W2; H4; H9 |
+> | H13 | with M-W2 | the polity facts per window: seats with tier, size third, prosperity rung, its force band (its capacity facets bar the economy facet, renormalised on its existing five floors) and garrison presence; links in the vassal labels of its relationship-state plane (the plane its simulation reads; merging its two planes is its owner's) and its four subordinating treaty terms — tribute and compelled alliance sent as live terms, a treaty-held occupation flagged —, the occupation's two records resolved to their union; relations pairwise in the same plane; held sites; its culture distance in its plain form over its whole vector (no trade tie) for every pair within its reinforcement band or at its neighbour tier ≤ 2, banded in fifths (J382; J384 (2)); whether its water-lane system is lit and its adopted lanes (J382); its road closures and wardens' terms; the DM's christenings; the per-link continuity verdict whenever its sovereignty market is lit (optional while it is dark); optionally, at its choice, a per-tick capture of its political deltas during an advance — the dated rung changes of tier, prosperity and force band — into the window | M-W2; H4; H9 |
 > | H14 | with M-W1 – M-W2 | for a settlement generated from a world charter, its access word derived from the charter's road and water facts before generation; existing campaigns' configurations stay canonical | M-W1; M-W2; H4 |
 > | H15 | with M-W2 | world edits held while an advance runs or is parked; `physicalChange` applied at the next tick head with the DM's attribution; `consumed` sent; geometry shifts and lay versions adopted only by its receipted re-canonize, after a dry run of the canon's diff | M-W2; H4; H5 |
 > | H16 | each optional | the crossing holder enters its per-gate pipeline only by its owner's re-ruling of who keeps a gate (today the intermediary settlement whose territory the path crosses), with its own register row — until then a map-feed reading only; patrol coverage re-priced through its one distance reader, read by outcome rolls only, any route choice reading it through its belief (the known world), and the crossing holder likewise; the sway as an advance-head overlay (fixed for an advance, at most one advance stale, stamped with its revision on its overlay version axis, its own live occupation, relationship and closure reads overriding it at a hop); the border segment and the typed place as a hearing card's "where" — a field battle placed at the settlement its record names where it names one, and a border segment offered where it names none touching its owner-gated field-battle place question, lit only on its owner's word; the seasonal sets; route facts as overlays; aerial legs; the canon's causes as receipt parents; a hemisphere lag | M-W2; H12; H13 |

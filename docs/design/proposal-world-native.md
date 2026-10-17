@@ -16,8 +16,9 @@ a graph, whose physical facts (terrain, water surfaces, hydrology, climate, biom
 suitability) are canonical world state; whose political facts (factions, cultures, settlements' existence,
 institutions, events) stay the host's and are only materialized; and whose output to every settlement frame is a
 boundary record the frame refines, so that a town's river is the world's river. The vendored FMG fork, the iframe
-bridge, the one-shot capture and the frozen spatial digest are retired in favour of one versioned, one-way,
-derived-facts port. Existing FMG maps are imported once as data through a version-pinned adapter. Nothing of FMG's
+bridge and the one-shot capture are retired in favour of one versioned, one-way world port; the host's frozen spatial
+digest stays the host's engine state, built by the host from the port's canon at its receipted re-canonize, and every
+existing campaign's digest is kept forever (`research/sf/fp-realm-review.md` J-RR.1, J-RR.45). Existing FMG maps are imported once as data through a version-pinned adapter. Nothing of FMG's
 rendering, save format, cell mesh, economy, military, religion, zone or assistant machinery is carried over.
 
 ## 1 What the survey established (CONFIRMED unless marked)
@@ -132,10 +133,14 @@ share the sea network; sea routes follow navigable reaches. Routes are stored as
 stable ids, and they exist before any connectivity-dependent fact is computed.
 
 ### 3.8 Political materialization
-Territories grown by budgeted typed-cost floods from host-supplied seats with host-supplied cost vectors, then
-normalized borders, poles of inaccessibility for labels, neighbours. Provinces the same inside a territory.
-Cultures as cost profiles the host supplies. Religions, states' diplomacy and forms, military, zones, the economy
-cycle and lore are not generated here; where the host wants their spatial footprint, the same flood serves.
+Two partitions (refined 2026-10-17, `research/sf/fp-realm-review.md` J-RR.48, J-RR.49): the seat territory — every
+reachable land cell to the seat cheapest to reach under the host's cost law, no budget, frozen with the host's
+distances — and the sway, the host's political facts (tiers, prosperity, links, relations, occupations, culture
+distances) projected over the terrain with a reach bounded but exponential in tier, a debatable land between
+adversaries and unclaimed land left wild; normalized borders, poles of inaccessibility for labels, neighbours.
+Provinces only on a standalone world. Culture resists through the host's own culture distance, never a cost profile.
+Religions, states' diplomacy and forms, military, zones, the economy cycle and lore are not generated here; where the
+host wants their spatial footprint, it sends the facts and the sway projects them.
 
 ### 3.9 Settlement siting and the settlement-map record
 The host decides a settlement exists. The engine proposes and validates sites by two-stage scoring (geographic
@@ -173,37 +178,36 @@ A charter per frame, persisted beside the frame's seed and placement: the frame 
 an elevation profile along each edge; which edges touch water, with the water body's id and level; for every river
 crossing the boundary, the crossing point, direction, discharge, width profile, bed and stage, basin id and
 navigability; the downstream head for off-map drainage; roads entering with their class; annual precipitation,
-temperature and evaporation; the water-table field; biome and vegetation; resource sites; territory and culture
-ids. The frame's S1 takes this as its input record and refines inside it; today S1 invents these from its own
+temperature and evaporation; the water-table field; biome and vegetation; resource sites; the seat territory (the host's own
+meaning of territory) and a political snapshot read once at the placement (culture for names; never re-emitted by a
+border revision); roads crossing the edge as forced gate picks toward the next settlement along them. Which facts win is
+the placement's stamp: on a frame generated from the world, the dossier, then the DM's locks, then the charter's boundary
+facts, then tier priors; on a frame that predates its placement, the dossier and the frame whole, the world reading
+only as derived readings (`research/sf/fp-realm-review.md` J-RR.24, J-RR.25, J-RR.30; V13 §2.2, §3.11.5). The frame's S1 takes this as its input record and refines inside it; today S1 invents these from its own
 parameters, which is the model-level M0 gate row already identified.
 
-## 6 What the host must change (from the audit)
+## 6 What the host must change (superseded 2026-10-17)
 
-1. Replace the iframe, bridge, capture and digest with the port: the world regime runs in the map module, and the
-   host receives derived facts (per-settlement cell, coast, river, port truth, biome, climate band, elevation,
-   territory, gates, distances, routed polylines) through a versioned one-way port, keeping the digest's immutable
-   canon-version semantics as the port's versioning.
-2. Add the per-campaign map charter (§5) and emit river and coast requirements per settlement as constraints.
-3. Stop routing in the iframe; consume routed polylines and the genesis network from the port.
-4. Persist coordinates; drop live-pack reads in territory and autoplacement layers.
-5. Re-version the biome and climate vocabularies, or have the port emit the host's current ones.
-6. Flip the coherence direction for new campaigns: settlement terrain inputs derive from the world. For existing
-   campaigns the frozen settlement config stays canonical ("genesis is sacred") and the world is fitted to it: a
-   riverside settlement gets a river, a port fronts the sea, exactly as the existing port satisfies dossier
-   constraints today. The advisory terrain-agreement toast becomes a hard contract or a receipt.
-7. Retire the fork, its content-security policy, separate origin, hash manifests and validation gate; migrate the
-   existing snapshot blobs through the import adapter (§7) under a declared geometry-version bump.
-8. Settle the audit's unknowns: where the modified upstream source lives; the missing design documents; the
-   production frame size; whether any snapshot was saved under another version.
+The eight items that stood here are superseded by the ordered host-change list of `research/sf/fp-realm-review.md` §5
+(H1 – H21), carried into the design as V13 §8.5. The old items map: 1 → H4, H5 (the port replaces the capture, never the
+frozen digest, which stays the host's engine state); 2 → H11 (the per-settlement water verdicts sent as constraints) and
+V13 §3.11.6's charter; 3 → H12 (genesis at world birth; the render tier's roads retired); 4 → H5, H18, H19 (world points
+for the host's cell-keyed facts, translated once under a confirmed capture); 5 → H11 (the lake and climate laws
+re-versioned over the settlement's physical record); 6 → H14 (a world-first settlement's access word from its charter;
+existing configurations canonical); 7 → H18, H19, H20 (the transition in phases 0–5: capture first, import on request,
+an elective rebase, retirement with every frozen digest kept — never a forced migration under a geometry bump); 8 → H21.
 
 ## 7 Import adapter for existing FMG maps
 
-Canonical input is FMG's full JSON export (version-pinned, at least 1.152, carrying the grid-to-pack link, the
-geometry and all entities); `.map` files are accepted by open-and-resave in FMG, never by reimplementing its
-migrations, which need the live application. Mapping: grid heights by the saved exponent to metres against the
+Canonical input is FMG's full JSON export, read by two pinned adapter folders: 1.114 for the host's own fork's
+export (the host's whole estate, read once per snapshot) and 1.152 for users' files; both carry the grid-to-pack link;
+a `.map` below 1.152 is refused with the nearest supported version named, never migrated by reimplementing FMG's chain.
+The unit is read per file (FMG's unit follows the browser locale), the extent is never rescaled silently, and one
+stated y-flip transform maps pixels to world centimetres (`research/sf/fp-realm-review.md` J-RR.43). Mapping: grid heights by the saved exponent to metres against the
 datum; lake features to surface records; rivers to reach records keyed by FMG id with geometry re-derived; flow and
-accumulation recomputed; routes to the graph; burgs to host settlement facts with their Watabou flags; states,
-provinces, cultures, religions to host political facts rasterized through the grid link; climate rasters kept;
+accumulation recomputed; routes to the graph; on a user's file, burgs to standalone seats with their Watabou flags as provenance and states to allegiances; on the
+host's own snapshot, burgs, states, provinces and cultures are dropped as inputs (the campaign's settlements arrive
+as the host's placements; a culture the DM never authored never steers a border); religions are the host's; climate rasters kept;
 mesh geometry, SVG, styles, layers, overrides, relief, ice, economy dropped; the creation timestamp, version and
 seed kept as provenance. Integrity repairs as FMG applies them at load; tombstones skipped; the loss reported
 (`fmg-data-model-and-io.md` §7).
@@ -250,11 +254,12 @@ from the start; relief by rules at render time. Budgets per regime as the design
 ## 12 Owner questions
 
 1. The boundary: this proposal assumes option (a), the host owns political facts and the map module owns the world
-   regime, with the digest replaced by the port. The audit supports it: the host already treats the map as an
+   regime, with the host's capture replaced by the port and its frozen digest kept as its engine state. The audit supports it: the host already treats the map as an
    engine input and wants a frame stamp it refuses to invent.
 2. Planar bounded worlds now; wrap or sphere later or never.
-3. Whether the host's existing campaigns are migrated (import adapter and geometry-version bump) or frozen on the
-   fork until they end.
+3. Ruled 2026-10-17 (`research/sf/fp-realm-review.md` J-RR.45, J-RR.46; V13 §8.5, §11 Q1): neither — existing
+   campaigns keep their frozen digests forever, are imported on request and drawn with no write, and may elect a
+   receipted rebase; what remains the owner's is whether to offer that rebase.
 
 ## 13 Decision-matrix rows contributed by this proposal
 

@@ -479,7 +479,7 @@ least-disruption mutation: a status change applies G7's transform; a removed rec
 | a `WaterSurface` of kind `site` with `body` the card and the unit as its cells, admitted by `governingSurface` for a dated `floodedLevel`; the connected-set walk over `site` parts and `VerticalLink`s | V13 §2.2, §3.12.6, §3.13.1 | G6; J-V14.39 | the provisional classes |
 | `setPlacement` with a `site` subject leaving the site's arenas byte-identical and marking its charter stale | V13 §3.11.5, §4.3 | V14 §4.7's row | — |
 | the glyph record generalized with a `kind` and a level-0 kind glyph; `glyphOf` and the `world.glyph` message a site's marks are posted through (SW-08) | V13 §3.10, §5.1 | V14 §3.9 (d), §5.1 | — |
-| W8's `foreignCulture` reads the host's or the recipe's culture, never a raster of V14's (V14 has none) | V13 §3.9 | — | — |
+| W8b's culture term reads the host's own culture distance and W9's names the culture raster from the host's or the recipe's seats, never a raster of V14's (V14 has none) | V13 §3.9 | — | — |
 | the water class test: the governing surface, thresholds, route classes, the aggregate | V13 §3's classifier (the mechanism of `proposal-hydrology` §4, stated once there), landing at V13's milestone M-W0h (SW-14) | G6 per unit, per storey; the lifecycle's `submerged` | G6 reads the base's §2.6 water table and classes `dry` / `flooded` only, reported `W_SITE_WATER_PROVISIONAL` |
 | the two edit verbs ("this happened" / "this was always so"), the cascade, the counterfactual fork | V13 §4 | V14 §4.3's two deletion verbs; a site's terrain pre-edit (G3 (b)) | the base's `setField` terrain stroke, undated |
 | `ReasonRecord` (shared) | V13 §2's declaration | every G- and E- stage writes one per generated fact (V14 §2.7) | — (declared in V13; this volume cites it) |
@@ -519,7 +519,7 @@ of a site building and never a part.
 ```ts
 // @plat/sites — the persistent world site (item 132 (f), (g); item 133; item 134); the entities block of its host or own document
 type WorldSiteKind = 'fort'|'tower'|'temple'|'shrine'|'manor'|'guildhall'|'ruin'|'cave'|'mine'|'hideout'|'crypt'|'cellarComplex'
-                   |'sewerLair'|'dungeon'|'camp'|'battlefield'|'graveyard'|'watchpost'|'hermitage'|'bridgeFort';   // SiteKindRow.kind (V14 §2.5); data, extensible by a row
+                   |'sewerLair'|'dungeon'|'camp'|'battlefield'|'graveyard'|'watchpost'|'hermitage'|'bridgeFort'|'tollhouse';   // SiteKindRow.kind (V14 §2.5); data, extensible by a row
 type SiteAttachment = 'free'|'attached'|'inFrame'|'ground'|'surface';
   // item 133 (b), (c): free — a document of its own placed in V13's world, never inside a settlement's frame (J-V14.41); attached — a document of its own
   // (levels only) behind an anchor in a host document; inFrame — a site with a ground policy inside a settlement's frame, adopted at the drop into the host
@@ -556,7 +556,8 @@ interface WorldSite {                                           // the card (ite
 // `knowledge.discoverable` are G2–G8's products: they live in the host document's **derived block** (§2.9's non-canonical set, beside the elaboration cache),
 // rebuilt from the declared fields on open and never in any digest, log or export's model.
 type SiteDocumentRef = { docId: Uuid; product: 'site'; outputVersion: string; digest: Hash128 /* its model digest at the last commit the host document saw; checked at open (§2.9 step 3) */ };
-interface WorldSiteHost { element: string /* the host's binding key (§7.7 item 12) */; owner?: string; faction?: string; status?: string /* the host's own word, mapped to a lifecycle cause by V14 §3.8's table */; version?: string }
+interface WorldSiteHost { element: string /* the host's binding key (§7.7 item 12) */; owner?: string; faction?: string; status?: string /* the host's own word, mapped to a lifecycle cause by V14 §3.8's table */; version?: string;
+  holder?: string /* the host settlement whose power holds the site: from the dossier binding (the settlement owning the institution), or on a standalone world the DM's entry, canon; on a host-bound world the polity facts' site holder and garrison band govern and the DM's entry is refused */; garrisonCount?: number /* the headcount the occupancy row multiplies (V14 §2.5) */; garrisonBand?: 0|1|2|3|4 /* for the sway's claim point (V13 §3.9 (10)); absent: the holder seat's force band */ }
 
 // The request record (item 132 (g); item 133 (f)): what the user stated, what context derived, what the preset defaulted — every field a Stated<T>
 type Stated<T> = { value: T; source: 'stated'|'derived'|'default'; by?: string /* for 'derived': the rule of V14 §3.3 G2's table that derived it; for 'default': the preset or kind row */ };
@@ -792,7 +793,7 @@ interface OccupancySummary {                                    // item 132 (c):
   band: 'empty'|'few'|'some'|'crowded';                         // the band over the parts' summed headcount
   headcount: [number, number];                                  // 'people': the summed range
   parts: { of: 'households'|'staff'|'patrons'|'congregation'|'garrison'|'occupants'; headcount: [number, number]; from: { count: number /* households, workers, parish coverage, strength */; capacity?: number; use?: Id; row: string /* the OccupancyRow */ } }[] }   // one part per presence a building has (a tavern: patrons, staff and its household) (C14-40)
-interface TransientItem { id: string /* local to the crop */; kind: 'barricade'|'cart'|'fire'|'smoke'|'fog'|'debris'|'camp'|'tent'|'marker'|'pool'|'corpse'|'wagon';
+interface TransientItem { id: string /* local to the crop */; kind: 'barricade'|'cart'|'fire'|'smoke'|'fog'|'debris'|'camp'|'tent'|'marker'|'pool'|'corpse'|'wagon'|'patrol' /* a road patrol passing that week (V13 §3.9 (14)) */;
   shape: { point: PointCm; rotCdeg?: Cdeg; wCm?: Cm; dCm?: Cm } | { ring: PolygonCm } | { line: PointCm[]; widthCm: Cm };
   blocks: { sight: boolean; move: boolean }; source: 'derived'|'dm'; from?: { look: Id /* the ConditionOverlay a derived item came from */ } | { site: Id /* the site's occupant layer */ } }
 interface TacticalReport { cover: number /* 'share': the crop's or site's floor area within 2 m of a sight-blocking edge */; sightlines: { meanM: number; maxM: number }; chokepoints: number; loops: number; deadEnds: number;
@@ -885,6 +886,7 @@ Shipped rows (own; the vectors are the `medium` presets, the other presets scale
 | `watchpost` | watch | 4 · 0 · 1 · 1 · 1 · 0.3 · 0 · 2 · 0 · 1 | none · palisade · [watchtower] institution · plan · [] · yes · yes | 2, 0, round, occupied, [5, 200], open, 1 | 30 |
 | `hermitage` | solitude, worship | 4 · 0 · 0 · 1 · 0 · 0.3 · 0.1 · 1 · 0 · 1 | hinterland · none · [cell] institution · plan · [rockCut] · yes · yes | 1, 0, square, occupied, [10, 300], discreet, 1 | 30 |
 | `bridgeFort` | defence, trade | 10 · 1 · 2 · 2 · 2 · 0.3 · 0 · 2 · 0 · 1 | none · wall · [gatehouse, barracks] row · plan · [] · yes · yes | 2, 0, oblong, occupied, [20, 400], open, 2 | 50 |
+| `tollhouse` | trade, watch | 4 · 0 · 1 · 2 · 0 · 0.3 · 0 · 2 · 0 · 1 | none · palisade · [gatehouse] row · plan · [] · yes · yes | 2, 0, oblong, occupied, [10, 300], open, 2 | 30 |
 
 `presetSteps` (own, `calibratable: false`): `storeysBelow` +0 / +0 / +1 / +2 for `lair` / `small` / `large` / `vast`
 (the `dungeon` row +0 / +1 / +2 / +4), `defensiveDepth` −1 / 0 / +1 / +1 clamped to [0, 5], `historicalLayers`
@@ -897,6 +899,7 @@ within its `reach.siteKm` and by W7's seats:
 | kind | `attraction` | `routed` | why |
 |---|---|---|---|
 | fort, bridgeFort | 0.6 | yes | protection and a toll draw settlement and roads |
+| tollhouse | 0.3 | yes | a toll on the road between two powers draws a stop, an inn, a hamlet |
 | watchpost | 0.2 | no | a garrison's post, no market |
 | mine | 0.5 | yes | ore is traded |
 | manor, guildhall | 0.3 | yes | a market in small |
@@ -970,7 +973,7 @@ type SiteTerm = 'overlook'|'relief'|'slopeFlat'|'waterNear'|'shoreNear'|'routeNe
 //   overlook   — the dem's local prominence: (h(c) − mean h over overlookRadiusM 300) ÷ overlookNormM 40, clamped;  relief — the dem's range over the same radius ÷ reliefNormM 120
 //   slopeFlat  — 1 − the dem's gradient ÷ slopeMax 0.25, clamped;  waterNear — exp(−distToRiverM ÷ 400) (a lake or spring counts as a river edge);  shoreNear — exp(−distToShoreM ÷ 600)
 //   routeNear  — exp(−d_route ÷ 300), d_route the distance to the `route` layer;  roadControl — routeNear × min(1, crossings within 300 m ÷ 2) × overlook
-//   settlementNear — exp(−d_settlement ÷ 2 000) over the placements' origins;  settlementFar — 1 − settlementNear;  territoryBorder — exp(−d_border ÷ 1 000) over Territory.border
+//   settlementNear — exp(−d_settlement ÷ 2 000) over the placements' origins;  settlementFar — 1 − settlementNear;  territoryBorder — exp(−d_border ÷ 1 000) over the adversarial allegiance borders and the debatable cells of the sway in force (V13 §3.9; member borders and unclaimed edges excluded)
 //   floodSafe  — 0 inside the wet-season FloodSpread at stage 1, else min(1, height above the stage ÷ 300 cm);  ore, stone — 1 within 200 m of a W5 resource site of that class, falling to 0 at 1 000 m
 //   wood       — the landUse's wood share within 300 m;  solitude — settlementFar × (1 − routeNear)
 //   concealment — 1 − max(overlook, routeNear) (the inverse of being seen from routes and heights; J-V14.36);  oneApproach — 1 when exactly one low-cost approach (a route-cost basin under V13's cost law reaches the cell from one direction within 2 × its cost to the nearest route), 0.5 for two, 0 beyond
@@ -1018,14 +1021,14 @@ interface OccupancyRow { of: OccupancySummary['of']; by: 'households'|'use'|'gar
   bands: { empty: [number, number]; few: [number, number]; some: [number, number]; crowded: [number, number] } /* 'people': [0,0], [1,3], [4,10], [11, ∞) */; seasonal?: Record<'festival'|'winter'|'market', number> /* multipliers read from §2.9's week and the festival display */ }
 // shipped rows (own, calibratable; C14-34, C14-44): households by households, perHousehold [1, 3]; staff by use, perCapacity 0.15 of the use's workers (V11's class capacity row); patrons by use, perCapacity 0.4 of
 // the use's capacity, seasonal festival 1.5, winter 0.8, market 1.3 (a market week: DR43's festival window's twin, the market's own weeks); congregation by use, perCapacity 0.1 of the church class's coverage
-// unit at the plot (V11 §2.3's `cov/<class>`); garrison by garrison, perCapacity 0.6 of `WorldSiteHost.strength` (the V08 request's row) else the barracks class's capacity; occupants by site, the occupying kind's row
+// unit at the plot (V11 §2.3's `cov/<class>`); garrison by garrison, perCapacity 0.6 of `WorldSiteHost.garrisonCount` (the V08 request's row) else the barracks class's capacity; occupants by site, the occupying kind's row
 // tables/sites/crop.json — E1–E4: the crop's constants
 interface CropRule { snapToGrid: true /* the rectangle snaps outward to whole cells; the geometry never snaps (proposal §8) */; maxBuildings: number /* 12: the most plans E2 completes in one crop; beyond it the nearest to the centre, the rest drawn as shells, W_CROP_INCOMPLETE */;
   maxScenes: number /* 8 */; occupancyMarkM2: number /* 40: one occupancy mark per 40 m² of a room or chamber */; lookItems: Record<string /* a crisis look kind (§10.2) */, { kind: TransientItem['kind']; perHa: number; where: 'gates'|'streets'|'edges'|'hosts' }>;
   transientBudget: number /* 200 items */; firstFrameMs: number /* 100 */; completeMs: number /* 300 */;
   recentEventWeeks: number /* 104: how far back E1's `world` context reads V13's event index */; maxInstitutions: number /* 2: the institutions a crop completes before `maxBuildings` falls to 8 (C14-43) */ }
 // shipped lookItems rows (own, calibratable; C14-34): siege → barricade at gates 4 per ha and debris on streets 6 per ha; fire → fire 2 per ha and smoke 4 per ha on hosts; plague → none;
-// refugee camp → tent 8 per ha on hosts; quarantine → barricade 2 per ha at edges; a battle (V13's event index) → corpse 3 per ha, debris 4 per ha, wagon 0.5 per ha on edges
+// refugee camp → tent 8 per ha on hosts; quarantine → barricade 2 per ha at edges; a battle (V13's event index) → corpse 3 per ha, debris 4 per ha, wagon 0.5 per ha on edges; a patrol passing that week (V13's `WorldFacts.polity.patrols`, `patrolAt`) → patrol 1 per road edge, its `wCm` 300 / 500 / 800 for a seasonal / monthly / weekly cadence (own, PLAUSIBLE); a fighting segment → debris 2 per ha
 // StyleSheet.vtt (BCR-V14-8; C14-39): { squareM: 1.5 /* or 1; the crop's grid cell and the export's default `vtt.squareM`; set by the export dialog's "remember" (a `setStyle`), never a view key */ }
 // tables/sites/embed.json — G5: the embedding's constants
 interface EmbedRule {
@@ -1553,7 +1556,7 @@ grammar over the graph the earlier layers left, so the superposition (V14 §3.6 
 * `shrine`, `graveyard`, `watchpost`, `hermitage`, `bridgeFort`, `battlefield`, `guildhall`, `ruin`: the kind row names
   one of the above (`shrine` → `temple.worship` with `lair`; `graveyard` → `crypt.burial` below a `camp.dwelling`-like
   ring of plots above; `watchpost` → `tower.solitude` with `watch`; `hermitage` → `tower.solitude`; `bridgeFort` →
-  `fort.defence`; `battlefield` → `camp.dwelling` with no cells; `guildhall` → `manor.dwelling`; `ruin` → the purpose
+  `fort.defence`; `tollhouse` → `fort.defence` at its smallest preset, the gatehouse astride the road; `battlefield` → `camp.dwelling` with no cells; `guildhall` → `manor.dwelling`; `ruin` → the purpose
   it was, then `ruination`).
 
 **Why grammars, and why topology first (J-V14.14 – J-V14.20).** A grammar as data gives every unit a programme role
@@ -1886,7 +1889,9 @@ band (C14-50).
 
 **(e) Adoption (item 134 (d)).** When a settlement is placed over a free-standing site's frame — the application
 (V09's tool) raises this volume's `adoptSite` (V14 §4.5) on the `placed` outcome V13's P4/P5 emit, naming the sites
-the placement covers; V13 never calls this volume (SW-10) — or a hand `adoptSite`, `SiteAdopt.adopt(settlement, site,
+the placement covers, **automatically only when the placement's stamp is `world`** (a settlement generated from the
+world's charter; on a `settlement` stamp the dry run lists the covered sites with adopt, move the site — preselected —
+or cancel, so a settlement made before its placement never changes but by the DM's word; V13 §3.11.5 (1)); V13 never calls this volume (SW-10) — or a hand `adoptSite`, `SiteAdopt.adopt(settlement, site,
 placement)`: (1) **the ground, as drawn constraints (C14-16).** At a host-founded
 settlement the site's enclosure (as `drawWall` strokes with its kind), its buildings (`drawFootprint` with class and
 heights), its plots, its ways and its terrain pre-edit (`setField`, dated) enter the settlement's creation prefix
@@ -1910,7 +1915,9 @@ history the settlement's (V06's replay keeps them).
 a settlement founded there adopts it by (e); a thorp "in front of or surrounding an abandoned or occupied fort" is
 V07's village placed by V13 with the fort's reservation claimed first, its tofts growing outside the fort's glacis
 (V07 §3's siting reads the reservation), the fort's keep an institution of the village's roster where the host
-garrisons it (the card's `host.status`), else a ruin the village robs (G7 (4)).
+garrisons it (the card's `host.status`), else a ruin the village robs (G7 (4)); the fort joins the thorp's sway when its
+holder (`host.holder`) is the thorp's own seat or its liege, and is otherwise an occupation mark inside it (V13 §3.9
+(10)).
 
 **(g) `inFrame` — adoption at the drop (C14-01; J-V14.41).** A site with a ground policy dropped inside a
 settlement's frame (`hinterlandNear`, `hinterlandFar`, an island) is the settlement's content from the drop: the card
@@ -1958,7 +1965,10 @@ exactly there ("VTT scene stamps").
    elements whose ceiling lies within `surfaceClearCm` of the ground, so a cellar fight can open a sewer), the named
    places and institutions, a site's units where the click lies in a site document.
 4. **The world case (item 132 (e); C14-08; J-V14.44).** A `world` context reads V13's facts at the point — terrain
-   class, biome, the route or river within the rectangle, the territory, and the `WorldEvent`s V13's world document indexes near the point (`worldFactsAt(world, wCm, sinceWeek)`'s `recent`, V13 §2.4; SW-07) within `CropRule.recentEventWeeks` — and the profile from `road`, `creek`, `wood`, `shore` or
+   class, biome, the route or river within the rectangle, the seat territory and the polity at the point and the
+   encounter's week (`WorldFacts.polity`: the holder, the allegiance, held, held by force, debatable or unclaimed, the
+   two sides, an occupation, the patrols with their colours and whether one passes that week, a fight there — V13
+   §2.4), and the `WorldEvent`s V13's world document indexes near the point (`worldFactsAt(world, wCm, sinceWeek)`'s `recent`, V13 §2.4; SW-07) within `CropRule.recentEventWeeks` — and the profile from `road`, `creek`, `wood`, `shore` or
    `open`. Its ground is a **crop frame**: a transient materialization on the crop's owner-less transient arena
    (E4's, keyed by the address) of (i) V13's `charterFor(world, placement)` at a transient placement whose `originCm`
    is the clicked `WorldPointCm` (SW-12) — a 100 m frame, no settlement, no `Placement` recorded (the V13 request of V14 §10.2; the form
@@ -1991,7 +2001,7 @@ interiors are the plan rung's.
   `Occupancy.summarize` reads the `OccupancyRow` for its kind of presence: one **part** per presence the building has (C14-40): `households` × `perHousehold`
   for its households (§2.6's `Building.households`), and per use `perCapacity` × the row's count — patrons 0.4 × the
   use's capacity (V11's class capacity row), staff 0.15 × its workers, a congregation 0.1 × the church class's
-  coverage unit at the plot (V11 §2.3's `cov/<class>`), a garrison 0.6 × `WorldSiteHost.strength` (the V08 request's
+  coverage unit at the plot (V11 §2.3's `cov/<class>`), a garrison 0.6 × `WorldSiteHost.garrisonCount` (the V08 request's
   row) else the barracks class's capacity (C14-44) —, an occupied site unit's `occupants` by G7 (5)'s kind; the week's
   `seasonal` multipliers (a festival week ×1.5 on patrons and congregation, winter ×0.8 on patrons, a market week ×1.3
   on patrons — a market week being the market's own weeks, DR43's festival window's twin — read from §2.9's `week` and
@@ -2072,7 +2082,11 @@ faces — in the render-instance order of §8.10 on `render.instances` keyed by 
 origin, the ordinal); a `siege` look gives barricades at gates and debris on streets, a `fire` look fire and smoke on
 its hosts, a `plague` look none, a `refugee camp` tents at its camp faces; an occupied site's occupant layer (G7 (5))
 gives its persisted items as transient ones in a crop over the site; a `world` context's recent battle gives
-`corpse`, `debris` and `wagon` items by V13's event index. The items are view data, drawn and exported with the crop.
+`corpse`, `debris` and `wagon` items by V13's event index; a `world` context's polity gives `patrol` (a party in the
+power's colours at the crop's road edge when a patrol passes that week by `patrolAt`, its width by the cadence, V14
+§2.5), `barricade` (at a border post in the crop) and `debris` (when the segment is fighting) — keyed by (the address, the week), never a roll,
+and never a host encounter. A player crop reads the player picture (V13 §5.1). The crop's legend names the holder,
+the status and the patrols' colours. The items are view data, drawn and exported with the crop.
 
 **(c) The DM's items.** The crop's palette (V09) places `TransientItem`s of source `dm` into the shared `encounter`
 view key — barricades, carts, fires, fog, markers — moved and removed there; no event, no undo stack (a view), no
@@ -2309,8 +2323,9 @@ card.
 ### 4.5 Adoption by hand (`adoptSite`; item 134 (d))
 
 `adoptSite` is this volume's edit event and the one trigger of adoption (SW-10): the application (V09's T10 tool)
-raises it on the `placed` outcome V13's P4/P5 emit, once per site the new placement's frame covers — V13 never calls
-this volume —, and the DM raises it by hand with T10 `hold`'s **Adopt into the town** for a free-standing site whose
+raises it on the `placed` outcome V13's P4/P5 emit, once per site the new placement's frame covers, when the
+placement's stamp is `world` (on a `settlement` stamp only on the DM's choice in the dry run, V14 §3.9 G8 (e)) — V13
+never calls this volume —, and the DM raises it by hand with T10 `hold`'s **Adopt into the town** for a free-standing site whose
 placement lies under a settlement's frame (V13's `Placement` of both) that no earlier `adoptSite` took (an older site
 placed after the settlement, say): `SiteAdopt.adopt` as V14 §3.9 G8 (e), one undo step, the mappings in the event. The settlement's S3 then re-claims
 with the reservation by §7.3's local operator for a reservation change (its scope the reservation's faces and the
@@ -2573,7 +2588,7 @@ fails CI):
 | label, annotation, view pin, the compass, the grid, the legend | flat, reason "furniture" (view space) | — | — |
 | `Reservation`, district, quarter, seam, `HoodPlace`'s face | flat, reason "an area, drawn draped as its faces" | — | — |
 | `SiteAnchor` icon | flat, reason "furniture", drawn at its address's floor | — | — |
-| `TransientItem` | base + top | the floor it stands on | + `EmbedRule`-declared heights per kind (a barricade 120 cm, a cart 150, a tent 250, fire and fog 0: flat) |
+| `TransientItem` | base + top | the floor it stands on | + `EmbedRule`-declared heights per kind (a barricade 120 cm, a cart 150, a tent 250, a patrol 180, fire and fog 0: flat) |
 | `Chimney` (V03) | base + top | its hearth's storey base | the stack's top above the ridge (V03 §3.3 H3) |
 | `SkyAccess` (V05) | base + top (both ends) | its foot's ground | the rim's altitude |
 | `Outfall` (V04) | base + top | the invert at the mouth | + the tunnel's headroom |
@@ -2828,7 +2843,7 @@ owner row; its site clause T-V14-23); 10 → T-V13-10 (the owner row; its site a
 | T-V14-26 | edges | each row of V14 §3.14's edge table on its fixture — (a) SE1, SE2, SE4; (b) SE5; (c) SE3; (d) SE6; (e) SE10 — gives the row's outcome and reports its rung, never a crash, a hang, lost data, a silent wrong result or a whole-site or whole-crop retry | PR (fixtures) |
 | T-V14-27 | combinations | each row of V14 §3.14's combination table — (a) SC1, (b) SC2 — an adopted or `inFrame` site: a catacomb grown into a unit at a shared depth takes one `breach` link per meeting pair in the growth's commit (V04's T-V4-80 (k)'s pattern); an attached site: the growth stops at the card's envelope with `blockedBy: 'site'` and `W_SITE_NEAR_VOID`, no breach, the site document untouched (C14-10), (c) SC3, (d) SC4, (e) SC5 — at every rung it names | nightly, PR (fixtures) |
 | T-V14-28 | the grammars and the rejections | every shipped grammar expands to its core on 100 % of 500 seeds within its caps; a fort's entrance-to-core paths carry ≥ its `defensiveDepth`; a mine's graph is a tree but for its loops; a cave's loops ≥ 1 at `medium`; the structural rejections hold as a lint: no code path of `@plat/sites` partitions space by recursive bisection, packs rooms before assigning roles, or chooses cells by local compatibility (three planted implementations fail the lint's call-graph check) | PR |
-| T-V14-29 | the occupancy abstraction (item 132 (c)) | on `B-CROP`: every `OccupancySummary` reads its row, its headcount range from the households, capacity and week alone, never a person; a festival week multiplies patrons by its row; a garrison reads the host's strength; `derivePerson` is never called by the crop (T-V14-4 (e)'s spy) | PR |
+| T-V14-29 | the occupancy abstraction (item 132 (c)) | on `B-CROP`: every `OccupancySummary` reads its row, its headcount range from the households, capacity and week alone, never a person; a festival week multiplies patrons by its row; a garrison reads the host's `garrisonCount`; `derivePerson` is never called by the crop (T-V14-4 (e)'s spy) | PR |
 | T-V14-30 | the surface exception (item 133 (c)) | an `urbanSurface` drop of a tower on `B-SITE`'s CITY places one building through `assign` + `placeAt` within §7.3 item 8's budget, with `floors` the request's, its plan's rooms the site programme's (the core the class row's main room, a `secret` unit a concealed room), its basement storeys the request's `levelsBelow` up to the gate's cap and, beyond it, a site document whose anchor sits on the lowest basement storey with a `hatch` access — the card's `document` present in exactly that case (C14-26); `Assignment.site` names the card; the plot is a plot like any (S10b's, S11's and V03's bars green on it) | PR |
 | T-V14-31 | lifecycle / determinism (C14-03) | opening and closing every `B-SITE` card — the icon's click, the clerk's `open`, an export naming the site, a host event that needs its geometry — in two orders and on two machines changes no host model digest, records digest, document digest, log entry or arena; the derived block alone grows, and after a reload it is rebuilt byte-identically; `dropSite`, `setSiteRequest`, `moveAnchor`, each conversion and the secret toggle are the only events that move the host's digest; **a site document's digest never moves with its placement (SW-11):** V13's `setPlacement`, `placeFrame`, `unplaceFrame` and `worldWins` on a `B-SITE` free-standing site leave the site document's model digest byte-equal (T-V13-2's bar read here), the card's `placementRef` and the document's `worldRef` changing outside every digest | PR |
 | T-V14-32 | **Part E bar 1** (the owner row; K1, K5, K6; SW-33) | this volume's additions to the base's registries — the `Layer` value `site`, `Document.nextSitePart`, the edge role `passage`, the `site` concern, the stage ids `G1`–`G8`, `E1`–`E4` and `R1`–`R4` — are appended, never inserted or renamed (K1's append-only test on `types/ids.ts` and the stage table), and with no card dropped, no encounter open and `projection` `flat` every golden of the base's and the volumes' fixtures hashes byte-identically before and after the additions (K5's golden set, K6's canonical form) | PR |

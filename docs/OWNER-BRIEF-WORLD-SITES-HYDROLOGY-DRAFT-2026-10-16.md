@@ -96,11 +96,14 @@ view-only transient (item 122); the frozen-fixture and budget-tier discipline (�
 ## 6 Part C — rulings under the delegation and the owner questions that remain
 
 Ruled (vetoable): the boundary option (a) — the host owns political facts, the map module owns the world regime, the
-host's digest is replaced by the derived-facts port; planar bounded worlds in metres now; tectonics, erosion over time,
+host's capture of the reference generator is replaced by the world port, the host's frozen spatial digest staying its
+engine state, built from the port's canon at its receipted re-canonize (refined 2026-10-17, `docs/AMENDMENTS-2026-10-17m.md`); planar bounded worlds in metres now; tectonics, erosion over time,
 fluid dynamics and a sphere not built; no second FMG fork and no embedding of its code; FMG maps imported once as
 data; Watabou's boundary kept as the boundary between the world regime and the settlement map; time of day not a
 parameter; transient encounters derived, never random. Owner questions that remain: whether SettlementForge's existing
-campaigns migrate through the adapter under a geometry-version bump or stay on the fork until they end; the audit's
+campaigns are offered an elective rebase (the transition otherwise ruled: every frozen digest kept, the import on
+request, a legacy world view with no write; V13 §8.5, §11 Q1); whether the realm map's replacement is part of the map
+module's post-launch disposition (V13 §11 Q2); whether the world canon is outside J86's door 1 (V13 §11 Q4); the audit's
 unknowns about the host (the modified bundle source, the missing design documents, the production frame size).
 
 ## 7 Part D — the design volumes (after M0 closes)
@@ -162,6 +165,9 @@ fact; complexity as a count; a site required to pass through every state; featur
 16. Every drawable entity has a base and a top, or a surface, or is listed flat with a reason; the list is empty of
     unexplained entries.
 17. An interior draws as per-storey slabs from the same plan the flat view draws, with the model byte-identical.
+18. (Bar T, 2026-10-17) The transition for an existing campaign — the capture frozen, the import on request, the
+    campaign drawn in the world view — changes no byte of its simulated state; every frozen digest is kept; only an
+    elective, receipted rebase moves it (V13 §8.5).
 
 ## 9 Order and timing
 
@@ -173,7 +179,8 @@ fact; complexity as a count; a site required to pass through every state; featur
 | the first encounter milestone | the in-town transient crop, grid overlay, transient layer, VTT export (works on the viewable town) | bars 11, 13 |
 | the first site milestone | the attached kind (a crypt under a church, a cellar complex), then a small fort | bars 2, 6, 10, 12 |
 | the 2.5D renderer milestone (after the viewable town) | the projection family, draped terrain, extruded massing, per-storey slabs, cutaway bands, hit testing, the raise-or-lower edit | bars 14–17 |
-| the world milestones | W1 terrain, surfaces, hydrology, climate, biomes, suitability, the charter, the port; W2 routes and siting; W3 labels, exports, the adapter, retirement of the fork | bars 3, 4, 5, 7 |
+| the world milestones | W1 terrain, surfaces, hydrology, climate, biomes, suitability, the charter, the port (the canon, the map feed, the recorded inputs); W2 routes on the host's genesis, the seat territory and the sway with patrols, siting stage 2; W3 labels, exports, the adapter (1.114 and 1.152) | bars 3, 4, 5, 7 |
+| the host's track (V13 §8.5) | now, on the fork: the capture's frame, seed, scale and unit, the export command, the band census, the register rows (H1–H3); with W1: the port and the second builder of its digest (H4–H11); with W2: genesis, the polity facts, the decree law for world edits, the presentation messages (H12–H17); after W3: the capture freeze to a deadline, the elective rebase, then the fork's retirement (H18–H20) | Bar T (18) |
 
 ## 10 Not in this brief
 
