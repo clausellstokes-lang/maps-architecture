@@ -9520,3 +9520,4 @@
 2026-10-17 01:11 volumes/reconcile-V14-r0 LANDED docs/volumes/V14-sites.md
 2026-10-17 03:32 volumes/_integrate-world-sites LANDED docs/volumes/_integrate-world-sites.md
 2026-10-17 03:33 volumes/reconcile-V14-r1 LANDED docs/volumes/V14-sites.md
+2026-10-17 04:03 check/M0-world-sites-gate LANDED plat/docs/build/checks/M0-world-sites-gate.md
