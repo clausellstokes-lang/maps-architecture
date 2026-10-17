@@ -10,9 +10,10 @@ journal.jsonl into scratch files) to the next stage, with guards that stop befor
 
 | run | script | state | resume |
 |---|---|---|---|
-| wf_a2c34533-085 realm review continuation | workflows/36b-realm-review-continue.js (args.findings = the scratch surviving.json rebuilt from wf_e54a90fb-43c's journal: 127 kept findings, 0 refuted, 36 missed; carries J382) | synthesize → review ×2 → revise → apply → critic | resumeFromRunId wf_a2c34533-085 (sequential, so a plain resume replays cleanly); never apply file m by hand |
-| wf_a7c82671-f52 systems read continuation | workflows/38b-systems-read-continue.js (args.dir = scratch systems-read/, the recorded readings per subject) | prosperity docs read live; per subject synth → verify → fix; then research/sf/lens-implications.md (reads plague when landed) | rebuild from its journal if it dies mid-way |
-| wf_868a6476-905 plague read | workflows/39-plague-read.js | readers cached; synth → verify → fix running | resumeFromRunId wf_868a6476-905 |
+| wf_a2c34533-085 realm review continuation | workflows/36b-realm-review-continue.js | LANDED and APPLIED (J385): file m 659–779 in V13, V14, the proposal, the brief and the base; critic gaps in docs/validation/coherence/realm-m-critic.md | — |
+| wf_6fb099fc-e71 lens design (amendments n) | workflows/40-lens-design.js | design → review ×2 → revise → apply (guarded) → critic; carries J384, the lens mechanism, seven lenses plague first, the host asks and the realm critic's 15 gaps (group G) | sequential, so resumeFromRunId wf_6fb099fc-e71 replays cleanly |
+| wf_a7c82671-f52 systems read continuation | — | LANDED (J383) | — |
+| wf_868a6476-905 plague read | — | LANDED (J383) | — |
 | (stopped) wf_e54a90fb-43c, wf_0e759907-c33 | workflows/36, 38 | superseded by the continuations | — |
 | (done) wf_5f99985d-25d faith read | workflows/37-faith-read.js | LANDED research/sf/faith-system.md (verified) | — |
 
