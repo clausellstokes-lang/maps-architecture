@@ -1648,7 +1648,7 @@ choice.
 
 ### 3.9 The oracle at depth — providers, sections, the solver's explanation and the field's drivers
 
-**The query.** `query({ kind: 'why', id, path?, mode?, historyPage?, view? })` finds the entity's kind in the registry, calls
+**The query.** `query({ kind: 'why', id, path?, mode?, ask?: 'why'|'whatCaused'|'whatChanged'|'whatIf' /* default 'why' */, since?: Week, edit?: EditEvent, historyPage?, view? })` (file k item 645, BCR-V13-24; `mode` kept and passed through to the kind's provider; the three new asks answered by `@plat/world/why`'s readers over the reason records (§2.8; V13 §4.7) for every kind that carries one, the generic provider's "chain incomplete" answer where a record is missing; M-W0h for the readers over frame-side records, M-W1 for the world's) finds the entity's kind in the registry, calls
 that kind's `WhyProvider` (item 270) — or, for a kind with none, the **generic provider** — over the committed model
 with the caller's key and, for a view-bound why, the view's state and `looks` answer (`opts.view`, V10 §2.13), then appends the rows of every registered `WhySectionProvider` whose `appliesTo` holds for the
 entity, in registration order — each passed the same `opts.view` — and returns the `WhyAnswer`. The facade then applies §11.2's oracle rules (1)–(4) and item
@@ -1770,6 +1770,8 @@ district's plot centroids: every term of `P(x)` apart — the daylight term with
 term and the climate cell (item 111 (b), (c)) among them — summing before the clamp to the stored value (T-V10-10). V06's
 `district` provider fills `since` from the shade masks of the history frames ("the island's shade since year N") and the
 water term's fall ("the spring failed in year N").
+
+**The world's, the site's and the encounter's providers (file k item 645; V14 §10.2's V10 row).** The world's `WhyProvider` kinds — `Reach`, `WaterSurface`, `Watershed`, `Territory`, `WorldRoute`, `SitingProposal`, `Placement`, the springs — and the `world` `WhySectionProvider` (V13 §4.7; M-W1); V14's `site` and `encounter` `WhySectionProvider`s and the `WorldSite`, `SiteAnchor`, `Unit`, `Encounter` `WhyProvider`s (V14 §4.9; M-SITE-A, M-ENC) with their rows and the chain test (V13 Part E bar 10: T-V13-10 the owner row, T-V14-18 its site and encounter clause); the clerk's `placeAt` proposal on the world as `nearestLawful` rendered (V13 §4.7).
 
 ### 3.9a The underground, the crypt, a plan's causes and its damage, explained (items 109, 110, 123; J-V10.40)
 

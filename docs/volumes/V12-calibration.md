@@ -455,6 +455,8 @@ interface SeedFamily { label: string; reduce: 'u32' | 'parkMiller' /* 1 + (H32 m
 | `golden/<rung>/<water>/<i>` | u32 | 1 | 12 | the golden suite (§13.3; item 491) | `golden/CITY/river/11` → 639553850 |
 | `known/<id>` | u32 | 1 | 1 per fixture | the known-city fixtures (V12 §3.14) | `known/K1` → 3403473561; `known/K2` → 3205843448 |
 | `bcity/<rung>/<water>/<i>` | u32 | 2 | 1 000 (B-CITY-lite: i < 50) | B-CITY (§13.2; item 491) | `bcity/TOWN/none/0` → 104466889 |
+| `bworld/<rung>/<template>/<i>` | u32 | 2 | 200 per rung × template (B-WORLD-lite: i < 10 per rung) | B-WORLD (V13 §7; file k item 647): seed i by this section's collision rule | `bworld/region/plains/0` |
+| `bsite/<kind>/<i>`, `bcrop/<profile>/<i>`, `b25d/<family>/<i>` | u32 | 2 | V14 §7's counts | the fixtures `B-SITE`, `B-CROP`, `B-25D` (V14 §7; file k item 647) | `bsite/fort/0` |
 | `capture/<ref>/<size or template>/<options>/<i>` | parkMiller (MFCG, NG, VG); u32 otherwise | 3 | MFCG 10 per matched size; NG 5 per template; VG per V07 | the capture plan (V12 §3.2) | `capture/MFCG/40/plain/0` → 2003595629 |
 | `tune/<run>/train/<rung>/<water>/<i>`, `…/holdout/…`, `…/guard/TOWN/<water>/<i>` | u32 | 4 | 30 each | tuning and corpus runs (V12 §3.7) | `tune/2026-09-28-example/train/CITY/none/0` → 1236353098; `…/guard/TOWN/none/0` → 2478365614 |
 | `null/<spec>/<rung>/<water>/<i>`; confirmation `null/<spec>/<rung>/<water>/c1/<i>` | u32 | 5 | 50; c1: 100 | the correlation harness (V12 §3.6) and the pooled bars of V12 §3.6b on settings B-CITY lacks | `null/T71-3/CITY/none/0` → 1233256533; `…/c1/0` → 338389334; `null/T110b.viaduct/CITY/none/0` → 4261915227 |
@@ -512,6 +514,7 @@ every other refusal names its V12 §3.7.2 rule. A `step` larger than `hi − lo`
 
 ```ts
 interface CalibrationEntry {   // plat/calibration/register.json — one per provisional number of the design
+                               // every calibratable column of V13 §2.3 and V14 §2.5 is registered at its step (file k item 647): V13's at M-W1's landing (its §1b.1 register row), V14's by the default line `--defaults --milestone <step>` (V14 writes no register line of its own, J-V14.35); their corpus stages are `M-CAL/world` and `M-CAL/sites` (§3.10.5)
   id: string;                  // 'cal.<table>.<rowKey>.<column>' | 'thr.<letter>' | 'band.<metric>.<rung>'; a preset entry's entry adds '@FM', '@VG' or '@NG'
   target: { cell: CellRef; preset?: 'FM' | 'VG' | 'NG' } | { threshold: string /* a §13.7 letter */ } | { band: { metric: MetricId; rung: string } }
         | { column: { table: TableId; column: string; rows?: string /* a row-key glob; absent = every row */; preset?: 'FM' | 'VG' | 'NG' } };
@@ -764,7 +767,7 @@ interface SampleFrame {     // declared research-side before any of its maps is 
   era: string; region: string; n: number; evidence: 'surveyed'; declared: string /* date */; digest: string /* salted digest of its member list */ }
 interface FramesFile {      // plat/calibration/reconciliation/frames.json — each declaration crosses by V12 §3.3 BEFORE any row of its frame (C8)
   frames: { id: string; rule: string; n: number; era: string; region: string; declared: string; digest: string }[] }
-type CorpusRunId = 'M-CAL' | 'M-CAL/under' | 'M-CAL/sky' | 'M-CAL/evolution' | `M-CAL/${string}`
+type CorpusRunId = 'M-CAL' | 'M-CAL/under' | 'M-CAL/sky' | 'M-CAL/evolution' | 'M-CAL/world' | 'M-CAL/sites' | `M-CAL/${string}`   // 'M-CAL/world' for V13 §2.3's cells (V13 §1b.1's register row), 'M-CAL/sites' for V14 §2.5's steps landing after M-CAL — `fixed` closing with "no admissible frame" where no reference exists (file k item 647)
                    // 'M-CAL' — the first run (V12 §3.10.1); 'M-CAL/<layer>' — the later run for the columns whose first compiled cell landed after
                    // M-CAL's record was committed, by V12 §3.11's *The due's corpus run* ('M-CAL/M6-P' for the plan rung) (J-V12.75)
 interface ReconciliationRecord {   // plat/calibration/reconciliation/<id>.json, the id's '/' written '-' ('M-CAL-under.json')
@@ -928,6 +931,8 @@ interface NoOpPin {                       // @plat/testkit/noop; test-side
 | `item105.web`, `item107.spread` | T105-4, T107-4 | offForm | V11 §3.7.4's web off form; with it, the cells T107-4 names | the golden suite; B-CITY's 200 seeds per rung (V11, T-V11-21, on `item105.web`); H-100 (V06, T-V6-44); V05's island fixture (T-V5-22 (k)); V07's village goldens (T-V7-33, on `item105.web`) |
 | `item106.barrier` | T106-5 | offForm | the cells T106-5 names | the golden suite; item 106 (h)'s barrier fixtures (V11, T-V11-19); V05's island fixture (T-V5-27) |
 | `item109.underground` | T109-6 | offForm | the cells T109-6 names | the underground goldens (V04, T-V4-47); V07's village goldens (T-V7-38) |
+| `item132.none` | V14 Part E bars 1, 6 (T-V14-21) | offForm | V11 §3.24.0's `sites.none` switch row (file k item 646): no card dropped, no encounter open | the golden suite and B-CITY per rung (V14, T-V14-21); file k item 647 |
+| `item141.flat` | V14 Part E bar 14 (T-V14-21) | view | V11 §3.24.0's `view.projection` row: `flat`; the flat tile set's key unchanged (§8.8) | the golden suite; B-ZOOM under each family (V14, T-V14-21); file k item 647 |
 | `item110.raised`, `.terrace`, `.deck`, `.stepped` | T110-7 | offForm | V11 §3.24.0's switch table, one row set per family (the stepped family's `roster.specialisations` included, which a pin leaving it on would not isolate); `item110.terrace`'s overlay also sets V03's `exposureAllStoreys` false (item 110 (a)), so the four pins together are V11 §3.24.0's six switches off | the golden suite and hook fixtures, B-DOSSIER-lite (base); the neighbourhood suite (V01, T-V1-4 (e)); B-MASS (V02, T-V2-50); B-PLAN and B-CITY-lite's plans (V03, T-V3-34); the underground goldens (V04, T-V4-69); the sky goldens (V05, T-V5-15) and V05's island fixture (T-V5-27's item-110 clause, on `.terrace`); H-100, H-AQUA without its two raised-way edits (the CITY viaduct row's `editTable` and the declared elevated road), H-TERRACE, H-DECK (V06, T-V6-65); V07's village goldens (T-V7-52); the known-city canvas scripts (V09, T-V9-57); the reader goldens (V10, T-V10-43); B-CITY (V11, T-V11-31); K1, K2 (V12) |
 | `item111.water` | T111-5 | offForm | V11 §3.24.0's `climate` dry-cell off form (the six cells) | the golden suite; an arid and a temperate site, 200 seeds per rung (V11, T-V11-38 (b)); V05's island fixture (T-V5-33's item-111 clause); H-100 (V06, T-V6-72); V07's village goldens (T-V7-58); V08's port fixtures (T-V8-50); the reader and why goldens but the brief's (V10, T-V10-45) |
 | `item113.history` | T113-7 | offForm | V11 §3.24.0's `history.replay` false (§4.11) | the golden suite; the underground goldens (V04, T-V4-77 (d)); the history fixtures (V06, T-V6-71); V07's village goldens (T-V7-59); T-V11-39 (a)'s four fixtures (V11, T-V11-39 (b)) |
@@ -1541,7 +1546,7 @@ family (`…/c1/…`) at twice the towns; only a second failure is `fail`. The p
 `exactScript`) are exact and need none.
 
 **The bar map** — §13.2's tendency bars, their owners registering the specs with these rules and their stated
-parameters; the conformance clauses of the same items stay their owners' checks (V12 §1):
+parameters; the conformance clauses of the same items stay their owners' checks (V12 §1). The T-V13-n and T-V14-n rows (§13.2's take-over text, file k item 633) register here as the other volumes' do: V13's eighteen model-drift tests (T-V13-21) as paired bars over B-WORLD, V14's Part E bars as one T- row each over `B-SITE`, `B-CROP`, `B-25D` (file k item 647); the measures `site.vector.*` and `crop.firstFrameMs` join §2.1's registry at their steps:
 
 | g bar | rule | indicator or statistic | levels and counts | owner's bar (its parameters win) |
 |---|---|---|---|---|
@@ -1797,7 +1802,7 @@ reference build that disappears from its host freezes its pin on the last captur
 
 ### 3.9 The owner's sittings — one panel engine
 
-**3.9.1 The registered panels.** The owner sits only at the four gating milestones — M1 (the look check), M2b, M4 and M5 —
+**3.9.1 The registered panels.** The owner sits only at the four gating milestones — M1 (the look check), M2b, M4 and M5 — and, for volume 14, at the panel V14-P's two sittings (file k item 647: a `PanelSpec` SOLO 24 at SE6's exit on `legibility`, `realism`, `playability`; SOLO 12 at V4's exit; V14 §8) —
 batched, about an hour each (§13.6 (1); J122, Q-V12-2). A staged milestone's panel joins the next gating sitting when its
 build has landed by then; otherwise its bars stay *provisional — not rated* (§13.6 (7)) and the panel is re-offered with
 every release until rated, never blocking the build.

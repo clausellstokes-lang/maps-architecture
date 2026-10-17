@@ -1654,7 +1654,7 @@ semantic order, a new thing lands where its kind belongs, and the working layer 
 
 **The working layer** (view key `workingLayer`, per viewer; V09 §2.4): a three-way switch in the view bar — **Ground**,
 **Sky** (enabled at CITY and METROPOLIS when the town has islands, II.6; a menu of the islands by name sets `key`),
-**Below** (enabled when the town has an underground network, II.7, or a cavern or ruin — at any rung, item 109 (j) (1)).
+**Below** (enabled when the town has an underground network, II.7, or a cavern or ruin — at any rung, item 109 (j) (1)), and **Site** with its level chip when a site document is open (`siteOpen`; V14 §5.2; M-SITE-A; file k item 644).
 Switching layer draws the working layer whatever its `LayerSpec.visible` and dims the other layers drawn to 35 % opacity
 (§8.4) — a view key, per viewer, writing nothing to the document; a layer's own visibility is §7.8's layer controls, T12
 `dress`'s logged `setLayer`. A working layer naming what the document no longer holds — Sky with an island `key` no
@@ -1750,6 +1750,26 @@ the entity registry (§2.8) on every build.
 | `upgrade`, `rebase` | the upgrade offer inside the retention window (§7.5's diff; standalone `info.upgrade.offer`'s **See what changes**, in host mode V08 §4.2's **Update the map engine**; V09 §3.14 (a)); the load-mismatch choice; the frozen view's **Edit it with this version** (`rebase` with reason `frozenImport`; V09 §3.14 (b)); "Rebuild around my drawings" (§7.2) in the file menu, kept in host mode (V09 §2.2's `fileMenu: false`) | — | — | §7.5, §2.9, §7.2 |
 | `dossierFacts`, `dossierRecord` | none: host-only (V08 §4.1); refused from any user | — | — | V08 |
 | `advance` (V06's trajectory) | V06's time card (T1 `intend`'s sheet) and the timeline bar; on a dossier-bound document refused, the card showing `refuse.dossierClock` (V09 §5.6) | a shape chip and "Advance" | the clerk's proposal | V06 §2.3, V06 §4.1 |
+| `worldRecipe` (the world; V13 §4.1; file k item 644, BCR-V13-25; M-W1) | T2 `ground`'s recipe editor | the world dialog's apply | the clerk | V13 §4.1 |
+| `setSurface` (a water surface, either scale; M-W0h) | T2 `ground`'s level slider | a drag on the level | the clerk's `placeAt`-style proposal | V13 §4.1 |
+| `setField(terrain)` on the world (M-W1) | T2 `ground`'s brush | a stroke | — | V13 §4.1 |
+| `rerouteReach` (M-W0h) | T2 `ground`'s reach drag | a drag on the course | — | V13 §4.1 |
+| `placeFrame`, `setPlacement`, `mirrorFrame`, `worldWins`, `unplaceFrame` (M-W1) | T6 `place`'s Place-a-settlement mode (with *Charter here* for `requestCharter`) | a drag of the frame; the mirror and the wins toggles | the clerk's `placeAt` on the world as `nearestLawful` rendered (V13 §4.7) | V13 §4.1, §3.11 |
+| `setSeats` (M-W2) | T6 `place`'s seat pins | a pin drop | — | V13 §4.1 |
+| `deleteTrace`, the world `setAttr`s, `addEvent` (M-W1) | T9 `shape` | the inspector | — | V13 §4.1 |
+| `fork`, `commitFork`, `discardFork`, the world `regenerate` (M-W0h) | T10 `hold` | the fork controls | — | V13 §4.5 |
+| `adjust` of the world keys (M-W1) | T1 `intend`'s world dialog | the dialog | — | V13 §4.1 |
+| the `verb` toggle (`happened` / `alwaysSo`; M-W0h) | T2 `ground`'s options strip | a toggle | — | V13 §4.1 (item 137) |
+| the water class overlay (M-W0h) | T9 `shape`'s inspector | a switch | — | V13 §5.1 |
+| `dropSite` (V14 §4.2; file k item 644, V14 §10.2's V09 row; M-SITE-A) | T6 `place`'s **Drop a site**: a one-click drop with the panel after (the dialog the long form; C14-45) | a click | the clerk | V14 §4.2 |
+| `promoteEncounter` (M-ENC) | **Encounter here** and the crop's palette (**Keep this**) | a click | — | V14 §4.2 |
+| the `projection` switch (flat the default; M-25D) | the view bar | a switch | — | V14 §2.6 |
+| the Site working layer and the level chip, the site panel, the icon's hit entry, `siteOpen`'s document switch (M-SITE-A) | the view bar and the site panel | a click | — | V14 §5.1–§5.2 |
+| the delete gesture on a card — the fates sheet (§5.5) with **Remove** and **Destroy** (C14-46; M-SITE-A) | the site panel | the delete gesture | — | V14 §4.4 |
+| `adoptSite` (M-SITE-F) | T10 `hold`'s **Adopt into the town**; raised on `world.placed` (SW-10) | a click | the clerk | V14 §4.2 |
+| `raiseLower` (M-25D) | T9 `shape`'s vertical drag in a 2.5D view | a drag | — | V14 §4.6 |
+
+T-V9-12 checks the world's and the site's rows against §7.1's union as it checks the base's (file k item 644).
 
 The base's **view keys** with no event — `rotation`, `plotsOnly`, `elaborate`, `handLantern`, `season`, `weather`,
 favourites, notes, public notes, view pins, `stylePreset`, the grid, legend and emblem settings, `showUnexcavated` — are
@@ -2098,6 +2118,8 @@ in brackets (`[owner]`, `[names]`). A name in backticks after `show`, `subject` 
 | `info.crossing.stair` · `info.crossing.ramp` | "{way} climbs the terrace by a stair." · "{way} climbs the terrace by a ramp." | `button.showWhy` why | the dry run's crossing form (item 110 (a)) |
 | `bend.crossing.steep` | "Too steep for a ramp on a {class}; the stair stays." | `button.longerRamp` commit(`event:rampLonger`) | file f item 364 |
 | `bend.raised.clearance` | "The deck stays {m} m above {way} so carts can pass under." | — | file f item 364 (the clearance bent up) |
+| `info.site.*`, `info.unit.*`, `info.encounter.*`, `bend.site.*`, `bend.encounter.noHour`, `refuse.site.*`, `refuse.encounter.noWorld`, `refuse.raise.flat` (file k item 644; V14 §4.9) | V14 §4.9's words, English, our own | V14 §4.9's buttons | V14 §4.9 (M-ENC, M-SITE-A, M-25D) |
+| `refuse.place.*`, `refuse.charter.dossier`, `refuse.surface.date`, `refuse.world.*`, `refuse.import.*`; the `W_PLACE_*` warnings' actions (`keep`, `takeOffer`; file k item 644; V13 §4.1) | V13 §4.1's words | V13 §4.1's actions | V13 §4.1 (M-W0h, M-W1) |
 | `bend.raised.end` | "A raised way comes down to the ground; its end moved {m} m to {place}." | — | V09 §4.20.2 (2) |
 | `bend.raised.wall` | "The raised road comes down before the {wall} and passes through its gate." — and, for a raised way's own re-shape bent back along its drag, "{way} cannot cross {wall} there, so your change stops {m} m short."; for its Arch spacing, Deck height or width bent to the nearest lawful value, "{way}'s {measure} is {v}, the nearest that {wall} allows." — and, for a raised or aqueduct stroke bent where §2.7's laws, law 1 (4), bar it (along a wall, or an end under its band or wall strips), "{way} keeps clear of {wall}, {m} m off your line." — `{wall}` the wall's or held building's name, else its kind's word; `{measure}` the edited value's word; the line taking its form by what was edited | `button.showWhy` why | file f item 363 (§2.7's laws, law 1 (3), law 2 *Carried way*; its worked example *down before the wall*); a raised way's own edit bent where it meets a wall-like structure or a held building (§2.7's laws, law 2 (a), law 3; its worked example the crossing table's C13); a raised or aqueduct stroke bent off a wall it would run along or end under (§2.7's laws, law 1 (4), law 2 (a), law 3) |
 | `bend.wall.aqueductArch` | "The aqueduct crosses the wall on one of its arches." — or, where its channel there runs within the wall's height, "The wall is built up round the aqueduct; its water passes through." — the line taking its form by the aqueduct's level (§2.7's laws, law 1 (2)) | — | file f item 363: an aqueduct drawn across a standing wall, placement-locked or not, a shape-locked one never merged into (§7.1's *Raised ways, aqueducts and retaining walls*; §2.7's laws, law 1 (2)–(6), (9)–(11), law 2 (a), law 3; its worked example *over the band*) |
@@ -3963,7 +3985,7 @@ the base's tints) carry §8.2's cues.
 
 An action that returns `confirm` (§11.2) — a Re-derive, an Adjust of an early parameter, a regeneration over protected
 things, discard-edits-in-scope, a town-wide New names, a pack change, an edit whose meeting of a wall and a raised way
-reshapes a placement-locked one (§7.3 item 4's *reshaped*) — opens the **fates sheet** (a sheet over the map, never a blocking
+reshapes a placement-locked one (§7.3 item 4's *reshaped*), the delete gesture on a world site's card (its two verbs **Remove** and **Destroy**, V14 §4.4; C14-46; file k item 644) — opens the **fates sheet** (a sheet over the map, never a blocking
 modal: the map stays pannable and every listed row can be shown). Its head: the action in words and the counts per fate
 in plain words ("12 stay as you made them · 3 move with their new surroundings · 1 loses what it was attached to · 2
 keep their place but change shape where walls and raised ways meet"). Its body: the rows grouped by fate (`fates` paged

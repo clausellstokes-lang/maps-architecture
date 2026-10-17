@@ -146,14 +146,14 @@ design volumes (`docs/volumes/`) were written on this base and their base change
 below). The set is one design, not a concatenation: every mechanism appears once, under the section or volume that owns
 it; where two sources gave the same mechanism the more precise wording was taken.
 
-### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items and the base change requests 200–585 (file f)
+### 0.2 Where the owner's late rules land — items 1–7 (`docs/AMENDMENTS-2026-09-25.md`), 8–31 (`AMENDMENTS-2026-09-25b`), 32–88 and 101 (`AMENDMENTS-2026-09-27c`, `-d`, `-e`), file g's items, the base change requests 200–585 (file f) and 600–647 (file k)
 
 Every clause of every rule is checked at its landing; where a rule has several clauses its home carries a clause map.
 Each row names the home that states the mechanism; the sections that carry a pointer, a hook field or one line of the
 rule, and the item's tests (§13.2's `T⟨item⟩-⟨n⟩` bars), cite the item by number. Items 1–7 are
 `docs/AMENDMENTS-2026-09-25.md`, 8–32 `AMENDMENTS-2026-09-25b` (item 32 landed with 33–72), 32–72 `AMENDMENTS-2026-09-27c`,
-73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g) and 200–585
-`docs/AMENDMENTS-2026-09-28f.md` (file f). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
+73–88 `-27d`, 101 `-27e`, 102 onward `docs/AMENDMENTS-2026-09-28g.md` (file g), 131–141 `docs/AMENDMENTS-2026-10-16j.md` (file j: the owner's rules on the world, sites, encounters and hydrology; its items cited by number as every owner item is), 200–585
+`docs/AMENDMENTS-2026-09-28f.md` (file f) and 600–647 `docs/AMENDMENTS-2026-10-16k.md` (file k: volumes 13 and 14's base change requests, applied by the coherence pass `coherence/world-sites-k` and cited below as `file k item n`). Items 33–62 come from reading the references' compiled code (§17.1 (1)): each
 adopts a mechanism re-derived in our own terms, keeps ours with its reason, or calibrates a default to a read fact with
 its `(code)` provenance (§17.1 (6)); a part a reader only inferred entered only as Fable's evidence gate released it,
 labelled as an inference, and the gate's one rejection (item 49's deletion) is honoured. Items 63–72, 101, 102–111 and
